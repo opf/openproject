@@ -1,7 +1,7 @@
 GIT
-  remote: https://github.com/opf/md-to-pdf
-  revision: e216e9a28730c906d42690282fb2e186844fd371
-  ref: e216e9a28730c906d42690282fb2e186844fd371
+  remote: https://github.com/opf/md-to-pdf.git
+  revision: fc2724113cecd758a77b347042276ece8d119a03
+  tag: v0.0.15
   specs:
     md_to_pdf (0.0.15)
       commonmarker (~> 0.23)
@@ -365,7 +365,6 @@ GEM
     closure_tree (7.4.0)
       activerecord (>= 4.2.10)
       with_advisory_lock (>= 4.0.0)
-    cmdparse (3.0.7)
     coderay (1.1.3)
     colored2 (3.1.2)
     commonmarker (0.23.9)
@@ -488,7 +487,6 @@ GEM
     fuubar (2.5.1)
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
-    geom2d (0.3.1)
     globalid (1.1.0)
       activesupport (>= 5.0)
     gon (6.4.0)
@@ -529,10 +527,6 @@ GEM
     hashdiff (1.0.1)
     hashery (2.1.2)
     hashie (3.6.0)
-    hexapdf (0.32.0)
-      cmdparse (~> 3.0, >= 3.0.3)
-      geom2d (~> 0.3)
-      openssl (>= 2.2.1)
     html-pipeline (2.14.3)
       activesupport (>= 2)
       nokogiri (>= 1.4)
@@ -661,7 +655,6 @@ GEM
       webfinger (~> 2.0)
     openproject-token (3.0.1)
       activemodel
-    openssl (3.1.0)
     os (1.1.4)
     ox (2.14.16)
     paper_trail (12.3.0)
@@ -1041,7 +1034,6 @@ DEPENDENCIES
   grape (~> 1.7.0)
   grape_logging (~> 1.8.4)
   grids!
-  hexapdf (~> 0.32)
   html-pipeline (~> 2.14.0)
   htmldiff
   i18n-js (~> 3.9.0)

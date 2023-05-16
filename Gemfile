@@ -155,9 +155,8 @@ gem 'structured_warnings', '~> 0.4.0'
 # don't require by default, instead load on-demand when actually configured
 gem 'airbrake', '~> 13.0.0', require: false
 
-gem "hexapdf", "~> 0.32"
 gem 'prawn', '~> 2.2'
-gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: 'e216e9a28730c906d42690282fb2e186844fd371'
+gem "md_to_pdf", :github => "opf/md-to-pdf", tag: 'v0.0.15'
 
 gem 'cells-erb', '~> 0.1.0'
 gem 'cells-rails', '~> 0.1.4'
