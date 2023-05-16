@@ -75,6 +75,7 @@ get:
       The first "HH:MM" part represents the zero paded hours and minutes.
       The last "+HH:MM" part represents the timezone offset from UTC associated with the time,
       the offset can be positive or negative e.g."oneDayAgo@01:00+01:00", "oneDayAgo@01:00-01:00".
+      Values older than 1 day are accepted only with valid Enterprise Token available.
 
     example: '2023-01-01,P-1Y,PT0S,lastWorkingDay@12:00'
     in: query
