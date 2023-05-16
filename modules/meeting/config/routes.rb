@@ -27,6 +27,8 @@
 #++
 
 OpenProject::Application.routes.draw do
+  resources :meetings, only: :index
+
   scope 'projects/:project_id' do
     resources :meetings, only: %i[new create index]
   end
