@@ -84,13 +84,13 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def render_work_packages(work_packages, filename: "pdf_export")
-    @id_wp_meta_map = build_meta_infos_map(work_packages)
-    file = render_work_packages_pdfs(work_packages, filename)
+    @id_wp_meta_map, flat_list = build_meta_infos_map(work_packages)
+    file = render_work_packages_pdfs(flat_list, filename)
     if wants_total_page_nrs?
       @total_page_nr = @page_count
       @page_count = 0
       setup_page! # clear current pdf
-      file = render_work_packages_pdfs(work_packages, filename)
+      file = render_work_packages_pdfs(flat_list, filename)
     end
     file
   end
@@ -179,7 +179,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   def init_meta_infos_map_nodes(work_packages)
     infos_map = {}
     work_packages.each do |work_package|
-      infos_map[work_package.id] = { level_path: [], level: 0, children: [] }
+      infos_map[work_package.id] = { level_path: [], level: 0, children: [], work_package: }
     end
     infos_map
   end
@@ -193,24 +193,36 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
     infos_map
   end
 
-  def fill_meta_infos_map_nodes(node, level_path)
+  def fill_meta_infos_map_nodes(node, level_path, flat_list)
     node[:level_path] = level_path
+    flat_list.push(node[:work_package]) unless node[:work_package].nil?
     index = 1
     node[:children].each do |sub|
-      fill_meta_infos_map_nodes(sub, level_path + [index])
+      fill_meta_infos_map_nodes(sub, level_path + [index], flat_list)
       index += 1
     end
   end
 
+  def build_flat_meta_infos_map(work_packages)
+    infos_map = {}
+    work_packages.each_with_index do |work_package, index|
+      infos_map[work_package.id] = { level_path: [index + 1], level: 0, children: [], work_package: }
+    end
+    [infos_map, work_packages]
+  end
+
   def build_meta_infos_map(work_packages)
+    return build_flat_meta_infos_map(work_packages) unless query.show_hierarchies
+
     # build a quick access map for the hierarchy tree
     infos_map = init_meta_infos_map_nodes work_packages
     # connect parent and children (only wp available in the query)
     infos_map = link_meta_infos_map_nodes infos_map, work_packages
     # recursive travers creating level index path e.g. [1, 2, 1] from root nodes
     root_nodes = infos_map.values.select { |node| node[:parent].nil? }
-    fill_meta_infos_map_nodes({ children: root_nodes }, [])
-    infos_map
+    flat_list = []
+    fill_meta_infos_map_nodes({ children: root_nodes }, [], flat_list)
+    [infos_map, flat_list]
   end
 
   def should_be_batched?(work_packages)
