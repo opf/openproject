@@ -39,6 +39,16 @@ GIT
     omniauth-openid_connect-providers (0.2.0)
       omniauth-openid-connect (>= 0.2.1)
 
+GIT
+  remote: https://github.com/serpapi/turbo_tests.git
+  revision: fec740fae1e1e4784e11f396402f2433e1d18232
+  ref: master
+  specs:
+    turbo_tests (2.0.0)
+      bundler (>= 2.1)
+      parallel_tests (>= 3.3.0, < 5)
+      rspec (>= 3.10)
+
 PATH
   remote: modules/auth_plugins
   specs:
@@ -1128,6 +1138,7 @@ DEPENDENCIES
   table_print (~> 1.5.6)
   test-prof (~> 1.2.0)
   timecop (~> 0.9.0)
+  turbo_tests!
   typed_dag (~> 2.0.2)
   tzinfo-data (~> 1.2023.1)
   validate_url

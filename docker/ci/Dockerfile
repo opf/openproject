@@ -52,7 +52,7 @@ RUN gem install bundler --version "$BUNDLER_VERSION" --no-document
 
 COPY ./entrypoint.sh /usr/sbin/entrypoint.sh
 
-VOLUME [ "/usr/local/bundle", "/home/$USER/openproject", "/home/$USER/openproject/tmp" ]
+VOLUME [ "/usr/local/bundle", "/home/$USER/openproject" ]
 
 WORKDIR /home/$USER/openproject
 
