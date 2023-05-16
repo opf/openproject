@@ -1823,6 +1823,7 @@ en:
   label_managed_repositories_vendor: "Managed %{vendor} repositories"
   label_max_size: "Maximum size"
   label_me: "me"
+  label_meetings_plural: "Meetings"
   label_member_new: "New member"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Members"
