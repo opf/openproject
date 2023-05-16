@@ -75,11 +75,11 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
   protected open(evt:JQuery.TriggeredEvent) {
     this.isOpen = !this.isOpen;
     if (this.isOpen) {
-      this
+      void this
         .wpCreate
         .getEmptyForm(this.projectIdentifier)
         .then((form) => {
-          this.buildItems(form.schema.type.allowedValues);
+          this.buildItems(form.schema.type.allowedValues as TypeResource[]);
           this.opContextMenu.show(this, evt);
         });
     } else {
