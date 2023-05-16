@@ -152,16 +152,20 @@ class TableComponent < RailsComponent
     render(row_class.new(row:, table: self))
   end
 
-  def render_collection(rows)
-    row_class.with_collection(rows, table: self)
+  def initial_sort
+    [columns.first, :asc]
   end
 
-  def inline_create_link
-    nil
+  def initial_order
+    initial_sort.join(' ')
   end
 
   def paginated?
     rows.respond_to? :total_entries
+  end
+
+  def inline_create_link
+    nil
   end
 
   def sortable?
