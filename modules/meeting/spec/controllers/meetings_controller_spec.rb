@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.dirname(__FILE__) + '/../spec_helper'
+require "#{File.dirname(__FILE__)}/../spec_helper"
 
 describe MeetingsController do
   let(:user) { create(:admin) }
@@ -47,11 +47,10 @@ describe MeetingsController do
     describe 'index' do
       let(:meetings) do
         [
-         create(:meeting, project: project),
-         create(:meeting, project: project),
-         create(:meeting, project: other_project)
+          create(:meeting, project:),
+          create(:meeting, project:),
+          create(:meeting, project: other_project)
         ]
-
       end
 
       describe 'html' do
@@ -147,12 +146,11 @@ describe MeetingsController do
         end
 
         it 'renders an error' do
-          expect(response.status).to be 200
+          expect(response).to have_http_status :ok
           expect(response).to render_template :new
           expect(response.body)
             .to have_selector '#errorExplanation li',
-                              text: "Start date " +
-                                    I18n.t('activerecord.errors.messages.not_an_iso_date')
+                              text: "Start date #{I18n.t('activerecord.errors.messages.not_an_iso_date')}"
         end
       end
 
@@ -165,12 +163,11 @@ describe MeetingsController do
         end
 
         it 'renders an error' do
-          expect(response.status).to be 200
+          expect(response).to have_http_status :ok
           expect(response).to render_template :new
           expect(response.body)
             .to have_selector '#errorExplanation li',
-                              text: "Starting time " +
-                                    I18n.t('activerecord.errors.messages.invalid_time_format')
+                              text: "Starting time #{I18n.t('activerecord.errors.messages.invalid_time_format')}"
         end
       end
     end

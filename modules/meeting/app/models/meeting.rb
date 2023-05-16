@@ -256,7 +256,7 @@ class Meeting < ApplicationRecord
   ##
   # Determines whether new raw values were provided.
   def parse_start_time?
-    !(changed & %w(start_date start_time_hour)).empty?
+    changed.intersect?(%w(start_date start_time_hour))
   end
 
   ##
