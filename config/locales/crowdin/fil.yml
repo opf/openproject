@@ -741,6 +741,7 @@ fil:
               format: "%{message}"
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "ay mutually wxclusive sa grupo ng '%{group_by}'. Hindi mo maaring i-aktibi ang dalawa."
           filters:

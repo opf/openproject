@@ -21,7 +21,7 @@ ru:
       projects:
         demo-project:
           name: Демо-проект
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+          status_explanation: Все задачи выполнены по расписанию. Участвующие в них люди знают свои задачи. Система полностью настроена.
           description: Это краткое описание целей этого демо проекта.
           news:
             item_0:
@@ -124,7 +124,7 @@ ru:
               subject: Окончание проекта
         scrum-project:
           name: Scrum-проект
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+          status_explanation: Все задачи выполнены по расписанию. Участвующие в них люди знают свои задачи. Система полностью настроена.
           description: Это краткое описание целей этого демо Scrum-проекта.
           news:
             item_0:

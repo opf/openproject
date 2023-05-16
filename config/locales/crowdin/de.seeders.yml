@@ -6,7 +6,7 @@ de:
   seeds:
     standard:
       welcome:
-        title: Welcome to OpenProject!
+        title: Willkommen bei OpenProject!
         text: |
           Select one of the demo projects to get started with some demo data we have prepared for you.
 
@@ -40,12 +40,12 @@ de:
             item_2:
               name: Tasks
             item_3:
-              name: Team planner
+              name: Teamplaner
           boards:
             kanban:
               name: Kanban board
             basic:
-              name: Basic board
+              name: Basis-Board
               lists:
                 item_0:
                   name: Wish list
@@ -54,9 +54,9 @@ de:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Nie
             parent_child:
-              name: Work breakdown structure
+              name: Projektstrukturplan
           project-overview:
             widgets:
               item_0:
@@ -64,7 +64,7 @@ de:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Erste Schritte
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -83,7 +83,7 @@ de:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Arbeitspakete
               item_6:
                 options:
                   name: Milestones
@@ -195,7 +195,7 @@ de:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Produkt-Backlog
             item_2:
               name: Sprint 1
             item_3:
@@ -204,7 +204,7 @@ de:
             kanban:
               name: Kanban board
             basic:
-              name: Task board
+              name: Taskboard
               lists:
                 item_0:
                   name: Wish list
@@ -213,7 +213,7 @@ de:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Nie
           project-overview:
             widgets:
               item_0:
@@ -221,7 +221,7 @@ de:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Erste Schritte
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -241,7 +241,7 @@ de:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Arbeitspakete
               item_6:
                 options:
                   name: Project plan

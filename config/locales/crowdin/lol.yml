@@ -723,6 +723,7 @@ lol:
               format: "crwdns495583:0%{message}crwdne495583:0"
             timestamps:
               invalid: "crwdns851627:0%{values}crwdne851627:0"
+              forbidden: "crwdns853333:0%{values}crwdne853333:0"
               format: "crwdns851629:0%{message}crwdne851629:0"
           group_by_hierarchies_exclusive: "crwdns495585:0%{group_by}crwdne495585:0"
           filters:
