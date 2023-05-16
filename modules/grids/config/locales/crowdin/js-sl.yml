@@ -31,13 +31,13 @@ sl:
           no_results: 'Za projekte niso bila definirana nobena polja po meri. '
         project_status:
           title: 'Status projekta'
-          not_started: 'Not started'
-          on_track: 'Na poti'
+          not_started: 'Ni začeto'
+          on_track: 'Na dobri poti'
           off_track: 'Izven poti'
           at_risk: 'Ogroženo'
           not_set: 'Ni nastavljeno'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          finished: 'Končano'
+          discontinued: 'Opuščeno'
         subprojects:
           title: 'Podprojekti'
           no_results: 'Ni podprojektov. '
