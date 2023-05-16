@@ -42,9 +42,7 @@ class MeetingsController < ApplicationController
   menu_item :new_meeting, only: %i[new create]
 
   def index
-    # TODO: Scope only to relevant meetings (definition still TBD) in case of non-
-    # project index page.
-    scope = @project ? @project.meetings : Meeting.all
+    scope = @project ? @project.meetings : visible_meetings
 
     # from params => today's page otherwise => first page as fallback
     tomorrows_meetings_count = scope.from_tomorrow.count
@@ -146,6 +144,12 @@ class MeetingsController < ApplicationController
     authorize
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def visible_meetings
+    projects = Project.allowed_to(User.current, :view_meetings)
+
+    Meeting.where(project: projects)
   end
 
   def find_meeting
