@@ -51,9 +51,16 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
     super(elementRef, opContextMenu);
   }
 
+  public isOpen = false;
+
   protected open(evt:JQuery.TriggeredEvent) {
-    this.buildItems();
-    this.opContextMenu.show(this, evt);
+    this.isOpen = !this.isOpen;
+    if (this.isOpen) {
+      this.buildItems();
+      this.opContextMenu.show(this, evt);
+    } else {
+      this.opContextMenu.close();
+    }
   }
 
   public get locals() {
