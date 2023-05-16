@@ -57,12 +57,12 @@ describe 'Project attributes activities' do
     new_project_attributes = {
       name: 'a new project name',
       description: 'a new project description',
+      status_explanation: 'some explanation',
       public: true,
       parent: nil,
       identifier: 'a-new-project-name',
       active: true,
       templated: true,
-      status_explanation: 'some explanation',
       list_project_custom_field.attribute_name => list_project_custom_field.possible_values.first.id,
       version_project_custom_field.attribute_name => next_version.id,
       bool_project_custom_field.attribute_name => true,
@@ -87,8 +87,8 @@ describe 'Project attributes activities' do
 
       # own fields
       expect(page).to have_selector('li', text: "Name changed from #{previous_project_attributes['name']} to #{project.name}")
-      expect(page).to have_selector('li', text: 'Project status description set (Details)')
       expect(page).to have_selector('li', text: 'Description set (Details)')
+      expect(page).to have_selector('li', text: 'Project status description set (Details)')
       expect(page).to have_selector('li', text: 'Visibility set to public')
       expect(page).to have_selector('li', text: "No longer subproject of #{parent_project.name}")
       expect(page).to have_selector('li', text: 'Project unarchived')
