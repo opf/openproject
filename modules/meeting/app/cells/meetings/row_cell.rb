@@ -23,4 +23,3 @@ module Meetings
     end
   end
 end
-

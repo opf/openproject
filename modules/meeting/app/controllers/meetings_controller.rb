@@ -35,7 +35,6 @@ class MeetingsController < ApplicationController
   before_action :authorize, except: [:index]
   before_action :authorize_global, only: :index
 
-
   helper :watchers
   helper :meeting_contents
   include WatchersHelper

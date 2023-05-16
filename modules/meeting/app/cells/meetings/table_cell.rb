@@ -18,7 +18,7 @@ module Meetings
         current_project.blank? ? [:project, { caption: Meeting.human_attribute_name(:project) }] : nil,
         [:start_time, { caption: Meeting.human_attribute_name(:start_time) }],
         [:duration, { caption: Meeting.human_attribute_name(:duration) }],
-        [:location, { caption: Meeting.human_attribute_name(:location) }],
+        [:location, { caption: Meeting.human_attribute_name(:location) }]
       ].compact
     end
 
@@ -27,4 +27,3 @@ module Meetings
     end
   end
 end
-
