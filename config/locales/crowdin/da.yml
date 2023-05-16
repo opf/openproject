@@ -483,6 +483,15 @@ da:
           true: "public"
           false: "private"
         queries: "Forespørgsler"
+        status_code: 'Status'
+        status_explanation: 'Status description'
+        status_codes:
+          not_started: 'Not started'
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         templated: "Template project"
         templated_value:
           true: "marked as template"
@@ -490,16 +499,6 @@ da:
         types: "Typer"
         versions: "Versioner"
         work_packages: "Arbejdspakker"
-      projects/status:
-        code: 'Status'
-        explanation: 'Statusbeskrivelse'
-        codes:
-          not_started: 'Not started'
-          on_track: 'På sporet'
-          at_risk: 'I fare'
-          off_track: 'Af sporet'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
       query:
         column_names: "Kolonner"
         relations_to_type_column: "Relations to %{type}"
@@ -916,11 +915,22 @@ da:
   activity:
     item:
       created_by_on: "created by %{user} on %{datetime}"
+      created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "created on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
       parent_without_of: "Subproject"
       parent_no_longer: "No longer subproject of"
+      time_entry:
+        hour:
+          one: "%{count} hour"
+          other: "%{count} hours"
+        hour_html:
+          one: "<i>%{count} hour</i>"
+          other: "<i>%{count} hours</i>"
+        updated: "changed from %{old_value} to %{value}"
+        logged_for: "Logged for"
     filter:
       changeset: "Changesets"
       message: "Forums"

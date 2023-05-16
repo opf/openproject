@@ -1262,7 +1262,7 @@ fr:
       show_changes_since: 'Show changes since'
       help_description: 'Default time zone of the instance set by the administrator.'
       time_description: 'In default time zone: %{time} %{days} day(s).'
-      time: 'Heure '
+      time: 'Heure'
       drop_down:
         none: '-'
         yesterday: 'hier'

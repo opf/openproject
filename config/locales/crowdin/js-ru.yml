@@ -1277,10 +1277,10 @@ ru:
         a_specific_date: 'определенная дата'
         between_two_specific_dates: 'между двумя определенными датами'
       legends:
-        changes_since: 'Changes since'
-        now_meets_filter_criteria: 'Now meets filter criteria'
-        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
-        maintained_with_changes: 'Maintained with changes'
+        changes_since: 'Изменения с'
+        now_meets_filter_criteria: 'Теперь соответствует критериям фильтра'
+        no_longer_meets_filter_criteria: 'Больше не соответствует критериям фильтра'
+        maintained_with_changes: 'Поддерживается с изменениями'
     forms:
       submit_success_message: 'Форма успешно отправлена'
       load_error_message: 'Произошла ошибка при загрузке формы'

@@ -483,6 +483,15 @@ ko:
           true: "공개"
           false: "비공개"
         queries: "쿼리"
+        status_code: 'Status'
+        status_explanation: 'Status description'
+        status_codes:
+          not_started: 'Not started'
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         templated: "템플릿 프로젝트"
         templated_value:
           true: "템플릿으로 표시됨"
@@ -490,16 +499,6 @@ ko:
         types: "유형"
         versions: "버전"
         work_packages: "작업 패키지"
-      projects/status:
-        code: '상태'
-        explanation: '상태 설명'
-        codes:
-          not_started: '시작되지 않음'
-          on_track: '정상 상태'
-          at_risk: '위험 상태'
-          off_track: '비정상 상태'
-          finished: '마침'
-          discontinued: '중단됨'
       query:
         column_names: "컬럼"
         relations_to_type_column: "%{type}에 대한 관계"
@@ -912,11 +911,20 @@ ko:
   activity:
     item:
       created_by_on: "%{datetime}, %{user} 님이 생성함"
+      created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "%{datetime} 생성함"
       updated_by_on: "%{datetime}, %{user} 님이 업데이트함"
+      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "%{datetime} 업데이트함"
       parent_without_of: "하위 프로젝트"
       parent_no_longer: "더 이상 다음의 하위 프로젝트 아님"
+      time_entry:
+        hour:
+          other: "%{count} hours"
+        hour_html:
+          other: "<i>%{count} hours</i>"
+        updated: "changed from %{old_value} to %{value}"
+        logged_for: "Logged for"
     filter:
       changeset: "변경 집합"
       message: "포럼"

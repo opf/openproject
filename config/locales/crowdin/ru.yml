@@ -486,6 +486,15 @@ ru:
           true: "публичный"
           false: "приватный"
         queries: "Запросы"
+        status_code: 'Status'
+        status_explanation: 'Status description'
+        status_codes:
+          not_started: 'Not started'
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         templated: "Проект шаблона"
         templated_value:
           true: "помечено как шаблон"
@@ -493,16 +502,6 @@ ru:
         types: "Типы"
         versions: "Этапы"
         work_packages: "Задачи"
-      projects/status:
-        code: 'Статус'
-        explanation: 'Описание статуса'
-        codes:
-          not_started: 'Не запущен'
-          on_track: 'В работе'
-          at_risk: 'Под угрозой'
-          off_track: 'Приостановлен'
-          finished: 'Завершен'
-          discontinued: 'Работы прекращены'
       query:
         column_names: "Столбцы"
         relations_to_type_column: "Отношения к %{type}"
@@ -927,11 +926,26 @@ ru:
   activity:
     item:
       created_by_on: "создано %{user} %{datetime}"
+      created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "создано %{datetime}"
       updated_by_on: "обновлено %{user} %{datetime}"
+      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "обновлено %{datetime}"
       parent_without_of: "Подпроект"
       parent_no_longer: "Больше не подпроект"
+      time_entry:
+        hour:
+          one: "%{count} hour"
+          few: "%{count} hours"
+          many: "%{count} hours"
+          other: "%{count} hours"
+        hour_html:
+          one: "<i>%{count} hour</i>"
+          few: "<i>%{count} hours</i>"
+          many: "<i>%{count} hours</i>"
+          other: "<i>%{count} hours</i>"
+        updated: "changed from %{old_value} to %{value}"
+        logged_for: "Logged for"
     filter:
       changeset: "Наборы изменений"
       message: "Форумы"

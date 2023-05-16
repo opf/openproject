@@ -480,6 +480,15 @@ de:
           true: "öffentlich"
           false: "privat"
         queries: "Abfragen"
+        status_code: 'Status'
+        status_explanation: 'Status description'
+        status_codes:
+          not_started: 'Not started'
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         templated: "Projektvorlage"
         templated_value:
           true: "als Vorlage markiert"
@@ -487,16 +496,6 @@ de:
         types: "Typen"
         versions: "Versionen"
         work_packages: "Arbeitspakete"
-      projects/status:
-        code: 'Status'
-        explanation: 'Statusbeschreibung'
-        codes:
-          not_started: 'Nicht gestartet'
-          on_track: 'Planmäßig'
-          at_risk: 'Gefährdet'
-          off_track: 'Unplanmäßig'
-          finished: 'Abgeschlossen'
-          discontinued: 'Eingestellt / nicht verfügbar'
       query:
         column_names: "Spalten"
         relations_to_type_column: "Beziehungen zu %{type}"
@@ -913,11 +912,22 @@ de:
   activity:
     item:
       created_by_on: "erstellt von %{user} am %{datetime}"
+      created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "erstellt am %{datetime}"
       updated_by_on: "aktualisiert von %{user} am %{datetime}"
+      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "aktualisiert am %{datetime}"
       parent_without_of: "Unterprojekt"
       parent_no_longer: "Nicht mehr Unterprojekt von"
+      time_entry:
+        hour:
+          one: "%{count} hour"
+          other: "%{count} hours"
+        hour_html:
+          one: "<i>%{count} hour</i>"
+          other: "<i>%{count} hours</i>"
+        updated: "changed from %{old_value} to %{value}"
+        logged_for: "Logged for"
     filter:
       changeset: "Änderungssätze"
       message: "Foren"

@@ -484,6 +484,15 @@ pl:
           true: "publiczne"
           false: "prywatne"
         queries: "Kwerendy"
+        status_code: 'Status'
+        status_explanation: 'Status description'
+        status_codes:
+          not_started: 'Not started'
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         templated: "Projekt wzorcowy"
         templated_value:
           true: "oznaczono jako szablon"
@@ -491,16 +500,6 @@ pl:
         types: "Typy"
         versions: "Wersje"
         work_packages: "Zadania"
-      projects/status:
-        code: 'Status'
-        explanation: 'Opis statusu'
-        codes:
-          not_started: 'Nierozpoczęte'
-          on_track: 'Na ścieżce'
-          at_risk: 'Zagrożony'
-          off_track: 'Poza ścieżką'
-          finished: 'Zakończone'
-          discontinued: 'Przerwane'
       query:
         column_names: "Kolumny"
         relations_to_type_column: "Relacje %{type}"
@@ -925,11 +924,26 @@ pl:
   activity:
     item:
       created_by_on: "utworzone %{datetime} przez %{user}"
+      created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "utworzono %{datetime}"
       updated_by_on: "zaktualizowane przez %{user} dnia %{datetime}"
+      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "zaktualizowano %{datetime}"
       parent_without_of: "Podprojekt"
       parent_no_longer: "Nie jest to już podprojekt projektu"
+      time_entry:
+        hour:
+          one: "%{count} hour"
+          few: "%{count} hours"
+          many: "%{count} hours"
+          other: "%{count} hours"
+        hour_html:
+          one: "<i>%{count} hour</i>"
+          few: "<i>%{count} hours</i>"
+          many: "<i>%{count} hours</i>"
+          other: "<i>%{count} hours</i>"
+        updated: "changed from %{old_value} to %{value}"
+        logged_for: "Logged for"
     filter:
       changeset: "Zestawy zmian"
       message: "Fora"
