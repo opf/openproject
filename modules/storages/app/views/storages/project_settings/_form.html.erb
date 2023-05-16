@@ -27,7 +27,9 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% page_controller 'project-storage-form', dynamic: true %>
+<% content_controller 'project-storage-form',
+                      dynamic: true,
+                      'project-storage-form-folder-mode-value': @project_storage.project_folder_mode %>
 
 <div class="form--field -required">
   <% case action_name %>

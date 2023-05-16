@@ -35,17 +35,31 @@ export default class ProjectStorageFormController extends Controller {
     'projectFolderSection',
   ];
 
+  static values = {
+    folderMode: String,
+  };
+
+  declare folderModeValue:string;
+
   declare readonly projectFolderSectionTarget:HTMLElement;
 
   declare readonly hasProjectFolderSectionTarget:boolean;
+
+  connect() {
+    this.toggleFolderDisplay(this.folderModeValue);
+  }
 
   updateDisplay(evt:InputEvent) {
     if (!this.hasProjectFolderSectionTarget) {
       return;
     }
 
+    this.toggleFolderDisplay((evt.target as HTMLInputElement).value);
+  }
+
+  private toggleFolderDisplay(value:string) {
     // If the manual radio button is selected, show the manual folder selection section
-    if ((evt.target as HTMLInputElement).value === 'manual') {
+    if (value === 'manual') {
       this.projectFolderSectionTarget.style.display = 'flex';
     } else {
       this.projectFolderSectionTarget.style.display = 'none';
