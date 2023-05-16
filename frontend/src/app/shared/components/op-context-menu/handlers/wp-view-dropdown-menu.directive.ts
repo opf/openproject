@@ -81,6 +81,7 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
           title: this.I18n.t('js.button_show_cards'),
           icon: 'icon-view-card',
           onClick: (evt:any) => {
+            this.isOpen = false;
             this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayCardRepresentation);
             if (this.wpTableTimeline.isVisible) {
               // Necessary for the timeline buttons to disappear
@@ -100,6 +101,7 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
           title: this.I18n.t('js.button_show_table'),
           icon: 'icon-view-list',
           onClick: (evt:any) => {
+            this.isOpen = false;
             this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayListRepresentation);
             if (this.wpTableTimeline.isVisible) {
               this.wpTableTimeline.toggle();
@@ -118,6 +120,7 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
           title: this.I18n.t('js.button_show_gantt'),
           icon: 'icon-view-timeline',
           onClick: (evt:any) => {
+            this.isOpen = false;
             if (!this.wpTableTimeline.isVisible) {
               this.wpTableTimeline.toggle();
             }

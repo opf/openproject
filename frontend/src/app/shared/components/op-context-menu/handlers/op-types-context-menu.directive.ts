@@ -102,6 +102,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger {
       ariaLabel: type.name,
       class: Highlighting.inlineClass('type', type.id!),
       onClick: ($event:JQuery.TriggeredEvent) => {
+        this.isOpen = false;
         if (isClickedWithModifier($event)) {
           return false;
         }
