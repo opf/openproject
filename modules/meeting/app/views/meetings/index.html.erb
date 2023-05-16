@@ -47,9 +47,5 @@ See COPYRIGHT and LICENSE files for more details.
 <% if @meetings.empty? -%>
   <%= no_results_box %>
 <% else -%>
-<%= rails_cell Meetings::TableCell,
-               @meetings,
-               current_user: current_user,
-               current_project: @project,
-               params: params %>
+<%= rails_cell Meetings::TableCell, @meetings, current_project: @project %>
 <% end -%>
