@@ -30,7 +30,9 @@ module BasicData
     def seed_data!
       Status.transaction do
         data.each do |attributes|
-          Status.create!(attributes)
+          reference = attributes.delete(:reference)
+          status = Status.create!(attributes)
+          seed_data.store_reference(reference, status)
         end
       end
     end
@@ -44,7 +46,23 @@ module BasicData
     end
 
     def data
-      raise NotImplementedError
+      Array(seed_data.lookup('statuses')).map do |status_data|
+        {
+          reference: status_data['reference'],
+          name: status_data['name'],
+          color_id: color_id(status_data['color_name']),
+          is_closed: true?(status_data['is_closed']),
+          is_default: true?(status_data['is_default']),
+          position: status_data['position']
+        }
+      end
+    end
+
+    protected
+
+    def color_id(name)
+      @color_ids_by_name ||= Color.pluck(:name, :id).to_h
+      @color_ids_by_name[name] or raise "Cannot find color #{name}"
     end
   end
 end

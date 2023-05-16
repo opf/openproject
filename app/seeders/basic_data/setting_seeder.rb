@@ -57,7 +57,8 @@ module BasicData
         settings['new_project_user_role_id'] = Role.find_by(name: I18n.t(:default_role_project_admin)).try(:id)
 
         # Set the closed status for repository commit references
-        settings['commit_fix_status_id'] = Status.find_by(name: I18n.t(:default_status_closed)).try(:id)
+        status_closed = seed_data.find_reference(:default_status_closed, default: nil)
+        settings['commit_fix_status_id'] = status_closed.try(:id)
 
         settings.compact
       end

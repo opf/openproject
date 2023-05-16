@@ -32,20 +32,20 @@ module Standard
         types = Type.all
         types = types.map { |t| { t.name => t.id } }.reduce({}, :merge)
 
-        new              = Status.find_by(name: I18n.t(:default_status_new))
-        in_specification = Status.find_by(name: I18n.t(:default_status_in_specification))
-        specified        = Status.find_by(name: I18n.t(:default_status_specified))
-        confirmed        = Status.find_by(name: I18n.t(:default_status_confirmed))
-        to_be_scheduled  = Status.find_by(name: I18n.t(:default_status_to_be_scheduled))
-        scheduled        = Status.find_by(name: I18n.t(:default_status_scheduled))
-        in_progress      = Status.find_by(name: I18n.t(:default_status_in_progress))
-        developed        = Status.find_by(name: I18n.t(:default_status_developed))
-        in_testing       = Status.find_by(name: I18n.t(:default_status_in_testing))
-        tested           = Status.find_by(name: I18n.t(:default_status_tested))
-        test_failed      = Status.find_by(name: I18n.t(:default_status_test_failed))
-        closed           = Status.find_by(name: I18n.t(:default_status_closed))
-        on_hold          = Status.find_by(name: I18n.t(:default_status_on_hold))
-        rejected         = Status.find_by(name: I18n.t(:default_status_rejected))
+        new              = seed_data.find_reference(:default_status_new)
+        in_specification = seed_data.find_reference(:default_status_in_specification)
+        specified        = seed_data.find_reference(:default_status_specified)
+        confirmed        = seed_data.find_reference(:default_status_confirmed)
+        to_be_scheduled  = seed_data.find_reference(:default_status_to_be_scheduled)
+        scheduled        = seed_data.find_reference(:default_status_scheduled)
+        in_progress      = seed_data.find_reference(:default_status_in_progress)
+        developed        = seed_data.find_reference(:default_status_developed)
+        in_testing       = seed_data.find_reference(:default_status_in_testing)
+        tested           = seed_data.find_reference(:default_status_tested)
+        test_failed      = seed_data.find_reference(:default_status_test_failed)
+        closed           = seed_data.find_reference(:default_status_closed)
+        on_hold          = seed_data.find_reference(:default_status_on_hold)
+        rejected         = seed_data.find_reference(:default_status_rejected)
 
         {
           types[I18n.t(:default_type_task)] => [new, in_progress, on_hold, rejected, closed],
@@ -64,10 +64,6 @@ module Standard
 
       def type_seeder_class
         ::Standard::BasicData::TypeSeeder
-      end
-
-      def status_seeder_class
-        ::Standard::BasicData::StatusSeeder
       end
     end
   end

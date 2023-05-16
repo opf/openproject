@@ -32,10 +32,10 @@ module Bim
         types = Type.all
         types = types.map { |t| { t.name => t.id } }.reduce({}, :merge)
 
-        new              = Status.find_by(name: I18n.t(:default_status_new))
-        in_progress      = Status.find_by(name: I18n.t(:default_status_in_progress))
-        closed           = Status.find_by(name: I18n.t(:default_status_closed))
-        resolved         = Status.find_by(name: I18n.t('bim.default_status_resolved'))
+        new              = seed_data.find_reference(:default_status_new)
+        in_progress      = seed_data.find_reference(:default_status_in_progress)
+        closed           = seed_data.find_reference(:default_status_closed)
+        resolved         = seed_data.find_reference(:default_status_resolved)
 
         {
           types[I18n.t(:default_type_task)] => [new, in_progress, closed],
@@ -50,10 +50,6 @@ module Bim
 
       def type_seeder_class
         ::Bim::BasicData::TypeSeeder
-      end
-
-      def status_seeder_class
-        ::Bim::BasicData::StatusSeeder
       end
     end
   end

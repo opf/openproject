@@ -43,10 +43,32 @@ class Source::SeedData
     registry[reference] = record
   end
 
-  def find_reference(reference)
+  def find_reference(reference, default: :__unset__)
     return if reference.nil?
 
-    registry.fetch(reference) { raise ArgumentError, "Nothing registered with reference #{reference.inspect}" }
+    registry.fetch(reference) do
+      if default == :__unset__
+        raise ArgumentError, "Nothing registered with reference #{reference.inspect}"
+      end
+
+      default
+    end
+  end
+
+  # Get a `SeedData` instance with only the given top level keys.
+  #
+  # Used in tests to get the real statuses, types and other data.
+  def only(*keys)
+    self.class.new(data.slice(*keys), registry.dup)
+  end
+
+  # Returns a new `SeedData` instance with its data and its registry merged with
+  # the ones from the given instance.
+  #
+  # The data from the given instance takes precedence for keys present in both
+  # instances.
+  def merge(other)
+    self.class.new(data.merge(other.data), registry.merge(other.registry))
   end
 
   def lookup(path)
@@ -78,12 +100,12 @@ class Source::SeedData
     end
   end
 
-  private
+  protected
 
-  attr_reader :registry
+  attr_reader :data, :registry
 
   def fetch(path)
     keys = path.to_s.split('.')
-    @data.dig(*keys)
+    data.dig(*keys)
   end
 end

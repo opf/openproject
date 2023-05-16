@@ -102,10 +102,10 @@ module DemoData
 
     def seed_kanban_board_queries
       statuses(
-        'default_status_new',
-        'default_status_in_progress',
-        'default_status_closed',
-        'default_status_rejected'
+        :default_status_new,
+        :default_status_in_progress,
+        :default_status_closed,
+        :default_status_rejected
       ).map do |status|
         Query.new_default(project:, user:).tap do |query|
           # Make it public so that new members can see it too
@@ -123,15 +123,14 @@ module DemoData
       end
     end
 
-    def statuses(*status_i18n_keys)
-      status_names = status_i18n_keys.map { I18n.t(_1) }
-      statuses = Status.where(name: status_names).to_a
+    def statuses(*status_references)
+      statuses = status_references.map { seed_data.find_reference(_1) }
 
-      if statuses.size < status_names.size
+      if statuses.size < status_references.size
         raise StandardError, "Not all statuses needed for seeding a board are present. Check that they got seeded."
       end
 
-      statuses.to_a
+      statuses
     end
 
     def seed_basic_board(board_data)

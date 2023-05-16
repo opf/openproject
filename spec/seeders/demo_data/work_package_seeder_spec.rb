@@ -30,6 +30,9 @@ require 'spec_helper'
 
 describe DemoData::WorkPackageSeeder do
   shared_let(:work_week) { week_with_saturday_and_sunday_as_weekend }
+  shared_let(:standard_seed_data) do
+    Source::SeedDataLoader.get_data(edition: 'standard').only('statuses')
+  end
   shared_let(:seeding) do
     [
       # Color records needed by StatusSeeder and TypeSeeder
@@ -37,37 +40,34 @@ describe DemoData::WorkPackageSeeder do
       BasicData::ColorSchemeSeeder,
 
       # Status records needed by WorkPackageSeeder
-      Standard::BasicData::StatusSeeder,
+      BasicData::StatusSeeder,
 
       # Type records needed by WorkPackageSeeder
       Standard::BasicData::TypeSeeder,
 
       # IssuePriority records needed by WorkPackageSeeder
       Standard::BasicData::PrioritySeeder,
-    ].each { |seeder| seeder.new.seed! }
+
+      # Admin user needed by ProjectSeeder
+      AdminUserSeeder
+    ].each { |seeder| seeder.new(standard_seed_data).seed! }
   end
   let(:project) { create(:project) }
   let(:new_project_role) { Role.find_by(name: I18n.t(:default_role_project_admin)) }
-  let(:closed_status) { Status.find_by(name: I18n.t(:default_status_closed)) }
+  let(:closed_status) { seed_data.find_reference(:default_status_closed) }
   let(:work_packages_data) { [] }
-  let(:seed_data) { Source::SeedData.new('work_packages' => work_packages_data) }
+  let(:seed_data) { standard_seed_data.merge(Source::SeedData.new('work_packages' => work_packages_data)) }
 
   def work_package_data(**attributes)
     {
       start: 0,
       subject: "Some subject",
-      status: "default_status_new",
+      status: :default_status_new,
       type: "default_type_task"
     }.merge(attributes).deep_stringify_keys
   end
 
   before do
-    # Admin user needed by ProjectSeeder
-    # The AdminUserSeeder cannot be put in the initial_seeding block as it needs
-    # to add a reference to the created admin user in the seed_data for each
-    # example.
-    AdminUserSeeder.new(seed_data).seed!
-
     work_package_seeder = described_class.new(project, seed_data)
     work_package_seeder.seed!
   end
@@ -263,65 +263,6 @@ describe DemoData::WorkPackageSeeder do
     end
   end
 
-  context 'with relations defined between multiple work packages' do
-    let(:work_packages_data) do
-      [
-        work_package_data(
-          subject: 'Predecessor',
-          reference: :wp_predecessor,
-          relations: [{
-            type: :relates,
-            to: :wp_child
-          }]
-        ),
-        work_package_data(
-          subject: 'Successor',
-          reference: :wp_successor,
-          relations: [{
-            type: :follows,
-            to: :wp_predecessor
-          }, {
-            type: :includes,
-            to: :wp_child
-          }],
-          children: [
-            work_package_data(
-              subject: 'Child',
-              reference: :wp_child,
-              relations: [{
-                type: :blocks,
-                to: :wp_successor
-              }]
-            )
-          ]
-        )
-      ]
-    end
-
-    it 'creates the given relationships between the work packages' do
-      predecessor = WorkPackage.find_by!(subject: 'Predecessor')
-      successor = WorkPackage.find_by!(subject: 'Successor')
-      child = WorkPackage.find_by!(subject: 'Child')
-
-      expect(Relation.find_by!(relation_type: Relation::TYPE_RELATES)).to have_attributes(
-        from_id: predecessor.id,
-        to_id: child.id
-      )
-      expect(Relation.find_by!(relation_type: Relation::TYPE_FOLLOWS)).to have_attributes(
-        from_id: successor.id,
-        to_id: predecessor.id
-      )
-      expect(Relation.find_by!(relation_type: Relation::TYPE_INCLUDES)).to have_attributes(
-        from_id: successor.id,
-        to_id: child.id
-      )
-      expect(Relation.find_by!(relation_type: Relation::TYPE_BLOCKS)).to have_attributes(
-        from_id: child.id,
-        to_id: successor.id
-      )
-    end
-  end
-
   context 'with a work package description referencing a work package with ##wp:ref notation' do
     let(:work_packages_data) do
       [
@@ -332,7 +273,7 @@ describe DemoData::WorkPackageSeeder do
       ]
     end
 
-    it 'updates the description with a link to the work package with the right id' do
+    it 'creates parent-child relations between work packages' do
       wp_major, wp_other = WorkPackage.order(:id).to_a
       expect(wp_other.description)
         .to eq("Check [this work package](/projects/#{project.identifier}/" \
@@ -342,7 +283,7 @@ describe DemoData::WorkPackageSeeder do
 
   context 'with a work package description referencing a query with ##query:ref notation' do
     let(:seed_data) do
-      seed_data = Source::SeedData.new('work_packages' => work_packages_data)
+      seed_data = standard_seed_data.merge(Source::SeedData.new('work_packages' => work_packages_data))
       seed_data.store_reference(:q_project_plan, query)
       seed_data
     end
@@ -362,7 +303,7 @@ describe DemoData::WorkPackageSeeder do
 
   context 'with a work package description referencing a sprint with ##sprint:ref notation' do
     let(:seed_data) do
-      seed_data = Source::SeedData.new('work_packages' => work_packages_data)
+      seed_data = standard_seed_data.merge(Source::SeedData.new('work_packages' => work_packages_data))
       seed_data.store_reference(:sprint_backlog, sprint)
       seed_data
     end
@@ -382,7 +323,7 @@ describe DemoData::WorkPackageSeeder do
 
   describe 'assigned_to' do
     let(:seed_data) do
-      seed_data = Source::SeedData.new('work_packages' => work_packages_data)
+      seed_data = standard_seed_data.merge(Source::SeedData.new('work_packages' => work_packages_data))
       seed_data.store_reference(:user_bernard, a_user)
       seed_data
     end

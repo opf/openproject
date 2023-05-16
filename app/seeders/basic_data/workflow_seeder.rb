@@ -49,10 +49,6 @@ module BasicData
       raise NotImplementedError
     end
 
-    def status_seeder_class
-      raise NotImplementedError
-    end
-
     private
 
     def fix_work_packages_without_types
@@ -95,7 +91,7 @@ module BasicData
 
     def seed_statuses
       print_status '   ↳ Statuses'
-      status_seeder_class.new(seed_data).seed!
+      BasicData::StatusSeeder.new(seed_data).seed!
     end
 
     def seed_types

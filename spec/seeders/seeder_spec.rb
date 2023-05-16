@@ -47,4 +47,17 @@ RSpec.describe Seeder do
       expect(seeder.user).to be_nil
     end
   end
+
+  describe '#true?' do
+    {
+      'true' => true,
+      'false' => false,
+      '' => false,
+      nil => false
+    }.each do |value, expected|
+      it "returns #{expected} when value is #{value.inspect}" do
+        expect(seeder.true?(value)).to eq(expected)
+      end
+    end
+  end
 end

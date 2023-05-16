@@ -77,6 +77,10 @@ describe RootSeeder,
         "User: OpenProject Admin" => 12
       )
     end
+
+    it 'creates workflows' do
+      expect(Workflow.count).to eq(182)
+    end
   end
 
   describe 'demo data' do

@@ -29,20 +29,32 @@
 require 'spec_helper'
 
 describe BasicData::SettingSeeder do
-  subject { described_class.new }
+  subject { described_class.new(standard_seed_data) }
 
   let(:new_project_role) { Role.find_by(name: I18n.t(:default_role_project_admin)) }
-  let(:closed_status) { Status.find_by(name: I18n.t(:default_status_closed)) }
+  let(:closed_status) { standard_seed_data.find_reference(:default_status_closed) }
+
+  let(:standard_seed_data) do
+    Source::SeedDataLoader.get_data(edition: 'standard').only('statuses')
+  end
 
   before do
     allow(ActionMailer::Base).to receive(:perform_deliveries).and_return(false)
     allow(Delayed::Worker).to receive(:delay_jobs).and_return(false)
 
-    BasicData::BuiltinRolesSeeder.new.seed!
-    BasicData::RoleSeeder.new.seed!
-    BasicData::ColorSchemeSeeder.new.seed!
-    Standard::BasicData::StatusSeeder.new.seed!
-    described_class.new.seed!
+    [
+      BasicData::BuiltinRolesSeeder,
+      BasicData::RoleSeeder,
+
+      # Color records needed by StatusSeeder and TypeSeeder
+      BasicData::ColorSchemeSeeder,
+
+      # Status records needed by WorkPackageSeeder
+      BasicData::StatusSeeder,
+
+      # subject under test
+      described_class
+    ].each { |seeder| seeder.new(standard_seed_data).seed! }
   end
 
   def reseed!

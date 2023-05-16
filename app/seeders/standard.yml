@@ -26,6 +26,92 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+statuses:
+- reference: :default_status_new
+  t_name: New
+  color_name: cyan-7
+  is_closed: false
+  is_default: true
+  position: 1
+- reference: :default_status_in_specification
+  t_name: In specification
+  color_name: blue-2
+  is_closed: false
+  is_default: false
+  position: 2
+- reference: :default_status_specified
+  t_name: Specified
+  color_name: blue-2
+  is_closed: false
+  is_default: false
+  position: 3
+- reference: :default_status_confirmed
+  t_name: Confirmed
+  color_name: violet-2
+  is_closed: false
+  is_default: false
+  position: 4
+- reference: :default_status_to_be_scheduled
+  t_name: To be scheduled
+  color_name: yellow-2
+  is_closed: false
+  is_default: false
+  position: 5
+- reference: :default_status_scheduled
+  t_name: Scheduled
+  color_name: lime-2
+  is_closed: false
+  is_default: false
+  position: 6
+- reference: :default_status_in_progress
+  t_name: In progress
+  color_name: grape-5
+  is_closed: false
+  is_default: false
+  position: 7
+- reference: :default_status_developed
+  t_name: Developed
+  color_name: green-3
+  is_closed: false
+  is_default: false
+  position: 8
+- reference: :default_status_in_testing
+  t_name: In testing
+  color_name: cyan-5
+  is_closed: false
+  is_default: false
+  position: 9
+- reference: :default_status_tested
+  t_name: Tested
+  color_name: teal-6
+  is_closed: false
+  is_default: false
+  position: 10
+- reference: :default_status_test_failed
+  t_name: Test failed
+  color_name: red-5
+  is_closed: false
+  is_default: false
+  position: 11
+- reference: :default_status_closed
+  t_name: Closed
+  color_name: gray-3
+  is_closed: true
+  is_default: false
+  position: 12
+- reference: :default_status_on_hold
+  t_name: On hold
+  color_name: orange-3
+  is_closed: false
+  is_default: false
+  position: 13
+- reference: :default_status_rejected
+  t_name: Rejected
+  color_name: red-3
+  is_closed: true
+  is_default: false
+  position: 14
+
 welcome:
   t_title: "Welcome to OpenProject!"
   t_text: |
@@ -208,7 +294,7 @@ projects:
       - start: -1
         t_subject: Start of project
         description:
-        status: default_status_closed
+        status: :default_status_closed
         type: default_type_milestone
         duration: 1
         schedule_manually: false
@@ -216,32 +302,32 @@ projects:
         t_subject: Organize open source conference
         reference: :organize_open_source_conference
         description: ''
-        status: default_status_in_progress
+        status: :default_status_in_progress
         type: default_type_phase
         children:
           - start: 0
             t_subject: Set date and location of conference
             reference: :set_date_and_location_of_conference
             description: ''
-            status: default_status_in_progress
+            status: :default_status_in_progress
             type: default_type_task
             children:
               - start: 0
                 t_subject: Send invitation to speakers
                 description: ''
-                status: default_status_in_progress
+                status: :default_status_in_progress
                 type: default_type_task
                 duration: 1
               - start: 0
                 t_subject: Contact sponsoring partners
                 description: ''
-                status: default_status_new
+                status: :default_status_new
                 type: default_type_task
                 duration: 2
               - start: 0
                 t_subject: Create sponsorship brochure and hand-outs
                 description: ''
-                status: default_status_new
+                status: :default_status_new
                 type: default_type_task
                 duration: 4
             duration: 4
@@ -250,7 +336,7 @@ projects:
             t_subject: Invite attendees to conference
             reference: :invite_attendees_to_conference
             description: ''
-            status: default_status_new
+            status: :default_status_new
             type: default_type_task
             duration: 1
             relations:
@@ -261,7 +347,7 @@ projects:
             t_subject: Setup conference website
             reference: :setup_conference_website
             description: ''
-            status: default_status_new
+            status: :default_status_new
             type: default_type_task
             duration: 11
             relations:
@@ -273,7 +359,7 @@ projects:
       - start: 15
         t_subject: Conference
         description: ''
-        status: default_status_scheduled
+        status: :default_status_scheduled
         type: default_type_milestone
         duration: 1
         relations:
@@ -284,14 +370,14 @@ projects:
         t_subject: Follow-up tasks
         reference: :follow_up_tasks
         description: ''
-        status: default_status_to_be_scheduled
+        status: :default_status_to_be_scheduled
         type: default_type_phase
         children:
           - start: 21
             t_subject: Upload presentations to website
             reference: :upload_presentations_to_website
             description: ''
-            status: default_status_new
+            status: :default_status_new
             type: default_type_task
             duration: 10
             schedule_manually: false
@@ -302,7 +388,7 @@ projects:
               *   [ ] Snacks
               *   [ ] Music
               *   [ ] Even more beer
-            status: default_status_new
+            status: :default_status_new
             type: default_type_task
             duration: 1
             schedule_manually: false
@@ -311,7 +397,7 @@ projects:
       - start: 32
         t_subject: End of project
         description:
-        status: default_status_new
+        status: :default_status_new
         type: default_type_milestone
         duration: 1
         relations:

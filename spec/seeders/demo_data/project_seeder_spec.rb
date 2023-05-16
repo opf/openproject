@@ -33,6 +33,9 @@ require 'spec_helper'
 RSpec.describe DemoData::ProjectSeeder do
   subject(:project_seeder) { described_class.new(seed_data) }
 
+  shared_let(:standard_seed_data) do
+    Source::SeedDataLoader.get_data(edition: 'standard').only('statuses')
+  end
   shared_let(:initial_seeding) do
     [
       # Color records needed by StatusSeeder and TypeSeeder
@@ -40,7 +43,7 @@ RSpec.describe DemoData::ProjectSeeder do
       BasicData::ColorSchemeSeeder,
 
       # Status records needed by WorkPackageSeeder
-      Standard::BasicData::StatusSeeder,
+      BasicData::StatusSeeder,
 
       # Type records needed by WorkPackageSeeder
       Standard::BasicData::TypeSeeder,
@@ -50,11 +53,14 @@ RSpec.describe DemoData::ProjectSeeder do
 
       # project admin role needed by ProjectSeeder
       BasicData::BuiltinRolesSeeder,
-      BasicData::RoleSeeder
-    ].each { |seeder| seeder.new.seed! }
+      BasicData::RoleSeeder,
+
+      # Admin user needed by ProjectSeeder
+      AdminUserSeeder
+    ].each { |seeder| seeder.new(standard_seed_data).seed! }
   end
 
-  let(:seed_data) { Source::SeedData.new(project_data) }
+  let(:seed_data) { standard_seed_data.merge(Source::SeedData.new(project_data)) }
   let(:project_data) { project_data_with_a_version }
   let(:project_data_with_a_version) do
     {
@@ -68,14 +74,6 @@ RSpec.describe DemoData::ProjectSeeder do
         }
       ]
     }
-  end
-
-  before do
-    # Admin user needed by ProjectSeeder
-    # The AdminUserSeeder cannot be put in the initial_seeding block as it needs
-    # to add a reference to the created admin user in the seed_data for each
-    # example.
-    AdminUserSeeder.new(seed_data).seed!
   end
 
   it 'stores references to created versions in the seed data' do
@@ -118,7 +116,7 @@ RSpec.describe DemoData::ProjectSeeder do
         'work_packages' => [
           {
             'subject' => 'Some work package',
-            'status' => 'default_status_new',
+            'status' => :default_status_new,
             'type' => 'default_type_task',
             'version' => :product_backlog
           }

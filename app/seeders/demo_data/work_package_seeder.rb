@@ -141,7 +141,7 @@ module DemoData
     end
 
     def find_status(attributes)
-      Status.find_by!(name: I18n.t(attributes['status']))
+      seed_data.find_reference(attributes['status'].to_sym)
     end
 
     def find_type(attributes)
