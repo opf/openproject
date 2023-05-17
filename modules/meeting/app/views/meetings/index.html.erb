@@ -47,5 +47,5 @@ See COPYRIGHT and LICENSE files for more details.
 <% if @meetings.empty? -%>
   <%= no_results_box %>
 <% else -%>
-<%= rails_cell Meetings::TableCell, @meetings, current_project: @project %>
+<%= render Meetings::TableComponent.new(rows: @meetings, current_project: @project) %>
 <% end -%>
