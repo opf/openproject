@@ -33,6 +33,8 @@ module Pages::Meetings
     attr_accessor :project
 
     def initialize(project:)
+      super()
+
       self.project = project
     end
 

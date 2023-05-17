@@ -42,7 +42,7 @@ class Meeting < ApplicationRecord
     order("#{Meeting.table_name}.start_time DESC")
   end
   scope :from_tomorrow, -> { where(['start_time >= ?', Date.tomorrow.beginning_of_day]) }
-  scope :from_today, -> { where(['start_time >= ?', Date.today.beginning_of_day]) }
+  scope :from_today, -> { where(['start_time >= ?', Time.zone.today.beginning_of_day]) }
   scope :with_users_by_date, -> {
     order("#{Meeting.table_name}.title ASC")
       .includes({ participants: :user }, :author)
