@@ -41,6 +41,10 @@ class EnterpriseToken < ApplicationRecord
       Authorization::EnterpriseService.new(current).call(action).result
     end
 
+    def active?
+      current && !current.expired?
+    end
+
     def show_banners?
       OpenProject::Configuration.ee_manager_visible? && (!current || current.expired?)
     end
