@@ -55,20 +55,6 @@ Redmine::MenuManager.map :top_menu do |menu|
                 User.current.allowed_to_globally?(:view_news)
             }
 
-  # TODO: This should be put in modules/meeting/../engine.rb, but if it is put
-  # in there, it causes a NameError because `Setting` that is used by FeatureDecisions
-  # is not loaded yet. So, let's see what to do here...
-  if OpenProject::FeatureDecisions.more_global_index_pages_active?
-    menu.push :meetings,
-              { controller: '/meetings', project_id: nil, action: 'index' },
-              context: :modules,
-              caption: I18n.t('label_meetings_plural'),
-              if: Proc.new {
-                (User.current.logged? || !Setting.login_required?) &&
-                  User.current.allowed_to_globally?(:view_meetings)
-              }
-  end
-
   menu.push :help,
             OpenProject::Static::Links.help_link,
             last: true,
