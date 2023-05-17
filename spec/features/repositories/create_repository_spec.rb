@@ -116,7 +116,7 @@ describe 'Create repository', js: true, selenium: true do
 
         content = find("##{vendor}-#{type}", visible: false)
         expect(content).not_to be_nil
-        expect(content[:style]).to match("display: none")
+        expect(content[:hidden]).to eq 'true'
       end
     end
 
@@ -131,7 +131,7 @@ describe 'Create repository', js: true, selenium: true do
         expect(content[:hidden]).to eql 'false'
         content = find("##{vendor}-#{type}", visible: false)
         expect(content).not_to be_nil
-        expect(content[:style]).not_to match("display: none")
+        expect(content[:hidden]).to eql 'false'
 
         find('input[type="radio"][value="managed"]').set(true)
         content = find_by_id('attributes-group--content-managed')
@@ -139,7 +139,7 @@ describe 'Create repository', js: true, selenium: true do
         expect(content[:hidden]).to eql 'false'
         content = find("##{vendor}-managed", visible: false)
         expect(content).not_to be_nil
-        expect(content[:style]).not_to match("display: none")
+        expect(content[:hidden]).to eql 'false'
       end
     end
 

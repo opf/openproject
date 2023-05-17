@@ -27,8 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render partial: 'principals/global_roles_header' %>
-
 <%
   principal = @group || @user
   global_member = Member.global.where(principal: principal).includes(:roles).first

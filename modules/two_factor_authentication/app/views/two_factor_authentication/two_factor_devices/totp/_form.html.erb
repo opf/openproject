@@ -13,8 +13,14 @@
   <%= f.hidden_field :otp_secret, value: @device.otp_secret %>
 </fieldset>
 
-<div class="mobile-otp-qr-form">
-  <div class="qr-code-element" data-value="<%= device.provisioning_url %>">
+<div class="mobile-otp-qr-form"
+     data-controller="two-factor-authentication"
+     data-application-target="dynamic"
+>
+  <div class="qr-code-element"
+       data-value="<%= device.provisioning_url %>"
+       data-two-factor-authentication-target="qrCodeElement"
+  >
   </div>
   <div class="mobile-otp-qr-manually">
     <p>
