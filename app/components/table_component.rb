@@ -34,11 +34,8 @@ class TableComponent < RailsComponent
   include SortHelper
   include PaginationHelper
 
-  attr_reader :model
-
   def initialize(rows:, **options)
-    super(**options)
-    @model = rows
+    super(rows, **options)
   end
 
   class << self
@@ -148,8 +145,8 @@ class TableComponent < RailsComponent
     self.class.sortable_columns
   end
 
-  def render_row(row)
-    render(row_class.new(row:, table: self))
+  def render_collection(rows)
+    render(row_class.with_collection(rows, table: self))
   end
 
   def initial_sort

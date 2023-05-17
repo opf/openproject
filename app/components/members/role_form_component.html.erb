@@ -27,11 +27,29 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<div class="op-activity-list--item-subtitle">
-  <%=
-    I18n.t(i18n_key,
-      user: user_html,
-      datetime: datetime_html
-    ).html_safe
-  %>
-</div>
+<%= form_with model: member, builder: TabularFormBuilder, html: form_html_options do |f| %>
+  <%= hidden_field_tag :page, params[:page].to_i %>
+  <%= hidden_field_tag :per_page, params[:per_page].to_i %>
+
+  <p>
+    <% roles.each do |role| %>
+      <label class="form--label-with-check-box">
+        <%= f.collection_check_box :role_ids,
+                                   role.id,
+                                   member.roles.include?(role),
+                                   role.name,
+                                   no_label: true
+        %>
+        <%= role %>
+      </label>
+    <% end %>
+  </p>
+
+  <p>
+    <%= f.submit t(:button_change), class: "button -highlight -small" %>
+    <%= link_to t(:button_cancel),
+                '#',
+                data: { 'toggle-target': ".#{row.toggle_item_class_name}" },
+                class: 'button -small toggle-membership-button' %>
+  </p>
+<% end %>

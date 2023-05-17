@@ -56,7 +56,7 @@ module Members
     end
 
     def join_users(query)
-      query.joins(:principal).references(:principal)
+      query.joins(:principal)
     end
 
     def empty_row_message

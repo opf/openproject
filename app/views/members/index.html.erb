@@ -70,6 +70,6 @@ See COPYRIGHT and LICENSE files for more details.
 </div>
 
 <div>
-  <%= rails_cell Members::UserFilterCell, params, **@members_filter_options %>
+  <%= render ::Members::UserFilterComponent.new(params, **@members_filter_options) %>
   <%= render ::Members::TableComponent.new(rows: @members, **@members_table_options) %>
 </div>
