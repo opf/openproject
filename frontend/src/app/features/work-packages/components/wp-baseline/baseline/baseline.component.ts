@@ -160,9 +160,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
     if (this.wpTableBaseline.isActive()) {
       this.filterChange(baselineFilterFromValue(this.wpTableBaseline.current));
-
       this.wpTableBaseline.current.forEach((value, i) => {
-
         if (value.includes('@')) {
           const [, timeWithZone] = value.split(/[@]/);
           const time = timeWithZone.split(/[+-]/)[0];
@@ -205,24 +203,30 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
   }
 
   public filterChange(value:string|null):void {
+    this.resetSelection();
     this.selectedFilter = value;
     switch (value) {
       case 'oneDayAgo':
-        this.mappedSelectedDate = this.timezoneService.formattedDate(this.wpTableBaseline.yesterdayDate());
+        this.updateDateValues(this.wpTableBaseline.yesterdayDate());
         break;
       case 'lastWorkingDay':
-        this.mappedSelectedDate = this.timezoneService.formattedDate(this.wpTableBaseline.lastWorkingDate());
+        this.updateDateValues(this.wpTableBaseline.lastWorkingDate());
         break;
       case 'oneWeekAgo':
-        this.mappedSelectedDate = this.timezoneService.formattedDate(this.wpTableBaseline.lastweekDate());
+        this.updateDateValues(this.wpTableBaseline.lastweekDate());
         break;
       case 'oneMonthAgo':
-        this.mappedSelectedDate = this.timezoneService.formattedDate(this.wpTableBaseline.lastMonthDate());
+        this.updateDateValues(this.wpTableBaseline.lastMonthDate());
         break;
       default:
         this.mappedSelectedDate = null;
         break;
     }
+  }
+
+  private updateDateValues(date:string) {
+    this.mappedSelectedDate = this.timezoneService.formattedDate(date);
+    this.dateChange([date]);
   }
 
   private buildBaselineFilter():string[] {
