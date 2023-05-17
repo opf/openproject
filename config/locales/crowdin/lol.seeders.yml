@@ -12,8 +12,7 @@ lol:
       projects:
         demo-project:
           name: crwdns852631:0crwdne852631:0
-          status:
-            description: crwdns852633:0crwdne852633:0
+          status_explanation: crwdns853259:0crwdne853259:0
           description: crwdns852635:0crwdne852635:0
           news:
             item_0:
@@ -98,8 +97,7 @@ lol:
               subject: crwdns852867:0crwdne852867:0
         scrum-project:
           name: crwdns852705:0crwdne852705:0
-          status:
-            description: crwdns852707:0crwdne852707:0
+          status_explanation: crwdns853261:0crwdne853261:0
           description: crwdns852709:0crwdne852709:0
           news:
             item_0:

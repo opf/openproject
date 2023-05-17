@@ -49,7 +49,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
             aria-hidden="true"
             [textContent]="text[view]">
         </span>
-      <op-icon icon-classes="button--icon icon-small icon-pulldown"></op-icon>
+        <span class="spot-icon spot-icon_dropdown"></span>
     </button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

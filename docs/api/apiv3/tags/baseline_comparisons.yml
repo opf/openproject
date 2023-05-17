@@ -29,6 +29,8 @@ description: |-
 
   The timestamps should be given in ascending temporal order, such that the first timestamp is the **baseline** timestamp, and the last timestamp is the **current** timestamp.
 
+  Values older than 1 day are accepted only with valid Enterprise Token available.
+
   ## Response Overview
 
   When providing a `timestamps` parameter, the response has several additional properties:

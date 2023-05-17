@@ -158,7 +158,7 @@ describe 'baseline rendering',
 
   current_user { user }
 
-  describe 'with feature enabled', with_flag: { show_changes: true } do
+  describe 'with feature enabled', with_ee: %i[baseline_comparison], with_flag: { show_changes: true } do
     it 'does show changes' do
       wp_table.visit_query(query)
       wp_table.expect_work_package_listed wp_task, wp_task_changed, wp_task_was_bug, wp_bug_was_task

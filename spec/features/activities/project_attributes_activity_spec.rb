@@ -57,6 +57,7 @@ describe 'Project attributes activities' do
     new_project_attributes = {
       name: 'a new project name',
       description: 'a new project description',
+      status_code: 'on_track',
       status_explanation: 'some explanation',
       public: true,
       parent: nil,
@@ -88,6 +89,7 @@ describe 'Project attributes activities' do
       # own fields
       expect(page).to have_selector('li', text: "Name changed from #{previous_project_attributes['name']} to #{project.name}")
       expect(page).to have_selector('li', text: 'Description set (Details)')
+      expect(page).to have_selector('li', text: "Project status set to On track")
       expect(page).to have_selector('li', text: 'Project status description set (Details)')
       expect(page).to have_selector('li', text: 'Visibility set to public')
       expect(page).to have_selector('li', text: "No longer subproject of #{parent_project.name}")

@@ -486,6 +486,15 @@ hr:
           true: "public"
           false: "private"
         queries: "Upiti"
+        status_code: 'Status'
+        status_explanation: 'Status description'
+        status_codes:
+          not_started: 'Not started'
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         templated: "Template project"
         templated_value:
           true: "marked as template"
@@ -493,16 +502,6 @@ hr:
         types: "Tipovi"
         versions: "Verzije"
         work_packages: "Radni paketi"
-      projects/status:
-        code: 'Status'
-        explanation: 'Status description'
-        codes:
-          not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
       query:
         column_names: "Stupci"
         relations_to_type_column: "Relations to %{type}"
@@ -743,6 +742,7 @@ hr:
               format: "%{message}"
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
           filters:
@@ -923,11 +923,24 @@ hr:
   activity:
     item:
       created_by_on: "created by %{user} on %{datetime}"
+      created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "created on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
       parent_without_of: "Subproject"
       parent_no_longer: "No longer subproject of"
+      time_entry:
+        hour:
+          one: "%{count} hour"
+          few: "%{count} hours"
+          other: "%{count} hours"
+        hour_html:
+          one: "<i>%{count} hour</i>"
+          few: "<i>%{count} hours</i>"
+          other: "<i>%{count} hours</i>"
+        updated: "changed from %{old_value} to %{value}"
+        logged_for: "Logged for"
     filter:
       changeset: "Changesets"
       message: "Forums"

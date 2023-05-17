@@ -58,7 +58,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             OpenProject::Static::Links.help_link,
             last: true,
             caption: '',
-            icon: 'icon-help op-app-help--icon',
+            icon: 'help',
             html: { accesskey: OpenProject::AccessKeys.key_for(:help),
                     title: I18n.t('label_help'),
                     target: '_blank' }

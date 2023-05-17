@@ -486,6 +486,15 @@ ro:
           true: "public"
           false: "privat"
         queries: "Interogări"
+        status_code: 'Status'
+        status_explanation: 'Status description'
+        status_codes:
+          not_started: 'Not started'
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         templated: "Proiect șablon"
         templated_value:
           true: "marcat ca șablon"
@@ -493,16 +502,6 @@ ro:
         types: "Tipuri"
         versions: "Versiuni"
         work_packages: "Pachete de lucru"
-      projects/status:
-        code: 'Stare'
-        explanation: 'Descrierea stării'
-        codes:
-          not_started: 'Neîncepută'
-          on_track: 'Urmărește'
-          at_risk: 'În pericol'
-          off_track: 'În afara pistei'
-          finished: 'Finalizat'
-          discontinued: 'Întrerupere'
       query:
         column_names: "Coloane"
         relations_to_type_column: "Relații cu %{type}"
@@ -743,6 +742,7 @@ ro:
               format: "%{message}"
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "se exclude reciproc cu grupul de \"%{group_by}\". Nu le puteți activa pe amândouă."
           filters:
@@ -923,11 +923,24 @@ ro:
   activity:
     item:
       created_by_on: "creat de %{user} la %{datetime}"
+      created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "creat pe %{datetime}"
       updated_by_on: "actualizat de %{user} la %{datetime}"
+      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "actualizat la %{datetime}"
       parent_without_of: "Subproiect"
       parent_no_longer: "Nu mai sunt subproiecte ale"
+      time_entry:
+        hour:
+          one: "%{count} hour"
+          few: "%{count} hours"
+          other: "%{count} hours"
+        hour_html:
+          one: "<i>%{count} hour</i>"
+          few: "<i>%{count} hours</i>"
+          other: "<i>%{count} hours</i>"
+        updated: "changed from %{old_value} to %{value}"
+        logged_for: "Logged for"
     filter:
       changeset: "Seturi de modificări"
       message: "Forumuri"

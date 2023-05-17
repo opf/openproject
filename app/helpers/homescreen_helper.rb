@@ -36,7 +36,7 @@ module HomescreenHelper
   ##
   # Homescreen organization icon
   def organization_icon
-    op_icon('icon-context icon-enterprise')
+    spot_icon('enterprise', size: '2', classnames: 'headline--application--icon')
   end
 
   ##

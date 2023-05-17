@@ -6,341 +6,339 @@ ru:
   seeds:
     standard:
       welcome:
-        title: Welcome to OpenProject!
+        title: Добро пожаловать в OpenProject!
         text: |
-          Select one of the demo projects to get started with some demo data we have prepared for you.
+          Выберите один из демо-проектов, чтобы начать с демо-данных, которые мы подготовили для вас.
 
-          * [Demo project]({{opSetting:base_url}}/projects/demo-project): to get an overview about classical project management.
-          * [Scrum project]({{opSetting:base_url}}/projects/your-scrum-project): to learn about Agile and Scrum project management.
+          * [Демо проект]({{opSetting:base_url}}/projects/demo-project): чтобы получить представление об управлении классическим проектом.
+          * [Scrum project]({{opSetting:base_url}}/projects/your-scrum-project): чтобы узнать об управлении проектом Agile и Scrum.
 
-          Also, you can create a blank [new project]({{opSetting:base_url}}/projects/new).
+          Также вы можете создать пустой [новый проект]({{opSetting:base_url}}/projects/new).
 
-          Never stop collaborating. With open source and open mind.
+          Никогда не прекращайте сотрудничество. С открытым исходным кодом и открытым.
 
-          You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          Вы можете изменить этот приветственный текст [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
-          name: Demo project
-          status:
-            description: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo project.
+          name: Демо-проект
+          status_explanation: Все задачи выполнены по расписанию. Участвующие в них люди знают свои задачи. Система полностью настроена.
+          description: Это краткое описание целей этого демо проекта.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Добро пожаловать в демо-проект
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Мы рады, что вы присоединились.
+                В этом модуле вы можете сообщать новости проекта членам вашей команды.
+              description: Текущие новости
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Категория 1 (будет изменена в настройках проекта)
           queries:
             item_0:
-              name: Project plan
+              name: План проекта
             item_1:
-              name: Milestones
+              name: Вехи
             item_2:
-              name: Tasks
+              name: Задачи
             item_3:
-              name: Team planner
+              name: Командный планировщик
           boards:
             kanban:
-              name: Kanban board
+              name: Доска Канбана
             basic:
-              name: Basic board
+              name: Основная доска
               lists:
                 item_0:
-                  name: Wish list
+                  name: Список пожеланий
                 item_1:
-                  name: Short list
+                  name: Короткий список
                 item_2:
-                  name: Priority list for today
+                  name: Список приоритетов на сегодня
                 item_3:
-                  name: Never
+                  name: Никогда
             parent_child:
-              name: Work breakdown structure
+              name: Структура разбивки работ
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Добро пожаловать
               item_1:
                 options:
-                  name: Getting started
+                  name: Приступая к работе
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Мы рады, что вы присоединились! Мы предлагаем попробовать несколько вещей, чтобы начать работу в OpenProject.
 
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true).
+                    Узнайте о наиболее важных особенностях нашего [Экскурсия с гидом]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true).
 
-                    _Try the following steps:_
+                    _Попробуйте следующие шаги:_
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/demo-project/members) in the project navigation.
-                    2. *View the work in your project*: &rightarrow; Go to [Work packages]({{opSetting:base_url}}/projects/demo-project/work_packages) in the project navigation.
-                    3. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/demo-project/work_packages/new).
-                    4. *Create and update a project plan*: &rightarrow; Go to [Project plan]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) in the project navigation.
-                    5. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/demo-project/settings/modules).
-                    6. *Complete your tasks in the project*: &rightarrow; Go to [Work packages &rightarrow; Tasks]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
+                    1. *Пригласите новых участников к вашему проекту*: &rightarrow; Перейти к [Members]({{opSetting:base_url}}/projects/demo-project/members) в навигации по проекту.
+                    2. *Просмотр работы в вашем проекте*: &rightarrow; Перейдите к [Пакеты работ]({{opSetting:base_url}}/projects/demo-project/work_packages) в навигации по проекту.
+                    *Создать новый пакет работ*: &rightarrow; Перейдите к [Пакеты работ &rightarrow; Создать]({{opSetting:base_url}}/projects/demo-project/work_packages/new).
+                    4. *Создайте и обновите план проекта*: &rightarrow; Перейдите к [Проектному плану]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) в навигации по проекту.
+                    5. *Активировать дополнительные модули*: &rightarrow; Перейдите к [настройкам проекта &rightarrow; Модулей]({{opSetting:base_url}}/projects/demo-project/settings/modules).
+                    6. *Завершите ваши задачи в проекте*: &rightarrow; Перейдите в [Пакеты работ &rightarrow; Задачи]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    Здесь вы найдете наши [руководства пользователя](https://www.openproject.org/docs/user-guide/).
+                    Пожалуйста, сообщите нам, если у вас есть какие-либо вопросы или нужна поддержка. Свяжитесь с нами: [поддержка[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Пакеты работ
               item_6:
                 options:
-                  name: Milestones
+                  name: Вехи
           work_packages:
             item_0:
-              subject: Start of project
+              subject: Начало проекта
             item_1:
-              subject: Organize open source conference
+              subject: Организовать конференцию с открытым исходным кодом
               children:
                 item_0:
-                  subject: Set date and location of conference
+                  subject: Установите дату и место проведения конференции
                   children:
                     item_0:
-                      subject: Send invitation to speakers
+                      subject: Отправить приглашение докладчикам
                     item_1:
-                      subject: Contact sponsoring partners
+                      subject: Связаться со спонсорами
                     item_2:
-                      subject: Create sponsorship brochure and hand-outs
+                      subject: Создайте спонсорскую брошюру и раздаточные материалы
                 item_1:
-                  subject: Invite attendees to conference
+                  subject: Пригласите участников на конференцию
                 item_2:
-                  subject: Setup conference website
+                  subject: Настройка сайта конференции
             item_2:
-              subject: Conference
+              subject: Конференция
             item_3:
-              subject: Follow-up tasks
+              subject: Последующие задачи
               children:
                 item_0:
-                  subject: Upload presentations to website
+                  subject: Загрузите презентации на веб-сайт
                 item_1:
-                  subject: Party for conference supporters :-)
+                  subject: Вечеринка для сторонников конференции :-)
                   description: |-
-                    *   [ ] Beer
-                    *   [ ] Snacks
-                    *   [ ] Music
-                    *   [ ] Even more beer
+                    *  [ ] Пиво
+                    *  [ ] Закуски
+                    *  [ ] Музыка
+                    *  [ ] Еще больше пива
             item_4:
-              subject: End of project
+              subject: Окончание проекта
         scrum-project:
-          name: Scrum project
-          status:
-            description: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo Scrum project.
+          name: Scrum-проект
+          status_explanation: Все задачи выполнены по расписанию. Участвующие в них люди знают свои задачи. Система полностью настроена.
+          description: Это краткое описание целей этого демо Scrum-проекта.
           news:
             item_0:
-              title: Welcome to your Scrum demo project
+              title: Добро пожаловать в Ваш демо проект Scrum
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
+                Мы рады, что вы присоединились.
+                В этом модуле вы можете сообщать новости о проекте членам вашей команды.
           versions:
             item_0:
-              name: Bug Backlog
+              name: Невыполненные задачи по исправлению ошибок
             item_1:
-              name: Product Backlog
+              name: Невыполненные работы по продукту
             item_2:
-              name: Sprint 1
+              name: Спринт 1
               wiki:
-                title: Sprint 1
+                title: Спринт 1
                 content: |
-                  ### Sprint planning meeting
+                  ### Встреча по планированию спринта
 
-                  _Please document here topics to the Sprint planning meeting_
+                  _Пожалуйста, документируйте здесь темы на встречу по планированию спринта_
 
-                  * Time boxed (8 h)
-                  * Input: Product Backlog
-                  * Output: Sprint Backlog
+                  * Время (8 h)
+                  * Вход: невыполненные работы продукта
+                  * Выход: невыполненные работы спринта
 
-                  * Divided into two additional time boxes of 4 h:
+                  * Разделен на два дополнительных ящика по 4 ч:
 
-                      * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                      * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-
-                  ### Daily Scrum meeting
-
-                  _Please document here topics to the Daily Scrum meeting_
-
-                  * Short, daily status meeting of the team.
-                  * Time boxed (max. 15 min).
-                  * Stand-up meeting to discuss the following topics from the [Task board](##sprint:scrum_project__version__sprint_1).
-                      * What do I plan to do until the next Daily Scrum?
-                      * What has blocked my work (Impediments)?
-                  * Scrum Master moderates and notes down [Sprint Impediments](##sprint:scrum_project__version__sprint_1).
-                  * Product Owner may participate may participate in order to stay informed.
-
-                  ### Sprint Review meeting
-
-                  _Please document here topics to the Sprint Review meeting_
-
-                  * Time boxed (4 h).
-                  * A maximum of one hour of preparation time per person.
-                  * The team shows the product owner and other interested persons what has been achieved in this sprint.
-                  * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-                  * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-                  * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
+                      * Владелец продукта представляет [Невыполненные работы продукта]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) и приоритеты для команды и объясняет цель спринта, с которой команда должна согласиться. Вместе они приоритизируют темы из бэклога товаров, о которых команда позаботится в следующем спринте. Команда обязуется выполнять обсуждаемую поставку.
+                      * Команда планирует автономно (без владельца продукта) и подробно отбирает задачи из обсуждаемых требований для консолидации [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
 
 
-                  ### Sprint Retrospective
+                  ### Ежедневная Scrum встреча
 
-                  _Please document here topics to the Sprint Retrospective meeting_
+                  _Пожалуйста, напишите темы на Ежедневную встречу Scrum_
 
-                  * Time boxed (3 h).
-                  * After Sprint Review, will be moderated by Scrum Master.
-                  * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+                  * Короткая ежедневная встреча команды.
+                  * Временная рамка (Макс. 15 мин).
+                  * Стандартное заседание для обсуждения следующих тем на [Панели заданий](##sprint:scrum_project__version__sprint_1).
+                      * Что я планирую сделать до следующей Ежедневной скрамы?
+                      * Что заблокировало мою работу (препятствия)?
+                  * Scrum Master модерирует и отмечает [Препятствия](##sprint:scrum_project__version__sprint_1).
+                  * Владелец продукта может принять участие для того, чтобы быть информированным об этом.
+
+                  ### Встреча по обзору
+
+                  _Пожалуйста, напишите здесь темы на встречу по обзору спринта_
+
+                  * Время (4 ч).
+                  * Максимальный один час времени подготовки на человека.
+                  * Команда показывает владельца продукта и других заинтересованных лиц, что было достигнуто в этом спринте.
+                  * Важно: нет смартфонов и PowerPoint! Только законченный продукт (Препятствия) должен быть продемонстрирован.
+                  * Отзыв от Владельца продукта, заинтересованных сторон и других желаемых и будет включен в дальнейшую работу.
+                  * Основываясь на проверенных функциях, Владелец Продукта решит вступить в силу с этим увеличением или развить его дальше. Эта возможность позволяет ранний ROI.
+
+
+                  ### Ретроспектива спринта
+
+                  _Пожалуйста, документируйте здесь темы для Ретроспективы Спринта_
+
+                  * Время (3 ч).
+                  * После просмотра спринта, будет модерироваться Scrum Master.
+                  * Команда обсуждает весну: что пошло хорошо, что должно быть улучшено, чтобы быть более продуктивным для следующего спринта или даже весело.
             item_3:
-              name: Sprint 2
+              name: Спринт 2
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Категория 1 (будет изменена в настройках проекта)
           queries:
             item_0:
-              name: Project plan
+              name: План проекта
             item_1:
-              name: Product backlog
+              name: Невыполненные работы по продукту
             item_2:
-              name: Sprint 1
+              name: Спринт 1
             item_3:
-              name: Tasks
+              name: Задачи
           boards:
             kanban:
-              name: Kanban board
+              name: Доска Канбана
             basic:
-              name: Task board
+              name: Панель задач
               lists:
                 item_0:
-                  name: Wish list
+                  name: Список пожеланий
                 item_1:
-                  name: Short list
+                  name: Короткий список
                 item_2:
-                  name: Priority list for today
+                  name: Список приоритетов на сегодня
                 item_3:
-                  name: Never
+                  name: Никогда
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Добро пожаловать
               item_1:
                 options:
-                  name: Getting started
+                  name: Приступая к работе
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Мы рады, что вы присоединились! Мы предлагаем попробовать несколько вещей, чтобы начать работу в OpenProject.
 
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
+                    Узнайте о наиболее важных функциях нашего [Guided Tour]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
 
-                    _Try the following steps:_
+                    _Попробуйте следующие шаги:_
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
-                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
-                    3. *View your Task board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select [Task Board](##sprint:scrum_project__version__sprint_1).
-                    4. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
-                    6. *Create a Sprint wiki*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and open the sprint wiki from the right drop down menu in a sprint. You can edit the [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) based on your needs.
-                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+                    1. *Пригласите новых участников к вашему проекту*: &rightarrow; Перейти к [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) в навигации по проекту.
+                    2. *Просмотр бэклога продукта и бэклога спринта*: &rightarrow; Перейдите к [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) в навигации по проекту.
+                    3. *Просмотр вашей панели задач*: &rightarrow; Перейдите к [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Нажмите на правую стрелку спринта &rightarrow; Выбирайте [Task Board](##sprint:scrum_project__version__sprint_1).
+                    4. *Создайте новый пакет работ*: &rightarrow; Перейдите к [Пакеты работ &rightarrow; Создать]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    5. *Создайте и обновите план проекта*: &rightarrow; Перейдите к [плану проекта](##query:scrum_project__query__project_plan) в навигации по проекту.
+                    6. *Создайте вики спринта*: &rightarrow; Перейдите в [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) и откройте вики спринта из правого выпадающего меню в спринте. Вы можете редактировать [шаблон вики]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) на основе ваших потребностей.
+                    7. *Активируйте дополнительные модули*: &rightarrow; Перейдите к [настройкам проекта &rightarrow; Модулей]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    Здесь вы найдете наши [руководства пользователя](https://www. penproject.org/docs/user-guide/).
+                    Пожалуйста, дайте нам знать, если у вас есть какие-либо вопросы или нужна поддержка. Свяжитесь с нами: [поддержка[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Пакеты работ
               item_6:
                 options:
-                  name: Project plan
+                  name: План проекта
           work_packages:
             item_0:
-              subject: New login screen
+              subject: Новый экран входа в систему
             item_1:
-              subject: Password reset does not send email
+              subject: Сброс пароля не отправляется по электронной почте
             item_2:
-              subject: New website
+              subject: Новый веб-сайт
               children:
                 item_0:
-                  subject: Newsletter registration form
+                  subject: Форма регистрации рассылки
                 item_1:
-                  subject: Implement product tour
+                  subject: Провести экскурсию по продукту
                 item_2:
-                  subject: New landing page
+                  subject: Новая целевая страница
                   children:
                     item_0:
-                      subject: Create wireframes for new landing page
+                      subject: Создайте каркасы для новой целевой страницы
             item_3:
-              subject: Contact form
+              subject: Форма связи
             item_4:
-              subject: Feature carousel
+              subject: Карусель свойств
               children:
                 item_0:
-                  subject: Make screenshots for feature tour
+                  subject: Сделать скриншоты для тура по функциям
             item_5:
-              subject: Wrong hover color
+              subject: Неверный цвет при наведении курсора
             item_6:
-              subject: SSL certificate
+              subject: SSL-сертификат
             item_7:
-              subject: Set-up Staging environment
+              subject: Настройка промежуточной среды
             item_8:
-              subject: Choose a content management system
+              subject: Выберите систему управления контентом
             item_9:
-              subject: Website navigation structure
+              subject: Структура навигации сайта
               children:
                 item_0:
-                  subject: Set up navigation concept for website.
+                  subject: Настройка концепции навигации для веб-сайта.
             item_10:
-              subject: Internal link structure
+              subject: Структура внутренней связи
             item_11:
-              subject: Develop v1.0
+              subject: Разработка v1.0
             item_12:
-              subject: Release v1.0
+              subject: Релиз v1.0
             item_13:
-              subject: Develop v1.1
+              subject: Разработка v1.1
             item_14:
-              subject: Release v1.1
+              subject: Релиз v1.1
             item_15:
-              subject: Develop v2.0
+              subject: Разработка версии 2.0
             item_16:
-              subject: Release v2.0
+              subject: Релиз v2.0
           wiki: |
-            ### Sprint planning meeting
+            ### Встреча по планированию спринта
 
-            _Please document here topics to the Sprint planning meeting_
+            _Пожалуйста, документируйте здесь темы на встречу по планированию спринта_
 
-            * Time boxed (8 h)
-            * Input: Product Backlog
-            * Output: Sprint Backlog
+            * Время (8 h)
+            * Вход: бэклог продукта
+            * Выход: Отпечаток бэклог
 
-            * Divided into two additional time boxes of 4 h:
+            * Разделен на два дополнительных ящика по 4 ч:
 
-                * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-
-            ### Daily Scrum meeting
-
-            _Please document here topics to the Daily Scrum meeting_
-
-            * Short, daily status meeting of the team.
-            * Time boxed (max. 15 min).
-            * Stand-up meeting to discuss the following topics from the Task board.
-                * What do I plan to do until the next Daily Scrum?
-                * What has blocked my work (Impediments)?
-            * Scrum Master moderates and notes down Sprint Impediments.
-            * Product Owner may participate may participate in order to stay informed.
-
-            ### Sprint Review meeting
-
-            _Please document here topics to the Sprint Review meeting_
-
-            * Time boxed (4 h).
-            * A maximum of one hour of preparation time per person.
-            * The team shows the product owner and other interested persons what has been achieved in this sprint.
-            * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-            * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-            * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
+                * Владелец продукта представляет [Бэклог продукта]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) и приоритеты для команды и объясняет цель спринта, с которой команда должна согласиться. Вместе они приоритизируют темы из бэклога товаров, о которых команда позаботится в следующем спринте. Команда обязуется выполнять обсуждаемую поставку.
+                * Команда планирует автономно (без владельца продукта) и подробно отбирает задачи из обсуждаемых требований для консолидации [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
 
 
-            ### Sprint Retrospective
+            ### Ежедневная Scrum встреча
 
-            _Please document here topics to the Sprint Retrospective meeting_
+            _Пожалуйста, напишите темы на Ежедневную встречу Scrum_
 
-            * Time boxed (3 h).
-            * After Sprint Review, will be moderated by Scrum Master.
-            * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+            * Короткая ежедневная встреча команды.
+            * Временная рамка (макс. 15 мин).
+            * Стендовое заседание для обсуждения следующих тем из панели задач.
+                * Что я планирую сделать до следующей Ежедневной скрамы?
+                * Что заблокировало мою работу (препятствия)?
+            * Scrum Master модерирует и замечает пометки спринта.
+            * Владелец продукта может принять участие для того, чтобы быть информированным об этом.
+
+            ### Встреча по обзору
+
+            _Пожалуйста, напишите здесь темы на встречу по обзору спринта_
+
+            * Время (4 ч).
+            * Максимальный один час времени подготовки на человека.
+            * Команда показывает владельца продукта и других заинтересованных лиц, что было достигнуто в этом спринте.
+            * Важно: нет смартфонов и PowerPoint! Только законченный продукт (Increments) должен быть продемонстрирован.
+            * Отзыв от Владельца продукта, заинтересованных сторон и других желаемых и будет включен в дальнейшую работу.
+            * Основываясь на проверенных функциях, Владелец Продукта решит вступить в силу с этим увеличением или развить его дальше. Эта возможность позволяет ранний ROI.
+
+
+            ### Ретроспектива спринта
+
+            _Пожалуйста, документируйте здесь темы для Ретроспективы Спринта_
+
+            * Время (3 ч).
+            * После просмотра спринта, будет модерироваться Scrum Master.
+            * Команда обсуждает весну: что пошло хорошо, что должно быть улучшено, чтобы быть более продуктивным для следующего спринта или даже весело.
