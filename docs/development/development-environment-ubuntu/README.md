@@ -242,11 +242,12 @@ RAILS_ENV=development bin/rails db:seed
 
 You can run all required workers of OpenProject through `foreman`, which combines them in a single tab. This is useful for starting out,
 however most developers end up running the tasks in separate shells for better understanding of the log output, since foreman will combine all of them.
+The `bin/dev` command will check if `foreman` is available, install it if needed and will run the application via `Procfile.dev`
 
 ```bash
-gem install foreman
-foreman start -f Procfile.dev
+bin/dev
 ```
+
 The application will be available at `http://127.0.0.1:3000`. To customize bind address and port copy the `.env.example` provided in the root of this
 project as `.env` and [configure values](https://ddollar.github.io/foreman/#ENVIRONMENT) as required.
 
