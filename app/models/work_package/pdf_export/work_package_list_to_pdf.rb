@@ -114,18 +114,17 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
     @batches_count = work_packages.length.fdiv(@work_packages_per_batch).ceil
     batch_files = []
     (1..@batches_count).each do |batch_index|
-      batch_work_packages = work_packages.paginate(page: batch_index, per_page: @work_packages_per_batch)
-      batch_files.push render_pdf(batch_work_packages, "pdf_batch_#{batch_index}.pdf")
-      setup_page!
+      batch_work_packages = work_packages.slice(batch_index * @work_packages_per_batch, @work_packages_per_batch)
+      unless batch_work_packages.nil?
+        batch_files.push render_pdf(batch_work_packages, "pdf_batch_#{batch_index}.pdf")
+        setup_page!
+      end
     end
     merge_batched_pdfs(batch_files, filename)
   end
 
   def merge_batched_pdfs(batch_files, filename)
     return batch_files[0] if batch_files.length == 1
-
-    # All internal link annotations are not copied over on merging
-    # TODO: is there a way to preserve them?
 
     merged_pdf = Tempfile.new(filename)
 
