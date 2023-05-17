@@ -58,52 +58,77 @@ describe 'Meetings' do
   let!(:other_project_meeting) do
     create(:meeting, project: other_project, title: 'Awesome other project meeting!')
   end
-  let(:meetings_page) { Pages::Meetings::Index.new(project) }
 
   before do
     login_as(user)
   end
 
-  it 'visiting page via menu with no meetings' do
-    meetings_page.navigate_by_menu
+  context 'when visiting the global meeting index', with_flag: { more_global_index_pages: true } do
+    let(:meetings_page) { Pages::Meetings::Index.new(project: nil) }
 
-    meetings_page.expect_no_meetings_listed
+    it 'lists all meetings for all projects the user has access to' do
+      meeting
+
+      meetings_page.navigate_by_modules_menu
+      meetings_page.expect_meetings_listed(meeting, other_project_meeting)
+    end
+
+    context 'when the user is allowed to create meetings' do
+      let(:permissions) { %i(view_meetings create_meetings) }
+
+      it 'does not show a create button' do
+        meetings_page.navigate_by_modules_menu
+
+        meetings_page.expect_no_create_new_button
+      end
+    end
   end
 
-  it 'visiting page with 1 meeting listed' do
-    meeting
-    meetings_page.visit!
+  context 'when visiting project specific meeting index' do
+    let(:meetings_page) { Pages::Meetings::Index.new(project:) }
 
-    meetings_page.expect_meetings_listed(meeting)
-  end
+    it 'visiting page via menu with no meetings' do
+      meetings_page.navigate_by_menu
 
-  it 'visiting page with pagination', with_settings: { per_page_options: '1' } do
-    meeting
-    tomorrows_meeting
-    yesterdays_meeting
+      meetings_page.expect_no_meetings_listed
+    end
 
-    # Jumps to today's meeting if not specified differently
-    meetings_page.visit!
-    meetings_page.expect_meetings_listed(meeting)
-    meetings_page.expect_meetings_not_listed(tomorrows_meeting, yesterdays_meeting)
+    context 'when the user is allowed to create meetings' do
+      let(:permissions) { %i(view_meetings create_meetings) }
 
-    meetings_page.expect_to_be_on_page(2)
+      it 'shows the create new button' do
+        meetings_page.navigate_by_menu
+        meetings_page.expect_create_new_button
+      end
+    end
 
-    # Sorted by start_time ascending
-    meetings_page.to_page(1)
-    meetings_page.expect_meetings_listed(tomorrows_meeting)
-    meetings_page.expect_meetings_not_listed(meeting, yesterdays_meeting)
+    it 'visiting page with 1 meeting listed' do
+      meeting
+      meetings_page.visit!
 
-    meetings_page.to_page(3)
-    meetings_page.expect_meetings_listed(yesterdays_meeting)
-    meetings_page.expect_meetings_not_listed(meeting, tomorrows_meeting)
+      meetings_page.expect_meetings_listed(meeting)
+    end
 
-    # The 'today' link will navigate back to today
-    meetings_page.to_today
+    it 'visiting page with pagination', with_settings: { per_page_options: '1' } do
+      meeting
+      tomorrows_meeting
+      yesterdays_meeting
 
-    meetings_page.expect_meetings_listed(meeting)
-    meetings_page.expect_meetings_not_listed(tomorrows_meeting, yesterdays_meeting)
+      # Jumps to today's meeting if not specified differently
+      meetings_page.visit!
+      meetings_page.expect_meetings_listed(tomorrows_meeting)
+      meetings_page.expect_meetings_not_listed(meeting, yesterdays_meeting)
 
-    meetings_page.expect_to_be_on_page(2)
+      meetings_page.expect_to_be_on_page(1)
+
+      # Sorted by start_time ascending
+      meetings_page.to_page(2)
+      meetings_page.expect_meetings_listed(meeting)
+      meetings_page.expect_meetings_not_listed(tomorrows_meeting, yesterdays_meeting)
+
+      meetings_page.to_page(3)
+      meetings_page.expect_meetings_listed(yesterdays_meeting)
+      meetings_page.expect_meetings_not_listed(meeting, tomorrows_meeting)
+    end
   end
 end
