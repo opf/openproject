@@ -7,7 +7,6 @@ en:
     default_type_issue: Issue
     default_type_remark: Remark
     default_type_request: Request
-    default_priority_critical: Critical
 
   bcf:
     label_bcf: 'BCF'

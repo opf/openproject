@@ -34,7 +34,7 @@ RSpec.describe DemoData::ProjectSeeder do
   subject(:project_seeder) { described_class.new(seed_data) }
 
   shared_let(:standard_seed_data) do
-    Source::SeedDataLoader.get_data(edition: 'standard').only('statuses')
+    Source::SeedDataLoader.get_data(edition: 'standard').only('priorities', 'statuses')
   end
   shared_let(:initial_seeding) do
     [
@@ -49,7 +49,7 @@ RSpec.describe DemoData::ProjectSeeder do
       Standard::BasicData::TypeSeeder,
 
       # IssuePriority records needed by WorkPackageSeeder
-      Standard::BasicData::PrioritySeeder,
+      BasicData::PrioritySeeder,
 
       # project admin role needed by ProjectSeeder
       BasicData::BuiltinRolesSeeder,
@@ -126,8 +126,8 @@ RSpec.describe DemoData::ProjectSeeder do
 
     it 'creates the link' do
       project_seeder.seed!
-      version = Version.find_by(name: 'The product backlog')
-      work_package = WorkPackage.find_by(subject: 'Some work package')
+      version = Version.find_by!(name: 'The product backlog')
+      work_package = WorkPackage.find_by!(subject: 'Some work package')
       expect(work_package.version).to eq(version)
     end
   end

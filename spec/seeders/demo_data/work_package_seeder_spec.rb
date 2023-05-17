@@ -31,7 +31,7 @@ require 'spec_helper'
 describe DemoData::WorkPackageSeeder do
   shared_let(:work_week) { week_with_saturday_and_sunday_as_weekend }
   shared_let(:standard_seed_data) do
-    Source::SeedDataLoader.get_data(edition: 'standard').only('statuses')
+    Source::SeedDataLoader.get_data(edition: 'standard').only('priorities', 'statuses')
   end
   shared_let(:seeding) do
     [
@@ -46,7 +46,7 @@ describe DemoData::WorkPackageSeeder do
       Standard::BasicData::TypeSeeder,
 
       # IssuePriority records needed by WorkPackageSeeder
-      Standard::BasicData::PrioritySeeder,
+      BasicData::PrioritySeeder,
 
       # Admin user needed by ProjectSeeder
       AdminUserSeeder

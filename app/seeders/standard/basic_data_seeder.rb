@@ -36,7 +36,7 @@ module Standard
         ::BasicData::ColorSeeder,
         ::BasicData::ColorSchemeSeeder,
         ::Standard::BasicData::WorkflowSeeder,
-        ::Standard::BasicData::PrioritySeeder,
+        ::BasicData::PrioritySeeder,
         ::BasicData::SettingSeeder
       ]
     end

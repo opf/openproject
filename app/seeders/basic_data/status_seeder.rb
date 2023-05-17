@@ -36,6 +36,8 @@ module BasicData
       end
     end
 
+    private
+
     def status_attributes(status_data)
       {
         name: status_data['name'],
@@ -44,13 +46,6 @@ module BasicData
         is_default: true?(status_data['is_default']),
         position: status_data['position']
       }
-    end
-
-    protected
-
-    def color_id(name)
-      @color_ids_by_name ||= Color.pluck(:name, :id).to_h
-      @color_ids_by_name[name] or raise "Cannot find color #{name}"
     end
   end
 end

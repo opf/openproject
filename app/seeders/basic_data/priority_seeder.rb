@@ -29,22 +29,29 @@ module BasicData
   class PrioritySeeder < Seeder
     def seed_data!
       IssuePriority.transaction do
-        data.each do |attributes|
-          IssuePriority.create!(attributes)
+        Array(seed_data.lookup('priorities')).each do |priorities_data|
+          IssuePriority.create!(priority_attributes(priorities_data))
         end
       end
     end
 
     def applicable?
-      IssuePriority.all.empty?
+      IssuePriority.none?
     end
 
     def not_applicable_message
       'Skipping priorities as there are already some configured'
     end
 
-    def data
-      raise NotImplementedError
+    private
+
+    def priority_attributes(priority_data)
+      {
+        name: priority_data['name'],
+        color_id: color_id(priority_data['color_name']),
+        is_default: true?(priority_data['is_default']),
+        position: priority_data['position']
+      }
     end
   end
 end

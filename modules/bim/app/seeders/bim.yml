@@ -26,6 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+priorities:
+  - t_name: Low
+    color_name: cyan-1
+    is_default: true
+    position: 1
+  - t_name: Normal
+    color_name: blue-3
+    position: 2
+  - t_name: High
+    color_name: yellow-7
+    position: 3
+  - t_name: Critical
+    color_name: grape-5
+    position: 4
+
 statuses:
   - reference: :default_status_new
     t_name: New
