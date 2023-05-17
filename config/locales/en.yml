@@ -551,7 +551,7 @@ en:
           true: "public"
           false: "private"
         queries: "Queries"
-        status_code: 'Status'
+        status_code: 'Project status'
         status_explanation: 'Status description'
         status_codes:
           not_started: 'Not started'
