@@ -62,10 +62,8 @@ sudo apt-get install apt-transport-https ca-certificates wget
 Import the PGP key used to sign our packages:
 
 ```bash
-wget -qO- https://dl.packager.io/srv/opf/openproject/key | sudo apt-key add -
+sudo wget -O /etc/apt/trusted.gpg.d/openproject.asc https://dl.packager.io/srv/opf/openproject/key
 ```
-
-Note: you might get a warning when importing the key `Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8))`. This happens because APT has updated the way it manages signing keys, and the package provider is not supporting the new way yet.
 
 Add the OpenProject package source:
 
