@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,18 +28,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 module BasicData
-  class StatusSeeder < ModelSeeder
-    self.model_class = Status
-    self.seed_data_model_key = 'statuses'
+  class ModelSeeder < Seeder
+    class_attribute :model_class
+    class_attribute :seed_data_model_key
 
-    def model_attributes(status_data)
-      {
-        name: status_data['name'],
-        color_id: color_id(status_data['color_name']),
-        is_closed: true?(status_data['is_closed']),
-        is_default: true?(status_data['is_default']),
-        position: status_data['position']
-      }
+    def seed_data!
+      model_class.transaction do
+        Array(seed_data.lookup(seed_data_model_key)).each do |model_data|
+          model = model_class.create!(model_attributes(model_data))
+          seed_data.store_reference(model_data['reference'], model)
+        end
+      end
+    end
+
+    def model_attributes(model_data)
+      raise NotImplementedError
+    end
+
+    def applicable?
+      model_class.none?
+    end
+
+    def not_applicable_message
+      "Skipping #{model_human_name} as there are already some configured"
+    end
+
+    def model_human_name
+      seed_data_model_key.humanize(capitalize: false)
+    end
+
+    protected
+
+    def color_id(name)
+      @color_ids_by_name ||= Color.pluck(:name, :id).to_h
+      @color_ids_by_name[name] or raise "Cannot find color #{name}"
     end
   end
 end

@@ -26,25 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 module BasicData
-  class ActivitySeeder < Seeder
-    def seed_data!
-      TimeEntryActivity.transaction do
-        seed_data.each('time_entry_activities') do |activity_data|
-          TimeEntryActivity.create(
-            name: activity_data['name'],
-            position: activity_data['position'],
-            is_default: true?(activity_data['is_default'])
-          )
-        end
-      end
-    end
+  class ActivitySeeder < ModelSeeder
+    self.model_class = TimeEntryActivity
+    self.seed_data_model_key = 'time_entry_activities'
 
-    def applicable?
-      TimeEntryActivity.none?
-    end
-
-    def not_applicable_message
-      'Skipping activities as there are already some configured'
+    def model_attributes(activity_data)
+      {
+        name: activity_data['name'],
+        is_default: true?(activity_data['is_default']),
+        position: activity_data['position']
+      }
     end
   end
 end

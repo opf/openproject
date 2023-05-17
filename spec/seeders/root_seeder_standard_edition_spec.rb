@@ -78,17 +78,10 @@ describe RootSeeder,
       )
     end
 
-    it 'creates workflows' do
-      expect(Workflow.count).to eq(1172)
-    end
-
-    it 'creates statuses' do
-      expect(Status.count).to eq(14)
-    end
-
-    it 'creates time entry activities' do
-      expect(TimeEntryActivity.count).to eq(6)
-    end
+    include_examples 'it creates records', model: IssuePriority, expected_count: 4
+    include_examples 'it creates records', model: Status, expected_count: 14
+    include_examples 'it creates records', model: TimeEntryActivity, expected_count: 6
+    include_examples 'it creates records', model: Workflow, expected_count: 1172
   end
 
   describe 'demo data' do

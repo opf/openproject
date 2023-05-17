@@ -97,11 +97,6 @@ class Seeder
     Seeder.logger.error message
   end
 
-  def color_id(name)
-    @color_ids_by_name ||= Color.pluck(:name, :id).to_h
-    @color_ids_by_name[name] or raise "Cannot find color #{name}"
-  end
-
   def without_notifications(&)
     Journal::NotificationConfiguration.with(false, &)
   end

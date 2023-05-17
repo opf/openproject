@@ -26,26 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 module BasicData
-  class PrioritySeeder < Seeder
-    def seed_data!
-      IssuePriority.transaction do
-        Array(seed_data.lookup('priorities')).each do |priorities_data|
-          IssuePriority.create!(priority_attributes(priorities_data))
-        end
-      end
-    end
+  class PrioritySeeder < ModelSeeder
+    self.model_class = IssuePriority
+    self.seed_data_model_key = 'priorities'
 
-    def applicable?
-      IssuePriority.none?
-    end
-
-    def not_applicable_message
-      'Skipping priorities as there are already some configured'
-    end
-
-    private
-
-    def priority_attributes(priority_data)
+    def model_attributes(priority_data)
       {
         name: priority_data['name'],
         color_id: color_id(priority_data['color_name']),
