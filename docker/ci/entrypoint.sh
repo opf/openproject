@@ -1,5 +1,5 @@
 #!/bin/bash
-#set -e
+set -e
 
 export PGBIN="/usr/lib/postgresql/$PGVERSION/bin"
 export JOBS="${CI_JOBS:=$(nproc)}"
@@ -31,6 +31,8 @@ fi
 
 
 execute() {
+	echo "[execute] $@"
+	local ret=0
 	if [ $(id -u) -eq 0 ]; then
 		su $USER -c "$@"
 	else
@@ -38,8 +40,19 @@ execute() {
 	fi
 }
 
+execute_quiet() {
+	local ret=0
+	echo "[execute_quiet] $@"
+	if ! execute "$@" >/tmp/op-output.log ; then
+		ret=$?
+		cat /tmp/op-output.log
+	fi
+	return $ret
+}
+
 cleanup() {
 	rm -rf tmp/cache/parallel*
+	rm -f /tmp/op-output.log
 	[ -d tmp/features ] && mv tmp/features spec/
 }
 
@@ -49,42 +62,42 @@ if [ "$1" == "setup-tests" ]; then
 	echo "Preparing environment for running tests..."
 	shift
 
-	execute "mkdir -p tmp"
-	execute "cp docker/ci/database.yml config/"
+	execute_quiet "mkdir -p tmp"
+	execute_quiet "cp docker/ci/database.yml config/"
 
 	for i in $(seq 0 $JOBS); do
 		folder="$CAPYBARA_DOWNLOADED_FILE_DIR/$i"
-		echo "Creating folder $folder..."
-		rm -rf "$folder"
-		mkdir -p "$folder"
-		chmod 1777 "$folder"
+		execute_quiet "rm -rf '$folder' ; mkdir -p '$folder' ; chmod 1777 '$folder'"
 	done
 
-	execute "time bundle install -j$JOBS"
+	execute_quiet "time bundle install -j$JOBS --quiet"
 	# create test database "app" and dump schema
-	execute "time bundle exec rails db:create db:migrate db:schema:dump webdrivers:chromedriver:update webdrivers:geckodriver:update openproject:plugins:register_frontend"
+	execute_quiet "time bundle exec rails db:create db:migrate db:schema:dump webdrivers:chromedriver:update webdrivers:geckodriver:update openproject:plugins:register_frontend"
 	# create parallel test databases "app#n" and load schema
-	execute "time bundle exec rails parallel:create parallel:load_schema"
+	execute_quiet "time bundle exec rails parallel:create parallel:load_schema"
 	# setup frontend deps
-	execute "cd frontend && npm install"
+	execute_quiet "cd frontend && npm install"
 fi
 
 if [ "$1" == "run-units" ]; then
 	shift
-	execute "cp -f /cache/turbo_runtime_units.log spec/support/"
-	execute "time bundle exec rails zeitwerk:check"
-	execute "mv spec/features tmp/"
+	execute_quiet "cp -f /cache/turbo_runtime_units.log spec/support/"
+	# turbo_tests cannot yet exclude specific directories, so copying spec/features elsewhere (temporarily)
+	execute_quiet "mv spec/features tmp/"
+	execute_quiet "time bundle exec rails zeitwerk:check"
 	execute "time bundle exec turbo_tests -n $JOBS --runtime-log spec/support/turbo_runtime_units.log spec"
-	execute "cp -f spec/support/turbo_runtime_units.log /cache/"
+	execute_quiet "cp -f spec/support/turbo_runtime_units.log /cache/"
+	cleanup
 fi
 
 if [ "$1" == "run-features" ]; then
 	shift
-	execute "cp -f /cache/turbo_runtime_features.log spec/support/"
-	execute "time bundle exec rails assets:precompile"
-	execute "cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json"
+	execute_quiet "cp -f /cache/turbo_runtime_features.log spec/support/"
+	execute_quiet "time bundle exec rails assets:precompile"
+	execute_quiet "cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json"
 	execute "time bundle exec turbo_tests -n $JOBS --runtime-log spec/support/turbo_runtime_features.log spec/features"
-	execute "cp -f spec/support/turbo_runtime_features.log /cache/"
+	execute_quiet "cp -f spec/support/turbo_runtime_features.log /cache/"
+	cleanup
 fi
 
 if [ ! -z "$1" ] ; then
