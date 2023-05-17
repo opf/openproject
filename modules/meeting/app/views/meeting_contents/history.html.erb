@@ -34,12 +34,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 <h3><%= t(:label_history) %></h3>
 
-<% content_for :header_tags do %>
-  <meta name="required_script" content="meeting" />
-<% end %>
-
 <%= form_tag({:action => "diff"}, :method => :get) do %>
-<div class="generic-table--container">
+<div class="generic-table--container"
+     data-application-target="dynamic"
+     data-controller="journal-history">
   <div class="generic-table--results-container">
     <table class="generic-table">
       <colgroup>
@@ -106,18 +104,26 @@ See COPYRIGHT and LICENSE files for more details.
             </td>
               <td class="checkbox -short">
                 <% if show_diff && (index < @content_versions.size-1) %>
-                  <%= radio_button_tag('version_to',
+                  <%= radio_button_tag('version_from',
                                        content_version.version,
                                        (index==0),
-                                       id: "checkbox-from-#{index}",
                                        class: 'meetings--checkbox-version-to',
-                                       data: { target: ".checkbox-to-#{index+1}" }) %>
+                                       data: {
+                                         'journal-history-target': 'fromVersion',
+                                         action: 'journal-history#selectToVersion'
+                                       }) %>
                   <label class="hidden-for-sighted" for="checkbox-from-<%= index %>"><%= t(:description_compare_from) %> <%= index %></label>
                 <% end %>
               </td>
               <td class="checkbox -short">
                 <% if show_diff && (index > 0) %>
-                  <%= radio_button_tag('version_from', content_version.version, (index==1), :id => "checkbox-to-#{index}") %>
+                  <%= radio_button_tag('version_to',
+                                       content_version.version,
+                                       (index==1),
+                                       data: {
+                                         'journal-history-target': 'toVersion',
+                                         action: 'journal-history#selectFromVersion'
+                                       }) %>
                   <label class="hidden-for-sighted" for="checkbox-to-<%= index %>"><%= t(:description_compare_to) %> <%= index %></label>
                 <% end %>
               </td>

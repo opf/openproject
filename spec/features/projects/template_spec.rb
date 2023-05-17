@@ -59,12 +59,15 @@ describe 'Project templates', js: true do
 
   describe 'instantiating templates' do
     let!(:template) do
-      create(:template_project, name: 'My template', enabled_module_names: %w[wiki work_package_tracking])
+      create(:template_project,
+             status_code: 'on_track',
+             status_explanation: 'some explanation',
+             name: 'My template',
+             enabled_module_names: %w[wiki work_package_tracking])
     end
-    let!(:template_status) { create(:project_status, project: template, explanation: 'source') }
     let!(:other_project) { create(:project, name: 'Some other project') }
     let!(:work_package) { create(:work_package, project: template) }
-    let!(:wiki_page) { create(:wiki_page_with_content, wiki: template.wiki) }
+    let!(:wiki_page) { create(:wiki_page, wiki: template.wiki) }
 
     let!(:role) do
       create(:role, permissions: %i[view_project view_work_packages copy_projects add_subprojects])
@@ -156,7 +159,7 @@ describe 'Project templates', js: true do
       wiki_source = template.wiki.pages.first
       wiki_target = project.wiki.pages.first
       expect(wiki_source.title).to eq(wiki_target.title)
-      expect(wiki_source.content.text).to eq(wiki_target.content.text)
+      expect(wiki_source.text).to eq(wiki_target.text)
     end
   end
 end

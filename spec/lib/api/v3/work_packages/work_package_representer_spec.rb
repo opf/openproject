@@ -1418,7 +1418,7 @@ describe API::V3::WorkPackages::WorkPackageRepresenter do
                    member_with_permissions: %i[view_work_packages view_file_links])
           end
 
-          describe 'attributesByTimestamp' do
+          describe 'attributesByTimestamp', with_ee: %i[baseline_comparison], with_flag: { show_changes: true } do
             it 'states whether the work package matches the query filters at the timestamp' do
               expect(subject)
                 .to be_json_eql(true.to_json)

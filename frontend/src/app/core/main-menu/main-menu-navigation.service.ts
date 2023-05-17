@@ -20,7 +20,7 @@ export class MainMenuNavigationService {
     // rejigger the main-menu sub-menu functionality.
     jQuery('#main-menu .toggler').remove(); // remove the togglers so they're inserted properly later.
 
-    const toggler = jQuery('<a class="toggler" href="#"><i class="icon6 icon-toggler icon-arrow-right3" aria-hidden="true"></i><span class="hidden-for-sighted"></span></a>')
+    const toggler = jQuery('<a class="toggler" href="#"><span class="spot-icon spot-icon_1 spot-icon_arrow-right3" aria-hidden="true"></span><span class="hidden-for-sighted"></span></a>')
       .on('click', function () {
         const target = jQuery(this);
         if (target.hasClass('toggler')) {
@@ -86,7 +86,7 @@ export class MainMenuNavigationService {
     // 1. unbind the current click functions
       .unbind('click')
       // 2. wrap each in a span that we'll use for the new click element
-      .wrapInner('<span class="ellipsis"/>')
+      .wrapInner('<span class="ellipsis" style="display: flex; align-items: center"/>')
       // 3. reinsert the <span class="toggler"> so that it sits outside of the above
       .after(toggler);
 
@@ -107,7 +107,7 @@ export class MainMenuNavigationService {
       const title = jQuery(child).parents('li').find('.main-item-wrapper .op-menu--item-title').contents()[0].textContent;
       const parentURL = jQuery(child).parents('li').find('.main-item-wrapper > a').attr('href');
       const header = jQuery('<div class="main-menu--children-menu-header"></div>');
-      const upLink = jQuery('<a class="main-menu--arrow-left-to-project" href="#"><i class="icon-arrow-left1" aria-hidden="true"></i></a>');
+      const upLink = jQuery('<a class="main-menu--arrow-left-to-project" href="#"><span class="spot-icon spot-icon_1_25 spot-icon_arrow-left1" aria-hidden="true"></span></a>');
       const parentLink = jQuery(`<a href="${parentURL}" class="main-menu--parent-node ellipsis">${title}</a>`);
       upLink.attr('title', I18n.t('js.label_up'));
       upLink.on('click', navigateUp);

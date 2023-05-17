@@ -35,16 +35,17 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       @uri = base_uri
       @token = token
       @retry_proc = retry_proc
-      @base_path = api_v3_paths.join_uri_path(@uri.path, "remote.php/dav/files", escape_whitespace(token.origin_user_id))
+      @base_path = Util.join_uri_path(@uri.path, "remote.php/dav/files", Util.escape_whitespace(token.origin_user_id))
     end
 
-    def query(parent)
+    # rubocop:disable Metrics/AbcSize
+    def query(folder)
       http = Net::HTTP.new(@uri.host, @uri.port)
       http.use_ssl = @uri.scheme == 'https'
 
       result = @retry_proc.call(@token) do |token|
         response = http.propfind(
-          "#{@base_path}#{requested_folder(parent)}",
+          "#{@base_path}#{requested_folder(folder)}",
           requested_properties,
           {
             'Depth' => '1',
@@ -52,22 +53,28 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           }
         )
 
-        response.is_a?(Net::HTTPSuccess) ? ServiceResult.success(result: response.body) : error(response)
+        case response
+        when Net::HTTPSuccess
+          ServiceResult.success(result: response.body)
+        when Net::HTTPNotFound
+          Util.error(:not_found)
+        when Net::HTTPUnauthorized
+          Util.error(:not_authorized)
+        else
+          Util.error(:error)
+        end
       end
 
       storage_files(result)
     end
+    # rubocop:enable Metrics/AbcSize
 
     private
-
-    def escape_whitespace(value)
-      value.gsub(' ', '%20')
-    end
 
     def requested_folder(folder)
       return '' if folder.nil?
 
-      escape_whitespace(folder)
+      Util.escape_whitespace(folder)
     end
 
     # rubocop:disable Metrics/AbcSize
@@ -90,24 +97,6 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     # rubocop:enable Metrics/AbcSize
-
-    def error(response)
-      case response
-      when Net::HTTPNotFound
-        error_result(:not_found)
-      when Net::HTTPUnauthorized
-        error_result(:not_authorized)
-      else
-        error_result(:error)
-      end
-    end
-
-    def error_result(code, log_message = nil, data = nil)
-      ServiceResult.failure(
-        result: code, # This is needed to work with the ConnectionManager token refresh mechanism.
-        errors: Storages::StorageError.new(code:, log_message:, data:)
-      )
-    end
 
     def storage_files(response)
       response.map do |xml|

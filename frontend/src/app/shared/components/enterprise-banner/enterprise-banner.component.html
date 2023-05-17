@@ -8,7 +8,7 @@
     <img [src]="image.enterprise_edition" class="hidden-for-mobile op-enterprise-banner--image">
     <div class="op-toast--content">
       <div class="op-enterprise-banner--header">
-        <span class="spot-icon spot-icon_enterprise-addons"></span>
+        <span class="spot-icon spot-icon_enterprise-addons spot-icon_inline"></span>
         <span [textContent]="text.enterpriseFeature" class="op-enterprise-banner--title"></span>
         <button
           *ngIf="collapsible"
@@ -44,7 +44,7 @@
           [href]="pricingUrl"
           target=”_blank”
           class="button -highlight">
-          <span class="spot-icon spot-icon_enterprise-addons enterprise-addons--button-icon"></span>
+          <span class="spot-icon spot-icon_enterprise-addons"></span>
           {{ text.upgrade }}
         </a>
 

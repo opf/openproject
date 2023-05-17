@@ -9,7 +9,7 @@ de:
         identifier: Kennung
         secret: Secret
         scope: Geltungsbereich
-        limit_self_registration: Limit self registration
+        limit_self_registration: Selbstregistrierung begrenzen
   openid_connect:
     menu_title: OpenID-Anbieter
     providers:
@@ -20,4 +20,4 @@ de:
       singular: OpenID-Anbieter
     setting_instructions:
       limit_self_registration: >
-        If enabled users can only register using this provider if the self registration setting allows for it.
+        Wenn aktiviert, können sich Benutzer nur dann mit diesem Anbieter registrieren, wenn die Einstellung zur Selbstregistrierung dies zulässt.

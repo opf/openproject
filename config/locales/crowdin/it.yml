@@ -80,7 +80,7 @@ it:
       buttons:
         upgrade: "Aggiorna ora"
         contact: "Contattaci per una demo"
-      enterprise_info_html: "è un'<span class='spot-icon spot-icon_enterprise-addons'></span>aggiunta Enterprise."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Esegui l'upgrade a un piano a pagamento per attivarlo e iniziare a usarlo nel tuo team."
     journal_aggregation:
       explanation:
@@ -482,6 +482,15 @@ it:
           true: "pubblico"
           false: "privato"
         queries: "Interrogazioni"
+        status_code: 'Status'
+        status_explanation: 'Status description'
+        status_codes:
+          not_started: 'Not started'
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         templated: "Progetto modello"
         templated_value:
           true: "contrassegnato come modello"
@@ -489,16 +498,6 @@ it:
         types: "Tipi"
         versions: "Versioni"
         work_packages: "Macro-attività"
-      projects/status:
-        code: 'Stato'
-        explanation: 'Descrizione stato'
-        codes:
-          not_started: 'Non iniziato'
-          on_track: 'Nei limiti'
-          at_risk: 'A rischio'
-          off_track: 'Fuori limite'
-          finished: 'Terminato'
-          discontinued: 'Interrotto'
       query:
         column_names: "Colonne"
         relations_to_type_column: "Relazioni con %{type}"
@@ -739,6 +738,7 @@ it:
               format: "%{message}"
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "è mutuamente esclusivo con il raggruppamento per '%{group_by}'. Non puoi attivare entrambi."
           filters:
@@ -915,11 +915,22 @@ it:
   activity:
     item:
       created_by_on: "creato da %{user} il %{datetime}"
+      created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "creato il %{datetime}"
       updated_by_on: "aggiornato da %{user} il %{datetime}"
+      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "aggiornato il %{datetime}"
       parent_without_of: "Sottoprogetto"
       parent_no_longer: "Non più sottoprogetto di"
+      time_entry:
+        hour:
+          one: "%{count} hour"
+          other: "%{count} hours"
+        hour_html:
+          one: "<i>%{count} hour</i>"
+          other: "<i>%{count} hours</i>"
+        updated: "changed from %{old_value} to %{value}"
+        logged_for: "Logged for"
     filter:
       changeset: "Insiemi di modifiche"
       message: "Forum"

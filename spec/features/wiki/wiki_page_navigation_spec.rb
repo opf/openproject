@@ -34,12 +34,12 @@ describe 'Wiki page navigation spec', js: true do
 
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let!(:wiki_page_55) do
-    create(:wiki_page_with_content,
+    create(:wiki_page,
            wiki: project.wiki,
            title: 'Wiki Page No. 55')
   end
   let!(:wiki_pages) do
-    create_list(:wiki_page_with_content, 30, wiki: project.wiki)
+    create_list(:wiki_page, 30, wiki: project.wiki)
   end
 
   # Always use the same user for the wiki pages

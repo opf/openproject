@@ -72,12 +72,6 @@ shared_examples_for 'storage contract', :storage_server_helpers, webmock: true d
     end
 
     context 'when provider_type is invalid' do
-      context 'as it is unknown' do
-        let(:storage_provider_type) { 'unknown_provider_type' }
-
-        include_examples 'contract is invalid', provider_type: :inclusion
-      end
-
       context 'as it is empty' do
         let(:storage_provider_type) { '' }
 

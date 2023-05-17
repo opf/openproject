@@ -228,7 +228,7 @@ uk:
           quick_overview: "Отримайте стислий огляд управління проєктами й командної роботи у версії OpenProject Enterprise."
         upsale:
           become_hero: "Стань героєм!"
-          enterprise_info_html: "%{feature_title} – це доповнення версії Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span>."
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Перейдіть на платний план, щоб активувати його та почати використовувати його у своїй команді."
           benefits:
             description: "Які переваги локальної версії Enterprise?"
@@ -922,6 +922,10 @@ uk:
       message_work_package_read_only: "Робочий пакет заблоковано в цьому статусі. Атрибут, відмінний від статусу, може бути змінений."
       message_work_package_status_blocked: "Пакет робіт недоступний для запису, оскільки призначено закритий статус або закриту версію."
       placeholder_filter_by_text: "Тема, опис, коментарі, ..."
+      baseline:
+        addition_label: 'Added to view within the comparison time period'
+        removal_label: 'Removed from view within the comparison time period'
+        modification_label: 'Modified within the comparison time period'
       filters:
         title: 'Фільтрувати пакети робіт'
       inline_create:
@@ -1256,6 +1260,28 @@ uk:
         current_project: 'Це поточний проєкт, який зараз відкрито.'
         does_not_match_search: 'Проєкт не відповідає критеріям пошуку.'
       no_results: 'Жоден проєкт не відповідає вашим критеріям пошуку.'
+    baseline:
+      toggle_title: 'Baseline'
+      clear: 'Clear'
+      apply: 'Apply'
+      header_description: 'View changes made to work packages in the current view within a time period.'
+      show_changes_since: 'Show changes since'
+      help_description: 'Default time zone of the instance set by the administrator.'
+      time_description: 'In default time zone: %{time} %{days} day(s).'
+      time: 'Time'
+      drop_down:
+        none: '-'
+        yesterday: 'yesterday'
+        last_working_day: 'last working day'
+        last_week: 'last week'
+        last_month: 'last month'
+        a_specific_date: 'a specific date'
+        between_two_specific_dates: 'between two specific dates'
+      legends:
+        changes_since: 'Changes since'
+        now_meets_filter_criteria: 'Now meets filter criteria'
+        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
+        maintained_with_changes: 'Maintained with changes'
     forms:
       submit_success_message: 'Форму надіслано'
       load_error_message: 'Сталася помилка під час завантаження форми'

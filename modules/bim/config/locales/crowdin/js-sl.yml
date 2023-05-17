@@ -12,8 +12,8 @@ sl:
       show_viewpoint: 'Prikaži pogled/vidik'
       delete_viewpoint: 'Zbriši pogled/vidik'
       management: 'Upravljanje BFC'
-      refresh: 'Refresh'
-      refresh_work_package: 'Refresh work package'
+      refresh: 'Osveži'
+      refresh_work_package: 'Osveži delovni paket'
     ifc_models:
       empty_warning: "Ta projekt še nima modelov IFC."
       use_this_link_to_manage: "Uporabite povezavo za nalaganje in upravljanje z vašimi modeli IFC"

@@ -227,7 +227,7 @@ ru:
           quick_overview: "Узнайте вкратце об управлении проектами и совместной работе в OpenProject корпоративной версии."
         upsale:
           become_hero: "Стать героем!"
-          enterprise_info_html: "%{feature_title} является корпоративным <span class='spot-icon spot-icon_enterprise-addons'></span> дополнением."
+          enterprise_info_html: "%{feature_title} является корпоративным <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> дополнением."
           upgrade_info: "Пожалуйста, перейдите на платный тарифный план, чтобы активировать его и начать использовать в вашей команде."
           benefits:
             description: "Каковы преимущества корпоративной версии?"
@@ -921,6 +921,10 @@ ru:
       message_work_package_read_only: "Пакет работ заблокирован в этом статусе. Никакой атрибут, отличный от статуса, не может быть изменен."
       message_work_package_status_blocked: "Статус пакета работ недоступен для записи из-за закрытого статуса и назначенной закрытой версии."
       placeholder_filter_by_text: "Тема, описание, комментарии, ..."
+      baseline:
+        addition_label: 'Добавлено для просмотра в период сравнения'
+        removal_label: 'Удалено из просмотра в период сравнения'
+        modification_label: 'Изменено в период времени сравнения'
       filters:
         title: 'Фильтровать пакеты работ'
       inline_create:
@@ -1255,6 +1259,28 @@ ru:
         current_project: 'Это текущий проект, в котором вы находитесь.'
         does_not_match_search: 'Ни один проект не соответствует критериям поиска.'
       no_results: 'Ни один проект не соответствует критериям поиска.'
+    baseline:
+      toggle_title: 'Исходный уровень'
+      clear: 'Очистить'
+      apply: 'Применить'
+      header_description: 'Просмотр изменений, внесенных в рабочие пакеты в текущем представлении за определенный период времени.'
+      show_changes_since: 'Показать изменения с'
+      help_description: 'Часовой пояс экземпляра по умолчанию установлен администратором.'
+      time_description: 'В часовом поясе по умолчанию: %{time} %{days} дн.'
+      time: 'Время'
+      drop_down:
+        none: '-'
+        yesterday: 'вчера'
+        last_working_day: 'последний рабочий день'
+        last_week: 'прошлой недели'
+        last_month: 'прошлый месяц'
+        a_specific_date: 'определенная дата'
+        between_two_specific_dates: 'между двумя определенными датами'
+      legends:
+        changes_since: 'Изменения с'
+        now_meets_filter_criteria: 'Теперь соответствует критериям фильтра'
+        no_longer_meets_filter_criteria: 'Больше не соответствует критериям фильтра'
+        maintained_with_changes: 'Поддерживается с изменениями'
     forms:
       submit_success_message: 'Форма успешно отправлена'
       load_error_message: 'Произошла ошибка при загрузке формы'

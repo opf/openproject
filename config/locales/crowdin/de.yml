@@ -80,7 +80,7 @@ de:
       buttons:
         upgrade: "Jetzt Upgrade durchführen"
         contact: "Kontaktieren Sie uns für eine Demo"
-      enterprise_info_html: "ist ein Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> Add-on."
+      enterprise_info_html: "ist ein Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> Add-on."
       upgrade_info: "Bitte steigen Sie auf einen kostenpflichtigen Plan um, um diese Funktion zu aktivieren und in Ihrem Team zu verwenden."
     journal_aggregation:
       explanation:
@@ -229,7 +229,7 @@ de:
       failed_text: "Die Anfrage zum Löschen des Projekts %{name} ist fehlgeschlagen. Das Projekt wurde archiviert."
       completed: "Löschen des Projekts %{name} abgeschlossen"
       completed_text: "Die Anfrage zum Löschen des Projekts '%{name}' wurde abgeschlossen."
-      completed_text_children: "Additionally, the following subprojects have been deleted:"
+      completed_text_children: "Zusätzlich wurden folgende Unterprojekte gelöscht:"
     index:
       open_as_gantt: 'Als Gantt-Ansicht öffnen'
       open_as_gantt_title: "Eine Gantt-Ansicht für Arbeitspakete aus den auf dieser Seite sichtbaren Projekten erzeugen."
@@ -480,6 +480,15 @@ de:
           true: "öffentlich"
           false: "privat"
         queries: "Abfragen"
+        status_code: 'Status'
+        status_explanation: 'Statusbeschreibung'
+        status_codes:
+          not_started: 'Nicht gestartet'
+          on_track: 'Planmäßig'
+          at_risk: 'Gefährdet'
+          off_track: 'Unplanmäßig'
+          finished: 'Abgeschlossen'
+          discontinued: 'Eingestellt'
         templated: "Projektvorlage"
         templated_value:
           true: "als Vorlage markiert"
@@ -487,16 +496,6 @@ de:
         types: "Typen"
         versions: "Versionen"
         work_packages: "Arbeitspakete"
-      projects/status:
-        code: 'Status'
-        explanation: 'Statusbeschreibung'
-        codes:
-          not_started: 'Nicht gestartet'
-          on_track: 'Planmäßig'
-          at_risk: 'Gefährdet'
-          off_track: 'Unplanmäßig'
-          finished: 'Abgeschlossen'
-          discontinued: 'Eingestellt / nicht verfügbar'
       query:
         column_names: "Spalten"
         relations_to_type_column: "Beziehungen zu %{type}"
@@ -737,6 +736,7 @@ de:
               format: "%{message}"
             timestamps:
               invalid: "Zeitstempel enthalten ungültige Werte: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "schließt sich gegenseitig mit der Gruppierung nach \"%{group_by}\" aus. Beide können nicht zeitgleich aktiv sein."
           filters:
@@ -913,11 +913,22 @@ de:
   activity:
     item:
       created_by_on: "erstellt von %{user} am %{datetime}"
+      created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "erstellt am %{datetime}"
       updated_by_on: "aktualisiert von %{user} am %{datetime}"
+      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "aktualisiert am %{datetime}"
       parent_without_of: "Unterprojekt"
       parent_no_longer: "Nicht mehr Unterprojekt von"
+      time_entry:
+        hour:
+          one: "%{count} hour"
+          other: "%{count} Stunden"
+        hour_html:
+          one: "<i>%{count} hour</i>"
+          other: "<i>%{count} hours</i>"
+        updated: "changed from %{old_value} to %{value}"
+        logged_for: "Logged for"
     filter:
       changeset: "Änderungssätze"
       message: "Foren"

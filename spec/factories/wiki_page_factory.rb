@@ -30,9 +30,8 @@ FactoryBot.define do
   factory :wiki_page do
     wiki
     sequence(:title) { |n| "Wiki Page No. #{n}" }
+    author factory: :user
 
-    factory :wiki_page_with_content do
-      content { association :wiki_content, page: instance }
-    end
+    text { |a| "# #{a.title}\n\nPage Content Version #{a.lock_version}." }
   end
 end

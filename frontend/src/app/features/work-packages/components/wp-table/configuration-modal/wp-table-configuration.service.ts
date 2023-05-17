@@ -7,6 +7,7 @@ import { WpTableConfigurationFiltersTab } from 'core-app/features/work-packages/
 import { WpTableConfigurationSortByTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/sort-by-tab.component';
 import { WpTableConfigurationTimelinesTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/timelines-tab.component';
 import { WpTableConfigurationHighlightingTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/highlighting-tab.component';
+import { OpBaselineComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline/baseline.component';
 
 @Injectable()
 export class WpTableConfigurationService {
@@ -25,6 +26,11 @@ export class WpTableConfigurationService {
       id: 'sort-by',
       name: this.I18n.t('js.label_sort_by'),
       componentClass: WpTableConfigurationSortByTabComponent,
+    },
+    {
+      id: 'baseline',
+      name: this.I18n.t('js.baseline.toggle_title'),
+      componentClass: OpBaselineComponent,
     },
     {
       id: 'display-settings',

@@ -34,15 +34,15 @@ describe 'Wiki unicode title spec', js: true do
 
   let(:project) { create(:project) }
   let(:wiki_page_1) do
-    build(:wiki_page_with_content,
+    build(:wiki_page,
           title: '<script>alert("FOO")</script>')
   end
   let(:wiki_page_2) do
-    build(:wiki_page_with_content,
+    build(:wiki_page,
           title: 'Base de données')
   end
   let(:wiki_page_3) do
-    build(:wiki_page_with_content,
+    build(:wiki_page,
           title: 'Base_de_données')
   end
 

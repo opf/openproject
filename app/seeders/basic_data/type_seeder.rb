@@ -77,8 +77,8 @@ module BasicData
 
       type_data['form_configuration'].each do |form_config_attr|
         groups = type.default_attribute_groups
-        query = find_query_by_name(form_config_attr['query_name'])
-        query_association = "query_#{query}"
+        query = seed_data.find_reference(form_config_attr['query'])
+        query_association = "query_#{query.id}"
         groups.unshift([form_config_attr['group_name'], [query_association.to_sym]])
 
         type.attribute_groups = groups
@@ -92,10 +92,6 @@ module BasicData
     def type_data_for(type)
       types_data = seed_data.lookup('type_configuration') || []
       types_data.find { |entry| I18n.t(entry['type']) == type.name }
-    end
-
-    def find_query_by_name(name)
-      Query.find_by(name:).id
     end
   end
 end

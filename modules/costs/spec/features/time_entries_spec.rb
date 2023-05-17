@@ -84,7 +84,9 @@ describe 'Work Package table cost entries', js: true do
     check('Spent time')
     click_on 'Apply'
 
-    expect(page).to have_selector('.op-activity-list--item-title', text: '10.00 hours')
-    expect(page).to have_selector('.op-activity-list--item-title', text: '2.50 hours')
+    wp1 = time_entry1.work_package
+    wp2 = time_entry2.work_package
+    expect(page).to have_selector('.op-activity-list--item-title', text: "#{wp1.type.name} ##{wp1.id}: #{wp1.subject}")
+    expect(page).to have_selector('.op-activity-list--item-title', text: "#{wp2.type.name} ##{wp2.id}: #{wp2.subject}")
   end
 end

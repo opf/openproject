@@ -44,7 +44,7 @@ describe Storages::Storages::CreateService, type: :model do
       {
         name: 'My storage',
         host: 'https://example.org',
-        provider_type: :nextcloud
+        provider_type: 'Storages::NextcloudStorage'
       }
     end
 

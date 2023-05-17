@@ -25,6 +25,8 @@ OpenProject offers close integration with Nextcloud to allow users to:
 - View all work packages linked to a file
 - View OpenProject notifications via the Nextcloud dashboard
 
+> Note: This guide only covers the integration setup. Please go to our [Nextcloud integration user guide](../../../user-guide/nextcloud-integration/) to learn more about how to work with the Nextcloud integration.
+
 ## Minimum requirements
 
 Please note these minimum version requirements for the integration to work:
@@ -136,8 +138,7 @@ Additional settings on this page also allow you, as an administrator, to define 
 ![Admin settings to configure default settings for all users](NC_admin-defaults-user-options.png)
 
 - **Enable navigation link** displays a link to the OpenProject instance in the Nextcloud header 
-- **Enable unified search for tickets** allows users to search for OpenProject work packages via the universal search bar in Nextcloud
-- **Enable notifications for activity in my work packages** sends users Nextcloud notifications when there are updates to linked OpenProject work packages
+- **Enable unified search for tickets** allows users to search for OpenProject work packages via the universal search bar in Nextcloud 
 
 
 #### 5. Add your new Nextcloud file storage to a project

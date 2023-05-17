@@ -31,9 +31,10 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 describe 'Project status widget on dashboard', js: true do
-  let!(:project) { create(:project, status: project_status) }
-  let!(:project_status) do
-    create(:project_status)
+  let!(:project) do
+    create(:project,
+           status_code: 'on_track',
+           status_explanation: 'some explanation')
   end
 
   let(:read_only_permissions) do
@@ -87,7 +88,7 @@ describe 'Project status widget on dashboard', js: true do
           .to have_content('ON TRACK')
 
         expect(page)
-          .to have_content(project_status.explanation)
+          .to have_content(project.status_explanation)
 
         # The status selector does not open
         field = EditField.new(dashboard_page, 'status')
@@ -139,7 +140,7 @@ describe 'Project status widget on dashboard', js: true do
         sleep(0.1)
 
         # Change the value
-        field.expect_value(project_status.explanation)
+        field.expect_value(project.status_explanation)
         field.set_value 'A completely new explanation which is super cool.'
         field.save!
 

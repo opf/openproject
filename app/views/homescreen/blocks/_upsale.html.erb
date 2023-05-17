@@ -3,7 +3,7 @@
   <div class="widget-box--blocks--upsale-description">
     <div class="widget-box--blocks--upsale-title">
 
-      <%= spot_icon('enterprise-addons') %>
+      <%= spot_icon('enterprise-addons', inline: true) %>
       <span><%= t('homescreen.blocks.upsale.title') %></span>
 
       <p class="widget-box--blocks--upsale-description">
@@ -24,12 +24,12 @@
 
 <div class="widget-box--blocks--upsale-buttons">
   <%= link_to "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=unknown&utm_medium=community-edition&utm_campaign=home-screen",
-    { class: 'button--link widget-box--blocks--upsale-info-button',
+    { class: 'spot-link widget-box--blocks--upsale-info-button',
       aria: {label: t('homescreen.blocks.upsale.more_info')},
       target: '_blank',
       title: t('homescreen.blocks.upsale.more_info')} do %>
     <span class="button--text"><%= t('homescreen.blocks.upsale.more_info') %></span>
-    <%= spot_icon('button--icon icon-external-link') %>
+    <%= spot_icon('external-link') %>
   <% end %>
 
   <%= link_to(OpenProject::Static::Links.links[:pricing][:href],
@@ -37,7 +37,7 @@
       aria: {label: t('admin.enterprise.buttons.upgrade')},
       target: '_blank',
       title: t('admin.enterprise.buttons.upgrade')}) do %>
-    <%= spot_icon('enterprise-addons enterprise-addons--button-icon') %>
+    <%= spot_icon('enterprise-addons') %>
     <span class="button--text"><%= t('admin.enterprise.buttons.upgrade') %></span>
   <% end %>
 

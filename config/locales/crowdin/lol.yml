@@ -80,7 +80,7 @@ lol:
       buttons:
         upgrade: "crwdns655649:0crwdne655649:0"
         contact: "crwdns655651:0crwdne655651:0"
-      enterprise_info_html: "crwdns839555:0crwdne839555:0"
+      enterprise_info_html: "crwdns852067:0crwdne852067:0"
       upgrade_info: "crwdns655655:0crwdne655655:0"
     journal_aggregation:
       explanation:
@@ -467,6 +467,15 @@ lol:
           true: "crwdns845441:0crwdne845441:0"
           false: "crwdns845443:0crwdne845443:0"
         queries: "crwdns495227:0crwdne495227:0"
+        status_code: 'crwdns853231:0crwdne853231:0'
+        status_explanation: 'crwdns853233:0crwdne853233:0'
+        status_codes:
+          not_started: 'crwdns853235:0crwdne853235:0'
+          on_track: 'crwdns853237:0crwdne853237:0'
+          at_risk: 'crwdns853239:0crwdne853239:0'
+          off_track: 'crwdns853241:0crwdne853241:0'
+          finished: 'crwdns853243:0crwdne853243:0'
+          discontinued: 'crwdns853245:0crwdne853245:0'
         templated: "crwdns495235:0crwdne495235:0"
         templated_value:
           true: "crwdns845445:0crwdne845445:0"
@@ -474,16 +483,6 @@ lol:
         types: "crwdns495229:0crwdne495229:0"
         versions: "crwdns495231:0crwdne495231:0"
         work_packages: "crwdns495233:0crwdne495233:0"
-      projects/status:
-        code: 'crwdns495237:0crwdne495237:0'
-        explanation: 'crwdns495239:0crwdne495239:0'
-        codes:
-          not_started: 'crwdns710622:0crwdne710622:0'
-          on_track: 'crwdns495241:0crwdne495241:0'
-          at_risk: 'crwdns495243:0crwdne495243:0'
-          off_track: 'crwdns495245:0crwdne495245:0'
-          finished: 'crwdns710624:0crwdne710624:0'
-          discontinued: 'crwdns710626:0crwdne710626:0'
       query:
         column_names: "crwdns495247:0crwdne495247:0"
         relations_to_type_column: "crwdns495249:0%{type}crwdne495249:0"
@@ -724,6 +723,7 @@ lol:
               format: "crwdns495583:0%{message}crwdne495583:0"
             timestamps:
               invalid: "crwdns851627:0%{values}crwdne851627:0"
+              forbidden: "crwdns853333:0%{values}crwdne853333:0"
               format: "crwdns851629:0%{message}crwdne851629:0"
           group_by_hierarchies_exclusive: "crwdns495585:0%{group_by}crwdne495585:0"
           filters:
@@ -900,11 +900,22 @@ lol:
   activity:
     item:
       created_by_on: "crwdns845923:0%{user}crwdnd845923:0%{datetime}crwdne845923:0"
+      created_by_on_time_entry: "crwdns853247:0%{user}crwdnd853247:0%{datetime}crwdne853247:0"
       created_on: "crwdns845925:0%{datetime}crwdne845925:0"
       updated_by_on: "crwdns845927:0%{user}crwdnd845927:0%{datetime}crwdne845927:0"
+      updated_by_on_time_entry: "crwdns853249:0%{user}crwdnd853249:0%{datetime}crwdne853249:0"
       updated_on: "crwdns845929:0%{datetime}crwdne845929:0"
       parent_without_of: "crwdns846055:0crwdne846055:0"
       parent_no_longer: "crwdns846057:0crwdne846057:0"
+      time_entry:
+        hour:
+          one: "crwdns853251:1%{count}crwdne853251:1"
+          other: "crwdns853251:5%{count}crwdne853251:5"
+        hour_html:
+          one: "crwdns853253:1%{count}crwdne853253:1"
+          other: "crwdns853253:5%{count}crwdne853253:5"
+        updated: "crwdns853255:0%{old_value}crwdnd853255:0%{value}crwdne853255:0"
+        logged_for: "crwdns853257:0crwdne853257:0"
     filter:
       changeset: "crwdns845777:0crwdne845777:0"
       message: "crwdns845811:0crwdne845811:0"

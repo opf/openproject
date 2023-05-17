@@ -99,8 +99,8 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def outbound_response(method:, relative_path:, payload:) # rubocop:disable Metrics/AbcSize
       @retry_proc.call(@token) do |token|
-        begin
-          response = ServiceResult.success(
+        response = begin
+          ServiceResult.success(
             result: RestClient::Request.execute(
               method:,
               url: @base_uri.merge(relative_path).to_s,
@@ -114,13 +114,13 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
             )
           )
         rescue RestClient::Unauthorized => e
-          response = error(:not_authorized, 'Outbound request not authorized!', e.response)
+          Util.error(:not_authorized, 'Outbound request not authorized!', e.response)
         rescue RestClient::NotFound => e
-          response = error(:not_found, 'Outbound request destination not found!', e.response)
+          Util.error(:not_found, 'Outbound request destination not found!', e.response)
         rescue RestClient::ExceptionWithResponse => e
-          response = error(:error, 'Outbound request failed!', e.response)
+          Util.error(:error, 'Outbound request failed!', e.response)
         rescue StandardError
-          response = error(:error, 'Outbound request failed!')
+          Util.error(:error, 'Outbound request failed!')
         end
 
         # rubocop:disable Style/OpenStructUse
@@ -129,7 +129,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           .bind do |r|
             # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
             if r.body.blank?
-              error(:not_authorized, 'Outbound request not authorized!')
+              Util.error(:not_authorized, 'Outbound request not authorized!')
             else
               ServiceResult.success(result: r)
             end
@@ -138,13 +138,6 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         # rubocop:enable Style/MultilineBlockChain
         # rubocop:enable Style/OpenStructUse Style/MultilineBlockChain
       end
-    end
-
-    def error(code, log_message = nil, data = nil)
-      ServiceResult.failure(
-        result: code, # This is needed to work with the ConnectionManager token refresh mechanism.
-        errors: Storages::StorageError.new(code:, log_message:, data:)
-      )
     end
   end
 end

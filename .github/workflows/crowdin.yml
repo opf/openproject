@@ -46,6 +46,8 @@ jobs:
           ref: ${{ matrix.branch }}
           fetch-depth: 1
       - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
       - name: "Set crowdin branch name"
         id: vars
         env:
@@ -57,8 +59,13 @@ jobs:
           else
             echo "crowdin_branch=release" >> $GITHUB_OUTPUT
           fi
-      - name: "Updating translations"
-        uses: crowdin/github-action@1.4.4
+      - name: "Generate seeders i18n source file"
+        run: |
+          if [ -f script/i18n/generate_seeders_i18n_source_file ]; then
+            bundle exec script/i18n/generate_seeders_i18n_source_file
+          fi
+      - name: "Crowdin: upload sources and download translations"
+        uses: crowdin/github-action@v1
         with:
           # Upload current source files
           upload_sources: true

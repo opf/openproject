@@ -28,7 +28,8 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe "POST /api/v3/queries/form" do
+describe "POST /api/v3/queries/form",
+         with_ee: %i[baseline_comparison], with_flag: { show_changes: true } do
   include API::V3::Utilities::PathHelper
 
   let(:path) { api_v3_paths.create_query_form }
@@ -326,7 +327,7 @@ describe "POST /api/v3/queries/form" do
 
   describe 'with all parameters given' do
     let(:status) { create(:status) }
-    let(:timestamps) { [1.week.ago.iso8601, 'lastWorkingDay@12:00', "P0D"] }
+    let(:timestamps) { [1.week.ago.iso8601, 'lastWorkingDay@12:00+00:00', "P0D"] }
 
     let(:parameters) do
       {
@@ -615,6 +616,47 @@ describe "POST /api/v3/queries/form" do
       it "rejects the request" do
         expect(form.dig("_embedded", "validationErrors", "public", "message"))
           .to eq "Public - The user has no permission to create public views."
+      end
+    end
+
+    context 'with EE token', with_ee: %i[baseline_comparison] do
+      describe 'timestamps' do
+        context 'with a value within 1 day' do
+          let(:timestamps) { "oneDayAgo@00:00+00:00" }
+
+          it 'has the timestamp set' do
+            expect(form.dig("_embedded", "payload", "timestamps")).to eq [timestamps]
+          end
+        end
+
+        context 'with a value older than 1 day' do
+          let(:timestamps) { "P-2D" }
+
+          it 'has the timestamp set' do
+            expect(form.dig("_embedded", "payload", "timestamps")).to eq [timestamps]
+          end
+        end
+      end
+    end
+
+    context 'without EE token', with_ee: false do
+      describe 'timestamps' do
+        context 'with a value within 1 day' do
+          let(:timestamps) { "oneDayAgo@00:00+00:00" }
+
+          it 'has the timestamp set' do
+            expect(form.dig("_embedded", "payload", "timestamps")).to eq [timestamps]
+          end
+        end
+
+        context 'with a value older than 1 day' do
+          let(:timestamps) { "P-2D" }
+
+          it "returns a validation error" do
+            expect(form.dig("_embedded", "validationErrors", "timestamps", "message"))
+              .to eq "Timestamps contain forbidden values: P-2D"
+          end
+        end
       end
     end
   end

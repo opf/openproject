@@ -47,7 +47,7 @@ describe 'Add an attachment to a meeting (agenda)', js: true do
 
         click_on "Save"
 
-        content = find("div.meeting_content.meeting_agenda")
+        content = find('[data-qa-selector="op-meeting--meeting_agenda"]')
 
         expect(content).to have_selector('img')
         expect(content).to have_content('Some image caption')

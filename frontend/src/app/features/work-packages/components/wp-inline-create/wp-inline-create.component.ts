@@ -68,11 +68,13 @@ import { onClickOrEnter } from '../wp-fast-table/handlers/click-or-enter-handler
   templateUrl: './wp-inline-create.component.html',
 })
 export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
-  @Input('wp-inline-create--table') table:WorkPackageTable;
+  @Input() colspan:number;
 
-  @Input('wp-inline-create--project-identifier') projectIdentifier:string;
+  @Input() table:WorkPackageTable;
 
-  @Output('wp-inline-create--showing') showing = new EventEmitter<boolean>();
+  @Input() projectIdentifier:string;
+
+  @Output() showing = new EventEmitter<boolean>();
 
   // inner state
   public canAdd = false;
@@ -313,9 +315,5 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   public hideRow() {
     this.mode = 'create';
     this.cdRef.detectChanges();
-  }
-
-  public get colspan():number {
-    return this.wpTableColumns.columnCount + 1;
   }
 }

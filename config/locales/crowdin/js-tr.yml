@@ -228,7 +228,7 @@ tr:
           quick_overview: "OpenProject Enterprise sürümü ile proje yönetimi ve ekip işbirliğine hızlı bir genel bakış elde edin."
         upsale:
           become_hero: "Kahraman olun!"
-          enterprise_info_html: "%{feature_title}, bir Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> eklentisidir."
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Etkinleştirmek ve ekibinizde kullanmaya başlamak için lütfen ücretli bir plana yükseltin."
           benefits:
             description: "Enterprise şirket içi sürümünün avantajları nelerdir?"
@@ -919,6 +919,10 @@ tr:
       message_work_package_read_only: "İş paketi bu durum içinde kilitli. Durumu haricinde başka bir özelliği değiştirilemez."
       message_work_package_status_blocked: "İş paketi durumu, kapalı durum ve kapalı sürüm tahsis edildiğinden dolayı yazılamaz."
       placeholder_filter_by_text: "Konu, açıklama, yorumlar, ..."
+      baseline:
+        addition_label: 'Added to view within the comparison time period'
+        removal_label: 'Removed from view within the comparison time period'
+        modification_label: 'Modified within the comparison time period'
       filters:
         title: 'İş paketlerini filtrele'
       inline_create:
@@ -1249,6 +1253,28 @@ tr:
         current_project: 'Bu, içinde bulunduğunuz mevcut projedir.'
         does_not_match_search: 'Proje arama kriterleriyle eşleşmiyor.'
       no_results: 'Arama kriterleriniz ile eşleşen proje yok'
+    baseline:
+      toggle_title: 'Baseline'
+      clear: 'Clear'
+      apply: 'Apply'
+      header_description: 'View changes made to work packages in the current view within a time period.'
+      show_changes_since: 'Show changes since'
+      help_description: 'Default time zone of the instance set by the administrator.'
+      time_description: 'In default time zone: %{time} %{days} day(s).'
+      time: 'Time'
+      drop_down:
+        none: '-'
+        yesterday: 'yesterday'
+        last_working_day: 'last working day'
+        last_week: 'last week'
+        last_month: 'last month'
+        a_specific_date: 'a specific date'
+        between_two_specific_dates: 'between two specific dates'
+      legends:
+        changes_since: 'Changes since'
+        now_meets_filter_criteria: 'Now meets filter criteria'
+        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
+        maintained_with_changes: 'Maintained with changes'
     forms:
       submit_success_message: 'Form başarıyla gönderildi'
       load_error_message: 'Form yüklenirken bir hata oluştu'

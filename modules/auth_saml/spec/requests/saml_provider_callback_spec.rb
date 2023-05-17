@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'SAML provider callback' do
+describe 'SAML provider callback', with_ee: %i[openid_providers] do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -59,8 +59,8 @@ describe 'SAML provider callback' do
         'check_idp_cert_expiration' => false
       },
       'attribute_statements' => {
-        'email' => ['mail', 'urn:oid:0.9.2342.19200300.100.1.3'],
-        'login' => ['uid', 'login', 'urn:oid:0.9.2342.19200300.100.1.3'],
+        'email' => ['email', 'urn:oid:0.9.2342.19200300.100.1.3'],
+        'login' => ['uid', 'email', 'urn:oid:0.9.2342.19200300.100.1.3'],
         'first_name' => ['givenName', 'urn:oid:2.5.4.42'],
         'last_name' => ['sn', 'urn:oid:2.5.4.4']
       }
@@ -74,7 +74,6 @@ describe 'SAML provider callback' do
   end
 
   before do
-    with_enterprise_token :openid_providers
     Setting.plugin_openproject_auth_saml = {
       "providers" => { "saml" => config }
     }

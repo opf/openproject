@@ -58,6 +58,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class FilePickerModalComponent extends FilePickerBaseModalComponent {
   public readonly text = {
     header: this.i18n.t('js.storages.file_links.select'),
+    warningNoAccess: this.i18n.t('js.storages.files.project_folder_no_access'),
     content: {
       empty: this.i18n.t('js.storages.files.empty_folder'),
     },
@@ -113,7 +114,7 @@ export class FilePickerModalComponent extends FilePickerBaseModalComponent {
     this.fileLinksResourceService.addFileLinks(
       this.locals.collectionKey as string,
       this.locals.addFileLinksHref as string,
-      this.storageLink,
+      this.storage._links.self,
       files,
     ).subscribe(
       (fileLinks) => { this.toastService.addSuccess(this.text.toast.successFileLinksCreated(fileLinks.count)); },

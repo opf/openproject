@@ -39,7 +39,7 @@ describe Queries::Notifications::Filters::ReasonFilter do
     it_behaves_like 'non ar filter'
 
     describe '#allowed_values' do
-      context 'with enterprise', with_ee: [:date_alerts] do
+      context 'with enterprise', with_ee: %i[date_alerts] do
         it 'contains all the REASONS' do
           expect(instance.allowed_values).to eq(described_class::REASONS.keys.map { |r| [r, r] })
         end

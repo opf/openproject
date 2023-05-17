@@ -403,6 +403,10 @@ fieldset.form--fieldset
   &.-bold
     font-weight: bold
 
+  &.-flex
+    display: flex
+    align-items: center
+
   &.-top
     align-self: flex-start
     line-height: 2.15rem
@@ -429,7 +433,7 @@ fieldset.form--fieldset
 
   &.-horizontal
     flex-direction: column
-    
+
     @include breakpoint(1080px up)
       flex-direction: row
       flex-wrap: wrap
@@ -827,6 +831,17 @@ input[readonly].-clickable
   .form--check-box
     top: -1px
     position: relative
+
+.form--label-with-radio-button
+  display: block
+  clear: both
+  line-height: $base-line-height
+  padding: 0 2rem 0 0
+
+  & > .form--radio-button-container
+    display: block
+    float: left
+    padding-right: 0.5rem
 
 .form--field-affix
   flex: 0 0 auto

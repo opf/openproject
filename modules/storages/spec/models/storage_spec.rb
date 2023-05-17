@@ -37,6 +37,39 @@ describe Storages::Storage do
       creator: }
   end
 
+  describe '.shorten_provider_type' do
+    context 'when provider_type matches the signature' do
+      it 'responds with shortened provider type' do
+        expect(
+          described_class.shorten_provider_type(described_class::PROVIDER_TYPE_NEXTCLOUD)
+        ).to eq('nextcloud')
+      end
+    end
+
+    context 'when provider_type does not match the signature' do
+      it 'raises an error', aggregate_failures: true do
+        expect do
+          described_class.shorten_provider_type('Storages::Nextcloud')
+        end.to raise_error(
+          'Unknown provider_type! Given: Storages::Nextcloud. ' \
+          'Expected the following signature: Storages::{Name of the provider}Storage'
+        )
+        expect do
+          described_class.shorten_provider_type('Storages:NextcloudStorage')
+        end.to raise_error(
+          'Unknown provider_type! Given: Storages:NextcloudStorage. ' \
+          'Expected the following signature: Storages::{Name of the provider}Storage'
+        )
+        expect do
+          described_class.shorten_provider_type('Storages::NextcloudStorag')
+        end.to raise_error(
+          'Unknown provider_type! Given: Storages::NextcloudStorag. ' \
+          'Expected the following signature: Storages::{Name of the provider}Storage'
+        )
+      end
+    end
+  end
+
   describe '#create' do
     it "creates an instance" do
       storage = described_class.create default_attributes

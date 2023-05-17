@@ -79,7 +79,7 @@ module OpenProject::Reporting
            after: :news,
            caption: :cost_reports_title,
            if: Proc.new { |project| project.module_enabled?(:costs) },
-           icon: 'icon2 icon-cost-reports'
+           icon: 'cost-reports'
 
       menu :project_menu,
            :costs_menu,

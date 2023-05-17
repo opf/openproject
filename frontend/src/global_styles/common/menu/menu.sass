@@ -9,21 +9,25 @@
       font-weight: 400
       overflow: hidden
       text-overflow: ellipsis
+      display: inline-flex
+      align-items: center
+
+      .spot-icon_enterprise-addons
+        color: $spot-color-feedback-warning-dark
+        margin-left: $spot-spacing-0_25
 
     &-action
-      display: block
+      display: flex
+      align-items: center
       height: 32px
       line-height: 32px
       text-decoration: none
-      padding: 0px 13px 0px 10px
+      padding: 0 13px 0 10px
       font-weight: 400
       color: var(--context-menu-unselected-font-color)
 
       .spot-icon
-        width: 1.25rem
-        height: 1.25rem
-
-        &.icon-after
+        &.after-menu-icon
           margin-left: auto
 
         &:first-child

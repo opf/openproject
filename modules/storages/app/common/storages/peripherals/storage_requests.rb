@@ -57,6 +57,18 @@ module Storages::Peripherals
         .map { |query| query.method(:query).to_proc }
     end
 
+    def set_permissions_command
+      storage_commands
+        .set_permissions_command
+        .map { |command| command.method(:execute).to_proc }
+    end
+
+    def create_folder_command
+      storage_commands
+        .create_folder_command
+        .map { |command| command.method(:execute).to_proc }
+    end
+
     private
 
     def storage_queries(user)
@@ -67,6 +79,10 @@ module Storages::Peripherals
           user:,
           oauth_client: @oauth_client
         )
+    end
+
+    def storage_commands
+      ::Storages::Peripherals::StorageInteraction::StorageCommands.new(@storage)
     end
   end
 end

@@ -53,7 +53,7 @@ export class DateDisplayField extends HighlightableDisplayField {
     }
 
     // Highlight overdue tasks
-    if (this.shouldHighlight && this.canOverdue) {
+    if (this.shouldHighlight && this.canOverdue && !!this.resource.status) {
       const diff = this.timezoneService.daysFromToday(this.value);
 
       this
