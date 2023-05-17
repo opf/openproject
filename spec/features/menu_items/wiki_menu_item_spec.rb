@@ -42,16 +42,16 @@ describe 'Wiki menu items' do
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:wiki) { project.wiki }
   let(:parent_menu) { wiki.wiki_menu_items.find_by(name: 'wiki') }
-  let(:wiki_page) { create(:wiki_page_with_content, wiki:) }
+  let(:wiki_page) { create(:wiki_page, wiki:) }
   let(:other_wiki_page) do
-    create(:wiki_page_with_content, wiki:, title: "Other page").tap do |page|
+    create(:wiki_page, wiki:, title: "Other page").tap do |page|
       MenuItems::WikiMenuItem.create!(navigatable_id: page.wiki.id,
                                       title: page.title,
                                       name: page.slug)
     end
   end
   let(:another_wiki_page) do
-    create(:wiki_page_with_content, wiki:)
+    create(:wiki_page, wiki:)
   end
 
   before do

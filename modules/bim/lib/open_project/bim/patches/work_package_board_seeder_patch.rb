@@ -42,14 +42,12 @@ module OpenProject::Bim::Patches::WorkPackageBoardSeederPatch
     end
 
     def seed_bcf_board_queries
-      status_names = ['New', 'In progress', 'Resolved', 'Closed']
-      statuses = Status.where(name: status_names).to_a
-
-      if statuses.size < status_names.size
-        raise StandardError.new "Not all statuses needed for seeding a BCF board are present. Check that they get seeded."
-      end
-
-      statuses.to_a.map do |status|
+      statuses(
+        'default_status_new',
+        'default_status_in_progress',
+        'bim.default_status_resolved',
+        'default_status_closed'
+      ).map do |status|
         Query.new_default(project:, user:).tap do |query|
           # Make it public so that new members can see it too
           query.public = true

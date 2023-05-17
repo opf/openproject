@@ -28,7 +28,8 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe "POST /api/v3/queries/form", with_flag: { show_changes: true } do
+describe "POST /api/v3/queries/form",
+         with_ee: %i[baseline_comparison], with_flag: { show_changes: true } do
   include API::V3::Utilities::PathHelper
 
   let(:path) { api_v3_paths.query_form(query.id) }
@@ -572,6 +573,47 @@ describe "POST /api/v3/queries/form", with_flag: { show_changes: true } do
         it "returns a validation error" do
           expect(form.dig("_embedded", "validationErrors", "timestamps", "message"))
             .to eq "Timestamps contain invalid values: invalid, invalid2"
+        end
+      end
+    end
+
+    context 'with EE token', with_ee: %i[baseline_comparison] do
+      describe 'timestamps' do
+        context 'with a value within 1 day' do
+          let(:timestamps) { "oneDayAgo@00:00+00:00" }
+
+          it 'has the timestamp set' do
+            expect(form.dig("_embedded", "payload", "timestamps")).to eq [timestamps]
+          end
+        end
+
+        context 'with a value older than 1 day' do
+          let(:timestamps) { "P-2D" }
+
+          it 'has the timestamp set' do
+            expect(form.dig("_embedded", "payload", "timestamps")).to eq [timestamps]
+          end
+        end
+      end
+    end
+
+    context 'without EE token', with_ee: false do
+      describe 'timestamps' do
+        context 'with a value within 1 day' do
+          let(:timestamps) { "oneDayAgo@00:00+00:00" }
+
+          it 'has the timestamp set' do
+            expect(form.dig("_embedded", "payload", "timestamps")).to eq [timestamps]
+          end
+        end
+
+        context 'with a value older than 1 day' do
+          let(:timestamps) { "P-2D" }
+
+          it "returns a validation error" do
+            expect(form.dig("_embedded", "validationErrors", "timestamps", "message"))
+              .to eq "Timestamps contain forbidden values: P-2D"
+          end
         end
       end
     end

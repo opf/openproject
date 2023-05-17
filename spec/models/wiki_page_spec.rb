@@ -29,10 +29,12 @@
 require 'spec_helper'
 
 describe WikiPage do
-  let(:project) { create(:project).reload } # a wiki is created for project, but the object doesn't know of it (FIXME?)
+  shared_let(:author) { create(:user) }
+  shared_let(:project) { create(:project).reload } # a wiki is created for project, but the object doesn't know of it (FIXME?)
+
   let(:wiki) { project.wiki }
   let(:title) { wiki.wiki_menu_items.first.title }
-  let(:wiki_page) { create(:wiki_page, wiki:, title:) }
+  let(:wiki_page) { create(:wiki_page, wiki:, title:, author:) }
   let(:new_wiki_page) { build(:wiki_page, wiki:, title:) }
 
   it_behaves_like 'acts_as_watchable included' do
@@ -42,7 +44,7 @@ describe WikiPage do
   end
 
   it_behaves_like 'acts_as_attachable included' do
-    let(:model_instance) { create(:wiki_page_with_content) }
+    let(:model_instance) { create(:wiki_page) }
     let(:project) { model_instance.project }
   end
 
@@ -120,21 +122,11 @@ describe WikiPage do
   end
 
   describe '#destroy' do
-    context 'for a page with content (which is always the case)' do
-      let!(:wiki_content) { create(:wiki_content, page: wiki_page) }
+    it 'destroys the wiki page\'s journals as well' do
+      wiki_page
 
-      before do
-        # to have the wiki_content properly hooked up
-        wiki_page.reload
-      end
-
-      it 'destroys the wiki content as well' do
-        expect { wiki_page.destroy }.to change(WikiContent, :count).from(1).to(0)
-      end
-
-      it 'destroys the wiki content\'s journals as well' do
-        expect { wiki_page.destroy }.to change(Journal.for_wiki_content, :count).from(1).to(0)
-      end
+      expect { wiki_page.destroy }
+        .to change(Journal.for_wiki_page, :count).from(1).to(0)
     end
 
     context 'when the only wiki page is destroyed' do
@@ -294,6 +286,162 @@ describe WikiPage do
     it 'returns all pages for which the user has the \'view_wiki_pages\' permission' do
       expect(described_class.visible(user))
         .to match_array [wiki_page]
+    end
+  end
+
+  describe '#author' do
+    it 'sets the author' do
+      expect(wiki_page.author)
+        .to eql author
+    end
+  end
+
+  describe '#journals',
+           with_settings: { journal_aggregation_time_minutes: 0 } do
+    context 'when creating' do
+      it 'adds a journal' do
+        expect(wiki_page.journals.count)
+          .to be 1
+      end
+
+      it 'journalizes the text' do
+        expect(wiki_page.journals.last.data.text)
+          .to eql wiki_page.text
+      end
+    end
+
+    context 'when updating' do
+      let(:text) { 'My new content' }
+
+      before do
+        wiki_page.text = text
+      end
+
+      it 'adds a journal' do
+        expect { wiki_page.save! }
+          .to change(wiki_page.journals, :count)
+                .by(1)
+      end
+
+      it 'journalizes the text' do
+        wiki_page.save!
+
+        expect(wiki_page.journals.last.data.text)
+          .to eql wiki_page.text
+      end
+    end
+  end
+
+  describe '#text' do
+    it 'does not truncate to 64k' do
+      content = described_class.create(title:, text: 'a' * 500.kilobyte, author:, wiki:)
+      content.reload
+
+      expect(content.text.size)
+        .to eql(500.kilobyte)
+    end
+  end
+
+  describe '#version',
+           with_settings: { journal_aggregation_time_minutes: 0 } do
+    context 'when updating' do
+      it 'updates the version' do
+        wiki_page.text = 'My new content'
+
+        expect { wiki_page.save! }
+          .to change(wiki_page, :version)
+                .by(1)
+      end
+    end
+
+    context 'when creating' do
+      it 'sets the version to 1' do
+        wiki_page.save!
+
+        expect(wiki_page.version)
+          .to be 1
+      end
+    end
+
+    context 'when new' do
+      it 'starts with 0' do
+        wiki_page = described_class.new(title:, text: 'a', author:)
+
+        expect(wiki_page.version)
+          .to be 0
+      end
+    end
+  end
+
+  describe 'mail sending' do
+    before do
+      create(:user,
+             firstname: 'project_watcher',
+             member_in_project: wiki.project,
+             member_with_permissions: [:view_wiki_pages],
+             notification_settings: [
+               build(:notification_setting,
+                     wiki_page_added: true,
+                     wiki_page_updated: true)
+             ])
+
+      wiki_watcher = create(:user,
+                            firstname: 'wiki_watcher',
+                            member_in_project: wiki.project,
+                            member_with_permissions: [:view_wiki_pages],
+                            notification_settings: [
+                              build(:notification_setting,
+                                    wiki_page_added: true,
+                                    wiki_page_updated: true)
+                            ])
+
+      wiki.watcher_users << wiki_watcher
+    end
+
+    context 'when creating' do
+      it 'sends mails to the wiki`s watchers and project all watchers' do
+        expect do
+          perform_enqueued_jobs do
+            User.execute_as(author) do
+              new_wiki_page.save!
+            end
+          end
+        end
+          .to change { ActionMailer::Base.deliveries.size }
+                .by(2)
+      end
+    end
+
+    context 'when updating',
+            with_settings: { journal_aggregation_time_minutes: 0 } do
+      let!(:page_watcher) do
+        watcher = create(:user,
+                         firstname: 'page_watcher',
+                         member_in_project: wiki.project,
+                         member_with_permissions: [:view_wiki_pages],
+                         notification_settings: [
+                           build(:notification_setting, wiki_page_updated: true)
+                         ])
+        wiki_page.watcher_users << watcher
+
+        watcher
+      end
+
+      before do
+        wiki_page.text = 'My new content'
+      end
+
+      it 'sends mails to the watchers, the wiki`s watchers and project all watchers' do
+        expect do
+          perform_enqueued_jobs do
+            User.execute_as(author) do
+              wiki_page.save!
+            end
+          end
+        end
+          .to change { ActionMailer::Base.deliveries.size }
+                .by(3)
+      end
     end
   end
 end

@@ -27,6 +27,8 @@
 #++
 
 class Timestamp
+  ALLOWED_DATE_KEYWORDS = ["oneDayAgo", "lastWorkingDay", "oneWeekAgo", "oneMonthAgo"].freeze
+
   delegate :hash, to: :to_s
 
   class Exception < StandardError; end
@@ -34,7 +36,7 @@ class Timestamp
   class TimestampParser
     DATE_KEYWORD_REGEX =
       %r{
-        ^(?:oneDayAgo|lastWorkingDay|oneWeekAgo|oneMonthAgo) # match the relative date keyword
+        ^(?:#{ALLOWED_DATE_KEYWORDS.join("|")}) # match the relative date keyword
         @(?:([0-1]?[0-9]|2[0-3]):[0-5]?[0-9]) # match the hour part
           [+-](?:([0-1]?[0-9]|2[0-3]):[0-5]?[0-9])$ # match the timezone offset
       }x

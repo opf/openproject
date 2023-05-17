@@ -214,7 +214,7 @@ describe API::V3::Projects::UpdateFormAPI, content_type: :json do
           .at_path('_links/commit/href')
       end
 
-      it 'does not alter the project or the project status' do
+      it 'does not alter the project' do
         attributes_before = project.attributes
 
         expect(project.reload.name)
@@ -228,9 +228,6 @@ describe API::V3::Projects::UpdateFormAPI, content_type: :json do
 
         expect(project.send(list_custom_field.attribute_getter))
           .to eql list_custom_field.custom_options.first.value
-
-        expect(project.status)
-          .to be_nil
       end
     end
 

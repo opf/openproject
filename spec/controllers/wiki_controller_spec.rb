@@ -37,12 +37,7 @@ describe WikiController do
   shared_let(:wiki) { project.wiki }
 
   shared_let(:existing_page) do
-    create(:wiki_page, wiki_id: project.wiki.id, title: 'ExistingPage')
-  end
-
-  shared_let(:existing_content) do
-    # creating page contents
-    create(:wiki_content, page_id: existing_page.id, author_id: admin.id)
+    create(:wiki_page, wiki_id: project.wiki.id, title: 'ExistingPage', author: admin)
   end
 
   describe 'actions' do
@@ -86,14 +81,6 @@ describe WikiController do
         expect(assigns[:page]).to be_new_record
         expect(assigns[:page]).to be_a WikiPage
         expect(assigns[:page].wiki).to eq(project.wiki)
-      end
-
-      it 'assigns @content to a newly created wiki content' do
-        get_page
-
-        expect(assigns[:content]).to be_new_record
-        expect(assigns[:content]).to be_a WikiContent
-        expect(assigns[:content].page).to eq(assigns[:page])
       end
 
       it 'renders the new action' do
@@ -154,11 +141,6 @@ describe WikiController do
           expect(assigns[:page])
             .to eql existing_page
         end
-
-        it 'assigns the content' do
-          expect(assigns[:content])
-            .to eql existing_content
-        end
       end
 
       context 'when querying for the wiki root page with edit permissions' do
@@ -177,17 +159,9 @@ describe WikiController do
 
         it 'assigns a new page that is unpersisted' do
           expect(assigns[:page])
-            .to be_a WikiPage
+            .to be_a WikiPages::AtVersion
 
           expect(assigns[:page])
-            .to be_new_record
-        end
-
-        it 'assigns a new content that is unpersisted' do
-          expect(assigns[:content])
-            .to be_a WikiContent
-
-          expect(assigns[:content])
             .to be_new_record
         end
       end
@@ -208,17 +182,9 @@ describe WikiController do
 
         it 'assigns a new page that is unpersisted' do
           expect(assigns[:page])
-            .to be_a WikiPage
+            .to be_a WikiPages::AtVersion
 
           expect(assigns[:page])
-            .to be_new_record
-        end
-
-        it 'assigns a new content that is unpersisted' do
-          expect(assigns[:content])
-            .to be_a WikiContent
-
-          expect(assigns[:content])
             .to be_new_record
         end
       end
@@ -243,11 +209,6 @@ describe WikiController do
         it 'assigns the wiki start page' do
           expect(assigns[:page])
             .to eql existing_page
-        end
-
-        it 'assigns the wiki start page content' do
-          expect(assigns[:content])
-            .to eql existing_content
         end
       end
 
@@ -369,7 +330,7 @@ describe WikiController do
 
         it 'assigns @page to a new wiki page with the parent id set' do
           expect(assigns[:page])
-            .to be_a WikiPage
+            .to be_a WikiPages::AtVersion
 
           expect(assigns[:page])
             .to be_new_record
@@ -386,7 +347,7 @@ describe WikiController do
           post 'create',
                params: {
                  project_id: project,
-                 content: { text: 'h1. abc', page: { title: 'abc' } }
+                 page: { text: 'h1. abc', title: 'abc' }
                }
 
           expect(response).to redirect_to action: 'show', project_id: project, id: 'abc'
@@ -396,12 +357,12 @@ describe WikiController do
           post 'create',
                params: {
                  project_id: project,
-                 content: { text: 'h1. abc', page: { title: 'abc' } }
+                 page: { text: 'h1. abc', title: 'abc' }
                }
 
           page = project.wiki.pages.find_by title: 'abc'
           expect(page).not_to be_nil
-          expect(page.content.text).to eq('h1. abc')
+          expect(page.text).to eq('h1. abc')
         end
       end
 
@@ -410,7 +371,7 @@ describe WikiController do
           post 'create',
                params: {
                  project_id: project,
-                 content: { text: 'h1. abc', page: { title: '' } }
+                 page: { text: 'h1. abc', title: '' }
                }
 
           expect(response).to render_template('new')
@@ -420,7 +381,7 @@ describe WikiController do
           post 'create',
                params: {
                  project_id: project,
-                 content: { text: 'h1. abc', page: { title: '' } }
+                 page: { text: 'h1. abc', title: '' }
                }
 
           expect(assigns[:project]).to eq(project)
@@ -430,7 +391,7 @@ describe WikiController do
           post 'create',
                params: {
                  project_id: project,
-                 content: { text: 'h1. abc', page: { title: '' } }
+                 page: { text: 'h1. abc', title: '' }
                }
 
           expect(assigns[:wiki]).to eq(project.wiki)
@@ -441,25 +402,14 @@ describe WikiController do
           post 'create',
                params: {
                  project_id: project,
-                 content: { text: 'h1. abc', page: { title: '' } }
+                 page: { text: 'h1. abc', title: '' }
                }
 
           expect(assigns[:page]).to be_new_record
           expect(assigns[:page].wiki.project).to eq(project)
           expect(assigns[:page].title).to eq('')
+          expect(assigns[:page].text).to eq('h1. abc')
           expect(assigns[:page]).not_to be_valid
-        end
-
-        it 'assigns content to work with new template' do
-          post 'create',
-               params: {
-                 project_id: project,
-                 content: { text: 'h1. abc', page: { title: '' } }
-               }
-
-          expect(assigns[:content]).to be_new_record
-          expect(assigns[:content].page.wiki.project).to eq(project)
-          expect(assigns[:content].text).to eq('h1. abc')
         end
       end
     end
@@ -475,7 +425,7 @@ describe WikiController do
                params: {
                  project_id: project,
                  id: existing_page.title,
-                 content: { text: 'h1. abc', page: { title: 'foobar' } }
+                 page: { text: 'h1. abc', title: 'foobar' }
                }
 
           expect(response).to redirect_to action: 'show', project_id: project, id: 'foobar'
@@ -515,7 +465,7 @@ describe WikiController do
 
       context 'when it is the only wiki page' do
         before do
-          WikiPage.where.not(id: existing_page.id).destroy_all
+          WikiPage.where.not(id: existing_page.id).delete_all
         end
 
         it 'redirects to projects#show' do
@@ -773,12 +723,12 @@ describe WikiController do
     end
 
     describe 'diffs' do
-      let!(:journal_from) { existing_content.journals.last }
+      let!(:journal_from) { existing_page.journals.last }
       let!(:journal_to) do
-        existing_content.text = 'new_text'
-        existing_content.save
+        existing_page.text = 'new_text'
+        existing_page.save
 
-        existing_content.journals.reload.last
+        existing_page.journals.reload.last
       end
 
       let(:permissions) { %i[view_wiki_pages view_wiki_edits] }
@@ -823,12 +773,12 @@ describe WikiController do
     end
 
     describe 'annotates' do
-      let!(:journal_from) { existing_content.journals.last }
+      let!(:journal_from) { existing_page.journals.last }
       let!(:journal_to) do
-        existing_content.text = 'new_text'
-        existing_content.save
+        existing_page.text = 'new_text'
+        existing_page.save
 
-        existing_content.journals.reload.last
+        existing_page.journals.reload.last
       end
 
       let(:permissions) { %i[view_wiki_pages view_wiki_edits] }
@@ -988,7 +938,7 @@ describe WikiController do
 
       it 'assigns versions' do
         expect(assigns[:versions])
-          .to eq existing_content.journals
+          .to eq existing_page.journals
       end
 
       context 'for a non existing page' do
@@ -1011,6 +961,34 @@ describe WikiController do
       create(:public_project).tap(&:reload)
     end
 
+    # creating pages
+    let!(:page_with_content) do
+      create(:wiki_page,
+             wiki_id: project.wiki.id,
+             title: 'PagewithContent',
+             author_id: admin.id)
+    end
+    let!(:page_default) do
+      create(:wiki_page,
+             wiki_id: project.wiki.id,
+             title: 'Wiki',
+             author_id: admin.id)
+    end
+    let!(:unrelated_page) do
+      create(:wiki_page,
+             wiki_id: project.wiki.id,
+             title: 'UnrelatedPage',
+             author_id: admin.id)
+    end
+
+    let(:child_page) do
+      create(:wiki_page,
+             wiki_id: project.wiki.id,
+             parent_id: page_with_content.id,
+             title: "#{page_with_content.title} child",
+             author_id: admin.id)
+    end
+
     before do
       allow(@controller).to receive(:set_localization)
       allow(Setting).to receive(:login_required?).and_return(false)
@@ -1021,50 +999,16 @@ describe WikiController do
 
       Role.anonymous.update name: I18n.t(:default_role_anonymous),
                             permissions: [:view_wiki_pages]
-
-      allow(User).to receive(:current).and_return admin
-
-      # creating pages
-      @page_default = create(:wiki_page,
-                             wiki_id: project.wiki.id,
-                             title: 'Wiki')
-      @page_with_content = create(:wiki_page,
-                                  wiki_id: project.wiki.id,
-                                  title: 'PagewithContent')
-      @page_without_content = create(:wiki_page,
-                                     wiki_id: project.wiki.id,
-                                     title: 'PagewithoutContent')
-      @unrelated_page = create(:wiki_page,
-                               wiki_id: project.wiki.id,
-                               title: 'UnrelatedPage')
-
-      # creating page contents
-      create(:wiki_content, page_id: @page_default.id,
-                            author_id: admin.id)
-      create(:wiki_content, page_id: @page_with_content.id,
-                            author_id: admin.id)
-      create(:wiki_content, page_id: @unrelated_page.id,
-                            author_id: admin.id)
-
-      # creating some child pages
-      @children = {}
-      [@page_with_content].each do |page|
-        child_page = create(:wiki_page, wiki_id: project.wiki.id,
-                                        parent_id: page.id,
-                                        title: page.title + ' child')
-        create(:wiki_content, page_id: child_page.id,
-                              author_id: admin.id)
-
-        @children[page] = child_page
-      end
     end
+
+    current_user { admin }
 
     describe '- main menu links' do
       before do
         @main_menu_item_for_page_with_content = create(:wiki_menu_item,
                                                        navigatable_id: project.wiki.id,
                                                        title: 'Item for Page with Content',
-                                                       name: @page_with_content.slug)
+                                                       name: page_with_content.slug)
 
         @main_menu_item_for_new_wiki_page = create(:wiki_menu_item,
                                                    navigatable_id: project.wiki.id,
@@ -1074,12 +1018,12 @@ describe WikiController do
         @other_menu_item = create(:wiki_menu_item,
                                   navigatable_id: project.wiki.id,
                                   title: 'Item for other page',
-                                  name: @unrelated_page.slug)
+                                  name: unrelated_page.slug)
       end
 
       shared_examples_for 'all wiki menu items' do
         it 'is inactive, when an unrelated page is shown' do
-          get 'show', params: { id: @unrelated_page.slug, project_id: project.id }
+          get 'show', params: { id: unrelated_page.slug, project_id: project.id }
 
           expect(response).to be_successful
 
@@ -1127,7 +1071,7 @@ describe WikiController do
 
       shared_examples_for 'all wiki menu items with child pages' do
         it 'is active, when the given wiki menu item is an ancestor of the shown page' do
-          get 'show', params: { id: @child_page.slug, project_id: project.id }
+          get 'show', params: { id: child_page.slug, project_id: project.id }
 
           expect(response).to be_successful
           expect(response.body).to have_selector('#main-menu a.selected', count: 1)
@@ -1140,7 +1084,6 @@ describe WikiController do
         before do
           @wiki_menu_item = @main_menu_item_for_page_with_content
           @other_wiki_menu_item = @other_menu_item
-          @child_page = @children[@page_with_content]
         end
 
         it_behaves_like 'all wiki menu items'
@@ -1231,14 +1174,14 @@ describe WikiController do
             describe 'with a wiki page present' do
               it 'is visible' do
                 get 'show',
-                    params: { id: @page_with_content.title, project_id: project.identifier }
+                    params: { id: page_with_content.title, project_id: project.identifier }
 
                 expect(response).to be_successful
 
                 # Expect to set back ref id
-                expect(flash[:_related_wiki_page_id]).to eq @page_with_content.id
+                expect(flash[:_related_wiki_page_id]).to eq page_with_content.id
 
-                path = new_child_project_wiki_path(project_id: project, id: @page_with_content.slug)
+                path = new_child_project_wiki_path(project_id: project, id: page_with_content.slug)
 
                 assert_select "#content a[href='#{path}']", 'Wiki page'
               end
@@ -1262,7 +1205,7 @@ describe WikiController do
             end
 
             it 'is invisible' do
-              get 'show', params: { id: @page_with_content.title, project_id: project.identifier }
+              get 'show', params: { id: page_with_content.title, project_id: project.identifier }
 
               expect(response).to be_successful
 

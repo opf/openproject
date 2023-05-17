@@ -486,6 +486,15 @@ ru:
           true: "публичный"
           false: "приватный"
         queries: "Запросы"
+        status_code: 'Статус'
+        status_explanation: 'Описание статуса'
+        status_codes:
+          not_started: 'Не начато'
+          on_track: 'По плану'
+          at_risk: 'В зоне риска'
+          off_track: 'Приостановлен'
+          finished: 'Завершено'
+          discontinued: 'Прекращено'
         templated: "Проект шаблона"
         templated_value:
           true: "помечено как шаблон"
@@ -493,16 +502,6 @@ ru:
         types: "Типы"
         versions: "Этапы"
         work_packages: "Задачи"
-      projects/status:
-        code: 'Статус'
-        explanation: 'Описание статуса'
-        codes:
-          not_started: 'Не запущен'
-          on_track: 'В работе'
-          at_risk: 'Под угрозой'
-          off_track: 'Приостановлен'
-          finished: 'Завершен'
-          discontinued: 'Работы прекращены'
       query:
         column_names: "Столбцы"
         relations_to_type_column: "Отношения к %{type}"
@@ -743,6 +742,7 @@ ru:
               format: "%{message}"
             timestamps:
               invalid: "Временные метки содержат недопустимые значения: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "является взаимоисключающим при группировке «%{group_by}». Вы не можете активировать оба."
           filters:
@@ -927,11 +927,26 @@ ru:
   activity:
     item:
       created_by_on: "создано %{user} %{datetime}"
+      created_by_on_time_entry: "время зарегистрировано %{user} %{datetime}"
       created_on: "создано %{datetime}"
       updated_by_on: "обновлено %{user} %{datetime}"
+      updated_by_on_time_entry: "время регистрации обновлено %{user} %{datetime}"
       updated_on: "обновлено %{datetime}"
       parent_without_of: "Подпроект"
       parent_no_longer: "Больше не подпроект"
+      time_entry:
+        hour:
+          one: "%{count} час"
+          few: "%{count} часов"
+          many: "%{count} часов"
+          other: "%{count} часов"
+        hour_html:
+          one: "<i>%{count} час</i>"
+          few: "<i>%{count} часов</i>"
+          many: "<i>%{count} часов</i>"
+          other: "<i>%{count} часов</i>"
+        updated: "изменено с %{old_value} на %{value}"
+        logged_for: "Зарегистрирован для"
     filter:
       changeset: "Наборы изменений"
       message: "Форумы"

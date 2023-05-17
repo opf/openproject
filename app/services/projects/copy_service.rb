@@ -61,9 +61,6 @@ module Projects
         enabled_module_names: source_enabled_modules,
         types: source_types,
         work_package_custom_fields: source_custom_fields,
-
-        # Copy status object
-        status: source_status
       )
 
       only_allowed_parent_id(attributes)

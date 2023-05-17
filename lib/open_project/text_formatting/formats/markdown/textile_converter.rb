@@ -268,7 +268,7 @@ module OpenProject::TextFormatting::Formats
           ::Announcement => [:text],
           ::AttributeHelpText => [:help_text],
           ::Comment => [:comments],
-          ::WikiContent => [:text],
+          ::WikiPage => [:text],
           ::WorkPackage => [:description],
           ::Message => [:content],
           ::News => [:description],
@@ -276,7 +276,7 @@ module OpenProject::TextFormatting::Formats
           ::Project => [:description],
           ::Journal => [:notes],
           ::Journal::MessageJournal => [:content],
-          ::Journal::WikiContentJournal => [:text],
+          ::Journal::WikiPageJournal => [:text],
           ::Journal::WorkPackageJournal => [:description],
           ::AttributeHelpText => [:help_text]
         }

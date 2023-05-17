@@ -56,7 +56,7 @@ describe Projects::Exports::CSV, 'integration' do
       expect(parsed.size).to eq(2)
       expect(parsed.last).to eq [project.id.to_s, project.identifier,
                                  project.name, project.description,
-                                 'Off track', '', 'false']
+                                 'Off track', 'some explanation', 'false']
     end
   end
 

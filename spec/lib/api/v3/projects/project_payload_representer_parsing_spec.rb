@@ -54,10 +54,10 @@ describe API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
 
       it 'updates code' do
         project = representer.from_hash(hash)
-        expect(project.status[:code])
+        expect(project.status_code)
           .to eql('on_track')
 
-        expect(project.status[:explanation])
+        expect(project.status_explanation)
           .to eql('status code explanation')
       end
 
@@ -70,13 +70,13 @@ describe API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
 
         it 'does not set code' do
           project = representer.from_hash(hash)
-          expect(project.status[:code])
+          expect(project.status_code)
             .to be_nil
         end
 
         it 'updates explanation' do
           project = representer.from_hash(hash)
-          expect(project.status[:explanation])
+          expect(project.status_explanation)
             .to eql('status code explanation')
         end
       end
@@ -94,13 +94,13 @@ describe API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
 
         it 'does set code' do
           project = representer.from_hash(hash)
-          expect(project.status[:code])
+          expect(project.status_code)
             .to eql 'off_track'
         end
 
         it 'does not set explanation' do
           project = representer.from_hash(hash)
-          expect(project.status[:explanation])
+          expect(project.status_explanation)
             .to be_nil
         end
       end
@@ -120,16 +120,11 @@ describe API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
           project = representer.from_hash(hash)
 
           expect(project)
-            .to have_key(:status)
+            .to have_key(:status_code)
+          expect(project)
+            .not_to have_key(:status_explanation)
 
-          status = project[:status]
-          expect(status)
-            .to have_key(:code)
-
-          expect(status)
-            .not_to have_key(:explanation)
-
-          expect(status[:code])
+          expect(project.status_code)
             .to be_nil
         end
       end

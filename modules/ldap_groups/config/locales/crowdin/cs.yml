@@ -51,11 +51,11 @@ cs:
         info: "Poznámka: Samotná OpenProject skupina a členové přidaní mimo tuto LDAP synchronizaci nebudou odstraněni."
         verification: "Zadejte název skupiny %{name} pro ověření odstranění."
       help_text_html: |
-        This module allows you to set up a synchronization between LDAP and OpenProject groups.
-        It depends on LDAP groups need to use the <em>groupOfNames / memberOf</em> attribute set to be working with OpenProject.
+        Tento modul umožňuje nastavit synchronizaci mezi LDAP a OpenProject skupinami.
+        Závisí na LDAP skupinách musí použít atribut <em>groupOfNames / memberOf</em> nastavený pro práci s OpenProject.
         <br/>
-        Groups are synchronized hourly through a cron job.
-        <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please see our documentation on this topic</a>.
+        Skupiny jsou synchronizovány každou hodinu přes cron.
+        <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Podívejte se na naši dokumentaci k tomuto tématu</a>.
       no_results: 'Nebyly nalezeny žádné synchronizované skupiny.'
       no_members: 'Tato skupina zatím nemá žádné synchronizované členy.'
       plural: 'Synchronizované LDAP skupiny'

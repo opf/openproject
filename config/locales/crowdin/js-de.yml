@@ -1270,6 +1270,11 @@ de:
         last_month: 'voriger Monat'
         a_specific_date: 'ein bestimmtes Datum'
         between_two_specific_dates: 'zwischen zwei bestimmten Daten'
+      legends:
+        changes_since: 'Changes since'
+        now_meets_filter_criteria: 'Now meets filter criteria'
+        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
+        maintained_with_changes: 'Maintained with changes'
     forms:
       submit_success_message: 'Das Formular wurde erfolgreich übermittelt'
       load_error_message: 'Beim Laden des Formulars ist ein Fehler aufgetreten'

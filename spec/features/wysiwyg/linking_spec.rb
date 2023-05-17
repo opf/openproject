@@ -54,7 +54,7 @@ describe 'Wysiwyg linking',
 
       wiki_page = project.wiki.pages.first.reload
 
-      expect(wiki_page.content.text).to eq(
+      expect(wiki_page.text).to eq(
         "[http://example.org/link with spaces](http://example.org/link%20with%20spaces)"
       )
 

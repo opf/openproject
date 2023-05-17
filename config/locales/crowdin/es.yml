@@ -482,6 +482,15 @@ es:
           true: "público"
           false: "privado"
         queries: "Consultas"
+        status_code: 'Status'
+        status_explanation: 'Status description'
+        status_codes:
+          not_started: 'Not started'
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         templated: "Plantilla del proyecto"
         templated_value:
           true: "marcar como plantilla"
@@ -489,16 +498,6 @@ es:
         types: "Tipos"
         versions: "Versiones"
         work_packages: "Paquetes de trabajo"
-      projects/status:
-        code: 'Estado'
-        explanation: 'Descripción del estado'
-        codes:
-          not_started: 'No iniciado'
-          on_track: 'Según lo previsto'
-          at_risk: 'En riesgo'
-          off_track: 'Fuera de lo previsto'
-          finished: 'Completado'
-          discontinued: 'Discontinuado'
       query:
         column_names: "Columnas"
         relations_to_type_column: "Relaciones con %{type}"
@@ -739,6 +738,7 @@ es:
               format: "%{message}"
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "es mutuamente exclusivo con el grupo '%{group_by}'. No puede activar ambos."
           filters:
@@ -915,11 +915,22 @@ es:
   activity:
     item:
       created_by_on: "creado por %{user} el %{datetime}"
+      created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "creado el %{datetime}"
       updated_by_on: "actualizado por %{user} el %{datetime}"
+      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "actualizado el %{datetime}"
       parent_without_of: "Subproyecto"
       parent_no_longer: "Ya no es subproyecto de"
+      time_entry:
+        hour:
+          one: "%{count} hour"
+          other: "%{count} hours"
+        hour_html:
+          one: "<i>%{count} hour</i>"
+          other: "<i>%{count} hours</i>"
+        updated: "changed from %{old_value} to %{value}"
+        logged_for: "Logged for"
     filter:
       changeset: "Conjuntos de cambios"
       message: "Foros"

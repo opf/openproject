@@ -48,8 +48,8 @@ module OpenProject::TextFormatting::Filters::Macros::ChildPages
     def fetch_page(pipeline_context)
       if page_value.present?
         Wiki.find_page(page_value, project: pipeline_context[:project])
-      elsif pipeline_context[:object].is_a?(WikiContent)
-        pipeline_context[:object].page
+      elsif pipeline_context[:object]
+        pipeline_context[:object]
       end
     end
   end
