@@ -71,7 +71,5 @@ See COPYRIGHT and LICENSE files for more details.
 
 <div>
   <%= rails_cell Members::UserFilterCell, params, **@members_filter_options %>
-  <%= rails_cell Members::TableCell, @members, **@members_table_options %>
+  <%= render ::Members::TableComponent.new(rows: @members, **@members_table_options) %>
 </div>
-
-

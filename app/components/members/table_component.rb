@@ -1,6 +1,8 @@
-# --copyright
+# frozen_string_literal: true
+
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,20 +26,45 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-require_relative '../../lib_static/open_project/feature_decisions'
+module Members
+  class TableComponent < ::TableComponent
+    options :authorize_update, :available_roles, :is_filtered
+    columns :name, :mail, :roles, :groups, :status
+    sortable_columns :name, :mail, :status
 
-# Add feature flags here via e.g.
-#
-#   OpenProject::FeatureDecisions.add :some_flag
-#
-# If the feature to be flag-guarded stems from a module, add an initializer
-# to that module's engine:
-#
-#   initializer 'the_engine.feature_decisions' do
-#     OpenProject::FeatureDecisions.add :some_flag
-#   end
+    def initial_sort
+      %i[name asc]
+    end
 
-OpenProject::FeatureDecisions.add :show_changes
-OpenProject::FeatureDecisions.add :more_global_index_pages
+    def headers
+      columns.map do |name|
+        [name.to_s, header_options(name)]
+      end
+    end
+
+    def header_options(name)
+      { caption: User.human_attribute_name(name) }
+    end
+
+    ##
+    # Adjusts the order so that users are joined to support
+    # sorting by their attributes
+    def sort_collection(query, sort_clause, sort_columns)
+      super(join_users(query), sort_clause, sort_columns)
+    end
+
+    def join_users(query)
+      query.joins(:principal).references(:principal)
+    end
+
+    def empty_row_message
+      if is_filtered
+        I18n.t :notice_no_principals_found
+      else
+        I18n.t :'members.index.no_results_title_text'
+      end
+    end
+  end
+end

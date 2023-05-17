@@ -42,7 +42,7 @@ The package is available for the following Linux distributions:
 Please ensure that you are running on a 64bit system before proceeding with the installation. You can check by running the `uname -i` command on the target server and verifying that it outputs `x86_64`:
 
 ```bash
-$ uname -i
+$ uname -m
 x86_64
 ```
 
@@ -62,10 +62,8 @@ sudo apt-get install apt-transport-https ca-certificates wget
 Import the PGP key used to sign our packages:
 
 ```bash
-wget -qO- https://dl.packager.io/srv/opf/openproject/key | sudo apt-key add -
+sudo wget -O /etc/apt/trusted.gpg.d/openproject.asc https://dl.packager.io/srv/opf/openproject/key
 ```
-
-Note: you might get a warning when importing the key `Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8))`. This happens because APT has updated the way it manages signing keys, and the package provider is not supporting the new way yet.
 
 Add the OpenProject package source:
 
@@ -180,33 +178,34 @@ Then finish the installation by reading the [*Initial configuration*](#initial-c
 
 ## Debian Installation
 
-### Debian 11
+### Debian 11 "bullseye"
 
-Update the `apt` package index and install packages to allow `apt` to use a repository over HTTPS:
+As root update the `apt` package index and install packages to allow `apt` to use a repository over HTTPS:
 
 ```bash
-sudo apt-get update
-sudo apt-get install apt-transport-https ca-certificates wget
+su -
+apt update
+apt install apt-transport-https ca-certificates wget
 ```
 
 Import the PGP key used to sign our packages:
 
 ```bash
-wget -qO- https://dl.packager.io/srv/opf/openproject/key | sudo apt-key add -
+wget -qO- https://dl.packager.io/srv/opf/openproject/key | gpg --dearmor > /etc/apt/trusted.gpg.d/packager-io.gpg
 ```
 
 Add the OpenProject package source:
 
 ```bash
-sudo wget -O /etc/apt/sources.list.d/openproject.list \
+wget -O /etc/apt/sources.list.d/openproject.list \
   https://dl.packager.io/srv/opf/openproject/stable/12/installer/debian/11.repo
 ```
 
 Download the OpenProject package:
 
 ```bash
-sudo apt-get update
-sudo apt-get install openproject
+apt update
+apt install openproject
 ```
 
 Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.

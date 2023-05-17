@@ -1,13 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 
-import { I18nService } from '../../../../core/i18n/i18n.service';
-import { I18nServiceStub } from '../../../../../stories/i18n.service.stub';
+import { OpSpotModule } from '../app/spot/spot.module';
+import SpotDropAlignmentOption from '../app/spot/drop-alignment-options';
+import { SpotDropModalComponent } from '../app/spot/components/drop-modal/drop-modal.component';
 
-import { OpSpotModule } from '../../../spot.module';
-import SpotDropAlignmentOption from '../../../drop-alignment-options';
-
-import { SpotDropModalComponent } from '../drop-modal.component';
+import { I18nService } from '../app/core/i18n/i18n.service';
+import { I18nServiceStub } from './i18n.service.stub';
 
 const meta:Meta = {
   title: 'Patterns/DropModal',
@@ -33,23 +32,23 @@ type Story = StoryObj;
 export const Default:Story = {
   render: (args) => ({
     props: {
-      ...args,
-      dropModalOpen: false,
+      opened: false,
       alignment: SpotDropAlignmentOption.BottomCenter,
+      ...args,
     },
     template: `
       <spot-drop-modal-portal></spot-drop-modal-portal>
 
       <spot-drop-modal
-        [opened]="dropModalOpen"
-        (closed)="dropModalOpen = false"
+        [opened]="opened"
+        (closed)="opened = false"
         [alignment]="alignment"
       >
         <button
           aria-haspopup="true"
           type="button"
           slot="trigger"
-          (click)="dropModalOpen = !dropModalOpen"
+          (click)="opened = !opened"
           class="button"
         >
           Open drop-modal

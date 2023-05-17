@@ -47,7 +47,7 @@ describe 'Meetings', js: true do
     it 'can visit the meeting' do
       visit meetings_path(project)
 
-      find('.meeting a', text: 'Awesome meeting!', wait: 10).click
+      find('td.title a', text: 'Awesome meeting!', wait: 10).click
       expect(page).to have_selector('h2', text: 'Meeting: Awesome meeting!')
 
       expect(page).to have_selector('[data-qa-selector="op-meeting--meeting_agenda"]',

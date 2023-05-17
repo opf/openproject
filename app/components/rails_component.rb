@@ -1,6 +1,8 @@
-# --copyright
+# frozen_string_literal: true
+
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,20 +26,43 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-require_relative '../../lib_static/open_project/feature_decisions'
+class RailsComponent < ViewComponent::Base
+  include ApplicationHelper
 
-# Add feature flags here via e.g.
-#
-#   OpenProject::FeatureDecisions.add :some_flag
-#
-# If the feature to be flag-guarded stems from a module, add an initializer
-# to that module's engine:
-#
-#   initializer 'the_engine.feature_decisions' do
-#     OpenProject::FeatureDecisions.add :some_flag
-#   end
+  attr_reader :options
 
-OpenProject::FeatureDecisions.add :show_changes
-OpenProject::FeatureDecisions.add :more_global_index_pages
+  def initialize(**options)
+    super
+    @options = options
+  end
+
+  class << self
+    ##
+    # Defines options for this cell which can be used within the cell's template.
+    # Options are passed to the cell during the render call.
+    #
+    # @param names [Array<String> | Hash<String, Any>] Either a list of names for options whose
+    #                                                  default value is empty or a hash mapping
+    #                                                  option names to default values.
+    def options(*names)
+      default_values = {}
+
+      if names.size == 1 && names.first.is_a?(Hash)
+        default_values = names.first
+        names = default_values.keys
+      end
+
+      names.each do |name|
+        define_method(name) do
+          options[name] || default_values[name]
+        end
+      end
+    end
+
+    def property(*names)
+      delegate *names, to: :model
+    end
+  end
+end
