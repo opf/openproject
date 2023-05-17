@@ -25,6 +25,7 @@ import {
   Duration,
   EventApi,
   EventInput,
+  EventSourceFuncArg,
 } from '@fullcalendar/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
@@ -145,17 +146,12 @@ export class TimeEntryCalendarComponent {
     displayEventTime: false,
     slotMinTime: `${this.minHour - 1}:00:00`,
     slotMaxTime: `${this.maxHour}:00:00`,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     events: this.calendarEventsFunction.bind(this),
     eventOverlap: (stillEvent:EventApi) => !stillEvent.classNames.includes(TIME_ENTRY_CLASS_NAME),
     plugins: [timeGrid, interactionPlugin],
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     eventDidMount: this.alterEventEntry.bind(this),
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     eventWillUnmount: this.beforeEventRemove.bind(this),
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     eventClick: this.dispatchEventClick.bind(this),
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     eventDrop: this.moveEvent.bind(this),
     dayHeaderClassNames: (data:DayHeaderMountArg) => this.calendar.applyNonWorkingDay(data, []),
     dayCellClassNames: (data:DayCellMountArg) => this.calendar.applyNonWorkingDay(data, []),
@@ -181,9 +177,9 @@ export class TimeEntryCalendarComponent {
   ) {}
 
   public calendarEventsFunction(
-    fetchInfo:{ start:Date, end:Date },
+    fetchInfo:EventSourceFuncArg,
     successCallback:(events:EventInput[]) => void,
-    failureCallback:(error:unknown) => void,
+    failureCallback:(error:Error) => void,
   ):void|PromiseLike<EventInput[]> {
     void this.fetchTimeEntries(fetchInfo.start, fetchInfo.end)
       .then((collection) => {

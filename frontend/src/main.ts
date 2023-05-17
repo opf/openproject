@@ -2,7 +2,6 @@ import { OpenProjectModule } from 'core-app/app.module';
 import { enableProdMode } from '@angular/core';
 import * as jQuery from 'jquery';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { whenDebugging } from 'core-app/shared/helpers/debug_output';
 import { initializeLocale } from 'core-app/core/setup/init-locale';
 import { environment } from './environments/environment';
 import { configureErrorReporter } from 'core-app/core/errors/configure-reporter';
@@ -30,6 +29,7 @@ window.ErrorReporter = configureErrorReporter();
 
 require('core-app/core/setup/init-vendors');
 require('core-app/core/setup/init-globals');
+require('stimulus/setup');
 
 if (environment.production) {
   enableProdMode();
