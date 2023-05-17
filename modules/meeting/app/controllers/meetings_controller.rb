@@ -28,32 +28,23 @@
 
 class MeetingsController < ApplicationController
   around_action :set_time_zone
-  before_action :find_project, only: %i[index new create]
+  before_action :find_optional_project, only: %i[index new create]
+  before_action :build_meeting, only: %i[new create]
   before_action :find_meeting, except: %i[index new create]
   before_action :convert_params, only: %i[create update]
-  before_action :authorize
+  before_action :authorize, except: [:index]
+  before_action :authorize_global, only: :index
 
   helper :watchers
   helper :meeting_contents
   include WatchersHelper
   include PaginationHelper
+  include SortHelper
 
   menu_item :new_meeting, only: %i[new create]
 
   def index
-    scope = @project.meetings
-
-    # from params => today's page otherwise => first page as fallback
-    tomorrows_meetings_count = scope.from_tomorrow.count
-    @page_of_today = 1 + (tomorrows_meetings_count / per_page_param)
-
-    page = params['page'] ? page_param : @page_of_today
-
-    @meetings = scope.with_users_by_date
-                .page(page)
-                .per_page(per_page_param)
-
-    @meetings_by_start_year_month_date = Meeting.group_by_time(@meetings)
+    @meetings = @project ? @project.meetings : global_upcoming_meetings
   end
 
   def show
@@ -130,11 +121,25 @@ class MeetingsController < ApplicationController
     Time.use_zone(zone, &)
   end
 
-  def find_project
-    @project = Project.find(params[:project_id])
+  def build_meeting
     @meeting = Meeting.new
     @meeting.project = @project
     @meeting.author = User.current
+  end
+
+  def find_optional_project
+    return true unless params[:project_id]
+
+    @project = Project.find(params[:project_id])
+    authorize
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
+  def global_upcoming_meetings
+    projects = Project.allowed_to(User.current, :view_meetings)
+
+    Meeting.where(project: projects).from_today
   end
 
   def find_meeting

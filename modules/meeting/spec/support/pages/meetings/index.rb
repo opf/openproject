@@ -32,7 +32,9 @@ module Pages::Meetings
   class Index < Pages::Page
     attr_accessor :project
 
-    def initialize(project)
+    def initialize(project:)
+      super()
+
       self.project = project
     end
 
@@ -45,8 +47,11 @@ module Pages::Meetings
     end
 
     def expect_no_create_new_button
-      expect(page)
-        .not_to have_selector '.toolbar-items'
+      expect(page).not_to have_selector '#add-meeting-button'
+    end
+
+    def expect_create_new_button
+      expect(page).to have_selector '#add-meeting-button'
     end
 
     def expect_no_meetings_listed
@@ -59,7 +64,7 @@ module Pages::Meetings
     def expect_meetings_listed(*meetings)
       within '#content-wrapper' do
         meetings.each do |meeting|
-          expect(page).to have_selector(".meeting",
+          expect(page).to have_selector("td.title",
                                         text: meeting.title)
         end
       end
@@ -68,7 +73,7 @@ module Pages::Meetings
     def expect_meetings_not_listed(*meetings)
       within '#content-wrapper' do
         meetings.each do |meeting|
-          expect(page).not_to have_selector(".meeting",
+          expect(page).not_to have_selector("td.title",
                                             text: meeting.title)
         end
       end
@@ -86,14 +91,18 @@ module Pages::Meetings
       end
     end
 
-    def to_today
-      click_link 'today'
-    end
-
     def navigate_by_menu
       visit project_path(project)
       within '#main-menu' do
         click_link 'Meetings'
+      end
+    end
+
+    def navigate_by_modules_menu
+      visit root_path
+
+      within '#more-menu', visible: false do
+        click_on 'Meetings', visible: false
       end
     end
 

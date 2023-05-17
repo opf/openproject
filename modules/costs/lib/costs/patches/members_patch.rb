@@ -29,12 +29,12 @@
 module Costs
   module Patches::MembersPatch
     def self.mixin!
-      ::Members::TableCell.add_column :current_rate
-      ::Members::TableCell.options :current_user # adds current_user option
+      ::Members::TableComponent.add_column :current_rate
+      ::Members::TableComponent.options :current_user # adds current_user option
 
       ::MembersController.prepend TableOptions
-      ::Members::TableCell.prepend TableCell
-      ::Members::RowCell.prepend RowCell
+      ::Members::TableComponent.prepend TableComponent
+      ::Members::RowComponent.prepend RowComponent
     end
 
     module TableOptions
@@ -43,7 +43,7 @@ module Costs
       end
     end
 
-    module TableCell
+    module TableComponent
       def sort_collection(query, sort_clause, sort_columns)
         q = super query, sort_clause.gsub(/current_rate/, 'COALESCE(rate, 0.0)'), sort_columns
 
@@ -140,7 +140,7 @@ module Costs
       end
     end
 
-    module RowCell
+    module RowComponent
       include ActionView::Helpers::NumberHelper # for #number_to_currency
 
       ##

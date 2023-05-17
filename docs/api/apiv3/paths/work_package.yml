@@ -81,6 +81,7 @@ get:
         the offset can be positive or negative e.g."oneDayAgo@01:00+01:00", "oneDayAgo@01:00-01:00".
 
         Usually, the first timestamp is the baseline date, the last timestamp is the current date.
+        Values older than 1 day are accepted only with valid Enterprise Token available.
       in: query
       name: timestamps
       required: false
