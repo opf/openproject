@@ -28,50 +28,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-##
-# Abstract view component. Subclass this for a concrete table row.
-class RowComponent < RailsComponent
-  attr_reader :model, :table
+class RailsComponent < ViewComponent::Base
+  include ApplicationHelper
 
-  def initialize(row:, table:, **options)
-    super(**options)
-    @model = row
-    @table = table
+  attr_reader :options
+
+  def initialize(**options)
+    super
+    @options = options
   end
 
-  delegate :columns, to: :table
+  class << self
+    ##
+    # Defines options for this cell which can be used within the cell's template.
+    # Options are passed to the cell during the render call.
+    #
+    # @param names [Array<String> | Hash<String, Any>] Either a list of names for options whose
+    #                                                  default value is empty or a hash mapping
+    #                                                  option names to default values.
+    def options(*names)
+      default_values = {}
 
-  def row
-    model
-  end
+      if names.size == 1 && names.first.is_a?(Hash)
+        default_values = names.first
+        names = default_values.keys
+      end
 
-  def column_value(column)
-    send(column)
-  end
+      names.each do |name|
+        define_method(name) do
+          options[name] || default_values[name]
+        end
+      end
+    end
 
-  def column_css_class(column)
-    column_css_classes[column]
-  end
-
-  def column_css_classes
-    @column_css_classes ||= columns.to_h { |name| [name, name] }
-  end
-
-  def button_links
-    []
-  end
-
-  def row_css_id
-    nil
-  end
-
-  def row_css_class
-    nil
-  end
-
-  def checkmark(condition)
-    if condition
-      helpers.op_icon 'icon icon-checkmark'
+    def property(*names)
+      delegate *names, to: :model
     end
   end
 end
