@@ -31,3 +31,18 @@ _Ref Quick Start Guide [here](https://docs.orbstack.dev/quick-start)_
 ```sh
 $ brew install orbstack
 ```
+
+**Note:** You can use Docker contexts to run OrbStack and Docker Desktop side-by-side. Switching contexts affects all Docker commands you run from that point on. [Ref: Side-by-side](https://docs.orbstack.dev/install#reverting)
+
+```sh
+# Switch to OrbStack
+docker context use orbstack
+# Switch to Docker Desktop
+docker context use desktop-linux
+```
+
+To view the list of docker contexts run:
+
+```sh
+$ docker context ls
+```
