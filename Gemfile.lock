@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/opf/md-to-pdf
-  revision: fc2724113cecd758a77b347042276ece8d119a03
-  tag: v0.0.15
+  revision: 671da26cc86a97ce874828ff1bac7ba976698f35
+  ref: 671da26cc86a97ce874828ff1bac7ba976698f35
   specs:
     md_to_pdf (0.0.15)
       commonmarker (~> 0.23)
@@ -1050,6 +1050,7 @@ DEPENDENCIES
   livingstyleguide (~> 2.1.0)
   lograge (~> 0.12.0)
   mail (= 2.8.1)
+  matrix (~> 0.4.2)
   md_to_pdf!
   meta-tags (~> 2.18.0)
   mini_magick (~> 4.12.0)
