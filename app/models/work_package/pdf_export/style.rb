@@ -28,7 +28,7 @@
 
 module WorkPackage::PDFExport::Style
   def page_size
-    'EXECUTIVE' # TODO: 'A4'?
+    'EXECUTIVE'
   end
 
   def page_header_top
@@ -69,6 +69,10 @@ module WorkPackage::PDFExport::Style
 
   def page_footer_style
     { size: 8, style: :normal }
+  end
+
+  def page_break_space_left_threshold
+    200
   end
 
   def overview_table_link_color

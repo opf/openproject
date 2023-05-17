@@ -36,8 +36,7 @@ module WorkPackage::PDFExport::WorkPackageDetail
   end
 
   def write_work_package_detail!(work_package, id_wp_meta_map_entry)
-    # TODO: move page break threshold const to style settings and implement conditional break with height measuring
-    write_optional_page_break(200)
+    write_optional_page_break(page_break_space_left_threshold)
     id_wp_meta_map_entry[:page_number] = current_page_nr
     with_margin(wp_detail_margins_style) do
       write_work_package_subject! work_package, id_wp_meta_map_entry[:level_path]

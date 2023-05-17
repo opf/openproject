@@ -72,7 +72,7 @@ module WorkPackage::PDFExport::OverviewTable
   end
 
   def write_group!(group, work_packages, id_wp_meta_map, sums)
-    write_optional_page_break(200) # TODO: move page break threshold const to style settings
+    write_optional_page_break(page_break_space_left_threshold)
     with_margin(overview_table_margins_style) do
       label = make_group_label(group)
       with_margin(overview_group_header_margins_style) do
@@ -172,7 +172,7 @@ module WorkPackage::PDFExport::OverviewTable
 
   def build_sum_row(sums)
     sum_row = table_columns_objects.map { |col| sums[col].to_s }
-    sum_row[0] = 'Sum' # TODO: I18n and in which column should the sum text be
+    sum_row[0] = this.I18n.t('js.label_sum')
     sum_row
   end
 end
