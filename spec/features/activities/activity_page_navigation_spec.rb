@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Activity page navigation' do
+RSpec.describe 'Activity page navigation' do
   include ActiveSupport::Testing::TimeHelpers
 
   shared_let(:project) { create(:project, enabled_module_names: Setting.default_projects_modules + ['activity']) }
@@ -141,39 +141,87 @@ describe 'Activity page navigation' do
   end
 
   context 'when navigating to a diff' do
-    before do
-      project_work_package.update(description: 'New work package description')
-    end
+    context 'for a project status explanation' do
+      before do
+        project.update(status_explanation: 'New status explanation')
+      end
 
-    def assert_navigating_to_diff_page_and_back_comes_back_to_the_same_page(activity_page)
-      visit(activity_page)
-      activity_page_url = page.current_url
+      def ensure_project_attributes_filter_is_checked
+        # First visited activity page (activities_path) will set the
+        # project attributes filter as checked and subsequent visits
+        # to other activity pages will persist this setting
 
-      expect(page).to have_link(text: 'Details')
-      expect(page.text).to include("Description changed (Details)")
-      click_link('Details')
+        if page.current_path == activities_path
+          check 'Project attributes'
+          click_button 'Apply'
+        end
+      end
 
-      # on diff page, click the back button
-      expect(page).to have_link(text: 'Back')
-      click_link('Back')
+      def assert_navigating_to_diff_page_and_back_comes_back_to_the_same_page(activity_page)
+        visit(activity_page)
+        activity_page_url = page.current_url
 
-      expect(page.current_url).to eq(activity_page_url)
-    end
+        ensure_project_attributes_filter_is_checked
 
-    it 'Back button navigates to the previously seen activity page' do
-      [
-        activities_path,
-        project_activities_path(project),
-        user_path(user)
-      ].each do |activity_page|
-        assert_navigating_to_diff_page_and_back_comes_back_to_the_same_page(activity_page)
+        expect(page).to have_link(text: 'Details')
+        expect(page.text).to include("Project status description set (Details)")
+        within '.op-activity-list' do
+          click_link('Details')
+        end
+
+        # on diff page, click the back button
+        expect(page).to have_link(text: 'Back')
+        click_link('Back')
+
+        expect(page.current_url).to eq(activity_page_url)
+      end
+
+      it 'Back button navigates to the previously seen activity page' do
+        [
+          activities_path,
+          project_activities_path(project),
+          user_path(user)
+        ].each do |activity_page|
+          assert_navigating_to_diff_page_and_back_comes_back_to_the_same_page(activity_page)
+        end
       end
     end
 
-    # work package activity page is rendered by Angular, so it needs js: true
-    it 'Back button navigates to the previously seen work package page', js: true do
-      activity_page = work_package_path(project_work_package)
-      assert_navigating_to_diff_page_and_back_comes_back_to_the_same_page(activity_page)
+    context 'for a work package description' do
+      before do
+        project_work_package.update(description: 'New work package description')
+      end
+
+      def assert_navigating_to_diff_page_and_back_comes_back_to_the_same_page(activity_page)
+        visit(activity_page)
+        activity_page_url = page.current_url
+
+        expect(page).to have_link(text: 'Details')
+        expect(page.text).to include("Description changed (Details)")
+        click_link('Details')
+
+        # on diff page, click the back button
+        expect(page).to have_link(text: 'Back')
+        click_link('Back')
+
+        expect(page.current_url).to eq(activity_page_url)
+      end
+
+      it 'Back button navigates to the previously seen activity page' do
+        [
+          activities_path,
+          project_activities_path(project),
+          user_path(user)
+        ].each do |activity_page|
+          assert_navigating_to_diff_page_and_back_comes_back_to_the_same_page(activity_page)
+        end
+      end
+
+      # work package activity page is rendered by Angular, so it needs js: true
+      it 'Back button navigates to the previously seen work package page', js: true do
+        activity_page = work_package_path(project_work_package)
+        assert_navigating_to_diff_page_and_back_comes_back_to_the_same_page(activity_page)
+      end
     end
   end
 end
