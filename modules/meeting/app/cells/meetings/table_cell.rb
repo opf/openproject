@@ -5,7 +5,7 @@ module Meetings
     sortable_columns :title, :start_time, :duration, :location
 
     def initial_sort
-      %i[start_time desc]
+      %i[start_time asc]
     end
 
     def paginated?

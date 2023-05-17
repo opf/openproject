@@ -44,7 +44,7 @@ class MeetingsController < ApplicationController
   menu_item :new_meeting, only: %i[new create]
 
   def index
-    @meetings = @project ? @project.meetings : visible_meetings
+    @meetings = @project ? @project.meetings : global_upcoming_meetings
   end
 
   def show
@@ -136,10 +136,10 @@ class MeetingsController < ApplicationController
     render_404
   end
 
-  def visible_meetings
+  def global_upcoming_meetings
     projects = Project.allowed_to(User.current, :view_meetings)
 
-    Meeting.where(project: projects)
+    Meeting.where(project: projects).from_today
   end
 
   def find_meeting

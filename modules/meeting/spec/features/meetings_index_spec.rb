@@ -66,11 +66,13 @@ describe 'Meetings' do
   context 'when visiting the global meeting index', with_flag: { more_global_index_pages: true } do
     let(:meetings_page) { Pages::Meetings::Index.new(project: nil) }
 
-    it 'lists all meetings for all projects the user has access to' do
+    it 'lists all upcoming meetings for all projects the user has access to' do
       meeting
+      yesterdays_meeting
 
       meetings_page.navigate_by_modules_menu
       meetings_page.expect_meetings_listed(meeting, other_project_meeting)
+      meetings_page.expect_meetings_not_listed(yesterdays_meeting)
     end
 
     context 'when the user is allowed to create meetings' do
@@ -114,10 +116,10 @@ describe 'Meetings' do
       tomorrows_meeting
       yesterdays_meeting
 
-      # Jumps to today's meeting if not specified differently
+      # First page displays the historically last meeting
       meetings_page.visit!
-      meetings_page.expect_meetings_listed(tomorrows_meeting)
-      meetings_page.expect_meetings_not_listed(meeting, yesterdays_meeting)
+      meetings_page.expect_meetings_listed(yesterdays_meeting)
+      meetings_page.expect_meetings_not_listed(meeting, tomorrows_meeting)
 
       meetings_page.expect_to_be_on_page(1)
 
@@ -127,8 +129,8 @@ describe 'Meetings' do
       meetings_page.expect_meetings_not_listed(tomorrows_meeting, yesterdays_meeting)
 
       meetings_page.to_page(3)
-      meetings_page.expect_meetings_listed(yesterdays_meeting)
-      meetings_page.expect_meetings_not_listed(meeting, tomorrows_meeting)
+      meetings_page.expect_meetings_listed(tomorrows_meeting)
+      meetings_page.expect_meetings_not_listed(meeting, yesterdays_meeting)
     end
   end
 end
