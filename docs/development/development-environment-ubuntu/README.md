@@ -242,7 +242,7 @@ RAILS_ENV=development bin/rails db:seed
 
 You can run all required workers of OpenProject through `foreman`, which combines them in a single tab. This is useful for starting out,
 however most developers end up running the tasks in separate shells for better understanding of the log output, since foreman will combine all of them.
-The `bin/dev` command will check if `foreman` is available, install it if needed and will run the application via `Procfile.dev`
+The `bin/dev` command will check if `foreman` is available, install it if needed and will run the application via `Procfile.dev`.
 
 ```bash
 bin/dev
