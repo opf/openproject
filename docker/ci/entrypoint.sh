@@ -26,13 +26,13 @@ if [ $(id -u) -eq 0 ]; then
 	chown $USER:$USER /home/$USER/openproject/frontend/node_modules
 	chown $USER:$USER /home/$USER/openproject/frontend/.angular
 	chown $USER:$USER /home/$USER/openproject/tmp
-	chown $USER:$USER /cache
+	chown -R $USER:$USER /cache
 fi
 
 
 execute() {
-	echo "[execute] $@"
-	local ret=0
+	BANNER=${BANNER:="[execute]"}
+	echo "$BANNER $@" >&2
 	if [ $(id -u) -eq 0 ]; then
 		su $USER -c "$@"
 	else
@@ -41,19 +41,19 @@ execute() {
 }
 
 execute_quiet() {
-	local ret=0
-	echo "[execute_quiet] $@"
-	if ! execute "$@" >/tmp/op-output.log ; then
-		ret=$?
+	if ! BANNER="[execute_quiet]" execute "$@" >/tmp/op-output.log ; then
 		cat /tmp/op-output.log
+		return 1
+	else
+		return 0
 	fi
-	return $ret
 }
 
 cleanup() {
+	echo "CLEANUP"
 	rm -rf tmp/cache/parallel*
 	rm -f /tmp/op-output.log
-	[ -d tmp/features ] && mv tmp/features spec/
+	if [ -d tmp/features ]; then mv tmp/features spec/ ; fi
 }
 
 trap cleanup INT TERM EXIT
@@ -81,22 +81,22 @@ fi
 
 if [ "$1" == "run-units" ]; then
 	shift
-	execute_quiet "cp -f /cache/turbo_runtime_units.log spec/support/"
+	execute_quiet "cp -f /cache/turbo_runtime_units.log spec/support/ || true"
 	# turbo_tests cannot yet exclude specific directories, so copying spec/features elsewhere (temporarily)
 	execute_quiet "mv spec/features tmp/"
 	execute_quiet "time bundle exec rails zeitwerk:check"
 	execute "time bundle exec turbo_tests -n $JOBS --runtime-log spec/support/turbo_runtime_units.log spec"
-	execute_quiet "cp -f spec/support/turbo_runtime_units.log /cache/"
+	execute_quiet "cp -f spec/support/turbo_runtime_units.log /cache/ || true"
 	cleanup
 fi
 
 if [ "$1" == "run-features" ]; then
 	shift
-	execute_quiet "cp -f /cache/turbo_runtime_features.log spec/support/"
+	execute_quiet "cp -f /cache/turbo_runtime_features.log spec/support/ || true"
 	execute_quiet "time bundle exec rails assets:precompile"
 	execute_quiet "cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json"
 	execute "time bundle exec turbo_tests -n $JOBS --runtime-log spec/support/turbo_runtime_features.log spec/features"
-	execute_quiet "cp -f spec/support/turbo_runtime_features.log /cache/"
+	execute_quiet "cp -f spec/support/turbo_runtime_features.log /cache/ || true"
 	cleanup
 fi
 
