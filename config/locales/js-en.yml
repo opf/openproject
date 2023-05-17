@@ -1350,7 +1350,7 @@ en:
       apply: 'Apply'
       header_description: 'View changes made to work packages in the current view within a time period.'
       show_changes_since: 'Show changes since'
-      help_description: 'Default time zone of the instance set by the administrator.'
+      help_description: 'Reference time zone for the baseline.'
       time_description: 'In your local time: %{datetime}'
       time: 'Time'
       from: 'From'

@@ -235,7 +235,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
       case 'oneWeekAgo':
       case 'oneMonthAgo':
       case 'lastWorkingDay':
-        return [this.buildISOString(0), DEFAULT_TIMESTAMP];
+        return [this.buildFilterString(0)];
       case 'aSpecificDate':
         return [this.buildISOString(0), DEFAULT_TIMESTAMP];
       case 'betweenTwoSpecificDates':
@@ -251,5 +251,10 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
   private buildISOString(i:number):string {
     const date = moment.tz(`${this.selectedDates[i]}T${this.selectedTimes[i]}`, this.configuration.defaultTimezone());
     return date.toISOString();
+  }
+
+  private buildFilterString(i:number):string {
+    const dateTime= `${this.selectedDates[i]}  ${this.selectedTimes[i]}`;
+    return `${this.selectedFilter}@${this.timezoneService.formattedTime(dateTime, 'HH:mmZ')}`;
   }
 }
