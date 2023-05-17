@@ -156,7 +156,7 @@ gem 'structured_warnings', '~> 0.4.0'
 gem 'airbrake', '~> 13.0.0', require: false
 
 gem 'prawn', '~> 2.2'
-gem "md_to_pdf", :github => "opf/md-to-pdf", tag: 'v0.0.15'
+gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', tag: 'v0.0.15'
 
 gem 'cells-erb', '~> 0.1.0'
 gem 'cells-rails', '~> 0.1.4'
