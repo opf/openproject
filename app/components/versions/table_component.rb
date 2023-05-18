@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,19 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Backlogs::Patches::Versions::RowCellPatch
-  def button_links
-    (super + [backlogs_edit_link]).compact
-  end
+module Versions
+  class TableComponent < ::TableComponent
+    options :project
 
-  private
+    columns :name, :project, :start_date, :effective_date, :description, :status, :sharing, :wiki_page_title
 
-  def backlogs_edit_link
-    return if version.project == table.project || !table.project.module_enabled?("backlogs")
+    def sortable?
+      false
+    end
 
-    link_to_if_authorized '',
-                          { controller: '/versions', action: 'edit', id: version, project_id: table.project.id },
-                          class: 'icon icon-edit',
-                          title: t(:button_edit)
+    def headers
+      columns.reject { |col| col == :wiki_page_title }.map do |name|
+        [name.to_s, header_options(name)]
+      end + [wiki_page_header_options]
+    end
+
+    def header_options(name)
+      { caption: Version.human_attribute_name(name) }
+    end
+
+    def wiki_page_header_options
+      ['wiki_page_title', { caption: WikiPage.model_name.human }]
+    end
   end
 end

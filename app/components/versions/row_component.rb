@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,7 +29,7 @@
 #++
 
 module Versions
-  class RowCell < ::RowCell
+  class RowComponent < ::RowComponent
     include VersionsHelper
 
     # Overriding cell's method to set the project instance variable.
