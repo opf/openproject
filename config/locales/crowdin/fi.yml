@@ -485,8 +485,8 @@ fi:
           true: "public"
           false: "private"
         queries: "Kyselyt"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -1904,7 +1904,7 @@ fi:
   label_role_search: "Määritä rooli uusille jäsenille"
   label_scm: "SCM"
   label_search: "Haku"
-  label_send_information: "Lähetä tilin tiedot käyttäjälle"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Lähetä testi sähköposti"
   label_setting_plural: "Asetukset"
   label_system_settings: "Järjestelmäasetukset"

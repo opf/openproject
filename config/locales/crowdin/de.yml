@@ -480,8 +480,8 @@ de:
           true: "öffentlich"
           false: "privat"
         queries: "Abfragen"
-        status_code: 'Status'
-        status_explanation: 'Statusbeschreibung'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Nicht gestartet'
           on_track: 'Planmäßig'
@@ -736,7 +736,7 @@ de:
               format: "%{message}"
             timestamps:
               invalid: "Zeitstempel enthalten ungültige Werte: %{values}"
-              forbidden: "Timestamps contain forbidden values: %{values}"
+              forbidden: "Zeitstempel enthalten ungültige Werte: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "schließt sich gegenseitig mit der Gruppierung nach \"%{group_by}\" aus. Beide können nicht zeitgleich aktiv sein."
           filters:
@@ -913,22 +913,22 @@ de:
   activity:
     item:
       created_by_on: "erstellt von %{user} am %{datetime}"
-      created_by_on_time_entry: "time logged by %{user} on %{datetime}"
+      created_by_on_time_entry: "gebucht von %{user} am %{datetime}"
       created_on: "erstellt am %{datetime}"
       updated_by_on: "aktualisiert von %{user} am %{datetime}"
-      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "Zeitbuchung aktualisiert durch %{user} am %{datetime}"
       updated_on: "aktualisiert am %{datetime}"
       parent_without_of: "Unterprojekt"
       parent_no_longer: "Nicht mehr Unterprojekt von"
       time_entry:
         hour:
-          one: "%{count} hour"
+          one: "Eine Stunde"
           other: "%{count} Stunden"
         hour_html:
-          one: "<i>%{count} hour</i>"
-          other: "<i>%{count} hours</i>"
-        updated: "changed from %{old_value} to %{value}"
-        logged_for: "Logged for"
+          one: "<i>%{count} Stunde</i>"
+          other: "<i>%{count} Stunden</i>"
+        updated: "geändert von %{old_value} zu %{value}"
+        logged_for: "Gebucht für"
     filter:
       changeset: "Änderungssätze"
       message: "Foren"
@@ -1899,7 +1899,7 @@ de:
   label_role_search: "Rolle für neue Mitglieder zuweisen"
   label_scm: "Versionskontrollsystem"
   label_search: "Suche"
-  label_send_information: "Sende Kontoinformationen zum Benutzer"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Test-E-Mail senden"
   label_setting_plural: "Einstellungen"
   label_system_settings: "Systemkonfiguration"

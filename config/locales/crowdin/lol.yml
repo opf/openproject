@@ -467,8 +467,8 @@ lol:
           true: "crwdns845441:0crwdne845441:0"
           false: "crwdns845443:0crwdne845443:0"
         queries: "crwdns495227:0crwdne495227:0"
-        status_code: 'crwdns853231:0crwdne853231:0'
-        status_explanation: 'crwdns853233:0crwdne853233:0'
+        status_code: 'crwdns853641:0crwdne853641:0'
+        status_explanation: 'crwdns853643:0crwdne853643:0'
         status_codes:
           not_started: 'crwdns853235:0crwdne853235:0'
           on_track: 'crwdns853237:0crwdne853237:0'
@@ -1881,7 +1881,7 @@ lol:
   label_role_search: "crwdns497653:0crwdne497653:0"
   label_scm: "crwdns497655:0crwdne497655:0"
   label_search: "crwdns497657:0crwdne497657:0"
-  label_send_information: "crwdns497659:0crwdne497659:0"
+  label_send_information: "crwdns853645:0crwdne853645:0"
   label_send_test_email: "crwdns497661:0crwdne497661:0"
   label_setting_plural: "crwdns497663:0crwdne497663:0"
   label_system_settings: "crwdns497665:0crwdne497665:0"

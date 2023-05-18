@@ -486,8 +486,8 @@ ro:
           true: "public"
           false: "privat"
         queries: "Interogări"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -1923,7 +1923,7 @@ ro:
   label_role_search: "Atribuirea rolului noilor membri"
   label_scm: "SCM"
   label_search: "Căutare"
-  label_send_information: "Trimite utilizatorului informațiile despre cont"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Trimite e-mail de test"
   label_setting_plural: "Setări"
   label_system_settings: "Setări de sistem"
