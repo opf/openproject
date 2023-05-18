@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -6,7 +8,7 @@
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -27,13 +29,30 @@
 #++
 
 module Users
-  class UserFilterCell < ::UserFilterCell
-    def filter_role(query, role_id)
-      super.uniq
+  class TableComponent < ::TableComponent
+    columns :login, :firstname, :lastname, :mail, :admin, :created_at, :last_login_on
+    options :current_user
+
+    def initial_sort
+      %i[id asc]
     end
 
-    def clear_url
-      users_path
+    def headers
+      columns.map do |name|
+        [name.to_s, header_options(name)]
+      end
+    end
+
+    def header_options(name)
+      options = { caption: User.human_attribute_name(name) }
+
+      options[:default_order] = 'desc' if desc_by_default.include? name
+
+      options
+    end
+
+    def desc_by_default
+      %i[admin created_at last_login_on]
     end
   end
 end

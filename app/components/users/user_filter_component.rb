@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -6,7 +8,7 @@
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -26,57 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class UserFilterCell < IndividualPrincipalBaseFilterCell
-  options :groups, :status, :roles, :clear_url, :project
-
-  class << self
-    ##
-    # Returns the selected status from the parameters
-    # or the default status to be filtered by (all)
-    # if no status is given.
-    def status_param(params)
-      params[:status].presence || 'all'
+module Users
+  class UserFilterComponent < ::UserFilterComponent
+    def filter_role(query, role_id)
+      super.uniq
     end
 
-    def filter_status(query, status)
-      return unless status && status != 'all'
-
-      case status
-      when 'blocked'
-        query.where(:blocked, '=', :blocked)
-      when 'active'
-        query.where(:status, '=', status.to_sym)
-        query.where(:blocked, '!', :blocked)
-      else
-        query.where(:status, '=', status.to_sym)
-      end
+    def clear_url
+      users_path
     end
-
-    def base_query
-      Queries::Users::UserQuery
-    end
-
-    protected
-
-    def apply_filters(params, query)
-      super(params, query)
-      filter_status query, status_param(params)
-
-      query
-    end
-  end
-
-  # INSTANCE METHODS:
-
-  def filter_path
-    users_path
-  end
-
-  def user_status_options
-    users_status_options_for_select status, extra: extra_user_status_options
-  end
-
-  def extra_user_status_options
-    {}
   end
 end
