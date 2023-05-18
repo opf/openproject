@@ -43,8 +43,8 @@ module OpenProject::DependencytrackIntegration
     # which we process in our NotificationHandler.
     def process(hook, request, params, user)
       # event_type = request.env['HTTP_X_GITLAB_EVENT']
-      Rails.logger.debug "HEADERS from DependencyTrack: #{request}"
-      Rails.logger.debug "PAYLOAD from DependencyTrack: #{params[:payload]}"
+      Rails.logger.info "HEADERS from DependencyTrack: #{request.env}"
+      Rails.logger.info "PAYLOAD from DependencyTrack: #{params[:payload]}"
       # event_type.gsub!(' ','_')
       # event_type = event_type.to_s.downcase
 
@@ -53,15 +53,20 @@ module OpenProject::DependencytrackIntegration
       # return 404 unless KNOWN_EVENTS.include?(event_type)
       # return 403 unless user.present?
 
-      # payload = params[:payload]
-      #           .permit!
-      #           .to_h
+      payload_params = params[:payload]
+                .permit!
+                .to_h
+
+      
       #           .merge('open_project_user_id' => user.id,
       #                  'gitlab_event' => event_type)
       # Rails.logger.debug "Received gitlab webhook #{event_type}"
-      # OpenProject::Notifications.send("gitlab.#{event_type}", payload)
+      OpenProject::Notifications.send("dependencytrack.new_alert", payload)
+
+
 
       return 200
     end
+
   end
 end

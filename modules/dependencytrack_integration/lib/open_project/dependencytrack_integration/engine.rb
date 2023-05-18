@@ -30,7 +30,7 @@
 require 'open_project/plugins'
 
 # require_relative './patches/api/work_package_representer'
-# require_relative './notification_handlers'
+require_relative './notification_handlers'
 require_relative './hook_handler'
 # require_relative './services'
 
@@ -57,9 +57,9 @@ module OpenProject::DependencytrackIntegration
       end
     end
 
-    # initializer 'dependencytrack.subscribe_to_notifications' do
-    #   ::OpenProject::Notifications.subscribe('dependencytrack.merge_request_hook',
-    #                                          &NotificationHandlers.method(:merge_request_hook))
+    initializer 'dependencytrack.subscribe_to_notifications' do
+      ::OpenProject::Notifications.subscribe('dependencytrack.new_alert',
+                                             &NotificationHandlers.method(:new_alert))
       # ::OpenProject::Notifications.subscribe('gitlab.note_hook',
       #                                        &NotificationHandlers.method(:note_hook))
       # ::OpenProject::Notifications.subscribe('gitlab.issue_hook',
