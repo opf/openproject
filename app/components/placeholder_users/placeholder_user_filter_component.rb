@@ -27,30 +27,27 @@
 #++
 
 module PlaceholderUsers
-  class TableCell < ::TableCell
-    options :current_user # adds this option to those of the base class
-    columns :name, :created_at
+  class PlaceholderUserFilterComponent < IndividualPrincipalBaseFilterComponent
+    options :roles, :clear_url
 
-    def initial_sort
-      %i[id asc]
-    end
+    class << self
+      def base_query
+        Queries::PlaceholderUsers::PlaceholderUserQuery
+      end
 
-    def headers
-      columns.map do |name|
-        [name.to_s, header_options(name)]
+      def apply_filters(params, query)
+        super
+
+        # Filter for active placeholders
+        # to skip to-be-deleted users
+        query.where(:status, '=', :active)
       end
     end
 
-    def header_options(name)
-      options = { caption: PlaceholderUser.human_attribute_name(name) }
+    # INSTANCE METHODS:
 
-      options[:default_order] = 'desc' if desc_by_default.include? name
-
-      options
-    end
-
-    def desc_by_default
-      [:created_at]
+    def filter_path
+      placeholder_users_path
     end
   end
 end

@@ -27,7 +27,7 @@
 #++
 
 module PlaceholderUsers
-  class RowCell < ::RowCell
+  class RowComponent < ::RowComponent
     include AvatarHelper
     include UsersHelper
     include PlaceholderUsersHelper
@@ -39,6 +39,10 @@ module PlaceholderUsers
 
     def name
       link_to h(placeholder_user.name), edit_placeholder_user_path(placeholder_user)
+    end
+
+    def created_at
+      format_time placeholder_user.created_at
     end
 
     def button_links
