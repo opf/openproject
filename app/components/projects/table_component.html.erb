@@ -30,7 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
 <div class="generic-table--flex-container">
   <div class="generic-table--container">
     <div class="generic-table--results-container">
-      <table class="generic-table" <%= table_id ? "id=\"#{table_id}\"" : '' %>>
+      <table class="generic-table" <%= table_id ? "id=\"#{table_id}\"".html_safe : '' %>>
         <colgroup>
           <% headers.each do |_name, _options| %>
             <col <%= "opHighlightCol" unless _name == :hierarchy %> >
@@ -85,9 +85,7 @@ See COPYRIGHT and LICENSE files for more details.
             <td colspan="<%= headers.length + 1 %>"><%= empty_row_message %></td>
           </tr>
         <% end %>
-        <% for row in rows do -%>
-          <%= render_row row %>
-        <% end -%>
+        <%= render_collection rows %>
         </tbody>
       </table>
       <% if inline_create_link && show_inline_create %>

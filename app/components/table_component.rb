@@ -34,7 +34,7 @@ class TableComponent < RailsComponent
   include SortHelper
   include PaginationHelper
 
-  def initialize(rows:, **options)
+  def initialize(rows: [], **options)
     super(rows, **options)
   end
 
