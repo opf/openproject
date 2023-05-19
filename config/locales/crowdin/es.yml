@@ -482,8 +482,8 @@ es:
           true: "público"
           false: "privado"
         queries: "Consultas"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -1901,7 +1901,7 @@ es:
   label_role_search: "Asignar rol a nuevos miembros"
   label_scm: "SCM"
   label_search: "Buscar"
-  label_send_information: "Enviar información de la cuenta del usuario"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Enviar un correo electrónico de prueba"
   label_setting_plural: "Configuración"
   label_system_settings: "Ajustes de sistema"

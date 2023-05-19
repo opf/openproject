@@ -482,8 +482,8 @@ hu:
           true: "public"
           false: "private"
         queries: "Lekérdezések"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -1901,7 +1901,7 @@ hu:
   label_role_search: "Szerep hozzárendelése az új tagokhoz"
   label_scm: "SCM"
   label_search: "Keresés"
-  label_send_information: "Fiókinformációkat küldése a felhasználónak"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Teszt levél küldése"
   label_setting_plural: "Beállítások"
   label_system_settings: "Rendszerbeállítások"

@@ -484,8 +484,8 @@ th:
           true: "public"
           false: "private"
         queries: "การสอบถาม"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -1885,7 +1885,7 @@ th:
   label_role_search: "Assign role to new members"
   label_scm: "SCM"
   label_search: "ค้นหา"
-  label_send_information: "ส่งข้อมูลบัญชีให้ผู้ใช้"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "ส่งอีเมลทดสอบ"
   label_setting_plural: "การตั้งค่า"
   label_system_settings: "System settings"

@@ -486,8 +486,8 @@ vi:
           true: "public"
           false: "private"
         queries: "Truy vấn"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -1887,7 +1887,7 @@ vi:
   label_role_search: "Chỉ định vai trò cho các thành viên mới"
   label_scm: "SCM"
   label_search: "Tìm kiếm"
-  label_send_information: "Send account information to the user"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Gửi email thử nghiệm"
   label_setting_plural: "Cài đặt"
   label_system_settings: "Cài đặt hệ thống"
