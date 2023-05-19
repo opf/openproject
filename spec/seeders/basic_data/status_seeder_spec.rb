@@ -31,17 +31,11 @@
 require 'spec_helper'
 
 RSpec.describe BasicData::StatusSeeder do
-  shared_let(:seeding) do
-    [
-      # Color records needed by StatusSeeder
-      BasicData::ColorSeeder,
-      BasicData::ColorSchemeSeeder
-    ].each { |seeder| seeder.new.seed! }
-  end
+  include_context 'with basic seed data'
 
   subject(:seeder) { described_class.new(seed_data) }
 
-  let(:seed_data) { Source::SeedData.new(data_hash) }
+  let(:seed_data) { basic_seed_data.merge(Source::SeedData.new(data_hash)) }
 
   before do
     seeder.seed!

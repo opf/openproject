@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -25,23 +27,31 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module BasicData
-  class StatusSeeder < ModelSeeder
-    self.model_class = Status
-    self.seed_data_model_key = 'statuses'
-    self.needs = [
-      BasicData::ColorSeeder,
-      BasicData::ColorSchemeSeeder
-    ]
 
-    def model_attributes(status_data)
-      {
-        name: status_data['name'],
-        color_id: color_id(status_data['color_name']),
-        is_closed: true?(status_data['is_closed']),
-        is_default: true?(status_data['is_default']),
-        position: status_data['position']
-      }
+RSpec.shared_context 'with basic seed data' do |edition: 'standard'|
+  def add_needed_seeders_for(seeder_class, needed_acc)
+    seeder_class.needs.each do |needed_seeder_class|
+      next if needed_acc.include?(needed_seeder_class)
+
+      add_needed_seeders_for(needed_seeder_class, needed_acc)
+      next if needed_acc.include?(needed_seeder_class)
+
+      needed_acc << needed_seeder_class
     end
+  end
+
+  shared_let(:needed_seeders) do
+    needed = []
+    add_needed_seeders_for(described_class, needed)
+    needed
+  end
+  shared_let(:needed_seeders_keys) do
+    needed_seeders.map { _1.try(:seed_data_model_key) }.compact
+  end
+  shared_let(:basic_seed_data) do
+    Source::SeedDataLoader.get_data(edition:).only(*needed_seeders_keys)
+  end
+  shared_let(:basic_seeding) do
+    needed_seeders.each { |seeder| seeder.new(basic_seed_data).seed! }
   end
 end

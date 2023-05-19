@@ -29,6 +29,13 @@ module DemoData
     include CreateAttachments
     include References
 
+    self.needs = [
+      BasicData::StatusSeeder,
+      Standard::BasicData::TypeSeeder,
+      BasicData::PrioritySeeder,
+      AdminUserSeeder
+    ]
+
     attr_reader :project, :statuses, :repository, :types
     alias_method :project_data, :seed_data
 
@@ -75,7 +82,7 @@ module DemoData
       set_time_tracking_attributes! wp_attr, attributes
       set_backlogs_attributes! wp_attr, attributes
 
-      work_package = WorkPackage.create wp_attr
+      work_package = WorkPackage.create! wp_attr
 
       create_children! work_package, attributes
       create_attachments! work_package, attributes

@@ -27,6 +27,11 @@
 #++
 module BasicData
   class TypeSeeder < Seeder
+    self.needs = [
+      BasicData::ColorSeeder,
+      BasicData::ColorSchemeSeeder
+    ]
+
     def seed_data!
       Type.transaction do
         data.each do |attributes|

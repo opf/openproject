@@ -31,6 +31,11 @@ module DemoData
     attr_reader :project
     alias_method :project_data, :seed_data
 
+    self.needs = WorkPackageSeeder.needs + [
+      BasicData::BuiltinRolesSeeder,
+      BasicData::RoleSeeder
+    ]
+
     def seed_data!
       print_status " ↳ Creating project: #{project_data.lookup('name')}"
 

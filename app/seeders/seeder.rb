@@ -43,6 +43,8 @@ class Seeder
     end
   end
 
+  class_attribute :needs, default: []
+
   attr_reader :seed_data
 
   def initialize(seed_data = nil)

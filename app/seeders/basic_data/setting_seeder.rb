@@ -27,6 +27,12 @@
 #++
 module BasicData
   class SettingSeeder < Seeder
+    self.needs = [
+      BasicData::BuiltinRolesSeeder,
+      BasicData::RoleSeeder,
+      BasicData::StatusSeeder
+    ]
+
     def seed_data!
       Setting.transaction do
         settings_not_in_db.each do |setting_name|

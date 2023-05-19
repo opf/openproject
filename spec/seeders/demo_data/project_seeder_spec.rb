@@ -31,36 +31,11 @@
 require 'spec_helper'
 
 RSpec.describe DemoData::ProjectSeeder do
+  include_context 'with basic seed data'
+
   subject(:project_seeder) { described_class.new(seed_data) }
 
-  shared_let(:standard_seed_data) do
-    Source::SeedDataLoader.get_data(edition: 'standard').only('priorities', 'statuses')
-  end
-  shared_let(:initial_seeding) do
-    [
-      # Color records needed by StatusSeeder and TypeSeeder
-      BasicData::ColorSeeder,
-      BasicData::ColorSchemeSeeder,
-
-      # Status records needed by WorkPackageSeeder
-      BasicData::StatusSeeder,
-
-      # Type records needed by WorkPackageSeeder
-      Standard::BasicData::TypeSeeder,
-
-      # IssuePriority records needed by WorkPackageSeeder
-      BasicData::PrioritySeeder,
-
-      # project admin role needed by ProjectSeeder
-      BasicData::BuiltinRolesSeeder,
-      BasicData::RoleSeeder,
-
-      # Admin user needed by ProjectSeeder
-      AdminUserSeeder
-    ].each { |seeder| seeder.new(standard_seed_data).seed! }
-  end
-
-  let(:seed_data) { standard_seed_data.merge(Source::SeedData.new(project_data)) }
+  let(:seed_data) { basic_seed_data.merge(Source::SeedData.new(project_data)) }
   let(:project_data) { project_data_with_a_version }
   let(:project_data_with_a_version) do
     {
