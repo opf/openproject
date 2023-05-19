@@ -480,8 +480,8 @@ de:
           true: "öffentlich"
           false: "privat"
         queries: "Abfragen"
-        status_code: 'Project status'
-        status_explanation: 'Project status description'
+        status_code: 'Projektstatus'
+        status_explanation: 'Projektstatusbeschreibung'
         status_codes:
           not_started: 'Nicht gestartet'
           on_track: 'Planmäßig'
@@ -1899,7 +1899,7 @@ de:
   label_role_search: "Rolle für neue Mitglieder zuweisen"
   label_scm: "Versionskontrollsystem"
   label_search: "Suche"
-  label_send_information: "Send new credentials to the user"
+  label_send_information: "Neue Anmeldeinformationen an den Benutzer senden"
   label_send_test_email: "Test-E-Mail senden"
   label_setting_plural: "Einstellungen"
   label_system_settings: "Systemkonfiguration"
