@@ -631,18 +631,10 @@ describe 'API v3 file links resource' do
     end
 
     describe 'with query failed' do
-      let(:download_link_query) do
-        Struct.new('DownloadLinkQuery', :error) do
-          def query(_)
-            ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error))
-          end
-        end.new(error)
-      end
-
       before do
-        storage_queries = instance_double(Storages::Peripherals::StorageInteraction::StorageQueries)
-        allow(storage_queries).to receive(:download_link_query).and_return(ServiceResult.success(result: download_link_query))
-        allow(Storages::Peripherals::StorageInteraction::StorageQueries).to receive(:new).and_return(storage_queries)
+        allow_any_instance_of(
+          Storages::Peripherals::StorageInteraction::Nextcloud::DownloadLinkQuery
+        ).to receive(:call).and_return(ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error)))
 
         get path
       end

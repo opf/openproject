@@ -156,21 +156,10 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
     end
 
     describe 'with query failed' do
-      let(:files_query) do
-        Struct.new('FilesQuery', :error) do
-          def query(_)
-            ServiceResult.failure(
-              result: error,
-              errors: Storages::StorageError.new(code: error)
-            )
-          end
-        end.new(error)
-      end
-
       before do
-        storage_queries = instance_double(Storages::Peripherals::StorageInteraction::StorageQueries)
-        allow(storage_queries).to receive(:files_query).and_return(ServiceResult.success(result: files_query))
-        allow(Storages::Peripherals::StorageInteraction::StorageQueries).to receive(:new).and_return(storage_queries)
+        allow_any_instance_of(
+          Storages::Peripherals::StorageInteraction::Nextcloud::FilesQuery
+        ).to receive(:call).and_return(ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error)))
       end
 
       describe 'due to authorization failure' do

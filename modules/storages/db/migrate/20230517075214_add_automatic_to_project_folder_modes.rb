@@ -1,4 +1,3 @@
-#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
 #
@@ -26,10 +25,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals::StorageInteraction
-  class StorageCommand
-    def execute(data)
-      raise NotImplementedError, "#{self.class} has not implemented method '#{__method__}'"
-    end
+class AddAutomaticToProjectFolderModes < ActiveRecord::Migration[7.0]
+  disable_ddl_transaction!
+
+  def up
+    execute <<-SQL.squish
+      ALTER TYPE project_folder_modes ADD VALUE 'automatic';
+    SQL
   end
 end

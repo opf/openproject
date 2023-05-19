@@ -28,61 +28,50 @@
 
 module Storages::Peripherals
   class StorageRequests
+    COMMANDS = %i[
+      set_permissions_command
+      create_folder_command
+      add_user_to_group_command
+      remove_user_from_group_command
+      rename_file_command
+    ].freeze
+
+    QUERIES = %i[
+      download_link_query
+      file_query
+      files_query
+      upload_link_query
+      group_users_query
+      propfind_query
+    ].freeze
+
     def initialize(storage:)
       @storage = storage
-      @oauth_client = storage.oauth_client
     end
 
-    def download_link_query(user:)
-      storage_queries(user)
-        .download_link_query
-        .map { |query| query.method(:query).to_proc }
+    (COMMANDS + QUERIES - ['upload_link_query']).each do |request|
+      define_method(request) do
+        result(clazz(@storage, request))
+      end
     end
 
-    def files_query(user:)
-      storage_queries(user)
-        .files_query
-        .map { |query| query.method(:query).to_proc }
-    end
-
-    def file_query(user:)
-      storage_queries(user)
-        .file_query
-        .map { |query| query.method(:query).to_proc }
-    end
-
-    def upload_link_query(user:)
-      storage_queries(user)
-        .upload_link_query
-        .map { |query| query.method(:query).to_proc }
-    end
-
-    def set_permissions_command
-      storage_commands
-        .set_permissions_command
-        .map { |command| command.method(:execute).to_proc }
-    end
-
-    def create_folder_command
-      storage_commands
-        .create_folder_command
-        .map { |command| command.method(:execute).to_proc }
+    def upload_link_query
+      query_clazz = if OpenProject::FeatureDecisions.legacy_upload_preparation_active?
+                      clazz(@storage, 'legacy_upload_link_query')
+                    else
+                      clazz(@storage, 'upload_link_query')
+                    end
+      result(query_clazz)
     end
 
     private
 
-    def storage_queries(user)
-      ::Storages::Peripherals::StorageInteraction::StorageQueries
-        .new(
-          uri: URI(@storage.host).normalize,
-          provider_type: @storage.provider_type,
-          user:,
-          oauth_client: @oauth_client
-        )
+    def result(request_class)
+      ServiceResult.success(result: request_class.new(@storage).method(:call).to_proc)
     end
 
-    def storage_commands
-      ::Storages::Peripherals::StorageInteraction::StorageCommands.new(@storage)
+    def clazz(storage, request)
+      "::Storages::Peripherals::StorageInteraction::#{storage.short_provider_type.capitalize}::#{request.to_s.classify}".constantize
     end
   end
 end

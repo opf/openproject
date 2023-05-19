@@ -71,7 +71,9 @@ module OpenProject::Storages
                    { 'storages/admin/projects_storages': %i[index new edit update create destroy set_permissions] },
                    dependencies: %i[]
 
-        if OpenProject::FeatureDecisions.managed_project_folders_active?
+        # explicit check for test env is needed, because `with_flag: { managed_project_folders: true }` set for a test case
+        # handled later and at this moment feature is disabled.
+        if OpenProject::FeatureDecisions.managed_project_folders_active? || Rails.env.test?
           permission :read_files,
                      {},
                      dependencies: %i[]
@@ -225,6 +227,11 @@ module OpenProject::Storages
       mount ::API::V3::FileLinks::WorkPackagesFileLinksAPI
     end
 
-    add_cron_jobs { CleanupUncontaineredFileLinksJob }
+    add_cron_jobs do
+      [
+        CleanupUncontaineredFileLinksJob,
+        ManageNextcloudIntegrationJob
+      ]
+    end
   end
 end

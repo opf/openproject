@@ -27,21 +27,19 @@
 #++
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
-  class LegacyUploadLinkQuery < Storages::Peripherals::StorageInteraction::StorageQuery
-    using Storages::Peripherals::ServiceResultRefinements # use '>>' (bind) operator for ServiceResult
+  class LegacyUploadLinkQuery
+    using Storages::Peripherals::ServiceResultRefinements
 
     URI_BASE_PATH = '/ocs/v2.php/apps/files_sharing/api/v1/shares'.freeze
     UPLOAD_LINK_BASE = '/public.php/webdav'.freeze
 
-    def initialize(base_uri:, token:, retry_proc:)
-      super()
-
-      @base_uri = base_uri
-      @token = token
-      @retry_proc = retry_proc
+    def initialize(storage)
+      @uri = URI(storage.host).normalize
+      @oauth_client = storage.oauth_client
     end
 
-    def query(data)
+    def call(user:, data:)
+      @user = user
       validated(data) >>
         method(:create_file_share) >>
         method(:apply_drop_permission) >>
@@ -90,7 +88,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     def build_upload_link(share)
-      destination = @base_uri.merge("#{UPLOAD_LINK_BASE}/#{ERB::Util.url_encode(share.file_name)}")
+      destination = @uri.merge("#{UPLOAD_LINK_BASE}/#{CGI.escapeURIComponent(share.file_name)}")
       destination.user = share.token
       destination.password = share.password
 
@@ -98,12 +96,12 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     def outbound_response(method:, relative_path:, payload:) # rubocop:disable Metrics/AbcSize
-      @retry_proc.call(@token) do |token|
+      response = Util.token(user: @user, oauth_client: @oauth_client) do |token|
         response = begin
           ServiceResult.success(
             result: RestClient::Request.execute(
               method:,
-              url: @base_uri.merge(relative_path).to_s,
+              url: @uri.merge(relative_path).to_s,
               payload: payload.to_json,
               headers: {
                 'Authorization' => "Bearer #{token.access_token}",
