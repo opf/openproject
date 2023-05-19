@@ -26,19 +26,49 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= fields_for :pref, @user.pref, builder: TabularFormBuilder, lang: current_language do |pref_fields| %>
-  <%= render Settings::TimeZoneSettingComponent.new(
-        "time_zone",
-        form: pref_fields,
-        container_class: (defined? input_size) ? "-#{input_size}" : "-wide"
+
+<%# The javscript for this component is included in `settings.js.erb`. %>
+
+<div class="form--field">
+  <%# Empty label for styling only %>
+  <%= styled_label_tag "lang", '' %>
+  <div class="form--field-container">
+    <%=
+      styled_select_tag(
+        "lang",
+        options_for_select(lang_options_for_select(false), current_language.to_s),
+        id: "lang-for-#{name}",
+        class: "lang-select-switch",
+        container_class: '-slim'
       )
-  %>
-  <div class="form--field">
-    <%= pref_fields.select :comments_sorting,
-                           [[t(:label_chronological_order), 'asc'],
-                            [t(:label_reverse_chronological_order), 'desc']],
-                           container_class: (defined? input_size) ? "-#{input_size}" : '' %>
+    %>
   </div>
-  <div class="form--field"><%= pref_fields.check_box :warn_on_leaving_unsaved %></div>
-  <div class="form--field"><%= pref_fields.check_box :auto_hide_popups %></div>
+</div>
+
+<% Setting.available_languages.each do |lang| %>
+  <%=
+    hidden_field_tag(
+      "settings[#{name}][#{lang}]",
+      Setting.send(name)[lang],
+      id: "lang-for-#{name}-#{lang}"
+    )
+  %>
 <% end %>
+
+<div class="form--field -visible-overflow">
+  <%= styled_label_tag "settings[#{name}]", t("setting_#{name}") %>
+  <div class="form--field-container">
+    <%=
+      styled_text_area_tag(
+        "settings[#{name}][#{current_language.to_s}]",
+        Setting.send(name)[current_language.to_s],
+        label: false,
+        id: "settings-#{name}",
+        class: 'wiki-edit',
+        with_text_formatting: true,
+        rows: 5,
+        container_class: '-xxwide'
+      )
+    %>
+  </div>
+</div>
