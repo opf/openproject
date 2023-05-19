@@ -32,6 +32,7 @@ class Source::SeedFile
   class << self
     def all
       @all ||= [
+        new('app/seeders/common.yml'),
         new('app/seeders/standard.yml'),
         new('modules/bim/app/seeders/bim.yml')
       ].freeze
