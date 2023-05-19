@@ -116,17 +116,25 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
   }
 
   public copyUrlAndCloseModal(url:string):void {
-    void navigator.clipboard.writeText(url)
+    if(!navigator.clipboard) {
+      // fallback for browsers that don't support clipboard API at all
+      this.toastService.addWarning(
+        this.I18n.t('js.ical_sharing_modal.copy_url_error_text') + " " + url
+      );
+    } else {
+      void navigator.clipboard.writeText(url)
       .then(() => {
         this.toastService.addSuccess(this.text.copy_success_text);
-        this.closeMe();
       })
       .catch(() => {
-        // e.g. browser permission errors
-        this.toastService.addError(
-          url + " " + this.I18n.t('js.ical_sharing_modal.copy_url_error_text')
+        // fallback when running into e.g. browser permission errors
+        this.toastService.addWarning(
+          this.I18n.t('js.ical_sharing_modal.copy_url_error_text') + " " + url
         );
       });
+    }
+
+    this.closeMe();
   }
   
   public generateAndCopyUrl(event:any):void {

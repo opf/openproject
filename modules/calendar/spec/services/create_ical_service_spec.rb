@@ -45,7 +45,7 @@ describe Calendar::CreateICalService, type: :model do
   end
   let(:work_package_with_due_date_and_assignee) do
     create(:work_package, project:,
-                          due_date: Time.zone.today + 30.days, assigned_to: user)
+                          due_date: Time.zone.today + 60.days, assigned_to: user)
   end
   let(:work_packages) do
     [
@@ -93,7 +93,7 @@ describe Calendar::CreateICalService, type: :model do
       DTEND;VALUE=DATE:#{(work_package_with_due_date.due_date + 1.day).strftime('%Y%m%d')}
       DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_due_date.status.name}\nAssignee: \nPriority: #{work_package_with_due_date.priority.name}\n\nDescription:\n #{work_package_with_due_date.description}
       LOCATION:http://localhost:3000/work_packages/#{work_package_with_due_date.id}
-      ORGANIZER:Bob Bobbit
+      ORGANIZER:#{work_package_with_due_date.author&.name}
       SUMMARY:#{work_package_with_due_date.name}
       END:VEVENT
       BEGIN:VEVENT
@@ -103,7 +103,7 @@ describe Calendar::CreateICalService, type: :model do
       DTEND;VALUE=DATE:#{(work_package_with_start_date.start_date + 1.day).strftime('%Y%m%d')}
       DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_start_date.status.name}\nAssignee: \nPriority: #{work_package_with_start_date.priority.name}\n\nDescription:\n #{work_package_with_start_date.description}
       LOCATION:http://localhost:3000/work_packages/#{work_package_with_start_date.id}
-      ORGANIZER:Bob Bobbit
+      ORGANIZER:#{work_package_with_start_date.author&.name}
       SUMMARY:#{work_package_with_start_date.name}
       END:VEVENT
       BEGIN:VEVENT
@@ -113,7 +113,7 @@ describe Calendar::CreateICalService, type: :model do
       DTEND;VALUE=DATE:#{(work_package_with_start_and_due_date.due_date + 1.day).strftime('%Y%m%d')}
       DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_start_and_due_date.status.name}\nAssignee: \nPriority: #{work_package_with_start_and_due_date.priority.name}\n\nDescription:\n #{work_package_with_start_and_due_date.description}
       LOCATION:http://localhost:3000/work_packages/#{work_package_with_start_and_due_date.id}
-      ORGANIZER:Bob Bobbit
+      ORGANIZER:#{work_package_with_start_and_due_date.author&.name}
       SUMMARY:#{work_package_with_start_and_due_date.name}
       END:VEVENT
       BEGIN:VEVENT
@@ -123,7 +123,7 @@ describe Calendar::CreateICalService, type: :model do
       DTEND;VALUE=DATE:#{(work_package_with_due_date_and_assignee.due_date + 1.day).strftime('%Y%m%d')}
       DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_due_date_and_assignee.status.name}\nAssignee: #{work_package_with_due_date_and_assignee.assigned_to.name}\nPriority: #{work_package_with_due_date_and_assignee.priority.name}\n\nDescription:\n #{work_package_with_due_date_and_assignee.description}
       LOCATION:http://localhost:3000/work_packages/#{work_package_with_due_date_and_assignee.id}
-      ORGANIZER:Bob Bobbit
+      ORGANIZER:#{work_package_with_due_date_and_assignee.author&.name}
       SUMMARY:#{work_package_with_due_date_and_assignee.name}
       ATTENDEE:#{work_package_with_due_date_and_assignee.assigned_to.name}
       END:VEVENT

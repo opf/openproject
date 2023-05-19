@@ -36,6 +36,7 @@ module API
         class QueryIcalUrlAPI < ::API::OpenProjectAPI
           namespace :ical_url do
 
+            # TODO: introduce OpenProject::Configuration.ical_subscriptions_enabled configuration
             # before do
             #   raise API::Errors::NotFound unless OpenProject::Configuration.ical_subscriptions_enabled?
             # end
@@ -46,9 +47,7 @@ module API
 
             post do
               authorize_by_policy(:share_via_ical)
-              # TODO: write test for this
-
-              # TODO: currently the generated URL points to controller action in calendar module
+              # QUESTION: currently the generated URL points to controller action in calendar module
               # correct approach? or should it be implemented as a API here?
               call = ::Calendar::GenerateICalUrl.new.call(
                 user: current_user,
@@ -62,7 +61,8 @@ module API
               end
   
               status 201
-  
+              
+              # QUESTION: is it ok to use an OpenStruct here?
               QueryICalUrlRepresenter.new(
                 OpenStruct.new(ical_url: call.result, query: @query), 
                 current_user:

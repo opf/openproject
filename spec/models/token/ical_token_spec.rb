@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe Token::ICal do
-  let(:user) { build(:user) }
-  let(:project) { build(:project) }
-  let(:query) { build(:query, project:) }
+  let(:user) { create(:user) }
+  let(:project) { create(:project) }
+  let(:query) { create(:query, project:) }
   let(:name) { 'unique_name' }
 
   it 'inherits from Token::HashedToken' do
@@ -54,7 +54,7 @@ describe Token::ICal do
         ical_token_query_assignment_attributes: { query: query, user_id: user.id }
       )
       
-      expect(ical_token2.errors["ical_token_query_assignment.name"].first).to eq("can't be blank.")
+      expect(ical_token2.errors["ical_token_query_assignment.name"].first).to eq("is mandatory. Please select a name.")
       expect(described_class.where(user_id: user.id)).to be_empty
 
       # if a query and name is given, the token can be created
@@ -115,7 +115,7 @@ describe Token::ICal do
       )
 
       expect(ical_token2.errors["ical_token_query_assignment.name"].first).to eq(
-        "has already been taken for this query and user"
+        "is already in use. Please select another name."
       )
 
       expect(described_class.where(user_id: user.id)).to contain_exactly(
@@ -138,6 +138,8 @@ describe Token::ICal do
 
     describe '#create_and_return_value method' do
       it 'expects the query and token name and returns a token value' do
+        ical_token1_value = nil
+
         expect do
           ical_token1_value = described_class.create_and_return_value(
             user,
@@ -156,6 +158,9 @@ describe Token::ICal do
       end
 
       it 'does not return a token value if token was not successfully persisted' do
+        ical_token1_value = nil
+        ical_token2_value = nil
+
         expect do
           ical_token1_value = described_class.create_and_return_value(
             user,
@@ -163,12 +168,13 @@ describe Token::ICal do
             name
           )
           # same name cannot be used twice for the same query and user
-          # -> token will not be persisted and no value should be returned
-          ical_token2_value = described_class.create_and_return_value(
-            user,
-            query, 
-            name
-          )
+          expect {
+            ical_token2_value = described_class.create_and_return_value(
+              user,
+              query, 
+              name
+            )
+          }.to raise_error(ActiveRecord::RecordInvalid)
         end.to change { described_class.where(user_id: user.id).count }.by(1)
 
         expect(ical_token1_value).to be_present
@@ -176,7 +182,6 @@ describe Token::ICal do
 
         ical_token1 = described_class.where(user_id: user.id).last
         expect(described_class.find_by_plaintext_value(ical_token1_value)).to eq ical_token1
-        expect(described_class.find_by_plaintext_value(ical_token2_value)).to be_nil
       end
     end
   end

@@ -91,18 +91,18 @@ describe 'Calendar sharing via ical', js: true do
 
         # expect disabled sharing menu item
         within "#settingsDropdown" do
-          # expect(page).to have_button("Share iCalendar", disabled: true) # disabled selector not working
-          expect(page).to have_selector(".menu-item.inactive", text: "Share iCalendar")
-          page.click_button("Share iCalendar")
+          # expect(page).to have_button("Subscribe to iCalendar", disabled: true) # disabled selector not working
+          expect(page).to have_selector(".menu-item.inactive", text: "Subscribe to iCalendar")
+          page.click_button("Subscribe to iCalendar")
 
           # modal should not be shown
-          expect(page).not_to have_selector('.spot-modal--header', text: "Share iCalendar")
+          expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
         end
       end
     end
 
     context 'on persisted calendar query' do
-      it 'shows sharing menu item and sharing modal if clicked' do
+      before do
         saved_query
 
         visit project_calendars_path(project)
@@ -111,8 +111,10 @@ describe 'Calendar sharing via ical', js: true do
           click_link saved_query.name
         end
 
-        loading_indicator_saveguard
+        loading_indicator_saveguard        
+      end
 
+      it 'shows an active menu item' do
         # wait for settings button to become visible
         expect(page).to have_selector("#work-packages-settings-button")
 
@@ -121,20 +123,90 @@ describe 'Calendar sharing via ical', js: true do
 
         # expect disabled sharing menu item
         within "#settingsDropdown" do
-          expect(page).to have_selector(".menu-item", text: "Share iCalendar")
-          page.click_button("Share iCalendar")
+          expect(page).to have_selector(".menu-item", text: "Subscribe to iCalendar")
         end
+      end
+      
+      it 'shows a sharing modal' do
+        open_sharing_modal
 
-        expect(page).to have_selector('.spot-modal--header', text: "Share iCalendar")
+        expect(page).to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
+      end
+
+      it 'closes the sharing modal when closed by user by clicking the close button' do
+        open_sharing_modal
+
+        expect(page).to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
+
+        click_button "Cancel"
+
+        expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
+      end
+      
+      # it 'closes the sharing modal when closed by user by hitting escape' do
+      #   open_sharing_modal
+
+      #   expect(page).to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
+
+      #   page.find(:css, '.spot-modal--header').send_keys :escape
+
+      #   expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
+      # end
+
+      it 'successfully requests a new tokenized iCalendar URL when a unique name is provided' do
+        open_sharing_modal
+
+        fill_in "Name", with: "A token name"
 
         click_button "Copy URL"
 
-        # Not working in test env, probably due to missing clipboard permissions of the headless browser
+        # implicitly testing for success -> modal is closed and fallback message is shown
+        expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
+        expect(page).to have_content("/projects/#{saved_query.project.id}/calendars/#{saved_query.id}/ical?ical_token=")
+
+        # explictly testing for success message is not working in test env, probably 
+        # due to missing clipboard permissions of the headless browser
+        #
         # expect(page).to have_content("URL copied to clipboard")
 
         # TODO: Not able to test if the URL was actuall copied to the clipboard
         # Tried following without success
         # https://copyprogramming.com/howto/emulating-a-clipboard-copy-paste-with-selinum-capybara
+      end
+      
+      it 'validates the presence of a name' do
+        open_sharing_modal
+
+        # fill_in "Name", with: "A token name"
+
+        click_button "Copy URL"
+
+        # modal is still shown and error message is shown
+        expect(page).to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
+        expect(page).to have_content("Name is mandatory")
+      end
+
+      it 'validates the uniqueness of a name' do
+        open_sharing_modal
+
+        fill_in "Name", with: "A token name"
+
+        click_button "Copy URL"
+
+        expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
+        expect(page).to have_content("/projects/#{saved_query.project.id}/calendars/#{saved_query.id}/ical?ical_token=")
+
+        # do the same thing again, now expect validation error
+
+        open_sharing_modal
+
+        fill_in "Name", with: "A token name" # same name for same user and same query -> not allowed
+
+        click_button "Copy URL"
+
+        # modal is still shown and error message is shown
+        expect(page).to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
+        expect(page).to have_content("Name is already in use")
       end
     end
   end
@@ -159,14 +231,30 @@ describe 'Calendar sharing via ical', js: true do
 
         # expect disabled sharing menu item
         within "#settingsDropdown" do
-          # expect(page).to have_button("Share iCalendar", disabled: true) # disabled selector not working
-          expect(page).to have_selector(".menu-item.inactive", text: "Share iCalendar")
-          page.click_button("Share iCalendar")
+          # expect(page).to have_button("Subscribe to iCalendar", disabled: true) # disabled selector not working
+          expect(page).to have_selector(".menu-item.inactive", text: "Subscribe to iCalendar")
+          page.click_button("Subscribe to iCalendar")
 
           # modal should not be shown
-          expect(page).not_to have_selector('.spot-modal--header', text: "Share iCalendar")
+          expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
         end
       end
     end
+  end
+
+  # helper methods
+
+  def open_sharing_modal
+     # wait for settings button to become visible
+     expect(page).to have_selector("#work-packages-settings-button")
+
+     # click on settings button
+     page.find_by_id('work-packages-settings-button').click
+
+     # expect disabled sharing menu item
+     within "#settingsDropdown" do
+       expect(page).to have_selector(".menu-item", text: "Subscribe to iCalendar")
+       page.click_button("Subscribe to iCalendar")
+     end
   end
 end

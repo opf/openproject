@@ -394,6 +394,17 @@ describe QueryPolicy, type: :controller do
 
           expect(subject.allowed?(query, :share_via_ical)).to be_falsy
         end
+
+        it 'is true if the user has permission in the project' do
+          allow(user).to receive(:allowed_to?).with(
+            :share_calendars,
+            project,
+            global: project.nil?
+          )
+          .and_return true
+
+          expect(subject.allowed?(query, :share_via_ical)).to be_truthy
+        end
       end
     end
 

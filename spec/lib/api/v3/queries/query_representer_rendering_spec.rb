@@ -547,6 +547,26 @@ describe API::V3::Queries::QueryRepresenter do
     end
   end
 
+  describe 'ical url' do
+    context 'when allowed to subscribe to ical' do
+      let(:permissions) { %i(share_via_ical) }
+
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'icalUrl' }
+        let(:href) { api_v3_paths.query_ical_url(query.id) }
+      end
+    end
+
+    context 'when lacking permission' do
+      let(:permissions) { [] }
+
+      it 'has no icalUrl link' do
+        expect(subject)
+          .not_to have_json_path('_links/icalUrl')
+      end
+    end
+  end
+
   describe 'properties' do
     it_behaves_like 'property', :_type do
       let(:value) { 'Query' }

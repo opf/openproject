@@ -162,66 +162,81 @@ describe 'my', js: true do
           expect(page).to have_content 'iCalendar token(s) not present'
         end
 
-        new_ical_token_for_query1 = Token::ICal.create(user:, query: query1)
+        new_ical_token_for_query1 = Token::ICal.create(user:,
+          ical_token_query_assignment_attributes: { query: query1, name: "Some Token Name", user_id: user.id }
+        )
 
         visit my_access_token_path
 
         expect(page).not_to have_content 'iCalendar token(s) not present'
 
-        within(:xpath, "//tr[contains(.,'iCalendar token(s) for calendar \"#{query1.name}\"')]") do
-          expect(page).to have_content "iCalendar token(s) for calendar \"#{query1.name}\" of project \"#{project.name}\""
-          expect(page).to have_content "#{I18n.l(new_ical_token_for_query1.created_at, format: :time)} (latest)"
+        expected_content = "iCalendar token \"#{new_ical_token_for_query1.ical_token_query_assignment.name}\" for \"#{query1.name}\" in \"#{project.name}\""
+
+        within(:xpath, "//tr[contains(.,'#{expected_content}')]") do
+          expect(page).to have_content expected_content
+          expect(page).to have_content "#{I18n.l(new_ical_token_for_query1.created_at, format: :time)}"
         end
 
         Timecop.travel(1.minute.from_now) do
-          another_new_ical_token_for_query1 = Token::ICal.create(user:, query: query1)
+          another_new_ical_token_for_query1 = Token::ICal.create(user:,
+            ical_token_query_assignment_attributes: { query: query1, name: "Some Other Token Name", user_id: user.id }
+          )
 
           visit my_access_token_path
 
-          expect(page).not_to have_content 'iCalendar token(s) not present'
+          expected_content = "iCalendar token \"#{another_new_ical_token_for_query1.ical_token_query_assignment.name}\" for \"#{query1.name}\" in \"#{project.name}\""
 
-          within(:xpath, "//tr[contains(.,'iCalendar token(s) for calendar \"#{query1.name}\"')]") do
-            expect(page).to have_content "iCalendar token(s) for calendar \"#{query1.name}\" of project \"#{project.name}\""
-            expect(page).to have_content "#{I18n.l(another_new_ical_token_for_query1.created_at, format: :time)} (latest)"
+          within(:xpath, "//tr[contains(.,'#{expected_content}')]") do
+            expect(page).to have_content expected_content
+            expect(page).to have_content "#{I18n.l(another_new_ical_token_for_query1.created_at, format: :time)}"
           end
         end
 
         Timecop.travel(2.minutes.from_now) do
-          new_ical_token_for_query2 = Token::ICal.create(user:, query: query2)
+          new_ical_token_for_query2 = Token::ICal.create(user:,
+            ical_token_query_assignment_attributes: { query: query2, name: "Some Token Name", user_id: user.id }
+          )
 
           visit my_access_token_path
 
-          expect(page).not_to have_content 'iCalendar token(s) not present'
+          expected_content = "iCalendar token \"#{new_ical_token_for_query2.ical_token_query_assignment.name}\" for \"#{query2.name}\" in \"#{project.name}\""
 
-          within(:xpath, "//tr[contains(.,'iCalendar token(s) for calendar \"#{query2.name}\"')]") do
-            expect(page).to have_content "iCalendar token(s) for calendar \"#{query2.name}\" of project \"#{project.name}\""
-            expect(page).to have_content "#{I18n.l(new_ical_token_for_query2.created_at, format: :time)} (latest)"
+          within(:xpath, "//tr[contains(.,'#{expected_content}')]") do
+            expect(page).to have_content expected_content
+            expect(page).to have_content "#{I18n.l(new_ical_token_for_query2.created_at, format: :time)}"
           end
         end
       end
 
       it 'in Access Tokens they can revoke all existing Ical tokens' do
-        2.times do
-          Token::ICal.create(user:, query: query1)
-        end
-        Token::ICal.create(user:, query: query2)
+        new_ical_token_for_query1 = Token::ICal.create(user:,
+          ical_token_query_assignment_attributes: { query: query1, name: "Some Token Name", user_id: user.id }
+        )
+        another_new_ical_token_for_query1 = Token::ICal.create(user:,
+          ical_token_query_assignment_attributes: { query: query1, name: "Some Other Token Name", user_id: user.id }
+        )
+        new_ical_token_for_query2 = Token::ICal.create(user:,
+          ical_token_query_assignment_attributes: { query: query2, name: "Some Token Name", user_id: user.id }
+        )
 
         expect(user.ical_tokens.count).to eq 3
 
         visit my_access_token_path
 
-        within(:xpath, "//tr[contains(.,'iCalendar token(s) for calendar \"#{query1.name}\"')]") do
-          expect(page).to have_content "Revoke all"
+        expected_content = "iCalendar token \"#{new_ical_token_for_query1.ical_token_query_assignment.name}\" for \"#{query1.name}\" in \"#{project.name}\""
+
+        within(:xpath, "//tr[contains(.,'#{expected_content}')]") do
+          expect(page).to have_content "Revoke"
+          click_link "Revoke"
         end
 
-        find(:xpath, "//tr[contains(.,'iCalendar token(s) for calendar \"#{query1.name}\"')]/td/a", text: 'Revoke all').click
+        # find(:xpath, "//tr[contains(.,'iCalendar token(s) for \"#{query1.name}\"')]/td/a", text: 'Revoke all').click
 
-        expect(page).to have_content "All iCalendar tokens for calendar #{query1.name} of project #{project.name} have been revoked."
+        expect(page).to have_content "iCalendar token \"#{new_ical_token_for_query1.ical_token_query_assignment.name}\" for calendar \"#{query1.name}\" of project \"#{project.name}\" has been revoked."
 
-        expect(page).not_to have_content "iCalendar token(s) for calendar \"#{query1.name}\" of project \"#{project.name}\""
-        expect(page).to have_content "iCalendar token(s) for calendar \"#{query2.name}\" of project \"#{project.name}\""
+        expect(page).not_to have_content expected_content
 
-        expect(user.ical_tokens.count).to eq 1
+        expect(user.ical_tokens.count).to eq 2
       end
     end
   end

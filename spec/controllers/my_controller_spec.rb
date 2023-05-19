@@ -315,20 +315,40 @@ describe MyController do
       # in this context all ical tokens of a user should be reverted at once
       # this invalidates all previously generated ical urls, which is the intention
       context 'with existing keys' do
-        let!(:project) { create(:project) }
-        let!(:query1) { create(:query, project: project) }
-        let!(:query2) { create(:query, project: project) }
-        let!(:key1_of_query1) { Token::ICal.create user:, query: query1}
-        let!(:key2_of_query1) { Token::ICal.create user:, query: query1}
-        let!(:key1_of_query2) { Token::ICal.create user:, query: query2}
-        let!(:key2_of_query2) { Token::ICal.create user:, query: query2}
+        let(:user) { create(:user) }
+        let(:project) { create(:project) }
+        let(:query1) { create(:query, project: project) }
+        let(:query2) { create(:query, project: project) }
+        let!(:ical_token_for_query1) do
+          Token::ICal.create(user:,
+            ical_token_query_assignment_attributes: { query: query1, name: "Some Token Name", user_id: user.id }
+          )
+        end
+        let!(:ical_token_for_query1_2) do
+          Token::ICal.create(user:,
+            ical_token_query_assignment_attributes: { query: query1, name: "Some Other Token Name", user_id: user.id }
+          )
+        end
+        let!(:ical_token_for_query2_1) do
+          Token::ICal.create(user:,
+            ical_token_query_assignment_attributes: { query: query2, name: "Some Token Name", user_id: user.id }
+          )
+        end
+  
+        it 'revoke specific ical tokens' do
+          expect(user.ical_tokens).to contain_exactly(
+            ical_token_for_query1, ical_token_for_query1_2, ical_token_for_query2_1
+          )
 
-        it 'revokes all existing keys' do
-          expect(user.ical_tokens).to contain_exactly(key1_of_query1, key2_of_query1, key1_of_query2, key2_of_query2)
+          delete :revoke_ical_token, params: { id: ical_token_for_query1_2.id }
 
-          delete :revoke_all_ical_tokens_of_query, params: { query_id: query2.id }
+          expect(user.ical_tokens.reload).to contain_exactly(
+            ical_token_for_query1, ical_token_for_query2_1
+          )
 
-          expect(user.ical_tokens.reload).to contain_exactly(key1_of_query1, key2_of_query1)
+          expect(user.ical_tokens.reload).not_to contain_exactly(
+            ical_token_for_query2_1
+          )
 
           expect(flash[:info]).to be_present
           expect(flash[:error]).not_to be_present

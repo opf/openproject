@@ -368,7 +368,7 @@ en:
       copy_url_label: "Copy URL"
       ical_generation_error_text: "An error occured while generating the iCal URL"
       copy_url_success_text: "URL copied to clipboard"
-      copy_url_error_text: "couldn't be copied to clipboard"
+      copy_url_error_text: "Due to browser errors, the URL couldn't be copied to clipboard. Please copy it manually:"
 
     label_activate: "Activate"
     label_assignee: 'Assignee'

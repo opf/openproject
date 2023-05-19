@@ -35,6 +35,10 @@ module API
       module ICalUrl
         class QueryICalUrlRepresenter < ::API::Decorators::Single
 
+          def initialize(model, *_)
+            super(model, current_user: nil)
+          end
+
           link :self do
             {
               href: api_v3_paths.query_ical_url(represented.query.id),
@@ -59,7 +63,7 @@ module API
           end
 
           def _type
-            'QueryIcalUrl'
+            'QueryICalUrl'
           end
         end
       end

@@ -26,18 +26,44 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Calendar
-  class ResolveWorkPackagesService < ::BaseServices::BaseCallable
-    def perform(query:)
-      raise ActiveRecord::RecordNotFound if query.nil?
+require 'spec_helper'
 
-      work_packages = query.results.work_packages.includes(
-        :project, :assigned_to, :author, :priority, :status
-      )
-      work_packages_with_dates = work_packages
-        .where.not(start_date: nil, due_date: nil)
+describe API::V3::Queries::ICalUrl::QueryICalUrlRepresenter do
+  include API::V3::Utilities::PathHelper
 
-      ServiceResult.success(result: work_packages_with_dates)
+  let(:query) { build_stubbed(:query) }
+  let(:mocked_ical_url) { 'https://community.openproject.org/projects/3/calendars/46/ical?ical_token=66a44f91a18ad0355cfad77c319ef5ee2973291499fb8e44a220885f9124d2d2' }
+  let(:representer) do described_class.new(
+    OpenStruct.new(ical_url: mocked_ical_url, query: query)
+  ) end
+
+  subject { representer.to_json }
+
+  describe 'generation' do
+    describe '_links' do
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'self' }
+        let(:href) { api_v3_paths.query_ical_url(query.id) }
+        let(:method) { "post" }
+      end
+      
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'query' }
+        let(:href) { api_v3_paths.query(query.id) }
+        let(:method) { "get" }
+      end
+      
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'icalUrl' }
+        let(:href) { mocked_ical_url }
+        let(:method) { "get" }
+      end
+    end
+
+    it 'has _type QueryICalUrl' do
+      expect(subject)
+        .to be_json_eql('QueryICalUrl'.to_json)
+        .at_path('_type')
     end
   end
 end
