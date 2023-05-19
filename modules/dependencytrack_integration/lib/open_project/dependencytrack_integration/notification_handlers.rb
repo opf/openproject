@@ -47,7 +47,7 @@ module OpenProject::DependencytrackIntegration
       def with_logging(event_hook)
         yield if block_given?
       rescue StandardError => e
-        Rails.logger.error "Failed to handle #{event_hook} from Gitlab: #{e} #{e.message}"
+        Rails.logger.error "Failed to handle #{event_hook} from DependencyTrack: #{e} #{e.message}"
         raise e
       end
     end

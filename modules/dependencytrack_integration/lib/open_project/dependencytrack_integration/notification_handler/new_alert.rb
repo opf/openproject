@@ -36,13 +36,25 @@ module OpenProject::DependencytrackIntegration
       
       def process(payload_params)
         @payload = wrap_payload(payload_params)
-
+        user = User.find_by_id(payload.open_project_user_id)
         subject_text = payload.notification.title
-        description_text = '#{payload.notification.content}<br>Project: #{payload.notification.subject.project.name}<br>Component: #{payload.notification.subject.component.name} v#{payload.notification.subject.component.version}'
+        if payload.notification.group == 'NEW_VULNERABILITY'
+          vuln_text = "<il>#{payload.notification.subject.vulnerability.vulnId} — #{payload.notification.subject.vulnerability.description}</il>"
+        else
+          payload.notification.subject.vulnerabilities.each do |vuln_params|
+            # Rails.logger.info "VULNERABILITY INFO 1: #{vuln_params}"
+            vuln_id = vuln_params['vulnId']
+            vuln_desc = vuln_params['description']
+            vuln_text = "<li>#{vuln_id} — #{vuln_desc}</li>"
+          end
+        end
 
+        description_text = "#{payload.notification.content}:<ul><li><b>Project:</b> #{payload.notification.subject.project.name}</li><li><b>Component:</b> #{payload.notification.subject.component.name} v#{payload.notification.subject.component.version}</li><li><b>Vulnerabilities:</b></li><ul>#{vuln_text}</ul></li></ul>"
+
+        # Rails.logger.info "VULNERABILITY INFO 2: #{payload.notification.subject.vulnerabilities}"
         create_call = WorkPackages::CreateService
-          .new(user:)
-          .call(project_id: 3, type_id: 6, subject: subject_text, description: description_text)
+          .new(user: user)
+          .call(project_id: 3, type_id: 8, subject: subject_text, description: description_text)
 
         if create_call.success?
           Rails.logger.info "WORKPACKAGE Created"

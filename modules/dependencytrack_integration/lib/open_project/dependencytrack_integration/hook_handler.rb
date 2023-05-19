@@ -54,14 +54,15 @@ module OpenProject::DependencytrackIntegration
       # return 403 unless user.present?
 
       payload_params = params[:payload]
-                .permit!
-                .to_h
+        .permit!
+        .to_h
+        .merge('open_project_user_id' => user.id)
 
       
       #           .merge('open_project_user_id' => user.id,
       #                  'gitlab_event' => event_type)
       # Rails.logger.debug "Received gitlab webhook #{event_type}"
-      OpenProject::Notifications.send("dependencytrack.new_alert", payload)
+      OpenProject::Notifications.send("dependencytrack.new_alert", payload_params)
 
 
 
