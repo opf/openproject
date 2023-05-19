@@ -4,6 +4,9 @@ require_relative './migration_utils/utils'
 class AggregateJournals < ActiveRecord::Migration[6.1]
   include ::Migration::Utils
 
+  # Class has been removed by now
+  class WikiContent < ApplicationRecord; end
+
   def up
     [Attachment,
      Changeset,

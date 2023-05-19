@@ -110,7 +110,7 @@ describe 'Wysiwyg code block macro',
           expect(page).to have_selector('.flash.notice')
 
           wp = WikiPage.last
-          expect(wp.content.text.gsub("\r\n", "\n")).to eq("```text\nasdf\n```")
+          expect(wp.text.gsub("\r\n", "\n")).to eq("```text\nasdf\n```")
 
           SeleniumHubWaiter.wait
           click_on 'Edit'
@@ -124,7 +124,7 @@ describe 'Wysiwyg code block macro',
 
           wp.reload
           # Regression added two newlines before fence here
-          expect(wp.content.text.gsub("\r\n", "\n")).to eq("```text\nasdf\n```")
+          expect(wp.text.gsub("\r\n", "\n")).to eq("```text\nasdf\n```")
         end
       end
 
@@ -157,7 +157,7 @@ describe 'Wysiwyg code block macro',
         expect(page).to have_selector('.flash.notice')
 
         wiki_page = project.wiki.find_page('wiki')
-        text = wiki_page.content.text.gsub(/\r\n?/, "\n")
+        text = wiki_page.text.gsub(/\r\n?/, "\n")
         expect(text.strip).to eq(expected.strip)
 
         # Expect output widget

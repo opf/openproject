@@ -1,10 +1,5 @@
 require 'fileutils'
 
-def js_translation?(translation_file_path)
-  filename = File.basename translation_file_path.to_s
-  filename.match? /\Ajs-.+\z/
-end
-
 Dir.glob('**/config/locales/crowdin/*.yml').each do |crowdin_file|
   # Get the line that contains the first language key
   language_key = nil
@@ -26,7 +21,16 @@ Dir.glob('**/config/locales/crowdin/*.yml').each do |crowdin_file|
   language_key.delete!('"')
 
   # the files should be named like their translation-key
-  new_filename = "#{js_translation?(filename) ? 'js-' : ''}#{language_key}.yml"
+  new_filename =
+    case filename
+    when /\Ajs-.+\z/
+      "js-#{language_key}.yml"
+    when /.+\.seeders\.yml\z/
+      "#{language_key}.seeders.yml"
+    else
+      "#{language_key}.yml"
+    end
+
   directory = File.dirname(crowdin_file)
   new_filepath = File.join(directory, new_filename)
 

@@ -26,13 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 module DemoData
   class WorkPackageSeeder < Seeder
-    attr_reader :project, :statuses, :repository,
-                :types, :project_data
+    include CreateAttachments
+    include References
 
-    include ::DemoData::References
+    attr_reader :project, :statuses, :repository, :types
+    alias_method :project_data, :seed_data
 
     def initialize(project, project_data)
-      super()
+      super(project_data)
       @project = project
       @project_data = project_data
       @statuses = Status.all
@@ -51,7 +52,8 @@ module DemoData
 
     def seed_demo_work_packages
       project_data.each('work_packages') do |attributes|
-        create_or_update_work_package(attributes)
+        work_package = create_or_update_work_package(attributes)
+        memorize_work_package(work_package, attributes)
       end
     end
 
@@ -66,7 +68,6 @@ module DemoData
       wp_attr = base_work_package_attributes attributes
 
       set_version! wp_attr, attributes
-      set_accountable! wp_attr, attributes
       set_time_tracking_attributes! wp_attr, attributes
       set_backlogs_attributes! wp_attr, attributes
 
@@ -77,8 +78,7 @@ module DemoData
 
       description = work_package.description
       description = link_attachments description, work_package.attachments
-      description = link_children description, work_package
-      description = with_references description, project
+      description = with_references description
 
       work_package.update(description:)
 
@@ -91,6 +91,7 @@ module DemoData
 
         child.parent = work_package
         child.save!
+        memorize_work_package(child, child_attributes)
       end
     end
 
@@ -98,23 +99,27 @@ module DemoData
       {
         project:,
         author: user,
-        assigned_to: find_principal(attributes['assignee']),
+        assigned_to: find_principal(attributes['assigned_to']),
         subject: attributes['subject'],
         description: attributes['description'],
         status: find_status(attributes),
         type: find_type(attributes),
         priority: find_priority(attributes) || IssuePriority.default,
-        parent: WorkPackage.find_by(subject: attributes['parent'])
+        parent: find_work_package(attributes['parent'])
       }
     end
 
-    def find_principal(name)
-      if name
-        group_assignee = Group.find_by(lastname: name)
-        return group_assignee unless group_assignee.nil?
-      end
+    def memorize_work_package(work_package, attributes)
+      project_data.store_reference(attributes['reference'], work_package)
+      attributes['work_package'] = work_package
+    end
 
-      user
+    def find_work_package(reference)
+      seed_data.find_reference(reference)
+    end
+
+    def find_principal(reference)
+      seed_data.find_reference(reference) || user
     end
 
     def find_priority(attributes)
@@ -130,14 +135,9 @@ module DemoData
     end
 
     def set_version!(wp_attr, attributes)
-      if attributes['version']
-        wp_attr[:version] = Version.find_by!(name: attributes['version'])
-      end
-    end
-
-    def set_accountable!(wp_attr, attributes)
-      if attributes['accountable']
-        wp_attr[:responsible] = find_principal(attributes['accountable'])
+      version = seed_data.find_reference(attributes['version'])
+      if version
+        wp_attr[:version] = version
       end
     end
 
@@ -150,20 +150,8 @@ module DemoData
     end
 
     def set_backlogs_attributes!(wp_attr, attributes)
-      if defined? OpenProject::Backlogs
-        wp_attr[:position] = attributes['position'].to_i if attributes['position'].present?
-        wp_attr[:story_points] = attributes['story_points'].to_i if attributes['story_points'].present?
-      end
-    end
-
-    def create_attachments!(work_package, attributes)
-      Array(attributes['attachments']).each do |file_name|
-        attachment = work_package.attachments.build
-        attachment.author = work_package.author
-        attachment.file = File.new("config/locales/media/en/#{file_name}")
-
-        attachment.save!
-      end
+      wp_attr[:position] = attributes['position'].presence&.to_i
+      wp_attr[:story_points] = attributes['story_points'].presence&.to_i
     end
 
     def set_work_package_relations
@@ -174,9 +162,8 @@ module DemoData
 
     def create_relations(attributes)
       Array(attributes['relations']).each do |relation|
-        root_work_package = WorkPackage.find_by!(subject: attributes['subject'])
-        to_work_package = WorkPackage.find_by(subject: relation['to'], project: root_work_package.project)
-        to_work_package ||= WorkPackage.find_by!(subject: relation['to'])
+        root_work_package = attributes['work_package'] # memorized on creation
+        to_work_package = find_work_package(relation['to'])
         create_relation(
           to: to_work_package,
           from: root_work_package,

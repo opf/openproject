@@ -862,34 +862,28 @@ describe PermittedParams do
   end
 
   describe '#wiki_page' do
-    let(:hash_key) { :content }
-    let(:nested_key) { :page }
+    let(:hash_key) { :page }
     let (:attribute) { :wiki_page }
 
     describe 'title' do
       let(:hash) { { 'title' => 'blubs' } }
 
-      it_behaves_like 'allows nested params'
+      it_behaves_like 'allows params'
     end
 
     describe 'parent_id' do
       let(:hash) { { 'parent_id' => '1' } }
 
-      it_behaves_like 'allows nested params'
+      it_behaves_like 'allows params'
     end
 
     describe 'redirect_existing_links' do
       let(:hash) { { 'redirect_existing_links' => '1' } }
 
-      it_behaves_like 'allows nested params'
+      it_behaves_like 'allows params'
     end
-  end
 
-  describe '#wiki_content' do
-    let (:hash_key) { :content }
-    let (:attribute) { :wiki_content }
-
-    describe 'title' do
+    describe 'journal_notes' do
       let(:hash) { { 'journal_notes' => 'blubs' } }
 
       it_behaves_like 'allows params'
@@ -924,7 +918,7 @@ describe PermittedParams do
     end
 
     describe 'project_id' do
-      let(:hash) { { 'user_id' => 'blubs' } }
+      let(:hash) { { 'project_id' => 'blubs' } }
 
       it_behaves_like 'forbids params'
     end

@@ -29,11 +29,12 @@
 #++
 
 class Activities::ItemSubtitleComponent < ViewComponent::Base
-  def initialize(user:, datetime:, is_creation:)
+  def initialize(user:, datetime:, is_creation:, journable_type:)
     super()
     @user = user
     @datetime = datetime
     @is_creation = is_creation
+    @journable_type = journable_type
   end
 
   def user_html
@@ -49,11 +50,16 @@ class Activities::ItemSubtitleComponent < ViewComponent::Base
     helpers.format_time(@datetime)
   end
 
+  def time_entry?
+    @journable_type == 'TimeEntry'
+  end
+
   def i18n_key
     i18n_key = 'activity.item.'.dup
     i18n_key << (@is_creation ? 'created_' : 'updated_')
     i18n_key << 'by_' if @user
     i18n_key << 'on'
+    i18n_key << '_time_entry' if time_entry?
     i18n_key
   end
 end

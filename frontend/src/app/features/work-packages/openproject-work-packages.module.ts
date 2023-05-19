@@ -186,6 +186,7 @@ import { ProjectStoragesResourceService } from 'core-app/core/state/project-stor
 import { OpBaselineModalComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline-modal/baseline-modal.component';
 import { OpBaselineComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline/baseline.component';
 import { OpBaselineLoadingComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline-loading/baseline-loading.component';
+import { OpBaselineLegendsComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline-legends/baseline-legends.component';
 
 @NgModule({
   imports: [
@@ -421,6 +422,7 @@ import { OpBaselineLoadingComponent } from 'core-app/features/work-packages/comp
     OpBaselineModalComponent,
     OpBaselineComponent,
     OpBaselineLoadingComponent,
+    OpBaselineLegendsComponent,
   ],
   exports: [
     WorkPackagesTableComponent,

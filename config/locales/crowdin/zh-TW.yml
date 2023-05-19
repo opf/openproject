@@ -484,6 +484,15 @@ zh-TW:
           true: "public"
           false: "private"
         queries: "查詢"
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
+        status_codes:
+          not_started: 'Not started'
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         templated: "範本專案"
         templated_value:
           true: "marked as template"
@@ -491,16 +500,6 @@ zh-TW:
         types: "類型"
         versions: "版本"
         work_packages: "工作項目"
-      projects/status:
-        code: '狀態'
-        explanation: '狀態描述'
-        codes:
-          not_started: '未開始'
-          on_track: '進度良好'
-          at_risk: '存在風險'
-          off_track: '進度脫軌'
-          finished: '已完成'
-          discontinued: '已中止'
       query:
         column_names: "欄"
         relations_to_type_column: "與 %{type} 的關連"
@@ -741,6 +740,7 @@ zh-TW:
               format: "%{message}"
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "與按照 \"%{group_by}\" 分組的群組相互排斥。不能同時啟動兩者。"
           filters:
@@ -913,11 +913,20 @@ zh-TW:
   activity:
     item:
       created_by_on: "created by %{user} on %{datetime}"
+      created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "created on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
       parent_without_of: "Subproject"
       parent_no_longer: "No longer subproject of"
+      time_entry:
+        hour:
+          other: "%{count} hours"
+        hour_html:
+          other: "<i>%{count} hours</i>"
+        updated: "changed from %{old_value} to %{value}"
+        logged_for: "Logged for"
     filter:
       changeset: "Changesets"
       message: "Forums"
@@ -1876,7 +1885,7 @@ zh-TW:
   label_role_search: "為新成員分配角色"
   label_scm: "SCM"
   label_search: "搜尋"
-  label_send_information: "傳送帳號資訊給使用者"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "發送測試電子郵件"
   label_setting_plural: "設定"
   label_system_settings: "系統設置"

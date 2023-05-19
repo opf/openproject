@@ -24,11 +24,9 @@ This integration makes it possible for you to:
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
 | [Connecting your OpenProject and Nextcloud accounts](#connecting-your-openproject-and-nextcloud-accounts) | How to connect your Nextcloud and OpenProject accounts to be able to use this integration |
 | [Linking files and folders to work packages](#linking-files-and-folders-to-work-packages) | How to link files and folders to work packages and view and download linked files |
-| [Unlinking files and folders](#unlinking-files-and-folders) | How to remove the link between a work package and a Nextcloud file or folder |
-| [Permissions and access control](#permissions-and-access-control) | Who has access to linked files and who doesn't |
-| [Possible errors and troubleshooting](#possible-errors-and-troubleshooting) | Common errors and how to troubleshoot them |
-
-
+| [Unlinking files and folders](#unlinking-files-and-folders)  | How to remove the link between a work package and a Nextcloud file or folder |
+| [Permissions and access control](#permissions-and-access-control) | Who has access to linked files and who doesn't               |
+| [Possible errors and troubleshooting](#possible-errors-and-troubleshooting) | Common errors and how to troubleshoot them                   |
 
 ## Connecting your OpenProject and Nextcloud accounts
 
@@ -56,21 +54,15 @@ To begin using this integration, you will need to first connect your OpenProject
 
 > **Note**: To disconnect the link between your OpenProject and Nextcloud accounts, head on over to Nextcloud and navigate to _Settings → Connected accounts_. There, click *Disconnect from OpenProject* button. To re-link the two accounts, simply follow [the above instructions](#connecting-your-openproject-and-nextcloud-accounts) again.
 
-
 ## Linking files and folders to work packages
-
-The following video gives you a short overview of how to use this integration:
-
-![OpenProject Nextcloud integration video](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Nextcloud-Integration-2.mp4)
-
 
 ### In OpenProject
 
-In addition to listing files attached to a work package, the **Files** tab now also shows you Nextcloud files that are linked to the current work package. Hovering on any linked file with your mouse will give you options to  **open or download the file, show the containing folder in Nextcloud or remove the link**.
+This video will give you an overview of how to link existing files and upload new files from OpenProject to Nextcloud (English only):
 
+![Upload and link files to Nextcloud from OpenProject](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Nextcloud-files-upload.mp4)
 
-
-![Empty_status_files](1_0_00-No_files_linked.png)
+In addition to listing files directly attached to a work package, the **Files** tab shows your Nextcloud files that are linked to the current work package. Hovering on any linked file with your mouse will give you options to  **open or download the file, show the containing folder in Nextcloud or remove the link**.
 
 ![OP_linked_files](1_1_00-All_files_available.png)
 
@@ -140,6 +132,10 @@ The file is now linked to this work package and is visible in the list:
 
 ### In Nextcloud
 
+This video will give you an overview how to link files and folder from Nextcloud to OpenProject (English only).
+
+![OpenProject Nextcloud integration video](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Nextcloud-Integration-2.mp4)
+
 On the file or folder that you want to link to a work package, click on the *three dots → **Details**.*
 
 ![NC_open_file_details](Nextcloud_open_file_details.png)
@@ -164,7 +160,7 @@ In addition to actions related to individual files, you can also choose to displ
 ![added_NC_widget](Nextcloud_dashboard.png)
 
 
-There are two additional features related to the integration that you can enable in Nextcloud. In your personal settings page, under *OpenProject *, you will find these options:
+There are two additional features related to the integration that you can enable in Nextcloud. In your personal settings page, under **OpenProject**, you will find these options:
 
 - **Enable navigation link** displays a link to your OpenProject instance in the Nextcloud header 
 - **Enable unified search for tickets** allows you to search OpenProject work packages via the universal search bar in Nextcloud

@@ -171,7 +171,7 @@ describe 'Search', js: true, with_mail: false, with_settings: { per_page_options
   end
 
   describe 'search for work packages' do
-    context 'when search in all projects' do
+    context 'when searching in all projects' do
       let(:params) { [project, { q: query, work_packages: 1 }] }
 
       context 'as custom fields not searchable' do
@@ -211,6 +211,30 @@ describe 'Search', js: true, with_mail: false, with_settings: { per_page_options
           table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
           table.ensure_work_package_not_listed!(work_packages[0])
           table.expect_work_package_subject(work_packages[1].subject)
+        end
+      end
+
+      describe 'by #id' do
+        let(:work_package) { work_packages.last }
+
+        it 'loads the WP results table with the correct WP' do
+          select_autocomplete(page.find('.top-menu-search--input'),
+                              query: "##{work_package.id}",
+                              select_text: "In all projects ↵",
+                              wait_dropdown_open: false)
+          table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
+          table.ensure_work_package_not_listed!(*work_packages[0...-1])
+          table.expect_work_package_subject(work_package.subject)
+        end
+
+        context 'when submitting without autocomplete' do
+          it 'loads the WP in full view' do
+            global_search.search "##{work_package.id}"
+            global_search.submit_with_enter
+
+            wp_page = Pages::FullWorkPackage.new(work_package)
+            wp_page.expect_subject
+          end
         end
       end
 

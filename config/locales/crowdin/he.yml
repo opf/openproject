@@ -487,6 +487,15 @@ he:
           true: "public"
           false: "private"
         queries: "שאילתות"
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
+        status_codes:
+          not_started: 'Not started'
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         templated: "Template project"
         templated_value:
           true: "marked as template"
@@ -494,16 +503,6 @@ he:
         types: "סוגים"
         versions: "גירסאות"
         work_packages: "חבילות עבודה"
-      projects/status:
-        code: 'מצב'
-        explanation: 'Status description'
-        codes:
-          not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
       query:
         column_names: "עמודות"
         relations_to_type_column: "Relations to %{type}"
@@ -744,6 +743,7 @@ he:
               format: "%{message}"
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
           filters:
@@ -928,11 +928,26 @@ he:
   activity:
     item:
       created_by_on: "created by %{user} on %{datetime}"
+      created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "created on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
       parent_without_of: "Subproject"
       parent_no_longer: "No longer subproject of"
+      time_entry:
+        hour:
+          one: "%{count} hour"
+          two: "%{count} hours"
+          many: "%{count} hours"
+          other: "%{count} hours"
+        hour_html:
+          one: "<i>%{count} hour</i>"
+          two: "<i>%{count} hours</i>"
+          many: "<i>%{count} hours</i>"
+          other: "<i>%{count} hours</i>"
+        updated: "changed from %{old_value} to %{value}"
+        logged_for: "Logged for"
     filter:
       changeset: "Changesets"
       message: "Forums"
@@ -1927,7 +1942,7 @@ he:
   label_role_search: "Assign role to new members"
   label_scm: "SCM"
   label_search: "חיפוש"
-  label_send_information: "Send account information to the user"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Send a test email"
   label_setting_plural: "הגדרות"
   label_system_settings: "System settings"

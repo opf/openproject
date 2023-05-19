@@ -30,22 +30,26 @@ module Storages::Peripherals::StorageInteraction
   class StorageCommands
     using ::Storages::Peripherals::ServiceResultRefinements
 
-    def initialize(uri:, provider_type:, username:, password:)
-      @uri = uri
-      @provider_type = provider_type
-      @username = username
-      @password = password
+    def initialize(storage)
+      @storage = storage
     end
 
     def set_permissions_command
-      case @provider_type
+      case @storage.provider_type
       when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
         ServiceResult.success(
-          result: ::Storages::Peripherals::StorageInteraction::Nextcloud::SetPermissionsCommand.new(
-            base_uri: @uri,
-            username: @username,
-            password: @password
-          )
+          result: ::Storages::Peripherals::StorageInteraction::Nextcloud::SetPermissionsCommand.new(@storage)
+        )
+      else
+        raise ArgumentError
+      end
+    end
+
+    def create_folder_command
+      case @storage.provider_type
+      when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+        ServiceResult.success(
+          result: ::Storages::Peripherals::StorageInteraction::Nextcloud::CreateFolderCommand.new(@storage)
         )
       else
         raise ArgumentError

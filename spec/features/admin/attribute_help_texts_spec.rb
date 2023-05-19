@@ -37,10 +37,8 @@ describe 'Attribute help texts', js: true do
   let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
   let(:enterprise_token) { true }
 
-  describe 'Work package help texts' do
+  describe 'Work package help texts', with_ee: %i[attribute_help_texts] do
     before do
-      with_enterprise_token(enterprise_token ? :attribute_help_texts : nil)
-
       login_as(admin)
       visit attribute_help_texts_path
     end
@@ -151,9 +149,7 @@ describe 'Attribute help texts', js: true do
       end
     end
 
-    context 'with help texts disallowed by the enterprise token' do
-      let(:enterprise_token) { false }
-
+    context 'with help texts disallowed by the enterprise token', with_ee: false do
       it 'hides CRUD to attribute help texts' do
         expect(page).to have_current_path /upsale/
         expect(page).to have_text I18n.t('attribute_help_texts.enterprise.description')

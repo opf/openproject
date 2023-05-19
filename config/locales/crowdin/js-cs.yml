@@ -224,14 +224,14 @@ cs:
           status_label: "Stav:"
           status_confirmed: "potvrzeno"
           status_waiting: "e-mail odeslán - čeká na potvrzení"
-          test_ee: "Test the Enterprise edition 14 days for free"
+          test_ee: "Vyzkoušejte Enterprise Edition 14 dní zdarma"
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "Staň se hrdinou!"
           enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
-            description: "What are the benefits of the Enterprise on-premises edition?"
+            description: "Jaké jsou výhody  Enterprise on-premises Edice?"
             high_security: "Bezpečnostní prvky"
             high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
             installation: "Instalační podpora"
@@ -589,8 +589,8 @@ cs:
         text_update_date: "%{date} od"
         total_count_warning: "Zobrazení posledních oznámení %{newest_count} . Nezobrazuje se ještě %{more_count}"
         empty_state:
-          no_notification: "Looks like you are all caught up."
-          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification: "Vypadá to, že jste všechno dohnali..."
+          no_notification_with_current_project_filter: "Vypadá to, že nemáte žadné nové oznámení pro vybraný projekt."
           no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Klikněte na oznámení pro zobrazení všech podrobností o aktivitě."
         new_notifications:
@@ -609,17 +609,17 @@ cs:
         title: "Nastavení oznámení"
         notify_me: "Upozornit mě"
         reminders:
-          no_notification: No notification
+          no_notification: Žádné oznámení
           timeframes:
             normal:
               PT0S: Týž den
               P1D: před 1 dnem
               P3D: 3 dny před
-              P7D: a week before
+              P7D: před týdnem
             overdue:
               P1D: každý den
-              P3D: every 3 days
-              P7D: every week
+              P3D: Každé 3 dny
+              P7D: každý týden
         reasons:
           mentioned:
             title: 'Zmíněné'
@@ -667,7 +667,7 @@ cs:
     project:
       required_outside_context: >
         Vyberte projekt pro vytvoření pracovního balíčku, abyste viděli všechny atributy. Můžete vybrat pouze projekty, které mají výše uvedený typ aktivován.
-      details_activity: 'Project details activity'
+      details_activity: 'Aktivita podrobností projektu'
       context: 'Kontext projektu'
       work_package_belongs_to: 'Tento pracovní balíček náleží projektu %{projectname}.'
       click_to_switch_context: 'Otevřete tento pracovní balíček v tomto projektu.'
@@ -718,7 +718,7 @@ cs:
         reset_title: "Vyčistit konfiguraci formuláře"
         confirm_reset: >
           Upozornění: Opravdu chcete resetovat konfiguraci formuláře? Tato akce obnoví atributy na jejich výchozí skupinu a zakáže VŠECHNY vlastní pole.
-        upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
+        upgrade_to_ee: "Upgradovat na Enterprise Edition on premises"
         upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
         more_information: "Více informací"
         nevermind: "Nevadí"
@@ -866,7 +866,7 @@ cs:
       zooms: "Úroveň zvětšení"
       outlines: "Úroveň hierarchie"
     upsale:
-      ee_only: 'Enterprise edition add-on'
+      ee_only: 'doplňek Enterprise Edice'
     wiki_formatting:
       strong: "Silný"
       italic: "Kurzíva"
@@ -1007,7 +1007,7 @@ cs:
         move_column_left: "Přesunout sloupec vlevo"
         move_column_right: "Přesunout sloupec vpravo"
         hide_column: "Skrýt sloupec"
-        insert_columns: "Insert columns"
+        insert_columns: "Vložit sloupec ..."
         filters: "Filtry"
         display_sums: "Zobrazit součty"
         confirm_edit_cancel: "Jste si jisti, že chcete zrušit úpravy názvu tohoto pohledu? Titulek bude nastaven zpět na předchozí hodnotu."
@@ -1076,19 +1076,19 @@ cs:
         months: "mesice"
     toolbar:
       settings:
-        configure_view: "Configure view"
-        columns: "Columns"
-        sort_by: "Sort by"
-        group_by: "Group by"
+        configure_view: "Konfigurace zobrazení"
+        columns: "Sloupce"
+        sort_by: "Seřadit podle"
+        group_by: "Seskupit podle"
         display_sums: "Zobrazit součty"
         display_hierarchy: "Hierarchie zobrazení"
         hide_hierarchy: "Skrýt hierarchii"
         hide_sums: "Skrýt součty"
         save: "Uložit"
-        save_as: "Save as"
+        save_as: "Uložit jako"
         export: "Export"
-        visibility_settings: "Visibility settings"
-        page_settings: "Rename view"
+        visibility_settings: "Nastavení viditelnosti"
+        page_settings: "Přejmenovat zobrazení"
         delete: "Odstranit"
       filter: "Filtr"
       unselected_title: "Pracovní balíček"
@@ -1106,8 +1106,8 @@ cs:
         text: 'Opravdu chcete provést tuto akci?'
       destroy_work_package:
         title: "Potvrdit smazání %{label}"
-        single_text: "Are you sure you want to delete the work package"
-        bulk_text: "Are you sure you want to delete the following %{label}?"
+        single_text: "Opravdu chcete odstranit tento balíček?"
+        bulk_text: "Opravdu chcete odstranit %{label}?"
         has_children: "Pracovní balíček má %{childUnits}:"
         confirm_deletion_children: "Jsem si vědom, že všechny potomky uvedených pracovních balíčků budou rekurzivně odstraněny."
         deletes_children: "Všechny podřízené pracovní balíčky a jejich potomci budou také rekurzivně odstraněny."
@@ -1208,9 +1208,9 @@ cs:
           description: 'Oprávnění založená na přiřazené roli ve vybraném projektu'
         placeholder:
           title: 'placeholder uživatel'
-          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
+          title_no_ee: 'placeholder uživatel (pouze funkce Enterprise Edition)'
           description: 'Nemá přístup k projektu a nejsou odesílány žádné e-maily.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
+          description_no_ee: 'Nemá přístup k projektu a nejsou odeslány žádné e-maily. <br>Podívejte se na <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
       principal:
         label:
           name_or_email: 'Jméno nebo e-mailová adresa'
@@ -1261,22 +1261,27 @@ cs:
         does_not_match_search: 'Projekt neodpovídá kritériím vyhledávání.'
       no_results: 'Žádný projekt neodpovídá vašim kritériím vyhledávání.'
     baseline:
-      toggle_title: 'Baseline'
+      toggle_title: 'Směrný plán'
       clear: 'Clear'
-      apply: 'Apply'
+      apply: 'Použít'
       header_description: 'View changes made to work packages in the current view within a time period.'
-      show_changes_since: 'Show changes since'
-      help_description: 'Default time zone of the instance set by the administrator.'
+      show_changes_since: 'Zobrazit změny od'
+      help_description: 'Výchozí časové pásmo instance nastavené správcem.'
       time_description: 'In default time zone: %{time} %{days} day(s).'
-      time: 'Time'
+      time: 'Čas'
       drop_down:
         none: '-'
-        yesterday: 'yesterday'
-        last_working_day: 'last working day'
-        last_week: 'last week'
-        last_month: 'last month'
-        a_specific_date: 'a specific date'
-        between_two_specific_dates: 'between two specific dates'
+        yesterday: 'včera'
+        last_working_day: 'poslední pracovní den'
+        last_week: 'poslední týden'
+        last_month: 'Poslední měsíc'
+        a_specific_date: 'konkrétní datum'
+        between_two_specific_dates: 'mezi dvěma konkrétními daty'
+      legends:
+        changes_since: 'Changes since'
+        now_meets_filter_criteria: 'Now meets filter criteria'
+        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
+        maintained_with_changes: 'Maintained with changes'
     forms:
       submit_success_message: 'Formulář byl úspěšně odeslán'
       load_error_message: 'Při načítání formuláře došlo k chybě'

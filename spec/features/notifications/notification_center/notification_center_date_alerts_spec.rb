@@ -5,9 +5,17 @@ require 'features/page_objects/notification'
 describe "Notification center date alerts", js: true, with_settings: { journal_aggregation_time_minutes: 0 } do
   include ActiveSupport::Testing::TimeHelpers
 
-  shared_let(:time_zone) { ActiveSupport::TimeZone['Europe/Berlin'] }
+  # Find an assignable time zone with the same UTC offset as the local time zone
+  def find_compatible_local_time_zone
+    local_offset = Time.now.gmt_offset # rubocop:disable Rails/TimeZone
+    time_zone = UserPreferences::UpdateContract.assignable_time_zones.find { |tz| tz.utc_offset == local_offset }
+    .tap { p _1 }
+    time_zone or raise "Unable to find an assignable time zone with #{local_offset} seconds offset."
+  end
+
+  shared_let(:time_zone) { find_compatible_local_time_zone }
   shared_let(:user) do
-    create(:user, preferences: { time_zone: time_zone.name }).tap do |user|
+    create(:user, preferences: { time_zone: time_zone.tzinfo.name }).tap do |user|
       user.notification_settings.first.update(
         start_date: 7,
         due_date: 3,
@@ -172,10 +180,14 @@ describe "Notification center date alerts", js: true, with_settings: { journal_a
     timezone.now.change(time_hash(time))
   end
 
+  # early in the morning, a bit after 1:00 AM local time, the notifications get
+  # created by the job
+  let(:notifications_creation_time) { timezone_time('1:04', time_zone) }
+
   def run_create_date_alerts_notifications_job
     create_date_alerts_service = Notifications::ScheduleDateAlertsNotificationsJob::Service
                                    .new([timezone_time('1:00', time_zone)])
-    travel_to(timezone_time('1:04', time_zone))
+    travel_to(notifications_creation_time)
     create_date_alerts_service.call
     travel_back
   end
@@ -251,7 +263,7 @@ describe "Notification center date alerts", js: true, with_settings: { journal_a
       activity_tab.expect_notification_count 1
 
       # When a work package is updated to a different date
-      wp_double_notification.update_column(:due_date, 5.days.from_now)
+      wp_double_notification.update_column(:due_date, time_zone.now + 5.days)
       page.driver.refresh
 
       center.expect_item(notification_wp_double_date_alert, 'Finish date is in 5 days')

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Custom actions', js: true do
+describe 'Custom actions', js: true, with_ee: %i[custom_actions] do
   shared_let(:admin) { create(:admin) }
 
   let(:permissions) { %i(view_work_packages edit_work_packages move_work_packages work_package_assigned) }
@@ -140,7 +140,6 @@ describe 'Custom actions', js: true do
   let(:index_ca_page) { Pages::Admin::CustomActions::Index.new }
 
   before do
-    with_enterprise_token(:custom_actions)
     login_as(admin)
   end
 

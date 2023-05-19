@@ -28,8 +28,6 @@
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
   class SetPermissionsCommand < Storages::Peripherals::StorageInteraction::StorageCommand
-    include API::V3::Utilities::PathHelper
-    include Errors
     using Storages::Peripherals::ServiceResultRefinements
 
     PERMISSION_MAP = {
@@ -40,13 +38,15 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       share_files: 16
     }.freeze
 
-    def initialize(base_uri:, username:, password:)
+    def initialize(storage)
       super()
 
-      @uri = base_uri
-      @base_path = api_v3_paths.join_uri_path(@uri.path, "remote.php/dav/files", escape_whitespace(username))
-      @username = username
-      @password = password
+      @uri = URI(storage.host).normalize
+      @base_path = Util.join_uri_path(@uri.path, "remote.php/dav/files", Util.escape_whitespace(storage.username))
+      @groupfolder = storage.groupfolder
+      @group = storage.group
+      @username = storage.username
+      @password = storage.password
     end
 
     def execute(folder:, permissions:)
@@ -54,47 +54,34 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       http.use_ssl = @uri.scheme == 'https'
 
       response = http.proppatch(
-        "#{@base_path}/#{requested_folder(folder)}",
-        converted_permissions(username: @username, permissions:),
+        "#{@base_path}/#{@groupfolder}/#{requested_folder(folder)}",
+        converted_permissions(permissions:),
         {
           'Authorization' => "Basic #{Base64::encode64("#{@username}:#{@password}")}"
         }
       )
 
-      response.is_a?(Net::HTTPSuccess) ? ServiceResult.success : error(response)
+      case response
+      when Net::HTTPSuccess
+        ServiceResult.success
+      when Net::HTTPNotFound
+        Util.error(:not_found)
+      when Net::HTTPUnauthorized
+        Util.error(:not_authorized)
+      else
+        Util.error(:error)
+      end
     end
 
     private
 
-    def escape_whitespace(value)
-      value.gsub(' ', '%20')
-    end
-
     def requested_folder(folder)
       raise ArgumentError.new("Folder can't be nil or empty string!") if folder.blank?
 
-      escape_whitespace(folder)
+      Util.escape_whitespace(folder)
     end
 
-    def error(response)
-      case response
-      when Net::HTTPNotFound
-        error_result(:not_found)
-      when Net::HTTPUnauthorized
-        error_result(:not_authorized)
-      else
-        error_result(:error)
-      end
-    end
-
-    def error_result(code, log_message = nil, data = nil)
-      ServiceResult.failure(
-        result: code, # This is needed to work with the ConnectionManager token refresh mechanism.
-        errors: Storages::StorageError.new(code:, log_message:, data:)
-      )
-    end
-
-    def converted_permissions(username:, permissions:)
+    def converted_permissions(permissions:)
       Nokogiri::XML::Builder.new do |xml|
         xml['d'].propertyupdate(
           'xmlns:d' => 'DAV:',
@@ -103,7 +90,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           xml['d'].set do
             xml['d'].prop do
               xml['nc'].send('acl-list') do
-                control_user_permissions(username, xml)
+                control_user_permissions(xml)
                 control_group_permissions(xml)
                 user_permissions(xml, permissions)
               end
@@ -113,10 +100,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       end.to_xml
     end
 
-    def control_user_permissions(username, xml)
+    def control_user_permissions(xml)
       xml['nc'].acl do
         xml['nc'].send('acl-mapping-type', 'user')
-        xml['nc'].send('acl-mapping-id', username)
+        xml['nc'].send('acl-mapping-id', @username)
         xml['nc'].send('acl-mask', '31')
         xml['nc'].send('acl-permissions', '31')
       end
@@ -125,7 +112,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     def control_group_permissions(xml)
       xml['nc'].acl do
         xml['nc'].send('acl-mapping-type', 'group')
-        xml['nc'].send('acl-mapping-id', 'OpenProject')
+        xml['nc'].send('acl-mapping-id', @group)
         xml['nc'].send('acl-mask', '31')
         xml['nc'].send('acl-permissions', '0')
       end

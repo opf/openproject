@@ -37,9 +37,17 @@ module Components
         expect(page).to have_selector('.wp-table--baseline-th')
       end
 
+      def expect_legends
+        expect(page).to have_selector('.op-baseline-legends')
+      end
+
+      def expect_no_legends
+        expect(page).not_to have_selector('.op-baseline-legends')
+      end
+
       def expect_inactive
         expect(page).not_to have_selector('.wp-table--baseline-th')
-        expect(page).not_to have_selector('.wp-table--baseline-cell-td')
+        expect(page).not_to have_selector('.op-table-baseline--column-cell')
       end
 
       def expect_changed(work_package)
@@ -56,13 +64,30 @@ module Components
 
       def expect_unchanged(work_package)
         page.within(row_selector(work_package)) do
-          expect(page).not_to have_selector(".wp-table--baseline-cell-td *")
+          expect(page).not_to have_selector(".op-table-baseline--column-cell *")
         end
       end
 
       def expect_icon(work_package, icon_type)
         page.within(row_selector(work_package)) do
           expect(page).to have_selector(".op-table-baseline--icon-#{icon_type}")
+        end
+      end
+
+      def expect_changed_attributes(work_package, **changes)
+        page.within(row_selector(work_package)) do
+          changes.each do |attribute, (old_value, new_value)|
+            expect(page).to have_selector(".#{attribute}.op-table-baseline--old-field", text: old_value)
+            expect(page).to have_selector(".#{attribute}.inline-edit--display-field", text: new_value)
+          end
+        end
+      end
+
+      def expect_unchanged_attributes(work_package, *changes)
+        page.within(row_selector(work_package)) do
+          changes.each do |attribute|
+            expect(page).not_to have_selector(".#{attribute}.op-table-baseline--old-field")
+          end
         end
       end
 

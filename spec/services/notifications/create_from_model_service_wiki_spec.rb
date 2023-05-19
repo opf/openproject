@@ -44,10 +44,9 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
   let(:wiki_page) do
     create(:wiki_page,
            wiki:,
-           content: build(:wiki_content,
-                          author: other_user))
+           author: other_user)
   end
-  let(:resource) { wiki_page.content }
+  let(:resource) { wiki_page }
   let(:journal) { resource.journals.last }
   let(:author) { other_user }
 

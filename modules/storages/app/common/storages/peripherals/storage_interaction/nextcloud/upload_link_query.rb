@@ -28,8 +28,6 @@
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
   class UploadLinkQuery < Storages::Peripherals::StorageInteraction::StorageQuery
-    include API::V3::Utilities::PathHelper
-    include Errors
     using Storages::Peripherals::ServiceResultRefinements # use '>>' (bind) operator for ServiceResult
 
     URI_TOKEN_REQUEST = 'index.php/apps/integration_openproject/direct-upload-token'.freeze
@@ -53,7 +51,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def validated(data)
       if data.nil? || data['parent'].nil?
-        error(:error, 'Data is invalid', data)
+        Util.error(:error, 'Data is invalid', data)
       else
         ServiceResult.success(
           result: Struct.new(:parent).new(data['parent'])
@@ -70,18 +68,18 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     def build_upload_link(response)
-      destination = URI.parse(api_v3_paths.join_uri_path(@base_uri, URI_UPLOAD_BASE_PATH, response.token))
+      destination = URI.parse(Util.join_uri_path(@base_uri, URI_UPLOAD_BASE_PATH, response.token))
       ServiceResult.success(result: Storages::UploadLink.new(destination))
     end
 
     # rubocop:disable Metrics/AbcSize
     def outbound_response(method:, relative_path:, payload:)
       @retry_proc.call(@token) do |token|
-        begin
-          response = ServiceResult.success(
+        response = begin
+          ServiceResult.success(
             result: RestClient::Request.execute(
               method:,
-              url: api_v3_paths.join_uri_path(@base_uri, relative_path),
+              url: Util.join_uri_path(@base_uri, relative_path),
               payload: payload.to_json,
               headers: {
                 'Authorization' => "Bearer #{token.access_token}",
@@ -91,13 +89,13 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
             )
           )
         rescue RestClient::Unauthorized => e
-          response = error(:not_authorized, 'Outbound request not authorized!', e.response)
+          Util.error(:not_authorized, 'Outbound request not authorized!', e.response)
         rescue RestClient::NotFound => e
-          response = error(:not_found, 'Outbound request destination not found!', e.response)
+          Util.error(:not_found, 'Outbound request destination not found!', e.response)
         rescue RestClient::ExceptionWithResponse => e
-          response = error(:error, 'Outbound request failed!', e.response)
+          Util.error(:error, 'Outbound request failed!', e.response)
         rescue StandardError
-          response = error(:error, 'Outbound request failed!')
+          Util.error(:error, 'Outbound request failed!')
         end
 
         # rubocop:disable Style/OpenStructUse
@@ -106,7 +104,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           .bind do |r|
           # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
           if r.body.blank?
-            error(:not_authorized, 'Outbound request not authorized!')
+            Util.error(:not_authorized, 'Outbound request not authorized!')
           else
             ServiceResult.success(result: r)
           end
@@ -116,7 +114,6 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         # rubocop:enable Style/OpenStructUse Style/MultilineBlockChain
       end
     end
-
     # rubocop:enable Metrics/AbcSize
   end
 end

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Projects::CopyService, 'integration', type: :model do
+describe Projects::CopyService, 'integration', type: :model, with_ee: %i[readonly_work_packages] do
   shared_let(:status_locked) { create(:status, is_readonly: true) }
   shared_let(:source) { create(:project, enabled_module_names: %w[wiki work_package_tracking]) }
   shared_let(:source_wp) { create(:work_package, project: source, subject: 'source wp') }
@@ -39,8 +39,8 @@ describe Projects::CopyService, 'integration', type: :model do
   shared_let(:source_view) { create(:view_work_packages_table, query: source_query) }
   shared_let(:source_category) { create(:category, project: source, name: 'Stock management') }
   shared_let(:source_version) { create(:version, project: source, name: 'Version A') }
-  shared_let(:source_wiki_page) { create(:wiki_page_with_content, wiki: source.wiki) }
-  shared_let(:source_child_wiki_page) { create(:wiki_page_with_content, wiki: source.wiki, parent: source_wiki_page) }
+  shared_let(:source_wiki_page) { create(:wiki_page, wiki: source.wiki) }
+  shared_let(:source_child_wiki_page) { create(:wiki_page, wiki: source.wiki, parent: source_wiki_page) }
   shared_let(:source_forum) { create(:forum, project: source) }
   shared_let(:source_topic) { create(:message, forum: source_forum) }
 
@@ -65,8 +65,6 @@ describe Projects::CopyService, 'integration', type: :model do
   shared_let(:new_project_role) { create(:role, permissions: %i[]) }
 
   before do
-    with_enterprise_token(:readonly_work_packages)
-
     allow(Setting)
       .to receive(:new_project_user_role_id)
       .and_return(new_project_role.id.to_s)
@@ -121,8 +119,8 @@ describe Projects::CopyService, 'integration', type: :model do
       expect(project_copy.queries.count).to eq 1
       expect(project_copy.queries[0].views.count).to eq 1
       expect(project_copy.versions.count).to eq 1
-      expect(project_copy.wiki.pages.root.content.text).to eq source_wiki_page.content.text
-      expect(project_copy.wiki.pages.leaves.first.content.text).to eq source_child_wiki_page.content.text
+      expect(project_copy.wiki.pages.root.text).to eq source_wiki_page.text
+      expect(project_copy.wiki.pages.leaves.first.text).to eq source_child_wiki_page.text
       expect(project_copy.wiki.start_page).to eq 'Wiki'
 
       # Cleared attributes
@@ -145,7 +143,7 @@ describe Projects::CopyService, 'integration', type: :model do
       expect(member.principal)
         .to eql(current_user)
       expect(member.roles)
-        .to match_array [role, new_project_role]
+        .to contain_exactly(role, new_project_role)
     end
 
     it 'will copy the work package with category' do
@@ -288,15 +286,6 @@ describe Projects::CopyService, 'integration', type: :model do
     end
 
     describe '#copy_wiki' do
-      it 'will not copy wiki pages without content' do
-        source.wiki.pages << create(:wiki_page)
-        expect(source.wiki.pages.count).to eq 3
-
-        expect(subject).to be_success
-        expect(subject.errors).to be_empty
-        expect(project_copy.wiki.pages.count).to eq 2
-      end
-
       it 'will copy menu items' do
         source.wiki.wiki_menu_items << create(:wiki_menu_item_with_parent, wiki: source.wiki)
 
@@ -562,7 +551,7 @@ describe Projects::CopyService, 'integration', type: :model do
           it 'does copy active watchers but does not add the copying user as a watcher' do
             expect(subject).to be_success
             expect(project_copy.work_packages[0].watcher_users)
-              .to match_array([watcher])
+              .to contain_exactly(watcher)
           end
         end
 

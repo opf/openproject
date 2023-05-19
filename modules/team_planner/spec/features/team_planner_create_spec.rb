@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-describe 'Team planner create new work package', js: true do
+describe 'Team planner create new work package', js: true, with_ee: %i[team_planner_view] do
   include_context 'with team planner full access'
 
   let(:type_task) { create(:type_task) }
@@ -37,7 +37,6 @@ describe 'Team planner create new work package', js: true do
   let!(:priority) { create(:default_priority) }
 
   before do
-    with_enterprise_token(:team_planner_view)
     project.types << type_task
   end
 

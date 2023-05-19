@@ -42,6 +42,7 @@ import { editModeClassName } from 'core-app/shared/components/fields/edit/edit-f
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { editFieldContainerClass } from 'core-app/shared/components/fields/display/display-field-renderer';
 
 export const activeFieldContainerClassName = 'inline-edit--active-field';
 export const activeFieldClassName = 'inline-edit--field';
@@ -80,7 +81,7 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
   }
 
   public findContainer(fieldName:string):JQuery {
-    return this.rowContainer.find(`.${tdClassName}.${fieldName} .${editCellContainer}`).first();
+    return this.rowContainer.find(`.${tdClassName}.${fieldName} .${editFieldContainerClass}`).first();
   }
 
   public findCell(fieldName:string) {

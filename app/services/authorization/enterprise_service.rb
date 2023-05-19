@@ -31,6 +31,7 @@ class Authorization::EnterpriseService
 
   GUARDED_ACTIONS = %i(
     attribute_help_texts
+    baseline_comparison
     board_view
     conditional_highlighting
     custom_actions

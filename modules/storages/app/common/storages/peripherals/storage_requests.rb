@@ -63,6 +63,12 @@ module Storages::Peripherals
         .map { |command| command.method(:execute).to_proc }
     end
 
+    def create_folder_command
+      storage_commands
+        .create_folder_command
+        .map { |command| command.method(:execute).to_proc }
+    end
+
     private
 
     def storage_queries(user)
@@ -76,13 +82,7 @@ module Storages::Peripherals
     end
 
     def storage_commands
-      ::Storages::Peripherals::StorageInteraction::StorageCommands
-        .new(
-          uri: URI(@storage.host).normalize,
-          provider_type: @storage.provider_type,
-          username: @storage.username,
-          password: @storage.password
-        )
+      ::Storages::Peripherals::StorageInteraction::StorageCommands.new(@storage)
     end
   end
 end

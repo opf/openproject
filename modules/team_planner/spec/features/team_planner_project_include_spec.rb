@@ -30,11 +30,7 @@ require 'spec_helper'
 require 'features/work_packages/project_include/project_include_shared_examples'
 require_relative '../support/pages/team_planner'
 
-describe 'Team planner project include', js: true do
-  before do
-    with_enterprise_token(:team_planner_view)
-  end
-
+describe 'Team planner project include', js: true, with_ee: %i[team_planner_view] do
   shared_let(:enabled_modules) { %w[work_package_tracking team_planner_view] }
   shared_let(:permissions) do
     %w[view_work_packages edit_work_packages add_work_packages

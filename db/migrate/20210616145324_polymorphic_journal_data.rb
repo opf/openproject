@@ -1,4 +1,9 @@
 class PolymorphicJournalData < ActiveRecord::Migration[6.1]
+  # The wiki content table got renamed after writing the migration initially.
+  class WikiContentJournal < ApplicationRecord
+    self.table_name = 'wiki_content_journals'
+  end
+
   def up
     # For performance reasons, the existing indices are first removed and then readded after the
     # update is done.
@@ -38,7 +43,7 @@ class PolymorphicJournalData < ActiveRecord::Migration[6.1]
      ::Journal::AttachmentJournal,
      ::Journal::MessageJournal,
      ::Journal::NewsJournal,
-     ::Journal::WikiContentJournal,
+     WikiContentJournal,
      ::Journal::WorkPackageJournal,
      ::Journal::BudgetJournal,
      ::Journal::TimeEntryJournal,

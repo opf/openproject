@@ -486,6 +486,15 @@ ru:
           true: "публичный"
           false: "приватный"
         queries: "Запросы"
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
+        status_codes:
+          not_started: 'Не начато'
+          on_track: 'По плану'
+          at_risk: 'В зоне риска'
+          off_track: 'Приостановлен'
+          finished: 'Завершено'
+          discontinued: 'Прекращено'
         templated: "Проект шаблона"
         templated_value:
           true: "помечено как шаблон"
@@ -493,16 +502,6 @@ ru:
         types: "Типы"
         versions: "Этапы"
         work_packages: "Задачи"
-      projects/status:
-        code: 'Статус'
-        explanation: 'Описание статуса'
-        codes:
-          not_started: 'Не запущен'
-          on_track: 'В работе'
-          at_risk: 'Под угрозой'
-          off_track: 'Приостановлен'
-          finished: 'Завершен'
-          discontinued: 'Работы прекращены'
       query:
         column_names: "Столбцы"
         relations_to_type_column: "Отношения к %{type}"
@@ -743,6 +742,7 @@ ru:
               format: "%{message}"
             timestamps:
               invalid: "Временные метки содержат недопустимые значения: %{values}"
+              forbidden: "Временные метки содержат запрещенные значения: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "является взаимоисключающим при группировке «%{group_by}». Вы не можете активировать оба."
           filters:
@@ -927,11 +927,26 @@ ru:
   activity:
     item:
       created_by_on: "создано %{user} %{datetime}"
+      created_by_on_time_entry: "время зарегистрировано %{user} %{datetime}"
       created_on: "создано %{datetime}"
       updated_by_on: "обновлено %{user} %{datetime}"
+      updated_by_on_time_entry: "время регистрации обновлено %{user} %{datetime}"
       updated_on: "обновлено %{datetime}"
       parent_without_of: "Подпроект"
       parent_no_longer: "Больше не подпроект"
+      time_entry:
+        hour:
+          one: "%{count} час"
+          few: "%{count} часов"
+          many: "%{count} часов"
+          other: "%{count} часов"
+        hour_html:
+          one: "<i>%{count} час</i>"
+          few: "<i>%{count} часов</i>"
+          many: "<i>%{count} часов</i>"
+          other: "<i>%{count} часов</i>"
+        updated: "изменено с %{old_value} на %{value}"
+        logged_for: "Зарегистрирован для"
     filter:
       changeset: "Наборы изменений"
       message: "Форумы"
@@ -1926,7 +1941,7 @@ ru:
   label_role_search: "Назначить роль для новых участников"
   label_scm: "SCM"
   label_search: "Поиск"
-  label_send_information: "Отправить сведения об учетной записи"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Отправить тестовое сообщение"
   label_setting_plural: "Настройки"
   label_system_settings: "Настройки системы"
@@ -2716,7 +2731,7 @@ ru:
   text_hint_date_format: "Введите дату в форме YYYY-MM-DD. Другие форматы могут быть изменены на нежелательные даты."
   text_hint_disable_with_0: "Примечание: Отключить с 0"
   text_hours_between: "Между %{min} и %{max} часами."
-  text_work_package_added: "Автор %{author} отчитался по пакету работ %{id}."
+  text_work_package_added: "Автор %{author} создал пакет работ %{id}."
   text_work_package_category_destroy_assignments: "Удаление категории назначений"
   text_work_package_category_destroy_question: "Некоторые пакеты работ (%{count}) принадлежат для этой категории. Что вы хотите сделать?"
   text_work_package_category_reassign_to: "Переназначить пакеты работ этой категории"

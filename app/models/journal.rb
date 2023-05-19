@@ -41,10 +41,13 @@ class Journal < ApplicationRecord
   register_journal_formatter :schedule_manually, OpenProject::JournalFormatter::ScheduleManually
   register_journal_formatter :ignore_non_working_days, OpenProject::JournalFormatter::IgnoreNonWorkingDays
   register_journal_formatter :active_status, OpenProject::JournalFormatter::ActiveStatus
+  register_journal_formatter :project_status_code, OpenProject::JournalFormatter::ProjectStatusCode
   register_journal_formatter :template, OpenProject::JournalFormatter::Template
   register_journal_formatter :visibility, OpenProject::JournalFormatter::Visibility
   register_journal_formatter :subproject_named_association, OpenProject::JournalFormatter::SubprojectNamedAssociation
+  register_journal_formatter :time_entry_hours, OpenProject::JournalFormatter::TimeEntryHours
   register_journal_formatter :wiki_diff, OpenProject::JournalFormatter::WikiDiff
+  register_journal_formatter :time_entry_named_association, OpenProject::JournalFormatter::TimeEntryNamedAssociation
 
   # Make sure each journaled model instance only has unique version ids
   validates :version, uniqueness: { scope: %i[journable_id journable_type] }
@@ -62,7 +65,7 @@ class Journal < ApplicationRecord
   # logs like the history on issue#show
   scope :changing, -> { where(['version > 1']) }
 
-  scope :for_wiki_content, -> { where(journable_type: "WikiContent") }
+  scope :for_wiki_page, -> { where(journable_type: "WikiPage") }
   scope :for_work_package, -> { where(journable_type: "WorkPackage") }
 
   # In conjunction with the included Comparable module, allows comparison of journal records

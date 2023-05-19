@@ -76,9 +76,8 @@ describe 'Boards enterprise spec', js: true do
     end
   end
 
-  context 'when EE active' do
+  context 'when EE active', with_ee: %i[board_view] do
     before do
-      with_enterprise_token :board_view
       login_as(admin)
       board_index.visit!
     end

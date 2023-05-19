@@ -31,7 +31,7 @@ require_relative './../support//board_index_page'
 require_relative './../support/board_page'
 
 # rubocop:disable RSpec:MultipleMemoizedHelpers
-describe 'Version action board', js: true do
+describe 'Version action board', js: true, with_ee: %i[board_view] do
   let(:user) do
     create(:user,
            member_in_projects: [project, second_project],
@@ -88,7 +88,6 @@ describe 'Version action board', js: true do
   end
 
   before do
-    with_enterprise_token :board_view
     project
   end
 

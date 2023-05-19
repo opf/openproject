@@ -48,7 +48,7 @@ describe 'Wiki activities' do
     # create a wiki page
     visit project_wiki_path(project, 'mypage')
 
-    fill_in 'content_page_title', with: 'My page'
+    fill_in 'page_title', with: 'My page'
 
     editor.set_markdown('First content')
 
@@ -80,6 +80,13 @@ describe 'Wiki activities' do
 
     expect(page)
       .to have_link('Wiki: My page')
+
+    within("li.op-activity-list--item", match: :first) do
+      expect(page)
+        .to have_selector('li', text: "Text changed (Details)")
+      expect(page)
+        .to have_link('Details')
+    end
 
     # Click on the second wiki activity item
     find(:xpath, "(//a[text()='Wiki: My page'])[1]").click

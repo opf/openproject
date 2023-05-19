@@ -28,8 +28,6 @@
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
   class FileQuery < Storages::Peripherals::StorageInteraction::StorageQuery
-    include API::V3::Utilities::PathHelper
-    include Errors
     using Storages::Peripherals::ServiceResultRefinements
 
     FILE_INFO_PATH = 'ocs/v1.php/apps/integration_openproject/fileinfo'.freeze
@@ -50,14 +48,13 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     private
 
-    # rubocop:disable Metrics/AbcSize
     def file_info(file_id)
       @retry_proc.call(@token) do |token|
-        begin
-          service_result = ServiceResult.success(
+        service_result = begin
+          ServiceResult.success(
             result: RestClient::Request.execute(
               method: :get,
-              url: api_v3_paths.join_uri_path(@base_uri, FILE_INFO_PATH, file_id),
+              url: Util.join_uri_path(@base_uri, FILE_INFO_PATH, file_id),
               headers: {
                 'Authorization' => "Bearer #{token.access_token}",
                 'Accept' => 'application/json',
@@ -66,13 +63,13 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
             )
           )
         rescue RestClient::Unauthorized => e
-          service_result = error(:not_authorized, 'Outbound request not authorized!', e.response)
+          Util.error(:not_authorized, 'Outbound request not authorized!', e.response)
         rescue RestClient::NotFound => e
-          service_result = error(:not_found, 'Outbound request destination not found!', e.response)
+          Util.error(:not_found, 'Outbound request destination not found!', e.response)
         rescue RestClient::ExceptionWithResponse => e
-          service_result = error(:error, 'Outbound request failed!', e.response)
+          Util.error(:error, 'Outbound request failed!', e.response)
         rescue StandardError
-          service_result = error(:error, 'Outbound request failed!')
+          Util.error(:error, 'Outbound request failed!')
         end
 
         # rubocop:disable Style/OpenStructUse
@@ -81,12 +78,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       end
     end
 
-    # rubocop:enable Metrics/AbcSize
-
     def handle_access_control(file_info_response)
       data = file_info_response.ocs.data
       if data.statuscode == 403
-        error(:forbidden)
+        Util.error(:forbidden)
       else
         ServiceResult.success(result: data)
       end

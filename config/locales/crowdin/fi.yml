@@ -485,6 +485,15 @@ fi:
           true: "public"
           false: "private"
         queries: "Kyselyt"
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
+        status_codes:
+          not_started: 'Not started'
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         templated: "Malliprojekti"
         templated_value:
           true: "marked as template"
@@ -492,16 +501,6 @@ fi:
         types: "Tehtävätyypit"
         versions: "Versiot"
         work_packages: "Tehtävät"
-      projects/status:
-        code: 'Tila'
-        explanation: 'Tilan kuvaus'
-        codes:
-          not_started: 'Not started'
-          on_track: 'Hyvä'
-          at_risk: 'Rajalla'
-          off_track: 'Huono'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
       query:
         column_names: "Sarakkeet"
         relations_to_type_column: "Riippuvuus %{type}"
@@ -742,6 +741,7 @@ fi:
               format: "%{message}"
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
           filters:
@@ -918,11 +918,22 @@ fi:
   activity:
     item:
       created_by_on: "created by %{user} on %{datetime}"
+      created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "created on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
       parent_without_of: "Subproject"
       parent_no_longer: "No longer subproject of"
+      time_entry:
+        hour:
+          one: "%{count} hour"
+          other: "%{count} hours"
+        hour_html:
+          one: "<i>%{count} hour</i>"
+          other: "<i>%{count} hours</i>"
+        updated: "changed from %{old_value} to %{value}"
+        logged_for: "Logged for"
     filter:
       changeset: "Changesets"
       message: "Forums"
@@ -1893,7 +1904,7 @@ fi:
   label_role_search: "Määritä rooli uusille jäsenille"
   label_scm: "SCM"
   label_search: "Haku"
-  label_send_information: "Lähetä tilin tiedot käyttäjälle"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Lähetä testi sähköposti"
   label_setting_plural: "Asetukset"
   label_system_settings: "Järjestelmäasetukset"

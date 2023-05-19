@@ -186,6 +186,24 @@ describe API::V3::Configuration::ConfigurationRepresenter do
       end
     end
 
+    describe 'user_default_timezone' do
+      context 'without a setting', with_settings: { user_default_timezone: nil } do
+        it 'is null' do
+          expect(subject)
+            .to be_json_eql(nil.to_json)
+            .at_path('userDefaultTimezone')
+        end
+      end
+
+      context 'with `Europe/Berlin` being set', with_settings: { user_default_timezone: 'Europe/Berlin' } do
+        it 'indicates the dateFormat' do
+          expect(subject)
+            .to be_json_eql('Europe/Berlin'.to_json)
+            .at_path('userDefaultTimezone')
+        end
+      end
+    end
+
     describe 'startOfWeek' do
       context 'without a setting', with_settings: { start_of_week: '' } do
         it 'is null' do
