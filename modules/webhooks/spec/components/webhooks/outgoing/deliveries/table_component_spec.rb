@@ -27,27 +27,21 @@
 #++
 require 'spec_helper'
 
-describe Webhooks::Outgoing::Deliveries::TableCell do
-  include Cell::Testing
-
-  # used internally by Cell::Testing when calling #cell helper
-  let(:controller) { instance_double(ApplicationController, request: :dummy_request) }
-
+describe Webhooks::Outgoing::Deliveries::TableComponent, type: :component do
   it 'escapes response body html' do
     delivery = create(:webhook_log, response_body: 'Hello <b>world<b/>!')
-    html = cell(described_class, [delivery]).()
+    render_inline described_class.new(rows: [delivery])
 
-    response_body_node = Capybara.string(html).find('pre.webhooks--response-body')
-    expect(response_body_node.text).to eq(delivery.response_body)
+    expect(page).to have_css("pre.webhooks--response-body", text: delivery.response_body)
   end
 
   it 'escapes response headers html' do
     header_name = "x_header_<b>evil</b>_name"
     header_value = "header <b>evil</b> value"
     delivery = create(:webhook_log, response_headers: { header_name => header_value })
-    html = cell(described_class, [delivery]).()
+    render_inline described_class.new(rows: [delivery])
 
-    response_headers_node = Capybara.string(html).find('pre.webhooks--response-headers')
+    response_headers_node = page.find('pre.webhooks--response-headers')
     aggregate_failures do
       expect(response_headers_node).not_to have_selector('b', text: 'evil')
       expect(response_headers_node.text).to include(header_name)

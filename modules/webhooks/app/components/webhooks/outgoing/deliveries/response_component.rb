@@ -1,9 +1,7 @@
 module ::Webhooks
   module Outgoing
     module Deliveries
-      class ResponseCell < RailsCell
-        view_paths << ::OpenProject::Webhooks::Engine.root.join("app/cells")
-
+      class ResponseComponent < RailsComponent
         property :id
         property :response_headers
         property :response_body

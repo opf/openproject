@@ -1,8 +1,10 @@
 module ::Webhooks
   module Outgoing
     module Webhooks
-      class RowCell < ::RowCell
+      class RowComponent < ::RowComponent
         include ::IconsHelper
+
+        property :description
 
         def webhook
           model

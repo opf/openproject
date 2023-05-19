@@ -1,7 +1,7 @@
 module ::Webhooks
   module Outgoing
     module Webhooks
-      class TableCell < ::TableCell
+      class TableComponent < ::TableComponent
         columns :name, :enabled, :selected_projects, :events, :description
 
         def initial_sort

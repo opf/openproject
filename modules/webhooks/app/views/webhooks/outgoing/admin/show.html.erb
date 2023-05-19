@@ -69,5 +69,5 @@
 
 <div class="account--section">
   <h2><%= t 'webhooks.outgoing.deliveries.title' %></h2>
-  <%= rails_cell ::Webhooks::Outgoing::Deliveries::TableCell, @webhook.deliveries.newest %>
+  <%= render ::Webhooks::Outgoing::Deliveries::TableComponent.new(rows: @webhook.deliveries.newest) %>
 </div>

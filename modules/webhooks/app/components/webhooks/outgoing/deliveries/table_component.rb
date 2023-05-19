@@ -1,7 +1,7 @@
 module ::Webhooks
   module Outgoing
     module Deliveries
-      class TableCell < ::TableCell
+      class TableComponent < ::TableComponent
         columns :id, :event_name, :time, :response_code, :response_body
 
         def sortable?

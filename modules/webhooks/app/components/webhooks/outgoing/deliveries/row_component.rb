@@ -1,8 +1,10 @@
 module ::Webhooks
   module Outgoing
     module Deliveries
-      class RowCell < ::RowCell
+      class RowComponent < ::RowComponent
         include ::IconsHelper
+
+        property :id, :description, :event_name, :response_code
 
         def log
           model
@@ -13,7 +15,7 @@ module ::Webhooks
         end
 
         def response_body
-          cell(ResponseCell, log).()
+          render ResponseComponent.new(log)
         end
       end
     end
