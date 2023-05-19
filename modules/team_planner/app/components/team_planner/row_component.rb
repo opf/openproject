@@ -27,20 +27,49 @@
 #++
 
 module TeamPlanner
-  class TableCell < ::TableCell
-    options :current_user
-    columns :name, :assignees, :created_at
+  class RowComponent < ::RowComponent
+    include ApplicationHelper
+    include ::Redmine::I18n
 
-    def sortable?
-      false
+    def query
+      model
     end
 
-    def headers
-      [
-        ['name', { caption: I18n.t(:label_name) }],
-        ['assignees', { caption: I18n.t('team_planner.label_assignees') }],
-        ['created_at', { caption: I18n.t('attributes.created_at') }]
-      ]
+    delegate :project, to: :query
+
+    def name
+      link_to query.name, project_team_planner_path(project, query.id)
+    end
+
+    def created_at
+      format_time(query.created_at)
+    end
+
+    def assignees
+      query
+        .filters
+        .detect { |filter| filter.name == :assigned_to_id }
+        .then { |filter| filter ? filter.valid_values!.count : 0 }
+    end
+
+    def button_links
+      [delete_link].compact
+    end
+
+    def delete_link
+      if table.current_user.allowed_to?(:manage_team_planner, project)
+        link_to(
+          '',
+          project_team_planner_path(project, query.id),
+          class: 'spot-link icon icon-delete',
+          method: :delete,
+          data: {
+            confirm: I18n.t(:text_are_you_sure),
+            'qa-selector': "team-planner-remove-#{query.id}"
+          },
+          title: t(:button_delete)
+        )
+      end
     end
   end
 end
