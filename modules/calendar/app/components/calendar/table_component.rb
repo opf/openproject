@@ -27,42 +27,19 @@
 #++
 
 module Calendar
-  class RowCell < ::RowCell
-    include ApplicationHelper
-    include ::Redmine::I18n
+  class TableComponent < ::TableComponent
+    options :current_user
+    columns :name, :created_at
 
-    def query
-      model
+    def sortable?
+      false
     end
 
-    delegate :project, to: :query
-
-    def name
-      link_to query.name, project_calendar_path(project, query.id)
-    end
-
-    def created_at
-      format_time(query.created_at)
-    end
-
-    def button_links
-      [delete_link].compact
-    end
-
-    def delete_link
-      if table.current_user.allowed_to?(:manage_calendars, project)
-        link_to(
-          '',
-          project_calendar_path(project, query.id),
-          method: :delete,
-          class: 'icon icon-delete',
-          data: {
-            confirm: I18n.t(:text_are_you_sure),
-            'qa-selector': "calendar-remove-#{query.id}"
-          },
-          title: t(:button_delete)
-        )
-      end
+    def headers
+      [
+        ['name', { caption: I18n.t(:label_name) }],
+        ['created_at', { caption: I18n.t('attributes.created_at') }]
+      ]
     end
   end
 end
