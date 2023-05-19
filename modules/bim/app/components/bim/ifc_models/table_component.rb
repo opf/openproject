@@ -1,6 +1,6 @@
 module Bim
   module IfcModels
-    class TableCell < ::TableCell
+    class TableComponent < ::TableComponent
       include ::IconsHelper
       columns :title, :default?, :created_at, :updated_at, :uploader, :processing
 

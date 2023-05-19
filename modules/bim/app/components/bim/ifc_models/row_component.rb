@@ -1,9 +1,11 @@
 module Bim
   module IfcModels
-    class RowCell < ::RowCell
+    class RowComponent < ::RowComponent
       include ::IconsHelper
       include ::AvatarHelper
       include ::Redmine::I18n
+
+      property :created_at
 
       def title
         if still_processing?
