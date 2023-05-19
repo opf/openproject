@@ -28,8 +28,6 @@
 module BasicData
   class WorkflowSeeder < Seeder
     def seed_data!
-      fix_work_packages_without_types
-
       if any_types_or_statuses_or_workflows_already_configured?
         print_status '   *** Skipping types, statuses and workflows as there are already some configured'
       elsif required_roles_missing?
@@ -50,35 +48,6 @@ module BasicData
     end
 
     private
-
-    def fix_work_packages_without_types
-      if WorkPackage.where(type_id: nil).any? || Journal::WorkPackageJournal.where(type_id: nil).any?
-        # Fixes work packages that do not have a type yet. They receive the standard type.
-        #
-        # This can happen when an existing database, having timelines planning elements,
-        # gets migrated. During the migration, the existing planning elements are converted
-        # to work_packages. Because the existence of a standard type cannot be guaranteed
-        # during the migration, such work packages receive a type_id of nil.
-        #
-        # Because all work packages that do not have a type yet should always have had one
-        # (from todays standpoint). The assignment is done covertly.
-
-        WorkPackage.transaction do
-          green_color = Color.find_by(name: I18n.t(:default_color_green_light))
-          standard_type = Type.find_or_create_by(is_standard: true,
-                                                 name: 'none',
-                                                 position: 0,
-                                                 color_id: green_color,
-                                                 is_default: true,
-                                                 is_in_roadmap: true,
-                                                 is_milestone: false)
-
-          [WorkPackage, Journal::WorkPackageJournal].each do |klass|
-            klass.where(type_id: nil).update_all(type_id: standard_type.id)
-          end
-        end
-      end
-    end
 
     def any_types_or_statuses_or_workflows_already_configured?
       Type.where(is_standard: false).any? || Status.any? || Workflow.any?
