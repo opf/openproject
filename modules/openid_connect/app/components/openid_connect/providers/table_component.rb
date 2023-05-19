@@ -1,6 +1,6 @@
 module OpenIDConnect
   module Providers
-    class TableCell < ::TableCell
+    class TableComponent < ::TableComponent
       columns :name
 
       def initial_sort

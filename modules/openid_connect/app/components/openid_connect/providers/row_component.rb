@@ -1,6 +1,6 @@
 module OpenIDConnect
   module Providers
-    class RowCell < ::RowCell
+    class RowComponent < ::RowComponent
       include ::IconsHelper
 
       def provider
