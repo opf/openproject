@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Purpose: Defines how to format the cells within a table row of ProjectStorages
+# Purpose: Defines how to format the components within a table row of ProjectStorages
 # associated with a project
 module Storages::ProjectsStorages
   class RowComponent < ::RowComponent
