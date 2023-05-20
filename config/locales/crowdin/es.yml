@@ -80,7 +80,7 @@ es:
       buttons:
         upgrade: "Actualizar ahora"
         contact: "Contáctenos para una demostración"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
+      enterprise_info_html: "es un complemento Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
       upgrade_info: "Actualice a un plan de pago para activarlo y empezar a usarlo en su equipo."
     journal_aggregation:
       explanation:
@@ -482,15 +482,15 @@ es:
           true: "público"
           false: "privado"
         queries: "Consultas"
-        status_code: 'Project status'
-        status_explanation: 'Project status description'
+        status_code: 'Estado del proyecto'
+        status_explanation: 'Descripción del estado del proyecto'
         status_codes:
-          not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          not_started: 'No iniciado'
+          on_track: 'En curso'
+          at_risk: 'En riesgo'
+          off_track: 'Fuera de lo previsto'
+          finished: 'Terminado'
+          discontinued: 'Descontinuado'
         templated: "Plantilla del proyecto"
         templated_value:
           true: "marcar como plantilla"
@@ -737,8 +737,8 @@ es:
               invalid: "No se puede ordenar por la columna: %{value}"
               format: "%{message}"
             timestamps:
-              invalid: "Timestamps contain invalid values: %{values}"
-              forbidden: "Timestamps contain forbidden values: %{values}"
+              invalid: "Las marcas de tiempo contienen valores no válidos: %{values}"
+              forbidden: "Las marcas de tiempo contienen valores prohibidos: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "es mutuamente exclusivo con el grupo '%{group_by}'. No puede activar ambos."
           filters:

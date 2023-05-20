@@ -486,8 +486,8 @@ ru:
           true: "публичный"
           false: "приватный"
         queries: "Запросы"
-        status_code: 'Project status'
-        status_explanation: 'Project status description'
+        status_code: 'Статус проекта'
+        status_explanation: 'Описание статуса проекта'
         status_codes:
           not_started: 'Не начато'
           on_track: 'По плану'
@@ -1941,7 +1941,7 @@ ru:
   label_role_search: "Назначить роль для новых участников"
   label_scm: "SCM"
   label_search: "Поиск"
-  label_send_information: "Send new credentials to the user"
+  label_send_information: "Отправить новые учетные данные пользователю"
   label_send_test_email: "Отправить тестовое сообщение"
   label_setting_plural: "Настройки"
   label_system_settings: "Настройки системы"
