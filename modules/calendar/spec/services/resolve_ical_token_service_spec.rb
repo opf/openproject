@@ -47,7 +47,7 @@ describe Calendar::ResolveICalTokenService, type: :model do
       ical_token_instance = subject.result
 
       expect(ical_token_instance)
-        .to eql Token::ICal.where(user: user).first
+        .to eql Token::ICal.where(user:).first
 
       expect(ical_token_instance.user)
         .to eql user

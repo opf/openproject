@@ -42,25 +42,25 @@ describe Token::ICal do
     it 'needs to be assigned to a query with a name' do
       # ical tokens are only valid for a specific query (scoped to a query)
       # thus an ical_token cannot be created without such an assignment
-      ical_token1 = described_class.create(user: user)
-      
+      ical_token1 = described_class.create(user:)
+
       expect(ical_token1.errors[:ical_token_query_assignment].first).to eq("must exist")
       expect(described_class.where(user_id: user.id)).to be_empty
 
       # ical tokens need to have a name
       # thus an ical_token cannot be created without a name although a query is given
       ical_token2 = described_class.create(
-        user: user,
-        ical_token_query_assignment_attributes: { query: query, user_id: user.id }
+        user:,
+        ical_token_query_assignment_attributes: { query:, user_id: user.id }
       )
-      
+
       expect(ical_token2.errors["ical_token_query_assignment.name"].first).to eq("is mandatory. Please select a name.")
       expect(described_class.where(user_id: user.id)).to be_empty
 
       # if a query and name is given, the token can be created
       ical_token3 = described_class.create(
-        user: user,
-        ical_token_query_assignment_attributes: { query: query, name: name, user_id: user.id}
+        user:,
+        ical_token_query_assignment_attributes: { query:, name:, user_id: user.id }
       )
       expect(ical_token3.errors).to be_empty
       expect(ical_token3.query).to eq query
@@ -76,27 +76,27 @@ describe Token::ICal do
       # until the user decides to revert all existing ical tokens of a query
       # therefore a user needs to be allowed to have N ical tokens per query
       ical_token1 = described_class.create(
-        user: user,
-        ical_token_query_assignment_attributes: { query: query, name: "#{name}_1", user_id: user.id}
+        user:,
+        ical_token_query_assignment_attributes: { query:, name: "#{name}_1", user_id: user.id }
       )
       ical_token2 = described_class.create(
-        user: user,
-        ical_token_query_assignment_attributes: { query: query, name: "#{name}_2", user_id: user.id}
+        user:,
+        ical_token_query_assignment_attributes: { query:, name: "#{name}_2", user_id: user.id }
       )
 
       expect(described_class.where(user_id: user.id)).to contain_exactly(
         ical_token1, ical_token2
       )
 
-      query2 = create(:query, project: project)
+      query2 = create(:query, project:)
 
       ical_token3 = described_class.create(
-        user: user,
-        ical_token_query_assignment_attributes: { query: query2, name: "#{name}_3", user_id: user.id}
+        user:,
+        ical_token_query_assignment_attributes: { query: query2, name: "#{name}_3", user_id: user.id }
       )
       ical_token4 = described_class.create(
-        user: user,
-        ical_token_query_assignment_attributes: { query: query2, name: "#{name}_4", user_id: user.id}
+        user:,
+        ical_token_query_assignment_attributes: { query: query2, name: "#{name}_4", user_id: user.id }
       )
 
       expect(described_class.where(user_id: user.id)).to contain_exactly(
@@ -106,12 +106,12 @@ describe Token::ICal do
 
     it 'a user cannot have N ical tokens per query with the same name' do
       ical_token1 = described_class.create(
-        user: user,
-        ical_token_query_assignment_attributes: { query: query, name: "#{name}_1", user_id: user.id}
+        user:,
+        ical_token_query_assignment_attributes: { query:, name: "#{name}_1", user_id: user.id }
       )
       ical_token2 = described_class.create(
-        user: user,
-        ical_token_query_assignment_attributes: { query: query, name: "#{name}_1", user_id: user.id}
+        user:,
+        ical_token_query_assignment_attributes: { query:, name: "#{name}_1", user_id: user.id }
       )
 
       expect(ical_token2.errors["ical_token_query_assignment.name"].first).to eq(
@@ -124,11 +124,11 @@ describe Token::ICal do
 
       # name can be used for another query though:
 
-      query2 = create(:query, project: project)
+      query2 = create(:query, project:)
 
       ical_token3 = described_class.create(
-        user: user,
-        ical_token_query_assignment_attributes: { query: query2, name: "#{name}_1", user_id: user.id}
+        user:,
+        ical_token_query_assignment_attributes: { query: query2, name: "#{name}_1", user_id: user.id }
       )
 
       expect(described_class.where(user_id: user.id)).to contain_exactly(
@@ -143,15 +143,16 @@ describe Token::ICal do
         expect do
           ical_token1_value = described_class.create_and_return_value(
             user,
-            query, 
+            query,
             name
           )
         end.to change { described_class.where(user_id: user.id).count }.by(1)
 
-        
         ical_token1 = described_class.where(user_id: user.id).last
 
+        # rubocop:disable Rails/DynamicFindBy
         expect(described_class.find_by_plaintext_value(ical_token1_value)).to eq ical_token1
+        # rubocop:enable Rails/DynamicFindBy
 
         expect(ical_token1.query).to eq query
         expect(ical_token1.ical_token_query_assignment.name).to eq name
@@ -164,33 +165,38 @@ describe Token::ICal do
         expect do
           ical_token1_value = described_class.create_and_return_value(
             user,
-            query, 
+            query,
             name
           )
           # same name cannot be used twice for the same query and user
-          expect {
+          expect do
             ical_token2_value = described_class.create_and_return_value(
               user,
-              query, 
+              query,
               name
             )
-          }.to raise_error(ActiveRecord::RecordInvalid)
+          end.to raise_error(ActiveRecord::RecordInvalid)
         end.to change { described_class.where(user_id: user.id).count }.by(1)
 
         expect(ical_token1_value).to be_present
         expect(ical_token2_value).to be_nil
 
         ical_token1 = described_class.where(user_id: user.id).last
+
+        # rubocop:disable Rails/DynamicFindBy
         expect(described_class.find_by_plaintext_value(ical_token1_value)).to eq ical_token1
+        # rubocop:enable Rails/DynamicFindBy
       end
     end
   end
 
   describe 'behaves like Token::HashedToken if created with query assignment' do
-    subject { described_class.new(
-      user: user,
-      ical_token_query_assignment_attributes: { query: query, name: name, user_id: user.id}
-    )}
+    subject do
+      described_class.new(
+        user:,
+        ical_token_query_assignment_attributes: { query:, name:, user_id: user.id }
+      )
+    end
 
     # TODO: following code is copy pasted from hashed_token_spec
     # in order to make sure the token behaves in the same way in it's basics

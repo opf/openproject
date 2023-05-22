@@ -33,9 +33,15 @@ describe API::V3::Queries::ICalUrl::QueryICalUrlRepresenter do
 
   let(:query) { build_stubbed(:query) }
   let(:mocked_ical_url) { 'https://community.openproject.org/projects/3/calendars/46/ical?ical_token=66a44f91a18ad0355cfad77c319ef5ee2973291499fb8e44a220885f9124d2d2' }
-  let(:representer) do described_class.new(
-    OpenStruct.new(ical_url: mocked_ical_url, query: query)
-  ) end
+  let(:data_to_be_represented) do
+    ical_url_data = Struct.new(:ical_url, :query)
+    ical_url_data.new(mocked_ical_url, query)
+  end
+  let(:representer) do
+    described_class.new(
+      data_to_be_represented
+    )
+  end
 
   subject { representer.to_json }
 
@@ -46,13 +52,13 @@ describe API::V3::Queries::ICalUrl::QueryICalUrlRepresenter do
         let(:href) { api_v3_paths.query_ical_url(query.id) }
         let(:method) { "post" }
       end
-      
+
       it_behaves_like 'has an untitled link' do
         let(:link) { 'query' }
         let(:href) { api_v3_paths.query(query.id) }
         let(:method) { "get" }
       end
-      
+
       it_behaves_like 'has an untitled link' do
         let(:link) { 'icalUrl' }
         let(:href) { mocked_ical_url }

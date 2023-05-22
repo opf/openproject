@@ -317,37 +317,37 @@ describe MyController do
       context 'with existing keys' do
         let(:user) { create(:user) }
         let(:project) { create(:project) }
-        let(:query1) { create(:query, project: project) }
-        let(:query2) { create(:query, project: project) }
-        let!(:ical_token_for_query1) do
+        let(:query) { create(:query, project:) }
+        let(:another_query) { create(:query, project:) }
+        let!(:ical_token_for_query) do
           Token::ICal.create(user:,
-            ical_token_query_assignment_attributes: { query: query1, name: "Some Token Name", user_id: user.id }
-          )
+                             ical_token_query_assignment_attributes: { query:, name: "Some Token Name",
+                                                                       user_id: user.id })
         end
-        let!(:ical_token_for_query1_2) do
+        let!(:another_ical_token_for_query) do
           Token::ICal.create(user:,
-            ical_token_query_assignment_attributes: { query: query1, name: "Some Other Token Name", user_id: user.id }
-          )
+                             ical_token_query_assignment_attributes: { query:, name: "Some Other Token Name",
+                                                                       user_id: user.id })
         end
-        let!(:ical_token_for_query2_1) do
+        let!(:ical_token_for_another_query) do
           Token::ICal.create(user:,
-            ical_token_query_assignment_attributes: { query: query2, name: "Some Token Name", user_id: user.id }
-          )
+                             ical_token_query_assignment_attributes: { query: another_query,
+                                                                       name: "Some Token Name", user_id: user.id })
         end
-  
+
         it 'revoke specific ical tokens' do
           expect(user.ical_tokens).to contain_exactly(
-            ical_token_for_query1, ical_token_for_query1_2, ical_token_for_query2_1
+            ical_token_for_query, another_ical_token_for_query, ical_token_for_another_query
           )
 
-          delete :revoke_ical_token, params: { id: ical_token_for_query1_2.id }
+          delete :revoke_ical_token, params: { id: another_ical_token_for_query.id }
 
           expect(user.ical_tokens.reload).to contain_exactly(
-            ical_token_for_query1, ical_token_for_query2_1
+            ical_token_for_query, ical_token_for_another_query
           )
 
           expect(user.ical_tokens.reload).not_to contain_exactly(
-            ical_token_for_query2_1
+            ical_token_for_another_query
           )
 
           expect(flash[:info]).to be_present

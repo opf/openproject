@@ -34,7 +34,6 @@ module API
     module Queries
       module ICalUrl
         class QueryICalUrlRepresenter < ::API::Decorators::Single
-
           def initialize(model, *_)
             super(model, current_user: nil)
           end
@@ -45,16 +44,16 @@ module API
               method: :post
             }
           end
-          
+
           link :icalUrl do
             # TODO: this is returning an absolute url
             # --> valid approach to render it as href in a link?
             {
-              href: represented.ical_url, 
+              href: represented.ical_url,
               method: :get
             }
           end
-          
+
           link :query do
             {
               href: api_v3_paths.query(represented.query.id),

@@ -34,33 +34,46 @@ module Calendar
       if ical_token_instance.nil?
         raise ActiveRecord::RecordNotFound
       end
-      
-      query = Query
-        .visible(ical_token_instance.user) # authorization
-        .find(query_id)
 
-      # check scope of token
-      # TODO: more specific error?
-      if ical_token_instance.query != query
+      query = resolve_query(query_id, ical_token_instance)
+
+      token_valid_for_query = token_valid_for_query?(ical_token_instance, query)
+      sharing_permitted = ical_sharing_permitted?(ical_token_instance.user, query)
+
+      query = remove_date_range_filter(query)
+
+      if sharing_permitted && token_valid_for_query
+        ServiceResult.success(result: query)
+      else
+        # TODO: raise specific auth error
         raise ActiveRecord::RecordNotFound
       end
+    end
 
+    private
+
+    def resolve_query(query_id, ical_token_instance)
+      Query
+        .visible(ical_token_instance.user) # authorization
+        .find(query_id)
+    end
+
+    def token_valid_for_query?(ical_token_instance, query)
+      ical_token_instance.query == query
+    end
+
+    def ical_sharing_permitted?(user, query)
+      QueryPolicy.new(user).allowed?(query, :share_via_ical)
+    end
+
+    def remove_date_range_filter(query)
       # TODO:
       # Is this the correct way of unscoping the calendar view state
       # in order to get all workpackages from the query?
       query.filters = query.filters
         .reject { |filter| filter.name == :dates_interval }
 
-      sharing_permitted = QueryPolicy.new(ical_token_instance.user).allowed?(
-        query, :share_via_ical
-      )
-
-      if query.present? && sharing_permitted
-        ServiceResult.success(result: query)
-      else
-        # TODO: raise specific auth error
-        raise ActiveRecord::RecordNotFound
-      end
+      query
     end
   end
 end

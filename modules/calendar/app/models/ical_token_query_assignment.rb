@@ -61,8 +61,7 @@ class ICalTokenQueryAssignment < ApplicationRecord
 
   def unique_name_per_user_and_query
     name_already_taken_for_query_and_user = self.class.joins(ical_token: :user)
-      .where(name: name, query_id: query_id, ical_token: { user_id: ical_token_user_id })
-      .exists?
+      .exists?(name:, query_id:, ical_token: { user_id: ical_token_user_id })
 
     if name_already_taken_for_query_and_user
       errors.add(:name, :not_unique)

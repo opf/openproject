@@ -681,9 +681,20 @@ describe User do
         .to eq 64
     end
   end
-  
+
   describe '#ical_tokens' do
     let(:user) { create(:user) }
+    let(:query) { create(:query, user:) }
+    let(:ical_token) do
+      Token::ICal.create(user:,
+                         ical_token_query_assignment_attributes: { query: query, name: "My Token",
+                                                  user_id: user.id })
+    end
+    let(:another_ical_token) do
+      Token::ICal.create(user:,
+                         ical_token_query_assignment_attributes: { query: query, name: "My Other Token",
+                                                  user_id: user.id })
+    end
 
     it 'are not present by default' do
       expect(user.ical_tokens)
@@ -691,23 +702,22 @@ describe User do
     end
 
     it 'returns all existing ical tokens from this user' do
-      ical_token1 = Token::ICal.create(user:)
-      ical_token2 = Token::ICal.create(user:)
+      ical_token
+      another_ical_token
 
       expect(user.ical_tokens).to contain_exactly(
-        ical_token1, ical_token2
+        ical_token, another_ical_token
       )
     end
 
     it 'are destroyed when the user is destroyed' do
-      Token::ICal.create(user:)
-      Token::ICal.create(user:)
-
+      ical_token
+      another_ical_token
+      
       user.destroy
 
       expect(Token::ICal.all).to be_empty
     end
-
   end
 
   describe '.newest' do

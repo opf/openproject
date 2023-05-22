@@ -48,7 +48,7 @@ describe Calendar::ICalController do
   end
   let(:work_package_with_start_and_due_date) do
     create(:work_package, project:,
-                          start_date: Date.tomorrow, 
+                          start_date: Date.tomorrow,
                           due_date: Time.zone.today + 7.days)
   end
   let!(:work_packages) do
@@ -64,7 +64,7 @@ describe Calendar::ICalController do
            user:,
            public: false)
   end
-  let(:valid_ical_token_value) do 
+  let(:valid_ical_token_value) do
     Token::ICal.create_and_return_value(user, query, "Some Token Name")
   end
 
@@ -78,16 +78,19 @@ describe Calendar::ICalController do
       it { is_expected.to be_successful }
 
       it 'returns a valid ical file' do
+        expected_file_name = "openproject_calendar_#{DateTime.now.to_i}.ics"
+        expected_utf8_file_name = "UTF-8''#{expected_file_name}"
+
         expect(response.headers['Content-Type']).to eq('text/calendar')
         expect(response.headers['Content-Disposition']).to eq(
-          "attachment; filename=\"openproject_calendar_#{DateTime.now.to_i}.ics\"; filename*=UTF-8''openproject_calendar_#{DateTime.now.to_i}.ics"
+          "attachment; filename=\"#{expected_file_name}\"; filename*=#{expected_utf8_file_name}"
         )
         expect(subject.body).to match(/BEGIN:VCALENDAR/)
         expect(subject.body).to match(/END:VCALENDAR/)
 
         work_packages.each do |work_package|
           expect(subject.body).to include(work_package.subject)
-        end 
+        end
       end
     end
 
@@ -102,7 +105,7 @@ describe Calendar::ICalController do
 
         work_packages.each do |work_package|
           expect(subject.body).not_to include(work_package.subject)
-        end 
+        end
       end
     end
 
@@ -115,7 +118,7 @@ describe Calendar::ICalController do
         }
       end
 
-      it_behaves_like 'success'      
+      it_behaves_like 'success'
     end
 
     context 'with valid params and permissions when targeting a public query of somebody else' do
@@ -130,9 +133,10 @@ describe Calendar::ICalController do
                user: user2,
                public: true)
       end
-      let(:valid_ical_token_value) do 
+      let(:valid_ical_token_value) do
         Token::ICal.create_and_return_value(user, query2, "Some Token Name")
       end
+
       before do
         get :show, params: {
           project_id: project.id,
@@ -141,7 +145,7 @@ describe Calendar::ICalController do
         }
       end
 
-      it_behaves_like 'success'      
+      it_behaves_like 'success'
     end
 
     context 'with valid params and permissions when targeting a privat query of somebody else' do
@@ -156,9 +160,10 @@ describe Calendar::ICalController do
                user: user2,
                public: false)
       end
-      let(:valid_ical_token_value) do 
+      let(:valid_ical_token_value) do
         Token::ICal.create_and_return_value(user, query2, "Some Token Name")
       end
+
       before do
         get :show, params: {
           project_id: project.id,
@@ -167,7 +172,7 @@ describe Calendar::ICalController do
         }
       end
 
-      it_behaves_like 'failure'      
+      it_behaves_like 'failure'
     end
 
     context 'with valid params and permissions when not part of the project (anymore)' do
@@ -177,6 +182,7 @@ describe Calendar::ICalController do
                member_in_project: project2,
                member_with_permissions: sufficient_permissions)
       end
+
       before do
         get :show, params: {
           project_id: project.id,
@@ -185,7 +191,7 @@ describe Calendar::ICalController do
         }
       end
 
-      it_behaves_like 'failure'      
+      it_behaves_like 'failure'
     end
 
     context 'with valid params and missing permissions' do
@@ -203,7 +209,7 @@ describe Calendar::ICalController do
         }
       end
 
-      it_behaves_like 'failure'      
+      it_behaves_like 'failure'
     end
 
     context 'with invalid token' do

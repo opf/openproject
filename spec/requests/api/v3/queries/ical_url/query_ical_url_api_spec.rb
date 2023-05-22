@@ -38,7 +38,7 @@ describe 'API v3 Query ICal Url' do
     let(:role) { create(:role, permissions:) }
     # TODO: check OpenProject::Configuration.ical_subscriptions_enabled configuration
     # TODO: :view_work_packages permission is mandatory, otherwise a 404 is returned. Why?
-    let(:permissions) { [:view_work_packages, :share_calendars] }
+    let(:permissions) { %i[view_work_packages share_calendars] }
     let(:user) do
       create(:user,
              member_in_project: project,
@@ -51,9 +51,9 @@ describe 'API v3 Query ICal Url' do
     before do
       allow(User)
         .to receive(:current)
-        .and_return(user) 
-      
-      header "Content-Type",  "application/json"
+        .and_return(user)
+
+      header "Content-Type", "application/json"
       post path, params.to_json
     end
 
@@ -68,13 +68,13 @@ describe 'API v3 Query ICal Url' do
           .to be_json_eql(path.to_json)
           .at_path('_links/self/href')
       end
-      
+
       it 'returns the path pointing to the associated query' do
         expect(last_response.body)
           .to be_json_eql(api_v3_paths.query(query.id).to_json)
           .at_path('_links/query/href')
       end
-      
+
       it 'returns the tokenized, absolute url pointing to iCalendar endpoint' do
         json = JSON.parse(last_response.body)
         expect(json['_links']['icalUrl']['href']).to include('http')
@@ -87,7 +87,7 @@ describe 'API v3 Query ICal Url' do
     context 'when user has sufficient permissions and owns the query' do
       it_behaves_like 'success'
     end
-    
+
     context 'when user has sufficient permissions and tries to get the iCalendar url of the public query of another user' do
       let(:role_of_other_user) { create(:role, permissions: [:view_work_packages]) }
       let(:other_user) do
@@ -100,7 +100,7 @@ describe 'API v3 Query ICal Url' do
 
       it_behaves_like 'success'
     end
-    
+
     context 'when user has no access to the associated project' do
       let(:other_project) { create(:project) }
       let(:query) { create(:query, project: other_project, user:) }
@@ -125,7 +125,7 @@ describe 'API v3 Query ICal Url' do
     end
 
     context 'when query does not exist' do
-      let(:path) { api_v3_paths.query_ical_url(query.id+42) }
+      let(:path) { api_v3_paths.query_ical_url(query.id + 42) }
 
       it_behaves_like 'not found'
     end

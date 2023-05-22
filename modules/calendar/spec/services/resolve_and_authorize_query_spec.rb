@@ -37,27 +37,27 @@ describe Calendar::ResolveAndAuthorizeQueryService, type: :model do
            member_in_project: project,
            member_with_permissions: sufficient_permissions)
   end
-  let(:query1) do
+  let(:private_query) do
     create(:query,
            project:,
-           user: user,
+           user:,
            public: false) # privat query
   end
-  let(:query2) do
+  let(:public_query) do
     create(:query,
            project:,
-           user: user,
+           user:,
            public: true) # public query
   end
-  let(:ical_token_instance_for_query1) do
-    Token::ICal.create(user: user, 
-      ical_token_query_assignment_attributes: { query: query1, name: "My Token", user_id: user.id }
-    )
+  let(:ical_token_instance_for_private_query) do
+    Token::ICal.create(user:,
+                       ical_token_query_assignment_attributes: { query: private_query, name: "My Token",
+                                                                 user_id: user.id })
   end
-  let(:ical_token_instance_for_query2) do
-    Token::ICal.create(user: user, 
-      ical_token_query_assignment_attributes: { query: query2, name: "My Token", user_id: user.id }
-    )
+  let(:ical_token_instance_for_public_query) do
+    Token::ICal.create(user:,
+                       ical_token_query_assignment_attributes: { query: public_query, name: "My Token",
+                                                                 user_id: user.id })
   end
 
   let(:instance) do
@@ -73,16 +73,16 @@ describe Calendar::ResolveAndAuthorizeQueryService, type: :model do
   context 'if user is authenticated to read from query and user is permitted to use ical sharing' do
     context 'if ical token belongs to query' do
       context 'if user owns the query which is private' do
-        subject do 
+        subject do
           instance.call(
-            query_id: query1.id, 
-            ical_token_instance: ical_token_instance_for_query1
-          ) 
+            query_id: private_query.id,
+            ical_token_instance: ical_token_instance_for_private_query
+          )
         end
 
         it 'returns the query as result' do
           expect(subject.result)
-            .to eq query1
+            .to eq private_query
         end
 
         it 'is a success' do
@@ -92,16 +92,16 @@ describe Calendar::ResolveAndAuthorizeQueryService, type: :model do
       end
 
       context 'if user owns the query which is public' do
-        subject do 
+        subject do
           instance.call(
-            query_id: query2.id, 
-            ical_token_instance: ical_token_instance_for_query2
-          ) 
+            query_id: public_query.id,
+            ical_token_instance: ical_token_instance_for_public_query
+          )
         end
 
         it 'returns the query as result' do
           expect(subject.result)
-            .to eq query2
+            .to eq public_query
         end
 
         it 'is a success' do
@@ -113,22 +113,22 @@ describe Calendar::ResolveAndAuthorizeQueryService, type: :model do
 
     context 'if ical token does NOT belong to query' do
       context 'if user owns the query which is private' do
-        subject do 
+        subject do
           instance.call(
-            query_id: query1.id, 
-            ical_token_instance: ical_token_instance_for_query2
-          ) 
+            query_id: private_query.id,
+            ical_token_instance: ical_token_instance_for_public_query
+          )
         end
 
         it_behaves_like "not found"
       end
 
       context 'if user owns the query which is public' do
-        subject do 
+        subject do
           instance.call(
-            query_id: query2.id, 
-            ical_token_instance: ical_token_instance_for_query1
-          ) 
+            query_id: public_query.id,
+            ical_token_instance: ical_token_instance_for_private_query
+          )
         end
 
         it_behaves_like "not found"
@@ -137,22 +137,22 @@ describe Calendar::ResolveAndAuthorizeQueryService, type: :model do
 
     context 'if ical token is nil' do
       context 'if query is private' do
-        subject do 
+        subject do
           instance.call(
-            query_id: query1.id, 
+            query_id: private_query.id,
             ical_token_instance: nil
-          ) 
+          )
         end
 
         it_behaves_like "not found"
       end
 
       context 'if query is public' do
-        subject do 
+        subject do
           instance.call(
-            query_id: query2.id, 
+            query_id: public_query.id,
             ical_token_instance: nil
-          ) 
+          )
         end
 
         it_behaves_like "not found"
@@ -163,28 +163,28 @@ describe Calendar::ResolveAndAuthorizeQueryService, type: :model do
   context 'if user is authenticated to read from query but is NOT permitted to use ical sharing' do
     let(:user) do
       create(:user,
-        member_in_project: project,
-        member_with_permissions: insufficient_permissions)
+             member_in_project: project,
+             member_with_permissions: insufficient_permissions)
     end
 
     context 'if ical token belongs to query' do
       context 'if user owns the query which is private' do
-        subject do 
+        subject do
           instance.call(
-            query_id: query1.id, 
-            ical_token_instance: ical_token_instance_for_query1
-          ) 
+            query_id: private_query.id,
+            ical_token_instance: ical_token_instance_for_private_query
+          )
         end
 
         it_behaves_like "not found"
       end
 
       context 'if user owns the query which is public' do
-        subject do 
+        subject do
           instance.call(
-            query_id: query2.id, 
-            ical_token_instance: ical_token_instance_for_query2
-          ) 
+            query_id: public_query.id,
+            ical_token_instance: ical_token_instance_for_public_query
+          )
         end
 
         it_behaves_like "not found"
@@ -193,94 +193,25 @@ describe Calendar::ResolveAndAuthorizeQueryService, type: :model do
 
     context 'if ical token does NOT belong to query' do
       context 'if user owns the query which is private' do
-        subject do 
+        subject do
           instance.call(
-            query_id: query1.id, 
-            ical_token_instance: ical_token_instance_for_query2
-          ) 
+            query_id: private_query.id,
+            ical_token_instance: ical_token_instance_for_public_query
+          )
         end
 
         it_behaves_like "not found"
       end
 
       context 'if user owns the query which is public' do
-        subject do 
+        subject do
           instance.call(
-            query_id: query2.id, 
-            ical_token_instance: ical_token_instance_for_query1
-          ) 
+            query_id: public_query.id,
+            ical_token_instance: ical_token_instance_for_private_query
+          )
         end
 
         it_behaves_like "not found"
-      end
-    end
-  end
-
-  context 'if user does not own the query' do
-    let(:user1) do
-      create(:user,
-              member_in_project: project,
-              member_with_permissions: sufficient_permissions)
-    end
-    let(:user2) do
-      create(:user,
-              member_in_project: project,
-              member_with_permissions: sufficient_permissions)
-    end
-    let(:private_query1_of_user1) do
-      create(:query,
-             project:,
-             user: user1,
-             public: false)
-    end
-    let(:public_query2_of_user1) do
-      create(:query,
-             project:,
-             user: user1,
-             public: true)
-    end
-    let(:ical_token_instance_of_user_2_for_query1) do 
-      Token::ICal.create(user: user2, 
-        ical_token_query_assignment_attributes: { 
-          query: private_query1_of_user1, name: "My Token", user_id: user2.id 
-        }
-      ) 
-    end
-    let(:ical_token_instance_of_user_2_for_query2) do 
-      Token::ICal.create(user: user2, 
-        ical_token_query_assignment_attributes: { 
-          query: public_query2_of_user1, name: "My Token", user_id: user2.id 
-        }
-      ) 
-    end
-
-    context 'if query is private' do
-      subject do 
-        instance.call(
-          query_id: private_query1_of_user1.id, 
-          ical_token_instance: ical_token_instance_of_user_2_for_query1
-        ) 
-      end
-
-      it_behaves_like "not found"
-    end
-
-    context 'if query is public' do
-      subject do 
-        instance.call(
-          query_id: public_query2_of_user1.id, 
-          ical_token_instance: ical_token_instance_of_user_2_for_query2
-        ) 
-      end
-
-      it 'returns the query as result' do
-        expect(subject.result)
-          .to eq public_query2_of_user1
-      end
-
-      it 'is a success' do
-        expect(subject)
-          .to be_success
       end
     end
   end
@@ -297,22 +228,22 @@ describe Calendar::ResolveAndAuthorizeQueryService, type: :model do
     # but user is not part of the project anymore
 
     context 'if query is private' do
-      subject do 
+      subject do
         instance.call(
-          query_id: query1.id, 
-          ical_token_instance: ical_token_instance_for_query1
-        ) 
+          query_id: private_query.id,
+          ical_token_instance: ical_token_instance_for_private_query
+        )
       end
 
       it_behaves_like "not found"
     end
 
     context 'if query is public' do
-      subject do 
+      subject do
         instance.call(
-          query_id: query2.id, 
-          ical_token_instance: ical_token_instance_for_query2
-        ) 
+          query_id: public_query.id,
+          ical_token_instance: ical_token_instance_for_public_query
+        )
       end
 
       it_behaves_like "not found"
@@ -321,25 +252,92 @@ describe Calendar::ResolveAndAuthorizeQueryService, type: :model do
 
   context 'if query id is invalid or nil' do
     context 'if query id is invalid' do
-      subject do 
+      subject do
         instance.call(
-          query_id: SecureRandom.hex, 
-          ical_token_instance: ical_token_instance_for_query1
-        ) 
+          query_id: SecureRandom.hex,
+          ical_token_instance: ical_token_instance_for_private_query
+        )
       end
 
       it_behaves_like "not found"
     end
 
     context 'if query id is nil' do
-      subject do 
+      subject do
         instance.call(
-          query_id: nil, 
-          ical_token_instance: ical_token_instance_for_query1
-        ) 
+          query_id: nil,
+          ical_token_instance: ical_token_instance_for_private_query
+        )
       end
 
       it_behaves_like "not found"
+    end
+  end
+
+  context 'if user does not own the query' do
+    let(:user) do
+      create(:user,
+             member_in_project: project,
+             member_with_permissions: sufficient_permissions)
+    end
+    let(:another_user) do
+      create(:user,
+             member_in_project: project,
+             member_with_permissions: sufficient_permissions)
+    end
+    let(:private_query_of_user) do
+      create(:query,
+             project:,
+             user:,
+             public: false)
+    end
+    let(:public_query_of_user) do
+      create(:query,
+             project:,
+             user:,
+             public: true)
+    end
+    let(:ical_token_instance_of_another_user_for_private_query_of_user) do
+      Token::ICal.create(user: another_user,
+                         ical_token_query_assignment_attributes: {
+                           query: private_query_of_user, name: "My Token", user_id: another_user.id
+                         })
+    end
+    let(:ical_token_instance_of_another_user_for_public_query_of_user) do
+      Token::ICal.create(user: another_user,
+                         ical_token_query_assignment_attributes: {
+                           query: public_query_of_user, name: "My Token", user_id: another_user.id
+                         })
+    end
+
+    context 'if query is private' do
+      subject do
+        instance.call(
+          query_id: private_query_of_user.id,
+          ical_token_instance: ical_token_instance_of_another_user_for_private_query_of_user
+        )
+      end
+
+      it_behaves_like "not found"
+    end
+
+    context 'if query is public' do
+      subject do
+        instance.call(
+          query_id: public_query_of_user.id,
+          ical_token_instance: ical_token_instance_of_another_user_for_public_query_of_user
+        )
+      end
+
+      it 'returns the query as result' do
+        expect(subject.result)
+          .to eq public_query_of_user
+      end
+
+      it 'is a success' do
+        expect(subject)
+          .to be_success
+      end
     end
   end
 end

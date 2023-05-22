@@ -111,7 +111,7 @@ describe 'Calendar sharing via ical', js: true do
           click_link saved_query.name
         end
 
-        loading_indicator_saveguard        
+        loading_indicator_saveguard
       end
 
       it 'shows an active menu item' do
@@ -126,7 +126,7 @@ describe 'Calendar sharing via ical', js: true do
           expect(page).to have_selector(".menu-item", text: "Subscribe to iCalendar")
         end
       end
-      
+
       it 'shows a sharing modal' do
         open_sharing_modal
 
@@ -142,7 +142,7 @@ describe 'Calendar sharing via ical', js: true do
 
         expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
       end
-      
+
       # it 'closes the sharing modal when closed by user by hitting escape' do
       #   open_sharing_modal
 
@@ -164,7 +164,7 @@ describe 'Calendar sharing via ical', js: true do
         expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
         expect(page).to have_content("/projects/#{saved_query.project.id}/calendars/#{saved_query.id}/ical?ical_token=")
 
-        # explictly testing for success message is not working in test env, probably 
+        # explictly testing for success message is not working in test env, probably
         # due to missing clipboard permissions of the headless browser
         #
         # expect(page).to have_content("URL copied to clipboard")
@@ -173,7 +173,7 @@ describe 'Calendar sharing via ical', js: true do
         # Tried following without success
         # https://copyprogramming.com/howto/emulating-a-clipboard-copy-paste-with-selinum-capybara
       end
-      
+
       it 'validates the presence of a name' do
         open_sharing_modal
 
@@ -245,16 +245,16 @@ describe 'Calendar sharing via ical', js: true do
   # helper methods
 
   def open_sharing_modal
-     # wait for settings button to become visible
-     expect(page).to have_selector("#work-packages-settings-button")
+    # wait for settings button to become visible
+    expect(page).to have_selector("#work-packages-settings-button")
 
-     # click on settings button
-     page.find_by_id('work-packages-settings-button').click
+    # click on settings button
+    page.find_by_id('work-packages-settings-button').click
 
-     # expect disabled sharing menu item
-     within "#settingsDropdown" do
-       expect(page).to have_selector(".menu-item", text: "Subscribe to iCalendar")
-       page.click_button("Subscribe to iCalendar")
-     end
+    # expect disabled sharing menu item
+    within "#settingsDropdown" do
+      expect(page).to have_selector(".menu-item", text: "Subscribe to iCalendar")
+      page.click_button("Subscribe to iCalendar")
+    end
   end
 end

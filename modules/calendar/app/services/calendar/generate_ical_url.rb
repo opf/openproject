@@ -28,10 +28,9 @@
 
 module Calendar
   class GenerateICalUrl < ::BaseServices::BaseCallable
-
     def perform(user:, query_id:, project_id:, token_name:)
       new_ical_token = create_ical_token(user, query_id, token_name)
-      
+
       if new_ical_token.errors.any?
         ServiceResult.failure(errors: new_ical_token.errors)
       else
@@ -45,12 +44,11 @@ module Calendar
 
     def create_ical_token(user, query_id, name)
       query = Query.find(query_id)
-      
-      Token::ICal.create(user:, 
-        ical_token_query_assignment_attributes: { 
-          query:, name:, user_id: user.id 
-        }
-      )
+
+      Token::ICal.create(user:,
+                         ical_token_query_assignment_attributes: {
+                           query:, name:, user_id: user.id
+                         })
     end
 
     def create_ical_url(query_id, project_id, ical_token)

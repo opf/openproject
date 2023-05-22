@@ -49,7 +49,7 @@ describe Calendar::ResolveWorkPackagesService, type: :model do
   end
   let(:work_package_with_start_and_due_date) do
     create(:work_package, project:,
-                          start_date: Date.tomorrow, 
+                          start_date: Date.tomorrow,
                           due_date: Time.zone.today + 7.days)
   end
   let(:work_packages) do
@@ -83,8 +83,8 @@ describe Calendar::ResolveWorkPackagesService, type: :model do
 
       expect(result)
         .to include(
-          work_package_with_start_date, 
-          work_package_with_due_date, 
+          work_package_with_start_date,
+          work_package_with_due_date,
           work_package_with_start_and_due_date
         )
       expect(result)

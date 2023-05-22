@@ -35,7 +35,6 @@ module API
         # API inflection rule prevents ICal inflection rule to be used in this context
         class QueryIcalUrlAPI < ::API::OpenProjectAPI
           namespace :ical_url do
-
             # TODO: introduce OpenProject::Configuration.ical_subscriptions_enabled configuration
             # before do
             #   raise API::Errors::NotFound unless OpenProject::Configuration.ical_subscriptions_enabled?
@@ -59,12 +58,14 @@ module API
               if call.failure?
                 fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
               end
-  
+
               status 201
-              
-              # QUESTION: is it ok to use an OpenStruct here?
+
+              # QUESTION: is it ok to use a Struct here?
+              ical_url_data = Struct.new(:ical_url, :query)
+
               QueryICalUrlRepresenter.new(
-                OpenStruct.new(ical_url: call.result, query: @query), 
+                ical_url_data.new(call.result, @query),
                 current_user:
               )
             end

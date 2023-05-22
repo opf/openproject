@@ -37,6 +37,7 @@ class MyController < ApplicationController
   before_action :set_current_user
   before_action :check_password_confirmation, only: %i[update_account]
   before_action :set_grouped_ical_tokens, only: %i[access_token]
+  before_action :set_ical_token, only: %i[revoke_ical_token]
 
   menu_item :account,             only: [:account]
   menu_item :settings,            only: [:settings]
@@ -131,17 +132,9 @@ class MyController < ApplicationController
   end
 
   def revoke_ical_token
-    ical_token = current_user.ical_tokens.find(params[:id])
-    query = ical_token.query
-    name = ical_token.ical_token_query_assignment.name
-
-    ical_token.destroy
-
-    flash[:info] = t('my.access_token.notice_ical_tokens_reverted',
-      token_name: name,
-      calendar_name: query.name, 
-      project_name: query.project.name
-    )
+    message = ical_destroy_info_message
+    @ical_token.destroy
+    flash[:info] = message
   rescue StandardError => e
     Rails.logger.error "Failed to revoke all ical tokens for ##{current_user.id}: #{e}"
     flash[:error] = t('my.access_token.failed_to_reset_token', error: e.message)
@@ -211,6 +204,10 @@ class MyController < ApplicationController
     @user.pref[:my_page_layout] || DEFAULT_LAYOUT.dup
   end
 
+  def set_ical_token
+    @ical_token = current_user.ical_tokens.find(params[:id])
+  end
+
   def set_grouped_ical_tokens
     @ical_tokens_grouped_by_query = current_user.ical_tokens
       .joins(ical_token_query_assignment: { query: :project })
@@ -218,4 +215,12 @@ class MyController < ApplicationController
       .group_by(&:query_id)
   end
 
+  def ical_destroy_info_message
+    t(
+      'my.access_token.notice_ical_tokens_reverted',
+      token_name: @ical_token.ical_token_query_assignment.name,
+      calendar_name: @ical_token.query.name,
+      project_name: @ical_token.query.project.name
+    )
+  end
 end
