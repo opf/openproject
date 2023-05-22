@@ -554,7 +554,7 @@ GEM
       open4 (~> 1.0)
     launchy (2.5.2)
       addressable (~> 2.8)
-    lefthook (1.3.12)
+    lefthook (1.4.0)
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
     listen (3.8.0)
@@ -616,7 +616,7 @@ GEM
       net-protocol
     netrc (0.11.0)
     nio4r (2.5.9)
-    nokogiri (1.14.3)
+    nokogiri (1.14.4)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     oj (3.14.3)
