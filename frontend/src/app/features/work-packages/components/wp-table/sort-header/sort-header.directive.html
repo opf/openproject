@@ -6,6 +6,7 @@
       *ngIf="displayHierarchyIcon"
       (click)="toggleHierarchy($event)"
       [attr.title]="text.toggleHierarchy"
+      [attr.aria-label]="text.toggleHierarchy"
       tabindex="-1"
       aria-hidden="true"
       [attr.data-qa-hierarchy-type]="hierarchyType"
@@ -63,6 +64,7 @@
     <span
       *ngIf="baselineIncompatible"
       [attr.title]="text.baselineIncompatible"
+      [attr.aria-label]="text.baselineIncompatible"
       class="spot-icon spot-icon_1_25 spot-icon_warning"
     ></span>
 
