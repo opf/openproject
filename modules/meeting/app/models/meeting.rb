@@ -42,6 +42,7 @@ class Meeting < ApplicationRecord
     order("#{Meeting.table_name}.start_time DESC")
   end
   scope :from_tomorrow, -> { where(['start_time >= ?', Date.tomorrow.beginning_of_day]) }
+  scope :from_today, -> { where(['start_time >= ?', Time.zone.today.beginning_of_day]) }
   scope :with_users_by_date, -> {
     order("#{Meeting.table_name}.title ASC")
       .includes({ participants: :user }, :author)
@@ -129,7 +130,7 @@ class Meeting < ApplicationRecord
     participants.build(user:, invited: true) if new_record? && participants.empty? && user
   end
 
-  # Returns true if usr or current user is allowed to view the meeting
+  # Returns true if user or current user is allowed to view the meeting
   def visible?(user = nil)
     (user || User.current).allowed_to?(:view_meetings, project)
   end
@@ -256,7 +257,7 @@ class Meeting < ApplicationRecord
   ##
   # Determines whether new raw values were provided.
   def parse_start_time?
-    !(changed & %w(start_date start_time_hour)).empty?
+    changed.intersect?(%w(start_date start_time_hour))
   end
 
   ##

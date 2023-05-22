@@ -9,7 +9,7 @@ es:
         identifier: Identificador
         secret: Secreto
         scope: Ámbito
-        limit_self_registration: Limit self registration
+        limit_self_registration: Limitar auto-registro
   openid_connect:
     menu_title: Proveedores de OpenID
     providers:
@@ -20,4 +20,4 @@ es:
       singular: Proveedor de OpenID
     setting_instructions:
       limit_self_registration: >
-        If enabled users can only register using this provider if the self registration setting allows for it.
+        Si está habilitado, los usuarios sólo pueden registrarse usando este proveedor si la configuración de auto registro lo permite.

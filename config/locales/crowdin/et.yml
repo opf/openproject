@@ -485,8 +485,8 @@ et:
           true: "public"
           false: "private"
         queries: "Päringuid"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -1904,7 +1904,7 @@ et:
   label_role_search: "Assign role to new members"
   label_scm: "Lähtekoodi haldusvahendid"
   label_search: "Otsi"
-  label_send_information: "Saada konto andmed kasutajale"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Saada kontrollkiri"
   label_setting_plural: "Seaded"
   label_system_settings: "Süsteemiseaded"

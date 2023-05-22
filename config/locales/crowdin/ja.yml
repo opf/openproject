@@ -480,8 +480,8 @@ ja:
           true: "public"
           false: "private"
         queries: "クエリ"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -1881,7 +1881,7 @@ ja:
   label_role_search: "新しいメンバーに役割を割り当てる"
   label_scm: "バージョン管理システム"
   label_search: "検索"
-  label_send_information: "アカウント情報をユーザに送信"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "テスト電子メールを送信"
   label_setting_plural: "設定"
   label_system_settings: "システム設定"

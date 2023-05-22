@@ -9,7 +9,7 @@ pt:
         identifier: Identificador
         secret: Chave
         scope: Escopo
-        limit_self_registration: Limit self registration
+        limit_self_registration: Limitar o registro automático
   openid_connect:
     menu_title: Provedores OpenID
     providers:
@@ -20,4 +20,4 @@ pt:
       singular: Provedor OpenID
     setting_instructions:
       limit_self_registration: >
-        If enabled users can only register using this provider if the self registration setting allows for it.
+        Se ativado, os usuários só poderão se registrar usando esse provedor se a configuração de registro automático permitir isso.

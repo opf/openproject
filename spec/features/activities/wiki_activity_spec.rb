@@ -81,6 +81,13 @@ describe 'Wiki activities' do
     expect(page)
       .to have_link('Wiki: My page')
 
+    within("li.op-activity-list--item", match: :first) do
+      expect(page)
+        .to have_selector('li', text: "Text changed (Details)")
+      expect(page)
+        .to have_link('Details')
+    end
+
     # Click on the second wiki activity item
     find(:xpath, "(//a[text()='Wiki: My page'])[1]").click
 

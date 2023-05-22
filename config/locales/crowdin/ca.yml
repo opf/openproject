@@ -481,8 +481,8 @@ ca:
           true: "públic"
           false: "privat"
         queries: "Consultes"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -1900,7 +1900,7 @@ ca:
   label_role_search: "Assignar rols als nous membres"
   label_scm: "SCM"
   label_search: "Cercar"
-  label_send_information: "Envia la informació del compte a l'usuari"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Enviar correu electrònic de prova"
   label_setting_plural: "Configuració"
   label_system_settings: "Configuració del Sistema"

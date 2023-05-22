@@ -484,8 +484,8 @@ sl:
           true: "public"
           false: "private"
         queries: "Poizvedbe"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -1939,7 +1939,7 @@ sl:
   label_role_search: "Dodelite vlogo novim članom"
   label_scm: "SCM"
   label_search: "Išči"
-  label_send_information: "Uporabniku pošljite podatke o računu"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Pošlji testni mail"
   label_setting_plural: "Nastavitve"
   label_system_settings: "Sistemske nastavitve"
