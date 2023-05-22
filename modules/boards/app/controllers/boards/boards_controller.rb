@@ -18,7 +18,7 @@ module ::Boards
     end
 
     def overview
-      projects = Project.allowed_to(User.current, :view_meetings)
+      projects = Project.allowed_to(User.current, :view_boards)
       @board_grids = Boards::Grid.includes(:project).where(project: projects)
     end
 

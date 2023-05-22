@@ -26,63 +26,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative './new'
+require 'support/pages/page'
+require_relative './board_page'
 
-module Pages::Meetings
-  class Index < Pages::Page
-    attr_accessor :project
-
-    def initialize(project:)
-      super()
-
-      self.project = project
+module Pages
+  class BoardOverview < Page
+    def visit!
+      navigate_to_modules_menu_item("Boards")
     end
 
-    def click_create_new
-      within '.toolbar-items' do
-        click_link 'Meeting'
-      end
-
-      New.new(project)
-    end
-
-    def expect_no_create_new_button
-      expect(page).not_to have_selector '#add-meeting-button'
-    end
-
-    def expect_create_new_button
-      expect(page).to have_selector '#add-meeting-button'
-    end
-
-    def expect_no_meetings_listed
+    def expect_no_boards_listed
       within '#content-wrapper' do
-        expect(page)
-          .to have_content I18n.t(:no_results_title_text)
+        expect(page).to have_content I18n.t(:no_results_title_text)
       end
     end
 
-    def expect_meetings_listed(*meetings)
+    def expect_boards_listed(*boards)
       within '#content-wrapper' do
-        meetings.each do |meeting|
-          expect(page).to have_selector("td.title",
-                                        text: meeting.title)
-        end
-      end
-    end
-
-    def expect_meetings_not_listed(*meetings)
-      within '#content-wrapper' do
-        meetings.each do |meeting|
-          expect(page).not_to have_selector("td.title",
-                                            text: meeting.title)
+        boards.each do |board|
+          expect(page).to have_selector("td.name", text: board.name)
         end
       end
     end
 
     def expect_to_be_on_page(number)
-      expect(page)
-        .to have_selector('.op-pagination--item_current',
-                          text: number)
+      expect(page).to have_selector('.op-pagination--item_current', text: number)
     end
 
     def to_page(number)
@@ -91,19 +59,12 @@ module Pages::Meetings
       end
     end
 
-    def navigate_by_menu
-      visit project_path(project)
-      within '#main-menu' do
-        click_link 'Meetings'
+    def expect_boards_not_listed(*boards)
+      within '#content-wrapper' do
+        boards.each do |board|
+          expect(page).not_to have_selector("td.title", text: board.name)
+        end
       end
-    end
-
-    def navigate_by_modules_menu
-      navigate_to_modules_menu_item("Meetings")
-    end
-
-    def path
-      meetings_path(project)
     end
   end
 end
