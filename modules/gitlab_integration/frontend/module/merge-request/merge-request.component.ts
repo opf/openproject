@@ -70,7 +70,7 @@ export class MergeRequestComponent {
     /* Github apps can *optionally* add an output object (and a title) which is the most relevant information to display.
        If that is not present, we can display the conclusion (which is present only on finished runs).
        If that is not present, we can always fall back to the status. */
-    return(pipeline.status.replaceAll('_', ' '));
+    return(pipeline.status.replace("_", " "));
   }
 
   public pipelineState(pipeline:GitlabPipelineResource) {
