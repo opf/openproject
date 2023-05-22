@@ -39,9 +39,12 @@ module Members
     end
 
     def form_html_options
-      { id: "#{row.roles_css_id}-form",
+      {
+        id: "#{row.roles_css_id}-form",
         class: row.toggle_item_class_name,
-        style: "display:none" }
+        style: "display:none",
+        data: { 'members-form-target': 'membershipEditForm' }
+      }
     end
 
     def role_disabled?(role)
