@@ -770,7 +770,7 @@ GEM
     recaptcha (5.14.0)
     redcarpet (3.6.0)
     regexp_parser (2.8.0)
-    reline (0.3.3)
+    reline (0.3.4)
       io-console (~> 0.5)
     representable (3.2.0)
       declarative (< 0.1.0)
