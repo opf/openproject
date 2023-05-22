@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2021 Ben Tey
@@ -29,27 +27,10 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class GitlabPipeline < ApplicationRecord
-  belongs_to :gitlab_merge_request, touch: true
+class AddDescriptionToCustomActions < ActiveRecord::Migration[7.0]
+  def change
+    add_column :gitlab_pipelines, :username, :text
 
-  # TODO: confirm with the gitlab documentation what are the different statuses.
-  enum status: {
-    success: 'completed',
-    in_progress: 'in_progress',
-    success: 'success',
-    queued: 'queued',
-    queued: 'pending',
-    failure: 'failed',
-    skipped: 'skipped',
-    cancelled: 'cancelled'
-  }
-
-  validates_presence_of :gitlab_user_avatar_url,
-                        :gitlab_html_url,
-                        :gitlab_id,
-                        :status,
-                        :name,
-                        :ci_details,
-                        :commit_id,
-                        :username
+    add_column :gitlab_pipelines, :commit_id, :text
+  end
 end
