@@ -92,11 +92,7 @@ module DemoData
     def set_types
       print_status '   -Assigning types.'
 
-      project.types.clear
-      Array(project_data.lookup('types')).each do |type_name|
-        type = Type.find_by(name: I18n.t(type_name))
-        project.types << type
-      end
+      project.types = seed_data.find_references(project_data.lookup('types'))
     end
 
     def seed_categories

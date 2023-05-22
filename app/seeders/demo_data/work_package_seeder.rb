@@ -31,7 +31,7 @@ module DemoData
 
     self.needs = [
       BasicData::StatusSeeder,
-      Standard::BasicData::TypeSeeder,
+      BasicData::TypeSeeder,
       BasicData::PrioritySeeder,
       AdminUserSeeder
     ]
@@ -102,7 +102,7 @@ module DemoData
         description: attributes['description'],
         status: find_status(attributes),
         type: find_type(attributes),
-        priority: find_priority(attributes) || IssuePriority.default,
+        priority: IssuePriority.default,
         parent: find_work_package(attributes['parent'])
       }
     end
@@ -143,16 +143,12 @@ module DemoData
       seed_data.find_reference(reference) || user
     end
 
-    def find_priority(attributes)
-      IssuePriority.find_by(name: I18n.t(attributes['priority']))
-    end
-
     def find_status(attributes)
       seed_data.find_reference(attributes['status'].to_sym)
     end
 
     def find_type(attributes)
-      Type.find_by!(name: I18n.t(attributes['type']))
+      seed_data.find_reference(attributes['type'].to_sym)
     end
 
     def set_version!(wp_attr, attributes)

@@ -33,9 +33,15 @@ require 'spec_helper'
 RSpec.describe DemoData::ProjectSeeder do
   include_context 'with basic seed data'
 
-  subject(:project_seeder) { described_class.new(seed_data) }
+  subject(:project_seeder) { described_class.new(seed_data.lookup('projects.my-project')) }
 
-  let(:seed_data) { basic_seed_data.merge(Source::SeedData.new(project_data)) }
+  let(:seed_data) do
+    basic_seed_data.merge(Source::SeedData.new(
+                            'projects' => {
+                              'my-project' => project_data
+                            }
+                          ))
+  end
   let(:project_data) { project_data_with_a_version }
   let(:project_data_with_a_version) do
     {
@@ -92,7 +98,7 @@ RSpec.describe DemoData::ProjectSeeder do
           {
             'subject' => 'Some work package',
             'status' => :default_status_new,
-            'type' => 'default_type_task',
+            'type' => :default_type_task,
             'version' => :product_backlog
           }
         ]

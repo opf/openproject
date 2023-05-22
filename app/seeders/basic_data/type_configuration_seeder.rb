@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -25,23 +27,29 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module Standard
-  module BasicData
-    class TypeSeeder < ::BasicData::TypeSeeder
-      def type_names
-        %i[task milestone phase feature epic user_story bug]
-      end
+module BasicData
+  class TypeConfigurationSeeder < Seeder
+    self.needs = [
+      BasicData::TypeSeeder
+    ]
 
-      def type_table
-        { # position is_default color_name is_in_roadmap is_milestone type_name
-          task: [1, true, I18n.t(:default_color_blue), true, false, :default_type_task],
-          milestone: [2, true, I18n.t(:default_color_green_light), false, true, :default_type_milestone],
-          phase: [3, true, 'orange-5', false, false, :default_type_phase],
-          feature: [4, false, 'indigo-5', true, false, :default_type_feature],
-          epic: [5, false, 'violet-5', true, false, :default_type_epic],
-          user_story: [6, false, I18n.t(:default_color_blue_light), true, false, :default_type_user_story],
-          bug: [7, false, 'red-7', true, false, :default_type_bug]
-        }
+    def seed!
+      seed_data.each('type_configuration') do |type_configuration_data|
+        type = seed_data.find_reference(type_configuration_data['type'])
+        query_groups = query_groups(type_configuration_data)
+        type.update(
+          attribute_groups: query_groups + type.default_attribute_groups
+        )
+      end
+    end
+
+    private
+
+    def query_groups(type_configuration_data)
+      type_configuration_data['form_configuration'].map do |form_config_attr|
+        query = seed_data.find_reference(form_config_attr['query'])
+        query_association = "query_#{query.id}"
+        [form_config_attr['group_name'], [query_association.to_sym]]
       end
     end
   end

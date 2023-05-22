@@ -61,7 +61,12 @@ module BasicData
 
     def color_id(name)
       @color_ids_by_name ||= Color.pluck(:name, :id).to_h
-      @color_ids_by_name[name] or raise "Cannot find color #{name}"
+      case name
+      when Symbol
+        seed_data.find_reference(name).id
+      else
+        @color_ids_by_name[name] or raise "Cannot find color #{name}"
+      end
     end
   end
 end

@@ -70,6 +70,90 @@ time_entry_activities:
   - t_name: Other
     position: 3
 
+types:
+- reference: :default_type_task
+  t_name: Task
+  is_default: true
+  color_name: 'blue-6'
+  is_in_roadmap: true
+  position: 1
+- reference: :default_type_milestone
+  t_name: Milestone
+  is_default: true
+  color_name: 'orange-6'
+  is_milestone: true
+  position: 2
+- reference: :default_type_phase
+  t_name: Phase
+  is_default: true
+  color_name: :default_color_grey
+  position: 3
+- reference: :default_type_issue
+  t_name: Issue
+  is_default: true
+  color_name: 'indigo-7'
+  is_in_roadmap: true
+  position: 4
+- reference: :default_type_remark
+  t_name: Remark
+  is_default: true
+  color_name: :default_color_green_dark
+  is_in_roadmap: true
+  position: 5
+- reference: :default_type_request
+  t_name: Request
+  is_default: true
+  color_name: 'cyan-7'
+  is_in_roadmap: true
+  position: 6
+- reference: :default_type_clash
+  t_name: Clash
+  is_default: true
+  color_name: 'red-8'
+  is_in_roadmap: true
+  position: 7
+
+workflows:
+- type: :default_type_task
+  statuses:
+  - :default_status_new
+  - :default_status_in_progress
+  - :default_status_closed
+- type: :default_type_milestone
+  statuses:
+  - :default_status_new
+  - :default_status_in_progress
+  - :default_status_closed
+- type: :default_type_phase
+  statuses:
+  - :default_status_new
+  - :default_status_in_progress
+  - :default_status_closed
+- type: :default_type_clash
+  statuses:
+  - :default_status_new
+  - :default_status_in_progress
+  - :default_status_resolved
+  - :default_status_closed
+- type: :default_type_issue
+  statuses:
+  - :default_status_new
+  - :default_status_in_progress
+  - :default_status_resolved
+  - :default_status_closed
+- type: :default_type_remark
+  statuses:
+  - :default_status_new
+  - :default_status_in_progress
+  - :default_status_resolved
+  - :default_status_closed
+- type: :default_type_request
+  statuses:
+  - :default_status_new
+  - :default_status_in_progress
+  - :default_status_resolved
+  - :default_status_closed
+
 global_queries:
   - t_name: "Embedded table: Children"
     reference: :global_query__children
@@ -413,7 +497,7 @@ projects:
 
           The next step could be checking out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
         :status: :default_status_new
-        :type: default_type_milestone
+        :type: :default_type_milestone
         :assigned_to: :group__planners
         :duration: 1
       - :start: 7
@@ -421,7 +505,7 @@ projects:
         :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
           and &quot;Request&quot;, thus represents a general note.
         :status: :default_status_new
-        :type: default_type_phase
+        :type: :default_type_phase
         :children:
           - :start: 7
             :t_subject: Gathering first project information
@@ -438,7 +522,7 @@ projects:
               *   Each need shall represent a task with its corresponding work packages
               *   Derive the cost estimation and time frame
             :status: :default_status_new
-            :type: default_type_task
+            :type: :default_type_task
             :assigned_to: :group__planners
             :duration: 4
           - :start: 14
@@ -458,7 +542,7 @@ projects:
               *   This overview informs all participants about the decisions made
               *   ...
             :status: :default_status_new
-            :type: default_type_task
+            :type: :default_type_task
             :assigned_to: :group__planners
             :duration: 4
             :relations:
@@ -470,7 +554,7 @@ projects:
             :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
               and &quot;Request&quot;, thus represents a general note.
             :status: :default_status_new
-            :type: default_type_milestone
+            :type: :default_type_milestone
             :assigned_to: :group__planners
             :duration: 1
             :relations:
@@ -486,7 +570,7 @@ projects:
         :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
           and &quot;Request&quot;, thus represents a general note.
         :status: :default_status_new
-        :type: default_type_phase
+        :type: :default_type_phase
         :children:
           - :start: 22
             :t_subject: Developing first draft
@@ -505,7 +589,7 @@ projects:
               *   This overview informs all participants about the decisions made
               *   ...
             :status: :default_status_new
-            :type: default_type_task
+            :type: :default_type_task
             :assigned_to: :group__planners
             :duration: 10
             :relations:
@@ -528,7 +612,7 @@ projects:
               *   This overview informs all participants about the decisions made
               *   ...
             :status: :default_status_new
-            :type: default_type_task
+            :type: :default_type_task
             :assigned_to: :group__planners
             :duration: 4
             :relations:
@@ -542,7 +626,7 @@ projects:
         :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
           and &quot;Request&quot;, thus represents a general note.
         :status: :default_status_new
-        :type: default_type_milestone
+        :type: :default_type_milestone
         :assigned_to: :group__planners
         :duration: 1
         :relations:
@@ -553,7 +637,7 @@ projects:
         :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
           and &quot;Request&quot;, thus represents a general note.
         :status: :default_status_new
-        :type: default_type_phase
+        :type: :default_type_phase
         :children:
           - :start: 44
             :t_subject: Finishing design
@@ -571,7 +655,7 @@ projects:
               *   The owner is happy with the results
               *   ...
             :status: :default_status_new
-            :type: default_type_task
+            :type: :default_type_task
             :assigned_to: :group__planners
             :duration: 45
             :relations:
@@ -583,7 +667,7 @@ projects:
             :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
               and &quot;Request&quot;, thus represents a general note.
             :status: :default_status_new
-            :type: default_type_milestone
+            :type: :default_type_milestone
             :assigned_to: :group__planners
             :duration: 1
             :relations:
@@ -595,7 +679,7 @@ projects:
         :t_subject: Construction phase
         :description: ''
         :status: :default_status_new
-        :type: default_type_phase
+        :type: :default_type_phase
         :children:
           - :start: 98
             :t_subject: Start constructing
@@ -613,7 +697,7 @@ projects:
               *   Get the team together
               *   ...
             :status: :default_status_new
-            :type: default_type_task
+            :type: :default_type_task
             :assigned_to: :group__planners
             :duration: 31
           - :start: 130
@@ -630,7 +714,7 @@ projects:
               *   Setting up the supply chain for the concrete
               *   ...
             :status: :default_status_new
-            :type: default_type_task
+            :type: :default_type_task
             :assigned_to: :group__planners
             :duration: 25
             :relations:
@@ -652,7 +736,7 @@ projects:
               *   Finishing the roof structure
               *   ...
             :status: :default_status_new
-            :type: default_type_task
+            :type: :default_type_task
             :assigned_to: :group__planners
             :duration: 46
           - :start: 164
@@ -670,7 +754,7 @@ projects:
               *   Finish the roof
               *   ...
             :status: :default_status_new
-            :type: default_type_task
+            :type: :default_type_task
             :assigned_to: :group__planners
             :duration: 32
           - :start: 178
@@ -687,7 +771,7 @@ projects:
               *   Electrical installation
               *   ...
             :status: :default_status_new
-            :type: default_type_task
+            :type: :default_type_task
             :assigned_to: :group__planners
             :duration: 25
           - :start: 189
@@ -707,7 +791,7 @@ projects:
               *   Finishing the facade
               *   ...
             :status: :default_status_new
-            :type: default_type_task
+            :type: :default_type_task
             :assigned_to: :group__planners
             :duration: 18
           - :start: 208
@@ -723,7 +807,7 @@ projects:
               *   Invite your friends
               *   Bring some drinks, snacks and your smile
             :status: :default_status_new
-            :type: default_type_milestone
+            :type: :default_type_milestone
             :duration: 1
             :relations:
               - :to: :final_touches
@@ -882,7 +966,7 @@ projects:
 
           The next step could be to check out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
         :status: :default_status_new
-        :type: default_type_milestone
+        :type: :default_type_milestone
         :assigned_to: :group__bim_managers
         :duration: 1
       - :start: 15
@@ -891,7 +975,7 @@ projects:
         :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
           and &quot;Request&quot;, thus represents a general note.
         :status: :default_status_new
-        :type: default_type_phase
+        :type: :default_type_phase
         :children:
           - :start: 15
             :t_subject: Gathering the project specific data and information for the BIM model
@@ -911,7 +995,7 @@ projects:
                   *   A strategy for the delivery phase
                   *   ...
             :status: :default_status_new
-            :type: default_type_task
+            :type: :default_type_task
             :assigned_to: :group__planners
             :duration: 14
             :relations:
@@ -932,7 +1016,7 @@ projects:
               *   To handle the technological interfaces, a software topology will be defined and analyzed and verified
               *   ...
             :status: :default_status_new
-            :type: default_type_task
+            :type: :default_type_task
             :assigned_to: :group__lead_bim_coordinators
             :duration: 18
             :relations:
@@ -944,7 +1028,7 @@ projects:
             :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
               and &quot;Request&quot;, thus represents a general note.
             :status: :default_status_resolved
-            :type: default_type_milestone
+            :type: :default_type_milestone
             :assigned_to: :group__bim_coordinators
             :duration: 1
             :relations:
@@ -958,7 +1042,7 @@ projects:
         :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
           and &quot;Request&quot;, thus represents a general note.
         :status: :default_status_new
-        :type: default_type_milestone
+        :type: :default_type_milestone
         :assigned_to: :group__bim_managers
         :duration: 1
         :relations:
@@ -969,7 +1053,7 @@ projects:
         :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
           and &quot;Request&quot;, thus represents a general note.
         :status: :default_status_new
-        :type: default_type_phase
+        :type: :default_type_phase
         :children:
           - :start: 54
             :t_subject: Modelling initial BIM model
@@ -986,7 +1070,7 @@ projects:
               *   The model shall be modelled according to the LOD Matrices and contain the information needed
               *   ...
             :status: :default_status_new
-            :type: default_type_task
+            :type: :default_type_task
             :assigned_to: :group__bim_modellers
             :duration: 7
             :relations:
@@ -1005,7 +1089,7 @@ projects:
               *   The model shall be checked, according to the defined standards (conventions, LOD, ...) and revised
               *   ...
             :status: :default_status_new
-            :type: default_type_task
+            :type: :default_type_task
             :assigned_to: :group__lead_bim_coordinators
             :duration: 2
             :relations:
@@ -1017,7 +1101,7 @@ projects:
             :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
               and &quot;Request&quot;, thus represents a general note.
             :status: :default_status_new
-            :type: default_type_milestone
+            :type: :default_type_milestone
             :assigned_to: :group__bim_modellers
             :duration: 1
             :relations:
@@ -1033,7 +1117,7 @@ projects:
         :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
           and &quot;Request&quot;, thus represents a general note.
         :status: :default_status_new
-        :type: default_type_phase
+        :type: :default_type_phase
         :children:
           - :start: 66
             :t_subject: Referencing external BIM models
@@ -1049,7 +1133,7 @@ projects:
               *   The external model will be referenced in the BIM platform, thus used for modelling the internal model
               *   ...
             :status: :default_status_new
-            :type: default_type_task
+            :type: :default_type_task
             :assigned_to: :group__bim_modellers
             :duration: 1
             :relations:
@@ -1069,7 +1153,7 @@ projects:
               *   The model will be created according to the BIM execution plan
               *   ...
             :status: :default_status_new
-            :type: default_type_task
+            :type: :default_type_task
             :assigned_to: :group__bim_modellers
             :duration: 6
             :relations:
@@ -1088,7 +1172,7 @@ projects:
               *   The model shall be checked, according to the defined standards (conventions, LOD, ...) and revised.
               *   ...
             :status: :default_status_new
-            :type: default_type_task
+            :type: :default_type_task
             :assigned_to: :group__bim_coordinators
             :duration: 1
             :relations:
@@ -1100,7 +1184,7 @@ projects:
             :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
               and &quot;Request&quot;, thus represents a general note.
             :status: :default_status_new
-            :type: default_type_milestone
+            :type: :default_type_milestone
             :assigned_to: :group__bim_modellers
             :duration: 1
             :relations:
@@ -1116,7 +1200,7 @@ projects:
         :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
           and &quot;Request&quot;, thus represents a general note.
         :status: :default_status_new
-        :type: default_type_phase
+        :type: :default_type_phase
         :children:
           - :start: 77
             :t_subject: Coordinate the different BIM models
@@ -1132,7 +1216,7 @@ projects:
               *   The identified model specific issues will be communicated via BCF files
               *   ...
             :status: :default_status_new
-            :type: default_type_task
+            :type: :default_type_task
             :assigned_to: :group__bim_coordinators
             :duration: 3
           - :start: 77
@@ -1140,7 +1224,7 @@ projects:
             :reference: :issue_management_first_cycle
             :description: ''
             :status: :default_status_new
-            :type: default_type_phase
+            :type: :default_type_phase
             :assigned_to: :group__bim_coordinators
             :duration: 4
           - :start: 82
@@ -1149,7 +1233,7 @@ projects:
             :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
               and &quot;Request&quot;, thus represents a general note.
             :status: :default_status_new
-            :type: default_type_milestone
+            :type: :default_type_milestone
             :assigned_to: :group__lead_bim_coordinators
             :duration: 1
             :relations:
@@ -1165,7 +1249,7 @@ projects:
         :reference: :modelling_and_coordinating_second_cycle
         :t_description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n*   ..."
         :status: :default_status_new
-        :type: default_type_phase
+        :type: :default_type_phase
         :assigned_to: :group__lead_bim_coordinators
         :duration: 1
         :relations:
@@ -1177,7 +1261,7 @@ projects:
         :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
           and &quot;Request&quot;, thus represents a general note.
         :status: :default_status_new
-        :type: default_type_phase
+        :type: :default_type_phase
         :assigned_to: :group__lead_bim_coordinators
         :duration: 1
         :relations:
@@ -1188,7 +1272,7 @@ projects:
         :reference: :modelling_and_coordinating_penultimate_cycle
         :t_description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n*   ..."
         :status: :default_status_new
-        :type: default_type_phase
+        :type: :default_type_phase
         :assigned_to: :group__lead_bim_coordinators
         :duration: 1
         :relations:
@@ -1200,7 +1284,7 @@ projects:
         :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
           and &quot;Request&quot;, thus represents a general note.
         :status: :default_status_new
-        :type: default_type_phase
+        :type: :default_type_phase
         :assigned_to: :group__bim_coordinators
         :duration: 1
         :relations:
@@ -1212,7 +1296,7 @@ projects:
         :t_description: This type is hierarchically a parent of the types &quot;Clash&quot;
           and &quot;Request&quot;, thus represents a general note.
         :status: :default_status_new
-        :type: default_type_milestone
+        :type: :default_type_milestone
         :assigned_to: :group__bim_coordinators
         :duration: 1
         :relations:
@@ -1222,7 +1306,7 @@ projects:
         :t_subject: Use model for construction phase
         :description: ''
         :status: :default_status_new
-        :type: default_type_phase
+        :type: :default_type_phase
         :children:
           - :start: 88
             :t_subject: Handover model for construction crew
@@ -1239,7 +1323,7 @@ projects:
               *   All the objects should have the information needed for the assigned tasks. If not, data enrichment of the model needs to be done
               *   ...
             :status: :default_status_new
-            :type: default_type_task
+            :type: :default_type_task
             :assigned_to: :group__bim_coordinators
             :duration: 5
           - :start: 98
@@ -1257,7 +1341,7 @@ projects:
               *   The BCF files will be used to assign, track and correct issues
               *   ...
             :status: :default_status_new
-            :type: default_type_task
+            :type: :default_type_task
             :assigned_to: :group__bim_coordinators
             :duration: 101
           - :start: 200
@@ -1265,7 +1349,7 @@ projects:
             :reference: :finish_construction
             :description: ''
             :status: :default_status_new
-            :type: default_type_milestone
+            :type: :default_type_milestone
             :assigned_to: :group__bim_coordinators
             :duration: 1
             :relations:
@@ -1281,7 +1365,7 @@ projects:
         :reference: :issue_management_construction_phase
         :description: ''
         :status: :default_status_new
-        :type: default_type_phase
+        :type: :default_type_phase
         :assigned_to: :group__planners
         :duration: 88
       - :start: 210
@@ -1300,7 +1384,7 @@ projects:
           *   The model can be used for the operating system of the building
           *   ...
         :status: :default_status_new
-        :type: default_type_milestone
+        :type: :default_type_milestone
         :assigned_to: :group__lead_bim_coordinators
         :duration: 1
         :relations:
@@ -1310,7 +1394,7 @@ projects:
         :t_subject: Asset Management
         :t_description: Enjoy your building :)
         :status: :default_status_new
-        :type: default_type_phase
+        :type: :default_type_phase
         :duration: 1
         :relations:
           - :to: :handover_for_facility_management
@@ -1341,28 +1425,28 @@ projects:
       - :default_type_task
       - :default_type_milestone
       - :default_type_phase
-      - 'bim.default_type_clash'
-      - 'bim.default_type_request'
-      - 'bim.default_type_issue'
-      - 'bim.default_type_remark'
+      - :default_type_clash
+      - :default_type_request
+      - :default_type_issue
+      - :default_type_remark
     t_categories:
       - Category 1 (to be changed in Project settings)
     queries:
       - t_name: Issues
         status: open
-        type: 'bim.default_type_issue'
+        type: :default_type_issue
         display_representation: card
       - t_name: Clashes
         status: open
-        type: 'bim.default_type_clash'
+        type: :default_type_clash
         display_representation: card
       - t_name: Requests
         status: open
-        type: 'bim.default_type_request'
+        type: :default_type_request
         display_representation: card
       - t_name: Remarks
         status: open
-        type: 'bim.default_type_remark'
+        type: :default_type_remark
         display_representation: card
       - t_name: Project plan
         status: open

@@ -35,7 +35,7 @@ module Standard
         ::BasicData::ActivitySeeder,
         ::BasicData::ColorSeeder,
         ::BasicData::ColorSchemeSeeder,
-        ::Standard::BasicData::WorkflowSeeder,
+        ::BasicData::WorkflowSeeder,
         ::BasicData::PrioritySeeder,
         ::BasicData::SettingSeeder
       ]

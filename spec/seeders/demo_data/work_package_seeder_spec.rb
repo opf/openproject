@@ -44,7 +44,7 @@ describe DemoData::WorkPackageSeeder do
       start: 0,
       subject: "Some subject",
       status: :default_status_new,
-      type: "default_type_task"
+      type: :default_type_task
     }.merge(attributes).deep_stringify_keys
   end
 

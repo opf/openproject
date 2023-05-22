@@ -94,7 +94,7 @@ module DemoData
       board.options[:filters] = []
       filters_conf.each do |filter|
         if filter['type']
-          type = Type.find_by(name: I18n.t(filter['type']))
+          type = seed_data.find_reference(filter['type'])
           board.options[:filters] << { type: { operator: '=', values: [type.id.to_s] } }
         end
       end
@@ -124,7 +124,7 @@ module DemoData
     end
 
     def statuses(*status_references)
-      statuses = status_references.map { seed_data.find_reference(_1) }
+      statuses = seed_data.find_references(status_references)
 
       if statuses.size < status_references.size
         raise StandardError, "Not all statuses needed for seeding a board are present. Check that they got seeded."

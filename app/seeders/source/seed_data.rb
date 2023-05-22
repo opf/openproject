@@ -55,6 +55,10 @@ class Source::SeedData
     end
   end
 
+  def find_references(references, default: :__unset__)
+    Array(references).map { |reference| find_reference(reference, default:) }
+  end
+
   # Get a `SeedData` instance with only the given top level keys.
   #
   # Used in tests to get the real statuses, types and other data.

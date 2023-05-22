@@ -27,6 +27,12 @@
 #++
 module BasicData
   class WorkflowSeeder < Seeder
+    self.needs = [
+      BasicData::RoleSeeder,
+      BasicData::StatusSeeder,
+      BasicData::TypeSeeder
+    ]
+
     def seed_data!
       if any_types_or_statuses_or_workflows_already_configured?
         print_status '   *** Skipping types, statuses and workflows as there are already some configured'
@@ -37,14 +43,6 @@ module BasicData
         seed_types
         seed_workflows
       end
-    end
-
-    def workflows
-      raise NotImplementedError
-    end
-
-    def type_seeder_class
-      raise NotImplementedError
     end
 
     private
@@ -65,7 +63,7 @@ module BasicData
 
     def seed_types
       print_status '   ↳ Types'
-      type_seeder_class.new(seed_data).seed!
+      BasicData::TypeSeeder.new(seed_data).seed!
     end
 
     def seed_workflows
@@ -73,17 +71,25 @@ module BasicData
       manager = Role.find_by(name: I18n.t(:default_role_project_admin))
 
       # Workflow - Each type has its own workflow
-      workflows.each do |type_id, statuses_for_type|
-        statuses_for_type.each do |old_status|
-          statuses_for_type.each do |new_status|
+      workflows.each do |type, statuses|
+        statuses.each do |old_status|
+          statuses.each do |new_status|
             [manager, member].each do |role|
-              Workflow.create type_id:,
+              Workflow.create type:,
                               role:,
                               old_status:,
                               new_status:
             end
           end
         end
+      end
+    end
+
+    def workflows
+      seed_data.lookup(:workflows).map do |workflow_data|
+        type = seed_data.find_reference(workflow_data['type'])
+        statuses = seed_data.find_references(workflow_data['statuses'])
+        [type, statuses]
       end
     end
   end
