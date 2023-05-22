@@ -57,6 +57,7 @@ module OpenProject::GitlabIntegration::Services
         details_url: "#{payload.project.web_url}/-/commit/#{payload.object_attributes.sha[0..7]}",
         commit_id: payload.object_attributes.sha[0..7],
         username: payload.user.name,
+        ci_details: payload.builds,
         started_at: payload.object_attributes.created_at,
         completed_at: payload.object_attributes.finished_at
       }

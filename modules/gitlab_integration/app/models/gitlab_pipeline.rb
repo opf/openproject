@@ -41,7 +41,7 @@ class GitlabPipeline < ApplicationRecord
     queued: 'pending',
     failure: 'failed',
     skipped: 'skipped',
-    cancelled: 'cancelled'
+    cancelled: 'canceled'
   }
 
   validates_presence_of :gitlab_user_avatar_url,
