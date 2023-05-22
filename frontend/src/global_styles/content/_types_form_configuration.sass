@@ -12,12 +12,8 @@
       cursor: -webkit-grab
       cursor: grab
       color: var(--font-color-on-primary-dark)
-      font-size: 12px
     op-group-edit-in-place
       display: inline-block
-    .delete-group:before
-      vertical-align: bottom
-      color: var(--font-color-on-primary-dark)
   .attributes
     min-height: 29px
 
@@ -33,16 +29,12 @@
       background: white
       color: #222222
 
-  .delete-group,
-  .delete-attribute
-    cursor: pointer
-    
   &.-error
     background: var(--content-form-error-color)
     .group-name
       border-color: var(--content-form-error-color)
     .group-handle,
-    .delete-group:before
+    .delete-group
       color: var(--font-color-on-primary)
 
 
@@ -71,7 +63,6 @@
     cursor: -webkit-grab
     cursor: grab
     color: var(--body-font-color)
-    font-size: 12px
   .delete-attribute:before
     color: var(--body-font-color)
 
@@ -87,7 +78,7 @@
 .group-head,
 .type-form-conf-attribute
   display: flex
-  align-items: baseline
+  align-items: center
   justify-content: space-between
   .icon-drag-handle
     flex-basis: 15px
@@ -103,4 +94,13 @@
   cursor: pointer
   color: white
 
-// Ensure dropdown is shown
+.clear-button
+  border: 0
+  background: transparent
+  margin: 0
+  padding: 0
+  cursor: pointer
+
+.group-edit-handler
+  width: 100%
+  text-align: left
