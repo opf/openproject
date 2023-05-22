@@ -1,7 +1,7 @@
 <form 
   class="spot-modal loading-indicator--location op-query-get-ical-url"
   [formGroup]="tokenNameForm"
-  (submit)="generateAndCopyUrl($event)"
+  (submit)="generateAndCopyUrl()"
 >
   <div class="spot-modal--header">{{text.label_ical_sharing}}</div>
 
@@ -51,7 +51,7 @@
               (click)="closeMe($event)">
       </button>
       <button type="submit" class="button button_no-margin -highlight -with-icon icon-copy spot-action-bar--action"
-              (click)="generateAndCopyUrl($event)"
+              (click)="generateAndCopyUrl()"
               [textContent]="text.button_copy"
               [disabled]="isBusy">
       </button>

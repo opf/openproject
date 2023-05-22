@@ -687,13 +687,13 @@ describe User do
     let(:query) { create(:query, user:) }
     let(:ical_token) do
       Token::ICal.create(user:,
-                         ical_token_query_assignment_attributes: { query: query, name: "My Token",
-                                                  user_id: user.id })
+                         ical_token_query_assignment_attributes: { query:, name: "My Token",
+                                                                   user_id: user.id })
     end
     let(:another_ical_token) do
       Token::ICal.create(user:,
-                         ical_token_query_assignment_attributes: { query: query, name: "My Other Token",
-                                                  user_id: user.id })
+                         ical_token_query_assignment_attributes: { query:, name: "My Other Token",
+                                                                   user_id: user.id })
     end
 
     it 'are not present by default' do
@@ -713,7 +713,7 @@ describe User do
     it 'are destroyed when the user is destroyed' do
       ical_token
       another_ical_token
-      
+
       user.destroy
 
       expect(Token::ICal.all).to be_empty
