@@ -70,7 +70,7 @@ export class MergeRequestComponent {
     /* Github apps can *optionally* add an output object (and a title) which is the most relevant information to display.
        If that is not present, we can display the conclusion (which is present only on finished runs).
        If that is not present, we can always fall back to the status. */
-    return(pipeline.status.replace("_", " "));
+    return(pipeline.status);
   }
 
   public pipelineState(pipeline:GitlabPipelineResource) {
@@ -85,10 +85,10 @@ export class MergeRequestComponent {
       case 'queued': {
         return 'getting-started'
       }
-      case 'in_progress': {
+      case 'running': {
         return 'loading1'
       }
-      case 'failure': {
+      case 'failed': {
         return 'cancel'
       }
       case 'timed_out': {

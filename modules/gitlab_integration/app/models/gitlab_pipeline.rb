@@ -35,11 +35,11 @@ class GitlabPipeline < ApplicationRecord
   # TODO: confirm with the gitlab documentation what are the different statuses.
   enum status: {
     success: 'completed',
-    in_progress: 'in_progress',
+    running: 'running',
     success: 'success',
     queued: 'queued',
     queued: 'pending',
-    failure: 'failed',
+    failed: 'failed',
     skipped: 'skipped',
     cancelled: 'canceled'
   }
