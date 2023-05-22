@@ -34,8 +34,6 @@ module Pages
     attr_reader :project
 
     def initialize(project = nil)
-      super()
-
       @project = project
     end
 
