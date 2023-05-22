@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class AddDescriptionToCustomActions < ActiveRecord::Migration[7.0]
+class AddUsernameCommitToPipelines < ActiveRecord::Migration[7.0]
   def change
     add_column :gitlab_pipelines, :username, :text
 
