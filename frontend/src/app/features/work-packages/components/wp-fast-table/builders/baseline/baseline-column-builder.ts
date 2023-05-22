@@ -7,7 +7,7 @@ import { States } from 'core-app/core/states/states.service';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { tdClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/cell-builder';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
-import { opIconElement } from 'core-app/shared/helpers/op-icon-builder';
+import { spotIconElement } from 'core-app/shared/helpers/spot-icon-builder';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';

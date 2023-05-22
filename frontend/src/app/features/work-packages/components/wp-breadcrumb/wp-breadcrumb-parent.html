@@ -15,7 +15,7 @@
       (click)="open()"
   >
     <span *ngIf="!parent" [textContent]="text.set_parent"></span>
-    <op-icon icon-classes="icon-small {{ parent ? 'icon-edit icon5 icon-no-color' : 'icon-add icon4' }}"></op-icon>
+    <span class="spot-icon spot-icon_1_25 spot-icon_{{ parent ? 'edit' : 'add' }}"></span>
   </button>
   <button
       *ngIf="canModifyParent() && parent"
@@ -24,7 +24,7 @@
       [title]="text.remove_parent"
       (click)="updateParent(null)"
   >
-    <op-icon icon-classes="icon-small icon-no-color icon-remove icon4"></op-icon>
+    <span class="spot-icon spot-icon_1_25 spot-icon_remove"></span>
   </button>
 </ng-container>
 
