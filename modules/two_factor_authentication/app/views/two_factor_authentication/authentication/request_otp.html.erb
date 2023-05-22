@@ -2,64 +2,79 @@
 <% has_other_devices = @active_devices.count > 1 %>
 <% has_backup_codes = @authenticated_user.otp_backup_codes.exists? %>
 
-<%= render partial: 'two_factor_authentication/header_tags' %>
-
 <% html_title t(:field_otp) %>
 <% breadcrumb_paths(t(:field_otp)) %>
-<div id="login-form" class="form -bordered">
-  <%= styled_form_tag({ action: :confirm_otp }, { :autocomplete => "off", :id => 'submit_otp' }) do %>
+<div id="login-form"
+     class="form -bordered"
+     data-controller="two-factor-authentication"
+     data-application-target="dynamic"
+>
+  <%= styled_form_tag(
+        { action: :confirm_otp },
+        id: 'submit_otp',
+        autocomplete: "off") do %>
     <h2><%= t 'two_factor_authentication.label_two_factor_authentication' %></h2>
-      <% identifier = @used_device.request_2fa_identifier(@strategy.channel) %>
-      <p><%= raw I18n.t('two_factor_authentication.devices.request_2fa', device_name: identifier) %></p>
-      <hr class="form--separator">
+    <% identifier = @used_device.request_2fa_identifier(@strategy.channel) %>
+    <p><%= raw I18n.t('two_factor_authentication.devices.request_2fa', device_name: identifier) %></p>
+    <hr class="form--separator">
     <%= back_url_hidden_field_tag %>
     <div class="form--field -wide-label">
       <%= styled_label_tag 'otp', t(:field_otp) %>
       <div class="form--field-container">
-        <%= styled_text_field_tag 'otp', nil, autocomplete: 'off', size: 6, maxlength: 6, tabindex: 1, autofocus: true  %>
+        <%= styled_text_field_tag 'otp', nil, autocomplete: 'off', size: 6, maxlength: 6, tabindex: 1, autofocus: true %>
       </div>
     </div>
     <% if remember_2fa_enabled? %>
-    <div class="form--field -wide-label">
-      <label class="form--label-with-check-box -no-ellipsis">
-        <div class="form--check-box-container">
-          <%= styled_check_box_tag 'remember_me', true, false %>
-        </div>
-        <%= t 'two_factor_authentication.remember.dont_ask_again', days: remember_2fa_days %>
-      </label>
-    </div>
-    <% end %>
-      <input type="submit" name="login" value="<%=t(:button_login)%>" class="button -highlight" tabindex="2" />
-      <% if resend_supported || has_other_devices || has_backup_codes %>
-        <div class="login-options-container">
-          <div class="login-links">
-            <%= link_to(t(:text_otp_not_receive), '#', id: 'toggle_resend_form', tabindex: 3) %>
+      <div class="form--field -wide-label">
+        <label class="form--label-with-check-box -no-ellipsis">
+          <div class="form--check-box-container">
+            <%= styled_check_box_tag 'remember_me', true, false %>
           </div>
+          <%= t 'two_factor_authentication.remember.dont_ask_again', days: remember_2fa_days %>
+        </label>
+      </div>
+    <% end %>
+    <input type="submit" name="login" value="<%= t(:button_login) %>" class="button -highlight" tabindex="2"/>
+    <% if resend_supported || has_other_devices || has_backup_codes %>
+      <div class="login-options-container">
+        <div class="login-links">
+          <%= link_to(
+                t(:text_otp_not_receive),
+                '#',
+                id: 'toggle_resend_form',
+                tabindex: 3,
+                data: { action: 'two-factor-authentication#toggleResendOptions' }
+              ) %>
         </div>
-      <% end %>
+      </div>
+    <% end %>
   <% end %>
-  <div id="resend_otp_container" style="display: none">
+  <div
+    id="resend_otp_container"
+    data-two-factor-authentication-target="resendOptions"
+    hidden
+  >
     <% if resend_supported %>
-      <%= styled_form_tag({action: :retry }, autocomplete: 'off', id: 'resend_otp') do %>
+      <%= styled_form_tag({ action: :retry }, autocomplete: 'off', id: 'resend_otp') do %>
         <%= hidden_field_tag 'use_device', @service.device.id %>
-        <hr />
+        <hr/>
         <div class="resend-header"><%= t(:text_send_otp_again) %></div>
         <div class="radios-wrapper">
           <% default_channel = @service.device.channel %>
           <% supported_channels = @used_device.class.supported_channels & @strategy.class.supported_channels %>
           <% supported_channels.each do |channel| %>
-              <%= radio_button_tag 'use_channel', channel, default_channel == channel %>
-              <label for="channel_<%= channel %>" ><%= t("button_otp_by_#{channel}") %></label>
+            <%= radio_button_tag 'use_channel', channel, default_channel == channel %>
+            <label for="channel_<%= channel %>"><%= t("button_otp_by_#{channel}") %></label>
           <% end %>
 
         </div>
-        <input type="submit" value="<%= t(:button_resend_otp_form) %>" id="submit_resend_form" class="button -highlight" />
+        <input type="submit" value="<%= t(:button_resend_otp_form) %>" id="submit_resend_form" class="button -highlight"/>
       <% end %>
     <% end %>
     <% if has_other_devices %>
       <hr/>
       <div class="resend-header"><%= t('two_factor_authentication.login.other_device') %></div>
-        <ul>
+      <ul>
         <% @active_devices.each do |device| %>
           <% next if device.id == @used_device.id %>
           <li>
@@ -69,7 +84,7 @@
             <% end %>
           </li>
         <% end %>
-        </ul>
+      </ul>
     <% end %>
     <% if has_backup_codes %>
       <ul>
@@ -78,6 +93,6 @@
           </a>
         </li>
       </ul>
-  <% end %>
+    <% end %>
   </div>
 </div>

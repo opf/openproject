@@ -3,11 +3,11 @@ es:
   bim:
     label_bim: 'BIM'
     default_type_clash: Clash
-    default_type_issue: Issue
-    default_type_remark: Remark
-    default_type_request: Request
-    default_status_resolved: Resolved
-    default_priority_critical: Critical
+    default_type_issue: Problema
+    default_type_remark: Observación
+    default_type_request: Solicitud
+    default_status_resolved: Resuelto
+    default_priority_critical: Crítico
   bcf:
     label_bcf: 'BCF'
     label_imported_failed: 'No se pudieron importar los temas de BCF'

@@ -3,11 +3,11 @@ cs:
   permission_view_file_links: "Zobrazit odkazy na soubor"
   permission_manage_file_links: "Správa odkazů souborů"
   permission_manage_storages_in_project: "Spravovat úložiště souborů v projektu"
-  permission_read_files: "Read files"
-  permission_write_files: "Write files"
-  permission_create_files: "Create files"
-  permission_delete_files: "Delete files"
-  permission_share_files: "Share files"
+  permission_read_files: "Číst soubory"
+  permission_write_files: "Zapisovat soubory"
+  permission_create_files: "Vytvořit soubory"
+  permission_delete_files: "Odstranit soubory"
+  permission_share_files: "Sdílet soubory"
   project_module_storages: "Úložiště souborů"
   activerecord:
     models:
@@ -51,12 +51,16 @@ cs:
       project_settings:
         index: "Úložiště souborů v tomto projektu"
         new: "Přidat úložiště souborů k tomuto projektu"
+        edit: "Upravit úložiště souborů pro tento projekt"
     instructions:
       type: "Ujistěte se prosím, že máte oprávnění administrace v Nextcloud instanci a máte nainstalovanou následující aplikaci:"
       type_link_text: "„Integration OpenProject“"
       name: "Dejte svému úložišti jméno, aby uživatelé mohli rozlišovat mezi více úložišti."
       host: "Přidejte prosím adresu hostitele vašeho úložiště obsahující https://. Nemělo by být delší než 255 znaků."
       no_storage_set_up: "There are no file storages set up yet."
+      no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
+      existing_manual_folder: >
+        You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
       setting_up_additional_storages: "Pro nastavení dalších úložišť souborů navštivte prosím"
       setting_up_additional_storages_non_admin: "Administrátoři mohou nastavit další úložiště souborů v administraci / Úložiště souborů."
       setting_up_storages: "Pro nastavení úložišť souborů navštivte prosím"
@@ -65,11 +69,15 @@ cs:
       copy_from: "Zkopírovat tuto hodnotu z"
       nextcloud:
         integration: "Nextcloud Administrace / OpenProject"
+    help_texts:
+      project_folder: >
+        The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
     delete_warning:
       storage: >
         Jste si jisti, že chcete smazat toto úložiště? Toto také odstraní úložiště ze všech projektů, kde je použito. Dále také smaže všechny odkazy z pracovních balíčků do souborů, které jsou uloženy v úložišti.
       project_storage: >
         Jste si jisti, že chcete odstranit úložiště souborů z tohoto projektu? Tímto také odstraníte všechny odkazy na soubory uložené v tomto úložišti pro tento projekt.
+    placeholder_existing_folder_selection: "Vyberte složku"
     label_creator: "Vytvořil"
     label_file_link: "Odkaz na soubor"
     label_file_links: "Odkazy na soubor"
@@ -81,7 +89,11 @@ cs:
     label_oauth_application_details: "Podrobnosti OAuth aplikace"
     label_oauth_client_details: "Podrobnosti OAuth klienta"
     label_provider_type: "Typ poskytovatele"
+    label_project_folder: "Složka projektu"
     label_new_storage: "Nové úložiště"
+    label_existing_manual_folder: "Existing folder with manually managed permissions"
+    label_existing_manual_folder_selection: "Existing folder selection"
+    label_no_specific_folder: "No specific folder"
     label_storage: "Úložiště"
     label_storages: "Úložiště"
     no_results: "No storages set up yet."

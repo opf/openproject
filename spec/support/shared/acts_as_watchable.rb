@@ -116,7 +116,7 @@ MESSAGE
       # in case the model_instance creates users, we do not want them
       # to mess with our expected users
       model_instance
-      User.destroy_all
+      User.not_builtin.update_all(status: User.statuses[:locked])
 
       Role.non_member
       Role.anonymous
@@ -200,7 +200,7 @@ MESSAGE
       # in case the model_instance creates users, we do not want them
       # to mess with our expected users
       model_instance
-      User.destroy_all
+      User.not_builtin.update_all(status: User.statuses[:locked])
 
       User.system.save!
 

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'SAML provider callback' do
+describe 'SAML provider callback', with_ee: %i[openid_providers] do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -74,7 +74,6 @@ describe 'SAML provider callback' do
   end
 
   before do
-    with_enterprise_token :openid_providers
     Setting.plugin_openproject_auth_saml = {
       "providers" => { "saml" => config }
     }

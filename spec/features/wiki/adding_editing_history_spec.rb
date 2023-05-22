@@ -143,7 +143,7 @@ describe 'wiki pages', js: true, with_settings: { journal_aggregation_time_minut
 
     find('.ck-content').set(content_third_version)
 
-    fill_in 'Journal notes', with: other_user_comment
+    fill_in 'Comment', with: other_user_comment
 
     SeleniumHubWaiter.wait
     click_button 'Save'

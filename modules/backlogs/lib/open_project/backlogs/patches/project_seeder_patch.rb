@@ -32,7 +32,7 @@ module OpenProject::Backlogs::Patches::ProjectSeederPatch
   end
 
   module InstanceMethods
-    def seed_versions(project, project_data)
+    def seed_versions
       super
 
       version_data = Array(project_data.lookup('versions'))

@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative './support/board_index_page'
 require_relative './support/board_page'
 
-describe 'Work Package boards spec', js: true do
+describe 'Work Package boards spec', js: true, with_ee: %i[board_view] do
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -49,13 +49,8 @@ describe 'Work Package boards spec', js: true do
   let(:destroy_modal) { Components::WorkPackages::DestroyModal.new }
 
   before do
-    with_enterprise_token :board_view
     project
     login_as(user)
-  end
-
-  before do
-    with_enterprise_token :board_view
     project
     login_as(admin)
   end

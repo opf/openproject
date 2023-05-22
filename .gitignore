@@ -140,3 +140,6 @@ frontend/package-lock.json
 # Testing and nextcloud infrastructure
 acme.json
 .env.test
+
+# Generated seeders crowdin source file
+**/config/locales/en.seeders.yml

@@ -393,17 +393,17 @@ describe OpenProject::TextFormatting,
                project:)
       end
       let(:wiki_page_1_1) do
-        create(:wiki_page_with_content,
+        create(:wiki_page,
                wiki: wiki_1,
                title: 'CookBook documentation')
       end
       let(:wiki_page_1_2) do
-        create(:wiki_page_with_content,
+        create(:wiki_page,
                wiki: wiki_1,
                title: 'Another page')
       end
       let(:wiki_page_1_3) do
-        create(:wiki_page_with_content,
+        create(:wiki_page,
                wiki: wiki_1,
                title: '<script>alert("FOO")</script>')
       end
@@ -411,7 +411,7 @@ describe OpenProject::TextFormatting,
       before do
         project_2.reload
 
-        wiki_page_2_1 = create(:wiki_page_with_content,
+        wiki_page_2_1 = create(:wiki_page,
                                wiki: project_2.wiki,
                                title: 'Start Page')
 
@@ -617,7 +617,7 @@ describe OpenProject::TextFormatting,
                project:)
       end
       let(:wiki_page) do
-        create(:wiki_page_with_content,
+        create(:wiki_page,
                wiki:,
                title: 'CookBook documentation')
       end

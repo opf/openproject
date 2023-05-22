@@ -12,7 +12,7 @@ module OpenProject::Bim::Patches::WorkPackageSeederPatch
         work_package = find_bcf_issue(uuid)
         work_package.update_columns(created_at: Time.current,
                                     author_id: user.id,
-                                    assigned_to_id: find_assignee_id(attributes['assigned_to']),
+                                    assigned_to_id: find_principal(attributes['assigned_to']).id,
                                     start_date: time_tracking_attributes[:start_date],
                                     due_date: time_tracking_attributes[:due_date],
                                     duration: time_tracking_attributes[:duration],
@@ -27,7 +27,7 @@ module OpenProject::Bim::Patches::WorkPackageSeederPatch
     def update_parent(work_package, attributes)
       return unless attributes['parent']
 
-      parent = WorkPackage.find_by(subject: attributes['parent'])
+      parent = find_work_package(attributes['parent'])
       return if parent.nil?
 
       work_package.parent = parent
@@ -39,12 +39,6 @@ module OpenProject::Bim::Patches::WorkPackageSeederPatch
         .joins(:bcf_issue)
         .where(project_id: project.id, 'bcf_issues.uuid': uuid)
         .references(:bcf_issue).first
-    end
-
-    def find_assignee_id(name)
-      return nil if name.blank?
-
-      Principal.find_by(lastname: name).try(:id)
     end
   end
 end

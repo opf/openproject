@@ -482,6 +482,15 @@ hu:
           true: "public"
           false: "private"
         queries: "Lekérdezések"
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
+        status_codes:
+          not_started: 'Not started'
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         templated: "Példa projekt"
         templated_value:
           true: "marked as template"
@@ -489,16 +498,6 @@ hu:
         types: "Típus"
         versions: "Verzió"
         work_packages: "Feladatcsoportok"
-      projects/status:
-        code: 'Állapot'
-        explanation: 'Állapot leírása'
-        codes:
-          not_started: 'El nem kezdett'
-          on_track: 'Terv szerint'
-          at_risk: 'Veszélyben'
-          off_track: 'Kisiklott'
-          finished: 'Befejezett'
-          discontinued: 'Megszakított'
       query:
         column_names: "Oszlopok"
         relations_to_type_column: "Kapcsolatok %{type}-hoz"
@@ -739,6 +738,7 @@ hu:
               format: "%{message}\n"
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "kölcsönösen kizárja a csoportot a '%{group_by}' csoporttal. Nem aktiválhatja mindkettőt."
           filters:
@@ -915,11 +915,22 @@ hu:
   activity:
     item:
       created_by_on: "created by %{user} on %{datetime}"
+      created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "created on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
       parent_without_of: "Subproject"
       parent_no_longer: "No longer subproject of"
+      time_entry:
+        hour:
+          one: "%{count} hour"
+          other: "%{count} hours"
+        hour_html:
+          one: "<i>%{count} hour</i>"
+          other: "<i>%{count} hours</i>"
+        updated: "changed from %{old_value} to %{value}"
+        logged_for: "Logged for"
     filter:
       changeset: "Changesets"
       message: "Forums"
@@ -1890,7 +1901,7 @@ hu:
   label_role_search: "Szerep hozzárendelése az új tagokhoz"
   label_scm: "SCM"
   label_search: "Keresés"
-  label_send_information: "Fiókinformációkat küldése a felhasználónak"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Teszt levél küldése"
   label_setting_plural: "Beállítások"
   label_system_settings: "Rendszerbeállítások"

@@ -28,7 +28,9 @@
 class AdminUserSeeder < Seeder
   def seed_data!
     user = new_admin
-    unless user.save! validate: false
+    if user.save!(validate: false)
+      seed_data.store_reference(:openproject_admin, user)
+    else
       print_error 'Seeding admin failed:'
       user.errors.full_messages.each do |msg|
         print_error "  #{msg}"
@@ -38,6 +40,10 @@ class AdminUserSeeder < Seeder
 
   def applicable?
     User.not_builtin.admin.empty?
+  end
+
+  def lookup_existing_references
+    seed_data.store_reference(:openproject_admin, User.not_builtin.admin.first)
   end
 
   def not_applicable_message

@@ -61,7 +61,7 @@ describe 'OpenProject child pages macro' do
     create(:wiki_page,
            title: 'Current page',
            wiki: project.wiki,
-           content: build(:wiki_content, text: input))
+           text: input)
   end
 
   let(:middle_page) do
@@ -69,14 +69,14 @@ describe 'OpenProject child pages macro' do
            title: 'Node from same project',
            wiki: project.wiki,
            parent_id: current_page.id,
-           content: build(:wiki_content, text: '# Node Page from same project'))
+           text: '# Node Page from same project')
   end
 
   let(:node_page_invisible_project) do
     create(:wiki_page,
            title: 'Node page from invisible project',
            wiki: invisible_project.wiki,
-           content: build(:wiki_content, text: '# Page from invisible project'))
+           text: '# Page from invisible project')
   end
 
   let(:leaf_page) do
@@ -84,7 +84,7 @@ describe 'OpenProject child pages macro' do
            title: 'Leaf page from same project',
            parent_id: middle_page.id,
            wiki: project.wiki,
-           content: build(:wiki_content, text: '# Leaf page from same project'))
+           text: '# Leaf page from same project')
   end
 
   let(:leaf_page_invisible_project) do
@@ -92,21 +92,17 @@ describe 'OpenProject child pages macro' do
            title: 'Leaf page from invisible project',
            parent_id: node_page_invisible_project.id,
            wiki: invisible_project.wiki,
-           content: build(:wiki_content, text: '# Leaf page from invisible project'))
+           text: '# Leaf page from invisible project')
   end
 
   let(:leaf_page_member_project) do
     create(:wiki_page,
            title: 'Leaf page from member project',
            wiki: member_project.wiki,
-           content: build(:wiki_content, text: '# Leaf page from member project'))
+           text: '# Leaf page from member project')
   end
 
-  before do
-    login_as(user)
-  end
-
-  subject { format_text(current_page.content, :text) }
+  subject { format_text(current_page, :text) }
 
   before do
     login_as user

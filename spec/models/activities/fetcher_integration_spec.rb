@@ -55,14 +55,13 @@ describe Activities::Fetcher, 'integration' do
     let(:changeset) { create(:changeset, committer: event_user.login, repository:) }
     let(:wiki) { create(:wiki, project:) }
     let(:wiki_page) do
-      content = build(:wiki_content, page: nil, author: event_user, text: 'some text')
-      create(:wiki_page, wiki:, content:)
+      create(:wiki_page, wiki:, author: event_user, text: 'some text')
     end
 
     subject { instance.events(from: 30.days.ago, to: 1.day.from_now) }
 
     context 'for global activities' do
-      let!(:activities) { [project, work_package, message, news, time_entry, changeset, wiki_page.content] }
+      let!(:activities) { [project, work_package, message, news, time_entry, changeset, wiki_page] }
 
       it 'finds events of all types' do
         expect(subject.map(&:journable_id))
@@ -106,7 +105,7 @@ describe Activities::Fetcher, 'integration' do
 
     context 'for activities in a project' do
       let(:options) { { project: } }
-      let!(:activities) { [project, work_package, message, news, time_entry, changeset, wiki_page.content] }
+      let!(:activities) { [project, work_package, message, news, time_entry, changeset, wiki_page] }
 
       it 'finds events of all types' do
         expect(subject.map(&:journable_id))
@@ -235,7 +234,7 @@ describe Activities::Fetcher, 'integration' do
       let!(:activities) do
         # Login to have all the journals created as the user
         login_as(user)
-        [project, work_package, message, news, time_entry, changeset, wiki_page.content]
+        [project, work_package, message, news, time_entry, changeset, wiki_page]
       end
 
       it 'finds events of all types' do

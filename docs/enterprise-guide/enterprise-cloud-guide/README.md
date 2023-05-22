@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Enterprise cloud guide
-  priority: 999
+  priority: 998
 description: OpenProject Enterprise cloud guide.
 keywords: cloud edition, enterprise cloud
 ---
@@ -18,16 +18,16 @@ Welcome to the OpenProject **Enterprise cloud guide**.
 
 | Topic                                                                                                       | Content                                                                                           |
 |-------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------|
-| [Create free trial](./create-cloud-trial)                                                                   | Learn more about how to create a free trial for the Enterprise cloud instance.                    |
+| [Create free trial](./create-cloud-trial/)                                                                  | Learn more about how to create a free trial for the Enterprise cloud instance.                    |
 | [Sign in](./sign-in/)                                                                                       | Sign in to your OpenProject Enterprise cloud edition.                                             |
-| [Create quote](./create-quote-cloud)                                                                        | How to create a quote within your Enterprise cloud instance.                                      |
-| [Invoices and billing history](./invoices-and-billing-history)                                              | How to see your payment history and download invoices.                                            |
+| [Create quote](./create-quote-cloud/)                                                                       | How to create a quote within your Enterprise cloud instance.                                      |
+| [Invoices and billing history](./invoices-and-billing-history/)                                             | How to see your payment history and download invoices.                                            |
 | [Upgrade, downgrade or cancel subscription](./manage-cloud-subscription/#upgrade-or-downgrade-subscription) | How to upgrade your plan, downgrade or cancel your subscription for the Enterprise cloud edition. |
-| [Manage your subscription](./manage-cloud-subscription)                                                     | How to change billing address and add or edit credit card details.                                |
-| [Subscribe](./book-cloud)                                                                                   | How to book Enterprise cloud.                                                                     |
-| [Backups](./backups)                                                                                        | How do backups work in the cloud?                                                                 |
-| [Support](./support)                                                                                        | How to get support as Enterprise cloud user.                                                      |
-| [GDPR and DPA](./gdpr-compliance)                                                                           | Review and sign a Data Processing Agreement (DPA).                                                |
+| [Manage your subscription](./manage-cloud-subscription/)                                                    | How to change billing address and add or edit credit card details.                                |
+| [Subscribe](./book-cloud/)                                                                                  | How to book Enterprise cloud.                                                                     |
+| [Backups](./backups/)                                                                                       | How do backups work in the cloud?                                                                 |
+| [Support](../support/)                                                                                      | How to get support as Enterprise cloud user.                                                      |
+| [GDPR and DPA](./gdpr-compliance/)                                                                          | Review and sign a Data Processing Agreement (DPA).                                                |
 
 The OpenProject Enterprise cloud edition contains all OpenProject Community features plus the additional OpenProject Enterprise add-ons, as well as professional support.
 

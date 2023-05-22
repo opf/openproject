@@ -38,8 +38,8 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { first, map, tap } from 'rxjs/operators';
 import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
@@ -58,11 +58,6 @@ import { ApiV3WorkPackageCachedSubresource } from 'core-app/core/apiv3/endpoints
 
 export const globalSearchSelector = 'global-search-input';
 
-interface SearchResultItems {
-  items:SearchResultItem[]|SearchOptionItem[];
-  term:string;
-}
-
 interface SearchResultItem {
   id:string;
   subject:string;
@@ -76,6 +71,11 @@ interface SearchResultItem {
 interface SearchOptionItem {
   projectScope:string;
   text:string;
+}
+
+interface SearchResultItems {
+  items:SearchResultItem[]|SearchOptionItem[];
+  term:string;
 }
 
 @Component({
@@ -97,7 +97,9 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   public expanded = false;
 
-  public markable = false;
+  private _markable = new BehaviorSubject<boolean>(false);
+
+  public markable$ = this._markable.asObservable();
 
   getAutocompleterData = (query:string):Observable<unknown[]> => this.autocompleteWorkPackages(query);
 
@@ -129,7 +131,8 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     close_search: this.I18n.t('js.global_search.close_search'),
   };
 
-  constructor(readonly elementRef:ElementRef,
+  constructor(
+    readonly elementRef:ElementRef,
     readonly I18n:I18nService,
     readonly apiV3Service:ApiV3Service,
     readonly pathHelperService:PathHelperService,
@@ -139,7 +142,8 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     readonly deviceService:DeviceService,
     readonly cdRef:ChangeDetectorRef,
     readonly halNotification:HalResourceNotificationService,
-    readonly ngZone:NgZone) {
+    readonly ngZone:NgZone,
+  ) {
   }
 
   ngAfterViewInit():void {
@@ -161,13 +165,21 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     return this.ngSelectComponent.ngSelectInstance.searchTerm;
   }
 
+  public set markable(value:boolean) {
+    this._markable.next(value);
+  }
+
+  public get markable():boolean {
+    return this._markable.value;
+  }
+
   // detect if click is outside or inside the element
   @HostListener('click', ['$event'])
   public handleClick(event:JQuery.TriggeredEvent):void {
     event.preventDefault();
 
     // handle click on search button
-    if (insideOrSelf(this.btn.nativeElement, event.target)) {
+    if (insideOrSelf(this.btn.nativeElement as HTMLElement, event.target as HTMLElement)) {
       if (this.deviceService.isMobile) {
         this.toggleMobileSearch();
         // open ng-select menu on default
@@ -247,11 +259,15 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   // in and then decide what to do. If a direct hit is present, follow that. Otherwise,
   // go to the search in the current scope.
   public onEnterBeforeResultsLoaded():void {
-    if (this.selectedItem) {
-      this.followSelectedItem();
-    } else {
-      this.searchInScope(this.currentScope);
-    }
+    this.markable$.pipe(
+      first((v) => v),
+    ).subscribe(() => {
+      if (this.selectedItem) {
+        this.followSelectedItem();
+      } else {
+        this.searchInScope(this.currentScope);
+      }
+    });
   }
 
   public statusHighlighting(statusId:string):string {
@@ -416,9 +432,11 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
         && this.globalSearchService.isAfterSearch()
         && this.globalSearchService.currentTab === 'work_packages') {
         window.history
-          .replaceState({},
+          .replaceState(
+            {},
             `${I18n.t('global_search.search')}: ${this.searchTerm}`,
-            this.globalSearchService.searchPath());
+            this.globalSearchService.searchPath(),
+          );
 
         return;
       }

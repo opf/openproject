@@ -28,12 +28,13 @@ module DemoData
   class VersionBuilder
     include ::DemoData::References
 
-    attr_reader :config, :project, :user
+    attr_reader :config, :project, :user, :seed_data
 
-    def initialize(config, project:, user:)
+    def initialize(config, project:, user:, seed_data:)
       @config = config
       @project = project
       @user = user
+      @seed_data = seed_data
     end
 
     def create!
@@ -59,19 +60,23 @@ module DemoData
         sharing: config['sharing'],
         project:
       )
+      seed_data.store_reference(config['reference'], version)
 
-      set_wiki! version, config['wiki'] if config['wiki']
+      set_wiki! version, config['wiki']
 
       version
     end
 
     def set_wiki!(version, config)
-      version.wiki_page_title = config['title']
-      page = WikiPage.create! wiki: version.project.wiki, title: version.wiki_page_title
+      return unless config
 
-      content = with_references config['content'], project
+      version.wiki_page_title = config['title']
+
       Journal::NotificationConfiguration.with false do
-        WikiContent.create! page:, author: user, text: content
+        WikiPage.create! wiki: version.project.wiki,
+                         title: version.wiki_page_title,
+                         author: User.admin.first,
+                         text: with_references(config['content'])
       end
 
       version.save!

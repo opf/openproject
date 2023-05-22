@@ -236,7 +236,7 @@ sl:
             installation: "Namestitvena podpora"
             installation_text: "Izkušeni programski inženirji vas vodijo skozi celoten postopek namestitve in nastavitve v lastni infrastrukturi."
             premium_features: "Enterprise add-ons"
-            premium_features_text: "Kanban deske, teme in logotip po meri, grafikoni, inteligentni delovni tokovi z dejanji po meri, iskanje po celotnem besedilu prilog v delovnem paketu in izbira polj po meri."
+            premium_features_text: "Kanban table, teme in logotip po meri, grafikoni, inteligentni delovni tokovi z dejanji po meri, iskanje po celotnem besedilu prilog v delovnem paketu in izbira polj po meri."
             professional_support: "Strokovna podpora"
             professional_support_text: "Pridobite zanesljivo in visoko dotično podporo starejših podpornih inženirjev s strokovnim znanjem o izvajanju OpenProject-a v poslovnih kritičnih okoljih."
           button_start_trial: "Začnite z brezplačno preizkusno dobo"
@@ -246,7 +246,7 @@ sl:
           confidence: >
             Zagotavljamo zaupanje preizkušene in podprte programske opreme za upravljanje projektov v podjetniškem razredu - z odprto kodo in odprto miselnostjo.
           link_quote: "Pridobite ponudbo"
-          more_info: "More information"
+          more_info: "Več informacij"
           text: >
             The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Neomejeno"
@@ -302,7 +302,7 @@ sl:
         update_conflict_refresh: "Kliknite tukaj za osvežitev vira in posodobite na najnovejšo različico."
         edit_prohibited: "Urejanje %{attribute} je onemogočeno za ta vir. Ta atribut je izpeljan iz povezav (podrejenih virov) ali pa ga ni mogoče urejati."
         format:
-          date: "%{attribute} ni veljaven datum - leto-mesec-san je pričakovano."
+          date: "%{attribute} ni veljaven datum - YYYY-MM-DD format je pričakovan."
         general: "Prišlo je do napake."
     homescreen:
       blocks:
@@ -317,7 +317,7 @@ sl:
               new_features_html: >
                 The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
     label_activate: "Aktiviraj"
-    label_assignee: 'Assignee'
+    label_assignee: 'Prevzemnik'
     label_add_column_after: "Dodaj stolpec za"
     label_add_column_before: "Dodaj stolpec pred"
     label_add_columns: "Dodaj stolpce"
@@ -338,7 +338,7 @@ sl:
     label_between: "med"
     label_board: "Board"
     label_board_locked: "Zaklenjeno"
-    label_board_plural: "Deske"
+    label_board_plural: "Table"
     label_board_sticky: "Lepljivo"
     label_change: "Spremeni"
     label_create: "Ustvari"
@@ -352,7 +352,7 @@ sl:
     label_details: "Podrobnosti"
     label_display: "Prikaz"
     label_cancel_comment: "Prekliči komentar"
-    label_closed_work_packages: "Zaprto"
+    label_closed_work_packages: "zaprto"
     label_collapse: "Strni"
     label_collapsed: "strnjeno"
     label_collapse_all: "Strni vse"
@@ -387,7 +387,7 @@ sl:
     label_in_more_than: "v več kot"
     label_incoming_emails: "Prihajajoča e-pošta"
     label_information_plural: "Informacije"
-    label_invalid: "Invalid"
+    label_invalid: "Neveljavno"
     label_import: "Uvozi"
     label_latest_activity: "Zadnja dejavnost"
     label_last_updated_on: "Zadnjič posodobljeno dne"
@@ -421,7 +421,7 @@ sl:
     label_per_page: "Na stran:"
     label_please_wait: "Prosimo, počakajte"
     label_project: "Project"
-    label_project_list: "Projects list"
+    label_project_list: "Seznam projektov"
     label_project_plural: "Projekti"
     label_visibility_settings: "Nastavitve vidljivosti"
     label_quote_comment: "Citiraj ta komentar"
@@ -434,7 +434,7 @@ sl:
     label_report: "Poročilo"
     label_repository_plural: "Repozitoriji"
     label_save_as: "Shrani kot"
-    label_select_project: "Select a project"
+    label_select_project: "Izberi projekt"
     label_select_watcher: "Izberi opazovalca..."
     label_selected_filter_list: "Izbrani kriteriji"
     label_show_attributes: "Prikaži vse atribute"
@@ -545,16 +545,16 @@ sl:
           card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
     notifications:
       title: "Notifications"
-      no_unread: "No unread notifications"
+      no_unread: "Ni neprebranih obvestil"
       reasons:
         mentioned: 'mentioned'
         watched: 'watcher'
         assigned: 'assignee'
         responsible: 'accountable'
-        created: 'created'
-        scheduled: 'scheduled'
-        commented: 'commented'
-        processed: 'processed'
+        created: 'ustvarjeno'
+        scheduled: 'načrtovano'
+        commented: 'komentirano'
+        processed: 'procesirano'
         prioritized: 'prioritized'
         dateAlert: 'Date alert'
       date_alerts:
@@ -569,8 +569,8 @@ sl:
           title: 'Date alerts'
           description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
       facets:
-        unread: 'Unread'
-        unread_title: 'Show unread'
+        unread: 'Neprebrano'
+        unread_title: 'Pokaži neprebrano'
         all: 'Vse'
         all_title: 'Show all'
       center:
@@ -583,8 +583,8 @@ sl:
         no_results:
           at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: 'There are no notifications in this view at the moment'
-        mark_all_read: 'Mark all as read'
-        mark_as_read: 'Mark as read'
+        mark_all_read: 'Označi vse kot prebrano'
+        mark_as_read: 'Označi kot prebrano'
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
@@ -597,15 +597,15 @@ sl:
           link_text: 'Click here to load them'
       menu:
         accountable: 'Odgovorni'
-        by_project: 'Unread by project'
+        by_project: 'Neprebrano po projektu'
         by_reason: 'Reason'
-        inbox: 'Inbox'
-        mentioned: 'Mentioned'
+        inbox: 'Prejeto'
+        mentioned: 'Omenjen'
         watched: 'Watcher'
         date_alert: 'Date alert'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
-        title: "Notification settings"
+        title: "Nastavitve obvestil"
         notify_me: "Notify me"
         reminders:
           no_notification: No notification
@@ -621,9 +621,9 @@ sl:
               P7D: every week
         reasons:
           mentioned:
-            title: 'Mentioned'
+            title: 'Omenjen'
             description: 'Receive a notification every time someone mentions me anywhere'
-          assignee: 'Assignee'
+          assignee: 'Prevzemnik'
           responsible: 'Accountable'
           watched: 'Watcher'
           work_package_commented: 'All new comments'
@@ -963,7 +963,7 @@ sl:
         description: "Opis"
         date: "Datum"
         dueDate: "Končni datum"
-        duration: "Duration"
+        duration: "Trajanje"
         estimatedTime: "Predvideni čas"
         spentTime: "Porabljen čas"
         category: "Kategorija"
@@ -1276,6 +1276,11 @@ sl:
         last_month: 'last month'
         a_specific_date: 'a specific date'
         between_two_specific_dates: 'between two specific dates'
+      legends:
+        changes_since: 'Changes since'
+        now_meets_filter_criteria: 'Now meets filter criteria'
+        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
+        maintained_with_changes: 'Maintained with changes'
     forms:
       submit_success_message: 'Obrazev je bil uspešno oddan'
       load_error_message: 'Pri nalaganju obrazca je prišlo do napake'

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'open_project/auth_plugins'
 
-describe OpenProject::Plugins::AuthPlugin do
+describe OpenProject::Plugins::AuthPlugin, with_ee: %i[board_view] do
   let(:dummy_engine_klass) do
     Class.new { extend OpenProject::Plugins::AuthPlugin }
   end
@@ -47,7 +47,6 @@ describe OpenProject::Plugins::AuthPlugin do
   let(:middlewares) { [] }
 
   before do
-    with_enterprise_token :board_view
     app = Object.new
     omniauth_builder = Object.new
 

@@ -33,7 +33,7 @@ describe Queries::Projects::Filters::ProjectStatusFilter do
     let(:class_key) { :project_status_code }
     let(:type) { :list_optional }
     let(:model) { Project }
-    let(:attribute) { :project_status_code }
+    let(:attribute) { :status_code }
     let(:values) { ['On track'] }
     let(:human_name) { 'Project status' }
     let(:admin) { build_stubbed(:admin) }

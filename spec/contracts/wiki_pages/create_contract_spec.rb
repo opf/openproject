@@ -38,11 +38,11 @@ describe WikiPages::CreateContract do
                    title: page_title,
                    slug: page_slug,
                    protected: page_protected,
-                   parent: page_parent).tap do |page|
-        page.build_content text: page_text,
-                           author: page_author
-        page.content.extend(OpenProject::ChangedBySystem)
-        page.content.changed_by_system(changed_by_system)
+                   parent: page_parent,
+                   text: page_text,
+                   author: page_author).tap do |page|
+        page.extend(OpenProject::ChangedBySystem)
+        page.changed_by_system(changed_by_system)
 
         allow(page)
           .to receive(:project)

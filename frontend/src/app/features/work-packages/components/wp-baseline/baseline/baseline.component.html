@@ -52,12 +52,11 @@
     </spot-tooltip>
 
 
-    <span slot="description"
-          *ngIf="timeZoneSelected"
-          [textContent]="text.time_description()"></span>
+    <span slot="description" [textContent]="text.time_description()"></span>
   </spot-form-field>
 
-  <div class="spot-action-bar">
+  <div class="spot-action-bar"
+      *ngIf="showActionBar">
 
     <div class="spot-action-bar--right">
       <button

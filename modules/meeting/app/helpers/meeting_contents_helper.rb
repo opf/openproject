@@ -106,7 +106,10 @@ module MeetingContentsHelper
     content_tag :li, '', class: 'toolbar-item' do
       link_to '',
               class: 'button button--edit-agenda',
-              data: { 'content-type': content_type },
+              data: {
+                action: 'meeting-content#enableEditState',
+                'meeting-content-target': 'editButton'
+              },
               accesskey: accesskey(:edit) do
                 text_with_icon(I18n.t(:label_edit), 'icon-edit')
               end

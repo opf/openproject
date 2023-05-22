@@ -61,7 +61,7 @@ class JournalsController < ApplicationController
   end
 
   def diff
-    return render_404 unless valid_field?
+    return render_404 unless valid_field_for_diffing?
 
     unless @journal.details[field_param] in [from, to]
       return render_400 message: I18n.t(:error_journal_attribute_not_present, attribute: field_param)
@@ -101,9 +101,8 @@ class JournalsController < ApplicationController
     @field_param ||= params[:field].parameterize.underscore
   end
 
-  # Is this a valid field for diff'ing?
-  def valid_field?
-    field_param == 'description'
+  def valid_field_for_diffing?
+    %w[description status_explanation].include?(field_param)
   end
 
   def journals_index_title

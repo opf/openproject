@@ -171,7 +171,7 @@ describe 'Search', js: true, with_mail: false, with_settings: { per_page_options
   end
 
   describe 'search for work packages' do
-    context 'when search in all projects' do
+    context 'when searching in all projects' do
       let(:params) { [project, { q: query, work_packages: 1 }] }
 
       context 'as custom fields not searchable' do
@@ -211,6 +211,47 @@ describe 'Search', js: true, with_mail: false, with_settings: { per_page_options
           table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
           table.ensure_work_package_not_listed!(work_packages[0])
           table.expect_work_package_subject(work_packages[1].subject)
+        end
+      end
+
+      describe 'by #id' do
+        let(:work_package) { work_packages.last }
+
+        it 'loads the WP results table with the correct WP' do
+          select_autocomplete(page.find('.top-menu-search--input'),
+                              query: "##{work_package.id}",
+                              select_text: "In all projects ↵",
+                              wait_dropdown_open: false)
+          table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
+          table.ensure_work_package_not_listed!(*work_packages[0...-1])
+          table.expect_work_package_subject(work_package.subject)
+        end
+
+        context 'when submitting without autocomplete' do
+          it 'loads the WP in full view' do
+            global_search.search "##{work_package.id}"
+            global_search.submit_with_enter
+
+            wp_page = Pages::FullWorkPackage.new(work_package)
+            wp_page.expect_subject
+          end
+        end
+      end
+
+      context 'when a work package is closed' do
+        let(:params) { [{ q: query, scope: 'all' }] }
+        let(:run_visit) { false }
+        let(:work_package) { work_packages.last }
+
+        before do
+          work_package.update(status: create(:closed_status))
+          visit search_path(*params)
+        end
+
+        it 'marks the closed work package' do
+          within 'dt.work_package-closed' do
+            expect(page).to have_link(text: Regexp.new(work_package.status.name))
+          end
         end
       end
     end
@@ -377,6 +418,36 @@ describe 'Search', js: true, with_mail: false, with_settings: { per_page_options
         table.ensure_work_package_not_listed!(work_packages[0])
         table.ensure_work_package_not_listed!(work_packages[1])
         table.expect_work_package_listed(work_packages[9])
+      end
+    end
+  end
+
+  describe 'search for notes' do
+    let(:work_package) { work_packages[0] }
+    let!(:note_one) do
+      create(:work_package_journal,
+             journable_id: work_package.id,
+             notes: 'Test note 1',
+             version: 2)
+    end
+    let!(:note_two) do
+      create(:work_package_journal,
+             journable_id: work_package.id,
+             notes: 'Special note 2',
+             version: 3)
+    end
+
+    it 'highlights last note' do
+      global_search.search 'note'
+      global_search.submit_in_global_scope
+
+      within('dt.work_package-note + dd') do
+        expect(page).to have_selector(".description", text: note_two.notes)
+      end
+
+      # links to work package with anchor to highlighted note
+      within('dt.work_package-note') do
+        expect(page).to have_link(href: work_package_path(work_package, anchor: 'note-2'))
       end
     end
   end
