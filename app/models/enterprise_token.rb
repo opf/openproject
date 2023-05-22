@@ -46,7 +46,7 @@ class EnterpriseToken < ApplicationRecord
     end
 
     def show_banners?
-      OpenProject::Configuration.ee_manager_visible? && (!current || current.expired?)
+      OpenProject::Configuration.ee_manager_visible? && !active?
     end
 
     def set_current_token
