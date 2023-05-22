@@ -511,7 +511,7 @@ be:
         next: 'Next'
         got_it: 'Got it'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: 'Меню Даведка (?) прадстаўляе <b> дадатковыя дапаможную інфармацыю </b>. Тут вы можаце знайсці кіраўніцтва карыстальніка, карысныя відэа інструкцыі і многае іншае. <br> Прыемнай працы з OpenProject!'
         members: 'Invite new <b>members</b> to join your project.'
         project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
@@ -553,10 +553,10 @@ be:
         assigned: 'assignee'
         responsible: 'accountable'
         created: 'створана'
-        scheduled: 'scheduled'
-        commented: 'commented'
-        processed: 'processed'
-        prioritized: 'prioritized'
+        scheduled: 'Запланавана'
+        commented: 'пракаментавана'
+        processed: 'Апрацавана'
+        prioritized: 'прыярытэтны'
         dateAlert: 'Date alert'
       date_alerts:
         milestone_date: 'Milestone date'
@@ -635,18 +635,18 @@ be:
         global:
           immediately:
             title: 'Participating'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
+            description: 'Паведамленні аб актыўнасці ў працоўных пакетах, у якіх вы ўдзельнічаеце (адказны, падсправаздачны або назіральнік).'
           delayed:
             title: 'Non-participating'
-            description: 'Additional notifications for activities in all projects.'
+            description: 'Дадатковыя паведамленні аб актыўнасці ва ўсіх праектах.'
           date_alerts:
             title: 'Date alerts'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
+            description: 'Аўтаматычныя паведамленні аб важных падыходзячых датах у адчыняннях працоўных пакетах, у якіх вы ўдзельнічаеце (адказны, падсправаздачны або назіральнік).'
             teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
           overdue: When overdue
         project_specific:
           title: 'Project-specific notification settings'
-          description: 'These project-specific settings override default settings above.'
+          description: 'Гэтыя спецыфічныя налады праекта перапісваюць налады па ўмаўчанні вышэй.'
           add: 'Add setting for project'
           already_selected: 'This project is already selected'
           remove: 'Remove project settings'
@@ -718,8 +718,8 @@ be:
         reset_title: "Reset form configuration"
         confirm_reset: >
           Warning: Are you sure you want to reset the form configuration? This will reset the attributes to their default group and disable ALL custom fields.
-        upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
-        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
+        upgrade_to_ee: "Абнавіць да Enterprise on-premises edition"
+        upgrade_to_ee_text: "Нічога сабе! Калі вам патрэбны гэты дадатак, вы вялікі прафесіянал! Ці будзеце вы ветлівы падтрымаць нас, OpenSource распрацоўшчыкаў, пераўтварыўшыся ў карыстальніка Enterprise edition?"
         more_information: "More information"
         nevermind: "Nevermind"
       edit:
@@ -794,7 +794,7 @@ be:
     field_value_enter_prompt: "Enter a value for '%{field}'"
     project_menu_details: "Details"
     scheduling:
-      manual: 'Manual scheduling'
+      manual: 'Ручное планаванне'
     sort:
       sorted_asc: 'Ascending sort applied, '
       sorted_dsc: 'Descending sort applied, '
@@ -816,7 +816,7 @@ be:
         farRight: 'Far right'
         showNone: '-- No label --'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+          Адзначце атрыбуты, якія будуць паказвацца заўсёды ў адпаведных пазіцыях дыяграмы Ганта. Звярніце ўвагу, што пры навядзенні курсора на элемент, замест гэтых атрыбутаў будуць паказаны яго часавыя меткі.
       button_activate: 'Show Gantt chart'
       button_deactivate: 'Hide Gantt chart'
       cancel: Cancel
@@ -1057,7 +1057,7 @@ be:
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'
-          check_out_link: 'Check out the Enterprise edition.'
+          check_out_link: 'Азнаёміцца з Enterprise edition.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
@@ -1204,9 +1204,9 @@ be:
           description: 'Permissions based on the assigned role in the selected project'
         placeholder:
           title: 'Placeholder user'
-          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
+          title_no_ee: 'Шаблонны карыстальнік (дадатак толькі для Enterprise edition)'
           description: 'Has no access to the project and no emails are sent out.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
+          description_no_ee: 'Не мае доступу да праекта і не рассылае электронныя лісты. <br>Азнаёмцеся з <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
       principal:
         label:
           name_or_email: 'Name or email address'
