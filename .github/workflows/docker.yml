@@ -53,7 +53,6 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          context: workflow
           images: |
             ${{ env.REGISTRY_IMAGE }}
       - name: Build image
@@ -91,7 +90,6 @@ jobs:
           build-args: |
             BASE_PREFIX=${{ matrix.base_prefix }}
             BIM_SUPPORT=${{ matrix.bim_support }}
-          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
       - name: Export digest
