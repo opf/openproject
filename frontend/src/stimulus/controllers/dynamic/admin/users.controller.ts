@@ -1,6 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
 
-export default class AdminUsersController extends Controller {
+export default class UsersController extends Controller {
   static targets = [
     'passwordFields',
     'authSourceFields',

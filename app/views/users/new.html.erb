@@ -38,9 +38,9 @@ See COPYRIGHT and LICENSE files for more details.
                               url: { action: "create" },
                               html: { class: nil, autocomplete: 'off' },
                               data: {
-                                controller: 'admin-users',
+                                controller: 'admin--users',
                                 'application-target': 'dynamic',
-                                'admin-users-password-auth-selected-value': @user.auth_source_id.blank?,
+                                'admin--users-password-auth-selected-value': @user.auth_source_id.blank?,
                               },
                               as: :user do |f| %>
   <%= render partial: 'simple_form', locals: { f: f, auth_sources: @auth_sources, user: @user } %>
