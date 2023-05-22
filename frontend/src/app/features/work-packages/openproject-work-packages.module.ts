@@ -212,7 +212,7 @@ import { OpBaselineLegendsComponent } from 'core-app/features/work-packages/comp
     EditFieldControlsModule,
     OpenprojectTabsModule,
     OpenprojectStoragesModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [
     // Notification service

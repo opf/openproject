@@ -34,7 +34,7 @@ import { OpModalComponent } from 'core-app/shared/components/modal/modal.compone
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit,
 } from '@angular/core';
 import {
   UntypedFormGroup,
@@ -45,14 +45,18 @@ import {
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+
+interface TokenNameFormValue {
+  name:string;
+}
 
 @Component({
   templateUrl: './query-get-ical-url.modal.html',
   styleUrls: ['./query-get-ical-url.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 export class QueryGetIcalUrlModalComponent extends OpModalComponent implements OnInit {
   public tokenName = '';
 
@@ -106,7 +110,7 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
     // TODO: I'm not sure if this is an error we actually need to catch
     if (!this.query) {
       this.toastService.addError(
-      this.I18n.t('js.ical_sharing_modal.inital_setup_error_message')
+        this.I18n.t('js.ical_sharing_modal.inital_setup_error_message'),
       );
       // without timeout the modal backdrop is not removed
       setTimeout(() => {
@@ -116,35 +120,35 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
   }
 
   public copyUrlAndCloseModal(url:string):void {
-    if(!navigator.clipboard) {
+    if (!navigator.clipboard) {
       // fallback for browsers that don't support clipboard API at all
       this.toastService.addWarning(
-        this.I18n.t('js.ical_sharing_modal.copy_url_error_text') + " " + url
+        `${this.I18n.t('js.ical_sharing_modal.copy_url_error_text')} ${url}`,
       );
     } else {
       void navigator.clipboard.writeText(url)
-      .then(() => {
-        this.toastService.addSuccess(this.text.copy_success_text);
-      })
-      .catch(() => {
+        .then(() => {
+          this.toastService.addSuccess(this.text.copy_success_text);
+        })
+        .catch(() => {
         // fallback when running into e.g. browser permission errors
-        this.toastService.addWarning(
-          this.I18n.t('js.ical_sharing_modal.copy_url_error_text') + " " + url
-        );
-      });
+          this.toastService.addWarning(
+            `${this.I18n.t('js.ical_sharing_modal.copy_url_error_text')} ${url}`,
+          );
+        });
     }
 
     this.closeMe();
   }
-  
-  public generateAndCopyUrl(event:any):void {
+
+  public generateAndCopyUrl():void {
     if (this.isBusy) {
       return;
     }
 
-    let icalUrl = "";
+    let icalUrl = '';
 
-    let tokenName = this.tokenNameForm.value.name;
+    const tokenName = (this.tokenNameForm.value as TokenNameFormValue)?.name;
 
     this.isBusy = true;
 
@@ -154,16 +158,18 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
       .getIcalUrl(this.query, tokenName);
 
     void promise
-      .then((response:HalResource) => {
+      .then((response:{ icalUrl:{ href:string } }) => {
         icalUrl = String(response.icalUrl.href);
         this.copyUrlAndCloseModal(icalUrl);
       })
-      .catch((error:any) => {
+      .catch((error:{ message:string }) => {
         this.nameControl?.markAsDirty();
         this.nameControl?.setErrors({ rails: error.message });
-        
+
         this.cdRef.detectChanges();
       })
-      .then(() => this.isBusy = false); // Same as .finally()
+      .then(() => {
+        this.isBusy = false;
+      });
   }
 }
