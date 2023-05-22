@@ -1,6 +1,6 @@
 module ::TwoFactorAuthentication
   module Devices
-    class RowCell < ::RowCell
+    class RowComponent < ::RowComponent
       include ::IconsHelper
       include ::PasswordHelper
 

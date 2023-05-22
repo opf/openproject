@@ -1,6 +1,6 @@
 module ::TwoFactorAuthentication
   module Devices
-    class TableCell < ::TableCell
+    class TableComponent < ::TableComponent
       options :admin_table
       columns :device_type, :default, :confirmed
 

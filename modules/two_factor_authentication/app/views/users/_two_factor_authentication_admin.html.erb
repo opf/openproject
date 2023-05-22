@@ -55,6 +55,6 @@
       <% end %>
   <% end %>
 
-  <%= rails_cell ::TwoFactorAuthentication::Devices::TableCell, devices, admin_table: true || @user != User.current %>
+  <%= render ::TwoFactorAuthentication::Devices::TableComponent.new(rows: devices, admin_table: true || @user != User.current) %>
   </div>
 </section>
