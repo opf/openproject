@@ -52,9 +52,9 @@
                [icon-title]="pipelineStateText(pipeline)"></op-icon>
     </span>
 
-    <span class='op-mr-pipeline--info'>Pipeline <a [href]="pipeline.htmlUrl">#{{ pipeline.name }}</a> {{ pipelineStateText(pipeline) }} for <a [href]="pipeline.detailsUrl">#{{ pipeline.commit_id }}</a></span>
+    <span class='op-mr-pipeline--info'>Pipeline <a [href]="pipeline.htmlUrl">#{{ pipeline.name }}</a> {{ pipelineStateText(pipeline) }} for <a [href]="pipeline.detailsUrl">#{{ pipeline.commitId }}</a></span>
 
-    <span class='op-mr-pipeline--avatar'><img alt='user owner avatar' [src]="pipeline.userAvatarUrl" /> #{{ pipeline.username }}</span>
+    <span class='op-mr-pipeline--avatar'><img alt='user owner avatar' [src]="pipeline.userAvatarUrl" /> {{ pipeline.username }}</span>
 
     <!-- <span class='op-mr-pipeline--details'>
       <a [href]="pipeline.detailsUrl">

@@ -75,4 +75,6 @@ export interface IGitlabPipelineResource {
   startedAt:string;
   status:string;
   ci_details:string[];
+  username:string;
+  commitId:string;
 }
