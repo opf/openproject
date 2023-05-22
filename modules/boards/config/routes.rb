@@ -1,4 +1,6 @@
 OpenProject::Application.routes.draw do
+  get '/boards', to: 'boards/boards#overview'
+
   scope '', as: :work_package_boards do
     get '/boards(/*state)', to: 'boards/boards#index'
   end

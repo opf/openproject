@@ -52,6 +52,16 @@ module OpenProject::Boards
            partial: 'boards/boards/menu_board',
            last: true,
            caption: :'boards.label_boards'
+
+      menu :top_menu,
+           :boards, { controller: 'boards/boards', project_id: nil, action: 'overview' },
+           context: :modules,
+           caption: :project_module_board_view,
+           if: Proc.new {
+             OpenProject::FeatureDecisions.more_global_index_pages_active? &&
+              (User.current.logged? || !Setting.login_required?) &&
+                User.current.allowed_to_globally?(:show_board_views)
+           }
     end
 
     patch_with_namespace :BasicData, :SettingSeeder
