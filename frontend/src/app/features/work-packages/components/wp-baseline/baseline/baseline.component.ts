@@ -77,6 +77,12 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
   public selectedTimes:string[];
 
+  public selectedOffsets:string[];
+
+  public userTimezone:string;
+
+  public userOffset:string;
+
   public selectedFilter:string|null;
 
   public selectedTimezoneFormattedTime:string[];
@@ -95,18 +101,17 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     date: this.I18n.t('js.label_date'),
     time: this.I18n.t('js.baseline.time'),
     help_description: this.I18n.t('js.baseline.help_description'),
-    timeZone: this.configuration.isDefaultTimezoneSet() ? moment().tz(this.configuration.defaultTimezone()).zoneAbbr() : 'local',
     time_description: (i:number) => {
       const date = this.selectedDates[i];
       const time = this.selectedTimes[i];
+      const offset = this.selectedOffsets[i];
 
       if (!date || !time) {
         return '';
       }
 
-      const formatted = moment
-        .tz(`${date}T${time}`, this.configuration.defaultTimezone())
-        .tz(this.configuration.timezone());
+      const formatted = moment(`${date}T${time}${offset}`)
+        .tz(this.userTimezone);
 
       const formattedDate = formatted.format(this.timezoneService.getDateFormat());
       const formattedTime = formatted.format(this.timezoneService.getTimeFormat());
@@ -156,6 +161,8 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
   }
 
   public ngOnInit():void {
+    this.userTimezone = this.timezoneService.userTimezone();
+    this.userOffset = moment().tz(this.userTimezone).format('Z');
     this.resetSelection();
 
     if (this.wpTableBaseline.isActive()) {
@@ -163,13 +170,14 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
       this.wpTableBaseline.current.forEach((value, i) => {
         if (value.includes('@')) {
           const [, timeWithZone] = value.split(/[@]/);
-          const time = timeWithZone.split(/[+-]/)[0];
+          const [time, offset] = timeWithZone.split(/\s+/)[0];
           this.selectedTimes[i] = time || '00:00';
+          this.selectedOffsets[i] = offset;
         } else if (value !== 'PT0S') {
-          const date = moment.tz(value, this.configuration.defaultTimezone());
-
+          const date = moment(value);
           this.selectedDates[i] = date.format('YYYY-MM-DD');
           this.selectedTimes[i] = date.format('HH:mm');
+          this.selectedOffsets[i] = date.format('Z');
         }
       });
     }
@@ -180,6 +188,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     this.selectedDates = ['', ''];
     this.selectedFilter = null;
     this.mappedSelectedDate = null;
+    this.selectedOffsets = [this.userOffset, this.userOffset];
   }
 
   public onSubmit(e:Event):void {
@@ -235,7 +244,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
       case 'oneWeekAgo':
       case 'oneMonthAgo':
       case 'lastWorkingDay':
-        return [this.buildFilterString(0)];
+        return [this.buildFilterString(0), DEFAULT_TIMESTAMP];
       case 'aSpecificDate':
         return [this.buildISOString(0), DEFAULT_TIMESTAMP];
       case 'betweenTwoSpecificDates':
@@ -249,12 +258,11 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
   }
 
   private buildISOString(i:number):string {
-    const date = moment.tz(`${this.selectedDates[i]}T${this.selectedTimes[i]}`, this.configuration.defaultTimezone());
-    return date.toISOString();
+    return `${this.selectedDates[i]}T${this.selectedTimes[i]}${this.selectedOffsets[i]}`;
   }
 
   private buildFilterString(i:number):string {
-    const dateTime= `${this.selectedDates[i]}  ${this.selectedTimes[i]}`;
-    return `${this.selectedFilter}@${this.timezoneService.formattedTime(dateTime, 'HH:mmZ')}`;
+    const timeWithOffset = `${this.selectedTimes[i]}${this.selectedOffsets[i]}`;
+    return `${this.selectedFilter}@${timeWithOffset}`;
   }
 }

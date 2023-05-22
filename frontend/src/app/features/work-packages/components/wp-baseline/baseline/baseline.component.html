@@ -62,12 +62,15 @@
       [alignment]="tooltipPosition"
       [disabled]="false"
       [light]="true">
-      <span slot="trigger" class="op-baseline--time-zone">{{text.timeZone}}</span>
+      <span slot="trigger" class="op-baseline--time-zone" [textContent]="selectedOffsets[0]"></span>
       <span slot="body" class="spot-body-small op-baseline--time-tooltip-body">{{ text.help_description }}</span>
     </spot-tooltip>
 
 
-    <span slot="description" [textContent]="text.time_description(0)"></span>
+    <span
+      *ngIf="userOffset !== selectedOffsets[0]"
+      slot="description"
+      [textContent]="text.time_description(0)"></span>
   </spot-form-field>
 
   <div

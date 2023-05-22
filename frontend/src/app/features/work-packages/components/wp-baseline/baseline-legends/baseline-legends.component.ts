@@ -84,7 +84,8 @@ export class OpBaselineLegendsComponent {
   }
 
   public getFilterName() {
-    const timestamps = this.wpTableBaseline.current.map((el) => el.split(/[@T]/));
+    const timestamps = this.wpTableBaseline.current;
+    const datesAndTimes = this.wpTableBaseline.current.map((el) => el.split(/[@T]/));
     const filter = baselineFilterFromValue(this.wpTableBaseline.current);
     const changesSince = this.I18n.t('js.baseline.legends.changes_since');
     let dateTime = '';
@@ -92,27 +93,27 @@ export class OpBaselineLegendsComponent {
     switch (filter) {
       case 'oneDayAgo':
         dateTime = this.I18n.t('js.baseline.drop_down.yesterday');
-        dateTime += ` (${this.getFormattedDate(this.wpTableBaseline.yesterdayDate(), timestamps[0][1])})`;
+        dateTime += ` (${this.getFormattedDate(this.wpTableBaseline.yesterdayDate(), datesAndTimes[0][1])})`;
         break;
       case 'lastWorkingDay':
         dateTime = this.I18n.t('js.baseline.drop_down.last_working_day');
-        dateTime += ` (${this.getFormattedDate(this.wpTableBaseline.lastWorkingDate(), timestamps[0][1])})`;
+        dateTime += ` (${this.getFormattedDate(this.wpTableBaseline.lastWorkingDate(), datesAndTimes[0][1])})`;
         break;
       case 'oneWeekAgo':
         dateTime = this.I18n.t('js.baseline.drop_down.last_week');
-        dateTime += ` (${this.getFormattedDate(this.wpTableBaseline.lastweekDate(), timestamps[0][1])})`;
+        dateTime += ` (${this.getFormattedDate(this.wpTableBaseline.lastweekDate(), datesAndTimes[0][1])})`;
         break;
       case 'oneMonthAgo':
         dateTime = this.I18n.t('js.baseline.drop_down.last_month');
-        dateTime += ` (${this.getFormattedDate(this.wpTableBaseline.lastMonthDate(), timestamps[0][1])})`;
+        dateTime += ` (${this.getFormattedDate(this.wpTableBaseline.lastMonthDate(), datesAndTimes[0][1])})`;
         break;
       case 'aSpecificDate':
         dateTime = this.I18n.t('js.baseline.drop_down.a_specific_date');
-        dateTime += ` (${this.getFormattedDate(timestamps[0][0], timestamps[0][1])})`;
+        dateTime += ` (${this.timezoneService.formattedDatetime(timestamps[0])})`;
         break;
       case 'betweenTwoSpecificDates':
         dateTime = this.I18n.t('js.baseline.drop_down.between_two_specific_dates');
-        dateTime += ` (${this.getFormattedDate(timestamps[0][0], timestamps[0][1])} - ${this.getFormattedDate(timestamps[1][0], timestamps[1][1])})`;
+        dateTime += ` (${this.timezoneService.formattedDatetime(timestamps[0])} - ${this.timezoneService.formattedDatetime(timestamps[1])})`;
         break;
       default:
         dateTime = '';
@@ -152,8 +153,7 @@ export class OpBaselineLegendsComponent {
 
   private getFormattedDate(date:string, time:string):string {
     const combined = moment
-      .tz(`${date}T${time}`, this.configuration.defaultTimezone())
-      .tz(this.configuration.timezone());
+      .tz(`${date}T${time}`, this.timezoneService.userTimezone());
 
     return `${combined.format(this.timezoneService.getDateFormat())} ${combined.format(this.timezoneService.getTimeFormat())}`;
   }
