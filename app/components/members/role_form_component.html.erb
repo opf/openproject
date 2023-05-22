@@ -27,7 +27,9 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= form_with model: member, builder: TabularFormBuilder, html: form_html_options do |f| %>
+<%= form_with model: member,
+              builder: TabularFormBuilder,
+              html: form_html_options do |f| %>
   <%= hidden_field_tag :page, params[:page].to_i %>
   <%= hidden_field_tag :per_page, params[:per_page].to_i %>
 
@@ -49,7 +51,10 @@ See COPYRIGHT and LICENSE files for more details.
     <%= f.submit t(:button_change), class: "button -highlight -small" %>
     <%= link_to t(:button_cancel),
                 '#',
-                data: { 'toggle-target': ".#{row.toggle_item_class_name}" },
+                data: {
+                  action: 'members-form#toggleMembershipEdit',
+                  'members-form-toggling-class-param': row.toggle_item_class_name
+                },
                 class: 'button -small toggle-membership-button' %>
   </p>
 <% end %>
