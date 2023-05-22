@@ -448,7 +448,7 @@ GEM
     fastimage (2.2.6)
     ffi (1.15.5)
     flamegraph (0.9.5)
-    fog-aws (3.18.0)
+    fog-aws (3.19.0)
       fog-core (~> 2.1)
       fog-json (~> 1.1)
       fog-xml (~> 0.1)
@@ -488,7 +488,7 @@ GEM
       retriable (>= 2.0, < 4.a)
       rexml
       webrick
-    google-apis-gmail_v1 (0.27.0)
+    google-apis-gmail_v1 (0.28.0)
       google-apis-core (>= 0.11.0, < 2.a)
     googleauth (1.5.2)
       faraday (>= 0.17.3, < 3.a)
@@ -575,9 +575,9 @@ GEM
       activesupport (>= 4)
       railties (>= 4)
       request_store (~> 1.0)
-    loofah (2.20.0)
+    loofah (2.21.3)
       crass (~> 1.0.2)
-      nokogiri (>= 1.5.9)
+      nokogiri (>= 1.12.0)
     mail (2.8.1)
       mini_mime (>= 0.1.1)
       net-imap
@@ -908,7 +908,7 @@ GEM
     table_print (1.5.7)
     temple (0.10.0)
     test-prof (1.2.1)
-    thor (1.2.1)
+    thor (1.2.2)
     tilt (2.1.0)
     timecop (0.9.6)
     timeout (0.3.2)
