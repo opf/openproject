@@ -38,30 +38,34 @@ describe RailsComponent, type: :component do
     { context: }
   end
 
-  class TestComponent < described_class
-    include ViewComponent::InlineTemplate
+  let(:test_component) do
+    component = Class.new(described_class) do
+      include ViewComponent::InlineTemplate
 
-    property :foo
+      property :foo
 
-    erb_template <<~ERB
-      <%= foo %>
-    ERB
+      erb_template <<~ERB
+        <%= foo %>
+      ERB
 
-    def link
-      link_to "<strong>HTML</strong>", '/foo/bar'
-    end
+      def link
+        link_to "<strong>HTML</strong>", '/foo/bar'
+      end
 
-    def content
-      content_tag(:div) do
-        content_tag(:span) do
-          "<script>foo</script>"
+      def content
+        content_tag(:div) do
+          content_tag(:span) do
+            "<script>foo</script>"
+          end
         end
       end
     end
 
+    component.const_set("TestComponent", component)
+    component
   end
 
-  let(:component) { TestComponent.new(model, **options) }
+  let(:component) { test_component.new(model, **options) }
 
   before do
     allow(controller).to receive(:view_context).and_return(action_view)
@@ -70,6 +74,7 @@ describe RailsComponent, type: :component do
   shared_examples 'uses action_view helpers' do
     describe '#link' do
       subject { component.link }
+
       it 'uses link_to from rails with escaping' do
         expect(subject).to eq %(<a href="/foo/bar">&lt;strong&gt;HTML&lt;/strong&gt;</a>)
       end
@@ -77,6 +82,7 @@ describe RailsComponent, type: :component do
 
     describe '#foo' do
       subject { component.call }
+
       it 'escapes the property' do
         render_inline component
         expect(subject).to include "&lt;strong&gt;Some HTML here!&lt;/strong&gt;"
@@ -85,6 +91,7 @@ describe RailsComponent, type: :component do
 
     describe '#content' do
       subject { component.content }
+
       it 'uses content_tag from rails with escaping', :aggregate_failures do
         expect(subject).to eq "<div><span>&lt;script&gt;foo&lt;/script&gt;</span></div>"
       end
