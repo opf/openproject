@@ -29,6 +29,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title(t('boards.label_boards')) -%>
 
+<%= toolbar title: t('boards.label_boards') -%>
+
 <% if @board_grids.empty? -%>
   <%= no_results_box %>
 <% else -%>
