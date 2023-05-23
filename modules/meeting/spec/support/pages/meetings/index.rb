@@ -99,11 +99,7 @@ module Pages::Meetings
     end
 
     def navigate_by_modules_menu
-      visit root_path
-
-      within '#more-menu', visible: false do
-        click_on 'Meetings', visible: false
-      end
+      navigate_to_modules_menu_item("Meetings")
     end
 
     def path

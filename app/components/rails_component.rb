@@ -31,10 +31,11 @@
 class RailsComponent < ViewComponent::Base
   include ApplicationHelper
 
-  attr_reader :options
+  attr_reader :model, :options
 
-  def initialize(**options)
+  def initialize(model = nil, **options)
     super
+    @model = model if model
     @options = options
   end
 

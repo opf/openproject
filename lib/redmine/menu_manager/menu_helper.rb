@@ -180,7 +180,7 @@ module Redmine::MenuManager::MenuHelper
     end
 
     if item.icon_after.present?
-      link_text << (''.html_safe + spot_icon(item.icon_after, size: '1_25', classnames: "after-menu-icon"))
+      link_text << (''.html_safe + spot_icon(item.icon_after, size: '1_25', classnames: "trailing-icon"))
     end
 
     html_options = item.html_options(selected:)

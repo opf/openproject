@@ -89,7 +89,7 @@ es:
     label_oauth_application_details: "Detalles de aplicación OAuth"
     label_oauth_client_details: "Detalles del cliente OAuth"
     label_provider_type: "Tipo de proveedor"
-    label_project_folder: "Project folder"
+    label_project_folder: "Carpeta del proyecto"
     label_new_storage: "Nuevo almacén"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
     label_existing_manual_folder_selection: "Existing folder selection"
