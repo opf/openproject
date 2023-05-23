@@ -160,9 +160,6 @@ gem 'prawn-markup', '~> 0.3.0'
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem 'matrix', '~> 0.4.2'
 
-gem 'cells-erb', '~> 0.1.0'
-gem 'cells-rails', '~> 0.1.4'
-
 gem 'meta-tags', '~> 2.18.0'
 
 gem "paper_trail", "~> 12.3"

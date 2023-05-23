@@ -60,8 +60,8 @@ class UsersController < ApplicationController
 
   def index
     @groups = Group.all.sort
-    @status = Users::UserFilterCell.status_param params
-    @users = Users::UserFilterCell.filter params
+    @status = Users::UserFilterComponent.status_param params
+    @users = Users::UserFilterComponent.filter params
   end
 
   def show

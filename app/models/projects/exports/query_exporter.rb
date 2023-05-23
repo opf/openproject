@@ -61,8 +61,8 @@ module Projects::Exports
     end
 
     def selected_columns
-      ::Projects::TableCell
-        .new(nil, current_user: User.current)
+      ::Projects::TableComponent
+        .new(current_user: User.current)
         .all_columns
         .reject { |_, options| options[:builtin] } # We add builtin columns ourselves
         .select { |name, _| Setting.enabled_projects_columns.include?(name.to_s) }
