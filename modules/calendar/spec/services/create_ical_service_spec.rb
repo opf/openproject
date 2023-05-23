@@ -139,4 +139,89 @@ describe Calendar::CreateICalService, type: :model do
     expect(subject)
       .to be_success
   end
+
+  describe 'stripped and truncated workpackage description' do
+    let(:rich_text_description) do
+      <<-STRING
+      test **description**\n\n1.  **foo**\n2.  bar\n3.  **baz**\n\nLorem ipsum#{' '}
+      dolor<img class="op-uc-image op-uc-image_inline" src="/api/v3/attachments/4/content">sit#{' '}
+      amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore#{' '}
+      magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.#{' '}
+      Stet clita kasd gubergren, no sea tak
+      STRING
+    end
+    let(:work_package_with_rich_text_description) do
+      create(:work_package, project:,
+                            due_date: Time.zone.today + 7.days, assigned_to: user,
+                            description: "test **description**\n\n1.  **foo**\n2.  bar\n3. **baz**")
+    end
+    let(:work_package_with_image) do
+      create(:work_package, project:,
+                            due_date: Time.zone.today + 7.days, assigned_to: user,
+                            description: "test <img class=\"op-uc-image op-uc-image_inline\"
+                            src=\"/api/v3/attachments/3/content\">image")
+    end
+    let(:work_package_with_long_text) do
+      create(:work_package, project:,
+                            due_date: Time.zone.today + 7.days, assigned_to: user,
+                            description: "sit amet, consetetur sadipscing elitr, sed diam nonumy
+                            eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+                            voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+                            Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
+                            dolor sit amet.")
+    end
+    let(:work_packages) do
+      [
+        work_package_with_rich_text_description,
+        work_package_with_image,
+        work_package_with_long_text
+      ]
+    end
+
+    it 'strips html tags from the description' do
+      expect(subject.result).to include("test description") # no <b> tags
+      expect(subject.result).to include("\\nfoo\\nbar\\nbaz") # no <br> tags or <ol> tags
+    end
+
+    it 'strips images from the description' do
+      expect(subject.result).to include("test image") # no <img> tags
+    end
+
+    it 'truncates the description at 250 chars' do
+      expect(subject.result).to include("sanctus est ...")
+    end
+  end
+
+  describe 'sanitized attributes' do
+    # the iCalendar gem takes care of escaping malicious values
+    # following specs double check on this behaviour
+    let(:work_package_with_malicious_subject) do
+      create(:work_package, subject: "<script>alert('Subject');</script>", project:,
+                            due_date: Time.zone.today + 7.days, assigned_to: user)
+    end
+    let(:work_package_with_malicious_description) do
+      create(:work_package, project:,
+                            due_date: Time.zone.today + 7.days, assigned_to: user,
+                            description: "<script>alert('Description');</script>")
+    end
+    let(:work_packages) do
+      [
+        work_package_with_malicious_subject,
+        work_package_with_malicious_description
+      ]
+    end
+    let(:formatted_result) do
+      subject.result.gsub("\r\n ", "").gsub("\r", "").gsub("\\n", "\n")
+    end
+
+    it 'escapes malicious workpackage subject values' do
+      expect(formatted_result).not_to include("<script>alert('Subject');</script>")
+      expect(formatted_result).to include("&lt\\;script&gt\\;alert('Subject')\\;&lt\\;/script&gt\\;")
+    end
+
+    it 'escapes malicious workpackage description values' do
+      expect(formatted_result).not_to include("<script>alert('Description');</script>")
+      expect(formatted_result).to include("&lt\\;script&gt\\;alert('Description')\\;&lt\\;/script&gt\\;")
+    end
+  end
 end

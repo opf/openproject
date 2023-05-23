@@ -27,9 +27,12 @@
 #++
 
 require 'icalendar'
+require 'rails-html-sanitizer'
 
 module Calendar
   class CreateICalService < ::BaseServices::BaseCallable
+    include TextFormattingHelper
+
     def perform(work_packages:, calendar_name: "OpenProject Calendar")
       ical_string = create_ical_string(work_packages, calendar_name)
 
@@ -115,32 +118,54 @@ module Calendar
     end
 
     def description_value(work_package)
-      # TODO: translate keys
-      project = "Project: #{work_package.project.name}"
-      type = "Type: #{type_emoji(work_package)}#{work_package.type&.name}"
-      status = "Status: #{work_package.status&.name}"
-      assignee = "Assignee: #{work_package.assigned_to&.name}"
-      priority = "Priority: #{priority_emoji(work_package)}#{work_package.priority&.name}"
-      description = truncated_work_package_description_value(work_package)
+      map = map_description_values(work_package)
 
       [
-        project, type, status, assignee, priority, description
+        map[:project], map[:type], map[:status],
+        map[:assignee], map[:priority], map[:description]
       ].join("\n")
     end
 
-    def type_emoji(work_package)
-      # TODO: Differentiate emoji based on type
-      # "🟩"
+    def map_description_values(work_package)
+      map = {}
+      map[:project] = translated_project_name(work_package)
+      map[:type] = translated_type_name(work_package)
+      map[:status] = translated_status_name(work_package)
+      map[:assignee] = translated_assigne_name(work_package)
+      map[:priority] = translated_priority_name(work_package)
+      map[:description] = truncated_work_package_description_value(work_package)
+
+      map
     end
 
-    def priority_emoji(work_package)
-      # TODO: Differentiate emoji based on priority
-      # "🟢"
+    def translated_project_name(work_package)
+      "#{I18n::t('activerecord.models.project')}: #{work_package.project.name}"
+    end
+
+    def translated_type_name(work_package)
+      "#{I18n::t('activerecord.models.type')}: #{work_package.type&.name}"
+    end
+
+    def translated_status_name(work_package)
+      "#{I18n::t('attributes.status')}: #{work_package.status&.name}"
+    end
+
+    def translated_assigne_name(work_package)
+      "#{I18n::t('attributes.assignee')}: #{work_package.assigned_to&.name}"
+    end
+
+    def translated_priority_name(work_package)
+      "#{I18n::t('activerecord.attributes.work_package.priority')}: #{work_package.priority&.name}"
+    end
+
+    def translated_description_name
+      I18n::t("attributes.description")
     end
 
     def truncated_work_package_description_value(work_package)
       if work_package.description.present?
-        "\nDescription:\n #{work_package.description&.truncate(250)}"
+        stripped_text = truncate_formatted_text(work_package.description.to_s, length: 250)
+        "\n#{translated_description_name}:\n #{stripped_text}"
       end
     end
 
@@ -149,6 +174,38 @@ module Calendar
       event.attendee = attendee_value(work_package) if work_package.assigned_to.present?
 
       event
+    end
+
+    # override from text_formatting_helper
+    # didn't work in this context -> got error "undefined method `full_sanitizer`"
+    # furthermore the replacement of \n with <br> is not desired in the context of iCalendar files
+    def truncate_formatted_text(text, length: 120)
+      # rubocop:disable Rails/OutputSafety
+      stripped_text = sanitizer_instance.sanitize(format_text(text)).html_safe
+
+      if length
+        truncate_multiline(stripped_text, length)
+      else
+        stripped_text
+      end
+        .strip
+        .html_safe
+      # rubocop:enable Rails/OutputSafety
+    end
+
+    # override from text_formatting_helper
+    # the original method was statically truncating at 120 characters
+    def truncate_multiline(string, length)
+      if string.to_s =~ /\A(.{#{length}}).*?$/m
+        "#{$1}..."
+      else
+        string
+      end
+    end
+
+    # got error "undefined method `full_sanitizer`" without this when calling `strip_tags`
+    def sanitizer_instance
+      @sanitizer_instance ||= Rails::Html::FullSanitizer.new
     end
   end
 end
