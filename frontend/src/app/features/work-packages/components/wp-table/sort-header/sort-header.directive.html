@@ -6,12 +6,19 @@
       *ngIf="displayHierarchyIcon"
       (click)="toggleHierarchy($event)"
       [attr.title]="text.toggleHierarchy"
+<<<<<<< HEAD
       [attr.aria-label]="text.toggleHierarchy"
       tabindex="-1"
       aria-hidden="true"
       [attr.data-qa-hierarchy-type]="hierarchyType"
     >
       <span class="spot-icon spot-icon_{{ hierarchyType }}"></span>
+=======
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <span class="spot-icon spot-icon_{{ hierarchyIcon }}"></span>
+>>>>>>> 2f871dff07 (Change all icons to spot-icon in wp-table)
     </span>
 
     <!--suppress XmlDuplicatedId -->
