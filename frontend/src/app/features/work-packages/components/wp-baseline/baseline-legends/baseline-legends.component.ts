@@ -152,10 +152,13 @@ export class OpBaselineLegendsComponent {
   }
 
   private getFormattedDate(date:string, time:string):string {
-    const combined = moment
-      .tz(`${date}T${time}`, this.timezoneService.userTimezone());
+    const combined = moment(`${date}T${time}`);
 
-    return `${combined.format(this.timezoneService.getDateFormat())} ${combined.format(this.timezoneService.getTimeFormat())}`;
+    const formattedDate = combined.format(this.timezoneService.getDateFormat());
+    const formattedTime = combined.format(this.timezoneService.getTimeFormat());
+    const offset = combined.format('Z');
+
+    return `${formattedDate} ${formattedTime} ${offset}`;
   }
 
   private visibleAttributeChanged(base:IWorkPackageTimestamp, schema:ISchemaProxy):boolean {
