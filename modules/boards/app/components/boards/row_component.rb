@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,48 +29,28 @@
 #++
 
 module Boards
-  class Grid < ::Grids::Grid
-    belongs_to :project
-    validates_presence_of :name
+  class RowComponent < ::RowComponent
+    include ApplicationHelper
 
-    before_destroy :delete_queries
-
-    set_acts_as_attachable_options view_permission: :show_board_views,
-                                   delete_permission: :manage_board_views,
-                                   add_permission: :manage_board_views
-
-    def user_deletable?
-      true
+    def project_id
+      link_to_project model.project, {}, {}, false
     end
 
-    def contained_queries
-      ::Query.where(id: contained_query_ids)
+    def name
+      link_to model.name, project_work_package_boards_path(model.project, model)
     end
 
-    def to_s
-      "#{I18n.t('boards.label_board')} '#{name}'"
+    def created_at
+      safe_join([format_date(model.created_at), format_time(model.created_at, false)], " ")
     end
 
-    def board_type
-      options.with_indifferent_access[:type]&.to_sym || :free
-    end
-
-    def board_type_attribute
-      return nil unless board_type == :action
-
-      options.with_indifferent_access[:attribute]
-    end
-
-    private
-
-    def delete_queries
-      contained_queries.delete_all
-    end
-
-    def contained_query_ids
-      widgets
-        .map { |w| w.options['queryId'] || w.options['query_id'] }
-        .compact
+    def type
+      case model.board_type
+      when :action
+        t('boards.board_types.action', attribute: t(model.board_type_attribute, scope: 'boards.board_type_attributes'))
+      else
+        t('boards.board_types.free')
+      end
     end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,48 +29,22 @@
 #++
 
 module Boards
-  class Grid < ::Grids::Grid
-    belongs_to :project
-    validates_presence_of :name
+  class TableComponent < ::TableComponent
+    columns :name, :project_id, :type, :created_at
+    sortable_columns :name, :project_id, :created_at
 
-    before_destroy :delete_queries
+    def initial_sort
+      %i[name asc]
+    end
 
-    set_acts_as_attachable_options view_permission: :show_board_views,
-                                   delete_permission: :manage_board_views,
-                                   add_permission: :manage_board_views
-
-    def user_deletable?
+    def paginated?
       true
     end
 
-    def contained_queries
-      ::Query.where(id: contained_query_ids)
-    end
-
-    def to_s
-      "#{I18n.t('boards.label_board')} '#{name}'"
-    end
-
-    def board_type
-      options.with_indifferent_access[:type]&.to_sym || :free
-    end
-
-    def board_type_attribute
-      return nil unless board_type == :action
-
-      options.with_indifferent_access[:attribute]
-    end
-
-    private
-
-    def delete_queries
-      contained_queries.delete_all
-    end
-
-    def contained_query_ids
-      widgets
-        .map { |w| w.options['queryId'] || w.options['query_id'] }
-        .compact
+    def headers
+      columns.map do |attr|
+        [attr, { caption: Boards::Grid.human_attribute_name(attr) }]
+      end
     end
   end
 end
