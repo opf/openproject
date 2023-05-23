@@ -51,7 +51,10 @@ import {
   WorkPackageViewBaselineService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { validDate } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
-import { baselineFilterFromValue } from 'core-app/features/work-packages/components/wp-baseline/baseline-helpers';
+import {
+  baselineFilterFromValue,
+  getPartsFromTimestamp,
+} from 'core-app/features/work-packages/components/wp-baseline/baseline-helpers';
 import * as moment from 'moment-timezone';
 
 @Component({
@@ -168,16 +171,11 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     if (this.wpTableBaseline.isActive()) {
       this.filterChange(baselineFilterFromValue(this.wpTableBaseline.current));
       this.wpTableBaseline.current.forEach((value, i) => {
-        if (value.includes('@')) {
-          const [, timeWithZone] = value.split(/[@]/);
-          const [time, offset] = timeWithZone.split(/\s+/)[0];
-          this.selectedTimes[i] = time || '00:00';
-          this.selectedOffsets[i] = offset;
-        } else if (value !== 'PT0S') {
-          const date = moment(value);
-          this.selectedDates[i] = date.format('YYYY-MM-DD');
-          this.selectedTimes[i] = date.format('HH:mm');
-          this.selectedOffsets[i] = date.format('Z');
+        const parts = getPartsFromTimestamp(value);
+        if (parts) {
+          this.selectedDates[i] = !!this.selectedDates[i] ? this.selectedDates[i] : parts.date;
+          this.selectedTimes[i] = parts.time;
+          this.selectedOffsets[i] = parts.offset;
         }
       });
     }

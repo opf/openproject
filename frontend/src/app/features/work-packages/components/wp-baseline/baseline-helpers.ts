@@ -3,6 +3,12 @@ import * as moment from 'moment-timezone';
 
 export type BaselineOption = 'oneDayAgo'|'lastWorkingDay'|'oneWeekAgo'|'oneMonthAgo'|'aSpecificDate'|'betweenTwoSpecificDates';
 
+export interface BaselineTimestamp {
+  date:string;
+  time:string;
+  offset:string;
+}
+
 const BASELINE_OPTIONS = ['oneDayAgo', 'lastWorkingDay', 'oneWeekAgo', 'oneMonthAgo', 'aSpecificDate', 'betweenTwoSpecificDates'];
 
 export function baselineFilterFromValue(selectedDates:string[]):BaselineOption|null {
@@ -22,16 +28,20 @@ export function baselineFilterFromValue(selectedDates:string[]):BaselineOption|n
   return 'betweenTwoSpecificDates';
 }
 
-export function getOffsetFromBaseline(value:string):string|null {
+export function getPartsFromTimestamp(value:string):BaselineTimestamp|null {
   if (value.includes('@')) {
-    const [, timeWithZone] = value.split(/[@]/);
-    const [, offset] = timeWithZone.split(/\s+/)[0];
-    return offset;
+    const [date, timeWithZone] = value.split(/[@]/);
+    const [time, offset] = timeWithZone.split(/(?=[+-])/);
+    return { date, time, offset };
   }
 
   if (value !== 'PT0S') {
-    const date = moment(value);
-    return date.format('Z');
+    const dateObj = moment(value);
+    const date = dateObj.format('YYYY-MM-DD');
+    const time = dateObj.format('HH:mm');
+    const offset = dateObj.format('Z');
+
+    return { date, time, offset };
   }
 
   return null;

@@ -44,7 +44,7 @@ import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import {
   baselineFilterFromValue,
-  getOffsetFromBaseline,
+  getPartsFromTimestamp,
 } from 'core-app/features/work-packages/components/wp-baseline/baseline-helpers';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import * as moment from 'moment-timezone';
@@ -108,7 +108,11 @@ export class OpBaselineLegendsComponent extends UntilDestroyedMixin implements O
         filter(() => this.wpTableBaseline.isActive())
       )
       .subscribe((timestamps) => {
-        this.offset = getOffsetFromBaseline(timestamps[0]);
+        const parts = getPartsFromTimestamp(timestamps[0]);
+        if (parts) {
+          this.offset = parts.offset;
+        }
+
         this.userTimezone = this.timezoneService.userTimezone();
         this.userOffset = moment().tz(this.userTimezone).format('Z') as string;
 
