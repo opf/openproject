@@ -1,4 +1,5 @@
 import { DEFAULT_TIMESTAMP } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
+import * as moment from 'moment-timezone';
 
 export type BaselineOption = 'oneDayAgo'|'lastWorkingDay'|'oneWeekAgo'|'oneMonthAgo'|'aSpecificDate'|'betweenTwoSpecificDates';
 
@@ -19,4 +20,19 @@ export function baselineFilterFromValue(selectedDates:string[]):BaselineOption|n
   }
 
   return 'betweenTwoSpecificDates';
+}
+
+export function getOffsetFromBaseline(value:string):string|null {
+  if (value.includes('@')) {
+    const [, timeWithZone] = value.split(/[@]/);
+    const [, offset] = timeWithZone.split(/\s+/)[0];
+    return offset;
+  }
+
+  if (value !== 'PT0S') {
+    const date = moment(value);
+    return date.format('Z');
+  }
+
+  return null;
 }

@@ -1,4 +1,22 @@
-<span class="op-baseline-legends--filter">{{ text.time_description }}</span>
+<span class="op-baseline-legends--filter">
+  <span [textContent]="legendDescription"></span>
+  &ngsp;
+  <spot-tooltip
+    *ngIf="userOffset !== offset"
+  >
+        <span
+          slot="trigger"
+          class="spot-icon spot-icon_info2"
+        ></span>
+        <p
+          slot="body"
+          class="spot-body-small"
+        >
+          {{ text.in_your_timezone }}
+          {{ localDate }}
+        </p>
+  </spot-tooltip>
+</span>
 <div class="op-baseline-legends--details hidden-for-mobile">
   <span class="spot-icon spot-icon_add op-baseline-legends--details-icon-added"></span>
   <span class="op-baseline-legends--details-added">{{text.now_meets_filter_criteria}}</span>

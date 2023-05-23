@@ -31,6 +31,7 @@ import {
   ChangeDetectorRef,
   Component,
   HostBinding,
+  OnInit,
   ViewEncapsulation,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -41,10 +42,16 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { IWorkPackageTimestamp } from 'core-app/features/hal/resources/work-package-timestamp-resource';
 import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
-import { baselineFilterFromValue } from 'core-app/features/work-packages/components/wp-baseline/baseline-helpers';
+import {
+  baselineFilterFromValue,
+  getOffsetFromBaseline,
+} from 'core-app/features/work-packages/components/wp-baseline/baseline-helpers';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import * as moment from 'moment-timezone';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { Moment } from 'moment';
+import { filter } from 'rxjs/operators';
 
 @Component({
   templateUrl: './baseline-legends.component.html',
@@ -53,7 +60,7 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
   selector: 'op-baseline-legends',
   encapsulation: ViewEncapsulation.None,
 })
-export class OpBaselineLegendsComponent {
+export class OpBaselineLegendsComponent extends UntilDestroyedMixin implements OnInit {
   @HostBinding('class.op-baseline-legends') className = true;
 
   public numAdded = 0;
@@ -62,11 +69,21 @@ export class OpBaselineLegendsComponent {
 
   public numUpdated = 0;
 
+  public offset:string|null;
+
+  public userOffset:string;
+
+  public userTimezone:string;
+
+  public localDate:string;
+
+  public legendDescription:string;
+
   public text = {
-    time_description: '',
     now_meets_filter_criteria: this.I18n.t('js.baseline.legends.now_meets_filter_criteria'),
     no_longer_meets_filter_criteria: this.I18n.t('js.baseline.legends.no_longer_meets_filter_criteria'),
     maintained_with_changes: this.I18n.t('js.baseline.legends.maintained_with_changes'),
+    in_your_timezone: this.I18n.t('js.baseline.legends.in_your_timezone'),
   };
 
   constructor(
@@ -79,49 +96,96 @@ export class OpBaselineLegendsComponent {
     readonly configuration:ConfigurationService,
     readonly cdRef:ChangeDetectorRef,
   ) {
-    this.getBaselineDetails();
-    this.getFilterName();
+    super();
   }
 
-  public getFilterName() {
-    const timestamps = this.wpTableBaseline.current;
-    const datesAndTimes = this.wpTableBaseline.current.map((el) => el.split(/[@T]/));
+  ngOnInit() {
+    this
+      .wpTableBaseline
+      .live$()
+      .pipe(
+        this.untilDestroyed(),
+        filter(() => this.wpTableBaseline.isActive())
+      )
+      .subscribe((timestamps) => {
+        this.offset = getOffsetFromBaseline(timestamps[0]);
+        this.userTimezone = this.timezoneService.userTimezone();
+        this.userOffset = moment().tz(this.userTimezone).format('Z') as string;
+
+        this.getBaselineDetails();
+        this.getFilterName(timestamps);
+        this.cdRef.detectChanges();
+      });
+  }
+
+  public getFilterName(timestamps:string[]) {
+    const datesAndTimes = timestamps.map((el) => el.split(/[@T]/));
     const filter = baselineFilterFromValue(this.wpTableBaseline.current);
     const changesSince = this.I18n.t('js.baseline.legends.changes_since');
-    let dateTime = '';
+    let description = '';
+    let upstreamDate = '';
+    let localDate = '';
 
     switch (filter) {
       case 'oneDayAgo':
-        dateTime = this.I18n.t('js.baseline.drop_down.yesterday');
-        dateTime += ` (${this.getFormattedDate(this.wpTableBaseline.yesterdayDate(), datesAndTimes[0][1])})`;
+        [upstreamDate, localDate] = this.deriveSingleDate(this.wpTableBaseline.yesterdayDate(), datesAndTimes[0][1]);
+        description = this.I18n.t('js.baseline.drop_down.yesterday');
+        description += ` (${upstreamDate})`;
         break;
       case 'lastWorkingDay':
-        dateTime = this.I18n.t('js.baseline.drop_down.last_working_day');
-        dateTime += ` (${this.getFormattedDate(this.wpTableBaseline.lastWorkingDate(), datesAndTimes[0][1])})`;
+        [upstreamDate, localDate] = this.deriveSingleDate(this.wpTableBaseline.lastWorkingDate(), datesAndTimes[0][1]);
+        description = this.I18n.t('js.baseline.drop_down.last_working_day');
+        description += ` (${upstreamDate})`;
         break;
       case 'oneWeekAgo':
-        dateTime = this.I18n.t('js.baseline.drop_down.last_week');
-        dateTime += ` (${this.getFormattedDate(this.wpTableBaseline.lastweekDate(), datesAndTimes[0][1])})`;
+        [upstreamDate, localDate] = this.deriveSingleDate(this.wpTableBaseline.lastweekDate(), datesAndTimes[0][1]);
+        description = this.I18n.t('js.baseline.drop_down.last_week');
+        description += ` (${upstreamDate})`;
         break;
       case 'oneMonthAgo':
-        dateTime = this.I18n.t('js.baseline.drop_down.last_month');
-        dateTime += ` (${this.getFormattedDate(this.wpTableBaseline.lastMonthDate(), datesAndTimes[0][1])})`;
+        [upstreamDate, localDate] = this.deriveSingleDate(this.wpTableBaseline.lastMonthDate(), datesAndTimes[0][1]);
+        description = this.I18n.t('js.baseline.drop_down.last_month');
+        description += ` (${upstreamDate})`;
         break;
       case 'aSpecificDate':
-        dateTime = this.I18n.t('js.baseline.drop_down.a_specific_date');
-        dateTime += ` (${this.timezoneService.formattedDatetime(timestamps[0])})`;
+        [upstreamDate, localDate] = this.formatUpstreamAndLocal(moment(timestamps[0]));
+        description = this.I18n.t('js.baseline.drop_down.a_specific_date');
+        description += ` (${upstreamDate})`;
         break;
       case 'betweenTwoSpecificDates':
-        dateTime = this.I18n.t('js.baseline.drop_down.between_two_specific_dates');
-        dateTime += ` (${this.timezoneService.formattedDatetime(timestamps[0])} - ${this.timezoneService.formattedDatetime(timestamps[1])})`;
+        [upstreamDate, localDate] = this.deriveDateRange(moment(timestamps[0]), moment(timestamps[1]));
+        description = this.I18n.t('js.baseline.drop_down.between_two_specific_dates');
+        description += ` (${upstreamDate})`;
         break;
       default:
-        dateTime = '';
         break;
     }
-    dateTime = `${changesSince} ${dateTime}`;
-    this.text.time_description = dateTime;
-    return dateTime;
+    description = `${changesSince} ${description}`;
+    this.legendDescription = description;
+    this.localDate = localDate;
+    return description;
+  }
+
+  private deriveSingleDate(date:string, timestamp:string):[string, string] {
+    const parsedDate:Moment = moment(`${date}T${timestamp}`);
+    return this.formatUpstreamAndLocal(parsedDate);
+  }
+
+  private deriveDateRange(start:Moment, end:Moment):[string, string] {
+    const startRange = this.formatUpstreamAndLocal(start);
+    const endRange = this.formatUpstreamAndLocal(end);
+
+    return [
+      `${startRange[0]} - ${endRange[0]}`,
+      `${startRange[1]} - ${endRange[1]}`,
+    ];
+  }
+
+  private formatUpstreamAndLocal(date:Moment):[string, string] {
+    return [
+      this.formatDate(date),
+      this.formatDate(date.tz(this.userTimezone)),
+    ];
   }
 
   public getBaselineDetails() {
@@ -151,12 +215,10 @@ export class OpBaselineLegendsComponent {
     }
   }
 
-  private getFormattedDate(date:string, time:string):string {
-    const combined = moment(`${date}T${time}`);
-
-    const formattedDate = combined.format(this.timezoneService.getDateFormat());
-    const formattedTime = combined.format(this.timezoneService.getTimeFormat());
-    const offset = combined.format('Z');
+  private formatDate(date:Moment):string {
+    const formattedDate = date.format(this.timezoneService.getDateFormat());
+    const formattedTime = date.format(this.timezoneService.getTimeFormat());
+    const offset = date.format('Z');
 
     return `${formattedDate} ${formattedTime} ${offset}`;
   }
@@ -169,11 +231,5 @@ export class OpBaselineLegendsComponent {
         const name = schema.mappedName(column.id);
         return Object.prototype.hasOwnProperty.call(base, name) || Object.prototype.hasOwnProperty.call(base.$links, name);
       });
-  }
-
-  public refresh() {
-    this.getBaselineDetails();
-    this.getFilterName();
-    this.cdRef.detectChanges();
   }
 }
