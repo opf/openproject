@@ -30,7 +30,7 @@
 
 import { Controller } from '@hotwired/stimulus';
 
-export default class AdminRolesController extends Controller {
+export default class RolesController extends Controller {
   static targets = [
     'memberAttributes',
     'globalPermissions',
