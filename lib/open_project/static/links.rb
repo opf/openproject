@@ -145,9 +145,13 @@ module OpenProject
               href: 'https://community.openproject.com/projects/openproject/forums',
               label: 'homescreen.links.forums'
             },
-            professional_support: {
+            enterprise_support_as_community: {
               href: 'https://www.openproject.org/pricing/#support',
-              label: :label_professional_support
+              label: :label_enterprise_support
+            },
+            enterprise_support: {
+              href: 'https://www.openproject.org/docs/enterprise-guide/support/',
+              label: :label_enterprise_support
             },
             website: {
               href: 'https://www.openproject.org',
