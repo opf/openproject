@@ -26,7 +26,7 @@ export function listenToSettingChanges() {
     }
   });
 
-  /* Javascript for Settings::TextSettingCell */
+  /* Javascript for Settings::TextSettingComponent */
   const langSelectSwitchData = function (select:any) {
     const self = jQuery(select);
     const id:string = self.attr('id') || '';
@@ -60,7 +60,7 @@ export function listenToSettingChanges() {
       data.editor.setData(storedValue);
       data.textArea.attr('name', `settings[${data.settingName}][${data.newLang}]`);
     });
-  /* end Javascript for Settings::TextSettingCell */
+  /* end Javascript for Settings::TextSettingComponent */
 
   jQuery('.admin-settings--form').submit(() => {
     /* Update consent time if consent required */

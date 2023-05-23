@@ -37,8 +37,6 @@ class MembersController < ApplicationController
   search_for User, :search_in_project
   search_options_for User, lambda { |*| { project: @project } }
 
-  include CellsHelper
-
   def index
     set_index_data!
   end
