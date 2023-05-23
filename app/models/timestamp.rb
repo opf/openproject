@@ -54,7 +54,7 @@ class Timestamp
       when DATE_KEYWORD_REGEX # Built in date keywords
         @timestamp_string
       else
-        Time.zone.iso8601(@timestamp_string).iso8601
+        DateTime.iso8601(@timestamp_string).iso8601
       end
     rescue ArgumentError => e
       raise e.class, "The string \"#{@original_string}\" cannot be parsed to a Timestamp."

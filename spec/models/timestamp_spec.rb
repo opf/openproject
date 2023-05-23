@@ -121,9 +121,33 @@ describe Timestamp do
       it "returns a described_class representing that absolute time" do
         expect(subject).to be_a described_class
         expect(subject).to be_valid
-        expect(subject.to_s).to eq "2022-10-29T21:55:58Z"
-        expect(subject.to_time).to eq Time.zone.parse("2022-10-29T21:55:58Z")
+        expect(subject.to_s).to eq "2022-10-29T21:55:58+00:00"
+        expect(subject.to_time).to eq Time.iso8601("2022-10-29T21:55:58+00:00")
         expect(subject).not_to be_relative
+      end
+
+      context 'with a non-UTC time' do
+        subject { described_class.parse("2022-10-29T21:55:58+03:00") }
+
+        it "returns a described_class representing that absolute time and preserve the timezone component" do
+          expect(subject).to be_a described_class
+          expect(subject).to be_valid
+          expect(subject.to_s).to eq "2022-10-29T21:55:58+03:00"
+          expect(subject.to_time).to eq Time.iso8601("2022-10-29T21:55:58+03:00")
+          expect(subject).not_to be_relative
+        end
+      end
+
+      context 'without the seconds designator' do
+        subject { described_class.parse("2022-10-29T21:55Z") }
+
+        it "returns a described_class representing that absolute time" do
+          expect(subject).to be_a described_class
+          expect(subject).to be_valid
+          expect(subject.to_s).to eq "2022-10-29T21:55:00+00:00"
+          expect(subject.to_time).to eq Time.iso8601("2022-10-29T21:55:00Z")
+          expect(subject).not_to be_relative
+        end
       end
     end
 
@@ -169,7 +193,7 @@ describe Timestamp do
         it "returns a Timestamp representing that absolute time" do
           expect(subject).to be_a described_class
           expect(subject).to be_valid
-          expect(subject.to_s).to eq "2022-01-01T00:00:00Z"
+          expect(subject.to_s).to eq "2022-01-01T00:00:00+00:00"
           expect(subject.to_time).to eq Time.zone.parse("2022-01-01T00:00:00Z")
           expect(subject).not_to be_relative
         end
