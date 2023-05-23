@@ -13,7 +13,8 @@ The tooltip provides additional textual context on hover over interactive elemen
 
 This context can be used to provide additional information (hover over a "help" icon) or to signal state information (for example, if a certain item is disabled).
 
-By default, the tooltip takes 80% of the width of the container. This can be overridden if needed. 
+By default, the tooltip takes uses `min-width: max-content` to fill the content.
+This can be overridden if needed by specifying overrides on the body slot.
 
 <Canvas of={TooltipStories.InList} />
 
