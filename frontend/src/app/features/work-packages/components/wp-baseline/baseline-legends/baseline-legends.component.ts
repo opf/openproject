@@ -105,16 +105,16 @@ export class OpBaselineLegendsComponent extends UntilDestroyedMixin implements O
       .live$()
       .pipe(
         this.untilDestroyed(),
-        filter(() => this.wpTableBaseline.isActive())
+        filter(() => this.wpTableBaseline.isActive()),
       )
       .subscribe((timestamps) => {
+        this.userTimezone = this.timezoneService.userTimezone();
+        this.userOffset = moment.tz(this.userTimezone).format('Z');
+
         const parts = getPartsFromTimestamp(timestamps[0]);
         if (parts) {
           this.offset = parts.offset;
         }
-
-        this.userTimezone = this.timezoneService.userTimezone();
-        this.userOffset = moment().tz(this.userTimezone).format('Z') as string;
 
         this.getBaselineDetails();
         this.getFilterName(timestamps);
@@ -152,12 +152,12 @@ export class OpBaselineLegendsComponent extends UntilDestroyedMixin implements O
         description += ` (${upstreamDate})`;
         break;
       case 'aSpecificDate':
-        [upstreamDate, localDate] = this.formatUpstreamAndLocal(moment(timestamps[0]));
+        [upstreamDate, localDate] = this.formatUpstreamAndLocal(moment.parseZone(timestamps[0]));
         description = this.I18n.t('js.baseline.drop_down.a_specific_date');
         description += ` (${upstreamDate})`;
         break;
       case 'betweenTwoSpecificDates':
-        [upstreamDate, localDate] = this.deriveDateRange(moment(timestamps[0]), moment(timestamps[1]));
+        [upstreamDate, localDate] = this.deriveDateRange(moment.parseZone(timestamps[0]), moment.parseZone(timestamps[1]));
         description = this.I18n.t('js.baseline.drop_down.between_two_specific_dates');
         description += ` (${upstreamDate})`;
         break;
@@ -171,7 +171,7 @@ export class OpBaselineLegendsComponent extends UntilDestroyedMixin implements O
   }
 
   private deriveSingleDate(date:string, timestamp:string):[string, string] {
-    const parsedDate:Moment = moment(`${date}T${timestamp}`);
+    const parsedDate:Moment = moment.parseZone(`${date}T${timestamp}`);
     return this.formatUpstreamAndLocal(parsedDate);
   }
 

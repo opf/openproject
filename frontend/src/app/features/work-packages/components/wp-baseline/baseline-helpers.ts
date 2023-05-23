@@ -36,7 +36,7 @@ export function getPartsFromTimestamp(value:string):BaselineTimestamp|null {
   }
 
   if (value !== 'PT0S') {
-    const dateObj = moment(value);
+    const dateObj = moment.parseZone(value);
     const date = dateObj.format('YYYY-MM-DD');
     const time = dateObj.format('HH:mm');
     const offset = dateObj.format('Z');
