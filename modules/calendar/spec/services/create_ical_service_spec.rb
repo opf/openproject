@@ -63,6 +63,10 @@ describe Calendar::CreateICalService, type: :model do
 
   let(:freezed_date_time) { DateTime.now }
 
+  let(:formatted_result) do
+    subject.result.gsub("\r\n ", "").gsub("\r", "").gsub("\\n", "\n")
+  end
+
   before do
     Timecop.freeze(freezed_date_time)
   end
@@ -130,8 +134,7 @@ describe Calendar::CreateICalService, type: :model do
       END:VCALENDAR
     EOICAL
 
-    expect(subject.result.gsub("\r\n ", "").gsub("\r", "").gsub("\\n", "\n"))
-      .to eql(expected_ical_string)
+    expect(formatted_result).to eql(expected_ical_string)
   end
   # rubocop:enable RSpec/ExampleLength
 
@@ -141,15 +144,6 @@ describe Calendar::CreateICalService, type: :model do
   end
 
   describe 'stripped and truncated workpackage description' do
-    let(:rich_text_description) do
-      <<-STRING
-      test **description**\n\n1.  **foo**\n2.  bar\n3.  **baz**\n\nLorem ipsum#{' '}
-      dolor<img class="op-uc-image op-uc-image_inline" src="/api/v3/attachments/4/content">sit#{' '}
-      amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore#{' '}
-      magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.#{' '}
-      Stet clita kasd gubergren, no sea tak
-      STRING
-    end
     let(:work_package_with_rich_text_description) do
       create(:work_package, project:,
                             due_date: Time.zone.today + 7.days, assigned_to: user,
@@ -179,16 +173,16 @@ describe Calendar::CreateICalService, type: :model do
     end
 
     it 'strips html tags from the description' do
-      expect(subject.result).to include("test description") # no <b> tags
-      expect(subject.result).to include("\\nfoo\\nbar\\nbaz") # no <br> tags or <ol> tags
+      expect(formatted_result).to include("test description") # no <b> tags
+      expect(formatted_result).to include("\nfoo\nbar\nbaz") # no <br> tags or <ol> tags
     end
 
     it 'strips images from the description' do
-      expect(subject.result).to include("test image") # no <img> tags
+      expect(formatted_result).to include("test image") # no <img> tags
     end
 
     it 'truncates the description at 250 chars' do
-      expect(subject.result).to include("sanctus est ...")
+      expect(formatted_result).to include("sanctus est ...")
     end
   end
 
@@ -209,9 +203,6 @@ describe Calendar::CreateICalService, type: :model do
         work_package_with_malicious_subject,
         work_package_with_malicious_description
       ]
-    end
-    let(:formatted_result) do
-      subject.result.gsub("\r\n ", "").gsub("\r", "").gsub("\\n", "\n")
     end
 
     it 'escapes malicious workpackage subject values' do
