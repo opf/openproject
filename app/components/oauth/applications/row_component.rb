@@ -35,6 +35,8 @@ module OAuth
       include ::OAuthHelper
       include ::OpenProject::ObjectLinking
 
+      property :confidential
+
       def application
         model
       end
@@ -65,8 +67,6 @@ module OAuth
           '-'
         end
       end
-
-      delegate :confidential, to: :application
 
       def edit_link
         link_to(

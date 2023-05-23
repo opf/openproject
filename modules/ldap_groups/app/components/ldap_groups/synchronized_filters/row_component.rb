@@ -34,6 +34,8 @@ module LdapGroups
       include ::IconsHelper
       include ::PasswordHelper
 
+      property :base_dn
+
       def synchronized_filter
         model
       end
@@ -45,8 +47,6 @@ module LdapGroups
       def auth_source
         link_to synchronized_filter.auth_source.name, edit_ldap_auth_source_path(synchronized_filter.auth_source)
       end
-
-      delegate :base_dn, to: :synchronized_filter
 
       def groups
         synchronized_filter.groups.count
