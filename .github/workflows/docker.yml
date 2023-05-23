@@ -6,8 +6,6 @@ on:
     - cron: '20 2 * * *' # Daily at 02:20
 
   push:
-    branches:
-      - feature/docker-multi-arch-support
     tags:
       - v*
 
@@ -15,7 +13,7 @@ permissions:
   contents: read # to fetch code (actions/checkout)
 
 env:
-  REGISTRY_IMAGE: openproject/community-test
+  REGISTRY_IMAGE: openproject/community
 
 jobs:
   build:
@@ -130,7 +128,6 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
-            type=sha
             type=raw,value=dev,enable={{is_default_branch}}
       -
         name: Login to Docker Hub
