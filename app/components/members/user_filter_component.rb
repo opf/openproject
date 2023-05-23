@@ -28,42 +28,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class RailsComponent < ViewComponent::Base
-  include ApplicationHelper
-
-  attr_reader :model, :options
-
-  def initialize(model = nil, **options)
-    super
-    @model = model if model
-    @options = options
-  end
-
-  class << self
-    ##
-    # Defines options for this cell which can be used within the cell's template.
-    # Options are passed to the cell during the render call.
-    #
-    # @param names [Array<String> | Hash<String, Any>] Either a list of names for options whose
-    #                                                  default value is empty or a hash mapping
-    #                                                  option names to default values.
-    def options(*names)
-      default_values = {}
-
-      if names.size == 1 && names.first.is_a?(Hash)
-        default_values = names.first
-        names = default_values.keys
-      end
-
-      names.each do |name|
-        define_method(name) do
-          options[name] || default_values[name]
-        end
-      end
+module Members
+  class UserFilterComponent < ::UserFilterComponent
+    def initially_visible?
+      false
     end
 
-    def property(*names)
-      delegate *names, to: :model
+    def has_close_icon?
+      true
+    end
+
+    ##
+    # Adapts the user filter counts to count members as opposed to users.
+    def extra_user_status_options
+      {
+        all: status_members_query('all').count,
+        blocked: status_members_query('blocked').count,
+        active: status_members_query('active').count,
+        invited: status_members_query('invited').count,
+        registered: status_members_query('registered').count,
+        locked: status_members_query('locked').count
+      }
+    end
+
+    def status_members_query(status)
+      params = { project_id: project.id,
+                 status: }
+
+      self.class.filter(params)
+    end
+
+    def filter_path
+      project_members_path(project)
+    end
+
+    def self.base_query
+      Queries::Members::MemberQuery
     end
   end
 end

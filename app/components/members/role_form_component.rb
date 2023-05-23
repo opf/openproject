@@ -28,42 +28,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class RailsComponent < ViewComponent::Base
-  include ApplicationHelper
+module Members
+  class RoleFormComponent < ::RailsComponent
+    include RemovedJsHelpersHelper
 
-  attr_reader :model, :options
+    options :row, :params, :roles
 
-  def initialize(model = nil, **options)
-    super
-    @model = model if model
-    @options = options
-  end
-
-  class << self
-    ##
-    # Defines options for this cell which can be used within the cell's template.
-    # Options are passed to the cell during the render call.
-    #
-    # @param names [Array<String> | Hash<String, Any>] Either a list of names for options whose
-    #                                                  default value is empty or a hash mapping
-    #                                                  option names to default values.
-    def options(*names)
-      default_values = {}
-
-      if names.size == 1 && names.first.is_a?(Hash)
-        default_values = names.first
-        names = default_values.keys
-      end
-
-      names.each do |name|
-        define_method(name) do
-          options[name] || default_values[name]
-        end
-      end
+    def member
+      model
     end
 
-    def property(*names)
-      delegate *names, to: :model
+    def form_html_options
+      { id: "#{row.roles_css_id}-form",
+        class: row.toggle_item_class_name,
+        style: "display:none" }
+    end
+
+    def role_disabled?(role)
+      member
+        .member_roles
+        .detect { |mr| mr.role_id == role.id && !mr.inherited_from.nil? }
     end
   end
 end
