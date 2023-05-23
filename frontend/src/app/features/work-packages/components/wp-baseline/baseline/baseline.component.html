@@ -111,7 +111,7 @@
         slot="input"
         name="op-baseline-time"
         [value]="selectedTimes[0] || ''"
-        (change)="timeChange($event.target.value)"
+        (change)="timesChange([$event.target.value, selectedTimes[1]])"
         type="time"
         class="op-baseline--time-input"/>
 
@@ -121,7 +121,7 @@
         [alignment]="tooltipPosition"
         [disabled]="false"
         [light]="true">
-        <span slot="trigger" class="op-baseline--time-zone">{{text.timeZone}}</span>
+        <span slot="trigger" class="op-baseline--time-zone" [textContent]="selectedOffsets[0]"></span>
         <span slot="body" class="spot-body-small op-baseline--time-tooltip-body">{{ text.help_description }}</span>
       </spot-tooltip>
 
@@ -136,7 +136,7 @@
         slot="input"
         name="op-baseline-time"
         [value]="selectedTimes[1] || ''"
-        (change)="timeChange($event.target.value)"
+        (change)="timesChange([selectedTimes[0], $event.target.value])"
         type="time"
         class="op-baseline--time-input"/>
 
@@ -146,7 +146,7 @@
         [alignment]="tooltipPosition"
         [disabled]="false"
         [light]="true">
-        <span slot="trigger" class="op-baseline--time-zone">{{text.timeZone}}</span>
+        <span slot="trigger" class="op-baseline--time-zone" [textContent]="selectedOffsets[1]"></span>
         <span slot="body" class="spot-body-small op-baseline--time-tooltip-body">{{ text.help_description }}</span>
       </spot-tooltip>
 
