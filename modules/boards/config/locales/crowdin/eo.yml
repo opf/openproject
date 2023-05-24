@@ -6,3 +6,13 @@ eo:
   boards:
     label_board: "Tabulo"
     label_boards: "Tabuloj"
+    board_types:
+      free: Basic
+      action: "Action board (%{attribute})"
+    board_type_attributes:
+      assignee: Assignee
+      status: Status
+      version: Version
+      subproject: Subproject
+      subtasks: Parent-child
+      basic: Basic

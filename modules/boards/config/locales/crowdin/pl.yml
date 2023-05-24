@@ -6,3 +6,13 @@ pl:
   boards:
     label_board: "Tablica"
     label_boards: "Tablice"
+    board_types:
+      free: Basic
+      action: "Action board (%{attribute})"
+    board_type_attributes:
+      assignee: Assignee
+      status: Status
+      version: Version
+      subproject: Subproject
+      subtasks: Parent-child
+      basic: Basic
