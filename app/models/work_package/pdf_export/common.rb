@@ -134,7 +134,7 @@ module WorkPackage::PDFExport::Common
     pdf.add_dest(id.to_s, pdf_dest)
   end
 
-  def draw_repeating_text(text, align, top, style)
+  def draw_repeating_text(text:, align:, top:, style:)
     left = align_to_left_position(text, align, style)
     opts = style.merge({ at: [left, top] })
     pdf.repeat :all do

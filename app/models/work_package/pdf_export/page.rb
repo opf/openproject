@@ -105,10 +105,15 @@ module WorkPackage::PDFExport::Page
   end
 
   def write_footer_title!
-    draw_repeating_text(heading, :right, -page_footer_top, page_footer_style)
+    draw_repeating_text(text: heading, align: :right, top: -page_footer_top, style: page_footer_style)
   end
 
   def write_footer_date!
-    draw_repeating_text(format_date(Time.zone.today), :left, -page_footer_top, page_footer_style)
+    draw_repeating_text(
+      text: format_date(Time.zone.today),
+      align: :left,
+      top: -page_footer_top,
+      style: page_footer_style
+    )
   end
 end
