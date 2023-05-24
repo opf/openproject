@@ -42,7 +42,7 @@ import {
   Observable,
   of,
 } from 'rxjs';
-import {Moment} from 'moment';
+import { Moment } from 'moment';
 
 @Injectable({ providedIn: 'root' })
 export class WeekdayService {

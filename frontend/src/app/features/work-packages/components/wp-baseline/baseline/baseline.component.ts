@@ -173,7 +173,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
       this.wpTableBaseline.current.forEach((value, i) => {
         const parts = getPartsFromTimestamp(value);
         if (parts) {
-          this.selectedDates[i] = !!this.selectedDates[i] ? this.selectedDates[i] : parts.date;
+          this.selectedDates[i] = this.selectedDates[i] ? this.selectedDates[i] : parts.date;
           this.selectedTimes[i] = parts.time;
           this.selectedOffsets[i] = parts.offset;
         }
@@ -261,6 +261,6 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
   private buildFilterString(i:number):string {
     const timeWithOffset = `${this.selectedTimes[i]}${this.selectedOffsets[i]}`;
-    return `${this.selectedFilter}@${timeWithOffset}`;
+    return `${this.selectedFilter as string}@${timeWithOffset}`;
   }
 }

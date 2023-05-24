@@ -126,7 +126,9 @@
       </spot-tooltip>
 
 
-      <span slot="description" [textContent]="text.time_description(0)"></span>
+      <span
+        *ngIf="userOffset !== selectedOffsets[0]"
+        slot="description" [textContent]="text.time_description(0)"></span>
     </spot-form-field>
 
     <spot-form-field
@@ -151,7 +153,9 @@
       </spot-tooltip>
 
 
-      <span slot="description" [textContent]="text.time_description(1)"></span>
+      <span
+        *ngIf="userOffset !== selectedOffsets[1]"
+        slot="description" [textContent]="text.time_description(1)"></span>
     </spot-form-field>
   </div>
 

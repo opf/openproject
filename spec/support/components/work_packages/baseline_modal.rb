@@ -92,7 +92,7 @@ module Components
         set_time to_time, 'op-baseline-to-time'
       end
 
-      def expect_between_dates(from:,from_time:, to:, to_time:)
+      def expect_between_dates(from:, from_time:, to:, to_time:)
         expect(page).to have_field('op-baseline-from-time', with: from_time)
         expect(page).to have_field('op-baseline-to-time', with: to_time)
 

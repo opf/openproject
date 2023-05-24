@@ -124,13 +124,13 @@ export class OpBaselineLegendsComponent extends UntilDestroyedMixin implements O
 
   public getFilterName(timestamps:string[]) {
     const datesAndTimes = timestamps.map((el) => el.split(/[@T]/));
-    const filter = baselineFilterFromValue(this.wpTableBaseline.current);
+    const baselineValue = baselineFilterFromValue(this.wpTableBaseline.current);
     const changesSince = this.I18n.t('js.baseline.legends.changes_since');
     let description = '';
     let upstreamDate = '';
     let localDate = '';
 
-    switch (filter) {
+    switch (baselineValue) {
       case 'oneDayAgo':
         [upstreamDate, localDate] = this.deriveSingleDate(this.wpTableBaseline.yesterdayDate(), datesAndTimes[0][1]);
         description = this.I18n.t('js.baseline.drop_down.yesterday');
