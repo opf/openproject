@@ -72,7 +72,7 @@ module Members
       span = content_tag "span", roles_label, id: "member-#{member.id}-roles"
 
       if may_update?
-        span + role_form_cell.call
+        span + role_form
       else
         span
       end
@@ -89,13 +89,12 @@ module Members
       label
     end
 
-    def role_form_cell
-      Members::RoleFormCell.new(
+    def role_form
+      render Members::RoleFormComponent.new(
         member,
         row: self,
         params: controller.params,
-        roles: table.available_roles,
-        context: { controller: }
+        roles: table.available_roles
       )
     end
 

@@ -1267,7 +1267,7 @@ es:
         none: '-'
         yesterday: 'yesterday'
         last_working_day: 'last working day'
-        last_week: 'last week'
+        last_week: 'Semana anterior'
         last_month: 'last month'
         a_specific_date: 'a specific date'
         between_two_specific_dates: 'between two specific dates'

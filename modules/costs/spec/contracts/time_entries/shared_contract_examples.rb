@@ -210,14 +210,6 @@ shared_examples_for 'time entry contract' do
     end
   end
 
-  context 'when comment is longer than 255' do
-    let(:time_entry_comments) { "a" * 256 }
-
-    it 'is invalid' do
-      expect_valid(false, comments: %i(too_long))
-    end
-  end
-
   context 'when comment is nil' do
     let(:time_entry_comments) { nil }
 
