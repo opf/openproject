@@ -72,10 +72,12 @@
         <span class="advice" [textContent]="text.drag_to_activate"></span>
       </div>
       <div class="attributes" dragula="attributes" [(dragulaModel)]="inactives">
-        <div *ngFor="let inactive_attribute of inactives"
-             class="type-form-conf-attribute"
-             [attr.data-key]="inactive_attribute.key">
-          <span class="attribute-handle icon-drag-handle"></span>
+        <div
+          *ngFor="let inactive_attribute of inactives"
+          class="type-form-conf-attribute"
+          [attr.data-key]="inactive_attribute.key"
+        >
+          <span class="attribute-handle spot-icon spot-icon_1 spot-icon_drag-handle"></span>
           <span class="attribute-name">
               {{ inactive_attribute.translation }}
             <span *ngIf="inactive_attribute.is_cf"
