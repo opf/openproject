@@ -34,6 +34,8 @@ class Timestamp
   class Exception < StandardError; end
 
   class TimestampParser
+    DURATION_REGEX = /[+-]?P/ # ISO8601 "Period"
+
     DATE_KEYWORD_REGEX =
       %r{
         ^(?:#{ALLOWED_DATE_KEYWORDS.join("|")}) # match the relative date keyword
@@ -49,7 +51,7 @@ class Timestamp
       @timestamp_string = self.class.substitute_special_shortcut_values(@original_string)
 
       case @timestamp_string
-      when /[+-]?P/ # ISO8601 "Period"
+      when DURATION_REGEX
         ActiveSupport::Duration.parse(@timestamp_string).iso8601
       when DATE_KEYWORD_REGEX # Built in date keywords
         @timestamp_string
@@ -119,11 +121,11 @@ class Timestamp
   end
 
   def duration?
-    to_s.first == "P" # ISO8601 "Period"
+    to_s.match? TimestampParser::DURATION_REGEX
   end
 
   def relative_date_keyword?
-    TimestampParser::DATE_KEYWORD_REGEX.match?(to_s)
+    to_s.match? TimestampParser::DATE_KEYWORD_REGEX
   end
 
   def to_s
