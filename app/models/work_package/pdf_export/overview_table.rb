@@ -55,7 +55,6 @@ module WorkPackage::PDFExport::OverviewTable
   def limit_table_columns_objects
     list = column_objects
     list = list.reject { |c| c == query.group_by_column } if query.grouped?
-    list = list.take(4) if with_descriptions?
     list
   end
 
