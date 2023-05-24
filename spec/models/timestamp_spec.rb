@@ -100,14 +100,14 @@ describe Timestamp do
 
       {
         'PT1H' => 'PT1H',
-        'PT0001H' => 'PT1H',
-        'PT0009H' => 'PT9H',
+        'PT0001H' => 'PT0001H',
+        'PT0009H' => 'PT0009H',
         'PT-1H' => 'PT-1H',
-        '+PT1H' => 'PT1H',
-        '-PT1H' => 'PT-1H',
-        '-PT-1H' => 'PT1H',
+        '+PT1H' => '+PT1H',
+        '-PT1H' => '-PT1H',
+        '-PT-1H' => '-PT-1H',
         '  PT1H  ' => 'PT1H',
-        '-P1M-1DT1H-02M' => 'P-1M1DT-1H2M'
+        '-P1M-1DT1H-02M' => '-P1M-1DT1H-02M'
       }.each do |input, expected|
         it "parses #{input.inspect} into #{expected.inspect}" do
           expect(described_class.parse(input).to_s).to eq(expected)
@@ -121,7 +121,7 @@ describe Timestamp do
       it "returns a described_class representing that absolute time" do
         expect(subject).to be_a described_class
         expect(subject).to be_valid
-        expect(subject.to_s).to eq "2022-10-29T21:55:58+00:00"
+        expect(subject.to_s).to eq "2022-10-29T21:55:58Z"
         expect(subject.to_time).to eq Time.iso8601("2022-10-29T21:55:58+00:00")
         expect(subject).not_to be_relative
       end
@@ -144,7 +144,7 @@ describe Timestamp do
         it "returns a described_class representing that absolute time" do
           expect(subject).to be_a described_class
           expect(subject).to be_valid
-          expect(subject.to_s).to eq "2022-10-29T21:55:00+00:00"
+          expect(subject.to_s).to eq "2022-10-29T21:55Z"
           expect(subject.to_time).to eq Time.iso8601("2022-10-29T21:55:00Z")
           expect(subject).not_to be_relative
         end
@@ -193,7 +193,7 @@ describe Timestamp do
         it "returns a Timestamp representing that absolute time" do
           expect(subject).to be_a described_class
           expect(subject).to be_valid
-          expect(subject.to_s).to eq "2022-01-01T00:00:00+00:00"
+          expect(subject.to_s).to eq "2022-01-01"
           expect(subject.to_time).to eq Time.zone.parse("2022-01-01T00:00:00Z")
           expect(subject).not_to be_relative
         end

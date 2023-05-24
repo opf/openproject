@@ -83,7 +83,8 @@ class Timestamp
     def parse(timestamp_string)
       return timestamp_string if timestamp_string.is_a?(Timestamp)
 
-      timestamp_string = TimestampParser.new(timestamp_string.strip).parse!
+      timestamp_string = timestamp_string.strip
+      TimestampParser.new(timestamp_string).parse!
       new(timestamp_string)
     end
 
