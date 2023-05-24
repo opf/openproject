@@ -197,7 +197,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
     work_packages.each_with_index do |work_package, index|
       infos_map[work_package.id] = { level_path: [index + 1], level: 0, children: [], work_package: }
     end
-    [infos_map, work_packages]
+    [infos_map, work_packages.to_a]
   end
 
   def build_meta_infos_map(work_packages)

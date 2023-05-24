@@ -40,11 +40,8 @@ module WorkPackage::PDFExport::OverviewTable
   private
 
   def write_grouped!(work_packages, id_wp_meta_map)
-    groups = {}
-    work_packages.each do |work_package|
-      group = query.group_by_column.value(work_package)
-      groups[group] = groups[group] || []
-      groups[group].push work_package
+    groups = work_packages.group_by do |work_package|
+      query.group_by_column.value(work_package)
     end
     groups.each do |group, grouped_work_packages|
       write_group!(group, grouped_work_packages, id_wp_meta_map, get_group_sums(group))
