@@ -54,6 +54,7 @@ en:
       replace_provider_type_oauth: "Replace %{provider_type} OAuth"
       save_and_continue_setup: "Save and continue setup"
       save_and_complete_setup: "Save and complete setup"
+      select_folder: "Select folder"
     page_titles:
       project_settings:
         index: "File storages available in this project"
@@ -88,7 +89,6 @@ en:
       project_storage: >
         Are you sure you want to remove this file storage from this project? This will also
         remove all links to files stored in this storage for this project.
-    placeholder_existing_folder_selection: "Select a folder"
     label_creator: "Creator"
     label_file_link: "File link"
     label_file_links: "File links"
@@ -103,8 +103,9 @@ en:
     label_project_folder: "Project folder"
     label_new_storage: "New storage"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
-    label_existing_manual_folder_selection: "Existing folder selection"
     label_no_specific_folder: "No specific folder"
+    label_no_selected_folder: "No selected folder"
+    label_empty_project_folder_validation: "Selecting a folder is mandatory to proceed"
     label_storage: "Storage"
     label_storages: "Storages"
     no_results: "No storages set up yet."

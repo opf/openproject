@@ -40,7 +40,7 @@ import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.mod
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { SortFilesPipe } from 'core-app/shared/components/storages/pipes/sort-files.pipe';
-import { isDirectory } from 'core-app/shared/components/storages/functions/storages.functions';
+import { isDirectory, storageLocaleString } from 'core-app/shared/components/storages/functions/storages.functions';
 import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
 import {
   StorageFileListItem,
@@ -62,6 +62,8 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
     content: {
       empty: this.i18n.t('js.storages.files.empty_folder'),
       emptyHint: this.i18n.t('js.storages.files.empty_folder_location_hint'),
+      noConnection: (storageType:string) => this.i18n.t('js.storages.no_connection', { storageType }),
+      noConnectionHint: (storageType:string) => this.i18n.t('js.storages.information.connection_error', { storageType }),
     },
     buttons: {
       submit: this.i18n.t('js.storages.choose_location'),
@@ -75,8 +77,12 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
     },
   };
 
-  public get location():string {
-    return this.currentDirectory.id as string;
+  public get location():IStorageFile {
+    return this.currentDirectory;
+  }
+
+  public get storageType():string {
+    return this.i18n.t(storageLocaleString(this.storage._links.type.href));
   }
 
   public get filesAtLocation():IStorageFile[] {
