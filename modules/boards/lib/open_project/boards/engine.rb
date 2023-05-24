@@ -54,7 +54,7 @@ module OpenProject::Boards
            caption: :'boards.label_boards'
 
       menu :top_menu,
-           :boards, { controller: 'boards/boards', project_id: nil, action: 'overview' },
+           :boards, { controller: '/boards/boards', action: 'overview' },
            context: :modules,
            caption: :project_module_board_view,
            if: Proc.new {
