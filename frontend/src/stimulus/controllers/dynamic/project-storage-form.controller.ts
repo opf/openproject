@@ -43,6 +43,7 @@ export default class ProjectStorageFormController extends Controller {
   static targets = [
     'projectFolderSection',
     'projectFolderIdInput',
+    'projectFolderIdValidation',
     'selectedFolderText',
     'storage',
     'storageSelector',
@@ -51,14 +52,11 @@ export default class ProjectStorageFormController extends Controller {
   static values = {
     folderMode: String,
     placeholderFolderName: String,
-    emptyFolderNameValidation: String,
   };
 
   declare folderModeValue:string;
 
   declare placeholderFolderNameValue:string;
-
-  declare emptyFolderNameValidationValue:string;
 
   declare readonly storageTargets:HTMLElement[];
 
@@ -69,6 +67,8 @@ export default class ProjectStorageFormController extends Controller {
   declare readonly projectFolderSectionTarget:HTMLElement;
 
   declare readonly projectFolderIdInputTarget:HTMLInputElement;
+
+  declare readonly projectFolderIdValidationTarget:HTMLSpanElement;
 
   declare readonly selectedFolderTextTarget:HTMLSpanElement;
 
@@ -101,6 +101,7 @@ export default class ProjectStorageFormController extends Controller {
         filter((modal) => modal.submitted),
       )
       .subscribe((modal) => {
+        this.projectFolderIdValidationTarget.style.display = 'none';
         this.selectedFolderTextTarget.innerText = modal.location.name;
         this.projectFolderIdInputTarget.value = modal.location.id as string;
       });

@@ -518,6 +518,15 @@ fieldset.form--fieldset
   &.-with-bottom-spacing
     margin-bottom: 1rem
 
+.form--field-error
+  @extend %form--field-after-container
+  font-style: italic
+  max-width: 500px
+  color: var(--content-form-error-color)
+
+  &.-with-bottom-spacing
+    margin-bottom: 1rem
+
 .form--inline-instructions
   font-style: italic
   display: inline

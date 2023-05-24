@@ -30,13 +30,12 @@ See COPYRIGHT and LICENSE files for more details.
 <% content_controller 'project-storage-form',
                       dynamic: true,
                       'project-storage-form-folder-mode-value': @project_storage.project_folder_mode,
-                      'project-storage-form-placeholder-folder-name-value': t(:"storages.label_no_selected_folder"),
-                      'project-storage-form-empty-folder-name-validation-value': t(:"storages.label_empty_project_folder_validation")
+                      'project-storage-form-placeholder-folder-name-value': t(:"storages.label_no_selected_folder")
 %>
 
 <div class="form--field -required">
   <% case action_name %>
-  <% when 'new' %>
+  <% when 'new', 'create' %>
     <%= f.select :storage_id,
                  (@available_storages.map do |storage|
                    [
@@ -56,6 +55,7 @@ See COPYRIGHT and LICENSE files for more details.
                    ]
                  end),
                  {
+                   class: '-bold',
                    selected: @available_storages.first.id.to_s,
                    container_class: '-slim'
                  },
@@ -69,7 +69,7 @@ See COPYRIGHT and LICENSE files for more details.
         .
       </span>
     <% end %>
-  <% when 'edit' %>
+  <% when 'edit', 'update' %>
     <%= f.label :storage_id, class: "form--label -bold" do %>
       <%= t(:"storages.label_storage") %>
     <% end %>
@@ -136,7 +136,6 @@ See COPYRIGHT and LICENSE files for more details.
       data-project-storage-form-target="projectFolderSection"
     >
       <%= f.hidden_field :project_folder_id,
-                         required: true,
                          data: {
                            'project-storage-form-target': "projectFolderIdInput"
                          } %>
@@ -153,6 +152,14 @@ See COPYRIGHT and LICENSE files for more details.
         data-project-storage-form-target="selectedFolderText"
       ></span>
     </div>
+    <% if @errors.present? && @errors.any? %>
+      <%= content_tag :span,
+                      t(:"storages.instructions.empty_project_folder_validation"),
+                      class: 'form--field-error -with-bottom-spacing',
+                      data: {
+                        'project-storage-form-target': "projectFolderIdValidation"
+                      } %>
+    <% end %>
   </div>
 <% end %>
 

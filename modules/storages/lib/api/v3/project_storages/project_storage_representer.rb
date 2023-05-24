@@ -38,7 +38,6 @@ module API::V3::ProjectStorages
     property :id
     date_time_property :created_at
     date_time_property :updated_at
-    property :project_folder_id
     property :project_folder_mode
 
     link :projectFolder do
