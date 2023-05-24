@@ -32,30 +32,28 @@ require_relative './shared_context'
 describe 'Calendar sharing via ical', js: true do
   include_context 'with calendar full access'
 
-  let!(:user_with_sharing_permission) do
+  let(:user_with_sharing_permission) do
     create(:user,
            firstname: 'Bernd',
            member_in_project: project,
            member_with_permissions: %w[
              view_work_packages
-             edit_work_packages
              save_queries
-             save_public_queries
              view_calendar
-             manage_calendars
              share_calendars
            ])
   end
 
-  let!(:user_without_sharing_permission) do
+  let(:user_without_sharing_permission) do
+    # missing share_calendars permission
+    # the manage_calendars permission should not be sufficient
+    # sharing via ical needs to be explicitly allowed
     create(:user,
            firstname: 'Bernd',
            member_in_project: project,
            member_with_permissions: %w[
              view_work_packages
-             edit_work_packages
              save_queries
-             save_public_queries
              view_calendar
              manage_calendars
            ])
@@ -78,6 +76,22 @@ describe 'Calendar sharing via ical', js: true do
     end
 
     context 'on not persisted calendar query' do
+      # add "manage_calendars" permission to user for this context
+      # in order to enable creating a new calendar on the UI.
+      # this permission is not mandatory for the actual feature
+      let(:user_with_sharing_permission) do
+        create(:user,
+               firstname: 'Bernd',
+               member_in_project: project,
+               member_with_permissions: %w[
+                 view_work_packages
+                 save_queries
+                 view_calendar
+                 manage_calendars
+                 share_calendars
+               ])
+      end
+
       it 'shows disabled sharing menu item' do
         visit project_calendars_path(project)
 
@@ -121,7 +135,7 @@ describe 'Calendar sharing via ical', js: true do
         # click on settings button
         page.find_by_id('work-packages-settings-button').click
 
-        # expect disabled sharing menu item
+        # expect active sharing menu item
         within "#settingsDropdown" do
           expect(page).to have_selector(".menu-item", text: "Subscribe to iCalendar")
         end
@@ -142,16 +156,6 @@ describe 'Calendar sharing via ical', js: true do
 
         expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
       end
-
-      # it 'closes the sharing modal when closed by user by hitting escape' do
-      #   open_sharing_modal
-
-      #   expect(page).to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
-
-      #   page.find(:css, '.spot-modal--header').send_keys :escape
-
-      #   expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
-      # end
 
       it 'successfully requests a new tokenized iCalendar URL when a unique name is provided' do
         open_sharing_modal
@@ -212,17 +216,32 @@ describe 'Calendar sharing via ical', js: true do
   end
 
   context 'without sufficient permissions' do
+    let(:saved_query) do
+      create(:query_with_view_work_packages_calendar,
+             user: user_without_sharing_permission,
+             project:,
+             public: false)
+    end
+
     before do
       login_as user_without_sharing_permission
       calendar.visit!
     end
 
     context 'on persisted calendar query' do
-      it 'shows disabled sharing menu item' do
+      before do
+        saved_query
+
         visit project_calendars_path(project)
 
-        click_link "Create new calendar"
+        within '#content' do
+          click_link saved_query.name
+        end
 
+        loading_indicator_saveguard
+      end
+
+      it 'shows disabled sharing menu item' do
         # wait for settings button to become visible
         expect(page).to have_selector("#work-packages-settings-button")
 
