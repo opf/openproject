@@ -29,16 +29,13 @@ get:
         application/hal+json:
           schema:
             $ref: '../components/schemas/project_storage_collection_model.yml'
-    '404':
+    '400':
+      description: Returned if the any given filter is invalid.
       content:
         application/hal+json:
           schema:
             $ref: '../components/schemas/error_response.yml'
           example:
             _type: Error
-            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
-            message: The requested resource could not be found.
-      description: |-
-        Returned if the project storage does not exist or the client does not have sufficient permissions to see it.
-
-        **Required permission:** view file links
+            errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
+            message: The query parameter 'filters' is missing or malformed.
