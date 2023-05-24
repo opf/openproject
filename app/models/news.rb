@@ -34,7 +34,7 @@ class News < ApplicationRecord
   }, as: :commented, dependent: :delete_all
 
   validates :title, presence: true
-  validates :title, length: { maximum: 60 }
+  validates :title, length: { maximum: 256 }
   validates :summary, length: { maximum: 255 }
 
   acts_as_journalized

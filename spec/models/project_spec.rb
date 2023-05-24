@@ -154,28 +154,6 @@ describe Project do
     end
   end
 
-  describe 'status' do
-    let(:status) { build_stubbed(:project_status) }
-    let(:stubbed_project) do
-      build_stubbed(:project,
-                    status:)
-    end
-
-    it 'has a status' do
-      expect(stubbed_project.status)
-        .to eql status
-    end
-
-    it 'is destroyed along with the project' do
-      status = project.create_status explanation: 'some description'
-
-      project.destroy!
-
-      expect(Projects::Status.where(id: status.id))
-        .not_to exist
-    end
-  end
-
   describe 'name' do
     let(:name) { '     Hello    World   ' }
     let(:project) { described_class.new attributes_for(:project, name:) }

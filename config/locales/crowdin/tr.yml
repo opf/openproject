@@ -484,6 +484,15 @@ tr:
           true: "genel"
           false: "özel"
         queries: "Sorgular"
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
+        status_codes:
+          not_started: 'Not started'
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         templated: "Şablon projesi"
         templated_value:
           true: "şablon olarak kaydedildi"
@@ -491,16 +500,6 @@ tr:
         types: "Türler"
         versions: "Sürümler"
         work_packages: "İş Paketleri"
-      projects/status:
-        code: 'Durum'
-        explanation: 'Durum tanımlaması'
-        codes:
-          not_started: 'Başlamadı'
-          on_track: 'Takipte'
-          at_risk: 'Riskli'
-          off_track: 'Kapalı parça'
-          finished: 'Tamamlandı'
-          discontinued: 'Devam ettirilmedi'
       query:
         column_names: "Sütunlar"
         relations_to_type_column: "%{type} ile ilişkileri"
@@ -741,6 +740,7 @@ tr:
               format: "%{message}"
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "grubu tarafından '%{group_by}' ile birlikte kullanılamaz. Her ikisi de etkinleştiremezsiniz."
           filters:
@@ -917,11 +917,22 @@ tr:
   activity:
     item:
       created_by_on: "%{user} tarafından %{date} tarihinde oluşturuldu"
+      created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "Oluşturulma tarihi: {dateTime}"
       updated_by_on: "%{date} tarihinde %{user} tarafından güncellendi"
+      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "Güncellenme tarihi: {dateTime}"
       parent_without_of: "Subproject"
       parent_no_longer: "No longer subproject of"
+      time_entry:
+        hour:
+          one: "%{count} hour"
+          other: "%{count} hours"
+        hour_html:
+          one: "<i>%{count} hour</i>"
+          other: "<i>%{count} hours</i>"
+        updated: "changed from %{old_value} to %{value}"
+        logged_for: "Logged for"
     filter:
       changeset: "Değişiklik Listeleri"
       message: "Forumlar"
@@ -1638,6 +1649,7 @@ tr:
   label_enterprise: "Kurumsal"
   label_enterprise_active_users: "%{current}/%{limit} aktif kullanıcı rezervasyonu"
   label_enterprise_edition: "Enterprise sürüm"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Ortam"
   label_estimates_and_time: "Tahminler & zaman"
   label_equals: "şuysa"
@@ -1829,7 +1841,6 @@ tr:
   label_principal_search: "Mevcut kullanıcıları veya grupları ekle"
   label_privacy_policy: "Veri gizliliği ve güvenlik politikası"
   label_product_version: "Ürün sürümü"
-  label_professional_support: "Profesyonel destek"
   label_profile: "Profil"
   label_project_activity: "Proje etkinliği"
   label_project_attribute_plural: "Proje öznitelikleri"
@@ -1892,7 +1903,7 @@ tr:
   label_role_search: "Yeni üyelere rol atama"
   label_scm: "YKM"
   label_search: "Ara"
-  label_send_information: "Hesap bilgilerini kullanıcıya gönder"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Deneme e-postası gönder"
   label_setting_plural: "Ayarlar"
   label_system_settings: "Sistem ayarları"

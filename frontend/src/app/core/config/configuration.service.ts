@@ -99,6 +99,10 @@ export class ConfigurationService {
     return this.systemPreference('timeFormat');
   }
 
+  public defaultTimezone():string {
+    return this.systemPreference('userDefaultTimezone');
+  }
+
   public startOfWeekPresent():boolean {
     return !!this.systemPreference('startOfWeek');
   }

@@ -30,12 +30,12 @@
 
 ##
 # Abstract view component. Subclass this for a concrete table.
-class TableComponent < ViewComponent::Base
-  attr_reader :rows
+class TableComponent < RailsComponent
+  include SortHelper
+  include PaginationHelper
 
-  def initialize(rows:)
-    super()
-    @rows = rows
+  def initialize(rows: [], **options)
+    super(rows, **options)
   end
 
   class << self
@@ -52,26 +52,113 @@ class TableComponent < ViewComponent::Base
 
       @columns = names.map(&:to_sym)
     end
+
+    ##
+    # Define which of the registered columns are sortable
+    # Applies only if +sortable?+ is true
+    def sortable_columns(*names)
+      if names.present?
+        @sortable_columns = names.map(&:to_sym)
+        # set available criteria
+        return
+      end
+
+      # return all columns unless defined otherwise
+      if @sortable_columns.nil?
+        columns
+      else
+        Array(@sortable_columns)
+      end
+    end
+
+    def add_column(name)
+      @columns = Array(@columns) + [name]
+      row_class.property name
+    end
+
+    def row_class
+      mod = name.split("::")[0..-2].join("::").presence || "Table"
+
+      "#{mod}::RowComponent".constantize
+    rescue NameError
+      raise(
+        NameError,
+        "#{mod}::RowComponent required by #{mod}::TableComponent not defined. " +
+        "Expected to be defined in `app/components/#{mod.underscore}/row_component.rb`."
+      )
+    end
+  end
+
+  def before_render
+    initialize_sorted_model if sortable?
+  end
+
+  def initialize_sorted_model
+    sort_init *initial_sort.map(&:to_s)
+    sort_update sortable_columns.map(&:to_s)
+    @model = paginate_collection apply_sort(model)
+  end
+
+  def apply_sort(model)
+    case model
+    when ActiveRecord::QueryMethods
+      sort_collection(model, sort_clause)
+    when Queries::BaseQuery
+      model
+        .order(@sort_criteria.to_query_hash)
+        .results
+    else
+      raise ArgumentError, "Cannot sort the given model class #{model.class}"
+    end
+  end
+
+  ##
+  # Sorts the data to be displayed.
+  #
+  # @param query [ActiveRecord::QueryMethods] An active record collection.
+  # @param sort_clause [String] The SQL used as the sort clause.
+  def sort_collection(query, sort_clause)
+    query
+      .reorder(sort_clause)
+      .order(Arel.sql(initial_order))
+  end
+
+  def paginate_collection(query)
+    query
+      .page(page_param(controller.params))
+      .per_page(per_page_param)
+  end
+
+  def rows
+    model
   end
 
   def row_class
-    mod = self.class.name.deconstantize.presence || "Table"
-
-    "#{mod}::RowComponent".constantize
-  rescue NameError
-    raise(
-      NameError,
-      "#{mod}::RowComponent required by #{mod}::TableComponent not defined. " +
-      "Expected to be defined in `app/components/#{mod.underscore}/row_component.rb`."
-    )
+    self.class.row_class
   end
 
   def columns
     self.class.columns
   end
 
-  def render_row(row)
-    render(row_class.new(row:, table: self))
+  def sortable_columns
+    self.class.sortable_columns
+  end
+
+  def render_collection(rows)
+    render(row_class.with_collection(rows, table: self))
+  end
+
+  def initial_sort
+    [columns.first, :asc]
+  end
+
+  def initial_order
+    initial_sort.join(' ')
+  end
+
+  def paginated?
+    rows.respond_to? :total_entries
   end
 
   def inline_create_link
@@ -79,7 +166,11 @@ class TableComponent < ViewComponent::Base
   end
 
   def sortable?
-    false
+    true
+  end
+
+  def sortable_column?(column)
+    sortable? && sortable_columns.include?(column.to_sym)
   end
 
   def empty_row_message

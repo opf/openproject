@@ -55,9 +55,8 @@ en:
           demo-project:
             name: Demo project
             identifier: demo-project
-            status:
-              code: off_track
-              description: Everything is behind the deadline. We will never make it.
+            status_code: off_track
+            status_explanation: Everything is behind the deadline. We will never make it.
             description: >
               **This is a demo project**. You can edit the description in
               the [Project settings -> Description]({{opSetting:base_url}}/projects/demo-project/settings).

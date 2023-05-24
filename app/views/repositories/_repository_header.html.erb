@@ -27,10 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% content_for :header_tags do %>
-  <meta name="required_script" content="repository_navigation" />
-<% end %>
-
 <persistent-toggle data-identifier="repository.checkout_instructions"></persistent-toggle>
 <%= toolbar title: t('repositories.named_repository',
                      vendor_name: @repository.class.vendor_name) do %>

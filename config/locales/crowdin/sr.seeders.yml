@@ -21,8 +21,7 @@ sr:
       projects:
         demo-project:
           name: Demo project
-          status:
-            description: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
           description: This is a short summary of the goals of this demo project.
           news:
             item_0:
@@ -125,8 +124,7 @@ sr:
               subject: End of project
         scrum-project:
           name: Scrum project
-          status:
-            description: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
           description: This is a short summary of the goals of this demo Scrum project.
           news:
             item_0:

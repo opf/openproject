@@ -49,6 +49,16 @@ module Boards
       "#{I18n.t('boards.label_board')} '#{name}'"
     end
 
+    def board_type
+      options.with_indifferent_access[:type]&.to_sym || :free
+    end
+
+    def board_type_attribute
+      return nil unless board_type == :action
+
+      options.with_indifferent_access[:attribute]
+    end
+
     private
 
     def delete_queries

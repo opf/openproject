@@ -34,7 +34,7 @@ module API
           link :self do
             {
               href: api_v3_paths.project_status(represented),
-              title: I18n.t(:"activerecord.attributes.projects/status.codes.#{represented}")
+              title: I18n.t(:"activerecord.attributes.project.status_codes.#{represented}")
             }
           end
 
@@ -42,7 +42,7 @@ module API
                    getter: ->(*) { self }
 
           property :name,
-                   getter: ->(*) { I18n.t(:"activerecord.attributes.projects/status.codes.#{self}") }
+                   getter: ->(*) { I18n.t(:"activerecord.attributes.project.status_codes.#{self}") }
 
           def _type
             'ProjectStatus'

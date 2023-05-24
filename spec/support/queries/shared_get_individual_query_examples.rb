@@ -97,47 +97,63 @@ shared_examples_for 'GET individual query' do
     end
   end
 
-  context 'when providing valid timestamps', with_flag: { show_changes: true } do
+  describe 'timestamps', with_flag: { show_changes: true } do
     let(:path) do
-      params = CGI.escape(timestamps)
+      params = CGI.escape(timestamps.join(","))
       "#{base_path}?timestamps=#{params}"
     end
 
-    context 'with a range without a work package' do
-      let(:timestamps) do
-        [2.hours.ago.iso8601, 1.hour.ago.iso8601].join(",")
+    context 'when providing valid timestamps' do
+      context 'with a range without a work package' do
+        let(:timestamps) { [2.hours.ago.iso8601, 1.hour.ago.iso8601] }
+
+        it 'uses the provided timestamp' do
+          expect(last_response.body)
+            .to be_json_eql(0.to_json)
+            .at_path('_embedded/results/total')
+        end
       end
 
-      it 'uses the provided timestamp' do
+      context 'with a range containing a work package' do
+        let(:timestamps) { [2.hours.ago.iso8601, 'P0D'] }
+
+        it 'uses the provided timestamp' do
+          expect(last_response.body)
+            .to be_json_eql(1.to_json)
+            .at_path('_embedded/results/total')
+        end
+      end
+    end
+
+    context 'when providing an invalid timestamp' do
+      let(:timestamps) { ['invalid'] }
+
+      it 'returns an error' do
         expect(last_response.body)
-          .to be_json_eql(0.to_json)
-          .at_path('_embedded/results/total')
+          .to be_json_eql("urn:openproject-org:api:v3:errors:InvalidQuery".to_json)
+          .at_path('errorIdentifier')
       end
     end
 
-    context 'with a range containing a work package' do
-      let(:timestamps) do
-        [2.hours.ago.iso8601, 'P0D'].join(",")
+    context 'with timestamps older than 1 day' do
+      let(:timestamps) { [2.days.ago.iso8601, 'PT0S'] }
+
+      context 'with EE', with_ee: %i[baseline_comparison] do
+        it 'succeeds' do
+          expect(last_response.status).to eq(200)
+        end
       end
 
-      it 'uses the provided timestamp' do
-        expect(last_response.body)
-          .to be_json_eql(1.to_json)
-          .at_path('_embedded/results/total')
+      context 'without EE', with_ee: false do
+        it 'returns an error' do
+          expect(last_response.body)
+            .to be_json_eql("urn:openproject-org:api:v3:errors:InvalidQuery".to_json)
+            .at_path('errorIdentifier')
+          expect(last_response.body)
+            .to be_json_eql("Timestamps contain forbidden values: #{timestamps[0]}".to_json)
+            .at_path('message')
+        end
       end
-    end
-  end
-
-  context 'when providing an invalid timestamp' do
-    let(:path) do
-      params = CGI.escape('invalid')
-      "#{base_path}?timestamps=#{params}"
-    end
-
-    it 'returns an error' do
-      expect(last_response.body)
-        .to be_json_eql("urn:openproject-org:api:v3:errors:InvalidQuery".to_json)
-        .at_path('errorIdentifier')
     end
   end
 end

@@ -50,7 +50,6 @@ describe RootSeeder,
       expect(Type.count).to eq 7
       expect(Status.count).to eq 4
       expect(IssuePriority.count).to eq 4
-      expect(Projects::Status.count).to eq 4
       expect(Bim::IfcModels::IfcModel.count).to eq 3
       expect(Grids::Overview.count).to eq 4
       expect(Boards::Grid.count).to eq 2

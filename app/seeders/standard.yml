@@ -43,9 +43,8 @@ projects:
   demo-project:
     t_name: Demo project
     identifier: demo-project
-    status:
-      code: on_track
-      t_description: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+    status_code: on_track
+    t_status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
     t_description: This is a short summary of the goals of this demo project.
     modules:
       - work_package_tracking
@@ -322,9 +321,8 @@ projects:
   scrum-project:
     t_name: Scrum project
     identifier: your-scrum-project
-    status:
-      code: on_track
-      t_description: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+    status_code: on_track
+    t_status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
     t_description: This is a short summary of the goals of this demo Scrum project.
     modules:
       - backlogs

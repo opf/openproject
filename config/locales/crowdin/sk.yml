@@ -487,6 +487,15 @@ sk:
           true: "public"
           false: "private"
         queries: "Požiadavky"
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
+        status_codes:
+          not_started: 'Not started'
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         templated: "Template project"
         templated_value:
           true: "marked as template"
@@ -494,16 +503,6 @@ sk:
         types: "Typy"
         versions: "Verzie"
         work_packages: "Pracovné balíčky"
-      projects/status:
-        code: 'Stav'
-        explanation: 'Status description'
-        codes:
-          not_started: 'Not started'
-          on_track: 'Na dobrej ceste'
-          at_risk: 'V riziku'
-          off_track: 'Na zlej ceste'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
       query:
         column_names: "Stĺpce"
         relations_to_type_column: "Vzťahy k %{type}"
@@ -744,6 +743,7 @@ sk:
               format: "%{message}"
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "vzájomne sa vylučuje so skupinou podľa '%{group_by}'. Nemôžete aktivovať oboje."
           filters:
@@ -928,11 +928,26 @@ sk:
   activity:
     item:
       created_by_on: "created by %{user} on %{datetime}"
+      created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "created on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
       parent_without_of: "Subproject"
       parent_no_longer: "No longer subproject of"
+      time_entry:
+        hour:
+          one: "%{count} hour"
+          few: "%{count} hours"
+          many: "%{count} hours"
+          other: "%{count} hours"
+        hour_html:
+          one: "<i>%{count} hour</i>"
+          few: "<i>%{count} hours</i>"
+          many: "<i>%{count} hours</i>"
+          other: "<i>%{count} hours</i>"
+        updated: "changed from %{old_value} to %{value}"
+        logged_for: "Logged for"
     filter:
       changeset: "Changesets"
       message: "Forums"
@@ -1673,6 +1688,7 @@ sk:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} rezervovaných aktívnych užívateľov"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Prostredie"
   label_estimates_and_time: "Odhady a čas"
   label_equals: "je"
@@ -1864,7 +1880,6 @@ sk:
   label_principal_search: "Pridanie existujúcich užívateľov alebo skupín"
   label_privacy_policy: "Ochrana osobných údajov a bezpečnostná politika"
   label_product_version: "Verzia produktu"
-  label_professional_support: "Profesionálna podpora"
   label_profile: "Profil"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -1927,7 +1942,7 @@ sk:
   label_role_search: "Priradenie role pre nových užívateľov"
   label_scm: "SCM"
   label_search: "Vyhľadávanie"
-  label_send_information: "Odoslať užívateľovi informácie o účte"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Odoslať testovací email"
   label_setting_plural: "Nastavenia"
   label_system_settings: "Nastavenia systému"

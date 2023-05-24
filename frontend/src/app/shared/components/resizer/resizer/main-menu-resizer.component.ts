@@ -45,13 +45,19 @@ export const mainMenuResizerSelector = 'main-menu-resizer';
              (end)="resizeEnd()"
              (start)="resizeStart()"
              (move)="resizeMove($event)">
-      <div class="resizer-toggle-container">
+      <div
+        class="resizer-toggle-container"
+        [class.open]="toggleService.showNavigation"
+      >
         <button
-          class="spot-link main-menu--navigation-toggler"
+          class="main-menu--navigation-toggler"
           [attr.title]="toggleTitle"
-          [class.open]="toggleService.showNavigation"
           (click)="toggleService.toggleNavigation($event)">
-          <op-icon icon-classes="icon-resizer-vertical-lines"></op-icon>
+          <span *ngIf="!toggleService.showNavigation" class="spot-icon spot-icon_1_25 spot-icon_arrow-right2"></span>
+          <ng-container *ngIf="toggleService.showNavigation">
+            <span class="spot-icon spot-icon_1_25 spot-icon_arrow-left2 show-on-hover"></span>
+            <span class="spot-icon spot-icon_1_25 spot-icon_resizer-vertical-lines hide-on-hover"></span>
+          </ng-container>
         </button>
       </div>
     </resizer>

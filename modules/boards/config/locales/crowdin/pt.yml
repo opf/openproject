@@ -6,3 +6,13 @@ pt:
   boards:
     label_board: "Quadro"
     label_boards: "Quadros"
+    board_types:
+      free: Basic
+      action: "Action board (%{attribute})"
+    board_type_attributes:
+      assignee: Assignee
+      status: Status
+      version: Version
+      subproject: Subproject
+      subtasks: Parent-child
+      basic: Basic

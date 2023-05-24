@@ -37,8 +37,6 @@ class MembersController < ApplicationController
   search_for User, :search_in_project
   search_options_for User, lambda { |*| { project: @project } }
 
-  include CellsHelper
-
   def index
     set_index_data!
   end
@@ -131,13 +129,13 @@ class MembersController < ApplicationController
       project: @project,
       available_roles: roles,
       authorize_update: authorize_for('members', 'update'),
-      is_filtered: Members::UserFilterCell.filtered?(params)
+      is_filtered: Members::UserFilterComponent.filtered?(params)
     }
   end
 
   def members_filter_options(roles)
     groups = Group.all.sort
-    status = Members::UserFilterCell.status_param(params)
+    status = Members::UserFilterComponent.status_param(params)
 
     {
       groups:,
@@ -184,7 +182,7 @@ class MembersController < ApplicationController
     filters = params.slice(:name, :group_id, :role_id, :status)
     filters[:project_id] = @project.id.to_s
 
-    @members_query = Members::UserFilterCell.query(filters)
+    @members_query = Members::UserFilterComponent.query(filters)
   end
 
   def create_members

@@ -6,3 +6,13 @@ lt:
   boards:
     label_board: "Lenta"
     label_boards: "Lentos"
+    board_types:
+      free: Basic
+      action: "Action board (%{attribute})"
+    board_type_attributes:
+      assignee: Assignee
+      status: Status
+      version: Version
+      subproject: Subproject
+      subtasks: Parent-child
+      basic: Basic

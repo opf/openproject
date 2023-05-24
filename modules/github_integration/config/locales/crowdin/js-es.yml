@@ -41,12 +41,12 @@ es:
       github_actions: Acciones
       pull_requests:
         message: >
-          Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}. #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}.
+          Solicitud de extracción #%{pr_number} %{pr_link} para %{repository_link} ha sido %{pr_state} por %{github_user_link}. #%{pr_number} %{pr_link} para %{repository_link} ha sido %{pr_state} por %{github_user_link}.
         referenced_message: >
-          %{github_user_link} referenced this work package in pull request #%{pr_number} %{pr_link} on %{repository_link}. #%{pr_number} %{pr_link} on %{repository_link}.
+          %{github_user_link} referenció este paquete de trabajo en la pull request #%{pr_number} %{pr_link} el %{repository_link}. #%{pr_number} %{pr_link} el %{repository_link}.
         states:
-          opened: 'opened'
-          closed: 'closed'
+          opened: 'Abierto'
+          closed: 'cerrado'
           draft: 'drafted'
-          merged: 'merged'
-          ready_for_review: 'marked ready for review'
+          merged: 'Combinado'
+          ready_for_review: 'marcado listo para revisión'
