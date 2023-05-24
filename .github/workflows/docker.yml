@@ -1,6 +1,7 @@
-name: docker
+name: Docker
+
 on:
-  # Scheduled workflows run on the latest commit on the default or base branch
+  # build dev daily
   schedule:
     - cron: '20 2 * * *' # Daily at 02:20
 
@@ -11,30 +12,131 @@ on:
 permissions:
   contents: read # to fetch code (actions/checkout)
 
+env:
+  REGISTRY_IMAGE: openproject/community
+
 jobs:
-  publish:
-    # restrict this job to base repo for now
+  build:
     if: github.repository == 'opf/openproject'
     runs-on: ubuntu-latest
-    env:
-      INPUT_BUILDOPTIONS: --pull
+    strategy:
+      matrix:
+        include:
+          - base_prefix:
+            platform: linux/amd64
+          - base_prefix: ppc64le/
+            platform: linux/ppc64le
+            bim_support: false
+          - base_prefix: arm64v8/
+            platform: linux/arm64/v8
+            bim_support: false
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Prepare docker files
         run: |
           cp ./docker/prod/Dockerfile ./Dockerfile
-      - name: Build & Push
-        id: build_and_push
-        uses: elgohr/Publish-Docker-Github-Action@master
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
         with:
-          name: openproject/community
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          tag_semver: true
-          cache: ${{ github.event_name != 'schedule' }}
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            ${{ env.REGISTRY_IMAGE }}
+      - name: Build image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          platforms: ${{ matrix.platform }}
+          build-args: |
+            BASE_PREFIX=${{ matrix.base_prefix }}
+            BIM_SUPPORT=${{ matrix.bim_support }}
+          pull: true
+          load: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
       - name: Test
+        # We only test the native container. If that fails the builds for the others
+        # will be cancelled as well.
+        if: matrix.platform == 'linux/amd64'
         run: |
-          docker run --name openproject -d -p 8080:80 -e SUPERVISORD_LOG_LEVEL=debug -e SECRET_KEY_BASE=secret -e OPENPROJECT_HTTPS=false ${{ steps.build_and_push.outputs.digest }}
-          sleep 30
+          docker run \
+            --name openproject \
+            -d -p 8080:80 --platform ${{ matrix.platform }} \
+            -e SUPERVISORD_LOG_LEVEL=debug \
+            -e OPENPROJECT_HTTPS=false \
+            ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
+
+          sleep 60
+
           docker logs openproject --tail 100
           wget -O- --retry-on-http-error=503,502 --retry-connrefused http://localhost:8080/api/v3
+      - name: Push image
+        id: push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          platforms: ${{ matrix.platform }}
+          build-args: |
+            BASE_PREFIX=${{ matrix.base_prefix }}
+            BIM_SUPPORT=${{ matrix.bim_support }}
+          labels: ${{ steps.meta.outputs.labels }}
+          outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
+      - name: Export digest
+        run: |
+          mkdir -p /tmp/digests
+          digest="${{ steps.push.outputs.digest }}"
+          touch "/tmp/digests/${digest#sha256:}"
+      - name: Upload digest
+        uses: actions/upload-artifact@v3
+        with:
+          name: digests
+          path: /tmp/digests/*
+          if-no-files-found: error
+          retention-days: 1
+  merge:
+    runs-on: ubuntu-latest
+    needs:
+      - build
+    steps:
+      - name: Download digests
+        uses: actions/download-artifact@v3
+        with:
+          name: digests
+          path: /tmp/digests
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY_IMAGE }}
+          flavor: |
+            latest=false
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=raw,value=dev,enable={{is_default_branch}}
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Create manifest list and push
+        working-directory: /tmp/digests
+        run: |
+          docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
+            $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
+      - name: Inspect image
+        run: |
+          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}

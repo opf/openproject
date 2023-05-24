@@ -26,36 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module Groups
-      class GroupRepresenter < ::API::V3::Principals::PrincipalRepresenter
-        include API::Decorators::LinkedResource
+require 'spec_helper'
 
-        def _type
-          'Group'
-        end
+describe AdditionalUrlHelpers do
+  describe '#configurable_home_url' do
+    subject { helper.send :configurable_home_url }
 
-        link :delete,
-             cache_if: -> { current_user.admin? } do
-          {
-            href: api_v3_paths.group(represented.id),
-            method: :delete
-          }
-        end
+    context 'when home_url is defined', with_settings: { home_url: 'https://example.com/foo/bar' } do
+      it 'outputs that' do
+        expect(subject).to eq 'https://example.com/foo/bar'
+      end
+    end
 
-        link :updateImmediately,
-             cache_if: -> { current_user.admin? } do
-          {
-            href: api_v3_paths.group(represented.id),
-            method: :patch
-          }
-        end
-
-        associated_resources :users,
-                             as: :members,
-                             skip_render: -> { !current_user.allowed_to_globally?(:manage_members) },
-                             uncacheable_link: true
+    context 'when home_url is not defined', with_settings: { home_url: nil } do
+      it 'falls back to the default' do
+        expect(subject).to eq 'http://test.host/'
       end
     end
   end
