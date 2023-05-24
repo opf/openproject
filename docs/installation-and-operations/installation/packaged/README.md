@@ -34,9 +34,9 @@ The package is available for the following Linux distributions:
 | [Ubuntu 16.04 Xenial Xerus](#ubuntu-1604)   |
 | [Debian 11 Bullseye](#debian-11)              |
 | [Debian 10 Buster](#debian-10)              |
-| [Debian 9 Stretch](#debian-9)               |
 | [CentOS/RHEL 8.x](#centos-8--rhel-8)                    |
 | [CentOS/RHEL 7.x](#centos-7--rhel-7)                    |
+| [Suse Linux Enterprise Server 15](#sles-15) |
 | [Suse Linux Enterprise Server 12](#sles-12) |
 
 Please ensure that you are running on a 64bit system before proceeding with the installation. You can check by running the `uname -i` command on the target server and verifying that it outputs `x86_64`:
@@ -145,37 +145,6 @@ sudo apt-get install openproject
 
 Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
 
-### Ubuntu 16.04
-
-Update the `apt` package index and install packages to allow `apt` to use a repository over HTTPS:
-
-```bash
-sudo apt-get update
-sudo apt-get install apt-transport-https ca-certificates wget
-```
-
-Import the PGP key used to sign our packages:
-
-```bash
-wget -qO- https://dl.packager.io/srv/opf/openproject/key | sudo apt-key add -
-```
-
-Add the OpenProject package source:
-
-```bash
-sudo wget -O /etc/apt/sources.list.d/openproject.list \
-  https://dl.packager.io/srv/opf/openproject/stable/12/installer/ubuntu/16.04.repo
-```
-
-Download the OpenProject package:
-
-```bash
-sudo apt-get update
-sudo apt-get install openproject
-```
-
-Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
-
 ## Debian Installation
 
 ### Debian 11 "bullseye"
@@ -230,37 +199,6 @@ Add the OpenProject package source:
 ```bash
 sudo wget -O /etc/apt/sources.list.d/openproject.list \
   https://dl.packager.io/srv/opf/openproject/stable/12/installer/debian/10.repo
-```
-
-Download the OpenProject package:
-
-```bash
-sudo apt-get update
-sudo apt-get install openproject
-```
-
-Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
-
-### Debian 9
-
-Update the `apt` package index and install packages to allow `apt` to use a repository over HTTPS:
-
-```bash
-sudo apt-get update
-sudo apt-get install apt-transport-https ca-certificates wget
-```
-
-Import the PGP key used to sign our packages:
-
-```bash
-wget -qO- https://dl.packager.io/srv/opf/openproject/key | sudo apt-key add -
-```
-
-Add the OpenProject package source:
-
-```bash
-sudo wget -O /etc/apt/sources.list.d/openproject.list \
-  https://dl.packager.io/srv/opf/openproject/stable/12/installer/debian/9.repo
 ```
 
 Download the OpenProject package:
@@ -335,6 +273,32 @@ This happens when your local postgresql-libs package is outdated. You'll have to
 
 ## SUSE Linux Enterprise Server (SLES) Installation
 
+**Note:** On SLES, full-text extraction for attachments [*is not supported*](#full-text-extraction-not-supported) by default.
+
+### SLES 15
+
+Add the OpenProject package source:
+
+```bash
+wget -O /etc/zypp/repos.d/openproject.repo \
+  https://dl.packager.io/srv/opf/openproject/stable/12/installer/sles/15.repo
+```
+
+If you already had an old package source that is being updated you must refresh
+your source next. It can't hurt to do this in any case, though.
+
+```bash
+sudo zypper refresh openproject
+```
+
+Next, download the OpenProject package:
+
+```bash
+sudo zypper install openproject
+```
+
+Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
+
 ### SLES 12
 
 Add the OpenProject package source:
@@ -358,8 +322,6 @@ sudo zypper install openproject
 ```
 
 Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
-
-**Note:** On SLES12 full-text extraction for attachments [*is not supported*](#full-text-extraction-not-supported) by default.
 
 # Full-text extraction not supported
 
