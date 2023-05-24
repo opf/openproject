@@ -46,8 +46,8 @@ module WorkPackage::PDFExport::Markdown
       root = CommonMarker.render_doc(markdown, cm_parse_option, cm_extentions)
       begin
         draw_node(root, pdf_root_options(@styles.page), true)
-      rescue StandardError => e
-        Rails.logger.error "Failed to draw markdown pdf: #{e}"
+      rescue Prawn::Errors::CannotFit => e
+        Rails.logger.error "Failed to draw markdown pdf because of non fitting content: #{e}"
       end
     end
 
