@@ -31,7 +31,7 @@ class MigrateSessionsUnlogged < ActiveRecord::Migration[6.1]
     truncate :sessions
 
     # Set the table to unlogged
-    execute <<~SQL
+    execute <<~SQL.squish
       ALTER TABLE "sessions" SET UNLOGGED
     SQL
 

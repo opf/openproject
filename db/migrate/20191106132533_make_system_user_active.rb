@@ -28,7 +28,7 @@
 
 class MakeSystemUserActive < ActiveRecord::Migration[6.0]
   # Remember the integer mapped to previous builtin status
-  BUILTIN_STATUS ||= 0
+  BUILTIN_STATUS = 0
 
   def up
     Principal.where(status: BUILTIN_STATUS).update_all(status: Principal.statuses[:active])

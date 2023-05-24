@@ -28,7 +28,7 @@
 
 class AddJobStatus < ActiveRecord::Migration[6.0]
   def up
-    execute <<-SQL
+    execute <<-SQL.squish
       CREATE TYPE delayed_job_status AS ENUM ('in_queue', 'error', 'in_process', 'success', 'failure');
     SQL
 
@@ -46,7 +46,7 @@ class AddJobStatus < ActiveRecord::Migration[6.0]
   def down
     drop_table :delayed_job_statuses
 
-    execute <<-SQL
+    execute <<-SQL.squish
       DROP TYPE delayed_job_status;
     SQL
   end

@@ -29,7 +29,7 @@
 class FixDeletedDataJournals < ActiveRecord::Migration[7.0]
   def up
     get_missing_journals.each do |journable_type, relation|
-      puts "Cleaning up journals on #{journable_type}"
+      Rails.logger.debug { "Cleaning up journals on #{journable_type}" }
 
       relation.find_each { |journal| fix_journal_data(journal) }
 
@@ -120,9 +120,9 @@ class FixDeletedDataJournals < ActiveRecord::Migration[7.0]
       table_name = journal_class.table_name
 
       relation = Journal
-        .joins("LEFT OUTER JOIN #{table_name} ON journals.data_type = '#{journal_class.to_s}' AND #{table_name}.id = journals.data_id")
+        .joins("LEFT OUTER JOIN #{table_name} ON journals.data_type = '#{journal_class}' AND #{table_name}.id = journals.data_id")
         .where("#{table_name}.id IS NULL")
-        .where(journable_type: journable_type)
+        .where(journable_type:)
         .where.not(data_type: nil) # Ignore special tenants with data_type nil errors
         .order('journals.version ASC')
         .includes(:journable)

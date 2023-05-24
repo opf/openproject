@@ -43,7 +43,7 @@ class CleanupOrphanedJournalData < ActiveRecord::Migration[6.0]
   private
 
   def cleanup_orphaned_journals(table)
-    execute <<~SQL
+    execute <<~SQL.squish
       DELETE
       FROM
         #{table}

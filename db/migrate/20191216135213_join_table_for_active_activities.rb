@@ -27,11 +27,11 @@
 #++
 
 class JoinTableForActiveActivities < ActiveRecord::Migration[6.0]
-  class ActivitiesJoinTable < ActiveRecord::Base
+  class ActivitiesJoinTable < ApplicationRecord
     self.table_name = :time_entry_activities_projects
   end
 
-  class TimeEntryActivity < ActiveRecord::Base
+  class TimeEntryActivity < ApplicationRecord
     self.table_name = :enumerations
   end
 
@@ -66,7 +66,7 @@ class JoinTableForActiveActivities < ActiveRecord::Migration[6.0]
   # existing projects.
   def delete_invalid_project_activities
     ActiveRecord::Base.connection.exec_query(
-      <<-SQL
+      <<-SQL.squish
         DELETE FROM enumerations
         USING enumerations AS enums
         LEFT OUTER JOIN projects on enums.project_id = projects.id
@@ -77,7 +77,7 @@ class JoinTableForActiveActivities < ActiveRecord::Migration[6.0]
 
   def link_time_entries_to_root_activities
     ActiveRecord::Base.connection.exec_query(
-      <<-SQL
+      <<-SQL.squish
         UPDATE
           time_entries te_sink
         SET
@@ -93,7 +93,7 @@ class JoinTableForActiveActivities < ActiveRecord::Migration[6.0]
 
   def link_time_entries_to_project_activities
     ActiveRecord::Base.connection.exec_query(
-      <<-SQL
+      <<-SQL.squish
         UPDATE
          time_entries te_sink
         SET
@@ -113,7 +113,7 @@ class JoinTableForActiveActivities < ActiveRecord::Migration[6.0]
              .where
              .not(parent_id: nil)
              .pluck(:project_id, :parent_id, :active)
-             .map { |project_id, parent_id, active| { project_id: project_id, activity_id: parent_id, active: active } }
+             .map { |project_id, parent_id, active| { project_id:, activity_id: parent_id, active: } }
 
     ActivitiesJoinTable.insert_all(values) if values.present?
   end
@@ -124,7 +124,7 @@ class JoinTableForActiveActivities < ActiveRecord::Migration[6.0]
 
   def create_project_specific_activities
     ActiveRecord::Base.connection.exec_query(
-      <<-SQL
+      <<-SQL.squish
         INSERT INTO enumerations (name, is_default, type, position, parent_id, project_id, active, created_at, updated_at)
         SELECT
           tea.name,

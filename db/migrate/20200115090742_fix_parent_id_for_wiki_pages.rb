@@ -27,7 +27,7 @@
 #++
 
 class FixParentIdForWikiPages < ActiveRecord::Migration[6.0]
-  class MyWikiPages < ActiveRecord::Base
+  class MyWikiPages < ApplicationRecord
     self.table_name = "wiki_pages"
   end
 

@@ -38,7 +38,7 @@ class PolymorphicJournalData < ActiveRecord::Migration[6.1]
     add_data_and_remove_index
 
     data_journals.each do |journal_data|
-      execute <<~SQL
+      execute <<~SQL.squish
         UPDATE journals
         SET data_id = data.id, data_type = '#{journal_data.name}'
         FROM #{journal_data.table_name} data
@@ -53,9 +53,10 @@ class PolymorphicJournalData < ActiveRecord::Migration[6.1]
 
   def down
     data_journals.each do |journal_data|
-      add_column journal_data.table_name, :journal_id, :integer, index: true
+      add_column journal_data.table_name, :journal_id, :integer
+      add_index journal_data.table_name, :journal_id
 
-      execute <<~SQL
+      execute <<~SQL.squish
         UPDATE #{journal_data.table_name} data
         SET journal_id = journals.id
         FROM journals

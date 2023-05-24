@@ -27,7 +27,7 @@
 #++
 
 class RenameTokens < ActiveRecord::Migration[6.0]
-  class Token < ActiveRecord::Base
+  class Token < ApplicationRecord
   end
 
   def up

@@ -63,7 +63,7 @@ class ModelReorganization < ActiveRecord::Migration[5.0]
     User.transaction do
       User.find_each do |user|
         phone = user.verified_phone || user.unverified_phone
-        next unless phone.present?
+        next if phone.blank?
 
         sms = ::TwoFactorAuthentication::Device::Sms.create!(
           user_id: user.id,

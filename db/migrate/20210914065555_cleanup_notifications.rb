@@ -56,7 +56,6 @@ class CleanupNotifications < ActiveRecord::Migration[6.1]
     end
   end
 
-  # rubocop:disable Metrics/AbcSize
   def down
     change_table :notifications, bulk: true do |t|
       t.boolean :read_mail, default: false, index: true
@@ -84,5 +83,4 @@ class CleanupNotifications < ActiveRecord::Migration[6.1]
               name: 'index_notification_settings_unique_project'
     end
   end
-  # rubocop:enable Metrics/AbcSize
 end

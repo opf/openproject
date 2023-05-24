@@ -33,7 +33,7 @@ class SplashMultiListCustomizableJournals < ActiveRecord::Migration[6.0]
     # be returned as three rows with the value_part `1`, `2` and `3` respectively.
     # Those are then inserted into the journals table.
     # Lastly, the entries with the unsplashed values are deleted.
-    execute <<~SQL
+    execute <<~SQL.squish
       WITH existing_journals AS (
          SELECT *
          FROM (
@@ -76,7 +76,7 @@ class SplashMultiListCustomizableJournals < ActiveRecord::Migration[6.0]
   # Lastly, all customizable_journals entries that where not just created and that belong to a group of more than one
   # value per journal and custom field are deleted.
   def down
-    execute <<~SQL
+    execute <<~SQL.squish
       WITH aggregated_value AS (
         SELECT
           journal_id,

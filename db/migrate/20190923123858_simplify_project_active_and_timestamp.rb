@@ -30,7 +30,7 @@ class SimplifyProjectActiveAndTimestamp < ActiveRecord::Migration[6.0]
   STATUS_ACTIVE     = 1
   STATUS_ARCHIVED   = 9
 
-  class Project < ActiveRecord::Base; end
+  class Project < ApplicationRecord; end
 
   def change
     change_project_columns
@@ -56,7 +56,8 @@ class SimplifyProjectActiveAndTimestamp < ActiveRecord::Migration[6.0]
   end
 
   def fill_active_column
-    add_column :projects, :active, :boolean, default: true, index: true, null: false
+    add_column :projects, :active, :boolean, default: true, null: false
+    add_index :projects, :active
 
     Project.reset_column_information
     Project.where(status: STATUS_ARCHIVED).update_all(active: false)

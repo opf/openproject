@@ -80,7 +80,7 @@ class RenameTimestamps < ActiveRecord::Migration[6.0]
 
     reversible do |dir|
       dir.up do
-        execute <<~SQL
+        execute <<~SQL.squish
           UPDATE
             #{table}
           SET #{column_name} = #{from_column}

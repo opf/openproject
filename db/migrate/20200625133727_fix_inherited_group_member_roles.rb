@@ -40,7 +40,7 @@ class FixInheritedGroupMemberRoles < ActiveRecord::Migration[6.0]
       # Recreate member_roles for all group members
       Groups::UpdateRolesService
         .new(member.principal, current_user: SystemUser.first, contract_class: EmptyContract)
-        .call(member: member, send_notifications: false)
+        .call(member:, send_notifications: false)
     end
   end
 

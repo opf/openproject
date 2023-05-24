@@ -62,11 +62,11 @@ class RenameMyPageWidgets < ActiveRecord::Migration[5.2]
 
   def update_table_widget(widget, filter_name)
     widget.options = {
-      "name": I18n.t("js.grid.widgets.#{widget.identifier}.title"),
-      "queryProps": {
-        "columns[]": %w(id project type subject),
-        "filters": JSON.dump([{ "status": { "operator": "o", "values": [] } },
-                              { filter_name => { "operator": "=", "values": ["me"] } }])
+      name: I18n.t("js.grid.widgets.#{widget.identifier}.title"),
+      queryProps: {
+        'columns[]': %w(id project type subject),
+        filters: JSON.dump([{ status: { operator: "o", values: [] } },
+                            { filter_name => { operator: "=", values: ["me"] } }])
       }
     }
     widget.identifier = 'work_packages_table'
@@ -76,7 +76,7 @@ class RenameMyPageWidgets < ActiveRecord::Migration[5.2]
 
   def update_widget_name(widget)
     widget.options = {
-      "name": I18n.t("js.grid.widgets.#{widget.identifier}.title")
+      name: I18n.t("js.grid.widgets.#{widget.identifier}.title")
     }
 
     widget.save(validate: false)
@@ -85,11 +85,11 @@ class RenameMyPageWidgets < ActiveRecord::Migration[5.2]
   def update_query_widget(widget)
     query_id = widget.options['queryId']
 
-    name = Query.where(id: query_id).limit(1).pluck(:name).first || I18n.t('js.grid.widgets.work_packages_table.title')
+    name = Query.where(id: query_id).limit(1).pick(:name) || I18n.t('js.grid.widgets.work_packages_table.title')
 
     widget.options = {
-      "name": name,
-      "queryId": query_id
+      name:,
+      queryId: query_id
     }
 
     widget.save(validate: false)

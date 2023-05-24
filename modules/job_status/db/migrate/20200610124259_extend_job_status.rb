@@ -33,7 +33,7 @@ class ExtendJobStatus < ActiveRecord::Migration[6.0]
   def change
     reversible do |dir|
       dir.up do
-        execute <<-SQL
+        execute <<-SQL.squish
           ALTER TYPE delayed_job_status ADD VALUE IF NOT EXISTS 'cancelled';
         SQL
       end

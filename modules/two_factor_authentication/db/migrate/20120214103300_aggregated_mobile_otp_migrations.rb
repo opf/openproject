@@ -26,20 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require Rails.root.to_s + '/db/migrate/migration_utils/migration_squasher'
-require Rails.root.to_s + '/db/migrate/migration_utils/setting_renamer'
+require "#{Rails.root}/db/migrate/migration_utils/migration_squasher"
+require "#{Rails.root}/db/migrate/migration_utils/setting_renamer"
 require 'open_project/plugins/migration_mapping'
 
 # This migration aggregates the migrations detailed in MIGRATION_FILES
 class AggregatedMobileOtpMigrations < ActiveRecord::Migration[5.0]
-  MIGRATION_FILES = <<-MIGRATIONS
+  MIGRATION_FILES = <<-MIGRATIONS.freeze
     001_add_user_phone.rb
     002_create_extended_tokens.rb
     003_remove_user_phone.rb
     004_add_user_verified_phone_unverified_phone.rb
   MIGRATIONS
 
-  OLD_PLUGIN_NAME = "redmine_two_factor_authentication_authentication"
+  OLD_PLUGIN_NAME = "redmine_two_factor_authentication_authentication".freeze
 
   def up
     migration_names = OpenProject::Plugins::MigrationMapping.migration_files_to_migration_names(MIGRATION_FILES, OLD_PLUGIN_NAME)

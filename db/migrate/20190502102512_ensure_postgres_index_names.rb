@@ -30,7 +30,7 @@ class EnsurePostgresIndexNames < ActiveRecord::Migration[5.2]
   disable_ddl_transaction!
 
   def up
-    sql = <<~SQL
+    sql = <<~SQL.squish
       SELECT
         FORMAT('%s_pkey', table_name) as new_name,
         constraint_name as old_name

@@ -80,7 +80,7 @@ class AggregateJournals < ActiveRecord::Migration[6.1]
   end
 
   def update_journal_notes(mismatched_journal)
-    sql = <<~SQL
+    sql = <<~SQL.squish
       UPDATE journals
       SET notes = :notes
       WHERE id = :id
@@ -218,7 +218,7 @@ class AggregateJournals < ActiveRecord::Migration[6.1]
   # The journals that are considered for aggregation can also be reduced by providing a subselect. Doing so, one
   # can e.g. consider only the journals created after a certain time.
   def select_sql(journals_preselection)
-    <<~SQL
+    <<~SQL.squish
       (#{Journal
            .from(start_group_journals_select(journals_preselection))
            .joins(end_group_journals_join(journals_preselection))
@@ -229,7 +229,7 @@ class AggregateJournals < ActiveRecord::Migration[6.1]
   end
 
   def user_or_time_group_breaking_journals_subselect(journals_preselection)
-    <<~SQL
+    <<~SQL.squish
       SELECT
         predecessor.*,
         row_number() OVER (ORDER BY predecessor.journable_type, predecessor.journable_id, predecessor.version ASC) #{group_number_alias}
@@ -245,7 +245,7 @@ class AggregateJournals < ActiveRecord::Migration[6.1]
   end
 
   def notes_journals_subselect(journals_preselection)
-    <<~SQL
+    <<~SQL.squish
       (SELECT
         notes_journals.*
       FROM #{journals_preselection} notes_journals
@@ -258,13 +258,13 @@ class AggregateJournals < ActiveRecord::Migration[6.1]
   end
 
   def end_group_journals_join(journals_preselection)
-    group_journals_join_condition = <<~SQL
+    group_journals_join_condition = <<~SQL.squish
       #{start_group_journals_alias}.#{group_number_alias} = #{end_group_journals_alias}.#{group_number_alias} - 1
       AND #{start_group_journals_alias}.journable_type = #{end_group_journals_alias}.journable_type
       AND #{start_group_journals_alias}.journable_id = #{end_group_journals_alias}.journable_id
     SQL
 
-    end_group_journals = <<~SQL
+    end_group_journals = <<~SQL.squish
       RIGHT OUTER JOIN
         (#{user_or_time_group_breaking_journals_subselect(journals_preselection)}) #{end_group_journals_alias}
         ON #{group_journals_join_condition}
@@ -279,14 +279,14 @@ class AggregateJournals < ActiveRecord::Migration[6.1]
     # This also works if we do not fetch the whole set of journals starting from the first journal but rather
     # start somewhere within the set. This might take place e.g. when fetching only the journals that are
     # created after a certain point in time which is done when displaying of the last month in the activity module.
-    breaking_journals_notes_join_condition = <<~SQL
+    breaking_journals_notes_join_condition = <<~SQL.squish
       COALESCE(#{start_group_journals_alias}.version, 0) + 1 <= #{notes_in_group_alias}.version
       AND #{end_group_journals_alias}.version >= #{notes_in_group_alias}.version
       AND #{end_group_journals_alias}.journable_type = #{notes_in_group_alias}.journable_type
       AND #{end_group_journals_alias}.journable_id = #{notes_in_group_alias}.journable_id
     SQL
 
-    breaking_journals_notes = <<~SQL
+    breaking_journals_notes = <<~SQL.squish
       LEFT OUTER JOIN
         #{notes_journals_subselect(journals_preselection)} #{notes_in_group_alias}
         ON #{breaking_journals_notes_join_condition}
@@ -296,14 +296,14 @@ class AggregateJournals < ActiveRecord::Migration[6.1]
   end
 
   def additional_notes_in_group_join(journals_preselection)
-    successor_journals_notes_join_condition = <<~SQL
+    successor_journals_notes_join_condition = <<~SQL.squish
       #{notes_in_group_alias}.version < successor_notes.version
       AND #{end_group_journals_alias}.version >= successor_notes.version
       AND #{end_group_journals_alias}.journable_type = successor_notes.journable_type
       AND #{end_group_journals_alias}.journable_id = successor_notes.journable_id
     SQL
 
-    successor_journals_notes = <<~SQL
+    successor_journals_notes = <<~SQL.squish
       LEFT OUTER JOIN
         #{notes_journals_subselect(journals_preselection)} successor_notes
         ON #{successor_journals_notes_join_condition}
@@ -313,7 +313,7 @@ class AggregateJournals < ActiveRecord::Migration[6.1]
   end
 
   def projection_list
-    projections = <<~SQL
+    projections = <<~SQL.squish
       #{end_group_journals_alias}.journable_type,
       #{end_group_journals_alias}.journable_id,
       #{end_group_journals_alias}.user_id,
@@ -347,7 +347,7 @@ class AggregateJournals < ActiveRecord::Migration[6.1]
   end
 
   def attribute_projection(attribute)
-    <<~SQL
+    <<~SQL.squish
       CASE
         WHEN successor_notes.version IS NOT NULL THEN #{notes_in_group_alias}.#{attribute}
         ELSE #{end_group_journals_alias}.#{attribute} END
@@ -355,13 +355,13 @@ class AggregateJournals < ActiveRecord::Migration[6.1]
   end
 
   def notes_id_projection
-    <<~SQL
+    <<~SQL.squish
       COALESCE(#{notes_in_group_alias}.id, #{end_group_journals_alias}.id)
     SQL
   end
 
   def notes_projection
-    <<~SQL
+    <<~SQL.squish
       COALESCE(#{notes_in_group_alias}.notes, '')
     SQL
   end
@@ -374,7 +374,7 @@ class AggregateJournals < ActiveRecord::Migration[6.1]
     elsif journable
       limit = until_version ? "AND journals.version <= #{until_version}" : ''
 
-      <<~SQL
+      <<~SQL.squish
         (
           SELECT * from journals
           WHERE journals.journable_id = #{journable.id}
@@ -385,7 +385,7 @@ class AggregateJournals < ActiveRecord::Migration[6.1]
     else
       where = until_version ? "WHERE journals.version <= #{until_version}" : ''
 
-      <<~SQL
+      <<~SQL.squish
         (SELECT * from journals #{where})
       SQL
     end

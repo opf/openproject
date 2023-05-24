@@ -35,7 +35,7 @@ class RemoveAccessibilityMode < ActiveRecord::Migration[5.2]
   private
 
   def delete_accessibility_mode_from_settings
-    delete <<-SQL
+    delete <<-SQL.squish
       DELETE FROM settings
       WHERE name = 'accessibility_mode_for_anonymous'
     SQL

@@ -34,7 +34,7 @@ class AuthorsAsWatchers < ActiveRecord::Migration[6.1]
     #   * the author isn't locked and has the permission to see the work package
     #     * member of the project in a role with the necessary permission OR
     #     * non member in a public project and the non member role has the necessary permission
-    execute <<~SQL
+    execute <<~SQL.squish
       INSERT INTO watchers (
         watchable_id,
         watchable_type,

@@ -98,12 +98,10 @@ class UpdateXktToVersion8 < ActiveRecord::Migration[6.1]
   end
 
   def get_file(name)
-    path = 'modules/bim/files/ifc_models/' + name + '/'
-    file_name = name + '.xkt'
+    path = "modules/bim/files/ifc_models/#{name}/"
+    file_name = "#{name}.xkt"
     return unless File.exist?(path + file_name)
 
-    File.new(File.join(Rails.root,
-                       path,
-                       file_name))
+    File.new(Rails.root.join(path, file_name))
   end
 end

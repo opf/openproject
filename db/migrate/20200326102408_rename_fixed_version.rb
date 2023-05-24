@@ -43,7 +43,7 @@ class RenameFixedVersion < ActiveRecord::Migration[6.0]
 
   def rename_query_attributes(from, to)
     ActiveRecord::Base.connection.exec_query(
-      <<-SQL
+      <<-SQL.squish
         UPDATE
           queries q_sink
         SET

@@ -55,7 +55,7 @@ class MigrateMyPageLayout < ActiveRecord::Migration[5.2]
   ##
   # Migrate a single preference entry and remove the my page
   def migrate_my_page(user_id, old_layout)
-    my_page = ::Grids::MyPage.new user_id: user_id, column_count: 4
+    my_page = ::Grids::MyPage.new user_id:, column_count: 4
 
     # Migrate top
     start_row = 1
@@ -64,7 +64,7 @@ class MigrateMyPageLayout < ActiveRecord::Migration[5.2]
     (old_layout['top'] || []).each do |block|
       map_widget my_page,
                  old_name: block,
-                 start_row: start_row,
+                 start_row:,
                  end_row: start_row + widget_height,
                  start_column: 1,
                  end_column: 5
@@ -132,10 +132,10 @@ class MigrateMyPageLayout < ActiveRecord::Migration[5.2]
 
     my_page.widgets << Grids::Widget.new(
       identifier: mapping,
-      start_row: start_row,
-      end_row: end_row,
-      start_column: start_column,
-      end_column: end_column
+      start_row:,
+      end_row:,
+      start_column:,
+      end_column:
     )
   end
 

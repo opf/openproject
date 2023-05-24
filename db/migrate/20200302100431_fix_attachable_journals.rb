@@ -34,7 +34,7 @@ class FixAttachableJournals < ActiveRecord::Migration[6.0]
   # This does not fix journals where the attachment has been deleted in the meantime as
   # we no longer have the necessary information to recreate the journals.
   def up
-    statement = <<~SQL
+    statement = <<~SQL.squish
       WITH
         existing_attachments AS (
           SELECT

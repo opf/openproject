@@ -41,7 +41,7 @@ class AddJournalVersionsTable < ActiveRecord::Migration[5.2]
               unique: true
     end
 
-    ActiveRecord::Base.connection.execute <<-SQL
+    ActiveRecord::Base.connection.execute <<-SQL.squish
           INSERT INTO journal_versions (journable_type, journable_id, version)
           (SELECT
             journable_type, journable_id, MAX(version)

@@ -39,7 +39,7 @@ class AddDigestSetting < ActiveRecord::Migration[6.1]
   # also have been added not by the migration but in the cause of the functionality
   # the migration was added for.
   def remove_digest_channels
-    execute <<~SQL
+    execute <<~SQL.squish
       DELETE FROM
         notification_settings
       WHERE

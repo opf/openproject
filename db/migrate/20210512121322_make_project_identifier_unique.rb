@@ -30,7 +30,7 @@ class MakeProjectIdentifierUnique < ActiveRecord::Migration[6.1]
   def change
     begin
       remove_index :projects, :identifier
-    rescue => e
+    rescue StandardError => e
       raise <<~MESSAGE
         Failed to remove an index from the OpenProject database: #{e.message}
 
@@ -44,7 +44,7 @@ class MakeProjectIdentifierUnique < ActiveRecord::Migration[6.1]
 
     begin
       add_index :projects, :identifier, unique: true
-    rescue => e
+    rescue StandardError => e
       raise "You have a duplicate project identifier in your database: #{e.message}"
     end
   end

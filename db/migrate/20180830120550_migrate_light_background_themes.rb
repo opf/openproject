@@ -68,7 +68,7 @@ class MigrateLightBackgroundThemes < ActiveRecord::Migration[5.1]
   end
 
   def set_variable(variable_name, hexcode)
-    DesignColor.create(variable: variable_name, hexcode: hexcode)
+    DesignColor.create(variable: variable_name, hexcode:)
   end
 
   def apply?
