@@ -130,7 +130,7 @@ describe 'baseline query saving',
     wp_table.expect_and_dismiss_toaster(message: 'Successful update.')
 
     query.reload
-    expect(query.timestamps.map(&:to_s)).to eq ['2023-05-20T06:00:00+09:00', 'PT0S']
+    expect(query.timestamps.map(&:to_s)).to eq ['2023-05-20T06:00+09:00', 'PT0S']
 
     login_as berlin_user
     wp_table.visit_query query
@@ -159,7 +159,7 @@ describe 'baseline query saving',
     wp_table.expect_and_dismiss_toaster(message: 'Successful update.')
 
     query.reload
-    expect(query.timestamps.map(&:to_s)).to eq ['2023-05-19T08:00:00+02:00', '2023-05-25T20:00:00+02:00']
+    expect(query.timestamps.map(&:to_s)).to eq ['2023-05-19T08:00+02:00', '2023-05-25T20:00+02:00']
 
     login_as tokyo_user
     wp_table.visit_query query
