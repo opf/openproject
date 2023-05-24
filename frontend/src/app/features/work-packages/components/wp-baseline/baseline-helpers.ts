@@ -1,5 +1,10 @@
+import { IWorkPackageTimestamp } from 'core-app/features/hal/resources/work-package-timestamp-resource';
+import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 import { DEFAULT_TIMESTAMP } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import * as moment from 'moment-timezone';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 
 export type BaselineOption = 'oneDayAgo'|'lastWorkingDay'|'oneWeekAgo'|'oneMonthAgo'|'aSpecificDate'|'betweenTwoSpecificDates';
 
@@ -45,4 +50,33 @@ export function getPartsFromTimestamp(value:string):BaselineTimestamp|null {
   }
 
   return null;
+}
+
+export function visibleAttributeChanged(base:IWorkPackageTimestamp, schema:ISchemaProxy, wpTableColumns:WorkPackageViewColumnsService):boolean {
+  return !!wpTableColumns
+    .getColumns()
+    .find((column) => {
+      const name = schema.mappedName(column.id);
+      return Object.prototype.hasOwnProperty.call(base, name) || Object.prototype.hasOwnProperty.call(base.$links, name);
+    });
+}
+
+export function getBaselineState(workPackage:WorkPackageResource, schemaService:SchemaCacheService, wpTableColumns:WorkPackageViewColumnsService):string {
+  let state = '';
+  const schema = schemaService.of(workPackage);
+  const timestamps = workPackage.attributesByTimestamp || [];
+  if (timestamps.length > 1) {
+    const base = timestamps[0];
+    const compare = timestamps[1];
+    if ((!base._meta.exists && compare._meta.exists) || (!base._meta.matchesFilters && compare._meta.matchesFilters)) {
+      state = 'added';
+    } else if ((base._meta.exists && !compare._meta.exists) || (base._meta.matchesFilters && !compare._meta.matchesFilters)) {
+      state = 'removed';
+    } else if (visibleAttributeChanged(base, schema, wpTableColumns)) {
+      state = 'updated';
+    }
+  } else {
+    state = '';
+  }
+  return state;
 }
