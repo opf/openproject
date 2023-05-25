@@ -319,13 +319,13 @@
           "type" : "string"
         },
         "size" : {
-          "type" : "number"
+          "$ref" : "#/$defs/measurement"
         },
         "character_spacing" : {
-          "type" : "number"
+          "$ref" : "#/$defs/measurement"
         },
         "leading" : {
-          "type" : "number"
+          "$ref" : "#/$defs/measurement"
         },
         "color" : {
           "$ref" : "#/$defs/color"
@@ -428,16 +428,13 @@
       "type" : "object",
       "properties" : {
         "filter_pages" : {
-          "type" : "array",
-          "items" : {
-            "type" : "number"
-          }
+          "$ref" : "#/$defs/pages_filter"
         },
         "align" : {
           "$ref" : "#/$defs/alignment"
         },
         "offset" : {
-          "type" : "number"
+          "$ref" : "#/$defs/measurement_signed"
         }
       },
       "allOf" : [
@@ -446,14 +443,17 @@
         }
       ]
     },
+    "pages_filter" : {
+      "type" : "array",
+      "items" : {
+        "type" : "integer"
+      }
+    },
     "page_logo" : {
       "type" : "object",
       "properties" : {
         "filter_pages" : {
-          "type" : "array",
-          "items" : {
-            "type" : "number"
-          }
+          "$ref" : "#/$defs/pages_filter"
         },
         "align" : {
           "$ref" : "#/$defs/alignment"
@@ -465,7 +465,7 @@
           "$ref" : "#/$defs/measurement"
         },
         "offset" : {
-          "type" : "number"
+          "$ref" : "#/$defs/measurement_signed"
         },
         "disabled" : {
           "type" : "boolean"
@@ -531,6 +531,13 @@
         "string"
       ],
       "pattern" : "^([0-9\\.]+)(mm|cm|dm|m|in|ft|yr|pt)$"
+    },
+    "measurement_signed" : {
+      "type" : [
+        "number",
+        "string"
+      ],
+      "pattern" : "^-?([0-9\\.]+)(mm|cm|dm|m|in|ft|yr|pt)$"
     },
     "alignment" : {
       "type" : "string",

@@ -42,15 +42,15 @@ module WorkPackage::PDFExport::Style
     end
 
     def page_header_offset
-      @styles.dig(:page_header, :offset) || 20
+      resolve_pt(@styles.dig(:page_header, :offset), 20)
     end
 
     def page_footer_offset
-      @styles.dig(:page_footer, :offset) || -30
+      resolve_pt(@styles.dig(:page_footer, :offset), -30)
     end
 
     def page_logo_height
-      @styles.dig(:page_logo, :height) || 20
+      resolve_pt(@styles.dig(:page_logo, :height), 20)
     end
 
     def page_logo_align
@@ -58,19 +58,19 @@ module WorkPackage::PDFExport::Style
     end
 
     def page_margin_top
-      @styles.dig(:page, :margin_top) || 60
+      resolve_pt(@styles.dig(:page, :margin_top), 60)
     end
 
     def page_margin_left
-      @styles.dig(:page, :margin_left) || 50
+      resolve_pt(@styles.dig(:page, :margin_left), 50)
     end
 
     def page_margin_right
-      @styles.dig(:page, :margin_right) || 50
+      resolve_pt(@styles.dig(:page, :margin_right), 50)
     end
 
     def page_margin_bottom
-      @styles.dig(:page, :margin_bottom) || 60
+      resolve_pt(@styles.dig(:page, :margin_bottom), 60)
     end
 
     def page_heading
@@ -90,7 +90,7 @@ module WorkPackage::PDFExport::Style
     end
 
     def page_break_threshold
-      @styles.dig(:page, :page_break_threshold) || 200
+      resolve_pt(@styles.dig(:page, :page_break_threshold), 200)
     end
 
     def link_color
@@ -126,7 +126,7 @@ module WorkPackage::PDFExport::Style
     end
 
     def overview_table_subject_indent
-      @styles.dig(:overview, :table, :subject_indent) || 8
+      resolve_pt(@styles.dig(:overview, :table, :subject_indent), 0)
     end
 
     def toc_margins
@@ -140,7 +140,7 @@ module WorkPackage::PDFExport::Style
     end
 
     def toc_item_subject_indent
-      @styles.dig(:toc, :subject_indent) || 4
+      resolve_pt(@styles.dig(:toc, :subject_indent), 4)
     end
 
     def toc_item_margins(level)
@@ -200,7 +200,7 @@ module WorkPackage::PDFExport::Style
     end
 
     def wp_markdown_label_size
-      resolve_font(@styles.dig(:work_package, :markdown_label))[:size] || 12
+      resolve_pt(resolve_font(@styles.dig(:work_package, :markdown_label))[:size], 12)
     end
 
     def wp_markdown_margins
@@ -212,6 +212,10 @@ module WorkPackage::PDFExport::Style
     end
 
     private
+
+    def resolve_pt(value, default)
+      parse_pt(value) || default
+    end
 
     def resolve_table_cell(style)
       # prawn.table.make_cell does use differently named options

@@ -47,7 +47,7 @@ module WorkPackage::PDFExport::Markdown
       begin
         draw_node(root, pdf_root_options(@styles.page), true)
       rescue Prawn::Errors::CannotFit => e
-        Rails.logger.error "Failed to draw markdown pdf because of non fitting content: #{e}"
+        Rails.logger.error "Failed to draw markdown field to pdf because of non fitting content: #{e}"
       end
     end
 
