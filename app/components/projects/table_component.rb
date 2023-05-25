@@ -57,8 +57,8 @@ module Projects
       sort_clear
 
       orders = options[:orders]
-      sort_init orders
-      sort_update orders.map(&:first)
+      helpers.sort_init orders
+      helpers.sort_update orders.map(&:first)
     end
 
     def paginated?
@@ -66,13 +66,13 @@ module Projects
     end
 
     def deactivate_class_on_lft_sort
-      if sorted_by_lft?
+      if helpers.sorted_by_lft?
         'spot-link_inactive'
       end
     end
 
     def href_only_when_not_sort_lft
-      unless sorted_by_lft?
+      unless helpers.sorted_by_lft?
         projects_path(sortBy: JSON::dump([['lft', 'asc']]))
       end
     end

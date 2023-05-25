@@ -31,7 +31,6 @@
 module OAuth
   module Applications
     class RowComponent < ::RowComponent
-      include ::OpenProject::ObjectLinking
 
       property :confidential
 
