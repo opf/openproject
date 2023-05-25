@@ -244,7 +244,7 @@ module WorkPackage::PDFExport::Style
   end
 
   def styles
-    @style ||= PDFStyles.new(load_style)
+    @styles ||= PDFStyles.new(load_style)
   end
 
   private
