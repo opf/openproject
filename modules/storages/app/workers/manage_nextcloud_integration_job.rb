@@ -44,7 +44,6 @@ class ManageNextcloudIntegrationJob < Cron::CronJob
   def perform
     Storages::NextcloudStorage.where("provider_fields->>'has_managed_project_folders' = 'true'").each do |storage|
       username = storage.username
-      password = storage.password
       group = storage.group
       groupfolder = storage.groupfolder
       nextcloud_usernames_used_in_openprojects = Set.new
@@ -56,6 +55,7 @@ class ManageNextcloudIntegrationJob < Cron::CronJob
         on_success: ->(r) { r },
         on_failure: ->(r) { raise "group_users_query failed: #{r}, group: #{group}" }
       )
+
       requests.set_permissions_command.result.call(
         path: groupfolder,
         permissions: {
@@ -71,10 +71,11 @@ class ManageNextcloudIntegrationJob < Cron::CronJob
                         .propfind_query
                         .result
                         .call(depth: '1', path: groupfolder)
-                        .match(
-                          on_success: ->(r) { r },
-                          on_failure: ->(r) { raise "propfind_query failed: #{r}, depth: 1, path: #{groupfolder}" }
-                        )
+      .match(
+        on_success: ->(r) { r },
+        on_failure: ->(r) { raise "propfind_query failed: #{r}, depth: 1, path: #{groupfolder}" }
+      )
+
       file_ids = folders_props.map { |_path, props| props['fileid'] }
 
       storage.projects_storages.where(project_folder_mode: 'automatic').each do |project_storage|
@@ -92,20 +93,20 @@ class ManageNextcloudIntegrationJob < Cron::CronJob
           end
         else
           requests.create_folder_command.result.call(folder_path: target)
-            .match(
-              on_success: ->(_) {
-                propfind_response2 = requests
-                                       .propfind_query
-                                       .result
-                                       .call(depth: '0', path: target)
-                                       .match(
-                                         on_success: ->(r) { r },
-                                         on_failure: ->(r) { raise "propfind_query failed: #{r}, depth: 0, path: #{target}" }
-                                       )
-                project_storage.update(project_folder_id: propfind_response2[target]['fileid'])
-              },
-              on_failure: ->(r) { raise "create_folder_command failed: #{r}, folder_path: #{target}" }
-            )
+                  .match(
+                    on_success: ->(_) {
+                      propfind_response2 = requests
+                                             .propfind_query
+                                             .result
+                                             .call(depth: '0', path: target)
+                                             .match(
+                                               on_success: ->(r) { r },
+                                               on_failure: ->(r) { raise "propfind_query failed: #{r}, depth: 0, path: #{target}" }
+                                             )
+                      project_storage.update(project_folder_id: propfind_response2[target]['fileid'])
+                    },
+                    on_failure: ->(r) { raise "create_folder_command failed: #{r}, folder_path: #{target}" }
+                  )
         end
         project_folder_ids_used_in_openproject << project_storage.project_folder_id
         project = project_storage.project
@@ -139,10 +140,10 @@ class ManageNextcloudIntegrationJob < Cron::CronJob
 
       (group_users - nextcloud_usernames_used_in_openprojects.to_a).each do |user|
         requests.remove_user_from_group_command.result.call(user:)
-          .match(
-            on_success: ->(_) {},
-            on_failure: ->(r) { raise "remove_user_from_group_command failed: #{r}, user: #{user}" }
-          )
+                .match(
+                  on_success: ->(_) {},
+                  on_failure: ->(r) { raise "remove_user_from_group_command failed: #{r}, user: #{user}" }
+                )
       end
 
       lost_folder_paths = folders_props

@@ -41,21 +41,15 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     def call(user:, data:)
       Util.token(user:, oauth_client: @oauth_client) do |token|
         if data.nil? || data['parent'].nil?
-          error(:error, 'Data is invalid', data)
+          Util.error(:error, 'Data is invalid', data)
         else
-          r = outbound_response(
-            method: :post,
-            relative_path: URI_TOKEN_REQUEST,
-            payload: { folder_id: data['parent'] },
-            token:
-          )
-          r.success? ? build_upload_link(r.result) : r
+          outbound_response(method: :post,
+                            relative_path: URI_TOKEN_REQUEST,
+                            payload: { folder_id: data['parent'] },
+                            token:)
+            .map { |result| build_upload_link result }
         end
       end
-    end
-
-    def error(code, log_message = nil, data = nil)
-      ServiceResult.failure(errors: Storages::StorageError.new(code:, log_message:, data:))
     end
 
     private
@@ -104,6 +98,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       # rubocop:enable Style/MultilineBlockChain
       # rubocop:enable Style/OpenStructUse Style/MultilineBlockChain
     end
+
     # rubocop:enable Metrics/AbcSize
   end
 end
