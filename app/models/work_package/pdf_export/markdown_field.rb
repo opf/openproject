@@ -26,29 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'mini_magick'
+module WorkPackage::PDFExport::MarkdownField
+  include WorkPackage::PDFExport::Markdown
 
-module WorkPackage::PDFExport::Attachments
-  def resize_image(file_path)
-    tmp_file = Tempfile.new(['temp_image', File.extname(file_path)])
-    @resized_images = [] if @resized_images.nil?
+  def write_markdown_field!(work_package, markdown, label)
+    return if markdown.blank?
 
-    @resized_images << tmp_file
-    resized_file_path = tmp_file.path
-
-    image = MiniMagick::Image.open(file_path)
-    image.resize("x325>")
-    image.write(resized_file_path)
-
-    resized_file_path
-  end
-
-  def pdf_embeddable?(content_type)
-    %w[image/jpeg image/png].include?(content_type)
-  end
-
-  def delete_all_resized_images
-    @resized_images&.each(&:close!)
-    @resized_images = []
+    with_margin(wp_markdown_field_margins_style) do
+      write_markdown! work_package, "# <font size=\"#{wp_markdown_field_label_size}\">#{label}</font>\n\n#{markdown}"
+    end
   end
 end
