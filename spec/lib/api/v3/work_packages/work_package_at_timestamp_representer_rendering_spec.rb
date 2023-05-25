@@ -83,7 +83,7 @@ describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'rendering' d
               .and_return(true)
     end
   end
-  let(:timestamp) { Timestamp.new }
+  let(:timestamp) { Timestamp.new(1.day.ago) }
 
   let(:attributes_changed_to_baseline) { work_package.attributes.keys }
   let(:exists_at_timestamp) { true }
@@ -319,6 +319,45 @@ describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'rendering' d
   end
 
   context 'with only one attribute changed to baseline but with the work package not existing (not visible) at current time' do
+    # Note that while the work package in this test is configured to not exist at the current time (not visible),
+    # the timestamp passed in isn't the current time. So this represents a case where the work package is no longer
+    # visible but was visible at the timestamp provided.
+    # The API response would look like this:
+    #   {
+    #     "_type"=>"WorkPackage",
+    #     "_meta"=>{ "exists"=>false, "timestamp"=>"PT0S", "matchesFilters"=>false },
+    #     "id"=>101,
+    #     "_embedded"=>
+    #      {
+    #        "attributesByTimestamp"=>
+    #          [
+    #           # The part rendered by this representer
+    #           {
+    #            "_meta"=>{"exists"=>true, "timestamp"=>"2015-01-01T00:00:00Z", "matchesFilters"=>true},
+    #            "subject"=>"The original work package",
+    #            "startDate"=>nil,
+    #            "dueDate"=>nil,
+    #            "_links"=>
+    #             {"self"=>{"href"=>"/api/v3/work_packages/101?timestamps=2015-01-01T00%3A00%3A00Z",
+    #                       "title"=>"The original work package"},
+    #              "type"=>{"href"=>"/api/v3/types/63", "title"=>"None"},
+    #              "priority"=>{"href"=>"/api/v3/priorities/3", "title"=>"Priority 1"},
+    #              "project"=>{"href"=>"/api/v3/projects/85", "title"=>"My Project No. 2"},
+    #              "status"=>{"href"=>"/api/v3/statuses/3", "title"=>"status 1"},
+    #              "responsible"=>{"href"=>nil},
+    #              "assignee"=>{"href"=>"/api/v3/users/68", "title"=>"Bob Bobbit"},
+    #              "version"=>{"href"=>nil}}
+    #            },
+    #            {
+    #              "_meta"=>{"exists"=>false, "timestamp"=>"PT0S", "matchesFilters"=>false}
+    #            }
+    #          ]
+    #      },
+    #     "_links"=>{"self"=>{"href"=>"/api/v3/work_packages/101?timestamps=2015-01-01T00%3A00%3A00Z%2C2023-05-25T15%3A21%3A28Z"}}
+    #   }
+    # where the outer resource, the actual WorkPackage resource, is labeled to not exist ( _meta/exists => false ) but
+    # the attributesByTimestamp for that timestamp would be labeled as existing
+    # ( _embedded/attributesByTimestamp/0/_meta/exists => true ).
     let(:attributes_changed_to_baseline) { %w[start_date] }
     let(:exists_at_current_timestamp) { false }
 
