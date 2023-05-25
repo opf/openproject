@@ -49,7 +49,7 @@ export interface TimelineButtonText extends ButtonControllerText {
 export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButtonComponent implements OnInit {
   public buttonId = 'work-packages-timeline-toggle-button';
 
-  public iconClass = 'icon-view-timeline';
+  public iconClass = 'view-timeline';
 
   private activateLabel:string;
 

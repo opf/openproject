@@ -28,10 +28,10 @@ export class GroupHeaderBuilder {
 
     if (group.collapsed) {
       text = this.text.expand;
-      togglerIconClass = 'icon-plus';
+      togglerIconClass = 'plus';
     } else {
       text = this.text.collapse;
-      togglerIconClass = 'icon-minus2';
+      togglerIconClass = 'minus2';
     }
 
     row.classList.add(rowGroupClassName, groupClassNameFor(group));
@@ -40,9 +40,9 @@ export class GroupHeaderBuilder {
     row.dataset.groupIdentifier = group.identifier;
     row.innerHTML = `
       <td colspan="${colspan}" class="-no-highlighting">
-        <div class="expander icon-context ${togglerIconClass}">
-          <span class="hidden-for-sighted">${_.escape(text)}</span>
-        </div>
+        <span class="expander spot-icon spot-icon_${togglerIconClass}">
+        </span>
+        <span class="hidden-for-sighted">${_.escape(text)}</span>
         <div class="group--value" data-qa-selector="op-group--value">
           ${_.escape(groupName(group))}
           <span class="count">

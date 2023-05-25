@@ -51,21 +51,23 @@
       ></span>
 
       <div class="op-ian-item--buttons">
-        <i
+        <button
           *ngIf="!notification.readIAN"
           data-qa-selector="mark-as-read-button"
-          class="op-ian-item--button icon-mark-read"
-          [title]="text.mark_as_read"
+          class="op-ian-item--button"
+          type="button"
+          [attr.title]="text.mark_as_read"
+          [attr.aria-label]="text.mark_as_read"
           (click)="markAsRead($event, aggregatedNotifications)"
           tabindex="0"
         >
-        </i>
-        <i
-          class="op-ian-item--button op-ian-item--button_shown-on-focus icon-info1"
+          <span class="spot-icon spot-icon_mark-read"></span>
+        </button>
+        <span
+          class="op-ian-item--button op-ian-item--button_shown-on-focus spot-icon spot-icon_info1"
           (keydown.enter)="showDetails()"
           tabindex="0"
-        >
-        </i>
+        ></span>
       </div>
     </div>
 
@@ -115,8 +117,7 @@
 
       <span class="op-ian-item--reason-count"></span>
       <div class="op-ian-item--buttons">
-        <i class="op-ian-item--button icon-mark-read">
-        </i>
+        <span class="op-ian-item--button spot-icon spot-icon_mark-read"></span>
       </div>
     </div>
   </ng-template>

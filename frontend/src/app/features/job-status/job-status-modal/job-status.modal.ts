@@ -126,11 +126,9 @@ export class JobStatusModalComponent extends OpModalComponent implements OnInit 
       case 'cancelled':
       case 'failure':
       case 'error':
-        return 'icon-error';
-        break;
+        return 'error';
       case 'success':
-        return 'icon-checkmark';
-        break;
+        return 'checkmark';
       default:
         return null;
     }
@@ -222,10 +220,10 @@ export class JobStatusModalComponent extends OpModalComponent implements OnInit 
 
   private handleError(error:HttpErrorResponse) {
     if (error?.status === 404) {
-      this.statusIcon = 'icon-help';
+      this.statusIcon = 'help';
       this.message = this.I18n.t('js.job_status.generic_messages.not_found');
     } else {
-      this.statusIcon = 'icon-error';
+      this.statusIcon = 'error';
       this.message = error?.message || this.I18n.t('js.error.internal');
       this.toastService.addError(this.message);
     }

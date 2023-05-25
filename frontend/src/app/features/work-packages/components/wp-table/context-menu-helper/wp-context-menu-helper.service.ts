@@ -167,7 +167,7 @@ export class WorkPackageContextMenuHelperService {
     if (this.wpViewIndent.canOutdent(workPackage)) {
       actions.push({
         key: 'hierarchy-outdent',
-        icon: 'icon-paragraph-left',
+        icon: 'paragraph-left',
         text: I18n.t('js.relation_buttons.hierarchy_outdent'),
       });
     }
@@ -176,7 +176,7 @@ export class WorkPackageContextMenuHelperService {
     if (this.wpViewIndent.canIndent(workPackage)) {
       actions.push({
         key: 'hierarchy-indent',
-        icon: 'icon-paragraph-right',
+        icon: 'paragraph-right',
         text: I18n.t('js.relation_buttons.hierarchy_indent'),
       });
     }

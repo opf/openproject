@@ -83,9 +83,11 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
 
     td.innerHTML = `
     <a
-       href="#"
-       class="${inlineCreateCancelClassName} icon icon-cancel"
-       aria-label="${this.text.cancelButton}">
+      href="#"
+      class="${inlineCreateCancelClassName}"
+      aria-label="${this.text.cancelButton}"
+    >
+      <span class="spot-icon spot-icon_cancel"></span>
     </a>
    `;
 

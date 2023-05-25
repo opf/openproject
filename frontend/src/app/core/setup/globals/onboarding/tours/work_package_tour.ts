@@ -48,7 +48,7 @@ export function wpOnboardingTourSteps():OnboardingStep[] {
       nextButton: { text: I18n.t('js.onboarding.buttons.next') },
       bottom: '-64',
       onNext() {
-        jQuery('#wp-view-context-menu .icon-view-timeline')[0].click();
+        jQuery('#wp-view-context-menu .spot-icon_view-timeline')[0].click();
       },
     },
     {

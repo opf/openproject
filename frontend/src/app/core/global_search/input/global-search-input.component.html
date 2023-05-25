@@ -1,12 +1,13 @@
 <div class="top-menu-search">
   <button
     *ngIf="expanded"
+    type="button"
     (click)="toggleMobileSearch()"
     class="top-menu-search--back-button"
-    href="#"
-    title="{{text.close_search}}"
+    [attr.title]="text.close_search"
+    [attr.aria-label]="text.close_search"
   >
-    <i class="icon-arrow-left1" aria-hidden="true"></i>
+    <span class="spot-icon spot-icon_arrow-left1"></span>
   </button>
 
   <op-autocompleter
@@ -87,7 +88,8 @@
     #btn
     id="top-menu-search-button"
     class="top-menu-search--button search-form-normal"
-    title="{{text.search}}"
+    [attr.title]="text.search"
+    [attr.aria-label]="text.search"
     [class.-input-focused]="expanded"
     (click)="handleClick($event)"
 

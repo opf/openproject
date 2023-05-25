@@ -18,10 +18,12 @@
             <button
               *ngIf="first && showToggler"
               type="button"
-              class="activity-comments--toggler button -small -transparent -with-icon icon-filter icon-small hide-when-print"
-              [textContent]="togglerText"
+              class="activity-comments--toggler button -small -transparent hide-when-print"
               (click)="toggleComments()"
-            ></button>
+            >
+              <span class="spot-icon spot-icon_1 spot-icon_filter"></span>
+              <span [textContent]="togglerText"></span>
+            </button>
           </h3>
 
           <activity-entry

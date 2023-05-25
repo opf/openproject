@@ -65,7 +65,7 @@ export function initializeCostsPlugin() {
             pluginContext.hooks.workPackageSingleContextMenu(function(params:any) {
                 return {
                     key: 'log_costs',
-                    icon: 'icon-projects',
+                    icon: 'projects',
                     indexBy: function(actions:any) {
                         var index = _.findIndex(actions, {key: 'log_time'});
                         return index !== -1 ? index + 1 : actions.length;

@@ -13,8 +13,8 @@
     </div>
 
     <button name="button" type="submit" class="button">
-      <i class="button--icon icon-save"></i>
-      <span class="button--text">{{ text.downloadBackup }}</span>
+      <span class="spot-icon spot-icon_save"></span>
+      <span>{{ text.downloadBackup }}</span>
     </button>
   </section>
 </form>
@@ -31,7 +31,7 @@
       </p>
 
       <p class="danger-zone--warning">
-        <span class="icon icon-error"></span>
+        <span class="spot-icon spot-icon_error"></span>
         <span>{{ text.note }}</span>
       </p>
       <div>
@@ -70,8 +70,8 @@
           [disabled]="backupToken.length === 0"
           (click)="triggerBackup($event)"
         >
-          <i class="button--icon icon-export"></i>
-          <span class="button--text">{{ text.requestBackup }}</span>
+          <span class="spot-icon spot-icon_export"></span>
+          <span>{{ text.requestBackup }}</span>
         </button>
       </div>
     </section>

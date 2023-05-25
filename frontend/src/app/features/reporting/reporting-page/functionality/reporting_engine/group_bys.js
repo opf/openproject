@@ -72,7 +72,7 @@ Reporting.GroupBys = (function($){
     remove_link.attr('href', '');
 
     remove_icon = $('<span><span>');
-    remove_icon.attr('class', 'icon-context icon-close icon4');
+    remove_icon.attr('class', 'spot-icon spot-icon_close');
 
     remove_link.attr('title', I18n.t("js.reporting_engine.label_remove") + ' ' + group_by.find('label').html());
     remove_icon.attr('alt', I18n.t("js.reporting_engine.label_remove") + ' ' + group_by.find('label').html());

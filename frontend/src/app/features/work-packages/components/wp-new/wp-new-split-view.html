@@ -10,10 +10,14 @@
       <div class="work-packages--new-details-header">
         <wp-type-status [workPackage]="newWorkPackage"></wp-type-status>
         <div class="wp--details--switch-fullscreen-wrapper">
-          <a (click)="switchToFullscreen()"
-             class="work-packages-show-view-button wp--details--switch-fullscreen ">
-            <span class="icon-context icon-to-fullscreen"></span>
-          </a>
+          <!-- TODO: this button needs an aria-label! -->
+          <button
+            type="button"
+            (click)="switchToFullscreen()"
+            class="work-packages-show-view-button wp--details--switch-fullscreen"
+          >
+            <span class="spot-icon spot-icon_to-fullscreen"></span>
+          </button>
         </div>
       </div>
       <wp-single-view [workPackage]="newWorkPackage"
