@@ -47,6 +47,7 @@ describe 'Activation of storages in projects', js: true, with_flag: { storage_pr
            members: { user => role },
            enabled_module_names: %i[storages work_package_tracking])
   end
+  let(:location_picker) { Components::FilePickerDialog.new }
 
   before do
     storage
@@ -54,7 +55,7 @@ describe 'Activation of storages in projects', js: true, with_flag: { storage_pr
     login_as user
   end
 
-  it 'adds, edits and removes storages to projects' do
+  fit 'adds, edits and removes storages to projects' do
     # Go to Projects -> Settings -> File Storages
     visit project_settings_general_path(project)
     page.find('.settings-projects-storages-menu-item').click
@@ -80,7 +81,13 @@ describe 'Activation of storages in projects', js: true, with_flag: { storage_pr
     expect(page).to have_text('Add a file storage')
     expect(page).to have_select('storages_project_storage_storage_id', options: ['Storage 1 (nextcloud)'])
     page.find_by_id('storages_project_storage_project_folder_mode_manual').click
-    page.find_by_id('storages_project_storage_project_folder_id').set('Project#1')
+
+    # Select project folder
+    expect(page).to have_text('No selected folder')
+    page.click_button('Select Folder')
+    location_picker.expect_open
+
+
     page.click_button('Add')
 
     # The list of enabled file storages should now contain Storage 1
