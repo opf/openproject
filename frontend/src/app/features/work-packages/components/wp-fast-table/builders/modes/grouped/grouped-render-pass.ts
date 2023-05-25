@@ -8,8 +8,14 @@ import { WorkPackageTable } from '../../../wp-fast-table';
 import { WorkPackageTableRow } from '../../../wp-table.interfaces';
 import { SingleRowBuilder } from '../../rows/single-row-builder';
 import { PlainRenderPass } from '../plain/plain-render-pass';
-import { groupClassNameFor, GroupHeaderBuilder } from './group-header-builder';
-import { groupByProperty, groupedRowClassName } from './grouped-rows-helpers';
+import {
+  groupClassNameFor,
+  GroupHeaderBuilder,
+} from './group-header-builder';
+import {
+  groupByProperty,
+  groupedRowClassName,
+} from './grouped-rows-helpers';
 
 export const groupRowClass = '-group-row';
 
@@ -20,7 +26,8 @@ export class GroupedRenderPass extends PlainRenderPass {
     public workPackageTable:WorkPackageTable,
     public groups:GroupObject[],
     public headerBuilder:GroupHeaderBuilder,
-    public colspan:number) {
+    public colspan:number,
+  ) {
     super(injector, workPackageTable, new SingleRowBuilder(injector, workPackageTable));
   }
 
@@ -28,7 +35,7 @@ export class GroupedRenderPass extends PlainRenderPass {
    * Rebuild the entire grouped tbody from the given table
    */
   protected doRender() {
-    let currentGroup:GroupObject | null = null;
+    let currentGroup:GroupObject|null = null;
     const { length } = this.workPackageTable.originalRows;
     this.workPackageTable.originalRows.forEach((wpId:string, index:number) => {
       const row = this.workPackageTable.originalRowIndex[wpId];

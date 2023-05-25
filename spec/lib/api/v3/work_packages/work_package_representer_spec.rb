@@ -1418,7 +1418,7 @@ describe API::V3::WorkPackages::WorkPackageRepresenter do
             end
           end
 
-          describe 'attributesByTimestamp', with_flag: { show_changes: true } do
+          describe 'attributesByTimestamp', with_ee: %i[baseline_comparison], with_flag: { show_changes: true } do
             it 'states whether the work package matches the query filters at the timestamp' do
               expect(subject)
                 .to be_json_eql(true.to_json)
@@ -1426,6 +1426,27 @@ describe API::V3::WorkPackages::WorkPackageRepresenter do
               expect(subject)
                 .to be_json_eql(false.to_json)
                 .at_path("_embedded/attributesByTimestamp/1/_meta/matchesFilters")
+            end
+          end
+
+          describe '_links' do
+            it_behaves_like 'has a titled link' do
+              let(:link) { 'self' }
+              let(:href) { api_v3_paths.work_package(work_package.id, timestamps:) }
+              let(:title) { work_package.name }
+            end
+
+            context 'when changing timestamps it updates the link' do
+              it_behaves_like 'has a titled link' do
+                before do
+                  representer.to_json
+                  representer.timestamps = []
+                end
+
+                let(:link) { 'self' }
+                let(:href) { api_v3_paths.work_package(work_package.id) }
+                let(:title) { work_package.name }
+              end
             end
           end
 

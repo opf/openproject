@@ -77,6 +77,24 @@ class WorkPackage::PDFExport::View
         font: 'NotoSans-BoldItalic'
       }
     }
+    document.font_families['SpaceMono'] = {
+      normal: {
+        file: spacemono_font_base_path.join('SpaceMono-Regular.ttf'),
+        font: 'SpaceMono-Regular'
+      },
+      italic: {
+        file: spacemono_font_base_path.join('SpaceMono-Italic.ttf'),
+        font: 'SpaceMono-Italic'
+      },
+      bold: {
+        file: spacemono_font_base_path.join('SpaceMono-Bold.ttf'),
+        font: 'SpaceMono-Bold'
+      },
+      bold_italic: {
+        file: spacemono_font_base_path.join('SpaceMono-BoldItalic.ttf'),
+        font: 'SpaceMono-BoldItalic'
+      }
+    }
   end
 
   def title=(title)
@@ -87,7 +105,7 @@ class WorkPackage::PDFExport::View
     info[:Title]
   end
 
-  def font(name: nil, style: nil, size: nil)
+  def apply_font(name: nil, style: nil, size: nil)
     name ||= document.font.basename.split('-').first # e.g. NotoSans-Bold => NotoSans
     font_opts = {}
     font_opts[:style] = style if style
@@ -102,5 +120,9 @@ class WorkPackage::PDFExport::View
 
   def noto_font_base_path
     Rails.public_path.join('fonts/noto')
+  end
+
+  def spacemono_font_base_path
+    Rails.public_path.join('fonts/spacemono')
   end
 end

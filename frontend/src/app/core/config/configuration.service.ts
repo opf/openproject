@@ -63,6 +63,10 @@ export class ConfigurationService {
     return !!this.timezone();
   }
 
+  public isDefaultTimezoneSet():boolean {
+    return !!this.defaultTimezone();
+  }
+
   public timezone():string {
     return this.userPreference('timeZone');
   }
@@ -97,6 +101,10 @@ export class ConfigurationService {
 
   public timeFormat():string {
     return this.systemPreference('timeFormat');
+  }
+
+  public defaultTimezone():string {
+    return this.systemPreference('userDefaultTimezone');
   }
 
   public startOfWeekPresent():boolean {

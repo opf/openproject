@@ -50,7 +50,7 @@ FactoryBot.define do
     end
 
     factory :wiki_attachment do
-      container factory: :wiki_page_with_content
+      container factory: :wiki_page
     end
 
     factory :attached_picture do

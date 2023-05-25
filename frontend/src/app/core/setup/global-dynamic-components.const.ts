@@ -220,10 +220,12 @@ import {
   opBasicSingleDatePickerSelector,
 } from 'core-app/shared/components/datepicker/basic-single-date-picker/basic-single-date-picker.component';
 import { SpotDropModalPortalComponent, spotDropModalPortalComponentSelector } from 'core-app/spot/components/drop-modal/drop-modal-portal.component';
+import { StaticAttributeHelpTextComponent, staticAttributeHelpTextSelector } from 'core-app/shared/components/attribute-help-texts/static-attribute-help-text.component';
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
   { selector: attributeHelpTextSelector, cls: AttributeHelpTextComponent },
+  { selector: staticAttributeHelpTextSelector, cls: StaticAttributeHelpTextComponent },
   { selector: wpEmbeddedTableMacroSelector, cls: EmbeddedTablesMacroComponent, embeddable: true },
   { selector: colorsAutocompleterSelector, cls: ColorsAutocompleterComponent },
   { selector: zenModeComponentSelector, cls: ZenModeButtonComponent },

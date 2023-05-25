@@ -27,8 +27,26 @@
 //++
 
 .op-table-baseline
+  &--column-cell
+    padding-right: 0
+
   &--icon-added
     color: #35C53F
 
   &--icon-changed
     color: #54AFE0
+
+  &--old-field
+    @include spot-caption
+    text-decoration: line-through
+    filter: grayscale(1)
+    padding: 2px 2px 0 2px
+
+  &--cell
+    background-color: #f3f3f3
+    padding: 0 2px 2px 2px
+
+  &--container
+    display: flex
+    flex-direction: column
+    padding-right: 6px

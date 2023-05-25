@@ -45,12 +45,13 @@ describe Projects::UpdateService, 'integration', type: :model do
   let!(:project) do
     create(:project,
            custom_field.attribute_name => 1,
-           status: project_status)
+           status_code:,
+           status_explanation:)
   end
   let(:instance) { described_class.new(user:, model: project) }
   let(:custom_field) { create(:int_project_custom_field) }
-  let(:project_status) { nil }
-
+  let(:status_code) { nil }
+  let(:status_explanation) { nil }
   let(:attributes) { {} }
   let(:service_result) do
     instance
@@ -97,27 +98,22 @@ describe Projects::UpdateService, 'integration', type: :model do
     context 'when saving the status as well as the parent' do
       let(:parent_project) { create(:project, members: { user => parent_role }) }
       let(:parent_role) { create(:role, permissions: %i(add_subprojects)) }
-      let(:project_status) { create(:project_status, code: 'on_track') }
+      let(:status_code) { 'on_track' }
+      let(:status_explanation) { 'some explanation' }
       let(:attributes) do
         {
           parent_id: parent_project.id,
-          status: {
-            code: 'off_track'
-          }
+          status_code: 'off_track'
         }
       end
 
       it 'updates both the status as well as the parent' do
-        # This is made difficult by awesome_nested_set reloading the project after saving.
-        # Because of the reloading, unpersisted changes to status get lost.
         service_result
-
-        project.reload
 
         expect(project.parent)
           .to eql parent_project
 
-        expect(project.status)
+        expect(project)
           .to be_off_track
       end
     end

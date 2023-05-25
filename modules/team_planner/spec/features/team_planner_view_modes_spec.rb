@@ -29,11 +29,7 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-describe 'Team planner', js: true do
-  before do
-    with_enterprise_token(:team_planner_view)
-  end
-
+describe 'Team planner', js: true, with_ee: %i[team_planner_view] do
   include_context 'with team planner full access'
 
   it 'allows switching of view modes', with_settings: { working_days: [1, 2, 3, 4, 5] } do

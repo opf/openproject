@@ -69,7 +69,7 @@ describe Journals::CompletedJob, type: :model do
     end
 
     context 'with a wiki page' do
-      let(:journable) { build_stubbed(:wiki_content) }
+      let(:journable) { build_stubbed(:wiki_page) }
 
       it_behaves_like 'enqueues a JournalCompletedJob'
     end
@@ -116,7 +116,7 @@ describe Journals::CompletedJob, type: :model do
     end
 
     context 'with wiki page content' do
-      let(:journable) { build_stubbed(:wiki_content) }
+      let(:journable) { build_stubbed(:wiki_page) }
 
       it_behaves_like 'sends a notification',
                       OpenProject::Events::AGGREGATED_WIKI_JOURNAL_READY

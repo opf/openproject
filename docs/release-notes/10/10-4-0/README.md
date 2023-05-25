@@ -197,7 +197,7 @@ Want to upgrade from a Community version to try out the light or dark theme? [Ge
 
 ## How to try the OpenProject BIM edition
 
-Try out OpenProject BIM 10.4. right away, create a free trial instance for the [OpenProject BIM edition.](https://start.openproject.com/go/bim)
+Try out OpenProject BIM 10.4. right away, create a free trial instance for the [OpenProject BIM edition.](https://start.openproject.com/trial/bim)
 
  
 

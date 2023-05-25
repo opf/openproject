@@ -31,7 +31,8 @@ require_relative './../support/board_index_page'
 require_relative './../support/board_page'
 
 describe 'Assignee action board',
-         js: true do
+         js: true,
+         with_ee: %i[board_view] do
   let(:bobself_user) do
     create(:user,
            firstname: 'Bob',
@@ -83,7 +84,6 @@ describe 'Assignee action board',
 
   context 'in a project with members' do
     before do
-      with_enterprise_token :board_view
       login_as(bobself_user)
     end
 
@@ -189,7 +189,6 @@ describe 'Assignee action board',
 
   context 'in a project without members' do
     before do
-      with_enterprise_token :board_view
       login_as(admin)
     end
 

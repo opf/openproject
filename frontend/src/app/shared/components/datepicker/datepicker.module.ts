@@ -16,6 +16,7 @@ import { OpDatePickerWorkingDaysToggleComponent } from './toggle/datepicker-work
 import { OpBasicDatePickerModule } from './basic-datepicker.module';
 import { OpSpotModule } from 'core-app/spot/spot.module';
 import { OpenprojectModalModule } from '../modal/modal.module';
+import { OpDatePickerSheetComponent } from 'core-app/shared/components/datepicker/sheet/date-picker-sheet.component';
 
 @NgModule({
   imports: [
@@ -40,6 +41,7 @@ import { OpenprojectModalModule } from '../modal/modal.module';
     OpModalSingleDatePickerComponent,
     OpWpMultiDateFormComponent,
     OpWpSingleDateFormComponent,
+    OpDatePickerSheetComponent,
   ],
 
   exports: [
@@ -47,6 +49,7 @@ import { OpenprojectModalModule } from '../modal/modal.module';
     OpWpMultiDateFormComponent,
     OpWpSingleDateFormComponent,
     OpBasicDatePickerModule,
+    OpDatePickerSheetComponent,
   ],
 })
 export class OpDatePickerModule { }

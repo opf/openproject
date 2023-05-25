@@ -661,7 +661,7 @@ describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
         end
       end
 
-      context 'with baseline and current timestamps', with_flag: { show_changes: true } do
+      context 'with baseline and current timestamps', with_ee: %i[baseline_comparison], with_flag: { show_changes: true } do
         let(:timestamps) { [Timestamp.parse("2022-01-01T00:00:00Z"), Timestamp.parse("PT0S")] }
 
         describe 'attributesByTimestamp' do

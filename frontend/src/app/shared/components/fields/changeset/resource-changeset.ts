@@ -26,13 +26,20 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { input, InputState } from '@openproject/reactivestates';
+import {
+  input,
+  InputState,
+} from '@openproject/reactivestates';
 import { take } from 'rxjs/operators';
 
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { ChangeItem, ChangeMap, Changeset } from 'core-app/shared/components/fields/changeset/changeset';
+import {
+  ChangeItem,
+  ChangeMap,
+  Changeset,
+} from 'core-app/shared/components/fields/changeset/changeset';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
@@ -77,9 +84,11 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    * */
   protected schemaCache:SchemaCacheService;
 
-  constructor(pristineResource:T,
+  constructor(
+    pristineResource:T,
     public readonly state?:InputState<ResourceChangeset<T>>,
-    loadedForm:FormResource|null = null) {
+    loadedForm:FormResource|null = null,
+  ) {
     this.updatePristineResource(pristineResource);
 
     this.schemaCache = (pristineResource.injector).get(SchemaCacheService);

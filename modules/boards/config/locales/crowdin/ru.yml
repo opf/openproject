@@ -6,3 +6,13 @@ ru:
   boards:
     label_board: "Доска"
     label_boards: "Доски"
+    board_types:
+      free: Базовый
+      action: "Доска действий (%{attribute})"
+    board_type_attributes:
+      assignee: Ответственный
+      status: Статус
+      version: Версия
+      subproject: Подпроект
+      subtasks: Родитель-ребенок
+      basic: Базовый

@@ -69,6 +69,9 @@ pl:
       copy_from: "Skopiuj tę wartość z"
       nextcloud:
         integration: "Administracja Nextcloud / OpenProject"
+    help_texts:
+      project_folder: >
+        The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
     delete_warning:
       storage: >
         Czy na pewno chcesz usunąć ten magazyn? Spowoduje to również jego usunięcie z wszystkich projektów, w których jest używany. Ponadto usunięte zostaną wszystkie linki z pakietów roboczych do plików, które są przechowywane w tym magazynie.
@@ -86,6 +89,7 @@ pl:
     label_oauth_application_details: "Szczegóły aplikacji OAuth"
     label_oauth_client_details: "Szczegóły klienta OAuth"
     label_provider_type: "Typ dostawcy"
+    label_project_folder: "Project folder"
     label_new_storage: "Nowy magazyn"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
     label_existing_manual_folder_selection: "Existing folder selection"

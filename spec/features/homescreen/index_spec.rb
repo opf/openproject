@@ -28,26 +28,76 @@
 
 require 'spec_helper'
 
-describe 'Homescreen index' do
-  let!(:user) { build_stubbed(:user) }
+RSpec.describe 'Homescreen index' do
+  let(:admin) { create(:admin) }
+  let(:user) { build_stubbed(:user) }
   let!(:project) { create(:public_project, identifier: 'public-project') }
+  let(:general_settings_page) { Pages::Admin::SystemSettings::General.new }
 
-  before do
-    login_as user
-    visit root_url
-  end
+  context 'with a dynamic URL in the welcome text' do
+    before do
+      Setting.welcome_text = "With [a link to the public project]({{opSetting:base_url}}/projects/public-project)"
+      Setting.welcome_on_homescreen = true
+    end
 
-  describe 'with a dynamic URL in the welcome text',
-           with_settings: {
-             welcome_text: "With [a link to the public project]({{opSetting:base_url}}/projects/public-project)",
-             welcome_on_homescreen?: true
-           } do
     it 'renders the correct link' do
+      login_as user
+      visit root_url
       expect(page)
         .to have_selector("a[href=\"#{OpenProject::Application.root_url}/projects/public-project\"]")
 
       click_link "a link to the public project"
       expect(page).to have_current_path project_path(project)
+    end
+
+    it 'can change the welcome text and still have a valid link', js: true do
+      login_as admin
+
+      general_settings_page.visit!
+
+      welcome_text_editor = general_settings_page.welcome_text_editor
+      scroll_to_element(welcome_text_editor.container)
+      welcome_text_editor.click_and_type_slowly('Hello! ')
+
+      general_settings_page.press_save_button
+      general_settings_page.expect_and_dismiss_toaster
+
+      visit root_url
+      expect(page)
+        .to have_selector("a[href=\"#{OpenProject::Application.root_url}/projects/public-project\"]")
+
+      click_link "a link to the public project"
+      expect(page).to have_current_path /#{Regexp.escape(project_path(project))}\/?$/
+    end
+  end
+
+  describe 'Enterprise Support Link' do
+    include_context 'support links'
+
+    context 'on an Enterprise Edition' do
+      before do
+        allow(EnterpriseToken).to receive(:active?).and_return(true)
+      end
+
+      it 'renders the correct link' do
+        login_as user
+        visit root_url
+        expect(page).to have_link(I18n.t(:label_enterprise_support),
+                                  href: support_link_as_enterprise)
+      end
+    end
+
+    context 'on a Community Edition' do
+      before do
+        allow(EnterpriseToken).to receive(:active?).and_return(false)
+      end
+
+      it 'renders the correct link' do
+        login_as user
+        visit root_url
+        expect(page).to have_link(I18n.t(:label_enterprise_support),
+                                  href: support_link_as_community)
+      end
     end
   end
 end

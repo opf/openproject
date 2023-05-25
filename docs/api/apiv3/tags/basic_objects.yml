@@ -241,6 +241,7 @@ description: |-
   The `"HH:MM"` part represents the zero paded hours and minutes, e.g. `"oneMonthAgo@21:00+00:00"`. The last "+HH:MM" part represents the timezone offset from UTC
   associated with the time, e.g. `"oneMonthAgo@21:00+02:00"` means a +2 hour timezone offset from UTC.
   The offset can be positive or negative e.g."oneDayAgo@01:00+01:00", "oneDayAgo@01:00-01:00".
+  Values older than 1 day are accepted only with valid Enterprise Token available.
 
   ## Colors
 

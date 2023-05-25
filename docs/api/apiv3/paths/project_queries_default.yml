@@ -82,6 +82,7 @@ get:
       "oneWeekAgo@HH:MM+HH:MM", "oneMonthAgo@HH:MM+HH:MM".
       The first "HH:MM" part represents the zero paded hours and minutes.
       The last "+HH:MM" part represents the timezone offset from UTC associated with the time.
+      Values older than 1 day are accepted only with valid Enterprise Token available.
     example: '2023-01-01,P-1Y,PT0S,lastWorkingDay@12:00'
     in: query
     required: false

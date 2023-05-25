@@ -33,7 +33,7 @@ module WikiPages
     private
 
     def validate_user_current_user
-      errors.add :author, :not_current_user if model.content&.author != user
+      errors.add :author, :not_current_user if model.author != user
     end
   end
 end

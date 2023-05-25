@@ -119,29 +119,29 @@ class UserMailer < ApplicationMailer
     send_mail(user, subject)
   end
 
-  def wiki_content_added(user, wiki_content)
-    @wiki_content = wiki_content
+  def wiki_page_added(user, wiki_page)
+    @wiki_page = wiki_page
 
-    open_project_wiki_headers @wiki_content
-    message_id @wiki_content, user
+    open_project_wiki_headers @wiki_page
+    message_id @wiki_page, user
 
     send_mail(user,
-              "[#{@wiki_content.project.name}] #{t(:mail_subject_wiki_content_added, id: @wiki_content.page.title)}")
+              "[#{@wiki_page.project.name}] #{t(:mail_subject_wiki_page_added, id: @wiki_page.title)}")
   end
 
-  def wiki_content_updated(user, wiki_content)
-    @wiki_content  = wiki_content
+  def wiki_page_updated(user, wiki_page)
+    @wiki_page = wiki_page
     @wiki_diff_url = url_for(controller: '/wiki',
                              action: :diff,
-                             project_id: wiki_content.project,
-                             id: wiki_content.page.slug,
-                             version: wiki_content.version)
+                             project_id: wiki_page.project,
+                             id: wiki_page.slug,
+                             version: wiki_page.version)
 
-    open_project_wiki_headers @wiki_content
-    message_id @wiki_content, user
+    open_project_wiki_headers @wiki_page
+    message_id @wiki_page, user
 
     send_mail(user,
-              "[#{@wiki_content.project.name}] #{t(:mail_subject_wiki_content_updated, id: @wiki_content.page.title)}")
+              "[#{@wiki_page.project.name}] #{t(:mail_subject_wiki_page_updated, id: @wiki_page.title)}")
   end
 
   def message_posted(user, message)
@@ -221,9 +221,9 @@ class UserMailer < ApplicationMailer
 
   private
 
-  def open_project_wiki_headers(wiki_content)
-    open_project_headers 'Project' => wiki_content.project.identifier,
-                         'Wiki-Page-Id' => wiki_content.page.id,
+  def open_project_wiki_headers(wiki_page)
+    open_project_headers 'Project' => wiki_page.project.identifier,
+                         'Wiki-Page-Id' => wiki_page.id,
                          'Type' => 'Wiki'
   end
 

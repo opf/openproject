@@ -1,6 +1,5 @@
 import { Injector } from '@angular/core';
 import {
-  IWorkPackageTimestamp,
   WorkPackageResource,
 } from 'core-app/features/hal/resources/work-package-resource';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
@@ -13,8 +12,9 @@ import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/r
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { IWorkPackageTimestamp } from 'core-app/features/hal/resources/work-package-timestamp-resource';
 
-export const baselineCellName = 'wp-table--baseline-cell-td';
+export const baselineCellName = 'op-table-baseline--column-cell';
 
 export class BaselineColumnBuilder {
   @InjectField() states:States;
@@ -61,19 +61,19 @@ export class BaselineColumnBuilder {
     schema:ISchemaProxy,
   ):HTMLElement|null {
     if ((!base._meta.exists && compare._meta.exists) || (!base._meta.matchesFilters && compare._meta.matchesFilters)) {
-      const icon = opIconElement('icon-add', 'op-table-baseline--icon-added');
+      const icon = opIconElement('spot-icon', 'spot-icon_1', 'spot-icon_flex', 'spot-icon_add', 'op-table-baseline--icon-added');
       icon.title = this.I18n.t('js.work_packages.baseline.addition_label');
       return icon;
     }
 
     if ((base._meta.exists && !compare._meta.exists) || (base._meta.matchesFilters && !compare._meta.matchesFilters)) {
-      const icon = opIconElement('icon-minus1', 'op-table-baseline--icon-removed');
+      const icon = opIconElement('spot-icon', 'spot-icon_1', 'spot-icon_flex', 'spot-icon_minus1', 'op-table-baseline--icon-removed');
       icon.title = this.I18n.t('js.work_packages.baseline.removal_label');
       return icon;
     }
 
     if (this.visibleAttributeChanged(base, schema)) {
-      const icon = opIconElement('icon-arrow-left-right', 'op-table-baseline--icon-changed');
+      const icon = opIconElement('spot-icon', 'spot-icon_1', 'spot-icon_flex', 'spot-icon_arrow-left-right', 'op-table-baseline--icon-changed');
       icon.title = this.I18n.t('js.work_packages.baseline.modification_label');
       return icon;
     }

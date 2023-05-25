@@ -176,5 +176,13 @@ module Pages
     def toast_type
       :angular
     end
+
+    def navigate_to_modules_menu_item(link_title)
+      visit root_path
+
+      within '#more-menu', visible: false do
+        click_on link_title, visible: false
+      end
+    end
   end
 end

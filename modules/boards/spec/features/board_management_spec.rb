@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative './support/board_index_page'
 require_relative './support/board_page'
 
-describe 'Board management spec', js: true do
+describe 'Board management spec', js: true, with_ee: %i[board_view] do
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -47,7 +47,6 @@ describe 'Board management spec', js: true do
   let!(:status) { create(:default_status) }
 
   before do
-    with_enterprise_token :board_view
     project
     login_as(user)
   end
@@ -147,7 +146,7 @@ describe 'Board management spec', js: true do
 
       # Expect work package to be saved in query first
       subjects = WorkPackage.where(id: first.ordered_work_packages.pluck(:work_package_id)).pluck(:subject)
-      expect(subjects).to match_array ['Task 1']
+      expect(subjects).to contain_exactly('Task 1')
 
       # Move item to Second list
       board_page.move_card(0, from: 'First', to: 'Second')
@@ -162,7 +161,7 @@ describe 'Board management spec', js: true do
       end
 
       subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject)
-      expect(subjects).to match_array ['Task 1']
+      expect(subjects).to contain_exactly('Task 1')
 
       # Reference an existing work package
       board_page.reference('Second', work_package)
@@ -170,7 +169,7 @@ describe 'Board management spec', js: true do
       board_page.expect_card('Second', work_package.subject)
 
       subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject)
-      expect(subjects).to match_array [work_package.subject, 'Task 1']
+      expect(subjects).to contain_exactly(work_package.subject, 'Task 1')
 
       # Filter for Task
       filters.expect_filter_count 0
@@ -261,7 +260,7 @@ describe 'Board management spec', js: true do
 
       # Expect work package to be saved in query first
       subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject)
-      expect(subjects).to match_array ['Task 1']
+      expect(subjects).to contain_exactly('Task 1')
 
       board_page.back_to_index
 

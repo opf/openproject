@@ -95,6 +95,7 @@ npm-debug.log*
 /.rvmrc*
 /.ruby-gemset
 /.foreman
+/.overmind.env
 .DS_Store
 *.icloud
 .rspec
@@ -140,3 +141,6 @@ frontend/package-lock.json
 # Testing and nextcloud infrastructure
 acme.json
 .env.test
+
+# Generated seeders crowdin source file
+**/config/locales/en.seeders.yml

@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative './support/board_index_page'
 require_relative './support/board_page'
 
-describe 'Work Package boards spec', js: true do
+describe 'Work Package boards spec', js: true, with_ee: %i[board_view] do
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -67,7 +67,6 @@ describe 'Work Package boards spec', js: true do
   let(:color2) { create(:color) }
 
   before do
-    with_enterprise_token :board_view
     project
     login_as(user)
   end
@@ -83,26 +82,26 @@ describe 'Work Package boards spec', js: true do
     board_page.expect_card 'Open', wp2.subject
 
     # Highlight type inline is always active
-    expect(page).to have_selector('.__hl_inline_type_' + type.id.to_s)
-    expect(page).to have_selector('.__hl_inline_type_' + type2.id.to_s)
+    expect(page).to have_selector(".__hl_inline_type_#{type.id}")
+    expect(page).to have_selector(".__hl_inline_type_#{type2.id}")
 
     # Highlight whole card by priority
     board_page.change_board_highlighting 'inline', 'Priority'
-    expect(page).to have_selector('.__hl_background_priority_' + priority.id.to_s)
-    expect(page).to have_selector('.__hl_background_priority_' + priority2.id.to_s)
+    expect(page).to have_selector(".__hl_background_priority_#{priority.id}")
+    expect(page).to have_selector(".__hl_background_priority_#{priority2.id}")
 
     # Highlight whole card by type
     board_page.change_board_highlighting 'inline', 'Type'
-    expect(page).to have_selector('.__hl_background_type_' + type.id.to_s)
-    expect(page).to have_selector('.__hl_background_type_' + type2.id.to_s)
+    expect(page).to have_selector(".__hl_background_type_#{type.id}")
+    expect(page).to have_selector(".__hl_background_type_#{type2.id}")
 
     # Disable highlighting
     board_page.change_board_highlighting 'none'
-    expect(page).not_to have_selector('.__hl_background_type_' + type.id.to_s)
-    expect(page).not_to have_selector('.__hl_background_type_' + type2.id.to_s)
+    expect(page).not_to have_selector(".__hl_background_type_#{type.id}")
+    expect(page).not_to have_selector(".__hl_background_type_#{type2.id}")
 
     # Type is still shown highlighted
-    expect(page).to have_selector('.__hl_inline_type_' + type.id.to_s)
-    expect(page).to have_selector('.__hl_inline_type_' + type2.id.to_s)
+    expect(page).to have_selector(".__hl_inline_type_#{type.id}")
+    expect(page).to have_selector(".__hl_inline_type_#{type2.id}")
   end
 end

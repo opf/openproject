@@ -25,162 +25,23 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
+
 module DemoData
   class ProjectSeeder < Seeder
-    # Careful: The seeding recreates the seeded project before it runs, so any changes
-    # on the seeded project will be lost.
+    attr_reader :project
+    alias_method :project_data, :seed_data
+
     def seed_data!
-      print_status ' ↳ Updating settings'
-      seed_settings
-
-      seed_data.each_data('projects') do |project_data|
-        seed_project(project_data)
-        Setting.demo_projects_available = true
-      end
-
-      print_status ' ↳ Update form configuration with global queries'
-      set_form_configuration
-    end
-
-    def seed_project(project_data)
       print_status " ↳ Creating project: #{project_data.lookup('name')}"
 
-      project = reset_project(project_data)
-      set_project_status(project, project_data)
-      set_members(project)
-      seed_news(project, project_data)
-      set_types(project, project_data)
-      seed_categories(project, project_data)
-      seed_versions(project, project_data)
-      seed_queries(project, project_data)
-      seed_project_content(project, project_data)
-    end
-
-    def applicable?
-      Project.count.zero?
-    end
-
-    def seed_settings
-      seedable_welcome_settings
-        .select { |k,| Settings::Definition[k].writable? }
-        .each do |k, v|
-        Setting[k] = v
-      end
-    end
-
-    def seedable_welcome_settings
-      welcome = seed_data.lookup('welcome')
-      return {} if welcome.blank?
-
-      {
-        welcome_title: welcome.lookup('title'),
-        welcome_text: welcome.lookup('text'),
-        welcome_on_homescreen: 1
-      }
-    end
-
-    def reset_project(data)
-      print_status '   -Creating/Resetting project'
-      delete_project(data)
-      create_project(data)
-    end
-
-    def create_project(project_data)
-      Project.create! project_data(project_data)
-    end
-
-    def delete_project(data)
-      if delete_me = find_project(data)
-        delete_me.destroy
-      end
-    end
-
-    def set_project_status(project, project_data)
-      print_status '   -Setting project status.'
-
-      status_code = project_data.lookup('status.code')
-      status_explanation = project_data.lookup('status.description')
-
-      if status_code || status_explanation
-        Projects::Status.create!(
-          project:,
-          code: status_code,
-          explanation: status_explanation
-        )
-      end
-    end
-
-    def set_members(project)
-      print_status '   -Setting members.'
-
-      role = Role.find_by(name: I18n.t(:default_role_project_admin))
-
-      Member.create!(
-        project:,
-        principal: user,
-        roles: [role]
-      )
-    end
-
-    def set_form_configuration
-      Type.all.each do |type|
-        BasicData::TypeSeeder.new(seed_data).set_attribute_groups_for_type(type)
-      end
-    end
-
-    def set_types(project, project_data)
-      print_status '   -Assigning types.'
-
-      project.types.clear
-      Array(project_data.lookup('types')).each do |type_name|
-        type = Type.find_by(name: I18n.t(type_name))
-        project.types << type
-      end
-    end
-
-    def seed_categories(project, project_data)
-      print_status '   -Creating categories'
-
-      Array(project_data.lookup('categories')).each do |cat_name|
-        project.categories.create name: cat_name
-      end
-    end
-
-    def seed_news(project, project_data)
-      print_status '   -Creating news.'
-
-      project_data.each('news') do |news|
-        News.create!(project:,
-                     author: user,
-                     title: news['title'],
-                     summary: news['summary'],
-                     description: news['description'])
-      end
-    end
-
-    def seed_queries(project, project_data)
-      print_status '   -Creating queries.'
-
-      Array(project_data.lookup('queries')).each do |config|
-        QueryBuilder.new(config, project:, user:).create!
-      end
-    end
-
-    def seed_versions(project, project_data)
-      print_status '   -Creating versions.'
-
-      project_data.each('versions') do |attributes|
-        VersionBuilder.new(attributes, project:, user:).create!
-      end
-    end
-
-    def seed_project_content(project, project_data)
-      project_content_seeder_classes.each do |seeder_class|
-        print_status "   -#{seeder_class.name.demodulize}"
-
-        seeder = seeder_class.new(project, project_data)
-        seeder.seed!
-      end
+      self.project = reset_project
+      set_members
+      seed_news
+      set_types
+      seed_categories
+      seed_versions
+      seed_queries
+      seed_project_content
     end
 
     # override to add additional seeders
@@ -192,32 +53,104 @@ module DemoData
       ]
     end
 
-    module Data
-      module_function
+    private
 
-      def project_data(project_data)
-        {
-          name: project_data.lookup('name'),
-          identifier: project_data.lookup('identifier'),
-          description: project_data.lookup('description'),
-          enabled_module_names: project_data.lookup('modules'),
-          types: Type.all,
-          parent: parent_project(project_data)
-        }
-      end
+    attr_writer :project
 
-      def parent_project(project_data)
-        identifier = project_data.lookup('parent')
-        return nil if identifier.blank?
+    def reset_project
+      print_status '   -Creating/Resetting project'
+      delete_project
+      create_project
+    end
 
-        Project.find_by(identifier:)
-      end
+    def delete_project
+      project_to_delete = Project.find_by(identifier: project_data.lookup('identifier'))
+      project_to_delete&.destroy
+    end
 
-      def find_project(data)
-        Project.find_by(identifier: data.lookup('identifier'))
+    def create_project
+      Project.create! project_attributes
+    end
+
+    def set_members
+      print_status '   -Setting members.'
+
+      role = Role.find_by(name: I18n.t(:default_role_project_admin))
+
+      Member.create!(
+        project:,
+        principal: user,
+        roles: [role]
+      )
+    end
+
+    def set_types
+      print_status '   -Assigning types.'
+
+      project.types.clear
+      Array(project_data.lookup('types')).each do |type_name|
+        type = Type.find_by(name: I18n.t(type_name))
+        project.types << type
       end
     end
 
-    include Data
+    def seed_categories
+      print_status '   -Creating categories'
+
+      Array(project_data.lookup('categories')).each do |cat_name|
+        project.categories.create name: cat_name
+      end
+    end
+
+    def seed_news
+      print_status '   -Creating news.'
+
+      project_data.each('news') do |news|
+        News.create!(project:,
+                     author: user,
+                     title: news['title'],
+                     summary: news['summary'],
+                     description: news['description'])
+      end
+    end
+
+    def seed_queries
+      print_status '   -Creating queries.'
+
+      Array(project_data.lookup('queries')).each do |config|
+        QueryBuilder.new(config, project:, user:, seed_data:).create!
+      end
+    end
+
+    def seed_versions
+      print_status '   -Creating versions.'
+
+      project_data.each('versions') do |attributes|
+        VersionBuilder.new(attributes, project:, user:, seed_data:).create!
+      end
+    end
+
+    def seed_project_content
+      project_content_seeder_classes.each do |seeder_class|
+        print_status "   -#{seeder_class.name.demodulize}"
+
+        seeder = seeder_class.new(project, project_data)
+        seeder.seed!
+      end
+    end
+
+    def project_attributes
+      parent = Project.find_by(identifier: project_data.lookup('parent'))
+      {
+        name: project_data.lookup('name'),
+        identifier: project_data.lookup('identifier'),
+        status_code: project_data.lookup('status_code'),
+        status_explanation: project_data.lookup('status_explanation'),
+        description: project_data.lookup('description'),
+        enabled_module_names: project_data.lookup('modules'),
+        types: Type.all,
+        parent:
+      }
+    end
   end
 end

@@ -48,10 +48,11 @@ import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { Attachable } from 'core-app/features/hal/resources/mixins/attachable-mixin';
 import { ICKEditorContext } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
-import { IHalResourceLink } from 'core-app/core/state/hal-resource';
+import { IWorkPackageTimestamp } from 'core-app/features/hal/resources/work-package-timestamp-resource';
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
+  // eslint-disable-next-line no-use-before-define
   ancestors:WorkPackageResource[];
   assignee:HalResource|any;
   attachments:AttachmentCollectionResource;
@@ -59,7 +60,9 @@ export interface WorkPackageResourceEmbedded {
   author:HalResource|any;
   availableWatchers:HalResource|any;
   category:HalResource|any;
+  // eslint-disable-next-line no-use-before-define
   children:WorkPackageResource[];
+  // eslint-disable-next-line no-use-before-define
   parent:WorkPackageResource|null;
   priority:HalResource|any;
   project:HalResource|any;
@@ -116,29 +119,6 @@ export interface WorkPackageLinksObject extends WorkPackageResourceLinks {
   schema:HalResource;
 }
 
-export interface IWorkPackageTimestampMeta {
-  exists:boolean;
-  matchesFilters:boolean;
-  timestamp:string;
-}
-
-export interface IWorkPackageTimestamp {
-  startDate?:string;
-  dueDate?:string;
-  date?:string;
-  _meta:IWorkPackageTimestampMeta;
-  $links:{
-    self:IHalResourceLink;
-    status?:IHalResourceLink;
-    assignee?:IHalResourceLink;
-    accountable?:IHalResourceLink;
-    project?:IHalResourceLink;
-    type?:IHalResourceLink;
-    priority?:IHalResourceLink;
-    version?:IHalResourceLink;
-  }
-}
-
 export class WorkPackageBaseResource extends HalResource {
   public $embedded:WorkPackageResourceEmbedded;
 
@@ -155,6 +135,9 @@ export class WorkPackageBaseResource extends HalResource {
   public activities:CollectionResource;
 
   public attachments:AttachmentCollectionResource;
+
+  // eslint-disable-next-line no-use-before-define
+  public ancestors:WorkPackageResource[];
 
   public attributesByTimestamp?:IWorkPackageTimestamp[];
 
@@ -178,8 +161,7 @@ export class WorkPackageBaseResource extends HalResource {
    * Return the ids of all its ancestors, if any
    */
   public get ancestorIds():string[] {
-    const { ancestors } = this as any;
-    return ancestors.map((el:WorkPackageResource) => el.id!);
+    return this.ancestors.map((el:HalResource) => (el.id as string|number).toString());
   }
 
   /**

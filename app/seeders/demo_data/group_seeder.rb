@@ -43,7 +43,8 @@ module DemoData
 
     def seed_groups
       seed_data.each('groups') do |group_data|
-        create_group group_data['name']
+        group = create_group group_data['name']
+        seed_data.store_reference(group_data['reference'], group)
       end
     end
 

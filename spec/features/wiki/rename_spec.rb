@@ -37,7 +37,7 @@ describe 'Wiki page', js: true do
                                        rename_wiki_pages])
   end
   let!(:wiki_page) do
-    create(:wiki_page_with_content, wiki: project.wiki, title: initial_name)
+    create(:wiki_page, wiki: project.wiki, title: initial_name)
   end
   let(:initial_name) { 'Initial name' }
   let(:rename_name) { 'Rename name' }

@@ -33,6 +33,15 @@ import { States } from 'core-app/core/states/states.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { Observable } from 'rxjs';
+import { IDay } from 'core-app/core/state/days/day.model';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { WeekdayService } from 'core-app/core/days/weekday.service';
+import { DayResourceService } from 'core-app/core/state/days/day.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { IWorkPackageTimestamp } from 'core-app/features/hal/resources/work-package-timestamp-resource';
+import * as moment from 'moment-timezone';
+import { Moment } from 'moment';
 
 export const DEFAULT_TIMESTAMP = 'PT0S';
 
@@ -43,8 +52,59 @@ export class WorkPackageViewBaselineService extends WorkPackageQueryStateService
     protected readonly querySpace:IsolatedQuerySpace,
     protected readonly pathHelper:PathHelperService,
     protected readonly configurationService:ConfigurationService,
+    protected readonly timezoneService:TimezoneService,
+    protected readonly weekdaysService:WeekdayService,
+    protected readonly daysService:DayResourceService,
   ) {
     super(querySpace);
+  }
+
+  public nonWorkingDays:IDay[] = [];
+
+  public nonWorkingDays$:Observable<IDay[]> = this.requireNonWorkingDaysOfTwoYears();
+
+  public yesterdayDate():string {
+    return moment().subtract(1, 'days').format('YYYY-MM-DD');
+  }
+
+  public lastMonthDate():string {
+    return moment().subtract(1, 'month').format('YYYY-MM-DD');
+  }
+
+  public lastweekDate():string {
+    return moment().subtract(1, 'week').format('YYYY-MM-DD');
+  }
+
+  requireNonWorkingDaysOfTwoYears() {
+    const today = new Date();
+    const lastYear = new Date(today);
+    lastYear.setFullYear(today.getFullYear() - 1);
+    const nonWorkingDays$= this
+      .daysService
+      .requireNonWorkingYears$(lastYear, today);
+
+    nonWorkingDays$.subscribe((nonWorkingDays) => {
+      this.nonWorkingDays =nonWorkingDays;
+    });
+
+    return nonWorkingDays$;
+  }
+
+  isNonWorkingDay(date:Moment|string):boolean {
+    const formatted = moment(date).format('YYYY-MM-DD');
+    return (this.nonWorkingDays.findIndex((el) => el.date === formatted) !== -1);
+  }
+
+  public lastWorkingDate():string {
+    const date = moment().subtract(1, 'days');
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      if (this.isNonWorkingDay(date) || this.weekdaysService.isNonWorkingDay(date)) {
+        date.subtract(1, 'days');
+      } else {
+        return date.format('YYYY-MM-DD');
+      }
+    }
   }
 
   public isActive():boolean {
@@ -53,6 +113,11 @@ export class WorkPackageViewBaselineService extends WorkPackageQueryStateService
     }
 
     return this.current.length >= 1 && this.current[0] !== DEFAULT_TIMESTAMP;
+  }
+
+  public isChanged(workPackage:WorkPackageResource, attribute:string):boolean {
+    const timestamps = workPackage.attributesByTimestamp || [];
+    return this.isActive() && timestamps.length >= 1 && !!timestamps[0][attribute as keyof IWorkPackageTimestamp];
   }
 
   public valueFromQuery(query:QueryResource):string[] {

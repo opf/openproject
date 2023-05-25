@@ -104,6 +104,9 @@ module.exports = {
         "no-use-before-define": ["error", { "functions": false, "classes": false }],
         "@typescript-eslint/no-use-before-define": ["error", { "functions": false, "classes": false }],
 
+        // Allow subsequent single fields in typescript classes
+        "@typescript-eslint/lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
+
         /*
         // Disable use before define, as irrelevant for TS interfaces
         "no-use-before-define": "off",

@@ -69,6 +69,9 @@ uk:
       copy_from: "Копіювати це значення з"
       nextcloud:
         integration: "Адміністрування Nextcloud / OpenProject"
+    help_texts:
+      project_folder: >
+        The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
     delete_warning:
       storage: >
         Справді видалити це сховище? Це сховище буде також видалено з усіх проєктів, де воно використовувалося. Крім того, буде видалено всі посилання в пакетах робіт на файли, які зберігалися в цьому сховищі.
@@ -86,6 +89,7 @@ uk:
     label_oauth_application_details: "Докладні відомості про додаток OAuth"
     label_oauth_client_details: "Докладні відомості про клієнт OAuth"
     label_provider_type: "Тип постачальника"
+    label_project_folder: "Project folder"
     label_new_storage: "Нове сховище"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
     label_existing_manual_folder_selection: "Existing folder selection"

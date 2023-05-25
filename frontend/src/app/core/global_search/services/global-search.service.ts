@@ -58,10 +58,12 @@ export class GlobalSearchService {
 
   public resultsHidden$ = this._resultsHidden.asObservable();
 
-  constructor(protected I18n:I18nService,
+  constructor(
+    protected I18n:I18nService,
     protected injector:Injector,
     protected PathHelper:PathHelperService,
-    protected currentProjectService:CurrentProjectService) {
+    protected currentProjectService:CurrentProjectService,
+  ) {
     this.initialize();
   }
 
@@ -116,6 +118,17 @@ export class GlobalSearchService {
 
   public get searchTerm():string {
     return this._searchTerm.value;
+  }
+
+  public get searchTermIsId():boolean {
+    return this.searchTermWithoutHash !== this.searchTerm;
+  }
+
+  public get searchTermWithoutHash():string {
+    if (/^#(\d+)/.exec(this.searchTerm)) {
+      return this.searchTerm.substr(1);
+    }
+    return this.searchTerm;
   }
 
   public get tabs():string {

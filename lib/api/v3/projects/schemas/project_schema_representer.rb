@@ -63,25 +63,25 @@ module API
 
           schema_with_allowed_collection :status,
                                          type: 'ProjectStatus',
-                                         name_source: ->(*) { I18n.t('activerecord.attributes.projects/status.code') },
+                                         name_source: ->(*) { I18n.t('activerecord.attributes.project.status_code') },
                                          required: false,
-                                         writable: ->(*) { represented.writable?(:status) },
+                                         writable: ->(*) { represented.writable?(:status_code) },
                                          values_callback: ->(*) {
-                                           ::Projects::Status.codes.keys
+                                           Project.status_codes.keys
                                          },
                                          value_representer: ::API::V3::Projects::Statuses::StatusRepresenter,
                                          link_factory: ->(value) {
                                            {
                                              href: api_v3_paths.project_status(value),
-                                             title: I18n.t(:"activerecord.attributes.projects/status.codes.#{value}")
+                                             title: I18n.t(:"activerecord.attributes.project.status_codes.#{value}")
                                            }
                                          }
 
           schema :status_explanation,
                  type: 'Formattable',
-                 name_source: ->(*) { I18n.t('activerecord.attributes.projects/status.explanation') },
+                 name_source: ->(*) { I18n.t('activerecord.attributes.project.status_explanation') },
                  required: false,
-                 writable: ->(*) { represented.writable?(:status) }
+                 writable: ->(*) { represented.writable?(:status_explanation) }
 
           schema_with_allowed_link :parent,
                                    type: 'Project',

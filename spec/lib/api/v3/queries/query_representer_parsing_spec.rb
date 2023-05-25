@@ -86,7 +86,7 @@ describe API::V3::Queries::QueryRepresenter, 'parsing' do
     end
   end
 
-  describe 'highlighted_attributes', with_ee: [:conditional_highlighting] do
+  describe 'highlighted_attributes', with_ee: %i[conditional_highlighting] do
     let(:request_body) do
       {
         '_links' => {

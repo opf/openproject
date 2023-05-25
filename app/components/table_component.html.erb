@@ -39,15 +39,19 @@ See COPYRIGHT and LICENSE files for more details.
       <thead>
         <tr>
           <% headers.each do |name, options| %>
-            <th>
-              <div class="generic-table--sort-header-outer">
-                <div class="generic-table--sort-header">
-                  <span>
-                    <%= options[:caption] %>
-                  </span>
+            <% if sortable_column?(name) %>
+              <%= sort_header_tag name, options %>
+            <% else %>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= options[:caption] %>
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </th>
+              </th>
+            <% end %>
           <% end %>
           <th>
             <%# last column for buttons %>
@@ -61,9 +65,7 @@ See COPYRIGHT and LICENSE files for more details.
           <td colspan="<%= headers.length + 1 %>"><%= empty_row_message %></td>
         </tr>
         <% end %>
-        <% for row in rows do -%>
-          <%= render_row row %>
-        <% end -%>
+        <%= render_collection rows %>
       </tbody>
     </table>
     <% if inline_create_link %>
@@ -73,3 +75,6 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
   </div>
 </div>
+<% if paginated? %>
+  <%= pagination_links_full rows %>
+<% end %>

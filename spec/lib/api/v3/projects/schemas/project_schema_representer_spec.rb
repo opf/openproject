@@ -54,7 +54,8 @@ describe API::V3::Projects::Schemas::ProjectSchemaRepresenter do
 
     allow(contract)
       .to receive(:writable?) do |attribute|
-      writable = %w(name identifier description public status parent active)
+      writable = %w(name identifier description public
+                    status_code status_explanation parent active)
 
       writable.include?(attribute.to_s)
     end
@@ -65,7 +66,7 @@ describe API::V3::Projects::Schemas::ProjectSchemaRepresenter do
 
     allow(contract)
       .to receive(:assignable_values)
-      .with(:status, current_user)
+      .with(:status_code, current_user)
       .and_return(allowed_status)
 
     allow(contract)
@@ -183,7 +184,7 @@ describe API::V3::Projects::Schemas::ProjectSchemaRepresenter do
 
       it_behaves_like 'has basic schema properties' do
         let(:type) { 'Formattable' }
-        let(:name) { I18n.t('activerecord.attributes.projects/status.explanation') }
+        let(:name) { I18n.t('activerecord.attributes.project.status_explanation') }
         let(:required) { false }
         let(:writable) { true }
       end
@@ -194,14 +195,14 @@ describe API::V3::Projects::Schemas::ProjectSchemaRepresenter do
 
       it_behaves_like 'has basic schema properties' do
         let(:type) { 'ProjectStatus' }
-        let(:name) { I18n.t('activerecord.attributes.projects/status.code') }
+        let(:name) { I18n.t('activerecord.attributes.project.status_code') }
         let(:required) { false }
         let(:writable) { true }
         let(:location) { '_links' }
       end
 
       it_behaves_like 'links to allowed values directly' do
-        let(:hrefs) { Projects::Status.codes.keys.map { |code| api_v3_paths.project_status code } }
+        let(:hrefs) { Project.status_codes.keys.map { |code| api_v3_paths.project_status code } }
       end
     end
 

@@ -30,6 +30,7 @@ require 'spec_helper'
 
 describe Query::Results,
          'Filter on historic data',
+         with_ee: %i[baseline_comparison],
          with_flag: { show_changes: true },
          with_mail: false do
   let(:historic_time) { "2022-08-01".to_datetime }

@@ -69,10 +69,11 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
   }
 
   public getSchemaHref(resource:HalResource):string {
-    const href = resource.$links.schema?.href;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const href = resource.$links.schema?.href as string|undefined;
 
     if (!href) {
-      throw new Error(`Resource ${resource} has no schema to load.`);
+      throw new Error(`Resource ${resource.toString()} has no schema to load.`);
     }
 
     return href;

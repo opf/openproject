@@ -37,7 +37,7 @@ class OpenProject::JournalFormatter::WikiDiff < OpenProject::JournalFormatter::D
     .merge(controller: '/wiki',
            action: 'diff',
            project_id: journable.project.identifier,
-           id: journable.page.slug,
+           id: journable.slug,
            version: version - 1,
            version_from: version)
     .compact

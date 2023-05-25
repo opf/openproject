@@ -45,11 +45,7 @@ describe 'form configuration', js: true do
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
   let(:form) { Components::Admin::TypeConfigurationForm.new }
 
-  describe "with EE token" do
-    before do
-      with_enterprise_token(:edit_attribute_groups)
-    end
-
+  describe "with EE token", with_ee: %i[edit_attribute_groups] do
     describe 'default configuration' do
       let(:dialog) { Components::ConfirmationDialog.new }
 
@@ -376,11 +372,10 @@ describe 'form configuration', js: true do
     end
   end
 
-  describe "without EE token" do
+  describe "without EE token", with_ee: false do
     let(:dialog) { Components::ConfirmationDialog.new }
 
     it "must disable adding and renaming groups" do
-      with_enterprise_token(nil)
       login_as(admin)
       visit edit_type_tab_path(id: type.id, tab: "form_configuration")
 

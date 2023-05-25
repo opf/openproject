@@ -40,7 +40,7 @@ class PlaceholderUsersController < ApplicationController
   before_action :authorize_deletion, only: %i[deletion_info destroy]
 
   def index
-    @placeholder_users = PlaceholderUsers::PlaceholderUserFilterCell.query params
+    @placeholder_users = PlaceholderUsers::PlaceholderUserFilterComponent.query params
 
     respond_to do |format|
       format.html do

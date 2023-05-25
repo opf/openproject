@@ -55,14 +55,11 @@ en:
           demo-project:
             name: Demo project
             identifier: demo-project
-            status:
-              code: off_track
-              description: Everything is behind the deadline. We will never make it.
+            status_code: off_track
+            status_explanation: Everything is behind the deadline. We will never make it.
             description: >
               **This is a demo project**. You can edit the description in
               the [Project settings -> Description]({{opSetting:base_url}}/projects/demo-project/settings).
-            timeline:
-              name: Timeline
             modules:
               - work_package_tracking
               - news
@@ -100,7 +97,7 @@ en:
                 description: |
                   Please execute the related tasks:
 
-                  * ##child:1
+                  * ##wp:wp__create_a_new_project
                 status: :default_status_new
                 type: :default_type_task
                 priority: :default_priority_high
@@ -110,6 +107,7 @@ en:
                 assignee: 'Project Admins'
                 children:
                   - subject: Create a new project
+                    reference: :wp__create_a_new_project
                     description: |
                       Please [create a new project]({{opSetting:base_url}}/projects/new) from the project drop down menu in the left hand header navigation.
                     status: :default_status_in_progress
@@ -123,7 +121,6 @@ en:
                 type: :default_type_phase
                 start: 7
                 duration: 17
-                accountable: 'Project Admins'
                 relations:
                   - to: Project planning
                     type: follows

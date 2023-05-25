@@ -63,6 +63,12 @@ module Storages::Peripherals
         .map { |command| command.method(:execute).to_proc }
     end
 
+    def create_folder_command
+      storage_commands
+        .create_folder_command
+        .map { |command| command.method(:execute).to_proc }
+    end
+
     private
 
     def storage_queries(user)

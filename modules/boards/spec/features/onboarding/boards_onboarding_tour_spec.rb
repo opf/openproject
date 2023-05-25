@@ -83,9 +83,8 @@ describe 'boards onboarding tour', js: true do
   end
 
   context 'as a new user' do
-    context 'with an EE token' do
+    context 'with an EE token', with_ee: %i[board_view] do
       before do
-        with_enterprise_token :board_view
         login_as user
       end
 

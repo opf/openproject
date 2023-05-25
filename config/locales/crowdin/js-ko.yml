@@ -1268,6 +1268,11 @@ ko:
         last_month: 'last month'
         a_specific_date: 'a specific date'
         between_two_specific_dates: 'between two specific dates'
+      legends:
+        changes_since: 'Changes since'
+        now_meets_filter_criteria: 'Now meets filter criteria'
+        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
+        maintained_with_changes: 'Maintained with changes'
     forms:
       submit_success_message: '양식을 성공적으로 제출했습니다'
       load_error_message: '양식을 불러오는 중 오류가 발생했습니다'

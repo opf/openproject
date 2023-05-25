@@ -253,15 +253,7 @@ class PermittedParams
   def wiki_page
     permitted = permitted_attributes(:wiki_page)
 
-    params.require(:content).require(:page).permit(*permitted)
-  end
-
-  def wiki_content
-    params.require(:content).permit(*self.class.permitted_attributes[:wiki_content])
-  end
-
-  def wiki_page_with_content
-    wiki_page.merge(wiki_content)
+    params.require(:page).permit(*permitted)
   end
 
   def pref
@@ -609,8 +601,6 @@ class PermittedParams
           title
           parent_id
           redirect_existing_links
-        ),
-        wiki_content: %i(
           text
           lock_version
           journal_notes
