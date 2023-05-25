@@ -635,10 +635,6 @@ module API
           @ordered_custom_actions ||= represented.custom_actions(current_user).to_a.sort_by(&:position)
         end
 
-        def timestamps_active?
-          timestamps.any?(&:historic?)
-        end
-
         # Attachments need to be eager loaded for the description
         self.to_eager_load = %i[parent
                                 type

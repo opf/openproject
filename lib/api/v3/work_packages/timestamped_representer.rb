@@ -68,6 +68,10 @@ module API::V3::WorkPackages
                embedded: true,
                uncacheable: true,
                exec_context: :decorator
+
+      def timestamps_active?
+        timestamps.any?(&:historic?)
+      end
     end
   end
 end

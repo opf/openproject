@@ -52,10 +52,6 @@ module API
         def _type
           'WorkPackage'
         end
-
-        def timestamps_active?
-          timestamps.any?(&:historic?)
-        end
       end
     end
   end
