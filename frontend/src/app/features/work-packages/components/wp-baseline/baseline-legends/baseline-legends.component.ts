@@ -39,8 +39,6 @@ import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { IWorkPackageTimestamp } from 'core-app/features/hal/resources/work-package-timestamp-resource';
-import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import {
   baselineFilterFromValue,
@@ -223,15 +221,5 @@ export class OpBaselineLegendsComponent extends UntilDestroyedMixin implements O
     const offset = date.format('Z');
 
     return `${formattedDate} ${formattedTime} ${offset}`;
-  }
-
-  private visibleAttributeChanged(base:IWorkPackageTimestamp, schema:ISchemaProxy):boolean {
-    return !!this
-      .wpTableColumns
-      .getColumns()
-      .find((column) => {
-        const name = schema.mappedName(column.id);
-        return Object.prototype.hasOwnProperty.call(base, name) || Object.prototype.hasOwnProperty.call(base.$links, name);
-      });
   }
 }
