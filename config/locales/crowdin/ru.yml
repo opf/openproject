@@ -1687,7 +1687,7 @@ ru:
   label_enterprise: "Предприятие"
   label_enterprise_active_users: "%{current}/%{limit} забронировано активных пользователей"
   label_enterprise_edition: "Корпоративная версия"
-  label_enterprise_support: "Enterprise support"
+  label_enterprise_support: "Поддержка корпоративной версии"
   label_environment: "Переменные среды"
   label_estimates_and_time: "Оценки и время"
   label_equals: "—"

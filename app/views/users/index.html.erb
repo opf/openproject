@@ -53,6 +53,6 @@ See COPYRIGHT and LICENSE files for more details.
   <%= call_hook(:user_admin_action_menu) %>
 <% end %>
 
-<%= rails_cell Users::UserFilterCell, params, groups: @groups, status: @status %>
+<%= render Users::UserFilterComponent.new(params, groups: @groups, status: @status) %>
 &nbsp;
-<%= rails_cell Users::TableCell, @users, project: @project, current_user: current_user %>
+<%= render Users::TableComponent.new(rows: @users, current_user: current_user) %>

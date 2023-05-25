@@ -54,7 +54,7 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
   def index
     # Just get the list of ProjectStorages associated with the project
     @projects_storages = Storages::ProjectStorage.where(project: @project).includes(:storage)
-    # Render the list storages using Ruby "cells" in the /app/cell folder which defines
+    # Render the list storages using ViewComponents in the /app/components folder which defines
     # the ways rows are rendered in a table layout.
     render '/storages/project_settings/index'
   end

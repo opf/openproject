@@ -31,7 +31,7 @@ require Rails.root.join("db/migrate/20220428071221_restore_defaults_on_empty_set
 
 describe RestoreDefaultsOnEmptySettings, type: :model do
   # Silencing migration logs, since we are not interested in that during testing
-  subject { ActiveRecord::Migration.suppress_messages { described_class.new.up } }
+  subject(:run_migration) { ActiveRecord::Migration.suppress_messages { described_class.new.up } }
 
   shared_examples_for "a successful migration of an empty setting" do
     let(:setting_name) { raise "define me!" }
@@ -43,14 +43,14 @@ describe RestoreDefaultsOnEmptySettings, type: :model do
     end
 
     it 'migrates the value to the expected value' do
-      expect { subject }
+      expect { run_migration }
         .to change { Setting.find_by(name: setting_name).value }
         .from(old_value)
         .to(expected_value)
     end
 
     it 'does not raise a type error' do
-      expect { subject }.not_to raise_error(TypeError)
+      expect { run_migration }.not_to raise_error
     end
   end
 
@@ -80,6 +80,20 @@ describe RestoreDefaultsOnEmptySettings, type: :model do
     it_behaves_like "a successful migration of an empty setting" do
       let(:setting_name) { "smtp_enable_starttls_auto" }
       let(:expected_value) { false }
+    end
+  end
+
+  context "with an empty setting which is not writable" do
+    let(:setting_name) { "smtp_openssl_verify_mode" }
+
+    it 'deletes the setting from the database' do
+      setting = Setting.new name: setting_name
+      setting.set_value!("", force: true)
+      setting.save!
+
+      run_migration
+      expect(Setting.where(id: setting.id)).not_to exist
+      expect(Setting.send(setting_name)).to eq("peer")
     end
   end
 end

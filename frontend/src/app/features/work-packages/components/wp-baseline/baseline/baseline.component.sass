@@ -9,8 +9,12 @@
     margin-top: 0 !important
 
     @media screen and #{$spot-mq-drop-modal-in-context}
-      width: 300px
+      width: 316px
       max-height: 70vh
+
+    &_ranged
+      width: 600px
+
   &--time
     
     &-input
@@ -18,13 +22,14 @@
       border: 1px solid $spot-color-basic-gray-3
 
     &-help
+      display: flex
+      align-items: center
+      justify-content: center
       background-color: $spot-color-basic-gray-6
       border: 1px solid $spot-color-basic-gray-3
       border-left: none !important
-      padding: $spot-spacing-0_5 $spot-spacing-1
+      padding: $spot-spacing-0_5 $spot-spacing-0_25
       line-height: unset
-      text-align: center
-      display: block
 
     &-tooltip-body
       width: 220px
@@ -37,3 +42,12 @@
       font-style: italic
       line-height: $spot-spacing-1
       color: $spot-color-basic-gray-2
+
+  &--range-container
+    margin: 1rem
+    display: grid
+    grid-template-columns: 1fr 1fr
+    grid-gap: 1rem
+
+  &--datepicker
+    margin: 1rem

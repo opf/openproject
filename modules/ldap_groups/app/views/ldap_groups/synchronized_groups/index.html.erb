@@ -31,11 +31,11 @@
 
 <section class="admin--edit-section">
   <h3 class="form--section-title"><%= t('ldap_groups.synchronized_filters.plural') %></h3>
-  <%= rails_cell ::LdapGroups::SynchronizedFilters::TableCell, @filters %>
+  <%= render ::LdapGroups::SynchronizedFilters::TableComponent.new(rows: @filters) %>
 </section>
 
 <section class="admin--edit-section">
   <h3 class="form--section-title"><%= t('ldap_groups.synchronized_groups.plural') %></h3>
-  <%= rails_cell ::LdapGroups::SynchronizedGroups::TableCell, @groups %>
+  <%= render ::LdapGroups::SynchronizedGroups::TableComponent.new(rows: @groups) %>
 </section>
 

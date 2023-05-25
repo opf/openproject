@@ -131,7 +131,8 @@ module Members
         op_icon('icon icon-edit'),
         '#',
         class: "toggle-membership-button #{toggle_item_class_name}",
-        data: { 'toggle-target': ".#{toggle_item_class_name}" },
+        'data-action': 'members-form#toggleMembershipEdit',
+        'data-members-form-toggling-class-param': toggle_item_class_name,
         title: t(:button_edit)
       )
     end

@@ -6,3 +6,13 @@ sl:
   boards:
     label_board: "Tabla"
     label_boards: "Table"
+    board_types:
+      free: Osnovno
+      action: "Tabla opravil (%{attribute})"
+    board_type_attributes:
+      assignee: Prevzemnik
+      status: Stanje
+      version: Različica
+      subproject: Podprojekt
+      subtasks: Starš-otrok
+      basic: Osnovno

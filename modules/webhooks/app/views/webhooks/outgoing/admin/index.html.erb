@@ -18,5 +18,5 @@
         link: link_to(t(:'webhooks.outgoing.explanation.link'), admin_settings_aggregation_path, target: '_blank')).html_safe %>
 </p>
 
-<%= rails_cell ::Webhooks::Outgoing::Webhooks::TableCell, @webhooks %>
+<%= render ::Webhooks::Outgoing::Webhooks::TableComponent.new(rows: @webhooks) %>
 

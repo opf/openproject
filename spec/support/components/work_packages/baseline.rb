@@ -41,6 +41,14 @@ module Components
         expect(page).to have_selector('.op-baseline-legends')
       end
 
+      def expect_legend_text(text)
+        expect(page).to have_selector('.op-baseline-legends--filter', text:)
+      end
+
+      def expect_legend_tooltip(text)
+        expect(page).to have_selector('.op-baseline-legends .spot-tooltip--body', visible: :all, text:)
+      end
+
       def expect_no_legends
         expect(page).not_to have_selector('.op-baseline-legends')
       end
