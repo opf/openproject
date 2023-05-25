@@ -48,11 +48,14 @@ module WorkPackage::PDFExport::TableOfContents
     level = level_path.length
     level_style = styles.toc_item(level)
     level_string = "#{level_path.join('.')}. "
-    level_string_width = measure_part_width(level_string, level_style)
-    title = get_column_value work_package, :subject
     page_nr_string = (id_wp_meta_map[work_package.id][:page_number] || '000').to_s
-    page_nr_string_width = measure_part_width(page_nr_string, level_style)
-    { id: work_package.id, level_string:, level_string_width:, title:, page_nr_string:, page_nr_string_width:, level: }
+    { id: work_package.id,
+      level_string:,
+      level_string_width: measure_part_width(level_string, level_style),
+      title: get_column_value(work_package, :subject),
+      page_nr_string:,
+      page_nr_string_width: measure_part_width(page_nr_string, level_style),
+      level: }
   end
 
   def measure_part_width(part, part_style)

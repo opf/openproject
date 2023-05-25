@@ -59,40 +59,27 @@ class WorkPackage::PDFExport::View
   end
 
   def register_fonts!(document)
-    document.font_families['NotoSans'] = {
+    register_font!('NotoSans', noto_font_base_path, document)
+    register_font!('SpaceMono', spacemono_font_base_path, document)
+  end
+
+  def register_font!(family, font_path, document)
+    document.font_families[family] = {
       normal: {
-        file: noto_font_base_path.join('NotoSans-Regular.ttf'),
-        font: 'NotoSans-Regular'
+        file: font_path.join("#{family}-Regular.ttf"),
+        font: "#{family}-Regular"
       },
       italic: {
-        file: noto_font_base_path.join('NotoSans-Italic.ttf'),
-        font: 'NotoSans-Italic'
+        file: font_path.join("#{family}-Italic.ttf" ""),
+        font: "#{family}-Italic"
       },
       bold: {
-        file: noto_font_base_path.join('NotoSans-Bold.ttf'),
-        font: 'NotoSans-Bold'
+        file: font_path.join("#{family}-Bold.ttf"),
+        font: "#{family}-Bold"
       },
       bold_italic: {
-        file: noto_font_base_path.join('NotoSans-BoldItalic.ttf'),
-        font: 'NotoSans-BoldItalic'
-      }
-    }
-    document.font_families['SpaceMono'] = {
-      normal: {
-        file: spacemono_font_base_path.join('SpaceMono-Regular.ttf'),
-        font: 'SpaceMono-Regular'
-      },
-      italic: {
-        file: spacemono_font_base_path.join('SpaceMono-Italic.ttf'),
-        font: 'SpaceMono-Italic'
-      },
-      bold: {
-        file: spacemono_font_base_path.join('SpaceMono-Bold.ttf'),
-        font: 'SpaceMono-Bold'
-      },
-      bold_italic: {
-        file: spacemono_font_base_path.join('SpaceMono-BoldItalic.ttf'),
-        font: 'SpaceMono-BoldItalic'
+        file: font_path.join("#{family}-BoldItalic.ttf"),
+        font: "#{family}-BoldItalic"
       }
     }
   end
