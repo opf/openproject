@@ -65,11 +65,11 @@ module Projects
     end
 
     def created_at
-      format_date(project.created_at)
+      helpers.format_date(project.created_at)
     end
 
     def latest_activity_at
-      format_date(project.latest_activity_at)
+      helpers.format_date(project.latest_activity_at)
     end
 
     def required_disk_space
@@ -87,7 +87,7 @@ module Projects
       end
 
       content << ' '
-      content << link_to_project(project, {}, {}, false)
+      content << helpers.link_to_project(project, {}, {}, false)
       content
     end
 
@@ -97,9 +97,9 @@ module Projects
       status_code = project.status_code
 
       if status_code
-        classes = project_status_css_class(status_code)
+        classes = helpers.project_status_css_class(status_code)
         content << content_tag(:span, '', class: "project-status--bulb -inline #{classes}")
-        content << content_tag(:span, project_status_name(status_code), class: "project-status--name #{classes}")
+        content << content_tag(:span, helpers.project_status_name(status_code), class: "project-status--name #{classes}")
       end
 
       content
@@ -107,12 +107,12 @@ module Projects
 
     def status_explanation
       if project.status_explanation
-        content_tag :div, format_text(project.status_explanation), class: 'wiki'
+        content_tag :div, helpers.format_text(project.status_explanation), class: 'wiki'
       end
     end
 
     def public
-      checked_image project.public?
+      helpers.checked_image project.public?
     end
 
     def row_css_class

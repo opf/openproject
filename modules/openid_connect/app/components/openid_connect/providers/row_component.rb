@@ -27,7 +27,7 @@ module OpenIDConnect
 
       def edit_link
         link_to(
-          op_icon('icon icon-edit button--link'),
+          helpers.op_icon('icon icon-edit button--link'),
           url_for(action: :edit, id: provider.id),
           title: t(:button_edit)
         )
@@ -35,7 +35,7 @@ module OpenIDConnect
 
       def delete_link
         link_to(
-          op_icon('icon icon-delete button--link'),
+          helpers.op_icon('icon icon-delete button--link'),
           url_for(action: :destroy, id: provider.id),
           method: :delete,
           data: { confirm: I18n.t(:text_are_you_sure) },

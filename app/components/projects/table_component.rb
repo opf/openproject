@@ -50,11 +50,14 @@ module Projects
     # We don't return the project row
     # but the [project, level] array from the helper
     def rows
-      @rows ||= to_enum(:projects_with_levels_order_sensitive, model).to_a # rubocop:disable Lint/ToEnumArguments
+      @rows ||= begin
+        projects_enumerator = ->(model) { to_enum(:projects_with_levels_order_sensitive, model).to_a } # rubocop:disable Lint/ToEnumArguments
+        helpers.instance_exec(model, &projects_enumerator)
+      end
     end
 
     def initialize_sorted_model
-      sort_clear
+      helpers.sort_clear
 
       orders = options[:orders]
       helpers.sort_init orders

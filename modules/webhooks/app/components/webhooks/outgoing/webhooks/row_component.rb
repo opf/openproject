@@ -15,7 +15,7 @@ module ::Webhooks
 
         def enabled
           if webhook.enabled?
-            op_icon 'icon-yes'
+            helpers.op_icon 'icon-yes'
           end
         end
 
@@ -71,7 +71,7 @@ module ::Webhooks
 
         def edit_link
           link_to(
-            op_icon('icon icon-edit button--link'),
+            helpers.op_icon('icon icon-edit button--link'),
             { controller: table.target_controller, action: :edit, webhook_id: webhook.id },
             title: t(:button_edit)
           )
@@ -79,7 +79,7 @@ module ::Webhooks
 
         def delete_link
           link_to(
-            op_icon('icon icon-delete button--link'),
+            helpers.op_icon('icon icon-delete button--link'),
             { controller: table.target_controller, action: :destroy, webhook_id: webhook.id },
             method: :delete,
             data: { confirm: I18n.t(:text_are_you_sure) },

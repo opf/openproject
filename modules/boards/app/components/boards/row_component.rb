@@ -31,7 +31,7 @@
 module Boards
   class RowComponent < ::RowComponent
     def project_id
-      link_to_project model.project, {}, {}, false
+      helpers.link_to_project model.project, {}, {}, false
     end
 
     def name
@@ -39,7 +39,7 @@ module Boards
     end
 
     def created_at
-      safe_join([format_date(model.created_at), format_time(model.created_at, false)], " ")
+      safe_join([helpers.format_date(model.created_at), helpers.format_time(model.created_at, false)], " ")
     end
 
     def type

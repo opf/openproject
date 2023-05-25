@@ -54,7 +54,7 @@ module Storages::Admin
       link_to(new_admin_settings_storage_path,
               class: 'wp-inline-create--add-link',
               title: I18n.t('storages.label_new_storage')) do
-        op_icon('icon icon-add')
+        helpers.op_icon('icon icon-add')
       end
     end
 

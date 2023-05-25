@@ -50,7 +50,7 @@ module Storages::ProjectsStorages
       link_to(new_project_settings_projects_storage_path,
               class: 'wp-inline-create--add-link',
               title: I18n.t('storages.label_new_storage')) do
-        op_icon('icon icon-add')
+        helpers.op_icon('icon icon-add')
       end
     end
 

@@ -17,7 +17,7 @@ module ::TwoFactorAuthentication
 
       def default
         if device.default
-          op_icon 'icon-yes'
+          helpers.op_icon 'icon-yes'
         else
           '-'
         end
@@ -25,13 +25,13 @@ module ::TwoFactorAuthentication
 
       def confirmed
         if device.active
-          op_icon 'icon-yes'
+          helpers.op_icon 'icon-yes'
         elsif table.self_table?
           link_to t('two_factor_authentication.devices.confirm_now'),
                   { controller: table.target_controller, action: :confirm, device_id: device.id }
 
         else
-          op_icon 'icon-no'
+          helpers.op_icon 'icon-no'
         end
       end
 
@@ -45,7 +45,7 @@ module ::TwoFactorAuthentication
       end
 
       def make_default_link
-        password_confirmation_form_for(
+        helpers.password_confirmation_form_for(
           device,
           url: { controller: table.target_controller, action: :make_default, device_id: device.id },
           method: :post,
@@ -64,7 +64,7 @@ module ::TwoFactorAuthentication
             I18n.t(:button_delete)
           end
 
-        password_confirmation_form_for(
+        helpers.password_confirmation_form_for(
           device,
           url: { controller: table.target_controller, action: :destroy, device_id: device.id },
           method: :delete,

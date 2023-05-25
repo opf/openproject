@@ -48,7 +48,7 @@ module LdapGroups
       end
 
       def sync_users
-        checked_image synchronized_group.sync_users
+        helpers.checked_image synchronized_group.sync_users
       end
 
       def users

@@ -50,7 +50,7 @@ module LdapGroups
       end
 
       def sync_users
-        checked_image synchronized_filter.sync_users
+        helpers.checked_image synchronized_filter.sync_users
       end
 
       def button_links

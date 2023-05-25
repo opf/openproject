@@ -46,7 +46,7 @@ module Storages::Admin
     delegate :provider_type, to: :storage
 
     def creator
-      icon = avatar storage.creator, size: :mini
+      icon = helpers.avatar storage.creator, size: :mini
       icon + storage.creator.name
     end
 
@@ -67,7 +67,7 @@ module Storages::Admin
       link_to '',
               edit_admin_settings_storage_path(storage),
               class: 'icon icon-edit',
-              accesskey: accesskey(:edit),
+              accesskey: helpers.accesskey(:edit),
               title: I18n.t(:button_edit)
     end
   end

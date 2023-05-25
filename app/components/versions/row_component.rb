@@ -51,15 +51,15 @@ module Versions
     end
 
     def name
-      link_to_version version, {}, project: version.project
+      helpers.link_to_version version, {}, project: version.project
     end
 
     def start_date
-      format_date(version.start_date)
+      helpers.format_date(version.start_date)
     end
 
     def effective_date
-      format_date(version.effective_date)
+      helpers.format_date(version.effective_date)
     end
 
     def description
@@ -71,17 +71,17 @@ module Versions
     end
 
     def sharing
-      h(format_version_sharing(version.sharing))
+      helpers.format_version_sharing(version.sharing)
     end
 
     def wiki_page
       return '' if wiki_page_title.blank? || version.project.wiki.nil?
 
-      link_to_if_authorized(wiki_page_title,
-                            controller: '/wiki',
-                            action: 'show',
-                            project_id: version.project,
-                            id: wiki_page_title) || h(wiki_page_title)
+      helpers.link_to_if_authorized(wiki_page_title,
+                                    controller: '/wiki',
+                                    action: 'show',
+                                    project_id: version.project,
+                                    id: wiki_page_title) || h(wiki_page_title)
     end
 
     def button_links
@@ -97,21 +97,21 @@ module Versions
     def edit_link
       return unless version.project == table.project
 
-      link_to_if_authorized '',
-                            { controller: '/versions', action: 'edit', id: version },
-                            class: 'icon icon-edit',
-                            title: t(:button_edit)
+      helpers.link_to_if_authorized '',
+                                    { controller: '/versions', action: 'edit', id: version },
+                                    class: 'icon icon-edit',
+                                    title: t(:button_edit)
     end
 
     def delete_link
       return unless version.project == table.project
 
-      link_to_if_authorized '',
-                            { controller: '/versions', action: 'destroy', id: version },
-                            data: { confirm: t(:text_are_you_sure) },
-                            method: :delete,
-                            class: 'icon icon-delete',
-                            title: t(:button_delete)
+      helpers.link_to_if_authorized '',
+                                    { controller: '/versions', action: 'destroy', id: version },
+                                    data: { confirm: t(:text_are_you_sure) },
+                                    method: :delete,
+                                    class: 'icon icon-delete',
+                                    title: t(:button_delete)
     end
 
     def column_css_class(column)

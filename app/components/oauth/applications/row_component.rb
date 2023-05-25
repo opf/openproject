@@ -48,7 +48,7 @@ module OAuth
 
       def confidential
         if application.confidential?
-          op_icon 'icon icon-checkmark'
+          helpers.op_icon 'icon icon-checkmark'
         end
       end
 
@@ -74,7 +74,7 @@ module OAuth
       end
 
       def button_links
-        [edit_link, delete_link(oauth_application_path(application))]
+        [edit_link, helpers.delete_link(oauth_application_path(application))]
       end
     end
   end

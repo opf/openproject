@@ -60,7 +60,7 @@ module Settings
     end
 
     def render_setting_select
-      setting_select(
+      helpers.setting_select(
         name,
         time_zone_entries,
         include_blank:,

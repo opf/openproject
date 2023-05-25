@@ -45,7 +45,7 @@ See COPYRIGHT and LICENSE files for more details.
                 <div class="generic-table--sort-header-outer generic-table--sort-header-outer_no-highlighting">
                   <div class="generic-table--sort-header">
                     <%= content_tag :a,
-                                    op_icon("icon-hierarchy"),
+                                    helpers.op_icon("icon-hierarchy"),
                                     href: href_only_when_not_sort_lft,
                                     class: "spot-link #{deactivate_class_on_lft_sort}",
                                     title: t(:label_sort_by, value: %("#{t(:label_project_hierarchy)}")) %>
@@ -70,9 +70,9 @@ See COPYRIGHT and LICENSE files for more details.
             <div class="generic-table--header-outer">
               <div class="generic-table--header">
                 <% if params[:expand] == 'all' %>
-                  <%= link_to t(:button_collapse_all), { params: safe_query_params(%w{filters page per_page sortBy}).except(:expand) } %>
+                  <%= link_to t(:button_collapse_all), { params: helpers.safe_query_params(%w{filters page per_page sortBy}).except(:expand) } %>
                 <% else %>
-                  <%= link_to t(:button_expand_all), { params: safe_query_params(%w{filters page per_page sortBy}).merge(expand: 'all') } %>
+                  <%= link_to t(:button_expand_all), { params: helpers.safe_query_params(%w{filters page per_page sortBy}).merge(expand: 'all') } %>
                 <% end %>
               </div>
             </div>
