@@ -61,7 +61,7 @@ module WorkPackage::PDFExport::Markdown
       text # @hyphens.hyphenate(text)
     end
 
-    def handle_unknown_inline_html_tag(tag, _node, opts)
+    def handle_unknown_inline_html_tag(tag, node, opts)
       result = []
       case tag.name
       when 'mention'
@@ -69,7 +69,9 @@ module WorkPackage::PDFExport::Markdown
         # <mention class="mention" data-id="3" data-type="user" data-text="@Some User">@Some User</mention>
         if tag.text.blank?
           text = tag.attr('data-text')
-          result.push(text_hash(text, opts)) if text.present?
+          unless node.next.respond_to?(:string_content) && node.next.string_content == text
+            result.push(text_hash(text, opts)) if text.present?
+          end
         end
       when 'span'
         text = tag.text
