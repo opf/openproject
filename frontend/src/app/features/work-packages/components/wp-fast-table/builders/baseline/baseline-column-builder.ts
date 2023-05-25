@@ -10,9 +10,8 @@ import { QueryColumn } from 'core-app/features/work-packages/components/wp-query
 import { opIconElement } from 'core-app/shared/helpers/op-icon-builder';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { IWorkPackageTimestamp } from 'core-app/features/hal/resources/work-package-timestamp-resource';
+import { getBaselineState } from '../../../wp-baseline/baseline-helpers';
 
 export const baselineCellName = 'op-table-baseline--column-cell';
 
@@ -35,7 +34,6 @@ export class BaselineColumnBuilder {
     td.classList.add(tdClassName, baselineCellName, column.id);
     td.dataset.columnId = column.id;
 
-    const schema = this.schemaCache.of(workPackage);
     const timestamps = workPackage.attributesByTimestamp || [];
 
     // Nothing to render if we don't have a comparison
@@ -43,11 +41,8 @@ export class BaselineColumnBuilder {
       return td;
     }
 
-    const base = timestamps[0];
-    const compare = timestamps[1];
-
     // Check if added
-    const icon = this.changeIcon(base, compare, schema);
+    const icon = this.changeIcon(workPackage);
     if (icon) {
       td.appendChild(icon);
     }
@@ -56,38 +51,27 @@ export class BaselineColumnBuilder {
   }
 
   private changeIcon(
-    base:IWorkPackageTimestamp,
-    compare:IWorkPackageTimestamp,
-    schema:ISchemaProxy,
+    workPackage:WorkPackageResource,
   ):HTMLElement|null {
-    if ((!base._meta.exists && compare._meta.exists) || (!base._meta.matchesFilters && compare._meta.matchesFilters)) {
+    const state = getBaselineState(workPackage, this.schemaCache, this.wpTableColumns);
+    if (state === 'added') {
       const icon = opIconElement('spot-icon', 'spot-icon_1', 'spot-icon_flex', 'spot-icon_add', 'op-table-baseline--icon-added');
       icon.title = this.I18n.t('js.work_packages.baseline.addition_label');
       return icon;
     }
 
-    if ((base._meta.exists && !compare._meta.exists) || (base._meta.matchesFilters && !compare._meta.matchesFilters)) {
+    if (state === 'removed') {
       const icon = opIconElement('spot-icon', 'spot-icon_1', 'spot-icon_flex', 'spot-icon_minus1', 'op-table-baseline--icon-removed');
       icon.title = this.I18n.t('js.work_packages.baseline.removal_label');
       return icon;
     }
 
-    if (this.visibleAttributeChanged(base, schema)) {
+    if (state === 'updated') {
       const icon = opIconElement('spot-icon', 'spot-icon_1', 'spot-icon_flex', 'spot-icon_arrow-left-right', 'op-table-baseline--icon-changed');
       icon.title = this.I18n.t('js.work_packages.baseline.modification_label');
       return icon;
     }
 
     return null;
-  }
-
-  private visibleAttributeChanged(base:IWorkPackageTimestamp, schema:ISchemaProxy):boolean {
-    return !!this
-      .wpTableColumns
-      .getColumns()
-      .find((column) => {
-        const name = schema.mappedName(column.id);
-        return Object.prototype.hasOwnProperty.call(base, name) || Object.prototype.hasOwnProperty.call(base.$links, name);
-      });
   }
 }
