@@ -31,6 +31,7 @@ import {
   Component,
 } from '@angular/core';
 import { DatePickerEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/date-picker-edit-field.component';
+import * as moment from 'moment-timezone';
 
 @Component({
   templateUrl: './days-duration-edit-field.component.html',

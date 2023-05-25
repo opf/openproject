@@ -7,12 +7,12 @@ ru:
     label_board: "Доска"
     label_boards: "Доски"
     board_types:
-      free: Basic
-      action: "Action board (%{attribute})"
+      free: Базовый
+      action: "Доска действий (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
-      status: Status
-      version: Version
-      subproject: Subproject
-      subtasks: Parent-child
-      basic: Basic
+      assignee: Ответственный
+      status: Статус
+      version: Версия
+      subproject: Подпроект
+      subtasks: Родитель-ребенок
+      basic: Базовый
