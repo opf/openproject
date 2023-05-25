@@ -34,7 +34,6 @@ import {
   OnInit,
   ElementRef,
   NgZone,
-  ViewChild,
 } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
@@ -56,7 +55,6 @@ import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { StateService } from '@uirouter/core';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { WorkPackageViewBaselineService } from '../wp-view-base/view-services/wp-view-baseline.service';
-import { OpBaselineLegendsComponent } from '../../components/wp-baseline/baseline-legends/baseline-legends.component';
 import { combineLatest } from 'rxjs';
 
 @Component({
@@ -72,7 +70,6 @@ import { combineLatest } from 'rxjs';
   ],
 })
 export class WorkPackageListViewComponent extends UntilDestroyedMixin implements OnInit {
-  @ViewChild(OpBaselineLegendsComponent) baselineLegends:OpBaselineLegendsComponent;
 
   text = {
     jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.pagination'),
@@ -131,9 +128,6 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
       this.updateViewRepresentation(query);
       this.baselineEnabled = this.wpTableBaseline.isActive();
       this.noResults = query.results.total === 0;
-      if (this.baselineEnabled) {
-        this.baselineLegends?.refresh();
-      }
       this.cdRef.detectChanges();
     });
 
