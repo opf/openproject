@@ -70,7 +70,6 @@ import { combineLatest } from 'rxjs';
   ],
 })
 export class WorkPackageListViewComponent extends UntilDestroyedMixin implements OnInit {
-
   text = {
     jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.pagination'),
     text_jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.label_pagination'),

@@ -45,6 +45,7 @@ import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/r
 import {
   baselineFilterFromValue,
   getPartsFromTimestamp,
+  getBaselineState,
 } from 'core-app/features/work-packages/components/wp-baseline/baseline-helpers';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import * as moment from 'moment-timezone';
@@ -196,22 +197,18 @@ export class OpBaselineLegendsComponent extends UntilDestroyedMixin implements O
     this.numAdded = 0;
     this.numRemoved = 0;
     this.numUpdated = 0;
+    let state = '';
     const baselineIsActive= this.wpTableBaseline.isActive();
     const results = this.querySpace.results.value;
     if (baselineIsActive && results && results.elements.length > 0) {
       results.elements.forEach((workPackage:WorkPackageResource) => {
-        const schema = this.schemaCache.of(workPackage);
-        const timestamps = workPackage.attributesByTimestamp || [];
-        if (timestamps.length > 1) {
-          const base = timestamps[0];
-          const compare = timestamps[1];
-          if ((!base._meta.exists && compare._meta.exists) || (!base._meta.matchesFilters && compare._meta.matchesFilters)) {
-            this.numAdded += 1;
-          } else if ((base._meta.exists && !compare._meta.exists) || (base._meta.matchesFilters && !compare._meta.matchesFilters)) {
-            this.numRemoved += 1;
-          } else if (this.visibleAttributeChanged(base, schema)) {
-            this.numUpdated += 1;
-          }
+        state = getBaselineState(workPackage, this.schemaCache, this.wpTableColumns);
+        if (state === 'added') {
+          this.numAdded += 1;
+        } else if (state === 'removed') {
+          this.numRemoved += 1;
+        } else if (state === 'updated') {
+          this.numUpdated += 1;
         }
       });
       this.text.maintained_with_changes = `${this.I18n.t('js.baseline.legends.maintained_with_changes')} (${this.numUpdated})`;
