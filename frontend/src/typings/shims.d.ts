@@ -18,7 +18,6 @@ import { Injector } from '@angular/core';
 
 import { OpenProject } from 'core-app/core/setup/globals/openproject';
 import * as TLodash from 'lodash';
-import * as TMoment from 'moment';
 import { GlobalI18n } from 'core-app/core/i18n/i18n.service';
 import { Dragula } from 'dragula';
 import { Screenfull } from 'screenfull';
@@ -30,7 +29,6 @@ declare module 'core-vendor/enjoyhint';
 
 declare global {
   const _:typeof TLodash;
-  const moment:typeof TMoment;
   const I18n:GlobalI18n;
   const dragula:Dragula;
 }

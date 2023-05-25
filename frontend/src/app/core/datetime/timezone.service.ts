@@ -34,18 +34,6 @@ import {
   Moment,
 } from 'moment';
 
-declare module 'moment' {
-  interface Moment {
-    tz():string|undefined;
-
-    tz(timezone:string, keepLocalTime?:boolean):Moment;
-
-    zoneAbbr():string;
-
-    zoneName():string;
-  }
-}
-
 @Injectable({ providedIn: 'root' })
 export class TimezoneService {
   constructor(
@@ -60,18 +48,20 @@ export class TimezoneService {
   }
 
   /**
+   * Returns the user's configured timezone or guesses it through moment
+   */
+  public userTimezone():string {
+    return this.configurationService.isTimezoneSet() ? this.configurationService.timezone() : moment.tz.guess();
+  }
+
+  /**
    * Takes a utc date time string and turns it into
    * a local date time moment object.
    */
   public parseDatetime(datetime:string, format?:string):Moment {
-    const d = moment.utc(datetime, format);
-
-    if (this.configurationService.isTimezoneSet()) {
-      d.local();
-      d.tz(this.configurationService.timezone());
-    }
-
-    return d;
+    return moment
+      .utc(datetime, format)
+      .tz(this.userTimezone());
   }
 
   public parseDate(date:Date|string, format?:string):Moment {
