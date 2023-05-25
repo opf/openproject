@@ -301,7 +301,7 @@ group :development, :test do
   gem 'lefthook', require: false
 
   # Brakeman scanner
-  gem 'brakeman', '~> 5.4.0'
+  gem 'brakeman', '~> 6.0.0'
 end
 
 gem 'bootsnap', '~> 1.16.0', require: false
