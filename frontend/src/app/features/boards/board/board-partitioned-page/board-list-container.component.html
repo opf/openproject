@@ -16,9 +16,11 @@
          vsDragScroll
          [cdkDragData]="boardWidget"
          [vsDragScrollContainer]="_container">
-      <span *ngIf="board.editable"
-            class="boards-list-item-handle icon icon-drag-handle"
-            cdkDragHandle></span>
+      <span
+        *ngIf="board.editable"
+        class="boards-list-item-handle spot-icon spot-icon_drag-handle"
+        cdkDragHandle
+      ></span>
       <board-list [resource]="boardWidget"
                   [board]="board"
                   (onRemove)="removeList(board, boardWidget)"
@@ -28,17 +30,20 @@
     <span *ngIf="showHiddenListWarning"
           class="boards-list--tooltip tooltip--right"
           [attr.data-tooltip]="text.hiddenListWarning">
-      <i class="icon icon-attention"></i>
+      <span class="spot-icon spot-icon_attention"></span>
     </span>
 
-    <div class="boards-list--add-item -no-text-select"
-         *ngIf="board.editable"
-         (click)="addList(board)">
+    <button
+      class="boards-list--add-item -no-text-select"
+      *ngIf="board.editable"
+      (click)="addList(board)"
+      type="button"
+    >
       <div class="boards-list--add-item-text">
-        <op-icon icon-classes="icon-add icon-context"></op-icon>
+        <span class="spot-icon spot-icon_add"></span>
         <span [textContent]="text.addList"></span>
       </div>
-    </div>
+    </button>
   </div>
 
   <op-enterprise-banner

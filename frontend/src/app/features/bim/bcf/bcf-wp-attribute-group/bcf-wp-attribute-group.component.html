@@ -17,12 +17,14 @@
       </ngx-gallery>
     </div>
 
-    <a *ngIf="viewerVisible && createAllowed"
-       [title]="text.add_viewpoint"
-       class="button"
-       (click)="saveViewpoint(workPackage)">
-      <op-icon icon-classes="button--icon icon-add"></op-icon>
-      <span class="button--text"> {{text.viewpoint}} </span>
-    </a>
+    <button
+      type="button"
+      *ngIf="viewerVisible && createAllowed"
+      class="button"
+      (click)="saveViewpoint(workPackage)"
+    >
+      <span class="spot-icon spot-icon_add"></span>
+      <span>{{ text.viewpoint }}</span>
+    </button>
   </div>
 </ng-container>

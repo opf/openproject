@@ -32,13 +32,13 @@ import { IfcModelsDataService } from 'core-app/features/bim/ifc_models/pages/vie
 
 @Component({
   template: `
-    <a *ngIf="manageAllowed"
-       class="button"
-       [href]="manageIFCPath">
-      <op-icon icon-classes="button--icon icon-settings2"></op-icon>
-      <span class="button--text"
-            [textContent]="text.manage"
-            aria-hidden="true"></span>
+    <a
+      *ngIf="manageAllowed"
+      class="button"
+      [href]="manageIFCPath"
+    >
+      <span class="spot-icon spot-icon_settings2"></span>
+      <span [textContent]="text.manage"></span>
     </a>
 
   `,

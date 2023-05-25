@@ -49,7 +49,7 @@ export class OpModalBannerComponent {
 
   @Input() actionButton?:string;
 
-  @Input() actionButtonClasses?:string;
+  @Input() actionButtonIcon?:string;
 
   @Output() buttonClicked = new EventEmitter<MouseEvent>();
 }

@@ -48,8 +48,9 @@
           type="button"
           class="spot-link wp-create-relation--cancel"
           (click)="toggleRelationsCreateForm()"
+          [attr.aria-label]="text.abort"
         >
-          <op-icon icon-classes="icon-remove icon-no-color -padded" [icon-title]="text.abort"></op-icon>
+          <span class="spot-icon spot-icon_remove"></span>
         </button>
       </div>
     </div>

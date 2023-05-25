@@ -60,7 +60,7 @@ export class WorkPackageGroupToggleDropdownMenuDirective extends OpContextMenuTr
       {
         disabled: this.wpViewCollapsedGroups.allGroupsAreCollapsed,
         linkText: this.I18n.t('js.button_collapse_all'),
-        icon: 'icon-minus2',
+        icon: 'minus2',
         onClick: (evt:JQuery.TriggeredEvent) => {
           this.wpViewCollapsedGroups.setAllGroupsCollapseStateTo(true);
 
@@ -70,7 +70,7 @@ export class WorkPackageGroupToggleDropdownMenuDirective extends OpContextMenuTr
       {
         disabled: this.wpViewCollapsedGroups.allGroupsAreExpanded,
         linkText: this.I18n.t('js.button_expand_all'),
-        icon: 'icon-plus',
+        icon: 'plus',
         onClick: (evt:JQuery.TriggeredEvent) => {
           this.wpViewCollapsedGroups.setAllGroupsCollapseStateTo(false);
 

@@ -6,15 +6,15 @@
     <ul class="toolbar-items">
       <li *ngIf="canAdd"
           class="toolbar-item">
-        <a class="button -alt-highlight"
-           [title]="text.create_new_board"
-           (click)="newBoard()">
-          <op-icon icon-classes="button--icon icon-add">
-          </op-icon>
-          <span class="button--text"
-                [textContent]="text.board">
-          </span>
-        </a>
+        <button
+          class="button -alt-highlight"
+          [title]="text.create_new_board"
+          (click)="newBoard()"
+          type="button"
+        >
+          <span class="spot-icon spot-icon_add"></span>
+          <span [textContent]="text.board"></span>
+        </button>
       </li>
     </ul>
   </div>
@@ -69,7 +69,7 @@
         <tr *ngIf="boards.length === 0" id="empty-row-notification">
           <td colspan="4">
             <span>
-              <op-icon icon-classes="icon-info1 icon-context"></op-icon>
+              <span class="spot-icon spot-icon_info1"></span>
               <span>
                 <strong [textContent]="text.noResults"></strong>
               </span>
@@ -94,12 +94,14 @@
             <op-date-time [dateTimeValue]="board.createdAt"></op-date-time>
           </td>
           <td class="buttons">
-            <button class="spot-link"
-                    type="button"
-                    (click)="destroyBoard(board)"
-                    [title]="text.delete"
-                    >
-              <op-icon icon-classes="icon icon-delete"></op-icon>
+            <button
+              class="spot-link"
+              type="button"
+              (click)="destroyBoard(board)"
+              [attr.title]="text.delete"
+              [attr.aria-label]="text.delete"
+            >
+              <span class="spot-icon spot-icon_delete"></span>
             </button>
           </td>
         </tr>

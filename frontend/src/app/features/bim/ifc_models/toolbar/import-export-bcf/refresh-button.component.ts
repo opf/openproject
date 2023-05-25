@@ -32,11 +32,14 @@ import { StateService } from '@uirouter/core';
 
 @Component({
   template: `
-    <a [title]="text.refresh_hover"
-       class="button refresh-button"
-       (click)="refresh()">
-      <op-icon icon-classes="button--icon icon-workflow"></op-icon>
-    </a>
+    <button
+      type="button"
+      [attr.aria-label]="text.refresh_hover"
+      class="button refresh-button"
+      (click)="refresh()"
+    >
+      <span class="spot-icon spot-icon_workflow"></span>
+    </button>
   `,
   selector: 'op-refresh-button',
   changeDetection: ChangeDetectionStrategy.OnPush,

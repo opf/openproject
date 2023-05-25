@@ -56,8 +56,8 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
       <progress max="100" value="0" #progressBar></progress>
       <p #progressPercentage>0%</p>
       <span class="upload-completed" *ngIf="completed || error">
-      <op-icon icon-classes="icon-close" *ngIf="error"></op-icon>
-      <op-icon icon-classes="icon-checkmark" *ngIf="completed"></op-icon>
+      <span class="spot-icon spot-icon_inline spot-icon_1_25 spot-icon_close" *ngIf="error"></span>
+      <span class="spot-icon spot-icon_inline spot-icon_1_25 spot-icon_checkmark" *ngIf="completed"></span>
     </span>
     </li>
   `,

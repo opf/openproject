@@ -36,12 +36,15 @@
     <div class="op-board-list--query-container drop-zone"
          [ngClass]="{ '-with-create-button': board.isAction || showAddButton }">
       <div class="op-board-list--button-container">
-        <button [title]="text.addCard"
-                *ngIf="showAddButton"
-                data-qa-selector="op-board-list--card-dropdown-add-button"
-                class="op-board-list--add-button op-board-list--card-dropdown-button button"
-                op-addCardDropdown>
-          <op-icon icon-classes="icon-small icon-add"></op-icon>
+        <button
+          [attr.title]="text.addCard"
+          [attr.aria-label]="text.addCard"
+          *ngIf="showAddButton"
+          data-qa-selector="op-board-list--card-dropdown-add-button"
+          class="op-board-list--add-button op-board-list--card-dropdown-button button"
+          op-addCardDropdown
+        >
+          <span class="spot-icon spot-icon_1 spot-icon_add"></span>
         </button>
       </div>
 

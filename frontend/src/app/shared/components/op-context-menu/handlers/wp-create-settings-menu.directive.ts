@@ -83,7 +83,7 @@ export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger
     if (queryCustomFields) {
       this.items.push({
         href: queryCustomFields.href,
-        icon: 'icon-custom-fields',
+        icon: 'custom-fields',
         linkText: queryCustomFields.name,
         onClick: () => false,
       });
@@ -92,7 +92,7 @@ export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger
     if (configureFormLink) {
       this.items.push({
         href: configureFormLink.href,
-        icon: 'icon-settings3',
+        icon: 'settings3',
         linkText: configureFormLink.name,
         onClick: () => false,
       });

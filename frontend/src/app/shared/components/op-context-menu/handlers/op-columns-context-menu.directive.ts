@@ -116,7 +116,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         // Sort ascending
         hidden: !this.wpTableSortBy.isSortable(c),
         linkText: this.I18n.t('js.work_packages.query.sort_descending'),
-        icon: 'icon-sort-descending',
+        icon: 'sort-descending',
         onClick: (evt:any) => {
           if (this.wpTableSortBy.isManualSortingMode) {
             this.confirmDialog.confirm({
@@ -135,7 +135,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         // Sort descending
         hidden: !this.wpTableSortBy.isSortable(c),
         linkText: this.I18n.t('js.work_packages.query.sort_ascending'),
-        icon: 'icon-sort-ascending',
+        icon: 'sort-ascending',
         onClick: (evt:any) => {
           if (this.wpTableSortBy.isManualSortingMode) {
             this.confirmDialog.confirm({
@@ -154,7 +154,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         // Group by
         hidden: !this.wpTableGroupBy.isGroupable(c) || this.wpTableGroupBy.isCurrentlyGroupedBy(c),
         linkText: this.I18n.t('js.work_packages.query.group'),
-        icon: 'icon-group-by',
+        icon: 'group-by',
         onClick: () => {
           if (this.wpTableHierarchies.isEnabled) {
             this.wpTableHierarchies.setEnabled(false);
@@ -167,7 +167,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         // Move left
         hidden: this.wpTableColumns.isFirst(c),
         linkText: this.I18n.t('js.work_packages.query.move_column_left'),
-        icon: 'icon-column-left',
+        icon: 'column-left',
         onClick: () => {
           this.wpTableColumns.shift(c, -1);
           return true;
@@ -177,7 +177,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
         // Move right
         hidden: this.wpTableColumns.isLast(c),
         linkText: this.I18n.t('js.work_packages.query.move_column_right'),
-        icon: 'icon-column-right',
+        icon: 'column-right',
         onClick: () => {
           this.wpTableColumns.shift(c, 1);
           return true;
@@ -186,7 +186,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
       {
         // Hide column
         linkText: this.I18n.t('js.work_packages.query.hide_column'),
-        icon: 'icon-delete',
+        icon: 'delete',
         onClick: () => {
           const focusColumn = this.wpTableColumns.previous(c) || this.wpTableColumns.next(c);
           this.wpTableColumns.removeColumn(c);
@@ -202,7 +202,7 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
       {
         // Insert columns
         linkText: this.I18n.t('js.work_packages.query.insert_columns'),
-        icon: 'icon-columns',
+        icon: 'columns',
         onClick: () => {
           this.opModalService.show<WpTableConfigurationModalComponent>(
             WpTableConfigurationModalComponent,

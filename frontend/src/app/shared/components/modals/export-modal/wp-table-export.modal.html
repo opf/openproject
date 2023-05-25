@@ -20,7 +20,7 @@
           (click)="triggerByLink(option.url, $event)"
           id="export-{{ option.identifier }}"
         >
-          <op-icon icon-classes="icon-export-{{ option.identifier }} icon-big"></op-icon>
+          <span class="spot-icon spot-icon_2 spot-icon_export-{{ option.identifier }}"></span>
           <span class="op-export-options--option-label" [textContent]="option.label"></span>
         </a>
       </li>
@@ -32,7 +32,7 @@
         type="button"
         class="button button_no-margin spot-modal--cancel-button spot-action-bar--action"
         (click)="closeMe()"
-        >
+      >
         {{ text.cancelButton }}
      </button>
     </div>

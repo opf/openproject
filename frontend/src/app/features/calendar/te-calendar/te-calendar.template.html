@@ -7,14 +7,12 @@
   <button
     *ngIf="memoizedCreateAllowed"
     class="button te-calendar--create-button"
-    [attr.aria-label]="text.logTime"
     (click)="addEventToday()"
   >
-    <op-icon icon-classes="button--icon icon-log_time"></op-icon>
+    <span class="spot-icon spot-icon_log-time"></span>
     <span
       class="button--text"
       [textContent]="text.logTime"
-      aria-hidden="true"
     ></span>
   </button>
 

@@ -99,7 +99,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
     this.items = statuses.map((status:HalResource) => ({
       disabled: false,
       linkText: status.name,
-      postIcon: status.isReadonly ? 'icon-locked' : null,
+      postIcon: status.isReadonly ? 'locked' : null,
       postIconTitle: this.I18n.t('js.work_packages.message_work_package_read_only'),
       class: Highlighting.inlineClass('status', status.id!),
       onClick: () => {

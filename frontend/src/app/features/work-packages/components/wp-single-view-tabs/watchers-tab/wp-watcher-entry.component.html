@@ -10,9 +10,10 @@
   <button
     type="button"
     class="spot-link form--selected-value--remover"
-    [title]="text.remove"
+    [attr.title]="text.remove"
+    [attr.aria-label]="text.remove"
     (click)="remove()"
   >
-    <op-icon icon-classes="icon-remove"></op-icon>
+    <span class="spot-icon spot-icon_remove"></span>
   </button>
 </div>

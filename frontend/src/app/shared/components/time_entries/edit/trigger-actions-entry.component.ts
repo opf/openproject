@@ -22,15 +22,21 @@ export const triggerActionsEntryComponentSelector = 'time-entry--trigger-actions
 @Component({
   selector: triggerActionsEntryComponentSelector,
   template: `
-    <a (click)="editTimeEntry()"
-       [title]="text.edit"
-       class="no-decoration-on-hover">
-      <op-icon icon-classes="icon-context icon-edit"></op-icon>
+    <button
+      type="button"
+      (click)="editTimeEntry()"
+      [attr.aria-label]="text.edit"
+      class="spot-link"
+    >
+      <span class="spot-icon spot-icon_edit"></span>
     </a>
-    <a (click)="deleteTimeEntry()"
-       [title]="text.delete"
-       class="no-decoration-on-hover">
-      <op-icon icon-classes="icon-context icon-delete"></op-icon>
+    <button
+      type="button"
+      (click)="deleteTimeEntry()"
+      [attr.aria-label]="text.delete"
+      class="spot-link"
+    >
+      <span class="spot-icon spot-icon_delete"></span>
     </a>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

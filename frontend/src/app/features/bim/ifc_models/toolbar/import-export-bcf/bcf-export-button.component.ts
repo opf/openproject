@@ -42,13 +42,16 @@ import { WpTableExportModalComponent } from 'core-app/shared/components/modals/e
 
 @Component({
   template: `
-    <a [title]="text.export_hover"
-       class="button export-bcf-button"
-       [attr.href]="exportLink"
-       (click)="showDelayedExport($event)">
-      <op-icon icon-classes="button--icon icon-export"></op-icon>
-      <span class="button--text"> {{text.export}} </span>
-    </a>
+    <button
+      type="button"
+      [attr.title]="text.export_hover"
+      class="button export-bcf-button"
+      [attr.href]="exportLink"
+      (click)="showDelayedExport($event)"
+    >
+      <span class="spot-icon spot-icon_export"></span>
+      <span> {{text.export}} </span>
+    </button>
   `,
   selector: 'bcf-export-button',
 })

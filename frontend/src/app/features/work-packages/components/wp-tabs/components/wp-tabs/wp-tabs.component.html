@@ -7,20 +7,22 @@
       <button
         type="button"
         class="spot-link work-packages--details-fullscreen-icon"
-        [title]="text.details.goToFullScreen"
+        [attr.title]="text.details.goToFullScreen"
+        [attr.aria-label]="text.details.goToFullScreen"
         (click)="switchToFullscreen()"
       >
-        <op-icon icon-classes="icon-context icon-no-color icon-to-fullscreen"></op-icon>
+        <span class="spot-icon spot-icon_to-fullscreen"></span>
       </button>
     </li>
     <li class="tab-icon">
       <button
         type="button"
         class="spot-link work-packages--details-close-icon"
-        [title]="text.details.close"
+        [attr.title]="text.details.close"
+        [attr.aria-label]="text.details.close"
         (click)="close()"
       >
-        <op-icon icon-classes="icon-context icon-no-color icon-close"></op-icon>
+        <span class="spot-icon spot-icon_close"></span>
       </button>
     </li>
   </ng-container>

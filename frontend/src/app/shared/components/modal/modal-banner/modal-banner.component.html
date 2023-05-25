@@ -31,7 +31,7 @@
     type="button"
     (click)="buttonClicked.emit($event)"
   >
-    <op-icon icon-classes="button--icon {{ actionButtonClasses }}"></op-icon>
-    <span class="button--text" [textContent]="actionButton"></span>
+    <span class="spot-icon spot-icon_{{ actionButtonIcon }}"></span>
+    <span [textContent]="actionButton"></span>
   </button>
 </div>

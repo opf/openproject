@@ -90,18 +90,27 @@
             <em [textContent]="item.sum"></em>
           </td>
           <td class="buttons">
-            <a *ngIf="item.entry && item.entry.updateImmediately"
-               (click)="editTimeEntry(item.entry)"
-               [title]="text.edit"
-               attr.data-qa-selector="edit-time-entry-{{ item.entry.id }}"
+            <button
+              type="button"
+              class="spot-link"
+              *ngIf="item.entry && item.entry.updateImmediately"
+              (click)="editTimeEntry(item.entry)"
+              [attr.title]="text.edit"
+              [attr.aria-label]="text.edit"
+              attr.data-qa-selector="edit-time-entry-{{ item.entry.id }}"
             >
-              <op-icon icon-classes="icon-context icon-edit"></op-icon>
-            </a>
-            <a *ngIf="item.entry && item.entry.delete"
-               (click)="deleteIfConfirmed($event, item.entry)"
-               [title]="text.delete" >
-              <op-icon icon-classes="icon-context icon-delete"></op-icon>
-            </a>
+              <span class="spot-icon spot-icon_edit"></span>
+            </button>
+            <button
+              type="button"
+              class="spot-link"
+              *ngIf="item.entry && item.entry.delete"
+              (click)="deleteIfConfirmed($event, item.entry)"
+              [attr.title]="text.delete"
+              [attr.aria-label]="text.delete"
+            >
+              <span class="spot-icon spot-icon_delete"></span>
+            </button>
           </td>
         </tr>
       </tbody>

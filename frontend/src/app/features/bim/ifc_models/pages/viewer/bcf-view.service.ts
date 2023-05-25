@@ -52,11 +52,11 @@ export class BcfViewService extends WorkPackageQueryStateService<BcfViewState> {
   };
 
   public icon:{ [key:string]:string } = {
-    cards: 'icon-view-card',
-    viewer: 'icon-view-model',
-    splitTable: 'icon-view-split-viewer-table',
-    splitCards: 'icon-view-split2',
-    table: 'icon-view-list',
+    cards: 'view-card',
+    viewer: 'view-model',
+    splitTable: 'view-split-viewer-table',
+    splitCards: 'view-split2',
+    table: 'view-list',
   };
 
   constructor(

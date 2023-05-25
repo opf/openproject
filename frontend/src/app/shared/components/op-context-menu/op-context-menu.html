@@ -18,11 +18,10 @@
           [attr.title]="item.title || undefined"
           (click)="handleClick(item, $event)"
         >
-          <op-icon *ngIf="item.icon" icon-classes="icon-action-menu {{ item.icon }}"></op-icon>
+          <span *ngIf="item.icon" class="spot-icon spot-icon_{{ item.icon }}"></span>
           <span [textContent]="item.linkText"></span>
-          <op-icon *ngIf="item.postIcon"
-                   [icon-title]="item.postIconTitle || ''"
-                   icon-classes="icon-action-menu-post {{ item.postIcon }}"></op-icon>
+          <span *ngIf="item.postIcon" class="spot-icon spot-icon_{{ item.postIcon }} icon-action-menu-post"></span>
+          <span *ngIf="item.postIconTitle" [textContent]="item.postIconTitle" class="hidden-for-sighted"></span>
         </a>
         <button
           *ngIf="!item.href"
@@ -34,11 +33,10 @@
           [attr.title]="item.title || undefined"
           (click)="handleClick(item, $event)"
         >
-          <op-icon *ngIf="item.icon" icon-classes="icon-action-menu {{ item.icon }}"></op-icon>
+          <span *ngIf="item.icon" class="spot-icon spot-icon_{{ item.icon }}"></span>
           <span [textContent]="item.linkText"></span>
-          <op-icon *ngIf="item.postIcon"
-                   [icon-title]="item.postIconTitle || ''"
-                   icon-classes="icon-action-menu-post {{ item.postIcon }}"></op-icon>
+          <span *ngIf="item.postIcon" class="spot-icon spot-icon_{{ item.postIcon }} icon-action-menu-post"></span>
+          <span *ngIf="item.postIconTitle" [textContent]="item.postIconTitle" class="hidden-for-sighted"></span>
         </button>
       </li>
     </ng-container>

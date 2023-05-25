@@ -33,11 +33,14 @@ import { BcfPathHelperService } from 'core-app/features/bim/bcf/helper/bcf-path-
 
 @Component({
   template: `
-    <a [title]="text.import_hover"
+    <button
+      type="button"
+      [title]="text.import_hover"
       (click)="handleClick()"
-      class="button import-bcf-button">
-      <op-icon icon-classes="button--icon icon-import"></op-icon>
-      <span class="button--text"> {{text.import}} </span>
+      class="button import-bcf-button"
+    >
+      <span class="spot-icon spot-icon_import"></span>
+      <span>{{text.import}}</span>
     </a>
   `,
   selector: 'bcf-import-button',

@@ -73,26 +73,22 @@
         type="button"
         class="spot-link wp-relations--description-btn"
         [ngClass]="{'-visible': showDescriptionInfo }"
-        [title]="text.description_label"
+        [attr.title]="text.description_label"
+        [attr.aria-label]="text.toggleDescription"
         (click)="userInputs.showRelationInfo = !userInputs.showRelationInfo"
       >
-        <op-icon
-          icon-classes="icon-info1 icon-no-color -padded wp-relations--icon wp-relations--description-icon"
-          [icon-title]="text.toggleDescription"
-        ></op-icon>
+        <span class="spot-icon spot-icon_info1 wp-relations--icon wp-relations--description-icon"></span>
       </button>
       <button
         *ngIf="!!relation.delete"
         type="button"
         class="spot-link relation-row--remove-btn"
         [ngClass]="{'-visible': showDescriptionInfo }"
-        [title]="text.removeButton"
+        [attr.title]="text.removeButton"
+        [attr.aria-label]="text.removeButton"
         (click)="removeRelation()"
       >
-        <op-icon
-          icon-classes="icon-remove icon-no-color -padded wp-relations--icon"
-          [icon-title]="text.removeButton"
-        ></op-icon>
+        <span class="spot-icon spot-icon_remove wp-relations--icon"></span>
       </button>
     </div>
   </div>

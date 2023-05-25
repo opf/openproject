@@ -1,8 +1,9 @@
 <button
-    type="button"
-    class="spot-link"
-    [title]="text.remove"
-    (click)="hideSection()"
+  type="button"
+  class="spot-link"
+  [attr.title]="text.remove"
+  [attr.aria-label]="text.remove"
+  (click)="hideSection()"
 >
-  <op-icon icon-classes="icon-close icon-small"></op-icon>
+  <span class="spot-icon spot-icon_1 spot-icon_close"></span>
 </button>

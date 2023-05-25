@@ -40,20 +40,22 @@
         type="button"
         *ngIf="userCanQuote"
         class="spot-link"
-        [title]="text.quote_comment"
+        [attr.title]="text.quote_comment"
+        [attr.aria-label]="text.quote_comment"
         (click)="quoteComment()"
       >
-        <op-icon icon-classes="action-icon icon-quote"></op-icon>
+        <span class="spot-icon spot-icon_quote"></span>
       </button>
       <button
         *ngIf="userCanEdit"
         type="button"
         class="spot-link"
         [ngClass]="'edit-activity--' + activityNo"
-        [title]="text.edit_comment"
+        [attr.title]="text.edit_comment"
+        [attr.aria-label]="text.edit_comment"
         (click)="activate()"
       >
-        <op-icon icon-classes="action-icon icon-edit"></op-icon>
+        <span class="spot-icon spot-icon_edit"></span>
       </button>
     </div>
   </div>

@@ -9,13 +9,15 @@
           <zen-mode-toggle-button></zen-mode-toggle-button>
         </li>
         <li class="toolbar-item">
-          <button class="button"
-                  *ngIf="addWidget.isAllowed"
-                  [title]="addWidget.addText"
-                  (click)="areas.toggleHelpMode()"
-                  [ngClass]="{'-active': areas.inHelpMode}">
-            <op-icon icon-classes="button--icon icon-add">
-            </op-icon>
+          <button
+            class="button"
+            *ngIf="addWidget.isAllowed"
+            [attr.title]="addWidget.addText"
+            [attr.aria-label]="addWidget.addText"
+            (click)="areas.toggleHelpMode()"
+            [ngClass]="{'-active': areas.inHelpMode}"
+          >
+            <span class="spot-icon spot-icon_add"></span>
           </button>
         </li>
       </ul>

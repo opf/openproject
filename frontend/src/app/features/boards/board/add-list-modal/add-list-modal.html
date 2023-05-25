@@ -32,11 +32,12 @@
               <button
                 class="op-select-footer--label"
                 type="button"
-                (click)="onNewActionCreated()">
-                  <span class="icon-context">
-                    <op-icon icon-classes="icon-plus icon-context"></op-icon>
-                    {{text.button_create}} {{ngSelectComponent.ngSelectInstance.searchTerm}}
-                  </span>
+                (click)="onNewActionCreated()"
+              >
+                <span class="spot-icon spot-icon_plus"></span>
+                <span>
+                  {{text.button_create}} {{ngSelectComponent.ngSelectInstance.searchTerm}}
+                </span>
               </button>
 
             </ng-template>

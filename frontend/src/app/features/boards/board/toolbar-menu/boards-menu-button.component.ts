@@ -5,11 +5,14 @@ import { Observable } from 'rxjs';
 
 @Component({
   template: `
-    <button title="{{ text.button_more }}"
-            class="button last board--settings-dropdown toolbar-icon"
-            boardsToolbarMenu
-            [boardsToolbarMenu-resource]="board$ | async">
-      <op-icon icon-classes="button--icon icon-show-more"></op-icon>
+    <button
+      [attr.title]="text.button_more"
+      [attr.aria-label]="text.button_more"
+      class="button -icon-only last board--settings-dropdown toolbar-icon"
+      boardsToolbarMenu
+      [boardsToolbarMenu-resource]="board$ | async"
+    >
+      <span class="spot-icon spot-icon_show-more"></span>
     </button>
   `,
 })
