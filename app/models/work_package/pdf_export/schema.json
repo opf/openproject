@@ -1,0 +1,940 @@
+{
+  "type" : "object",
+  "properties" : {
+    "page" : {
+      "type" : "object",
+      "properties" : {
+        "link_color" : {
+          "$ref" : "#/$defs/color"
+        },
+        "page_break_threshold" : {
+          "$ref" : "#/$defs/measurement"
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/page"
+        }
+      ]
+    },
+    "page_logo" : {
+      "$ref" : "#/$defs/page_logo"
+    },
+    "page_header" : {
+      "$ref" : "#/$defs/page_header_footer"
+    },
+    "page_footer" : {
+      "$ref" : "#/$defs/page_header_footer"
+    },
+    "page_heading" : {
+      "$ref" : "#/$defs/font_and_margin"
+    },
+    "work_package" : {
+      "type" : "object",
+      "properties" : {
+        "subject" : {
+          "$ref" : "#/$defs/font_and_margin"
+        },
+        "label" : {
+          "$ref" : "#/$defs/font_and_margin"
+        },
+        "attributes_table" : {
+          "type" : "object",
+          "properties" : {
+            "cell" : {
+              "$ref" : "#/$defs/table_cell"
+            },
+            "cell_label" : {
+              "$ref" : "#/$defs/table_cell"
+            }
+          },
+          "allOf" : [
+            {
+              "$ref" : "#/$defs/margin"
+            }
+          ]
+        },
+        "section" : {
+          "type" : "object",
+          "properties" : {
+            "heading" : {
+              "$ref" : "#/$defs/font_and_margin"
+            },
+            "item" : {
+              "$ref" : "#/$defs/font_and_margin"
+            }
+          }
+        },
+        "markdown_label" : {
+          "$ref" : "#/$defs/font"
+        },
+        "markdown_margin" : {
+          "$ref" : "#/$defs/margin"
+        },
+        "markdown" : {
+          "$ref" : "#/$defs/md_to_pdf_markdown"
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/margin"
+        }
+      ]
+    },
+    "toc" : {
+      "type" : "object",
+      "properties" : {
+        "subject_indent" : {
+          "$ref" : "#/$defs/measurement"
+        },
+        "item" : {
+          "$ref" : "#/$defs/font_and_margin"
+        }
+      },
+      "patternProperties" : {
+        "^item_level_\\d+" : {
+          "$ref" : "#/$defs/font_and_margin"
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/margin"
+        }
+      ]
+    },
+    "overview" : {
+      "type" : "object",
+      "properties" : {
+        "group_heading" : {
+          "$ref" : "#/$defs/font_and_margin"
+        },
+        "table" : {
+          "type" : "object",
+          "properties" : {
+            "subject_indent" : {
+              "$ref" : "#/$defs/measurement"
+            },
+            "cell" : {
+              "$ref" : "#/$defs/table_cell"
+            },
+            "cell_header" : {
+              "$ref" : "#/$defs/table_cell"
+            },
+            "cell_sums" : {
+              "$ref" : "#/$defs/table_cell"
+            }
+          },
+          "allOf" : [
+            {
+              "$ref" : "#/$defs/margin"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "patternProperties" : {
+    "^page_header_\\d+" : {
+      "$ref" : "#/$defs/page_header_footer"
+    },
+    "^page_footer_\\d+" : {
+      "$ref" : "#/$defs/page_header_footer"
+    },
+    "^ordered_list_point_\\d+" : {
+      "$ref" : "#/$defs/ordered_list_point"
+    },
+    "^ordered_list_\\d+" : {
+      "$ref" : "#/$defs/ordered_list"
+    },
+    "^unordered_list_point_\\d+" : {
+      "$ref" : "#/$defs/unordered_list_point"
+    },
+    "^unordered_list_\\d+" : {
+      "$ref" : "#/$defs/unordered_list"
+    },
+    "^header_\\d+" : {
+      "$ref" : "#/$defs/header"
+    }
+  },
+  "required" : [],
+  "additionalProperties" : false,
+  "$defs" : {
+    "md_to_pdf_markdown" : {
+      "type" : "object",
+      "properties" : {
+        "font" : {
+          "$ref" : "#/$defs/font"
+        },
+        "paragraph" : {
+          "$ref" : "#/$defs/paragraph"
+        },
+        "table" : {
+          "$ref" : "#/$defs/table"
+        },
+        "headless_table" : {
+          "$ref" : "#/$defs/headless_table"
+        },
+        "code" : {
+          "$ref" : "#/$defs/code"
+        },
+        "codeblock" : {
+          "$ref" : "#/$defs/codeblock"
+        },
+        "link" : {
+          "$ref" : "#/$defs/link"
+        },
+        "image" : {
+          "$ref" : "#/$defs/image"
+        },
+        "image_classes" : {
+          "$ref" : "#/$defs/image_classes"
+        },
+        "hrule" : {
+          "$ref" : "#/$defs/hrule"
+        },
+        "footnote_reference" : {
+          "$ref" : "#/$defs/footnote_reference"
+        },
+        "footnote_definition" : {
+          "$ref" : "#/$defs/footnote_definition"
+        },
+        "header" : {
+          "$ref" : "#/$defs/header"
+        },
+        "blockquote" : {
+          "$ref" : "#/$defs/blockquote"
+        },
+        "unordered_list" : {
+          "$ref" : "#/$defs/unordered_list"
+        },
+        "unordered_list_point" : {
+          "$ref" : "#/$defs/unordered_list_point"
+        },
+        "task_list" : {
+          "$ref" : "#/$defs/unordered_list"
+        },
+        "task_list_point" : {
+          "$ref" : "#/$defs/task_list_point"
+        },
+        "ordered_list" : {
+          "$ref" : "#/$defs/ordered_list"
+        },
+        "ordered_list_point" : {
+          "$ref" : "#/$defs/ordered_list_point"
+        }
+      },
+      "patternProperties" : {
+        "^ordered_list_point_\\d+" : {
+          "$ref" : "#/$defs/ordered_list_point"
+        },
+        "^ordered_list_\\d+" : {
+          "$ref" : "#/$defs/ordered_list"
+        },
+        "^unordered_list_point_\\d+" : {
+          "$ref" : "#/$defs/unordered_list_point"
+        },
+        "^unordered_list_\\d+" : {
+          "$ref" : "#/$defs/unordered_list"
+        },
+        "^header_\\d+" : {
+          "$ref" : "#/$defs/header"
+        }
+      }
+    },
+    "font_and_margin" : {
+      "type" : "object",
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        },
+        {
+          "$ref" : "#/$defs/margin"
+        }
+      ]
+    },
+    "font_specs" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/$defs/font_spec"
+      }
+    },
+    "font_spec" : {
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "pathname" : {
+          "type" : "string"
+        },
+        "regular" : {
+          "type" : "string"
+        },
+        "bold" : {
+          "type" : "string"
+        },
+        "italic" : {
+          "type" : "string"
+        },
+        "bold_italic" : {
+          "type" : "string"
+        }
+      },
+      "required" : [
+        "name",
+        "pathname",
+        "regular",
+        "bold",
+        "italic",
+        "bold_italic"
+      ]
+    },
+    "fallback_font_spec" : {
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "pathname" : {
+          "type" : "string"
+        },
+        "filename" : {
+          "type" : "string"
+        }
+      },
+      "required" : [
+        "name",
+        "pathname",
+        "filename"
+      ]
+    },
+    "color" : {
+      "type" : "string",
+      "pattern" : "^(?:[0-9a-fA-F]{3}){1,2}$"
+    },
+    "font" : {
+      "type" : "object",
+      "properties" : {
+        "font" : {
+          "type" : "string"
+        },
+        "size" : {
+          "type" : "number"
+        },
+        "character_spacing" : {
+          "type" : "number"
+        },
+        "leading" : {
+          "type" : "number"
+        },
+        "color" : {
+          "$ref" : "#/$defs/color"
+        },
+        "styles" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/$defs/font_style"
+          }
+        }
+      }
+    },
+    "font_style" : {
+      "type" : "string",
+      "enum" : [
+        "bold",
+        "italic",
+        "underline",
+        "strikethrough",
+        "superscript",
+        "subscript"
+      ]
+    },
+    "page" : {
+      "type" : "object",
+      "properties" : {
+        "page_layout" : {
+          "type" : "string",
+          "enum" : [
+            "portrait",
+            "landscape"
+          ]
+        },
+        "page_size" : {
+          "type" : "string",
+          "enum" : [
+            "EXECUTIVE",
+            "TABLOID",
+            "LETTER",
+            "LEGAL",
+            "FOLIO",
+            "A0",
+            "A1",
+            "A2",
+            "A3",
+            "A4",
+            "A5",
+            "A6",
+            "A7",
+            "A8",
+            "A9",
+            "A10",
+            "B0",
+            "B1",
+            "B2",
+            "B3",
+            "B4",
+            "B5",
+            "B6",
+            "B7",
+            "B8",
+            "B9",
+            "B10",
+            "C0",
+            "C1",
+            "C2",
+            "C3",
+            "C4",
+            "C5",
+            "C6",
+            "C7",
+            "C8",
+            "C9",
+            "C10",
+            "RA0",
+            "RA1",
+            "RA2",
+            "RA3",
+            "RA4",
+            "SRA0",
+            "SRA1",
+            "SRA2",
+            "SRA3",
+            "SRA4",
+            "4A0",
+            "2A0"
+          ]
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        },
+        {
+          "$ref" : "#/$defs/margin"
+        }
+      ]
+    },
+    "page_header_footer" : {
+      "type" : "object",
+      "properties" : {
+        "filter_pages" : {
+          "type" : "array",
+          "items" : {
+            "type" : "number"
+          }
+        },
+        "align" : {
+          "$ref" : "#/$defs/alignment"
+        },
+        "offset" : {
+          "type" : "number"
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        }
+      ]
+    },
+    "page_logo" : {
+      "type" : "object",
+      "properties" : {
+        "filter_pages" : {
+          "type" : "array",
+          "items" : {
+            "type" : "number"
+          }
+        },
+        "align" : {
+          "$ref" : "#/$defs/alignment"
+        },
+        "height" : {
+          "$ref" : "#/$defs/measurement"
+        },
+        "max_width" : {
+          "$ref" : "#/$defs/measurement"
+        },
+        "offset" : {
+          "type" : "number"
+        },
+        "disabled" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "hrule" : {
+      "type" : "object",
+      "properties" : {
+        "line_width" : {
+          "$ref" : "#/$defs/measurement"
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/margin"
+        }
+      ]
+    },
+    "margin" : {
+      "type" : "object",
+      "properties" : {
+        "margin" : {
+          "$ref" : "#/$defs/measurement"
+        },
+        "margin_left" : {
+          "$ref" : "#/$defs/measurement"
+        },
+        "margin_right" : {
+          "$ref" : "#/$defs/measurement"
+        },
+        "margin_top" : {
+          "$ref" : "#/$defs/measurement"
+        },
+        "margin_bottom" : {
+          "$ref" : "#/$defs/measurement"
+        }
+      }
+    },
+    "padding" : {
+      "type" : "object",
+      "properties" : {
+        "padding" : {
+          "$ref" : "#/$defs/measurement"
+        },
+        "padding_left" : {
+          "$ref" : "#/$defs/measurement"
+        },
+        "padding_right" : {
+          "$ref" : "#/$defs/measurement"
+        },
+        "padding_top" : {
+          "$ref" : "#/$defs/measurement"
+        },
+        "padding_bottom" : {
+          "$ref" : "#/$defs/measurement"
+        }
+      }
+    },
+    "measurement" : {
+      "type" : [
+        "number",
+        "string"
+      ],
+      "pattern" : "^([0-9\\.]+)(mm|cm|dm|m|in|ft|yr|pt)$"
+    },
+    "alignment" : {
+      "type" : "string",
+      "enum" : [
+        "left",
+        "center",
+        "right"
+      ]
+    },
+    "unordered_list" : {
+      "type" : "object",
+      "properties" : {
+        "spacing" : {
+          "$ref" : "#/$defs/measurement"
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        },
+        {
+          "$ref" : "#/$defs/padding"
+        }
+      ]
+    },
+    "unordered_list_point" : {
+      "type" : "object",
+      "properties" : {
+        "sign" : {
+          "type" : "string"
+        },
+        "spacing" : {
+          "$ref" : "#/$defs/measurement"
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        }
+      ]
+    },
+    "task_list_point" : {
+      "type" : "object",
+      "properties" : {
+        "checked" : {
+          "type" : "string"
+        },
+        "unchecked" : {
+          "type" : "string"
+        },
+        "spacing" : {
+          "$ref" : "#/$defs/measurement"
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        }
+      ]
+    },
+    "ordered_list" : {
+      "type" : "object",
+      "properties" : {
+        "spacing" : {
+          "$ref" : "#/$defs/measurement"
+        },
+        "point_inline" : {
+          "type" : "boolean"
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        },
+        {
+          "$ref" : "#/$defs/padding"
+        }
+      ]
+    },
+    "ordered_list_point" : {
+      "type" : "object",
+      "properties" : {
+        "spacing" : {
+          "$ref" : "#/$defs/measurement"
+        },
+        "alphabetical" : {
+          "type" : "boolean"
+        },
+        "spanning" : {
+          "type" : "boolean"
+        },
+        "template" : {
+          "type" : "string"
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        }
+      ]
+    },
+    "footnote_reference" : {
+      "type" : "object",
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        }
+      ]
+    },
+    "footnote_definition" : {
+      "type" : "object",
+      "properties" : {
+        "point" : {
+          "type" : "object",
+          "allOf" : [
+            {
+              "$ref" : "#/$defs/font"
+            }
+          ]
+        }
+      }
+    },
+    "link" : {
+      "type" : "object",
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        }
+      ]
+    },
+    "code" : {
+      "type" : "object",
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        }
+      ]
+    },
+    "header" : {
+      "type" : "object",
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        },
+        {
+          "$ref" : "#/$defs/padding"
+        }
+      ]
+    },
+    "blockquote" : {
+      "type" : "object",
+      "properties" : {
+        "background_color" : {
+          "$ref" : "#/$defs/color"
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        },
+        {
+          "$ref" : "#/$defs/border"
+        },
+        {
+          "$ref" : "#/$defs/padding"
+        },
+        {
+          "$ref" : "#/$defs/margin"
+        }
+      ]
+    },
+    "codeblock" : {
+      "type" : "object",
+      "properties" : {
+        "background_color" : {
+          "$ref" : "#/$defs/color"
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        },
+        {
+          "$ref" : "#/$defs/padding"
+        },
+        {
+          "$ref" : "#/$defs/margin"
+        }
+      ]
+    },
+    "table" : {
+      "type" : "object",
+      "properties" : {
+        "auto_width" : {
+          "type" : "boolean"
+        },
+        "header" : {
+          "$ref" : "#/$defs/table_header"
+        },
+        "cell" : {
+          "$ref" : "#/$defs/table_cell"
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/margin"
+        },
+        {
+          "$ref" : "#/$defs/border"
+        }
+      ]
+    },
+    "headless_table" : {
+      "type" : "object",
+      "properties" : {
+        "auto_width" : {
+          "type" : "boolean"
+        },
+        "cell" : {
+          "$ref" : "#/$defs/table_cell"
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/margin"
+        },
+        {
+          "$ref" : "#/$defs/border"
+        }
+      ]
+    },
+    "table_cell" : {
+      "type" : "object",
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        },
+        {
+          "$ref" : "#/$defs/padding"
+        },
+        {
+          "$ref" : "#/$defs/border"
+        }
+      ]
+    },
+    "table_header" : {
+      "type" : "object",
+      "properties" : {
+        "background_color" : {
+          "$ref" : "#/$defs/color"
+        },
+        "no_repeating" : {
+          "type" : "boolean"
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        }
+      ]
+    },
+    "paragraph" : {
+      "type" : "object",
+      "properties" : {
+        "align" : {
+          "type" : "string",
+          "enum" : [
+            "left",
+            "center",
+            "right",
+            "justify"
+          ]
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/font"
+        },
+        {
+          "$ref" : "#/$defs/padding"
+        }
+      ]
+    },
+    "image" : {
+      "type" : "object",
+      "properties" : {
+        "max_width" : {
+          "$ref" : "#/$defs/measurement"
+        },
+        "align" : {
+          "$ref" : "#/$defs/alignment"
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/margin"
+        }
+      ]
+    },
+    "border" : {
+      "type" : "object",
+      "properties" : {
+        "border_width" : {
+          "$ref" : "#/$defs/measurement"
+        },
+        "border_width_left" : {
+          "$ref" : "#/$defs/measurement"
+        },
+        "border_width_top" : {
+          "$ref" : "#/$defs/measurement"
+        },
+        "border_width_right" : {
+          "$ref" : "#/$defs/measurement"
+        },
+        "border_width_bottom" : {
+          "$ref" : "#/$defs/measurement"
+        },
+        "border_color" : {
+          "$ref" : "#/$defs/color"
+        },
+        "border_color_left" : {
+          "$ref" : "#/$defs/color"
+        },
+        "border_color_top" : {
+          "$ref" : "#/$defs/color"
+        },
+        "border_color_right" : {
+          "$ref" : "#/$defs/color"
+        },
+        "border_color_bottom" : {
+          "$ref" : "#/$defs/color"
+        },
+        "no_border" : {
+          "type" : "boolean"
+        },
+        "no_border_left" : {
+          "type" : "boolean"
+        },
+        "no_border_top" : {
+          "type" : "boolean"
+        },
+        "no_border_right" : {
+          "type" : "boolean"
+        },
+        "no_border_bottom" : {
+          "type" : "boolean"
+        }
+      },
+      "allOf" : [
+        {
+          "$ref" : "#/$defs/margin"
+        }
+      ]
+    },
+    "image_classes" : {
+      "type" : "object",
+      "patternProperties" : {
+        ".*" : {
+          "$ref" : "#/$defs/image"
+        }
+      }
+    },
+    "fields_default" : {
+      "type" : "object",
+      "properties" : {
+        "pdf_language" : {
+          "type" : "string"
+        },
+        "pdf_header" : {
+          "type" : "string"
+        },
+        "pdf_header_2" : {
+          "type" : "string"
+        },
+        "pdf_header_3" : {
+          "type" : "string"
+        },
+        "pdf_footer" : {
+          "type" : "string"
+        },
+        "pdf_footer_2" : {
+          "type" : "string"
+        },
+        "pdf_footer_3" : {
+          "type" : "string"
+        },
+        "pdf_header_logo" : {
+          "type" : "string"
+        },
+        "pdf_hyphenation" : {
+          "type" : "boolean"
+        },
+        "pdf_fields" : {
+          "type" : "object",
+          "patternProperties" : {
+            ".*" : {
+              "type" : [
+                "string",
+                "number"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

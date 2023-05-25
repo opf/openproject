@@ -27,282 +27,232 @@
 #++
 
 module WorkPackage::PDFExport::Style
-  def page_size
-    'EXECUTIVE'
-  end
+  include MarkdownToPDF::StyleValidation
 
-  def page_header_top
-    20
-  end
+  class PDFStyles
+    include MarkdownToPDF::Common
+    include MarkdownToPDF::StyleHelper
 
-  def page_bottom_margin
-    60
-  end
+    def initialize(yml)
+      @styles = yml.deep_symbolize_keys
+    end
 
-  def page_footer_top
-    30
-  end
+    def page_size
+      @styles[:page_size] || 'EXECUTIVE'
+    end
 
-  def page_logo_height
-    20
-  end
+    def page_header_offset
+      @styles.dig(:page_header, :offset) || 20
+    end
 
-  def page_logo_align
-    :right
-  end
+    def page_footer_offset
+      @styles.dig(:page_footer, :offset) || -30
+    end
 
-  def page_top_margin
-    60
-  end
+    def page_logo_height
+      @styles.dig(:page_logo, :height) || 20
+    end
 
-  def page_heading_style
-    { size: 14, styles: [:bold] }
-  end
+    def page_logo_align
+      @styles.dig(:page_logo, :align) || :right
+    end
 
-  def page_heading_margins_style
-    { margin_bottom: 10 }
-  end
+    def page_margin_top
+      @styles.dig(:page, :margin_top) || 60
+    end
 
-  def page_header_style
-    { size: 8, style: :normal }
-  end
+    def page_margin_left
+      @styles.dig(:page, :margin_left) || 50
+    end
 
-  def page_footer_style
-    { size: 8, style: :normal }
-  end
+    def page_margin_right
+      @styles.dig(:page, :margin_right) || 50
+    end
 
-  def page_break_space_left_threshold
-    200
-  end
+    def page_margin_bottom
+      @styles.dig(:page, :margin_bottom) || 60
+    end
 
-  def overview_table_link_color
-    '175A8E'
-  end
+    def page_heading
+      resolve_font(@styles[:page_heading])
+    end
 
-  def overview_group_header_style
-    { size: 11, styles: [:bold] }
-  end
+    def page_heading_margins
+      resolve_margin(@styles[:page_heading])
+    end
 
-  def overview_group_header_margins_style
-    { margin_bottom: 10 }
-  end
+    def page_header
+      resolve_font(@styles[:page_header])
+    end
 
-  def overview_table_margins_style
-    { margin_bottom: 20, margin_left: 0, margin_right: 0 }
-  end
+    def page_footer
+      resolve_font(@styles[:page_footer])
+    end
 
-  def overview_table_header_cell_style
-    { size: 9, text_color: "000000", font_style: :bold,
-      padding_left: 5, padding_right: 5, padding_top: 0, padding_bottom: 5 }
-  end
+    def page_break_threshold
+      @styles.dig(:page, :page_break_threshold) || 200
+    end
 
-  def overview_table_sums_cell_style
-    { size: 8, text_color: "000000", font_style: :bold }
-  end
+    def link_color
+      @styles.dig(:page, :link_color) || '000000'
+    end
 
-  def overview_table_subject_indent_style
-    8
-  end
+    def overview_group_header
+      resolve_font(@styles.dig(:overview, :group_heading))
+    end
 
-  def overview_table_cell_padding_style
-    { padding_left: 5,
-      padding_right: 5,
-      padding_top: 0,
-      padding_bottom: 5 }
-  end
+    def overview_group_header_margins
+      resolve_margin(@styles.dig(:overview, :group_heading))
+    end
 
-  def overview_table_cell_style
-    { size: 9,
-      text_color: "000000",
-      border_widths: [0.25, 0.25, 0.25, 0.25] }
-  end
+    def overview_table_margins
+      resolve_margin(@styles.dig(:overview, :table))
+    end
 
-  def toc_margins_style
-    { margin_top: 10, margin_bottom: 20 }
-  end
+    def overview_table_cell
+      resolve_table_cell(@styles.dig(:overview, :table, :cell))
+    end
 
-  def toc_item_style(level)
-    if level <= 1
-      { size: 10, style: :bold }
-    elsif level <= 2
-      { size: 10 }
-    else
-      { size: 9 }
+    def overview_table_header_cell
+      overview_table_cell.merge(
+        resolve_table_cell(@styles.dig(:overview, :table, :cell_header))
+      )
+    end
+
+    def overview_table_sums_cell
+      overview_table_cell.merge(
+        resolve_table_cell(@styles.dig(:overview, :table, :cell_sums))
+      )
+    end
+
+    def overview_table_subject_indent
+      @styles.dig(:overview, :table, :subject_indent) || 8
+    end
+
+    def toc_margins
+      resolve_margin(@styles[:toc])
+    end
+
+    def toc_item(level)
+      resolve_font(@styles.dig(:toc, :item)).merge(
+        resolve_font(@styles.dig(:toc, "item_level_#{level}".to_sym))
+      )
+    end
+
+    def toc_item_subject_indent
+      @styles.dig(:toc, :subject_indent) || 4
+    end
+
+    def toc_item_margins(level)
+      resolve_margin(@styles.dig(:toc, :item)).merge(
+        resolve_margin(@styles.dig(:toc, "item_level_#{level}".to_sym))
+      )
+    end
+
+    def wp_margins
+      resolve_margin(@styles[:work_package])
+    end
+
+    def wp_section_heading
+      resolve_font(@styles.dig(:work_package, :section, :heading))
+    end
+
+    def wp_section_heading_margins
+      resolve_margin(@styles.dig(:work_package, :section, :heading))
+    end
+
+    def wp_section_item
+      resolve_font(@styles.dig(:work_package, :section, :item))
+    end
+
+    def wp_section_item_margins
+      resolve_margin(@styles.dig(:work_package, :section, :item))
+    end
+
+    def wp_label
+      resolve_font(@styles.dig(:work_package, :label))
+    end
+
+    def wp_label_margins
+      resolve_margin(@styles.dig(:work_package, :label))
+    end
+
+    def wp_subject
+      resolve_font(@styles.dig(:work_package, :subject))
+    end
+
+    def wp_detail_subject_margins
+      resolve_margin(@styles.dig(:work_package, :subject))
+    end
+
+    def wp_attributes_table_margins
+      resolve_margin(@styles.dig(:work_package, :attributes_table))
+    end
+
+    def wp_attributes_table_cell
+      resolve_table_cell(@styles.dig(:work_package, :attributes_table, :cell))
+    end
+
+    def wp_attributes_table_label_cell
+      wp_attributes_table_cell.merge(
+        resolve_table_cell(@styles.dig(:work_package, :attributes_table, :cell_label))
+      )
+    end
+
+    def wp_markdown_label_size
+      resolve_font(@styles.dig(:work_package, :markdown_label))[:size] || 12
+    end
+
+    def wp_markdown_margins
+      resolve_margin(@styles.dig(:work_package, :markdown))
+    end
+
+    def wp_markdown_styling_yml
+      resolve_markdown_styling(@styles.dig(:work_package, :markdown) || {})
+    end
+
+    private
+
+    def resolve_table_cell(style)
+      # prawn.table.make_cell does use differently named options
+      # so to have them specified consistently, we map here
+      opts = opts_table_cell(style || {})
+      font_styles = opts.delete(:styles) || []
+      opts[:font_style] = font_styles[0] unless font_styles.empty?
+      color = opts.delete(:color)
+      opts[:text_color] = color unless color.nil?
+      opts
+    end
+
+    def resolve_markdown_styling(style)
+      page = style.delete(:font)
+      style[:page] = page unless page.nil?
+      style
+    end
+
+    def resolve_font(style)
+      opts_font(style || {})
+    end
+
+    def resolve_margin(style)
+      opts_margin(style || {})
     end
   end
 
-  def toc_item_subject_indent_style
-    4
+  def styles
+    @style ||= PDFStyles.new(load_style)
   end
 
-  def toc_item_margins_style(level)
-    if level === 1
-      { margin_top: 4, margin_bottom: 4 }
-    else
-      { margin_bottom: 4 }
-    end
+  private
+
+  def load_style
+    yml = YAML::load_file(File.join(styles_asset_path, 'standard.yml'))
+    schema = JSON::load_file(File.join(styles_asset_path, 'schema.json'))
+    validate_schema!(yml, schema)
   end
 
-  def wp_headline_margins_style
-    { margin_top: 4, margin_bottom: 4 }
-  end
-
-  def wp_headline_style
-    { size: 9, styles: [:bold] }
-  end
-
-  def wp_item_margins_style
-    { margin_left: 10 }
-  end
-
-  def wp_item_style
-    { size: 9, styles: [:italic] }
-  end
-
-  def wp_label_margins_style
-    { margin_top: 12, margin_bottom: 8 }
-  end
-
-  def wp_label_style
-    { size: 11, styles: [:bold] }
-  end
-
-  def wp_detail_margins_style
-    { margin_bottom: 20 }
-  end
-
-  def wp_detail_subject_margins_style
-    { margin_bottom: 4 }
-  end
-
-  def wp_detail_subject_font_style
-    { size: 14, styles: [:bold] }
-  end
-
-  def wp_attributes_table_margins_style
-    { margin_top: 4, margin_bottom: 2 }
-  end
-
-  def wp_attributes_table_label_font_style
-    { font_style: :bold }
-  end
-
-  def wp_attributes_table_cell_style
-    { size: 9,
-      text_color: "000000",
-      border_color: '4B4B4B',
-      border_widths: [0.25, 0.25, 0.25, 0.25],
-      padding_left: 5,
-      padding_right: 5,
-      padding_top: 0,
-      padding_bottom: 4 }
-  end
-
-  def wp_markdown_field_label_size
-    12
-  end
-
-  def wp_markdown_field_margins_style
-    { margin_top: 12, margin_bottom: 8 }
-  end
-
-  def markdown_styling_yml
-    # rubocop:disable Naming/VariableNumber
-    {
-      header: {
-        size: 8,
-        styles: [:bold]
-      },
-      header_1: {
-        size: 10,
-        padding_bottom: 4
-      },
-      header_2: {
-        size: 10
-      },
-      header_3: {
-        size: 9
-      },
-      page: {
-        size: 10,
-        leading: 3
-      },
-      paragraph: {
-        align: 'left'
-      },
-      unordered_list: {
-        spacing: 1
-      },
-      unordered_list_point: {
-        spacing: 4
-      },
-      ordered_list: {
-        spacing: 1
-      },
-      ordered_list_point: {
-        spacing: 4
-      },
-      task_list: {
-        spacing: 1
-      },
-      task_list_point: {
-        spacing: 4,
-        checked: '☑', # fallback font is needed
-        unchecked: '☐' # fallback font is needed
-      },
-      link: {
-        color: '175A8E',
-        styles: []
-      },
-      code: {
-        color: '880000',
-        size: 9,
-        font: 'SpaceMono'
-      },
-      blockquote: {
-        background_color: 'f4f9ff',
-        size: 10,
-        styles: ['italic'],
-        color: '0f3b66',
-        border_color: 'b8d6f4',
-        border_width: 1,
-        padding: 4,
-        padding_left: 6,
-        margin_top: 4,
-        margin_bottom: 4,
-        no_border_left: false,
-        no_border_right: true,
-        no_border_bottom: true,
-        no_border_top: true
-      },
-      image: {
-        align: 'left'
-      },
-      codeblock: {
-        background_color: 'F5F5F5',
-        color: '880000',
-        padding: '3mm',
-        size: 8,
-        margin_top: '2mm',
-        margin_bottom: '2mm',
-        font: 'SpaceMono'
-      },
-      table: {
-        auto_width: true,
-        margin_top: 4,
-        margin_bottom: 4,
-        header: {
-          size: 9,
-          styles: ['bold'],
-          background_color: 'F0F0F0'
-        },
-        cell: {
-          size: 9,
-          border_width: '0.25mm',
-          padding: 5
-        }
-      }
-    }
-    # rubocop:enable Naming/VariableNumber
+  def styles_asset_path
+    # TODO: where to put & load yml & json file
+    File.dirname(File.expand_path(__FILE__))
   end
 end

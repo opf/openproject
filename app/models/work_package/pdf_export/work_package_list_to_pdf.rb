@@ -37,7 +37,6 @@
 # grow beyond limits. Therefore we create multiple smaller PDFs that we finally
 # merge do one file.
 
-# require 'hexapdf'
 require 'open3'
 
 class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::QueryExporter
