@@ -325,7 +325,7 @@ describe Query::Results,
         create(:member,
                principal: user1,
                project: project_without_member,
-               roles: [create(:role, permissions: %w[view_work_packages])])
+               roles: create_list(:role, 1, permissions: %w[view_work_packages]))
         project_with_member.members.destroy_all
       end
 
