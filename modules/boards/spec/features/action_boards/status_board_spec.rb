@@ -44,14 +44,14 @@ describe 'Status action board', js: true do
 
   let(:permissions) do
     %i[show_board_views manage_board_views add_work_packages
-       edit_work_packages view_work_packages manage_public_queries]
+       edit_work_packages move_work_packages view_work_packages manage_public_queries]
   end
 
   let!(:priority) { create(:default_priority) }
   let!(:open_status) { create(:default_status, name: 'Open') }
-  let!(:other_status) { create(:status, name: 'Whatever') }
+  let!(:whatever_status) { create(:status, name: 'Whatever') }
   let!(:closed_status) { create(:status, is_closed: true, name: 'Closed') }
-  let!(:work_package) { create(:work_package, project:, subject: 'Foo', status: other_status) }
+  let!(:work_package) { create(:work_package, project:, subject: 'Foo', status: whatever_status) }
 
   let(:filters) { Components::WorkPackages::Filters.new }
 
@@ -66,7 +66,7 @@ describe 'Status action board', js: true do
     create(:workflow,
            type:,
            role:,
-           old_status_id: other_status.id,
+           old_status_id: whatever_status.id,
            new_status_id: open_status.id)
   end
   let!(:workflow_type_back_open) do
@@ -75,6 +75,13 @@ describe 'Status action board', js: true do
            role:,
            old_status_id: closed_status.id,
            new_status_id: open_status.id)
+  end
+  let!(:workflow_type_open_to_whatever) do
+    create(:workflow,
+           type:,
+           role:,
+           old_status_id: open_status.id,
+           new_status_id: whatever_status.id)
   end
 
   before do
@@ -95,6 +102,51 @@ describe 'Status action board', js: true do
 
       board_page.add_list option: 'Closed', query: 'closed'
       board_page.expect_list 'Closed'
+    end
+
+    it 'does not change moving card project when filtering on projects (Bug #44895)' do
+      other_project = create(:project,
+                             types: [type],
+                             enabled_module_names: %i[work_package_tracking board_view],
+                             members: { user => role })
+      board_index.visit!
+
+      # Create new board
+      board_page = board_index.create_board action: :Status
+
+      board_page.add_list option: 'Whatever'
+      board_page.expect_list 'Whatever'
+
+      # Add item
+      board_page.add_card 'Open', 'New Task'
+
+      # Add projects filter
+      board_page.filters.open
+      # binding.pry
+      # board_page.filters.add_filter('Project')
+      # board_page.filters.add_filter_by('Project', 'is (OR)', [other_project.name, project.name])
+
+      board_page.filters.add_filter_by('Project', 'is not', other_project.name)
+      board_page.filters.expect_filter_count 1
+
+      # wait for the chain of debounces:
+      # - 250ms in frontend/src/app/features/work-packages/components/filters/filter-project/filter-project.component.ts
+      # - 500ms in frontend/src/app/features/work-packages/components/filters/query-filters/query-filters.component.ts
+      # - 250ms in frontend/src/app/features/boards/board/board-filter/board-filter.component.ts
+      sleep(1)
+      # wait for the loading indicators to disappear
+      loading_indicator_saveguard
+
+      # move card
+      board_page.move_card(0, from: 'Open', to: 'Whatever')
+      board_page.wait_for_lists_reload
+
+      board_page.expect_card('Whatever', 'New Task', present: true)
+
+      wp_task = WorkPackage.find_by(subject: 'New Task')
+
+      expect(wp_task.status).to eq(whatever_status), 'Moving the card should have updated the status'
+      expect(wp_task.project).to eq(project), 'Moving the card should not change the project'
     end
 
     it 'allows management of boards' do
