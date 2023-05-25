@@ -30,8 +30,6 @@
 
 module Projects
   class TableComponent < ::TableComponent
-    include ProjectsHelper
-
     options :params # We read collapsed state from params
     options :current_user # adds this option to those of the base class
 
@@ -46,7 +44,7 @@ module Projects
     ##
     # The project sort by is handled differently
     def build_sort_header(column, options)
-      projects_sort_header_tag(column, options.merge(param: :json))
+      helpers.projects_sort_header_tag(column, options.merge(param: :json))
     end
 
     # We don't return the project row

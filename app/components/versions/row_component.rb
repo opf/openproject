@@ -30,8 +30,6 @@
 
 module Versions
   class RowComponent < ::RowComponent
-    include VersionsHelper
-
     # Overriding cell's method to set the project instance variable.
     # A lot of helpers rely on the existence of it.
     def setup!(model, options)

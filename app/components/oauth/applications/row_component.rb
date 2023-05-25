@@ -31,8 +31,6 @@
 module OAuth
   module Applications
     class RowComponent < ::RowComponent
-      include ::IconsHelper
-      include ::OAuthHelper
       include ::OpenProject::ObjectLinking
 
       property :confidential

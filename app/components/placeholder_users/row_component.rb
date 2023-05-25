@@ -28,11 +28,6 @@
 
 module PlaceholderUsers
   class RowComponent < ::RowComponent
-    include AvatarHelper
-    include UsersHelper
-    include PlaceholderUsersHelper
-    include TooltipHelper
-
     def placeholder_user
       model
     end

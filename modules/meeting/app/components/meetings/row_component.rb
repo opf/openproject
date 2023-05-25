@@ -30,8 +30,6 @@
 
 module Meetings
   class RowComponent < ::RowComponent
-    include ApplicationHelper
-
     def project
       link_to_project model.project, {}, {}, false
     end

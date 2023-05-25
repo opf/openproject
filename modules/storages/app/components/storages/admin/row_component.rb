@@ -30,11 +30,6 @@
 # Used by: Storages table in table_component.rb
 module Storages::Admin
   class RowComponent < ::RowComponent
-    include ::IconsHelper # Global helper for icons, defines op_icon and icon_wrapper?
-    include ::AvatarHelper # Global helper for avatar (image of a user)
-    include ::Redmine::I18n # Internationalization support (defines I18n.t(...) translation)
-    include ::ApplicationHelper # For `accesskey` method
-
     def storage
       row
     end

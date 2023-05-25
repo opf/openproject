@@ -31,9 +31,6 @@
 module LdapGroups
   module SynchronizedFilters
     class RowComponent < ::RowComponent
-      include ::IconsHelper
-      include ::PasswordHelper
-
       property :base_dn
 
       def synchronized_filter

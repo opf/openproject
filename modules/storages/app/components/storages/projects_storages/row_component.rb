@@ -30,9 +30,6 @@
 # associated with a project
 module Storages::ProjectsStorages
   class RowComponent < ::RowComponent
-    include ::IconsHelper
-    include ::AvatarHelper
-    include ::Redmine::I18n
     def project_storage
       row
     end

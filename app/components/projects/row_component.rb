@@ -30,10 +30,6 @@
 
 module Projects
   class RowComponent < ::RowComponent
-    include ProjectsHelper
-    include ProjectStatusHelper
-    include ::Redmine::I18n
-
     def project
       model.first
     end

@@ -2,8 +2,6 @@ module ::Webhooks
   module Outgoing
     module Deliveries
       class RowComponent < ::RowComponent
-        include ::IconsHelper
-
         property :id, :description, :event_name, :response_code
 
         def log

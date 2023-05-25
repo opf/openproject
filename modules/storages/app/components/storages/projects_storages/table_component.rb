@@ -33,8 +33,6 @@
 # for every "column" defined below.
 module Storages::ProjectsStorages
   class TableComponent < ::TableComponent
-    include ::IconsHelper
-
     columns :name,
             :provider_type,
             :creator,

@@ -31,9 +31,6 @@
 ##
 # Abstract view component. Subclass this for a concrete table.
 class TableComponent < RailsComponent
-  include SortHelper
-  include PaginationHelper
-
   def initialize(rows: [], **options)
     super(rows, **options)
   end

@@ -28,9 +28,6 @@
 
 module Calendar
   class RowComponent < ::RowComponent
-    include ApplicationHelper
-    include ::Redmine::I18n
-
     def query
       model
     end

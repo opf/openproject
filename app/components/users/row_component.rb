@@ -30,9 +30,6 @@
 
 module Users
   class RowComponent < ::RowComponent
-    include AvatarHelper
-    include UsersHelper
-
     property :firstname, :lastname
 
     def user

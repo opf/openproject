@@ -31,9 +31,6 @@
 module LdapGroups
   module SynchronizedGroups
     class RowComponent < ::RowComponent
-      include ::IconsHelper
-      include ::PasswordHelper
-
       def synchronized_group
         model
       end

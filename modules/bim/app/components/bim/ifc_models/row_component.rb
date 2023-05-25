@@ -1,10 +1,6 @@
 module Bim
   module IfcModels
     class RowComponent < ::RowComponent
-      include ::IconsHelper
-      include ::AvatarHelper
-      include ::Redmine::I18n
-
       property :created_at
 
       def title

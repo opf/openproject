@@ -2,8 +2,6 @@ module ::Webhooks
   module Outgoing
     module Webhooks
       class RowComponent < ::RowComponent
-        include ::IconsHelper
-
         property :description
 
         def webhook

@@ -30,10 +30,6 @@
 
 module Statuses
   class RowComponent < ::RowComponent
-    include ::IconsHelper
-    include ::ColorsHelper
-    include ReorderLinksHelper
-
     def status
       model
     end

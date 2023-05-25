@@ -32,9 +32,6 @@ module Settings
   ##
   # A text field to enter numeric values.
   class TimeZoneSettingComponent < ::RailsComponent
-    include ActionView::Helpers::FormOptionsHelper
-    include SettingsHelper
-
     options :form, :title
     options container_class: "-wide"
     options include_blank: true

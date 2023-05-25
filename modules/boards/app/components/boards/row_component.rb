@@ -30,8 +30,6 @@
 
 module Boards
   class RowComponent < ::RowComponent
-    include ApplicationHelper
-
     def project_id
       link_to_project model.project, {}, {}, false
     end

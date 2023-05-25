@@ -1,9 +1,6 @@
 module ::TwoFactorAuthentication
   module Devices
     class RowComponent < ::RowComponent
-      include ::IconsHelper
-      include ::PasswordHelper
-
       def device
         model
       end
