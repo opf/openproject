@@ -24,6 +24,7 @@
     </div>
   </ng-container>
   <op-baseline
+    [visible]="opened"
     [showActionBar]="true"
     slot="body"
     (submitted)="opened = false"

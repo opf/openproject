@@ -1,7 +1,8 @@
 <form
-  *ngIf="(nonWorkingDays$ | async); else loadingTemplate"
+  *ngIf="visible && (nonWorkingDays$ | async); else loadingTemplate"
   (submit)="onSubmit($event)"
   class="spot-container op-baseline--body"
+  [class.op-baseline--body_ranged]="selectedFilter === 'betweenTwoSpecificDates'"
 >
   <spot-form-field
     [label]="text.show_changes_since">
@@ -25,19 +26,33 @@
       </select>
 
     </div>
-    <span slot="description">  {{ dropDownDescription }} </span>
+    <span slot="description">  {{ mappedSelectedDate }} </span>
   </spot-form-field>
 
   <spot-form-field
+    [label]="text.date"
+    *ngIf="selectedFilter === 'aSpecificDate'"
+    class="op-baseline--date">
+
+    <input
+      slot="input"
+      name="op-baseline-date"
+      [value]="selectedDates[0] || ''"
+      (input)="dateChange([$event.target.value])"
+      type="text"
+      class="op-baseline--date-input"/>
+  </spot-form-field>
+
+  <spot-form-field
+    *ngIf="selectedFilter && selectedFilter !== 'betweenTwoSpecificDates'"
     [label]="text.time"
-    *ngIf="filterSelected"
     class="op-baseline--time">
 
     <input
       slot="input"
       name="op-baseline-time"
-      [value]="selectedTime"
-      (change)="timeChange($event.target.value)"
+      [value]="selectedTimes[0]"
+      (change)="timesChange([$event.target.value])"
       type="time"
       class="op-baseline--time-input"/>
 
@@ -47,13 +62,111 @@
       [alignment]="tooltipPosition"
       [disabled]="false"
       [light]="true">
-      <span slot="trigger">{{text.timeZone}}</span>
+      <span slot="trigger" class="op-baseline--time-zone" [textContent]="selectedOffsets[0]"></span>
       <span slot="body" class="spot-body-small op-baseline--time-tooltip-body">{{ text.help_description }}</span>
     </spot-tooltip>
 
 
-    <span slot="description" [textContent]="text.time_description()"></span>
+    <span
+      *ngIf="userOffset !== selectedOffsets[0]"
+      slot="description"
+      [textContent]="text.time_description(0)"></span>
   </spot-form-field>
+
+  <div
+    *ngIf="selectedFilter === 'betweenTwoSpecificDates'"
+    class="op-baseline--range-container"
+    >
+
+    <spot-form-field
+      [label]="text.from"
+      class="op-baseline--from-date">
+
+      <input
+        slot="input"
+        name="op-baseline-from-date"
+        [value]="selectedDates[0] || ''"
+        (input)="dateChange([$event.target.value, selectedDates[1] || ''])"
+        type="text"
+        class="op-baseline--date-input"/>
+    </spot-form-field>
+
+    <spot-form-field
+      [label]="text.to"
+      class="op-baseline--date">
+
+      <input
+        slot="input"
+        name="op-baseline-to-date"
+        [value]="selectedDates[1] || ''"
+        (input)="dateChange([selectedDates[0] || '', $event.target.value])"
+        type="text"
+        class="op-baseline--date-input"/>
+    </spot-form-field>
+
+    <spot-form-field
+      class="op-baseline--time">
+
+      <input
+        slot="input"
+        name="op-baseline-from-time"
+        [value]="selectedTimes[0] || ''"
+        (change)="timesChange([$event.target.value, selectedTimes[1]])"
+        type="time"
+        class="op-baseline--time-input"/>
+
+      <spot-tooltip
+        slot="input"
+        class="op-baseline--time-tooltip op-baseline--time-help spot-body-small"
+        [alignment]="tooltipPosition"
+        [disabled]="false"
+        [light]="true">
+        <span slot="trigger" class="op-baseline--time-zone" [textContent]="selectedOffsets[0]"></span>
+        <span slot="body" class="spot-body-small op-baseline--time-tooltip-body">{{ text.help_description }}</span>
+      </spot-tooltip>
+
+
+      <span
+        *ngIf="userOffset !== selectedOffsets[0]"
+        slot="description" [textContent]="text.time_description(0)"></span>
+    </spot-form-field>
+
+    <spot-form-field
+      class="op-baseline--time">
+
+      <input
+        slot="input"
+        name="op-baseline-to-time"
+        [value]="selectedTimes[1] || ''"
+        (change)="timesChange([selectedTimes[0], $event.target.value])"
+        type="time"
+        class="op-baseline--time-input"/>
+
+      <spot-tooltip
+        slot="input"
+        class="op-baseline--time-tooltip op-baseline--time-help spot-body-small"
+        [alignment]="tooltipPosition"
+        [disabled]="false"
+        [light]="true">
+        <span slot="trigger" class="op-baseline--time-zone" [textContent]="selectedOffsets[1]"></span>
+        <span slot="body" class="spot-body-small op-baseline--time-tooltip-body">{{ text.help_description }}</span>
+      </spot-tooltip>
+
+
+      <span
+        *ngIf="userOffset !== selectedOffsets[1]"
+        slot="description" [textContent]="text.time_description(1)"></span>
+    </spot-form-field>
+  </div>
+
+  <op-datepicker-sheet
+    class="op-baseline--datepicker"
+    *ngIf="selectedFilter === 'aSpecificDate' || selectedFilter === 'betweenTwoSpecificDates'"
+    [dates]="selectedFilter === 'betweenTwoSpecificDates' ? selectedDates : [selectedDates[0]]"
+    [mode]="selectedFilter === 'betweenTwoSpecificDates' ? 'range' : 'single'"
+    (datesSelected)="selectedDates = $event"
+    >
+  </op-datepicker-sheet>
 
   <div class="spot-action-bar"
       *ngIf="showActionBar">
@@ -61,9 +174,9 @@
     <div class="spot-action-bar--right">
       <button
         class="button spot-action-bar--action"
-        [disabled]="!filterSelected"
+        [disabled]="!selectedFilter"
         type="button"
-        (click)="clearSelection()"
+        (click)="resetSelection()"
       >
         {{ text.clear }}
       </button>

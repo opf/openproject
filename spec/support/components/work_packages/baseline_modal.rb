@@ -63,8 +63,41 @@ module Components
         expect_selected(option)
       end
 
-      def set_time(value)
-        fill_in 'op-baseline-time', with: value
+      def expect_offset(value, count: 1)
+        expect(page).to have_selector('.op-baseline--time-help', text: value, count:)
+      end
+
+      def expect_time_help_text(text)
+        expect(page).to have_selector('.spot-form-field--description', text:)
+      end
+
+      def set_time(value, selector = 'op-baseline-time')
+        page.execute_script <<~JS
+          const el = document.getElementsByName('#{selector}')[0];
+          el.value = '#{value}';
+          el.dispatchEvent(new Event('change'));
+        JS
+      end
+
+      def set_date(value)
+        fill_in 'op-baseline-date', with: value
+      end
+
+      def set_between_dates(from:, from_time:, to:, to_time:)
+        fill_in 'op-baseline-from-date', with: from
+        sleep 0.5
+        fill_in 'op-baseline-to-date', with: to
+
+        set_time from_time, 'op-baseline-from-time'
+        set_time to_time, 'op-baseline-to-time'
+      end
+
+      def expect_between_dates(from:, from_time:, to:, to_time:)
+        expect(page).to have_field('op-baseline-from-time', with: from_time)
+        expect(page).to have_field('op-baseline-to-time', with: to_time)
+
+        expect(page).to have_field('op-baseline-from-date', with: from)
+        expect(page).to have_field('op-baseline-to-date', with: to)
       end
 
       def apply

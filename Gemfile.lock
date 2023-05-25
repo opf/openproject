@@ -444,7 +444,7 @@ GEM
     faraday-follow_redirects (0.3.0)
       faraday (>= 1, < 3)
     faraday-net_http (3.0.2)
-    fastimage (2.2.6)
+    fastimage (2.2.7)
     ffi (1.15.5)
     flamegraph (0.9.5)
     fog-aws (3.19.0)

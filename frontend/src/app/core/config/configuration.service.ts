@@ -63,6 +63,10 @@ export class ConfigurationService {
     return !!this.timezone();
   }
 
+  public isDefaultTimezoneSet():boolean {
+    return !!this.defaultTimezone();
+  }
+
   public timezone():string {
     return this.userPreference('timeZone');
   }
