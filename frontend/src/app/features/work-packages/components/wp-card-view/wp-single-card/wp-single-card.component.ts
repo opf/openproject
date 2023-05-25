@@ -28,11 +28,12 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { IWorkPackageTimestamp } from 'core-app/features/hal/resources/work-package-timestamp-resource';
-import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
+import {
+  getBaselineState,
+} from 'core-app/features/work-packages/components/wp-baseline/baseline-helpers';
 
 @Component({
   selector: 'wp-single-card',
@@ -85,7 +86,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   public selected = false;
 
-  public baselineMode = ''||'added'||'changed'||'removed';
+  public baselineMode = ''||'added'||'updated'||'removed';
 
   public text = {
     removeCard: this.I18n.t('js.card.remove_from_list'),
@@ -188,31 +189,8 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   }
 
   public baselineIcon(workPackage:WorkPackageResource) {
-    const schema = this.schemaCache.of(workPackage);
-    const timestamps = workPackage.attributesByTimestamp || [];
-    this.baselineMode = '';
-    if (timestamps.length > 1) {
-      const base = timestamps[0];
-      const compare = timestamps[1];
-      if ((!base._meta.exists && compare._meta.exists) || (!base._meta.matchesFilters && compare._meta.matchesFilters)) {
-        this.baselineMode = 'added';
-      } else if ((base._meta.exists && !compare._meta.exists) || (base._meta.matchesFilters && !compare._meta.matchesFilters)) {
-        this.baselineMode = 'removed';
-      } else if (this.visibleAttributeChanged(base, schema)) {
-        this.baselineMode = 'changed';
-      }
-    }
+    this.baselineMode = getBaselineState(workPackage, this.schemaCache, this.wpTableColumns);
     return this.baselineMode;
-  }
-
-  private visibleAttributeChanged(base:IWorkPackageTimestamp, schema:ISchemaProxy):boolean {
-    return !!this
-      .wpTableColumns
-      .getColumns()
-      .find((column) => {
-        const name = schema.mappedName(column.id);
-        return Object.prototype.hasOwnProperty.call(base, name) || Object.prototype.hasOwnProperty.call(base.$links, name);
-      });
   }
 
   // eslint-disable-next-line class-methods-use-this
