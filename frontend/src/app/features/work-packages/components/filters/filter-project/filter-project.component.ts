@@ -75,6 +75,7 @@ export class FilterProjectComponent extends UntilDestroyedMixin implements OnIni
   }
 
   async onChange(val:HalResource[]|IProjectAutocompleteItem[]):Promise<void> {
+    console.log(val);
     if (val === this.filter.values || val === undefined) {
       return;
     }
