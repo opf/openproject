@@ -27,10 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% content_for :header_tags do %>
-  <meta name="required_script" content="administration_settings" />
-<% end %>
-
 <%= toolbar title: t(:label_languages) %>
 
 <%= styled_form_tag(admin_settings_update_languages_path, method: :patch) do %>
