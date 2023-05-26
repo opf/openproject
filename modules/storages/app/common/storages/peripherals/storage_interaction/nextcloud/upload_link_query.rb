@@ -43,21 +43,21 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         if data.nil? || data['parent'].nil?
           Util.error(:error, 'Data is invalid', data)
         else
-          outbound_response(method: :post,
-                            relative_path: URI_TOKEN_REQUEST,
-                            payload: { folder_id: data['parent'] },
-                            token:)
-            .map { |result| build_upload_link result }
+          outbound_response(
+            method: :post,
+            relative_path: URI_TOKEN_REQUEST,
+            payload: { folder_id: data['parent'] },
+            token:
+          ).map do |response|
+            Storages::UploadLink.new(
+              URI.parse(Util.join_uri_path(@base_uri, URI_UPLOAD_BASE_PATH, response.token))
+            )
+          end
         end
       end
     end
 
     private
-
-    def build_upload_link(response)
-      destination = URI.parse(Util.join_uri_path(@base_uri, URI_UPLOAD_BASE_PATH, response.token))
-      ServiceResult.success(result: Storages::UploadLink.new(destination))
-    end
 
     # rubocop:disable Metrics/AbcSize
     def outbound_response(method:, relative_path:, payload:, token:)

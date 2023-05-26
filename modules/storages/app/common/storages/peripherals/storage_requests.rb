@@ -67,7 +67,7 @@ module Storages::Peripherals
     private
 
     def result(request_class)
-      ServiceResult.success(result: request_class.new(@storage).method(:call).to_proc)
+      request_class.new(@storage).method(:call).to_proc
     end
 
     def clazz(storage, request)

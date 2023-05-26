@@ -558,75 +558,16 @@ describe 'API v3 file links resource' do
 
     describe 'with successful response' do
       before do
-        storage_requests = instance_double(Storages::Peripherals::StorageRequests)
-        download_link_query = Proc.new do
-          ServiceResult.success(result: url)
-        end
-        allow(storage_requests).to receive(:download_link_query).and_return(ServiceResult.success(result: download_link_query))
-        allow(Storages::Peripherals::StorageRequests).to receive(:new).and_return(storage_requests)
-
-        get path
+        allow_any_instance_of(
+          Storages::Peripherals::StorageInteraction::Nextcloud::DownloadLinkQuery
+        ).to receive(:call).and_return(ServiceResult.success(result: url))
       end
 
       it 'responds successfully' do
+        get path
+
         expect(subject.status).to be(303)
         expect(subject.location).to be(url)
-      end
-    end
-
-    describe 'with download link query creation failed' do
-      let(:storage_requests) { instance_double(Storages::Peripherals::StorageRequests) }
-
-      before do
-        allow(Storages::Peripherals::StorageRequests).to receive(:new).and_return(storage_requests)
-      end
-
-      describe 'due to authorization failure' do
-        before do
-          allow(storage_requests).to receive(:download_link_query).and_return(
-            ServiceResult.failure(
-              result: :not_authorized,
-              errors: Storages::StorageError.new(code: :not_authorized)
-            )
-          )
-          get path
-        end
-
-        it { expect(subject.status).to be(500) }
-      end
-
-      describe 'due to internal error' do
-        before do
-          allow(storage_requests).to receive(:download_link_query).and_return(
-            ServiceResult.failure(
-              result: :error,
-              errors: Storages::StorageError.new(code: :error)
-            )
-          )
-          get path
-        end
-
-        it { expect(subject.status).to be(500) }
-      end
-
-      describe 'due to not found' do
-        before do
-          allow(storage_requests).to receive(:download_link_query).and_return(
-            ServiceResult.failure(
-              result: :not_found,
-              errors: Storages::StorageError.new(code: :not_found)
-            )
-          )
-          get path
-        end
-
-        it 'fails with outbound request failure' do
-          expect(subject.status).to be(500)
-
-          body = JSON.parse(subject.body)
-          expect(body['message']).to eq(I18n.t('api_v3.errors.code_500_outbound_request_failure', status_code: 404))
-          expect(body['errorIdentifier']).to eq('urn:openproject-org:api:v3:errors:OutboundRequest:NotFound')
-        end
       end
     end
 

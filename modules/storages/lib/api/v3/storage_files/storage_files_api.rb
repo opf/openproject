@@ -33,10 +33,10 @@ module API::V3::StorageFiles
 
     resources :files do
       get do
-        (Storages::Peripherals::StorageRequests.new(storage: @storage).files_query >> ->(query) {
-                                                                                        query.call(user: current_user,
-                                                                                                   folder: params[:parent])
-                                                                                      })
+        Storages::Peripherals::StorageRequests
+          .new(storage: @storage)
+          .files_query
+          .call(user: current_user, folder: params[:parent])
           .match(
             on_success: ->(files) { API::V3::StorageFiles::StorageFilesRepresenter.new(files, @storage, current_user:) },
             on_failure: ->(error) { raise_error(error) }
@@ -45,10 +45,10 @@ module API::V3::StorageFiles
 
       route_param :file_id, type: String, desc: 'Storage file id' do
         get do
-          (Storages::Peripherals::StorageRequests.new(storage: @storage).file_query >> ->(query) {
-                                                                                         query.call(user: current_user,
-                                                                                                    file_id: params[:file_id])
-                                                                                       })
+          Storages::Peripherals::StorageRequests
+            .new(storage: @storage)
+            .file_query
+            .call(user: current_user, file_id: params[:file_id])
             .match(
               on_success: ->(storage_file) {
                 API::V3::StorageFiles::StorageFileRepresenter.new(storage_file, @storage, current_user:)
@@ -70,10 +70,10 @@ module API::V3::StorageFiles
         end
 
         validate.call(request_body) >> ->(data) do
-          (Storages::Peripherals::StorageRequests.new(storage: @storage).upload_link_query >> ->(query) {
-                                                                                                query.call(user: current_user,
-                                                                                                           data:)
-                                                                                              })
+          Storages::Peripherals::StorageRequests
+            .new(storage: @storage)
+            .upload_link_query
+            .call(user: current_user, data:)
             .match(
               on_success: ->(link) { API::V3::StorageFiles::StorageUploadLinkRepresenter.new(link, current_user:) },
               on_failure: ->(error) { raise_error(error) }

@@ -51,31 +51,25 @@ class ManageNextcloudIntegrationJob < Cron::CronJob
 
       requests = Storages::Peripherals::StorageRequests.new(storage:)
 
-      group_users = requests.group_users_query.result.call(group:).match(
-        on_success: ->(r) { r },
-        on_failure: ->(r) { raise "group_users_query failed: #{r}, group: #{group}" }
-      )
+      group_users = requests.group_users_query.call(group:).on_failure do |r|
+        raise "group_users_query failed: #{r.inspect}, group: #{group}"
+      end.result
 
-      requests.set_permissions_command.result.call(
+      requests.set_permissions_command.call(
         path: groupfolder,
         permissions: {
           users: { "#{username}": 31 },
           groups: { "#{group}": 1 }
         }
-      ).match(
-        on_success: ->(_) {},
-        on_failure: ->(r) { raise "set_permissions_command failed: #{r}, path: #{path}, permissions: #{permissions}" }
-      )
+      ).on_failure do |r|
+        raise "set_permissions_command failed: #{r}, path: #{path}, permissions: #{permissions}"
+      end
 
       folders_props = requests
-                        .propfind_query
-                        .result
-                        .call(depth: '1', path: groupfolder)
-      .match(
-        on_success: ->(r) { r },
-        on_failure: ->(r) { raise "propfind_query failed: #{r}, depth: 1, path: #{groupfolder}" }
-      )
-
+        .propfind_query
+        .call(depth: '1', path: groupfolder)
+        .on_failure { |r| raise "propfind_query failed: #{r}, depth: 1, path: #{groupfolder}" }
+        .result
       file_ids = folders_props.map { |_path, props| props['fileid'] }
 
       storage.projects_storages.where(project_folder_mode: 'automatic').each do |project_storage|
@@ -86,22 +80,22 @@ class ManageNextcloudIntegrationJob < Cron::CronJob
         if file_ids.include?(project_folder_id)
           source = folders_props.find { |_k, v| v['fileid'] == project_folder_id }.first
           if source != target
-            requests.rename_file_command.result.call(source:, target:).match(
-              on_success: ->(r) { r },
-              on_failure: ->(r) { raise "rename_file_command failed: #{r}, source: #{source} target: #{target}" }
-            )
+            requests.rename_file_command.call(source:, target:).on_failure do |r|
+              raise "rename_file_command failed: #{r}, source: #{source} target: #{target}"
+            end
           end
         else
-          requests.create_folder_command.result.call(folder_path: target)
+          requests.create_folder_command.call(folder_path: target)
                   .match(
                     on_success: ->(_) {
                       propfind_response2 = requests
                                              .propfind_query
-                                             .result
                                              .call(depth: '0', path: target)
                                              .match(
                                                on_success: ->(r) { r },
-                                               on_failure: ->(r) { raise "propfind_query failed: #{r}, depth: 0, path: #{target}" }
+                                               on_failure: ->(r) {
+                                                             raise "propfind_query failed: #{r}, depth: 0, path: #{target}"
+                                                           }
                                              )
                       project_storage.update(project_folder_id: propfind_response2[target]['fileid'])
                     },
@@ -124,26 +118,21 @@ class ManageNextcloudIntegrationJob < Cron::CronJob
           permissions[:users][nextcloud_username.to_sym] = calculate_permissions(user: token.user, project:)
 
           if group_users.exclude?(nextcloud_username) && nextcloud_usernames_used_in_openprojects.exclude?(nextcloud_username)
-            requests.add_user_to_group_command.result.call(user: nextcloud_username).match(
-              on_success: ->(_) {},
-              on_failure: ->(r) { raise "add_user_to_group_command failed: #{r}, user: #{netcloud_username}" }
-            )
+            requests.add_user_to_group_command.call(user: nextcloud_username).on_failure do |r|
+              raise "add_user_to_group_command failed: #{r}, user: #{netcloud_username}"
+            end
           end
           nextcloud_usernames_used_in_openprojects << nextcloud_username
         end
 
-        requests.set_permissions_command.result.call(path: target, permissions:).match(
-          on_success: ->(_) {},
-          on_failure: ->(r) { raise "set_permissions_command failed: #{r}, path: #{target}, permissions: #{permissions}" }
-        )
+        requests.set_permissions_command.call(path: target, permissions:).on_failure do |r|
+          raise "set_permissions_command failed: #{r}, path: #{target}, permissions: #{permissions}"
+        end
       end
 
       (group_users - nextcloud_usernames_used_in_openprojects.to_a).each do |user|
-        requests.remove_user_from_group_command.result.call(user:)
-                .match(
-                  on_success: ->(_) {},
-                  on_failure: ->(r) { raise "remove_user_from_group_command failed: #{r}, user: #{user}" }
-                )
+        requests.remove_user_from_group_command.call(user:)
+                .on_failure { |r| raise "remove_user_from_group_command failed: #{r}, user: #{user}" }
       end
 
       lost_folder_paths = folders_props
@@ -152,19 +141,18 @@ class ManageNextcloudIntegrationJob < Cron::CronJob
         array.push(path) if project_folder_ids_used_in_openproject.exclude?(attrs['fileid'])
       end
       lost_folder_paths.each do |path|
-        requests.set_permissions_command.result.call(
+        requests.set_permissions_command.call(
           path:,
           permissions: {
             users: { "#{username}": 31 },
             groups: { "#{group}": 0 }
           }
-        ).match(
-          on_success: ->(_) {},
-          on_failure: ->(r) { raise "set_permissions_command failed: #{r}, path: #{path}, permissions: #{permissions}" }
-        )
+        ).on_failure { |r| raise "set_permissions_command failed: #{r}, path: #{path}, permissions: #{permissions}" }
       end
     end
   end
+
+  private
 
   def calculate_permissions(user:, project:)
     {

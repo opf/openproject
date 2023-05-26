@@ -84,7 +84,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
         it 'must return a download link URL' do
           result = subject
                      .download_link_query
-                     .result
                      .call(user:, file_link:)
           expect(result).to be_success
           expect(result.result).to be_eql(uri)
@@ -96,7 +95,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
           it 'must return a download link URL' do
             result = subject
                        .download_link_query
-                       .result
                        .call(user:, file_link:)
             expect(result).to be_success
             expect(result.result).to be_eql(uri)
@@ -122,7 +120,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
         it 'must return ":not_authorized" ServiceResult' do
           result = subject
                      .download_link_query
-                     .result
                      .call(user:, file_link:)
           expect(result).to be_failure
           expect(result.errors.code).to be(:not_authorized)
@@ -137,7 +134,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
         it 'must return :not_authorized ServiceResult' do
           result = subject
                      .download_link_query
-                     .result
                      .call(user:, file_link:)
           expect(result).to be_failure
           expect(result.errors.code).to be(:not_authorized)
@@ -153,7 +149,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
           it "must return :#{symbol} ServiceResult" do
             result = subject
                        .download_link_query
-                       .result
                        .call(user:, file_link:)
             expect(result).to be_failure
             expect(result.errors.code).to be(symbol)
@@ -189,7 +184,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
           it 'returns a list files directories with names and permissions' do
             result = subject
                        .files_query
-                       .result
                        .call(folder: nil, user:)
             expect(result).to be_success
             expect(result.result.files.size).to eq(4)
@@ -225,7 +219,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
             it do
               result = subject
                          .files_query
-                         .result
                          .call(folder: parent, user:)
               expect(result.result.files[0].location).to eq('/Folder1')
 
@@ -239,7 +232,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
             it do
               result = subject
                          .files_query
-                         .result
                          .call(folder: parent, user:)
               expect(result.result.files[2].location).to eq('/Photos/Birds/README.md')
               expect(result.result.ancestors[0].location).to eq('/')
@@ -255,7 +247,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
             it do
               result = subject
                          .files_query
-                         .result
                          .call(folder: nil, user:)
               expect(result.result.files[2].location).to eq('/README.md')
               assert_requested(:propfind, request_url)
@@ -269,7 +260,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
             it do
               result = subject
                          .files_query
-                         .result
                          .call(folder: parent, user:)
 
               expect(result.result.files[2].location).to eq('/Photos/Birds/README.md')
@@ -296,7 +286,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
           it 'must return ":not_authorized" ServiceResult' do
             result = subject
                        .files_query
-                       .result
                        .call(folder: parent, user:)
             expect(result).to be_failure
             expect(result.errors.code).to be(:not_authorized)
@@ -313,7 +302,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
           it "must return :#{symbol} ServiceResult" do
             result = subject
                        .files_query
-                       .result
                        .call(folder: parent, user:)
             expect(result).to be_failure
             expect(result.errors.code).to be(symbol)
@@ -375,7 +363,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
         it 'must return a list of files when called' do
           result = subject
                      .file_query
-                     .result
                      .call(user:, file_id:)
           expect(result).to be_success
           storage_file = result.result
@@ -409,7 +396,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
         it 'must return an upload link URL' do
           link = subject
                    .upload_link_query
-                   .result
                    .call(user:, data: query_payload)
                    .result
           expect(link.destination.path).to be_eql("/index.php/apps/integration_openproject/direct-upload/#{upload_token}")
@@ -439,7 +425,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
         it 'must return ":not_authorized" ServiceResult' do
           result = subject
                      .upload_link_query
-                     .result
                      .call(user:, data: query_payload)
           expect(result).to be_failure
           expect(result.errors.code).to be(:not_authorized)
@@ -455,7 +440,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
           it "must return :#{symbol} ServiceResult" do
             result = subject
                        .upload_link_query
-                       .result
                        .call(user:, data: query_payload)
             expect(result).to be_failure
             expect(result.errors.code).to be(symbol)
@@ -511,7 +495,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
         it 'must return an upload link URL' do
           link = subject
                    .upload_link_query
-                   .result
                    .call(user:, data: query_payload)
                    .result
           expect(link.destination.path).to be_eql("/public.php/webdav/#{query_payload.fileName}")
@@ -543,7 +526,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
         it 'must return ":not_authorized" ServiceResult' do
           result = subject
                      .upload_link_query
-                     .result
                      .call(user:, data: query_payload)
           expect(result).to be_failure
           expect(result.errors.code).to be(:not_authorized)
@@ -568,7 +550,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
         it 'must return :not_authorized ServiceResult' do
           result = subject
                      .upload_link_query
-                     .result
                      .call(user:, data: query_payload)
           expect(result).to be_failure
           expect(result.errors.code).to be(:not_authorized)
@@ -585,7 +566,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
         it 'must return :not_authorized ServiceResult' do
           result = subject
                      .upload_link_query
-                     .result
                      .call(user:, data: query_payload)
           expect(result).to be_failure
           expect(result.errors.code).to be(:not_authorized)
@@ -601,7 +581,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
           it "must return :#{symbol} ServiceResult" do
             result = subject
                        .upload_link_query
-                       .result
                        .call(user:, data: query_payload)
             expect(result).to be_failure
             expect(result.errors.code).to be(symbol)
@@ -664,7 +643,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
     it 'responds with a strings array with group users' do
       result = subject
       .group_users_query
-            .result
             .call
       expect(result).to be_success
       expect(result.result).to eq(["admin", "OpenProject", "reader", "TestUser", "TestUser34"])
@@ -709,7 +687,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
     it 'adds user to the group' do
       result = subject
       .add_user_to_group_command
-            .result
             .call(user: origin_user_id)
       expect(result).to be_success
       expect(result.message).to eq("User has been added successfully")
@@ -754,7 +731,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
     it 'removes user from the group' do
       result = subject
       .remove_user_from_group_command
-            .result
             .call(user: origin_user_id)
       expect(result).to be_success
       expect(result.message).to eq("User has been removed from group")
@@ -786,7 +762,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
       it 'creates a folder and responds with a success' do
         result = subject
         .create_folder_command
-            .result
             .call(folder_path:)
         expect(result).to be_success
         expect(result.message).to eq("Folder was successfully created.")
@@ -814,7 +789,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
       it 'does not create a folder and responds with a success' do
         result = subject
         .create_folder_command
-            .result
             .call(folder_path:)
         expect(result).to be_success
         expect(result.message).to eq("Folder already exists.")
@@ -842,7 +816,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
       it 'does not create a folder and responds with a failure' do
         result = subject
         .create_folder_command
-            .result
             .call(folder_path:)
         expect(result).to be_failure
         expect(result.result).to eq(:conflict)
@@ -949,7 +922,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
           it 'returns success when permissions can be set' do
             result = subject
             .set_permissions_command
-                  .result
                   .call(path:, permissions:)
             expect(result).to be_success
           end
@@ -978,7 +950,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
           it 'returns failure' do
             result = subject
             .set_permissions_command
-                  .result
                   .call(path:, permissions:)
             expect(result).to be_failure
           end
@@ -1007,7 +978,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
           it 'returns failure' do
             result = subject
             .set_permissions_command
-                  .result
                   .call(path:, permissions:)
             expect(result).to be_failure
           end
@@ -1019,7 +989,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
           expect do
             subject
             .set_permissions_command
-                    .result
                     .call(path: nil, permissions:)
           end.to raise_error(ArgumentError)
         end
@@ -1028,7 +997,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
           expect do
             subject
             .set_permissions_command
-                    .result
                     .call(path: '', permissions:)
           end.to raise_error(ArgumentError)
         end
@@ -1137,7 +1105,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
       it 'responds with a list of paths and attributes for each of them' do
         result = subject
         .propfind_query
-                         .result
                          .call(depth: '1', path: 'OpenProject')
                          .result
         expect(result).to eq({ "OpenProject/" => { "fileid" => "349" },
@@ -1165,7 +1132,6 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
       it 'moves the file' do
         result = subject
         .rename_file_command
-                         .result
                          .call(source: 'OpenProject/asd', target: 'OpenProject/qwe')
         expect(result).to be_success
       end

@@ -76,105 +76,51 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
       )
     end
 
-    describe 'with successful response' do
+    context 'with successful response' do
       before do
         storage_requests = instance_double(Storages::Peripherals::StorageRequests)
         files_query = Proc.new do
           ServiceResult.success(result: response)
         end
-        allow(storage_requests).to receive(:files_query).and_return(ServiceResult.success(result: files_query))
+        allow(storage_requests).to receive(:files_query).and_return(files_query)
         allow(Storages::Peripherals::StorageRequests).to receive(:new).and_return(storage_requests)
       end
 
       subject { last_response.body }
 
-      it { is_expected.to be_json_eql(response.files[0].id.to_json).at_path('files/0/id') }
-      it { is_expected.to be_json_eql(response.files[0].name.to_json).at_path('files/0/name') }
-      it { is_expected.to be_json_eql(response.files[1].id.to_json).at_path('files/1/id') }
-      it { is_expected.to be_json_eql(response.files[1].name.to_json).at_path('files/1/name') }
-
-      it { is_expected.to be_json_eql(response.files[0].permissions.to_json).at_path('files/0/permissions') }
-      it { is_expected.to be_json_eql(response.files[1].permissions.to_json).at_path('files/1/permissions') }
-
-      it { is_expected.to be_json_eql(response.parent.id.to_json).at_path('parent/id') }
-      it { is_expected.to be_json_eql(response.parent.name.to_json).at_path('parent/name') }
-
-      it { is_expected.to be_json_eql(response.ancestors.to_json).at_path('ancestors') }
-    end
-
-    describe 'with files query creation failed' do
-      let(:storage_requests) { instance_double(Storages::Peripherals::StorageRequests) }
-
-      before do
-        allow(Storages::Peripherals::StorageRequests).to receive(:new).and_return(storage_requests)
-      end
-
-      describe 'due to authorization failure' do
-        before do
-          allow(storage_requests).to receive(:files_query).and_return(
-            ServiceResult.failure(
-              result: :not_authorized,
-              errors: Storages::StorageError.new(code: :not_authorized)
-            )
-          )
-        end
-
-        it { expect(last_response.status).to be(500) }
-      end
-
-      describe 'due to internal error' do
-        before do
-          allow(storage_requests).to receive(:files_query).and_return(
-            ServiceResult.failure(
-              result: :error,
-              errors: Storages::StorageError.new(code: :error)
-            )
-          )
-        end
-
-        it { expect(last_response.status).to be(500) }
-      end
-
-      describe 'due to not found' do
-        before do
-          allow(storage_requests).to receive(:files_query).and_return(
-            ServiceResult.failure(
-              result: :not_found,
-              errors: Storages::StorageError.new(code: :not_found)
-            )
-          )
-        end
-
-        it 'fails with outbound request failure' do
-          expect(last_response.status).to be(500)
-
-          body = JSON.parse(last_response.body)
-          expect(body['message']).to eq(I18n.t('api_v3.errors.code_500_outbound_request_failure', status_code: 404))
-          expect(body['errorIdentifier']).to eq('urn:openproject-org:api:v3:errors:OutboundRequest:NotFound')
-        end
+      it 'responds with appropriate JSON' do
+        expect(subject).to be_json_eql(response.files[0].id.to_json).at_path('files/0/id')
+        expect(subject).to be_json_eql(response.files[0].name.to_json).at_path('files/0/name')
+        expect(subject).to be_json_eql(response.files[1].id.to_json).at_path('files/1/id')
+        expect(subject).to be_json_eql(response.files[1].name.to_json).at_path('files/1/name')
+        expect(subject).to be_json_eql(response.files[0].permissions.to_json).at_path('files/0/permissions')
+        expect(subject).to be_json_eql(response.files[1].permissions.to_json).at_path('files/1/permissions')
+        expect(subject).to be_json_eql(response.parent.id.to_json).at_path('parent/id')
+        expect(subject).to be_json_eql(response.parent.name.to_json).at_path('parent/name')
+        expect(subject).to be_json_eql(response.ancestors.to_json).at_path('ancestors')
       end
     end
 
-    describe 'with query failed' do
+    context 'with query failed' do
       before do
         allow_any_instance_of(
           Storages::Peripherals::StorageInteraction::Nextcloud::FilesQuery
         ).to receive(:call).and_return(ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error)))
       end
 
-      describe 'due to authorization failure' do
+      context 'due to authorization failure' do
         let(:error) { :not_authorized }
 
         it { expect(last_response.status).to be(500) }
       end
 
-      describe 'due to internal error' do
+      context 'due to internal error' do
         let(:error) { :error }
 
         it { expect(last_response.status).to be(500) }
       end
 
-      describe 'due to not found' do
+      context 'due to not found' do
         let(:error) { :not_found }
 
         it 'fails with outbound request failure' do
@@ -200,69 +146,45 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
 
     describe 'with successful response' do
       before do
-        storage_requests = instance_double(Storages::Peripherals::StorageRequests)
-        uplaod_link_query = Proc.new { ServiceResult.success(result: upload_link) }
-        allow(storage_requests).to receive(:upload_link_query).and_return(ServiceResult.success(result: uplaod_link_query))
-        allow(Storages::Peripherals::StorageRequests).to receive(:new).and_return(storage_requests)
+        allow_any_instance_of(
+          Storages::Peripherals::StorageInteraction::Nextcloud::UploadLinkQuery
+        ).to receive(:call).and_return(ServiceResult.success(result: upload_link))
       end
 
       subject { last_response.body }
 
-      it { is_expected.to be_json_eql(Storages::UploadLink.name.split('::').last.to_json).at_path('_type') }
-
-      it do
+      it 'responds with appropriate JSON' do
+        expect(subject).to be_json_eql(Storages::UploadLink.name.split('::').last.to_json).at_path('_type')
         expect(subject)
           .to(be_json_eql("#{API::V3::URN_PREFIX}storages:upload_link:no_link_provided".to_json)
                 .at_path('_links/self/href'))
+        expect(subject).to be_json_eql(upload_link.destination.to_json).at_path('_links/destination/href')
+        expect(subject).to be_json_eql("post".to_json).at_path('_links/destination/method')
+        expect(subject).to be_json_eql("Upload File".to_json).at_path('_links/destination/title')
       end
-
-      it { is_expected.to be_json_eql(upload_link.destination.to_json).at_path('_links/destination/href') }
-      it { is_expected.to be_json_eql("post".to_json).at_path('_links/destination/method') }
-      it { is_expected.to be_json_eql("Upload File".to_json).at_path('_links/destination/title') }
     end
 
-    describe 'with files query creation failed' do
-      let(:storage_requests) { instance_double(Storages::Peripherals::StorageRequests) }
-
+    context 'with query failed' do
       before do
-        allow(Storages::Peripherals::StorageRequests).to receive(:new).and_return(storage_requests)
+        allow_any_instance_of(
+          Storages::Peripherals::StorageInteraction::Nextcloud::UploadLinkQuery
+        ).to receive(:call).and_return(ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error)))
       end
 
       describe 'due to authorization failure' do
-        before do
-          allow(storage_requests).to receive(:upload_link_query).and_return(
-            ServiceResult.failure(
-              result: :not_authorized,
-              errors: Storages::StorageError.new(code: :not_authorized)
-            )
-          )
-        end
+        let(:error) { :not_authorized }
 
         it { expect(last_response.status).to be(500) }
       end
 
       describe 'due to internal error' do
-        before do
-          allow(storage_requests).to receive(:upload_link_query).and_return(
-            ServiceResult.failure(
-              result: :error,
-              errors: Storages::StorageError.new(code: :error)
-            )
-          )
-        end
+        let(:error) { :error }
 
         it { expect(last_response.status).to be(500) }
       end
 
       describe 'due to not found' do
-        before do
-          allow(storage_requests).to receive(:upload_link_query).and_return(
-            ServiceResult.failure(
-              result: :not_found,
-              errors: Storages::StorageError.new(code: :not_found)
-            )
-          )
-        end
+        let(:error) { :not_found }
 
         it 'fails with outbound request failure' do
           expect(last_response.status).to be(500)
