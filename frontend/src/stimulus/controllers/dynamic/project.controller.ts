@@ -35,4 +35,30 @@ export default class ProjectController extends Controller {
   connect() {
     // console.log('Project Controller Connected');
   }
+
+  toggleMultiSelect(event:Event) {
+    const valueSelector = (event.target as HTMLElement).closest('.advanced-filters--filter-value') as HTMLElement;
+    const singleSelect = valueSelector.querySelector('.single-select select') as HTMLSelectElement;
+    const multiSelect = valueSelector.querySelector('.multi-select select') as HTMLSelectElement;
+
+    if (valueSelector.classList.contains('multi-value')) {
+      const valueToSelect = this.getValueToSelect(multiSelect);
+      this.setSelectOptions(singleSelect, valueToSelect);
+    } else {
+      const valueToSelect = this.getValueToSelect(singleSelect);
+      this.setSelectOptions(multiSelect, valueToSelect);
+    }
+
+    valueSelector.classList.toggle('multi-value');
+  }
+
+  private getValueToSelect(selectElement:HTMLSelectElement) {
+    return selectElement.selectedOptions[0]?.value;
+  }
+
+  private setSelectOptions(selectElement:HTMLSelectElement, selectedValue:string) {
+    Array.from(selectElement.options).forEach((option) => {
+      option.selected = option.value === selectedValue;
+    });
+  }
 }

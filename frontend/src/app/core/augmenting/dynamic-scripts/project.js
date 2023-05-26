@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+/* eslint-disable */
 jQuery(function ($) {
   let $filterForm = $('form.project-filters').first();
   let $button = $('#projects-filter-toggle-button');
@@ -146,30 +147,30 @@ jQuery(function ($) {
     return false;
   }
 
-  function toggleMultiselect() {
-    let $self = $(this);
-    let $valueSelector = $self.parents('.advanced-filters--filter-value');
-
-    let $singleSelect = $('.single-select select', $valueSelector);
-    let $multiSelect = $('.multi-select select', $valueSelector);
-
-    if ($valueSelector.hasClass('multi-value')) {
-      let values = $multiSelect.val();
-      let value = null;
-      if (values && values.length > 1) {
-        value = values[0];
-      } else {
-        value = values;
-      }
-      $singleSelect.val(value);
-    } else {
-      let value = $singleSelect.val();
-      $multiSelect.val(value);
-    }
-
-    $valueSelector.toggleClass('multi-value');
-    return false;
-  }
+  // function toggleMultiselect() {
+  //   let $self = $(this);
+  //   let $valueSelector = $self.parents('.advanced-filters--filter-value');
+  //
+  //   let $singleSelect = $('.single-select select', $valueSelector);
+  //   let $multiSelect = $('.multi-select select', $valueSelector);
+  //
+  //   if ($valueSelector.hasClass('multi-value')) {
+  //     let values = $multiSelect.val();
+  //     let value = null;
+  //     if (values && values.length > 1) {
+  //       value = values[0];
+  //     } else {
+  //       value = values;
+  //     }
+  //     $singleSelect.val(value);
+  //   } else {
+  //     let value = $singleSelect.val();
+  //     $multiSelect.val(value);
+  //   }
+  //
+  //   $valueSelector.toggleClass('multi-value');
+  //   return false;
+  // }
 
   function addFilter(e) {
     e.preventDefault();
@@ -222,7 +223,7 @@ jQuery(function ($) {
   }
 
   // Register event listeners
-  $('.advanced-filters--filter-value a.multi-select-toggle').click(toggleMultiselect);
+  // $('.advanced-filters--filter-value a.multi-select-toggle').click(toggleMultiselect);
   $button.click(toggleProjectFilterForm);
   $closeIcon.click(toggleProjectFilterForm);
   $filterForm.submit(sendForm);
