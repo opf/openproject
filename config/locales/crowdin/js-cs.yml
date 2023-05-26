@@ -1266,9 +1266,11 @@ cs:
       apply: 'Použít'
       header_description: 'View changes made to work packages in the current view within a time period.'
       show_changes_since: 'Zobrazit změny od'
-      help_description: 'Výchozí časové pásmo instance nastavené správcem.'
-      time_description: 'In default time zone: %{time} %{days} day(s).'
+      help_description: 'Reference time zone for the baseline.'
+      time_description: 'In your local time: %{datetime}'
       time: 'Čas'
+      from: 'From'
+      to: 'To'
       drop_down:
         none: '-'
         yesterday: 'včera'
@@ -1282,6 +1284,7 @@ cs:
         now_meets_filter_criteria: 'Now meets filter criteria'
         no_longer_meets_filter_criteria: 'No longer meets filter criteria'
         maintained_with_changes: 'Maintained with changes'
+        in_your_timezone: 'In your local timezone:'
     forms:
       submit_success_message: 'Formulář byl úspěšně odeslán'
       load_error_message: 'Při načítání formuláře došlo k chybě'
