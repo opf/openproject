@@ -35,10 +35,16 @@ export default class ProjectController extends Controller {
   static targets=[
     'filterFormToggle',
     'filterForm',
+    'filter',
+    'addFilterSelect',
+    'spacer',
   ];
 
   declare readonly filterFormToggleTarget:HTMLButtonElement;
   declare readonly filterFormTarget:HTMLFormElement;
+  declare readonly filterTargets:HTMLElement[];
+  declare readonly addFilterSelectTarget:HTMLSelectElement;
+  declare readonly spacerTarget:HTMLElement;
 
   connect() {
     // console.log('Project Controller Connected');
@@ -73,5 +79,40 @@ export default class ProjectController extends Controller {
     Array.from(selectElement.options).forEach((option) => {
       option.selected = option.value === selectedValue;
     });
+  }
+
+  addFilter(event:Event) {
+    const selectedFilterName = (event.target as HTMLSelectElement).value;
+    const selectedFilter = this.filterTargets.find((filter) => {
+      const filterName = filter.getAttribute('filter-name');
+      return filterName === selectedFilterName;
+    });
+    if (selectedFilter) {
+      selectedFilter.classList.remove('hidden');
+    }
+
+    this.disableSelection();
+    this.reselectPlaceholderOption();
+    this.setSpacerVisibility();
+  }
+
+  private disableSelection() {
+    this.addFilterSelectTarget.selectedOptions[0].setAttribute('disabled', 'disabled');
+  }
+
+  private reselectPlaceholderOption() {
+    this.addFilterSelectTarget.options[0].setAttribute('selected', 'selected');
+  }
+
+  private setSpacerVisibility() {
+    if (this.anyFiltersStillVisible()) {
+      this.spacerTarget.classList.remove('hidden');
+    } else {
+      this.spacerTarget.classList.add('hidden');
+    }
+  }
+
+  private anyFiltersStillVisible() {
+    return this.filterTargets.some((filter) => !filter.classList.contains('hidden'));
   }
 }

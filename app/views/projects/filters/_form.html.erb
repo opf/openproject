@@ -13,7 +13,10 @@
         <% filter_active = query.find_active_filter(filter.name).present? %>
         <% filter_boolean = filter.is_a?(Queries::Filters::Shared::BooleanFilter) %>
 
-        <li class="advanced-filters--filter <%= filter_active ? '' : 'hidden' %>" filter-name="<%= filter.name %>" filter-type="<%= filter.type %>">
+        <li class="advanced-filters--filter <%= filter_active ? '' : 'hidden' %>"
+            filter-name="<%= filter.name %>"
+            filter-type="<%= filter.type %>"
+            data-project-target="filter">
           <label class='advanced-filters--filter-name' for="<%= filter.name %>">
             <%= filter.human_name %>
           </label>
@@ -56,7 +59,8 @@
         </li>
       <% end %>
 
-      <li class="advanced-filters--spacer <%= query.filters.blank? ? 'hidden' : '' %>"></li>
+      <li class="advanced-filters--spacer <%= query.filters.blank? ? 'hidden' : '' %>"
+          data-project-target="spacer"></li>
 
       <li class="advanced-filters--add-filter">
         <!-- Add filters -->
@@ -81,7 +85,11 @@
                          prompt: t(:actionview_instancetag_blank_option),
                          class: 'advanced-filters--select',
                          focus: "false",
-                         'aria-invalid': "false" %>
+                         'aria-invalid': "false",
+                         data: {
+                           'project-target': 'addFilterSelect',
+                           action: 'change->project#addFilter:prevent'
+                         } %>
         </div>
       </li>
       <li class="advanced-filters--controls">

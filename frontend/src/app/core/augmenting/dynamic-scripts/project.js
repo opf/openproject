@@ -228,7 +228,7 @@ jQuery(function ($) {
   // $closeIcon.click(toggleProjectFilterForm);
   $filterForm.submit(sendForm);
   $('select[name="operator"]', $filterForm).on('change', setValueVisibility)
-  $('#add_filter_select', $filterForm).on('change', addFilter);
+  // $('#add_filter_select', $filterForm).on('change', addFilter);
   $('.filter_rem', $filterForm).on('click', removeFilter);
 
 
