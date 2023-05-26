@@ -1,7 +1,12 @@
-<%= form_tag({}, method: :get, class: "project-filters #{filter_set? ? '-expanded' : ''}") do %>
-  <% operators_without_values = ['*', '!*', 't', 'w'] %>
+<%= form_tag({},
+             method: :get,
+             class: "project-filters #{filter_set? ? '-expanded' : ''}",
+             'data-project-target': 'filterForm') do %>
+  <% operators_without_values = %w[* !* t w] %>
   <fieldset class="advanced-filters--container">
-    <a id="projects-filter-close-button" title="<%= t('js.close_form_title') %>" class="advanced-filters--close icon-context icon-close"></a>
+    <a title="<%= t('js.close_form_title') %>"
+       class="advanced-filters--close icon-context icon-close"
+       data-action="project#toggleFilterForm"></a>
     <legend><%= t(:label_filter_plural) %></legend>
     <ul class="advanced-filters--filters">
       <% allowed_filters(query).each do |filter| %>

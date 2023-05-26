@@ -47,7 +47,10 @@ See COPYRIGHT and LICENSE files for more details.
       </li>
     <% end %>
     <li class="toolbar-item">
-      <button id="projects-filter-toggle-button" title="<%= t(:label_filters_toggle) %>" class="button toolbar-icon <%= filter_set? ? '-active' : '' %>">
+      <button title="<%= t(:label_filters_toggle) %>"
+              class="button toolbar-icon <%= filter_set? ? '-active' : '' %>"
+              data-project-target="filterFormToggle"
+              data-action="project#toggleFilterForm">
         <%= op_icon("icon-filter button--icon") %>
       </button>
     </li>

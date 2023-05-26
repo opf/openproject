@@ -32,8 +32,21 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class ProjectController extends Controller {
+  static targets=[
+    'filterFormToggle',
+    'filterForm',
+  ];
+
+  declare readonly filterFormToggleTarget:HTMLButtonElement;
+  declare readonly filterFormTarget:HTMLFormElement;
+
   connect() {
     // console.log('Project Controller Connected');
+  }
+
+  toggleFilterForm() {
+    this.filterFormToggleTarget.classList.toggle('-active');
+    this.filterFormTarget.classList.toggle('-expanded');
   }
 
   toggleMultiSelect(event:Event) {

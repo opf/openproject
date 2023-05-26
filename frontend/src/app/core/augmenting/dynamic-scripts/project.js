@@ -29,20 +29,20 @@
 /* eslint-disable */
 jQuery(function ($) {
   let $filterForm = $('form.project-filters').first();
-  let $button = $('#projects-filter-toggle-button');
+  // let $button = $('#projects-filter-toggle-button');
   let operatorsWithoutValues = ['*', '!*', 't', 'w'];
   let selectFilterTypes = ['list', 'list_all', 'list_optional'];
-  let $closeIcon = $('#projects-filter-close-button');
+  // let $closeIcon = $('#projects-filter-close-button');
 
-  function toggleProjectFilterForm() {
-    if ($button.hasClass('-active')) {
-      $button.removeClass('-active');
-      $filterForm.removeClass('-expanded');
-    } else {
-      $button.addClass('-active');
-      $filterForm.addClass('-expanded');
-    }
-  }
+  // function toggleProjectFilterForm() {
+  //   if ($button.hasClass('-active')) {
+  //     $button.removeClass('-active');
+  //     $filterForm.removeClass('-expanded');
+  //   } else {
+  //     $button.addClass('-active');
+  //     $filterForm.addClass('-expanded');
+  //   }
+  // }
 
   function parseFilters() {
     let $advancedFilters = $(".advanced-filters--filter:not(.hidden)", $filterForm);
@@ -224,8 +224,8 @@ jQuery(function ($) {
 
   // Register event listeners
   // $('.advanced-filters--filter-value a.multi-select-toggle').click(toggleMultiselect);
-  $button.click(toggleProjectFilterForm);
-  $closeIcon.click(toggleProjectFilterForm);
+  // $button.click(toggleProjectFilterForm);
+  // $closeIcon.click(toggleProjectFilterForm);
   $filterForm.submit(sendForm);
   $('select[name="operator"]', $filterForm).on('change', setValueVisibility)
   $('#add_filter_select', $filterForm).on('change', addFilter);
