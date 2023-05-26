@@ -810,6 +810,23 @@ describe Query,
     end
   end
 
+  describe '#remove_filter' do
+    context 'if the filter exists' do
+      it 'removes the filter' do
+        # Works because status_id is there by default
+        expect { query.remove_filter('status_id') }
+          .to change { query.filters.count }.by(-1)
+      end
+    end
+
+    context 'if the filter does not exist' do
+      it 'is a noop' do
+        expect { query.remove_filter('assigned_to_id') }
+          .not_to change { query.filters.count }
+      end
+    end
+  end
+
   describe 'filters and statement_filters (private method)' do
     def subproject_filter?(filter)
       filter.is_a?(Queries::WorkPackages::Filter::SubprojectFilter)
