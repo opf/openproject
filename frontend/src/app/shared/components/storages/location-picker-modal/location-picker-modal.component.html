@@ -47,7 +47,10 @@
     </ng-template>
 
     <ng-template #loadingTemplate>
-      <op-loading-file-list class="spot-body-big"></op-loading-file-list>
+      <op-loading-file-list
+        class="spot-body-big"
+        data-qa-selector="op-file-list--loading-indicator"
+      ></op-loading-file-list>
     </ng-template>
 
     <ng-template #emptyTemplate>

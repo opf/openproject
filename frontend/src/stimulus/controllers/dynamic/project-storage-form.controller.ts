@@ -70,6 +70,8 @@ export default class ProjectStorageFormController extends Controller {
 
   declare readonly projectFolderIdValidationTarget:HTMLSpanElement;
 
+  declare readonly hasProjectFolderIdValidationTarget:boolean;
+
   declare readonly selectedFolderTextTarget:HTMLSpanElement;
 
   declare readonly hasProjectFolderSectionTarget:boolean;
@@ -101,7 +103,9 @@ export default class ProjectStorageFormController extends Controller {
         filter((modal) => modal.submitted),
       )
       .subscribe((modal) => {
-        this.projectFolderIdValidationTarget.style.display = 'none';
+        if (this.hasProjectFolderIdValidationTarget) {
+          this.projectFolderIdValidationTarget.style.display = 'none';
+        }
         this.selectedFolderTextTarget.innerText = modal.location.name;
         this.projectFolderIdInputTarget.value = modal.location.id as string;
       });
