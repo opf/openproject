@@ -32,7 +32,6 @@ module DemoData
     alias_method :project_data, :seed_data
 
     self.needs = WorkPackageSeeder.needs + [
-      BasicData::BuiltinRolesSeeder,
       BasicData::RoleSeeder
     ]
 
@@ -80,7 +79,7 @@ module DemoData
     def set_members
       print_status '   -Setting members.'
 
-      role = Role.find_by(name: I18n.t(:default_role_project_admin))
+      role = seed_data.find_reference(:default_role_project_admin)
 
       Member.create!(
         project:,

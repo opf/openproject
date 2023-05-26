@@ -33,7 +33,7 @@ describe BasicData::SettingSeeder do
 
   subject(:setting_seeder) { described_class.new(basic_seed_data) }
 
-  let(:new_project_role) { Role.find_by(name: I18n.t(:default_role_project_admin)) }
+  let(:new_project_role) { basic_seed_data.find_reference(:default_role_project_admin) }
   let(:closed_status) { basic_seed_data.find_reference(:default_status_closed) }
 
   before do

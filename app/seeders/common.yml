@@ -238,3 +238,116 @@ open_color_palette:
   - '#f76707'
   - '#e8590c'
   - '#d9480f'
+
+roles:
+- reference: :default_role_non_member
+  t_name: Non member
+  position: 0
+  builtin: :non_member
+  permissions:
+  - :view_work_packages
+  - :view_calendar
+  - :comment_news
+  - :browse_repository
+  - :view_changesets
+  - :view_wiki_pages
+  - :show_board_views
+- reference: :default_role_anonymous
+  t_name: Anonymous
+  position: 1
+  builtin: :anonymous
+  permissions:
+  - :view_work_packages
+  - :browse_repository
+  - :view_changesets
+  - :view_wiki_pages
+- reference: :default_role_member
+  t_name: Member
+  position: 3
+  permissions:
+  - :view_work_packages
+  - :export_work_packages
+  - :add_work_packages
+  - :move_work_packages
+  - :edit_work_packages
+  - :assign_versions
+  - :work_package_assigned
+  - :add_work_package_notes
+  - :edit_own_work_package_notes
+  - :manage_work_package_relations
+  - :manage_subtasks
+  - :manage_public_queries
+  - :save_queries
+  - :view_work_package_watchers
+  - :add_work_package_watchers
+  - :delete_work_package_watchers
+  - :view_calendar
+  - :comment_news
+  - :manage_news
+  - :log_time
+  - :view_time_entries
+  - :view_own_time_entries
+  - :edit_own_time_entries
+  - :view_timelines
+  - :edit_timelines
+  - :delete_timelines
+  - :view_reportings
+  - :edit_reportings
+  - :delete_reportings
+  - :manage_wiki
+  - :manage_wiki_menu
+  - :rename_wiki_pages
+  - :change_wiki_parent_page
+  - :delete_wiki_pages
+  - :view_wiki_pages
+  - :export_wiki_pages
+  - :view_wiki_edits
+  - :edit_wiki_pages
+  - :delete_wiki_pages_attachments
+  - :protect_wiki_pages
+  - :list_attachments
+  - :add_messages
+  - :edit_own_messages
+  - :delete_own_messages
+  - :browse_repository
+  - :view_changesets
+  - :commit_access
+  - :view_commit_author_statistics
+  - :view_members
+  - :manage_board_views
+  - :show_board_views
+  - :view_team_planner
+- reference: :default_role_reader
+  t_name: Reader
+  position: 4
+  permissions:
+  - :view_work_packages
+  - :add_work_package_notes
+  - :edit_own_work_package_notes
+  - :save_queries
+  - :view_calendar
+  - :comment_news
+  - :view_timelines
+  - :view_reportings
+  - :view_wiki_pages
+  - :export_wiki_pages
+  - :list_attachments
+  - :add_messages
+  - :edit_own_messages
+  - :delete_own_messages
+  - :browse_repository
+  - :view_changesets
+  - :show_board_views
+  - :view_team_planner
+- reference: :default_role_project_admin
+  t_name: Project admin
+  position: 5
+  permissions: :all_assignable_permissions
+- reference: :default_role_project_creator_and_staff_manager
+  t_name: Staff and projects manager
+  global: true
+  position: 6
+  permissions:
+  - :add_project
+  - :manage_user
+  - :manage_placeholder_user

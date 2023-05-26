@@ -30,8 +30,7 @@ module Bim
     def data_seeder_classes
       [
         ::BasicData::BuiltinUsersSeeder,
-        ::BasicData::BuiltinRolesSeeder,
-        ::Bim::BasicData::RoleSeeder,
+        ::BasicData::RoleSeeder,
         ::BasicData::ActivitySeeder,
         ::BasicData::ColorSeeder,
         ::BasicData::ColorSchemeSeeder,

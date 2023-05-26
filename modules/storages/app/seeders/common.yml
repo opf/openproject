@@ -26,16 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Meeting::Patches::RoleSeederPatch
-  def self.included(base) # :nodoc:
-    base.prepend InstanceMethods
-  end
-
-  module InstanceMethods
-    def seed_data!
-      super.tap do |_|
-        OpenProject::Meeting::DefaultData.load!
-      end
-    end
-  end
-end
+modules_permissions:
+  storages:
+  - role: :default_role_non_member
+    add:
+    - :view_file_links
+  - role: :default_role_anonymous
+    add:
+    - :view_file_links
+  - role: :default_role_member
+    add:
+    - :view_file_links
+    - :manage_file_links
+  - role: :default_role_reader
+    add:
+    - :view_file_links

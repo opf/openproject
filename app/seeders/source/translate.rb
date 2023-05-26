@@ -33,7 +33,7 @@ module Source::Translate
   TRANSLATABLE_PREFIX = 't_'
   TRANSLATABLE_PREFIX_PATTERN = /^#{TRANSLATABLE_PREFIX}/
 
-  def translate(hash, i18n_key = "#{I18N_PREFIX}.#{seed_file_name}")
+  def translate(hash, i18n_key = "#{I18N_PREFIX}.#{seed_name}")
     translate_translatable_keys(hash, i18n_key)
     translate_nested_enumerations(hash, i18n_key)
     hash

@@ -31,15 +31,20 @@
 class Source::SeedFile
   class << self
     def all
-      @all ||= [
-        new('app/seeders/common.yml'),
-        new('app/seeders/standard.yml'),
-        new('modules/bim/app/seeders/bim.yml')
-      ].freeze
+      @all ||= find_all_seed_files
     end
 
-    def find(name)
-      all.find { |f| f.name == name }
+    def with_names(*names)
+      all.select { |f| names.include?(f.name) }
+    end
+
+    private
+
+    def find_all_seed_files
+      Pathname
+        .glob('**/app/seeders/*.yml')
+        .map { |seed_file_path| new(seed_file_path) }
+        .freeze
     end
   end
 

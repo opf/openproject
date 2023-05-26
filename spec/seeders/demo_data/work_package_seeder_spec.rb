@@ -34,7 +34,7 @@ describe DemoData::WorkPackageSeeder do
   shared_let(:work_week) { week_with_saturday_and_sunday_as_weekend }
 
   let(:project) { create(:project) }
-  let(:new_project_role) { Role.find_by(name: I18n.t(:default_role_project_admin)) }
+  let(:new_project_role) { seed_data.find_reference(:default_role_project_admin) }
   let(:closed_status) { seed_data.find_reference(:default_status_closed) }
   let(:work_packages_data) { [] }
   let(:seed_data) { basic_seed_data.merge(Source::SeedData.new('work_packages' => work_packages_data)) }

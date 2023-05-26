@@ -28,7 +28,6 @@
 module BasicData
   class SettingSeeder < Seeder
     self.needs = [
-      BasicData::BuiltinRolesSeeder,
       BasicData::RoleSeeder,
       BasicData::StatusSeeder
     ]
@@ -60,7 +59,8 @@ module BasicData
         # deviate from the defaults specified in the settings definition here
         # to set a default role. The role cannot be specified in the definition as
         # that would mean to know the ID upfront.
-        settings['new_project_user_role_id'] = Role.find_by(name: I18n.t(:default_role_project_admin)).try(:id)
+        new_project_user_role_id = seed_data.find_reference(:default_role_project_admin, default: nil).try(:id)
+        settings['new_project_user_role_id'] = new_project_user_role_id
 
         # Set the closed status for repository commit references
         status_closed = seed_data.find_reference(:default_status_closed, default: nil)

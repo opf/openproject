@@ -26,30 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-
-describe Costs::DefaultData do
-  let(:seeder) { BasicData::RoleSeeder.new }
-  let(:member) { Costs::DefaultData.member_role }
-  let(:permissions) { Costs::DefaultData.member_permissions }
-
-  before do
-    allow(seeder).to receive(:builtin_roles).and_return([])
-
-    seeder.seed!
-  end
-
-  it 'adds permissions to the member role' do
-    expect(member.permissions).to include *permissions
-  end
-
-  it 'is not loaded again on existing data' do
-    member.permissions = []
-    member.save!
-
-    seeder.seed!
-    member.reload
-
-    expect(member.permissions).to be_empty
-  end
-end
+modules_permissions:
+  reporting:
+  # The Project Admin role is assigned all possible permission in
+  # the core's `roles.rb` seed. Here we remove those permissions
+  # which should not be assigned by default.
+  - role: :default_role_project_admin
+    remove:
+    - :save_cost_reports
+    - :save_private_cost_reports

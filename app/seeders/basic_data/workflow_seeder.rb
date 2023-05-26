@@ -36,8 +36,6 @@ module BasicData
     def seed_data!
       if any_types_or_statuses_or_workflows_already_configured?
         print_status '   *** Skipping types, statuses and workflows as there are already some configured'
-      elsif required_roles_missing?
-        print_status '   *** Skipping types, statuses and workflows as the required roles do not exist'
       else
         seed_statuses
         seed_types
@@ -51,11 +49,6 @@ module BasicData
       Type.where(is_standard: false).any? || Status.any? || Workflow.any?
     end
 
-    def required_roles_missing?
-      Role.where(name: I18n.t(:default_role_member)).empty? \
-        || Role.where(name: I18n.t(:default_role_project_admin)).empty?
-    end
-
     def seed_statuses
       print_status '   ↳ Statuses'
       BasicData::StatusSeeder.new(seed_data).seed!
@@ -67,14 +60,14 @@ module BasicData
     end
 
     def seed_workflows
-      member = Role.find_by(name: I18n.t(:default_role_member))
-      manager = Role.find_by(name: I18n.t(:default_role_project_admin))
+      member = seed_data.find_reference(:default_role_member)
+      project_admin = seed_data.find_reference(:default_role_project_admin)
 
       # Workflow - Each type has its own workflow
       workflows.each do |type, statuses|
         statuses.each do |old_status|
           statuses.each do |new_status|
-            [manager, member].each do |role|
+            [member, project_admin].each do |role|
               Workflow.create type:,
                               role:,
                               old_status:,

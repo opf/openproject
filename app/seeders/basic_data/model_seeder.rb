@@ -34,11 +34,15 @@ module BasicData
 
     def seed_data!
       model_class.transaction do
-        Array(seed_data.lookup(seed_data_model_key)).each do |model_data|
+        models_data.each do |model_data|
           model = model_class.create!(model_attributes(model_data))
           seed_data.store_reference(model_data['reference'], model)
         end
       end
+    end
+
+    def models_data
+      Array(seed_data.lookup(seed_data_model_key))
     end
 
     def model_attributes(model_data)

@@ -26,16 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Costs::Patches::RoleSeederPatch
-  def self.included(base) # :nodoc:
-    base.prepend InstanceMethods
-  end
-
-  module InstanceMethods
-    def seed_data!
-      super.tap do |_|
-        Costs::DefaultData.load!
-      end
-    end
-  end
-end
+modules_permissions:
+  costs:
+  - role: :default_role_member
+    add:
+    - :view_own_hourly_rate
+    - :view_cost_rates
+    - :log_own_costs
+    - :edit_own_cost_entries
+    - :view_budgets
+    - :view_own_cost_entries

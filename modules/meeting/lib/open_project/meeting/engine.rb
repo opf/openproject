@@ -71,7 +71,6 @@ module OpenProject::Meeting
     activity_provider :meetings, class_name: 'Activities::MeetingActivityProvider', default: false
 
     patches [:Project]
-    patch_with_namespace :BasicData, :RoleSeeder
     patch_with_namespace :BasicData, :SettingSeeder
 
     patch_with_namespace :OpenProject, :TextFormatting, :Formats, :Markdown, :TextileConverter

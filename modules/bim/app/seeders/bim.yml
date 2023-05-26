@@ -26,6 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+modules_permissions:
+  bim:
+  - role: :default_role_non_member
+    add:
+    - :view_linked_issues
+    - :view_ifc_models
+  - role: :default_role_anonymous
+    add:
+    - :view_linked_issues
+  - role: :default_role_member
+    add:
+    - :view_linked_issues
+    - :manage_bcf
+    - :delete_work_packages
+    - :manage_ifc_models
+    - :view_ifc_models
+  - role: :default_role_reader
+    add:
+    - :view_linked_issues
+
 priorities:
   - t_name: Low
     color_name: cyan-1
