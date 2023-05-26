@@ -205,6 +205,7 @@ module API
                                  skip_render: ->(*) { false },
                                  skip_link: skip_render,
                                  link_title_attribute: :name,
+                                 uncacheable_link: false,
                                  getter: associated_resources_default_getter(name, representer),
                                  setter: associated_resources_default_setter(name, v3_path),
                                  link: associated_resources_default_link(name,
@@ -216,6 +217,7 @@ module API
                     getter:,
                     setter:,
                     link:,
+                    uncacheable_link:,
                     skip_render:)
         end
 

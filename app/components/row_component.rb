@@ -31,11 +31,10 @@
 ##
 # Abstract view component. Subclass this for a concrete table row.
 class RowComponent < RailsComponent
-  attr_reader :model, :table
+  attr_reader :table
 
   def initialize(row:, table:, **options)
-    super(**options)
-    @model = row
+    super(row, **options)
     @table = table
   end
 

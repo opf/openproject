@@ -149,7 +149,7 @@ sl:
       kateri atributi LDAP se uporabljajo za definiranje atributov uporabnika OpenProject (preslikava atributov).
     tls_mode:
       plain: 'Brez'
-      simple_tls: 'LDAPS'
+      simple_tls: 'LDAP-i'
       start_tls: 'STARTTLS'
       plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
       simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
@@ -1685,6 +1685,7 @@ sl:
   label_enterprise: "Podjetje"
   label_enterprise_active_users: "%{current} /%{limit} rezervirani aktivni uporabniki"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Okolje"
   label_estimates_and_time: "Ocene in čas"
   label_equals: "je"
@@ -1876,7 +1877,6 @@ sl:
   label_principal_search: "Dodajte obstoječe uporabnike ali skupine"
   label_privacy_policy: "Politika zasebnosti in varnosti podatkov"
   label_product_version: "Različica izdelka"
-  label_professional_support: "Strokovna podpora"
   label_profile: "Profil"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"

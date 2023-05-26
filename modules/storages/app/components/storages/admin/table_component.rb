@@ -37,7 +37,7 @@ module Storages::Admin
 
     # Defines the list of columns in the table using symbols.
     # These symbols are used below to define header (top of the table)
-    # and contents of the cells
+    # and contents of the components
     columns :name, :provider_type, :host, :creator, :created_at
 
     # Default sort order (overwritten by user)

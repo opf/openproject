@@ -85,8 +85,6 @@ export interface WorkPackageFocusContext {
   selector: 'wp-table',
 })
 export class WorkPackagesTableComponent extends UntilDestroyedMixin implements OnInit, TableEventComponent {
-  @ViewChild(OpBaselineLegendsComponent) baselineLegends:OpBaselineLegendsComponent;
-
   @Input() projectIdentifier:string;
 
   @Input('configuration') configurationObject:WorkPackageTableConfigurationObject;
@@ -219,7 +217,6 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
       }
 
       if (this.baselineEnabled) {
-        this.baselineLegends?.refresh();
         this.numTableColumns += 1;
       }
 

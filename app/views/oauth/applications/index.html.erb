@@ -39,4 +39,4 @@ See COPYRIGHT and LICENSE files for more details.
   </li>
 <% end %>
 
-<%= rails_cell ::OAuth::Applications::TableCell, @applications, current_user: current_user %>
+<%= render ::OAuth::Applications::TableComponent.new(rows: @applications) %>

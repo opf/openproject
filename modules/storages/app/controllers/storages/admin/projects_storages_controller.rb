@@ -34,7 +34,6 @@
 # Called by: Calls to the controller methods are initiated by user Web GUI
 # actions and mapped to this controller by storages/config/routes.rb.
 class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
-  using Storages::Peripherals::ServiceResultRefinements
   # This is the resource handled in this controller.
   # So the controller knows that the ID in params (URl) refer to instances of this model.
   # This defines @object as the model instance.
@@ -54,7 +53,7 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
   def index
     # Just get the list of ProjectStorages associated with the project
     @projects_storages = Storages::ProjectStorage.where(project: @project).includes(:storage)
-    # Render the list storages using Ruby "cells" in the /app/cell folder which defines
+    # Render the list storages using ViewComponents in the /app/components folder which defines
     # the ways rows are rendered in a table layout.
     render '/storages/project_settings/index'
   end
