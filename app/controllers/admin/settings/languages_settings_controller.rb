@@ -27,13 +27,12 @@
 #++
 
 module Admin::Settings
-  class DisplaySettingsController < ::Admin::SettingsController
-    menu_item :settings_display
-
+  class LanguagesSettingsController < ::Admin::SettingsController
+    menu_item :settings_languages
     before_action :validate_start_of_week_year, only: :update
 
     def default_breadcrumb
-      t(:label_display)
+      t(:label_languages)
     end
 
     private
