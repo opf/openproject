@@ -149,7 +149,7 @@ sl:
       kateri atributi LDAP se uporabljajo za definiranje atributov uporabnika OpenProject (preslikava atributov).
     tls_mode:
       plain: 'Brez'
-      simple_tls: 'LDAPS'
+      simple_tls: 'LDAP-i'
       start_tls: 'STARTTLS'
       plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
       simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
@@ -484,8 +484,8 @@ sl:
           true: "public"
           false: "private"
         queries: "Poizvedbe"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -740,6 +740,7 @@ sl:
               format: "%{message}"
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "\nse medsebojno izključuje s skupino '%{group_by}'. Ne morete aktivirati obeh."
           filters:
@@ -1684,6 +1685,7 @@ sl:
   label_enterprise: "Podjetje"
   label_enterprise_active_users: "%{current} /%{limit} rezervirani aktivni uporabniki"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Okolje"
   label_estimates_and_time: "Ocene in čas"
   label_equals: "je"
@@ -1875,7 +1877,6 @@ sl:
   label_principal_search: "Dodajte obstoječe uporabnike ali skupine"
   label_privacy_policy: "Politika zasebnosti in varnosti podatkov"
   label_product_version: "Različica izdelka"
-  label_professional_support: "Strokovna podpora"
   label_profile: "Profil"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -1938,7 +1939,7 @@ sl:
   label_role_search: "Dodelite vlogo novim članom"
   label_scm: "SCM"
   label_search: "Išči"
-  label_send_information: "Uporabniku pošljite podatke o računu"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Pošlji testni mail"
   label_setting_plural: "Nastavitve"
   label_system_settings: "Sistemske nastavitve"

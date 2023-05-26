@@ -482,8 +482,8 @@ nl:
           true: "public"
           false: "private"
         queries: "Query 's"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -738,6 +738,7 @@ nl:
               format: "%{message}"
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "is uitsluiten door samenvoeging, '%{group_by}'. U kunt beide niet activeren."
           filters:
@@ -1646,6 +1647,7 @@ nl:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} gereserveerd actieve gebruikers"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Omgeving"
   label_estimates_and_time: "Schattingen en tijden"
   label_equals: "is"
@@ -1837,7 +1839,6 @@ nl:
   label_principal_search: "Bestaande gebruikers of groepen toevoegen"
   label_privacy_policy: "Gegevensprivacy en veiligheidsbeleid"
   label_product_version: "Versie van het product"
-  label_professional_support: "Professionele ondersteuning"
   label_profile: "Profiel"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -1900,7 +1901,7 @@ nl:
   label_role_search: "Rol toewijzen aan nieuwe leden"
   label_scm: "SCM"
   label_search: "Zoeken"
-  label_send_information: "Accountgegevens naar de gebruiker verzenden"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Stuur een test e-mail"
   label_setting_plural: "Instellingen"
   label_system_settings: "Systeeminstellingen"

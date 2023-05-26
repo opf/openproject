@@ -481,8 +481,8 @@ ca:
           true: "públic"
           false: "privat"
         queries: "Consultes"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -737,6 +737,7 @@ ca:
               format: "%{message}"
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "és mútuament exclusiu amb el grup per \"%{group_by}\". No pots activar els dos."
           filters:
@@ -1645,6 +1646,7 @@ ca:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} usuaris actius registrats"
   label_enterprise_edition: "Edició Enterprise."
+  label_enterprise_support: "Enterprise support"
   label_environment: "Entorn"
   label_estimates_and_time: "Estimacions i temps"
   label_equals: "és"
@@ -1836,7 +1838,6 @@ ca:
   label_principal_search: "Afegir usuaris o grups existents"
   label_privacy_policy: "Privacitat de dades i política de seguretat"
   label_product_version: "Versió del producte"
-  label_professional_support: "Suport professional"
   label_profile: "Perfil"
   label_project_activity: "Activitat del projecte"
   label_project_attribute_plural: "Atributs de projecte"
@@ -1899,7 +1900,7 @@ ca:
   label_role_search: "Assignar rols als nous membres"
   label_scm: "SCM"
   label_search: "Cercar"
-  label_send_information: "Envia la informació del compte a l'usuari"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Enviar correu electrònic de prova"
   label_setting_plural: "Configuració"
   label_system_settings: "Configuració del Sistema"

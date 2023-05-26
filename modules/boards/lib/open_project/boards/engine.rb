@@ -29,7 +29,7 @@ module OpenProject::Boards
              name: 'OpenProject Boards' do
       project_module :board_view, dependencies: :work_package_tracking, order: 80 do
         permission :show_board_views,
-                   { 'boards/boards': %i[index] },
+                   { 'boards/boards': %i[index overview] },
                    dependencies: :view_work_packages,
                    contract_actions: { boards: %i[read] }
         permission :manage_board_views,
@@ -52,6 +52,16 @@ module OpenProject::Boards
            partial: 'boards/boards/menu_board',
            last: true,
            caption: :'boards.label_boards'
+
+      menu :top_menu,
+           :boards, { controller: '/boards/boards', action: 'overview' },
+           context: :modules,
+           caption: :project_module_board_view,
+           if: Proc.new {
+             OpenProject::FeatureDecisions.more_global_index_pages_active? &&
+              (User.current.logged? || !Setting.login_required?) &&
+                User.current.allowed_to_globally?(:show_board_views)
+           }
     end
 
     patch_with_namespace :BasicData, :SettingSeeder

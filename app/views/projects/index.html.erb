@@ -96,11 +96,11 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render partial: 'projects/filters/form', locals: { query: @query } %>
 
-<%= rails_cell Projects::TableCell,
-               @projects,
+<%= render Projects::TableComponent.new(
+               rows: @projects,
                current_user: current_user,
                orders: @orders,
-               params: params %>
+               params: params) %>
 
 <% if User.current.admin? %>
   <p class="information-section">

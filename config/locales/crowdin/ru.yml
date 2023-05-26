@@ -486,15 +486,15 @@ ru:
           true: "публичный"
           false: "приватный"
         queries: "Запросы"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Статус проекта'
+        status_explanation: 'Описание статуса проекта'
         status_codes:
-          not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          not_started: 'Не начато'
+          on_track: 'По плану'
+          at_risk: 'В зоне риска'
+          off_track: 'Приостановлен'
+          finished: 'Завершено'
+          discontinued: 'Прекращено'
         templated: "Проект шаблона"
         templated_value:
           true: "помечено как шаблон"
@@ -742,6 +742,7 @@ ru:
               format: "%{message}"
             timestamps:
               invalid: "Временные метки содержат недопустимые значения: %{values}"
+              forbidden: "Временные метки содержат запрещенные значения: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "является взаимоисключающим при группировке «%{group_by}». Вы не можете активировать оба."
           filters:
@@ -926,26 +927,26 @@ ru:
   activity:
     item:
       created_by_on: "создано %{user} %{datetime}"
-      created_by_on_time_entry: "time logged by %{user} on %{datetime}"
+      created_by_on_time_entry: "время зарегистрировано %{user} %{datetime}"
       created_on: "создано %{datetime}"
       updated_by_on: "обновлено %{user} %{datetime}"
-      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "время регистрации обновлено %{user} %{datetime}"
       updated_on: "обновлено %{datetime}"
       parent_without_of: "Подпроект"
       parent_no_longer: "Больше не подпроект"
       time_entry:
         hour:
-          one: "%{count} hour"
-          few: "%{count} hours"
-          many: "%{count} hours"
-          other: "%{count} hours"
+          one: "%{count} час"
+          few: "%{count} часов"
+          many: "%{count} часов"
+          other: "%{count} часов"
         hour_html:
-          one: "<i>%{count} hour</i>"
-          few: "<i>%{count} hours</i>"
-          many: "<i>%{count} hours</i>"
-          other: "<i>%{count} hours</i>"
-        updated: "changed from %{old_value} to %{value}"
-        logged_for: "Logged for"
+          one: "<i>%{count} час</i>"
+          few: "<i>%{count} часов</i>"
+          many: "<i>%{count} часов</i>"
+          other: "<i>%{count} часов</i>"
+        updated: "изменено с %{old_value} на %{value}"
+        logged_for: "Зарегистрирован для"
     filter:
       changeset: "Наборы изменений"
       message: "Форумы"
@@ -1686,6 +1687,7 @@ ru:
   label_enterprise: "Предприятие"
   label_enterprise_active_users: "%{current}/%{limit} забронировано активных пользователей"
   label_enterprise_edition: "Корпоративная версия"
+  label_enterprise_support: "Поддержка корпоративной версии"
   label_environment: "Переменные среды"
   label_estimates_and_time: "Оценки и время"
   label_equals: "—"
@@ -1877,7 +1879,6 @@ ru:
   label_principal_search: "Добавление существующих пользователей или групп"
   label_privacy_policy: "Политика конфиденциальности данных и безопасности"
   label_product_version: "Версия продукта"
-  label_professional_support: "Профессиональная поддержка"
   label_profile: "Профиль"
   label_project_activity: "Деятельность"
   label_project_attribute_plural: "Атрибуты проекта"
@@ -1940,7 +1941,7 @@ ru:
   label_role_search: "Назначить роль для новых участников"
   label_scm: "SCM"
   label_search: "Поиск"
-  label_send_information: "Отправить сведения об учетной записи"
+  label_send_information: "Отправить новые учетные данные пользователю"
   label_send_test_email: "Отправить тестовое сообщение"
   label_setting_plural: "Настройки"
   label_system_settings: "Настройки системы"

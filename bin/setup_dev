@@ -32,10 +32,13 @@ echo '- Rails server `RAILS_ENV=development bin/rails server`'
 echo '- Angular CLI: `npm run serve`'
 echo '- Delayed Job worker: `RAILS_ENV=development bin/rails jobs:work`'
 echo ""
-echo 'You can also run `foreman start -f Procfile.dev` to run all the above on a single terminal.'
+echo 'You can also run `bin/dev` to run all the above on a single terminal.'
+echo ""
+echo "If you'd like an enhanced development experience and interaction"
+echo 'with the individual services, install Overmind. `bin/dev` will'
+echo 'prefer using Overmind over Foreman if available.'
 
 echo ""
 echo 'Setting up git hooks'
 echo 'If you want to have commit hooks for rubocop and eslint errors, you can install lefthook like so:'
 echo '`bundle exec lefthook install`'
-

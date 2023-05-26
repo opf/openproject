@@ -10,6 +10,34 @@ RSpec.describe EnterpriseToken do
     allow(OpenProject::Configuration).to receive(:ee_manager_visible?).and_return(true)
   end
 
+  describe '.active?' do
+    before do
+      allow(described_class).to receive(:current).and_return(subject)
+      allow(described_class.current).to receive(:token_object).and_return(object)
+      subject.save!(validate: false)
+    end
+
+    context 'with a non expired token' do
+      before do
+        allow(object).to receive(:expired?).and_return(false)
+      end
+
+      it 'returns true' do
+        expect(described_class.active?).to be(true)
+      end
+    end
+
+    context 'with an expired token' do
+      before do
+        allow(object).to receive(:expired?).and_return(true)
+      end
+
+      it 'returns false' do
+        expect(described_class.active?).to be(false)
+      end
+    end
+  end
+
   describe 'existing token' do
     before do
       allow_any_instance_of(EnterpriseToken).to receive(:token_object).and_return(object)

@@ -487,8 +487,8 @@ he:
           true: "public"
           false: "private"
         queries: "שאילתות"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -743,6 +743,7 @@ he:
               format: "%{message}"
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
           filters:
@@ -1687,6 +1688,7 @@ he:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "סביבה"
   label_estimates_and_time: "Estimates and time"
   label_equals: "הינו"
@@ -1878,7 +1880,6 @@ he:
   label_principal_search: "Add existing users or groups"
   label_privacy_policy: "Data privacy and security policy"
   label_product_version: "Product version"
-  label_professional_support: "Professional support"
   label_profile: "פרופיל"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -1941,7 +1942,7 @@ he:
   label_role_search: "Assign role to new members"
   label_scm: "SCM"
   label_search: "חיפוש"
-  label_send_information: "Send account information to the user"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Send a test email"
   label_setting_plural: "הגדרות"
   label_system_settings: "System settings"

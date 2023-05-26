@@ -482,8 +482,8 @@ uk:
           true: "публічний"
           false: "приватний"
         queries: "Запити"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -738,6 +738,7 @@ uk:
               format: "%{message}"
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "є взаємовиключним з групою %{group_by} Ви не можете активувати обидва."
           filters:
@@ -1682,6 +1683,7 @@ uk:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} зареєстровано активних користувачів"
   label_enterprise_edition: "Версія Enterprise"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Навколишнє середовище"
   label_estimates_and_time: "Оцінки та час"
   label_equals: "є"
@@ -1873,7 +1875,6 @@ uk:
   label_principal_search: "Додати існуючих користувачів або групи"
   label_privacy_policy: "Політика конфіденційності та безпеки даних"
   label_product_version: "Версія продукту"
-  label_professional_support: "Професійна підтримка"
   label_profile: "Профіль"
   label_project_activity: "Дії в проєкті"
   label_project_attribute_plural: "Атрибути проєкту"
@@ -1936,7 +1937,7 @@ uk:
   label_role_search: "Призначити роль для нових членів"
   label_scm: "Тип сховища"
   label_search: "Пошук"
-  label_send_information: "Відправити користувачеві інформацію з облікового запису"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Послати email для перевірки"
   label_setting_plural: "Налаштування"
   label_system_settings: "Параметри системи"

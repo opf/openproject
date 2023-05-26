@@ -25,14 +25,13 @@
   </li>
 <% end %>
 
-<%= rails_cell ::Components::OnOffStatusCell,
-               {
-                 is_on: @webhook.enabled?,
-                 on_text: t('webhooks.outgoing.status.enabled'),
-                 on_description: t('webhooks.outgoing.status.enabled_text'),
-                 off_text: t('webhooks.outgoing.status.disabled'),
-                 off_description: t('webhooks.outgoing.status.disabled_text')
-               } %>
+<%= render ::Components::OnOffStatusComponent.new({
+             is_on: @webhook.enabled?,
+             on_text: t('webhooks.outgoing.status.enabled'),
+             on_description: t('webhooks.outgoing.status.enabled_text'),
+             off_text: t('webhooks.outgoing.status.disabled'),
+             off_description: t('webhooks.outgoing.status.disabled_text')
+           }) %>
 
 <div class="account--section">
   <div class="attributes-group">
@@ -70,5 +69,5 @@
 
 <div class="account--section">
   <h2><%= t 'webhooks.outgoing.deliveries.title' %></h2>
-  <%= rails_cell ::Webhooks::Outgoing::Deliveries::TableCell, @webhook.deliveries.newest %>
+  <%= render ::Webhooks::Outgoing::Deliveries::TableComponent.new(rows: @webhook.deliveries.newest) %>
 </div>

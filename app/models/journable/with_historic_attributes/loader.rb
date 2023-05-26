@@ -38,7 +38,7 @@ class Journable::WithHistoricAttributes
 
     def at_timestamp(timestamp)
       @at_timestamp ||= Hash.new do |h, t|
-        h[t] = journables.first.class.at_timestamp(t).where(id: journables.map(&:id)).index_by(&:id)
+        h[t] = (currently_invisible_journalized_at_timestamp(t) + currently_visible_journalized_at_timestamp(t)).index_by(&:id)
       end
 
       @at_timestamp[timestamp]
@@ -46,8 +46,8 @@ class Journable::WithHistoricAttributes
 
     def work_package_ids_of_query_at_timestamp(query:, timestamp: nil)
       @work_package_ids_of_query_at_timestamp ||= Hash.new do |qh, q|
-        qh[q] = Hash.new do |ht, t|
-          ht[t] = work_package_ids_of_query_at_timestamp_calculation(q, t)
+        qh[q] = Hash.new do |th, t|
+          th[t] = work_package_ids_of_query_at_timestamp_calculation(q, t)
         end
       end
 
@@ -61,6 +61,29 @@ class Journable::WithHistoricAttributes
       query.timestamps = [timestamp] if timestamp
 
       query.results.work_packages.where(id: journables.map(&:id)).pluck(:id)
+    end
+
+    def currently_visible_journables
+      @currently_visible_journables ||= begin
+        visible_ids = journalized_class.visible.where(id: journables.map(&:id)).pluck(:id)
+        journables.select { |j| visible_ids.include?(j.id) }
+      end
+    end
+
+    def currently_invisible_journables
+      @currently_invisible_journables ||= journables - currently_visible_journables
+    end
+
+    def currently_invisible_journalized_at_timestamp(timestamp)
+      journalized_class.visible.at_timestamp(timestamp).where(id: currently_invisible_journables)
+    end
+
+    def currently_visible_journalized_at_timestamp(timestamp)
+      journalized_class.at_timestamp(timestamp).where(id: currently_visible_journables)
+    end
+
+    def journalized_class
+      journables.first.class
     end
 
     attr_accessor :journables

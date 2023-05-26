@@ -480,8 +480,8 @@ ja:
           true: "public"
           false: "private"
         queries: "クエリ"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -736,6 +736,7 @@ ja:
               format: "%{message}"
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "'%{group_by}' でのグループ化は相互に排他的です。両方を有効にはできません。"
           filters:
@@ -1626,6 +1627,7 @@ ja:
   label_enterprise: "エンタープライズ"
   label_enterprise_active_users: "%{current}/%{limit} 予約済みのアクティブユーザー"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "環境"
   label_estimates_and_time: "見積もりと 時間"
   label_equals: "等しい"
@@ -1817,7 +1819,6 @@ ja:
   label_principal_search: "既存のユーザーまたはグループを追加する"
   label_privacy_policy: "データのプライバシーとセキュリティポリシー"
   label_product_version: "製品バージョ​​ン"
-  label_professional_support: "プロフェッショナルサポート"
   label_profile: "プロファイル"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -1880,7 +1881,7 @@ ja:
   label_role_search: "新しいメンバーに役割を割り当てる"
   label_scm: "バージョン管理システム"
   label_search: "検索"
-  label_send_information: "アカウント情報をユーザに送信"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "テスト電子メールを送信"
   label_setting_plural: "設定"
   label_system_settings: "システム設定"

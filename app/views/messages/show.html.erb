@@ -28,42 +28,42 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <% content_for :header_tags do %>
-  <meta name="required_script" content="forums" />
+  <meta name="required_script" content="forums"/>
 <% end %>
 
 <% breadcrumb_paths(
-  link_to(t(:label_forum_plural), project_forums_path(@project)),
-  link_to(h(@forum.name), project_forum_path(@project, @forum)))
+     link_to(t(:label_forum_plural), project_forums_path(@project)),
+     link_to(h(@forum.name), project_forum_path(@project, @forum)))
 %>
 <% title avatar(@topic.author) + h(@topic.subject) %>
 <%= toolbar title: title do %>
-    <li class="toolbar-item hidden-for-mobile">
-      <%= watcher_link(@topic, User.current) %>
-    </li>
-    <li class="toolbar-item hidden-for-mobile">
-      <% if !@topic.locked? && authorize_for('messages', 'reply') %>
-          <%= link_to({ action: 'quote', id: @topic }, class: 'boards--quote-button button') do %>
-              <%= op_icon('button--icon icon-quote') %>
-              <span class="button--text"><%= t(:button_quote) %></span>
-          <% end %>
+  <li class="toolbar-item hidden-for-mobile">
+    <%= watcher_link(@topic, User.current) %>
+  </li>
+  <li class="toolbar-item hidden-for-mobile">
+    <% if !@topic.locked? && authorize_for('messages', 'reply') %>
+      <%= link_to({ action: 'quote', id: @topic }, class: 'boards--quote-button button') do %>
+        <%= op_icon('button--icon icon-quote') %>
+        <span class="button--text"><%= t(:button_quote) %></span>
       <% end %>
-    </li>
-    <li class="toolbar-item">
-      <% if @message.editable_by?(User.current) %>
-          <%= link_to(edit_topic_path(@topic), accesskey: accesskey(:edit), class: 'button') do %>
-              <%= op_icon('button--icon icon-edit') %>
-              <span class="button--text"><%= t(:button_edit) %></span>
-          <% end %>
+    <% end %>
+  </li>
+  <li class="toolbar-item">
+    <% if @message.editable_by?(User.current) %>
+      <%= link_to(edit_topic_path(@topic), accesskey: accesskey(:edit), class: 'button') do %>
+        <%= op_icon('button--icon icon-edit') %>
+        <span class="button--text"><%= t(:button_edit) %></span>
       <% end %>
-    </li>
-    <li class="toolbar-item">
-      <% if @message.destroyable_by?(User.current) %>
-          <%= link_to(topic_path(@topic), method: :delete, data: { confirm: t(:text_are_you_sure) }, class: 'button') do %>
-              <%= op_icon('button--icon icon-delete') %>
-              <span class="button--text"><%= t(:button_delete) %></span>
-          <% end %>
+    <% end %>
+  </li>
+  <li class="toolbar-item">
+    <% if @message.destroyable_by?(User.current) %>
+      <%= link_to(topic_path(@topic), method: :delete, data: { confirm: t(:text_are_you_sure) }, class: 'button') do %>
+        <%= op_icon('button--icon icon-delete') %>
+        <span class="button--text"><%= t(:button_delete) %></span>
       <% end %>
-    </li>
+    <% end %>
+  </li>
 <% end %>
 
 <div class="forum-message">
@@ -76,37 +76,43 @@ See COPYRIGHT and LICENSE files for more details.
   <%= list_attachments(resource) %>
 
 </div>
-<br />
+<br/>
 
-<div class="forum-message--comments comments">
+<div
+  data-controller="forum-messages"
+  data-application-target="dynamic"
+  class="forum-message--comments comments">
   <% unless @replies.empty? %>
     <h3 class="icon-context icon-quote"><%= t(:label_reply_plural) %> (<%= @replies.count %>)</h3>
     <% @replies.each do |message| %>
       <div class="comment" id="<%= "message-#{message.id}" %>">
         <div class="contextual">
           <%= link_to(icon_wrapper('icon-context icon-quote', t(:button_quote)),
-                    { action: 'quote', id: message },
-                    title: t(:button_quote),
-                    class: 'boards--quote-button no-decoration-on-hover',
-                    alt: t(:button_quote)) if !@topic.locked? && authorize_for('messages', 'reply') %>
+                      { action: 'quote', id: message },
+                      title: t(:button_quote),
+                      class: 'boards--quote-button no-decoration-on-hover',
+                      data: { 'action': 'forum-messages#quote' },
+                      alt: t(:button_quote)) if !@topic.locked? && authorize_for('messages', 'reply')
+
+          %>
           <%= link_to(icon_wrapper('icon-context icon-edit', t(:button_edit)),
-                    { action: 'edit', id: message },
-                    title: t(:button_edit),
-                    class: 'no-decoration-on-hover',
-                    alt: t(:button_edit)) if message.editable_by?(User.current) %>
+                      { action: 'edit', id: message },
+                      title: t(:button_edit),
+                      class: 'no-decoration-on-hover',
+                      alt: t(:button_edit)) if message.editable_by?(User.current) %>
           <%= link_to(icon_wrapper('icon-context icon-delete', t(:button_delete)),
-                    { action: 'destroy', id: message},
-                    method: :delete,
-                    data: { confirm: t(:text_are_you_sure) },
-                    title: t(:button_delete),
-                    class: 'no-decoration-on-hover',
-                    alt: t(:button_delete)) if message.destroyable_by?(User.current) %>
+                      { action: 'destroy', id: message },
+                      method: :delete,
+                      data: { confirm: t(:text_are_you_sure) },
+                      title: t(:button_delete),
+                      class: 'no-decoration-on-hover',
+                      alt: t(:button_delete)) if message.destroyable_by?(User.current) %>
         </div>
         <h4 class="author additional-information">
           <%= avatar(message.author) %>
           <%= link_to h(message.subject), topic_path(@topic,
-                                                   r: message,
-                                                   anchor: "message-#{message.id}") %>
+                                                     r: message,
+                                                     anchor: "message-#{message.id}") %>
           -
           <%= authoring message.created_at, message.author %>
         </h4>
@@ -121,9 +127,9 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 
   <% if !@topic.locked? && authorize_for('messages', 'reply') %>
-    <div id="reply">
+    <div id="reply" data-forum-messages-target="reply">
 
-      <hr class="form--separator" />
+      <hr class="form--separator"/>
 
       <%= labelled_tabular_form_for @reply,
                                     as: :reply,
@@ -131,9 +137,9 @@ See COPYRIGHT and LICENSE files for more details.
                                     html: { multipart: true,
                                             id: 'message-form',
                                             class: 'form' } do |f| %>
-        <%= render partial: 'form', locals: {f: f, replying: true} %>
+        <%= render partial: 'form', locals: { f: f, replying: true } %>
 
-        <hr class="form--separator" />
+        <hr class="form--separator"/>
 
         <%= f.button t(:button_submit), class: 'button -highlight -highlight -with-icon icon-checkmark' %>
       <% end %>

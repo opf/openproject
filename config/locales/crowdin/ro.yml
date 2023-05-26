@@ -486,8 +486,8 @@ ro:
           true: "public"
           false: "privat"
         queries: "Interogări"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -742,6 +742,7 @@ ro:
               format: "%{message}"
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "se exclude reciproc cu grupul de \"%{group_by}\". Nu le puteți activa pe amândouă."
           filters:
@@ -1668,6 +1669,7 @@ ro:
   label_enterprise: "Acţiunile particularizate sunt o caracteristică a Ediţiei Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} numărul de utilizatori activi rezervați"
   label_enterprise_edition: "Ediția Enterprise"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Mediu"
   label_estimates_and_time: "Estimări și timp"
   label_equals: "este"
@@ -1859,7 +1861,6 @@ ro:
   label_principal_search: "Adăugare utilizatori sau grupuri existenți"
   label_privacy_policy: "Politica privind confidențialitatea și securitatea datelor"
   label_product_version: "Versiune produs"
-  label_professional_support: "Suport profesional"
   label_profile: "Profil"
   label_project_activity: "Activitate proiect"
   label_project_attribute_plural: "Atributele proiectului"
@@ -1922,7 +1923,7 @@ ro:
   label_role_search: "Atribuirea rolului noilor membri"
   label_scm: "SCM"
   label_search: "Căutare"
-  label_send_information: "Trimite utilizatorului informațiile despre cont"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Trimite e-mail de test"
   label_setting_plural: "Setări"
   label_system_settings: "Setări de sistem"

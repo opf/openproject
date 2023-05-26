@@ -1261,9 +1261,11 @@ lv:
       apply: 'Apply'
       header_description: 'View changes made to work packages in the current view within a time period.'
       show_changes_since: 'Show changes since'
-      help_description: 'Default time zone of the instance set by the administrator.'
-      time_description: 'In default time zone: %{time} %{days} day(s).'
+      help_description: 'Reference time zone for the baseline.'
+      time_description: 'In your local time: %{datetime}'
       time: 'Time'
+      from: 'From'
+      to: 'To'
       drop_down:
         none: '-'
         yesterday: 'yesterday'
@@ -1277,6 +1279,7 @@ lv:
         now_meets_filter_criteria: 'Now meets filter criteria'
         no_longer_meets_filter_criteria: 'No longer meets filter criteria'
         maintained_with_changes: 'Maintained with changes'
+        in_your_timezone: 'In your local timezone:'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

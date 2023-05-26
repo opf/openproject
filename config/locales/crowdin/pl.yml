@@ -484,8 +484,8 @@ pl:
           true: "publiczne"
           false: "prywatne"
         queries: "Kwerendy"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -740,6 +740,7 @@ pl:
               format: "%{message}"
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "wzajemnie się wykluczają w ramach grupowania wg \"%{group_by}\". Nie można aktywować równocześnie."
           filters:
@@ -1684,6 +1685,7 @@ pl:
   label_enterprise: "Przedsiębiorstwo"
   label_enterprise_active_users: "%{current}/%{limit} zarejestrowanych aktywnych użytkowników"
   label_enterprise_edition: "Wersja Enterprise"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Środowisko"
   label_estimates_and_time: "Szacowany czas"
   label_equals: "jest"
@@ -1875,7 +1877,6 @@ pl:
   label_principal_search: "Dodaj istniejących użytkowników lub grupy"
   label_privacy_policy: "Polityka prywatności i bezpieczeństwa danych"
   label_product_version: "Wersja produktu"
-  label_professional_support: "Profesjonalne wsparcie"
   label_profile: "Profil"
   label_project_activity: "Aktywność projektu"
   label_project_attribute_plural: "Cechy projektu"
@@ -1938,7 +1939,7 @@ pl:
   label_role_search: "Przydziel role nowemu członkowi"
   label_scm: "SCM"
   label_search: "Szukaj"
-  label_send_information: "Wyślij Informacje o koncie do użytkownika"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Wyślij wiadomość testową"
   label_setting_plural: "Ustawienia"
   label_system_settings: "Ustawienia"

@@ -28,25 +28,27 @@
 
 require 'spec_helper'
 
-describe 'Help menu items' do
+RSpec.describe 'Help menu items', js: true do
   let(:user) { create(:admin) }
   let(:help_item) { find('.op-app-help .op-app-menu--item-action') }
+  let(:help_menu_dropdown_selector) { '.op-app-menu--dropdown.op-menu' }
 
   before do
     login_as user
   end
 
-  describe 'When force_help_link is not set', js: true do
+  context 'when force_help_link is not set' do
     it 'renders a dropdown' do
       visit home_path
 
       help_item.click
+
       expect(page).to have_selector('.op-app-help .op-menu--item-action',
                                     text: I18n.t('homescreen.links.user_guides'))
     end
   end
 
-  describe 'When force_help_link is set', js: true do
+  context 'when force_help_link is set' do
     let(:custom_url) { 'https://mycustomurl.example.org/' }
 
     before do
@@ -59,6 +61,35 @@ describe 'Help menu items' do
 
       expect(help_item[:href]).to eq(custom_url)
       expect(page).not_to have_selector('.op-app-help .op-app-menu--dropdown', visible: false)
+    end
+  end
+
+  describe 'Enterprise Support Link' do
+    include_context 'support links'
+
+    def fake_an_enterprise_token
+      allow(EnterpriseToken).to receive(:show_banners?).and_return(false)
+      allow(EnterpriseToken).to receive(:active?).and_return(true)
+    end
+
+    it 'sets the link based on being in a Community version or Enterprise Edition' do
+      # Starting with no Enterprise Token
+      visit home_path
+      help_item.click
+      within help_menu_dropdown_selector do
+        expect(page).to have_link(I18n.t(:label_enterprise_support),
+                                  href: support_link_as_community)
+      end
+
+      fake_an_enterprise_token
+
+      # Now with an Enterprise Token
+      visit home_path
+      help_item.click
+      within help_menu_dropdown_selector do
+        expect(page).to have_link(I18n.t(:label_enterprise_support),
+                                  href: support_link_as_enterprise)
+      end
     end
   end
 end

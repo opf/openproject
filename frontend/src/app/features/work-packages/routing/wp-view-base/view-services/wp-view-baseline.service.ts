@@ -40,6 +40,8 @@ import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { DayResourceService } from 'core-app/core/state/days/day.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { IWorkPackageTimestamp } from 'core-app/features/hal/resources/work-package-timestamp-resource';
+import * as moment from 'moment-timezone';
+import { Moment } from 'moment';
 
 export const DEFAULT_TIMESTAMP = 'PT0S';
 
@@ -59,37 +61,18 @@ export class WorkPackageViewBaselineService extends WorkPackageQueryStateService
 
   public nonWorkingDays:IDay[] = [];
 
-  public daysNumber = 0;
-
   public nonWorkingDays$:Observable<IDay[]> = this.requireNonWorkingDaysOfTwoYears();
 
-  public selectedDate = '';
-
   public yesterdayDate():string {
-    const today = new Date();
-    this.daysNumber = -1;
-
-    today.setDate(today.getDate() - 1);
-    this.selectedDate = this.timezoneService.formattedDate(today.toString());
-    return this.selectedDate;
+    return moment().subtract(1, 'days').format('YYYY-MM-DD');
   }
 
   public lastMonthDate():string {
-    const today = new Date();
-    const lastMonthDate = new Date(today);
-
-    lastMonthDate.setMonth(today.getMonth() - 1);
-    this.selectedDate = this.timezoneService.formattedDate(lastMonthDate.toString());
-    this.daysNumber = moment(lastMonthDate).diff(moment(today), 'days');
-    return this.selectedDate;
+    return moment().subtract(1, 'month').format('YYYY-MM-DD');
   }
 
   public lastweekDate():string {
-    const today = new Date();
-    this.daysNumber = -7;
-    today.setDate(today.getDate() - 7);
-    this.selectedDate = this.timezoneService.formattedDate(today.toString());
-    return this.selectedDate;
+    return moment().subtract(1, 'week').format('YYYY-MM-DD');
   }
 
   requireNonWorkingDaysOfTwoYears() {
@@ -107,27 +90,21 @@ export class WorkPackageViewBaselineService extends WorkPackageQueryStateService
     return nonWorkingDays$;
   }
 
-  isNonWorkingDay(date:Date|string):boolean {
+  isNonWorkingDay(date:Moment|string):boolean {
     const formatted = moment(date).format('YYYY-MM-DD');
     return (this.nonWorkingDays.findIndex((el) => el.date === formatted) !== -1);
   }
 
   public lastWorkingDate():string {
-    const today = new Date();
-    const yesterday = new Date(today);
-    this.selectedDate = '';
-    yesterday.setDate(today.getDate() - 1);
-    while (this.selectedDate === '') {
-      if (this.isNonWorkingDay(yesterday) || this.weekdaysService.isNonWorkingDay(yesterday)) {
-        yesterday.setDate(yesterday.getDate() - 1);
-        continue;
+    const date = moment().subtract(1, 'days');
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      if (this.isNonWorkingDay(date) || this.weekdaysService.isNonWorkingDay(date)) {
+        date.subtract(1, 'days');
       } else {
-        this.selectedDate = this.timezoneService.formattedDate(yesterday.toString());
-        this.daysNumber = moment(yesterday).diff(moment(today), 'days');
-        break;
+        return date.format('YYYY-MM-DD');
       }
     }
-    return this.selectedDate;
   }
 
   public isActive():boolean {

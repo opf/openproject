@@ -485,8 +485,8 @@ fr:
           true: "public"
           false: "privé"
         queries: "Requêtes"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -741,6 +741,7 @@ fr:
               format: "%{message}"
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "est mutuellement exclusif avec grouper par '%{group_by}'. Vous ne pouvez pas activer les deux."
           filters:
@@ -1649,6 +1650,7 @@ fr:
   label_enterprise: "Entreprise"
   label_enterprise_active_users: "%{current}/%{limit} utilisateurs actifs inscrits"
   label_enterprise_edition: "Version Entreprise"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Environement"
   label_estimates_and_time: "Estimations et temps"
   label_equals: "est"
@@ -1840,7 +1842,6 @@ fr:
   label_principal_search: "Ajouter des utilisateurs ou groupes existant"
   label_privacy_policy: "Politique de confidentialité et de sécurité des données"
   label_product_version: "Version du produit"
-  label_professional_support: "Support professionnel"
   label_profile: "Profil"
   label_project_activity: "Activité du projet"
   label_project_attribute_plural: "Attributs du projet"
@@ -1903,7 +1904,7 @@ fr:
   label_role_search: "Assigner un rôle aux nouveaux membres"
   label_scm: "SCM"
   label_search: "Recherche"
-  label_send_information: "Envoyer informations du compte à l'utilisateur"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Envoyer un courriel de test"
   label_setting_plural: "Paramètres"
   label_system_settings: "Paramètres système"

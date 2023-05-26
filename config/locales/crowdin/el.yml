@@ -481,8 +481,8 @@ el:
           true: "public"
           false: "private"
         queries: "Αναζητήσεις"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -737,6 +737,7 @@ el:
               format: "%{message}"
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "είναι αμοιβαία αποκλειστικό με την ομαδοποίηση κατά '%{group_by}'. Δεν μπορείτε να ενεργοποιήσετε και τα δύο."
           filters:
@@ -1645,6 +1646,7 @@ el:
   label_enterprise: "Επιχείρηση"
   label_enterprise_active_users: "%{current}/%{limit} κλεισμένοι ενεργοί χρήστες"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Περιβάλλον"
   label_estimates_and_time: "Εκτιμήσεις & χρόνος"
   label_equals: "είναι"
@@ -1836,7 +1838,6 @@ el:
   label_principal_search: "Προσθήκη υπαρχόντων χρηστών ή ομάδων"
   label_privacy_policy: "Ιδιωτικότητα δεδομένων και πολιτική ασφαλείας"
   label_product_version: "Έκδοση προϊόντος"
-  label_professional_support: "Επαγγελματική υποστήριξη"
   label_profile: "Προφίλ"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -1899,7 +1900,7 @@ el:
   label_role_search: "Ανάθεση ρόλων σε νέα μέλη"
   label_scm: "SCM"
   label_search: "Αναζήτηση"
-  label_send_information: "Αποστολή πληροφοριών λογαριασμού στο χρήστη"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Αποστολή δοκιμαστικού email"
   label_setting_plural: "Ρυθμίσεις"
   label_system_settings: "Ρυθμίσεις συστήματος"

@@ -482,8 +482,8 @@ hu:
           true: "public"
           false: "private"
         queries: "Lekérdezések"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -738,6 +738,7 @@ hu:
               format: "%{message}\n"
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "kölcsönösen kizárja a csoportot a '%{group_by}' csoporttal. Nem aktiválhatja mindkettőt."
           filters:
@@ -1646,6 +1647,7 @@ hu:
   label_enterprise: "Vállalati"
   label_enterprise_active_users: "%{current}/%{limit} foglalt aktív felhasználók"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Környezet"
   label_estimates_and_time: "Becslések & időpontok"
   label_equals: "van"
@@ -1837,7 +1839,6 @@ hu:
   label_principal_search: "Meglévő felhasználók vagy csoportok hozzáadása"
   label_privacy_policy: "Adatvédelmi és biztonsági szabályzat"
   label_product_version: "Termékverzió"
-  label_professional_support: "Szakmai támogatás"
   label_profile: "Profil"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -1900,7 +1901,7 @@ hu:
   label_role_search: "Szerep hozzárendelése az új tagokhoz"
   label_scm: "SCM"
   label_search: "Keresés"
-  label_send_information: "Fiókinformációkat küldése a felhasználónak"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Teszt levél küldése"
   label_setting_plural: "Beállítások"
   label_system_settings: "Rendszerbeállítások"

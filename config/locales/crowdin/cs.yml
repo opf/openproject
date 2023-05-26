@@ -487,8 +487,8 @@ cs:
           true: "veřejný"
           false: "soukromý"
         queries: "Dotazy"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -743,6 +743,7 @@ cs:
               format: "%{message}"
             timestamps:
               invalid: "Časová razítka obsahují neplatné hodnoty: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "je vzájemně exkluzivní se skupinou od '%{group_by}'. Nelze aktivovat obojí."
           filters:
@@ -1687,6 +1688,7 @@ cs:
   label_enterprise: "Podniky"
   label_enterprise_active_users: "%{current}/%{limit} rezervováno aktivních uživatelů"
   label_enterprise_edition: "Enterprise Edice"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Prostředí"
   label_estimates_and_time: "Odhady a čas"
   label_equals: "je"
@@ -1878,7 +1880,6 @@ cs:
   label_principal_search: "Přidat existující uživatele nebo skupiny"
   label_privacy_policy: "Zásady ochrany soukromí a bezpečnosti údajů"
   label_product_version: "Verze produktu"
-  label_professional_support: "Profesionální podpora"
   label_profile: "Profil"
   label_project_activity: "Aktivita projektu"
   label_project_attribute_plural: "Atributy projektu"
@@ -1941,7 +1942,7 @@ cs:
   label_role_search: "Přiřadit roli novým členům"
   label_scm: "SCM"
   label_search: "Vyhledávání"
-  label_send_information: "Odeslat informace o účtu uživateli"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Odeslat testovací email"
   label_setting_plural: "Nastavení"
   label_system_settings: "Nastavení systému"

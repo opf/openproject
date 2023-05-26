@@ -6,3 +6,13 @@ ko:
   boards:
     label_board: "게시판"
     label_boards: "보드"
+    board_types:
+      free: Basic
+      action: "Action board (%{attribute})"
+    board_type_attributes:
+      assignee: Assignee
+      status: Status
+      version: Version
+      subproject: Subproject
+      subtasks: Parent-child
+      basic: Basic

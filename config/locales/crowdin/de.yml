@@ -480,15 +480,15 @@ de:
           true: "öffentlich"
           false: "privat"
         queries: "Abfragen"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Projektstatus'
+        status_explanation: 'Projektstatusbeschreibung'
         status_codes:
-          not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          not_started: 'Nicht gestartet'
+          on_track: 'Planmäßig'
+          at_risk: 'Gefährdet'
+          off_track: 'Unplanmäßig'
+          finished: 'Abgeschlossen'
+          discontinued: 'Eingestellt'
         templated: "Projektvorlage"
         templated_value:
           true: "als Vorlage markiert"
@@ -736,6 +736,7 @@ de:
               format: "%{message}"
             timestamps:
               invalid: "Zeitstempel enthalten ungültige Werte: %{values}"
+              forbidden: "Zeitstempel enthalten ungültige Werte: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "schließt sich gegenseitig mit der Gruppierung nach \"%{group_by}\" aus. Beide können nicht zeitgleich aktiv sein."
           filters:
@@ -912,22 +913,22 @@ de:
   activity:
     item:
       created_by_on: "erstellt von %{user} am %{datetime}"
-      created_by_on_time_entry: "time logged by %{user} on %{datetime}"
+      created_by_on_time_entry: "gebucht von %{user} am %{datetime}"
       created_on: "erstellt am %{datetime}"
       updated_by_on: "aktualisiert von %{user} am %{datetime}"
-      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "Zeitbuchung aktualisiert durch %{user} am %{datetime}"
       updated_on: "aktualisiert am %{datetime}"
       parent_without_of: "Unterprojekt"
       parent_no_longer: "Nicht mehr Unterprojekt von"
       time_entry:
         hour:
-          one: "%{count} hour"
-          other: "%{count} hours"
+          one: "Eine Stunde"
+          other: "%{count} Stunden"
         hour_html:
-          one: "<i>%{count} hour</i>"
-          other: "<i>%{count} hours</i>"
-        updated: "changed from %{old_value} to %{value}"
-        logged_for: "Logged for"
+          one: "<i>%{count} Stunde</i>"
+          other: "<i>%{count} Stunden</i>"
+        updated: "geändert von %{old_value} zu %{value}"
+        logged_for: "Gebucht für"
     filter:
       changeset: "Änderungssätze"
       message: "Foren"
@@ -1644,6 +1645,7 @@ de:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} gebuchte aktive Nutzer"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Umgebung"
   label_estimates_and_time: "Schätzungen & Zeiten"
   label_equals: "ist"
@@ -1835,7 +1837,6 @@ de:
   label_principal_search: "Vorhandene Benutzer / Gruppen hinzufügen"
   label_privacy_policy: "Datenschutz- und Sicherheitsrichtlinien"
   label_product_version: "Produktversion"
-  label_professional_support: "Professionelle Unterstützung"
   label_profile: "Profil"
   label_project_activity: "Projektaktivität"
   label_project_attribute_plural: "Projekt-Attribute"
@@ -1898,7 +1899,7 @@ de:
   label_role_search: "Rolle für neue Mitglieder zuweisen"
   label_scm: "Versionskontrollsystem"
   label_search: "Suche"
-  label_send_information: "Sende Kontoinformationen zum Benutzer"
+  label_send_information: "Neue Anmeldeinformationen an den Benutzer senden"
   label_send_test_email: "Test-E-Mail senden"
   label_setting_plural: "Einstellungen"
   label_system_settings: "Systemkonfiguration"

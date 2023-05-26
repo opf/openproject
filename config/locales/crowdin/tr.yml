@@ -484,8 +484,8 @@ tr:
           true: "genel"
           false: "özel"
         queries: "Sorgular"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -740,6 +740,7 @@ tr:
               format: "%{message}"
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
+              forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "grubu tarafından '%{group_by}' ile birlikte kullanılamaz. Her ikisi de etkinleştiremezsiniz."
           filters:
@@ -1648,6 +1649,7 @@ tr:
   label_enterprise: "Kurumsal"
   label_enterprise_active_users: "%{current}/%{limit} aktif kullanıcı rezervasyonu"
   label_enterprise_edition: "Enterprise sürüm"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Ortam"
   label_estimates_and_time: "Tahminler & zaman"
   label_equals: "şuysa"
@@ -1839,7 +1841,6 @@ tr:
   label_principal_search: "Mevcut kullanıcıları veya grupları ekle"
   label_privacy_policy: "Veri gizliliği ve güvenlik politikası"
   label_product_version: "Ürün sürümü"
-  label_professional_support: "Profesyonel destek"
   label_profile: "Profil"
   label_project_activity: "Proje etkinliği"
   label_project_attribute_plural: "Proje öznitelikleri"
@@ -1902,7 +1903,7 @@ tr:
   label_role_search: "Yeni üyelere rol atama"
   label_scm: "YKM"
   label_search: "Ara"
-  label_send_information: "Hesap bilgilerini kullanıcıya gönder"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Deneme e-postası gönder"
   label_setting_plural: "Ayarlar"
   label_system_settings: "Sistem ayarları"
