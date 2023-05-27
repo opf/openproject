@@ -582,4 +582,8 @@ OpenProject::Application.routes.draw do
 
   # Routes for design related documentation and examples pages
   get '/design/styleguide' => redirect('/assets/styleguide.html')
+
+  if Rails.env.development?
+    mount Lookbook::Engine, at: "/design/lookbook"
+  end
 end

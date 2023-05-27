@@ -269,6 +269,9 @@ group :development do
   gem 'livingstyleguide', '~> 2.1.0'
   gem 'sassc-rails'
 
+  # Lookbook
+  gem 'lookbook', '~> 2.0.3'
+
   gem 'colored2'
 end
 

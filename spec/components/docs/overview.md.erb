@@ -1,0 +1,17 @@
+---
+title: An example page
+label: Nice example
+---
+
+This is an example page. If it has a `.md.erb` file extension its
+contents will be run through a Markdown parser/renderer before display.
+
+Fenced code blocks are fully supported and will be highlighted appropriately.
+
+ERB can be used in here.
+The template will be rendered **before** being parsed as Markdown.
+
+You can can access data about the page using the `@page` variable.
+The title of this page is "<%= @page.title %>".
+
+<lookbook-embed app="http://localhost:3000/lookbook/" preview="ExampleComponentPreview" scenario="with_dynamic_title" param-title="O hey!"></lookbook-embed>
