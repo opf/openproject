@@ -172,30 +172,30 @@ jQuery(function ($) {
   //   return false;
   // }
 
-  function addFilter(e) {
-    e.preventDefault();
-    $('[filter-name="' + $(this).val() + '"]').removeClass('hidden');
-    // If the user removes the filter the same filter has to be selectable from fresh again:
-    $('#add_filter_select option:selected', $filterForm).prop('disabled', 'disabled');
-    jQuery('#add_filter_select option:first-of-type').prop('selected', 'selected');
-    setSpacerVisibility();
-    return false;
-  }
+  // function addFilter(e) {
+  //   e.preventDefault();
+  //   $('[filter-name="' + $(this).val() + '"]').removeClass('hidden');
+  //   // If the user removes the filter the same filter has to be selectable from fresh again:
+  //   $('#add_filter_select option:selected', $filterForm).prop('disabled', 'disabled');
+  //   jQuery('#add_filter_select option:first-of-type').prop('selected', 'selected');
+  //   setSpacerVisibility();
+  //   return false;
+  // }
 
-  function removeFilter(e) {
-    e.preventDefault();
-    let $filter = $(this).parents('.advanced-filters--filter');
-    let filterName = $filter.attr('filter-name');
+  // function removeFilter(e) {
+  //   e.preventDefault();
+  //   let $filter = $(this).parents('.advanced-filters--filter');
+  //   let filterName = $filter.attr('filter-name');
+  //
+  //   $filter.addClass('hidden');
+  //   $('#add_filter_select option[value="' + filterName + '"]', $filterForm).removeAttr('disabled');
+  //   setSpacerVisibility();
+  // }
 
-    $filter.addClass('hidden');
-    $('#add_filter_select option[value="' + filterName + '"]', $filterForm).removeAttr('disabled');
-    setSpacerVisibility();
-  }
-
-  function setSpacerVisibility() {
-    let remaining = $(".advanced-filters--filter:not(.hidden)").length;
-    $('.advanced-filters--spacer').toggle(remaining > 0);
-  }
+  // function setSpacerVisibility() {
+  //   let remaining = $(".advanced-filters--filter:not(.hidden)").length;
+  //   $('.advanced-filters--spacer').toggle(remaining > 0);
+  // }
 
   function setValueVisibility() {
     const selectedOperator = $(this).val();
@@ -229,7 +229,7 @@ jQuery(function ($) {
   $filterForm.submit(sendForm);
   $('select[name="operator"]', $filterForm).on('change', setValueVisibility)
   // $('#add_filter_select', $filterForm).on('change', addFilter);
-  $('.filter_rem', $filterForm).on('click', removeFilter);
+  // $('.filter_rem', $filterForm).on('click', removeFilter);
 
 
   // Helpers

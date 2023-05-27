@@ -104,6 +104,17 @@ export default class ProjectController extends Controller {
     this.addFilterSelectTarget.options[0].setAttribute('selected', 'selected');
   }
 
+  removeFilter({ params: { filterName } }:{ params:{ filterName:string } }) {
+    const filterToRemove = this.filterTargets.find((filter) => filter.getAttribute('filter-name') === filterName);
+    filterToRemove?.classList.add('hidden');
+
+    const selectOptions = Array.from(this.addFilterSelectTarget.options);
+    const removedFilterOption = selectOptions.find((option) => option.value === filterName);
+    removedFilterOption?.removeAttribute('disabled');
+
+    this.setSpacerVisibility();
+  }
+
   private setSpacerVisibility() {
     if (this.anyFiltersStillVisible()) {
       this.spacerTarget.classList.remove('hidden');

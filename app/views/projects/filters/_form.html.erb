@@ -52,7 +52,10 @@
           <% end %>
 
           <div class="advanced-filters--remove-filter">
-            <a href="#" class="filter_rem">
+            <a href="#"
+               class="filter_rem"
+               data-action="click->project#removeFilter"
+               data-project-filter-name-param="<%= filter.name %>">
               <%= op_icon("icon-close advanced-filters--remove-filter-icon", title: I18n.t('js.button_delete')) %>
             </a>
           </div>
