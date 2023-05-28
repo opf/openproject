@@ -40,6 +40,10 @@
               "src/assets"
             ],
             "styles": [
+              {
+                "input": "src/spot.scss",
+                "bundleName": "spot"
+              },
               "src/styles.scss",
               "node_modules/codemirror/lib/codemirror.css",
               "node_modules/jquery-ui/themes/base/core.css",
