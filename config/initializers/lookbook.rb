@@ -1,18 +1,19 @@
 OpenProject::Application.configure do
+  next unless Rails.env.development?
+
   config.view_component.generate.preview_path = Rails.root.join("spec/components/previews").to_s
   config.view_component.preview_paths << Rails.root.join("spec/components/previews").to_s
   config.lookbook.project_name = "OpenProject Lookbook"
   config.lookbook.page_paths = [Rails.root.join("spec/components/docs/").to_s]
   config.lookbook.ui_theme = "blue"
 
-  config.to_prepare do
-    next unless Rails.env.development?
-    SecureHeaders::Configuration.named_append(:lookbook) do
-      {
-        script_src: %w('unsafe-eval' 'unsafe-inline')
-      }
-    end
+  SecureHeaders::Configuration.named_append(:lookbook) do
+    {
+      script_src: %w('unsafe-eval' 'unsafe-inline')
+    }
+  end
 
+  Rails.application.reloader.to_prepare do
     module LookbookCspExtender
       extend ActiveSupport::Concern
 
