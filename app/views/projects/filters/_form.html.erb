@@ -28,7 +28,11 @@
                              :symbol,
                              :human_name,
                              selected_operator),
-                           class: 'advanced-filters--select' %>
+                           class: 'advanced-filters--select',
+                           data: {
+                             action: 'change->project#setValueVisibility',
+                             'project-filter-name-param': filter.name
+                           } %>
           <% end %>
           <% value_visibility = operators_without_values.include?(selected_operator) ? 'hidden' : '' %>
           <% if filter_boolean %>

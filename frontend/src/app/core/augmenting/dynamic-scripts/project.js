@@ -197,37 +197,37 @@ jQuery(function ($) {
   //   $('.advanced-filters--spacer').toggle(remaining > 0);
   // }
 
-  function setValueVisibility() {
-    const selectedOperator = $(this).val();
-    const $filter = $(this).parents('.advanced-filters--filter')
-    const $filterValue = $('.advanced-filters--filter-value', $filter);
-    if (['*', '!*', 't', 'w'].includes(selectedOperator)) {
-      $filterValue.addClass('hidden');
-    } else {
-      $filterValue.removeClass('hidden');
-    }
-
-    if (['>t-', '<t-', 't-', '<t+', '>t+', 't+'].includes(selectedOperator)) {
-      $filterValue.addClass('days');
-      $filterValue.removeClass('on-date');
-      $filterValue.removeClass('between-dates');
-    } else if (selectedOperator == '=d') {
-      $filterValue.addClass('on-date');
-      $filterValue.removeClass('days');
-      $filterValue.removeClass('between-dates');
-    } else if (selectedOperator == "<>d") {
-      $filterValue.addClass('between-dates');
-      $filterValue.removeClass('days');
-      $filterValue.removeClass('on-date');
-    }
-  }
+  // function setValueVisibility() {
+  //   const selectedOperator = $(this).val();
+  //   const $filter = $(this).parents('.advanced-filters--filter')
+  //   const $filterValue = $('.advanced-filters--filter-value', $filter);
+  //   if (['*', '!*', 't', 'w'].includes(selectedOperator)) {
+  //     $filterValue.addClass('hidden');
+  //   } else {
+  //     $filterValue.removeClass('hidden');
+  //   }
+  //
+  //   if (['>t-', '<t-', 't-', '<t+', '>t+', 't+'].includes(selectedOperator)) {
+  //     $filterValue.addClass('days');
+  //     $filterValue.removeClass('on-date');
+  //     $filterValue.removeClass('between-dates');
+  //   } else if (selectedOperator == '=d') {
+  //     $filterValue.addClass('on-date');
+  //     $filterValue.removeClass('days');
+  //     $filterValue.removeClass('between-dates');
+  //   } else if (selectedOperator == "<>d") {
+  //     $filterValue.addClass('between-dates');
+  //     $filterValue.removeClass('days');
+  //     $filterValue.removeClass('on-date');
+  //   }
+  // }
 
   // Register event listeners
   // $('.advanced-filters--filter-value a.multi-select-toggle').click(toggleMultiselect);
   // $button.click(toggleProjectFilterForm);
   // $closeIcon.click(toggleProjectFilterForm);
   $filterForm.submit(sendForm);
-  $('select[name="operator"]', $filterForm).on('change', setValueVisibility)
+  // $('select[name="operator"]', $filterForm).on('change', setValueVisibility)
   // $('#add_filter_select', $filterForm).on('change', addFilter);
   // $('.filter_rem', $filterForm).on('click', removeFilter);
 

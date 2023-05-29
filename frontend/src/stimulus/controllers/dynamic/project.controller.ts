@@ -126,4 +126,35 @@ export default class ProjectController extends Controller {
   private anyFiltersStillVisible() {
     return this.filterTargets.some((filter) => !filter.classList.contains('hidden'));
   }
+
+  private readonly _DAYS_OPERATORS = ['>t-', '<t-', 't-', '<t+', '>t+', 't+'];
+  private readonly _ON_DATE_OPERATOR = '=d';
+  private readonly _BETWEEN_DATES_OPERATOR = '<>d';
+
+  setValueVisibility({ target, params: { filterName } }:{ target:HTMLSelectElement, params:{ filterName:string } }) {
+    const selectedOperator = target.value;
+    const currentFilter = this.filterTargets.find((filter) => filter.getAttribute('filter-name') === filterName);
+    const filterValue = currentFilter?.querySelector('.advanced-filters--filter-value');
+    if (filterValue) {
+      if (['*', '!*', 't', 'w'].includes(selectedOperator)) {
+        filterValue.classList.add('hidden');
+      } else {
+        filterValue.classList.remove('hidden');
+      }
+
+      if (this._DAYS_OPERATORS.includes(selectedOperator)) {
+        filterValue.classList.add('days');
+        filterValue.classList.remove('on-date');
+        filterValue.classList.remove('between-dates');
+      } else if (selectedOperator === this._ON_DATE_OPERATOR) {
+        filterValue.classList.add('on-date');
+        filterValue.classList.remove('days');
+        filterValue.classList.remove('between-dates');
+      } else if (selectedOperator === this._BETWEEN_DATES_OPERATOR) {
+        filterValue.classList.add('between-dates');
+        filterValue.classList.remove('days');
+        filterValue.classList.remove('on-date');
+      }
+    }
+  }
 }
