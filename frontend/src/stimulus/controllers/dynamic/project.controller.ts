@@ -38,6 +38,7 @@ export default class ProjectController extends Controller {
     'filter',
     'addFilterSelect',
     'spacer',
+    'descriptionToggle',
   ];
 
   declare readonly filterFormToggleTarget:HTMLButtonElement;
@@ -45,6 +46,7 @@ export default class ProjectController extends Controller {
   declare readonly filterTargets:HTMLElement[];
   declare readonly addFilterSelectTarget:HTMLSelectElement;
   declare readonly spacerTarget:HTMLElement;
+  declare readonly descriptionToggleTargets:HTMLAnchorElement[];
 
   connect() {
     // console.log('Project Controller Connected');
@@ -127,9 +129,9 @@ export default class ProjectController extends Controller {
     return this.filterTargets.some((filter) => !filter.classList.contains('hidden'));
   }
 
-  private readonly _DAYS_OPERATORS = ['>t-', '<t-', 't-', '<t+', '>t+', 't+'];
-  private readonly _ON_DATE_OPERATOR = '=d';
-  private readonly _BETWEEN_DATES_OPERATOR = '<>d';
+  private readonly daysOperators = ['>t-', '<t-', 't-', '<t+', '>t+', 't+'];
+  private readonly onDateOperator = '=d';
+  private readonly betweenDatesOperator = '<>d';
 
   setValueVisibility({ target, params: { filterName } }:{ target:HTMLSelectElement, params:{ filterName:string } }) {
     const selectedOperator = target.value;
@@ -142,19 +144,44 @@ export default class ProjectController extends Controller {
         filterValue.classList.remove('hidden');
       }
 
-      if (this._DAYS_OPERATORS.includes(selectedOperator)) {
+      if (this.daysOperators.includes(selectedOperator)) {
         filterValue.classList.add('days');
         filterValue.classList.remove('on-date');
         filterValue.classList.remove('between-dates');
-      } else if (selectedOperator === this._ON_DATE_OPERATOR) {
+      } else if (selectedOperator === this.onDateOperator) {
         filterValue.classList.add('on-date');
         filterValue.classList.remove('days');
         filterValue.classList.remove('between-dates');
-      } else if (selectedOperator === this._BETWEEN_DATES_OPERATOR) {
+      } else if (selectedOperator === this.betweenDatesOperator) {
         filterValue.classList.add('between-dates');
         filterValue.classList.remove('days');
         filterValue.classList.remove('on-date');
       }
+    }
+  }
+
+  toggleDescription({ target }:{ target:HTMLAnchorElement }) {
+    const toggledTrigger = target;
+    const otherTrigger = this.descriptionToggleTargets.find((trigger) => trigger !== toggledTrigger);
+    const clickedRow = toggledTrigger.closest('.project') as HTMLElement;
+    const descriptionRow = clickedRow.nextElementSibling as HTMLElement;
+
+    if (clickedRow && descriptionRow) {
+      clickedRow.classList.toggle('-no-highlighting');
+      clickedRow.classList.toggle('-expanded');
+      descriptionRow.classList.toggle('-expanded');
+
+      this.setAriaLive(descriptionRow);
+    }
+
+    otherTrigger?.focus();
+  }
+
+  private setAriaLive(descriptionRow:HTMLElement) {
+    if (descriptionRow.classList.contains('-expanded')) {
+      descriptionRow.setAttribute('aria-live', 'polite');
+    } else {
+      descriptionRow.removeAttribute('aria-live');
     }
   }
 }

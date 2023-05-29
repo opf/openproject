@@ -249,29 +249,29 @@ jQuery(function ($) {
   };
 });
 
-(function ($) {
-  function toggleDescription() {
-    let $el = $(this);
-    let otherTrigger = $el.siblings('.projects-table--description-toggle');
-    let clickedRow = $el.closest('.project');
-    let descriptionRow = clickedRow.next();
-
-    clickedRow.toggleClass('-no-highlighting');
-    clickedRow.toggleClass('-expanded');
-    descriptionRow.toggleClass('-expanded');
-
-    if (descriptionRow.hasClass('-expanded')) {
-      $(descriptionRow).attr('aria-live', 'polite');
-    } else {
-      $(descriptionRow).removeAttr('aria-live');
-    }
-
-    otherTrigger.focus();
-
-    return false;
-  }
-
-  $('document').ready(function () {
-    $('.projects-table--description-toggle').click(toggleDescription);
-  });
-})(jQuery);
+// (function ($) {
+//   function toggleDescription() {
+//     let $el = $(this);
+//     let otherTrigger = $el.siblings('.projects-table--description-toggle');
+//     let clickedRow = $el.closest('.project');
+//     let descriptionRow = clickedRow.next();
+//
+//     clickedRow.toggleClass('-no-highlighting');
+//     clickedRow.toggleClass('-expanded');
+//     descriptionRow.toggleClass('-expanded');
+//
+//     if (descriptionRow.hasClass('-expanded')) {
+//       $(descriptionRow).attr('aria-live', 'polite');
+//     } else {
+//       $(descriptionRow).removeAttr('aria-live');
+//     }
+//
+//     otherTrigger.focus();
+//
+//     return false;
+//   }
+//
+//   $('document').ready(function () {
+//     $('.projects-table--description-toggle').click(toggleDescription);
+//   });
+// })(jQuery);
