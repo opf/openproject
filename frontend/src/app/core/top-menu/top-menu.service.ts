@@ -44,7 +44,7 @@ export class TopMenuService {
 
   private menuIsOpen = false;
 
-  private menuContainer = this.document.querySelector('.op-app-header') as HTMLElement;
+  private menuContainer = this.document.querySelector<HTMLElement>('.op-app-header');
 
   private active$ = new BehaviorSubject<HTMLElement|null>(null);
 
@@ -73,7 +73,7 @@ export class TopMenuService {
   private skipContentClickListener():void {
     // Skip menu on content
     const skipLink = this.document.querySelector('#skip-navigation--content') as HTMLElement;
-    skipLink.addEventListener('click', () => {
+    skipLink?.addEventListener('click', () => {
       // Skip to the breadcrumb or the first link in the toolbar or the first link in the content (homescreen)
       const selectors = '.first-breadcrumb-element a, .toolbar-container a:first-of-type, #content a:first-of-type';
       const visibleLink = jQuery(selectors)
@@ -114,12 +114,12 @@ export class TopMenuService {
 
   private stopHover():void {
     this.hover = false;
-    this.menuContainer.classList.remove('hover');
+    this.menuContainer?.classList.remove('hover');
   }
 
   private startHover():void {
     this.hover = true;
-    this.menuContainer.classList.add('hover');
+    this.menuContainer?.classList.add('hover');
   }
 
   private closeAllItems():void {
@@ -141,12 +141,14 @@ export class TopMenuService {
     }, true);
   }
 
-  private openDropdowns():NodeListOf<HTMLElement> {
-    return this.menuContainer.querySelectorAll('.op-app-menu--item_dropdown-open');
+  private openDropdowns():HTMLElement[] {
+    const elements = this.menuContainer?.querySelectorAll<HTMLElement>('.op-app-menu--item_dropdown-open');
+    return elements ? Array.from(elements) : [];
   }
 
-  private dropdowns():NodeListOf<HTMLElement> {
-    return this.menuContainer.querySelectorAll('.op-app-menu--item_has-dropdown');
+  private dropdowns():HTMLElement[] {
+    const elements = this.menuContainer?.querySelectorAll<HTMLElement>('.op-app-menu--item_has-dropdown');
+    return elements ? Array.from(elements) : [];
   }
 
   private setupDropdownClick():void {

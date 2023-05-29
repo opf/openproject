@@ -18,8 +18,8 @@ const ASSET_BASE_PATH = '/assets/frontend/';
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
 
 // Get the asset host, if any
-const initializer = document.querySelector('meta[name="openproject_initializer"]') as HTMLMetaElement;
-const ASSET_HOST = initializer.dataset.assetHost ? `//${initializer.dataset.assetHost}` : '';
+const initializer = document.querySelector<HTMLMetaElement>('meta[name="openproject_initializer"]');
+const ASSET_HOST = initializer?.dataset.assetHost ? `//${initializer.dataset.assetHost}` : '';
 
 // Ensure to set the asset base for dynamic code loading
 // https://webpack.js.org/guides/public-path/

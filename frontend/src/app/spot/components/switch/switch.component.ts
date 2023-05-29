@@ -6,6 +6,7 @@ import {
   EventEmitter,
   forwardRef,
   HostBinding,
+  HostListener,
   Input,
   Output,
   ViewChild,
@@ -82,7 +83,21 @@ export class SpotSwitchComponent implements ControlValueAccessor {
     this.cdRef.markForCheck();
   }
 
-  onToggle(value:SpotSwitchState):void {
+  @HostListener('click', ['$event'])
+  toggle(event:MouseEvent) {
+    if (!this.disabled) {
+      const value = !this.checked;
+      this.writeValue(value);
+      this.onChange(value);
+      this.onTouched(value);
+
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }
+
+  onToggle(event:InputEvent):void {
+    const value = (event.target as HTMLInputElement).value as unknown as SpotSwitchState;
     this.writeValue(value);
     this.onChange(value);
     this.onTouched(value);
