@@ -7,6 +7,8 @@ OpenProject::Application.configure do
   config.lookbook.project_logo = File.read Rails.root.join('app/assets/images/icon_logo_white.svg')
   config.lookbook.ui_favicon = File.read Rails.root.join('app/assets/images/icon_logo.svg')
   config.lookbook.page_paths = [Rails.root.join("spec/components/docs/").to_s]
+  # Show notes first, all other panels next
+  config.lookbook.preview_inspector.drawer_panels = [:notes, "*"]
   config.lookbook.ui_theme = "blue"
 
   SecureHeaders::Configuration.named_append(:lookbook) do
