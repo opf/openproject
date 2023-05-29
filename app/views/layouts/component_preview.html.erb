@@ -30,7 +30,9 @@ See COPYRIGHT and LICENSE files for more details.
 <head>
   <%= include_frontend_assets %>
 </head>
-<body>
-<%= yield %>
+<body class="viewcomponent-preview">
+  <section class="viewcomponent-preview--content">
+    <%= yield %>
+  </section>
 </body>
 </html>
