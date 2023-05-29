@@ -50,11 +50,16 @@ en:
   storages:
     buttons:
       done_continue_setup: "Done. Continue setup"
+      done_complete_setup: "Done, complete setup"
       replace_openproject_oauth: "Replace OpenProject OAuth"
       replace_provider_type_oauth: "Replace %{provider_type} OAuth"
       save_and_continue_setup: "Save and continue setup"
       save_and_complete_setup: "Save and complete setup"
     page_titles:
+      managed_project_folder_configuration:
+        title: "Managed project folders"
+        subtitle: >
+          Let OpenProject create folders per project automatically. This is recommended as it ensures that every team member always has the correct access permissions.
       project_settings:
         index: "File storages available in this project"
         new: "Add a file storage to this project"
@@ -64,6 +69,8 @@ en:
       type_link_text: "“Integration OpenProject”"
       name: "Give your storage a name so that users can differentiate between multiple storages."
       host: "Please add the host address of your storage including the https://. It should not be longer than 255 characters."
+      managed_project_folders_application_password: >
+        Enable automatic managed folders and copy this value from:
       no_storage_set_up: "There are no file storages set up yet."
       no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
       existing_manual_folder: >
@@ -94,6 +101,10 @@ en:
     label_file_links: "File links"
     label_name: "Name"
     label_host: "Host URL"
+    label_managed_project_folders:
+      automatically_managed_folders: "Automatically managed folders"
+      application_password: "Application password"
+    label_managed_project_folders_breadcrumb: "Managed project folders"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"

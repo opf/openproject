@@ -39,6 +39,8 @@
 class Storages::Storage < ApplicationRecord
   self.inheritance_column = :provider_type
 
+  store_accessor :provider_fields, :is_automatically_managed, :application_password
+
   # One Storage can have multiple FileLinks, representing external files.
   #
   # FileLink deletion is done:
