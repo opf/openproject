@@ -83,10 +83,6 @@ class Seeder
     @admin_user ||= User.not_builtin.admin.first
   end
 
-  def true?(value)
-    ActiveRecord::Type::Boolean.new.cast(value) || false
-  end
-
   protected
 
   def print_status(message)

@@ -27,55 +27,21 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module BasicData
-  class ModelSeeder < Seeder
-    class_attribute :model_class
-    class_attribute :seed_data_model_key
 
-    def seed_data!
-      model_class.transaction do
-        models_data.each do |model_data|
-          model = model_class.create!(model_attributes(model_data))
-          seed_data.store_reference(model_data['reference'], model)
-        end
-      end
-    end
+require 'spec_helper'
 
-    def models_data
-      Array(seed_data.lookup(seed_data_model_key))
-    end
+RSpec.describe BasicData::ModelSeeder do
+  subject(:seeder) { described_class.new }
 
-    def model_attributes(model_data)
-      raise NotImplementedError
-    end
-
-    def applicable?
-      model_class.none?
-    end
-
-    def not_applicable_message
-      "Skipping #{model_human_name} as there are already some configured"
-    end
-
-    def model_human_name
-      seed_data_model_key.humanize(capitalize: false)
-    end
-
-    # Casts `'false'`, `'no'`, `''`, and `nil` into `false`, and return `true`
-    # for other values.
-    def true?(value)
-      ActiveRecord::Type::Boolean.new.cast(value) || false
-    end
-
-    protected
-
-    def color_id(name)
-      @color_ids_by_name ||= Color.pluck(:name, :id).to_h
-      case name
-      when Symbol
-        seed_data.find_reference(name).id
-      else
-        @color_ids_by_name[name] or raise "Cannot find color #{name}"
+  describe '#true?' do
+    {
+      'true' => true,
+      'false' => false,
+      '' => false,
+      nil => false
+    }.each do |value, expected|
+      it "returns #{expected} when value is #{value.inspect}" do
+        expect(seeder.true?(value)).to eq(expected)
       end
     end
   end
