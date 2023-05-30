@@ -29,9 +29,6 @@
 #++
 
 class IndividualPrincipalBaseFilterComponent < RailsComponent
-  include UsersHelper
-  include ActionView::Helpers::FormOptionsHelper
-
   class << self
     def query(params)
       q = base_query.new

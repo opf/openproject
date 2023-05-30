@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
     <%=
       styled_select_tag(
         "lang",
-        options_for_select(lang_options_for_select(false), current_language.to_s),
+        options_for_select(helpers.lang_options_for_select(false), current_language.to_s),
         id: "lang-for-#{name}",
         class: "lang-select-switch",
         container_class: '-slim'

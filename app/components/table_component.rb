@@ -31,9 +31,6 @@
 ##
 # Abstract view component. Subclass this for a concrete table.
 class TableComponent < RailsComponent
-  include SortHelper
-  include PaginationHelper
-
   def initialize(rows: [], **options)
     super(rows, **options)
   end
@@ -94,18 +91,22 @@ class TableComponent < RailsComponent
   end
 
   def initialize_sorted_model
-    sort_init *initial_sort.map(&:to_s)
-    sort_update sortable_columns.map(&:to_s)
+    helpers.sort_init *initial_sort.map(&:to_s)
+    helpers.sort_update sortable_columns.map(&:to_s)
     @model = paginate_collection apply_sort(model)
+  end
+
+  def sort_criteria
+    helpers.instance_variable_get(:@sort_criteria)
   end
 
   def apply_sort(model)
     case model
     when ActiveRecord::QueryMethods
-      sort_collection(model, sort_clause)
+      sort_collection(model, helpers.sort_clause)
     when Queries::BaseQuery
       model
-        .order(@sort_criteria.to_query_hash)
+        .order(sort_criteria.to_query_hash)
         .results
     else
       raise ArgumentError, "Cannot sort the given model class #{model.class}"
@@ -125,8 +126,8 @@ class TableComponent < RailsComponent
 
   def paginate_collection(query)
     query
-      .page(page_param(controller.params))
-      .per_page(per_page_param)
+      .page(helpers.page_param(controller.params))
+      .per_page(helpers.per_page_param)
   end
 
   def rows

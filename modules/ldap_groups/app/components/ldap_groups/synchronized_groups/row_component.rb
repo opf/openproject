@@ -31,9 +31,6 @@
 module LdapGroups
   module SynchronizedGroups
     class RowComponent < ::RowComponent
-      include ::IconsHelper
-      include ::PasswordHelper
-
       def synchronized_group
         model
       end
@@ -51,7 +48,7 @@ module LdapGroups
       end
 
       def sync_users
-        checked_image synchronized_group.sync_users
+        helpers.checked_image synchronized_group.sync_users
       end
 
       def users
