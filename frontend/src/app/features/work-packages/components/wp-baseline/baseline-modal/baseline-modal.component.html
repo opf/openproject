@@ -20,12 +20,26 @@
 
   <ng-container slot="body">
     <div class="op-baseline-modal--header">
+      <div class="op-baseline-modal--enterprise-title">
+        <span class="">{{ text.baseline_comparison }}</span>
+        <span class="spot-icon spot-icon_enterprise-addons spot-icon_inline"></span>
+      </div>
+
       <span class="spot-body-small">{{ text.header_description }}</span>
+
+      <a
+          [attr.href]="text.moreInfoLink"
+          class=""
+          target=”_blank”>
+          <span class="spot-icon spot-icon_external-link"></span> 
+          {{ text.more_info_text }}
+        </a>
     </div>
   </ng-container>
   <op-baseline
     [visible]="opened"
     [showActionBar]="true"
+    [hasEnterpriseKey]="!eeShowBanners"
     slot="body"
     (submitted)="opened = false"
   ></op-baseline>

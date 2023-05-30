@@ -31,8 +31,10 @@ import {
   Component,
   HostBinding,
 } from '@angular/core';
+import { BannersService } from 'core-app/core/enterprise/banners.service';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { enterpriseDocsUrl } from 'core-app/core/setup/globals/constants.const';
 
 @Component({
   selector: 'op-baseline-modal',
@@ -45,15 +47,21 @@ export class OpBaselineModalComponent {
 
   public opened = false;
 
+  eeShowBanners = this.Banner.eeShowBanners;
+
   public text = {
     toggle_title: this.I18n.t('js.baseline.toggle_title'),
     header_description: this.I18n.t('js.baseline.header_description'),
+    baseline_comparison: this.I18n.t('js.baseline.baseline_comparison'),
     clear: this.I18n.t('js.baseline.clear'),
     apply: this.I18n.t('js.baseline.apply'),
+    moreInfoLink: enterpriseDocsUrl.website,
+    more_info_text: this.I18n.t('js.admin.enterprise.upsale.more_info'),
   };
 
   constructor(
     readonly I18n:I18nService,
+    readonly Banner:BannersService,
   ) {}
 
   public toggleOpen():void {
