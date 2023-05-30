@@ -61,18 +61,24 @@ module WorkPackage::PDFExport::Markdown
       text # @hyphens.hyphenate(text)
     end
 
+    def handle_mention_html_tag(tag, node, opts)
+      if tag.text.blank?
+        # <mention class="mention" data-id="46012" data-type="work_package" data-text="#46012"></mention>
+        # <mention class="mention" data-id="3" data-type="user" data-text="@Some User">
+        text = tag.attr('data-text')
+        if text.present? && !node.next.respond_to?(:string_content) && node.next.string_content != text
+          return [text_hash(text, opts)]
+        end
+      end
+      # <mention class="mention" data-id="3" data-type="user" data-text="@Some User">@Some User</mention>
+      []
+    end
+
     def handle_unknown_inline_html_tag(tag, node, opts)
       result = []
       case tag.name
       when 'mention'
-        # <mention class="mention" data-id="46012" data-type="work_package" data-text="#46012"></mention>
-        # <mention class="mention" data-id="3" data-type="user" data-text="@Some User">@Some User</mention>
-        if tag.text.blank?
-          text = tag.attr('data-text')
-          unless node.next.respond_to?(:string_content) && node.next.string_content == text
-            result.push(text_hash(text, opts)) if text.present?
-          end
-        end
+        return [handle_mention_html_tag(tag, node, opts), opts]
       when 'span'
         text = tag.text
         result.push(text_hash(text, opts)) if text.present?
