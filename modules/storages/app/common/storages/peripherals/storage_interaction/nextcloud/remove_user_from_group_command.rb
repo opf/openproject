@@ -54,15 +54,15 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         when "100"
           ServiceResult.success(message: "User has been removed from group")
         when "101"
-          ServiceResult.failure(message: "No group specified")
+          Util.error(:error, "No group specified")
         when "102"
-          ServiceResult.failure(message: "Group does not exist")
+          Util.error(:error, "Group does not exist")
         when "103"
-          ServiceResult.failure(message: "User does not exist")
+          Util.error(:error, "User does not exist")
         when "104"
-          ServiceResult.failure(message: "Insufficient privileges")
+          Util.error(:error, "Insufficient privileges")
         when "105"
-          ServiceResult.failure(message: "Failed to remove user from group")
+          Util.error(:error, "Failed to remove user from group")
         end
       when Net::HTTPMethodNotAllowed
         Util.error(:not_allowed)

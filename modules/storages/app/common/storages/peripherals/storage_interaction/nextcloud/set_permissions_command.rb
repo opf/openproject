@@ -88,7 +88,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         if doc.xpath("/d:multistatus/d:response/d:propstat[d:status[text() = 'HTTP/1.1 200 OK']]/d:prop/nc:acl-list").present?
           ServiceResult.success
         else
-          ServiceResult.failure
+          Util.error(:error, "nc:acl properly has not been set for #{path}")
         end
       when Net::HTTPNotFound
         Util.error(:not_found)
