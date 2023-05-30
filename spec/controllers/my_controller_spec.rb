@@ -312,28 +312,16 @@ describe MyController do
       # ical tokens are generated whenever the user requests a new ical url
       # a user can have N ical tokens
       #
-      # in this context all ical tokens of a user should be reverted at once
-      # this invalidates all previously generated ical urls, which is the intention
+      # in this context a specific ical token of a user should be reverted
+      # this invalidates the previously generated ical url
       context 'with existing keys' do
         let(:user) { create(:user) }
         let(:project) { create(:project) }
         let(:query) { create(:query, project:) }
         let(:another_query) { create(:query, project:) }
-        let!(:ical_token_for_query) do
-          Token::ICal.create(user:,
-                             ical_token_query_assignment_attributes: { query:, name: "Some Token Name",
-                                                                       user_id: user.id })
-        end
-        let!(:another_ical_token_for_query) do
-          Token::ICal.create(user:,
-                             ical_token_query_assignment_attributes: { query:, name: "Some Other Token Name",
-                                                                       user_id: user.id })
-        end
-        let!(:ical_token_for_another_query) do
-          Token::ICal.create(user:,
-                             ical_token_query_assignment_attributes: { query: another_query,
-                                                                       name: "Some Token Name", user_id: user.id })
-        end
+        let!(:ical_token_for_query) { create(:ical_token, user:, query:, name: "Some Token Name") }
+        let!(:another_ical_token_for_query) { create(:ical_token, user:, query:, name: "Some Other Token Name") }
+        let!(:ical_token_for_another_query) { create(:ical_token, user:, query: another_query, name: "Some Token Name") }
 
         it 'revoke specific ical tokens' do
           expect(user.ical_tokens).to contain_exactly(

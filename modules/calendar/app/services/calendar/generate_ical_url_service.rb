@@ -46,9 +46,7 @@ module Calendar
       query = Query.find(query_id)
 
       Token::ICal.create(user:,
-                         ical_token_query_assignment_attributes: {
-                           query:, name:
-                         })
+                         ical_token_query_assignment_attributes: { query:, name: })
     end
 
     def create_ical_url(query_id, project_id, ical_token)

@@ -685,16 +685,8 @@ describe User do
   describe '#ical_tokens' do
     let(:user) { create(:user) }
     let(:query) { create(:query, user:) }
-    let(:ical_token) do
-      Token::ICal.create(user:,
-                         ical_token_query_assignment_attributes: { query:, name: "My Token",
-                                                                   user_id: user.id })
-    end
-    let(:another_ical_token) do
-      Token::ICal.create(user:,
-                         ical_token_query_assignment_attributes: { query:, name: "My Other Token",
-                                                                   user_id: user.id })
-    end
+    let(:ical_token) { create(:ical_token, user:, query:, name: "My Token") }
+    let(:another_ical_token) { create(:ical_token, user:, query:, name: "My Other Token") }
 
     it 'are not present by default' do
       expect(user.ical_tokens)

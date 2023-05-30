@@ -162,10 +162,7 @@ describe 'my', js: true do
           expect(page).to have_content 'iCalendar token(s) not present'
         end
 
-        ical_token_for_query = Token::ICal.create(user:,
-                                                  ical_token_query_assignment_attributes: {
-                                                    query:, name: "Some Token Name", user_id: user.id
-                                                  })
+        ical_token_for_query = create(:ical_token, user:, query:, name: "Some Token Name")
 
         visit my_access_token_path
 
@@ -181,10 +178,7 @@ describe 'my', js: true do
         end
 
         Timecop.travel(1.minute.from_now) do
-          another_ical_token_for_query = Token::ICal.create(user:,
-                                                            ical_token_query_assignment_attributes: {
-                                                              query:, name: "Some Other Token Name", user_id: user.id
-                                                            })
+          another_ical_token_for_query = create(:ical_token, user:, query:, name: "Some Other Token Name")
 
           visit my_access_token_path
 
@@ -199,10 +193,7 @@ describe 'my', js: true do
         end
 
         Timecop.travel(2.minutes.from_now) do
-          ical_token_for_another_query = Token::ICal.create(user:,
-                                                            ical_token_query_assignment_attributes: {
-                                                              query: another_query, name: "Some Token Name", user_id: user.id
-                                                            })
+          ical_token_for_another_query = create(:ical_token, user:, query: another_query, name: "Some Token Name")
 
           visit my_access_token_path
 
@@ -218,18 +209,9 @@ describe 'my', js: true do
       end
 
       it 'in Access Tokens they can revoke all existing Ical tokens' do
-        ical_token_for_query = Token::ICal.create(user:,
-                                                  ical_token_query_assignment_attributes: {
-                                                    query:, name: "Some Token Name", user_id: user.id
-                                                  })
-        Token::ICal.create(user:,
-                           ical_token_query_assignment_attributes: {
-                             query:, name: "Some Other Token Name", user_id: user.id
-                           })
-        Token::ICal.create(user:,
-                           ical_token_query_assignment_attributes: {
-                             query: another_query, name: "Some Token Name", user_id: user.id
-                           })
+        ical_token_for_query = create(:ical_token, user:, query:, name: "Some Token Name")
+        create(:ical_token, user:, query:, name: "Some Other Token Name")
+        create(:ical_token, user:, query: another_query, name: "Some Token Name")
 
         expect(user.ical_tokens.count).to eq 3
 
