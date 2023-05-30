@@ -4,12 +4,15 @@ type: object
 required:
 - name
 properties:
+  _type:
+    type: string
+    enum:
+      - Role
   id:
     type: integer
     description: Role id
     readOnly: true
-    minimum: 0
-    exclusiveMinimum: true
+    minimum: 1
   name:
     type: string
     description: Role name

@@ -80,3 +80,12 @@ export function getBaselineState(workPackage:WorkPackageResource, schemaService:
   }
   return state;
 }
+
+export function offsetToUtcString(offset:string) {
+  const mappedOffset = offset
+    .replace(/^([+-])0/, '$1')
+    .replace(':00', '')
+    .replace(':30', '.5');
+
+  return `UTC${mappedOffset}`;
+}

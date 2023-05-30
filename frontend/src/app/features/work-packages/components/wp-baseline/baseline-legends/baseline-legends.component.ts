@@ -44,6 +44,7 @@ import {
   baselineFilterFromValue,
   getPartsFromTimestamp,
   getBaselineState,
+  offsetToUtcString,
 } from 'core-app/features/work-packages/components/wp-baseline/baseline-helpers';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import * as moment from 'moment-timezone';
@@ -218,7 +219,7 @@ export class OpBaselineLegendsComponent extends UntilDestroyedMixin implements O
   private formatDate(date:Moment):string {
     const formattedDate = date.format(this.timezoneService.getDateFormat());
     const formattedTime = date.format(this.timezoneService.getTimeFormat());
-    const offset = date.format('Z');
+    const offset = offsetToUtcString(date.format('Z'));
 
     return `${formattedDate} ${formattedTime} ${offset}`;
   }

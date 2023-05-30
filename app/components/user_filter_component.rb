@@ -73,7 +73,7 @@ class UserFilterComponent < IndividualPrincipalBaseFilterComponent
   end
 
   def user_status_options
-    users_status_options_for_select status, extra: extra_user_status_options
+    helpers.users_status_options_for_select status, extra: extra_user_status_options
   end
 
   def extra_user_status_options

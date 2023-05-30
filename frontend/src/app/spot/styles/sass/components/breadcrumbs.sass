@@ -26,12 +26,15 @@
 
     &-action-item
       flex-shrink: 1
-      white-space: nowrap
       overflow: hidden
-      text-overflow: ellipsis
 
       &:not(:first-child)
         margin-left: $spot-spacing-0_25
+
+      &-text
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
 
       &-dots
         display: none

@@ -10,6 +10,8 @@ export PARALLEL_TEST_FIRST_IS_1=true
 # if from within docker
 if [ $(id -u) -eq 0 ]; then
 	if [ ! -d "/tmp/nulldb" ]; then
+		echo "fsync = off" >> /etc/postgresql/$PGVERSION/main/postgresql.conf
+		echo "full_page_writes = off" >> /etc/postgresql/$PGVERSION/main/postgresql.conf
 		su - postgres -c "$PGBIN/initdb -E UTF8 -D /tmp/nulldb"
 		su - postgres -c "$PGBIN/pg_ctl -D /tmp/nulldb -l /dev/null -w start"
 		echo "create database app; create user app with superuser encrypted password 'p4ssw0rd'; grant all privileges on database app to app;" | su - postgres -c $PGBIN/psql
@@ -17,14 +19,20 @@ if [ $(id -u) -eq 0 ]; then
 
 	mkdir -p /usr/local/bundle
 	mkdir -p /home/$USER/openproject/frontend/node_modules
+	mkdir -p /home/$USER/openproject/frontend/.angular
 	mkdir -p /home/$USER/openproject/tmp
+	mkdir -p /cache
 	chown $USER:$USER /usr/local/bundle
 	chown $USER:$USER /home/$USER/openproject/frontend/node_modules
+	chown $USER:$USER /home/$USER/openproject/frontend/.angular
 	chown $USER:$USER /home/$USER/openproject/tmp
+	chown -R $USER:$USER /cache
 fi
 
 
 execute() {
+	BANNER=${BANNER:="[execute]"}
+	echo "$BANNER $@" >&2
 	if [ $(id -u) -eq 0 ]; then
 		su $USER -c "$@"
 	else
@@ -32,59 +40,64 @@ execute() {
 	fi
 }
 
-cleanup() {
-	rm -rf tmp/cache/parallel*
+execute_quiet() {
+	if ! BANNER="[execute_quiet]" execute "$@" >/tmp/op-output.log ; then
+		cat /tmp/op-output.log
+		return 1
+	else
+		return 0
+	fi
 }
+
+cleanup() {
+	echo "CLEANUP"
+	rm -rf tmp/cache/parallel*
+	rm -f /tmp/op-output.log
+	if [ -d tmp/features ]; then mv tmp/features spec/ ; fi
+}
+
+trap cleanup INT TERM EXIT
 
 if [ "$1" == "setup-tests" ]; then
 	echo "Preparing environment for running tests..."
 	shift
 
-	execute "mkdir -p tmp"
-	execute "cp docker/ci/database.yml config/"
+	execute_quiet "mkdir -p tmp"
+	execute_quiet "cp docker/ci/database.yml config/"
 
 	for i in $(seq 0 $JOBS); do
 		folder="$CAPYBARA_DOWNLOADED_FILE_DIR/$i"
-		echo "Creating folder $folder..."
-		rm -rf "$folder"
-		mkdir -p "$folder"
-		chmod 1777 "$folder"
+		execute_quiet "rm -rf '$folder' ; mkdir -p '$folder' ; chmod 1777 '$folder'"
 	done
 
-	execute "time bundle install -j$JOBS"
+	execute_quiet "time bundle install -j$JOBS --quiet"
 	# create test database "app" and dump schema
-	execute "time bundle exec rake db:create db:migrate db:schema:dump webdrivers:chromedriver:update webdrivers:geckodriver:update openproject:plugins:register_frontend"
+	execute_quiet "time bundle exec rails db:create db:migrate db:schema:dump webdrivers:chromedriver:update webdrivers:geckodriver:update openproject:plugins:register_frontend"
 	# create parallel test databases "app#n" and load schema
-	execute "time bundle exec rake parallel:create parallel:load_schema"
+	execute_quiet "time bundle exec rails parallel:create parallel:load_schema"
+	# setup frontend deps
+	execute_quiet "cd frontend && npm install"
 fi
 
 if [ "$1" == "run-units" ]; then
 	shift
-	execute "time bundle exec rake zeitwerk:check"
-	execute "cd frontend && npm install && npm run test"
-	if ! execute "time bundle exec rake parallel:units" ; then
-		execute "cat tmp/parallel_summary.log"
-		cleanup
-		exit 1
-	else
-		cleanup
-		exit 0
-	fi
+	execute_quiet "cp -f /cache/turbo_runtime_units.log spec/support/ || true"
+	# turbo_tests cannot yet exclude specific directories, so copying spec/features elsewhere (temporarily)
+	execute_quiet "mv spec/features tmp/"
+	execute_quiet "time bundle exec rails zeitwerk:check"
+	execute "time bundle exec turbo_tests -n $JOBS --runtime-log spec/support/turbo_runtime_units.log spec"
+	execute_quiet "cp -f spec/support/turbo_runtime_units.log /cache/ || true"
+	cleanup
 fi
 
 if [ "$1" == "run-features" ]; then
 	shift
-	execute "cd frontend; npm install ; cd -"
-	execute "bundle exec rake assets:precompile"
-	execute "cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json"
-	if ! execute "time bundle exec rake parallel:features" ; then
-		execute "cat tmp/parallel_summary.log"
-		cleanup
-		exit 1
-	else
-		cleanup
-		exit 0
-	fi
+	execute_quiet "cp -f /cache/turbo_runtime_features.log spec/support/ || true"
+	execute_quiet "time bundle exec rails assets:precompile"
+	execute_quiet "cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json"
+	execute "time bundle exec turbo_tests -n $JOBS --runtime-log spec/support/turbo_runtime_features.log spec/features"
+	execute_quiet "cp -f spec/support/turbo_runtime_features.log /cache/ || true"
+	cleanup
 fi
 
 if [ ! -z "$1" ] ; then

@@ -62,7 +62,7 @@
       [alignment]="tooltipPosition"
       [disabled]="false"
       [light]="true">
-      <span slot="trigger" class="op-baseline--time-zone" [textContent]="selectedOffsets[0]"></span>
+      <span slot="trigger" class="op-baseline--time-zone" [textContent]="mappedOffset(selectedOffsets[0])"></span>
       <span slot="body" class="spot-body-small op-baseline--time-tooltip-body">{{ text.help_description }}</span>
     </spot-tooltip>
 
@@ -121,7 +121,7 @@
         [alignment]="tooltipPosition"
         [disabled]="false"
         [light]="true">
-        <span slot="trigger" class="op-baseline--time-zone" [textContent]="selectedOffsets[0]"></span>
+        <span slot="trigger" class="op-baseline--time-zone" [textContent]="mappedOffset(selectedOffsets[0])"></span>
         <span slot="body" class="spot-body-small op-baseline--time-tooltip-body">{{ text.help_description }}</span>
       </spot-tooltip>
 
@@ -148,7 +148,7 @@
         [alignment]="tooltipPosition"
         [disabled]="false"
         [light]="true">
-        <span slot="trigger" class="op-baseline--time-zone" [textContent]="selectedOffsets[1]"></span>
+        <span slot="trigger" class="op-baseline--time-zone" [textContent]="mappedOffset(selectedOffsets[1])"></span>
         <span slot="body" class="spot-body-small op-baseline--time-tooltip-body">{{ text.help_description }}</span>
       </spot-tooltip>
 

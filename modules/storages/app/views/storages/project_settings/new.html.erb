@@ -32,8 +32,6 @@ See COPYRIGHT and LICENSE files for more details.
 <%= toolbar title: t("storages.page_titles.project_settings.new") %>
 
 <%= labelled_tabular_form_for @project_storage, url: project_settings_projects_storages_path do |f| -%>
-  <%= error_messages_for_contract @project_storage, @errors %>
-
   <section class="form--section">
     <% if @available_storages.any? %>
       <%= render partial: '/storages/project_settings/form',

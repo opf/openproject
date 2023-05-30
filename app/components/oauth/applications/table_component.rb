@@ -54,7 +54,7 @@ module OAuth
                 aria: { label: t('oauth.application.new') },
                 class: 'wp-inline-create--add-link',
                 title: t('oauth.application.new') do
-          op_icon('icon icon-add')
+          helpers.op_icon('icon icon-add')
         end
       end
 

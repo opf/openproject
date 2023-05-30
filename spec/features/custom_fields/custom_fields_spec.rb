@@ -26,14 +26,14 @@ describe 'custom fields', js: true do
         find(".custom-option-default-value input").set true
       end
 
-      click_on "add-custom-option"
+      page.find('[data-qa-selector="add-custom-option"]').click
 
       expect(page).to have_selector('.custom-option-row', count: 2)
       within all(".custom-option-row").last do
         find(".custom-option-value input").set "Linux"
       end
 
-      click_on "add-custom-option"
+      page.find('[data-qa-selector="add-custom-option"]').click
 
       expect(page).to have_selector('.custom-option-row', count: 3)
       within all(".custom-option-row").last do
@@ -90,7 +90,7 @@ describe 'custom fields', js: true do
     end
 
     it "adds new options" do
-      click_on "add-custom-option"
+      page.find('[data-qa-selector="add-custom-option"]').click
       SeleniumHubWaiter.wait
 
       expect(page).to have_selector('.custom-option-row', count: 5)
@@ -98,7 +98,7 @@ describe 'custom fields', js: true do
         find(".custom-option-value input").set "Sega"
       end
 
-      click_on "add-custom-option"
+      page.find('[data-qa-selector="add-custom-option"]').click
       SeleniumHubWaiter.wait
 
       expect(page).to have_selector('.custom-option-row', count: 6)
@@ -125,7 +125,7 @@ describe 'custom fields', js: true do
         expect(page).to have_field("custom_field_custom_options_attributes_#{i}_value", with: value)
       end
 
-      fill_in("custom_field_custom_options_attributes_1_value", with: "Sega")
+      fill_in("custom_field_custom_options_attributes_1_value", with: "Sega", fill_options: { clear: :backspace })
       check("custom_field_multi_value")
       check("custom_field_custom_options_attributes_0_default_value")
       check("custom_field_custom_options_attributes_2_default_value")

@@ -1259,9 +1259,11 @@ de:
       apply: 'Anwenden'
       header_description: 'Sehen Sie sich die Änderungen an, die innerhalb eines bestimmten Zeitraums an Arbeitspaketen in der aktuellen Ansicht vorgenommen wurden.'
       show_changes_since: 'Änderungen anzeigen ab'
-      help_description: 'Vom Administrator festgelegte Standard-Zeitzone der Instanz.'
-      time_description: 'In der Standard-Zeitzone: %{time} %{days} Tag(en).'
+      help_description: 'Reference time zone for the baseline.'
+      time_description: 'In your local time: %{datetime}'
       time: 'Zeit'
+      from: 'From'
+      to: 'To'
       drop_down:
         none: '-'
         yesterday: 'gestern'
@@ -1275,6 +1277,7 @@ de:
         now_meets_filter_criteria: 'Erfüllt nun die Filterkriterien'
         no_longer_meets_filter_criteria: 'Erfüllt Filterkriterien nicht mehr'
         maintained_with_changes: 'Änderungen erhalten'
+        in_your_timezone: 'In your local timezone:'
     forms:
       submit_success_message: 'Das Formular wurde erfolgreich übermittelt'
       load_error_message: 'Beim Laden des Formulars ist ein Fehler aufgetreten'
