@@ -37,7 +37,7 @@ class Query < ApplicationRecord
   belongs_to :user
   has_many :views,
            dependent: :destroy
-  has_many :ical_token_query_assignments 
+  has_many :ical_token_query_assignments
   has_many :ical_tokens,
            through: :ical_token_query_assignments,
            class_name: 'Token::ICal'
