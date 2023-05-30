@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 module BasicData
-  class ActivitySeeder < ModelSeeder
+  class TimeEntryActivitySeeder < ModelSeeder
     self.model_class = TimeEntryActivity
     self.seed_data_model_key = 'time_entry_activities'
 

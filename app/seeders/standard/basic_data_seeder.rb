@@ -31,7 +31,7 @@ module Standard
       [
         ::BasicData::BuiltinUsersSeeder,
         ::BasicData::RoleSeeder,
-        ::BasicData::ActivitySeeder,
+        ::BasicData::TimeEntryActivitySeeder,
         ::BasicData::ColorSeeder,
         ::BasicData::ColorSchemeSeeder,
         ::BasicData::WorkflowSeeder,
