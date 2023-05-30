@@ -88,7 +88,7 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
           .map((file, index) => this.storageFileToListItem(file, index))),
     );
 
-  public readonly loading$ = new BehaviorSubject<boolean>(true);
+  public readonly loading$ = new BehaviorSubject<'loading'|'success'|'error'>('loading');
 
   protected constructor(
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
@@ -108,11 +108,17 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
         this.untilDestroyed(),
         switchMap((location:string) => this.storageFilesResourceService.files(makeFilesCollectionLink(this.storage._links.self, location))),
       )
-      .subscribe((storageFiles) => {
-        this.currentDirectory = storageFiles.parent;
-        this.breadcrumbs = this.makeBreadcrumbs(storageFiles.ancestors, storageFiles.parent);
-        this.storageFiles$.next(storageFiles.files);
-        this.loading$.next(false);
+      .subscribe({
+        next: (storageFiles) => {
+          this.currentDirectory = storageFiles.parent;
+          this.breadcrumbs = this.makeBreadcrumbs(storageFiles.ancestors, storageFiles.parent);
+          this.storageFiles$.next(storageFiles.files);
+          this.loading$.next('success');
+        },
+        error: (error) => {
+          this.loading$.next('error');
+          throw error;
+        },
       });
   }
 
@@ -138,25 +144,31 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
 
   protected changeLevel(ancestor:IStorageFile):void {
     this.cancelCurrentLoading();
-    this.loading$.next(true);
+    this.loading$.next('loading');
 
     this.loadingSubscription = this.storageFilesResourceService
       .files(makeFilesCollectionLink(this.storage._links.self, ancestor.location))
-      .subscribe((storageFiles) => {
-        this.currentDirectory = storageFiles.parent;
-        this.breadcrumbs = this.makeBreadcrumbs(storageFiles.ancestors, storageFiles.parent);
-        this.storageFiles$.next(storageFiles.files);
-        this.loading$.next(false);
+      .subscribe({
+        next: (storageFiles) => {
+          this.currentDirectory = storageFiles.parent;
+          this.breadcrumbs = this.makeBreadcrumbs(storageFiles.ancestors, storageFiles.parent);
+          this.storageFiles$.next(storageFiles.files);
+          this.loading$.next('success');
+        },
+        error: (error) => {
+          this.loading$.next('error');
+          throw error;
+        },
       });
   }
 
   private entryLocation():Observable<string> {
-    if (this.locals.projectFolderId === null) {
+    if (this.locals.projectFolderHref === null) {
       return of('/');
     }
 
     return this.storageFilesResourceService
-      .file(this.storage.id, this.locals.projectFolderId as string)
+      .file(this.locals.projectFolderHref as string)
       .pipe(
         map((file) => file.location),
         catchError((error:HttpErrorResponse) => {

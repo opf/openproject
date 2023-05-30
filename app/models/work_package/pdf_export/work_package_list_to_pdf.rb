@@ -113,7 +113,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   def render_batched(work_packages, filename)
     @batches_count = work_packages.length.fdiv(@work_packages_per_batch).ceil
     batch_files = []
-    (1..@batches_count).each do |batch_index|
+    (0..(@batches_count - 1)).each do |batch_index|
       batch_work_packages = work_packages.slice(batch_index * @work_packages_per_batch, @work_packages_per_batch)
       unless batch_work_packages.nil?
         batch_files.push render_pdf(batch_work_packages, "pdf_batch_#{batch_index}.pdf")

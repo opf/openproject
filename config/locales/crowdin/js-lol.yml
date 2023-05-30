@@ -1258,9 +1258,11 @@ lol:
       apply: 'crwdns852029:0crwdne852029:0'
       header_description: 'crwdns852031:0crwdne852031:0'
       show_changes_since: 'crwdns852033:0crwdne852033:0'
-      help_description: 'crwdns852035:0crwdne852035:0'
-      time_description: 'crwdns852037:0%{time}crwdnd852037:0%{days}crwdne852037:0'
+      help_description: 'crwdns853965:0crwdne853965:0'
+      time_description: 'crwdns853967:0%{datetime}crwdne853967:0'
       time: 'crwdns852039:0crwdne852039:0'
+      from: 'crwdns853969:0crwdne853969:0'
+      to: 'crwdns853971:0crwdne853971:0'
       drop_down:
         none: 'crwdns852041:0crwdne852041:0'
         yesterday: 'crwdns852043:0crwdne852043:0'
@@ -1274,6 +1276,7 @@ lol:
         now_meets_filter_criteria: 'crwdns852621:0crwdne852621:0'
         no_longer_meets_filter_criteria: 'crwdns852623:0crwdne852623:0'
         maintained_with_changes: 'crwdns852625:0crwdne852625:0'
+        in_your_timezone: 'crwdns853973:0crwdne853973:0'
     forms:
       submit_success_message: 'crwdns788750:0crwdne788750:0'
       load_error_message: 'crwdns788752:0crwdne788752:0'

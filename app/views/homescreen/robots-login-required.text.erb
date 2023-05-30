@@ -26,11 +26,5 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
-<div class="wiki wiki-content op-uc-container">
-  <% if @formatted_text %>
-    <%= @formatted_text %>
-  <% else %>
-    <%= format_text content, :text, attachments: content.page.attachments %>
-  <% end %>
-</div>
+User-agent: *
+Disallow: /
