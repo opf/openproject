@@ -30,8 +30,6 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
   class FileQuery
     using Storages::Peripherals::ServiceResultRefinements
 
-    # TODO: check if this path is present on nextcloud instance withou pretty urls enabled
-    # check integration_openproject repository
     FILE_INFO_PATH = 'ocs/v1.php/apps/integration_openproject/fileinfo'.freeze
 
     def initialize(storage)
