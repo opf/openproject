@@ -107,16 +107,18 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
       .pipe(
         this.untilDestroyed(),
         switchMap((location:string) => this.storageFilesResourceService.files(makeFilesCollectionLink(this.storage._links.self, location))),
-        catchError((error) => {
+      )
+      .subscribe({
+        next: (storageFiles) => {
+          this.currentDirectory = storageFiles.parent;
+          this.breadcrumbs = this.makeBreadcrumbs(storageFiles.ancestors, storageFiles.parent);
+          this.storageFiles$.next(storageFiles.files);
+          this.loading$.next('success');
+        },
+        error: (error) => {
           this.loading$.next('error');
           throw error;
-        }),
-      )
-      .subscribe((storageFiles) => {
-        this.currentDirectory = storageFiles.parent;
-        this.breadcrumbs = this.makeBreadcrumbs(storageFiles.ancestors, storageFiles.parent);
-        this.storageFiles$.next(storageFiles.files);
-        this.loading$.next('success');
+        },
       });
   }
 
@@ -146,15 +148,17 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
 
     this.loadingSubscription = this.storageFilesResourceService
       .files(makeFilesCollectionLink(this.storage._links.self, ancestor.location))
-      .pipe(catchError((error) => {
-        this.loading$.next('error');
-        throw error;
-      }))
-      .subscribe((storageFiles) => {
-        this.currentDirectory = storageFiles.parent;
-        this.breadcrumbs = this.makeBreadcrumbs(storageFiles.ancestors, storageFiles.parent);
-        this.storageFiles$.next(storageFiles.files);
-        this.loading$.next('success');
+      .subscribe({
+        next: (storageFiles) => {
+          this.currentDirectory = storageFiles.parent;
+          this.breadcrumbs = this.makeBreadcrumbs(storageFiles.ancestors, storageFiles.parent);
+          this.storageFiles$.next(storageFiles.files);
+          this.loading$.next('success');
+        },
+        error: (error) => {
+          this.loading$.next('error');
+          throw error;
+        },
       });
   }
 

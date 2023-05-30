@@ -47,7 +47,7 @@ import {
 } from 'core-app/shared/components/storages/storage-file-list-item/storage-file-list-item';
 import {
   FilePickerBaseModalComponent,
-} from 'core-app/shared/components/storages/file-picker-base-modal.component.ts/file-picker-base-modal.component';
+} from 'core-app/shared/components/storages/file-picker-base-modal/file-picker-base-modal.component';
 
 @Component({
   templateUrl: 'location-picker-modal.component.html',

@@ -30,7 +30,7 @@ get:
           schema:
             $ref: '../components/schemas/project_storage_collection_model.yml'
     '400':
-      description: Returned if the any given filter is invalid.
+      description: Returned if any given filter is invalid.
       content:
         application/hal+json:
           schema:
