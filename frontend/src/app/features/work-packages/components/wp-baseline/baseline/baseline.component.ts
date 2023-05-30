@@ -56,6 +56,7 @@ import {
   getPartsFromTimestamp,
 } from 'core-app/features/work-packages/components/wp-baseline/baseline-helpers';
 import * as moment from 'moment-timezone';
+import { BannersService } from 'core-app/core/enterprise/banners.service';
 
 @Component({
   selector: 'op-baseline',
@@ -71,6 +72,8 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
   @Input() showActionBar? = false;
 
   @Input() visible = true;
+
+  @Input() hasEnterpriseKey? = true;
 
   public mappedSelectedDate:string|null;
 
@@ -159,6 +162,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     readonly daysService:DayResourceService,
     readonly timezoneService:TimezoneService,
     readonly configuration:ConfigurationService,
+    readonly Banner:BannersService,
   ) {
     super();
   }
