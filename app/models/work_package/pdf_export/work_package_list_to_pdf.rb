@@ -227,12 +227,15 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def heading
-    title = query.new_record? ? I18n.t(:label_work_package_plural) : query.name
+    query.name == '_' ? heading_generic : query.name
+  end
 
+  def heading_generic
+    generic = I18n.t(:label_work_package_plural)
     if project
-      "#{project} - #{title}"
+      "#{project} - #{generic}"
     else
-      title
+      generic
     end
   end
 end
