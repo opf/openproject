@@ -215,6 +215,7 @@ group :test do
   # Test prof provides factories from code
   # and other niceties
   gem 'test-prof', '~> 1.2.0'
+  gem 'turbo_tests', github: "crohr/turbo_tests", ref: "fix/runtime-info"
 
   gem 'rack_session_access'
   gem 'rspec', '~> 3.12.0'
