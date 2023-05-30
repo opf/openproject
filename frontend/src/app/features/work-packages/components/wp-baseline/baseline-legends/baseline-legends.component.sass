@@ -6,7 +6,9 @@
   align-items: center
   padding: $spot-spacing-0_75 $spot-spacing-1
   border: 1px solid $spot-color-basic-gray-4
-  line-height: $spot-spacing-1_5
+  margin-right: $spot-spacing-1
+  margin-bottom: $spot-spacing-0_5
+  @include spot-caption
 
   &--filter
     display: flex
@@ -21,7 +23,7 @@
     flex-direction: row
     align-items: flex-start
     justify-content: flex-end
-    gap: $spot-spacing-1
+    gap: $spot-spacing-0_5
     margin-left: auto
   
     &-icon-added
