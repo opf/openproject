@@ -28,7 +28,7 @@
 
 FactoryBot.define do
   factory :ical_token_query_assignment do
-    association :ical_token
-    association :query
+    ical_token
+    query
   end
 end

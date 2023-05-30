@@ -84,7 +84,7 @@ describe Calendar::ResolveWorkPackagesService, type: :model do
   context 'for a valid query' do
     before do
       # Add typical calendar filters which are present for calendar queries
-      query.add_filter(:dates_interval, "<>d", [Time.zone.today, Time.zone.today+30.days])
+      query.add_filter(:dates_interval, "<>d", [Time.zone.today, Time.zone.today + 30.days])
 
       # login for this isolated test:
       # in context of the whole iCalendar API flow, the user is not logged in but resolved from the token

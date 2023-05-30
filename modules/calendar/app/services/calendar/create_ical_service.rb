@@ -58,19 +58,23 @@ module Calendar
     end
 
     def add_values_to_event(event, work_package)
-      event.uid = event_uid_value(work_package)
-      event.organizer = organizer_value(work_package)
-      event.summary = summary_value(work_package)
-      event.dtstamp = dtstamp_value(work_package)
-      event.dtstart = dtstart_value(work_package)
-      event.dtend = dtend_value(work_package)
-      event.location = location_value(work_package)
-      event.description = description_value(work_package)
+      %i[
+        uid
+        organizer
+        summary
+        dtstamp
+        dtstart
+        dtend
+        location
+        description
+      ].each do |value|
+        event.send("#{value}=", send("#{value}_value", work_package))
+      end
 
       add_attendee_value(event, work_package)
     end
 
-    def event_uid_value(work_package)
+    def uid_value(work_package)
       "#{work_package.id}@#{host}"
     end
 
@@ -85,7 +89,7 @@ module Calendar
       Icalendar::Values::CalAddress.new(
         "mailto:#{work_package.author&.mail}",
         cn: work_package.author&.name
-      )  
+      )
     end
 
     def summary_value(work_package)

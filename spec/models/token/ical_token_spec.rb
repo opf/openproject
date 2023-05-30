@@ -192,13 +192,13 @@ describe Token::ICal do
     describe 'dependent destroyed' do
       context 'when associated query is destroyed' do
         it 'the ical_token is destroyed as well' do
-          ical_token = described_class.create(
+          described_class.create(
             user:,
             ical_token_query_assignment_attributes: { query:, name: }
           )
           expect do
             query.destroy!
-          end.to change { described_class.count }.by(-1)
+          end.to change(described_class, :count).by(-1)
 
           expect(described_class.all).to be_empty
           expect(ICalTokenQueryAssignment.all).to be_empty
@@ -207,13 +207,13 @@ describe Token::ICal do
 
       context 'when associated user is destroyed' do
         it 'the ical_token is destroyed as well' do
-          ical_token = described_class.create(
+          described_class.create(
             user:,
             ical_token_query_assignment_attributes: { query:, name: }
           )
           expect do
             user.destroy!
-          end.to change { described_class.count }.by(-1)
+          end.to change(described_class, :count).by(-1)
 
           expect(described_class.all).to be_empty
           expect(ICalTokenQueryAssignment.all).to be_empty
@@ -228,7 +228,7 @@ describe Token::ICal do
           )
           expect do
             ical_token.destroy!
-          end.to change { ICalTokenQueryAssignment.count }.by(-1)
+          end.to change(ICalTokenQueryAssignment, :count).by(-1)
 
           expect(ICalTokenQueryAssignment.all).to be_empty
         end

@@ -29,8 +29,10 @@
 class ICalTokenQueryAssignment < ApplicationRecord
   self.table_name = 'ical_token_query_assignments'
 
-  belongs_to :ical_token, class_name: 'Token::ICal', required: true
-  belongs_to :query, required: true
+  # rubocop:disable Rails/BelongsTo
+  belongs_to :ical_token, class_name: 'Token::ICal', optional: true
+  belongs_to :query, optional: true
+  # rubocop:enable Rails/BelongsTo
 
   validates :name, presence: true
   validate :unique_name_per_user_and_query
@@ -39,7 +41,7 @@ class ICalTokenQueryAssignment < ApplicationRecord
     if ical_token.nil? || ical_token.user_id.nil?
       raise "Cannot validate uniqueness of name for #{self.class} without ical_token.user_id"
     end
-    
+
     name_already_taken_for_query_and_user = self.class.joins(:ical_token)
       .exists?(name:, query_id:, ical_token: { user_id: ical_token.user_id })
 

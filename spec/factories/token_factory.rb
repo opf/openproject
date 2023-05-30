@@ -64,7 +64,7 @@ FactoryBot.define do
   end
 
   factory :ical_token, class: '::Token::ICal' do
-    association :user
+    user
 
     transient do
       query { nil }
@@ -72,11 +72,10 @@ FactoryBot.define do
     end
 
     after(:build) do |token, evaluator|
-      token.ical_token_query_assignment = build(:ical_token_query_assignment, 
-                                                query: evaluator.query, 
-                                                name: evaluator.name, 
-                                                ical_token: token
-      )
+      token.ical_token_query_assignment = build(:ical_token_query_assignment,
+                                                query: evaluator.query,
+                                                name: evaluator.name,
+                                                ical_token: token)
     end
   end
 end

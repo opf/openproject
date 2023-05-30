@@ -40,13 +40,13 @@ describe Queries::ICalSharingContract do
   end
   let(:current_user) do
     create(:user,
-      member_in_project: project,
-      member_with_permissions: permissions)
+           member_in_project: project,
+           member_with_permissions: permissions)
   end
   let(:ical_token) { create(:ical_token, user: current_user, query:, name: "Some Token") }
 
-  # override as this contract additionally needs the ical_token 
-  let(:contract) { described_class.new(query, current_user, options: { ical_token: ical_token }) }
+  # override as this contract additionally needs the ical_token
+  let(:contract) { described_class.new(query, current_user, options: { ical_token: }) }
 
   describe 'private query' do
     let(:public) { false }
@@ -105,7 +105,7 @@ describe Queries::ICalSharingContract do
 
       context 'when author is someone else' do
         let(:user) { create(:user) } # other user as owner of query
-  
+
         it_behaves_like 'contract user is unauthorized' # authorized as query is public
       end
     end
@@ -117,7 +117,7 @@ describe Queries::ICalSharingContract do
 
       context 'when author is someone else' do
         let(:user) { create(:user) } # other user as owner of query
-  
+
         it_behaves_like 'contract is valid' # authorized as query is public
       end
     end
@@ -128,8 +128,8 @@ describe Queries::ICalSharingContract do
     let(:other_project) { create(:project) }
     let(:current_user) do
       create(:user,
-        member_in_project: other_project,
-        member_with_permissions: permissions)
+             member_in_project: other_project,
+             member_with_permissions: permissions)
     end
 
     context 'when user is author but not member of project (anymore)' do

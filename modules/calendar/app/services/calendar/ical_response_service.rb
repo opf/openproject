@@ -47,7 +47,7 @@ module Calendar
         ical_string = ical_generation(query, user)
       end
 
-      ServiceResult.new(success:, result: ical_string, errors:)   
+      ServiceResult.new(success:, result: ical_string, errors:)
     end
 
     protected

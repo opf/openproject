@@ -62,7 +62,7 @@ import { QueryGetIcalUrlModalComponent } from 'core-app/shared/components/modals
     FullCalendarModule,
 
     // Angular reactive forms, required for QueryGetIcalUrlModalComponent
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   declarations: [
     // Work package calendars
@@ -70,7 +70,7 @@ import { QueryGetIcalUrlModalComponent } from 'core-app/shared/components/modals
     WorkPackagesCalendarComponent,
     TimeEntryCalendarComponent,
     CalendarSidemenuComponent,
-    QueryGetIcalUrlModalComponent
+    QueryGetIcalUrlModalComponent,
   ],
   exports: [
     WorkPackagesCalendarComponent,
