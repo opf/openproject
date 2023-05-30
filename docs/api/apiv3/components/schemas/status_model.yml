@@ -2,12 +2,15 @@
 ---
 type: object
 properties:
+  _type:
+    type: string
+    enum:
+      - Status
   id:
     type: integer
     description: Status id
     readOnly: true
-    minimum: 0
-    exclusiveMinimum: true
+    minimum: 1
   name:
     type: string
     description: Status name
