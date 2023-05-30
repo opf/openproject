@@ -223,19 +223,20 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def title
-    "#{heading}.pdf"
+    # export filename expects to be "project.name - query.name"
+    "#{prefix_project_name(query_name)}.pdf"
   end
 
   def heading
-    query.name == '_' ? heading_generic : query.name
+    # if query.name is placeholder use "project.name - generic", else only query.name
+    query.name == '_' ? prefix_project_name(query_name) : query.name
   end
 
-  def heading_generic
-    generic = I18n.t(:label_work_package_plural)
-    if project
-      "#{project} - #{generic}"
-    else
-      generic
-    end
+  def prefix_project_name(value)
+    project ? "#{project} - #{value}" : value
+  end
+
+  def query_name
+    query.name == '_' ? I18n.t(:label_work_package_plural) : query.name
   end
 end
