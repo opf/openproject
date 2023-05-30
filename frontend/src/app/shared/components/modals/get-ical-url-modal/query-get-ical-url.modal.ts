@@ -53,7 +53,6 @@ interface TokenNameFormValue {
 
 @Component({
   templateUrl: './query-get-ical-url.modal.html',
-  styleUrls: ['./query-get-ical-url.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
@@ -105,10 +104,7 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
   ngOnInit():void {
     super.ngOnInit();
 
-    this.query = this.querySpace.query.value!;
-
-    // TODO: I'm not sure if this is an error we actually need to catch
-    if (!this.query) {
+    if (!this.querySpace.query.value) {
       this.toastService.addError(
         this.I18n.t('js.ical_sharing_modal.inital_setup_error_message'),
       );
@@ -116,6 +112,8 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
       setTimeout(() => {
         this.closeMe();
       }, 10);
+    } else {
+      this.query = this.querySpace.query.value!;
     }
   }
 
@@ -123,7 +121,7 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
     if (!navigator.clipboard) {
       // fallback for browsers that don't support clipboard API at all
       this.toastService.addWarning(
-        `${this.I18n.t('js.ical_sharing_modal.copy_url_error_text')} ${url}`,
+        this.I18n.t('js.ical_sharing_modal.copy_url_error_text', { icalUrl: url })
       );
     } else {
       void navigator.clipboard.writeText(url)
@@ -133,7 +131,7 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
         .catch(() => {
         // fallback when running into e.g. browser permission errors
           this.toastService.addWarning(
-            `${this.I18n.t('js.ical_sharing_modal.copy_url_error_text')} ${url}`,
+            this.I18n.t('js.ical_sharing_modal.copy_url_error_text', { icalUrl: url })
           );
         });
     }

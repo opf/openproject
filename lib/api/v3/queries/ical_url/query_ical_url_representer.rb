@@ -46,11 +46,10 @@ module API
           end
 
           link :icalUrl do
-            # TODO: this is returning an absolute url
-            # --> valid approach to render it as href in a link?
             {
               href: represented.ical_url,
-              method: :get
+              method: :get,
+              type: "text/calendar"
             }
           end
 

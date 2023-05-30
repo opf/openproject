@@ -51,7 +51,7 @@ describe Token::ICal do
       # thus an ical_token cannot be created without a name although a query is given
       ical_token2 = described_class.create(
         user:,
-        ical_token_query_assignment_attributes: { query:, user_id: user.id }
+        ical_token_query_assignment_attributes: { query: }
       )
 
       expect(ical_token2.errors["ical_token_query_assignment.name"].first).to eq("is mandatory. Please select a name.")
@@ -60,7 +60,7 @@ describe Token::ICal do
       # if a query and name is given, the token can be created
       ical_token3 = described_class.create(
         user:,
-        ical_token_query_assignment_attributes: { query:, name:, user_id: user.id }
+        ical_token_query_assignment_attributes: { query:, name: }
       )
       expect(ical_token3.errors).to be_empty
       expect(ical_token3.query).to eq query
@@ -77,11 +77,11 @@ describe Token::ICal do
       # therefore a user needs to be allowed to have N ical tokens per query
       ical_token1 = described_class.create(
         user:,
-        ical_token_query_assignment_attributes: { query:, name: "#{name}_1", user_id: user.id }
+        ical_token_query_assignment_attributes: { query:, name: "#{name}_1" }
       )
       ical_token2 = described_class.create(
         user:,
-        ical_token_query_assignment_attributes: { query:, name: "#{name}_2", user_id: user.id }
+        ical_token_query_assignment_attributes: { query:, name: "#{name}_2" }
       )
 
       expect(described_class.where(user_id: user.id)).to contain_exactly(
@@ -92,11 +92,11 @@ describe Token::ICal do
 
       ical_token3 = described_class.create(
         user:,
-        ical_token_query_assignment_attributes: { query: query2, name: "#{name}_3", user_id: user.id }
+        ical_token_query_assignment_attributes: { query: query2, name: "#{name}_3" }
       )
       ical_token4 = described_class.create(
         user:,
-        ical_token_query_assignment_attributes: { query: query2, name: "#{name}_4", user_id: user.id }
+        ical_token_query_assignment_attributes: { query: query2, name: "#{name}_4" }
       )
 
       expect(described_class.where(user_id: user.id)).to contain_exactly(
@@ -107,11 +107,11 @@ describe Token::ICal do
     it 'a user cannot have N ical tokens per query with the same name' do
       ical_token1 = described_class.create(
         user:,
-        ical_token_query_assignment_attributes: { query:, name: "#{name}_1", user_id: user.id }
+        ical_token_query_assignment_attributes: { query:, name: "#{name}_1" }
       )
       ical_token2 = described_class.create(
         user:,
-        ical_token_query_assignment_attributes: { query:, name: "#{name}_1", user_id: user.id }
+        ical_token_query_assignment_attributes: { query:, name: "#{name}_1" }
       )
 
       expect(ical_token2.errors["ical_token_query_assignment.name"].first).to eq(
@@ -128,7 +128,7 @@ describe Token::ICal do
 
       ical_token3 = described_class.create(
         user:,
-        ical_token_query_assignment_attributes: { query: query2, name: "#{name}_1", user_id: user.id }
+        ical_token_query_assignment_attributes: { query: query2, name: "#{name}_1" }
       )
 
       expect(described_class.where(user_id: user.id)).to contain_exactly(
@@ -188,13 +188,59 @@ describe Token::ICal do
         # rubocop:enable Rails/DynamicFindBy
       end
     end
+
+    describe 'dependent destroyed' do
+      context 'when associated query is destroyed' do
+        it 'the ical_token is destroyed as well' do
+          ical_token = described_class.create(
+            user:,
+            ical_token_query_assignment_attributes: { query:, name: }
+          )
+          expect do
+            query.destroy!
+          end.to change { described_class.count }.by(-1)
+
+          expect(described_class.all).to be_empty
+          expect(ICalTokenQueryAssignment.all).to be_empty
+        end
+      end
+
+      context 'when associated user is destroyed' do
+        it 'the ical_token is destroyed as well' do
+          ical_token = described_class.create(
+            user:,
+            ical_token_query_assignment_attributes: { query:, name: }
+          )
+          expect do
+            user.destroy!
+          end.to change { described_class.count }.by(-1)
+
+          expect(described_class.all).to be_empty
+          expect(ICalTokenQueryAssignment.all).to be_empty
+        end
+      end
+
+      context 'when ical_token is destroyed' do
+        it 'the ical_token_query_assignment is destroyed as well' do
+          ical_token = described_class.create(
+            user:,
+            ical_token_query_assignment_attributes: { query:, name: }
+          )
+          expect do
+            ical_token.destroy!
+          end.to change { ICalTokenQueryAssignment.count }.by(-1)
+
+          expect(ICalTokenQueryAssignment.all).to be_empty
+        end
+      end
+    end
   end
 
   describe 'behaves like Token::HashedToken if created with query assignment' do
     subject do
       described_class.new(
         user:,
-        ical_token_query_assignment_attributes: { query:, name:, user_id: user.id }
+        ical_token_query_assignment_attributes: { query:, name: }
       )
     end
 

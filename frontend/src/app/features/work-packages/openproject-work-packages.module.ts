@@ -30,7 +30,6 @@ import {
   Injector,
   NgModule,
 } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
 import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
@@ -126,7 +125,6 @@ import { OpenprojectAutocompleterModule } from 'core-app/shared/components/autoc
 import { OpWpTabsModule } from 'core-app/features/work-packages/components/wp-tabs/wp-tabs.module';
 import { EditFieldControlsModule } from 'core-app/shared/components/fields/edit/field-controls/edit-field-controls.module';
 import { WpTableExportModalComponent } from 'core-app/shared/components/modals/export-modal/wp-table-export.modal';
-import { QueryGetIcalUrlModalComponent } from 'core-app/shared/components/modals/get-ical-url-modal/query-get-ical-url.modal';
 import { WpButtonMacroModalComponent } from 'core-app/shared/components/modals/editor/macro-wp-button-modal/wp-button-macro.modal';
 import { QuerySharingModalComponent } from 'core-app/shared/components/modals/share-modal/query-sharing.modal';
 import { SaveQueryModalComponent } from 'core-app/shared/components/modals/save-modal/save-query.modal';
@@ -212,7 +210,6 @@ import { OpBaselineLegendsComponent } from 'core-app/features/work-packages/comp
     EditFieldControlsModule,
     OpenprojectTabsModule,
     OpenprojectStoragesModule,
-    ReactiveFormsModule,
   ],
   providers: [
     // Notification service
@@ -394,7 +391,6 @@ import { OpBaselineLegendsComponent } from 'core-app/features/work-packages/comp
     WpTableConfigurationHighlightingTabComponent,
     WpTableConfigurationRelationSelectorComponent,
     WpTableExportModalComponent,
-    QueryGetIcalUrlModalComponent,
     QuerySharingFormComponent,
     QuerySharingModalComponent,
     SaveQueryModalComponent,

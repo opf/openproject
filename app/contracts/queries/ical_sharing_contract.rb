@@ -26,32 +26,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Calendar
-  class ResolveWorkPackagesService < ::BaseServices::BaseCallable
-    def perform(query:)
-      raise ActiveRecord::RecordNotFound if query.nil?
-
-      query = remove_date_range_filter(query)
-
-      work_packages = query.results.work_packages.includes(
-        :project, :assigned_to, :author, :priority, :status, :type
-      )
-      work_packages_with_dates = work_packages
-        .where.not(start_date: nil, due_date: nil)
-
-      ServiceResult.success(result: work_packages_with_dates)
-    end
+module Queries
+  class ICalSharingContract < ::BaseContract
+    validate :user_allowed_to_subscribe_to_query_via_ical
 
     protected
 
-    def remove_date_range_filter(query)
-      # TODO:
-      # Is this the correct way of unscoping the calendar view state
-      # in order to get all workpackages from the query?
-      query.filters = query.filters
-        .reject { |filter| filter.name == :dates_interval }
+    def user_allowed_to_subscribe_to_query_via_ical
+      return if user_allowed_to_use_ical_sharing? && query_visible_for_user? && token_valid_for_query?
 
-      query
+      errors.add :base, :error_unauthorized
+    end
+
+    def user_allowed_to_use_ical_sharing?
+      QueryPolicy.new(user).allowed?(model, :share_via_ical)
+    end
+
+    def query_visible_for_user?
+      begin
+        User.execute_as(user) do
+          Query
+            .visible(user)
+            .find(model.id)
+            .present?
+        end
+      rescue
+        false
+      end
+    end
+
+    def token_valid_for_query?
+      options[:ical_token].query.id == model.id
     end
   end
 end

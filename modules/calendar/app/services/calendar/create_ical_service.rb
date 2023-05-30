@@ -27,13 +27,13 @@
 #++
 
 require 'icalendar'
-require 'rails-html-sanitizer'
 
 module Calendar
   class CreateICalService < ::BaseServices::BaseCallable
+    include ActionView::Helpers::SanitizeHelper
     include TextFormattingHelper
 
-    def perform(work_packages:, calendar_name: "OpenProject Calendar")
+    def perform(work_packages:, calendar_name:)
       ical_string = create_ical_string(work_packages, calendar_name)
 
       ServiceResult.success(result: ical_string)
@@ -48,8 +48,8 @@ module Calendar
       calendar.x_wr_calname = calendar_name
 
       work_packages.each do |work_package|
-        event = create_event(work_package)
-        event = add_attendee_value(event, work_package)
+        event = Icalendar::Event.new
+        event = add_values_to_event(event, work_package)
 
         calendar.add_event(event)
       end
@@ -57,17 +57,17 @@ module Calendar
       calendar.to_ical
     end
 
-    def create_event(work_package)
-      event = Icalendar::Event.new
+    def add_values_to_event(event, work_package)
       event.uid = event_uid_value(work_package)
       event.organizer = organizer_value(work_package)
       event.summary = summary_value(work_package)
+      event.dtstamp = dtstamp_value(work_package)
       event.dtstart = dtstart_value(work_package)
       event.dtend = dtend_value(work_package)
       event.location = location_value(work_package)
       event.description = description_value(work_package)
 
-      event
+      add_attendee_value(event, work_package)
     end
 
     def event_uid_value(work_package)
@@ -75,15 +75,26 @@ module Calendar
     end
 
     def attendee_value(work_package)
-      [work_package.assigned_to&.name]
+      Icalendar::Values::CalAddress.new(
+        "mailto:#{work_package.assigned_to&.mail}",
+        cn: work_package.assigned_to&.name
+      )
     end
 
     def organizer_value(work_package)
-      work_package.author&.name
+      Icalendar::Values::CalAddress.new(
+        "mailto:#{work_package.author&.mail}",
+        cn: work_package.author&.name
+      )  
     end
 
     def summary_value(work_package)
       work_package.name
+    end
+
+    def dtstamp_value(work_package)
+      # https://datatracker.ietf.org/doc/html/rfc5545#section-3.8.7.2
+      Icalendar::Values::DateTime.new(work_package.updated_at, 'tzid' => 'UTC')
     end
 
     def dtstart_value(work_package)
@@ -117,58 +128,6 @@ module Calendar
       OpenProject::StaticRouting::UrlHelpers.host
     end
 
-    def description_value(work_package)
-      map = map_description_values(work_package)
-
-      [
-        map[:project], map[:type], map[:status],
-        map[:assignee], map[:priority], map[:description]
-      ].join("\n")
-    end
-
-    def map_description_values(work_package)
-      map = {}
-      map[:project] = translated_project_name(work_package)
-      map[:type] = translated_type_name(work_package)
-      map[:status] = translated_status_name(work_package)
-      map[:assignee] = translated_assigne_name(work_package)
-      map[:priority] = translated_priority_name(work_package)
-      map[:description] = truncated_work_package_description_value(work_package)
-
-      map
-    end
-
-    def translated_project_name(work_package)
-      "#{I18n::t('activerecord.models.project')}: #{work_package.project.name}"
-    end
-
-    def translated_type_name(work_package)
-      "#{I18n::t('activerecord.models.type')}: #{work_package.type&.name}"
-    end
-
-    def translated_status_name(work_package)
-      "#{I18n::t('attributes.status')}: #{work_package.status&.name}"
-    end
-
-    def translated_assigne_name(work_package)
-      "#{I18n::t('attributes.assignee')}: #{work_package.assigned_to&.name}"
-    end
-
-    def translated_priority_name(work_package)
-      "#{I18n::t('activerecord.attributes.work_package.priority')}: #{work_package.priority&.name}"
-    end
-
-    def translated_description_name
-      I18n::t("attributes.description")
-    end
-
-    def truncated_work_package_description_value(work_package)
-      if work_package.description.present?
-        stripped_text = truncate_formatted_text(work_package.description.to_s, length: 250)
-        "\n#{translated_description_name}:\n #{stripped_text}"
-      end
-    end
-
     def add_attendee_value(event, work_package)
       # event.attendee = [work_package.assigned_to&.name] # causing thunderbird error "id is null"
       event.attendee = attendee_value(work_package) if work_package.assigned_to.present?
@@ -176,36 +135,34 @@ module Calendar
       event
     end
 
-    # override from text_formatting_helper
-    # didn't work in this context -> got error "undefined method `full_sanitizer`"
-    # furthermore the replacement of \n with <br> is not desired in the context of iCalendar files
-    def truncate_formatted_text(text, length: 120)
-      # rubocop:disable Rails/OutputSafety
-      stripped_text = sanitizer_instance.sanitize(format_text(text)).html_safe
-
-      if length
-        truncate_multiline(stripped_text, length)
-      else
-        stripped_text
+    def description_value(work_package)
+      %i[
+        project
+        type
+        status
+        assigned_to
+        priority
+      ].map do |attribute|
+        translated_attribute_name_and_value(work_package, attribute)
       end
-        .strip
-        .html_safe
-      # rubocop:enable Rails/OutputSafety
+      .push(truncated_work_package_description_value(work_package))
+      .join("\n")
     end
 
-    # override from text_formatting_helper
-    # the original method was statically truncating at 120 characters
-    def truncate_multiline(string, length)
-      if string.to_s =~ /\A(.{#{length}}).*?$/m
-        "#{$1}..."
-      else
-        string
-      end
+    def translated_attribute_name_and_value(work_package, attribute)
+      "#{WorkPackage.human_attribute_name(attribute)}: #{work_package.public_send(attribute)&.name}"
     end
 
-    # got error "undefined method `full_sanitizer`" without this when calling `strip_tags`
-    def sanitizer_instance
-      @sanitizer_instance ||= Rails::Html::FullSanitizer.new
+    def truncated_work_package_description_value(work_package)
+      return if work_package.description.blank?
+
+      stripped_text = truncate_formatted_text(
+        work_package.description.to_s,
+        length: 250,
+        replace_newlines: false
+      )
+
+      "\n#{WorkPackage.human_attribute_name(:description)}:\n #{stripped_text}"
     end
   end
 end

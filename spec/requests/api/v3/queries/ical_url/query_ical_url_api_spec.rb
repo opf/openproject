@@ -37,7 +37,7 @@ describe 'API v3 Query ICal Url' do
     let(:project) { create(:project) }
     let(:role) { create(:role, permissions:) }
     # TODO: check OpenProject::Configuration.ical_subscriptions_enabled configuration
-    # TODO: :view_work_packages permission is mandatory, otherwise a 404 is returned. Why?
+    # :view_work_packages permission is mandatory, otherwise a 404 is returned.
     let(:permissions) { %i[view_work_packages share_calendars] }
     let(:user) do
       create(:user,
@@ -118,7 +118,7 @@ describe 'API v3 Query ICal Url' do
     end
 
     context 'when user has insufficient permissions' do
-      # TODO: :view_work_packages permission is mandatory, otherwise a 404 is returned. Why?
+      # :view_work_packages permission is mandatory, otherwise a 404 is returned.
       let(:permissions) { [:view_work_packages] } # share_calendars is missing
 
       it_behaves_like 'unauthorized access'

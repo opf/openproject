@@ -26,32 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Calendar
-  class ResolveWorkPackagesService < ::BaseServices::BaseCallable
-    def perform(query:)
-      raise ActiveRecord::RecordNotFound if query.nil?
-
-      query = remove_date_range_filter(query)
-
-      work_packages = query.results.work_packages.includes(
-        :project, :assigned_to, :author, :priority, :status, :type
-      )
-      work_packages_with_dates = work_packages
-        .where.not(start_date: nil, due_date: nil)
-
-      ServiceResult.success(result: work_packages_with_dates)
-    end
-
-    protected
-
-    def remove_date_range_filter(query)
-      # TODO:
-      # Is this the correct way of unscoping the calendar view state
-      # in order to get all workpackages from the query?
-      query.filters = query.filters
-        .reject { |filter| filter.name == :dates_interval }
-
-      query
-    end
+FactoryBot.define do
+  factory :ical_token_query_assignment do
+    association :ical_token
+    association :query
   end
 end

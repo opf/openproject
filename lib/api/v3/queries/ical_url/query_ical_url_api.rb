@@ -46,9 +46,8 @@ module API
 
             post do
               authorize_by_policy(:share_via_ical)
-              # QUESTION: currently the generated URL points to controller action in calendar module
-              # correct approach? or should it be implemented as a API here?
-              call = ::Calendar::GenerateICalUrl.new.call(
+
+              call = ::Calendar::GenerateICalUrlService.new.call(
                 user: current_user,
                 query_id: @query.id,
                 project_id: @query.project_id,
@@ -61,7 +60,6 @@ module API
 
               status 201
 
-              # QUESTION: is it ok to use a Struct here?
               ical_url_data = Struct.new(:ical_url, :query)
 
               QueryICalUrlRepresenter.new(

@@ -42,7 +42,7 @@ module Token
         # not be created due to errors in the ical_token_query_assignment
         # otherwise a hashed token value of a not persisted token would be returned
         create!(user:, ical_token_query_assignment_attributes: {
-                  query:, name: token_name, user_id: user.id
+                  query:, name: token_name
                 }).plain_value
       end
     end
