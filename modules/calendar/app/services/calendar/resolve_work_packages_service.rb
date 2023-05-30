@@ -31,7 +31,7 @@ module Calendar
     def perform(query:)
       raise ActiveRecord::RecordNotFound if query.nil?
 
-      query = remove_date_range_filter(query)
+      query.remove_filter(:dates_interval)
 
       work_packages = query.results.work_packages.includes(
         :project, :assigned_to, :author, :priority, :status, :type
@@ -40,18 +40,6 @@ module Calendar
         .where.not(start_date: nil, due_date: nil)
 
       ServiceResult.success(result: work_packages_with_dates)
-    end
-
-    protected
-
-    def remove_date_range_filter(query)
-      # TODO:
-      # Is this the correct way of unscoping the calendar view state
-      # in order to get all workpackages from the query?
-      query.filters = query.filters
-        .reject { |filter| filter.name == :dates_interval }
-
-      query
     end
   end
 end

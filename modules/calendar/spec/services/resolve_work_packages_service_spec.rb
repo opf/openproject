@@ -52,16 +52,26 @@ describe Calendar::ResolveWorkPackagesService, type: :model do
                           start_date: Date.tomorrow,
                           due_date: Time.zone.today + 7.days)
   end
+  let(:work_package_with_due_date_far_in_the_past) do
+    create(:work_package, project:,
+                          due_date: Time.zone.today - 180.days)
+  end
+  let(:work_package_with_due_date_far_in_the_future) do
+    create(:work_package, project:,
+                          due_date: Time.zone.today + 180.days)
+  end
   let(:work_packages) do
     [
       work_package_without_dates,
       work_package_with_due_date,
       work_package_with_start_date,
-      work_package_with_start_and_due_date
+      work_package_with_start_and_due_date,
+      work_package_with_due_date_far_in_the_past,
+      work_package_with_due_date_far_in_the_future
     ]
   end
   let(:query) do
-    create(:query,
+    create(:query_with_view_work_packages_calendar,
            project:,
            user: user1,
            public: false)
@@ -73,6 +83,12 @@ describe Calendar::ResolveWorkPackagesService, type: :model do
 
   context 'for a valid query' do
     before do
+      # Add typical calendar filters which are present for calendar queries
+      query.add_filter(:dates_interval, "<>d", [Time.zone.today, Time.zone.today+30.days])
+
+      # login for this isolated test:
+      # in context of the whole iCalendar API flow, the user is not logged in but resolved from the token
+      # `User.execute_as()`` is then used in the service calling the service which is tested here
       login_as(user1)
     end
 
@@ -85,7 +101,9 @@ describe Calendar::ResolveWorkPackagesService, type: :model do
         .to include(
           work_package_with_start_date,
           work_package_with_due_date,
-          work_package_with_start_and_due_date
+          work_package_with_start_and_due_date,
+          work_package_with_due_date_far_in_the_past,
+          work_package_with_due_date_far_in_the_future
         )
       expect(result)
         .not_to include(work_package_without_dates)
