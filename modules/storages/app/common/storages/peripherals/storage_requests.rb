@@ -49,29 +49,11 @@ module Storages::Peripherals
       @storage = storage
     end
 
-    (COMMANDS + QUERIES - ['upload_link_query']).each do |request|
+    (COMMANDS + QUERIES).each do |request|
       define_method(request) do
-        result(clazz(@storage, request))
+        clazz = "::Storages::Peripherals::StorageInteraction::#{@storage.short_provider_type.capitalize}::#{request.to_s.classify}".constantize
+        clazz.new(@storage).method(:call).to_proc
       end
-    end
-
-    def upload_link_query
-      query_clazz = if OpenProject::FeatureDecisions.legacy_upload_preparation_active?
-                      clazz(@storage, 'legacy_upload_link_query')
-                    else
-                      clazz(@storage, 'upload_link_query')
-                    end
-      result(query_clazz)
-    end
-
-    private
-
-    def result(request_class)
-      request_class.new(@storage).method(:call).to_proc
-    end
-
-    def clazz(storage, request)
-      "::Storages::Peripherals::StorageInteraction::#{storage.short_provider_type.capitalize}::#{request.to_s.classify}".constantize
     end
   end
 end
