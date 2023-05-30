@@ -28,7 +28,35 @@
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
   class PropfindQuery
-    using Storages::Peripherals::ServiceResultRefinements
+    # Only for information purposes currently.
+    # Probably a bit later we could validate `#call` parameters.
+    #
+    # DEPTH = %w[0 1 infinity].freeze
+    # POSSIBLE_PROPS = %w[
+    #   d:getlastmodified
+    #   d:getetag
+    #   d:getcontenttype
+    #   d:resourcetype
+    #   d:getcontentlength
+    #   d:permissions
+    #   d:size
+    #   oc:id
+    #   oc:fileid
+    #   oc:favorite
+    #   oc:comments-href
+    #   oc:comments-count
+    #   oc:comments-unread
+    #   oc:owner-id
+    #   oc:owner-display-name
+    #   oc:share-types
+    #   oc:checksums
+    #   oc:size
+    #   nc:has-preview
+    #   nc:rich-workspace
+    #   nc:contained-folder-count
+    #   nc:contained-file-count
+    #   nc:acl-list
+    # ].freeze
 
     def initialize(storage)
       @uri = URI(storage.host).normalize
@@ -38,35 +66,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     # rubocop:disable Metrics/AbcSize
-    def call(depth:, path:)
-      # possible_depth = %w[0 1 infinity]
-
-      # possible_props = %w[
-      #   d:getlastmodified
-      #   d:getetag
-      #   d:getcontenttype
-      #   d:resourcetype
-      #   d:getcontentlength
-      #   d:permissions
-      #   d:size
-      #   oc:id
-      #   oc:fileid
-      #   oc:favorite
-      #   oc:comments-href
-      #   oc:comments-count
-      #   oc:comments-unread
-      #   oc:owner-id
-      #   oc:owner-display-name
-      #   oc:share-types
-      #   oc:checksums
-      #   oc:size
-      #   nc:has-preview
-      #   nc:rich-workspace
-      #   nc:contained-folder-count
-      #   nc:contained-file-count
-      #   nc:acl-list
-      # ]
-
+    def call(depth:, path:, props: nil)
       body = Nokogiri::XML::Builder.new do |xml|
         xml['d'].propfind(
           'xmlns:d' => 'DAV:',
@@ -74,8 +74,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           'xmlns:nc' => 'http://nextcloud.org/ns'
         ) do
           xml['d'].prop do
-            # xml['nc'].send('acl-list')
-            xml['oc'].send('fileid')
+            props.each do |prop|
+              namespace, property = prop.split(':')
+              xml[namespace].send(property)
+            end
           end
         end
       end.to_xml
