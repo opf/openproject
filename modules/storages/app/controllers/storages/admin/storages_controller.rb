@@ -37,8 +37,7 @@ class Storages::Admin::StoragesController < ApplicationController
   # Before executing any action below: Make sure the current user is an admin
   # and set the @<controller_name> variable to the object referenced in the URL.
   before_action :require_admin
-  before_action :find_model_object, only: %i[show destroy edit update replace_oauth_application
-                                             new_configure_managed_project_folders create_configure_managed_project_folders]
+  before_action :find_model_object, only: %i[show destroy edit update replace_oauth_application]
 
   # menu_item is defined in the Redmine::MenuManager::MenuController
   # module, included from ApplicationController.
@@ -141,15 +140,6 @@ class Storages::Admin::StoragesController < ApplicationController
       @errors = service_result.errors
       render :edit
     end
-  end
-
-  def new_configure_managed_project_folders
-    @storage = @object
-    render '/storages/admin/storages/show_managed_project_folder_configuration'
-  end
-
-  def create_configure_managed_project_folders
-    # TODO: Implement
   end
 
   # Used by: admin layout

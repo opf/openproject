@@ -56,7 +56,7 @@ en:
       save_and_continue_setup: "Save and continue setup"
       save_and_complete_setup: "Save and complete setup"
     page_titles:
-      managed_project_folder_configuration:
+      managed_project_folders:
         title: "Managed project folders"
         subtitle: >
           Let OpenProject create folders per project automatically. This is recommended as it ensures that every team member always has the correct access permissions.

@@ -39,7 +39,7 @@
 class Storages::Storage < ApplicationRecord
   self.inheritance_column = :provider_type
 
-  store_accessor :provider_fields, :is_automatically_managed, :application_password
+  store_accessor :provider_fields, :is_automatically_managed, :application_username, :application_password
 
   # One Storage can have multiple FileLinks, representing external files.
   #
@@ -63,6 +63,11 @@ class Storages::Storage < ApplicationRecord
   PROVIDER_TYPES = [
     PROVIDER_TYPE_NEXTCLOUD = 'Storages::NextcloudStorage'.freeze
   ].freeze
+
+  PROVIDER_FIELDS_DEFAULTS = {
+    is_automatically_managed: true,
+    application_username: 'OpenProject'
+  }.freeze
 
   # Uniqueness - no two storages should  have the same host.
   validates_uniqueness_of :host
@@ -94,5 +99,22 @@ class Storages::Storage < ApplicationRecord
 
   def short_provider_type
     @short_provider_type ||= self.class.shorten_provider_type(provider_type)
+  end
+
+  # Coerce `is_automatically_managed` provider_field to a primitive boolean value.
+  def is_automatically_managed=(bool_value)
+    super(ActiveRecord::Type::Boolean.new.cast(bool_value))
+  end
+
+  # Default to true for `is_automatically_managed` provider_field.
+  def is_automatically_managed # rubocop:disable Naming/PredicateName
+    return PROVIDER_FIELDS_DEFAULTS[:is_automatically_managed] if super.nil?
+
+    super
+  end
+
+  # Default to "OpenProject" for `application_username` provider_field.
+  def application_username
+    super.presence || PROVIDER_FIELDS_DEFAULTS[:application_username]
   end
 end
