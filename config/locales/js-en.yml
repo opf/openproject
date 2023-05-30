@@ -996,6 +996,8 @@ en:
         modification_label: 'Modified within the comparison time period'
       filters:
         title: 'Filter work packages'
+        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Click here to add a new work package to this list'
       create:

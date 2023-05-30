@@ -38,6 +38,7 @@ describe 'baseline query saving',
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:baseline) { Components::WorkPackages::Baseline.new }
   let(:baseline_modal) { Components::WorkPackages::BaselineModal.new }
+  let(:filters) { Components::WorkPackages::Filters.new }
 
   shared_let(:berlin_user) do
     create(:user,
@@ -51,6 +52,37 @@ describe 'baseline query saving',
            preferences: { time_zone: 'Asia/Tokyo' },
            member_in_project: project,
            member_with_permissions: %i[view_work_packages save_queries manage_public_queries])
+  end
+
+  it 'shows a warning when an incompatible filter is used', with_flag: { show_changes: true } do
+    login_as berlin_user
+    wp_table.visit!
+
+    baseline_modal.expect_closed
+    baseline.expect_no_legends
+    baseline_modal.toggle_drop_modal
+    baseline_modal.expect_open
+    baseline_modal.expect_selected '-'
+
+    baseline_modal.select_filter 'yesterday'
+    baseline_modal.set_time '09:00'
+    baseline_modal.expect_offset 'UTC+2'
+    baseline_modal.apply
+
+    loading_indicator_saveguard
+
+    filters.open
+    filters.add_filter_by('Watcher', 'is (OR)', 'me')
+
+    loading_indicator_saveguard
+
+    expect(page).to have_selector(
+      '.op-toast.-warning',
+      text: 'Baseline mode is on but some of your active filters are not included in the comparison.'
+    )
+    page.within('#filter_watcher') do
+      expect(page).to have_selector('[data-qa-selector="query-filter-baseline-incompatible"]')
+    end
   end
 
   it 'can configure and save baseline queries', with_flag: { show_changes: true } do
