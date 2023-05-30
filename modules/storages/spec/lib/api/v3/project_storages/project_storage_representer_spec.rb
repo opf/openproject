@@ -33,7 +33,7 @@ describe API::V3::ProjectStorages::ProjectStorageRepresenter do
 
   let(:user) { build_stubbed(:user) }
 
-  let(:project_storage) { build_stubbed(:project_storage) }
+  let(:project_storage) { build_stubbed(:project_storage, project_folder_mode: 'manual', project_folder_id: '1337') }
 
   let(:representer) { described_class.new(project_storage, current_user: user) }
 
@@ -56,10 +56,6 @@ describe API::V3::ProjectStorages::ProjectStorageRepresenter do
       let(:value) { project_storage.updated_at }
     end
 
-    it_behaves_like 'property', :projectFolderId do
-      let(:value) { project_storage.project_folder_id }
-    end
-
     it_behaves_like 'property', :projectFolderMode do
       let(:value) { project_storage.project_folder_mode }
     end
@@ -80,6 +76,11 @@ describe API::V3::ProjectStorages::ProjectStorageRepresenter do
       let(:link) { 'creator' }
       let(:href) { api_v3_paths.user(project_storage.creator.id) }
       let(:title) { project_storage.creator.name }
+    end
+
+    it_behaves_like 'has an untitled link' do
+      let(:link) { 'projectFolder' }
+      let(:href) { api_v3_paths.storage_file(project_storage.storage.id, project_storage.project_folder_id) }
     end
   end
 end

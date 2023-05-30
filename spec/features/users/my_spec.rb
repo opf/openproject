@@ -114,11 +114,11 @@ describe 'my', js: true do
           expect(user.pref.time_zone).to eq 'Asia/Tokyo'
           visit my_settings_path
 
-          expect(page).to have_select 'pref_time_zone', selected: '(GMT+09:00) Tokyo'
-          select '(GMT+01:00) Paris', from: 'pref_time_zone'
+          expect(page).to have_select 'pref_time_zone', selected: '(UTC+09:00) Tokyo'
+          select '(UTC+01:00) Paris', from: 'pref_time_zone'
           click_on 'Save'
 
-          expect(page).to have_select 'pref_time_zone', selected: '(GMT+01:00) Paris'
+          expect(page).to have_select 'pref_time_zone', selected: '(UTC+01:00) Paris'
           expect(user.pref.time_zone).to eq 'Europe/Paris'
         end
       end

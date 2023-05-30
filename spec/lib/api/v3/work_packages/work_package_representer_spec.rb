@@ -1329,6 +1329,14 @@ describe API::V3::WorkPackages::WorkPackageRepresenter do
         end
         let(:project) { create(:project) }
 
+        current_user do
+          create(:user,
+                 firstname: 'user',
+                 lastname: '1',
+                 member_in_project: project,
+                 member_with_permissions: %i[view_work_packages view_file_links])
+        end
+
         def create_journal(journable:, version:, timestamp:, attributes: {})
           work_package_attributes = work_package.attributes.except("id")
           journal_attributes = work_package_attributes \
@@ -1403,19 +1411,11 @@ describe API::V3::WorkPackages::WorkPackageRepresenter do
         context 'when passing a query' do
           let(:search_term) { 'original' }
           let(:query) do
-            login_as(current_user)
             build(:query, user: current_user, project: nil).tap do |query|
               query.filters.clear
               query.add_filter 'subject', '~', search_term
               query.timestamps = timestamps
             end
-          end
-          let(:current_user) do
-            create(:user,
-                   firstname: 'user',
-                   lastname: '1',
-                   member_in_project: project,
-                   member_with_permissions: %i[view_work_packages view_file_links])
           end
 
           describe 'attributesByTimestamp', with_ee: %i[baseline_comparison], with_flag: { show_changes: true } do

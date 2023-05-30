@@ -200,6 +200,14 @@ class Query < ApplicationRecord
     filter
   end
 
+  # Removes the filter with the given name
+  # from the query without persisting the change.
+  #
+  # @param [String] name the filter to remove
+  def remove_filter(name)
+    filters.delete_if { |f| f.field.to_s == name.to_s }
+  end
+
   def normalized_name
     name.parameterize.underscore
   end

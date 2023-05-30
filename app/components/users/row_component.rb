@@ -30,9 +30,6 @@
 
 module Users
   class RowComponent < ::RowComponent
-    include AvatarHelper
-    include UsersHelper
-
     property :firstname, :lastname
 
     def user
@@ -47,7 +44,7 @@ module Users
     end
 
     def login
-      icon = avatar user, size: :mini
+      icon = helpers.avatar user, size: :mini
       link = link_to h(user.login), edit_user_path(user)
 
       icon + link
@@ -58,19 +55,19 @@ module Users
     end
 
     def admin
-      checked_image user.admin?
+      helpers.checked_image user.admin?
     end
 
     def last_login_on
-      format_time user.last_login_on unless user.last_login_on.nil?
+      helpers.format_time user.last_login_on unless user.last_login_on.nil?
     end
 
     def created_at
-      format_time user.created_at
+      helpers.format_time user.created_at
     end
 
     def status
-      full_user_status user
+      helpers.full_user_status user
     end
 
     def button_links
@@ -84,7 +81,7 @@ module Users
       # Don't show if non-admin
       return unless table.current_user.admin?
 
-      change_user_status_links user
+      helpers.change_user_status_links user
     end
 
     def column_css_class(column)

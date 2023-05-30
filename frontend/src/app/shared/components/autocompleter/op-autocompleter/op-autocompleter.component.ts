@@ -27,9 +27,11 @@ import {
   NEVER,
   Observable,
   of,
+  timer,
   Subject,
 } from 'rxjs';
 import {
+  debounce,
   debounceTime,
   distinctUntilChanged,
   filter,
@@ -226,6 +228,8 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
   @ContentChild(OpAutocompleterFooterTemplateDirective, { read: TemplateRef })
   footerTemplate:TemplateRef<any>;
 
+  initialDebounce = true;
+
   constructor(
     readonly opAutocompleterService:OpAutocompleterService,
     readonly cdRef:ChangeDetectorRef,
@@ -369,8 +373,8 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
     return this.typeahead.pipe(
       filter(() => !!(this.defaultData || this.getOptionsFn)),
       distinctUntilChanged(),
-      debounceTime(250),
       tap(() => this.loading$.next(true)),
+      debounce(() => timer(this.getDebounceTimeout())),
       switchMap((queryString:string) => {
         if (this.defaultData) {
           return this.opAutocompleterService.loadData(queryString, this.resource, this.filters, this.searchKey);
@@ -387,5 +391,13 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
         () => this.loading$.next(false),
       ),
     );
+  }
+
+  private getDebounceTimeout():number {
+    if (this.initialDebounce) {
+      this.initialDebounce = false;
+      return 0;
+    }
+    return 250;
   }
 }

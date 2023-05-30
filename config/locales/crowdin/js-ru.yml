@@ -1265,9 +1265,11 @@ ru:
       apply: 'Применить'
       header_description: 'Просмотр изменений, внесенных в рабочие пакеты в текущем представлении за определенный период времени.'
       show_changes_since: 'Показать изменения с'
-      help_description: 'Часовой пояс экземпляра по умолчанию установлен администратором.'
-      time_description: 'В часовом поясе по умолчанию: %{time} %{days} дн.'
+      help_description: 'Эталонный часовой пояс для базового уровня.'
+      time_description: 'В ваше местное время: %{datetime}'
       time: 'Время'
+      from: 'От'
+      to: 'До'
       drop_down:
         none: '-'
         yesterday: 'вчера'
@@ -1281,6 +1283,7 @@ ru:
         now_meets_filter_criteria: 'Теперь соответствует критериям фильтра'
         no_longer_meets_filter_criteria: 'Больше не соответствует критериям фильтра'
         maintained_with_changes: 'Поддерживается с изменениями'
+        in_your_timezone: 'В вашем локальном часовом поясе:'
     forms:
       submit_success_message: 'Форма успешно отправлена'
       load_error_message: 'Произошла ошибка при загрузке формы'

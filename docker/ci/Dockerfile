@@ -46,13 +46,13 @@ ENV CAPYBARA_DOWNLOADED_FILE_DIR=/tmp
 # disable deprecations and other warnings in output
 ENV RUBYOPT="-W0"
 ENV DATABASE_URL=postgres://app:p4ssw0rd@127.0.0.1/app
-ENV PGVERSION=10
+ENV PGVERSION=13
 
 RUN gem install bundler --version "$BUNDLER_VERSION" --no-document
 
 COPY ./entrypoint.sh /usr/sbin/entrypoint.sh
 
-VOLUME [ "/usr/local/bundle", "/home/$USER/openproject", "/home/$USER/openproject/tmp" ]
+VOLUME [ "/usr/local/bundle", "/home/$USER/openproject" ]
 
 WORKDIR /home/$USER/openproject
 

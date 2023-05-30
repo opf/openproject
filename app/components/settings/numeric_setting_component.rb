@@ -32,8 +32,6 @@ module Settings
   ##
   # A text field to enter numeric values.
   class NumericSettingComponent < ::RailsComponent
-    include SettingsHelper
-
     options :unit, :title
     options size: 3
 

@@ -29,16 +29,39 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% content_controller 'project-storage-form',
                       dynamic: true,
-                      'project-storage-form-folder-mode-value': @project_storage.project_folder_mode %>
+                      'project-storage-form-folder-mode-value': @project_storage.project_folder_mode,
+                      'project-storage-form-placeholder-folder-name-value': t(:"storages.label_no_selected_folder")
+%>
 
 <div class="form--field -required">
   <% case action_name %>
-  <% when 'new' %>
+  <% when 'new', 'create' %>
     <%= f.select :storage_id,
-                 available_storages.map { |storage| ["#{storage.name} (#{storage.short_provider_type})", storage.id] },
-                 selected: available_storages.first.id.to_s,
-                 class: '-bold',
-                 container_class: '-slim' %>
+                 (@available_storages.map do |storage|
+                   [
+                     "#{storage.name} (#{storage.short_provider_type})",
+                     storage.id,
+                     data: {
+                       'project-storage-form-target': 'storage',
+                       storage: {
+                         name: storage.name,
+                         id: storage.id,
+                         _links: {
+                           self: { href: api_v3_paths.storage(storage.id) },
+                           type: { href: API::V3::Storages::URN_STORAGE_TYPE_NEXTCLOUD }
+                         }
+                       },
+                     }
+                   ]
+                 end),
+                 {
+                   class: '-bold',
+                   selected: @available_storages.first.id.to_s,
+                   container_class: '-slim'
+                 },
+                 data: {
+                   'project-storage-form-target': 'storageSelector',
+                 } %>
     <% if User.current.admin? %>
       <span class="form--field-instructions">
         <%= t(:"storages.instructions.setting_up_additional_storages") %>
@@ -46,12 +69,25 @@ See COPYRIGHT and LICENSE files for more details.
         .
       </span>
     <% end %>
-  <% when 'edit' %>
+  <% when 'edit', 'update' %>
     <%= f.label :storage_id, class: "form--label -bold" do %>
       <%= t(:"storages.label_storage") %>
     <% end %>
-    <div class="form--field-container -horizontal">
-      <span><%= @project_storage.storage.name %></span>
+    <div class="form--field-container">
+      <%= content_tag(:span,
+                      @project_storage.storage.name,
+                      id: 'active_storage',
+                      data: {
+                        'project-storage-form-target': 'storage',
+                        storage: {
+                          name: @project_storage.storage.name,
+                          id: @project_storage.storage.id,
+                          _links: {
+                            self: { href: api_v3_paths.storage(@project_storage.storage.id) },
+                            type: { href: API::V3::Storages::URN_STORAGE_TYPE_NEXTCLOUD }
+                          }
+                        },
+                      }) %>
     </div>
   <% end %>
 </div>
@@ -68,7 +104,7 @@ See COPYRIGHT and LICENSE files for more details.
                                 }
       %>
     <% end %>
-    <div class="form--field-container -horizontal">
+    <div class="form--field-container">
       <%= f.label :project_folder_mode, class: "form--label-with-radio-button" do %>
         <%= f.radio_button :project_folder_mode,
                            'inactive',
@@ -77,11 +113,11 @@ See COPYRIGHT and LICENSE files for more details.
         <%= t(:"storages.label_no_specific_folder") %>
       <% end %>
     </div>
-    <p class="form--field-instructions">
+    <span class="form--field-instructions -with-bottom-spacing">
       <%= t(:"storages.instructions.no_specific_folder") %>
-    </p>
+    </span>
 
-    <div class="form--field-container -horizontal">
+    <div class="form--field-container">
       <%= f.label :project_folder_mode, class: "form--label-with-radio-button" do %>
         <%= f.radio_button :project_folder_mode,
                            'manual',
@@ -90,20 +126,40 @@ See COPYRIGHT and LICENSE files for more details.
         <%= t(:"storages.label_existing_manual_folder") %>
       <% end %>
     </div>
-    <p class="form--field-instructions -xwide">
+    <span class="form--field-instructions -xwide -with-bottom-spacing">
       <%= t(:"storages.instructions.existing_manual_folder") %>
-    </p>
-  </div>
+    </span>
 
-  <div style="display:none;" class="form--field -required" data-project-storage-form-target="projectFolderSection">
-    <label class="form--label -bold"> <%= t(:"storages.label_existing_manual_folder_selection") %> </label>
-    <div class="form--field-container -horizontal">
-      <%= f.text_field :project_folder_id,
-                       placeholder: t(:"storages.placeholder_existing_folder_selection"),
-                       container_class: "-middle",
-                       no_label: true
-      %>
+    <div
+      style="display: none;"
+      class="form--field-container -with-children-spacing"
+      data-project-storage-form-target="projectFolderSection"
+    >
+      <%= f.hidden_field :project_folder_id,
+                         data: {
+                           'project-storage-form-target': "projectFolderIdInput"
+                         } %>
+      <%= styled_button_tag id: 'open_location_picker_button',
+                            class: 'button_no-margin',
+                            data: {
+                              'action': "project-storage-form#selectProjectFolder"
+                            },
+                            type: 'button' do %>
+        <%= spot_icon('folder-open') %>
+        <%= content_tag :span, t(:"storages.buttons.select_folder") %>
+      <% end %>
+      <span
+        data-project-storage-form-target="selectedFolderText"
+      ></span>
     </div>
+    <% if @errors.present? && @errors.any? %>
+      <%= content_tag :span,
+                      t(:"storages.instructions.empty_project_folder_validation"),
+                      class: 'form--field-error -with-bottom-spacing',
+                      data: {
+                        'project-storage-form-target': "projectFolderIdValidation"
+                      } %>
+    <% end %>
   </div>
 <% end %>
 

@@ -29,27 +29,89 @@
  */
 
 import { Controller } from '@hotwired/stimulus';
+import { from, Observable } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
+
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import {
+  LocationPickerModalComponent,
+} from 'core-app/shared/components/storages/location-picker-modal/location-picker-modal.component';
+import { IStorage } from 'core-app/core/state/storages/storage.model';
+import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 
 export default class ProjectStorageFormController extends Controller {
   static targets = [
     'projectFolderSection',
+    'projectFolderIdInput',
+    'projectFolderIdValidation',
+    'selectedFolderText',
+    'storage',
+    'storageSelector',
   ];
 
   static values = {
     folderMode: String,
+    placeholderFolderName: String,
   };
 
   declare folderModeValue:string;
 
+  declare placeholderFolderNameValue:string;
+
+  declare readonly storageTargets:HTMLElement[];
+
+  declare readonly storageSelectorTarget:HTMLSelectElement;
+
+  declare readonly hasStorageSelectorTarget:boolean;
+
   declare readonly projectFolderSectionTarget:HTMLElement;
+
+  declare readonly projectFolderIdInputTarget:HTMLInputElement;
+
+  declare readonly projectFolderIdValidationTarget:HTMLSpanElement;
+
+  declare readonly hasProjectFolderIdValidationTarget:boolean;
+
+  declare readonly selectedFolderTextTarget:HTMLSpanElement;
 
   declare readonly hasProjectFolderSectionTarget:boolean;
 
-  connect() {
+  connect():void {
     this.toggleFolderDisplay(this.folderModeValue);
+    this.selectedFolderTextTarget.innerText = this.placeholderFolderNameValue;
+
+    const href = this.projectFolderHref;
+    if (href !== null) {
+      void fetch(href)
+        .then((data) => data.json())
+        .then((file:IStorageFile) => {
+          this.selectedFolderTextTarget.innerText = file.name;
+        });
+    }
   }
 
-  updateDisplay(evt:InputEvent) {
+  selectProjectFolder(_evt:Event):void {
+    const locals = {
+      projectFolderHref: this.projectFolderHref,
+      storage: this.storage,
+    };
+
+    this.modalService
+      .pipe(
+        switchMap((service) => service.show(LocationPickerModalComponent, 'global', locals)),
+        switchMap((modal) => modal.closingEvent),
+        filter((modal) => modal.submitted),
+      )
+      .subscribe((modal) => {
+        if (this.hasProjectFolderIdValidationTarget) {
+          this.projectFolderIdValidationTarget.style.display = 'none';
+        }
+        this.selectedFolderTextTarget.innerText = modal.location.name;
+        this.projectFolderIdInputTarget.value = modal.location.id as string;
+      });
+  }
+
+  updateDisplay(evt:InputEvent):void {
     if (!this.hasProjectFolderSectionTarget) {
       return;
     }
@@ -57,7 +119,30 @@ export default class ProjectStorageFormController extends Controller {
     this.toggleFolderDisplay((evt.target as HTMLInputElement).value);
   }
 
-  private toggleFolderDisplay(value:string) {
+  private get modalService():Observable<OpModalService> {
+    return from(window.OpenProject.getPluginContext())
+      .pipe(map((pluginContext) => pluginContext.services.opModalService));
+  }
+
+  private get storage():IStorage {
+    const storageElement = this.hasStorageSelectorTarget
+      ? this.storageSelectorTarget.options[this.storageSelectorTarget.selectedIndex]
+      : this.storageTargets[0];
+
+    return JSON.parse(storageElement.dataset.storage as string) as IStorage;
+  }
+
+  private get projectFolderHref():string|null {
+    const projectFolderId = this.projectFolderIdInputTarget.value;
+
+    if (projectFolderId.length === 0) {
+      return null;
+    }
+
+    return `${this.storage._links.self.href}/files/${projectFolderId}`;
+  }
+
+  private toggleFolderDisplay(value:string):void {
     // If the manual radio button is selected, show the manual folder selection section
     if (value === 'manual') {
       this.projectFolderSectionTarget.style.display = 'flex';
