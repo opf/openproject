@@ -543,8 +543,8 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
 
     it 'adds user to the group' do
       result = subject
-      .add_user_to_group_command
-            .call(user: origin_user_id)
+                 .add_user_to_group_command
+                 .call(user: origin_user_id)
       expect(result).to be_success
       expect(result.message).to eq("User has been added successfully")
     end
@@ -587,8 +587,8 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
 
     it 'removes user from the group' do
       result = subject
-      .remove_user_from_group_command
-            .call(user: origin_user_id)
+                 .remove_user_from_group_command
+                 .call(user: origin_user_id)
       expect(result).to be_success
       expect(result.message).to eq("User has been removed from group")
     end
@@ -961,9 +961,9 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
     describe 'with Nextcloud storage type selected' do
       it 'responds with a list of paths and attributes for each of them' do
         result = subject
-        .propfind_query
-                         .call(depth: '1', path: 'OpenProject')
-                         .result
+                   .propfind_query
+                   .call(depth: '1', path: 'OpenProject', props: %w[oc:fileid])
+                   .result
         expect(result).to eq({ "OpenProject/" => { "fileid" => "349" },
                                "OpenProject/Project #2/" => { "fileid" => "381" },
                                "OpenProject/Project#1/" => { "fileid" => "773" },
