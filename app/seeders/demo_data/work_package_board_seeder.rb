@@ -107,7 +107,7 @@ module DemoData
         :default_status_closed,
         :default_status_rejected
       ).map do |status|
-        Query.new_default(project:, user:).tap do |query|
+        Query.new_default(project:, user: admin_user).tap do |query|
           # Make it public so that new members can see it too
           query.public = true
 
@@ -167,7 +167,7 @@ module DemoData
     def create_basic_board_query_from_list(list)
       Query.new(
         project:,
-        user:,
+        user: admin_user,
         # Make it public so that new members can see it too
         public: true,
         include_subprojects: true,
@@ -215,7 +215,7 @@ module DemoData
                  seed_data.find_reference(:follow_up_tasks)]
 
       parents.map do |parent|
-        Query.new_default(project:, user:).tap do |query|
+        Query.new_default(project:, user: admin_user).tap do |query|
           # Make it public so that new members can see it too
           query.public = true
 

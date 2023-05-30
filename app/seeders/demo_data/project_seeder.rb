@@ -83,7 +83,7 @@ module DemoData
 
       Member.create!(
         project:,
-        principal: user,
+        principal: admin_user,
         roles: [role]
       )
     end
@@ -107,7 +107,7 @@ module DemoData
 
       project_data.each('news') do |news|
         News.create!(project:,
-                     author: user,
+                     author: admin_user,
                      title: news['title'],
                      summary: news['summary'],
                      description: news['description'])
@@ -118,7 +118,7 @@ module DemoData
       print_status '   -Creating queries.'
 
       Array(project_data.lookup('queries')).each do |config|
-        QueryBuilder.new(config, project:, user:, seed_data:).create!
+        QueryBuilder.new(config, project:, user: admin_user, seed_data:).create!
       end
     end
 
@@ -126,7 +126,7 @@ module DemoData
       print_status '   -Creating versions.'
 
       project_data.each('versions') do |attributes|
-        VersionBuilder.new(attributes, project:, user:, seed_data:).create!
+        VersionBuilder.new(attributes, project:, user: admin_user, seed_data:).create!
       end
     end
 

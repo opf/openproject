@@ -96,7 +96,7 @@ module DemoData
     def base_work_package_attributes(attributes)
       {
         project:,
-        author: user,
+        author: admin_user,
         assigned_to: find_principal(attributes['assigned_to']),
         subject: attributes['subject'],
         description: attributes['description'],
@@ -140,7 +140,7 @@ module DemoData
     end
 
     def find_principal(reference)
-      seed_data.find_reference(reference) || user
+      seed_data.find_reference(reference) || admin_user
     end
 
     def find_status(attributes)

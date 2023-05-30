@@ -55,7 +55,7 @@ module Bim
         if xkt_data.nil?
           print_status "\n    ↳ Missing converted data for ifc model"
         else
-          create_model(model, user, xkt_data)
+          create_model(model, admin_user, xkt_data)
         end
       end
 
