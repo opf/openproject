@@ -1,4 +1,14 @@
 GIT
+  remote: https://github.com/crohr/turbo_tests.git
+  revision: 3148ae6c34828e969e8005eaa592935bfc1afbf3
+  ref: fix/runtime-info
+  specs:
+    turbo_tests (2.0.0)
+      bundler (>= 2.1)
+      parallel_tests (>= 3.3.0, < 5)
+      rspec (>= 3.10)
+
+GIT
   remote: https://github.com/opf/md-to-pdf
   revision: fc2724113cecd758a77b347042276ece8d119a03
   tag: v0.0.15
@@ -1128,6 +1138,7 @@ DEPENDENCIES
   table_print (~> 1.5.6)
   test-prof (~> 1.2.0)
   timecop (~> 0.9.0)
+  turbo_tests!
   typed_dag (~> 2.0.2)
   tzinfo-data (~> 1.2023.1)
   validate_url

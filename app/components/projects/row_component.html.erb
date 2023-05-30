@@ -37,7 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
     </td>
   <% end %>
   <td class="buttons">
-    <% items = project_more_menu_items(project) %>
+    <% items = helpers.project_more_menu_items(project) %>
     <% if items.any?  %>
       <ul class="project-actions">
         <li aria-haspopup="true" title="<%= I18n.t(:label_open_menu) %>" class="drop-down">
@@ -63,7 +63,7 @@ See COPYRIGHT and LICENSE files for more details.
     <td></td>
     <td colspan="<%= columns.length%>" class="project--hierarchy">
       <div class="description-container wiki">
-        <%= format_text(short_project_description(project), project: project) %>
+        <%= helpers.format_text(short_project_description(project), project: project) %>
       </div>
     </td>
   </tr>

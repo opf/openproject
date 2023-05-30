@@ -30,10 +30,8 @@
 
 module Meetings
   class RowComponent < ::RowComponent
-    include ApplicationHelper
-
     def project
-      link_to_project model.project, {}, {}, false
+      helpers.link_to_project model.project, {}, {}, false
     end
 
     def title
@@ -41,7 +39,7 @@ module Meetings
     end
 
     def start_time
-      safe_join([format_date(model.start_time), format_time(model.start_time, false)], " ")
+      safe_join([helpers.format_date(model.start_time), helpers.format_time(model.start_time, false)], " ")
     end
 
     def duration
