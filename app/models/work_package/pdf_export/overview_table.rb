@@ -144,7 +144,7 @@ module WorkPackage::PDFExport::OverviewTable
 
   def build_subject_cell(content, work_package, id_wp_meta_map)
     opts = styles.overview_table_cell
-    padding_left = opts[:padding_left] || 0
+    padding_left = opts.fetch(:padding_left, 0)
     if query.show_hierarchies
       level = id_wp_meta_map[work_package.id][:level_path].length
       padding_left = (styles.overview_table_subject_indent * level) if level > 1
