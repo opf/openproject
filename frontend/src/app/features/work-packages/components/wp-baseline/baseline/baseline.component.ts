@@ -58,6 +58,7 @@ import {
 } from 'core-app/features/work-packages/components/wp-baseline/baseline-helpers';
 import * as moment from 'moment-timezone';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
+import { enterpriseDocsUrl } from 'core-app/core/setup/globals/constants.const';
 
 @Component({
   selector: 'op-baseline',
@@ -73,8 +74,6 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
   @Input() showActionBar? = false;
 
   @Input() visible = true;
-
-  @Input() hasEnterpriseKey? = true;
 
   public mappedSelectedDate:string|null;
 
@@ -96,6 +95,8 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
   public tooltipPosition = SpotDropAlignmentOption.TopRight;
 
+  eeShowBanners = this.Banner.eeShowBanners;
+
   public text = {
     toggle_title: this.I18n.t('js.baseline.toggle_title'),
     drop_down_none_option: this.I18n.t('js.baseline.drop_down.none'),
@@ -107,7 +108,10 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     to: this.I18n.t('js.baseline.to'),
     date: this.I18n.t('js.label_date'),
     time: this.I18n.t('js.baseline.time'),
+    moreInfoLink: enterpriseDocsUrl.website,
+    more_info_text: this.I18n.t('js.admin.enterprise.upsale.more_info'),
     help_description: this.I18n.t('js.baseline.help_description'),
+    baseline_comparison: this.I18n.t('js.baseline.baseline_comparison'),
     time_description: (i:number) => {
       const date = this.selectedDates[i];
       const time = this.selectedTimes[i];
