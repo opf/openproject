@@ -46,7 +46,7 @@ class Storages::Admin::ManagedProjectFoldersController < ApplicationController
   # The menu item is defined in the engine.rb
   menu_item :storages_admin_settings
 
-  # Show the admin page to set storage folder automatical management (for an already existing storage).
+  # Show the admin page to set storage folder automatic management (for an already existing storage).
   # Sets the attributes automatically_managed as default true unless already set to false
   # renders an edit page (allowing the user to change automatically_managed bool and application_password).
   # Used by: The OauthClientsController#create, when the user inputs Oauth credentials.

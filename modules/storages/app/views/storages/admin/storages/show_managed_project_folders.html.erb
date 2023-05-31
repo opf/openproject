@@ -65,7 +65,7 @@ See COPYRIGHT and LICENSE files for more details.
     <p class="form--field-instructions -xwide">
       <%= t(:"storages.instructions.managed_project_folders_application_password") %>
       <a
-        href="<%= File.join(@storage.oauth_application.integration.host, 'settings/admin/openproject') %>"
+        href="<%= URI.join(@storage.oauth_application.integration.host, 'settings/admin/openproject') %>"
         target="_blank"
         class="spot-link"
       >
