@@ -31,9 +31,9 @@ require_relative '../../../../spec/seeders/root_seeder_shared_examples'
 
 RSpec::Matchers.define_negated_matcher :not_start_with, :start_with
 
-describe RootSeeder,
-         'BIM edition',
-         with_config: { edition: 'bim' } do
+RSpec.describe RootSeeder,
+               'BIM edition',
+               with_config: { edition: 'bim' } do
   include RootSeederTestHelpers
 
   shared_examples 'creates BIM demo data' do

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::SCM::Adapters::Subversion do
+RSpec.describe OpenProject::SCM::Adapters::Subversion do
   let(:root_url) { '/tmp/bar.svn' }
   let(:url) { "file://#{root_url}" }
   let(:config) { {} }

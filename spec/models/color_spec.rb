@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Color do
+RSpec.describe Color do
   describe '- Relations' do
     describe '#planning_element_types' do
       it 'can read planning_element_types w/ the help of the has_many association' do

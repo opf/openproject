@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Groups::CreateInheritedRolesService, 'integration' do
+RSpec.describe Groups::CreateInheritedRolesService, 'integration' do
   # The setup for these specs are a bit weird. First, the group is set up with its users already
   # attached. Then, the memberships of the group are added afterwards.
   # That way, the inherited roles are not yet created which they would otherwise by the group factory.

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Query::Results, 'Sorting of custom field floats', with_mail: false do
+RSpec.describe Query::Results, 'Sorting of custom field floats', with_mail: false do
   let(:query_results) do
     Query::Results.new query
   end

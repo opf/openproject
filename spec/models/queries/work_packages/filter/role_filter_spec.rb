@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::RoleFilter do
+RSpec.describe Queries::WorkPackages::Filter::RoleFilter do
   let(:role) { build_stubbed(:role) }
 
   it_behaves_like 'basic query filter' do

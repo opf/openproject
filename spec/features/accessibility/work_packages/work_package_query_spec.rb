@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'Work package index accessibility', selenium: true do
+RSpec.describe 'Work package index accessibility', selenium: true do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }

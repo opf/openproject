@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::RequiredFilter do
+RSpec.describe Queries::WorkPackages::Filter::RequiredFilter do
   it_behaves_like 'filter by work package id' do
     let(:class_key) { :required }
 

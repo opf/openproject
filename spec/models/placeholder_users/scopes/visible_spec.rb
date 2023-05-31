@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe PlaceholderUsers::Scopes::Visible do
+RSpec.describe PlaceholderUsers::Scopes::Visible do
   describe '.visible' do
     shared_let(:project) { create(:project) }
     shared_let(:other_project) { create(:project) }

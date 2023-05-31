@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Shared::ServiceContext, 'integration', type: :model do
+RSpec.describe Shared::ServiceContext, 'integration', type: :model do
   let(:user) { build_stubbed(:user) }
 
   let(:instance) do

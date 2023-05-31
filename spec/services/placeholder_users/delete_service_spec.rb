@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe PlaceholderUsers::DeleteService, type: :model do
+RSpec.describe PlaceholderUsers::DeleteService, type: :model do
   let(:placeholder_user) { build_stubbed(:placeholder_user) }
   let(:project) { build_stubbed(:project) }
 

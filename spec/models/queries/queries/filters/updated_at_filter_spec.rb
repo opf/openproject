@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Queries::Filters::UpdatedAtFilter do
+RSpec.describe Queries::Queries::Filters::UpdatedAtFilter do
   it_behaves_like 'basic query filter' do
     let(:type) { :datetime_past }
     let(:class_key) { :updated_at }

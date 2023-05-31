@@ -29,6 +29,6 @@
 require 'spec_helper'
 require_relative '../support/pages/storage_tab'
 
-shared_context 'with storages full access' do
+RSpec.shared_context 'with storages full access' do
   current_user { user }
 end

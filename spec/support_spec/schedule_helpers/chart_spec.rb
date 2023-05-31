@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ScheduleHelpers::Chart do
+RSpec.describe ScheduleHelpers::Chart do
   include ActiveSupport::Testing::TimeHelpers
 
   let(:fake_today) { Date.new(2022, 6, 16) } # Thursday 16 June 2022

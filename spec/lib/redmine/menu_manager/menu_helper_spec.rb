@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Redmine::MenuManager::MenuHelper, type: :helper do
+RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
   before do
     # Stub the current menu item in the controller
     def @controller.current_menu_item

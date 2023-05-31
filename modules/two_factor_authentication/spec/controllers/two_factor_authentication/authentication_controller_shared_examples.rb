@@ -1,6 +1,6 @@
 require_relative '../../spec_helper'
 
-shared_examples 'immediate success login' do
+RSpec.shared_examples 'immediate success login' do
   context 'with valid credentials' do
     it "does not yet log in user" do
       expect(User.current).not_to eq(user)
@@ -16,7 +16,7 @@ shared_examples 'immediate success login' do
   end
 end
 
-shared_examples '2FA forced registry' do
+RSpec.shared_examples '2FA forced registry' do
   it "does not log in user" do
     expect(User.current).not_to eq(user)
   end
@@ -35,7 +35,7 @@ shared_examples '2FA forced registry' do
   end
 end
 
-shared_examples '2FA response failure' do |expected_error|
+RSpec.shared_examples '2FA response failure' do |expected_error|
   it "does not log in user" do
     expect(User.current).not_to eq(user)
   end
@@ -50,7 +50,7 @@ shared_examples '2FA response failure' do |expected_error|
   end
 end
 
-shared_examples '2FA login request failure' do |expected_error|
+RSpec.shared_examples '2FA login request failure' do |expected_error|
   before do
     session[:authenticated_user_id] = user.id
     get :request_otp
@@ -59,7 +59,7 @@ shared_examples '2FA login request failure' do |expected_error|
   it_behaves_like '2FA response failure', expected_error
 end
 
-shared_examples '2FA credentials authentication success' do
+RSpec.shared_examples '2FA credentials authentication success' do
   describe 'requesting the token' do
     before do
       session[:authenticated_user_id] = user.id
@@ -80,7 +80,7 @@ shared_examples '2FA credentials authentication success' do
   end
 end
 
-shared_examples '2FA login_otp fails without authenticated user' do
+RSpec.shared_examples '2FA login_otp fails without authenticated user' do
   describe 'follow-up post of the login token without authenticated user' do
     before do
       # Assume the user is NOT pending
@@ -98,7 +98,7 @@ shared_examples '2FA login_otp fails without authenticated user' do
   end
 end
 
-shared_examples '2FA TOTP request success' do
+RSpec.shared_examples '2FA TOTP request success' do
   # 1FA redirects to login_otp
   it_behaves_like '2FA credentials authentication success'
 
@@ -128,7 +128,7 @@ shared_examples '2FA TOTP request success' do
   end
 end
 
-shared_examples '2FA SMS request success' do
+RSpec.shared_examples '2FA SMS request success' do
   # 1FA redirects to login_otp
   it_behaves_like '2FA credentials authentication success'
 

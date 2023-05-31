@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../spec_helper', __dir__)
 
-describe OpenProject::GithubIntegration::Services::UpsertCheckRun do
+RSpec.describe OpenProject::GithubIntegration::Services::UpsertCheckRun do
   subject(:upsert) { described_class.new.call(params, pull_request: github_pull_request) }
 
   let(:github_pull_request) { create(:github_pull_request) }

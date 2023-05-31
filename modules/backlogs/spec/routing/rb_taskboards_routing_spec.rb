@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe RbTaskboardsController do
+RSpec.describe RbTaskboardsController do
   describe 'routing' do
     it {
       expect(get('/projects/project_42/sprints/21/taskboard')).to route_to(controller: 'rb_taskboards',

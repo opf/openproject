@@ -31,7 +31,7 @@ require_module_spec_helper
 require 'contracts/shared/model_contract_shared_context'
 require_relative 'shared_contract_examples'
 
-describe Storages::ProjectStorages::CreateContract do
+RSpec.describe Storages::ProjectStorages::CreateContract do
   include_context 'ModelContract shared context'
 
   it_behaves_like 'ProjectStorages contract' do

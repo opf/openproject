@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::ResponsibleFilter do
+RSpec.describe Queries::WorkPackages::Filter::ResponsibleFilter do
   let(:instance) do
     filter = described_class.create!
     filter.values = values

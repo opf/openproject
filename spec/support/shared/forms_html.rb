@@ -26,19 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-shared_examples_for 'labelled' do
+RSpec.shared_examples_for 'labelled' do
   it 'has a label with title' do
     expect(subject).to have_selector 'label.form--label[title]'
   end
 end
 
-shared_examples_for 'not labelled' do
+RSpec.shared_examples_for 'not labelled' do
   it 'does not have a label with title' do
     expect(subject).not_to have_selector 'label.form--label[title]'
   end
 end
 
-shared_examples_for 'labelled by default' do
+RSpec.shared_examples_for 'labelled by default' do
   context 'by default' do
     it_behaves_like 'labelled'
   end
@@ -50,7 +50,7 @@ shared_examples_for 'labelled by default' do
   end
 end
 
-shared_examples_for 'wrapped in container' do |container = 'field-container'|
+RSpec.shared_examples_for 'wrapped in container' do |container = 'field-container'|
   it { is_expected.to have_selector "span.form--#{container}", count: 1 }
 
   context 'with additional class provided' do
@@ -67,11 +67,11 @@ shared_examples_for 'wrapped in container' do |container = 'field-container'|
   end
 end
 
-shared_examples_for 'not wrapped in container' do |container = 'field-container'|
+RSpec.shared_examples_for 'not wrapped in container' do |container = 'field-container'|
   it { is_expected.not_to have_selector "span.form--#{container}" }
 end
 
-shared_examples_for 'wrapped in field-container by default' do
+RSpec.shared_examples_for 'wrapped in field-container by default' do
   context 'by default' do
     it_behaves_like 'wrapped in container'
   end

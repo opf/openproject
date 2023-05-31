@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Projects::CopyService, 'integration', type: :model, with_ee: %i[readonly_work_packages] do
+RSpec.describe Projects::CopyService, 'integration', type: :model, with_ee: %i[readonly_work_packages] do
   shared_let(:status_locked) { create(:status, is_readonly: true) }
   shared_let(:source) { create(:project, enabled_module_names: %w[wiki work_package_tracking]) }
   shared_let(:source_wp) { create(:work_package, project: source, subject: 'source wp') }

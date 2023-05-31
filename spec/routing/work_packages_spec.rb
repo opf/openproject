@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackagesController do
+RSpec.describe WorkPackagesController do
   it 'connects GET /work_packages to work_packages#index' do
     expect(get('/work_packages')).to route_to(controller: 'work_packages',
                                               action: 'index')

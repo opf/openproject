@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Members::MemberQuery, 'Integration' do
+RSpec.describe Queries::Members::MemberQuery, 'Integration' do
   let(:instance) { described_class.new }
 
   current_user { user }

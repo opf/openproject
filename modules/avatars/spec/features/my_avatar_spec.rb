@@ -1,7 +1,7 @@
 require 'spec_helper'
 require_relative './shared_avatar_examples'
 
-describe 'My avatar management', js: true do
+RSpec.describe 'My avatar management', js: true do
   include Rails.application.routes.url_helpers
 
   let(:user) { create(:user) }

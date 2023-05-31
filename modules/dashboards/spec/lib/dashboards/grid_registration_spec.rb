@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Dashboards::GridRegistration do
+RSpec.describe Dashboards::GridRegistration do
   let(:user) { build_stubbed(:user) }
   let(:project) { build_stubbed(:project) }
   let(:grid) { build_stubbed(:dashboard, project:) }

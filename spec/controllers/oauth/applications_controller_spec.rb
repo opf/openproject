@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'work_package'
 
-describe OAuth::ApplicationsController do
+RSpec.describe OAuth::ApplicationsController do
   let(:user) { build_stubbed(:admin) }
   let(:application_stub) { build_stubbed(:oauth_application, id: 1, secret: 'foo') }
 

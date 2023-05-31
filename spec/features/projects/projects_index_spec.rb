@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe 'Projects index page',
-         js: true,
-         with_settings: { login_required?: false } do
+RSpec.describe 'Projects index page',
+               js: true,
+               with_settings: { login_required?: false } do
   shared_let(:admin) { create(:admin) }
 
   shared_let(:manager)   { create(:role, name: 'Manager') }

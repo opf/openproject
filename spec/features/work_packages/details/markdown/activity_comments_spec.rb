@@ -3,7 +3,7 @@ require 'spec_helper'
 require 'features/work_packages/shared_contexts'
 require 'features/work_packages/details/inplace_editor/shared_examples'
 
-describe 'activity comments', js: true, with_mail: false do
+RSpec.describe 'activity comments', js: true, with_mail: false do
   let(:project) { create(:project, public: true) }
   let!(:work_package) do
     create(:work_package,

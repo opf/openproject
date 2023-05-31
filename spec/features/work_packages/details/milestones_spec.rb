@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Milestones full screen v iew', js: true do
+RSpec.describe 'Milestones full screen v iew', js: true do
   let(:type) { create(:type, is_milestone: true) }
   let(:project) { create(:project, types: [type]) }
   let!(:work_package) do

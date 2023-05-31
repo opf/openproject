@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe "CostQuery::Validation" do
+RSpec.describe "CostQuery::Validation" do
   class CostQuery::SomeBase
     include Report::Validation
 

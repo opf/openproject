@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Invalid query spec', js: true do
+RSpec.describe 'Invalid query spec', js: true do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
 

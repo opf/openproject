@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe CoreExtensions::String, '#to_localized_slug' do
+RSpec.describe CoreExtensions::String, '#to_localized_slug' do
   let(:input) { "dübelbädel! ..." }
   let(:slug) { input.to_localized_slug }
 

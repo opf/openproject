@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require 'support/shared/acts_as_watchable'
 
-describe Message do
+RSpec.describe Message do
   let(:message) { create(:message) }
 
   it_behaves_like 'acts_as_watchable included' do

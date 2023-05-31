@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe Query,
-         with_ee: %i[baseline_comparison conditional_highlighting work_package_query_relation_columns] do
+RSpec.describe Query,
+               with_ee: %i[baseline_comparison conditional_highlighting work_package_query_relation_columns] do
   let(:query) { build(:query) }
   let(:project) { create(:project) }
 

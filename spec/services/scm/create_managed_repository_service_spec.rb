@@ -27,7 +27,7 @@
 
 require 'spec_helper'
 
-describe SCM::CreateManagedRepositoryService do
+RSpec.describe SCM::CreateManagedRepositoryService do
   let(:user) { build(:user) }
   let(:config) { {} }
   let(:project) { build(:project) }

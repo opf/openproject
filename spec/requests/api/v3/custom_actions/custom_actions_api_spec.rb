@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API::V3::CustomActions::CustomActionsAPI' do
+RSpec.describe 'API::V3::CustomActions::CustomActionsAPI' do
   include API::V3::Utilities::PathHelper
 
   let(:role) do

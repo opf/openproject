@@ -27,7 +27,7 @@
 #++
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe Document do
+RSpec.describe Document do
   let(:documentation_category) { create(:document_category, name: 'User documentation') }
   let(:project)                { create(:project) }
   let(:user)                   { create(:user) }

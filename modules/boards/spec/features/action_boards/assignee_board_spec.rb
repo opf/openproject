@@ -30,9 +30,9 @@ require 'spec_helper'
 require_relative './../support/board_index_page'
 require_relative './../support/board_page'
 
-describe 'Assignee action board',
-         js: true,
-         with_ee: %i[board_view] do
+RSpec.describe 'Assignee action board',
+               js: true,
+               with_ee: %i[board_view] do
   let(:bobself_user) do
     create(:user,
            firstname: 'Bob',

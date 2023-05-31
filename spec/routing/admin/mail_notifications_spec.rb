@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'admin mail_notifications routes' do
+RSpec.describe 'admin mail_notifications routes' do
   it do
     expect(get('admin/settings/mail_notifications'))
       .to route_to('admin/settings/mail_notifications_settings#show')

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe AttributeHelpText::WorkPackage do
+RSpec.describe AttributeHelpText::WorkPackage do
   def create_cf_help_text(custom_field)
     # Need to clear the request store after every creation as the available attributes are cached
     RequestStore.clear!

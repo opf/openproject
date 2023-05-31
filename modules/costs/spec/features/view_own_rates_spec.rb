@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
-describe 'Only see your own rates', js: true do
+RSpec.describe 'Only see your own rates', js: true do
   let(:project) { work_package.project }
   let(:user) do
     create(:user,

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Enumerations' do
+RSpec.describe 'Enumerations' do
   shared_let(:admin) { create(:admin) }
 
   before do

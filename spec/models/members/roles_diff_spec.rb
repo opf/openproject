@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Members::RolesDiff do
+RSpec.describe Members::RolesDiff do
   let(:project) { build_stubbed(:project) }
   let(:group) { build_stubbed(:group) }
   let(:user) { build_stubbed(:user) }

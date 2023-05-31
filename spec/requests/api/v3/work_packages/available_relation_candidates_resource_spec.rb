@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::WorkPackages::AvailableRelationCandidatesAPI do
+RSpec.describe API::V3::WorkPackages::AvailableRelationCandidatesAPI do
   shared_let(:user) { create(:admin) }
 
   shared_let(:project1) { create(:project) }

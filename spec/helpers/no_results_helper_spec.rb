@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe NoResultsHelper do
+RSpec.describe NoResultsHelper do
   before do
     allow(helper).to receive(:t).with('.no_results_title_text', cascade: true).and_return("Nothing here!")
     allow(helper).to receive(:t).with('.no_results_content_text').and_return("Add some foo")

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Work Package group by boolean field', js: true do
+RSpec.describe 'Work Package group by boolean field', js: true do
   let(:user) { create(:admin) }
 
   let(:project) { create(:project, types: [type], work_package_custom_fields: [bool_cf]) }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::Scopes::DirectlyRelated, '.directly_related scope' do
+RSpec.describe WorkPackages::Scopes::DirectlyRelated, '.directly_related scope' do
   create_shared_association_defaults_for_work_package_factory
 
   shared_let(:origin) { create(:work_package) }

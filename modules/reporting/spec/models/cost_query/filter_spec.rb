@@ -29,7 +29,7 @@
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
 require File.join(File.dirname(__FILE__), '..', '..', 'support', 'custom_field_filter')
 
-describe CostQuery, reporting_query_helper: true do
+RSpec.describe CostQuery, reporting_query_helper: true do
   minimal_query
 
   let!(:project) { create(:project_with_types) }

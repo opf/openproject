@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-describe 'Team planner drag&dop and resizing', js: true, with_ee: %i[team_planner_view] do
+RSpec.describe 'Team planner drag&dop and resizing', js: true, with_ee: %i[team_planner_view] do
   include_context 'with team planner full access'
 
   let!(:other_user) do

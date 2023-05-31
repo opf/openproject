@@ -28,7 +28,7 @@
 
 require File.expand_path('../spec_helper', __dir__)
 
-describe OpenProject::Webhooks do
+RSpec.describe OpenProject::Webhooks do
   describe '.register_hook' do
     after do
       OpenProject::Webhooks.unregister_hook('testhook1')

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe "API::V3::Projects::AvailableResponsiblesAPI" do
+RSpec.describe "API::V3::Projects::AvailableResponsiblesAPI" do
   include API::V3::Utilities::PathHelper
 
   it_behaves_like 'available principals', :responsibles do

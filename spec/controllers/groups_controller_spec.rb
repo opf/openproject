@@ -27,7 +27,7 @@
 #++
 require 'spec_helper'
 
-describe GroupsController do
+RSpec.describe GroupsController do
   let(:group) { create(:group, members: group_members) }
   let(:group_members) { [] }
 

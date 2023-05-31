@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Projects::CopyService, 'integration', type: :model do
+RSpec.describe Projects::CopyService, 'integration', type: :model do
   shared_let(:source) { create(:project, enabled_module_names: %w[wiki work_package_tracking]) }
   shared_let(:source_category) { create(:category, project: source, name: 'Stock management') }
   shared_let(:source_version) { create(:version, project: source, name: 'Version A') }

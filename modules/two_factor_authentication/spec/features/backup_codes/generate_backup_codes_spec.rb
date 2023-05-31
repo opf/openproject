@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
 require_relative '../shared_2fa_examples'
 
-describe 'Generate 2FA backup codes', js: true, with_config: { '2fa': { active_strategies: [:developer] } } do
+RSpec.describe 'Generate 2FA backup codes', js: true, with_config: { '2fa': { active_strategies: [:developer] } } do
   let(:user_password) { 'bob!' * 4 }
   let(:user) do
     create(:user,

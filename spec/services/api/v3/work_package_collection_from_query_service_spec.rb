@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe API::V3::WorkPackageCollectionFromQueryService,
-         type: :model do
+RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
+               type: :model do
   include API::V3::Utilities::PathHelper
 
   let(:query) do

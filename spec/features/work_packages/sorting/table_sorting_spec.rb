@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'Select work package row', js: true do
+RSpec.describe 'Select work package row', js: true do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }

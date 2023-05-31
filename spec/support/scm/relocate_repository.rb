@@ -1,4 +1,4 @@
-shared_examples_for 'repository can be relocated' do |vendor|
+RSpec.shared_examples_for 'repository can be relocated' do |vendor|
   let(:job_call) do
     SCM::RelocateRepositoryJob.perform_now repository
   end

@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe 'Wysiwyg escaping HTML entities (Regression #28906)',
-         js: true do
+RSpec.describe 'Wysiwyg escaping HTML entities (Regression #28906)',
+               js: true do
   let(:user) { create(:admin) }
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:editor) { Components::WysiwygEditor.new }

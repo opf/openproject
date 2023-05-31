@@ -28,8 +28,8 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe API::V3::Notifications::NotificationsAPI,
-         'index', content_type: :json do
+RSpec.describe API::V3::Notifications::NotificationsAPI,
+               'index', content_type: :json do
   include API::V3::Utilities::PathHelper
 
   shared_let(:work_package) { create(:work_package) }

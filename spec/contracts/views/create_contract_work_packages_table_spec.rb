@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_contract_examples'
 
-describe Views::CreateContract do
+RSpec.describe Views::CreateContract do
   it_behaves_like 'view contract' do
     let(:view) do
       View.new(query: view_query,

@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 require 'ladle'
 
-describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
+RSpec.describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
   include_context 'with temporary LDAP'
 
   let(:plugin_settings) do

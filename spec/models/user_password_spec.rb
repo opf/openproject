@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe UserPassword do
+RSpec.describe UserPassword do
   let(:old_password) { create(:old_user_password) }
   let(:user) { create(:user) }
   let(:password) { create(:user_password, user:, plain_password: 'adminAdmin!') }

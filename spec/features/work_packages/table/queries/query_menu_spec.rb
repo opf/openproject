@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Query menu item', js: true do
+RSpec.describe 'Query menu item', js: true do
   let(:project) { create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }

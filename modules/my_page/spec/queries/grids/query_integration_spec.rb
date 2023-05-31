@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Grids::Query, type: :model do
+RSpec.describe Grids::Query, type: :model do
   let(:user) { create(:user) }
   let(:other_user) { create(:user) }
   let!(:my_page_grid) do

@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../shared_examples'
 
-describe Bim::Bcf::API::V2_1::ProjectExtensions::Representer, 'rendering' do
+RSpec.describe Bim::Bcf::API::V2_1::ProjectExtensions::Representer, 'rendering' do
   let(:type_task) { build_stubbed(:type_task, name: 'My BCF type') }
   let(:status) { build_stubbed(:status) }
   let(:user) { build_stubbed(:user) }

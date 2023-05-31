@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Relations::RelationRepresenter do
+RSpec.describe API::V3::Relations::RelationRepresenter do
   let(:user) { build_stubbed(:admin) }
 
   let(:from) { build_stubbed(:work_package) }

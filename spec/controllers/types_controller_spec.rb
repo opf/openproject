@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe TypesController do
+RSpec.describe TypesController do
   let(:project) do
     create(:project,
            work_package_custom_fields: [custom_field_2])

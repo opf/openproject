@@ -28,7 +28,7 @@
 require 'spec_helper'
 require 'services/base_services/behaves_like_create_service'
 
-describe Users::CreateService do
+RSpec.describe Users::CreateService do
   it_behaves_like 'BaseServices create service' do
     context 'when the user being invited' do
       let(:model_instance) { build(:invited_user) }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Utilities::ResourceLinkGenerator do
+RSpec.describe API::V3::Utilities::ResourceLinkGenerator do
   include API::V3::Utilities::PathHelper
 
   subject { described_class }

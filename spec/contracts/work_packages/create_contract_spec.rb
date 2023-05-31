@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'contracts/work_packages/shared_base_contract'
 
-describe WorkPackages::CreateContract do
+RSpec.describe WorkPackages::CreateContract do
   let(:work_package) do
     WorkPackage.new(project: work_package_project).tap do |wp|
       wp.extend(OpenProject::ChangedBySystem)

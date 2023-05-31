@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-describe 'API v3 storage files', content_type: :json, webmock: true do
+RSpec.describe 'API v3 storage files', content_type: :json, webmock: true do
   include API::V3::Utilities::PathHelper
   include StorageServerHelpers
 

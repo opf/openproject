@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-describe 'News widget on dashboard', js: true do
+RSpec.describe 'News widget on dashboard', js: true do
   let!(:project) { create(:project) }
   let!(:other_project) { create(:project) }
   let!(:visible_news) do

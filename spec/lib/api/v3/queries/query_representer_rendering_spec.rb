@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Queries::QueryRepresenter do
+RSpec.describe API::V3::Queries::QueryRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:query) { build_stubbed(:query, project:, views:) }

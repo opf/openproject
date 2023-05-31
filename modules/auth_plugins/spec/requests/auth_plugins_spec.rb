@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'open_project/auth_plugins'
 
-describe OpenProject::Plugins::AuthPlugin, with_ee: %i[board_view] do
+RSpec.describe OpenProject::Plugins::AuthPlugin, with_ee: %i[board_view] do
   let(:dummy_engine_klass) do
     Class.new { extend OpenProject::Plugins::AuthPlugin }
   end

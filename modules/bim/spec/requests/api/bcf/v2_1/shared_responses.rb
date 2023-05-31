@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-shared_examples_for 'bcf api successful response' do
+RSpec.shared_examples_for 'bcf api successful response' do
   def expect_identical_without_time(subject, expected_body)
     body = Array.wrap(JSON.parse(subject.body))
     expected = Array.wrap(expected_body)
@@ -73,7 +73,7 @@ shared_examples_for 'bcf api successful response' do
   end
 end
 
-shared_examples_for 'bcf api successful response expectation' do
+RSpec.shared_examples_for 'bcf api successful response expectation' do
   it 'responds correctly with the expected body', :aggregate_failures do
     expect(subject.status).to eq 200
 
@@ -83,7 +83,7 @@ shared_examples_for 'bcf api successful response expectation' do
   end
 end
 
-shared_examples_for 'bcf api not found response' do
+RSpec.shared_examples_for 'bcf api not found response' do
   let(:expect404) do
     { message: 'The requested resource could not be found.' }
   end
@@ -95,7 +95,7 @@ shared_examples_for 'bcf api not found response' do
   end
 end
 
-shared_examples_for 'bcf api method not allowed response' do
+RSpec.shared_examples_for 'bcf api method not allowed response' do
   let(:expect405) { "405 Not Allowed" }
 
   it 'responds 405 METHOD NOT ALLOWED', :aggregate_failures do
@@ -105,7 +105,7 @@ shared_examples_for 'bcf api method not allowed response' do
   end
 end
 
-shared_examples_for 'bcf api not allowed response' do
+RSpec.shared_examples_for 'bcf api not allowed response' do
   let(:expect403) do
     { message: 'You are not authorized to access this resource.' }
   end
@@ -117,7 +117,7 @@ shared_examples_for 'bcf api not allowed response' do
   end
 end
 
-shared_examples_for 'bcf api unprocessable response' do
+RSpec.shared_examples_for 'bcf api unprocessable response' do
   let(:expect422) do
     { message: }
   end
@@ -129,7 +129,7 @@ shared_examples_for 'bcf api unprocessable response' do
   end
 end
 
-shared_examples_for 'bcf api not implemented response' do
+RSpec.shared_examples_for 'bcf api not implemented response' do
   it 'responds 501 not implemented', :aggregate_failures do
     expect(subject.status).to be 501
 

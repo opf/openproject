@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Custom actions', js: true, with_ee: %i[custom_actions] do
+RSpec.describe 'Custom actions', js: true, with_ee: %i[custom_actions] do
   shared_let(:admin) { create(:admin) }
 
   let(:permissions) { %i(view_work_packages edit_work_packages move_work_packages work_package_assigned) }

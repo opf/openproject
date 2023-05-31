@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Queries::QueryQuery do
+RSpec.describe Queries::Queries::QueryQuery do
   let(:user) { build_stubbed(:user) }
   let(:instance) { described_class.new(user:) }
   let(:base_scope) { Query.visible(user).order(id: :desc) }

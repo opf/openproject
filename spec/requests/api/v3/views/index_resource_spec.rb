@@ -28,9 +28,9 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe API::V3::Views::ViewsAPI,
-         'index',
-         content_type: :json do
+RSpec.describe API::V3::Views::ViewsAPI,
+               'index',
+               content_type: :json do
   include API::V3::Utilities::PathHelper
 
   shared_let(:permitted_user) { create(:user) }

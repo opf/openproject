@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Notifications::Scopes::Visible do
+RSpec.describe Notifications::Scopes::Visible do
   describe '.visible' do
     subject(:scope) { Notification.visible(user) }
 

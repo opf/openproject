@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::Bim::BcfXml::Exporter do
+RSpec.describe OpenProject::Bim::BcfXml::Exporter do
   let(:query) { build(:global_query) }
   let(:work_package) { create(:work_package) }
   let(:admin) { create(:admin) }

@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe AccountController,
-         skip_2fa_stage: true do
+RSpec.describe AccountController,
+               skip_2fa_stage: true do
   class UserHook < OpenProject::Hook::ViewListener
     attr_reader :registered_user, :first_login_user
 

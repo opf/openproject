@@ -28,7 +28,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe PermittedParams do
+RSpec.describe PermittedParams do
   let(:user) { build_stubbed(:user) }
 
   describe '#search' do

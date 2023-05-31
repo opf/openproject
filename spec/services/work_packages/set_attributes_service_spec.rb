@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe WorkPackages::SetAttributesService,
-         type: :model do
+RSpec.describe WorkPackages::SetAttributesService,
+               type: :model do
   let(:today) { Time.zone.today }
   let(:user) { build_stubbed(:user) }
   let(:project) do
