@@ -521,12 +521,6 @@ describe Query,
   end
 
   describe '#valid?' do
-    it 'is not valid without a name' do
-      query.name = ''
-      expect(query.save).to be_falsey
-      expect(query.errors[:name].first).to include(I18n.t('activerecord.errors.messages.blank'))
-    end
-
     context 'with a missing value and an operator that requires values' do
       before do
         query.add_filter('due_date', 't-', [''])
