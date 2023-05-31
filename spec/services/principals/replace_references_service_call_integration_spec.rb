@@ -495,7 +495,8 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
                       :user_id do
         let(:attributes) do
           {
-            include_subprojects: true
+            include_subprojects: true,
+            name: "'abc'"
           }
         end
       end

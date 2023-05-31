@@ -31,8 +31,7 @@ module QueriesHelper
     @query = if params[:query_id].present?
                Query.where(project: @project).find(params[:query_id])
              else
-               Query.new_default(name: '_',
-                                 project: @project)
+               Query.new_default(project: @project)
              end
 
     ::API::V3::UpdateQueryFromV3ParamsService

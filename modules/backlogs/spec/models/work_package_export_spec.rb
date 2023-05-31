@@ -30,7 +30,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe WorkPackage::PDFExport::WorkPackageToPdf do
   let(:project) { create(:project) }
-  let(:query) { Query.new_default(name: '_', project:) }
+  let(:query) { Query.new_default(project:) }
 
   subject { described_class.new query }
 

@@ -77,7 +77,7 @@ describe API::V3::WorkPackageCollectionFromQueryParamsService,
     before do
       allow(Query)
         .to receive(:new_default)
-        .with(name: '_', project:)
+        .with(project:)
         .and_return(query)
     end
 
