@@ -26,7 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Purpose: CRUD the global admin page of Storages (=Nextcloud servers)
+# Purpose: Let OpenProject create folders per project automatically.
+# This is recommended as it ensures that every team member always has the correct access permissions.
+#
 class Storages::Admin::ManagedProjectFoldersController < ApplicationController
   # See https://guides.rubyonrails.org/layouts_and_rendering.html for reference on layout
   layout 'admin'
@@ -44,8 +46,10 @@ class Storages::Admin::ManagedProjectFoldersController < ApplicationController
   # The menu item is defined in the engine.rb
   menu_item :storages_admin_settings
 
-  # Edit page is very similar to new page, except that we don't need to set
-  # default attribute values because the object already exists
+  # Show the admin page to set storage folder automatical management (for an already existing storage).
+  # Sets the attributes automatically_managed as default true unless already set to false
+  # renders an edit page (allowing the user to change automatically_managed bool and application_password).
+  # Used by: The OauthClientsController#create, when the user inputs Oauth credentials.
   # Called by: Global app/config/routes.rb to serve Web page
   def edit
     # Set default parameters using a "service".

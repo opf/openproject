@@ -56,9 +56,15 @@ module Storages::Storages
     attribute :automatically_managed
 
     attribute :application_username
-    validates :application_username, presence: true, if: -> { @model.automatically_managed? }
+    validates :application_username, presence: true, if: :automatically_managed?
 
     attribute :application_password
-    validates :application_password, presence: true, if: -> { @model.automatically_managed? }
+    validates :application_password, presence: true, if: :automatically_managed?
+
+    private
+
+    def automatically_managed?
+      @model.automatically_managed?
+    end
   end
 end
