@@ -101,17 +101,18 @@ class Storages::Storage < ApplicationRecord
     @short_provider_type ||= self.class.shorten_provider_type(provider_type)
   end
 
-  # Coerce `is_automatically_managed` provider_field to a primitive boolean value.
-  def is_automatically_managed=(bool_value)
-    super(ActiveRecord::Type::Boolean.new.cast(bool_value))
+  # Cast `automatically_managed` provider_field to a primitive boolean value.
+  def automatically_managed=(maybe_boolean)
+    super(ActiveRecord::Type::Boolean.new.cast(maybe_boolean))
   end
 
-  # Default to true for `is_automatically_managed` provider_field.
-  def is_automatically_managed # rubocop:disable Naming/PredicateName
-    return PROVIDER_FIELDS_DEFAULTS[:is_automatically_managed] if super.nil?
+  # Default to true for `automatically_managed` provider_field.
+  def automatically_managed
+    return PROVIDER_FIELDS_DEFAULTS[:automatically_managed] if super.nil?
 
     super
   end
+  alias automatically_managed? automatically_managed
 
   # Default to "OpenProject" for `application_username` provider_field.
   def application_username

@@ -112,4 +112,62 @@ describe Storages::Storage do
       expect(Storages::FileLink.count).to be 0
     end
   end
+
+  describe '#automatically_managed=' do
+    let(:storage) { build(:storage) }
+
+    %w[1 true].each do |bool|
+      context "with truthy value #{bool}" do
+        it "sets the value to true" do
+          storage.automatically_managed = bool
+          expect(storage).to be_automatically_managed
+        end
+      end
+    end
+
+    %w[0 false].each do |bool|
+      context "with falsy value #{bool}" do
+        it "sets the value to false" do
+          storage.automatically_managed = bool
+          expect(storage).not_to be_automatically_managed
+        end
+      end
+    end
+  end
+
+  describe '#automatically_managed' do
+    context 'when the value is nil' do
+      let(:storage) { build(:storage, provider_fields: {}) }
+
+      it 'defaults to true' do
+        expect(storage).to be_automatically_managed
+      end
+    end
+
+    context 'when the value is false' do
+      let(:storage) { build(:storage, automatically_managed: false) }
+
+      it 'returns false' do
+        expect(storage).not_to be_automatically_managed
+      end
+    end
+  end
+
+  describe '#application_username' do
+    context 'when unset' do
+      let(:storage) { build(:storage, provider_fields: {}) }
+
+      it 'defaults to OpenProject' do
+        expect(storage.application_username).to eq('OpenProject')
+      end
+    end
+
+    context 'when specified' do
+      let(:storage) { build(:storage, application_username: 'SomeUserName') }
+
+      it 'returns the specified username' do
+        expect(storage.application_username).to eq('SomeUserName')
+      end
+    end
+  end
 end
