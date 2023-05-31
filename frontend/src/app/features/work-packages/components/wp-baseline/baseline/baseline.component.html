@@ -40,6 +40,7 @@
           *ngFor="let availableValue of baselineAvailableValues"
           [value]="availableValue.value"
           [selected]="availableValue.value === selectedFilter"
+          [disabled]="eeShowBanners && availableValue.value !== 'oneDayAgo'"
         >
           {{availableValue.title}}
         </option>
