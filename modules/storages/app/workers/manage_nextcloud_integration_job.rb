@@ -29,16 +29,6 @@
 class ManageNextcloudIntegrationJob < Cron::CronJob
   using ::Storages::Peripherals::ServiceResultRefinements
 
-  PERMISSIONS_MAP = {
-    read_files: 1,
-    write_files: 2,
-    create_files: 4,
-    delete_files: 8,
-    share_files: 16
-  }.freeze
-  ALL_PERMISSIONS = PERMISSIONS_MAP.values.sum
-  NO_PERMISSIONS = 0
-
   queue_with_priority :low
 
   self.cron_expression = '*/5 * * * *'
@@ -48,78 +38,101 @@ class ManageNextcloudIntegrationJob < Cron::CronJob
       .where("provider_fields->>'has_managed_project_folders' = 'true'")
       .includes(:oauth_client)
       .each do |storage|
-      NextcloudStorageManager.new(storage).call
+      GroupFolderPropertiesSynchronization.new(storage).call
     end
   end
 
-  class NextcloudStorageManager
+  class GroupFolderPropertiesSynchronization
+    PERMISSIONS_MAP = {
+      read_files: 1,
+      write_files: 2,
+      create_files: 4,
+      delete_files: 8,
+      share_files: 16
+    }.freeze
+    ALL_PERMISSIONS = PERMISSIONS_MAP.values.sum
+    NO_PERMISSIONS = 0
+
     def initialize(storage)
       @storage = storage
       @nextcloud_system_user = storage.username
       @group = storage.group
-      @groupfolder = storage.groupfolder
-      @nextcloud_usernames_used_in_openproject = Set.new
-      @project_folder_ids_used_in_openproject = Set.new
+      @group_folder = storage.group_folder
       @requests = Storages::Peripherals::StorageRequests.new(storage:)
     end
 
+    # rubocop:disable Metrics/AbcSize
     def call
-      set_groupfolder_permissions
+      # we have to flush state to be able to reuse the instace of the class
+      @nextcloud_usernames_used_in_openproject = Set.new
+      @project_folder_ids_used_in_openproject = Set.new
+      @file_ids = nil
+      @folders_properties = nil
+      @group_users = nil
+
+      set_group_folder_root_permissions
 
       @storage.projects_storages
-              .where(project_folder_mode: 'automatic')
+              .automatic
               .includes(project: %i[users enabled_modules])
               .each do |project_storage|
-        handle_project_folder(project_storage:)
+        project = project_storage.project
+        project_folder_path = project_folder_path(project)
+        @project_folder_ids_used_in_openproject << ensure_project_folder(project_storage:, project_folder_path:)
+
+        set_project_folder_permissions(path: project_folder_path, project:)
       end
 
-      (group_users - @nextcloud_usernames_used_in_openproject.to_a).each do |user|
-        remove_user_from_group(user)
-      end
-
-      inactive_project_folder_paths.each { |folder| hide_folder(folder) }
+      add_active_users_to_group
+      remove_inactive_users_from_group
+      hide_inactive_project_folders
     end
+    # rubocop:enable Metrics/AbcSize
 
     private
 
-    def set_groupfolder_permissions
+    def set_group_folder_root_permissions
       permissions = {
         users: { @nextcloud_system_user.to_sym => ALL_PERMISSIONS },
         groups: { @group.to_sym => PERMISSIONS_MAP[:read_files] }
       }
       @requests
         .set_permissions_command
-        .call(path: @groupfolder, permissions:)
-        .on_failure { |r| raise "set_permissions_command(path: #{@groupfolder}, permissions: #{permissions}) failed: #{r.inspect}" }
+        .call(path: @group_folder, permissions:)
+        .on_failure { |r| raise "set_permissions_command(path: #{@group_folder}, permissions: #{permissions}) failed: #{r.inspect}" }
     end
 
-    def handle_project_folder(project_storage:)
+    def project_folder_path(project)
+      "#{@group_folder}/#{project.name.gsub('/', '|')}(#{project.id})/"
+    end
+
+    # rubocop:disable Metrics/AbcSize
+    def ensure_project_folder(project_storage:, project_folder_path:)
       project_folder_id = project_storage.project_folder_id
-      project = project_storage.project
-      target = "#{@groupfolder}/#{project.name.gsub('/', '|')}(#{project.id})/"
+      project_storage.project
 
-      if file_ids.include?(project_folder_id)
-        source = folders_props.find { |_k, v| v['fileid'] == project_folder_id }.first
-        rename_folder(source:, target:) if source != target
+      if project_folder_id.present? && file_ids.include?(project_folder_id)
+        source = folders_properties.find { |_k, v| v['fileid'] == project_folder_id }.first
+        rename_folder(source:, target: project_folder_path) if source != project_folder_path
       else
-        create_folder(path: target, project_storage:)
+        create_folder(path: project_folder_path, project_storage:) >> obtain_file_id >> save_file_id
       end
-      @project_folder_ids_used_in_openproject << project_folder_id
-      tokens = OAuthClientToken.where(oauth_client: @storage.oauth_client, users: project.users).includes(:user)
-      set_project_folder_permissions(path: target, tokens:, project:)
-      add_users_to_group(tokens)
+      # local variable is not used due to possible update_columns call
+      # then the value inside the local variable will not be updated
+      project_storage.project_folder_id
     end
+    # rubocop:enable Metrics/AbcSize
 
     def file_ids
-      @file_ids ||= folders_props.map { |_path, props| props['fileid'] }
+      @file_ids ||= folders_properties.map { |_path, props| props['fileid'] }
     end
 
-    def folders_props
-      @folders_props ||= @requests
-                          .propfind_query
-                          .call(depth: '1', path: @groupfolder, props: %w[oc:fileid])
-                          .on_failure { |r| raise "propfind_query(depth: 1, path: #{@groupfolder}, props: #{%w[oc:fileid]}) failed: #{r.inspect}" }
-                          .result
+    def folders_properties
+      @folders_properties ||= @requests
+                                .propfind_query
+                                .call(depth: '1', path: @group_folder, props: %w[oc:fileid])
+                                .on_failure { |r| raise "propfind_query(depth: 1, path: #{@group_folder}, props: #{%w[oc:fileid]}) failed: #{r.inspect}" }
+                                .result
     end
 
     def rename_folder(source:, target:)
@@ -131,40 +144,27 @@ class ManageNextcloudIntegrationJob < Cron::CronJob
     def create_folder(path:, project_storage:)
       @requests.create_folder_command.call(folder_path: path)
         .match(
-          on_success: ->(_) {
-            folder_file_id = @requests
-                               .propfind_query
-                               .call(depth: '0', path:, props: %w[oc:fileid])
-                               .on_failure { |r| raise "propfind_query failed: #{r}, depth: 0, path: #{path}" }
-                               .result[path]['fileid']
-            project_storage.update_columns(project_folder_id: folder_file_id, updated_at: Time.current)
-          },
+          on_success: ->(_) { ServiceResult.success(result: [project_storage, path]) },
           on_failure: ->(r) { raise "create_folder_command(folder_path: #{target}) failed: #{r.inspect}, " }
         )
     end
 
-    def remove_user_from_group(user)
-      @requests
-        .remove_user_from_group_command
-        .call(user:)
-        .on_failure { |r| raise "remove_user_from_group_command(user: #{user}) failed: #{r.inspect}" }
-    end
-
-    def inactive_project_folder_paths
-      folders_props.except("#{@groupfolder}/").each_with_object([]) do |(path, attrs), paths|
-        paths.push(path) if @project_folder_ids_used_in_openproject.exclude?(attrs['fileid'])
+    def save_file_id
+      ->((project_storage, file_id)) do
+        project_storage.update_columns(project_folder_id: file_id, updated_at: Time.current)
       end
     end
 
-    def hide_folder(path)
-      permissions = {
-        users: { "#{@nextcloud_system_user}": ALL_PERMISSIONS },
-        groups: { "#{@group}": NO_PERMISSIONS }
-      }
-      @requests
-        .set_permissions_command
-        .call(path:, permissions:)
-        .on_failure { |r| raise "set_permissions_command(path: #{path}, permissions: #{permissions}) failed: #{r.inspect}" }
+    def obtain_file_id
+      ->((project_storage, path)) do
+        @requests
+          .propfind_query
+          .call(depth: '0', path:, props: %w[oc:fileid])
+          .match(
+            on_success: ->(result) { ServiceResult.success(result: [project_storage, result.dig(path, 'fileid')]) },
+            on_failure: ->(_result) { raise "propfind_query failed: #{r}, depth: 0, path: #{path}" }
+          )
+      end
     end
 
     def calculate_permissions(user:, project:)
@@ -183,21 +183,9 @@ class ManageNextcloudIntegrationJob < Cron::CronJob
       end
     end
 
-    def set_project_folder_permissions(path:, tokens:, project:)
-      @requests.set_permissions_command.call(path:, permissions: project_folder_permissions(tokens:, project:)).on_failure do |r|
+    def set_project_folder_permissions(path:, project:)
+      @requests.set_permissions_command.call(path:, permissions: project_folder_permissions(project:)).on_failure do |r|
         raise "set_permissions_command path(#{target}, permissions: #{permissions}) failed: #{r.inspect}"
-      end
-    end
-
-    def add_users_to_group(tokens)
-      tokens.each do |token|
-        nextcloud_username = token.origin_user_id
-        if group_users.exclude?(nextcloud_username) && @nextcloud_usernames_used_in_openproject.exclude?(nextcloud_username)
-          @requests.add_user_to_group_command.call(user: nextcloud_username).on_failure do |r|
-            raise "add_user_to_group_command(user: #{netcloud_username}) failed: #{r.inspect}, "
-          end
-        end
-        @nextcloud_usernames_used_in_openproject << nextcloud_username
       end
     end
 
@@ -207,14 +195,62 @@ class ManageNextcloudIntegrationJob < Cron::CronJob
       end.result
     end
 
-    def project_folder_permissions(tokens:, project:)
-      tokens.each_with_object({
-                                users: { "#{@nextcloud_system_user}": ALL_PERMISSIONS },
-                                groups: { "#{@group}": NO_PERMISSIONS }
-                              }) do |token, permissions|
+    def project_folder_permissions(project:)
+      OAuthClientToken
+        .where(oauth_client: @storage.oauth_client, users: project.users)
+        .includes(:user)
+        .each_with_object({
+                            users: { "#{@nextcloud_system_user}": ALL_PERMISSIONS },
+                            groups: { "#{@group}": NO_PERMISSIONS }
+                          }) do |token, permissions|
         nextcloud_username = token.origin_user_id
         permissions[:users][nextcloud_username.to_sym] = calculate_permissions(user: token.user, project:)
+        @nextcloud_usernames_used_in_openproject << nextcloud_username
       end
+    end
+
+    def add_active_users_to_group
+      @nextcloud_usernames_used_in_openproject.each do |nextcloud_username|
+        if group_users.exclude?(nextcloud_username)
+          @requests.add_user_to_group_command.call(user: nextcloud_username).on_failure do |r|
+            raise "add_user_to_group_command(user: #{netcloud_username}) failed: #{r.inspect}, "
+          end
+        end
+      end
+    end
+
+    def remove_inactive_users_from_group
+      (group_users - @nextcloud_usernames_used_in_openproject.to_a).each do |user|
+        remove_user_from_group(user)
+      end
+    end
+
+    def remove_user_from_group(user)
+      @requests
+        .remove_user_from_group_command
+        .call(user:)
+        .on_failure { |r| raise "remove_user_from_group_command(user: #{user}) failed: #{r.inspect}" }
+    end
+
+    def hide_inactive_project_folders
+      inactive_project_folder_paths.each { |folder| hide_folder(folder) }
+    end
+
+    def inactive_project_folder_paths
+      folders_properties.except("#{@group_folder}/").each_with_object([]) do |(path, attrs), paths|
+        paths.push(path) if @project_folder_ids_used_in_openproject.exclude?(attrs['fileid'])
+      end
+    end
+
+    def hide_folder(path)
+      permissions = {
+        users: { "#{@nextcloud_system_user}": ALL_PERMISSIONS },
+        groups: { "#{@group}": NO_PERMISSIONS }
+      }
+      @requests
+        .set_permissions_command
+        .call(path:, permissions:)
+        .on_failure { |r| raise "set_permissions_command(path: #{path}, permissions: #{permissions}) failed: #{r.inspect}" }
     end
   end
 end

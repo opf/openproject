@@ -48,4 +48,6 @@ class Storages::ProjectStorage < ApplicationRecord
     manual: 'manual',
     managed: 'automatic'
   }.freeze, _prefix: 'project_folder'
+
+  scope :automatic, -> { where(project_folder_mode: 'automatic') }
 end

@@ -66,7 +66,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     # rubocop:disable Metrics/AbcSize
-    def call(depth:, path:, props: nil)
+    def call(depth:, path:, props:)
       body = Nokogiri::XML::Builder.new do |xml|
         xml['d'].propfind(
           'xmlns:d' => 'DAV:',
