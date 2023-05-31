@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -8,7 +6,7 @@
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -28,14 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Meetings
+module TeamPlannerOverview
   class TableComponent < ::TableComponent
-    options :current_project # used to determine if displaying the projects column
-
-    sortable_columns :title, :project_id, :start_time, :duration, :location
+    options :current_user
+    columns :name, :project_id, :created_at
+    sortable_columns :name, :project_id, :created_at
 
     def initial_sort
-      %i[start_time asc]
+      %w[name asc]
+    end
+
+    def sortable?
+      true
     end
 
     def paginated?
@@ -43,17 +45,11 @@ module Meetings
     end
 
     def headers
-      @headers ||= [
-        [:title, { caption: Meeting.human_attribute_name(:title) }],
-        current_project.blank? ? [:project_id, { caption: Meeting.human_attribute_name(:project) }] : nil,
-        [:start_time, { caption: Meeting.human_attribute_name(:start_time) }],
-        [:duration, { caption: Meeting.human_attribute_name(:duration) }],
-        [:location, { caption: Meeting.human_attribute_name(:location) }]
-      ].compact
-    end
-
-    def columns
-      @columns ||= headers.map(&:first)
+      [
+        [:name, { caption: I18n.t(:label_name) }],
+        [:project_id, { caption: Query.human_attribute_name(:project) }],
+        [:created_at, { caption: Query.human_attribute_name(:created_at) }]
+      ]
     end
   end
 end
