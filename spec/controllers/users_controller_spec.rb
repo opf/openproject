@@ -450,7 +450,7 @@ RSpec.describe UsersController do
 
   describe '#change_status',
            with_settings: {
-             available_languages: %i(en de),
+             available_languages: %w[en de],
              bcc_recipients: 1
            } do
     describe 'WHEN activating a registered user' do
@@ -484,8 +484,7 @@ RSpec.describe UsersController do
         refute_nil mail
         expect([registered_user.mail]).to eq(mail.to)
         mail.parts.each do |part|
-          assert part.body.encoded.include?(I18n.t(:notice_account_activated,
-                                                   locale: 'de'))
+          expect(part.body.encoded).to include(I18n.t(:notice_account_activated, locale: 'de'))
         end
       end
 

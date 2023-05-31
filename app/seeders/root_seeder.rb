@@ -162,7 +162,7 @@ class RootSeeder < Seeder
   end
 
   def desired_lang
-    desired_lang = ENV.fetch('OPENPROJECT_SEED_LOCALE', :en).to_sym
+    desired_lang = ENV.fetch('OPENPROJECT_SEED_LOCALE', 'en')
     raise "Locale #{desired_lang} is not supported" if Redmine::I18n.all_languages.exclude?(desired_lang)
 
     desired_lang
