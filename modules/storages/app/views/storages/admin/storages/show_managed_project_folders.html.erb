@@ -39,13 +39,13 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= labelled_tabular_form_for @storage, url: admin_settings_storage_managed_project_folders_path(@storage), method: :patch do |f| -%>
   <div class="form--field -required">
-    <%= styled_label_tag :is_automatically_managed,
+    <%= styled_label_tag :automatically_managed,
                         class: "-bold -flex" do %>
       <%= t(:"storages.label_managed_project_folders.automatically_managed_folders") %>
     <% end %>
     <div class="form--field-container -horizontal">
-      <%= f.label :is_automatically_managed, class: "form--label-with-check-box" do %>
-        <%= f.check_box :is_automatically_managed,
+      <%= f.label :automatically_managed, class: "form--label-with-check-box" do %>
+        <%= f.check_box :automatically_managed,
                           no_label: true,
                           data: { action: 'managed-project-folders-form#updateDisplay' } %>
       <% end %>

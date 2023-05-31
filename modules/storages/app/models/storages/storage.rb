@@ -39,7 +39,7 @@
 class Storages::Storage < ApplicationRecord
   self.inheritance_column = :provider_type
 
-  store_accessor :provider_fields, :is_automatically_managed, :application_username, :application_password
+  store_accessor :provider_fields, :automatically_managed, :application_username, :application_password
 
   # One Storage can have multiple FileLinks, representing external files.
   #
@@ -65,7 +65,7 @@ class Storages::Storage < ApplicationRecord
   ].freeze
 
   PROVIDER_FIELDS_DEFAULTS = {
-    is_automatically_managed: true,
+    automatically_managed: true,
     application_username: 'OpenProject'
   }.freeze
 
