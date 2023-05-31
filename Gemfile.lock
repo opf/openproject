@@ -10,14 +10,15 @@ GIT
 
 GIT
   remote: https://github.com/opf/md-to-pdf
-  revision: fc2724113cecd758a77b347042276ece8d119a03
-  tag: v0.0.15
+  revision: b85e572e89704cdd44e0b3d7f7e277a18ee0fe85
+  tag: v0.0.16
   specs:
-    md_to_pdf (0.0.15)
+    md_to_pdf (0.0.16)
       commonmarker (~> 0.23)
       front_matter_parser (~> 1.0)
+      json-schema (~> 4.0)
       matrix (~> 0.4)
-      nokogiri (~> 1.14)
+      nokogiri (~> 1.15)
       prawn (~> 2.4)
       prawn-table (~> 0.2)
       text-hyphen (~> 1.5)
@@ -550,6 +551,8 @@ GEM
       bindata
       faraday (~> 2.0)
       faraday-follow_redirects
+    json-schema (4.0.0)
+      addressable (>= 2.8)
     json_schemer (0.2.24)
       ecma-re-validator (~> 0.3)
       hana (~> 1.3)
