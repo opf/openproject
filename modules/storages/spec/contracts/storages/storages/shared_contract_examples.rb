@@ -223,5 +223,29 @@ shared_examples_for 'storage contract', :storage_server_helpers, webmock: true d
         include_examples 'contract is valid'
       end
     end
+
+    context 'when automatically managed, no application username or password' do
+      before { storage.automatically_managed = true }
+
+      it_behaves_like 'contract is invalid', application_username: :blank, application_password: :blank
+    end
+
+    context 'when automatically managed, with application username and password' do
+      before do
+        storage.assign_attributes(automatically_managed: true, application_username: 'OpenProject',
+                                  application_password: 'Password')
+      end
+
+      it_behaves_like 'contract is valid'
+    end
+
+    context 'when not automatically managed' do
+      before do
+        storage.provider_fields = {}
+        storage.assign_attributes(automatically_managed: false)
+      end
+
+      it_behaves_like 'contract is valid'
+    end
   end
 end

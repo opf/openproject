@@ -51,5 +51,14 @@ module Storages::Storages
     # Check that a host actually is a storage server.
     # But only do so if the validations above for URL were successful.
     validates :host, secure_context_uri: true, nextcloud_compatible_host: true, unless: -> { errors.include?(:host) }
+
+    attribute :provider_fields
+    attribute :automatically_managed
+
+    attribute :application_username
+    validates :application_username, presence: true, if: -> { @model.automatically_managed? }
+
+    attribute :application_password
+    validates :application_password, presence: true, if: -> { @model.automatically_managed? }
   end
 end

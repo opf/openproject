@@ -48,6 +48,15 @@ class Storages::Admin::ManagedProjectFoldersController < ApplicationController
   # default attribute values because the object already exists
   # Called by: Global app/config/routes.rb to serve Web page
   def edit
+    # Set default parameters using a "service".
+    # See also: storages/services/storages/storages/set_attributes_services.rb
+    # That service inherits from ::BaseServices::SetAttributes
+    @storage = ::Storages::Storages::SetProviderFieldsAttributesService
+                .new(user: current_user,
+                     model: @object,
+                     contract_class: ::Storages::Storages::BaseContract)
+                .call
+                .result
     render '/storages/admin/storages/show_managed_project_folders'
   end
 
@@ -55,9 +64,10 @@ class Storages::Admin::ManagedProjectFoldersController < ApplicationController
   # See also: create above
   # Called by: Global app/config/routes.rb to serve Web page
   def update
-    service_result = ::Storages::Storages::UpdateService
-                       .new(user: current_user, model: @storage)
-                       .call(permitted_storage_params)
+    service_result = ::Storages::Storages::UpdateProviderFieldsService
+                       .new(user: current_user,
+                            model: @storage)
+                       .call(permitted_storage_params_with_defaults)
 
     if service_result.success?
       flash[:notice] = I18n.t(:notice_successful_update)
@@ -91,11 +101,16 @@ class Storages::Admin::ManagedProjectFoldersController < ApplicationController
     @storage = @object
   end
 
+  # The application_username is not set by the user, but is derived from defaults
+  def permitted_storage_params_with_defaults
+    permitted_storage_params.merge(Storages::Storage::PROVIDER_FIELDS_DEFAULTS.slice(:application_username))
+  end
+
   # Called by create and update above in order to check if the
   # update parameters are correctly set.
   def permitted_storage_params
     params
       .require(:storages_nextcloud_storage)
-      .permit('is_automatically_managed', 'application_password')
+      .permit('automatically_managed', 'application_password')
   end
 end

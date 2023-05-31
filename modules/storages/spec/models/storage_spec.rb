@@ -134,40 +134,4 @@ describe Storages::Storage do
       end
     end
   end
-
-  describe '#automatically_managed' do
-    context 'when the value is nil' do
-      let(:storage) { build(:storage, provider_fields: {}) }
-
-      it 'defaults to true' do
-        expect(storage).to be_automatically_managed
-      end
-    end
-
-    context 'when the value is false' do
-      let(:storage) { build(:storage, automatically_managed: false) }
-
-      it 'returns false' do
-        expect(storage).not_to be_automatically_managed
-      end
-    end
-  end
-
-  describe '#application_username' do
-    context 'when unset' do
-      let(:storage) { build(:storage, provider_fields: {}) }
-
-      it 'defaults to OpenProject' do
-        expect(storage.application_username).to eq('OpenProject')
-      end
-    end
-
-    context 'when specified' do
-      let(:storage) { build(:storage, application_username: 'SomeUserName') }
-
-      it 'returns the specified username' do
-        expect(storage.application_username).to eq('SomeUserName')
-      end
-    end
-  end
 end

@@ -106,16 +106,5 @@ class Storages::Storage < ApplicationRecord
     super(ActiveRecord::Type::Boolean.new.cast(maybe_boolean))
   end
 
-  # Default to true for `automatically_managed` provider_field.
-  def automatically_managed
-    return PROVIDER_FIELDS_DEFAULTS[:automatically_managed] if super.nil?
-
-    super
-  end
   alias automatically_managed? automatically_managed
-
-  # Default to "OpenProject" for `application_username` provider_field.
-  def application_username
-    super.presence || PROVIDER_FIELDS_DEFAULTS[:application_username]
-  end
 end

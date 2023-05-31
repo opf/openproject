@@ -26,21 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :storage, class: '::Storages::NextcloudStorage' do
-    provider_type { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
-    sequence(:name) { |n| "Storage #{n}" }
-    sequence(:host) { |n| "https://host#{n}.example.com" }
-    creator factory: :user
-
-    trait :as_automatically_managed do
-      automatically_managed { true }
-      application_username { 'OpenProject' }
-      application_password { 'Password123' }
-    end
-
-    trait :as_not_automatically_managed do
-      automatically_managed { false }
-    end
+# See also: create_service.rb for comments
+module Storages::Storages
+  class UpdateProviderFieldsService < ::BaseServices::Update
   end
 end
