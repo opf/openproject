@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'spreadsheet'
 require 'models/projects/exporter/exportable_project_context'
 
-describe XlsExport::Project::Exporter::XLS do
+RSpec.describe XlsExport::Project::Exporter::XLS do
   include_context 'with a project with an arrangement of custom fields'
   include_context 'with an instance of the described exporter'
 

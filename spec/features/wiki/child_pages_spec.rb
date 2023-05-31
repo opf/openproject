@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'wiki child pages', js: true do
+RSpec.describe 'wiki child pages', js: true do
   let(:project) do
     create(:project)
   end

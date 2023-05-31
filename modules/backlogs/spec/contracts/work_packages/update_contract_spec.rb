@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::UpdateContract do
+RSpec.describe WorkPackages::UpdateContract do
   let(:work_package) do
     create(:work_package,
            done_ratio: 50,

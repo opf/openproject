@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe DigestMailer do
+RSpec.describe DigestMailer do
   include OpenProject::ObjectLinking
   include ActionView::Helpers::UrlHelper
   include OpenProject::StaticRouting::UrlHelpers

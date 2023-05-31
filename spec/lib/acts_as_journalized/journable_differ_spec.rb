@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Acts::Journalized::JournableDiffer do
+RSpec.describe Acts::Journalized::JournableDiffer do
   describe '.changes' do
     context 'when the objects are work packages' do
       let(:original) do

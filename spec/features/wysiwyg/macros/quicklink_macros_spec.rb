@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Wysiwyg work package quicklink macros', js: true do
+RSpec.describe 'Wysiwyg work package quicklink macros', js: true do
   shared_let(:user) { create(:admin) }
   shared_let(:project) { create(:project_with_types) }
   let(:work_package) do

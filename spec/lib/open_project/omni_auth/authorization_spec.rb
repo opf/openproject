@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::OmniAuth::Authorization do
+RSpec.describe OpenProject::OmniAuth::Authorization do
   describe '.after_login!' do
     let(:auth_hash) { Struct.new(:uid).new 'bar' }
     let(:user)  { create(:user, mail: 'foo@bar.de') }

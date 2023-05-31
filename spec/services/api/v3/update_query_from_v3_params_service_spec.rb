@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe API::V3::UpdateQueryFromV3ParamsService,
-         type: :model do
+RSpec.describe API::V3::UpdateQueryFromV3ParamsService,
+               type: :model do
   let(:user) { build_stubbed(:user) }
   let(:query) { build_stubbed(:query) }
 

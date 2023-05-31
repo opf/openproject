@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Empty query filters', js: true do
+RSpec.describe 'Empty query filters', js: true do
   let(:user) { create(:admin) }
   let(:work_package) { create(:work_package) }
   let(:wp_table) { Pages::WorkPackagesTable.new }

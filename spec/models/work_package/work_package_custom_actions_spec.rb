@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, 'custom_actions' do
+RSpec.describe WorkPackage, 'custom_actions' do
   let(:work_package) do
     build_stubbed(:work_package,
                   project:)

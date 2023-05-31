@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Days::Filters::WorkingFilter do
+RSpec.describe Queries::Days::Filters::WorkingFilter do
   it_behaves_like 'boolean query filter' do
     let(:model) { Day }
     let(:attribute) { :working }

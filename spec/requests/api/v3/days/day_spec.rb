@@ -27,8 +27,8 @@
 
 require 'spec_helper'
 
-describe API::V3::Days::DaysAPI,
-         content_type: :json do
+RSpec.describe API::V3::Days::DaysAPI,
+               content_type: :json do
   include API::V3::Utilities::PathHelper
 
   shared_let(:working_days) { week_with_saturday_and_sunday_as_weekend }

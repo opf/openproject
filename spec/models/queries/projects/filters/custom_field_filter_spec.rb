@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Projects::Filters::CustomFieldFilter do
+RSpec.describe Queries::Projects::Filters::CustomFieldFilter do
   let(:query) { Queries::Projects::ProjectQuery.new }
   let(:bool_project_custom_field) { build_stubbed(:bool_project_custom_field) }
   let(:int_project_custom_field) { build_stubbed(:int_project_custom_field) }

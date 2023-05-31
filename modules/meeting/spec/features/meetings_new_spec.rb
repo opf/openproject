@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/meetings/index'
 
-describe 'Meetings new', js: true do
+RSpec.describe 'Meetings new', js: true do
   let(:project) { create(:project, enabled_module_names: %w[meetings]) }
   let(:index_page) { Pages::Meetings::Index.new(project:) }
   let(:time_zone) { 'utc' }

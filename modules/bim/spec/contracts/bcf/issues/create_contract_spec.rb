@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_contract_examples'
 
-describe Bim::Bcf::Issues::CreateContract do
+RSpec.describe Bim::Bcf::Issues::CreateContract do
   it_behaves_like 'issues contract' do
     let(:issue) do
       Bim::Bcf::Issue.new(uuid: issue_uuid,

@@ -26,7 +26,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::UpdateAncestors::Loader, type: :model do
+RSpec.describe WorkPackages::UpdateAncestors::Loader, type: :model do
   shared_let(:grandgrandparent) do
     create(:work_package)
   end

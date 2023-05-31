@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Queries::QueryParamsRepresenter do
+RSpec.describe API::V3::Queries::QueryParamsRepresenter do
   let(:query) { build_stubbed(:query, **params) }
   let(:instance) { described_class.new(query) }
 

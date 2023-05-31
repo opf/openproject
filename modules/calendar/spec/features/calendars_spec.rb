@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Work package calendars', js: true do
+RSpec.describe 'Work package calendars', js: true do
   let(:project) { create(:project) }
   let(:user) do
     create(:user,

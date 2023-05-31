@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Authorization::EnterpriseService do
+RSpec.describe Authorization::EnterpriseService do
   let(:token_object) do
     token = OpenProject::Token.new
     token.subscriber = 'Foobar'

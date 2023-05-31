@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Role do
+RSpec.describe Role do
   let(:permissions) { %i[permission1 permission2] }
   let(:build_role) { build(:role, permissions:) }
   let(:created_role) { create(:role, permissions:) }

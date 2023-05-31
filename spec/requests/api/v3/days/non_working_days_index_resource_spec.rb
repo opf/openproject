@@ -28,9 +28,9 @@
 require 'spec_helper'
 require 'services/work_packages/shared/shared_examples_days'
 
-describe API::V3::Days::NonWorkingDaysAPI,
-         'index',
-         content_type: :json do
+RSpec.describe API::V3::Days::NonWorkingDaysAPI,
+               'index',
+               content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:parsed_response) { JSON.parse(last_response.body) }

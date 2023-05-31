@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Members::Filters::BlockedFilter do
+RSpec.describe Queries::Members::Filters::BlockedFilter do
   it_behaves_like 'basic query filter' do
     let(:class_key) { :blocked }
     let(:type) { :list }

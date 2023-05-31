@@ -30,7 +30,7 @@ require 'spec_helper'
 require File.join(File.dirname(__FILE__), '..', 'support', 'custom_field_filter')
 require File.join(File.dirname(__FILE__), '..', 'support', 'configuration_helper')
 
-describe 'Custom field filter and group by caching' do
+RSpec.describe 'Custom field filter and group by caching' do
   include OpenProject::Reporting::SpecHelper::CustomFieldFilterHelper
   include OpenProject::Reporting::SpecHelper::ConfigurationHelper
 

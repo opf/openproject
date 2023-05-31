@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Query::Results, 'Subject filter integration', with_mail: false do
+RSpec.describe Query::Results, 'Subject filter integration', with_mail: false do
   let(:query_results) do
     described_class.new query
   end

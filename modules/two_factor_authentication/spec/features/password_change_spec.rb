@@ -1,11 +1,11 @@
 require_relative '../spec_helper'
 
-describe 'Password change with OTP',
-         js: true, with_settings: {
-           plugin_openproject_two_factor_authentication: {
-             'active_strategies' => [:developer]
-           }
-         } do
+RSpec.describe 'Password change with OTP',
+               js: true, with_settings: {
+                 plugin_openproject_two_factor_authentication: {
+                   'active_strategies' => [:developer]
+                 }
+               } do
   let(:user_password) { 'boB&' * 4 }
   let(:new_user_password) { '%obB' * 4 }
   let(:user) do

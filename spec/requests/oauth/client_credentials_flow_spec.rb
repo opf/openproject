@@ -30,7 +30,7 @@ require 'spec_helper'
 require 'rest-client'
 
 # rubocop:disable Rails/HttpPositionalArguments
-describe 'OAuth client credentials flow' do
+RSpec.describe 'OAuth client credentials flow' do
   include Rack::Test::Methods
 
   let!(:application) { create(:oauth_application, client_credentials_user_id: user_id, name: 'Cool API app!') }

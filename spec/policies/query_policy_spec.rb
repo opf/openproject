@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe QueryPolicy, type: :controller do
+RSpec.describe QueryPolicy, type: :controller do
   let(:user)    { build_stubbed(:user) }
   let(:project) { build_stubbed(:project) }
   let(:query)   { build_stubbed(:query, project:, user:) }

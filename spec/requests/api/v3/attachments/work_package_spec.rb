@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './attachment_resource_shared_examples'
 
-describe "work package attachments" do
+RSpec.describe "work package attachments" do
   it_behaves_like "an APIv3 attachment resource" do
     let(:attachment_type) { :work_package }
 

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Filter by budget', js: true do
+RSpec.describe 'Filter by budget', js: true do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
 

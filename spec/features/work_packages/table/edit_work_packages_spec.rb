@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Inline editing work packages', js: true do
+RSpec.describe 'Inline editing work packages', js: true do
   let(:manager_role) do
     create(:role,
            permissions: %i[view_work_packages

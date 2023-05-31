@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OAuthClientToken do
+RSpec.describe OAuthClientToken do
   let(:access_token) { "x" }
   let(:refresh_token) { "x" }
   let(:user) { create(:user) }

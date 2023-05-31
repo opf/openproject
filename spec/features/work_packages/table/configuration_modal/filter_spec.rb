@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Work Package table configuration modal filters spec', js: true do
+RSpec.describe 'Work Package table configuration modal filters spec', js: true do
   let(:user) { create(:admin) }
 
   let(:project) { create(:project) }

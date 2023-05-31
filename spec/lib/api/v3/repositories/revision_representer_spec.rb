@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Repositories::RevisionRepresenter do
+RSpec.describe API::V3::Repositories::RevisionRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:representer) { described_class.new(revision, current_user: double('current_user')) }

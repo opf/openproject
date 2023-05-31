@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Sessions::UserSession do
+RSpec.describe Sessions::UserSession do
   subject { described_class.new session_id: 'foo' }
 
   describe '#save' do

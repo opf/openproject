@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe RbQueriesController do
+RSpec.describe RbQueriesController do
   describe 'routing' do
     it {
       expect(get('/projects/project_42/sprints/21/query')).to route_to(controller: 'rb_queries',

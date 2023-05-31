@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::WatcherFilter do
+RSpec.describe Queries::WorkPackages::Filter::WatcherFilter do
   let(:user) { build_stubbed(:user) }
 
   it_behaves_like 'basic query filter' do

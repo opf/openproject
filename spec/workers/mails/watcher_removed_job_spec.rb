@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative 'shared/watcher_job'
 
-describe Mails::WatcherRemovedJob, type: :model do
+RSpec.describe Mails::WatcherRemovedJob, type: :model do
   include_examples "watcher job", 'removed' do
     let(:watcher_parameter) { watcher.attributes }
 

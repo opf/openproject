@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../../support/pages/my/page'
 
-describe 'My page', js: true do
+RSpec.describe 'My page', js: true do
   let!(:type) { create(:type) }
   let!(:project) { create(:project, types: [type]) }
   let!(:open_status) { create(:default_status) }

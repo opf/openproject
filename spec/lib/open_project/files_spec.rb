@@ -56,7 +56,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::Files do
+RSpec.describe OpenProject::Files do
   describe 'build_uploaded_file' do
     let(:original_filename) { 'test.png' }
     let(:content_type) { 'image/png' }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::JournalFormatter::ActiveStatus do
+RSpec.describe OpenProject::JournalFormatter::ActiveStatus do
   let(:instance) { described_class.new(build(:project_journal)) }
 
   it "renders correctly when unarchiving" do

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Capabilities::Scopes::Default do
+RSpec.describe Capabilities::Scopes::Default do
   # we focus on the non current user capabilities to make the tests easier to understand
   subject(:scope) { Capability.default.where(principal_id: user.id) }
 

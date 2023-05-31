@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Versions::Scopes::SharedWith do
+RSpec.describe Versions::Scopes::SharedWith do
   shared_let(:root_project) { create(:project) }
   shared_let(:parent_project) { create(:project, parent: root_project) }
   shared_let(:project) { create(:project, parent: parent_project) }

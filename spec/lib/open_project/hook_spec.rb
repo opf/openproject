@@ -27,7 +27,7 @@
 #++
 require 'spec_helper'
 
-describe OpenProject::Hook do
+RSpec.describe OpenProject::Hook do
   let(:test_hook_class) do
     Class.new(OpenProject::Hook::ViewListener)
   end

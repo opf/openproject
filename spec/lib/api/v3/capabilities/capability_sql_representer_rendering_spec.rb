@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
+RSpec.describe API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
   include API::V3::Utilities::PathHelper
 
   let(:scope) do

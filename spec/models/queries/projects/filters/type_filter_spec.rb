@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Projects::Filters::TypeFilter do
+RSpec.describe Queries::Projects::Filters::TypeFilter do
   it_behaves_like 'basic query filter' do
     let(:class_key) { :type_id }
     let(:type) { :list }

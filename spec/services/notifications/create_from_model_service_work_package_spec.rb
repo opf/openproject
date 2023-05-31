@@ -28,9 +28,9 @@
 require 'spec_helper'
 require_relative './create_from_journal_job_shared'
 
-describe Notifications::CreateFromModelService,
-         'work_package',
-         with_settings: { journal_aggregation_time_minutes: 0 } do
+RSpec.describe Notifications::CreateFromModelService,
+               'work_package',
+               with_settings: { journal_aggregation_time_minutes: 0 } do
   subject(:call) do
     described_class.new(journal).call(send_notifications)
   end

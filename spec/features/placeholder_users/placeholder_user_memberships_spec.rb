@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative '../principals/shared_memberships_examples'
 
-describe 'placeholder user memberships through placeholder user page', js: true do
+RSpec.describe 'placeholder user memberships through placeholder user page', js: true do
   shared_let(:principal) { create(:placeholder_user, name: 'UX Designer') }
   shared_let(:principal_page) { Pages::Admin::IndividualPrincipals::Edit.new(principal) }
 

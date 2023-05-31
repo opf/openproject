@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Roles::Filters::GrantableFilter do
+RSpec.describe Queries::Roles::Filters::GrantableFilter do
   it_behaves_like 'basic query filter' do
     let(:class_key) { :grantable }
     let(:type) { :list }

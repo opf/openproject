@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::StatusFilter do
+RSpec.describe Queries::WorkPackages::Filter::StatusFilter do
   let(:status) { build_stubbed(:status) }
   let(:status2) { build_stubbed(:status) }
 

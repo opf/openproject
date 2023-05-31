@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Revisions resource' do
+RSpec.describe 'API v3 Revisions resource' do
   include Rack::Test::Methods
   include Capybara::RSpecMatchers
   include API::V3::Utilities::PathHelper

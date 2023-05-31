@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Notifications::Scopes::UnsentRemindersBefore do
+RSpec.describe Notifications::Scopes::UnsentRemindersBefore do
   describe '.unsent_reminders_before' do
     subject(:scope) { Notification.unsent_reminders_before(recipient:, time:) }
 

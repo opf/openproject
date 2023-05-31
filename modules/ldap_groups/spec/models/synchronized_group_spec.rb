@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe LdapGroups::SynchronizedGroup do
+RSpec.describe LdapGroups::SynchronizedGroup do
   describe 'validations' do
     subject { build(:ldap_synchronized_group) }
 

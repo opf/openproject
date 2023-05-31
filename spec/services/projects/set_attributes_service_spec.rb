@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Projects::SetAttributesService, type: :model do
+RSpec.describe Projects::SetAttributesService, type: :model do
   let(:user) { build_stubbed(:user) }
   let(:contract_class) do
     contract = class_double(Projects::CreateContract)

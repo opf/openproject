@@ -26,7 +26,7 @@
 
 require 'spec_helper'
 
-describe Redmine::MenuManager::MenuItem do
+RSpec.describe Redmine::MenuManager::MenuItem do
   describe '.new' do
     it 'creates an item with all required parameters' do
       expect(described_class.new(:test_good_menu, '/test', {}))

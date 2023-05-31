@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-shared_examples_for 'ifc model contract' do
+RSpec.shared_examples_for 'ifc model contract' do
   let(:current_user) { build_stubbed(:user) }
   let(:other_user) { build_stubbed(:user) }
   let(:model_project) { build_stubbed(:project) }

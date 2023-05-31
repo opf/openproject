@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Reports::ReportsService do
+RSpec.describe Reports::ReportsService do
   let(:project) { create(:project) }
 
   it 'is initializable with a project' do

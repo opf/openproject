@@ -28,7 +28,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe Rate do
+RSpec.describe Rate do
   let(:rate) { build(:rate) }
 
   describe '#valid?' do

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Wiki unicode title spec', js: true do
+RSpec.describe 'Wiki unicode title spec', js: true do
   shared_let(:admin) { create(:admin) }
   let(:user) { admin }
 

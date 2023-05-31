@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-shared_examples_for 'user contract' do
+RSpec.shared_examples_for 'user contract' do
   let(:user_firstname) { 'Bob' }
   let(:user_lastname) { 'Bobbit' }
   let(:user_login) { 'bob' }

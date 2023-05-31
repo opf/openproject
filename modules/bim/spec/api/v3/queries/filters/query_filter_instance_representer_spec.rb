@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
+RSpec.describe API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
   let(:operator) { '=' }
   let(:filter) do
     Bim::Queries::WorkPackages::Filter::BcfIssueAssociatedFilter

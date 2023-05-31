@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Ldap::ImportUsersFromFilterService do
+RSpec.describe Ldap::ImportUsersFromFilterService do
   include_context 'with temporary LDAP'
 
   subject do

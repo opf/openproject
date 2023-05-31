@@ -1,4 +1,4 @@
-shared_examples_for "an action checked for required login" do
+RSpec.shared_examples_for "an action checked for required login" do
   describe "WITH no login required" do
     before do
       allow(Setting).to receive(:login_required?).and_return(false)
@@ -22,7 +22,7 @@ shared_examples_for "an action checked for required login" do
   end
 end
 
-shared_examples_for "an action requiring login" do
+RSpec.shared_examples_for "an action requiring login" do
   let(:current) { create(:user) }
 
   before do
@@ -48,7 +48,7 @@ shared_examples_for "an action requiring login" do
   end
 end
 
-shared_examples_for "an action requiring admin" do
+RSpec.shared_examples_for "an action requiring admin" do
   let(:current) { create(:admin) }
 
   before do
@@ -89,7 +89,7 @@ shared_examples_for "an action requiring admin" do
     end
   end
 end
-shared_context "there are users with and without avatars" do
+RSpec.shared_context "there are users with and without avatars" do
   let(:base_path) { File.expand_path 'fixtures', __dir__ }
   let(:user_without_avatar) { create(:user) }
   let(:user_with_avatar) do
@@ -117,7 +117,7 @@ shared_context "there are users with and without avatars" do
     testfile
   end
 end
-shared_examples_for "an action with an invalid user" do
+RSpec.shared_examples_for "an action with an invalid user" do
   it do
     do_action
     expect(response).not_to be_success
@@ -125,13 +125,13 @@ shared_examples_for "an action with an invalid user" do
   end
 end
 
-shared_context "an action with stubbed User.find" do
+RSpec.shared_context "an action with stubbed User.find" do
   before do
     allow(user).to receive(:save).and_return true if user
     allow(User).to receive(:find) { |id, _args| id.to_s == "0" ? nil : user }
   end
 end
-shared_examples_for "an action that deletes the user's avatar" do
+RSpec.shared_examples_for "an action that deletes the user's avatar" do
   it do
     expect_any_instance_of(Attachment).to receive(:destroy).and_call_original
     do_action

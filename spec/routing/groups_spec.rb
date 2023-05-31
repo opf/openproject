@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'groups routes' do
+RSpec.describe 'groups routes' do
   it {
     expect(subject).to route(:get, '/admin/groups').to(controller: 'groups',
                                                        action: 'index')

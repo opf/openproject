@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'group memberships through groups page', js: true do
+RSpec.describe 'group memberships through groups page', js: true do
   shared_let(:admin) { create(:admin) }
   let!(:project) { create(:project, name: 'Project 1', identifier: 'project1') }
 

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe UserJob do
+RSpec.describe UserJob do
   let(:test_job) do
     Class.new(UserJob) do
       def execute(foo:)

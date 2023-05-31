@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative 'shared_query_column_specs'
 
-describe Queries::WorkPackages::Columns::PropertyColumn do
+RSpec.describe Queries::WorkPackages::Columns::PropertyColumn do
   let(:instance) { described_class.new(:query_column) }
 
   it_behaves_like 'query column'

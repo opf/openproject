@@ -28,7 +28,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe 'MeetingAgenda' do
+RSpec.describe 'MeetingAgenda' do
   before do
     @a = build(:meeting_agenda, text: "Some content...\n\nMore content!\n\nExtraordinary content!!")
   end

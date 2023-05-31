@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Outgoing webhooks administration' do
+RSpec.describe 'Outgoing webhooks administration' do
   it 'route to index' do
     expect(get('/admin/settings/webhooks')).to route_to('webhooks/outgoing/admin#index')
   end

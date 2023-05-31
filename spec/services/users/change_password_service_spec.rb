@@ -27,7 +27,7 @@
 
 require 'spec_helper'
 
-describe Users::ChangePasswordService do
+RSpec.describe Users::ChangePasswordService do
   let(:user) { create(:user, password: old_password, password_confirmation: old_password) }
   let(:old_password) { 'AdminAdmin42' }
   let(:new_password) { 'SoreThroat33' }

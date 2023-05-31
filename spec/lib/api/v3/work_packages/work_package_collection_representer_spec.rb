@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
+RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:self_base_link) { '/api/v3/example' }

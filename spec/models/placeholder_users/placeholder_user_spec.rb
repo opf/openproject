@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe PlaceholderUser do
+RSpec.describe PlaceholderUser do
   let(:placeholder_user) { build(:placeholder_user) }
 
   subject { placeholder_user }

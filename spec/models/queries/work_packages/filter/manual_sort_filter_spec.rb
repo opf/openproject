@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::ManualSortFilter do
+RSpec.describe Queries::WorkPackages::Filter::ManualSortFilter do
   let!(:in_order) { create(:work_package) }
   let!(:in_order2) { create(:work_package) }
   let!(:out_order) { create(:work_package) }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'work_packages/auto_completes/index.html.erb' do
+RSpec.describe 'work_packages/auto_completes/index.html.erb' do
   let(:work_package) do
     build(:work_package,
           subject: '<script>alert("do not alert this");</script>')

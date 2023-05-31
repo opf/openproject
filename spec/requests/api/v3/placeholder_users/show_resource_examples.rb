@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-shared_examples 'represents the placeholder' do
+RSpec.shared_examples 'represents the placeholder' do
   it do
     expect(last_response.status).to eq(200)
     expect(last_response.body)

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CustomStylesController do
+RSpec.describe CustomStylesController do
   before do
     login_as user
   end

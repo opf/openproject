@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Impediment do
+RSpec.describe Impediment do
   let(:user) { @user ||= create(:user) }
   let(:role) { @role ||= create(:role) }
   let(:type_feature) { @type_feature ||= create(:type_feature) }

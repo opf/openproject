@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Status do
+RSpec.describe Status do
   let(:stubbed_status) { build_stubbed(:status) }
 
   describe 'default status' do

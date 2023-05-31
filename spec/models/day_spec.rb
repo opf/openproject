@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Day do
+RSpec.describe Day do
   shared_let(:week_days) { week_with_saturday_and_sunday_as_weekend }
   let(:today) { Date.current }
   let(:date_range) { Date.new(2022, 1, 1)..Date.new(2022, 2, 1) }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Job status', js: true do
+RSpec.describe 'Job status', js: true do
   shared_let(:admin) { create(:admin) }
 
   before do
