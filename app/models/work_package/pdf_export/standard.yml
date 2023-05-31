@@ -157,10 +157,10 @@ work_package:
     codeblock:
       background_color: "F5F5F5"
       color: "880000"
-      padding: "3mm"
+      padding: 10
       size: 8
-      margin_top: "2mm"
-      margin_bottom: "2mm"
+      margin_top: 10
+      margin_bottom: 10
       font: "SpaceMono"
     table:
       auto_width: true
@@ -171,6 +171,6 @@ work_package:
         styles: [ "bold" ]
         background_color: "F0F0F0"
       cell:
-        size: 9
-        border_width: "0.25mm"
+        size: 8
+        border_width: 0.25
         padding: 5
