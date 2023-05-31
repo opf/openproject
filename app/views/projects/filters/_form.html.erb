@@ -1,7 +1,10 @@
 <%= form_tag({},
              method: :get,
              class: "project-filters #{filter_set? ? '-expanded' : ''}",
-             'data-project-target': 'filterForm') do %>
+             data: {
+               'project-target': 'filterForm',
+               action: 'submit->project#sendForm:prevent'
+             }) do %>
   <% operators_without_values = %w[* !* t w] %>
   <fieldset class="advanced-filters--container">
     <a title="<%= t('js.close_form_title') %>"
@@ -31,7 +34,9 @@
                            class: 'advanced-filters--select',
                            data: {
                              action: 'change->project#setValueVisibility',
-                             'project-filter-name-param': filter.name
+                             'project-filter-name-param': filter.name,
+                             'project-target': 'operator',
+                             'filter-name': filter.name
                            } %>
           <% end %>
           <% value_visibility = operators_without_values.include?(selected_operator) ? 'hidden' : '' %>

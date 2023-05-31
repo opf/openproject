@@ -28,10 +28,10 @@
 
 /* eslint-disable */
 jQuery(function ($) {
-  let $filterForm = $('form.project-filters').first();
+  // let $filterForm = $('form.project-filters').first();
   // let $button = $('#projects-filter-toggle-button');
-  let operatorsWithoutValues = ['*', '!*', 't', 'w'];
-  let selectFilterTypes = ['list', 'list_all', 'list_optional'];
+  // let operatorsWithoutValues = ['*', '!*', 't', 'w'];
+  // let selectFilterTypes = ['list', 'list_all', 'list_optional'];
   // let $closeIcon = $('#projects-filter-close-button');
 
   // function toggleProjectFilterForm() {
@@ -44,108 +44,108 @@ jQuery(function ($) {
   //   }
   // }
 
-  function parseFilters() {
-    let $advancedFilters = $(".advanced-filters--filter:not(.hidden)", $filterForm);
-    let filters = [];
+  // function parseFilters() {
+  //   let $advancedFilters = $(".advanced-filters--filter:not(.hidden)", $filterForm);
+  //   let filters = [];
+  //
+  //   $advancedFilters.each(function (_i, filter) {
+  //     let $filter = $(filter);
+  //     let filterName = $filter.attr('filter-name');
+  //     let parsedOperator = $('select[name="operator"]', $filter).val();
+  //     let parsedValue = parseFilterValue($filter, parsedOperator);
+  //
+  //     if (parsedValue) {
+  //       let filter = {}
+  //       filter[filterName] = {'operator': parsedOperator, 'values': parsedValue};
+  //
+  //       filters.push(filter);
+  //     }
+  //   });
+  //
+  //   return filters;
+  // }
 
-    $advancedFilters.each(function (_i, filter) {
-      let $filter = $(filter);
-      let filterName = $filter.attr('filter-name');
-      let parsedOperator = $('select[name="operator"]', $filter).val();
-      let parsedValue = parseFilterValue($filter, parsedOperator);
+  // function parseFilterValue($filter, operator) {
+  //   let filterType = $filter.attr('filter-type');
+  //   let $valueBlock = $('.advanced-filters--filter-value', $filter);
+  //   let checkbox = $('input[type="checkbox"]', $valueBlock)[0];
+  //
+  //   if (checkbox) {
+  //     return [checkbox.checked ? 't' : 'f'];
+  //   }
+  //
+  //   if (operatorsWithoutValues.includes(operator)) {
+  //     return [];
+  //   }
+  //
+  //   if (selectFilterTypes.includes(filterType)) {
+  //     // Operator expects presence of value(s)
+  //     return parseSelectFilterValue($valueBlock);
+  //   }
+  //
+  //   if (['datetime_past', 'date'].includes(filterType)) {
+  //     return parseDateFilterValue($valueBlock);
+  //   }
+  //
+  //   // not a select box nor datetime_past
+  //   let value = $('input[name="value"]', $valueBlock).val();
+  //   if (value.length > 0) {
+  //     return [value];
+  //   }
+  // }
 
-      if (parsedValue) {
-        let filter = {}
-        filter[filterName] = {'operator': parsedOperator, 'values': parsedValue};
+  // function parseSelectFilterValue($valueBlock) {
+  //   let selector;
+  //
+  //   if ($valueBlock.hasClass('multi-value')) {
+  //     selector = '.multi-select select[name="value[]"]';
+  //   } else {
+  //     selector = '.single-select select[name="value"]';
+  //   }
+  //
+  //   let values = $(selector, $valueBlock).val();
+  //   values = _.flatten([values]);
+  //
+  //   if (values.length > 0) {
+  //     return values;
+  //   }
+  // }
 
-        filters.push(filter);
-      }
-    });
+  // function parseDateFilterValue($valueBlock) {
+  //   let value;
+  //
+  //   if ($valueBlock.hasClass('days')) {
+  //     value = _.without([$('.days input[name="value"]', $valueBlock).val()], '');
+  //   } else if ($valueBlock.hasClass('on-date')) {
+  //     value = _.without([$('.on-date input[name="value"]', $valueBlock).val()], '');
+  //   } else if ($valueBlock.hasClass('between-dates')) {
+  //     let fromValue = $('.between-dates input[name="from_value"]',
+  //       $valueBlock).val();
+  //     let toValue = $('.between-dates input[name="to_value"]',
+  //       $valueBlock).val();
+  //
+  //     value = [fromValue, toValue];
+  //   }
+  //
+  //   if (value.length > 0) {
+  //     return value;
+  //   }
+  // }
 
-    return filters;
-  }
-
-  function parseFilterValue($filter, operator) {
-    let filterType = $filter.attr('filter-type');
-    let $valueBlock = $('.advanced-filters--filter-value', $filter);
-    let checkbox = $('input[type="checkbox"]', $valueBlock)[0];
-
-    if (checkbox) {
-      return [checkbox.checked ? 't' : 'f'];
-    }
-
-    if (operatorsWithoutValues.includes(operator)) {
-      return [];
-    }
-
-    if (selectFilterTypes.includes(filterType)) {
-      // Operator expects presence of value(s)
-      return parseSelectFilterValue($valueBlock);
-    }
-
-    if (['datetime_past', 'date'].includes(filterType)) {
-      return parseDateFilterValue($valueBlock);
-    }
-
-    // not a select box nor datetime_past
-    let value = $('input[name="value"]', $valueBlock).val();
-    if (value.length > 0) {
-      return [value];
-    }
-  }
-
-  function parseSelectFilterValue($valueBlock) {
-    let selector;
-
-    if ($valueBlock.hasClass('multi-value')) {
-      selector = '.multi-select select[name="value[]"]';
-    } else {
-      selector = '.single-select select[name="value"]';
-    }
-
-    let values = $(selector, $valueBlock).val();
-    values = _.flatten([values]);
-
-    if (values.length > 0) {
-      return values;
-    }
-  }
-
-  function parseDateFilterValue($valueBlock) {
-    let value;
-
-    if ($valueBlock.hasClass('days')) {
-      value = _.without([$('.days input[name="value"]', $valueBlock).val()], '');
-    } else if ($valueBlock.hasClass('on-date')) {
-      value = _.without([$('.on-date input[name="value"]', $valueBlock).val()], '');
-    } else if ($valueBlock.hasClass('between-dates')) {
-      let fromValue = $('.between-dates input[name="from_value"]',
-        $valueBlock).val();
-      let toValue = $('.between-dates input[name="to_value"]',
-        $valueBlock).val();
-
-      value = [fromValue, toValue];
-    }
-
-    if (value.length > 0) {
-      return value;
-    }
-  }
-
-  function sendForm() {
-    $('#ajax-indicator').show();
-    let filters = parseFilters();
-    let orderParam = getUrlParameter('sortBy');
-
-
-    let query = '?filters=' + encodeURIComponent(JSON.stringify(filters));
-    if (orderParam && orderParam.length > 0) {
-      query = query + '&sortBy=' + encodeURIComponent(orderParam);
-    }
-
-    window.location = window.location.pathname + query;
-    return false;
-  }
+  // function sendForm() {
+  //   $('#ajax-indicator').show();
+  //   let filters = parseFilters();
+  //   let orderParam = getUrlParameter('sortBy');
+  //
+  //
+  //   let query = '?filters=' + encodeURIComponent(JSON.stringify(filters));
+  //   if (orderParam && orderParam.length > 0) {
+  //     query = query + '&sortBy=' + encodeURIComponent(orderParam);
+  //   }
+  //
+  //   window.location = window.location.pathname + query;
+  //   return false;
+  // }
 
   // function toggleMultiselect() {
   //   let $self = $(this);
@@ -226,27 +226,27 @@ jQuery(function ($) {
   // $('.advanced-filters--filter-value a.multi-select-toggle').click(toggleMultiselect);
   // $button.click(toggleProjectFilterForm);
   // $closeIcon.click(toggleProjectFilterForm);
-  $filterForm.submit(sendForm);
+  // $filterForm.submit(sendForm);
   // $('select[name="operator"]', $filterForm).on('change', setValueVisibility)
   // $('#add_filter_select', $filterForm).on('change', addFilter);
   // $('.filter_rem', $filterForm).on('click', removeFilter);
 
 
   // Helpers
-  function getUrlParameter(sParam) {
-    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-      sURLVariables = sPageURL.split('&'),
-      sParameterName,
-      i;
-
-    for (i = 0; i < sURLVariables.length; i++) {
-      sParameterName = sURLVariables[i].split('=');
-
-      if (sParameterName[0] === sParam) {
-        return sParameterName[1] === undefined ? true : sParameterName[1];
-      }
-    }
-  };
+  // function getUrlParameter(sParam) {
+  //   var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+  //     sURLVariables = sPageURL.split('&'),
+  //     sParameterName,
+  //     i;
+  //
+  //   for (i = 0; i < sURLVariables.length; i++) {
+  //     sParameterName = sURLVariables[i].split('=');
+  //
+  //     if (sParameterName[0] === sParam) {
+  //       return sParameterName[1] === undefined ? true : sParameterName[1];
+  //     }
+  //   }
+  // };
 });
 
 // (function ($) {

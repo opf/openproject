@@ -31,14 +31,27 @@
 
 import { Controller } from '@hotwired/stimulus';
 
+interface Filter {
+  [key:string]:{
+    operator:string;
+    values:string[];
+  };
+}
+
 export default class ProjectController extends Controller {
-  static targets=[
+  static targets = [
     'filterFormToggle',
     'filterForm',
     'filter',
     'addFilterSelect',
     'spacer',
     'descriptionToggle',
+    'operator',
+    'filterValueContainer',
+    'filterValueSelect',
+    'days',
+    'singleDay',
+    'simpleValue',
   ];
 
   declare readonly filterFormToggleTarget:HTMLButtonElement;
@@ -47,10 +60,12 @@ export default class ProjectController extends Controller {
   declare readonly addFilterSelectTarget:HTMLSelectElement;
   declare readonly spacerTarget:HTMLElement;
   declare readonly descriptionToggleTargets:HTMLAnchorElement[];
-
-  connect() {
-    // console.log('Project Controller Connected');
-  }
+  declare readonly operatorTargets:HTMLSelectElement[];
+  declare readonly filterValueContainerTargets:HTMLElement[];
+  declare readonly filterValueSelectTargets:HTMLSelectElement[];
+  declare readonly daysTargets:HTMLInputElement[];
+  declare readonly singleDayTargets:HTMLInputElement[];
+  declare readonly simpleValueTargets:HTMLInputElement[];
 
   toggleFilterForm() {
     this.filterFormToggleTarget.classList.toggle('-active');
@@ -183,5 +198,138 @@ export default class ProjectController extends Controller {
     } else {
       descriptionRow.removeAttribute('aria-live');
     }
+  }
+
+  sendForm() {
+    const ajaxIndicator = document.querySelector('#ajax-indicator') as HTMLElement;
+    ajaxIndicator.style.display = '';
+    const filters = this.parseFilters();
+    const orderParam = this.getUrlParameter('sortBy');
+
+    let query = `?filters=${encodeURIComponent(JSON.stringify(filters))}`;
+
+    if (orderParam) {
+      query = `${query}&sortBy=${encodeURIComponent(orderParam)}`;
+    }
+
+    window.location.href = window.location.pathname + query;
+  }
+
+  private parseFilters() {
+    const advancedFilters = this.filterTargets.filter((filter) => !filter.classList.contains('hidden'));
+    const filters:Filter[] = [];
+
+    advancedFilters.forEach((filter) => {
+      const filterName = filter.getAttribute('filter-name');
+      const filterType = filter.getAttribute('filter-type');
+
+      if (filterName && filterType) {
+        const parsedOperator = this.operatorTargets.find((operator) => operator.getAttribute('data-filter-name') === filterName)?.value;
+        if (parsedOperator) {
+          const parsedValue = this.parseFilterValue(filterName, filterType, parsedOperator);
+
+          if (parsedValue) {
+            const currentFilter:Filter = {
+              [filterName]: { operator: parsedOperator, values: parsedValue as string[] },
+            };
+            filters.push(currentFilter);
+          }
+        }
+      }
+    });
+
+    return filters;
+  }
+
+  private readonly operatorsWithoutValues = ['*', '!*', 't', 'w'];
+  private readonly selectFilterTypes = ['list', 'list_all', 'list_optional'];
+
+  private parseFilterValue(filterName:string, filterType:string, operator:string) {
+    const valueBlock = this.filterValueContainerTargets.find((filterValueContainer) => filterValueContainer.getAttribute('data-filter-name') === filterName);
+
+    if (valueBlock) {
+      const checkbox = valueBlock.querySelector('input[type="checkbox"]') as HTMLInputElement;
+
+      if (checkbox) {
+        return [checkbox.checked ? 't' : 'f'];
+      }
+
+      if (this.operatorsWithoutValues.includes(operator)) {
+        return [];
+      }
+
+      if (this.selectFilterTypes.includes(filterType)) {
+        return this.parseSelectFilterValue(valueBlock, filterName);
+      }
+
+      if (['datetime_past', 'date'].includes(filterType)) {
+        return this.parseDateFilterValue(valueBlock, filterName);
+      }
+
+      const value = this.simpleValueTargets.find((simpleValueInput) => simpleValueInput.getAttribute('data-filter-name') === filterName)?.value;
+
+      if (value) {
+        return [value];
+      }
+
+      return null;
+    }
+
+    return null;
+  }
+
+  private parseSelectFilterValue(valueBlock:HTMLElement, filterName:string) {
+    let selectFields;
+
+    if (valueBlock.classList.contains('multi-value')) {
+      selectFields = this.filterValueSelectTargets.filter((selectField) => selectField.multiple && selectField.getAttribute('data-filter-name') === filterName);
+    } else {
+      selectFields = this.filterValueSelectTargets.filter((selectField) => !selectField.multiple && selectField.getAttribute('data-filter-name') === filterName);
+    }
+
+    const values = _.flatten(Array.from(selectFields).map((selectField:HTMLSelectElement) => Array.from(selectField.selectedOptions).map((option) => option.value)));
+
+    if (values.length > 0) {
+      return values;
+    }
+
+    return null;
+  }
+
+  private parseDateFilterValue(valueBlock:HTMLElement, filterName:string) {
+    let value;
+
+    if (valueBlock.classList.contains('days')) {
+      const dateValue = this.daysTargets.find((daysField) => daysField.getAttribute('data-filter-name') === filterName)?.value;
+      value = _.without([dateValue], '');
+    } else if (valueBlock.classList.contains('on-date')) {
+      const dateValue = this.singleDayTargets.find((dateInput) => dateInput.id === `on-date-value-${filterName}`)?.value;
+      value = _.without([dateValue], '');
+    } else if (valueBlock.classList.contains('between-dates')) {
+      const fromValue = this.singleDayTargets.find((dateInput) => dateInput.id === `between-dates-from-value-${filterName}`)?.value;
+      const toValue = this.singleDayTargets.find((dateInput) => dateInput.id === `between-dates-to-value-${filterName}`)?.value;
+      value = [fromValue, toValue];
+    }
+
+    if (value && value.length > 0) {
+      return value;
+    }
+
+    return null;
+  }
+
+  private getUrlParameter(sParam:string) {
+    const sPageURL = decodeURIComponent(window.location.search.substring(1));
+    const sURLVariables = sPageURL.split('&');
+
+    for (let i = 0; i < sURLVariables.length; i++) {
+      const sParameterName = sURLVariables[i].split('=');
+
+      if (sParameterName[0] === sParam) {
+        return sParameterName[1] === undefined ? 'true' : sParameterName[1];
+      }
+    }
+
+    return null;
   }
 }

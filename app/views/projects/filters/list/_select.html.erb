@@ -6,7 +6,11 @@
                               :second,
                               :first,
                               selected_values),
-                          { class: 'form--select -slim' }]
+                          {
+                            class: 'form--select -slim',
+                            'data-project-target': 'filterValueSelect',
+                            'data-filter-name': filter.name
+                          }]
        if multi_value
          select_options.third[:multiple] = true
        end %>
