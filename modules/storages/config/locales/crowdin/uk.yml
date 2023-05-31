@@ -47,6 +47,7 @@ uk:
       replace_provider_type_oauth: "Замінити %{provider_type} OAuth"
       save_and_continue_setup: "Зберегти й продовжити налаштування"
       save_and_complete_setup: "Зберегти й завершити налаштування"
+      select_folder: "Select folder"
     page_titles:
       project_settings:
         index: "Файлові сховища доступні в цьому проєкті"
@@ -59,6 +60,7 @@ uk:
       host: "Додайте адресу хосту для свого сховища, включно з https://. Її довжина не може перевищувати 255 символів."
       no_storage_set_up: "Файлові сховища поки не створено."
       no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
+      empty_project_folder_validation: "Selecting a folder is mandatory to proceed."
       existing_manual_folder: >
         You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
       setting_up_additional_storages: "Щоб створити додаткові файлові сховища, перейдіть у"
@@ -77,7 +79,6 @@ uk:
         Справді видалити це сховище? Це сховище буде також видалено з усіх проєктів, де воно використовувалося. Крім того, буде видалено всі посилання в пакетах робіт на файли, які зберігалися в цьому сховищі.
       project_storage: >
         Справді видалити це файлове сховище з проєкту? Буде також видалено всі посилання на файли, які зберігалися в цьому сховищі для цього проєкту.
-    placeholder_existing_folder_selection: "Select a folder"
     label_creator: "Автор"
     label_file_link: "Посилання на файл"
     label_file_links: "Посилання на файл"
@@ -92,8 +93,8 @@ uk:
     label_project_folder: "Project folder"
     label_new_storage: "Нове сховище"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
-    label_existing_manual_folder_selection: "Existing folder selection"
     label_no_specific_folder: "No specific folder"
+    label_no_selected_folder: "No selected folder"
     label_storage: "Сховище"
     label_storages: "Сховища"
     no_results: "Сховища поки не створено."
