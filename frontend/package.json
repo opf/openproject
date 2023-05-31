@@ -115,6 +115,7 @@
     "@ngneat/content-loader": "^6.1.0",
     "@ngx-formly/core": "^5.10.19",
     "@openproject/reactivestates": "^3.0.1",
+    "@primer/css": "^21.0.2",
     "@uirouter/angular": "^11.1.0",
     "@uirouter/core": "^6.0.8",
     "@uirouter/rx": "^1.0.0",

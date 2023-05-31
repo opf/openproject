@@ -26,6 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
+<%= render(Primer::Beta::Button.new(size: :small)) { "Small" } %>
+
 <% breadcrumb_paths(nil) %>
 <h2 class="headline--application">
   <%= organization_icon %>
@@ -57,5 +59,6 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
   </section>
 <% end %>
+
 
 <%= call_hook :homescreen_after_links %>

@@ -348,3 +348,5 @@ gemfiles.each do |file|
   # don't use eval_gemfile(file) here as it will break dependabot!
   send(:eval_gemfile, file) if File.readable?(file)
 end
+
+gem "primer_view_components", "~> 0.1.9"

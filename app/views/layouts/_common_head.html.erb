@@ -2,6 +2,7 @@
 <meta name="viewport" content="width=device-width">
 <%= output_title_and_meta_tags %>
 <%= appsignal_frontend_tag %>
+<%= javascript_include_tag("primer_view_components") %>
 
 <% relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || '' %>
 <meta name="app_base_path" content="<%= relative_url_root %>"/>

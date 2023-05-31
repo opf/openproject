@@ -32,6 +32,9 @@ require 'rails/all'
 require 'active_support'
 require 'active_support/dependencies'
 require 'core_extensions'
+require "view_component"
+require "primer/view_components"
+require "primer/view_components/engine"
 
 # Silence deprecations early on for testing on CI and production
 ActiveSupport::Deprecation.silenced =
