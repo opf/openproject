@@ -60,8 +60,8 @@ describe Projects::CopyService, 'integration', type: :model, with_ee: %i[readonl
     { target_project_params:, only: only_args, send_notifications: }
   end
   let(:send_notifications) { true }
-  let(:role) { create(:role, permissions: %i[copy_projects view_work_packages work_package_assigned]) }
 
+  shared_let(:role) { create(:role, permissions: %i[copy_projects view_work_packages work_package_assigned]) }
   shared_let(:new_project_role) { create(:role, permissions: %i[]) }
 
   before do
@@ -87,7 +87,112 @@ describe Projects::CopyService, 'integration', type: :model, with_ee: %i[readonl
   describe 'call' do
     subject { instance.call(params) }
 
+    let(:all_modules) do
+      %i[members versions categories work_packages work_package_attachments wiki wiki_page_attachments
+         forums queries boards overview storages file_links]
+    end
+    let(:only_args) { all_modules }
     let(:project_copy) { subject.result }
+
+    shared_examples_for 'copies public attribute' do
+      describe '#public' do
+        before do
+          source.update!(public:)
+        end
+
+        context 'when not public' do
+          let(:public) { false }
+
+          it 'copies correctly' do
+            expect(subject).to be_success
+            expect(project_copy.public).to eq public
+          end
+        end
+
+        context 'when public' do
+          let(:public) { true }
+
+          it 'copies correctly' do
+            expect(subject).to be_success
+            expect(project_copy.public).to eq public
+          end
+        end
+      end
+    end
+
+    shared_examples_for 'copies custom fields' do
+      describe 'project custom fields' do
+        context 'with user project CF' do
+          let(:user_custom_field) { create(:user_project_custom_field) }
+          let(:user_value) do
+            create(:user,
+                   member_in_project: source,
+                   member_through_role: role)
+          end
+
+          before do
+            source.custom_values << CustomValue.new(custom_field: user_custom_field, value: user_value.id.to_s)
+          end
+
+          it 'copies the custom_field' do
+            expect(subject).to be_success
+
+            cv = project_copy.custom_values.reload.find_by(custom_field: user_custom_field)
+            expect(cv).to be_present
+            expect(cv.value).to eq user_value.id.to_s
+            expect(cv.typed_value).to eq user_value
+          end
+        end
+
+        context 'with multi selection project list CF' do
+          let(:list_custom_field) { create(:list_project_custom_field, multi_value: true) }
+
+          before do
+            source.custom_values << CustomValue.new(custom_field: list_custom_field, value: list_custom_field.value_of('A'))
+            source.custom_values << CustomValue.new(custom_field: list_custom_field, value: list_custom_field.value_of('B'))
+
+            source.save!
+          end
+
+          it 'copies the custom_field' do
+            expect(subject).to be_success
+
+            cv = project_copy.custom_values.reload.where(custom_field: list_custom_field).to_a
+            expect(cv).to be_a Array
+            expect(cv.count).to eq 2
+            expect(cv.map(&:formatted_value)).to contain_exactly('A', 'B')
+          end
+        end
+
+        context 'with disabled work package custom field' do
+          it 'is still disabled in the copy' do
+            custom_field = create(:text_wp_custom_field)
+            create(:type_task,
+                   projects: [source],
+                   custom_fields: [custom_field])
+
+            expect(subject).to be_success
+
+            expect(source.work_package_custom_fields).to eq([])
+            expect(project_copy.work_package_custom_fields).to match_array(source.work_package_custom_fields)
+          end
+        end
+
+        context 'with enabled work package custom field' do
+          it 'is still enabled in the copy' do
+            custom_field = create(:text_wp_custom_field, projects: [source])
+            create(:type_task,
+                   projects: [source],
+                   custom_fields: [custom_field])
+
+            expect(subject).to be_success
+
+            expect(source.work_package_custom_fields).to eq([custom_field])
+            expect(project_copy.work_package_custom_fields).to match_array(source.work_package_custom_fields)
+          end
+        end
+      end
+    end
 
     context 'restricting only to members and categories' do
       let(:only_args) { %w[members categories] }
@@ -139,7 +244,7 @@ describe Projects::CopyService, 'integration', type: :model, with_ee: %i[readonl
 
       # Default role being assigned according to setting
       #  merged with the role the user already had.
-      member = project_copy.members.first
+      member = project_copy.members.last
       expect(member.principal)
         .to eql(current_user)
       expect(member.roles)
@@ -155,30 +260,6 @@ describe Projects::CopyService, 'integration', type: :model, with_ee: %i[readonl
       expect(wp.category.name).to eq 'Stock management'
       # Category got copied
       expect(wp.category.id).not_to eq source_category.id
-    end
-
-    describe '#public' do
-      before do
-        source.update!(public:)
-      end
-
-      context 'when not public' do
-        let(:public) { false }
-
-        it 'copies correctly' do
-          expect(subject).to be_success
-          expect(project_copy.public).to eq public
-        end
-      end
-
-      context 'when public' do
-        let(:public) { true }
-
-        it 'copies correctly' do
-          expect(subject).to be_success
-          expect(project_copy.public).to eq public
-        end
-      end
     end
 
     context 'with an assigned version' do
@@ -311,6 +392,8 @@ describe Projects::CopyService, 'integration', type: :model, with_ee: %i[readonl
         end
 
         context 'when not requested' do
+          let(:only_args) { %i[wiki] }
+
           it 'ignores them' do
             expect(subject).to be_success
             expect(subject.errors).to be_empty
@@ -716,78 +799,86 @@ describe Projects::CopyService, 'integration', type: :model, with_ee: %i[readonl
       end
     end
 
-    describe 'project custom fields' do
-      context 'with user project CF' do
-        let(:user_custom_field) { create(:user_project_custom_field) }
-        let(:only_args) { %w[wiki] }
-        let(:user_value) do
-          create(:user,
-                 member_in_project: source,
-                 member_through_role: role)
+    it_behaves_like 'copies public attribute'
+    it_behaves_like 'copies custom fields'
+
+    context 'without anything selected' do
+      let!(:source_member) { create(:user, member_in_project: source, member_through_role: role) }
+      let(:only_args) { nil }
+
+      # rubocop:disable RSpec/MultipleExpectations
+      it 'will set attributes only without copying dependencies' do
+        expect(subject).to be_success
+
+        expect(project_copy.members.count).to eq 1
+        expect(project_copy.categories.count).to eq 0
+        expect(project_copy.work_packages.count).to eq 0
+        expect(project_copy.forums.count).to eq 0
+        # Default wiki page
+        expect(project_copy.wiki).to be_present
+        expect(project_copy.wiki.pages.count).to eq 0
+        expect(project_copy.wiki.wiki_menu_items.count).to eq 1
+        expect(project_copy.queries.count).to eq 0
+        expect(project_copy.versions.count).to eq 0
+
+        # Cleared attributes
+        expect(project_copy).to be_persisted
+        expect(project_copy.name).to eq 'Some name'
+        expect(project_copy.name).to eq 'Some name'
+        expect(project_copy.identifier).to eq 'some-identifier'
+
+        # Duplicated attributes
+        expect(project_copy.description).to eq source.description
+        expect(source.enabled_module_names.sort - %w[repository]).to eq project_copy.enabled_module_names.sort
+        expect(project_copy.types).to eq source.types
+
+        # Default attributes
+        expect(project_copy).to be_active
+
+        # Copy only the current_user as we do not copy any members
+        # Only the default role is being assigned according to setting
+        member = project_copy.reload.members.first
+        expect(member.principal)
+          .to eql(current_user)
+        expect(member.roles)
+          .to contain_exactly(new_project_role)
+      end
+      # rubocop:enable RSpec/MultipleExpectations
+
+      context 'with group memberships' do
+        let!(:user) { create(:user) }
+        let!(:another_role) { create(:role) }
+        let!(:group) do
+          create(:group, members: [user])
         end
 
-        before do
-          source.custom_values << CustomValue.new(custom_field: user_custom_field, value: user_value.id.to_s)
-        end
+        it 'will not copy group members' do
+          Members::CreateService
+            .new(user: current_user, contract_class: EmptyContract)
+            .call(principal: group, roles: [another_role], project: source)
 
-        it 'copies the custom_field' do
+          source.users.reload
+          expect(source.users).to include current_user
+          expect(source.users).to include user
+          expect(project_copy.groups).to be_empty
+          expect(source.member_principals.count).to eq 4
+
           expect(subject).to be_success
 
-          cv = project_copy.custom_values.reload.find_by(custom_field: user_custom_field)
-          expect(cv).to be_present
-          expect(cv.value).to eq user_value.id.to_s
-          expect(cv.typed_value).to eq user_value
+          expect(project_copy.member_principals.count).to eq 1
+          expect(project_copy.groups).to be_empty
+          expect(project_copy.users).to contain_exactly current_user
+
+          group_member = Member.find_by(user_id: group.id, project_id: project_copy.id)
+          expect(group_member).to be_nil
+
+          member = Member.find_by(user_id: user.id, project_id: project_copy.id)
+          expect(member).to be_nil
         end
       end
 
-      context 'with multi selection project list CF' do
-        let(:list_custom_field) { create(:list_project_custom_field, multi_value: true) }
-        let(:only_args) { %w[wiki] }
-
-        before do
-          source.custom_values << CustomValue.new(custom_field: list_custom_field, value: list_custom_field.value_of('A'))
-          source.custom_values << CustomValue.new(custom_field: list_custom_field, value: list_custom_field.value_of('B'))
-
-          source.save!
-        end
-
-        it 'copies the custom_field' do
-          expect(subject).to be_success
-
-          cv = project_copy.custom_values.reload.where(custom_field: list_custom_field).to_a
-          expect(cv).to be_a Array
-          expect(cv.count).to eq 2
-          expect(cv.map(&:formatted_value)).to contain_exactly('A', 'B')
-        end
-      end
-
-      context 'with disabled work package custom field' do
-        it 'is still disabled in the copy' do
-          custom_field = create(:text_wp_custom_field)
-          create(:type_task,
-                 projects: [source],
-                 custom_fields: [custom_field])
-
-          expect(subject).to be_success
-
-          expect(source.work_package_custom_fields).to eq([])
-          expect(project_copy.work_package_custom_fields).to match_array(source.work_package_custom_fields)
-        end
-      end
-
-      context 'with enabled work package custom field' do
-        it 'is still enabled in the copy' do
-          custom_field = create(:text_wp_custom_field, projects: [source])
-          create(:type_task,
-                 projects: [source],
-                 custom_fields: [custom_field])
-
-          expect(subject).to be_success
-
-          expect(source.work_package_custom_fields).to eq([custom_field])
-          expect(project_copy.work_package_custom_fields).to match_array(source.work_package_custom_fields)
-        end
-      end
+      it_behaves_like 'copies public attribute'
+      it_behaves_like 'copies custom fields'
     end
   end
 end
