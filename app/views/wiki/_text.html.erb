@@ -27,6 +27,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% content_for :header_tags do %>
-  <meta name="required_script" content="custom_fields" />
-<% end %>
+<div class="wiki wiki-content op-uc-container">
+  <% if @formatted_text %>
+    <%= @formatted_text %>
+  <% else %>
+    <%= format_text page, :text, attachments: page.attachments %>
+  <% end %>
+</div>

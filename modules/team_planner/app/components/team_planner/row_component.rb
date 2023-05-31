@@ -28,9 +28,6 @@
 
 module TeamPlanner
   class RowComponent < ::RowComponent
-    include ApplicationHelper
-    include ::Redmine::I18n
-
     def query
       model
     end
@@ -42,7 +39,7 @@ module TeamPlanner
     end
 
     def created_at
-      format_time(query.created_at)
+      helpers.format_time(query.created_at)
     end
 
     def assignees

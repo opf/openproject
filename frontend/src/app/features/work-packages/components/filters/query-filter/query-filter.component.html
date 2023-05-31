@@ -3,9 +3,14 @@
   <label
     for="operators-{{filter.id}}"
     class="advanced-filters--filter-name"
-    [textContent]="filter.name"
-    [attr.title]="filter.name"
+    [class.op-query-filter--icon-label]="baselineIncompatibleFilter"
   >
+    <span [textContent]="filter.name" [attr.title]="filter.name"></span>
+    <span
+      *ngIf="baselineIncompatibleFilter"
+      [title]="text.incompatible_filter"
+      data-qa-selector="query-filter-baseline-incompatible"
+      class="spot-icon spot-icon_warning"></span>
   </label>
 
   <!-- Operator -->

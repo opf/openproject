@@ -124,7 +124,7 @@ describe 'Projects index page',
 
     describe 'for admins' do
       before do
-        project.update(created_at: 7.days.ago)
+        project.update(created_at: 7.days.ago, description: 'I am a nice project')
 
         news
       end

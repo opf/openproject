@@ -47,7 +47,7 @@ module Statuses
               aria: { label: t(:label_work_package_status_new) },
               class: 'wp-inline-create--add-link',
               title: t(:label_work_package_status_new) do
-        op_icon('icon icon-add')
+        helpers.op_icon('icon icon-add')
       end
     end
 

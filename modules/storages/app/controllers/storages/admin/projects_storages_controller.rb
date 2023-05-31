@@ -34,7 +34,6 @@
 # Called by: Calls to the controller methods are initiated by user Web GUI
 # actions and mapped to this controller by storages/config/routes.rb.
 class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
-  using Storages::Peripherals::ServiceResultRefinements
   # This is the resource handled in this controller.
   # So the controller knows that the ID in params (URl) refer to instances of this model.
   # This defines @object as the model instance.
@@ -73,7 +72,7 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
                          .result
 
     # Calculate the list of available Storage objects, subtracting already enabled storages.
-    @available_storages = Storages::ProjectStorages::CreateContract.new(@project_storage, current_user).assignable_storages
+    @available_storages = available_storages
 
     # Show the HTML form to create the object.
     render '/storages/project_settings/new'
@@ -91,11 +90,13 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
     # Create success/error messages to the user
     if service_result.success?
       flash[:notice] = I18n.t(:notice_successful_create)
+      redirect_to project_settings_projects_storages_path
     else
-      flash[:error] = service_result.message || I18n.t('notice_internal_server_error')
+      @errors = service_result.errors
+      @project_storage = service_result.result
+      @available_storages = available_storages
+      render '/storages/project_settings/new'
     end
-
-    redirect_to project_settings_projects_storages_path # Redirect: Project -> Settings -> File Storages
   end
 
   # Edit page is very similar to new page, except that we don't need to set
@@ -121,10 +122,11 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
 
     if service_result.success?
       flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to project_settings_projects_storages_path # Redirect: Project -> Settings -> File Storages
+      redirect_to project_settings_projects_storages_path
     else
       @errors = service_result.errors
-      render :edit
+      @project_storage = @object
+      render '/storages/project_settings/edit'
     end
   end
 
@@ -143,49 +145,6 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
     redirect_to project_settings_projects_storages_path
   end
 
-  # rubocop:disable Metrics/AbcSize
-  def set_permissions
-    if OpenProject::FeatureDecisions.managed_project_folders_active?
-      find_model_object(:projects_storage_id)
-      storage = @projects_storage.storage
-      project = @projects_storage.project
-      folder = @projects_storage.project_folder_id
-      create_folder_command = Storages::Peripherals::StorageRequests.new(storage:).create_folder_command
-      create_folder_command.result.call(folder:).match(
-        on_success: ->(_) do
-          project_users = project.users
-          oauth_client = OAuthClient.where(integration_id: @projects_storage.storage_id,
-                                           integration_type: 'Storages::Storage').first
-          nextcloud_users = OAuthClientToken.where(oauth_client:, user: project_users)
-          permissions = nextcloud_users.map do |token|
-            user = token.user
-            {
-              origin_user_id: token.origin_user_id,
-              permissions: {
-                read_files: user.allowed_to?(:read_files, @project),
-                write_files: user.allowed_to?(:write_files, @project),
-                create_files: user.allowed_to?(:create_files, @project),
-                share_files: user.allowed_to?(:share_files, @project),
-                delete_files: user.allowed_to?(:delete_files, @project)
-              }
-            }
-          end
-
-          set_permissions_command = Storages::Peripherals::StorageRequests.new(storage:).set_permissions_command
-          set_permissions_command.result.call(folder:, permissions:).match(
-            on_success: ->(_) { flash[:notice] = 'Permissions were successfuly updated on the NextCloud side' }, # rubocop:disable Rails/I18nLocaleTexts
-            on_failure: ->(error) { flash[:error] = "Error: #{error}" }
-          )
-        end,
-        on_failure: ->(error) do
-          flash[:error] = "Error: #{error}"
-        end
-      )
-    end
-    redirect_back(fallback_location: project_settings_projects_storages_path(project_id: project.id))
-  end
-  # rubocop:enable Metrics/AbcSize
-
   private
 
   # Define the list of permitted parameters for creating/updating a ProjectStorage.
@@ -197,5 +156,9 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
       .permit('storage_id', 'project_folder_mode', 'project_folder_id')
       .to_h
       .reverse_merge(project_id: @project.id)
+  end
+
+  def available_storages
+    Storages::ProjectStorages::CreateContract.new(@project_storage, current_user).assignable_storages
   end
 end

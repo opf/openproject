@@ -40,6 +40,7 @@ The **OpenProject Revit AddIn** does not have any special system requirements. A
 - 2019
 - 2020
 - 2021
+- 2022
 
 
 

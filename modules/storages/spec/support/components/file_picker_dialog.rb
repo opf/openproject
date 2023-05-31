@@ -53,6 +53,12 @@ module Components
       end
     end
 
+    def wait_for_folder_loaded
+      page.within(container) do
+        expect(page).not_to have_selector('[data-qa-selector="op-file-list--loading-indicator"]')
+      end
+    end
+
     def confirm
       page.within(container) do
         page.find('[data-qa-selector="op-files-picker-modal--confirm"]').click
