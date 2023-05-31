@@ -31,6 +31,6 @@ See COPYRIGHT and LICENSE files for more details.
   <% if @formatted_text %>
     <%= @formatted_text %>
   <% else %>
-    <%= format_text content, :text, attachments: content.page.attachments %>
+    <%= format_text page, :text, attachments: page.attachments %>
   <% end %>
 </div>

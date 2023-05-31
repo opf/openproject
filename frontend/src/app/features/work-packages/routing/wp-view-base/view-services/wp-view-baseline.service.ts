@@ -42,8 +42,15 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { IWorkPackageTimestamp } from 'core-app/features/hal/resources/work-package-timestamp-resource';
 import * as moment from 'moment-timezone';
 import { Moment } from 'moment';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 
 export const DEFAULT_TIMESTAMP = 'PT0S';
+export const BASELINE_INCOMPATIBLE_FILTERS = [
+  'attachmentContent',
+  'attachmentFileName',
+  'watcher',
+  'comment',
+];
 
 @Injectable()
 export class WorkPackageViewBaselineService extends WorkPackageQueryStateService<string[]> {
@@ -62,6 +69,15 @@ export class WorkPackageViewBaselineService extends WorkPackageQueryStateService
   public nonWorkingDays:IDay[] = [];
 
   public nonWorkingDays$:Observable<IDay[]> = this.requireNonWorkingDaysOfTwoYears();
+
+  public detectIncompatibleFilters(filters:QueryFilterInstanceResource[]):string[] {
+    return BASELINE_INCOMPATIBLE_FILTERS
+      .filter((el) => !!filters.find((filter) => filter.id === el));
+  }
+
+  public isIncompatibleFilter(filter:string):boolean {
+    return BASELINE_INCOMPATIBLE_FILTERS.includes(filter);
+  }
 
   public yesterdayDate():string {
     return moment().subtract(1, 'days').format('YYYY-MM-DD');

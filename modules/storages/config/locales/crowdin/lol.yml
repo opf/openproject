@@ -47,6 +47,7 @@ lol:
       replace_provider_type_oauth: "crwdns823080:0%{provider_type}crwdne823080:0"
       save_and_continue_setup: "crwdns823136:0crwdne823136:0"
       save_and_complete_setup: "crwdns823138:0crwdne823138:0"
+      select_folder: "crwdns854395:0crwdne854395:0"
     page_titles:
       project_settings:
         index: "crwdns807928:0crwdne807928:0"
@@ -59,6 +60,7 @@ lol:
       host: "crwdns823148:0crwdne823148:0"
       no_storage_set_up: "crwdns844777:0crwdne844777:0"
       no_specific_folder: "crwdns852277:0crwdne852277:0"
+      empty_project_folder_validation: "crwdns854397:0crwdne854397:0"
       existing_manual_folder: >
         crwdns852279:0crwdne852279:0
       setting_up_additional_storages: "crwdns807938:0crwdne807938:0"
@@ -77,7 +79,6 @@ lol:
         crwdns807948:0crwdne807948:0
       project_storage: >
         crwdns807950:0crwdne807950:0
-    placeholder_existing_folder_selection: "crwdns852281:0crwdne852281:0"
     label_creator: "crwdns807952:0crwdne807952:0"
     label_file_link: "crwdns807954:0crwdne807954:0"
     label_file_links: "crwdns807956:0crwdne807956:0"
@@ -92,8 +93,8 @@ lol:
     label_project_folder: "crwdns852493:0crwdne852493:0"
     label_new_storage: "crwdns807964:0crwdne807964:0"
     label_existing_manual_folder: "crwdns852283:0crwdne852283:0"
-    label_existing_manual_folder_selection: "crwdns852285:0crwdne852285:0"
     label_no_specific_folder: "crwdns852287:0crwdne852287:0"
+    label_no_selected_folder: "crwdns854399:0crwdne854399:0"
     label_storage: "crwdns807966:0crwdne807966:0"
     label_storages: "crwdns807968:0crwdne807968:0"
     no_results: "crwdns844783:0crwdne844783:0"

@@ -925,6 +925,8 @@ ko:
         modification_label: 'Modified within the comparison time period'
       filters:
         title: '작업 패키지 필터링'
+        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: '이 목록에 새 작업 패키지를 추가하려면 여기를 클릭하세요.'
       create:
@@ -1276,6 +1278,10 @@ ko:
         no_longer_meets_filter_criteria: 'No longer meets filter criteria'
         maintained_with_changes: 'Maintained with changes'
         in_your_timezone: 'In your local timezone:'
+      icon_tooltip:
+        added: 'Added to view within the comparison time period'
+        removed: 'Removed from view within the comparison time period'
+        changed: 'Maintained with modifications'
     forms:
       submit_success_message: '양식을 성공적으로 제출했습니다'
       load_error_message: '양식을 불러오는 중 오류가 발생했습니다'

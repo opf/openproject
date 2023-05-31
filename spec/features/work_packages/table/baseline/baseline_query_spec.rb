@@ -38,6 +38,7 @@ describe 'baseline query saving',
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:baseline) { Components::WorkPackages::Baseline.new }
   let(:baseline_modal) { Components::WorkPackages::BaselineModal.new }
+  let(:filters) { Components::WorkPackages::Filters.new }
 
   shared_let(:berlin_user) do
     create(:user,
@@ -53,6 +54,37 @@ describe 'baseline query saving',
            member_with_permissions: %i[view_work_packages save_queries manage_public_queries])
   end
 
+  it 'shows a warning when an incompatible filter is used', with_flag: { show_changes: true } do
+    login_as berlin_user
+    wp_table.visit!
+
+    baseline_modal.expect_closed
+    baseline.expect_no_legends
+    baseline_modal.toggle_drop_modal
+    baseline_modal.expect_open
+    baseline_modal.expect_selected '-'
+
+    baseline_modal.select_filter 'yesterday'
+    baseline_modal.set_time '09:00'
+    baseline_modal.expect_offset 'UTC+2'
+    baseline_modal.apply
+
+    loading_indicator_saveguard
+
+    filters.open
+    filters.add_filter_by('Watcher', 'is (OR)', 'me')
+
+    loading_indicator_saveguard
+
+    expect(page).to have_selector(
+      '.op-toast.-warning',
+      text: 'Baseline mode is on but some of your active filters are not included in the comparison.'
+    )
+    page.within('#filter_watcher') do
+      expect(page).to have_selector('[data-qa-selector="query-filter-baseline-incompatible"]')
+    end
+  end
+
   it 'can configure and save baseline queries', with_flag: { show_changes: true } do
     login_as berlin_user
     wp_table.visit!
@@ -65,7 +97,7 @@ describe 'baseline query saving',
 
     baseline_modal.select_filter 'yesterday'
     baseline_modal.set_time '09:00'
-    baseline_modal.expect_offset '+02:00'
+    baseline_modal.expect_offset 'UTC+2'
     baseline_modal.apply
 
     loading_indicator_saveguard
@@ -76,7 +108,7 @@ describe 'baseline query saving',
     baseline_modal.toggle_drop_modal
     baseline_modal.expect_closed
     baseline.expect_legends
-    baseline.expect_legend_text "Changes since yesterday (#{Date.yesterday.iso8601} 9:00 AM +02:00)"
+    baseline.expect_legend_text "Changes since yesterday (#{Date.yesterday.iso8601} 9:00 AM UTC+2)"
     expect(page).to have_selector(".op-baseline-legends--details-added", text: 'Now meets filter criteria (1)')
     expect(page).to have_selector(".op-baseline-legends--details-removed", text: 'No longer meets filter criteria (0)')
     expect(page).to have_selector(".op-baseline-legends--details-changed", text: 'Maintained with changes (0)')
@@ -90,19 +122,19 @@ describe 'baseline query saving',
 
     login_as tokyo_user
     wp_table.visit_query query
-    baseline.expect_legend_text "Changes since yesterday (#{Date.yesterday.iso8601} 9:00 AM +02:00)"
-    baseline.expect_legend_tooltip "In your local timezone: #{Date.yesterday.iso8601} 4:00 PM +09:00"
+    baseline.expect_legend_text "Changes since yesterday (#{Date.yesterday.iso8601} 9:00 AM UTC+2)"
+    baseline.expect_legend_tooltip "In your local timezone: #{Date.yesterday.iso8601} 4:00 PM UTC+9"
 
     baseline_modal.expect_closed
     baseline_modal.toggle_drop_modal
     baseline_modal.expect_open
     baseline_modal.expect_selected 'yesterday'
     baseline_modal.expect_selected_time '09:00'
-    baseline_modal.expect_offset '+02:00'
+    baseline_modal.expect_offset 'UTC+2'
     baseline_modal.select_filter '-'
 
     baseline_modal.select_filter 'yesterday'
-    baseline_modal.expect_offset '+09:00'
+    baseline_modal.expect_offset 'UTC+9'
     baseline_modal.select_filter '-'
 
     baseline_modal.apply
@@ -119,7 +151,7 @@ describe 'baseline query saving',
     baseline_modal.toggle_drop_modal
     baseline_modal.expect_open
     baseline_modal.select_filter 'a specific date'
-    baseline_modal.expect_offset '+09:00'
+    baseline_modal.expect_offset 'UTC+9'
     baseline_modal.set_time '06:00'
     baseline_modal.set_date '2023-05-20'
     baseline_modal.apply
@@ -134,15 +166,15 @@ describe 'baseline query saving',
 
     login_as berlin_user
     wp_table.visit_query query
-    baseline.expect_legend_text "Changes since a specific date (2023-05-20 6:00 AM +09:00)"
-    baseline.expect_legend_tooltip "In your local timezone: 2023-05-19 11:00 PM +02:00"
+    baseline.expect_legend_text "Changes since a specific date (2023-05-20 6:00 AM UTC+9)"
+    baseline.expect_legend_tooltip "In your local timezone: 2023-05-19 11:00 PM UTC+2"
 
     baseline_modal.expect_closed
     baseline_modal.toggle_drop_modal
     baseline_modal.expect_open
     baseline_modal.expect_selected 'a specific date'
     baseline_modal.expect_selected_time '06:00'
-    baseline_modal.expect_offset '+09:00'
+    baseline_modal.expect_offset 'UTC+9'
     baseline_modal.expect_time_help_text "In your local time: 2023-05-19 11:00 PM"
     baseline_modal.select_filter 'between two specific dates'
 
@@ -163,8 +195,8 @@ describe 'baseline query saving',
 
     login_as tokyo_user
     wp_table.visit_query query
-    baseline.expect_legend_text "Changes since between two specific dates (2023-05-19 8:00 AM +02:00 - 2023-05-25 8:00 PM +02:00)"
-    baseline.expect_legend_tooltip "In your local timezone: 2023-05-19 3:00 PM +09:00 - 2023-05-26 3:00 AM +09:00"
+    baseline.expect_legend_text "Changes since between two specific dates (2023-05-19 8:00 AM UTC+2 - 2023-05-25 8:00 PM UTC+2)"
+    baseline.expect_legend_tooltip "In your local timezone: 2023-05-19 3:00 PM UTC+9 - 2023-05-26 3:00 AM UTC+9"
 
     baseline_modal.expect_closed
     baseline_modal.toggle_drop_modal
@@ -175,6 +207,6 @@ describe 'baseline query saving',
                                         from_time: '08:00',
                                         to_time: '20:00'
 
-    baseline_modal.expect_offset '+02:00', count: 2
+    baseline_modal.expect_offset 'UTC+2', count: 2
   end
 end

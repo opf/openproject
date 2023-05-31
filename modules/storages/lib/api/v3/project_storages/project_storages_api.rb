@@ -48,6 +48,7 @@ module API::V3::ProjectStorages
         ::API::V3::ProjectStorages::ProjectStorageCollectionRepresenter.new(
           results,
           self_link: api_v3_paths.project_storages,
+          query: API::Decorators::QueryParamsRepresenter.new(query).to_h,
           current_user:
         )
       end

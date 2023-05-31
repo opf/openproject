@@ -71,9 +71,8 @@ export class StorageFilesResourceService {
       .pipe(tap((storageFiles) => this.insert(storageFiles, link.href)));
   }
 
-  file(storageId:ID, id:ID):Observable<IStorageFile> {
-    return this.httpClient
-      .get<IStorageFile>(`${this.apiV3Service.storages.id(storageId).path}/files/${id}`);
+  file(href:string):Observable<IStorageFile> {
+    return this.httpClient.get<IStorageFile>(href);
   }
 
   uploadLink(link:IPrepareUploadLink):Observable<IUploadLink> {

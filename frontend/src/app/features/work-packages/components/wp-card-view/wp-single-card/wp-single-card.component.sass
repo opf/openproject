@@ -105,11 +105,18 @@
       grid-area: id
       color: $spot-color-basic-gray-3
       font-size: 12px
-    &-status
+    &-status-baseline
       grid-area: status
       margin-right: 5px
-      max-width: 92px
+      max-width: 6.5rem
+      display: flex
+    &-status
       overflow: hidden
+    &-baseline
+      margin-left: $spot-spacing-0_5
+
+      &-tooltip
+        width: 6.5rem
 
     &-cover-image
       grid-area: image

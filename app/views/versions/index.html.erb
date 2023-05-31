@@ -48,7 +48,7 @@ See COPYRIGHT and LICENSE files for more details.
         <%= link_to_version(version, name: h(version.name), id: "version-#{version.name}") %>
       </h3>
       <%= render partial: 'versions/overview', locals: {version: version} %>
-      <%= render(partial: "wiki/content", locals: {content: version.wiki_page.content}) if version.wiki_page %>
+      <%= render(partial: "wiki/text", locals: { page: version.wiki_page }) if version.wiki_page %>
       <% if (issues = @wps_by_version[version]) && issues.size > 0 %>
       <form>
         <fieldset class="form--fieldset -collapsible">

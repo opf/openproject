@@ -54,6 +54,7 @@ import { validDate } from 'core-app/shared/components/datepicker/helpers/date-mo
 import {
   baselineFilterFromValue,
   getPartsFromTimestamp,
+  offsetToUtcString,
 } from 'core-app/features/work-packages/components/wp-baseline/baseline-helpers';
 import * as moment from 'moment-timezone';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
@@ -201,6 +202,10 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
   public onSave() {
     this.wpTableBaseline.update(this.buildBaselineFilter());
     this.submitted.emit();
+  }
+
+  public mappedOffset(offset:string) {
+    return offsetToUtcString(offset);
   }
 
   public timesChange(value:string[]):void {
