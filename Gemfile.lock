@@ -969,7 +969,7 @@ GEM
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    will_paginate (3.3.1)
+    will_paginate (4.0.0)
     with_advisory_lock (4.6.0)
       activerecord (>= 4.2)
     xpath (3.2.0)
@@ -1154,7 +1154,7 @@ DEPENDENCIES
   warden-basic_auth (~> 0.2.1)
   webdrivers (~> 5.2.0)
   webmock (~> 3.12)
-  will_paginate (~> 3.3.0)
+  will_paginate (~> 4.0.0)
   with_advisory_lock (~> 4.6.0)
 
 RUBY VERSION
