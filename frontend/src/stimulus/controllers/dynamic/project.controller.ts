@@ -46,6 +46,8 @@ export default class ProjectController extends Controller {
     'addFilterSelect',
     'spacer',
     'descriptionToggle',
+    'projectRow',
+    'descriptionRow',
     'operator',
     'filterValueContainer',
     'filterValueSelect',
@@ -60,6 +62,8 @@ export default class ProjectController extends Controller {
   declare readonly addFilterSelectTarget:HTMLSelectElement;
   declare readonly spacerTarget:HTMLElement;
   declare readonly descriptionToggleTargets:HTMLAnchorElement[];
+  declare readonly projectRowTargets:HTMLTableRowElement[];
+  declare readonly descriptionRowTargets:HTMLTableRowElement[];
   declare readonly operatorTargets:HTMLSelectElement[];
   declare readonly filterValueContainerTargets:HTMLElement[];
   declare readonly filterValueSelectTargets:HTMLSelectElement[];
@@ -72,20 +76,21 @@ export default class ProjectController extends Controller {
     this.filterFormTarget.classList.toggle('-expanded');
   }
 
-  toggleMultiSelect(event:Event) {
-    const valueSelector = (event.target as HTMLElement).closest('.advanced-filters--filter-value') as HTMLElement;
-    const singleSelect = valueSelector.querySelector('.single-select select') as HTMLSelectElement;
-    const multiSelect = valueSelector.querySelector('.multi-select select') as HTMLSelectElement;
+  toggleMultiSelect({ params: { filterName } }:{ params:{ filterName:string } }) {
+    const valueContainer = this.filterValueContainerTargets.find((filterValueContainer) => filterValueContainer.getAttribute('data-filter-name') === filterName);
+    const singleSelect = this.filterValueSelectTargets.find((selectField) => !selectField.multiple && selectField.getAttribute('data-filter-name') === filterName);
+    const multiSelect = this.filterValueSelectTargets.find((selectField) => selectField.multiple && selectField.getAttribute('data-filter-name') === filterName);
+    if (valueContainer && singleSelect && multiSelect) {
+      if (valueContainer.classList.contains('multi-value')) {
+        const valueToSelect = this.getValueToSelect(multiSelect);
+        this.setSelectOptions(singleSelect, valueToSelect);
+      } else {
+        const valueToSelect = this.getValueToSelect(singleSelect);
+        this.setSelectOptions(multiSelect, valueToSelect);
+      }
 
-    if (valueSelector.classList.contains('multi-value')) {
-      const valueToSelect = this.getValueToSelect(multiSelect);
-      this.setSelectOptions(singleSelect, valueToSelect);
-    } else {
-      const valueToSelect = this.getValueToSelect(singleSelect);
-      this.setSelectOptions(multiSelect, valueToSelect);
+      valueContainer.classList.toggle('multi-value');
     }
-
-    valueSelector.classList.toggle('multi-value');
   }
 
   private getValueToSelect(selectElement:HTMLSelectElement) {
@@ -100,10 +105,8 @@ export default class ProjectController extends Controller {
 
   addFilter(event:Event) {
     const selectedFilterName = (event.target as HTMLSelectElement).value;
-    const selectedFilter = this.filterTargets.find((filter) => {
-      const filterName = filter.getAttribute('filter-name');
-      return filterName === selectedFilterName;
-    });
+    const selectedFilter = this.filterTargets.find((filter) => filter.getAttribute('filter-name') === selectedFilterName);
+
     if (selectedFilter) {
       selectedFilter.classList.remove('hidden');
     }
@@ -144,52 +147,57 @@ export default class ProjectController extends Controller {
     return this.filterTargets.some((filter) => !filter.classList.contains('hidden'));
   }
 
+  private readonly noValueOperators = ['*', '!*', 't', 'w'];
   private readonly daysOperators = ['>t-', '<t-', 't-', '<t+', '>t+', 't+'];
   private readonly onDateOperator = '=d';
   private readonly betweenDatesOperator = '<>d';
 
   setValueVisibility({ target, params: { filterName } }:{ target:HTMLSelectElement, params:{ filterName:string } }) {
     const selectedOperator = target.value;
-    const currentFilter = this.filterTargets.find((filter) => filter.getAttribute('filter-name') === filterName);
-    const filterValue = currentFilter?.querySelector('.advanced-filters--filter-value');
-    if (filterValue) {
-      if (['*', '!*', 't', 'w'].includes(selectedOperator)) {
-        filterValue.classList.add('hidden');
+    const valueContainer = this.filterValueContainerTargets.find((filterValueContainer) => filterValueContainer.getAttribute('data-filter-name') === filterName);
+    if (valueContainer) {
+      if (this.noValueOperators.includes(selectedOperator)) {
+        valueContainer.classList.add('hidden');
       } else {
-        filterValue.classList.remove('hidden');
+        valueContainer.classList.remove('hidden');
       }
 
       if (this.daysOperators.includes(selectedOperator)) {
-        filterValue.classList.add('days');
-        filterValue.classList.remove('on-date');
-        filterValue.classList.remove('between-dates');
+        valueContainer.classList.add('days');
+        valueContainer.classList.remove('on-date');
+        valueContainer.classList.remove('between-dates');
       } else if (selectedOperator === this.onDateOperator) {
-        filterValue.classList.add('on-date');
-        filterValue.classList.remove('days');
-        filterValue.classList.remove('between-dates');
+        valueContainer.classList.add('on-date');
+        valueContainer.classList.remove('days');
+        valueContainer.classList.remove('between-dates');
       } else if (selectedOperator === this.betweenDatesOperator) {
-        filterValue.classList.add('between-dates');
-        filterValue.classList.remove('days');
-        filterValue.classList.remove('on-date');
+        valueContainer.classList.add('between-dates');
+        valueContainer.classList.remove('days');
+        valueContainer.classList.remove('on-date');
       }
     }
   }
 
-  toggleDescription({ target }:{ target:HTMLAnchorElement }) {
+  toggleDescription({ target, params: { projectId } }:{ target:HTMLAnchorElement, params:{ projectId:number } }) {
     const toggledTrigger = target;
     const otherTrigger = this.descriptionToggleTargets.find((trigger) => trigger !== toggledTrigger);
-    const clickedRow = toggledTrigger.closest('.project') as HTMLElement;
-    const descriptionRow = clickedRow.nextElementSibling as HTMLElement;
+    // The projectId action parameter is automatically typecast to Number
+    // and to compare it with a data attribute it needs to be converted to
+    // a string.
+    const clickedProjectRow = this.projectRowTargets.find((projectRow) => projectRow.getAttribute('data-project-id') === projectId.toString());
+    const projectDescriptionRow = this.descriptionRowTargets.find((descriptionRow) => descriptionRow.getAttribute('data-project-id') === projectId.toString());
 
-    if (clickedRow && descriptionRow) {
-      clickedRow.classList.toggle('-no-highlighting');
-      clickedRow.classList.toggle('-expanded');
-      descriptionRow.classList.toggle('-expanded');
+    if (clickedProjectRow && projectDescriptionRow) {
+      clickedProjectRow.classList.toggle('-no-highlighting');
+      clickedProjectRow.classList.toggle('-expanded');
+      projectDescriptionRow.classList.toggle('-expanded');
 
-      this.setAriaLive(descriptionRow);
+      this.setAriaLive(projectDescriptionRow);
     }
 
-    otherTrigger?.focus();
+    if (otherTrigger) {
+      otherTrigger.focus();
+    }
   }
 
   private setAriaLive(descriptionRow:HTMLElement) {
@@ -203,16 +211,15 @@ export default class ProjectController extends Controller {
   sendForm() {
     const ajaxIndicator = document.querySelector('#ajax-indicator') as HTMLElement;
     ajaxIndicator.style.display = '';
+
     const filters = this.parseFilters();
     const orderParam = this.getUrlParameter('sortBy');
-
-    let query = `?filters=${encodeURIComponent(JSON.stringify(filters))}`;
-
+    let queryString = `?filters=${encodeURIComponent(JSON.stringify(filters))}`;
     if (orderParam) {
-      query = `${query}&sortBy=${encodeURIComponent(orderParam)}`;
+      queryString = `${queryString}&sortBy=${encodeURIComponent(orderParam)}`;
     }
 
-    window.location.href = window.location.pathname + query;
+    window.location.href = window.location.pathname + queryString;
   }
 
   private parseFilters() {
@@ -222,18 +229,16 @@ export default class ProjectController extends Controller {
     advancedFilters.forEach((filter) => {
       const filterName = filter.getAttribute('filter-name');
       const filterType = filter.getAttribute('filter-type');
+      const parsedOperator = this.operatorTargets.find((operator) => operator.getAttribute('data-filter-name') === filterName)?.value;
 
-      if (filterName && filterType) {
-        const parsedOperator = this.operatorTargets.find((operator) => operator.getAttribute('data-filter-name') === filterName)?.value;
-        if (parsedOperator) {
-          const parsedValue = this.parseFilterValue(filterName, filterType, parsedOperator);
+      if (filterName && filterType && parsedOperator) {
+        const parsedValue = this.parseFilterValue(filterName, filterType, parsedOperator);
 
-          if (parsedValue) {
-            const currentFilter:Filter = {
-              [filterName]: { operator: parsedOperator, values: parsedValue as string[] },
-            };
-            filters.push(currentFilter);
-          }
+        if (parsedValue) {
+          const currentFilter:Filter = {
+            [filterName]: { operator: parsedOperator, values: parsedValue as string[] },
+          };
+          filters.push(currentFilter);
         }
       }
     });
@@ -243,12 +248,13 @@ export default class ProjectController extends Controller {
 
   private readonly operatorsWithoutValues = ['*', '!*', 't', 'w'];
   private readonly selectFilterTypes = ['list', 'list_all', 'list_optional'];
+  private readonly dateFilterTypes = ['datetime_past', 'date'];
 
   private parseFilterValue(filterName:string, filterType:string, operator:string) {
-    const valueBlock = this.filterValueContainerTargets.find((filterValueContainer) => filterValueContainer.getAttribute('data-filter-name') === filterName);
+    const valueContainer = this.filterValueContainerTargets.find((filterValueContainer) => filterValueContainer.getAttribute('data-filter-name') === filterName);
 
-    if (valueBlock) {
-      const checkbox = valueBlock.querySelector('input[type="checkbox"]') as HTMLInputElement;
+    if (valueContainer) {
+      const checkbox = valueContainer.querySelector('input[type="checkbox"]') as HTMLInputElement;
 
       if (checkbox) {
         return [checkbox.checked ? 't' : 'f'];
@@ -259,55 +265,56 @@ export default class ProjectController extends Controller {
       }
 
       if (this.selectFilterTypes.includes(filterType)) {
-        return this.parseSelectFilterValue(valueBlock, filterName);
+        return this.parseSelectFilterValue(valueContainer, filterName);
       }
 
-      if (['datetime_past', 'date'].includes(filterType)) {
-        return this.parseDateFilterValue(valueBlock, filterName);
+      if (this.dateFilterTypes.includes(filterType)) {
+        return this.parseDateFilterValue(valueContainer, filterName);
       }
 
       const value = this.simpleValueTargets.find((simpleValueInput) => simpleValueInput.getAttribute('data-filter-name') === filterName)?.value;
 
-      if (value) {
+      if (value && value.length > 0) {
         return [value];
       }
-
-      return null;
     }
 
     return null;
   }
 
-  private parseSelectFilterValue(valueBlock:HTMLElement, filterName:string) {
+  private parseSelectFilterValue(valueContainer:HTMLElement, filterName:string) {
     let selectFields;
 
-    if (valueBlock.classList.contains('multi-value')) {
+    if (valueContainer.classList.contains('multi-value')) {
       selectFields = this.filterValueSelectTargets.filter((selectField) => selectField.multiple && selectField.getAttribute('data-filter-name') === filterName);
     } else {
       selectFields = this.filterValueSelectTargets.filter((selectField) => !selectField.multiple && selectField.getAttribute('data-filter-name') === filterName);
     }
 
-    const values = _.flatten(Array.from(selectFields).map((selectField:HTMLSelectElement) => Array.from(selectField.selectedOptions).map((option) => option.value)));
+    const selectedValues = _.flatten(Array.from(selectFields).map((selectField) => Array.from(selectField.selectedOptions).map((option) => option.value)));
 
-    if (values.length > 0) {
-      return values;
+    if (selectedValues.length > 0) {
+      return selectedValues;
     }
 
     return null;
   }
 
-  private parseDateFilterValue(valueBlock:HTMLElement, filterName:string) {
+  private parseDateFilterValue(valueContainer:HTMLElement, filterName:string) {
     let value;
 
-    if (valueBlock.classList.contains('days')) {
+    if (valueContainer.classList.contains('days')) {
       const dateValue = this.daysTargets.find((daysField) => daysField.getAttribute('data-filter-name') === filterName)?.value;
+
       value = _.without([dateValue], '');
-    } else if (valueBlock.classList.contains('on-date')) {
+    } else if (valueContainer.classList.contains('on-date')) {
       const dateValue = this.singleDayTargets.find((dateInput) => dateInput.id === `on-date-value-${filterName}`)?.value;
+
       value = _.without([dateValue], '');
-    } else if (valueBlock.classList.contains('between-dates')) {
+    } else if (valueContainer.classList.contains('between-dates')) {
       const fromValue = this.singleDayTargets.find((dateInput) => dateInput.id === `between-dates-from-value-${filterName}`)?.value;
       const toValue = this.singleDayTargets.find((dateInput) => dateInput.id === `between-dates-to-value-${filterName}`)?.value;
+
       value = [fromValue, toValue];
     }
 
@@ -318,15 +325,15 @@ export default class ProjectController extends Controller {
     return null;
   }
 
-  private getUrlParameter(sParam:string) {
-    const sPageURL = decodeURIComponent(window.location.search.substring(1));
-    const sURLVariables = sPageURL.split('&');
+  private getUrlParameter(sortParam:string) {
+    const queryString = decodeURIComponent(window.location.search.substring(1));
+    const queryParams = queryString.split('&');
 
-    for (let i = 0; i < sURLVariables.length; i++) {
-      const sParameterName = sURLVariables[i].split('=');
+    for (let i = 0; i < queryParams.length; i++) {
+      const [key, value] = queryParams[i].split('=');
 
-      if (sParameterName[0] === sParam) {
-        return sParameterName[1] === undefined ? 'true' : sParameterName[1];
+      if (key === sortParam) {
+        return value || true;
       }
     }
 
