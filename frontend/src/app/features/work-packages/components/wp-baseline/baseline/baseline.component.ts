@@ -101,6 +101,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     toggle_title: this.I18n.t('js.baseline.toggle_title'),
     drop_down_none_option: this.I18n.t('js.baseline.drop_down.none'),
     header_description: this.I18n.t('js.baseline.header_description'),
+    enterprise_header_description: this.I18n.t('js.baseline.enterprise_header_description'),
     clear: this.I18n.t('js.baseline.clear'),
     apply: this.I18n.t('js.baseline.apply'),
     show_changes_since: this.I18n.t('js.baseline.show_changes_since'),

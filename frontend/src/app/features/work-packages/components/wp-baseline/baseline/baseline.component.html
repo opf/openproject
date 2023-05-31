@@ -3,17 +3,16 @@
   (submit)="onSubmit($event)"
   class="spot-container op-baseline--body"
   [class.op-baseline--body_ranged]="selectedFilter === 'betweenTwoSpecificDates'"
+  [class.op-baseline_tab]="!showActionBar"
 >
   <div class="op-baseline--header">
     <div 
       class="op-baseline--enterprise-title"
       *ngIf="eeShowBanners">
       <span class="">{{ text.baseline_comparison }}</span>
-      <span class="spot-icon spot-icon_enterprise-addons spot-icon_inline"></span>
-    </div>
-
-    <span class="spot-body-small">{{ text.header_description }}</span>
-
+      <span class="spot-icon spot-icon_enterprise-addons"></span>
+    </div>   
+    <span class="spot-body-small">{{ eeShowBanners ? text.enterprise_header_description : text.header_description }}</span>
     <a
       *ngIf="eeShowBanners"
       [attr.href]="text.moreInfoLink"

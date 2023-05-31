@@ -7,12 +7,15 @@
     align-items: start
     flex-direction: column
     margin: $spot-spacing-1 $spot-spacing-1 0 $spot-spacing-1
-    width: 265px
     color: $spot-color-basic-gray-2
 
   &--enterprise-title
     color: $spot-color-feedback-warning-dark
     @include spot-body-small (bold)
+    display: flex
+    flex-direction: row
+    align-items: center
+    gap: $spot-spacing-1 $spot-spacing-0_25
 
   &--info-button
     display: flex
@@ -23,10 +26,6 @@
     flex-basis: 100%
     overflow: hidden
     margin-top: 0 !important
-
-    @media screen and #{$spot-mq-drop-modal-in-context}
-      width: 316px
-      max-height: 70vh
 
     &_ranged
       width: 600px
@@ -67,3 +66,10 @@
 
   &--datepicker
     margin: 1rem
+
+  &_tab
+    .op-baseline--header
+      margin: 0
+    .spot-form-field
+      margin-right: 0
+      margin-left: 0
