@@ -114,7 +114,7 @@ RSpec.describe Queries::BaseContract do
         let(:timestamps) { "lastWorkingDay@00:00+00:00" }
 
         before do
-          allow(Day).to receive(:last_working) { Day.first }
+          allow(Day).to receive(:last_working) { Day.new(date: 7.days.ago) }
         end
 
         it_behaves_like 'contract is invalid', timestamps: :forbidden
