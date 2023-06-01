@@ -51,18 +51,31 @@ describe Calendar::ICalController do
                           start_date: Date.tomorrow,
                           due_date: Time.zone.today + 7.days)
   end
+  let(:work_package_with_due_date_far_in_past) do
+    create(:work_package, project:,
+                          due_date: Time.zone.today - 180.days)
+  end
+  let(:work_package_with_due_date_far_in_future) do
+    create(:work_package, project:,
+                          due_date: Time.zone.today + 180.days)
+  end
   let!(:work_packages) do
     [
       work_package_with_due_date,
       work_package_with_start_date,
-      work_package_with_start_and_due_date
+      work_package_with_start_and_due_date,
+      work_package_with_due_date_far_in_past,
+      work_package_with_due_date_far_in_future
     ]
   end
   let(:query) do
     create(:query,
            project:,
            user:,
-           public: false)
+           public: false) do |query|
+      # add typical filter for calendar queries
+      query.add_filter(:dates_interval, "<>d", [Time.zone.today, Time.zone.today + 30.days])
+    end
   end
   let(:valid_ical_token_value) do
     Token::ICal.create_and_return_value(user, query, "Some Token Name")
@@ -70,7 +83,6 @@ describe Calendar::ICalController do
 
   # the ical urls are intended to be used without a logged in user from a calendar client app
   # before { login_as(user) }
-
   describe '#show' do
     shared_examples_for 'success' do
       subject { response }
@@ -89,7 +101,7 @@ describe Calendar::ICalController do
         expect(subject.body).to match(/END:VCALENDAR/)
 
         work_packages.each do |work_package|
-          expect(subject.body).to include(work_package.subject)
+          expect(subject.body).to include("#{work_package.id}@#{Setting.host_name}")
         end
       end
     end
@@ -104,7 +116,7 @@ describe Calendar::ICalController do
         expect(subject.body).not_to match(/END:VCALENDAR/)
 
         work_packages.each do |work_package|
-          expect(subject.body).not_to include(work_package.subject)
+          expect(subject.body).not_to include("#{work_package.id}@#{Setting.host_name}")
         end
       end
     end

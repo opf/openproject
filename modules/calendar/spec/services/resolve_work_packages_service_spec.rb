@@ -74,7 +74,10 @@ describe Calendar::ResolveWorkPackagesService, type: :model do
     create(:query_with_view_work_packages_calendar,
            project:,
            user: user1,
-           public: false)
+           public: false) do |query|
+      # add typical filter for calendar queries
+      query.add_filter(:dates_interval, "<>d", [Time.zone.today, Time.zone.today + 30.days])
+    end
   end
 
   let(:instance) do
@@ -83,9 +86,6 @@ describe Calendar::ResolveWorkPackagesService, type: :model do
 
   context 'for a valid query' do
     before do
-      # Add typical calendar filters which are present for calendar queries
-      query.add_filter(:dates_interval, "<>d", [Time.zone.today, Time.zone.today + 30.days])
-
       # login for this isolated test:
       # in context of the whole iCalendar API flow, the user is not logged in but resolved from the token
       # `User.execute_as()`` is then used in the service calling the service which is tested here
