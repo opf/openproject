@@ -268,6 +268,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :admin_work_packages,
             enterprise_feature: 'custom_actions'
 
+  menu.push :pdf_export,
+            { controller: '/pdf_export_configurations' },
+            if: Proc.new { User.current.admin? },
+            caption: :'pdf_export.title',
+            parent: :admin_work_packages
+
   menu.push :attribute_help_texts,
             { controller: '/attribute_help_texts' },
             caption: :'attribute_help_texts.label_plural',

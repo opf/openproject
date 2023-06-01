@@ -582,4 +582,11 @@ OpenProject::Application.routes.draw do
 
   # Routes for design related documentation and examples pages
   get '/design/styleguide' => redirect('/assets/styleguide.html')
+
+  resources :pdf_export_configurations, controller: 'pdf_export_configurations' do
+    member do
+      post 'activate'
+      post 'deactivate'
+    end
+  end
 end

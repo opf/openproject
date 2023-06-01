@@ -244,15 +244,25 @@ module WorkPackage::PDFExport::Style
   end
 
   def styles
-    @styles ||= PDFStyles.new(load_style)
+    @styles ||= PDFStyles.new(load_standard_style)
+  end
+
+  def validate_styles_yml(styles_yml)
+    validate_schema!(styles_yml, schema)
+  end
+
+  def schema
+    @schema ||= JSON::load_file(File.join(styles_asset_path, 'schema.json'))
+  end
+
+  def standard_styles
+    YAML::load_file(File.join(styles_asset_path, 'standard.yml'))
   end
 
   private
 
-  def load_style
-    yml = YAML::load_file(File.join(styles_asset_path, 'standard.yml'))
-    schema = JSON::load_file(File.join(styles_asset_path, 'schema.json'))
-    validate_schema!(yml, schema)
+  def load_standard_style
+    validate_styles_yml(standard_styles)
   end
 
   def styles_asset_path

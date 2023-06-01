@@ -2363,6 +2363,22 @@ en:
     welcome: "Welcome to %{app_title}"
     select_language: "Please select your language"
 
+  pdf_export:
+    title: PDF Export
+    settings:
+      yaml_styles: "YAML styles"
+      yaml_error: "YAML error:"
+      yaml_is_badly_formed: "has no valid YAML format."
+      help_link_yml_format: "YML styles format"
+      configuration_new: "New PDF export configuration"
+      configuration: "PDF export configuration"
+      configuration_plural: "PDF export configurations"
+      configuration_activated: "Configuration successfully activated"
+      error_can_not_activate_configuration: "This configuration cannot be activated"
+      configuration_deactivated: "Configuration successfully de-activated"
+      error_can_not_deactivate_configuration: "This configuration cannot be de-activated"
+      activate: "Activate"
+      deactivate: "De-activate"
   permission_add_work_package_notes: "Add notes"
   permission_add_work_packages: "Add work packages"
   permission_add_messages: "Post messages"
