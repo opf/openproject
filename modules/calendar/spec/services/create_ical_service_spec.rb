@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Calendar::CreateICalService, type: :model do
+RSpec.describe Calendar::CreateICalService, type: :model do
   let(:project) { create(:project) }
   let(:user) { create(:user) }
   let(:work_package_with_start_date) do

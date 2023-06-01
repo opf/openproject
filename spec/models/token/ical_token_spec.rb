@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Token::ICal do
+RSpec.describe Token::ICal do
   let(:user) { create(:user) }
   let(:project) { create(:project) }
   let(:query) { create(:query, project:) }

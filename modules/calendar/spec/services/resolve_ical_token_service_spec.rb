@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Calendar::ResolveICalTokenService, type: :model do
+RSpec.describe Calendar::ResolveICalTokenService, type: :model do
   let(:user) { create(:user) }
   let(:project) { create(:project) }
   let(:query) { create(:query, project:) }

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-describe 'Calendar sharing via ical', js: true do
+RSpec.describe 'Calendar sharing via ical', js: true do
   include_context 'with calendar full access'
 
   let(:user_with_sharing_permission) do

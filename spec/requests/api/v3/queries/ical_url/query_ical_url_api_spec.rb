@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Query ICal Url' do
+RSpec.describe 'API v3 Query ICal Url' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 

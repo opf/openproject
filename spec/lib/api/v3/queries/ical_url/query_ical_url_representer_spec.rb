@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Queries::ICalUrl::QueryICalUrlRepresenter do
+RSpec.describe API::V3::Queries::ICalUrl::QueryICalUrlRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:query) { build_stubbed(:query) }

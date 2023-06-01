@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Calendar::ResolveWorkPackagesService, type: :model do
+RSpec.describe Calendar::ResolveWorkPackagesService, type: :model do
   let(:user1) do
     create(:user,
            member_in_project: project,
