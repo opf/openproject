@@ -32,10 +32,10 @@ module Queries::Operators
     # the end of the day of yesterday + from until the end of today + to.
     def relative_date_range_clause(table, field, from, to)
       if from
-        from_date = Date.today + from
+        from_date = Date.current + from
       end
       if to
-        to_date = Date.today + to
+        to_date = Date.current + to
       end
       date_range_clause(table, field, from_date, to_date)
     end
