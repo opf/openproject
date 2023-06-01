@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,30 +26,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals::StorageInteraction
-  module UploadLinkQueryHelpers
+module Storages::Peripherals::StorageInteraction::Nextcloud
+  class GroupUsersQuery
     using Storages::Peripherals::ServiceResultRefinements
 
-    def validate_request_body(body)
-      case body.transform_keys(&:to_sym)
-      in { projectId: project_id, fileName: file_name, parent: parent }
-        authorize(:manage_file_links, context: Project.find(project_id))
-        ServiceResult.success(result: { fileName: file_name, parent: }.transform_keys(&:to_s))
+    def initialize(storage)
+      @uri = URI(storage.host).normalize
+      @username = storage.username
+      @password = storage.password
+      @group = storage.group
+    end
+
+    # rubocop:disable Metrics/AbcSize
+    def call(group: @group)
+      response = Util.http(@uri).get(
+        Util.join_uri_path(@uri, "ocs/v1.php/cloud/groups", CGI.escapeURIComponent(group)),
+        Util.basic_auth_header(@username, @password).merge('OCS-APIRequest' => 'true')
+      )
+      case response
+      when Net::HTTPSuccess
+        group_users = Nokogiri::XML(response.body)
+                        .xpath('/ocs/data/users/element')
+                        .map(&:text)
+        ServiceResult.success(result: group_users)
+      when Net::HTTPMethodNotAllowed
+        Util.error(:not_allowed)
+      when Net::HTTPUnauthorized
+        Util.error(:not_authorized)
+      when Net::HTTPNotFound
+        Util.error(:not_found)
+      when Net::HTTPConflict
+        Util.error(:conflict, error_text_from_response(response))
       else
-        ServiceResult.failure(
-          errors: Storages::StorageError.new(code: :bad_request, log_message: 'Request body malformed!')
-        )
+        Util.error(:error)
       end
     end
-
-    def upload_link_query(storage, user)
-      Storages::Peripherals::StorageRequests
-        .new(storage:)
-        .upload_link_query(user:)
-    end
-
-    def execute_upload_link_query(request_body)
-      ->(query) { validate_request_body(request_body) >> query }
-    end
+    # rubocop:enable Metrics/AbcSize
   end
 end

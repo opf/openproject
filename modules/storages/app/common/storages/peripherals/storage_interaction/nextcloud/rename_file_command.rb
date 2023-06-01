@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,22 +26,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals::StorageInteraction
-  module FilesQueryHelpers
-    def files_query(storage, user)
-      Storages::Peripherals::StorageRequests
-        .new(storage:)
-        .files_query(user:)
+module Storages::Peripherals::StorageInteraction::Nextcloud
+  class RenameFileCommand
+    using Storages::Peripherals::ServiceResultRefinements
+
+    def initialize(storage)
+      @uri = URI(storage.host).normalize
+      @base_path = Util.join_uri_path(@uri.path, "remote.php/dav/files", CGI.escapeURIComponent(storage.username))
+      @username = storage.username
+      @password = storage.password
     end
 
-    def file_query(storage, user)
-      Storages::Peripherals::StorageRequests
-        .new(storage:)
-        .file_query(user:)
-    end
+    def call(source:, target:)
+      response = Util.http(@uri).move(
+        Util.join_uri_path(@base_path, Util.escape_path(source)),
+        Util.basic_auth_header(@username, @password).merge(
+          'Destination' => Util.join_uri_path(@base_path, Util.escape_path(target))
+        )
+      )
 
-    def execute_files_query(data)
-      ->(query) { query.call(data) }
+      case response
+      when Net::HTTPSuccess
+        ServiceResult.success
+      when Net::HTTPNotFound
+        Util.error(:not_found)
+      when Net::HTTPUnauthorized
+        Util.error(:not_authorized)
+      else
+        Util.error(:error)
+      end
     end
   end
 end
