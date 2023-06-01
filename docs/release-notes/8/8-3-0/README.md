@@ -63,7 +63,7 @@ information](https://www.openproject.org/download-and-installation/).
 
 **OAuth2 API implementation**
 
-The Openproject APIv3 can now be authenticated using the OAuth2
+The OpenProject APIv3 can now be authenticated using the OAuth2
 standard. To register an OAuth applications, visit the new module under
 Administration \> OAuth applications.
 
@@ -159,5 +159,4 @@ identifying and providing fixes.
 Special thanks for reporting and finding bugs go to Nicolas Salguero,
 Andy Shilton, Ricardo Vigatti, Michael Johannessen, Wojtek Chrobok, Timo
 Lösch.
-
 

@@ -1429,6 +1429,27 @@ describe API::V3::WorkPackages::WorkPackageRepresenter do
             end
           end
 
+          describe '_links' do
+            it_behaves_like 'has a titled link' do
+              let(:link) { 'self' }
+              let(:href) { api_v3_paths.work_package(work_package.id, timestamps:) }
+              let(:title) { work_package.name }
+            end
+
+            context 'when changing timestamps it updates the link' do
+              it_behaves_like 'has a titled link' do
+                before do
+                  representer.to_json
+                  representer.timestamps = []
+                end
+
+                let(:link) { 'self' }
+                let(:href) { api_v3_paths.work_package(work_package.id) }
+                let(:title) { work_package.name }
+              end
+            end
+          end
+
           describe '_meta' do
             describe 'matchesFilters' do
               it 'states whether the work package matches the query filters at the last timestamp' do

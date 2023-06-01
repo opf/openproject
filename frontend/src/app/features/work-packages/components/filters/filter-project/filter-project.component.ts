@@ -54,7 +54,7 @@ export class FilterProjectComponent extends UntilDestroyedMixin implements OnIni
 
   @Input() public filter:QueryFilterInstanceResource;
 
-  @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this));
+  @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this), 0);
 
   additionalProjectApiFilters:ApiV3ListFilter[] = [];
 

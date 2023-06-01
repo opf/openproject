@@ -239,7 +239,8 @@ export abstract class BoardActionService {
       ));
     }
 
-    new WorkPackageFilterValues(this.injector, query.filters)
+    const except = ['project'];
+    new WorkPackageFilterValues(this.injector, query.filters, except)
       .applyDefaultsFromFilters(changeset);
   }
 

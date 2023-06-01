@@ -200,28 +200,70 @@ Once the file storage is added and enabled for projects, your users are able to 
 
 ## Troubleshooting
 
-On Nextcloud inside the OpenProject Integration App when adding the OpenProject host it shows the error **"Please enter a valid OpenProject hostname"**.
+### Setting up OpenProject in Nextcloud
 
-- If you are on a local network with your Nextcloud and OpenProject hosts, it might be necessary to explicitly allow local remote servers by setting a system configuration flag on your Nextcloud host's command line. Use the command `sudo -u www-data php occ config:system:set allow_local_remote_servers --value 1` in order to change the setting for Nextcloud.
+#### Error message "Please enter a valid OpenProject hostname"
 
-- To test the connection between OpenProject and Nextcloud, you can use the following methods from your OpenProject host's command line:
+On Nextcloud inside the _OpenProject Integration_ App, when adding the OpenProject host, it shows the error **"Please enter a valid OpenProject hostname"**. There are multiple reasons that can cause the error;
+
+- The host address could be wrong. Please check in a separate browser tab that the URL that you have provided is correct. OpenProject should load. 
+- If your Nextcloud and OpenProject servers are both in a local network, it might be necessary to explicitly [allow local remote servers in Nextcloud](https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/config_sample_php_parameters.html) by setting a system configuration via your Nextcloud command line. This allows Nextcloud to connect to other local servers. Use the command `sudo -u www-data php occ config:system:set allow_local_remote_servers --value 1` in order to enable the setting for Nextcloud.
+- Your Nextcloud server does not have access to the OpenProject server. To test the connection between Nextcloud and OpenProject, you can use the following command on your Nextcloud server's command line:
+
+  ```bash
+  curl https://openproject.example.com
+  ```
+  In case the `curl` command above results in an error pay attention what it is telling you. Typical reasons for connection issues are misconfigured firewalls, proxies, or a bad TLS/SSL setup.
+
+##### While using a self signed TLS/SSL certificate you receive "certificate verify failed"
+
+Some administrators setup OpenProject using a self signed TLS/SSL certificate with their own CA (certificate authority). That CA needs to be known on the Nextcloud server. On a Debian/Ubuntu based server, make sure you add the CA certificate for your OpenProject certificate to `/usr/local/share/ca-certificates` and run `sudo update-ca-certificates` afterwards. Then Nextcloud's PHP code should be able to verify your OpenProject TLS/SSL certificate when emitting HTTPS requests to your Nextcloud server.
+
+Attention: Please do not confuse the CA for the Nextcloud server's certificate with the CA of the OpenProject server's certificate which you might have provided in the OpenProject installation wizard. They do not necessarily need to be the same.
+
+### Setting up Nextcloud in OpenProject
+
+#### Error message "Host can not be connected to"
+
+On OpenProject inside the storage administration (*Administration → File storages → + Storage*), when adding the Nextcloud host, it shows the error "Host can not be connected to". There are multiple potential reasons that can cause this error message.
+
+- The host address could be simply wrong. Please check in a separate browser tab that the URL that you have provided is correct. Nextcloud should load.
+- Your OpenProject server does not have access to the Nextcloud server. To test the connection between OpenProject and Nextcloud, you can use the following command on your OpenProject server's command line:
+
+  ```bash
+  curl -H 'OCS-APIRequest:true' -H 'Accept:application/json' https://nextcloud.example.com/nextcloud/ocs/v2.php/cloud/capabilities
+  ```
+  
+  If Nextcloud is setup correctly the response should look similar to the following. Pay special attention to current Nextcloud version, which in this example here is "24.0.6". At the time of writing this documentation the minimum version of Nextcloud is 22.
+  
+  ```
+  {"ocs":{"meta":{"status":"ok","statuscode":200,"message":"OK"},"data":{"version":{"major":24,"minor":0,"micro":6,"string":"24.0.6","edition":"","extendedSupport":false},"capabilities":{"bruteforce":{"delay":0},"metadataAvailable":{"size":["\/image\\\/.*\/"]},"theming":{"name":"Nextcloud","url":"https:\/\/nextcloud.com","slogan":"a safe home for all your data","color":"#0082c9","color-text":"#ffffff","color-element":"#0082c9","color-element-bright":"#0082c9","color-element-dark":"#0082c9","logo":"https:\/\/nextcloud.example.com\/nextcloud\/core\/img\/logo\/logo.svg?v=0","background":"https:\/\/nextcloud.example.com\/nextcloud\/core\/img\/background.png?v=0","background-plain":false,"background-default":true,"logoheader":"https:\/\/nextcloud.example.com\/nextcloud\/core\/img\/logo\/logo.svg?v=0","favicon":"https:\/\/nextcloud.example.com\/nextcloud\/core\/img\/logo\/logo.svg?v=0"}}}}}
+  ```
+  If you do not get such a response check out what the `curl` command above is telling you. Typical reasons for connection issues are misconfigured firewalls, proxies, or a bad TLS/SSL setup.
+
+##### While using a self signed TLS/SSL certificate you receive "certificate verify failed"
+
+Some administrators setup Nextcloud using a self signed TLS/SSL certificate with their own CA (certificate authority). The CA needs to be known on the OpenProject server. On a Debian/Ubuntu based server, make sure you add the CA certificate for your Nextcloud certificate to `/usr/local/share/ca-certificates` and run `sudo update-ca-certificates` afterwards. Then OpenProject's Ruby code should be able to verify your Nextcloud TLS/SSL certificate when emitting HTTPS requests to your Nextcloud server.
+
+Attention: Please do not confuse the CA for the Nextcloud server's certificate with the CA of the OpenProject server's certificate which you might have provided in the OpenProject installation wizard. They do not necessarily need to be the same.
+
+
+#### Error message "Host is not fully set up"
+
+The integration OpenProject with Nextcloud makes use of authorized HTTP requests between the two servers. The HTTP requests contain a `Authorization` header, containing a `Bearer` access token. Sometimes Nextcloud installations are not fully setup and the HTTP server strips the `Authorization` header, with the consequence that Nextcloud does not know which Nextcloud user is requesting. Run the following command on the command line of your OpenProject server to check that your installation is complete
 
   ```bash
   curl --location --request GET 'https://nextcloud.example.com/index.php/apps/integration_openproject/check-config' --header 'Authorization: foo'
+  ```
   
-  # If Nextcloud OpenProject Integration is integrated correctly the response should look like the following
+  If Nextcloud setup correctly the response should look like the following
   
+  ```
   {"user_id":"","authorization_header":foo}
   ```
-  
-  ```bash
-  curl -H 'OCS-APIRequest:true' -H 'Accept:application/json' https://nextcloud.example.com/nextcloud/ocs/v2.php/cloud/capabilities
-  
-  # If Nextcloud is setup correctly the response should look like the following. Pay special attention to current Nextcloud version, which in this example here is "24.0.6". At the time of writing this documentation the minimum version of Nextcloud is 22.
-  
-  {"ocs":{"meta":{"status":"ok","statuscode":200,"message":"OK"},"data":{"version":{"major":24,"minor":0,"micro":6,"string":"24.0.6","edition":"","extendedSupport":false},"capabilities":{"bruteforce":{"delay":0},"metadataAvailable":{"size":["\/image\\\/.*\/"]},"theming":{"name":"Nextcloud","url":"https:\/\/nextcloud.com","slogan":"a safe home for all your data","color":"#0082c9","color-text":"#ffffff","color-element":"#0082c9","color-element-bright":"#0082c9","color-element-dark":"#0082c9","logo":"https:\/\/nextcloud.example.com\/nextcloud\/core\/img\/logo\/logo.svg?v=0","background":"https:\/\/nextcloud.example.com\/nextcloud\/core\/img\/background.png?v=0","background-plain":false,"background-default":true,"logoheader":"https:\/\/nextcloud.example.com\/nextcloud\/core\/img\/logo\/logo.svg?v=0","favicon":"https:\/\/nextcloud.example.com\/nextcloud\/core\/img\/logo\/logo.svg?v=0"}}}}}
-  ```
-  
 
+  If not, first verify that the app **OpenProject Integration** is installed. If that is the case please check the [instructions for setting up pretty URLs in Nextcloud](https://docs.nextcloud.com/server/22/admin_manual/installation/source_installation.html#pretty-urls). This usually also resolves the issue of stripped `Authorization` headers.
+
+## Getting support
 
 If you run into any new issues or you cannot solve your integration please use our [Support Installation & Updates forum](https://community.openproject.org/projects/openproject/forums/9) or if you have an Enterprise subscription, please contact us at Enterprise Support.

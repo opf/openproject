@@ -15,13 +15,13 @@ The release contains two security related bug fixes and we recommend updating to
 
 
 
-### Invalidation of existing sessions when 2FA activated \[[#48035](https://community.openproject.com/wp/48035)\]
+### CVE-2023-31140: Invalidation of existing sessions when 2FA activated \[[#48035](https://community.openproject.com/wp/48035)\]
 
 When a user registers and confirms their first two-factor authentication (2FA) device for an account, existing logged in sessions for that user account are not terminated. Likewise, if an administrators creates a mobile phone 2FA device on behalf of a user, their existing sessions are not terminated. The issue has been resolved in OpenProject version 12.5.4 by actively terminating sessions of user accounts having registered and confirmed a 2FA device.
 
 This security related issue was responsibly disclosed by [Vaishnavi Pardeshi](mailto:researchervaishnavi0@gmail.com). Thank you for reaching out to us and your help in identifying this issue. If you have a security vulnerability you would like to disclose, please see our [statement on security](https://www.openproject.org/docs/development/security/).
 
-**A CVE for this issue is currently being requested**
+For more information, [please see our security advisory](https://github.com/opf/openproject/security/advisories/GHSA-xfp9-qqfj-x28q).
 
 **Workarounds**
 

@@ -26,25 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class HomescreenController < ApplicationController
-  skip_before_action :check_if_login_required, only: [:robots]
+require 'spec_helper'
 
-  layout 'no_menu'
+describe AdditionalUrlHelpers do
+  describe '#configurable_home_url' do
+    subject { helper.send :configurable_home_url }
 
-  def index
-    @newest_projects = Project.visible.newest.take(3)
-    @newest_users = User.active.newest.take(3)
-    @news = News.latest(count: 3)
-    @announcement = Announcement.active_and_current
+    context 'when home_url is defined', with_settings: { home_url: 'https://example.com/foo/bar' } do
+      it 'outputs that' do
+        expect(subject).to eq 'https://example.com/foo/bar'
+      end
+    end
 
-    @homescreen = OpenProject::Static::Homescreen
-  end
-
-  def robots
-    if Setting.login_required?
-      render template: 'homescreen/robots-login-required', format: :text
-    else
-      @projects = Project.active.public_projects
+    context 'when home_url is not defined', with_settings: { home_url: nil } do
+      it 'falls back to the default' do
+        expect(subject).to eq 'http://test.host/'
+      end
     end
   end
 end

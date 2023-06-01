@@ -149,7 +149,7 @@ sl:
       kateri atributi LDAP se uporabljajo za definiranje atributov uporabnika OpenProject (preslikava atributov).
     tls_mode:
       plain: 'Brez'
-      simple_tls: 'LDAPS'
+      simple_tls: 'LDAP-i'
       start_tls: 'STARTTLS'
       plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
       simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."

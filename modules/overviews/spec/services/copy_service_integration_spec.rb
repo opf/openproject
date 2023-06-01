@@ -111,6 +111,8 @@ describe Projects::CopyService, 'integration', type: :model do
       end
 
       describe 'copy' do
+        let(:only_args) { %i[versions categories overview] }
+
         before do
           original_overview
 

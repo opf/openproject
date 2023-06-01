@@ -33,11 +33,14 @@ export class WorkPackageFilterValues {
       if (this.excluded.indexOf(filter.id) !== -1) {
         return;
       }
+      const operator = filter.operator.id as FilterOperator;
 
       // Special case due to the introduction of the project include dropdown
       // If we are in a project, we want the create wp to be part of that project.
       // Only for embedded tables, there might be different filter values necessary.
       if (filter.id === 'project') {
+        if (operator !== '=') return;
+
         const projectFilter = _.find(filter.values, (resource:HalResource|string) => {
           return ((resource instanceof HalResource) ? resource.href : resource) === this.currentProject.apiv3Path;
         });
@@ -52,7 +55,6 @@ export class WorkPackageFilterValues {
       }
 
       // Look for a handler with the filter's operator
-      const operator = filter.operator.id as FilterOperator;
       const handler = this.handlers[operator];
 
       // Apply the filter if there is any
