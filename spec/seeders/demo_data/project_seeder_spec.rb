@@ -157,6 +157,43 @@ RSpec.describe DemoData::ProjectSeeder do
     end
   end
 
+  context 'with query linking to a type by its reference' do
+    let(:project_data) do
+      YAML.load <<~PROJECT_SEEDING_DATA_YAML
+        name: Some project
+        types:
+          - :default_type_task
+          - :default_type_milestone
+          - :default_type_phase
+        queries:
+          - name: Project plan
+            type:
+              - :default_type_milestone
+              - :default_type_phase
+          - name: Milestones
+            type: :default_type_milestone
+      PROJECT_SEEDING_DATA_YAML
+    end
+
+    it 'creates the appropriate type filter' do
+      project_seeder.seed!
+      query = Query.find_by(name: 'Milestones')
+      milestone_type = seed_data.find_reference(:default_type_milestone)
+      expect(query.filters)
+        .to include(a_filter(Queries::WorkPackages::Filter::TypeFilter, values: [milestone_type.id.to_s]))
+    end
+
+    it 'accepts an array of types' do
+      project_seeder.seed!
+      query = Query.find_by(name: 'Project plan')
+      milestone_type = seed_data.find_reference(:default_type_milestone)
+      phase_type = seed_data.find_reference(:default_type_phase)
+      expect(query.filters)
+        .to include(a_filter(Queries::WorkPackages::Filter::TypeFilter,
+                             values: contain_exactly(milestone_type.id.to_s, phase_type.id.to_s)))
+    end
+  end
+
   def a_filter(filter_class, attributes)
     an_instance_of(filter_class).and having_attributes(attributes)
   end
