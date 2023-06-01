@@ -36,7 +36,7 @@
 
 require 'spec_helper'
 
-describe ActiveSupport do
+RSpec.describe ActiveSupport do
   active_support_default = ActiveSupport.escape_html_entities_in_json
 
   after do

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'webmock/rspec'
 
-describe OAuthClients::ConnectionManager, type: :model do
+RSpec.describe OAuthClients::ConnectionManager, type: :model do
   let(:user) { create(:user) }
   let(:host) { "https://example.org" }
   let(:provider_type) { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }

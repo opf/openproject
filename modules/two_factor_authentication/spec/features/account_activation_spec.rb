@@ -1,11 +1,11 @@
 require_relative '../spec_helper'
 require_relative './shared_2fa_examples'
 
-describe 'activating an invited account',
-         js: true,
-         with_settings: {
-           plugin_openproject_two_factor_authentication: { 'active_strategies' => [:developer] }
-         } do
+RSpec.describe 'activating an invited account',
+               js: true,
+               with_settings: {
+                 plugin_openproject_two_factor_authentication: { 'active_strategies' => [:developer] }
+               } do
   let(:user) do
     user = build(:user, first_login: true)
     UserInvitation.invite_user! user

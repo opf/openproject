@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
 
-shared_examples_for 'view contract' do |disabled_permission_checks|
+RSpec.shared_examples_for 'view contract' do |disabled_permission_checks|
   include_context 'ModelContract shared context'
 
   let(:current_user) do

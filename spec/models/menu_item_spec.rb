@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe MenuItem do
+RSpec.describe MenuItem do
   describe 'validations' do
     let(:item) { build(:menu_item) }
 

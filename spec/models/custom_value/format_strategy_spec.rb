@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CustomValue::FormatStrategy do
+RSpec.describe CustomValue::FormatStrategy do
   let(:custom_value) do
     double('CustomValue',
            value:)

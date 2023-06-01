@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Settings::Definition, :settings_reset do
+RSpec.describe Settings::Definition, :settings_reset do
   describe '.add_all' do
     it 'adds all core setting definitions if they are not loaded' do
       described_class.instance_variable_set(:@all, nil)

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Days::DayCollectionRepresenter do
+RSpec.describe API::V3::Days::DayCollectionRepresenter do
   let(:days) do
     [
       build(:day, date: Date.new(2022, 12, 27)),

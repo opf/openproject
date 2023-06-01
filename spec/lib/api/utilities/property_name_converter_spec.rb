@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::Utilities::PropertyNameConverter do
+RSpec.describe API::Utilities::PropertyNameConverter do
   describe '#from_ar_name' do
     let(:attribute_name) { :an_attribute }
 

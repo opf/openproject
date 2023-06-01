@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'form configuration', js: true do
+RSpec.describe 'form configuration', js: true do
   shared_let(:admin) { create(:admin) }
   let(:type) { create(:type) }
 

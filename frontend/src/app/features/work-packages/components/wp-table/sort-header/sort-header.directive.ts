@@ -35,6 +35,7 @@ import {
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
+  QueryColumn,
   RelationQueryColumn,
   TypeRelationQueryColumn,
 } from 'core-app/features/work-packages/components/wp-query/query-column';
@@ -56,7 +57,7 @@ import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/
   templateUrl: './sort-header.directive.html',
 })
 export class SortHeaderDirective extends UntilDestroyedMixin implements AfterViewInit {
-  @Input() headerColumn:any;
+  @Input() headerColumn:QueryColumn;
 
   @Input() locale:string;
 
@@ -69,7 +70,7 @@ export class SortHeaderDirective extends UntilDestroyedMixin implements AfterVie
   public text = {
     toggleHierarchy: this.I18n.t('js.work_packages.hierarchy.show'),
     openMenu: this.I18n.t('js.label_open_menu'),
-    sortColumn: 'Sorting column', // TODO
+    baselineIncompatible: this.I18n.t('js.work_packages.baseline.column_incompatible'),
   };
 
   isHierarchyColumn:boolean;
@@ -82,7 +83,7 @@ export class SortHeaderDirective extends UntilDestroyedMixin implements AfterVie
 
   isHierarchyDisabled:boolean;
 
-  private element:JQuery;
+  baselineIncompatible = false;
 
   private currentSortDirection:any;
 
@@ -92,7 +93,7 @@ export class SortHeaderDirective extends UntilDestroyedMixin implements AfterVie
     private wpTableGroupBy:WorkPackageViewGroupByService,
     private wpTableBaseline:WorkPackageViewBaselineService,
     private wpTableRelationColumns:WorkPackageViewRelationColumnsService,
-    private elementRef:ElementRef,
+    private elementRef:ElementRef<HTMLElement>,
     private cdRef:ChangeDetectorRef,
     private I18n:I18nService,
   ) {
@@ -104,8 +105,6 @@ export class SortHeaderDirective extends UntilDestroyedMixin implements AfterVie
   }
 
   private initialize():void {
-    this.element = jQuery(this.elementRef.nativeElement);
-
     combineLatest([
       this.wpTableSortBy.onReadyWithAvailable(),
       this.wpTableSortBy.live$(),
@@ -176,6 +175,16 @@ export class SortHeaderDirective extends UntilDestroyedMixin implements AfterVie
       this.setHierarchyIcon();
     }
 
+    this
+      .wpTableBaseline
+      .live$()
+      .pipe(
+        this.untilDestroyed(),
+      )
+      .subscribe(() => {
+        this.baselineIncompatible = this.wpTableBaseline.isActive() && this.wpTableBaseline.isIncompatibleColumn(this.headerColumn.id);
+      });
+
     this.cdRef.detectChanges();
   }
 
@@ -224,6 +233,10 @@ export class SortHeaderDirective extends UntilDestroyedMixin implements AfterVie
   }
 
   setActiveColumnClass() {
-    this.element.toggleClass('active-column', !!this.currentSortDirection);
+    if (this.currentSortDirection) {
+      this.elementRef.nativeElement.classList.add('active-column');
+    } else {
+      this.elementRef.nativeElement.classList.remove('active-column');
+    }
   }
 }

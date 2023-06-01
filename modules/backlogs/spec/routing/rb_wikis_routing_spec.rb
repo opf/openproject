@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe RbWikisController do
+RSpec.describe RbWikisController do
   describe 'routing' do
     it {
       expect(get('/projects/project_42/sprints/21/wiki')).to route_to(controller: 'rb_wikis',

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Ldap::SynchronizationJob, type: :model do
+RSpec.describe Ldap::SynchronizationJob, type: :model do
   let!(:auth_source) { create(:ldap_auth_source) }
 
   let(:job) { described_class.new }

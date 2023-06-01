@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::TimeEntries::Filters::ActivityFilter do
+RSpec.describe Queries::TimeEntries::Filters::ActivityFilter do
   let(:time_entry_activity1) { build_stubbed(:time_entry_activity) }
   let(:time_entry_activity2) { build_stubbed(:time_entry_activity) }
   let(:activities) { [time_entry_activity1, time_entry_activity2] }

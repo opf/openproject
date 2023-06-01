@@ -28,7 +28,7 @@
 require 'spec_helper'
 require 'contracts/work_packages/shared_base_contract'
 
-describe WorkPackages::UpdateContract do
+RSpec.describe WorkPackages::UpdateContract do
   let(:work_package_project) do
     create(:project, public: false).tap do |p|
       allow(Project)

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Omniauth authentication' do
+RSpec.describe 'Omniauth authentication' do
   # Load ViewAccountLoginAuthProvider to have this spec passing
   OpenProject::Hooks::ViewAccountLoginAuthProvider
 

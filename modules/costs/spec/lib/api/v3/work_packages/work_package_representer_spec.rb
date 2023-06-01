@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::WorkPackages::WorkPackageRepresenter do
+RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:project) { create(:project) }

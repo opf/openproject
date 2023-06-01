@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-describe 'Project status widget on dashboard', js: true do
+RSpec.describe 'Project status widget on dashboard', js: true do
   let!(:project) do
     create(:project,
            status_code: 'on_track',

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe API::V3::Activities::ActivitiesAPI, content_type: :json do
+RSpec.describe API::V3::Activities::ActivitiesAPI, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 

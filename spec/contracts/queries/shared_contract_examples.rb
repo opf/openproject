@@ -29,10 +29,14 @@
 require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
 
-shared_context 'with queries contract' do
+RSpec.shared_context 'with queries contract' do
   let(:project) { build_stubbed(:project) }
+  let(:name) { 'Some query name' }
+  let(:public) { false }
+  let(:user) { current_user }
+  let(:permissions) { %i[view_queries save_queries] }
   let(:query) do
-    build_stubbed(:query, project:, public:, user:)
+    build_stubbed(:query, project:, public:, user:, name:)
   end
 
   let(:current_user) do
@@ -48,5 +52,21 @@ shared_context 'with queries contract' do
   before do
     # Assume project is always visible
     allow(contract).to receive(:project_visible?).and_return true
+  end
+
+  describe 'validation' do
+    it_behaves_like 'contract is valid'
+
+    context 'if the name is nil' do
+      let(:name) { nil }
+
+      it_behaves_like 'contract is invalid', name: :blank
+    end
+
+    context 'if the name is empty' do
+      let(:name) { '' }
+
+      it_behaves_like 'contract is invalid', name: :blank
+    end
   end
 end

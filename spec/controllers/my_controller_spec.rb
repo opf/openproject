@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe MyController do
+RSpec.describe MyController do
   let(:user) { create(:user) }
 
   before do
@@ -299,6 +299,45 @@ describe MyController do
           new_token = user.reload.api_token
           expect(new_token).not_to eq(key)
           expect(new_token.value).not_to eq(key.value)
+          expect(flash[:info]).to be_present
+          expect(flash[:error]).not_to be_present
+
+          expect(response).to redirect_to action: :access_token
+        end
+      end
+    end
+
+    describe 'ical' do
+      # unlike with the other tokens, creating new ical tokens is not done in this context
+      # ical tokens are generated whenever the user requests a new ical url
+      # a user can have N ical tokens
+      #
+      # in this context a specific ical token of a user should be reverted
+      # this invalidates the previously generated ical url
+      context 'with existing keys' do
+        let(:user) { create(:user) }
+        let(:project) { create(:project) }
+        let(:query) { create(:query, project:) }
+        let(:another_query) { create(:query, project:) }
+        let!(:ical_token_for_query) { create(:ical_token, user:, query:, name: "Some Token Name") }
+        let!(:another_ical_token_for_query) { create(:ical_token, user:, query:, name: "Some Other Token Name") }
+        let!(:ical_token_for_another_query) { create(:ical_token, user:, query: another_query, name: "Some Token Name") }
+
+        it 'revoke specific ical tokens' do
+          expect(user.ical_tokens).to contain_exactly(
+            ical_token_for_query, another_ical_token_for_query, ical_token_for_another_query
+          )
+
+          delete :revoke_ical_token, params: { id: another_ical_token_for_query.id }
+
+          expect(user.ical_tokens.reload).to contain_exactly(
+            ical_token_for_query, ical_token_for_another_query
+          )
+
+          expect(user.ical_tokens.reload).not_to contain_exactly(
+            ical_token_for_another_query
+          )
+
           expect(flash[:info]).to be_present
           expect(flash[:error]).not_to be_present
 

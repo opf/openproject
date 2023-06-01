@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'layouts/base' do
+RSpec.describe 'layouts/base' do
   # This is to make `visit` available. It might be already included by the time
   # we reach this spec, but for running this spec alone we need it here. Best
   # of both worlds.

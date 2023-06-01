@@ -1,7 +1,7 @@
 require 'spec_helper'
 require_relative 'support/pages/cost_report_page'
 
-describe 'Cost report saving', js: true do
+RSpec.describe 'Cost report saving', js: true do
   let(:project) { create(:project) }
   let(:user) { create(:admin) }
 

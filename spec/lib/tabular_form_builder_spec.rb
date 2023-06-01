@@ -28,7 +28,7 @@
 require 'spec_helper'
 require 'ostruct'
 
-describe TabularFormBuilder do
+RSpec.describe TabularFormBuilder do
   include Capybara::RSpecMatchers
 
   let(:helper) { ActionView::Base.new(ActionView::LookupContext.new(''), {}, nil) }

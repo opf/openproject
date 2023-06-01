@@ -30,8 +30,8 @@ require 'spec_helper'
 
 require_relative '../support/pages/ifc_models/index'
 
-describe 'model management',
-         js: true, with_config: { edition: 'bim' } do
+RSpec.describe 'model management',
+               js: true, with_config: { edition: 'bim' } do
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let(:index_page) { Pages::IfcModels::Index.new(project) }
   let(:role) { create(:role, permissions: %i[view_ifc_models manage_bcf manage_ifc_models view_work_packages]) }

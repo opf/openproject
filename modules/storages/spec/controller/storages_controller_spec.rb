@@ -30,7 +30,7 @@ require_relative '../spec_helper'
 
 # These specs mainly check that error messages from a sub-service
 # (about unsafe hosts with HTTP protocol) are passed to the main form.
-describe Storages::Admin::StoragesController, type: :controller, webmock: true do
+RSpec.describe Storages::Admin::StoragesController, type: :controller, webmock: true do
   render_views # rendering views is stubbed by default in controller specs
   include StorageServerHelpers
 

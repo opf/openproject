@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe RootSeeder, 'Storage module' do
+RSpec.describe RootSeeder, 'Storage module' do
   it 'seeds role permissions for Storages' do
     described_class.new.seed_data!
 

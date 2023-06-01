@@ -1,13 +1,13 @@
 require_relative '../../spec_helper'
 require_relative '../shared_2fa_examples'
 
-describe 'Login with 2FA remember cookie',
-         js: true, with_settings: {
-           plugin_openproject_two_factor_authentication: {
-             active_strategies: [:developer],
-             allow_remember_for_days: 30
-           }
-         } do
+RSpec.describe 'Login with 2FA remember cookie',
+               js: true, with_settings: {
+                 plugin_openproject_two_factor_authentication: {
+                   active_strategies: [:developer],
+                   allow_remember_for_days: 30
+                 }
+               } do
   let(:user_password) do
     "user!user!"
   end

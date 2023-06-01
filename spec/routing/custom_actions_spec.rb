@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'custom_actions routes' do
+RSpec.describe 'custom_actions routes' do
   describe 'index' do
     it 'links GET /admin/custom_actions' do
       expect(get('/admin/custom_actions'))

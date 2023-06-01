@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-shared_examples_for 'API V3 formattable' do |property|
+RSpec.shared_examples_for 'API V3 formattable' do |property|
   it { is_expected.to have_json_path(property) }
 
   it { is_expected.to be_json_eql(format.to_json).at_path(property + '/format') }

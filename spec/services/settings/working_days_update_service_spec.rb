@@ -27,7 +27,7 @@
 require 'spec_helper'
 require_relative 'shared/shared_call_examples'
 
-describe Settings::WorkingDaysUpdateService do
+RSpec.describe Settings::WorkingDaysUpdateService do
   let(:instance) do
     described_class.new(user:)
   end

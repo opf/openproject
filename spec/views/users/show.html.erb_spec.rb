@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'users/show' do
+RSpec.describe 'users/show' do
   let(:project)    { create(:valid_project) }
   let(:user)       { create(:admin, member_in_project: project) }
   let(:custom_field) { create(:text_user_custom_field) }

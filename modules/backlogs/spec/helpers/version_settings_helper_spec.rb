@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe VersionSettingsHelper do
+RSpec.describe VersionSettingsHelper do
   describe '#position_display_options' do
     before do
       @expected_options = [[I18n.t('version_settings_display_option_none'), 1],

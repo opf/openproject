@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::JournalFormatter::Attachment do
+RSpec.describe OpenProject::JournalFormatter::Attachment do
   include ApplicationHelper
   include ActionView::Helpers::TagHelper
   # WARNING: the order of the modules is important to ensure that url_for of

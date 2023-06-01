@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'random password generation', js: true do
+RSpec.describe 'random password generation', js: true do
   shared_let(:admin) { create(:admin) }
 
   let(:auth_source) { build(:dummy_auth_source) }

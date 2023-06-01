@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Capabilities::CapabilityQuery do
+RSpec.describe Queries::Capabilities::CapabilityQuery do
   let(:instance) { described_class.new }
 
   current_user do

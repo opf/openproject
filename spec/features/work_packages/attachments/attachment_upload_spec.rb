@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 
-describe 'Upload attachment to work package', js: true do
+RSpec.describe 'Upload attachment to work package', js: true do
   let(:role) do
     create(:role,
            permissions: %i[view_work_packages add_work_packages edit_work_packages add_work_package_notes])

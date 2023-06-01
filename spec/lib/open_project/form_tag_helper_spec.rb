@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::FormTagHelper, type: :helper do
+RSpec.describe OpenProject::FormTagHelper, type: :helper do
   let(:options) { {} }
 
   describe '#styled_form_tag' do

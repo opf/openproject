@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'filter work packages', js: true do
+RSpec.describe 'filter work packages', js: true do
   shared_let(:user) { create(:admin) }
   shared_let(:watcher) { create(:user) }
   shared_let(:role) { create(:existing_role, permissions: [:view_work_packages]) }

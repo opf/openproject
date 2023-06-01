@@ -1,9 +1,9 @@
 require_relative '../spec_helper'
 
-describe 'Admin 2FA management',
-         js: true, with_settings: {
-           plugin_openproject_two_factor_authentication: { 'active_strategies' => %i[developer totp] }
-         } do
+RSpec.describe 'Admin 2FA management',
+               js: true, with_settings: {
+                 plugin_openproject_two_factor_authentication: { 'active_strategies' => %i[developer totp] }
+               } do
   let(:dialog) { Components::PasswordConfirmationDialog.new }
   let(:user_password) { 'admin!' * 4 }
   let(:other_user) { create(:user, login: 'bob') }

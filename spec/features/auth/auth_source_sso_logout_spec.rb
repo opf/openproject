@@ -32,8 +32,8 @@ Capybara.register_driver :auth_source_sso do |app|
   Capybara::RackTest::Driver.new(app, headers: { 'HTTP_X_REMOTE_USER' => 'bob' })
 end
 
-describe 'Login with auth source SSO',
-         driver: :auth_source_sso do
+RSpec.describe 'Login with auth source SSO',
+               driver: :auth_source_sso do
   before do
     allow(OpenProject::Configuration)
       .to receive(:auth_source_sso)

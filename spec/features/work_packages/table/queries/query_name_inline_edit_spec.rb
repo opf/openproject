@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Query name inline edit', js: true do
+RSpec.describe 'Query name inline edit', js: true do
   let(:user) do
     create(:user,
            member_in_project: project,

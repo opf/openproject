@@ -28,10 +28,10 @@
 
 require 'spec_helper'
 
-describe 'baseline query saving',
-         js: true,
-         with_ee: %i[baseline_comparison],
-         with_settings: { date_format: '%Y-%m-%d' } do
+RSpec.describe 'baseline query saving',
+               js: true,
+               with_ee: %i[baseline_comparison],
+               with_settings: { date_format: '%Y-%m-%d' } do
   shared_let(:project) { create(:project) }
   shared_let(:work_package) { create(:work_package, project:) }
 

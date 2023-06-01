@@ -37,14 +37,17 @@ class Query < ApplicationRecord
   belongs_to :user
   has_many :views,
            dependent: :destroy
+  has_many :ical_token_query_assignments
+  has_many :ical_tokens,
+           through: :ical_token_query_assignments,
+           class_name: 'Token::ICal'
+  # no `dependent: :destroy` as the ical_tokens are destroyed in the following before_destroy callback
+  # dependent: :destroy is not possible as this would only delete the ical_token_query_assignments
+  before_destroy :destroy_ical_tokens
 
   serialize :filters, Queries::WorkPackages::FilterSerializer
   serialize :column_names, Array
   serialize :sort_criteria, Array
-
-  validates :name,
-            presence: true,
-            length: { maximum: 255 }
 
   validates :include_subprojects,
             inclusion: [true, false]
@@ -467,5 +470,11 @@ class Query < ApplicationRecord
 
   def valid_timestamps_subset!
     self.timestamps &= allowed_timestamps
+  end
+
+  # dependent::destroy does not work for has_many :through associations
+  # only the ical_token_query_assignments would be destroyed
+  def destroy_ical_tokens
+    ical_tokens.each(&:destroy)
   end
 end

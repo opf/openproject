@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'admin/enterprises/_current' do
+RSpec.describe 'admin/enterprises/_current' do
   let(:current_user) { create(:admin) }
   let(:ee_token) { "v1_expired_with_7_days_reprieve_at_2021_09_01.token" }
   let(:current_time) { DateTime.now }

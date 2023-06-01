@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Admin menu items', js: true do
+RSpec.describe 'Admin menu items', js: true do
   let(:user) { create(:admin) }
 
   before do

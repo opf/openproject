@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'admin routes' do
+RSpec.describe 'admin routes' do
   it 'connects GET /admin to admin#index' do
     expect(get('/admin'))
       .to route_to('admin#index')

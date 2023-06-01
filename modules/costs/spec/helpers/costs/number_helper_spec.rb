@@ -28,7 +28,7 @@
 
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe Costs::NumberHelper do
+RSpec.describe Costs::NumberHelper do
   describe '#parse_number_string' do
     context 'with a german local' do
       it 'parses a string with delimiter and separator correctly' do

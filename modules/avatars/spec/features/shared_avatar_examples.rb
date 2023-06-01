@@ -1,6 +1,6 @@
 require 'fastimage'
 
-shared_examples 'avatar management' do
+RSpec.shared_examples 'avatar management' do
   let(:image_base_path) { File.expand_path(File.dirname(__FILE__) + '/../fixtures/') }
 
   let(:enable_gravatars) { false }

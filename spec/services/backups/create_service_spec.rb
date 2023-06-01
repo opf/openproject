@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'services/base_services/behaves_like_create_service'
 
-describe Backups::CreateService, type: :model do
+RSpec.describe Backups::CreateService, type: :model do
   let(:user) { create(:admin) }
   let(:service) { described_class.new user:, backup_token: backup_token.plain_value }
   let(:backup_token) { create(:backup_token, user:) }

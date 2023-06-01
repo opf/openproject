@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Watcher tab', js: true, selenium: true do
+RSpec.describe 'Watcher tab', js: true, selenium: true do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   let(:project) { create(:project) }

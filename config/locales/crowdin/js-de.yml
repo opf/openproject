@@ -923,6 +923,7 @@ de:
         addition_label: 'Innerhalb des Vergleichszeitraums zur Ansicht hinzugefügt'
         removal_label: 'Innerhalb des Vergleichszeitraums aus der Ansicht entfernt'
         modification_label: 'Innerhalb des Vergleichszeitraums geändert'
+        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
       filters:
         title: 'Arbeitspakete filtern'
         baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'

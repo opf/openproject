@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Notifications::ScheduleDateAlertsNotificationsJob, type: :job, with_ee: %i[date_alerts] do
+RSpec.describe Notifications::ScheduleDateAlertsNotificationsJob, type: :job, with_ee: %i[date_alerts] do
   include ActiveSupport::Testing::TimeHelpers
 
   shared_let(:project) { create(:project, name: 'main') }

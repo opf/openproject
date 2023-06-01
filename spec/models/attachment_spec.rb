@@ -27,7 +27,7 @@
 #++
 require 'spec_helper'
 
-describe Attachment do
+RSpec.describe Attachment do
   let(:stubbed_author) { build_stubbed(:user) }
   let(:author) { create(:user) }
   let(:long_description) { 'a' * 300 }

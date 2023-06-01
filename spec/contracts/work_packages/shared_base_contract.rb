@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-shared_examples_for 'work package contract' do
+RSpec.shared_examples_for 'work package contract' do
   let(:user) { build_stubbed(:user) }
   let(:other_user) { build_stubbed(:user) }
   let(:policy) { double(WorkPackagePolicy, allowed?: true) }

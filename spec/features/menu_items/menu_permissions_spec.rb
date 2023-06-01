@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'menu permissions', js: true do
+RSpec.describe 'menu permissions', js: true do
   let(:user) do
     create(:user,
            member_in_project: project,

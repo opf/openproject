@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SetLocalizationService do
+RSpec.describe SetLocalizationService do
   let(:user) { build_stubbed(:user, language: user_language) }
   let(:http_accept_header) { "#{http_accept_language},en-US;q=0.8,en;q=0.6" }
   let(:instance) { described_class.new(user, http_accept_header) }

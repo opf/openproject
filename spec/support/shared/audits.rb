@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-shared_examples_for 'creates an audit trail on destroy' do
+RSpec.shared_examples_for 'creates an audit trail on destroy' do
   with_versioning do
     let(:whodunnit) { build_stubbed(:user) }
 

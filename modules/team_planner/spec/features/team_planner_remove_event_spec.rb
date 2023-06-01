@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative './shared_context'
 require_relative '../support/components/add_existing_pane'
 
-describe 'Team planner remove event', js: true, with_ee: %i[team_planner_view] do
+RSpec.describe 'Team planner remove event', js: true, with_ee: %i[team_planner_view] do
   include_context 'with team planner full access'
 
   let!(:viewer_role) { create(:existing_role, permissions: [:view_work_packages]) }

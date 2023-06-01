@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Type do
+RSpec.describe Type do
   let(:type) { create(:type, name: "Issue") }
 
   it 'bcf_thumbnail is available as a WorkPackageRepresenter attribute' do

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-describe 'Calendar drag&dop and resizing', js: true do
+RSpec.describe 'Calendar drag&dop and resizing', js: true do
   include_context 'with calendar full access'
 
   let!(:other_user) do

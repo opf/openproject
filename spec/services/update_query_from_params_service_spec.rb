@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe UpdateQueryFromParamsService,
-         type: :model do
+RSpec.describe UpdateQueryFromParamsService,
+               type: :model do
   let(:user) { build_stubbed(:user) }
   let(:query) { build_stubbed(:query) }
 

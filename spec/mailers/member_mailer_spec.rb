@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe MemberMailer do
+RSpec.describe MemberMailer do
   include OpenProject::ObjectLinking
   include ActionView::Helpers::UrlHelper
   include OpenProject::StaticRouting::UrlHelpers

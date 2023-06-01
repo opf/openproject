@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Storages::Peripherals::StorageRequests, webmock: true do
+RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
   using Storages::Peripherals::ServiceResultRefinements
 
   let(:user) { build_stubbed(:user) }

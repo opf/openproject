@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::FileLinks::FileLinkRepresenter, 'parsing' do
+RSpec.describe API::V3::FileLinks::FileLinkRepresenter, 'parsing' do
   include API::V3::Utilities::PathHelper
 
   let(:file_link) { build_stubbed(:file_link) }

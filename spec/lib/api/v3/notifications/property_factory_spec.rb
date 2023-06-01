@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Notifications::PropertyFactory do
+RSpec.describe API::V3::Notifications::PropertyFactory do
   let(:traits) { [] }
   let(:resource) { build_stubbed(:work_package, *traits) }
 

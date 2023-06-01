@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Search', js: true, with_mail: false, with_settings: { per_page_options: '5' } do
+RSpec.describe 'Search', js: true, with_mail: false, with_settings: { per_page_options: '5' } do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   shared_let(:admin) { create(:admin) }

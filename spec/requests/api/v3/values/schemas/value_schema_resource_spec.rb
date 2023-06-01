@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe API::V3::Values::Schemas::ValueSchemaAPI,
-         'show',
-         content_type: :json do
+RSpec.describe API::V3::Values::Schemas::ValueSchemaAPI,
+               'show',
+               content_type: :json do
   include API::V3::Utilities::PathHelper
 
   current_user { build_stubbed(:user) }

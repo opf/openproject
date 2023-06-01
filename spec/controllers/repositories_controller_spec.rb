@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe RepositoriesController do
+RSpec.describe RepositoriesController do
   let(:project) do
     project = create(:project)
     allow(Project).to receive(:find).and_return(project)
