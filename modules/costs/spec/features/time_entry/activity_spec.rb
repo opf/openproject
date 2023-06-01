@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Time entry activity' do
+RSpec.describe 'Time entry activity' do
   shared_let(:admin) { create(:admin) }
   let(:project) { create(:project) }
 

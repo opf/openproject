@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
+RSpec.describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
   let(:project) { create(:project) }
   let(:origin) { create(:work_package, project:) }
   let(:predecessor) do

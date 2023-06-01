@@ -1,7 +1,7 @@
 require 'spec_helper'
 require_relative 'context_menu_shared_examples'
 
-describe 'Work package table context menu', js: true do
+RSpec.describe 'Work package table context menu', js: true do
   let(:user) { create(:admin) }
   let(:work_package) { create(:work_package) }
 

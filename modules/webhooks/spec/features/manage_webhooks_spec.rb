@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Manage webhooks through UI', js: true do
+RSpec.describe 'Manage webhooks through UI', js: true do
   before do
     login_as user
   end

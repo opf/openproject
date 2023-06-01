@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Projects::DeleteService, type: :model do
+RSpec.describe Projects::DeleteService, type: :model do
   shared_let(:user) { create(:admin) }
   let(:project) { create(:project) }
 

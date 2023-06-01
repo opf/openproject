@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-shared_examples 'BaseServices delete service' do
+RSpec.shared_examples 'BaseServices delete service' do
   subject(:service_call) { instance.call(call_attributes) }
 
   let(:service_class) { described_class }

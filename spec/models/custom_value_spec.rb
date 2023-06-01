@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CustomValue do
+RSpec.describe CustomValue do
   shared_let(:version) { create(:version) }
 
   let(:format) { 'bool' }

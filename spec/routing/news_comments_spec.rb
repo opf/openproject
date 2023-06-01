@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe News::CommentsController, 'routing' do
+RSpec.describe News::CommentsController, 'routing' do
   context 'news scoped' do
     it {
       expect(subject).to route(:post, '/news/567/comments').to(controller: 'news/comments',

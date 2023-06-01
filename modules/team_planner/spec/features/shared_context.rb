@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative '../support/pages/team_planner'
 
-shared_context 'with team planner full access' do
+RSpec.shared_context 'with team planner full access' do
   shared_let(:project) do
     create(:project)
   end

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Wiki page - restoring main wiki item' do
+RSpec.describe 'Wiki page - restoring main wiki item' do
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:user) do
     create(:user,

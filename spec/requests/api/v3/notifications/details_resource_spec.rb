@@ -27,9 +27,9 @@
 
 require 'spec_helper'
 
-describe API::V3::Notifications::NotificationsAPI,
-         'fetch notification details',
-         content_type: :json do
+RSpec.describe API::V3::Notifications::NotificationsAPI,
+               'fetch notification details',
+               content_type: :json do
   include API::V3::Utilities::PathHelper
 
   shared_let(:project) { create(:project) }

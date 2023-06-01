@@ -28,9 +28,9 @@
 require 'spec_helper'
 require_relative './show_resource_examples'
 
-describe API::V3::Notifications::NotificationsAPI,
-         'show',
-         content_type: :json do
+RSpec.describe API::V3::Notifications::NotificationsAPI,
+               'show',
+               content_type: :json do
   include API::V3::Utilities::PathHelper
 
   shared_let(:recipient) do

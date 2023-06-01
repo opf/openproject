@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe TimeEntries::DeleteContract do
+RSpec.describe TimeEntries::DeleteContract do
   let(:current_user) do
     build_stubbed(:user) do |user|
       allow(user)

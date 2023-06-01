@@ -26,7 +26,7 @@
 
 require 'spec_helper'
 
-describe API::V3::WorkPackages::WorkPackageSqlRepresenter, 'rendering' do
+RSpec.describe API::V3::WorkPackages::WorkPackageSqlRepresenter, 'rendering' do
   include API::V3::Utilities::PathHelper
 
   subject(:json) do

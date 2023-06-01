@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-shared_examples 'work package relations tab', js: true, selenium: true do
+RSpec.shared_examples 'work package relations tab', js: true, selenium: true do
   include_context 'ng-select-autocomplete helpers'
 
   let(:user) { create(:admin) }
@@ -267,13 +267,13 @@ shared_examples 'work package relations tab', js: true, selenium: true do
   end
 end
 
-context 'Split screen' do
+RSpec.context 'Split screen' do
   let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
 
   it_behaves_like 'work package relations tab'
 end
 
-context 'Full screen' do
+RSpec.context 'Full screen' do
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
 
   it_behaves_like 'work package relations tab'

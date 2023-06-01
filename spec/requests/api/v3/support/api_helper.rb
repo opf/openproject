@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-shared_examples_for 'safeguarded API' do
+RSpec.shared_examples_for 'safeguarded API' do
   it { expect(last_response.status).to eq(404) }
 end
 
-shared_examples_for 'valid activity request' do
+RSpec.shared_examples_for 'valid activity request' do
   shared_let(:admin) { create(:admin) }
   let(:status_code) { 200 }
 
@@ -49,7 +49,7 @@ shared_examples_for 'valid activity request' do
   end
 end
 
-shared_examples_for 'invalid activity request' do
+RSpec.shared_examples_for 'invalid activity request' do
   shared_let(:admin) { create(:admin) }
 
   before do

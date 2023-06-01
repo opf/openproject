@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe SysController, with_settings: { sys_api_enabled: true } do
+RSpec.describe SysController, with_settings: { sys_api_enabled: true } do
   let(:commit_role) do
     create(:role, permissions: %i[commit_access browse_repository])
   end

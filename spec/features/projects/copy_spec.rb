@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 # rubocop:disable RSpec:MultipleMemoizedHelpers
-describe 'Projects copy',
-         js: true do
+RSpec.describe 'Projects copy',
+               js: true do
   describe 'with a full copy example' do
     let!(:project) do
       create(:project,

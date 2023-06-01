@@ -1,4 +1,4 @@
 zh-TW:
   dashboards:
-    label: '信息中心'
-  project_module_dashboards: '信息中心'
+    label: '儀表板'
+  project_module_dashboards: '儀表板'

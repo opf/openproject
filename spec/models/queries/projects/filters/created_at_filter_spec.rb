@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Projects::Filters::CreatedAtFilter do
+RSpec.describe Queries::Projects::Filters::CreatedAtFilter do
   it_behaves_like 'basic query filter' do
     let(:class_key) { :created_at }
     let(:type) { :datetime_past }

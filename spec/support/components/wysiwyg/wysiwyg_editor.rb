@@ -107,10 +107,6 @@ module Components
         figure = image.find(:xpath, '../..')
 
         retry_block do
-          # Click the figure
-          figure.click
-          sleep(0.2)
-
           # Toggle caption with button since newer version of ckeditor
           click_hover_toolbar_button 'Toggle caption on'
 
@@ -142,7 +138,7 @@ module Components
     end
 
     def insert_link(link)
-      click_toolbar_button /Link \([^)]+\)/
+      click_toolbar_button "Link"
       page.find('.ck-input-text').set link
       page.find('.ck-button-save').click
     end

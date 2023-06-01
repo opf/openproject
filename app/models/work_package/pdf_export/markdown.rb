@@ -47,11 +47,11 @@ module WorkPackage::PDFExport::Markdown
       begin
         draw_node(root, pdf_root_options(@styles.page), true)
       rescue Prawn::Errors::CannotFit => e
-        Rails.logger.error "Failed to draw markdown pdf because of non fitting content: #{e}"
+        Rails.logger.error "Failed to draw markdown field to pdf because of non fitting content: #{e}"
       end
     end
 
-    def image_url_to_local_file(url, _node)
+    def image_url_to_local_file(url, _node = nil)
       return nil if url.blank? || @image_loader.nil?
 
       @image_loader.call(url)
@@ -61,16 +61,24 @@ module WorkPackage::PDFExport::Markdown
       text # @hyphens.hyphenate(text)
     end
 
-    def handle_unknown_inline_html_tag(tag, _node, opts)
+    def handle_mention_html_tag(tag, node, opts)
+      if tag.text.blank?
+        # <mention class="mention" data-id="46012" data-type="work_package" data-text="#46012"></mention>
+        # <mention class="mention" data-id="3" data-type="user" data-text="@Some User">
+        text = tag.attr('data-text')
+        if text.present? && !node.next.respond_to?(:string_content) && node.next.string_content != text
+          return [text_hash(text, opts)]
+        end
+      end
+      # <mention class="mention" data-id="3" data-type="user" data-text="@Some User">@Some User</mention>
+      []
+    end
+
+    def handle_unknown_inline_html_tag(tag, node, opts)
       result = []
       case tag.name
       when 'mention'
-        # <mention class="mention" data-id="46012" data-type="work_package" data-text="#46012"></mention>
-        # <mention class="mention" data-id="3" data-type="user" data-text="@Some User">@Some User</mention>
-        if tag.text.blank?
-          text = tag.attr('data-text')
-          result.push(text_hash(text, opts)) if text.present?
-        end
+        return [handle_mention_html_tag(tag, node, opts), opts]
       when 'span'
         text = tag.text
         result.push(text_hash(text, opts)) if text.present?
@@ -97,7 +105,7 @@ module WorkPackage::PDFExport::Markdown
   end
 
   def write_markdown!(work_package, markdown)
-    md2pdf = MD2PDF.new(markdown_styling_yml)
+    md2pdf = MD2PDF.new(styles.wp_markdown_styling_yml)
     md2pdf.draw_markdown(markdown, pdf, ->(src) {
       with_attachments? ? attachment_image_filepath(work_package, src) : nil
     })

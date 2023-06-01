@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::ChangedBySystem do
+RSpec.describe OpenProject::ChangedBySystem do
   subject(:model) do
     model = News.new
     model.extend(described_class)

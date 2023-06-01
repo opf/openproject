@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe AttributeHelpTextsController do
+RSpec.describe AttributeHelpTextsController do
   it 'routes CRUD to the controller' do
     expect(get('/admin/attribute_help_texts'))
       .to route_to(controller: 'attribute_help_texts', action: 'index')

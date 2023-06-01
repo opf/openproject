@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'services/base_services/behaves_like_update_service'
 
-describe Groups::UpdateService, type: :model do
+RSpec.describe Groups::UpdateService, type: :model do
   it_behaves_like 'BaseServices update service' do
     let(:add_service_result) do
       ServiceResult.success

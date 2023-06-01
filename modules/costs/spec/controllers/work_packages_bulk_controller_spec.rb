@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::BulkController do
+RSpec.describe WorkPackages::BulkController do
   let(:project) { create(:project_with_types) }
   let(:controller_role) { build(:role, permissions: %i[view_work_packages edit_work_packages]) }
   let(:user) { create(:user, member_in_project: project, member_through_role: controller_role) }

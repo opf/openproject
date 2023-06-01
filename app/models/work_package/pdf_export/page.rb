@@ -28,10 +28,12 @@
 
 module WorkPackage::PDFExport::Page
   def configure_page_size!(layout)
-    pdf.options[:page_size] = page_size
     pdf.options[:page_layout] = layout
-    pdf.options[:top_margin] = page_top_margin
-    pdf.options[:bottom_margin] = page_bottom_margin
+    pdf.options[:page_size] = styles.page_size
+    pdf.options[:top_margin] = styles.page_margin_top
+    pdf.options[:left_margin] = styles.page_margin_left
+    pdf.options[:bottom_margin] = styles.page_margin_bottom
+    pdf.options[:right_margin] = styles.page_margin_right
   end
 
   def write_logo!
@@ -44,8 +46,8 @@ module WorkPackage::PDFExport::Page
   end
 
   def logo_pdf_left(logo_width)
-    case page_logo_align
-    when :middle
+    case styles.page_logo_align.to_sym
+    when :center
       (pdf.bounds.right - pdf.bounds.left - logo_width) / 2
     when :right
       pdf.bounds.right - logo_width
@@ -55,14 +57,14 @@ module WorkPackage::PDFExport::Page
   end
 
   def logo_pdf_top
-    pdf.bounds.top + page_header_top + (page_logo_height / 2)
+    pdf.bounds.top + styles.page_header_offset + (styles.page_logo_height / 2)
   end
 
   def logo_pdf_image
     image_file = custom_logo_image
     image_file = Rails.root.join("app/assets/images/logo_openproject.png") if image_file.nil?
     image_obj, image_info = pdf.build_image_object(image_file)
-    scale = [page_logo_height / image_info.height.to_f, 1].min
+    scale = [styles.page_logo_height / image_info.height.to_f, 1].min
     [image_obj, image_info, scale]
   end
 
@@ -79,8 +81,8 @@ module WorkPackage::PDFExport::Page
 
   def write_title!
     pdf.title = heading
-    with_margin(page_heading_margins_style) do
-      pdf.formatted_text([page_heading_style.merge({ text: heading })])
+    with_margin(styles.page_heading_margins) do
+      pdf.formatted_text([styles.page_heading.merge({ text: heading })])
     end
   end
 
@@ -95,7 +97,7 @@ module WorkPackage::PDFExport::Page
   end
 
   def write_footer_page_nr!
-    draw_repeating_dynamic_text(:center, -page_footer_top, page_footer_style) do
+    draw_repeating_dynamic_text(:center, styles.page_footer_offset, styles.page_footer) do
       current_page_nr.to_s + total_page_nr_text
     end
   end
@@ -105,15 +107,20 @@ module WorkPackage::PDFExport::Page
   end
 
   def write_footer_title!
-    draw_repeating_text(text: heading, align: :right, top: -page_footer_top, style: page_footer_style)
+    draw_repeating_text(
+      text: heading,
+      align: :right,
+      top: styles.page_footer_offset,
+      text_style: styles.page_footer
+    )
   end
 
   def write_footer_date!
     draw_repeating_text(
       text: format_date(Time.zone.today),
       align: :left,
-      top: -page_footer_top,
-      style: page_footer_style
+      top: styles.page_footer_offset,
+      text_style: styles.page_footer
     )
   end
 end

@@ -27,7 +27,7 @@
 #++
 require 'spec_helper'
 
-describe IssuePriority do
+RSpec.describe IssuePriority do
   shared_let(:priority) { create(:priority) }
   shared_let(:default_priority) { create(:default_priority) }
 

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
 
-describe Attachments::CreateContract, 'integration' do
+RSpec.describe Attachments::CreateContract, 'integration' do
   include_context 'ModelContract shared context'
 
   let(:model) do

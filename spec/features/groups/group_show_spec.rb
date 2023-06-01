@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'group show page' do
+RSpec.describe 'group show page' do
   let!(:member) { create(:user) }
   let!(:group) { create(:group, lastname: "Bob's Team", members: [member]) }
 

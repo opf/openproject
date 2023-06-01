@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Versions::VersionRepresenter, 'rendering' do
+RSpec.describe API::V3::Versions::VersionRepresenter, 'rendering' do
   let(:version) { build_stubbed(:version) }
   let(:permissions) { [:manage_versions] }
   let(:permissions) { [:manage_versions] }

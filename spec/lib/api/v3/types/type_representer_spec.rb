@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Types::TypeRepresenter do
+RSpec.describe API::V3::Types::TypeRepresenter do
   let(:type) { build_stubbed(:type, color: build_stubbed(:color)) }
   let(:representer) { described_class.new(type, current_user: double('current_user')) }
 

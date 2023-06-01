@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::WorkPackages::Schema::WorkPackageSumsSchemaRepresenter do
+RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSumsSchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:custom_field) { build_stubbed(:integer_issue_custom_field) }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Actions::Scopes::Default do
+RSpec.describe Actions::Scopes::Default do
   subject(:scope) { Action.default }
 
   describe '.default' do

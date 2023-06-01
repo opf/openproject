@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Principals::PrincipalType do
+RSpec.describe API::V3::Principals::PrincipalType do
   let(:principal) { nil }
 
   subject { described_class.for(instance) }

@@ -27,7 +27,7 @@
 #++
 require 'spec_helper'
 
-describe OpenIDConnect::UserSessionLink do
+RSpec.describe OpenIDConnect::UserSessionLink do
   describe 'session' do
     let(:plain_session) { create(:user_session) }
     let(:user_session) { Sessions::UserSession.find_by(session_id: plain_session.session_id) }

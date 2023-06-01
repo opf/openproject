@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Todolists in CKEditor', js: true do
+RSpec.describe 'Todolists in CKEditor', js: true do
   let(:user) { create(:admin) }
 
   before do

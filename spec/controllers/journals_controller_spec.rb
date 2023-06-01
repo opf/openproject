@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe JournalsController do
+RSpec.describe JournalsController do
   shared_let(:project) { create(:project_with_types) }
   shared_let(:user) { create(:user, member_in_project: project, member_with_permissions: [:view_work_packages]) }
 

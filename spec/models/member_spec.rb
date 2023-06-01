@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Member do
+RSpec.describe Member do
   let(:user) { create(:user) }
   let(:role) { create(:role) }
   let(:project) { create(:project) }

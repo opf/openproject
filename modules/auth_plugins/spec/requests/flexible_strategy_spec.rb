@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OmniAuth::FlexibleStrategy do
+RSpec.describe OmniAuth::FlexibleStrategy do
   class MockStrategy
     include OmniAuth::Strategy
     include OmniAuth::FlexibleStrategy

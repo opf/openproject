@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Relations::CreateContract do
+RSpec.describe Relations::CreateContract do
   let(:from) { build_stubbed(:work_package) }
   let(:to) { build_stubbed(:work_package) }
   let(:user) { build_stubbed(:admin) }

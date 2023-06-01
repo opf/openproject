@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,7 +28,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "rails_helper"
 
-describe OpenProject::ObjectLinking do
+RSpec.describe Settings::TimeZoneSettingComponent, type: :component do
+  subject { render_inline(described_class.new("user_default_timezone")) }
+
+  it "renders the timezones as options, grouping cities with the same identifier" do
+    subject
+
+    expect(page).to have_selector("option[value=\"America/Los_Angeles\"]",
+                                  text: "(UTC-08:00) Pacific Time (US & Canada)")
+    expect(page).to have_selector("option[value=\"Europe/Berlin\"]", text: "(UTC+01:00) Berlin, Copenhagen, Stockholm")
+    expect(page).to have_selector("option[value=\"Asia/Shanghai\"]", text: "(UTC+08:00) Beijing, Chongqing")
+  end
 end

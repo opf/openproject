@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
 
-describe MeetingContents::UpdateContract do
+RSpec.describe MeetingContents::UpdateContract do
   include_context 'ModelContract shared context'
   let(:agenda) { build_stubbed(:meeting_agenda) }
   let(:current_user) { build_stubbed(:user) }

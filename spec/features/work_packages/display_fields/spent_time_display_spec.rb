@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Logging time within the work package view', js: true do
+RSpec.describe 'Logging time within the work package view', js: true do
   shared_let(:project) { create(:project) }
   shared_let(:admin) { create(:admin) }
   shared_let(:work_package) { create(:work_package, project:) }

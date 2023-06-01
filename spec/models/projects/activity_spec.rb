@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Projects::Activity, 'core' do
+RSpec.describe Projects::Activity, 'core' do
   shared_let(:project) do
     create(:project, :updated_a_long_time_ago)
   end

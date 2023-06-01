@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::PriorityFilter do
+RSpec.describe Queries::WorkPackages::Filter::PriorityFilter do
   let(:priority) { build_stubbed(:priority) }
 
   it_behaves_like 'basic query filter' do

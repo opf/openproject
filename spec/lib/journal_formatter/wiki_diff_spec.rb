@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::JournalFormatter::WikiDiff do
+RSpec.describe OpenProject::JournalFormatter::WikiDiff do
   include ActionView::Helpers::TagHelper
   # WARNING: the order of the modules is important to ensure that url_for of
   # ActionController::UrlWriter is called and not the one of ActionView::Helpers::UrlHelper

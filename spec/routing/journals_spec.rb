@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe JournalsController do
+RSpec.describe JournalsController do
   it 'connects GET /journals/ to journals#index' do
     expect(get('/journals/')).to route_to(controller: 'journals',
                                           action: 'index')

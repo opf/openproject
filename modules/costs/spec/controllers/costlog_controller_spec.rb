@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
-describe CostlogController do
+RSpec.describe CostlogController do
   include Cost::PluginSpecHelper
   let (:project) { create(:project_with_types) }
   let (:work_package) do

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CustomAction do
+RSpec.describe CustomAction do
   let(:stubbed_instance) { build_stubbed(:custom_action) }
   let(:instance) { create(:custom_action, name: 'zzzzzzzzz') }
   let(:other_instance) { create(:custom_action, name: 'aaaaa') }

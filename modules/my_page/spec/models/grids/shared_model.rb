@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-shared_examples_for 'grid attributes' do
+RSpec.shared_examples_for 'grid attributes' do
   describe 'attributes' do
     it '#row_count' do
       instance.row_count = 5

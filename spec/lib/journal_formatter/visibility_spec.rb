@@ -28,7 +28,7 @@
 
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper.rb")
 
-describe OpenProject::JournalFormatter::Visibility do
+RSpec.describe OpenProject::JournalFormatter::Visibility do
   let(:instance) { described_class.new(build(:project_journal)) }
 
   it "renders correctly when setting visibility" do

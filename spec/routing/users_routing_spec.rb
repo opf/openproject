@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe UsersController, 'routing' do
+RSpec.describe UsersController, 'routing' do
   it {
     expect(subject).to route(:get, '/users').to(controller: 'users',
                                                 action: 'index')

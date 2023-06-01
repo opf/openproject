@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Members::CleanupService, 'integration', type: :model do
+RSpec.describe Members::CleanupService, 'integration', type: :model do
   subject(:service_call) { instance.call }
 
   let(:user) { create(:user) }

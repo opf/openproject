@@ -27,7 +27,7 @@
 
 require 'spec_helper'
 
-describe 'GET /api/v3/users' do
+RSpec.describe 'GET /api/v3/users' do
   let!(:users) do
     [
       create(:admin, login: 'admin', status: :active),

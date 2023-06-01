@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Filters::AvailableFilters do
+RSpec.describe Queries::Filters::AvailableFilters do
   let(:context) { build_stubbed(:project) }
   let(:register) { Queries::FilterRegister }
   let(:includer) do

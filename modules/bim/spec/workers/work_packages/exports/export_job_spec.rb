@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::ExportJob do
+RSpec.describe WorkPackages::ExportJob do
   let(:user) { build_stubbed(:user) }
   let(:attachment) { double('Attachment', id: 1234) }
   let(:export) do

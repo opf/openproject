@@ -26,7 +26,7 @@
 
 require 'spec_helper'
 
-describe Redmine::MenuManager do
+RSpec.describe Redmine::MenuManager do
   describe '.items' do
     context 'for the top_menu' do
       it 'includes the expected items' do

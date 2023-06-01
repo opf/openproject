@@ -1,5 +1,5 @@
 require 'open3'
-shared_examples_for 'is a countable repository' do
+RSpec.shared_examples_for 'is a countable repository' do
   let(:cache_time) { 720 }
 
   before do
@@ -89,7 +89,7 @@ shared_examples_for 'is a countable repository' do
   end
 end
 
-shared_examples_for 'is not a countable repository' do
+RSpec.shared_examples_for 'is not a countable repository' do
   it 'is not countable' do
     expect(repository.scm).not_to be_storage_available
   end

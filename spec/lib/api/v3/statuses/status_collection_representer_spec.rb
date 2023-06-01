@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Statuses::StatusCollectionRepresenter do
+RSpec.describe API::V3::Statuses::StatusCollectionRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:statuses) { build_list(:status, 3) }

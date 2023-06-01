@@ -27,7 +27,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::CreateNoteContract do
+RSpec.describe WorkPackages::CreateNoteContract do
   let(:work_package) do
     # As we only want to test the contract, we mock checking whether the work_package is valid
     wp = build_stubbed(:work_package)

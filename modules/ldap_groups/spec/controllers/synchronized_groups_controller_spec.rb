@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-describe LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups] do
+RSpec.describe LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups] do
   let(:user) { create(:user) }
   let(:admin) { create(:admin) }
 

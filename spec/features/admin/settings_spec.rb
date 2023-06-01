@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Settings' do
+RSpec.describe 'Settings' do
   let(:admin) { create(:admin) }
 
   describe 'subsection' do

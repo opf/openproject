@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'inline create work package', js: true do
+RSpec.describe 'inline create work package', js: true do
   let(:type) { create(:type) }
   let(:types) { [type] }
 

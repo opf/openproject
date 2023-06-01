@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Grids::CreateContract, 'for Boards::Grid' do
+RSpec.describe Grids::CreateContract, 'for Boards::Grid' do
   let(:project) { build_stubbed(:project) }
   let(:instance) { described_class.new(grid, user) }
   let(:user) { build_stubbed(:user) }

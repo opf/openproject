@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe MessagesController, with_settings: { journal_aggregation_time_minutes: 0 } do
+RSpec.describe MessagesController, with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:user) { create(:user) }
   let(:project) { create(:project) }
   let(:role) { create(:role) }

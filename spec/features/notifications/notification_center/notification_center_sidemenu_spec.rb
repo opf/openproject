@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe "Notification center sidemenu",
-         js: true,
-         with_ee: %i[date_alerts] do
+RSpec.describe "Notification center sidemenu",
+               js: true,
+               with_ee: %i[date_alerts] do
   shared_let(:project) { create(:project) }
   shared_let(:project2) { create(:project) }
   shared_let(:project3) { create(:project, parent: project2) }

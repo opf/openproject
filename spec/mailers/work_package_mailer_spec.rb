@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_examples'
 
-describe WorkPackageMailer do
+RSpec.describe WorkPackageMailer do
   include OpenProject::ObjectLinking
   include ActionView::Helpers::UrlHelper
   include OpenProject::StaticRouting::UrlHelpers

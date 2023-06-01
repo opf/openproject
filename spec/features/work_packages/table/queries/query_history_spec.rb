@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Going back and forth through the browser history', js: true do
+RSpec.describe 'Going back and forth through the browser history', js: true do
   let(:user) do
     create(:user,
            member_in_project: project,

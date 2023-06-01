@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CopyProjectJob, type: :model do
+RSpec.describe CopyProjectJob, type: :model do
   let(:project) { create(:project, public: false) }
   let(:user) { create(:user) }
   let(:role) { create(:role, permissions: [:copy_projects]) }

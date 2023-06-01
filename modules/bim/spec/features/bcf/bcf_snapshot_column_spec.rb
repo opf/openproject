@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe 'BCF snapshot column',
-         js: true,
-         with_config: { edition: 'bim' },
-         with_mail: false do
+RSpec.describe 'BCF snapshot column',
+               js: true,
+               with_config: { edition: 'bim' },
+               with_mail: false do
   let(:project) { create(:project, enabled_module_names: %w[bim work_package_tracking]) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:permissions) { %i[add_work_packages view_work_packages view_linked_issues] }

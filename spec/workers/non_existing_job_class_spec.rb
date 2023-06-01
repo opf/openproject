@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe "NonExistingJobClass" do
+RSpec.describe "NonExistingJobClass" do
   let!(:job_with_non_existing_class) do
     handler = <<~JOB.strip
       --- !ruby/object:ActiveJob::QueueAdapters::DelayedJobAdapter::JobWrapper
