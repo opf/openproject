@@ -43,14 +43,9 @@ module Queries
     end
 
     def query_visible_for_user?
-      User.execute_as(user) do
-        Query
-          .visible(user)
-          .find(model.id)
-          .present?
-      end
-    rescue StandardError
-      false
+      Query
+        .visible(user)
+        .exists?(id: model.id)
     end
 
     def token_valid_for_query?
