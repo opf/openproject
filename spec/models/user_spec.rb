@@ -682,6 +682,36 @@ RSpec.describe User do
     end
   end
 
+  describe '#ical_tokens' do
+    let(:user) { create(:user) }
+    let(:query) { create(:query, user:) }
+    let(:ical_token) { create(:ical_token, user:, query:, name: "My Token") }
+    let(:another_ical_token) { create(:ical_token, user:, query:, name: "My Other Token") }
+
+    it 'are not present by default' do
+      expect(user.ical_tokens)
+        .to be_empty
+    end
+
+    it 'returns all existing ical tokens from this user' do
+      ical_token
+      another_ical_token
+
+      expect(user.ical_tokens).to contain_exactly(
+        ical_token, another_ical_token
+      )
+    end
+
+    it 'are destroyed when the user is destroyed' do
+      ical_token
+      another_ical_token
+
+      user.destroy
+
+      expect(Token::ICal.all).to be_empty
+    end
+  end
+
   describe '.newest' do
     let!(:anonymous) { described_class.anonymous }
     let!(:user1) { create(:user) }

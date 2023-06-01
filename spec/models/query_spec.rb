@@ -883,4 +883,32 @@ RSpec.describe Query,
       it_behaves_like 'does not add a subproject id filter'
     end
   end
+
+  describe 'ical tokens' do
+    let(:user) { create(:user) }
+    let(:query) { create(:query, user:) }
+
+    context 'when present' do
+      let(:ical_token) { create(:ical_token, user:, query:, name: "Some Token") }
+
+      it 'can be accessed via relation' do
+        expect(query.ical_tokens).to contain_exactly(ical_token)
+      end
+
+      it 'are destroyed when query is destroyed' do
+        expect do
+          query.destroy!
+        end.to change { Token::ICal.where(id: ical_token.id).count }.by(-1)
+        expect(ICalTokenQueryAssignment.all).to be_empty
+      end
+    end
+
+    context 'when not present' do
+      it 'do not cause errors on query.destroy' do
+        expect do
+          query.destroy!
+        end.not_to raise_error
+      end
+    end
+  end
 end

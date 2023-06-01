@@ -65,4 +65,8 @@ RSpec.describe 'my routes' do
     expect(get('/my/deletion_info')).to route_to(controller: 'users',
                                                  action: 'deletion_info')
   end
+
+  it '/my/revoke_ical_token DELETE routes to my#revoke_ical_token' do
+    expect(delete('/my/revoke_ical_token')).to route_to('my#revoke_ical_token')
+  end
 end

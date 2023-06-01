@@ -158,6 +158,8 @@ module API
                        .mount
             end
 
+            mount API::V3::Queries::ICalUrl::QueryIcalUrlAPI
+
             mount API::V3::Queries::Order::QueryOrderAPI
           end
         end

@@ -97,6 +97,7 @@ PATH
   remote: modules/calendar
   specs:
     openproject-calendar (1.0.0)
+      icalendar (~> 2.8.0)
 
 PATH
   remote: modules/costs
