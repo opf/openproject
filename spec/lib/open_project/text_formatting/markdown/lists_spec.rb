@@ -29,8 +29,8 @@
 require 'spec_helper'
 require_relative './expected_markdown'
 
-describe OpenProject::TextFormatting,
-         'lists' do
+RSpec.describe OpenProject::TextFormatting,
+               'lists' do
   include_context 'expected markdown modules'
 
   context 'ordered lists' do

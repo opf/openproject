@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'support/pages/custom_fields'
 
-describe 'types', js: true do
+RSpec.describe 'types', js: true do
   let(:user) do
     create(:user,
            member_in_project: project,

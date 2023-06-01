@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Principals::Scopes::Like do
+RSpec.describe Principals::Scopes::Like do
   describe '.like' do
     let!(:login) do
       create(:principal, login: 'login')

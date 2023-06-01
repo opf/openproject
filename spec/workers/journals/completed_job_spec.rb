@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Journals::CompletedJob, type: :model do
+RSpec.describe Journals::CompletedJob, type: :model do
   let(:send_mail) { true }
 
   let(:journal) do

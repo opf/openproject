@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Login with auth source SSO' do
+RSpec.describe 'Login with auth source SSO' do
   before do
     if sso_config
       allow(OpenProject::Configuration)

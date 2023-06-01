@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Query::Results, 'Filtering custom fields', with_mail: false do
+RSpec.describe Query::Results, 'Filtering custom fields', with_mail: false do
   shared_let(:user) { create(:admin) }
   shared_let(:custom_field) do
     create(

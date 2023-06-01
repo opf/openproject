@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Version do
+RSpec.describe Version do
   subject(:version) { build(:version, name: 'Test Version') }
 
   it { is_expected.to be_valid }

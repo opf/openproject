@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'my', js: true do
+RSpec.describe 'my', js: true do
   let(:user_password) { 'bob' * 4 }
   let(:user) do
     create(:user,

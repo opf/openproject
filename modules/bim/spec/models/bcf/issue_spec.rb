@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Bim::Bcf::Issue do
+RSpec.describe Bim::Bcf::Issue do
   let(:type) { create(:type, name: "Issue [BCF]") }
   let(:work_package) { create(:work_package, type:) }
   let(:issue) { create(:bcf_issue, work_package:) }

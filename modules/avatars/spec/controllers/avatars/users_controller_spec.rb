@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 require File.expand_path(File.dirname(__FILE__) + '/../../shared_examples')
 
-describe Avatars::UsersController do
+RSpec.describe Avatars::UsersController do
   include_context "there are users with and without avatars"
 
   let(:current_user) { create(:admin) }

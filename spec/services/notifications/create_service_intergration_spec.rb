@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Notifications::CreateService, 'integration', type: :model do
+RSpec.describe Notifications::CreateService, 'integration', type: :model do
   let(:work_package) { create(:work_package) }
   let(:project) { work_package.project }
   let(:journal) { work_package.journals.first }

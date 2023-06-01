@@ -28,7 +28,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe BudgetsHelper do
+RSpec.describe BudgetsHelper do
   let(:project) { build(:project) }
   let(:budget) { build(:budget, project:) }
 

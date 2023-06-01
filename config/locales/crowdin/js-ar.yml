@@ -928,6 +928,7 @@ ar:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
+        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
       filters:
         title: 'Filter work packages'
         baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'

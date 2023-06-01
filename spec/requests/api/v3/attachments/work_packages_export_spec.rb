@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './attachment_resource_shared_examples'
 
-describe "WorkPackages::Export attachments" do
+RSpec.describe "WorkPackages::Export attachments" do
   it_behaves_like "an APIv3 attachment resource", include_by_container = false do
     let(:attachment_type) { :export }
 

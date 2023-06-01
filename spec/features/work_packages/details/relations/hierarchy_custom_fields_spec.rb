@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'creating a child directly after the wp itself was created', js: true do
+RSpec.describe 'creating a child directly after the wp itself was created', js: true do
   let(:user) { create(:admin) }
   let(:project) { create(:project, types: [type]) }
   let(:wp_page) { Pages::FullWorkPackageCreate.new }

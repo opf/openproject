@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Editing a new wiki page', js: true do
+RSpec.describe 'Editing a new wiki page', js: true do
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:user) { create(:admin) }
 

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Switching types in work package table', js: true do
+RSpec.describe 'Switching types in work package table', js: true do
   let(:user) { create(:admin) }
 
   describe 'switching to required CF' do

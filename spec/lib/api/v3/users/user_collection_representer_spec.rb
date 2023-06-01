@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Users::UserCollectionRepresenter do
+RSpec.describe API::V3::Users::UserCollectionRepresenter do
   let(:self_base_link) { '/api/v3/users' }
   let(:collection_inner_type) { 'User' }
   let(:total) { 3 }

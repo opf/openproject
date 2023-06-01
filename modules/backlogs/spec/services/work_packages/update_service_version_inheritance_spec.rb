@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe WorkPackages::UpdateService, "version inheritance", type: :model do
+RSpec.describe WorkPackages::UpdateService, "version inheritance", type: :model do
   let(:type_feature) { build(:type_feature) }
   let(:type_task) { build(:type_task) }
   let(:type_bug) { build(:type_bug) }

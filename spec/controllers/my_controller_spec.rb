@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe MyController do
+RSpec.describe MyController do
   let(:user) { create(:user) }
 
   before do

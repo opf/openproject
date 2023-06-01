@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::SubjectOrIdFilter do
+RSpec.describe Queries::WorkPackages::Filter::SubjectOrIdFilter do
   let(:value) { 'bogus' }
   let(:operator) { '**' }
   let(:subject) { 'Some subject' }

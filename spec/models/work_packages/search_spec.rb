@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, 'search' do
+RSpec.describe WorkPackage, 'search' do
   shared_let(:description_searchword) { "descKeyword" }
   shared_let(:project) { create(:project) }
   shared_let(:work_package) do

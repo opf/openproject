@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe 'baseline rendering',
-         js: true,
-         with_settings: { date_format: '%Y-%m-%d' } do
+RSpec.describe 'baseline rendering',
+               js: true,
+               with_settings: { date_format: '%Y-%m-%d' } do
   shared_let(:type_bug) { create(:type_bug) }
   shared_let(:type_task) { create(:type_task) }
   shared_let(:project) { create(:project, types: [type_bug, type_task]) }

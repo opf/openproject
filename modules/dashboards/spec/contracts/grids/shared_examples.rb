@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-shared_context 'grid contract' do
+RSpec.shared_context 'grid contract' do
   let(:user) { build_stubbed(:user) }
   let(:instance) { described_class.new(grid, user) }
   let(:project) { build_stubbed(:project) }
@@ -52,7 +52,7 @@ shared_context 'grid contract' do
   end
 end
 
-shared_examples_for 'shared grid contract attributes' do
+RSpec.shared_examples_for 'shared grid contract attributes' do
   include_context 'model contract'
   let(:model) { grid }
 

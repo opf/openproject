@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative 'attachments/attachment_resource_shared_examples'
 
-describe API::V3::Attachments::AttachmentsAPI do
+RSpec.describe API::V3::Attachments::AttachmentsAPI do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
   include FileHelpers

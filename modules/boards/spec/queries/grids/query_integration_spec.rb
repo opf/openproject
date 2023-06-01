@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Grids::Query, type: :model do
+RSpec.describe Grids::Query, type: :model do
   include OpenProject::StaticRouting::UrlHelpers
 
   shared_let(:project) { create(:project) }

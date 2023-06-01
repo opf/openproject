@@ -31,7 +31,7 @@ module WorkPackage::PDFExport::OverviewTable
     if query.grouped?
       write_grouped!(work_packages, id_wp_meta_map)
     else
-      with_margin(overview_table_margins_style) do
+      with_margin(styles.overview_table_margins) do
         write_table!(work_packages, id_wp_meta_map, get_total_sums)
       end
     end
@@ -68,11 +68,11 @@ module WorkPackage::PDFExport::OverviewTable
   end
 
   def write_group!(group, work_packages, id_wp_meta_map, sums)
-    write_optional_page_break(page_break_space_left_threshold)
-    with_margin(overview_table_margins_style) do
+    write_optional_page_break
+    with_margin(styles.overview_table_margins) do
       label = make_group_label(group)
-      with_margin(overview_group_header_margins_style) do
-        pdf.formatted_text([overview_group_header_style.merge({ text: label })])
+      with_margin(styles.overview_group_header_margins) do
+        pdf.formatted_text([styles.overview_group_header.merge({ text: label })])
       end
       write_table!(work_packages, id_wp_meta_map, sums)
     end
@@ -86,21 +86,21 @@ module WorkPackage::PDFExport::OverviewTable
   end
 
   def table_options
-    { header: true, cell_style: overview_table_cell_style.merge({ inline_format: true }) }
+    { header: true, cell_style: styles.overview_table_cell.merge({ inline_format: true }) }
   end
 
   def format_sum_cells(sums_cells)
-    sums_style = overview_table_sums_cell_style
+    sums_style = styles.overview_table_sums_cell
     sums_cells.each do |cell|
       apply_cell_style cell, sums_style
     end
   end
 
-  def apply_cell_style(cell, style)
-    cell.background_color = style[:background_color]
-    cell.font_style = style[:font_style]
-    cell.text_color = style[:text_color]
-    cell.size = style[:size]
+  def apply_cell_style(cell, cell_style)
+    cell.background_color = cell_style[:background_color]
+    cell.font_style = cell_style[:font]
+    cell.text_color = cell_style[:color]
+    cell.size = cell_style[:size]
   end
 
   def get_total_sums
@@ -133,7 +133,7 @@ module WorkPackage::PDFExport::OverviewTable
   end
 
   def build_column_cell(content)
-    pdf.make_cell(content, overview_table_cell_padding_style)
+    pdf.make_cell(content, styles.overview_table_cell)
   end
 
   def build_nr_cell(work_package, id_wp_meta_map)
@@ -143,17 +143,17 @@ module WorkPackage::PDFExport::OverviewTable
   end
 
   def build_subject_cell(content, work_package, id_wp_meta_map)
-    opts = overview_table_cell_padding_style
-    padding_left = opts[:padding_left]
+    opts = styles.overview_table_cell
+    padding_left = opts.fetch(:padding_left, 0)
     if query.show_hierarchies
       level = id_wp_meta_map[work_package.id][:level_path].length
-      padding_left = (overview_table_subject_indent_style * level) if level > 1
+      padding_left = (styles.overview_table_subject_indent * level) if level > 1
     end
     pdf.make_cell(content, opts.merge({ padding_left: }))
   end
 
   def build_header_row
-    header_style = overview_table_header_cell_style
+    header_style = styles.overview_table_header_cell
     row = table_columns_objects.map do |col|
       content = (col.caption || '').upcase
       build_header_cell(content, header_style)

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WikiPages::CopyService, 'integration', type: :model do
+RSpec.describe WikiPages::CopyService, 'integration', type: :model do
   let(:user) do
     create(:user) do |user|
       create(:member,

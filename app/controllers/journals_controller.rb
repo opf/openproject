@@ -39,7 +39,7 @@ class JournalsController < ApplicationController
   include SortHelper
 
   def index
-    retrieve_query
+    @query = retrieve_query(@project)
     sort_init 'id', 'desc'
     sort_update(@query.sortable_key_by_column_name)
 

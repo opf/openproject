@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'spreadsheet'
 
-describe "WorkPackageXlsExport Custom Fields" do
+RSpec.describe "WorkPackageXlsExport Custom Fields" do
   let(:type) { create(:type) }
   let(:project) { create(:project, types: [type]) }
 

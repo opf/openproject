@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Categories::CategoryCollectionRepresenter do
+RSpec.describe API::V3::Categories::CategoryCollectionRepresenter do
   let(:categories) { build_list(:category, 3) }
   let(:representer) do
     described_class.new(categories,

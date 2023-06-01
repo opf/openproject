@@ -52,6 +52,20 @@ export const BASELINE_INCOMPATIBLE_FILTERS = [
   'comment',
 ];
 
+export const BASELINE_INCOMPATIBLE_COLUMNS = [
+  'category',
+  'updatedAt',
+  'estimatedHours',
+  'remainingTime',
+  'spentTime',
+  'percentageDone',
+  'duration',
+  'budget',
+  'materialCosts',
+  'laborCosts',
+  'overallCosts',
+];
+
 @Injectable()
 export class WorkPackageViewBaselineService extends WorkPackageQueryStateService<string[]> {
   constructor(
@@ -79,10 +93,13 @@ export class WorkPackageViewBaselineService extends WorkPackageQueryStateService
     return BASELINE_INCOMPATIBLE_FILTERS.includes(filter);
   }
 
+  public isIncompatibleColumn(column:string):boolean {
+    return BASELINE_INCOMPATIBLE_COLUMNS.includes(column);
+  }
+
   public yesterdayDate():string {
     return moment().subtract(1, 'days').format('YYYY-MM-DD');
   }
-
   public lastMonthDate():string {
     return moment().subtract(1, 'month').format('YYYY-MM-DD');
   }

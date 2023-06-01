@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-shared_examples_for 'API V3 collection response' do |total, count, element_type, collection_type = 'Collection'|
+RSpec.shared_examples_for 'API V3 collection response' do |total, count, element_type, collection_type = 'Collection'|
   subject { last_response.body }
 
   # If an array of elements is provided, those elements are expected

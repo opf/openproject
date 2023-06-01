@@ -27,7 +27,7 @@
 #++
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe DocumentsMailer do
+RSpec.describe DocumentsMailer do
   let(:user) do
     create(:user, firstname: 'Test', lastname: "User", mail: 'test@test.com')
   end

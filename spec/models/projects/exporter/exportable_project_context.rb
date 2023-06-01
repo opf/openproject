@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-shared_context 'with a project with an arrangement of custom fields' do
+RSpec.shared_context 'with a project with an arrangement of custom fields' do
   shared_let(:version_cf) { create(:version_project_custom_field, position: 1) }
   shared_let(:bool_cf) { create(:bool_project_custom_field, position: 2) }
   shared_let(:user_cf) { create(:user_project_custom_field, position: 3) }
@@ -68,7 +68,7 @@ shared_context 'with a project with an arrangement of custom fields' do
   end
 end
 
-shared_context 'with an instance of the described exporter' do
+RSpec.shared_context 'with an instance of the described exporter' do
   before do
     login_as current_user
   end

@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-shared_examples 'updates the placeholder' do
+RSpec.shared_examples 'updates the placeholder' do
   context 'with an empty name' do
     let(:parameters) do
       { name: '' }

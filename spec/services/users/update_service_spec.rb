@@ -28,7 +28,7 @@
 require 'spec_helper'
 require 'services/base_services/behaves_like_update_service'
 
-describe Users::UpdateService do
+RSpec.describe Users::UpdateService do
   it_behaves_like 'BaseServices update service' do
     # The user service also tries to save the preferences
     before do

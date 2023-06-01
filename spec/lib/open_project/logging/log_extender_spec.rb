@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::Logging, 'Log extenders' do
+RSpec.describe OpenProject::Logging, 'Log extenders' do
   subject { described_class.extend_payload!(payload, input_context) }
 
   let(:payload) do

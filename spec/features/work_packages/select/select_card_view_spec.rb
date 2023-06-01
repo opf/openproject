@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Selecting cards in the card view (regression #31962)', js: true do
+RSpec.describe 'Selecting cards in the card view (regression #31962)', js: true do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }

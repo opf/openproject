@@ -27,7 +27,7 @@
 #++
 require 'spec_helper'
 
-describe WikiRedirect do
+RSpec.describe WikiRedirect do
   let(:wiki) { create(:wiki) }
   let(:wiki_page) { create(:wiki_page, wiki:, title: 'Original title') }
 

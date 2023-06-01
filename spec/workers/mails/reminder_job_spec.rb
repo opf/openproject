@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Mails::ReminderJob, type: :model do
+RSpec.describe Mails::ReminderJob, type: :model do
   subject(:job) { described_class.perform_now(recipient) }
 
   let(:recipient) do

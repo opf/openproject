@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ApplicationHelper do
+RSpec.describe ApplicationHelper do
   describe '.link_to_if_authorized' do
     let(:project) { create(:valid_project) }
     let(:project_member) do

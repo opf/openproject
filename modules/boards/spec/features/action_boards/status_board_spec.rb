@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative './../support//board_index_page'
 require_relative './../support/board_page'
 
-describe 'Status action board', js: true, with_ee: %i[board_view] do
+RSpec.describe 'Status action board', js: true, with_ee: %i[board_view] do
   let(:user) do
     create(:user,
            member_in_project: project,

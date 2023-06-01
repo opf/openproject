@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
 
-describe CustomFields::CreateContract do
+RSpec.describe CustomFields::CreateContract do
   include_context 'ModelContract shared context'
 
   let(:cf) { build(:project_custom_field) }

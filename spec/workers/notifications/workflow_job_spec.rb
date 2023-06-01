@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Notifications::WorkflowJob, type: :model do
+RSpec.describe Notifications::WorkflowJob, type: :model do
   subject(:perform_job) do
     described_class.new.perform(state, *arguments)
   end

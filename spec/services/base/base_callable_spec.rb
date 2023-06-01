@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe BaseServices::BaseCallable, type: :model do
+RSpec.describe BaseServices::BaseCallable, type: :model do
   let(:test_service) do
     Class.new(BaseServices::BaseCallable) do
       def perform(*)

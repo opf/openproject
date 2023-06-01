@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::News::NewsRepresenter, 'rendering' do
+RSpec.describe API::V3::News::NewsRepresenter, 'rendering' do
   include API::V3::Utilities::PathHelper
 
   let(:news) do

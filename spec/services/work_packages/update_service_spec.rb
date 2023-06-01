@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'services/base_services/behaves_like_update_service'
 
-describe WorkPackages::UpdateService, type: :model do
+RSpec.describe WorkPackages::UpdateService, type: :model do
   # This is now only a very basic test testing the structure of the service.
   # The domain tests are in the update_service_integration_spec.rb
   it_behaves_like 'BaseServices update service' do

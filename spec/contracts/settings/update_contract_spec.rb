@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
 
-describe Settings::UpdateContract do
+RSpec.describe Settings::UpdateContract do
   include_context 'ModelContract shared context'
 
   let(:contract) do

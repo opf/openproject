@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage::Exports::CSV, 'integration' do
+RSpec.describe WorkPackage::Exports::CSV, 'integration' do
   before do
     login_as current_user
   end
@@ -41,7 +41,7 @@ describe WorkPackage::Exports::CSV, 'integration' do
            member_with_permissions: %i(view_work_packages))
   end
   let(:query) do
-    Query.new_default(name: '_').tap do |query|
+    Query.new_default.tap do |query|
       query.column_names = %i(subject assigned_to updated_at estimated_hours)
     end
   end

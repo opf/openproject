@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackageCustomField do
+RSpec.describe WorkPackageCustomField do
   describe '.summable' do
     let!(:list_custom_field) do
       create(:list_wp_custom_field)

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe News::CommentsController do
+RSpec.describe News::CommentsController do
   render_views
 
   let(:user) { create(:admin)   }

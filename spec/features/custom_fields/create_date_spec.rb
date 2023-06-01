@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'support/pages/custom_fields'
 
-describe 'custom fields', js: true do
+RSpec.describe 'custom fields', js: true do
   let(:user) { create(:admin) }
   let(:cf_page) { Pages::CustomFields.new }
 

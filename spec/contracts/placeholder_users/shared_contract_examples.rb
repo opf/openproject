@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-shared_examples_for 'placeholder user contract' do
+RSpec.shared_examples_for 'placeholder user contract' do
   let(:placeholder_user_name) { 'UX Designer' }
 
   context 'when user with global permission' do

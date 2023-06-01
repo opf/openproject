@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Memberships::MembershipPayloadRepresenter do
+RSpec.describe API::V3::Memberships::MembershipPayloadRepresenter do
   let(:membership) { build_stubbed(:member) }
 
   current_user { build_stubbed(:user) }

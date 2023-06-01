@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, 'acts_as_searchable' do
+RSpec.describe WorkPackage, 'acts_as_searchable' do
   include BecomeMember
 
   let(:wp_subject) { 'the quick brown fox jumps over the lazy dog' }

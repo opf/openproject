@@ -42,10 +42,6 @@ class Query < ApplicationRecord
   serialize :column_names, Array
   serialize :sort_criteria, Array
 
-  validates :name,
-            presence: true,
-            length: { maximum: 255 }
-
   validates :include_subprojects,
             inclusion: [true, false]
 

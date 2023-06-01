@@ -62,6 +62,10 @@ module Queries
     validate :user_allowed_to_make_public
     validate :timestamps_are_parsable
 
+    validates :name,
+              presence: true,
+              length: { maximum: 255 }
+
     def validate_project
       errors.add :project, :error_not_found if project_id.present? && !project_visible?
     end

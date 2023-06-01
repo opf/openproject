@@ -32,7 +32,7 @@ require 'rack/test'
 # This takes the schema endpoint to test localization as there
 # are localized strings in the response.
 
-describe 'API localization' do
+RSpec.describe 'API localization' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 

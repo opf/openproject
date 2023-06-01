@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Query::Results, with_mail: false do
+RSpec.describe Query::Results, with_mail: false do
   let(:query) do
     build(:query,
           show_hierarchies: false)

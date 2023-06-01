@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_contract_examples'
 
-describe Projects::BaseContract do
+RSpec.describe Projects::BaseContract do
   let(:project) { Project.new(name: 'Foo', identifier: 'foo', templated: false) }
   let(:contract) { described_class.new(project, current_user) }
 

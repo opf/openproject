@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Days::NonWorkingDayCollectionRepresenter do
+RSpec.describe API::V3::Days::NonWorkingDayCollectionRepresenter do
   let(:non_working_days) do
     [
       build(:non_working_day, date: Date.new(2022, 12, 27)),

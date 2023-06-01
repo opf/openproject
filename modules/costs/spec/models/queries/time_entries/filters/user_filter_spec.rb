@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::TimeEntries::Filters::UserFilter do
+RSpec.describe Queries::TimeEntries::Filters::UserFilter do
   let(:user1) { build_stubbed(:user) }
   let(:user2) { build_stubbed(:user) }
 

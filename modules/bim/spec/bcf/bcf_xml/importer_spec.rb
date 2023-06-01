@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::Bim::BcfXml::Importer do
+RSpec.describe OpenProject::Bim::BcfXml::Importer do
   let(:filename) { 'MaximumInformation.bcf' }
   let(:file) do
     Rack::Test::UploadedFile.new(

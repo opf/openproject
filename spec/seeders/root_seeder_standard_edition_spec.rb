@@ -29,9 +29,9 @@
 require 'spec_helper'
 require_relative './root_seeder_shared_examples'
 
-describe RootSeeder,
-         'standard edition',
-         with_config: { edition: 'standard' } do
+RSpec.describe RootSeeder,
+               'standard edition',
+               with_config: { edition: 'standard' } do
   include RootSeederTestHelpers
 
   shared_examples 'creates standard demo data' do

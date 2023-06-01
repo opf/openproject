@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Users::LoginService, type: :model do
+RSpec.describe Users::LoginService, type: :model do
   let(:input_user) { build_stubbed(:user) }
   let(:controller) { double('ApplicationController') }
   let(:request) { {} }
