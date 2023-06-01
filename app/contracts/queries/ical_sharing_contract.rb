@@ -26,8 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require 'queries/base_contract'
+
 module Queries
-  class ICalSharingContract < ::BaseContract
+  class ICalSharingContract < BaseContract
     validate :user_allowed_to_subscribe_to_query_via_ical
 
     protected

@@ -28,11 +28,12 @@
 
 require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
-require_relative 'shared_contract_examples'
 
 RSpec.describe Queries::ICalSharingContract do
   include_context 'ModelContract shared context'
-  include_context 'with queries contract'
+
+  # using `create` approach here as many underlying checks base on
+  # real database checks which should not be mocked
 
   let(:project) { create(:project) }
   let(:query) do
