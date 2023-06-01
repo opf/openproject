@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Users::Scopes::Newest do
+RSpec.describe Users::Scopes::Newest do
   describe '.newest' do
     let!(:anonymous_user) { create(:anonymous) }
     let!(:system_user) { create(:system) }

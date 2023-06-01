@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe RemovedJsHelpersHelper do
+RSpec.describe RemovedJsHelpersHelper do
   include RemovedJsHelpersHelper
 
   describe 'link_to_function' do

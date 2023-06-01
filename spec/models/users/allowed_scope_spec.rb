@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe User, 'allowed scope' do
+RSpec.describe User, 'allowed scope' do
   let(:user) { member.principal }
   let(:anonymous) { build(:anonymous) }
   let(:project) { build(:project, public: false) }

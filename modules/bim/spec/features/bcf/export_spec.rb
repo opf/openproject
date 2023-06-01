@@ -28,9 +28,9 @@
 require 'spec_helper'
 require_relative '../../support/pages/ifc_models/show_default'
 
-describe 'bcf export',
-         js: true,
-         with_config: { edition: 'bim' } do
+RSpec.describe 'bcf export',
+               js: true,
+               with_config: { edition: 'bim' } do
   let(:status) { create(:status, name: 'New', is_default: true) }
   let(:closed_status) { create(:closed_status, name: 'Closed') }
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }

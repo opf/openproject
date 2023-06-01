@@ -27,7 +27,7 @@
 
 require 'spec_helper'
 
-describe ParseSchemaFilterParamsService do
+RSpec.describe ParseSchemaFilterParamsService do
   let(:current_user) { build_stubbed(:user) }
   let(:instance) { described_class.new(user: current_user) }
   let(:project) { build_stubbed(:project) }

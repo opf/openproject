@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../shared_examples'
 
-describe Bim::Bcf::API::V2_1::Users::SingleRepresenter, 'rendering' do
+RSpec.describe Bim::Bcf::API::V2_1::Users::SingleRepresenter, 'rendering' do
   let(:user) { build_stubbed(:user) }
 
   let(:instance) { described_class.new(user) }

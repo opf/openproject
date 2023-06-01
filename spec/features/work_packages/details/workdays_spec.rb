@@ -33,8 +33,8 @@ require 'features/work_packages/shared_contexts'
 require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
 
-describe 'Work packages datepicker workdays',
-         js: true, with_settings: { date_format: '%Y-%m-%d' } do
+RSpec.describe 'Work packages datepicker workdays',
+               js: true, with_settings: { date_format: '%Y-%m-%d' } do
   shared_let(:project) { create(:project_with_types, public: true) }
   shared_let(:work_package) { create(:work_package, project:, start_date: Date.parse('2022-01-01')) }
   shared_let(:user) { create(:admin) }

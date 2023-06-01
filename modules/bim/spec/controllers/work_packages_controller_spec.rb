@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackagesController do
+RSpec.describe WorkPackagesController do
   before do
     login_as current_user
   end

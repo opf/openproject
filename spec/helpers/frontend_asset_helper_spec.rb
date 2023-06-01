@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe FrontendAssetHelper do
+RSpec.describe FrontendAssetHelper do
   describe '#include_frontend_assets' do
     context 'when in development or test' do
       before do

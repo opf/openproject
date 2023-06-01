@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe MembersController do
+RSpec.describe MembersController do
   shared_let(:admin) { create(:admin) }
   let(:user) { create(:user) }
   let(:project) { create(:project, identifier: 'pet_project') }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Projects::Filters::LatestActivityAtFilter do
+RSpec.describe Queries::Projects::Filters::LatestActivityAtFilter do
   it_behaves_like 'basic query filter' do
     let(:class_key) { :latest_activity_at }
     let(:type) { :datetime_past }

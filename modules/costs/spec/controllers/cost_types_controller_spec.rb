@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
-describe CostTypesController do
+RSpec.describe CostTypesController do
   let(:admin)     { create(:admin) }
   let(:cost_type) { create(:cost_type) }
 

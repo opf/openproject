@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Queries::Schemas::VersionFilterDependencyRepresenter do
+RSpec.describe API::V3::Queries::Schemas::VersionFilterDependencyRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:project) { build_stubbed(:project) }

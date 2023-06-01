@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Work package single context menu', js: true do
+RSpec.describe 'Work package single context menu', js: true do
   let(:user) { create(:admin) }
   let(:work_package) { create(:work_package) }
 

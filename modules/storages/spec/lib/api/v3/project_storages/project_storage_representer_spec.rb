@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::ProjectStorages::ProjectStorageRepresenter do
+RSpec.describe API::V3::ProjectStorages::ProjectStorageRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:user) { build_stubbed(:user) }

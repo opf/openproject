@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Principals::Scopes::PossibleMember do
+RSpec.describe Principals::Scopes::PossibleMember do
   let(:project) { create(:project) }
   let(:public_project) { create(:project, public: true) }
   let(:role) { create(:role) }

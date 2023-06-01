@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 
-describe 'Upload attachment to forum message', js: true do
+RSpec.describe 'Upload attachment to forum message', js: true do
   let(:forum) { create(:forum) }
   let(:user) do
     create(:user,

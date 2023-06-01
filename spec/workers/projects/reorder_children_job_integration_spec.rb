@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Projects::ReorderHierarchyJob, type: :model do
+RSpec.describe Projects::ReorderHierarchyJob, type: :model do
   subject(:job) { described_class.perform_now }
 
   shared_let(:parent_project_a) { create(:project, name: 'ParentA') }

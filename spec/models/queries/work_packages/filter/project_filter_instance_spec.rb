@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::ProjectFilter do
+RSpec.describe Queries::WorkPackages::Filter::ProjectFilter do
   let(:query) { build(:query) }
   let(:instance) do
     described_class.create!(name: 'project', context: query, operator: '=', values: [])

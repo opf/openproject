@@ -31,7 +31,7 @@ require 'spec_helper'
 # Note: The specs in this file do not attempt to test the properties themselves with all their possible
 # variations. This is done in length in the work_package_representer_spec.rb. Instead, the focus of the tests
 # here are on the selection of properties.
-describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'rendering' do
+RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'rendering' do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) { build_stubbed(:user) }

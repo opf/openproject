@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../spec_helper', __dir__)
 
-describe OpenProject::GithubIntegration::Services::UpsertPartialPullRequest do
+RSpec.describe OpenProject::GithubIntegration::Services::UpsertPartialPullRequest do
   subject(:upsert) do
     described_class.new.call(OpenProject::GithubIntegration::NotificationHandler::Helper::Payload.new(payload),
                              work_packages:)

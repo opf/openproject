@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe BacklogsSettingsController do
+RSpec.describe BacklogsSettingsController do
   current_user { build_stubbed(:admin) }
 
   describe 'GET show' do

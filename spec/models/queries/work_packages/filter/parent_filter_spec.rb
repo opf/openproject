@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::ParentFilter do
+RSpec.describe Queries::WorkPackages::Filter::ParentFilter do
   let(:project) { build_stubbed(:project) }
   let(:query) do
     build_stubbed(:query, project:)

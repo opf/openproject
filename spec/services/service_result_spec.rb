@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ServiceResult, type: :model do
+RSpec.describe ServiceResult, type: :model do
   let(:instance) { described_class.new }
 
   describe 'success' do

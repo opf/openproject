@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Principals::Scopes::PossibleAssignee do
+RSpec.describe Principals::Scopes::PossibleAssignee do
   let(:project) { create(:project) }
   let(:other_project) { create(:project) }
   let(:role_assignable) { true }

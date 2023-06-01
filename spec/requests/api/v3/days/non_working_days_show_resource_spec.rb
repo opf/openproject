@@ -27,9 +27,9 @@
 
 require 'spec_helper'
 
-describe API::V3::Days::NonWorkingDaysAPI,
-         'show',
-         content_type: :json do
+RSpec.describe API::V3::Days::NonWorkingDaysAPI,
+               'show',
+               content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:non_working_day) { create(:non_working_day) }

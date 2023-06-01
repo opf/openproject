@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe HourlyRatesController do
+RSpec.describe HourlyRatesController do
   describe 'routing' do
     it {
       expect(get('/projects/blubs/hourly_rates/5')).to route_to(controller: 'hourly_rates',

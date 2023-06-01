@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage::Ancestors do
+RSpec.describe WorkPackage::Ancestors do
   let(:user) { create(:user) }
   let(:project) { create(:project) }
   let(:project2) { create(:project) }

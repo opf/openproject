@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Cron::ClearOldPullRequestsJob, type: :job do
+RSpec.describe Cron::ClearOldPullRequestsJob, type: :job do
   let(:pull_request_without_work_package) do
     create(:github_pull_request, work_packages: [])
   end

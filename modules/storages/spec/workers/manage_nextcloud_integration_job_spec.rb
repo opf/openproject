@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ManageNextcloudIntegrationJob, type: :job, webmock: true do
+RSpec.describe ManageNextcloudIntegrationJob, type: :job, webmock: true do
   # rubocop:disable RSpec/IndexedLet
   let(:group_users_response_body) do
     <<~XML

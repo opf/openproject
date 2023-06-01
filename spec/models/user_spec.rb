@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe User do
+RSpec.describe User do
   let(:user) { build(:user) }
   let(:project) { create(:project_with_types) }
   let(:role) { create(:role, permissions: [:view_work_packages]) }
@@ -679,6 +679,36 @@ describe User do
     it 'has a length of 64' do
       expect(user.rss_key.length)
         .to eq 64
+    end
+  end
+
+  describe '#ical_tokens' do
+    let(:user) { create(:user) }
+    let(:query) { create(:query, user:) }
+    let(:ical_token) { create(:ical_token, user:, query:, name: "My Token") }
+    let(:another_ical_token) { create(:ical_token, user:, query:, name: "My Other Token") }
+
+    it 'are not present by default' do
+      expect(user.ical_tokens)
+        .to be_empty
+    end
+
+    it 'returns all existing ical tokens from this user' do
+      ical_token
+      another_ical_token
+
+      expect(user.ical_tokens).to contain_exactly(
+        ical_token, another_ical_token
+      )
+    end
+
+    it 'are destroyed when the user is destroyed' do
+      ical_token
+      another_ical_token
+
+      user.destroy
+
+      expect(Token::ICal.all).to be_empty
     end
   end
 

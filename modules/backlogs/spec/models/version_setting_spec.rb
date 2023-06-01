@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe VersionSetting do
+RSpec.describe VersionSetting do
   let(:version_setting) { build(:version_setting) }
 
   it { is_expected.to belong_to(:project) }

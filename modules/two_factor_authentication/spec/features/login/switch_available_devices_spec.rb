@@ -1,10 +1,10 @@
 require_relative '../../spec_helper'
 require_relative '../shared_2fa_examples'
 
-describe 'Login by switching 2FA device',
-         js: true, with_settings: {
-           plugin_openproject_two_factor_authentication: { 'active_strategies' => %i[developer totp] }
-         } do
+RSpec.describe 'Login by switching 2FA device',
+               js: true, with_settings: {
+                 plugin_openproject_two_factor_authentication: { 'active_strategies' => %i[developer totp] }
+               } do
   let(:user_password) { 'bob!' * 4 }
   let(:user) do
     create(:user,

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './eager_loading_mock_wrapper'
 
-describe API::V3::WorkPackages::EagerLoading::Project do
+RSpec.describe API::V3::WorkPackages::EagerLoading::Project do
   let!(:parent_work_package1) { create(:work_package, project: parent_project) }
   let!(:work_package1) { create(:work_package, project:, parent: parent_work_package1) }
   let!(:work_package2) { create(:work_package, project:, parent: parent_work_package1) }

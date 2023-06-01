@@ -100,13 +100,13 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
 
   def write_history_item_headline!(journal)
     headline = "#{format_time(journal.created_at)} - #{journal.user.name}"
-    with_margin(wp_headline_margins_style) do
-      pdf.formatted_text([wp_headline_style.merge({ text: headline })])
+    with_margin(styles.wp_section_heading_margins) do
+      pdf.formatted_text([styles.wp_section_heading.merge({ text: headline })])
     end
   end
 
   def write_history_item_content!(journal)
-    with_margin(wp_item_margins_style) do
+    with_margin(styles.wp_section_item_margins) do
       journal.details.each do |detail|
         text = journal.render_detail(detail, html: true, only_path: false)
         write_markdown! work_package, "* #{text}"
@@ -127,8 +127,8 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
   end
 
   def write_label!(label)
-    with_margin(wp_label_margins_style) do
-      pdf.formatted_text([wp_label_style.merge({ text: label })])
+    with_margin(styles.wp_label_margins) do
+      pdf.formatted_text([styles.wp_label.merge({ text: label })])
     end
   end
 
@@ -138,16 +138,16 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
   end
 
   def write_changeset_item_headline!(changeset)
-    headline = "#{format_time(changeset.committed_on)} - #{changeset.author}"
-    with_margin(wp_headline_margins_style) do
-      pdf.formatted_text([wp_headline_style.merge({ text: headline })])
+    text = "#{format_time(changeset.committed_on)} - #{changeset.author}"
+    with_margin(styles.wp_section_heading_margins) do
+      pdf.formatted_text([styles.wp_section_heading.merge({ text: })])
     end
   end
 
   def write_changeset_item_content!(changeset)
     if changeset.comments.present?
-      with_margin(wp_item_margins_style) do
-        pdf.formatted_text([wp_headline_style.merge({ text: changeset.comments.to_s })])
+      with_margin(styles.wp_section_item_margins) do
+        pdf.formatted_text([styles.wp_section_heading.merge({ text: changeset.comments.to_s })])
       end
     end
   end

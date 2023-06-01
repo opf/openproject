@@ -27,7 +27,7 @@
 #++
 require 'ladle'
 
-shared_context 'with temporary LDAP' do
+RSpec.shared_context 'with temporary LDAP' do
   # rubocop:disable RSpec/InstanceVariable
   before(:all) do
     ldif = Rails.root.join('spec/fixtures/ldap/users.ldif')

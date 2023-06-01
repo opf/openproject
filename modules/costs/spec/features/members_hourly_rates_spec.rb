@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
-describe 'hourly rates on a member', js: true do
+RSpec.describe 'hourly rates on a member', js: true do
   let(:project) { build(:project) }
   let(:user) do
     create(:admin,

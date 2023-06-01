@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'bim/ifc_models/ifc_models/index' do
+RSpec.describe 'bim/ifc_models/ifc_models/index' do
   let(:project) { create(:project, enabled_module_names: %i[bim]) }
   let(:ifc_model) do
     create(:ifc_model,

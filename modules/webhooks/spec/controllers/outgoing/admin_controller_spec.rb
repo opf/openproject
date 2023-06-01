@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Webhooks::Outgoing::AdminController do
+RSpec.describe Webhooks::Outgoing::AdminController do
   let(:user) { build_stubbed(:admin) }
 
   before do

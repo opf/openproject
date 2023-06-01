@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Notifications::Filters::ReadIanFilter do
+RSpec.describe Queries::Notifications::Filters::ReadIanFilter do
   it_behaves_like 'basic query filter' do
     let(:type) { :list }
     let(:class_key) { :read_ian }

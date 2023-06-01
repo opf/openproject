@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::Notifications do
+RSpec.describe OpenProject::Notifications do
   let(:probe) { lambda { |*_args| } }
   let(:payload) { { 'test' => 'payload' } }
 

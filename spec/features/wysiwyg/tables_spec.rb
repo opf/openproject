@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe 'Wysiwyg tables',
-         js: true do
+RSpec.describe 'Wysiwyg tables',
+               js: true do
   shared_let(:admin) { create(:admin) }
   let(:user) { admin }
 
@@ -80,7 +80,6 @@ describe 'Wysiwyg tables',
 
       it 'can add tables with headers' do
         editor.in_editor do |container, editable|
-          # strangely, we need visible: :all here
           editor.click_toolbar_button 'Insert table'
           # 2x2
           container.find('.ck-insert-table-dropdown-grid-box:nth-of-type(12)').click
@@ -101,7 +100,7 @@ describe 'Wysiwyg tables',
           tds.first.send_keys :tab
 
           # Click row toolbar
-          editor.click_hover_toolbar_button 'RowRow'
+          editor.click_hover_toolbar_button 'Row'
 
           # Enable header row
           header_button = find('.ck-switchbutton', text: 'Header row')

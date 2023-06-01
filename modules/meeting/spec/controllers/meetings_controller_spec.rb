@@ -28,7 +28,7 @@
 
 require "#{File.dirname(__FILE__)}/../spec_helper"
 
-describe MeetingsController do
+RSpec.describe MeetingsController do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:other_project) { create(:project) }

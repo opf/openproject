@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-describe 'Team planner working days', js: true, with_ee: %i[team_planner_view] do
+RSpec.describe 'Team planner working days', js: true, with_ee: %i[team_planner_view] do
   include_context 'with team planner full access'
 
   context 'with week days defined' do

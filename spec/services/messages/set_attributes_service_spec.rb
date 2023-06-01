@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Messages::SetAttributesService, type: :model do
+RSpec.describe Messages::SetAttributesService, type: :model do
   let(:user) { build_stubbed(:user) }
   let(:forum) { build_stubbed(:forum) }
   let(:contract_instance) do

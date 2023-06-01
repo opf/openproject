@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CategoriesController do
+RSpec.describe CategoriesController do
   it 'connects GET /projects/test/categories/new to categories#new' do
     expect(get('/projects/test/categories/new')).to route_to(controller: 'categories',
                                                              action: 'new',

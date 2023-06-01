@@ -29,7 +29,7 @@
 require 'spec_helper'
 require File.expand_path('../support/shared/become_member', __dir__)
 
-describe Project do
+RSpec.describe Project do
   include BecomeMember
   shared_let(:admin) { create(:admin) }
 

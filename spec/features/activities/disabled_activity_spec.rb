@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Disabled activity' do
+RSpec.describe 'Disabled activity' do
   shared_let(:admin) { create(:admin) }
 
   let(:project1) do

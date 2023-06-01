@@ -27,7 +27,7 @@
 
 require 'spec_helper'
 
-describe SCM::RepositoryFactoryService do
+RSpec.describe SCM::RepositoryFactoryService do
   let(:user) { build(:user) }
   let(:project) { build(:project) }
 

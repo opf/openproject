@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Admin::Settings::WorkingDaysSettingsController do
+RSpec.describe Admin::Settings::WorkingDaysSettingsController do
   shared_let(:user) { create(:admin) }
 
   current_user { user }

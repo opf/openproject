@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::Bim::WorkPackage::Exporter::Formatters::BcfThumbnail do
+RSpec.describe OpenProject::Bim::WorkPackage::Exporter::Formatters::BcfThumbnail do
   describe '::apply?' do
     it 'returns TRUE the bcf thumbnail' do
       expect(described_class).to be_apply(:bcf_thumbnail)

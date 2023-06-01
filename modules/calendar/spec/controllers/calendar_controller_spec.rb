@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Calendar::CalendarsController do
+RSpec.describe Calendar::CalendarsController do
   let(:project) do
     build_stubbed(:project).tap do |p|
       allow(Project)

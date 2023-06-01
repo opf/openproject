@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'form query configuration', js: true do
+RSpec.describe 'form query configuration', js: true do
   shared_let(:admin) { create(:admin) }
   let(:type_bug) { create(:type_bug) }
   let(:type_task) { create(:type_task) }

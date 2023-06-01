@@ -56,7 +56,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::FileCommandContentTypeDetector do
+RSpec.describe OpenProject::FileCommandContentTypeDetector do
   it 'returns a content type based on the content of the file' do
     tempfile = Tempfile.new('something')
     tempfile.write('This is a file.')

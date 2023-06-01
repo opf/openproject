@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe TimeEntry do
+RSpec.describe TimeEntry do
   let(:project) { create(:project_with_types, public: false) }
   let(:project2) { create(:project_with_types, public: false) }
   let(:work_package) do

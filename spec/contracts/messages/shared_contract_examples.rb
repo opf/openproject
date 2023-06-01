@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-shared_examples_for 'message contract' do
+RSpec.shared_examples_for 'message contract' do
   let(:current_user) do
     build_stubbed(:user) do |user|
       allow(user)

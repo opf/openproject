@@ -1,7 +1,7 @@
 require 'spec_helper'
 require_relative 'support/pages/cost_report_page'
 
-describe 'Cost report calculations', js: true do
+RSpec.describe 'Cost report calculations', js: true do
   let(:project) { create(:project) }
   let(:admin) { create(:admin) }
 

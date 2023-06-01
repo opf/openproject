@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Projects custom fields', js: true do
+RSpec.describe 'Projects custom fields', js: true do
   shared_let(:current_user) { create(:admin) }
   shared_let(:project) { create(:project, name: 'Foo project', identifier: 'foo-project') }
   let(:name_field) { FormFields::InputFormField.new :name }

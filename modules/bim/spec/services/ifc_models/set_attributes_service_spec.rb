@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Bim::IfcModels::SetAttributesService, type: :model do
+RSpec.describe Bim::IfcModels::SetAttributesService, type: :model do
   shared_let(:project) { create(:project, enabled_module_names: %i[bim]) }
   shared_let(:other_project) { create(:project, enabled_module_names: %i[bim]) }
   shared_let(:user) { create(:user, member_in_project: project, member_with_permissions: %i[manage_ifc_models]) }

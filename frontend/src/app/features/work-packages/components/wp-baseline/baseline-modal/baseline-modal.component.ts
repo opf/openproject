@@ -31,7 +31,6 @@ import {
   Component,
   HostBinding,
 } from '@angular/core';
-
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
@@ -50,6 +49,7 @@ export class OpBaselineModalComponent {
     header_description: this.I18n.t('js.baseline.header_description'),
     clear: this.I18n.t('js.baseline.clear'),
     apply: this.I18n.t('js.baseline.apply'),
+
   };
 
   constructor(

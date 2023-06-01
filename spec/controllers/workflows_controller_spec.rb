@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkflowsController do
+RSpec.describe WorkflowsController do
   let!(:role) do
     build_stubbed(:role).tap do |r|
       allow(Role)

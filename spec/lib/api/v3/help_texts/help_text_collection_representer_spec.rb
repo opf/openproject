@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::HelpTexts::HelpTextCollectionRepresenter do
+RSpec.describe API::V3::HelpTexts::HelpTextCollectionRepresenter do
   let!(:help_texts) do
     [
       build_stubbed(:work_package_help_text, attribute_name: 'id'),

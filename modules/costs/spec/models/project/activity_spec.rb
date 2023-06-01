@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Projects::Activity, 'costs' do
+RSpec.describe Projects::Activity, 'costs' do
   shared_let(:project) do
     create(:project, :updated_a_long_time_ago)
   end

@@ -922,8 +922,11 @@ lol:
         addition_label: 'crwdns852071:0crwdne852071:0'
         removal_label: 'crwdns852073:0crwdne852073:0'
         modification_label: 'crwdns852075:0crwdne852075:0'
+        column_incompatible: 'crwdns854449:0crwdne854449:0'
       filters:
         title: 'crwdns833314:0crwdne833314:0'
+        baseline_incompatible: 'crwdns854385:0crwdne854385:0'
+        baseline_warning: 'crwdns854387:0crwdne854387:0'
       inline_create:
         title: 'crwdns788230:0crwdne788230:0'
       create:
@@ -1277,6 +1280,10 @@ lol:
         no_longer_meets_filter_criteria: 'crwdns852623:0crwdne852623:0'
         maintained_with_changes: 'crwdns852625:0crwdne852625:0'
         in_your_timezone: 'crwdns853973:0crwdne853973:0'
+      icon_tooltip:
+        added: 'crwdns854389:0crwdne854389:0'
+        removed: 'crwdns854391:0crwdne854391:0'
+        changed: 'crwdns854393:0crwdne854393:0'
     forms:
       submit_success_message: 'crwdns788750:0crwdne788750:0'
       load_error_message: 'crwdns788752:0crwdne788752:0'

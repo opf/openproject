@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe 'Wysiwyg work package button spec',
-         js: true do
+RSpec.describe 'Wysiwyg work package button spec',
+               js: true do
   shared_let(:admin) { create(:admin) }
   let(:user) { admin }
 

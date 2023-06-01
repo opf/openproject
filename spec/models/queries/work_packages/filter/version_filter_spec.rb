@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::VersionFilter do
+RSpec.describe Queries::WorkPackages::Filter::VersionFilter do
   let(:version) { build_stubbed(:version) }
 
   it_behaves_like 'basic query filter' do

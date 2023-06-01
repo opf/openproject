@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::DurationFilter do
+RSpec.describe Queries::WorkPackages::Filter::DurationFilter do
   it_behaves_like 'basic query filter' do
     let(:type) { :integer }
     let(:class_key) { :duration }

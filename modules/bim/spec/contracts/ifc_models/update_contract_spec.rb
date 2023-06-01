@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_contract_examples'
 
-describe Bim::IfcModels::UpdateContract do
+RSpec.describe Bim::IfcModels::UpdateContract do
   it_behaves_like 'ifc model contract' do
     subject(:contract) { described_class.new(ifc_model, current_user) }
 

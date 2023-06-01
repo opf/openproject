@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::AccessControl::Permission do
+RSpec.describe OpenProject::AccessControl::Permission do
   describe '#dependencies' do
     context 'for a permission with a dependency' do
       subject { OpenProject::AccessControl.permission(:edit_work_packages) }

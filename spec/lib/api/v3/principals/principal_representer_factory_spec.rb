@@ -32,7 +32,7 @@ class TestRepresenter < API::Decorators::Single
   include ::API::Decorators::LinkedResource
 end
 
-describe API::V3::Principals::PrincipalRepresenterFactory do
+RSpec.describe API::V3::Principals::PrincipalRepresenterFactory do
   let(:current_user) { build_stubbed(:user) }
 
   let(:represented) do

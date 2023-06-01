@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Users::Scopes::FindByLogin do
+RSpec.describe Users::Scopes::FindByLogin do
   let!(:activity) { create(:time_entry_activity) }
   let!(:project) { create(:project) }
   let!(:user) { create(:user, login:) }

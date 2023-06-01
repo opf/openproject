@@ -28,7 +28,9 @@
 
 require 'spec_helper'
 
-describe Storages::Peripherals::StorageRequests, webmock: true do
+RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
+  using Storages::Peripherals::ServiceResultRefinements
+
   let(:user) { create(:user) }
   let(:url) { 'https://example.com' }
   let(:origin_user_id) { 'admin' }

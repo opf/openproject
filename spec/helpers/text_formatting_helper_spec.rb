@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe TextFormattingHelper do
+RSpec.describe TextFormattingHelper do
   describe '#preview_context' do
     context 'for a News' do
       let(:news) { build_stubbed(:news) }

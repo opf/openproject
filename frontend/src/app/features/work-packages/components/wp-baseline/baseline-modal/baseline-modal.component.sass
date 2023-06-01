@@ -2,10 +2,7 @@
 
 .op-baseline-modal
 
-  &--header
-    display: flex
-    justify-content: space-between
-    align-items: center
-    margin: $spot-spacing-1 $spot-spacing-1 0 $spot-spacing-1
-    width: 265px
-    color: $spot-color-basic-gray-2
+.op-baseline
+  @media screen and #{$spot-mq-drop-modal-in-context}
+    max-height: 70vh
+    width: 316px

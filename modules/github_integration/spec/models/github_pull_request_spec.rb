@@ -27,7 +27,7 @@
 #++
 require "#{File.dirname(__FILE__)}/../spec_helper"
 
-describe GithubPullRequest do
+RSpec.describe GithubPullRequest do
   describe "validations" do
     it { is_expected.to validate_presence_of :github_html_url }
     it { is_expected.to validate_presence_of :number }

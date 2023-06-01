@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::CategoryFilter do
+RSpec.describe Queries::WorkPackages::Filter::CategoryFilter do
   it_behaves_like 'basic query filter' do
     let(:type) { :list_optional }
     let(:class_key) { :category_id }
