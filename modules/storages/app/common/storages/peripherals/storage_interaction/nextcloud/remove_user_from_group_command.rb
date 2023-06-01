@@ -27,48 +27,55 @@
 #++
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
-  class CreateFolderCommand
-    using Storages::Peripherals::ServiceResultRefinements
-
+  class RemoveUserFromGroupCommand
     def initialize(storage)
       @uri = URI(storage.host).normalize
       @username = storage.username
       @password = storage.password
+      @group = storage.group
     end
 
     # rubocop:disable Metrics/AbcSize
-    def call(folder_path:)
-      response = Util.http(@uri).mkcol(
-        Util.join_uri_path(@uri.path, "remote.php/dav/files", CGI.escapeURIComponent(@username), Util.escape_path(folder_path)),
-        nil,
-        Util.basic_auth_header(@username, @password)
+    def call(user:, group: @group)
+      response = Util.http(@uri).delete(
+        Util.join_uri_path(@uri,
+                           "ocs/v1.php/cloud/users",
+                           CGI.escapeURIComponent(user),
+                           "groups?groupid=#{CGI.escapeURIComponent(group)}"),
+        Util.basic_auth_header(@username, @password).merge(
+          'OCS-APIRequest' => 'true'
+        )
       )
 
       case response
       when Net::HTTPSuccess
-        ServiceResult.success(message: 'Folder was successfully created.')
-      when Net::HTTPMethodNotAllowed
-        if error_text_from_response(response) == 'The resource you tried to create already exists'
-          ServiceResult.success(message: 'Folder already exists.')
-        else
-          Util.error(:not_allowed)
+        statuscode = Nokogiri::XML(response.body).xpath('/ocs/meta/statuscode').text
+        case statuscode
+        when "100"
+          ServiceResult.success(message: "User has been removed from group")
+        when "101"
+          Util.error(:error, "No group specified")
+        when "102"
+          Util.error(:error, "Group does not exist")
+        when "103"
+          Util.error(:error, "User does not exist")
+        when "104"
+          Util.error(:error, "Insufficient privileges")
+        when "105"
+          Util.error(:error, "Failed to remove user from group")
         end
+      when Net::HTTPMethodNotAllowed
+        Util.error(:not_allowed)
       when Net::HTTPUnauthorized
         Util.error(:not_authorized)
       when Net::HTTPNotFound
         Util.error(:not_found)
       when Net::HTTPConflict
-        Util.error(:conflict, error_text_from_response(response))
+        Util.error(:conflict)
       else
         Util.error(:error)
       end
     end
     # rubocop:enable Metrics/AbcSize
-
-    private
-
-    def error_text_from_response(response)
-      Nokogiri::XML(response.body).xpath("//s:message").text
-    end
   end
 end

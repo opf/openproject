@@ -45,6 +45,9 @@ class Storages::ProjectStorage < ApplicationRecord
 
   enum project_folder_mode: {
     inactive: 'inactive',
-    manual: 'manual'
+    manual: 'manual',
+    managed: 'automatic'
   }.freeze, _prefix: 'project_folder'
+
+  scope :automatic, -> { where(project_folder_mode: 'automatic') }
 end
