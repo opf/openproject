@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative 'exportable_project_context'
 
-describe Projects::Exports::CSV, 'integration' do
+RSpec.describe Projects::Exports::CSV, 'integration' do
   include_context 'with a project with an arrangement of custom fields'
   include_context 'with an instance of the described exporter'
 

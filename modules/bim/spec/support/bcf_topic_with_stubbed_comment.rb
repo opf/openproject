@@ -1,4 +1,4 @@
-shared_context 'bcf_topic with stubbed comment' do |attributes = {}|
+RSpec.shared_context 'bcf_topic with stubbed comment' do |attributes = {}|
   let(:attachment) { build_stubbed(:attachment, description: 'snapshot') }
   let(:viewpoint) { build_stubbed(:bcf_viewpoint, attachments: [attachment]) }
   let(:bcf_comment) { build_stubbed(:bcf_comment, viewpoint:) }

@@ -31,7 +31,7 @@ require 'features/page_objects/notification'
 require 'features/work_packages/shared_contexts'
 require 'features/work_packages/work_packages_page'
 
-describe 'Wiki menu items' do
+RSpec.describe 'Wiki menu items' do
   let(:user) do
     create(:user,
            member_in_project: project,

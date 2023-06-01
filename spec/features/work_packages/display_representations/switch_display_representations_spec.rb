@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe 'Switching work package view',
-         js: true, with_ee: %i[conditional_highlighting] do
+RSpec.describe 'Switching work package view',
+               js: true, with_ee: %i[conditional_highlighting] do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }

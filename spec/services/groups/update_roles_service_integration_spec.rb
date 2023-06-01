@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Groups::UpdateRolesService, 'integration', type: :model do
+RSpec.describe Groups::UpdateRolesService, 'integration', type: :model do
   subject(:service_call) { instance.call(member:, message:, send_notifications:) }
 
   let(:project) { create(:project) }

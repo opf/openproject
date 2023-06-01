@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Timestamp do
+RSpec.describe Timestamp do
   describe ".new" do
     describe "when calling without argument" do
       subject { described_class.new }

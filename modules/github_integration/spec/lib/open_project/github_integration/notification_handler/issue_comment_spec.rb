@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../spec_helper', __dir__)
 
-describe OpenProject::GithubIntegration::NotificationHandler::IssueComment do
+RSpec.describe OpenProject::GithubIntegration::NotificationHandler::IssueComment do
   subject(:process) { handler_instance.process(payload) }
 
   let(:handler_instance) { described_class.new }

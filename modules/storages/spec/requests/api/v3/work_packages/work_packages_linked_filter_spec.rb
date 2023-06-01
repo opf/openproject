@@ -29,8 +29,8 @@
 require 'spec_helper'
 require_module_spec_helper
 
-describe 'API v3 work packages resource with filters for linked storage file',
-         content_type: :json do
+RSpec.describe 'API v3 work packages resource with filters for linked storage file',
+               content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:file_link_permissions) { %i(view_work_packages view_file_links) }

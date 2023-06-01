@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_examples'
 
-describe UserMailer do
+RSpec.describe UserMailer do
   subject(:deliveries) { ActionMailer::Base.deliveries }
 
   let(:type_standard) { build_stubbed(:type_standard) }

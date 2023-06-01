@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Views::ViewRepresenter, 'rendering' do
+RSpec.describe API::V3::Views::ViewRepresenter, 'rendering' do
   include API::V3::Utilities::PathHelper
 
   subject(:generated) { representer.to_json }

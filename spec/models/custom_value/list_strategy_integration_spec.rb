@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CustomValue::ListStrategy, 'integration tests' do
+RSpec.describe CustomValue::ListStrategy, 'integration tests' do
   let(:type) { create(:type) }
   let(:project) { create(:project, types: [type]) }
   let!(:custom_field) do

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Costs::DefaultData do
+RSpec.describe Costs::DefaultData do
   let(:seeder) { BasicData::RoleSeeder.new }
   let(:member) { Costs::DefaultData.member_role }
   let(:permissions) { Costs::DefaultData.member_permissions }

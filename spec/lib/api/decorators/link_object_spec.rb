@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::Decorators::LinkObject do
+RSpec.describe API::Decorators::LinkObject do
   include API::V3::Utilities::PathHelper
 
   let(:represented) { API::ParserStruct.new }

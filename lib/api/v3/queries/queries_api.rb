@@ -87,8 +87,7 @@ module API
             end
 
             get do
-              @query = Query.new_default(name: 'default',
-                                         user: current_user)
+              @query = Query.new_default(user: current_user)
 
               authorize_by_policy(:show)
 

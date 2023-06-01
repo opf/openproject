@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'onboarding tour for new users', js: true do
+RSpec.describe 'onboarding tour for new users', js: true do
   let(:user) { create(:admin) }
   let(:project) do
     create(:project, name: 'Demo project', identifier: 'demo-project', public: true,

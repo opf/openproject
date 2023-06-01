@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Utilities::DateTimeFormatter do
+RSpec.describe API::V3::Utilities::DateTimeFormatter do
   subject { described_class }
 
   let(:date) { Time.zone.today }

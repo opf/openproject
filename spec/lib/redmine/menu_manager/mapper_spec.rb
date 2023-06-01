@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Redmine::MenuManager::Mapper do
+RSpec.describe Redmine::MenuManager::Mapper do
   let(:mapper) { described_class.new(:test_menu, {}) }
 
   shared_context 'with a single node pushed to root' do

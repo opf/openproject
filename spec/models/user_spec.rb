@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe User do
+RSpec.describe User do
   let(:user) { build(:user) }
   let(:project) { create(:project_with_types) }
   let(:role) { create(:role, permissions: [:view_work_packages]) }

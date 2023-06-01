@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'spreadsheet'
 
-describe XlsExport::WorkPackage::Exporter::XLS do
+RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
   let(:project) { create(:project) }
 
   let(:current_user) { create(:admin) }

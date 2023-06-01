@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe "Notification center",
-         js: true,
-         with_ee: %i[date_alerts],
-         with_settings: { journal_aggregation_time_minutes: 0 } do
+RSpec.describe "Notification center",
+               js: true,
+               with_ee: %i[date_alerts],
+               with_settings: { journal_aggregation_time_minutes: 0 } do
   # Notice that the setup in this file here is not following the normal rules as
   # it also tests notification creation.
   let!(:project1) { create(:project) }

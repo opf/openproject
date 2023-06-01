@@ -30,7 +30,7 @@ require_relative '../spec_helper'
 
 # These specs mainly check that error messages from a sub-service
 # (about unsafe hosts with HTTP protocol) are passed to the main form.
-describe OpenProject::Storages::AppendStoragesHostsToCspHook do
+RSpec.describe OpenProject::Storages::AppendStoragesHostsToCspHook do
   shared_let(:admin) { create(:admin) }
   shared_let(:project) { create(:project) }
   let(:storage) { create(:storage) }

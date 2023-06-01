@@ -29,8 +29,8 @@
 require 'spec_helper'
 require_relative './expected_markdown'
 
-describe OpenProject::TextFormatting,
-         'tables' do
+RSpec.describe OpenProject::TextFormatting,
+               'tables' do
   include_context 'expected markdown modules'
 
   context 'for a markdown table' do

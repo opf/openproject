@@ -3,7 +3,7 @@ require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
 require 'features/page_objects/notification'
 
-describe 'new work package', js: true, with_mail: false do
+RSpec.describe 'new work package', js: true, with_mail: false do
   let(:type_task) { create(:type_task, description: "# New Task template\n\nHello there") }
   let(:type_feature) { create(:type_feature, description: "", is_default: true) }
   let(:type_bug) { create(:type_bug, description: "# New Bug template\n\nGeneral Kenobi") }

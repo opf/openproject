@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/repositories/repository_settings_page'
 
-describe 'Create repository', js: true, selenium: true do
+RSpec.describe 'Create repository', js: true, selenium: true do
   let(:current_user) { create(:admin) }
   let(:project) { create(:project) }
   let(:settings_page) { RepositorySettingsPage.new(project) }

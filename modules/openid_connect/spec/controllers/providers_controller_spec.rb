@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenIDConnect::ProvidersController do
+RSpec.describe OpenIDConnect::ProvidersController do
   let(:user) { build_stubbed(:admin) }
 
   let(:valid_params) do

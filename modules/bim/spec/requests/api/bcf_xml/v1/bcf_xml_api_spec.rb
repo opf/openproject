@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'BCF XML API v1 bcf_xml resource' do
+RSpec.describe 'BCF XML API v1 bcf_xml resource' do
   include Rack::Test::Methods
 
   let!(:status) { create(:status, name: 'New', is_default: true) }

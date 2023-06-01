@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::DescriptionFilter do
+RSpec.describe Queries::WorkPackages::Filter::DescriptionFilter do
   it_behaves_like 'basic query filter' do
     let(:type) { :text }
     let(:class_key) { :description }

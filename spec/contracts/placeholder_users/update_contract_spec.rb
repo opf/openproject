@@ -30,7 +30,7 @@ require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
 require_relative 'shared_contract_examples'
 
-describe PlaceholderUsers::UpdateContract do
+RSpec.describe PlaceholderUsers::UpdateContract do
   include_context 'ModelContract shared context'
 
   it_behaves_like 'placeholder user contract' do

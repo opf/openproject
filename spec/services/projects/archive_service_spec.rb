@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Projects::ArchiveService do
+RSpec.describe Projects::ArchiveService do
   let(:project) { create(:project) }
   let(:subproject1) { create(:project) }
   let(:subproject2) { create(:project) }

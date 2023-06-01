@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::TimeEntries::Filters::WorkPackageFilter do
+RSpec.describe Queries::TimeEntries::Filters::WorkPackageFilter do
   let(:work_package1) { build_stubbed(:work_package) }
   let(:work_package2) { build_stubbed(:work_package) }
 

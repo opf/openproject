@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'search/index' do
+RSpec.describe 'search/index' do
   let(:project) { create(:project) }
   let(:scope) { 'foobar' }
 

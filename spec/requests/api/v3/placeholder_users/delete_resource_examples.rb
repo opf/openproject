@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-shared_examples 'deletion allowed' do
+RSpec.shared_examples 'deletion allowed' do
   it 'responds with 202' do
     expect(last_response.status).to eq 202
   end
@@ -45,7 +45,7 @@ shared_examples 'deletion allowed' do
   end
 end
 
-shared_examples 'deletion is not allowed' do
+RSpec.shared_examples 'deletion is not allowed' do
   it 'responds with 403' do
     expect(last_response.status).to eq 403
   end

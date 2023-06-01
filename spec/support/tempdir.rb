@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-shared_context 'with tmpdir' do
+RSpec.shared_context 'with tmpdir' do
   around do |example|
     Dir.mktmpdir do |dir|
       @tmpdir = dir

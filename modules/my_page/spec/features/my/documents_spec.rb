@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../../support/pages/my/page'
 
-describe 'My page documents widget', js: true do
+RSpec.describe 'My page documents widget', js: true do
   let!(:project) { create(:project) }
   let!(:other_project) { create(:project) }
   let!(:visible_document) do

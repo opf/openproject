@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CoreExtensions::SquishSql do
+RSpec.describe CoreExtensions::SquishSql do
   using described_class
 
   it 'removes single line SQL comments' do

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Projects::ProjectCollectionRepresenter do
+RSpec.describe API::V3::Projects::ProjectCollectionRepresenter do
   shared_let(:projects) { create_list(:project, 3) }
 
   let(:self_base_link) { '/api/v3/projects' }

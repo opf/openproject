@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WikiPages::SetAttributesService, type: :model do
+RSpec.describe WikiPages::SetAttributesService, type: :model do
   let(:user) { build_stubbed(:user) }
   let(:contract_class) do
     contract = double('contract_class')

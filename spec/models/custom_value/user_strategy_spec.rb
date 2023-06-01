@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CustomValue::UserStrategy do
+RSpec.describe CustomValue::UserStrategy do
   let(:instance) { described_class.new(custom_value) }
   let(:custom_value) do
     double('CustomValue',

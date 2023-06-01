@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Token::Base do
+RSpec.describe Token::Base do
   let(:user) { build(:user) }
 
   subject { described_class.new user: }

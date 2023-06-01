@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ActivitiesController, 'routing' do
+RSpec.describe ActivitiesController, 'routing' do
   it {
     expect(get('/activity')).to route_to(controller: 'activities',
                                          action: 'index')

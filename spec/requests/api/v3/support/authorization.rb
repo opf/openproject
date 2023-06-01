@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-shared_examples_for 'handling anonymous user' do
+RSpec.shared_examples_for 'handling anonymous user' do
   context 'anonymous user' do
     before do
       allow(User).to receive(:current).and_return(User.anonymous)

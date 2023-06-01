@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-describe 'API v3 project storages resource', content_type: :json, webmock: true do
+RSpec.describe 'API v3 project storages resource', content_type: :json, webmock: true do
   include API::V3::Utilities::PathHelper
 
   let(:view_permissions) { %i(view_work_packages view_file_links) }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
+RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
   include API::V3::Utilities::PathHelper
 
   let(:time_entry) do

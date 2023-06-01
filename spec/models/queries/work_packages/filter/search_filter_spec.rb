@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::SearchFilter do
+RSpec.describe Queries::WorkPackages::Filter::SearchFilter do
   let(:context) { nil }
   let(:value) { 'bogus' }
   let(:operator) { '**' }

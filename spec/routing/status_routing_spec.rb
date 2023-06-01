@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe StatusesController do
+RSpec.describe StatusesController do
   describe 'index' do
     it { expect(get('/statuses')).to route_to(controller: 'statuses', action: 'index') }
   end

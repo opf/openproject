@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::StorageFiles::StorageFilesRepresenter do
+RSpec.describe API::V3::StorageFiles::StorageFilesRepresenter do
   let(:user) { build_stubbed(:user) }
   let(:storage) { build_stubbed(:storage) }
   let(:created_at) { DateTime.now }

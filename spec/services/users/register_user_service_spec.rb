@@ -27,7 +27,7 @@
 
 require 'spec_helper'
 
-describe Users::RegisterUserService do
+RSpec.describe Users::RegisterUserService do
   let(:user) { build(:user) }
   let(:instance) { described_class.new(user) }
   let(:call) { instance.call }

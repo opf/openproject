@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Manual scheduling', js: true do
+RSpec.describe 'Manual scheduling', js: true do
   let(:project) { create(:project, types: [type]) }
   let(:type) { create(:type) }
 

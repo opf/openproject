@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Delete work package', js: true do
+RSpec.describe 'Delete work package', js: true do
   let(:user) { create(:admin) }
   let(:context_menu) { Components::WorkPackages::ContextMenu.new }
   let(:destroy_modal) { Components::WorkPackages::DestroyModal.new }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Relations::RelationCollectionRepresenter do
+RSpec.describe API::V3::Relations::RelationCollectionRepresenter do
   let(:work_package) do
     build_stubbed(:work_package)
   end

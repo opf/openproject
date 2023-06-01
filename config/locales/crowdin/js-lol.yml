@@ -922,6 +922,7 @@ lol:
         addition_label: 'crwdns852071:0crwdne852071:0'
         removal_label: 'crwdns852073:0crwdne852073:0'
         modification_label: 'crwdns852075:0crwdne852075:0'
+        column_incompatible: 'crwdns854449:0crwdne854449:0'
       filters:
         title: 'crwdns833314:0crwdne833314:0'
         baseline_incompatible: 'crwdns854385:0crwdne854385:0'

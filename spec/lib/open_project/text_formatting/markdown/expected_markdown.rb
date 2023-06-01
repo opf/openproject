@@ -1,4 +1,4 @@
-shared_context 'expected markdown modules' do
+RSpec.shared_context 'expected markdown modules' do
   include OpenProject::TextFormatting
   include ERB::Util
   include WorkPackagesHelper # soft-dependency
@@ -11,7 +11,7 @@ shared_context 'expected markdown modules' do
   end
 end
 
-shared_examples_for 'format_text produces' do
+RSpec.shared_examples_for 'format_text produces' do
   let(:passed_options) { defined?(options) ? options : {} }
   subject { format_text(raw, passed_options) }
 

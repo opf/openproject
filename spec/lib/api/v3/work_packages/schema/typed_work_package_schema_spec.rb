@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
+RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
   let(:project) { build(:project) }
   let(:type) { build(:type) }
 

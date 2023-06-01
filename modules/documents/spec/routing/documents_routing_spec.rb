@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe DocumentsController do
+RSpec.describe DocumentsController do
   describe "routing" do
     it {
       expect(get('/projects/567/documents')).to route_to(controller: 'documents',

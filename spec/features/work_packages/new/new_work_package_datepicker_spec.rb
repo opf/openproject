@@ -33,8 +33,8 @@ require 'features/work_packages/shared_contexts'
 require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
 
-describe 'New work package datepicker',
-         js: true, selenium: true, with_settings: { date_format: '%Y-%m-%d' } do
+RSpec.describe 'New work package datepicker',
+               js: true, selenium: true, with_settings: { date_format: '%Y-%m-%d' } do
   let(:project) { create(:project_with_types, public: true) }
   let(:user) { create(:admin) }
 

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Scopes::Visible do
+RSpec.describe Queries::Scopes::Visible do
   describe '.visible' do
     subject(:scope) { Query.visible(user) }
 

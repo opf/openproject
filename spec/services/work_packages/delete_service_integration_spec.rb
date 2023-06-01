@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::DeleteService, 'integration', type: :model do
+RSpec.describe WorkPackages::DeleteService, 'integration', type: :model do
   shared_let(:project) { create(:project) }
   shared_let(:role) do
     create(:role,

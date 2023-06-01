@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ScheduleHelpers::ExampleMethods do
+RSpec.describe ScheduleHelpers::ExampleMethods do
   create_shared_association_defaults_for_work_package_factory
 
   describe 'create_schedule' do

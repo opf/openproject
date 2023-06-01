@@ -27,7 +27,7 @@
 #++
 require 'spec_helper'
 
-shared_context 'with CreateFromJournalJob context' do
+RSpec.shared_context 'with CreateFromJournalJob context' do
   shared_let(:project) { create(:project_with_types) }
   let(:permissions) { [] }
   let(:recipient) do

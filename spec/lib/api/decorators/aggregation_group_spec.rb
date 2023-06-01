@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::Decorators::AggregationGroup do
+RSpec.describe API::Decorators::AggregationGroup do
   let(:query) do
     query = build_stubbed(:query)
     query.group_by = :assigned_to

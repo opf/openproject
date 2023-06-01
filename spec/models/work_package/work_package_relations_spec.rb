@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage do
+RSpec.describe WorkPackage do
   describe '#relation' do
     let(:closed_state) do
       create(:status,

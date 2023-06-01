@@ -6,7 +6,7 @@
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -26,7 +26,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+module TeamPlannerOverview
+  class TableComponent < ::TableComponent
+    options :current_user
+    columns :name, :project_id, :created_at
+    sortable_columns :name, :project_id, :created_at
 
-describe OpenProject::ObjectLinking do
+    def initial_sort
+      %w[name asc]
+    end
+
+    def sortable?
+      true
+    end
+
+    def paginated?
+      true
+    end
+
+    def headers
+      [
+        [:name, { caption: I18n.t(:label_name) }],
+        [:project_id, { caption: Query.human_attribute_name(:project) }],
+        [:created_at, { caption: Query.human_attribute_name(:created_at) }]
+      ]
+    end
+  end
 end

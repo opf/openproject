@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe Query,
-         with_ee: %i[baseline_comparison conditional_highlighting work_package_query_relation_columns] do
+RSpec.describe Query,
+               with_ee: %i[baseline_comparison conditional_highlighting work_package_query_relation_columns] do
   let(:query) { build(:query) }
   let(:project) { create(:project) }
 
@@ -191,7 +191,7 @@ describe Query,
         let(:timestamps) { "lastWorkingDay@00:00+00:00" }
 
         before do
-          allow(Day).to receive(:last_working) { Day.first }
+          allow(Day).to receive(:last_working) { Day.new(date: 7.days.ago) }
         end
 
         it 'is invalid' do
@@ -521,12 +521,6 @@ describe Query,
   end
 
   describe '#valid?' do
-    it 'is not valid without a name' do
-      query.name = ''
-      expect(query.save).to be_falsey
-      expect(query.errors[:name].first).to include(I18n.t('activerecord.errors.messages.blank'))
-    end
-
     context 'with a missing value and an operator that requires values' do
       before do
         query.add_filter('due_date', 't-', [''])

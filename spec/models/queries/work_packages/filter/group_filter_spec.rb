@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::GroupFilter do
+RSpec.describe Queries::WorkPackages::Filter::GroupFilter do
   let(:group) { build_stubbed(:group) }
 
   it_behaves_like 'basic query filter' do

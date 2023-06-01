@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Project attributes activities' do
+RSpec.describe 'Project attributes activities' do
   let(:user) do
     create(:user,
            member_in_project: project,

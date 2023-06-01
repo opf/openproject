@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-shared_examples 'viewpoint keys' do
+RSpec.shared_examples 'viewpoint keys' do
   let(:expected) { %w[guid components orthogonal_camera perspective_camera lines clipping_planes bitmaps] }
 
   it 'has only allowed keys' do
@@ -47,7 +47,7 @@ shared_examples 'viewpoint keys' do
   end
 end
 
-shared_examples 'has camera' do |camera_type|
+RSpec.shared_examples 'has camera' do |camera_type|
   it 'has a camera object' do
     # camera xyz floats
     expect(subject.dig(camera_type)).to be_a(Hash)
@@ -63,7 +63,7 @@ shared_examples 'has camera' do |camera_type|
   end
 end
 
-shared_examples 'has lines' do
+RSpec.shared_examples 'has lines' do
   it 'has a lines entry' do
     lines = subject['lines']
     expect(lines).to be_a(Array)
@@ -79,7 +79,7 @@ shared_examples 'has lines' do
   end
 end
 
-shared_examples 'has clipping planes' do
+RSpec.shared_examples 'has clipping planes' do
   it 'has a lines entry' do
     clipping_planes = subject['clipping_planes']
     expect(clipping_planes).to be_a(Array)
@@ -95,7 +95,7 @@ shared_examples 'has clipping planes' do
   end
 end
 
-shared_examples 'has bitmaps' do
+RSpec.shared_examples 'has bitmaps' do
   it 'has a bitmaps entry' do
     bitmaps = subject['bitmaps']
     expect(bitmaps).to be_a(Array)
@@ -114,7 +114,7 @@ shared_examples 'has bitmaps' do
   end
 end
 
-shared_examples 'has components selection' do
+RSpec.shared_examples 'has components selection' do
   it 'has components selections' do
     selection = subject.dig('components', 'selection')
     expect(selection).to be_a(Array)
@@ -129,7 +129,7 @@ shared_examples 'has components selection' do
   end
 end
 
-shared_examples 'has components coloring' do
+RSpec.shared_examples 'has components coloring' do
   it 'has components coloring' do
     coloring = subject.dig('components', 'coloring')
     expect(coloring).to be_a(Array)
@@ -148,7 +148,7 @@ shared_examples 'has components coloring' do
   end
 end
 
-shared_examples 'has components visibility' do
+RSpec.shared_examples 'has components visibility' do
   it 'has components visibility' do
     visibility = subject.dig('components', 'visibility')
     expect(visibility).to be_a(Hash)
@@ -167,7 +167,7 @@ shared_examples 'has components visibility' do
   end
 end
 
-shared_examples 'matches the JSON counterpart' do
+RSpec.shared_examples 'matches the JSON counterpart' do
   it 'matches the JSON viewpoint counterpart' do
     path = OpenProject::Bim::Engine.root.join("spec/fixtures/viewpoints/#{xml_viewpoint.viewpoint_name}.json")
     raise "Expected #{path} to be readable for JSON comparison" unless path.readable?

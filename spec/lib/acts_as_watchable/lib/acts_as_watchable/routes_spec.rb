@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::Acts::Watchable::Routes do
+RSpec.describe OpenProject::Acts::Watchable::Routes do
   let(:request) do
     Struct.new(:type, :id) do
       def path_parameters

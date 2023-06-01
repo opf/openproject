@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_contract_examples'
 
-describe TimeEntries::CreateContract do
+RSpec.describe TimeEntries::CreateContract do
   it_behaves_like 'time entry contract' do
     subject(:contract) do
       described_class.new(time_entry, current_user)
