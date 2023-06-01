@@ -6,8 +6,12 @@
     justify-content: space-between
     align-items: start
     flex-direction: column
+    width: 265px
     margin: $spot-spacing-1 $spot-spacing-1 0 $spot-spacing-1
     color: $spot-color-basic-gray-2
+
+    &:has(+ .op-baseline--body_ranged)
+      width: auto
 
   &--enterprise-title
     color: $spot-color-feedback-warning-dark
@@ -74,6 +78,7 @@
   // is used in baseline tab of WP configuration madal
   &_tab.op-baseline--header
     margin: 0
+    width: auto !important
   &_tab
     .spot-form-field
       margin-right: 0
