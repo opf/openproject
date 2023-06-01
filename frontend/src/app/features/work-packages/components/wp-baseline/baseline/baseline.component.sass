@@ -1,6 +1,25 @@
 @import "src/assets/sass/helpers"
 
 .op-baseline
+  &--header
+    display: flex
+    justify-content: space-between
+    align-items: start
+    flex-direction: column
+    margin: $spot-spacing-1 $spot-spacing-1 0 $spot-spacing-1
+    color: $spot-color-basic-gray-2
+
+  &--enterprise-title
+    color: $spot-color-feedback-warning-dark
+    @include spot-body-small (bold)
+    display: flex
+    flex-direction: row
+    align-items: center
+    gap: $spot-spacing-1 $spot-spacing-0_25
+
+  &--info-button
+    display: flex
+    align-items: center
 
   &--body
     flex-shrink: 1
@@ -51,3 +70,11 @@
 
   &--datepicker
     margin: 1rem
+  // remove additional margins when baseline component
+  // is used in baseline tab of WP configuration madal
+  &_tab.op-baseline--header
+    margin: 0
+  &_tab
+    .spot-form-field
+      margin-right: 0
+      margin-left: 0
