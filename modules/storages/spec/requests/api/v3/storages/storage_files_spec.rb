@@ -103,24 +103,27 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
 
     context 'with query failed' do
       before do
-        allow_any_instance_of(
-          Storages::Peripherals::StorageInteraction::Nextcloud::FilesQuery
-        ).to receive(:call).and_return(ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error)))
+        clazz = Storages::Peripherals::StorageInteraction::Nextcloud::FilesQuery
+        instance = instance_double(clazz)
+        allow(clazz).to receive(:new).and_return(instance)
+        allow(instance).to receive(:call).and_return(
+          ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error))
+        )
       end
 
-      context 'due to authorization failure' do
+      context 'with authorization failure' do
         let(:error) { :not_authorized }
 
         it { expect(last_response.status).to be(500) }
       end
 
-      context 'due to internal error' do
+      context 'with internal error' do
         let(:error) { :error }
 
         it { expect(last_response.status).to be(500) }
       end
 
-      context 'due to not found' do
+      context 'with not found' do
         let(:error) { :not_found }
 
         it 'fails with outbound request failure' do
@@ -146,9 +149,10 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
 
     describe 'with successful response' do
       before do
-        allow_any_instance_of(
-          Storages::Peripherals::StorageInteraction::Nextcloud::UploadLinkQuery
-        ).to receive(:call).and_return(ServiceResult.success(result: upload_link))
+        clazz = Storages::Peripherals::StorageInteraction::Nextcloud::UploadLinkQuery
+        instance = instance_double(clazz)
+        allow(clazz).to receive(:new).and_return(instance)
+        allow(instance).to receive(:call).and_return(ServiceResult.success(result: upload_link))
       end
 
       subject { last_response.body }
@@ -166,9 +170,12 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
 
     context 'with query failed' do
       before do
-        allow_any_instance_of(
-          Storages::Peripherals::StorageInteraction::Nextcloud::UploadLinkQuery
-        ).to receive(:call).and_return(ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error)))
+        clazz = Storages::Peripherals::StorageInteraction::Nextcloud::UploadLinkQuery
+        instance = instance_double(clazz)
+        allow(clazz).to receive(:new).and_return(instance)
+        allow(instance).to receive(:call).and_return(
+          ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error))
+        )
       end
 
       describe 'due to authorization failure' do

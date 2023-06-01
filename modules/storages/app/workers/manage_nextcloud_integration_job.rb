@@ -99,7 +99,9 @@ class ManageNextcloudIntegrationJob < Cron::CronJob
       @requests
         .set_permissions_command
         .call(path: @group_folder, permissions:)
-        .on_failure { |r| raise "set_permissions_command(path: #{@group_folder}, permissions: #{permissions}) failed: #{r.inspect}" }
+        .on_failure do |r|
+        raise "set_permissions_command(path: #{@group_folder}, permissions: #{permissions}) failed: #{r.inspect}"
+      end
     end
 
     def project_folder_path(project)
@@ -129,10 +131,11 @@ class ManageNextcloudIntegrationJob < Cron::CronJob
 
     def folders_properties
       @folders_properties ||= @requests
-                                .propfind_query
-                                .call(depth: '1', path: @group_folder, props: %w[oc:fileid])
-                                .on_failure { |r| raise "propfind_query(depth: 1, path: #{@group_folder}, props: #{%w[oc:fileid]}) failed: #{r.inspect}" }
-                                .result
+          .propfind_query
+          .call(depth: '1', path: @group_folder, props: %w[oc:fileid])
+          .on_failure do |r|
+            raise "propfind_query(depth: 1, path: #{@group_folder}, props: #{%w[oc:fileid]}) failed: #{r.inspect}"
+          end.result
     end
 
     def rename_folder(source:, target:)

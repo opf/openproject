@@ -114,7 +114,9 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
 
       describe 'with missing OAuth token' do
         before do
-          allow_any_instance_of(OAuthClients::ConnectionManager).to receive(:get_access_token).and_return(ServiceResult.failure)
+          instance = instance_double(OAuthClients::ConnectionManager)
+          allow(OAuthClients::ConnectionManager).to receive(:new).and_return(instance)
+          allow(instance).to receive(:get_access_token).and_return(ServiceResult.failure)
         end
 
         it 'must return ":not_authorized" ServiceResult' do
@@ -182,34 +184,31 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
 
         describe 'with Nextcloud storage type selected' do
           it 'returns a list files directories with names and permissions' do
-            result = subject
-                       .files_query
-                       .call(folder: nil, user:)
+            result = subject.files_query.call(folder: nil, user:)
             expect(result).to be_success
             expect(result.result.files.size).to eq(4)
             expect(result.result.ancestors.size).to eq(0)
             expect(result.result.parent).not_to be_nil
-
-            expect(result).to be_success
-            expect(result.result.files[0].name).to eq('Folder1')
-            expect(result.result.files[0].mime_type).to eq('application/x-op-directory')
-            expect(result.result.files[0].id).to eq('11')
-            expect(result.result.files[0].permissions).to include(:readable)
-            expect(result.result.files[0].permissions).to include(:writeable)
-
-            expect(result.result.files[1].mime_type).to eq('application/x-op-directory')
-            expect(result.result.files[1].permissions).to include(:readable)
-            expect(result.result.files[1].permissions).not_to include(:writeable)
-
-            expect(result.result.files[2].mime_type).to eq('text/markdown')
-            expect(result.result.files[2].name).to eq('README.md')
-            expect(result.result.files[2].id).to eq('12')
-            expect(result.result.files[2].permissions).to include(:readable)
-            expect(result.result.files[2].permissions).to include(:writeable)
-
-            expect(result.result.files[3].mime_type).to eq('application/pdf')
-            expect(result.result.files[3].permissions).to include(:readable)
-            expect(result.result.files[3].permissions).not_to include(:writeable)
+            expect(result.result.files[0]).to have_attributes(
+              id: '11',
+              name: 'Folder1',
+              mime_type: 'application/x-op-directory',
+              permissions: include(:readable, :writeable)
+            )
+            expect(result.result.files[1]).to have_attributes(
+              mime_type: 'application/x-op-directory',
+              permissions: %i[readable]
+            )
+            expect(result.result.files[2]).to have_attributes(
+              id: '12',
+              name: 'README.md',
+              mime_type: 'text/markdown',
+              permissions: include(:readable, :writeable)
+            )
+            expect(result.result.files[3]).to have_attributes(
+              mime_type: 'application/pdf',
+              permissions: %i[readable]
+            )
           end
 
           describe 'with origin user id containing whitespaces' do
@@ -280,7 +279,9 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
 
         describe 'with missing OAuth token' do
           before do
-            allow_any_instance_of(OAuthClients::ConnectionManager).to receive(:get_access_token).and_return(ServiceResult.failure)
+            instance = instance_double(OAuthClients::ConnectionManager)
+            allow(OAuthClients::ConnectionManager).to receive(:new).and_return(instance)
+            allow(instance).to receive(:get_access_token).and_return(ServiceResult.failure)
           end
 
           it 'must return ":not_authorized" ServiceResult' do
@@ -419,7 +420,9 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
 
       describe 'with missing OAuth token' do
         before do
-          allow_any_instance_of(OAuthClients::ConnectionManager).to receive(:get_access_token).and_return(ServiceResult.failure)
+          instance = instance_double(OAuthClients::ConnectionManager)
+          allow(OAuthClients::ConnectionManager).to receive(:new).and_return(instance)
+          allow(instance).to receive(:get_access_token).and_return(ServiceResult.failure)
         end
 
         it 'must return ":not_authorized" ServiceResult' do

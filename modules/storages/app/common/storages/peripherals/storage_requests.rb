@@ -51,7 +51,8 @@ module Storages::Peripherals
 
     (COMMANDS + QUERIES).each do |request|
       define_method(request) do
-        clazz = "::Storages::Peripherals::StorageInteraction::#{@storage.short_provider_type.capitalize}::#{request.to_s.classify}".constantize
+        clazz = "::Storages::Peripherals::StorageInteraction::" \
+                "#{@storage.short_provider_type.capitalize}::#{request.to_s.classify}".constantize
         clazz.new(@storage).method(:call).to_proc
       end
     end

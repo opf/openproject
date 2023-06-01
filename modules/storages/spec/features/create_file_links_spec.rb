@@ -59,15 +59,16 @@ describe 'Managing file links in work package', js: true, webmock: true do
   before do
     allow(Storages::FileLinkSyncService).to receive(:new).and_return(sync_service)
 
-    stub_request(:get, "https://host1.example.com/ocs/v1.php/cloud/user").
-      with(
+    stub_request(:get, "https://host1.example.com/ocs/v1.php/cloud/user")
+      .with(
         headers: {
-          'Authorization'=>'Bearer 1234567890-1',
-          'Host'=>'host1.example.com',
-          'Ocs-Apirequest'=>'true',
+          'Authorization' => 'Bearer 1234567890-1',
+          'Host' => 'host1.example.com',
+          'Ocs-Apirequest' => 'true',
           'Accept' => "application/json"
-        }).
-      to_return(status: 200, body: "", headers: {})
+        }
+      )
+      .to_return(status: 200, body: "", headers: {})
     stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}/")
       .to_return(status: 207, body: root_xml_response, headers: {})
     stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}/Folder1")

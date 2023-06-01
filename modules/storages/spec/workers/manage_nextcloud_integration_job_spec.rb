@@ -29,6 +29,7 @@
 require 'spec_helper'
 
 describe ManageNextcloudIntegrationJob, type: :job, webmock: true do
+  # rubocop:disable RSpec/IndexedLet
   let(:group_users_response_body) do
     <<~XML
       <?xml version="1.0"?>
@@ -312,11 +313,13 @@ describe ManageNextcloudIntegrationJob, type: :job, webmock: true do
   let(:project2) { create(:project, name: 'Jedi Project Folder ///', members: { user => role }) }
   let(:user) { create(:user) }
   let(:role) { create(:role, permissions: %w[read_files write_files]) }
+  # rubocop:enable RSpec/IndexedLet
 
   it 'has a schedule set' do
     expect(described_class.cron_expression).to eq('*/5 * * * *')
   end
 
+  # rubocop:disable RSpec/ExampleLength
   it 'does the job' do
     storage = create(:storage,
                      host: 'https://example.com',
@@ -442,4 +445,5 @@ describe ManageNextcloudIntegrationJob, type: :job, webmock: true do
 
     expect(request_stubs).to all have_been_requested
   end
+  # rubocop:enable RSpec/ExampleLength
 end

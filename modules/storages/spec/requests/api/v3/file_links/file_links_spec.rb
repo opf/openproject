@@ -78,6 +78,7 @@ describe 'API v3 file links resource' do
             .and_return(ServiceResult.success(result: oauth_client_token))
     allow(connection_manager)
       .to receive(:authorization_state).and_return(:connected)
+
     allow(connection_manager)
       .to receive(:get_authorization_uri).and_return('https://example.com/authorize')
 
@@ -229,8 +230,7 @@ describe 'API v3 file links resource' do
   describe 'POST /api/v3/work_packages/:work_package_id/file_links' do
     let(:path) { api_v3_paths.file_links(work_package.id) }
     let(:permissions) { %i(view_work_packages manage_file_links) }
-    let(:storage_url1) { storage.host }
-    let(:storage_url2) { storage.host }
+    let(:storage_url) { storage.host }
     let(:params) do
       {
         _type: "Collection",
@@ -255,11 +255,11 @@ describe 'API v3 file links resource' do
           },
           _links: {
             storageUrl: {
-              href: storage_url1
+              href: storage_url
             }
           }
         },
-        build(:file_link_element, storage_url: storage_url2)
+        build(:file_link_element, storage_url: storage.host)
       ]
     end
 
@@ -293,8 +293,8 @@ describe 'API v3 file links resource' do
     context 'when some embedded file link elements are NOT valid' do
       let(:embedded_elements) do
         [
-          build(:file_link_element, :invalid, storage_url: storage_url1),
-          build(:file_link_element, origin_name: "the valid one", storage_url: storage_url1)
+          build(:file_link_element, :invalid, storage_url:),
+          build(:file_link_element, origin_name: "the valid one", storage_url:)
         ]
       end
 
@@ -378,7 +378,7 @@ describe 'API v3 file links resource' do
 
     context 'when storage host is invalid' do
       context 'when unknown host' do
-        let(:storage_url1) { 'https://invalid.host.org/' }
+        let(:storage_url) { 'https://invalid.host.org/' }
 
         it_behaves_like 'constraint violation' do
           let(:message) { 'Storage does not exist' }
@@ -386,7 +386,7 @@ describe 'API v3 file links resource' do
       end
 
       context 'when nil' do
-        let(:storage_url1) { nil }
+        let(:storage_url) { nil }
 
         it_behaves_like 'constraint violation' do
           let(:message) { "Storage can't be blank." }
@@ -394,7 +394,7 @@ describe 'API v3 file links resource' do
       end
 
       context 'when empty' do
-        let(:storage_url1) { "" }
+        let(:storage_url) { "" }
 
         it_behaves_like 'constraint violation' do
           let(:message) { "Storage can't be blank." }
@@ -402,7 +402,7 @@ describe 'API v3 file links resource' do
       end
 
       context 'when not linked to the project of the work package' do
-        let(:storage_url1) { another_storage.host }
+        let(:storage_url) { another_storage.host }
 
         it_behaves_like 'constraint violation' do
           let(:message) { 'Storage is not linked to project' }
@@ -437,7 +437,7 @@ describe 'API v3 file links resource' do
     context "when more than #{Storages::Peripherals::ParseCreateParamsService::MAX_ELEMENTS} embedded elements" do
       let(:max) { Storages::Peripherals::ParseCreateParamsService::MAX_ELEMENTS }
       let(:too_many) { max + 1 }
-      let(:embedded_elements) { build_list(:file_link_element, too_many, storage_url: storage_url1) }
+      let(:embedded_elements) { build_list(:file_link_element, too_many, storage_url:) }
 
       it_behaves_like 'constraint violation' do
         let(:message) { "Too many elements created at once. Expected #{max} at most, got #{too_many}." }
@@ -558,9 +558,10 @@ describe 'API v3 file links resource' do
 
     describe 'with successful response' do
       before do
-        allow_any_instance_of(
-          Storages::Peripherals::StorageInteraction::Nextcloud::DownloadLinkQuery
-        ).to receive(:call).and_return(ServiceResult.success(result: url))
+        clazz = Storages::Peripherals::StorageInteraction::Nextcloud::DownloadLinkQuery
+        instance = instance_double(clazz)
+        allow(clazz).to receive(:new).and_return(instance)
+        allow(instance).to receive(:call).and_return(ServiceResult.success(result: url))
       end
 
       it 'responds successfully' do
@@ -573,9 +574,12 @@ describe 'API v3 file links resource' do
 
     describe 'with query failed' do
       before do
-        allow_any_instance_of(
-          Storages::Peripherals::StorageInteraction::Nextcloud::DownloadLinkQuery
-        ).to receive(:call).and_return(ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error)))
+        clazz = Storages::Peripherals::StorageInteraction::Nextcloud::DownloadLinkQuery
+        instance = instance_double(clazz)
+        allow(clazz).to receive(:new).and_return(instance)
+        allow(instance).to receive(:call).and_return(
+          ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error))
+        )
 
         get path
       end
