@@ -10,10 +10,10 @@ GIT
 
 GIT
   remote: https://github.com/opf/md-to-pdf
-  revision: b85e572e89704cdd44e0b3d7f7e277a18ee0fe85
-  tag: v0.0.16
+  revision: deba676b44d7bcc82378be7193894cd2166a176f
+  tag: v0.0.17
   specs:
-    md_to_pdf (0.0.16)
+    md_to_pdf (0.0.17)
       commonmarker (~> 0.23)
       front_matter_parser (~> 1.0)
       json-schema (~> 4.0)
