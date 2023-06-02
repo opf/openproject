@@ -139,6 +139,7 @@ export class TimeEntryCalendarComponent {
     buttonText: { today: this.text.today },
     initialView: 'timeGridWeek',
     firstDay: this.configuration.startOfWeek(),
+    timeZone: this.configuration.isTimezoneSet() ? this.configuration.timezone() : 'local',
     hiddenDays: [],
     // This is a magic number that is derived by trial and error
     contentHeight: 550,
