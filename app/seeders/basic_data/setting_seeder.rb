@@ -39,6 +39,7 @@ module BasicData
 
           Setting[setting_name.to_sym] = datum
         end
+        force_default_language_setting
       end
     end
 
@@ -66,11 +67,23 @@ module BasicData
         status_closed = seed_data.find_reference(:default_status_closed, default: nil)
         settings['commit_fix_status_id'] = status_closed.try(:id)
 
+        # Add the current locale to the list of available languages
+        settings['available_languages'] = (Setting.available_languages + [I18n.locale.to_s]).uniq.sort
+
         settings.compact
       end
     end
 
     private
+
+    # Set the default language to the current locale
+    def force_default_language_setting
+      default_language_setting = Setting.find_or_initialize_by(name: 'default_language')
+      # Need to force the value because it's non-writable if
+      # OPENPROJECT_DEFAULT_LANGUAGE env var is set.
+      default_language_setting.set_value!(I18n.locale, force: true)
+      default_language_setting.save!
+    end
 
     def seedable_setting_definitions
       Settings::Definition

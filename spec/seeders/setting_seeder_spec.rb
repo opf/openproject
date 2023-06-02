@@ -39,40 +39,58 @@ RSpec.describe BasicData::SettingSeeder do
   before do
     allow(ActionMailer::Base).to receive(:perform_deliveries).and_return(false)
     allow(Delayed::Worker).to receive(:delay_jobs).and_return(false)
-
-    setting_seeder.seed!
-  end
-
-  def reseed!
-    setting_seeder.seed!
   end
 
   it 'applies initial settings' do
+    expect(setting_seeder).to be_applicable
+
+    setting_seeder.seed!
+
     expect(setting_seeder).not_to be_applicable
     Setting.where(name: %w(commit_fix_status_id new_project_user_role_id)).delete_all
     expect(setting_seeder).to be_applicable
 
-    reseed!
+    setting_seeder.seed!
 
     expect(setting_seeder).not_to be_applicable
     expect(Setting.commit_fix_status_id).to eq closed_status.id
     expect(Setting.new_project_user_role_id).to eq new_project_role.id
   end
 
-  it 'does not override settings' do
+  it 'does not override existing settings' do
+    setting_seeder.seed!
+
     Setting.commit_fix_status_id = 1337
     Setting.where(name: 'new_project_user_role_id').delete_all
 
-    reseed!
+    setting_seeder.seed!
 
     expect(Setting.commit_fix_status_id).to eq 1337
     expect(Setting.new_project_user_role_id).to eq new_project_role.id
   end
 
   it 'does not seed settings whose default value is undefined' do
+    setting_seeder.seed!
+
     names_of_undefined_settings = Settings::Definition.all.values.select { _1.value == nil }.map(&:name)
     # these ones are special as their value is set based on database ids
     names_of_undefined_settings -= ["new_project_user_role_id", "commit_fix_status_id"]
     expect(Setting.where(name: names_of_undefined_settings).pluck(:name)).to be_empty
+  end
+
+  context 'with I18n.locale set' do
+    before do
+      I18n.with_locale 'ja' do
+        setting_seeder.seed!
+      end
+    end
+
+    it 'sets default language to the current locale' do
+      expect(Setting.default_language).to eq('ja')
+    end
+
+    it 'adds current locale to Setting.available_languages' do
+      expect(Setting.available_languages).to include('ja')
+    end
   end
 end
