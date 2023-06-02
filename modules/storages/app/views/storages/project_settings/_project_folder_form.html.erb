@@ -30,66 +30,32 @@ See COPYRIGHT and LICENSE files for more details.
 <% content_controller 'project-storage-form',
                       dynamic: true,
                       'project-storage-form-folder-mode-value': @project_storage.project_folder_mode,
-                      'project-storage-form-placeholder-folder-name-value': t(:"storages.label_no_selected_folder")
+                      'project-storage-form-placeholder-folder-name-value': t(:"storages.label_no_selected_folder"),
+                      'project-storage-form-empty-project-folder-validation-value': t(:"storages.instructions.empty_project_folder_validation"),
+                      'project-storage-form-not-logged-in-validation-value': t(:"storages.instructions.not_logged_into_storage")
 %>
 
 <div class="form--field -required">
-  <% case action_name %>
-  <% when 'new', 'create' %>
-    <%= f.select :storage_id,
-                 (@available_storages.map do |storage|
-                   [
-                     "#{storage.name} (#{storage.short_provider_type})",
-                     storage.id,
-                     data: {
-                       'project-storage-form-target': 'storage',
-                       storage: {
-                         name: storage.name,
-                         id: storage.id,
-                         _links: {
-                           self: { href: api_v3_paths.storage(storage.id) },
-                           type: { href: API::V3::Storages::URN_STORAGE_TYPE_NEXTCLOUD }
-                         }
-                       },
-                     }
-                   ]
-                 end),
-                 {
-                   class: '-bold',
-                   selected: @available_storages.first.id.to_s,
-                   container_class: '-slim'
-                 },
-                 data: {
-                   'project-storage-form-target': 'storageSelector',
-                 } %>
-    <% if User.current.admin? %>
-      <span class="form--field-instructions">
-        <%= t(:"storages.instructions.setting_up_additional_storages") %>
-        <%= link_to "#{t(:label_administration)} / #{t(:project_module_storages)}", controller: '/storages/admin/storages', action: :index %>
-        .
-      </span>
-    <% end %>
-  <% when 'edit', 'update' %>
-    <%= f.label :storage_id, class: "form--label -bold" do %>
-      <%= t(:"storages.label_storage") %>
-    <% end %>
-    <div class="form--field-container">
-      <%= content_tag(:span,
-                      @project_storage.storage.name,
-                      id: 'active_storage',
-                      data: {
-                        'project-storage-form-target': 'storage',
-                        storage: {
-                          name: @project_storage.storage.name,
-                          id: @project_storage.storage.id,
-                          _links: {
-                            self: { href: api_v3_paths.storage(@project_storage.storage.id) },
-                            type: { href: API::V3::Storages::URN_STORAGE_TYPE_NEXTCLOUD }
-                          }
-                        },
-                      }) %>
-    </div>
+  <%= f.label :storage_id, class: "form--label -bold" do %>
+    <%= t(:"storages.label_storage") %>
   <% end %>
+  <div class="form--field-container">
+    <%= f.hidden_field :storage_id %>
+    <% storage = @project_storage.storage %>
+    <%= content_tag(:span,
+                    storage.name,
+                    data: {
+                      'project-storage-form-target': 'storage',
+                      storage: {
+                        name: storage.name,
+                        id: storage.id,
+                        _links: {
+                          self: { href: api_v3_paths.storage(storage.id) },
+                          type: { href: API::V3::Storages::URN_STORAGE_TYPE_NEXTCLOUD }
+                        }
+                      },
+                    }) %>
+  </div>
 </div>
 
 <% if OpenProject::FeatureDecisions.storage_project_folders_active? %>
@@ -139,20 +105,29 @@ See COPYRIGHT and LICENSE files for more details.
                          data: {
                            'project-storage-form-target': "projectFolderIdInput"
                          } %>
-      <%= styled_button_tag id: 'open_location_picker_button',
-                            class: 'button_no-margin',
+      <%= styled_button_tag class: 'button_no-margin',
                             data: {
+                              'project-storage-form-target': "selectProjectFolderButton",
                               'action': "project-storage-form#selectProjectFolder"
                             },
                             type: 'button' do %>
         <%= spot_icon('folder-open') %>
         <%= content_tag :span, t(:"storages.buttons.select_folder") %>
       <% end %>
+      <%= angular_component_tag 'op-storage-login-button',
+                                inputs: {
+                                  input: storage_login_input(@project_storage.storage)
+                                },
+                                style: 'display: inline-block',
+                                data: {
+                                  'project-storage-form-target': "loginButton"
+                                }
+      %>
       <span
         data-project-storage-form-target="selectedFolderText"
-      ></span>
+      >...</span>
     </div>
-    <% if @errors.present? && @errors.any? %>
+    <% if @errors&.any? { |error| error.attribute == :project_folder_id } %>
       <%= content_tag :span,
                       t(:"storages.instructions.empty_project_folder_validation"),
                       class: 'form--field-error -with-bottom-spacing',
