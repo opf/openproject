@@ -120,22 +120,13 @@
                         class="op-wp-single-card--content-status"
                         >
       </wp-status-button>
-      <spot-tooltip
-        slot="input"
-        class="spot-body-small"
-        [alignment]="tooltipPosition"
-        [disabled]="false"
-        [light]="true">
-        <span
-          slot="trigger"
-          *ngIf="baselineIcon(workPackage)!==''"
-          class="spot-icon spot-icon_1 spot-icon_flex op-wp-single-card--content-baseline"
-          [ngClass]="baselineMode==='added' ? 'spot-icon_flex spot-icon_add op-table-baseline--icon-added' :
-          (baselineMode==='removed' ? 'spot-icon_minus1 op-table-baseline--icon-removed' : 'spot-icon_arrow-left-right op-table-baseline--icon-changed')"
-        ></span>
-        <span slot="body" class="spot-body-small op-wp-single-card--content-baseline-tooltip">
-          {{ baselineMode==='added' ? text.baseLineIconAdded : (baselineMode==='removed' ? text.baseLineIconRemoved : text.baseLineIconChanged) }}</span>
-      </spot-tooltip> 
+      <span
+        *ngIf="baselineIcon(workPackage) !== ''"
+        class="spot-icon spot-icon_1 spot-icon_flex op-wp-single-card--content-baseline"
+        [ngClass]="baselineMode==='added' ? 'spot-icon_flex spot-icon_add op-table-baseline--icon-added' : (baselineMode==='removed' ? 'spot-icon_minus1 op-table-baseline--icon-removed' : 'spot-icon_arrow-left-right op-table-baseline--icon-changed')"
+        title="{{ baselineMode==='added' ? text.baseLineIconAdded : (baselineMode==='removed' ? text.baseLineIconRemoved : text.baseLineIconChanged) }}"
+      >
+      </span>
 
     </div>
     <op-principal
