@@ -173,6 +173,15 @@ describe ApplicationHelper do
     end
   end
 
+  describe '.authoring_at' do
+    it 'escapes html from author name' do
+      created = '2023-06-02'
+      author = create(:user, firstname: '<b>Hello</b>', lastname: 'world')
+      expect(authoring_at(created, author))
+        .to eq("Added by <a href=\"/users/#{author.id}\">&lt;b&gt;Hello&lt;/b&gt; world</a> at 2023-06-02")
+    end
+  end
+
   describe '.all_lang_options_for_select' do
     it 'has all languages translated ("English" should appear only once)' do
       impostor_locales =
