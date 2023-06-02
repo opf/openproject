@@ -119,6 +119,8 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
 
   @Input() public isInlineContext = false;
 
+  @Input() public hiddenFieldAction = '';
+
   dataLoaded = false;
 
   projects:IProjectAutocompleteItem[];

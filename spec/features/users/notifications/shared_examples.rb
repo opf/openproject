@@ -1,4 +1,4 @@
-shared_examples 'notification settings workflow' do
+RSpec.shared_examples 'notification settings workflow' do
   describe 'with another project the user can see', with_ee: %i[date_alerts] do
     let!(:project) { create(:project) }
     let!(:project_alt) { create(:project) }

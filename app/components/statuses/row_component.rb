@@ -30,10 +30,6 @@
 
 module Statuses
   class RowComponent < ::RowComponent
-    include ::IconsHelper
-    include ::ColorsHelper
-    include ReorderLinksHelper
-
     def status
       model
     end
@@ -76,7 +72,7 @@ module Statuses
 
     def delete_link
       link_to(
-        op_icon('icon icon-delete'),
+        helpers.op_icon('icon icon-delete'),
         status_path(status),
         method: :delete,
         data: { confirm: I18n.t(:text_are_you_sure) },

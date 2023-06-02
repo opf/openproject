@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe "API v3 version's projects resource" do
+RSpec.describe "API v3 version's projects resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 

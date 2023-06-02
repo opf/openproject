@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Notifications::MailService, type: :model do
+RSpec.describe Notifications::MailService, type: :model do
   require_relative './mentioned_journals_shared'
 
   subject(:call) { instance.call }

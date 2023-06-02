@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Errors handling' do
+RSpec.describe 'Errors handling' do
   it 'renders the internal error page in case of exceptions' do
     # We unfortunately cannot test raising exceptions as the test environment
     # marks all requests as local and thus shows exception details instead (like in dev mode)

@@ -27,9 +27,9 @@
 
 require 'spec_helper'
 
-describe API::V3::Days::WeekAPI,
-         'index',
-         content_type: :json do
+RSpec.describe API::V3::Days::WeekAPI,
+               'index',
+               content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:parsed_response) { JSON.parse(last_response.body) }

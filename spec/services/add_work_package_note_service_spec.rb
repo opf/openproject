@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe AddWorkPackageNoteService, type: :model do
+RSpec.describe AddWorkPackageNoteService, type: :model do
   let(:user) { build_stubbed(:user) }
   let(:work_package) { build_stubbed(:work_package) }
   let(:instance) do

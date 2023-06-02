@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
+RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:custom_field) { build(:custom_field) }
   let(:work_package) { build_stubbed(:work_package) }
   let(:current_user) do

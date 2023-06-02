@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::PrincipalLoader do
+RSpec.describe Queries::WorkPackages::Filter::PrincipalLoader do
   let(:user) { build_stubbed(:user) }
   let(:group) { build_stubbed(:group) }
   let(:placeholder_user) { build_stubbed(:placeholder_user) }

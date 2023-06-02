@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackagePolicy, type: :controller do
+RSpec.describe WorkPackagePolicy, type: :controller do
   let(:user)         { build_stubbed(:user) }
   let(:project)      { build_stubbed(:project) }
   let(:work_package) { build_stubbed(:work_package, project:) }

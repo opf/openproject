@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Recaptcha::RequestController do
+RSpec.describe Recaptcha::RequestController do
   let(:user) { create(:user) }
 
   include_context 'with settings' do

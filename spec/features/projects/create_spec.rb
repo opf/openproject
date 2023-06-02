@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Projects', 'creation', js: true do
+RSpec.describe 'Projects', 'creation', js: true do
   let(:name_field) { FormFields::InputFormField.new :name }
 
   current_user { create(:admin) }

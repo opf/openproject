@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CustomOption do
+RSpec.describe CustomOption do
   let(:custom_field) do
     cf = build(:wp_custom_field, field_format: 'list')
     cf.custom_options.build(value: 'some value')

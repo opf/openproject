@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'sticky messages' do
+RSpec.describe 'sticky messages' do
   let(:forum) { create(:forum) }
 
   let!(:message1) do

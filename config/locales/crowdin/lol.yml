@@ -257,6 +257,7 @@ lol:
       notice_reset_token: "crwdns494981:0%{type}crwdne494981:0"
       token_value_warning: "crwdns494983:0crwdne494983:0"
       no_results_title_text: crwdns494985:0crwdne494985:0
+      notice_ical_tokens_reverted: "crwdns854451:0%{token_name}crwdnd854451:0%{calendar_name}crwdnd854451:0%{project_name}crwdne854451:0"
   news:
     index:
       no_results_title_text: crwdns494987:0crwdne494987:0
@@ -673,6 +674,11 @@ lol:
           overlaps: 'crwdns495531:0crwdne495531:0'
           outside: 'crwdns495533:0crwdne495533:0'
           end_before_start: 'crwdns495535:0crwdne495535:0'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "crwdns854453:0crwdne854453:0"
+              not_unique: "crwdns854455:0crwdne854455:0"
         notifications:
           at_least_one_channel: 'crwdns495537:0crwdne495537:0'
           attributes:
@@ -1497,6 +1503,12 @@ lol:
   label_api_access_key: "crwdns496901:0crwdne496901:0"
   label_api_access_key_created_on: "crwdns496903:0%{value}crwdne496903:0"
   label_api_access_key_type: "crwdns496905:0crwdne496905:0"
+  label_ical_access_key_type: "crwdns854457:0crwdne854457:0"
+  label_ical_access_key_description: "crwdns854459:0%{token_name}crwdnd854459:0%{calendar_name}crwdnd854459:0%{project_name}crwdne854459:0"
+  label_ical_access_key_not_present: "crwdns854461:0crwdne854461:0"
+  label_ical_access_key_generation_hint: "crwdns854463:0crwdne854463:0"
+  label_ical_access_key_latest: "crwdns854465:0crwdne854465:0"
+  label_ical_access_key_revoke: "crwdns854467:0crwdne854467:0"
   label_applied_status: "crwdns496907:0crwdne496907:0"
   label_archive_project: "crwdns496909:0crwdne496909:0"
   label_ascending: "crwdns496911:0crwdne496911:0"

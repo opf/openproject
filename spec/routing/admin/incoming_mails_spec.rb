@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'admin incoming_mails routes' do
+RSpec.describe 'admin incoming_mails routes' do
   it do
     expect(get('admin/settings/incoming_mails'))
       .to route_to('admin/settings/incoming_mails_settings#show')

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'attachments routing', type: :request do
+RSpec.describe 'attachments routing', type: :request do
   describe 'for backwards compatibility' do
     it 'redirects GET attachments/:id to api v3 attachments/:id/content' do
       get "/attachments/1"

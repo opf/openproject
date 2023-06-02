@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
 
-describe Projects::ArchiveContract do
+RSpec.describe Projects::ArchiveContract do
   include_context 'ModelContract shared context'
 
   shared_let(:archivist_role) { create(:role, permissions: %i[archive_project]) }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Models acting as list (acts_as_list)' do
+RSpec.describe 'Models acting as list (acts_as_list)' do
   it 'includes the patch' do
     expect(ActiveRecord::Acts::List::InstanceMethods.included_modules).to include(OpenProject::Patches::ActsAsList)
   end

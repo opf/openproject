@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Redmine::UnifiedDiff do
+RSpec.describe Redmine::UnifiedDiff do
   let(:diff_options) { {} }
   let(:instance) { described_class.new(diff, diff_options) }
 

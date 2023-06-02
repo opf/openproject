@@ -27,7 +27,7 @@
 
 require 'spec_helper'
 
-describe UpdateProjectsTypesService do
+RSpec.describe UpdateProjectsTypesService do
   let(:project) { instance_double(Project, types_used_by_work_packages: []) }
   let(:standard_type) { build_stubbed(:type_standard) }
 

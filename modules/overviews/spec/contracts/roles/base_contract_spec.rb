@@ -26,7 +26,7 @@
 
 require 'spec_helper'
 
-describe Roles::BaseContract do
+RSpec.describe Roles::BaseContract do
   let(:member_role) { build_stubbed(:role) }
   let(:global_role) { build_stubbed(:global_role) }
   let(:anonymous_role) { build_stubbed(:anonymous_role) }

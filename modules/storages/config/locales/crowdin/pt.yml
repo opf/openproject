@@ -47,6 +47,7 @@ pt:
       replace_provider_type_oauth: "Substituir OAuth %{provider_type}"
       save_and_continue_setup: "Salvar e continuar configuração"
       save_and_complete_setup: "Salvar e concluir configuração"
+      select_folder: "Select folder"
     page_titles:
       project_settings:
         index: "Armazenamento de arquivos disponíveis neste projeto"
@@ -59,6 +60,7 @@ pt:
       host: "Adicione o endereço do host de seu armazenamento incluindo o  https://. Ele não deve ter mais de 255 caracteres."
       no_storage_set_up: "Ainda não há armazenamento de arquivos configurado."
       no_specific_folder: "Por padrão, cada usuário iniciará em sua própria pasta pessoal quando fizer upload de um arquivo."
+      empty_project_folder_validation: "Selecting a folder is mandatory to proceed."
       existing_manual_folder: >
         Você pode designar uma pasta existente como a pasta raiz desse projeto. No entanto, as permissões não são gerenciadas automaticamente; o administrador precisa garantir manualmente que os usuários relevantes tenham acesso. A pasta selecionada pode ser usada por vários projetos.
       setting_up_additional_storages: "Para configurar armazenamentos de arquivos adicionais, por favor visite"
@@ -77,7 +79,6 @@ pt:
         Tem certeza de que deseja excluir este armazenamento? Isso também excluirá o armazenamento de todos os projetos em que for usado. Além disso, também excluirá todos os vínculos de pacotes de trabalho para arquivos armazenados nesse armazenamento.
       project_storage: >
         Tem certeza de que deseja remover este armazenamento de arquivos deste projeto? Isso também removerá todos os vínculos para arquivos armazenados neste armazenamento para este projeto.
-    placeholder_existing_folder_selection: "Selecione uma pasta"
     label_creator: "Criador"
     label_file_link: "Vínculo do arquivo"
     label_file_links: "Vínculos dos arquivos"
@@ -92,8 +93,8 @@ pt:
     label_project_folder: "Pasta do projeto"
     label_new_storage: "Novo armazenamento"
     label_existing_manual_folder: "Pasta existente com permissões gerenciadas manualmente"
-    label_existing_manual_folder_selection: "Seleção de pasta existente"
     label_no_specific_folder: "Nenhuma pasta específica"
+    label_no_selected_folder: "No selected folder"
     label_storage: "Armazenamento"
     label_storages: "Armazenamentos"
     no_results: "Ainda não há armazenamento configurado."

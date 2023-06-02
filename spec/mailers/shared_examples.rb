@@ -1,4 +1,4 @@
-shared_examples_for 'mail is sent' do
+RSpec.shared_examples_for 'mail is sent' do
   let(:letters_sent_count) { 1 }
   let(:mail) { deliveries.first }
   let(:html_body) { mail.body.parts.detect { |p| p.content_type.include? 'text/html' }.body.encoded }
@@ -16,13 +16,13 @@ shared_examples_for 'mail is sent' do
   end
 end
 
-shared_examples_for 'multiple mails are sent' do |set_letters_sent_count|
+RSpec.shared_examples_for 'multiple mails are sent' do |set_letters_sent_count|
   it_behaves_like 'mail is sent' do
     let(:letters_sent_count) { set_letters_sent_count }
   end
 end
 
-shared_examples_for 'mail is not sent' do
+RSpec.shared_examples_for 'mail is not sent' do
   it 'sends no mail' do
     expect(deliveries).to be_empty
   end

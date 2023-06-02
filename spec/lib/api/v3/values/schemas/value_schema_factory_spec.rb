@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Values::Schemas::ValueSchemaFactory do
+RSpec.describe API::V3::Values::Schemas::ValueSchemaFactory do
   include API::V3::Utilities::PathHelper
 
   describe '.for' do

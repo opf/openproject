@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::CustomFieldFilter do
+RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
   let(:project) { build_stubbed(:project) }
   let(:bool_wp_custom_field) { build_stubbed(:bool_wp_custom_field) }
   let(:int_wp_custom_field) { build_stubbed(:int_wp_custom_field) }

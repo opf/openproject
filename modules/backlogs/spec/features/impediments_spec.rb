@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe 'Impediments on taskboard',
-         js: true do
+RSpec.describe 'Impediments on taskboard',
+               js: true do
   let!(:project) do
     create(:project,
            types: [story, task],

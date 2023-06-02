@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 module OpenProject
-  describe I18n, type: :helper do
+  RSpec.describe I18n, type: :helper do
     include Redmine::I18n
 
     let(:format) { '%d/%m/%Y' }

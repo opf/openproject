@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::GithubPullRequests::GithubUserRepresenter do
+RSpec.describe API::V3::GithubPullRequests::GithubUserRepresenter do
   include API::V3::Utilities::PathHelper
 
   subject(:generated) { representer.to_json }

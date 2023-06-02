@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Projects::Activity, 'meeting' do
+RSpec.describe Projects::Activity, 'meeting' do
   shared_let(:project) do
     create(:project, :updated_a_long_time_ago)
   end

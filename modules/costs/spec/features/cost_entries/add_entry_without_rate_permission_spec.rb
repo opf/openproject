@@ -28,7 +28,7 @@
 
 require_relative '../../spec_helper'
 
-describe 'Create cost entry without rate permissions', js: true do
+RSpec.describe 'Create cost entry without rate permissions', js: true do
   shared_let(:type_task) { create(:type_task) }
   shared_let(:status) { create(:status, is_default: true) }
   shared_let(:priority) { create(:priority, is_default: true) }

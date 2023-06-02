@@ -317,6 +317,18 @@ ar:
               learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
                 The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to iCalendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Token name"
+      token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
+      token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the iCal URL."
+      copy_url_success_text: "URL copied to clipboard."
+      copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
     label_activate: "تفعيل"
     label_assignee: 'Assignee'
     label_add_column_after: "Add column after"
@@ -928,8 +940,11 @@ ar:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
+        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
       filters:
         title: 'Filter work packages'
+        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'اضغط هنا لإضافة مجموعة عمل جديدة للقائمة'
       create:
@@ -1090,6 +1105,7 @@ ar:
         save_as: "Save as"
         export: "Export"
         visibility_settings: "Visibility settings"
+        share_calendar: "Subscribe to iCalendar"
         page_settings: "Rename view"
         delete: "احذف"
       filter: "فلترة"
@@ -1268,8 +1284,10 @@ ar:
       toggle_title: 'Baseline'
       clear: 'Clear'
       apply: 'Apply'
-      header_description: 'View changes made to work packages in the current view within a time period.'
+      header_description: 'Highlight changes made to this list since any point in the past.'
+      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Show changes since'
+      baseline_comparison: 'Baseline comparison'
       help_description: 'Reference time zone for the baseline.'
       time_description: 'In your local time: %{datetime}'
       time: 'Time'
@@ -1289,6 +1307,10 @@ ar:
         no_longer_meets_filter_criteria: 'No longer meets filter criteria'
         maintained_with_changes: 'Maintained with changes'
         in_your_timezone: 'In your local timezone:'
+      icon_tooltip:
+        added: 'Added to view within the comparison time period'
+        removed: 'Removed from view within the comparison time period'
+        changed: 'Maintained with modifications'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

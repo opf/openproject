@@ -30,7 +30,7 @@ require 'spec_helper'
 require_module_spec_helper
 
 # We want to check the case of file_links from multiple storages
-describe 'API v3 file links resource' do
+RSpec.describe 'API v3 file links resource' do
   include API::V3::Utilities::PathHelper
 
   let(:project) { create(:project) }

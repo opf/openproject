@@ -28,7 +28,7 @@
 
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
 
-describe WorkPackages::UpdateAncestorsService do
+RSpec.describe WorkPackages::UpdateAncestorsService do
   let(:user) { create(:user) }
 
   let(:sibling_remaining_hours) { 7.0 }

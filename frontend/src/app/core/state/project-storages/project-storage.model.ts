@@ -27,12 +27,13 @@
 //++
 
 import { ID } from '@datorama/akita';
-import { IHalResourceLink, IHalResourceLinks } from 'core-app/core/state/hal-resource';
+import { IHalOptionalTitledLink, IHalResourceLink, IHalResourceLinks } from 'core-app/core/state/hal-resource';
 
 export interface IProjectStorageHalResourceLinks extends IHalResourceLinks {
   storage:IHalResourceLink;
   project:IHalResourceLink;
   creator:IHalResourceLink;
+  projectFolder?:IHalOptionalTitledLink;
 }
 
 export interface IProjectStorage {

@@ -67,7 +67,7 @@ module API
                     raise API::Errors::NotFound.new
                   end
 
-                  query = Query.new_default(name: '_', project:)
+                  query = Query.new_default(project:)
                   updated_query = ::API::V3::UpdateQueryFromV3ParamsService.new(query, User.current).call(params)
 
                   exporter = ::OpenProject::Bim::BcfXml::Exporter.new(updated_query.result)

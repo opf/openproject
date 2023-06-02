@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-shared_examples 'member job' do
+RSpec.shared_examples 'member job' do
   subject(:run_job) do
     described_class.perform_now(current_user:,
                                 member:,

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Immediate reminder settings", js: true do
+RSpec.describe "Immediate reminder settings", js: true do
   shared_examples 'immediate reminder settings' do
     it 'allows to configure the reminder settings' do
       # Save prefs so we can reload them later

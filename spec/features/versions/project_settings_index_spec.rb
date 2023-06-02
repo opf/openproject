@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'project settings index' do
+RSpec.describe 'project settings index' do
   let(:user) do
     create(:user,
            member_in_project: project,

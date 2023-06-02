@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-shared_examples 'it supports direct uploads' do
+RSpec.shared_examples 'it supports direct uploads' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
   include FileHelpers
@@ -186,7 +186,7 @@ shared_examples 'it supports direct uploads' do
   end
 end
 
-shared_examples 'an APIv3 attachment resource', content_type: :json, type: :request do |include_by_container = true|
+RSpec.shared_examples 'an APIv3 attachment resource', content_type: :json, type: :request do |include_by_container = true|
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
   include FileHelpers

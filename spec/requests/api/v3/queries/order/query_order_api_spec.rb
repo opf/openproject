@@ -28,7 +28,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe "/api/v3/queries/:id/order" do
+RSpec.describe "/api/v3/queries/:id/order" do
   let(:user) { create(:admin) }
   let(:query) { create(:query, name: "A Query", user:) }
   let(:path) { "/api/v3/queries/#{query.id}/order" }

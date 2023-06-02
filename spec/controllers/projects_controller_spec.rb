@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ProjectsController do
+RSpec.describe ProjectsController do
   shared_let(:admin) { create(:admin) }
   let(:non_member) { create(:non_member) }
 

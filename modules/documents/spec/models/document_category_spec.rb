@@ -27,7 +27,7 @@
 #++
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe DocumentCategory do
+RSpec.describe DocumentCategory do
   let(:project) { create(:project) }
 
   it "is an enumeration" do

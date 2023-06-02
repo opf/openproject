@@ -1,7 +1,7 @@
 require 'rails_helper'
 require_relative './shared_examples'
 
-describe "user notifications settings", js: true do
+RSpec.describe "user notifications settings", js: true do
   shared_let(:user) { create(:user) }
 
   let(:settings_page) { Pages::Notifications::Settings.new(user) }

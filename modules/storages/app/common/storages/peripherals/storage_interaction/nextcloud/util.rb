@@ -27,9 +27,17 @@
 #++
 
 module Storages::Peripherals::StorageInteraction::Nextcloud::Util
+  using Storages::Peripherals::ServiceResultRefinements
+
   class << self
-    def escape_whitespace(value)
-      value.gsub(' ', '%20')
+    def escape_path(path)
+      path.split('/').map { |i| CGI.escapeURIComponent(i) }.join('/')
+    end
+
+    def basic_auth_header(username, password)
+      {
+        'Authorization' => "Basic #{Base64::encode64("#{username}:#{password}")}"
+      }
     end
 
     def error(code, log_message = nil, data = nil)
@@ -45,6 +53,22 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Util
       # Server is not run on a Windows context.
       # URI::join cannot be used, as it behaves very different for the path parts depending on trailing slashes.
       File.join(uri.to_s, *parts)
+    end
+
+    def token(user:, oauth_client:, &block)
+      connection_manager = ::OAuthClients::ConnectionManager.new(user:, oauth_client:)
+      connection_manager.get_access_token.match(
+        on_success: ->(token) do
+          connection_manager.request_with_token_refresh(token) { block.call(token) }
+        end,
+        on_failure: ->(_) { error(:not_authorized, 'Query could not be created! No access token found!') }
+      )
+    end
+
+    def http(uri)
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = uri.scheme == 'https'
+      http
     end
   end
 end

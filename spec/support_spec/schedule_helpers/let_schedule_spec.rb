@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ScheduleHelpers::LetSchedule do
+RSpec.describe ScheduleHelpers::LetSchedule do
   create_shared_association_defaults_for_work_package_factory
 
   describe 'let_schedule' do

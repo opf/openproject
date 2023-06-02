@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './expected_markdown'
 
-describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
+RSpec.describe OpenProject::TextFormatting::Formats::Markdown::Formatter do
   it 'modifierses' do
     assert_html_output(
       '**bold**' => '<strong>bold</strong>',

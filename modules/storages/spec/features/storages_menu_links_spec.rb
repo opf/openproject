@@ -28,7 +28,7 @@
 
 require_relative '../spec_helper'
 
-describe 'Project menu', js: true do
+RSpec.describe 'Project menu', js: true do
   let(:storage) { create(:storage, name: "Storage 1") }
   let(:another_storage) { create(:storage, name: "Storage 2") }
   let(:unlinked_storage) { create(:storage, name: "Storage 3") }

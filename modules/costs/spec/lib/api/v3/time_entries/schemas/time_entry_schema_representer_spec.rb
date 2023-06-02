@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
+RSpec.describe API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) { build_stubbed(:user) }

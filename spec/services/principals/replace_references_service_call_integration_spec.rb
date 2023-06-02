@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Principals::ReplaceReferencesService, '#call', type: :model do
+RSpec.describe Principals::ReplaceReferencesService, '#call', type: :model do
   subject(:service_call) { instance.call(from: principal, to: to_principal) }
 
   shared_let(:other_user) { create(:user) }
@@ -495,7 +495,8 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
                       :user_id do
         let(:attributes) do
           {
-            include_subprojects: true
+            include_subprojects: true,
+            name: "'abc'"
           }
         end
       end

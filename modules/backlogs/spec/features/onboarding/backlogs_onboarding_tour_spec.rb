@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'backlogs onboarding tour', js: true do
+RSpec.describe 'backlogs onboarding tour', js: true do
   let(:next_button) { find('.enjoyhint_next_btn') }
   let(:user) { create(:admin) }
   let(:demo_project) do

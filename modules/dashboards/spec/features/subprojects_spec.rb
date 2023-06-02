@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-describe 'Subprojects widget on dashboard', js: true do
+RSpec.describe 'Subprojects widget on dashboard', js: true do
   let!(:project) do
     create(:project, parent: parent_project)
   end

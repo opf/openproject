@@ -53,7 +53,7 @@ module LdapGroups
         link_to({ controller: target_controller, action: :new },
                 class: 'budget-add-row wp-inline-create--add-link',
                 title: I18n.t('ldap_groups.synchronized_groups.add_new')) do
-          op_icon('icon icon-add')
+          helpers.op_icon('icon icon-add')
         end
       end
 

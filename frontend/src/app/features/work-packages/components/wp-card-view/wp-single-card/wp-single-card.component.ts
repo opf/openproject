@@ -28,6 +28,12 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
+import {
+  getBaselineState,
+} from 'core-app/features/work-packages/components/wp-baseline/baseline-helpers';
 
 @Component({
   selector: 'wp-single-card',
@@ -80,12 +86,19 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   public selected = false;
 
+  public baselineMode = ''||'added'||'updated'||'removed';
+
   public text = {
     removeCard: this.I18n.t('js.card.remove_from_list'),
     detailsView: this.I18n.t('js.button_open_details'),
+    baseLineIconAdded: this.I18n.t('js.baseline.icon_tooltip.added'),
+    baseLineIconChanged: this.I18n.t('js.baseline.icon_tooltip.changed'),
+    baseLineIconRemoved: this.I18n.t('js.baseline.icon_tooltip.removed'),
   };
 
   public isNewResource = isNewResource;
+
+  public tooltipPosition = SpotDropAlignmentOption.BottomLeft;
 
   private dateTimeFormatYear = new Intl.DateTimeFormat(this.I18n.locale, {
     year: 'numeric',
@@ -108,6 +121,8 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     readonly cardView:WorkPackageCardViewService,
     readonly cdRef:ChangeDetectorRef,
     readonly timezoneService:TimezoneService,
+    readonly schemaCache:SchemaCacheService,
+    readonly wpTableColumns:WorkPackageViewColumnsService,
   ) {
     super();
   }
@@ -171,6 +186,11 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   cardTitle():string {
     return `${this.workPackage.subject} (${(this.workPackage.status as StatusResource).name})`;
+  }
+
+  public baselineIcon(workPackage:WorkPackageResource) {
+    this.baselineMode = getBaselineState(workPackage, this.schemaCache, this.wpTableColumns);
+    return this.baselineMode;
   }
 
   // eslint-disable-next-line class-methods-use-this

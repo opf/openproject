@@ -1,4 +1,4 @@
-shared_context 'model contract' do
+RSpec.shared_context 'model contract' do
   shared_examples_for 'is not writable' do
     before do
       instance.model.attributes = { attribute => value }

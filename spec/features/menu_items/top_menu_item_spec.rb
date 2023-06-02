@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Top menu items', js: true, selenium: true do
+RSpec.describe 'Top menu items', js: true, selenium: true do
   let(:user) { create(:user) }
   let(:open_menu) { true }
 

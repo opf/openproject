@@ -47,6 +47,7 @@ it:
       replace_provider_type_oauth: "Sostituisci %{provider_type} OAuth"
       save_and_continue_setup: "Salva e continua la configurazione"
       save_and_complete_setup: "Salva e completa la configurazione"
+      select_folder: "Select folder"
     page_titles:
       project_settings:
         index: "File di archiviazione disponibili in questo progetto"
@@ -59,6 +60,7 @@ it:
       host: "Aggiungi l'indirizzo host del tuo spazio di archiviazione incluso https://. Non dovrebbe essere più lungo di 255 caratteri."
       no_storage_set_up: "Ancora nessuna archiviazione di file configurata."
       no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
+      empty_project_folder_validation: "Selecting a folder is mandatory to proceed."
       existing_manual_folder: >
         You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
       setting_up_additional_storages: "Per impostare ulteriori archivi file, visita"
@@ -77,7 +79,6 @@ it:
         Vuoi davvero eliminare questo archivio? Ciò eliminerà anche lo spazio di archiviazione da tutti i progetti in cui viene utilizzato. Inoltre, eliminerà anche tutti i collegamenti dalle macro-attività ai file archiviati in tale archivio.
       project_storage: >
         Vuoi davvero rimuovere questo archivio di file da questo progetto? Ciò rimuoverà anche tutti i collegamenti ai file archiviati in questo archivio per questo progetto.
-    placeholder_existing_folder_selection: "Select a folder"
     label_creator: "Autore"
     label_file_link: "Link del File"
     label_file_links: "Link dei File"
@@ -92,8 +93,8 @@ it:
     label_project_folder: "Project folder"
     label_new_storage: "Nuovo archivio"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
-    label_existing_manual_folder_selection: "Existing folder selection"
     label_no_specific_folder: "No specific folder"
+    label_no_selected_folder: "No selected folder"
     label_storage: "Archivio"
     label_storages: "Archivi"
     no_results: "Ancora nessun'archiviazione configurata."

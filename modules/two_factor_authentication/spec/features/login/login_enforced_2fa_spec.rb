@@ -1,13 +1,13 @@
 require_relative '../../spec_helper'
 require_relative '../shared_2fa_examples'
 
-describe 'Login with enforced 2FA',
-         js: true, with_settings: {
-           plugin_openproject_two_factor_authentication: {
-             'active_strategies' => [:developer],
-             'enforced' => true
-           }
-         } do
+RSpec.describe 'Login with enforced 2FA',
+               js: true, with_settings: {
+                 plugin_openproject_two_factor_authentication: {
+                   'active_strategies' => [:developer],
+                   'enforced' => true
+                 }
+               } do
   let(:user_password) { 'bob!' * 4 }
   let(:user) do
     create(:user,

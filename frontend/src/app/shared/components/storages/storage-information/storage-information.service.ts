@@ -27,15 +27,12 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { CookieService } from 'ngx-cookie-service';
-import { v4 as uuidv4 } from 'uuid';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IStorage } from 'core-app/core/state/storages/storage.model';
 import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
-import { StorageActionButton } from 'core-app/shared/components/storages/storage-information/storage-action-button';
 import { StorageInformationBox } from 'core-app/shared/components/storages/storage-information/storage-information-box';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { storageLocaleString } from 'core-app/shared/components/storages/functions/storages.functions';
@@ -60,7 +57,6 @@ export class StorageInformationService {
 
   constructor(
     private readonly i18n:I18nService,
-    private readonly cookieService:CookieService,
     private readonly currentUserService:CurrentUserService,
   ) {}
 
@@ -92,22 +88,18 @@ export class StorageInformationService {
   }
 
   private failedAuthorizationInformation(storage:IStorage, storageType:string):StorageInformationBox {
+    if (!storage._links.authorize) {
+      throw new Error('Authorize link is missing!');
+    }
+
     return new StorageInformationBox(
       'import',
       this.text.authorizationFailureHeader(storageType),
       this.text.authorizationFailureContent(storageType),
-      [new StorageActionButton(
-        this.text.loginButton(storageType),
-        () => {
-          if (storage._links.authorize) {
-            const nonce = uuidv4();
-            this.setAuthorizationCallbackCookie(nonce);
-            window.location.href = StorageInformationService.authorizationFailureActionUrl(storage._links.authorize.href, nonce);
-          } else {
-            throw new Error('Authorize link is missing!');
-          }
-        },
-      )],
+      {
+        storageType: storage._links.type.href,
+        authorizationLink: storage._links.authorize,
+      },
     );
   }
 
@@ -116,7 +108,6 @@ export class StorageInformationService {
       'remove-link',
       this.text.connectionErrorHeader(storageType),
       this.text.connectionErrorContent(storageType),
-      [],
     );
   }
 
@@ -125,18 +116,7 @@ export class StorageInformationService {
       'error',
       this.text.fileLinkErrorHeader,
       this.text.fileLinkErrorContent(storageType),
-      [],
     );
-  }
-
-  private setAuthorizationCallbackCookie(nonce:string):void {
-    this.cookieService.set(`oauth_state_${nonce}`, window.location.href, {
-      path: '/',
-    });
-  }
-
-  private static authorizationFailureActionUrl(baseUrl:string, nonce:string):string {
-    return `${baseUrl}&state=${nonce}`;
   }
 
   private hasFileLinkViewErrors(fileLinks:IFileLink[]):boolean {

@@ -29,8 +29,8 @@
 require 'spec_helper'
 require_relative './expected_markdown'
 
-describe OpenProject::TextFormatting,
-         'in tool links' do
+RSpec.describe OpenProject::TextFormatting,
+               'in tool links' do
   include_context 'expected markdown modules'
 
   describe '.format_text' do

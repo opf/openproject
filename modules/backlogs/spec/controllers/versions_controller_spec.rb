@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe VersionsController do
+RSpec.describe VersionsController do
   let(:version) do
     create(:version,
            sharing: 'system')

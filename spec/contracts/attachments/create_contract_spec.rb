@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
 
-describe Attachments::CreateContract do
+RSpec.describe Attachments::CreateContract do
   include_context 'ModelContract shared context'
 
   let(:current_user) { build_stubbed(:user) }

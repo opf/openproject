@@ -26,14 +26,14 @@ def expect_not_logged_in
   expect(page).not_to have_selector('.form--field-container', text: user.login)
 end
 
-shared_examples 'login without 2FA' do
+RSpec.shared_examples 'login without 2FA' do
   it 'logs in the user without any active devices' do
     first_login_step
     expect_logged_in
   end
 end
 
-shared_examples 'create enforced sms device' do
+RSpec.shared_examples 'create enforced sms device' do
   it do
     expect(page).to have_selector('.flash.info',
                                   text: I18n.t('two_factor_authentication.forced_registration.required_to_add_device'))

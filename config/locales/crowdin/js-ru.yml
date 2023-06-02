@@ -316,6 +316,18 @@ ru:
               learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
                 Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Загрузить и связать файлы с рабочими пакетами до вашего хранилища файлов Nextcloud.</li> <li>Последующая деятельность по изменениям проекта при отслеживании активности проекта.</li> <li>Добавляет публичные праздники в один экземпляр (нерабочие дни).</li> <li>Архивные проекты неадминов.</li> <li>Новый фильтр по умолчанию для просроченных пакетов работ.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to iCalendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Token name"
+      token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
+      token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the iCal URL."
+      copy_url_success_text: "URL copied to clipboard."
+      copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
     label_activate: "Активировать"
     label_assignee: 'Ответственный'
     label_add_column_after: "Добавить столбец после"
@@ -925,8 +937,11 @@ ru:
         addition_label: 'Добавлено для просмотра в период сравнения'
         removal_label: 'Удалено из просмотра в период сравнения'
         modification_label: 'Изменено в период времени сравнения'
+        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
       filters:
         title: 'Фильтровать пакеты работ'
+        baseline_incompatible: 'Этот фильтр несовместим с базовой линией и не будет включен в сравнение.'
+        baseline_warning: 'Базовый режим включен, но некоторые из ваших активных фильтров не включены в сравнение.'
       inline_create:
         title: 'Кликните здесь, чтобы добавить новый пакет работ в этот список'
       create:
@@ -1087,6 +1102,7 @@ ru:
         save_as: "Сохранить как"
         export: "Экспортировать"
         visibility_settings: "Настройки видимости"
+        share_calendar: "Subscribe to iCalendar"
         page_settings: "Переименовать представления"
         delete: "Удалить"
       filter: "Фильтр"
@@ -1263,13 +1279,15 @@ ru:
       toggle_title: 'Исходный уровень'
       clear: 'Очистить'
       apply: 'Применить'
-      header_description: 'Просмотр изменений, внесенных в рабочие пакеты в текущем представлении за определенный период времени.'
+      header_description: 'Highlight changes made to this list since any point in the past.'
+      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Показать изменения с'
-      help_description: 'Reference time zone for the baseline.'
-      time_description: 'In your local time: %{datetime}'
+      baseline_comparison: 'Baseline comparison'
+      help_description: 'Эталонный часовой пояс для базового уровня.'
+      time_description: 'В ваше местное время: %{datetime}'
       time: 'Время'
-      from: 'From'
-      to: 'To'
+      from: 'От'
+      to: 'До'
       drop_down:
         none: '-'
         yesterday: 'вчера'
@@ -1283,7 +1301,11 @@ ru:
         now_meets_filter_criteria: 'Теперь соответствует критериям фильтра'
         no_longer_meets_filter_criteria: 'Больше не соответствует критериям фильтра'
         maintained_with_changes: 'Поддерживается с изменениями'
-        in_your_timezone: 'In your local timezone:'
+        in_your_timezone: 'В вашем локальном часовом поясе:'
+      icon_tooltip:
+        added: 'Добавлено для просмотра в период сравнения'
+        removed: 'Удалено из просмотра в период сравнения'
+        changed: 'Поддерживается с изменениями'
     forms:
       submit_success_message: 'Форма успешно отправлена'
       load_error_message: 'Произошла ошибка при загрузке формы'

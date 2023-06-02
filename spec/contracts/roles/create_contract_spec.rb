@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_contract_examples'
 
-describe Roles::CreateContract do
+RSpec.describe Roles::CreateContract do
   it_behaves_like 'roles contract' do
     let(:role) do
       Role.new.tap do |r|

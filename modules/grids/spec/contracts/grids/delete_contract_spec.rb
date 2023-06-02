@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Grids::DeleteContract do
+RSpec.describe Grids::DeleteContract do
   let(:user) { build_stubbed(:user) }
   let(:grid) do
     build_stubbed(:grid)

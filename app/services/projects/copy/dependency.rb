@@ -41,7 +41,7 @@ module Projects::Copy
     # Check whether this dependency should be copied
     # as it was selected
     def self.should_copy?(params, check)
-      return true if params[:only].blank?
+      return false if params[:only].blank?
 
       params[:only].any? { |key| key.to_sym == check }
     end

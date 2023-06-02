@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::AccessControl do
+RSpec.describe OpenProject::AccessControl do
   describe '.sorted_module_names' do
     context 'with bim disabled' do
       before do

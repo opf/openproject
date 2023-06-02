@@ -266,6 +266,7 @@ lt:
       notice_reset_token: "Naujas %{type} tipo atpažinimo raktas buvo sugeneruotas. Jis dabar yra:"
       token_value_warning: "Pastaba: tai vienintelis kartas, kai matote atpažinimo raktą, todėl būtinai nusikopijuokite jį dabar."
       no_results_title_text: Nėra jokių pasiekiamų prieigos raktų.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Nėra jokių naujienų.
@@ -690,6 +691,11 @@ lt:
           overlaps: 'persidengia.'
           outside: 'yra už tinklelio.'
           end_before_start: 'pabaigos reikšmė turi būti didesnė už pradžios reikšmę.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'Turi būti nurodytas bent vienas kanalas pranešimų siuntimui.'
           attributes:
@@ -1555,6 +1561,12 @@ lt:
   label_api_access_key: "API prieigos raktas"
   label_api_access_key_created_on: "API prieigos raktas sukurtas prieš %{value}"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Taikomoji būsena"
   label_archive_project: "Archyvuoti projektą"
   label_ascending: "Didėjančia tvarka"

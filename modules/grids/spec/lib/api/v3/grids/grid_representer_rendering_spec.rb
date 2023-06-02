@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Grids::GridRepresenter, 'rendering' do
+RSpec.describe API::V3::Grids::GridRepresenter, 'rendering' do
   include OpenProject::StaticRouting::UrlHelpers
   include API::V3::Utilities::PathHelper
 

@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../spec_helper', __dir__)
 
-describe OpenProject::GithubIntegration::NotificationHandler::CheckRun do
+RSpec.describe OpenProject::GithubIntegration::NotificationHandler::CheckRun do
   subject(:process) { described_class.new.process(payload) }
 
   let(:upsert_check_run_service) do

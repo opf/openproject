@@ -20,7 +20,7 @@ module ::Webhooks
           link_to({ controller: target_controller, action: :new },
                   class: 'webhooks--add-row wp-inline-create--add-link',
                   title: I18n.t('webhooks.outgoing.label_add_new')) do
-            op_icon('icon icon-add')
+            helpers.op_icon('icon icon-add')
           end
         end
 

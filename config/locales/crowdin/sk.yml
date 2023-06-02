@@ -269,6 +269,7 @@ sk:
       notice_reset_token: "Bol vytvorený nový token %{type}. Prístupový token je:"
       token_value_warning: "Poznámka: Toto je jediný čas, kedy uvidíte tento Token, uistite sa, že ste si ho skopírovali."
       no_results_title_text: Momentálne nie sú dostupné žiadne prístupové tokeny.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: V súčasnosti nie sú žiadne novinky pre nahlásenie.
@@ -693,6 +694,11 @@ sk:
           overlaps: 'prekrývajú.'
           outside: 'je mimo mriežku.'
           end_before_start: 'koncová hodnota musí byť väčšia ako počiatočná hodnota.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -1558,6 +1564,12 @@ sk:
   label_api_access_key: "Prístupový kľúč API"
   label_api_access_key_created_on: "Prístupový kľúč pre API vytvorený %{value} vzad"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Aplikovaný stav"
   label_archive_project: "Archivovať projekt"
   label_ascending: "Vzostupne"

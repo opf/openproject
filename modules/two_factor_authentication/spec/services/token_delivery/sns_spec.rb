@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe OpenProject::TwoFactorAuthentication::TokenStrategy::Sns do
+RSpec.describe OpenProject::TwoFactorAuthentication::TokenStrategy::Sns do
   describe 'sending messages' do
     let(:phone) { '+49 123456789' }
     let!(:user) { create(:user) }

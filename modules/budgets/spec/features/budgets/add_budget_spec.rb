@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper.rb')
 
-describe 'adding a new budget', js: true do
+RSpec.describe 'adding a new budget', js: true do
   let(:project) { create(:project_with_types, members: project_members) }
   let(:user) { create(:admin) }
   let(:project_members) { {} }

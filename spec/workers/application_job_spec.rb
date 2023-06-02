@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ApplicationJob do
+RSpec.describe ApplicationJob do
   class JobMock < ApplicationJob
     def initialize(callback)
       @callback = callback

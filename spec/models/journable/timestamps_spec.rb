@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Journable::Timestamps do
+RSpec.describe Journable::Timestamps do
   # See: https://github.com/opf/openproject/pull/11243
 
   let(:before_monday) { "2022-01-01".to_datetime }
