@@ -1,11 +1,11 @@
 module Admin::Settings
   class WorkingDaysSettingsController < ::Admin::SettingsController
     current_menu_item [:show] do
-      :working_days
+      :calendars_and_dates
     end
 
     def default_breadcrumb
-      t(:label_working_days)
+      t(:label_calendars_and_dates)
     end
 
     def show_local_breadcrumb

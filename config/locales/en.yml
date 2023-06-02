@@ -1637,6 +1637,7 @@ en:
   label_bulk_edit_selected_work_packages: "Bulk edit selected work packages"
   label_bundled: '(Bundled)'
   label_calendar: "Calendar"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Show Calendar"
   label_category: "Category"
   label_consent_settings: "User Consent"
@@ -2102,7 +2103,7 @@ en:
   label_workflow: "Workflow"
   label_workflow_plural: "Workflows"
   label_workflow_summary: "Summary"
-  label_working_days: "Working days"
+  # label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "1 closed"
     other: "%{count} closed"
