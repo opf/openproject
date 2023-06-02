@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Calendar::ICalController, with_settings: { login_required: true } do
+RSpec.describe Calendar::ICalController do
   let(:project) { create(:project) }
   let(:user) do
     create(:user,
@@ -133,7 +133,48 @@ RSpec.describe Calendar::ICalController, with_settings: { login_required: true }
       it_behaves_like 'success'
     end
 
+    context 'with valid params and permissions when targeting own query with login required set to `true`',
+            with_settings: { login_required: true } do
+      before do
+        get :show, params: {
+          project_id: project.id,
+          id: query.id,
+          ical_token: valid_ical_token_value
+        }
+      end
+
+      it_behaves_like 'success'
+    end
+
     context 'with valid params and permissions when targeting a public query of somebody else' do
+      let(:user2) do
+        create(:user,
+               member_in_project: project,
+               member_with_permissions: sufficient_permissions)
+      end
+      let(:query2) do
+        create(:query,
+               project:,
+               user: user2,
+               public: true)
+      end
+      let(:valid_ical_token_value) do
+        Token::ICal.create_and_return_value(user, query2, "Some Token Name")
+      end
+
+      before do
+        get :show, params: {
+          project_id: project.id,
+          id: query2.id,
+          ical_token: valid_ical_token_value
+        }
+      end
+
+      it_behaves_like 'success'
+    end
+
+    context 'with valid params and permissions when targeting a public query of somebody else with login required set to `true`',
+            with_settings: { login_required: true } do
       let(:user2) do
         create(:user,
                member_in_project: project,
