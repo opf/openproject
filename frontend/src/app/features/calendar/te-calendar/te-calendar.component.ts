@@ -46,6 +46,9 @@ import { SchemaResource } from 'core-app/features/hal/resources/schema-resource'
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { VerboseFormattingArg } from '@fullcalendar/common';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { IDay } from 'core-app/core/state/days/day.model';
+import { DayResourceService } from 'core-app/core/state/days/day.service';
+import { take } from 'rxjs/operators';
 
 interface TimeEntrySchema extends SchemaResource {
   activity:IFieldSchema;
@@ -122,6 +125,8 @@ export class TimeEntryCalendarComponent {
     today: this.i18n.t('js.team_planner.today'),
   };
 
+  public nonWorkingDays:IDay[] = [];
+
   calendarOptions:CalendarOptions = {
     editable: false,
     locale: this.i18n.locale,
@@ -156,8 +161,8 @@ export class TimeEntryCalendarComponent {
     eventClick: this.dispatchEventClick.bind(this),
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     eventDrop: this.moveEvent.bind(this),
-    dayHeaderClassNames: (data:DayHeaderMountArg) => this.calendar.applyNonWorkingDay(data, []),
-    dayCellClassNames: (data:DayCellMountArg) => this.calendar.applyNonWorkingDay(data, []),
+    dayHeaderClassNames: (data:DayHeaderMountArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkingDays),
+    dayCellClassNames: (data:DayCellMountArg) => this.calendarService.applyNonWorkingDay(data, this.nonWorkingDays),
   };
 
   constructor(
@@ -176,7 +181,8 @@ export class TimeEntryCalendarComponent {
     private schemaCache:SchemaCacheService,
     private colors:ColorsService,
     private browserDetector:BrowserDetector,
-    private calendar:OpCalendarService,
+    readonly calendarService:OpCalendarService,
+    readonly dayService:DayResourceService,
   ) {}
 
   public calendarEventsFunction(
@@ -185,12 +191,20 @@ export class TimeEntryCalendarComponent {
     failureCallback:(error:unknown) => void,
   ):void|PromiseLike<EventInput[]> {
     void this.fetchTimeEntries(fetchInfo.start, fetchInfo.end)
-      .then((collection) => {
+      .then(async (collection) => {
         this.entries.emit(collection);
 
-        successCallback(this.buildEntries(collection.elements, fetchInfo));
+        successCallback(await this.buildEntries(collection.elements, fetchInfo));
       })
       .catch(failureCallback);
+  }
+
+  async requireNonWorkingDays(date:Date|string) {
+    this.nonWorkingDays = await this
+      .dayService
+      .requireNonWorkingYear$(date)
+      .pipe(take(1))
+      .toPromise();
   }
 
   protected fetchTimeEntries(start:Date, end:Date):Promise<CollectionResource<TimeEntryResource>> {
@@ -214,9 +228,10 @@ export class TimeEntryCalendarComponent {
     return this.memoizedTimeEntries.entries;
   }
 
-  private buildEntries(entries:TimeEntryResource[], fetchInfo:{ start:Date, end:Date }):EventInput[] {
+  private async buildEntries(entries:TimeEntryResource[], fetchInfo:{ start:Date, end:Date }):Promise<EventInput[]> {
     this.setRatio(entries);
-
+    await this.requireNonWorkingDays(fetchInfo.start);
+    await this.requireNonWorkingDays(fetchInfo.end);
     return this.buildTimeEntryEntries(entries)
       .concat(this.buildAuxEntries(entries, fetchInfo));
   }
