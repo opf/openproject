@@ -3,4 +3,5 @@ nl:
   label_calendar_plural: "Agenda's"
   permission_view_calendar: "Bekijk agenda's"
   permission_manage_calendars: "Agenda's beheren"
+  permission_share_calendars: "Share calendars"
   project_module_calendar_view: "Agenda"

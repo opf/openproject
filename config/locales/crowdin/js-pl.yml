@@ -317,6 +317,18 @@ pl:
               learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
                 Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Prześlij pliki z pakietów roboczych do magazynu plików Nextcloud i powiąż je.</li> <li>Monitoruj zmiany w projekcie poprzez śledzenie działań związanych z projektem.</li> <li>Dodaj popularne dni wolne od pracy (dni nierobocze).</li> <li>Archiwizuj projekty użytkowników innych niż administratorzy.</li> <li>Nowy domyślny filtr zaległych pakietów roboczych.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to iCalendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Token name"
+      token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
+      token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the iCal URL."
+      copy_url_success_text: "URL copied to clipboard."
+      copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
     label_activate: "Aktywuj"
     label_assignee: 'Przypisana osoba'
     label_add_column_after: "Dodaj kolumnę po"
@@ -1091,6 +1103,7 @@ pl:
         save_as: "Zapisz jako"
         export: "Eksportuj"
         visibility_settings: "Ustawienia widoczności"
+        share_calendar: "Subscribe to iCalendar"
         page_settings: "Zmień nazwę widoku"
         delete: "Usuń"
       filter: "Filtr"
@@ -1267,8 +1280,10 @@ pl:
       toggle_title: 'Baseline'
       clear: 'Clear'
       apply: 'Apply'
-      header_description: 'View changes made to work packages in the current view within a time period.'
+      header_description: 'Highlight changes made to this list since any point in the past.'
+      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Show changes since'
+      baseline_comparison: 'Baseline comparison'
       help_description: 'Reference time zone for the baseline.'
       time_description: 'In your local time: %{datetime}'
       time: 'Time'
