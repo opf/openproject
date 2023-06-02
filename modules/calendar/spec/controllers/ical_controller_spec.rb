@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Calendar::ICalController do
+RSpec.describe Calendar::ICalController, with_settings: { login_required: true } do
   let(:project) { create(:project) }
   let(:user) do
     create(:user,
