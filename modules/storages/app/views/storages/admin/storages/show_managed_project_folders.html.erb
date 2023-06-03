@@ -27,8 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%# FIXME: Update html title %>
-<% html_title t(:label_administration), t("project_module_storages"), @storage.name, "#{t("storages.provider_types.#{@storage.short_provider_type}.name")} #{t("storages.label_oauth_client_details")}" %>
+<% html_title t(:label_administration), t("project_module_storages"), @storage.name, t("storages.page_titles.managed_project_folders.title") %>
 <% local_assigns[:additional_breadcrumb] = [
   link_to(@storage.name, admin_settings_storage_path(@storage)),
   t("storages.label_managed_project_folders_breadcrumb")
