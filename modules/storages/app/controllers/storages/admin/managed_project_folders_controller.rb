@@ -107,7 +107,13 @@ class Storages::Admin::ManagedProjectFoldersController < ApplicationController
 
   # The application_username is not set by the user, but is derived from defaults
   def permitted_storage_params_with_defaults
-    permitted_storage_params.merge(Storages::Storage::PROVIDER_FIELDS_DEFAULTS.slice(:application_username))
+    permitted_storage_params
+      .merge(Storages::Storage::PROVIDER_FIELDS_DEFAULTS.slice(:application_username))
+      .tap do |permitted_params|
+      # If a checkbox is unchecked when its form is submitted, neither the name nor the value is submitted to the server.
+      # See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
+      permitted_params.merge!(automatically_managed: false) unless permitted_params.key?('automatically_managed')
+    end
   end
 
   # Called by create and update above in order to check if the
