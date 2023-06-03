@@ -39,27 +39,37 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= error_messages_for_contract @storage, @errors %>
 
-<%= labelled_tabular_form_for @storage, url: admin_settings_storage_managed_project_folders_path(@storage), method: :patch do |f| -%>
+<%= labelled_tabular_form_for @storage, url: admin_settings_storage_managed_project_folders_path(@storage),
+                                        method: :patch, data: {
+                                          controller: "storages--managed-project-folders-form",
+                                          'application-target': "dynamic",
+                                          'storages--managed-project-folders-form-is-automatically-managed-value': @storage.automatically_managed?,
+                                        } do |f| -%>
   <div class="form--field -required">
-    <%= styled_label_tag :automatically_managed,
-                        class: "-bold -flex" do %>
+    <%= styled_label_tag :automatically_managed, class: "-bold -flex" do %>
       <%= t(:"storages.label_managed_project_folders.automatically_managed_folders") %>
     <% end %>
+
     <div class="form--field-container -horizontal">
-      <%= f.label :automatically_managed, class: "form--label-with-check-box" do %>
-        <%= f.check_box :automatically_managed,
-                          no_label: true,
-                          data: { action: 'managed-project-folders-form#updateDisplay' } %>
-      <% end %>
+      <label class="form--label -flex" data-storages--managed-project-folders-form-target="automaticallyManagedSwitch">
+        <%= angular_component_tag 'spot-switch',
+                                  inputs: {
+                                    id: "storages_#{@storage.short_provider_type}_storage_automatically_managed",
+                                    name: "storages_#{@storage.short_provider_type}_storage[automatically_managed]",
+                                    checked: @storage.automatically_managed?,
+                                  }
+        %>
+      </label>
     </div>
   </div>
 
-  <div class="form--field -required" data-managed-project-folders-form-target="applicationPasswordSection">
+  <div class="form--field -required"
+       data-storages--managed-project-folders-form-target="applicationPasswordInput">
     <label class="form--label -bold"> <%= t(:"storages.label_managed_project_folders.application_password") %> </label>
     <div class="form--field-container -horizontal">
       <%= f.text_field :application_password,
-                      container_class: "-middle",
-                      no_label: true
+                       container_class: "-middle",
+                       no_label: true
       %>
     </div>
     <p class="form--field-instructions -xwide">
