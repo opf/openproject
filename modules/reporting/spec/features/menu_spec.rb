@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'project menu' do
+RSpec.describe 'project menu' do
   let(:current_user) { create(:admin) }
   let!(:project) { create(:valid_project, identifier: 'ponyo', name: 'Ponyo') }
 

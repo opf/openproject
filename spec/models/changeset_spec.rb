@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Changeset do
+RSpec.describe Changeset do
   let(:email) { 'bob@bobbit.org' }
 
   with_virtual_subversion_repository do

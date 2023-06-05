@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-shared_examples_for 'API V3 digest' do
+RSpec.shared_examples_for 'API V3 digest' do
   it 'defines an algorithm' do
     expect(subject).to be_json_eql(algorithm.to_json).at_path("#{path}/algorithm")
   end

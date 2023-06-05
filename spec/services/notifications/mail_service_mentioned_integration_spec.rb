@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './mentioned_journals_shared'
 
-describe Notifications::MailService, 'Mentioned integration', type: :model do
+RSpec.describe Notifications::MailService, 'Mentioned integration', type: :model do
   include_context 'with a mentioned work package being updated again'
 
   let(:assignee) do

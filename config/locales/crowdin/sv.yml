@@ -269,6 +269,7 @@ sv:
       notice_reset_token: "En ny %{type}-token har skapats. Din åtkomst-token är:"
       token_value_warning: "Notera: Detta är den enda gång du kommer se denna token, var säker på att kopiera den nu."
       no_results_title_text: Det finns för närvarande inga tillgängliga åtkomstnycklar.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Det finns för närvarande inget att rapportera.
@@ -484,8 +485,8 @@ sv:
           true: "public"
           false: "private"
         queries: "Frågor"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -690,6 +691,11 @@ sv:
           overlaps: 'överlappar.'
           outside: 'är utanför nätet.'
           end_before_start: 'slutvärdet måste vara större än startvärdet.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -1519,6 +1525,12 @@ sv:
   label_api_access_key: "API åtkomstnyckel"
   label_api_access_key_created_on: "API åtkomstnyckel skapade %{value} sedan"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Tillämpad status"
   label_archive_project: "Arkivera projekt"
   label_ascending: "Stigande"
@@ -1649,6 +1661,7 @@ sv:
   label_enterprise: "Företag"
   label_enterprise_active_users: "%{current}/%{limit} tilldelade aktiva användare"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Miljö"
   label_estimates_and_time: "Uppskattningar och tid"
   label_equals: "är"
@@ -1840,7 +1853,6 @@ sv:
   label_principal_search: "Lägga till befintliga användare eller grupper"
   label_privacy_policy: "Integritets- och säkerhetspolicy"
   label_product_version: "Produktversion"
-  label_professional_support: "Professionell hjälp"
   label_profile: "Profil"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -1903,7 +1915,7 @@ sv:
   label_role_search: "Tilldela rollen till nya medlemmar"
   label_scm: "SCM"
   label_search: "Sök"
-  label_send_information: "Skicka kontoinformationen till användaren"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Skicka test E-post"
   label_setting_plural: "Inställningar"
   label_system_settings: "Systeminställningar"

@@ -269,6 +269,7 @@ tr:
       notice_reset_token: "Yeni bir %{type} anahtar üretildi. Erişim anahtarınız:"
       token_value_warning: "Not: Bu anahtarı görebileceğiniz tek an bu, kopyaladığınıza emin olun."
       no_results_title_text: Şu anda hiçbir erişim anahtarı mevcut değil.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Şu anda rapor edilecek bir haber yok.
@@ -484,8 +485,8 @@ tr:
           true: "genel"
           false: "özel"
         queries: "Sorgular"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -690,6 +691,11 @@ tr:
           overlaps: 'üst üste gelmek.'
           outside: 'Grup dışında görünmektedir.'
           end_before_start: 'son değerin başlangıç değerinden daha büyük olması gerekir.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'Bildirim göndermek için en az bir kanal belirtilmelidir.'
           attributes:
@@ -1519,6 +1525,12 @@ tr:
   label_api_access_key: "API erişim anahtarı"
   label_api_access_key_created_on: "API erişim anahtarı %{value} önce oluşturuldu"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Uygulanan statü"
   label_archive_project: "Projeyi arşivle"
   label_ascending: "Azalan"
@@ -1649,6 +1661,7 @@ tr:
   label_enterprise: "Kurumsal"
   label_enterprise_active_users: "%{current}/%{limit} aktif kullanıcı rezervasyonu"
   label_enterprise_edition: "Enterprise sürüm"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Ortam"
   label_estimates_and_time: "Tahminler & zaman"
   label_equals: "şuysa"
@@ -1840,7 +1853,6 @@ tr:
   label_principal_search: "Mevcut kullanıcıları veya grupları ekle"
   label_privacy_policy: "Veri gizliliği ve güvenlik politikası"
   label_product_version: "Ürün sürümü"
-  label_professional_support: "Profesyonel destek"
   label_profile: "Profil"
   label_project_activity: "Proje etkinliği"
   label_project_attribute_plural: "Proje öznitelikleri"
@@ -1903,7 +1915,7 @@ tr:
   label_role_search: "Yeni üyelere rol atama"
   label_scm: "YKM"
   label_search: "Ara"
-  label_send_information: "Hesap bilgilerini kullanıcıya gönder"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Deneme e-postası gönder"
   label_setting_plural: "Ayarlar"
   label_system_settings: "Sistem ayarları"

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe AuthSourcesController do
+RSpec.describe AuthSourcesController do
   let(:current_user) { create(:admin) }
 
   before do

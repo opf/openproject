@@ -31,7 +31,7 @@ require 'rack/test'
 
 require_relative './shared_responses'
 
-describe 'BCF 2.1 projects resource', content_type: :json do
+RSpec.describe 'BCF 2.1 projects resource', content_type: :json do
   include Rack::Test::Methods
 
   let(:view_only_user) do

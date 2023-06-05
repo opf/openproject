@@ -28,7 +28,7 @@
 
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
 
-describe WorkPackages::BaseContract, type: :model do
+RSpec.describe WorkPackages::BaseContract, type: :model do
   let(:instance) { described_class.new(work_package, user) }
   let(:type_feature) { build(:type_feature) }
   let(:type_task) { build(:type_task) }

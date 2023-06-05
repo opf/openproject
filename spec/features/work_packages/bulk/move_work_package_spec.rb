@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'features/page_objects/notification'
 require 'support/components/autocompleter/ng_select_autocomplete_helpers'
 
-describe 'Moving a work package through Rails view', js: true do
+RSpec.describe 'Moving a work package through Rails view', js: true do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   let(:dev_role) do

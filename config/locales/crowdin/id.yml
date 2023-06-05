@@ -263,6 +263,7 @@ id:
       notice_reset_token: "Sebuah token baru %{type} telah dibuat. Token akses Anda adalah:"
       token_value_warning: "Catatan: Anda hanya akan melihat token ini satu kali, pastikan untuk membuat salinannya sekarang."
       no_results_title_text: There are currently no access tokens available.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: There is currently no news to report.
@@ -478,8 +479,8 @@ id:
           true: "public"
           false: "private"
         queries: "Query"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -684,6 +685,11 @@ id:
           overlaps: 'tumpang tindih.'
           outside: 'berada di luar jaringan.'
           end_before_start: 'nilai akhir harus lebih besar dari nilai awal.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -1495,6 +1501,12 @@ id:
   label_api_access_key: "API access key"
   label_api_access_key_created_on: "API access key dibuat %{value} yg lalu"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Status berjalan"
   label_archive_project: "Proyek arsip"
   label_ascending: "Askending"
@@ -1625,6 +1637,7 @@ id:
   label_enterprise: "Perusahaan"
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Environment"
   label_estimates_and_time: "Perkiraan dan waktu"
   label_equals: "adalah"
@@ -1816,7 +1829,6 @@ id:
   label_principal_search: "Add existing users or groups"
   label_privacy_policy: "Data privacy and security policy"
   label_product_version: "Product version"
-  label_professional_support: "Professional support"
   label_profile: "Profil"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -1879,7 +1891,7 @@ id:
   label_role_search: "Menetapkan role kepada anggota baru"
   label_scm: "SCM"
   label_search: "Cari"
-  label_send_information: "Kirim informasi akun ke user"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Kirim test email"
   label_setting_plural: "Pengaturan"
   label_system_settings: "System settings"

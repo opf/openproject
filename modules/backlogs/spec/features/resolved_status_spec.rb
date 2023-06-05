@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Resolved status' do
+RSpec.describe 'Resolved status' do
   let!(:project) do
     create(:project,
            enabled_module_names: %w(backlogs))

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Workflows::BulkUpdateService, 'integration', type: :model do
+RSpec.describe Workflows::BulkUpdateService, 'integration', type: :model do
   let(:type) do
     create(:type)
   end

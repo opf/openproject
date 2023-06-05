@@ -266,6 +266,7 @@ pl:
       notice_reset_token: "Nowy token typu %{type} został wygenerowany. Twój token dostępu to:"
       token_value_warning: "Uwaga: jest to jedyny raz, gdy zobaczysz ten token, koniecznie skopiuj go teraz."
       no_results_title_text: Aktualnie nie ma dostępnych tokenów.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Nie ma jeszcze żadnych wiadomości do wyświetlenia.
@@ -484,8 +485,8 @@ pl:
           true: "publiczne"
           false: "prywatne"
         queries: "Kwerendy"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -690,6 +691,11 @@ pl:
           overlaps: 'nałożenie.'
           outside: 'jest poza siatką.'
           end_before_start: 'wartość końcowa musi być większa niż wartość początkowa.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'Należy określić co najmniej jeden kanał dla wysyłania powiadomień.'
           attributes:
@@ -1555,6 +1561,12 @@ pl:
   label_api_access_key: "Klucz dostępu API"
   label_api_access_key_created_on: "Klucz API utworzony %{value} temu"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Nadaj status"
   label_archive_project: "Archiwum projektów"
   label_ascending: "Rosnąco"
@@ -1685,6 +1697,7 @@ pl:
   label_enterprise: "Przedsiębiorstwo"
   label_enterprise_active_users: "%{current}/%{limit} zarejestrowanych aktywnych użytkowników"
   label_enterprise_edition: "Wersja Enterprise"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Środowisko"
   label_estimates_and_time: "Szacowany czas"
   label_equals: "jest"
@@ -1876,7 +1889,6 @@ pl:
   label_principal_search: "Dodaj istniejących użytkowników lub grupy"
   label_privacy_policy: "Polityka prywatności i bezpieczeństwa danych"
   label_product_version: "Wersja produktu"
-  label_professional_support: "Profesjonalne wsparcie"
   label_profile: "Profil"
   label_project_activity: "Aktywność projektu"
   label_project_attribute_plural: "Cechy projektu"
@@ -1939,7 +1951,7 @@ pl:
   label_role_search: "Przydziel role nowemu członkowi"
   label_scm: "SCM"
   label_search: "Szukaj"
-  label_send_information: "Wyślij Informacje o koncie do użytkownika"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Wyślij wiadomość testową"
   label_setting_plural: "Ustawienia"
   label_system_settings: "Ustawienia"

@@ -24,7 +24,7 @@ he:
     attributes:
       work_package:
         position: "מיקום"
-        remaining_hours: "Remaining hours"
+        remaining_hours: "שעות שנותרו"
         remaining_time: "Remaining hours"
         story_points: "Story Points"
         backlogs_work_package_type: "Backlog type"
@@ -49,7 +49,7 @@ he:
     burndown_graph: "Burndown Graph"
     card_paper_size: "Paper size for card printing"
     chart_options: "Chart options"
-    close: "סגור"
+    close: "סגירה"
     column_width: "Column width:"
     date: "Day"
     definition_of_done: "Definition of Done"
@@ -92,7 +92,7 @@ he:
   backlogs_story: "Story"
   backlogs_story_type: "Story types"
   backlogs_task: "משימה"
-  backlogs_task_type: "Task type"
+  backlogs_task_type: "סוג משימה"
   backlogs_velocity_missing: "No velocity could be calculated for this project"
   backlogs_velocity_varies: "Velocity varies significantly over sprints"
   backlogs_wiki_template: "Template for sprint wiki page"

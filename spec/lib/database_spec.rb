@@ -27,7 +27,7 @@
 #++
 require 'spec_helper'
 
-describe OpenProject::Database do
+RSpec.describe OpenProject::Database do
   before do
     described_class.instance_variable_set(:@version, nil)
   end

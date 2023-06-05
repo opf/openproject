@@ -27,30 +27,21 @@
 #++
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
-  class CreateFolderCommand < Storages::Peripherals::StorageInteraction::StorageCommand
+  class CreateFolderCommand
     using Storages::Peripherals::ServiceResultRefinements
 
     def initialize(storage)
-      super()
-
       @uri = URI(storage.host).normalize
-      @base_path = Util.join_uri_path(@uri.path, "remote.php/dav/files", Util.escape_whitespace(storage.username))
-      @groupfolder = storage.groupfolder
       @username = storage.username
       @password = storage.password
     end
 
     # rubocop:disable Metrics/AbcSize
-    def execute(folder:)
-      http = Net::HTTP.new(@uri.host, @uri.port)
-      http.use_ssl = @uri.scheme == 'https'
-
-      response = http.mkcol(
-        "#{@base_path}/#{@groupfolder}/#{requested_folder(folder)}",
+    def call(folder_path:)
+      response = Util.http(@uri).mkcol(
+        Util.join_uri_path(@uri.path, "remote.php/dav/files", CGI.escapeURIComponent(@username), Util.escape_path(folder_path)),
         nil,
-        {
-          'Authorization' => "Basic #{Base64::encode64("#{@username}:#{@password}")}"
-        }
+        Util.basic_auth_header(@username, @password)
       )
 
       case response
@@ -75,12 +66,6 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     # rubocop:enable Metrics/AbcSize
 
     private
-
-    def requested_folder(folder)
-      raise ArgumentError.new("Folder can't be nil or empty string!") if folder.blank?
-
-      Util.escape_whitespace(folder)
-    end
 
     def error_text_from_response(response)
       Nokogiri::XML(response.body).xpath("//s:message").text

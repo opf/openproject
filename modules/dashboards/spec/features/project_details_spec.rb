@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-describe 'Project details widget on dashboard', js: true do
+RSpec.describe 'Project details widget on dashboard', js: true do
   let!(:version_cf) { create(:version_project_custom_field) }
   let!(:bool_cf) { create(:bool_project_custom_field) }
   let!(:user_cf) { create(:user_project_custom_field) }

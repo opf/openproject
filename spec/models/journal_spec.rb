@@ -27,7 +27,7 @@
 #++
 require 'spec_helper'
 
-describe Journal do
+RSpec.describe Journal do
   describe '#journable' do
     it 'raises no error on a new journal without a journable' do
       expect(Journal.new.journable)

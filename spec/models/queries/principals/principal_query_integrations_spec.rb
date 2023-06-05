@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Principals::PrincipalQuery, 'integration' do
+RSpec.describe Queries::Principals::PrincipalQuery, 'integration' do
   let(:current_user) { create(:user) }
   let(:instance) { described_class.new }
   let!(:non_member_role) { create(:non_member) }

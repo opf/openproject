@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Meetings close' do
+RSpec.describe 'Meetings close' do
   let(:project) { create(:project, enabled_module_names: %w[meetings]) }
   let(:user) do
     create(:user,
@@ -73,7 +73,7 @@ describe 'Meetings close' do
       expect(page).to have_selector('.op-tab-row--link_selected', text: 'MINUTES')
 
       # Copies the text
-      expect(page).to have_selector('#meeting_minutes-text', text: 'asdf')
+      expect(page).to have_selector('#tab-content-minutes', text: 'asdf')
 
       # Go back to agenda, expect we can open it again
       SeleniumHubWaiter.wait

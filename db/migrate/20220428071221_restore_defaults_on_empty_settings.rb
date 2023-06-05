@@ -12,7 +12,11 @@ class RestoreDefaultsOnEmptySettings < ActiveRecord::Migration[6.1]
 
       next if definition.value == ''
 
-      setting.update_attribute(:value, definition.value)
+      if definition.writable?
+        setting.update_attribute(:value, definition.value)
+      else
+        setting.destroy
+      end
     end
   end
 

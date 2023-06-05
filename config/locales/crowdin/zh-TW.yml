@@ -269,6 +269,7 @@ zh-TW:
       notice_reset_token: "生成了一個新的 %{type} 憑證。您的訪問憑證是:"
       token_value_warning: "注意: 這是您唯一可以看到此憑證的時候, 請務必立即複製它。"
       no_results_title_text: 目前沒有存取憑証
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: 目前沒有新消息報告
@@ -484,8 +485,8 @@ zh-TW:
           true: "public"
           false: "private"
         queries: "查詢"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -690,6 +691,11 @@ zh-TW:
           overlaps: '重疊'
           outside: 'is outside of the grid.'
           end_before_start: '結束值必須大於開始值。'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: '至少需要指定一個發送通知的方式'
           attributes:
@@ -1501,6 +1507,12 @@ zh-TW:
   label_api_access_key: "API金鑰"
   label_api_access_key_created_on: "API金鑰在 %{value} 以前被建立"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "套用的狀態"
   label_archive_project: "專案歸檔"
   label_ascending: "昇冪"
@@ -1631,6 +1643,7 @@ zh-TW:
   label_enterprise: "企業"
   label_enterprise_active_users: "%{current}/%{limit} 已預訂的活動使用者"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "環境"
   label_estimates_and_time: "預估成本和時間"
   label_equals: "是"
@@ -1822,7 +1835,6 @@ zh-TW:
   label_principal_search: "增加現有使用者或群組"
   label_privacy_policy: "資料隱私與安全性政策"
   label_product_version: "產品版本"
-  label_professional_support: "專業支援"
   label_profile: "Profile"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -1885,7 +1897,7 @@ zh-TW:
   label_role_search: "為新成員分配角色"
   label_scm: "SCM"
   label_search: "搜尋"
-  label_send_information: "傳送帳號資訊給使用者"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "發送測試電子郵件"
   label_setting_plural: "設定"
   label_system_settings: "系統設置"

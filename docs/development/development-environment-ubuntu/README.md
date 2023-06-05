@@ -238,24 +238,28 @@ Now, run the following tasks to seed the dev database, and prepare the test setu
 RAILS_ENV=development bin/rails db:seed
 ```
 
-## Run OpenProject through foreman
+## Run OpenProject through overmind
 
-You can run all required workers of OpenProject through `foreman`, which combines them in a single tab. This is useful for starting out,
-however most developers end up running the tasks in separate shells for better understanding of the log output, since foreman will combine all of them.
+You can run all required workers of OpenProject through `overmind`, which combines them in a single tab. Optionally, you may also
+run `overmind` as a daemon and connect to services individually.
+The `bin/dev` command will first check if `overmind` is available and run the application if via `Procfile.dev` if possible. If not,
+it falls back to `foreman`, installing it if needed.
 
 ```bash
-gem install foreman
-foreman start -f Procfile.dev
+bin/dev
 ```
+
 The application will be available at `http://127.0.0.1:3000`. To customize bind address and port copy the `.env.example` provided in the root of this
-project as `.env` and [configure values](https://ddollar.github.io/foreman/#ENVIRONMENT) as required.
+project as `.env` and [configure values](https://github.com/DarthSim/overmind/tree/v2.4.0#overmind-environment) as required.
 
 By default a worker process will also be started. In development asynchronous execution of long-running background tasks (sending emails, copying projects,
 etc.) may be of limited use and it has known issues with regards to memory (see background worker section below). To disable the worker process:
 
-echo "concurrency: web=1,assets=1,worker=0" >> .foreman
+```bash
+echo "OVERMIND_IGNORED_PROCESSES=worker" >> .overmind.env
+```
 
-For more information refer to Foreman documentation section on [default options](https://ddollar.github.io/foreman/#DEFAULT-OPTIONS).
+For more information refer to the great Overmind documentation [usage section](https://github.com/DarthSim/overmind/tree/v2.4.0#usage).
 
 You can access the application with the admin-account having the following credentials:
 

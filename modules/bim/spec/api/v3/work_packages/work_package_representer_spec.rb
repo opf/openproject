@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../../../support/bcf_topic_with_stubbed_comment'
 
-describe API::V3::WorkPackages::WorkPackageRepresenter do
+RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
   include API::V3::Utilities::PathHelper
   include API::Bim::Utilities::PathHelper
   include_context 'user with stubbed permissions'

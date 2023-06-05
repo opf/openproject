@@ -1,7 +1,7 @@
 require "spec_helper"
 require "support/pages/work_packages/abstract_work_package"
 
-describe "multi select custom values", js: true do
+RSpec.describe "multi select custom values", js: true do
   let(:type) { create(:type) }
   let(:wp_page) { Pages::FullWorkPackage.new work_package }
   let(:wp_table) { Pages::WorkPackagesTable.new project }

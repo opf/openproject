@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CustomValue::VersionStrategy do
+RSpec.describe CustomValue::VersionStrategy do
   let(:instance) { described_class.new(custom_value) }
   let(:custom_value) do
     double('CustomValue',

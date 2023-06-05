@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'CostReportsController', "rendering to xls" do
+RSpec.describe 'CostReportsController', "rendering to xls" do
   skip 'XlsExport: CostReports support not yet migrated to Rails 3'
 
   it "responds with the xls if requested in the index" do

@@ -30,16 +30,19 @@
 
 ##
 # Abstract view component. Subclass this for a concrete table row.
-class RowComponent < ViewComponent::Base
-  attr_reader :row, :table
+class RowComponent < RailsComponent
+  attr_reader :table
 
-  def initialize(row:, table:)
-    super()
-    @row = row
+  def initialize(row:, table:, **options)
+    super(row, **options)
     @table = table
   end
 
   delegate :columns, to: :table
+
+  def row
+    model
+  end
 
   def column_value(column)
     send(column)
@@ -55,6 +58,14 @@ class RowComponent < ViewComponent::Base
 
   def button_links
     []
+  end
+
+  def row_css_id
+    nil
+  end
+
+  def row_css_class
+    nil
   end
 
   def checkmark(condition)

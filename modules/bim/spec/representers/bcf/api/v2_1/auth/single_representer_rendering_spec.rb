@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../shared_examples'
 
-describe Bim::Bcf::API::V2_1::Auth::SingleRepresenter, 'rendering' do
+RSpec.describe Bim::Bcf::API::V2_1::Auth::SingleRepresenter, 'rendering' do
   let(:instance) { described_class.new(nil) }
 
   include OpenProject::StaticRouting::UrlHelpers

@@ -3,7 +3,7 @@ zh-TW:
     job_status:
       download_starts: '將自動開始下載'
       click_to_download: '或是點擊下載'
-      title: 'Background job status'
+      title: '背景工作'
       redirect: '頁面跳轉中...'
       redirect_link: '請點擊繼續'
       redirect_errors: '由於這些錯誤，頁面將不會自動重新導向。'

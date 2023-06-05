@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe BasicData::SettingSeeder do
+RSpec.describe BasicData::SettingSeeder do
   include_context 'with basic seed data'
 
   subject(:setting_seeder) { described_class.new(basic_seed_data) }

@@ -268,6 +268,7 @@ ru:
       notice_reset_token: "Новый маркер %{type} создан. Ваш маркер доступа:"
       token_value_warning: "Примечание: Этот маркер вам больше никогда показан не будет, убедитесь что запомнили его."
       no_results_title_text: На данный момент маркеры доступа отсутствуют.
+      notice_ical_tokens_reverted: "токен iCalendar \"%{token_name}\" для календаря \"%{calendar_name}\" проекта \"%{project_name}\" был отозван. URL-адрес iCalendar с этим токеном недействителен."
   news:
     index:
       no_results_title_text: На данный момент новостей для отчета нет.
@@ -486,8 +487,8 @@ ru:
           true: "публичный"
           false: "приватный"
         queries: "Запросы"
-        status_code: 'Статус'
-        status_explanation: 'Описание статуса'
+        status_code: 'Статус проекта'
+        status_explanation: 'Описание статуса проекта'
         status_codes:
           not_started: 'Не начато'
           on_track: 'По плану'
@@ -692,6 +693,11 @@ ru:
           overlaps: 'перекрытие.'
           outside: 'за пределами сетки.'
           end_before_start: 'конечное значение должно быть больше начального.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "является обязательным. Пожалуйста, выберите имя."
+              not_unique: "уже используется. Пожалуйста, выберите другое имя."
         notifications:
           at_least_one_channel: 'Нужно указать хотя бы один канал для отправки уведомлений.'
           attributes:
@@ -742,7 +748,7 @@ ru:
               format: "%{message}"
             timestamps:
               invalid: "Временные метки содержат недопустимые значения: %{values}"
-              forbidden: "Timestamps contain forbidden values: %{values}"
+              forbidden: "Временные метки содержат запрещенные значения: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "является взаимоисключающим при группировке «%{group_by}». Вы не можете активировать оба."
           filters:
@@ -1174,7 +1180,7 @@ ru:
       #Use the strftime parameters for formats.
       #When no format has been given, it uses default.
       #You can provide other formats here if you like!
-      default: "%m/%d/%Y"
+      default: "%d.%m.%Y"
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
@@ -1557,6 +1563,12 @@ ru:
   label_api_access_key: "Ключ доступа к API"
   label_api_access_key_created_on: "Ключ доступа к API, созданный %{value} назад"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "токен iCalendar \"%{token_name}\" для \"%{calendar_name}\" в \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar токен(ы) не представлены."
+  label_ical_access_key_generation_hint: "Автоматически генерируется при подписке на календарь."
+  label_ical_access_key_latest: "последний"
+  label_ical_access_key_revoke: "Отозвать"
   label_applied_status: "Прикладной статус"
   label_archive_project: "Архивировать проект"
   label_ascending: "По возрастанию"
@@ -1687,6 +1699,7 @@ ru:
   label_enterprise: "Предприятие"
   label_enterprise_active_users: "%{current}/%{limit} забронировано активных пользователей"
   label_enterprise_edition: "Корпоративная версия"
+  label_enterprise_support: "Поддержка корпоративной версии"
   label_environment: "Переменные среды"
   label_estimates_and_time: "Оценки и время"
   label_equals: "—"
@@ -1878,7 +1891,6 @@ ru:
   label_principal_search: "Добавление существующих пользователей или групп"
   label_privacy_policy: "Политика конфиденциальности данных и безопасности"
   label_product_version: "Версия продукта"
-  label_professional_support: "Профессиональная поддержка"
   label_profile: "Профиль"
   label_project_activity: "Деятельность"
   label_project_attribute_plural: "Атрибуты проекта"
@@ -1941,7 +1953,7 @@ ru:
   label_role_search: "Назначить роль для новых участников"
   label_scm: "SCM"
   label_search: "Поиск"
-  label_send_information: "Отправить сведения об учетной записи"
+  label_send_information: "Отправить новые учетные данные пользователю"
   label_send_test_email: "Отправить тестовое сообщение"
   label_setting_plural: "Настройки"
   label_system_settings: "Настройки системы"
@@ -2164,7 +2176,7 @@ ru:
   mail_body_register_closing: "Ваша команда OpenProject"
   mail_body_register_ending: "Оставайтесь на связи! С уважением,"
   mail_body_reminder: "%{count} пакета(ов) работ, закрепленных за Вами, должны быть представлены в следующие  %{days}:"
-  mail_body_group_reminder: "Срок выполнения комплексов работ (%{count}), назначенных группе \"%{group}\", истекает в следующие %{days} дн.:"
+  mail_body_group_reminder: "Срок выполнения пакетов работ (%{count}), назначенных группе \"%{group}\", истекает в следующие %{days} дн.:"
   mail_body_wiki_content_added: "%{author} добавил wiki-страницу '«%{id}»'."
   mail_body_wiki_content_updated: "%{author} обновил wiki-страницу '%{id}'."
   mail_subject_account_activation_request: "Запрос на активацию учетной записи %{value}"

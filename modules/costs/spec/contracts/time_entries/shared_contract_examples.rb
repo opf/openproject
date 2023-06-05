@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-shared_examples_for 'time entry contract' do
+RSpec.shared_examples_for 'time entry contract' do
   let(:current_user) do
     build_stubbed(:user) do |user|
       allow(user)
@@ -207,14 +207,6 @@ shared_examples_for 'time entry contract' do
 
     it 'is invalid' do
       expect_valid(false, hours: %i(invalid))
-    end
-  end
-
-  context 'when comment is longer than 255' do
-    let(:time_entry_comments) { "a" * 256 }
-
-    it 'is invalid' do
-      expect_valid(false, comments: %i(too_long))
     end
   end
 

@@ -95,6 +95,7 @@ npm-debug.log*
 /.rvmrc*
 /.ruby-gemset
 /.foreman
+/.overmind.env
 .DS_Store
 *.icloud
 .rspec

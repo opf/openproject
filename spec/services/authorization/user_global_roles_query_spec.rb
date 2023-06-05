@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Authorization::UserGlobalRolesQuery do
+RSpec.describe Authorization::UserGlobalRolesQuery do
   let(:user) { build(:user) }
   let(:anonymous) { build(:anonymous) }
   let(:project) { build(:project, public: false) }

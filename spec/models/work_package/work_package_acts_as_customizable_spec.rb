@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, 'acts_as_customizable' do
+RSpec.describe WorkPackage, 'acts_as_customizable' do
   let(:type) { create(:type_standard) }
   let(:project) { create(:project, types: [type]) }
   let(:user) { create(:user) }

@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 require 'features/work_packages/details/inplace_editor/shared_examples'
 
-describe 'custom field inplace editor', js: true do
+RSpec.describe 'custom field inplace editor', js: true do
   let(:user) { create(:admin) }
   let(:type) { create(:type_standard, custom_fields:) }
   let(:project) do

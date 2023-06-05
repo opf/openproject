@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Notifications::ScheduleReminderMailsJob, type: :job do
+RSpec.describe Notifications::ScheduleReminderMailsJob, type: :job do
   subject(:job) { scheduled_job.invoke_job }
 
   let(:scheduled_job) do

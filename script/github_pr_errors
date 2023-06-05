@@ -23,41 +23,69 @@ elsif !ENV['GITHUB_TOKEN']
   raise "Missing GITHUB_TOKEN env, go to https://github.com/settings/tokens and create one with 'repo' access"
 end
 
-def parse_options
-  options = {}
-  opt_parser = OptionParser.new do |parser|
-    parser.banner = <<~BANNER
-      Usage: #{$0} [options]
+class Options
+  DEFAULTS = {
+    compact: false,
+    no_cache: false,
+    run_id: nil
+  }.freeze
 
-      Fetches rspec failures from last completed GitHub actions on current
-      branch, and outputs them on standard output, one by line.
+  BANNER = <<~BANNER
+    Usage: #{$0} [options]
 
-      Information is printed on standard error to preserve standard output.
+    Fetches rspec failures from last completed GitHub actions on current
+    branch, and outputs them on standard output, one by line.
 
-      Use this script with xargs to run failing specs locally:
+    Information is printed on standard error to preserve standard output.
 
-          #{$0} | xargs --no-run-if-empty bundle exec rspec
+    Use this script with xargs to run failing specs locally:
+
+        #{$0} | xargs --no-run-if-empty bundle exec rspec
 
 
-      Options:
-    BANNER
+    Options:
+  BANNER
 
-    parser.on("-c", "--compact", "Output all failing rspec files on one line") do
-      options[:compact] = true
+  class << self
+    def options
+      @options ||= parse_options
     end
 
-    parser.on("-r RUN_ID", "--run-id RUN_ID", Integer,
-              "The workflow run id to use (in github url: actions/runs/{id})") do |value|
-      options[:run_id] = value
+    def method_missing(name, *)
+      if DEFAULTS.key?(name)
+        options[name]
+      else
+        super
+      end
     end
 
-    parser.on("-h", "--help", "Prints this help") do
-      puts parser
-      exit
+    def parse_options
+      options = DEFAULTS.dup
+      opt_parser = OptionParser.new do |parser|
+        parser.banner = BANNER
+
+        parser.on("-c", "--compact", "Output all failing rspec files on one line") do
+          options[:compact] = true
+        end
+
+        parser.on("-n", "--no-cache", "Do not use cached replies from GitHub API calls") do
+          options[:no_cache] = true
+        end
+
+        parser.on("-r RUN_ID", "--run-id RUN_ID", Integer,
+                  "The workflow run id to use (in github url: actions/runs/{id})") do |value|
+          options[:run_id] = value
+        end
+
+        parser.on("-h", "--help", "Prints this help") do
+          puts parser
+          exit
+        end
+      end
+      opt_parser.parse!
+      options
     end
   end
-  opt_parser.parse!
-  options
 end
 
 # Returns current branch
@@ -134,6 +162,10 @@ def get_log(job)
 end
 
 def cached(unique_name)
+  if Options.no_cache
+    return yield
+  end
+
   cached_file = RAILS_ROOT.join("tmp/github_pr_errors/#{unique_name}")
   if cached_file.file?
     content = cached_file.read
@@ -223,9 +255,7 @@ end
 
 ##########
 
-options = parse_options
-
-workflow_run = get_workflow_run(options[:run_id])
+workflow_run = get_workflow_run(Options.run_id)
 
 display_workflow_run_info(workflow_run)
 
@@ -257,6 +287,6 @@ elsif errors.empty?
   warn "No rspec errors found :-/"
 else
   errors = errors.map { "'#{_1}'" }
-  errors = errors.join(" ") if options[:compact]
+  errors = errors.join(" ") if Options.compact
   puts errors
 end

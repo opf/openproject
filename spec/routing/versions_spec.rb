@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'versions routing' do
+RSpec.describe 'versions routing' do
   it {
     expect(subject).to route(:get, '/versions/1').to(controller: 'versions',
                                                      action: 'show',

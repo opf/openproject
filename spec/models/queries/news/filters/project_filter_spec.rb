@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::News::Filters::ProjectFilter do
+RSpec.describe Queries::News::Filters::ProjectFilter do
   let(:project1) { build_stubbed(:project) }
   let(:project2) { build_stubbed(:project) }
 

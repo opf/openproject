@@ -29,8 +29,8 @@
 require 'spec_helper'
 require_relative './expected_markdown'
 
-describe OpenProject::TextFormatting,
-         'user provided links' do
+RSpec.describe OpenProject::TextFormatting,
+               'user provided links' do
   include_context 'expected markdown modules'
 
   context 'hardened against tabnabbing' do

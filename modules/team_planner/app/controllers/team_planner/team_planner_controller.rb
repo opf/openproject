@@ -2,13 +2,18 @@ module ::TeamPlanner
   class TeamPlannerController < BaseController
     include EnterpriseTrialHelper
     before_action :find_optional_project
-    before_action :authorize
+    before_action :authorize, except: %i[overview upsale]
+    before_action :authorize_global, only: %i[overview]
     before_action :require_ee_token, except: %i[upsale]
     before_action :find_plan_view, only: %i[destroy]
 
     menu_item :team_planner_view
 
     def index
+      @views = visible_plans(@project)
+    end
+
+    def overview
       @views = visible_plans
     end
 
@@ -48,13 +53,22 @@ module ::TeamPlanner
       render_404
     end
 
-    def visible_plans
-      Query
+    def visible_plans(project = nil)
+      query = Query
         .visible(current_user)
+        .includes(:project)
         .joins(:views)
         .where('views.type' => 'team_planner')
-        .where('queries.project_id' => @project.id)
         .order('queries.name ASC')
+
+      if project
+        query = query.where('queries.project_id' => project.id)
+      else
+        allowed_projects = Project.allowed_to(User.current, :view_team_planner)
+        query = query.where(queries: { project: allowed_projects })
+      end
+
+      query
     end
   end
 end

@@ -27,11 +27,12 @@
 #++
 
 class Storages::NextcloudStorage < Storages::Storage
-  store :provider_fields, accessors: %i[username
-                                        password
-                                        group
-                                        groupfolder
-                                        has_managed_project_folders]
+  store_accessor :provider_fields,
+                 %i[username
+                    password
+                    group
+                    group_folder
+                    has_managed_project_folders]
 
   alias_method :has_managed_project_folders?, :has_managed_project_folders
 
@@ -39,7 +40,7 @@ class Storages::NextcloudStorage < Storages::Storage
     super || "OpenProject"
   end
 
-  def groupfolder
+  def group_folder
     super || "OpenProject"
   end
 

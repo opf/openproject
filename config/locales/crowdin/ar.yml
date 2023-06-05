@@ -269,6 +269,7 @@ ar:
       notice_reset_token: "A new %{type} token has been generated. Your access token is:"
       token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
       no_results_title_text: لا يوجد حالياً رموز وصول مميزة متاحة.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: لا يوجد حالياً أخبار لتقدم.
@@ -489,8 +490,8 @@ ar:
           true: "public"
           false: "private"
         queries: "الاستفسارات"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -695,6 +696,11 @@ ar:
           overlaps: 'تداخل.'
           outside: 'هو خارج الشبكة.'
           end_before_start: 'يجب أن تكون قيمة النهاية أكبر من قيمة البداية.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -1595,6 +1601,12 @@ ar:
   label_api_access_key: "مفتاح الوصول إلى API"
   label_api_access_key_created_on: "مفتاح الوصول إلى API تم إنشاؤها %{value} قبل ذلك"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "الحالة المطبقة"
   label_archive_project: "Archive project"
   label_ascending: "ترتيب تصاعدي"
@@ -1725,6 +1737,7 @@ ar:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "بيئة"
   label_estimates_and_time: "Estimates and time"
   label_equals: "يكون"
@@ -1916,7 +1929,6 @@ ar:
   label_principal_search: "إضافة مستخدمين أو مجموعات موجودة"
   label_privacy_policy: "Data privacy and security policy"
   label_product_version: "إصدار المنتج"
-  label_professional_support: "الدعم الفني"
   label_profile: "الصفحة الشخصية"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -1979,7 +1991,7 @@ ar:
   label_role_search: "تعيين دور للأعضاء الجدد"
   label_scm: "اختصاراً لِ:\"Supply Chain Management\" إدارة سلسة الإمداد"
   label_search: "البحث"
-  label_send_information: "إرسال معلومات الحساب إلى المستخدم"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "إرسال رسالة اختبار"
   label_setting_plural: "إعدادات"
   label_system_settings: "إعدادات النظام"

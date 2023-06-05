@@ -269,6 +269,7 @@ az:
       notice_reset_token: "A new %{type} token has been generated. Your access token is:"
       token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
       no_results_title_text: There are currently no access tokens available.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: There is currently no news to report.
@@ -485,8 +486,8 @@ az:
           true: "public"
           false: "private"
         queries: "Queries"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -691,6 +692,11 @@ az:
           overlaps: 'overlap.'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -1520,6 +1526,12 @@ az:
   label_api_access_key: "API access key"
   label_api_access_key_created_on: "API access key created %{value} ago"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Applied status"
   label_archive_project: "Archive project"
   label_ascending: "Ascending"
@@ -1650,6 +1662,7 @@ az:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Environment"
   label_estimates_and_time: "Estimates and time"
   label_equals: "is"
@@ -1841,7 +1854,6 @@ az:
   label_principal_search: "Add existing users or groups"
   label_privacy_policy: "Data privacy and security policy"
   label_product_version: "Product version"
-  label_professional_support: "Professional support"
   label_profile: "Profile"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -1904,7 +1916,7 @@ az:
   label_role_search: "Assign role to new members"
   label_scm: "SCM"
   label_search: "Search"
-  label_send_information: "Send account information to the user"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Send a test email"
   label_setting_plural: "Settings"
   label_system_settings: "System settings"

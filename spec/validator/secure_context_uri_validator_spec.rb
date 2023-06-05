@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe SecureContextUriValidator do
+RSpec.describe SecureContextUriValidator do
   let(:host) { nil }
   let(:model_class) do
     Class.new do

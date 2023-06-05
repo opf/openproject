@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Setting do
+RSpec.describe Setting do
   before do
     described_class.clear_cache
     described_class.destroy_all

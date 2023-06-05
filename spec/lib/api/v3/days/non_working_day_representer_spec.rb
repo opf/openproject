@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Days::NonWorkingDayRepresenter do
+RSpec.describe API::V3::Days::NonWorkingDayRepresenter do
   let(:non_working_day) { build_stubbed(:non_working_day, name: "Christmas day", date: Date.tomorrow) }
   let(:representer) { described_class.new(non_working_day, current_user: instance_double(User, name: 'current_user')) }
 

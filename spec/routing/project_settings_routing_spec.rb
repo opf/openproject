@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Projects::SettingsController do
+RSpec.describe Projects::SettingsController do
   describe 'show' do
     it do
       expect(get('/projects/123/settings/general'))

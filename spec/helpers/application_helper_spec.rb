@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ApplicationHelper do
+RSpec.describe ApplicationHelper do
   describe '.link_to_if_authorized' do
     let(:project) { create(:valid_project) }
     let(:project_member) do
@@ -170,6 +170,15 @@ describe ApplicationHelper do
         it { is_expected.to match /7 days/ }
         it { is_expected.to be_html_safe }
       end
+    end
+  end
+
+  describe '.authoring_at' do
+    it 'escapes html from author name' do
+      created = '2023-06-02'
+      author = create(:user, firstname: '<b>Hello</b>', lastname: 'world')
+      expect(authoring_at(created, author))
+        .to eq("Added by <a href=\"/users/#{author.id}\">&lt;b&gt;Hello&lt;/b&gt; world</a> at 2023-06-02")
     end
   end
 

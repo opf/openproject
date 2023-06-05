@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-shared_examples 'has a project include dropdown', js: true, type: :feature do
+RSpec.shared_examples 'has a project include dropdown', js: true, type: :feature do
   let(:dropdown) { Components::ProjectIncludeComponent.new }
 
   shared_let(:project) do

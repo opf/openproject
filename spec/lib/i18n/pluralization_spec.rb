@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe I18n, 'pluralization', type: :helper do
+RSpec.describe I18n, 'pluralization', type: :helper do
   describe 'with slowenian language and the :two plural key missing' do
     before do
       I18n.locale = :sl

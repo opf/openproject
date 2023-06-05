@@ -27,33 +27,21 @@
 #++
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
-  class DownloadLinkQuery < Storages::Peripherals::StorageInteraction::StorageQuery
+  class DownloadLinkQuery
     using Storages::Peripherals::ServiceResultRefinements
 
-    def initialize(base_uri:, token:, retry_proc:)
-      super()
-
-      @base_uri = base_uri
-      @uri = Util.join_uri_path(base_uri, '/ocs/v2.php/apps/dav/api/v1/direct')
-      @token = token
-      @retry_proc = retry_proc
+    def initialize(storage)
+      @base_uri = URI(storage.host).normalize
+      @oauth_client = storage.oauth_client
     end
-
-    def query(file_link)
-      outbound_response(file_link)
-        .bind { |response_body| direct_download_token(body: response_body) }
-        .map { |download_token| download_link(download_token, file_link.origin_name) }
-    end
-
-    private
 
     # rubocop:disable Metrics/AbcSize
-    def outbound_response(file_link)
-      @retry_proc.call(@token) do |token|
+    def call(user:, file_link:)
+      result = Util.token(user:, oauth_client: @oauth_client) do |token|
         service_result = begin
           ServiceResult.success(
             result: RestClient.post(
-              @uri.to_s,
+              Util.join_uri_path(@base_uri, '/ocs/v2.php/apps/dav/api/v1/direct'),
               { fileId: file_link.origin_id },
               {
                 'Authorization' => "Bearer #{token.access_token}",
@@ -81,9 +69,15 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           end
         end
       end
+
+      result
+        .bind { |response_body| direct_download_token(body: response_body) }
+        .map { |download_token| download_link(download_token, file_link.origin_name) }
     end
 
     # rubocop:enable Metrics/AbcSize
+
+    private
 
     def download_link(token, origin_name)
       Util.join_uri_path(@base_uri, 'index.php/apps/integration_openproject/direct', token, CGI.escape(origin_name))

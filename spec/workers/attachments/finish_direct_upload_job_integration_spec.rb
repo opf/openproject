@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
+RSpec.describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
   shared_let(:user) { create(:admin) }
 
   let!(:pending_attachment) do

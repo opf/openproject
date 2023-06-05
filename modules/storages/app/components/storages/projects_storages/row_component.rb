@@ -26,13 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Purpose: Defines how to format the cells within a table row of ProjectStorages
+# Purpose: Defines how to format the components within a table row of ProjectStorages
 # associated with a project
 module Storages::ProjectsStorages
   class RowComponent < ::RowComponent
-    include ::IconsHelper
-    include ::AvatarHelper
-    include ::Redmine::I18n
     def project_storage
       row
     end
@@ -48,14 +45,13 @@ module Storages::ProjectsStorages
     end
 
     def creator
-      icon = avatar project_storage.creator, size: :mini
+      icon = helpers.avatar project_storage.creator, size: :mini
       icon + project_storage.creator.name
     end
 
     def button_links
       [delete_link].tap do |links|
         links.unshift edit_link if OpenProject::FeatureDecisions.storage_project_folders_active?
-        links.unshift set_permissions_link if OpenProject::FeatureDecisions.managed_project_folders_active?
       end
     end
 
@@ -64,15 +60,6 @@ module Storages::ProjectsStorages
               edit_project_settings_projects_storage_path(project_id: project_storage.project, id: project_storage),
               class: 'icon icon-edit',
               title: I18n.t(:button_edit)
-    end
-
-    def set_permissions_link
-      link_to('',
-              project_settings_projects_storage_set_permissions_path(projects_storage_id: project_storage.id,
-                                                                     project_id: project_storage.project.id),
-              class: 'icon icon-settings3',
-              data: { confirm: 'Force push project folder permissions?' },
-              title: 'Set permissions')
     end
 
     def delete_link

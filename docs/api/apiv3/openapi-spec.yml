@@ -265,6 +265,10 @@ paths:
     "$ref": "./paths/priorities.yml"
   "/api/v3/priorities/{id}":
     "$ref": "./paths/priority.yml"
+  "/api/v3/project_storages":
+    "$ref": "./paths/project_storages.yml"
+  "/api/v3/project_storages/{id}":
+    "$ref": "./paths/project_storage.yml"
   "/api/v3/projects":
     "$ref": "./paths/projects.yml"
   "/api/v3/projects/form":
@@ -686,6 +690,10 @@ components:
       "$ref": "./components/schemas/priority_model.yml"
     ProjectModel:
       "$ref": "./components/schemas/project_model.yml"
+    ProjectStorageCollectionModel:
+      "$ref": "./components/schemas/project_storage_collection_model.yml"
+    ProjectStorageModel:
+      "$ref": "./components/schemas/project_storage_model.yml"
     Project_copy_form:
       "$ref": "./components/schemas/project_copy_form.yml"
     Project_create_form:

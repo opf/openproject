@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_contract_examples'
 
-describe Messages::UpdateContract do
+RSpec.describe Messages::UpdateContract do
   it_behaves_like 'message contract' do
     let(:message) do
       build_stubbed(:message).tap do |message|

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, 'spent_time' do
+RSpec.describe WorkPackage, 'spent_time' do
   let(:project) do
     work_package.project
   end

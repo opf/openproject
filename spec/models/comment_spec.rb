@@ -27,7 +27,7 @@
 
 require 'spec_helper'
 
-describe Comment do
+RSpec.describe Comment do
   shared_let(:user) { create(:user) }
   shared_let(:news) { create(:news) }
   let(:comment) { described_class.new(author: user, comments: 'some important words', commented: news) }

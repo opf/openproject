@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 
-describe 'Add an attachment to a meeting (agenda)', js: true do
+RSpec.describe 'Add an attachment to a meeting (agenda)', js: true do
   let(:role) do
     create(:role, permissions: %i[view_meetings edit_meetings create_meeting_agendas])
   end
@@ -47,7 +47,7 @@ describe 'Add an attachment to a meeting (agenda)', js: true do
 
         click_on "Save"
 
-        content = find("div.meeting_content.meeting_agenda")
+        content = find('[data-qa-selector="op-meeting--meeting_agenda"]')
 
         expect(content).to have_selector('img')
         expect(content).to have_content('Some image caption')

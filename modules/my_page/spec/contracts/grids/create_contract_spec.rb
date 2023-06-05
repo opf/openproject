@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_examples'
 
-describe Grids::CreateContract do
+RSpec.describe Grids::CreateContract do
   include_context 'grid contract'
   include_context 'model contract'
 

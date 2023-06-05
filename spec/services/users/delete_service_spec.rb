@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Users::DeleteService, type: :model do
+RSpec.describe Users::DeleteService, type: :model do
   let(:input_user) { build_stubbed(:user) }
   let(:project) { build_stubbed(:project) }
 

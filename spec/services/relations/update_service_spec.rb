@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Relations::UpdateService do
+RSpec.describe Relations::UpdateService do
   let(:work_package1_start_date) { nil }
   let(:work_package1_due_date) { Date.today }
   let(:work_package2_start_date) { nil }

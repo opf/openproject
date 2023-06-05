@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'services/work_packages/shared/shared_examples_days'
 
-describe Queries::NonWorkingDays::NonWorkingDayQuery do
+RSpec.describe Queries::NonWorkingDays::NonWorkingDayQuery do
   shared_let(:first_of_may) { create(:non_working_day, date: Date.new(Date.current.year, 5, 1)) }
   shared_let(:christmas) { create(:non_working_day, date: Date.new(Date.current.year, 12, 25)) }
   shared_let(:new_year_day) { create(:non_working_day, date: Date.new(Date.current.year + 1, 1, 1)) }

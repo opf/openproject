@@ -28,7 +28,7 @@
 require 'spec_helper'
 require_relative '../shared_expectations'
 
-describe CustomActions::Actions::Notify do
+RSpec.describe CustomActions::Actions::Notify do
   let(:key) { :notify }
   let(:type) { :associated_property }
   let(:allowed_values) do

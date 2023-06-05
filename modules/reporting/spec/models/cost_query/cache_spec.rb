@@ -29,7 +29,7 @@
 require 'spec_helper'
 require File.join(File.dirname(__FILE__), '..', '..', 'support', 'configuration_helper')
 
-describe CostQuery::Cache do
+RSpec.describe CostQuery::Cache do
   include OpenProject::Reporting::SpecHelper::ConfigurationHelper
 
   def all_caches

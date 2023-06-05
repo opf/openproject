@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/meetings/edit'
 
-describe 'Meetings participants' do
+RSpec.describe 'Meetings participants' do
   let(:project) { create(:project, enabled_module_names: %w[meetings]) }
   let!(:user) do
     create(:user,

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Storages::ProjectStorages::SetAttributesService, type: :model do
+RSpec.describe Storages::ProjectStorages::SetAttributesService, type: :model do
   let(:current_user) { build_stubbed(:admin) }
 
   let(:contract_instance) do

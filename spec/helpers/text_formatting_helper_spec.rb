@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe TextFormattingHelper do
+RSpec.describe TextFormattingHelper do
   describe '#preview_context' do
     context 'for a News' do
       let(:news) { build_stubbed(:news) }
@@ -59,31 +59,85 @@ describe TextFormattingHelper do
   end
 
   describe 'truncate_formatted_text' do
-    it 'truncates given text' do
-      text = <<~TEXT.squish
-        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-        nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-        erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-        et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-        ipsum dolor sit amet. Lore
-      TEXT
+    context 'with a long text' do
+      let(:text) do
+        <<~TEXT.squish
+          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+          nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+          erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+          et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+          ipsum dolor sit amet. Lore
+        TEXT
+      end
 
-      expect(truncate_formatted_text(text).size).to eq(123)
+      context 'without specifying a length' do
+        let(:text_html) do
+          <<~TEXT.squish
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+            nonumy eirmod tempor invidunt ut labore et dolore magn...
+          TEXT
+        end
+
+        it 'truncates given text at 120 chars' do
+          expect(truncate_formatted_text(text))
+            .to be_html_eql(text_html)
+        end
+      end
+
+      context 'when specifying a length' do
+        let(:text_html) do
+          <<~TEXT.squish
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+            erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+            et ea rebum. Stet clita kasd gubergren, no sea tak...
+          TEXT
+        end
+
+        it 'truncates given text at the specified length' do
+          expect(truncate_formatted_text(text, length: 250))
+            .to be_html_eql(text_html)
+        end
+      end
     end
 
-    it 'replaces escaped line breaks with html line breaks and should be html_safe' do
-      text = "Lorem ipsum dolor sit \namet, consetetur sadipscing elitr, sed diam nonumy eirmod\n tempor invidunt"
-      text_html = 'Lorem ipsum dolor sit <br /> amet, consetetur sadipscing elitr, sed diam nonumy eirmod <br /> tempor invidunt'
-      expect(truncate_formatted_text(text))
-        .to be_html_eql(text_html)
-      expect(truncate_formatted_text(text))
-        .to be_html_safe
+    context 'with newline characters' do
+      let(:text) do
+        "Lorem ipsum dolor sit \namet, consetetur sadipscing elitr, sed diam nonumy eirmod\n tempor invidunt"
+      end
+      let(:text_html) do
+        'Lorem ipsum dolor sit <br /> amet, consetetur sadipscing elitr, sed diam nonumy eirmod <br /> tempor invidunt'
+      end
+
+      it 'replaces escaped line breaks with html line breaks and should be html_safe' do
+        expect(truncate_formatted_text(text))
+          .to be_html_eql(text_html)
+      end
+
+      it 'is html_safe' do
+        expect(truncate_formatted_text(text))
+          .to be_html_safe
+      end
+
+      context 'when specifying not to replace newlines' do
+        it 'returns the text unaltered' do
+          expect(truncate_formatted_text(text, replace_newlines: false))
+            .to be_html_eql(text)
+        end
+
+        it 'is html_safe' do
+          expect(truncate_formatted_text(text, replace_newlines: false))
+            .to be_html_safe
+        end
+      end
     end
 
-    it 'escapes potentially harmful code' do
-      text = "Lorem ipsum dolor <script>alert('pwnd');</script> tempor invidunt"
-      expect(truncate_formatted_text(text))
-        .to include('&lt;script&gt;alert(\'pwnd\');&lt;/script&gt;')
+    context 'with potentially harmful code' do
+      it 'escapes' do
+        text = "Lorem ipsum dolor <script>alert('pwnd');</script> tempor invidunt"
+        expect(truncate_formatted_text(text))
+          .to include('&lt;script&gt;alert(\'pwnd\');&lt;/script&gt;')
+      end
     end
   end
 end

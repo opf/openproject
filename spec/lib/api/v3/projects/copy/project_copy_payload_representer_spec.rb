@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
+RSpec.describe API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
   shared_let(:current_user, reload: false) { build_stubbed(:user) }
   shared_let(:project, reload: false) { build_stubbed(:project) }
 

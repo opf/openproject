@@ -27,7 +27,7 @@
 #++
 require 'spec_helper'
 
-describe HookHelper do
+RSpec.describe HookHelper do
   describe '#call_hook' do
     context 'when called within a controller' do
       let(:test_hook_controller_class) do

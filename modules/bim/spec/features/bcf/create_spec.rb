@@ -1,9 +1,9 @@
 require_relative '../../spec_helper'
 
-describe 'Create BCF',
-         js: true,
-         with_config: { edition: 'bim' },
-         with_mail: false do
+RSpec.describe 'Create BCF',
+               js: true,
+               with_config: { edition: 'bim' },
+               with_mail: false do
   let(:project) do
     create(:project,
            types: [type, type_with_cf],

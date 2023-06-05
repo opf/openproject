@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Storages::StorageRepresenter, 'rendering' do
+RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
   let(:oauth_application) { build_stubbed(:oauth_application) }
   let(:oauth_client_credentials) { build_stubbed(:oauth_client) }
   let(:storage) { build_stubbed(:storage, oauth_application:, oauth_client: oauth_client_credentials) }

@@ -42,7 +42,6 @@ class TimeEntry < ApplicationRecord
 
   validates_presence_of :user_id, :activity_id, :project_id, :hours, :spent_on
   validates_numericality_of :hours, allow_nil: true, message: :invalid
-  validates_length_of :comments, maximum: 255, allow_nil: true
 
   scope :on_work_packages, ->(work_packages) { where(work_package_id: work_packages) }
 

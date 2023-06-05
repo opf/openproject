@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Login' do
+RSpec.describe 'Login' do
   before do
     @capybara_ignore_elements = Capybara.ignore_hidden_elements
     Capybara.ignore_hidden_elements = true

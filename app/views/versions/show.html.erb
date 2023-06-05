@@ -77,7 +77,7 @@ See COPYRIGHT and LICENSE files for more details.
 
   <% if @version.wiki_page %>
       <div class="widget-box -thin -wider">
-        <%= render(partial: "wiki/content", locals: {content: @version.wiki_page.content}) if @version.wiki_page %>
+        <%= render(partial: "wiki/text", locals: { page: @version.wiki_page }) if @version.wiki_page %>
       </div>
   <% end %>
 

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Queries::Filters::QueryFilterRepresenter do
+RSpec.describe API::V3::Queries::Filters::QueryFilterRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:filter) { Queries::WorkPackages::Filter::SubjectFilter.create! }

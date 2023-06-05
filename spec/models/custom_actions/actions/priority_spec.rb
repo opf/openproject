@@ -28,7 +28,7 @@
 require 'spec_helper'
 require_relative '../shared_expectations'
 
-describe CustomActions::Actions::Priority do
+RSpec.describe CustomActions::Actions::Priority do
   let(:key) { :priority }
   let(:type) { :associated_property }
   let(:allowed_values) do

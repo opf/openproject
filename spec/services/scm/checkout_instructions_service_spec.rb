@@ -27,7 +27,7 @@
 
 require 'spec_helper'
 
-describe SCM::CheckoutInstructionsService do
+RSpec.describe SCM::CheckoutInstructionsService do
   let(:user) { build(:user) }
   let(:project) { build(:project) }
 

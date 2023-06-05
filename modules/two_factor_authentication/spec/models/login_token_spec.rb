@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-describe TwoFactorAuthentication::LoginToken, with_2fa_ee: true do
+RSpec.describe TwoFactorAuthentication::LoginToken, with_2fa_ee: true do
   shared_let(:user) { create(:user) }
   let!(:token) { described_class.new user: }
 

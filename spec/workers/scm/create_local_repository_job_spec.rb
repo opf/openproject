@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe SCM::CreateLocalRepositoryJob do
+RSpec.describe SCM::CreateLocalRepositoryJob do
   let(:instance) { described_class.new }
   # Allow to override configuration values to determine
   # whether to activate managed repositories

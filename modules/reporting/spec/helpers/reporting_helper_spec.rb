@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ReportingHelper do
+RSpec.describe ReportingHelper do
   describe '#field_representation_map' do
     context 'for a custom field' do
       context 'for which a custom option exists (e.g. a list field)' do

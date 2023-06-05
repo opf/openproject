@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::StaticRouting do
+RSpec.describe OpenProject::StaticRouting do
   describe '.recognize_route' do
     subject { described_class.recognize_route path }
 

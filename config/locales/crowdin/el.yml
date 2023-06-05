@@ -265,6 +265,7 @@ el:
       notice_reset_token: "Δημιουργήθηκε ένα νέο token %{type}. Το token πρόσβασής σας είναι:"
       token_value_warning: "Σημείωση: Αυτή είναι η μοναδική φορά που θα δείτε αυτό το token, φροντίστε να το αντιγράψετε τώρα."
       no_results_title_text: Δεν υπάρχουν προς το παρόν διαθέσιμα αναγνωριστικά πρόσβασης.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Δεν υπάρχουν προς το παρόν νέα για αναφορά.
@@ -481,8 +482,8 @@ el:
           true: "public"
           false: "private"
         queries: "Αναζητήσεις"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -687,6 +688,11 @@ el:
           overlaps: 'επικάλυψη.'
           outside: 'είναι εκτός πλέγματος.'
           end_before_start: 'η τελική τιμή πρέπει να είναι μεγαλύτερη από την αρχική τιμή.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -1516,6 +1522,12 @@ el:
   label_api_access_key: "Κλειδί πρόσβασης API"
   label_api_access_key_created_on: "Tο κλειδί πρόσβασης API δημιουργήθηκε πριν από %{value}"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Εφαρμόστηκε η κατάσταση"
   label_archive_project: "Αρχειοθέτηση έργου"
   label_ascending: "Αύξουσα"
@@ -1646,6 +1658,7 @@ el:
   label_enterprise: "Επιχείρηση"
   label_enterprise_active_users: "%{current}/%{limit} κλεισμένοι ενεργοί χρήστες"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Περιβάλλον"
   label_estimates_and_time: "Εκτιμήσεις & χρόνος"
   label_equals: "είναι"
@@ -1837,7 +1850,6 @@ el:
   label_principal_search: "Προσθήκη υπαρχόντων χρηστών ή ομάδων"
   label_privacy_policy: "Ιδιωτικότητα δεδομένων και πολιτική ασφαλείας"
   label_product_version: "Έκδοση προϊόντος"
-  label_professional_support: "Επαγγελματική υποστήριξη"
   label_profile: "Προφίλ"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -1900,7 +1912,7 @@ el:
   label_role_search: "Ανάθεση ρόλων σε νέα μέλη"
   label_scm: "SCM"
   label_search: "Αναζήτηση"
-  label_send_information: "Αποστολή πληροφοριών λογαριασμού στο χρήστη"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Αποστολή δοκιμαστικού email"
   label_setting_plural: "Ρυθμίσεις"
   label_system_settings: "Ρυθμίσεις συστήματος"

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WikiPages::AtVersion do
+RSpec.describe WikiPages::AtVersion do
   let(:wiki_page) do
     build_stubbed(:wiki_page,
                   author: first_journal_user,

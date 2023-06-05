@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Projects::UpdateService, 'integration', type: :model do
+RSpec.describe Projects::UpdateService, 'integration', type: :model do
   let(:user) do
     create(:user,
            member_in_project: project,

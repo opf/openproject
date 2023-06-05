@@ -269,6 +269,7 @@ hr:
       notice_reset_token: "Novi %{type} token je generiran. Pristupni token je:"
       token_value_warning: "Napomena: Ovo je jedini put da ćete vidjeti ovaj token, zabilježite ga sada."
       no_results_title_text: Nema dostupnih pristupnih tokena.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Nema novih vijesti.
@@ -486,8 +487,8 @@ hr:
           true: "public"
           false: "private"
         queries: "Upiti"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -692,6 +693,11 @@ hr:
           overlaps: 'overlap.'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -1539,6 +1545,12 @@ hr:
   label_api_access_key: "API pristupni ključ"
   label_api_access_key_created_on: "API pristupni ključ kreiran %{value} prije"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Dodijeljeni status"
   label_archive_project: "Archive project"
   label_ascending: "Uzlazno"
@@ -1669,6 +1681,7 @@ hr:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Okruženje"
   label_estimates_and_time: "Estimates and time"
   label_equals: "je"
@@ -1860,7 +1873,6 @@ hr:
   label_principal_search: "Dodaj postojeće korisnike ili grupe"
   label_privacy_policy: "Data privacy and security policy"
   label_product_version: "Verzija proizvoda"
-  label_professional_support: "Profesionalna Podrška"
   label_profile: "Profil"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -1923,7 +1935,7 @@ hr:
   label_role_search: "Dodijeli uloge novim korisnicima"
   label_scm: "SCM"
   label_search: "Pretraživanje"
-  label_send_information: "Pošalji korisničke informacije korisniku"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Pošalji probni e-mail"
   label_setting_plural: "Postavke"
   label_system_settings: "Postavke sustava"

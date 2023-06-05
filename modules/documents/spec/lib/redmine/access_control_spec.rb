@@ -27,7 +27,7 @@
 #++
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe OpenProject::AccessControl do
+RSpec.describe OpenProject::AccessControl do
   describe 'manage documents permission' do
     it 'is part of the documents project module' do
       permission = OpenProject::AccessControl.permission(:manage_documents)

@@ -1,8 +1,8 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 
-describe 'edit work package',
-         js: true do
+RSpec.describe 'edit work package',
+               js: true do
   let(:dev_role) do
     create(:role,
            permissions: %i[view_work_packages

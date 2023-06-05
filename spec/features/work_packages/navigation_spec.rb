@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Work package navigation', js: true, selenium: true do
+RSpec.describe 'Work package navigation', js: true, selenium: true do
   let(:user) { create(:admin) }
   let(:project) { create(:project, name: 'Some project', enabled_module_names: [:work_package_tracking]) }
   let(:work_package) { build(:work_package, project:) }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Type do
+RSpec.describe Type do
   let(:type) { build(:type) }
   let(:type2) { build(:type) }
   let(:project) { build(:project, no_types: true) }

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
 
-describe Storages::ProjectStorages::BaseContract do
+RSpec.describe Storages::ProjectStorages::BaseContract do
   include_context 'ModelContract shared context'
 
   let(:contract) { described_class.new(project_storage, build_stubbed(:admin)) }

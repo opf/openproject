@@ -9,12 +9,13 @@
     "main.ts",
     "polyfills.ts",
     "app/core/setup/init-globals.ts",
-    "app/core/setup/init-vendors.ts"
+    "app/core/setup/init-vendors.ts",
+    "stimulus/setup.ts"
   ],
   "include": [
     "src/**/*.ts",
+    "stimulus/**/*.ts",
     "**/*.d.ts",
-    "app/core/augmenting/dynamic-scripts/*.ts"
   ],
   "exclude": [
     "**/*.stories.*"

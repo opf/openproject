@@ -268,6 +268,7 @@ hu:
       notice_reset_token: "Egy új %{type} token létrehozva. A hozzáférési token:"
       token_value_warning: "Megjegyzés: Ez az egyetlen alkalom, mikor ezt a tokent láthatja, győződjön meg arról, hogy most átmásolta."
       no_results_title_text: Jelenleg nincs elérhető hozzáférési kulcs.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Nincs megjeleníthető hír.
@@ -482,8 +483,8 @@ hu:
           true: "public"
           false: "private"
         queries: "Lekérdezések"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -688,6 +689,11 @@ hu:
           overlaps: 'átfedés'
           outside: 'hatókörön kívül van.'
           end_before_start: 'a befejező értéknek nagyobbnak kell lennie mint a kezdőnek'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: "Legalább egy csatornát meg kell adni az értesítések küldésére.\n"
           attributes:
@@ -1517,6 +1523,12 @@ hu:
   label_api_access_key: "API-hozzáférés kulcs"
   label_api_access_key_created_on: "APIhozzáférési kulcs készítette: %{value} ezelőtt"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Alkalmazott státusz"
   label_archive_project: "Projekt archiválása"
   label_ascending: "Növekvő"
@@ -1647,6 +1659,7 @@ hu:
   label_enterprise: "Vállalati"
   label_enterprise_active_users: "%{current}/%{limit} foglalt aktív felhasználók"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Környezet"
   label_estimates_and_time: "Becslések & időpontok"
   label_equals: "van"
@@ -1838,7 +1851,6 @@ hu:
   label_principal_search: "Meglévő felhasználók vagy csoportok hozzáadása"
   label_privacy_policy: "Adatvédelmi és biztonsági szabályzat"
   label_product_version: "Termékverzió"
-  label_professional_support: "Szakmai támogatás"
   label_profile: "Profil"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -1901,7 +1913,7 @@ hu:
   label_role_search: "Szerep hozzárendelése az új tagokhoz"
   label_scm: "SCM"
   label_search: "Keresés"
-  label_send_information: "Fiókinformációkat küldése a felhasználónak"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Teszt levél küldése"
   label_setting_plural: "Beállítások"
   label_system_settings: "Rendszerbeállítások"

@@ -28,12 +28,13 @@
 
 require 'spec_helper'
 
-describe 'baseline rendering',
-         js: true,
-         with_settings: { date_format: '%Y-%m-%d' } do
+RSpec.describe 'baseline rendering',
+               js: true,
+               with_settings: { date_format: '%Y-%m-%d' } do
   shared_let(:type_bug) { create(:type_bug) }
   shared_let(:type_task) { create(:type_task) }
   shared_let(:project) { create(:project, types: [type_bug, type_task]) }
+  let(:baseline_modal) { Components::WorkPackages::BaselineModal.new }
   shared_let(:user) do
     create(:user,
            firstname: 'Itsa',
@@ -60,6 +61,7 @@ describe 'baseline rendering',
 
   shared_let(:version_a) { create(:version, project:, name: 'Version A') }
   shared_let(:version_b) { create(:version, project:, name: 'Version B') }
+  shared_let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
 
   shared_let(:wp_bug) do
     create(:work_package,
@@ -189,6 +191,20 @@ describe 'baseline rendering',
       baseline.expect_unchanged_attributes wp_task,
                                            :type, :subject, :start_date, :due_date,
                                            :version, :priority, :assignee, :accountable
+      # show icons on work package single card
+      display_representation.switch_to_card_layout
+      within "wp-single-card[data-work-package-id='#{wp_bug_was_task.id}']" do
+        expect(page).to have_selector(".op-table-baseline--icon-removed")
+      end
+      within "wp-single-card[data-work-package-id='#{wp_task_was_bug.id}']" do
+        expect(page).to have_selector(".op-table-baseline--icon-added")
+      end
+      within "wp-single-card[data-work-package-id='#{wp_task_changed.id}']" do
+        expect(page).to have_selector(".op-table-baseline--icon-changed")
+      end
+      within "wp-single-card[data-work-package-id='#{wp_task.id}']" do
+        expect(page).not_to have_selector(".op-wp-single-card--content-baseline")
+      end
     end
   end
 
@@ -199,6 +215,21 @@ describe 'baseline rendering',
       wp_table.ensure_work_package_not_listed! wp_bug, wp_bug_was_task
 
       baseline.expect_inactive
+    end
+  end
+  describe 'without EE', with_ee: false, with_flag: { show_changes: true } do
+    it 'disabled options' do
+      wp_table.visit_query(query)
+      baseline_modal.expect_closed
+      baseline_modal.toggle_drop_modal
+      baseline_modal.expect_open
+      expect(page).to have_selector(".op-baseline--enterprise-title")
+      # only yesterday is selectable
+      page.select('a specific date', from: 'op-baseline-filter')
+      expect(page).not_to have_select('op-baseline-filter', selected: 'a specific date')
+
+      page.select('yesterday', from: 'op-baseline-filter')
+      expect(page).to have_select('op-baseline-filter', selected: 'yesterday')
     end
   end
 end

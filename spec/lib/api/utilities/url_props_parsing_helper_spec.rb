@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::Utilities::UrlPropsParsingHelper do
+RSpec.describe API::Utilities::UrlPropsParsingHelper do
   let(:clazz) do
     Class.new do
       include API::Utilities::UrlPropsParsingHelper

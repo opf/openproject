@@ -271,6 +271,7 @@ vi:
       notice_reset_token: "Một mã %{type} truy cập mới vừa được tạo. Mã truy cập của bạn là:"
       token_value_warning: "Chú ý: Mã này chỉ hiện duy nhất một lần, bạn nên sao chép lại để lưu trữ."
       no_results_title_text: Không có thẻ truy cập hiện hữu.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Hiện không có tin tức báo cáo.
@@ -486,8 +487,8 @@ vi:
           true: "public"
           false: "private"
         queries: "Truy vấn"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -692,6 +693,11 @@ vi:
           overlaps: 'chồng lấn.'
           outside: 'nằm ngoài bảng dữ liệu.'
           end_before_start: 'giá trị kết thúc cần lớn hơn giá trị bắt đầu.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -1503,6 +1509,12 @@ vi:
   label_api_access_key: "Khoá truy cập API"
   label_api_access_key_created_on: "Khoá truy cập API đựơc tạo cách đây %{value}"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Tình trạng áp dụng"
   label_archive_project: "Archive project"
   label_ascending: "Tăng dần"
@@ -1633,6 +1645,7 @@ vi:
   label_enterprise: "Doanh nghiệp"
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Môi trường"
   label_estimates_and_time: "Ước tính và thời gian"
   label_equals: "là"
@@ -1824,7 +1837,6 @@ vi:
   label_principal_search: "Thêm người dùng hoặc nhóm hiện có"
   label_privacy_policy: "Chính sách bảo mật và quyền riêng tư dữ liệu"
   label_product_version: "Phiên bản sản phẩm"
-  label_professional_support: "Hỗ trợ chuyên nghiệp"
   label_profile: "Hồ sơ"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -1887,7 +1899,7 @@ vi:
   label_role_search: "Chỉ định vai trò cho các thành viên mới"
   label_scm: "SCM"
   label_search: "Tìm kiếm"
-  label_send_information: "Send account information to the user"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Gửi email thử nghiệm"
   label_setting_plural: "Cài đặt"
   label_system_settings: "Cài đặt hệ thống"

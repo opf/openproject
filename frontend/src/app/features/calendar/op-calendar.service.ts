@@ -7,6 +7,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { DayResourceService } from 'core-app/core/state/days/day.service';
 import { IDay } from 'core-app/core/state/days/day.model';
+import * as moment from 'moment-timezone';
 
 @Injectable()
 export class OpCalendarService extends UntilDestroyedMixin {

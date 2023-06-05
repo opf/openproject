@@ -149,7 +149,7 @@ sl:
       kateri atributi LDAP se uporabljajo za definiranje atributov uporabnika OpenProject (preslikava atributov).
     tls_mode:
       plain: 'Brez'
-      simple_tls: 'LDAPS'
+      simple_tls: 'LDAP-i'
       start_tls: 'STARTTLS'
       plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
       simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
@@ -268,6 +268,7 @@ sl:
       notice_reset_token: "Ustvarjen je bil nov %{type} simbol. Vaš dostopni simbol je:"
       token_value_warning: "Opomba: To simbol boste videli samo zdaj, prepričajte se, da ga kopirate."
       no_results_title_text: Trenutno ni na voljo simbolov za dostop.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Trenutno ni nobenih novic za poročanje.
@@ -484,8 +485,8 @@ sl:
           true: "public"
           false: "private"
         queries: "Poizvedbe"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Project status'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
@@ -690,6 +691,11 @@ sl:
           overlaps: 'prekrivanje.'
           outside: 'je zunaj omrežja.'
           end_before_start: 'končna vrednost mora biti večja od začetne vrednosti.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -1555,6 +1561,12 @@ sl:
   label_api_access_key: "API dostopni ključ"
   label_api_access_key_created_on: "Atom dostopni ključ narejen %{value} nazaj"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Uveljavljeno stanje"
   label_archive_project: "Arhivirani projekti"
   label_ascending: "Naraščajoče"
@@ -1685,6 +1697,7 @@ sl:
   label_enterprise: "Podjetje"
   label_enterprise_active_users: "%{current} /%{limit} rezervirani aktivni uporabniki"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Okolje"
   label_estimates_and_time: "Ocene in čas"
   label_equals: "je"
@@ -1876,7 +1889,6 @@ sl:
   label_principal_search: "Dodajte obstoječe uporabnike ali skupine"
   label_privacy_policy: "Politika zasebnosti in varnosti podatkov"
   label_product_version: "Različica izdelka"
-  label_professional_support: "Strokovna podpora"
   label_profile: "Profil"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -1939,7 +1951,7 @@ sl:
   label_role_search: "Dodelite vlogo novim članom"
   label_scm: "SCM"
   label_search: "Išči"
-  label_send_information: "Uporabniku pošljite podatke o računu"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Pošlji testni mail"
   label_setting_plural: "Nastavitve"
   label_system_settings: "Sistemske nastavitve"

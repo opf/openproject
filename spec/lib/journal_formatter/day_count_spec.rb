@@ -28,7 +28,7 @@
 
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper.rb")
 
-describe JournalFormatter::DayCount do
+RSpec.describe JournalFormatter::DayCount do
   let(:klass) { described_class }
   let(:id) { 1 }
   let(:journal) do

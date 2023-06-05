@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'filter me value', js: true do
+RSpec.describe 'filter me value', js: true do
   let(:status) { create(:default_status) }
   let!(:priority) { create(:default_priority) }
   let(:project) do

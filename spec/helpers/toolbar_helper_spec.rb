@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ToolbarHelper do
+RSpec.describe ToolbarHelper do
   describe '.toolbar' do
     it 'creates a default toolbar' do
       result = toolbar title: 'Title'

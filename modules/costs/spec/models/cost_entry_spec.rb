@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe CostEntry do
+RSpec.describe CostEntry do
   include Cost::PluginSpecHelper
 
   let(:project) { create(:project_with_types) }

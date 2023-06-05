@@ -80,7 +80,7 @@ es:
       buttons:
         upgrade: "Actualizar ahora"
         contact: "Contáctenos para una demostración"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
+      enterprise_info_html: "es un complemento Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
       upgrade_info: "Actualice a un plan de pago para activarlo y empezar a usarlo en su equipo."
     journal_aggregation:
       explanation:
@@ -266,6 +266,7 @@ es:
       notice_reset_token: "Se generó un nuevo token de acceso del tipo %{type}. Su token de acceso es:"
       token_value_warning: "Nota: Esta es la única vez que le mostraremos este token, asegúrese de copiarlo ahora."
       no_results_title_text: Actualmente no hay tokens de acceso disponibles.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: No hay noticias sobre las que informar por el momento.
@@ -482,15 +483,15 @@ es:
           true: "público"
           false: "privado"
         queries: "Consultas"
-        status_code: 'Status'
-        status_explanation: 'Status description'
+        status_code: 'Estado del proyecto'
+        status_explanation: 'Descripción del estado del proyecto'
         status_codes:
-          not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          not_started: 'No iniciado'
+          on_track: 'En curso'
+          at_risk: 'En riesgo'
+          off_track: 'Fuera de lo previsto'
+          finished: 'Terminado'
+          discontinued: 'Descontinuado'
         templated: "Plantilla del proyecto"
         templated_value:
           true: "marcar como plantilla"
@@ -688,6 +689,11 @@ es:
           overlaps: 'superpuesto.'
           outside: 'está fuera de la red.'
           end_before_start: 'el valor final necesita ser mayor que el valor inicial.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'Debe especificarse al menos un canal para enviar notificaciones.'
           attributes:
@@ -737,8 +743,8 @@ es:
               invalid: "No se puede ordenar por la columna: %{value}"
               format: "%{message}"
             timestamps:
-              invalid: "Timestamps contain invalid values: %{values}"
-              forbidden: "Timestamps contain forbidden values: %{values}"
+              invalid: "Las marcas de tiempo contienen valores no válidos: %{values}"
+              forbidden: "Las marcas de tiempo contienen valores prohibidos: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "es mutuamente exclusivo con el grupo '%{group_by}'. No puede activar ambos."
           filters:
@@ -1517,6 +1523,12 @@ es:
   label_api_access_key: "Código de acceso API"
   label_api_access_key_created_on: "Código de acceso API creado  hace %{value}"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Estado aplicado"
   label_archive_project: "Archivar proyecto"
   label_ascending: "Ascendente"
@@ -1647,6 +1659,7 @@ es:
   label_enterprise: "Empresa"
   label_enterprise_active_users: "%{current}/%{limit} usuarios activos que han reservado"
   label_enterprise_edition: "Edición Enterprise"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Entorno"
   label_estimates_and_time: "Valores estimados y tiempo"
   label_equals: "es"
@@ -1838,7 +1851,6 @@ es:
   label_principal_search: "Añadir usuarios o grupos existentes"
   label_privacy_policy: "Política de privacidad y seguridad de datos"
   label_product_version: "Versión del producto"
-  label_professional_support: "Soporte profesional"
   label_profile: "Perfil"
   label_project_activity: "Actividad del proyecto"
   label_project_attribute_plural: "Atributos del proyecto"
@@ -1901,7 +1913,7 @@ es:
   label_role_search: "Asignar rol a nuevos miembros"
   label_scm: "SCM"
   label_search: "Buscar"
-  label_send_information: "Enviar información de la cuenta del usuario"
+  label_send_information: "Send new credentials to the user"
   label_send_test_email: "Enviar un correo electrónico de prueba"
   label_setting_plural: "Configuración"
   label_system_settings: "Ajustes de sistema"

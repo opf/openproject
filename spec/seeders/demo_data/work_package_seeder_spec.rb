@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe DemoData::WorkPackageSeeder do
+RSpec.describe DemoData::WorkPackageSeeder do
   include_context 'with basic seed data'
 
   shared_let(:work_week) { week_with_saturday_and_sunday_as_weekend }

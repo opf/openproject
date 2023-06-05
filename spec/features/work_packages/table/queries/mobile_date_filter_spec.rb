@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'mobile date filter work packages', js: true do
+RSpec.describe 'mobile date filter work packages', js: true do
   shared_let(:user) { create(:admin) }
   shared_let(:project) { create(:project) }
   shared_let(:wp_table) { Pages::WorkPackagesTable.new(project) }

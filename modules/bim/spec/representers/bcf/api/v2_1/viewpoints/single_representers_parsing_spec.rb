@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Bim::Bcf::API::V2_1::Viewpoints::SingleRepresenter, 'rendering' do
+RSpec.describe Bim::Bcf::API::V2_1::Viewpoints::SingleRepresenter, 'rendering' do
   let(:struct) do
     OpenStruct.new
   end
