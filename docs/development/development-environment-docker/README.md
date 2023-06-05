@@ -132,10 +132,10 @@ needed, the workers can be started with the following command. Be aware that thi
 system's resources.
 
 ```bash
-# Start the worker and let them run continuously
+# Start the worker service and let it run continuously
 docker compose up -d worker
 
-# Start the worker to work off all delayed jobs and shut it down afterwards
+# Start the worker service to work off all delayed jobs and shut it down afterwards
 docker compose run --rm worker rake jobs:workoff
 ```
 
