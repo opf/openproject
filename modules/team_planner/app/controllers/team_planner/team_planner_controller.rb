@@ -63,6 +63,9 @@ module ::TeamPlanner
 
       if project
         query = query.where('queries.project_id' => project.id)
+      else
+        allowed_projects = Project.allowed_to(User.current, :view_team_planner)
+        query = query.where(queries: { project: allowed_projects })
       end
 
       query
