@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Users::SetAttributesService, type: :model do
+RSpec.describe Users::SetAttributesService, type: :model do
   subject(:call) { instance.call(params) }
 
   let(:current_user) { build_stubbed(:user) }

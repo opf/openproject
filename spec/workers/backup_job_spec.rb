@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe BackupJob, type: :model do
+RSpec.describe BackupJob, type: :model do
   shared_examples "it creates a backup" do |opts = {}|
     let(:job) { BackupJob.new }
 

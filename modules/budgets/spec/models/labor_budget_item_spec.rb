@@ -28,7 +28,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe LaborBudgetItem do
+RSpec.describe LaborBudgetItem do
   let(:item) { build(:labor_budget_item, budget:, user:) }
   let(:budget) { build(:budget, project:) }
   let(:user) { create(:user) }

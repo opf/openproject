@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'types routes' do
+RSpec.describe 'types routes' do
   it do
     expect(post('/types/move/123')).to route_to(controller: 'types',
                                                 action: 'move',

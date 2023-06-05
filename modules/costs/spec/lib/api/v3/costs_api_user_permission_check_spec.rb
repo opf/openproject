@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::CostsApiUserPermissionCheck do
+RSpec.describe API::V3::CostsApiUserPermissionCheck do
   class CostsApiUserPermissionCheckTestClass
     # mimic representer
     def view_time_entries_allowed?

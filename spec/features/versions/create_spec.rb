@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'version create', js: false do
+RSpec.describe 'version create', js: false do
   let(:user) do
     create(:user,
            member_in_project: project,

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Projects::Filters::ParentFilter do
+RSpec.describe Queries::Projects::Filters::ParentFilter do
   let(:project1) { build_stubbed(:project) }
   let(:project2) { build_stubbed(:project) }
 

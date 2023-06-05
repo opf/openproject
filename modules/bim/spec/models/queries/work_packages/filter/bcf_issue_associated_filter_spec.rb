@@ -27,7 +27,7 @@
 #++
 require 'spec_helper'
 
-describe Bim::Queries::WorkPackages::Filter::BcfIssueAssociatedFilter do
+RSpec.describe Bim::Queries::WorkPackages::Filter::BcfIssueAssociatedFilter do
   include_context 'filter tests'
   let(:values) { [OpenProject::Database::DB_VALUE_TRUE] }
 

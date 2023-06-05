@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Sessions::SqlBypass do
+RSpec.describe Sessions::SqlBypass do
   subject { build(:user_session, user:) }
 
   shared_examples 'augments the user_id attribute' do

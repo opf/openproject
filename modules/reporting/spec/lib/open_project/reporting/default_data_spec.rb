@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::Reporting::DefaultData do
+RSpec.describe OpenProject::Reporting::DefaultData do
   let(:seeder) { BasicData::RoleSeeder.new }
   let(:project_admin) { OpenProject::Reporting::DefaultData.project_admin_role }
   let(:permissions) do

@@ -60,6 +60,9 @@ import {
 import {
   StorageInformationService,
 } from 'core-app/shared/components/storages/storage-information/storage-information.service';
+import {
+  StorageLoginButtonComponent,
+} from 'core-app/shared/components/storages/storage-login-button/storage-login-button.component';
 
 @NgModule({
   imports: [
@@ -70,6 +73,7 @@ import {
   ],
   declarations: [
     StorageComponent,
+    StorageLoginButtonComponent,
     FileLinkListItemComponent,
     FilePickerModalComponent,
     LocationPickerModalComponent,

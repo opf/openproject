@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::AttachmentContentFilter do
+RSpec.describe Queries::WorkPackages::Filter::AttachmentContentFilter do
   if OpenProject::Database.allows_tsv?
     context 'WP with attachment' do
       let(:context) { nil }

@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe 'WYSIWYG UI localization',
-         js: true do
+RSpec.describe 'WYSIWYG UI localization',
+               js: true do
   let(:user) { create(:admin, language:) }
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:editor) { Components::WysiwygEditor.new }

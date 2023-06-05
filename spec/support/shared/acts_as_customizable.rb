@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-shared_examples_for 'acts_as_customizable included' do
+RSpec.shared_examples_for 'acts_as_customizable included' do
   describe '#custom_field_changes' do
     context 'when no custom field value exists' do
       before do

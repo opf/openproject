@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Notifications::Filters::IdFilter do
+RSpec.describe Queries::Notifications::Filters::IdFilter do
   it_behaves_like 'basic query filter' do
     let(:class_key) { :id }
     let(:type) { :list }

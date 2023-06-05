@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Notifications::NotificationQuery do
+RSpec.describe Queries::Notifications::NotificationQuery do
   shared_let(:project) { create(:project) }
 
   shared_let(:recipient) { create(:user, member_in_project: project, member_with_permissions: %i[view_work_packages]) }

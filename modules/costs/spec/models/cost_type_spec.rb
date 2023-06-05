@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
-describe CostType do
+RSpec.describe CostType do
   let(:klass) { CostType }
   let(:cost_type) do
     klass.new name: 'ct1',

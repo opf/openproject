@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Work package with relation query group', js: true, selenium: true do
+RSpec.describe 'Work package with relation query group', js: true, selenium: true do
   include_context 'ng-select-autocomplete helpers'
 
   let(:user) { create(:admin) }

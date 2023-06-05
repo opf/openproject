@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Announcement do
+RSpec.describe Announcement do
   it do is_expected.to respond_to :text end
   it do is_expected.to respond_to :text= end
   it do is_expected.to respond_to :show_until end

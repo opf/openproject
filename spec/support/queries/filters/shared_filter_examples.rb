@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-shared_context 'filter tests' do
+RSpec.shared_context 'filter tests' do
   let(:context) { nil }
   let(:values) { ['bogus'] }
   let(:operator) { '=' }
@@ -38,7 +38,7 @@ shared_context 'filter tests' do
   let(:model) { WorkPackage }
 end
 
-shared_examples_for 'basic query filter' do
+RSpec.shared_examples_for 'basic query filter' do
   include_context 'filter tests'
 
   let(:context) { build_stubbed(:query, project:) }
@@ -72,7 +72,7 @@ shared_examples_for 'basic query filter' do
   end
 end
 
-shared_examples_for 'list query filter' do |scope: true|
+RSpec.shared_examples_for 'list query filter' do |scope: true|
   include_context 'filter tests'
   let(:attribute) { raise "needs to be defined" }
   let(:type) { :list }
@@ -131,7 +131,7 @@ shared_examples_for 'list query filter' do |scope: true|
   end
 end
 
-shared_examples_for 'list_optional query filter' do
+RSpec.shared_examples_for 'list_optional query filter' do
   include_context 'filter tests'
   let(:attribute) { raise "needs to be defined" }
   let(:type) { :list_optional }
@@ -222,7 +222,7 @@ shared_examples_for 'list_optional query filter' do
   end
 end
 
-shared_examples_for 'list_optional group query filter' do
+RSpec.shared_examples_for 'list_optional group query filter' do
   include_context 'filter tests'
   describe '#scope' do
     let(:values) { valid_values }
@@ -290,7 +290,7 @@ shared_examples_for 'list_optional group query filter' do
   end
 end
 
-shared_examples_for 'list_all query filter' do
+RSpec.shared_examples_for 'list_all query filter' do
   include_context 'filter tests'
   let(:attribute) { raise "needs to be defined" }
   let(:type) { :list_all }
@@ -370,7 +370,7 @@ shared_examples_for 'list_all query filter' do
   end
 end
 
-shared_examples_for 'boolean query filter' do |scope: true|
+RSpec.shared_examples_for 'boolean query filter' do |scope: true|
   include_context 'filter tests'
   let(:attribute) { raise "needs to be defined" }
   let(:type) { :list }
@@ -451,7 +451,7 @@ shared_examples_for 'boolean query filter' do |scope: true|
   end
 end
 
-shared_examples_for 'non ar filter' do
+RSpec.shared_examples_for 'non ar filter' do
   describe '#ar_object_filter?' do
     it 'is false' do
       expect(instance)
@@ -467,7 +467,7 @@ shared_examples_for 'non ar filter' do
   end
 end
 
-shared_examples_for 'filter by work package id' do
+RSpec.shared_examples_for 'filter by work package id' do
   include_context 'filter tests'
 
   let(:project) { build_stubbed(:project) }
@@ -675,7 +675,7 @@ shared_examples_for 'filter by work package id' do
   end
 end
 
-shared_examples_for 'operators for relation filters' do
+RSpec.shared_examples_for 'operators for relation filters' do
   context "on '=' operator" do
     before do
       instance.operator = '='
@@ -699,7 +699,7 @@ shared_examples_for 'operators for relation filters' do
   end
 end
 
-shared_examples_for 'filter for relation' do
+RSpec.shared_examples_for 'filter for relation' do
   describe '#where' do
     let!(:filter_value_wp) { create(:work_package) }
     let(:wp_relation_type) { defined?(:relation_type) ? relation_type : raise('needs to be defined') }

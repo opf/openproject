@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ColorsController do
+RSpec.describe ColorsController do
   let(:current_user) { create(:admin) }
 
   before do

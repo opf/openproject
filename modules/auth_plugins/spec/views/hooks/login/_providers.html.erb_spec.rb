@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'rendering the login buttons for all providers' do
+RSpec.describe 'rendering the login buttons for all providers' do
   let(:providers) do
     [
       { name: 'mock_auth' },

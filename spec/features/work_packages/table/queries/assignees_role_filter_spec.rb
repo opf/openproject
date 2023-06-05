@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe "Work package filtering by assignee's role", js: true do
+RSpec.describe "Work package filtering by assignee's role", js: true do
   shared_let(:project) { create(:project) }
   shared_let(:role) { create(:role, permissions: %i[view_work_packages save_queries]) }
   shared_let(:global_role) { create(:global_role, permissions: %i[view_work_packages save_queries]) }

@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../../support/pages/my/page'
 
-describe 'My page time entries current user widget spec', js: true, with_mail: false do
+RSpec.describe 'My page time entries current user widget spec', js: true, with_mail: false do
   let!(:type) { create(:type) }
   let!(:project) { create(:project, types: [type]) }
   let!(:activity) { create(:time_entry_activity) }

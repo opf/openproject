@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'messages', js: true do
+RSpec.describe 'messages', js: true do
   let(:forum) do
     create(:forum)
   end

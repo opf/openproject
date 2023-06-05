@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Projects::GanttQueryGeneratorService, type: :model do
+RSpec.describe Projects::GanttQueryGeneratorService, type: :model do
   let(:selected) { %w[1 2 3] }
   let(:instance) { described_class.new selected }
   let(:subject) { instance.call }

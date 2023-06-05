@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CustomActionsController, with_ee: %i[custom_actions] do
+RSpec.describe CustomActionsController, with_ee: %i[custom_actions] do
   let(:admin) { build(:admin) }
   let(:non_admin) { build(:user) }
   let(:action) { build_stubbed(:custom_action) }

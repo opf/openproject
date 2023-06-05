@@ -47,7 +47,7 @@ ru:
       replace_provider_type_oauth: "Заменить %{provider_type} OAuth"
       save_and_continue_setup: "Сохранить и продолжить установку"
       save_and_complete_setup: "Сохранить и завершить установку"
-      select_folder: "Select folder"
+      select_folder: "Выберите папку"
     page_titles:
       project_settings:
         index: "Файловые хранилища, доступные в этом проекте"
@@ -60,7 +60,7 @@ ru:
       host: "Пожалуйста, добавьте адрес вашего хранилища, включая https://. Он не должен быть длиннее 255 символов."
       no_storage_set_up: "Нет настроенных хранилищ файлов."
       no_specific_folder: "По умолчанию каждый пользователь при загрузке файла начинает работу со своей собственной домашней папки."
-      empty_project_folder_validation: "Selecting a folder is mandatory to proceed."
+      empty_project_folder_validation: "Выбор папки является обязательным для продолжения."
       existing_manual_folder: >
         Вы можете назначить существующую папку в качестве корневой папки для этого проекта. Однако разрешения не управляются автоматически, администратору необходимо вручную обеспечить доступ соответствующим пользователям. Выбранная папка может использоваться несколькими проектами.
       setting_up_additional_storages: "Для настройки дополнительных файловых хранилищ посетите"
@@ -94,7 +94,7 @@ ru:
     label_new_storage: "Новое хранилище"
     label_existing_manual_folder: "Существующая папка с разрешениями, управляемыми вручную"
     label_no_specific_folder: "Нет конкретной папки"
-    label_no_selected_folder: "No selected folder"
+    label_no_selected_folder: "Папка не выбрана"
     label_storage: "Хранилище"
     label_storages: "Хранилища"
     no_results: "Хранилища еще не настроены."

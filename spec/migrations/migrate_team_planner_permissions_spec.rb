@@ -29,7 +29,7 @@
 require Rails.root.join("db/migrate/20220414085531_migrate_team_planner_permissions.rb")
 require 'spec_helper'
 
-describe MigrateTeamPlannerPermissions, type: :model do
+RSpec.describe MigrateTeamPlannerPermissions, type: :model do
   # Silencing migration logs, since we are not interested in that during testing
   subject { ActiveRecord::Migration.suppress_messages { described_class.new.up } }
 

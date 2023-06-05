@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../spec_helper', __dir__)
 
-describe OpenProject::GithubIntegration::HookHandler do
+RSpec.describe OpenProject::GithubIntegration::HookHandler do
   describe '#process' do
     let(:handler) { described_class.new }
     let(:hook) { 'fake hook' }

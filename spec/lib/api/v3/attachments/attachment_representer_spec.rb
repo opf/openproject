@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Attachments::AttachmentRepresenter do
+RSpec.describe API::V3::Attachments::AttachmentRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do

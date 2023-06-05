@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'roar/decorator'
 
-describe OpenProject::Plugins::ActsAsOpEngine do
+RSpec.describe OpenProject::Plugins::ActsAsOpEngine do
   class ActsAsOpEngineTestEngine < Rails::Engine
     include OpenProject::Plugins::ActsAsOpEngine
   end

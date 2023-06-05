@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Meeting search', js: true do
+RSpec.describe 'Meeting search', js: true do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
   let(:project) { create(:project) }
   let(:user) { create(:user, member_in_project: project, member_through_role: role) }

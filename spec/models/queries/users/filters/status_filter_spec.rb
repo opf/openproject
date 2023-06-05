@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Users::Filters::StatusFilter do
+RSpec.describe Queries::Users::Filters::StatusFilter do
   it_behaves_like 'basic query filter' do
     let(:class_key) { :status }
     let(:type) { :list }

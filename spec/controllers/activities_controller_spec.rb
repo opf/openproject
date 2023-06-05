@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ActivitiesController do
+RSpec.describe ActivitiesController do
   shared_let(:admin) { create(:admin) }
   current_user { admin }
 

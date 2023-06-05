@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe 'Wysiwyg embedded work package tables',
-         js: true do
+RSpec.describe 'Wysiwyg embedded work package tables',
+               js: true do
   shared_let(:admin) { create(:admin) }
   let(:user) { admin }
   let(:type_task) { create(:type_task) }

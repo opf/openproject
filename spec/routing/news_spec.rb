@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe NewsController, 'routing' do
+RSpec.describe NewsController, 'routing' do
   context 'project scoped' do
     it {
       expect(subject).to route(:get, '/projects/567/news').to(controller: 'news',

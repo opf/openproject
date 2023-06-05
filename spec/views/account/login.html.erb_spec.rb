@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'account/login' do
+RSpec.describe 'account/login' do
   context 'with password login enabled' do
     before do
       render

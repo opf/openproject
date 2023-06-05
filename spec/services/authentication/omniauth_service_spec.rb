@@ -27,7 +27,7 @@
 
 require 'spec_helper'
 
-describe Authentication::OmniauthService do
+RSpec.describe Authentication::OmniauthService do
   let(:strategy) { double('Omniauth Strategy', name: 'saml') }
   let(:auth_hash) do
     OmniAuth::AuthHash.new(

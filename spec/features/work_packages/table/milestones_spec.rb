@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Inline editing milestones', js: true do
+RSpec.describe 'Inline editing milestones', js: true do
   let(:user) { create(:admin) }
 
   let(:type) { create(:type, is_milestone: true) }

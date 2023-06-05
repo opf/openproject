@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-shared_examples_for 'member contract' do
+RSpec.shared_examples_for 'member contract' do
   let(:current_user) do
     build_stubbed(:user, admin: current_user_admin) do |user|
       allow(user)

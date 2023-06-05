@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Principals::Scopes::Visible do
+RSpec.describe Principals::Scopes::Visible do
   describe '.visible' do
     shared_let(:role) { create(:role, permissions: %i[manage_members]) }
 

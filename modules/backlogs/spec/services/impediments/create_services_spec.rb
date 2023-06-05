@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Impediments::CreateService do
+RSpec.describe Impediments::CreateService do
   let(:instance) { described_class.new(user:) }
   let(:impediment_subject) { 'Impediment A' }
 

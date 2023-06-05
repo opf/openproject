@@ -27,7 +27,7 @@
 
 require 'spec_helper'
 
-describe Attachments::CreateService, 'integration', with_settings: { journal_aggregation_time_minutes: 0 } do
+RSpec.describe Attachments::CreateService, 'integration', with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:description) { 'a fancy description' }
 
   subject { described_class.new(user:) }

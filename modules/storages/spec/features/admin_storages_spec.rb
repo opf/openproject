@@ -28,7 +28,7 @@
 
 require_relative '../spec_helper'
 
-describe 'Admin storages', :storage_server_helpers, js: true do
+RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
   let(:admin) { create(:admin) }
 
   before do

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'wiki pages', js: true, with_settings: { journal_aggregation_time_minutes: 0 } do
+RSpec.describe 'wiki pages', js: true, with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:project) do
     create(:project, enabled_module_names: [:news])
   end

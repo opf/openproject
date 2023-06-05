@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
 
-shared_context 'with queries contract' do
+RSpec.shared_context 'with queries contract' do
   let(:project) { build_stubbed(:project) }
   let(:name) { 'Some query name' }
   let(:public) { false }

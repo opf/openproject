@@ -1,4 +1,4 @@
-shared_context 'principal membership management context' do
+RSpec.shared_context 'principal membership management context' do
   shared_let(:project) do
     create(:project,
            name: 'Project 1',
@@ -10,7 +10,7 @@ shared_context 'principal membership management context' do
   shared_let(:developer) { create(:role, name: 'Developer') }
 end
 
-shared_examples 'principal membership management flows' do
+RSpec.shared_examples 'principal membership management flows' do
   it 'handles role modification flow' do
     principal_page.visit!
     principal_page.open_projects_tab!
@@ -44,7 +44,7 @@ shared_examples 'principal membership management flows' do
   end
 end
 
-shared_examples 'global user principal membership management flows' do |permission|
+RSpec.shared_examples 'global user principal membership management flows' do |permission|
   context 'as global user' do
     shared_let(:global_user) { create(:user, global_permission: permission) }
     shared_let(:project_members) { { global_user => manager } }

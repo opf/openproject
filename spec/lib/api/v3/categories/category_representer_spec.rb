@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Categories::CategoryRepresenter do
+RSpec.describe API::V3::Categories::CategoryRepresenter do
   let(:category) { build_stubbed(:category) }
   let(:user) { build(:user) }
   let(:representer) { described_class.new(category, current_user: double('current_user')) }

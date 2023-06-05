@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::Utilities::ResourceLinkParser do
+RSpec.describe API::Utilities::ResourceLinkParser do
   subject { described_class }
 
   describe '#parse' do

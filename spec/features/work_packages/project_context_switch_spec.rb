@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Project context switching spec', js: true do
+RSpec.describe 'Project context switching spec', js: true do
   let(:user) { create(:admin) }
 
   let(:project) { create(:project) }

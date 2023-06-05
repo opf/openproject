@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative '../../../overviews/spec/support/pages/overview'
 
-describe 'Calendar drag&dop and resizing', js: true do
+RSpec.describe 'Calendar drag&dop and resizing', js: true do
   let(:project) do
     create(:project, enabled_module_names: %w[work_package_tracking calendar_view])
   end

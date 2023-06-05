@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::News::NewsQuery do
+RSpec.describe Queries::News::NewsQuery do
   let(:user) { build_stubbed(:user) }
   let(:base_scope) { News.visible(user).order(id: :desc) }
   let(:instance) { described_class.new }

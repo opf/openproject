@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative '../support/shared/become_member'
 
-describe Group do
+RSpec.describe Group do
   include BecomeMember
 
   let(:user) { build(:user) }

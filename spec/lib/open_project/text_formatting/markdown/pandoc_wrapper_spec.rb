@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::TextFormatting::Formats::Markdown::PandocWrapper do
+RSpec.describe OpenProject::TextFormatting::Formats::Markdown::PandocWrapper do
   let(:subject) { described_class.new }
 
   before do

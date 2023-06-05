@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe HelpController do
+RSpec.describe HelpController do
   it 'connects GET /help/keyboard_shortcuts to help#keyboard_shortcuts' do
     expect(get('/help/keyboard_shortcuts'))
       .to route_to(controller: 'help',

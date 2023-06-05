@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Wysiwyg attribute macros', js: true do
+RSpec.describe 'Wysiwyg attribute macros', js: true do
   shared_let(:admin) { create(:admin) }
   let(:user) { admin }
   let!(:project) { create(:project, identifier: 'some-project', enabled_module_names: %w[wiki work_package_tracking]) }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Show the date of a Work Package', js: true do
+RSpec.describe 'Show the date of a Work Package', js: true do
   let(:project) { create(:project) }
   let(:admin) { create(:admin) }
   let(:work_package) do

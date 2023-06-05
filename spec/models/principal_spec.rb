@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Principal do
+RSpec.describe Principal do
   let(:user) { build(:user) }
   let(:group) { build(:group) }
 

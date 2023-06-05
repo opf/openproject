@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Bim::IfcModels::UpdateService do
+RSpec.describe Bim::IfcModels::UpdateService do
   let(:user) { build_stubbed(:user) }
   let(:contract_class) do
     double('contract_class', '<=': true)

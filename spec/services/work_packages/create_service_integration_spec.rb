@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::CreateService, 'integration', type: :model do
+RSpec.describe WorkPackages::CreateService, 'integration', type: :model do
   let(:user) do
     create(:user,
            member_in_project: project,

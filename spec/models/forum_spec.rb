@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require 'support/shared/acts_as_watchable'
 
-describe Forum do
+RSpec.describe Forum do
   it_behaves_like 'acts_as_watchable included' do
     let(:model_instance) { create(:forum) }
     let(:watch_permission) { :view_messages } # view_messages is a public permission

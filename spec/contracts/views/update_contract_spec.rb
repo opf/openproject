@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_contract_examples'
 
-describe Views::UpdateContract do
+RSpec.describe Views::UpdateContract do
   # TODO: this is just a stub to ensure that the type is not altered
   it_behaves_like 'view contract' do
     let(:view) do

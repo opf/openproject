@@ -3,4 +3,5 @@ sl:
   label_calendar_plural: "Koledarji"
   permission_view_calendar: "Poglej koledarje"
   permission_manage_calendars: "Uporavljaj koledarje"
+  permission_share_calendars: "Share calendars"
   project_module_calendar_view: "Koledar"

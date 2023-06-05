@@ -29,7 +29,7 @@
 require 'spec_helper'
 require Rails.root + 'spec/lib/api/v3/work_packages/eager_loading/eager_loading_mock_wrapper'
 
-describe API::V3::WorkPackages::EagerLoading::Checksum do
+RSpec.describe API::V3::WorkPackages::EagerLoading::Checksum do
   let!(:bcf_issue) do
     create(:bcf_issue,
            work_package:)

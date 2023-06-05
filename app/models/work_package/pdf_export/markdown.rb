@@ -51,7 +51,7 @@ module WorkPackage::PDFExport::Markdown
       end
     end
 
-    def image_url_to_local_file(url, _node)
+    def image_url_to_local_file(url, _node = nil)
       return nil if url.blank? || @image_loader.nil?
 
       @image_loader.call(url)

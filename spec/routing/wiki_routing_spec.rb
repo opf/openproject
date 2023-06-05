@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WikiController do
+RSpec.describe WikiController do
   describe 'routing' do
     it {
       expect(subject).to route(:get, '/projects/567/wiki').to(controller: 'wiki',

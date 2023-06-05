@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './support/board_overview_page'
 
-describe 'Work Package boards overview spec', with_ee: %i[board_view], with_flag: { more_global_index_pages: true } do
+RSpec.describe 'Work Package boards overview spec', with_ee: %i[board_view], with_flag: { more_global_index_pages: true } do
   let(:user) do
     create(:user,
            member_in_project: project,

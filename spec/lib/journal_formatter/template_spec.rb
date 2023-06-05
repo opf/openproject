@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::JournalFormatter::Template do
+RSpec.describe OpenProject::JournalFormatter::Template do
   let(:instance) { described_class.new(build(:project_journal)) }
 
   it "renders correctly when marked as template" do

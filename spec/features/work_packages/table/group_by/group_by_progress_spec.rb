@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Work Package group by progress', js: true do
+RSpec.describe 'Work Package group by progress', js: true do
   let(:user) { create(:admin) }
 
   let(:project) { create(:project) }

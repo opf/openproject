@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Authentication::OmniauthAuthHashContract do
+RSpec.describe Authentication::OmniauthAuthHashContract do
   let(:auth_hash) do
     OmniAuth::AuthHash.new(
       provider: 'google',

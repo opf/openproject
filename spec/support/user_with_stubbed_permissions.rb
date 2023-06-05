@@ -1,4 +1,4 @@
-shared_context 'user with stubbed permissions' do |attributes = {}|
+RSpec.shared_context 'user with stubbed permissions' do |attributes = {}|
   let(:user) do
     raise "'let(:permissions)' needs to be defined" unless defined?(:permissions)
     raise "'let(:project)' needs to be defined" unless defined?(:project)

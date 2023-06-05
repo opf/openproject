@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CustomFieldsController do
+RSpec.describe CustomFieldsController do
   let!(:custom_field) { create(:work_package_custom_field) }
   let!(:custom_field_permanent) { create(:work_package_custom_field) }
   let(:custom_field_name) { "CustomField#{custom_field.id}" }

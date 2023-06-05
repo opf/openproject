@@ -28,7 +28,7 @@
 require 'spec_helper'
 require_relative '../shared_expectations'
 
-describe CustomActions::Conditions::Project do
+RSpec.describe CustomActions::Conditions::Project do
   it_behaves_like 'associated custom condition' do
     let(:key) { :project }
 

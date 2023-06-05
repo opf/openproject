@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe AttachmentWebhookJob, type: :job, webmock: true do
+RSpec.describe AttachmentWebhookJob, type: :job, webmock: true do
   shared_let(:user) { create(:admin) }
   shared_let(:request_url) { "http://example.net/test/42" }
   shared_let(:project) { create(:project, name: 'Foo Bar') }

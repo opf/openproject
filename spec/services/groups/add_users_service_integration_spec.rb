@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Groups::AddUsersService, 'integration' do
+RSpec.describe Groups::AddUsersService, 'integration' do
   subject(:service_call) { instance.call(ids: user_ids, message:) }
 
   let(:projects) { create_list(:project, 2) }

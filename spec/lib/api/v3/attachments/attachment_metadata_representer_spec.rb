@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Attachments::AttachmentParsingRepresenter do
+RSpec.describe API::V3::Attachments::AttachmentParsingRepresenter do
   let(:current_user) { build_stubbed(:user) }
   let(:metadata) do
     data = API::ParserStruct.new

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'settings routes' do
+RSpec.describe 'settings routes' do
   it do
     expect(get('/admin/settings/plugin/abc'))
       .to route_to(controller: 'admin/settings',

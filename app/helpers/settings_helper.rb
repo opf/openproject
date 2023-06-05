@@ -40,9 +40,9 @@ module SettingsHelper
         label: :label_general
       },
       {
-        name: 'display',
-        controller: '/admin/settings/display_settings',
-        label: :label_display
+        name: 'languages',
+        controller: '/admin/settings/languages_settings',
+        label: :label_languages
       },
       {
         name: 'projects',

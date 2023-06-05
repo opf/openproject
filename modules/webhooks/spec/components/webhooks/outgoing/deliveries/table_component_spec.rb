@@ -27,7 +27,7 @@
 #++
 require 'spec_helper'
 
-describe Webhooks::Outgoing::Deliveries::TableComponent, type: :component do
+RSpec.describe Webhooks::Outgoing::Deliveries::TableComponent, type: :component do
   it 'escapes response body html' do
     delivery = create(:webhook_log, response_body: 'Hello <b>world<b/>!')
     render_inline described_class.new(rows: [delivery])

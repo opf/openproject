@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Ldap::SynchronizeUsersService do
+RSpec.describe Ldap::SynchronizeUsersService do
   include_context 'with temporary LDAP'
 
   subject do

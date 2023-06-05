@@ -27,7 +27,7 @@
 
 require 'spec_helper'
 
-describe SCM::DeleteManagedRepositoryService do
+RSpec.describe SCM::DeleteManagedRepositoryService do
   let(:user) { build(:user) }
   let(:config) { {} }
   let(:project) { build(:project) }
