@@ -103,7 +103,7 @@ module Pages::Meetings
     end
 
     def path
-      meetings_path(project)
+      polymorphic_path([project, :meetings])
     end
   end
 end
