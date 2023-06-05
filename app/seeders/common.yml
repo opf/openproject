@@ -71,11 +71,11 @@ colors:
   hexcode: '#000000'
 
 document_categories:
-- t_name: Management
+- t_name: Documentation
   position: 1
-- t_name: Security
+- t_name: Specification
   position: 2
-- t_name: Accessibility
+- t_name: Other
   position: 3
 
 # Palette by open-color
