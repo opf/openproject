@@ -29,7 +29,7 @@ module OpenProject::TeamPlanner
              name: 'OpenProject Team Planner' do
       project_module :team_planner_view, dependencies: :work_package_tracking do
         permission :view_team_planner,
-                   { 'team_planner/team_planner': %i[index show upsale] },
+                   { 'team_planner/team_planner': %i[index show upsale overview] },
                    dependencies: %i[view_work_packages],
                    contract_actions: { team_planner: %i[read] }
         permission :manage_team_planner,
