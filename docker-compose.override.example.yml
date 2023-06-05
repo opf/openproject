@@ -3,12 +3,14 @@
 
 services:
   backend:
+    environment:
+      OPENPROJECT_CLI_PROXY: "http://localhost:${PORT}"
     ports:
       - "3000:3000"
 
   frontend:
     ports:
-      - "4200:4200"
+      - "${PORT}:4200"
 
   storybook:
     ports:
