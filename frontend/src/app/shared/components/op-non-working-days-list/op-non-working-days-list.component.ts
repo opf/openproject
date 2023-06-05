@@ -95,6 +95,7 @@ export class OpNonWorkingDaysListComponent implements OnInit {
       anchor.title = 'Delete';
       anchor.href = '#';
       anchor.classList.add('fc-list-day-side-text', 'op-non-working-days-list--delete-icon');
+      anchor.setAttribute('data-qa-selector', 'op-non-working-days-list--delete-icon');
       anchor.appendChild(spotIconElement('delete'));
 
       anchor.addEventListener('click', () => {

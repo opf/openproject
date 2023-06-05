@@ -8,8 +8,9 @@
       [attr.title]="text.toggleHierarchy"
       tabindex="-1"
       aria-hidden="true"
+      [attr.data-qa-hierarchy-type]="hierarchyType"
     >
-      <span class="spot-icon spot-icon_{{ hierarchyIcon }}"></span>
+      <span class="spot-icon spot-icon_{{ hierarchyType }}"></span>
     </span>
 
     <!--suppress XmlDuplicatedId -->

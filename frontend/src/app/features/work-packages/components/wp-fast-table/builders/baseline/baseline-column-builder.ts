@@ -69,7 +69,7 @@ export class BaselineColumnBuilder {
     }
 
     if (state === 'updated') {
-      const icon = spotIconElement('left-right', '1');
+      const icon = spotIconElement('arrow-left-right', '1');
       icon.classList.add('op-table-baseline--icon-changed');
       icon.title = this.I18n.t('js.work_packages.baseline.modification_label');
       return icon;

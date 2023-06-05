@@ -35,6 +35,7 @@ export class DragDropHandleBuilder {
     // Wrap handle as span
     const span = document.createElement('span');
     span.classList.add('wp-table--drag-and-drop-handle', 'spot-icon', 'spot-icon_1_25', 'spot-icon_drag-handle');
+    span.setAttribute('data-qa-selector', 'wp-table--drag-and-drop-handle');
     td.appendChild(span);
 
     if (RENDER_DRAG_AND_DROP_POSITION) {

@@ -79,7 +79,7 @@ export class SortHeaderDirective extends UntilDestroyedMixin implements AfterVie
 
   columnName:string;
 
-  hierarchyIcon:string;
+  hierarchyType:string;
 
   isHierarchyDisabled:boolean;
 
@@ -146,7 +146,7 @@ export class SortHeaderDirective extends UntilDestroyedMixin implements AfterVie
     }
 
     if (this.isHierarchyColumn) {
-      this.hierarchyIcon = 'hierarchy';
+      this.hierarchyType = 'hierarchy';
       this.isHierarchyDisabled = this.wpTableGroupBy.isEnabled;
 
       // Disable hierarchy mode when group by is active
@@ -167,12 +167,12 @@ export class SortHeaderDirective extends UntilDestroyedMixin implements AfterVie
           this.untilDestroyed(),
         )
         .subscribe(() => {
-          this.setHierarchyIcon();
+          this.setHierarchyType();
           this.cdRef.detectChanges();
         });
 
       // Set initial icon
-      this.setHierarchyIcon();
+      this.setHierarchyType();
     }
 
     this
@@ -201,19 +201,19 @@ export class SortHeaderDirective extends UntilDestroyedMixin implements AfterVie
       this.wpTableGroupBy.disable();
     }
 
-    this.setHierarchyIcon();
+    this.setHierarchyType();
 
     evt.stopPropagation();
     return false;
   }
 
-  setHierarchyIcon() {
+  setHierarchyType() {
     if (this.wpTableHierarchies.isEnabled) {
       this.text.toggleHierarchy = I18n.t('js.work_packages.hierarchy.hide');
-      this.hierarchyIcon = 'hierarchy';
+      this.hierarchyType = 'hierarchy';
     } else {
       this.text.toggleHierarchy = I18n.t('js.work_packages.hierarchy.show');
-      this.hierarchyIcon = 'no-hierarchy';
+      this.hierarchyType = 'no-hierarchy';
     }
   }
 
