@@ -317,17 +317,17 @@ ru:
               new_features_html: >
                 Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Загрузить и связать файлы с рабочими пакетами до вашего хранилища файлов Nextcloud.</li> <li>Последующая деятельность по изменениям проекта при отслеживании активности проекта.</li> <li>Добавляет публичные праздники в один экземпляр (нерабочие дни).</li> <li>Архивные проекты неадминов.</li> <li>Новый фильтр по умолчанию для просроченных пакетов работ.</li> </ul>
     ical_sharing_modal:
-      title: "Subscribe to iCalendar"
-      inital_setup_error_message: "An error occured while fetching data."
-      description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
-      warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
-      token_name_label: "Token name"
-      token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
-      token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
-      copy_url_label: "Copy URL"
-      ical_generation_error_text: "An error occured while generating the iCal URL."
-      copy_url_success_text: "URL copied to clipboard."
-      copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
+      title: "Подписаться на iCalendar"
+      inital_setup_error_message: "Произошла ошибка при получении данных."
+      description: "Вы можете использовать URL-адрес iCalendar для импорта или подписки на этот календарь во внешнем клиенте и просматривать информацию о рабочем пакете отсюда."
+      warning: "Пожалуйста, не делитесь этим URL-адресом с внешними пользователями. Любой пользователь с этой ссылкой сможет просматривать детали пакета работ без учетной записи или пароля."
+      token_name_label: "Имя токена"
+      token_name_placeholder: "Введите имя для этого токена, например \"Приложение Моего календаря\""
+      token_name_description_text: "Это имя будет использоваться для выделения других маркеров в <a href=\"my/access_token\", target=\"_blank\">списке маркеров доступа</a>. Может быть использовано только один раз в календарь."
+      copy_url_label: "Копировать URL"
+      ical_generation_error_text: "Произошла ошибка при генерации URL-адреса iCal."
+      copy_url_success_text: "URL скопирован в буфер обмена."
+      copy_url_error_text: "Из-за ошибок браузера URL не может быть скопирован в буфер обмена. Пожалуйста, скопируйте его вручную: %{icalUrl}"
     label_activate: "Активировать"
     label_assignee: 'Ответственный'
     label_add_column_after: "Добавить столбец после"
@@ -937,7 +937,7 @@ ru:
         addition_label: 'Добавлено для просмотра в период сравнения'
         removal_label: 'Удалено из просмотра в период сравнения'
         modification_label: 'Изменено в период времени сравнения'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        column_incompatible: 'Этот атрибут несовместим с базовой линией и не будет показывать различия.'
       filters:
         title: 'Фильтровать пакеты работ'
         baseline_incompatible: 'Этот фильтр несовместим с базовой линией и не будет включен в сравнение.'
@@ -1102,7 +1102,7 @@ ru:
         save_as: "Сохранить как"
         export: "Экспортировать"
         visibility_settings: "Настройки видимости"
-        share_calendar: "Subscribe to iCalendar"
+        share_calendar: "Подписаться на iCalendar"
         page_settings: "Переименовать представления"
         delete: "Удалить"
       filter: "Фильтр"
@@ -1279,10 +1279,10 @@ ru:
       toggle_title: 'Исходный уровень'
       clear: 'Очистить'
       apply: 'Применить'
-      header_description: 'Highlight changes made to this list since any point in the past.'
-      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
+      header_description: 'Выделите изменения, внесенные в этот список с любого момента в прошлом.'
+      enterprise_header_description: 'Выделите изменения, внесенные в этот список с любого момента в прошлом с помощью Enterprise edition.'
       show_changes_since: 'Показать изменения с'
-      baseline_comparison: 'Baseline comparison'
+      baseline_comparison: 'Сравнение исходных условий'
       help_description: 'Эталонный часовой пояс для базового уровня.'
       time_description: 'В ваше местное время: %{datetime}'
       time: 'Время'
