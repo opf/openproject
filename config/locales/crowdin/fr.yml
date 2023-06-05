@@ -269,6 +269,7 @@ fr:
       notice_reset_token: "Un nouveau jeton de %{type} a été généré. Votre jeton d’accès est :"
       token_value_warning: "Note : Ceci est la seule fois où vous verrez ce jeton, veuillez le copier maintenant."
       no_results_title_text: Aucun jeton d'accès disponible pour le moment.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Il n'y a actuellement aucune actualité à publier.
@@ -691,6 +692,11 @@ fr:
           overlaps: 'superposition.'
           outside: 'est hors de la grille.'
           end_before_start: 'la valeur finale doit être supérieure à la valeur de départ.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'Au moins un canal pour envoyer des notifications doit être spécifié.'
           attributes:
@@ -1520,6 +1526,12 @@ fr:
   label_api_access_key: "Clé d'accès API"
   label_api_access_key_created_on: "Clé d'accès API créé il y a %{value}"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Statut appliqué"
   label_archive_project: "Archiver le projet"
   label_ascending: "Croissant"

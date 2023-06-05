@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'export_card_configurations/edit' do
+RSpec.describe 'export_card_configurations/edit' do
   let(:config) { build(:export_card_configuration) }
 
   before do

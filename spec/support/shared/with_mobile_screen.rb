@@ -24,7 +24,7 @@
 #
 #  See COPYRIGHT and LICENSE files for more details.
 
-shared_context 'with mobile screen size' do |width, height|
+RSpec.shared_context 'with mobile screen size' do |width, height|
   let!(:height_before) do
     page.driver.browser.manage.window.size.height
   end

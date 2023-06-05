@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::CostTypes::CostTypeRepresenter do
+RSpec.describe API::V3::CostTypes::CostTypeRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:cost_type) { build_stubbed(:cost_type) }

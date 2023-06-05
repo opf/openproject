@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Days::WeekDayRepresenter do
+RSpec.describe API::V3::Days::WeekDayRepresenter do
   let(:week_day) { build(:week_day, day: 1) }
   let(:representer) { described_class.new(week_day, current_user: instance_double(User, name: 'current_user')) }
 

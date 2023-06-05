@@ -27,7 +27,7 @@
 # ++
 require 'spec_helper'
 
-describe OpenProject::FeatureDecisions, :settings_reset do
+RSpec.describe OpenProject::FeatureDecisions, :settings_reset do
   let(:flag_name) { :example_flag }
 
   include_context 'with clean feature decisions'

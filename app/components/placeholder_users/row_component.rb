@@ -28,11 +28,6 @@
 
 module PlaceholderUsers
   class RowComponent < ::RowComponent
-    include AvatarHelper
-    include UsersHelper
-    include PlaceholderUsersHelper
-    include TooltipHelper
-
     def placeholder_user
       model
     end
@@ -42,7 +37,7 @@ module PlaceholderUsers
     end
 
     def created_at
-      format_time placeholder_user.created_at
+      helpers.format_time placeholder_user.created_at
     end
 
     def button_links
@@ -50,12 +45,12 @@ module PlaceholderUsers
     end
 
     def delete_link
-      if can_delete_placeholder_user?(placeholder_user, User.current)
+      if helpers.can_delete_placeholder_user?(placeholder_user, User.current)
         link_to deletion_info_placeholder_user_path(placeholder_user) do
-          tooltip_tag I18n.t('placeholder_users.delete_tooltip'), icon: 'icon-delete'
+          helpers.tooltip_tag I18n.t('placeholder_users.delete_tooltip'), icon: 'icon-delete'
         end
       else
-        tooltip_tag I18n.t('placeholder_users.right_to_manage_members_missing'), icon: 'icon-help2'
+        helpers.tooltip_tag I18n.t('placeholder_users.right_to_manage_members_missing'), icon: 'icon-help2'
       end
     end
 

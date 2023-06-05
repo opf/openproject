@@ -29,8 +29,8 @@
 require 'spec_helper'
 require_relative './expected_markdown'
 
-describe OpenProject::TextFormatting,
-         'work package button macro' do
+RSpec.describe OpenProject::TextFormatting,
+               'work package button macro' do
   include_context 'expected markdown modules'
   shared_let(:admin) { create(:admin) }
 

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, 'blocks/blocked_by relations' do
+RSpec.describe WorkPackage, 'blocks/blocked_by relations' do
   create_shared_association_defaults_for_work_package_factory
   shared_let(:work_package) { create(:work_package, subject: 'blocked wp') }
 

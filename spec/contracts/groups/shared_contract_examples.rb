@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-shared_examples_for 'group contract' do
+RSpec.shared_examples_for 'group contract' do
   let(:group_name) { 'The group' }
   let(:group_users_user_ids) { [42, 43] }
   let(:group_users) do

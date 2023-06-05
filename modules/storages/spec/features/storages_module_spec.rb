@@ -28,7 +28,7 @@
 
 require_relative '../spec_helper'
 
-describe 'Storages module', js: true do
+RSpec.describe 'Storages module', js: true do
   current_user { create(:admin) }
 
   let(:role) { create(:role, permissions: %i[manage_storages_in_project select_project_modules edit_project]) }

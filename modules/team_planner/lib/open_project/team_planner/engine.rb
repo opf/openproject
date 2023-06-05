@@ -53,6 +53,16 @@ module OpenProject::TeamPlanner
            partial: 'team_planner/team_planner/menu',
            last: true,
            caption: :'team_planner.label_team_planner_plural'
+
+      menu :top_menu,
+           :team_planners, { controller: '/team_planner/team_planner', action: :overview },
+           context: :modules,
+           caption: :'team_planner.label_team_planner_plural',
+           if: Proc.new {
+             OpenProject::FeatureDecisions.more_global_index_pages_active? &&
+              (User.current.logged? || !Setting.login_required?) &&
+                User.current.allowed_to_globally?(:view_team_planner)
+           }
     end
 
     add_view :TeamPlanner,

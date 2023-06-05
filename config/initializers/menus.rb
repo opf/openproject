@@ -189,7 +189,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :user_settings,
             { controller: '/admin/settings/users_settings', action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :label_setting_plural,
+            caption: :label_users_settings,
             parent: :users_and_permissions
 
   menu.push :users,

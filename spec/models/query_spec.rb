@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe Query,
-         with_ee: %i[baseline_comparison conditional_highlighting work_package_query_relation_columns] do
+RSpec.describe Query,
+               with_ee: %i[baseline_comparison conditional_highlighting work_package_query_relation_columns] do
   let(:query) { build(:query) }
   let(:project) { create(:project) }
 
@@ -191,7 +191,7 @@ describe Query,
         let(:timestamps) { "lastWorkingDay@00:00+00:00" }
 
         before do
-          allow(Day).to receive(:last_working) { Day.first }
+          allow(Day).to receive(:last_working) { Day.new(date: 7.days.ago) }
         end
 
         it 'is invalid' do
@@ -521,12 +521,6 @@ describe Query,
   end
 
   describe '#valid?' do
-    it 'is not valid without a name' do
-      query.name = ''
-      expect(query.save).to be_falsey
-      expect(query.errors[:name].first).to include(I18n.t('activerecord.errors.messages.blank'))
-    end
-
     context 'with a missing value and an operator that requires values' do
       before do
         query.add_filter('due_date', 't-', [''])
@@ -810,6 +804,23 @@ describe Query,
     end
   end
 
+  describe '#remove_filter' do
+    context 'if the filter exists' do
+      it 'removes the filter' do
+        # Works because status_id is there by default
+        expect { query.remove_filter('status_id') }
+          .to change { query.filters.count }.by(-1)
+      end
+    end
+
+    context 'if the filter does not exist' do
+      it 'is a noop' do
+        expect { query.remove_filter('assigned_to_id') }
+          .not_to change { query.filters.count }
+      end
+    end
+  end
+
   describe 'filters and statement_filters (private method)' do
     def subproject_filter?(filter)
       filter.is_a?(Queries::WorkPackages::Filter::SubprojectFilter)
@@ -870,6 +881,34 @@ describe Query,
       end
 
       it_behaves_like 'does not add a subproject id filter'
+    end
+  end
+
+  describe 'ical tokens' do
+    let(:user) { create(:user) }
+    let(:query) { create(:query, user:) }
+
+    context 'when present' do
+      let(:ical_token) { create(:ical_token, user:, query:, name: "Some Token") }
+
+      it 'can be accessed via relation' do
+        expect(query.ical_tokens).to contain_exactly(ical_token)
+      end
+
+      it 'are destroyed when query is destroyed' do
+        expect do
+          query.destroy!
+        end.to change { Token::ICal.where(id: ical_token.id).count }.by(-1)
+        expect(ICalTokenQueryAssignment.all).to be_empty
+      end
+    end
+
+    context 'when not present' do
+      it 'do not cause errors on query.destroy' do
+        expect do
+          query.destroy!
+        end.not_to raise_error
+      end
     end
   end
 end

@@ -37,7 +37,6 @@ import {
   NgZone,
   OnInit,
   Output,
-  ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
@@ -68,7 +67,6 @@ import {
 import { States } from 'core-app/core/states/states.service';
 import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
-import { OpBaselineLegendsComponent } from '../wp-baseline/baseline-legends/baseline-legends.component';
 
 export interface WorkPackageFocusContext {
   /** Work package that was focused */
@@ -141,7 +139,8 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
 
   public sumVisible = false;
 
-  constructor(readonly elementRef:ElementRef,
+  constructor(
+    readonly elementRef:ElementRef,
     readonly injector:Injector,
     readonly states:States,
     readonly querySpace:IsolatedQuerySpace,

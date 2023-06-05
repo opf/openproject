@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe TimeEntries::SetAttributesService, type: :model do
+RSpec.describe TimeEntries::SetAttributesService, type: :model do
   let(:user) { build_stubbed(:user) }
   let(:activity) { build_stubbed(:time_entry_activity, project:) }
   let!(:default_activity) { build_stubbed(:time_entry_activity, project:, is_default: true) }

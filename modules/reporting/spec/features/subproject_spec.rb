@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Cost report in subproject', js: true do
+RSpec.describe 'Cost report in subproject', js: true do
   let!(:project) { create(:project) }
   let!(:subproject) { create(:project, parent: project) }
 

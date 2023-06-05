@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative '../../../support/storage_server_helpers'
 
-shared_examples_for 'storage contract', :storage_server_helpers, webmock: true do
+RSpec.shared_examples_for 'storage contract', :storage_server_helpers, webmock: true do
   # Only admins have the right to create/delete storages.
   let(:current_user) { create(:admin) }
   let(:storage_name) { 'Storage 1' }

@@ -42,9 +42,7 @@ OpenProject::Application.routes.draw do
 
   scope 'projects/:project_id', as: 'project' do
     namespace 'settings' do
-      resources :projects_storages, controller: '/storages/admin/projects_storages', except: %i[show] do
-        get 'set_permissions', to: '/storages/admin/projects_storages#set_permissions'
-      end
+      resources :projects_storages, controller: '/storages/admin/projects_storages', except: %i[show]
     end
   end
 end

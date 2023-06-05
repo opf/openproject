@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative '../shared_expectations'
 
-describe CustomActions::Actions::DoneRatio do
+RSpec.describe CustomActions::Actions::DoneRatio do
   let(:key) { :done_ratio }
   let(:type) { :integer_property }
 

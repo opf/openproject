@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Projects module administration' do
+RSpec.describe 'Projects module administration' do
   let!(:project) do
     create(:project,
            enabled_module_names: [])

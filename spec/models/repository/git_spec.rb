@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Repository::Git do
+RSpec.describe Repository::Git do
   let(:encoding) { 'UTF-8' }
   let(:instance) { build(:repository_git, path_encoding: encoding) }
   let(:adapter) { instance.scm }

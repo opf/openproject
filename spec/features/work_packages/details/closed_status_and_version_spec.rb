@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Closed status and version in full view', js: true do
+RSpec.describe 'Closed status and version in full view', js: true do
   let(:type) { create(:type) }
   let(:status) { create(:closed_status) }
 

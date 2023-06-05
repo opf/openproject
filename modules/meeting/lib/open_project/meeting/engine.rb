@@ -64,7 +64,7 @@ module OpenProject::Meeting
            icon: 'meetings'
 
       menu :top_menu,
-           :meetings, { controller: '/meetings', project_id: nil, action: 'index' },
+           :meetings, { controller: '/meetings', action: 'index', project_id: nil },
            context: :modules,
            caption: :label_meeting_plural,
            if: Proc.new {

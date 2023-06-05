@@ -33,8 +33,6 @@
 # See also: row_component.rb defining the rows of the table
 module Storages::Admin
   class TableComponent < ::TableComponent
-    include ::IconsHelper # Global helper for icons, defines op_icon(...)
-
     # Defines the list of columns in the table using symbols.
     # These symbols are used below to define header (top of the table)
     # and contents of the components
@@ -56,7 +54,7 @@ module Storages::Admin
       link_to(new_admin_settings_storage_path,
               class: 'wp-inline-create--add-link',
               title: I18n.t('storages.label_new_storage')) do
-        op_icon('icon icon-add')
+        helpers.op_icon('icon icon-add')
       end
     end
 

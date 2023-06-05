@@ -269,6 +269,7 @@ ro:
       notice_reset_token: "S-a generat un token nou %{type} . Token-ul de acces este:"
       token_value_warning: "Notă: este singura dată când veți vedea acest token, asigurați-vă că îl copiați acum."
       no_results_title_text: În acest moment nu există tichete de acces disponibile.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: În acest moment nu există știri de raportat.
@@ -692,6 +693,11 @@ ro:
           overlaps: 'suprapunere.'
           outside: 'se află în afara rețelei.'
           end_before_start: 'valoarea finală trebuie să fie mai mare decât valoarea inițială.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'Trebuie specificat cel puţin un canal pentru trimiterea notificărilor.'
           attributes:
@@ -1539,6 +1545,12 @@ ro:
   label_api_access_key: "Cheie de acces API"
   label_api_access_key_created_on: "Cheia de acces creată acum %{value}"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Stare aplicată"
   label_archive_project: "Proiect de arhivă"
   label_ascending: "Crescător"

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-shared_examples_for 'GET individual query' do
+RSpec.shared_examples_for 'GET individual query' do
   let(:work_package) { create(:work_package, project:) }
   let(:filter) { [] }
   let(:path) do

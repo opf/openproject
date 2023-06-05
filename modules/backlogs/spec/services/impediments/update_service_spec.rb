@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe Impediments::UpdateService, type: :model do
+RSpec.describe Impediments::UpdateService, type: :model do
   let(:instance) { described_class.new(user:, impediment:) }
 
   let(:user) { create(:user) }

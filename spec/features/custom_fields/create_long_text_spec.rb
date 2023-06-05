@@ -1,10 +1,10 @@
 require 'spec_helper'
 require 'support/pages/custom_fields'
 
-describe 'custom fields', js: true do
+RSpec.describe 'custom fields', js: true do
   let(:user) { create(:admin) }
   let(:cf_page) { Pages::CustomFields.new }
-  let(:editor) { Components::WysiwygEditor.new '#default_value_long_text' }
+  let(:editor) { Components::WysiwygEditor.new '#custom_field_form' }
   let(:type) { create(:type_task) }
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking], types: [type]) }
 

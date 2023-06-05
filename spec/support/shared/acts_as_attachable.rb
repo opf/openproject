@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-shared_examples_for 'acts_as_attachable included' do
+RSpec.shared_examples_for 'acts_as_attachable included' do
   let(:attachment1) { create(:attachment, container: nil, author: current_user) }
   let(:attachment2) { create(:attachment, container: nil, author: current_user) }
   let(:instance_project) { respond_to?(:project) ? project : model_instance.project }

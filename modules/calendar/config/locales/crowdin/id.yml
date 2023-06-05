@@ -3,4 +3,5 @@ id:
   label_calendar_plural: "Kalender"
   permission_view_calendar: "Lihat kalender"
   permission_manage_calendars: "Kelola kalender"
+  permission_share_calendars: "Share calendars"
   project_module_calendar_view: "Kalender"

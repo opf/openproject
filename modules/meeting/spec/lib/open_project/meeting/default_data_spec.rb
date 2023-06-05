@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::Meeting::DefaultData, with_clean_fixture: true do
+RSpec.describe OpenProject::Meeting::DefaultData, with_clean_fixture: true do
   let(:seeder) { BasicData::RoleSeeder.new }
 
   let(:roles) { [member, reader] }

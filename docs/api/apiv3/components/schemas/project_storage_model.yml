@@ -1,0 +1,99 @@
+# Schema: ProjectStorageModel
+---
+type: object
+required:
+  - _type
+  - id
+  - projectFolderMode
+  - createdAt
+  - updatedAt
+properties:
+  _type:
+    type: string
+    enum:
+      - ProjectStorage
+  id:
+    type: integer
+    description: The project storage's id
+    minimum: 1
+  projectFolderMode:
+    type: string
+    enum:
+      - inactive
+      - manual
+  createdAt:
+    type: string
+    format: date-time
+    description: Time of creation
+  updatedAt:
+    type: string
+    format: date-time
+    description: Time of the most recent change to the project storage
+  _links:
+    type: object
+    required:
+      - self
+      - creator
+      - storage
+      - project
+    properties:
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              This project storage.
+              
+              **Resource**: ProjectStorage
+      creator:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The user who created the project storage. 
+              
+              **Resource**: User
+      storage:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The storage resource, that is linked to a project with this project storage.
+              
+              **Resource**: Storage
+      project:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The project resource, that is linked to a storage with this project storage.
+              
+              **Resource**: Project
+      projectFolder:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The directory on the storage that is used as a manual project folder.
+              
+              **Resource**: StorageFile
+              
+              # Conditions
+              
+              Only provided, if the `projectFolderMode` is set to `manual`.
+
+example:
+  _type: 'ProjectStorage'
+  id: 1337
+  projectFolderMode: 'manual'
+  createdAt: '2023-01-20T14:30:00Z'
+  updatedAt: '2023-05-23T11:57:48Z'
+  _links:
+    self:
+      href: '/api/v3/project_storages/23'
+    projectFolder:
+      href: '/api/v3/storages/81/files/30'
+    creator:
+      title: 'Darth Vader'
+      href: '/api/v3/users/3'
+    project:
+      title: 'Death Star 3.0'
+      href: '/api/v3/projects/11'
+    storage:
+      title: "Palpatine's Data Vault"
+      href: '/api/v3/storages/81'

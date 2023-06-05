@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Relations::Scopes::Visible do
+RSpec.describe Relations::Scopes::Visible do
   let(:from) { create(:work_package, project: project1) }
   let(:intermediary) { create(:work_package, project: project1) }
   let(:to) { create(:work_package, project: project2) }

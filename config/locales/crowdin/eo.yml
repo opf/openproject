@@ -269,6 +269,7 @@ eo:
       notice_reset_token: "Nova %{type} jetono estis kreita. Via atinga ĵetono estas:"
       token_value_warning: "Noto: Tiu ĉi estas la sola fojo kiun vi vidos tiu ĉi ĵetonon, estu certa kopii ĝin."
       no_results_title_text: Nun estas neniu disponebla alirĵetono.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Nun estas neniu novaĵo por informi.
@@ -691,6 +692,11 @@ eo:
           overlaps: 'surmeteco.'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -1520,6 +1526,12 @@ eo:
   label_api_access_key: "API atingokodo"
   label_api_access_key_created_on: "API atingokodo kreita antaŭ la %{value}"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Aplikita stato"
   label_archive_project: "Aktivi projekton"
   label_ascending: "Kreskante"

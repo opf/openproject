@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Filters::Base do
+RSpec.describe Queries::Filters::Base do
   let(:integer_filter) do
     filter_class = Class.new(described_class) do
       def type

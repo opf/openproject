@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Grids::CreateContract, 'for Grids::Overview' do
+RSpec.describe Grids::CreateContract, 'for Grids::Overview' do
   let(:project) do
     build_stubbed(:project).tap do |p|
       allow(Project)

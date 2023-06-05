@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'services/base_services/behaves_like_delete_service'
 
-describe Storages::FileLinks::DeleteService, type: :model do
+RSpec.describe Storages::FileLinks::DeleteService, type: :model do
   it_behaves_like 'BaseServices delete service' do
     let(:factory) { :file_link }
   end

@@ -1,4 +1,4 @@
-shared_context 'ModelContract shared context' do # rubocop:disable RSpec/ContextWording
+RSpec.shared_context 'ModelContract shared context' do # rubocop:disable RSpec/ContextWording
   def expect_contract_valid
     expect(contract.validate)
       .to be(true),

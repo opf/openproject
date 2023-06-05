@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe 'Wysiwyg code block macro',
-         js: true do
+RSpec.describe 'Wysiwyg code block macro',
+               js: true do
   shared_let(:admin) { create(:admin) }
   let(:user) { admin }
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }

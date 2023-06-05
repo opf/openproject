@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Select work package row', js: true, selenium: true do
+RSpec.describe 'Select work package row', js: true, selenium: true do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:work_package_1) { create(:work_package, project:) }

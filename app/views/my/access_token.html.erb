@@ -109,6 +109,37 @@ See COPYRIGHT and LICENSE files for more details.
               </tr>
             <% end %>
           <% end %>
+          <% if @ical_tokens_grouped_by_query.any? %>
+            <% @ical_tokens_grouped_by_query.each do |query_id, tokens| %>
+              <% tokens.sort_by(&:created_at).each do |token| %>
+                <tr>
+                  <td><%= t(:label_ical_access_key_description, token_name: token.ical_token_query_assignment.name, calendar_name: token.query.name, project_name: token.query.project.name) %></td>
+                  <td>
+                    <span title="<%= format_time(token.created_at) %>">
+                      <%= format_time(token.created_at.to_s) %>
+                    </span>
+                  </td>
+                  <td><%= I18n.t('my_account.access_tokens.indefinite_expiration') %></td>
+                  <td>
+                    <%= link_to t(:label_ical_access_key_revoke),
+                                { action: 'revoke_ical_token', id: token.id },
+                                method: :delete,
+                                class: 'icon icon-delete' %>
+                  </td>
+                </tr>
+              <% end %>
+            <% end %>
+          <% else %>
+            <tr>
+              <td><%= t(:label_ical_access_key_type) %></td>
+              <td>
+                <%= t(:label_ical_access_key_not_present) %>
+                <%= t(:label_ical_access_key_generation_hint) %>
+              </td>
+              <td></td>
+              <td></td>
+            </tr>
+          <% end %>
           <% if Setting.rest_api_enabled? %>
             <% if @user.api_token %>
               <tr>

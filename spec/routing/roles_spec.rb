@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'roles routes' do
+RSpec.describe 'roles routes' do
   context 'admin scoped' do
     it {
       expect(subject).to route(:get, 'admin/roles').to(controller: 'roles',

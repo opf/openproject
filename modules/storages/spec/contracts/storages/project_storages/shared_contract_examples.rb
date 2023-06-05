@@ -30,7 +30,7 @@
 require 'spec_helper'
 
 # Purpose: Common testing logic shared between create and update specs.
-shared_examples_for 'ProjectStorages contract' do
+RSpec.shared_examples_for 'ProjectStorages contract' do
   let(:current_user) { create(:user) }
   # The user needs "edit_project" to see the project's settings page
   let(:role) { create(:role, permissions: %i[manage_storages_in_project edit_project]) }

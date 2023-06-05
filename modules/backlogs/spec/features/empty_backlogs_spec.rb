@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe 'Empty backlogs project',
-         js: true do
+RSpec.describe 'Empty backlogs project',
+               js: true do
   let(:project) { create(:project, types: [story, task], enabled_module_names: %w(backlogs)) }
   let(:story) { create(:type_feature) }
   let(:task) { create(:type_task) }

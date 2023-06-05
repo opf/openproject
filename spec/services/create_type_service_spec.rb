@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'services/shared_type_service'
 
-describe CreateTypeService do
+RSpec.describe CreateTypeService do
   let(:type) { instance.type }
   let(:user) { build_stubbed(:admin) }
 

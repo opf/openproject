@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Authorization::UserAllowedService do
+RSpec.describe Authorization::UserAllowedService do
   let(:user) { build_stubbed(:user) }
   let(:instance) { described_class.new(user) }
   let(:action) { :an_action }

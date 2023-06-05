@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-shared_examples_for 'has basic schema properties' do
+RSpec.shared_examples_for 'has basic schema properties' do
   it 'exists' do
     expect(subject).to have_json_path(path)
   end
@@ -82,7 +82,7 @@ shared_examples_for 'has basic schema properties' do
   end
 end
 
-shared_examples_for 'indicates length requirements' do
+RSpec.shared_examples_for 'indicates length requirements' do
   it 'indicates its minimum length' do
     if defined?(min_length)
       expect(subject)
@@ -106,7 +106,7 @@ shared_examples_for 'indicates length requirements' do
   end
 end
 
-shared_examples_for 'links to allowed values directly' do
+RSpec.shared_examples_for 'links to allowed values directly' do
   it 'has the expected number of links' do
     expect(subject).to have_json_size(hrefs.size).at_path("#{path}/_links/allowedValues")
   end
@@ -121,7 +121,7 @@ shared_examples_for 'links to allowed values directly' do
   end
 end
 
-shared_examples_for 'links to and embeds allowed values directly' do
+RSpec.shared_examples_for 'links to and embeds allowed values directly' do
   it_behaves_like 'links to allowed values directly'
 
   it 'has the expected number of embedded values' do
@@ -138,13 +138,13 @@ shared_examples_for 'links to and embeds allowed values directly' do
   end
 end
 
-shared_examples_for 'links to allowed values via collection link' do
+RSpec.shared_examples_for 'links to allowed values via collection link' do
   it 'contains the link to the allowed values' do
     expect(subject).to be_json_eql(href.to_json).at_path("#{path}/_links/allowedValues/href")
   end
 end
 
-shared_examples_for 'does not link to allowed values' do
+RSpec.shared_examples_for 'does not link to allowed values' do
   it 'contains no link to the allowed values' do
     expect(subject).not_to have_json_path("#{path}/_links/allowedValues")
   end

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'Work package query summary item', js: true do
+RSpec.describe 'Work package query summary item', js: true do
   let(:project) { create(:project, identifier: 'test_project', public: false) }
   let(:role) { create(:role, permissions: [:view_work_packages]) }
   let(:work_package) { create(:work_package, project:) }

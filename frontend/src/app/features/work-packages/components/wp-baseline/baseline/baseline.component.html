@@ -1,9 +1,30 @@
+<div class="op-baseline--header"
+    [class.op-baseline_tab]="!showActionBar">
+  <div 
+    class="op-baseline--enterprise-title"
+    *ngIf="eeShowBanners">
+    <span class="">{{ text.baseline_comparison }}</span>
+    <span class="spot-icon spot-icon_enterprise-addons"></span>
+  </div>   
+  <span class="spot-body-small">{{ eeShowBanners ? text.enterprise_header_description : text.header_description }}</span>
+  <a
+    *ngIf="eeShowBanners"
+    [attr.href]="text.moreInfoLink"
+    class="op-baseline--info-button"
+    target=”_blank”>
+    {{ text.more_info_text }}
+    <span class="spot-icon spot-icon_external-link"></span> 
+    </a>
+</div>
 <form
   *ngIf="visible && (nonWorkingDays$ | async); else loadingTemplate"
   (submit)="onSubmit($event)"
   class="spot-container op-baseline--body"
   [class.op-baseline--body_ranged]="selectedFilter === 'betweenTwoSpecificDates'"
+  [class.op-baseline_tab]="!showActionBar"
 >
+
+
   <spot-form-field
     [label]="text.show_changes_since">
 
@@ -20,6 +41,7 @@
           *ngFor="let availableValue of baselineAvailableValues"
           [value]="availableValue.value"
           [selected]="availableValue.value === selectedFilter"
+          [disabled]="eeShowBanners && availableValue.value !== 'oneDayAgo'"
         >
           {{availableValue.title}}
         </option>
@@ -56,16 +78,12 @@
       type="time"
       class="op-baseline--time-input"/>
 
-    <spot-tooltip
+    <span
       slot="input"
-      class="op-baseline--time-tooltip op-baseline--time-help spot-body-small"
-      [alignment]="tooltipPosition"
-      [disabled]="false"
-      [light]="true">
-      <span slot="trigger" class="op-baseline--time-zone" [textContent]="selectedOffsets[0]"></span>
-      <span slot="body" class="spot-body-small op-baseline--time-tooltip-body">{{ text.help_description }}</span>
-    </spot-tooltip>
-
+      class="op-baseline--time-help spot-body-small"
+        [attr.title]="text.help_description"
+        [textContent]="mappedOffset(selectedOffsets[0])"
+    ></span>
 
     <span
       *ngIf="userOffset !== selectedOffsets[0]"
@@ -121,7 +139,7 @@
         [alignment]="tooltipPosition"
         [disabled]="false"
         [light]="true">
-        <span slot="trigger" class="op-baseline--time-zone" [textContent]="selectedOffsets[0]"></span>
+        <span slot="trigger" class="op-baseline--time-zone" [textContent]="mappedOffset(selectedOffsets[0])"></span>
         <span slot="body" class="spot-body-small op-baseline--time-tooltip-body">{{ text.help_description }}</span>
       </spot-tooltip>
 
@@ -148,7 +166,7 @@
         [alignment]="tooltipPosition"
         [disabled]="false"
         [light]="true">
-        <span slot="trigger" class="op-baseline--time-zone" [textContent]="selectedOffsets[1]"></span>
+        <span slot="trigger" class="op-baseline--time-zone" [textContent]="mappedOffset(selectedOffsets[1])"></span>
         <span slot="body" class="spot-body-small op-baseline--time-tooltip-body">{{ text.help_description }}</span>
       </spot-tooltip>
 

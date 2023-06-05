@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe OpenProject::TextFormatting,
-         'Meeting links' do
+RSpec.describe OpenProject::TextFormatting,
+               'Meeting links' do
   include ActionView::Helpers::UrlHelper # soft-dependency
   include ActionView::Context
   include OpenProject::StaticRouting::UrlHelpers

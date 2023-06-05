@@ -2,7 +2,7 @@ require_relative '../spec_helper'
 
 module OpenProject::TwoFactorAuthentication::Patches
   module UserSpec
-    describe User do
+    RSpec.describe User do
       def create_user(auth_source_id = nil)
         @user = build(:user)
         @username = @user.login

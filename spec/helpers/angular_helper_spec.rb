@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe AngularHelper do
+RSpec.describe AngularHelper do
   let(:tag_name) { 'op-test' }
   let(:options) do
     {

@@ -28,7 +28,7 @@
 require 'spec_helper'
 require_relative '../shared_expectations'
 
-describe CustomActions::Conditions::Status do
+RSpec.describe CustomActions::Conditions::Status do
   it_behaves_like 'associated custom condition' do
     let(:key) { :status }
 

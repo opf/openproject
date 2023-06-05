@@ -30,8 +30,6 @@
 
 module Members
   class RoleFormComponent < ::RailsComponent
-    include RemovedJsHelpersHelper
-
     options :row, :params, :roles
 
     def member

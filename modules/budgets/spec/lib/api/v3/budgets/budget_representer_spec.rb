@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Budgets::BudgetRepresenter do
+RSpec.describe API::V3::Budgets::BudgetRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:project) { build(:project, id: 999) }

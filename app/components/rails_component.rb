@@ -29,8 +29,6 @@
 #++
 
 class RailsComponent < ViewComponent::Base
-  include ApplicationHelper
-
   attr_reader :model, :options
 
   def initialize(model = nil, **options)

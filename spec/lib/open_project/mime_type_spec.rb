@@ -27,7 +27,7 @@
 #++
 require 'spec_helper'
 
-describe OpenProject::MimeType do
+RSpec.describe OpenProject::MimeType do
   describe '#of' do
     to_test = { 'test.unk' => nil,
                 'test.txt' => 'text/plain',

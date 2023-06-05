@@ -31,7 +31,7 @@ require 'rack/test'
 
 require_relative './shared_responses'
 
-describe 'BCF 2.1 project extensions resource', content_type: :json do
+RSpec.describe 'BCF 2.1 project extensions resource', content_type: :json do
   include Rack::Test::Methods
   shared_let(:type_task) { create(:type_task) }
   shared_let(:status) { create(:default_status) }

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_contract_examples'
 
-describe Roles::UpdateContract do
+RSpec.describe Roles::UpdateContract do
   it_behaves_like 'roles contract' do
     let(:role) do
       build_stubbed(:role,

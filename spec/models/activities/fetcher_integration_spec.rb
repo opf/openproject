@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Activities::Fetcher, 'integration' do
+RSpec.describe Activities::Fetcher, 'integration' do
   shared_let(:user) { create(:user) }
   shared_let(:permissions) { %i[view_work_packages view_time_entries view_changesets view_wiki_edits] }
   shared_let(:role) { create(:role, permissions:) }

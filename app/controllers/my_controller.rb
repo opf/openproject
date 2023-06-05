@@ -36,6 +36,8 @@ class MyController < ApplicationController
   before_action :require_login
   before_action :set_current_user
   before_action :check_password_confirmation, only: %i[update_account]
+  before_action :set_grouped_ical_tokens, only: %i[access_token]
+  before_action :set_ical_token, only: %i[revoke_ical_token]
 
   menu_item :account,             only: [:account]
   menu_item :settings,            only: [:settings]
@@ -129,6 +131,17 @@ class MyController < ApplicationController
     redirect_to action: 'access_token'
   end
 
+  def revoke_ical_token
+    message = ical_destroy_info_message
+    @ical_token.destroy
+    flash[:info] = message
+  rescue StandardError => e
+    Rails.logger.error "Failed to revoke all ical tokens for ##{current_user.id}: #{e}"
+    flash[:error] = t('my.access_token.failed_to_reset_token', error: e.message)
+  ensure
+    redirect_to action: 'access_token'
+  end
+
   def default_breadcrumb
     I18n.t(:label_my_account)
   end
@@ -165,7 +178,7 @@ class MyController < ApplicationController
   helper_method :has_tokens?
 
   def has_tokens?
-    Setting.feeds_enabled? || Setting.rest_api_enabled?
+    Setting.feeds_enabled? || Setting.rest_api_enabled? || current_user.ical_tokens.any?
   end
 
   def user_params
@@ -189,5 +202,25 @@ class MyController < ApplicationController
 
   def get_current_layout
     @user.pref[:my_page_layout] || DEFAULT_LAYOUT.dup
+  end
+
+  def set_ical_token
+    @ical_token = current_user.ical_tokens.find(params[:id])
+  end
+
+  def set_grouped_ical_tokens
+    @ical_tokens_grouped_by_query = current_user.ical_tokens
+      .joins(ical_token_query_assignment: { query: :project })
+      .select("tokens.*, ical_token_query_assignments.query_id")
+      .group_by(&:query_id)
+  end
+
+  def ical_destroy_info_message
+    t(
+      'my.access_token.notice_ical_tokens_reverted',
+      token_name: @ical_token.ical_token_query_assignment.name,
+      calendar_name: @ical_token.query.name,
+      project_name: @ical_token.query.project.name
+    )
   end
 end

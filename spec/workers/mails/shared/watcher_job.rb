@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-shared_examples "watcher job" do |action|
+RSpec.shared_examples "watcher job" do |action|
   subject { described_class.perform_now(watcher_parameter, watcher_changer) }
 
   let(:action) { action }

@@ -28,7 +28,7 @@
 
 require_relative '../spec_helper'
 
-describe Storages::Storage do
+RSpec.describe Storages::Storage do
   let(:creator) { create(:user) }
   let(:default_attributes) do
     { name: "NC 1",

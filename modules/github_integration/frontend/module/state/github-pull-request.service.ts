@@ -37,7 +37,8 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class GithubPullRequestResourceService extends ResourceStoreService<IGithubPullRequest> {
   ofWorkPackage(workPackage:WorkPackageResource):Observable<IGithubPullRequest[]> {
-    return this.requireCollection(`${workPackage.href as string}/github_pull_requests`);
+    const path = this.workPackagePullRequestsPath(workPackage.id as string);
+    return this.requireCollection(path);
   }
 
   requireSingle(id:ID):Observable<IGithubPullRequest> {
@@ -50,6 +51,10 @@ export class GithubPullRequestResourceService extends ResourceStoreService<IGith
 
   protected entityPath(id:ID):string {
     return this.apiV3Service.github_pull_requests.id(id).path;
+  }
+
+  protected workPackagePullRequestsPath(id:ID):string {
+    return this.apiV3Service.work_packages.id(id).github_pull_requests.path;
   }
 
   protected createStore():ResourceStore<IGithubPullRequest> {

@@ -92,7 +92,8 @@ class Storages::Storage < ApplicationRecord
     in provider_name:
       provider_name.downcase
     else
-      raise "Unknown provider_type! Given: #{provider_type}. " \
+      raise ArgumentError,
+            "Unknown provider_type! Given: #{provider_type}. " \
             "Expected the following signature: Storages::{Name of the provider}Storage"
     end
   end

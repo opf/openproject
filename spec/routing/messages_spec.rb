@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe MessagesController, 'routing' do
+RSpec.describe MessagesController, 'routing' do
   context 'project scoped' do
     it {
       expect(subject).to route(:get, '/forums/lala/topics/new').to(controller: 'messages',

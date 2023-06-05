@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'API v3 oauth applications resource', content_type: :json do
+RSpec.describe 'API v3 oauth applications resource', content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) { create(:admin) }

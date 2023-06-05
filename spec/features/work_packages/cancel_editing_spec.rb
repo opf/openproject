@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Cancel editing work package', js: true do
+RSpec.describe 'Cancel editing work package', js: true do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3 do
+RSpec.describe API::V3 do
   let(:resource) { "/api/v3/projects" }
   let(:user) { create(:user) }
 

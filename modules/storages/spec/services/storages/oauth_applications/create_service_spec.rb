@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'services/base_services/behaves_like_create_service'
 
-describe Storages::OAuthApplications::CreateService, type: :model do
+RSpec.describe Storages::OAuthApplications::CreateService, type: :model do
   let(:user) { create(:admin) }
   let(:storage) { create(:storage, creator: user) }
   let(:instance) { described_class.new(user:, storage:) }

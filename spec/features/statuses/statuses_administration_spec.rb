@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Statuses administration' do
+RSpec.describe 'Statuses administration' do
   let(:admin) { create(:admin) }
 
   before do

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Work package calendars', js: true do
+RSpec.describe 'Work package calendars', js: true do
   let(:project) { create(:project) }
   let(:user) do
     create(:user,
@@ -39,29 +39,29 @@ describe 'Work package calendars', js: true do
     create(:work_package,
            subject: 'Current work package',
            project:,
-           start_date: Date.today.at_beginning_of_month + 15.days,
-           due_date: Date.today.at_beginning_of_month + 15.days)
+           start_date: Time.zone.today.at_beginning_of_month + 15.days,
+           due_date: Time.zone.today.at_beginning_of_month + 15.days)
   end
   let!(:another_current_work_package) do
     create(:work_package,
            subject: 'Another current work package',
            project:,
-           start_date: Date.today.at_beginning_of_month + 12.days,
-           due_date: Date.today.at_beginning_of_month + 18.days)
+           start_date: Time.zone.today.at_beginning_of_month + 12.days,
+           due_date: Time.zone.today.at_beginning_of_month + 18.days)
   end
   let!(:future_work_package) do
     create(:work_package,
            subject: 'Future work package',
            project:,
-           start_date: Date.today.at_beginning_of_month.next_month + 15.days,
-           due_date: Date.today.at_beginning_of_month.next_month + 15.days)
+           start_date: Time.zone.today.at_beginning_of_month.next_month + 15.days,
+           due_date: Time.zone.today.at_beginning_of_month.next_month + 15.days)
   end
   let!(:another_future_work_package) do
     create(:work_package,
            subject: 'Another future work package',
            project:,
-           start_date: Date.today.at_beginning_of_month.next_month + 12.days,
-           due_date: Date.today.at_beginning_of_month.next_month + 18.days)
+           start_date: Time.zone.today.at_beginning_of_month.next_month + 12.days,
+           due_date: Time.zone.today.at_beginning_of_month.next_month + 18.days)
   end
   let(:filters) { Components::WorkPackages::Filters.new }
   let(:current_wp_split_screen) { Pages::SplitWorkPackage.new(current_work_package, project) }

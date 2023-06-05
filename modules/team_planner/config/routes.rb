@@ -1,4 +1,6 @@
 OpenProject::Application.routes.draw do
+  get :team_planners, to: 'team_planner/team_planner#overview'
+
   scope 'projects/:project_id', as: 'project' do
     resources :team_planners,
               controller: 'team_planner/team_planner',

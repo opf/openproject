@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'ostruct'
 
-describe SettingsHelper do
+RSpec.describe SettingsHelper do
   include Capybara::RSpecMatchers
 
   let(:options) { { class: 'custom-class' } }

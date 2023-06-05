@@ -428,6 +428,10 @@ fieldset.form--fieldset
     display: flex
     flex-wrap: wrap
 
+  &.-with-children-spacing
+    > *:not(:last-child)
+      margin-right: 0.5rem
+
   &.-vertical
     display: block
 
@@ -511,6 +515,18 @@ fieldset.form--fieldset
   &.-labeled-checkbox
     margin-left: 25px
 
+  &.-with-bottom-spacing
+    margin-bottom: 1rem
+
+.form--field-error
+  @extend %form--field-after-container
+  font-style: italic
+  max-width: 500px
+  color: var(--content-form-error-color)
+
+  &.-with-bottom-spacing
+    margin-bottom: 1rem
+
 .form--inline-instructions
   font-style: italic
   display: inline
@@ -573,7 +589,7 @@ fieldset.form--fieldset
 #{$text-input-selectors},
 select
   line-height: 100%
-  margin-bottom: 0rem
+  margin-bottom: 0
   font-size: 0.9rem
 
   &:hover, &:focus, &:active

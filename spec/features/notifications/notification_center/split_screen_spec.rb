@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Split screen in the notification center", js: true do
+RSpec.describe "Split screen in the notification center", js: true do
   let(:global_html_title) { Components::HtmlTitle.new }
   let(:center) { Pages::Notifications::Center.new }
   let(:split_screen) { Pages::Notifications::SplitScreen.new work_package }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Members::Filters::RoleFilter do
+RSpec.describe Queries::Members::Filters::RoleFilter do
   let(:role1) { build_stubbed(:role) }
   let(:role2) { build_stubbed(:role) }
 

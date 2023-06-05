@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Projects::Filters::PrincipalFilter do
+RSpec.describe Queries::Projects::Filters::PrincipalFilter do
   let(:group1) { build_stubbed(:group) }
   let(:group2) { build_stubbed(:group) }
   let(:user1) { build_stubbed(:user) }

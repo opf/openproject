@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
+RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
   include API::V3::Utilities::PathHelper
 
   let(:operator) { Queries::Operators::Equals }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-shared_examples 'BaseServices update service' do
+RSpec.shared_examples 'BaseServices update service' do
   let(:service_class) { described_class }
   let(:namespace) { service_class.to_s.deconstantize }
   let(:model_class) { namespace.singularize.constantize }

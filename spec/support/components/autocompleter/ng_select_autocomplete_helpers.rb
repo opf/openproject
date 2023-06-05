@@ -8,6 +8,9 @@ module Components::Autocompleter
       # Wait for dropdown to open
       ng_find_dropdown(element, results_selector:) if wait_dropdown_open
 
+      # Wait for autocompleter options to be loaded (data fetching is debounced by 250ms after creation or typing)
+      expect(element).not_to have_selector('.ng-spinner-loader')
+
       # Insert the text to find
       within(element) do
         ng_enter_query(element, query)

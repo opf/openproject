@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe 'Projects index page',
-         js: true,
-         with_settings: { login_required?: false } do
+RSpec.describe 'Projects index page',
+               js: true,
+               with_settings: { login_required?: false } do
   shared_let(:admin) { create(:admin) }
 
   shared_let(:manager)   { create(:role, name: 'Manager') }
@@ -124,7 +124,7 @@ describe 'Projects index page',
 
     describe 'for admins' do
       before do
-        project.update(created_at: 7.days.ago)
+        project.update(created_at: 7.days.ago, description: 'I am a nice project')
 
         news
       end

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative 'shared_query_column_specs'
 
-describe Queries::WorkPackages::Columns::RelationOfTypeColumn do
+RSpec.describe Queries::WorkPackages::Columns::RelationOfTypeColumn do
   let(:project) { build_stubbed(:project) }
   let(:type) { build_stubbed(:type) }
   let(:instance) { described_class.new(type) }

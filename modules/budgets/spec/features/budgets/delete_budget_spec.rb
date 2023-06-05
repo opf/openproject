@@ -28,7 +28,7 @@
 
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper.rb")
 
-describe 'Deleting a budget', js: true do
+RSpec.describe 'Deleting a budget', js: true do
   let(:project) { create(:project, enabled_module_names: %i[budgets costs]) }
   let(:user) { create(:admin) }
   let(:budget_subject) { "A budget subject" }

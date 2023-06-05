@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe RbImpedimentsController do
+RSpec.describe RbImpedimentsController do
   describe 'routing' do
     it {
       expect(post('/projects/project_42/sprints/21/impediments')).to route_to(controller: 'rb_impediments',

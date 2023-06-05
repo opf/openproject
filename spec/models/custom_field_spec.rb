@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CustomField do
+RSpec.describe CustomField do
   before do
     described_class.destroy_all
   end

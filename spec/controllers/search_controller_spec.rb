@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe SearchController do
+RSpec.describe SearchController do
   shared_let(:project) do
     create(:project,
            name: 'eCookbook')

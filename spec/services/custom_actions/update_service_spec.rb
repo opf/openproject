@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CustomActions::UpdateService do
+RSpec.describe CustomActions::UpdateService do
   let(:action) do
     action = build_stubbed(:custom_action)
 

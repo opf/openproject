@@ -28,7 +28,7 @@
 require 'spec_helper'
 require 'ostruct'
 
-describe CustomFieldFormBuilder do
+RSpec.describe CustomFieldFormBuilder do
   include Capybara::RSpecMatchers
 
   let(:helper) { ActionView::Base.new(ActionView::LookupContext.new(''), {}, @controller) }

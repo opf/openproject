@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
 
-describe AttributeHelpTexts::BaseContract do
+RSpec.describe AttributeHelpTexts::BaseContract do
   include_context 'ModelContract shared context'
 
   let(:model) { build_stubbed(:work_package_help_text) }
