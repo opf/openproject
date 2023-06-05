@@ -26,33 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# A ProjectStorage is a kind of relation between a Storage and
-# a Project in order to enable or disable a Storage for a specific
-# WorkPackages in the project.
-# See also: file_link.rb and storage.rb
-class Storages::ProjectStorage < ApplicationRecord
-  # set table name explicitly (would be guessed from model class name and be
-  # project_storages otherwise)
-  self.table_name = 'projects_storages'
-
-  # ProjectStorage sits between Project and Storage.
-  belongs_to :project, touch: true
-  belongs_to :storage, touch: true, class_name: 'Storages::Storage'
-  belongs_to :creator, class_name: 'User'
-
-  has_many :last_project_folders,
-           class_name: 'Storages::LastProjectFolder',
-           dependent: :destroy,
-           foreign_key: :projects_storage_id
-
-  # There should be only one ProjectStorage per project and storage.
-  validates :project, uniqueness: { scope: :storage }
-
-  enum project_folder_mode: {
-    inactive: 'inactive',
-    manual: 'manual',
-    managed: 'automatic'
-  }.freeze, _prefix: 'project_folder'
-
-  scope :automatic, -> { where(project_folder_mode: 'automatic') }
+class CreateLastProjectFolders < ActiveRecord::Migration[7.0]
+  def change
+    create_table :last_project_folders,
+                 comment: 'This table contains the last used project folder IDs for a project storage per mode.' do |t|
+      t.references :projects_storage, null: false, foreign_key: { on_delete: :cascade }
+      t.string :origin_folder_id
+      t.enum :mode, enum_type: :project_folder_modes, default: :inactive, null: false
+      t.index %i[projects_storage_id mode], unique: true
+      t.timestamps
+    end
+  end
 end
