@@ -30,7 +30,7 @@
 
 import { ApplicationController } from 'stimulus-use';
 
-export default class RefreshOnFromChangesController extends ApplicationController {
+export default class RefreshOnFormChangesController extends ApplicationController {
   static targets = [
     'form',
   ];
