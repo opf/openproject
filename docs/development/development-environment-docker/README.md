@@ -73,7 +73,7 @@ directory will not end up with files owned by root.
 
 `docker compose` will load the env from this file.
 
-You also will want to create a `docker-compose.override.yml` file, which can contain the port exposure of you
+You also will want to create a `docker-compose.override.yml` file, which can contain the port exposure for your
 containers. Those are excluded from the main compose file `docker-compose.yml` for sanity reasons. If any port is
 already in use, `docker compose` won't start and as you cannot disable the exposed port in
 the `docker-compose.override.yml` file, you would have to alter the original `docker-compose.yml`.
@@ -230,7 +230,7 @@ docker attach openproject-backend-1
 ```
 
 Inside the `backend` container you have a standard rails console. If you attached to the container **after** you run
-into your breakpoint, you won't the common lines pry will print before your prompt.
+into your breakpoint, you won't see the common lines pry will print before your prompt.
 
 To detach from the `backend` container without stopping it, you can use `CTRL+P, CTRL+Q`. Using `CTRL+C` works, too, but
 it will close and restart the backend container.
