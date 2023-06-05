@@ -62,7 +62,8 @@ module OpenProject::TeamPlanner
              OpenProject::FeatureDecisions.more_global_index_pages_active? &&
               (User.current.logged? || !Setting.login_required?) &&
                 User.current.allowed_to_globally?(:view_team_planner)
-           }
+           },
+           enterprise_feature: 'team_planner_view'
     end
 
     add_view :TeamPlanner,

@@ -2,7 +2,7 @@ module ::TeamPlanner
   class TeamPlannerController < BaseController
     include EnterpriseTrialHelper
     before_action :find_optional_project
-    before_action :authorize, except: %i[overview]
+    before_action :authorize, except: %i[overview upsale]
     before_action :authorize_global, only: %i[overview]
     before_action :require_ee_token, except: %i[upsale]
     before_action :find_plan_view, only: %i[destroy]
@@ -63,6 +63,9 @@ module ::TeamPlanner
 
       if project
         query = query.where('queries.project_id' => project.id)
+      else
+        allowed_projects = Project.allowed_to(User.current, :view_team_planner)
+        query = query.where(queries: { project: allowed_projects })
       end
 
       query
