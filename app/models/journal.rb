@@ -49,8 +49,15 @@ class Journal < ApplicationRecord
   register_journal_formatter :wiki_diff, OpenProject::JournalFormatter::WikiDiff
   register_journal_formatter :time_entry_named_association, OpenProject::JournalFormatter::TimeEntryNamedAssociation
 
+  # Attributes related to the cause are stored in a JSONB column so we can easily add new relations and related
+  # attributes without a heavy database migration. Fields will be prefixed with `cause_` but are stored in the JSONB
+  # hash without that prefix
+  store_accessor :cause, %i[type work_package_id], prefix: true
+  VALID_CAUSE_TYPES = %w[work_package_predecessor_changed_times work_package_successor_changed_times].freeze
+
   # Make sure each journaled model instance only has unique version ids
   validates :version, uniqueness: { scope: %i[journable_id journable_type] }
+  validates :cause_type, inclusion: { in: VALID_CAUSE_TYPES, allow_blank: true }
 
   belongs_to :user
   belongs_to :journable, polymorphic: true
@@ -125,6 +132,10 @@ class Journal < ApplicationRecord
 
   def noop?
     (!notes || notes&.empty?) && get_changes.empty?
+  end
+
+  def has_cause?
+    cause_type.present?
   end
 
   private
