@@ -41,7 +41,7 @@ import { BcfPathHelperService } from 'core-app/features/bim/bcf/helper/bcf-path-
     >
       <span class="spot-icon spot-icon_import"></span>
       <span>{{text.import}}</span>
-    </a>
+    </button>
   `,
   selector: 'bcf-import-button',
 })
