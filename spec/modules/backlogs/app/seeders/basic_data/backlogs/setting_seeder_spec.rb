@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe BasicData::Backlogs::SettingSeeder do
+RSpec.describe BasicData::Backlogs::SettingSeeder do
   subject(:setting_seeder) { described_class.new(basic_seed_data) }
 
   context 'with standard edition' do
