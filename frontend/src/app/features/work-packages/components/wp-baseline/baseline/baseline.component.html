@@ -48,7 +48,7 @@
       </select>
 
     </div>
-    <span slot="description">  {{ mappedSelectedDate }} </span>
+    <span slot="description" *ngIf="mappedSelectedDate">  {{ mappedSelectedDate }} </span>
   </spot-form-field>
 
   <spot-form-field
