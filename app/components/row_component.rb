@@ -70,7 +70,7 @@ class RowComponent < RailsComponent
 
   def checkmark(condition)
     if condition
-      helpers.op_icon 'icon icon-checkmark'
+      helpers.spot_icon 'checkmark'
     end
   end
 end

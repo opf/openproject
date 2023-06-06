@@ -49,10 +49,9 @@ module Calendar
     def delete_link
       if table.current_user.allowed_to?(:manage_calendars, project)
         link_to(
-          '',
+          spot_icon('delete'),
           project_calendar_path(project, query.id),
           method: :delete,
-          class: 'icon icon-delete',
           data: {
             confirm: I18n.t(:text_are_you_sure),
             'qa-selector': "calendar-remove-#{query.id}"

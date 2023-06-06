@@ -56,16 +56,14 @@ module Storages::ProjectsStorages
     end
 
     def edit_link
-      link_to '',
+      link_to spot_icon('edit'),
               edit_project_settings_projects_storage_path(project_id: project_storage.project, id: project_storage),
-              class: 'icon icon-edit',
               title: I18n.t(:button_edit)
     end
 
     def delete_link
-      link_to '',
+      link_to spot_icon('delete'),
               project_settings_projects_storage_path(project_id: project_storage.project, id: project_storage),
-              class: 'icon icon-delete',
               data: { confirm: I18n.t('storages.delete_warning.project_storage') },
               title: I18n.t(:button_delete),
               method: :delete

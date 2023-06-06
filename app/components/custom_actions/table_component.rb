@@ -47,7 +47,7 @@ module CustomActions
               aria: { label: t('custom_actions.new') },
               class: 'wp-inline-create--add-link',
               title: t('custom_actions.new') do
-        helpers.op_icon('icon icon-add')
+        helpers.spot_icon('add')
       end
     end
   end

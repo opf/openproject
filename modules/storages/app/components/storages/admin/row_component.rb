@@ -55,9 +55,8 @@ module Storages::Admin
     end
 
     def delete_link
-      link_to '',
+      link_to spot_icon('delete'),
               admin_settings_storage_path(storage),
-              class: 'icon icon-delete',
               data: { confirm: I18n.t('storages.delete_warning.storage') },
               title: I18n.t(:button_delete),
               method: :delete

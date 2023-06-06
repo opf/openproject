@@ -84,7 +84,8 @@ See COPYRIGHT and LICENSE files for more details.
                                                   class: 'restore_cost_type' } do |f| %>
                     <button type="submit"
                             class="button--link submit_cost_type">
-                      <%= icon_wrapper('icon icon-unlocked', I18n.t(:button_unlock)) %>
+                      <%= spot_icon('unlocked') %>
+                      <span><%= I18n.t(:button_unlock) %></span>
                     </button>
                   <% end %>
                 </td>

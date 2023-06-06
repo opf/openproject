@@ -35,7 +35,7 @@ See COPYRIGHT and LICENSE files for more details.
   <li class="toolbar-item">
     <%= link_to edit_admin_settings_storage_path(@object),
                 class: 'button' do %>
-      <%= op_icon('button--icon icon-edit') %>
+      <%= spot_icon('edit') %>
       <span class="button--text"><%= t(:button_edit) %></span>
     <% end %>
   </li>
@@ -44,7 +44,7 @@ See COPYRIGHT and LICENSE files for more details.
                 method: :delete,
                 data: { confirm: I18n.t('storages.delete_warning.storage') },
                 class: 'button -danger' do %>
-      <%= op_icon('button--icon icon-delete') %>
+      <%= spot_icon('delete') %>
       <span class="button--text"><%= t(:button_delete) %></span>
     <% end %>
   </li>

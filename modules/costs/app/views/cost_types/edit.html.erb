@@ -112,9 +112,9 @@ See COPYRIGHT and LICENSE files for more details.
   <div class="wp-inline-create-button">
     <label class="hidden-for-sighted" for="add_rate_date" %>"><%= t(:description_date_for_new_rate) %></label>
     <a id="add_rate_date" href="#" class="add-row-button wp-inline-create--add-link" title="<%= t(:button_add_rate) %>">
-      <%= op_icon('icon icon-add') %>
+      <%= spot_icon('add') %>
     </a>
   </div>
-  <%= styled_button_tag t(:button_save), class: '-with-icon icon-checkmark' %>
+  <%= styled_button_tag spot_icon('checkmark') + t(:button_save) %>
 <% end %>
 </costs-subform>

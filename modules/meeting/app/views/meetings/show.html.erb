@@ -41,7 +41,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% if authorize_for(:meetings, :edit) %>
     <li class="toolbar-item">
       <%= link_to({:controller => '/meetings', :action => 'edit', :id => @meeting}, class: 'button',:accesskey => accesskey(:edit)) do%>
-        <%= op_icon('button--icon icon-edit') %>
+        <%= spot_icon('edit') %>
         <span class="button--text"><%= t(:button_edit) %></span>
       <% end %>
     </li>
@@ -49,7 +49,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% if authorize_for(:meetings, :copy) %>
     <li class="toolbar-item hidden-for-mobile">
       <%= link_to({:controller => '/meetings', :action => 'copy', :id => @meeting}, class: 'button') do %>
-        <%= op_icon('button--icon icon-copy') %>
+        <%= spot_icon('copy') %>
         <span class="button--text"><%= t(:button_copy) %></span>
       <% end %>
     </li>
@@ -60,7 +60,7 @@ See COPYRIGHT and LICENSE files for more details.
                   class: 'button',
                   method: :delete,
                   data: { confirm: t(:text_are_you_sure) }) do %>
-        <%= op_icon('button--icon icon-delete') %>
+        <%= spot_icon('delete') %>
         <span class="button--text"><%= t(:button_delete) %></span>
       <% end %>
     </li>

@@ -37,7 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
                   { class: 'button -alt-highlight',
                     aria: { label: t(:'storages.label_new_storage') },
                     title: t(:'ifc_models.label_new_storage') } do %>
-        <%= op_icon('button--icon icon-add') %>
+        <%= spot-icon('add') %>
         <span class="button--text"><%= ::Storages::Storage.model_name.human %></span>
       <% end %>
     </li>

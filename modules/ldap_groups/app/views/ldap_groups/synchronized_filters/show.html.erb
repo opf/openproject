@@ -6,14 +6,14 @@
   <li class="toolbar-item">
     <%= link_to({ action: :edit },
                 class: 'button') do %>
-      <%= op_icon('button--icon icon-edit') %>
+      <%= spot_icon('edit') %>
       <span class="button--text"><%= t(:button_edit) %></span>
     <% end %>
   </li>
   <li class="toolbar-item">
     <%= link_to({ action: :destroy_info },
                 class: 'button -danger') do %>
-      <%= op_icon('button--icon icon-delete') %>
+      <%= spot_icon('delete') %>
       <span class="button--text"><%= t(:button_delete) %></span>
     <% end %>
   </li>

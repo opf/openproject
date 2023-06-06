@@ -56,8 +56,8 @@
   </fieldset>
 
   <p>
-    <%= styled_button_tag t(:button_create), class: '-highlight -with-icon icon-checkmark' %>
-    <%= link_to t(:button_cancel), url_for(action: :index), class: 'button -with-icon icon-cancel' %>
+    <%= styled_button_tag spot_icon('checkmark') + t(:button_create), class: '-highlight' %>
+    <%= link_to spot_icon('cancel') + t(:button_cancel), url_for(action: :index), class: 'button' %>
   </p>
 <% end %>
 

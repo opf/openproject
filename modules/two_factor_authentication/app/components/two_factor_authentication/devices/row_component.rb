@@ -17,7 +17,7 @@ module ::TwoFactorAuthentication
 
       def default
         if device.default
-          helpers.op_icon 'icon-yes'
+          helpers.spot_icon 'yes'
         else
           '-'
         end
@@ -25,13 +25,13 @@ module ::TwoFactorAuthentication
 
       def confirmed
         if device.active
-          helpers.op_icon 'icon-yes'
+          helpers.spot_icon 'yes'
         elsif table.self_table?
           link_to t('two_factor_authentication.devices.confirm_now'),
                   { controller: table.target_controller, action: :confirm, device_id: device.id }
 
         else
-          helpers.op_icon 'icon-no'
+          helpers.spot_icon 'no'
         end
       end
 

@@ -43,7 +43,9 @@ See COPYRIGHT and LICENSE files for more details.
     <% if items.any?  %>
       <ul class="project-actions">
         <li aria-haspopup="true" title="<%= I18n.t(:label_open_menu) %>" class="drop-down">
-          <a class="icon icon-show-more-horizontal context-menu--icon" title="<%= t(:label_open_menu) %>" href></a>
+          <a class="context-menu--icon" title="<%= t(:label_open_menu) %>" href>
+            <%= spot_icon('show-more-horizontal') %>
+          </a>
           <ul style="display:none;" class="menu-drop-down-container">
             <% items.each do |item| %>
               <li>
@@ -55,18 +57,22 @@ See COPYRIGHT and LICENSE files for more details.
       </ul>
     <% end %>
     <% unless project.description.blank? %>
-      <a class="icon collapse icon-arrow-up1 projects-table--description-toggle"
+      <a class="collapse projects-table--description-toggle"
          href
          title="<%= t('label_project_hide_details') %>"
          data-project-target="descriptionToggle"
          data-action="click->project#toggleDescription"
-         data-project-project-id-param="<%= project.id %>"></a>
-      <a class="icon expand icon-arrow-down1 projects-table--description-toggle"
+         data-project-project-id-param="<%= project.id %>">
+         <%= spot_icon('arrow-up1') %>
+      </a>
+      <a class="expand projects-table--description-toggle"
          href
          title="<%= t('label_project_show_details') %>"
          data-project-target="descriptionToggle"
          data-action="click->project#toggleDescription"
-         data-project-project-id-param="<%= project.id %>"></a>
+         data-project-project-id-param="<%= project.id %>">
+         <%= spot_icon('arrow-down1') %>
+      </a>
     <% end %>
   </td>
 </tr>

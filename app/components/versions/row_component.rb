@@ -97,20 +97,18 @@ module Versions
     def edit_link
       return unless version.project == table.project
 
-      helpers.link_to_if_authorized '',
+      helpers.link_to_if_authorized spot_icon('edit'),
                                     { controller: '/versions', action: 'edit', id: version },
-                                    class: 'icon icon-edit',
                                     title: t(:button_edit)
     end
 
     def delete_link
       return unless version.project == table.project
 
-      helpers.link_to_if_authorized '',
+      helpers.link_to_if_authorized spot_icon('delete'),
                                     { controller: '/versions', action: 'destroy', id: version },
                                     data: { confirm: t(:text_are_you_sure) },
                                     method: :delete,
-                                    class: 'icon icon-delete',
                                     title: t(:button_delete)
     end
 

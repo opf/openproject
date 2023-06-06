@@ -37,7 +37,7 @@ export function initializeCostsPlugin(injector:Injector) {
 
     pluginContext.hooks.workPackageSingleContextMenu((params:any) => ({
       key: 'log_costs',
-      icon: 'icon-projects',
+      icon: 'projects',
       indexBy(actions:any) {
         const index = _.findIndex(actions, { key: 'log_time' });
         return index !== -1 ? index + 1 : actions.length;
@@ -48,7 +48,7 @@ export function initializeCostsPlugin(injector:Injector) {
 
     pluginContext.hooks.workPackageTableContextMenu((params:any) => ({
       key: 'log_costs',
-      icon: 'icon-projects',
+      icon: 'projects',
       link: 'logCosts',
       indexBy(actions:any) {
         const index = _.findIndex(actions, { link: 'logTime' });

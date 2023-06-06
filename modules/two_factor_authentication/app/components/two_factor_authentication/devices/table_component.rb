@@ -33,7 +33,7 @@ module ::TwoFactorAuthentication
           link_to({ controller: target_controller, action: :new },
                   class: 'budget-add-row wp-inline-create--add-link',
                   title: I18n.t('two_factor_authentication.devices.add_new')) do
-            helpers.op_icon('icon icon-add')
+            helpers.spot_icon('add')
           end
         end
       end

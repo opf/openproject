@@ -7,7 +7,7 @@
                 { class: 'button -alt-highlight',
                   aria: { label: t('storages.label_new_storage') },
                   title: t('storages.label_new_storage') } do %>
-      <%= op_icon('button--icon icon-add') %>
+      <%= spot_icon('add') %>
       <span class="button--text"><%= ::Storages::Storage.model_name.human %></span>
     <% end %>
   </li>

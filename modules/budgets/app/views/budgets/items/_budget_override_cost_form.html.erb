@@ -1,7 +1,9 @@
 <section class="costs--edit-form" hidden>
   <div class="form--field">
     <div class="form--field-container">
-      <div class="costs--edit-planned-costs-cancel-btn form--field-affix -transparent icon icon-close"></div>
+      <div class="costs--edit-planned-costs-cancel-btn form--field-affix -transparent">
+        <%= spot_icon('close') %>
+      </div>
       <div class="form--text-field-container">
         <%= text_field_tag(
               field_name,

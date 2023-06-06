@@ -42,8 +42,8 @@ module OpenProject::TextFormatting
 
       def add_header_link(node, id)
         link = content_tag(:a,
-                           '',
-                           class: 'op-uc-link_permalink icon-link',
+                           spot_icon('link'),
+                           class: 'op-uc-link_permalink',
                            'aria-hidden': true,
                            href: "##{id}")
         node['id'] = id

@@ -7,7 +7,7 @@
 
 <%= labelled_tabular_form_for @object, url: admin_settings_storage_path(@object), as: :storages_storage do |f| -%>
   <%= render partial: 'form', locals: { f: f } %>
-  <%= styled_button_tag t(:button_save), class: "-highlight -with-icon icon-checkmark" %>
+  <%= styled_button_tag spot_icon('checkmark') + t(:button_save), class: "-highlight" %>
 <% end %>
 
 <% if @object.oauth_application %>
@@ -28,11 +28,11 @@
       </div>
     </div>
 
-    <%= link_to(t("storages.buttons.replace_openproject_oauth"),
+    <%= link_to(spot_icon('reload') + t("storages.buttons.replace_openproject_oauth"),
                 replace_oauth_application_admin_settings_storage_path(@object),
                 method: :delete,
                 data: { confirm: t(:'storages.confirm_replace_oauth_application') },
-                class: 'button -with-icon icon-reload') %>
+                class: 'button') %>
   </fieldset>
 <% end %>
 
@@ -53,11 +53,11 @@
         </div>
       </div>
     </div>
-    <%= link_to(t("storages.buttons.replace_provider_type_oauth", provider_type: t("storages.provider_types.#{@object.short_provider_type}.name")),
+    <%= link_to(spot_icon('reload') + t("storages.buttons.replace_provider_type_oauth", provider_type: t("storages.provider_types.#{@object.short_provider_type}.name")),
                 new_admin_settings_storage_oauth_client_path(@object),
                 data: { confirm: t(:'storages.confirm_replace_oauth_client') },
-                class: 'button -with-icon icon-reload') %>
+                class: 'button') %>
   <% else %>
-    <%= link_to(t("js.label_create"), new_admin_settings_storage_oauth_client_path(@object), class: 'button -with-icon icon-add') %>
+    <%= link_to(spot_icon('add') + t("js.label_create"), new_admin_settings_storage_oauth_client_path(@object), class: 'button') %>
   <% end %>
 </fieldset>

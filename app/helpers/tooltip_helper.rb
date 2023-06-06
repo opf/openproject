@@ -36,11 +36,11 @@ module TooltipHelper
   # @param placement [string] placement (top, left, right, bottom)
   # @param span_classes [string] Additional classes on the span
   # @param icon [string] icon class
-  def tooltip_tag(text, placement: 'left', icon: 'icon-help', span_classes: nil)
+  def tooltip_tag(text, placement: 'left', icon: 'help', span_classes: nil)
     content_tag :span,
                 class: "tooltip--#{placement} #{span_classes}",
                 data: { tooltip: text } do
-      op_icon "icon #{icon}"
+      spot_icon icon
     end
   end
 end

@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <div class="user-rate-history-list">
 <div class="contextual">
-  <%= link_to t(:button_update), edit_hourly_rate_path(@user), :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
+  <%= link_to spot_icon('edit') + t(:button_update), edit_hourly_rate_path(@user), :accesskey => accesskey(:edit) %>
 </div>
 <h3><%= User.human_attribute_name(:default_rates) %></h3>
 <% if @rates_default.blank? %>
@@ -79,7 +79,7 @@ See COPYRIGHT and LICENSE files for more details.
           <tr>
             <td style="padding-right: 1em;"><%= rate.valid_from %></td>
             <td class="currency"><%= number_to_currency(rate.rate) %></td>
-            <td><%= rate == current_rate ? icon_wrapper('icon-context icon-checkmark',I18n.t(:general_text_Yes)) : "" %></td>
+            <td><%= rate == current_rate ? spot_icon('checkmark') + I18n.t(:general_text_Yes) : "" %></td>
           </tr>
         <%- end -%>
         </tbody>

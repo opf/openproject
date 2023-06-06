@@ -40,7 +40,7 @@
                       method: :post,
                       data: { confirm: t('two_factor_authentication.admin.delete_all_are_you_sure') },
                       class: "button -danger" do %>
-            <%= op_icon 'button--icon icon-delete' %>
+            <%= spot_icon('delete') %>
             <span class="button--text"><%= t 'two_factor_authentication.admin.button_delete_all_devices' %></span>
           <% end %>
         </li>
@@ -48,7 +48,7 @@
       <% if ::OpenProject::TwoFactorAuthentication::TokenStrategyManager.admin_register_sms_strategy.present? %>
       <li class="toolbar-item">
         <%= link_to new_user_2fa_device_path(@user, type: :sms), class: 'button -alt-highlight' do %>
-            <%= op_icon 'button--icon icon-add' %>
+            <%= spot_icon('add') %>
             <span class="button--text"><%= t 'two_factor_authentication.admin.button_register_mobile_phone_for_user' %></span>
         <% end %>
       </li>

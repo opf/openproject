@@ -1,10 +1,10 @@
 <% if User.current.allowed_to? :export_work_packages, @project, global: @project.nil? %>
   <li class="toolbar-item">
-    <%= link_to(t(:export_to_excel),
+    <%= link_to(spot_icon('export-xls-descr') + t(:export_to_excel),
                 { controller: "cost_reports" ,
                   action: :index,
                   format: 'xls',
                   project_id: @project },
-                class: "button icon-export-xls-descr") %>
+                class: "button") %>
   </li>
 <% end %>

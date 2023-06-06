@@ -35,7 +35,7 @@
                   class: "button hide-when-print",
                   download: 'backup-codes.txt',
                   href: "data:text/plain;charset=utf-8,#{CGI.escape(@backup_codes.join("\n"))}" do %>
-    <%= op_icon 'button--icon icon-save' %>
+    <%= spot_icon 'save' %>
     <span class="button--text"><%= t(:button_download) %></span>
   <% end %>
   <button
@@ -43,7 +43,7 @@
     class="button hide-when-print"
     data-action="two-factor-authentication#print"
   >
-    <%= op_icon 'button--icon icon-print' %>
+    <%= spot_icon 'print' %>
     <span class="button--text"><%= t(:button_print) %></span>
   </button>
 </div>

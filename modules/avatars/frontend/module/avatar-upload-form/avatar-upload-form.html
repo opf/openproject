@@ -24,9 +24,12 @@
     <img [src]="avatarPreviewUrl" class="avatars--local-avatar-preview" />
 </fieldset>
 
-<button type="submit"
-        (click)="uploadAvatar($event)"
-        [attr.disabled]="!avatarFile || busy || undefined"
-        [textContent]="text.button_update"
-        class="button -highlight -with-icon icon-checkmark">
+<button
+  type="submit"
+  (click)="uploadAvatar($event)"
+  [attr.disabled]="!avatarFile || busy || undefined"
+  class="button -highlight"
+>
+  <span class="spot-icon spot-icon_checkmark"></span>
+  <span [textContent]="text.button_update"></span>
 </button>

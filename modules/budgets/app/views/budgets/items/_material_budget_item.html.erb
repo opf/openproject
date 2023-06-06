@@ -91,7 +91,8 @@ See COPYRIGHT and LICENSE files for more details.
         <% end %>
 
         <% cost_value = material_budget_item.amount || material_budget_item.calculated_costs(@budget.fixed_date) %>
-        <a id="<%= id_prefix %>_costs" class="costs--edit-planned-costs-btn icon-context icon-edit" role="button" title="<%= t(:help_click_to_edit) %>">
+        <a id="<%= id_prefix %>_costs" class="costs--edit-planned-costs-btn" role="button" title="<%= t(:help_click_to_edit) %>">
+          <%= spot_icon('edit') %>
           <%= number_to_currency(cost_value) %>
         </a>
         </a>
@@ -105,7 +106,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
     <td class="delete form--td budget-table--fields buttons">
       <a class="delete-budget-item no-decoration-on-hover" title="<%= t(:button_delete) %>">
-        <%= op_icon('icon-context icon-delete') %>
+        <%= spot_icon('delete') %>
         <span class="hidden-for-sighted"><%= t(:button_delete) %></span>
       </a>
     </td>

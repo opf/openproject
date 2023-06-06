@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% if authorize_for(:documents, :edit) %>
     <li class="toolbar-item">
       <%= link_to({controller: '/documents', action: 'edit', id: @document}, class: 'button', accesskey: accesskey(:edit)) do %>
-        <%= op_icon('button--icon icon-edit') %>
+        <%= spot_icon('edit') %>
         <span class="button--text"><%= t(:button_edit) %></span>
       <% end %>
     </li>
@@ -41,7 +41,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% if authorize_for(:documents, :destroy) %>
     <li class="toolbar-item">
       <%= link_to({controller: '/documents', action: 'destroy', id: @document}, class: 'button', data: { confirm: t(:text_are_you_sure) }, method: :delete) do %>
-        <%= op_icon('button--icon icon-delete') %>
+        <%= spot_icon('delete') %>
         <span class="button--text"><%= t(:button_delete) %></span>
       <% end %>
     </li>

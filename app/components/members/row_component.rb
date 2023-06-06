@@ -57,9 +57,9 @@ module Members
       link = mail_to(principal.mail)
 
       if member.principal.invited?
-        i = content_tag "i", "", title: t("text_user_invited"), class: "icon icon-mail1"
+        aria = content_tag "span", t("text_user_invited"), class: "hidden-for-sighted"
 
-        link + i
+        link + aria + spot_icon('mail1')
       else
         link
       end
@@ -125,7 +125,7 @@ module Members
 
     def edit_link
       link_to(
-        helpers.op_icon('icon icon-edit'),
+        helpers.spot_icon('edit'),
         '#',
         class: "toggle-membership-button #{toggle_item_class_name}",
         'data-action': 'members-form#toggleMembershipEdit',
@@ -145,7 +145,7 @@ module Members
     def delete_link
       if model.deletable?
         link_to(
-          helpers.op_icon('icon icon-delete'),
+          helpers.spot_icon('delete'),
           { controller: '/members', action: 'destroy', id: model, page: params[:page] },
           method: :delete,
           data: { confirm: delete_link_confirmation, disable_with: I18n.t(:label_loading) },

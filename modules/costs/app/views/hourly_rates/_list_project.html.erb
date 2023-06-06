@@ -40,7 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
 <div class="user-rate-history-list">
 <div class="contextual">
   <% if project && User.current.allowed_to?({:controller => '/hourly_rates', :action => 'edit'}, project) %>
-    <%= link_to t(:button_update), {:controller => '/hourly_rates', :action => 'edit', :project_id => project, :id => @user}, :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
+    <%= link_to spot_icon('edit') + t(:button_update), {:controller => '/hourly_rates', :action => 'edit', :project_id => project, :id => @user}, :accesskey => accesskey(:edit) %>
   <% end %>
 </div>
 <h3><%=h project.name %><%= (" - " + number_to_currency(current_rate.rate)) if current_rate %></h3>
@@ -91,7 +91,7 @@ See COPYRIGHT and LICENSE files for more details.
           <tr>
             <td style="padding-right: 1em;"><%= rate.valid_from %></td>
             <td class="currency"><%= number_to_currency(rate.rate) %></td>
-            <td><%= rate == current_rate ? icon_wrapper('icon-context icon-checkmark',I18n.t(:general_text_Yes)) : "" %></td>
+            <td><%= rate == current_rate ? spot_icon('checkmark') + I18n.t(:general_text_Yes) : "" %></td>
           </tr>
         <%- end -%>
         </tbody>

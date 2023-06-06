@@ -10,7 +10,7 @@
     <p>
     </p>
     <p class="danger-zone--warning">
-      <span class="icon icon-info2"></span>
+      <span class="spot-icon spot-icon_info2"></span>
       <%= t('ldap_groups.synchronized_filters.destroy.confirmation', name: @filter.name, groups_count: @filter.groups.count) %>
     </p>
 
@@ -55,7 +55,7 @@
     <div class="danger-zone--verification">
       <input type="text"></input>
       <%= styled_button_tag title: t(:button_delete), class: '-highlight', disabled: true do
-        concat content_tag :i, '', class: 'button--icon icon-delete'
+        concat spot_icon('delete')
         concat content_tag :span, t(:button_delete), class: 'button--text'
       end %>
       <%= link_to t(:button_cancel),

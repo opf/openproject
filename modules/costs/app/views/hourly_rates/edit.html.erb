@@ -87,12 +87,12 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
   <div class="wp-inline-create-button">
     <a href="#" class="add-row-button wp-inline-create--add-link">
-      <%= op_icon('icon icon-add') %>
-        <%= t(:button_add_rate) %>
+      <%= spot_icon('add') %>
+      <%= t(:button_add_rate) %>
     </a>
   </div>
   <div class="generic-table--action-buttons">
-    <%= styled_button_tag t(:button_save), class: '-with-icon icon-checkmark' %>
+    <%= styled_button_tag spot_icon('checkmark') + t(:button_save) %>
   </div>
 <% end %>
 </costs-subform>

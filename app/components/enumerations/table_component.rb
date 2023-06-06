@@ -61,7 +61,7 @@ module Enumerations
               class: 'wp-inline-create--add-link',
               data: { 'qa-selector': "create-enumeration-#{rows.name.underscore.dasherize}" },
               title: t(:label_enumeration_new) do
-        helpers.op_icon('icon icon-add')
+        helpers.spot_icon('add')
       end
     end
   end

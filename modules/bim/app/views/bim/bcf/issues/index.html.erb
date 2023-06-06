@@ -8,7 +8,7 @@
       <%= link_to({ action: 'upload' },
                 title: I18n.t(:label_import),
                 class: 'button import-bcf-button') do %>
-        <%= op_icon('button--icon icon-import') %>
+        <%= spot_icon('import') %>
         <span class="button--text"><%= t(:label_import) %></span>
       <% end %>
     </li>
@@ -17,7 +17,7 @@
       <%= link_to(project_work_packages_with_query_path(@project, query, format: :bcf),
                 title: t('bcf.bcf_xml.export'),
                 class: 'button export-bcf-button') do %>
-        <%= op_icon('button--icon icon-export') %>
+        <%= spot_icon('export') %>
         <span class="button--text"><%= t('bcf.bcf_xml.export') %></span>
       <% end %>
     </li>

@@ -32,7 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% if authorize_for(:budgets, :edit) %>
     <li class="toolbar-item">
       <%= link_to({ controller: 'budgets', action: 'edit',  id: @budget }, class: 'button', accesskey: accesskey(:edit)) do %>
-        <%= op_icon('button--icon icon-edit') %>
+        <%= spot_icon('edit') %>
         <span class="button--text"><%= t(:button_update) %></span>
       <% end %>
     </li>
@@ -40,7 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% if authorize_for(:budgets, :copy) %>
     <li class="toolbar-item hidden-for-mobile">
       <%= link_to({ controller: 'budgets', action: 'copy', id: @budget }, class: 'button') do %>
-        <%= op_icon('button--icon icon-copy') %>
+        <%= spot_icon('copy') %>
         <span class="button--text"><%= t(:button_copy) %></span>
       <% end %>
     </li>
@@ -48,7 +48,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% if authorize_for(:budgets, :destroy) %>
     <li class="toolbar-item">
       <%= link_to({ controller: 'budgets', action: 'destroy', id: @budget }, class: 'button', method: :delete) do %>
-        <%= op_icon('button--icon icon-delete') %>
+        <%= spot_icon('delete') %>
         <span class="button--text"><%= t(:button_delete) %></span>
       <% end %>
     </li>

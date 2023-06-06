@@ -102,11 +102,12 @@ See COPYRIGHT and LICENSE files for more details.
                 </span>
                 <button type="submit"
                         class="button submit_cost_type">
-                  <%= icon_wrapper('icon icon-save', I18n.t(:caption_save_rate)) %>
+                  <%= spot_icon('save') %>
+                  <span><%= I18n.t(:caption_save_rate) %></span>
                 </button>
               <% end %>
             </td>
-            <%= content_tag :td, cost_type.is_default? ? icon_wrapper('icon icon-checkmark', I18n.t(:general_text_Yes)) : "" %>
+            <%= content_tag :td, cost_type.is_default? ? spot_icon('checkmark') + I18n.t(:general_text_Yes) : "" %>
             <td class="buttons">
               <%= form_for cost_type, url:    cost_type_path(cost_type),
                                       method: :delete,
@@ -115,7 +116,8 @@ See COPYRIGHT and LICENSE files for more details.
                                                 title: t(:button_lock) } do |f| %>
                 <button type="submit"
                         class="button--link submit_cost_type">
-                  <%= icon_wrapper('icon icon-locked', I18n.t(:button_lock)) %>
+                  <%= spot_icon('locked') %>
+                  <span><%= I18n.t(:button_lock) %></span>
                 </button>
               <% end %>
             </td>

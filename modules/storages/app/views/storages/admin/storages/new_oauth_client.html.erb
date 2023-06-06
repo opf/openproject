@@ -37,9 +37,9 @@
   </fieldset>
 
   <% if @storage.oauth_client %>
-    <%= styled_button_tag t(:button_replace), class: "-highlight -with-icon icon-checkmark" %>
+    <%= styled_button_tag spot_icon('checkmark') + t(:button_replace), class: "-highlight" %>
   <% else %>
-    <%= styled_button_tag t("storages.buttons.save_and_complete_setup"), class: "-highlight -with-icon icon-checkmark" %>
+    <%= styled_button_tag spot_icon('checkmark') + t("storages.buttons.save_and_complete_setup"), class: "-highlight" %>
   <% end %>
 <% end %>
 

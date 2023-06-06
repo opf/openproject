@@ -62,7 +62,7 @@ module Enumerations
 
     def delete_link
       helpers.link_to(
-        helpers.op_icon('icon icon-delete'),
+        helpers.spot_icon('delete'),
         helpers.enumeration_path(enumeration),
         method: :delete,
         data: { confirm: I18n.t(:text_are_you_sure) },

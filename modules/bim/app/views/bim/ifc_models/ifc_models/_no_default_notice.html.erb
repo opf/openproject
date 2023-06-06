@@ -7,7 +7,7 @@
     </ul>
     <% unless current_page?(bcf_project_ifc_models_path(project)) %>
       <%= link_to(bcf_project_ifc_models_path(project), class: 'button', accesskey: accesskey(:edit)) do %>
-        <%= op_icon('button--icon icon-edit') %> <%= t('ifc_models.label_edit_defaults') %>
+        <%= spot_icon('edit') %> <%= t('ifc_models.label_edit_defaults') %>
       <% end %>
     <% end %>
   </div>

@@ -116,9 +116,10 @@ See COPYRIGHT and LICENSE files for more details.
     <span class="form--field-container">
       <a href="#"
          id="cost_entry_costs"
-         class="costs--edit-planned-costs-btn icon-context icon-edit"
+         class="costs--edit-planned-costs-btn"
          role="button"
          title="<%= t(:help_click_to_edit) %>">
+            <%= spot_icon('edit') %>
             <%= number_to_currency(@cost_entry.real_costs) %>
         </a>
       <%= render partial: '/budgets/items/budget_override_cost_form',
@@ -150,5 +151,5 @@ See COPYRIGHT and LICENSE files for more details.
     <%= f.text_field :comments, size: 100, container_class: '-wide' %>
   </div>
 
-  <%= styled_button_tag t(:button_save), class: '-with-icon icon-checkmark' %>
+  <%= styled_button_tag spot_icon('checkmark') + t(:button_save) %>
 <% end %>

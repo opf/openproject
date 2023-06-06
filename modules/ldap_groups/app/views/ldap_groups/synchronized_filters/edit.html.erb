@@ -10,8 +10,8 @@
   <%= render partial: 'form', locals: { f: f } %>
 
   <p>
-    <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
-    <%= link_to t(:button_cancel), { action: :show }, class: 'button -with-icon icon-cancel' %>
+    <%= styled_button_tag spot_icon('checkmark') + t(:button_save), class: '-highlight' %>
+    <%= link_to spot_icon('cancel') + t(:button_cancel), { action: :show }, class: 'button' %>
   </p>
 <% end %>
 

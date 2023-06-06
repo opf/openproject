@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% if authorize_for(@content_type.pluralize, :history) %>
     <li class="toolbar-item">
       <%= link_to({controller: "/#{@content_type.pluralize}", action: 'history', meeting_id: @meeting }, class: 'button') do %>
-        <%= op_icon('button--icon icon-wiki') %>
+        <%= spot_icon('wiki') %>
         <span class="button--text"><%= t(:label_history) %></span>
       <% end %>
     </li>

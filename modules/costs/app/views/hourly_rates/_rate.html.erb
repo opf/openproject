@@ -63,8 +63,12 @@ See COPYRIGHT and LICENSE files for more details.
       </span>
     </td>
     <td class="buttons">
-      <a href="#" class="delete-row-button no-decoration-on-hover">
-        <%= op_icon('icon-context icon-delete', title: t(:button_delete)) %>
+      <a
+        href="#"
+        class="delete-row-button no-decoration-on-hover"
+        aria-label="<%= t(:button_delete) %>"
+      >
+        <%= spot_icon('delete') %>
       </a>
     </td>
   </tr>

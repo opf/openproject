@@ -6,9 +6,9 @@
 <%= labelled_tabular_form_for @object, url: admin_settings_storages_path(@object), as: :storages_storage do |f| -%>
   <%= render partial: 'form', locals: { f: f } %>
   <% if @object.oauth_client %>
-    <%= styled_button_tag t(:button_save), class: "-highlight -with-icon icon-checkmark" %>
+    <%= styled_button_tag spot_icon('checkmark') + t(:button_save), class: "-highlight" %>
   <% else %>
-    <%= styled_button_tag t("storages.buttons.save_and_continue_setup"), class: "-highlight -with-icon icon-checkmark" %>
+    <%= styled_button_tag spot_icon('checkmark') + t("storages.buttons.save_and_continue_setup"), class: "-highlight" %>
   <% end %>
-  <%= link_to t(:button_cancel), admin_settings_storages_path, class: 'button -with-icon icon-close' %>
+  <%= link_to spot_icon('close') + t(:button_cancel), admin_settings_storages_path, class: 'button' %>
 <% end %>
