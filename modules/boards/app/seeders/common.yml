@@ -28,6 +28,9 @@
 
 modules_permissions:
   boards:
+  - role: :default_role_non_member
+    add:
+    - :show_board_views
   - role: :default_role_member
     add:
     - :show_board_views

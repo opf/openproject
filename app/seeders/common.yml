@@ -251,7 +251,6 @@ roles:
   - :browse_repository
   - :view_changesets
   - :view_wiki_pages
-  - :show_board_views
 - reference: :default_role_anonymous
   t_name: Anonymous
   position: 1
@@ -314,8 +313,6 @@ roles:
   - :commit_access
   - :view_commit_author_statistics
   - :view_members
-  - :manage_board_views
-  - :show_board_views
   - :view_team_planner
 - reference: :default_role_reader
   t_name: Reader
@@ -337,7 +334,6 @@ roles:
   - :delete_own_messages
   - :browse_repository
   - :view_changesets
-  - :show_board_views
   - :view_team_planner
 - reference: :default_role_project_admin
   t_name: Project admin
