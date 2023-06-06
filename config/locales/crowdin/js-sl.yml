@@ -327,7 +327,7 @@ sl:
     label_add_row_before: "Dodaj vrstico pred"
     label_add_selected_columns: "Dodajte izbrane stolpce"
     label_added_by: "dodal"
-    label_added_time_by: "Dodano od  <a href=%{authorLink}>%{author}</a> na %{age}"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "pred dnevi"
     label_all: "vsi"
     label_all_work_packages: "Vsi zahtevki"

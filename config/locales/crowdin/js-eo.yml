@@ -328,7 +328,7 @@ eo:
     label_add_row_before: "Aldoni vicon maldektre"
     label_add_selected_columns: "Aldoni elektitajn kolumnojn"
     label_added_by: "aldonita de"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "tagoj antaŭe"
     label_all: "ĉiuj"
     label_all_work_packages: "ĉiuj laborpakaĵoj"

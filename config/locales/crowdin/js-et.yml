@@ -328,7 +328,7 @@ et:
     label_add_row_before: "Add row before"
     label_add_selected_columns: "Lisa valitud väljad"
     label_added_by: "lisas"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "päeva tagasi"
     label_all: "kõik"
     label_all_work_packages: "kõik teemad"
