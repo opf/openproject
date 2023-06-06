@@ -29,7 +29,7 @@ export const triggerActionsEntryComponentSelector = 'time-entry--trigger-actions
       class="spot-link"
     >
       <span class="spot-icon spot-icon_edit"></span>
-    </a>
+    </button>
     <button
       type="button"
       (click)="deleteTimeEntry()"
@@ -37,7 +37,7 @@ export const triggerActionsEntryComponentSelector = 'time-entry--trigger-actions
       class="spot-link"
     >
       <span class="spot-icon spot-icon_delete"></span>
-    </a>
+    </button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
