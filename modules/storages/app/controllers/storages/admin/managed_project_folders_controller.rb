@@ -68,7 +68,7 @@ class Storages::Admin::ManagedProjectFoldersController < ApplicationController
   # See also: create above
   # Called by: Global app/config/routes.rb to serve Web page
   def update
-    service_result = ::Storages::Storages::UpdateProviderFieldsService
+    service_result = ::Storages::Storages::UpdateService
                        .new(user: current_user,
                             model: @storage)
                        .call(permitted_storage_params_with_defaults)
