@@ -33,9 +33,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     <button class="button"
             id="wp-fold-toggle-button"
             wpGroupToggleDropdown>
-      <op-icon icon-classes="button--icon icon-outline"></op-icon>
+      <span class="spot-icon spot-icon_outline"></span>
       <span class="button--text"></span>
-      <op-icon icon-classes="button--icon icon-small icon-pulldown"></op-icon>
+      <span class="spot-icon spot-icon_pulldown"></span>
     </button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
