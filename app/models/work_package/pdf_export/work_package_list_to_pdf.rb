@@ -222,16 +222,11 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def title
-    "#{heading}.pdf"
+    # export filename expects to be "project.name - query.name"
+    "#{project ? "#{project} - #{heading}" : heading}.pdf"
   end
 
   def heading
-    title = query.new_record? ? I18n.t(:label_work_package_plural) : query.name
-
-    if project
-      "#{project} - #{title}"
-    else
-      title
-    end
+    query.name || I18n.t(:label_work_package_plural)
   end
 end
