@@ -1725,6 +1725,7 @@ si:
   label_journal: "ජර්නල්"
   label_journal_diff: "විස්තරය සංසන්දනය"
   label_language: " "
+  label_languages: "Languages"
   label_jump_to_a_project: "ව්යාපෘතියකට පනින්න..."
   label_keyword_plural: 'මූල පද'
   label_language_based: "පරිශීලකයාගේ භාෂාව මත පදනම්ව"
@@ -1984,6 +1985,7 @@ si:
   label_user_plural: "පරිශීලකයන්"
   label_user_search: "පරිශීලකයා සඳහා සොයන්න"
   label_user_settings: "පරිශීලක සැකසුම්"
+  label_users_settings: "Users settings"
   label_version_new: "නව අනුවාදය"
   label_version_plural: "අනුවාද"
   label_version_sharing_descendants: "උප ව්යාපෘති සමඟ"
@@ -2609,7 +2611,7 @@ si:
   setting_sys_api_description: "ගබඩා කළමනාකරණ වෙබ් සේවාව මඟින් ගබඩාවට ප්රවේශ වීම සඳහා ඒකාබද්ධ කිරීම සහ පරිශීලක අවසරය ලබා දේ."
   setting_time_format: "කාල ආකෘතිය"
   setting_accessibility_mode_for_anonymous: "නිර්නාමික පරිශීලකයින් සඳහා ප්රවේශ්යතා ප්රකාරය සක්රීය කරන්න"
-  setting_user_format: "පරිශීලකයන් ආකෘතිය ප්රදර්ශනය"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "පරිශීලකයන් පෙරනිමි කාල කලාපය"
   setting_users_deletable_by_admins: "පරිadmins විසින් භාවිතා කළ හැකි පරිශීලක ගිණුම්"
   setting_users_deletable_by_self: "පරිශීලකයින්ට ඔවුන්ගේ ගිණුම් මකා දැමීමට අවසර දී ඇත"
@@ -2640,6 +2642,7 @@ si:
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "පෙරනිමි මනාප"
+      display_format: "Display format"
       deletion: "මකාදැමීම"
     highlighting:
       mode_long:

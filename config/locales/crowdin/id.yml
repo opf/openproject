@@ -1700,6 +1700,7 @@ id:
   label_journal: "Journal"
   label_journal_diff: "Deskripsi perbandingan"
   label_language: "Bahasa"
+  label_languages: "Languages"
   label_jump_to_a_project: "Lompat ke Project..."
   label_keyword_plural: 'Keywords'
   label_language_based: "Berdasarkan bahasa user"
@@ -1959,6 +1960,7 @@ id:
   label_user_plural: "User"
   label_user_search: "Cari user"
   label_user_settings: "User settings"
+  label_users_settings: "Users settings"
   label_version_new: "Versi baru"
   label_version_plural: "Versi"
   label_version_sharing_descendants: "Dengan Sub-Project"
@@ -2580,7 +2582,7 @@ id:
   setting_sys_api_description: "Repository management web service menyediakan integrasi fungsi dan otorisasi untuk akses repository."
   setting_time_format: "Format waktu"
   setting_accessibility_mode_for_anonymous: "Aktifkan mode Aksesibilitas untuk user anonim"
-  setting_user_format: "Format tampilan user"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
   setting_users_deletable_by_admins: "Akun user dapat dihapus oleh admin"
   setting_users_deletable_by_self: "User diijinkan menghapus akun mereka sendiri"
@@ -2611,6 +2613,7 @@ id:
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
+      display_format: "Display format"
       deletion: "Deletion"
     highlighting:
       mode_long:

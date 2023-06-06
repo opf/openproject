@@ -1760,6 +1760,7 @@ pl:
   label_journal: "Dziennik"
   label_journal_diff: "Opis porównania"
   label_language: "Język"
+  label_languages: "Languages"
   label_jump_to_a_project: "Skok do projektu..."
   label_keyword_plural: 'Słowa kluczowe'
   label_language_based: "Na podstawie języka użytkownika"
@@ -2019,6 +2020,7 @@ pl:
   label_user_plural: "Użytkownicy"
   label_user_search: "Szukaj użytkownika"
   label_user_settings: "Ustawienia użytkownika"
+  label_users_settings: "Users settings"
   label_version_new: "Nowa wersja"
   label_version_plural: "Wersje"
   label_version_sharing_descendants: "Z podprojektami"
@@ -2645,7 +2647,7 @@ pl:
   setting_sys_api_description: "Zarządzanie repozytoriami przez www umożliwia integrację i autoryzację użytkowników do dostępu do repozytoriów."
   setting_time_format: "Format czasu"
   setting_accessibility_mode_for_anonymous: "Włącz tryb dostępu dla użytkowników anonimowych"
-  setting_user_format: "Format wyświetlania nazwy użytkownika"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Domyślna strefa czasowa użytkowników"
   setting_users_deletable_by_admins: "Konta użytkowników mogą być usuwane przez administratorów"
   setting_users_deletable_by_self: "Użytkownicy mogą usuwać swoje konta"
@@ -2676,6 +2678,7 @@ pl:
       section_project_overview: "Ustawienia listy przeglądu projektu"
     user:
       default_preferences: "Ustawienia domyślne"
+      display_format: "Display format"
       deletion: "Usunięcie"
     highlighting:
       mode_long:

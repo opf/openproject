@@ -340,7 +340,7 @@ he:
     label_add_row_before: "Add row before"
     label_add_selected_columns: "הוסף עמודות נבחרות"
     label_added_by: "נוסף על ידי"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "ימים לפני"
     label_all: "כל"
     label_all_work_packages: "כל חבילות עבודה"

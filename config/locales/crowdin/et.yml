@@ -1725,6 +1725,7 @@ et:
   label_journal: "Journal"
   label_journal_diff: "Kirjelduse võrdlus"
   label_language: "Keel"
+  label_languages: "Languages"
   label_jump_to_a_project: "Mine projekti..."
   label_keyword_plural: 'Keywords'
   label_language_based: "Põhineb kasutaja keelel"
@@ -1984,6 +1985,7 @@ et:
   label_user_plural: "Kasutajad"
   label_user_search: "Otsi kasutajat"
   label_user_settings: "User settings"
+  label_users_settings: "Users settings"
   label_version_new: "Uus versioon"
   label_version_plural: "Versioonid"
   label_version_sharing_descendants: "Alamprojektidega"
@@ -2609,7 +2611,7 @@ et:
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
   setting_time_format: "Aja esitusviis"
   setting_accessibility_mode_for_anonymous: "Võimalda külalistel kasutada hõlbustus- ja juurdepääsetavusrežiimi"
-  setting_user_format: "Kasutaja nime esitamise vorm"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
   setting_users_deletable_by_admins: "Luba administraator-rolliga kasutajatel kustutada kasutajate kontosid"
   setting_users_deletable_by_self: "Luba kasutajatel kustuta oma konto"
@@ -2640,6 +2642,7 @@ et:
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
+      display_format: "Display format"
       deletion: "Deletion"
     highlighting:
       mode_long:

@@ -1702,6 +1702,7 @@ lol:
   label_journal: "crwdns497283:0crwdne497283:0"
   label_journal_diff: "crwdns497285:0crwdne497285:0"
   label_language: "crwdns497287:0crwdne497287:0"
+  label_languages: "crwdns854501:0crwdne854501:0"
   label_jump_to_a_project: "crwdns497289:0crwdne497289:0"
   label_keyword_plural: 'crwdns497291:0crwdne497291:0'
   label_language_based: "crwdns497293:0crwdne497293:0"
@@ -1961,6 +1962,7 @@ lol:
   label_user_plural: "crwdns497789:0crwdne497789:0"
   label_user_search: "crwdns497791:0crwdne497791:0"
   label_user_settings: "crwdns497793:0crwdne497793:0"
+  label_users_settings: "crwdns854503:0crwdne854503:0"
   label_version_new: "crwdns497795:0crwdne497795:0"
   label_version_plural: "crwdns497797:0crwdne497797:0"
   label_version_sharing_descendants: "crwdns497799:0crwdne497799:0"
@@ -2578,7 +2580,7 @@ lol:
   setting_sys_api_description: "crwdns499103:0crwdne499103:0"
   setting_time_format: "crwdns499105:0crwdne499105:0"
   setting_accessibility_mode_for_anonymous: "crwdns499107:0crwdne499107:0"
-  setting_user_format: "crwdns499109:0crwdne499109:0"
+  setting_user_format: "crwdns854505:0crwdne854505:0"
   setting_user_default_timezone: "crwdns499111:0crwdne499111:0"
   setting_users_deletable_by_admins: "crwdns499113:0crwdne499113:0"
   setting_users_deletable_by_self: "crwdns499115:0crwdne499115:0"
@@ -2609,6 +2611,7 @@ lol:
       section_project_overview: "crwdns499151:0crwdne499151:0"
     user:
       default_preferences: "crwdns499153:0crwdne499153:0"
+      display_format: "crwdns854507:0crwdne854507:0"
       deletion: "crwdns499155:0crwdne499155:0"
     highlighting:
       mode_long:

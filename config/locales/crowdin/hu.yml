@@ -1722,6 +1722,7 @@ hu:
   label_journal: "Hírközlés"
   label_journal_diff: "Leírás összehasonlítás"
   label_language: "Nyelv"
+  label_languages: "Languages"
   label_jump_to_a_project: "Ugrás a projekthez"
   label_keyword_plural: 'Kulcsszavak'
   label_language_based: "A felhasználói nyelv alapján"
@@ -1981,6 +1982,7 @@ hu:
   label_user_plural: "Felhasználók"
   label_user_search: "Felhasználó keresése"
   label_user_settings: "Felhasználói beállítások"
+  label_users_settings: "Users settings"
   label_version_new: "Új verzió"
   label_version_plural: "Verzió"
   label_version_sharing_descendants: "Az alprojektekkel rendelkező"
@@ -2605,7 +2607,7 @@ hu:
   setting_sys_api_description: "A csomagtároló webszolgáltatás integrációt és felhasználói hozzáférést biztosít a tároló eléréséhez."
   setting_time_format: "Időformátum"
   setting_accessibility_mode_for_anonymous: "Engedélyezi a kisegítő módot a névtelen felhasználók számára"
-  setting_user_format: "A felhasználók a megjelenítési formátuma"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "A felhasználók alapértelmezett időzónája"
   setting_users_deletable_by_admins: "A felhasználói fiókok az adminok által törölhetőek"
   setting_users_deletable_by_self: "Engedélyezi, hogy a felhasználók törölhessék a saját fiókjukat"
@@ -2636,6 +2638,7 @@ hu:
       section_project_overview: "A projekt áttekintési lista beállítása"
     user:
       default_preferences: "Alapértelmezett preferenciák"
+      display_format: "Display format"
       deletion: "Törlés"
     highlighting:
       mode_long:

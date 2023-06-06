@@ -340,7 +340,7 @@ lt:
     label_add_row_before: "Pridėti eilutę prieš"
     label_add_selected_columns: "Pridėti pažymėtus stulpelius"
     label_added_by: "pridėjo"
-    label_added_time_by: "<a href=%{authorLink}>%{author}</a> pridėjo prieš %{age}"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "dienų prieš"
     label_all: "visi"
     label_all_work_packages: "visi darbų paketai"

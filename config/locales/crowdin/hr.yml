@@ -1744,6 +1744,7 @@ hr:
   label_journal: "Journal"
   label_journal_diff: "Opis uspoređivanja"
   label_language: "Jezik"
+  label_languages: "Languages"
   label_jump_to_a_project: "Pređi na projekt..."
   label_keyword_plural: 'Keywords'
   label_language_based: "Na osnovi jezika korisnika"
@@ -2003,6 +2004,7 @@ hr:
   label_user_plural: "Korisnici"
   label_user_search: "Traženje korisnika"
   label_user_settings: "User settings"
+  label_users_settings: "Users settings"
   label_version_new: "Nova verzija"
   label_version_plural: "Verzije"
   label_version_sharing_descendants: "S podprojektima"
@@ -2630,7 +2632,7 @@ hr:
   setting_sys_api_description: "Web servis za upravljanje repozitorijom omogućava integraciju i autorizaciju za pristup repozitorijima."
   setting_time_format: "Format vremena"
   setting_accessibility_mode_for_anonymous: "Enable accessibility mode for anonymous users"
-  setting_user_format: "Format vremena korisnika"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
   setting_users_deletable_by_admins: "Korisnički računi obrisani od strane admina"
   setting_users_deletable_by_self: "Users allowed to delete their accounts"
@@ -2661,6 +2663,7 @@ hr:
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
+      display_format: "Display format"
       deletion: "Deletion"
     highlighting:
       mode_long:

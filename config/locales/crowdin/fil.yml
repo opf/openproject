@@ -1725,6 +1725,7 @@ fil:
   label_journal: "Talaarawan"
   label_journal_diff: "Paglalarawan ng paghahambing"
   label_language: "Linggwahe"
+  label_languages: "Languages"
   label_jump_to_a_project: "Tumalon sa isang proyekto..."
   label_keyword_plural: 'Keywords'
   label_language_based: "Naka-base sa linggwahe ng gumagamit"
@@ -1984,6 +1985,7 @@ fil:
   label_user_plural: "Mga gumagamit"
   label_user_search: "Maghanap para sa gumagamit"
   label_user_settings: "User settings"
+  label_users_settings: "Users settings"
   label_version_new: "Bagong bersyon"
   label_version_plural: "Mga bersyon"
   label_version_sharing_descendants: "Kasama ang mga subproject"
@@ -2607,7 +2609,7 @@ fil:
   setting_sys_api_description: "Ang serbisyo ng repositoryo management web ay nagbibigay ng intregrasyon at user awtorisasyon para sa pag-access ng mga repositoryo."
   setting_time_format: "Format ng oras"
   setting_accessibility_mode_for_anonymous: "Paganahin ang aksebilidad mode para sa mga gumagamit ng anonymous"
-  setting_user_format: "Users display format"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Ang mga user defaullt time zone"
   setting_users_deletable_by_admins: "Ang mga akwant ng gumagamit ay madaling buburahin ng mga admin"
   setting_users_deletable_by_self: "Ang mga gumagamit ay pinahintulutan burahin ang mga kanilang akwant"
@@ -2638,6 +2640,7 @@ fil:
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
+      display_format: "Display format"
       deletion: "Deletion"
     highlighting:
       mode_long:

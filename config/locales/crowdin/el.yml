@@ -1721,6 +1721,7 @@ el:
   label_journal: "Ημερολόγιο"
   label_journal_diff: "Σύγκριση Περιγραφών"
   label_language: "Γλώσσα"
+  label_languages: "Languages"
   label_jump_to_a_project: "Μεταβείτε σε ένα έργο..."
   label_keyword_plural: 'Λέξεις-κλειδιά'
   label_language_based: "Με βάση τη γλώσσα του χρήστη"
@@ -1980,6 +1981,7 @@ el:
   label_user_plural: "Χρήστες"
   label_user_search: "Αναζήτηση για χρήστη"
   label_user_settings: "Ρυθμίσεις χρήστη"
+  label_users_settings: "Users settings"
   label_version_new: "Νέα έκδοση"
   label_version_plural: "Εκδόσεις"
   label_version_sharing_descendants: "Με υποέργα"
@@ -2604,7 +2606,7 @@ el:
   setting_sys_api_description: "Το web service διαχείρισης αποθετηρίων παρέχει ενσωμάτωση και αυθεντικοποίηση χρήστη για την πρόσβαση σε αποθετήρια."
   setting_time_format: "Μορφοποίηση ώρας"
   setting_accessibility_mode_for_anonymous: "Ενεργοποίηση της λειτουργίας προσβασιμότητας για ανώνυμους χρήστες"
-  setting_user_format: "Μορφοποίηση εμφάνισης χρηστών"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Προεπιλεγμένη ζώνη ώρας του χρήστη"
   setting_users_deletable_by_admins: "Λογαριασμοί χρηστών που είναι μπορούν να διαγραφούν από τους διαχειριστές"
   setting_users_deletable_by_self: "Επιτρέπεται στους χρήστες να διαγράψουν τους λογαριασμούς τους"
@@ -2635,6 +2637,7 @@ el:
       section_project_overview: "Ρυθμίσεις για τη λίστα επισκόπησης έργου"
     user:
       default_preferences: "Προεπιλεγμένες προτιμήσεις"
+      display_format: "Display format"
       deletion: "Διαγραφή"
     highlighting:
       mode_long:

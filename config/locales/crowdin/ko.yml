@@ -1705,6 +1705,7 @@ ko:
   label_journal: "기록일지"
   label_journal_diff: "설명 비교"
   label_language: "언어"
+  label_languages: "Languages"
   label_jump_to_a_project: "프로젝트로 이동..."
   label_keyword_plural: '키워드'
   label_language_based: "사용자 언어에 따름"
@@ -1964,6 +1965,7 @@ ko:
   label_user_plural: "사용자"
   label_user_search: "사용자 검색"
   label_user_settings: "사용자 설정"
+  label_users_settings: "Users settings"
   label_version_new: "새 버전"
   label_version_plural: "버전"
   label_version_sharing_descendants: "하위 프로젝트 포함"
@@ -2584,7 +2586,7 @@ ko:
   setting_sys_api_description: "리포지토리 관리 웹 서비스는 리포지토리에 액세스하기 위한 통합 및 사용자 인증을 제공합니다."
   setting_time_format: "시간 형식"
   setting_accessibility_mode_for_anonymous: "익명 사용자에 대해 접근성 모드 사용"
-  setting_user_format: "사용자 표시 형식"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "사용자의 기본 표준 시간대"
   setting_users_deletable_by_admins: "관리자가 삭제 가능한 사용자 계정"
   setting_users_deletable_by_self: "자신의 계정을 삭제하도록 허용된 사용자"
@@ -2615,6 +2617,7 @@ ko:
       section_project_overview: "프로젝트 개요 목록의 설정"
     user:
       default_preferences: "기본 설정"
+      display_format: "Display format"
       deletion: "삭제"
     highlighting:
       mode_long:

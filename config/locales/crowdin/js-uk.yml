@@ -340,7 +340,7 @@ uk:
     label_add_row_before: "Додати рядок перед"
     label_add_selected_columns: "Додати вибрані стовпці"
     label_added_by: "додав(-ла)"
-    label_added_time_by: "Додано користувачем <a href=%{authorLink}>%{author}</a> о%{age}"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "днів тому"
     label_all: "всі"
     label_all_work_packages: "всі пакети в роботі"

@@ -1724,6 +1724,7 @@ sv:
   label_journal: "Journal"
   label_journal_diff: "Jämför beskrivning"
   label_language: "Språk"
+  label_languages: "Languages"
   label_jump_to_a_project: "Hoppa till projekt..."
   label_keyword_plural: 'Nyckelord'
   label_language_based: "Baserat på användarens språk"
@@ -1983,6 +1984,7 @@ sv:
   label_user_plural: "Användare"
   label_user_search: "Sök efter användare"
   label_user_settings: "Användarinställningar"
+  label_users_settings: "Users settings"
   label_version_new: "Ny version"
   label_version_plural: "Versioner"
   label_version_sharing_descendants: "Med delprojekt"
@@ -2606,7 +2608,7 @@ sv:
   setting_sys_api_description: "Webtjänsten arkivhantering ger integrering och användarautentisering för att åtkomst av arkiv."
   setting_time_format: "Tidsformat"
   setting_accessibility_mode_for_anonymous: "Aktivera hjälpmedelsläget för anonyma användare"
-  setting_user_format: "Användarvisningsformat"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Standardtidszon för användarna"
   setting_users_deletable_by_admins: "Användarkonton kan tas bort av administratörer"
   setting_users_deletable_by_self: "Användare kan ta bort sina konton"
@@ -2637,6 +2639,7 @@ sv:
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Förvalda inställningar"
+      display_format: "Display format"
       deletion: "Borttagning"
     highlighting:
       mode_long:

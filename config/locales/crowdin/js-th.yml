@@ -340,7 +340,7 @@ th:
     label_add_row_before: "Add row before"
     label_add_selected_columns: "เพิ่มคอลัมน์ที่เลือก"
     label_added_by: "เพิ่มโดย"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "วันที่ผ่านมา"
     label_all: "ทั้งหมด"
     label_all_work_packages: "ชุดภารกิจทั้งหมด"

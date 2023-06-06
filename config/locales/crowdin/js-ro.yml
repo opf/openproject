@@ -339,7 +339,7 @@ ro:
     label_add_row_before: "Adauga un rand inainte"
     label_add_selected_columns: "Adăugați coloanele selectate"
     label_added_by: "adăugat de"
-    label_added_time_by: "Adăugat de <a href=%{authorLink}>%{author}</a> la %{age}"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "zile în urmă"
     label_all: "toate"
     label_all_work_packages: "toate pachetele de lucru"

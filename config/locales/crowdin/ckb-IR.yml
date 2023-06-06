@@ -1725,6 +1725,7 @@ ckb-IR:
   label_journal: "Journal"
   label_journal_diff: "Description Comparison"
   label_language: "Language"
+  label_languages: "Languages"
   label_jump_to_a_project: "Jump to a project..."
   label_keyword_plural: 'Keywords'
   label_language_based: "Based on user's language"
@@ -1984,6 +1985,7 @@ ckb-IR:
   label_user_plural: "Users"
   label_user_search: "Search for user"
   label_user_settings: "User settings"
+  label_users_settings: "Users settings"
   label_version_new: "New version"
   label_version_plural: "Versions"
   label_version_sharing_descendants: "With subprojects"
@@ -2609,7 +2611,7 @@ ckb-IR:
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
   setting_time_format: "Time format"
   setting_accessibility_mode_for_anonymous: "Enable accessibility mode for anonymous users"
-  setting_user_format: "Users display format"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
   setting_users_deletable_by_admins: "User accounts deletable by admins"
   setting_users_deletable_by_self: "Users allowed to delete their accounts"
@@ -2640,6 +2642,7 @@ ckb-IR:
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
+      display_format: "Display format"
       deletion: "Deletion"
     highlighting:
       mode_long:

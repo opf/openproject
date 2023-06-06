@@ -1723,6 +1723,7 @@ hi:
   label_journal: "Journal"
   label_journal_diff: "विवरण तुलना"
   label_language: "भाषा "
+  label_languages: "Languages"
   label_jump_to_a_project: "किसी प्रोजेक्ट पर जंप करें..."
   label_keyword_plural: 'Keywords'
   label_language_based: "Based on user's language"
@@ -1982,6 +1983,7 @@ hi:
   label_user_plural: "Users"
   label_user_search: "Search for user"
   label_user_settings: "User settings"
+  label_users_settings: "Users settings"
   label_version_new: "New version"
   label_version_plural: "संस्करण"
   label_version_sharing_descendants: "With subprojects"
@@ -2607,7 +2609,7 @@ hi:
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
   setting_time_format: "Time format"
   setting_accessibility_mode_for_anonymous: "Enable accessibility mode for anonymous users"
-  setting_user_format: "Users display format"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "उपयोगकर्ता डिफ़ॉल्ट समय ज़ोन"
   setting_users_deletable_by_admins: "User accounts deletable by admins"
   setting_users_deletable_by_self: "Users allowed to delete their accounts"
@@ -2638,6 +2640,7 @@ hi:
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "डिफ़ॉल्ट प्राथमिकताएं"
+      display_format: "Display format"
       deletion: "हटाने"
     highlighting:
       mode_long:

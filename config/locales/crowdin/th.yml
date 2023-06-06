@@ -1706,6 +1706,7 @@ th:
   label_journal: "บันทึก"
   label_journal_diff: "เปรียบเทียบคำอธิบาย"
   label_language: "ภาษา"
+  label_languages: "Languages"
   label_jump_to_a_project: "ไปยังโครงการ..."
   label_keyword_plural: 'Keywords'
   label_language_based: "ตามภาษาของผู้ใช้"
@@ -1965,6 +1966,7 @@ th:
   label_user_plural: "ผู้ใช้"
   label_user_search: "ค้นหาผู้ใช้"
   label_user_settings: "User settings"
+  label_users_settings: "Users settings"
   label_version_new: "เวอร์ชั่นใหม่"
   label_version_plural: "เวอร์ชั่น"
   label_version_sharing_descendants: "พร้อมด้วยโครงการย่อย"
@@ -2588,7 +2590,7 @@ th:
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
   setting_time_format: "รูปแบบเวลา"
   setting_accessibility_mode_for_anonymous: "เปิดใช้งาน \"โหมดจำกัดการใช้งาน\" สำหรับผู้ใช้ที่ไม่ระบุชื่อ"
-  setting_user_format: "รูปแบบการแสดงผลของผู้ใช้"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
   setting_users_deletable_by_admins: "บัญชีผู้ใช้ที่สามารถลบโดยผู้ดูแลระบบ"
   setting_users_deletable_by_self: "ยินยอมให้ผู้ใช้ลบบัญชีของตนเองได้"
@@ -2619,6 +2621,7 @@ th:
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
+      display_format: "Display format"
       deletion: "Deletion"
     highlighting:
       mode_long:

@@ -1725,6 +1725,7 @@ bg:
   label_journal: "Дневник"
   label_journal_diff: "Сравнение на описание"
   label_language: "Език"
+  label_languages: "Languages"
   label_jump_to_a_project: "Отиди на проект..."
   label_keyword_plural: 'Ключови думи'
   label_language_based: "Въз основа на езика на потребителя"
@@ -1984,6 +1985,7 @@ bg:
   label_user_plural: "Потребители"
   label_user_search: "Търсене на потребител"
   label_user_settings: "Потребителски настройки"
+  label_users_settings: "Users settings"
   label_version_new: "Нова версия"
   label_version_plural: "Версии"
   label_version_sharing_descendants: "С подпроектите"
@@ -2609,7 +2611,7 @@ bg:
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
   setting_time_format: "Формат за часа"
   setting_accessibility_mode_for_anonymous: "Разрешаване на достъпен режим за анонимни потребители"
-  setting_user_format: "Users display format"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
   setting_users_deletable_by_admins: "User accounts deletable by admins"
   setting_users_deletable_by_self: "Потребителите могат да изтриват профилите си"
@@ -2640,6 +2642,7 @@ bg:
       section_project_overview: "Настройки за списък с преглед на проекти"
     user:
       default_preferences: "Настройки по подразбиране"
+      display_format: "Display format"
       deletion: "Deletion"
     highlighting:
       mode_long:

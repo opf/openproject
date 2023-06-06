@@ -1722,6 +1722,7 @@ nl:
   label_journal: "Logboek"
   label_journal_diff: "Beschrijving vergelijking"
   label_language: "Taal"
+  label_languages: "Languages"
   label_jump_to_a_project: "Ga naar een project..."
   label_keyword_plural: 'Trefwoorden'
   label_language_based: "Op basis van de taal van gebruiker"
@@ -1981,6 +1982,7 @@ nl:
   label_user_plural: "Gebruikers"
   label_user_search: "Zoeken naar gebruiker"
   label_user_settings: "Gebruikersinstellingen"
+  label_users_settings: "Users settings"
   label_version_new: "Nieuwe versie"
   label_version_plural: "Versies"
   label_version_sharing_descendants: "Met subprojecten"
@@ -2605,7 +2607,7 @@ nl:
   setting_sys_api_description: "De repository beheer web-service biedt integratie en autorisatie van gebruikers voor toegang tot de archieven."
   setting_time_format: "Tijdnotatie"
   setting_accessibility_mode_for_anonymous: "Toegankelijkheid modus voor anonieme gebruikers inschakelen"
-  setting_user_format: "Notatie voor weergave van gebruikers"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Standaardtijdzone voor gebruikers"
   setting_users_deletable_by_admins: "Gebruikersaccounts verwijderbaar door beheerder"
   setting_users_deletable_by_self: "Gebruikers kunnen hun accounts verwijderen"
@@ -2636,6 +2638,7 @@ nl:
       section_project_overview: "Instellingen voor project overzicht lijst"
     user:
       default_preferences: "Standaardvoorkeuren"
+      display_format: "Display format"
       deletion: "Verwijdering"
     highlighting:
       mode_long:

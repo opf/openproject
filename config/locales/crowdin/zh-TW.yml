@@ -1706,6 +1706,7 @@ zh-TW:
   label_journal: "日誌"
   label_journal_diff: "內容對比"
   label_language: "語言"
+  label_languages: "Languages"
   label_jump_to_a_project: "前往一個專案..."
   label_keyword_plural: '關鍵字'
   label_language_based: "根據使用者的語言"
@@ -1965,6 +1966,7 @@ zh-TW:
   label_user_plural: "使用者"
   label_user_search: "搜尋使用者"
   label_user_settings: "使用者設定"
+  label_users_settings: "Users settings"
   label_version_new: "新增版本"
   label_version_plural: "版本"
   label_version_sharing_descendants: "與子專案"
@@ -2587,7 +2589,7 @@ zh-TW:
   setting_sys_api_description: "版控容器管理網路服務提供容器存取管理和使用者認證"
   setting_time_format: "時間格式"
   setting_accessibility_mode_for_anonymous: "啟用匿名使用者存取模式"
-  setting_user_format: "使用者顯示格式"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "使用者預設時區"
   setting_users_deletable_by_admins: "使用者帳戶可被管理者刪除"
   setting_users_deletable_by_self: "使用者允許刪除他們的帳號"
@@ -2618,6 +2620,7 @@ zh-TW:
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "默認偏好設置"
+      display_format: "Display format"
       deletion: "消除"
     highlighting:
       mode_long:

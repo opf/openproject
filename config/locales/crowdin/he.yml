@@ -1763,6 +1763,7 @@ he:
   label_journal: "Journal"
   label_journal_diff: "Description Comparison"
   label_language: "שפה"
+  label_languages: "Languages"
   label_jump_to_a_project: "קפוץ אל פרוייקט..."
   label_keyword_plural: 'Keywords'
   label_language_based: "Based on user's language"
@@ -2022,6 +2023,7 @@ he:
   label_user_plural: "משתמשים"
   label_user_search: "Search for user"
   label_user_settings: "User settings"
+  label_users_settings: "Users settings"
   label_version_new: "גרסה חדשה"
   label_version_plural: "גירסאות"
   label_version_sharing_descendants: "With subprojects"
@@ -2651,7 +2653,7 @@ he:
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
   setting_time_format: "Time format"
   setting_accessibility_mode_for_anonymous: "Enable accessibility mode for anonymous users"
-  setting_user_format: "Users display format"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
   setting_users_deletable_by_admins: "User accounts deletable by admins"
   setting_users_deletable_by_self: "Users allowed to delete their accounts"
@@ -2682,6 +2684,7 @@ he:
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
+      display_format: "Display format"
       deletion: "Deletion"
     highlighting:
       mode_long:

@@ -1763,6 +1763,7 @@ cs:
   label_journal: "Deník"
   label_journal_diff: "Popis porovnání"
   label_language: "Jazyk"
+  label_languages: "Languages"
   label_jump_to_a_project: "Přejít na projekt..."
   label_keyword_plural: 'Klíčová slova'
   label_language_based: "Na základě jazyka uživatele"
@@ -2022,6 +2023,7 @@ cs:
   label_user_plural: "Uživatelé"
   label_user_search: "Vyhledat uživatele"
   label_user_settings: "Uživatelská nastavení"
+  label_users_settings: "Users settings"
   label_version_new: "Nová verze"
   label_version_plural: "Verze"
   label_version_sharing_descendants: "S Podprojekty"
@@ -2650,7 +2652,7 @@ cs:
   setting_sys_api_description: "Webová služba pro správu repositářů poskytuje integraci a uživatelskou autorizaci pro přístup k repositářům."
   setting_time_format: "Formát času"
   setting_accessibility_mode_for_anonymous: "Povolit režim usnadnění pro anonymní uživatele"
-  setting_user_format: "Formát zobrazení uživatelů"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Výchozí časové pásmo uživatele"
   setting_users_deletable_by_admins: "Uživatelské účty lze odstranit administrátory"
   setting_users_deletable_by_self: "Uživatelé mohou odstranit jejich účty"
@@ -2681,6 +2683,7 @@ cs:
       section_project_overview: "Nastavení přehledu seznamu  projektu"
     user:
       default_preferences: "Výchozí předvolby"
+      display_format: "Display format"
       deletion: "Odstranění"
     highlighting:
       mode_long:

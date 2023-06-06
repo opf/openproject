@@ -1723,6 +1723,7 @@ da:
   label_journal: "Journal"
   label_journal_diff: "Sammenligning af beskrivelser"
   label_language: "Sprog"
+  label_languages: "Languages"
   label_jump_to_a_project: "Gå til et projekt..."
   label_keyword_plural: 'Keywords'
   label_language_based: "Baseret på brugerens sprog"
@@ -1982,6 +1983,7 @@ da:
   label_user_plural: "Brugere"
   label_user_search: "Søg efter bruger"
   label_user_settings: "User settings"
+  label_users_settings: "Users settings"
   label_version_new: "Ny version"
   label_version_plural: "Versioner"
   label_version_sharing_descendants: "Med underprojekter"
@@ -2605,7 +2607,7 @@ da:
   setting_sys_api_description: "Repositorieadministration-webtjenesten sørger for integration og brugertilladelse for adgang til repositorier."
   setting_time_format: "Tidsformat"
   setting_accessibility_mode_for_anonymous: "Aktivér tilgængelighedstilstand for anonyme brugere"
-  setting_user_format: "Brugerens fremvisningsformat"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
   setting_users_deletable_by_admins: "Brugerens konti kan slettes af administratorer"
   setting_users_deletable_by_self: "Brugererne kan selv slette deres konti"
@@ -2636,6 +2638,7 @@ da:
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
+      display_format: "Display format"
       deletion: "Deletion"
     highlighting:
       mode_long:

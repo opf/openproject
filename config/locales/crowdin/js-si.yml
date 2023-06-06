@@ -340,7 +340,7 @@ si:
     label_add_row_before: "පෙර පේළිය එකතු කරන්න"
     label_add_selected_columns: "තෝරාගත් තීරු එකතු කරන්න"
     label_added_by: "විසින් එකතු කරන ලදි"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "දින කිහිපයකට පෙර"
     label_all: "සියලු"
     label_all_work_packages: "සියලුම වැඩ පැකේජ"

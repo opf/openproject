@@ -1760,6 +1760,7 @@ sl:
   label_journal: "Dnevnik"
   label_journal_diff: "Opisna Primerjava"
   label_language: "Jezik"
+  label_languages: "Languages"
   label_jump_to_a_project: "Skoči na projekt..."
   label_keyword_plural: 'Ključne besede'
   label_language_based: "Glede na uporabnikov jezik"
@@ -2019,6 +2020,7 @@ sl:
   label_user_plural: "Uporabniki"
   label_user_search: "Išči uporabnika"
   label_user_settings: "Uporabniške nastavitve"
+  label_users_settings: "Users settings"
   label_version_new: "Nova različica"
   label_version_plural: "Različice"
   label_version_sharing_descendants: "S podprojekti"
@@ -2647,7 +2649,7 @@ sl:
   setting_sys_api_description: "Spletna storitev za upravljanje skladišča nudi integracijo in pooblastilo uporabnika za dostop do repozitorija."
   setting_time_format: "Format časa"
   setting_accessibility_mode_for_anonymous: "Omogoči način dostopa za anonimne uporabnike"
-  setting_user_format: "Oblika prikaza uporabnikov"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Uporabniški privzeti časovni pas"
   setting_users_deletable_by_admins: "Uporabniške račune, ki jih skrbniki lahko izbrišejo"
   setting_users_deletable_by_self: "Uporabnikom je dovoljeno brisanje njihovih računov"
@@ -2678,6 +2680,7 @@ sl:
       section_project_overview: "Nastavitve za seznam pregleda projekta."
     user:
       default_preferences: "Privzete nastavitve"
+      display_format: "Display format"
       deletion: "brisanje"
     highlighting:
       mode_long:

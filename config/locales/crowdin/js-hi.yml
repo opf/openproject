@@ -340,7 +340,7 @@ hi:
     label_add_row_before: "Add row before"
     label_add_selected_columns: "Add selected columns"
     label_added_by: "द्वारा जोड़ा गया"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "दिन पहले"
     label_all: "सभी"
     label_all_work_packages: "समस्त कार्य पैकेज"

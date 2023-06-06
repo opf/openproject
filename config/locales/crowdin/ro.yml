@@ -1744,6 +1744,7 @@ ro:
   label_journal: "Jurnal"
   label_journal_diff: "Comparare descriere"
   label_language: "Limbă"
+  label_languages: "Languages"
   label_jump_to_a_project: "Salt la un proiect..."
   label_keyword_plural: 'Cuvinte cheie'
   label_language_based: "Bazat pe limba utilizatorului"
@@ -2003,6 +2004,7 @@ ro:
   label_user_plural: "Utilizatori"
   label_user_search: "Căutare utilizator"
   label_user_settings: "Setări utilizator"
+  label_users_settings: "Users settings"
   label_version_new: "Versiune nouă"
   label_version_plural: "Versiuni"
   label_version_sharing_descendants: "Cu subproiecte"
@@ -2629,7 +2631,7 @@ ro:
   setting_sys_api_description: "Serviciul web de administrare repo oferă integrare şi autorizare utilizatori pentru accesul la repo-uri."
   setting_time_format: "Format oră"
   setting_accessibility_mode_for_anonymous: "Activează modul de accesibilitate pentru utilizatorii anonimi"
-  setting_user_format: "Format afişare utilizatori"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Fusul orar implicit al utilizatorilor"
   setting_users_deletable_by_admins: "Utilizatorii pot fi șterși de administratori"
   setting_users_deletable_by_self: "Utilizatorii își pot șterge contul propriu"
@@ -2660,6 +2662,7 @@ ro:
       section_project_overview: "Setări pentru lista de prezentare generală a proiectului"
     user:
       default_preferences: "Preferințe implicite"
+      display_format: "Display format"
       deletion: "Ștergerea a eșuat: %s"
     highlighting:
       mode_long:

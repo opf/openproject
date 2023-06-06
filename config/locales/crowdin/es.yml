@@ -1722,6 +1722,7 @@ es:
   label_journal: "Diario"
   label_journal_diff: "Comparación de la descripción"
   label_language: "Idioma"
+  label_languages: "Languages"
   label_jump_to_a_project: "Saltar a un proyecto..."
   label_keyword_plural: 'Palabras clave'
   label_language_based: "Basado en el idioma del usuario"
@@ -1981,6 +1982,7 @@ es:
   label_user_plural: "Usuarios"
   label_user_search: "Búsqueda de usuario"
   label_user_settings: "Configuración de usuario"
+  label_users_settings: "Users settings"
   label_version_new: "Nueva versión"
   label_version_plural: "Versiones"
   label_version_sharing_descendants: "Con subproyectos"
@@ -2605,7 +2607,7 @@ es:
   setting_sys_api_description: "El servicio web de administración de repositorios proporciona integración y autorización de usuario para acceder a los repositorios."
   setting_time_format: "Formato de hora"
   setting_accessibility_mode_for_anonymous: "Activar el modo de accesibilidad para usuarios anónimos"
-  setting_user_format: "Formato de visualización de usuarios"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Zona horaria por defecto de los usuarios"
   setting_users_deletable_by_admins: "Cuentas de usuario eliminables por administradores"
   setting_users_deletable_by_self: "Permitir a los usuarios eliminar sus propias cuentas"
@@ -2636,6 +2638,7 @@ es:
       section_project_overview: "Configuración de la lista de información general del proyecto"
     user:
       default_preferences: "Preferencias predeterminadas"
+      display_format: "Display format"
       deletion: "Eliminación"
     highlighting:
       mode_long:

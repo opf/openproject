@@ -1702,6 +1702,7 @@ ja:
   label_journal: "履歴記述"
   label_journal_diff: "説明の比較"
   label_language: "言語"
+  label_languages: "Languages"
   label_jump_to_a_project: "プロジェクトへ移動..."
   label_keyword_plural: 'キーワード'
   label_language_based: "ユーザの言語設定に基づく"
@@ -1961,6 +1962,7 @@ ja:
   label_user_plural: "ユーザ"
   label_user_search: "ユーザーを検索:"
   label_user_settings: "ユーザー設定"
+  label_users_settings: "Users settings"
   label_version_new: "新しいバージョン"
   label_version_plural: "バージョン"
   label_version_sharing_descendants: "子プロジェクト単位"
@@ -2584,7 +2586,7 @@ ja:
   setting_sys_api_description: "リポジトリ管理Webサービスは、リポジトリへのアクセスの統合およびユーザー認証を提供します。"
   setting_time_format: "時刻の形式"
   setting_accessibility_mode_for_anonymous: "匿名ユーザ向けにアクセシビリティモードを有効"
-  setting_user_format: "ユーザ情報の形式"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "ユーザーのデフォルトのタイム ゾーン"
   setting_users_deletable_by_admins: "管理者によるユーザアカウントが削除可能"
   setting_users_deletable_by_self: "ユーザによる自分のアカウント削除を許可"
@@ -2615,6 +2617,7 @@ ja:
       section_project_overview: "プロジェクト概要リストの設定"
     user:
       default_preferences: "デフォルト設定"
+      display_format: "Display format"
       deletion: "削除"
     highlighting:
       mode_long:

@@ -1721,6 +1721,7 @@ ca:
   label_journal: "Diari"
   label_journal_diff: "Descripció de comparació"
   label_language: "Idioma"
+  label_languages: "Languages"
   label_jump_to_a_project: "Anar al projecte..."
   label_keyword_plural: 'Paraules clau'
   label_language_based: "Basat en l'idioma de l'usuari"
@@ -1980,6 +1981,7 @@ ca:
   label_user_plural: "Usuaris"
   label_user_search: "Cercar per usuari"
   label_user_settings: "Configuració de l'usuari"
+  label_users_settings: "Users settings"
   label_version_new: "Nova versió"
   label_version_plural: "Versions"
   label_version_sharing_descendants: "Amb subprojectes"
@@ -2598,7 +2600,7 @@ ca:
   setting_sys_api_description: "La gestió del repositori per servei web proporciona integració i autorització d'usuaris per l'accés a repositoris."
   setting_time_format: "Format d'hora"
   setting_accessibility_mode_for_anonymous: "Activar el mode d'accessibilitat per a usuaris anònims"
-  setting_user_format: "Format de com mostrar l'usuari"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Zona horària per defecte de l'usuari"
   setting_users_deletable_by_admins: "Comptes d'usuari esborrables pels administradors"
   setting_users_deletable_by_self: "Els usuaris poden suprimir els seus comptes"
@@ -2629,6 +2631,7 @@ ca:
       section_project_overview: "Configuracions per a la llista de visió general del projecte"
     user:
       default_preferences: "Preferències per defecte"
+      display_format: "Display format"
       deletion: "Eliminació"
     highlighting:
       mode_long:

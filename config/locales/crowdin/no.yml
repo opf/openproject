@@ -1725,6 +1725,7 @@
   label_journal: "Journal"
   label_journal_diff: "Sammenligning av beskrivelse"
   label_language: "Språk"
+  label_languages: "Languages"
   label_jump_to_a_project: "Gå til et prosjekt..."
   label_keyword_plural: 'Nøkkelord'
   label_language_based: "Basert på brukerens språk"
@@ -1984,6 +1985,7 @@
   label_user_plural: "Brukere"
   label_user_search: "Søk etter bruker"
   label_user_settings: "User settings"
+  label_users_settings: "Users settings"
   label_version_new: "Ny versjon"
   label_version_plural: "Versjoner"
   label_version_sharing_descendants: "Med underprosjekter"
@@ -2609,7 +2611,7 @@
   setting_sys_api_description: "Pakkebrønn web-tjenesten sørger for integrasjon og bruker autentisering for tilgang til pakkebrønner."
   setting_time_format: "Tidsformat"
   setting_accessibility_mode_for_anonymous: "Aktiver tilgjengelighetsmodus for anonyme brukere"
-  setting_user_format: "Visningsformat for brukere"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
   setting_users_deletable_by_admins: "Brukerkontoer kan slettes av administratorer"
   setting_users_deletable_by_self: "Brukere kan slette egen konto"
@@ -2640,6 +2642,7 @@
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
+      display_format: "Display format"
       deletion: "Deletion"
     highlighting:
       mode_long:

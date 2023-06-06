@@ -340,7 +340,7 @@ fa:
     label_add_row_before: "افزودن سطر قبل از"
     label_add_selected_columns: "Add selected columns"
     label_added_by: "اضافه شده توسط"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "days ago"
     label_all: "all"
     label_all_work_packages: "تمام بسته های کاری"

@@ -1720,6 +1720,7 @@ de:
   label_journal: "Änderungen"
   label_journal_diff: "Beschreibungsvergleich"
   label_language: "Sprache"
+  label_languages: "Languages"
   label_jump_to_a_project: "Zu einem Projekt springen..."
   label_keyword_plural: 'Schlüsselwörter'
   label_language_based: "Sprachabhängig"
@@ -1979,6 +1980,7 @@ de:
   label_user_plural: "Benutzer"
   label_user_search: "Nach Benutzer suchen"
   label_user_settings: "Benutzereinstellungen"
+  label_users_settings: "Users settings"
   label_version_new: "Neue Version"
   label_version_plural: "Versionen"
   label_version_sharing_descendants: "Mit Unterprojekten"
@@ -2604,7 +2606,7 @@ de:
   setting_sys_api_description: "Der Web-Service für Projektarchiv-Verwaltung erlaubt Integration und Nutzer-Autorisierung für den Zugriff auf Projektarchive."
   setting_time_format: "Zeitformat"
   setting_accessibility_mode_for_anonymous: "Barrierefreien Modus für nicht angemeldete Nutzer aktivieren"
-  setting_user_format: "Benutzer-Anzeigeformat"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Standard-Zeitzone für Benutzer"
   setting_users_deletable_by_admins: "Admins können Nutzeraccounts löschen"
   setting_users_deletable_by_self: "Nutzer können ihren Account löschen"
@@ -2635,6 +2637,7 @@ de:
       section_project_overview: "Einstellungen für Projektliste"
     user:
       default_preferences: "Standardeinstellungen"
+      display_format: "Display format"
       deletion: "Löschen"
     highlighting:
       mode_long:

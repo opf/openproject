@@ -1725,6 +1725,7 @@ fr:
   label_journal: "Journal"
   label_journal_diff: "Comparaison de description"
   label_language: "Langue"
+  label_languages: "Languages"
   label_jump_to_a_project: "Aller à un projet…"
   label_keyword_plural: 'Mots clés'
   label_language_based: "Basé sur le langage de l'utilisateur"
@@ -1984,6 +1985,7 @@ fr:
   label_user_plural: "Utilisateurs"
   label_user_search: "Recherche d'Utilisateurs"
   label_user_settings: "Paramètres de l'utilisateur"
+  label_users_settings: "Users settings"
   label_version_new: "Nouvelle version"
   label_version_plural: "Versions"
   label_version_sharing_descendants: "Avec sous-projets"
@@ -2609,7 +2611,7 @@ fr:
   setting_sys_api_description: "Le service web de gestion de dépôt fournit l'intégration et l'autorisation d'accès aux dépôts."
   setting_time_format: "Format d'heure"
   setting_accessibility_mode_for_anonymous: "Activer le mode d'accessibilité pour les utilisateurs anonymes"
-  setting_user_format: "Utilisateur affiche format"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Fuseau horaire par défaut des utilisateurs"
   setting_users_deletable_by_admins: "Comptes utilisateurs effaçables par admins"
   setting_users_deletable_by_self: "Utilisateurs autorisés à supprimer leur compte"
@@ -2640,6 +2642,7 @@ fr:
       section_project_overview: "Paramètres de la liste des projets"
     user:
       default_preferences: "Préférences par défaut"
+      display_format: "Display format"
       deletion: "Suppression"
     highlighting:
       mode_long:

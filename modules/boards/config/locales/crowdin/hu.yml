@@ -7,12 +7,12 @@ hu:
     label_board: "Tábla"
     label_boards: "Táblák"
     board_types:
-      free: Basic
-      action: "Action board (%{attribute})"
+      free: Alap
+      action: "Feladattábla"
     board_type_attributes:
-      assignee: Assignee
-      status: Status
-      version: Version
-      subproject: Subproject
-      subtasks: Parent-child
-      basic: Basic
+      assignee: Felelős
+      status: Állapot
+      version: Verzió
+      subproject: Alprojekt
+      subtasks: Szülő-gyerek
+      basic: Alap

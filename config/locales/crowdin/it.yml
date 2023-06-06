@@ -1722,6 +1722,7 @@ it:
   label_journal: "Diario"
   label_journal_diff: "Confronto Descrizione"
   label_language: "Linguaggio"
+  label_languages: "Languages"
   label_jump_to_a_project: "Salta ad altro progetto..."
   label_keyword_plural: 'Parole chiave'
   label_language_based: "Basato sulla lingua dell'utente"
@@ -1981,6 +1982,7 @@ it:
   label_user_plural: "Utenti"
   label_user_search: "Cerca per utente"
   label_user_settings: "Impostazioni utente"
+  label_users_settings: "Users settings"
   label_version_new: "Nuova versione"
   label_version_plural: "Versioni"
   label_version_sharing_descendants: "Con i sotto-progetti"
@@ -2606,7 +2608,7 @@ it:
   setting_sys_api_description: "Il web service di gestione archivio fornisce servizi per integrare ed autorizzare gli utenti nell'accesso agli archivi."
   setting_time_format: "Formato del tempo"
   setting_accessibility_mode_for_anonymous: "Abilita la modalità di accesso facilitato per utenti anonimi"
-  setting_user_format: "Formato di visualizzazione utenti"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Orario predefinito utenti"
   setting_users_deletable_by_admins: "Account degli utenti eliminabili dagli amministratori"
   setting_users_deletable_by_self: "Gli utenti possono eliminare il proprio account"
@@ -2637,6 +2639,7 @@ it:
       section_project_overview: "Impostazioni per l'elenco generale dei progetti"
     user:
       default_preferences: "Preferenze predefinite"
+      display_format: "Display format"
       deletion: "Eliminazione"
     highlighting:
       mode_long:

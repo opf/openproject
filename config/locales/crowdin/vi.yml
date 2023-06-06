@@ -1708,6 +1708,7 @@ vi:
   label_journal: "Journal"
   label_journal_diff: "Description Comparison"
   label_language: "Ngôn ngữ"
+  label_languages: "Languages"
   label_jump_to_a_project: "Jump to a project..."
   label_keyword_plural: 'Keywords'
   label_language_based: "Based on user's language"
@@ -1967,6 +1968,7 @@ vi:
   label_user_plural: "Người dùng"
   label_user_search: "Tìm kiếm người dùng"
   label_user_settings: "Cài đặt người dùng"
+  label_users_settings: "Users settings"
   label_version_new: "Phiên bản mới"
   label_version_plural: "Các phiên bản"
   label_version_sharing_descendants: "Với các dự án con"
@@ -2590,7 +2592,7 @@ vi:
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
   setting_time_format: "Time format"
   setting_accessibility_mode_for_anonymous: "Enable accessibility mode for anonymous users"
-  setting_user_format: "Users display format"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Time zone mặc định"
   setting_users_deletable_by_admins: "User accounts deletable by admins"
   setting_users_deletable_by_self: "Users allowed to delete their accounts"
@@ -2621,6 +2623,7 @@ vi:
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Cấu hình mặc định"
+      display_format: "Display format"
       deletion: "Xóa"
     highlighting:
       mode_long:

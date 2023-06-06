@@ -1758,6 +1758,7 @@ uk:
   label_journal: "Журнал"
   label_journal_diff: "Опис Порівняння"
   label_language: "Мова"
+  label_languages: "Languages"
   label_jump_to_a_project: "Перейти до проекту..."
   label_keyword_plural: 'Ключові слова'
   label_language_based: "На основі мови користувача"
@@ -2017,6 +2018,7 @@ uk:
   label_user_plural: "Користувачі"
   label_user_search: "Знайти користувача:"
   label_user_settings: "Налаштування користувача"
+  label_users_settings: "Users settings"
   label_version_new: "Нова версія"
   label_version_plural: "Версії"
   label_version_sharing_descendants: "З підпроектами"
@@ -2643,7 +2645,7 @@ uk:
   setting_sys_api_description: "Веб-сервіс управління сховищем забезпечує інтеграцію та авторизацію користувача для доступу до сховищ."
   setting_time_format: "Формат часу"
   setting_accessibility_mode_for_anonymous: "Увімкніть режим доступності для анонімних користувачів"
-  setting_user_format: "Формат відображення користувачів"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Часовий пояс користувача за замовчуванням"
   setting_users_deletable_by_admins: "Облікові записи користувачів можуть бути видалені адміністраторами"
   setting_users_deletable_by_self: "Користувачі можуть видаляти свої акаунти"
@@ -2674,6 +2676,7 @@ uk:
       section_project_overview: "Налаштування списку огляду проєктів"
     user:
       default_preferences: "Параметри за умовчанням"
+      display_format: "Display format"
       deletion: "Видалення"
     highlighting:
       mode_long:
