@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Utilities::PathHelper do
+RSpec.describe API::V3::Utilities::PathHelper do
   let(:helper) { Class.new.tap { |c| c.extend(described_class) }.api_v3_paths }
 
   describe '#budget' do

@@ -266,6 +266,7 @@ lt:
       notice_reset_token: "Naujas %{type} tipo atpažinimo raktas buvo sugeneruotas. Jis dabar yra:"
       token_value_warning: "Pastaba: tai vienintelis kartas, kai matote atpažinimo raktą, todėl būtinai nusikopijuokite jį dabar."
       no_results_title_text: Nėra jokių pasiekiamų prieigos raktų.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Nėra jokių naujienų.
@@ -690,6 +691,11 @@ lt:
           overlaps: 'persidengia.'
           outside: 'yra už tinklelio.'
           end_before_start: 'pabaigos reikšmė turi būti didesnė už pradžios reikšmę.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'Turi būti nurodytas bent vienas kanalas pranešimų siuntimui.'
           attributes:
@@ -1555,6 +1561,12 @@ lt:
   label_api_access_key: "API prieigos raktas"
   label_api_access_key_created_on: "API prieigos raktas sukurtas prieš %{value}"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Taikomoji būsena"
   label_archive_project: "Archyvuoti projektą"
   label_ascending: "Didėjančia tvarka"
@@ -1685,6 +1697,7 @@ lt:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} aktyviai naudojami naudotojai"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Aplinka"
   label_estimates_and_time: "Sąmatos ir laikas"
   label_equals: "yra"
@@ -1747,6 +1760,7 @@ lt:
   label_journal: "Žurnalas"
   label_journal_diff: "Aprašymų palyginimas"
   label_language: "Kalba"
+  label_languages: "Languages"
   label_jump_to_a_project: "Peršokti į projektą..."
   label_keyword_plural: 'Raktažodžiai'
   label_language_based: "Paremta vartotojo kalba"
@@ -1876,7 +1890,6 @@ lt:
   label_principal_search: "Pridėti esamus vartotojus ar grupes"
   label_privacy_policy: "Duomenų privatumo ir saugumo politika"
   label_product_version: "Produkto versija"
-  label_professional_support: "Profesionali pagalba"
   label_profile: "Profilis"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -2007,6 +2020,7 @@ lt:
   label_user_plural: "Naudotojai"
   label_user_search: "Ieškoti vartotojo"
   label_user_settings: "Naudotojo nustatymai"
+  label_users_settings: "Users settings"
   label_version_new: "Nauja versija"
   label_version_plural: "Versijos"
   label_version_sharing_descendants: "Su sub-projektais"
@@ -2634,7 +2648,7 @@ lt:
   setting_sys_api_description: "Repozitorijos valdymo web tarnyba teikia integraciją ir vartotojų autorizaciją bandant pasiekti repozitorijas."
   setting_time_format: "Laiko formatas"
   setting_accessibility_mode_for_anonymous: "Leisti lengvos prieigos režimą anoniminiams vartotojams"
-  setting_user_format: "Vartotojo atvaizdavimo formatas"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Numatytoji vartotojo laiko juosta"
   setting_users_deletable_by_admins: "Administratoriai gali ištrinti vartotojų paskyras"
   setting_users_deletable_by_self: "Naudotojai gali ištrinti savo paskyras"
@@ -2665,6 +2679,7 @@ lt:
       section_project_overview: "Nustatymai projektų apžvalgos sąrašui"
     user:
       default_preferences: "Numatytosios parinktys"
+      display_format: "Display format"
       deletion: "Trynimas"
     highlighting:
       mode_long:

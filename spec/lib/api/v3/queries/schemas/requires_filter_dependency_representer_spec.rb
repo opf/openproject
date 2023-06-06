@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 5
-describe API::V3::Queries::Schemas::RequiresFilterDependencyRepresenter do
+RSpec.describe API::V3::Queries::Schemas::RequiresFilterDependencyRepresenter do
   it_behaves_like 'relation filter dependency' do
     let(:filter) { Queries::WorkPackages::Filter::RequiresFilter.create!(context: query) }
   end

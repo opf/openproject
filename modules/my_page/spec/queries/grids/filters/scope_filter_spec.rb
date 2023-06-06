@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Grids::Filters::ScopeFilter, type: :model do
+RSpec.describe Grids::Filters::ScopeFilter, type: :model do
   include_context 'filter tests'
   let(:values) { ['/my/page'] }
   let(:user) { build_stubbed(:user) }

@@ -269,6 +269,7 @@ ro:
       notice_reset_token: "S-a generat un token nou %{type} . Token-ul de acces este:"
       token_value_warning: "Notă: este singura dată când veți vedea acest token, asigurați-vă că îl copiați acum."
       no_results_title_text: În acest moment nu există tichete de acces disponibile.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: În acest moment nu există știri de raportat.
@@ -692,6 +693,11 @@ ro:
           overlaps: 'suprapunere.'
           outside: 'se află în afara rețelei.'
           end_before_start: 'valoarea finală trebuie să fie mai mare decât valoarea inițială.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'Trebuie specificat cel puţin un canal pentru trimiterea notificărilor.'
           attributes:
@@ -1539,6 +1545,12 @@ ro:
   label_api_access_key: "Cheie de acces API"
   label_api_access_key_created_on: "Cheia de acces creată acum %{value}"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Stare aplicată"
   label_archive_project: "Proiect de arhivă"
   label_ascending: "Crescător"
@@ -1669,6 +1681,7 @@ ro:
   label_enterprise: "Acţiunile particularizate sunt o caracteristică a Ediţiei Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} numărul de utilizatori activi rezervați"
   label_enterprise_edition: "Ediția Enterprise"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Mediu"
   label_estimates_and_time: "Estimări și timp"
   label_equals: "este"
@@ -1731,6 +1744,7 @@ ro:
   label_journal: "Jurnal"
   label_journal_diff: "Comparare descriere"
   label_language: "Limbă"
+  label_languages: "Languages"
   label_jump_to_a_project: "Salt la un proiect..."
   label_keyword_plural: 'Cuvinte cheie'
   label_language_based: "Bazat pe limba utilizatorului"
@@ -1860,7 +1874,6 @@ ro:
   label_principal_search: "Adăugare utilizatori sau grupuri existenți"
   label_privacy_policy: "Politica privind confidențialitatea și securitatea datelor"
   label_product_version: "Versiune produs"
-  label_professional_support: "Suport profesional"
   label_profile: "Profil"
   label_project_activity: "Activitate proiect"
   label_project_attribute_plural: "Atributele proiectului"
@@ -1991,6 +2004,7 @@ ro:
   label_user_plural: "Utilizatori"
   label_user_search: "Căutare utilizator"
   label_user_settings: "Setări utilizator"
+  label_users_settings: "Users settings"
   label_version_new: "Versiune nouă"
   label_version_plural: "Versiuni"
   label_version_sharing_descendants: "Cu subproiecte"
@@ -2617,7 +2631,7 @@ ro:
   setting_sys_api_description: "Serviciul web de administrare repo oferă integrare şi autorizare utilizatori pentru accesul la repo-uri."
   setting_time_format: "Format oră"
   setting_accessibility_mode_for_anonymous: "Activează modul de accesibilitate pentru utilizatorii anonimi"
-  setting_user_format: "Format afişare utilizatori"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Fusul orar implicit al utilizatorilor"
   setting_users_deletable_by_admins: "Utilizatorii pot fi șterși de administratori"
   setting_users_deletable_by_self: "Utilizatorii își pot șterge contul propriu"
@@ -2648,6 +2662,7 @@ ro:
       section_project_overview: "Setări pentru lista de prezentare generală a proiectului"
     user:
       default_preferences: "Preferințe implicite"
+      display_format: "Display format"
       deletion: "Ștergerea a eșuat: %s"
     highlighting:
       mode_long:

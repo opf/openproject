@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ScheduleHelpers::ChartRepresenter do
+RSpec.describe ScheduleHelpers::ChartRepresenter do
   describe '#normalized_to_s' do
     shared_let(:week_days) { week_with_saturday_and_sunday_as_weekend }
 

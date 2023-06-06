@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'color administration' do
+RSpec.describe 'color administration' do
   shared_let(:admin) { create(:admin) }
 
   before do

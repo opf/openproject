@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Journal::Timestamps do
+RSpec.describe Journal::Timestamps do
   # See: https://github.com/opf/openproject/pull/11243
 
   let!(:work_package) { create(:work_package) }

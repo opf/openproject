@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Bim::Bcf::Viewpoints::CreateService, type: :model do
+RSpec.describe Bim::Bcf::Viewpoints::CreateService, type: :model do
   let(:user) { build_stubbed(:user) }
   let(:contract_class) do
     double('contract_class', '<=': true)

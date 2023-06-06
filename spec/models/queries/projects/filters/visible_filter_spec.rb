@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Projects::Filters::VisibleFilter do
+RSpec.describe Queries::Projects::Filters::VisibleFilter do
   it_behaves_like 'basic query filter' do
     let(:class_key) { :visible }
     let(:type) { :list }

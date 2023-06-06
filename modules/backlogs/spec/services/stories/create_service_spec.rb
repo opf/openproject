@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe Stories::CreateService, type: :model do
+RSpec.describe Stories::CreateService, type: :model do
   let(:priority) { create(:priority) }
   let(:project) do
     project = create(:project, types: [type_feature])

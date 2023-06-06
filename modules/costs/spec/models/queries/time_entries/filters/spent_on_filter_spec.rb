@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::TimeEntries::Filters::SpentOnFilter do
+RSpec.describe Queries::TimeEntries::Filters::SpentOnFilter do
   it_behaves_like 'basic query filter' do
     let(:type) { :date }
     let(:class_key) { :spent_on }

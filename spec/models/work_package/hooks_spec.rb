@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage do
+RSpec.describe WorkPackage do
   describe "#create" do
     it "calls the create hook" do
       subject = "A new work package"

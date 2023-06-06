@@ -267,6 +267,7 @@ da:
       notice_reset_token: "A new %{type} token has been generated. Your access token is:"
       token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
       no_results_title_text: There are currently no access tokens available.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: There is currently no news to report.
@@ -689,6 +690,11 @@ da:
           overlaps: 'overlap.'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -1518,6 +1524,12 @@ da:
   label_api_access_key: "API adgangsnøgle"
   label_api_access_key_created_on: "API adgangsnøgle oprettet for %{value} siden"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Tildelt status"
   label_archive_project: "Archive project"
   label_ascending: "Stigende"
@@ -1648,6 +1660,7 @@ da:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Miljø"
   label_estimates_and_time: "Estimates and time"
   label_equals: "er"
@@ -1710,6 +1723,7 @@ da:
   label_journal: "Journal"
   label_journal_diff: "Sammenligning af beskrivelser"
   label_language: "Sprog"
+  label_languages: "Languages"
   label_jump_to_a_project: "Gå til et projekt..."
   label_keyword_plural: 'Keywords'
   label_language_based: "Baseret på brugerens sprog"
@@ -1839,7 +1853,6 @@ da:
   label_principal_search: "Tilføj eksisterende brugere eller grupper"
   label_privacy_policy: "Data privacy and security policy"
   label_product_version: "Product version"
-  label_professional_support: "Professionel support"
   label_profile: "Profil"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -1970,6 +1983,7 @@ da:
   label_user_plural: "Brugere"
   label_user_search: "Søg efter bruger"
   label_user_settings: "User settings"
+  label_users_settings: "Users settings"
   label_version_new: "Ny version"
   label_version_plural: "Versioner"
   label_version_sharing_descendants: "Med underprojekter"
@@ -2593,7 +2607,7 @@ da:
   setting_sys_api_description: "Repositorieadministration-webtjenesten sørger for integration og brugertilladelse for adgang til repositorier."
   setting_time_format: "Tidsformat"
   setting_accessibility_mode_for_anonymous: "Aktivér tilgængelighedstilstand for anonyme brugere"
-  setting_user_format: "Brugerens fremvisningsformat"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
   setting_users_deletable_by_admins: "Brugerens konti kan slettes af administratorer"
   setting_users_deletable_by_self: "Brugererne kan selv slette deres konti"
@@ -2624,6 +2638,7 @@ da:
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
+      display_format: "Display format"
       deletion: "Deletion"
     highlighting:
       mode_long:

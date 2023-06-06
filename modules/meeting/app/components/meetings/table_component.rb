@@ -32,7 +32,7 @@ module Meetings
   class TableComponent < ::TableComponent
     options :current_project # used to determine if displaying the projects column
 
-    sortable_columns :title, :start_time, :duration, :location
+    sortable_columns :title, :project_id, :start_time, :duration, :location
 
     def initial_sort
       %i[start_time asc]
@@ -45,7 +45,7 @@ module Meetings
     def headers
       @headers ||= [
         [:title, { caption: Meeting.human_attribute_name(:title) }],
-        current_project.blank? ? [:project, { caption: Meeting.human_attribute_name(:project) }] : nil,
+        current_project.blank? ? [:project_id, { caption: Meeting.human_attribute_name(:project) }] : nil,
         [:start_time, { caption: Meeting.human_attribute_name(:start_time) }],
         [:duration, { caption: Meeting.human_attribute_name(:duration) }],
         [:location, { caption: Meeting.human_attribute_name(:location) }]

@@ -269,6 +269,7 @@ sk:
       notice_reset_token: "Bol vytvorený nový token %{type}. Prístupový token je:"
       token_value_warning: "Poznámka: Toto je jediný čas, kedy uvidíte tento Token, uistite sa, že ste si ho skopírovali."
       no_results_title_text: Momentálne nie sú dostupné žiadne prístupové tokeny.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: V súčasnosti nie sú žiadne novinky pre nahlásenie.
@@ -693,6 +694,11 @@ sk:
           overlaps: 'prekrývajú.'
           outside: 'je mimo mriežku.'
           end_before_start: 'koncová hodnota musí byť väčšia ako počiatočná hodnota.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -1558,6 +1564,12 @@ sk:
   label_api_access_key: "Prístupový kľúč API"
   label_api_access_key_created_on: "Prístupový kľúč pre API vytvorený %{value} vzad"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Aplikovaný stav"
   label_archive_project: "Archivovať projekt"
   label_ascending: "Vzostupne"
@@ -1688,6 +1700,7 @@ sk:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} rezervovaných aktívnych užívateľov"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Prostredie"
   label_estimates_and_time: "Odhady a čas"
   label_equals: "je"
@@ -1750,6 +1763,7 @@ sk:
   label_journal: "Denník"
   label_journal_diff: "Porovnanie popisu"
   label_language: "Jazyk"
+  label_languages: "Languages"
   label_jump_to_a_project: "Skok do projektu..."
   label_keyword_plural: 'Kľúčové slová'
   label_language_based: "Založené na jazyku používateľa"
@@ -1879,7 +1893,6 @@ sk:
   label_principal_search: "Pridanie existujúcich užívateľov alebo skupín"
   label_privacy_policy: "Ochrana osobných údajov a bezpečnostná politika"
   label_product_version: "Verzia produktu"
-  label_professional_support: "Profesionálna podpora"
   label_profile: "Profil"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -2010,6 +2023,7 @@ sk:
   label_user_plural: "Užívatelia"
   label_user_search: "Hľadať používateľa"
   label_user_settings: "User settings"
+  label_users_settings: "Users settings"
   label_version_new: "Nová verzia"
   label_version_plural: "Verzie"
   label_version_sharing_descendants: "S podprojektmi"
@@ -2638,7 +2652,7 @@ sk:
   setting_sys_api_description: "Webová služba pre správu úložiska umožňuje integráciu a autorizáciu používateľa na prístup k repozitárom."
   setting_time_format: "Formát času"
   setting_accessibility_mode_for_anonymous: "Zapnúť režim prístupnosti pre anonymných používateľov"
-  setting_user_format: "Formát zobrazenia používateľa"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Predvolená časová zóna užívateľa"
   setting_users_deletable_by_admins: "Užívateľské účty možné odstrániť administrátorom"
   setting_users_deletable_by_self: "Užívatelia môžu odstrániť svoje účty"
@@ -2669,6 +2683,7 @@ sk:
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Predvolené nastavenia"
+      display_format: "Display format"
       deletion: "Vymazanie"
     highlighting:
       mode_long:

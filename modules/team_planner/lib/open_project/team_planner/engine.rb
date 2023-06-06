@@ -29,7 +29,7 @@ module OpenProject::TeamPlanner
              name: 'OpenProject Team Planner' do
       project_module :team_planner_view, dependencies: :work_package_tracking do
         permission :view_team_planner,
-                   { 'team_planner/team_planner': %i[index show upsale] },
+                   { 'team_planner/team_planner': %i[index show upsale overview] },
                    dependencies: %i[view_work_packages],
                    contract_actions: { team_planner: %i[read] }
         permission :manage_team_planner,
@@ -53,6 +53,17 @@ module OpenProject::TeamPlanner
            partial: 'team_planner/team_planner/menu',
            last: true,
            caption: :'team_planner.label_team_planner_plural'
+
+      menu :top_menu,
+           :team_planners, { controller: '/team_planner/team_planner', action: :overview },
+           context: :modules,
+           caption: :'team_planner.label_team_planner_plural',
+           if: Proc.new {
+             OpenProject::FeatureDecisions.more_global_index_pages_active? &&
+              (User.current.logged? || !Setting.login_required?) &&
+                User.current.allowed_to_globally?(:view_team_planner)
+           },
+           enterprise_feature: 'team_planner_view'
     end
 
     add_view :TeamPlanner,

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative 'shared_query_column_specs'
 
-describe Queries::WorkPackages::Columns::CustomFieldColumn do
+RSpec.describe Queries::WorkPackages::Columns::CustomFieldColumn do
   let(:project) { build_stubbed(:project) }
   let(:custom_field) { build_stubbed(:string_wp_custom_field) }
   let(:instance) { described_class.new(custom_field) }

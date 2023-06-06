@@ -3,4 +3,5 @@ hu:
   label_calendar_plural: "Naptárak"
   permission_view_calendar: "Naptárak megtekintése"
   permission_manage_calendars: "Naptárak kezelése"
+  permission_share_calendars: "Naptárak megosztása"
   project_module_calendar_view: "Naptár"

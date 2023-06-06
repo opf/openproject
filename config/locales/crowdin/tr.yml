@@ -269,6 +269,7 @@ tr:
       notice_reset_token: "Yeni bir %{type} anahtar üretildi. Erişim anahtarınız:"
       token_value_warning: "Not: Bu anahtarı görebileceğiniz tek an bu, kopyaladığınıza emin olun."
       no_results_title_text: Şu anda hiçbir erişim anahtarı mevcut değil.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Şu anda rapor edilecek bir haber yok.
@@ -690,6 +691,11 @@ tr:
           overlaps: 'üst üste gelmek.'
           outside: 'Grup dışında görünmektedir.'
           end_before_start: 'son değerin başlangıç değerinden daha büyük olması gerekir.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'Bildirim göndermek için en az bir kanal belirtilmelidir.'
           attributes:
@@ -1519,6 +1525,12 @@ tr:
   label_api_access_key: "API erişim anahtarı"
   label_api_access_key_created_on: "API erişim anahtarı %{value} önce oluşturuldu"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Uygulanan statü"
   label_archive_project: "Projeyi arşivle"
   label_ascending: "Azalan"
@@ -1649,6 +1661,7 @@ tr:
   label_enterprise: "Kurumsal"
   label_enterprise_active_users: "%{current}/%{limit} aktif kullanıcı rezervasyonu"
   label_enterprise_edition: "Enterprise sürüm"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Ortam"
   label_estimates_and_time: "Tahminler & zaman"
   label_equals: "şuysa"
@@ -1711,6 +1724,7 @@ tr:
   label_journal: "Günlük"
   label_journal_diff: "Açıklama Karşılaştırması"
   label_language: "Dil"
+  label_languages: "Languages"
   label_jump_to_a_project: "Projeye git..."
   label_keyword_plural: 'Anahtar kelimeler'
   label_language_based: "Kullanıcının dili tabanlı"
@@ -1840,7 +1854,6 @@ tr:
   label_principal_search: "Mevcut kullanıcıları veya grupları ekle"
   label_privacy_policy: "Veri gizliliği ve güvenlik politikası"
   label_product_version: "Ürün sürümü"
-  label_professional_support: "Profesyonel destek"
   label_profile: "Profil"
   label_project_activity: "Proje etkinliği"
   label_project_attribute_plural: "Proje öznitelikleri"
@@ -1971,6 +1984,7 @@ tr:
   label_user_plural: "Kullanıcılar"
   label_user_search: "Kullanıcı ara"
   label_user_settings: "Kullanıcı ayarları"
+  label_users_settings: "Users settings"
   label_version_new: "Yeni sürüm"
   label_version_plural: "Sürümler"
   label_version_sharing_descendants: "Alt projeler ile"
@@ -2593,7 +2607,7 @@ tr:
   setting_sys_api_description: "Depo yönetimi web servisi depolara erişmek için entegrasyon ve kullanıcı yetkilendirmesi sağlar."
   setting_time_format: "Zaman Biçimi"
   setting_accessibility_mode_for_anonymous: "İsimsiz kullanıcılar için erişilebilirlik modunu etkinleştir"
-  setting_user_format: "Kullanıcılar biçimi görüntüler"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Kullanıcıların varsayılan saat dilimi"
   setting_users_deletable_by_admins: "Yöneticiler kullanıcı hesaplarını silebilsin"
   setting_users_deletable_by_self: "Kullanıcılar kendi hesaplarını silebilsin"
@@ -2624,6 +2638,7 @@ tr:
       section_project_overview: "Projeye genel bakış listesi ayarları"
     user:
       default_preferences: "Varsayılan Tercihler"
+      display_format: "Display format"
       deletion: "Silme"
     highlighting:
       mode_long:

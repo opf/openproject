@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Days::DayQuery do
+RSpec.describe Queries::Days::DayQuery do
   let(:instance) { described_class.new }
   let(:base_scope) { Day.reorder(date: :asc) }
   let(:current_user) { build_stubbed(:admin) }

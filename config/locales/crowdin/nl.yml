@@ -266,6 +266,7 @@ nl:
       notice_reset_token: "Een nieuwe %{type} -token is gegenereerd. Uw toegangstoken is:"
       token_value_warning: "Opmerking: Dit is de enige keer dat u dit token ziet, zorg ervoor dat u het nu kopiëren."
       no_results_title_text: Er zijn momenteel geen toegangstokens beschikbaar.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Er is momenteel geen nieuws om te rapporteren.
@@ -688,6 +689,11 @@ nl:
           overlaps: 'overlap.'
           outside: 'is buiten het raster.'
           end_before_start: 'eindwaarde moet groter zijn dan de startwaarde.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'Er moet ten minste één kanaal voor het verzenden van meldingen worden opgegeven.'
           attributes:
@@ -1517,6 +1523,12 @@ nl:
   label_api_access_key: "API sleutel"
   label_api_access_key_created_on: "API sleutel %{value} geleden gemaakt"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Toegepaste status"
   label_archive_project: "Project archiveren"
   label_ascending: "Oplopend"
@@ -1647,6 +1659,7 @@ nl:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} gereserveerd actieve gebruikers"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Omgeving"
   label_estimates_and_time: "Schattingen en tijden"
   label_equals: "is"
@@ -1709,6 +1722,7 @@ nl:
   label_journal: "Logboek"
   label_journal_diff: "Beschrijving vergelijking"
   label_language: "Taal"
+  label_languages: "Languages"
   label_jump_to_a_project: "Ga naar een project..."
   label_keyword_plural: 'Trefwoorden'
   label_language_based: "Op basis van de taal van gebruiker"
@@ -1838,7 +1852,6 @@ nl:
   label_principal_search: "Bestaande gebruikers of groepen toevoegen"
   label_privacy_policy: "Gegevensprivacy en veiligheidsbeleid"
   label_product_version: "Versie van het product"
-  label_professional_support: "Professionele ondersteuning"
   label_profile: "Profiel"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -1969,6 +1982,7 @@ nl:
   label_user_plural: "Gebruikers"
   label_user_search: "Zoeken naar gebruiker"
   label_user_settings: "Gebruikersinstellingen"
+  label_users_settings: "Users settings"
   label_version_new: "Nieuwe versie"
   label_version_plural: "Versies"
   label_version_sharing_descendants: "Met subprojecten"
@@ -2593,7 +2607,7 @@ nl:
   setting_sys_api_description: "De repository beheer web-service biedt integratie en autorisatie van gebruikers voor toegang tot de archieven."
   setting_time_format: "Tijdnotatie"
   setting_accessibility_mode_for_anonymous: "Toegankelijkheid modus voor anonieme gebruikers inschakelen"
-  setting_user_format: "Notatie voor weergave van gebruikers"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Standaardtijdzone voor gebruikers"
   setting_users_deletable_by_admins: "Gebruikersaccounts verwijderbaar door beheerder"
   setting_users_deletable_by_self: "Gebruikers kunnen hun accounts verwijderen"
@@ -2624,6 +2638,7 @@ nl:
       section_project_overview: "Instellingen voor project overzicht lijst"
     user:
       default_preferences: "Standaardvoorkeuren"
+      display_format: "Display format"
       deletion: "Verwijdering"
     highlighting:
       mode_long:

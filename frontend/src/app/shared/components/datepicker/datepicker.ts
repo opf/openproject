@@ -35,7 +35,9 @@ import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decora
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { rangeSeparator } from './constants';
 
-import DateOption = flatpickr.Options.DateOption;
+import Options = flatpickr.Options;
+import FlatpickrOptions = flatpickr.Options.Options;
+import DateOption = Options.DateOption;
 import { DayResourceService } from 'core-app/core/state/days/day.service';
 
 export class DatePicker {
@@ -111,6 +113,13 @@ export class DatePicker {
 
   public setDates(dates:DateOption|DateOption[]):void {
     this.datepickerInstance.setDate(dates);
+  }
+
+  public setOption(
+    option:keyof FlatpickrOptions|{ [k in keyof FlatpickrOptions]?:FlatpickrOptions[k] },
+    value:unknown,
+  ):void {
+    this.datepickerInstance.set(option, value);
   }
 
   public get isOpen():boolean {

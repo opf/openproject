@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Notifications::NotificationCollectionRepresenter do
+RSpec.describe API::V3::Notifications::NotificationCollectionRepresenter do
   let(:self_base_link) { '/api/v3/notifications' }
   let(:user) { build_stubbed(:user) }
   let(:notification_list) { build_stubbed_list(:notification, 3) }

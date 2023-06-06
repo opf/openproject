@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::JournalFormatter::ScheduleManually do
+RSpec.describe OpenProject::JournalFormatter::ScheduleManually do
   let(:klass) { described_class }
   let(:id) { 1 }
   let(:journal) do

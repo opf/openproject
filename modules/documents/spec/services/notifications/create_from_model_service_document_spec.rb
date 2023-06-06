@@ -28,7 +28,7 @@
 require 'spec_helper'
 require Rails.root.join('spec/services/notifications/create_from_journal_job_shared')
 
-describe Notifications::CreateFromModelService, 'document', with_settings: { journal_aggregation_time_minutes: 0 } do
+RSpec.describe Notifications::CreateFromModelService, 'document', with_settings: { journal_aggregation_time_minutes: 0 } do
   subject(:call) do
     described_class.new(journal).call(send_notifications)
   end

@@ -27,43 +27,69 @@
 #++
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
-  class SetPermissionsCommand < Storages::Peripherals::StorageInteraction::StorageCommand
+  class SetPermissionsCommand
     using Storages::Peripherals::ServiceResultRefinements
 
-    PERMISSION_MAP = {
-      read_files: 1,
-      write_files: 2,
-      create_files: 4,
-      delete_files: 8,
-      share_files: 16
-    }.freeze
-
     def initialize(storage)
-      super()
-
       @uri = URI(storage.host).normalize
-      @base_path = Util.join_uri_path(@uri.path, "remote.php/dav/files", Util.escape_whitespace(storage.username))
-      @groupfolder = storage.groupfolder
-      @group = storage.group
       @username = storage.username
       @password = storage.password
     end
 
-    def execute(folder:, permissions:)
-      http = Net::HTTP.new(@uri.host, @uri.port)
-      http.use_ssl = @uri.scheme == 'https'
+    # rubocop:disable Metrics/AbcSize
+    def call(path:, permissions:)
+      raise ArgumentError if path.blank?
 
-      response = http.proppatch(
-        "#{@base_path}/#{@groupfolder}/#{requested_folder(folder)}",
-        converted_permissions(permissions:),
-        {
-          'Authorization' => "Basic #{Base64::encode64("#{@username}:#{@password}")}"
-        }
+      users_permissions = permissions.fetch(:users)
+      groups_permissions = permissions.fetch(:groups)
+
+      body = Nokogiri::XML::Builder.new do |xml|
+        xml['d'].propertyupdate(
+          'xmlns:d' => 'DAV:',
+          'xmlns:nc' => 'http://nextcloud.org/ns'
+        ) do
+          xml['d'].set do
+            xml['d'].prop do
+              xml['nc'].send('acl-list') do
+                groups_permissions.each do |group, group_permissions|
+                  xml['nc'].acl do
+                    xml['nc'].send('acl-mapping-type', 'group')
+                    xml['nc'].send('acl-mapping-id', group)
+                    xml['nc'].send('acl-mask', '31')
+                    xml['nc'].send('acl-permissions', group_permissions.to_s)
+                  end
+                end
+                users_permissions.each do |user, user_permissions|
+                  xml['nc'].acl do
+                    xml['nc'].send('acl-mapping-type', 'user')
+                    xml['nc'].send('acl-mapping-id', user)
+                    xml['nc'].send('acl-mask', '31')
+                    xml['nc'].send('acl-permissions', user_permissions.to_s)
+                  end
+                end
+              end
+            end
+          end
+        end
+      end.to_xml
+
+      response = Util.http(@uri).proppatch(
+        Util.join_uri_path(@uri.path,
+                           "remote.php/dav/files",
+                           CGI.escapeURIComponent(@username),
+                           Util.escape_path(path)),
+        body,
+        Util.basic_auth_header(@username, @password)
       )
 
       case response
       when Net::HTTPSuccess
-        ServiceResult.success
+        doc = Nokogiri::XML(response.body)
+        if doc.xpath("/d:multistatus/d:response/d:propstat[d:status[text() = 'HTTP/1.1 200 OK']]/d:prop/nc:acl-list").present?
+          ServiceResult.success
+        else
+          Util.error(:error, "nc:acl properly has not been set for #{path}")
+        end
       when Net::HTTPNotFound
         Util.error(:not_found)
       when Net::HTTPUnauthorized
@@ -72,71 +98,6 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         Util.error(:error)
       end
     end
-
-    private
-
-    def requested_folder(folder)
-      raise ArgumentError.new("Folder can't be nil or empty string!") if folder.blank?
-
-      Util.escape_whitespace(folder)
-    end
-
-    def converted_permissions(permissions:)
-      Nokogiri::XML::Builder.new do |xml|
-        xml['d'].propertyupdate(
-          'xmlns:d' => 'DAV:',
-          'xmlns:nc' => 'http://nextcloud.org/ns'
-        ) do
-          xml['d'].set do
-            xml['d'].prop do
-              xml['nc'].send('acl-list') do
-                control_user_permissions(xml)
-                control_group_permissions(xml)
-                user_permissions(xml, permissions)
-              end
-            end
-          end
-        end
-      end.to_xml
-    end
-
-    def control_user_permissions(xml)
-      xml['nc'].acl do
-        xml['nc'].send('acl-mapping-type', 'user')
-        xml['nc'].send('acl-mapping-id', @username)
-        xml['nc'].send('acl-mask', '31')
-        xml['nc'].send('acl-permissions', '31')
-      end
-    end
-
-    def control_group_permissions(xml)
-      xml['nc'].acl do
-        xml['nc'].send('acl-mapping-type', 'group')
-        xml['nc'].send('acl-mapping-id', @group)
-        xml['nc'].send('acl-mask', '31')
-        xml['nc'].send('acl-permissions', '0')
-      end
-    end
-
-    def user_permissions(xml, permissions)
-      permissions.each do |permission|
-        username = permission[:origin_user_id]
-        assignable_permission = nextcloud_permission(permission[:permissions])
-
-        xml['nc'].acl do
-          xml['nc'].send('acl-mapping-type', 'user')
-          xml['nc'].send('acl-mapping-id', username)
-          xml['nc'].send('acl-mask', '31')
-          xml['nc'].send('acl-permissions', assignable_permission)
-        end
-      end
-    end
-
-    def nextcloud_permission(permission)
-      permission.reduce(0) do |acc, (k, v)|
-        acc = acc + PERMISSION_MAP[k] if v
-        acc
-      end
-    end
+    # rubocop:enable Metrics/AbcSize
   end
 end

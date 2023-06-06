@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'features/page_objects/notification'
 
 # rubocop:disable RSpec/ScatteredLet
-describe "Notification center date alerts", js: true, with_settings: { journal_aggregation_time_minutes: 0 } do
+RSpec.describe "Notification center date alerts", js: true, with_settings: { journal_aggregation_time_minutes: 0 } do
   include ActiveSupport::Testing::TimeHelpers
 
   # Find an assignable time zone with the same UTC offset as the local time zone

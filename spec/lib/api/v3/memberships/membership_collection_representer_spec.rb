@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Memberships::MembershipCollectionRepresenter do
+RSpec.describe API::V3::Memberships::MembershipCollectionRepresenter do
   let(:self_base_link) { '/api/v3/members' }
   let(:members) do
     build_stubbed_list(:member, 3).tap do |members|

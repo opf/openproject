@@ -56,9 +56,9 @@ To change the duration of a work package in the Gantt chart view, hover over the
 
 ## Relations in the Gantt chart
 
-In the Gantt chart you can track dependencies of work packages (e.g. phases, milestones, tasks). This way you can get an easy overview of what needs to be done in which order, e.g. what tasks need to be completed to achieve a milestone.
+You can track dependencies of work packages (e.g. phases, milestones, tasks) in the Gantt chart. This way, you can get an easy overview of what needs to be done in which order, e.g. what tasks need to be completed to achieve a milestone.
 
-To add a dependency right-click on an element in the Gantt chart.
+To add a dependency, right-click on an element in the Gantt chart.
 
 In the menu, choose **Add predecessor** or **Add follower**.
 
@@ -69,9 +69,15 @@ Select the item to which you want to create a dependency. The precede and follow
 
 *OpenProject does not yet include a baseline feature to compare scheduled versions. However, we are aware of the need for it and documented it. Please check [here](https://community.openproject.com/projects/openproject/work_packages/26448/activity) for an update.*
 
-To find out about **how work packages behave**, when you move their predecessor or follower or change the date of a child work package please read our guide for the [Automatic and manual scheduling mode](scheduling).
+When work packages have a precedes/follows relationship:
 
-Relations between work packages that are not predecessor/follower or parent/child relations won't be displayed in the Gantt chart. Find out more about other work package relations [here](../work-packages/work-package-relations-hierarchies).
+- A follower cannot be moved to start earlier the finish date of its predecessor.
+- Moving a predecessor past the start date of the the follower will automatically push the follower into the future (such that it starts the next working day).
+- If there is a gap between the predecessor and the follower, either one can be moved forwards or backwards without affecting the other as long as long as the dates do not overlap.
+
+Scheduling modes can also affect work package relations. Read about [automatic and manual scheduling](scheduling) to find out more.
+
+> **Note:** Relations other than predecessor/follower and parent/child (such as related to, blocked by, includes, duplicates) are not displayed in the Gantt chart. To find out more, read our guide on [work package relations](../work-packages/work-package-relations-hierarchies).
 
 ## Understanding the colors and lines in the Gantt chart
 

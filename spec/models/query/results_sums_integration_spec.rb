@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Query::Results, 'sums' do
+RSpec.describe Query::Results, 'sums' do
   let(:project) do
     create(:project).tap do |p|
       p.work_package_custom_fields << int_cf

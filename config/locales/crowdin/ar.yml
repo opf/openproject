@@ -269,6 +269,7 @@ ar:
       notice_reset_token: "A new %{type} token has been generated. Your access token is:"
       token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
       no_results_title_text: لا يوجد حالياً رموز وصول مميزة متاحة.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: لا يوجد حالياً أخبار لتقدم.
@@ -695,6 +696,11 @@ ar:
           overlaps: 'تداخل.'
           outside: 'هو خارج الشبكة.'
           end_before_start: 'يجب أن تكون قيمة النهاية أكبر من قيمة البداية.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -1595,6 +1601,12 @@ ar:
   label_api_access_key: "مفتاح الوصول إلى API"
   label_api_access_key_created_on: "مفتاح الوصول إلى API تم إنشاؤها %{value} قبل ذلك"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "الحالة المطبقة"
   label_archive_project: "Archive project"
   label_ascending: "ترتيب تصاعدي"
@@ -1725,6 +1737,7 @@ ar:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "بيئة"
   label_estimates_and_time: "Estimates and time"
   label_equals: "يكون"
@@ -1787,6 +1800,7 @@ ar:
   label_journal: "يوميات"
   label_journal_diff: "مقارنة التوصيف"
   label_language: "اللغة"
+  label_languages: "Languages"
   label_jump_to_a_project: "الانتقال بسرعة إلى مشروع..."
   label_keyword_plural: 'Keywords'
   label_language_based: "استناداً إلى لغة المستخدم"
@@ -1916,7 +1930,6 @@ ar:
   label_principal_search: "إضافة مستخدمين أو مجموعات موجودة"
   label_privacy_policy: "Data privacy and security policy"
   label_product_version: "إصدار المنتج"
-  label_professional_support: "الدعم الفني"
   label_profile: "الصفحة الشخصية"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -2047,6 +2060,7 @@ ar:
   label_user_plural: "المستخدمين"
   label_user_search: "البحث عن مستخدم"
   label_user_settings: "User settings"
+  label_users_settings: "Users settings"
   label_version_new: "إصدار جديد"
   label_version_plural: "الإصدارات"
   label_version_sharing_descendants: "مع المشاريع الفرعية"
@@ -2674,7 +2688,7 @@ ar:
   setting_sys_api_description: "ويوفر خدمة ويب إدارة المستودع التكامل و إذن للمستخدم  للوصول إلى المستودعات."
   setting_time_format: "تنسيق الوقت"
   setting_accessibility_mode_for_anonymous: "تمكين وضع إمكانية الوصول للمستخدمين المجهولين"
-  setting_user_format: "تنسيق عرض المستخدمين"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
   setting_users_deletable_by_admins: "حسابات المستخدم المحذوفة بواسطة المسؤولين"
   setting_users_deletable_by_self: "المستخدمين المسموح لهم بحذف حساباتهم"
@@ -2705,6 +2719,7 @@ ar:
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
+      display_format: "Display format"
       deletion: "Deletion"
     highlighting:
       mode_long:

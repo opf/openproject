@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Meetings deletion' do
+RSpec.describe 'Meetings deletion' do
   let(:project) { create(:project, enabled_module_names: %w[meetings]) }
   let(:user) do
     create(:user,

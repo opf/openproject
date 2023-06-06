@@ -269,6 +269,7 @@ zh-TW:
       notice_reset_token: "生成了一個新的 %{type} 憑證。您的訪問憑證是:"
       token_value_warning: "注意: 這是您唯一可以看到此憑證的時候, 請務必立即複製它。"
       no_results_title_text: 目前沒有存取憑証
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: 目前沒有新消息報告
@@ -690,6 +691,11 @@ zh-TW:
           overlaps: '重疊'
           outside: 'is outside of the grid.'
           end_before_start: '結束值必須大於開始值。'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: '至少需要指定一個發送通知的方式'
           attributes:
@@ -1501,6 +1507,12 @@ zh-TW:
   label_api_access_key: "API金鑰"
   label_api_access_key_created_on: "API金鑰在 %{value} 以前被建立"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "套用的狀態"
   label_archive_project: "專案歸檔"
   label_ascending: "昇冪"
@@ -1631,6 +1643,7 @@ zh-TW:
   label_enterprise: "企業"
   label_enterprise_active_users: "%{current}/%{limit} 已預訂的活動使用者"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "環境"
   label_estimates_and_time: "預估成本和時間"
   label_equals: "是"
@@ -1693,6 +1706,7 @@ zh-TW:
   label_journal: "日誌"
   label_journal_diff: "內容對比"
   label_language: "語言"
+  label_languages: "Languages"
   label_jump_to_a_project: "前往一個專案..."
   label_keyword_plural: '關鍵字'
   label_language_based: "根據使用者的語言"
@@ -1822,7 +1836,6 @@ zh-TW:
   label_principal_search: "增加現有使用者或群組"
   label_privacy_policy: "資料隱私與安全性政策"
   label_product_version: "產品版本"
-  label_professional_support: "專業支援"
   label_profile: "Profile"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -1953,6 +1966,7 @@ zh-TW:
   label_user_plural: "使用者"
   label_user_search: "搜尋使用者"
   label_user_settings: "使用者設定"
+  label_users_settings: "Users settings"
   label_version_new: "新增版本"
   label_version_plural: "版本"
   label_version_sharing_descendants: "與子專案"
@@ -2575,7 +2589,7 @@ zh-TW:
   setting_sys_api_description: "版控容器管理網路服務提供容器存取管理和使用者認證"
   setting_time_format: "時間格式"
   setting_accessibility_mode_for_anonymous: "啟用匿名使用者存取模式"
-  setting_user_format: "使用者顯示格式"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "使用者預設時區"
   setting_users_deletable_by_admins: "使用者帳戶可被管理者刪除"
   setting_users_deletable_by_self: "使用者允許刪除他們的帳號"
@@ -2606,6 +2620,7 @@ zh-TW:
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "默認偏好設置"
+      display_format: "Display format"
       deletion: "消除"
     highlighting:
       mode_long:

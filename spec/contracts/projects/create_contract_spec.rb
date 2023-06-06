@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_contract_examples'
 
-describe Projects::CreateContract do
+RSpec.describe Projects::CreateContract do
   it_behaves_like 'project contract' do
     let(:project) do
       Project.new(name: project_name,

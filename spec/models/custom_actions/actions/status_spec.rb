@@ -28,7 +28,7 @@
 require 'spec_helper'
 require_relative '../shared_expectations'
 
-describe CustomActions::Actions::Status do
+RSpec.describe CustomActions::Actions::Status do
   let(:key) { :status }
   let(:type) { :associated_property }
   let(:allowed_values) do

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::AccessControl do
+RSpec.describe OpenProject::AccessControl do
   def setup_global_permissions
     OpenProject::AccessControl.map do |map|
       map.permission :proj0, { dont: :care }, require: :member, contract_actions: { foo: :create }

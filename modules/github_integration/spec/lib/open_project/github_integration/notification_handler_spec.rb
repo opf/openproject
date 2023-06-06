@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../spec_helper', __dir__)
 
-describe OpenProject::GithubIntegration::NotificationHandler do
+RSpec.describe OpenProject::GithubIntegration::NotificationHandler do
   let(:payload) { {} }
 
   shared_examples_for 'a notification handler' do

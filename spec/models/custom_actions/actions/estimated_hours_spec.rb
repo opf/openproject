@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative '../shared_expectations'
 
-describe CustomActions::Actions::EstimatedHours do
+RSpec.describe CustomActions::Actions::EstimatedHours do
   let(:key) { :estimated_hours }
   let(:type) { :float_property }
   let(:value) { 1.0 }

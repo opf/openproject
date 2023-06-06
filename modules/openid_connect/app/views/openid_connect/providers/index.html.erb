@@ -13,4 +13,4 @@
   </li>
 <% end %>
 
-<%= rails_cell ::OpenIDConnect::Providers::TableCell, providers %>
+<%= render ::OpenIDConnect::Providers::TableComponent.new(rows: providers) %>

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Team planner sidemenu', js: true do
+RSpec.describe 'Team planner sidemenu', js: true do
   shared_let(:project) do
     create(:project, enabled_module_names: %w[work_package_tracking team_planner_view])
   end

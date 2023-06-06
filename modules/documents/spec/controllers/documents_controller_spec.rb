@@ -28,7 +28,7 @@
 
 require "#{File.dirname(__FILE__)}/../spec_helper"
 
-describe DocumentsController do
+RSpec.describe DocumentsController do
   render_views
 
   let(:admin) { create(:admin) }

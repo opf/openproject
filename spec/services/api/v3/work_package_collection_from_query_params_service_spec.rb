@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe API::V3::WorkPackageCollectionFromQueryParamsService,
-         type: :model do
+RSpec.describe API::V3::WorkPackageCollectionFromQueryParamsService,
+               type: :model do
   include API::V3::Utilities::PathHelper
 
   let(:mock_wp_collection_from_query_service) do
@@ -77,7 +77,7 @@ describe API::V3::WorkPackageCollectionFromQueryParamsService,
     before do
       allow(Query)
         .to receive(:new_default)
-        .with(name: '_', project:)
+        .with(project:)
         .and_return(query)
     end
 

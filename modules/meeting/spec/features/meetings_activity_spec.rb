@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Meetings', js: true do
+RSpec.describe 'Meetings', js: true do
   let(:project) { create(:project, enabled_module_names: %w[meetings activity]) }
   let(:user) { create(:admin) }
 

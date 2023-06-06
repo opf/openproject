@@ -145,7 +145,15 @@ module API
                      rep_class = element_decorator.custom_field_class(all_fields)
 
                      represented.map do |model|
-                       rep_class.send(:new, model, current_user:, timestamps:, query:)
+                       # In case the work package is no longer visible (moved to a project the user
+                       # lacks permission in) we treat it as if the work package were deleted.
+                       representer = if model.visible?(current_user)
+                                       rep_class
+                                     else
+                                       WorkPackageDeletedRepresenter
+                                     end
+
+                       representer.send(:new, model, current_user:, timestamps:, query:)
                      end
                    },
                    exec_context: :decorator,

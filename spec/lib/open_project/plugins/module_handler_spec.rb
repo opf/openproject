@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-describe OpenProject::Plugins::ModuleHandler do
+RSpec.describe OpenProject::Plugins::ModuleHandler do
   let!(:all_former_permissions) { OpenProject::AccessControl.permissions }
 
   before do

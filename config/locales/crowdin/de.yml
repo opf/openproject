@@ -266,6 +266,7 @@ de:
       notice_reset_token: "Ein neuer %{type} Token wurde generiert. Der Zutrittstoken lautet:"
       token_value_warning: "Hinweis: Dieser Token ist nur einmal sichtbar, der Token kann jetzt kopiert werden."
       no_results_title_text: Zur Zeit stehen keine Zugangs-Tokens zur Verfügung.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Es gibt aktuell keine Nachrichten.
@@ -686,6 +687,11 @@ de:
           overlaps: 'überlappen.'
           outside: 'ist außerhalb des Rasters.'
           end_before_start: 'der Endwert muss größer sein als der Startwert.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'Mindestens ein Kanal zum Senden von Benachrichtigungen muss angegeben werden.'
           attributes:
@@ -1515,6 +1521,12 @@ de:
   label_api_access_key: "API-Zugriffsschlüssel"
   label_api_access_key_created_on: "Der API-Zugriffsschlüssel wurde vor %{value} erstellt"
   label_api_access_key_type: "Schnittstelle (API)"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Zugewiesener Status"
   label_archive_project: "Projekt archivieren"
   label_ascending: "Aufsteigend"
@@ -1645,6 +1657,7 @@ de:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} gebuchte aktive Nutzer"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Umgebung"
   label_estimates_and_time: "Schätzungen & Zeiten"
   label_equals: "ist"
@@ -1707,6 +1720,7 @@ de:
   label_journal: "Änderungen"
   label_journal_diff: "Beschreibungsvergleich"
   label_language: "Sprache"
+  label_languages: "Languages"
   label_jump_to_a_project: "Zu einem Projekt springen..."
   label_keyword_plural: 'Schlüsselwörter'
   label_language_based: "Sprachabhängig"
@@ -1836,7 +1850,6 @@ de:
   label_principal_search: "Vorhandene Benutzer / Gruppen hinzufügen"
   label_privacy_policy: "Datenschutz- und Sicherheitsrichtlinien"
   label_product_version: "Produktversion"
-  label_professional_support: "Professionelle Unterstützung"
   label_profile: "Profil"
   label_project_activity: "Projektaktivität"
   label_project_attribute_plural: "Projekt-Attribute"
@@ -1967,6 +1980,7 @@ de:
   label_user_plural: "Benutzer"
   label_user_search: "Nach Benutzer suchen"
   label_user_settings: "Benutzereinstellungen"
+  label_users_settings: "Users settings"
   label_version_new: "Neue Version"
   label_version_plural: "Versionen"
   label_version_sharing_descendants: "Mit Unterprojekten"
@@ -2592,7 +2606,7 @@ de:
   setting_sys_api_description: "Der Web-Service für Projektarchiv-Verwaltung erlaubt Integration und Nutzer-Autorisierung für den Zugriff auf Projektarchive."
   setting_time_format: "Zeitformat"
   setting_accessibility_mode_for_anonymous: "Barrierefreien Modus für nicht angemeldete Nutzer aktivieren"
-  setting_user_format: "Benutzer-Anzeigeformat"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Standard-Zeitzone für Benutzer"
   setting_users_deletable_by_admins: "Admins können Nutzeraccounts löschen"
   setting_users_deletable_by_self: "Nutzer können ihren Account löschen"
@@ -2623,6 +2637,7 @@ de:
       section_project_overview: "Einstellungen für Projektliste"
     user:
       default_preferences: "Standardeinstellungen"
+      display_format: "Display format"
       deletion: "Löschen"
     highlighting:
       mode_long:

@@ -32,7 +32,7 @@ require 'contracts/shared/model_contract_shared_context'
 
 # This DeleteContract spec just tests if the user is _allowed_
 # to execute the operation.
-describe OAuthClients::DeleteContract do
+RSpec.describe OAuthClients::DeleteContract do
   include_context 'ModelContract shared context'
 
   let(:oauth_client) { create(:oauth_client) }

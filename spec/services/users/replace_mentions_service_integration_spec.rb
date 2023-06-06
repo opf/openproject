@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Users::ReplaceMentionsService, 'integration' do
+RSpec.describe Users::ReplaceMentionsService, 'integration' do
   subject(:service_call) { instance.call(from: principal, to: to_user) }
 
   shared_let(:other_user) { create(:user, firstname: 'Frank', lastname: 'Herbert') }

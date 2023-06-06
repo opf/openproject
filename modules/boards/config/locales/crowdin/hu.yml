@@ -6,3 +6,13 @@ hu:
   boards:
     label_board: "Tábla"
     label_boards: "Táblák"
+    board_types:
+      free: Alap
+      action: "Feladattábla"
+    board_type_attributes:
+      assignee: Felelős
+      status: Állapot
+      version: Verzió
+      subproject: Alprojekt
+      subtasks: Szülő-gyerek
+      basic: Alap

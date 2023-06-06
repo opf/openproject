@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'layouts/base' do
+RSpec.describe 'layouts/base' do
   describe 'authenticator plugin' do
     include Redmine::MenuManager::MenuHelper
     helper Redmine::MenuManager::MenuHelper

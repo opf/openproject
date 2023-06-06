@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'OpenProject include wiki page macro' do
+RSpec.describe 'OpenProject include wiki page macro' do
   include ActionView::Helpers::UrlHelper
   include OpenProject::StaticRouting::UrlHelpers
   include OpenProject::TextFormatting

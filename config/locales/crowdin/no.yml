@@ -269,6 +269,7 @@
       notice_reset_token: "En ny %{type} token har blitt generert. Din tilgangstoken er:"
       token_value_warning: "Merk: Du vil ikke kunne se denne token på nytt, sørg for å kopiere den nå."
       no_results_title_text: Det er ingen tilgangsnøkler tilgjengelig.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Det er ingen nyheter å vise.
@@ -691,6 +692,11 @@
           overlaps: 'overlap.'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -1520,6 +1526,12 @@
   label_api_access_key: "API adgangsnøkkel"
   label_api_access_key_created_on: "API adgangsnøkkel ble opprettet for %{value} siden"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Tildelt status"
   label_archive_project: "Archive project"
   label_ascending: "Stigende"
@@ -1650,6 +1662,7 @@
   label_enterprise: "Bedrift"
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Miljø"
   label_estimates_and_time: "Estimates and time"
   label_equals: "er"
@@ -1712,6 +1725,7 @@
   label_journal: "Journal"
   label_journal_diff: "Sammenligning av beskrivelse"
   label_language: "Språk"
+  label_languages: "Languages"
   label_jump_to_a_project: "Gå til et prosjekt..."
   label_keyword_plural: 'Nøkkelord'
   label_language_based: "Basert på brukerens språk"
@@ -1841,7 +1855,6 @@
   label_principal_search: "Add existing users or groups"
   label_privacy_policy: "Data privacy and security policy"
   label_product_version: "Produktversjon"
-  label_professional_support: "Profesjonell hjelp"
   label_profile: "Profil"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -1972,6 +1985,7 @@
   label_user_plural: "Brukere"
   label_user_search: "Søk etter bruker"
   label_user_settings: "User settings"
+  label_users_settings: "Users settings"
   label_version_new: "Ny versjon"
   label_version_plural: "Versjoner"
   label_version_sharing_descendants: "Med underprosjekter"
@@ -2597,7 +2611,7 @@
   setting_sys_api_description: "Pakkebrønn web-tjenesten sørger for integrasjon og bruker autentisering for tilgang til pakkebrønner."
   setting_time_format: "Tidsformat"
   setting_accessibility_mode_for_anonymous: "Aktiver tilgjengelighetsmodus for anonyme brukere"
-  setting_user_format: "Visningsformat for brukere"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
   setting_users_deletable_by_admins: "Brukerkontoer kan slettes av administratorer"
   setting_users_deletable_by_self: "Brukere kan slette egen konto"
@@ -2628,6 +2642,7 @@
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
+      display_format: "Display format"
       deletion: "Deletion"
     highlighting:
       mode_long:

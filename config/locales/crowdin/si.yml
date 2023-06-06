@@ -269,6 +269,7 @@ si:
       notice_reset_token: "නව %{type} ටෝකනයක් ජනනය කර ඇත. ඔබගේ ප්රවේශ ටෝකනය:"
       token_value_warning: "සටහන: ඔබ මෙම ටෝකනය දකින එකම අවස්ථාව මෙයයි, දැන් එය පිටපත් කිරීමට වග බලා ගන්න."
       no_results_title_text: දැනට ප්රවේශ ටෝකන නොමැත.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: වාර්තා කිරීමට දැනට කිසිදු ප්රවෘත්තියක් නොමැත.
@@ -691,6 +692,11 @@ si:
           overlaps: 'අතිච්ඡාදනය.'
           outside: 'ජාලයෙන් පිටත වේ.'
           end_before_start: 'අවසාන අගය ආරම්භක අගයට වඩා විශාල විය යුතුය.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -1520,6 +1526,12 @@ si:
   label_api_access_key: "API ප්රවේශ යතුර"
   label_api_access_key_created_on: "%{value} පෙර නිර්මාණය කරන ලද API ප්රවේශ යතුර"
   label_api_access_key_type: "යෙ.ක්‍ර.මු."
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "ව්යවහාරික තත්ත්වය"
   label_archive_project: "සංරක්ෂිත ව්යාපෘතිය"
   label_ascending: "නැගීම"
@@ -1650,6 +1662,7 @@ si:
   label_enterprise: "ව්යවසාය"
   label_enterprise_active_users: "%{current}/%{limit} වෙන් කර ඇති සක්රීය පරිශීලකයින්"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "පරිසරය"
   label_estimates_and_time: "ඇස්තමේන්තු සහ වේලාව"
   label_equals: "වේ"
@@ -1712,6 +1725,7 @@ si:
   label_journal: "ජර්නල්"
   label_journal_diff: "විස්තරය සංසන්දනය"
   label_language: " "
+  label_languages: "Languages"
   label_jump_to_a_project: "ව්යාපෘතියකට පනින්න..."
   label_keyword_plural: 'මූල පද'
   label_language_based: "පරිශීලකයාගේ භාෂාව මත පදනම්ව"
@@ -1841,7 +1855,6 @@ si:
   label_principal_search: "දැනට පවතින පරිශීලකයින් හෝ කණ්ඩායම් එකතු කරන්න"
   label_privacy_policy: "දත්ත රහස්යතාවය සහ ආරක්ෂක ප්රතිපත්තිය"
   label_product_version: "නිෂ්පාදන අනුවාදය"
-  label_professional_support: "වෘත්තීය සහාය"
   label_profile: "පැතිකඩ"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -1972,6 +1985,7 @@ si:
   label_user_plural: "පරිශීලකයන්"
   label_user_search: "පරිශීලකයා සඳහා සොයන්න"
   label_user_settings: "පරිශීලක සැකසුම්"
+  label_users_settings: "Users settings"
   label_version_new: "නව අනුවාදය"
   label_version_plural: "අනුවාද"
   label_version_sharing_descendants: "උප ව්යාපෘති සමඟ"
@@ -2597,7 +2611,7 @@ si:
   setting_sys_api_description: "ගබඩා කළමනාකරණ වෙබ් සේවාව මඟින් ගබඩාවට ප්රවේශ වීම සඳහා ඒකාබද්ධ කිරීම සහ පරිශීලක අවසරය ලබා දේ."
   setting_time_format: "කාල ආකෘතිය"
   setting_accessibility_mode_for_anonymous: "නිර්නාමික පරිශීලකයින් සඳහා ප්රවේශ්යතා ප්රකාරය සක්රීය කරන්න"
-  setting_user_format: "පරිශීලකයන් ආකෘතිය ප්රදර්ශනය"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "පරිශීලකයන් පෙරනිමි කාල කලාපය"
   setting_users_deletable_by_admins: "පරිadmins විසින් භාවිතා කළ හැකි පරිශීලක ගිණුම්"
   setting_users_deletable_by_self: "පරිශීලකයින්ට ඔවුන්ගේ ගිණුම් මකා දැමීමට අවසර දී ඇත"
@@ -2628,6 +2642,7 @@ si:
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "පෙරනිමි මනාප"
+      display_format: "Display format"
       deletion: "මකාදැමීම"
     highlighting:
       mode_long:

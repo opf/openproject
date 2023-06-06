@@ -28,7 +28,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe API::V3::Users::UsersAPI do
+RSpec.describe API::V3::Users::UsersAPI do
   include API::V3::Utilities::PathHelper
 
   let(:path) { api_v3_paths.user(user.id) }

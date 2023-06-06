@@ -28,11 +28,11 @@
 
 require 'spec_helper'
 
-describe Boards::Grid do
+RSpec.describe Boards::Grid do
   let(:instance) { described_class.new }
   let(:project) { build_stubbed(:project) }
 
-  context 'attributes' do
+  describe 'attributes' do
     it '#project' do
       instance.project = project
       expect(instance.project)
@@ -47,6 +47,40 @@ describe Boards::Grid do
 
       instance.name = 'foo'
       expect(instance).to be_valid
+    end
+
+    describe '#board_type' do
+      it 'extracts correct, symbolized type when it is stored as a symbol key' do
+        instance.options[:type] = 'action'
+
+        expect(instance.board_type).to eq(:action)
+      end
+
+      it 'extracts correct, symbolized type when it is stored as a string key' do
+        instance.options['type'] = 'action'
+
+        expect(instance.board_type).to eq(:action)
+      end
+
+      it 'defaults to :free type' do
+        instance.options = {}
+
+        expect(instance.board_type).to eq(:free)
+      end
+    end
+
+    describe '#board_type_attribute' do
+      it 'returns nil for a board that is not of type action' do
+        instance.options = { type: 'free', attribute: 'status' }
+
+        expect(instance.board_type_attribute).to be_nil
+      end
+
+      it 'returns attribute for a board that is of type action' do
+        instance.options = { type: 'action', attribute: 'status' }
+
+        expect(instance.board_type_attribute).to eq('status')
+      end
     end
   end
 end

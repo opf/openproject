@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 5
-describe API::V3::Queries::Schemas::DuplicatedFilterDependencyRepresenter do
+RSpec.describe API::V3::Queries::Schemas::DuplicatedFilterDependencyRepresenter do
   it_behaves_like 'relation filter dependency' do
     let(:filter) { Queries::WorkPackages::Filter::DuplicatedFilter.create!(context: query) }
   end

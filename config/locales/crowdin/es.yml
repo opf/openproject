@@ -266,6 +266,7 @@ es:
       notice_reset_token: "Se generó un nuevo token de acceso del tipo %{type}. Su token de acceso es:"
       token_value_warning: "Nota: Esta es la única vez que le mostraremos este token, asegúrese de copiarlo ahora."
       no_results_title_text: Actualmente no hay tokens de acceso disponibles.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: No hay noticias sobre las que informar por el momento.
@@ -688,6 +689,11 @@ es:
           overlaps: 'superpuesto.'
           outside: 'está fuera de la red.'
           end_before_start: 'el valor final necesita ser mayor que el valor inicial.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'Debe especificarse al menos un canal para enviar notificaciones.'
           attributes:
@@ -1517,6 +1523,12 @@ es:
   label_api_access_key: "Código de acceso API"
   label_api_access_key_created_on: "Código de acceso API creado  hace %{value}"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Estado aplicado"
   label_archive_project: "Archivar proyecto"
   label_ascending: "Ascendente"
@@ -1647,6 +1659,7 @@ es:
   label_enterprise: "Empresa"
   label_enterprise_active_users: "%{current}/%{limit} usuarios activos que han reservado"
   label_enterprise_edition: "Edición Enterprise"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Entorno"
   label_estimates_and_time: "Valores estimados y tiempo"
   label_equals: "es"
@@ -1709,6 +1722,7 @@ es:
   label_journal: "Diario"
   label_journal_diff: "Comparación de la descripción"
   label_language: "Idioma"
+  label_languages: "Languages"
   label_jump_to_a_project: "Saltar a un proyecto..."
   label_keyword_plural: 'Palabras clave'
   label_language_based: "Basado en el idioma del usuario"
@@ -1838,7 +1852,6 @@ es:
   label_principal_search: "Añadir usuarios o grupos existentes"
   label_privacy_policy: "Política de privacidad y seguridad de datos"
   label_product_version: "Versión del producto"
-  label_professional_support: "Soporte profesional"
   label_profile: "Perfil"
   label_project_activity: "Actividad del proyecto"
   label_project_attribute_plural: "Atributos del proyecto"
@@ -1969,6 +1982,7 @@ es:
   label_user_plural: "Usuarios"
   label_user_search: "Búsqueda de usuario"
   label_user_settings: "Configuración de usuario"
+  label_users_settings: "Users settings"
   label_version_new: "Nueva versión"
   label_version_plural: "Versiones"
   label_version_sharing_descendants: "Con subproyectos"
@@ -2593,7 +2607,7 @@ es:
   setting_sys_api_description: "El servicio web de administración de repositorios proporciona integración y autorización de usuario para acceder a los repositorios."
   setting_time_format: "Formato de hora"
   setting_accessibility_mode_for_anonymous: "Activar el modo de accesibilidad para usuarios anónimos"
-  setting_user_format: "Formato de visualización de usuarios"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Zona horaria por defecto de los usuarios"
   setting_users_deletable_by_admins: "Cuentas de usuario eliminables por administradores"
   setting_users_deletable_by_self: "Permitir a los usuarios eliminar sus propias cuentas"
@@ -2624,6 +2638,7 @@ es:
       section_project_overview: "Configuración de la lista de información general del proyecto"
     user:
       default_preferences: "Preferencias predeterminadas"
+      display_format: "Display format"
       deletion: "Eliminación"
     highlighting:
       mode_long:

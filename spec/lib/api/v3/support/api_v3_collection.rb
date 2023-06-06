@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-shared_examples_for 'generic APIv3 collection' do
+RSpec.shared_examples_for 'generic APIv3 collection' do
   describe '_links' do
     it 'has a self link' do
       expect(collection).to be_json_eql(self_link.to_json).at_path('_links/self/href')
@@ -48,7 +48,7 @@ shared_examples_for 'generic APIv3 collection' do
   end
 end
 
-shared_examples_for 'unpaginated APIv3 collection' do |count, self_link, type|
+RSpec.shared_examples_for 'unpaginated APIv3 collection' do |count, self_link, type|
   it_behaves_like 'generic APIv3 collection' do
     let(:self_link) { "/api/v3/#{self_link}" }
     let(:collection_inner_type) { type }
@@ -63,7 +63,7 @@ shared_examples_for 'unpaginated APIv3 collection' do |count, self_link, type|
   end
 end
 
-shared_examples_for 'offset-paginated APIv3 collection' do
+RSpec.shared_examples_for 'offset-paginated APIv3 collection' do
   def make_link_for(page:, page_size:)
     page = ERB::Util::url_encode(page)
     page_size = ERB::Util::url_encode(page_size)

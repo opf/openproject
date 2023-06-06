@@ -266,6 +266,7 @@ ca:
       notice_reset_token: "S'ha generat un nou token %{type}. El teu token d'accés és:"
       token_value_warning: "Nota: Aquesta és la única vegada que veuràs aquest token, assegura't de copiar-lo ara."
       no_results_title_text: Actualment no hi ha cap token d'accés disponible.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Actualment no hi ha cap novetat per a informar.
@@ -687,6 +688,11 @@ ca:
           overlaps: 'superposició.'
           outside: 'és fora de la graella.'
           end_before_start: 'el valor final ha de ser major que el valor inicial.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'És necessari d''especificar almenys un canal per enviar notificacions.'
           attributes:
@@ -1516,6 +1522,12 @@ ca:
   label_api_access_key: "Clau d'accés API"
   label_api_access_key_created_on: "Clau d'accés API creada fa %{value}"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Estat aplicat"
   label_archive_project: "Arxiva el projecte"
   label_ascending: "Ascendent"
@@ -1646,6 +1658,7 @@ ca:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} usuaris actius registrats"
   label_enterprise_edition: "Edició Enterprise."
+  label_enterprise_support: "Enterprise support"
   label_environment: "Entorn"
   label_estimates_and_time: "Estimacions i temps"
   label_equals: "és"
@@ -1708,6 +1721,7 @@ ca:
   label_journal: "Diari"
   label_journal_diff: "Descripció de comparació"
   label_language: "Idioma"
+  label_languages: "Languages"
   label_jump_to_a_project: "Anar al projecte..."
   label_keyword_plural: 'Paraules clau'
   label_language_based: "Basat en l'idioma de l'usuari"
@@ -1837,7 +1851,6 @@ ca:
   label_principal_search: "Afegir usuaris o grups existents"
   label_privacy_policy: "Privacitat de dades i política de seguretat"
   label_product_version: "Versió del producte"
-  label_professional_support: "Suport professional"
   label_profile: "Perfil"
   label_project_activity: "Activitat del projecte"
   label_project_attribute_plural: "Atributs de projecte"
@@ -1968,6 +1981,7 @@ ca:
   label_user_plural: "Usuaris"
   label_user_search: "Cercar per usuari"
   label_user_settings: "Configuració de l'usuari"
+  label_users_settings: "Users settings"
   label_version_new: "Nova versió"
   label_version_plural: "Versions"
   label_version_sharing_descendants: "Amb subprojectes"
@@ -2586,7 +2600,7 @@ ca:
   setting_sys_api_description: "La gestió del repositori per servei web proporciona integració i autorització d'usuaris per l'accés a repositoris."
   setting_time_format: "Format d'hora"
   setting_accessibility_mode_for_anonymous: "Activar el mode d'accessibilitat per a usuaris anònims"
-  setting_user_format: "Format de com mostrar l'usuari"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Zona horària per defecte de l'usuari"
   setting_users_deletable_by_admins: "Comptes d'usuari esborrables pels administradors"
   setting_users_deletable_by_self: "Els usuaris poden suprimir els seus comptes"
@@ -2617,6 +2631,7 @@ ca:
       section_project_overview: "Configuracions per a la llista de visió general del projecte"
     user:
       default_preferences: "Preferències per defecte"
+      display_format: "Display format"
       deletion: "Eliminació"
     highlighting:
       mode_long:

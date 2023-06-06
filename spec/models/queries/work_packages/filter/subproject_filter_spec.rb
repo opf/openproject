@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::SubprojectFilter do
+RSpec.describe Queries::WorkPackages::Filter::SubprojectFilter do
   it_behaves_like 'basic query filter' do
     let(:type) { :list_optional }
     let(:class_key) { :subproject_id }

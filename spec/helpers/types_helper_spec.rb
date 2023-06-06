@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe TypesHelper do
+RSpec.describe TypesHelper do
   let(:type) { build_stubbed(:type) }
 
   describe "#form_configuration_groups" do

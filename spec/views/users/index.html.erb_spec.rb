@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'users/index' do
+RSpec.describe 'users/index' do
   shared_let(:admin) { create(:admin) }
   let!(:user) { create(:user, firstname: "Scarlet", lastname: "Scallywag") }
 
@@ -40,9 +40,8 @@ describe 'users/index' do
     assign(:groups, Group.all)
 
     allow(view).to receive(:current_user).and_return(admin)
-
-    allow_any_instance_of(TableCell).to receive(:controller_name).and_return("users")
-    allow_any_instance_of(TableCell).to receive(:action_name).and_return("index")
+    allow(controller).to receive(:controller_name).and_return("users")
+    allow(controller).to receive(:action_name).and_return("index")
   end
 
   subject { rendered.squish }

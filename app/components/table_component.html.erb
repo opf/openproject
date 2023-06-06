@@ -40,7 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
         <tr>
           <% headers.each do |name, options| %>
             <% if sortable_column?(name) %>
-              <%= sort_header_tag name, options %>
+              <%= helpers.sort_header_tag name, options %>
             <% else %>
               <th>
                 <div class="generic-table--sort-header-outer">
@@ -65,9 +65,7 @@ See COPYRIGHT and LICENSE files for more details.
           <td colspan="<%= headers.length + 1 %>"><%= empty_row_message %></td>
         </tr>
         <% end %>
-        <% for row in rows do -%>
-          <%= render_row row %>
-        <% end -%>
+        <%= render_collection rows %>
       </tbody>
     </table>
     <% if inline_create_link %>
@@ -78,5 +76,5 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
 </div>
 <% if paginated? %>
-  <%= pagination_links_full rows %>
+  <%= helpers.pagination_links_full rows %>
 <% end %>

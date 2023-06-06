@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Notifications::Filters::ReasonFilter do
+RSpec.describe Queries::Notifications::Filters::ReasonFilter do
   it_behaves_like 'basic query filter' do
     let(:class_key) { :reason }
     let(:type) { :list }

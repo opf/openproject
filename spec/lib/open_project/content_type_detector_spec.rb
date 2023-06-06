@@ -56,7 +56,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::ContentTypeDetector do
+RSpec.describe OpenProject::ContentTypeDetector do
   it 'gives a sensible default when the name is empty' do
     expect(OpenProject::ContentTypeDetector.new('').detect).to eq('application/binary')
   end

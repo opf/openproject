@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'News creation and commenting', js: true do
+RSpec.describe 'News creation and commenting', js: true do
   let(:project) { create(:project) }
   let!(:other_user) do
     create(:user,

@@ -269,6 +269,7 @@ ko:
       notice_reset_token: "새로운 %{type} 토큰이 생성되었습니다. 액세스 토큰:"
       token_value_warning: "참고: 이번에만 이 토큰이 표시됩니다. 지금 이 토큰을 복사해야 합니다."
       no_results_title_text: 가능한 접근 토큰이 없습니다.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: 보고할 소식이 없습니다.
@@ -689,6 +690,11 @@ ko:
           overlaps: '오버랩'
           outside: '- 그리드의 외부에 있습니다.'
           end_before_start: '종료 값은 시작 값보다 커야 합니다.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: '알림을 보낼 채널을 하나 이상 지정해야 합니다.'
           attributes:
@@ -1500,6 +1506,12 @@ ko:
   label_api_access_key: "API 액세스 키"
   label_api_access_key_created_on: "API 액세스 키가 %{value} 전에 생성되었습니다."
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "적용된 상태"
   label_archive_project: "프로젝트 아카이브하기"
   label_ascending: "오름차순"
@@ -1630,6 +1642,7 @@ ko:
   label_enterprise: "엔터프라이즈"
   label_enterprise_active_users: "예약 활성 사용자 %{current}/%{limit}명"
   label_enterprise_edition: "Enterprise Edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "환경"
   label_estimates_and_time: "견적 및 시간"
   label_equals: "일치함"
@@ -1692,6 +1705,7 @@ ko:
   label_journal: "기록일지"
   label_journal_diff: "설명 비교"
   label_language: "언어"
+  label_languages: "Languages"
   label_jump_to_a_project: "프로젝트로 이동..."
   label_keyword_plural: '키워드'
   label_language_based: "사용자 언어에 따름"
@@ -1821,7 +1835,6 @@ ko:
   label_principal_search: "기존 사용자 또는 그룹 추가"
   label_privacy_policy: "데이터 프라이버시 및 보안 정책"
   label_product_version: "제품 버전"
-  label_professional_support: "전문적 지원"
   label_profile: "프로필"
   label_project_activity: "프로젝트 활동"
   label_project_attribute_plural: "프로젝트 특성"
@@ -1952,6 +1965,7 @@ ko:
   label_user_plural: "사용자"
   label_user_search: "사용자 검색"
   label_user_settings: "사용자 설정"
+  label_users_settings: "Users settings"
   label_version_new: "새 버전"
   label_version_plural: "버전"
   label_version_sharing_descendants: "하위 프로젝트 포함"
@@ -2572,7 +2586,7 @@ ko:
   setting_sys_api_description: "리포지토리 관리 웹 서비스는 리포지토리에 액세스하기 위한 통합 및 사용자 인증을 제공합니다."
   setting_time_format: "시간 형식"
   setting_accessibility_mode_for_anonymous: "익명 사용자에 대해 접근성 모드 사용"
-  setting_user_format: "사용자 표시 형식"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "사용자의 기본 표준 시간대"
   setting_users_deletable_by_admins: "관리자가 삭제 가능한 사용자 계정"
   setting_users_deletable_by_self: "자신의 계정을 삭제하도록 허용된 사용자"
@@ -2603,6 +2617,7 @@ ko:
       section_project_overview: "프로젝트 개요 목록의 설정"
     user:
       default_preferences: "기본 설정"
+      display_format: "Display format"
       deletion: "삭제"
     highlighting:
       mode_long:

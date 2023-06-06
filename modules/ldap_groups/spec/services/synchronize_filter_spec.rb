@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 require 'ladle'
 
-describe LdapGroups::SynchronizeFilterService, with_ee: %i[ldap_groups] do
+RSpec.describe LdapGroups::SynchronizeFilterService, with_ee: %i[ldap_groups] do
   before(:all) do
     ldif = Rails.root.join('spec/fixtures/ldap/users.ldif')
     @ldap_server = Ladle::Server.new(quiet: false, port: ParallelHelper.port_for_ldap.to_s, domain: 'dc=example,dc=com',

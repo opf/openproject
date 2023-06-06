@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'work_package'
 
-describe UsersController do
+RSpec.describe UsersController do
   shared_let(:admin) { create(:admin) }
   shared_let(:anonymous) { User.anonymous }
 

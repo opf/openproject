@@ -266,6 +266,7 @@ pl:
       notice_reset_token: "Nowy token typu %{type} został wygenerowany. Twój token dostępu to:"
       token_value_warning: "Uwaga: jest to jedyny raz, gdy zobaczysz ten token, koniecznie skopiuj go teraz."
       no_results_title_text: Aktualnie nie ma dostępnych tokenów.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Nie ma jeszcze żadnych wiadomości do wyświetlenia.
@@ -690,6 +691,11 @@ pl:
           overlaps: 'nałożenie.'
           outside: 'jest poza siatką.'
           end_before_start: 'wartość końcowa musi być większa niż wartość początkowa.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'Należy określić co najmniej jeden kanał dla wysyłania powiadomień.'
           attributes:
@@ -1555,6 +1561,12 @@ pl:
   label_api_access_key: "Klucz dostępu API"
   label_api_access_key_created_on: "Klucz API utworzony %{value} temu"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Nadaj status"
   label_archive_project: "Archiwum projektów"
   label_ascending: "Rosnąco"
@@ -1685,6 +1697,7 @@ pl:
   label_enterprise: "Przedsiębiorstwo"
   label_enterprise_active_users: "%{current}/%{limit} zarejestrowanych aktywnych użytkowników"
   label_enterprise_edition: "Wersja Enterprise"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Środowisko"
   label_estimates_and_time: "Szacowany czas"
   label_equals: "jest"
@@ -1747,6 +1760,7 @@ pl:
   label_journal: "Dziennik"
   label_journal_diff: "Opis porównania"
   label_language: "Język"
+  label_languages: "Languages"
   label_jump_to_a_project: "Skok do projektu..."
   label_keyword_plural: 'Słowa kluczowe'
   label_language_based: "Na podstawie języka użytkownika"
@@ -1876,7 +1890,6 @@ pl:
   label_principal_search: "Dodaj istniejących użytkowników lub grupy"
   label_privacy_policy: "Polityka prywatności i bezpieczeństwa danych"
   label_product_version: "Wersja produktu"
-  label_professional_support: "Profesjonalne wsparcie"
   label_profile: "Profil"
   label_project_activity: "Aktywność projektu"
   label_project_attribute_plural: "Cechy projektu"
@@ -2007,6 +2020,7 @@ pl:
   label_user_plural: "Użytkownicy"
   label_user_search: "Szukaj użytkownika"
   label_user_settings: "Ustawienia użytkownika"
+  label_users_settings: "Users settings"
   label_version_new: "Nowa wersja"
   label_version_plural: "Wersje"
   label_version_sharing_descendants: "Z podprojektami"
@@ -2633,7 +2647,7 @@ pl:
   setting_sys_api_description: "Zarządzanie repozytoriami przez www umożliwia integrację i autoryzację użytkowników do dostępu do repozytoriów."
   setting_time_format: "Format czasu"
   setting_accessibility_mode_for_anonymous: "Włącz tryb dostępu dla użytkowników anonimowych"
-  setting_user_format: "Format wyświetlania nazwy użytkownika"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Domyślna strefa czasowa użytkowników"
   setting_users_deletable_by_admins: "Konta użytkowników mogą być usuwane przez administratorów"
   setting_users_deletable_by_self: "Użytkownicy mogą usuwać swoje konta"
@@ -2664,6 +2678,7 @@ pl:
       section_project_overview: "Ustawienia listy przeglądu projektu"
     user:
       default_preferences: "Ustawienia domyślne"
+      display_format: "Display format"
       deletion: "Usunięcie"
     highlighting:
       mode_long:

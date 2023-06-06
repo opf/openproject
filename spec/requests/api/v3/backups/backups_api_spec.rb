@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe API::V3::Backups::BackupsAPI, with_config: { backup_enabled: true } do
+RSpec.describe API::V3::Backups::BackupsAPI, with_config: { backup_enabled: true } do
   include API::V3::Utilities::PathHelper
 
   let(:user) { create(:user, global_permissions: [:create_backup]) }

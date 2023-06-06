@@ -269,6 +269,7 @@ fil:
       notice_reset_token: "Ang bagong %{type} token ay nabuo. Ang iyong access token ay:"
       token_value_warning: "Tandaan: Ito ay ang oras na makita mo ang token na itom, siguraduhin kopyahin ito ngayon."
       no_results_title_text: Sa kasalukuyan ay walang mga access tokens na available.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Sa kasalukuyan ay walang mga balita para ma-ireport.
@@ -691,6 +692,11 @@ fil:
           overlaps: 'overlap.'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -1520,6 +1526,12 @@ fil:
   label_api_access_key: "API access key"
   label_api_access_key_created_on: "API access key ay nilikha %{value} ng nakalipas"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Estadong nilapat"
   label_archive_project: "I-archive ang proyekto"
   label_ascending: "Pataas"
@@ -1650,6 +1662,7 @@ fil:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Kalikasan"
   label_estimates_and_time: "Mga pagtatantya at oras"
   label_equals: "ay"
@@ -1712,6 +1725,7 @@ fil:
   label_journal: "Talaarawan"
   label_journal_diff: "Paglalarawan ng paghahambing"
   label_language: "Linggwahe"
+  label_languages: "Languages"
   label_jump_to_a_project: "Tumalon sa isang proyekto..."
   label_keyword_plural: 'Keywords'
   label_language_based: "Naka-base sa linggwahe ng gumagamit"
@@ -1841,7 +1855,6 @@ fil:
   label_principal_search: "Magdagdag ng umiiral na mga user o grupo"
   label_privacy_policy: "Data privacy and security policy"
   label_product_version: "Produktong bersyon"
-  label_professional_support: "Propesyonal na suporta"
   label_profile: "Profile"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -1972,6 +1985,7 @@ fil:
   label_user_plural: "Mga gumagamit"
   label_user_search: "Maghanap para sa gumagamit"
   label_user_settings: "User settings"
+  label_users_settings: "Users settings"
   label_version_new: "Bagong bersyon"
   label_version_plural: "Mga bersyon"
   label_version_sharing_descendants: "Kasama ang mga subproject"
@@ -2595,7 +2609,7 @@ fil:
   setting_sys_api_description: "Ang serbisyo ng repositoryo management web ay nagbibigay ng intregrasyon at user awtorisasyon para sa pag-access ng mga repositoryo."
   setting_time_format: "Format ng oras"
   setting_accessibility_mode_for_anonymous: "Paganahin ang aksebilidad mode para sa mga gumagamit ng anonymous"
-  setting_user_format: "Users display format"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Ang mga user defaullt time zone"
   setting_users_deletable_by_admins: "Ang mga akwant ng gumagamit ay madaling buburahin ng mga admin"
   setting_users_deletable_by_self: "Ang mga gumagamit ay pinahintulutan burahin ang mga kanilang akwant"
@@ -2626,6 +2640,7 @@ fil:
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
+      display_format: "Display format"
       deletion: "Deletion"
     highlighting:
       mode_long:

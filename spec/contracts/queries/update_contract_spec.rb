@@ -30,7 +30,7 @@ require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
 require_relative 'shared_contract_examples'
 
-describe Queries::UpdateContract do
+RSpec.describe Queries::UpdateContract do
   include_context 'ModelContract shared context'
   include_context 'with queries contract'
 

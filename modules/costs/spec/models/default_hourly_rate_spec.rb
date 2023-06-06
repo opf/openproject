@@ -28,7 +28,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe DefaultHourlyRate do
+RSpec.describe DefaultHourlyRate do
   let(:project) { create(:project) }
   let(:user) { create(:user) }
   let(:rate) do

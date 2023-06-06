@@ -269,6 +269,7 @@ th:
       notice_reset_token: "A new %{type} token has been generated. Your access token is:"
       token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
       no_results_title_text: There are currently no access tokens available.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: There is currently no news to report.
@@ -690,6 +691,11 @@ th:
           overlaps: 'overlap.'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -1501,6 +1507,12 @@ th:
   label_api_access_key: "คีย์การเข้าถึง API"
   label_api_access_key_created_on: "คีย์การเข้าถึง API ซึ่งสร้างเมื่อ %{value} ที่ผ่านมา"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "ใช้สถานะ"
   label_archive_project: "Archive project"
   label_ascending: "จากน้อยไปมาก"
@@ -1631,6 +1643,7 @@ th:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "สภาพแวดล้อม"
   label_estimates_and_time: "Estimates and time"
   label_equals: "เป็น"
@@ -1693,6 +1706,7 @@ th:
   label_journal: "บันทึก"
   label_journal_diff: "เปรียบเทียบคำอธิบาย"
   label_language: "ภาษา"
+  label_languages: "Languages"
   label_jump_to_a_project: "ไปยังโครงการ..."
   label_keyword_plural: 'Keywords'
   label_language_based: "ตามภาษาของผู้ใช้"
@@ -1822,7 +1836,6 @@ th:
   label_principal_search: "Add existing users or groups"
   label_privacy_policy: "Data privacy and security policy"
   label_product_version: "Product version"
-  label_professional_support: "Professional support"
   label_profile: "ข้อมูลส่วนตัว"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -1953,6 +1966,7 @@ th:
   label_user_plural: "ผู้ใช้"
   label_user_search: "ค้นหาผู้ใช้"
   label_user_settings: "User settings"
+  label_users_settings: "Users settings"
   label_version_new: "เวอร์ชั่นใหม่"
   label_version_plural: "เวอร์ชั่น"
   label_version_sharing_descendants: "พร้อมด้วยโครงการย่อย"
@@ -2576,7 +2590,7 @@ th:
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
   setting_time_format: "รูปแบบเวลา"
   setting_accessibility_mode_for_anonymous: "เปิดใช้งาน \"โหมดจำกัดการใช้งาน\" สำหรับผู้ใช้ที่ไม่ระบุชื่อ"
-  setting_user_format: "รูปแบบการแสดงผลของผู้ใช้"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
   setting_users_deletable_by_admins: "บัญชีผู้ใช้ที่สามารถลบโดยผู้ดูแลระบบ"
   setting_users_deletable_by_self: "ยินยอมให้ผู้ใช้ลบบัญชีของตนเองได้"
@@ -2607,6 +2621,7 @@ th:
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
+      display_format: "Display format"
       deletion: "Deletion"
     highlighting:
       mode_long:

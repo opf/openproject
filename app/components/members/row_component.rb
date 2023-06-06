@@ -30,9 +30,6 @@
 
 module Members
   class RowComponent < ::RowComponent
-    include AvatarHelper
-    include UsersHelper
-
     property :principal
 
     def member
@@ -48,7 +45,7 @@ module Members
     end
 
     def name
-      icon = avatar principal, size: :mini
+      icon = helpers.avatar principal, size: :mini
 
       icon + principal_link
     end
@@ -72,7 +69,7 @@ module Members
       span = content_tag "span", roles_label, id: "member-#{member.id}-roles"
 
       if may_update?
-        span + role_form_cell.call
+        span + role_form
       else
         span
       end
@@ -89,13 +86,12 @@ module Members
       label
     end
 
-    def role_form_cell
-      Members::RoleFormCell.new(
+    def role_form
+      render Members::RoleFormComponent.new(
         member,
         row: self,
         params: controller.params,
-        roles: table.available_roles,
-        context: { controller: }
+        roles: table.available_roles
       )
     end
 
@@ -106,7 +102,7 @@ module Members
     end
 
     def status
-      translate_user_status(model.principal.status)
+      helpers.translate_user_status(model.principal.status)
     end
 
     def may_update?
@@ -129,10 +125,11 @@ module Members
 
     def edit_link
       link_to(
-        op_icon('icon icon-edit'),
+        helpers.op_icon('icon icon-edit'),
         '#',
         class: "toggle-membership-button #{toggle_item_class_name}",
-        data: { 'toggle-target': ".#{toggle_item_class_name}" },
+        'data-action': 'members-form#toggleMembershipEdit',
+        'data-members-form-toggling-class-param': toggle_item_class_name,
         title: t(:button_edit)
       )
     end
@@ -148,7 +145,7 @@ module Members
     def delete_link
       if model.deletable?
         link_to(
-          op_icon('icon icon-delete'),
+          helpers.op_icon('icon icon-delete'),
           { controller: '/members', action: 'destroy', id: model, page: params[:page] },
           method: :delete,
           data: { confirm: delete_link_confirmation, disable_with: I18n.t(:label_loading) },

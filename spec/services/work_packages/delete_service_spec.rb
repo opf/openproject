@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::DeleteService do
+RSpec.describe WorkPackages::DeleteService do
   let(:user) do
     build_stubbed(:user)
   end

@@ -6,3 +6,13 @@ lol:
   boards:
     label_board: "crwdns494657:0crwdne494657:0"
     label_boards: "crwdns494659:0crwdne494659:0"
+    board_types:
+      free: crwdns853661:0crwdne853661:0
+      action: "crwdns853663:0%{attribute}crwdne853663:0"
+    board_type_attributes:
+      assignee: crwdns853665:0crwdne853665:0
+      status: crwdns853667:0crwdne853667:0
+      version: crwdns853669:0crwdne853669:0
+      subproject: crwdns853671:0crwdne853671:0
+      subtasks: crwdns853673:0crwdne853673:0
+      basic: crwdns853675:0crwdne853675:0

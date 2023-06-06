@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe BudgetsController do
+RSpec.describe BudgetsController do
   describe 'routing' do
     it {
       expect(get('/projects/blubs/budgets/new')).to route_to(controller: 'budgets',

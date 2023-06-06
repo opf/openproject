@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "SpreadsheetBuilder" do
+RSpec.describe "SpreadsheetBuilder" do
   before do
     @spreadsheet = OpenProject::XlsExport::SpreadsheetBuilder.new
     @sheet = @spreadsheet.send(:raw_sheet)

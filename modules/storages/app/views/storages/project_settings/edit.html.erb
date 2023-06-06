@@ -32,8 +32,6 @@ See COPYRIGHT and LICENSE files for more details.
 <%= toolbar title: t("storages.page_titles.project_settings.edit") %>
 
 <%= labelled_tabular_form_for @project_storage, url: project_settings_projects_storage_path(project_id: @project_storage.project, id: @project_storage) do |f| -%>
-  <%= error_messages_for_contract @project_storage, @errors %>
-
   <section class="form--section">
     <%= render partial: '/storages/project_settings/form',
                locals: { f: f, available_storages: @available_storages, submit_button_label: t('button_save') }

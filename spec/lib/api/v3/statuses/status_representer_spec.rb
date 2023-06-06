@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Statuses::StatusRepresenter do
+RSpec.describe API::V3::Statuses::StatusRepresenter do
   let(:status) { build_stubbed(:status) }
   let(:representer) { described_class.new(status, current_user: double('current_user')) }
 

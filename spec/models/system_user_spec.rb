@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe SystemUser do
+RSpec.describe SystemUser do
   let(:system_user) { User.system }
 
   describe '#run_given' do

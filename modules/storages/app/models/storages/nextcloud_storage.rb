@@ -31,7 +31,7 @@ class Storages::NextcloudStorage < Storages::Storage
                  %i[username
                     password
                     group
-                    groupfolder
+                    group_folder
                     has_managed_project_folders]
 
   alias_method :has_managed_project_folders?, :has_managed_project_folders
@@ -40,7 +40,7 @@ class Storages::NextcloudStorage < Storages::Storage
     super || "OpenProject"
   end
 
-  def groupfolder
+  def group_folder
     super || "OpenProject"
   end
 

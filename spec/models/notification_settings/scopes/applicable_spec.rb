@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe NotificationSettings::Scopes::Applicable do
+RSpec.describe NotificationSettings::Scopes::Applicable do
   describe '.applicable' do
     subject(:scope) { NotificationSetting.applicable(project) }
 

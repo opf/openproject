@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::Bim::BcfXml::MarkupExtractor do
+RSpec.describe OpenProject::Bim::BcfXml::MarkupExtractor do
   let(:filename) { 'MaximumInformation.bcf' }
   let(:file) do
     Rack::Test::UploadedFile.new(

@@ -47,6 +47,7 @@ ro:
       replace_provider_type_oauth: "Înlocuiește %{provider_type} OAuth"
       save_and_continue_setup: "Salvează și continuă configurarea"
       save_and_complete_setup: "Salvează și finalizează configurarea"
+      select_folder: "Select folder"
     page_titles:
       project_settings:
         index: "Stocare de fișiere disponibile în acest proiect"
@@ -59,6 +60,7 @@ ro:
       host: "Vă rugăm să adăugați adresa de găzduire a spațiului de stocare, inclusiv https://. Nu trebuie să fie mai lungă de 255 de caractere."
       no_storage_set_up: "Nu există încă nici un fișier de stocare configurat."
       no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
+      empty_project_folder_validation: "Selecting a folder is mandatory to proceed."
       existing_manual_folder: >
         You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
       setting_up_additional_storages: "Pentru a configura fişiere de stocare suplimentare, vă rugăm să vizitaţi"
@@ -77,7 +79,6 @@ ro:
         Sunteţi sigur că doriţi să ştergeţi acest stocare? Acest lucru va şterge şi stocarea din toate proiectele în care este folosit. În plus, va șterge toate link-urile din pachetele de lucru către fișierele care sunt stocate în stocare.
       project_storage: >
         Ești sigur că vrei să ștergi această stocare de fișiere din acest proiect? Acest lucru va elimina, de asemenea, toate link-urile către fișierele stocate în această stocare pentru acest proiect.
-    placeholder_existing_folder_selection: "Select a folder"
     label_creator: "Creator"
     label_file_link: "Link-ul fișierului"
     label_file_links: "Link-uri fișier"
@@ -92,8 +93,8 @@ ro:
     label_project_folder: "Project folder"
     label_new_storage: "Stocare nouă"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
-    label_existing_manual_folder_selection: "Existing folder selection"
     label_no_specific_folder: "No specific folder"
+    label_no_selected_folder: "No selected folder"
     label_storage: "Depozitare"
     label_storages: "Depozite"
     no_results: "Nu sunt încă setate stocări."

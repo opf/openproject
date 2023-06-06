@@ -3,4 +3,5 @@ it:
   label_calendar_plural: "Calendari"
   permission_view_calendar: "Visualizza calendari"
   permission_manage_calendars: "Gestisci calendari"
+  permission_share_calendars: "Share calendars"
   project_module_calendar_view: "Calendario"

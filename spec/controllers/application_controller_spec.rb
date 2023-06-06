@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ApplicationController do
+RSpec.describe ApplicationController do
   let(:user) { create(:user, lastname: "Crazy! Name with \r\n Newline") }
 
   # Fake controller to test calling an action

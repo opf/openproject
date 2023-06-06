@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe '/api/v3/projects/:id/types' do
+RSpec.describe '/api/v3/projects/:id/types' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 

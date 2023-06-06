@@ -266,6 +266,7 @@ it:
       notice_reset_token: "È stato generato un nuovo token %{type}. Il tuo token di accesso è:"
       token_value_warning: "Nota: Questa è l'unica volta in cui vedrai questo token, assicurati di copiarlo subito."
       no_results_title_text: Al momento non sono disponibili token di accesso.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Al momento non c'è nessuna notizia da segnalare.
@@ -688,6 +689,11 @@ it:
           overlaps: 'sovrapposizione.'
           outside: 'è fuori dalla griglia.'
           end_before_start: 'il valore finale deve essere più grande del valore iniziale.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'Deve essere specificato almeno un canale per l''invio delle notifiche.'
           attributes:
@@ -1517,6 +1523,12 @@ it:
   label_api_access_key: "Chiave di accesso API"
   label_api_access_key_created_on: "Chiave di accesso API creata %{value} fa"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Stato applicato"
   label_archive_project: "Archivia progetto"
   label_ascending: "Crescente"
@@ -1647,6 +1659,7 @@ it:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} utenti attivi riservati"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Ambiente"
   label_estimates_and_time: "Stime e tempi"
   label_equals: "è"
@@ -1709,6 +1722,7 @@ it:
   label_journal: "Diario"
   label_journal_diff: "Confronto Descrizione"
   label_language: "Linguaggio"
+  label_languages: "Languages"
   label_jump_to_a_project: "Salta ad altro progetto..."
   label_keyword_plural: 'Parole chiave'
   label_language_based: "Basato sulla lingua dell'utente"
@@ -1838,7 +1852,6 @@ it:
   label_principal_search: "Aggiungi utenti o gruppi esistenti"
   label_privacy_policy: "Politica di privacy e sicurezza dei dati"
   label_product_version: "Versione del prodotto"
-  label_professional_support: "Supporto professionale"
   label_profile: "Profilo"
   label_project_activity: "Attività del progetto"
   label_project_attribute_plural: "Attributi del progetto"
@@ -1969,6 +1982,7 @@ it:
   label_user_plural: "Utenti"
   label_user_search: "Cerca per utente"
   label_user_settings: "Impostazioni utente"
+  label_users_settings: "Users settings"
   label_version_new: "Nuova versione"
   label_version_plural: "Versioni"
   label_version_sharing_descendants: "Con i sotto-progetti"
@@ -2594,7 +2608,7 @@ it:
   setting_sys_api_description: "Il web service di gestione archivio fornisce servizi per integrare ed autorizzare gli utenti nell'accesso agli archivi."
   setting_time_format: "Formato del tempo"
   setting_accessibility_mode_for_anonymous: "Abilita la modalità di accesso facilitato per utenti anonimi"
-  setting_user_format: "Formato di visualizzazione utenti"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Orario predefinito utenti"
   setting_users_deletable_by_admins: "Account degli utenti eliminabili dagli amministratori"
   setting_users_deletable_by_self: "Gli utenti possono eliminare il proprio account"
@@ -2625,6 +2639,7 @@ it:
       section_project_overview: "Impostazioni per l'elenco generale dei progetti"
     user:
       default_preferences: "Preferenze predefinite"
+      display_format: "Display format"
       deletion: "Eliminazione"
     highlighting:
       mode_long:

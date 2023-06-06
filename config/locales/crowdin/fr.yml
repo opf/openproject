@@ -269,6 +269,7 @@ fr:
       notice_reset_token: "Un nouveau jeton de %{type} a été généré. Votre jeton d’accès est :"
       token_value_warning: "Note : Ceci est la seule fois où vous verrez ce jeton, veuillez le copier maintenant."
       no_results_title_text: Aucun jeton d'accès disponible pour le moment.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Il n'y a actuellement aucune actualité à publier.
@@ -691,6 +692,11 @@ fr:
           overlaps: 'superposition.'
           outside: 'est hors de la grille.'
           end_before_start: 'la valeur finale doit être supérieure à la valeur de départ.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'Au moins un canal pour envoyer des notifications doit être spécifié.'
           attributes:
@@ -1520,6 +1526,12 @@ fr:
   label_api_access_key: "Clé d'accès API"
   label_api_access_key_created_on: "Clé d'accès API créé il y a %{value}"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Statut appliqué"
   label_archive_project: "Archiver le projet"
   label_ascending: "Croissant"
@@ -1650,6 +1662,7 @@ fr:
   label_enterprise: "Entreprise"
   label_enterprise_active_users: "%{current}/%{limit} utilisateurs actifs inscrits"
   label_enterprise_edition: "Version Entreprise"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Environement"
   label_estimates_and_time: "Estimations et temps"
   label_equals: "est"
@@ -1712,6 +1725,7 @@ fr:
   label_journal: "Journal"
   label_journal_diff: "Comparaison de description"
   label_language: "Langue"
+  label_languages: "Languages"
   label_jump_to_a_project: "Aller à un projet…"
   label_keyword_plural: 'Mots clés'
   label_language_based: "Basé sur le langage de l'utilisateur"
@@ -1841,7 +1855,6 @@ fr:
   label_principal_search: "Ajouter des utilisateurs ou groupes existant"
   label_privacy_policy: "Politique de confidentialité et de sécurité des données"
   label_product_version: "Version du produit"
-  label_professional_support: "Support professionnel"
   label_profile: "Profil"
   label_project_activity: "Activité du projet"
   label_project_attribute_plural: "Attributs du projet"
@@ -1972,6 +1985,7 @@ fr:
   label_user_plural: "Utilisateurs"
   label_user_search: "Recherche d'Utilisateurs"
   label_user_settings: "Paramètres de l'utilisateur"
+  label_users_settings: "Users settings"
   label_version_new: "Nouvelle version"
   label_version_plural: "Versions"
   label_version_sharing_descendants: "Avec sous-projets"
@@ -2597,7 +2611,7 @@ fr:
   setting_sys_api_description: "Le service web de gestion de dépôt fournit l'intégration et l'autorisation d'accès aux dépôts."
   setting_time_format: "Format d'heure"
   setting_accessibility_mode_for_anonymous: "Activer le mode d'accessibilité pour les utilisateurs anonymes"
-  setting_user_format: "Utilisateur affiche format"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Fuseau horaire par défaut des utilisateurs"
   setting_users_deletable_by_admins: "Comptes utilisateurs effaçables par admins"
   setting_users_deletable_by_self: "Utilisateurs autorisés à supprimer leur compte"
@@ -2628,6 +2642,7 @@ fr:
       section_project_overview: "Paramètres de la liste des projets"
     user:
       default_preferences: "Préférences par défaut"
+      display_format: "Display format"
       deletion: "Suppression"
     highlighting:
       mode_long:

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Roles::Filters::UnitFilter do
+RSpec.describe Queries::Roles::Filters::UnitFilter do
   it_behaves_like 'basic query filter' do
     let(:class_key) { :unit }
     let(:type) { :list }

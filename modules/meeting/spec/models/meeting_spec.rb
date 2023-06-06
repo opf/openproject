@@ -28,7 +28,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe Meeting do
+RSpec.describe Meeting do
   shared_let (:user1) { create(:user) }
   shared_let (:user2) { create(:user) }
   let(:project) { create(:project, members: project_members) }

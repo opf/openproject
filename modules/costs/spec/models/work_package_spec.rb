@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe WorkPackage do
+RSpec.describe WorkPackage do
   let(:user) { create(:admin) }
   let(:role) { create(:role) }
   let(:project) do

@@ -29,8 +29,8 @@
 require 'spec_helper'
 require_relative './expected_markdown'
 
-describe OpenProject::TextFormatting,
-         'Attribute macros' do
+RSpec.describe OpenProject::TextFormatting,
+               'Attribute macros' do
   include_context 'expected markdown modules'
 
   describe 'attribute label macros' do

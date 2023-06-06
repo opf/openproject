@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Working Days', js: true do
+RSpec.describe 'Working Days', js: true do
   create_shared_association_defaults_for_work_package_factory
 
   shared_let(:week_days) { week_with_saturday_and_sunday_as_weekend }
@@ -265,7 +265,7 @@ describe 'Working Days', js: true do
         expect(page).to have_selector('tr', text: nwd.date.strftime("%B %-d, %Y"))
       end
 
-      delete_button = page.first('.op-non-working-days-list--delete-icon .icon-delete', visible: :all)
+      delete_button = page.first('[data-qa-selector="op-non-working-days-list--delete-icon"]', visible: :all)
       delete_button.hover
       delete_button.click
 
@@ -287,7 +287,7 @@ describe 'Working Days', js: true do
         .and_return(errors)
       # rubocop:enable RSpec/AnyInstance
 
-      delete_button = page.first('.op-non-working-days-list--delete-icon .icon-delete', visible: :all)
+      delete_button = page.first('[data-qa-selector="op-non-working-days-list--delete-icon"]', visible: :all)
       delete_button.hover
       delete_button.click
 

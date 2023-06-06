@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Grids::UpdateService, type: :model do
+RSpec.describe Grids::UpdateService, type: :model do
   let(:user) { build_stubbed(:user) }
   let(:contract_class) do
     double('contract_class', '<=': true)

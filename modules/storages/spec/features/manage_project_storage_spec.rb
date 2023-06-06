@@ -31,7 +31,7 @@ require_relative '../spec_helper'
 # Setup storages in Project -> Settings -> File Storages
 # This tests assumes that a Storage has already been setup
 # in the Admin section, tested by admin_storage_spec.rb.
-describe 'Activation of storages in projects', js: true, with_flag: { storage_project_folders: true } do
+RSpec.describe 'Activation of storages in projects', js: true, webmock: true, with_flag: { storage_project_folders: true } do
   let(:user) { create(:user) }
   # The first page is the Project -> Settings -> General page, so we need
   # to provide the user with the edit_project permission in the role.
@@ -41,14 +41,55 @@ describe 'Activation of storages in projects', js: true, with_flag: { storage_pr
                            select_project_modules
                            edit_project])
   end
-  let(:storage) { create(:storage, name: "Storage 1") }
+  let(:oauth_application) { create(:oauth_application) }
+  let(:storage) { create(:storage, oauth_application:) }
   let(:project) do
     create(:project,
            members: { user => role },
            enabled_module_names: %i[storages work_package_tracking])
   end
 
+  let(:oauth_client) { create(:oauth_client, integration: storage) }
+  let(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user:) }
+  let(:connection_manager) do
+    connection_manager = instance_double(OAuthClients::ConnectionManager)
+    allow(connection_manager).to receive(:refresh_token).and_return(ServiceResult.success(result: oauth_client_token))
+    allow(connection_manager).to receive(:get_access_token).and_return(ServiceResult.success(result: oauth_client_token))
+    allow(connection_manager).to receive(:authorization_state).and_return(:connected)
+    allow(connection_manager).to receive(:request_with_token_refresh).and_yield(oauth_client_token)
+    connection_manager
+  end
+
+  let(:location_picker) { Components::FilePickerDialog.new }
+
+  let(:root_xml_response) { create(:webdav_data) }
+  let(:folder1_xml_response) { create(:webdav_data_folder) }
+  let(:folder1_fileinfo_response) do
+    {
+      ocs: {
+        data: {
+          status: 'OK',
+          statuscode: 200,
+          id: 11,
+          name: 'Folder1',
+          path: 'files/Folder1',
+          mtime: 1682509719,
+          ctime: 0
+        }
+      }
+    }
+  end
+
   before do
+    allow(OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
+
+    stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}")
+      .to_return(status: 207, body: root_xml_response, headers: {})
+    stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}/Folder1")
+      .to_return(status: 207, body: folder1_xml_response, headers: {})
+    stub_request(:get, "#{storage.host}/ocs/v1.php/apps/integration_openproject/fileinfo/11")
+      .to_return(status: 200, body: folder1_fileinfo_response.to_json, headers: {})
+
     storage
     project
     login_as user
@@ -80,7 +121,20 @@ describe 'Activation of storages in projects', js: true, with_flag: { storage_pr
     expect(page).to have_text('Add a file storage')
     expect(page).to have_select('storages_project_storage_storage_id', options: ['Storage 1 (nextcloud)'])
     page.find_by_id('storages_project_storage_project_folder_mode_manual').click
-    page.find_by_id('storages_project_storage_project_folder_id').set('Project#1')
+
+    # Select project folder
+    expect(page).to have_text('No selected folder')
+    page.click_button('Select folder')
+    location_picker.expect_open
+    using_wait_time(20) do
+      location_picker.wait_for_folder_loaded
+      location_picker.enter_folder('Folder1')
+      location_picker.wait_for_folder_loaded
+    end
+    location_picker.confirm
+
+    # Add storage
+    expect(page).to have_text('Folder1')
     page.click_button('Add')
 
     # The list of enabled file storages should now contain Storage 1
@@ -95,12 +149,11 @@ describe 'Activation of storages in projects', js: true, with_flag: { storage_pr
     expect(page).not_to have_select('storages_project_storage_storage_id')
     expect(page).to have_text('Storage 1')
     expect(page).to have_checked_field('storages_project_storage_project_folder_mode_manual')
-    expect(page).to have_field('storages_project_storage_project_folder_id', with: 'Project#1')
+    expect(page).to have_text('Folder1')
 
     # Change the project folder mode to inactive, project folder is hidden but retained
     page.find_by_id('storages_project_storage_project_folder_mode_inactive').click
-    expect(page).not_to have_field('storages_project_storage_project_folder_id', with: 'Project#1')
-    expect(page).to have_css('#storages_project_storage_project_folder_id', visible: :hidden)
+    expect(page).not_to have_text('Folder1')
     page.click_button('Save')
 
     # The list of enabled file storages should still contain Storage 1

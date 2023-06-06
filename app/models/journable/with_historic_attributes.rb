@@ -71,6 +71,11 @@
 #   work_package.baseline_attributes.subject # => "Subject at 2022-01-01 (baseline time)"
 #   work_package.subject  # => "Subject at PT0S (current time)"
 #
+# Visibility (permissions) of the work packages at the timestamps is checked with the following rules:
+# * If the work package is visible currently, it is visible at all timestamps.
+# * If the work package is not visible currently, visibility is checked at the individual timestamps.
+# The reason for this discrepancy lies in the needs of the presentation layer. A client should be able to see
+# the full history of a work package if it is currently visible.
 class Journable::WithHistoricAttributes < SimpleDelegator
   attr_accessor :timestamps,
                 :query,

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::Configuration, :settings_reset do
+RSpec.describe OpenProject::Configuration, :settings_reset do
   describe '.[setting]' do
     it 'fetches the value' do
       expect(described_class.app_title)

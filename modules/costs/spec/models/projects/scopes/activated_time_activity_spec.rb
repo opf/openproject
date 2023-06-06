@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Projects::Scopes::ActivatedTimeActivity do
+RSpec.describe Projects::Scopes::ActivatedTimeActivity do
   let!(:activity) { create(:time_entry_activity) }
   let!(:project) { create(:project) }
   let!(:other_project) { create(:project) }

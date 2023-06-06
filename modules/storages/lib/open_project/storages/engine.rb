@@ -43,7 +43,6 @@ module OpenProject::Storages
     initializer 'openproject_storages.feature_decisions' do
       OpenProject::FeatureDecisions.add :storage_file_picking_select_all
       OpenProject::FeatureDecisions.add :storage_project_folders
-      OpenProject::FeatureDecisions.add :legacy_upload_preparation
       OpenProject::FeatureDecisions.add :managed_project_folders
     end
 
@@ -71,7 +70,9 @@ module OpenProject::Storages
                    { 'storages/admin/projects_storages': %i[index new edit update create destroy set_permissions] },
                    dependencies: %i[]
 
-        if OpenProject::FeatureDecisions.managed_project_folders_active?
+        # explicit check for test env is needed, because `with_flag: { managed_project_folders: true }` set for a test case
+        # handled later and at this moment feature is disabled.
+        if OpenProject::FeatureDecisions.managed_project_folders_active? || Rails.env.test?
           permission :read_files,
                      {},
                      dependencies: %i[]
@@ -225,6 +226,14 @@ module OpenProject::Storages
       mount ::API::V3::FileLinks::WorkPackagesFileLinksAPI
     end
 
-    add_cron_jobs { CleanupUncontaineredFileLinksJob }
+    add_cron_jobs do
+      [
+        CleanupUncontaineredFileLinksJob,
+      ].tap do |cron_jobs|
+        if OpenProject::FeatureDecisions.managed_project_folders_active?
+          cron_jobs << ManageNextcloudIntegrationJob
+        end
+      end
+    end
   end
 end

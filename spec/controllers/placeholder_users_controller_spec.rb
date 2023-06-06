@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'work_package'
 
-describe PlaceholderUsersController do
+RSpec.describe PlaceholderUsersController do
   shared_let(:placeholder_user) { create(:placeholder_user) }
 
   shared_examples 'do not allow non-admins' do

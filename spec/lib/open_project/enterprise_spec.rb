@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'open_project/passwords'
 
-describe OpenProject::Enterprise do
+RSpec.describe OpenProject::Enterprise do
   # create 3 built-in users, only 2 of which are active
   # Also create a placeholder user which will not count against the limit
   let!(:system_user) { User.system }

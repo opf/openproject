@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Principals::Scopes::NotBuiltin do
+RSpec.describe Principals::Scopes::NotBuiltin do
   describe '.not_builtin' do
     let!(:anonymous_user) { create(:anonymous) }
     let!(:system_user) { create(:system) }

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Refreshing in inline-create row', flaky: true, js: true do
+RSpec.describe 'Refreshing in inline-create row', flaky: true, js: true do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
 

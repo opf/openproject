@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../spec_helper', __dir__)
 
-describe OpenProject::GithubIntegration::HookHandler do
+RSpec.describe OpenProject::GithubIntegration::HookHandler do
   subject(:process_webhook) do
     described_class.new
     .tap { journal_counts_before }

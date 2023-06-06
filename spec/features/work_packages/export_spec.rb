@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'work package export' do
+RSpec.describe 'work package export' do
   let(:project) { create(:project_with_types, types: [type_a, type_b]) }
   let(:export_type) { 'CSV' }
   let(:current_user) { create(:admin) }

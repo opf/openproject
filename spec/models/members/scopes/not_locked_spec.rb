@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Members::Scopes::NotLocked do
+RSpec.describe Members::Scopes::NotLocked do
   let(:project) { create(:project) }
   let(:role) { create(:role) }
 

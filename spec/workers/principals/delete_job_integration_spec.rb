@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Principals::DeleteJob, type: :model do
+RSpec.describe Principals::DeleteJob, type: :model do
   subject(:job) { described_class.perform_now(principal) }
 
   shared_let(:project) { create(:project) }

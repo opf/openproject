@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-shared_examples_for 'query column' do |sortable_by_default: false|
+RSpec.shared_examples_for 'query column' do |sortable_by_default: false|
   describe '#groupable' do
     it 'is the name if true is provided' do
       instance.groupable = true

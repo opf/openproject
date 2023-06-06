@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Copy::FiltersMapper do
+RSpec.describe Queries::Copy::FiltersMapper do
   let(:state) { Shared::ServiceState.new }
   let(:instance) { described_class.new(state, filters) }
 

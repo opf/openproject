@@ -316,6 +316,18 @@ pt:
               learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
                 A versão contém vários recursos novos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Carregue e vincule arquivos de pacotes de trabalho a seu armazenamento de arquivos Nextcloud.</li> <li>Acompanhamento de alterações de projeto com controle da atividade do projeto.</li> <li>Adicione feriados públicos em toda a instância (dias não úteis).</li> <li>Arquive projetos por são administradores.</li > <li>Novo filtro padrão para pacotes de trabalho vencidos.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to iCalendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Token name"
+      token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
+      token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the iCal URL."
+      copy_url_success_text: "URL copied to clipboard."
+      copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
     label_activate: "Ativar"
     label_assignee: 'Atribuído para'
     label_add_column_after: "Adicionar coluna depois"
@@ -327,7 +339,7 @@ pt:
     label_add_row_before: "Adicionar linha antes"
     label_add_selected_columns: "Adicionar colunas selecionadas"
     label_added_by: "adicionado por"
-    label_added_time_by: "Adicionado por <a href=%{authorLink}>%{author}</a> em %{age}"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "dias atrás"
     label_all: "todos"
     label_all_work_packages: "todos pacotes de trabalho"
@@ -923,8 +935,11 @@ pt:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
+        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
       filters:
         title: 'Filtrar pacotes de trabalho'
+        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Clique aqui para adicionar um novo pacote de trabalho a esta lista'
       create:
@@ -1085,6 +1100,7 @@ pt:
         save_as: "Salvar como"
         export: "Exportar"
         visibility_settings: "Configurações de visibilidade"
+        share_calendar: "Subscribe to iCalendar"
         page_settings: "Renomear exibição"
         delete: "Excluir"
       filter: "Filtro"
@@ -1257,11 +1273,15 @@ pt:
       toggle_title: 'Baseline'
       clear: 'Clear'
       apply: 'Apply'
-      header_description: 'View changes made to work packages in the current view within a time period.'
+      header_description: 'Highlight changes made to this list since any point in the past.'
+      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Show changes since'
-      help_description: 'Default time zone of the instance set by the administrator.'
-      time_description: 'In default time zone: %{time} %{days} day(s).'
+      baseline_comparison: 'Baseline comparison'
+      help_description: 'Reference time zone for the baseline.'
+      time_description: 'In your local time: %{datetime}'
       time: 'Time'
+      from: 'From'
+      to: 'To'
       drop_down:
         none: '-'
         yesterday: 'yesterday'
@@ -1275,6 +1295,11 @@ pt:
         now_meets_filter_criteria: 'Now meets filter criteria'
         no_longer_meets_filter_criteria: 'No longer meets filter criteria'
         maintained_with_changes: 'Maintained with changes'
+        in_your_timezone: 'In your local timezone:'
+      icon_tooltip:
+        added: 'Added to view within the comparison time period'
+        removed: 'Removed from view within the comparison time period'
+        changed: 'Maintained with modifications'
     forms:
       submit_success_message: 'O formulário foi enviado com sucesso'
       load_error_message: 'Ocorreu um erro ao carregar o formulário'

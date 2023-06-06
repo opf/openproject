@@ -27,7 +27,7 @@
 #++
 require 'spec_helper'
 
-describe OpenProject::TextFormatting do
+RSpec.describe OpenProject::TextFormatting do
   include OpenProject::TextFormatting
 
   it 'markdowns formatter' do

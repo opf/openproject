@@ -269,6 +269,7 @@ sv:
       notice_reset_token: "En ny %{type}-token har skapats. Din åtkomst-token är:"
       token_value_warning: "Notera: Detta är den enda gång du kommer se denna token, var säker på att kopiera den nu."
       no_results_title_text: Det finns för närvarande inga tillgängliga åtkomstnycklar.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Det finns för närvarande inget att rapportera.
@@ -690,6 +691,11 @@ sv:
           overlaps: 'överlappar.'
           outside: 'är utanför nätet.'
           end_before_start: 'slutvärdet måste vara större än startvärdet.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -1519,6 +1525,12 @@ sv:
   label_api_access_key: "API åtkomstnyckel"
   label_api_access_key_created_on: "API åtkomstnyckel skapade %{value} sedan"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Tillämpad status"
   label_archive_project: "Arkivera projekt"
   label_ascending: "Stigande"
@@ -1649,6 +1661,7 @@ sv:
   label_enterprise: "Företag"
   label_enterprise_active_users: "%{current}/%{limit} tilldelade aktiva användare"
   label_enterprise_edition: "Enterprise edition"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Miljö"
   label_estimates_and_time: "Uppskattningar och tid"
   label_equals: "är"
@@ -1711,6 +1724,7 @@ sv:
   label_journal: "Journal"
   label_journal_diff: "Jämför beskrivning"
   label_language: "Språk"
+  label_languages: "Languages"
   label_jump_to_a_project: "Hoppa till projekt..."
   label_keyword_plural: 'Nyckelord'
   label_language_based: "Baserat på användarens språk"
@@ -1840,7 +1854,6 @@ sv:
   label_principal_search: "Lägga till befintliga användare eller grupper"
   label_privacy_policy: "Integritets- och säkerhetspolicy"
   label_product_version: "Produktversion"
-  label_professional_support: "Professionell hjälp"
   label_profile: "Profil"
   label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
@@ -1971,6 +1984,7 @@ sv:
   label_user_plural: "Användare"
   label_user_search: "Sök efter användare"
   label_user_settings: "Användarinställningar"
+  label_users_settings: "Users settings"
   label_version_new: "Ny version"
   label_version_plural: "Versioner"
   label_version_sharing_descendants: "Med delprojekt"
@@ -2594,7 +2608,7 @@ sv:
   setting_sys_api_description: "Webtjänsten arkivhantering ger integrering och användarautentisering för att åtkomst av arkiv."
   setting_time_format: "Tidsformat"
   setting_accessibility_mode_for_anonymous: "Aktivera hjälpmedelsläget för anonyma användare"
-  setting_user_format: "Användarvisningsformat"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Standardtidszon för användarna"
   setting_users_deletable_by_admins: "Användarkonton kan tas bort av administratörer"
   setting_users_deletable_by_self: "Användare kan ta bort sina konton"
@@ -2625,6 +2639,7 @@ sv:
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Förvalda inställningar"
+      display_format: "Display format"
       deletion: "Borttagning"
     highlighting:
       mode_long:

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe  'API v3 Relation resource', content_type: :json do
+RSpec.describe 'API v3 Relation resource', content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:user) { create(:admin) }

@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 
-describe 'edit work package', js: true do
+RSpec.describe 'edit work package', js: true do
   let(:current_user) do
     create(:user,
            firstname: 'Dev',

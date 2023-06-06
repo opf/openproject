@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ForumsController do
+RSpec.describe ForumsController do
   it {
     expect(subject).to route(:get, '/projects/world_domination/forums').to(controller: 'forums',
                                                                            action: 'index',

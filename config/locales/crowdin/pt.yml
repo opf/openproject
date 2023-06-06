@@ -268,6 +268,7 @@ pt:
       notice_reset_token: "Foi gerado um novo token de %{type}. Seu token de acesso é:"
       token_value_warning: "Nota: Esta é a única vez que você verá este token, certifique-se de copiá-lo agora."
       no_results_title_text: Atualmente não há tokens de acesso disponíveis.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Atualmente, não há notícias para comunicar.
@@ -690,6 +691,11 @@ pt:
           overlaps: 'sobreposição.'
           outside: 'está fora da grade.'
           end_before_start: 'o valor final precisa ser maior que o valor inicial.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'É necessário especificar pelo menos um canal para o envio de notificações.'
           attributes:
@@ -1519,6 +1525,12 @@ pt:
   label_api_access_key: "Chave de acesso a API"
   label_api_access_key_created_on: "Chave de acesso a API criada %{value} atrás"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Situação aplicada"
   label_archive_project: "Arquivar projeto"
   label_ascending: "Ascendente"
@@ -1649,6 +1661,7 @@ pt:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} usuários ativos reservados"
   label_enterprise_edition: "Edição Enterprise"
+  label_enterprise_support: "Enterprise support"
   label_environment: "Ambiente"
   label_estimates_and_time: "Estimativas e tempo"
   label_equals: "é"
@@ -1711,6 +1724,7 @@ pt:
   label_journal: "Diário"
   label_journal_diff: "Comparação de Descrição"
   label_language: "Idioma"
+  label_languages: "Languages"
   label_jump_to_a_project: "Saltar para um projeto..."
   label_keyword_plural: 'Palavras-chave'
   label_language_based: "Com base no idioma do usuário"
@@ -1840,7 +1854,6 @@ pt:
   label_principal_search: "Adicionar usuários existentes ou grupos"
   label_privacy_policy: "Política de privacidade e segurança de dados"
   label_product_version: "Versão do produto"
-  label_professional_support: "Suporte profissional"
   label_profile: "Perfil"
   label_project_activity: "Atividade do projeto"
   label_project_attribute_plural: "Atributos do projeto"
@@ -1971,6 +1984,7 @@ pt:
   label_user_plural: "Usuários"
   label_user_search: "Busca por usuário"
   label_user_settings: "Configurações do usuário"
+  label_users_settings: "Users settings"
   label_version_new: "Nova versão"
   label_version_plural: "Versões"
   label_version_sharing_descendants: "Com subprojetos"
@@ -2594,7 +2608,7 @@ pt:
   setting_sys_api_description: "O serviço de web de gerenciamento de repositório fornece integração e autorização de usuário para acessar repositórios."
   setting_time_format: "Formato de hora"
   setting_accessibility_mode_for_anonymous: "Ativar o modo de acessibilidade para usuários anônimos"
-  setting_user_format: "Formato de exibição de usuários"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Fuso horário padrão"
   setting_users_deletable_by_admins: "Contas de usuário podem ser excluídas pelos administradores"
   setting_users_deletable_by_self: "Usuários podem excluir suas contas"
@@ -2625,6 +2639,7 @@ pt:
       section_project_overview: "Configurações para a lista de visão geral do projeto"
     user:
       default_preferences: "Preferências padrão"
+      display_format: "Display format"
       deletion: "Exclusão"
     highlighting:
       mode_long:
