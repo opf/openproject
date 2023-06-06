@@ -187,8 +187,21 @@ module WorkPackage::PDFExport::Common
     end
   end
 
+  def get_total_sums
+    query.results.all_total_sums || {}
+  end
+
+  def get_group_sums(group)
+    @group_sums ||= query.results.all_group_sums
+    @group_sums[group] || {}
+  end
+
   def with_descriptions?
     options[:show_descriptions]
+  end
+
+  def with_sums_table?
+    query.display_sums?
   end
 
   def with_attachments?
