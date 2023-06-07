@@ -98,7 +98,7 @@ module WorkPackage::PDFExport::Common
 
   def get_column_value_with_unit(value, column_name)
     case column_name
-    when :estimated_hours, :remaining_hours
+    when :estimated_hours, :remaining_hours, :spent_hours
       insert_unit(value, I18n.t('export.units.hours'))
     when :duration
       insert_unit(value, I18n.t('export.units.days'))
