@@ -1465,6 +1465,9 @@ en:
       pdf_with_attachments: "PDF with attachments"
     image:
       omitted: "Image not exported."
+    units:
+      hours: h
+      days: d
 
   extraction:
     available:

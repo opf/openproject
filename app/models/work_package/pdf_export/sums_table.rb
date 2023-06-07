@@ -91,6 +91,7 @@ module WorkPackage::PDFExport::SumsTable
   def build_sums_row(sums, label, sums_style)
     sum_row = sums_columns_objects.map do |col|
       content = (sums[col] || '').to_s
+      content = get_column_value_with_unit(content, col.name)
       pdf.make_cell(content, sums_style)
     end
     sum_row.unshift pdf.make_cell(label, sums_style)

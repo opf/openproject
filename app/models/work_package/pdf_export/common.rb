@@ -88,12 +88,29 @@ module WorkPackage::PDFExport::Common
     formatter.format(work_package)
   end
 
-  def get_column_value_cell(work_package, column)
-    value = escape_tags(get_column_value(work_package, column))
-    return get_id_column_cell(work_package, value) if column == :id
-    return get_subject_column_cell(work_package, value) if with_descriptions? && column == :subject
+  def get_column_value_cell(work_package, column_name)
+    value = escape_tags(get_column_value(work_package, column_name))
+    return get_id_column_cell(work_package, value) if column_name == :id
+    return get_subject_column_cell(work_package, value) if with_descriptions? && column_name == :subject
 
-    value
+    get_column_value_with_unit(value, column_name)
+  end
+
+  def get_column_value_with_unit(value, column_name)
+    case column_name
+    when :estimated_hours, :remaining_hours
+      insert_unit(value, I18n.t('export.units.hours'))
+    when :duration
+      insert_unit(value, I18n.t('export.units.days'))
+    else
+      value
+    end
+  end
+
+  def insert_unit(value, unit)
+    # adding an unit behind numbers
+    # examples "4" => "4 h" ; "4.0" => "4.0 h" ; "4,0" => "4,0 h" ;"4.0 (5.0)" => "4.0 h (5.0 h)"
+    value.to_s.gsub(/[\d.,]+/, "\\0 #{unit}")
   end
 
   def escape_tags(value)
