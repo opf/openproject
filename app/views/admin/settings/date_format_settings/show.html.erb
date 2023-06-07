@@ -38,15 +38,15 @@ See COPYRIGHT and LICENSE files for more details.
   <section class="form--section">
 
     <div class="form--field">
-      <%= setting_select :date,
-                         Settings::Definition[:date].allowed.collect {|f| [Date.today.strftime(f), f]},
+      <%= setting_select :date_format,
+                         Settings::Definition[:date_format].allowed.collect {|f| [Date.today.strftime(f), f]},
                          blank: :label_language_based,
                          container_class: '-wide' %>
     </div>
 
     <div class="form--field">
-      <%= setting_select :time,
-                         Settings::Definition[:time].allowed.collect {|f| [Time.now.strftime(f), f]},
+      <%= setting_select :time_format,
+                         Settings::Definition[:time_format].allowed.collect {|f| [Time.now.strftime(f), f]},
                          blank: :label_language_based,
                          container_class: '-wide' %>
     </div>

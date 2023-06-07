@@ -285,7 +285,7 @@ module Settings
         default: nil,
         writable: false
       },
-      date: {
+      date_format: {
         format: :string,
         default: nil,
         allowed: [
@@ -949,7 +949,7 @@ module Settings
         default: nil,
         format: :string
       },
-      time: {
+      time_format: {
         format: :string,
         default: nil,
         allowed: [
