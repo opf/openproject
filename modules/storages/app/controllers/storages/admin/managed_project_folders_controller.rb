@@ -107,12 +107,13 @@ class Storages::Admin::ManagedProjectFoldersController < ApplicationController
 
   # The application_username is not set by the user, but is derived from defaults
   def permitted_storage_params_with_defaults
-    permitted_storage_params
-      .merge(Storages::Storage::PROVIDER_FIELDS_DEFAULTS.slice(:application_username))
-      .tap do |permitted_params|
-      # If a checkbox is unchecked when its form is submitted, neither the name nor the value is submitted to the server.
-      # See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
-      permitted_params.merge!(automatically_managed: false) unless permitted_params.key?('automatically_managed')
+    permitted_storage_params.tap do |permitted_params|
+      if @storage.provider_type_nextcloud?
+        permitted_params.merge!(@storage.provider_fields_defaults.slice(:application_username))
+        # If a checkbox is unchecked when its form is submitted, neither the name nor the value is submitted to the server.
+        # See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
+        permitted_params.merge!(automatically_managed: false) unless permitted_params.key?('automatically_managed')
+      end
     end
   end
 
@@ -120,7 +121,13 @@ class Storages::Admin::ManagedProjectFoldersController < ApplicationController
   # update parameters are correctly set.
   def permitted_storage_params
     params
-      .require(:storages_nextcloud_storage)
+      .require(:"storages_#{provider_type}_storage")
       .permit('automatically_managed', 'application_password')
+  end
+
+  # @return [String] the short name of the provider type
+  #  (e.g. 'nextcloud') @see Storages::Storage#short_provider_type
+  def provider_type
+    @storage.short_provider_type
   end
 end

@@ -35,7 +35,7 @@ module Storages::Storages
       super(service_call)
 
       storage = service_call.result
-      if storage.provider_type == ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+      if storage.provider_type_nextcloud?
         application = storage.oauth_application
         persist_service_result = ::OAuth::PersistApplicationService
          .new(application, user:)

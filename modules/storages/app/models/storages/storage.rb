@@ -64,9 +64,11 @@ class Storages::Storage < ApplicationRecord
     PROVIDER_TYPE_NEXTCLOUD = 'Storages::NextcloudStorage'.freeze
   ].freeze
 
-  PROVIDER_FIELDS_DEFAULTS = {
-    automatically_managed: true,
-    application_username: 'OpenProject'
+  PROVIDER_FIELDS_DEFAULTS_MAP = {
+    PROVIDER_TYPE_NEXTCLOUD => {
+      automatically_managed: true,
+      application_username: 'OpenProject'
+    }
   }.freeze
 
   # Uniqueness - no two storages should  have the same host.
@@ -102,10 +104,18 @@ class Storages::Storage < ApplicationRecord
     @short_provider_type ||= self.class.shorten_provider_type(provider_type)
   end
 
+  def provider_fields_defaults
+    PROVIDER_FIELDS_DEFAULTS_MAP[provider_type] || {}
+  end
+
   # Cast `automatically_managed` provider_field to a primitive boolean value.
   def automatically_managed=(maybe_boolean)
     super(ActiveRecord::Type::Boolean.new.cast(maybe_boolean))
   end
 
   alias automatically_managed? automatically_managed
+
+  def provider_type_nextcloud?
+    provider_type == ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+  end
 end

@@ -134,4 +134,38 @@ RSpec.describe Storages::Storage do
       end
     end
   end
+
+  describe '#provider_fields_defaults' do
+    context 'when provider_type is nextcloud' do
+      let(:storage) { build(:storage) }
+
+      it 'returns the default values for nextcloud' do
+        expect(storage.provider_fields_defaults).to eq(
+          { automatically_managed: true, application_username: 'OpenProject' }
+        )
+      end
+    end
+
+    context 'with undefined provider type' do
+      let(:storage) { build(:storage, provider_type: 'Storages::DropboxStorage') }
+
+      it 'returns an empty hash' do
+        expect(storage.provider_fields_defaults).to eq({})
+      end
+    end
+  end
+
+  describe '#provider_type_nextcloud?' do
+    context 'when provider_type is nextcloud' do
+      let(:storage) { build(:storage) }
+
+      it { expect(storage).to be_a_provider_type_nextcloud }
+    end
+
+    context 'when provider_type is not nextcloud' do
+      let(:storage) { build(:storage, provider_type: 'Storages::DropboxStorage') }
+
+      it { expect(storage).not_to be_a_provider_type_nextcloud }
+    end
+  end
 end
