@@ -60,22 +60,22 @@ RSpec.describe WorkPackage do
 
       it 'notes the changes to subject' do
         expect(work_package.last_journal.details[:subject])
-          .to match_array [nil, work_package.subject]
+          .to contain_exactly(nil, work_package.subject)
       end
 
       it 'notes the changes to project' do
         expect(work_package.last_journal.details[:project_id])
-          .to match_array [nil, work_package.project_id]
+          .to contain_exactly(nil, work_package.project_id)
       end
 
       it 'notes the description' do
         expect(work_package.last_journal.details[:description])
-          .to match_array [nil, work_package.description]
+          .to contain_exactly(nil, work_package.description)
       end
 
       it 'notes the scheduling mode' do
         expect(work_package.last_journal.details[:schedule_manually])
-          .to match_array [nil, false]
+          .to contain_exactly(nil, false)
       end
 
       it 'has the timestamp of the work package update time for created_at' do
