@@ -415,10 +415,8 @@ RSpec.describe WorkPackage do
     end
 
     context 'for only journal notes adding' do
-      let(:note_text) { 'some notes' }
-
       subject do
-        work_package.add_journal(user: User.current, notes: note_text)
+        work_package.add_journal(user: User.current, notes: 'some notes')
         work_package.save
       end
 
@@ -432,15 +430,13 @@ RSpec.describe WorkPackage do
       end
 
       it 'stores the note with the existing journal entry' do
-        expect { subject }.to change { work_package.last_journal.notes }.from('').to(note_text)
+        expect { subject }.to change { work_package.last_journal.notes }.from('').to('some notes')
       end
     end
 
     context 'for mixed journal notes and attribute adding' do
-      let(:note_text) { 'some notes' }
-
       subject do
-        work_package.add_journal(user: User.current, notes: note_text)
+        work_package.add_journal(user: User.current, notes: 'some notes')
         work_package.subject = 'blubs'
         work_package.save
       end
@@ -455,7 +451,7 @@ RSpec.describe WorkPackage do
       end
 
       it 'stores the note with the existing journal entry' do
-        expect { subject }.to change { work_package.last_journal.notes }.from('').to(note_text)
+        expect { subject }.to change { work_package.last_journal.notes }.from('').to('some noes')
       end
     end
 
