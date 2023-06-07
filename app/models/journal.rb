@@ -53,7 +53,11 @@ class Journal < ApplicationRecord
   # attributes without a heavy database migration. Fields will be prefixed with `cause_` but are stored in the JSONB
   # hash without that prefix
   store_accessor :cause, %i[type work_package_id], prefix: true
-  VALID_CAUSE_TYPES = %w[work_package_predecessor_changed_times work_package_successor_changed_times].freeze
+  VALID_CAUSE_TYPES = %w[
+    work_package_predecessor_changed_times
+    work_package_successor_changed_times
+    work_package_parent_changed_times
+  ].freeze
 
   # Make sure each journaled model instance only has unique version ids
   validates :version, uniqueness: { scope: %i[journable_id journable_type] }

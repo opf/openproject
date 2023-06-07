@@ -70,6 +70,7 @@ class WorkPackages::SetScheduleService
             days.due_date(wp.start_date, wp.duration),
             wp.due_date
           ].compact.max
+          assign_cause_for_journaling(wp, :parent)
         end
       end
   end
@@ -123,6 +124,7 @@ class WorkPackages::SetScheduleService
   # descendants
   def reschedule_by_descendants(scheduled, dependency)
     set_dates(scheduled, dependency.start_date, dependency.due_date)
+    assign_cause_for_journaling(scheduled, :predecessor)
   end
 
   # Calculates the dates of a work package based on its follows relations.
@@ -148,6 +150,7 @@ class WorkPackages::SetScheduleService
     new_start_date = [scheduled.start_date, dependency.soonest_start_date].compact.max
     new_due_date = determine_due_date(scheduled, new_start_date)
     set_dates(scheduled, new_start_date, new_due_date)
+    assign_cause_for_journaling(scheduled, :successor)
   end
 
   def determine_due_date(work_package, start_date)
@@ -174,5 +177,20 @@ class WorkPackages::SetScheduleService
 
   def days(work_package)
     WorkPackages::Shared::Days.for(work_package)
+  end
+
+  def assign_cause_for_journaling(work_package, relation)
+    return if initiating_work_package.nil?
+
+    type_mapping = {
+      parent: 'work_package_parent_changed_times',
+      successor: 'work_package_successor_changed_times',
+      predecessor: 'work_package_predecessor_changed_times'
+    }
+
+    work_package.journal_cause = {
+      type: type_mapping[relation],
+      work_package_id: initiating_work_package.id
+    }
   end
 end
