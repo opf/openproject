@@ -416,7 +416,7 @@ RSpec.describe WorkPackage do
 
     context 'for only journal notes adding' do
       before do
-        work_package.add_journal(User.current, 'some notes')
+        work_package.add_journal(user: User.current, notes: 'some notes')
         work_package.save
       end
 
@@ -428,7 +428,7 @@ RSpec.describe WorkPackage do
 
     context 'for mixed journal notes and attribute adding' do
       before do
-        work_package.add_journal(User.current, 'some notes')
+        work_package.add_journal(user: User.current, notes: 'some notes')
         work_package.subject = 'blubs'
         work_package.save
       end
@@ -494,7 +494,7 @@ RSpec.describe WorkPackage do
             let(:second_notes) { 'Another comment, unrelated to the first one.' }
 
             before do
-              work_package.add_journal(new_author, second_notes)
+              work_package.add_journal(user: new_author, notes: second_notes)
               work_package.save!
             end
 

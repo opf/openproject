@@ -73,7 +73,7 @@ module Acts::Journalized
       end
     end
 
-    def add_journal(user = User.current, notes = '')
+    def add_journal(user: User.current, notes: '')
       self.journal_user ||= user
       self.journal_notes ||= notes
     end

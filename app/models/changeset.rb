@@ -277,7 +277,7 @@ class Changeset < ApplicationRecord
 
   def assign_openproject_user_from_comitter
     self.user = repository.find_committer_user(committer)
-    add_journal(user || User.anonymous, comments)
+    add_journal(user: user || User.anonymous, notes: comments)
   end
 
   # TODO: refactor to a standard helper method
