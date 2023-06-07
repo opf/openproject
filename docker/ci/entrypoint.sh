@@ -6,6 +6,41 @@ export JOBS="${CI_JOBS:=$(nproc)}"
 # for parallel rspec
 export PARALLEL_TEST_PROCESSORS=$JOBS
 export PARALLEL_TEST_FIRST_IS_1=true
+export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
+LOG_FILE=/tmp/op-output.log
+
+cleanup() {
+	exit_code=$?
+	echo "CLEANUP"
+	rm -rf tmp/cache/parallel*
+	if [ -d tmp/features ]; then mv tmp/features spec/ ; fi
+	if [ $exit_code -neq "0" ]; then
+		echo "ERROR: exit code $exit_code"
+		cat $LOG_FILE
+	fi
+	rm -f $LOG_FILE
+}
+
+trap cleanup INT TERM EXIT
+
+execute() {
+	BANNER=${BANNER:="[execute]"}
+	echo "$BANNER $@" >&2
+	if [ $(id -u) -eq 0 ]; then
+		su $USER -c "$@"
+	else
+		bash -c "$@"
+	fi
+}
+
+execute_quiet() {
+	if ! BANNER="[execute_quiet]" execute "$@" >$LOG_FILE ; then
+		cat $LOG_FILE
+		return 1
+	else
+		return 0
+	fi
+}
 
 # if from within docker
 if [ $(id -u) -eq 0 ]; then
@@ -29,35 +64,6 @@ if [ $(id -u) -eq 0 ]; then
 	chown -R $USER:$USER /cache
 fi
 
-
-execute() {
-	BANNER=${BANNER:="[execute]"}
-	echo "$BANNER $@" >&2
-	if [ $(id -u) -eq 0 ]; then
-		su $USER -c "$@"
-	else
-		bash -c "$@"
-	fi
-}
-
-execute_quiet() {
-	if ! BANNER="[execute_quiet]" execute "$@" >/tmp/op-output.log ; then
-		cat /tmp/op-output.log
-		return 1
-	else
-		return 0
-	fi
-}
-
-cleanup() {
-	echo "CLEANUP"
-	rm -rf tmp/cache/parallel*
-	rm -f /tmp/op-output.log
-	if [ -d tmp/features ]; then mv tmp/features spec/ ; fi
-}
-
-trap cleanup INT TERM EXIT
-
 if [ "$1" == "setup-tests" ]; then
 	echo "Preparing environment for running tests..."
 	shift
@@ -72,9 +78,12 @@ if [ "$1" == "setup-tests" ]; then
 
 	execute_quiet "time bundle install -j$JOBS --quiet"
 	# create test database "app" and dump schema
-	execute_quiet "time bundle exec rails db:create db:migrate db:schema:dump webdrivers:chromedriver:update webdrivers:geckodriver:update openproject:plugins:register_frontend"
-	# create parallel test databases "app#n" and load schema
-	execute_quiet "time bundle exec rails parallel:create parallel:load_schema"
+	execute_quiet "cat db/structure.sql | $PGBIN/psql $DATABASE_URL"
+	# create test databases "app1" to "app$JOBS", far faster than using parallel_rspec tasks for that
+	for i in $(seq 1 $JOBS); do
+		execute_quiet "echo 'create database app$i with template app owner app;' | $PGBIN/psql $DATABASE_URL"
+	done
+	execute_quiet "time bundle exec rails webdrivers:chromedriver:update webdrivers:geckodriver:update openproject:plugins:register_frontend"
 	# setup frontend deps
 	execute_quiet "cd frontend && npm install"
 fi
@@ -84,7 +93,7 @@ if [ "$1" == "run-units" ]; then
 	execute_quiet "cp -f /cache/turbo_runtime_units.log spec/support/ || true"
 	# turbo_tests cannot yet exclude specific directories, so copying spec/features elsewhere (temporarily)
 	execute_quiet "mv spec/features tmp/"
-	execute_quiet "time bundle exec rails zeitwerk:check"
+	execute_quiet "time bin/rails zeitwerk:check"
 	execute "time bundle exec turbo_tests -n $JOBS --runtime-log spec/support/turbo_runtime_units.log spec"
 	execute_quiet "cp -f spec/support/turbo_runtime_units.log /cache/ || true"
 	cleanup

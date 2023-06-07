@@ -58,8 +58,3 @@ WORKDIR /home/$USER/openproject
 
 ENTRYPOINT [ "/usr/sbin/entrypoint.sh" ]
 CMD ["setup-tests", "bash"]
-
-# ruby servers
-EXPOSE 3000-3016
-# billy proxy servers
-EXPOSE 4000-4016
