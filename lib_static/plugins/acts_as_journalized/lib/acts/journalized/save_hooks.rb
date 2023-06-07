@@ -73,7 +73,7 @@ module Acts::Journalized
       end
     end
 
-    def add_journal(user: User.current, notes: '', cause: nil)
+    def add_journal(user: User.current, notes: '', cause: {})
       self.journal_user ||= user
       self.journal_notes ||= notes
       self.journal_cause ||= cause
@@ -84,6 +84,7 @@ module Acts::Journalized
     def with_ensured_journal_attributes
       self.journal_user ||= User.current
       self.journal_notes ||= ''
+      self.journal_cause ||= {}
 
       yield
     ensure

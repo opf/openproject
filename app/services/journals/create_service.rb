@@ -48,7 +48,7 @@ module Journals
       self.journable = journable
     end
 
-    def call(notes: '', cause: nil)
+    def call(notes: '', cause: {})
       Rails.logger.info("Journalin with cause #{cause}")
 
       Journal.transaction do
@@ -69,16 +69,16 @@ module Journals
     # and only the predecessor or the journal to be created has notes, the changes are aggregated.
     # Instead of removing the predecessor, return it here so that it can be stripped in the journal creating
     # SQL to than be refilled. That way, references to the journal, including ones users have, are kept intact.
-    def aggregatable_predecessor(notes)
+    def aggregatable_predecessor(notes, cause)
       predecessor = journable.last_journal
 
-      if aggregatable?(predecessor, notes)
+      if aggregatable?(predecessor, notes, cause)
         predecessor
       end
     end
 
     def create_journal(notes, cause)
-      predecessor = aggregatable_predecessor(notes)
+      predecessor = aggregatable_predecessor(notes, cause)
 
       log_journal_creation(predecessor)
 
@@ -163,7 +163,7 @@ module Journals
         ), changes AS (
           #{select_changed_sql}
         ), insert_data AS (
-          #{insert_data_sql(notes, predecessor)}
+          #{insert_data_sql(predecessor, notes, cause)}
         ), inserted_journal AS (
           #{update_or_insert_journal_sql(predecessor, notes, cause)}
         ), insert_attachable AS (
@@ -289,8 +289,8 @@ module Journals
                data_type: journable.class.journal_class.name)
     end
 
-    def insert_data_sql(notes, predecessor)
-      condition = if notes.blank? && predecessor.nil?
+    def insert_data_sql(predecessor, notes, cause)
+      condition = if notes.blank? && cause.blank? && predecessor.nil?
                     "AND EXISTS (SELECT * FROM changes)"
                   else
                     ""
@@ -600,7 +600,7 @@ module Journals
     end
 
     def touch_journable(journal)
-      return if journal.notes.blank?
+      return if journal.notes.blank? && journal.cause.blank?
 
       # Not using touch here on purpose,
       # as to avoid changing lock versions on the journables for this change
@@ -610,11 +610,12 @@ module Journals
       journable.update_columns(timestamps) if timestamps.any?
     end
 
-    def aggregatable?(predecessor, notes)
+    def aggregatable?(predecessor, notes, cause)
       predecessor.present? &&
         aggregation_active? &&
         within_aggregation_time?(predecessor) &&
         same_user?(predecessor) &&
+        same_cause?(predecessor, cause) &&
         only_one_note(predecessor, notes)
     end
 
@@ -632,6 +633,10 @@ module Journals
 
     def same_user?(predecessor)
       predecessor.user_id == user.id
+    end
+
+    def same_cause?(predecessor, cause)
+      predecessor.cause == cause
     end
 
     def log_journal_creation(predecessor)

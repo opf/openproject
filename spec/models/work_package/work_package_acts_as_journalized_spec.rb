@@ -415,27 +415,100 @@ RSpec.describe WorkPackage do
     end
 
     context 'for only journal notes adding' do
-      before do
-        work_package.add_journal(user: User.current, notes: 'some notes')
+      let(:note_text) { 'some notes' }
+
+      subject do
+        work_package.add_journal(user: User.current, notes: note_text)
         work_package.save
       end
 
-      it 'has the timestamp of the work package update time for created_at' do
-        expect(work_package.last_journal.updated_at)
-          .to eql(work_package.updated_at)
+      it 'does not create a new journal entry' do
+        expect { subject }.not_to change(work_package, :last_journal)
+      end
+
+      it 'has the timestamp of the work package update time for updated_at' do
+        subject
+        expect(work_package.last_journal.updated_at).to eql(work_package.updated_at)
+      end
+
+      it 'stores the note with the existing journal entry' do
+        expect { subject }.to change { work_package.last_journal.notes }.from('').to(note_text)
       end
     end
 
     context 'for mixed journal notes and attribute adding' do
-      before do
-        work_package.add_journal(user: User.current, notes: 'some notes')
+      let(:note_text) { 'some notes' }
+
+      subject do
+        work_package.add_journal(user: User.current, notes: note_text)
+        work_package.subject = 'blubs'
+        work_package.save
+      end
+
+      it 'does not create a new journal entry' do
+        expect { subject }.not_to change(work_package, :last_journal)
+      end
+
+      it 'has the timestamp of the work package update time for updated_at' do
+        subject
+        expect(work_package.last_journal.updated_at).to eql(work_package.updated_at)
+      end
+
+      it 'stores the note with the existing journal entry' do
+        expect { subject }.to change { work_package.last_journal.notes }.from('').to(note_text)
+      end
+    end
+
+    context 'for only journal cause adding' do
+      subject do
+        work_package.add_journal(
+          user: User.current,
+          cause: {
+            type: 'work_package_predecessor_changed_times',
+            work_package_id: 42
+          }
+        )
+        work_package.save
+      end
+
+      it 'has the timestamp of the work package update time for created_at' do
+        subject
+        expect(work_package.last_journal.updated_at).to eql(work_package.updated_at)
+      end
+
+      it 'does create a new journal entry' do
+        expect { subject }.to change(work_package, :last_journal)
+      end
+    end
+
+    context 'for mixed journal cause, notes and attribute adding' do
+      subject do
+        work_package.add_journal(
+          user: User.current,
+          notes: 'some notes',
+          cause: {
+            type: 'work_package_predecessor_changed_times',
+            work_package_id: 42
+          }
+        )
         work_package.subject = 'blubs'
         work_package.save
       end
 
       it 'has the timestamp of the work package update time for created_at' do
-        expect(work_package.last_journal.updated_at)
-          .to eql(work_package.updated_at)
+        expect(work_package.last_journal.updated_at).to eql(work_package.updated_at)
+      end
+
+      it 'does create a new journal entry' do
+        expect { subject }.to change(work_package, :last_journal)
+      end
+
+      it 'stores the cause and note with the existing journal entry' do
+        subject
+
+        expect(work_package.last_journal.notes).to eq('some notes')
+        expect(work_package.last_journal.cause_type).to eq('work_package_predecessor_changed_times')
+        expect(work_package.last_journal.cause_work_package_id).to eq(42)
       end
     end
 
