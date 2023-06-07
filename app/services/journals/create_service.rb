@@ -48,7 +48,9 @@ module Journals
       self.journable = journable
     end
 
-    def call(notes: '')
+    def call(notes: '', cause: nil)
+      Rails.logger.info("Journalin with cause #{cause}")
+
       Journal.transaction do
         journal = create_journal(notes)
 
