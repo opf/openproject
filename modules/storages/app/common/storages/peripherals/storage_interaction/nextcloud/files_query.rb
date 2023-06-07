@@ -36,10 +36,11 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     # rubocop:disable Metrics/AbcSize
     def call(user:, folder:)
       result = Util.token(user:, oauth_client: @oauth_client) do |token|
-        @base_path = Util.join_uri_path(@uri.path, "remote.php/dav/files", token.origin_user_id.gsub(' ', '%20'))
+        base_path = Util.join_uri_path(@uri.path, "remote.php/dav/files")
+        @location_prefix = Util.join_uri_path(base_path, token.origin_user_id.gsub(' ', '%20'))
 
         response = Util.http(@uri).propfind(
-          Util.join_uri_path(@base_path, requested_folder(folder)),
+          Util.join_uri_path(base_path, CGI.escapeURIComponent(token.origin_user_id), requested_folder(folder)),
           requested_properties,
           {
             'Depth' => '1',
@@ -171,7 +172,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
       return nil if texts.empty?
 
-      element_name = texts.first.delete_prefix(@base_path)
+      element_name = texts.first.delete_prefix(@location_prefix)
 
       return element_name if element_name == '/'
 
