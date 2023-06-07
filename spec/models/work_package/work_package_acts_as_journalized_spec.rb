@@ -496,7 +496,7 @@ RSpec.describe WorkPackage do
       end
 
       it 'has the timestamp of the work package update time for created_at' do
-        expect(work_package.last_journal.updated_at).to eql(work_package.updated_at)
+        expect(work_package.last_journal.updated_at).to eql(work_package.reload.updated_at)
       end
 
       it 'does create a new journal entry' do
