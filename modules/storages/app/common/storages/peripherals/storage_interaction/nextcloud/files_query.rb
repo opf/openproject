@@ -36,7 +36,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     # rubocop:disable Metrics/AbcSize
     def call(user:, folder:)
       result = Util.token(user:, oauth_client: @oauth_client) do |token|
-        @base_path = Util.join_uri_path(@uri.path, "remote.php/dav/files", CGI.escapeURIComponent(token.origin_user_id))
+        @base_path = Util.join_uri_path(@uri.path, "remote.php/dav/files", token.origin_user_id.gsub(' ', '%20'))
 
         response = Util.http(@uri).propfind(
           Util.join_uri_path(@base_path, requested_folder(folder)),
@@ -61,6 +61,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
       storage_files(result)
     end
+
     # rubocop:enable Metrics/AbcSize
 
     private
