@@ -33,17 +33,17 @@ require 'spec_helper'
 RSpec.describe BasicData::Backlogs::SettingSeeder do
   subject(:setting_seeder) { described_class.new(basic_seed_data) }
 
+  let(:type_feature) { basic_seed_data.find_reference(:default_type_feature) }
+  let(:type_epic) { basic_seed_data.find_reference(:default_type_epic) }
+  let(:type_user_story) { basic_seed_data.find_reference(:default_type_user_story) }
+  let(:type_bug) { basic_seed_data.find_reference(:default_type_bug) }
+  let(:type_task) { basic_seed_data.find_reference(:default_type_task) }
+
   context 'with standard edition' do
     include_context 'with basic seed data', edition: 'standard'
 
     it 'configures Setting.plugin_openproject_backlogs' do
       setting_seeder.seed!
-
-      type_feature = basic_seed_data.find_reference(:default_type_feature)
-      type_epic = basic_seed_data.find_reference(:default_type_epic)
-      type_user_story = basic_seed_data.find_reference(:default_type_user_story)
-      type_bug = basic_seed_data.find_reference(:default_type_bug)
-      type_task = basic_seed_data.find_reference(:default_type_task)
 
       expect(Setting.plugin_openproject_backlogs).to match(
         "points_burn_direction" => "up",
@@ -52,6 +52,39 @@ RSpec.describe BasicData::Backlogs::SettingSeeder do
         "wiki_template" => ""
       )
     end
+
+    it 'can run multiple times' do
+      # run once
+      setting_seeder.seed!
+      # run a second time without the references in seed_data
+      described_class.new(Source::SeedData.new({})).seed!
+
+      expect(Setting.plugin_openproject_backlogs).to match(
+        "points_burn_direction" => "up",
+        "story_types" => contain_exactly(type_feature.id, type_epic.id, type_user_story.id, type_bug.id),
+        "task_type" => type_task.id,
+        "wiki_template" => ""
+      )
+    end
+
+    shared_examples "sets missing setting to its default value" do |key:, expected_value:|
+      it "sets #{key.inspect} value to #{expected_value.inspect} if not set" do
+        Setting.plugin_openproject_backlogs = {}
+        expect { setting_seeder.seed! }
+          .to change { Setting.plugin_openproject_backlogs[key] }
+          .from(nil)
+          .to(expected_value)
+      end
+
+      it "keeps #{key.inspect} value if already set" do
+        Setting.plugin_openproject_backlogs = { key => "already set" }
+        expect { setting_seeder.seed! }
+          .not_to change { Setting.plugin_openproject_backlogs[key] }
+      end
+    end
+
+    include_examples "sets missing setting to its default value", key: "points_burn_direction", expected_value: "up"
+    include_examples "sets missing setting to its default value", key: "wiki_template", expected_value: ""
   end
 
   context 'with BIM edition' do
@@ -60,7 +93,19 @@ RSpec.describe BasicData::Backlogs::SettingSeeder do
     it 'configures Setting.plugin_openproject_backlogs' do
       setting_seeder.seed!
 
-      type_task = basic_seed_data.find_reference(:default_type_task)
+      expect(Setting.plugin_openproject_backlogs).to match(
+        "points_burn_direction" => "up",
+        "story_types" => [],
+        "task_type" => type_task.id,
+        "wiki_template" => ""
+      )
+    end
+
+    it 'can run multiple times' do
+      # run once
+      setting_seeder.seed!
+      # run a second time without the references in seed_data
+      described_class.new(Source::SeedData.new({})).seed!
 
       expect(Setting.plugin_openproject_backlogs).to match(
         "points_burn_direction" => "up",
