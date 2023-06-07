@@ -35,7 +35,6 @@ execute() {
 
 execute_quiet() {
 	if ! BANNER="[execute_quiet]" execute "$@" >$LOG_FILE ; then
-		cat $LOG_FILE
 		return 1
 	else
 		return 0
@@ -78,7 +77,7 @@ if [ "$1" == "setup-tests" ]; then
 
 	execute_quiet "time bundle install -j$JOBS --quiet"
 	# create test database "app" and dump schema because db/structure.sql is not checked in
-	execute_quiet "time bundle exec rails db:migrate db:structure:dump"
+	execute_quiet "time bundle exec rails db:migrate db:schema:dump"
 	# create test databases "app1" to "app$JOBS", far faster than using parallel_rspec tasks for that
 	for i in $(seq 1 $JOBS); do
 		execute_quiet "echo 'create database app$i with template app owner app;' | $PGBIN/psql $DATABASE_URL"
