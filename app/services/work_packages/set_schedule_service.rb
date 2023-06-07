@@ -37,11 +37,11 @@ class WorkPackages::SetScheduleService
   def call(changed_attributes = %i(start_date due_date))
     altered = []
 
-    if (%i(parent parent_id) & changed_attributes).any?
+    if %i(parent parent_id).intersect?(changed_attributes)
       altered += schedule_by_parent
     end
 
-    if (%i(start_date due_date parent parent_id) & changed_attributes).any?
+    if %i(start_date due_date parent parent_id).intersect?(changed_attributes)
       altered += schedule_following
     end
 
