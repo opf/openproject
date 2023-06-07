@@ -7,122 +7,122 @@ cs:
     common:
       colors:
         item_0:
-          name: Blue (dark)
+          name: Modrá (tmavá)
         item_1:
-          name: Blue
+          name: Modrá
         item_2:
-          name: Blue (light)
+          name: Modrá (světlá)
         item_3:
-          name: Green (light)
+          name: Zelená (světlá)
         item_4:
-          name: Green (dark)
+          name: Zelená (tmavá)
         item_5:
-          name: Yellow
+          name: Žlutá
         item_6:
-          name: Orange
+          name: Oranžová
         item_7:
-          name: Red
+          name: Červená
         item_8:
-          name: Magenta
+          name: Fialová
         item_9:
-          name: White
+          name: Bílá
         item_10:
-          name: Grey (light)
+          name: Šedá (světlá)
         item_11:
-          name: Grey
+          name: Šedá
         item_12:
-          name: Grey (dark)
+          name: Šedá (tmavá)
         item_13:
-          name: Black
+          name: Černá
       document_categories:
         item_0:
-          name: Documentation
+          name: Dokumentace
         item_1:
-          name: Specification
+          name: Specifikace
         item_2:
-          name: Other
+          name: Ostatní
       roles:
         item_0:
-          name: Non member
+          name: Není člen
         item_1:
-          name: Anonymous
+          name: Anonymní
         item_2:
-          name: Member
+          name: Člen
         item_3:
-          name: Reader
+          name: Čtenář
         item_4:
-          name: Project admin
+          name: Projekt admin
         item_5:
-          name: Staff and projects manager
+          name: Manažer zaměstnanců a projektů
     standard:
       priorities:
         item_0:
-          name: Low
+          name: Nízká
         item_1:
-          name: Normal
+          name: Normální
         item_2:
-          name: High
+          name: Vysoká
         item_3:
-          name: Immediate
+          name: Okamžitá
       statuses:
         item_0:
-          name: New
+          name: Nové
         item_1:
-          name: In specification
+          name: Ve specifikaci
         item_2:
-          name: Specified
+          name: Specifikováno
         item_3:
-          name: Confirmed
+          name: Potvrzený
         item_4:
-          name: To be scheduled
+          name: Bude naplánováno
         item_5:
-          name: Scheduled
+          name: Naplánováno
         item_6:
-          name: In progress
+          name: Probíhá
         item_7:
-          name: Developed
+          name: Vyvinutý
         item_8:
-          name: In testing
+          name: V testování
         item_9:
-          name: Tested
+          name: Testováno
         item_10:
-          name: Test failed
+          name: Test selhal
         item_11:
-          name: Closed
+          name: Uzavřený
         item_12:
-          name: On hold
+          name: Pozastaven
         item_13:
-          name: Rejected
+          name: Odmítnutý
       time_entry_activities:
         item_0:
-          name: Management
+          name: Správa
         item_1:
-          name: Specification
+          name: Specifikace
         item_2:
-          name: Development
+          name: Vývoj
         item_3:
-          name: Testing
+          name: Testování
         item_4:
-          name: Support
+          name: Podpora
         item_5:
-          name: Other
+          name: Ostatní
       types:
         item_0:
-          name: Task
+          name: Úkol
         item_1:
-          name: Milestone
+          name: Milník
         item_2:
-          name: Phase
+          name: Fáze
         item_3:
-          name: Feature
+          name: Funkce
         item_4:
           name: Epic
         item_5:
-          name: User story
+          name: Uživatelský příběh
         item_6:
-          name: Bug
+          name: Chyba
       welcome:
-        title: Welcome to OpenProject!
+        title: Vítejte v OpenProject!
         text: |
           Select one of the demo projects to get started with some demo data we have prepared for you.
 
@@ -156,12 +156,12 @@ cs:
             item_2:
               name: Tasks
             item_3:
-              name: Team planner
+              name: Týmový plánovač
           boards:
             kanban:
               name: Kanban board
             basic:
-              name: Basic board
+              name: Základní tabule
               lists:
                 item_0:
                   name: Wish list
@@ -170,7 +170,7 @@ cs:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Nikdy
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -180,7 +180,7 @@ cs:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Začínáme
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -199,7 +199,7 @@ cs:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Pracovní balíčky
               item_6:
                 options:
                   name: Milestones
@@ -311,7 +311,7 @@ cs:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Nevyřízené produkty
             item_2:
               name: Sprint 1
             item_3:
@@ -320,7 +320,7 @@ cs:
             kanban:
               name: Kanban board
             basic:
-              name: Task board
+              name: Tabule úkolů
               lists:
                 item_0:
                   name: Wish list
@@ -329,7 +329,7 @@ cs:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Nikdy
           project-overview:
             widgets:
               item_0:
@@ -337,7 +337,7 @@ cs:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Začínáme
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -357,7 +357,7 @@ cs:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Pracovní balíčky
               item_6:
                 options:
                   name: Project plan

@@ -483,15 +483,15 @@ uk:
           true: "публічний"
           false: "приватний"
         queries: "Запити"
-        status_code: 'Project status'
+        status_code: 'Статус Проекту'
         status_explanation: 'Project status description'
         status_codes:
-          not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          not_started: 'Не почато'
+          on_track: 'За графіком'
+          at_risk: 'Під загрозою'
+          off_track: 'Не за графіком'
+          finished: 'Завершено'
+          discontinued: 'Припинено'
         templated: "Проєкт шаблона"
         templated_value:
           true: "позначено як шаблон"
@@ -939,9 +939,9 @@ uk:
       time_entry:
         hour:
           one: "%{count} hour"
-          few: "%{count} hours"
-          many: "%{count} hours"
-          other: "%{count} hours"
+          few: "%{count} години"
+          many: "%{count} години"
+          other: "%{count} години"
         hour_html:
           one: "<i>%{count} hour</i>"
           few: "<i>%{count} hours</i>"
@@ -1509,7 +1509,7 @@ uk:
   label_ical_access_key_not_present: "iCalendar token(s) not present."
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
-  label_ical_access_key_revoke: "Revoke"
+  label_ical_access_key_revoke: "Скасувати"
   label_applied_status: "Застосовний статус"
   label_archive_project: "Архівний проект"
   label_ascending: "За зростанням"

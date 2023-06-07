@@ -10,9 +10,9 @@ si:
       free: Basic
       action: "Action board (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
-      status: Status
-      version: Version
-      subproject: Subproject
+      assignee: අස්ගිනී
+      status: තත්වය
+      version: අනුවාදය
+      subproject: උප ව්යාපෘතිය
       subtasks: Parent-child
       basic: Basic

@@ -7,120 +7,120 @@ tr:
     common:
       colors:
         item_0:
-          name: Blue (dark)
+          name: Mavi (koyu)
         item_1:
-          name: Blue
+          name: Mavi
         item_2:
-          name: Blue (light)
+          name: Mavi (açık)
         item_3:
-          name: Green (light)
+          name: Yeşil (açık)
         item_4:
-          name: Green (dark)
+          name: Yeşil (koyu)
         item_5:
-          name: Yellow
+          name: Sarı
         item_6:
-          name: Orange
+          name: Turuncu
         item_7:
-          name: Red
+          name: Kırmızı
         item_8:
-          name: Magenta
+          name: Eflatun
         item_9:
-          name: White
+          name: Beyaz
         item_10:
-          name: Grey (light)
+          name: Gri (açık)
         item_11:
-          name: Grey
+          name: Gri
         item_12:
-          name: Grey (dark)
+          name: Gri (koyu)
         item_13:
-          name: Black
+          name: Siyah
       document_categories:
         item_0:
-          name: Documentation
+          name: Belgeleme
         item_1:
-          name: Specification
+          name: Özellik
         item_2:
-          name: Other
+          name: Diğer
       roles:
         item_0:
-          name: Non member
+          name: Üye Değil
         item_1:
-          name: Anonymous
+          name: Anonim
         item_2:
-          name: Member
+          name: Üye
         item_3:
-          name: Reader
+          name: Okuyucu
         item_4:
-          name: Project admin
+          name: Proje yöneticisi
         item_5:
-          name: Staff and projects manager
+          name: Personel ve proje yöneticisi
     standard:
       priorities:
         item_0:
-          name: Low
+          name: Düşük
         item_1:
           name: Normal
         item_2:
-          name: High
+          name: Yüksek
         item_3:
-          name: Immediate
+          name: Acil
       statuses:
         item_0:
-          name: New
+          name: Yeni
         item_1:
-          name: In specification
+          name: Şartname
         item_2:
-          name: Specified
+          name: Belirtildi
         item_3:
-          name: Confirmed
+          name: Onaylandı
         item_4:
-          name: To be scheduled
+          name: Zamanlanacak
         item_5:
-          name: Scheduled
+          name: Zamanlandı
         item_6:
-          name: In progress
+          name: Devam eden
         item_7:
-          name: Developed
+          name: Geliştirilen
         item_8:
-          name: In testing
+          name: Test ediliyor
         item_9:
-          name: Tested
+          name: Test edildi
         item_10:
-          name: Test failed
+          name: Test başarısız oldu
         item_11:
-          name: Closed
+          name: Kapalı
         item_12:
-          name: On hold
+          name: Beklemede
         item_13:
-          name: Rejected
+          name: Reddedildi
       time_entry_activities:
         item_0:
-          name: Management
+          name: Yönetim
         item_1:
-          name: Specification
+          name: Özellik
         item_2:
-          name: Development
+          name: Geliştirme
         item_3:
-          name: Testing
+          name: Deneme
         item_4:
-          name: Support
+          name: Destek
         item_5:
-          name: Other
+          name: Diğer
       types:
         item_0:
-          name: Task
+          name: Görev
         item_1:
-          name: Milestone
+          name: Kilometre taşı
         item_2:
-          name: Phase
+          name: Aşama
         item_3:
-          name: Feature
+          name: Özellik
         item_4:
-          name: Epic
+          name: Epik
         item_5:
-          name: User story
+          name: Kullanıcı hikayesi
         item_6:
-          name: Bug
+          name: Hata
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -156,12 +156,12 @@ tr:
             item_2:
               name: Tasks
             item_3:
-              name: Team planner
+              name: Takım planlayıcısı
           boards:
             kanban:
               name: Kanban board
             basic:
-              name: Basic board
+              name: Temel kurulu
               lists:
                 item_0:
                   name: Wish list
@@ -170,7 +170,7 @@ tr:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Hiçbir zaman
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -180,7 +180,7 @@ tr:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Başlarken
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -199,7 +199,7 @@ tr:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: İş paketleri
               item_6:
                 options:
                   name: Milestones
@@ -311,7 +311,7 @@ tr:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Ürün bekleme süresi
             item_2:
               name: Sprint 1
             item_3:
@@ -320,7 +320,7 @@ tr:
             kanban:
               name: Kanban board
             basic:
-              name: Task board
+              name: Görev tahtası
               lists:
                 item_0:
                   name: Wish list
@@ -329,7 +329,7 @@ tr:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Hiçbir zaman
           project-overview:
             widgets:
               item_0:
@@ -337,7 +337,7 @@ tr:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Başlarken
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -357,7 +357,7 @@ tr:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: İş paketleri
               item_6:
                 options:
                   name: Project plan

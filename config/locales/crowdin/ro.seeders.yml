@@ -7,120 +7,120 @@ ro:
     common:
       colors:
         item_0:
-          name: Blue (dark)
+          name: Albastru închis
         item_1:
-          name: Blue
+          name: Albastru
         item_2:
-          name: Blue (light)
+          name: Albastru deschis
         item_3:
-          name: Green (light)
+          name: Verde deschis
         item_4:
-          name: Green (dark)
+          name: Verde închis
         item_5:
-          name: Yellow
+          name: Galben
         item_6:
-          name: Orange
+          name: Portocaliu
         item_7:
-          name: Red
+          name: Roșu
         item_8:
-          name: Magenta
+          name: Mov
         item_9:
-          name: White
+          name: Alb
         item_10:
-          name: Grey (light)
+          name: Gri deschis
         item_11:
-          name: Grey
+          name: Gri
         item_12:
-          name: Grey (dark)
+          name: Gri închis
         item_13:
-          name: Black
+          name: Negru
       document_categories:
         item_0:
-          name: Documentation
+          name: Documentație
         item_1:
-          name: Specification
+          name: Specificație
         item_2:
-          name: Other
+          name: Altele
       roles:
         item_0:
-          name: Non member
+          name: Non-membru
         item_1:
-          name: Anonymous
+          name: Anonim
         item_2:
-          name: Member
+          name: Membru
         item_3:
-          name: Reader
+          name: Cititor
         item_4:
-          name: Project admin
+          name: Admin proiect
         item_5:
-          name: Staff and projects manager
+          name: Manager de personal și de proiecte
     standard:
       priorities:
         item_0:
-          name: Low
+          name: Scăzută
         item_1:
-          name: Normal
+          name: Normală
         item_2:
-          name: High
+          name: Ridicată
         item_3:
-          name: Immediate
+          name: Imediată
       statuses:
         item_0:
-          name: New
+          name: Nou
         item_1:
-          name: In specification
+          name: Specificații în curs
         item_2:
-          name: Specified
+          name: Cu specificații
         item_3:
-          name: Confirmed
+          name: Confirmat
         item_4:
-          name: To be scheduled
+          name: Planificare în curs
         item_5:
-          name: Scheduled
+          name: Planificat
         item_6:
-          name: In progress
+          name: În lucru
         item_7:
-          name: Developed
+          name: Dezvoltat
         item_8:
-          name: In testing
+          name: Testare în curs
         item_9:
-          name: Tested
+          name: Testat
         item_10:
-          name: Test failed
+          name: Testare eșuată
         item_11:
-          name: Closed
+          name: Închis
         item_12:
-          name: On hold
+          name: În aşteptare
         item_13:
-          name: Rejected
+          name: Respins
       time_entry_activities:
         item_0:
-          name: Management
+          name: Administrare
         item_1:
-          name: Specification
+          name: Specificație
         item_2:
-          name: Development
+          name: Dezvoltare
         item_3:
-          name: Testing
+          name: Testare
         item_4:
-          name: Support
+          name: Suport
         item_5:
-          name: Other
+          name: Altele
       types:
         item_0:
-          name: Task
+          name: Sarcină
         item_1:
-          name: Milestone
+          name: Reper
         item_2:
-          name: Phase
+          name: Fază
         item_3:
-          name: Feature
+          name: Funcționalitate
         item_4:
           name: Epic
         item_5:
-          name: User story
+          name: Scenariu de utilizare
         item_6:
-          name: Bug
+          name: Defect
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -156,12 +156,12 @@ ro:
             item_2:
               name: Tasks
             item_3:
-              name: Team planner
+              name: Planificator de echipă
           boards:
             kanban:
               name: Kanban board
             basic:
-              name: Basic board
+              name: Tablă de bază
               lists:
                 item_0:
                   name: Wish list
@@ -170,7 +170,7 @@ ro:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Niciodată
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -180,7 +180,7 @@ ro:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Noţiuni de bază
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -199,7 +199,7 @@ ro:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Pachete de lucru
               item_6:
                 options:
                   name: Milestones
@@ -311,7 +311,7 @@ ro:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Fișa produsului
             item_2:
               name: Sprint 1
             item_3:
@@ -320,7 +320,7 @@ ro:
             kanban:
               name: Kanban board
             basic:
-              name: Task board
+              name: Tablă de sarcini
               lists:
                 item_0:
                   name: Wish list
@@ -329,7 +329,7 @@ ro:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Niciodată
           project-overview:
             widgets:
               item_0:
@@ -337,7 +337,7 @@ ro:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Noţiuni de bază
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -357,7 +357,7 @@ ro:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Pachete de lucru
               item_6:
                 options:
                   name: Project plan

@@ -25,7 +25,7 @@ fi:
       document: "Asiakirja"
   activity:
     filter:
-      document: "Documents"
+      document: "Asiakirjat"
   default_doc_category_tech: "Tekniset asiakirjat"
   default_doc_category_user: "Käyttöohjeet"
   enumeration_doc_categories: "Tiedostoluokat"

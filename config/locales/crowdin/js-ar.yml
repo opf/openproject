@@ -241,9 +241,9 @@ ar:
             professional_support: "الدعم الفني"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Start free trial"
-          button_upgrade: "Upgrade now"
+          button_upgrade: "الترقية الآن"
           button_contact_us: "Contact us for a demo"
-          button_book_now: "Book now"
+          button_book_now: "احجز الآن"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
           link_quote: "Get a quote"
@@ -330,7 +330,7 @@ ar:
       copy_url_success_text: "URL copied to clipboard."
       copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
     label_activate: "تفعيل"
-    label_assignee: 'Assignee'
+    label_assignee: 'المُسند إليه'
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
     label_add_columns: "Add columns"
@@ -349,9 +349,9 @@ ar:
     label_author: "الكاتب%{user}"
     label_avatar: "الصورة الرمزية"
     label_between: "بين"
-    label_board: "Board"
+    label_board: "لوحة"
     label_board_locked: "مقفل"
-    label_board_plural: "Boards"
+    label_board_plural: "لوحات"
     label_board_sticky: "مثبت"
     label_change: "تغيير"
     label_create: "إنشاء"
@@ -433,7 +433,7 @@ ar:
     label_previous: "السابق"
     label_per_page: "لكل صفحة:"
     label_please_wait: "الرجاء الانتظار"
-    label_project: "Project"
+    label_project: "مشروع"
     label_project_list: "Projects list"
     label_project_plural: "المشاريع"
     label_visibility_settings: "Visibility settings"
@@ -489,9 +489,9 @@ ar:
     label_unwatch: "وقْف المشاهدة"
     label_unwatch_work_package: "لا تراقب مجموعة العمل"
     label_uploaded_by: "تم التحميل بواسطة"
-    label_default_queries: "Default"
+    label_default_queries: "الافتراضي"
     label_starred_queries: "Favorite"
-    label_global_queries: "Public"
+    label_global_queries: "عام"
     label_custom_queries: "Private"
     label_columns: "الأعمدة"
     label_attachments: المرفقات
@@ -585,9 +585,9 @@ ar:
         unread: 'Unread'
         unread_title: 'Show unread'
         all: 'الجميع'
-        all_title: 'Show all'
+        all_title: 'إظهار الجميع'
       center:
-        label_actor_and: 'and'
+        label_actor_and: 'و'
         and_more_users:
           zero: 'and %{count} others'
           one: 'and 1 other'
@@ -616,7 +616,7 @@ ar:
         by_reason: 'Reason'
         inbox: 'Inbox'
         mentioned: 'Mentioned'
-        watched: 'Watcher'
+        watched: 'المشاهد'
         date_alert: 'Date alert'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
@@ -638,9 +638,9 @@ ar:
           mentioned:
             title: 'Mentioned'
             description: 'Receive a notification every time someone mentions me anywhere'
-          assignee: 'Assignee'
+          assignee: 'المُسند إليه'
           responsible: 'Accountable'
-          watched: 'Watcher'
+          watched: 'المشاهد'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
           work_package_processed: 'All status changes'
@@ -942,7 +942,7 @@ ar:
         modification_label: 'Modified within the comparison time period'
         column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
       filters:
-        title: 'Filter work packages'
+        title: 'تصفية مجموعات العمل'
         baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
@@ -981,7 +981,7 @@ ar:
         description: "الوصف"
         date: "التاريخ"
         dueDate: "Finish date"
-        duration: "Duration"
+        duration: "المدّة"
         estimatedTime: "الوقت المُقّدَّر"
         spentTime: "الوقت المستهلك"
         category: "الفئة"
@@ -1094,16 +1094,16 @@ ar:
     toolbar:
       settings:
         configure_view: "Configure view"
-        columns: "Columns"
-        sort_by: "Sort by"
-        group_by: "Group by"
+        columns: "الأعمدة"
+        sort_by: "التصنيف حسب"
+        group_by: "تصنيف حسب"
         display_sums: "عرض المجاميع"
         display_hierarchy: "Display hierarchy"
         hide_hierarchy: "Hide hierarchy"
         hide_sums: "إخفاء المجاميع"
         save: "حفظ"
-        save_as: "Save as"
-        export: "Export"
+        save_as: "احفظ بشكل"
+        export: "تصدير"
         visibility_settings: "Visibility settings"
         share_calendar: "Subscribe to iCalendar"
         page_settings: "Rename view"
@@ -1118,7 +1118,7 @@ ar:
       button_save: "حفظ"
       button_submit: "إرسال"
       button_cancel: "إلغاء"
-      button_delete: "Delete"
+      button_delete: "احذف"
       form_submit:
         title: 'Confirm to continue'
         text: 'Are you sure you want to perform this action?'
@@ -1181,8 +1181,8 @@ ar:
         one: "1 h"
         other: "%{count} h"
       day:
-        one: "1 day"
-        other: "%{count} days"
+        one: "%{count} يوم"
+        other: "%{count} يوم"
     zen_mode:
       button_activate: 'Activate zen mode'
       button_deactivate: 'Deactivate zen mode'
@@ -1255,7 +1255,7 @@ ar:
       message:
         label: 'Invitation message'
         description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
-        next_button: 'Next'
+        next_button: 'التالي'
       summary:
         next_button: 'Send invitation'
       success:
@@ -1282,23 +1282,23 @@ ar:
       no_results: 'No project matches your search criteria.'
     baseline:
       toggle_title: 'Baseline'
-      clear: 'Clear'
-      apply: 'Apply'
+      clear: 'إزالة'
+      apply: 'تطبيق'
       header_description: 'Highlight changes made to this list since any point in the past.'
       enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Show changes since'
       baseline_comparison: 'Baseline comparison'
       help_description: 'Reference time zone for the baseline.'
       time_description: 'In your local time: %{datetime}'
-      time: 'Time'
-      from: 'From'
-      to: 'To'
+      time: 'الوقت'
+      from: 'من'
+      to: 'إلى'
       drop_down:
         none: '-'
-        yesterday: 'yesterday'
+        yesterday: 'الأمس'
         last_working_day: 'last working day'
-        last_week: 'last week'
-        last_month: 'last month'
+        last_week: 'الأسبوع الماضي'
+        last_month: 'الشهر الماضي'
         a_specific_date: 'a specific date'
         between_two_specific_dates: 'between two specific dates'
       legends:

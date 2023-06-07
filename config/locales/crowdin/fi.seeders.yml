@@ -7,120 +7,120 @@ fi:
     common:
       colors:
         item_0:
-          name: Blue (dark)
+          name: Sininen (tumma)
         item_1:
-          name: Blue
+          name: Sininen
         item_2:
-          name: Blue (light)
+          name: Sininen (vaalea)
         item_3:
-          name: Green (light)
+          name: Vihreä (vaalea)
         item_4:
-          name: Green (dark)
+          name: Vihreä (tumma)
         item_5:
-          name: Yellow
+          name: Keltainen
         item_6:
-          name: Orange
+          name: Oranssi
         item_7:
-          name: Red
+          name: Punainen
         item_8:
-          name: Magenta
+          name: Purppura (magenta)
         item_9:
-          name: White
+          name: Valkoinen
         item_10:
-          name: Grey (light)
+          name: Harmaa (vaalea)
         item_11:
-          name: Grey
+          name: Harmaa
         item_12:
-          name: Grey (dark)
+          name: Harmaa (tumma)
         item_13:
-          name: Black
+          name: Musta
       document_categories:
         item_0:
-          name: Documentation
+          name: Käyttöohjeet
         item_1:
-          name: Specification
+          name: Määrittely
         item_2:
-          name: Other
+          name: Muut
       roles:
         item_0:
-          name: Non member
+          name: Ei jäsen
         item_1:
-          name: Anonymous
+          name: Anonyymi
         item_2:
-          name: Member
+          name: Jäsen
         item_3:
-          name: Reader
+          name: Lukuoikeus
         item_4:
-          name: Project admin
+          name: Projektin ylläpitäjä
         item_5:
           name: Staff and projects manager
     standard:
       priorities:
         item_0:
-          name: Low
+          name: Matala
         item_1:
-          name: Normal
+          name: Normaali
         item_2:
-          name: High
+          name: Korkea
         item_3:
-          name: Immediate
+          name: Valitön
       statuses:
         item_0:
-          name: New
+          name: Uusi
         item_1:
-          name: In specification
+          name: Määrittelyssä
         item_2:
-          name: Specified
+          name: Määritetty
         item_3:
-          name: Confirmed
+          name: Vahvistettu
         item_4:
-          name: To be scheduled
+          name: Aikataulutettava
         item_5:
-          name: Scheduled
+          name: Ajoitettu
         item_6:
-          name: In progress
+          name: Käynnissä
         item_7:
-          name: Developed
+          name: Kehitetty
         item_8:
-          name: In testing
+          name: Testauksessa
         item_9:
-          name: Tested
+          name: Testattu
         item_10:
-          name: Test failed
+          name: Testi epäonnistui
         item_11:
-          name: Closed
+          name: Suljettu
         item_12:
-          name: On hold
+          name: Pidossa
         item_13:
-          name: Rejected
+          name: Hylätty
       time_entry_activities:
         item_0:
-          name: Management
+          name: Työnjohto
         item_1:
-          name: Specification
+          name: Määrittely
         item_2:
-          name: Development
+          name: Kehitys
         item_3:
-          name: Testing
+          name: Testaus
         item_4:
-          name: Support
+          name: Tuki
         item_5:
-          name: Other
+          name: Muut
       types:
         item_0:
-          name: Task
+          name: Tehtävä
         item_1:
           name: Milestone
         item_2:
-          name: Phase
+          name: Vaihe
         item_3:
-          name: Feature
+          name: Ominaisuus
         item_4:
-          name: Epic
+          name: Eeppinen
         item_5:
-          name: User story
+          name: Käyttäjän tarina
         item_6:
-          name: Bug
+          name: Virhe
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -161,7 +161,7 @@ fi:
             kanban:
               name: Kanban board
             basic:
-              name: Basic board
+              name: Tehtävätaulu
               lists:
                 item_0:
                   name: Wish list
@@ -170,7 +170,7 @@ fi:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Ei koskaan
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -199,7 +199,7 @@ fi:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Tehtävät
               item_6:
                 options:
                   name: Milestones
@@ -311,7 +311,7 @@ fi:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Tuotteen työjono
             item_2:
               name: Sprint 1
             item_3:
@@ -320,7 +320,7 @@ fi:
             kanban:
               name: Kanban board
             basic:
-              name: Task board
+              name: Tehtävätaulu
               lists:
                 item_0:
                   name: Wish list
@@ -329,7 +329,7 @@ fi:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Ei koskaan
           project-overview:
             widgets:
               item_0:
@@ -357,7 +357,7 @@ fi:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Tehtävät
               item_6:
                 options:
                   name: Project plan

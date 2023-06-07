@@ -25,7 +25,7 @@ id:
       document: "Dokumen"
   activity:
     filter:
-      document: "Documents"
+      document: "Dokumen"
   default_doc_category_tech: "Dokumentasi teknis"
   default_doc_category_user: "Dokumentasi pengguna"
   enumeration_doc_categories: "Kategori dokumen"

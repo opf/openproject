@@ -7,118 +7,118 @@ pt:
     common:
       colors:
         item_0:
-          name: Blue (dark)
+          name: Azul (escuro)
         item_1:
-          name: Blue
+          name: Azul
         item_2:
-          name: Blue (light)
+          name: Azul (claro)
         item_3:
-          name: Green (light)
+          name: Verde (claro)
         item_4:
-          name: Green (dark)
+          name: Verde (escuro)
         item_5:
-          name: Yellow
+          name: Amarelo
         item_6:
-          name: Orange
+          name: Laranja
         item_7:
-          name: Red
+          name: Vermelho
         item_8:
           name: Magenta
         item_9:
-          name: White
+          name: Branco
         item_10:
-          name: Grey (light)
+          name: Cinza (claro)
         item_11:
-          name: Grey
+          name: Cinza
         item_12:
-          name: Grey (dark)
+          name: Cinza (escuro)
         item_13:
-          name: Black
+          name: Preto
       document_categories:
         item_0:
-          name: Documentation
+          name: Documentação
         item_1:
-          name: Specification
+          name: Especificação
         item_2:
-          name: Other
+          name: Outro
       roles:
         item_0:
-          name: Non member
+          name: Não membro
         item_1:
-          name: Anonymous
+          name: Anônimo
         item_2:
-          name: Member
+          name: Membro
         item_3:
-          name: Reader
+          name: Leitor
         item_4:
-          name: Project admin
+          name: Administrador do projeto
         item_5:
-          name: Staff and projects manager
+          name: Equipe e gerente de projetos
     standard:
       priorities:
         item_0:
-          name: Low
+          name: Baixa
         item_1:
           name: Normal
         item_2:
-          name: High
+          name: Alta
         item_3:
-          name: Immediate
+          name: Imediata
       statuses:
         item_0:
-          name: New
+          name: Novo
         item_1:
-          name: In specification
+          name: Em especificação
         item_2:
-          name: Specified
+          name: Especificado
         item_3:
-          name: Confirmed
+          name: Confirmado
         item_4:
-          name: To be scheduled
+          name: A ser planejado
         item_5:
-          name: Scheduled
+          name: Planejado
         item_6:
-          name: In progress
+          name: Em andamento
         item_7:
-          name: Developed
+          name: Desenvolvido
         item_8:
-          name: In testing
+          name: Em testes
         item_9:
-          name: Tested
+          name: Testado
         item_10:
-          name: Test failed
+          name: Falha no teste
         item_11:
-          name: Closed
+          name: Fechado
         item_12:
-          name: On hold
+          name: Em espera
         item_13:
-          name: Rejected
+          name: Rejeitado
       time_entry_activities:
         item_0:
-          name: Management
+          name: Gerenciamento
         item_1:
-          name: Specification
+          name: Especificação
         item_2:
-          name: Development
+          name: Desenvolvimento
         item_3:
-          name: Testing
+          name: Testando
         item_4:
-          name: Support
+          name: Suporte
         item_5:
-          name: Other
+          name: Outro
       types:
         item_0:
-          name: Task
+          name: Tarefa
         item_1:
-          name: Milestone
+          name: Marco
         item_2:
-          name: Phase
+          name: Fase
         item_3:
-          name: Feature
+          name: Funcionalidade
         item_4:
-          name: Epic
+          name: Épico
         item_5:
-          name: User story
+          name: História de usuário
         item_6:
           name: Bug
       welcome:
@@ -309,35 +309,35 @@ pt:
             item_0: Categoria 1 (a ser alterada nas configurações do projeto)
           queries:
             item_0:
-              name: Project plan
+              name: 'Plano do Projeto:'
             item_1:
-              name: Product backlog
+              name: Backlog do produto
             item_2:
               name: Sprint 1
             item_3:
-              name: Tasks
+              name: Tarefas
           boards:
             kanban:
-              name: Kanban board
+              name: Painel Kanban
             basic:
-              name: Task board
+              name: Quadro de tarefas
               lists:
                 item_0:
-                  name: Wish list
+                  name: Lista de Desejo
                 item_1:
-                  name: Short list
+                  name: Lista curta
                 item_2:
-                  name: Priority list for today
+                  name: Lista de prioridades para hoje
                 item_3:
-                  name: Never
+                  name: Nunca
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Bem-vindo
               item_1:
                 options:
-                  name: Getting started
+                  name: Guia de introdução
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -357,10 +357,10 @@ pt:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Pacotes de trabalho
               item_6:
                 options:
-                  name: Project plan
+                  name: 'Plano do Projeto:'
           work_packages:
             item_0:
               subject: New login screen

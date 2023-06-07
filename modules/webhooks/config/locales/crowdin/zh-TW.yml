@@ -55,9 +55,9 @@ zh-TW:
           title: '已啟用的專案'
           description: 'Select for which projects this webhook should be executed for.'
           all: '所有專案'
-          selected: 'Selected projects only'
+          selected: '只限已選取的專案'
         selected_project_ids:
-          title: 'Selected projects'
+          title: '已選取的專案'
         secret:
           description: >
             If set, this secret value is used by OpenProject to sign the webhook payload.

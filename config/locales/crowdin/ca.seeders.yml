@@ -7,120 +7,120 @@ ca:
     common:
       colors:
         item_0:
-          name: Blue (dark)
+          name: Blau (fosc)
         item_1:
-          name: Blue
+          name: Blau
         item_2:
-          name: Blue (light)
+          name: Blau (clar)
         item_3:
-          name: Green (light)
+          name: Verd (clar)
         item_4:
-          name: Green (dark)
+          name: Verd (fosca)
         item_5:
-          name: Yellow
+          name: Groc
         item_6:
-          name: Orange
+          name: Taronja
         item_7:
-          name: Red
+          name: Vermell
         item_8:
           name: Magenta
         item_9:
-          name: White
+          name: Blanc
         item_10:
-          name: Grey (light)
+          name: Gris (clar)
         item_11:
-          name: Grey
+          name: Gris
         item_12:
-          name: Grey (dark)
+          name: Gris (fosc)
         item_13:
-          name: Black
+          name: Negre
       document_categories:
         item_0:
-          name: Documentation
+          name: Documentació
         item_1:
-          name: Specification
+          name: Especificació
         item_2:
-          name: Other
+          name: Altres
       roles:
         item_0:
-          name: Non member
+          name: No membre
         item_1:
-          name: Anonymous
+          name: Anònim
         item_2:
-          name: Member
+          name: Membre
         item_3:
-          name: Reader
+          name: Lector
         item_4:
-          name: Project admin
+          name: Administrador del projecte
         item_5:
-          name: Staff and projects manager
+          name: Personal i cap de projecte
     standard:
       priorities:
         item_0:
-          name: Low
+          name: Baixa
         item_1:
           name: Normal
         item_2:
-          name: High
+          name: Alta
         item_3:
-          name: Immediate
+          name: Immediata
       statuses:
         item_0:
-          name: New
+          name: Nou
         item_1:
-          name: In specification
+          name: En l'especificació
         item_2:
-          name: Specified
+          name: Especificat
         item_3:
-          name: Confirmed
+          name: Confirmat
         item_4:
-          name: To be scheduled
+          name: Per planificar
         item_5:
-          name: Scheduled
+          name: Programat
         item_6:
-          name: In progress
+          name: En progrés
         item_7:
-          name: Developed
+          name: Desenvolupat
         item_8:
-          name: In testing
+          name: En proves
         item_9:
-          name: Tested
+          name: Provat
         item_10:
-          name: Test failed
+          name: Ha fallat la prova
         item_11:
-          name: Closed
+          name: Tancat
         item_12:
-          name: On hold
+          name: En espera
         item_13:
-          name: Rejected
+          name: Rebutjat
       time_entry_activities:
         item_0:
-          name: Management
+          name: Administració
         item_1:
-          name: Specification
+          name: Especificació
         item_2:
-          name: Development
+          name: Desenvolupament
         item_3:
-          name: Testing
+          name: Proves
         item_4:
-          name: Support
+          name: Assistència
         item_5:
-          name: Other
+          name: Altres
       types:
         item_0:
-          name: Task
+          name: Tasca
         item_1:
-          name: Milestone
+          name: Fita
         item_2:
-          name: Phase
+          name: Fase
         item_3:
-          name: Feature
+          name: Característica
         item_4:
-          name: Epic
+          name: Èpica
         item_5:
-          name: User story
+          name: Història d'usuari
         item_6:
-          name: Bug
+          name: Error
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -156,12 +156,12 @@ ca:
             item_2:
               name: Tasks
             item_3:
-              name: Team planner
+              name: Planificador d'equips
           boards:
             kanban:
               name: Kanban board
             basic:
-              name: Basic board
+              name: Taulell bàsic
               lists:
                 item_0:
                   name: Wish list
@@ -170,7 +170,7 @@ ca:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Mai
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -180,7 +180,7 @@ ca:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Primers passos
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -199,7 +199,7 @@ ca:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Paquets de treball
               item_6:
                 options:
                   name: Milestones
@@ -311,7 +311,7 @@ ca:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Llista de pendents del producte
             item_2:
               name: Sprint 1
             item_3:
@@ -320,7 +320,7 @@ ca:
             kanban:
               name: Kanban board
             basic:
-              name: Task board
+              name: Tauler de tasques
               lists:
                 item_0:
                   name: Wish list
@@ -329,7 +329,7 @@ ca:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Mai
           project-overview:
             widgets:
               item_0:
@@ -337,7 +337,7 @@ ca:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Primers passos
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -357,7 +357,7 @@ ca:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Paquets de treball
               item_6:
                 options:
                   name: Project plan

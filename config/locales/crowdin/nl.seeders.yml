@@ -7,120 +7,120 @@ nl:
     common:
       colors:
         item_0:
-          name: Blue (dark)
+          name: Blauw (donker)
         item_1:
-          name: Blue
+          name: Blauw
         item_2:
-          name: Blue (light)
+          name: Blauw (licht)
         item_3:
-          name: Green (light)
+          name: Groen (licht)
         item_4:
-          name: Green (dark)
+          name: Groen (donker)
         item_5:
-          name: Yellow
+          name: Geel
         item_6:
-          name: Orange
+          name: Oranje
         item_7:
-          name: Red
+          name: Rood
         item_8:
           name: Magenta
         item_9:
-          name: White
+          name: Wit
         item_10:
-          name: Grey (light)
+          name: Grijs (licht)
         item_11:
-          name: Grey
+          name: Grijs
         item_12:
-          name: Grey (dark)
+          name: Grijs (donker)
         item_13:
-          name: Black
+          name: Zwart
       document_categories:
         item_0:
-          name: Documentation
+          name: Documentatie
         item_1:
-          name: Specification
+          name: Specificatie
         item_2:
-          name: Other
+          name: Overige
       roles:
         item_0:
-          name: Non member
+          name: Derde
         item_1:
-          name: Anonymous
+          name: Anoniem
         item_2:
-          name: Member
+          name: Deelnemer
         item_3:
-          name: Reader
+          name: Lezer
         item_4:
           name: Project admin
         item_5:
-          name: Staff and projects manager
+          name: Medewerker en projectbeheerder
     standard:
       priorities:
         item_0:
-          name: Low
+          name: Laag
         item_1:
-          name: Normal
+          name: Normaal
         item_2:
-          name: High
+          name: Hoog
         item_3:
-          name: Immediate
+          name: Onmiddellijk
       statuses:
         item_0:
-          name: New
+          name: Nieuw
         item_1:
-          name: In specification
+          name: In specificatie
         item_2:
-          name: Specified
+          name: Gespecificeerd
         item_3:
-          name: Confirmed
+          name: Bevestigd
         item_4:
-          name: To be scheduled
+          name: Om ingepland te worden
         item_5:
-          name: Scheduled
+          name: Gepland
         item_6:
-          name: In progress
+          name: In behandeling
         item_7:
-          name: Developed
+          name: Ontwikkel
         item_8:
-          name: In testing
+          name: In test
         item_9:
-          name: Tested
+          name: Getest
         item_10:
-          name: Test failed
+          name: Test is mislukt
         item_11:
-          name: Closed
+          name: Gesloten
         item_12:
-          name: On hold
+          name: In de wacht
         item_13:
-          name: Rejected
+          name: Afgewezen
       time_entry_activities:
         item_0:
-          name: Management
+          name: Beheer
         item_1:
-          name: Specification
+          name: Specificatie
         item_2:
-          name: Development
+          name: Ontwikkeling
         item_3:
-          name: Testing
+          name: Testen
         item_4:
-          name: Support
+          name: Ondersteuning
         item_5:
-          name: Other
+          name: Overige
       types:
         item_0:
-          name: Task
+          name: Taak
         item_1:
-          name: Milestone
+          name: Mijlpaal
         item_2:
-          name: Phase
+          name: Fase
         item_3:
-          name: Feature
+          name: Functie
         item_4:
-          name: Epic
+          name: Episch
         item_5:
-          name: User story
+          name: Gebruikersverhaal
         item_6:
-          name: Bug
+          name: Fout
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -161,7 +161,7 @@ nl:
             kanban:
               name: Kanban board
             basic:
-              name: Basic board
+              name: Standaard bord
               lists:
                 item_0:
                   name: Wish list
@@ -170,7 +170,7 @@ nl:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Nooit
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -180,7 +180,7 @@ nl:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Aan de slag
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -199,7 +199,7 @@ nl:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Werkpakketten
               item_6:
                 options:
                   name: Milestones
@@ -320,7 +320,7 @@ nl:
             kanban:
               name: Kanban board
             basic:
-              name: Task board
+              name: Taakbord
               lists:
                 item_0:
                   name: Wish list
@@ -329,7 +329,7 @@ nl:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Nooit
           project-overview:
             widgets:
               item_0:
@@ -337,7 +337,7 @@ nl:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Aan de slag
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -357,7 +357,7 @@ nl:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Werkpakketten
               item_6:
                 options:
                   name: Project plan

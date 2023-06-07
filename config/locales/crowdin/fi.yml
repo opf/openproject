@@ -78,7 +78,7 @@ fi:
       book_now: 'Book now'
       get_quote: 'Get a quote'
       buttons:
-        upgrade: "Upgrade now"
+        upgrade: "Päivitä nyt"
         contact: "Contact us for a demo"
       enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
@@ -182,7 +182,7 @@ fi:
     edit: 'Edit custom action %{name}'
     execute: 'Suorita %{name}'
     upsale:
-      title: 'Custom actions'
+      title: 'Mukautetut toiminnot'
       description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
@@ -482,18 +482,18 @@ fi:
         latest_activity_at: "Viimeisin tapahtuma"
         parent: "Aliprojekti"
         public_value:
-          title: "Visibility"
+          title: "Näkyvyys"
           true: "public"
           false: "private"
         queries: "Kyselyt"
-        status_code: 'Project status'
+        status_code: 'Projektin tila'
         status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
+          on_track: 'Hyvä'
+          at_risk: 'Rajalla'
+          off_track: 'Huono'
+          finished: 'Valmis'
           discontinued: 'Discontinued'
         templated: "Malliprojekti"
         templated_value:
@@ -557,7 +557,7 @@ fi:
         begin_deletion: "Poistokohdan alku"
         children: "Subelements"
         done_ratio: "Valmiusaste (%)"
-        duration: "Duration"
+        duration: "Kesto"
         end_insertion: "Lisäyksen loppu"
         end_deletion: "Poistokohdan loppu"
         ignore_non_working_days: "Ignore non working days"
@@ -929,26 +929,26 @@ fi:
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "Aliprojekti"
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
           one: "%{count} hour"
-          other: "%{count} hours"
+          other: "%{count} tuntia"
         hour_html:
           one: "<i>%{count} hour</i>"
           other: "<i>%{count} hours</i>"
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      changeset: "Muutosryhmät"
+      message: "Keskustelupalstat"
+      news: "Uutiset"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
+      time_entry: "Käytetty aika"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "Tehtävät"
   #common attributes of all models
   attributes:
     active: "Aktiivinen"
@@ -1005,7 +1005,7 @@ fi:
     updated_on: "Päivitetty"
     uploader: "Uploader"
     user: "Käyttäjä"
-    value: "Value"
+    value: "Arvo"
     version: "Versio"
     work_package: "Työpaketti"
   backup:
@@ -1329,7 +1329,7 @@ fi:
     message: Viestiä muokattu
     news: Uutiset
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'Projektia muokattu'
     reply: Vastattu
     time_entry: 'Timelog edited'
     wiki_page: 'Wiki-sivu päivitetty'
@@ -2226,7 +2226,7 @@ fi:
   permission_add_work_packages: "Lisää tehtävä"
   permission_add_messages: "Jätä viesti"
   permission_add_project: "Luo projekti"
-  permission_archive_project: "Archive project"
+  permission_archive_project: "Arkisto projekti"
   permission_manage_user: "Create and edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Luoda aliprojekteja"
@@ -3126,7 +3126,7 @@ fi:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "Virhe"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"

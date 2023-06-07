@@ -78,8 +78,8 @@ vi:
       book_now: 'Đặt chỗ ngay'
       get_quote: 'Lấy trích dẫn'
       buttons:
-        upgrade: "Upgrade now"
-        contact: "Contact us for a demo"
+        upgrade: "Nâng cấp ngay"
+        contact: "Liên hệ với chúng tôi để yêu cầu một bản demo"
       enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
@@ -184,7 +184,7 @@ vi:
     edit: 'Chỉnh sửa hành động tùy chỉnh %{name}'
     execute: 'Thực hiện %{name}'
     upsale:
-      title: 'Custom actions'
+      title: 'Tác vụ tùy chỉnh'
       description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
@@ -487,13 +487,13 @@ vi:
           true: "public"
           false: "private"
         queries: "Truy vấn"
-        status_code: 'Project status'
+        status_code: 'Tình trạng dự án'
         status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
+          on_track: 'Theo dõi'
+          at_risk: 'Có rủi ro'
+          off_track: 'Không theo dõi'
           finished: 'Finished'
           discontinued: 'Discontinued'
         templated: "Template project"
@@ -926,7 +926,7 @@ vi:
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "Dự án con"
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
@@ -936,14 +936,14 @@ vi:
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      changeset: "Nhóm thay đổi"
+      message: "Diễn đàn"
+      news: "Tin tức"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
+      time_entry: "Thời gian"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "Work Packages"
   #common attributes of all models
   attributes:
     active: "Đang hoạt động"
@@ -1000,7 +1000,7 @@ vi:
     updated_on: "Được cập nhật vào lúc"
     uploader: "Tải lên"
     user: "Người dùng"
-    value: "Value"
+    value: "Giá trị"
     version: "Phiên bản"
     work_package: "Work Package"
   backup:
@@ -1312,7 +1312,7 @@ vi:
     message: Đã chỉnh sửa tin nhắn
     news: Tin tức
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'Đã chỉnh sửa dự án'
     reply: Đã phản hồi
     time_entry: 'Đã chỉnh sửa Timelog'
     wiki_page: 'Đã chỉnh sửa trang Wiki'
@@ -1459,7 +1459,7 @@ vi:
   label_ical_access_key_not_present: "iCalendar token(s) not present."
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
-  label_ical_access_key_revoke: "Revoke"
+  label_ical_access_key_revoke: "Thu hồi"
   label_applied_status: "Tình trạng áp dụng"
   label_archive_project: "Archive project"
   label_ascending: "Tăng dần"
@@ -2580,7 +2580,7 @@ vi:
   text_formatting:
     markdown: 'Gạch dưới'
     plain: 'Văn bản thuần'
-  status_active: "active"
+  status_active: "hoạt động"
   status_archived: "archived"
   status_invited: invited
   status_locked: locked
@@ -2834,7 +2834,7 @@ vi:
     planning_element_update: "Update: %{title}"
     type_could_not_be_saved: "Type could not be saved"
     reporting_could_not_be_saved: "Reporting could not be saved"
-    properties: "Properties"
+    properties: "Thuộc tính"
     really_delete_color: >
       Are you sure, you want to delete the following color? Types using this color will not be deleted.
     really_delete_reporting: >
@@ -2871,7 +2871,7 @@ vi:
   total_progress: "Total progress"
   user:
     all: "tất cả"
-    active: "active"
+    active: "hoạt động"
     activate: "Activate"
     activate_and_reset_failed_logins: "Activate and reset failed logins"
     authentication_provider: "Authentication Provider"
@@ -3022,7 +3022,7 @@ vi:
           unknown: 'Yêu cầu thiếu tham số bắt buộc, bao gồm giá trị tham số không được hỗ trợ hoặc không đúng định dạng.'
           missing_param: 'Missing required parameter: %{value}.'
           request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
+        invalid_redirect_uri: "Uri chuyển hướng được yêu cầu không đúng định dạng hoặc không khớp với URI chuyển hướng máy khách."
         unauthorized_client: 'Máy khách không được phép thực hiện yêu cầu bằng phương pháp này.'
         access_denied: 'Chủ sở hữu tài nguyên hoặc máy chủ ủy quyền đã từ chối yêu cầu.'
         invalid_scope: 'Phạm vi yêu cầu không hợp lệ, không xác định hoặc không đúng định dạng.'
@@ -3103,11 +3103,11 @@ vi:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "Lỗi"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"
-      label_redirect_uri: "Redirect URI"
+      label_redirect_uri: "URI đổi hướng"
       label_request_token: "Request token"
       label_refresh_token: "Refresh token"
     errors:

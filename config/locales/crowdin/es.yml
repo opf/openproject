@@ -931,7 +931,7 @@ es:
       time_entry:
         hour:
           one: "%{count} hour"
-          other: "%{count} hours"
+          other: "%{count} horas"
         hour_html:
           one: "<i>%{count} hour</i>"
           other: "<i>%{count} hours</i>"
@@ -1473,7 +1473,7 @@ es:
   label_ical_access_key_not_present: "iCalendar token(s) not present."
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
-  label_ical_access_key_revoke: "Revoke"
+  label_ical_access_key_revoke: "Revocar"
   label_applied_status: "Estado aplicado"
   label_archive_project: "Archivar proyecto"
   label_ascending: "Ascendente"
@@ -1604,7 +1604,7 @@ es:
   label_enterprise: "Empresa"
   label_enterprise_active_users: "%{current}/%{limit} usuarios activos que han reservado"
   label_enterprise_edition: "Edición Enterprise"
-  label_enterprise_support: "Enterprise support"
+  label_enterprise_support: "Soporte empresarial"
   label_environment: "Entorno"
   label_estimates_and_time: "Valores estimados y tiempo"
   label_equals: "es"

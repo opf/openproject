@@ -485,15 +485,15 @@ tr:
           true: "genel"
           false: "özel"
         queries: "Sorgular"
-        status_code: 'Project status'
+        status_code: 'Proje Durumu'
         status_explanation: 'Project status description'
         status_codes:
-          not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          not_started: 'Başlatılmadı'
+          on_track: 'Takipte'
+          at_risk: 'Riskli'
+          off_track: 'Kapalı parça'
+          finished: 'Bitti'
+          discontinued: 'Durduruldu'
         templated: "Şablon projesi"
         templated_value:
           true: "şablon olarak kaydedildi"
@@ -928,12 +928,12 @@ tr:
       updated_by_on: "%{date} tarihinde %{user} tarafından güncellendi"
       updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "Güncellenme tarihi: {dateTime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "Alt proje"
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
           one: "%{count} hour"
-          other: "%{count} hours"
+          other: "%{count} saat"
         hour_html:
           one: "<i>%{count} hour</i>"
           other: "<i>%{count} hours</i>"
@@ -1475,7 +1475,7 @@ tr:
   label_ical_access_key_not_present: "iCalendar token(s) not present."
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
-  label_ical_access_key_revoke: "Revoke"
+  label_ical_access_key_revoke: "İptal etmek"
   label_applied_status: "Uygulanan statü"
   label_archive_project: "Projeyi arşivle"
   label_ascending: "Azalan"
@@ -2665,7 +2665,7 @@ tr:
   text_journal_deleted: "%{label}, ( %{old}) silindi"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label}, ( %{link}) silindi"
-  text_journal_of: "%{label} %{value}"
+  text_journal_of: "%{value} %{label} eklendi"
   text_journal_set_to: "%{label} %{value} yapıldı"
   text_journal_set_with_diff: "%{label} ayarla ( %{link})"
   text_journal_label_value: "%{value} %{label} eklendi"

@@ -36,7 +36,7 @@ lv:
           name: Black
       document_categories:
         item_0:
-          name: Documentation
+          name: Dokumentācija
         item_1:
           name: Specification
         item_2:
@@ -110,7 +110,7 @@ lv:
         item_0:
           name: Task
         item_1:
-          name: Milestone
+          name: Atskaites punkts
         item_2:
           name: Phase
         item_3:
@@ -170,7 +170,7 @@ lv:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Nekad
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -199,7 +199,7 @@ lv:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Pieteikumi
               item_6:
                 options:
                   name: Milestones
@@ -329,7 +329,7 @@ lv:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Nekad
           project-overview:
             widgets:
               item_0:
@@ -357,7 +357,7 @@ lv:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Pieteikumi
               item_6:
                 options:
                   name: Project plan

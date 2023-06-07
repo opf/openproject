@@ -25,7 +25,7 @@ ar:
       document: "الوثيقة"
   activity:
     filter:
-      document: "Documents"
+      document: "الوثائق"
   default_doc_category_tech: "التوثيق التقني"
   default_doc_category_user: "توثيق المستخدم"
   enumeration_doc_categories: "فئات الوثائق"

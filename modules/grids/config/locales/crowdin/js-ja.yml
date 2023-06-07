@@ -36,7 +36,7 @@ ja:
           off_track: '脱線'
           at_risk: 'リスクあり'
           not_set: '未設定'
-          finished: 'Finished'
+          finished: '完了しました'
           discontinued: 'Discontinued'
         subprojects:
           title: '子プロジェクト'

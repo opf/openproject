@@ -182,7 +182,7 @@ si:
     edit: 'අභිරුචි පියවර සංස්කරණය කරන්න %{name}'
     execute: 'ක්රියාත්මක %{name}'
     upsale:
-      title: 'Custom actions'
+      title: 'අභිරුචි ක්‍රියාමාර්ග'
       description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
@@ -477,22 +477,22 @@ si:
       project:
         active_value:
           true: "unarchived"
-          false: "archived"
+          false: "සංරක්ෂිත"
         identifier: "හඳුනාගැනීමේ"
         latest_activity_at: "නවතම ක්රියාකාරකම්"
         parent: "උප ව්යාපෘතිය"
         public_value:
-          title: "Visibility"
+          title: "දෘශ්යතාව"
           true: "public"
           false: "private"
         queries: "විමසුම්"
-        status_code: 'Project status'
+        status_code: 'ව්යාපෘති තත්ත්වය'
         status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
+          on_track: 'ධාවන පථයේ'
+          at_risk: 'අවදානමට'
+          off_track: 'ධාවන පථය'
           finished: 'Finished'
           discontinued: 'Discontinued'
         templated: "Template project"
@@ -557,7 +557,7 @@ si:
         begin_deletion: "මකාදැමීම ආරම්භ කරන්න"
         children: "උප මූලිකාංග"
         done_ratio: "ප්රගතිය (%)"
-        duration: "Duration"
+        duration: "කාල සීමාව"
         end_insertion: "ඇතුළත් කිරීමේ අවසානය"
         end_deletion: "මකාදැමීමේ අවසානය"
         ignore_non_working_days: "Ignore non working days"
@@ -929,7 +929,7 @@ si:
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "උප ව්යාපෘතිය"
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
@@ -941,14 +941,14 @@ si:
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      changeset: "වෙනස්කම්"
+      message: "සංසද"
+      news: "පුවත්"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
-      wiki_edit: "Wiki"
-      work_package: "Work packages"
+      time_entry: "වැය කළ කාලය"
+      wiki_edit: "විකි"
+      work_package: "වැඩ පැකේජ"
   #common attributes of all models
   attributes:
     active: "ක්රියාකාරී"
@@ -1005,7 +1005,7 @@ si:
     updated_on: "යාවත්කාලීන කරන ලදි"
     uploader: "උඩුගත කරන්නා"
     user: "පරිශීලක"
-    value: "Value"
+    value: "අගය"
     version: "අනුවාදය"
     work_package: "වැඩ පැකේජය"
   backup:
@@ -1329,7 +1329,7 @@ si:
     message: සංස්කරණය කරන ලද පණිවිඩය
     news: පුවත්
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'සංස්කරණය කරන ලද ව්යාපෘතිය'
     reply: පිළිතුරු
     time_entry: 'සංස්කරණය ටයිමෙලෝග්'
     wiki_page: 'විකි පිටුව සංස්කරණය'
@@ -1476,7 +1476,7 @@ si:
   label_ical_access_key_not_present: "iCalendar token(s) not present."
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
-  label_ical_access_key_revoke: "Revoke"
+  label_ical_access_key_revoke: "අවලංගු"
   label_applied_status: "ව්යවහාරික තත්ත්වය"
   label_archive_project: "සංරක්ෂිත ව්යාපෘතිය"
   label_ascending: "නැගීම"
@@ -2226,7 +2226,7 @@ si:
   permission_add_work_packages: "වැඩ පැකේජ එකතු කරන්න"
   permission_add_messages: "තැපැල් පණිවිඩ"
   permission_add_project: "ව්යාපෘතිය නිර්මාණය"
-  permission_archive_project: "Archive project"
+  permission_archive_project: "සංරක්ෂිත ව්යාපෘතිය"
   permission_manage_user: "Create and edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "උප ව්යාපෘති සාදන්න"
@@ -3126,11 +3126,11 @@ si:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "දෝෂය"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"
-      label_redirect_uri: "Redirect URI"
+      label_redirect_uri: "නැවත හරවා යැවීමේ URI"
       label_request_token: "Request token"
       label_refresh_token: "Refresh token"
     errors:

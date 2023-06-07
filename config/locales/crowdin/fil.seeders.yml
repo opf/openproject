@@ -7,118 +7,118 @@ fil:
     common:
       colors:
         item_0:
-          name: Blue (dark)
+          name: Asul (maitim)
         item_1:
-          name: Blue
+          name: Asul
         item_2:
-          name: Blue (light)
+          name: Asul (maliwanag)
         item_3:
-          name: Green (light)
+          name: Green (liwanag)
         item_4:
-          name: Green (dark)
+          name: Green (madilin)
         item_5:
-          name: Yellow
+          name: Dilaw
         item_6:
-          name: Orange
+          name: Dalandan
         item_7:
-          name: Red
+          name: Pula
         item_8:
           name: Magenta
         item_9:
-          name: White
+          name: Maputi
         item_10:
-          name: Grey (light)
+          name: Grey (maliwanag)
         item_11:
           name: Grey
         item_12:
-          name: Grey (dark)
+          name: Grey (madilim)
         item_13:
-          name: Black
+          name: Itim
       document_categories:
         item_0:
-          name: Documentation
+          name: Dokumentasyon
         item_1:
-          name: Specification
+          name: Mga detalye
         item_2:
-          name: Other
+          name: Iba pa
       roles:
         item_0:
-          name: Non member
+          name: Di-miyembro
         item_1:
-          name: Anonymous
+          name: Hindi kilala
         item_2:
-          name: Member
+          name: Miyembro
         item_3:
-          name: Reader
+          name: Mambabasa
         item_4:
-          name: Project admin
+          name: Namuno ng proyekto
         item_5:
           name: Staff and projects manager
     standard:
       priorities:
         item_0:
-          name: Low
+          name: Mababa
         item_1:
-          name: Normal
+          name: Katamtaman
         item_2:
-          name: High
+          name: Mataas
         item_3:
-          name: Immediate
+          name: Agarang
       statuses:
         item_0:
-          name: New
+          name: Bago
         item_1:
-          name: In specification
+          name: Sa pagtutukoy
         item_2:
-          name: Specified
+          name: Tinukoy
         item_3:
-          name: Confirmed
+          name: Kinumpirma
         item_4:
-          name: To be scheduled
+          name: Upang maiskedyul
         item_5:
-          name: Scheduled
+          name: Naka-iskedyul
         item_6:
-          name: In progress
+          name: Isinasagawa
         item_7:
-          name: Developed
+          name: Nabuo
         item_8:
-          name: In testing
+          name: Sa pagsusubok
         item_9:
-          name: Tested
+          name: Nasubukan
         item_10:
-          name: Test failed
+          name: Palyado ang pagsubok
         item_11:
-          name: Closed
+          name: Isinara
         item_12:
-          name: On hold
+          name: Nakahawak
         item_13:
-          name: Rejected
+          name: Tinanggihan
       time_entry_activities:
         item_0:
-          name: Management
+          name: Pamamahala
         item_1:
-          name: Specification
+          name: Mga detalye
         item_2:
           name: Development
         item_3:
-          name: Testing
+          name: Sinusubok
         item_4:
-          name: Support
+          name: Suportado
         item_5:
-          name: Other
+          name: Iba pa
       types:
         item_0:
-          name: Task
+          name: Gawain
         item_1:
           name: Milestone
         item_2:
           name: Phase
         item_3:
-          name: Feature
+          name: Tampok
         item_4:
           name: Epic
         item_5:
-          name: User story
+          name: Storya ng gumagamit
         item_6:
           name: Bug
       welcome:
@@ -170,7 +170,7 @@ fil:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Hindi kailanman
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -180,7 +180,7 @@ fil:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Pagsisimula
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -199,7 +199,7 @@ fil:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Ang mga work package
               item_6:
                 options:
                   name: Milestones
@@ -329,7 +329,7 @@ fil:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Hindi kailanman
           project-overview:
             widgets:
               item_0:
@@ -337,7 +337,7 @@ fil:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Pagsisimula
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -357,7 +357,7 @@ fil:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Ang mga work package
               item_6:
                 options:
                   name: Project plan

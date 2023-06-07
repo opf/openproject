@@ -291,7 +291,7 @@ bg:
       irreversible: "Това действие е необратимо"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
-      title: Placeholder users
+      title: Потребители на резервни части
       description: >
         Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
@@ -482,11 +482,11 @@ bg:
         latest_activity_at: "Последна активност на"
         parent: "Подпроект на"
         public_value:
-          title: "Visibility"
+          title: "Видимост"
           true: "public"
           false: "private"
         queries: "Търсения"
-        status_code: 'Project status'
+        status_code: 'Статус на проекта'
         status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
@@ -557,7 +557,7 @@ bg:
         begin_deletion: "Начало на изтриване"
         children: "Subelements"
         done_ratio: "Прогрес (%)"
-        duration: "Duration"
+        duration: "Продължителност"
         end_insertion: "Край на вмъкване"
         end_deletion: "Края на изтриване"
         ignore_non_working_days: "Ignore non working days"
@@ -929,26 +929,26 @@ bg:
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "Подпроект"
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
           one: "%{count} hour"
-          other: "%{count} hours"
+          other: "%{count} часа"
         hour_html:
           one: "<i>%{count} hour</i>"
           other: "<i>%{count} hours</i>"
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      changeset: "Набори от промени"
+      message: "Форуми"
+      news: "Новини"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
+      time_entry: "Отработено време"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "Работни пакети"
   #common attributes of all models
   attributes:
     active: "Активен"
@@ -1005,7 +1005,7 @@ bg:
     updated_on: "Актуализиран на"
     uploader: "Uploader"
     user: "Потребител"
-    value: "Value"
+    value: "Стойност"
     version: "Версия"
     work_package: "Работен пакет"
   backup:
@@ -1329,7 +1329,7 @@ bg:
     message: Съобщението е редактирано
     news: Новини
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'Проекта е редактиран'
     reply: Отговорено
     time_entry: 'Редактирани записи по време'
     wiki_page: 'Wiki страница редактирана'
@@ -2892,7 +2892,7 @@ bg:
   user:
     all: "всички"
     active: "active"
-    activate: "Activate"
+    activate: "Активиране"
     activate_and_reset_failed_logins: "Activate and reset failed logins"
     authentication_provider: "Authentication Provider"
     authentication_settings_disabled_due_to_external_authentication: >
@@ -3126,7 +3126,7 @@ bg:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "Грешка"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"

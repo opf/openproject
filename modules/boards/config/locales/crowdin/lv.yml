@@ -10,9 +10,9 @@ lv:
       free: Basic
       action: "Action board (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
-      status: Status
-      version: Version
+      assignee: Pašreizējais atbildīgais
+      status: Statuss
+      version: Versija
       subproject: Subproject
       subtasks: Parent-child
       basic: Basic

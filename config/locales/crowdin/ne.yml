@@ -1005,7 +1005,7 @@ ne:
     updated_on: "Updated on"
     uploader: "अप्लोडेर"
     user: "User"
-    value: "Value"
+    value: "मान"
     version: "Version"
     work_package: "Work package"
   backup:
@@ -1476,7 +1476,7 @@ ne:
   label_ical_access_key_not_present: "iCalendar token(s) not present."
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
-  label_ical_access_key_revoke: "Revoke"
+  label_ical_access_key_revoke: "रद्द गर्नुहोस्"
   label_applied_status: "Applied status"
   label_archive_project: "Archive project"
   label_ascending: "Ascending"

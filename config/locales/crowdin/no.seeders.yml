@@ -7,120 +7,120 @@
     common:
       colors:
         item_0:
-          name: Blue (dark)
+          name: Blå (mørk)
         item_1:
-          name: Blue
+          name: Blå
         item_2:
-          name: Blue (light)
+          name: Blå (lys)
         item_3:
-          name: Green (light)
+          name: Grønn (lys)
         item_4:
-          name: Green (dark)
+          name: Grønn (mørk)
         item_5:
-          name: Yellow
+          name: Gul
         item_6:
-          name: Orange
+          name: Oransje
         item_7:
-          name: Red
+          name: Rød
         item_8:
-          name: Magenta
+          name: Lilla
         item_9:
-          name: White
+          name: Hvit
         item_10:
-          name: Grey (light)
+          name: Grå (lys)
         item_11:
-          name: Grey
+          name: Grå
         item_12:
-          name: Grey (dark)
+          name: Grå (mørk)
         item_13:
-          name: Black
+          name: Sort
       document_categories:
         item_0:
-          name: Documentation
+          name: Dokumentasjon
         item_1:
-          name: Specification
+          name: Spesifikasjon
         item_2:
-          name: Other
+          name: Øvrig
       roles:
         item_0:
-          name: Non member
+          name: Ikke-medlem
         item_1:
-          name: Anonymous
+          name: Anonym
         item_2:
-          name: Member
+          name: Medlem
         item_3:
-          name: Reader
+          name: Leser
         item_4:
-          name: Project admin
+          name: Prosjekt admin
         item_5:
           name: Staff and projects manager
     standard:
       priorities:
         item_0:
-          name: Low
+          name: Lav
         item_1:
           name: Normal
         item_2:
-          name: High
+          name: Høy
         item_3:
-          name: Immediate
+          name: Øyeblikkelig
       statuses:
         item_0:
-          name: New
+          name: Ny
         item_1:
-          name: In specification
+          name: Spesifisering
         item_2:
-          name: Specified
+          name: Angitt
         item_3:
-          name: Confirmed
+          name: Bekreftet
         item_4:
-          name: To be scheduled
+          name: Skal planlegges
         item_5:
-          name: Scheduled
+          name: Planlagt
         item_6:
-          name: In progress
+          name: Under arbeid
         item_7:
-          name: Developed
+          name: Utviklet
         item_8:
-          name: In testing
+          name: I testing
         item_9:
-          name: Tested
+          name: Testet
         item_10:
-          name: Test failed
+          name: Testen mislyktes
         item_11:
-          name: Closed
+          name: Stengt
         item_12:
-          name: On hold
+          name: På vent
         item_13:
-          name: Rejected
+          name: Avvist
       time_entry_activities:
         item_0:
-          name: Management
+          name: Administrasjon
         item_1:
-          name: Specification
+          name: Spesifikasjon
         item_2:
-          name: Development
+          name: Utvikling
         item_3:
           name: Testing
         item_4:
-          name: Support
+          name: Brukerstøtte
         item_5:
-          name: Other
+          name: Øvrig
       types:
         item_0:
-          name: Task
+          name: Oppgave
         item_1:
-          name: Milestone
+          name: Milepæl
         item_2:
-          name: Phase
+          name: Fase
         item_3:
-          name: Feature
+          name: Funksjon
         item_4:
-          name: Epic
+          name: Episk
         item_5:
-          name: User story
+          name: Brukerens historie
         item_6:
-          name: Bug
+          name: Avvik
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -156,7 +156,7 @@
             item_2:
               name: Tasks
             item_3:
-              name: Team planner
+              name: Teamplanlegger
           boards:
             kanban:
               name: Kanban board
@@ -170,7 +170,7 @@
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Aldri
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -180,7 +180,7 @@
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Komme i gang
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -199,7 +199,7 @@
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Arbeidspakker
               item_6:
                 options:
                   name: Milestones
@@ -311,7 +311,7 @@
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Produkt-backlog
             item_2:
               name: Sprint 1
             item_3:
@@ -329,7 +329,7 @@
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Aldri
           project-overview:
             widgets:
               item_0:
@@ -337,7 +337,7 @@
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Komme i gang
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -357,7 +357,7 @@
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Arbeidspakker
               item_6:
                 options:
                   name: Project plan

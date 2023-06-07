@@ -25,7 +25,7 @@ lv:
       document: "Dokuments"
   activity:
     filter:
-      document: "Documents"
+      document: "Dokumenti"
   default_doc_category_tech: "Tehniskā dokumentācija"
   default_doc_category_user: "Lietotāja dokumentācija"
   enumeration_doc_categories: "Dokumentu kategorijas"

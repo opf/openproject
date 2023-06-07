@@ -7,120 +7,120 @@ he:
     common:
       colors:
         item_0:
-          name: Blue (dark)
+          name: כחול (כהה)
         item_1:
-          name: Blue
+          name: כחול
         item_2:
-          name: Blue (light)
+          name: כחול (בהיר)
         item_3:
-          name: Green (light)
+          name: ירוק (בהיר)
         item_4:
-          name: Green (dark)
+          name: ירוק (כהה)
         item_5:
-          name: Yellow
+          name: צהוב
         item_6:
-          name: Orange
+          name: כתום
         item_7:
-          name: Red
+          name: אדום
         item_8:
-          name: Magenta
+          name: מג'נטה
         item_9:
-          name: White
+          name: לבן
         item_10:
-          name: Grey (light)
+          name: אפור (בהיר)
         item_11:
-          name: Grey
+          name: אפור
         item_12:
-          name: Grey (dark)
+          name: אפור (כהה)
         item_13:
-          name: Black
+          name: שחור
       document_categories:
         item_0:
           name: Documentation
         item_1:
-          name: Specification
+          name: מפרט
         item_2:
-          name: Other
+          name: אחר
       roles:
         item_0:
-          name: Non member
+          name: לא חבר
         item_1:
-          name: Anonymous
+          name: אנונימי
         item_2:
-          name: Member
+          name: חבר
         item_3:
-          name: Reader
+          name: קורא
         item_4:
-          name: Project admin
+          name: מנהל פרוייקט
         item_5:
           name: Staff and projects manager
     standard:
       priorities:
         item_0:
-          name: Low
+          name: נמוך
         item_1:
-          name: Normal
+          name: רגיל
         item_2:
-          name: High
+          name: גבוה
         item_3:
-          name: Immediate
+          name: מיידי
       statuses:
         item_0:
-          name: New
+          name: חדש
         item_1:
-          name: In specification
+          name: מפרט
         item_2:
-          name: Specified
+          name: מפורט
         item_3:
-          name: Confirmed
+          name: מאושר
         item_4:
-          name: To be scheduled
+          name: לתיכנון
         item_5:
-          name: Scheduled
+          name: מתוזמן
         item_6:
-          name: In progress
+          name: בביצוע
         item_7:
-          name: Developed
+          name: מפתח
         item_8:
-          name: In testing
+          name: בבדיקות
         item_9:
-          name: Tested
+          name: נבדק
         item_10:
-          name: Test failed
+          name: הבדיקה נכשלה
         item_11:
-          name: Closed
+          name: סגור
         item_12:
-          name: On hold
+          name: בהמתנה
         item_13:
-          name: Rejected
+          name: נדחה
       time_entry_activities:
         item_0:
-          name: Management
+          name: ניהול
         item_1:
-          name: Specification
+          name: מפרט
         item_2:
-          name: Development
+          name: פיתוח
         item_3:
-          name: Testing
+          name: בדיקות
         item_4:
-          name: Support
+          name: תמיכה
         item_5:
-          name: Other
+          name: אחר
       types:
         item_0:
-          name: Task
+          name: משימה
         item_1:
-          name: Milestone
+          name: אבן דרך
         item_2:
-          name: Phase
+          name: שלב
         item_3:
-          name: Feature
+          name: תכונה
         item_4:
-          name: Epic
+          name: מדהים
         item_5:
-          name: User story
+          name: סיפור משתמש
         item_6:
-          name: Bug
+          name: באג
       welcome:
         title: Welcome to OpenProject!
         text: |

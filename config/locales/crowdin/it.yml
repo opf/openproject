@@ -483,15 +483,15 @@ it:
           true: "pubblico"
           false: "privato"
         queries: "Interrogazioni"
-        status_code: 'Project status'
+        status_code: 'Stato del progetto'
         status_explanation: 'Project status description'
         status_codes:
-          not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          not_started: 'Non iniziato'
+          on_track: 'Nei limiti'
+          at_risk: 'A rischio'
+          off_track: 'Fuori limite'
+          finished: 'Terminato'
+          discontinued: 'Interrotto'
         templated: "Progetto modello"
         templated_value:
           true: "contrassegnato come modello"
@@ -931,7 +931,7 @@ it:
       time_entry:
         hour:
           one: "%{count} hour"
-          other: "%{count} hours"
+          other: "%{count} ore"
         hour_html:
           one: "<i>%{count} hour</i>"
           other: "<i>%{count} hours</i>"
@@ -1473,7 +1473,7 @@ it:
   label_ical_access_key_not_present: "iCalendar token(s) not present."
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
-  label_ical_access_key_revoke: "Revoke"
+  label_ical_access_key_revoke: "Revoca"
   label_applied_status: "Stato applicato"
   label_archive_project: "Archivia progetto"
   label_ascending: "Crescente"

@@ -39,7 +39,7 @@ nl:
       meeting_minutes: "Minuten"
   activity:
     filter:
-      meeting: "Meetings"
+      meeting: "Vergaderingen"
   description_attended: "bijgewoond"
   description_invite: "uitgenodigd"
   events:

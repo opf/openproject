@@ -7,120 +7,120 @@ eo:
     common:
       colors:
         item_0:
-          name: Blue (dark)
+          name: Blua (malhela)
         item_1:
-          name: Blue
+          name: Blua
         item_2:
-          name: Blue (light)
+          name: Blua (hela)
         item_3:
-          name: Green (light)
+          name: Verda (hela)
         item_4:
-          name: Green (dark)
+          name: Verda (malhela)
         item_5:
-          name: Yellow
+          name: Flava
         item_6:
-          name: Orange
+          name: Oranĝa
         item_7:
-          name: Red
+          name: Ruĝa
         item_8:
-          name: Magenta
+          name: Maĝenta
         item_9:
-          name: White
+          name: Blanka
         item_10:
-          name: Grey (light)
+          name: Griza (hela)
         item_11:
-          name: Grey
+          name: Griza
         item_12:
-          name: Grey (dark)
+          name: Griza (malhela)
         item_13:
-          name: Black
+          name: Nigra
       document_categories:
         item_0:
-          name: Documentation
+          name: Dokumentado
         item_1:
-          name: Specification
+          name: Specifo
         item_2:
-          name: Other
+          name: Aliaj
       roles:
         item_0:
-          name: Non member
+          name: Ne membro
         item_1:
-          name: Anonymous
+          name: Aanonima
         item_2:
-          name: Member
+          name: Membro
         item_3:
-          name: Reader
+          name: Leganto
         item_4:
-          name: Project admin
+          name: Administranto de la projekto
         item_5:
           name: Staff and projects manager
     standard:
       priorities:
         item_0:
-          name: Low
+          name: Malalta
         item_1:
-          name: Normal
+          name: Normala
         item_2:
-          name: High
+          name: Alta
         item_3:
-          name: Immediate
+          name: Tuja
       statuses:
         item_0:
-          name: New
+          name: Nova
         item_1:
-          name: In specification
+          name: Specifata
         item_2:
-          name: Specified
+          name: Specifita
         item_3:
-          name: Confirmed
+          name: Konfirmita
         item_4:
-          name: To be scheduled
+          name: Planota
         item_5:
-          name: Scheduled
+          name: Planita
         item_6:
-          name: In progress
+          name: Farata
         item_7:
-          name: Developed
+          name: Programado
         item_8:
-          name: In testing
+          name: Testado
         item_9:
-          name: Tested
+          name: Testita
         item_10:
-          name: Test failed
+          name: Malsukcesa testo
         item_11:
-          name: Closed
+          name: Fermita
         item_12:
-          name: On hold
+          name: Atendanta
         item_13:
-          name: Rejected
+          name: Malakceptita
       time_entry_activities:
         item_0:
-          name: Management
+          name: Administrado
         item_1:
-          name: Specification
+          name: Specifo
         item_2:
-          name: Development
+          name: Programado
         item_3:
-          name: Testing
+          name: Testado
         item_4:
-          name: Support
+          name: Subteno
         item_5:
-          name: Other
+          name: Aliaj
       types:
         item_0:
-          name: Task
+          name: Tasko
         item_1:
-          name: Milestone
+          name: Mejloŝtono
         item_2:
-          name: Phase
+          name: Fazo
         item_3:
-          name: Feature
+          name: Trajto
         item_4:
-          name: Epic
+          name: Epopea
         item_5:
-          name: User story
+          name: Historio de la uzanto
         item_6:
-          name: Bug
+          name: Cimo
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -161,7 +161,7 @@ eo:
             kanban:
               name: Kanban board
             basic:
-              name: Basic board
+              name: Baza panelo
               lists:
                 item_0:
                   name: Wish list
@@ -170,7 +170,7 @@ eo:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Neniam
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -199,7 +199,7 @@ eo:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Laborpakaĵoj
               item_6:
                 options:
                   name: Milestones
@@ -329,7 +329,7 @@ eo:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Neniam
           project-overview:
             widgets:
               item_0:
@@ -357,7 +357,7 @@ eo:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Laborpakaĵoj
               item_6:
                 options:
                   name: Project plan

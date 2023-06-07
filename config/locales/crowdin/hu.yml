@@ -474,24 +474,24 @@ hu:
       project:
         active_value:
           true: "unarchived"
-          false: "archived"
+          false: "archivált"
         identifier: "Azonosító"
         latest_activity_at: "Legújabb tevékenység ekkor"
         parent: "Alprojekt"
         public_value:
-          title: "Visibility"
+          title: "Látható"
           true: "public"
           false: "private"
         queries: "Lekérdezések"
-        status_code: 'Project status'
+        status_code: 'Projekt állapot'
         status_explanation: 'Project status description'
         status_codes:
-          not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          not_started: 'El nem kezdett'
+          on_track: 'Terv szerint'
+          at_risk: 'Veszélyben'
+          off_track: 'Kisiklott'
+          finished: 'Befejezett'
+          discontinued: 'Megszakított'
         templated: "Példa projekt"
         templated_value:
           true: "marked as template"
@@ -709,7 +709,7 @@ hu:
           attributes:
             date:
               taken: "A non-working day already exists for %{value}."
-              format: "%{message}"
+              format: "%{message}\n"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -745,7 +745,7 @@ hu:
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
               forbidden: "Timestamps contain forbidden values: %{values}"
-              format: "%{message}"
+              format: "%{message}\n"
           group_by_hierarchies_exclusive: "kölcsönösen kizárja a csoportot a '%{group_by}' csoporttal. Nem aktiválhatja mindkettőt."
           filters:
             custom_fields:
@@ -791,9 +791,9 @@ hu:
             daily_reminders:
               full_hour: "csak teljes órában történő kézbesítésre konfigurálható.\n"
             notification_settings:
-              only_one_global_setting: 'There must only be one global notification setting.'
-              email_alerts_global: 'The email notification settings can only be set globally.'
-              format: "%{message}"
+              only_one_global_setting: 'Csak egyetlen globális értesítési beállítás létezhet.'
+              email_alerts_global: 'Az email értesítési beállítások csak globálisan állíthatóak.'
+              format: "%{message}\n"
               wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         watcher:
           attributes:
@@ -926,26 +926,26 @@ hu:
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "Alprojekt"
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
           one: "%{count} hour"
-          other: "%{count} hours"
+          other: "%{count} óra"
         hour_html:
           one: "<i>%{count} hour</i>"
           other: "<i>%{count} hours</i>"
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      changeset: "Commit-ok"
+      message: "Fórumok"
+      news: "Hírek"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
+      time_entry: "Eltöltött idő"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "Munkacsomagok"
   #common attributes of all models
   attributes:
     active: "aktív"
@@ -1326,7 +1326,7 @@ hu:
     message: Üzenet szerkesztve
     news: Hírek
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'Projekt szerkesztve'
     reply: Válaszolt
     time_entry: 'Az időnapló szerkesztve'
     wiki_page: 'A Wiki oldal szerkesztve'
@@ -1473,7 +1473,7 @@ hu:
   label_ical_access_key_not_present: "iCalendar token(s) not present."
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
-  label_ical_access_key_revoke: "Revoke"
+  label_ical_access_key_revoke: "Visszavonás"
   label_applied_status: "Alkalmazott státusz"
   label_archive_project: "Projekt archiválása"
   label_ascending: "Növekvő"
@@ -1976,7 +1976,7 @@ hu:
   label_workflow: "Munkafolyamat"
   label_workflow_plural: "A munkafolyamatok"
   label_workflow_summary: "Összegzés"
-  label_working_days: "Working days"
+  label_working_days: "Munkanapok"
   label_x_closed_work_packages_abbr:
     one: "1 lezárt"
     other: "%{count} lezárt"
@@ -2222,7 +2222,7 @@ hu:
   permission_add_work_packages: "feladatcsoport hozzáadása"
   permission_add_messages: "Elküldött üzenetek"
   permission_add_project: "Projekt létrehozása"
-  permission_archive_project: "Archive project"
+  permission_archive_project: "Projekt archiválása"
   permission_manage_user: "Felhasználó létrehozása és szerkesztése"
   permission_manage_placeholder_user: "Teszt felhasználók létrehozása, módosítása, törlése"
   permission_add_subprojects: "Alprojektek létrehozása"
@@ -3126,7 +3126,7 @@ hu:
       failed_authorization: "Hitelesítés sikertelen"
     labels:
       label_oauth_integration: "OAuth2 integráció"
-      label_redirect_uri: "Redirect URI"
+      label_redirect_uri: "Átirányítás URI"
       label_request_token: "Request token"
       label_refresh_token: "Refresh token"
     errors:

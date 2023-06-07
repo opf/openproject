@@ -7,110 +7,110 @@ de:
     common:
       colors:
         item_0:
-          name: Blue (dark)
+          name: Blau (dunkel)
         item_1:
-          name: Blue
+          name: Blau
         item_2:
-          name: Blue (light)
+          name: Blau (hell)
         item_3:
-          name: Green (light)
+          name: Grün (hell)
         item_4:
-          name: Green (dark)
+          name: Grün (dunkel)
         item_5:
-          name: Yellow
+          name: Gelb
         item_6:
           name: Orange
         item_7:
-          name: Red
+          name: rot
         item_8:
           name: Magenta
         item_9:
-          name: White
+          name: Weiß
         item_10:
-          name: Grey (light)
+          name: Grau (hell)
         item_11:
-          name: Grey
+          name: Grau
         item_12:
-          name: Grey (dark)
+          name: Grau (dunkel)
         item_13:
-          name: Black
+          name: Schwarz
       document_categories:
         item_0:
-          name: Documentation
+          name: Dokumentation
         item_1:
-          name: Specification
+          name: Spezifikation
         item_2:
-          name: Other
+          name: Andere
       roles:
         item_0:
-          name: Non member
+          name: Nichtmitglied
         item_1:
-          name: Anonymous
+          name: Anonym
         item_2:
-          name: Member
+          name: Mitglied
         item_3:
-          name: Reader
+          name: Leser
         item_4:
-          name: Project admin
+          name: Projekt-Admin
         item_5:
-          name: Staff and projects manager
+          name: Mitarbeiter und Projektmanager
     standard:
       priorities:
         item_0:
-          name: Low
+          name: Niedrig
         item_1:
           name: Normal
         item_2:
-          name: High
+          name: Hoch
         item_3:
-          name: Immediate
+          name: Sofort
       statuses:
         item_0:
-          name: New
+          name: Neu
         item_1:
-          name: In specification
+          name: In Spezifikation
         item_2:
-          name: Specified
+          name: Spezifiziert
         item_3:
-          name: Confirmed
+          name: Bestätigt
         item_4:
-          name: To be scheduled
+          name: Zu planen
         item_5:
-          name: Scheduled
+          name: Geplant
         item_6:
-          name: In progress
+          name: In Bearbeitung
         item_7:
-          name: Developed
+          name: Entwickelt
         item_8:
-          name: In testing
+          name: In Test
         item_9:
-          name: Tested
+          name: Getestet
         item_10:
-          name: Test failed
+          name: Test fehlgeschlagen
         item_11:
-          name: Closed
+          name: Erledigt
         item_12:
-          name: On hold
+          name: Gestoppt
         item_13:
-          name: Rejected
+          name: Zurückgewiesen
       time_entry_activities:
         item_0:
           name: Management
         item_1:
-          name: Specification
+          name: Spezifikation
         item_2:
-          name: Development
+          name: Entwicklung
         item_3:
-          name: Testing
+          name: Testen
         item_4:
-          name: Support
+          name: Unterstützung
         item_5:
-          name: Other
+          name: Andere
       types:
         item_0:
-          name: Task
+          name: Aufgabe
         item_1:
-          name: Milestone
+          name: Meilenstein
         item_2:
           name: Phase
         item_3:
@@ -118,7 +118,7 @@ de:
         item_4:
           name: Epic
         item_5:
-          name: User story
+          name: User Story
         item_6:
           name: Bug
       welcome:

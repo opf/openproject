@@ -182,7 +182,7 @@ af:
     edit: 'Wysig pasgemaakte aksie %{name}'
     execute: 'Voer %{name} uit'
     upsale:
-      title: 'Custom actions'
+      title: 'Pasgemaakte aksies'
       description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
@@ -477,16 +477,16 @@ af:
       project:
         active_value:
           true: "unarchived"
-          false: "archived"
+          false: "geargiveer"
         identifier: "Identifiseerder"
         latest_activity_at: "Nuutste aktiwiteit teen"
         parent: "Subprojek van"
         public_value:
-          title: "Visibility"
+          title: "Sigbaarheid"
           true: "public"
           false: "private"
         queries: "Navrae"
-        status_code: 'Project status'
+        status_code: 'Projek status'
         status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
@@ -929,7 +929,7 @@ af:
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "Sub-projek"
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
@@ -941,14 +941,14 @@ af:
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
     filter:
-      changeset: "Changesets"
+      changeset: "Verskilstelle"
       message: "Forums"
-      news: "News"
+      news: "Nuus"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
+      time_entry: "Tyd gespandeer"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "Werkspakkete"
   #common attributes of all models
   attributes:
     active: "Aktiewe"
@@ -1005,7 +1005,7 @@ af:
     updated_on: "Opgedateer op"
     uploader: "Uploader"
     user: "Gebruiker"
-    value: "Value"
+    value: "Waarde"
     version: "Weergawe"
     work_package: "Werkspakket"
   backup:
@@ -1329,7 +1329,7 @@ af:
     message: Boodskap geredigeer
     news: Nuus
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'Projek geredigeer'
     reply: Geantwoord
     time_entry: 'Tydrekord geredigeer'
     wiki_page: 'Wiki-blad geredigeer'
@@ -3126,7 +3126,7 @@ af:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "Fout"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"

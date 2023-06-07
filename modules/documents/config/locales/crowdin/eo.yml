@@ -25,7 +25,7 @@ eo:
       document: "Dokumento"
   activity:
     filter:
-      document: "Documents"
+      document: "Dokumentoj"
   default_doc_category_tech: "Teknika dokumentado"
   default_doc_category_user: "Dokumentado por la uzanto"
   enumeration_doc_categories: "Kategorioj de dokumentoj"

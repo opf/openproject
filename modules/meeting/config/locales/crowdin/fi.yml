@@ -39,7 +39,7 @@ fi:
       meeting_minutes: "Pöytäkirja"
   activity:
     filter:
-      meeting: "Meetings"
+      meeting: "Kokoukset"
   description_attended: "osallistunut"
   description_invite: "kutsuttu"
   events:

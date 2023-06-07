@@ -7,120 +7,120 @@ si:
     common:
       colors:
         item_0:
-          name: Blue (dark)
+          name: නිල් (අඳුරු)
         item_1:
-          name: Blue
+          name: නිල්
         item_2:
-          name: Blue (light)
+          name: නිල් (ලා)
         item_3:
-          name: Green (light)
+          name: කොළ (ආලෝකය)
         item_4:
-          name: Green (dark)
+          name: කොළ (තද)
         item_5:
-          name: Yellow
+          name: කහ
         item_6:
-          name: Orange
+          name: තැඹිලි
         item_7:
-          name: Red
+          name: රතු
         item_8:
-          name: Magenta
+          name: මැජෙන්ටා
         item_9:
-          name: White
+          name: සුදු
         item_10:
-          name: Grey (light)
+          name: අළු (ආලෝකය)
         item_11:
-          name: Grey
+          name: අළු
         item_12:
-          name: Grey (dark)
+          name: අළු (අඳුරු)
         item_13:
-          name: Black
+          name: කළු
       document_categories:
         item_0:
           name: Documentation
         item_1:
-          name: Specification
+          name: පිරිවිතර
         item_2:
-          name: Other
+          name: වෙනත්
       roles:
         item_0:
-          name: Non member
+          name: සාමාජික නොවන
         item_1:
-          name: Anonymous
+          name: නිර්නාමික
         item_2:
-          name: Member
+          name: සාමාජික
         item_3:
-          name: Reader
+          name: පාඨකයා
         item_4:
-          name: Project admin
+          name: ව්යාපෘති පරිපාලක
         item_5:
           name: Staff and projects manager
     standard:
       priorities:
         item_0:
-          name: Low
+          name: අඩු
         item_1:
-          name: Normal
+          name: සාමාන්ය
         item_2:
-          name: High
+          name: ඉහළ
         item_3:
-          name: Immediate
+          name: ක්ෂණික
       statuses:
         item_0:
-          name: New
+          name: නව
         item_1:
-          name: In specification
+          name: පිරිවිතර දී
         item_2:
-          name: Specified
+          name: නිශ්චිතව දක්වා
         item_3:
-          name: Confirmed
+          name: තහවුරු
         item_4:
-          name: To be scheduled
+          name: සැලසුම් කිරීමට
         item_5:
-          name: Scheduled
+          name: නියමිත
         item_6:
-          name: In progress
+          name: ප්රගතියේ
         item_7:
-          name: Developed
+          name: සංවර්ධිත
         item_8:
-          name: In testing
+          name: පරීක්ෂා කිරීමේදී
         item_9:
-          name: Tested
+          name: පරීක්ෂා
         item_10:
-          name: Test failed
+          name: ටෙස්ට් අසමත්
         item_11:
-          name: Closed
+          name: වසා
         item_12:
-          name: On hold
+          name: රඳවා තබා ගැනීම
         item_13:
-          name: Rejected
+          name: ප්රතික්ෂේප
       time_entry_activities:
         item_0:
-          name: Management
+          name: කළමනාකරණය
         item_1:
-          name: Specification
+          name: පිරිවිතර
         item_2:
-          name: Development
+          name: සංවර්ධන
         item_3:
-          name: Testing
+          name: පරීක්ෂා කිරීම
         item_4:
-          name: Support
+          name: සහාය
         item_5:
-          name: Other
+          name: වෙනත්
       types:
         item_0:
-          name: Task
+          name: කාර්යය
         item_1:
-          name: Milestone
+          name: සන්ධිස්ථානය
         item_2:
-          name: Phase
+          name: අදියර
         item_3:
-          name: Feature
+          name: විශේෂාංගය
         item_4:
-          name: Epic
+          name: එපික්
         item_5:
-          name: User story
+          name: පරිශීලක කතාව
         item_6:
-          name: Bug
+          name: දෝශයක්
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -170,7 +170,7 @@ si:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: කිසි විටෙකත්
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -180,7 +180,7 @@ si:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: ආරම්භ කිරීම
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -199,7 +199,7 @@ si:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: වැඩ පැකේජ
               item_6:
                 options:
                   name: Milestones
@@ -311,7 +311,7 @@ si:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: නිෂ්පාදන බැක්ලොග්
             item_2:
               name: Sprint 1
             item_3:
@@ -320,7 +320,7 @@ si:
             kanban:
               name: Kanban board
             basic:
-              name: Task board
+              name: කාර්ය මණ්ඩලය
               lists:
                 item_0:
                   name: Wish list
@@ -329,7 +329,7 @@ si:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: කිසි විටෙකත්
           project-overview:
             widgets:
               item_0:
@@ -337,7 +337,7 @@ si:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: ආරම්භ කිරීම
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -357,7 +357,7 @@ si:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: වැඩ පැකේජ
               item_6:
                 options:
                   name: Project plan

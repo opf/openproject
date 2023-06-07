@@ -486,15 +486,15 @@ fr:
           true: "public"
           false: "privé"
         queries: "Requêtes"
-        status_code: 'Project status'
+        status_code: 'État du projet'
         status_explanation: 'Project status description'
         status_codes:
-          not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          not_started: 'Non démarré'
+          on_track: 'Sur la bonne voie'
+          at_risk: 'À risque'
+          off_track: 'Sur la mauvaise voie'
+          finished: 'Terminé'
+          discontinued: 'Interrompu'
         templated: "Modèle de projet"
         templated_value:
           true: "marqué comme modèle"
@@ -934,7 +934,7 @@ fr:
       time_entry:
         hour:
           one: "%{count} hour"
-          other: "%{count} hours"
+          other: "%{count} heures"
         hour_html:
           one: "<i>%{count} hour</i>"
           other: "<i>%{count} hours</i>"
@@ -1476,7 +1476,7 @@ fr:
   label_ical_access_key_not_present: "iCalendar token(s) not present."
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
-  label_ical_access_key_revoke: "Revoke"
+  label_ical_access_key_revoke: "Révoquer"
   label_applied_status: "Statut appliqué"
   label_archive_project: "Archiver le projet"
   label_ascending: "Croissant"
@@ -1607,7 +1607,7 @@ fr:
   label_enterprise: "Entreprise"
   label_enterprise_active_users: "%{current}/%{limit} utilisateurs actifs inscrits"
   label_enterprise_edition: "Version Entreprise"
-  label_enterprise_support: "Enterprise support"
+  label_enterprise_support: "Assistance Enterprise"
   label_environment: "Environement"
   label_estimates_and_time: "Estimations et temps"
   label_equals: "est"

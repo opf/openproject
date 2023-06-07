@@ -474,24 +474,24 @@ nl:
       project:
         active_value:
           true: "unarchived"
-          false: "archived"
+          false: "gearchiveerd"
         identifier: "Identifier"
         latest_activity_at: "Laatste activiteit om"
         parent: "Subproject van"
         public_value:
-          title: "Visibility"
+          title: "Zichtbaarheid"
           true: "public"
           false: "private"
         queries: "Query 's"
-        status_code: 'Project status'
+        status_code: 'Projectstatus'
         status_explanation: 'Project status description'
         status_codes:
-          not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          not_started: 'Nog niet gestart'
+          on_track: 'Op schema'
+          at_risk: 'In gevaar'
+          off_track: 'Buiten schema'
+          finished: 'Afgewerkt'
+          discontinued: 'Stopgezet'
         templated: "Projectsjabloon"
         templated_value:
           true: "marked as template"
@@ -791,8 +791,8 @@ nl:
             daily_reminders:
               full_hour: "kan alleen worden geconfigureerd voor levering op een volledig uur."
             notification_settings:
-              only_one_global_setting: 'There must only be one global notification setting.'
-              email_alerts_global: 'The email notification settings can only be set globally.'
+              only_one_global_setting: 'Er mag slechts één globale meldingsinstelling zijn.'
+              email_alerts_global: 'De instellingen voor e-mailmeldingen kunnen alleen globaal worden ingesteld.'
               format: "%{message}"
               wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         watcher:
@@ -931,21 +931,21 @@ nl:
       time_entry:
         hour:
           one: "%{count} hour"
-          other: "%{count} hours"
+          other: "%{count} uren"
         hour_html:
           one: "<i>%{count} hour</i>"
           other: "<i>%{count} hours</i>"
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      changeset: "Wijzigingensets"
+      message: "Fora"
+      news: "Nieuws"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
+      time_entry: "Bestede tijd"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "Werkpakketten"
   #common attributes of all models
   attributes:
     active: "Actief"
@@ -1326,7 +1326,7 @@ nl:
     message: Bericht bewerkt
     news: Nieuws
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'Project bewerkt'
     reply: Beantwoord
     time_entry: 'Tijdlog bewerkt'
     wiki_page: 'Wiki-pagina bewerkt'
@@ -1473,7 +1473,7 @@ nl:
   label_ical_access_key_not_present: "iCalendar token(s) not present."
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
-  label_ical_access_key_revoke: "Revoke"
+  label_ical_access_key_revoke: "Intrekken"
   label_applied_status: "Toegepaste status"
   label_archive_project: "Project archiveren"
   label_ascending: "Oplopend"
@@ -2222,7 +2222,7 @@ nl:
   permission_add_work_packages: "Werkpakketten toevoegen"
   permission_add_messages: "Berichten posten"
   permission_add_project: "Project Aanmaken"
-  permission_archive_project: "Archive project"
+  permission_archive_project: "Project archiveren"
   permission_manage_user: "Gebruikers aanmaken en bewerken"
   permission_manage_placeholder_user: "Maak, bewerk en verwijder tijdelijke gebruikers"
   permission_add_subprojects: "Subprojecten maken"
