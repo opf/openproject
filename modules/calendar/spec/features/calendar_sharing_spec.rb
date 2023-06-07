@@ -67,9 +67,6 @@ RSpec.describe 'Calendar sharing via ical', js: true do
   end
 
   context 'with sufficient permissions', with_settings: { ical_enabled: true } do
-    # TODO: save_queries permission is mandatory to see settings button used for sharing option
-    # does that make sense? the sharing feature therefore has an implicit dependency on this permission
-
     before do
       login_as user_with_sharing_permission
       calendar.visit!
@@ -142,7 +139,7 @@ RSpec.describe 'Calendar sharing via ical', js: true do
       end
 
       context 'when ical sharing is disabled globally', with_settings: { ical_enabled: false } do
-        it 'shows an active menu item' do
+        it 'shows a disabled menu item' do
           # wait for settings button to become visible
           expect(page).to have_selector("#work-packages-settings-button")
   
@@ -180,7 +177,7 @@ RSpec.describe 'Calendar sharing via ical', js: true do
       it 'successfully requests a new tokenized iCalendar URL when a unique name is provided' do
         open_sharing_modal
 
-        fill_in "Name", with: "A token name"
+        fill_in "Token name", with: "A token name"
 
         click_button "Copy URL"
 
@@ -201,7 +198,7 @@ RSpec.describe 'Calendar sharing via ical', js: true do
       it 'validates the presence of a name' do
         open_sharing_modal
 
-        # fill_in "Name", with: "A token name"
+        # fill_in "Token name", with: "A token name"
 
         click_button "Copy URL"
 
@@ -213,7 +210,7 @@ RSpec.describe 'Calendar sharing via ical', js: true do
       it 'validates the uniqueness of a name' do
         open_sharing_modal
 
-        fill_in "Name", with: "A token name"
+        fill_in "Token name", with: "A token name"
 
         click_button "Copy URL"
 
@@ -224,7 +221,7 @@ RSpec.describe 'Calendar sharing via ical', js: true do
 
         open_sharing_modal
 
-        fill_in "Name", with: "A token name" # same name for same user and same query -> not allowed
+        fill_in "Token name", with: "A token name" # same name for same user and same query -> not allowed
 
         click_button "Copy URL"
 

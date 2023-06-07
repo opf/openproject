@@ -149,7 +149,8 @@ module API
 
         link :icalUrl do
           next if represented.new_record? ||
-                  !allowed_to?(:share_via_ical)
+                  !allowed_to?(:share_via_ical) ||
+                  !Setting.ical_enabled?
 
           {
             href: api_v3_paths.query_ical_url(represented.id),
