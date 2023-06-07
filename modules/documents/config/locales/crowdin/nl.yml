@@ -29,11 +29,6 @@ nl:
   default_doc_category_tech: "Technische documentatie"
   default_doc_category_user: "Gebruikersdocumentatie"
   enumeration_doc_categories: "Document categorieën"
-  enumeration:
-    document_category:
-      documentation: Documentatie
-      specification: Specificatie
-      other: Overige
   documents:
     label_attachment_author: "Auteur bijlage"
   label_document_added: "Document toegevoegd"

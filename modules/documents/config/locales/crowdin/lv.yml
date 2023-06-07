@@ -29,11 +29,6 @@ lv:
   default_doc_category_tech: "Tehniskā dokumentācija"
   default_doc_category_user: "Lietotāja dokumentācija"
   enumeration_doc_categories: "Dokumentu kategorijas"
-  enumeration:
-    document_category:
-      documentation: Dokumentācija
-      specification: Specification
-      other: Other
   documents:
     label_attachment_author: "Attachment author"
   label_document_added: "Dokuments pievienots"

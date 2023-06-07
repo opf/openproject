@@ -29,11 +29,6 @@ hr:
   default_doc_category_tech: "Tehnička dokumentacija"
   default_doc_category_user: "Korisnička dokumentacija"
   enumeration_doc_categories: "Kategorije dokumenata"
-  enumeration:
-    document_category:
-      documentation: Dokumentacija
-      specification: Specifikacija
-      other: Ostalo
   documents:
     label_attachment_author: "Autor privitka"
   label_document_added: "Dokument dodan"

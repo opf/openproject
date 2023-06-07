@@ -4,7 +4,123 @@
 ---
 hu:
   seeds:
+    common:
+      colors:
+        item_0:
+          name: Blue (dark)
+        item_1:
+          name: Blue
+        item_2:
+          name: Blue (light)
+        item_3:
+          name: Green (light)
+        item_4:
+          name: Green (dark)
+        item_5:
+          name: Yellow
+        item_6:
+          name: Orange
+        item_7:
+          name: Red
+        item_8:
+          name: Magenta
+        item_9:
+          name: White
+        item_10:
+          name: Grey (light)
+        item_11:
+          name: Grey
+        item_12:
+          name: Grey (dark)
+        item_13:
+          name: Black
+      document_categories:
+        item_0:
+          name: Documentation
+        item_1:
+          name: Specification
+        item_2:
+          name: Other
+      roles:
+        item_0:
+          name: Non member
+        item_1:
+          name: Anonymous
+        item_2:
+          name: Member
+        item_3:
+          name: Reader
+        item_4:
+          name: Project admin
+        item_5:
+          name: Staff and projects manager
     standard:
+      priorities:
+        item_0:
+          name: Low
+        item_1:
+          name: Normal
+        item_2:
+          name: High
+        item_3:
+          name: Immediate
+      statuses:
+        item_0:
+          name: New
+        item_1:
+          name: In specification
+        item_2:
+          name: Specified
+        item_3:
+          name: Confirmed
+        item_4:
+          name: To be scheduled
+        item_5:
+          name: Scheduled
+        item_6:
+          name: In progress
+        item_7:
+          name: Developed
+        item_8:
+          name: In testing
+        item_9:
+          name: Tested
+        item_10:
+          name: Test failed
+        item_11:
+          name: Closed
+        item_12:
+          name: On hold
+        item_13:
+          name: Rejected
+      time_entry_activities:
+        item_0:
+          name: Management
+        item_1:
+          name: Specification
+        item_2:
+          name: Development
+        item_3:
+          name: Testing
+        item_4:
+          name: Support
+        item_5:
+          name: Other
+      types:
+        item_0:
+          name: Task
+        item_1:
+          name: Milestone
+        item_2:
+          name: Phase
+        item_3:
+          name: Feature
+        item_4:
+          name: Epic
+        item_5:
+          name: User story
+        item_6:
+          name: Bug
       welcome:
         title: Welcome to OpenProject!
         text: |

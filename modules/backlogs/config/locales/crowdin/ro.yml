@@ -35,9 +35,6 @@ ro:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "poate conține numai ID-uri ale pachetelor de lucru din sprintul curent."
               must_block_at_least_one_work_package: "trebuie să conțină ID-ul a cel puțin un bilet."
-            parent_id:
-              parent_child_relationship_across_projects: "nu este validă deoarece pachetul de lucru \"%{work_package_name}\" este o sarcină din backlog și, prin urmare, nu poate avea un părinte în afara proiectului curent."
-              type_must_be_one_of_the_following: "Tipul trebuie să fie unul dintre următoarele: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "trebuie să fie aceeași cu versiunea povestirii-mamă."
         sprint:

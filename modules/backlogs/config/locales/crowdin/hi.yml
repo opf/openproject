@@ -35,9 +35,6 @@ hi:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "वर्तमान स्प्रिंट में केवल कार्य पैकेजों की आईडी हो सकती है।"
               must_block_at_least_one_work_package: "कम से कम एक टिकट की आईडी होनी चाहिए।"
-            parent_id:
-              parent_child_relationship_across_projects: "अमान्य है क्योंकि वर्क पैकेज '%{work_package_name}' एक बैकलॉग टास्क है और इसलिए मौजूदा प्रोजेक्ट के बाहर पैरेंट नहीं हो सकता है |"
-              type_must_be_one_of_the_following: "प्रकार निम्न में से एक होना चाहिए:"
             version_id:
               task_version_must_be_the_same_as_story_version: "मूल कहानी के संस्करण के समान होना चाहिए।"
         sprint:

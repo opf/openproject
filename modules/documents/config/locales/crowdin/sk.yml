@@ -29,11 +29,6 @@ sk:
   default_doc_category_tech: "Technická dokumentácia"
   default_doc_category_user: "Používateľská dokumentácia"
   enumeration_doc_categories: "Kategórie dokumentu"
-  enumeration:
-    document_category:
-      documentation: Dokumentácia
-      specification: Špecifikácia
-      other: Ostatné
   documents:
     label_attachment_author: "Autor prílohy"
   label_document_added: "Dokument pridaný"

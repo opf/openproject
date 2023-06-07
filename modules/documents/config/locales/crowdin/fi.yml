@@ -29,11 +29,6 @@ fi:
   default_doc_category_tech: "Tekniset asiakirjat"
   default_doc_category_user: "Käyttöohjeet"
   enumeration_doc_categories: "Tiedostoluokat"
-  enumeration:
-    document_category:
-      documentation: Käyttöohjeet
-      specification: Määrittely
-      other: Muut
   documents:
     label_attachment_author: "Liitteen laatija"
   label_document_added: "Asiakirja lisätty"

@@ -29,11 +29,6 @@ af:
   default_doc_category_tech: "Tegniese dokumentasie"
   default_doc_category_user: "Gebruikerdokumentasie"
   enumeration_doc_categories: "Dokumentkategorieë"
-  enumeration:
-    document_category:
-      documentation: Dokumentasie
-      specification: Spesifikasie
-      other: Ander
   documents:
     label_attachment_author: "Skrywer van aanhegsel"
   label_document_added: "Document added"
