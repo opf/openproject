@@ -28,31 +28,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# Loads the right seed files according to the given edition name.
+#
+# Seed files with the same name as the edition name are merged together. Then
+# all seed files names `common.yml` are merged as well, allowing to share seed
+# data between standard and bim editions.
 class Source::SeedDataLoader
   include Source::Translate
 
   class << self
     def get_data(edition: nil)
       edition ||= OpenProject::Configuration['edition']
-      loader = new(seed_file_name: edition)
+      loader = new(seed_name: edition)
       loader.seed_data
     end
   end
 
-  attr_reader :seed_file_name, :locale
+  attr_reader :seed_name, :locale
 
-  def initialize(seed_file_name: 'standard', locale: I18n.locale)
-    @seed_file_name = seed_file_name
+  def initialize(seed_name: 'standard', locale: I18n.locale)
+    @seed_name = seed_name
     @locale = locale
   end
 
   def seed_data
-    @seed_data ||= Source::SeedData.new(translate(seed_file.raw_content))
+    @seed_data ||= Source::SeedData.new(translate(raw_seed_files_content))
+  end
+
+  def raw_seed_files_content
+    seed_files.reduce({}) do |raw_content, seed_file|
+      raw_content.deep_merge(seed_file.raw_content)
+    end
   end
 
   private
 
-  def seed_file
-    Source::SeedFile.find(seed_file_name)
+  def seed_files
+    Source::SeedFile.with_names(seed_name, 'common')
   end
 end

@@ -39,9 +39,11 @@ class RootSeeder < Seeder
 
   # Returns the demo data in the default language.
   def seed_data
-    raise 'cannot generate demo seed data without setting locale first' unless @locale_set
+    @seed_data ||= begin
+      raise 'cannot generate demo seed data without setting locale first' unless @locale_set
 
-    @seed_data ||= Source::SeedDataLoader.get_data
+      Source::SeedDataLoader.get_data
+    end
   end
 
   def seed_data!
