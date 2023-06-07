@@ -317,7 +317,7 @@ class Setting < ApplicationRecord
   end
 
   def self.has_updated_at_column?
-    return @has_updated_at_column unless @has_updated_at_column.nil?
+    return @has_updated_at_column unless OpenProject.in_migration? || @has_updated_at_column.nil?
 
     @has_updated_at_column = Setting.column_names.map(&:to_sym).include?(:updated_at)
   end
