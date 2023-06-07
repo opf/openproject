@@ -49,8 +49,6 @@ module Journals
     end
 
     def call(notes: '', cause: {})
-      Rails.logger.info("Journalin with cause #{cause}")
-
       Journal.transaction do
         journal = create_journal(notes, cause)
 
