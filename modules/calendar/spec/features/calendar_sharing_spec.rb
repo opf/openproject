@@ -66,7 +66,7 @@ RSpec.describe 'Calendar sharing via ical', js: true do
            public: false)
   end
 
-  context 'with sufficient permissions' do
+  context 'with sufficient permissions', with_settings: { ical_enabled: true } do
     # TODO: save_queries permission is mandatory to see settings button used for sharing option
     # does that make sense? the sharing feature therefore has an implicit dependency on this permission
 
@@ -138,6 +138,26 @@ RSpec.describe 'Calendar sharing via ical', js: true do
         # expect active sharing menu item
         within "#settingsDropdown" do
           expect(page).to have_selector(".menu-item", text: "Subscribe to iCalendar")
+        end
+      end
+
+      context 'when ical sharing is disabled globally', with_settings: { ical_enabled: false } do
+        it 'shows an active menu item' do
+          # wait for settings button to become visible
+          expect(page).to have_selector("#work-packages-settings-button")
+  
+          # click on settings button
+          page.find_by_id('work-packages-settings-button').click
+  
+         # expect disabled sharing menu item
+        within "#settingsDropdown" do
+          # expect(page).to have_button("Subscribe to iCalendar", disabled: true) # disabled selector not working
+          expect(page).to have_selector(".menu-item.inactive", text: "Subscribe to iCalendar")
+          page.click_button("Subscribe to iCalendar")
+
+          # modal should not be shown
+          expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
+        end
         end
       end
 
