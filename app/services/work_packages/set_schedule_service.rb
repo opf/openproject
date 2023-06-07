@@ -27,11 +27,12 @@
 #++
 
 class WorkPackages::SetScheduleService
-  attr_accessor :user, :work_packages
+  attr_accessor :user, :work_packages, :initiating_work_package
 
-  def initialize(user:, work_package:)
+  def initialize(user:, work_package:, initiating_work_package: nil)
     self.user = user
     self.work_packages = Array(work_package)
+    self.initiating_work_package = initiating_work_package
   end
 
   def call(changed_attributes = %i(start_date due_date))
