@@ -52,7 +52,7 @@ module Journals
       Rails.logger.info("Journalin with cause #{cause}")
 
       Journal.transaction do
-        journal = create_journal(notes)
+        journal = create_journal(notes, cause)
 
         if journal
           reload_journals
@@ -77,12 +77,12 @@ module Journals
       end
     end
 
-    def create_journal(notes)
+    def create_journal(notes, cause)
       predecessor = aggregatable_predecessor(notes)
 
       log_journal_creation(predecessor)
 
-      create_sql = create_journal_sql(predecessor, notes)
+      create_sql = create_journal_sql(predecessor, notes, cause)
 
       # We need to ensure that the result is genuine. Otherwise,
       # calling the service repeatedly for the same journable
@@ -147,7 +147,7 @@ module Journals
     #
     # If a journal is created, all entries in the custom_values table associated to the journable are recreated as entries
     # in the customizable_journals table. Again, newlines are normalized.
-    def create_journal_sql(predecessor, notes)
+    def create_journal_sql(predecessor, notes, cause)
       <<~SQL
         WITH cleanup_predecessor_data AS (
           #{cleanup_predecessor_data(predecessor)}
@@ -165,7 +165,7 @@ module Journals
         ), insert_data AS (
           #{insert_data_sql(notes, predecessor)}
         ), inserted_journal AS (
-          #{update_or_insert_journal_sql(predecessor, notes)}
+          #{update_or_insert_journal_sql(predecessor, notes, cause)}
         ), insert_attachable AS (
           #{insert_attachable_sql}
         ), insert_customizable AS (
@@ -212,15 +212,15 @@ module Journals
                column => predecessor.send(referenced_id)
     end
 
-    def update_or_insert_journal_sql(predecessor, notes)
+    def update_or_insert_journal_sql(predecessor, notes, cause)
       if predecessor
-        update_journal_sql(predecessor, notes)
+        update_journal_sql(predecessor, notes, cause)
       else
-        insert_journal_sql(notes)
+        insert_journal_sql(notes, cause)
       end
     end
 
-    def update_journal_sql(predecessor, notes)
+    def update_journal_sql(predecessor, notes, cause)
       # If there is a predecessor, we don't want to create a new one, we simply rewrite it.
       # The original data of that predecessor (data e.g. work_package_journals, customizable_journals, attachable_journals)
       # has been deleted before but the notes need to taken over and the timestamps updated as if the
@@ -234,7 +234,8 @@ module Journals
         SET
           notes = :notes,
           updated_at = #{timestamp_sql},
-          data_id = insert_data.id
+          data_id = insert_data.id,
+          cause = :cause
         FROM insert_data
         WHERE journals.id = :predecessor_id
         RETURNING
@@ -243,10 +244,11 @@ module Journals
 
       sanitize(journal_sql,
                notes: notes.presence || predecessor.notes,
-               predecessor_id: predecessor.id)
+               predecessor_id: predecessor.id,
+               cause: cause_sql(cause))
     end
 
-    def insert_journal_sql(notes)
+    def insert_journal_sql(notes, cause)
       journal_sql = <<~SQL
         INSERT INTO
           journals (
@@ -258,7 +260,8 @@ module Journals
             created_at,
             updated_at,
             data_id,
-            data_type
+            data_type,
+            cause
           )
         SELECT
           :journable_id,
@@ -269,13 +272,15 @@ module Journals
           #{journal_timestamp_sql(notes, ':created_at')},
           #{journal_timestamp_sql(notes, ':updated_at')},
           insert_data.id,
-          :data_type
+          :data_type,
+          :cause
         FROM max_journals, insert_data
         RETURNING *
       SQL
 
       sanitize(journal_sql,
                notes:,
+               cause: cause_sql(cause),
                journable_id: journable.id,
                journable_type:,
                user_id: user.id,
@@ -575,6 +580,10 @@ module Journals
       else
         timestamp_sql
       end
+    end
+
+    def cause_sql(cause)
+      ActiveSupport::JSON.encode(cause || {})
     end
 
     def timestamp_sql
