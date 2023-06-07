@@ -39,8 +39,9 @@ RSpec.describe WorkPackages::SetScheduleService do
   end
   let(:work_package_due_date) { Time.zone.today }
   let(:work_package_start_date) { nil }
+  let(:initiating_work_package) { work_package }
   let(:instance) do
-    described_class.new(user:, work_package:)
+    described_class.new(user:, work_package:, initiating_work_package:)
   end
   let!(:following) { [] }
 
@@ -139,6 +140,11 @@ RSpec.describe WorkPackages::SetScheduleService do
           .to be_present,
               "Expected work package ##{wp.id} '#{wp.subject}' to be rescheduled"
 
+        expect(result.journal_cause[:work_package_id])
+          .to eql(initiating_work_package.id),
+              "Expected work package ##{wp.id} to have been caused by ##{initiating_work_package.id} " \
+              "for the journal entry"
+
         expect(result.start_date)
           .to eql(start_date),
               "Expected work package ##{wp.id} '#{wp.subject}' " \
@@ -175,7 +181,7 @@ RSpec.describe WorkPackages::SetScheduleService do
 
     it 'does not change any other work packages' do
       expect(subject.all_results)
-        .to match_array [work_package]
+        .to contain_exactly(work_package)
     end
   end
 
