@@ -14,7 +14,7 @@ cleanup() {
 	echo "CLEANUP"
 	rm -rf tmp/cache/parallel*
 	if [ -d tmp/features ]; then mv tmp/features spec/ ; fi
-	if [ $exit_code -neq "0" ]; then
+	if [ ! $exit_code -eq "0" ]; then
 		echo "ERROR: exit code $exit_code"
 		cat $LOG_FILE
 	fi
@@ -77,8 +77,8 @@ if [ "$1" == "setup-tests" ]; then
 	done
 
 	execute_quiet "time bundle install -j$JOBS --quiet"
-	# create test database "app" and dump schema
-	execute_quiet "cat db/structure.sql | $PGBIN/psql $DATABASE_URL"
+	# create test database "app" and dump schema because db/structure.sql is not checked in
+	execute_quiet "time bundle exec rails db:migrate db:structure:dump"
 	# create test databases "app1" to "app$JOBS", far faster than using parallel_rspec tasks for that
 	for i in $(seq 1 $JOBS); do
 		execute_quiet "echo 'create database app$i with template app owner app;' | $PGBIN/psql $DATABASE_URL"
