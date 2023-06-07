@@ -142,19 +142,19 @@ RSpec.describe 'Calendar sharing via ical', js: true do
         it 'shows a disabled menu item' do
           # wait for settings button to become visible
           expect(page).to have_selector("#work-packages-settings-button")
-  
+
           # click on settings button
           page.find_by_id('work-packages-settings-button').click
-  
-         # expect disabled sharing menu item
-        within "#settingsDropdown" do
-          # expect(page).to have_button("Subscribe to iCalendar", disabled: true) # disabled selector not working
-          expect(page).to have_selector(".menu-item.inactive", text: "Subscribe to iCalendar")
-          page.click_button("Subscribe to iCalendar")
 
-          # modal should not be shown
-          expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
-        end
+          # expect disabled sharing menu item
+          within "#settingsDropdown" do
+            # expect(page).to have_button("Subscribe to iCalendar", disabled: true) # disabled selector not working
+            expect(page).to have_selector(".menu-item.inactive", text: "Subscribe to iCalendar")
+            page.click_button("Subscribe to iCalendar")
+
+            # modal should not be shown
+            expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
+          end
         end
       end
 
