@@ -54,7 +54,7 @@ if [ "$1" == "setup-tests" ]; then
 	done
 
 	# create test database "app" and dump schema because db/structure.sql is not checked in
-	execute_quiet "time bundle exec rails zeitwerk:check db:migrate db:schema:dump assets:precompile webdrivers:chromedriver:update webdrivers:geckodriver:update openproject:plugins:register_frontend"
+	execute_quiet "time bundle exec rails db:migrate db:schema:dump zeitwerk:check assets:precompile webdrivers:chromedriver:update webdrivers:geckodriver:update openproject:plugins:register_frontend"
 	# create test databases "app1" to "app$JOBS", far faster than using parallel_rspec tasks for that
 	for i in $(seq 1 $JOBS); do
 		execute_quiet "echo 'drop database if exists app$i ; create database app$i with template app owner app;' | $PGBIN/psql $DATABASE_URL"
