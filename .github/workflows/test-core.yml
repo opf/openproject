@@ -33,6 +33,11 @@ jobs:
     - uses: actions/checkout@v3
       with:
         fetch-depth: 1
+    - name: cache
+      uses: actions/cache@v3
+      with:
+        path: /tmp/cache
+        key: ${{ runner.os }}-ci-cache-tests-units
     - name: build
       run: docker-compose -f docker-compose.ci.yml build --pull ci
     - name: test
@@ -57,6 +62,11 @@ jobs:
     - uses: actions/checkout@v3
       with:
         fetch-depth: 1
+    - name: cache
+      uses: actions/cache@v3
+      with:
+        path: /tmp/cache
+        key: ${{ runner.os }}-ci-cache-tests-features
     - name: build
       run: docker-compose -f docker-compose.ci.yml build --pull ci
     - name: test

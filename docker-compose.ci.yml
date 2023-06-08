@@ -28,7 +28,7 @@ services:
     volumes:
       # the spec folder is docker-ignored, so we need to mount it explicitly
       - "./spec:/app/spec"
-      # used to store stuff that must persist between CI runs
+      # used to store stuff that must persist between CI runs, e.g. turbo_tests runtime logs
       - "${CI_CACHE_PATH:-/tmp}/op-cache:/cache"
     depends_on:
       - postgres
