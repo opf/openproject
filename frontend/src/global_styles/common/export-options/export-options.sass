@@ -1,12 +1,11 @@
 .op-export-options
-  display: flex
-  flex-wrap: wrap
   margin: 0
   padding: 20px 0
   list-style-type: none
+  display: grid
+  grid-template-columns: 1fr 1fr 1fr
 
   &--option
-    flex: 1 1 calc(33% - 40px)  // line break after third element
     margin: 20px
     text-align: center
 
@@ -24,3 +23,10 @@
     &-label
       display: block
       padding: 10px 0 0 0
+
+  @media screen and (max-width: 480px)
+    grid-template-columns: 1fr 1fr
+
+  @media screen and (max-width: 320px)
+    grid-template-columns: 1fr
+
