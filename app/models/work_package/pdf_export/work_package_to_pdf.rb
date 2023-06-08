@@ -69,15 +69,8 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
   def render_work_package
     write_title!
     write_work_package_detail_content!(work_package)
-    # write_history!
-    # write_changesets! if show_changesets?
     write_headers!
     write_footers!
-  end
-
-  def show_changesets?
-    work_package.changesets.any? &&
-      User.current.allowed_to?(:view_changesets, work_package.project)
   end
 
   def heading
@@ -86,72 +79,5 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
 
   def title
     "#{heading}.pdf"
-  end
-
-  def write_history!
-    journals = work_package.journals.includes(:user).order("#{Journal.table_name}.created_at ASC")
-    write_label! I18n.t(:label_history) unless journals.empty?
-    journals.each do |journal|
-      write_history_item! journal
-    end
-  end
-
-  def write_history_item!(journal)
-    write_history_item_headline! journal
-    write_history_item_content! journal
-  end
-
-  def write_history_item_headline!(journal)
-    headline = "#{format_time(journal.created_at)} - #{journal.user.name}"
-    with_margin(styles.wp_section_heading_margins) do
-      pdf.formatted_text([styles.wp_section_heading.merge({ text: headline })])
-    end
-  end
-
-  def write_history_item_content!(journal)
-    with_margin(styles.wp_section_item_margins) do
-      journal.details.each do |detail|
-        text = journal.render_detail(detail, html: true, only_path: false)
-        write_markdown! work_package, "* #{text}"
-      end
-      if journal.notes?
-        text = journal.notes.to_s
-        write_markdown! work_package, text
-      end
-    end
-  end
-
-  def write_changesets!
-    changesets = work_package.changesets
-    write_label!(I18n.t(:label_associated_revisions)) unless changesets.empty?
-    changesets.each do |changeset|
-      write_changeset_item! changeset
-    end
-  end
-
-  def write_label!(label)
-    with_margin(styles.wp_label_margins) do
-      pdf.formatted_text([styles.wp_label.merge({ text: label })])
-    end
-  end
-
-  def write_changeset_item!(changeset)
-    write_changeset_item_headline! changeset
-    write_changeset_item_content! changeset
-  end
-
-  def write_changeset_item_headline!(changeset)
-    text = "#{format_time(changeset.committed_on)} - #{changeset.author}"
-    with_margin(styles.wp_section_heading_margins) do
-      pdf.formatted_text([styles.wp_section_heading.merge({ text: })])
-    end
-  end
-
-  def write_changeset_item_content!(changeset)
-    if changeset.comments.present?
-      with_margin(styles.wp_section_item_margins) do
-        pdf.formatted_text([styles.wp_section_heading.merge({ text: changeset.comments.to_s })])
-      end
-    end
   end
 end
