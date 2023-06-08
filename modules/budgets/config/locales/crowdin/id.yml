@@ -41,7 +41,7 @@ id:
       material_budget_item: "Unit"
   activity:
     filter:
-      budget: "Budgets"
+      budget: "Budget"
   attributes:
     budget: "Bugdet"
   button_add_budget_item: "Tambahkan biaya terencana"

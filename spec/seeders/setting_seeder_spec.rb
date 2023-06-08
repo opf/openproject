@@ -29,33 +29,32 @@
 require 'spec_helper'
 
 RSpec.describe BasicData::SettingSeeder do
-  subject { described_class.new }
+  include_context 'with basic seed data'
 
-  let(:new_project_role) { Role.find_by(name: I18n.t(:default_role_project_admin)) }
-  let(:closed_status) { Status.find_by(name: I18n.t(:default_status_closed)) }
+  subject(:setting_seeder) { described_class.new(basic_seed_data) }
+
+  let(:new_project_role) { basic_seed_data.find_reference(:default_role_project_admin) }
+  let(:closed_status) { basic_seed_data.find_reference(:default_status_closed) }
 
   before do
     allow(ActionMailer::Base).to receive(:perform_deliveries).and_return(false)
     allow(Delayed::Worker).to receive(:delay_jobs).and_return(false)
 
-    BasicData::BuiltinRolesSeeder.new.seed!
-    BasicData::RoleSeeder.new.seed!
-    BasicData::ColorSchemeSeeder.new.seed!
-    Standard::BasicData::StatusSeeder.new.seed!
-    described_class.new.seed!
+    setting_seeder.seed!
   end
 
   def reseed!
-    subject.seed!
+    setting_seeder.seed!
   end
 
   it 'applies initial settings' do
+    expect(setting_seeder).not_to be_applicable
     Setting.where(name: %w(commit_fix_status_id new_project_user_role_id)).delete_all
-    expect(subject).to be_applicable
+    expect(setting_seeder).to be_applicable
 
     reseed!
 
-    expect(subject).not_to be_applicable
+    expect(setting_seeder).not_to be_applicable
     expect(Setting.commit_fix_status_id).to eq closed_status.id
     expect(Setting.new_project_user_role_id).to eq new_project_role.id
   end

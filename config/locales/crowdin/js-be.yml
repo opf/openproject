@@ -58,7 +58,7 @@ be:
     button_back: "Назад"
     button_back_to_list_view: "Back to list view"
     button_cancel: "Cancel"
-    button_close: "Close"
+    button_close: "Зачыніць"
     button_change_project: "Change project"
     button_check_all: "Check all"
     button_configure-form: "Configure form"
@@ -347,7 +347,7 @@ be:
     label_and: "and"
     label_ascending: "Ascending"
     label_author: "Author: %{user}"
-    label_avatar: "Avatar"
+    label_avatar: "Аватар"
     label_between: "between"
     label_board: "Дошка"
     label_board_locked: "Заблакавана"
@@ -368,7 +368,7 @@ be:
     label_closed_work_packages: "closed"
     label_collapse: "Згарнуць"
     label_collapsed: "collapsed"
-    label_collapse_all: "Collapse all"
+    label_collapse_all: "Згарнуць усё"
     label_comment: "Comment"
     label_committed_at: "%{committed_revision_link} at %{date}"
     label_committed_link: "committed revision %{revision_identifier}"
@@ -380,7 +380,7 @@ be:
     label_equals: "is"
     label_expand: "Expand"
     label_expanded: "expanded"
-    label_expand_all: "Expand all"
+    label_expand_all: "Разгарнуць усё"
     label_expand_project_menu: "Expand project menu"
     label_export: "Export"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
@@ -636,7 +636,7 @@ be:
           mentioned:
             title: 'Mentioned'
             description: 'Receive a notification every time someone mentions me anywhere'
-          assignee: 'Assignee'
+          assignee: 'Прызначаная асоба'
           responsible: 'Accountable'
           watched: 'Watcher'
           work_package_commented: 'All new comments'
@@ -732,7 +732,7 @@ be:
           Warning: Are you sure you want to reset the form configuration? This will reset the attributes to their default group and disable ALL custom fields.
         upgrade_to_ee: "Абнавіць да Enterprise on-premises edition"
         upgrade_to_ee_text: "Нічога сабе! Калі вам патрэбны гэты дадатак, вы вялікі прафесіянал! Ці будзеце вы ветлівы падтрымаць нас, OpenSource распрацоўшчыкаў, пераўтварыўшыся ў карыстальніка Enterprise edition?"
-        more_information: "More information"
+        more_information: "Дадатковыя звесткі"
         nevermind: "Nevermind"
       edit:
         form_configuration: "Form Configuration"
@@ -804,7 +804,7 @@ be:
       select_tag: 'Select tag'
       select_branch: 'Select branch'
     field_value_enter_prompt: "Enter a value for '%{field}'"
-    project_menu_details: "Details"
+    project_menu_details: "Падрабязнасці"
     scheduling:
       manual: 'Ручное планаванне'
     sort:
@@ -844,7 +844,7 @@ be:
       filter:
         grouping_other: "Other"
         noneSelection: "(none)"
-      name: "Name"
+      name: "Імя"
       outline: "Reset Outline"
       outlines:
         aggregation: "Show aggregations only"
@@ -915,7 +915,7 @@ be:
         show_relations: 'Show relations'
         ignore_non_working_days:
           title: 'Working days only'
-      description_filter: "Filter"
+      description_filter: "Фільтр"
       description_enter_text: "Enter text"
       description_options_hide: "Hide options"
       description_options_show: "Show options"
@@ -968,16 +968,16 @@ be:
         description: Either none have been created or all work packages are filtered out.
       limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
       property_groups:
-        details: "Details"
+        details: "Падрабязнасці"
         people: "People"
         estimatesAndTime: "Estimates & Time"
         other: "Other"
       properties:
-        assignee: "Assignee"
+        assignee: "Прызначаная асоба"
         author: "Author"
         createdAt: "Created on"
         description: "Description"
-        date: "Date"
+        date: "Дата"
         dueDate: "Finish date"
         duration: "Duration"
         estimatedTime: "Estimated time"
@@ -1105,18 +1105,18 @@ be:
         visibility_settings: "Visibility settings"
         share_calendar: "Subscribe to iCalendar"
         page_settings: "Rename view"
-        delete: "Delete"
-      filter: "Filter"
+        delete: "Выдаліць"
+      filter: "Фільтр"
       unselected_title: "Work package"
       search_query_label: "Search saved views"
     modals:
-      label_name: "Name"
+      label_name: "Імя"
       label_delete_page: "Delete current page"
       button_apply: "Apply"
       button_save: "Save"
       button_submit: "Submit"
       button_cancel: "Cancel"
-      button_delete: "Delete"
+      button_delete: "Выдаліць"
       form_submit:
         title: 'Confirm to continue'
         text: 'Are you sure you want to perform this action?'
@@ -1146,7 +1146,7 @@ be:
       button_save_all: "Save"
       button_cancel_all: "Cancel"
       link_formatting_help: "Text formatting help"
-      btn_preview_enable: "Preview"
+      btn_preview_enable: "Папярэдні прагляд"
       btn_preview_disable: "Disable preview"
       null_value_label: "No value"
       clear_value_label: "-"
@@ -1197,7 +1197,7 @@ be:
       list: 'Table'
       timeline: 'Gantt'
     invite_user_modal:
-      back: 'Back'
+      back: 'Назад'
       invite: 'Invite'
       title:
         invite: 'Invite user'
@@ -1230,7 +1230,7 @@ be:
       principal:
         label:
           name_or_email: 'Name or email address'
-          name: 'Name'
+          name: 'Імя'
         already_member_message: 'Already a member of %{project}'
         no_results_user: 'No users were found'
         invite_user: 'Invite:'
@@ -1317,4 +1317,4 @@ be:
         remove: 'Remove'
       drop_modal:
         focus_grab: 'This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.'
-        Close: 'Close'
+        Close: 'Зачыніць'

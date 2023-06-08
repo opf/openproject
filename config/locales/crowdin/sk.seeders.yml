@@ -4,7 +4,123 @@
 ---
 sk:
   seeds:
+    common:
+      colors:
+        item_0:
+          name: Modrá (tmavá)
+        item_1:
+          name: Modrá
+        item_2:
+          name: Modrá (bledá)
+        item_3:
+          name: Zelená (bledá)
+        item_4:
+          name: Zelená (tmavá)
+        item_5:
+          name: Žltá
+        item_6:
+          name: Oranžová
+        item_7:
+          name: Červená
+        item_8:
+          name: Purpurová (magenta)
+        item_9:
+          name: Biela
+        item_10:
+          name: šedá (bledá)
+        item_11:
+          name: Šedá
+        item_12:
+          name: Šedá (tmavá)
+        item_13:
+          name: Čierna
+      document_categories:
+        item_0:
+          name: Dokumentácia
+        item_1:
+          name: Špecifikácia
+        item_2:
+          name: Ostatné
+      roles:
+        item_0:
+          name: Nie člen
+        item_1:
+          name: Anonymný
+        item_2:
+          name: Člen
+        item_3:
+          name: Čitateľ
+        item_4:
+          name: Projekt admin
+        item_5:
+          name: Staff and projects manager
     standard:
+      priorities:
+        item_0:
+          name: Nízka
+        item_1:
+          name: Normálna
+        item_2:
+          name: Vysoká
+        item_3:
+          name: Okamžité
+      statuses:
+        item_0:
+          name: Nový
+        item_1:
+          name: V špecifikácii
+        item_2:
+          name: Špecifikované
+        item_3:
+          name: Potvrdený
+        item_4:
+          name: Na plánovanie
+        item_5:
+          name: Naplánované
+        item_6:
+          name: Prebieha
+        item_7:
+          name: Vyvinuté
+        item_8:
+          name: V testovaní
+        item_9:
+          name: Testované
+        item_10:
+          name: Test zlyhal
+        item_11:
+          name: Zatvorený
+        item_12:
+          name: Zadržané
+        item_13:
+          name: Odmietnuté
+      time_entry_activities:
+        item_0:
+          name: Riadenie
+        item_1:
+          name: Špecifikácia
+        item_2:
+          name: Vývoj
+        item_3:
+          name: Testovanie
+        item_4:
+          name: Podpora
+        item_5:
+          name: Ostatné
+      types:
+        item_0:
+          name: Úloha
+        item_1:
+          name: Míľnik
+        item_2:
+          name: Fáza
+        item_3:
+          name: Nová funkcia
+        item_4:
+          name: Epos
+        item_5:
+          name: Užívateľský príbeh
+        item_6:
+          name: Chyba
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -54,7 +170,7 @@ sk:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Nikdy
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -64,7 +180,7 @@ sk:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Začíname
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -83,7 +199,7 @@ sk:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Pracovné balíčky
               item_6:
                 options:
                   name: Milestones
@@ -195,7 +311,7 @@ sk:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Nevyriešený produkt
             item_2:
               name: Sprint 1
             item_3:
@@ -213,7 +329,7 @@ sk:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Nikdy
           project-overview:
             widgets:
               item_0:
@@ -221,7 +337,7 @@ sk:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Začíname
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -241,7 +357,7 @@ sk:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Pracovné balíčky
               item_6:
                 options:
                   name: Project plan

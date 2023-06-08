@@ -7,12 +7,12 @@ zh-TW:
     label_board: "面板"
     label_boards: "看板"
     board_types:
-      free: Basic
+      free: 基本
       action: "Action board (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
-      status: Status
-      version: Version
-      subproject: Subproject
+      assignee: 負責執行者
+      status: 狀態
+      version: 版本
+      subproject: 子專案
       subtasks: Parent-child
-      basic: Basic
+      basic: 基本

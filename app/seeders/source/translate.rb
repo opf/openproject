@@ -29,27 +29,44 @@
 #++
 
 module Source::Translate
-  I18N_PREFIX = "seeds"
+  I18N_PREFIX = 'seeds'
+  TRANSLATABLE_PREFIX = 't_'
+  TRANSLATABLE_PREFIX_PATTERN = /^#{TRANSLATABLE_PREFIX}/
 
-  def translate(hash, i18n_key = "#{I18N_PREFIX}.#{seed_file_name}")
+  def translate(hash, i18n_key = "#{I18N_PREFIX}.#{seed_name}")
     translate_translatable_keys(hash, i18n_key)
     translate_nested_enumerations(hash, i18n_key)
     hash
   end
 
+  def translatable?(key)
+    key.start_with?(TRANSLATABLE_PREFIX)
+  end
+  module_function :translatable?
+
+  def remove_translatable_prefix(key)
+    key.gsub(TRANSLATABLE_PREFIX_PATTERN, '')
+  end
+  module_function :remove_translatable_prefix
+
+  def array_key(index)
+    "item_#{index}"
+  end
+  module_function :array_key
+
   private
 
   def translate_translatable_keys(hash, i18n_key)
     translatable_keys(hash).each do |key|
-      value = hash.delete("t_#{key}")
+      value = hash.delete("#{TRANSLATABLE_PREFIX}#{key}")
       hash[key] = translate_value(value, "#{i18n_key}.#{key}")
     end
   end
 
   def translatable_keys(hash)
     hash.keys
-      .filter { _1.start_with?('t_') }
-      .map { _1.gsub(/^t_/, '') }
+      .filter { translatable?(_1) }
+      .map { remove_translatable_prefix(_1) }
   end
 
   def translate_value(value, i18n_key)
@@ -57,7 +74,7 @@ module Source::Translate
     when String
       I18n.t(i18n_key, locale:, default: value)
     when Array
-      value.map.with_index { |v, i| translate_value(v, "#{i18n_key}.item_#{i}") }
+      value.map.with_index { |v, i| translate_value(v, "#{i18n_key}.#{array_key(i)}") }
     end
   end
 
@@ -69,7 +86,7 @@ module Source::Translate
       when Array
         value
           .filter { |v| v.is_a?(Hash) }
-          .each_with_index { |h, i| translate(h, "#{i18n_key}.#{key}.item_#{i}") }
+          .each_with_index { |h, i| translate(h, "#{i18n_key}.#{key}.#{array_key(i)}") }
       end
     end
   end

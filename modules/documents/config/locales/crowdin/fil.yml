@@ -25,15 +25,10 @@ fil:
       document: "Dokumento"
   activity:
     filter:
-      document: "Documents"
+      document: "Mga dokumento"
   default_doc_category_tech: "Teknikal na dokumentasyon"
   default_doc_category_user: "Dokumento para sa mga gagamit"
   enumeration_doc_categories: "Mga kategorya ng dokumento"
-  enumeration:
-    document_category:
-      documentation: Dokumentasyon
-      specification: Mga Detalye
-      other: Iba pa
   documents:
     label_attachment_author: "Attachment author"
   label_document_added: "Idinagdag ang dokumento"

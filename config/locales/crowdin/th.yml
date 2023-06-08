@@ -79,7 +79,7 @@ th:
       get_quote: 'Get a quote'
       buttons:
         upgrade: "Upgrade now"
-        contact: "Contact us for a demo"
+        contact: "ติดต่อเราสำหรับการสาธิต"
       enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
@@ -182,7 +182,7 @@ th:
     edit: 'Edit custom action %{name}'
     execute: 'Execute %{name}'
     upsale:
-      title: 'Custom actions'
+      title: 'การกระทำ กำหนดเอง'
       description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
@@ -481,11 +481,11 @@ th:
         latest_activity_at: "Latest activity at"
         parent: "โครงการย่อยของ"
         public_value:
-          title: "Visibility"
+          title: "การมองเห็น"
           true: "public"
           false: "private"
         queries: "การสอบถาม"
-        status_code: 'Project status'
+        status_code: 'สถานะของโครงการ'
         status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
@@ -556,7 +556,7 @@ th:
         begin_deletion: "Begin of the deletion"
         children: "Subelements"
         done_ratio: "Progress (%)"
-        duration: "Duration"
+        duration: "ระยะเวลา"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
         ignore_non_working_days: "Ignore non working days"
@@ -924,24 +924,24 @@ th:
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "โครงการย่อย"
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
-          other: "%{count} hours"
+          other: "%{count} ชั่วโมง"
         hour_html:
           other: "<i>%{count} hours</i>"
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      changeset: "ชุดการเปลี่ยนแปลง"
+      message: "กระทู้"
+      news: "ข่าวสาร"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
-      wiki_edit: "Wiki"
-      work_package: "Work packages"
+      time_entry: "เวลาที่ใช้"
+      wiki_edit: "วิกิ"
+      work_package: "ชุดภารกิจ"
   #common attributes of all models
   attributes:
     active: "ใช้งานอยู่"
@@ -998,7 +998,7 @@ th:
     updated_on: "แก้ไขเมื่อ"
     uploader: "Uploader"
     user: "ผู้ใช้"
-    value: "Value"
+    value: "ค่า"
     version: "เวอร์ชัน"
     work_package: "ชุดภารกิจ"
   backup:
@@ -1178,7 +1178,7 @@ th:
       - "ตุลาคม"
       - "พฤศจิกายน"
       - "ธันวาคม"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - ': ปี'
       - ': เดือน'
@@ -1211,61 +1211,6 @@ th:
     units:
       hour:
         other: "ชั่วโมง"
-  default_activity_development: "การพัฒนา"
-  default_activity_management: "การจัดการ"
-  default_activity_other: "อื่น ๆ"
-  default_activity_specification: "ข้อมูลจำเพาะ"
-  default_activity_support: "สนับสนุน"
-  default_activity_testing: "กำลังทดสอบ"
-  default_color_black: "สีดำ"
-  default_color_blue: "Blue"
-  default_color_blue_dark: "สีฟ้า (เข้ม)"
-  default_color_blue_light: "สีฟ้า (แสง)"
-  default_color_green_dark: "สีเขียว (เข้ม)"
-  default_color_green_light: "เขียว (แสง)"
-  default_color_grey_dark: "สีเทา (เข้ม)"
-  default_color_grey_light: "เทา (แสง)"
-  default_color_grey: "เทา"
-  default_color_magenta: "ม่วงแดง"
-  default_color_orange: "ส้ม"
-  default_color_red: "สีแดง"
-  default_color_white: "ขาว"
-  default_color_yellow: "สีเหลือง"
-  default_status_closed: "ปิดไปแล้ว"
-  default_status_confirmed: "ยืนยันแล้ว"
-  default_status_developed: "พัฒนา"
-  default_status_in_development: "ในการพัฒนา"
-  default_status_in_progress: "อยู่ระหว่างดำเนินการ"
-  default_status_in_specification: "In specification"
-  default_status_in_testing: "In testing"
-  default_status_new: "ใหม่"
-  default_status_on_hold: "คงค้าง"
-  default_status_rejected: "ถูกปฏิเสธ"
-  default_status_scheduled: "Scheduled"
-  default_status_specified: "Specified"
-  default_status_tested: "Tested"
-  default_status_test_failed: "Test failed"
-  default_status_to_be_scheduled: "To be scheduled"
-  default_priority_low: "ต่ำ"
-  default_priority_normal: "ปกติ"
-  default_priority_high: "สูง"
-  default_priority_immediate: "ทันที"
-  default_role_anonymous: "ไม่ระบุชื่อ"
-  default_role_developer: "ผู้พัฒนา"
-  default_role_project_admin: "Project admin"
-  default_role_project_creator_and_staff_manager: "พนักงานและผู้จัดการโครงการ"
-  default_role_non_member: "ผู้ไม่ได้เป็นสมาชิก"
-  default_role_reader: "Reader"
-  default_role_member: "สมาชิก"
-  default_type: "ชุดภารกิจ"
-  default_type_bug: "ข้อผิดพลาด"
-  default_type_deliverable: "Deliverable"
-  default_type_epic: "Epic"
-  default_type_feature: "ลักษณะการทำงาน"
-  default_type_milestone: "ไมล์สโตน"
-  default_type_phase: "ขั้นตอนการ"
-  default_type_task: "Task"
-  default_type_user_story: "User story"
   description_active: "ใช้งานอยู่หรือไม่?"
   description_attachment_toggle: "แสดง/ซ่อนไฟล์แนบ"
   description_autocomplete: >
@@ -1365,7 +1310,7 @@ th:
     message: ข้อความได้รับการแก้ไขแล้ว
     news: ข่าวสาร
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'โครงการได้รับการแก้ไขแล้ว'
     reply: ตอบกลับ
     time_entry: 'บันทึกเวลาได้รับการแก้ไขแล้ว'
     wiki_page: 'หน้าวิกิได้รับการแก้ไขแล้ว'
@@ -3157,7 +3102,7 @@ th:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "ข้อผิดพลาด"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"

@@ -78,8 +78,8 @@ vi:
       book_now: 'Đặt chỗ ngay'
       get_quote: 'Lấy trích dẫn'
       buttons:
-        upgrade: "Upgrade now"
-        contact: "Contact us for a demo"
+        upgrade: "Nâng cấp ngay"
+        contact: "Liên hệ với chúng tôi để yêu cầu một bản demo"
       enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
@@ -184,7 +184,7 @@ vi:
     edit: 'Chỉnh sửa hành động tùy chỉnh %{name}'
     execute: 'Thực hiện %{name}'
     upsale:
-      title: 'Custom actions'
+      title: 'Tác vụ tùy chỉnh'
       description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
@@ -487,13 +487,13 @@ vi:
           true: "public"
           false: "private"
         queries: "Truy vấn"
-        status_code: 'Project status'
+        status_code: 'Tình trạng dự án'
         status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
+          on_track: 'Theo dõi'
+          at_risk: 'Có rủi ro'
+          off_track: 'Không theo dõi'
           finished: 'Finished'
           discontinued: 'Discontinued'
         templated: "Template project"
@@ -926,7 +926,7 @@ vi:
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "Dự án con"
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
@@ -936,14 +936,14 @@ vi:
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      changeset: "Nhóm thay đổi"
+      message: "Diễn đàn"
+      news: "Tin tức"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
+      time_entry: "Thời gian"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "Work Packages"
   #common attributes of all models
   attributes:
     active: "Đang hoạt động"
@@ -1000,7 +1000,7 @@ vi:
     updated_on: "Được cập nhật vào lúc"
     uploader: "Tải lên"
     user: "Người dùng"
-    value: "Value"
+    value: "Giá trị"
     version: "Phiên bản"
     work_package: "Work Package"
   backup:
@@ -1180,7 +1180,7 @@ vi:
       - "Tháng mười"
       - "Tháng Mười một"
       - "Tháng mười hai"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - ':năm'
       - ':tháng'
@@ -1213,61 +1213,6 @@ vi:
     units:
       hour:
         other: "hours"
-  default_activity_development: "Phát triển"
-  default_activity_management: "Quản lý"
-  default_activity_other: "Khác"
-  default_activity_specification: "Đặc điểm kỹ thuật"
-  default_activity_support: "Hỗ trợ"
-  default_activity_testing: "Thử nghiệm"
-  default_color_black: "Đen"
-  default_color_blue: "Xanh dương"
-  default_color_blue_dark: "Xanh dương (tối)"
-  default_color_blue_light: "Xanh dương (sáng)"
-  default_color_green_dark: "Xanh lá cây (tối)"
-  default_color_green_light: "Xanh lá cây (sáng)"
-  default_color_grey_dark: "Màu xám (tối)"
-  default_color_grey_light: "Xám (sáng)"
-  default_color_grey: "Xám"
-  default_color_magenta: "Đỏ tươi"
-  default_color_orange: "Cam"
-  default_color_red: "Đỏ"
-  default_color_white: "Trắng"
-  default_color_yellow: "Vàng"
-  default_status_closed: "Đã đóng"
-  default_status_confirmed: "Đã xác nhận"
-  default_status_developed: "Đã phát triển"
-  default_status_in_development: "Trong quá trình phát triển"
-  default_status_in_progress: "Đang xử lý"
-  default_status_in_specification: "Trong quá trình đặc tả"
-  default_status_in_testing: "Trong quá trình thử nghiệm"
-  default_status_new: "Mới"
-  default_status_on_hold: "Đang chờ"
-  default_status_rejected: "Đã từ chối"
-  default_status_scheduled: "Đã xếp lịch"
-  default_status_specified: "được chỉ định"
-  default_status_tested: "Đã kiểm tra"
-  default_status_test_failed: "Kiểm tra thất bại"
-  default_status_to_be_scheduled: "Sẽ được xếp lịch"
-  default_priority_low: "Thấp"
-  default_priority_normal: "Bình Thường"
-  default_priority_high: "Cao"
-  default_priority_immediate: "Ngay lập tức"
-  default_role_anonymous: "Ẩn danh"
-  default_role_developer: "Nhà phát triển"
-  default_role_project_admin: "Quản trị dự án"
-  default_role_project_creator_and_staff_manager: "Nhân viên và quản lý dự án"
-  default_role_non_member: "Không là thành viên"
-  default_role_reader: "Người đọc"
-  default_role_member: "Thành viên"
-  default_type: "Work Package"
-  default_type_bug: "Lỗi"
-  default_type_deliverable: "Có thể giao nhận"
-  default_type_epic: "Sử thi"
-  default_type_feature: "Tính năng"
-  default_type_milestone: "Milestone"
-  default_type_phase: "Giai đoạn"
-  default_type_task: "Nhiệm vụ"
-  default_type_user_story: "User story"
   description_active: "Đang hoạt động?"
   description_attachment_toggle: "Hiển thị/ẩn các đính kèm"
   description_autocomplete: >
@@ -1367,7 +1312,7 @@ vi:
     message: Đã chỉnh sửa tin nhắn
     news: Tin tức
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'Đã chỉnh sửa dự án'
     reply: Đã phản hồi
     time_entry: 'Đã chỉnh sửa Timelog'
     wiki_page: 'Đã chỉnh sửa trang Wiki'
@@ -1514,7 +1459,7 @@ vi:
   label_ical_access_key_not_present: "iCalendar token(s) not present."
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
-  label_ical_access_key_revoke: "Revoke"
+  label_ical_access_key_revoke: "Thu hồi"
   label_applied_status: "Tình trạng áp dụng"
   label_archive_project: "Archive project"
   label_ascending: "Tăng dần"
@@ -2635,7 +2580,7 @@ vi:
   text_formatting:
     markdown: 'Gạch dưới'
     plain: 'Văn bản thuần'
-  status_active: "active"
+  status_active: "hoạt động"
   status_archived: "archived"
   status_invited: invited
   status_locked: locked
@@ -2889,7 +2834,7 @@ vi:
     planning_element_update: "Update: %{title}"
     type_could_not_be_saved: "Type could not be saved"
     reporting_could_not_be_saved: "Reporting could not be saved"
-    properties: "Properties"
+    properties: "Thuộc tính"
     really_delete_color: >
       Are you sure, you want to delete the following color? Types using this color will not be deleted.
     really_delete_reporting: >
@@ -2926,7 +2871,7 @@ vi:
   total_progress: "Total progress"
   user:
     all: "tất cả"
-    active: "active"
+    active: "hoạt động"
     activate: "Activate"
     activate_and_reset_failed_logins: "Activate and reset failed logins"
     authentication_provider: "Authentication Provider"
@@ -3077,7 +3022,7 @@ vi:
           unknown: 'Yêu cầu thiếu tham số bắt buộc, bao gồm giá trị tham số không được hỗ trợ hoặc không đúng định dạng.'
           missing_param: 'Missing required parameter: %{value}.'
           request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
+        invalid_redirect_uri: "Uri chuyển hướng được yêu cầu không đúng định dạng hoặc không khớp với URI chuyển hướng máy khách."
         unauthorized_client: 'Máy khách không được phép thực hiện yêu cầu bằng phương pháp này.'
         access_denied: 'Chủ sở hữu tài nguyên hoặc máy chủ ủy quyền đã từ chối yêu cầu.'
         invalid_scope: 'Phạm vi yêu cầu không hợp lệ, không xác định hoặc không đúng định dạng.'
@@ -3158,11 +3103,11 @@ vi:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "Lỗi"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"
-      label_redirect_uri: "Redirect URI"
+      label_redirect_uri: "URI đổi hướng"
       label_request_token: "Request token"
       label_refresh_token: "Refresh token"
     errors:

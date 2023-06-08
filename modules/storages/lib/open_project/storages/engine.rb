@@ -134,7 +134,6 @@ module OpenProject::Storages
     end
 
     patch_with_namespace :Principals, :ReplaceReferencesService
-    patch_with_namespace :BasicData, :RoleSeeder
 
     # This hook is executed when the module is loaded.
     config.to_prepare do

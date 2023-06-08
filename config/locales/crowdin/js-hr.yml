@@ -330,7 +330,7 @@ hr:
       copy_url_success_text: "URL copied to clipboard."
       copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
     label_activate: "Aktiviraj"
-    label_assignee: 'Assignee'
+    label_assignee: 'Opunomoćeno'
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
     label_add_columns: "Add columns"
@@ -433,7 +433,7 @@ hr:
     label_previous: "Prethodni"
     label_per_page: "Po stranici:"
     label_please_wait: "Molimo pričekajte"
-    label_project: "Project"
+    label_project: "Projekt"
     label_project_list: "Projects list"
     label_project_plural: "Projekti"
     label_visibility_settings: "Visibility settings"
@@ -447,7 +447,7 @@ hr:
     label_report: "Izvješće"
     label_repository_plural: "Repozitoriji"
     label_save_as: "Spremiti kao"
-    label_select_project: "Select a project"
+    label_select_project: "Odaberi projekt"
     label_select_watcher: "Odaberite nadglednika..."
     label_selected_filter_list: "Odabrani filteri"
     label_show_attributes: "Pokaži sve atribute"
@@ -489,9 +489,9 @@ hr:
     label_unwatch: "Ne nadgledaj više"
     label_unwatch_work_package: "Ne nadgledaj radni paket"
     label_uploaded_by: "Dodao"
-    label_default_queries: "Default"
+    label_default_queries: "Zadana vrijednost"
     label_starred_queries: "Favorite"
-    label_global_queries: "Public"
+    label_global_queries: "Javno"
     label_custom_queries: "Private"
     label_columns: "Stupci"
     label_attachments: Prilozi
@@ -585,9 +585,9 @@ hr:
         unread: 'Unread'
         unread_title: 'Show unread'
         all: 'Svi'
-        all_title: 'Show all'
+        all_title: 'Prikaži sve'
       center:
-        label_actor_and: 'and'
+        label_actor_and: 'i'
         and_more_users:
           one: 'and 1 other'
           few: 'and %{count} others'
@@ -613,7 +613,7 @@ hr:
         by_reason: 'Reason'
         inbox: 'Inbox'
         mentioned: 'Mentioned'
-        watched: 'Watcher'
+        watched: 'Nadglednik'
         date_alert: 'Date alert'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
@@ -635,9 +635,9 @@ hr:
           mentioned:
             title: 'Mentioned'
             description: 'Receive a notification every time someone mentions me anywhere'
-          assignee: 'Assignee'
+          assignee: 'Opunomoćeno'
           responsible: 'Accountable'
-          watched: 'Watcher'
+          watched: 'Nadglednik'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
           work_package_processed: 'All status changes'
@@ -939,7 +939,7 @@ hr:
         modification_label: 'Modified within the comparison time period'
         column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
       filters:
-        title: 'Filter work packages'
+        title: 'Filtriraj radne pakete'
         baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
@@ -978,7 +978,7 @@ hr:
         description: "Opis"
         date: "Datum"
         dueDate: "Finish date"
-        duration: "Duration"
+        duration: "Trajanje"
         estimatedTime: "Predviđeno vrijeme"
         spentTime: "Utrošeno vrijeme"
         category: "Kategorija"
@@ -1091,16 +1091,16 @@ hr:
     toolbar:
       settings:
         configure_view: "Configure view"
-        columns: "Columns"
-        sort_by: "Sort by"
-        group_by: "Group by"
+        columns: "Stupci"
+        sort_by: "Sortiraj prema"
+        group_by: "Grupiraj po"
         display_sums: "Prikaži iznose"
         display_hierarchy: "Display hierarchy"
         hide_hierarchy: "Hide hierarchy"
         hide_sums: "Sakrij iznose"
         save: "Spremi"
-        save_as: "Save as"
-        export: "Export"
+        save_as: "Spremiti kao"
+        export: "Izvezi"
         visibility_settings: "Visibility settings"
         share_calendar: "Subscribe to iCalendar"
         page_settings: "Rename view"
@@ -1115,7 +1115,7 @@ hr:
       button_save: "Spremi"
       button_submit: "Pošalji"
       button_cancel: "Odustani"
-      button_delete: "Delete"
+      button_delete: "Obriši"
       form_submit:
         title: 'Confirm to continue'
         text: 'Are you sure you want to perform this action?'
@@ -1173,8 +1173,8 @@ hr:
         other: "%{count} h"
         zero: "0 h"
       day:
-        one: "1 day"
-        other: "%{count} days"
+        one: "1 dan"
+        other: "%{count} dana"
         zero: "0 days"
     zen_mode:
       button_activate: 'Activate zen mode'
@@ -1248,7 +1248,7 @@ hr:
       message:
         label: 'Invitation message'
         description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
-        next_button: 'Next'
+        next_button: 'Sljedeći'
       summary:
         next_button: 'Pošalji pozivnicu'
       success:
@@ -1275,23 +1275,23 @@ hr:
       no_results: 'No project matches your search criteria.'
     baseline:
       toggle_title: 'Baseline'
-      clear: 'Clear'
-      apply: 'Apply'
+      clear: 'Očisti'
+      apply: 'Primjeni'
       header_description: 'Highlight changes made to this list since any point in the past.'
       enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Show changes since'
       baseline_comparison: 'Baseline comparison'
       help_description: 'Reference time zone for the baseline.'
       time_description: 'In your local time: %{datetime}'
-      time: 'Time'
-      from: 'From'
-      to: 'To'
+      time: 'Vrijeme'
+      from: 'Od'
+      to: 'Prima'
       drop_down:
         none: '-'
-        yesterday: 'yesterday'
+        yesterday: 'jučer'
         last_working_day: 'last working day'
-        last_week: 'last week'
-        last_month: 'last month'
+        last_week: 'prošlog tjedna'
+        last_month: 'prošli mjesec'
         a_specific_date: 'a specific date'
         between_two_specific_dates: 'between two specific dates'
       legends:

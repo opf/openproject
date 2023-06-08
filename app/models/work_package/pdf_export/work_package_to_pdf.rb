@@ -69,8 +69,8 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
   def render_work_package
     write_title!
     write_work_package_detail_content!(work_package)
-    write_history!
-    write_changesets! if show_changesets?
+    # write_history!
+    # write_changesets! if show_changesets?
     write_headers!
     write_footers!
   end

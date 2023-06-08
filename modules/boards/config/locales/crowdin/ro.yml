@@ -7,12 +7,12 @@ ro:
     label_board: "Tablă"
     label_boards: "Panouri"
     board_types:
-      free: Basic
-      action: "Action board (%{attribute})"
+      free: De bază
+      action: "Tablă de acțiune (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
-      status: Status
-      version: Version
-      subproject: Subproject
-      subtasks: Parent-child
-      basic: Basic
+      assignee: Executant
+      status: Stare
+      version: Versiune
+      subproject: Subproiect
+      subtasks: Părinte-copil
+      basic: De bază

@@ -39,7 +39,7 @@ hr:
       meeting_minutes: "Minute"
   activity:
     filter:
-      meeting: "Meetings"
+      meeting: "Sastanci"
   description_attended: "prisustvovali su"
   description_invite: "pozvani"
   events:

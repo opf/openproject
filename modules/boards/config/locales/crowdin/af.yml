@@ -10,9 +10,9 @@ af:
       free: Basic
       action: "Action board (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
+      assignee: Gedelegeerde
       status: Status
-      version: Version
-      subproject: Subproject
+      version: Weergawe
+      subproject: Sub-projek
       subtasks: Parent-child
       basic: Basic

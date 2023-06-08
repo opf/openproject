@@ -79,27 +79,27 @@ id:
         Apakah anda yakin untuk menghapus penyimpanan ini? Hal ini akan juga menghapus penyimpanan dari semua proyek yang anda gunakan sekarang. Lebih lanjut, ini akan menghapus semua tautan dari paket kerja ke berkas yang tersimpan pada penyimpanan tersebut.
       project_storage: >
         Are you sure you want to remove this file storage from this project? This will also remove all links to files stored in this storage for this project.
-    label_creator: "Creator"
+    label_creator: "Pembuat"
     label_file_link: "File link"
     label_file_links: "File links"
-    label_name: "Name"
+    label_name: "Nama"
     label_host: "Host URL"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
     label_oauth_application_details: "OAuth application details"
     label_oauth_client_details: "OAuth client details"
-    label_provider_type: "Provider type"
+    label_provider_type: "Tipe penyedia"
     label_project_folder: "Project folder"
     label_new_storage: "New storage"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
     label_no_specific_folder: "No specific folder"
     label_no_selected_folder: "No selected folder"
-    label_storage: "Storage"
+    label_storage: "Penyimpanan"
     label_storages: "Storages"
     no_results: "No storages set up yet."
     provider_types:
-      label: "Provider type"
+      label: "Tipe penyedia"
       nextcloud:
         name: "Nextcloud"
         name_placeholder: "e.g. Nextcloud"

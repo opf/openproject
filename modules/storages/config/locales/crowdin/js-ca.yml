@@ -15,7 +15,7 @@ ca:
       choose_location: "Tria ubicació"
       types:
         nextcloud: "Nextcloud"
-        default: "Storage"
+        default: "Emmagatzematge"
       information:
         connection_error: >
           Alguna configuració de %{storageType} no està funcionant. Si us plau, contacta el teu administrador de %{storageType}.

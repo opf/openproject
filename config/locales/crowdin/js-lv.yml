@@ -330,7 +330,7 @@ lv:
       copy_url_success_text: "URL copied to clipboard."
       copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
     label_activate: "Activate"
-    label_assignee: 'Assignee'
+    label_assignee: 'Pašreizējais atbildīgais'
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
     label_add_columns: "Add columns"
@@ -433,7 +433,7 @@ lv:
     label_previous: "Iepriekšējā"
     label_per_page: "Katrā lappusē:"
     label_please_wait: "Lūdzu, uzgaidiet"
-    label_project: "Project"
+    label_project: "Projekts"
     label_project_list: "Projects list"
     label_project_plural: "Projekti"
     label_visibility_settings: "Visibility settings"
@@ -491,7 +491,7 @@ lv:
     label_uploaded_by: "Uploaded by"
     label_default_queries: "Default"
     label_starred_queries: "Favorite"
-    label_global_queries: "Public"
+    label_global_queries: "Publisks"
     label_custom_queries: "Private"
     label_columns: "Kolonnas"
     label_attachments: Attachments
@@ -585,7 +585,7 @@ lv:
         unread: 'Unread'
         unread_title: 'Show unread'
         all: 'All'
-        all_title: 'Show all'
+        all_title: 'Rādīt visus'
       center:
         label_actor_and: 'and'
         and_more_users:
@@ -613,7 +613,7 @@ lv:
         by_reason: 'Reason'
         inbox: 'Inbox'
         mentioned: 'Mentioned'
-        watched: 'Watcher'
+        watched: 'Sekotājs'
         date_alert: 'Date alert'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
@@ -635,9 +635,9 @@ lv:
           mentioned:
             title: 'Mentioned'
             description: 'Receive a notification every time someone mentions me anywhere'
-          assignee: 'Assignee'
+          assignee: 'Pašreizējais atbildīgais'
           responsible: 'Accountable'
-          watched: 'Watcher'
+          watched: 'Sekotājs'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
           work_package_processed: 'All status changes'
@@ -1091,16 +1091,16 @@ lv:
     toolbar:
       settings:
         configure_view: "Configure view"
-        columns: "Columns"
+        columns: "Kolonnas"
         sort_by: "Sort by"
-        group_by: "Group by"
+        group_by: "Grupēt pēc"
         display_sums: "Parādīt summas"
         display_hierarchy: "Display hierarchy"
         hide_hierarchy: "Hide hierarchy"
         hide_sums: "Hide sums"
         save: "Saglabāt"
-        save_as: "Save as"
-        export: "Export"
+        save_as: "Saglabāt kā"
+        export: "Eksportēt"
         visibility_settings: "Visibility settings"
         share_calendar: "Subscribe to iCalendar"
         page_settings: "Rename view"
@@ -1115,7 +1115,7 @@ lv:
       button_save: "Saglabāt"
       button_submit: "Publicēt"
       button_cancel: "Atcelt"
-      button_delete: "Delete"
+      button_delete: "Dzēst"
       form_submit:
         title: 'Confirm to continue'
         text: 'Are you sure you want to perform this action?'
@@ -1172,8 +1172,8 @@ lv:
         one: "1 h"
         other: "%{count} h"
       day:
-        one: "1 day"
-        other: "%{count} days"
+        one: "%{count} dienas"
+        other: "%{count} dienām"
     zen_mode:
       button_activate: 'Activate zen mode'
       button_deactivate: 'Deactivate zen mode'
@@ -1246,7 +1246,7 @@ lv:
       message:
         label: 'Invitation message'
         description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
-        next_button: 'Next'
+        next_button: 'Nākošā'
       summary:
         next_button: 'Nosūtīt ielūgumu'
       success:
@@ -1273,8 +1273,8 @@ lv:
       no_results: 'No project matches your search criteria.'
     baseline:
       toggle_title: 'Baseline'
-      clear: 'Clear'
-      apply: 'Apply'
+      clear: 'Notīrīt'
+      apply: 'Apstiprināt'
       header_description: 'Highlight changes made to this list since any point in the past.'
       enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Show changes since'
