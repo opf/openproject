@@ -10,7 +10,6 @@ RSpec.describe "Notification center date alerts", js: true, with_settings: { jou
     local_offset = Time.now.gmt_offset # rubocop:disable Rails/TimeZone
     time_zone = UserPreferences::UpdateContract.assignable_time_zones
                                                .find { |tz| tz.now.utc_offset == local_offset }
-                                               .tap { p _1 }
     time_zone or raise "Unable to find an assignable time zone with #{local_offset} seconds offset."
   end
 
