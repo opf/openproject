@@ -28,12 +28,20 @@
 
 module WorkPackage::PDFExport::SumsTable
   def write_work_packages_sums!(work_packages)
+    write_optional_page_break
+    write_sums_title!
     with_margin(styles.overview_table_margins) do
       write_sums_table!(work_packages)
     end
   end
 
   private
+
+  def write_sums_title!
+    with_margin(styles.page_heading_margins) do
+      pdf.formatted_text([styles.page_heading.merge({ text: I18n.t('js.work_packages.tabs.overview') })])
+    end
+  end
 
   def sums_columns_objects
     @sums_columns_objects ||= query.summed_up_columns
