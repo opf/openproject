@@ -707,7 +707,7 @@ GEM
     puma-plugin-statsd (2.4.0)
       puma (>= 5.0, < 7)
     raabro (1.4.0)
-    racc (1.6.2)
+    racc (1.7.0)
     rack (2.2.7)
     rack-accept (0.4.5)
       rack (>= 0.4)
