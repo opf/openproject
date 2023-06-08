@@ -174,7 +174,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
               title: I18n.t('export.format.pdf_overview_table')
             },
             {
-              href: project_work_packages_path(project, { format: 'pdf', show_images: true, show_report: true }.merge(expected_query_params)),
+              href: project_work_packages_path(project, { format: 'pdf', show_images: true, show_report: true }
+                                                          .merge(expected_query_params)),
               type: 'application/pdf',
               identifier: 'pdf-with-descriptions',
               title: I18n.t('export.format.pdf_report_with_images')
