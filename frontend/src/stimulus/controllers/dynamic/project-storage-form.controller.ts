@@ -29,15 +29,25 @@
  */
 
 import { Controller } from '@hotwired/stimulus';
-import { from, Observable } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import {
+  combineLatest,
+  from,
+  Observable,
+  of,
+} from 'rxjs';
+import {
+  filter,
+  map,
+  switchMap,
+} from 'rxjs/operators';
 
+import { IStorage } from 'core-app/core/state/storages/storage.model';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
+import { storageConnected } from 'core-app/shared/components/storages/storages-constants.const';
 import {
   LocationPickerModalComponent,
 } from 'core-app/shared/components/storages/location-picker-modal/location-picker-modal.component';
-import { IStorage } from 'core-app/core/state/storages/storage.model';
-import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 
 export default class ProjectStorageFormController extends Controller {
   static targets = [
@@ -45,24 +55,31 @@ export default class ProjectStorageFormController extends Controller {
     'projectFolderIdInput',
     'projectFolderIdValidation',
     'selectedFolderText',
+    'selectProjectFolderButton',
+    'loginButton',
     'storage',
-    'storageSelector',
   ];
 
   static values = {
     folderMode: String,
     placeholderFolderName: String,
+    notLoggedInValidation: String,
+    lastProjectFolders: Object,
   };
 
   declare folderModeValue:string;
 
   declare placeholderFolderNameValue:string;
 
-  declare readonly storageTargets:HTMLElement[];
+  declare notLoggedInValidationValue:string;
 
-  declare readonly storageSelectorTarget:HTMLSelectElement;
+  declare lastProjectFoldersValue:{ manual:string; automatic:string };
 
-  declare readonly hasStorageSelectorTarget:boolean;
+  declare readonly storageTarget:HTMLElement;
+
+  declare readonly selectProjectFolderButtonTarget:HTMLButtonElement;
+
+  declare readonly loginButtonTarget:HTMLButtonElement;
 
   declare readonly projectFolderSectionTarget:HTMLElement;
 
@@ -77,17 +94,24 @@ export default class ProjectStorageFormController extends Controller {
   declare readonly hasProjectFolderSectionTarget:boolean;
 
   connect():void {
-    this.toggleFolderDisplay(this.folderModeValue);
-    this.selectedFolderTextTarget.innerText = this.placeholderFolderNameValue;
+    combineLatest([
+      this.fetchStorageAuthorizationState(),
+      this.fetchProjectFolder(),
+    ]).subscribe(([isConnected, projectFolder]) => {
+      if (isConnected) {
+        this.selectProjectFolderButtonTarget.style.display = 'inline-block';
+        this.loginButtonTarget.style.display = 'none';
+        this.selectedFolderTextTarget.innerText = projectFolder === null
+          ? this.placeholderFolderNameValue
+          : projectFolder.name;
+      } else {
+        this.selectProjectFolderButtonTarget.style.display = 'none';
+        this.loginButtonTarget.style.display = 'inline-block';
+        this.selectedFolderTextTarget.innerText = this.notLoggedInValidationValue;
+      }
 
-    const href = this.projectFolderHref;
-    if (href !== null) {
-      void fetch(href)
-        .then((data) => data.json())
-        .then((file:IStorageFile) => {
-          this.selectedFolderTextTarget.innerText = file.name;
-        });
-    }
+      this.toggleFolderDisplay(this.folderModeValue);
+    });
   }
 
   selectProjectFolder(_evt:Event):void {
@@ -111,12 +135,32 @@ export default class ProjectStorageFormController extends Controller {
       });
   }
 
-  updateDisplay(evt:InputEvent):void {
+  updateForm(evt:InputEvent):void {
+    const mode = (evt.target as HTMLInputElement).value;
+    const { manual, automatic } = this.lastProjectFoldersValue;
+
+    switch (mode) {
+      case 'manual':
+        this.projectFolderIdInputTarget.value = manual ?? '';
+
+        this.fetchProjectFolder().subscribe((projectFolder) => {
+          this.selectedFolderTextTarget.innerText = projectFolder === null
+            ? this.placeholderFolderNameValue
+            : projectFolder.name;
+        });
+        break;
+      case 'automatic':
+        this.projectFolderIdInputTarget.value = automatic ?? '';
+        break;
+      default:
+        this.projectFolderIdInputTarget.value = '';
+    }
+
     if (!this.hasProjectFolderSectionTarget) {
       return;
     }
 
-    this.toggleFolderDisplay((evt.target as HTMLInputElement).value);
+    this.toggleFolderDisplay(mode);
   }
 
   private get modalService():Observable<OpModalService> {
@@ -125,11 +169,7 @@ export default class ProjectStorageFormController extends Controller {
   }
 
   private get storage():IStorage {
-    const storageElement = this.hasStorageSelectorTarget
-      ? this.storageSelectorTarget.options[this.storageSelectorTarget.selectedIndex]
-      : this.storageTargets[0];
-
-    return JSON.parse(storageElement.dataset.storage as string) as IStorage;
+    return JSON.parse(this.storageTarget.dataset.storage as string) as IStorage;
   }
 
   private get projectFolderHref():string|null {
@@ -140,6 +180,33 @@ export default class ProjectStorageFormController extends Controller {
     }
 
     return `${this.storage._links.self.href}/files/${projectFolderId}`;
+  }
+
+  private fetchStorageAuthorizationState():Observable<boolean> {
+    return from(fetch(this.storage._links.self.href)
+      .then((data) => data.json()))
+      .pipe(
+        map((storage:IStorage) => storage._links.authorizationState.href === storageConnected),
+      );
+  }
+
+  private fetchProjectFolder():Observable<IStorageFile|null> {
+    const href = this.projectFolderHref;
+    if (href === null) {
+      return of(null);
+    }
+
+    return from(fetch(href).then((data) => data.json()))
+      .pipe(
+        map((file) => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          if (file._type === 'StorageFile') {
+            return file as IStorageFile;
+          }
+
+          return null;
+        }),
+      );
   }
 
   private toggleFolderDisplay(value:string):void {

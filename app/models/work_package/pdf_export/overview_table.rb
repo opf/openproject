@@ -168,7 +168,8 @@ module WorkPackage::PDFExport::OverviewTable
 
   def build_sum_row(sums)
     sum_row = table_columns_objects.map { |col| sums[col].to_s }
-    sum_row[0] = this.I18n.t('js.label_sum')
+    sum_row.unshift '' if with_descriptions?
+    sum_row[0] = I18n.t('js.label_sum')
     sum_row
   end
 end

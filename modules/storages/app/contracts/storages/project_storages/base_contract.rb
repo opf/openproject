@@ -49,7 +49,7 @@ module Storages::ProjectStorages
     attribute :project_folder_id
 
     attribute :project_folder_mode do
-      unless @model.project_folder_inactive? || @model.project_folder_manual?
+      unless @model.project_folder_inactive? || @model.project_folder_manual? || @model.project_folder_automatic?
         errors.add :project_folder_mode, :invalid
       end
     end

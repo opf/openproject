@@ -36,12 +36,15 @@ module Storages::ProjectStorages
 
       project_storage = service_call.result
 
-      last_project_folder_result = ::Storages::LastProjectFolders::CreateService.new(user:)
-                                                .call({
-                                                        projects_storage_id: project_storage.id,
-                                                        origin_folder_id: project_storage.project_folder_id,
-                                                        mode: project_storage.project_folder_mode
-                                                      })
+      return service_call if project_storage.project_folder_mode.to_sym == :inactive
+
+      last_project_folder_result =
+        LastProjectFolderPersistenceHelper.create_last_project_folder(
+          user:,
+          projects_storage_id: project_storage.id,
+          origin_folder_id: project_storage.project_folder_id,
+          mode: project_storage.project_folder_mode
+        )
 
       service_call.add_dependent!(last_project_folder_result)
 

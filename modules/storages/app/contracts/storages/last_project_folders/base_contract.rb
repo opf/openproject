@@ -33,8 +33,9 @@ module Storages::LastProjectFolders
     attribute :projects_storage
     validates_presence_of :projects_storage
     attribute :mode
-    validates :mode, presence: true, inclusion: { in: Storages::ProjectStorage.project_folder_modes.keys }
+    validates :mode, presence: true, inclusion: {
+      in: Storages::ProjectStorage.project_folder_modes.keys.reject { |v| v == :inactive }
+    }
     attribute :origin_folder_id
-    validates_presence_of :origin_folder_id
   end
 end

@@ -182,7 +182,7 @@ hi:
     edit: 'विशेष या कस्टम क्रिया संपादित करें %{name}'
     execute: 'कार्यान्वित करें %{name}'
     upsale:
-      title: 'Custom actions'
+      title: 'विशेष या कस्टम क्रियाएँ'
       description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
@@ -484,7 +484,7 @@ hi:
           true: "public"
           false: "private"
         queries: "पूछताछ"
-        status_code: 'Project status'
+        status_code: 'प्रोजेक्ट स्थिति'
         status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
@@ -927,7 +927,7 @@ hi:
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "परियोजना की उपपरियोजना"
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
@@ -940,13 +940,13 @@ hi:
         logged_for: "Logged for"
     filter:
       changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      message: "मंच"
+      news: "नया"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
-      wiki_edit: "Wiki"
-      work_package: "Work packages"
+      time_entry: "समय बिताया"
+      wiki_edit: "विकी"
+      work_package: "कार्य पैकेज"
   #common attributes of all models
   attributes:
     active: "सक्रिय"
@@ -1003,7 +1003,7 @@ hi:
     updated_on: "पर अद्यतीत"
     uploader: "Uploader"
     user: "उपयोगकर्ता"
-    value: "Value"
+    value: "मान"
     version: "संस्करण"
     work_package: "कार्य पैकेज"
   backup:
@@ -1183,7 +1183,7 @@ hi:
       - "अक्टूबर"
       - "नवम्बर"
       - "दिसम्बर"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - ':वर्ष'
       - ':माह'
@@ -1228,61 +1228,6 @@ hi:
       hour:
         one: "घंटा"
         other: "hours"
-  default_activity_development: "विकास"
-  default_activity_management: "प्रबंधन"
-  default_activity_other: "अन्य"
-  default_activity_specification: "विनिर्देश"
-  default_activity_support: "सहायता"
-  default_activity_testing: "परीक्षण"
-  default_color_black: "काला"
-  default_color_blue: "नीला"
-  default_color_blue_dark: "नीला (गहरा)"
-  default_color_blue_light: "नीला (हल्का)"
-  default_color_green_dark: "हरा (गहरा)"
-  default_color_green_light: "हरा (हल्का)"
-  default_color_grey_dark: "धूसर (डार्क)"
-  default_color_grey_light: "धूसर (हल्का)"
-  default_color_grey: "धूसर"
-  default_color_magenta: "मैजेंटा"
-  default_color_orange: "नारंगी"
-  default_color_red: "लाल"
-  default_color_white: "सफ़ेद"
-  default_color_yellow: "पीला"
-  default_status_closed: "बंद"
-  default_status_confirmed: "पुष्टि"
-  default_status_developed: "डिवेलपर"
-  default_status_in_development: "विकास प्रक्रिया में"
-  default_status_in_progress: "प्रगति में"
-  default_status_in_specification: "विनिर्देशन में"
-  default_status_in_testing: "परीक्षण में"
-  default_status_new: "नया"
-  default_status_on_hold: "होल्ड पर"
-  default_status_rejected: "अस्वीकृत"
-  default_status_scheduled: "अनुसूचित"
-  default_status_specified: "निर्दिष्ट"
-  default_status_tested: "परीक्षित"
-  default_status_test_failed: "टेस्ट फ़ैल हो गया"
-  default_status_to_be_scheduled: "निर्धारित किया जाना"
-  default_priority_low: "निम्न"
-  default_priority_normal: "साधारण"
-  default_priority_high: "उच्च"
-  default_priority_immediate: "तत्काल"
-  default_role_anonymous: "अज्ञात"
-  default_role_developer: "डिवेलपर"
-  default_role_project_admin: "परियोजना व्यवस्थापक"
-  default_role_project_creator_and_staff_manager: "Staff and projects manager"
-  default_role_non_member: "गैर सदस्य"
-  default_role_reader: "पाठक"
-  default_role_member: "सदस्य"
-  default_type: "कार्य पैकेज"
-  default_type_bug: "बग"
-  default_type_deliverable: "डिलिवरेबल्स"
-  default_type_epic: "महाकाव्य"
-  default_type_feature: "विशेषता"
-  default_type_milestone: "मील का पत्थर"
-  default_type_phase: "चरण"
-  default_type_task: "Task"
-  default_type_user_story: "User story"
   description_active: "Active?"
   description_attachment_toggle: "Show/Hide attachments"
   description_autocomplete: >
@@ -1723,6 +1668,7 @@ hi:
   label_journal: "Journal"
   label_journal_diff: "विवरण तुलना"
   label_language: "भाषा "
+  label_languages: "Languages"
   label_jump_to_a_project: "किसी प्रोजेक्ट पर जंप करें..."
   label_keyword_plural: 'Keywords'
   label_language_based: "Based on user's language"
@@ -1982,6 +1928,7 @@ hi:
   label_user_plural: "Users"
   label_user_search: "Search for user"
   label_user_settings: "User settings"
+  label_users_settings: "Users settings"
   label_version_new: "New version"
   label_version_plural: "संस्करण"
   label_version_sharing_descendants: "With subprojects"
@@ -2607,7 +2554,7 @@ hi:
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
   setting_time_format: "Time format"
   setting_accessibility_mode_for_anonymous: "Enable accessibility mode for anonymous users"
-  setting_user_format: "Users display format"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "उपयोगकर्ता डिफ़ॉल्ट समय ज़ोन"
   setting_users_deletable_by_admins: "User accounts deletable by admins"
   setting_users_deletable_by_self: "Users allowed to delete their accounts"
@@ -2638,6 +2585,7 @@ hi:
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "डिफ़ॉल्ट प्राथमिकताएं"
+      display_format: "Display format"
       deletion: "हटाने"
     highlighting:
       mode_long:
@@ -2649,7 +2597,7 @@ hi:
   text_formatting:
     markdown: 'Markdown'
     plain: 'सादा पाठ'
-  status_active: "active"
+  status_active: "सक्रिय"
   status_archived: "archived"
   status_invited: invited
   status_locked: locked
@@ -2904,7 +2852,7 @@ hi:
     planning_element_update: "Update: %{title}"
     type_could_not_be_saved: "Type could not be saved"
     reporting_could_not_be_saved: "Reporting could not be saved"
-    properties: "Properties"
+    properties: "गुण"
     really_delete_color: >
       Are you sure, you want to delete the following color? Types using this color will not be deleted.
     really_delete_reporting: >
@@ -2941,7 +2889,7 @@ hi:
   total_progress: "Total progress"
   user:
     all: "सभी"
-    active: "active"
+    active: "सक्रिय"
     activate: "Activate"
     activate_and_reset_failed_logins: "Activate and reset failed logins"
     authentication_provider: "Authentication Provider"
@@ -3176,7 +3124,7 @@ hi:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "त्रुटि"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"

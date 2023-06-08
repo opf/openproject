@@ -41,7 +41,7 @@ hu:
       material_budget_item: "Egység"
   activity:
     filter:
-      budget: "Budgets"
+      budget: "Költségvetések"
   attributes:
     budget: "Költségvetés"
   button_add_budget_item: "Új tervezett költség"

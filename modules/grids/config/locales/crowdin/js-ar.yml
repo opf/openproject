@@ -36,7 +36,7 @@ ar:
           off_track: 'Off track'
           at_risk: 'At risk'
           not_set: 'Not set'
-          finished: 'Finished'
+          finished: 'مكتمل'
           discontinued: 'Discontinued'
         subprojects:
           title: 'المشاريع الفرعية'

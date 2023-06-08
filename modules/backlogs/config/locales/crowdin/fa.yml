@@ -35,9 +35,6 @@ fa:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "can only contain IDs of work packages in the current sprint."
               must_block_at_least_one_work_package: "must contain the ID of at least one ticket."
-            parent_id:
-              parent_child_relationship_across_projects: "is invalid because the work package '%{work_package_name}' is a backlog task and therefore cannot have a parent outside of the current project."
-              type_must_be_one_of_the_following: "Type must be one of the following: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "باید از  همان نگارش داستان زادآوران باشد."
         sprint:
@@ -144,7 +141,7 @@ fa:
   points_resolved: "points resolved"
   points_to_accept: "points not accepted"
   points_to_resolve: "points not resolved"
-  project_module_backlogs: "Backlogs"
+  project_module_backlogs: "پس‌افت‌ها"
   rb_label_copy_tasks: "Copy work packages"
   rb_label_copy_tasks_all: "همه"
   rb_label_copy_tasks_none: "None"
@@ -153,9 +150,9 @@ fa:
   remaining_hours: "remaining hours"
   required_burn_rate_hours: "required burn rate (hours)"
   required_burn_rate_points: "required burn rate (points)"
-  todo_work_package_description: "%{summary}: %{url}\n%{description}"
+  todo_work_package_description: "%{summary}: %{url} %{description}"
   todo_work_package_summary: "%{type}: %{summary}"
-  version_settings_display_label: "Column in backlog"
+  version_settings_display_label: "ستون در پس‌افت"
   version_settings_display_option_left: "چپ"
-  version_settings_display_option_none: "none"
+  version_settings_display_option_none: "هیچ کدام"
   version_settings_display_option_right: "راست"

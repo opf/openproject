@@ -7,12 +7,12 @@ ko:
     label_board: "게시판"
     label_boards: "보드"
     board_types:
-      free: Basic
-      action: "Action board (%{attribute})"
+      free: 기본
+      action: "작업 보드(%{attribute})"
     board_type_attributes:
-      assignee: Assignee
-      status: Status
-      version: Version
-      subproject: Subproject
-      subtasks: Parent-child
-      basic: Basic
+      assignee: 담당자
+      status: 상태
+      version: 버전
+      subproject: 하위 프로젝트
+      subtasks: 부모-자식
+      basic: 기본

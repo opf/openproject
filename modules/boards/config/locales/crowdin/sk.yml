@@ -10,9 +10,9 @@ sk:
       free: Basic
       action: "Action board (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
-      status: Status
-      version: Version
-      subproject: Subproject
+      assignee: Priradené
+      status: Stav
+      version: Verzia
+      subproject: Podprojekt
       subtasks: Parent-child
       basic: Basic

@@ -330,7 +330,7 @@ et:
       copy_url_success_text: "URL copied to clipboard."
       copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
     label_activate: "Aktiveerimine"
-    label_assignee: 'Assignee'
+    label_assignee: 'Määratud tegija'
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
     label_add_columns: "Add columns"
@@ -340,7 +340,7 @@ et:
     label_add_row_before: "Add row before"
     label_add_selected_columns: "Lisa valitud väljad"
     label_added_by: "lisas"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "päeva tagasi"
     label_all: "kõik"
     label_all_work_packages: "kõik teemad"
@@ -433,7 +433,7 @@ et:
     label_previous: "Eelmine"
     label_per_page: "Lehekülje kohta:"
     label_please_wait: "Please wait"
-    label_project: "Project"
+    label_project: "Projekt"
     label_project_list: "Projects list"
     label_project_plural: "Projektid"
     label_visibility_settings: "Visibility settings"
@@ -447,7 +447,7 @@ et:
     label_report: "Aruanne"
     label_repository_plural: "Hoidlad"
     label_save_as: "Salvesta kui"
-    label_select_project: "Select a project"
+    label_select_project: "Vali projekt"
     label_select_watcher: "Vali jälgija..."
     label_selected_filter_list: "Valitud filtrid"
     label_show_attributes: "Show all attributes"
@@ -489,9 +489,9 @@ et:
     label_unwatch: "Ära jälgi"
     label_unwatch_work_package: "Unwatch work package"
     label_uploaded_by: "Uploaded by"
-    label_default_queries: "Default"
+    label_default_queries: "Vaikimisi"
     label_starred_queries: "Favorite"
-    label_global_queries: "Public"
+    label_global_queries: "Avalik"
     label_custom_queries: "Private"
     label_columns: "Väljad"
     label_attachments: Manused
@@ -585,9 +585,9 @@ et:
         unread: 'Unread'
         unread_title: 'Show unread'
         all: 'Kõik'
-        all_title: 'Show all'
+        all_title: 'Näita kõiki'
       center:
-        label_actor_and: 'and'
+        label_actor_and: 'ja'
         and_more_users:
           one: 'and 1 other'
           other: 'and %{count} others'
@@ -612,7 +612,7 @@ et:
         by_reason: 'Reason'
         inbox: 'Inbox'
         mentioned: 'Mentioned'
-        watched: 'Watcher'
+        watched: 'Jälgija'
         date_alert: 'Date alert'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
@@ -634,9 +634,9 @@ et:
           mentioned:
             title: 'Mentioned'
             description: 'Receive a notification every time someone mentions me anywhere'
-          assignee: 'Assignee'
+          assignee: 'Määratud tegija'
           responsible: 'Accountable'
-          watched: 'Watcher'
+          watched: 'Jälgija'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
           work_package_processed: 'All status changes'
@@ -938,7 +938,7 @@ et:
         modification_label: 'Modified within the comparison time period'
         column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
       filters:
-        title: 'Filter work packages'
+        title: 'Filtreeri teemasid'
         baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
@@ -977,7 +977,7 @@ et:
         description: "Teave"
         date: "Kuupäev"
         dueDate: "Lõpetamise kuupäev"
-        duration: "Duration"
+        duration: "kestus"
         estimatedTime: "Eeldatav ajakulu"
         spentTime: "Kulutatud aeg"
         category: "Kategooria"
@@ -1090,16 +1090,16 @@ et:
     toolbar:
       settings:
         configure_view: "Configure view"
-        columns: "Columns"
-        sort_by: "Sort by"
-        group_by: "Group by"
+        columns: "Väljad"
+        sort_by: "Sorteeri"
+        group_by: "Grupeeri"
         display_sums: "Display sums"
         display_hierarchy: "Display hierarchy"
         hide_hierarchy: "Hide hierarchy"
         hide_sums: "Hide sums"
         save: "Salvesta"
-        save_as: "Save as"
-        export: "Export"
+        save_as: "Salvesta kui"
+        export: "Ekspordi"
         visibility_settings: "Visibility settings"
         share_calendar: "Subscribe to iCalendar"
         page_settings: "Rename view"
@@ -1114,7 +1114,7 @@ et:
       button_save: "Salvesta"
       button_submit: "Sisesta"
       button_cancel: "Tühista"
-      button_delete: "Delete"
+      button_delete: "Kustuta"
       form_submit:
         title: 'Confirm to continue'
         text: 'Are you sure you want to perform this action?'
@@ -1170,8 +1170,8 @@ et:
         other: "%{count} h"
         zero: "0 h"
       day:
-        one: "1 day"
-        other: "%{count} days"
+        one: "1 päev"
+        other: "%{count} päeva"
         zero: "0 days"
     zen_mode:
       button_activate: 'Activate zen mode'
@@ -1245,7 +1245,7 @@ et:
       message:
         label: 'Invitation message'
         description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
-        next_button: 'Next'
+        next_button: 'Järgmine'
       summary:
         next_button: 'Send invitation'
       success:
@@ -1272,23 +1272,23 @@ et:
       no_results: 'No project matches your search criteria.'
     baseline:
       toggle_title: 'Baseline'
-      clear: 'Clear'
-      apply: 'Apply'
+      clear: 'Tühjenda'
+      apply: 'Rakenda'
       header_description: 'Highlight changes made to this list since any point in the past.'
       enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Show changes since'
       baseline_comparison: 'Baseline comparison'
       help_description: 'Reference time zone for the baseline.'
       time_description: 'In your local time: %{datetime}'
-      time: 'Time'
-      from: 'From'
-      to: 'To'
+      time: 'Aeg'
+      from: 'Algus'
+      to: 'Lõpp'
       drop_down:
         none: '-'
-        yesterday: 'yesterday'
+        yesterday: 'eile'
         last_working_day: 'last working day'
-        last_week: 'last week'
-        last_month: 'last month'
+        last_week: 'eelmisel nädalal'
+        last_month: 'eelmisel kuul'
         a_specific_date: 'a specific date'
         between_two_specific_dates: 'between two specific dates'
       legends:

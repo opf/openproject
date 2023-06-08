@@ -2,12 +2,6 @@
 sl:
   bim:
     label_bim: 'BIM'
-    default_type_clash: Konflikt
-    default_type_issue: Težava
-    default_type_remark: Opomba
-    default_type_request: Zahteva
-    default_status_resolved: Rešeno
-    default_priority_critical: Kritično
   bcf:
     label_bcf: 'BCF'
     label_imported_failed: 'Uvoz tematike BCF ni uspel'

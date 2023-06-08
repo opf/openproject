@@ -12,7 +12,7 @@ eu:
     board_type_attributes:
       assignee: Assignee
       status: Status
-      version: Version
+      version: Bertsioa
       subproject: Subproject
       subtasks: Parent-child
       basic: Basic

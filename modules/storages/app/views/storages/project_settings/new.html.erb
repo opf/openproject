@@ -31,14 +31,24 @@ See COPYRIGHT and LICENSE files for more details.
 <% local_assigns[:additional_breadcrumb] = t('storages.label_new_storage') %>
 <%= toolbar title: t("storages.page_titles.project_settings.new") %>
 
-<%= labelled_tabular_form_for @project_storage, url: project_settings_projects_storages_path do |f| -%>
-  <section class="form--section">
-    <% if @available_storages.any? %>
-      <%= render partial: '/storages/project_settings/form',
-                 locals: { f: f, available_storages: @available_storages, submit_button_label: t('button_add') }
-      %>
+<section class="form--section">
+  <% if @available_storages.any? %>
+    <% if @project_storage.storage.blank? %>
+      <%= labelled_tabular_form_for @project_storage,
+                                    url: new_project_settings_projects_storage_path,
+                                    html: { method: :get } do |f| -%>
+        <%= render partial: '/storages/project_settings/storage_select_form',
+                   locals: { f: f, available_storages: @available_storages, submit_button_label: t('button_continue') }
+        %>
+      <% end %>
     <% else %>
-      <%= render partial: '/storages/project_settings/toast_all_available_storages_already_added' %>
+      <%= labelled_tabular_form_for @project_storage, url: project_settings_projects_storages_path do |f| -%>
+        <%= render partial: '/storages/project_settings/project_folder_form',
+                   locals: { f: f, submit_button_label: t('button_add') }
+        %>
+      <% end %>
     <% end %>
-  </section>
-<% end %>
+  <% else %>
+    <%= render partial: '/storages/project_settings/toast_all_available_storages_already_added' %>
+  <% end %>
+</section>

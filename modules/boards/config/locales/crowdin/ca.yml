@@ -7,12 +7,12 @@ ca:
     label_board: "Taulell"
     label_boards: "Taulells"
     board_types:
-      free: Basic
-      action: "Action board (%{attribute})"
+      free: Bàsic
+      action: "Panell d'acció (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
-      status: Status
-      version: Version
-      subproject: Subproject
-      subtasks: Parent-child
-      basic: Basic
+      assignee: Assignat a
+      status: Estat
+      version: Versió
+      subproject: Subprojecte
+      subtasks: Pare-fill
+      basic: Bàsic

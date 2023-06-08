@@ -30,5 +30,38 @@
 # The comments here are also valid for the other *_service.rb files
 module Storages::ProjectStorages
   class UpdateService < ::BaseServices::Update
+    protected
+
+    def after_perform(service_call)
+      super(service_call)
+
+      project_storage = service_call.result
+      return service_call if project_storage.project_folder_mode.to_sym == :inactive
+
+      project_folder = ::Storages::LastProjectFolder
+                         .find_by(
+                           projects_storage_id: project_storage.id,
+                           mode: project_storage.project_folder_mode
+                         )
+
+      last_project_folder_result =
+        if project_folder.nil?
+          LastProjectFolderPersistenceHelper.create_last_project_folder(
+            user:,
+            projects_storage_id: project_storage.id,
+            origin_folder_id: project_storage.project_folder_id,
+            mode: project_storage.project_folder_mode)
+        else
+          LastProjectFolderPersistenceHelper.update_last_project_folder(
+            user:,
+            project_folder:,
+            origin_folder_id: project_storage.project_folder_id
+          )
+        end
+
+      service_call.add_dependent!(last_project_folder_result)
+
+      service_call
+    end
   end
 end

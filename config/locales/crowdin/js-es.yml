@@ -340,7 +340,7 @@ es:
     label_add_row_before: "Añadir fila encima"
     label_add_selected_columns: "Agregar columnas seleccionadas"
     label_added_by: "agregado por"
-    label_added_time_by: "Añadido por <a href=%{authorLink}>%{author}</a> a las %{age}"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "días antes"
     label_all: "todos"
     label_all_work_packages: "todos los paquetes de trabajo"
@@ -1272,23 +1272,23 @@ es:
       no_results: 'Ningún producto coincide con tu criterio de búsqueda'
     baseline:
       toggle_title: 'Baseline'
-      clear: 'Clear'
-      apply: 'Apply'
+      clear: 'Eliminar'
+      apply: 'Aplicar'
       header_description: 'Highlight changes made to this list since any point in the past.'
       enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Show changes since'
       baseline_comparison: 'Baseline comparison'
       help_description: 'Reference time zone for the baseline.'
       time_description: 'In your local time: %{datetime}'
-      time: 'Time'
-      from: 'From'
-      to: 'To'
+      time: 'Tiempo'
+      from: 'De'
+      to: 'Para'
       drop_down:
         none: '-'
-        yesterday: 'yesterday'
+        yesterday: 'ayer'
         last_working_day: 'last working day'
         last_week: 'Semana anterior'
-        last_month: 'last month'
+        last_month: 'El mes pasado'
         a_specific_date: 'a specific date'
         between_two_specific_dates: 'between two specific dates'
       legends:

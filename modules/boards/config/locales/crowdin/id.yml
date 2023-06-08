@@ -8,11 +8,11 @@ id:
     label_boards: "Papan"
     board_types:
       free: Basic
-      action: "Action board (%{attribute})"
+      action: "Papan aksi (%{attribute}"
     board_type_attributes:
-      assignee: Assignee
+      assignee: Pelimpahan
       status: Status
-      version: Version
-      subproject: Subproject
+      version: Versi
+      subproject: Sub-Project
       subtasks: Parent-child
       basic: Basic

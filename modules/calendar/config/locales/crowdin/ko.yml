@@ -3,5 +3,5 @@ ko:
   label_calendar_plural: "달력"
   permission_view_calendar: "달력 보기"
   permission_manage_calendars: "달력 관리"
-  permission_share_calendars: "Share calendars"
+  permission_share_calendars: "Subscribe to iCalendars"
   project_module_calendar_view: "달력"

@@ -77,12 +77,31 @@ RSpec.describe RootSeeder,
         "User: OpenProject Admin" => 12
       )
     end
+
+    it 'adds additional permissions from modules' do
+      # do not test for all permissions but only some of them to ensure the ones
+      # for BIM got processed
+      member_role = root_seeder.seed_data.find_reference(:default_role_member)
+      expect(member_role.permissions).to include(
+        :view_work_packages, # from common basic data
+        :view_linked_issues # from bim module
+      )
+    end
+
+    include_examples 'it creates records', model: Color, expected_count: 144
+    include_examples 'it creates records', model: DocumentCategory, expected_count: 3
+    include_examples 'it creates records', model: IssuePriority, expected_count: 4
+    include_examples 'it creates records', model: Status, expected_count: 4
+    include_examples 'it creates records', model: TimeEntryActivity, expected_count: 3
+    include_examples 'it creates records', model: Workflow, expected_count: 182
   end
 
   describe 'demo data' do
+    shared_let(:root_seeder) { described_class.new }
+
     before_all do
       with_edition('bim') do
-        described_class.new.seed_data!
+        root_seeder.seed_data!
       end
     end
 
@@ -92,6 +111,8 @@ RSpec.describe RootSeeder,
   end
 
   describe 'demo data mock-translated in another language' do
+    shared_let(:root_seeder) { described_class.new }
+
     before_all do
       with_edition('bim') do
         # simulate a translation by changing the returned string on `I18n#t` calls
@@ -100,7 +121,7 @@ RSpec.describe RootSeeder,
           "tr: #{original_translation}"
         end
 
-        described_class.new.seed_data!
+        root_seeder.seed_data!
       end
     end
 
@@ -134,10 +155,12 @@ RSpec.describe RootSeeder,
   end
 
   describe 'demo data with a non-English language' do
+    shared_let(:root_seeder) { described_class.new }
+
     before_all do
       with_edition('bim') do
         stub_language('de')
-        described_class.new.seed_data!
+        root_seeder.seed_data!
       end
     end
 

@@ -7,12 +7,12 @@ tr:
     label_board: "Pano"
     label_boards: "Panolar"
     board_types:
-      free: Basic
-      action: "Action board (%{attribute})"
+      free: Temel
+      action: "Eylem kurulu (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
-      status: Status
-      version: Version
-      subproject: Subproject
-      subtasks: Parent-child
-      basic: Basic
+      assignee: Atanan
+      status: Durum
+      version: Sürüm
+      subproject: Alt proje
+      subtasks: Ana-Yavru
+      basic: Temel

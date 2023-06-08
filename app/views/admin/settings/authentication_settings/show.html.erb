@@ -127,7 +127,6 @@ See COPYRIGHT and LICENSE files for more details.
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= I18n.t(:other, scope: [:settings]) %></legend>
       <div class="form--field -wide-label"><%= setting_check_box :log_requesting_user %></div>
-      <div class="form--field -wide-label"><%= setting_check_box :rest_api_enabled %></div>
     </fieldset>
   </section>
   <% unless OpenProject::Configuration.disable_password_login? %>

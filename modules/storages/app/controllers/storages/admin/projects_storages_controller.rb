@@ -61,9 +61,6 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
   # Show a HTML page with a form in order to create a new ProjectStorage
   # Called by: When a user clicks on the "+New" button in Project -> Settings -> File Storages
   def new
-    # Create an empty ProjectStorage object, but don't save it to the database yet.
-    # @project was calculated in before_action (see comments above).
-    # @project_storage is used in the view in order to render the form for a new object
     @project_storage = ::Storages::ProjectStorages::SetAttributesService
                          .new(user: current_user,
                               model: Storages::ProjectStorage.new,
@@ -71,11 +68,15 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
                          .call(project: @project)
                          .result
 
-    # Calculate the list of available Storage objects, subtracting already enabled storages.
     @available_storages = available_storages
+    @last_project_folders = {}
 
-    # Show the HTML form to create the object.
-    render '/storages/project_settings/new'
+    storage_id = params.dig(:storages_project_storage, :storage_id)
+    if storage_id.present?
+      @project_storage.storage = available_storages.find_by(id: storage_id)
+    end
+
+    render template: '/storages/project_settings/new'
   end
 
   # Create a new ProjectStorage object.
@@ -108,7 +109,10 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
     # @project_storage is used in the view in order to render the form for a new object
     @project_storage = @object
 
-    @last_project_folders = Storages::LastProjectFolder.where(projects_storage: @project_storage).index_by(&:mode)
+    @last_project_folders = Storages::LastProjectFolder
+                              .where(projects_storage: @project_storage)
+                              .index_by(&:mode)
+                              .transform_values(&:origin_folder_id)
 
     render '/storages/project_settings/edit'
   end
@@ -141,7 +145,7 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
     Storages::ProjectStorages::DeleteService
       .new(user: current_user, model: @object)
       .call
-      .on_failure { |service_result| flash[:error] = service_result.all_errors.full_messages }
+      .on_failure { |service_result| flash[:error] = service_result.errors.full_messages }
 
     # Redirect the user to the URL of Projects -> Settings -> File Storages
     redirect_to project_settings_projects_storages_path

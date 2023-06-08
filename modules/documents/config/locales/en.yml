@@ -39,11 +39,6 @@ en:
   default_doc_category_user: "User documentation"
 
   enumeration_doc_categories: "Document categories"
-  enumeration:
-    document_category:
-      documentation: Documentation
-      specification: Specification
-      other: Other
 
   documents:
     label_attachment_author: "Attachment author"

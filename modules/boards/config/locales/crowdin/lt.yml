@@ -7,12 +7,12 @@ lt:
     label_board: "Lenta"
     label_boards: "Lentos"
     board_types:
-      free: Basic
-      action: "Action board (%{attribute})"
+      free: Pagrindinis
+      action: "Veiksmų lenta (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
-      status: Status
-      version: Version
-      subproject: Subproject
+      assignee: Paskirtas
+      status: Būsena
+      version: Versija
+      subproject: Sub-projektas
       subtasks: Parent-child
-      basic: Basic
+      basic: Pagrindinis

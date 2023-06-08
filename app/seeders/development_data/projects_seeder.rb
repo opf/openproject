@@ -69,7 +69,7 @@ module DevelopmentData
     def set_members(projects)
       %w(reader member project_admin).each do |id|
         principal = User.find_by!(login: id)
-        role = Role.find_by!(name: I18n.t("default_role_#{id}"))
+        role = seed_data.find_reference(:"default_role_#{id}")
 
         projects.each { |p| Member.create! project: p, principal:, roles: [role] }
       end

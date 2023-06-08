@@ -168,7 +168,8 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
     describe '#files_query' do
       let(:parent) { '' }
       let(:root_path) { '' }
-      let(:xml) { create(:webdav_data, parent_path: parent, root_path:) }
+      let(:origin_user_id) { 'darth@vader with spaces' }
+      let(:xml) { create(:webdav_data, parent_path: parent, root_path:, origin_user_id:) }
       let(:url) { "https://example.com#{root_path}" }
       let(:request_url) do
         Storages::Peripherals::StorageInteraction::Nextcloud::Util.join_uri_path(
@@ -191,26 +192,18 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
             expect(result.result.files.size).to eq(4)
             expect(result.result.ancestors.size).to eq(0)
             expect(result.result.parent).not_to be_nil
-            expect(result.result.files[0]).to have_attributes(
-              id: '11',
-              name: 'Folder1',
-              mime_type: 'application/x-op-directory',
-              permissions: include(:readable, :writeable)
-            )
-            expect(result.result.files[1]).to have_attributes(
-              mime_type: 'application/x-op-directory',
-              permissions: %i[readable]
-            )
-            expect(result.result.files[2]).to have_attributes(
-              id: '12',
-              name: 'README.md',
-              mime_type: 'text/markdown',
-              permissions: include(:readable, :writeable)
-            )
-            expect(result.result.files[3]).to have_attributes(
-              mime_type: 'application/pdf',
-              permissions: %i[readable]
-            )
+            expect(result.result.files[0]).to have_attributes(id: '11',
+                                                              name: 'Folder1',
+                                                              mime_type: 'application/x-op-directory',
+                                                              permissions: include(:readable, :writeable))
+            expect(result.result.files[1]).to have_attributes(mime_type: 'application/x-op-directory',
+                                                              permissions: %i[readable])
+            expect(result.result.files[2]).to have_attributes(id: '12',
+                                                              name: 'README.md',
+                                                              mime_type: 'text/markdown',
+                                                              permissions: include(:readable, :writeable))
+            expect(result.result.files[3]).to have_attributes(mime_type: 'application/pdf',
+                                                              permissions: %i[readable])
           end
 
           describe 'with origin user id containing whitespaces' do
@@ -354,11 +347,9 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
 
       before do
         stub_request(:get, "https://example.com/ocs/v1.php/apps/integration_openproject/fileinfo/#{file_id}")
-          .with(headers: {
-                  'Accept' => 'application/json',
-                  'Authorization' => 'Bearer xyz',
-                  'Content-Type' => 'application/json'
-                })
+          .with(headers: { 'Accept' => 'application/json',
+                           'Authorization' => 'Bearer xyz',
+                           'Content-Type' => 'application/json' })
           .to_return(status: 200, body: expected_response_body, headers: {})
       end
 
@@ -493,19 +484,19 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
 
     before do
       stub_request(:get, "https://example.com/ocs/v1.php/cloud/groups/#{storage.group}")
-      .with(
-        headers: {
-          'Authorization' => 'Basic T3BlblByb2plY3Q6T3BlblByb2plY3RTZWN1cmVQYXNzd29yZA==',
-          'OCS-APIRequest' => 'true'
-        }
-      )
-            .to_return(expected_response)
+        .with(
+          headers: {
+            'Authorization' => 'Basic T3BlblByb2plY3Q6T3BlblByb2plY3RTZWN1cmVQYXNzd29yZA==',
+            'OCS-APIRequest' => 'true'
+          }
+        )
+        .to_return(expected_response)
     end
 
     it 'responds with a strings array with group users' do
       result = subject
-      .group_users_query
-            .call
+                 .group_users_query
+                 .call
       expect(result).to be_success
       expect(result.result).to eq(["admin", "OpenProject", "reader", "TestUser", "TestUser34"])
     end
@@ -537,13 +528,13 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
 
     before do
       stub_request(:post, "https://example.com/ocs/v1.php/cloud/users/#{origin_user_id}/groups")
-      .with(
-        headers: {
-          'Authorization' => 'Basic T3BlblByb2plY3Q6T3BlblByb2plY3RTZWN1cmVQYXNzd29yZA==',
-          'OCS-APIRequest' => 'true'
-        }
-      )
-            .to_return(expected_response)
+        .with(
+          headers: {
+            'Authorization' => 'Basic T3BlblByb2plY3Q6T3BlblByb2plY3RTZWN1cmVQYXNzd29yZA==',
+            'OCS-APIRequest' => 'true'
+          }
+        )
+        .to_return(expected_response)
     end
 
     it 'adds user to the group' do
@@ -581,13 +572,13 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
 
     before do
       stub_request(:delete, "https://example.com/ocs/v1.php/cloud/users/#{origin_user_id}/groups?groupid=#{storage.group}")
-      .with(
-        headers: {
-          'Authorization' => 'Basic T3BlblByb2plY3Q6T3BlblByb2plY3RTZWN1cmVQYXNzd29yZA==',
-          'OCS-APIRequest' => 'true'
-        }
-      )
-            .to_return(expected_response)
+        .with(
+          headers: {
+            'Authorization' => 'Basic T3BlblByb2plY3Q6T3BlblByb2plY3RTZWN1cmVQYXNzd29yZA==',
+            'OCS-APIRequest' => 'true'
+          }
+        )
+        .to_return(expected_response)
     end
 
     it 'removes user from the group' do
@@ -604,12 +595,12 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
 
     before do
       stub_request(:mkcol, "https://example.com/remote.php/dav/files/OpenProject/OpenProject/JediProject")
-      .with(
-        headers: {
-          'Authorization' => 'Basic T3BlblByb2plY3Q6T3BlblByb2plY3RTZWN1cmVQYXNzd29yZA=='
-        }
-      )
-            .to_return(expected_response)
+        .with(
+          headers: {
+            'Authorization' => 'Basic T3BlblByb2plY3Q6T3BlblByb2plY3RTZWN1cmVQYXNzd29yZA=='
+          }
+        )
+        .to_return(expected_response)
     end
 
     context 'when folder does not exist yet' do
@@ -623,8 +614,8 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
 
       it 'creates a folder and responds with a success' do
         result = subject
-        .create_folder_command
-            .call(folder_path:)
+                   .create_folder_command
+                   .call(folder_path:)
         expect(result).to be_success
         expect(result.message).to eq("Folder was successfully created.")
       end
@@ -650,8 +641,8 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
 
       it 'does not create a folder and responds with a success' do
         result = subject
-        .create_folder_command
-            .call(folder_path:)
+                   .create_folder_command
+                   .call(folder_path:)
         expect(result).to be_success
         expect(result.message).to eq("Folder already exists.")
       end
@@ -677,8 +668,8 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
 
       it 'does not create a folder and responds with a failure' do
         result = subject
-        .create_folder_command
-            .call(folder_path:)
+                   .create_folder_command
+                   .call(folder_path:)
         expect(result).to be_failure
         expect(result.result).to eq(:conflict)
         expect(result.errors.log_message).to eq('Parent node does not exist')
@@ -743,13 +734,13 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
       context 'with outbound request' do
         before do
           stub_request(:proppatch, "#{url}/remote.php/dav/files/OpenProject/OpenProject/JediProject")
-          .with(
-            body: expected_request_body,
-            headers: {
-              'Authorization' => 'Basic T3BlblByb2plY3Q6T3BlblByb2plY3RTZWN1cmVQYXNzd29yZA=='
-            }
-          )
-                    .to_return(expected_response)
+            .with(
+              body: expected_request_body,
+              headers: {
+                'Authorization' => 'Basic T3BlblByb2plY3Q6T3BlblByb2plY3RTZWN1cmVQYXNzd29yZA=='
+              }
+            )
+            .to_return(expected_response)
         end
 
         context 'when permissions can be set' do
@@ -783,8 +774,8 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
 
           it 'returns success when permissions can be set' do
             result = subject
-            .set_permissions_command
-                  .call(path:, permissions:)
+                       .set_permissions_command
+                       .call(path:, permissions:)
             expect(result).to be_success
           end
         end
@@ -811,8 +802,8 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
 
           it 'returns failure' do
             result = subject
-            .set_permissions_command
-                  .call(path:, permissions:)
+                       .set_permissions_command
+                       .call(path:, permissions:)
             expect(result).to be_failure
           end
         end
@@ -839,8 +830,8 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
 
           it 'returns failure' do
             result = subject
-            .set_permissions_command
-                  .call(path:, permissions:)
+                       .set_permissions_command
+                       .call(path:, permissions:)
             expect(result).to be_failure
           end
         end
@@ -850,16 +841,16 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
         it 'raises an ArgumentError on nil' do
           expect do
             subject
-            .set_permissions_command
-                    .call(path: nil, permissions:)
+              .set_permissions_command
+              .call(path: nil, permissions:)
           end.to raise_error(ArgumentError)
         end
 
         it 'raises an ArgumentError on empty string' do
           expect do
             subject
-            .set_permissions_command
-                    .call(path: '', permissions:)
+              .set_permissions_command
+              .call(path: '', permissions:)
           end.to raise_error(ArgumentError)
         end
       end
@@ -938,7 +929,6 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
               </d:prop>
               <d:status>HTTP/1.1 200 OK</d:status>
             </d:propstat>
-            <d:propstat>
           </d:response>
           <d:response>
             <d:href>/remote.php/dav/files/OpenProject/OpenProject/qweekk/</d:href>
@@ -974,7 +964,8 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
                                "OpenProject/Project#1/" => { "fileid" => "773" },
                                "OpenProject/Project#2/" => { "fileid" => "398" },
                                "OpenProject/asd/" => { "fileid" => "783" },
-                               "OpenProject/qwe/" => { "fileid" => "767" } })
+                               "OpenProject/qwe/" => { "fileid" => "767" },
+                               "OpenProject/qweekk/" => { "fileid" => "802" } })
       end
     end
   end
@@ -982,19 +973,19 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
   describe '#rename_file_command' do
     before do
       stub_request(:move, "https://example.com/remote.php/dav/files/OpenProject/OpenProject/asd")
-      .with(
-        headers: {
-          'Authorization' => 'Basic T3BlblByb2plY3Q6T3BlblByb2plY3RTZWN1cmVQYXNzd29yZA==',
-          'Destination' => '/remote.php/dav/files/OpenProject/OpenProject/qwe'
-        }
-      ).to_return(status: 201, body: '', headers: {})
+        .with(
+          headers: {
+            'Authorization' => 'Basic T3BlblByb2plY3Q6T3BlblByb2plY3RTZWN1cmVQYXNzd29yZA==',
+            'Destination' => '/remote.php/dav/files/OpenProject/OpenProject/qwe'
+          }
+        ).to_return(status: 201, body: '', headers: {})
     end
 
     describe 'with Nextcloud storage type selected' do
       it 'moves the file' do
         result = subject
-        .rename_file_command
-                         .call(source: 'OpenProject/asd', target: 'OpenProject/qwe')
+                   .rename_file_command
+                   .call(source: 'OpenProject/asd', target: 'OpenProject/qwe')
         expect(result).to be_success
       end
     end

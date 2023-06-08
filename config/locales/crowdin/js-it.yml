@@ -340,7 +340,7 @@ it:
     label_add_row_before: "Aggiungi riga prima"
     label_add_selected_columns: "Aggiungi colonne selezionate"
     label_added_by: "aggiunto da"
-    label_added_time_by: "Aggiunto da <a href=%{authorLink}>%{author}</a> alle %{age}"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "giorni fa"
     label_all: "tutti"
     label_all_work_packages: "tutte le macro-attività"
@@ -1272,23 +1272,23 @@ it:
       no_results: 'Nessun progetto corrisponde ai tuoi criteri di ricerca'
     baseline:
       toggle_title: 'Baseline'
-      clear: 'Clear'
-      apply: 'Apply'
+      clear: 'Pulisci'
+      apply: 'Applica'
       header_description: 'Highlight changes made to this list since any point in the past.'
       enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Show changes since'
       baseline_comparison: 'Baseline comparison'
       help_description: 'Reference time zone for the baseline.'
       time_description: 'In your local time: %{datetime}'
-      time: 'Time'
-      from: 'From'
-      to: 'To'
+      time: 'Tempo'
+      from: 'Da'
+      to: 'A'
       drop_down:
         none: '-'
-        yesterday: 'yesterday'
+        yesterday: 'ieri'
         last_working_day: 'last working day'
-        last_week: 'last week'
-        last_month: 'last month'
+        last_week: 'ultima settimana'
+        last_month: 'il mese scorso'
         a_specific_date: 'a specific date'
         between_two_specific_dates: 'between two specific dates'
       legends:

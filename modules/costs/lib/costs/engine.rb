@@ -101,7 +101,6 @@ module Costs
     activity_provider :time_entries, class_name: 'Activities::TimeEntryActivityProvider', default: false
 
     patches %i[Project User PermittedParams ProjectsController]
-    patch_with_namespace :BasicData, :RoleSeeder
     patch_with_namespace :BasicData, :SettingSeeder
     patch_with_namespace :ActiveSupport, :NumberHelper, :NumberToCurrencyConverter
 

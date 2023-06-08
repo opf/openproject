@@ -105,7 +105,7 @@ fa:
   label_no: "No"
   label_option_plural: "Options"
   label_overall_costs: "Overall costs"
-  label_rate: "Rate"
+  label_rate: "نرخ"
   label_rate_plural: "Rates"
   label_status_finished: "Finished"
   label_units: "Cost units"

@@ -41,7 +41,7 @@ fi:
       material_budget_item: "Yksikkö"
   activity:
     filter:
-      budget: "Budgets"
+      budget: "Budjetit"
   attributes:
     budget: "Budjetti"
   button_add_budget_item: "Lisää suunniteltuja kustannuksia"
