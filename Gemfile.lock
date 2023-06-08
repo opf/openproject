@@ -552,7 +552,7 @@ GEM
       faraday-follow_redirects
     json-schema (4.0.0)
       addressable (>= 2.8)
-    json_schemer (1.0.1)
+    json_schemer (1.0.2)
       hana (~> 1.3)
       regexp_parser (~> 2.0)
       simpleidn (~> 0.2)
