@@ -40,7 +40,7 @@ module WorkPackage::PDFExport::SumsTable
   private
 
   def has_summable_column?
-    sums_columns_objects.length > 0
+    !sums_columns_objects.empty?
   end
 
   def write_sums_title!
