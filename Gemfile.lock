@@ -874,7 +874,7 @@ GEM
       sprockets-rails
       tilt
     secure_headers (6.5.0)
-    selenium-webdriver (4.9.1)
+    selenium-webdriver (4.10.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
