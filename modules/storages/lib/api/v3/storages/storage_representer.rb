@@ -81,6 +81,24 @@ module API::V3::Storages
 
     property :name
 
+    property :applicationPassword,
+             skip_render: ->(*) { true },
+             getter: ->(*) {},
+             setter: ->(fragment:, represented:, **) {
+               if fragment.present?
+                 represented.automatically_managed = true
+                 represented.application_username = represented.provider_fields_defaults[:application_username]
+                 represented.application_password = fragment
+               else
+                 represented.provider_fields = { automatically_managed: false }
+               end
+             }
+
+    property :hasApplicationPassword,
+             skip_parse: true,
+             getter: ->(represented:, **) { represented.automatically_managed? },
+             setter: ->(*) {}
+
     date_time_property :created_at
 
     date_time_property :updated_at

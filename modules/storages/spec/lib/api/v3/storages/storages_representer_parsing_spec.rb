@@ -57,5 +57,33 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'parsing' do
                                           provider_type: "Storages::NextcloudStorage")
       end
     end
+
+    describe 'automatically managed project folders' do
+      context 'with applicationPassword' do
+        let(:parsed_hash) do
+          super().merge(
+            "applicationPassword" => "secret"
+          )
+        end
+
+        it 'is parsed as automatic folder management enabled' do
+          expect(parsed).to have_attributes(automatically_managed: true, application_username: 'OpenProject',
+                                            application_password: 'secret')
+        end
+      end
+
+      context 'with applicationPassword null' do
+        let(:parsed_hash) do
+          super().merge(
+            "applicationPassword" => nil
+          )
+        end
+
+        it 'is parsed as automatic folder management disabled' do
+          expect(parsed).to have_attributes(automatically_managed: false)
+          expect(parsed.attributes.keys).not_to include(:application_username, :application_password)
+        end
+      end
+    end
   end
 end

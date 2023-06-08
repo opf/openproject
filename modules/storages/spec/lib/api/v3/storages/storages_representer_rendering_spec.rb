@@ -217,5 +217,37 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
     it_behaves_like 'datetime property', :updatedAt do
       let(:value) { storage.updated_at }
     end
+
+    describe 'Automatically managed project folders' do
+      context 'with automatic project folder management enabled' do
+        let(:storage) do
+          build_stubbed(:storage, :as_automatically_managed, oauth_application:, oauth_client: oauth_client_credentials)
+        end
+
+        it_behaves_like 'property', :hasApplicationPassword do
+          let(:value) { true }
+        end
+      end
+
+      context 'with automatic project folder management disabled' do
+        let(:storage) do
+          build_stubbed(:storage, :as_not_automatically_managed, oauth_application:, oauth_client: oauth_client_credentials)
+        end
+
+        it_behaves_like 'property', :hasApplicationPassword do
+          let(:value) { false }
+        end
+      end
+
+      context 'when automatic project folder management is not configured' do
+        let(:storage) do
+          build_stubbed(:storage, provider_fields: {}, oauth_application:, oauth_client: oauth_client_credentials)
+        end
+
+        it 'does not include the property hasApplicationPassword' do
+          expect(generated).not_to have_json_path('hasApplicationPassword')
+        end
+      end
+    end
   end
 end
