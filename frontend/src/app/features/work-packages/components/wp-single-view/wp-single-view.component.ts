@@ -311,11 +311,16 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     return `#${this.workPackage.id || ''}`;
   }
 
-  public get projectContextText():string {
+  public showSwitchToProjectBanner():boolean {
+    return !this.isNewResource && this.projectContext && !this.projectContext.matches;
+  }
+
+  public get switchToProjectText():string {
     const id = idFromLink(this.workPackage.project.href);
     const projectPath = this.PathHelper.projectPath(id);
-    const project = `<a href="${projectPath}">${this.workPackage.project.name}<a>`;
-    return this.I18n.t('js.project.work_package_belongs_to', { projectname: project });
+    const projectName = this.workPackage.project.name as string;
+    const project = `<a href="${projectPath}" class="project-context--switch-link">${projectName}<a>`;
+    return this.I18n.t('js.project.click_to_switch_to_project', { projectname: project });
   }
 
   showTwoColumnLayout():boolean {
