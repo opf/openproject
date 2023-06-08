@@ -17,8 +17,7 @@ on:
       - '.pkgr.yml'
 
 permissions:
-  contents: write
-  packages: write
+  contents: read
 
 jobs:
   all:
@@ -42,15 +41,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-ruby32-core-tests-all-
           ${{ runner.os }}-ruby32-core-tests-
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
-    - name: Build and push
-      uses: docker/build-push-action@v4
-      with:
-        context: "./docker/ci/"
-        tags: openproject/ci:latest
-        push: true
-        load: false
     - name: build
       run: docker-compose -f docker-compose.ci.yml build ci
     - name: test

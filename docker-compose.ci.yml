@@ -5,14 +5,13 @@ networks:
 
 services:
   ci:
-    image: openproject/ci:latest
     build:
       context: ./docker/ci/
       dockerfile: Dockerfile
-      cache_from:
-        - type=gha
-      cache_to:
-        - type=gha,mode=max
+      # cache_from:
+      #   - type=gha
+      # cache_to:
+      #   - type=gha,mode=max
     environment:
       RSPEC_RETRY_RETRY_COUNT: "${CI_RETRY_COUNT:-3}"
       CI_JOBS: "${CI_JOBS}"
