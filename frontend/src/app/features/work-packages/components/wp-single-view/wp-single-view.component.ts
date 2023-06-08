@@ -131,8 +131,6 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     },
     project: {
       required: this.I18n.t('js.project.required_outside_context'),
-      context: this.I18n.t('js.project.context'),
-      switchTo: this.I18n.t('js.project.click_to_switch_context'),
     },
 
     fields: {
