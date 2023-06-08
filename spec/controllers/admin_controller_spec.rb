@@ -126,4 +126,30 @@ RSpec.describe AdminController do
       expect(response).to render_template 'info'
     end
   end
+
+  describe 'POST #force_user_language' do
+    it 'sets language of users having a non-available language to the default language' do
+      Setting.available_languages = %w[en de ja]
+      Setting.default_language = 'de'
+      user_de = create(:user, language: 'de')
+      user_en = create(:user, language: 'en')
+      user_foo = create(:user, language: 'foo')
+      user_fr = create(:user, language: 'fr')
+      user_ja = create(:user, language: 'ja')
+
+      post :force_user_language
+
+      expect(user_de.reload.language).to eq('de')
+      expect(user_en.reload.language).to eq('en')
+      expect(user_foo.reload.language).to eq('de')
+      expect(user_fr.reload.language).to eq('de')
+      expect(user_ja.reload.language).to eq('ja')
+    end
+
+    it 'redirects to the language settings page' do
+      post :force_user_language
+
+      expect(response).to redirect_to(admin_settings_languages_path)
+    end
+  end
 end
