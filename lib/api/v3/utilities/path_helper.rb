@@ -106,6 +106,10 @@ module API
           index :activity
           show :activity
 
+          def self.api_spec
+            "#{root}/spec.json"
+          end
+
           index :attachment
           show :attachment
 
