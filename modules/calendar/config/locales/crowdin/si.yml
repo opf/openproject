@@ -3,4 +3,4 @@ si:
   label_calendar_plural: "Calendars"
   permission_view_calendar: "View calendars"
   permission_manage_calendars: "Manage calendars"
-  project_module_calendar_view: "Calendar"
+  project_module_calendar_view: "දින දර්ශනය"

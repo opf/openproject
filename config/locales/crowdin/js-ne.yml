@@ -335,7 +335,7 @@ ne:
     label_and: "and"
     label_ascending: "Ascending"
     label_author: "Author: %{user}"
-    label_avatar: "Avatar"
+    label_avatar: "अवतार "
     label_between: "between"
     label_board: "बोर्ड"
     label_board_locked: "Locked"

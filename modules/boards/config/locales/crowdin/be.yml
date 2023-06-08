@@ -4,5 +4,5 @@ be:
   permission_manage_board_views: "Manage boards"
   project_module_board_view: "Boards"
   boards:
-    label_board: "Board"
+    label_board: "Дошка"
     label_boards: "Boards"

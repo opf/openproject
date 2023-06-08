@@ -229,7 +229,7 @@ hu:
         upsale:
           become_hero: "Legyél egy hős!"
           enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
-          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+          upgrade_info: "Kérjük, válasszon egy fizetős csomagot az aktiváláshoz, hogy mihamarabb használhassa a csapatában."
           benefits:
             description: "What are the benefits of the Enterprise on-premises edition?"
             high_security: "Biztonsági szolgáltatások"
@@ -241,8 +241,8 @@ hu:
             professional_support: "Szakmai támogatás"
             professional_support_text: "Megbízható támogatást kaphat a vezető támogató mérnököktől, akik szakértő ismeretekkel rendelkeznek az OpenProject futtatásáról üzleti szempontból kritikus környezetben."
           button_start_trial: "Ingyenes próbaverzió kipróbálása"
-          button_upgrade: "Upgrade now"
-          button_contact_us: "Contact us for a demo"
+          button_upgrade: "Frissítés most"
+          button_contact_us: "Keressen fel minket a próbaverzióért"
           button_book_now: "Foglalás most"
           confidence: >
             A tesztelt és támogatott vállalati szintű projektmenedzsment szoftver bizalmát nyújtjuk - nyílt forráskóddal és nyitott szemmel.
@@ -421,7 +421,7 @@ hu:
     label_previous: "Korábbi"
     label_per_page: "Oldalanként:"
     label_please_wait: "Kérem várjon"
-    label_project: "Project"
+    label_project: "Projekt"
     label_project_list: "Projects list"
     label_project_plural: "Projektek"
     label_visibility_settings: "Láthatósági beállítások"
@@ -435,7 +435,7 @@ hu:
     label_report: "Jelentés"
     label_repository_plural: "Csomagtárolók"
     label_save_as: "Mentés másként"
-    label_select_project: "Select a project"
+    label_select_project: "Válasszon projektet"
     label_select_watcher: "Megfigyelők választása..."
     label_selected_filter_list: "Szűrők választása"
     label_show_attributes: "Minden attribútum megjelenítése"
@@ -477,9 +477,9 @@ hu:
     label_unwatch: "Megfigyelés leállítása"
     label_unwatch_work_package: "Nem megfigyelt feladatcsoport"
     label_uploaded_by: "Által feltöltött"
-    label_default_queries: "Default"
+    label_default_queries: "alapértelmezett"
     label_starred_queries: "Favorite"
-    label_global_queries: "Public"
+    label_global_queries: "Nyilvános"
     label_custom_queries: "Private"
     label_columns: "Oszlopok"
     label_attachments: Csatolmány
@@ -550,7 +550,7 @@ hu:
       reasons:
         mentioned: 'megemlített'
         watched: 'watcher'
-        assigned: 'assignee'
+        assigned: 'felelős'
         responsible: 'felelős'
         created: 'created'
         scheduled: 'scheduled'
@@ -573,9 +573,9 @@ hu:
         unread: 'Olvasatlan'
         unread_title: 'Show unread'
         all: 'Mind'
-        all_title: 'Show all'
+        all_title: 'Minden megjelenítése'
       center:
-        label_actor_and: 'and'
+        label_actor_and: 'és'
         and_more_users:
           one: "és 1 másik\n"
           other: 'és %{count} egyéb'
@@ -599,8 +599,8 @@ hu:
         by_project: 'Olvasatlan projektenként'
         by_reason: 'Reason'
         inbox: 'Beérkezett üzenetek'
-        mentioned: 'Mentioned'
-        watched: 'Watcher'
+        mentioned: 'Megemlített'
+        watched: 'Megfigyelő'
         date_alert: 'Date alert'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
@@ -620,11 +620,11 @@ hu:
               P7D: every week
         reasons:
           mentioned:
-            title: 'Mentioned'
+            title: 'Megemlített'
             description: 'Értesítés fogadása minden alkalommal, amikor bárki bárhol megemlít'
-          assignee: 'Assignee'
-          responsible: 'Accountable'
-          watched: 'Watcher'
+          assignee: 'Megbízott'
+          responsible: 'Felelős'
+          watched: 'Megfigyelő'
           work_package_commented: 'Új megjegyzések'
           work_package_created: 'Új munkacsomagok'
           work_package_processed: 'Összes státusz változás'
@@ -921,7 +921,7 @@ hu:
       message_work_package_status_blocked: "A munkacsomag állapota nem írható, mivel a zárt állapotot és a zárt verziót hozzárendelték."
       placeholder_filter_by_text: "Tárgy, leírás, kommentek"
       filters:
-        title: 'Filter work packages'
+        title: 'A feladatcsoportok szűrése'
       inline_create:
         title: 'Ide kattintva adhatsz új munkacsomagot a listához'
       create:
@@ -958,7 +958,7 @@ hu:
         description: "Leírás"
         date: "dátum"
         dueDate: "Befejezési dátum"
-        duration: "Duration"
+        duration: "Időtartam"
         estimatedTime: "Becsült idő (óra)"
         spentTime: "Eltöltött idő"
         category: "Kategória"
@@ -1071,18 +1071,18 @@ hu:
     toolbar:
       settings:
         configure_view: "Configure view"
-        columns: "Columns"
-        sort_by: "Sort by"
-        group_by: "Group by"
+        columns: "Oszlopok"
+        sort_by: "Rendezés a következő szerint"
+        group_by: "Csoportosítás a következők szerint"
         display_sums: "Megjelenítendő összegek"
         display_hierarchy: "Hierarchia megjelenítése"
         hide_hierarchy: "Hierarchia elrejtése"
         hide_sums: "Összegek elrejtése"
         save: "Mentés"
-        save_as: "Save as"
-        export: "Export"
-        visibility_settings: "Visibility settings"
-        page_settings: "Rename view"
+        save_as: "Mentés másként"
+        export: "Exportálás"
+        visibility_settings: "Láthatósági beállítások"
+        page_settings: "Nézet átnevezése"
         delete: "Törlés"
       filter: "Szűrő"
       unselected_title: "Feladatcsoport"
@@ -1094,7 +1094,7 @@ hu:
       button_save: "Mentés"
       button_submit: "Küldés"
       button_cancel: "Mégsem"
-      button_delete: "Delete"
+      button_delete: "Törlés"
       form_submit:
         title: 'Megerősítés a folytatáshoz'
         text: 'Biztosan végre szeretné hajtani ezt a műveletet?'
@@ -1150,8 +1150,8 @@ hu:
         other: "%{count} ó"
         zero: "0 óra"
       day:
-        one: "1 day"
-        other: "%{count} days"
+        one: "%{count} nap"
+        other: "%{count} nap"
         zero: "0 days"
     zen_mode:
       button_activate: 'Zen mód aktiválása'
@@ -1225,7 +1225,7 @@ hu:
       message:
         label: 'Meghívó üzenet'
         description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
-        next_button: 'Next'
+        next_button: ' Következő'
       summary:
         next_button: 'Meghívó küldése'
       success:

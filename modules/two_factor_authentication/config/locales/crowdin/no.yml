@@ -72,7 +72,7 @@
       text_2fa_enabled: 'Ved hver pålogging vil denne brukeren bli bedt om å legge inn et OTP-token fra sin standard 2FA-enhet.'
       text_2fa_disabled: "Brukeren har ikke satt opp en 2FA-enhet via hans «Min konto side»"
     upsale:
-      title: 'Two-factor authentication'
+      title: 'Tofaktorautentisering'
       description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
     backup_codes:
       none_found: Det finnes ingen sikkerhetskoder for denne kontoen.
@@ -112,7 +112,7 @@
       totp:
         title: 'Bruk appbasert godkjenning'
         provisioning_uri: 'Levering av URI'
-        secret_key: 'Secret key'
+        secret_key: 'Hemmelig nøkkel'
         time_based: 'Tidsbasert'
         account: 'Kontonavn / Utsteder'
         setup: |

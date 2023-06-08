@@ -78,8 +78,8 @@ ja:
       book_now: '今すぐ予約'
       get_quote: '見積もりの入手'
       buttons:
-        upgrade: "Upgrade now"
-        contact: "Contact us for a demo"
+        upgrade: "今すぐアップグレード"
+        contact: "デモについてはお問い合わせください"
       enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
@@ -180,7 +180,7 @@ ja:
     edit: 'カスタムアクション %{name} の編集'
     execute: '%{name} を実行'
     upsale:
-      title: 'Custom actions'
+      title: 'カスタムアクション'
       description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
@@ -288,7 +288,7 @@ ja:
       irreversible: "この操作は元に戻せません"
       confirmation: "削除を確認するため、プレースホルダーユーザー名 %{name} を入力してください。"
     upsale:
-      title: Placeholder users
+      title: プレースホルダー ユーザー
       description: >
         Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
@@ -471,12 +471,12 @@ ja:
       project:
         active_value:
           true: "unarchived"
-          false: "archived"
+          false: "アーカイブ済"
         identifier: "識別子"
         latest_activity_at: "最新の活動"
         parent: "親プロジェクト名"
         public_value:
-          title: "Visibility"
+          title: "可視性"
           true: "public"
           false: "private"
         queries: "クエリ"
@@ -552,7 +552,7 @@ ja:
         begin_deletion: "削除の始まり"
         children: "サブ要素"
         done_ratio: "進行状況 (%)"
-        duration: "Duration"
+        duration: "期間"
         end_insertion: "挿入の終わり"
         end_deletion: "削除の終わり"
         ignore_non_working_days: "Ignore non working days"
@@ -909,17 +909,17 @@ ja:
       created_on: "created on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "子プロジェクト"
       parent_no_longer: "No longer subproject of"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      changeset: "更新履歴"
+      message: "フォーラム"
+      news: "ニュース"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
+      time_entry: "作業時間の記録"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "ワークパッケージ"
   #common attributes of all models
   attributes:
     active: "アクティブ"
@@ -976,7 +976,7 @@ ja:
     updated_on: "更新日時"
     uploader: "アップロード"
     user: "ユーザ"
-    value: "Value"
+    value: "値"
     version: "バージョン"
     work_package: "ワーク パッケージ"
   backup:
@@ -1343,7 +1343,7 @@ ja:
     message: メッセージが編集されました。
     news: ニュース
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'プロジェクトが編集されました。'
     reply: 返信済み
     time_entry: '時系列ログが編集されました。'
     wiki_page: 'Wiki ページが編集されました。'
@@ -2230,7 +2230,7 @@ ja:
   permission_add_work_packages: "ワークパッケージの追加"
   permission_add_messages: "メッセージの投稿"
   permission_add_project: "プロジェクトの作成"
-  permission_archive_project: "Archive project"
+  permission_archive_project: "プロジェクトをアーカイブ"
   permission_manage_user: "ユーザーの作成と編集"
   permission_manage_placeholder_user: "プレースホルダーユーザーの作成、編集、削除"
   permission_add_subprojects: "子プロジェクトの追加"
@@ -3045,7 +3045,7 @@ ja:
           unknown: 'リクエストに必要なパラメーターがありません、サポートされていないパラメーター値が含まれているか、その他の形式に誤りがあります。'
           missing_param: 'Missing required parameter: %{value}.'
           request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
+        invalid_redirect_uri: "要求されたリダイレクトURIが不正な形式であるか、クライアントのリダイレクトURIと一致しません。"
         unauthorized_client: 'クライアントはこのメソッドを使用してリクエストを実行することが許可されていません。'
         access_denied: 'リソース所有者または認証サーバーが要求を拒否しました。'
         invalid_scope: '要求された範囲は無効、不明、または不正な形式です。'
@@ -3126,11 +3126,11 @@ ja:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "エラー！"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"
-      label_redirect_uri: "Redirect URI"
+      label_redirect_uri: "リダイレクトURI"
       label_request_token: "Request token"
       label_refresh_token: "Refresh token"
     errors:

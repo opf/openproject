@@ -1125,7 +1125,7 @@ sr:
       button_save_all: "Save"
       button_cancel_all: "Cancel"
       link_formatting_help: "Text formatting help"
-      btn_preview_enable: "Preview"
+      btn_preview_enable: "Pregled"
       btn_preview_disable: "Disable preview"
       null_value_label: "No value"
       clear_value_label: "-"

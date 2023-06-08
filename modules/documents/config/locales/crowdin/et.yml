@@ -25,7 +25,7 @@ et:
       document: "Dokument"
   activity:
     filter:
-      document: "Documents"
+      document: "Dokumendid"
   default_doc_category_tech: "Tehniline dokumentatsioon"
   default_doc_category_user: "Kasutaja dokumentatsioon"
   enumeration_doc_categories: "Dokumentide kategooriad"

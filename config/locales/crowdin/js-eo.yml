@@ -241,8 +241,8 @@ eo:
             professional_support: "Profesia subteno"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Startu senpagan provperiodon"
-          button_upgrade: "Upgrade now"
-          button_contact_us: "Contact us for a demo"
+          button_upgrade: "Ppromocii nun"
+          button_contact_us: "Kontaktu nin por provoversio"
           button_book_now: "Book now"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
@@ -318,7 +318,7 @@ eo:
               new_features_html: >
                 The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
     label_activate: "Activate"
-    label_assignee: 'Assignee'
+    label_assignee: 'Asignita al'
     label_add_column_after: "Aldoni kolumnon dektre"
     label_add_column_before: "Aldoni kolumnon maldektre"
     label_add_columns: "Aldoni kolumnojn"
@@ -421,7 +421,7 @@ eo:
     label_previous: "Antaŭa"
     label_per_page: "Per page:"
     label_please_wait: "Please wait"
-    label_project: "Project"
+    label_project: "Projekto"
     label_project_list: "Projects list"
     label_project_plural: "Projektoj"
     label_visibility_settings: "Visibility settings"
@@ -435,7 +435,7 @@ eo:
     label_report: "Report"
     label_repository_plural: "Repositories"
     label_save_as: "Konservi kiel"
-    label_select_project: "Select a project"
+    label_select_project: "Elekti projekton"
     label_select_watcher: "Select a watcher..."
     label_selected_filter_list: "Elekti filtrilon"
     label_show_attributes: "Montri ĉiujn atribuojn"
@@ -456,7 +456,7 @@ eo:
     label_this_week: "tiu ĉi semajno"
     label_today: "Today"
     label_time_entry_plural: "Uzata tempo"
-    label_up: "Up"
+    label_up: "Supren"
     label_user_plural: "Uzantoj"
     label_activity_show_only_comments: "Show activities with comments only"
     label_activity_show_all: "Montri ĉiujn aktivecojn"
@@ -477,9 +477,9 @@ eo:
     label_unwatch: "Malatenti"
     label_unwatch_work_package: "Malatenti laborpakaĵon"
     label_uploaded_by: "Alŝutita de"
-    label_default_queries: "Default"
+    label_default_queries: "Defaŭlte"
     label_starred_queries: "Favorite"
-    label_global_queries: "Public"
+    label_global_queries: "Publika"
     label_custom_queries: "Private"
     label_columns: "Kolumnoj"
     label_attachments: Aldonaĵoj
@@ -550,7 +550,7 @@ eo:
       reasons:
         mentioned: 'mentioned'
         watched: 'watcher'
-        assigned: 'assignee'
+        assigned: 'respondeculo'
         responsible: 'accountable'
         created: 'created'
         scheduled: 'scheduled'
@@ -572,7 +572,7 @@ eo:
       facets:
         unread: 'Unread'
         unread_title: 'Show unread'
-        all: 'All'
+        all: 'Ĉiuj'
         all_title: 'Show all'
       center:
         label_actor_and: 'and'
@@ -600,7 +600,7 @@ eo:
         by_reason: 'Reason'
         inbox: 'Inbox'
         mentioned: 'Mentioned'
-        watched: 'Watcher'
+        watched: 'Atentanto'
         date_alert: 'Date alert'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
@@ -622,9 +622,9 @@ eo:
           mentioned:
             title: 'Mentioned'
             description: 'Receive a notification every time someone mentions me anywhere'
-          assignee: 'Assignee'
-          responsible: 'Accountable'
-          watched: 'Watcher'
+          assignee: 'Asignita al'
+          responsible: 'Respondeculo'
+          watched: 'Atentanto'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
           work_package_processed: 'All status changes'
@@ -1071,18 +1071,18 @@ eo:
     toolbar:
       settings:
         configure_view: "Configure view"
-        columns: "Columns"
+        columns: "Kolumnoj"
         sort_by: "Sort by"
-        group_by: "Group by"
+        group_by: "Grupigi laŭ"
         display_sums: "Montri sumojn"
         display_hierarchy: "Montri hierarkiojn"
         hide_hierarchy: "Kaŝi hierarkiojn"
         hide_sums: "Kaŝi sumojn"
         save: "Konservi"
-        save_as: "Save as"
-        export: "Export"
+        save_as: "Konservi kiel"
+        export: "Eksporti"
         visibility_settings: "Visibility settings"
-        page_settings: "Rename view"
+        page_settings: "Renomigu vidon"
         delete: "Forigi"
       filter: "Filtrilo"
       unselected_title: "Laborpakaĵo"
@@ -1094,7 +1094,7 @@ eo:
       button_save: "Konservi"
       button_submit: "Sendi"
       button_cancel: "Nnuligi"
-      button_delete: "Delete"
+      button_delete: "Forigi"
       form_submit:
         title: 'Konfirmi por daŭrigi'
         text: 'Are you sure you want to perform this action?'
@@ -1150,8 +1150,8 @@ eo:
         other: "%{count} h"
         zero: "0 h"
       day:
-        one: "1 day"
-        other: "%{count} days"
+        one: "1 tago"
+        other: "%{count} tagoj"
         zero: "0 days"
     zen_mode:
       button_activate: 'Aktivigi zen reĝimo'
@@ -1225,7 +1225,7 @@ eo:
       message:
         label: 'Invitation message'
         description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
-        next_button: 'Next'
+        next_button: 'Sekva'
       summary:
         next_button: 'Sendi inviton'
       success:

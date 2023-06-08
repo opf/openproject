@@ -71,7 +71,7 @@ sl:
       text_2fa_enabled: 'Ob vsaki prijavi bo moral ta uporabnik vnesti žeton OTP iz svoje privzete naprave 2FA.'
       text_2fa_disabled: "Uporabnik ni nastavil naprave 2FA preko strani »Moj račun«"
     upsale:
-      title: 'Two-factor authentication'
+      title: 'Dvofaktorna avtentikacija'
       description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
     backup_codes:
       none_found: "\nZa ta račun ni rezervnih kod."

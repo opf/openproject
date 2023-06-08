@@ -559,7 +559,7 @@ he:
         begin_deletion: "Begin of the deletion"
         children: "Subelements"
         done_ratio: "Progress (%)"
-        duration: "Duration"
+        duration: "משך זמן"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
         ignore_non_working_days: "Ignore non working days"
@@ -928,16 +928,16 @@ he:
       created_on: "created on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "תת פרוייקט"
       parent_no_longer: "No longer subproject of"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      changeset: "שינויים"
+      message: "פורומים"
+      news: "חדשות"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
-      wiki_edit: "Wiki"
+      time_entry: "זמן שבוזבז"
+      wiki_edit: "ויקי"
       work_package: "Work packages"
   #common attributes of all models
   attributes:
@@ -995,7 +995,7 @@ he:
     updated_on: "עודכן בתאריך"
     uploader: "Uploader"
     user: "משתמש"
-    value: "Value"
+    value: "ערך"
     version: "גירסה"
     work_package: "חבילת עבודה"
   backup:
@@ -1398,7 +1398,7 @@ he:
     message: ההודעה נערכה
     news: חדשות
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'הפרויקט נערך'
     reply: הושב
     time_entry: 'רישום הזמן נערך'
     wiki_page: 'דף וקי נערך'
@@ -3197,7 +3197,7 @@ he:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "שגיאה"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"

@@ -318,7 +318,7 @@ hi:
               new_features_html: >
                 The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
     label_activate: "Activate"
-    label_assignee: 'Assignee'
+    label_assignee: 'अनुदिष्ट'
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
     label_add_columns: "Add columns"
@@ -421,7 +421,7 @@ hi:
     label_previous: "पिछला"
     label_per_page: "प्रति पृष्ठ"
     label_please_wait: "Please wait"
-    label_project: "Project"
+    label_project: "परियोजना"
     label_project_list: "Projects list"
     label_project_plural: "Projects"
     label_visibility_settings: "दृश्यता settings"
@@ -479,7 +479,7 @@ hi:
     label_uploaded_by: "द्वारा अपलोड"
     label_default_queries: "Default"
     label_starred_queries: "Favorite"
-    label_global_queries: "Public"
+    label_global_queries: "सार्वजनिक"
     label_custom_queries: "Private"
     label_columns: "स्तंभ"
     label_attachments: Attachments
@@ -573,7 +573,7 @@ hi:
         unread: 'Unread'
         unread_title: 'Show unread'
         all: 'All'
-        all_title: 'Show all'
+        all_title: 'सभी दिखाएँ'
       center:
         label_actor_and: 'and'
         and_more_users:
@@ -600,7 +600,7 @@ hi:
         by_reason: 'Reason'
         inbox: 'Inbox'
         mentioned: 'Mentioned'
-        watched: 'Watcher'
+        watched: 'वॉचर'
         date_alert: 'Date alert'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
@@ -622,9 +622,9 @@ hi:
           mentioned:
             title: 'Mentioned'
             description: 'Receive a notification every time someone mentions me anywhere'
-          assignee: 'Assignee'
-          responsible: 'Accountable'
-          watched: 'Watcher'
+          assignee: 'अनुदिष्ट'
+          responsible: 'जवाबदेह'
+          watched: 'वॉचर'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
           work_package_processed: 'All status changes'
@@ -1071,17 +1071,17 @@ hi:
     toolbar:
       settings:
         configure_view: "Configure view"
-        columns: "Columns"
+        columns: "स्तंभ"
         sort_by: "Sort by"
-        group_by: "Group by"
+        group_by: "द्वारा समूहीकृत"
         display_sums: "Display sums"
         display_hierarchy: "Display hierarchy"
         hide_hierarchy: "Hide hierarchy"
         hide_sums: "Hide sums"
         save: "सहेजें"
-        save_as: "Save as"
-        export: "Export"
-        visibility_settings: "Visibility settings"
+        save_as: "के रूप में सहेजें..."
+        export: "निर्यात"
+        visibility_settings: "दृश्यता settings"
         page_settings: "Rename view"
         delete: "मिटाएँ"
       filter: "Filter"
@@ -1094,7 +1094,7 @@ hi:
       button_save: "सहेजें"
       button_submit: "सबमिट करें"
       button_cancel: "निरस्त करें"
-      button_delete: "Delete"
+      button_delete: "मिटाएँ"
       form_submit:
         title: 'Confirm to continue'
         text: 'Are you sure you want to perform this action?'
@@ -1150,7 +1150,7 @@ hi:
         other: "%{count} h"
         zero: "0 h"
       day:
-        one: "1 day"
+        one: "1 दिन"
         other: "%{count} days"
         zero: "0 days"
     zen_mode:

@@ -475,12 +475,12 @@ lt:
       project:
         active_value:
           true: "unarchived"
-          false: "archived"
+          false: "suarchyvuotas"
         identifier: "Identifikatorius"
         latest_activity_at: "Naujausia veikla"
         parent: "Priklauso projektui"
         public_value:
-          title: "Visibility"
+          title: "Matomumas"
           true: "public"
           false: "private"
         queries: "Užklausos"
@@ -556,7 +556,7 @@ lt:
         begin_deletion: "Ištrynimo pradžioje"
         children: "Subelementai"
         done_ratio: "Progresas (%)"
-        duration: "Duration"
+        duration: "Trukmė"
         end_insertion: "Įterpimo pabaigoje"
         end_deletion: "Ištrynimo pabaigoje"
         ignore_non_working_days: "Ignore non working days"
@@ -784,8 +784,8 @@ lt:
             daily_reminders:
               full_hour: "gali būti sukonfigūruotas tik pristatymui lygią valandą."
             notification_settings:
-              only_one_global_setting: 'There must only be one global notification setting.'
-              email_alerts_global: 'The email notification settings can only be set globally.'
+              only_one_global_setting: 'Turi būti tik viena globali pranešimų eilutė.'
+              email_alerts_global: 'E-pašto pranešimų pasirinkimus galima nustatyti tik globaliai.'
               format: "%{message}"
               wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         watcher:
@@ -925,17 +925,17 @@ lt:
       created_on: "created on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "Sub-projektas"
       parent_no_longer: "No longer subproject of"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      changeset: "Pakeitimų paketai"
+      message: "Forumai"
+      news: "Naujienos"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
+      time_entry: "Praleista laiko"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "Darbų paketai"
   #common attributes of all models
   attributes:
     active: "Aktyvus"
@@ -1395,7 +1395,7 @@ lt:
     message: Žinutė redaguota
     news: Naujienos
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'Projektas redaguotas'
     reply: Atsakė
     time_entry: 'Laiko įrašai redaguoti'
     wiki_page: 'Wiki puslapis redaguotas'
@@ -1870,7 +1870,7 @@ lt:
   label_project_new: "Naujas projektas"
   label_project_plural: "Projektai"
   label_project_settings: "Projekto nustatymai"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "Saugyklos"
   label_projects_storage_information: "%{count} projektai(-as, -ų) naudoja %{storage} disko vietos"
   label_project_view_all: "Peržiūrėti visus projektus"
   label_project_show_details: "Rodyti detalią projekto informaciją"
@@ -2288,7 +2288,7 @@ lt:
   permission_add_work_packages: "Pridėti darbų paketų"
   permission_add_messages: "Skelbti pranešimus"
   permission_add_project: "Sukurti projektą"
-  permission_archive_project: "Archive project"
+  permission_archive_project: "Archyvuoti projektą"
   permission_manage_user: "Kurti ir keisti naudotojus"
   permission_manage_placeholder_user: "Kurti, keisti ir trinti statytinius naudotojus"
   permission_add_subprojects: "Sukurti sub-projektus"
@@ -3191,11 +3191,11 @@ lt:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "Klaida"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"
-      label_redirect_uri: "Redirect URI"
+      label_redirect_uri: "Peradresavimo URI"
       label_request_token: "Request token"
       label_refresh_token: "Refresh token"
     errors:
