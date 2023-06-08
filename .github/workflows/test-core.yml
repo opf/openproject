@@ -48,7 +48,7 @@ jobs:
       with:
         context: "./docker/ci/"
         tags: openproject/ci:latest
-        push: false
+        push: true
         load: true
     - name: build
       run: docker-compose -f docker-compose.ci.yml build ci

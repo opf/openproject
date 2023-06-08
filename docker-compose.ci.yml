@@ -5,8 +5,8 @@ networks:
 
 services:
   ci:
+    image: openproject/ci:latest
     build:
-      image: openproject/ci:latest
       context: ./docker/ci/
       dockerfile: Dockerfile
       cache_from:
