@@ -27,14 +27,29 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t("project_module_storages"), t('label_edit_x', x: @object.storage.name) %>
-<% local_assigns[:additional_breadcrumb] = t('storages.label_edit_storage') %>
-<%= toolbar title: t("storages.page_titles.project_settings.edit") %>
+<div class="form--field -required">
+  <%= f.select :storage_id,
+               @available_storages.map { |storage| ["#{storage.name} (#{storage.short_provider_type})", storage.id] },
+               class: '-bold',
+               selected: @available_storages.first.id.to_s,
+               container_class: '-slim'
+  %>
+  <% if User.current.admin? %>
+      <span class="form--field-instructions">
+        <%= t(:"storages.instructions.setting_up_additional_storages") %>
+        <%= link_to "#{t(:label_administration)} / #{t(:project_module_storages)}", controller: '/storages/admin/storages', action: :index %>
+        .
+      </span>
+  <% end %>
+</div>
 
-<%= labelled_tabular_form_for @project_storage, url: project_settings_projects_storage_path(project_id: @project_storage.project, id: @project_storage) do |f| -%>
-  <section class="form--section">
-    <%= render partial: '/storages/project_settings/project_folder_form',
-               locals: { f: f, available_storages: @available_storages, submit_button_label: t('button_save') }
-    %>
-  </section>
-<% end %>
+<div class="form--field">
+  <%= styled_button_tag class: "-highlight" do %>
+    <%= spot_icon('checkmark') %>
+    <%= content_tag :span, submit_button_label %>
+  <% end %>
+  <%= link_to project_settings_projects_storages_path(@project), class: 'button' do %>
+    <%= spot_icon('cancel') %>
+    <%= content_tag :span, t(:button_cancel) %>
+  <% end %>
+</div>
