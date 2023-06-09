@@ -43,9 +43,12 @@ execute_quiet() {
 }
 
 reset_dbs() {
+	# must reset main db because for some reason the users table is not empty, after running db:migrate
+	execute_quiet "echo 'drop database if exists appdb ; create database appdb' | $PGBIN/psql ${DATABASE_URL/appdb/postgres}"
 	# create test databases "app1" to "app$JOBS", far faster than using parallel_rspec tasks for that
+	execute_quiet "cat db/structure.sql | $PGBIN/psql $DATABASE_URL"
 	for i in $(seq 1 $JOBS); do
-		execute_quiet "echo 'drop database if exists app$i ; create database app$i with template app owner app;' | $PGBIN/psql $DATABASE_URL"
+		execute_quiet "echo 'drop database if exists app$i ; create database app$i with template appdb owner appuser;' | $PGBIN/psql $DATABASE_URL"
 	done
 }
 
@@ -62,7 +65,7 @@ if [ "$1" == "setup-tests" ]; then
 	done
 
 	# create test database "app" and dump schema because db/structure.sql is not checked in
-	execute_quiet "time bundle exec rails db:migrate db:schema:dump zeitwerk:check assets:precompile webdrivers:chromedriver:update webdrivers:geckodriver:update openproject:plugins:register_frontend"
+	execute_quiet "time bundle exec rails db:migrate db:schema:dump zeitwerk:check openproject:plugins:register_frontend"
 fi
 
 if [ "$1" == "run-units" ]; then
@@ -79,6 +82,7 @@ fi
 if [ "$1" == "run-features" ]; then
 	shift
 	reset_dbs
+	execute_quiet "time bundle exec rails assets:precompile webdrivers:chromedriver:update webdrivers:geckodriver:update"
 	execute_quiet "cp -f /cache/turbo_runtime_features.log spec/support/ || true"
 	execute_quiet "cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json"
 	execute "time bundle exec turbo_tests -n $JOBS --runtime-log spec/support/turbo_runtime_features.log spec/features"

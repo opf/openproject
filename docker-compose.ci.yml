@@ -7,9 +7,9 @@ services:
   postgres:
     image: postgres:13
     environment:
-      POSTGRES_USER: app
+      POSTGRES_USER: appuser
       POSTGRES_PASSWORD: p4ssw0rd
-      POSTGRES_DB: app
+      POSTGRES_DB: appdb
     tmpfs:
       - "/var/lib/postgresql/data"
 
@@ -19,7 +19,7 @@ services:
       dockerfile: ./docker/ci/Dockerfile
     environment:
       CI_JOBS: "${CI_JOBS}"
-      DATABASE_URL: "postgres://app:p4ssw0rd@postgres/app"
+      DATABASE_URL: "postgres://appuser:p4ssw0rd@postgres/appdb"
       RSPEC_RETRY_RETRY_COUNT: "${CI_RETRY_COUNT:-3}"
       CAPYBARA_AWS_ACCESS_KEY_ID: "${CAPYBARA_AWS_ACCESS_KEY_ID}"
       CAPYBARA_AWS_SECRET_ACCESS_KEY: "${CAPYBARA_AWS_SECRET_ACCESS_KEY}"
