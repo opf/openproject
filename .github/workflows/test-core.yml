@@ -24,7 +24,7 @@ jobs:
     strategy:
       matrix:
         runner:
-          # - [self-hosted-autoscale]
+          - [self-hosted-autoscale]
           - [self-hosted, scaleway, ubuntu22, x64, XL]
     name: Units
     if: github.repository == 'opf/openproject'
@@ -65,7 +65,7 @@ jobs:
     strategy:
       matrix:
         runner:
-          # - [self-hosted-autoscale]
+          - [self-hosted-autoscale]
           - [self-hosted, scaleway, ubuntu22, x64, XL]
     name: Features
     if: github.repository == 'opf/openproject'

@@ -82,7 +82,7 @@ if [ "$1" == "run-units" ]; then
 	execute_quiet "cp -f /cache/turbo_runtime_units.log spec/support/ || true"
 	# turbo_tests cannot yet exclude specific directories, so copying spec/features elsewhere (temporarily)
 	execute_quiet "mv spec/features tmp/"
-	execute "time bundle exec turbo_tests -n $JOBS --runtime-log spec/support/turbo_runtime_units.log spec"
+	execute "time bundle exec turbo_tests -n $JOBS --verbose --runtime-log spec/support/turbo_runtime_units.log spec"
 	execute_quiet "cp -f spec/support/turbo_runtime_units.log /cache/ || true"
 	cleanup
 fi
@@ -93,7 +93,7 @@ if [ "$1" == "run-features" ]; then
 	execute_quiet "time bundle exec rails assets:precompile webdrivers:chromedriver:update webdrivers:geckodriver:update"
 	execute_quiet "cp -f /cache/turbo_runtime_features.log spec/support/ || true"
 	execute_quiet "cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json"
-	execute "time bundle exec turbo_tests -n $JOBS --runtime-log spec/support/turbo_runtime_features.log spec/features"
+	execute "time bundle exec turbo_tests -n $JOBS --verbose --runtime-log spec/support/turbo_runtime_features.log spec/features"
 	execute_quiet "cp -f spec/support/turbo_runtime_features.log /cache/ || true"
 	cleanup
 fi
