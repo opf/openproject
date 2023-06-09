@@ -40,6 +40,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       with:
+        ref: ${{ github.event.pull_request.head.sha }}
         fetch-depth: 1
     - name: cache
       uses: actions/cache@v3
@@ -80,6 +81,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       with:
+        ref: ${{ github.event.pull_request.head.sha }}
         fetch-depth: 1
     - name: cache
       uses: actions/cache@v3
