@@ -491,12 +491,12 @@ ja:
         code: 'ステータス'
         explanation: '状況の説明'
         codes:
-          not_started: 'Not started'
+          not_started: '未着手'
           on_track: '順調'
           at_risk: 'リスクあり'
           off_track: '脱線'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          finished: '完了'
+          discontinued: '中止'
       query:
         column_names: "列"
         relations_to_type_column: "%{type} との関連"
