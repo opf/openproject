@@ -332,7 +332,8 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
       return {
         title: workPackage.subject,
         start: startDate,
-        editable: this.workPackagesCalendar.eventDurationEditable(workPackage),
+        editable: this.workPackagesCalendar.dateEditable(workPackage),
+        durationEditable: this.workPackagesCalendar.eventDurationEditable(workPackage),
         end: exclusiveEnd,
         allDay: true,
         className: `__hl_background_type_${workPackage.type.id || ''}`,
