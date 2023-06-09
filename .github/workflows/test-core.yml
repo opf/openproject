@@ -21,10 +21,14 @@ permissions:
 
 jobs:
   all:
+    strategy:
+      matrix:
+        runner:
+          - [self-hosted-autoscale]
+          - [self-hosted, scaleway, ubuntu22, x64, XL]
     name: Units + Features
     if: github.repository == 'opf/openproject'
-    runs-on: [self-hosted, scaleway, ubuntu22, x64, XL]
-    # runs-on: [self-hosted-autoscale]
+    runs-on: ${{ matrix.runner }}
     timeout-minutes: 60
     env:
       DOCKER_BUILDKIT: 1
