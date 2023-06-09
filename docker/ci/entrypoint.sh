@@ -46,7 +46,7 @@ reset_dbs() {
 	# must reset main db because for some reason the users table is not empty, after running db:migrate
 	execute_quiet "echo 'drop database if exists appdb ; create database appdb' | $PGBIN/psql -U dev -h 127.0.0.1 -d postgres"
 	# create test databases "app1" to "app$JOBS", far faster than using parallel_rspec tasks for that
-	execute_quiet "cat db/structure.sql | $PGBIN/psql -U dev -h 127.0.0.1 -d postgres"
+	execute_quiet "cat db/structure.sql | $PGBIN/psql -U dev -h 127.0.0.1 -d appdb"
 	for i in $(seq 1 $JOBS); do
 		execute_quiet "echo 'drop database if exists app$i ; create database app$i with template appdb owner appuser;' | $PGBIN/psql -U dev -h 127.0.0.1 -d postgres"
 	done
