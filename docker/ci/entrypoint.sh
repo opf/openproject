@@ -7,6 +7,7 @@ export JOBS="${CI_JOBS:=$(nproc)}"
 export PARALLEL_TEST_PROCESSORS=$JOBS
 export PARALLEL_TEST_FIRST_IS_1=true
 export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
+export NODE_OPTIONS="--max-old-space-size=8192"
 LOG_FILE=/tmp/op-output.log
 
 cleanup() {
