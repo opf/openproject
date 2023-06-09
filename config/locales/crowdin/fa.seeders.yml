@@ -21,7 +21,7 @@ fa:
         item_6:
           name: Orange
         item_7:
-          name: Red
+          name: قرمز
         item_8:
           name: Magenta
         item_9:
@@ -49,7 +49,7 @@ fa:
         item_2:
           name: Member
         item_3:
-          name: Reader
+          name: خواننده
         item_4:
           name: Project admin
         item_5:
@@ -66,7 +66,7 @@ fa:
           name: Immediate
       statuses:
         item_0:
-          name: New
+          name: جدید
         item_1:
           name: In specification
         item_2:
@@ -92,23 +92,23 @@ fa:
         item_12:
           name: On hold
         item_13:
-          name: Rejected
+          name: رد شده
       time_entry_activities:
         item_0:
-          name: Management
+          name: مدیریت
         item_1:
           name: Specification
         item_2:
           name: Development
         item_3:
-          name: Testing
+          name: آزمون
         item_4:
-          name: Support
+          name: پشتیبانی
         item_5:
           name: Other
       types:
         item_0:
-          name: Task
+          name: وظیفه
         item_1:
           name: Milestone
         item_2:
@@ -156,7 +156,7 @@ fa:
             item_2:
               name: Tasks
             item_3:
-              name: Team planner
+              name: برنامه ریز تیم
           boards:
             kanban:
               name: Kanban board
@@ -320,7 +320,7 @@ fa:
             kanban:
               name: Kanban board
             basic:
-              name: Task board
+              name: تابلوی وظیفه
               lists:
                 item_0:
                   name: Wish list

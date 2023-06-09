@@ -1005,7 +1005,7 @@ ne:
     updated_on: "Updated on"
     uploader: "अप्लोडेर"
     user: "User"
-    value: "Value"
+    value: "मान"
     version: "Version"
     work_package: "Work package"
   backup:
@@ -1347,9 +1347,9 @@ ne:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF with descriptions"
-      pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
-      pdf_with_attachments: "PDF with attachments"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "छवि निर्यात गरिएको छैन।"
   extraction:
@@ -1476,7 +1476,7 @@ ne:
   label_ical_access_key_not_present: "iCalendar token(s) not present."
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
-  label_ical_access_key_revoke: "Revoke"
+  label_ical_access_key_revoke: "रद्द गर्नुहोस्"
   label_applied_status: "Applied status"
   label_archive_project: "Archive project"
   label_ascending: "Ascending"
@@ -1778,7 +1778,6 @@ ne:
   label_password_rule_special: "Special Characters"
   label_password_rule_uppercase: "Uppercase"
   label_path_encoding: "Path encoding"
-  label_pdf_with_descriptions: "PDF with Descriptions"
   label_per_page: "Per page"
   label_people: "People"
   label_permissions: "Permissions"

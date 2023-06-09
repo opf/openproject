@@ -7,120 +7,120 @@ ru:
     common:
       colors:
         item_0:
-          name: Blue (dark)
+          name: Темно-синий
         item_1:
-          name: Blue
+          name: Cиний
         item_2:
-          name: Blue (light)
+          name: Свтло-синий
         item_3:
-          name: Green (light)
+          name: Светло-зеленый
         item_4:
-          name: Green (dark)
+          name: Темно-зеленый
         item_5:
-          name: Yellow
+          name: Жёлтый
         item_6:
-          name: Orange
+          name: Оранжевый
         item_7:
-          name: Red
+          name: Красный
         item_8:
-          name: Magenta
+          name: Пурпурный
         item_9:
-          name: White
+          name: Белый
         item_10:
-          name: Grey (light)
+          name: Светло-серый
         item_11:
-          name: Grey
+          name: Серый
         item_12:
-          name: Grey (dark)
+          name: Темно-серый
         item_13:
-          name: Black
+          name: Чёрный
       document_categories:
         item_0:
-          name: Documentation
+          name: Документация
         item_1:
-          name: Specification
+          name: Спецификация
         item_2:
-          name: Other
+          name: Другие
       roles:
         item_0:
-          name: Non member
+          name: Не участник
         item_1:
-          name: Anonymous
+          name: Анонимно
         item_2:
-          name: Member
+          name: Участник
         item_3:
-          name: Reader
+          name: Читатель
         item_4:
-          name: Project admin
+          name: Администратор проекта
         item_5:
-          name: Staff and projects manager
+          name: Персонал и менеджер проектов
     standard:
       priorities:
         item_0:
-          name: Low
+          name: Низкое
         item_1:
-          name: Normal
+          name: Обычное
         item_2:
-          name: High
+          name: Высокое
         item_3:
-          name: Immediate
+          name: Срочно
       statuses:
         item_0:
-          name: New
+          name: Новое
         item_1:
-          name: In specification
+          name: В спецификации
         item_2:
-          name: Specified
+          name: Указанный
         item_3:
-          name: Confirmed
+          name: Подтвержден
         item_4:
-          name: To be scheduled
+          name: Планируется
         item_5:
-          name: Scheduled
+          name: Запланировано
         item_6:
-          name: In progress
+          name: В процессе
         item_7:
-          name: Developed
+          name: Разработан
         item_8:
-          name: In testing
+          name: В тестировании
         item_9:
-          name: Tested
+          name: Протестирован
         item_10:
-          name: Test failed
+          name: Тест не пройден
         item_11:
-          name: Closed
+          name: закрыто
         item_12:
-          name: On hold
+          name: В ожидании
         item_13:
-          name: Rejected
+          name: отклонено
       time_entry_activities:
         item_0:
-          name: Management
+          name: Управление
         item_1:
-          name: Specification
+          name: Спецификация
         item_2:
-          name: Development
+          name: Разработка
         item_3:
-          name: Testing
+          name: Проверка
         item_4:
-          name: Support
+          name: Поддержка
         item_5:
-          name: Other
+          name: Другие
       types:
         item_0:
-          name: Task
+          name: Задание
         item_1:
-          name: Milestone
+          name: Ключевой момент
         item_2:
-          name: Phase
+          name: Фаза
         item_3:
-          name: Feature
+          name: Функция
         item_4:
-          name: Epic
+          name: Эпический
         item_5:
-          name: User story
+          name: Описание пользователя
         item_6:
-          name: Bug
+          name: Ошибка
       welcome:
         title: Добро пожаловать в OpenProject!
         text: |

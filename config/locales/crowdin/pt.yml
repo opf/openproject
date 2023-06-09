@@ -485,15 +485,15 @@ pt:
           true: "público"
           false: "privado"
         queries: "Consultas"
-        status_code: 'Project status'
+        status_code: 'Situação do projeto'
         status_explanation: 'Project status description'
         status_codes:
-          not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          not_started: 'Não iniciado'
+          on_track: 'Sob controle'
+          at_risk: 'Em risco'
+          off_track: 'Fora de controle'
+          finished: 'Finalizado'
+          discontinued: 'Descontinuado'
         templated: "Projeto modelo"
         templated_value:
           true: "marcado como modelo"
@@ -933,7 +933,7 @@ pt:
       time_entry:
         hour:
           one: "%{count} hour"
-          other: "%{count} hours"
+          other: "%{count} horas"
         hour_html:
           one: "<i>%{count} hour</i>"
           other: "<i>%{count} hours</i>"
@@ -1346,9 +1346,9 @@ pt:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF com descrições"
-      pdf_with_descriptions_and_attachments: "PDF com descrições e anexos"
-      pdf_with_attachments: "PDF com anexos"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Imagem não exportada."
   extraction:
@@ -1475,7 +1475,7 @@ pt:
   label_ical_access_key_not_present: "iCalendar token(s) not present."
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
-  label_ical_access_key_revoke: "Revoke"
+  label_ical_access_key_revoke: "Revogar"
   label_applied_status: "Situação aplicada"
   label_archive_project: "Arquivar projeto"
   label_ascending: "Ascendente"
@@ -1777,7 +1777,6 @@ pt:
   label_password_rule_special: "Caracteres Especiais"
   label_password_rule_uppercase: "Letras maiúsculas"
   label_path_encoding: "Codificação"
-  label_pdf_with_descriptions: "PDF com descrições"
   label_per_page: "Por página"
   label_people: "Pessoas"
   label_permissions: "Permissões"

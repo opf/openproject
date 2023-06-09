@@ -1329,9 +1329,9 @@ lol:
       atom: "crwdns496711:0crwdne496711:0"
       csv: "crwdns496713:0crwdne496713:0"
       pdf: "crwdns496715:0crwdne496715:0"
-      pdf_with_descriptions: "crwdns496717:0crwdne496717:0"
-      pdf_with_descriptions_and_attachments: "crwdns496719:0crwdne496719:0"
-      pdf_with_attachments: "crwdns496721:0crwdne496721:0"
+      pdf_overview_table: "crwdns854709:0crwdne854709:0"
+      pdf_report_with_images: "crwdns854711:0crwdne854711:0"
+      pdf_report: "crwdns854713:0crwdne854713:0"
     image:
       omitted: "crwdns496723:0crwdne496723:0"
   extraction:
@@ -1755,7 +1755,6 @@ lol:
   label_password_rule_special: "crwdns497487:0crwdne497487:0"
   label_password_rule_uppercase: "crwdns497489:0crwdne497489:0"
   label_path_encoding: "crwdns497491:0crwdne497491:0"
-  label_pdf_with_descriptions: "crwdns497493:0crwdne497493:0"
   label_per_page: "crwdns497495:0crwdne497495:0"
   label_people: "crwdns497497:0crwdne497497:0"
   label_permissions: "crwdns497499:0crwdne497499:0"

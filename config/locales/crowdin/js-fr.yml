@@ -1281,8 +1281,8 @@ fr:
       help_description: 'Reference time zone for the baseline.'
       time_description: 'In your local time: %{datetime}'
       time: 'Heure'
-      from: 'From'
-      to: 'To'
+      from: 'De'
+      to: 'À'
       drop_down:
         none: '-'
         yesterday: 'hier'

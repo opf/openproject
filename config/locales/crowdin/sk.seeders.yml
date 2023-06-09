@@ -7,120 +7,120 @@ sk:
     common:
       colors:
         item_0:
-          name: Blue (dark)
+          name: Modrá (tmavá)
         item_1:
-          name: Blue
+          name: Modrá
         item_2:
-          name: Blue (light)
+          name: Modrá (bledá)
         item_3:
-          name: Green (light)
+          name: Zelená (bledá)
         item_4:
-          name: Green (dark)
+          name: Zelená (tmavá)
         item_5:
-          name: Yellow
+          name: Žltá
         item_6:
-          name: Orange
+          name: Oranžová
         item_7:
-          name: Red
+          name: Červená
         item_8:
-          name: Magenta
+          name: Purpurová (magenta)
         item_9:
-          name: White
+          name: Biela
         item_10:
-          name: Grey (light)
+          name: šedá (bledá)
         item_11:
-          name: Grey
+          name: Šedá
         item_12:
-          name: Grey (dark)
+          name: Šedá (tmavá)
         item_13:
-          name: Black
+          name: Čierna
       document_categories:
         item_0:
-          name: Documentation
+          name: Dokumentácia
         item_1:
-          name: Specification
+          name: Špecifikácia
         item_2:
-          name: Other
+          name: Ostatné
       roles:
         item_0:
-          name: Non member
+          name: Nie člen
         item_1:
-          name: Anonymous
+          name: Anonymný
         item_2:
-          name: Member
+          name: Člen
         item_3:
-          name: Reader
+          name: Čitateľ
         item_4:
-          name: Project admin
+          name: Projekt admin
         item_5:
           name: Staff and projects manager
     standard:
       priorities:
         item_0:
-          name: Low
+          name: Nízka
         item_1:
-          name: Normal
+          name: Normálna
         item_2:
-          name: High
+          name: Vysoká
         item_3:
-          name: Immediate
+          name: Okamžité
       statuses:
         item_0:
-          name: New
+          name: Nový
         item_1:
-          name: In specification
+          name: V špecifikácii
         item_2:
-          name: Specified
+          name: Špecifikované
         item_3:
-          name: Confirmed
+          name: Potvrdený
         item_4:
-          name: To be scheduled
+          name: Na plánovanie
         item_5:
-          name: Scheduled
+          name: Naplánované
         item_6:
-          name: In progress
+          name: Prebieha
         item_7:
-          name: Developed
+          name: Vyvinuté
         item_8:
-          name: In testing
+          name: V testovaní
         item_9:
-          name: Tested
+          name: Testované
         item_10:
-          name: Test failed
+          name: Test zlyhal
         item_11:
-          name: Closed
+          name: Zatvorený
         item_12:
-          name: On hold
+          name: Zadržané
         item_13:
-          name: Rejected
+          name: Odmietnuté
       time_entry_activities:
         item_0:
-          name: Management
+          name: Riadenie
         item_1:
-          name: Specification
+          name: Špecifikácia
         item_2:
-          name: Development
+          name: Vývoj
         item_3:
-          name: Testing
+          name: Testovanie
         item_4:
-          name: Support
+          name: Podpora
         item_5:
-          name: Other
+          name: Ostatné
       types:
         item_0:
-          name: Task
+          name: Úloha
         item_1:
-          name: Milestone
+          name: Míľnik
         item_2:
-          name: Phase
+          name: Fáza
         item_3:
-          name: Feature
+          name: Nová funkcia
         item_4:
-          name: Epic
+          name: Epos
         item_5:
-          name: User story
+          name: Užívateľský príbeh
         item_6:
-          name: Bug
+          name: Chyba
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -170,7 +170,7 @@ sk:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Nikdy
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -180,7 +180,7 @@ sk:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Začíname
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -199,7 +199,7 @@ sk:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Pracovné balíčky
               item_6:
                 options:
                   name: Milestones
@@ -311,7 +311,7 @@ sk:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Nevyriešený produkt
             item_2:
               name: Sprint 1
             item_3:
@@ -329,7 +329,7 @@ sk:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Nikdy
           project-overview:
             widgets:
               item_0:
@@ -337,7 +337,7 @@ sk:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Začíname
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -357,7 +357,7 @@ sk:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Pracovné balíčky
               item_6:
                 options:
                   name: Project plan

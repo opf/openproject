@@ -41,7 +41,7 @@ el:
       material_budget_item: "Μονάδα"
   activity:
     filter:
-      budget: "Budgets"
+      budget: "Προϋπολογισμοί"
   attributes:
     budget: "Προϋπολογισμός"
   button_add_budget_item: "Προσθήκη σχεδιασμένου κόστους"

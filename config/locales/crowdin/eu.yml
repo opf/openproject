@@ -202,7 +202,7 @@ eu:
     see_more_link: For more information, please see our documentation on this topic.
   global_search:
     overwritten_tabs:
-      wiki_pages: "Wiki"
+      wiki_pages: "Wikia"
       messages: "Forum"
   groups:
     index:
@@ -500,7 +500,7 @@ eu:
           true: "marked as template"
           false: "unmarked as template"
         types: "Types"
-        versions: "Versions"
+        versions: "Bertsioak"
         work_packages: "Work Packages"
       query:
         column_names: "Columns"
@@ -515,7 +515,7 @@ eu:
         permissions: "Permissions"
       time_entry:
         activity: "Activity"
-        hours: "Hours"
+        hours: "Orduak"
         spent_on: "Date"
         type: "Type"
       type:
@@ -539,7 +539,7 @@ eu:
         comments_sorting: "Display comments"
         hide_mail: "Hide my email address"
         impaired: "Accessibility mode"
-        time_zone: "Time zone"
+        time_zone: "Ordu-eremua"
         auto_hide_popups: "Auto-hide success notifications"
         warn_on_leaving_unsaved: "Warn me when leaving a work package with unsaved changes"
       version:
@@ -557,7 +557,7 @@ eu:
         begin_deletion: "Begin of the deletion"
         children: "Subelements"
         done_ratio: "Progress (%)"
-        duration: "Duration"
+        duration: "Iraupena"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
         ignore_non_working_days: "Ignore non working days"
@@ -577,7 +577,7 @@ eu:
         subproject: "Subproject"
         time_entries: "Log time"
         type: "Type"
-        version: "Version"
+        version: "Bertsioa"
         watcher: "Watcher"
       'doorkeeper/application':
         uid: "Client ID"
@@ -912,8 +912,8 @@ eu:
         other: "Roles"
       type: "Type"
       user: "User"
-      version: "Version"
-      wiki: "Wiki"
+      version: "Bertsioa"
+      wiki: "Wikia"
       wiki_page: "Wiki page"
       workflow: "Workflow"
       work_package: "Work package"
@@ -947,7 +947,7 @@ eu:
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
       time_entry: "Spent time"
-      wiki_edit: "Wiki"
+      wiki_edit: "Wikia"
       work_package: "Work packages"
   #common attributes of all models
   attributes:
@@ -995,7 +995,7 @@ eu:
     responsible: "Accountable"
     role: "Role"
     roles: "Roles"
-    start_date: "Start date"
+    start_date: "Hasiera data"
     status: "Status"
     subject: "Subject"
     summary: "Summary"
@@ -1006,7 +1006,7 @@ eu:
     uploader: "Uploader"
     user: "User"
     value: "Value"
-    version: "Version"
+    version: "Bertsioa"
     work_package: "Work package"
   backup:
     failed: "Backup failed"
@@ -1051,7 +1051,7 @@ eu:
   button_check_all: "Check all"
   button_clear: "Clear"
   button_click_to_reveal: "Click to reveal"
-  button_close: 'Close'
+  button_close: 'Itxi'
   button_collapse_all: "Collapse all"
   button_configure: "Configure"
   button_continue: "Continue"
@@ -1229,7 +1229,7 @@ eu:
     units:
       hour:
         one: "hour"
-        other: "hours"
+        other: "orduak"
   description_active: "Active?"
   description_attachment_toggle: "Show/Hide attachments"
   description_autocomplete: >
@@ -1347,9 +1347,9 @@ eu:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF with descriptions"
-      pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
-      pdf_with_attachments: "PDF with attachments"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Image not exported."
   extraction:
@@ -1511,7 +1511,7 @@ eu:
   label_browse: "Browse"
   label_bulk_edit_selected_work_packages: "Bulk edit selected work packages"
   label_bundled: '(Bundled)'
-  label_calendar: "Calendar"
+  label_calendar: "Egutegia"
   label_calendar_show: "Show Calendar"
   label_category: "Category"
   label_consent_settings: "User Consent"
@@ -1767,7 +1767,7 @@ eu:
   label_openproject_website: "OpenProject website"
   label_optional_description: "Description"
   label_options: "Options"
-  label_other: "Other"
+  label_other: "Beste bat"
   label_overall_activity: "Overall activity"
   label_overview: "Overview"
   label_page_title: "Page title"
@@ -1778,7 +1778,6 @@ eu:
   label_password_rule_special: "Special Characters"
   label_password_rule_uppercase: "Uppercase"
   label_path_encoding: "Path encoding"
-  label_pdf_with_descriptions: "PDF with Descriptions"
   label_per_page: "Per page"
   label_people: "People"
   label_permissions: "Permissions"
@@ -1932,7 +1931,7 @@ eu:
   label_user_settings: "User settings"
   label_users_settings: "Users settings"
   label_version_new: "New version"
-  label_version_plural: "Versions"
+  label_version_plural: "Bertsioak"
   label_version_sharing_descendants: "With subprojects"
   label_version_sharing_hierarchy: "With project hierarchy"
   label_version_sharing_none: "Not shared"
@@ -2321,7 +2320,7 @@ eu:
   project_module_work_package_tracking: "Work package tracking"
   project_module_news: "News"
   project_module_repository: "Repository"
-  project_module_wiki: "Wiki"
+  project_module_wiki: "Wikia"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2453,7 +2452,7 @@ eu:
   setting_apiv3_max_page_size: "Maximum API page size"
   setting_apiv3_max_page_instructions_html: >
     Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
-  setting_apiv3_docs: "Documentation"
+  setting_apiv3_docs: "Dokumentazioa"
   setting_apiv3_docs_enabled: "Enable docs page"
   setting_apiv3_docs_enabled_instructions_html: >
     If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
@@ -2567,7 +2566,7 @@ eu:
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
   settings:
     general: "General"
-    other: "Other"
+    other: "Beste bat"
     passwords: "Passwords"
     session: "Session"
     brute_force_prevention: "Automated user blocking"
@@ -2599,9 +2598,9 @@ eu:
   text_formatting:
     markdown: 'Markdown'
     plain: 'Plain text'
-  status_active: "active"
+  status_active: "aktibo"
   status_archived: "archived"
-  status_invited: invited
+  status_invited: Gonbidatua izan da
   status_locked: locked
   status_registered: registered
   #Used in array.to_sentence.
@@ -2740,7 +2739,7 @@ eu:
     dates_are_calculated_based_on_sub_elements: "Dates are calculated based on sub elements."
     delete_all: "Delete all"
     delete_thing: "Delete"
-    duration: "Duration"
+    duration: "Iraupena"
     duration_days:
       one: "1 day"
       other: "%{count} days"
@@ -2779,12 +2778,12 @@ eu:
         due_date: "End date"
         name: "Name"
         status: "Status"
-        start_date: "Start date"
+        start_date: "Hasiera data"
       columns: "Columns"
       comparisons: "Comparisons"
       comparison:
         absolute: "Absolute"
-        none: "None"
+        none: "Bat ere ez"
         relative: "Relative"
         compare_relative_prefix: "Compare current planning to"
         compare_relative_suffix: "ago"
@@ -2800,7 +2799,7 @@ eu:
       grouping_hide_group: "Hide group \"%{group}\""
       grouping_one: "First grouping criterion"
       grouping_one_phrase: "Is a subproject of"
-      grouping_other: "Other"
+      grouping_other: "Beste bat"
       hide_chart: "Hide chart"
       noneElement: "(none)"
       noneSelection: "(none)"
@@ -2854,7 +2853,7 @@ eu:
     planning_element_update: "Update: %{title}"
     type_could_not_be_saved: "Type could not be saved"
     reporting_could_not_be_saved: "Reporting could not be saved"
-    properties: "Properties"
+    properties: "Ezaugarriak"
     really_delete_color: >
       Are you sure, you want to delete the following color? Types using this color will not be deleted.
     really_delete_reporting: >
@@ -2891,7 +2890,7 @@ eu:
   total_progress: "Total progress"
   user:
     all: "all"
-    active: "active"
+    active: "aktibo"
     activate: "Activate"
     activate_and_reset_failed_logins: "Activate and reset failed logins"
     authentication_provider: "Authentication Provider"
@@ -2907,7 +2906,7 @@ eu:
     deleted: "Deleted user"
     error_status_change_failed: "Changing the user status failed due to the following errors: %{errors}"
     invite: Invite user via email
-    invited: invited
+    invited: Gonbidatua izan da
     lock: "Lock permanently"
     locked: "locked permanently"
     no_login: "This user authenticates through login by password. Since it is disabled, they cannot log in."

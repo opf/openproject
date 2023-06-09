@@ -39,7 +39,7 @@ th:
       meeting_minutes: "Minutes"
   activity:
     filter:
-      meeting: "Meetings"
+      meeting: "ประชุม"
   description_attended: "attended"
   description_invite: "invited"
   events:

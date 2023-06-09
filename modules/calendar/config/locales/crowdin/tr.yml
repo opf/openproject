@@ -3,5 +3,5 @@ tr:
   label_calendar_plural: "Takvimler"
   permission_view_calendar: "Takvimleri görüntüle"
   permission_manage_calendars: "Takvimleri yönet"
-  permission_share_calendars: "Subscribe to iCalendars"
+  permission_share_calendars: "iCalendars'a abone olun"
   project_module_calendar_view: "Takvim"

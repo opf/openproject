@@ -484,15 +484,15 @@ ko:
           true: "공개"
           false: "비공개"
         queries: "쿼리"
-        status_code: 'Project status'
+        status_code: '프로젝트 상태'
         status_explanation: 'Project status description'
         status_codes:
-          not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          not_started: '시작되지 않음'
+          on_track: '정상 상태'
+          at_risk: '위험 상태'
+          off_track: '비정상 상태'
+          finished: '마침'
+          discontinued: '중단됨'
         templated: "템플릿 프로젝트"
         templated_value:
           true: "템플릿으로 표시됨"
@@ -927,7 +927,7 @@ ko:
       parent_no_longer: "더 이상 다음의 하위 프로젝트 아님"
       time_entry:
         hour:
-          other: "%{count} hours"
+          other: "%{count} 시간"
         hour_html:
           other: "<i>%{count} hours</i>"
         updated: "changed from %{old_value} to %{value}"
@@ -1327,9 +1327,9 @@ ko:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "설명이 첨부된 PDF"
-      pdf_with_descriptions_and_attachments: "PDF와 설명 및 첨부 파일"
-      pdf_with_attachments: "PDF와 첨부 파일"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "이미지를 내보내지 못했습니다."
   extraction:
@@ -1456,7 +1456,7 @@ ko:
   label_ical_access_key_not_present: "iCalendar token(s) not present."
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
-  label_ical_access_key_revoke: "Revoke"
+  label_ical_access_key_revoke: "취소"
   label_applied_status: "적용된 상태"
   label_archive_project: "프로젝트 아카이브하기"
   label_ascending: "오름차순"
@@ -1758,7 +1758,6 @@ ko:
   label_password_rule_special: "특수 문자"
   label_password_rule_uppercase: "대문자"
   label_path_encoding: "경로 인코딩"
-  label_pdf_with_descriptions: "설명이 포함된 PDF"
   label_per_page: "페이지당"
   label_people: "사용자"
   label_permissions: "권한"

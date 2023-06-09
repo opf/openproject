@@ -7,12 +7,12 @@ cs:
     label_board: "Tabule"
     label_boards: "Tabule"
     board_types:
-      free: Basic
-      action: "Action board (%{attribute})"
+      free: Základní
+      action: "Akční tabule (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
-      status: Status
-      version: Version
-      subproject: Subproject
-      subtasks: Parent-child
-      basic: Basic
+      assignee: Řešitel
+      status: Stav
+      version: Verze
+      subproject: Podprojekt
+      subtasks: rodič-potomek
+      basic: Základní

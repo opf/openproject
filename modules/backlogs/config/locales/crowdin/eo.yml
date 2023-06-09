@@ -86,7 +86,7 @@ eo:
   backlogs_sprint_unestimated: "Closed or active sprints with unestimated stories"
   backlogs_sprint_unsized: "Project has stories on active or recently closed sprints that were not sized"
   backlogs_sprints: "Sprints"
-  backlogs_story: "Story"
+  backlogs_story: "Historio"
   backlogs_story_type: "Story types"
   backlogs_task: "Tasko"
   backlogs_task_type: "Task type"

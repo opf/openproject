@@ -7,120 +7,120 @@ sl:
     common:
       colors:
         item_0:
-          name: Blue (dark)
+          name: Temno modra
         item_1:
-          name: Blue
+          name: Modra
         item_2:
-          name: Blue (light)
+          name: Svetlo modra
         item_3:
-          name: Green (light)
+          name: Svetlo zelena
         item_4:
-          name: Green (dark)
+          name: Temno zelena
         item_5:
-          name: Yellow
+          name: Rumena
         item_6:
-          name: Orange
+          name: Oranžna
         item_7:
-          name: Red
+          name: Rdeča
         item_8:
-          name: Magenta
+          name: Vijolična
         item_9:
-          name: White
+          name: Bela
         item_10:
-          name: Grey (light)
+          name: Svetlo siva
         item_11:
-          name: Grey
+          name: Siva
         item_12:
-          name: Grey (dark)
+          name: Temno siva
         item_13:
-          name: Black
+          name: Črno
       document_categories:
         item_0:
-          name: Documentation
+          name: Dokumentacija
         item_1:
-          name: Specification
+          name: Specifikacija
         item_2:
-          name: Other
+          name: Drugo
       roles:
         item_0:
-          name: Non member
+          name: Nečlan
         item_1:
-          name: Anonymous
+          name: Anonimno
         item_2:
-          name: Member
+          name: Član
         item_3:
-          name: Reader
+          name: Bralec
         item_4:
-          name: Project admin
+          name: Skrbnik projekta
         item_5:
           name: Staff and projects manager
     standard:
       priorities:
         item_0:
-          name: Low
+          name: Nizko
         item_1:
-          name: Normal
+          name: Običajno
         item_2:
-          name: High
+          name: Visoko
         item_3:
-          name: Immediate
+          name: Takoj
       statuses:
         item_0:
-          name: New
+          name: Novo
         item_1:
-          name: In specification
+          name: Tehnični podatki
         item_2:
-          name: Specified
+          name: Določena
         item_3:
-          name: Confirmed
+          name: Potrjeno
         item_4:
-          name: To be scheduled
+          name: Na razpolago
         item_5:
-          name: Scheduled
+          name: Načrtovano
         item_6:
-          name: In progress
+          name: V teku
         item_7:
-          name: Developed
+          name: Razvoj
         item_8:
-          name: In testing
+          name: V testiranju
         item_9:
-          name: Tested
+          name: Preizkušeno
         item_10:
-          name: Test failed
+          name: Test ni bil uspešen
         item_11:
-          name: Closed
+          name: Zaprto
         item_12:
-          name: On hold
+          name: Na čakanju
         item_13:
-          name: Rejected
+          name: Zavrnjeno
       time_entry_activities:
         item_0:
-          name: Management
+          name: Upravljanje
         item_1:
-          name: Specification
+          name: Specifikacija
         item_2:
-          name: Development
+          name: Razvoj
         item_3:
-          name: Testing
+          name: Testiranje
         item_4:
-          name: Support
+          name: Podpora
         item_5:
-          name: Other
+          name: Drugo
       types:
         item_0:
-          name: Task
+          name: Opravilo
         item_1:
-          name: Milestone
+          name: Mejnik
         item_2:
-          name: Phase
+          name: Faza
         item_3:
-          name: Feature
+          name: Lastnost
         item_4:
-          name: Epic
+          name: Epsko
         item_5:
-          name: User story
+          name: Uporabnikova zgodba
         item_6:
-          name: Bug
+          name: Napaka
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -161,7 +161,7 @@ sl:
             kanban:
               name: Kanban board
             basic:
-              name: Basic board
+              name: Osnovna tabla
               lists:
                 item_0:
                   name: Wish list
@@ -170,7 +170,7 @@ sl:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Nikoli
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -180,7 +180,7 @@ sl:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Začnite
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -199,7 +199,7 @@ sl:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Delovni paketi
               item_6:
                 options:
                   name: Milestones
@@ -311,7 +311,7 @@ sl:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Zaostanki produkta
             item_2:
               name: Sprint 1
             item_3:
@@ -320,7 +320,7 @@ sl:
             kanban:
               name: Kanban board
             basic:
-              name: Task board
+              name: Tabla opravil
               lists:
                 item_0:
                   name: Wish list
@@ -329,7 +329,7 @@ sl:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Nikoli
           project-overview:
             widgets:
               item_0:
@@ -337,7 +337,7 @@ sl:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Začnite
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -357,7 +357,7 @@ sl:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Delovni paketi
               item_6:
                 options:
                   name: Project plan

@@ -41,7 +41,7 @@ hr:
       material_budget_item: "Jedinica"
   activity:
     filter:
-      budget: "Budgets"
+      budget: "Proračuni"
   attributes:
     budget: "Budžet"
   button_add_budget_item: "Dodaj planirane troškove"

@@ -7,49 +7,49 @@ id:
     common:
       colors:
         item_0:
-          name: Blue (dark)
+          name: Biru (gelap)
         item_1:
-          name: Blue
+          name: Biru
         item_2:
-          name: Blue (light)
+          name: Biru (terang)
         item_3:
-          name: Green (light)
+          name: Hijau (terang)
         item_4:
-          name: Green (dark)
+          name: Hijau (gelap)
         item_5:
-          name: Yellow
+          name: Kuning
         item_6:
-          name: Orange
+          name: Oranye
         item_7:
-          name: Red
+          name: Merah
         item_8:
           name: Magenta
         item_9:
-          name: White
+          name: Putih
         item_10:
-          name: Grey (light)
+          name: Abu-abu (terang)
         item_11:
-          name: Grey
+          name: Abu-abu
         item_12:
-          name: Grey (dark)
+          name: Abu-abu (gelap)
         item_13:
-          name: Black
+          name: Hitam
       document_categories:
         item_0:
-          name: Documentation
+          name: Dokumentasi
         item_1:
-          name: Specification
+          name: Spesifikasi
         item_2:
-          name: Other
+          name: Lainnya
       roles:
         item_0:
           name: Non member
         item_1:
-          name: Anonymous
+          name: Anonimus
         item_2:
           name: Member
         item_3:
-          name: Reader
+          name: Pembaca
         item_4:
           name: Project admin
         item_5:
@@ -63,10 +63,10 @@ id:
         item_2:
           name: High
         item_3:
-          name: Immediate
+          name: Segera
       statuses:
         item_0:
-          name: New
+          name: Baru
         item_1:
           name: In specification
         item_2:
@@ -78,7 +78,7 @@ id:
         item_5:
           name: Scheduled
         item_6:
-          name: In progress
+          name: In Progress
         item_7:
           name: Developed
         item_8:
@@ -95,26 +95,26 @@ id:
           name: Rejected
       time_entry_activities:
         item_0:
-          name: Management
+          name: Manajemen
         item_1:
-          name: Specification
+          name: Spesifikasi
         item_2:
-          name: Development
+          name: Pengembangan
         item_3:
-          name: Testing
+          name: Pengujian
         item_4:
           name: Support
         item_5:
-          name: Other
+          name: Lainnya
       types:
         item_0:
-          name: Task
+          name: Tugas
         item_1:
           name: Milestone
         item_2:
-          name: Phase
+          name: Fase
         item_3:
-          name: Feature
+          name: Fitur
         item_4:
           name: Epic
         item_5:
@@ -156,12 +156,12 @@ id:
             item_2:
               name: Tasks
             item_3:
-              name: Team planner
+              name: Rencana tim
           boards:
             kanban:
               name: Kanban board
             basic:
-              name: Basic board
+              name: Papan Basic
               lists:
                 item_0:
                   name: Wish list
@@ -199,7 +199,7 @@ id:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Paket-Penugasan
               item_6:
                 options:
                   name: Milestones
@@ -311,7 +311,7 @@ id:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Backlog produk
             item_2:
               name: Sprint 1
             item_3:
@@ -320,7 +320,7 @@ id:
             kanban:
               name: Kanban board
             basic:
-              name: Task board
+              name: Papan tugas
               lists:
                 item_0:
                   name: Wish list
@@ -357,7 +357,7 @@ id:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Paket-Penugasan
               item_6:
                 options:
                   name: Project plan

@@ -7,114 +7,114 @@ hr:
     common:
       colors:
         item_0:
-          name: Blue (dark)
+          name: Plava (tamna)
         item_1:
-          name: Blue
+          name: Plava
         item_2:
-          name: Blue (light)
+          name: Plava (svijetla)
         item_3:
-          name: Green (light)
+          name: Zelena (svijetla)
         item_4:
-          name: Green (dark)
+          name: Zelena (tamna)
         item_5:
-          name: Yellow
+          name: Žuta
         item_6:
-          name: Orange
+          name: Narančasta
         item_7:
-          name: Red
+          name: Crvena
         item_8:
-          name: Magenta
+          name: Ružičasta
         item_9:
-          name: White
+          name: Bijela
         item_10:
-          name: Grey (light)
+          name: Siva (svijetla)
         item_11:
-          name: Grey
+          name: Siva
         item_12:
-          name: Grey (dark)
+          name: Siva (tamna)
         item_13:
-          name: Black
+          name: Crna
       document_categories:
         item_0:
-          name: Documentation
+          name: Dokumentacija
         item_1:
-          name: Specification
+          name: Specifikacija
         item_2:
-          name: Other
+          name: Ostalo
       roles:
         item_0:
-          name: Non member
+          name: Nije član
         item_1:
-          name: Anonymous
+          name: Anonimno
         item_2:
-          name: Member
+          name: Član
         item_3:
-          name: Reader
+          name: Lektor
         item_4:
-          name: Project admin
+          name: Projekt administrator
         item_5:
           name: Staff and projects manager
     standard:
       priorities:
         item_0:
-          name: Low
+          name: Nizak
         item_1:
-          name: Normal
+          name: Normalan
         item_2:
-          name: High
+          name: Visoki
         item_3:
-          name: Immediate
+          name: Žuran
       statuses:
         item_0:
-          name: New
+          name: Novi
         item_1:
-          name: In specification
+          name: U fazi specifikacije
         item_2:
-          name: Specified
+          name: Specificirano
         item_3:
-          name: Confirmed
+          name: Potvrđeno
         item_4:
-          name: To be scheduled
+          name: Treba se planirati
         item_5:
-          name: Scheduled
+          name: Planirano
         item_6:
-          name: In progress
+          name: U tijeku
         item_7:
-          name: Developed
+          name: Razvijeno
         item_8:
-          name: In testing
+          name: U fazi testiranju
         item_9:
-          name: Tested
+          name: Testirano
         item_10:
-          name: Test failed
+          name: Test nije uspio
         item_11:
-          name: Closed
+          name: Zaključeno
         item_12:
-          name: On hold
+          name: Na čekanju
         item_13:
-          name: Rejected
+          name: Odbijeno
       time_entry_activities:
         item_0:
-          name: Management
+          name: Upravljanje
         item_1:
-          name: Specification
+          name: Specifikacija
         item_2:
-          name: Development
+          name: Razvoj
         item_3:
-          name: Testing
+          name: Testiranje
         item_4:
-          name: Support
+          name: Podrška
         item_5:
-          name: Other
+          name: Ostalo
       types:
         item_0:
-          name: Task
+          name: Zadatak
         item_1:
-          name: Milestone
+          name: Ključna točka
         item_2:
-          name: Phase
+          name: Faza
         item_3:
-          name: Feature
+          name: Značajka
         item_4:
           name: Epic
         item_5:
@@ -170,7 +170,7 @@ hr:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Nikad
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -199,7 +199,7 @@ hr:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Radni paketi
               item_6:
                 options:
                   name: Milestones
@@ -311,7 +311,7 @@ hr:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Backlog produkta
             item_2:
               name: Sprint 1
             item_3:
@@ -320,7 +320,7 @@ hr:
             kanban:
               name: Kanban board
             basic:
-              name: Task board
+              name: Upravitelj zadatcima
               lists:
                 item_0:
                   name: Wish list
@@ -329,7 +329,7 @@ hr:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Nikad
           project-overview:
             widgets:
               item_0:
@@ -357,7 +357,7 @@ hr:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Radni paketi
               item_6:
                 options:
                   name: Project plan

@@ -36,11 +36,11 @@ eu:
           name: Black
       document_categories:
         item_0:
-          name: Documentation
+          name: Dokumentazioa
         item_1:
-          name: Specification
+          name: Zehaztapena
         item_2:
-          name: Other
+          name: Beste bat
       roles:
         item_0:
           name: Non member
@@ -97,7 +97,7 @@ eu:
         item_0:
           name: Management
         item_1:
-          name: Specification
+          name: Zehaztapena
         item_2:
           name: Development
         item_3:
@@ -105,10 +105,10 @@ eu:
         item_4:
           name: Support
         item_5:
-          name: Other
+          name: Beste bat
       types:
         item_0:
-          name: Task
+          name: Zeregina
         item_1:
           name: Milestone
         item_2:

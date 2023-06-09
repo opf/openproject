@@ -182,7 +182,7 @@ ar:
     edit: 'تعديل إجراء مخصص %{name}'
     execute: 'Execute %{name}'
     upsale:
-      title: 'Custom actions'
+      title: 'إجراءات مخصصة'
       description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
@@ -326,7 +326,7 @@ ar:
       more_info_text_html: >
         Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "المشاريع"
-      enabled_projects: "Enabled projects"
+      enabled_projects: "المشاريع الممكنة"
       edit_query: "Edit table"
       query_group_placeholder: "Give the table a name"
       reset: "Reset to defaults"
@@ -486,18 +486,18 @@ ar:
         latest_activity_at: "آخر نشاط في"
         parent: "المشروع الفرعي من"
         public_value:
-          title: "Visibility"
+          title: "الظهور"
           true: "public"
           false: "private"
         queries: "الاستفسارات"
-        status_code: 'Project status'
+        status_code: 'حالة المشروع'
         status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
           at_risk: 'At risk'
           off_track: 'Off track'
-          finished: 'Finished'
+          finished: 'مكتمل'
           discontinued: 'Discontinued'
         templated: "Template project"
         templated_value:
@@ -561,7 +561,7 @@ ar:
         begin_deletion: "البدء بالحذف"
         children: "Subelements"
         done_ratio: "التقدم (%)"
-        duration: "Duration"
+        duration: "المدّة"
         end_insertion: "نهاية الإدراج"
         end_deletion: "نهاية الحذف"
         ignore_non_working_days: "Ignore non working days"
@@ -949,16 +949,16 @@ ar:
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "مشروع فرعي"
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
-          zero: "%{count} hours"
+          zero: "%{count} ساعات"
           one: "%{count} hour"
-          two: "%{count} hours"
-          few: "%{count} hours"
-          many: "%{count} hours"
-          other: "%{count} hours"
+          two: "%{count} ساعات"
+          few: "%{count} ساعات"
+          many: "%{count} ساعات"
+          other: "%{count} ساعات"
         hour_html:
           zero: "<i>%{count} hours</i>"
           one: "<i>%{count} hour</i>"
@@ -969,14 +969,14 @@ ar:
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      changeset: "مجموعة التغييرات"
+      message: "منتديات"
+      news: "الأخبار"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
+      time_entry: "الوقت المستهلك"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "مجموعات العمل"
   #common attributes of all models
   attributes:
     active: "مفعّل"
@@ -1033,7 +1033,7 @@ ar:
     updated_on: "تم التحديث بتاريخ"
     uploader: "Uploader"
     user: "المستخدم"
-    value: "Value"
+    value: "القيمة"
     version: "الإصدار"
     work_package: "مجموعة العمل"
   backup:
@@ -1404,7 +1404,7 @@ ar:
     message: تم تحرير الرسالة
     news: الأخبار
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'تم تعديل المشروع'
     reply: تم الرد
     time_entry: 'تم تحرير Timelog'
     wiki_page: 'تم تحرير صفحة WiKi'
@@ -1422,9 +1422,9 @@ ar:
       atom: "ذرّة"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF مع مواصفات"
-      pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
-      pdf_with_attachments: "PDF with attachments"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Image not exported."
   extraction:
@@ -1853,7 +1853,6 @@ ar:
   label_password_rule_special: "أحرف خاصة"
   label_password_rule_uppercase: "أحرف كبيرة"
   label_path_encoding: "ترميز المسار"
-  label_pdf_with_descriptions: "PDF مع مواصفات"
   label_per_page: "في كل صفحة"
   label_people: "الناس"
   label_permissions: "السماحيات"
@@ -3215,7 +3214,7 @@ ar:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "خطأ"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"

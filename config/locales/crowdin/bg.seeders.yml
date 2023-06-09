@@ -7,120 +7,120 @@ bg:
     common:
       colors:
         item_0:
-          name: Blue (dark)
+          name: Тъмно синьо
         item_1:
-          name: Blue
+          name: Синьо
         item_2:
-          name: Blue (light)
+          name: Светло синьо
         item_3:
-          name: Green (light)
+          name: Светло зелено
         item_4:
-          name: Green (dark)
+          name: Тъмно зелено
         item_5:
-          name: Yellow
+          name: Жълто
         item_6:
-          name: Orange
+          name: Оранжево
         item_7:
-          name: Red
+          name: Червен
         item_8:
-          name: Magenta
+          name: Магента
         item_9:
-          name: White
+          name: Бяло
         item_10:
-          name: Grey (light)
+          name: Светло сиво
         item_11:
-          name: Grey
+          name: Сиво
         item_12:
-          name: Grey (dark)
+          name: Тъмно сиво
         item_13:
-          name: Black
+          name: Черно
       document_categories:
         item_0:
-          name: Documentation
+          name: Документация
         item_1:
-          name: Specification
+          name: Спецификации
         item_2:
-          name: Other
+          name: Други
       roles:
         item_0:
-          name: Non member
+          name: Не е член
         item_1:
-          name: Anonymous
+          name: Анонимен
         item_2:
-          name: Member
+          name: Член
         item_3:
-          name: Reader
+          name: Четящ
         item_4:
-          name: Project admin
+          name: Администратор на проект
         item_5:
           name: Staff and projects manager
     standard:
       priorities:
         item_0:
-          name: Low
+          name: Нисък
         item_1:
-          name: Normal
+          name: Нормален
         item_2:
-          name: High
+          name: Висок
         item_3:
-          name: Immediate
+          name: Незабавно
       statuses:
         item_0:
-          name: New
+          name: Нов
         item_1:
-          name: In specification
+          name: В процес на специфициране
         item_2:
-          name: Specified
+          name: Определен
         item_3:
-          name: Confirmed
+          name: Потвърден
         item_4:
-          name: To be scheduled
+          name: Да бъде планирано
         item_5:
-          name: Scheduled
+          name: Планиран
         item_6:
-          name: In progress
+          name: В изпълнение
         item_7:
-          name: Developed
+          name: Разработен
         item_8:
-          name: In testing
+          name: В процес на тестване
         item_9:
-          name: Tested
+          name: Тестван
         item_10:
-          name: Test failed
+          name: Неуспешен тест
         item_11:
-          name: Closed
+          name: Затворен
         item_12:
-          name: On hold
+          name: Задържан
         item_13:
-          name: Rejected
+          name: Отхвърлен
       time_entry_activities:
         item_0:
-          name: Management
+          name: Управление
         item_1:
-          name: Specification
+          name: Спецификации
         item_2:
-          name: Development
+          name: Разработване
         item_3:
-          name: Testing
+          name: Тестване
         item_4:
-          name: Support
+          name: Поддръжка
         item_5:
-          name: Other
+          name: Други
       types:
         item_0:
-          name: Task
+          name: Задачата
         item_1:
-          name: Milestone
+          name: Етап
         item_2:
-          name: Phase
+          name: Фаза
         item_3:
-          name: Feature
+          name: Функция
         item_4:
-          name: Epic
+          name: Със сериозно значение
         item_5:
-          name: User story
+          name: Потребителска история
         item_6:
-          name: Bug
+          name: Грешка
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -170,7 +170,7 @@ bg:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Никога
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -180,7 +180,7 @@ bg:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Първи стъпки
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -199,7 +199,7 @@ bg:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Работни пакети
               item_6:
                 options:
                   name: Milestones
@@ -311,7 +311,7 @@ bg:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Натрупване на продукти
             item_2:
               name: Sprint 1
             item_3:
@@ -329,7 +329,7 @@ bg:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Никога
           project-overview:
             widgets:
               item_0:
@@ -337,7 +337,7 @@ bg:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Първи стъпки
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -357,7 +357,7 @@ bg:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Работни пакети
               item_6:
                 options:
                   name: Project plan

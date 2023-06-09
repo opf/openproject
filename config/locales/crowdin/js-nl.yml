@@ -229,7 +229,7 @@ nl:
         upsale:
           become_hero: "Word een held!"
           enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
-          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+          upgrade_info: "Gelieve te upgraden naar een betaald abonnement om het te activeren en te beginnen met het gebruik ervan in uw team."
           benefits:
             description: "What are the benefits of the Enterprise on-premises edition?"
             high_security: "Beveiliging functies"
@@ -242,7 +242,7 @@ nl:
             professional_support_text: "Krijg betrouwbare, krachtige ondersteuning van ervaren ondersteunende ingenieurs met deskundige kennis over het functioneren van OpenProject in zakelijke kritieke omgevingen."
           button_start_trial: "Start gratis proefperiode"
           button_upgrade: "Nu upgraden"
-          button_contact_us: "Contact us for a demo"
+          button_contact_us: "Neem contact met ons op voor een demo"
           button_book_now: "Direct boeken"
           confidence: >
             We bieden het vertrouwen van een geteste en ondersteunde software voor projectbeheer van enterprise-class - met Open Source en een open geest.
@@ -260,7 +260,7 @@ nl:
         add_non_working_day: "Non-working day"
         already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
         change_button: "Save and reschedule"
-        change_title: "Change working days"
+        change_title: "Wijzig werkdagen"
         removed_title: "You will remove the following days from the non-working days list:"
         change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
         warning: >
@@ -562,7 +562,7 @@ nl:
       reasons:
         mentioned: 'vermeld'
         watched: 'watcher'
-        assigned: 'assignee'
+        assigned: 'Toegewezene'
         responsible: 'verantwoordelijk'
         created: 'aangemaakt'
         scheduled: 'gepland'
@@ -587,7 +587,7 @@ nl:
         all: 'Alle'
         all_title: 'Alles weergeven'
       center:
-        label_actor_and: 'and'
+        label_actor_and: 'en'
         and_more_users:
           one: 'en 1 ander'
           other: 'en %{count} anderen'
@@ -611,8 +611,8 @@ nl:
         by_project: 'Ongelezen per project'
         by_reason: 'Reason'
         inbox: 'Inkomend'
-        mentioned: 'Mentioned'
-        watched: 'Watcher'
+        mentioned: 'Genoemd'
+        watched: 'Kijker'
         date_alert: 'Date alert'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
@@ -632,11 +632,11 @@ nl:
               P7D: every week
         reasons:
           mentioned:
-            title: 'Mentioned'
+            title: 'Genoemd'
             description: 'Ontvang een melding elke keer dat iemand mij ergens noemt'
           assignee: 'Toegewezene'
-          responsible: 'Accountable'
-          watched: 'Watcher'
+          responsible: 'Verantwoording afleggen'
+          watched: 'Kijker'
           work_package_commented: 'Alle nieuwe reacties'
           work_package_created: 'Nieuwe werkpakketten'
           work_package_processed: 'Alle statuswijzigingen'
@@ -682,7 +682,7 @@ nl:
       work_package_belongs_to: 'Dit werkpakket behoort tot project %{projectname}.'
       click_to_switch_context: 'Open dit werkpakket in dat project.'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
-      use_template: "Use template"
+      use_template: "Sjabloon gebruiken"
       no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
@@ -938,7 +938,7 @@ nl:
         modification_label: 'Modified within the comparison time period'
         column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
       filters:
-        title: 'Filter work packages'
+        title: 'Filter werkpakketten'
         baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
@@ -977,7 +977,7 @@ nl:
         description: "Omschrijving"
         date: "Datum"
         dueDate: "Einddatum"
-        duration: "Duration"
+        duration: "Duur"
         estimatedTime: "Geschatte tijd"
         spentTime: "Bestede tijd"
         category: "Categorie"
@@ -1090,19 +1090,19 @@ nl:
     toolbar:
       settings:
         configure_view: "Configure view"
-        columns: "Columns"
-        sort_by: "Sort by"
-        group_by: "Group by"
+        columns: "Kolommen"
+        sort_by: "Sorteer op"
+        group_by: "Groeperen op"
         display_sums: "Toon sommen"
         display_hierarchy: "De hiërarchie Weergeven"
         hide_hierarchy: "Hiërarchie modus verbergen"
         hide_sums: "Verberg sommen"
         save: "Opslaan"
-        save_as: "Save as"
-        export: "Export"
-        visibility_settings: "Visibility settings"
+        save_as: "Opslaan als"
+        export: "Exporteren"
+        visibility_settings: "Zichtbaarheidsinstellingen"
         share_calendar: "Subscribe to iCalendar"
-        page_settings: "Rename view"
+        page_settings: "Hernoem weergave"
         delete: "Verwijderen"
       filter: "Filter"
       unselected_title: "Werkpakket"
@@ -1114,7 +1114,7 @@ nl:
       button_save: "Opslaan"
       button_submit: "Verzenden"
       button_cancel: "Annuleren"
-      button_delete: "Delete"
+      button_delete: "Verwijderen"
       form_submit:
         title: 'Bevestigen om verder te gaan'
         text: 'Weet u zeker dat u deze actie wilt uitvoeren?'
@@ -1272,23 +1272,23 @@ nl:
       no_results: 'Geen enkel project komt overeen met uw zoekcriteria.'
     baseline:
       toggle_title: 'Baseline'
-      clear: 'Clear'
-      apply: 'Apply'
+      clear: 'Wissen'
+      apply: 'Toepassen'
       header_description: 'Highlight changes made to this list since any point in the past.'
       enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Show changes since'
       baseline_comparison: 'Baseline comparison'
       help_description: 'Reference time zone for the baseline.'
       time_description: 'In your local time: %{datetime}'
-      time: 'Time'
-      from: 'From'
-      to: 'To'
+      time: 'Tijd'
+      from: 'Van'
+      to: 'Aan'
       drop_down:
         none: '-'
-        yesterday: 'yesterday'
+        yesterday: 'gisteren'
         last_working_day: 'last working day'
-        last_week: 'last week'
-        last_month: 'last month'
+        last_week: 'Vorige week'
+        last_month: 'vorige maand'
         a_specific_date: 'a specific date'
         between_two_specific_dates: 'between two specific dates'
       legends:

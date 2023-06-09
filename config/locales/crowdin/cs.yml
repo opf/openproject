@@ -488,15 +488,15 @@ cs:
           true: "veřejný"
           false: "soukromý"
         queries: "Dotazy"
-        status_code: 'Project status'
+        status_code: 'Stav projektu'
         status_explanation: 'Project status description'
         status_codes:
-          not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          not_started: 'Nezahájeno'
+          on_track: 'Dle plánu'
+          at_risk: 'Riziko'
+          off_track: 'Mimo plán'
+          finished: 'Dokončeno'
+          discontinued: 'Zrušeno'
         templated: "Projektová šablona"
         templated_value:
           true: "označeno jako šablona"
@@ -797,7 +797,7 @@ cs:
               full_hour: "lze nakonfigurovat pouze za celou hodinu."
             notification_settings:
               only_one_global_setting: 'Musí existovat pouze jedno globální nastavení oznámení.'
-              email_alerts_global: 'The email notification settings can only be set globally.'
+              email_alerts_global: 'Nastavení e-mailových notifikací lze nastavit pouze globálně.'
               format: "%{message}"
               wrong_date: 'Nesprávná hodnota pro datum zahájení, datum dockončení nebo zpoždění.'
         watcher:
@@ -944,9 +944,9 @@ cs:
       time_entry:
         hour:
           one: "%{count} hour"
-          few: "%{count} hours"
-          many: "%{count} hours"
-          other: "%{count} hours"
+          few: "%{count} hodin"
+          many: "%{count} hodin"
+          other: "%{count} hodin"
         hour_html:
           one: "<i>%{count} hour</i>"
           few: "<i>%{count} hours</i>"
@@ -955,7 +955,7 @@ cs:
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
     filter:
-      changeset: "Changesets"
+      changeset: "Změny"
       message: "Fóra"
       news: "Novinky"
       project_attribute: "Atributy projektu"
@@ -1385,9 +1385,9 @@ cs:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF s popisem"
-      pdf_with_descriptions_and_attachments: "PDF s popisky a přílohami"
-      pdf_with_attachments: "PDF s přílohami"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Obrázek nebyl exportován."
   extraction:
@@ -1816,7 +1816,6 @@ cs:
   label_password_rule_special: "Speciální znaky"
   label_password_rule_uppercase: "Velká písmena"
   label_path_encoding: "Kódování trasy"
-  label_pdf_with_descriptions: "PDF s popisem"
   label_per_page: "Na stránku"
   label_people: "Lidé"
   label_permissions: "Práva"
@@ -3006,7 +3005,7 @@ cs:
       title: "Odstranit pracovní balíček"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      <b>Definujte dny považované za část pracovního týdne</b><br/> dny, které jsou při plánování pracovních balíčků označeny jsou přeskočeny (a nejsou zahrnuty do celkového denního počtu). Tyto mohou být přepsány na úrovni pracovního balíčku.
     instance_wide_info: >
       <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Změnit pracovní dny"

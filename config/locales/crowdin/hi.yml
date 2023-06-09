@@ -182,7 +182,7 @@ hi:
     edit: 'विशेष या कस्टम क्रिया संपादित करें %{name}'
     execute: 'कार्यान्वित करें %{name}'
     upsale:
-      title: 'Custom actions'
+      title: 'विशेष या कस्टम क्रियाएँ'
       description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
@@ -484,7 +484,7 @@ hi:
           true: "public"
           false: "private"
         queries: "पूछताछ"
-        status_code: 'Project status'
+        status_code: 'प्रोजेक्ट स्थिति'
         status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
@@ -927,7 +927,7 @@ hi:
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "परियोजना की उपपरियोजना"
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
@@ -940,13 +940,13 @@ hi:
         logged_for: "Logged for"
     filter:
       changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      message: "मंच"
+      news: "नया"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
-      wiki_edit: "Wiki"
-      work_package: "Work packages"
+      time_entry: "समय बिताया"
+      wiki_edit: "विकी"
+      work_package: "कार्य पैकेज"
   #common attributes of all models
   attributes:
     active: "सक्रिय"
@@ -1003,7 +1003,7 @@ hi:
     updated_on: "पर अद्यतीत"
     uploader: "Uploader"
     user: "उपयोगकर्ता"
-    value: "Value"
+    value: "मान"
     version: "संस्करण"
     work_package: "कार्य पैकेज"
   backup:
@@ -1345,9 +1345,9 @@ hi:
       atom: "एटम"
       csv: "CSV"
       pdf: "पीडीएफ"
-      pdf_with_descriptions: "विवरण सहित पीडीएफ"
-      pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
-      pdf_with_attachments: "PDF with attachments"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Image not exported."
   extraction:
@@ -1776,7 +1776,6 @@ hi:
   label_password_rule_special: "विशेष अक्षर"
   label_password_rule_uppercase: "अपरकेस"
   label_path_encoding: "पथ एंकोडिंग"
-  label_pdf_with_descriptions: "विवरण के साथ पीडीएफ"
   label_per_page: "प्रति पृष्ठ"
   label_people: "People"
   label_permissions: "अनुमतियाँ"
@@ -2597,7 +2596,7 @@ hi:
   text_formatting:
     markdown: 'Markdown'
     plain: 'सादा पाठ'
-  status_active: "active"
+  status_active: "सक्रिय"
   status_archived: "archived"
   status_invited: invited
   status_locked: locked
@@ -2852,7 +2851,7 @@ hi:
     planning_element_update: "Update: %{title}"
     type_could_not_be_saved: "Type could not be saved"
     reporting_could_not_be_saved: "Reporting could not be saved"
-    properties: "Properties"
+    properties: "गुण"
     really_delete_color: >
       Are you sure, you want to delete the following color? Types using this color will not be deleted.
     really_delete_reporting: >
@@ -2889,7 +2888,7 @@ hi:
   total_progress: "Total progress"
   user:
     all: "सभी"
-    active: "active"
+    active: "सक्रिय"
     activate: "Activate"
     activate_and_reset_failed_logins: "Activate and reset failed logins"
     authentication_provider: "Authentication Provider"
@@ -3124,7 +3123,7 @@ hi:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "त्रुटि"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"

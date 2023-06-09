@@ -39,7 +39,7 @@ sv:
       meeting_minutes: "Protokoll"
   activity:
     filter:
-      meeting: "Meetings"
+      meeting: "Möten"
   description_attended: "deltog"
   description_invite: "inbjudna"
   events:

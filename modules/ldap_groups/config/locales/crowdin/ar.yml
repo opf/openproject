@@ -9,7 +9,7 @@ ar:
         filter_string: 'مرشّح LDAP'
         auth_source: 'اتصال LDAP'
         group_name_attribute: "Group name attribute"
-        sync_users: 'Sync users'
+        sync_users: 'مزامنة المستخدمين'
         base_dn: "Search base DN"
     models:
       ldap_groups/synchronized_group: 'Synchronized LDAP group'

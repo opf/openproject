@@ -25,7 +25,7 @@ af:
       document: "Dokument"
   activity:
     filter:
-      document: "Documents"
+      document: "Dokumente"
   default_doc_category_tech: "Tegniese dokumentasie"
   default_doc_category_user: "Gebruikerdokumentasie"
   enumeration_doc_categories: "Dokumentkategorieë"

@@ -478,7 +478,7 @@ lv:
       project:
         active_value:
           true: "unarchived"
-          false: "archived"
+          false: "arhivēts"
         identifier: "Identifikators"
         latest_activity_at: "Latest activity at"
         parent: "Apakšprojekts"
@@ -487,7 +487,7 @@ lv:
           true: "public"
           false: "private"
         queries: "Vaicājumi"
-        status_code: 'Project status'
+        status_code: 'Projekta statuss'
         status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
@@ -938,9 +938,9 @@ lv:
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
-          zero: "%{count} hours"
+          zero: "%{count} stundas"
           one: "%{count} hour"
-          other: "%{count} hours"
+          other: "%{count} stundas"
         hour_html:
           zero: "<i>%{count} hours</i>"
           one: "<i>%{count} hour</i>"
@@ -950,12 +950,12 @@ lv:
     filter:
       changeset: "Changesets"
       message: "Forums"
-      news: "News"
+      news: "Jaunumi"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
+      time_entry: "Pavadīts laiks"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "Pieteikumi"
   #common attributes of all models
   attributes:
     active: "Aktīvs"
@@ -1012,7 +1012,7 @@ lv:
     updated_on: "Labots"
     uploader: "Uploader"
     user: "User"
-    value: "Value"
+    value: "Vērtība"
     version: "Versija"
     work_package: "Work package"
   backup:
@@ -1365,9 +1365,9 @@ lv:
       atom: "Atoms"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF failu ar aprakstiem"
-      pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
-      pdf_with_attachments: "PDF with attachments"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Image not exported."
   extraction:
@@ -1796,7 +1796,6 @@ lv:
   label_password_rule_special: "Special Characters"
   label_password_rule_uppercase: "Uppercase"
   label_path_encoding: "Path encoding"
-  label_pdf_with_descriptions: "PDF with Descriptions"
   label_per_page: "Katrā lappusē"
   label_people: "Iesaistītie"
   label_permissions: "Permissions"

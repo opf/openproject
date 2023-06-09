@@ -221,6 +221,10 @@ import {
 } from 'core-app/shared/components/datepicker/basic-single-date-picker/basic-single-date-picker.component';
 import { SpotDropModalPortalComponent, spotDropModalPortalComponentSelector } from 'core-app/spot/components/drop-modal/drop-modal-portal.component';
 import { StaticAttributeHelpTextComponent, staticAttributeHelpTextSelector } from 'core-app/shared/components/attribute-help-texts/static-attribute-help-text.component';
+import {
+  StorageLoginButtonComponent,
+  opStorageLoginButtonSelector,
+} from 'core-app/shared/components/storages/storage-login-button/storage-login-button.component';
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -281,6 +285,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: opModalOverlaySelector, cls: OpModalOverlayComponent },
   { selector: spotDropModalPortalComponentSelector, cls: SpotDropModalPortalComponent },
   { selector: spotSwitchSelector, cls: SpotSwitchComponent },
+  { selector: opStorageLoginButtonSelector, cls: StorageLoginButtonComponent },
 
   { selector: opModalSingleDatePickerSelector, cls: OpModalSingleDatePickerComponent, embeddable: true },
   { selector: opBasicSingleDatePickerSelector, cls: OpBasicSingleDatePickerComponent, embeddable: true },

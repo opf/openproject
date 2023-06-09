@@ -7,120 +7,120 @@ hu:
     common:
       colors:
         item_0:
-          name: Blue (dark)
+          name: Kék (sötét)
         item_1:
-          name: Blue
+          name: Kék
         item_2:
-          name: Blue (light)
+          name: Kék (világos)
         item_3:
-          name: Green (light)
+          name: Zöld (világos)
         item_4:
-          name: Green (dark)
+          name: Zöld (sötét)
         item_5:
-          name: Yellow
+          name: Sárga
         item_6:
-          name: Orange
+          name: Narancssárga
         item_7:
-          name: Red
+          name: Piros
         item_8:
           name: Magenta
         item_9:
-          name: White
+          name: Fehér
         item_10:
-          name: Grey (light)
+          name: Szürke (világos)
         item_11:
-          name: Grey
+          name: Szürke
         item_12:
-          name: Grey (dark)
+          name: Szürke (sötét)
         item_13:
-          name: Black
+          name: Fekete
       document_categories:
         item_0:
-          name: Documentation
+          name: Dokumentáció
         item_1:
-          name: Specification
+          name: Specifikáció
         item_2:
-          name: Other
+          name: Egyéb
       roles:
         item_0:
-          name: Non member
+          name: Nem tag
         item_1:
           name: Anonymous
         item_2:
-          name: Member
+          name: Tag
         item_3:
-          name: Reader
+          name: Olvasó
         item_4:
-          name: Project admin
+          name: Projekt admin
         item_5:
-          name: Staff and projects manager
+          name: A vezetőség és a projekt menedzser
     standard:
       priorities:
         item_0:
-          name: Low
+          name: Alacsony
         item_1:
-          name: Normal
+          name: Átlagos
         item_2:
-          name: High
+          name: Magas
         item_3:
-          name: Immediate
+          name: Azonnali
       statuses:
         item_0:
-          name: New
+          name: Új
         item_1:
-          name: In specification
+          name: Specifikálás
         item_2:
-          name: Specified
+          name: Megadva
         item_3:
-          name: Confirmed
+          name: Megerősítve
         item_4:
-          name: To be scheduled
+          name: Ütemezendő
         item_5:
-          name: Scheduled
+          name: Beütemezve
         item_6:
-          name: In progress
+          name: Folyamatban
         item_7:
-          name: Developed
+          name: Lefejlesztve
         item_8:
-          name: In testing
+          name: Tesztelés alatt
         item_9:
-          name: Tested
+          name: Tesztelve
         item_10:
-          name: Test failed
+          name: Teszt meghiúsult
         item_11:
-          name: Closed
+          name: Lezárva
         item_12:
-          name: On hold
+          name: Visszatartva
         item_13:
-          name: Rejected
+          name: Elutasítva
       time_entry_activities:
         item_0:
-          name: Management
+          name: Menedzsment
         item_1:
-          name: Specification
+          name: Specifikáció
         item_2:
-          name: Development
+          name: Fejlesztés
         item_3:
-          name: Testing
+          name: Tesztelés
         item_4:
-          name: Support
+          name: Támogatás
         item_5:
-          name: Other
+          name: Egyéb
       types:
         item_0:
-          name: Task
+          name: Feladat
         item_1:
-          name: Milestone
+          name: Fordulópont
         item_2:
-          name: Phase
+          name: Fázis
         item_3:
-          name: Feature
+          name: Szolgáltatás
         item_4:
           name: Epic
         item_5:
           name: User story
         item_6:
-          name: Bug
+          name: Hiba
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -156,12 +156,12 @@ hu:
             item_2:
               name: Tasks
             item_3:
-              name: Team planner
+              name: Csoport tervező
           boards:
             kanban:
               name: Kanban board
             basic:
-              name: Basic board
+              name: Alap tábla
               lists:
                 item_0:
                   name: Wish list
@@ -170,7 +170,7 @@ hu:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Soha
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -180,7 +180,7 @@ hu:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Kezdés
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -199,7 +199,7 @@ hu:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Munkacsomagok
               item_6:
                 options:
                   name: Milestones
@@ -311,7 +311,7 @@ hu:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Termék backlog
             item_2:
               name: Sprint 1
             item_3:
@@ -329,7 +329,7 @@ hu:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Soha
           project-overview:
             widgets:
               item_0:
@@ -337,7 +337,7 @@ hu:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Kezdés
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -357,7 +357,7 @@ hu:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Munkacsomagok
               item_6:
                 options:
                   name: Project plan

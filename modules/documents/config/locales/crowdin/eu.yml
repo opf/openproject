@@ -25,7 +25,7 @@ eu:
       document: "Dokumentua"
   activity:
     filter:
-      document: "Documents"
+      document: "Dokumentuak"
   default_doc_category_tech: "Dokumentazio teknikoa"
   default_doc_category_user: "Erabiltzaile dokumentazioa"
   enumeration_doc_categories: "Dokumentuen kategoriak"

@@ -51,7 +51,7 @@ module Statuses
     end
 
     def color
-      icon_for_color status.color
+      helpers.icon_for_color status.color
     end
 
     def done_ratio
@@ -59,9 +59,9 @@ module Statuses
     end
 
     def sort
-      reorder_links 'status',
-                    { action: 'update', id: status },
-                    method: :patch
+      helpers.reorder_links 'status',
+                            { action: 'update', id: status },
+                            method: :patch
     end
 
     def button_links

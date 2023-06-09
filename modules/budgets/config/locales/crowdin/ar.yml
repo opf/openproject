@@ -41,7 +41,7 @@ ar:
       material_budget_item: "الوحدة"
   activity:
     filter:
-      budget: "Budgets"
+      budget: "الميزانيات"
   attributes:
     budget: "الميزانية"
   button_add_budget_item: "أضِف التكاليف المخطط لها"

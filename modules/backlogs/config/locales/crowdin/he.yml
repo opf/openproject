@@ -25,7 +25,7 @@ he:
       work_package:
         position: "מיקום"
         remaining_hours: "שעות שנותרו"
-        remaining_time: "Remaining hours"
+        remaining_time: "שעות שנותרו"
         story_points: "Story Points"
         backlogs_work_package_type: "Backlog type"
     errors:
@@ -63,7 +63,7 @@ he:
     properties: "Properties"
     rebuild: "Rebuild"
     rebuild_positions: "Rebuild positions"
-    remaining_hours: "Remaining hours"
+    remaining_hours: "שעות שנותרו"
     remaining_hours_ideal: "Remaining hours (ideal)"
     show_burndown_chart: "Burndown Chart"
     story: "Story"

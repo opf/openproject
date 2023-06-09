@@ -182,7 +182,7 @@ fil:
     edit: 'I-edit ang mga custom aksyon %{name}'
     execute: 'Ipatupad ang %{name}'
     upsale:
-      title: 'Custom actions'
+      title: 'Mga custom aksyon'
       description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
@@ -477,16 +477,16 @@ fil:
       project:
         active_value:
           true: "unarchived"
-          false: "archived"
+          false: "naka-archive"
         identifier: "Ang pagkakakilanlan"
         latest_activity_at: "Pinakamabagong aktibidad sa"
         parent: "Ang kahaliling proyekto ng"
         public_value:
-          title: "Visibility"
+          title: "Nakikita"
           true: "public"
           false: "private"
         queries: "Mga query"
-        status_code: 'Project status'
+        status_code: 'Estado ng proyekto'
         status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
@@ -557,7 +557,7 @@ fil:
         begin_deletion: "Nagsimula na ang pagbubura"
         children: "Subelements"
         done_ratio: "Isinasagawa (%)"
-        duration: "Duration"
+        duration: "Durasyon"
         end_insertion: "Katapusan na"
         end_deletion: "Katapusan ng pagbubura"
         ignore_non_working_days: "Ignore non working days"
@@ -929,12 +929,12 @@ fil:
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "Kahaliling proyekto"
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
           one: "%{count} hour"
-          other: "%{count} hours"
+          other: "%{count} mga oras"
         hour_html:
           one: "<i>%{count} hour</i>"
           other: "<i>%{count} hours</i>"
@@ -942,13 +942,13 @@ fil:
         logged_for: "Logged for"
     filter:
       changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      message: "Mga forum"
+      news: "Mga balita"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
+      time_entry: "Nauubos na oras"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "Ang mga work package"
   #common attributes of all models
   attributes:
     active: "Aktibo"
@@ -1005,7 +1005,7 @@ fil:
     updated_on: "Naka-update sa"
     uploader: "Uploader"
     user: "Gumagamit"
-    value: "Value"
+    value: "Halaga"
     version: "Bersyon"
     work_package: "Work package"
   backup:
@@ -1329,7 +1329,7 @@ fil:
     message: Naka-edit ang mensahe
     news: Mga balita
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'Naka-edit ang proyekto'
     reply: Sumagot
     time_entry: 'Naka-edit ang timelog'
     wiki_page: 'Naka-edit ang wike na pahina'
@@ -1347,9 +1347,9 @@ fil:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF na may mga paglalarawan"
-      pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
-      pdf_with_attachments: "PDF with attachments"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Image not exported."
   extraction:
@@ -1778,7 +1778,6 @@ fil:
   label_password_rule_special: "Mga espesyal karakter"
   label_password_rule_uppercase: "Uppercase"
   label_path_encoding: "Landas ng page-encode"
-  label_pdf_with_descriptions: "PDF na may mga paglalarawan"
   label_per_page: "Bawat pahina"
   label_people: "Mga tao"
   label_permissions: "Mga pahintulot"
@@ -2226,7 +2225,7 @@ fil:
   permission_add_work_packages: "Magdagdag ng mga work package"
   permission_add_messages: "Mga post na mensahe"
   permission_add_project: "Lumikha ng proyekto"
-  permission_archive_project: "Archive project"
+  permission_archive_project: "I-archive ang proyekto"
   permission_manage_user: "Create and edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Lumikha ng mga subproject"
@@ -3124,7 +3123,7 @@ fil:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "Mali"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"

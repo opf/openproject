@@ -7,120 +7,120 @@ af:
     common:
       colors:
         item_0:
-          name: Blue (dark)
+          name: Blou (donker)
         item_1:
-          name: Blue
+          name: Blou
         item_2:
-          name: Blue (light)
+          name: Blou (lig)
         item_3:
-          name: Green (light)
+          name: Groen (lig)
         item_4:
-          name: Green (dark)
+          name: Groen (donker)
         item_5:
-          name: Yellow
+          name: Geel
         item_6:
-          name: Orange
+          name: Oranje
         item_7:
-          name: Red
+          name: Rooi
         item_8:
-          name: Magenta
+          name: Purperrooi
         item_9:
-          name: White
+          name: Wit
         item_10:
-          name: Grey (light)
+          name: Grys (lig)
         item_11:
-          name: Grey
+          name: Grys
         item_12:
-          name: Grey (dark)
+          name: Grys (donker)
         item_13:
-          name: Black
+          name: Swart
       document_categories:
         item_0:
-          name: Documentation
+          name: Dokumentasie
         item_1:
-          name: Specification
+          name: Spesifikasie
         item_2:
-          name: Other
+          name: Ander
       roles:
         item_0:
-          name: Non member
+          name: Nie-lid
         item_1:
-          name: Anonymous
+          name: Anoniem
         item_2:
-          name: Member
+          name: Lid
         item_3:
-          name: Reader
+          name: Leser
         item_4:
-          name: Project admin
+          name: Projek admin
         item_5:
           name: Staff and projects manager
     standard:
       priorities:
         item_0:
-          name: Low
+          name: Laag
         item_1:
-          name: Normal
+          name: Normaal
         item_2:
-          name: High
+          name: Hoog
         item_3:
-          name: Immediate
+          name: Onmiddellik
       statuses:
         item_0:
-          name: New
+          name: Nuut
         item_1:
-          name: In specification
+          name: In spesifikasie
         item_2:
-          name: Specified
+          name: Gespesifiseer
         item_3:
-          name: Confirmed
+          name: Bevestig
         item_4:
-          name: To be scheduled
+          name: Om geskeduleer word
         item_5:
-          name: Scheduled
+          name: Geskeduleer
         item_6:
-          name: In progress
+          name: In-vordering
         item_7:
-          name: Developed
+          name: Reeds ontwikkel
         item_8:
-          name: In testing
+          name: In toetsfase
         item_9:
-          name: Tested
+          name: Getoets
         item_10:
-          name: Test failed
+          name: Toets het misluk
         item_11:
-          name: Closed
+          name: Gesluit
         item_12:
-          name: On hold
+          name: Uitgestel
         item_13:
-          name: Rejected
+          name: Verwerp
       time_entry_activities:
         item_0:
-          name: Management
+          name: Bestuur
         item_1:
-          name: Specification
+          name: Spesifikasie
         item_2:
-          name: Development
+          name: Ontwikkeling
         item_3:
-          name: Testing
+          name: Toetse
         item_4:
-          name: Support
+          name: Ondersteuning
         item_5:
-          name: Other
+          name: Ander
       types:
         item_0:
-          name: Task
+          name: Taak
         item_1:
-          name: Milestone
+          name: Mylpaal
         item_2:
-          name: Phase
+          name: Fase
         item_3:
-          name: Feature
+          name: Funksie
         item_4:
-          name: Epic
+          name: Epies
         item_5:
-          name: User story
+          name: Gebruiker storie
         item_6:
-          name: Bug
+          name: Gogga
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -180,7 +180,7 @@ af:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Om te begin
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -199,7 +199,7 @@ af:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Werkspakkete
               item_6:
                 options:
                   name: Milestones
@@ -337,7 +337,7 @@ af:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Om te begin
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -357,7 +357,7 @@ af:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Werkspakkete
               item_6:
                 options:
                   name: Project plan

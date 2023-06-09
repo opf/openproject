@@ -482,18 +482,18 @@ et:
         latest_activity_at: "Latest activity at"
         parent: "Ülemprojekt"
         public_value:
-          title: "Visibility"
+          title: "Nähtavus"
           true: "public"
           false: "private"
         queries: "Päringuid"
-        status_code: 'Project status'
+        status_code: 'Projekti olek'
         status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
           at_risk: 'At risk'
           off_track: 'Off track'
-          finished: 'Finished'
+          finished: 'Lõpetatud'
           discontinued: 'Discontinued'
         templated: "Template project"
         templated_value:
@@ -557,7 +557,7 @@ et:
         begin_deletion: "Kustutamise algus"
         children: "Alamelemendid"
         done_ratio: "Progress (%)"
-        duration: "Duration"
+        duration: "kestus"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
         ignore_non_working_days: "Ignore non working days"
@@ -929,7 +929,7 @@ et:
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "Alamprojekt"
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
@@ -941,14 +941,14 @@ et:
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      changeset: "Toimikud"
+      message: "Foorumid"
+      news: "Uudised"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
-      wiki_edit: "Wiki"
-      work_package: "Work packages"
+      time_entry: "Kulutatud aeg"
+      wiki_edit: "Viki"
+      work_package: "Teemad"
   #common attributes of all models
   attributes:
     active: "Aktiivne"
@@ -1005,7 +1005,7 @@ et:
     updated_on: "Uuendatud"
     uploader: "Uploader"
     user: "Kasutaja"
-    value: "Value"
+    value: "Väärtus"
     version: "Versioon"
     work_package: "Teema"
   backup:
@@ -1329,7 +1329,7 @@ et:
     message: Sõnum on muudetud
     news: Uudised
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'Projekti on muudetud'
     reply: Vastatud
     time_entry: 'Ajalogi on muudetud'
     wiki_page: 'Viki leht on muudetud'
@@ -1347,9 +1347,9 @@ et:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF koos kirjeldustega"
-      pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
-      pdf_with_attachments: "PDF with attachments"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Image not exported."
   extraction:
@@ -1476,7 +1476,7 @@ et:
   label_ical_access_key_not_present: "iCalendar token(s) not present."
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
-  label_ical_access_key_revoke: "Revoke"
+  label_ical_access_key_revoke: "Võta tagasi"
   label_applied_status: "Rakendatud olek"
   label_archive_project: "Archive project"
   label_ascending: "Kasvav"
@@ -1778,7 +1778,6 @@ et:
   label_password_rule_special: "Erimärgid"
   label_password_rule_uppercase: "Suurtäheline"
   label_path_encoding: "Teeraja kodeering"
-  label_pdf_with_descriptions: "PDF koos kirjeldustega"
   label_per_page: "Lehekülje kohta"
   label_people: "Inimesed"
   label_permissions: "Õigused"
@@ -3126,7 +3125,7 @@ et:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "Tõrge"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"

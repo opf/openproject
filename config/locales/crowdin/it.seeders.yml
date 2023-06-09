@@ -7,114 +7,114 @@ it:
     common:
       colors:
         item_0:
-          name: Blue (dark)
+          name: Blu (scuro)
         item_1:
-          name: Blue
+          name: Blu
         item_2:
-          name: Blue (light)
+          name: Blu (chiaro)
         item_3:
-          name: Green (light)
+          name: Verde (chiaro)
         item_4:
-          name: Green (dark)
+          name: Verde (scuro)
         item_5:
-          name: Yellow
+          name: Giallo
         item_6:
-          name: Orange
+          name: Arancione
         item_7:
-          name: Red
+          name: Rosso
         item_8:
           name: Magenta
         item_9:
-          name: White
+          name: Bianco
         item_10:
-          name: Grey (light)
+          name: Grigio (chiaro)
         item_11:
-          name: Grey
+          name: Grigio
         item_12:
-          name: Grey (dark)
+          name: Grigio (scuro)
         item_13:
-          name: Black
+          name: Nero
       document_categories:
         item_0:
-          name: Documentation
+          name: Documentazione
         item_1:
-          name: Specification
+          name: Specifiche
         item_2:
-          name: Other
+          name: Altro
       roles:
         item_0:
-          name: Non member
+          name: Non membro
         item_1:
-          name: Anonymous
+          name: Anonimo
         item_2:
-          name: Member
+          name: Membro
         item_3:
-          name: Reader
+          name: Osservatore
         item_4:
-          name: Project admin
+          name: Amministratore di progetto
         item_5:
-          name: Staff and projects manager
+          name: Staff e gestore dei progetti
     standard:
       priorities:
         item_0:
-          name: Low
+          name: Basso
         item_1:
-          name: Normal
+          name: Normale
         item_2:
-          name: High
+          name: Alto
         item_3:
-          name: Immediate
+          name: Immediata
       statuses:
         item_0:
-          name: New
+          name: Nuovo
         item_1:
-          name: In specification
+          name: In fase di specifica
         item_2:
-          name: Specified
+          name: Specificato
         item_3:
-          name: Confirmed
+          name: Confermato
         item_4:
-          name: To be scheduled
+          name: Da programmare
         item_5:
-          name: Scheduled
+          name: Programmato
         item_6:
-          name: In progress
+          name: In corso
         item_7:
-          name: Developed
+          name: Sviluppato
         item_8:
-          name: In testing
+          name: In fase di test
         item_9:
-          name: Tested
+          name: Testato
         item_10:
-          name: Test failed
+          name: Test non riuscito
         item_11:
-          name: Closed
+          name: Chiuso
         item_12:
-          name: On hold
+          name: In attesa
         item_13:
-          name: Rejected
+          name: Respinto
       time_entry_activities:
         item_0:
-          name: Management
+          name: Gestione
         item_1:
-          name: Specification
+          name: Specifiche
         item_2:
-          name: Development
+          name: Sviluppo
         item_3:
-          name: Testing
+          name: Test
         item_4:
-          name: Support
+          name: Supporto
         item_5:
-          name: Other
+          name: Altro
       types:
         item_0:
-          name: Task
+          name: Attività
         item_1:
-          name: Milestone
+          name: Traguardo
         item_2:
-          name: Phase
+          name: Fase
         item_3:
-          name: Feature
+          name: Funzionalità
         item_4:
           name: Epic
         item_5:
@@ -161,7 +161,7 @@ it:
             kanban:
               name: Kanban board
             basic:
-              name: Basic board
+              name: Tabella base
               lists:
                 item_0:
                   name: Wish list
@@ -170,7 +170,7 @@ it:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Mai
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -180,7 +180,7 @@ it:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Per cominciare
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -199,7 +199,7 @@ it:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Macro-attività
               item_6:
                 options:
                   name: Milestones
@@ -311,7 +311,7 @@ it:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Backlog del prodotto
             item_2:
               name: Sprint 1
             item_3:
@@ -320,7 +320,7 @@ it:
             kanban:
               name: Kanban board
             basic:
-              name: Task board
+              name: Pannello delle attività
               lists:
                 item_0:
                   name: Wish list
@@ -329,7 +329,7 @@ it:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Mai
           project-overview:
             widgets:
               item_0:
@@ -337,7 +337,7 @@ it:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Per cominciare
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -357,7 +357,7 @@ it:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Macro-attività
               item_6:
                 options:
                   name: Project plan
