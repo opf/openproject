@@ -23,7 +23,7 @@ jobs:
   units:
     name: Units
     if: github.repository == 'opf/openproject'
-    runs-on: [self-hosted, scaleway, docker, x64, SPECIAL]
+    runs-on: [self-hosted, scaleway, docker, x64, L]
     timeout-minutes: 30
     env:
       CI_CACHE_PATH: "/tmp/cache"
@@ -50,7 +50,7 @@ jobs:
   features:
     name: Features
     if: github.repository == 'opf/openproject'
-    runs-on: [self-hosted, scaleway, docker, x64, SPECIAL]
+    runs-on: [self-hosted, scaleway, docker, x64, L]
     timeout-minutes: 60
     env:
       CI_CACHE_PATH: "/tmp/cache"
