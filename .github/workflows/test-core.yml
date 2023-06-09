@@ -23,7 +23,7 @@ jobs:
   units:
     name: Units
     if: github.repository == 'opf/openproject'
-    runs-on: [self-hosted, scaleway, ubuntu22, x64, XL]
+    runs-on: [self-hosted, scaleway, ubuntu22, x64, 2XL]
     timeout-minutes: 30
     env:
       CI_CACHE_PATH: "/tmp/cache"
@@ -39,7 +39,9 @@ jobs:
         path: /tmp/cache
         key: ${{ runner.os }}-ci-cache-tests-units
     - name: build
-      run: docker-compose -f docker-compose.ci.yml build --pull ci
+      run: |
+        sudo chown -R $(whoami):$(id -ng) $CI_CACHE_PATH
+        docker-compose -f docker-compose.ci.yml build --pull ci
     - name: test
       run: docker-compose -f docker-compose.ci.yml run ci setup-tests run-units
     - name: cleanup
@@ -50,7 +52,7 @@ jobs:
   features:
     name: Features
     if: github.repository == 'opf/openproject'
-    runs-on: [self-hosted, scaleway, ubuntu22, x64, XL]
+    runs-on: [self-hosted, scaleway, ubuntu22, x64, 2XL]
     timeout-minutes: 60
     env:
       CI_CACHE_PATH: "/tmp/cache"
@@ -68,13 +70,16 @@ jobs:
         path: /tmp/cache
         key: ${{ runner.os }}-ci-cache-tests-features
     - name: build
-      run: docker-compose -f docker-compose.ci.yml build --pull ci
+      run: |
+        sudo chown -R $(whoami):$(id -ng) $CI_CACHE_PATH
+        docker-compose -f docker-compose.ci.yml build --pull ci
     - name: test
       run: docker-compose -f docker-compose.ci.yml run ci setup-tests run-features
     - name: cleanup
       if: ${{ always() }}
       run: |
         docker-compose -f docker-compose.ci.yml down --remove-orphans -t 10
+        sudo chown -R $(whoami):$(id -ng) $CI_CACHE_PATH
   api-spec:
     name: APIv3 specification (OpenAPI 3.0)
     if: github.repository == 'opf/openproject'

@@ -52,7 +52,7 @@ COPY --chown=$APP_USER:$APP_USER package.json ./
 COPY --chown=$APP_USER:$APP_USER frontend/package.json frontend/package-lock.json frontend/.npmrc ./frontend/
 RUN \
   --mount=type=cache,target=/app/.npm,uid=1000,gid=1000 \
-  JOBS=4 npm install
+  JOBS=$(nproc) npm install
 
 COPY ./docker/ci/entrypoint.sh /usr/sbin/entrypoint.sh
 COPY --chown=$APP_USER:$APP_USER . .
