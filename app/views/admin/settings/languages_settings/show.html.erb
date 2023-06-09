@@ -35,10 +35,6 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="form--field" id="setting_available_languages">
       <%= setting_multiselect :available_languages, all_lang_options_for_select(false) %>
     </div>
-
-    <div class="form--field">
-      <%= setting_select :user_format, @options[:user_format], container_class: '-slim' %>
-    </div>
   </section>
 
   <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
