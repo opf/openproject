@@ -12,7 +12,7 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt buster-pgdg main" > /etc/a
 
 RUN --mount=type=cache,target=/var/cache/apt \
     apt-get update -qq && apt-get install -y \
-    postgresql-client-13 time pandoc imagemagick libpq-dev default-jre-headless firefox-esr
+    postgresql-13 postgresql-client-13 time pandoc imagemagick libpq-dev default-jre-headless firefox-esr
 
 # Try Downloading binary from fallback source if first one fails
 RUN f="/tmp/chrome.deb"; wget --no-verbose -O $f $CHROME_SOURCE_URL && apt install -y $f && rm -f $f

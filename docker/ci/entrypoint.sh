@@ -44,11 +44,11 @@ execute_quiet() {
 
 reset_dbs() {
 	# must reset main db because for some reason the users table is not empty, after running db:migrate
-	execute_quiet "echo 'drop database if exists appdb ; create database appdb' | $PGBIN/psql ${DATABASE_URL/appdb/postgres}"
+	execute_quiet "echo 'drop database if exists appdb ; create database appdb' | $PGBIN/psql -U dev -h 127.0.0.1 -d postgres"
 	# create test databases "app1" to "app$JOBS", far faster than using parallel_rspec tasks for that
-	execute_quiet "cat db/structure.sql | $PGBIN/psql $DATABASE_URL"
+	execute_quiet "cat db/structure.sql | $PGBIN/psql -U dev -h 127.0.0.1 -d postgres"
 	for i in $(seq 1 $JOBS); do
-		execute_quiet "echo 'drop database if exists app$i ; create database app$i with template appdb owner appuser;' | $PGBIN/psql $DATABASE_URL"
+		execute_quiet "echo 'drop database if exists app$i ; create database app$i with template appdb owner appuser;' | $PGBIN/psql -U dev -h 127.0.0.1 -d postgres"
 	done
 }
 
@@ -63,6 +63,14 @@ if [ "$1" == "setup-tests" ]; then
 		folder="$CAPYBARA_DOWNLOADED_FILE_DIR/$i"
 		execute_quiet "rm -rf '$folder' ; mkdir -p '$folder' ; chmod 1777 '$folder'"
 	done
+
+	if [ ! -d "/tmp/nulldb" ]; then
+		# echo "fsync = off" >> /etc/postgresql/$PGVERSION/main/postgresql.conf
+		# echo "full_page_writes = off" >> /etc/postgresql/$PGVERSION/main/postgresql.conf
+		execute_quiet "$PGBIN/initdb -E UTF8 -D /tmp/nulldb"
+		execute_quiet "$PGBIN/pg_ctl -D /tmp/nulldb -w start -o '-h 127.0.0.1 -k /tmp'"
+		echo "create database appdb; create user appuser with superuser encrypted password 'p4ssw0rd'; grant all privileges on database appdb to appuser;" | $PGBIN/psql -U dev -h 127.0.0.1 -d postgres
+	fi
 
 	# create test database "app" and dump schema because db/structure.sql is not checked in
 	execute_quiet "time bundle exec rails db:migrate db:schema:dump zeitwerk:check openproject:plugins:register_frontend"

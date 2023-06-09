@@ -4,22 +4,13 @@ networks:
   testing:
 
 services:
-  postgres:
-    image: postgres:13
-    environment:
-      POSTGRES_USER: appuser
-      POSTGRES_PASSWORD: p4ssw0rd
-      POSTGRES_DB: appdb
-    tmpfs:
-      - "/var/lib/postgresql/data"
-
   ci:
     build:
       context: .
       dockerfile: ./docker/ci/Dockerfile
     environment:
       CI_JOBS: "${CI_JOBS}"
-      DATABASE_URL: "postgres://appuser:p4ssw0rd@postgres/appdb"
+      DATABASE_URL: "postgres://appuser:p4ssw0rd@127.0.0.1/appdb"
       RSPEC_RETRY_RETRY_COUNT: "${CI_RETRY_COUNT:-3}"
       CAPYBARA_AWS_ACCESS_KEY_ID: "${CAPYBARA_AWS_ACCESS_KEY_ID}"
       CAPYBARA_AWS_SECRET_ACCESS_KEY: "${CAPYBARA_AWS_SECRET_ACCESS_KEY}"
@@ -30,5 +21,3 @@ services:
       - "./spec:/app/spec"
       # used to store stuff that must persist between CI runs, e.g. turbo_tests runtime logs
       - "${CI_CACHE_PATH:-/tmp}/op-cache:/cache"
-    depends_on:
-      - postgres
