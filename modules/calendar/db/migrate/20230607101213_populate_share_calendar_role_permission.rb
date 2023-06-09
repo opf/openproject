@@ -9,7 +9,7 @@ class PopulateShareCalendarRolePermission < ActiveRecord::Migration[7.0]
       { role_id:, permission: "share_calendars" }
     end
 
-    RolePermission.insert_all(new_permissions)
+    RolePermission.insert_all(new_permissions) unless new_permissions.empty?
   end
 
   def down
