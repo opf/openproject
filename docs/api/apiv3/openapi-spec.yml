@@ -10,7 +10,8 @@ info:
 
     The documentation for the APIv3 is written according to the [OpenAPI 3.0 Specification](https://swagger.io/specification/).
     You can either view the static version of this documentation on the [website](https://www.openproject.org/docs/api/introduction/)
-    or the interactive Swagger UI version in your OpenProject installation under `/api/docs`.
+    or the interactive version, rendered with [OpenAPI Explorer](https://github.com/Rhosys/openapi-explorer/blob/main/README.md),
+    in your OpenProject installation under `/api/docs`.
     In the latter you can try out the various API endpoints directly interacting with our OpenProject data.
     Moreover you can access the specification source itself under `/api/v3/spec.json` and `/api/v3/spec.yml`
     (e.g. [here](https://community.openproject.org/api/v3/spec.yml)).
@@ -901,4 +902,4 @@ tags:
   - "$ref": "./tags/work_packages.yml"
   - "$ref": "./tags/work_schedule.yml"
 security:
-  - BasicAuth: []
+  - BasicAuth: [ ]
