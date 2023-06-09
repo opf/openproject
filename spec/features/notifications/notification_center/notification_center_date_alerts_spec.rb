@@ -8,8 +8,9 @@ RSpec.describe "Notification center date alerts", js: true, with_settings: { jou
   # Find an assignable time zone with the same UTC offset as the local time zone
   def find_compatible_local_time_zone
     local_offset = Time.now.gmt_offset # rubocop:disable Rails/TimeZone
-    time_zone = UserPreferences::UpdateContract.assignable_time_zones.find { |tz| tz.utc_offset == local_offset }
-    .tap { p _1 }
+    time_zone = UserPreferences::UpdateContract.assignable_time_zones
+                                               .find { |tz| tz.now.utc_offset == local_offset }
+                                               .tap { p _1 }
     time_zone or raise "Unable to find an assignable time zone with #{local_offset} seconds offset."
   end
 
@@ -36,7 +37,7 @@ RSpec.describe "Notification center date alerts", js: true, with_settings: { jou
     # we need to pretend that the journal records have been created before that time.
     # https://github.com/opf/openproject/pull/11678#issuecomment-1328011996
     #
-    work_package.journals.update_all created_at: Time.zone.now.change(hour: 0, minute: 0)
+    work_package.journals.update_all created_at: time_zone.now.change(hour: 0, minute: 0)
     work_package
   end
 
