@@ -39,7 +39,7 @@ et:
       meeting_minutes: "Minutit"
   activity:
     filter:
-      meeting: "Meetings"
+      meeting: "Koosolekud"
   description_attended: "osales"
   description_invite: "ktsutud"
   events:

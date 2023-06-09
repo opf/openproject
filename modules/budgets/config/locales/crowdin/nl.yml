@@ -41,7 +41,7 @@ nl:
       material_budget_item: "Eenheid"
   activity:
     filter:
-      budget: "Budgets"
+      budget: "Begrotingen"
   attributes:
     budget: "Begroting"
   button_add_budget_item: "Geplande kosten toevoegen"

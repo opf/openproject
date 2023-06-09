@@ -4,7 +4,123 @@
 ---
 "no":
   seeds:
+    common:
+      colors:
+        item_0:
+          name: Blå (mørk)
+        item_1:
+          name: Blå
+        item_2:
+          name: Blå (lys)
+        item_3:
+          name: Grønn (lys)
+        item_4:
+          name: Grønn (mørk)
+        item_5:
+          name: Gul
+        item_6:
+          name: Oransje
+        item_7:
+          name: Rød
+        item_8:
+          name: Lilla
+        item_9:
+          name: Hvit
+        item_10:
+          name: Grå (lys)
+        item_11:
+          name: Grå
+        item_12:
+          name: Grå (mørk)
+        item_13:
+          name: Sort
+      document_categories:
+        item_0:
+          name: Dokumentasjon
+        item_1:
+          name: Spesifikasjon
+        item_2:
+          name: Øvrig
+      roles:
+        item_0:
+          name: Ikke-medlem
+        item_1:
+          name: Anonym
+        item_2:
+          name: Medlem
+        item_3:
+          name: Leser
+        item_4:
+          name: Prosjekt admin
+        item_5:
+          name: Staff and projects manager
     standard:
+      priorities:
+        item_0:
+          name: Lav
+        item_1:
+          name: Normal
+        item_2:
+          name: Høy
+        item_3:
+          name: Øyeblikkelig
+      statuses:
+        item_0:
+          name: Ny
+        item_1:
+          name: Spesifisering
+        item_2:
+          name: Angitt
+        item_3:
+          name: Bekreftet
+        item_4:
+          name: Skal planlegges
+        item_5:
+          name: Planlagt
+        item_6:
+          name: Under arbeid
+        item_7:
+          name: Utviklet
+        item_8:
+          name: I testing
+        item_9:
+          name: Testet
+        item_10:
+          name: Testen mislyktes
+        item_11:
+          name: Stengt
+        item_12:
+          name: På vent
+        item_13:
+          name: Avvist
+      time_entry_activities:
+        item_0:
+          name: Administrasjon
+        item_1:
+          name: Spesifikasjon
+        item_2:
+          name: Utvikling
+        item_3:
+          name: Testing
+        item_4:
+          name: Brukerstøtte
+        item_5:
+          name: Øvrig
+      types:
+        item_0:
+          name: Oppgave
+        item_1:
+          name: Milepæl
+        item_2:
+          name: Fase
+        item_3:
+          name: Funksjon
+        item_4:
+          name: Episk
+        item_5:
+          name: Brukerens historie
+        item_6:
+          name: Avvik
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -40,7 +156,7 @@
             item_2:
               name: Tasks
             item_3:
-              name: Team planner
+              name: Teamplanlegger
           boards:
             kanban:
               name: Kanban board
@@ -54,7 +170,7 @@
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Aldri
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -64,7 +180,7 @@
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Komme i gang
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -83,7 +199,7 @@
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Arbeidspakker
               item_6:
                 options:
                   name: Milestones
@@ -195,7 +311,7 @@
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Produkt-backlog
             item_2:
               name: Sprint 1
             item_3:
@@ -213,7 +329,7 @@
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Aldri
           project-overview:
             widgets:
               item_0:
@@ -221,7 +337,7 @@
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Komme i gang
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -241,7 +357,7 @@
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Arbeidspakker
               item_6:
                 options:
                   name: Project plan

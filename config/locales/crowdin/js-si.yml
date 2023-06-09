@@ -330,7 +330,7 @@ si:
       copy_url_success_text: "URL copied to clipboard."
       copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
     label_activate: "සක්රිය කරන්න"
-    label_assignee: 'Assignee'
+    label_assignee: 'අස්ගිනී'
     label_add_column_after: "පසු තීරුව එකතු කරන්න"
     label_add_column_before: "පෙර තීරුව එකතු කරන්න"
     label_add_columns: "තීරු එකතු කරන්න"
@@ -433,7 +433,7 @@ si:
     label_previous: "පසුගිය"
     label_per_page: "එක් පිටුවකට:"
     label_please_wait: "කරුණාකර රැඳී සිටින්න"
-    label_project: "Project"
+    label_project: "ව්යාපෘති"
     label_project_list: "Projects list"
     label_project_plural: "ව්‍යාපෘති"
     label_visibility_settings: "දෘශ්යතා සැකසුම්"
@@ -447,7 +447,7 @@ si:
     label_report: "වාර්තාව"
     label_repository_plural: "ගබඩාවලදී"
     label_save_as: "ලෙස සුරකින්න"
-    label_select_project: "Select a project"
+    label_select_project: "ව්යාපෘතියක් තෝරන්න"
     label_select_watcher: "මුරකරුවෙකු තෝරන්න..."
     label_selected_filter_list: "තෝරාගත් පෙරහන්"
     label_show_attributes: "සියලු ගුණාංග පෙන්වන්න"
@@ -489,9 +489,9 @@ si:
     label_unwatch: "අසන්න"
     label_unwatch_work_package: "වැඩ පැකේජය අසන්න"
     label_uploaded_by: "විසින් උඩුගත"
-    label_default_queries: "Default"
+    label_default_queries: "පෙරනිමි"
     label_starred_queries: "Favorite"
-    label_global_queries: "Public"
+    label_global_queries: "පොදු"
     label_custom_queries: "Private"
     label_columns: "තීරු"
     label_attachments: ඇමුණුම්
@@ -585,9 +585,9 @@ si:
         unread: 'Unread'
         unread_title: 'Show unread'
         all: 'සියලු'
-        all_title: 'Show all'
+        all_title: 'සියල්ල පෙන්වන්න'
       center:
-        label_actor_and: 'and'
+        label_actor_and: 'සහ'
         and_more_users:
           one: 'and 1 other'
           other: 'and %{count} others'
@@ -612,7 +612,7 @@ si:
         by_reason: 'Reason'
         inbox: 'Inbox'
         mentioned: 'Mentioned'
-        watched: 'Watcher'
+        watched: 'මුරකරු'
         date_alert: 'Date alert'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
@@ -634,9 +634,9 @@ si:
           mentioned:
             title: 'Mentioned'
             description: 'Receive a notification every time someone mentions me anywhere'
-          assignee: 'Assignee'
-          responsible: 'Accountable'
-          watched: 'Watcher'
+          assignee: 'අස්ගිනී'
+          responsible: 'වගවීම'
+          watched: 'මුරකරු'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
           work_package_processed: 'All status changes'
@@ -938,7 +938,7 @@ si:
         modification_label: 'Modified within the comparison time period'
         column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
       filters:
-        title: 'Filter work packages'
+        title: 'පෙරහන් වැඩ පැකේජ'
         baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
@@ -977,7 +977,7 @@ si:
         description: "විස්තරය"
         date: "දිනය"
         dueDate: "අවසන් දිනය"
-        duration: "Duration"
+        duration: "කාල සීමාව"
         estimatedTime: "ඇස්තමේන්තුගත කාලය"
         spentTime: "වැය කළ කාලය"
         category: "ප්රවර්ගය"
@@ -1090,19 +1090,19 @@ si:
     toolbar:
       settings:
         configure_view: "Configure view"
-        columns: "Columns"
-        sort_by: "Sort by"
-        group_by: "Group by"
+        columns: "තීරු"
+        sort_by: "විසින් වර්ග"
+        group_by: "කණ්ඩායම විසින්"
         display_sums: "සංදර්ශකය"
         display_hierarchy: "ධූරාවලිය පෙන්වන්න"
         hide_hierarchy: "ධූරාවලිය සඟවන්න"
         hide_sums: "සඟවන්න"
         save: "සුරකින්න"
-        save_as: "Save as"
-        export: "Export"
-        visibility_settings: "Visibility settings"
+        save_as: "ලෙස සුරකින්න"
+        export: "අපනයන"
+        visibility_settings: "දෘශ්යතා සැකසුම්"
         share_calendar: "Subscribe to iCalendar"
-        page_settings: "Rename view"
+        page_settings: "දැක්ම නැවත නම්"
         delete: "මකන්න"
       filter: "පෙරහන්"
       unselected_title: "වැඩ පැකේජය"
@@ -1114,7 +1114,7 @@ si:
       button_save: "සුරකින්න"
       button_submit: "ඉදිරිපත් කරන්න"
       button_cancel: "අවලංගු කරන්න"
-      button_delete: "Delete"
+      button_delete: "මකන්න"
       form_submit:
         title: 'දිගටම කරගෙන යාමට තහවුරු කරන්න'
         text: 'ඔබට මෙම ක්රියාව කිරීමට අවශ්ය බව ඔබට විශ්වාසද?'
@@ -1170,8 +1170,8 @@ si:
         other: "%{count} ඌ"
         zero: "0 ඌ"
       day:
-        one: "1 day"
-        other: "%{count} days"
+        one: "දින 1"
+        other: "%{count} දින"
         zero: "0 days"
     zen_mode:
       button_activate: 'සක්රිය මාදිලිය'
@@ -1245,7 +1245,7 @@ si:
       message:
         label: 'Invitation message'
         description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
-        next_button: 'Next'
+        next_button: 'ඊළඟ'
       summary:
         next_button: 'ආරාධනය යවන්න'
       success:
@@ -1272,8 +1272,8 @@ si:
       no_results: 'No project matches your search criteria.'
     baseline:
       toggle_title: 'Baseline'
-      clear: 'Clear'
-      apply: 'Apply'
+      clear: 'පැහැදිලි'
+      apply: 'අයදුම් කරන්න'
       header_description: 'Highlight changes made to this list since any point in the past.'
       enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Show changes since'
@@ -1281,14 +1281,14 @@ si:
       help_description: 'Reference time zone for the baseline.'
       time_description: 'In your local time: %{datetime}'
       time: 'Time'
-      from: 'From'
-      to: 'To'
+      from: 'සිට'
+      to: 'කිරීමට'
       drop_down:
         none: '-'
-        yesterday: 'yesterday'
+        yesterday: 'ඊයේ'
         last_working_day: 'last working day'
-        last_week: 'last week'
-        last_month: 'last month'
+        last_week: 'පසුගිය සතියේ'
+        last_month: 'පසුගිය මාසයේ'
         a_specific_date: 'a specific date'
         between_two_specific_dates: 'between two specific dates'
       legends:

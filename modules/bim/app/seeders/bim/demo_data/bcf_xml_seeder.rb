@@ -49,7 +49,7 @@ module Bim
         }
 
         bcf_xml_file = Rails.root.join('modules/bim/files', filename).to_s
-        importer = ::OpenProject::Bim::BcfXml::Importer.new(bcf_xml_file, project, current_user: user)
+        importer = ::OpenProject::Bim::BcfXml::Importer.new(bcf_xml_file, project, current_user: admin_user)
         importer.import!(import_options).flatten
       end
     end

@@ -7,12 +7,12 @@ pt:
     label_board: "Quadro"
     label_boards: "Quadros"
     board_types:
-      free: Basic
-      action: "Action board (%{attribute})"
+      free: Básico
+      action: "Quadro de ação (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
+      assignee: Atribuição
       status: Status
-      version: Version
-      subproject: Subproject
-      subtasks: Parent-child
-      basic: Basic
+      version: Versão
+      subproject: Subprojeto
+      subtasks: Primeiro-secundário
+      basic: Básico

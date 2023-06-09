@@ -31,30 +31,17 @@
 require 'spec_helper'
 
 RSpec.describe DemoData::ProjectSeeder do
-  subject(:project_seeder) { described_class.new(seed_data) }
+  include_context 'with basic seed data'
 
-  shared_let(:initial_seeding) do
-    [
-      # Color records needed by StatusSeeder and TypeSeeder
-      BasicData::ColorSeeder,
-      BasicData::ColorSchemeSeeder,
+  subject(:project_seeder) { described_class.new(seed_data.lookup('projects.my-project')) }
 
-      # Status records needed by WorkPackageSeeder
-      Standard::BasicData::StatusSeeder,
-
-      # Type records needed by WorkPackageSeeder
-      Standard::BasicData::TypeSeeder,
-
-      # IssuePriority records needed by WorkPackageSeeder
-      Standard::BasicData::PrioritySeeder,
-
-      # project admin role needed by ProjectSeeder
-      BasicData::BuiltinRolesSeeder,
-      BasicData::RoleSeeder
-    ].each { |seeder| seeder.new.seed! }
+  let(:seed_data) do
+    basic_seed_data.merge(Source::SeedData.new(
+                            'projects' => {
+                              'my-project' => project_data
+                            }
+                          ))
   end
-
-  let(:seed_data) { Source::SeedData.new(project_data) }
   let(:project_data) { project_data_with_a_version }
   let(:project_data_with_a_version) do
     {
@@ -68,14 +55,6 @@ RSpec.describe DemoData::ProjectSeeder do
         }
       ]
     }
-  end
-
-  before do
-    # Admin user needed by ProjectSeeder
-    # The AdminUserSeeder cannot be put in the initial_seeding block as it needs
-    # to add a reference to the created admin user in the seed_data for each
-    # example.
-    AdminUserSeeder.new(seed_data).seed!
   end
 
   it 'stores references to created versions in the seed data' do
@@ -118,8 +97,8 @@ RSpec.describe DemoData::ProjectSeeder do
         'work_packages' => [
           {
             'subject' => 'Some work package',
-            'status' => 'default_status_new',
-            'type' => 'default_type_task',
+            'status' => :default_status_new,
+            'type' => :default_type_task,
             'version' => :product_backlog
           }
         ]
@@ -128,8 +107,8 @@ RSpec.describe DemoData::ProjectSeeder do
 
     it 'creates the link' do
       project_seeder.seed!
-      version = Version.find_by(name: 'The product backlog')
-      work_package = WorkPackage.find_by(subject: 'Some work package')
+      version = Version.find_by!(name: 'The product backlog')
+      work_package = WorkPackage.find_by!(subject: 'Some work package')
       expect(work_package.version).to eq(version)
     end
   end
@@ -175,6 +154,43 @@ RSpec.describe DemoData::ProjectSeeder do
       query = Query.find_by(name: 'Team planner')
       expect(query.filters)
         .to include(a_filter(Queries::WorkPackages::Filter::AssignedToFilter, values: [user.id.to_s]))
+    end
+  end
+
+  context 'with query linking to a type by its reference' do
+    let(:project_data) do
+      YAML.load <<~PROJECT_SEEDING_DATA_YAML
+        name: Some project
+        types:
+          - :default_type_task
+          - :default_type_milestone
+          - :default_type_phase
+        queries:
+          - name: Project plan
+            type:
+              - :default_type_milestone
+              - :default_type_phase
+          - name: Milestones
+            type: :default_type_milestone
+      PROJECT_SEEDING_DATA_YAML
+    end
+
+    it 'creates the appropriate type filter' do
+      project_seeder.seed!
+      query = Query.find_by(name: 'Milestones')
+      milestone_type = seed_data.find_reference(:default_type_milestone)
+      expect(query.filters)
+        .to include(a_filter(Queries::WorkPackages::Filter::TypeFilter, values: [milestone_type.id.to_s]))
+    end
+
+    it 'accepts an array of types' do
+      project_seeder.seed!
+      query = Query.find_by(name: 'Project plan')
+      milestone_type = seed_data.find_reference(:default_type_milestone)
+      phase_type = seed_data.find_reference(:default_type_phase)
+      expect(query.filters)
+        .to include(a_filter(Queries::WorkPackages::Filter::TypeFilter,
+                             values: contain_exactly(milestone_type.id.to_s, phase_type.id.to_s)))
     end
   end
 

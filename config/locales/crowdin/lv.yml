@@ -478,7 +478,7 @@ lv:
       project:
         active_value:
           true: "unarchived"
-          false: "archived"
+          false: "arhivēts"
         identifier: "Identifikators"
         latest_activity_at: "Latest activity at"
         parent: "Apakšprojekts"
@@ -487,7 +487,7 @@ lv:
           true: "public"
           false: "private"
         queries: "Vaicājumi"
-        status_code: 'Project status'
+        status_code: 'Projekta statuss'
         status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
@@ -938,9 +938,9 @@ lv:
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
-          zero: "%{count} hours"
+          zero: "%{count} stundas"
           one: "%{count} hour"
-          other: "%{count} hours"
+          other: "%{count} stundas"
         hour_html:
           zero: "<i>%{count} hours</i>"
           one: "<i>%{count} hour</i>"
@@ -950,12 +950,12 @@ lv:
     filter:
       changeset: "Changesets"
       message: "Forums"
-      news: "News"
+      news: "Jaunumi"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
+      time_entry: "Pavadīts laiks"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "Pieteikumi"
   #common attributes of all models
   attributes:
     active: "Aktīvs"
@@ -1012,7 +1012,7 @@ lv:
     updated_on: "Labots"
     uploader: "Uploader"
     user: "User"
-    value: "Value"
+    value: "Vērtība"
     version: "Versija"
     work_package: "Work package"
   backup:
@@ -1191,7 +1191,7 @@ lv:
       - "October"
       - "November"
       - "December"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - :year
       - :month
@@ -1248,61 +1248,6 @@ lv:
         zero: "stundas"
         one: "stunda"
         other: "stundas"
-  default_activity_development: "Development"
-  default_activity_management: "Management"
-  default_activity_other: "Other"
-  default_activity_specification: "Specification"
-  default_activity_support: "Support"
-  default_activity_testing: "Testing"
-  default_color_black: "Black"
-  default_color_blue: "Blue"
-  default_color_blue_dark: "Blue (dark)"
-  default_color_blue_light: "Blue (light)"
-  default_color_green_dark: "Green (dark)"
-  default_color_green_light: "Green (light)"
-  default_color_grey_dark: "Grey (dark)"
-  default_color_grey_light: "Grey (light)"
-  default_color_grey: "Grey"
-  default_color_magenta: "Magenta"
-  default_color_orange: "Orange"
-  default_color_red: "Red"
-  default_color_white: "White"
-  default_color_yellow: "Yellow"
-  default_status_closed: "Closed"
-  default_status_confirmed: "Confirmed"
-  default_status_developed: "Developed"
-  default_status_in_development: "In development"
-  default_status_in_progress: "In progress"
-  default_status_in_specification: "In specification"
-  default_status_in_testing: "In testing"
-  default_status_new: "New"
-  default_status_on_hold: "On hold"
-  default_status_rejected: "Rejected"
-  default_status_scheduled: "Scheduled"
-  default_status_specified: "Specified"
-  default_status_tested: "Tested"
-  default_status_test_failed: "Test failed"
-  default_status_to_be_scheduled: "To be scheduled"
-  default_priority_low: "Low"
-  default_priority_normal: "Normal"
-  default_priority_high: "High"
-  default_priority_immediate: "Immediate"
-  default_role_anonymous: "Anonymous"
-  default_role_developer: "Developer"
-  default_role_project_admin: "Project admin"
-  default_role_project_creator_and_staff_manager: "Staff and projects manager"
-  default_role_non_member: "Non member"
-  default_role_reader: "Reader"
-  default_role_member: "Member"
-  default_type: "Pieteikuma tips"
-  default_type_bug: "Bug"
-  default_type_deliverable: "Deliverable"
-  default_type_epic: "Epic"
-  default_type_feature: "Feature"
-  default_type_milestone: "Atskaites punkts"
-  default_type_phase: "Phase"
-  default_type_task: "Task"
-  default_type_user_story: "User story"
   description_active: "Active?"
   description_attachment_toggle: "Show/Hide attachments"
   description_autocomplete: >
@@ -1420,9 +1365,9 @@ lv:
       atom: "Atoms"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF failu ar aprakstiem"
-      pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
-      pdf_with_attachments: "PDF with attachments"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Image not exported."
   extraction:
@@ -1851,7 +1796,6 @@ lv:
   label_password_rule_special: "Special Characters"
   label_password_rule_uppercase: "Uppercase"
   label_path_encoding: "Path encoding"
-  label_pdf_with_descriptions: "PDF with Descriptions"
   label_per_page: "Katrā lappusē"
   label_people: "Iesaistītie"
   label_permissions: "Permissions"

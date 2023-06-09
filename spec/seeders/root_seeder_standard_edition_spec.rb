@@ -76,12 +76,47 @@ RSpec.describe RootSeeder,
         "team_planner" => 1
       )
     end
+
+    it 'adds additional permissions from modules' do
+      # do not test for all permissions but only some of them to ensure each
+      # module got processed for a standard edition
+      member_role = root_seeder.seed_data.find_reference(:default_role_member)
+      expect(member_role.permissions).to include(
+        :view_work_packages, # from common basic data
+        :view_taskboards, # from backlogs module
+        :show_board_views, # from board module
+        :view_documents, # from documents module
+        :view_budgets, # from costs module
+        :view_meetings, # from meeting module
+        :view_file_links # from storages module
+      )
+      expect(member_role.permissions).not_to include(
+        :view_linked_issues # from bim module
+      )
+
+      project_admin_role = root_seeder.seed_data.find_reference(:default_role_project_admin)
+      expect(project_admin_role.permissions).not_to include(
+        :save_cost_reports, # removed by reporting module
+        :save_private_cost_reports # removed by reporting module
+      )
+    end
+
+    include_examples 'it creates records', model: Color, expected_count: 144
+    include_examples 'it creates records', model: DocumentCategory, expected_count: 3
+    include_examples 'it creates records', model: GlobalRole, expected_count: 1
+    include_examples 'it creates records', model: IssuePriority, expected_count: 4
+    include_examples 'it creates records', model: Role, expected_count: 6
+    include_examples 'it creates records', model: Status, expected_count: 14
+    include_examples 'it creates records', model: TimeEntryActivity, expected_count: 6
+    include_examples 'it creates records', model: Workflow, expected_count: 1172
   end
 
   describe 'demo data' do
+    shared_let(:root_seeder) { described_class.new }
+
     before_all do
       with_edition('standard') do
-        described_class.new.seed_data!
+        root_seeder.seed_data!
       end
     end
 
@@ -113,6 +148,8 @@ RSpec.describe RootSeeder,
   end
 
   describe 'demo data mock-translated in another language' do
+    shared_let(:root_seeder) { described_class.new }
+
     before_all do
       with_edition('standard') do
         # simulate a translation by changing the returned string on `I18n#t` calls
@@ -120,7 +157,7 @@ RSpec.describe RootSeeder,
           original_translation = m.call(*args, **kw)
           "tr: #{original_translation}"
         end
-        described_class.new.seed_data!
+        root_seeder.seed_data!
       end
     end
 
@@ -132,10 +169,12 @@ RSpec.describe RootSeeder,
   end
 
   describe 'demo data with a non-English language' do
+    shared_let(:root_seeder) { described_class.new }
+
     before_all do
       with_edition('standard') do
         stub_language('de')
-        described_class.new.seed_data!
+        root_seeder.seed_data!
       end
     end
 
@@ -147,8 +186,10 @@ RSpec.describe RootSeeder,
   end
 
   describe 'demo data with development data' do
+    shared_let(:root_seeder) { described_class.new(seed_development_data: true) }
+
     before_all do
-      described_class.new(seed_development_data: true).seed_data!
+      root_seeder.seed_data!
     end
 
     it 'creates 1 additional admin user with German locale' do

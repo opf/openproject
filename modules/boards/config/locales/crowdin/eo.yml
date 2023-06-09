@@ -8,11 +8,11 @@ eo:
     label_boards: "Tabuloj"
     board_types:
       free: Basic
-      action: "Action board (%{attribute})"
+      action: "Agpanelo (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
-      status: Status
-      version: Version
-      subproject: Subproject
+      assignee: Asignita al
+      status: Stato
+      version: Versio
+      subproject: Subprojekto
       subtasks: Parent-child
       basic: Basic

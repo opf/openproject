@@ -12,7 +12,7 @@ fa:
     board_type_attributes:
       assignee: Assignee
       status: Status
-      version: Version
-      subproject: Subproject
+      version: نسخه
+      subproject: زیر پروژه
       subtasks: Parent-child
       basic: Basic

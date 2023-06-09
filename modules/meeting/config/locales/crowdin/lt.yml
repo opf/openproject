@@ -39,7 +39,7 @@ lt:
       meeting_minutes: "Minutės"
   activity:
     filter:
-      meeting: "Meetings"
+      meeting: "Susitikimai"
   description_attended: "būtinai dalyvavo"
   description_invite: "pakviesta"
   events:

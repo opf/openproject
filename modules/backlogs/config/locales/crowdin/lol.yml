@@ -35,9 +35,6 @@ lol:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "crwdns493497:0crwdne493497:0"
               must_block_at_least_one_work_package: "crwdns493499:0crwdne493499:0"
-            parent_id:
-              parent_child_relationship_across_projects: "crwdns493501:0%{work_package_name}crwdne493501:0"
-              type_must_be_one_of_the_following: "crwdns493503:0%{type_names}crwdne493503:0"
             version_id:
               task_version_must_be_the_same_as_story_version: "crwdns493505:0crwdne493505:0"
         sprint:

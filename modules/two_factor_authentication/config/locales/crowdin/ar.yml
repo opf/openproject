@@ -112,7 +112,7 @@ ar:
       totp:
         title: 'Use your app-based authenticator'
         provisioning_uri: 'Provisioning URI'
-        secret_key: 'Secret key'
+        secret_key: 'المفتاح السري'
         time_based: 'Time based'
         account: 'Account name / Issuer'
         setup: |

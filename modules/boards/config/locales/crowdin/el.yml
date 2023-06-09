@@ -7,12 +7,12 @@ el:
     label_board: "Πίνακας"
     label_boards: "Πίνακες"
     board_types:
-      free: Basic
-      action: "Action board (%{attribute})"
+      free: Βασικό
+      action: "Πίνακας ενεργειών (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
-      status: Status
-      version: Version
-      subproject: Subproject
+      assignee: Ανάθεση σε
+      status: Κατάσταση
+      version: Έκδοση
+      subproject: Υποέργο
       subtasks: Parent-child
-      basic: Basic
+      basic: Βασικό

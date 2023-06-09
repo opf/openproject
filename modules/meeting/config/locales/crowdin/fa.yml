@@ -39,7 +39,7 @@ fa:
       meeting_minutes: "دقیقه ها"
   activity:
     filter:
-      meeting: "Meetings"
+      meeting: "جلسات"
   description_attended: "attended"
   description_invite: "invited"
   events:

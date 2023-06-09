@@ -29,11 +29,6 @@ hu:
   default_doc_category_tech: "Technikai dokumentáció"
   default_doc_category_user: "Felhasználói dokumentáció"
   enumeration_doc_categories: "Dokumentum kategóriák"
-  enumeration:
-    document_category:
-      documentation: Dokumentáció
-      specification: Specifikáció
-      other: Egyéb
   documents:
     label_attachment_author: "Melléklet szerzője"
   label_document_added: "Dokumentum hozzáadva"

@@ -4,7 +4,123 @@
 ---
 bg:
   seeds:
+    common:
+      colors:
+        item_0:
+          name: Тъмно синьо
+        item_1:
+          name: Синьо
+        item_2:
+          name: Светло синьо
+        item_3:
+          name: Светло зелено
+        item_4:
+          name: Тъмно зелено
+        item_5:
+          name: Жълто
+        item_6:
+          name: Оранжево
+        item_7:
+          name: Червен
+        item_8:
+          name: Магента
+        item_9:
+          name: Бяло
+        item_10:
+          name: Светло сиво
+        item_11:
+          name: Сиво
+        item_12:
+          name: Тъмно сиво
+        item_13:
+          name: Черно
+      document_categories:
+        item_0:
+          name: Документация
+        item_1:
+          name: Спецификации
+        item_2:
+          name: Други
+      roles:
+        item_0:
+          name: Не е член
+        item_1:
+          name: Анонимен
+        item_2:
+          name: Член
+        item_3:
+          name: Четящ
+        item_4:
+          name: Администратор на проект
+        item_5:
+          name: Staff and projects manager
     standard:
+      priorities:
+        item_0:
+          name: Нисък
+        item_1:
+          name: Нормален
+        item_2:
+          name: Висок
+        item_3:
+          name: Незабавно
+      statuses:
+        item_0:
+          name: Нов
+        item_1:
+          name: В процес на специфициране
+        item_2:
+          name: Определен
+        item_3:
+          name: Потвърден
+        item_4:
+          name: Да бъде планирано
+        item_5:
+          name: Планиран
+        item_6:
+          name: В изпълнение
+        item_7:
+          name: Разработен
+        item_8:
+          name: В процес на тестване
+        item_9:
+          name: Тестван
+        item_10:
+          name: Неуспешен тест
+        item_11:
+          name: Затворен
+        item_12:
+          name: Задържан
+        item_13:
+          name: Отхвърлен
+      time_entry_activities:
+        item_0:
+          name: Управление
+        item_1:
+          name: Спецификации
+        item_2:
+          name: Разработване
+        item_3:
+          name: Тестване
+        item_4:
+          name: Поддръжка
+        item_5:
+          name: Други
+      types:
+        item_0:
+          name: Задачата
+        item_1:
+          name: Етап
+        item_2:
+          name: Фаза
+        item_3:
+          name: Функция
+        item_4:
+          name: Със сериозно значение
+        item_5:
+          name: Потребителска история
+        item_6:
+          name: Грешка
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -54,7 +170,7 @@ bg:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Никога
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -64,7 +180,7 @@ bg:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Първи стъпки
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -83,7 +199,7 @@ bg:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Работни пакети
               item_6:
                 options:
                   name: Milestones
@@ -195,7 +311,7 @@ bg:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Натрупване на продукти
             item_2:
               name: Sprint 1
             item_3:
@@ -213,7 +329,7 @@ bg:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Никога
           project-overview:
             widgets:
               item_0:
@@ -221,7 +337,7 @@ bg:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Първи стъпки
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -241,7 +357,7 @@ bg:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Работни пакети
               item_6:
                 options:
                   name: Project plan

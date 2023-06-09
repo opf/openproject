@@ -4,7 +4,123 @@
 ---
 hr:
   seeds:
+    common:
+      colors:
+        item_0:
+          name: Plava (tamna)
+        item_1:
+          name: Plava
+        item_2:
+          name: Plava (svijetla)
+        item_3:
+          name: Zelena (svijetla)
+        item_4:
+          name: Zelena (tamna)
+        item_5:
+          name: Žuta
+        item_6:
+          name: Narančasta
+        item_7:
+          name: Crvena
+        item_8:
+          name: Ružičasta
+        item_9:
+          name: Bijela
+        item_10:
+          name: Siva (svijetla)
+        item_11:
+          name: Siva
+        item_12:
+          name: Siva (tamna)
+        item_13:
+          name: Crna
+      document_categories:
+        item_0:
+          name: Dokumentacija
+        item_1:
+          name: Specifikacija
+        item_2:
+          name: Ostalo
+      roles:
+        item_0:
+          name: Nije član
+        item_1:
+          name: Anonimno
+        item_2:
+          name: Član
+        item_3:
+          name: Lektor
+        item_4:
+          name: Projekt administrator
+        item_5:
+          name: Staff and projects manager
     standard:
+      priorities:
+        item_0:
+          name: Nizak
+        item_1:
+          name: Normalan
+        item_2:
+          name: Visoki
+        item_3:
+          name: Žuran
+      statuses:
+        item_0:
+          name: Novi
+        item_1:
+          name: U fazi specifikacije
+        item_2:
+          name: Specificirano
+        item_3:
+          name: Potvrđeno
+        item_4:
+          name: Treba se planirati
+        item_5:
+          name: Planirano
+        item_6:
+          name: U tijeku
+        item_7:
+          name: Razvijeno
+        item_8:
+          name: U fazi testiranju
+        item_9:
+          name: Testirano
+        item_10:
+          name: Test nije uspio
+        item_11:
+          name: Zaključeno
+        item_12:
+          name: Na čekanju
+        item_13:
+          name: Odbijeno
+      time_entry_activities:
+        item_0:
+          name: Upravljanje
+        item_1:
+          name: Specifikacija
+        item_2:
+          name: Razvoj
+        item_3:
+          name: Testiranje
+        item_4:
+          name: Podrška
+        item_5:
+          name: Ostalo
+      types:
+        item_0:
+          name: Zadatak
+        item_1:
+          name: Ključna točka
+        item_2:
+          name: Faza
+        item_3:
+          name: Značajka
+        item_4:
+          name: Epic
+        item_5:
+          name: User story
+        item_6:
+          name: Bug
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -54,7 +170,7 @@ hr:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Nikad
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -83,7 +199,7 @@ hr:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Radni paketi
               item_6:
                 options:
                   name: Milestones
@@ -195,7 +311,7 @@ hr:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Backlog produkta
             item_2:
               name: Sprint 1
             item_3:
@@ -204,7 +320,7 @@ hr:
             kanban:
               name: Kanban board
             basic:
-              name: Task board
+              name: Upravitelj zadatcima
               lists:
                 item_0:
                   name: Wish list
@@ -213,7 +329,7 @@ hr:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Nikad
           project-overview:
             widgets:
               item_0:
@@ -241,7 +357,7 @@ hr:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Radni paketi
               item_6:
                 options:
                   name: Project plan

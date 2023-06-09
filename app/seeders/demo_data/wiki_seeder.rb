@@ -48,18 +48,17 @@ module DemoData
       Array(text).each do |data|
         create_wiki_page!(
           data,
-          project:,
-          user:
+          project:
         )
       end
     end
 
-    def create_wiki_page!(data, project:, user:, parent: nil)
+    def create_wiki_page!(data, project:, parent: nil)
       WikiPage.create!(
         wiki: project.wiki,
         title: data[:title],
         parent:,
-        author: user,
+        author: admin_user,
         text: data[:content]
       )
 
@@ -70,7 +69,6 @@ module DemoData
           create_wiki_page!(
             child_data,
             project:,
-            user:,
             parent: wiki_page
           )
         end

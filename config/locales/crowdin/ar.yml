@@ -182,7 +182,7 @@ ar:
     edit: 'تعديل إجراء مخصص %{name}'
     execute: 'Execute %{name}'
     upsale:
-      title: 'Custom actions'
+      title: 'إجراءات مخصصة'
       description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
@@ -326,7 +326,7 @@ ar:
       more_info_text_html: >
         Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "المشاريع"
-      enabled_projects: "Enabled projects"
+      enabled_projects: "المشاريع الممكنة"
       edit_query: "Edit table"
       query_group_placeholder: "Give the table a name"
       reset: "Reset to defaults"
@@ -486,18 +486,18 @@ ar:
         latest_activity_at: "آخر نشاط في"
         parent: "المشروع الفرعي من"
         public_value:
-          title: "Visibility"
+          title: "الظهور"
           true: "public"
           false: "private"
         queries: "الاستفسارات"
-        status_code: 'Project status'
+        status_code: 'حالة المشروع'
         status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
           at_risk: 'At risk'
           off_track: 'Off track'
-          finished: 'Finished'
+          finished: 'مكتمل'
           discontinued: 'Discontinued'
         templated: "Template project"
         templated_value:
@@ -561,7 +561,7 @@ ar:
         begin_deletion: "البدء بالحذف"
         children: "Subelements"
         done_ratio: "التقدم (%)"
-        duration: "Duration"
+        duration: "المدّة"
         end_insertion: "نهاية الإدراج"
         end_deletion: "نهاية الحذف"
         ignore_non_working_days: "Ignore non working days"
@@ -949,16 +949,16 @@ ar:
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "مشروع فرعي"
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
-          zero: "%{count} hours"
+          zero: "%{count} ساعات"
           one: "%{count} hour"
-          two: "%{count} hours"
-          few: "%{count} hours"
-          many: "%{count} hours"
-          other: "%{count} hours"
+          two: "%{count} ساعات"
+          few: "%{count} ساعات"
+          many: "%{count} ساعات"
+          other: "%{count} ساعات"
         hour_html:
           zero: "<i>%{count} hours</i>"
           one: "<i>%{count} hour</i>"
@@ -969,14 +969,14 @@ ar:
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      changeset: "مجموعة التغييرات"
+      message: "منتديات"
+      news: "الأخبار"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
+      time_entry: "الوقت المستهلك"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "مجموعات العمل"
   #common attributes of all models
   attributes:
     active: "مفعّل"
@@ -1033,7 +1033,7 @@ ar:
     updated_on: "تم التحديث بتاريخ"
     uploader: "Uploader"
     user: "المستخدم"
-    value: "Value"
+    value: "القيمة"
     version: "الإصدار"
     work_package: "مجموعة العمل"
   backup:
@@ -1212,7 +1212,7 @@ ar:
       - "تشرين الأول"
       - "تشرين الثاني"
       - "كانون الأول"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - ':السنة'
       - ':الشهر'
@@ -1305,61 +1305,6 @@ ar:
         few: "ساعه"
         many: "ساعه"
         other: "ساعه"
-  default_activity_development: "التطوير"
-  default_activity_management: "الإدارة"
-  default_activity_other: "اخرى"
-  default_activity_specification: "مواصفات"
-  default_activity_support: "الدعم"
-  default_activity_testing: "اختبار"
-  default_color_black: "الأسود"
-  default_color_blue: "أزرق"
-  default_color_blue_dark: "أزرق (داكن)"
-  default_color_blue_light: "أزرق (فاتح)"
-  default_color_green_dark: "أخضر (داكن)"
-  default_color_green_light: "أخضر (فاتح)"
-  default_color_grey_dark: "رمادي (داكن)"
-  default_color_grey_light: "رمادي (فاتح)"
-  default_color_grey: "رمادي"
-  default_color_magenta: "أرجواني"
-  default_color_orange: "برتقالي"
-  default_color_red: "أحمر"
-  default_color_white: "أبيض"
-  default_color_yellow: "أصفر"
-  default_status_closed: "مغلق"
-  default_status_confirmed: "تم التأكيد"
-  default_status_developed: "مطور"
-  default_status_in_development: "قيد التطوير"
-  default_status_in_progress: "بصدد الإنجاز"
-  default_status_in_specification: "المواصفات"
-  default_status_in_testing: "قيد الاختبار"
-  default_status_new: "جديد"
-  default_status_on_hold: "في الانتظار"
-  default_status_rejected: "مرفوض"
-  default_status_scheduled: "مُجدول"
-  default_status_specified: "محدد"
-  default_status_tested: "تم اختباره"
-  default_status_test_failed: "فشل الاختبار"
-  default_status_to_be_scheduled: "سيتم جدولته"
-  default_priority_low: "منخفضة"
-  default_priority_normal: "عادية"
-  default_priority_high: "مرتفعة"
-  default_priority_immediate: "عاجلة"
-  default_role_anonymous: "مجهول"
-  default_role_developer: "مطوِّر"
-  default_role_project_admin: "مدير المشروع"
-  default_role_project_creator_and_staff_manager: "Staff and projects manager"
-  default_role_non_member: "من غير الأعضاء"
-  default_role_reader: "القارئ"
-  default_role_member: "عضو"
-  default_type: "مجموعة العمل"
-  default_type_bug: "خلَل"
-  default_type_deliverable: "قابل للتسليم"
-  default_type_epic: "موجه على التوازي"
-  default_type_feature: "ميزة"
-  default_type_milestone: "الحدث الرئيسي"
-  default_type_phase: "المرحلة"
-  default_type_task: "المهمة"
-  default_type_user_story: "رواية المستخدم"
   description_active: "نشط؟"
   description_attachment_toggle: "إظهار/إخفاء المرفقات"
   description_autocomplete: >
@@ -1459,7 +1404,7 @@ ar:
     message: تم تحرير الرسالة
     news: الأخبار
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'تم تعديل المشروع'
     reply: تم الرد
     time_entry: 'تم تحرير Timelog'
     wiki_page: 'تم تحرير صفحة WiKi'
@@ -1477,9 +1422,9 @@ ar:
       atom: "ذرّة"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF مع مواصفات"
-      pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
-      pdf_with_attachments: "PDF with attachments"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Image not exported."
   extraction:
@@ -1908,7 +1853,6 @@ ar:
   label_password_rule_special: "أحرف خاصة"
   label_password_rule_uppercase: "أحرف كبيرة"
   label_path_encoding: "ترميز المسار"
-  label_pdf_with_descriptions: "PDF مع مواصفات"
   label_per_page: "في كل صفحة"
   label_people: "الناس"
   label_permissions: "السماحيات"
@@ -3270,7 +3214,7 @@ ar:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "خطأ"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"

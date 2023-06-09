@@ -36,7 +36,7 @@ sk:
           off_track: 'Na zlej ceste'
           at_risk: 'V riziku'
           not_set: 'Not set'
-          finished: 'Finished'
+          finished: 'Dokončené'
           discontinued: 'Discontinued'
         subprojects:
           title: 'Podprojekty'

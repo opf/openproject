@@ -4,7 +4,123 @@
 ---
 zh-TW:
   seeds:
+    common:
+      colors:
+        item_0:
+          name: 藍色 (黑)
+        item_1:
+          name: 藍色
+        item_2:
+          name: 藍色 (亮)
+        item_3:
+          name: 綠色 (亮)
+        item_4:
+          name: 綠色 (暗)
+        item_5:
+          name: 黃色
+        item_6:
+          name: 橙色
+        item_7:
+          name: 紅色
+        item_8:
+          name: 洋紅色
+        item_9:
+          name: 白色
+        item_10:
+          name: 灰色 (亮)
+        item_11:
+          name: 灰色
+        item_12:
+          name: 灰色 (暗)
+        item_13:
+          name: 黑色
+      document_categories:
+        item_0:
+          name: 說明文件
+        item_1:
+          name: 規格
+        item_2:
+          name: 其他
+      roles:
+        item_0:
+          name: 非成員
+        item_1:
+          name: 匿名者
+        item_2:
+          name: 成員
+        item_3:
+          name: 讀者
+        item_4:
+          name: 專案管理員
+        item_5:
+          name: Staff and projects manager
     standard:
+      priorities:
+        item_0:
+          name: 低
+        item_1:
+          name: 一般
+        item_2:
+          name: 高
+        item_3:
+          name: 立刻
+      statuses:
+        item_0:
+          name: 新增
+        item_1:
+          name: 在規格中
+        item_2:
+          name: 指定
+        item_3:
+          name: 已確認
+        item_4:
+          name: 等待排程中
+        item_5:
+          name: 已排程
+        item_6:
+          name: 進行中
+        item_7:
+          name: 已開發
+        item_8:
+          name: 測試中
+        item_9:
+          name: 已測試
+        item_10:
+          name: 測試失敗
+        item_11:
+          name: 已關閉
+        item_12:
+          name: 暫停中
+        item_13:
+          name: 已拒絕
+      time_entry_activities:
+        item_0:
+          name: 管理
+        item_1:
+          name: 規格
+        item_2:
+          name: 開發
+        item_3:
+          name: 測試
+        item_4:
+          name: 支援
+        item_5:
+          name: 其他
+      types:
+        item_0:
+          name: 任務
+        item_1:
+          name: 里程碑
+        item_2:
+          name: 階段
+        item_3:
+          name: 功能
+        item_4:
+          name: 篇章
+        item_5:
+          name: 使用者需求
+        item_6:
+          name: Bug
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -54,7 +170,7 @@ zh-TW:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: 永不
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -64,7 +180,7 @@ zh-TW:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: 開始
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -83,7 +199,7 @@ zh-TW:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: 工作項目
               item_6:
                 options:
                   name: Milestones
@@ -195,7 +311,7 @@ zh-TW:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: 產品待辦事項
             item_2:
               name: Sprint 1
             item_3:
@@ -204,7 +320,7 @@ zh-TW:
             kanban:
               name: Kanban board
             basic:
-              name: Task board
+              name: 任務看板
               lists:
                 item_0:
                   name: Wish list
@@ -213,7 +329,7 @@ zh-TW:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: 永不
           project-overview:
             widgets:
               item_0:
@@ -221,7 +337,7 @@ zh-TW:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: 開始
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -241,7 +357,7 @@ zh-TW:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: 工作項目
               item_6:
                 options:
                   name: Project plan

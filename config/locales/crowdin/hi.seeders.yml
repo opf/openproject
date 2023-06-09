@@ -4,7 +4,123 @@
 ---
 hi:
   seeds:
+    common:
+      colors:
+        item_0:
+          name: नीला (गहरा)
+        item_1:
+          name: नीला
+        item_2:
+          name: नीला (हल्का)
+        item_3:
+          name: हरा (हल्का)
+        item_4:
+          name: हरा (गहरा)
+        item_5:
+          name: पीला
+        item_6:
+          name: नारंगी
+        item_7:
+          name: लाल
+        item_8:
+          name: मैजेंटा
+        item_9:
+          name: सफ़ेद
+        item_10:
+          name: धूसर (हल्का)
+        item_11:
+          name: धूसर
+        item_12:
+          name: धूसर (डार्क)
+        item_13:
+          name: काला
+      document_categories:
+        item_0:
+          name: Documentation
+        item_1:
+          name: विनिर्देश
+        item_2:
+          name: अन्य
+      roles:
+        item_0:
+          name: गैर सदस्य
+        item_1:
+          name: अज्ञात
+        item_2:
+          name: सदस्य
+        item_3:
+          name: पाठक
+        item_4:
+          name: परियोजना व्यवस्थापक
+        item_5:
+          name: Staff and projects manager
     standard:
+      priorities:
+        item_0:
+          name: निम्न
+        item_1:
+          name: साधारण
+        item_2:
+          name: उच्च
+        item_3:
+          name: तत्काल
+      statuses:
+        item_0:
+          name: नया
+        item_1:
+          name: विनिर्देशन में
+        item_2:
+          name: निर्दिष्ट
+        item_3:
+          name: पुष्टि
+        item_4:
+          name: निर्धारित किया जाना
+        item_5:
+          name: अनुसूचित
+        item_6:
+          name: प्रगति में
+        item_7:
+          name: डिवेलपर
+        item_8:
+          name: परीक्षण में
+        item_9:
+          name: परीक्षित
+        item_10:
+          name: टेस्ट फ़ैल हो गया
+        item_11:
+          name: बंद
+        item_12:
+          name: होल्ड पर
+        item_13:
+          name: अस्वीकृत
+      time_entry_activities:
+        item_0:
+          name: प्रबंधन
+        item_1:
+          name: विनिर्देश
+        item_2:
+          name: विकास
+        item_3:
+          name: परीक्षण
+        item_4:
+          name: सहायता
+        item_5:
+          name: अन्य
+      types:
+        item_0:
+          name: कार्य
+        item_1:
+          name: मील का पत्थर
+        item_2:
+          name: चरण
+        item_3:
+          name: विशेषता
+        item_4:
+          name: महाकाव्य
+        item_5:
+          name: User story
+        item_6:
+          name: बग
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -83,7 +199,7 @@ hi:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: कार्य पैकेज
               item_6:
                 options:
                   name: Milestones
@@ -241,7 +357,7 @@ hi:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: कार्य पैकेज
               item_6:
                 options:
                   name: Project plan
