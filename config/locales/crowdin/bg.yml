@@ -1347,9 +1347,9 @@ bg:
       atom: "Атом"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF с описания"
-      pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
-      pdf_with_attachments: "PDF с прикачени файлове"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Image not exported."
   extraction:
@@ -1778,7 +1778,6 @@ bg:
   label_password_rule_special: "Special Characters"
   label_password_rule_uppercase: "Uppercase"
   label_path_encoding: "Path encoding"
-  label_pdf_with_descriptions: "PDF с описания"
   label_per_page: "На страница"
   label_people: "Участници"
   label_permissions: "Права"

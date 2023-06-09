@@ -1345,9 +1345,9 @@ hi:
       atom: "एटम"
       csv: "CSV"
       pdf: "पीडीएफ"
-      pdf_with_descriptions: "विवरण सहित पीडीएफ"
-      pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
-      pdf_with_attachments: "PDF with attachments"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Image not exported."
   extraction:
@@ -1776,7 +1776,6 @@ hi:
   label_password_rule_special: "विशेष अक्षर"
   label_password_rule_uppercase: "अपरकेस"
   label_path_encoding: "पथ एंकोडिंग"
-  label_pdf_with_descriptions: "विवरण के साथ पीडीएफ"
   label_per_page: "प्रति पृष्ठ"
   label_people: "People"
   label_permissions: "अनुमतियाँ"

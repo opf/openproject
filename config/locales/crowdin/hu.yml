@@ -1344,9 +1344,9 @@ hu:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF leírásokkal"
-      pdf_with_descriptions_and_attachments: "PDF leírásokkal és mellékletekkel"
-      pdf_with_attachments: "PDF mellékletekkel"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Kép nem került exportálásra."
   extraction:
@@ -1775,7 +1775,6 @@ hu:
   label_password_rule_special: "Különleges karakterek"
   label_password_rule_uppercase: "Nagybetű"
   label_path_encoding: "Elérési út kódolás"
-  label_pdf_with_descriptions: "PDF leírásokkal"
   label_per_page: "Oldalanként"
   label_people: "Személyek"
   label_permissions: "Jogosultságok"

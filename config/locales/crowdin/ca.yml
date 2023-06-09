@@ -1343,9 +1343,9 @@ ca:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF amb descripcions"
-      pdf_with_descriptions_and_attachments: "PDF amb descripcions i fitxers adjunts"
-      pdf_with_attachments: "PDF amb fitxers adjunts"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Imatge no exportada."
   extraction:
@@ -1774,7 +1774,6 @@ ca:
   label_password_rule_special: "Caràcters especials"
   label_password_rule_uppercase: "Majúscules"
   label_path_encoding: "Codificació de les rutes"
-  label_pdf_with_descriptions: "PDF amb descripcions"
   label_per_page: "Per pàgina"
   label_people: "Persones"
   label_permissions: "Permisos"

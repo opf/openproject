@@ -1328,9 +1328,9 @@ th:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "ไฟล์ PDF พร้อมคำอธิบาย"
-      pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
-      pdf_with_attachments: "PDF with attachments"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Image not exported."
   extraction:
@@ -1759,7 +1759,6 @@ th:
   label_password_rule_special: "อักขระพิเศษ"
   label_password_rule_uppercase: "ตัวพิมพ์ใหญ่"
   label_path_encoding: "การเข้ารหัสเส้นทาง"
-  label_pdf_with_descriptions: "ไฟล์ PDF พร้อมคำอธิบาย"
   label_per_page: "ต่อหน้า"
   label_people: "People"
   label_permissions: "สิทธิ์"

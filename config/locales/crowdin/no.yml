@@ -1347,9 +1347,9 @@
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF med beskrivelser"
-      pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
-      pdf_with_attachments: "PDF med vedlegg"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Bilde ikke eksportert."
   extraction:
@@ -1778,7 +1778,6 @@
   label_password_rule_special: "Spesialtegn"
   label_password_rule_uppercase: "Store bokstaver"
   label_path_encoding: "Koding av sti"
-  label_pdf_with_descriptions: "PDF med beskrivelser"
   label_per_page: "Pr. side"
   label_people: "Personer"
   label_permissions: "Tilganger"

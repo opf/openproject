@@ -1422,9 +1422,9 @@ ar:
       atom: "ذرّة"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF مع مواصفات"
-      pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
-      pdf_with_attachments: "PDF with attachments"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Image not exported."
   extraction:
@@ -1853,7 +1853,6 @@ ar:
   label_password_rule_special: "أحرف خاصة"
   label_password_rule_uppercase: "أحرف كبيرة"
   label_path_encoding: "ترميز المسار"
-  label_pdf_with_descriptions: "PDF مع مواصفات"
   label_per_page: "في كل صفحة"
   label_people: "الناس"
   label_permissions: "السماحيات"

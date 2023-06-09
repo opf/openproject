@@ -1347,9 +1347,9 @@ et:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF koos kirjeldustega"
-      pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
-      pdf_with_attachments: "PDF with attachments"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Image not exported."
   extraction:
@@ -1778,7 +1778,6 @@ et:
   label_password_rule_special: "Erimärgid"
   label_password_rule_uppercase: "Suurtäheline"
   label_path_encoding: "Teeraja kodeering"
-  label_pdf_with_descriptions: "PDF koos kirjeldustega"
   label_per_page: "Lehekülje kohta"
   label_people: "Inimesed"
   label_permissions: "Õigused"

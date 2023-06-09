@@ -1324,9 +1324,9 @@ ja:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "説明付きPDF"
-      pdf_with_descriptions_and_attachments: "説明と添付ファイル付きPDF"
-      pdf_with_attachments: "添付ファイル付きPDF"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "画像はエクスポートされませんでした。"
   extraction:
@@ -1755,7 +1755,6 @@ ja:
   label_password_rule_special: "特殊文字"
   label_password_rule_uppercase: "大文字"
   label_path_encoding: "パスのエンコード"
-  label_pdf_with_descriptions: "説明付きPDF"
   label_per_page: "ページ毎"
   label_people: "人"
   label_permissions: "権限"

@@ -1346,9 +1346,9 @@ tr:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "Açıklamalı PDF"
-      pdf_with_descriptions_and_attachments: "Ekler ve açıklamalarla birlikte PDF"
-      pdf_with_attachments: "Eklerle birlikte PDF"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Görüntü dışa aktarılmadı."
   extraction:
@@ -1777,7 +1777,6 @@ tr:
   label_password_rule_special: "Özel karakterler"
   label_password_rule_uppercase: "Büyük harf"
   label_path_encoding: "Yol kodlaması"
-  label_pdf_with_descriptions: "PDF ile açıklamaları"
   label_per_page: "Sayfa başına"
   label_people: "Kişiler"
   label_permissions: "İzinler"

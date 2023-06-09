@@ -1382,9 +1382,9 @@ lt:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF su aprašymu"
-      pdf_with_descriptions_and_attachments: "PDF su aprašymais ir priedais"
-      pdf_with_attachments: "PDF su priedais"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Paveiksliukas neeksportuotas."
   extraction:
@@ -1813,7 +1813,6 @@ lt:
   label_password_rule_special: "Specialūs simboliai"
   label_password_rule_uppercase: "Didžiosios raidės"
   label_path_encoding: "Kelio koduotė"
-  label_pdf_with_descriptions: "PDF su aprašymais"
   label_per_page: "Per puslapį"
   label_people: "Žmonės"
   label_permissions: "Leidimai"

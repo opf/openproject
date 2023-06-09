@@ -1385,9 +1385,9 @@ sk:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF s popisom"
-      pdf_with_descriptions_and_attachments: "PDF s popiskami a prílohami"
-      pdf_with_attachments: "PDF s prílohami"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Image not exported."
   extraction:
@@ -1816,7 +1816,6 @@ sk:
   label_password_rule_special: "Špeciálne znaky"
   label_password_rule_uppercase: "Veľké písmená"
   label_path_encoding: "Kódovanie cesty"
-  label_pdf_with_descriptions: "PDF s popisom"
   label_per_page: "Na stranu"
   label_people: "Ľudia"
   label_permissions: "Oprávnenia"

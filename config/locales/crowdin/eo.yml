@@ -1347,9 +1347,9 @@ eo:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF kun priskriboj"
-      pdf_with_descriptions_and_attachments: "PDF kun priskriboj kaj aldonaĵoj"
-      pdf_with_attachments: "PDF kun aldonaĵoj"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Bildo ne eksportita."
   extraction:
@@ -1778,7 +1778,6 @@ eo:
   label_password_rule_special: "Specialaj signoj"
   label_password_rule_uppercase: "Majusklo"
   label_path_encoding: "Path encoding"
-  label_pdf_with_descriptions: "PDF kun priskriboj"
   label_per_page: "Per page"
   label_people: "Partoprenantoj"
   label_permissions: "Permesoj"

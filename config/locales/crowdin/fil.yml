@@ -1347,9 +1347,9 @@ fil:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF na may mga paglalarawan"
-      pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
-      pdf_with_attachments: "PDF with attachments"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Image not exported."
   extraction:
@@ -1778,7 +1778,6 @@ fil:
   label_password_rule_special: "Mga espesyal karakter"
   label_password_rule_uppercase: "Uppercase"
   label_path_encoding: "Landas ng page-encode"
-  label_pdf_with_descriptions: "PDF na may mga paglalarawan"
   label_per_page: "Bawat pahina"
   label_people: "Mga tao"
   label_permissions: "Mga pahintulot"

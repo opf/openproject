@@ -1344,9 +1344,9 @@ es:
       atom: "Atomo"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF con descripciones"
-      pdf_with_descriptions_and_attachments: "PDF con descripción y archivos adjuntos"
-      pdf_with_attachments: "PDF con adjuntos"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Imagen no exportada."
   extraction:
@@ -1775,7 +1775,6 @@ es:
   label_password_rule_special: "Caracteres especiales"
   label_password_rule_uppercase: "Mayúscula"
   label_path_encoding: "Ruta de codificación"
-  label_pdf_with_descriptions: "PDF con las descripciones"
   label_per_page: "Por página"
   label_people: "Personas"
   label_permissions: "Permisos"

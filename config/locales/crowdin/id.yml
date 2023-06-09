@@ -1322,9 +1322,9 @@ id:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF disertai deskripsi"
-      pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
-      pdf_with_attachments: "PDF dengan lampiran"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Image not exported."
   extraction:
@@ -1753,7 +1753,6 @@ id:
   label_password_rule_special: "Karakter spesial"
   label_password_rule_uppercase: "Huruf besar"
   label_path_encoding: "Path encoding"
-  label_pdf_with_descriptions: "PDF dengan deskripsi"
   label_per_page: "Per halaman"
   label_people: "Orang"
   label_permissions: "Hak akses"

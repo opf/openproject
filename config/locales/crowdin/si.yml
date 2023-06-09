@@ -1347,9 +1347,9 @@ si:
       atom: "පරමාණුව"
       csv: "සීඑස්වී"
       pdf: "පීඩීඑෆ්"
-      pdf_with_descriptions: "විස්තර සහිත PDF"
-      pdf_with_descriptions_and_attachments: "විස්තර සහ ඇමුණුම් සහිත PDF"
-      pdf_with_attachments: "ඇමුණුම් සහිත PDF"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "රූපය අපනයනය කර නැත."
   extraction:
@@ -1778,7 +1778,6 @@ si:
   label_password_rule_special: "විශේෂ චරිත"
   label_password_rule_uppercase: "මහකුරු"
   label_path_encoding: "මාර්ගය කේතන"
-  label_pdf_with_descriptions: "විස්තර සහිත PDF"
   label_per_page: "පිටුවකට"
   label_people: "ජනතාව"
   label_permissions: "අවසර"

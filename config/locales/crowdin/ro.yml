@@ -1366,9 +1366,9 @@ ro:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF cu descrieri"
-      pdf_with_descriptions_and_attachments: "Documentul pdf cu descriere și fișiere atașate"
-      pdf_with_attachments: "Document pdf cu fișiere atașate"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Imaginea nu a fost exportată."
   extraction:
@@ -1797,7 +1797,6 @@ ro:
   label_password_rule_special: "Caractere speciale"
   label_password_rule_uppercase: "Majuscule"
   label_path_encoding: "Codificare cale"
-  label_pdf_with_descriptions: "PDF cu descrieri"
   label_per_page: "Pe pagină"
   label_people: "Persoane"
   label_permissions: "Drepturi"

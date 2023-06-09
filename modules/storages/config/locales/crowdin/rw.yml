@@ -61,6 +61,7 @@ rw:
       no_storage_set_up: "There are no file storages set up yet."
       no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
       empty_project_folder_validation: "Selecting a folder is mandatory to proceed."
+      not_logged_into_storage: "To select a project folder, please first login"
       existing_manual_folder: >
         You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
       setting_up_additional_storages: "For setting up additional file storages, please visit"

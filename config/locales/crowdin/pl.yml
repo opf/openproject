@@ -1382,9 +1382,9 @@ pl:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF z opisami"
-      pdf_with_descriptions_and_attachments: "Plik PDF z opisami i załącznikami"
-      pdf_with_attachments: "Plik PDF z załącznikami"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Nie wyeksportowano obrazu"
   extraction:
@@ -1813,7 +1813,6 @@ pl:
   label_password_rule_special: "Znaki specjalne"
   label_password_rule_uppercase: "Wielkie litery"
   label_path_encoding: "Path encoding"
-  label_pdf_with_descriptions: "PDF z opisami"
   label_per_page: "Na stronie"
   label_people: "Ludzie"
   label_permissions: "Uprawnienia"

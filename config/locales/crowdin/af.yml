@@ -1347,9 +1347,9 @@ af:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF with descriptions"
-      pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
-      pdf_with_attachments: "PDF with attachments"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Image not exported."
   extraction:
@@ -1778,7 +1778,6 @@ af:
   label_password_rule_special: "Spesiale karakters"
   label_password_rule_uppercase: "Grootletters"
   label_path_encoding: "Pad enkodering"
-  label_pdf_with_descriptions: "PDF met beskrywings"
   label_per_page: "Per bladsy"
   label_people: "People"
   label_permissions: "Toestemmings"

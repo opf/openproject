@@ -1327,9 +1327,9 @@ ko:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "설명이 첨부된 PDF"
-      pdf_with_descriptions_and_attachments: "PDF와 설명 및 첨부 파일"
-      pdf_with_attachments: "PDF와 첨부 파일"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "이미지를 내보내지 못했습니다."
   extraction:
@@ -1758,7 +1758,6 @@ ko:
   label_password_rule_special: "특수 문자"
   label_password_rule_uppercase: "대문자"
   label_path_encoding: "경로 인코딩"
-  label_pdf_with_descriptions: "설명이 포함된 PDF"
   label_per_page: "페이지당"
   label_people: "사용자"
   label_permissions: "권한"

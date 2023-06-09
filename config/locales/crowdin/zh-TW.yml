@@ -1328,9 +1328,9 @@ zh-TW:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "有說明的 PDF 檔"
-      pdf_with_descriptions_and_attachments: "帶有說明和附件的 pdf"
-      pdf_with_attachments: "帶有附件的 pdf"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "影像沒有匯出。"
   extraction:
@@ -1759,7 +1759,6 @@ zh-TW:
   label_password_rule_special: "特殊字元"
   label_password_rule_uppercase: "大寫"
   label_path_encoding: "路徑編碼"
-  label_pdf_with_descriptions: "有說明的 PDF 檔"
   label_per_page: "每頁"
   label_people: "人員"
   label_permissions: "權限"

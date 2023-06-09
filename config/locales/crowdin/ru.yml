@@ -1384,9 +1384,9 @@ ru:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF с описанием"
-      pdf_with_descriptions_and_attachments: "PDF с описанием и вложениями"
-      pdf_with_attachments: "PDF с вложениями"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Изображение не экспортировано."
   extraction:
@@ -1815,7 +1815,6 @@ ru:
   label_password_rule_special: "Специальные символы"
   label_password_rule_uppercase: "Верхний регистр"
   label_path_encoding: "Кодирование пути"
-  label_pdf_with_descriptions: "PDF с описанием"
   label_per_page: "Постранично"
   label_people: "Люди"
   label_permissions: "Разрешения"

@@ -1382,9 +1382,9 @@ sl:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF z opisi"
-      pdf_with_descriptions_and_attachments: "PDF z opisi in prilogami"
-      pdf_with_attachments: "PDF s prilogami"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Slika ni izvožena."
   extraction:
@@ -1813,7 +1813,6 @@ sl:
   label_password_rule_special: "Posebni znaki"
   label_password_rule_uppercase: "Velika črka"
   label_path_encoding: "Kodiranje poti"
-  label_pdf_with_descriptions: "PDF z opisi"
   label_per_page: "na stran"
   label_people: "Ljudje"
   label_permissions: "Dovoljenja"
