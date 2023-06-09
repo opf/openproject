@@ -40,7 +40,7 @@ jobs:
         key: ${{ runner.os }}-ci-cache-tests-units
     - name: build
       run: |
-        sudo chown -R $(whoami):$(id -ng) $CI_CACHE_PATH
+        sudo mkdir -p /tmp/cache && sudo chown -R $(whoami):$(id -ng) $CI_CACHE_PATH
         docker-compose -f docker-compose.ci.yml build --pull ci
     - name: test
       run: docker-compose -f docker-compose.ci.yml run ci setup-tests run-units
@@ -71,7 +71,7 @@ jobs:
         key: ${{ runner.os }}-ci-cache-tests-features
     - name: build
       run: |
-        sudo chown -R $(whoami):$(id -ng) $CI_CACHE_PATH
+        sudo mkdir -p /tmp/cache && sudo chown -R $(whoami):$(id -ng) $CI_CACHE_PATH
         docker-compose -f docker-compose.ci.yml build --pull ci
     - name: test
       run: docker-compose -f docker-compose.ci.yml run ci setup-tests run-features
