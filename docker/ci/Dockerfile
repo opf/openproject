@@ -48,7 +48,7 @@ RUN \
   --mount=type=cache,target=/usr/local/bundle/cache,uid=1000,gid=1000 \
   bundle install
 
-COPY --chown=$APP_USER:$APP_USER package.json package-lock.json ./
+COPY --chown=$APP_USER:$APP_USER package.json ./
 COPY --chown=$APP_USER:$APP_USER frontend/package.json frontend/package-lock.json frontend/.npmrc ./frontend/
 RUN \
   --mount=type=cache,target=/app/.npm,uid=1000,gid=1000 \

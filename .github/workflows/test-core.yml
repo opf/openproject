@@ -75,7 +75,6 @@ jobs:
       if: ${{ always() }}
       run: |
         docker-compose -f docker-compose.ci.yml down --remove-orphans -t 10
-        sudo chown -R $(whoami):$(id -ng) $CI_CACHE_PATH
   api-spec:
     name: APIv3 specification (OpenAPI 3.0)
     if: github.repository == 'opf/openproject'
