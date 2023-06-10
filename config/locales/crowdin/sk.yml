@@ -2544,6 +2544,7 @@ sk:
   setting_enabled_scm: "Povolené SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Povoliť informačné kanály"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Limit obsahu informačných kanálov"
   setting_file_max_size_displayed: "Maximálna veľkosť textových súborov zobrazených priamo na stránke"
   setting_host_name: "Názov serveru (Host name)"

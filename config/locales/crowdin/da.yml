@@ -2499,6 +2499,7 @@ da:
   setting_enabled_scm: "Aktiver SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Aktiver feeds"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Grænse for indhold af feeds"
   setting_file_max_size_displayed: "Maksimal størrelse af tekstfiler, der vises inline"
   setting_host_name: "Værtsnavn"

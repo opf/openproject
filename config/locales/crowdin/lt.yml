@@ -2540,6 +2540,7 @@ lt:
   setting_enabled_scm: "Įgalinti SCM"
   setting_enabled_projects_columns: "Matomas projektų sąraše"
   setting_feeds_enabled: "Leisti naujienų kanalus"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Naujienų kanalų turinio limitas"
   setting_file_max_size_displayed: "Maksimalus tekstinių failų dydis rodomas vienoje eilutėje"
   setting_host_name: "Serverio vardas"

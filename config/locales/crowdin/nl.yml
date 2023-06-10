@@ -2499,6 +2499,7 @@ nl:
   setting_enabled_scm: "SCM Ingeschakeld"
   setting_enabled_projects_columns: "Zichtbaar in de projectlijst"
   setting_feeds_enabled: "Feeds inschakelen"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Feed inhoud limiet"
   setting_file_max_size_displayed: "Maximale grootte van tekstbestanden inline weergegeven"
   setting_host_name: "Hostnaam"

@@ -2537,6 +2537,7 @@ uk:
   setting_enabled_scm: "Увімкнені SCM"
   setting_enabled_projects_columns: "Видимий у списку проєктів"
   setting_feeds_enabled: "Увімкнути канали"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Обмеження вмісту каналу"
   setting_file_max_size_displayed: "Максимальний розмір текстового файлу для відображення"
   setting_host_name: "Ім'я хоста"

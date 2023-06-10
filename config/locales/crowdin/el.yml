@@ -2498,6 +2498,7 @@ el:
   setting_enabled_scm: "Ενεργοποίηση SCM"
   setting_enabled_projects_columns: "Ορατό στη λίστα έργων"
   setting_feeds_enabled: "Ενεργοποίηση Τροφοδοσιών"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Όριο συγκατάθεσης τροφοδοσίας"
   setting_file_max_size_displayed: "Μέγιστο μέγεθος αρχείων κειμένου που εμφανίζονται inline"
   setting_host_name: "Όνομα εξυπηρετητή"

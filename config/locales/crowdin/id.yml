@@ -2474,6 +2474,7 @@ id:
   setting_enabled_scm: "Aktifkan SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Aktifkan Feed"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Batasan konten feed"
   setting_file_max_size_displayed: "Ukuran maks. file teks yang ditampilkan inline"
   setting_host_name: "Nama host"

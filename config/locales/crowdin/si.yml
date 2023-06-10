@@ -2503,6 +2503,7 @@ si:
   setting_enabled_scm: "සක්රීය SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "පෝෂණය සක්රීය කරන්න"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "අන්තර්ගත සීමාව සංග්රහ"
   setting_file_max_size_displayed: "පේළිගත ප්රදර්ශනය පෙළ ගොනු උපරිම ප්රමාණය"
   setting_host_name: "සත්කාරක නාමය"

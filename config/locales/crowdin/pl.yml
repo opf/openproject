@@ -2539,6 +2539,7 @@ pl:
   setting_enabled_scm: "Włączone SCM"
   setting_enabled_projects_columns: "Widoczny na liście projektów"
   setting_feeds_enabled: "Włącz kanały"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Maksymalny rozmiar plików tekstowych wyświetlanych w treści"
   setting_host_name: "Nazwa hosta"

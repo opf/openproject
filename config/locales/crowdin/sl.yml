@@ -2541,6 +2541,7 @@ sl:
   setting_enabled_scm: "Omogočen SCM"
   setting_enabled_projects_columns: "Vidno na seznamu projektov"
   setting_feeds_enabled: "Omogoči vire"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Omejitev vsebine vira"
   setting_file_max_size_displayed: "Največja velikost besedilnih datotek, prikazanih v vrstici"
   setting_host_name: "Ime gostitelja"

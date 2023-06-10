@@ -2478,6 +2478,7 @@ ja:
   setting_enabled_scm: "使用するバージョン管理システム"
   setting_enabled_projects_columns: "プロジェクトリストに表示する"
   setting_feeds_enabled: "フィードを有効にする"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "フィードの項目数の上限"
   setting_file_max_size_displayed: "画面表示するテキストファイルの最大サイズ"
   setting_host_name: "ホスト名"

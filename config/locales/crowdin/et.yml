@@ -2503,6 +2503,7 @@ et:
   setting_enabled_scm: "Kasutatavad lähtekoodi haldusvahendid"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Luba tellitavaid uudisvoogusid"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Uudisvoogude suurim uudiste arv"
   setting_file_max_size_displayed: "Teksti sees kuvatava tekstifaili maksimaalne suurus"
   setting_host_name: "Serveri nimi ja teerada"

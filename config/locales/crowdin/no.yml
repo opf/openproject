@@ -2503,6 +2503,7 @@
   setting_enabled_scm: "SCM aktivert"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Aktiver Feeds"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Innholdsgrense for Feed"
   setting_file_max_size_displayed: "Maks størrelse på tekstfiler som vises inline"
   setting_host_name: "Vertsnavn"

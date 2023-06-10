@@ -2472,6 +2472,7 @@ lol:
   setting_enabled_scm: "crwdns498997:0crwdne498997:0"
   setting_enabled_projects_columns: "crwdns498999:0crwdne498999:0"
   setting_feeds_enabled: "crwdns499003:0crwdne499003:0"
+  setting_ical_enabled: "crwdns854865:0crwdne854865:0"
   setting_feeds_limit: "crwdns499005:0crwdne499005:0"
   setting_file_max_size_displayed: "crwdns499007:0crwdne499007:0"
   setting_host_name: "crwdns499009:0crwdne499009:0"

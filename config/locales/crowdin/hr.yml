@@ -2524,6 +2524,7 @@ hr:
   setting_enabled_scm: "Omogući SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Omogući sažetke sadržaja aktivnosti"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Maksimalna veličina tesktualnih datoteka prikazanih u liniji"
   setting_host_name: "Hostname"

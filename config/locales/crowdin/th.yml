@@ -2482,6 +2482,7 @@ th:
   setting_enabled_scm: "เปิดใช้ SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "เปิดใช้ Feeds"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "จำกัดเนื้อหาของ Feed"
   setting_file_max_size_displayed: "ความยาวสูงสุดของไฟล์ตัวอักษรแสดงในบรรทัด"
   setting_host_name: "ชื่อโฮสต์"

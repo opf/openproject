@@ -2501,6 +2501,7 @@ fil:
   setting_enabled_scm: "Paganahin ang SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Paganahin ang mga feed"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Limitasyon ng nilalaman na feed"
   setting_file_max_size_displayed: "Max na laki ng mga tekstong file na ipinapakita inline"
   setting_host_name: "Host name"

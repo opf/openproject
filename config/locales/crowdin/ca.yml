@@ -2492,6 +2492,7 @@ ca:
   setting_enabled_scm: "Activar SCM"
   setting_enabled_projects_columns: "Visible en la llista de projectes"
   setting_feeds_enabled: "Habilita els canals"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Límit de contingut del canals"
   setting_file_max_size_displayed: "Mida màxima dels fitxers de text mostrats en línia"
   setting_host_name: "Nom del servidor"

@@ -2499,6 +2499,7 @@ hu:
   setting_enabled_scm: "SCM engedélyezve"
   setting_enabled_projects_columns: "Látható a projektlistában"
   setting_feeds_enabled: "Hírcsatornák engedélyezése"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Tartalom szintjének a korlátja"
   setting_file_max_size_displayed: "A szöveg fájl sorainak maximum mérete megjelenítéskor"
   setting_host_name: "Gazdagép neve"

@@ -2481,6 +2481,7 @@ zh-TW:
   setting_enabled_scm: "啟用 SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "啟用 Feed"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Feed 內容限制"
   setting_file_max_size_displayed: "直接显示文字文件內容的最大檔案容量"
   setting_host_name: "主機名稱"

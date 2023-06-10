@@ -2580,6 +2580,7 @@ ar:
   setting_enabled_scm: "تمكين SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "تمكين التغذية"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "حد محتوى تغذية"
   setting_file_max_size_displayed: "عرض الحد الأقصى لحجم الملفات النصية المضمنة في السطر"
   setting_host_name: "إسم المضيف"

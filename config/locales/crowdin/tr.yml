@@ -2499,6 +2499,7 @@ tr:
   setting_enabled_scm: "Etkinleştirilmiş SCM"
   setting_enabled_projects_columns: "Proje listesinde görünür"
   setting_feeds_enabled: "Yayınları Etkinleştir"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Besleme içeriği sınırı"
   setting_file_max_size_displayed: "Satır içi görüntülenen maksimum metin dosyası boyutu"
   setting_host_name: "Ana bilgisayar adı"

@@ -2500,6 +2500,7 @@ sv:
   setting_enabled_scm: "Aktiverade SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Aktivera Flöden"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Innehållsbegränsning på Flöden"
   setting_file_max_size_displayed: "Maxstorlek på textfiler som visas inline"
   setting_host_name: "Värdnamn"

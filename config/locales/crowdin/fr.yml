@@ -2503,6 +2503,7 @@ fr:
   setting_enabled_scm: "Permettre SCM"
   setting_enabled_projects_columns: "Visible dans la liste des projets"
   setting_feeds_enabled: "Permettre les flux"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Limite du contenu du flux"
   setting_file_max_size_displayed: "Taille maximale de l'affichage du fichers texte inline"
   setting_host_name: "Nom d'hôte"
