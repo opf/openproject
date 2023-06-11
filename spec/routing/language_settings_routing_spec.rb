@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,39 +26,21 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
+#
 
-module Admin::Settings
-  class LanguagesSettingsController < ::Admin::SettingsController
-    menu_item :settings_languages
-    # rubocop:disable Rails/LexicallyScopedActionFilter
-    before_action :validate_start_of_week_and_first_week_of_year_combination, only: :update
-    # rubocop:enable Rails/LexicallyScopedActionFilter
+require 'spec_helper'
 
-    def default_breadcrumb
-      t(:label_languages)
-    end
+RSpec.describe 'Language Settings routes' do
+  it do
+    expect(get('/admin/settings/languages'))
+      .to route_to(controller: 'admin/settings/languages_settings',
+                   action: 'show')
+  end
 
-    protected
-
-    def update_service
-      ::Settings::LanguageUpdateService
-    end
-
-    private
-
-    def validate_start_of_week_and_first_week_of_year_combination
-      start_of_week = settings_params[:start_of_week]
-      start_of_year = settings_params[:first_week_of_year]
-
-      if start_of_week.present? ^ start_of_year.present?
-        flash[:error] = I18n.t(
-          'settings.display.first_date_of_week_and_year_set',
-          first_week_setting_name: I18n.t(:setting_first_week_of_year),
-          day_of_week_setting_name: I18n.t(:setting_start_of_week)
-        )
-        redirect_to action: :show
-      end
-    end
+  it do
+    expect(patch('/admin/settings/languages'))
+      .to route_to(controller: 'admin/settings/languages_settings',
+                   action: 'update')
   end
 end
