@@ -59,7 +59,7 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
     }
 
     WorkPackages::UpdateService
-      .new(user:, model: work_package, contract_class: EmptyContract)
+      .new(user:, model: work_package, contract_class: EmptyContract, cause_of_update: changed_working_days)
       .call(duration: work_package.duration, journal_cause: cause) # trigger a recomputation of start and due date
       .all_results
   end
