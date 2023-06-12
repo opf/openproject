@@ -61,14 +61,11 @@ export default class ProjectStorageFormController extends Controller {
   ];
 
   static values = {
-    folderId: String,
     folderMode: String,
     placeholderFolderName: String,
     notLoggedInValidation: String,
     lastProjectFolders: Object,
   };
-
-  declare folderIdValue:string;
 
   declare folderModeValue:string;
 
@@ -140,17 +137,6 @@ export default class ProjectStorageFormController extends Controller {
 
   updateForm(evt:InputEvent):void {
     const mode = (evt.target as HTMLInputElement).value;
-
-    if (this.isCurrentProjectFolderMode(mode)) {
-      this.projectFolderIdInputTarget.value = this.folderIdValue;
-    } else {
-      this.updateFolderIdWithHistoricalData(mode);
-    }
-
-    this.toggleFolderDisplay(mode);
-  }
-
-  private updateFolderIdWithHistoricalData(mode:string):void {
     const { manual, automatic } = this.lastProjectFoldersValue;
 
     switch (mode) {
@@ -170,6 +156,8 @@ export default class ProjectStorageFormController extends Controller {
       default:
         this.projectFolderIdInputTarget.value = '';
     }
+
+    this.toggleFolderDisplay(mode);
   }
 
   private get modalService():Observable<OpModalService> {
@@ -189,10 +177,6 @@ export default class ProjectStorageFormController extends Controller {
     }
 
     return `${this.storage._links.self.href}/files/${projectFolderId}`;
-  }
-
-  private isCurrentProjectFolderMode(mode:string):boolean {
-    return this.folderModeValue === mode;
   }
 
   private fetchStorageAuthorizationState():Observable<boolean> {
