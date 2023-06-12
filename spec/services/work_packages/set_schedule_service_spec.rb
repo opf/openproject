@@ -41,7 +41,7 @@ RSpec.describe WorkPackages::SetScheduleService do
   let(:work_package_start_date) { nil }
   let(:initiating_work_package) { work_package }
   let(:instance) do
-    described_class.new(user:, work_package:, initiating_work_package:)
+    described_class.new(user:, work_package:, initiated_by: initiating_work_package)
   end
   let!(:following) { [] }
 

@@ -121,7 +121,7 @@ class WorkPackages::UpdateService < BaseServices::Update
 
   def reschedule(work_package, work_packages)
     WorkPackages::SetScheduleService
-      .new(user:, work_package: work_packages, initiating_work_package: work_package)
+      .new(user:, work_package: work_packages, initiated_by: work_package)
       .call(work_package.saved_changes.keys.map(&:to_sym))
   end
 

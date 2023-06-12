@@ -27,12 +27,12 @@
 #++
 
 class WorkPackages::SetScheduleService
-  attr_accessor :user, :work_packages, :initiating_work_package
+  attr_accessor :user, :work_packages, :initiated_by
 
-  def initialize(user:, work_package:, initiating_work_package: nil)
+  def initialize(user:, work_package:, initiated_by: nil)
     self.user = user
     self.work_packages = Array(work_package)
-    self.initiating_work_package = initiating_work_package
+    self.initiated_by = initiated_by
   end
 
   def call(changed_attributes = %i(start_date due_date))
@@ -180,8 +180,16 @@ class WorkPackages::SetScheduleService
   end
 
   def assign_cause_for_journaling(work_package, relation)
-    return if initiating_work_package.nil?
+    return if initiated_by.nil?
 
+    if initiated_by.is_a?(WorkPackage)
+      assign_cause_initiated_by_work_package(work_package, relation)
+    elsif initiated_by.is_a?(NonWorkingDay)
+      assign_cause_initiated_by_non_working_day(work_package, relation)
+    end
+  end
+
+  def assign_cause_initiated_by_work_package(work_package, relation)
     type_mapping = {
       parent: 'work_package_parent_changed_times',
       successor: 'work_package_successor_changed_times',
@@ -190,7 +198,9 @@ class WorkPackages::SetScheduleService
 
     work_package.journal_cause = {
       type: type_mapping[relation],
-      work_package_id: initiating_work_package.id
+      work_package_id: initiated_by.id
     }
   end
+
+  def assign_cause_initiated_by_non_working_day(work_package, relation); end
 end
