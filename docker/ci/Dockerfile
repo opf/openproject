@@ -14,7 +14,6 @@ RUN --mount=type=cache,target=/var/cache/apt \
     apt-get update -qq && apt-get install -y \
     postgresql-13 postgresql-client-13 time pandoc imagemagick libpq-dev default-jre-headless firefox-esr
 
-# Try Downloading binary from fallback source if first one fails
 RUN f="/tmp/chrome.deb"; wget --no-verbose -O $f $CHROME_SOURCE_URL && apt install -y $f && rm -f $f
 
 ENV APP_USER=dev
@@ -37,6 +36,9 @@ WORKDIR $APP_PATH
 
 RUN mkdir -p /cache && chown $APP_USER:$APP_USER /cache
 RUN mkdir -p /usr/local/bundle/cache && chown -R $APP_USER:$APP_USER /usr/local/bundle/cache
+
+RUN echo "fsync = off" >> /etc/postgresql/$PGVERSION/main/postgresql.conf
+RUN echo "full_page_writes = off" >> /etc/postgresql/$PGVERSION/main/postgresql.conf
 
 USER $APP_USER
 

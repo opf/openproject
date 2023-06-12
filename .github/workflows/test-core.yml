@@ -22,6 +22,7 @@ permissions:
 jobs:
   units:
     strategy:
+      fail-fast: false
       matrix:
         runner:
           - [self-hosted-autoscale]
@@ -63,6 +64,7 @@ jobs:
         sudo chown -R $(whoami):$(id -ng) $CI_CACHE_PATH
   features:
     strategy:
+      fail-fast: false
       matrix:
         runner:
           - [self-hosted-autoscale]
