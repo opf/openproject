@@ -451,7 +451,7 @@ RSpec.describe WorkPackage do
       end
 
       it 'stores the note with the existing journal entry' do
-        expect { subject }.to change { work_package.last_journal.notes }.from('').to('some noes')
+        expect { subject }.to change { work_package.last_journal.notes }.from('').to('some notes')
       end
     end
 
