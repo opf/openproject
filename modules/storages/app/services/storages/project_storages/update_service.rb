@@ -50,7 +50,8 @@ module Storages::ProjectStorages
             user:,
             projects_storage_id: project_storage.id,
             origin_folder_id: project_storage.project_folder_id,
-            mode: project_storage.project_folder_mode)
+            mode: project_storage.project_folder_mode
+          )
         else
           LastProjectFolderPersistenceHelper.update_last_project_folder(
             user:,
