@@ -40,7 +40,7 @@ module WorkPackage::Exports
           return estimated_hours || derived_hours
         end
 
-        "#{estimated_hours} (#{derived_hours})"
+        "#{estimated_hours} #{derived_hours}"
       end
 
       private
@@ -51,7 +51,7 @@ module WorkPackage::Exports
 
       def formatted_derived_hours(work_package)
         if (derived_estimated_value = work_package.derived_estimated_hours)
-          formatted_hours(derived_estimated_value)
+          "(#{formatted_hours(derived_estimated_value)})"
         end
       end
     end
