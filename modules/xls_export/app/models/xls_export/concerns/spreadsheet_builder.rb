@@ -55,7 +55,7 @@ module XlsExport
 
       def column_values(object)
         columns.collect do |column|
-          format_attribute(object, column[:name])
+          format_attribute(object, column[:name], :csv)
         end
       end
 
