@@ -128,7 +128,7 @@ module WorkPackage::PDFExport::OverviewTable
   def build_overview_sum_row(sums)
     sums_style = styles.overview_table_sums_cell
     sum_row = overview_columns_objects.map do |col|
-      content = (sums[col] || '').to_s
+      content = get_formatted_value(sums[col], col.name)
       pdf.make_cell(content, sums_style)
     end
     sum_row[0] = pdf.make_cell(I18n.t('js.label_sum'), sums_style)

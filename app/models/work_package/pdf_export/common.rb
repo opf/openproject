@@ -84,7 +84,7 @@ module WorkPackage::PDFExport::Common
   end
 
   def get_column_value(work_package, column_name)
-    formatter = formatter_for(column_name)
+    formatter = formatter_for(column_name, :pdf)
     formatter.format(work_package)
   end
 
@@ -93,28 +93,14 @@ module WorkPackage::PDFExport::Common
     return get_id_column_cell(work_package, value) if column_name == :id
     return get_subject_column_cell(work_package, value) if with_descriptions? && column_name == :subject
 
-    get_column_value_with_unit(value, column_name)
+    escape_tags(value)
   end
 
-  def get_column_value_with_unit(value, column_name)
-    # TODO: shouldn't these be implemented by the formatters coming from ::Exports::Register.formatter_for ?
-    case column_name
-    when :overall_costs, :labor_costs, :material_costs
-      v = value.to_f
-      v == 0 ? '' : number_to_currency(value.to_f)
-    when :estimated_hours, :remaining_hours, :spent_hours
-      insert_unit(value, I18n.t('export.units.hours'))
-    when :duration
-      insert_unit(value, I18n.t('export.units.days'))
-    else
-      escape_tags(value)
-    end
-  end
+  def get_formatted_value(value, column_name)
+    return '' if value.nil?
 
-  def insert_unit(value, unit)
-    # adding an unit behind numbers
-    # examples "4" => "4 h" ; "4.0" => "4.0 h" ; "4,0" => "4,0 h" ;"4.0 (5.0)" => "4.0 h (5.0 h)"
-    value.to_s.gsub(/[\d.,]+/, "\\0 #{unit}")
+    formatter = formatter_for(column_name, :pdf)
+    formatter.format_value(value)
   end
 
   def escape_tags(value)

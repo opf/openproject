@@ -61,7 +61,7 @@ module XlsExport
 
       def set_column_format_options!(spreadsheet)
         columns.each_with_index do |column, i|
-          options = formatter_for(column[:name])
+          options = formatter_for(column[:name], :csv)
                       .format_options
 
           spreadsheet.add_format_option_to_column i, options
