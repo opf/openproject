@@ -180,12 +180,12 @@ class WorkPackages::SetScheduleService
   end
 
   def assign_cause_for_journaling(work_package, relation)
-    return if initiated_by.nil?
+    return {} if initiated_by.nil?
 
     if initiated_by.is_a?(WorkPackage)
       assign_cause_initiated_by_work_package(work_package, relation)
-    elsif initiated_by.is_a?(NonWorkingDay)
-      assign_cause_initiated_by_non_working_day(work_package, relation)
+    elsif initiated_by.is_a?(Journal::WorkingDayUpdate)
+      assign_cause_initiated_by_changed_working_days(work_package)
     end
   end
 
@@ -202,5 +202,10 @@ class WorkPackages::SetScheduleService
     }
   end
 
-  def assign_cause_initiated_by_non_working_day(work_package, relation); end
+  def assign_cause_initiated_by_changed_working_days(work_package)
+    work_package.journal_cause = {
+      type: 'working_days_changed',
+      changed_days: initiated_by.to_h
+    }
+  end
 end

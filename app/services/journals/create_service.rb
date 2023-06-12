@@ -634,7 +634,7 @@ module Journals
     end
 
     def same_cause?(predecessor, cause)
-      predecessor.cause == cause
+      (predecessor.cause.blank? && cause.blank?) || predecessor.cause == cause
     end
 
     def log_journal_creation(predecessor)
