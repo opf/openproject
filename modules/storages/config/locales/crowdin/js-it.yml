@@ -35,7 +35,7 @@ it:
         empty_folder_location_hint: "Clicca sul pulsante in basso per caricare il file in questa posizione."
         file_not_selectable_location: "Impossibile selezionare un file durante la scelta di una posizione."
         project_folder_no_access: >
-          You have no access to the project folder. Please, contact your administrator to get access or upload the file in another location.
+          Non hai accesso alla cartella del progetto. Sei pregato di contattare il tuo amministratore per ottenere l'accesso o caricare il file in un'altra posizione.
         upload_keep_both: "Mantieni entrambi"
         upload_replace: "Sostituisci"
       file_links:
@@ -60,7 +60,7 @@ it:
           other: "%{count} link di file creati correttamente."
         upload_error:
           default: >
-            Your file (%{fileName}) could not be uploaded. Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
+            Impossibile caricare il tuo file (%{fileName}). Sei pregato di verificare che la versione più recente de "Integrazione OpenProject" di Nextcloud App, sia installata e di contattare il tuo amministratore per ulteriori informazioni.
           403: >
             Il tuo file (%{fileName}) non può essere caricato a causa di restrizioni di sistema. Per ulteriori informazioni, contatta il tuo amministratore.
           413: >

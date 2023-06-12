@@ -3,11 +3,11 @@ it:
   permission_view_file_links: "Visualizza link ai file"
   permission_manage_file_links: "Gestire link ai file"
   permission_manage_storages_in_project: "Gestisci archivi di file nel progetto"
-  permission_read_files: "Read files"
-  permission_write_files: "Write files"
-  permission_create_files: "Create files"
-  permission_delete_files: "Delete files"
-  permission_share_files: "Share files"
+  permission_read_files: "Leggi file"
+  permission_write_files: "Scrivi file"
+  permission_create_files: "Crea file"
+  permission_delete_files: "Elimina file"
+  permission_share_files: "Condividi file"
   project_module_storages: "Archivi file"
   activerecord:
     models:
@@ -47,23 +47,23 @@ it:
       replace_provider_type_oauth: "Sostituisci %{provider_type} OAuth"
       save_and_continue_setup: "Salva e continua la configurazione"
       save_and_complete_setup: "Salva e completa la configurazione"
-      select_folder: "Select folder"
+      select_folder: "Seleziona cartella"
     page_titles:
       project_settings:
         index: "File di archiviazione disponibili in questo progetto"
         new: "Aggiungi un archivio file al progetto"
-        edit: "Edit the file storage to this project"
+        edit: "Modifica l'archiviazione dei file per questo progetto"
     instructions:
       type: "Assicurati di disporre dei privilegi di amministrazione nella tua istanza Nextcloud e di aver installato la seguente applicazione prima di eseguire l'installazione:"
       type_link_text: "“Integrazione OpenProject”"
       name: "Dai al tuo archivio un nome in modo che gli utenti lo possano distinguere tra più archivi."
       host: "Aggiungi l'indirizzo host del tuo spazio di archiviazione incluso https://. Non dovrebbe essere più lungo di 255 caratteri."
       no_storage_set_up: "Ancora nessuna archiviazione di file configurata."
-      no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
-      empty_project_folder_validation: "Selecting a folder is mandatory to proceed."
-      not_logged_into_storage: "To select a project folder, please first login"
+      no_specific_folder: "Di default, ogni utente inizierà alla propria cartella home, al caricamento di un file."
+      empty_project_folder_validation: "Selezionare una cartella è obbligatorio per procedere."
+      not_logged_into_storage: "Per selezionare la cartella di un progetto, sei prim pregato di accedere"
       existing_manual_folder: >
-        You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
+        Puoi designare una cartella esistente come la cartella di root per questo progetto. Le autorizzazioni, tuttavia, non sono gestite automaticamente: l'amministratore necessita di assicurarsi manualmente che gli utenti rilevanti abbiano accesso. La cartella selezionata è utilizzabile per svariati progetti.
       setting_up_additional_storages: "Per impostare ulteriori archivi file, visita"
       setting_up_additional_storages_non_admin: "Gli amministratori possono impostare ulteriori archivi file in Amministrazione / Archivi file."
       setting_up_storages: "Per impostare archivi file, visita"
@@ -74,7 +74,7 @@ it:
         integration: "Nextcloud Administration / OpenProject"
     help_texts:
       project_folder: >
-        The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
+        La cartella del progetto è la cartella predefinita per il caricamento dei file per questo progetto. Gli utenti possono, comunque, caricare i file in altre posizioni.
     delete_warning:
       storage: >
         Vuoi davvero eliminare questo archivio? Ciò eliminerà anche lo spazio di archiviazione da tutti i progetti in cui viene utilizzato. Inoltre, eliminerà anche tutti i collegamenti dalle macro-attività ai file archiviati in tale archivio.
@@ -91,11 +91,11 @@ it:
     label_oauth_application_details: "Dettagli applicazione OAuth"
     label_oauth_client_details: "Dettagli client OAuth"
     label_provider_type: "Tipo di fonte"
-    label_project_folder: "Project folder"
+    label_project_folder: "Cartella del progetto"
     label_new_storage: "Nuovo archivio"
-    label_existing_manual_folder: "Existing folder with manually managed permissions"
-    label_no_specific_folder: "No specific folder"
-    label_no_selected_folder: "No selected folder"
+    label_existing_manual_folder: "Cartella esistente con autorizzazioni gestite manualmente"
+    label_no_specific_folder: "Nessuna cartella specifica"
+    label_no_selected_folder: "Nessuna cartella selezionata"
     label_storage: "Archivio"
     label_storages: "Archivi"
     no_results: "Ancora nessun'archiviazione configurata."

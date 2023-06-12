@@ -80,7 +80,7 @@ it:
       buttons:
         upgrade: "Aggiorna ora"
         contact: "Contattaci per una demo"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
+      enterprise_info_html: "è un componente aggiuntivo di Imprese <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
       upgrade_info: "Esegui l'upgrade a un piano a pagamento per attivarlo e iniziare a usarlo nel tuo team."
     journal_aggregation:
       explanation:
@@ -229,7 +229,7 @@ it:
       failed_text: "La richiesta di eliminare il progetto %{name} non è riuscita. Il progetto è stato lasciato in archivio."
       completed: "Eliminazione del progetto %{name} completata"
       completed_text: "La richiesta di cancellare il progetto '%{name}' è stata completata."
-      completed_text_children: "Additionally, the following subprojects have been deleted:"
+      completed_text_children: "Inoltre, i seguenti progetti secondari sono stati eliminati:"
     index:
       open_as_gantt: 'Apri come vista Gantt'
       open_as_gantt_title: "Usa questo pulsante per generare una vista Gantt che filtra le macro-attività per i progetti visibili in questa pagina."
@@ -266,7 +266,7 @@ it:
       notice_reset_token: "È stato generato un nuovo token %{type}. Il tuo token di accesso è:"
       token_value_warning: "Nota: Questa è l'unica volta in cui vedrai questo token, assicurati di copiarlo subito."
       no_results_title_text: Al momento non sono disponibili token di accesso.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_ical_tokens_reverted: "Il token di iCalendar \"%{token_name}\" per il calendario \"%{calendar_name}\" del progetto \"%{project_name}\" è stato revocato. L'URL di iCalendar con questo token non è ora valido."
   news:
     index:
       no_results_title_text: Al momento non c'è nessuna notizia da segnalare.
@@ -484,7 +484,7 @@ it:
           false: "privato"
         queries: "Interrogazioni"
         status_code: 'Stato del progetto'
-        status_explanation: 'Project status description'
+        status_explanation: 'Descrizione dello stato del progetto'
         status_codes:
           not_started: 'Non iniziato'
           on_track: 'Nei limiti'
@@ -692,8 +692,8 @@ it:
         ical_token_query_assignment:
           attributes:
             name:
-              blank: "is mandatory. Please select a name."
-              not_unique: "is already in use. Please select another name."
+              blank: "è obbligatorio. Sei pregato di selezionare un nome."
+              not_unique: "è già in uso. Sei pregato di selezionare un altro nome."
         notifications:
           at_least_one_channel: 'Deve essere specificato almeno un canale per l''invio delle notifiche.'
           attributes:
@@ -743,8 +743,8 @@ it:
               invalid: "Impossibile ordinare per la colonna: %{value}"
               format: "%{message}"
             timestamps:
-              invalid: "Timestamps contain invalid values: %{values}"
-              forbidden: "Timestamps contain forbidden values: %{values}"
+              invalid: "Le marche orarie contengono valori non validi: %{values}"
+              forbidden: "Le marche orarie contengono valori proibiti: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "è mutuamente esclusivo con il raggruppamento per '%{group_by}'. Non puoi attivare entrambi."
           filters:
@@ -921,22 +921,22 @@ it:
   activity:
     item:
       created_by_on: "creato da %{user} il %{datetime}"
-      created_by_on_time_entry: "time logged by %{user} on %{datetime}"
+      created_by_on_time_entry: "orario registrato da %{user} il %{datetime}"
       created_on: "creato il %{datetime}"
       updated_by_on: "aggiornato da %{user} il %{datetime}"
-      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "orario registrato aggiornato da %{user} il %{datetime}"
       updated_on: "aggiornato il %{datetime}"
       parent_without_of: "Sottoprogetto"
       parent_no_longer: "Non più sottoprogetto di"
       time_entry:
         hour:
-          one: "%{count} hour"
+          one: "%{count} ore"
           other: "%{count} ore"
         hour_html:
-          one: "<i>%{count} hour</i>"
-          other: "<i>%{count} hours</i>"
-        updated: "changed from %{old_value} to %{value}"
-        logged_for: "Logged for"
+          one: "<i>%{count} ora</i>"
+          other: "<i>%{count} ore</i>"
+        updated: "modificato da %{old_value} a %{value}"
+        logged_for: "Registrato per"
     filter:
       changeset: "Insiemi di modifiche"
       message: "Forum"
@@ -1344,9 +1344,9 @@ it:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_overview_table: "PDF Table"
-      pdf_report_with_images: "PDF Report with images"
-      pdf_report: "PDF Report"
+      pdf_overview_table: "Tabella PDF"
+      pdf_report_with_images: "Rapporto PDF con immagini"
+      pdf_report: "Rapporto PDF"
     image:
       omitted: "Immagine non esportata."
   extraction:
@@ -1469,10 +1469,10 @@ it:
   label_api_access_key_created_on: "Chiave di accesso API creata %{value} fa"
   label_api_access_key_type: "API"
   label_ical_access_key_type: "iCalendar"
-  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
-  label_ical_access_key_not_present: "iCalendar token(s) not present."
-  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
-  label_ical_access_key_latest: "latest"
+  label_ical_access_key_description: "Token di iCalendar \"%{token_name}\" per \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "Token di iCalendar non presenti."
+  label_ical_access_key_generation_hint: "Generato automaticamente all'iscrizione a un calendario."
+  label_ical_access_key_latest: "più recente"
   label_ical_access_key_revoke: "Revoca"
   label_applied_status: "Stato applicato"
   label_archive_project: "Archivia progetto"
@@ -1604,7 +1604,7 @@ it:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} utenti attivi riservati"
   label_enterprise_edition: "Enterprise edition"
-  label_enterprise_support: "Enterprise support"
+  label_enterprise_support: "Supporto per Imprese"
   label_environment: "Ambiente"
   label_estimates_and_time: "Stime e tempi"
   label_equals: "è"
@@ -1667,7 +1667,7 @@ it:
   label_journal: "Diario"
   label_journal_diff: "Confronto Descrizione"
   label_language: "Linguaggio"
-  label_languages: "Languages"
+  label_languages: "Lingue"
   label_jump_to_a_project: "Salta ad altro progetto..."
   label_keyword_plural: 'Parole chiave'
   label_language_based: "Basato sulla lingua dell'utente"
@@ -1858,7 +1858,7 @@ it:
   label_role_search: "Assegna ruolo ai nuovi membri"
   label_scm: "SCM"
   label_search: "Cerca"
-  label_send_information: "Send new credentials to the user"
+  label_send_information: "Invia nuove credenziali all'utente"
   label_send_test_email: "Invia un email di prova"
   label_setting_plural: "Impostazioni"
   label_system_settings: "Impostazioni di sistema"
@@ -1926,7 +1926,7 @@ it:
   label_user_plural: "Utenti"
   label_user_search: "Cerca per utente"
   label_user_settings: "Impostazioni utente"
-  label_users_settings: "Users settings"
+  label_users_settings: "Impostazioni utenti"
   label_version_new: "Nuova versione"
   label_version_plural: "Versioni"
   label_version_sharing_descendants: "Con i sotto-progetti"
@@ -2500,7 +2500,7 @@ it:
   setting_enabled_scm: "SCM Abilitato"
   setting_enabled_projects_columns: "Visibile nell'elenco dei progetti"
   setting_feeds_enabled: "Abilita Feed"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "Abilita Iscrizioni di iCalendar"
   setting_feeds_limit: "Limite al contenuto del contributo"
   setting_file_max_size_displayed: "Dimensione massima dei file di testo visualizzati inline"
   setting_host_name: "Nome dell'Host"
@@ -2553,7 +2553,7 @@ it:
   setting_sys_api_description: "Il web service di gestione archivio fornisce servizi per integrare ed autorizzare gli utenti nell'accesso agli archivi."
   setting_time_format: "Formato del tempo"
   setting_accessibility_mode_for_anonymous: "Abilita la modalità di accesso facilitato per utenti anonimi"
-  setting_user_format: "Users name format"
+  setting_user_format: "Formato del nome utente"
   setting_user_default_timezone: "Orario predefinito utenti"
   setting_users_deletable_by_admins: "Account degli utenti eliminabili dagli amministratori"
   setting_users_deletable_by_self: "Gli utenti possono eliminare il proprio account"
@@ -2584,7 +2584,7 @@ it:
       section_project_overview: "Impostazioni per l'elenco generale dei progetti"
     user:
       default_preferences: "Preferenze predefinite"
-      display_format: "Display format"
+      display_format: "Formato di visualizzazione"
       deletion: "Eliminazione"
     highlighting:
       mode_long:
@@ -2987,7 +2987,7 @@ it:
       code_409: "Impossibile aggiornare la risorsa a causa di modifiche in conflitto."
       code_429: "Troppe richieste. Sei pregato di riprovare più tardi."
       code_500: "Si è verificato un errore interno."
-      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
+      code_500_outbound_request_failure: "Una richiesta in uscita a un'altra risorsa è fallita con codice di stato %{status_code}."
       not_found:
         work_package: "La macro-attività che stai cercando non può essere trovata o è stata eliminata."
       expected:
