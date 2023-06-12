@@ -50,6 +50,7 @@ class Journal < ApplicationRecord
   register_journal_formatter :time_entry_hours, OpenProject::JournalFormatter::TimeEntryHours
   register_journal_formatter :wiki_diff, OpenProject::JournalFormatter::WikiDiff
   register_journal_formatter :time_entry_named_association, OpenProject::JournalFormatter::TimeEntryNamedAssociation
+  register_journal_formatter :cause, OpenProject::JournalFormatter::Cause
 
   # Attributes related to the cause are stored in a JSONB column so we can easily add new relations and related
   # attributes without a heavy database migration. Fields will be prefixed with `cause_` but are stored in the JSONB
