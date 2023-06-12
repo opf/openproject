@@ -123,8 +123,7 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
 
           project_ids = JSON.parse(generated).dig('_links', 'prepareUpload').map { _1.dig('payload', 'projectId') }
           expect(project_ids)
-            .to match_array([project_linked_with_upload_permission.id,
-                             another_project_linked_with_upload_permission.id])
+            .to contain_exactly(project_linked_with_upload_permission.id, another_project_linked_with_upload_permission.id)
         end
         # rubocop:enable RSpec/ExampleLength
       end
@@ -219,6 +218,12 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
     end
 
     describe 'Automatically managed project folders' do
+      shared_examples 'protects applicationPassword' do
+        it 'does not render the applicationPassword' do
+          expect(generated).not_to have_json_path('applicationPassword')
+        end
+      end
+
       context 'with automatic project folder management enabled' do
         let(:storage) do
           build_stubbed(:storage, :as_automatically_managed, oauth_application:, oauth_client: oauth_client_credentials)
@@ -227,6 +232,8 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
         it_behaves_like 'property', :hasApplicationPassword do
           let(:value) { true }
         end
+
+        it_behaves_like 'protects applicationPassword'
       end
 
       context 'with automatic project folder management disabled' do
@@ -237,6 +244,8 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
         it_behaves_like 'property', :hasApplicationPassword do
           let(:value) { false }
         end
+
+        it_behaves_like 'protects applicationPassword'
       end
 
       context 'when automatic project folder management is not configured' do
@@ -247,6 +256,8 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
         it 'does not include the property hasApplicationPassword' do
           expect(generated).not_to have_json_path('hasApplicationPassword')
         end
+
+        it_behaves_like 'protects applicationPassword'
       end
     end
   end
