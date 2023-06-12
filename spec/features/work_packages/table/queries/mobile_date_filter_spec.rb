@@ -61,6 +61,8 @@ RSpec.describe 'mobile date filter work packages', js: true do
       end_field.set Date.current.strftime('%m/%d/%Y')
 
       loading_indicator_saveguard
+
+      wp_cards.expect_work_package_count 1
       wp_cards.expect_work_package_listed work_package_with_due_date
       wp_cards.expect_work_package_not_listed work_package_without_due_date
 
@@ -86,6 +88,8 @@ RSpec.describe 'mobile date filter work packages', js: true do
       date_field.set Date.current.strftime('%m/%d/%Y')
 
       loading_indicator_saveguard
+
+      wp_cards.expect_work_package_count 1
       wp_cards.expect_work_package_listed work_package_with_due_date
       wp_cards.expect_work_package_not_listed work_package_without_due_date
 
