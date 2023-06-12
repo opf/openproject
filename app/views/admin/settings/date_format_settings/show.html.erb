@@ -52,6 +52,10 @@ See COPYRIGHT and LICENSE files for more details.
     </div>
 
     <div class="form--field">
+      <%= setting_select :start_of_week, [[day_name(1),'1'], [day_name(6),'6'], [day_name(7),'7']], blank: :label_language_based, container_class: '-wide' %>
+    </div>
+
+    <div class="form--field">
       <%= setting_select :first_week_of_year, [[day_name(1),'1'], [day_name(4),'4']], blank: :label_language_based,  container_class: '-wide' %>
       <span class="form--field-instructions">
         <%= t('settings.display.first_week_of_year_text') %>

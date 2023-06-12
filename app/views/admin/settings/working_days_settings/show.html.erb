@@ -51,10 +51,6 @@ See COPYRIGHT and LICENSE files for more details.
         <%= t("working_days.info").html_safe %>
       </p>
 
-      <div class="form--field">
-        <%= setting_select :start_of_week, [[day_name(1),'1'], [day_name(6),'6'], [day_name(7),'7']], blank: :label_language_based, container_class: '-wide' %>
-      </div>
-
       <div class="form--field op-working-days-admin-settings--day-selectors" id="setting_working_days">
         <%= setting_multiselect :working_days,
 
