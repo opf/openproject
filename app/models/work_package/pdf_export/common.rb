@@ -83,13 +83,13 @@ module WorkPackage::PDFExport::Common
     end
   end
 
-  def get_column_value(work_package, column)
-    formatter = formatter_for(column)
+  def get_column_value(work_package, column_name)
+    formatter = formatter_for(column_name)
     formatter.format(work_package)
   end
 
   def get_column_value_cell(work_package, column_name)
-    value = escape_tags(get_column_value(work_package, column_name))
+    value = get_column_value(work_package, column_name)
     return get_id_column_cell(work_package, value) if column_name == :id
     return get_subject_column_cell(work_package, value) if with_descriptions? && column_name == :subject
 
@@ -97,13 +97,17 @@ module WorkPackage::PDFExport::Common
   end
 
   def get_column_value_with_unit(value, column_name)
+    # TODO: shouldn't these be implemented by the formatters coming from ::Exports::Register.formatter_for ?
     case column_name
+    when :overall_costs, :labor_costs, :material_costs
+      v = value.to_f
+      v == 0 ? '' : number_to_currency(value.to_f)
     when :estimated_hours, :remaining_hours, :spent_hours
       insert_unit(value, I18n.t('export.units.hours'))
     when :duration
       insert_unit(value, I18n.t('export.units.days'))
     else
-      value
+      escape_tags(value)
     end
   end
 
@@ -124,7 +128,7 @@ module WorkPackage::PDFExport::Common
   end
 
   def get_subject_column_cell(work_package, value)
-    make_link_anchor(work_package.id, value)
+    make_link_anchor(work_package.id, escape_tags(value))
   end
 
   def make_link_href_cell(href, caption)
@@ -205,7 +209,7 @@ module WorkPackage::PDFExport::Common
   end
 
   def get_total_sums
-    query.results.all_total_sums || {}
+    query.display_sums? ? (query.results.all_total_sums || {}) : {}
   end
 
   def get_group_sums(group)
