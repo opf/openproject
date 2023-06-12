@@ -43,6 +43,10 @@ module WorkPackage::Exports
         "#{estimated_hours} #{derived_hours}"
       end
 
+      def format_value(value)
+        formatted_hours(value)
+      end
+
       private
 
       def formatted_hours(value)
