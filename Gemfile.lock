@@ -401,7 +401,7 @@ GEM
       representable (>= 3.1.1, < 4)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
-    doorkeeper (5.5.4)
+    doorkeeper (5.6.6)
       railties (>= 5)
     dotenv (2.8.1)
     dotenv-rails (2.8.1)
@@ -1013,7 +1013,7 @@ DEPENDENCIES
   delayed_cron_job (~> 0.9.0)
   delayed_job_active_record (~> 4.1.5)
   disposable (~> 0.6.2)
-  doorkeeper (~> 5.5.0)
+  doorkeeper (~> 5.6.6)
   dotenv-rails
   email_validator (~> 2.2.3)
   equivalent-xml (~> 0.6)
