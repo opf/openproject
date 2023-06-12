@@ -29,6 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% content_controller 'project-storage-form',
                       dynamic: true,
+                      'project-storage-form-folder-id-value': @project_storage.project_folder_id,
                       'project-storage-form-folder-mode-value': @project_storage.project_folder_mode,
                       'project-storage-form-placeholder-folder-name-value': t(:"storages.label_no_selected_folder"),
                       'project-storage-form-not-logged-in-validation-value': t(:"storages.instructions.not_logged_into_storage"),
@@ -88,18 +89,20 @@ See COPYRIGHT and LICENSE files for more details.
       <%= t(:"storages.instructions.no_specific_folder") %>
     </span>
 
-    <div class="form--field-container">
-      <%= f.label :project_folder_mode, class: "form--label-with-radio-button" do %>
-        <%= f.radio_button :project_folder_mode,
-                           'automatic',
-                           no_label: true,
-                           data: { action: 'project-storage-form#updateForm' } %>
-        <%= t(:"storages.label_automatic_folder") %>
-      <% end %>
-    </div>
-    <span class="form--field-instructions -xwide -with-bottom-spacing">
-      <%= t(:"storages.instructions.automatic_folder") %>
-    </span>
+    <% if OpenProject::FeatureDecisions.managed_project_folders_active? %>
+      <div class="form--field-container">
+        <%= f.label :project_folder_mode, class: "form--label-with-radio-button" do %>
+          <%= f.radio_button :project_folder_mode,
+                             'automatic',
+                             no_label: true,
+                             data: { action: 'project-storage-form#updateForm' } %>
+          <%= t(:"storages.label_automatic_folder") %>
+        <% end %>
+      </div>
+      <span class="form--field-instructions -xwide -with-bottom-spacing">
+        <%= t(:"storages.instructions.automatic_folder") %>
+      </span>
+    <% end %>
 
     <div class="form--field-container">
       <%= f.label :project_folder_mode, class: "form--label-with-radio-button" do %>

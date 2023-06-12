@@ -61,11 +61,14 @@ export default class ProjectStorageFormController extends Controller {
   ];
 
   static values = {
+    folderId: String,
     folderMode: String,
     placeholderFolderName: String,
     notLoggedInValidation: String,
     lastProjectFolders: Object,
   };
+
+  declare folderIdValue:string;
 
   declare folderModeValue:string;
 
@@ -137,6 +140,17 @@ export default class ProjectStorageFormController extends Controller {
 
   updateForm(evt:InputEvent):void {
     const mode = (evt.target as HTMLInputElement).value;
+
+    if (this.isCurrentProjectFolderMode(mode)) {
+      this.projectFolderIdInputTarget.value = this.folderIdValue;
+    } else {
+      this.updateFolderIdWithHistoricalData(mode);
+    }
+
+    this.toggleFolderDisplay(mode);
+  }
+
+  private updateFolderIdWithHistoricalData(mode:string):void {
     const { manual, automatic } = this.lastProjectFoldersValue;
 
     switch (mode) {
@@ -148,6 +162,7 @@ export default class ProjectStorageFormController extends Controller {
             ? this.placeholderFolderNameValue
             : projectFolder.name;
         });
+
         break;
       case 'automatic':
         this.projectFolderIdInputTarget.value = automatic ?? '';
@@ -155,12 +170,6 @@ export default class ProjectStorageFormController extends Controller {
       default:
         this.projectFolderIdInputTarget.value = '';
     }
-
-    if (!this.hasProjectFolderSectionTarget) {
-      return;
-    }
-
-    this.toggleFolderDisplay(mode);
   }
 
   private get modalService():Observable<OpModalService> {
@@ -180,6 +189,10 @@ export default class ProjectStorageFormController extends Controller {
     }
 
     return `${this.storage._links.self.href}/files/${projectFolderId}`;
+  }
+
+  private isCurrentProjectFolderMode(mode:string):boolean {
+    return this.folderModeValue === mode;
   }
 
   private fetchStorageAuthorizationState():Observable<boolean> {
@@ -211,7 +224,7 @@ export default class ProjectStorageFormController extends Controller {
 
   private toggleFolderDisplay(value:string):void {
     // If the manual radio button is selected, show the manual folder selection section
-    if (value === 'manual') {
+    if (this.hasProjectFolderSectionTarget && value === 'manual') {
       this.projectFolderSectionTarget.style.display = 'flex';
     } else {
       this.projectFolderSectionTarget.style.display = 'none';
