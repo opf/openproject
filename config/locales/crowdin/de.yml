@@ -1342,9 +1342,9 @@ de:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF mit Beschreibungen"
-      pdf_with_descriptions_and_attachments: "PDF mit Beschreibungen und Anhängen"
-      pdf_with_attachments: "PDF mit Anhängen"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Bild nicht exportiert."
   extraction:
@@ -1773,7 +1773,6 @@ de:
   label_password_rule_special: "Sonderzeichen"
   label_password_rule_uppercase: "Großbuchstaben"
   label_path_encoding: "Path encoding"
-  label_pdf_with_descriptions: "PDF mit Beschreibungen"
   label_per_page: "Pro Seite"
   label_people: "Personen"
   label_permissions: "Berechtigungen"
@@ -2499,6 +2498,7 @@ de:
   setting_enabled_scm: "Aktivierte Versionskontrollsysteme"
   setting_enabled_projects_columns: "In der Projektliste sichtbar"
   setting_feeds_enabled: "Feeds aktiviert"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Max. Anzahl Einträge pro Atom-Feed"
   setting_file_max_size_displayed: "Maximale Größe inline angezeigter Textdateien"
   setting_host_name: "Hostname"

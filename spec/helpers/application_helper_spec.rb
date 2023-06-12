@@ -220,8 +220,14 @@ RSpec.describe ApplicationHelper do
 
           duplicates: #{duplicate_options}
 
-        To fix it, inspect translation files located in "config/locales/generated/*.yml".
-        You can also try running the script "script/i18n/generate_languages_translations".
+        This happens when a new language is added to Crowdin: new translation files are
+        generated and the new language is available in Setting.all_languages, but there
+        is no translation for its name yet, and so it falls back to "English".
+
+        To fix it:
+          - run the script "script/i18n/generate_languages_translations"
+          - commit the additional translation file generated in
+            "config/locales/generated/*.yml".
       ERR
     end
   end

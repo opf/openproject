@@ -1346,9 +1346,9 @@ pt:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF com descrições"
-      pdf_with_descriptions_and_attachments: "PDF com descrições e anexos"
-      pdf_with_attachments: "PDF com anexos"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Imagem não exportada."
   extraction:
@@ -1777,7 +1777,6 @@ pt:
   label_password_rule_special: "Caracteres Especiais"
   label_password_rule_uppercase: "Letras maiúsculas"
   label_path_encoding: "Codificação"
-  label_pdf_with_descriptions: "PDF com descrições"
   label_per_page: "Por página"
   label_people: "Pessoas"
   label_permissions: "Permissões"
@@ -2501,6 +2500,7 @@ pt:
   setting_enabled_scm: "SCM habilitado"
   setting_enabled_projects_columns: "Visível na lista de projetos"
   setting_feeds_enabled: "Habilitar Feeds"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Limite de conteúdo de feed"
   setting_file_max_size_displayed: "Tamanho máximo de arquivos de texto exibidos em linha"
   setting_host_name: "Nome do servidor"

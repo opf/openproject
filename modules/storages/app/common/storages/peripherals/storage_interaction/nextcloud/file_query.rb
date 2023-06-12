@@ -102,6 +102,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
                                                  file_info_data.dav_permissions)
       ServiceResult.success(result: storage_file)
     end
+
     # rubocop:enable Metrics/AbcSize
 
     def location(files_path)
@@ -111,7 +112,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
       idx += prefix.length - 1
 
-      files_path[idx..]
+      Util.escape_path(files_path[idx..])
     end
   end
 end

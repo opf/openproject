@@ -228,9 +228,8 @@ module API
         def representation_formats
           formats = [
             representation_format_pdf,
-            representation_format_pdf_attachments,
-            representation_format_pdf_description,
-            representation_format_pdf_description_attachments,
+            representation_format_pdf_report_with_images,
+            representation_format_pdf_report,
             representation_format_xls,
             representation_format_xls_descriptions,
             representation_format_xls_relations,
@@ -263,30 +262,24 @@ module API
 
         def representation_format_pdf
           representation_format 'pdf',
+                                i18n_key: 'pdf_overview_table',
                                 mime_type: 'application/pdf'
         end
 
-        def representation_format_pdf_attachments
-          representation_format 'pdf',
-                                i18n_key: 'pdf_with_attachments',
-                                mime_type: 'application/pdf',
-                                url_query_extras: 'show_attachments=true'
-        end
-
-        def representation_format_pdf_description
+        def representation_format_pdf_report_with_images
           representation_format 'pdf-with-descriptions',
                                 format: 'pdf',
-                                i18n_key: 'pdf_with_descriptions',
+                                i18n_key: 'pdf_report_with_images',
                                 mime_type: 'application/pdf',
-                                url_query_extras: 'show_descriptions=true'
+                                url_query_extras: 'show_images=true&show_report=true'
         end
 
-        def representation_format_pdf_description_attachments
-          representation_format 'pdf-with-descriptions',
+        def representation_format_pdf_report
+          representation_format 'pdf-descr',
                                 format: 'pdf',
-                                i18n_key: 'pdf_with_descriptions_and_attachments',
+                                i18n_key: 'pdf_report',
                                 mime_type: 'application/pdf',
-                                url_query_extras: 'show_descriptions=true&show_attachments=true'
+                                url_query_extras: 'show_report=true'
         end
 
         def representation_format_xls

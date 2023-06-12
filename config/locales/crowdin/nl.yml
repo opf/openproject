@@ -1344,9 +1344,9 @@ nl:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF met beschrijvingen"
-      pdf_with_descriptions_and_attachments: "PDF met beschrijvingen en bijlagen"
-      pdf_with_attachments: "PDF met bijlagen"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Afbeelding niet geëxporteerd."
   extraction:
@@ -1775,7 +1775,6 @@ nl:
   label_password_rule_special: "Speciale tekens"
   label_password_rule_uppercase: "Hoofdletters"
   label_path_encoding: "Pad codering"
-  label_pdf_with_descriptions: "PDF met beschrijvingen"
   label_per_page: "Per pagina"
   label_people: "Mensen"
   label_permissions: "Machtigingen"
@@ -2500,6 +2499,7 @@ nl:
   setting_enabled_scm: "SCM Ingeschakeld"
   setting_enabled_projects_columns: "Zichtbaar in de projectlijst"
   setting_feeds_enabled: "Feeds inschakelen"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Feed inhoud limiet"
   setting_file_max_size_displayed: "Maximale grootte van tekstbestanden inline weergegeven"
   setting_host_name: "Hostnaam"
