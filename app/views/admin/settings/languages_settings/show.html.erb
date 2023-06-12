@@ -67,9 +67,3 @@ See COPYRIGHT and LICENSE files for more details.
 
   <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>
-
-<div style="float:right">
-  <%= link_to t(:label_force_user_language_to_default),
-              { controller: '/admin', action: 'force_user_language' },
-              method: :post %>
-</div>
