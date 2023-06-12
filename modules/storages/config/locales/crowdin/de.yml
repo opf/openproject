@@ -61,6 +61,7 @@ de:
       no_storage_set_up: "Es sind noch keine Dateispeicher eingerichtet."
       no_specific_folder: "Standardmäßig startet jeder Benutzer in seinem eigenen Home-Ordner, wenn er eine Datei hochlädt."
       empty_project_folder_validation: "Selecting a folder is mandatory to proceed."
+      not_logged_into_storage: "To select a project folder, please first login"
       existing_manual_folder: >
         Sie können einen existierenden Ordner als Hauptordner für dieses Projekt definieren. Die Berechtigungen werden jedoch nicht automatisch verwaltet, der Administrator muss manuell sicherstellen, dass relevante Benutzer Zugriff haben. Der ausgewählte Ordner kann von mehreren Projekten verwendet werden.
       setting_up_additional_storages: "Um zusätzliche Datei-Speicher einzurichten, besuchen Sie bitte"

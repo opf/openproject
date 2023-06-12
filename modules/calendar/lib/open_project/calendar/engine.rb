@@ -65,5 +65,11 @@ module OpenProject::Calendar
 
       Mime::Type.register('text/calendar', :ics)
     end
+
+    initializer 'calendar.configuration' do
+      ::Settings::Definition.add 'ical_enabled',
+                                 default: true,
+                                 format: :boolean
+    end
   end
 end

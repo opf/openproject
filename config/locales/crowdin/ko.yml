@@ -1327,9 +1327,9 @@ ko:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "설명이 첨부된 PDF"
-      pdf_with_descriptions_and_attachments: "PDF와 설명 및 첨부 파일"
-      pdf_with_attachments: "PDF와 첨부 파일"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "이미지를 내보내지 못했습니다."
   extraction:
@@ -1758,7 +1758,6 @@ ko:
   label_password_rule_special: "특수 문자"
   label_password_rule_uppercase: "대문자"
   label_path_encoding: "경로 인코딩"
-  label_pdf_with_descriptions: "설명이 포함된 PDF"
   label_per_page: "페이지당"
   label_people: "사용자"
   label_permissions: "권한"
@@ -2479,6 +2478,7 @@ ko:
   setting_enabled_scm: "활성화된 SCM"
   setting_enabled_projects_columns: "프로젝트 목록에 표시"
   setting_feeds_enabled: "피드 사용"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "피드 콘텐츠 제한"
   setting_file_max_size_displayed: "인라인에 표시되는 텍스트 파일의 최대 크기"
   setting_host_name: "호스트 이름"

@@ -1347,9 +1347,9 @@ fr:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF avec descriptions"
-      pdf_with_descriptions_and_attachments: "PDF avec descriptions et pièces jointes"
-      pdf_with_attachments: "PDF avec pièces jointes"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Image non exportée."
   extraction:
@@ -1778,7 +1778,6 @@ fr:
   label_password_rule_special: "Caractères spéciaux"
   label_password_rule_uppercase: "Majuscules"
   label_path_encoding: "Encodage du chemin d'accès"
-  label_pdf_with_descriptions: "PDF avec Descriptions"
   label_per_page: "Par page"
   label_people: "Participants"
   label_permissions: "Autorisations"
@@ -2504,6 +2503,7 @@ fr:
   setting_enabled_scm: "Permettre SCM"
   setting_enabled_projects_columns: "Visible dans la liste des projets"
   setting_feeds_enabled: "Permettre les flux"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Limite du contenu du flux"
   setting_file_max_size_displayed: "Taille maximale de l'affichage du fichers texte inline"
   setting_host_name: "Nom d'hôte"
