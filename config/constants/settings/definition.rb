@@ -730,8 +730,7 @@ module Settings
       registration_footer: {
         default: {
           'en' => ''
-        },
-        writable: false
+        }
       },
       remote_storage_upload_host: {
         format: :string,
