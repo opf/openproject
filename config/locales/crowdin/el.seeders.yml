@@ -4,7 +4,123 @@
 ---
 el:
   seeds:
+    common:
+      colors:
+        item_0:
+          name: Μπλε (σκούρο)
+        item_1:
+          name: Μπλε
+        item_2:
+          name: Μπλε (ανοιχτό)
+        item_3:
+          name: Πράσινο (ανοιχτό)
+        item_4:
+          name: Πράσινο (σκούρο)
+        item_5:
+          name: Κίτρινο
+        item_6:
+          name: Πορτοκαλί
+        item_7:
+          name: Κόκκινο
+        item_8:
+          name: Φούξια
+        item_9:
+          name: Λευκό
+        item_10:
+          name: Γκρι (ανοιχτό)
+        item_11:
+          name: Γκρι
+        item_12:
+          name: Γκρι (σκούρο)
+        item_13:
+          name: Μαύρο
+      document_categories:
+        item_0:
+          name: Τεκμηρίωση
+        item_1:
+          name: Προδιαγραφές
+        item_2:
+          name: Άλλο
+      roles:
+        item_0:
+          name: Μη μέλη
+        item_1:
+          name: Ανώνυμος
+        item_2:
+          name: Μέλος
+        item_3:
+          name: Αναγνώστης
+        item_4:
+          name: Διαχειριστής
+        item_5:
+          name: Προσωπικό και διαχειριστής έργων
     standard:
+      priorities:
+        item_0:
+          name: Χαμηλή
+        item_1:
+          name: Κανονική
+        item_2:
+          name: Υψηλή
+        item_3:
+          name: Άμεση
+      statuses:
+        item_0:
+          name: Νέο
+        item_1:
+          name: Στις προδιαγραφές
+        item_2:
+          name: Καθορισμένο
+        item_3:
+          name: Επιβεβαιωμένο
+        item_4:
+          name: Για να προγραμματιστεί
+        item_5:
+          name: Προγραμματισμένο
+        item_6:
+          name: Σε εξέλιξη
+        item_7:
+          name: Αναπτύχθηκε
+        item_8:
+          name: Στη δοκιμή
+        item_9:
+          name: Δοκιμασμένο
+        item_10:
+          name: Η δοκιμή απέτυχε
+        item_11:
+          name: Κλειστό
+        item_12:
+          name: Σε αναμονή
+        item_13:
+          name: Απορρίφθηκε
+      time_entry_activities:
+        item_0:
+          name: Διαχείριση
+        item_1:
+          name: Προδιαγραφές
+        item_2:
+          name: Ανάπτυξη
+        item_3:
+          name: Δοκιμή
+        item_4:
+          name: Υποστήριξη
+        item_5:
+          name: Άλλο
+      types:
+        item_0:
+          name: Εργασία
+        item_1:
+          name: Ορόσημο
+        item_2:
+          name: Φάση
+        item_3:
+          name: Λειτουργία
+        item_4:
+          name: Epic
+        item_5:
+          name: Ιστορία χρήστη
+        item_6:
+          name: Σφάλμα
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -45,7 +161,7 @@ el:
             kanban:
               name: Kanban board
             basic:
-              name: Basic board
+              name: Βασικός πίνακας
               lists:
                 item_0:
                   name: Wish list
@@ -54,7 +170,7 @@ el:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Ποτέ
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -64,7 +180,7 @@ el:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Ξεκινώντας
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -83,7 +199,7 @@ el:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Πακέτα εργασίας
               item_6:
                 options:
                   name: Milestones
@@ -195,7 +311,7 @@ el:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Backlog προϊόντος
             item_2:
               name: Sprint 1
             item_3:
@@ -204,7 +320,7 @@ el:
             kanban:
               name: Kanban board
             basic:
-              name: Task board
+              name: Πίνακας εργασιών
               lists:
                 item_0:
                   name: Wish list
@@ -213,7 +329,7 @@ el:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Ποτέ
           project-overview:
             widgets:
               item_0:
@@ -221,7 +337,7 @@ el:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Ξεκινώντας
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -241,7 +357,7 @@ el:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Πακέτα εργασίας
               item_6:
                 options:
                   name: Project plan

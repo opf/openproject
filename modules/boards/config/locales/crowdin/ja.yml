@@ -7,12 +7,12 @@ ja:
     label_board: "ボード"
     label_boards: "ボード"
     board_types:
-      free: Basic
-      action: "Action board (%{attribute})"
+      free: 基本
+      action: "アクションボード (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
-      status: Status
-      version: Version
-      subproject: Subproject
+      assignee: 担当者
+      status: ステータス
+      version: バージョン
+      subproject: 子プロジェクト
       subtasks: Parent-child
-      basic: Basic
+      basic: 基本

@@ -41,7 +41,7 @@ da:
       material_budget_item: "Enhed"
   activity:
     filter:
-      budget: "Budgets"
+      budget: "Budgetter"
   attributes:
     budget: "Budget"
   button_add_budget_item: "Tilføj planlagte omkostninger"

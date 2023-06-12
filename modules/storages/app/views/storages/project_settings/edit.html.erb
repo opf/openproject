@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= labelled_tabular_form_for @project_storage, url: project_settings_projects_storage_path(project_id: @project_storage.project, id: @project_storage) do |f| -%>
   <section class="form--section">
-    <%= render partial: '/storages/project_settings/form',
+    <%= render partial: '/storages/project_settings/project_folder_form',
                locals: { f: f, available_storages: @available_storages, submit_button_label: t('button_save') }
     %>
   </section>

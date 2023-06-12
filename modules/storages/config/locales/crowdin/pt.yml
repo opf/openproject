@@ -61,6 +61,7 @@ pt:
       no_storage_set_up: "Ainda não há armazenamento de arquivos configurado."
       no_specific_folder: "Por padrão, cada usuário iniciará em sua própria pasta pessoal quando fizer upload de um arquivo."
       empty_project_folder_validation: "Selecting a folder is mandatory to proceed."
+      not_logged_into_storage: "To select a project folder, please first login"
       existing_manual_folder: >
         Você pode designar uma pasta existente como a pasta raiz desse projeto. No entanto, as permissões não são gerenciadas automaticamente; o administrador precisa garantir manualmente que os usuários relevantes tenham acesso. A pasta selecionada pode ser usada por vários projetos.
       setting_up_additional_storages: "Para configurar armazenamentos de arquivos adicionais, por favor visite"

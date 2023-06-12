@@ -39,7 +39,7 @@ zh-TW:
       meeting_minutes: "會議記錄"
   activity:
     filter:
-      meeting: "Meetings"
+      meeting: "會議"
   description_attended: "出席人員"
   description_invite: "已邀請"
   events:
@@ -67,7 +67,7 @@ zh-TW:
   label_time_zone: "時區"
   label_start_date: "開始日期"
   meeting:
-    copied: "Copied from Meeting #%{id}"
+    copied: "從會議紀錄 #%{id} 中複製"
   notice_successful_notification: "通知傳送成功"
   notice_timezone_missing: 沒有設定時區，預設時區為 %{zone} 。請按這裡選擇您的時區。
   permission_create_meetings: "建立會議"
@@ -80,13 +80,13 @@ zh-TW:
   permission_create_meeting_minutes: "管理會議記錄"
   permission_send_meeting_minutes_notification: "傳送會議記錄審閱通知"
   permission_meetings_send_invite: "邀請使用者加入會議"
-  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
+  permission_send_meeting_agendas_icalendar: "將議題大綱傳至行事曆"
   project_module_meetings: "會議"
   text_duration_in_hours: "持續時間 (小時)"
   text_in_hours: "在一小時內"
   text_meeting_agenda_for_meeting: '%{meeting} 的會議大綱'
   text_meeting_closing_are_you_sure: "Are you sure you want to close the agenda?"
-  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
+  text_meeting_agenda_open_are_you_sure: "將會覆蓋所有會議紀錄中的變動！您希望繼續嗎？"
   text_meeting_minutes_for_meeting: '%{meeting} 的會議記錄'
   text_review_meeting_agenda: "%{author} 已經放上 %{link} 來審閱"
   text_review_meeting_minutes: "%{author} 已經放上 %{link} 來審閱"

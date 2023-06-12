@@ -485,15 +485,15 @@ pt:
           true: "público"
           false: "privado"
         queries: "Consultas"
-        status_code: 'Project status'
+        status_code: 'Situação do projeto'
         status_explanation: 'Project status description'
         status_codes:
-          not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          not_started: 'Não iniciado'
+          on_track: 'Sob controle'
+          at_risk: 'Em risco'
+          off_track: 'Fora de controle'
+          finished: 'Finalizado'
+          discontinued: 'Descontinuado'
         templated: "Projeto modelo"
         templated_value:
           true: "marcado como modelo"
@@ -933,7 +933,7 @@ pt:
       time_entry:
         hour:
           one: "%{count} hour"
-          other: "%{count} hours"
+          other: "%{count} horas"
         hour_html:
           one: "<i>%{count} hour</i>"
           other: "<i>%{count} hours</i>"
@@ -1184,7 +1184,7 @@ pt:
       - "Outubro"
       - "Novembro"
       - "Dezembro"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - :ano
       - ':mês'
@@ -1229,61 +1229,6 @@ pt:
       hour:
         one: "hora"
         other: "hora"
-  default_activity_development: "Desenvolvimento"
-  default_activity_management: "Gerenciamento"
-  default_activity_other: "Outro"
-  default_activity_specification: "Especificação"
-  default_activity_support: "Suporte"
-  default_activity_testing: "Testando"
-  default_color_black: "Preto"
-  default_color_blue: "Azul"
-  default_color_blue_dark: "Azul (escuro)"
-  default_color_blue_light: "Azul (claro)"
-  default_color_green_dark: "Verde (escuro)"
-  default_color_green_light: "Verde (claro)"
-  default_color_grey_dark: "Cinza (escuro)"
-  default_color_grey_light: "Cinza (claro)"
-  default_color_grey: "Cinza"
-  default_color_magenta: "Magenta"
-  default_color_orange: "Laranja"
-  default_color_red: "Vermelho"
-  default_color_white: "Branco"
-  default_color_yellow: "Amarelo"
-  default_status_closed: "Fechado"
-  default_status_confirmed: "Confirmado"
-  default_status_developed: "Desenvolvido"
-  default_status_in_development: "Em desenvolvimento"
-  default_status_in_progress: "Em andamento"
-  default_status_in_specification: "Em especificação"
-  default_status_in_testing: "Em testes"
-  default_status_new: "Novo"
-  default_status_on_hold: "Em espera"
-  default_status_rejected: "Rejeitado"
-  default_status_scheduled: "Planejado"
-  default_status_specified: "Especificado"
-  default_status_tested: "Testado"
-  default_status_test_failed: "Falha no teste"
-  default_status_to_be_scheduled: "A ser planejado"
-  default_priority_low: "Baixa"
-  default_priority_normal: "Normal"
-  default_priority_high: "Alta"
-  default_priority_immediate: "Imediata"
-  default_role_anonymous: "Anônimo"
-  default_role_developer: "Desenvolvedor"
-  default_role_project_admin: "Administrador do projeto"
-  default_role_project_creator_and_staff_manager: "Equipe e gerente de projetos"
-  default_role_non_member: "Não membro"
-  default_role_reader: "Leitor"
-  default_role_member: "Membro"
-  default_type: "Pacote de trabalho"
-  default_type_bug: "Bug"
-  default_type_deliverable: "Entregável"
-  default_type_epic: "Épico"
-  default_type_feature: "Funcionalidade"
-  default_type_milestone: "Marco"
-  default_type_phase: "Fase"
-  default_type_task: "Tarefa"
-  default_type_user_story: "História de usuário"
   description_active: "Ativo?"
   description_attachment_toggle: "Mostrar/Ocultar anexos"
   description_autocomplete: >
@@ -1401,9 +1346,9 @@ pt:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF com descrições"
-      pdf_with_descriptions_and_attachments: "PDF com descrições e anexos"
-      pdf_with_attachments: "PDF com anexos"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Imagem não exportada."
   extraction:
@@ -1530,7 +1475,7 @@ pt:
   label_ical_access_key_not_present: "iCalendar token(s) not present."
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
-  label_ical_access_key_revoke: "Revoke"
+  label_ical_access_key_revoke: "Revogar"
   label_applied_status: "Situação aplicada"
   label_archive_project: "Arquivar projeto"
   label_ascending: "Ascendente"
@@ -1832,7 +1777,6 @@ pt:
   label_password_rule_special: "Caracteres Especiais"
   label_password_rule_uppercase: "Letras maiúsculas"
   label_path_encoding: "Codificação"
-  label_pdf_with_descriptions: "PDF com descrições"
   label_per_page: "Por página"
   label_people: "Pessoas"
   label_permissions: "Permissões"
@@ -2556,6 +2500,7 @@ pt:
   setting_enabled_scm: "SCM habilitado"
   setting_enabled_projects_columns: "Visível na lista de projetos"
   setting_feeds_enabled: "Habilitar Feeds"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Limite de conteúdo de feed"
   setting_file_max_size_displayed: "Tamanho máximo de arquivos de texto exibidos em linha"
   setting_host_name: "Nome do servidor"

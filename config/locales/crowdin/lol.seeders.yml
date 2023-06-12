@@ -4,7 +4,123 @@
 ---
 lol:
   seeds:
+    common:
+      colors:
+        item_0:
+          name: crwdns854601:0crwdne854601:0
+        item_1:
+          name: crwdns854603:0crwdne854603:0
+        item_2:
+          name: crwdns854605:0crwdne854605:0
+        item_3:
+          name: crwdns854607:0crwdne854607:0
+        item_4:
+          name: crwdns854609:0crwdne854609:0
+        item_5:
+          name: crwdns854611:0crwdne854611:0
+        item_6:
+          name: crwdns854613:0crwdne854613:0
+        item_7:
+          name: crwdns854615:0crwdne854615:0
+        item_8:
+          name: crwdns854617:0crwdne854617:0
+        item_9:
+          name: crwdns854619:0crwdne854619:0
+        item_10:
+          name: crwdns854621:0crwdne854621:0
+        item_11:
+          name: crwdns854623:0crwdne854623:0
+        item_12:
+          name: crwdns854625:0crwdne854625:0
+        item_13:
+          name: crwdns854627:0crwdne854627:0
+      document_categories:
+        item_0:
+          name: crwdns854629:0crwdne854629:0
+        item_1:
+          name: crwdns854631:0crwdne854631:0
+        item_2:
+          name: crwdns854633:0crwdne854633:0
+      roles:
+        item_0:
+          name: crwdns854635:0crwdne854635:0
+        item_1:
+          name: crwdns854637:0crwdne854637:0
+        item_2:
+          name: crwdns854639:0crwdne854639:0
+        item_3:
+          name: crwdns854641:0crwdne854641:0
+        item_4:
+          name: crwdns854643:0crwdne854643:0
+        item_5:
+          name: crwdns854645:0crwdne854645:0
     standard:
+      priorities:
+        item_0:
+          name: crwdns854647:0crwdne854647:0
+        item_1:
+          name: crwdns854649:0crwdne854649:0
+        item_2:
+          name: crwdns854651:0crwdne854651:0
+        item_3:
+          name: crwdns854653:0crwdne854653:0
+      statuses:
+        item_0:
+          name: crwdns854655:0crwdne854655:0
+        item_1:
+          name: crwdns854657:0crwdne854657:0
+        item_2:
+          name: crwdns854659:0crwdne854659:0
+        item_3:
+          name: crwdns854661:0crwdne854661:0
+        item_4:
+          name: crwdns854663:0crwdne854663:0
+        item_5:
+          name: crwdns854665:0crwdne854665:0
+        item_6:
+          name: crwdns854667:0crwdne854667:0
+        item_7:
+          name: crwdns854669:0crwdne854669:0
+        item_8:
+          name: crwdns854671:0crwdne854671:0
+        item_9:
+          name: crwdns854673:0crwdne854673:0
+        item_10:
+          name: crwdns854675:0crwdne854675:0
+        item_11:
+          name: crwdns854677:0crwdne854677:0
+        item_12:
+          name: crwdns854679:0crwdne854679:0
+        item_13:
+          name: crwdns854681:0crwdne854681:0
+      time_entry_activities:
+        item_0:
+          name: crwdns854683:0crwdne854683:0
+        item_1:
+          name: crwdns854685:0crwdne854685:0
+        item_2:
+          name: crwdns854687:0crwdne854687:0
+        item_3:
+          name: crwdns854689:0crwdne854689:0
+        item_4:
+          name: crwdns854691:0crwdne854691:0
+        item_5:
+          name: crwdns854693:0crwdne854693:0
+      types:
+        item_0:
+          name: crwdns854695:0crwdne854695:0
+        item_1:
+          name: crwdns854697:0crwdne854697:0
+        item_2:
+          name: crwdns854699:0crwdne854699:0
+        item_3:
+          name: crwdns854701:0crwdne854701:0
+        item_4:
+          name: crwdns854703:0crwdne854703:0
+        item_5:
+          name: crwdns854705:0crwdne854705:0
+        item_6:
+          name: crwdns854707:0crwdne854707:0
       welcome:
         title: crwdns852627:0crwdne852627:0
         text: |

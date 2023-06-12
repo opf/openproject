@@ -130,6 +130,7 @@ export function bootstrapModule(injector:Injector):void {
     DragDropModule,
     DragulaModule,
     CurrentUserModule,
+    FormsModule,
     NgSelectModule,
     NgOptionHighlightModule,
 
@@ -156,7 +157,7 @@ export function bootstrapModule(injector:Injector):void {
     A11yModule,
     IconModule,
     AttributeHelpTextModule,
-    NgSelectModule,
+    FormsModule,
     NgOptionHighlightModule,
     DynamicBootstrapModule,
     OpenprojectPrincipalRenderingModule,

@@ -26,40 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
----
-Worldlabel WL-175:
-  across: 1
-  inner_margin: 0.0625in
-  vertical_pitch: 0pt
-  down: 1
-  papersize: Letter
-  top_margin: 0pt
-  horizontal_pitch: 0pt
-  height: 11.in
-  source: glabel
-  width: 8.5in
-  left_margin: 0pt
-PEARL VM-6252:
-  across: 1
-  inner_margin: 3.2mm
-  vertical_pitch: 297mm
-  down: 1
-  papersize: A4
-  top_margin: 0mm
-  horizontal_pitch: 0mm
-  height: 297mm
-  source: glabel
-  width: 210mm
-  left_margin: 0mm
-Avery 8165:
-  across: 1
-  inner_margin: 0.0625in
-  vertical_pitch: 0pt
-  down: 1
-  papersize: Letter
-  top_margin: 0pt
-  horizontal_pitch: 0pt
-  height: 11.in
-  source: glabel
-  width: 8.5in
-  left_margin: 0pt
+module StorageLoginHelper
+  def storage_login_input(storage)
+    return {} if storage&.oauth_client.blank?
+
+    connection_manager = ::OAuthClients::ConnectionManager.new(user: current_user, oauth_client: storage.oauth_client)
+
+    {
+      storageType: API::V3::Storages::STORAGE_TYPE_URN_MAP[storage.provider_type],
+      authorizationLink: {
+        href: connection_manager.get_authorization_uri
+      }
+    }
+  end
+end

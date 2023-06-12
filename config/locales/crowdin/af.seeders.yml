@@ -4,7 +4,123 @@
 ---
 af:
   seeds:
+    common:
+      colors:
+        item_0:
+          name: Blou (donker)
+        item_1:
+          name: Blou
+        item_2:
+          name: Blou (lig)
+        item_3:
+          name: Groen (lig)
+        item_4:
+          name: Groen (donker)
+        item_5:
+          name: Geel
+        item_6:
+          name: Oranje
+        item_7:
+          name: Rooi
+        item_8:
+          name: Purperrooi
+        item_9:
+          name: Wit
+        item_10:
+          name: Grys (lig)
+        item_11:
+          name: Grys
+        item_12:
+          name: Grys (donker)
+        item_13:
+          name: Swart
+      document_categories:
+        item_0:
+          name: Dokumentasie
+        item_1:
+          name: Spesifikasie
+        item_2:
+          name: Ander
+      roles:
+        item_0:
+          name: Nie-lid
+        item_1:
+          name: Anoniem
+        item_2:
+          name: Lid
+        item_3:
+          name: Leser
+        item_4:
+          name: Projek admin
+        item_5:
+          name: Staff and projects manager
     standard:
+      priorities:
+        item_0:
+          name: Laag
+        item_1:
+          name: Normaal
+        item_2:
+          name: Hoog
+        item_3:
+          name: Onmiddellik
+      statuses:
+        item_0:
+          name: Nuut
+        item_1:
+          name: In spesifikasie
+        item_2:
+          name: Gespesifiseer
+        item_3:
+          name: Bevestig
+        item_4:
+          name: Om geskeduleer word
+        item_5:
+          name: Geskeduleer
+        item_6:
+          name: In-vordering
+        item_7:
+          name: Reeds ontwikkel
+        item_8:
+          name: In toetsfase
+        item_9:
+          name: Getoets
+        item_10:
+          name: Toets het misluk
+        item_11:
+          name: Gesluit
+        item_12:
+          name: Uitgestel
+        item_13:
+          name: Verwerp
+      time_entry_activities:
+        item_0:
+          name: Bestuur
+        item_1:
+          name: Spesifikasie
+        item_2:
+          name: Ontwikkeling
+        item_3:
+          name: Toetse
+        item_4:
+          name: Ondersteuning
+        item_5:
+          name: Ander
+      types:
+        item_0:
+          name: Taak
+        item_1:
+          name: Mylpaal
+        item_2:
+          name: Fase
+        item_3:
+          name: Funksie
+        item_4:
+          name: Epies
+        item_5:
+          name: Gebruiker storie
+        item_6:
+          name: Gogga
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -64,7 +180,7 @@ af:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Om te begin
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -83,7 +199,7 @@ af:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Werkspakkete
               item_6:
                 options:
                   name: Milestones
@@ -221,7 +337,7 @@ af:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Om te begin
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -241,7 +357,7 @@ af:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Werkspakkete
               item_6:
                 options:
                   name: Project plan

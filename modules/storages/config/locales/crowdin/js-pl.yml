@@ -15,7 +15,7 @@ pl:
       choose_location: "Wybierz lokalizację"
       types:
         nextcloud: "Nextcloud"
-        default: "Storage"
+        default: "Magazyn"
       information:
         connection_error: >
           Niektóre ustawienia %{storageType} nie działają. Skontaktuj się z administratorem %{storageType}.

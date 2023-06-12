@@ -33,33 +33,60 @@ module BasicData
         BasicData::TypeSeeder
       ]
 
+      BACKLOGS_SETTINGS_KEYS = %w[
+        story_types
+        task_type
+        points_burn_direction
+        wiki_template
+      ].freeze
+
       def seed_data!
-        backlogs_init_setting!
+        configure_backlogs_settings
       end
 
       def applicable?
         not backlogs_configured?
       end
 
-      def backlogs_init_setting!
-        Setting.plugin_openproject_backlogs = backlogs_setting_value
+      private
+
+      def configure_backlogs_settings
+        Setting.plugin_openproject_backlogs = current_backlogs_settings.merge(missing_backlogs_settings)
       end
 
       def backlogs_configured?
-        backlogs_setting = Hash(Setting.plugin_openproject_backlogs)
-        backlogs_setting['story_types'].present? && backlogs_setting['task_type'].present?
+        BACKLOGS_SETTINGS_KEYS.all? { configured?(_1) }
       end
 
-      def backlogs_setting_value
-        {
-          "story_types" => backlogs_types.map(&:id),
-          "task_type" => backlogs_task_type.try(:id),
-          "points_burn_direction" => "up",
-          "wiki_template" => ""
-        }
+      def configured?(key)
+        current_backlogs_settings[key] != nil
       end
 
-      def backlogs_types
+      def current_backlogs_settings
+        Hash(Setting.plugin_openproject_backlogs)
+      end
+
+      def missing_backlogs_settings
+        BACKLOGS_SETTINGS_KEYS
+          .reject { |key| configured?(key) }
+          .index_with { |key| setting_value(key) }
+          .compact
+      end
+
+      def setting_value(setting_key)
+        case setting_key
+        when "story_types"
+          backlogs_story_types.map(&:id)
+        when "task_type"
+          backlogs_task_type.try(:id)
+        when "points_burn_direction"
+          "up"
+        when "wiki_template"
+          ""
+        end
+      end
+
+      def backlogs_story_types
         type_references = %i[
           default_type_feature
           default_type_epic
@@ -70,7 +97,7 @@ module BasicData
       end
 
       def backlogs_task_type
-        seed_data.find_reference(:default_type_task)
+        seed_data.find_reference(:default_type_task, default: nil)
       end
     end
   end

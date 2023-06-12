@@ -52,7 +52,7 @@ zh-TW:
         action_text_version: >
           Board with automated columns based on the version attribute. Ideal for planning product development.
         action_type:
-          assignee: assignee
+          assignee: 負責執行者
           status: 狀態
           version: 版本
           subproject: 子專案

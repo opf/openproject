@@ -133,6 +133,19 @@ RSpec.describe Calendar::ICalController do
       it_behaves_like 'success'
     end
 
+    context 'with valid params and permissions when targeting own query when globally disabled',
+            with_settings: { ical_enabled: false } do
+      before do
+        get :show, params: {
+          project_id: project.id,
+          id: query.id,
+          ical_token: valid_ical_token_value
+        }
+      end
+
+      it_behaves_like 'failure'
+    end
+
     context 'with valid params and permissions when targeting own query with login required set to `true`',
             with_settings: { login_required: true } do
       before do
@@ -171,6 +184,34 @@ RSpec.describe Calendar::ICalController do
       end
 
       it_behaves_like 'success'
+    end
+
+    context 'with valid params and permissions when targeting a public query of somebody else',
+            with_settings: { ical_enabled: false } do
+      let(:user2) do
+        create(:user,
+               member_in_project: project,
+               member_with_permissions: sufficient_permissions)
+      end
+      let(:query2) do
+        create(:query,
+               project:,
+               user: user2,
+               public: true)
+      end
+      let(:valid_ical_token_value) do
+        Token::ICal.create_and_return_value(user, query2, "Some Token Name")
+      end
+
+      before do
+        get :show, params: {
+          project_id: project.id,
+          id: query2.id,
+          ical_token: valid_ical_token_value
+        }
+      end
+
+      it_behaves_like 'failure'
     end
 
     context 'with valid params and permissions when targeting a public query of somebody else with login required set to `true`',
@@ -301,6 +342,20 @@ RSpec.describe Calendar::ICalController do
       # TODO: the project id is actually irrelevant - the query id is enough
       # should the project id still be used in the ical url anyways?
       it_behaves_like 'success'
+    end
+
+    context 'with invalid project', with_settings: { ical_enabled: false } do
+      before do
+        get :show, params: {
+          project_id: SecureRandom.hex,
+          id: query.id,
+          ical_token: valid_ical_token_value
+        }
+      end
+
+      # TODO: the project id is actually irrelevant - the query id is enough
+      # should the project id still be used in the ical url anyways?
+      it_behaves_like 'failure'
     end
   end
 end

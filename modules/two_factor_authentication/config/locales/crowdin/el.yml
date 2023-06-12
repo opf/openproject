@@ -71,7 +71,7 @@ el:
       text_2fa_enabled: 'Upon every login, this user will be requested to enter a OTP token from their default 2FA device.'
       text_2fa_disabled: "The user did not set up a 2FA device through their 'My account page'"
     upsale:
-      title: 'Two-factor authentication'
+      title: 'Ταυτοποίηση δύο παραγόντων'
       description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
     backup_codes:
       none_found: Δεν υπάρχουν κωδικοί αντιγράφων ασφαλείας για αυτό τον λογαριασμό.

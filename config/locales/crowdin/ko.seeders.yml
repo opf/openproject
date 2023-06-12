@@ -4,7 +4,123 @@
 ---
 ko:
   seeds:
+    common:
+      colors:
+        item_0:
+          name: 파란색(진함)
+        item_1:
+          name: 파란색
+        item_2:
+          name: 파란색(밝음)
+        item_3:
+          name: 녹색(밝음)
+        item_4:
+          name: 녹색(진함)
+        item_5:
+          name: 노란색
+        item_6:
+          name: 주황색
+        item_7:
+          name: 빨강
+        item_8:
+          name: 심홍색
+        item_9:
+          name: 흰색
+        item_10:
+          name: 회색(밝음)
+        item_11:
+          name: 회색
+        item_12:
+          name: 회색(진함)
+        item_13:
+          name: 검은색
+      document_categories:
+        item_0:
+          name: 설명서
+        item_1:
+          name: 사양
+        item_2:
+          name: 기타
+      roles:
+        item_0:
+          name: 멤버 없음
+        item_1:
+          name: 익명
+        item_2:
+          name: 멤버
+        item_3:
+          name: 참관자
+        item_4:
+          name: 프로젝트 관리자
+        item_5:
+          name: 스태프 및 프로젝트 관리자
     standard:
+      priorities:
+        item_0:
+          name: 낮음
+        item_1:
+          name: 보통
+        item_2:
+          name: 높음
+        item_3:
+          name: 즉시
+      statuses:
+        item_0:
+          name: 새로 만들기
+        item_1:
+          name: 사양 내
+        item_2:
+          name: 지정됨
+        item_3:
+          name: 확인됨
+        item_4:
+          name: 계획 예정
+        item_5:
+          name: 예약됨
+        item_6:
+          name: 진행 중
+        item_7:
+          name: 개발됨
+        item_8:
+          name: 테스트 중
+        item_9:
+          name: 테스트됨
+        item_10:
+          name: 테스트 실패
+        item_11:
+          name: 닫음
+        item_12:
+          name: 보류 중
+        item_13:
+          name: 거부됨
+      time_entry_activities:
+        item_0:
+          name: 관리
+        item_1:
+          name: 사양
+        item_2:
+          name: 개발
+        item_3:
+          name: 테스팅
+        item_4:
+          name: 지원
+        item_5:
+          name: 기타
+      types:
+        item_0:
+          name: 일감
+        item_1:
+          name: 마일스톤
+        item_2:
+          name: 단계
+        item_3:
+          name: 기능
+        item_4:
+          name: 에픽
+        item_5:
+          name: 사용자 이야기
+        item_6:
+          name: 버그
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -40,12 +156,12 @@ ko:
             item_2:
               name: Tasks
             item_3:
-              name: Team planner
+              name: 팀 플래너
           boards:
             kanban:
               name: Kanban board
             basic:
-              name: Basic board
+              name: 기본 보드
               lists:
                 item_0:
                   name: Wish list
@@ -54,7 +170,7 @@ ko:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: 사용 안 함
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -64,7 +180,7 @@ ko:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: 시작하기
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -83,7 +199,7 @@ ko:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: 작업 패키지
               item_6:
                 options:
                   name: Milestones
@@ -195,7 +311,7 @@ ko:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: 제품 백로그
             item_2:
               name: Sprint 1
             item_3:
@@ -204,7 +320,7 @@ ko:
             kanban:
               name: Kanban board
             basic:
-              name: Task board
+              name: 작업 보드
               lists:
                 item_0:
                   name: Wish list
@@ -213,7 +329,7 @@ ko:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: 사용 안 함
           project-overview:
             widgets:
               item_0:
@@ -221,7 +337,7 @@ ko:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: 시작하기
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -241,7 +357,7 @@ ko:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: 작업 패키지
               item_6:
                 options:
                   name: Project plan
