@@ -168,7 +168,14 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   end
 
   def set_default_status
+    remove_status_if_invalid
     work_package.status ||= Status.default
+  end
+
+  def remove_status_if_invalid
+    if work_package.type && !work_package.type.statuses.exists?(model.status_id)
+      work_package.status = nil
+    end
   end
 
   def set_default_priority
