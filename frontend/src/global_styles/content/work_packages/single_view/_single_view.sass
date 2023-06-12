@@ -26,6 +26,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+@import "src/app/spot/styles/tokens/dist/tokens"
+
 @mixin details-pane--form-field
   @include grid-visible-overflow
   padding: 0
@@ -99,11 +101,11 @@ i
 // -------------------- Attribute groups --------------------
 // Special styling for project context area
 .attributes-group.-project-context
-  background: rgba(227, 245, 255, 0.3)
-  border-radius: 5px
-  padding: 10px 10px 0 10px
+  background: $spot-color-feedback-info-light
+  border-radius: 2px
+  padding: 10px
   margin: 10px 0 0 0
-  border: 1px solid rgb(227, 245, 255)
+  border: 1px solid $spot-color-feedback-info-dark
 
 // Avoid top border and spacing for special projects/select attribute group
 .attributes-group.-special-fields
