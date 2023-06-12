@@ -45,7 +45,7 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
 </div>
 
-<% Setting.available_languages.each do |lang| %>
+<% Redmine::I18n.valid_languages.each do |lang| %>
   <%=
     hidden_field_tag(
       "settings[#{name}][#{lang}]",
