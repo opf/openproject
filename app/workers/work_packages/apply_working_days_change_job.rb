@@ -36,7 +36,7 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
     User.execute_as user do
       wd_update = Journal::WorkingDayUpdate.new(
         working_days: changed_days(previous_working_days),
-        non_working_days: changed_non_working_dates(previous_non_working_days)
+        non_working_days: changed_non_working_dates(previous_non_working_days).transform_keys(&:iso8601)
       )
 
       updated_work_package_ids = collect_id_for_each(applicable_work_package(previous_working_days,
@@ -54,8 +54,8 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
 
   def apply_change_to_work_package(user, work_package, changed_working_days)
     cause = {
-      type: "working_days_changed",
-      changed_days: changed_working_days.to_h
+      "type" => "working_days_changed",
+      "changed_days" => changed_working_days.to_h
     }
 
     WorkPackages::UpdateService

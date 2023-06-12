@@ -51,7 +51,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
       subject
 
       changed_work_packages.each do |work_package|
-        # expect(work_package.journals.count).to eq 2
+        expect(work_package.journals.count).to eq 2
         expect(work_package.journals.last.cause_type).to eq('working_days_changed')
         expect(work_package.journals.last.cause_changed_days).to eq(changed_days)
       end

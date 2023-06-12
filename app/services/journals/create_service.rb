@@ -634,7 +634,8 @@ module Journals
     end
 
     def same_cause?(predecessor, cause)
-      (predecessor.cause.blank? && cause.blank?) || predecessor.cause == cause
+      # TODO: change to a better solution that does not need deep_stringify_keys
+      (predecessor.cause.blank? && cause.blank?) || predecessor.cause == cause.deep_stringify_keys
     end
 
     def log_journal_creation(predecessor)

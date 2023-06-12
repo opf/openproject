@@ -197,15 +197,15 @@ class WorkPackages::SetScheduleService
     }
 
     work_package.journal_cause = {
-      type: type_mapping[relation],
-      work_package_id: initiated_by.id
+      "type" => type_mapping[relation],
+      "work_package_id" => initiated_by.id
     }
   end
 
   def assign_cause_initiated_by_changed_working_days(work_package)
     work_package.journal_cause = {
-      type: 'working_days_changed',
-      changed_days: initiated_by.to_h
+      "type" => 'working_days_changed',
+      "changed_days" => initiated_by.to_h
     }
   end
 end
