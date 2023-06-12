@@ -34,6 +34,10 @@ module Admin::Settings
 
     before_action :validate_start_of_week_year, only: :update
 
+    def update # rubocop:disable Lint/UselessMethodDefinition
+      super
+    end
+
     def default_breadcrumb
       t(:label_date_format)
     end
