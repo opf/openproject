@@ -85,17 +85,7 @@ module API::V3::Storages
              skip_render: ->(*) { true },
              getter: ->(*) {},
              setter: ->(fragment:, represented:, **) {
-               if fragment.present?
-                 nextcloud_provider_fields_defaults = Storages::Storage::PROVIDER_FIELDS_DEFAULTS_MAP[
-                   Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
-                 ]
-
-                 represented.automatically_managed = true
-                 represented.application_username = nextcloud_provider_fields_defaults[:application_username]
-                 represented.application_password = fragment
-               else
-                 represented.provider_fields = { automatically_managed: false }
-               end
+               represented.application_password = fragment.presence
              }
 
     property :hasApplicationPassword,

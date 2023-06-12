@@ -36,10 +36,31 @@ module Storages::Storages
       storage.name ||= derive_default_storage_name
     end
 
+    def set_default_provider_fields(_params)
+      set_nextcloud_application_credentials_defaults if storage.provider_type_nextcloud?
+    end
+
     private
+
+    def set_attributes(params)
+      super(params)
+      set_default_provider_fields(params)
+    end
 
     def remove_host_trailing_slashes
       storage.host = storage.host&.gsub(/\/+$/, '')
+    end
+
+    def set_nextcloud_application_credentials_defaults
+      if storage.application_password
+        storage.assign_attributes(automatically_managed: true,
+                                  application_username: storage.provider_fields_defaults[:application_username])
+      else
+        storage.automatically_managed = false
+        %w[application_username application_password].each do |field|
+          storage.provider_fields.delete(field)
+        end
+      end
     end
 
     def storage

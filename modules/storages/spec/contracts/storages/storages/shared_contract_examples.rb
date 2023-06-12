@@ -239,13 +239,22 @@ RSpec.shared_examples_for 'storage contract', :storage_server_helpers, webmock: 
       it_behaves_like 'contract is valid'
     end
 
-    context 'when not automatically managed' do
+    context 'when not automatically managed, no application username or password' do
       before do
         storage.provider_fields = {}
         storage.assign_attributes(automatically_managed: false)
       end
 
       it_behaves_like 'contract is valid'
+    end
+
+    context 'when not automatically managed, with application username and password' do
+      before do
+        storage.assign_attributes(automatically_managed: false, application_username: 'OpenProject',
+                                  application_password: 'Password')
+      end
+
+      it_behaves_like 'contract is invalid', application_username: :present, application_password: :present
     end
   end
 end

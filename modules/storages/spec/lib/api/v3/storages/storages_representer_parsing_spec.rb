@@ -66,9 +66,8 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'parsing' do
           )
         end
 
-        it 'is parsed as automatic folder management enabled' do
-          expect(parsed).to have_attributes(automatically_managed: true, application_username: 'OpenProject',
-                                            application_password: 'secret')
+        it 'is parsed correctly' do
+          expect(parsed).to have_attributes(application_password: 'secret')
         end
       end
 
@@ -80,8 +79,19 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'parsing' do
         end
 
         it 'is parsed as automatic folder management disabled' do
-          expect(parsed).to have_attributes(automatically_managed: false)
-          expect(parsed.attributes.keys).not_to include(:application_username, :application_password)
+          expect(parsed).to have_attributes(application_password: nil)
+        end
+      end
+
+      context 'with applicationPassword blank' do
+        let(:parsed_hash) do
+          super().merge(
+            "applicationPassword" => ''
+          )
+        end
+
+        it 'is parsed as automatic folder management disabled' do
+          expect(parsed).to have_attributes(application_password: nil)
         end
       end
     end

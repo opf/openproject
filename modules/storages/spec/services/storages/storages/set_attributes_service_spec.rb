@@ -147,4 +147,32 @@ RSpec.describe Storages::Storages::SetAttributesService, type: :model do
         .to eql(contract_errors)
     end
   end
+
+  describe 'automatically managed project folders' do
+    context 'with applicationPassword' do
+      let(:params) do
+        super().merge(
+          "application_password" => "secret"
+        )
+      end
+
+      it 'enables automatic folder management with application password' do
+        expect(subject.result).to have_attributes(automatically_managed: true, application_username: 'OpenProject',
+                                                  application_password: 'secret')
+      end
+    end
+
+    context 'with applicationPassword falsey' do
+      let(:params) do
+        super().merge(
+          "application_password" => nil
+        )
+      end
+
+      it 'disables automatic folder management' do
+        expect(subject.result).to have_attributes(automatically_managed: false)
+        expect(subject.result.attributes.keys).not_to include(:application_username, :application_password)
+      end
+    end
+  end
 end
