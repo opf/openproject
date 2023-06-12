@@ -26,47 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::NextcloudStorage < Storages::Storage
-  store_accessor :provider_fields,
-                 %i[username
-                    password
-                    group
-                    group_folder
-                    has_managed_project_folders]
+class Storages::ManageNextcloudIntegrationCronJob < Cron::CronJob
+  using ::Storages::Peripherals::ServiceResultRefinements
 
-  alias_method :has_managed_project_folders?, :has_managed_project_folders
+  queue_with_priority :low
 
-  def self.sync_all_group_folders
-    # Returns false if lock cannot be acquired, block is not executed then.
-    OpenProject::Mutex.with_advisory_lock(self.class, 'sync_all_group_folders', timeout_seconds: 0) do
-      where("provider_fields->>'has_managed_project_folders' = 'true'")
-        .includes(:oauth_client)
-        .each do |storage|
-        Storages::GroupFolderPropertiesSyncService.new(storage).call
-      end
-      true
-    end
+  self.cron_expression = '*/5 * * * *'
+
+  def perform
+    result = Storages::NextcloudStorage.sync_all_group_folders
+    raise 'Synchronization is being progressed by another process' if result == false
   end
-
-  def group
-    super || "OpenProject"
-  end
-
-  def group_folder
-    super || "OpenProject"
-  end
-
-  def username
-    super || "OpenProject"
-  end
-
-  def has_managed_project_folders=(value)
-    super(!!value)
-  end
-
-  # rubocop:disable Naming/PredicateName
-  def has_managed_project_folders
-    !!super
-  end
-  # rubocop:enable Naming/PredicateName
 end
