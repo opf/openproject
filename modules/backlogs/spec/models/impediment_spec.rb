@@ -76,7 +76,6 @@ RSpec.describe Impediment do
       .to receive(:plugin_openproject_backlogs)
       .and_return({ 'points_burn_direction' => 'down',
                     'wiki_template' => '',
-                    'card_spec' => 'Sattleford VM-5040',
                     'story_types' => [type_feature.id.to_s],
                     'task_type' => type_task.id.to_s })
 

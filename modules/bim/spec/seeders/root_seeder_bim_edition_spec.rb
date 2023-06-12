@@ -108,6 +108,26 @@ RSpec.describe RootSeeder,
     include_examples 'creates BIM demo data'
 
     include_examples 'no email deliveries'
+
+    context 'when run a second time' do
+      before_all do
+        described_class.new.seed_data!
+      end
+
+      it 'does not create additional data' do
+        expect(Project.count).to eq 4
+        expect(WorkPackage.count).to eq 76
+        expect(Wiki.count).to eq 3
+        expect(Query.count).to eq 29
+        expect(Group.count).to eq 8
+        expect(Type.count).to eq 7
+        expect(Status.count).to eq 4
+        expect(IssuePriority.count).to eq 4
+        expect(Bim::IfcModels::IfcModel.count).to eq 3
+        expect(Grids::Overview.count).to eq 4
+        expect(Boards::Grid.count).to eq 2
+      end
+    end
   end
 
   describe 'demo data mock-translated in another language' do
