@@ -37,8 +37,6 @@ WORKDIR $APP_PATH
 RUN mkdir -p /cache && chown $APP_USER:$APP_USER /cache
 RUN mkdir -p /usr/local/bundle/cache && chown -R $APP_USER:$APP_USER /usr/local/bundle/cache
 
-COPY docker/ci/postgresql.conf /etc/postgresql/$PGVERSION/main/conf.d/ci.conf
-
 USER $APP_USER
 
 RUN gem install bundler --version "$BUNDLER_VERSION" --no-document

@@ -62,7 +62,8 @@ if [ "$1" == "setup-tests" ]; then
 
 	if [ ! -d "/tmp/nulldb" ]; then
 		execute_quiet "$PGBIN/initdb -E UTF8 -D /tmp/nulldb"
-		execute_quiet "$PGBIN/pg_ctl -D /tmp/nulldb -l /dev/null -w start -o '-h 127.0.0.1 -k /tmp'"
+		execute_quiet "cp docker/ci/postgresql.conf /tmp/nulldb/"
+		execute_quiet "$PGBIN/pg_ctl -D /tmp/nulldb -l /dev/null -w start"
 		echo "create database appdb; create user appuser with superuser encrypted password 'p4ssw0rd'; grant all privileges on database appdb to appuser;" | $PGBIN/psql -U dev -h 127.0.0.1 -d postgres
 	fi
 
