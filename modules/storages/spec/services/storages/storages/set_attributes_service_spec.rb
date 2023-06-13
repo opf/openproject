@@ -152,6 +152,7 @@ RSpec.describe Storages::Storages::SetAttributesService, type: :model do
     context 'with applicationPassword' do
       let(:params) do
         super().merge(
+          "automatically_managed" => true,
           "application_password" => "secret"
         )
       end
@@ -162,18 +163,16 @@ RSpec.describe Storages::Storages::SetAttributesService, type: :model do
       end
     end
 
-    [nil, '', false].each do |application_password_input|
-      context 'with applicationPassword falsey' do
-        let(:params) do
-          super().merge(
-            "application_password" => application_password_input
-          )
-        end
+    context 'with applicationPassword false' do
+      let(:params) do
+        super().merge(
+          "automatically_managed" => false
+        )
+      end
 
-        it 'disables automatic folder management' do
-          expect(subject.result).to have_attributes(automatically_managed: false)
-          expect(subject.result.attributes.keys).not_to include(:application_username, :application_password)
-        end
+      it 'disables automatic folder management' do
+        expect(subject.result).to have_attributes(automatically_managed: false)
+        expect(subject.result.attributes.keys).not_to include(:application_username, :application_password)
       end
     end
   end

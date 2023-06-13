@@ -44,6 +44,7 @@ module OpenProject::Storages
       OpenProject::FeatureDecisions.add :storage_file_picking_select_all
       OpenProject::FeatureDecisions.add :storage_project_folders
       OpenProject::FeatureDecisions.add :managed_project_folders
+      OpenProject::FeatureDecisions.add :automatically_managed_project_folders
     end
 
     # For documentation see the definition of register in "ActsAsOpEngine"

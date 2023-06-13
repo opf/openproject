@@ -85,7 +85,12 @@ module API::V3::Storages
              skip_render: ->(*) { true },
              getter: ->(*) {},
              setter: ->(fragment:, represented:, **) {
-               represented.application_password = fragment.presence
+               if fragment.present?
+                 represented.automatically_managed = true
+                 represented.application_password = fragment
+               else
+                 represented.automatically_managed = false
+               end
              }
 
     property :hasApplicationPassword,

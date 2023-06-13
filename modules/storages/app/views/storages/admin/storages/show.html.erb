@@ -152,3 +152,31 @@ See COPYRIGHT and LICENSE files for more details.
     <%= t("storages.oauth_client_details_missing") %>
   <% end %>
 </div>
+
+<div class="attributes-group">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text"><%= t("storages.page_titles.managed_project_folders.title") %></h3>
+    </div>
+  </div>
+  <% if @object.automatically_managed.nil? %>
+    <%= t("storages.automatically_managed_project_folder_missing") %>
+  <% else %>
+    <div class="attributes-key-value">
+      <div class="attributes-key-value--key"><%= t(:"storages.label_managed_project_folders.automatically_managed_folders") %></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span><%= @object.automatically_managed? ? t(:"storages.label_active") : t(:"storages.label_inactive") %></span>
+        </div>
+      </div>
+      <% if @object.automatically_managed? %>
+        <div class="attributes-key-value--key"><%= t(:"storages.label_managed_project_folders.application_password") %></div>
+        <div class="attributes-key-value--value-container">
+          <div class="attributes-key-value--value -text">
+            <span>●●●●●●●●●●●●●●●●</span>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

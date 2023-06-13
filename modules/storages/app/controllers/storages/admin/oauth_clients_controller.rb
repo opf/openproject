@@ -55,14 +55,21 @@ class Storages::Admin::OAuthClientsController < ApplicationController
   # Actually create a OAuthClient object.
   # Use service pattern to create a new OAuthClient
   # Called by: Global app/config/routes.rb to serve Web page
-  def create
+  def create # rubocop:disable Metrics/AbcSize
     service_result = ::OAuthClients::CreateService.new(user: User.current)
                                                   .call(permitted_oauth_client_params.merge(integration: @storage))
     @oauth_client = service_result.result
     if service_result.success?
       flash[:notice] = I18n.t(:notice_successful_create)
-      # admin_settings_storage_path is automagically created by Ruby routes.
-      redirect_to admin_settings_storage_path(@storage)
+      if OpenProject::FeatureDecisions.automatically_managed_project_folders_active?
+        if @storage.automatically_managed.nil?
+          redirect_to edit_admin_settings_storage_managed_project_folders_path(@storage)
+        else
+          redirect_to admin_settings_storage_path(@storage)
+        end
+      else
+        redirect_to admin_settings_storage_path(@storage)
+      end
     else
       @errors = service_result.errors
       render '/storages/admin/storages/new_oauth_client'

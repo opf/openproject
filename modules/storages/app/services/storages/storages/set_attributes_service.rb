@@ -52,9 +52,8 @@ module Storages::Storages
     end
 
     def set_nextcloud_application_credentials_defaults
-      if storage.application_password.present?
-        storage.assign_attributes(automatically_managed: true,
-                                  application_username: storage.provider_fields_defaults[:application_username])
+      if storage.automatically_managed?
+        storage.application_username = storage.provider_fields_defaults[:application_username]
       else
         storage.automatically_managed = false
         %w[application_username application_password].each do |field|
