@@ -227,6 +227,69 @@ RSpec.describe CustomStylesController do
       end
     end
 
+    describe "#export_logo_download" do
+      render_views
+
+      before do
+        expect(CustomStyle).to receive(:current).and_return(custom_style)
+        allow(controller).to receive(:send_file) { controller.head 200 }
+        get :export_logo_download, params: { digest: "1234", filename: "export_logo_image.png" }
+      end
+
+      context "when logo is present" do
+        let(:custom_style) { build(:custom_style_with_export_logo) }
+
+        it 'will send a file' do
+          expect(response).to have_http_status(:ok)
+        end
+      end
+
+      context "when no custom style is present" do
+        let(:custom_style) { nil }
+
+        it 'renders with error' do
+          expect(controller).not_to receive(:send_file)
+          expect(response).to have_http_status(:not_found)
+        end
+      end
+
+      context "when no export logo is present" do
+        let(:custom_style) { build_stubbed(:custom_style) }
+
+        it 'renders with error' do
+          expect(controller).not_to receive(:send_file)
+          expect(response).to have_http_status(:not_found)
+        end
+      end
+    end
+
+    describe "#export_logo_delete", with_ee: %i[define_custom_style] do
+      let(:custom_style) { create(:custom_style_with_export_logo) }
+
+      context 'if it exists' do
+        before do
+          expect(CustomStyle).to receive(:current).and_return(custom_style)
+          expect(custom_style).to receive(:remove_logo).and_call_original
+          delete :logo_delete
+        end
+
+        it 'removes the logo from custom_style' do
+          expect(response).to redirect_to action: :show
+        end
+      end
+
+      context 'if it does not exist' do
+        before do
+          expect(CustomStyle).to receive(:current).and_return(nil)
+          delete :logo_delete
+        end
+
+        it 'renders 404' do
+          expect(response).to have_http_status :not_found
+        end
+      end
+    end
+
     describe "#favicon_download" do
       render_views
 

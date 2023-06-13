@@ -63,5 +63,11 @@ RSpec.describe CustomStyle do
         let(:image) { "logo" }
       end
     end
+
+    describe "#remove_export_logo" do
+      it_behaves_like "removing an image from a custom style" do
+        let(:image) { "export_logo" }
+      end
+    end
   end
 end
