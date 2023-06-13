@@ -66,7 +66,7 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
     if related_work_package
       I18n.t(
         "journals.cause_descriptions.#{cause['type']}",
-        link: html ? link_to_work_package(related_work_package) : "##{related_work_package.id}"
+        link: html ? link_to_work_package(related_work_package, all_link: true) : "##{related_work_package.id}"
       )
 
     else
@@ -76,7 +76,7 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
 
   def working_days_changed_message(changed_dates)
     day_changes_messages = changed_dates['working_days'].collect do |day, working|
-      working_day_change_message(day, working)
+      working_day_change_message(day.to_i, working)
     end
     date_changes_messages = changed_dates['non_working_days'].collect do |date, working|
       working_date_change_message(date, working)
