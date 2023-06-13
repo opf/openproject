@@ -681,8 +681,7 @@ lt:
         Prašau pasirinkti projektą, kuriame turi būti sukurtas darbo paketas, kad matytumėte visus atributus. Jūs galite pasirinkti tik tuos projektus, kurie turi aukščiau nurodytą tipą.
       details_activity: 'Project details activity'
       context: 'Projekto kontekstas'
-      work_package_belongs_to: 'Šis darbų paketas priklauso projektui %{projectname}.'
-      click_to_switch_context: 'Atidaryti darbų paketą tame projekte.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Šablono pakeitimas perkraus puslapį ir jūs prarasite visą šioje formoje įvestą informaciją. Tęsti?'
       use_template: "Naudoti šabloną"
       no_template_selected: "(Nėra)"

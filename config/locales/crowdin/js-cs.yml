@@ -681,8 +681,7 @@ cs:
         Vyberte projekt pro vytvoření pracovního balíčku, abyste viděli všechny atributy. Můžete vybrat pouze projekty, které mají výše uvedený typ aktivován.
       details_activity: 'Aktivita podrobností projektu'
       context: 'Kontext projektu'
-      work_package_belongs_to: 'Tento pracovní balíček náleží projektu %{projectname}.'
-      click_to_switch_context: 'Otevřete tento pracovní balíček v tomto projektu.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Přepnutí šablony znovu načte stránku a ztratíte všechny vstupy do tohoto formuláře. Pokračovat?'
       use_template: "Použít šablonu"
       no_template_selected: "(Žádné)"

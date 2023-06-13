@@ -678,8 +678,7 @@ tr:
         Lütfen tüm özellikleri görmek için çalışma paketini oluşturacak bir proje seçin. Yalnızca yukarıdaki türden etkin olan projeleri seçebilirsiniz.
       details_activity: 'Proje ayrıntıları etkinliği'
       context: 'Proje içeriği'
-      work_package_belongs_to: 'Bu iş paketi %{projectname} projesine ait.'
-      click_to_switch_context: 'Bu iş paketini o projede aç.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Şablonu değiştirmek sayfayı yeniden yükleyecek ve bu forma yaptığınız tüm girişleri kaybedeceksiniz. Devam et?'
       use_template: "Şablon kullan"
       no_template_selected: "(Yok)"

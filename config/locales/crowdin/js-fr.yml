@@ -679,8 +679,7 @@ fr:
         Veuillez choisir un projet pour créer le lot de travaux et voir tous les attributs. Vous pouvez seulement sélectionner des projets ayant le type ci-dessus activé.
       details_activity: 'Activité des détails du projet'
       context: 'Contexte du projet'
-      work_package_belongs_to: 'Ce lot de travaux appartient au projet %{projectname}.'
-      click_to_switch_context: 'Ouvrir ce lot de travaux dans ce projet.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Changer de modèle rechargera la page et vous perdrez toutes les entrées de ce formulaire. Continuer ?'
       use_template: "Utiliser le modèle"
       no_template_selected: "(aucun)"

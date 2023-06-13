@@ -679,8 +679,7 @@ es:
         Seleccione el proyecto donde quiere crear el paquete de trabajo para ver todos los atributos. Solo puede seleccionar proyectos que tengan activado el tipo de paquete utilizado.
       details_activity: 'Actividad de detalles del proyecto'
       context: 'Contexto del proyecto'
-      work_package_belongs_to: 'Este paquete de trabajo pertenece al proyecto %{projectname}.'
-      click_to_switch_context: 'Abra este paquete de trabajo en ese proyecto.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Al cambiar la plantilla, se actualizará la página y perderá todos los datos introducidos en el formulario. ¿Quiere continuar?'
       use_template: "Usar plantilla"
       no_template_selected: "(Ninguna)"

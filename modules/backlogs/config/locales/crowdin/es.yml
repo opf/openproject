@@ -75,7 +75,6 @@ es:
     x_more: "%{count} más..."
   backlogs_active: "activo"
   backlogs_any: "cualquiera"
-  backlogs_card_specification: "Tipos de etiquetas para impresión de la tarjeta"
   backlogs_inactive: "El proyecto no muestra ninguna actividad"
   backlogs_points_burn_direction: "Puntos de quemado arriba/abajo"
   backlogs_product_backlog: "Cartera de producto"

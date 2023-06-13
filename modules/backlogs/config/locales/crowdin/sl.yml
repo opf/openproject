@@ -75,7 +75,6 @@ sl:
     x_more: "%{count} več..."
   backlogs_active: "aktiven"
   backlogs_any: "katerikoli"
-  backlogs_card_specification: "Vrste nalepk za tiskanje kartic"
   backlogs_inactive: "Na projektu ni aktivnosti"
   backlogs_points_burn_direction: "Točke gorijo gor/dol"
   backlogs_product_backlog: "Zaostanki produkta"

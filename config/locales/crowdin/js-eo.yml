@@ -679,8 +679,7 @@ eo:
         Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
       details_activity: 'Project details activity'
       context: 'Kunteksto de la projekto'
-      work_package_belongs_to: 'Tiu ĉi laborpakaĵo apartenas al la projekto %{projectname}.'
-      click_to_switch_context: 'Malfermi tiun laborpakaĵon en tiu projekto.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       use_template: "Use template"
       no_template_selected: "(None)"

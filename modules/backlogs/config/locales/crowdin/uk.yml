@@ -75,7 +75,6 @@ uk:
     x_more: "%{count} більше..."
   backlogs_active: "активний"
   backlogs_any: "будь-який"
-  backlogs_card_specification: "Типи міток для друку карт"
   backlogs_inactive: "Проект не показує активності"
   backlogs_points_burn_direction: "Бали спалюються вгору/вниз"
   backlogs_product_backlog: "Backlog продукту"

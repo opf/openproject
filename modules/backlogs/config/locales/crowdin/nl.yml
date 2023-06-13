@@ -75,7 +75,6 @@ nl:
     x_more: "%{count} meer..."
   backlogs_active: "actief"
   backlogs_any: "elke"
-  backlogs_card_specification: "Typen labels voor het afdrukken van kaarten"
   backlogs_inactive: "Het project toont geen activiteit"
   backlogs_points_burn_direction: "Punten gaan omhoog / omlaag"
   backlogs_product_backlog: "Product backlog"

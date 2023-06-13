@@ -75,7 +75,6 @@ hu:
     x_more: "további %{count}..."
   backlogs_active: "aktív"
   backlogs_any: "bármely"
-  backlogs_card_specification: "A kártya nyomtatásához használt címke típusok"
   backlogs_inactive: "A projekt nem mutat tevékenységet"
   backlogs_points_burn_direction: "Pontok teendő fel/le"
   backlogs_product_backlog: "Termék backlog"

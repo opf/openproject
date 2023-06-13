@@ -678,8 +678,7 @@ sv:
         Välj ett projekt för att skapa arbetspaketet för att se alla attribut. Du kan bara välja projekt som har typen ovan aktiverad.
       details_activity: 'Project details activity'
       context: 'Projektsammanhang'
-      work_package_belongs_to: 'Detta arbetspaket tillhör projektet %{projectname}.'
-      click_to_switch_context: 'Öppna detta arbetspaket i det projektet.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       use_template: "Use template"
       no_template_selected: "(None)"

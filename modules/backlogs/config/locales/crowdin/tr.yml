@@ -75,7 +75,6 @@ tr:
     x_more: "%{count} daha fazla..."
   backlogs_active: "etkin"
   backlogs_any: "herhangi bir"
-  backlogs_card_specification: "Kart yazdırma için kağıt boyutu"
   backlogs_inactive: "Proje hiçbir etkinlik göstermiyor"
   backlogs_points_burn_direction: "Puanlar yukarı / aşağı yanar"
   backlogs_product_backlog: "Ürün bekleme süresi"
