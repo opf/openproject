@@ -101,13 +101,12 @@ class RootSeeder < Seeder
   end
 
   def set_locale!
-    previous_locale = I18n.locale
-    I18n.locale = desired_lang
-    print_status "*** Seeding for locale: '#{I18n.locale}'"
-    @locale_set = true
-    yield
+    I18n.with_locale(desired_lang) do
+      print_status "*** Seeding for locale: '#{I18n.locale}'"
+      @locale_set = true
+      yield
+    end
   ensure
-    I18n.locale = previous_locale
     @locale_set = false
   end
 
@@ -162,7 +161,7 @@ class RootSeeder < Seeder
   end
 
   def desired_lang
-    desired_lang = ENV.fetch('OPENPROJECT_SEED_LOCALE', :en).to_sym
+    desired_lang = ENV.fetch('OPENPROJECT_SEED_LOCALE', Setting.default_language)
     raise "Locale #{desired_lang} is not supported" if Redmine::I18n.all_languages.exclude?(desired_lang)
 
     desired_lang

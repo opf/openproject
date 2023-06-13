@@ -140,7 +140,7 @@ module Settings
       },
       available_languages: {
         format: :array,
-        default: %w[en de fr es pt pt-BR it zh-CN ko ru].freeze,
+        default: %w[en de fr es pt it zh-CN ko ru].freeze,
         allowed: -> { Redmine::I18n.all_languages }
       },
       avatar_link_expiry_seconds: {
@@ -311,7 +311,8 @@ module Settings
         writable: false
       },
       default_language: {
-        default: 'en'
+        default: 'en',
+        allowed: -> { Redmine::I18n.all_languages }
       },
       default_projects_modules: {
         default: %w[calendar board_view work_package_tracking news costs wiki],
@@ -1013,7 +1014,7 @@ module Settings
       work_package_list_default_highlighting_mode: {
         format: :string,
         default: -> { EnterpriseToken.allows_to?(:conditional_highlighting) ? 'inline' : 'none' },
-        allowed: -> { Query::QUERY_HIGHLIGHTING_MODES },
+        allowed: -> { Query::QUERY_HIGHLIGHTING_MODES.map(&:to_s) },
         writable: -> { EnterpriseToken.allows_to?(:conditional_highlighting) }
       },
       work_package_list_default_columns: {
@@ -1099,17 +1100,25 @@ module Settings
     end
 
     def override_value(other_value)
-      self.value = coerce(other_value, format)
-      self.writable = false
-      raise ArgumentError, "Value for #{name} must be one of #{allowed.join(', ')} but is #{value}" unless valid?
+      coerced_value = coerce(other_value)
+      if valid_for?(coerced_value)
+        self.value = coerced_value
+        self.writable = false
+      else
+        raise ArgumentError, "Value for #{name} must be one of #{allowed.join(', ')} but is #{coerced_value}"
+      end
     end
 
-    def valid?
+    def valid_for?(value)
+      return true if allowed.nil?
+
       # TODO: it would make sense to also check the type of the value (e.g. boolean).
       # But as using e.g. 0 for a boolean is quite common, that would break.
-      !allowed ||
-        (format == :array && (value - allowed).empty?) ||
+      if format == :array
+        (value - allowed).empty?
+      else
         allowed.include?(value)
+      end
     end
 
     def allowed
@@ -1405,7 +1414,7 @@ module Settings
       end
     end
 
-    def coerce(value, format)
+    def coerce(value)
       case format
       when :hash
         (self.value || {}).deep_merge value.deep_stringify_keys
