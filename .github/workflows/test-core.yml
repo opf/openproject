@@ -39,14 +39,20 @@ jobs:
       uses: actions/cache@v3
       with:
         path: /tmp/cache
-        key: ${{ runner.os }}-ruby32-core-tests-all-${{ hashFiles('**/Gemfile.lock', 'spec/support/turbo*') }}
+        key: ${{ runner.os }}-ruby32-core-tests-all-${{ hashFiles('**/Gemfile.lock', '**/turbo_runtime*.log') }}
         restore-keys: |
           ${{ runner.os }}-ruby32-core-tests-all-
           ${{ runner.os }}-ruby32-core-tests-
     - name: build
-      run: docker-compose -f docker-compose.ci.yml build ci
+      run: |
+        ls -lrt spec/support/turbo*
+        ls -lrt /tmp/cache/op-cache/
+        docker-compose -f docker-compose.ci.yml build ci
     - name: test
-      run: docker-compose -f docker-compose.ci.yml run ci setup-tests run-units run-features
+      run: |
+        docker-compose -f docker-compose.ci.yml run ci setup-tests run-units run-features
+        ls -lrt spec/support/turbo*
+        ls -lrt /tmp/cache/op-cache/
     - name: cleanup
       if: ${{ always() }}
       run: |
