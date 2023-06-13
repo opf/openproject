@@ -31,14 +31,14 @@
 
 class Settings::LanguageUpdateService < Settings::UpdateService
   def after_perform(call)
-    force_user_language
+    force_users_to_use_only_available_languages
 
     call
   end
 
   private
 
-  def force_user_language
+  def force_users_to_use_only_available_languages
     User.where.not(language: Setting.available_languages)
         .update_all(language: Setting.default_language)
   end

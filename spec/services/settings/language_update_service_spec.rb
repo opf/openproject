@@ -30,34 +30,36 @@
 #
 
 require 'spec_helper'
-require_relative 'shared/shared_call_examples'
-require_relative 'shared/shared_setup_context'
 
 RSpec.describe Settings::LanguageUpdateService do
-  include_context 'with update service setup'
+  let(:service) do
+    described_class.new(user: build_stubbed(:admin))
+  end
+  let(:available_languages) { %w[de fr] }
 
   before do
-    # stub forcing default language
-    allow(instance)
-      .to receive(:force_user_language)
+    allow(service).to receive(:force_users_to_use_only_available_languages)
   end
 
-  describe '#call' do
-    subject { instance.call(params) }
+  it 'sets language of users having a non-available language to the default language' do
+    service.call(available_languages:)
 
-    include_examples 'successful call'
+    expect(service)
+      .to have_received(:force_users_to_use_only_available_languages)
+  end
 
-    it 'sets language of users having a non-available language to the default language' do
-      subject
-
-      expect(instance)
-        .to have_received(:force_user_language)
+  context 'when the contract is not successfully validated' do
+    before do
+      allow(service)
+        .to receive(:validate_contract)
+        .and_return(ServiceResult.failure(message: 'fake error'))
     end
 
-    context 'when the contract is not successfully validated' do
-      let(:contract_success) { false }
+    it 'does not change language of any users' do
+      service.call(available_languages:)
 
-      include_examples 'unsuccessful call'
+      expect(service)
+        .not_to have_received(:force_users_to_use_only_available_languages)
     end
   end
 end
