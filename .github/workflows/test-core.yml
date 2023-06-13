@@ -52,7 +52,7 @@ jobs:
     - name: build
       run: |
         ls -lrt spec/support/turbo*
-        ls -lrt /tmp/cache/op-cache/
+        ls -lrt /tmp/cache/op-cache/ || true
         docker-compose -f docker-compose.ci.yml build ci
     - name: test
       run: |
