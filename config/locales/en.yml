@@ -1484,7 +1484,7 @@ en:
       work_package_children_changed_times: by changes to child %{link}
       unaccessable_work_package_changed: by changes to a related work package
       working_days_changed:
-        changed: "by changes to working days (%{changes})."
+        changed: "by changes to working days (%{changes})"
         days:
           working: "%{day} is now working"
           non_working: "%{day} is now non-working"
