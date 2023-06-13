@@ -75,7 +75,6 @@ ja:
     x_more: "残%{count}件..."
   backlogs_active: "アクティブ"
   backlogs_any: "全て"
-  backlogs_card_specification: "カード印刷用ラベルの種類"
   backlogs_inactive: "プロジェクトの活動がありません。"
   backlogs_points_burn_direction: "ポイントのバーンアップ/バーンダウン"
   backlogs_product_backlog: "プロダクトバックログ"

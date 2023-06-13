@@ -679,8 +679,7 @@ ro:
         Vă rugăm să alegeți un proiect în care să creați pachetul de lucru pentru a vedea toate atributele. Puteți selecta numai proiectele care au tipul de mai sus activat.
       details_activity: 'Activitate detalii proiect'
       context: 'Contextul proiectului'
-      work_package_belongs_to: 'Acest pachet de lucru face parte din proiectul %{projectname}.'
-      click_to_switch_context: 'Deschide pachetul de lucru din acel proiect.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Schimbarea șablonului va reîncărca pagina și veți pierde toate datele introduse în acest formular. Continuați?'
       use_template: "Utilizează șablon"
       no_template_selected: "(Nimic)"

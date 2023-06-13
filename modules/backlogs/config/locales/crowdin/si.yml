@@ -75,7 +75,6 @@ si:
     x_more: "%{count} තවත්..."
   backlogs_active: "ක්රියාකාරී"
   backlogs_any: "ඔනෑම"
-  backlogs_card_specification: "කාඩ් මුද්රණය සඳහා ලේබල් වර්ග"
   backlogs_inactive: "ව්යාපෘතිය කිසිදු ක්රියාකාරකමක් පෙන්වයි"
   backlogs_points_burn_direction: "ලකුණු ඉහළ/පහළ පිළිස්සීම"
   backlogs_product_backlog: "නිෂ්පාදන බැක්ලොග්"

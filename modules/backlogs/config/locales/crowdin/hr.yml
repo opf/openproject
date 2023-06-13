@@ -75,7 +75,6 @@ hr:
     x_more: "%{count} više..."
   backlogs_active: "aktivno"
   backlogs_any: "bilo koji"
-  backlogs_card_specification: "Tipovi oznaka za ispis kartica"
   backlogs_inactive: "Projekt trenutno nema aktivnosti"
   backlogs_points_burn_direction: "Burn točke gore/dole"
   backlogs_product_backlog: "Backlog produkta"

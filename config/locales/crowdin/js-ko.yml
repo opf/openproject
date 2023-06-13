@@ -678,8 +678,7 @@ ko:
         모든 특성을 보려면 작업 패키지를 만들 프로젝트를 선택하십시오. 위 유형이 활성화된 프로젝트만 선택할 수 있습니다.
       details_activity: '프로젝트 세부 정보 활동'
       context: '프로젝트 컨텍스트'
-      work_package_belongs_to: '이 작업 패키지는 프로젝트 %{projectname}에 속합니다.'
-      click_to_switch_context: '해당 프로젝트에서 이 작업 패키지를 여세요.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: '템플릿을 전환하면 페이지가 다시 로드되고 이 양식에 대한 모든 입력이 손실됩니다. 계속하시겠습니까?'
       use_template: "템플릿 사용"
       no_template_selected: "(없음)"

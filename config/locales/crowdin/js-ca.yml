@@ -679,8 +679,7 @@ ca:
         Si us plau, selecciona un projecte on crear el paquet de treball per a veure tots els atributs. Només pots seleccionar projectes que tinguin activat la classe indicada anteriorment.
       details_activity: 'Detalls de l''activitat del projecte'
       context: 'Context del projecte'
-      work_package_belongs_to: 'Aquest paquet de treball pertany al projecte %{projectname}.'
-      click_to_switch_context: 'Obre aquest paquet de treball en aquell projecte.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Canviar la plantilla tornarà a carregar la pàgina i perdràs totes les dades del formulari. Continuar?'
       use_template: "Utilitzar plantilla"
       no_template_selected: "(Cap)"

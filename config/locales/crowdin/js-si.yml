@@ -679,8 +679,7 @@ si:
         කරුණාකර සියලු ගුණාංග බැලීමට වැඩ පැකේජය නිර්මාණය කිරීම සඳහා ව්යාපෘතියක් තෝරන්න. ඔබට තෝරා ගත හැක්කේ ඉහත ආකාරයේ සක්රිය කර ඇති ව්යාපෘති පමණි.
       details_activity: 'Project details activity'
       context: 'ව්යාපෘති සන්දර්භය'
-      work_package_belongs_to: 'මෙම වැඩ පැකේජය ව්යාපෘතියට අයත් වේ %{projectname}.'
-      click_to_switch_context: 'එම ව්යාපෘතියේ මෙම වැඩ පැකේජය විවෘත කරන්න.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       use_template: "Use template"
       no_template_selected: "(None)"

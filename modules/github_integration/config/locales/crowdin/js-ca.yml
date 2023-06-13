@@ -41,12 +41,12 @@ ca:
       github_actions: Accions
       pull_requests:
         message: >
-          Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}. #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}.
+          El "pull request" #%{pr_number} %{pr_link} en el %{repository_link} ha estàt %{pr_state} per %{github_user_link}. #%{pr_number} %{pr_link} en el %{repository_link} ha estàt %{pr_state} per %{github_user_link}.
         referenced_message: >
-          %{github_user_link} referenced this work package in pull request #%{pr_number} %{pr_link} on %{repository_link}. #%{pr_number} %{pr_link} on %{repository_link}.
+          %{github_user_link} ha referenciat aquest paquet de treball en la "pull request" #%{pr_number} %{pr_link} en %{repository_link}. #%{pr_number} %{pr_link} en %{repository_link}.
         states:
-          opened: 'opened'
+          opened: 'obert'
           closed: 'tancat'
-          draft: 'drafted'
-          merged: 'merged'
-          ready_for_review: 'marked ready for review'
+          draft: 'esborrany'
+          merged: 'fusionat'
+          ready_for_review: 'marcat com a preparat per a revisar'

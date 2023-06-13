@@ -75,7 +75,6 @@
     x_more: "%{count} mer..."
   backlogs_active: "aktiv"
   backlogs_any: "hvilken som helst"
-  backlogs_card_specification: "Etikettyper for utskrift av kort"
   backlogs_inactive: "Prosjekter viser ingen aktivitet"
   backlogs_points_burn_direction: "Poeng brenner opp/ned"
   backlogs_product_backlog: "Produkt-backlog"

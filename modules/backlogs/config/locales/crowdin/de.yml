@@ -75,7 +75,6 @@ de:
     x_more: "%{count} mehr..."
   backlogs_active: "aktiv"
   backlogs_any: "beliebig"
-  backlogs_card_specification: "Etikettenart für den Kartendruck"
   backlogs_inactive: "Projekt zeigt keine Aktivität"
   backlogs_points_burn_direction: "Burnup/-down Punkte"
   backlogs_product_backlog: "Produkt-Backlog"

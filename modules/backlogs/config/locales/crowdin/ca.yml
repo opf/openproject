@@ -75,7 +75,6 @@ ca:
     x_more: "%{count} més..."
   backlogs_active: "actiu"
   backlogs_any: "qualsevol"
-  backlogs_card_specification: "Tipus d'etiqueta per a impressió de targetes"
   backlogs_inactive: "El projecte no mostra cap activitat"
   backlogs_points_burn_direction: "Punts de progrés positius/negatius"
   backlogs_product_backlog: "Llista de pendents del producte"

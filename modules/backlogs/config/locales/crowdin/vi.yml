@@ -75,7 +75,6 @@ vi:
     x_more: "%{count} thêm..."
   backlogs_active: "hoạt động"
   backlogs_any: "bất kỳ"
-  backlogs_card_specification: "Các loại nhãn để in thẻ"
   backlogs_inactive: "Dự án không có hoạt động nào"
   backlogs_points_burn_direction: "Điểm ghi lên / xuống"
   backlogs_product_backlog: "Product backlog"

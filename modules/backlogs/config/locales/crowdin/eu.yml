@@ -75,7 +75,6 @@ eu:
     x_more: "%{count} more..."
   backlogs_active: "aktibo"
   backlogs_any: "edozein"
-  backlogs_card_specification: "Label types for card printing"
   backlogs_inactive: "Proiektuan ez da mugimendurik ikusten"
   backlogs_points_burn_direction: "Points burn up/down"
   backlogs_product_backlog: "Product backlog"

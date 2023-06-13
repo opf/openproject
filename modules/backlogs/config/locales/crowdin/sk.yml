@@ -75,7 +75,6 @@ sk:
     x_more: "ďalších %{count}..."
   backlogs_active: "aktívne"
   backlogs_any: "akékoľvek"
-  backlogs_card_specification: "Typy štítkov pre tlač karty"
   backlogs_inactive: "Projekt nevykazuje žiadne činnosti"
   backlogs_points_burn_direction: "Burnup/-down body"
   backlogs_product_backlog: "Nevyriešený produkt"
