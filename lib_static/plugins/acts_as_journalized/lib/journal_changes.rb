@@ -31,7 +31,7 @@ module JournalChanges
     return @changes if @changes
     return {} if data.nil?
 
-    @changes = cause.present? ? { cause: [nil, cause] } : {}
+    @changes = (cause.present? ? { cause: [nil, cause] } : {}).with_indifferent_access
 
     if predecessor.nil?
       @changes.merge!(initial_journal_data_changes)
