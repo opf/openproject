@@ -681,8 +681,7 @@ pl:
         Wybierz projekt, w którym chcesz utworzyć pakiet roboczy, aby zobaczyć wszystkie atrybuty. Możesz wybrać tylko projekty, które mają aktywowany powyższy typ.
       details_activity: 'Szczegóły projektu'
       context: 'Kontekst projektu'
-      work_package_belongs_to: 'Ten pakiet roboczy należy do projektu %{projectname}.'
-      click_to_switch_context: 'Otwórz ten pakiet roboczy w tym projekcie.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Przełączenie szablonu spowoduje ponowne załadowanie strony i utracisz wszystkie dane wprowadzone do tego formularza. Kontynuować?'
       use_template: "Użyj szablonu"
       no_template_selected: "(Brak)"
@@ -1278,23 +1277,23 @@ pl:
       no_results: 'Żaden projekt nie spełnia kryteriów wyszukiwania.'
     baseline:
       toggle_title: 'Baseline'
-      clear: 'Clear'
-      apply: 'Apply'
+      clear: 'Wyczyść'
+      apply: 'Zastosuj'
       header_description: 'Highlight changes made to this list since any point in the past.'
       enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Show changes since'
       baseline_comparison: 'Baseline comparison'
       help_description: 'Reference time zone for the baseline.'
       time_description: 'In your local time: %{datetime}'
-      time: 'Time'
-      from: 'From'
-      to: 'To'
+      time: 'Czas'
+      from: 'Od'
+      to: 'Do'
       drop_down:
         none: '-'
-        yesterday: 'yesterday'
+        yesterday: 'wczoraj'
         last_working_day: 'last working day'
-        last_week: 'last week'
-        last_month: 'last month'
+        last_week: 'zeszły tydzień'
+        last_month: 'w zeszłym miesiącu'
         a_specific_date: 'a specific date'
         between_two_specific_dates: 'between two specific dates'
       legends:

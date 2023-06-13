@@ -678,8 +678,7 @@ tr:
         Lütfen tüm özellikleri görmek için çalışma paketini oluşturacak bir proje seçin. Yalnızca yukarıdaki türden etkin olan projeleri seçebilirsiniz.
       details_activity: 'Proje ayrıntıları etkinliği'
       context: 'Proje içeriği'
-      work_package_belongs_to: 'Bu iş paketi %{projectname} projesine ait.'
-      click_to_switch_context: 'Bu iş paketini o projede aç.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Şablonu değiştirmek sayfayı yeniden yükleyecek ve bu forma yaptığınız tüm girişleri kaybedeceksiniz. Devam et?'
       use_template: "Şablon kullan"
       no_template_selected: "(Yok)"
@@ -1089,19 +1088,19 @@ tr:
     toolbar:
       settings:
         configure_view: "Configure view"
-        columns: "Columns"
-        sort_by: "Sort by"
-        group_by: "Group by"
+        columns: "Sütunlar"
+        sort_by: "Sıralama şekli"
+        group_by: "Grupla"
         display_sums: "Toplamları görüntüle"
         display_hierarchy: "Hiyerarşiyi göster"
         hide_hierarchy: "Hiyerarşiyi gizle"
         hide_sums: "Toplamları gizle"
         save: "Kaydet"
-        save_as: "Save as"
-        export: "Export"
-        visibility_settings: "Visibility settings"
+        save_as: "Farklı Kaydet"
+        export: "Dışarı aktar"
+        visibility_settings: "Görünürlük ayarları"
         share_calendar: "Subscribe to iCalendar"
-        page_settings: "Rename view"
+        page_settings: "Görünümü yeniden isimlendir"
         delete: "Sil"
       filter: "Filtre"
       unselected_title: "İş paketi"
@@ -1271,23 +1270,23 @@ tr:
       no_results: 'Arama kriterleriniz ile eşleşen proje yok'
     baseline:
       toggle_title: 'Baseline'
-      clear: 'Clear'
-      apply: 'Apply'
+      clear: 'Temizle'
+      apply: 'Uygula'
       header_description: 'Highlight changes made to this list since any point in the past.'
       enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Show changes since'
       baseline_comparison: 'Baseline comparison'
       help_description: 'Reference time zone for the baseline.'
       time_description: 'In your local time: %{datetime}'
-      time: 'Time'
-      from: 'From'
-      to: 'To'
+      time: 'Saat'
+      from: 'Başlangıç'
+      to: 'Bitiş'
       drop_down:
         none: '-'
-        yesterday: 'yesterday'
+        yesterday: 'dün'
         last_working_day: 'last working day'
-        last_week: 'last week'
-        last_month: 'last month'
+        last_week: 'geçen hafta'
+        last_month: 'geçen ay'
         a_specific_date: 'a specific date'
         between_two_specific_dates: 'between two specific dates'
       legends:

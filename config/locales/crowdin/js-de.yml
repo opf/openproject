@@ -678,8 +678,7 @@ de:
         Bitte wählen Sie ein Projekt für das Arbeitspaket, um alle Attribute anzuzeigen. Sie können nur Projekte auswählen, für die der ausgewählte Typ oben aktiviert ist.
       details_activity: 'Projektdetails-Aktivität'
       context: 'Projektkontext'
-      work_package_belongs_to: 'Dieses Arbeitspaket gehört zum Projekt %{projectname}.'
-      click_to_switch_context: 'Dieses Arbeitspaket in dem Projekt öffnen.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Das Ändern der Vorlage wird die Seite neu laden und Sie verlieren alle Eingaben zu diesem Formular. Fortfahren?'
       use_template: "Vorlage verwenden"
       no_template_selected: "(Keine)"
@@ -1280,8 +1279,8 @@ de:
       help_description: 'Reference time zone for the baseline.'
       time_description: 'In your local time: %{datetime}'
       time: 'Zeit'
-      from: 'From'
-      to: 'To'
+      from: 'Von'
+      to: 'Bis'
       drop_down:
         none: '-'
         yesterday: 'gestern'
@@ -1297,8 +1296,8 @@ de:
         maintained_with_changes: 'Änderungen erhalten'
         in_your_timezone: 'In your local timezone:'
       icon_tooltip:
-        added: 'Added to view within the comparison time period'
-        removed: 'Removed from view within the comparison time period'
+        added: 'Innerhalb des Vergleichszeitraums zur Ansicht hinzugefügt'
+        removed: 'Innerhalb des Vergleichszeitraums aus der Ansicht entfernt'
         changed: 'Maintained with modifications'
     forms:
       submit_success_message: 'Das Formular wurde erfolgreich übermittelt'

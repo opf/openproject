@@ -78,7 +78,7 @@
       book_now: 'Book now'
       get_quote: 'Get a quote'
       buttons:
-        upgrade: "Upgrade now"
+        upgrade: "Oppgrader nå"
         contact: "Contact us for a demo"
       enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
@@ -182,7 +182,7 @@
     edit: 'Rediger egendefinert handling %{name}'
     execute: 'Utfør %{name}'
     upsale:
-      title: 'Custom actions'
+      title: 'Tilpassede handlinger'
       description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
@@ -482,17 +482,17 @@
         latest_activity_at: "Siste aktivitet på"
         parent: "Underprosjekt av"
         public_value:
-          title: "Visibility"
+          title: "Synlighet"
           true: "public"
           false: "private"
         queries: "Spørringer"
-        status_code: 'Project status'
+        status_code: 'Prosjektstatus'
         status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
+          on_track: 'På rett spor'
+          at_risk: 'I fare'
+          off_track: 'Sporet av'
           finished: 'Finished'
           discontinued: 'Discontinued'
         templated: "Template project"
@@ -557,7 +557,7 @@
         begin_deletion: "Begin of the deletion"
         children: "Subelements"
         done_ratio: "Fremgang (%)"
-        duration: "Duration"
+        duration: "Varighet"
         end_insertion: "Slutt på innsettingen"
         end_deletion: "Slutt på slettingen"
         ignore_non_working_days: "Ignore non working days"
@@ -929,12 +929,12 @@
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "Underprosjekt"
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
           one: "%{count} hour"
-          other: "%{count} hours"
+          other: "%{count} timer"
         hour_html:
           one: "<i>%{count} hour</i>"
           other: "<i>%{count} hours</i>"
@@ -942,13 +942,13 @@
         logged_for: "Logged for"
     filter:
       changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      message: "Forum"
+      news: "Nyheter"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
+      time_entry: "Tid brukt"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "Arbeidspakker"
   #common attributes of all models
   attributes:
     active: "Aktiv"
@@ -1005,7 +1005,7 @@
     updated_on: "Oppdatert"
     uploader: "Opplaster"
     user: "Bruker"
-    value: "Value"
+    value: "Verdi"
     version: "Versjon"
     work_package: "Arbeidspakke"
   backup:
@@ -1185,7 +1185,7 @@
       - "Oktober"
       - "November"
       - "Desember"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - ':år'
       - ':måned'
@@ -1230,61 +1230,6 @@
       hour:
         one: "time"
         other: " timer"
-  default_activity_development: "Utvikling"
-  default_activity_management: "Administrasjon"
-  default_activity_other: "Øvrig"
-  default_activity_specification: "Spesifikasjon"
-  default_activity_support: "Brukerstøtte"
-  default_activity_testing: "Testing"
-  default_color_black: "Sort"
-  default_color_blue: "Blå"
-  default_color_blue_dark: "Blå (mørk)"
-  default_color_blue_light: "Blå (lys)"
-  default_color_green_dark: "Grønn (mørk)"
-  default_color_green_light: "Grønn (lys)"
-  default_color_grey_dark: "Grå (mørk)"
-  default_color_grey_light: "Grå (lys)"
-  default_color_grey: "Grå"
-  default_color_magenta: "Lilla"
-  default_color_orange: "Oransje"
-  default_color_red: "Rød"
-  default_color_white: "Hvit"
-  default_color_yellow: "Gul"
-  default_status_closed: "Stengt"
-  default_status_confirmed: "Bekreftet"
-  default_status_developed: "Utviklet"
-  default_status_in_development: "Under utvikling"
-  default_status_in_progress: "Under arbeid"
-  default_status_in_specification: "Spesifisering"
-  default_status_in_testing: "I testing"
-  default_status_new: "Ny"
-  default_status_on_hold: "På vent"
-  default_status_rejected: "Avvist"
-  default_status_scheduled: "Planlagt"
-  default_status_specified: "Angitt"
-  default_status_tested: "Testet"
-  default_status_test_failed: "Testen mislyktes"
-  default_status_to_be_scheduled: "Skal planlegges"
-  default_priority_low: "Lav"
-  default_priority_normal: "Normal"
-  default_priority_high: "Høy"
-  default_priority_immediate: "Øyeblikkelig"
-  default_role_anonymous: "Anonym"
-  default_role_developer: "Utvikler"
-  default_role_project_admin: "Prosjekt admin"
-  default_role_project_creator_and_staff_manager: "Staff and projects manager"
-  default_role_non_member: "Ikke-medlem"
-  default_role_reader: "Leser"
-  default_role_member: "Medlem"
-  default_type: "Arbeidspakke"
-  default_type_bug: "Avvik"
-  default_type_deliverable: "Leverbar"
-  default_type_epic: "Episk"
-  default_type_feature: "Funksjon"
-  default_type_milestone: "Milepæl"
-  default_type_phase: "Fase"
-  default_type_task: "Oppgave"
-  default_type_user_story: "Brukerens historie"
   description_active: "Aktiv?"
   description_attachment_toggle: "Vis/Skjul vedlegg"
   description_autocomplete: >
@@ -1384,7 +1329,7 @@
     message: Meldingen ble redigert
     news: Nyheter
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'Prosjektet er redigert'
     reply: Besvart
     time_entry: 'Tidsrapporten er redigert'
     wiki_page: 'Wiki-side redigert'
@@ -1402,9 +1347,9 @@
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF med beskrivelser"
-      pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
-      pdf_with_attachments: "PDF med vedlegg"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Bilde ikke eksportert."
   extraction:
@@ -1531,7 +1476,7 @@
   label_ical_access_key_not_present: "iCalendar token(s) not present."
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
-  label_ical_access_key_revoke: "Revoke"
+  label_ical_access_key_revoke: "Tilbakekall"
   label_applied_status: "Tildelt status"
   label_archive_project: "Archive project"
   label_ascending: "Stigende"
@@ -1833,7 +1778,6 @@
   label_password_rule_special: "Spesialtegn"
   label_password_rule_uppercase: "Store bokstaver"
   label_path_encoding: "Koding av sti"
-  label_pdf_with_descriptions: "PDF med beskrivelser"
   label_per_page: "Pr. side"
   label_people: "Personer"
   label_permissions: "Tilganger"
@@ -2559,6 +2503,7 @@
   setting_enabled_scm: "SCM aktivert"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Aktiver Feeds"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Innholdsgrense for Feed"
   setting_file_max_size_displayed: "Maks størrelse på tekstfiler som vises inline"
   setting_host_name: "Vertsnavn"
@@ -3181,11 +3126,11 @@
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "Feil"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"
-      label_redirect_uri: "Redirect URI"
+      label_redirect_uri: "Omdiriger URI"
       label_request_token: "Request token"
       label_refresh_token: "Refresh token"
     errors:

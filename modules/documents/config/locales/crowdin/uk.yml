@@ -29,11 +29,6 @@ uk:
   default_doc_category_tech: "Технічна документація"
   default_doc_category_user: "Документація користувача"
   enumeration_doc_categories: "Категорії документів"
-  enumeration:
-    document_category:
-      documentation: Документація
-      specification: Специфікація
-      other: Інше
   documents:
     label_attachment_author: "Автор додатку"
   label_document_added: "Документ додано"

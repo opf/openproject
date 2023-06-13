@@ -41,7 +41,7 @@ sk:
       material_budget_item: "Jednotka"
   activity:
     filter:
-      budget: "Budgets"
+      budget: "Rozpočty"
   attributes:
     budget: "Rozpočet"
   button_add_budget_item: "Pridať plánované náklady"

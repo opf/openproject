@@ -39,7 +39,7 @@ ja:
       meeting_minutes: "議事録"
   activity:
     filter:
-      meeting: "Meetings"
+      meeting: "会議"
   description_attended: "出席した"
   description_invite: "招待済み"
   events:

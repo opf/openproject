@@ -4,7 +4,123 @@
 ---
 pl:
   seeds:
+    common:
+      colors:
+        item_0:
+          name: Niebieski (ciemny)
+        item_1:
+          name: Niebieski
+        item_2:
+          name: Niebieski (jasny)
+        item_3:
+          name: Zielony (jasny)
+        item_4:
+          name: Zielony (ciemny)
+        item_5:
+          name: Żółty
+        item_6:
+          name: Pomarańczowy
+        item_7:
+          name: Czerwony
+        item_8:
+          name: Purpurowy
+        item_9:
+          name: Biały
+        item_10:
+          name: Szary (jasny)
+        item_11:
+          name: Szary
+        item_12:
+          name: Szary (ciemny)
+        item_13:
+          name: Czarny
+      document_categories:
+        item_0:
+          name: Dokumentacja
+        item_1:
+          name: Specyfikacja
+        item_2:
+          name: Inne
+      roles:
+        item_0:
+          name: nie jest członkiem
+        item_1:
+          name: Anonimowy
+        item_2:
+          name: Członek
+        item_3:
+          name: Czytnik
+        item_4:
+          name: Administrator projektu
+        item_5:
+          name: Kierownik personelu i projektów
     standard:
+      priorities:
+        item_0:
+          name: Niski
+        item_1:
+          name: Normalne
+        item_2:
+          name: Wysokie
+        item_3:
+          name: Natychmiastowe
+      statuses:
+        item_0:
+          name: Nowy
+        item_1:
+          name: W określaniu
+        item_2:
+          name: Określone
+        item_3:
+          name: Potwierdzone
+        item_4:
+          name: Do zaplanowania
+        item_5:
+          name: Zaplanowany
+        item_6:
+          name: W Toku
+        item_7:
+          name: Opracowany
+        item_8:
+          name: Testowany
+        item_9:
+          name: Przestowane
+        item_10:
+          name: Próba nie powiodła się
+        item_11:
+          name: Zamknięte
+        item_12:
+          name: Zawieszony
+        item_13:
+          name: Odrzucone
+      time_entry_activities:
+        item_0:
+          name: Zarządzanie
+        item_1:
+          name: Specyfikacja
+        item_2:
+          name: Rozwój
+        item_3:
+          name: Testowanie
+        item_4:
+          name: Wsparcie
+        item_5:
+          name: Inne
+      types:
+        item_0:
+          name: Zadanie
+        item_1:
+          name: Kamień milowy
+        item_2:
+          name: Etap
+        item_3:
+          name: Cecha/Funkcja
+        item_4:
+          name: Wydarzenie
+        item_5:
+          name: Wpis użytkownika
+        item_6:
+          name: Błąd
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -40,12 +156,12 @@ pl:
             item_2:
               name: Tasks
             item_3:
-              name: Team planner
+              name: Planista zespołu
           boards:
             kanban:
               name: Kanban board
             basic:
-              name: Basic board
+              name: Tablica podstawowa
               lists:
                 item_0:
                   name: Wish list
@@ -54,7 +170,7 @@ pl:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Nigdy
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -64,7 +180,7 @@ pl:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Pierwsze kroki
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -83,7 +199,7 @@ pl:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Pakiety robocze
               item_6:
                 options:
                   name: Milestones
@@ -195,7 +311,7 @@ pl:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Backlog produktu
             item_2:
               name: Sprint 1
             item_3:
@@ -204,7 +320,7 @@ pl:
             kanban:
               name: Kanban board
             basic:
-              name: Task board
+              name: Panel zadań
               lists:
                 item_0:
                   name: Wish list
@@ -213,7 +329,7 @@ pl:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Nigdy
           project-overview:
             widgets:
               item_0:
@@ -221,7 +337,7 @@ pl:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Pierwsze kroki
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -241,7 +357,7 @@ pl:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Pakiety robocze
               item_6:
                 options:
                   name: Project plan

@@ -2,12 +2,6 @@
 cs:
   bim:
     label_bim: 'BIM'
-    default_type_clash: Clash
-    default_type_issue: Problém
-    default_type_remark: Remark
-    default_type_request: Požadavek
-    default_status_resolved: Vyřešeno
-    default_priority_critical: Kritické
   bcf:
     label_bcf: 'BCF'
     label_imported_failed: 'Selhalo importování témat BCF'

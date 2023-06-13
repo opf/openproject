@@ -4,7 +4,123 @@
 ---
 eo:
   seeds:
+    common:
+      colors:
+        item_0:
+          name: Blua (malhela)
+        item_1:
+          name: Blua
+        item_2:
+          name: Blua (hela)
+        item_3:
+          name: Verda (hela)
+        item_4:
+          name: Verda (malhela)
+        item_5:
+          name: Flava
+        item_6:
+          name: Oranĝa
+        item_7:
+          name: Ruĝa
+        item_8:
+          name: Maĝenta
+        item_9:
+          name: Blanka
+        item_10:
+          name: Griza (hela)
+        item_11:
+          name: Griza
+        item_12:
+          name: Griza (malhela)
+        item_13:
+          name: Nigra
+      document_categories:
+        item_0:
+          name: Dokumentado
+        item_1:
+          name: Specifo
+        item_2:
+          name: Aliaj
+      roles:
+        item_0:
+          name: Ne membro
+        item_1:
+          name: Aanonima
+        item_2:
+          name: Membro
+        item_3:
+          name: Leganto
+        item_4:
+          name: Administranto de la projekto
+        item_5:
+          name: Staff and projects manager
     standard:
+      priorities:
+        item_0:
+          name: Malalta
+        item_1:
+          name: Normala
+        item_2:
+          name: Alta
+        item_3:
+          name: Tuja
+      statuses:
+        item_0:
+          name: Nova
+        item_1:
+          name: Specifata
+        item_2:
+          name: Specifita
+        item_3:
+          name: Konfirmita
+        item_4:
+          name: Planota
+        item_5:
+          name: Planita
+        item_6:
+          name: Farata
+        item_7:
+          name: Programado
+        item_8:
+          name: Testado
+        item_9:
+          name: Testita
+        item_10:
+          name: Malsukcesa testo
+        item_11:
+          name: Fermita
+        item_12:
+          name: Atendanta
+        item_13:
+          name: Malakceptita
+      time_entry_activities:
+        item_0:
+          name: Administrado
+        item_1:
+          name: Specifo
+        item_2:
+          name: Programado
+        item_3:
+          name: Testado
+        item_4:
+          name: Subteno
+        item_5:
+          name: Aliaj
+      types:
+        item_0:
+          name: Tasko
+        item_1:
+          name: Mejloŝtono
+        item_2:
+          name: Fazo
+        item_3:
+          name: Trajto
+        item_4:
+          name: Epopea
+        item_5:
+          name: Historio de la uzanto
+        item_6:
+          name: Cimo
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -45,7 +161,7 @@ eo:
             kanban:
               name: Kanban board
             basic:
-              name: Basic board
+              name: Baza panelo
               lists:
                 item_0:
                   name: Wish list
@@ -54,7 +170,7 @@ eo:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Neniam
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -83,7 +199,7 @@ eo:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Laborpakaĵoj
               item_6:
                 options:
                   name: Milestones
@@ -213,7 +329,7 @@ eo:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Neniam
           project-overview:
             widgets:
               item_0:
@@ -241,7 +357,7 @@ eo:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Laborpakaĵoj
               item_6:
                 options:
                   name: Project plan

@@ -40,8 +40,8 @@ RSpec.describe 'users/index' do
     assign(:groups, Group.all)
 
     allow(view).to receive(:current_user).and_return(admin)
-    allow(controller).to receive(:controller_name).and_return("users")
-    allow(controller).to receive(:action_name).and_return("index")
+    allow(view).to receive(:controller_name).and_return("users")
+    allow(view).to receive(:action_name).and_return("index")
   end
 
   subject { rendered.squish }

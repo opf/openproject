@@ -679,8 +679,7 @@ es:
         Seleccione el proyecto donde quiere crear el paquete de trabajo para ver todos los atributos. Solo puede seleccionar proyectos que tengan activado el tipo de paquete utilizado.
       details_activity: 'Actividad de detalles del proyecto'
       context: 'Contexto del proyecto'
-      work_package_belongs_to: 'Este paquete de trabajo pertenece al proyecto %{projectname}.'
-      click_to_switch_context: 'Abra este paquete de trabajo en ese proyecto.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Al cambiar la plantilla, se actualizará la página y perderá todos los datos introducidos en el formulario. ¿Quiere continuar?'
       use_template: "Usar plantilla"
       no_template_selected: "(Ninguna)"
@@ -1272,23 +1271,23 @@ es:
       no_results: 'Ningún producto coincide con tu criterio de búsqueda'
     baseline:
       toggle_title: 'Baseline'
-      clear: 'Clear'
-      apply: 'Apply'
+      clear: 'Eliminar'
+      apply: 'Aplicar'
       header_description: 'Highlight changes made to this list since any point in the past.'
       enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Show changes since'
       baseline_comparison: 'Baseline comparison'
       help_description: 'Reference time zone for the baseline.'
       time_description: 'In your local time: %{datetime}'
-      time: 'Time'
-      from: 'From'
-      to: 'To'
+      time: 'Tiempo'
+      from: 'De'
+      to: 'Para'
       drop_down:
         none: '-'
-        yesterday: 'yesterday'
+        yesterday: 'ayer'
         last_working_day: 'last working day'
         last_week: 'Semana anterior'
-        last_month: 'last month'
+        last_month: 'El mes pasado'
         a_specific_date: 'a specific date'
         between_two_specific_dates: 'between two specific dates'
       legends:

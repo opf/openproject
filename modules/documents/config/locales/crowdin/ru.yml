@@ -29,11 +29,6 @@ ru:
   default_doc_category_tech: "Техническая документация"
   default_doc_category_user: "Документация пользователя"
   enumeration_doc_categories: "Категории документов"
-  enumeration:
-    document_category:
-      documentation: Документация
-      specification: Спецификация
-      other: Прочее
   documents:
     label_attachment_author: "Автор вложения"
   label_document_added: "Документ добавлен"

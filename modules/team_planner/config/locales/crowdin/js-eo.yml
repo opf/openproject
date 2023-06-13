@@ -2,7 +2,7 @@
 eo:
   js:
     team_planner:
-      add_existing: 'Add existing'
+      add_existing: 'Aldoni ekzistantan'
       add_existing_title: 'Add existing work packages'
       create_label: 'Team planner'
       create_title: 'Create new team planner'

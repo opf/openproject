@@ -39,7 +39,7 @@ fil:
       meeting_minutes: "Minutes"
   activity:
     filter:
-      meeting: "Meetings"
+      meeting: "Mga Pagpupulong"
   description_attended: "dumalo"
   description_invite: "maimbitahan"
   events:

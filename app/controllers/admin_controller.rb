@@ -75,13 +75,10 @@ class AdminController < ApplicationController
   end
 
   def force_user_language
-    available_languages = Setting.find_by(name: 'available_languages').value
-    User.where.not(language: available_languages).each do |u|
-      u.language = Setting.default_language
-      u.save
-    end
+    User.where.not(language: Setting.available_languages)
+        .update_all(language: Setting.default_language)
 
-    redirect_to :back
+    redirect_to admin_settings_languages_path
   end
 
   def info

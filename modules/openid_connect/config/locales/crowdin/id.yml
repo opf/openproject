@@ -11,7 +11,7 @@ id:
         scope: Scope
         limit_self_registration: Limit self registration
   openid_connect:
-    menu_title: OpenID providers
+    menu_title: penyedia OpenID
     providers:
       label_add_new: Tambahkan penyedia OpenID baru
       label_edit: Edit penyedia OpenID %{name}

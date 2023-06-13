@@ -36,6 +36,10 @@ module Pages
       super()
     end
 
+    def expect_work_package_count(count)
+      expect(page).to have_selector('wp-single-card', count:, wait: 20)
+    end
+
     def expect_work_package_listed(*work_packages)
       work_packages.each do |wp|
         expect(page).to have_selector("wp-single-card[data-work-package-id='#{wp.id}']", wait: 10)
