@@ -67,6 +67,7 @@ module OpenProject::Meeting
            :meetings, { controller: '/meetings', action: 'index', project_id: nil },
            context: :modules,
            caption: :label_meeting_plural,
+           icon: 'meetings',
            if: Proc.new {
              OpenProject::FeatureDecisions.more_global_index_pages_active? &&
               (User.current.logged? || !Setting.login_required?) &&
