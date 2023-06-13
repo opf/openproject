@@ -39,10 +39,10 @@ jobs:
       uses: actions/cache@v3
       with:
         path: /tmp/cache
-        key: ${{ runner.os }}-ruby32-core-tests-all-${{ hashFiles('**/Gemfile.lock', 'spec/support/turbo_runtime_units.log', 'spec/support/turbo_runtime_features.log') }}
+        key: ${{ runner.os }}-ruby32-core-tests-all-${{ hashFiles('**/Gemfile.lock') }}-${{ hashFiles('spec/support/turbo_runtime_units.log', 'spec/support/turbo_runtime_features.log') }}
         restore-keys: |
+          ${{ runner.os }}-ruby32-core-tests-all-${{ hashFiles('**/Gemfile.lock') }}-
           ${{ runner.os }}-ruby32-core-tests-all-
-          ${{ runner.os }}-ruby32-core-tests-
     - name: build
       run: |
         ls -lrt spec/support/turbo*
