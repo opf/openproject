@@ -127,7 +127,6 @@ class WorkPackages::UpdateService < BaseServices::Update
   end
 
   def reschedule(work_package, work_packages)
-    puts "*" * 200, cause_of_update, "#" * 200
     WorkPackages::SetScheduleService
       .new(user:, work_package: work_packages, initiated_by: cause_of_update)
       .call(work_package.saved_changes.keys.map(&:to_sym))
