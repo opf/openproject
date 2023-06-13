@@ -51,7 +51,7 @@ class ::Query::Results
   def sorted_work_packages_matching_the_filters_today
     sorted_work_packages
       .visible
-      .merge(filtered_work_packages)
+      .merge(filtered_work_packages_matching_the_filters_today)
   end
 
   def sorted_work_packages_matching_the_filters_at_any_of_the_given_timestamps
@@ -86,6 +86,10 @@ class ::Query::Results
       .where(query.statement)
   end
 
+  def filtered_work_packages_matching_the_filters_today
+    filtered_work_packages.merge(filter_merges)
+  end
+
   def sorted_work_packages
     work_package_scope
       .joins(sort_criteria_joins)
@@ -105,7 +109,6 @@ class ::Query::Results
 
   def work_package_scope
     WorkPackage
-      .merge(filter_merges)
       .includes(all_includes)
       .references(:projects)
   end
