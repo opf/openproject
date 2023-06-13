@@ -185,7 +185,7 @@ RSpec.describe ApplicationHelper do
   describe '.all_lang_options_for_select' do
     it 'has all languages translated ("English" should appear only once)' do
       impostor_locales =
-        all_lang_options_for_select(false)
+        all_lang_options_for_select
           .reject { |_lang, locale| locale == 'en' }
           .select { |lang, _locale| lang == "English" }
           .map { |_lang, locale| locale }
@@ -205,13 +205,13 @@ RSpec.describe ApplicationHelper do
 
     it 'has distinct languages translation' do
       duplicate_langs =
-        all_lang_options_for_select(false)
+        all_lang_options_for_select
           .map { |lang, _locale| lang }
           .tally
           .reject { |_lang, count| count == 1 }
           .map { |lang, _count| lang }
       duplicate_options =
-        all_lang_options_for_select(false)
+        all_lang_options_for_select
           .filter { |lang, _locale| duplicate_langs.include?(lang) }
           .sort
 

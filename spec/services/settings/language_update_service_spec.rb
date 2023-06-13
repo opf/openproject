@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,33 +26,40 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
+#
 
 require 'spec_helper'
 
-RSpec.describe 'admin routes' do
-  it 'connects GET /admin to admin#index' do
-    expect(get('/admin'))
-      .to route_to('admin#index')
+RSpec.describe Settings::LanguageUpdateService do
+  let(:service) do
+    described_class.new(user: build_stubbed(:admin))
+  end
+  let(:available_languages) { %w[de fr] }
+
+  before do
+    allow(service).to receive(:force_users_to_use_only_available_languages)
   end
 
-  it 'connects GET /projects to projects#index' do
-    expect(get('/projects'))
-      .to route_to('projects#index')
+  it 'sets language of users having a non-available language to the default language' do
+    service.call(available_languages:)
+
+    expect(service)
+      .to have_received(:force_users_to_use_only_available_languages)
   end
 
-  it 'connects GET /admin/plugins to admin#plugins' do
-    expect(get('/admin/plugins'))
-      .to route_to('admin#plugins')
-  end
+  context 'when the contract is not successfully validated' do
+    before do
+      allow(service)
+        .to receive(:validate_contract)
+        .and_return(ServiceResult.failure(message: 'fake error'))
+    end
 
-  it 'connects GET /admin/info to admin#info' do
-    expect(get('/admin/info'))
-      .to route_to('admin#info')
-  end
+    it 'does not change language of any users' do
+      service.call(available_languages:)
 
-  it 'connects POST /admin/test_email to admin#test_email' do
-    expect(post('/admin/test_email'))
-      .to route_to('admin#test_email')
+      expect(service)
+        .not_to have_received(:force_users_to_use_only_available_languages)
+    end
   end
 end

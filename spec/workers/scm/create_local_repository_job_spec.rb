@@ -44,7 +44,7 @@ RSpec.describe SCM::CreateLocalRepositoryJob do
     allow(OpenProject::Configuration).to receive(:[]).with('scm').and_return(config)
   end
 
-  describe 'with a managed repository' do
+  describe 'with a managed repository', skip_if_command_unavailable: 'svnadmin' do
     include_context 'with tmpdir'
 
     let(:project) { build(:project) }

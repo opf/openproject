@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,33 +26,21 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
+#
 
 require 'spec_helper'
 
-RSpec.describe 'admin routes' do
-  it 'connects GET /admin to admin#index' do
-    expect(get('/admin'))
-      .to route_to('admin#index')
+RSpec.describe 'Language Settings routes' do
+  it do
+    expect(get('/admin/settings/languages'))
+      .to route_to(controller: 'admin/settings/languages_settings',
+                   action: 'show')
   end
 
-  it 'connects GET /projects to projects#index' do
-    expect(get('/projects'))
-      .to route_to('projects#index')
-  end
-
-  it 'connects GET /admin/plugins to admin#plugins' do
-    expect(get('/admin/plugins'))
-      .to route_to('admin#plugins')
-  end
-
-  it 'connects GET /admin/info to admin#info' do
-    expect(get('/admin/info'))
-      .to route_to('admin#info')
-  end
-
-  it 'connects POST /admin/test_email to admin#test_email' do
-    expect(post('/admin/test_email'))
-      .to route_to('admin#test_email')
+  it do
+    expect(patch('/admin/settings/languages'))
+      .to route_to(controller: 'admin/settings/languages_settings',
+                   action: 'update')
   end
 end

@@ -304,12 +304,10 @@ module ApplicationHelper
     auto + mapped_languages.sort_by(&:last)
   end
 
-  def all_lang_options_for_select(blank = true)
-    initial_lang_options = blank ? [['(auto)', '']] : []
-
-    mapped_languages = all_languages.map { |lang| translate_language(lang) }
-
-    initial_lang_options + mapped_languages.sort_by(&:last)
+  def all_lang_options_for_select
+    all_languages
+      .map { |lang| translate_language(lang) }
+      .sort_by(&:last)
   end
 
   def labelled_tabular_form_for(record, options = {}, &)
@@ -446,7 +444,7 @@ module ApplicationHelper
   # @return [String] the language name translated in its own language
   def translate_language(lang_code)
     # rename in-context translation language name for the language select box
-    if lang_code == Redmine::I18n::IN_CONTEXT_TRANSLATION_CODE &&
+    if lang_code.to_sym == Redmine::I18n::IN_CONTEXT_TRANSLATION_CODE &&
        ::I18n.locale != Redmine::I18n::IN_CONTEXT_TRANSLATION_CODE
       [Redmine::I18n::IN_CONTEXT_TRANSLATION_NAME, lang_code.to_s]
     else

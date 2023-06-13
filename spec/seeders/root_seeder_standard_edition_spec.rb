@@ -168,21 +168,34 @@ RSpec.describe RootSeeder,
     end
   end
 
-  describe 'demo data with a non-English language' do
-    shared_let(:root_seeder) { described_class.new }
+  [
+    'OPENPROJECT_SEED_LOCALE',
+    'OPENPROJECT_DEFAULT_LANGUAGE'
+  ].each do |env_var_name|
+    describe "demo data with a non-English language set with #{env_var_name}", :settings_reset do
+      shared_let(:root_seeder) { described_class.new }
 
-    before_all do
-      with_edition('standard') do
-        stub_language('de')
-        root_seeder.seed_data!
+      before_all do
+        with_edition('standard') do
+          stub_const('ENV', { env_var_name => 'de' })
+          reset(:default_language) # Settings are a pain to reset
+          root_seeder.seed_data!
+        ensure
+          reset(:default_language)
+        end
       end
-    end
 
-    before do
-      stub_language('de')
-    end
+      it 'seeds with the specified language' do
+        willkommen = I18n.t("#{Source::Translate::I18N_PREFIX}.standard.welcome.title", locale: 'de')
+        expect(Setting.welcome_title).to eq(willkommen)
+      end
 
-    include_examples 'creates standard demo data'
+      it 'sets Setting.default_language to the given language' do
+        expect(Setting.find_by(name: 'default_language')).to have_attributes(value: 'de')
+      end
+
+      include_examples 'creates standard demo data'
+    end
   end
 
   describe 'demo data with development data' do

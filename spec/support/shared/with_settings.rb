@@ -39,7 +39,7 @@ def aggregate_mocked_settings(example, settings)
 end
 
 RSpec.shared_context 'with settings reset' do
-  let!(:definitions_before) { Settings::Definition.all.dup }
+  shared_let(:definitions_before) { Settings::Definition.all.dup }
 
   def reset(setting)
     Settings::Definition.all.delete(setting)
@@ -67,7 +67,7 @@ RSpec.shared_context 'with settings reset' do
   end
 
   after do
-    Settings::Definition.instance_variable_set(:@all, definitions_before)
+    Settings::Definition.instance_variable_set(:@all, definitions_before.dup)
     Settings::Definition.instance_variable_set(:@file_config, nil)
   end
 end

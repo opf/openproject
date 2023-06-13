@@ -28,29 +28,34 @@
 
 require 'spec_helper'
 
-RSpec.describe 'admin routes' do
-  it 'connects GET /admin to admin#index' do
-    expect(get('/admin'))
-      .to route_to('admin#index')
+RSpec.describe 'REST API docs index page', js: true do
+  subject(:visit_docs_page) { visit(api_docs_path) }
+
+  context 'with anonymous user' do
+    it 'displays the login form' do
+      visit_docs_page
+
+      expect(page).to have_current_path(signin_path(back_url: api_docs_url))
+    end
   end
 
-  it 'connects GET /projects to projects#index' do
-    expect(get('/projects'))
-      .to route_to('projects#index')
-  end
+  context 'with authenticated user' do
+    current_user { create(:user) }
 
-  it 'connects GET /admin/plugins to admin#plugins' do
-    expect(get('/admin/plugins'))
-      .to route_to('admin#plugins')
-  end
+    it 'displays the docs rendered by openapi-explorer' do
+      visit_docs_page
 
-  it 'connects GET /admin/info to admin#info' do
-    expect(get('/admin/info'))
-      .to route_to('admin#info')
-  end
+      # web component are harder to test with capybara
+      expect(find("openapi-explorer").shadow_root).to have_selector('#api-title', text: 'OpenProject API V3 (Stable)')
+    end
 
-  it 'connects POST /admin/test_email to admin#test_email' do
-    expect(post('/admin/test_email'))
-      .to route_to('admin#test_email')
+    context 'when APIv3 documentation is disabled (from Administration > API > Enable docs page)',
+            with_settings: { apiv3_docs_enabled: false } do
+      it 'renders a 404' do
+        visit_docs_page
+
+        expect(page).to have_text 'Error 404'
+      end
+    end
   end
 end

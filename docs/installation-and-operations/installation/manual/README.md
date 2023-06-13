@@ -230,12 +230,12 @@ To configure the environment variables such as the number of web server threads 
 [openproject@host] RAILS_ENV="production" ./bin/rake assets:precompile
 ```
 
-> **NOTE:** When not specified differently, the default data loaded via db:seed will have an english localization. You can choose to seed in a different language by specifying the language via the `OPENPROJECT_SEED_LOCALE` environment variable on the call to `db:seed`. E.g.
+> **NOTE:** When not specified differently, the default data loaded via db:seed will have an English localization. You can choose to seed in a different language by specifying the language with `OPENPROJECT_DEFAULT_LANGUAGE` or `OPENPROJECT_SEED_LOCALE` environment variable on the initial call to `db:seed`. For instance:
 
 ```bash
-[openproject@all] RAILS_ENV="production" OPENPROJECT_SEED_LOCALE=fr ./bin/rake db:seed
+[openproject@all] RAILS_ENV="production" OPENPROJECT_DEFAULT_LANGUAGE=fr ./bin/rake db:seed
 ```
-will seed the database in the French language. A large portion of the seed data is only available in English, however.
+will seed the database in the French language.
 
 ### Secret token
 
