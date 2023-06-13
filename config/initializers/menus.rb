@@ -35,6 +35,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             { controller: '/projects', project_id: nil, action: 'index' },
             context: :modules,
             caption: I18n.t('label_projects_menu'),
+            icon: 'projects',
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?)
             }
@@ -42,6 +43,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             { controller: '/work_packages', project_id: nil, state: nil, action: 'index' },
             context: :modules,
             caption: I18n.t('label_work_package_plural'),
+            icon: 'work-packages',
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?) &&
                 User.current.allowed_to_globally?(:view_work_packages)
@@ -50,6 +52,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             { controller: '/news', project_id: nil, action: 'index' },
             context: :modules,
             caption: I18n.t('label_news_plural'),
+            icon: 'news',
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?) &&
                 User.current.allowed_to_globally?(:view_news)
