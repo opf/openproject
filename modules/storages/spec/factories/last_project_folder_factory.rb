@@ -26,47 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
-
-RSpec.describe Storages::ProjectStorages::BaseContract do
-  include_context 'ModelContract shared context'
-
-  let(:contract) { described_class.new(project_storage, build_stubbed(:admin)) }
-  # Creator is not writable in BaseContract; just test base contract writable attributes
-  let(:project_storage) { build(:project_storage) }
-
-  context 'if the project folder mode is `inactive`' do
-    before do
-      project_storage.project_folder_mode = 'inactive'
-    end
-
-    it_behaves_like 'contract is valid'
-  end
-
-  context 'if the project folder mode is `automatic`' do
-    before do
-      project_storage.project_folder_mode = 'automatic'
-    end
-
-    it_behaves_like 'contract is valid'
-  end
-
-  context 'if the project folder mode is `manual`' do
-    before do
-      project_storage.project_folder_mode = 'manual'
-    end
-
-    context 'with no project_folder_id' do
-      it_behaves_like 'contract is invalid', project_folder_id: :blank
-    end
-
-    context 'with project_folder_id' do
-      before do
-        project_storage.project_folder_id = 'Project#1'
-      end
-
-      it_behaves_like 'contract is valid'
-    end
+FactoryBot.define do
+  factory :last_project_folder, class: '::Storages::LastProjectFolder' do
+    projects_storage factory: :project_storage
   end
 end

@@ -26,40 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# A "contract" is an OpenProject pattern used to validate parameters
-# before actually creating, updating, or deleting a model.
-# Used by: projects_storages_controller.rb and in the API
-module Storages::ProjectStorages
+module Storages::LastProjectFolders
   class BaseContract < ::ModelContract
-    # "Concern" just injects a permission checking routine.
-    # Not sure where this concern is reused.
-    include ::Storages::ProjectStorages::Concerns::ManageStoragesGuarded
-    # Include validation library
     include ActiveModel::Validations
 
-    attribute :project
-    validates_presence_of :project
-    attribute :storage
-    validates_presence_of :storage
-    attribute :project_folder_mode
-    validates :project_folder_mode, presence: true, inclusion: { in: Storages::ProjectStorage.project_folder_modes.keys }
-    attribute :project_folder_id
-    validates :project_folder_id, presence: true, if: :project_folder_mode_manual?
-
-    attribute :project_folder_mode do
-      if Storages::ProjectStorage.project_folder_modes.keys.exclude?(@model.project_folder_mode)
-        errors.add :project_folder_mode, :invalid
-      end
-    end
-
-    def assignable_storages
-      Storages::Storage.visible(user).where.not(id: @model.project.projects_storages.pluck(:storage_id))
-    end
-
-    private
-
-    def project_folder_mode_manual?
-      @model.project_folder_manual?
-    end
+    attribute :projects_storage
+    validates_presence_of :projects_storage
+    attribute :mode
+    validates :mode, presence: true, inclusion: { in: %w[manual automatic] }
+    attribute :origin_folder_id
   end
 end
