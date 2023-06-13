@@ -105,14 +105,12 @@ class Storages::Admin::ManagedProjectFoldersController < ApplicationController
     @storage = @object
   end
 
-  # The application_username is not set by the user, but is derived from defaults
   def permitted_storage_params_with_defaults
     permitted_storage_params.tap do |permitted_params|
-      if @storage.provider_type_nextcloud?
-        permitted_params.merge!(@storage.provider_fields_defaults.slice(:application_username))
-        # If a checkbox is unchecked when its form is submitted, neither the name nor the value is submitted to the server.
-        # See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
-        permitted_params.merge!(automatically_managed: false) unless permitted_params.key?('automatically_managed')
+      # If a checkbox is unchecked when its form is submitted, neither the name nor the value is submitted to the server.
+      # See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
+      if @storage.provider_type_nextcloud? && !permitted_params.key?('automatically_managed')
+        permitted_params.merge!(automatically_managed: false)
       end
     end
   end

@@ -52,7 +52,7 @@ module Storages::Storages
     end
 
     def set_nextcloud_application_credentials_defaults
-      if storage.application_password
+      if storage.application_password.present?
         storage.assign_attributes(automatically_managed: true,
                                   application_username: storage.provider_fields_defaults[:application_username])
       else

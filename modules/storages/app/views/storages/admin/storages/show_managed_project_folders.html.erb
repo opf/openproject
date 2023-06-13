@@ -68,7 +68,9 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="form--field-container -horizontal">
       <%= f.text_field :application_password,
                        container_class: "-middle",
-                       no_label: true
+                       no_label: true,
+                       value: nil, # IMPORTANT: We don't want to show the password in the form
+                       placeholder: @storage.application_password.present? ? "●●●●●●●●●●●●●●●●" : nil
       %>
     </div>
     <p class="form--field-instructions -xwide">
