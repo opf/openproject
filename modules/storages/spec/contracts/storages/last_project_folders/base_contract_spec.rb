@@ -29,16 +29,31 @@
 require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
 
-RSpec.describe Storages::ProjectStorages::BaseContract do
+RSpec.describe Storages::LastProjectFolders::BaseContract do
   include_context 'ModelContract shared context'
 
-  let(:contract) { described_class.new(project_storage, build_stubbed(:admin)) }
-  # Creator is not writable in BaseContract; just test base contract writable attributes
-  let(:project_storage) { build(:project_storage) }
+  let(:last_project_folder) { build(:last_project_folder) }
+  let(:contract) { described_class.new(last_project_folder, build_stubbed(:admin)) }
+
+  context 'if no project storage is given' do
+    before do
+      last_project_folder.projects_storage = nil
+    end
+
+    it_behaves_like 'contract is invalid'
+  end
 
   context 'if the project folder mode is `inactive`' do
     before do
-      project_storage.project_folder_mode = 'inactive'
+      last_project_folder.mode = 'inactive'
+    end
+
+    it_behaves_like 'contract is invalid'
+  end
+
+  context 'if the project folder mode is `manual`' do
+    before do
+      last_project_folder.mode = 'manual'
     end
 
     it_behaves_like 'contract is valid'
@@ -46,27 +61,9 @@ RSpec.describe Storages::ProjectStorages::BaseContract do
 
   context 'if the project folder mode is `automatic`' do
     before do
-      project_storage.project_folder_mode = 'automatic'
+      last_project_folder.mode = 'automatic'
     end
 
     it_behaves_like 'contract is valid'
-  end
-
-  context 'if the project folder mode is `manual`' do
-    before do
-      project_storage.project_folder_mode = 'manual'
-    end
-
-    context 'with no project_folder_id' do
-      it_behaves_like 'contract is invalid', project_folder_id: :blank
-    end
-
-    context 'with project_folder_id' do
-      before do
-        project_storage.project_folder_id = 'Project#1'
-      end
-
-      it_behaves_like 'contract is valid'
-    end
   end
 end

@@ -46,10 +46,8 @@ module Storages::ProjectStorages
     attribute :project_folder_id
     validates :project_folder_id, presence: true, if: :project_folder_mode_manual?
 
-    attribute :project_folder_id
-
     attribute :project_folder_mode do
-      unless @model.project_folder_inactive? || @model.project_folder_manual? || @model.project_folder_automatic?
+      if Storages::ProjectStorage.project_folder_modes.keys.exclude?(@model.project_folder_mode)
         errors.add :project_folder_mode, :invalid
       end
     end

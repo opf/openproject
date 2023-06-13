@@ -36,8 +36,15 @@ module Storages::ProjectStorages
       super(service_call)
 
       project_storage = service_call.result
-      return service_call if project_storage.project_folder_mode.to_sym == :inactive
+      add_historical_data(service_call) if project_storage.project_folder_mode.to_sym != :inactive
 
+      service_call
+    end
+
+    private
+
+    def add_historical_data(service_call)
+      project_storage = service_call.result
       project_folder = ::Storages::LastProjectFolder
                          .find_by(
                            projects_storage_id: project_storage.id,

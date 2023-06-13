@@ -32,12 +32,12 @@ module Storages::ProjectStorages::LastProjectFolderPersistenceHelper
   def create_last_project_folder(user:, projects_storage_id:, origin_folder_id:, mode:)
     ::Storages::LastProjectFolders::CreateService
       .new(user:)
-      .call({ projects_storage_id:, origin_folder_id:, mode: mode.to_sym })
+      .call(projects_storage_id:, origin_folder_id:, mode: mode.to_sym)
   end
 
   def update_last_project_folder(user:, project_folder:, origin_folder_id:)
     ::Storages::LastProjectFolders::UpdateService
       .new(model: project_folder, user:)
-      .call({ origin_folder_id: })
+      .call(origin_folder_id:)
   end
 end

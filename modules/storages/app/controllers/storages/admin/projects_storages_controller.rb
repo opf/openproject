@@ -111,8 +111,8 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
 
     @last_project_folders = Storages::LastProjectFolder
                               .where(projects_storage: @project_storage)
-                              .index_by(&:mode)
-                              .transform_values(&:origin_folder_id)
+                              .pluck(:mode, :origin_folder_id)
+                              .to_h
 
     render '/storages/project_settings/edit'
   end

@@ -35,9 +35,15 @@ module Storages::ProjectStorages
       super(service_call)
 
       project_storage = service_call.result
+      add_historical_data(service_call) if project_storage.project_folder_mode.to_sym != :inactive
 
-      return service_call if project_storage.project_folder_mode.to_sym == :inactive
+      service_call
+    end
 
+    private
+
+    def add_historical_data(service_call)
+      project_storage = service_call.result
       last_project_folder_result =
         LastProjectFolderPersistenceHelper.create_last_project_folder(
           user:,
