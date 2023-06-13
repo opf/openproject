@@ -85,6 +85,18 @@ See COPYRIGHT and LICENSE files for more details.
     </p>
   </div>
 
-  <%= styled_button_tag t("storages.buttons.done_complete_setup"), class: "-highlight -with-icon icon-checkmark" %>
+  <div class="form--field">
+    <% case action_name %>
+    <% when 'new' %>
+      <%= styled_button_tag t("storages.buttons.done_complete_setup"), class: "-highlight -with-icon icon-checkmark" %>
+    <% else %>
+      <%= styled_button_tag t("storages.buttons.save"), class: "-highlight -with-icon icon-checkmark" %>
+    <% end %>
+
+    <%= link_to admin_settings_storage_path(@storage), class: 'button' do %>
+      <%= spot_icon('cancel') %>
+      <%= content_tag :span, t(:button_cancel) %>
+    <% end %>
+  </div>
 <% end %>
 

@@ -62,29 +62,31 @@
   <% end %>
 </fieldset>
 
-<fieldset class="form--fieldset">
-  <legend class="form--fieldset-legend"><%= t("storages.page_titles.managed_project_folders.title") %></legend>
-  <% if @object.automatically_managed.nil? %>
-    <%= link_to(t("js.label_create"), edit_admin_settings_storage_managed_project_folders_path(@object), class: 'button -with-icon icon-add') %>
-  <% else %>
-    <div class="attributes-key-value">
-      <div class="attributes-key-value--key"><%= t(:"storages.label_managed_project_folders.automatically_managed_folders") %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <span><%= @object.automatically_managed? ? t(:"storages.label_active") : t(:"storages.label_inactive") %></span>
-        </div>
-      </div>
-      <% if @object.automatically_managed? %>
-        <div class="attributes-key-value--key"><%= t(:"storages.label_managed_project_folders.application_password") %></div>
+<% if OpenProject::FeatureDecisions.automatically_managed_project_folders_active? %>
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend"><%= t("storages.page_titles.managed_project_folders.title") %></legend>
+    <% if @object.automatic_management_unspecified? %>
+      <%= link_to(t("js.label_create"), edit_admin_settings_storage_managed_project_folders_path(@object), class: 'button -with-icon icon-add') %>
+    <% else %>
+      <div class="attributes-key-value">
+        <div class="attributes-key-value--key"><%= t(:"storages.label_managed_project_folders.automatically_managed_folders") %></div>
         <div class="attributes-key-value--value-container">
           <div class="attributes-key-value--value -text">
-            <span>●●●●●●●●●●●●●●●●</span>
+            <span><%= @object.automatically_managed? ? t(:"storages.label_active") : t(:"storages.label_inactive") %></span>
           </div>
         </div>
-      <% end %>
-    </div>
-    <%= link_to(t("storages.buttons.edit_automatically_managed_project_folders"),
-                edit_admin_settings_storage_managed_project_folders_path(@object),
-                class: 'button -with-icon icon-edit') %>
-  <% end %>
-</fieldset>
+        <% if @object.automatically_managed? %>
+          <div class="attributes-key-value--key"><%= t(:"storages.label_managed_project_folders.application_password") %></div>
+          <div class="attributes-key-value--value-container">
+            <div class="attributes-key-value--value -text">
+              <span>●●●●●●●●●●●●●●●●</span>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <%= link_to(t("storages.buttons.edit_automatically_managed_project_folders"),
+                  edit_admin_settings_storage_managed_project_folders_path(@object),
+                  class: 'button -with-icon icon-edit') %>
+    <% end %>
+  </fieldset>
+<% end %>

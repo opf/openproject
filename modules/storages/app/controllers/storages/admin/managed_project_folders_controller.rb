@@ -39,7 +39,7 @@ class Storages::Admin::ManagedProjectFoldersController < ApplicationController
 
   # specify which model #find_model_object should look up
   model_object Storages::Storage
-  before_action :find_model_object, only: %i[edit update]
+  before_action :find_model_object, only: %i[new edit update]
 
   # menu_item is defined in the Redmine::MenuManager::MenuController
   # module, included from ApplicationController.
@@ -48,10 +48,10 @@ class Storages::Admin::ManagedProjectFoldersController < ApplicationController
 
   # Show the admin page to set storage folder automatic management (for an already existing storage).
   # Sets the attributes automatically_managed as default true unless already set to false
-  # renders an edit page (allowing the user to change automatically_managed bool and application_password).
-  # Used by: The OauthClientsController#create, when the user inputs Oauth credentials.
+  # renders a form (allowing the user to change automatically_managed bool and application_password).
+  # Used by: The OauthClientsController#create, after the user inputs Oauth credentials for the first time.
   # Called by: Global app/config/routes.rb to serve Web page
-  def edit
+  def new
     # Set default parameters using a "service".
     # See also: storages/services/storages/storages/set_attributes_services.rb
     # That service inherits from ::BaseServices::SetAttributes
@@ -61,6 +61,13 @@ class Storages::Admin::ManagedProjectFoldersController < ApplicationController
                      contract_class: ::Storages::Storages::BaseContract)
                 .call
                 .result
+    render '/storages/admin/storages/show_managed_project_folders'
+  end
+
+  # Renders an edit page (allowing the user to change automatically_managed bool and application_password).
+  # Used by: The StoragesController#edit, when user wants to update application credentials.
+  # Called by: Global app/config/routes.rb to serve Web page
+  def edit
     render '/storages/admin/storages/show_managed_project_folders'
   end
 

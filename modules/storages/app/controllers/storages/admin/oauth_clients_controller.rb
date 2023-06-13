@@ -62,8 +62,8 @@ class Storages::Admin::OAuthClientsController < ApplicationController
     if service_result.success?
       flash[:notice] = I18n.t(:notice_successful_create)
       if OpenProject::FeatureDecisions.automatically_managed_project_folders_active?
-        if @storage.automatically_managed.nil?
-          redirect_to edit_admin_settings_storage_managed_project_folders_path(@storage)
+        if @storage.automatic_management_unspecified?
+          redirect_to new_admin_settings_storage_managed_project_folders_path(@storage)
         else
           redirect_to admin_settings_storage_path(@storage)
         end

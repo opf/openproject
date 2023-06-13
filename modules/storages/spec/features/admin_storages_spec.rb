@@ -28,7 +28,7 @@
 
 require_relative '../spec_helper'
 
-RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
+RSpec.describe 'Admin storages', :storage_server_helpers, js: true, with_flag: { automatically_managed_project_folders: true } do
   let(:admin) { create(:admin) }
 
   before do
@@ -38,6 +38,7 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
   it 'creates, edits and deletes storages', webmock: true do
     visit admin_settings_storages_path
 
+    ######### Step 1: Begin Create a storage #########
     # Show empty storages list
     expect(page).to have_title('File storages')
     expect(page.find('.title-container')).to have_text('File storages')
@@ -60,7 +61,9 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
     page.find_by_id('storages_storage_name').set("NC 1")
     page.find_by_id('storages_storage_host').set("https://example.com")
     page.find('button[type=submit]', text: "Save and continue setup").click
+    ######### Step 1: End Create a storage #########
 
+    ######### Step 2: Begin Show OAuth application #########
     # Show created oauth application
     storage_type = I18n.t('storages.provider_types.nextcloud.name')
     expect(page).to have_title("#{storage_type} #{I18n.t('storages.label_oauth_application_details')}")
@@ -68,7 +71,9 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
     expect(oauth_app_client_id.length).to eq 43
     expect(page.find_by_id('secret').value.length).to eq 43
     page.find('a.button', text: 'Done. Continue setup').click
+    ######### Step 2: End Show OAuth application #########
 
+    ######### Step 3: Begin Add OAuthClient #########
     # Add OAuthClient - Testing a number of different invalid states
     # However, more detailed checks are performed in the service spec.
     expect(page).to have_title("OAuth client details")
@@ -90,6 +95,31 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
     page.find_by_id('oauth_client_client_id').set("0123456789")
     page.find_by_id('oauth_client_client_secret').set("1234567890")
     page.find('button[type=submit]', text: 'Save').click
+    ######### Step 3: End Add OAuthClient #########
+
+    ######### Step 4: Begin Automatically managed project folders #########
+    # Nextcloud - Automatically managed project folders settings
+    # Switch is checked by default, expects input for application_password
+    expect(page).to have_title("Automatically managed project folders")
+    automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
+    application_password_input = page.find_by_id('storages_nextcloud_storage_application_password')
+    expect(automatically_managed_switch).to be_checked
+    expect(application_password_input.value).to be_empty
+
+    # Clicking submit with application password empty should show an error
+    page.click_button('Done, complete setup')
+    # Check that we're still on the same page
+    expect(page).to have_title("Automatically managed project folders")
+    expect(page).to have_content("Application password can't be blank.")
+
+    # Fill in application password and submit
+    automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
+    expect(automatically_managed_switch).to be_checked
+    page.fill_in 'storages_nextcloud_storage_application_password', with: "1234567890"
+    page.click_button('Save')
+    expect(page).to have_text("Active")
+    expect(page).to have_text("●●●●●●●●●●●●●●●●")
+    ######### Step 4: End Automatically managed project folders #########
 
     # Show details of a storage
     created_storage = Storages::Storage.find_by(name: 'NC 1')
@@ -101,6 +131,7 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
     # Check for client_id of nextcloud client and oauth application
     expect(page).to have_text(oauth_app_client_id)
     expect(page).to have_text("0123456789")
+    # Check for the automatically managed project folders settings
 
     # Edit storage again
     page.find('.button--icon.icon-edit').click
@@ -164,6 +195,29 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
     expect(page).to have_text(admin.name)
     expect(page).to have_text('https://example.com')
     expect(page).to have_text(created_storage.created_at.localtime.strftime("%m/%d/%Y %I:%M %p"))
+
+    ######### Begin Edit Automatically managed project folders #########
+    page.find('.button--icon.icon-edit').click
+    page.find('a', text: 'Edit automatically managed project folders').click
+
+    expect(page).to have_title("Automatically managed project folders")
+    automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
+    application_password_input = page.find_by_id('storages_nextcloud_storage_application_password')
+    expect(automatically_managed_switch).to be_checked
+    expect(application_password_input.value).to be_empty
+    expect(application_password_input['placeholder']).to eq("●●●●●●●●●●●●●●●●")
+
+    # Clicking submit without inputing new application password should show an error
+    page.click_button('Save')
+    # Check that we're still on the same page
+    expect(page).to have_title("Automatically managed project folders")
+    expect(page).to have_content("Application password can't be blank.")
+
+    # Switch off automatically managed project folders
+    page.find('[data-qa-selector="spot-switch-handle"]').click
+    page.click_button('Save')
+    expect(page).to have_text("Inactive")
+    ######### End Edit Automatically managed project folders #########
 
     # List of storages
     page.find("ul.op-breadcrumb li", text: "File storages").click
