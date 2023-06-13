@@ -1,17 +1,10 @@
 version: "3.7"
 
-networks:
-  testing:
-
 services:
   ci:
     build:
       context: ./docker/ci/
       dockerfile: Dockerfile
-      # cache_from:
-      #   - type=gha
-      # cache_to:
-      #   - type=gha,mode=max
     environment:
       RSPEC_RETRY_RETRY_COUNT: "${CI_RETRY_COUNT:-3}"
       CI_JOBS: "${CI_JOBS}"
@@ -25,5 +18,3 @@ services:
       - "${CI_CACHE_PATH:-/tmp}/op-node:/home/dev/openproject/frontend/node_modules"
       - "${CI_CACHE_PATH:-/tmp}/op-angular:/home/dev/openproject/frontend/.angular"
       - "${CI_CACHE_PATH:-/tmp}/op-cache:/cache"
-    networks:
-      - testing

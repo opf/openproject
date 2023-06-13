@@ -26,8 +26,8 @@ jobs:
     runs-on: [self-hosted, scaleway, docker, x64, XL]
     timeout-minutes: 60
     env:
+      DOCKER_BUILDKIT: 1
       CI_CACHE_PATH: "/tmp/cache"
-      LOCAL_DEV_CHECK: 1
       CI_RETRY_COUNT: 3
       CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
       CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
