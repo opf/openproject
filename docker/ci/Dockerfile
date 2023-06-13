@@ -37,8 +37,7 @@ WORKDIR $APP_PATH
 RUN mkdir -p /cache && chown $APP_USER:$APP_USER /cache
 RUN mkdir -p /usr/local/bundle/cache && chown -R $APP_USER:$APP_USER /usr/local/bundle/cache
 
-RUN echo "fsync = off" >> /etc/postgresql/$PGVERSION/main/postgresql.conf
-RUN echo "full_page_writes = off" >> /etc/postgresql/$PGVERSION/main/postgresql.conf
+COPY docker/ci/postgresql.conf /etc/postgresql/$PGVERSION/main/conf.d/ci.conf
 
 USER $APP_USER
 
