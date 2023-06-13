@@ -38,10 +38,9 @@ jobs:
       uses: actions/cache@v3
       with:
         path: /tmp/cache
-        key: ${{ runner.os }}-ci-cache-tests-units-${{ hashFiles('spec/support/turbo**') }}
+        key: ${{ runner.os }}-ci-cache-tests-units-${{ github.ref }}
         restore-keys: |
           ${{ runner.os }}-ci-cache-tests-units-
-          ${{ runner.os }}-ci-cache-tests-
     - name: build
       run: |
         sudo mkdir -p /tmp/cache && sudo chown -R $(whoami):$(id -ng) $CI_CACHE_PATH
@@ -71,10 +70,9 @@ jobs:
       uses: actions/cache@v3
       with:
         path: /tmp/cache
-        key: ${{ runner.os }}-ci-cache-tests-features-${{ hashFiles('spec/support/turbo**') }}
+        key: ${{ runner.os }}-ci-cache-tests-features-${{ github.ref }}
         restore-keys: |
           ${{ runner.os }}-ci-cache-tests-features-
-          ${{ runner.os }}-ci-cache-tests-
     - name: build
       run: |
         sudo mkdir -p /tmp/cache && sudo chown -R $(whoami):$(id -ng) $CI_CACHE_PATH
