@@ -58,8 +58,8 @@ class Journal < ApplicationRecord
   store_accessor :cause, %i[type work_package_id changed_days], prefix: true
   VALID_CAUSE_TYPES = %w[
     work_package_predecessor_changed_times
-    work_package_successor_changed_times
     work_package_parent_changed_times
+    work_package_children_changed_times
     working_days_changed
   ].freeze
 

@@ -28,10 +28,71 @@
 
 class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
   include ApplicationHelper
+  include WorkPackagesHelper
   include OpenProject::StaticRouting::UrlHelpers
   include OpenProject::ObjectLinking
 
   def render(_key, values, _options = { html: true })
-    content_tag(:pre, values.last)
+    cause = values.last
+
+    "#{content_tag(:strong, cause_type_translation(cause['type']))} #{cause_description(cause)}"
+  end
+
+  private
+
+  def cause_type_translation(_type)
+    # currently only date changes have a cause, but in the future when other changes have a cause,
+    # those can be changed here.
+
+    I18n.t('journals.caused_changes.dates_changed')
+  end
+
+  def cause_description(cause)
+    case cause['type']
+    when 'working_days_changed'
+      working_days_changed_message(cause['changed_days'])
+    else
+      related_work_package_changed_message(cause)
+    end
+  end
+
+  def related_work_package_changed_message(cause)
+    related_work_package = nil # WorkPackage.includes(:project).visible(User.current).find_by(id: cause['work_package_id'])
+
+    if related_work_package
+      I18n.t(
+        "journals.cause_descriptions.#{cause['type']}",
+        link: link_to_work_package(related_work_package)
+      )
+
+    else
+      I18n.t('journals.cause_descriptions.unaccessable_work_package_changed')
+    end
+  end
+
+  def working_days_changed_message(changed_dates)
+    day_changes_messages = changed_dates['working_days'].collect do |day, working|
+      working_day_change_message(day, working)
+    end
+    date_changes_messages = changed_dates['non_working_days'].collect do |date, working|
+      working_date_change_message(date, working)
+    end
+    I18n.t('journals.cause_descriptions.working_days_changed.changed',
+           changes: (day_changes_messages + date_changes_messages).join(', '))
+  end
+
+  def working_day_change_message(day, working)
+    I18n.t("journals.cause_descriptions.working_days_changed.days.#{working ? :working : :non_working}",
+           day: WeekDay.find_by!(day:).name)
+  end
+
+  def working_date_change_message(date, working)
+    I18n.t("journals.cause_descriptions.working_days_changed.dates.#{working ? :working : :non_working}", date:)
+  end
+
+  # we need to tell the url_helper that there is not controller to get url_options
+  # so that we can later call link_to
+  def controller
+    nil
   end
 end

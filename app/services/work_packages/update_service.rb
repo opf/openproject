@@ -34,7 +34,7 @@ class WorkPackages::UpdateService < BaseServices::Update
 
   def initialize(user:, model:, contract_class: nil, contract_options: {}, cause_of_update: nil)
     super(user:, model:, contract_class:, contract_options:)
-    self.cause_of_update = cause_of_update || self
+    self.cause_of_update = cause_of_update || model
   end
 
   private
@@ -127,6 +127,7 @@ class WorkPackages::UpdateService < BaseServices::Update
   end
 
   def reschedule(work_package, work_packages)
+    puts "*" * 200, cause_of_update, "#" * 200
     WorkPackages::SetScheduleService
       .new(user:, work_package: work_packages, initiated_by: cause_of_update)
       .call(work_package.saved_changes.keys.map(&:to_sym))
