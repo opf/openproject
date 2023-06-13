@@ -115,6 +115,10 @@ class Storages::Storage < ApplicationRecord
 
   alias automatically_managed? automatically_managed
 
+  def automatic_management_unspecified?
+    automatically_managed.nil?
+  end
+
   def provider_type_nextcloud?
     provider_type == ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
   end

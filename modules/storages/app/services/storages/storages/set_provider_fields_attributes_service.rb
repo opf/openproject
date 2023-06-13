@@ -30,7 +30,7 @@
 module Storages::Storages
   class SetProviderFieldsAttributesService < ::BaseServices::SetAttributes
     def set_default_provider_fields(_params)
-      if storage.provider_type_nextcloud? && storage.automatically_managed.nil?
+      if storage.provider_type_nextcloud? && storage.automatic_management_unspecified?
         storage.automatically_managed = storage.provider_fields_defaults[:automatically_managed]
       end
     end

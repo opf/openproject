@@ -135,6 +135,26 @@ RSpec.describe Storages::Storage do
     end
   end
 
+  describe '#automatic_management_unspecified?' do
+    context 'when automatically_managed is nil' do
+      let(:storage) { build(:storage, automatically_managed: nil) }
+
+      it { expect(storage).to be_automatic_management_unspecified }
+    end
+
+    context 'when automatically_managed is true' do
+      let(:storage) { build(:storage, automatically_managed: true) }
+
+      it { expect(storage).not_to be_automatic_management_unspecified }
+    end
+
+    context 'when automatically_managed is false' do
+      let(:storage) { build(:storage, automatically_managed: false) }
+
+      it { expect(storage).not_to be_automatic_management_unspecified }
+    end
+  end
+
   describe '#provider_fields_defaults' do
     context 'when provider_type is nextcloud' do
       let(:storage) { build(:storage) }

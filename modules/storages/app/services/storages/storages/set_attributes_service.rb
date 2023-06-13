@@ -54,7 +54,7 @@ module Storages::Storages
     def set_nextcloud_application_credentials_defaults
       # Do not overwrite if has never been set.
       # E.g. when setting up a new storage for the first time, passthrough, credentials are set in a later stage.
-      return if storage.automatically_managed.nil?
+      return if storage.automatic_management_unspecified?
 
       if storage.automatically_managed?
         storage.application_username = storage.provider_fields_defaults[:application_username]
