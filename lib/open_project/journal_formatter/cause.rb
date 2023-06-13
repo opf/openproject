@@ -57,7 +57,7 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
   end
 
   def related_work_package_changed_message(cause)
-    related_work_package = nil # WorkPackage.includes(:project).visible(User.current).find_by(id: cause['work_package_id'])
+    related_work_package = WorkPackage.includes(:project).visible(User.current).find_by(id: cause['work_package_id'])
 
     if related_work_package
       I18n.t(
