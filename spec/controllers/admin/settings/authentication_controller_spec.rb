@@ -40,7 +40,8 @@ RSpec.describe Admin::Settings::AuthenticationSettingsController do
   describe 'PATCH #update' do
     render_views
 
-    current_user { create(:admin) }
+    shared_let(:admin) { create(:admin) }
+    current_user { admin }
 
     describe 'registration_footer' do
       let(:old_settings) do
@@ -61,17 +62,9 @@ RSpec.describe Admin::Settings::AuthenticationSettingsController do
         }
       end
 
-      around do |example|
-        original_settings = {}
+      before do
         old_settings.each_key do |key|
-          original_settings[key] = Setting[key]
           Setting[key] = old_settings[key]
-        end
-        example.run
-      ensure
-        # restore settings
-        old_settings.each_key do |key|
-          Setting[key] = original_settings[key]
         end
       end
 
