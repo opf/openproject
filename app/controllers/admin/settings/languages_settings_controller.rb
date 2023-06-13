@@ -33,5 +33,11 @@ module Admin::Settings
     def default_breadcrumb
       t(:label_languages)
     end
+
+    protected
+
+    def update_service
+      ::Settings::LanguageUpdateService
+    end
   end
 end

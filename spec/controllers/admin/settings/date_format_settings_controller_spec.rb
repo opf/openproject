@@ -31,62 +31,41 @@
 
 require 'spec_helper'
 
-RSpec.describe Admin::Settings::LanguagesSettingsController do
+RSpec.describe Admin::Settings::DateFormatSettingsController do
   shared_let(:user) { create(:admin) }
   current_user { user }
-
-  describe 'GET #show' do
-    subject { get 'show' }
-
-    describe 'permissions' do
-      let(:fetch) { subject }
-
-      it_behaves_like 'a controller action with require_admin'
-    end
-
-    it 'renders the language settings template' do
-      subject
-
-      expect(response).to be_successful
-      expect(response).to render_template 'admin/settings/languages_settings/show', 'layouts/admin'
-    end
-  end
 
   describe 'PATCH #update' do
     subject { patch 'update', params: }
 
-    let(:available_languages) { %w[en fr de] }
+    let(:start_of_week) { 1 }
+    let(:first_week_of_year) { 1 }
+    let(:date_format) { Settings::Definition[:date_format].allowed.first }
+    let(:time_format) { Settings::Definition[:time_format].allowed.first }
     let(:base_settings) do
-      { available_languages: }
+      { start_of_week:, first_week_of_year:, date_format:, time_format: }
     end
     let(:params) { { settings: } }
 
-    context 'with valid params' do
-      let(:settings) { base_settings }
+    shared_examples 'invalid combination of start_of_week and first_week_of_year' do |missing_param:|
+      provided_param = (%i[start_of_week first_week_of_year] - [missing_param]).first
 
-      it 'succeeds' do
-        subject
+      context "when setting only #{provided_param} but not #{missing_param}" do
+        let(:settings) { base_settings.except(missing_param) }
 
-        expect(response).to redirect_to action: :show
-        expect(flash[:notice]).to eq I18n.t(:notice_successful_update)
-      end
+        it 'redirects and sets the flash error' do
+          subject
 
-      it 'sets language of users having a non-available language to the default language',
-         with_settings: { available_languages: %w[en de ja], default_language: 'de' } do
-        user_de = create(:user, language: 'de')
-        user_en = create(:user, language: 'en')
-        user_foo = create(:user, language: 'foo')
-        user_fr = create(:user, language: 'fr')
-        user_ja = create(:user, language: 'ja')
-
-        subject
-
-        expect(user_de.reload.language).to eq('de')
-        expect(user_en.reload.language).to eq('en')
-        expect(user_foo.reload.language).to eq('de')
-        expect(user_fr.reload.language).to eq('de')
-        expect(user_ja.reload.language).to eq('ja')
+          expect(response).to redirect_to action: :show
+          expect(flash[:error])
+            .to eq(I18n.t('settings.display.first_date_of_week_and_year_set',
+                          first_week_setting_name: I18n.t(:setting_first_week_of_year),
+                          day_of_week_setting_name: I18n.t(:setting_start_of_week)))
+        end
       end
     end
+
+    include_examples 'invalid combination of start_of_week and first_week_of_year', missing_param: :first_week_of_year
+    include_examples 'invalid combination of start_of_week and first_week_of_year', missing_param: :start_of_week
   end
 end
