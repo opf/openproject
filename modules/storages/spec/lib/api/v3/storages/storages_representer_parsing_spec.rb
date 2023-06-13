@@ -55,6 +55,10 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'parsing' do
       it 'is parsed correctly' do
         expect(parsed).to have_attributes(name: 'Nextcloud Local', host: storage.host,
                                           provider_type: "Storages::NextcloudStorage")
+
+        aggregate_failures 'does not parse applicationPassword' do
+          expect(parsed.provider_fields).to eq({})
+        end
       end
     end
 

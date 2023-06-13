@@ -175,5 +175,18 @@ RSpec.describe Storages::Storages::SetAttributesService, type: :model do
         expect(subject.result.attributes.keys).not_to include(:application_username, :application_password)
       end
     end
+
+    context 'with automatically_managed nil' do
+      let(:params) do
+        super().merge(
+          "automatically_managed" => nil
+        )
+      end
+
+      it 'does not change the value' do
+        expect(subject.result).to have_attributes(automatically_managed: nil)
+        expect(subject.result.attributes.keys).not_to include(:application_username, :application_password)
+      end
+    end
   end
 end
