@@ -32,10 +32,14 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
   include OpenProject::StaticRouting::UrlHelpers
   include OpenProject::ObjectLinking
 
-  def render(_key, values, _options = { html: true })
+  def render(_key, values, options = { html: true })
     cause = values.last
 
-    "#{content_tag(:strong, cause_type_translation(cause['type']))} #{cause_description(cause)}"
+    if options[:html]
+      "#{content_tag(:strong, cause_type_translation(cause['type']))} #{cause_description(cause, true)}"
+    else
+      "#{cause_type_translation(cause['type'])} #{cause_description(cause, false)}"
+    end
   end
 
   private
@@ -47,22 +51,22 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
     I18n.t('journals.caused_changes.dates_changed')
   end
 
-  def cause_description(cause)
+  def cause_description(cause, html)
     case cause['type']
     when 'working_days_changed'
       working_days_changed_message(cause['changed_days'])
     else
-      related_work_package_changed_message(cause)
+      related_work_package_changed_message(cause, html)
     end
   end
 
-  def related_work_package_changed_message(cause)
+  def related_work_package_changed_message(cause, html)
     related_work_package = WorkPackage.includes(:project).visible(User.current).find_by(id: cause['work_package_id'])
 
     if related_work_package
       I18n.t(
         "journals.cause_descriptions.#{cause['type']}",
-        link: link_to_work_package(related_work_package)
+        link: html ? link_to_work_package(related_work_package) : "##{related_work_package.id}"
       )
 
     else
