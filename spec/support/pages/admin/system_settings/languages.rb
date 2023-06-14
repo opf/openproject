@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -29,17 +31,14 @@
 require 'support/pages/admin/system_settings/page'
 
 module Pages::Admin::SystemSettings
-  class General < Page
+  class Languages < Page
     def path
-      "/admin/settings/general"
+      admin_settings_languages_path
     end
 
-    def welcome_text_editor
-      Components::WysiwygEditor.new welcome_text_selector
-    end
-
-    def welcome_text_selector
-      'ckeditor-augmented-textarea[textarea-selector="#settings_welcome_text"]'
+    def save
+      press_save_button
+      expect_and_dismiss_toaster
     end
   end
 end
