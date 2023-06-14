@@ -788,7 +788,7 @@ cs:
               full_hour: "lze nakonfigurovat pouze za celou hodinu."
             notification_settings:
               only_one_global_setting: 'Musí existovat pouze jedno globální nastavení oznámení.'
-              email_alerts_global: 'The email notification settings can only be set globally.'
+              email_alerts_global: 'Nastavení e-mailových notifikací lze nastavit pouze globálně.'
               format: "%{message}"
               wrong_date: 'Nesprávná hodnota pro datum zahájení, datum dockončení nebo zpoždění.'
         watcher:
@@ -931,7 +931,7 @@ cs:
       parent_without_of: "Podprojekt"
       parent_no_longer: "Již není podprojekt projektu"
     filter:
-      changeset: "Changesets"
+      changeset: "Změny"
       message: "Fóra"
       news: "Novinky"
       project_attribute: "Atributy projektu"
@@ -3030,7 +3030,7 @@ cs:
       title: "Odstranit pracovní balíček"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      <b>Definujte dny považované za část pracovního týdne</b><br/> dny, které jsou při plánování pracovních balíčků označeny jsou přeskočeny (a nejsou zahrnuty do celkového denního počtu). Tyto mohou být přepsány na úrovni pracovního balíčku.
     instance_wide_info: >
       <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Změnit pracovní dny"

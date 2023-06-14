@@ -25,7 +25,7 @@ lt:
       document: "Dokumentas"
   activity:
     filter:
-      document: "Documents"
+      document: "Dokumentai"
   default_doc_category_tech: "Techninė dokumentacija"
   default_doc_category_user: "Vartotojo dokumentacija"
   enumeration_doc_categories: "Dokumentų kategorijos"

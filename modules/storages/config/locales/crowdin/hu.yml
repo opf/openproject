@@ -6,7 +6,7 @@ hu:
   project_module_storages: "Tárterületek"
   activerecord:
     models:
-      storages/storage: "Storage"
+      storages/storage: "Tárhely"
     attributes:
       storages/storage:
         name: "Név"

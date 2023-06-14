@@ -34,7 +34,7 @@ tr:
         empty_folder_location_hint: "Dosyayı bu konuma yüklemek için aşağıdaki düğmeyi tıklayın."
         file_not_selectable_location: "Konum seçme sürecinde dosya seçmek mümkün değildir."
         upload_keep_both: "Keep both"
-        upload_replace: "Replace"
+        upload_replace: "Değiştir"
       file_links:
         empty: >
           Şu anda bu çalışma paketine bağlı dosya yok. Aşağıdaki işlemle veya %{storageType} içinden dosyaları bağlamaya başlayın.

@@ -103,7 +103,7 @@ id:
         bim/bcf/issue:
           uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
   ifc_models:
-    label_ifc_models: 'IFC models'
+    label_ifc_models: 'Model IFC'
     label_new_ifc_model: 'New IFC model'
     label_show_defaults: 'Show defaults'
     label_default_ifc_models: 'Default IFC models'

@@ -477,7 +477,7 @@ lv:
       project:
         active_value:
           true: "unarchived"
-          false: "archived"
+          false: "arhivēts"
         identifier: "Identifikators"
         latest_activity_at: "Latest activity at"
         parent: "Apakšprojekts"
@@ -928,12 +928,12 @@ lv:
     filter:
       changeset: "Changesets"
       message: "Forums"
-      news: "News"
+      news: "Jaunumi"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
+      time_entry: "Pavadīts laiks"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "Pieteikumi"
   #common attributes of all models
   attributes:
     active: "Aktīvs"
@@ -990,7 +990,7 @@ lv:
     updated_on: "Labots"
     uploader: "Uploader"
     user: "User"
-    value: "Value"
+    value: "Vērtība"
     version: "Versija"
     work_package: "Work package"
   backup:

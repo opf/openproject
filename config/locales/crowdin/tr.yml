@@ -917,7 +917,7 @@ tr:
       created_on: "Oluşturulma tarihi: {dateTime}"
       updated_by_on: "%{date} tarihinde %{user} tarafından güncellendi"
       updated_on: "Güncellenme tarihi: {dateTime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "Alt proje"
       parent_no_longer: "No longer subproject of"
     filter:
       changeset: "Değişiklik Listeleri"
@@ -2693,7 +2693,7 @@ tr:
   text_journal_deleted: "%{label}, ( %{old}) silindi"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label}, ( %{link}) silindi"
-  text_journal_of: "%{label} %{value}"
+  text_journal_of: "%{value} %{label} eklendi"
   text_journal_set_to: "%{label} %{value} yapıldı"
   text_journal_set_with_diff: "%{label} ayarla ( %{link})"
   text_journal_label_value: "%{value} %{label} eklendi"

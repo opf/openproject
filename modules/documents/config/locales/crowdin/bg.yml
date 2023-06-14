@@ -25,7 +25,7 @@ bg:
       document: "Документ"
   activity:
     filter:
-      document: "Documents"
+      document: "Документи"
   default_doc_category_tech: "Техническа документация"
   default_doc_category_user: "Документация за потребителя"
   enumeration_doc_categories: "Категории документи"

@@ -39,7 +39,7 @@ eu:
       meeting_minutes: "Aktak"
   activity:
     filter:
-      meeting: "Meetings"
+      meeting: "Hitzorduak"
   description_attended: "Egon da"
   description_invite: "Gonbidatua izan da"
   events:

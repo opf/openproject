@@ -72,7 +72,7 @@ sk:
       text_2fa_enabled: 'Po každom prihlásení bude užívateľ požiadaný, aby zadal token OTP zo svojho predvoleného zariadenia 2FA.'
       text_2fa_disabled: "Používateľ neurčil zariadenie 2FA prostredníctvom svojej stránky \"Môj účet\""
     upsale:
-      title: 'Two-factor authentication'
+      title: 'Dvojfaktorové overenie (2FA)'
       description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
     backup_codes:
       none_found: Pre tento účet neexistujú žiadne záložné kódy.

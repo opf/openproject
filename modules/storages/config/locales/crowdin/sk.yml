@@ -9,7 +9,7 @@ sk:
       storages/storage: "Storage"
     attributes:
       storages/storage:
-        name: "Name"
+        name: "Názov"
         creator: "Creator"
         provider_type: "Provider type"
       storages/file_link:
@@ -68,7 +68,7 @@ sk:
     label_creator: "Creator"
     label_file_link: "File link"
     label_file_links: "File links"
-    label_name: "Name"
+    label_name: "Názov"
     label_host: "Host URL"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
