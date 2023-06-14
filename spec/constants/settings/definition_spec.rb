@@ -154,6 +154,12 @@ RSpec.describe Settings::Definition, :settings_reset do
         expect(all[:rest_api_enabled].value).to be false
       end
 
+      it 'overriding symbol configuration having allowed values from ENV will cast the value before validation check' do
+        stub_const('ENV', { 'OPENPROJECT_RAILS__CACHE__STORE' => 'memcache' })
+        reset(:rails_cache_store)
+        expect(all[:rails_cache_store].value).to eq :memcache
+      end
+
       it 'overriding datetime configuration from ENV will cast the value' do
         stub_const('ENV', { 'OPENPROJECT_CONSENT__TIME' => '2222-01-01' })
         reset(:consent_time)
