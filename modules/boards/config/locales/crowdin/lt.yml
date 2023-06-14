@@ -14,5 +14,5 @@ lt:
       status: Būsena
       version: Versija
       subproject: Sub-projektas
-      subtasks: Parent-child
+      subtasks: Tėvo-vaiko
       basic: Pagrindinis
