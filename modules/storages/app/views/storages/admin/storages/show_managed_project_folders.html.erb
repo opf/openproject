@@ -39,7 +39,8 @@ See COPYRIGHT and LICENSE files for more details.
 <%= error_messages_for_contract @storage, @errors %>
 
 <%= labelled_tabular_form_for @storage, url: admin_settings_storage_managed_project_folders_path(@storage),
-                                        method: :patch, data: {
+                                        method: :patch,
+                                        data: {
                                           controller: "storages--managed-project-folders-form",
                                           'application-target': "dynamic",
                                           'storages--managed-project-folders-form-is-automatically-managed-value': @storage.automatically_managed?,
