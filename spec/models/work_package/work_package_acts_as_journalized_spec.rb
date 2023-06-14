@@ -508,6 +508,44 @@ RSpec.describe WorkPackage do
       end
     end
 
+    context 'when 2 updates with the same cause occur' do
+      before do
+        work_package.add_journal(
+          user: User.current,
+          cause: {
+            type: 'work_package_predecessor_changed_times',
+            work_package_id: 42
+          }
+        )
+        work_package.subject = "new subject 1"
+        work_package.save
+      end
+
+      subject do
+        work_package.add_journal(
+          user: User.current,
+          cause: {
+            type: 'work_package_predecessor_changed_times',
+            work_package_id: 42
+          }
+        )
+        work_package.subject = "new subject 2"
+        work_package.save
+      end
+
+      it 'does not create a new journal entry' do
+        expect { subject }.not_to change(work_package, :last_journal)
+      end
+
+      it 'stores the last update only' do
+        subject
+
+        expect(work_package.last_journal.new_value_for(:subject)).to eq('new subject 2')
+        expect(work_package.last_journal.cause_type).to eq('work_package_predecessor_changed_times')
+        expect(work_package.last_journal.cause_work_package_id).to eq(42)
+      end
+    end
+
     context 'when updated within aggregation time' do
       subject(:journals) { work_package.journals }
 
