@@ -49,8 +49,12 @@ module Journals
     end
 
     def call(notes: '', cause: {})
+      # JSON columns read from the database always have string keys. As we do not know what is passed in here,
+      # and we want to compare it to values read from the DB, we need to stringify the keys here as well
+      normalized_cause = cause.deep_stringify_keys
+
       Journal.transaction do
-        journal = create_journal(notes, cause)
+        journal = create_journal(notes, normalized_cause)
 
         if journal
           reload_journals
@@ -63,8 +67,8 @@ module Journals
 
     private
 
-    # If the journalizing happens within the configured aggregation time, is carried out by the same user
-    # and only the predecessor or the journal to be created has notes, the changes are aggregated.
+    # If the journalizing happens within the configured aggregation time, is carried out by the same user, has an
+    # identical cause and only the predecessor or the journal to be created has notes, the changes are aggregated.
     # Instead of removing the predecessor, return it here so that it can be stripped in the journal creating
     # SQL to than be refilled. That way, references to the journal, including ones users have, are kept intact.
     def aggregatable_predecessor(notes, cause)
@@ -110,10 +114,10 @@ module Journals
     # (i.e. when determining the latest state of the journable and when getting the current version number).
     #
     # The next CTE (`changes`) determines whether a change as occurred so that a new journal needs to be created. The next CTE,
-    # that will insert new data, will only do so if the changes CTE returns an entry. The only two exceptions to this check is
-    # that if a note is provided or a predecessor is replaced, a journal will be created regardless of whether any changes are
-    # detected. To determine whether a change is worthy of being journalized, the current and the latest journalized state are
-    # compared in three aspects:
+    # that will insert new data, will only do so if the changes CTE returns an entry. The only three exceptions to this check are
+    # that if a note is provided, the predecessor has a different cause than the new journal would have or a predecessor
+    # is replaced, a journal will be created regardless of whether any changes are detected. To determine whether a
+    # change is worthy of being journalized, the current and the latest journalized state are compared in three aspects:
     # * the journable's table columns are compared to the columns in the journable's journal data table
     # (e.g. work_package_journals for WorkPackages). Only columns that exist in the journable's journal data table are considered
     # (and some columns like the primary key `id` is ignored). Therefore, to add an attribute to be journalized, it needs to
@@ -124,7 +128,7 @@ module Journals
     # When comparing text based values, newlines are normalized as otherwise users having a different OS might change a text value
     # without intending to.
     #
-    # Only if a change has been identified (or if a note/predecessor is present) is a journal inserted by the
+    # Only if a change has been identified (or if a note/cause/predecessor is present) is a journal inserted by the
     # next CTE (`insert_journal`). Its creation timestamp will be the updated_at value of the journable as this is the
     # logical creation time. If a note is present, however, the current time is taken as it signifies an action in itself and
     # there might not be a change at all. In such a case, the journable will later on receive the creation date of the
@@ -581,6 +585,7 @@ module Journals
     end
 
     def cause_sql(cause)
+      # Using the same encoder mechanism that ActiveRecord uses for json/jsonb columns
       ActiveSupport::JSON.encode(cause || {})
     end
 
@@ -634,8 +639,7 @@ module Journals
     end
 
     def same_cause?(predecessor, cause)
-      # TODO: change to a better solution that does not need deep_stringify_keys
-      (predecessor.cause.blank? && cause.blank?) || predecessor.cause == cause.deep_stringify_keys
+      (predecessor.cause.blank? && cause.blank?) || predecessor.cause == cause
     end
 
     def log_journal_creation(predecessor)
