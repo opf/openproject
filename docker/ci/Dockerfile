@@ -56,5 +56,7 @@ RUN \
 COPY ./docker/ci/entrypoint.sh /usr/sbin/entrypoint.sh
 COPY --chown=$APP_USER:$APP_USER . .
 
+ENV DATABASE_URL="postgres://appuser:p4ssw0rd@127.0.0.1/appdb"
+
 ENTRYPOINT [ "/usr/sbin/entrypoint.sh" ]
 CMD ["setup-tests", "bash"]
