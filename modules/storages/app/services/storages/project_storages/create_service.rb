@@ -29,5 +29,32 @@
 # See: ../storages/create_service.rb for comments on services
 module Storages::ProjectStorages
   class CreateService < ::BaseServices::Create
+    protected
+
+    def after_perform(service_call)
+      super(service_call)
+
+      project_storage = service_call.result
+      add_historical_data(service_call) if project_storage.project_folder_mode.to_sym != :inactive
+
+      service_call
+    end
+
+    private
+
+    def add_historical_data(service_call)
+      project_storage = service_call.result
+      last_project_folder_result =
+        LastProjectFolderPersistenceHelper.create_last_project_folder(
+          user:,
+          projects_storage_id: project_storage.id,
+          origin_folder_id: project_storage.project_folder_id,
+          mode: project_storage.project_folder_mode
+        )
+
+      service_call.add_dependent!(last_project_folder_result)
+
+      service_call
+    end
   end
 end

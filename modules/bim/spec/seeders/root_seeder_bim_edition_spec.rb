@@ -174,18 +174,17 @@ RSpec.describe RootSeeder,
     end
   end
 
-  describe 'demo data with a non-English language' do
+  describe 'demo data with a non-English language set with OPENPROJECT_DEFAULT__LANGUAGE', :settings_reset do
     shared_let(:root_seeder) { described_class.new }
 
     before_all do
       with_edition('bim') do
-        stub_language('de')
+        stub_const('ENV', { 'OPENPROJECT_DEFAULT__LANGUAGE' => 'de' })
+        reset(:default_language) # Settings are a pain to reset
         root_seeder.seed_data!
+      ensure
+        reset(:default_language)
       end
-    end
-
-    before do
-      stub_language('de')
     end
 
     include_examples 'creates BIM demo data'

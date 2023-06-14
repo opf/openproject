@@ -54,7 +54,7 @@ export class ScrollableTabsComponent implements AfterViewInit, OnChanges {
 
   private pane:Element;
 
-  private debouncedTabActivationTimeout:NodeJS.Timeout|null;
+  private debouncedTabActivationTimeout:number|null;
 
   private dragTargetStack = 0;
 

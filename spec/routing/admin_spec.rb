@@ -49,11 +49,6 @@ RSpec.describe 'admin routes' do
       .to route_to('admin#info')
   end
 
-  it 'connects POST /admin/force_user_language to admin#force_user_language' do
-    expect(post('/admin/force_user_language'))
-      .to route_to('admin#force_user_language')
-  end
-
   it 'connects POST /admin/test_email to admin#test_email' do
     expect(post('/admin/test_email'))
       .to route_to('admin#test_email')

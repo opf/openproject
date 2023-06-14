@@ -10,7 +10,7 @@
   <a
     *ngIf="eeShowBanners"
     [attr.href]="text.moreInfoLink"
-    class="op-baseline--info-button"
+    class="op-baseline--info-button spot-body-small"
     target=”_blank”>
     {{ text.more_info_text }}
     <span class="spot-icon spot-icon_external-link"></span> 
@@ -48,7 +48,7 @@
       </select>
 
     </div>
-    <span slot="description">  {{ mappedSelectedDate }} </span>
+    <span slot="description" *ngIf="mappedSelectedDate">  {{ mappedSelectedDate }} </span>
   </spot-form-field>
 
   <spot-form-field

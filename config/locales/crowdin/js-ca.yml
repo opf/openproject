@@ -1271,8 +1271,8 @@ ca:
       no_results: 'Cap projecte s''ajusta a la teva cerca.'
     baseline:
       toggle_title: 'Baseline'
-      clear: 'Netejar'
-      apply: 'Aplicar'
+      clear: 'Esborra'
+      apply: 'Aplica'
       header_description: 'Highlight changes made to this list since any point in the past.'
       enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Show changes since'
@@ -1280,14 +1280,14 @@ ca:
       help_description: 'Reference time zone for the baseline.'
       time_description: 'In your local time: %{datetime}'
       time: 'Hora'
-      from: 'De'
+      from: 'Des de'
       to: 'Fins'
       drop_down:
         none: '-'
         yesterday: 'ahir'
         last_working_day: 'last working day'
-        last_week: 'l''última setmana'
-        last_month: 'l''últim més'
+        last_week: 'la setmana passada'
+        last_month: 'el mes passat'
         a_specific_date: 'a specific date'
         between_two_specific_dates: 'between two specific dates'
       legends:

@@ -69,6 +69,8 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
                          .result
 
     @available_storages = available_storages
+    @last_project_folders = {}
+
     storage_id = params.dig(:storages_project_storage, :storage_id)
     if storage_id.present?
       @project_storage.storage = available_storages.find_by(id: storage_id)
@@ -106,6 +108,11 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
     # @object was calculated in before_action :find_model_object (see comments above).
     # @project_storage is used in the view in order to render the form for a new object
     @project_storage = @object
+
+    @last_project_folders = Storages::LastProjectFolder
+                              .where(projects_storage: @project_storage)
+                              .pluck(:mode, :origin_folder_id)
+                              .to_h
 
     render '/storages/project_settings/edit'
   end

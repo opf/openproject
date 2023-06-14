@@ -60,6 +60,7 @@ ru:
       host: "Пожалуйста, добавьте адрес вашего хранилища, включая https://. Он не должен быть длиннее 255 символов."
       no_storage_set_up: "Нет настроенных хранилищ файлов."
       no_specific_folder: "По умолчанию каждый пользователь при загрузке файла начинает работу со своей собственной домашней папки."
+      automatic_folder: "This will automatically create a root folder for this project and manage the access permissions for each project member."
       empty_project_folder_validation: "Выбор папки является обязательным для продолжения."
       not_logged_into_storage: "Чтобы выбрать папку проекта, сначала войдите"
       existing_manual_folder: >
@@ -95,6 +96,7 @@ ru:
     label_new_storage: "Новое хранилище"
     label_existing_manual_folder: "Существующая папка с разрешениями, управляемыми вручную"
     label_no_specific_folder: "Нет конкретной папки"
+    label_automatic_folder: "New folder with automatically managed permissions"
     label_no_selected_folder: "Папка не выбрана"
     label_storage: "Хранилище"
     label_storages: "Хранилища"

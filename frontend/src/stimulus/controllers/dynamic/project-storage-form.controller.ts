@@ -64,6 +64,7 @@ export default class ProjectStorageFormController extends Controller {
     folderMode: String,
     placeholderFolderName: String,
     notLoggedInValidation: String,
+    lastProjectFolders: Object,
   };
 
   declare folderModeValue:string;
@@ -71,6 +72,8 @@ export default class ProjectStorageFormController extends Controller {
   declare placeholderFolderNameValue:string;
 
   declare notLoggedInValidationValue:string;
+
+  declare lastProjectFoldersValue:{ manual:string; automatic:string };
 
   declare readonly storageTarget:HTMLElement;
 
@@ -132,12 +135,29 @@ export default class ProjectStorageFormController extends Controller {
       });
   }
 
-  updateDisplay(evt:InputEvent):void {
-    if (!this.hasProjectFolderSectionTarget) {
-      return;
+  updateForm(evt:InputEvent):void {
+    const mode = (evt.target as HTMLInputElement).value;
+    const { manual, automatic } = this.lastProjectFoldersValue;
+
+    switch (mode) {
+      case 'manual':
+        this.projectFolderIdInputTarget.value = manual ?? '';
+
+        this.fetchProjectFolder().subscribe((projectFolder) => {
+          this.selectedFolderTextTarget.innerText = projectFolder === null
+            ? this.placeholderFolderNameValue
+            : projectFolder.name;
+        });
+
+        break;
+      case 'automatic':
+        this.projectFolderIdInputTarget.value = automatic ?? '';
+        break;
+      default:
+        this.projectFolderIdInputTarget.value = '';
     }
 
-    this.toggleFolderDisplay((evt.target as HTMLInputElement).value);
+    this.toggleFolderDisplay(mode);
   }
 
   private get modalService():Observable<OpModalService> {
@@ -188,7 +208,7 @@ export default class ProjectStorageFormController extends Controller {
 
   private toggleFolderDisplay(value:string):void {
     // If the manual radio button is selected, show the manual folder selection section
-    if (value === 'manual') {
+    if (this.hasProjectFolderSectionTarget && value === 'manual') {
       this.projectFolderSectionTarget.style.display = 'flex';
     } else {
       this.projectFolderSectionTarget.style.display = 'none';
