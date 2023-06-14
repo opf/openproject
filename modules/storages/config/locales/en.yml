@@ -57,6 +57,7 @@ en:
       save_and_continue_setup: "Save and continue setup"
       save_and_complete_setup: "Save and complete setup"
       select_folder: "Select folder"
+      configure: "Configure"
     page_titles:
       managed_project_folders:
         title: "Automatically managed project folders"

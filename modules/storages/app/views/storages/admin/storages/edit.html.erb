@@ -66,7 +66,7 @@
   <fieldset class="form--fieldset">
     <legend class="form--fieldset-legend"><%= t("storages.page_titles.managed_project_folders.title") %></legend>
     <% if @object.automatic_management_unspecified? %>
-      <%= link_to(t("js.label_create"), edit_admin_settings_storage_managed_project_folders_path(@object), class: 'button -with-icon icon-add') %>
+      <%= link_to(t("storages.buttons.configure"), new_admin_settings_storage_managed_project_folders_path(@object), class: 'button -with-icon icon-add') %>
     <% else %>
       <div class="attributes-key-value">
         <div class="attributes-key-value--key"><%= t(:"storages.label_managed_project_folders.automatically_managed_folders") %></div>
