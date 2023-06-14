@@ -26,28 +26,27 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
-<% html_title(t(:label_my_account), I18n.t('my_account.access_tokens.access_tokens')) -%>
-
-<% breadcrumb_paths(t(:label_my_account), I18n.t('my_account.access_tokens.access_tokens')) %>
-
-<div class="access-token-page--container">
-	<%= toolbar title: I18n.t('my_account.access_tokens.access_tokens') %>
-
-	<%= render partial: 'my/access_token_partials/api_tokens_section',
-							locals: { api_token: @user.api_token }
-	%>
-	<%= render partial: 'my/access_token_partials/icalendar_tokens_section', 
-							locals: { ical_tokens_grouped_by_query: @ical_tokens_grouped_by_query } 
-	%>
-	<%= render partial: 'my/access_token_partials/oauth_tokens_section', 
-							locals: { granted_applications: granted_applications } 
-	%>
-	<%= render partial: 'my/access_token_partials/rss_tokens_section', 
-							locals: { rss_token: @user.rss_token } 
-	%>
-</div>
-
-<!-- TODO: view_access_tokens_table hook still required? -->
-<!-- <%= call_hook(:view_access_tokens_table, user: @user) %> -->
-
+<colgroup>
+  <% column_headers&.length&.times do %>
+    <col opHighlightCol>
+  <% end %>
+  <col opHighlightCol>
+</colgroup>
+<thead>
+  <tr>
+    <% column_headers&.each do |column_header| %>
+      <th>
+        <div class="generic-table--sort-header-outer">
+          <div class="generic-table--sort-header">
+            <%= column_header %>
+          </div>
+        </div>
+      </th>
+    <% end %>
+    <th>
+      <div class="generic-table--sort-header-outer">
+        <div class="generic-table--sort-header"></div>
+      </div>
+    </th>
+  </tr>
+</thead>

@@ -268,7 +268,7 @@ hu:
       notice_reset_token: "Egy új %{type} token létrehozva. A hozzáférési token:"
       token_value_warning: "Megjegyzés: Ez az egyetlen alkalom, mikor ezt a tokent láthatja, győződjön meg arról, hogy most átmásolta."
       no_results_title_text: Jelenleg nincs elérhető hozzáférési kulcs.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Nincs megjeleníthető hír.

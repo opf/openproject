@@ -266,7 +266,7 @@ it:
       notice_reset_token: "È stato generato un nuovo token %{type}. Il tuo token di accesso è:"
       token_value_warning: "Nota: Questa è l'unica volta in cui vedrai questo token, assicurati di copiarlo subito."
       no_results_title_text: Al momento non sono disponibili token di accesso.
-      notice_ical_tokens_reverted: "Il token di iCalendar \"%{token_name}\" per il calendario \"%{calendar_name}\" del progetto \"%{project_name}\" è stato revocato. L'URL di iCalendar con questo token non è ora valido."
+      notice_ical_token_revoked: "Il token di iCalendar \"%{token_name}\" per il calendario \"%{calendar_name}\" del progetto \"%{project_name}\" è stato revocato. L'URL di iCalendar con questo token non è ora valido."
   news:
     index:
       no_results_title_text: Al momento non c'è nessuna notizia da segnalare.

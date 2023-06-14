@@ -268,7 +268,7 @@ ru:
       notice_reset_token: "Новый маркер %{type} создан. Ваш маркер доступа:"
       token_value_warning: "Примечание: Этот маркер вам больше никогда показан не будет, убедитесь что запомнили его."
       no_results_title_text: На данный момент маркеры доступа отсутствуют.
-      notice_ical_tokens_reverted: "токен iCalendar \"%{token_name}\" для календаря \"%{calendar_name}\" проекта \"%{project_name}\" был отозван. URL-адрес iCalendar с этим токеном недействителен."
+      notice_ical_token_revoked: "токен iCalendar \"%{token_name}\" для календаря \"%{calendar_name}\" проекта \"%{project_name}\" был отозван. URL-адрес iCalendar с этим токеном недействителен."
   news:
     index:
       no_results_title_text: На данный момент новостей для отчета нет.

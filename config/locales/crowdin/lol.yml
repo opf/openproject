@@ -257,7 +257,7 @@ lol:
       notice_reset_token: "crwdns494981:0%{type}crwdne494981:0"
       token_value_warning: "crwdns494983:0crwdne494983:0"
       no_results_title_text: crwdns494985:0crwdne494985:0
-      notice_ical_tokens_reverted: "crwdns854451:0%{token_name}crwdnd854451:0%{calendar_name}crwdnd854451:0%{project_name}crwdne854451:0"
+      notice_ical_token_revoked: "crwdns854451:0%{token_name}crwdnd854451:0%{calendar_name}crwdnd854451:0%{project_name}crwdne854451:0"
   news:
     index:
       no_results_title_text: crwdns494987:0crwdne494987:0

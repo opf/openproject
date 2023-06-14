@@ -269,7 +269,7 @@ sk:
       notice_reset_token: "Bol vytvorený nový token %{type}. Prístupový token je:"
       token_value_warning: "Poznámka: Toto je jediný čas, kedy uvidíte tento Token, uistite sa, že ste si ho skopírovali."
       no_results_title_text: Momentálne nie sú dostupné žiadne prístupové tokeny.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: V súčasnosti nie sú žiadne novinky pre nahlásenie.

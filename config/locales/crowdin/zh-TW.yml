@@ -269,7 +269,7 @@ zh-TW:
       notice_reset_token: "生成了一個新的 %{type} 憑證。您的訪問憑證是:"
       token_value_warning: "注意: 這是您唯一可以看到此憑證的時候, 請務必立即複製它。"
       no_results_title_text: 目前沒有存取憑証
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: 目前沒有新消息報告

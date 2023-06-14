@@ -263,7 +263,7 @@ id:
       notice_reset_token: "Sebuah token baru %{type} telah dibuat. Token akses Anda adalah:"
       token_value_warning: "Catatan: Anda hanya akan melihat token ini satu kali, pastikan untuk membuat salinannya sekarang."
       no_results_title_text: There are currently no access tokens available.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: There is currently no news to report.
