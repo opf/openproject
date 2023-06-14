@@ -5,6 +5,7 @@ on:
     branches:
       - dev
       - release/*
+      - feature/self-hosted-*
     paths-ignore:
       - 'docs/**'
       - 'help/**'
@@ -37,10 +38,10 @@ jobs:
       uses: actions/cache@v3
       with:
         path: /tmp/cache
-        key: ${{ runner.os }}-ruby32-core-tests-all-${{ hashFiles('**/Gemfile.lock') }}
+        key: ${{ runner.os }}-ruby32-core-tests-all-${{ github.ref }}-${{ github.sha }}
         restore-keys: |
-          ${{ runner.os }}-ruby32-core-tests-all-
-          ${{ runner.os }}-ruby32-core-tests-
+          ${{ runner.os }}-ci-cache-tests-all-${{ github.ref }}
+          ${{ runner.os }}-ci-cache-tests-all-
     - name: build
       run: docker-compose -f docker-compose.ci.yml build ci
     - name: test
