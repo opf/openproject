@@ -377,7 +377,7 @@ GEM
       rexml
     crass (1.0.6)
     daemons (1.4.1)
-    dalli (3.2.4)
+    dalli (3.2.5)
     date (3.3.3)
     date_validator (0.12.0)
       activemodel (>= 3)
