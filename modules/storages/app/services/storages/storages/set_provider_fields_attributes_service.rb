@@ -26,7 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# See also: create_service.rb for comments
+# Used by Storages::ManagedProjectFoldersController#new to set the default values for the provider fields
+# when creating a new storage for the first time. These attributes are only for building the view and are not enforced
+# by the model.
 module Storages::Storages
   class SetProviderFieldsAttributesService < ::BaseServices::SetAttributes
     def set_default_provider_fields(_params)
