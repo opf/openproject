@@ -69,7 +69,7 @@ es:
       delete_token_modal:
         text: "¿Está seguro que desea eliminar el token actual de la edición Enterpise usado?"
         title: "Eliminar token"
-      replace_token: "Reemplace su token de apoyo actual"
+      replace_token: "Reemplace su token de soporte actual"
       order: "Solicitar la edición Enterprise on-premises"
       paste: "Pegue su token de soporte de la edición Enterprise"
       required_for_feature: "Este add-on solo está disponible con un token de soporte activo de la edición Enterprise."
@@ -453,7 +453,7 @@ es:
         starts_at: "Válido desde"
         expires_at: "Caduca el"
         subscriber: "Suscriptor"
-        encoded_token: "Token de apoyo de versión corporativa"
+        encoded_token: "Token de soporte de la edición Enterprise"
         active_user_count_restriction: "Máximo de usuarios activos"
       grids/grid:
         page: "Página"
@@ -505,7 +505,7 @@ es:
         relations_of_type_column: "Relaciones de %{type}"
         group_by: "Resultados de grupo por"
         filters: "Filtros"
-        timeline_labels: "Etiquetas de línea de tiempo"
+        timeline_labels: "Etiquetas de cronograma"
       repository:
         url: "URL"
       role:
@@ -518,7 +518,7 @@ es:
       type:
         description: "Texto predeterminado para descripción"
         attribute_groups: ''
-        is_in_roadmap: "Mostrado en el plan de desarrollo de forma predeterminada"
+        is_in_roadmap: "Mostrado en la hoja de ruta de forma predeterminada"
         is_default: "Activado para nuevos proyectos de forma predeterminada"
         is_milestone: "Es un hito"
         color: "Color"
@@ -569,8 +569,8 @@ es:
         progress: "Progreso (%)"
         readonly: "Solo lectura"
         schedule_manually: "Programación manual"
-        spent_hours: "Tiempo empleado"
-        spent_time: "Tiempo empleado"
+        spent_hours: "Tiempo invertido"
+        spent_time: "Tiempo invertido"
         subproject: "Subproyecto"
         time_entries: "Registro de tiempo"
         type: "Tipo"
@@ -684,7 +684,7 @@ es:
             scopes:
               not_match_configured: "no coincide con los ámbitos disponibles."
         enterprise_token:
-          unreadable: "no se puede leer. ¿Seguro que es un token de apoyo?"
+          unreadable: "no se puede leer. ¿Seguro que es un token de soporte?"
         grids/grid:
           overlaps: 'superpuesto.'
           outside: 'está fuera de la red.'
@@ -931,7 +931,7 @@ es:
       time_entry:
         hour:
           one: "%{count} hour"
-          other: "%{count} hours"
+          other: "%{count} horas"
         hour_html:
           one: "<i>%{count} hour</i>"
           other: "<i>%{count} hours</i>"
@@ -943,7 +943,7 @@ es:
       news: "Noticias"
       project_attribute: "Atributos del proyecto"
       subproject: "Incluir subproyectos"
-      time_entry: "Tiempo empleado"
+      time_entry: "Tiempo invertido"
       wiki_edit: "Wiki"
       work_package: "Paquetes de trabajo"
   #common attributes of all models
@@ -1182,7 +1182,7 @@ es:
       - "Octubre"
       - "Noviembre"
       - "Diciembre"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - ':año'
       - :mes
@@ -1227,61 +1227,6 @@ es:
       hour:
         one: "una hora"
         other: "hora"
-  default_activity_development: "Desarrollo"
-  default_activity_management: "Administración"
-  default_activity_other: "Otros"
-  default_activity_specification: "Especificación"
-  default_activity_support: "Soporte"
-  default_activity_testing: "Probando"
-  default_color_black: "Negro"
-  default_color_blue: "Azul"
-  default_color_blue_dark: "Azul (oscuro)"
-  default_color_blue_light: "Azul (claro)"
-  default_color_green_dark: "Verde (oscuro)"
-  default_color_green_light: "Verde (claro)"
-  default_color_grey_dark: "Gris (oscuro)"
-  default_color_grey_light: "Gris (claro)"
-  default_color_grey: "Gris"
-  default_color_magenta: "Magenta"
-  default_color_orange: "Naranja"
-  default_color_red: "Rojo"
-  default_color_white: "Blanco"
-  default_color_yellow: "Amarillo"
-  default_status_closed: "Cerrado"
-  default_status_confirmed: "Confirmado"
-  default_status_developed: "Desarrollado"
-  default_status_in_development: "En desarrollo"
-  default_status_in_progress: "En progreso"
-  default_status_in_specification: "En especificación"
-  default_status_in_testing: "En prueba"
-  default_status_new: "Nuevo"
-  default_status_on_hold: "En espera"
-  default_status_rejected: "Rechazado"
-  default_status_scheduled: "Programado"
-  default_status_specified: "Especificado"
-  default_status_tested: "Probado"
-  default_status_test_failed: "Prueba Fallida"
-  default_status_to_be_scheduled: "Por ser programado"
-  default_priority_low: "Baja"
-  default_priority_normal: "Normal"
-  default_priority_high: "Alta"
-  default_priority_immediate: "Inmediata"
-  default_role_anonymous: "Anónimo"
-  default_role_developer: "Desarrollador"
-  default_role_project_admin: "Administrador de proyecto"
-  default_role_project_creator_and_staff_manager: "Administrador de proyectos y personal"
-  default_role_non_member: "No miembro"
-  default_role_reader: "Lector"
-  default_role_member: "Miembro"
-  default_type: "Paquete de trabajo"
-  default_type_bug: "Error"
-  default_type_deliverable: "Entregable"
-  default_type_epic: "Epico"
-  default_type_feature: "Funcionalidad"
-  default_type_milestone: "Avance"
-  default_type_phase: "Fase"
-  default_type_task: "Tarea"
-  default_type_user_story: "Historia de usuario"
   description_active: "Activo?"
   description_attachment_toggle: "Mostrar/ocultar archivos adjuntos"
   description_autocomplete: >
@@ -1399,9 +1344,9 @@ es:
       atom: "Atomo"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF con descripciones"
-      pdf_with_descriptions_and_attachments: "PDF con descripción y archivos adjuntos"
-      pdf_with_attachments: "PDF con adjuntos"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Imagen no exportada."
   extraction:
@@ -1528,7 +1473,7 @@ es:
   label_ical_access_key_not_present: "iCalendar token(s) not present."
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
-  label_ical_access_key_revoke: "Revoke"
+  label_ical_access_key_revoke: "Revocar"
   label_applied_status: "Estado aplicado"
   label_archive_project: "Archivar proyecto"
   label_ascending: "Ascendente"
@@ -1630,7 +1575,7 @@ es:
   label_missing_or_hidden_custom_option: "(faltan valores o permisos de acceso)"
   label_descending: "Descendente"
   label_details: "Detalles"
-  label_development_roadmap: "Itinerario de desarrollo"
+  label_development_roadmap: "Hoja de ruta de desarrollo"
   label_diff: "diff"
   label_diff_inline: "en línea"
   label_diff_side_by_side: "lado a lado"
@@ -1659,7 +1604,7 @@ es:
   label_enterprise: "Empresa"
   label_enterprise_active_users: "%{current}/%{limit} usuarios activos que han reservado"
   label_enterprise_edition: "Edición Enterprise"
-  label_enterprise_support: "Enterprise support"
+  label_enterprise_support: "Soporte empresarial"
   label_environment: "Entorno"
   label_estimates_and_time: "Valores estimados y tiempo"
   label_equals: "es"
@@ -1722,6 +1667,7 @@ es:
   label_journal: "Diario"
   label_journal_diff: "Comparación de la descripción"
   label_language: "Idioma"
+  label_languages: "Languages"
   label_jump_to_a_project: "Saltar a un proyecto..."
   label_keyword_plural: 'Palabras clave'
   label_language_based: "Basado en el idioma del usuario"
@@ -1785,7 +1731,7 @@ es:
   label_name: "Nombre"
   label_never: "Nunca"
   label_new: "Nuevo"
-  label_new_features: "Nuevas funcionalidades"
+  label_new_features: "Nuevas función"
   label_new_statuses_allowed: "Nuevos estados permitidos"
   label_news_singular: "Noticias"
   label_news_added: "Noticias añadidas"
@@ -1829,7 +1775,6 @@ es:
   label_password_rule_special: "Caracteres especiales"
   label_password_rule_uppercase: "Mayúscula"
   label_path_encoding: "Ruta de codificación"
-  label_pdf_with_descriptions: "PDF con las descripciones"
   label_per_page: "Por página"
   label_people: "Personas"
   label_permissions: "Permisos"
@@ -1841,7 +1786,7 @@ es:
   label_planning: "Planificación"
   label_please_login: "Por favor, identifíquese"
   label_plugins: "Extensiones"
-  label_modules_and_plugins: "Módulos y Plugins"
+  label_modules_and_plugins: "Módulos y Extensiones"
   label_precedes: "precede"
   label_preferences: "Preferencias"
   label_preview: "Vista preliminar"
@@ -1882,7 +1827,7 @@ es:
   label_relates_to: "relacionado con"
   label_relation_delete: "Eliminar relación"
   label_relation_new: "Nueva relación"
-  label_release_notes: "Notas de liberación de versión"
+  label_release_notes: "Notas de publicación"
   label_remove_columns: "Eliminar columnas seleccionadas"
   label_renamed: "nombre cambiado"
   label_reply_plural: "Respuestas"
@@ -1903,7 +1848,7 @@ es:
   label_revision_id: "Revisión %{value}"
   label_revision_plural: "Revisiones"
   label_roadmap: "Hoja de ruta"
-  label_roadmap_edit: "Editar ruta %{name}"
+  label_roadmap_edit: "Editar hoja de ruta %{name}"
   label_roadmap_due_in: "Válido en %{value}"
   label_roadmap_no_work_packages: "No hay paquetes de trabajo para esta versión"
   label_roadmap_overdue: "%{value} tarde"
@@ -1925,7 +1870,7 @@ es:
   label_sort_highest: "Arriba de todo"
   label_sort_lower: "Mover hacia abajo"
   label_sort_lowest: "Mover al final"
-  label_spent_time: "Tiempo empleado"
+  label_spent_time: "Tiempo invertido"
   label_start_to_end: "de principio a fin"
   label_start_to_start: "iniciar para iniciar"
   label_statistics: "Estadísticas"
@@ -1949,7 +1894,7 @@ es:
   label_this_month: "este mes"
   label_this_week: "esta semana"
   label_this_year: "este año"
-  label_time_entry_plural: "Tiempo empleado"
+  label_time_entry_plural: "Tiempo invertido"
   label_projects_menu: "Proyectos"
   label_today: "hoy"
   label_top_menu: "Menú superior"
@@ -1981,6 +1926,7 @@ es:
   label_user_plural: "Usuarios"
   label_user_search: "Búsqueda de usuario"
   label_user_settings: "Configuración de usuario"
+  label_users_settings: "Users settings"
   label_version_new: "Nueva versión"
   label_version_plural: "Versiones"
   label_version_sharing_descendants: "Con subproyectos"
@@ -2063,7 +2009,7 @@ es:
     errors:
       missing_or_invalid_parameter: 'Parámetro de macro no encontrado o no válido.'
     legacy_warning:
-      timeline: 'Esta macro de línea de tiempo heredada se ha quitado y ya no está disponible. Puede sustituir la función por una macro de tabla insertada.'
+      timeline: 'Esta macro de cronograma heredada se ha quitado y ya no está disponible. Puede sustituir la función por una macro de tabla insertada.'
     include_wiki_page:
       removed: 'La macro ya no existe.'
     wiki_child_pages:
@@ -2292,7 +2238,7 @@ es:
   permission_delete_messages: "Eliminar mensajes"
   permission_delete_own_messages: "Borrar los mensajes propios"
   permission_delete_reportings: "Eliminar reportes"
-  permission_delete_timelines: "Eliminar líneas de tiempo"
+  permission_delete_timelines: "Eliminar cronogramas"
   permission_delete_wiki_pages: "Eliminar wiki página"
   permission_delete_wiki_pages_attachments: "Eliminar adjuntos"
   permission_edit_work_package_notes: "Editar notas"
@@ -2304,7 +2250,7 @@ es:
   permission_edit_project: "Editar proyecto"
   permission_edit_reportings: "Editar reportes"
   permission_edit_time_entries: "Editar registros de tiempo para otros usuarios"
-  permission_edit_timelines: "Editar líneas de tiempo"
+  permission_edit_timelines: "Editar cronogramas"
   permission_edit_wiki_pages: "Editar wiki página"
   permission_export_work_packages: "Exportar Paquetes de Trabajo"
   permission_export_wiki_pages: "Exportar wiki página"
@@ -2337,8 +2283,8 @@ es:
   permission_view_messages: "Ver mensajes"
   permission_view_members: "Ver miembros"
   permission_view_reportings: "Ver reportes"
-  permission_view_time_entries: "Ver tiempo empleado"
-  permission_view_timelines: "Ver líneas de tiempo"
+  permission_view_time_entries: "Ver tiempo invertido"
+  permission_view_timelines: "Ver cronogramas"
   permission_view_wiki_edits: "Ver historial wiki"
   permission_view_wiki_pages: "Ver wiki"
   permission_work_package_assigned: "Hazte asignado/responsable"
@@ -2553,6 +2499,7 @@ es:
   setting_enabled_scm: "SCM activado"
   setting_enabled_projects_columns: "Visible en la lista de proyectos"
   setting_feeds_enabled: "Activar Feeds"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Limite de contenido de feed"
   setting_file_max_size_displayed: "Tamaño máximo de archivos de texto mostrado en linea"
   setting_host_name: "Nombre de host"
@@ -2605,7 +2552,7 @@ es:
   setting_sys_api_description: "El servicio web de administración de repositorios proporciona integración y autorización de usuario para acceder a los repositorios."
   setting_time_format: "Formato de hora"
   setting_accessibility_mode_for_anonymous: "Activar el modo de accesibilidad para usuarios anónimos"
-  setting_user_format: "Formato de visualización de usuarios"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Zona horaria por defecto de los usuarios"
   setting_users_deletable_by_admins: "Cuentas de usuario eliminables por administradores"
   setting_users_deletable_by_self: "Permitir a los usuarios eliminar sus propias cuentas"
@@ -2636,6 +2583,7 @@ es:
       section_project_overview: "Configuración de la lista de información general del proyecto"
     user:
       default_preferences: "Preferencias predeterminadas"
+      display_format: "Display format"
       deletion: "Eliminación"
     highlighting:
       mode_long:
@@ -2734,7 +2682,7 @@ es:
   text_notice_security_badge_displayed_html: >
     Nota: al activarse, se mostrará una insignia con el estado de instalación en el <a href="%{information_panel_path}">%{information_panel_label}</a> panel de administración, y en la página principal. Solamente será visible para administradores. <br/> La insignia comprobará tu versión actual de OpenProject comparada con la base de datos oficial de OpenProject para alertarte de cualquier actualización o vulnerabilidad. Para más información sobre las funciones de la comprobación, los datos necesarios para conseguir actualizaciones disponibles, o para desactivar esta comprobación, por favor visita <a href="%{more_info_url}">la documentación de configuración</a>.
   text_own_membership_delete_confirmation: "Estás a punto de eliminar algunos o todos tus permisos, y podrías no poder volver a editar este proyecto.\n¿Estás seguro/a de que quieres continuar?"
-  text_plugin_assets_writable: "Directorio de Plugins activos escribible"
+  text_plugin_assets_writable: "Directorio de Extensiones activos escribible"
   text_powered_by: "Con tecnología de %{link}"
   text_project_identifier_info: "Se permiten sólo letras minúsculas (a-z), números, guiones y guiones bajos, debe comenzar con una letra minúscula."
   text_reassign: "Reasignar al paquete de trabajo:"
@@ -2800,9 +2748,9 @@ es:
     enable_type_in_project: 'Habilitar tipo "%{type}"'
     end: "Final"
     errors:
-      not_implemented: "La línea de tiempo no puede procesarse porque utiliza una funcionalidad que no se ha implementado todavía."
-      report_comparison: "La línea de tiempo no puede hacer las comparaciones configuradas. Consulte la sección pertinente en la configuración, re-iniciarla puede ayudar a resolver este problema."
-      report_epicfail: "No se pudo cargar la línea de tiempo debido a un error inesperado."
+      not_implemented: "El cronograma no puede procesarse porque utiliza una función que no se ha implementado todavía."
+      report_comparison: "El cronograma no puede hacer las comparaciones configuradas. Consulte la sección pertinente en la configuración, re-iniciarla puede ayudar a resolver este problema."
+      report_epicfail: "No se pudo cargar el cronograma debido a un error inesperado."
       report_timeout: "No se pudo cargar la línea de tiempo en una cantidad razonable de tiempo."
     filter:
       errors:
@@ -2877,10 +2825,10 @@ es:
     new_association: "Nueva dependencia"
     new_work_package: "Nuevo paquete de trabajo"
     new_reporting: "Nuevos informes"
-    new_timeline: "Nuevo informe de línea de tiempo"
+    new_timeline: "Nuevo informe de cronograma"
     no_projects_for_reporting_available: "No hay proyectos disponibles para generar informes."
-    no_right_to_view_timeline: "No tienes el permiso necesario para ver la línea de tiempo vinculada."
-    no_timeline_for_id: "No hay ninguna línea de tiempo con el ID %{id}."
+    no_right_to_view_timeline: "No tienes el permiso necesario para ver el cronograma vinculado."
+    no_timeline_for_id: "No hay ningún cronograma con el ID %{id}."
     notice_successful_deleted_all_elements: "Eliminó correctamente todos los elementos"
     outline: "Restablecer marco"
     outlines:
@@ -2908,11 +2856,11 @@ es:
     really_delete_reporting: >
       ¿Esta seguro que desea eliminar el siguiente informe? Los informes de estados anteriores se eliminaran, también.
     start: "Inicio"
-    timeline: "Informe de línea de tiempo"
-    timelines: "Informe de línea de tiempo"
-    settings: "Líneas de tiempo"
+    timeline: "Informe de cronograma"
+    timelines: "Informes de cronograma"
+    settings: "Cronogramas"
     vertical_work_package: "Paquetes de trabajo vertical"
-    you_are_viewing_the_selected_timeline: "Usted está viendo el informe de línea de tiempo seleccionado"
+    you_are_viewing_the_selected_timeline: "Usted está viendo el informe del cronograma seleccionado"
     zoom:
       in: "Acercar"
       out: "Alejar"

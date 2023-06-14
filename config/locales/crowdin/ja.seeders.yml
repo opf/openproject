@@ -4,7 +4,123 @@
 ---
 ja:
   seeds:
+    common:
+      colors:
+        item_0:
+          name: 青(濃い)
+        item_1:
+          name: 青
+        item_2:
+          name: 青(薄い)
+        item_3:
+          name: 緑（薄い）
+        item_4:
+          name: 緑（濃い）
+        item_5:
+          name: 黄
+        item_6:
+          name: オレンジ
+        item_7:
+          name: 赤
+        item_8:
+          name: 赤紫
+        item_9:
+          name: 白
+        item_10:
+          name: グレー(薄い)
+        item_11:
+          name: グレー
+        item_12:
+          name: グレー(濃い)
+        item_13:
+          name: 黒
+      document_categories:
+        item_0:
+          name: 文章
+        item_1:
+          name: 仕様
+        item_2:
+          name: その他
+      roles:
+        item_0:
+          name: 非メンバー
+        item_1:
+          name: 匿名ユーザ
+        item_2:
+          name: メンバー
+        item_3:
+          name: リーダー
+        item_4:
+          name: プロジェクト管理者
+        item_5:
+          name: スタッフとプロジェクトマネージャー
     standard:
+      priorities:
+        item_0:
+          name: 低め
+        item_1:
+          name: 通常
+        item_2:
+          name: 高め
+        item_3:
+          name: 急ぎ
+      statuses:
+        item_0:
+          name: 新しく作成
+        item_1:
+          name: 仕様で
+        item_2:
+          name: 指定済み
+        item_3:
+          name: 確認済み
+        item_4:
+          name: 未スケジュール
+        item_5:
+          name: スケジュール済
+        item_6:
+          name: 進行中
+        item_7:
+          name: 開発済み
+        item_8:
+          name: テスト中
+        item_9:
+          name: テスト済み
+        item_10:
+          name: テスト失敗
+        item_11:
+          name: 終了
+        item_12:
+          name: 保留中
+        item_13:
+          name: 却下
+      time_entry_activities:
+        item_0:
+          name: 管理
+        item_1:
+          name: 仕様
+        item_2:
+          name: 開発作業
+        item_3:
+          name: テスト中
+        item_4:
+          name: サポート
+        item_5:
+          name: その他
+      types:
+        item_0:
+          name: タスク
+        item_1:
+          name: マイルストーン
+        item_2:
+          name: 工程
+        item_3:
+          name: 機能
+        item_4:
+          name: エピック
+        item_5:
+          name: ユーザストーリー
+        item_6:
+          name: 不具合
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -45,7 +161,7 @@ ja:
             kanban:
               name: Kanban board
             basic:
-              name: Basic board
+              name: 基本ボード
               lists:
                 item_0:
                   name: Wish list
@@ -54,7 +170,7 @@ ja:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: なし
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -64,7 +180,7 @@ ja:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: はじめに
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -83,7 +199,7 @@ ja:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: ワークパッケージ
               item_6:
                 options:
                   name: Milestones
@@ -195,7 +311,7 @@ ja:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: プロダクトバックログ
             item_2:
               name: Sprint 1
             item_3:
@@ -204,7 +320,7 @@ ja:
             kanban:
               name: Kanban board
             basic:
-              name: Task board
+              name: かんばん
               lists:
                 item_0:
                   name: Wish list
@@ -213,7 +329,7 @@ ja:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: なし
           project-overview:
             widgets:
               item_0:
@@ -221,7 +337,7 @@ ja:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: はじめに
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -241,7 +357,7 @@ ja:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: ワークパッケージ
               item_6:
                 options:
                   name: Project plan

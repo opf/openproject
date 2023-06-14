@@ -1,0 +1,6 @@
+<%= javascript_include_tag "openapi-explorer.min.js" %>
+
+<%= content_tag('openapi-explorer',
+                '',
+                'spec-url': api_v3_paths.api_spec,
+                'nav-bg-color': color_by_variable('main-menu-bg-color')) %>

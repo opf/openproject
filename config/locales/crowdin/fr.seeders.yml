@@ -4,7 +4,123 @@
 ---
 fr:
   seeds:
+    common:
+      colors:
+        item_0:
+          name: Bleu (foncé)
+        item_1:
+          name: Bleu
+        item_2:
+          name: Bleu (clair)
+        item_3:
+          name: Vert (clair)
+        item_4:
+          name: Vert (foncé)
+        item_5:
+          name: Jaune
+        item_6:
+          name: Orange
+        item_7:
+          name: Rouge
+        item_8:
+          name: Magenta
+        item_9:
+          name: Blanc
+        item_10:
+          name: Gris (clair)
+        item_11:
+          name: Gris
+        item_12:
+          name: Gris (foncé)
+        item_13:
+          name: Noir
+      document_categories:
+        item_0:
+          name: Documentation
+        item_1:
+          name: Spécification
+        item_2:
+          name: Autre
+      roles:
+        item_0:
+          name: Non membre
+        item_1:
+          name: Anonyme
+        item_2:
+          name: Membre
+        item_3:
+          name: Lecteur
+        item_4:
+          name: Administrateur du projet
+        item_5:
+          name: Personnel et gestionnaire de projets
     standard:
+      priorities:
+        item_0:
+          name: Basse
+        item_1:
+          name: Normal
+        item_2:
+          name: Haut
+        item_3:
+          name: Immédiat
+      statuses:
+        item_0:
+          name: nouveau
+        item_1:
+          name: En cous de spécification
+        item_2:
+          name: Spécifié
+        item_3:
+          name: Confirmé
+        item_4:
+          name: À planifier
+        item_5:
+          name: Planifié
+        item_6:
+          name: En cours
+        item_7:
+          name: Développé
+        item_8:
+          name: En test
+        item_9:
+          name: Testé
+        item_10:
+          name: Test échoué
+        item_11:
+          name: Clôturé
+        item_12:
+          name: En attente
+        item_13:
+          name: rejeté
+      time_entry_activities:
+        item_0:
+          name: Gestion
+        item_1:
+          name: Spécification
+        item_2:
+          name: Développement
+        item_3:
+          name: Test
+        item_4:
+          name: Support
+        item_5:
+          name: Autre
+      types:
+        item_0:
+          name: Tâche
+        item_1:
+          name: Étape
+        item_2:
+          name: Phase
+        item_3:
+          name: Fonctionnalité
+        item_4:
+          name: Epic
+        item_5:
+          name: Récit utilisateur
+        item_6:
+          name: Bug
       welcome:
         title: Bienvenue sur OpenProject !
         text: |

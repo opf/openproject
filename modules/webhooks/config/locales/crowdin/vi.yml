@@ -54,7 +54,7 @@ vi:
         project_ids:
           title: 'Các dự án đã bật'
           description: 'Select for which projects this webhook should be executed for.'
-          all: 'All projects'
+          all: 'Tất cả các dự án'
           selected: 'Selected projects only'
         selected_project_ids:
           title: 'Selected projects'

@@ -4,7 +4,123 @@
 ---
 sv:
   seeds:
+    common:
+      colors:
+        item_0:
+          name: Blå (mörk)
+        item_1:
+          name: Blå
+        item_2:
+          name: Blå (ljus)
+        item_3:
+          name: Grön (ljus)
+        item_4:
+          name: Grön (mörk)
+        item_5:
+          name: Gul
+        item_6:
+          name: Orange
+        item_7:
+          name: Röd
+        item_8:
+          name: Magenta
+        item_9:
+          name: Vit
+        item_10:
+          name: Grå (ljus)
+        item_11:
+          name: Grå
+        item_12:
+          name: Grå (mörk)
+        item_13:
+          name: Svart
+      document_categories:
+        item_0:
+          name: Dokumentation
+        item_1:
+          name: Specifikation
+        item_2:
+          name: Andra
+      roles:
+        item_0:
+          name: Icke medlem
+        item_1:
+          name: Anonym
+        item_2:
+          name: Medlem
+        item_3:
+          name: Läsare
+        item_4:
+          name: Projektadministratör
+        item_5:
+          name: Staff and projects manager
     standard:
+      priorities:
+        item_0:
+          name: Låg
+        item_1:
+          name: Normal
+        item_2:
+          name: Hög
+        item_3:
+          name: Omedelbar
+      statuses:
+        item_0:
+          name: Ny
+        item_1:
+          name: I specifikation
+        item_2:
+          name: Specifierat
+        item_3:
+          name: Bekräftad
+        item_4:
+          name: Att schemaläggas
+        item_5:
+          name: Schemalagt
+        item_6:
+          name: Pågående
+        item_7:
+          name: Utvecklad
+        item_8:
+          name: I test
+        item_9:
+          name: Testat
+        item_10:
+          name: Testet misslyckades
+        item_11:
+          name: Stängt
+        item_12:
+          name: På is
+        item_13:
+          name: Avvisad
+      time_entry_activities:
+        item_0:
+          name: Hantering
+        item_1:
+          name: Specifikation
+        item_2:
+          name: Utveckling
+        item_3:
+          name: Testning
+        item_4:
+          name: Support
+        item_5:
+          name: Andra
+      types:
+        item_0:
+          name: Uppgift
+        item_1:
+          name: Milstolpe
+        item_2:
+          name: Fas
+        item_3:
+          name: Funktion
+        item_4:
+          name: Epic
+        item_5:
+          name: User story
+        item_6:
+          name: Bugg
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -40,12 +156,12 @@ sv:
             item_2:
               name: Tasks
             item_3:
-              name: Team planner
+              name: Team planerare
           boards:
             kanban:
               name: Kanban board
             basic:
-              name: Basic board
+              name: Grundläggande tavla
               lists:
                 item_0:
                   name: Wish list
@@ -54,7 +170,7 @@ sv:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Aldrig
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -64,7 +180,7 @@ sv:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Komma igång
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -83,7 +199,7 @@ sv:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Arbetspaket
               item_6:
                 options:
                   name: Milestones
@@ -195,7 +311,7 @@ sv:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Produktbacklog
             item_2:
               name: Sprint 1
             item_3:
@@ -204,7 +320,7 @@ sv:
             kanban:
               name: Kanban board
             basic:
-              name: Task board
+              name: Aktivitetstavla
               lists:
                 item_0:
                   name: Wish list
@@ -213,7 +329,7 @@ sv:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Aldrig
           project-overview:
             widgets:
               item_0:
@@ -221,7 +337,7 @@ sv:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Komma igång
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -241,7 +357,7 @@ sv:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Arbetspaket
               item_6:
                 options:
                   name: Project plan

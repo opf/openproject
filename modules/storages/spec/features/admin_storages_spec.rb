@@ -220,7 +220,7 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true, with_flag: {
     ######### End Edit Automatically managed project folders #########
 
     # List of storages
-    page.find("ul.op-breadcrumb li", text: "File storages").click
+    page.find("ul.op-wp-breadcrumb li", text: "File storages").click
 
     # Delete on List page
     page.find('td.buttons .icon-delete').click

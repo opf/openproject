@@ -41,7 +41,7 @@ zh-TW:
       material_budget_item: "單位"
   activity:
     filter:
-      budget: "Budgets"
+      budget: "預算"
   attributes:
     budget: "預算"
   button_add_budget_item: "新增計畫費用"

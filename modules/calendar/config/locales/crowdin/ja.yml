@@ -3,5 +3,5 @@ ja:
   label_calendar_plural: "カレンダー"
   permission_view_calendar: "カレンダーを表示"
   permission_manage_calendars: "カレンダーを管理"
-  permission_share_calendars: "Share calendars"
+  permission_share_calendars: "Subscribe to iCalendars"
   project_module_calendar_view: "カレンダー"

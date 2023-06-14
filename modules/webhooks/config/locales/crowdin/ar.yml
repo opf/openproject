@@ -52,7 +52,7 @@ ar:
         events:
           title: 'Enabled events'
         project_ids:
-          title: 'Enabled projects'
+          title: 'المشاريع الممكنة'
           description: 'Select for which projects this webhook should be executed for.'
           all: 'All projects'
           selected: 'Selected projects only'

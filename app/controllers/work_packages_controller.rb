@@ -146,6 +146,7 @@ class WorkPackagesController < ApplicationController
 
   def load_and_validate_query
     @query ||= retrieve_query(@project)
+    @query.name = params[:title] if params[:title].present?
 
     unless @query.valid?
       # Ensure outputting an html response

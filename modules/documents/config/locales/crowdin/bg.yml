@@ -25,15 +25,10 @@ bg:
       document: "Документ"
   activity:
     filter:
-      document: "Documents"
+      document: "Документи"
   default_doc_category_tech: "Техническа документация"
   default_doc_category_user: "Документация за потребителя"
   enumeration_doc_categories: "Категории документи"
-  enumeration:
-    document_category:
-      documentation: Документация
-      specification: Спецификации
-      other: Други
   documents:
     label_attachment_author: "Автор на файла"
   label_document_added: "Документът е добавен"

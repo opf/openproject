@@ -182,7 +182,7 @@ zh-TW:
     edit: '編輯自訂操作 %{name}'
     execute: '執行 %{name}'
     upsale:
-      title: 'Custom actions'
+      title: '自訂動作'
       description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
@@ -476,24 +476,24 @@ zh-TW:
       project:
         active_value:
           true: "unarchived"
-          false: "archived"
+          false: "已封存"
         identifier: "識別碼"
         latest_activity_at: "最新活動"
         parent: "上層專案"
         public_value:
-          title: "Visibility"
+          title: "可見度"
           true: "public"
           false: "private"
         queries: "查詢"
-        status_code: 'Project status'
+        status_code: '專案狀態'
         status_explanation: 'Project status description'
         status_codes:
-          not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          not_started: '未開始'
+          on_track: '進度良好'
+          at_risk: '存在風險'
+          off_track: '進度脫軌'
+          finished: '已完成'
+          discontinued: '已中止'
         templated: "範本專案"
         templated_value:
           true: "marked as template"
@@ -556,7 +556,7 @@ zh-TW:
         begin_deletion: "開始刪除"
         children: "子項"
         done_ratio: "進度 (%)"
-        duration: "Duration"
+        duration: "時間長度"
         end_insertion: "結束插入"
         end_deletion: "結束刪除"
         ignore_non_working_days: "Ignore non working days"
@@ -924,24 +924,24 @@ zh-TW:
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "子專案"
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
-          other: "%{count} hours"
+          other: "%{count} 一個小時"
         hour_html:
           other: "<i>%{count} hours</i>"
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      changeset: "變更項目"
+      message: "論壇"
+      news: "新知"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
-      wiki_edit: "Wiki"
-      work_package: "Work packages"
+      time_entry: "耗時"
+      wiki_edit: "維基"
+      work_package: "工作項目"
   #common attributes of all models
   attributes:
     active: "啟用"
@@ -998,7 +998,7 @@ zh-TW:
     updated_on: "更新於"
     uploader: "上傳者"
     user: "使用者"
-    value: "Value"
+    value: "值"
     version: "版本"
     work_package: "工作項目"
   backup:
@@ -1178,7 +1178,7 @@ zh-TW:
       - "十月"
       - "十一月"
       - "十二月"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - 年
       - 月
@@ -1211,61 +1211,6 @@ zh-TW:
     units:
       hour:
         other: "小時"
-  default_activity_development: "開發"
-  default_activity_management: "管理"
-  default_activity_other: "其他"
-  default_activity_specification: "規格"
-  default_activity_support: "支援"
-  default_activity_testing: "測試"
-  default_color_black: "黑色"
-  default_color_blue: "藍色"
-  default_color_blue_dark: "藍色 (黑)"
-  default_color_blue_light: "藍色 (亮)"
-  default_color_green_dark: "綠色 (暗)"
-  default_color_green_light: "綠色 (亮)"
-  default_color_grey_dark: "灰色 (暗)"
-  default_color_grey_light: "灰色 (亮)"
-  default_color_grey: "灰色"
-  default_color_magenta: "洋紅色"
-  default_color_orange: "橙色"
-  default_color_red: "紅色"
-  default_color_white: "白色"
-  default_color_yellow: "黃色"
-  default_status_closed: "已關閉"
-  default_status_confirmed: "已確認"
-  default_status_developed: "已開發"
-  default_status_in_development: "開發中"
-  default_status_in_progress: "進行中"
-  default_status_in_specification: "在規格中"
-  default_status_in_testing: "測試中"
-  default_status_new: "新增"
-  default_status_on_hold: "暫停中"
-  default_status_rejected: "已拒絕"
-  default_status_scheduled: "已排程"
-  default_status_specified: "指定"
-  default_status_tested: "已測試"
-  default_status_test_failed: "測試失敗"
-  default_status_to_be_scheduled: "等待排程中"
-  default_priority_low: "低"
-  default_priority_normal: "一般"
-  default_priority_high: "高"
-  default_priority_immediate: "立刻"
-  default_role_anonymous: "匿名者"
-  default_role_developer: "開發者"
-  default_role_project_admin: "專案管理員"
-  default_role_project_creator_and_staff_manager: "Staff and projects manager"
-  default_role_non_member: "非成員"
-  default_role_reader: "讀者"
-  default_role_member: "成員"
-  default_type: "工作項目"
-  default_type_bug: "Bug"
-  default_type_deliverable: "交付標的"
-  default_type_epic: "篇章"
-  default_type_feature: "功能"
-  default_type_milestone: "里程碑"
-  default_type_phase: "階段"
-  default_type_task: "任務"
-  default_type_user_story: "使用者需求"
   description_active: "啟用？"
   description_attachment_toggle: "顯示/隱藏附件"
   description_autocomplete: >
@@ -1365,7 +1310,7 @@ zh-TW:
     message: 訊息已編輯
     news: 新知
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: '專案已編輯'
     reply: 已回覆
     time_entry: '已編輯時間日誌'
     wiki_page: '維基頁面已編輯'
@@ -1383,9 +1328,9 @@ zh-TW:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "有說明的 PDF 檔"
-      pdf_with_descriptions_and_attachments: "帶有說明和附件的 pdf"
-      pdf_with_attachments: "帶有附件的 pdf"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "影像沒有匯出。"
   extraction:
@@ -1512,7 +1457,7 @@ zh-TW:
   label_ical_access_key_not_present: "iCalendar token(s) not present."
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
-  label_ical_access_key_revoke: "Revoke"
+  label_ical_access_key_revoke: "撤銷"
   label_applied_status: "套用的狀態"
   label_archive_project: "專案歸檔"
   label_ascending: "昇冪"
@@ -1706,6 +1651,7 @@ zh-TW:
   label_journal: "日誌"
   label_journal_diff: "內容對比"
   label_language: "語言"
+  label_languages: "Languages"
   label_jump_to_a_project: "前往一個專案..."
   label_keyword_plural: '關鍵字'
   label_language_based: "根據使用者的語言"
@@ -1813,7 +1759,6 @@ zh-TW:
   label_password_rule_special: "特殊字元"
   label_password_rule_uppercase: "大寫"
   label_path_encoding: "路徑編碼"
-  label_pdf_with_descriptions: "有說明的 PDF 檔"
   label_per_page: "每頁"
   label_people: "人員"
   label_permissions: "權限"
@@ -1965,6 +1910,7 @@ zh-TW:
   label_user_plural: "使用者"
   label_user_search: "搜尋使用者"
   label_user_settings: "使用者設定"
+  label_users_settings: "Users settings"
   label_version_new: "新增版本"
   label_version_plural: "版本"
   label_version_sharing_descendants: "與子專案"
@@ -2257,7 +2203,7 @@ zh-TW:
   permission_add_work_packages: "新增工作項目"
   permission_add_messages: "張貼訊息"
   permission_add_project: "建立專案"
-  permission_archive_project: "Archive project"
+  permission_archive_project: "專案歸檔"
   permission_manage_user: "Create and edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "建立子專案"
@@ -2535,6 +2481,7 @@ zh-TW:
   setting_enabled_scm: "啟用 SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "啟用 Feed"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Feed 內容限制"
   setting_file_max_size_displayed: "直接显示文字文件內容的最大檔案容量"
   setting_host_name: "主機名稱"
@@ -2587,7 +2534,7 @@ zh-TW:
   setting_sys_api_description: "版控容器管理網路服務提供容器存取管理和使用者認證"
   setting_time_format: "時間格式"
   setting_accessibility_mode_for_anonymous: "啟用匿名使用者存取模式"
-  setting_user_format: "使用者顯示格式"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "使用者預設時區"
   setting_users_deletable_by_admins: "使用者帳戶可被管理者刪除"
   setting_users_deletable_by_self: "使用者允許刪除他們的帳號"
@@ -2618,6 +2565,7 @@ zh-TW:
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "默認偏好設置"
+      display_format: "Display format"
       deletion: "消除"
     highlighting:
       mode_long:
@@ -3072,7 +3020,7 @@ zh-TW:
           unknown: '請求缺少必需的參數, 包含不受支援的參數值, 或者格式不正確。'
           missing_param: 'Missing required parameter: %{value}.'
           request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
+        invalid_redirect_uri: "請求的轉址 uri 格式不正確或與用戶端轉址 uri 不吻合。"
         unauthorized_client: '用戶端沒有被授權使用此方法執行此請求。'
         access_denied: '資源擁有者或授權伺服器拒絕了該請求。'
         invalid_scope: '請求的範圍無效、未知或格式錯誤。'
@@ -3153,11 +3101,11 @@ zh-TW:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "錯誤"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"
-      label_redirect_uri: "Redirect URI"
+      label_redirect_uri: "轉址 uri"
       label_request_token: "Request token"
       label_refresh_token: "Refresh token"
     errors:

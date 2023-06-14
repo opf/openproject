@@ -4,7 +4,123 @@
 ---
 uk:
   seeds:
+    common:
+      colors:
+        item_0:
+          name: Синій (темний)
+        item_1:
+          name: Cиній
+        item_2:
+          name: Синій (світлий)
+        item_3:
+          name: Зелене (світлий)
+        item_4:
+          name: Зелений (темний)
+        item_5:
+          name: Жовтий
+        item_6:
+          name: Помаранчевий
+        item_7:
+          name: Червоний
+        item_8:
+          name: Пурпуровий
+        item_9:
+          name: Білий
+        item_10:
+          name: Сірий (світлий)
+        item_11:
+          name: Сірий
+        item_12:
+          name: Сірий (темний)
+        item_13:
+          name: Чорний
+      document_categories:
+        item_0:
+          name: Документація
+        item_1:
+          name: Специфікація
+        item_2:
+          name: Інше
+      roles:
+        item_0:
+          name: Не учасник
+        item_1:
+          name: Анонімний режим
+        item_2:
+          name: Учасник
+        item_3:
+          name: Читач
+        item_4:
+          name: Адміністратор проекту
+        item_5:
+          name: Персонал і менеджер проєктів
     standard:
+      priorities:
+        item_0:
+          name: Низький
+        item_1:
+          name: Звичайний
+        item_2:
+          name: Високо
+        item_3:
+          name: Негайно
+      statuses:
+        item_0:
+          name: Новий
+        item_1:
+          name: В специфікації
+        item_2:
+          name: Вказано
+        item_3:
+          name: Підтверджено
+        item_4:
+          name: Планується
+        item_5:
+          name: Scheduled
+        item_6:
+          name: У процесі
+        item_7:
+          name: Розробник
+        item_8:
+          name: Під час тестування
+        item_9:
+          name: Випробувано
+        item_10:
+          name: Тест не вдався
+        item_11:
+          name: Зачинено
+        item_12:
+          name: На утриманні
+        item_13:
+          name: Відхилено
+      time_entry_activities:
+        item_0:
+          name: Налаштування
+        item_1:
+          name: Специфікація
+        item_2:
+          name: Розробка
+        item_3:
+          name: Перевірка
+        item_4:
+          name: Підтримка
+        item_5:
+          name: Інше
+      types:
+        item_0:
+          name: Завдання
+        item_1:
+          name: Етап
+        item_2:
+          name: Фаза
+        item_3:
+          name: Характеристика
+        item_4:
+          name: Епічний
+        item_5:
+          name: Історія користувача
+        item_6:
+          name: Помилка
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -40,12 +156,12 @@ uk:
             item_2:
               name: Tasks
             item_3:
-              name: Team planner
+              name: Командний планувальник
           boards:
             kanban:
               name: Kanban board
             basic:
-              name: Basic board
+              name: Базова дошка
               lists:
                 item_0:
                   name: Wish list
@@ -54,7 +170,7 @@ uk:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Ніколи
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -64,7 +180,7 @@ uk:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Починаємо
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -83,7 +199,7 @@ uk:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Пакети робіт
               item_6:
                 options:
                   name: Milestones
@@ -195,7 +311,7 @@ uk:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Backlog продукту
             item_2:
               name: Sprint 1
             item_3:
@@ -204,7 +320,7 @@ uk:
             kanban:
               name: Kanban board
             basic:
-              name: Task board
+              name: Дошка завдань
               lists:
                 item_0:
                   name: Wish list
@@ -213,7 +329,7 @@ uk:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Ніколи
           project-overview:
             widgets:
               item_0:
@@ -221,7 +337,7 @@ uk:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Починаємо
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -241,7 +357,7 @@ uk:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Пакети робіт
               item_6:
                 options:
                   name: Project plan

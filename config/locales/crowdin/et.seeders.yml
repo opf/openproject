@@ -4,7 +4,123 @@
 ---
 et:
   seeds:
+    common:
+      colors:
+        item_0:
+          name: Sinine (tume)
+        item_1:
+          name: Sinine
+        item_2:
+          name: Sinine (hele)
+        item_3:
+          name: Roheline (hele)
+        item_4:
+          name: Roheline (tume)
+        item_5:
+          name: Kollane
+        item_6:
+          name: Oranž
+        item_7:
+          name: Punane
+        item_8:
+          name: Purpurviolett
+        item_9:
+          name: Valge
+        item_10:
+          name: Hall (hele)
+        item_11:
+          name: Hall
+        item_12:
+          name: Hall (tume)
+        item_13:
+          name: Must
+      document_categories:
+        item_0:
+          name: Documentation
+        item_1:
+          name: Spetsifikatsioon
+        item_2:
+          name: Muu
+      roles:
+        item_0:
+          name: Mitteliige
+        item_1:
+          name: Anonüümne
+        item_2:
+          name: Liige
+        item_3:
+          name: Lugeja
+        item_4:
+          name: Projekti administraator
+        item_5:
+          name: Staff and projects manager
     standard:
+      priorities:
+        item_0:
+          name: Aega on
+        item_1:
+          name: Tavaline
+        item_2:
+          name: Pakiline
+        item_3:
+          name: Kohe vaja
+      statuses:
+        item_0:
+          name: Uus
+        item_1:
+          name: In specification
+        item_2:
+          name: Specified
+        item_3:
+          name: Confirmed
+        item_4:
+          name: To be scheduled
+        item_5:
+          name: Scheduled
+        item_6:
+          name: In progress
+        item_7:
+          name: Developed
+        item_8:
+          name: In testing
+        item_9:
+          name: Tested
+        item_10:
+          name: Test failed
+        item_11:
+          name: Suletud
+        item_12:
+          name: On hold
+        item_13:
+          name: Tagasi lükatud
+      time_entry_activities:
+        item_0:
+          name: Juhtimine
+        item_1:
+          name: Spetsifikatsioon
+        item_2:
+          name: Arendamine
+        item_3:
+          name: Testimine
+        item_4:
+          name: Klienditugi
+        item_5:
+          name: Muu
+      types:
+        item_0:
+          name: Ülesanne
+        item_1:
+          name: Verstapost
+        item_2:
+          name: Etapp
+        item_3:
+          name: Täiendus
+        item_4:
+          name: Eepiline
+        item_5:
+          name: Kasutaja lugu
+        item_6:
+          name: Veaparandus
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -54,7 +170,7 @@ et:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Mitte kunagi
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -83,7 +199,7 @@ et:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Teemad
               item_6:
                 options:
                   name: Milestones
@@ -213,7 +329,7 @@ et:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Mitte kunagi
           project-overview:
             widgets:
               item_0:
@@ -241,7 +357,7 @@ et:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Teemad
               item_6:
                 options:
                   name: Project plan

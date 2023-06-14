@@ -78,11 +78,11 @@ module OpenProject
     describe 'all_languages' do
       # Those are the two languages we support
       it 'includes en' do
-        expect(all_languages).to include(:en)
+        expect(all_languages).to include('en')
       end
 
       it 'includes de' do
-        expect(all_languages).to include(:de)
+        expect(all_languages).to include('de')
       end
 
       it 'returns no js language as they are duplicates of the rest of the other language' do
@@ -91,49 +91,57 @@ module OpenProject
 
       # it is OK if more languages exist
       it 'has multiple languages' do
-        expect(all_languages).to include :en, :de, :fr, :es
+        expect(all_languages).to include 'en', 'de', 'fr', 'es'
         expect(all_languages.size).to be >= 25
       end
     end
 
     describe 'valid_languages' do
       it 'allows only languages that are available' do
-        allow(Setting).to receive(:available_languages).and_return([:en])
+        with_settings(available_languages: ['en'])
 
-        expect(valid_languages).to eql [:en]
+        expect(valid_languages).to eq ['en']
       end
 
       it 'allows only languages that exist' do
-        allow(Setting).to receive(:available_languages).and_return([:'123'])
+        with_settings(available_languages: ['en', 'de', 'klingon'])
 
-        expect(valid_languages).to be_empty
+        expect(valid_languages).to contain_exactly('en', 'de')
       end
     end
 
     describe 'set_language_if_valid' do
       before do
-        allow(Setting).to receive(:available_languages).and_return(Setting.all_languages)
+        allow(described_class).to receive(:locale=)
       end
 
-      Setting.all_languages.each do |lang|
-        it "sets I18n.locale to #{lang}" do
-          allow(described_class).to receive(:locale=)
-          expect(described_class).to receive(:locale=).with(lang)
+      context 'with all supported languages available' do
+        before do
+          with_settings(available_languages: Redmine::I18n.all_languages)
+        end
 
-          set_language_if_valid(lang)
+        Setting.all_languages.each do |lang|
+          it "sets I18n.locale to #{lang.inspect}" do
+            set_language_if_valid(lang.to_s)
+            set_language_if_valid(lang.to_sym)
+            expect(described_class).to have_received(:locale=).with(lang.to_s).twice
+          end
         end
       end
 
-      it 'does not set I18n.locale to an invalid language' do
-        allow(Setting).to receive(:available_languages).and_return([:en])
+      it 'does not set I18n.locale to an unavailable language' do
+        with_settings(available_languages: ['en'])
 
-        expect(described_class).not_to receive(:locale=).with(:de)
+        set_language_if_valid('de')
+        set_language_if_valid(:de)
+        expect(described_class).not_to have_received(:locale=).with(:de)
+        expect(described_class).not_to have_received(:locale=).with('de')
       end
     end
 
     describe 'find_language' do
       before do
-        allow(Setting).to receive(:available_languages).and_return([:de])
+        with_settings(available_languages: ['de'])
       end
 
       it 'is nil if language is not active' do
@@ -146,11 +154,13 @@ module OpenProject
       end
 
       it 'is the language if it is active' do
-        expect(find_language(:de)).to be :de
+        expect(find_language(:de)).to eq 'de'
+        expect(find_language('de')).to eq 'de'
       end
 
       it 'can be found by uppercase if it is active' do
-        expect(find_language(:DE)).to be :de
+        expect(find_language(:DE)).to eq 'de'
+        expect(find_language('DE')).to eq 'de'
       end
 
       it 'is nil if non valid string is passed' do

@@ -188,11 +188,11 @@ module WorkPackage::PDFExport::Common
   end
 
   def with_descriptions?
-    options[:show_descriptions]
+    options[:show_report]
   end
 
   def with_attachments?
-    options[:show_attachments]
+    options[:show_images]
   end
 
   def current_page_nr

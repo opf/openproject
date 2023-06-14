@@ -51,6 +51,7 @@ module API
           priority
           type
           version
+          parent
         ].freeze
 
         SUPPORTED_PROPERTIES = (SUPPORTED_NON_LINK_PROPERTIES + SUPPORTED_LINK_PROPERTIES).freeze
@@ -76,7 +77,7 @@ module API
 
         def rendered_properties
           @rendered_properties ||= begin
-            properties = (changed_properties_as_api_name & SUPPORTED_PROPERTIES) + ['_meta']
+            properties = changed_properties_as_api_name.intersection(SUPPORTED_PROPERTIES) + ['_meta']
 
             if represented.exists_at_timestamp?
               properties + ["links", :self]

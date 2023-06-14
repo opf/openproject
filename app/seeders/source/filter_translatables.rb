@@ -49,8 +49,9 @@ module Source::FilterTranslatables
   def filter_translatables_in_hash(hash)
     hash
       .to_h do |key, value|
-        translatable = key.start_with?('t_')
-        [key.sub(/^t_/, ''), filter_translatables_in_object(value, translatable:)]
+        new_key = Source::Translate.remove_translatable_prefix(key)
+        filtered_value = filter_translatables_in_object(value, translatable: Source::Translate.translatable?(key))
+        [new_key, filtered_value]
       end
       .compact
       .presence
@@ -58,7 +59,7 @@ module Source::FilterTranslatables
 
   def filter_translatables_in_array(array, translatable: false)
     array.map.with_index.to_h do |value, i|
-      key = "item_#{i}"
+      key = Source::Translate.array_key(i)
       if value.is_a?(Hash)
         [key, filter_translatables_in_object(value)]
       elsif translatable

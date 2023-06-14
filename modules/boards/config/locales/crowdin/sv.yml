@@ -7,12 +7,12 @@ sv:
     label_board: "Tavla"
     label_boards: "Tavlor"
     board_types:
-      free: Basic
-      action: "Action board (%{attribute})"
+      free: Enkel
+      action: "Åtgärdstavla (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
+      assignee: Tilldelad till
       status: Status
       version: Version
-      subproject: Subproject
+      subproject: Delprojekt
       subtasks: Parent-child
-      basic: Basic
+      basic: Enkel

@@ -25,15 +25,10 @@ sv:
       document: "Dokument"
   activity:
     filter:
-      document: "Documents"
+      document: "Dokument"
   default_doc_category_tech: "Teknisk dokumentation"
   default_doc_category_user: "Användardokumentation"
   enumeration_doc_categories: "Dokumentkategorier"
-  enumeration:
-    document_category:
-      documentation: Dokumentation
-      specification: Specifikation
-      other: Andra
   documents:
     label_attachment_author: "Författare för bilaga"
   label_document_added: "Dokumentet tillagt"

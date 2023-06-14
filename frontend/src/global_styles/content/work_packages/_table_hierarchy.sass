@@ -3,7 +3,7 @@
 // default: open arrow down
 // collapsed: right arrow
 .wp-table--hierarchy-indicator
-  color: var(--body-font-color)
+  color: var(--table-row-hierarchies-row-font-color)
   pointer-events: all
 
   &:hover
@@ -21,20 +21,10 @@
     display: inline
 
 .wp-table--hierarchy-span
-  text-align: right
-  display: block
-  float: left
+  margin-top: 5px
   padding-right: 8px
-  height: 1rem
+  float: left
   // width calculation done in js code
-
-.wp-table--hierarchy-indicator-icon
-  @include icon-common
-  @extend .icon-arrow-down1
-  font-size: 0.6rem
-
-  .-hierarchy-collapsed &
-    @extend .icon-arrow-right2
 
 .wp--row[class*="__collapsed-group-"]
   display: none
@@ -69,13 +59,6 @@ body
 
 .hierarchy-header--icon
   cursor: pointer
-  display: inline-block
+  display: flex
+  align-items: center
   flex: 0 0 0
-  width: 20px
-
-  i:before
-    padding: 0
-    // Align the botched verticality of the hierarchy icons.
-    vertical-align: middle
-    font-size: 20px
-    color: var(--body-font-color)

@@ -41,11 +41,11 @@ eo:
   export_config_per_page: "Per page"
   export_config_page_size: "Page size"
   export_config_orientation: "Orientation"
-  export_config_rows: "Rows"
+  export_config_rows: "Vicoj"
   activerecord:
     attributes:
       export_card_configuration:
-        rows: "Rows"
+        rows: "Vicoj"
         per_page: "Per page"
         page_size: "Page size"
         orientation: "Orientation"

@@ -32,7 +32,7 @@ module DemoData::CreateAttachments
   def create_attachments!(container, attributes)
     Array(attributes['attachments']).each do |file_name|
       attachment = container.attachments.build
-      attachment.author = user
+      attachment.author = admin_user
       attachment.file = File.new(attachment_path(file_name))
 
       attachment.save!

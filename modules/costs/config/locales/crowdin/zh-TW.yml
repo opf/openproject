@@ -52,7 +52,7 @@ zh-TW:
           nullify_is_not_valid_for_cost_entries: "Cost entries can not be assigned to a project."
   attributes:
     comment: "評論"
-    cost_type: "Cost type"
+    cost_type: "費用類別"
     costs: "Costs"
     current_rate: "Current rate"
     hours: "小時"
@@ -106,7 +106,7 @@ zh-TW:
   label_overall_costs: "Overall costs"
   label_rate: "Rate"
   label_rate_plural: "Rates"
-  label_status_finished: "Finished"
+  label_status_finished: "已完成"
   label_units: "Cost units"
   label_user: "使用者"
   label_until: "until"

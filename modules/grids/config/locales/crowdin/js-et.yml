@@ -36,7 +36,7 @@ et:
           off_track: 'Off track'
           at_risk: 'At risk'
           not_set: 'Not set'
-          finished: 'Finished'
+          finished: 'Lõpetatud'
           discontinued: 'Discontinued'
         subprojects:
           title: 'Alamprojektid'

@@ -13,14 +13,14 @@
   width: calc(100% + #{$spot-spacing-3})
 
   &--attribute
-    flex-basis: calc(100% - #{$spot-spacing-3})
-    flex-grow: 0
-    flex-shrink: 0
+    flex-basis: 400px
+    flex-grow: 1
+    flex-shrink: 1
+    min-width: calc(50% - #{$spot-spacing-3})
+    max-width: calc(100% - #{$spot-spacing-3})
     margin: 0 $spot-spacing-1_5
-
-    @media screen and (min-width: 92rem), print
-      flex-basis: calc(50% - #{$spot-spacing-3})
-      min-width: 25rem
 
     &_span-all
       flex-basis: calc(100% - #{$spot-spacing-3})
+      flex-shrink: 0
+      flex-wrap: wrap

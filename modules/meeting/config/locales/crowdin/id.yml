@@ -39,7 +39,7 @@ id:
       meeting_minutes: "Laporan"
   activity:
     filter:
-      meeting: "Meetings"
+      meeting: "Rapat"
   description_attended: "hadir"
   description_invite: "diundang"
   events:

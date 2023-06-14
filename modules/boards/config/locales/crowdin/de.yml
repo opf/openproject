@@ -8,11 +8,11 @@ de:
     label_boards: "Boards"
     board_types:
       free: Basic
-      action: "Action board (%{attribute})"
+      action: "Aktionsboard (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
+      assignee: Zugewiesen an
       status: Status
       version: Version
-      subproject: Subproject
-      subtasks: Parent-child
+      subproject: Unterprojekt
+      subtasks: Eltern-Kind
       basic: Basic

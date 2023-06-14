@@ -26,176 +26,83 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 module BasicData
-  class RoleSeeder < Seeder
-    def seed_data!
-      Role.transaction do
-        roles.each do |attributes|
-          Role.create!(attributes)
-        end
+  class RoleSeeder < ModelSeeder
+    self.model_class = Role
+    self.seed_data_model_key = 'roles'
+    self.needs = []
 
-        global_roles.each do |attributes|
-          GlobalRole.create!(attributes)
-        end
+    def model_attributes(role_data)
+      {
+        type: type(role_data['global']),
+        name: role_data['name'],
+        position: role_data['position'],
+        permissions: role_data['permissions'].uniq,
+        builtin: builtin(role_data['builtin'])
+      }
+    end
 
-        builtin_roles.each do |attributes|
-          Role.find_by!(name: attributes[:name]).update(attributes)
-        end
+    private
+
+    def type(global_value)
+      true?(global_value) ? 'GlobalRole' : 'Role'
+    end
+
+    def builtin(value)
+      case value
+      when :non_member then Role::BUILTIN_NON_MEMBER
+      when :anonymous then Role::BUILTIN_ANONYMOUS
+      else Role::NON_BUILTIN
       end
     end
 
-    def applicable?
-      Role.where(builtin: false).empty?
+    def models_data
+      super.each do |role_data|
+        update_permissions_with_modules_data(role_data)
+      end
     end
 
-    def not_applicable_message
-      'Skipping roles as there are already some configured'
+    def update_permissions_with_modules_data(role_data)
+      role_reference, role_permissions = role_data.values_at('reference', 'permissions')
+      role_data['permissions'] =
+        permissions(role_permissions) \
+        + permissions_to_add(role_reference) \
+        - permissions_to_remove(role_reference)
     end
 
-    def roles
-      [project_admin, member, reader]
+    def permissions(value)
+      case value
+      when Array
+        value
+      when :all_assignable_permissions
+        Roles::CreateContract.new(Role.new, nil).assignable_permissions.map(&:name)
+      end
     end
 
-    def global_roles
-      [project_creator]
+    def permissions_to_add(role_reference)
+      permission_changes_by_role.dig(role_reference, :add)
     end
 
-    def builtin_roles
-      [non_member, anonymous]
+    def permissions_to_remove(role_reference)
+      permission_changes_by_role.dig(role_reference, :remove)
     end
 
-    def member
-      {
-        name: I18n.t(:default_role_member),
-        position: 3,
-        permissions: %i[
-          view_work_packages
-          export_work_packages
-          add_work_packages
-          move_work_packages
-          edit_work_packages
-          assign_versions
-          work_package_assigned
-          add_work_package_notes
-          edit_own_work_package_notes
-          manage_work_package_relations
-          manage_subtasks
-          manage_public_queries
-          save_queries
-          view_work_package_watchers
-          add_work_package_watchers
-          delete_work_package_watchers
-          view_calendar
-          comment_news
-          manage_news
-          log_time
-          view_time_entries
-          view_own_time_entries
-          edit_own_time_entries
-          view_timelines
-          edit_timelines
-          delete_timelines
-          view_reportings
-          edit_reportings
-          delete_reportings
-          manage_wiki
-          manage_wiki_menu
-          rename_wiki_pages
-          change_wiki_parent_page
-          delete_wiki_pages
-          view_wiki_pages
-          export_wiki_pages
-          view_wiki_edits
-          edit_wiki_pages
-          delete_wiki_pages_attachments
-          protect_wiki_pages
-          list_attachments
-          add_messages
-          edit_own_messages
-          delete_own_messages
-          browse_repository
-          view_changesets
-          commit_access
-          view_commit_author_statistics
-          view_members
-          manage_board_views
-          show_board_views
-          view_team_planner
-        ]
-      }
+    def permission_changes_by_role
+      return @permission_changes_by_role if defined?(@permission_changes_by_role)
+
+      @permission_changes_by_role = Hash.new { |h, role_reference| h[role_reference] = { add: [], remove: [] } }
+      process_modules_permissions_data
+      @permission_changes_by_role
     end
 
-    def reader
-      {
-        name: I18n.t(:default_role_reader),
-        position: 4,
-        permissions: %i[
-          view_work_packages
-          add_work_package_notes
-          edit_own_work_package_notes
-          save_queries
-          view_calendar
-          comment_news
-          view_timelines
-          view_reportings
-          view_wiki_pages
-          export_wiki_pages
-          list_attachments
-          add_messages
-          edit_own_messages
-          delete_own_messages
-          browse_repository
-          view_changesets
-          show_board_views
-          view_team_planner
-        ]
-      }
-    end
-
-    def project_admin
-      {
-        name: I18n.t(:default_role_project_admin),
-        position: 5,
-        permissions: Roles::CreateContract.new(Role.new, nil).assignable_permissions.map(&:name)
-      }
-    end
-
-    def non_member
-      {
-        name: I18n.t(:default_role_non_member),
-        permissions: %i[
-          view_work_packages
-          view_calendar
-          comment_news
-          browse_repository
-          view_changesets
-          view_wiki_pages
-          show_board_views
-        ]
-      }
-    end
-
-    def anonymous
-      {
-        name: I18n.t(:default_role_anonymous),
-        permissions: %i[
-          view_work_packages
-          browse_repository
-          view_changesets
-          view_wiki_pages
-        ]
-      }
-    end
-
-    def project_creator
-      {
-        name: I18n.t(:default_role_project_creator_and_staff_manager),
-        position: 6,
-        permissions: %i[
-          add_project
-          manage_user
-          manage_placeholder_user
-        ]
-      }
+    def process_modules_permissions_data
+      seed_data.each('modules_permissions') do |(_module, module_permissions_data)|
+        module_permissions_data.each do |role_permissions_data|
+          role_reference = role_permissions_data['role']
+          permission_changes = permission_changes_by_role[role_reference]
+          permission_changes[:add].concat(Array(role_permissions_data['add']))
+          permission_changes[:remove].concat(Array(role_permissions_data['remove']))
+        end
+      end
     end
   end
 end

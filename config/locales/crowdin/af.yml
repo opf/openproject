@@ -182,7 +182,7 @@ af:
     edit: 'Wysig pasgemaakte aksie %{name}'
     execute: 'Voer %{name} uit'
     upsale:
-      title: 'Custom actions'
+      title: 'Pasgemaakte aksies'
       description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
@@ -477,16 +477,16 @@ af:
       project:
         active_value:
           true: "unarchived"
-          false: "archived"
+          false: "geargiveer"
         identifier: "Identifiseerder"
         latest_activity_at: "Nuutste aktiwiteit teen"
         parent: "Subprojek van"
         public_value:
-          title: "Visibility"
+          title: "Sigbaarheid"
           true: "public"
           false: "private"
         queries: "Navrae"
-        status_code: 'Project status'
+        status_code: 'Projek status'
         status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
@@ -929,7 +929,7 @@ af:
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "Sub-projek"
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
@@ -941,14 +941,14 @@ af:
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
     filter:
-      changeset: "Changesets"
+      changeset: "Verskilstelle"
       message: "Forums"
-      news: "News"
+      news: "Nuus"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
+      time_entry: "Tyd gespandeer"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "Werkspakkete"
   #common attributes of all models
   attributes:
     active: "Aktiewe"
@@ -1005,7 +1005,7 @@ af:
     updated_on: "Opgedateer op"
     uploader: "Uploader"
     user: "Gebruiker"
-    value: "Value"
+    value: "Waarde"
     version: "Weergawe"
     work_package: "Werkspakket"
   backup:
@@ -1185,7 +1185,7 @@ af:
       - "Oktober"
       - "November"
       - "Desember"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - :jaar
       - :maand
@@ -1230,61 +1230,6 @@ af:
       hour:
         one: "uur"
         other: "ure"
-  default_activity_development: "Ontwikkeling"
-  default_activity_management: "Bestuur"
-  default_activity_other: "Ander"
-  default_activity_specification: "Spesifikasie"
-  default_activity_support: "Ondersteuning"
-  default_activity_testing: "Toetse"
-  default_color_black: "Swart"
-  default_color_blue: "Blou"
-  default_color_blue_dark: "Blou (donker)"
-  default_color_blue_light: "Blou (lig)"
-  default_color_green_dark: "Groen (donker)"
-  default_color_green_light: "Groen (lig)"
-  default_color_grey_dark: "Grys (donker)"
-  default_color_grey_light: "Grys (lig)"
-  default_color_grey: "Grys"
-  default_color_magenta: "Purperrooi"
-  default_color_orange: "Oranje"
-  default_color_red: "Rooi"
-  default_color_white: "Wit"
-  default_color_yellow: "Geel"
-  default_status_closed: "Gesluit"
-  default_status_confirmed: "Bevestig"
-  default_status_developed: "Reeds ontwikkel"
-  default_status_in_development: "In ontwikkeling"
-  default_status_in_progress: "In-vordering"
-  default_status_in_specification: "In spesifikasie"
-  default_status_in_testing: "In toetsfase"
-  default_status_new: "Nuut"
-  default_status_on_hold: "Uitgestel"
-  default_status_rejected: "Verwerp"
-  default_status_scheduled: "Geskeduleer"
-  default_status_specified: "Gespesifiseer"
-  default_status_tested: "Getoets"
-  default_status_test_failed: "Toets het misluk"
-  default_status_to_be_scheduled: "Om geskeduleer word"
-  default_priority_low: "Laag"
-  default_priority_normal: "Normaal"
-  default_priority_high: "Hoog"
-  default_priority_immediate: "Onmiddellik"
-  default_role_anonymous: "Anoniem"
-  default_role_developer: "Ontwikkelaar"
-  default_role_project_admin: "Projek admin"
-  default_role_project_creator_and_staff_manager: "Staff and projects manager"
-  default_role_non_member: "Nie-lid"
-  default_role_reader: "Leser"
-  default_role_member: "Lid"
-  default_type: "Werk Pakket"
-  default_type_bug: "Gogga"
-  default_type_deliverable: "Aflewerbare"
-  default_type_epic: "Epies"
-  default_type_feature: "Funksie"
-  default_type_milestone: "Mylpaal"
-  default_type_phase: "Fase"
-  default_type_task: "Taak"
-  default_type_user_story: "Gebruiker storie"
   description_active: "Aktief?"
   description_attachment_toggle: "Wys/Versteek aanhegsels"
   description_autocomplete: >
@@ -1384,7 +1329,7 @@ af:
     message: Boodskap geredigeer
     news: Nuus
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'Projek geredigeer'
     reply: Geantwoord
     time_entry: 'Tydrekord geredigeer'
     wiki_page: 'Wiki-blad geredigeer'
@@ -1402,9 +1347,9 @@ af:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF with descriptions"
-      pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
-      pdf_with_attachments: "PDF with attachments"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Image not exported."
   extraction:
@@ -1725,6 +1670,7 @@ af:
   label_journal: "Journal"
   label_journal_diff: "Beskrywing Vergelyking"
   label_language: "Taal"
+  label_languages: "Languages"
   label_jump_to_a_project: "Jump to a project..."
   label_keyword_plural: 'Keywords'
   label_language_based: "Gebaseer op die gebruiker se taal"
@@ -1832,7 +1778,6 @@ af:
   label_password_rule_special: "Spesiale karakters"
   label_password_rule_uppercase: "Grootletters"
   label_path_encoding: "Pad enkodering"
-  label_pdf_with_descriptions: "PDF met beskrywings"
   label_per_page: "Per bladsy"
   label_people: "People"
   label_permissions: "Toestemmings"
@@ -1984,6 +1929,7 @@ af:
   label_user_plural: "Users"
   label_user_search: "Search for user"
   label_user_settings: "User settings"
+  label_users_settings: "Users settings"
   label_version_new: "New version"
   label_version_plural: "Weergawes"
   label_version_sharing_descendants: "With subprojects"
@@ -2557,6 +2503,7 @@ af:
   setting_enabled_scm: "Enabled SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Enable Feeds"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_host_name: "Host name"
@@ -2609,7 +2556,7 @@ af:
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
   setting_time_format: "Time format"
   setting_accessibility_mode_for_anonymous: "Enable accessibility mode for anonymous users"
-  setting_user_format: "Users display format"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
   setting_users_deletable_by_admins: "User accounts deletable by admins"
   setting_users_deletable_by_self: "Users allowed to delete their accounts"
@@ -2640,6 +2587,7 @@ af:
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
+      display_format: "Display format"
       deletion: "Deletion"
     highlighting:
       mode_long:
@@ -3178,7 +3126,7 @@ af:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "Fout"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"
