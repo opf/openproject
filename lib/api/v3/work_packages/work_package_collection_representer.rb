@@ -50,7 +50,7 @@ module API
           @timestamps = timestamps
           @query = query
 
-          if timestamps.present? && (timestamps.count > 1 or timestamps.first.historic?)
+          if timestamps_active?
             query_params[:timestamps] ||= API::V3::Utilities::PathHelper::ApiV3Path.timestamps_to_param_value(timestamps)
           end
 
@@ -206,9 +206,19 @@ module API
         end
 
         def schema_pairs
-          @schema_pairs ||= represented
-            .map { |work_package| [work_package.project, work_package.type, work_package.available_custom_fields] }
-            .uniq
+          @schema_pairs ||= begin
+            work_packages = if timestamps_active?
+                              represented
+                                .flat_map(&:at_timestamps)
+                            else
+                              represented
+                            end
+
+            work_packages
+              .select(&:persisted?)
+              .uniq { |work_package| [work_package.project_id, work_package.type_id] }
+              .map { |work_package| [work_package.project, work_package.type, work_package.available_custom_fields] }
+          end
         end
 
         def all_cfs_of_project
@@ -311,6 +321,10 @@ module API
         def representation_format_atom
           representation_format 'atom',
                                 mime_type: 'application/atom+xml'
+        end
+
+        def timestamps_active?
+          timestamps.present? && timestamps.any?(&:historic?)
         end
 
         attr_reader :project,
