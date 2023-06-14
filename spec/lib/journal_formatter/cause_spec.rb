@@ -34,7 +34,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
   include ActionView::Helpers::UrlHelper
   include Rails.application.routes.url_helpers
 
-  let(:work_package) { build_stubbed(:work_package) }
+  let(:work_package) { create(:work_package) }
   let(:instance) { described_class.new(build(:work_package_journal)) }
   let(:link) do
     link_to_work_package(work_package, all_link: true)
@@ -57,7 +57,9 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       let(:html) { true }
 
       context 'when the user is able to access the related work package' do
-        before { allow(WorkPackage).to receive_message_chain(:includes, :visible, :find_by).and_return(work_package) }
+        before do
+          allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.where(id: work_package.id))
+        end
 
         it do
           expect(subject).to eq "<strong>#{I18n.t('journals.caused_changes.dates_changed')}</strong> " \
@@ -66,7 +68,9 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       end
 
       context 'when the user is not able to access the related work package' do
-        before { allow(WorkPackage).to receive_message_chain(:includes, :visible, :find_by).and_return(nil) }
+        before do
+          allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.none)
+        end
 
         it do
           expect(subject).to eq "<strong>#{I18n.t('journals.caused_changes.dates_changed')}</strong> " \
@@ -79,7 +83,9 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       let(:html) { false }
 
       context 'when the user is able to access the related work package' do
-        before { allow(WorkPackage).to receive_message_chain(:includes, :visible, :find_by).and_return(work_package) }
+        before do
+          allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.where(id: work_package.id))
+        end
 
         let(:link) { "##{work_package.id}" }
 
@@ -90,7 +96,9 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       end
 
       context 'when the user is not able to access the related work package' do
-        before { allow(WorkPackage).to receive_message_chain(:includes, :visible, :find_by).and_return(nil) }
+        before do
+          allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.none)
+        end
 
         it do
           expect(subject).to eq "#{I18n.t('journals.caused_changes.dates_changed')} " \
@@ -112,7 +120,9 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       let(:html) { true }
 
       context 'when the user is able to access the related work package' do
-        before { allow(WorkPackage).to receive_message_chain(:includes, :visible, :find_by).and_return(work_package) }
+        before do
+          allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.where(id: work_package.id))
+        end
 
         it do
           expect(subject).to eq "<strong>#{I18n.t('journals.caused_changes.dates_changed')}</strong> " \
@@ -121,7 +131,9 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       end
 
       context 'when the user is not able to access the related work package' do
-        before { allow(WorkPackage).to receive_message_chain(:includes, :visible, :find_by).and_return(nil) }
+        before do
+          allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.none)
+        end
 
         it do
           expect(subject).to eq "<strong>#{I18n.t('journals.caused_changes.dates_changed')}</strong> " \
@@ -134,7 +146,9 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       let(:html) { false }
 
       context 'when the user is able to access the related work package' do
-        before { allow(WorkPackage).to receive_message_chain(:includes, :visible, :find_by).and_return(work_package) }
+        before do
+          allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.where(id: work_package.id))
+        end
 
         let(:link) { "##{work_package.id}" }
 
@@ -145,7 +159,9 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       end
 
       context 'when the user is not able to access the related work package' do
-        before { allow(WorkPackage).to receive_message_chain(:includes, :visible, :find_by).and_return(nil) }
+        before do
+          allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.none)
+        end
 
         it do
           expect(subject).to eq "#{I18n.t('journals.caused_changes.dates_changed')} " \
@@ -167,7 +183,9 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       let(:html) { true }
 
       context 'when the user is able to access the related work package' do
-        before { allow(WorkPackage).to receive_message_chain(:includes, :visible, :find_by).and_return(work_package) }
+        before do
+          allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.where(id: work_package.id))
+        end
 
         it do
           expect(subject).to eq "<strong>#{I18n.t('journals.caused_changes.dates_changed')}</strong> " \
@@ -176,7 +194,9 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       end
 
       context 'when the user is not able to access the related work package' do
-        before { allow(WorkPackage).to receive_message_chain(:includes, :visible, :find_by).and_return(nil) }
+        before do
+          allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.none)
+        end
 
         it do
           expect(subject).to eq "<strong>#{I18n.t('journals.caused_changes.dates_changed')}</strong> " \
@@ -189,7 +209,9 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       let(:html) { false }
 
       context 'when the user is able to access the related work package' do
-        before { allow(WorkPackage).to receive_message_chain(:includes, :visible, :find_by).and_return(work_package) }
+        before do
+          allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.where(id: work_package.id))
+        end
 
         let(:link) { "##{work_package.id}" }
 
@@ -200,7 +222,9 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       end
 
       context 'when the user is not able to access the related work package' do
-        before { allow(WorkPackage).to receive_message_chain(:includes, :visible, :find_by).and_return(nil) }
+        before do
+          allow(WorkPackage).to receive(:visible).with(User.current).and_return(WorkPackage.none)
+        end
 
         it do
           expect(subject).to eq "#{I18n.t('journals.caused_changes.dates_changed')} " \
