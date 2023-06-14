@@ -91,7 +91,8 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
   end
 
   def working_date_change_message(date, working)
-    I18n.t("journals.cause_descriptions.working_days_changed.dates.#{working ? :working : :non_working}", date:)
+    I18n.t("journals.cause_descriptions.working_days_changed.dates.#{working ? :working : :non_working}",
+           date: I18n.l(Date.parse(date)))
   end
 
   # we need to tell the url_helper that there is not controller to get url_options
