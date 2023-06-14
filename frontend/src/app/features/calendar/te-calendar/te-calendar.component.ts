@@ -490,7 +490,7 @@ export class TimeEntryCalendarComponent {
 
     const { entry } = event.event.extendedProps;
 
-    const schema:TimeEntrySchema = await this.schemaCache.ensureLoaded(entry);
+    const schema = await this.schemaCache.ensureLoaded(entry as TimeEntryResource) as TimeEntrySchema;
 
     jQuery(event.el).tooltip({
       content: this.tooltipContentString(event.event.extendedProps.entry, schema),
