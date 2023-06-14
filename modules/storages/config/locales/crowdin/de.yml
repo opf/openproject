@@ -60,6 +60,7 @@ de:
       host: "Bitte ergänzen Sie die Host-Adresse Ihres Speichers (einschließlich https://). Sie sollte nicht länger als 255 Zeichen sein."
       no_storage_set_up: "Es sind noch keine Dateispeicher eingerichtet."
       no_specific_folder: "Standardmäßig startet jeder Benutzer in seinem eigenen Home-Ordner, wenn er eine Datei hochlädt."
+      automatic_folder: "This will automatically create a root folder for this project and manage the access permissions for each project member."
       empty_project_folder_validation: "Selecting a folder is mandatory to proceed."
       not_logged_into_storage: "To select a project folder, please first login"
       existing_manual_folder: >
@@ -95,6 +96,7 @@ de:
     label_new_storage: "Neuer Speicher"
     label_existing_manual_folder: "Vorhandener Ordner mit manuell verwalteten Berechtigungen"
     label_no_specific_folder: "Kein spezifischer Ordner"
+    label_automatic_folder: "New folder with automatically managed permissions"
     label_no_selected_folder: "No selected folder"
     label_storage: "Speicher"
     label_storages: "Speicher"

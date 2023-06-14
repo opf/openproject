@@ -26,7 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component } from '@angular/core';
+import {
+  Component,
+  Input,
+} from '@angular/core';
 import { StateService } from '@uirouter/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -38,9 +41,9 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
   selector: 'wp-overview-tab',
 })
 export class WorkPackageOverviewTabComponent extends UntilDestroyedMixin {
-  public workPackageId:string;
+  @Input() public workPackage:WorkPackageResource;
 
-  public workPackage:WorkPackageResource;
+  public workPackageId:string;
 
   public tabName = this.I18n.t('js.label_latest_activity');
 

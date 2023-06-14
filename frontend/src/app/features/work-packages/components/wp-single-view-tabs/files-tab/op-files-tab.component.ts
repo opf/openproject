@@ -26,7 +26,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -45,7 +50,7 @@ import { IProjectStorage } from 'core-app/core/state/project-storages/project-st
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageFilesTabComponent implements OnInit {
-  workPackage:WorkPackageResource;
+  @Input() workPackage:WorkPackageResource;
 
   text = {
     attachments: {
