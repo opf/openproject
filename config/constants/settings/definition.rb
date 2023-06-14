@@ -1100,12 +1100,11 @@ module Settings
     end
 
     def override_value(other_value)
-      coerced_value = coerce(other_value)
-      if valid_for?(coerced_value)
-        self.value = coerced_value
+      self.value = coerce(other_value)
+      if valid_for?(value)
         self.writable = false
       else
-        raise ArgumentError, "Value for #{name} must be one of #{allowed.join(', ')} but is #{coerced_value}"
+        raise ArgumentError, "Value for #{name} must be one of #{allowed.join(', ')} but is #{value}"
       end
     end
 
