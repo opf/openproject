@@ -38,8 +38,9 @@ jobs:
       uses: actions/cache@v3
       with:
         path: /tmp/cache
-        key: ${{ runner.os }}-ci-cache-tests-units-${{ github.ref }}
+        key: ${{ runner.os }}-ci-cache-tests-units-${{ github.ref }}-${{ github.sha }}
         restore-keys: |
+          ${{ runner.os }}-ci-cache-tests-units-${{ github.ref }}
           ${{ runner.os }}-ci-cache-tests-units-
     - name: build
       run: |
@@ -70,8 +71,9 @@ jobs:
       uses: actions/cache@v3
       with:
         path: /tmp/cache
-        key: ${{ runner.os }}-ci-cache-tests-features-${{ github.ref }}
+        key: ${{ runner.os }}-ci-cache-tests-features-${{ github.ref }}-${{ github.sha }}
         restore-keys: |
+          ${{ runner.os }}-ci-cache-tests-features-${{ github.ref }}-
           ${{ runner.os }}-ci-cache-tests-features-
     - name: build
       run: |
