@@ -73,7 +73,7 @@ en:
       name: "Give your storage a name so that users can differentiate between multiple storages."
       host: "Please add the host address of your storage including the https://. It should not be longer than 255 characters."
       managed_project_folders_application_password: >
-        Enable automatic managed folders and copy this value from:
+        Copy this value from:
       no_storage_set_up: "There are no file storages set up yet."
       no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
       empty_project_folder_validation: "Selecting a folder is mandatory to proceed."
