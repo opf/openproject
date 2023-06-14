@@ -131,36 +131,42 @@ module Redmine::MenuManager::MenuHelper
 
   # rubocop:disable Metrics/AbcSize
   def render_menu_node_with_children(node, project = nil)
-    html_options = { data: { name: node.name } }
+    content_tag :li, menu_node_options(node) do
+      items = [
+        render_wrapped_menu_node(node, project),
+        render_visible_children_list(node, project),
+        render_unattached_children_list(node, project)
+      ]
 
-    if node_or_children_selected?(node)
-      html_options[:class] = 'open'
+      safe_join(items, "\n")
     end
-    content_tag :li, html_options do
-      # Standard children
-      standard_children_list = node.children.map do |child|
-        render_menu_node(child, project) if visible_node?(@menu, child)
-      end.join.html_safe
+  end
+  # rubocop:enable Metrics/AbcSize
 
-      # Unattached children
-      unattached_children_list = render_unattached_children_menu(node, project)
-
-      # Parent
-      node = [render_single_menu_node(node, project)]
-
-      # add children
-      unless standard_children_list.empty?
-        node << content_tag(:ul, standard_children_list, class: 'main-menu--children')
-      end
-      if unattached_children_list.present?
-        node << content_tag(:ul, unattached_children_list, class: 'main-menu--children unattached')
-      end
-
-      safe_join(node, "\n")
+  def render_wrapped_menu_node(node, project)
+    html_id = node.html_options[:id] || node.name
+    content_tag(:div, class: 'main-item-wrapper', id: "#{html_id}-wrapper") do
+      render_single_menu_node(node, project)
     end
   end
 
-  # rubocop:enable Metrics/AbcSize
+  def render_visible_children_list(node, project)
+    items = node
+      .children
+      .map { |child| render_menu_node(child, project) if visible_node?(@menu, child) }
+
+    if items.present?
+      content_tag(:ul, safe_join(items, "\n"), class: 'main-menu--children')
+    end
+  end
+
+  def render_unattached_children_list(node, project)
+    items = render_unattached_children_menu(node, project)
+
+    if items.present?
+      content_tag(:ul, items, class: 'main-menu--children unattached')
+    end
+  end
 
   # rubocop:disable Metrics/AbcSize
   def render_single_menu_node(item, project = nil, menu_class = 'op-menu')
@@ -209,6 +215,15 @@ module Redmine::MenuManager::MenuHelper
   end
 
   private
+
+  def menu_node_options(node)
+    html_options = { data: { name: node.name } }
+
+    if node_or_children_selected?(node)
+      html_options[:class] = 'open'
+    end
+    html_options
+  end
 
   # Returns a list of unattached children menu items
   def render_unattached_children_menu(node, project)

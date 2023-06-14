@@ -51,7 +51,7 @@ export class MainMenuNavigationService {
       const item = mainItems[index];
       const elementId = item.id;
 
-      const wrapperElement = jQuery('<div class="main-item-wrapper"/>');
+      const wrapperElement = jQuery('<div class=""/>');
 
       // inherit element id
       if (elementId) {
@@ -64,7 +64,7 @@ export class MainMenuNavigationService {
 
   register() {
     // Wrap main item
-    this.wrapMainItem();
+    //this.wrapMainItem();
 
     // Scroll to the active item or if none found, the active menu wrapper
     const selected = document.querySelector('.tree-menu--item.-selected')
