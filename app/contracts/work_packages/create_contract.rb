@@ -59,17 +59,5 @@ module WorkPackages
       # lock version is initialized by AR itself
       super - ['lock_version']
     end
-
-    def status_exists?
-      super && (!type_exists? || status_exists_in_type?)
-    end
-
-    def type_exists?
-      model.type_id && model.type && !type_inexistent?
-    end
-
-    def status_exists_in_type?
-      model.type.statuses.exists?(model.status_id)
-    end
   end
 end

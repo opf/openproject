@@ -140,41 +140,7 @@ RSpec.describe WorkPackages::CreateContract do
         work_package.author = build_stubbed(:user)
 
         expect(validated_contract.errors.symbols_for(:author_id))
-          .to contain_exactly(:invalid, :error_readonly)
-      end
-    end
-  end
-
-  describe 'status' do
-    let(:status) { create(:status) }
-    let(:type) { create(:type) }
-
-    before do
-      work_package.type = type
-      work_package.status = status
-    end
-
-    context 'when a type is not present' do
-      it 'is valid' do
-        work_package.type = nil
-        expect(validated_contract.errors.symbols_for(:status))
-          .to be_empty
-      end
-    end
-
-    context 'when a type is present and the status is not part of it' do
-      it 'is invalid' do
-        expect(validated_contract.errors.symbols_for(:status))
-          .to contain_exactly(:does_not_exist)
-      end
-    end
-
-    context 'when a type is present and the status is part of it' do
-      let!(:workflow) { create(:workflow, type:, old_status: status) }
-
-      it 'is valid' do
-        expect(validated_contract.errors.symbols_for(:status))
-          .to be_empty
+          .to match_array %i[invalid error_readonly]
       end
     end
   end
