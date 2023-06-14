@@ -13,9 +13,8 @@
          class="boards-list--item"
          wp-isolated-query-space
          cdkDrag
-         vsDragScroll
          [cdkDragData]="boardWidget"
-         [vsDragScrollContainer]="_container">
+    >
       <span *ngIf="board.editable"
             class="boards-list-item-handle icon icon-drag-handle"
             cdkDragHandle></span>

@@ -377,7 +377,7 @@ GEM
       rexml
     crass (1.0.6)
     daemons (1.4.1)
-    dalli (3.2.4)
+    dalli (3.2.5)
     date (3.3.3)
     date_validator (0.12.0)
       activemodel (>= 3)
@@ -564,7 +564,7 @@ GEM
       open4 (~> 1.0)
     launchy (2.5.2)
       addressable (~> 2.8)
-    lefthook (1.4.1)
+    lefthook (1.4.2)
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
     listen (3.8.0)

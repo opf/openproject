@@ -232,7 +232,7 @@ es:
           upgrade_info: "Actualice a un plan de pago para activarla y empiece a usarla en su equipo."
           benefits:
             description: "¿Cuáles son las ventajas de la edición Enterprise on-premises?"
-            high_security: "Funcionalidades de seguridad"
+            high_security: "Funciones de seguridad"
             high_security_text: "Inicio de sesión único (SAML, OpenID Connect, CAS), grupos LDAP."
             installation: "Ayuda en la instalación"
             installation_text: "Nuestros ingenieros de software especializados le guiarán en todo el proceso de instalación y configuración en su propia infraestructura."
@@ -308,15 +308,15 @@ es:
     homescreen:
       blocks:
         new_features:
-          text_new_features: "Obtenga información sobre nuevas funcionalidades y actualizaciones de productos."
-          learn_about: "Más información sobre las nuevas funcionalidades"
+          text_new_features: "Obtenga información sobre nuevas funciones y actualizaciones de productos."
+          learn_about: "Más información sobre las nuevas funciones"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
           '12_5':
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                La versión contiene varias nuevas características y mejoras: <br> <ul class="%{list_styling_class}"> <li>Sube y vincula archivos de paquetes de trabajo su almacenamiento de archivos en Nextcloud.</li> <li>Seguimiento de los cambios del proyecto con la actividad del proyecto.</li> <li>Añadir días festivos públicos para toda la instancia (días no laborables).</li> <li>Archivar proyectos a pesar de no ser administrador.</li> <li>Nuevo filtro por defecto para paquetes de trabajo atrasados.</li> </ul>
+                La versión contiene varias nuevas funciones y mejoras: <br> <ul class="%{list_styling_class}"> <li>Sube y vincula archivos de paquetes de trabajo su almacenamiento de archivos en Nextcloud.</li> <li>Seguimiento de los cambios del proyecto con la actividad del proyecto.</li> <li>Añadir días festivos públicos para toda la instancia (días no laborables).</li> <li>Archivar proyectos a pesar de no ser administrador.</li> <li>Nuevo filtro por defecto para paquetes de trabajo atrasados.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to iCalendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -457,7 +457,7 @@ es:
     label_sort_higher: "Mover hacia arriba"
     label_sort_lower: "Mover hacia abajo"
     label_sorting: "Orden"
-    label_spent_time: "Tiempo dedicado"
+    label_spent_time: "Tiempo invertido"
     label_star_query: "Favorecido"
     label_press_enter_to_save: "Presione enter para guardar los cambios."
     label_public_query: "Público"
@@ -467,7 +467,7 @@ es:
     label_subject: "Asunto"
     label_this_week: "esta semana"
     label_today: "Hoy"
-    label_time_entry_plural: "Tiempo dedicado"
+    label_time_entry_plural: "Tiempo invertido"
     label_up: "Arriba"
     label_user_plural: "Usuarios"
     label_activity_show_only_comments: "Solo mostrar las actividades con comentarios"
@@ -528,7 +528,7 @@ es:
         project_selection: 'Haga clic en uno de los proyectos de demostración que hemos preparado. Los datos de demostración solo están disponibles en inglés actualmente. <br> El <b>proyecto general de demostración</b> es la opción recomendada para la gestión de proyectos clásica, mientras que el <b>proyecto de Scrum</b> es más adecuado para la gestión de proyectos Agile.'
         quick_add_button: 'Haga clic en el icono del signo más (+) en el menú de navegación del encabezado para <b>crear un proyecto</b> o <b>invitar a compañeros</b>.'
         sidebar_arrow: "Usa la flecha de retorno en la esquina superior izquierda para regresar al <b>menú principal</b> del proyecto."
-        welcome: 'Realice un paseo de introducción de tres minutos para conocer las <b>funcionalidades más importantes</b>. <br> Le recomendamos que complete todos los pasos. Puede volver a iniciar el paseo en cualquier momento.'
+        welcome: 'Realice un paseo de introducción de tres minutos para conocer las <b>funciones más importantes</b>. <br> Le recomendamos que complete todos los pasos. Puede volver a iniciar el paseo en cualquier momento.'
         wiki: 'En la <b>wiki</b>, puede elaborar documentos y compartir conocimientos con su equipo.'
         backlogs:
           overview: "Administre su trabajo en la vista de <b>trabajos pendientes</b>."
@@ -538,7 +538,7 @@ es:
           task_board: "En el panel de tareas, se muestra el <b>progreso de este sprint</b>. Haga clic en el icono del signo más (+) junto a una historia de usuario para añadir nuevas tareas o impedimentos. <br> Puede actualizar el estado mediante las funciones de arrastrar y colocar."
         boards:
           overview: 'Seleccione los <b>paneles</b> para cambiar la vista y gestione su proyecto con la vista de paneles Agile.'
-          lists_kanban: 'Aquí puede crear varias listas (columnas) en el panel. Por ejemplo, esta funcionalidad le permite crear un <b>panel Kanban</b>.'
+          lists_kanban: 'Aquí puede crear varias listas (columnas) en el panel. Por ejemplo, esta función le permite crear un <b>panel Kanban</b>.'
           lists_basic: 'Aquí puede crear varias listas (columnas) en el panel Agile.'
           add: 'Haga clic en el icono del signo más (+) para <b>crear una tarjeta</b> o <b>añadir una tarjeta existente</b> a la lista en el panel.'
           drag: 'Arrastre y coloque las tarjetas en una lista específica para cambiar el orden o moverlas a otra lista. <br> Para ver los detalles, haga clic en el icono de información (i) de la esquina superior derecha o haga doble clic en una tarjeta.'
@@ -834,7 +834,7 @@ es:
       empty: "(vacío)"
       error: "Ha ocurrido un error."
       errors:
-        not_implemented: "La línea temporal no puede procesarse porque utiliza una característica que no se ha implementado todavía."
+        not_implemented: "La línea temporal no puede procesarse porque utiliza una función que no se ha implementado todavía."
         report_comparison: "La línea temporal no puede hacer las comparaciones configuradas. Consulte la sección pertinente en la configuración, reiniciarla puede ayudar a resolver este problema."
         report_epicfail: "No se pudo cargar la línea temporal debido a un error inesperado."
         report_timeout: "No se pudo cargar la línea temporal en una cantidad razonable de tiempo."
@@ -978,7 +978,7 @@ es:
         dueDate: "Fecha de finalización"
         duration: "Duración"
         estimatedTime: "Tiempo estimado"
-        spentTime: "Tiempo empleado"
+        spentTime: "Tiempo invertido"
         category: "Categoría"
         percentageDone: "Porcentaje realizado"
         priority: "Prioridad"
