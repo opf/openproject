@@ -42,10 +42,10 @@ es:
           title: 'Subproyectos'
           no_results: 'No hay subproyectos.'
         time_entries_current_user:
-          title: 'Tiempo que he invertido'
+          title: 'Mi tiempo invertido'
           displayed_days: 'Días mostrados en el widget:'
         time_entries_list:
-          title: 'Tiempo gastado (últimos 7 días)'
+          title: 'Tiempo invertido (últimos 7 días)'
           no_results: 'Sin registros temporales en los últimos 7 días.'
         work_packages_accountable:
           title: "Paquetes de trabajo de los que soy responsable"
