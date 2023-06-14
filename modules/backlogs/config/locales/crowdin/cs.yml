@@ -75,7 +75,6 @@ cs:
     x_more: "%{count} další..."
   backlogs_active: "aktivní"
   backlogs_any: "jakákoliv"
-  backlogs_card_specification: "Typy štítků pro tisk karet"
   backlogs_inactive: "Projekt nezobrazuje žádnou aktivitu"
   backlogs_points_burn_direction: "Body popáleniny nahoru/dolů"
   backlogs_product_backlog: "Nevyřízené produkty"

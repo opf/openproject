@@ -2541,7 +2541,7 @@ ru:
   setting_enabled_scm: "Вклченные SCM (системы управления исходным кодом)"
   setting_enabled_projects_columns: "Видимый в списке проектов"
   setting_feeds_enabled: "Включить новостные ленты"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "Включить подписку на iCalendar"
   setting_feeds_limit: "Предел содержимого новостной ленты"
   setting_file_max_size_displayed: "Максимальная длина  строки текстовых файлов"
   setting_host_name: "Имя компьютера в сети"

@@ -105,6 +105,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     relation = self
 
     relation = switch_to_journals_database_table(relation)
+    relation = substitute_join_tables_in_where_clause(relation)
     relation = substitute_database_table_in_where_clause(relation)
     relation = add_timestamp_condition(relation)
     relation = add_join_on_journables_table_with_created_at_column(relation)
@@ -160,7 +161,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   # - `updated_at`
   #
   # When asking for `WorkPackage.at_timestamp(...).where(id: 123)`, we are expecting `id` to refer
-  # to the id of the work pacakge, not of the journalized table entry.
+  # to the id of the work package, not of the journalized table entry.
   #
   # Also, the `created_at` and `updated_at` columns are not included in the journalized table.
   # We gather the `updated_at` from the `journals` mapping table, and the `created_at` from the
@@ -199,6 +200,38 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
       substitute_database_table_in_predicate(predicate.expr.right)
     else
       raise NotImplementedError, "FIXME A predicate of type #{predicate.class.name} is not handled, yet."
+    end
+  end
+
+  # Additional table joins can appear in the where clause, such as the custom_values table join.
+  # We need to substitute the table name ("custom_values") with the journalized table name
+  # ("customized_journals") in order to retrieve historic data from the journalized table.
+
+  def substitute_join_tables_in_where_clause(relation)
+    relation.where_clause.instance_variable_get(:@predicates).each do |predicate|
+      substitute_custom_values_join_in_predicate(predicate)
+    end
+    relation
+  end
+
+  # For simplicity's sake we replace the "custom_values" join only when the predicate is a String.
+  # This is the way we are receiving the predicate from the `Queries::WorkPackages::Filter::CustomFieldFilter`
+  # The joins are defined in the `Queries::WorkPackages::Filter::CustomFieldContext#where_subselect_joins`
+  # method. If we ever change that method to use Arel, we will need to implement the substitution
+  # for Arel objects as well.
+  def substitute_custom_values_join_in_predicate(predicate)
+    if predicate.is_a? String
+      predicate.gsub! /JOIN (?<!_)#{CustomValue.table_name}/, "JOIN #{Journal::CustomizableJournal.table_name}"
+      predicate.gsub! "JOIN \"#{CustomValue.table_name}\"", "JOIN \"#{Journal::CustomizableJournal.table_name}\""
+
+      customized_type = /custom_values.customized_type = 'WorkPackage'/
+      customized_id   = /custom_values.customized_id = work_packages.id/
+
+      # The customizable_journals table has no direct relation to the work_packages table,
+      # but it has to the journals table. We join it to the journals table instead.
+      journal_id = "customizable_journals.journal_id = journals.id"
+
+      predicate.gsub! /#{customized_type}.*AND #{customized_id}/m, journal_id
     end
   end
 
@@ -324,8 +357,9 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
 
   # Replace table names in sql strings, e.g.
   #
-  #     "work_package.id" => "journals.journable_id"
+  #     "work_package.id"      => "journals.journable_id"
   #     "work_package.subject" => "work_package_journals.subject"
+  #     "custom_values.*"      => "customizable_journals.*"
   #
   def gsub_table_names_in_sql_string!(sql_string)
     sql_string.gsub! /(?<!_)#{model.table_name}\.updated_at/, "journals.updated_at"
@@ -336,6 +370,8 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     sql_string.gsub! "\"#{model.table_name}\".\"id\"", "\"journals\".\"journable_id\""
     sql_string.gsub! /(?<!_)#{model.table_name}\./, "#{model.journal_class.table_name}."
     sql_string.gsub! "\"#{model.table_name}\".", "\"#{model.journal_class.table_name}\"."
+    sql_string.gsub! /(?<!_)#{CustomValue.table_name}\./, "#{Journal::CustomizableJournal.table_name}."
+    sql_string.gsub! "\"#{CustomValue.table_name}\".", "\"#{Journal::CustomizableJournal.table_name}\"."
   end
 
   class NotImplementedError < StandardError; end

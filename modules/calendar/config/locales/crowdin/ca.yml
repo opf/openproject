@@ -3,5 +3,5 @@ ca:
   label_calendar_plural: "Calendaris"
   permission_view_calendar: "Mostrar calendaris"
   permission_manage_calendars: "Administrar calendaris"
-  permission_share_calendars: "Subscribe to iCalendars"
+  permission_share_calendars: "Subscripció via iCalendar"
   project_module_calendar_view: "Calendari"

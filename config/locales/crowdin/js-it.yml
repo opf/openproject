@@ -679,8 +679,7 @@ it:
         Scegli un progetto per creare una macro-attività e vederne tutti gli attributi. Puoi selezionare solo progetti che hanno il tipo sopra indicato attivato.
       details_activity: 'Attività dei dettagli del progetto'
       context: 'Contesto del progetto'
-      work_package_belongs_to: 'Questa macro-attività appartiene al progetto %{projectname}.'
-      click_to_switch_context: 'Apri questa macro-attività nel progetto.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Cambiare il modello ricaricherà la pagina e perderai tutti gli input in questo modulo. Continuare?'
       use_template: "Utilizza modello"
       no_template_selected: "(Nessuno)"

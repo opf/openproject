@@ -75,7 +75,6 @@ id:
     x_more: "%{count} lebih ..."
   backlogs_active: "aktif"
   backlogs_any: "Apa saja"
-  backlogs_card_specification: "Jenis label untuk pencetakan kartu "
   backlogs_inactive: "Proyek tidak menunjukkan aktivitas"
   backlogs_points_burn_direction: "Poin terbakar habis / turun"
   backlogs_product_backlog: "Backlog produk"

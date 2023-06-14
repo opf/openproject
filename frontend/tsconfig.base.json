@@ -24,7 +24,7 @@
       "src/types"
     ],
     "lib": [
-      "es2017",
+      "es2018",
       "dom"
     ],
     "paths": {

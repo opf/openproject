@@ -678,8 +678,7 @@ pt:
         Por favor, escolha o projeto onde vai criar o pacote de trabalho para visualizar todos os atributos. Você pode selecionar somente projetos que possuam o tipo acima ativado.
       details_activity: 'Atividade de detalhes do projeto'
       context: 'Contexto do projeto'
-      work_package_belongs_to: 'Este pacote de trabalho pertence ao projeto %{projectname}.'
-      click_to_switch_context: 'Abra esse pacote de trabalho nesse projeto.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Mudar o modelo irá recarregar a página e todos os dados inseridos nesse formulário serão perdidos. Continuar?'
       use_template: "Usar modelo"
       no_template_selected: "(Nenhum)"

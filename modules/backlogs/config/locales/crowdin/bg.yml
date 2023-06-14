@@ -75,7 +75,6 @@ bg:
     x_more: "%{count} more..."
   backlogs_active: "Активен"
   backlogs_any: "всякакви"
-  backlogs_card_specification: "Видове етикети за печат на карти"
   backlogs_inactive: "Проектът не показва активност"
   backlogs_points_burn_direction: "Точки на изгаряне нагоре/надолу"
   backlogs_product_backlog: "Натрупване на продукти"

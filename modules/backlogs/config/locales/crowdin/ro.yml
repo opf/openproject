@@ -75,7 +75,6 @@ ro:
     x_more: "%{count} mai mult..."
   backlogs_active: "activ"
   backlogs_any: "Oricare"
-  backlogs_card_specification: "Tipuri de etichete pentru imprimarea cardurilor"
   backlogs_inactive: "Proiectul nu prezintă nicio activitate"
   backlogs_points_burn_direction: "Arderea punctelor în sus/jos"
   backlogs_product_backlog: "Fișa produsului"

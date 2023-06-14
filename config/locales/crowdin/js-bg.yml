@@ -679,8 +679,7 @@ bg:
         Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
       details_activity: 'Project details activity'
       context: 'Project context'
-      work_package_belongs_to: 'This work package belongs to project %{projectname}.'
-      click_to_switch_context: 'Open this work package in that project.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Превключването на шаблона ще презареди страницата и ще загубите всички данни за този формуляр. Ще продължите ли?'
       use_template: "Използвайте шаблон"
       no_template_selected: "(None)"

@@ -75,7 +75,6 @@ zh-TW:
     x_more: "還有 %{count} 個 ..."
   backlogs_active: "啟用"
   backlogs_any: "任何"
-  backlogs_card_specification: "卡片印製的標籤類型"
   backlogs_inactive: "專案顯示沒有活動"
   backlogs_points_burn_direction: "重要性 增加/減少"
   backlogs_product_backlog: "產品待辦事項"

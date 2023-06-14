@@ -50,6 +50,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
       priority
       type
       version
+      parent
     ]
   end
 
@@ -61,6 +62,13 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
   let(:type) { build_stubbed(:type) }
   let(:priority) { build_stubbed(:priority) }
   let(:version) { build_stubbed(:version) }
+  let(:parent) do
+    build_stubbed(:work_package).tap do |wp|
+      allow(wp)
+        .to receive(:visible?)
+        .and_return(true)
+    end
+  end
   let(:project) { build_stubbed(:project) }
 
   let(:work_package) do
@@ -73,6 +81,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
                   type:,
                   priority:,
                   version:,
+                  parent:,
                   responsible:).tap do |wp|
       allow(wp)
         .to receive(:respond_to?)
@@ -160,6 +169,10 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
           'version' => {
             'href' => api_v3_paths.version(version.id),
             'title' => version.name
+          },
+          'parent' => {
+            'href' => api_v3_paths.work_package(parent.id),
+            'title' => parent.subject
           },
           'self' => {
             'href' => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
@@ -346,6 +359,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
     #              "status"=>{"href"=>"/api/v3/statuses/3", "title"=>"status 1"},
     #              "responsible"=>{"href"=>nil},
     #              "assignee"=>{"href"=>"/api/v3/users/68", "title"=>"Bob Bobbit"},
+    #              "parent"=>{"href"=>"/api/v3/work_packages/102"}
     #              "version"=>{"href"=>nil}}
     #            },
     #            {
@@ -399,6 +413,10 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
           'version' => {
             'href' => api_v3_paths.version(version.id),
             'title' => version.name
+          },
+          'parent' => {
+            'href' => api_v3_paths.work_package(parent.id),
+            'title' => parent.subject
           },
           'self' => {
             'href' => api_v3_paths.work_package(work_package.id, timestamps: timestamp),

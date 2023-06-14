@@ -146,6 +146,12 @@ RSpec.describe Query,
         it { is_expected.to be_valid }
       end
 
+      context "when the 'oneDayAgo' with a timezone is provided" do
+        let(:timestamps) { ["oneDayAgo@00:00+09:00"] }
+
+        it { is_expected.to be_valid }
+      end
+
       context "when the shortcut value 'now' is provided" do
         let(:timestamps) { ["now"] }
 

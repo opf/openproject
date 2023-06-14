@@ -74,13 +74,6 @@ class AdminController < ApplicationController
     redirect_to admin_settings_mail_notifications_path
   end
 
-  def force_user_language
-    User.where.not(language: Setting.available_languages)
-        .update_all(language: Setting.default_language)
-
-    redirect_to admin_settings_languages_path
-  end
-
   def info
     @db_version = OpenProject::Database.version
     @checklist = [

@@ -75,7 +75,6 @@ ko:
     x_more: "%{count}개 이상..."
   backlogs_active: "활성"
   backlogs_any: "모두"
-  backlogs_card_specification: "카드 인쇄용 레이블 유형"
   backlogs_inactive: "프로젝트가 작업을 표시하지 않습니다."
   backlogs_points_burn_direction: "포인트 번 업/다운"
   backlogs_product_backlog: "제품 백로그"

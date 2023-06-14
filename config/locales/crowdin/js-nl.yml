@@ -679,8 +679,7 @@ nl:
         Kies een project om het werkpakket in te creëren om alle attributen te zien. U kunt alleen projecten selecteren waarvan het type hierboven is geactiveerd.
       details_activity: 'Project details activity'
       context: 'Context van het project'
-      work_package_belongs_to: 'Dit werkpakket behoort tot project %{projectname}.'
-      click_to_switch_context: 'Open dit werkpakket in dat project.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       use_template: "Sjabloon gebruiken"
       no_template_selected: "(None)"
