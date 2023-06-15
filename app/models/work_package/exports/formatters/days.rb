@@ -25,51 +25,22 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module Exports
-  class Exporter
-    include Redmine::I18n
-    include ActionView::Helpers::TextHelper
-    include ActionView::Helpers::NumberHelper
+module WorkPackage::Exports
+  module Formatters
+    class Days < ::Exports::Formatters::Default
+      def self.apply?(name, export_format)
+        name.to_sym == :duration && export_format == :pdf
+      end
 
-    attr_accessor :object,
-                  :options,
-                  :current_user
+      def format_value(value)
+        formatted_days(value)
+      end
 
-    class_attribute :model
+      private
 
-    def initialize(object, options = {})
-      self.object = object
-      self.options = options
-      self.current_user = options.fetch(:current_user) { User.current }
-    end
-
-    def self.key
-      name.demodulize.underscore.to_sym
-    end
-
-    # Remove characters that could cause problems on popular OSses
-    def sane_filename(name)
-      parts = name.split /(?<=.)\.(?=[^.])(?!.*\.[^.])/m
-
-      parts.map! { |s| s.gsub /[^a-z0-9-]+/i, '_' }
-
-      parts.join '.'
-    end
-
-    # Run the export, yielding the result of the render output
-    def export!
-      raise NotImplementedError
-    end
-
-    protected
-
-    def formatter_for(attribute, export_format)
-      ::Exports::Register.formatter_for(model, attribute, export_format)
-    end
-
-    def format_attribute(object, attribute, export_format, **options)
-      formatter = formatter_for(attribute, export_format)
-      formatter.format(object, **options)
+      def formatted_days(value)
+        value.nil? ? '' : "#{value} #{I18n.t('export.units.days')}"
+      end
     end
   end
 end

@@ -83,17 +83,24 @@ module WorkPackage::PDFExport::Common
     end
   end
 
-  def get_column_value(work_package, column)
-    formatter = formatter_for(column)
+  def get_column_value(work_package, column_name)
+    formatter = formatter_for(column_name, :pdf)
     formatter.format(work_package)
   end
 
-  def get_column_value_cell(work_package, column)
-    value = escape_tags(get_column_value(work_package, column))
-    return get_id_column_cell(work_package, value) if column == :id
-    return get_subject_column_cell(work_package, value) if with_descriptions? && column == :subject
+  def get_column_value_cell(work_package, column_name)
+    value = get_column_value(work_package, column_name)
+    return get_id_column_cell(work_package, value) if column_name == :id
+    return get_subject_column_cell(work_package, value) if with_descriptions? && column_name == :subject
 
-    value
+    escape_tags(value)
+  end
+
+  def get_formatted_value(value, column_name)
+    return '' if value.nil?
+
+    formatter = formatter_for(column_name, :pdf)
+    formatter.format_value(value)
   end
 
   def escape_tags(value)
@@ -107,7 +114,7 @@ module WorkPackage::PDFExport::Common
   end
 
   def get_subject_column_cell(work_package, value)
-    make_link_anchor(work_package.id, value)
+    make_link_anchor(work_package.id, escape_tags(value))
   end
 
   def make_link_href_cell(href, caption)
@@ -187,8 +194,21 @@ module WorkPackage::PDFExport::Common
     end
   end
 
+  def get_total_sums
+    query.display_sums? ? (query.results.all_total_sums || {}) : {}
+  end
+
+  def get_group_sums(group)
+    @group_sums ||= query.results.all_group_sums
+    @group_sums[group] || {}
+  end
+
   def with_descriptions?
     options[:show_report]
+  end
+
+  def with_sums_table?
+    query.display_sums?
   end
 
   def with_attachments?
