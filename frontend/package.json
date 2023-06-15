@@ -23,7 +23,7 @@
     "@storybook/addon-knobs": "^7.0.2",
     "@storybook/addon-links": "^7.0.18",
     "@storybook/addon-mdx-gfm": "^7.0.18",
-    "@storybook/angular": "^7.0.18",
+    "@storybook/angular": "^7.1.0-alpha.34",
     "@storybook/mdx2-csf": "^1.1.0",
     "@storybook/preset-scss": "^1.0.3",
     "@storybook/testing-library": "^0.1.0",
