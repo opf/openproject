@@ -75,7 +75,6 @@ it:
     x_more: "%{count} più..."
   backlogs_active: "attivo"
   backlogs_any: "qualsiasi"
-  backlogs_card_specification: "Tipi di etichette per la stampa delle schede"
   backlogs_inactive: "Progetto non mostra alcuna attività"
   backlogs_points_burn_direction: "Punteggi per burn positivo/negativo"
   backlogs_product_backlog: "Backlog del prodotto"

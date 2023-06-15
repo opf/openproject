@@ -325,7 +325,6 @@ OpenProject::Application.routes.draw do
     collection do
       get :plugins
       get :info
-      post :force_user_language
       post :test_email
     end
   end

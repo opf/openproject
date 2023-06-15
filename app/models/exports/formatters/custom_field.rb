@@ -1,7 +1,7 @@
 module Exports
   module Formatters
     class CustomField < Default
-      def self.apply?(attribute)
+      def self.apply?(attribute, _export_format)
         attribute.start_with?('cf_')
       end
 

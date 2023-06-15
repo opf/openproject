@@ -63,6 +63,7 @@ module OpenProject::Reporting
            :cost_reports_global,
            { controller: '/cost_reports', action: 'index', project_id: nil },
            caption: :cost_reports_title,
+           icon: 'cost-reports',
            if: Proc.new {
              (User.current.logged? || !Setting.login_required?) &&
                (

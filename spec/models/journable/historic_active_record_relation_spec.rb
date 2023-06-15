@@ -37,10 +37,13 @@ RSpec.describe Journable::HistoricActiveRecordRelation do
   let(:wednesday) { "2022-08-03".to_datetime }
   let(:thursday) { "2022-08-04".to_datetime }
   let(:friday) { "2022-08-05".to_datetime }
-
+  let(:default_work_package_attributes) do
+    { description: "The work package as it is since Friday", estimated_hours: 10, project: }
+  end
+  let(:work_package_attributes) { {} }
   let(:project) { create(:project) }
   let!(:work_package) do
-    new_work_package = create(:work_package, description: "The work package as it is since Friday", estimated_hours: 10, project:)
+    new_work_package = create(:work_package, default_work_package_attributes.merge(work_package_attributes))
     new_work_package.update_columns created_at: monday
     new_work_package
   end
@@ -233,6 +236,71 @@ RSpec.describe Journable::HistoricActiveRecordRelation do
 
         it "returns the requested work package" do
           expect(subject).to include work_package
+        end
+      end
+
+      describe "when searching for custom fields" do
+        let(:custom_field) do
+          create(:text_wp_custom_field,
+                 name: 'Text CF',
+                 types: project.types,
+                 projects: [project])
+        end
+        let!(:monday_cf_journal) do
+          create(:journal_customizable_journal, journal: monday_journal, custom_field:, value: 'Monday_CV')
+        end
+        let!(:wednesday_cf_journal) do
+          create(:journal_customizable_journal, journal: wednesday_journal, custom_field:, value: 'Wednesday_CV')
+        end
+        let!(:friday_cf_journal) do
+          create(:journal_customizable_journal, journal: friday_journal, custom_field:, value: 'Friday_CV')
+        end
+        let(:work_package_attributes) { { custom_values: { custom_field.id => 'Friday_CV' } } }
+        let(:filter) do
+          Queries::WorkPackages::Filter::CustomFieldFilter.create!(
+            name: custom_field.column_name,
+            context: build_stubbed(:query, project:),
+            operator: '~',
+            values:
+          )
+        end
+        let(:relation) { WorkPackage.where(filter.where) }
+
+        context 'with the current value at the current time' do
+          let(:values) { %w(Friday_CV) }
+          let(:historic_relation) { relation.at_timestamp(Timestamp.new("PT0S")) }
+
+          it "returns the requested work package" do
+            expect(subject).to include work_package
+          end
+        end
+
+        context 'with the matching historic value' do
+          let(:values) { %w(Wednesday_CV) }
+
+          it "transforms the expression to join the customizable_journals" do
+            subject.to_sql.squish.tap do |subject_sql|
+              expect(subject_sql)
+                .to include <<~SQL.squish
+                  JOIN customizable_journals ON
+                  customizable_journals.journal_id = journals.id
+                  AND customizable_journals.custom_field_id = #{custom_field.id}
+                SQL
+              expect(subject_sql).to include "customizable_journals.value ILIKE '%Wednesday_CV%'"
+            end
+          end
+
+          it "returns the requested work package" do
+            expect(subject).to include work_package
+          end
+        end
+
+        context 'with a different historic value' do
+          let(:values) { %w(Monday_CV) }
+
+          it "does not return the requested work package" do
+            expect(subject).not_to include work_package
+          end
         end
       end
     end

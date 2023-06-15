@@ -681,8 +681,7 @@ pl:
         Wybierz projekt, w którym chcesz utworzyć pakiet roboczy, aby zobaczyć wszystkie atrybuty. Możesz wybrać tylko projekty, które mają aktywowany powyższy typ.
       details_activity: 'Szczegóły projektu'
       context: 'Kontekst projektu'
-      work_package_belongs_to: 'Ten pakiet roboczy należy do projektu %{projectname}.'
-      click_to_switch_context: 'Otwórz ten pakiet roboczy w tym projekcie.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Przełączenie szablonu spowoduje ponowne załadowanie strony i utracisz wszystkie dane wprowadzone do tego formularza. Kontynuować?'
       use_template: "Użyj szablonu"
       no_template_selected: "(Brak)"

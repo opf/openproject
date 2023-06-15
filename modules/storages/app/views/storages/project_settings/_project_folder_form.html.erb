@@ -31,8 +31,8 @@ See COPYRIGHT and LICENSE files for more details.
                       dynamic: true,
                       'project-storage-form-folder-mode-value': @project_storage.project_folder_mode,
                       'project-storage-form-placeholder-folder-name-value': t(:"storages.label_no_selected_folder"),
-                      'project-storage-form-empty-project-folder-validation-value': t(:"storages.instructions.empty_project_folder_validation"),
-                      'project-storage-form-not-logged-in-validation-value': t(:"storages.instructions.not_logged_into_storage")
+                      'project-storage-form-not-logged-in-validation-value': t(:"storages.instructions.not_logged_into_storage"),
+                      'project-storage-form-last-project-folders-value': @last_project_folders
 %>
 
 <div class="form--field -required">
@@ -59,6 +59,11 @@ See COPYRIGHT and LICENSE files for more details.
 </div>
 
 <% if OpenProject::FeatureDecisions.storage_project_folders_active? %>
+  <%= f.hidden_field :project_folder_id,
+                     data: {
+                       'project-storage-form-target': "projectFolderIdInput"
+                     } %>
+
   <div class="form--field -required">
     <%= styled_label_tag :project_folder_mode,
                          class: "-bold -flex" do %>
@@ -75,7 +80,7 @@ See COPYRIGHT and LICENSE files for more details.
         <%= f.radio_button :project_folder_mode,
                            'inactive',
                            no_label: true,
-                           data: { action: 'project-storage-form#updateDisplay' } %>
+                           data: { action: 'project-storage-form#updateForm' } %>
         <%= t(:"storages.label_no_specific_folder") %>
       <% end %>
     </div>
@@ -83,12 +88,27 @@ See COPYRIGHT and LICENSE files for more details.
       <%= t(:"storages.instructions.no_specific_folder") %>
     </span>
 
+    <% if OpenProject::FeatureDecisions.managed_project_folders_active? %>
+      <div class="form--field-container">
+        <%= f.label :project_folder_mode, class: "form--label-with-radio-button" do %>
+          <%= f.radio_button :project_folder_mode,
+                             'automatic',
+                             no_label: true,
+                             data: { action: 'project-storage-form#updateForm' } %>
+          <%= t(:"storages.label_automatic_folder") %>
+        <% end %>
+      </div>
+      <span class="form--field-instructions -xwide -with-bottom-spacing">
+        <%= t(:"storages.instructions.automatic_folder") %>
+      </span>
+    <% end %>
+
     <div class="form--field-container">
       <%= f.label :project_folder_mode, class: "form--label-with-radio-button" do %>
         <%= f.radio_button :project_folder_mode,
                            'manual',
                            no_label: true,
-                           data: { action: 'project-storage-form#updateDisplay' } %>
+                           data: { action: 'project-storage-form#updateForm' } %>
         <%= t(:"storages.label_existing_manual_folder") %>
       <% end %>
     </div>
@@ -101,10 +121,6 @@ See COPYRIGHT and LICENSE files for more details.
       class="form--field-container -with-children-spacing"
       data-project-storage-form-target="projectFolderSection"
     >
-      <%= f.hidden_field :project_folder_id,
-                         data: {
-                           'project-storage-form-target': "projectFolderIdInput"
-                         } %>
       <%= styled_button_tag class: 'button_no-margin',
                             data: {
                               'project-storage-form-target': "selectProjectFolderButton",

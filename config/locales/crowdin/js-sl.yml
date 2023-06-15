@@ -680,8 +680,7 @@ sl:
         Prosimo, izberite projekt, v katerem boste ustvarili delovni paket, če si želite ogledati vse atribute. Izberete lahko samo projekte, ki so aktivirani zgoraj.
       details_activity: 'Project details activity'
       context: 'Kontekst projekta'
-      work_package_belongs_to: 'Ta delovni paket pripada projektu %{projectname}.'
-      click_to_switch_context: 'Odpri ta delovni paket v tistem projektu. '
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Menjava predloge bo ponovno naložila stran in vsi podatki vnešeni v obrazec bodo izgubljeni. Ali želite nadaljevati?'
       use_template: "Uporabi predlogo"
       no_template_selected: "(brez)"

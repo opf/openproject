@@ -75,7 +75,6 @@ ar:
     x_more: "%{count} أكثر..."
   backlogs_active: "نشِط"
   backlogs_any: "أي"
-  backlogs_card_specification: "أنواع الملصقات لطباعة البطاقة"
   backlogs_inactive: "لا يُظهر المشروع أي نشاط"
   backlogs_points_burn_direction: "نقاط الاستهلاك الإيجابي/ السلبي"
   backlogs_product_backlog: "عمل المنتج المتراكم غير المنجز"

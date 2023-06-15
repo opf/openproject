@@ -75,7 +75,6 @@ el:
     x_more: "%{count} ακόμα..."
   backlogs_active: "ενεργό"
   backlogs_any: "οποιoδήποτε"
-  backlogs_card_specification: "Μέγεθος ετικέτας για εκτύπωση καρτών"
   backlogs_inactive: "Το έργο δεν φαίνεται να έχει δραστηριότητα"
   backlogs_points_burn_direction: "Points burn up/down"
   backlogs_product_backlog: "Backlog προϊόντος"

@@ -58,6 +58,7 @@ module OpenProject::TeamPlanner
            :team_planners, { controller: '/team_planner/team_planner', action: :overview },
            context: :modules,
            caption: :'team_planner.label_team_planner_plural',
+           icon: 'team-planner',
            if: Proc.new {
              OpenProject::FeatureDecisions.more_global_index_pages_active? &&
               (User.current.logged? || !Setting.login_required?) &&

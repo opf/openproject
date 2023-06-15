@@ -75,7 +75,6 @@ fi:
     x_more: "%{count} lisää..."
   backlogs_active: "aktiivinen"
   backlogs_any: "kaikki"
-  backlogs_card_specification: "Otsikoiden tyypit kortin tulostuksessa"
   backlogs_inactive: "Projektissa ei ole toimintaa"
   backlogs_points_burn_direction: "Pisteiden poltto ylös/alas"
   backlogs_product_backlog: "Tuotteen työjono"

@@ -17,7 +17,7 @@ class App
     def locales
       @locales ||= rails_root.glob('config/locales/**/*.yml')
           .map { |f| f.basename.to_s.split('.', 2).first }
-          .reject! { |l| /\Ajs-/.match(l.to_s) || l == 'lol' }
+          .reject! { |l| l.start_with?('js-') || l == 'lol' }
           .uniq
           .map(&:to_sym)
     end

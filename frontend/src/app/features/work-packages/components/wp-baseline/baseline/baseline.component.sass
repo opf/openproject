@@ -6,7 +6,7 @@
     justify-content: space-between
     align-items: start
     flex-direction: column
-    width: 265px
+    width: 280px
     margin: $spot-spacing-1 $spot-spacing-1 0 $spot-spacing-1
     color: $spot-color-basic-gray-2
 
@@ -28,7 +28,7 @@
   &--body
     flex-shrink: 1
     flex-basis: 100%
-    overflow: hidden
+    overflow: auto
     margin-top: 0 !important
 
     @media screen and #{$spot-mq-drop-modal-in-context}
@@ -42,14 +42,13 @@
     
     &-input
       width: 65%
-      border: 1px solid $spot-color-basic-gray-3
 
     &-help
       display: flex
       align-items: end
       justify-content: center
       background-color: $spot-color-basic-gray-6
-      border: 1px solid $spot-color-basic-gray-3
+      border: 1px solid $spot-color-basic-gray-4
       border-left: none !important
       padding: $spot-spacing-0_5 $spot-spacing-0_25
       line-height: unset

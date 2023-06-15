@@ -60,6 +60,7 @@ it:
       host: "Aggiungi l'indirizzo host del tuo spazio di archiviazione incluso https://. Non dovrebbe essere più lungo di 255 caratteri."
       no_storage_set_up: "Ancora nessuna archiviazione di file configurata."
       no_specific_folder: "Di default, ogni utente inizierà alla propria cartella home, al caricamento di un file."
+      automatic_folder: "This will automatically create a root folder for this project and manage the access permissions for each project member."
       empty_project_folder_validation: "Selezionare una cartella è obbligatorio per procedere."
       not_logged_into_storage: "Per selezionare la cartella di un progetto, sei prim pregato di accedere"
       existing_manual_folder: >
@@ -95,6 +96,7 @@ it:
     label_new_storage: "Nuovo archivio"
     label_existing_manual_folder: "Cartella esistente con autorizzazioni gestite manualmente"
     label_no_specific_folder: "Nessuna cartella specifica"
+    label_automatic_folder: "New folder with automatically managed permissions"
     label_no_selected_folder: "Nessuna cartella selezionata"
     label_storage: "Archivio"
     label_storages: "Archivi"

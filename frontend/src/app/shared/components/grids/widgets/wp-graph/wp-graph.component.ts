@@ -4,7 +4,7 @@ import {
 import { WorkPackageEmbeddedGraphDataset } from 'core-app/shared/components/work-package-graphs/embedded/wp-embedded-graph.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
-import { ChartOptions, ChartType } from 'chart.js';
+import { ChartOptions } from 'chart.js';
 import { WpGraphConfigurationService } from 'core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service';
 import { WpGraphConfiguration } from 'core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration';
 
@@ -30,7 +30,7 @@ export class WidgetWpGraphComponent extends AbstractWidgetComponent implements O
     this.loadQueriesInitially();
   }
 
-  public set chartType(type:ChartType) {
+  public set chartType(type:string) {
     this.resource.options.chartType = type;
   }
 
@@ -58,9 +58,11 @@ export class WidgetWpGraphComponent extends AbstractWidgetComponent implements O
       ids.push({ id: this.resource.options.queryId as string });
     }
 
-    this.graphConfiguration.configuration = new WpGraphConfiguration(ids,
+    this.graphConfiguration.configuration = new WpGraphConfiguration(
+      ids,
       this.resource.options.chartOptions as ChartOptions,
-      this.resource.options.chartType as ChartType);
+      this.resource.options.chartType as string,
+    );
   }
 
   protected loadQueriesInitially() {

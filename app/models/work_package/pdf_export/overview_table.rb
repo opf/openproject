@@ -48,8 +48,8 @@ module WorkPackage::PDFExport::OverviewTable
     end
   end
 
-  def table_columns_objects
-    @table_columns_objects ||= limit_table_columns_objects
+  def overview_columns_objects
+    @overview_columns_objects ||= limit_table_columns_objects
   end
 
   def limit_table_columns_objects
@@ -59,10 +59,9 @@ module WorkPackage::PDFExport::OverviewTable
   end
 
   def table_column_widths
-    widths = table_columns_objects.map do |col|
+    widths = overview_columns_objects.map do |col|
       col.name == :subject || text_column?(col) ? 4.0 : 1.0
     end
-    widths.unshift 1.0 if with_descriptions?
     ratio = pdf.bounds.width / widths.sum
     widths.map { |w| w * ratio }
   end
@@ -80,38 +79,11 @@ module WorkPackage::PDFExport::OverviewTable
 
   def write_table!(work_packages, id_wp_meta_map, sums)
     rows = build_table_rows(work_packages, id_wp_meta_map, sums)
-    pdf_table_auto_widths(rows, table_column_widths, table_options) do |table|
-      format_sum_cells table.cells.columns(0..-1).rows(-1) if query.display_sums?
-    end
+    pdf_table_auto_widths(rows, table_column_widths, overview_table_options)
   end
 
-  def table_options
+  def overview_table_options
     { header: true, cell_style: styles.overview_table_cell.merge({ inline_format: true }) }
-  end
-
-  def format_sum_cells(sums_cells)
-    sums_style = styles.overview_table_sums_cell
-    sums_cells.each do |cell|
-      apply_cell_style cell, sums_style
-    end
-  end
-
-  def apply_cell_style(cell, cell_style)
-    cell.background_color = cell_style[:background_color]
-    cell.font_style = cell_style[:font]
-    cell.text_color = cell_style[:color]
-    cell.size = cell_style[:size]
-  end
-
-  def get_total_sums
-    query.results.all_total_sums if query.display_sums?
-  end
-
-  def get_group_sums(group)
-    return nil unless query.display_sums?
-
-    @group_sums ||= query.results.all_group_sums
-    @group_sums[group]
   end
 
   def build_table_rows(work_packages, id_wp_meta_map, sums)
@@ -119,57 +91,47 @@ module WorkPackage::PDFExport::OverviewTable
       build_table_row(work_package, id_wp_meta_map)
     end
     rows.unshift build_header_row
-    rows.push build_sum_row(sums) unless sums.nil?
+    rows.push build_overview_sum_row(sums) if query.display_sums?
     rows
   end
 
   def build_table_row(work_package, id_wp_meta_map)
-    row = table_columns_objects.map do |col|
+    cell_style = styles.overview_table_cell
+    overview_columns_objects.map do |col|
       content = get_column_value_cell work_package, col.name
-      col.name == :subject ? build_subject_cell(content, work_package, id_wp_meta_map) : build_column_cell(content)
+      if col.name == :subject
+        build_subject_cell(content, work_package, id_wp_meta_map)
+      else
+        pdf.make_cell(content, cell_style)
+      end
     end
-    row.unshift build_nr_cell(work_package, id_wp_meta_map) if with_descriptions?
-    row
-  end
-
-  def build_column_cell(content)
-    pdf.make_cell(content, styles.overview_table_cell)
-  end
-
-  def build_nr_cell(work_package, id_wp_meta_map)
-    content = "#{id_wp_meta_map[work_package.id][:level_path].join('.')}."
-    content = make_link_anchor(work_package.id, content)
-    build_column_cell(content)
   end
 
   def build_subject_cell(content, work_package, id_wp_meta_map)
-    opts = styles.overview_table_cell
-    padding_left = opts.fetch(:padding_left, 0)
+    cell_style = styles.overview_table_cell
+    padding_left = cell_style.fetch(:padding_left, 0)
     if query.show_hierarchies
       level = id_wp_meta_map[work_package.id][:level_path].length
       padding_left = (styles.overview_table_subject_indent * level) if level > 1
     end
-    pdf.make_cell(content, opts.merge({ padding_left: }))
+    pdf.make_cell(content, cell_style.merge({ padding_left: }))
   end
 
   def build_header_row
     header_style = styles.overview_table_header_cell
-    row = table_columns_objects.map do |col|
+    overview_columns_objects.map do |col|
       content = (col.caption || '').upcase
-      build_header_cell(content, header_style)
+      pdf.make_cell(content, header_style)
     end
-    row.unshift build_header_cell('#', header_style) if with_descriptions?
-    row
   end
 
-  def build_header_cell(content, opts)
-    pdf.make_cell(content, opts)
-  end
-
-  def build_sum_row(sums)
-    sum_row = table_columns_objects.map { |col| sums[col].to_s }
-    sum_row.unshift '' if with_descriptions?
-    sum_row[0] = I18n.t('js.label_sum')
+  def build_overview_sum_row(sums)
+    sums_style = styles.overview_table_sums_cell
+    sum_row = overview_columns_objects.map do |col|
+      content = get_formatted_value(sums[col], col.name)
+      pdf.make_cell(content, sums_style)
+    end
+    sum_row[0] = pdf.make_cell(I18n.t('js.label_sum'), sums_style)
     sum_row
   end
 end

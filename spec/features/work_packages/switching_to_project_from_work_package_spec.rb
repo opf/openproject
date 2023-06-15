@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Project context switching spec', js: true do
+RSpec.describe 'Switching to project from work package', js: true do
   let(:user) { create(:admin) }
 
   let(:project) { create(:project) }
@@ -14,20 +14,20 @@ RSpec.describe 'Project context switching spec', js: true do
     work_package
   end
 
-  it 'allows to switch context' do
+  it 'allows to switch to the project the work package belongs to' do
     wp_table.visit!
     wp_table.expect_work_package_listed work_package
 
     # Open WP in global selection
     wp_table.open_full_screen_by_link work_package
 
-    # Follow link to project context
+    # Follow link to project
     expect(page).to have_selector('.attributes-group.-project-context')
     link = find('.attributes-group.-project-context .project-context--switch-link')
-    expect(link[:href]).to include(project_work_package_path(project.id, work_package.id))
+    expect(link[:href]).to include(project_path(project.id))
 
     link.click
-    wp_page.ensure_page_loaded
-    expect(page).not_to have_selector('.attributes-group.-project-context')
+    # Redirection causes a trailing / on the path
+    expect(page).to have_current_path("#{project_path(project.id)}/")
   end
 end

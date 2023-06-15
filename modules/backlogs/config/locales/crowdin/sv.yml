@@ -75,7 +75,6 @@ sv:
     x_more: "%{count} mer..."
   backlogs_active: "aktiv"
   backlogs_any: "någon"
-  backlogs_card_specification: "Typ av etikett för kortutskrift"
   backlogs_inactive: "Projektet visar ingen aktivitet"
   backlogs_points_burn_direction: "Burn up/-down poäng"
   backlogs_product_backlog: "Produktbacklog"

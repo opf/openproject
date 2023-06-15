@@ -33,6 +33,12 @@ ENV OPENPROJECT_RAILS__CACHE__STORE=memcache
 # Set a default key base, ensure to provide a secure value in production environments!
 ENV SECRET_KEY_BASE=OVERWRITE_ME
 
+ARG GOSU_VERSION=1.16
+RUN dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" \
+ && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch" \
+ && chmod +x /usr/local/bin/gosu \
+ && gosu nobody true
+
 WORKDIR $APP_PATH
 
 COPY docker/prod/setup ./docker/prod/setup

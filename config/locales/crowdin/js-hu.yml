@@ -679,8 +679,7 @@ hu:
         Kérjük, válasszon egy projektet a munkacsomag létrehozásához az összes attribútum megtekintéséhez. Csak olyan projekteket választhat ki, amelyek aktiválták a fenti típust.
       details_activity: 'Project details activity'
       context: 'Projekt kontextus'
-      work_package_belongs_to: 'Ez a feladatcsoport a(z) %{projectname} nevű projekthez tartozik.'
-      click_to_switch_context: 'Munkacsomag megnyitása a projektben.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: "Ha megváltoztatja a sablont, az oldal újratöltődik, és elveszíti az összes űrlapon lévő adatot. Folytatni?\n"
       use_template: "Sablon használata"
       no_template_selected: "(Nincs)"

@@ -679,8 +679,7 @@ ja:
         作業パッケージを作成するプロジェクトを選択して、すべての属性を確認してください。 上記で有効になっているタイプのプロジェクトのみ選択できます。
       details_activity: 'Project details activity'
       context: 'プロジェクトのコンテキスト'
-      work_package_belongs_to: 'このワークパッケージは、プロジェクト %{projectname} に属しています。'
-      click_to_switch_context: 'このワークパッケージをそのプロジェクトで開きます。'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'テンプレートを切り替えるとページが再読み込みされ、すべての入力が失われます。続行しますか？'
       use_template: "テンプレートを使用"
       no_template_selected: "(なし)"
