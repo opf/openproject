@@ -62,10 +62,9 @@ module WorkPackage::PDFExport::TableOfContents
     measure_text_width(part, part_style) + styles.toc_item_subject_indent
   end
 
-  def write_part_float(id, part, part_style)
-    text = make_link_anchor(id, part)
+  def write_part_float(part, part_style)
     pdf.float do
-      pdf.text(text, part_style.merge({ inline_format: true }))
+      pdf.text(part, part_style)
     end
   end
 
@@ -85,12 +84,16 @@ module WorkPackage::PDFExport::TableOfContents
   end
 
   def write_toc_item!(toc_item, max_level_width)
+    y = pdf.y
     toc_item_style = styles.toc_item(toc_item[:level])
     part_style = toc_item_style.clone
     font_styles = part_style.delete(:styles) || []
     part_style[:style] = font_styles[0] unless font_styles.empty?
-    write_part_float(toc_item[:id], toc_item[:level_string], part_style)
-    write_part_float(toc_item[:id], toc_item[:page_nr_string], part_style.merge({ align: :right }))
+    write_part_float(toc_item[:level_string], part_style)
+    write_part_float(toc_item[:page_nr_string], part_style.merge({ align: :right }))
     write_toc_item_subject!(toc_item, max_level_width, toc_item_style)
+
+    rect = [pdf.bounds.absolute_right, pdf.y, pdf.bounds.absolute_left, y]
+    pdf.link_annotation(rect, Border: [0, 0, 0], Dest: toc_item[:id].to_s)
   end
 end
