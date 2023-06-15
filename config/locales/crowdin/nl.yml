@@ -335,7 +335,7 @@ nl:
   wiki:
     page_not_editable_index: De opgevraagde pagina bestaat (nog) niet. Je bent doorverwezen naar de index van alle wiki-pagina's.
     no_results_title_text: Er zijn momenteel geen wiki-pagina's.
-    print_hint: This will print the content of this wiki page without any navigation bars.
+    print_hint: Hiermee wordt de inhoud van deze wikipagina zonder navigatiebalk afgedrukt.
     index:
       no_results_content_text: Voeg een nieuwe wiki-pagina toe
   work_flows:
@@ -346,7 +346,7 @@ nl:
       one: 'Een nakomend werkpakket'
       other: '%{count} werk pakket afstammelingen'
     bulk:
-      copy_failed: "The work packages could not be copied."
+      copy_failed: "De werkpakketten konden niet gekopieerd worden."
       move_failed: "The work packages could not be moved."
       could_not_be_saved: "De volgende werkpakketten konden niet worden opgeslagen:"
       none_could_be_saved: "Geen van de %{total} werkpakketten konden worden bijgewerkt."
