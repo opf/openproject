@@ -55,13 +55,12 @@ RSpec.describe 'Languages settings page', js: true do
   end
 
   context 'when available languages setting is not writable (set by env var)', :settings_reset do
-    before do
-      Setting.default_language = 'fr'
-      stub_const('ENV', { 'OPENPROJECT_AVAILABLE__LANGUAGES' => 'de en' })
+    it 'does not change the available languages setting', with_env: {
+      OPENPROJECT_AVAILABLE__LANGUAGES: 'de en',
+      OPENPROJECT_DEFAULT_LANGUAGE: 'fr'
+    } do
       reset(:available_languages)
-    end
-
-    it 'does not change the available languages setting' do
+      reset(:default_language)
       expect(Setting.available_languages_writable?).to be false
 
       languages_page.visit!
