@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,51 +45,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require 'journal_changes'
-require 'journal_formatter'
-require 'cause_of_change'
+require_relative 'cause_of_change/base'
+require_relative 'cause_of_change/no_cause'
 
-module Acts
-end
-
-Dir[File.expand_path('acts/journalized/*.rb', __dir__)].sort.each { |f| require f }
-
-module Acts
-  module Journalized
-    def self.included(base)
-      base.extend ClassMethods
-      base.extend Journalized
-    end
-
-    module ClassMethods
-      def plural_name
-        name.underscore.pluralize
-      end
-
-      # This call will start journaling the model.
-      def acts_as_journalized(options = {})
-        return if journaled?
-
-        include_aaj_modules
-
-        prepare_journaled_options(options)
-
-        has_many :journals, -> {
-          order("#{Journal.table_name}.version ASC")
-        }, **has_many_journals_options
-      end
-
-      private
-
-      def include_aaj_modules
-        include Options
-        include Creation
-        include Reversion
-        include Permissions
-        include SaveHooks
-        include FormatHooks
-        include DataClass
-      end
-    end
-  end
+module CauseOfChange
 end
