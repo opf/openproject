@@ -38,8 +38,6 @@ RSpec.describe Admin::Settings::AuthenticationSettingsController do
   end
 
   describe 'PATCH #update' do
-    render_views
-
     shared_let(:admin) { create(:admin) }
     current_user { admin }
 
