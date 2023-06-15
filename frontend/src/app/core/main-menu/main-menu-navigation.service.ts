@@ -73,7 +73,7 @@ export class MainMenuNavigationService {
     selected?.scrollIntoView();
 
     // Recreate toggler
-    const toggler = this.recreateToggler();
+    //const toggler = this.recreateToggler();
 
     // Emit first active
     const active = jQuery('#main-menu .menu_root > li.open').data('name');
@@ -86,9 +86,8 @@ export class MainMenuNavigationService {
     // 1. unbind the current click functions
       .unbind('click')
       // 2. wrap each in a span that we'll use for the new click element
-      .wrapInner('<span class="ellipsis" style="display: flex; align-items: center"/>')
+      .wrapInner('<span class="ellipsis" style="display: flex; align-items: center"/>');
       // 3. reinsert the <span class="toggler"> so that it sits outside of the above
-      .after(toggler);
 
     function navigateUp(this:any, event:any) {
       event.preventDefault();

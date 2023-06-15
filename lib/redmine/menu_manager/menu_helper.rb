@@ -146,7 +146,14 @@ module Redmine::MenuManager::MenuHelper
   def render_wrapped_menu_node(node, project)
     html_id = node.html_options[:id] || node.name
     content_tag(:div, class: 'main-item-wrapper', id: "#{html_id}-wrapper") do
-      render_single_menu_node(node, project)
+      concat render_single_menu_node(node, project)
+      concat render_menu_toggler
+    end
+  end
+
+  def render_menu_toggler
+    content_tag(:a, class: 'toggler') do
+      spot_icon('arrow-right3', size: '1')
     end
   end
 
