@@ -55,7 +55,7 @@ RSpec.configure do |config|
 end
 
 # silence puma if we're using it
-Capybara.server = :puma, { Silent: false }
+Capybara.server = :puma, { Silent: true }
 
 Rails.application.config do
   config.middleware.use RackSessionAccess::Middleware
