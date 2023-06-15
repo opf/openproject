@@ -266,7 +266,7 @@ ca:
       notice_reset_token: "S'ha generat un nou token %{type}. El teu token d'accés és:"
       token_value_warning: "Nota: Aquesta és la única vegada que veuràs aquest token, assegura't de copiar-lo ara."
       no_results_title_text: Actualment no hi ha cap token d'accés disponible.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_ical_tokens_reverted: "El token d'iCalendar \"%{token_name}\" per al calendari \"%{calendar_name}\" en el projecte \"%{project_name}\" s'ha revocat. L'URL d'iCalendar amb aquest token és ara invàlida."
   news:
     index:
       no_results_title_text: Actualment no hi ha cap novetat per a informar.
@@ -483,7 +483,7 @@ ca:
           false: "privat"
         queries: "Consultes"
         status_code: 'Estat del projecte'
-        status_explanation: 'Project status description'
+        status_explanation: 'Descripció de l''estat del projecte'
         status_codes:
           not_started: 'No començat'
           on_track: 'Pel bon camí'
@@ -691,8 +691,8 @@ ca:
         ical_token_query_assignment:
           attributes:
             name:
-              blank: "is mandatory. Please select a name."
-              not_unique: "is already in use. Please select another name."
+              blank: "és obligatori. Si us plau, selecciona un nom."
+              not_unique: "ja està en ús. Si us plau, selecciona un altre nom."
         notifications:
           at_least_one_channel: 'És necessari d''especificar almenys un canal per enviar notificacions.'
           attributes:
@@ -742,8 +742,8 @@ ca:
               invalid: "No es pot ordenar per columna: %{value}"
               format: "%{message}"
             timestamps:
-              invalid: "Timestamps contain invalid values: %{values}"
-              forbidden: "Timestamps contain forbidden values: %{values}"
+              invalid: "La marca horària conté valors invàlids: %{values}"
+              forbidden: "La marca horària conté valors prohibits: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "és mútuament exclusiu amb el grup per \"%{group_by}\". No pots activar els dos."
           filters:
@@ -920,22 +920,22 @@ ca:
   activity:
     item:
       created_by_on: "creat per %{user} el %{datetime}"
-      created_by_on_time_entry: "time logged by %{user} on %{datetime}"
+      created_by_on_time_entry: "temps registrat per %{user} el %{datetime}"
       created_on: "creat el %{datetime}"
       updated_by_on: "actualitzat per %{user} el %{datetime}"
-      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "temps registrat actualitzat per %{user} el %{datetime}"
       updated_on: "actualitzat el %{datetime}"
       parent_without_of: "Subprojecte"
       parent_no_longer: "Ja no és subprojecte de"
       time_entry:
         hour:
-          one: "%{count} hour"
+          one: "%{count} hora"
           other: "%{count} hores"
         hour_html:
-          one: "<i>%{count} hour</i>"
-          other: "<i>%{count} hours</i>"
-        updated: "changed from %{old_value} to %{value}"
-        logged_for: "Logged for"
+          one: "%{count} hora</i>"
+          other: "%{count} hores</i>"
+        updated: "canviat de %{old_value} a %{value}"
+        logged_for: "Registrat per"
     filter:
       changeset: "Conjunt de canvis"
       message: "Fòrums"
@@ -1343,9 +1343,9 @@ ca:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_overview_table: "PDF Table"
-      pdf_report_with_images: "PDF Report with images"
-      pdf_report: "PDF Report"
+      pdf_overview_table: "PDF - Taula"
+      pdf_report_with_images: "PDF - Report amb imatges"
+      pdf_report: "PDF - Report"
     image:
       omitted: "Imatge no exportada."
   extraction:
@@ -1468,10 +1468,10 @@ ca:
   label_api_access_key_created_on: "Clau d'accés API creada fa %{value}"
   label_api_access_key_type: "API"
   label_ical_access_key_type: "iCalendar"
-  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
-  label_ical_access_key_not_present: "iCalendar token(s) not present."
-  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
-  label_ical_access_key_latest: "latest"
+  label_ical_access_key_description: "iCalendar roken \"%{token_name}\" per \"%{calendar_name}\" en \"%{project_name}\""
+  label_ical_access_key_not_present: "Token/s iCalendar no present."
+  label_ical_access_key_generation_hint: "Generat automàticament en subscriure't a un calendari."
+  label_ical_access_key_latest: "úlitma"
   label_ical_access_key_revoke: "Revoca"
   label_applied_status: "Estat aplicat"
   label_archive_project: "Arxiva el projecte"
@@ -1603,7 +1603,7 @@ ca:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} usuaris actius registrats"
   label_enterprise_edition: "Edició Enterprise."
-  label_enterprise_support: "Enterprise support"
+  label_enterprise_support: "Suport Enterprise"
   label_environment: "Entorn"
   label_estimates_and_time: "Estimacions i temps"
   label_equals: "és"
@@ -1666,7 +1666,7 @@ ca:
   label_journal: "Diari"
   label_journal_diff: "Descripció de comparació"
   label_language: "Idioma"
-  label_languages: "Languages"
+  label_languages: "Idiomes"
   label_jump_to_a_project: "Anar al projecte..."
   label_keyword_plural: 'Paraules clau'
   label_language_based: "Basat en l'idioma de l'usuari"
@@ -1857,7 +1857,7 @@ ca:
   label_role_search: "Assignar rols als nous membres"
   label_scm: "SCM"
   label_search: "Cercar"
-  label_send_information: "Send new credentials to the user"
+  label_send_information: "Envia noves credencials a l'usuari"
   label_send_test_email: "Enviar correu electrònic de prova"
   label_setting_plural: "Configuració"
   label_system_settings: "Configuració del Sistema"
@@ -1925,7 +1925,7 @@ ca:
   label_user_plural: "Usuaris"
   label_user_search: "Cercar per usuari"
   label_user_settings: "Configuració de l'usuari"
-  label_users_settings: "Users settings"
+  label_users_settings: "Configuració d'usuaris"
   label_version_new: "Nova versió"
   label_version_plural: "Versions"
   label_version_sharing_descendants: "Amb subprojectes"
@@ -2492,7 +2492,7 @@ ca:
   setting_enabled_scm: "Activar SCM"
   setting_enabled_projects_columns: "Visible en la llista de projectes"
   setting_feeds_enabled: "Habilita els canals"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "Activa la subscripció d'iCalendar"
   setting_feeds_limit: "Límit de contingut del canals"
   setting_file_max_size_displayed: "Mida màxima dels fitxers de text mostrats en línia"
   setting_host_name: "Nom del servidor"
@@ -2545,7 +2545,7 @@ ca:
   setting_sys_api_description: "La gestió del repositori per servei web proporciona integració i autorització d'usuaris per l'accés a repositoris."
   setting_time_format: "Format d'hora"
   setting_accessibility_mode_for_anonymous: "Activar el mode d'accessibilitat per a usuaris anònims"
-  setting_user_format: "Users name format"
+  setting_user_format: "Format de nom d'usuari"
   setting_user_default_timezone: "Zona horària per defecte de l'usuari"
   setting_users_deletable_by_admins: "Comptes d'usuari esborrables pels administradors"
   setting_users_deletable_by_self: "Els usuaris poden suprimir els seus comptes"
@@ -2576,7 +2576,7 @@ ca:
       section_project_overview: "Configuracions per a la llista de visió general del projecte"
     user:
       default_preferences: "Preferències per defecte"
-      display_format: "Display format"
+      display_format: "Format the visualització"
       deletion: "Eliminació"
     highlighting:
       mode_long:
