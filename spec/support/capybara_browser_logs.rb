@@ -19,8 +19,15 @@ module Capybara::BrowserLogs
 
       private
 
+      # borrowed from capybara-screenshot code
       def failed?(example)
-        example.execution_result.status == :failed
+        return true if example.exception
+        return false unless defined?(::RSpec::Expectations::FailureAggregator)
+
+        failure_notifier = ::RSpec::Support.failure_notifier
+        return false unless failure_notifier.is_a?(::RSpec::Expectations::FailureAggregator)
+
+        failure_notifier.failures.any? || failure_notifier.other_errors.any?
       end
     end
   end
