@@ -31,7 +31,8 @@ OpenProject::Application.routes.draw do
     namespace :settings do
       resources :storages, controller: '/storages/admin/storages' do
         resource :oauth_client, controller: '/storages/admin/oauth_clients', only: %i[new create]
-        resource :managed_project_folders, controller: '/storages/admin/managed_project_folders', only: %i[new edit update]
+        resource :automatically_managed_project_folders, controller: '/storages/admin/automatically_managed_project_folders',
+                                                         only: %i[new edit update]
 
         member do
           delete '/replace_oauth_application' => '/storages/admin/storages#replace_oauth_application'

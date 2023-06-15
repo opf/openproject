@@ -38,7 +38,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= error_messages_for_contract @storage, @errors %>
 
-<%= labelled_tabular_form_for @storage, url: admin_settings_storage_managed_project_folders_path(@storage),
+<%= labelled_tabular_form_for @storage, url: admin_settings_storage_automatically_managed_project_folders_path(@storage),
                                         method: :patch,
                                         data: {
                                           controller: "storages--managed-project-folders-form",

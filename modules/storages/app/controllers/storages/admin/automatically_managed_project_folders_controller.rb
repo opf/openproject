@@ -29,7 +29,7 @@
 # Purpose: Let OpenProject create folders per project automatically.
 # This is recommended as it ensures that every team member always has the correct access permissions.
 #
-class Storages::Admin::ManagedProjectFoldersController < ApplicationController
+class Storages::Admin::AutomaticallyManagedProjectFoldersController < ApplicationController
   # See https://guides.rubyonrails.org/layouts_and_rendering.html for reference on layout
   layout 'admin'
 
@@ -61,14 +61,14 @@ class Storages::Admin::ManagedProjectFoldersController < ApplicationController
                      contract_class: ::Storages::Storages::BaseContract)
                 .call
                 .result
-    render '/storages/admin/storages/show_managed_project_folders'
+    render '/storages/admin/storages/automatically_managed_project_folders/edit'
   end
 
   # Renders an edit page (allowing the user to change automatically_managed bool and application_password).
   # Used by: The StoragesController#edit, when user wants to update application credentials.
   # Called by: Global app/config/routes.rb to serve Web page
   def edit
-    render '/storages/admin/storages/show_managed_project_folders'
+    render '/storages/admin/storages/automatically_managed_project_folders/edit'
   end
 
   # Update is similar to create above
@@ -85,7 +85,7 @@ class Storages::Admin::ManagedProjectFoldersController < ApplicationController
       redirect_to admin_settings_storage_path(@storage)
     else
       @errors = service_result.errors
-      render '/storages/admin/storages/show_managed_project_folders'
+      render '/storages/admin/storages/automatically_managed_project_folders/edit'
     end
   end
 
@@ -105,8 +105,8 @@ class Storages::Admin::ManagedProjectFoldersController < ApplicationController
   private
 
   # Override default url param `:id` to `:storage` controller is a nested storage resource
-  # GET    /admin/settings/storages/:storage_id/managed_project_folders/new
-  # POST   /admin/settings/storages/:storage_id/managed_project_folders
+  # GET    /admin/settings/storages/:storage_id/automatically_managed_project_folders/new
+  # POST   /admin/settings/storages/:storage_id/automatically_managed_project_folders
   def find_model_object(object_id = :storage_id)
     super(object_id)
     @storage = @object
