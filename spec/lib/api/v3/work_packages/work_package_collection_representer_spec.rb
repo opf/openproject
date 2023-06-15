@@ -30,9 +30,11 @@ require 'spec_helper'
 
 RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   include API::V3::Utilities::PathHelper
+  create_shared_association_defaults_for_work_package_factory
 
   let(:self_base_link) { '/api/v3/example' }
   let(:work_packages) { WorkPackage.all }
+  let(:first_wp) { work_packages.first }
   let(:user) { build_stubbed(:user) }
 
   let(:query_params) { {} }
@@ -285,7 +287,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
                 _type: 'WorkPackage',
                 _links: {
                   self: {
-                    href: api_v3_paths.work_package(work_packages.first.id)
+                    href: api_v3_paths.work_package(first_wp.id)
                   }
                 }
               }.to_json
@@ -304,11 +306,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   end
 
   it 'has a schemas link' do
-    ids = work_packages.map do |wp|
-      [wp.project_id, wp.type_id]
-    end
-
-    path = api_v3_paths.work_package_schemas *ids
+    # All work packages in the collection are from the same project and have the same type
+    path = api_v3_paths.work_package_schemas [first_wp.project_id, first_wp.type_id]
 
     expect(collection)
       .to be_json_eql(path.to_json)
@@ -534,13 +533,58 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   context 'when passing schemas' do
     let(:embed_schemas) { true }
 
-    it 'embeds a schema collection' do
-      expected_path = api_v3_paths.work_package_schema(work_packages[0].project.id,
-                                                       work_packages[0].type.id)
+    it 'embeds a schema collection', :aggregate_failures do
+      expected_path = api_v3_paths.work_package_schema(first_wp.project.id,
+                                                       first_wp.type.id)
 
       expect(collection)
         .to be_json_eql(expected_path.to_json)
         .at_path('_embedded/schemas/_embedded/elements/0/_links/self/href')
+
+      # All work packages share the same project and type
+      expect(collection)
+        .to have_json_size(1)
+              .at_path('_embedded/schemas/_embedded/elements')
+    end
+
+    context 'when having timestamps leads to a different schema at the baseline time (because of a different type)',
+            with_settings: { journal_aggregation_time_minutes: 0 } do
+      let(:other_type) { create(:type) }
+      let(:timestamps) { [Timestamp.parse("2023-01-01T00:00:00Z"), Timestamp.parse("PT0S")] }
+      let!(:member) do
+        create(:member,
+               user: current_user,
+               project: first_wp.project,
+               roles: create_list(:role, 1, permissions: [:view_work_packages]))
+      end
+
+      before do
+        # Update the timestamp of the first work package to a different type forcing the inclusion of
+        # another schema and set the creation date to be before the baseline time.
+        first_wp = WorkPackage.first
+        first_wp.update(subject: 'Some new subject', author: current_user)
+        first_wp.update_columns(created_at: "2022-01-01T00:00:00Z")
+        first_wp.journals.first.update_columns(created_at: "2022-01-01T00:00:00Z", updated_at: "2022-01-01T00:00:00Z")
+        first_wp.journals.first.data.update_columns(type_id: other_type.id)
+      end
+
+      it 'embeds a schema collection', :aggregate_failures do
+        expect(collection)
+          .to have_json_size(2)
+                .at_path('_embedded/schemas/_embedded/elements')
+
+        expected_former_path = api_v3_paths.work_package_schema(first_wp.project.id,
+                                                                first_wp.type.id)
+        expect(collection)
+          .to be_json_eql(expected_former_path.to_json)
+                .at_path('_embedded/schemas/_embedded/elements/0/_links/self/href')
+
+        expected_current_path = api_v3_paths.work_package_schema(first_wp.project.id,
+                                                                 other_type.id)
+        expect(collection)
+          .to be_json_eql(expected_current_path.to_json)
+                .at_path('_embedded/schemas/_embedded/elements/1/_links/self/href')
+      end
     end
   end
 

@@ -62,6 +62,7 @@ See COPYRIGHT and LICENSE files for more details.
       styled_text_area_tag(
         "settings[#{name}][#{current_language.to_s}]",
         Setting.send(name)[current_language.to_s],
+        disabled: !Setting.send(:"#{name}_writable?"),
         label: false,
         id: "settings-#{name}",
         class: 'wiki-edit',
