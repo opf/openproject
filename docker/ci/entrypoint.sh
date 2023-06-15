@@ -10,6 +10,10 @@ export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
 export NODE_OPTIONS="--max-old-space-size=8192"
 LOG_FILE=/tmp/op-output.log
 
+run_psql() {
+	$PGBIN/psql -v ON_ERROR_STOP=1 -U dev -h 127.0.0.1 "$@"
+}
+
 cleanup() {
 	exit_code=$?
 	echo "CLEANUP"
@@ -27,7 +31,7 @@ trap cleanup INT TERM EXIT
 execute() {
 	BANNER=${BANNER:="[execute]"}
 	echo "$BANNER $@" >&2
-	bash -c "$@"
+	eval "$@"
 }
 
 execute_quiet() {
@@ -40,11 +44,11 @@ execute_quiet() {
 
 reset_dbs() {
 	# must reset main db because for some reason the users table is not empty, after running db:migrate
-	execute_quiet "echo 'drop database if exists appdb ; create database appdb' | $PGBIN/psql -U dev -h 127.0.0.1 -d postgres"
-	execute_quiet "cat db/structure.sql | $PGBIN/psql -U dev -h 127.0.0.1 -d appdb"
+	execute_quiet "echo 'drop database if exists appdb ; create database appdb' | run_psql -d postgres"
+	execute_quiet "cat db/structure.sql | run_psql -d appdb"
 	# create and load schema for test databases "appdb1" to "appdb$JOBS", far faster than using parallel_rspec tasks for that
 	for i in $(seq 1 $JOBS); do
-		execute_quiet "echo 'drop database if exists appdb$1 ; create database appdb$i with template appdb owner appuser;' | $PGBIN/psql -U dev -h 127.0.0.1 -d postgres"
+		execute_quiet "echo 'drop database if exists appdb$i ; create database appdb$i with template appdb owner appuser;' | run_psql -d postgres"
 	done
 }
 
@@ -64,7 +68,7 @@ if [ "$1" == "setup-tests" ]; then
 		execute_quiet "$PGBIN/initdb -E UTF8 -D /tmp/nulldb"
 		execute_quiet "cp docker/ci/postgresql.conf /tmp/nulldb/"
 		execute_quiet "$PGBIN/pg_ctl -D /tmp/nulldb -l /dev/null -w start"
-		echo "create database appdb; create user appuser with superuser encrypted password 'p4ssw0rd'; grant all privileges on database appdb to appuser;" | $PGBIN/psql -U dev -h 127.0.0.1 -d postgres
+		echo "create database appdb; create user appuser with superuser encrypted password 'p4ssw0rd'; grant all privileges on database appdb to appuser;" | run_psql -d postgres
 	fi
 
 	# create test database "app" and dump schema because db/structure.sql is not checked in
