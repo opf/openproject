@@ -99,10 +99,10 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true, with_flag: {
 
     ######### Step 4: Begin Automatically managed project folders #########
     # Nextcloud - Automatically managed project folders settings
-    # Switch is checked by default, expects input for application_password
+    # Switch is checked by default, expects input for password
     expect(page).to have_title("Automatically managed project folders")
     automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
-    application_password_input = page.find_by_id('storages_nextcloud_storage_application_password')
+    application_password_input = page.find_by_id('storages_nextcloud_storage_password')
     expect(automatically_managed_switch).to be_checked
     expect(application_password_input.value).to be_empty
 
@@ -115,7 +115,7 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true, with_flag: {
     # Fill in application password and submit
     automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
     expect(automatically_managed_switch).to be_checked
-    page.fill_in 'storages_nextcloud_storage_application_password', with: "1234567890"
+    page.fill_in 'storages_nextcloud_storage_password', with: "1234567890"
     page.click_button('Save')
     expect(page).to have_text("Active")
     expect(page).to have_text("●●●●●●●●●●●●●●●●")
@@ -202,7 +202,7 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true, with_flag: {
 
     expect(page).to have_title("Automatically managed project folders")
     automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
-    application_password_input = page.find_by_id('storages_nextcloud_storage_application_password')
+    application_password_input = page.find_by_id('storages_nextcloud_storage_password')
     expect(automatically_managed_switch).to be_checked
     expect(application_password_input.value).to be_empty
     expect(application_password_input['placeholder']).to eq("●●●●●●●●●●●●●●●●")

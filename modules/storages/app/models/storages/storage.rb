@@ -39,8 +39,6 @@
 class Storages::Storage < ApplicationRecord
   self.inheritance_column = :provider_type
 
-  store_accessor :provider_fields, :automatically_managed, :application_username, :application_password
-
   # One Storage can have multiple FileLinks, representing external files.
   #
   # FileLink deletion is done:
@@ -63,13 +61,6 @@ class Storages::Storage < ApplicationRecord
   PROVIDER_TYPES = [
     PROVIDER_TYPE_NEXTCLOUD = 'Storages::NextcloudStorage'.freeze
   ].freeze
-
-  PROVIDER_FIELDS_DEFAULTS_MAP = {
-    PROVIDER_TYPE_NEXTCLOUD => {
-      automatically_managed: true,
-      application_username: 'OpenProject'
-    }
-  }.freeze
 
   # Uniqueness - no two storages should  have the same host.
   validates_uniqueness_of :host
@@ -102,21 +93,6 @@ class Storages::Storage < ApplicationRecord
 
   def short_provider_type
     @short_provider_type ||= self.class.shorten_provider_type(provider_type)
-  end
-
-  def provider_fields_defaults
-    PROVIDER_FIELDS_DEFAULTS_MAP[provider_type] || {}
-  end
-
-  # Cast `automatically_managed` provider_field to a primitive boolean value.
-  def automatically_managed=(maybe_boolean)
-    super(ActiveRecord::Type::Boolean.new.cast(maybe_boolean))
-  end
-
-  alias automatically_managed? automatically_managed
-
-  def automatic_management_unspecified?
-    automatically_managed.nil?
   end
 
   def provider_type_nextcloud?

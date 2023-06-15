@@ -113,68 +113,6 @@ RSpec.describe Storages::Storage do
     end
   end
 
-  describe '#automatically_managed=' do
-    let(:storage) { build(:storage) }
-
-    %w[1 true].each do |bool|
-      context "with truthy value #{bool}" do
-        it "sets the value to true" do
-          storage.automatically_managed = bool
-          expect(storage).to be_automatically_managed
-        end
-      end
-    end
-
-    %w[0 false].each do |bool|
-      context "with falsy value #{bool}" do
-        it "sets the value to false" do
-          storage.automatically_managed = bool
-          expect(storage).not_to be_automatically_managed
-        end
-      end
-    end
-  end
-
-  describe '#automatic_management_unspecified?' do
-    context 'when automatically_managed is nil' do
-      let(:storage) { build(:storage, automatically_managed: nil) }
-
-      it { expect(storage).to be_automatic_management_unspecified }
-    end
-
-    context 'when automatically_managed is true' do
-      let(:storage) { build(:storage, automatically_managed: true) }
-
-      it { expect(storage).not_to be_automatic_management_unspecified }
-    end
-
-    context 'when automatically_managed is false' do
-      let(:storage) { build(:storage, automatically_managed: false) }
-
-      it { expect(storage).not_to be_automatic_management_unspecified }
-    end
-  end
-
-  describe '#provider_fields_defaults' do
-    context 'when provider_type is nextcloud' do
-      let(:storage) { build(:storage) }
-
-      it 'returns the default values for nextcloud' do
-        expect(storage.provider_fields_defaults).to eq(
-          { automatically_managed: true, application_username: 'OpenProject' }
-        )
-      end
-    end
-
-    context 'with undefined provider type' do
-      let(:storage) { build(:storage, provider_type: 'Storages::DropboxStorage') }
-
-      it 'returns an empty hash' do
-        expect(storage.provider_fields_defaults).to eq({})
-      end
-    end
-  end
-
   describe '#provider_type_nextcloud?' do
     context 'when provider_type is nextcloud' do
       let(:storage) { build(:storage) }

@@ -55,13 +55,13 @@ module Storages::Storages
     attribute :provider_fields
     attribute :automatically_managed
 
-    attribute :application_username
-    validates :application_username, presence: true, if: :nextcloud_provider_automatically_managed?
-    validates :application_username, absence: true, unless: :nextcloud_provider_automatically_managed?
+    attribute :username
+    validates :username, presence: true, if: :nextcloud_provider_automatically_managed?
+    validates :username, absence: true, unless: :nextcloud_provider_automatically_managed?
 
-    attribute :application_password
-    validates :application_password, presence: true, if: :nextcloud_provider_automatically_managed?
-    validates :application_password, absence: true, unless: :nextcloud_provider_automatically_managed?
+    attribute :password
+    validates :password, presence: true, if: :nextcloud_provider_automatically_managed?
+    validates :password, absence: true, unless: :nextcloud_provider_automatically_managed?
 
     private
 

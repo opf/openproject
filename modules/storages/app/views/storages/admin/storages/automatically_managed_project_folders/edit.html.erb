@@ -67,11 +67,11 @@ See COPYRIGHT and LICENSE files for more details.
        data-storages--managed-project-folders-form-target="applicationPasswordInput">
     <label class="form--label -bold"> <%= t(:"storages.label_managed_project_folders.application_password") %> </label>
     <div class="form--field-container -horizontal">
-      <%= f.text_field :application_password,
+      <%= f.text_field :password,
                        container_class: "-middle",
                        no_label: true,
                        value: nil, # IMPORTANT: We don't want to show the password in the form
-                       placeholder: @storage.application_password.present? ? "●●●●●●●●●●●●●●●●" : nil
+                       placeholder: @storage.password.present? ? "●●●●●●●●●●●●●●●●" : nil
       %>
     </div>
     <p class="form--field-instructions -xwide">

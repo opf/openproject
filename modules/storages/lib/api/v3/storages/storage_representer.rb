@@ -87,7 +87,7 @@ module API::V3::Storages
              setter: ->(fragment:, represented:, **) {
                if fragment.present?
                  represented.automatically_managed = true
-                 represented.application_password = fragment
+                 represented.password = fragment
                else
                  represented.automatically_managed = false
                end

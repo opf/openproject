@@ -71,7 +71,7 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'parsing' do
         end
 
         it 'is parsed correctly' do
-          expect(parsed).to have_attributes(automatically_managed: true, application_password: 'secret')
+          expect(parsed).to have_attributes(automatically_managed: true, password: 'secret')
         end
       end
 
@@ -83,7 +83,7 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'parsing' do
         end
 
         it 'is parsed as automatic folder management disabled' do
-          expect(parsed).to have_attributes(automatically_managed: false, application_password: nil)
+          expect(parsed).to have_attributes(automatically_managed: false, password: nil)
         end
       end
 
@@ -95,7 +95,7 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'parsing' do
         end
 
         it 'is parsed as automatic folder management disabled' do
-          expect(parsed).to have_attributes(automatically_managed: false, application_password: nil)
+          expect(parsed).to have_attributes(automatically_managed: false, password: nil)
         end
       end
     end

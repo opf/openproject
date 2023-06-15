@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Storages::Storages::SetProviderFieldsAttributesService, type: :model do
+describe Storages::Storages::SetNextcloudProviderFieldsAttributesService, type: :model do
   let(:current_user) { build_stubbed(:admin) }
   let(:storage) { build(:storage, :as_automatically_managed) }
   let(:contract_class) { stub_valid_contract(Storages::Storages::BaseContract) }

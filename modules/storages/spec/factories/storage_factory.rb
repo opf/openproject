@@ -35,8 +35,8 @@ FactoryBot.define do
 
     trait :as_automatically_managed do
       automatically_managed { true }
-      application_username { 'OpenProject' }
-      application_password { 'Password123' }
+      username { 'OpenProject' }
+      password { 'Password123' }
     end
 
     trait :as_not_automatically_managed do

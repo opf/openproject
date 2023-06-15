@@ -38,7 +38,7 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
   before_action :require_admin
 
   # specify which model #find_model_object should look up
-  model_object Storages::Storage
+  model_object Storages::NextcloudStorage
   before_action :find_model_object, only: %i[new edit update]
 
   # menu_item is defined in the Redmine::MenuManager::MenuController
@@ -48,14 +48,14 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
 
   # Show the admin page to set storage folder automatic management (for an already existing storage).
   # Sets the attributes automatically_managed as default true unless already set to false
-  # renders a form (allowing the user to change automatically_managed bool and application_password).
+  # renders a form (allowing the user to change automatically_managed bool and password).
   # Used by: The OauthClientsController#create, after the user inputs Oauth credentials for the first time.
   # Called by: Global app/config/routes.rb to serve Web page
   def new
     # Set default parameters using a "service".
     # See also: storages/services/storages/storages/set_attributes_services.rb
     # That service inherits from ::BaseServices::SetAttributes
-    @storage = ::Storages::Storages::SetProviderFieldsAttributesService
+    @storage = ::Storages::Storages::SetNextcloudProviderFieldsAttributesService
                 .new(user: current_user,
                      model: @object,
                      contract_class: ::Storages::Storages::BaseContract)
@@ -64,7 +64,7 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
     render '/storages/admin/storages/automatically_managed_project_folders/edit'
   end
 
-  # Renders an edit page (allowing the user to change automatically_managed bool and application_password).
+  # Renders an edit page (allowing the user to change automatically_managed bool and password).
   # Used by: The StoragesController#edit, when user wants to update application credentials.
   # Called by: Global app/config/routes.rb to serve Web page
   def edit
@@ -116,9 +116,7 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
     permitted_storage_params.tap do |permitted_params|
       # If a checkbox is unchecked when its form is submitted, neither the name nor the value is submitted to the server.
       # See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
-      if @storage.provider_type_nextcloud? && !permitted_params.key?('automatically_managed')
-        permitted_params.merge!(automatically_managed: false)
-      end
+      permitted_params.merge!(automatically_managed: false) unless permitted_params.key?('automatically_managed')
     end
   end
 
@@ -126,13 +124,7 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
   # update parameters are correctly set.
   def permitted_storage_params
     params
-      .require(:"storages_#{provider_type}_storage")
-      .permit('automatically_managed', 'application_password')
-  end
-
-  # @return [String] the short name of the provider type
-  #  (e.g. 'nextcloud') @see Storages::Storage#short_provider_type
-  def provider_type
-    @storage.short_provider_type
+      .require(:storages_nextcloud_storage)
+      .permit('automatically_managed', 'password')
   end
 end

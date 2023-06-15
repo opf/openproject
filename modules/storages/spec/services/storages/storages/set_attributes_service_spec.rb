@@ -149,21 +149,21 @@ RSpec.describe Storages::Storages::SetAttributesService, type: :model do
   end
 
   describe 'automatically managed project folders' do
-    context 'with applicationPassword' do
+    context 'with password' do
       let(:params) do
         super().merge(
           "automatically_managed" => true,
-          "application_password" => "secret"
+          "password" => "secret"
         )
       end
 
-      it 'enables automatic folder management with application password' do
-        expect(subject.result).to have_attributes(automatically_managed: true, application_username: 'OpenProject',
-                                                  application_password: 'secret')
+      it 'enables automatic folder management with password' do
+        expect(subject.result).to have_attributes(automatically_managed: true, username: 'OpenProject',
+                                                  password: 'secret')
       end
     end
 
-    context 'with applicationPassword false' do
+    context 'with automatically_managed false' do
       let(:params) do
         super().merge(
           "automatically_managed" => false
@@ -172,7 +172,7 @@ RSpec.describe Storages::Storages::SetAttributesService, type: :model do
 
       it 'disables automatic folder management' do
         expect(subject.result).to have_attributes(automatically_managed: false)
-        expect(subject.result.attributes.keys).not_to include(:application_username, :application_password)
+        expect(subject.result.attributes.keys).not_to include(:username, :password)
       end
     end
 
@@ -185,7 +185,7 @@ RSpec.describe Storages::Storages::SetAttributesService, type: :model do
 
       it 'does not change the value' do
         expect(subject.result).to have_attributes(automatically_managed: nil)
-        expect(subject.result.attributes.keys).not_to include(:application_username, :application_password)
+        expect(subject.result.attributes.keys).not_to include(:username, :password)
       end
     end
   end

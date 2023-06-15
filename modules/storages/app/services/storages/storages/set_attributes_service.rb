@@ -57,12 +57,10 @@ module Storages::Storages
       return if storage.automatic_management_unspecified?
 
       if storage.automatically_managed?
-        storage.application_username = storage.provider_fields_defaults[:application_username]
+        storage.username = storage.provider_fields_defaults[:username]
       else
         storage.automatically_managed = false
-        %w[application_username application_password].each do |field|
-          storage.provider_fields.delete(field)
-        end
+        %w[username password].each { |field| storage.provider_fields.delete(field) }
       end
     end
 
