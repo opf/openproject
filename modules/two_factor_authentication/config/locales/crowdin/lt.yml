@@ -69,8 +69,8 @@ lt:
       delete_all_are_you_sure: 'Ar tikrai norite ištrinti visus šio naudotojo 2FA įrenginius?'
       button_delete_all_devices: 'Trinti registruotus 2FA įrenginius'
       button_register_mobile_phone_for_user: 'Registruoti mobilų telefoną'
-      text_2fa_enabled: 'Upon every login, this user will be requested to enter a OTP token from their default 2FA device.'
-      text_2fa_disabled: "The user did not set up a 2FA device through their 'My account page'"
+      text_2fa_enabled: 'Kiekvieną kartą prisijungiant, naudotojo bus paprašoma įvesti OTB žetoną iš jo numatytojo 2FA įrenginio.'
+      text_2fa_disabled: "Naudotojas nenustatė savo 2FA įrenginio savo „Mano paskyros puslapyje“"
     upsale:
       title: 'Dviejų veiksnių autentifikavimas'
       description: 'Sustiprinkite savo OpenProject sistemos saugumą pasiūlydami (ar reikalaudami) dviejų faktorių autentifikacijos visiems projekto nariams.'

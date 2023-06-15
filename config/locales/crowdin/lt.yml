@@ -2218,11 +2218,9 @@ lt:
   notice_successful_delete: "Sėkmingas panaikinimas."
   notice_successful_update: "Sėkmingai atnaujinta."
   notice_successful_update_custom_fields_added_to_project: |
-    Successful update. The custom fields of the activated types are automatically activated
-    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+    Sėkmingas atnaujinimas. Savi aktyvuotų tipų laukai automatiškai aktivuoti darbo paketų formose. <a href="%{url}" target="_blank">Skaitykite daugiau</a>.
   notice_successful_update_custom_fields_added_to_type: |
-    Successful update. The active custom fields are automatically activated for
-    the associated projects of this type.
+    Sėkmingas atnaujinimas. Aktyvus savi laukai automatiškai aktyvuoti susijusiems šio tipo projektams.
   notice_to_many_principals_to_display: "Per daug rezultatų. Susiaurinkite paiešką pradėdami įvesti naujo nario (ar grupės) pavadinimą."
   notice_user_missing_authentication_method: Vartotojas dar nepasirinko slaptažodžio ar kitokio būdo prisijungimui.
   notice_user_invitation_resent: Pakvietimas buvo nusiųstas į %{email}.
@@ -2257,7 +2255,7 @@ lt:
           tb: "TB"
   onboarding:
     heading_getting_started: "Gauti aprašymą"
-    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
+    text_getting_started_description: "Gaukite greitą apžvalgą apie projektų valdymą ir komandos bendradarbiavimą naudojant OpenProject. Šį video galite paleisti iš naujo per pagalbos meniu."
     welcome: "Jus sveikina %{app_title}"
     select_language: "Pasirinkite kalbą"
   permission_add_work_package_notes: "Pridėti pastabų"
@@ -2455,10 +2453,10 @@ lt:
     storage:
       not_available: "Disko vietos naudojimas nėra prieinamas šiai repozitorijai."
       update_timeout: "Laikyti paskiausią reikalingą disko vietos informaciją repozitorijai N minutes (-ių). Kadangi reikalingos vietos repozitorijai skaičiavimas gali būti reiklus resursams, minučių reikšmės didinimas gali stipriai sumažinti sistemos našumą."
-      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
-      oauth_application_details_link_text: "Go to settings page"
-      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
-      setup_documentation_details_link_text: "File Storages setup"
+      oauth_application_details: "Kliento slapta reikšmė daugiau nebebus prieinama po to, kai uždarysite šį langą. Prašome nukopijuoti šias reikšmes į Nextcloud OpenProject integracijos nustatymus:"
+      oauth_application_details_link_text: "Eiti į nustatymų puslapį"
+      setup_documentation_details: "Jei jums reikia pagalbos konfigūruojant naują failų saugyklą, prašome skaityti dokumentaciją: "
+      setup_documentation_details_link_text: "Failų saugyklos nustatymas"
       show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Esama Subversion repozitorija"
@@ -2503,7 +2501,7 @@ lt:
   setting_smtp_authentication: "SMTP autentifikacija"
   setting_smtp_user_name: "SMTP vartotojo vardas"
   setting_smtp_password: "SMTP slaptažodis"
-  setting_smtp_domain: "SMTP HELO domain"
+  setting_smtp_domain: "SMTP HELO domenas"
   setting_activity_days_default: "Projekto veiklos atvaizduojamų dienų skaičius"
   setting_app_subtitle: "Programos paantraštė"
   setting_app_title: "Programos pavadinimas"
@@ -2540,7 +2538,7 @@ lt:
   setting_enabled_scm: "Įgalinti SCM"
   setting_enabled_projects_columns: "Matomas projektų sąraše"
   setting_feeds_enabled: "Leisti naujienų kanalus"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "Įjungti iCalendar prenumeratas"
   setting_feeds_limit: "Naujienų kanalų turinio limitas"
   setting_file_max_size_displayed: "Maksimalus tekstinių failų dydis rodomas vienoje eilutėje"
   setting_host_name: "Serverio vardas"
@@ -2593,7 +2591,7 @@ lt:
   setting_sys_api_description: "Repozitorijos valdymo web tarnyba teikia integraciją ir vartotojų autorizaciją bandant pasiekti repozitorijas."
   setting_time_format: "Laiko formatas"
   setting_accessibility_mode_for_anonymous: "Leisti lengvos prieigos režimą anoniminiams vartotojams"
-  setting_user_format: "Users name format"
+  setting_user_format: "Naudotojų vardo formatas"
   setting_user_default_timezone: "Numatytoji vartotojo laiko juosta"
   setting_users_deletable_by_admins: "Administratoriai gali ištrinti vartotojų paskyras"
   setting_users_deletable_by_self: "Naudotojai gali ištrinti savo paskyras"
@@ -2624,7 +2622,7 @@ lt:
       section_project_overview: "Nustatymai projektų apžvalgos sąrašui"
     user:
       default_preferences: "Numatytosios parinktys"
-      display_format: "Display format"
+      display_format: "Rodymo formatas"
       deletion: "Trynimas"
     highlighting:
       mode_long:
@@ -2650,7 +2648,7 @@ lt:
   text_access_token_hint: "Prieigos raktai leidžia išorinėms aplikacijoms pasiekti OpenProject resursus."
   text_analyze: "Toliau analizuoti: %{subject}"
   text_are_you_sure: "Ar esate įsitikinę?"
-  text_are_you_sure_continue: "Are you sure you want to continue?"
+  text_are_you_sure_continue: "Ar tikrai norite tęsti?"
   text_are_you_sure_with_children: "Ištrinti darbų paketą ir visus jo vaikų paketus?"
   text_assign_to_project: "Priskirti projektui"
   text_form_configuration: >
@@ -3002,25 +3000,25 @@ lt:
       title: "Ištrinti darbų paketą"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      <b>Nustatykite dienas, kurios laikomos darbo savaitės dalimi</b><br/>Nepažymėtos dienos praleidžiamos skaičiuojant darbo paketus (ir neįtraukiamos į dienų skaičių). Šituos nustatymus galima permušti darbo paketo lygyje.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
-    change_button: "Change working days"
+      <b>Konkrečios nedarbo dienos (atostogos ir išeiginės)</b><br/> Į žemiau esantį sąrašą pridėtos dienos laikomos nedarbo dienomis ir praleidžiamos planuojant darbo paketus.
+    change_button: "Keisti darbo dienas"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
+      Keičiant dienas, kurios yra darbo ar nedarbo dienos, gali keistis visų projektų darbo paketų pradžios ir pabaigos dienos. <br/>Prašome atkreipti dėmesį, kad pakeitimai pritaikomi tik po to, kai jūs paspaudžiate mygtuką pritaikyti.
     journal_note:
-      changed: _**Working days** changed (%{changes})._
+      changed: _**Darbo dienos** pakeistos (%{changes})._
       days:
-        working: "%{day} is now working"
-        non_working: "%{day} is now non-working"
+        working: "%{day} dabar yra darbo"
+        non_working: "%{day} dabar yra nedarbo"
       dates:
-        working: "%{date} is now working"
-        non_working: "%{date} is now non-working"
+        working: "%{date} dabar yra darbo"
+        non_working: "%{date} dabar yra nedarbo"
   nothing_to_preview: "Nėra ką rodyti"
   api_v3:
     attributes:
       lock_version: "Užrakto versija"
-      property: 'Property'
+      property: 'Savybė'
     errors:
       code_400: "Bloga užklausa: %{message}"
       code_401: "Jums reikia būti autentifikuotam, kad galėtumėte pasiekti šį resursą."
@@ -3030,7 +3028,7 @@ lt:
       code_409: "Nepavyko atnaujinti resurso dėl konfliktuojančių pakeitimų."
       code_429: "Per daug užklausų. Pabandykite vėliau."
       code_500: "Įvyko vidinė klaida."
-      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
+      code_500_outbound_request_failure: "Išeinanti užklausą į išorinį resursą nepavyko su būsenos kodu %{status_code}."
       not_found:
         work_package: "Jūsų ieškomas darbo paketas nerastas arba ištrintas."
       expected:
@@ -3167,49 +3165,49 @@ lt:
     my_registered_applications: "Registruotos OAuth aplikacijos"
   oauth_client:
     urn_connection_status:
-      connected: "Connected"
+      connected: "Prisijungta"
       error: "Klaida"
-      failed_authorization: "Authorization failed"
+      failed_authorization: "Autorizavimas nepavyko"
     labels:
-      label_oauth_integration: "OAuth2 integration"
+      label_oauth_integration: "OAuth2 integracija"
       label_redirect_uri: "Peradresavimo URI"
-      label_request_token: "Request token"
-      label_refresh_token: "Refresh token"
+      label_request_token: "Užklausos žetonas"
+      label_refresh_token: "Atnaujinti žetoną"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
-      oauth_reported: "OAuth2 provider reported"
-      oauth_returned_error: "OAuth2 returned an error"
-      oauth_returned_json_error: "OAuth2 returned a JSON error"
-      oauth_returned_http_error: "OAuth2 returned a network error"
-      oauth_returned_standard_error: "OAuth2 returned an internal error"
-      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
-      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
-      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      oauth_authorization_code_grant_had_errors: "OAuth2 grąžino klaidą"
+      oauth_reported: "OAuth2 tiekėjas pranešė"
+      oauth_returned_error: "OAuth2 grąžino klaidą"
+      oauth_returned_json_error: "OAuth2 grąžino JSON klaidą"
+      oauth_returned_http_error: "OAuth2 grąžino tinklo klaidą"
+      oauth_returned_standard_error: "OAuth2 grąžino vidinę klaidą"
+      wrong_token_type_returned: "OAuth2 grąžino netinkamą žetono tipą, tikėtasi AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 grąžino klaidą. Prašome susisiekti su jūsų sistemos administratoriumi."
+      oauth_client_not_found: "OAuth2 klientas nerastas „callback“ taške (redirect_uri)."
       refresh_token_called_without_existing_token: >
-        Internal error: Called refresh_token without a previously existing token.
-      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+        Vidinė klaida: refresh_token pakviestas be iki to esančio žetono.
+      refresh_token_updated_failed: "Klaida atnaujinant OAuthClientToken"
       oauth_client_not_found_explanation: >
-        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
-      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+        Ši klaida pasirodo po to, kai jūs pakeičiate OpenProject client_id ir client_secret, bet nepakeičiate „Grąžinamo URI“ lauko OAuth2 tiekėjo pusėje.
+      oauth_code_not_present: "OAuth2 „code“ nerastas „callback“ taške (redirect_uri)."
       oauth_code_not_present_explanation: >
-        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
-      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+        Ši klaida pasirodo, jei jūs parinkote netinkamą OAuth2 tiekėjo response_type. Response_type privalo būti „code“ ar panašus.
+      oauth_state_not_present: "OAuth2 „state“ nerastas „callback“ taške (redirect_uri)."
       oauth_state_not_present_explanation: >
-        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+        „State“ naudojama nurodyti OpenProject, kur tęsti po sėkmingos OAuth2 autorizacijos. Trūkstamas „state“ yra vidinė klaida, kuri gali atsitikti nustatymo metu. Prašome susisiekti su jūsų sistemos administratoriumi.
       rack_oauth2:
-        client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
+        client_secret_invalid: "Kliento paslaptis netinkama (client_secret_invalid)"
         invalid_request: >
-          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
-        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
-        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
-        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
-        unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
-        unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
-        invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+          OAuth2 autorizacijos serveris atsakė „netinkama užklausa“. Ši klaida įvyksta, kai jūs bandote autorizuoti kelis kartus arba dėl techninių problemų.
+        invalid_response: "OAuth2 autorizacijos serveris pateikė netinkamą atsakymą (invalid_response)"
+        invalid_grant: "OAuth2 autorizacijos serveris prašo jūsų autorizuotis iš naujo (invalid_grant)."
+        invalid_client: "OAuth2 autorizacijos serveris neatpažįsta OpenProject (invalid_client)."
+        unauthorized_client: "OAuth2 autorizacijos serveris nepriima privilegijos tipo (unauthorized_client)"
+        unsupported_grant_type: "OAuth2 autorizacijos serveris prašo jūsų autorizuotis iš naujo (unsupported_grant_type)."
+        invalid_scope: "Jums neleidžiama prieiti prie prašomo resurso (invalid_scope)."
   http:
     request:
-      failed_authorization: "The server side request failed authorizing itself."
-      missing_authorization: "The server side request failed due to missing authorization information."
+      failed_authorization: "Serverio pusės užklausai nepavyko savęs autorizuoti."
+      missing_authorization: "Serverio pusės užklausa nepavyko dėl trūkstamos autorizacijos informacijos."
     response:
-      unexpected: "Unexpected response received."
+      unexpected: "Gautas netikėtas atsakas."
   you: jūs
