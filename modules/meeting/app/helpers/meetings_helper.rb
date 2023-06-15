@@ -72,4 +72,26 @@ module MeetingsHelper
 
     content_tag('div', "#{header}#{details}".html_safe, id: "change-#{journal.id}", class: 'journal')
   end
+
+  def global_create_context?
+    request.path == new_meeting_path
+  end
+
+  def new_form_refresh_url
+    if global_create_context?
+      new_meeting_path
+    else
+      new_project_meeting_path(@project)
+    end
+  end
+
+  def options_for_project_selection
+    Project.allowed_to(User.current, :create_meetings)
+           .filter { _1.module_enabled?('meetings') }
+           .map { [_1.name, _1.id] }
+  end
+
+  def project_select_initial_class_list
+    params.dig(:meeting, :project_id).blank? ? '-prompt-visible' : ''
+  end
 end

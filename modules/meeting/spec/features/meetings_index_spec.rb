@@ -78,10 +78,10 @@ RSpec.describe 'Meetings' do
     context 'when the user is allowed to create meetings' do
       let(:permissions) { %i(view_meetings create_meetings) }
 
-      it 'does not show a create button' do
+      it 'shows a create button' do
         meetings_page.navigate_by_modules_menu
 
-        meetings_page.expect_no_create_new_button
+        meetings_page.expect_create_new_button
       end
     end
   end

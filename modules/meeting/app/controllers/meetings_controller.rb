@@ -32,11 +32,12 @@ class MeetingsController < ApplicationController
   before_action :build_meeting, only: %i[new create]
   before_action :find_meeting, except: %i[index new create]
   before_action :convert_params, only: %i[create update]
-  before_action :authorize, except: [:index]
-  before_action :authorize_global, only: :index
+  before_action :authorize, except: %i[index new]
+  before_action :authorize_global, only: %i[index new]
 
   helper :watchers
   helper :meeting_contents
+  include MeetingsHelper
   include WatchersHelper
   include PaginationHelper
   include SortHelper
@@ -76,7 +77,9 @@ class MeetingsController < ApplicationController
     end
   end
 
-  def new; end
+  def new
+    render layout: 'no_menu' if global_create_context?
+  end
 
   current_menu_item :new do
     :meetings
@@ -123,14 +126,24 @@ class MeetingsController < ApplicationController
 
   def build_meeting
     @meeting = Meeting.new
+    if meeting_params.present?
+      convert_params
+      @meeting.participants.clear # Start with a clean set of participants
+      @meeting.participants_attributes = @converted_params.delete(:participants_attributes)
+      @meeting.attributes = @converted_params
+    end
     @meeting.project = @project
     @meeting.author = User.current
   end
 
-  def find_optional_project
-    return true unless params[:project_id]
+  def project_id
+    params[:project_id] || params.dig(:meeting, :project_id)
+  end
 
-    @project = Project.find(params[:project_id])
+  def find_optional_project
+    return true if project_id.blank?
+
+    @project = Project.find(project_id)
     authorize
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -163,7 +176,10 @@ class MeetingsController < ApplicationController
   end
 
   def meeting_params
-    params.require(:meeting).permit(:title, :location, :start_time, :duration, :start_date, :start_time_hour,
-                                    participants_attributes: %i[email name invited attended user user_id meeting id])
+    if params[:meeting].present?
+      params.require(:meeting).permit(:title, :location, :start_time,
+                                      :duration, :start_date, :start_time_hour,
+                                      participants_attributes: %i[email name invited attended user user_id meeting id])
+    end
   end
 end

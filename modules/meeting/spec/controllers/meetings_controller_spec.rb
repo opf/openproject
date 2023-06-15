@@ -96,12 +96,24 @@ RSpec.describe MeetingsController do
       end
 
       describe 'html' do
-        before do
-          get 'new',  params: { project_id: project.id }
+        context 'when requesting the global page' do
+          before do
+            get 'new'
+          end
+
+          it { expect(response).to be_successful }
+          it { expect(assigns(:meeting)).to eql meeting }
         end
 
-        it { expect(response).to be_successful }
-        it { expect(assigns(:meeting)).to eql meeting }
+        context 'when requesting the project-scoped page' do
+          before do
+            get 'new', params: { project_id: project.id }
+          end
+
+          it { expect(response).to be_successful }
+          it { expect(assigns(:meeting)).to eql meeting }
+        end
+
       end
     end
 

@@ -35,6 +35,23 @@ See COPYRIGHT and LICENSE files for more details.
     <%= f.text_field :title, :required => true, :size => 60, container_class: '-wide' %>
   </div>
 
+  <% if global_create_context? %>
+    <div class="form--field -required">
+      <%= f.select :project_id,
+                   options_for_project_selection,
+                   {prompt: t(:project_selection_placeholder),
+                    container_class: '-wide'},
+                   class: project_select_initial_class_list,
+                   required: true,
+                   data: {
+                     'application-target': 'dynamic',
+                     controller: 'select-field-with-prompt',
+                     action: 'change->select-field-with-prompt#togglePromptStyling ' \
+                              'change->refresh-on-form-changes#triggerReload'
+                   } %>
+    </div>
+  <% end %>
+
   <div class="form--field">
     <%= f.text_field :location, :size => 60, container_class: '-wide' %>
   </div>
@@ -86,7 +103,8 @@ See COPYRIGHT and LICENSE files for more details.
     </div>
   </div>
 
-  <div class="form--field">
+  <% if @project %>
+    <div class="form--field">
     <label class="form--label"><%=Meeting.human_attribute_name(:participants) %></label>
     <div class="form--field-container">
       <table class="form--matrix">
@@ -128,6 +146,8 @@ See COPYRIGHT and LICENSE files for more details.
       </table>
     </div>
   </div>
+  <% end %>
+
   <%= hidden_field_tag "copied_from_meeting_id", params[:copied_from_meeting_id] if params[:copied_from_meeting_id].present? %>
   <%= hidden_field_tag "copied_meeting_agenda_text", params[:copied_meeting_agenda_text] if params[:copied_meeting_agenda_text].present? %>
 </section>

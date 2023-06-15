@@ -46,6 +46,10 @@ module Pages::Meetings
       New.new(project)
     end
 
+    def expect_no_main_menu
+      expect(page).not_to have_selector '#main-menu'
+    end
+
     def expect_no_create_new_button
       expect(page).not_to have_selector '#add-meeting-button'
     end

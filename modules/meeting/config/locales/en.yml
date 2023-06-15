@@ -36,6 +36,7 @@ en:
         participants: "Participants"
         participants_attended: "Attendees"
         participants_invited: "Invitees"
+        project: "Project"
         start_time: "Time"
         start_time_hour: "Starting time"
     errors:
@@ -79,6 +80,7 @@ en:
   label_time_zone: "Time zone"
   label_start_date: "Start date"
 
+
   meeting:
     copied: "Copied from Meeting #%{id}"
 
@@ -98,6 +100,8 @@ en:
   permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
 
   project_module_meetings: "Meetings"
+
+  project_selection_placeholder: "Select project"
 
   text_duration_in_hours: "Duration in hours"
   text_in_hours: "in hours"
