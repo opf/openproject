@@ -63,7 +63,14 @@ module Redmine::MenuManager::MenuHelper
     first_level = any_item_selected?(select_leafs(menu_items)) || !current_menu_item_part_of_menu?(menu, project)
     classes = first_level ? 'open' : 'closed'
 
-    links.empty? ? nil : content_tag('ul', safe_join(links, "\n"), class: "menu_root #{classes}")
+    if links.present?
+      content_tag('ul',
+                  safe_join(links, "\n"),
+                  class: "menu_root #{classes}",
+                  data: {
+                    'menus--main-target': 'root'
+                  })
+    end
   end
 
   def select_leafs(items)
@@ -133,7 +140,7 @@ module Redmine::MenuManager::MenuHelper
   def render_menu_node_with_children(node, project = nil)
     content_tag :li, menu_node_options(node) do
       items = [
-        render_wrapped_menu_node(node, project),
+        render_wrapped_menu_parent_node(node, project),
         render_visible_children_list(node, project),
         render_unattached_children_list(node, project)
       ]
@@ -141,9 +148,10 @@ module Redmine::MenuManager::MenuHelper
       safe_join(items, "\n")
     end
   end
+
   # rubocop:enable Metrics/AbcSize
 
-  def render_wrapped_menu_node(node, project)
+  def render_wrapped_menu_parent_node(node, project)
     html_id = node.html_options[:id] || node.name
     content_tag(:div, class: 'main-item-wrapper', id: "#{html_id}-wrapper") do
       concat render_single_menu_node(node, project)
@@ -151,8 +159,15 @@ module Redmine::MenuManager::MenuHelper
     end
   end
 
+  def render_wrapped_single_node(node, project)
+    html_id = node.html_options[:id] || node.name
+    content_tag(:div, class: 'main-item-wrapper', id: "#{html_id}-wrapper") do
+      render_single_menu_node(node, project)
+    end
+  end
+
   def render_menu_toggler
-    content_tag(:a, class: 'toggler') do
+    content_tag(:a, class: 'toggler', data: { action: 'menus--main#descend' }) do
       spot_icon('arrow-right3', size: '1')
     end
   end
@@ -163,7 +178,10 @@ module Redmine::MenuManager::MenuHelper
       .map { |child| render_menu_node(child, project) if visible_node?(@menu, child) }
 
     if items.present?
-      content_tag(:ul, safe_join(items, "\n"), class: 'main-menu--children')
+      capture do
+        concat render_children_menu_header(node, project)
+        concat content_tag(:ul, safe_join(items, "\n"), class: 'main-menu--children')
+      end
     end
   end
 
@@ -171,8 +189,32 @@ module Redmine::MenuManager::MenuHelper
     items = render_unattached_children_menu(node, project)
 
     if items.present?
-      content_tag(:ul, items, class: 'main-menu--children unattached')
+      capture do
+        concat render_children_menu_header(node, project)
+        concat content_tag(:ul, items, class: 'main-menu--children unattached')
+      end
     end
+  end
+
+  def render_children_menu_header(node, project)
+    caption, url, = extract_node_details(node, project)
+
+    content_tag(:div, class: 'main-menu--children-menu-header') do
+      concat render_children_back_up_link
+      concat link_to(caption, url, class: 'main-menu--parent-node ellipsis')
+    end
+  end
+
+  def render_children_back_up_link
+    content_tag(
+      :a,
+      spot_icon('arrow-left1', size: '1_25'),
+      title: I18n.t('js.label_up'),
+      class: 'main-menu--arrow-left-to-project',
+      data: {
+        action: 'menus--main#ascend'
+      }
+    )
   end
 
   # rubocop:disable Metrics/AbcSize
@@ -224,12 +266,13 @@ module Redmine::MenuManager::MenuHelper
   private
 
   def menu_node_options(node)
-    html_options = { data: { name: node.name } }
-
-    if node_or_children_selected?(node)
-      html_options[:class] = 'open'
-    end
-    html_options
+    {
+      class: node_or_children_selected?(node) ? 'open' : '',
+      data: {
+        name: node.name,
+        'menus--main-target': 'item'
+      }
+    }
   end
 
   # Returns a list of unattached children menu items
@@ -263,14 +306,17 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def render_single_node_or_partial(node, project)
-    if node.partial
-      content_tag('li',
-                  render(partial: node.partial, locals: { name: node.name, parent_name: node.parent.name }),
-                  class: "partial",
-                  data: { name: node.name })
-    else
-      content_tag('li', render_single_menu_node(node, project), data: { name: node.name })
-    end
+    content =
+      if node.partial
+        render(partial: node.partial, locals: { name: node.name, parent_name: node.parent.name })
+      else
+        render_wrapped_single_node(node, project)
+      end
+
+    content_tag('li',
+                content,
+                class: node.partial ? "partial" : '',
+                data: { name: node.name })
   end
 
   def all_menu_items_for(menu, project = nil)
