@@ -172,7 +172,7 @@
   },
   "scripts": {
     "analyze": "ng build --configuration production --stats-json && webpack-bundle-analyzer -h 0.0.0.0 -p 9999 ../public/assets/frontend/stats.json",
-    "build:ci": "NG_PERSISTENT_BUILD_CACHE=1 node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --configuration production --named-chunks --source-map=false --build-optimizer=false --optimization=false",
+    "build:ci": "node ./node_modules/@angular/cli/bin/ng build --configuration production --named-chunks --source-map=false --build-optimizer=false --optimization=false",
     "build": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --configuration production --named-chunks --source-map",
     "build:watch": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --watch --named-chunks",
     "tokens:generate": "theo src/app/spot/styles/tokens/tokens.yml --transform web --format sass,json --dest src/app/spot/styles/tokens/dist",
