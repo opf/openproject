@@ -23,6 +23,7 @@ jobs:
   all:
     name: Units + Features
     if: github.repository == 'opf/openproject'
+    # switch back to [self-hosted-autoscale] in case of issues with scaleway
     runs-on: [self-hosted, scaleway, ubuntu22, x64, XL]
     timeout-minutes: 40
     env:
