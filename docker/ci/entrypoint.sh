@@ -44,7 +44,7 @@ reset_dbs() {
 	execute_quiet "cat db/structure.sql | $PGBIN/psql -U dev -h 127.0.0.1 -d appdb"
 	# create and load schema for test databases "appdb1" to "appdb$JOBS", far faster than using parallel_rspec tasks for that
 	for i in $(seq 1 $JOBS); do
-		execute "echo 'create database appdb$i with template appdb owner appuser;' | $PGBIN/psql -U dev -h 127.0.0.1 -d postgres"
+		execute_quiet "echo 'drop database if exists appdb$1 ; create database appdb$i with template appdb owner appuser;' | $PGBIN/psql -U dev -h 127.0.0.1 -d postgres"
 	done
 }
 
