@@ -62,7 +62,7 @@
           },
           "configurations": {
             "production": {
-              "index" : false,
+              "index": "",
               "budgets": [
                 {
                   "type": "anyComponentStyle",
