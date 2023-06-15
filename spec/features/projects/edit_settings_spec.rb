@@ -50,7 +50,7 @@ RSpec.describe 'Projects', 'editing settings', js: true do
     expect(page).not_to have_text :all, 'Identifier'
   end
 
-  describe 'identifier edit', js: false do
+  describe 'identifier edit' do
     it 'updates the project identifier' do
       visit projects_path
       click_on project.name
@@ -59,7 +59,7 @@ RSpec.describe 'Projects', 'editing settings', js: true do
       SeleniumHubWaiter.wait
       click_on 'Change identifier'
 
-      expect(page).to have_content "Change the project's identifier"
+      expect(page).to have_content "Change the project's identifier".upcase
       expect(page).to have_current_path '/projects/foo-project/identifier'
 
       fill_in 'project[identifier]', with: 'foo-bar'
@@ -67,7 +67,7 @@ RSpec.describe 'Projects', 'editing settings', js: true do
 
       expect(page).to have_content 'Successful update.'
       expect(page)
-        .to have_current_path '/projects/foo-bar/settings/general'
+        .to have_current_path %r{/projects/foo-bar/settings/general}
       expect(Project.first.identifier).to eq 'foo-bar'
     end
 

@@ -30,6 +30,7 @@ module Redmine::MenuManager::MenuHelper
   include ::Redmine::MenuManager::TopMenuHelper
   include ::Redmine::MenuManager::WikiMenuHelper
   include AccessibilityHelper
+  include IconsHelper
 
   delegate :current_menu_item, to: :controller
 
@@ -267,12 +268,12 @@ module Redmine::MenuManager::MenuHelper
 
   def menu_node_options(node)
     {
-      class: node_or_children_selected?(node) ? 'open' : '',
+      class: node_or_children_selected?(node) ? 'open' : nil,
       data: {
         name: node.name,
         'menus--main-target': 'item'
       }
-    }
+    }.compact
   end
 
   # Returns a list of unattached children menu items
@@ -310,12 +311,12 @@ module Redmine::MenuManager::MenuHelper
       if node.partial
         render(partial: node.partial, locals: { name: node.name, parent_name: node.parent.name })
       else
-        render_wrapped_single_node(node, project)
+        render_single_menu_node(node, project)
       end
 
     content_tag('li',
                 content,
-                class: node.partial ? "partial" : '',
+                class: "#{node.partial ? 'partial ' : ''}main-menu-item",
                 data: { name: node.name })
   end
 
