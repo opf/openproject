@@ -80,7 +80,7 @@ nl:
       buttons:
         upgrade: "Nu upgraden"
         contact: "Neem contact met ons op voor een demo"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
+      enterprise_info_html: "is een Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Gelieve te upgraden naar een betaald abonnement om het te activeren en te beginnen met het gebruik ervan in uw team."
     journal_aggregation:
       explanation:
@@ -266,7 +266,7 @@ nl:
       notice_reset_token: "Een nieuwe %{type} -token is gegenereerd. Uw toegangstoken is:"
       token_value_warning: "Opmerking: Dit is de enige keer dat u dit token ziet, zorg ervoor dat u het nu kopiëren."
       no_results_title_text: Er zijn momenteel geen toegangstokens beschikbaar.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" voor kalender \"%{calendar_name}\" van project \"%{project_name}\" is ingetrokken. De iCalendar URL met deze token is nu ongeldig."
   news:
     index:
       no_results_title_text: Er is momenteel geen nieuws om te rapporteren.
@@ -336,7 +336,7 @@ nl:
   wiki:
     page_not_editable_index: De opgevraagde pagina bestaat (nog) niet. Je bent doorverwezen naar de index van alle wiki-pagina's.
     no_results_title_text: Er zijn momenteel geen wiki-pagina's.
-    print_hint: This will print the content of this wiki page without any navigation bars.
+    print_hint: Hiermee wordt de inhoud van deze wikipagina zonder navigatiebalk afgedrukt.
     index:
       no_results_content_text: Voeg een nieuwe wiki-pagina toe
   work_flows:
@@ -347,7 +347,7 @@ nl:
       one: 'Een nakomend werkpakket'
       other: '%{count} werk pakket afstammelingen'
     bulk:
-      copy_failed: "The work packages could not be copied."
+      copy_failed: "De werkpakketten konden niet gekopieerd worden."
       move_failed: "The work packages could not be moved."
       could_not_be_saved: "De volgende werkpakketten konden niet worden opgeslagen:"
       none_could_be_saved: "Geen van de %{total} werkpakketten konden worden bijgewerkt."

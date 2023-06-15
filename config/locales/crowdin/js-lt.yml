@@ -26,9 +26,9 @@ lt:
       loading: "Įkeliama…"
       updating: "Atnaujinama…"
     attachments:
-      delete: "Delete attachment"
+      delete: "Ištrinti priedą"
       delete_confirmation: |
-        Are you sure you want to delete this file? This action is not reversible.
+        Ar tikrai norite ištrinti šį failą? Šio veiksmo nebus galima atšaukti.
       draggable_hint: |
         Tempkite į redagavimo lauką, kad įtrauktumėte piešinį ar paminėtumėte priedą. Uždari redaktoriaus laukai bus atidaryti, kol jūs tempsite.
     autocomplete_select:
@@ -85,10 +85,10 @@ lt:
     button_open_fullscreen: "Atverti pilno ekrano vaizdą"
     button_show_cards: "Rodyti kortelių vaizdą"
     button_show_list: "Rodyti sąrašo vaizdą"
-    button_show_table: "Show table view"
-    button_show_gantt: "Show Gantt view"
-    button_show_fullscreen: "Show fullscreen view"
-    button_more_actions: "More actions"
+    button_show_table: "Rodyti lentelės vaizdą"
+    button_show_gantt: "Rodyti Gantt vaizdą"
+    button_show_fullscreen: "Rodyti pilno ekrano vaizdą"
+    button_more_actions: "Daugiau veiksmų"
     button_quote: "Cituoti"
     button_save: "Įrašyti"
     button_settings: "Nustatymai"
@@ -158,7 +158,7 @@ lt:
           language_hint: 'Įveskite formatavimo kalbą, kuri bus naudojama elementų išryškinimui (jei tai palaikoma).'
         dropdown:
           macros: 'Makrokomandos'
-          chose_macro: 'Choose macro'
+          chose_macro: 'Parinkite makrokomandą'
         toc: 'Turinys'
         toolbar_help: 'Spauskite, kad parinktumėte valdiklį ir rodytumėte įrankinę. Dvigubas paspaudimas valdiklio redagavimui'
         wiki_page_include:
@@ -212,7 +212,7 @@ lt:
             label_expires_at: "Nustoja galioti"
             receive_newsletter: Noriu gauti OpenProject <a target="_blank" href="%{link}">naujienlaiškį</a>.
             taken_domain: Gali būti tik vienas aktyvus bandomasis periodas domenui.
-            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
+            domain_mismatch: Dabartinės užklausos stoties pavadinimas neatitinka sukonfigūruoto stoties vardo. Prašome patikrinti jūsų sistemos nustatymus.
             taken_email: Kiekvienas naudotojas gali sukurti tik vieną bandomąjį periodą.
           email_not_received: "Negavote el. laiško? Galite pakartotinai išsiųsti laišką naudodami nuorodą dešinėje."
           try_another_email: "Arba bandykite su kitu el. pašto adresu."
@@ -228,7 +228,7 @@ lt:
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "Tapkite didvyriu!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} yra „Enterprise“ <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> priedas."
           upgrade_info: "Prašome atsinaujinti į mokamą planą, kad aktyvuotumėte ir pradėtumėte ji naudoti savo komandoje."
           benefits:
             description: "What are the benefits of the Enterprise on-premises edition?"
@@ -254,18 +254,18 @@ lt:
           you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
       working_days:
         calendar:
-          empty_state_header: "Non-working days"
-          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
-          new_date: '(new)'
-        add_non_working_day: "Non-working day"
-        already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
-        change_button: "Save and reschedule"
-        change_title: "Change working days"
-        removed_title: "You will remove the following days from the non-working days list:"
-        change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
+          empty_state_header: "Nedarbo dienos"
+          empty_state_description: 'Šiems metams nėra nurodytų konkrečių nedarbo dienų. Spauskite „+ Nedarbo dieną“ žemiau, kad pridėtumėte datą.'
+          new_date: '(nauja)'
+        add_non_working_day: "Nedarbo diena"
+        already_added_error: "Nedarbo diena šiai datai jau yra. Kiekvienai unikaliai datai galima sukurti tik vieną nedarbo dieną."
+        change_button: "Įrašyti ir perplanuoti"
+        change_title: "Keisti darbo dienas"
+        removed_title: "Jūs išimsite šias dienas iš nedarbo dienų sąrašo:"
+        change_description: "Keičiant savaitės dienas, kurios yra darbo ar nedarbo dienos, gali kisti visų projektų darbo paketų pradžios ir pabaigos dienos."
         warning: >
-          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
-          Are you sure you want to continue?
+          Pakeitimų įsigaliojimas gali užtrukti. Jums bus pranešta, kai visi susiję darbo paketai bus atnaujinti.
+          Ar tikrai norite tęsti?
     custom_actions:
       date:
         specific: 'įjungta'
@@ -316,19 +316,19 @@ lt:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+                Šioje laidoje yra įvairios naujos savybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Įkelkite ir susiekite failus iš darbo paketų į jūsų Nextcloud failų saugyklą.</li> <li>Nepraleiskite projekto pokyčių naudodami aktyvumo sekimą.</li> <li>Pridėkite bendras atostogas (nedarbo dienas).</li> <li>Projektus archyvuoti gali ir ne administratoriai.</li> <li>Naujas numatytasis filtras pavėluotiems darbo paketams.</li> </ul>
     ical_sharing_modal:
-      title: "Subscribe to iCalendar"
-      inital_setup_error_message: "An error occured while fetching data."
-      description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
-      warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
-      token_name_label: "Token name"
-      token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
-      token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
-      copy_url_label: "Copy URL"
-      ical_generation_error_text: "An error occured while generating the iCal URL."
-      copy_url_success_text: "URL copied to clipboard."
-      copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
+      title: "Prenumeruokite iCalendar"
+      inital_setup_error_message: "Gaunant duomenis įvyko klaida."
+      description: "Jūs galite naudoti iCalendar URL, kad importuotumėte ar prenumeruotumėte šį kalendorių išoriniame kliente ir matytumėte ten aktualią darbo paketo informaciją."
+      warning: "Prašome nesidalinti šiuo URL su išoriniais naudotojais. Bet kas su šia nuoroda galės peržiūrėti darbo paketo detales be paskyros ar slaptažodžio."
+      token_name_label: "Žetoon pavadinimas"
+      token_name_placeholder: "Įrašykite šio žetono pavadinimą, pvz. „Mano kalendoriaus aplikacija“"
+      token_name_description_text: "Šis pavadinimas bus naudojamas atskirti jį nuo kitų žetonų, esančių <a href=\"my/access_token\", target=\"_blank\">prieigos žetonų sąraše</a>. Jį galima panaudoti tik vieną kartą kalendoriuje."
+      copy_url_label: "Kopijuoti URL"
+      ical_generation_error_text: "Kuriant iCal URL įvyko klaida."
+      copy_url_success_text: "URL nukopijuotas į iškarpinę."
+      copy_url_error_text: "Dėl naršyklės klaidų, URL nepavyko nukopijuoti į iškarpinę. Prašome nukopijuoti rankiniu būdu: %{icalUrl}"
     label_activate: "Aktyvuoti"
     label_assignee: 'Paskirtas'
     label_add_column_after: "Pridėti stulpelį po"
@@ -340,7 +340,7 @@ lt:
     label_add_row_before: "Pridėti eilutę prieš"
     label_add_selected_columns: "Pridėti pažymėtus stulpelius"
     label_added_by: "pridėjo"
-    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
+    label_added_time_by: "Pridėjo <a href=\"%{authorLink}\">%{author}</a> %{age}"
     label_ago: "dienų prieš"
     label_all: "visi"
     label_all_work_packages: "visi darbų paketai"
@@ -420,7 +420,7 @@ lt:
     label_no_data: "Nėra rodytinų duomenų"
     label_no_due_date: "be pabaigos datos"
     label_no_start_date: "nėra pradžios datos"
-    label_no_date: "no date"
+    label_no_date: "nėra datos"
     label_no_value: "Nenurodytas dydis"
     label_none: "joks"
     label_not_contains: "neturi"
@@ -434,7 +434,7 @@ lt:
     label_per_page: "Puslapyje:"
     label_please_wait: "Prašome palaukti"
     label_project: "Projektas"
-    label_project_list: "Projects list"
+    label_project_list: "Projektų sąrašas"
     label_project_plural: "Projektai"
     label_visibility_settings: "Matomumo nustatymai"
     label_quote_comment: "Cituoti šį komentarą"
@@ -485,20 +485,20 @@ lt:
     label_watch_work_package: "Stebėti darbų paketą"
     label_watcher_added_successfully: "Stebėtojas sėkmingai pridėtas!"
     label_watcher_deleted_successfully: "Stebėtojas sėkmingai ištrintas!"
-    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_details_you_are_here: "Esate %{type} %{subject} %{tab} skirtuke."
     label_unwatch: "Nestebėti"
     label_unwatch_work_package: "Nebestebėti darbų paketo"
     label_uploaded_by: "Įkėlė"
     label_default_queries: "Numatytasis"
-    label_starred_queries: "Favorite"
+    label_starred_queries: "Mėgstamas"
     label_global_queries: "Viešas"
-    label_custom_queries: "Private"
+    label_custom_queries: "Privatus"
     label_columns: "Stulpeliai"
     label_attachments: Priedai
-    label_drop_files: "Drop files here to attach files."
-    label_drop_or_click_files: "Drop files here or click to attach files."
+    label_drop_files: "Numeskite failus čia, kad prisegtumėte."
+    label_drop_or_click_files: "Numeskite failus čia arba paspauskite, kad prisegtumėte."
     label_drop_folders_hint: Aplankų negalima įkelti kaip priedų. Prašome pasirinkti atskirus failus.
-    label_add_attachments: "Attach files"
+    label_add_attachments: "Pridėti failus"
     label_formattable_attachment_hint: "Prisegti ir susieti failus užvelkant ant šio laukelio arba įklijuojant į iškarpinę."
     label_remove_file: "Naikinti %{fileName}"
     label_remove_watcher: "Pašalinti stebėtoją %{name}"
@@ -561,7 +561,7 @@ lt:
       no_unread: "Nėra neperskaitytų pranešimų"
       reasons:
         mentioned: 'paminėtas'
-        watched: 'watcher'
+        watched: 'stebėtojas'
         assigned: 'paskirtas'
         responsible: 'atsakingas'
         created: 'created'
@@ -569,21 +569,21 @@ lt:
         commented: 'commented'
         processed: 'processed'
         prioritized: 'prioritized'
-        dateAlert: 'Date alert'
+        dateAlert: 'Datos įspėjimas'
       date_alerts:
-        milestone_date: 'Milestone date'
-        overdue: 'Overdue'
-        overdue_since: 'since %{difference_in_days}'
-        property_today: 'is today'
-        property_is: 'is in %{difference_in_days}'
-        property_was: 'was %{difference_in_days} ago'
-        property_is_deleted: 'is deleted'
+        milestone_date: 'Gairės data'
+        overdue: 'Vėluojama'
+        overdue_since: 'nuo %{difference_in_days}'
+        property_today: 'yra šiandien'
+        property_is: 'yra %{difference_in_days}'
+        property_was: 'buvo prieš %{difference_in_days}'
+        property_is_deleted: 'yra ištrintas'
         upsale:
-          title: 'Date alerts'
-          description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
+          title: 'Datos įspėjimai'
+          description: 'Su datos įspėjimais jus informuos apie ateinančias pradžios ir pabaigos datas, kad niekada nepraleistumėte ar nepamirštumėte svarbių terminų.'
       facets:
         unread: 'Neskaitytas'
-        unread_title: 'Show unread'
+        unread_title: 'Rodyti neperskaitytus'
         all: 'Visi'
         all_title: 'Rodyti viską'
       center:
@@ -594,16 +594,16 @@ lt:
           many: 'ir dar %{count}'
           other: 'ir dar %{count}'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you.'
+          at_all: 'Čia pasirodys nauji pranešimai, kai bus su jumis susijusi veikla.'
           with_current_filter: 'Šiuo metu šiame vaizde pranešimų nėra'
         mark_all_read: 'Pažymėti visus kaip perskaitytus'
         mark_as_read: 'Žymėti kaip skaitytą'
         text_update_date: "%{date} "
         total_count_warning: "Rodomi %{newest_count} paskutiniai pranešimai. Dar %{more_count} yra nerodomi."
         empty_state:
-          no_notification: "Looks like you are all caught up."
-          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
+          no_notification: "Panašu, kad jūs pilnai pasivijote."
+          no_notification_with_current_project_filter: "Panašu, kad jūs jau pilnai pasivijote pažymėtą projektą."
+          no_notification_with_current_filter: "Panašu, kad jūs jau pilnai pasivijote filtrą %{filter}."
           no_selection: "Spauskite ant pranešimo, kad peržiūrėtumėte visas veiksmo detales."
         new_notifications:
           message: 'Yra naujų pranešimų.'
@@ -611,27 +611,27 @@ lt:
       menu:
         accountable: 'Atsakingas'
         by_project: 'Neperskaityti pagal projektą'
-        by_reason: 'Reason'
+        by_reason: 'Priežastis'
         inbox: 'Gauti'
         mentioned: 'Paminėtas'
         watched: 'Stebėtojas'
-        date_alert: 'Date alert'
+        date_alert: 'Datos įspėjimas'
       settings:
-        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
+        change_notification_settings: 'Jūs galite keisti savo <a target="_blank" href="%{url}">pranešimų nustatymus</a>, kad užtikrintumėte, jog niekada nepraleisite svarbaus atnaujinimo.'
         title: "Pranešimų nustatymai"
         notify_me: "Pranešti man"
         reminders:
-          no_notification: No notification
+          no_notification: Jokio pranešimo
           timeframes:
             normal:
-              PT0S: same day
-              P1D: 1 day before
-              P3D: 3 days before
-              P7D: a week before
+              PT0S: tą pačią dieną
+              P1D: prieš 1 dieną
+              P3D: prieš 3 dienas
+              P7D: prieš savaitą
             overdue:
-              P1D: every day
-              P3D: every 3 days
-              P7D: every week
+              P1D: kiekvieną dieną
+              P3D: kas 3 dienas
+              P7D: kiekvieną savaitę
         reasons:
           mentioned:
             title: 'Paminėtas'
@@ -646,16 +646,16 @@ lt:
           work_package_scheduled: 'Visi datų pakeitimai'
         global:
           immediately:
-            title: 'Participating'
+            title: 'Dalyvaujate'
             description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
           delayed:
-            title: 'Non-participating'
+            title: 'Nedalyvaujate'
             description: 'Additional notifications for activities in all projects.'
           date_alerts:
-            title: 'Date alerts'
+            title: 'Datos įspėjimai'
             description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
-            teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
-          overdue: When overdue
+            teaser_text: 'Su datos įspėjimais jus informuos apie ateinančias pradžios ir pabaigos datas, kad niekada nepraleistumėte ar nepamirštumėte svarbių terminų.'
+          overdue: Kai pavėluota
         project_specific:
           title: 'Konkrečių projektų pranešimų nustatymai'
           description: 'These project-specific settings override default settings above.'
@@ -674,14 +674,14 @@ lt:
       default: '-'
       subject: 'Įveskite temą čia'
       selection: 'Prašome pasirinkti'
-      description: 'Description: Click to edit...'
+      description: 'Aprašymas: spauskite, kad keistumėte...'
       relation_description: 'Paspauskite, kad pridėtumėte šio ryšio aprašymą'
     project:
       required_outside_context: >
         Prašau pasirinkti projektą, kuriame turi būti sukurtas darbo paketas, kad matytumėte visus atributus. Jūs galite pasirinkti tik tuos projektus, kurie turi aukščiau nurodytą tipą.
-      details_activity: 'Project details activity'
+      details_activity: 'Projekto detalių aktyvumas'
       context: 'Projekto kontekstas'
-      click_to_switch_to_project: 'Project: %{projectname}'
+      click_to_switch_to_project: 'Projektas: %{projectname}'
       confirm_template_load: 'Šablono pakeitimas perkraus puslapį ir jūs prarasite visą šioje formoje įvestą informaciją. Tęsti?'
       use_template: "Naudoti šabloną"
       no_template_selected: "(Nėra)"
@@ -877,7 +877,7 @@ lt:
       zooms: "Didinimo lygis"
       outlines: "Hierarchinis lygmuo"
     upsale:
-      ee_only: 'Enterprise edition add-on'
+      ee_only: '„Enterprise“ versijos priedas'
     wiki_formatting:
       strong: "Paryškintas"
       italic: "Pasvirasis"
