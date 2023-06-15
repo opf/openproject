@@ -72,14 +72,12 @@ This means that if you want to switch from (e.g.) OpenProject 11.x to 12.x, you 
 
 The necessary steps are the same as setting up the package source for the first time. You can also check the [installation guide](../../installation/packaged) for more information. Please follow the link below to see the appropriate steps for your Linux distribution.
 
-| Distribution (64 bits only)                 |
-| ------------------------------------------- |
+| Distribution (64 bits only)                                             |
+|-------------------------------------------------------------------------|
 | [Ubuntu 20.04 Focal](../../installation/packaged/#ubuntu-2004)          |
 | [Ubuntu 18.04 Bionic Beaver](../../installation/packaged/#ubuntu-1804)  |
-| [Ubuntu 16.04 Xenial Xerus](../../installation/packaged/#ubuntu-1604)   |
 | [Debian 11 Bullseye](../../installation/packaged/#debian-11)            |
 | [Debian 10 Buster](../../installation/packaged/#debian-10)              |
-| [Debian 9 Stretch](../../installation/packaged/#debian-9)               |
 | [CentOS/RHEL 8.x](../../installation/packaged/#centos-8--rhel-8)        |
 | [CentOS/RHEL 7.x](../../installation/packaged/#centos-7--rhel-7)        |
 | [Suse Linux Enterprise Server 12](../../installation/packaged/#sles-12) |
