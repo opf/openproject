@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1.4
 FROM ruby:3.2.1-buster as gems
 
 ENV BUNDLER_VERSION="2.4.7"
@@ -53,16 +54,21 @@ WORKDIR $APP_PATH
 
 RUN mkdir -p /cache && chown $APP_USER:$APP_USER /cache
 
-USER $APP_USER
+COPY --from=gems /usr/local/bundle /usr/local/bundle
+COPY --from=nodejs /usr/local/bin/node /usr/local/bin/node
+COPY --from=nodejs /usr/local/lib/node_modules /usr/local/lib/node_modules
+COPY --from=nodejs /usr/local/include/node /usr/local/include/node
+RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
-COPY ./docker/ci/entrypoint.sh /usr/sbin/entrypoint.sh
-COPY --from=gems --chown=$APP_USER:$APP_USER /usr/local/bundle /usr/local/bundle
-COPY --from=nodejs --chown=$APP_USER:$APP_USER /app/node_modules ./node_modules
-COPY --from=nodejs --chown=$APP_USER:$APP_USER /app/frontend/node_modules ./frontend/node_modules
+COPY --from=nodejs /app/node_modules ./node_modules
+COPY --from=nodejs /app/frontend/node_modules ./frontend/node_modules
 COPY --chown=$APP_USER:$APP_USER . .
 
 ENV DATABASE_URL="postgres://appuser:p4ssw0rd@127.0.0.1/appdb"
 ENV BUNDLE_WITHOUT="development:production:docker"
 
+COPY ./docker/ci/entrypoint.sh /usr/sbin/entrypoint.sh
+
+USER $APP_USER
 ENTRYPOINT [ "/usr/sbin/entrypoint.sh" ]
 CMD ["setup-tests", "bash"]
