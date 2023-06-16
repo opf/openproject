@@ -209,8 +209,12 @@ module Pages
         TextEditorField.new container, key
       # The AbstractWorkPackageCreate pages do not require a special WorkPackageStatusField,
       # because the status field on the create pages is a simple EditField.
-      when :status && !is_a?(AbstractWorkPackageCreate)
-        WorkPackageStatusField.new container
+      when :status
+        if is_a?(AbstractWorkPackageCreate)
+          EditField.new container, key
+        else
+          WorkPackageStatusField.new container
+        end
       else
         EditField.new container, key
       end
