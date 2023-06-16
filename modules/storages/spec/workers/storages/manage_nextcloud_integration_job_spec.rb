@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe ManageNextcloudIntegrationJob, type: :job, webmock: true do
+RSpec.describe Storages::ManageNextcloudIntegrationJob, type: :job, webmock: true do
   # rubocop:disable RSpec/IndexedLet
   let(:group_users_response_body) do
     <<~XML
@@ -44,6 +44,7 @@ RSpec.describe ManageNextcloudIntegrationJob, type: :job, webmock: true do
         <data>
           <users>
             <element>Darth Maul</element>
+            <element>OpenProject</element>
           </users>
         </data>
       </ocs>
@@ -151,7 +152,7 @@ RSpec.describe ManageNextcloudIntegrationJob, type: :job, webmock: true do
         xmlns:oc="http://owncloud.org/ns"
         xmlns:nc="http://nextcloud.org/ns">
         <d:response>
-          <d:href>/remote.php/dav/files/OpenProject/OpenProject/%5bSample%5d%20Project%20Name%20%7c%20Ehuu(#{project1.id})/</d:href>
+          <d:href>/remote.php/dav/files/OpenProject/OpenProject/%5bSample%5d%20Project%20Name%20%7c%20Ehuu%20(#{project1.id})/</d:href>
           <d:propstat>
             <d:prop>
               <oc:fileid>819</oc:fileid>
@@ -350,40 +351,44 @@ RSpec.describe ManageNextcloudIntegrationJob, type: :job, webmock: true do
           'OCS-APIRequest' => 'true'
         }
       ).to_return(status: 200, body: group_users_response_body, headers: {})
-    request_stubs << stub_request(:proppatch, "https://example.com/remote.php/dav/files/OpenProject/OpenProject")
-      .with(
-        body: set_permissions_request_body1,
-        headers: {
-          'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
-        }
-      )
-      .to_return(status: 207, body: set_permissions_response_body1, headers: {})
-    request_stubs << stub_request(:propfind, "https://example.com/remote.php/dav/files/OpenProject/OpenProject")
-      .with(
-        body: propfind_request_body,
-        headers: {
-          'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=',
-          'Depth' => '1'
-        }
-      )
-      .to_return(status: 207, body: propfind_response_body1, headers: {})
+    request_stubs << stub_request(
+      :proppatch,
+      "https://example.com/remote.php/dav/files/OpenProject/OpenProject"
+    ).with(
+      body: set_permissions_request_body1,
+      headers: {
+        'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
+      }
+    ).to_return(status: 207, body: set_permissions_response_body1, headers: {})
+    request_stubs << stub_request(
+      :propfind,
+      "https://example.com/remote.php/dav/files/OpenProject/OpenProject"
+    ).with(
+      body: propfind_request_body,
+      headers: {
+        'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=',
+        'Depth' => '1'
+      }
+    ).to_return(status: 207, body: propfind_response_body1, headers: {})
     request_stubs << stub_request(
       :mkcol,
-      "https://example.com/remote.php/dav/files/OpenProject/OpenProject/%5BSample%5D%20Project%20Name%20%7C%20Ehuu(#{project1.id})"
+      "https://example.com/remote.php/dav/files/OpenProject/OpenProject/%5BSample%5D%20Project%20Name%20%7C%20Ehuu%20(#{project1.id})"
     ).with(
       headers: {
         'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
       }
     ).to_return(status: 201, body: "", headers: {})
-    request_stubs << stub_request(:propfind, "https://example.com/remote.php/dav/files/OpenProject/OpenProject/%5BSample%5D%20Project%20Name%20%7C%20Ehuu(#{project1.id})")
-      .with(
-        body: propfind_request_body,
-        headers: {
-          'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=',
-          'Depth' => '0'
-        }
-      )
-      .to_return(status: 207, body: propfind_response_body2, headers: {})
+    request_stubs << stub_request(
+      :propfind,
+      "https://example.com/remote.php/dav/files/OpenProject/OpenProject/" \
+      "%5BSample%5D%20Project%20Name%20%7C%20Ehuu%20(#{project1.id})"
+    ).with(
+      body: propfind_request_body,
+      headers: {
+        'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=',
+        'Depth' => '0'
+      }
+    ).to_return(status: 207, body: propfind_response_body2, headers: {})
     request_stubs << stub_request(:post, "https://example.com/ocs/v1.php/cloud/users/Obi-Wan/groups")
       .with(
         body: "groupid=OpenProject",
@@ -392,58 +397,65 @@ RSpec.describe ManageNextcloudIntegrationJob, type: :job, webmock: true do
           'Ocs-Apirequest' => 'true'
         }
       ).to_return(status: 200, body: add_user_to_group_response_body, headers: {})
-    request_stubs << stub_request(:proppatch, "https://example.com/remote.php/dav/files/OpenProject/OpenProject/%5BSample%5D%20Project%20Name%20%7C%20Ehuu(#{project1.id})")
-      .with(
-        body: set_permissions_request_body2,
-        headers: {
-          'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
-        }
-      )
-      .to_return(status: 207, body: set_permissions_response_body2, headers: {})
-    request_stubs << stub_request(:move, "https://example.com/remote.php/dav/files/OpenProject/OpenProject/Lost%20Jedi%20Project%20Folder%20%233")
-      .with(
-        headers: {
-          'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=',
-          'Destination' => "/remote.php/dav/files/OpenProject/OpenProject/Jedi%20Project%20Folder%20%7C%7C%7C%28#{project2.id}%29"
-        }
-      )
-      .to_return(status: 201, body: "", headers: {})
-    request_stubs << stub_request(:proppatch, "https://example.com/remote.php/dav/files/OpenProject/OpenProject/Jedi%20Project%20Folder%20%7C%7C%7C%28#{project2.id}%29")
-      .with(
-        body: set_permissions_request_body2,
-        headers: {
-          'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
-        }
-      )
-      .to_return(status: 207, body: set_permissions_response_body4, headers: {})
+    request_stubs << stub_request(
+      :proppatch,
+      "https://example.com/remote.php/dav/files/OpenProject/OpenProject/" \
+      "%5BSample%5D%20Project%20Name%20%7C%20Ehuu%20(#{project1.id})"
+    ).with(
+      body: set_permissions_request_body2,
+      headers: {
+        'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
+      }
+    ).to_return(status: 207, body: set_permissions_response_body2, headers: {})
+    request_stubs << stub_request(
+      :move,
+      "https://example.com/remote.php/dav/files/OpenProject/OpenProject/" \
+      "Lost%20Jedi%20Project%20Folder%20%233"
+    ).with(
+      headers: {
+        'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=',
+        'Destination' => "/remote.php/dav/files/OpenProject/OpenProject/" \
+                         "Jedi%20Project%20Folder%20%7C%7C%7C%20%28#{project2.id}%29"
+      }
+    ).to_return(status: 201, body: "", headers: {})
+    request_stubs << stub_request(
+      :proppatch,
+      "https://example.com/remote.php/dav/files/OpenProject/OpenProject/" \
+      "Jedi%20Project%20Folder%20%7C%7C%7C%20%28#{project2.id}%29"
+    ).with(
+      body: set_permissions_request_body2,
+      headers: {
+        'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
+      }
+    ).to_return(status: 207, body: set_permissions_response_body4, headers: {})
     request_stubs << stub_request(:delete, "https://example.com/ocs/v1.php/cloud/users/Darth%20Maul/groups?groupid=OpenProject")
       .with(
         headers: {
           'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=',
           'Ocs-Apirequest' => 'true'
         }
-      )
-      .to_return(status: 200, body: remove_user_from_group_response, headers: {})
-    request_stubs << stub_request(:proppatch, "https://example.com/remote.php/dav/files/OpenProject/OpenProject/Lost%20Jedi%20Project%20Folder%20%232")
-      .with(
-        body: set_permissions_request_body3,
-        headers: {
-          'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
-        }
-      )
-      .to_return(status: 207, body: set_permissions_response_body3, headers: {})
+      ).to_return(status: 200, body: remove_user_from_group_response, headers: {})
+    request_stubs << stub_request(
+      :proppatch,
+      "https://example.com/remote.php/dav/files/OpenProject/OpenProject/" \
+      "Lost%20Jedi%20Project%20Folder%20%232"
+    ).with(
+      body: set_permissions_request_body3,
+      headers: {
+        'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
+      }
+    ).to_return(status: 207, body: set_permissions_response_body3, headers: {})
 
     expect(projects_storage1.project_folder_id).to be_nil
     expect(projects_storage2.project_folder_id).to eq('123')
 
     described_class.new.perform
 
+    expect(request_stubs).to all have_been_requested
     projects_storage1.reload
     projects_storage2.reload
     expect(projects_storage1.project_folder_id).to eq('819')
     expect(projects_storage2.project_folder_id).to eq('123')
-
-    expect(request_stubs).to all have_been_requested
   end
   # rubocop:enable RSpec/ExampleLength
 end
