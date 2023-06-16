@@ -1352,6 +1352,9 @@ eo:
       pdf_report: "PDF Report"
     image:
       omitted: "Bildo ne eksportita."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdfaltekto disponebla (nedeviga)"

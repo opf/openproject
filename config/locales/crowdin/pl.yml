@@ -1387,6 +1387,9 @@ pl:
       pdf_report: "PDF Report"
     image:
       omitted: "Nie wyeksportowano obrazu"
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Dostępny konwerter Pdftotext (opcjonalny)"

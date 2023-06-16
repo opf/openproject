@@ -72,7 +72,7 @@ lt:
       replace_token: "Pakeisti savo esamą paramos raktą"
       order: "Order Enterprise on-premises edition"
       paste: "Paste your Enterprise edition support token"
-      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
+      required_for_feature: "Šis priedas galimas tik su aktyviu Enterprise versijos palaikymo žetonu."
       enterprise_link: "Norėdami gauti daugiau informacijos, spustelėkite čia."
       start_trial: 'Pradėti bandomąjį laikotarpį'
       book_now: 'Užsakyti dabar'
@@ -98,7 +98,7 @@ lt:
     add_new: 'Pridėti pagalbos tekstą'
     edit: "Redaguoti pagalbos tekstą atributui: %{attribute_caption}"
     enterprise:
-      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
+      description: 'Teikia papildomą informaciją apie darbo paketų ir projektų atributus (įskaitant savus laukus).'
   auth_sources:
     index:
       no_results_content_title: Šiuo metu nėra jokių autentifikacijos būdų.
@@ -136,7 +136,7 @@ lt:
         Jei pažymėsite šį lauką, OpenProject automatiškai sukurs naujus naudotojus pagal LDAP informaciją, kai tik šie naudotojai pirmą kartą prisijungs prie OpenProject.
         Nežymėkite šio lauko, jei norite, kad tik jau sukurti naudotojai galėtų prisijungti pasinaudodami LDAP!
     connection_encryption: 'Jungties šifravimas'
-    encryption_details: 'LDAPS / STARTTLS options'
+    encryption_details: 'LDAPS / STARTTLS parinktys'
     system_account: 'Sistemos paskyra'
     system_account_legend: |
       OpenProject reikia tik-skaitymui skirto sisteminio naudotojo kitų naudotojų ir grupių patikrinimui jūsų LDAP medyje.
@@ -149,16 +149,16 @@ lt:
       plain: 'joks'
       simple_tls: 'LDAPS'
       start_tls: 'STARTTLS'
-      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
-      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
-      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
+      plain_description: "Atidaro nešifruotą jungtį su LDAP serveriu. Nerekomenduojama gamybai."
+      simple_tls_description: "Naudoti LDAPS. Reikalauja atskiro prievado LDAP serveryje. Šis režimas dažnai būna nebegaliojantis, mes rekomenduojame kai tik galima, naudoti STARTTLS."
+      start_tls_description: "Siunčia STARTTLS komandą po prisijungimo prie standartinio LDAP prievado. Rekonenduojama šifruotoms jungtims."
       section_more_info_link_html: >
         Ši skiltis apie šio LDAP autentifikacijos šaltinio jungties saugumą. Daugiau informacijos rasite <a href="%{link}">Net::LDAP dokumentacijoje</a>.
     tls_options:
-      verify_peer: "Verify SSL certificate"
+      verify_peer: "Tikrinti SSL sertifikatą"
       verify_peer_description_html: >
-        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
-      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
+        Įjungia griežtą SSL sertifikatų pasitikėjimo grandinių tikrinimą. <br/> <strong>Įspėjimas:</strong> išjungus šią parinktį išjungiamas LDAP serverio sertifikato SSL tikrinimas. Tai padaro jūsų jungtis pažeidžiamomis Žmogaus per vidurį atakoms.
+      tls_certificate_description: "Jei LDAP serverio sertifikatas neįtrauktas į šios sistemos pasitikimuosius, jūs galite jį pridėti rankiniu būdu čia. Įveskite PEM X509 sertifikato eilutę."
   forums:
     show:
       no_results_title_text: Šiuo metu forume nėra įrašų.
@@ -229,7 +229,7 @@ lt:
       failed_text: "Projekto %{name} užsakytas naikinimas nepavyko. Projektas liko suarchyvuotas."
       completed: "Projekto %{name} naikinimas baigtas"
       completed_text: "Prašymas naikinti projektą „%{name}“ buvo užbaigtas."
-      completed_text_children: "Additionally, the following subprojects have been deleted:"
+      completed_text_children: "Papildomai buvo ištrinti ir šie subprojektai:"
     index:
       open_as_gantt: 'Atidaryti kaip Gantt diagramą'
       open_as_gantt_title: "Naudokite šį mygtuką visų šiame puslapyje matomų projektų darbo užduočių Gantt'o diagramai sugeneruoti."
@@ -1387,6 +1387,9 @@ lt:
       pdf_report: "PDF ataskaita"
     image:
       omitted: "Paveiksliukas neeksportuotas."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdf-į-tekstą pasiekiamas (pasirinktinai)"

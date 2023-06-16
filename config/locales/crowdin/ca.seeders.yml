@@ -122,7 +122,7 @@ ca:
         item_6:
           name: Error
       welcome:
-        title: Welcome to OpenProject!
+        title: Benvingut a OpenProject!
         text: |
           Select one of the demo projects to get started with some demo data we have prepared for you.
 
@@ -136,39 +136,39 @@ ca:
           You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
-          name: Demo project
+          name: Projecte demo
           status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
           description: This is a short summary of the goals of this demo project.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Benvingut al teu projecte demo
               summary: |
                 We are glad you joined.
                 In this module you can communicate project news to your team members.
-              description: The actual news
+              description: Les notícies actuals
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Categoria 1 (per ser canviat en la configuració del projecte)
           queries:
             item_0:
-              name: Project plan
+              name: Pla de projecte
             item_1:
-              name: Milestones
+              name: Fita
             item_2:
-              name: Tasks
+              name: Tasca
             item_3:
               name: Planificador d'equips
           boards:
             kanban:
-              name: Kanban board
+              name: Tauler Kanban
             basic:
               name: Taulell bàsic
               lists:
                 item_0:
-                  name: Wish list
+                  name: Llista de desitjos
                 item_1:
-                  name: Short list
+                  name: Llista curta
                 item_2:
-                  name: Priority list for today
+                  name: Llista de prioritats per avui
                 item_3:
                   name: Mai
             parent_child:
@@ -177,7 +177,7 @@ ca:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Benvingut
               item_1:
                 options:
                   name: Primers passos
@@ -202,10 +202,10 @@ ca:
                   name: Paquets de treball
               item_6:
                 options:
-                  name: Milestones
+                  name: Fites
           work_packages:
             item_0:
-              subject: Start of project
+              subject: Inici del projecte
             item_1:
               subject: Organize open source conference
               children:
@@ -223,7 +223,7 @@ ca:
                 item_2:
                   subject: Setup conference website
             item_2:
-              subject: Conference
+              subject: Conferència
             item_3:
               subject: Follow-up tasks
               children:
@@ -237,20 +237,20 @@ ca:
                     *   [ ] Music
                     *   [ ] Even more beer
             item_4:
-              subject: End of project
+              subject: Final del projecte
         scrum-project:
-          name: Scrum project
+          name: Projecte Scrum
           status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
           description: This is a short summary of the goals of this demo Scrum project.
           news:
             item_0:
-              title: Welcome to your Scrum demo project
+              title: Benvingut al teu projecte Scrum demo
               summary: |
                 We are glad you joined.
                 In this module you can communicate project news to your team members.
           versions:
             item_0:
-              name: Bug Backlog
+              name: Backlog d'errors
             item_1:
               name: Product Backlog
             item_2:
@@ -334,7 +334,7 @@ ca:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Benvingut
               item_1:
                 options:
                   name: Primers passos
@@ -360,14 +360,14 @@ ca:
                   name: Paquets de treball
               item_6:
                 options:
-                  name: Project plan
+                  name: Pla de projecte
           work_packages:
             item_0:
-              subject: New login screen
+              subject: Nou inici de sessió
             item_1:
               subject: Password reset does not send email
             item_2:
-              subject: New website
+              subject: Nova web
               children:
                 item_0:
                   subject: Newsletter registration form
@@ -388,7 +388,7 @@ ca:
             item_5:
               subject: Wrong hover color
             item_6:
-              subject: SSL certificate
+              subject: Certificat SSL
             item_7:
               subject: Set-up Staging environment
             item_8:
@@ -401,17 +401,17 @@ ca:
             item_10:
               subject: Internal link structure
             item_11:
-              subject: Develop v1.0
+              subject: Desenvolupament v1.0
             item_12:
-              subject: Release v1.0
+              subject: Llançament v1.0
             item_13:
-              subject: Develop v1.1
+              subject: Desenvolupament v1.1
             item_14:
-              subject: Release v1.1
+              subject: Llançament v1.1
             item_15:
-              subject: Develop v2.0
+              subject: Desenvolupament v2.0
             item_16:
-              subject: Release v2.0
+              subject: Llançament v2.0
           wiki: |
             ### Sprint planning meeting
 

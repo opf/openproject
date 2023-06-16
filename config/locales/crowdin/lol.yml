@@ -1334,6 +1334,9 @@ lol:
       pdf_report: "crwdns854713:0crwdne854713:0"
     image:
       omitted: "crwdns496723:0crwdne496723:0"
+    units:
+      hours: crwdns855361:0crwdne855361:0
+      days: crwdns855363:0crwdne855363:0
   extraction:
     available:
       pdftotext: "crwdns496725:0crwdne496725:0"

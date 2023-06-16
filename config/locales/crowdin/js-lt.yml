@@ -906,14 +906,14 @@ lt:
       comment_updated: "Komentaras sėkmingai atnaujintas."
       confirm_edit_cancel: "Ar Jūs tikrai norite atšaukti darbo paketo redagavimą?"
       datepicker_modal:
-        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
-        manually_scheduled: "Manual scheduling enabled, all relations ignored."
-        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
-        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
-        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
-        show_relations: 'Show relations'
+        automatically_scheduled_parent: "Suplanuota automatiškai. Datos paskaičiuotos pagal ryšius."
+        manually_scheduled: "Įjungtas rankinis planavimas, visi ryšiai ignoruojami."
+        start_date_limited_by_relations: "Galimos pradžios ir pabaigos datos ribojamos pagal ryšius."
+        changing_dates_affects_follow_relations: "Šių datų keitimas įtakos susijusių darbo paketų datas."
+        click_on_show_relations_to_open_gantt: 'Spauskite „%{button_name}“ GANTT vaizdui.'
+        show_relations: 'Rodyti ryšius'
         ignore_non_working_days:
-          title: 'Working days only'
+          title: 'Tik darbo dienos'
       description_filter: "Filtras"
       description_enter_text: "Įveskite tekstą"
       description_options_hide: "Slėpti parinktis"

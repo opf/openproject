@@ -1352,6 +1352,9 @@
       pdf_report: "PDF Report"
     image:
       omitted: "Bilde ikke eksportert."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext tilgjengelig (valgfritt)"

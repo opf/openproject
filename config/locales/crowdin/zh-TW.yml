@@ -1333,6 +1333,9 @@ zh-TW:
       pdf_report: "PDF Report"
     image:
       omitted: "影像沒有匯出。"
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext 可用 (非必要)"

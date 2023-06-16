@@ -1348,6 +1348,9 @@ el:
       pdf_report: "PDF Report"
     image:
       omitted: "Η εικόνα δεν εξήχθη."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Το Pdftotext είναι διαθέσιμο (προαιρετικό)"

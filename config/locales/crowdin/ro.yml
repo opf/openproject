@@ -1371,6 +1371,9 @@ ro:
       pdf_report: "PDF Report"
     image:
       omitted: "Imaginea nu a fost exportată."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext disponibil (opțional)"

@@ -1329,6 +1329,9 @@ ja:
       pdf_report: "PDF Report"
     image:
       omitted: "画像はエクスポートされませんでした。"
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotextが利用可能 (オプション)"

@@ -1332,6 +1332,9 @@ ko:
       pdf_report: "PDF Report"
     image:
       omitted: "이미지를 내보내지 못했습니다."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext 사용 가능(선택적)"

@@ -1349,6 +1349,9 @@ it:
       pdf_report: "Rapporto PDF"
     image:
       omitted: "Immagine non esportata."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdfatesto disponibile (opzionale)"

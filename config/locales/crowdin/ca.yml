@@ -1348,6 +1348,9 @@ ca:
       pdf_report: "PDF - Report"
     image:
       omitted: "Imatge no exportada."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext disponible (opcional)"

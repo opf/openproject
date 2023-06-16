@@ -1349,6 +1349,9 @@ nl:
       pdf_report: "PDF Report"
     image:
       omitted: "Afbeelding niet geëxporteerd."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext beschikbaar (optioneel)"

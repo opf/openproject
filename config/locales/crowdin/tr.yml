@@ -1351,6 +1351,9 @@ tr:
       pdf_report: "PDF Report"
     image:
       omitted: "Görüntü dışa aktarılmadı."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext kullanılabilir (isteğe bağlı)"

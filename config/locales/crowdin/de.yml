@@ -1347,6 +1347,9 @@ de:
       pdf_report: "PDF Report"
     image:
       omitted: "Bild nicht exportiert."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext verfügbar (optional)"

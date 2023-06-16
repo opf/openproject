@@ -1335,6 +1335,9 @@ vi:
       pdf_report: "PDF Report"
     image:
       omitted: "Hình ảnh không được xuất"
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext có sẵn (không bắt buộc)"

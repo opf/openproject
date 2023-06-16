@@ -1352,6 +1352,9 @@ ne:
       pdf_report: "PDF Report"
     image:
       omitted: "छवि निर्यात गरिएको छैन।"
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext available (optional)"

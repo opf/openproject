@@ -1350,6 +1350,9 @@ hi:
       pdf_report: "PDF Report"
     image:
       omitted: "Image not exported."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext उपलब्ध (वैकल्पिक)"

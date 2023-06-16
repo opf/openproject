@@ -1352,6 +1352,9 @@ si:
       pdf_report: "PDF Report"
     image:
       omitted: "රූපය අපනයනය කර නැත."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "ලබා ගත හැකි PDftotext (විකල්ප)"

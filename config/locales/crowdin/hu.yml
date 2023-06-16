@@ -1349,6 +1349,9 @@ hu:
       pdf_report: "PDF Report"
     image:
       omitted: "Kép nem került exportálásra."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext elérhető (opcionális)"

@@ -1390,6 +1390,9 @@ cs:
       pdf_report: "PDF Report"
     image:
       omitted: "Obrázek nebyl exportován."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext k dispozici (volitelné)"

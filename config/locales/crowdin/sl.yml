@@ -1387,6 +1387,9 @@ sl:
       pdf_report: "PDF Report"
     image:
       omitted: "Slika ni izvožena."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Na voljo je pdftotekst (neobvezno)"

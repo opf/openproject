@@ -318,16 +318,16 @@ ca:
               new_features_html: >
                 Aquesta versió inclou noves funcionalitats i millores: <br><ul class="%{list_styling_class}"><li>Càrrega i enllaç de fitxers des dels paquets de treball al teu emmagatzematge de fitxers Nextcloud.</li> <li>Segueix els canvis en projectes en el seguiment d'activitat de projecte.</li> <li>Afegeix dies no laborables per a tothom a la teva instància.</li> <li>Arxiva projectes encara que no siguis un administrador.</li> <li>Nou filtre per defecte per a paquets de treball vençuts.</li> </ul>
     ical_sharing_modal:
-      title: "Subscribe to iCalendar"
-      inital_setup_error_message: "An error occured while fetching data."
+      title: "Subscripció via iCalendar"
+      inital_setup_error_message: "S'ha produït un error en carregar les dades."
       description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
       warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
-      token_name_label: "Token name"
+      token_name_label: "Nom del token"
       token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
       token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
-      copy_url_label: "Copy URL"
-      ical_generation_error_text: "An error occured while generating the iCal URL."
-      copy_url_success_text: "URL copied to clipboard."
+      copy_url_label: "Copia l'URL"
+      ical_generation_error_text: "S'ha produït un error en generar l'URL del iCal."
+      copy_url_success_text: "L'URL s'ha copiat al porta-retalls."
       copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
     label_activate: "Activar"
     label_assignee: 'Assignat a'
@@ -340,7 +340,7 @@ ca:
     label_add_row_before: "Afegir una fila abans"
     label_add_selected_columns: "Afegir columnes seleccionades"
     label_added_by: "afegit per"
-    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
+    label_added_time_by: "Afegit per <a href=%{authorLink}>%{author}</a> el %{age}"
     label_ago: "dies abans"
     label_all: "tot"
     label_all_work_packages: "tots els paquets de treball"
@@ -679,7 +679,7 @@ ca:
         Si us plau, selecciona un projecte on crear el paquet de treball per a veure tots els atributs. Només pots seleccionar projectes que tinguin activat la classe indicada anteriorment.
       details_activity: 'Detalls de l''activitat del projecte'
       context: 'Context del projecte'
-      click_to_switch_to_project: 'Project: %{projectname}'
+      click_to_switch_to_project: 'Projecte: %{projectname}'
       confirm_template_load: 'Canviar la plantilla tornarà a carregar la pàgina i perdràs totes les dades del formulari. Continuar?'
       use_template: "Utilitzar plantilla"
       no_template_selected: "(Cap)"
@@ -932,7 +932,7 @@ ca:
       message_work_package_status_blocked: "L'estat del paquet de treball no permet l'escriptura perquè el seu estat i versió estan tancats."
       placeholder_filter_by_text: "Assumpte, descripció, comentaris, ..."
       baseline:
-        addition_label: 'Added to view within the comparison time period'
+        addition_label: 'Afegit a la vista en el temps de la comparació'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
         column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
@@ -1100,7 +1100,7 @@ ca:
         save_as: "Desa com a"
         export: "Exporta"
         visibility_settings: "Configuració de visibilitat"
-        share_calendar: "Subscribe to iCalendar"
+        share_calendar: "Subscripció via iCalendar"
         page_settings: "Reanomena la vista"
         delete: "Elimina"
       filter: "Filtre"
@@ -1270,36 +1270,36 @@ ca:
         does_not_match_search: 'El projecte no coincideix amb la cerca.'
       no_results: 'Cap projecte s''ajusta a la teva cerca.'
     baseline:
-      toggle_title: 'Baseline'
+      toggle_title: 'Base de referència'
       clear: 'Esborra'
       apply: 'Aplica'
       header_description: 'Highlight changes made to this list since any point in the past.'
       enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
-      show_changes_since: 'Show changes since'
-      baseline_comparison: 'Baseline comparison'
-      help_description: 'Reference time zone for the baseline.'
-      time_description: 'In your local time: %{datetime}'
+      show_changes_since: 'Mostra canvis des de'
+      baseline_comparison: 'Comparació en base de referència'
+      help_description: 'Zona de temporal de referència per aquesta base de referència.'
+      time_description: 'En el temps local: %{datetime}'
       time: 'Hora'
       from: 'Des de'
       to: 'Fins'
       drop_down:
         none: '-'
         yesterday: 'ahir'
-        last_working_day: 'last working day'
+        last_working_day: 'últim dia laboral'
         last_week: 'la setmana passada'
         last_month: 'el mes passat'
-        a_specific_date: 'a specific date'
-        between_two_specific_dates: 'between two specific dates'
+        a_specific_date: 'data específica'
+        between_two_specific_dates: 'entre dues dates específiques'
       legends:
-        changes_since: 'Changes since'
-        now_meets_filter_criteria: 'Now meets filter criteria'
-        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
-        maintained_with_changes: 'Maintained with changes'
-        in_your_timezone: 'In your local timezone:'
+        changes_since: 'Canvis des de'
+        now_meets_filter_criteria: 'Ara compleix els criteris del filtre'
+        no_longer_meets_filter_criteria: 'Ja no compleix els criteris del filtre'
+        maintained_with_changes: 'Mantingut amb canvis'
+        in_your_timezone: 'En la teva zona horària:'
       icon_tooltip:
         added: 'Added to view within the comparison time period'
         removed: 'Removed from view within the comparison time period'
-        changed: 'Maintained with modifications'
+        changed: 'Mantingut amb canvis'
     forms:
       submit_success_message: 'El formulari s''ha sotmès correctament'
       load_error_message: 'S''ha produït un error en carregar el formulari'

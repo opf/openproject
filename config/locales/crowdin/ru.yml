@@ -1389,6 +1389,9 @@ ru:
       pdf_report: "PDF отчёт"
     image:
       omitted: "Изображение не экспортировано."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext доступно (опционально)"
