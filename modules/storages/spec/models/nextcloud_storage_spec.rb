@@ -29,26 +29,61 @@
 require_relative '../spec_helper'
 
 RSpec.describe Storages::NextcloudStorage do
-  describe '#automatically_managed=' do
-    let(:storage) { build(:storage) }
+  let(:storage) { build(:storage) }
 
-    %w[1 true].each do |bool|
-      context "with truthy value #{bool}" do
-        it "sets the value to true" do
-          storage.automatically_managed = bool
-          expect(storage).to be_automatically_managed
+  shared_examples 'a stored attribute with default value' do |attribute, default_value|
+    it "has a default value of #{default_value}" do
+      expect(storage.public_send(attribute)).to eq(default_value)
+    end
+
+    context "with a value of 'foo'" do
+      it "sets the value to 'foo'" do
+        storage.public_send("#{attribute}=", 'foo')
+        expect(storage.public_send(attribute)).to eq('foo')
+      end
+    end
+  end
+
+  shared_examples 'a stored boolean attribute' do |attribute|
+    it "#{attribute} has a default value of false" do
+      expect(storage.public_send(:"#{attribute}?")).to be(false)
+    end
+
+    ['1', 'true', true].each do |boolean_like|
+      context "with truthy value #{boolean_like}" do
+        it "sets #{attribute} to true" do
+          storage.public_send(:"#{attribute}=", boolean_like)
+          expect(storage.public_send(attribute)).to be(true)
         end
       end
     end
 
-    %w[0 false].each do |bool|
-      context "with falsy value #{bool}" do
-        it "sets the value to false" do
-          storage.automatically_managed = bool
-          expect(storage).not_to be_automatically_managed
-        end
-      end
+    it "#{attribute} can be set to true" do
+      storage.public_send(:"#{attribute}=", true)
+
+      expect(storage.public_send(attribute)).to be(true)
+      expect(storage.public_send(:"#{attribute}?")).to be(true)
     end
+  end
+
+  describe '#username' do
+    it_behaves_like 'a stored attribute with default value', :username, 'OpenProject'
+  end
+
+  describe '#group' do
+    it_behaves_like 'a stored attribute with default value', :group, 'OpenProject'
+  end
+
+  describe '#group_folder' do
+    it_behaves_like 'a stored attribute with default value', :group_folder, 'OpenProject'
+  end
+
+  describe '#automatically_managed?' do
+    it_behaves_like 'a stored boolean attribute', :automatically_managed
+  end
+
+  describe '#has_managed_project_folders?' do
+    it_behaves_like 'a stored boolean attribute', :has_managed_project_folders
   end
 
   describe '#automatic_management_unspecified?' do

@@ -32,46 +32,16 @@ class Storages::NextcloudStorage < Storages::Storage
     username: 'OpenProject'
   }.freeze
 
-  store_accessor :provider_fields,
-                 :automatically_managed,
-                 :username,
-                 :password,
-                 :group,
-                 :group_folder,
-                 :has_managed_project_folders
-
-  # Cast `automatically_managed` provider_field to a primitive boolean value.
-  def automatically_managed=(maybe_boolean)
-    super(ActiveRecord::Type::Boolean.new.cast(maybe_boolean))
-  end
-
-  alias automatically_managed? automatically_managed
+  store_attribute :provider_fields, :automatically_managed, :boolean
+  store_attribute :provider_fields, :username, :string, default: PROVIDER_FIELDS_DEFAULTS[:username]
+  store_attribute :provider_fields, :password, :string
+  store_attribute :provider_fields, :has_managed_project_folders, :boolean
+  store_attribute :provider_fields, :group, :string, default: PROVIDER_FIELDS_DEFAULTS[:username]
+  store_attribute :provider_fields, :group_folder, :string, default: PROVIDER_FIELDS_DEFAULTS[:username]
 
   def automatic_management_unspecified?
     automatically_managed.nil?
   end
-
-  def group
-    super || PROVIDER_FIELDS_DEFAULTS[:username]
-  end
-
-  def group_folder
-    super || PROVIDER_FIELDS_DEFAULTS[:username]
-  end
-
-  def username
-    super || PROVIDER_FIELDS_DEFAULTS[:username]
-  end
-
-  def has_managed_project_folders=(value)
-    super(!!value)
-  end
-
-  def has_managed_project_folders # rubocop:disable Naming/PredicateName
-    !!super
-  end
-
-  alias has_managed_project_folders? has_managed_project_folders
 
   def provider_fields_defaults
     PROVIDER_FIELDS_DEFAULTS

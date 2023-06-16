@@ -202,6 +202,9 @@ gem 'mini_magick', '~> 4.12.0', require: false
 
 gem 'validate_url'
 
+# ActiveRecord extension which adds typecasting to store accessors
+gem "store_attribute", "~> 1.0"
+
 # Appsignal integration
 gem "appsignal", "~> 3.0", require: false
 
