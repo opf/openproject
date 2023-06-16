@@ -97,6 +97,17 @@ if [ "$1" == "run-features" ]; then
 	cleanup
 fi
 
+if [ "$1" == "run-all" ]; then
+	shift
+	reset_dbs
+	execute_quiet "time bundle exec rails assets:precompile webdrivers:chromedriver:update webdrivers:geckodriver:update"
+	execute_quiet "cp -f /cache/turbo_runtime_all.log spec/support/ || true"
+	execute_quiet "cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json"
+	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/turbo_runtime_all.log spec"
+	execute_quiet "cp -f spec/support/turbo_runtime_all.log /cache/ || true"
+	cleanup
+fi
+
 if [ ! -z "$1" ] ; then
 	exec "$@"
 fi

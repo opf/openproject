@@ -44,18 +44,19 @@ jobs:
           ${{ runner.os }}-ci-cache-tests-all-${{ github.ref }}-
           ${{ runner.os }}-ci-cache-tests-all-
     - name: build
-      run: |
-        sudo mkdir -p /tmp/cache && sudo chown -R $(whoami):$(id -ng) $CI_CACHE_PATH
-        docker-compose -f docker-compose.ci.yml build --pull ci
+      run: docker-compose -f docker-compose.ci.yml build --pull ci
     - name: tests
-      run: docker-compose -f docker-compose.ci.yml run ci setup-tests run-units run-features
+      run: |
+        sudo mkdir -p /tmp/cache && sudo chown -R 1000:1000 $CI_CACHE_PATH
+        ls -lrt $CI_CACHE_PATH/op-cache/ || true
+        docker-compose -f docker-compose.ci.yml run ci setup-tests run-units run-features
     - name: cleanup
       if: ${{ always() }}
       run: |
         docker-compose -f docker-compose.ci.yml down --remove-orphans -t 10
-        sudo chown -R $(whoami):$(id -ng) $CI_CACHE_PATH
+        sudo chown -R $(id -u):$(id -g) $CI_CACHE_PATH
         ls -lrt spec/support/turbo*
-        ls -lrt $CI_CACHE_PATH/op-cache/
+        ls -lrt $CI_CACHE_PATH/op-cache/ || true
   api-spec:
     name: APIv3 specification (OpenAPI 3.0)
     if: github.repository == 'opf/openproject'
