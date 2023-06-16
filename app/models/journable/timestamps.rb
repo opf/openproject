@@ -84,7 +84,7 @@ module Journable::Timestamps
     end
   end
 
-  # Instantiates a journable with historic data from the given timestap.
+  # Instantiates a journable with historic data from the given timestamp.
   #
   #     WorkPackage.find(1).at_timestamp(1.year.ago)
   #

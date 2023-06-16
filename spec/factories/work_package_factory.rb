@@ -31,6 +31,7 @@ FactoryBot.define do
     transient do
       custom_values { nil }
       days { WorkPackages::Shared::Days.for(self) }
+      journals { nil }
     end
 
     priority
@@ -88,6 +89,27 @@ FactoryBot.define do
     callback(:after_stub) do |wp, evaluator|
       unless wp.type_id || evaluator.overrides?(:type) || wp.project.nil?
         wp.type = wp.project.types.first
+      end
+    end
+
+    callback(:after_create) do |work_package, evaluator|
+      if evaluator.journals.present?
+        work_package.journals.destroy_all
+
+        evaluator.journals.each do |timestamp, attributes|
+          work_package_attributes = work_package.attributes.except("id")
+          journal_attributes = work_package_attributes \
+          .extract!(*Journal::WorkPackageJournal.attribute_names) \
+          .symbolize_keys.merge(attributes)
+          create(:work_package_journal,
+                 journable: work_package,
+                 created_at: timestamp,
+                 updated_at: timestamp,
+                 data: build(:journal_work_package_journal, journal_attributes))
+        end
+
+        work_package.update_columns(created_at: work_package.journals.minimum(:created_at),
+                                    updated_at: work_package.journals.maximum(:updated_at))
       end
     end
   end
