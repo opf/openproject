@@ -1304,28 +1304,14 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         let(:baseline_time) { Time.zone.parse("2022-01-01") }
         let(:work_pacakges) { WorkPackage.where(id: work_package.id) }
         let(:work_package) do
-          new_work_package = create(:work_package,
-                                    subject: "The current work package",
-                                    assigned_to: current_user,
-                                    project:)
-          new_work_package.update_columns created_at: baseline_time - 1.day
-          new_work_package
-        end
-        let(:original_journal) do
-          create_journal(journable: work_package, timestamp: baseline_time - 1.day,
-                         version: 1,
-                         attributes: {
-                           subject: "The original work package",
-                           assigned_to: current_user
-                         })
-        end
-        let(:current_journal) do
-          create_journal(journable: work_package, timestamp: 1.day.ago,
-                         version: 2,
-                         attributes: {
-                           subject: "The current work package",
-                           assigned_to: current_user
-                         })
+          create(:work_package,
+                 subject: "The current work package",
+                 assigned_to: current_user,
+                 project:,
+                 journals: {
+                   baseline_time - 1.day => { subject: "The original work package" },
+                   1.day.ago => {}
+                 })
         end
         let(:project) { create(:project) }
 
@@ -1337,16 +1323,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
                  member_with_permissions: %i[view_work_packages view_file_links])
         end
 
-        def create_journal(journable:, version:, timestamp:, attributes: {})
-          work_package_attributes = work_package.attributes.except("id")
-          journal_attributes = work_package_attributes \
-              .extract!(*Journal::WorkPackageJournal.attribute_names) \
-              .symbolize_keys.merge(attributes)
-          create(:work_package_journal, version:,
-                                        journable:, created_at: timestamp, updated_at: timestamp,
-                                        data: build(:journal_work_package_journal, journal_attributes))
-        end
-
         before do
           # Usually the eager loading wrapper is mocked
           # in spec/support/api/v3/work_packages/work_package_representer_eager_loading.rb.
@@ -1355,12 +1331,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           allow(API::V3::WorkPackages::WorkPackageEagerLoadingWrapper)
             .to receive(:wrap_one)
             .and_call_original
-
-          WorkPackage.destroy_all
-          work_package
-          Journal.destroy_all
-          original_journal
-          current_journal
         end
 
         describe 'attributesByTimestamp' do

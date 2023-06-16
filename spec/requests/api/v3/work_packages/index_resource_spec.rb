@@ -250,44 +250,19 @@ RSpec.describe 'API v3 Work package resource',
       let(:baseline_time) { timestamps.first.to_time }
       let(:created_at) { baseline_time - 1.day }
 
-      let(:work_package) do
+      let!(:work_package) do
         create(:work_package,
-               :created_in_past,
                created_at:,
                subject: "The current work package",
                assigned_to: current_user,
-               project:)
+               project:,
+               journals: {
+                 created_at => { subject: "The original work package" },
+                 1.day.ago => {}
+               })
       end
-      let(:original_journal) do
-        create_journal(journable: work_package, timestamp: created_at,
-                       version: 1,
-                       attributes: { subject: "The original work package",
-                                     assigned_to: current_user,
-                                     project: })
-      end
-      let(:current_journal) do
-        create_journal(journable: work_package, timestamp: 1.day.ago,
-                       version: 2,
-                       attributes: { subject: "The current work package",
-                                     assigned_to: current_user,
-                                     project: })
-      end
-
-      def create_journal(journable:, version:, timestamp:, attributes: {})
-        work_package_attributes = work_package.attributes.except("id")
-        journal_attributes = work_package_attributes \
-            .extract!(*Journal::WorkPackageJournal.attribute_names) \
-            .symbolize_keys.merge(attributes)
-        create(:work_package_journal, version:,
-                                      journable:, created_at: timestamp, updated_at: timestamp,
-                                      data: build(:journal_work_package_journal, journal_attributes))
-      end
-
-      before do
-        work_package.journals.destroy_all
-        original_journal
-        current_journal
-      end
+      let(:original_journal) { work_package.journals.first }
+      let(:current_journal) { work_package.journals.last }
 
       it 'succeeds' do
         expect(subject.status).to be 200
@@ -937,23 +912,17 @@ RSpec.describe 'API v3 Work package resource',
         let(:original_date) { Date.current }
         let(:current_date) { Date.current + 1.day }
 
-        let(:work_package) do
-          new_work_package = create(:work_package, due_date: current_date, start_date: current_date, project:, type:)
-          new_work_package.update_columns(created_at:)
-          new_work_package
-        end
-
-        let(:original_journal) do
-          create_journal(journable: work_package,
-                         timestamp: created_at,
-                         version: 1,
-                         attributes: { due_date: original_date, start_date: original_date, duration: 1 })
-        end
-        let(:current_journal) do
-          create_journal(journable: work_package,
-                         timestamp: 1.day.ago,
-                         version: 2,
-                         attributes: { due_date: current_date, start_date: current_date, duration: 1 })
+        let!(:work_package) do
+          create(:work_package,
+                 due_date: current_date,
+                 start_date: current_date,
+                 duration: 1,
+                 project:,
+                 type:,
+                 journals: {
+                   created_at => { due_date: original_date, start_date: original_date },
+                   1.day.ago => {}
+                 })
         end
 
         it 'displays the original date in the attributesByTimestamp' do

@@ -37,51 +37,28 @@ RSpec.describe Journable::WithHistoricAttributes,
 
   shared_let(:project) { create(:project) }
   shared_let(:work_package1) do
-    new_work_package = create(:work_package,
-                              subject: "The current work package 1",
-                              project:)
-    new_work_package.update_columns(created_at:)
-    new_work_package
+    create(:work_package,
+           subject: "The current work package 1",
+           project:,
+           journals: {
+             created_at => { subject: "The original work package 1" },
+             1.day.ago => {}
+           })
   end
-  shared_let(:original_journal_wp1) do
-    work_package1.journals.destroy_all
-    create_journal(journable: work_package1,
-                   timestamp: created_at,
-                   version: 1,
-                   attributes: { subject: "The original work package 1", project: })
-  end
-  shared_let(:current_journal_wp1) do
-    create_journal(journable: work_package1,
-                   timestamp: 1.day.ago,
-                   version: 2,
-                   attributes: { subject: "The current work package 1", project: })
-  end
-
   shared_let(:work_package2) do
-    new_work_package = create(:work_package,
-                              project:,
-                              subject: "The current work package 2",
-                              start_date: created_at - 3.days)
-    new_work_package.update_columns(created_at:)
-    new_work_package
+    create(:work_package,
+           subject: "The current work package 2",
+           project:,
+           start_date: created_at - 3.days,
+           journals: {
+             created_at => { subject: "The original work package 2", start_date: created_at - 5.days },
+             1.day.ago => {}
+           })
   end
-  shared_let(:original_journal_wp2) do
-    work_package2.journals.destroy_all
-    create_journal(journable: work_package2,
-                   timestamp: created_at,
-                   version: 1,
-                   attributes: { start_date: created_at - 5.days,
-                                 subject: "The original work package 2",
-                                 project: })
-  end
-  shared_let(:current_journal_wp2) do
-    create_journal(journable: work_package2,
-                   timestamp: 1.day.ago,
-                   version: 2,
-                   attributes: { start_date: created_at - 3.days,
-                                 subject: "The current work package 2",
-                                 project: })
-  end
+  shared_let(:original_journal_wp1) { work_package1.journals.first }
+  shared_let(:current_journal_wp1) { work_package1.last_journal }
+  shared_let(:original_journal_wp2) { work_package2.journals.first }
+  shared_let(:current_journal_wp2) { work_package2.last_journal }
 
   let(:user1) do
     create(:user,
@@ -102,22 +79,6 @@ RSpec.describe Journable::WithHistoricAttributes,
   let(:include_only_changed_attributes) { nil }
 
   current_user { user1 }
-
-  def create_journal(journable:, version:, timestamp:, attributes: {})
-    work_package_attributes = journable.attributes.except("id")
-
-    journal_attributes = work_package_attributes
-        .extract!(*Journal::WorkPackageJournal.attribute_names)
-        .symbolize_keys
-        .merge(attributes)
-
-    create(:work_package_journal,
-           version:,
-           journable:,
-           created_at: timestamp,
-           updated_at: timestamp,
-           data: build(:journal_work_package_journal, journal_attributes))
-  end
 
   subject { described_class.wrap(work_packages, timestamps:, query:, include_only_changed_attributes:) }
 

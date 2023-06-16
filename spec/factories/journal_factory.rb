@@ -30,6 +30,7 @@ FactoryBot.define do
   factory :journal do
     user factory: :user
     created_at { Time.zone.now }
+    updated_at { created_at }
     validity_period { created_at..Float::INFINITY }
     sequence(:version, 1)
 

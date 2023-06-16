@@ -96,17 +96,27 @@ FactoryBot.define do
       if evaluator.journals.present?
         work_package.journals.destroy_all
 
-        evaluator.journals.each do |timestamp, attributes|
+        evaluator.journals.each_with_index do |(timestamp, attributes), version|
           work_package_attributes = work_package.attributes.except("id")
-          journal_attributes = work_package_attributes \
-          .extract!(*Journal::WorkPackageJournal.attribute_names) \
-          .symbolize_keys.merge(attributes)
+
+          journal_attributes = attributes
+                                 .extract!(*Journal.attribute_names.map(&:to_sym) + %i[user])
+                                 .reverse_merge(journable: work_package,
+                                                created_at: timestamp,
+                                                updated_at: timestamp,
+                                                version: version + 1)
+
+          data_attributes = work_package_attributes
+                              .extract!(*Journal::WorkPackageJournal.attribute_names)
+                              .symbolize_keys
+                              .merge(attributes)
+
           create(:work_package_journal,
-                 journable: work_package,
-                 created_at: timestamp,
-                 updated_at: timestamp,
-                 data: build(:journal_work_package_journal, journal_attributes))
+                 **journal_attributes,
+                 data: build(:journal_work_package_journal, data_attributes))
         end
+
+        work_package.journals.reload
 
         work_package.update_columns(created_at: work_package.journals.minimum(:created_at),
                                     updated_at: work_package.journals.maximum(:updated_at))

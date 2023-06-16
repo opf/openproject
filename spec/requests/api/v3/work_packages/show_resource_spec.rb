@@ -224,39 +224,16 @@ RSpec.describe 'API v3 Work package resource',
         let(:created_at) { baseline_time - 1.day }
 
         let(:work_package) do
-          new_work_package = create(:work_package, subject: "The current work package", project:)
-          new_work_package.update_columns(created_at:)
-          new_work_package
+          create(:work_package,
+                 subject: "The current work package",
+                 project:,
+                 journals: {
+                   created_at => { subject: "The original work package" },
+                   1.day.ago => {}
+                 })
         end
-        let(:original_journal) do
-          create_journal(journable: work_package,
-                         timestamp: created_at,
-                         version: 1,
-                         attributes: { subject: "The original work package" })
-        end
-        let(:current_journal) do
-          create_journal(journable: work_package,
-                         timestamp: 1.day.ago,
-                         version: 2,
-                         attributes: { subject: "The current work package" })
-        end
-
-        def create_journal(journable:, version:, timestamp:, attributes: {})
-          work_package_attributes = work_package.attributes.except("id")
-          journal_attributes = work_package_attributes \
-              .extract!(*Journal::WorkPackageJournal.attribute_names) \
-              .symbolize_keys.merge(attributes)
-          create(:work_package_journal, version:,
-                                        journable:, created_at: timestamp, updated_at: timestamp,
-                                        data: build(:journal_work_package_journal, journal_attributes))
-        end
-
-        before do
-          work_package
-          Journal.destroy_all
-          original_journal
-          current_journal
-        end
+        let(:original_journal) { work_package.journals.first }
+        let(:current_journal) { work_package.journals.last }
 
         it 'responds with 200' do
           expect(subject && last_response.status).to eq(200)
