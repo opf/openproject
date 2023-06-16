@@ -90,6 +90,13 @@ class EditField
     autocomplete_selector.click
   end
 
+  def set_select_field_value(value)
+    retry_block do
+      openSelectField
+      set_value value
+    end
+  end
+
   def expect_state!(open:)
     if open
       expect_active!
