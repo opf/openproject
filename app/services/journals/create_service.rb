@@ -149,6 +149,9 @@ module Journals
     #
     # If a journal is created, all entries in the custom_values table associated to the journable are recreated as entries
     # in the customizable_journals table. Again, newlines are normalized.
+    #
+    # In case of no aggregation, the preceding journal will have its validity_range updated to be the created_at time of the newly
+    # inserted journal. Such a journal can then be considered closed.
     def create_journal_sql(predecessor, notes, cause)
       <<~SQL
         WITH cleanup_predecessor_data AS (
@@ -168,6 +171,8 @@ module Journals
           #{insert_data_sql(predecessor, notes, cause)}
         ), inserted_journal AS (
           #{update_or_insert_journal_sql(predecessor, notes, cause)}
+        ), update_predecessor AS (
+          #{update_predecessor_sql(predecessor, notes, cause)}
         ), insert_attachable AS (
           #{insert_attachable_sql}
         ), insert_customizable AS (
@@ -263,7 +268,8 @@ module Journals
             updated_at,
             data_id,
             data_type,
-            cause
+            cause,
+            validity_period
           )
         SELECT
           :journable_id,
@@ -275,7 +281,8 @@ module Journals
           #{journal_timestamp_sql(notes, ':updated_at')},
           insert_data.id,
           :data_type,
-          :cause
+          :cause,
+          tstzrange(#{journal_timestamp_sql(notes, ':created_at')}, NULL)
         FROM max_journals, insert_data
         RETURNING *
       SQL
@@ -292,12 +299,6 @@ module Journals
     end
 
     def insert_data_sql(predecessor, notes, cause)
-      condition = if notes.blank? && cause.blank? && predecessor.nil?
-                    "AND EXISTS (SELECT * FROM changes)"
-                  else
-                    ""
-                  end
-
       data_sql = <<~SQL
         INSERT INTO
           #{data_table_name} (
@@ -309,7 +310,7 @@ module Journals
         #{journable_data_sql_addition}
         WHERE
           #{journable_table_name}.id = :journable_id
-          #{condition}
+          #{only_on_changed_or_forced_condition_sql(predecessor, notes, cause)}
         RETURNING *
       SQL
 
@@ -371,6 +372,25 @@ module Journals
                journable_class_name:)
     end
 
+    # Sets the validity_period's upper boundary of the preceding journal to the created_at timestamp of the inserted journal.
+    # If there is a predecessor (meaning we are aggregating/updating an existing journal), nothing is done.
+    def update_predecessor_sql(predecessor, notes, cause)
+      return "SELECT 1" if predecessor.present?
+
+      update_sql = <<~SQL
+        UPDATE
+          journals
+        SET
+          validity_period = tstzrange(journals.created_at, :created_at)
+        WHERE
+          id = (SELECT id from max_journals)
+          #{only_on_changed_or_forced_condition_sql(predecessor, notes, cause)}
+      SQL
+
+      sanitize(update_sql,
+               created_at: journable_timestamp)
+    end
+
     def select_max_journal_sql(predecessor)
       sql = <<~SQL
         SELECT
@@ -384,9 +404,9 @@ module Journals
         RIGHT OUTER JOIN
           (SELECT 0 AS version) fallback
         ON
-           journals.journable_id = :journable_id
-           AND journals.journable_type = :journable_type
-           AND journals.version IN (#{max_journal_sql(predecessor)})
+          journals.journable_id = :journable_id
+          AND journals.journable_type = :journable_type
+          AND journals.version IN (#{max_journal_sql(predecessor)})
       SQL
 
       sanitize(sql,
@@ -535,6 +555,14 @@ module Journals
       end
 
       data_changes.join(' OR ')
+    end
+
+    def only_on_changed_or_forced_condition_sql(predecessor, notes, cause)
+      if notes.blank? && cause.blank? && predecessor.nil?
+        "AND EXISTS (SELECT * FROM changes)"
+      else
+        ""
+      end
     end
 
     def data_sink_columns

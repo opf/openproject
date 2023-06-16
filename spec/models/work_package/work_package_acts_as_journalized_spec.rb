@@ -79,11 +79,13 @@ RSpec.describe WorkPackage do
       end
 
       it 'has the timestamp of the work package update time for created_at' do
-        # This seemingly unnecessary reload leads to the updated_at having the same
-        # precision as the created_at of the Journal. It is database dependent, so it would work without
-        # reload on PG 12 but does not work on PG 9.
         expect(work_package.last_journal.created_at)
           .to eql(work_package.reload.updated_at)
+      end
+
+      it 'has the updated_at of the work package as the lower bound for validity_period and no upper bound' do
+        expect(work_package.last_journal.validity_period)
+          .to eql(work_package.reload.updated_at...Float::INFINITY)
       end
     end
 
@@ -148,7 +150,7 @@ RSpec.describe WorkPackage do
       end
     end
 
-    describe 'on work package change', with_settings: { journal_aggregation_time_minutes: 0 } do
+    describe 'on work package change without aggregation', with_settings: { journal_aggregation_time_minutes: 0 } do
       let(:parent_work_package) do
         create(:work_package,
                project_id: project.id,
@@ -274,11 +276,19 @@ RSpec.describe WorkPackage do
       end
 
       it 'has the timestamp of the work package update time for created_at' do
-        # This seemingly unnecessary reload leads to the updated_at having the same
-        # precision as the created_at of the Journal. It is database dependent, so it would work without
-        # reload on PG 12 but does not work on PG 9.
         expect(work_package.last_journal.created_at)
           .to eql(work_package.reload.updated_at)
+      end
+
+      it 'has the updated_at of the work package as the lower bound for validity_period and no upper bound' do
+        expect(work_package.last_journal.validity_period)
+          .to eql(work_package.reload.updated_at...Float::INFINITY)
+      end
+
+      it 'sets the upper bound of the preceeding journal to be the created_at time of the newly created journal' do
+        former_last_journal = work_package.journals[-2]
+        expect(former_last_journal.validity_period)
+          .to eql(former_last_journal.created_at...work_package.last_journal.created_at)
       end
     end
 
@@ -369,6 +379,13 @@ RSpec.describe WorkPackage do
         end
 
         it { expect { work_package.save! }.not_to change(Journal, :count) }
+
+        it 'does not set an upper bound to the already existing journal' do
+          work_package.save
+
+          expect(work_package.last_journal.validity_period.last)
+            .to eql(Float::INFINITY)
+        end
       end
 
       context 'when custom value removed' do
@@ -549,7 +566,7 @@ RSpec.describe WorkPackage do
     context 'when updated within aggregation time' do
       subject(:journals) { work_package.journals }
 
-      let(:current_user) { user1 }
+      current_user { user1 }
 
       let(:notes) { nil }
       let(:user1) { create(:user) }
@@ -676,6 +693,11 @@ RSpec.describe WorkPackage do
             end
           end
         end
+
+        it 'has the journal\'s creation time as the lower and no upper bound for validity_period' do
+          expect(work_package.last_journal.validity_period)
+            .to eql(work_package.last_journal.created_at...Float::INFINITY)
+        end
       end
 
       context 'with a different author' do
@@ -683,14 +705,32 @@ RSpec.describe WorkPackage do
 
         it 'leads to two journals' do
           expect(subject.count).to be 2
+        end
+
+        it 'has the initial user as the author of the first journal' do
           expect(subject.first.user)
             .to eql current_user
+        end
 
+        it 'has the second user as he author of the second journal' do
           expect(subject.second.user)
             .to eql new_author
+        end
 
+        it 'has the changes (compared to the initial state) in the second journal' do
           expect(subject.second.get_changes)
             .to eql("status_id" => [status.id, new_status.id])
+        end
+
+        it 'has the first journal\'s creation time as the lower and the second journal\'s creation time ' \
+           'as the upper bound for validity_period of the first journal' do
+          expect(subject.first.validity_period)
+            .to eql(subject.first.created_at...subject.second.created_at)
+        end
+
+        it 'has the second journal\'s creation time as the lower and no upper bound for validity_period of the second journal' do
+          expect(subject.second.validity_period)
+            .to eql(subject.second.created_at...Float::INFINITY)
         end
       end
     end
@@ -708,6 +748,17 @@ RSpec.describe WorkPackage do
 
       it 'creates a new journal' do
         expect(journals.count).to be 2
+      end
+
+      it 'has the first journal\'s creation time as the lower and the second journal\'s creation time ' \
+         'as the upper bound for validity_period of the first journal' do
+        expect(subject.first.validity_period)
+          .to eql(subject.first.created_at...subject.second.created_at)
+      end
+
+      it 'has the second journal\'s creation time as the lower and no upper bound for validity_period of the second journal' do
+        expect(subject.second.validity_period)
+          .to eql(subject.second.created_at...Float::INFINITY)
       end
     end
 

@@ -59,6 +59,18 @@ FactoryBot.define do
       type factory: :type_milestone
     end
 
+    # Using this trait, the work package and its journal will appear to have been created
+    # in the past (at the time of the created_at attribute).
+    trait :created_in_past do
+      updated_at { created_at }
+
+      callback(:after_create) do |work_package|
+        work_package.journals.first.update_columns(created_at: work_package.created_at,
+                                                   updated_at: work_package.created_at,
+                                                   validity_period: work_package.created_at..Float::INFINITY)
+      end
+    end
+
     callback(:after_build) do |work_package, evaluator|
       work_package.type = work_package.project.types.first unless work_package.type
 

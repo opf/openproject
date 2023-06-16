@@ -27,7 +27,7 @@
 #++
 
 RSpec.shared_examples_for 'GET individual query' do
-  let(:work_package) { create(:work_package, project:) }
+  let(:work_package) { create(:work_package, :created_in_past, project:, created_at: 1.minute.ago) }
   let(:filter) { [] }
   let(:path) do
     if filter.any?

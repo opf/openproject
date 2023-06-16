@@ -229,12 +229,14 @@ RSpec.describe 'API v3 Work package resource',
           new_work_package
         end
         let(:original_journal) do
-          create_journal(journable: work_package, timestamp: created_at,
+          create_journal(journable: work_package,
+                         timestamp: created_at,
                          version: 1,
                          attributes: { subject: "The original work package" })
         end
         let(:current_journal) do
-          create_journal(journable: work_package, timestamp: 1.day.ago,
+          create_journal(journable: work_package,
+                         timestamp: 1.day.ago,
                          version: 2,
                          attributes: { subject: "The current work package" })
         end
@@ -371,7 +373,7 @@ RSpec.describe 'API v3 Work package resource',
 
           context "with relative timestamps" do
             let(:timestamps) { [Timestamp.parse("P-2D"), Timestamp.now] }
-            let(:created_at) { '2015-01-01' }
+            let(:created_at) { Date.parse('2015-01-01') }
 
             describe "attributesByTimestamp" do
               it "does not cache the self link" do
@@ -457,7 +459,7 @@ RSpec.describe 'API v3 Work package resource',
 
             context "with relative timestamps" do
               let(:timestamps) { [Timestamp.parse("oneDayAgo@00:00+00:00"), Timestamp.now] }
-              let(:created_at) { '2015-01-01' }
+              let(:created_at) { Date.parse('2015-01-01') }
 
               describe "attributesByTimestamp" do
                 it "does not cache the self link" do

@@ -251,12 +251,12 @@ RSpec.describe 'API v3 Work package resource',
       let(:created_at) { baseline_time - 1.day }
 
       let(:work_package) do
-        new_work_package = create(:work_package,
-                                  subject: "The current work package",
-                                  assigned_to: current_user,
-                                  project:)
-        new_work_package.update_columns(created_at:)
-        new_work_package
+        create(:work_package,
+               :created_in_past,
+               created_at:,
+               subject: "The current work package",
+               assigned_to: current_user,
+               project:)
       end
       let(:original_journal) do
         create_journal(journable: work_package, timestamp: created_at,
@@ -900,10 +900,7 @@ RSpec.describe 'API v3 Work package resource',
 
       describe "for multiple work packages" do
         let!(:work_package2) do
-          new_work_package = create(:work_package, subject: "Other work package", project:)
-          new_work_package.update_columns(created_at:)
-          new_work_package.journals.update_all(created_at:)
-          new_work_package
+          create(:work_package, :created_in_past, created_at:, subject: "Other work package", project:)
         end
 
         it "succeeds" do
@@ -1073,7 +1070,7 @@ RSpec.describe 'API v3 Work package resource',
       context "with caching" do
         context "with relative timestamps" do
           let(:timestamps) { [Timestamp.parse("P-2D"), Timestamp.now] }
-          let(:created_at) { '2015-01-01' }
+          let(:created_at) { Date.parse('2015-01-01') }
 
           describe "when the filter becomes outdated" do
             # The work package has been updated 1 day ago, which is after the baseline
@@ -1124,7 +1121,7 @@ RSpec.describe 'API v3 Work package resource',
 
         context "with relative date keyword timestamps" do
           let(:timestamps) { [Timestamp.parse('oneWeekAgo@12:00+00:00'), Timestamp.now] }
-          let(:created_at) { '2015-01-01' }
+          let(:created_at) { Date.parse('2015-01-01') }
 
           describe "when the filter becomes outdated" do
             # The work package has been updated 1 day ago, which is after the baseline
