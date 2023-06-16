@@ -30,7 +30,7 @@
 
 import { Controller } from '@hotwired/stimulus';
 
-export default class ManagedProjectFoldersFormController extends Controller {
+export default class AutomaticallyManagedProjectFoldersFormController extends Controller {
   static targets = [
     'automaticallyManagedSwitch',
     'applicationPasswordInput',
