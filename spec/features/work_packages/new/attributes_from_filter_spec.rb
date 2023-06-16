@@ -180,8 +180,7 @@ RSpec.describe 'Work package create uses attributes from filters', js: true, sel
   end
 
   context 'with status filter' do
-    let(:closed_status) { create(:closed_status) }
-    let!(:bug_workflow) { create(:workflow, type: type_bug, old_status: closed_status) }
+    let(:closed_status) { create(:closed_status, workflow_for_type: type_bug) }
     let(:filters) do
       [['status_id', '=', [closed_status.id]]]
     end

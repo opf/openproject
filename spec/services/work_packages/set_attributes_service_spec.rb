@@ -188,9 +188,8 @@ RSpec.describe WorkPackages::SetAttributesService,
     end
 
     context 'with a valid value that is part of the type.statuses for a new work package' do
-      let(:status) { create(:status) }
       let(:type) { create(:type) }
-      let!(:workflow) { create(:workflow, type:, old_status: status) }
+      let(:status) { create(:status, workflow_for_type: type) }
       let(:call_attributes) { { status:, type: } }
       let(:expected_attributes) { { status:, type: } }
       let(:work_package) { new_work_package }
