@@ -11,7 +11,8 @@ ADMIN_EMAIL="$(wiz_get "openproject/admin_email" || wiz_get "smtp/admin_email")"
 ${CLI} config:set RECOMPILE_RAILS_ASSETS="true"
 
 # Set the configured default language
-OPENPROJECT_DEFAULT_LANGUAGE="$(wiz_get "openproject/default_language")"
+# Will be unset at installation postinstall before restart to ensure the setting is writable
+${CLI} config:set OPENPROJECT_DEFAULT_LANGUAGE="$(wiz_get "openproject/default_language")"
 
 # Check for custom gems
 custom_gemfile=$(${CLI} config:get CUSTOM_PLUGIN_GEMFILE || echo "")
