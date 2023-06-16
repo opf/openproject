@@ -271,6 +271,9 @@ group :development do
   gem 'sassc-rails'
 
   gem 'colored2'
+
+  # git hooks manager
+  gem 'lefthook', require: false
 end
 
 group :development, :test do
@@ -297,9 +300,6 @@ group :development, :test do
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
-
-  # git hooks manager
-  gem 'lefthook', require: false
 
   # Brakeman scanner
   gem 'brakeman', '~> 6.0.0'
