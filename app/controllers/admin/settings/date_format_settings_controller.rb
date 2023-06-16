@@ -28,9 +28,7 @@
 
 module Admin::Settings
   class DateFormatSettingsController < ::Admin::SettingsController
-    current_menu_item [:show] do
-      :calendars_and_dates
-    end
+    menu_item :date_format
 
     before_action :validate_start_of_week_year, only: :update
 
