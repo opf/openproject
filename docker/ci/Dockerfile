@@ -14,10 +14,6 @@ RUN \
   --mount=type=cache,target=/usr/local/bundle/cache \
   bundle install
 
-COPY config ./config
-COPY db ./db
-RUN bundle exec rails db:migrate db:schema:dump
-
 FROM node:16.17 as nodejs
 
 WORKDIR /app
