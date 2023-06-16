@@ -136,7 +136,7 @@ module Pages
       container = '#work-package-activites-container'
       container += " #activity-#{number}" if number
 
-      expect(page).to have_selector(container + ' .op-user-activity--user-line', text: user.name)
+      expect(page).to have_selector("#{container} .op-user-activity--user-line", text: user.name)
     end
 
     def expect_activity_message(message)
@@ -207,7 +207,9 @@ module Pages
         DateEditField.new container, key, is_milestone: work_package&.milestone?
       when :description
         TextEditorField.new container, key
-      when :status
+      # The AbstractWorkPackageCreate pages do not require a special WorkPackageStatusField,
+      # because the status field on the create pages is a simple EditField.
+      when :status && !is_a?(AbstractWorkPackageCreate)
         WorkPackageStatusField.new container
       else
         EditField.new container, key

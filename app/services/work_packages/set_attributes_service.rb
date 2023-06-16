@@ -168,14 +168,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   end
 
   def set_default_status
-    remove_status_if_invalid
     work_package.status ||= Status.default
-  end
-
-  def remove_status_if_invalid
-    if work_package.type && !work_package.type.statuses.exists?(model.status_id)
-      work_package.status = nil
-    end
   end
 
   def set_default_priority
@@ -334,7 +327,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   def reassign_invalid_status_if_type_changed
     # Checks that the issue can not be moved to a type with the status unchanged
     # and the target type does not have this status
-    if work_package.type_id_changed? && !work_package.status_id_changed?
+    if work_package.type_id_changed?
       reassign_status work_package.type.statuses(include_default: true)
     end
   end
