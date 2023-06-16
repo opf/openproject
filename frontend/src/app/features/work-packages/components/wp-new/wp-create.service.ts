@@ -267,11 +267,6 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
             throw new Error('No new work package was created');
           }
 
-          // // We need to apply the defaults again (after them being applied in the form requests)
-          // // here as the initial form requests might have led to some default
-          // // values not being carried over. This can happen when custom fields not available in one type are filter values.
-          // this.defaultsFromFilters(change, defaults);
-
           return change;
         });
       });
