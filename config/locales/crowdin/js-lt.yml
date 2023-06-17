@@ -224,19 +224,19 @@ lt:
           status_label: "Būsena:"
           status_confirmed: "patvirtinta"
           status_waiting: "laiškas išsiųstas -- laukiame patvirtinimo"
-          test_ee: "Test the Enterprise edition 14 days for free"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
+          test_ee: "Išbandykite Enterprise versiją 14 dienų nemokamai"
+          quick_overview: "Gaukite greitą apžvalgą apie projektų valdymą ir komandos bendradarbiavimą naudojant OpenProject Enterprise versiją."
         upsale:
           become_hero: "Tapkite didvyriu!"
           enterprise_info_html: "%{feature_title} yra „Enterprise“ <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> priedas."
           upgrade_info: "Prašome atsinaujinti į mokamą planą, kad aktyvuotumėte ir pradėtumėte ji naudoti savo komandoje."
           benefits:
-            description: "What are the benefits of the Enterprise on-premises edition?"
+            description: "Kokie yra Enterprise vietinės versijos privalumai?"
             high_security: "Saugumo funkcijos"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
+            high_security_text: "Vienas prisijungimas (SAML, OpenID Connect, CAS), LDAP grupės."
             installation: "Diegimo pagalba"
             installation_text: "Patyręs programų inžinierius ves jus per visą diegimo ir nustatymo procesą naudojant jūsų pačių infrastruktūrą."
-            premium_features: "Enterprise add-ons"
+            premium_features: "Enterprise priedai"
             premium_features_text: "Agile lentos, savo tema ir logotipas, grafai, protingi darbo scenarijai su apibrėžtais veiksmais, pilna teksto paieška darbo paketų prieduose ir galimybė pasirinkti daugiau nei vieną reikšmę pritaikytuose laukuose."
             professional_support: "Profesionali pagalba"
             professional_support_text: "Gaukite patikimą, artimą pagalbą iš patyrusių pagalbos inžinierių su ekspertinėmis žiniomis apie OpenProject naudojimą verslui kritinėse aplinkose."
@@ -247,11 +247,11 @@ lt:
           confidence: >
             Mes duodame patikrintos ir palaikomas korporacijos-lygio projektų valdymo programos užtikrintumą -- su atviru kodu ir plačiomis pažiūromis.
           link_quote: "Gauti pasiūlymą"
-          more_info: "More information"
+          more_info: "Daugiau informacijos"
           text: >
-            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+            OpenProject Enterprise versija yra pastatyta virš Bendruomenės versijos. Papildomai įdėti „premium“ priedai ir profesionalus aptarnavimas, pagrinde orientuotas į organizacijas su daugiau nei 10 vartotojų, kurie naudodami OpenProject valdo verslui kritinius projektus.
           unlimited: "Neribota"
-          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+          you_contribute: "Vystotojams taip pat reikia apmokėti sąskaitas. Pereidami į Enterprise versiją, jūs paremsite šį atviro kodo bendruomenės projektą ir prisidėsite prie jo vystymo, palaikymo ir pastovaus tobulinimo."
       working_days:
         calendar:
           empty_state_header: "Nedarbo dienos"
@@ -400,7 +400,7 @@ lt:
     label_in_more_than: "daugiau nei"
     label_incoming_emails: "Gauti el. laiškai"
     label_information_plural: "Informacija"
-    label_invalid: "Invalid"
+    label_invalid: "Netinkamas"
     label_import: "Importuoti"
     label_latest_activity: "Paskutinė veikla"
     label_last_updated_on: "Paskiausias atnaujinimas"
@@ -523,7 +523,7 @@ lt:
         next: 'Kitas'
         got_it: 'Supratau'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: 'Pagalbos (?) meniu yra <b>papildomi pagalbos resursai</b>. Čia jūs galite rasti naudotojo vadovą, naudingus video kaip atlikti veiksmus ir dar daugiau. <br>Sėkmės naudojant OpenProject!'
         members: 'Pakvieskite naujus <b>narius</b> prisijungti prie projekto.'
         project_selection: 'Prašome paspausti ant vieno iš mūsų paruoštų demonstracinių projektų. Demonstraciniai duomenys yra tik anglų kalba. <br> <b>Demo project</b> geriausiai tinka klasikiniam projektų valdymui, o <b>Scrum project</b> labiau tinka Agile projektų valdymui.'
         quick_add_button: 'Paspauskite pliuso (+) ženklą navigacijos antraštėje ir <b>sukursite naują projektą</b> arba </b>pakviesite bendradarbius</b>.'
@@ -564,11 +564,11 @@ lt:
         watched: 'stebėtojas'
         assigned: 'paskirtas'
         responsible: 'atsakingas'
-        created: 'created'
-        scheduled: 'scheduled'
-        commented: 'commented'
-        processed: 'processed'
-        prioritized: 'prioritized'
+        created: 'sukurta'
+        scheduled: 'suplanuota'
+        commented: 'komentuota'
+        processed: 'apdorota'
+        prioritized: 'prioritetizuota'
         dateAlert: 'Datos įspėjimas'
       date_alerts:
         milestone_date: 'Gairės data'
@@ -934,14 +934,14 @@ lt:
       message_work_package_status_blocked: "Darbų paketo būsena negali būti keičiama, nes dabar yra uždaryta ir uždaryta versija yra priskirta."
       placeholder_filter_by_text: "Tema, aprašymas, komentarai, ..."
       baseline:
-        addition_label: 'Added to view within the comparison time period'
-        removal_label: 'Removed from view within the comparison time period'
-        modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        addition_label: 'Pridėta į vaizdą lyginimo laiko periode'
+        removal_label: 'Išimta iš vaizdo lyginimo laiko periode'
+        modification_label: 'Pakeista lyginimo laiko periode'
+        column_incompatible: 'Šis atributas nesuderinamas su bazine linija ir todėl skirtumai nebus rodomi.'
       filters:
         title: 'Filtruoti darbų paketus'
-        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
-        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
+        baseline_incompatible: 'Šis filtras nesuderinamas su bazine linija, todėl nebus įtrauktas į palyginimą.'
+        baseline_warning: 'Bazinės linijos režimas įjungtas, bet kai kurie aktyvūs jūsų filtrai neįtraukti į palyginimą.'
       inline_create:
         title: 'Paspauskite čia, kad pridėtumėte į sąrašą naują darbų paketą'
       create:
@@ -1021,7 +1021,7 @@ lt:
         move_column_left: "Perkelti stulpelį į kairę"
         move_column_right: "Perkelti stulpelį į dešinę"
         hide_column: "Slėpti stulpelį"
-        insert_columns: "Insert columns"
+        insert_columns: "Įterpti stulpelius"
         filters: "Filtrai"
         display_sums: "Rodyti suvestines"
         confirm_edit_cancel: "Ar tikrai norite atšaukti pavadinimo pakeitimus? Pavadinimas bus atstatytas į prieš tai buvusį tekstą."
@@ -1048,7 +1048,7 @@ lt:
         button: 'Konfigūruokite šią darbų paketo lentelę'
         choose_display_mode: 'Parodyti darbų paketą kaip'
         modal_title: 'Darbų paketų lentelės konfigūracija'
-        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
+        embedded_tab_disabled: "Ši konfigūracijos kortelė nerodoma įterpiamam vaizdui, kurį jūs redaguojate."
         default: "numatytasis"
         display_settings: 'Rodymo nustatymai'
         default_mode: "Paprastas sąrašas"
@@ -1090,7 +1090,7 @@ lt:
         months: "mėnesiai"
     toolbar:
       settings:
-        configure_view: "Configure view"
+        configure_view: "Konfigūruoti vaizdą"
         columns: "Stulpeliai"
         sort_by: "Rūšiuoti pagal"
         group_by: "Grupuoti pagal"
@@ -1102,7 +1102,7 @@ lt:
         save_as: "Įrašyti kaip"
         export: "Eksportuoti"
         visibility_settings: "Matomumo nustatymai"
-        share_calendar: "Subscribe to iCalendar"
+        share_calendar: "Prenumeruokite iCalendar"
         page_settings: "Pervardinti vaizdą"
         delete: "Trinti"
       filter: "Filtras"
@@ -1121,8 +1121,8 @@ lt:
         text: 'Ar tikrai norite atlikti šį veiksmą?'
       destroy_work_package:
         title: "Patvirtinkite, jog %{label} ištrinamas"
-        single_text: "Are you sure you want to delete the work package"
-        bulk_text: "Are you sure you want to delete the following %{label}?"
+        single_text: "Ar tikrai norite ištrinti darbo paketą"
+        bulk_text: "Ar tikrai norite ištrinti %{label}?"
         has_children: "Darbų paketas turi %{childUnits}:"
         confirm_deletion_children: "Aš sutinku, kad VISI šio darbų paketo palikuoniai bus rekursiškai ištrinti."
         deletes_children: "Visi darbų paketo vaikai ir jų palikuoniai taip pat bus rekursiškai ištrinti."
@@ -1177,7 +1177,7 @@ lt:
       day:
         one: "1 dieną"
         other: "%{count} dienas (-ą, -ų)"
-        zero: "0 days"
+        zero: "0 dienų"
     zen_mode:
       button_activate: 'Įjungti Zen režimą'
       button_deactivate: 'Išjungti Zen režimą'
@@ -1244,12 +1244,12 @@ lt:
       role:
         label: 'Vaidmuo projekte %{project}'
         no_roles_found: 'Nerasta jokių vaidmenų'
-        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'Tai yra vaidmuo, kurį naudotojas gaus, kai prisijungs prie jūsų projekto. Vaidmuo nurodo, kokius veiksmus leidžiama atlikti ir kokią informaciją galima matyti. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Sužinokite daugiau apie vaidmenis ir teises. </a>'
         required: 'Prašome parinkti vaidmenį'
         next_button: 'Kitas'
       message:
         label: 'Kvietimo pranešimas'
-        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
+        description: 'Mes siųsime el. pašto laišką naudotojui, į kurį jūs galite pridėti asmeninį pranešimą. Paaiškinimas, kodėl šis pranešimas buvo atsiųstas, galėtų būti naudingas gavėjui. Taipogi šiek tiek informacijos apie projektą galbūt galėtų padėti pradėti darbą su projektu.'
         next_button: 'Kitas'
       summary:
         next_button: 'Siųsti pakvietimą'
@@ -1271,41 +1271,41 @@ lt:
       search_placeholder: 'Ieškoti projekte...'
       include_subprojects: 'Įtraukti visus sub-projektus'
       tooltip:
-        include_all_selected: 'Project already included since Include all sub-projects is enabled.'
+        include_all_selected: 'Projektas jau įtrauktas, nes įjungta parinktis įtraukti visus sub-projektus.'
         current_project: 'Tai dabartinis projektas, kuriame jūs esate.'
-        does_not_match_search: 'Project does not match the search criteria.'
-      no_results: 'No project matches your search criteria.'
+        does_not_match_search: 'Projektas neatitinka paieškos kriterijaus.'
+      no_results: 'Nei vienas projektas neatitinka jūsų paieškos kriterijaus.'
     baseline:
-      toggle_title: 'Baseline'
+      toggle_title: 'Bazinė linija'
       clear: 'Išvalyti'
       apply: 'Taikyti'
-      header_description: 'Highlight changes made to this list since any point in the past.'
-      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
-      show_changes_since: 'Show changes since'
-      baseline_comparison: 'Baseline comparison'
-      help_description: 'Reference time zone for the baseline.'
-      time_description: 'In your local time: %{datetime}'
+      header_description: 'Paryškinti pakeitimus, padarytus šiame sąraše, nuo bet kokio laiko momento praeityje.'
+      enterprise_header_description: 'Paryškinti pakeitimus, padarytus šiame sąraše, nuo bet kokio laiko momento su Enterprise versija.'
+      show_changes_since: 'Rodyti pakeitimus nuo'
+      baseline_comparison: 'Bazinės linijos palyginimas'
+      help_description: 'Bazinės linijos atskaitos laiko zona.'
+      time_description: 'Jūsų lokaliu laiku: %{datetime}'
       time: 'Laikas'
       from: 'Nuo'
       to: 'Į'
       drop_down:
         none: '-'
         yesterday: 'vakar'
-        last_working_day: 'last working day'
+        last_working_day: 'paskutinė darbo diena'
         last_week: 'praeita savaitė'
         last_month: 'praeitas mėnuo'
-        a_specific_date: 'a specific date'
-        between_two_specific_dates: 'between two specific dates'
+        a_specific_date: 'konkreti data'
+        between_two_specific_dates: 'tarp dviejų konkrečių datų'
       legends:
-        changes_since: 'Changes since'
-        now_meets_filter_criteria: 'Now meets filter criteria'
-        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
-        maintained_with_changes: 'Maintained with changes'
-        in_your_timezone: 'In your local timezone:'
+        changes_since: 'Pakeitimai nuo'
+        now_meets_filter_criteria: 'Dabar atitinka filtro kriterijų'
+        no_longer_meets_filter_criteria: 'Nebeatitinka filtro kriterijaus'
+        maintained_with_changes: 'Palaikoma su pakeitimais'
+        in_your_timezone: 'Jūsų lokalioje laiko zonoje:'
       icon_tooltip:
-        added: 'Added to view within the comparison time period'
-        removed: 'Removed from view within the comparison time period'
-        changed: 'Maintained with modifications'
+        added: 'Pridėta į vaizdą lyginimo laiko periode'
+        removed: 'Išimta iš vaizdo lyginimo laiko periode'
+        changed: 'Palaikoma su pakeitimais'
     forms:
       submit_success_message: 'Forma buvo sėkmingai pateikta'
       load_error_message: 'Įkeliant formą įvyko klaida'
@@ -1315,5 +1315,5 @@ lt:
       filter_chip:
         remove: 'Pašalinti'
       drop_modal:
-        focus_grab: 'This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.'
+        focus_grab: 'Tai fokuso inkaras modalams. Spauskite shift+tab, kad grįžtumėte į modalinių trigerių elementą.'
         Close: 'Uždaryti'

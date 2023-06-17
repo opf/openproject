@@ -1390,8 +1390,8 @@ ru:
     image:
       omitted: "Изображение не экспортировано."
     units:
-      hours: h
-      days: d
+      hours: ч
+      days: д
   extraction:
     available:
       pdftotext: "Pdftotext доступно (опционально)"

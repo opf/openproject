@@ -49,7 +49,7 @@ lt:
         main-menu-border-color: "Pagrindinio meniu kraštinės"
       custom_colors: "Pasirinktinės spalvos"
       customize: "Tinkinkite jūsų OpenProject naudodami savo logotipą ir spalvas."
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
+      enterprise_notice: "Kaip specialus „AČIŪ!“ už finansinę paramą kuriant OpenProject, šį mažytį priedą galima naudoti tik „Enterprise Edition“ paramos prenumeratoriams."
       enterprise_more_info: "Pastaba: panaudotas logotipas bus viešai prieinamas."
       manage_colors: "Redaguoti spalvos pasirinkimo variantus"
       instructions:
@@ -64,14 +64,14 @@ lt:
         main-menu-bg-color: "Kairiojo šoninio meniu fono spalva."
       theme_warning: Temos keitimas perrašys jūsų pritaikytą stilių. Ankstesnis dizainas bus prarastas. Ar tikrai norite tęsti?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise edition"
-      add_token: "Upload an Enterprise edition support token"
+      upgrade_to_ee: "Pagerinti į Enterprise versiją"
+      add_token: "Įkelti Enterprise paramos raktą"
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise edition token used?"
+        text: "Ar tikrai norite išimti dabar naudojamą Enterprise versijos žetoną?"
         title: "Trinti žetoną"
       replace_token: "Pakeisti savo esamą paramos raktą"
-      order: "Order Enterprise on-premises edition"
-      paste: "Paste your Enterprise edition support token"
+      order: "Užsisakykite Enterprise versiją pas save"
+      paste: "Įklijuokite savo Enterprise versijos paramos žetoną"
       required_for_feature: "Šis priedas galimas tik su aktyviu Enterprise versijos palaikymo žetonu."
       enterprise_link: "Norėdami gauti daugiau informacijos, spustelėkite čia."
       start_trial: 'Pradėti bandomąjį laikotarpį'
@@ -290,7 +290,7 @@ lt:
     upsale:
       title: Statytiniai naudotojai
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
+        Statytiniai naudotojai leidžia paskirti darbo paketus naudotojams, kurių nėra jūsų projekte. Jie gali būti naudingi įvairiose situacijose. Pavyzdžiui jums reikia sekti užduotis resursų, kurie dar neįvardinti ar negalimi arba jūs nenorite duoti konkrečiam asmeniui prieigos prie OpenProject, bet vis tiek norite sekti jiems paskirtas užduotis.
   prioritiies:
     edit:
       priority_color_text: |
@@ -321,7 +321,7 @@ lt:
       settings: "Nustatymai"
       form_configuration: "Formos konfigūracija"
       more_info_text_html: >
-        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        Enterprise versija leidžia jums keisti formos konfigūraciją naudojant papildomus priedus: <br> <ul class="%{list_styling_class}"> <li><b>Pridėti naujas atributų grupes</b></li> <li><b>Pervadinti atributų grupes</b></li> <li><b>Pridėti susijusių darbo paketų lentelę</b></li> </ul>
       projects: "Projektai"
       enabled_projects: "Įgalinti projektai"
       edit_query: "Keisti lentelę"
@@ -429,7 +429,7 @@ lt:
         host: "Hostas"
         onthefly: "Automatinis naudotojų kūrimas"
         port: "Jungtis"
-        tls_certificate_string: "LDAP server SSL certificate"
+        tls_certificate_string: "LDAP serverio SSL sertifikatas"
       changeset:
         repository: "Repozitorija"
       comment:
@@ -600,7 +600,7 @@ lt:
         confirmation: "nesutampa su %{attribute}."
         could_not_be_copied: "%{dependency} negali (pilnai) būti nukopijuota(s)."
         does_not_exist: "neegzistuoja."
-        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
+        error_enterprise_only: "%{action} galimas tik OpenProject Enterprise versijoje"
         error_unauthorized: "negali būti pasiektas."
         error_readonly: "bandytas įrašyti, bet įrašyti nebuvo galima."
         email: "nėra tinkamas el. pašto adresas."
@@ -644,13 +644,13 @@ lt:
         unknown_property_nested: "yra nežinomas kelias „%{path}“."
         unremovable: "negali būti pašalintas."
         url_not_secure_context: >
-          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
+          neteikia „Saugaus konteksto“. Arba naudokite HTTPS, arba atgalinį adresą, tokį kaip localhost.
         wrong_length: "yra neteisingo ilgio (turi būti %{count} simbolių)."
       models:
         auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "Pateiktas SSL sertifikatas netinkamas: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -681,7 +681,7 @@ lt:
               fragment_present: 'negali turėti fragmento.'
               invalid_uri: 'turi būti tinkamas URI.'
               relative_uri: 'turi būti absoliutus URI.'
-              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
+              secured_uri: 'neteikia „Saugaus konteksto“. Arba naudokite HTTPS, arba atgalinį adresą, tokį kaip localhost.'
               forbidden_uri: 'yra uždraustas serverio.'
             scopes:
               not_match_configured: "neatitinka galimų apimčių."
@@ -1299,11 +1299,11 @@ lt:
   ee:
     upsale:
       form_configuration:
-        description: "Customize the form configuration with these additional add-ons:"
+        description: "Pritaikyti sau formos konfigūraciją su šiais naujais priedais:"
         add_groups: "Pridėti naujas atributų grupes"
         rename_groups: "Pervadinti atributų grupes"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
+        description_html: "Filtravimas ir rikiavimas pagal pritaikytus laukus yra tik Enterprise versijos priedas."
   enumeration_activities: "Laiko sekimo veiklos"
   enumeration_work_package_priorities: "Darbų paketo prioritetai"
   enumeration_reported_project_statuses: "Pranešta projekto būsena"
@@ -1325,7 +1325,7 @@ lt:
   error_cookie_missing: 'OpenProject sausainėlis nerastas. Prašome patikrinti, ar sausainėliai yra įgalinti, nes kitaip aplikacija tinkamai neveiks.'
   error_custom_option_not_found: "Galimybė neegzistuoja."
   error_enterprise_activation_user_limit: "Jūsų paskyra negali būti aktyvuota (pasiektas vartotojų limitas). Prašome kreiptis į savo sistemos administratorių."
-  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_enterprise_token_invalid_domain: "Enterprise versija neaktyvi. Jūsų Enterprise žetono domenas (%{actual}) nesutampa su jūsų sistemos serverio vardu (%{expected})."
   error_failed_to_delete_entry: 'Šio įrašo nepavyko panaikinti.'
   error_in_dependent: "Klaida bandant pakeisti priklausomą objektą: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Klaida bandant sukurti priklausomą objektą: %{dependent_class} - %{related_subject}: %{error}"
@@ -1419,10 +1419,10 @@ lt:
     blocks:
       community: "OpenProject community"
       upsale:
-        title: "Upgrade to Enterprise edition"
+        title: "Pagerinti į Enterprise versiją"
         more_info: "Daugiau informacijos"
     links:
-      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
+      upgrade_enterprise_edition: "Pagerinti į Enterprise versiją"
       postgres_migration: "Migruojame jūsų instaliaciją į PostgreSQL"
       user_guides: "Vartotojo vadovai"
       faq: "D.U.K"
@@ -1445,7 +1445,7 @@ lt:
     admin:
       mail_notification: "El. pašto priminimai"
       mails_and_notifications: "E-paštas ir pranešimai"
-      aggregation: 'Aggregation'
+      aggregation: 'Agregacija'
       api_and_webhooks: "API ir tinklo jungtys"
     quick_add:
       label: "Atidaryti greitą pridėjimo meniu"
@@ -1644,7 +1644,7 @@ lt:
   label_enumerations: "Enumeratoriai"
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} aktyviai naudojami naudotojai"
-  label_enterprise_edition: "Enterprise edition"
+  label_enterprise_edition: "Enterprise versija"
   label_enterprise_support: "„Enterprise“ palaikymas"
   label_environment: "Aplinka"
   label_estimates_and_time: "Sąmatos ir laikas"
@@ -1698,7 +1698,7 @@ lt:
   label_index_by_title: "Rūšiuoti pagal pavadinimą"
   label_information: "Informacija"
   label_information_plural: "Informacija"
-  label_installation_guides: 'Installation guides'
+  label_installation_guides: 'Diegimo gidai'
   label_integer: "Sveikasis skaičius"
   label_internal: "Vidinis"
   label_introduction_video: "Įvado video"
@@ -2293,14 +2293,14 @@ lt:
   permission_edit_own_time_entries: "Redaguoti savo laiko įrašus"
   permission_edit_project: "Redaguoti projektą"
   permission_edit_reportings: "Redaguoti ataskaitas"
-  permission_edit_time_entries: "Edit time logs for other users"
+  permission_edit_time_entries: "Keitimo laiko žurnalai kitiems naudotojams"
   permission_edit_timelines: "Redaguoti tvarkaraščius"
   permission_edit_wiki_pages: "Redaguoti wiki puslapius"
   permission_export_work_packages: "Eksportuoti darbų paketus"
   permission_export_wiki_pages: "Eksportuoti wiki puslapius"
   permission_list_attachments: "Pateikti priedus"
-  permission_log_own_time: "Log own time"
-  permission_log_time: "Log time for other users"
+  permission_log_own_time: "Registruoti savo laiką"
+  permission_log_time: "Registruoti kitų naudotojų laiką"
   permission_manage_forums: "Valdyti forumus"
   permission_manage_categories: "Valdyti darbų paketo kategorijas"
   permission_manage_work_package_relations: "Valdyti darbų paketo ryšius"
@@ -2460,7 +2460,7 @@ lt:
       oauth_application_details_link_text: "Eiti į nustatymų puslapį"
       setup_documentation_details: "Jei jums reikia pagalbos konfigūruojant naują failų saugyklą, prašome skaityti dokumentaciją: "
       setup_documentation_details_link_text: "Failų saugyklos nustatymas"
-      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
+      show_warning_details: "Norėdami naudoti šią failų talpyklą, nepamirškite aktyvuoti modulį ir konkrečią saugyklą projekto nustatymuose kiekvienam reikiamam projektui."
     subversion:
       existing_title: "Esama Subversion repozitorija"
       existing_introduction: "Jei jau turite esamą Subversion repozitoriją, Jūs galite ją susieti su OpenProject, kad galėtumėte informaciją pasiekti iš sistemos vidaus."
@@ -2553,7 +2553,7 @@ lt:
   setting_work_package_list_default_columns: "Pagal nutylėjimą rodyti"
   setting_work_package_properties: "Darbų paketo ypatybės"
   setting_work_package_startdate_is_adddate: "Naudoti dabartinę datą kaip naujų darbų paketų pradžios datą"
-  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
+  setting_work_packages_projects_export_limit: "Darbo paketų / Projektų eksporto limitas"
   setting_journal_aggregation_time_minutes: "Laikais, per kurį įvykę naudotojo veiksmai yra grupuojami"
   setting_log_requesting_user: "Įrašyti vartotojo vardą, prisijungimo vardą, e. pašto adresą visiems prašymams"
   setting_login_required: "Reikalinga autentifikacija"
@@ -2667,9 +2667,9 @@ lt:
   text_custom_field_hint_activate_per_project_and_type: >
     Pritaikyti laukeliai turi būti kiekviename darbų paketų tipe ir kiekviename projekte.
   text_wp_status_read_only_html: >
-    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    Enterprise versija leis šiuos papildomus darbo paketų priedus būsenos laukams: <br> <ul> <li><b>Galimybė pažymėti darbo paketus tik skaitymui kai kurioms būsenoms</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    Enterprise versija pridės šiuos papildomus priedus projekto saviems laukams: <br> <ul> <li><b>Galimybė pridėti savo laukus į jūsų projekto sąrašą ir kurti projekto projektų portfolio vaizdą</b></li> </ul>
   text_custom_logo_instructions: >
     Baltas logotipas su permatomu fonu yra rekomenduojamas. Gariausiems rezultatams pasiekti tradiciniuose ir retina ekranuose, būkite įsitikinę, kad paveikslėlio dimensijos yra 460px 60px.
   text_custom_favicon_instructions: >
@@ -2975,14 +2975,14 @@ lt:
   warning_user_limit_reached: >
     Pasiektas vartotojų limitas. Jūs negalite aktyvuoti daugiau vartotojų. Prašome <a href="%{upgrade_url}">atnaujinti planą</a> arba blokuokite esamus vartotojus norėdami aktyvuoti naujus vartotojus.
   warning_user_limit_reached_instructions: >
-    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
+    Jūs pasiekėte naudotojų ribą (%{current}/%{max} aktyvūs naudotojai). Susisiekite su sales@openproject.com norėdami atnaujinti savo Enterprise versijos planą arba pridėti papildomų naudotojų.
   warning_protocol_mismatch_html: >
 
   warning_bar:
     https_mismatch:
-      title: 'HTTPS mode setup mismatch'
+      title: 'HTTPS režimo nustatymo nesutapimas'
       text_html: >
-        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
+        Jūsų aplikacija veikia su HTTPS režimo nustatymu <code>%{set_protocol}</code>, bet užklausa yra <code>%{actual_protocol}</code>. Dėl to kils klaidų! Jums reikia nustatyti šią konfigūracijos reikšmę: <code>%{setting_value}</code>. Daugiau informacijos apie šios konfigūracijos keitimą rasite <a href="%{more_info_path}">diegimo dokumentacijoje</a>.
     hostname_mismatch:
       title: 'Neatitinka serverio vardo nustatymai'
       text_html: >

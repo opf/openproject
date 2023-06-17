@@ -49,7 +49,7 @@ ca:
         main-menu-border-color: "Vora del menú principal"
       custom_colors: "Colors personalitzats"
       customize: "Personalitza la teva instal·lació d'OpenProject amb el teu propi logotip i colors."
-      enterprise_notice: "Com un \"Gràcies!\" especial per la contribució financera al desenvolupament d'OpenProject, aquest petit add-on només està disponible pels subscriptors de l'edició Enterprise."
+      enterprise_notice: "Com un \"Gràcies!\" especial per la contribució financera al desenvolupament d'OpenProject, aquesta petita extensió només està disponible pels subscriptors de l'edició Enterprise."
       enterprise_more_info: "Nota: el logotip utilitzat serà accessible públicament."
       manage_colors: "Edita les opcions de selecció de colors"
       instructions:
@@ -72,7 +72,7 @@ ca:
       replace_token: "Substitueix el teu token de suport actual"
       order: "Ordena l'edició Enterpise on-premises"
       paste: "Enganxa el teu token de suport de l'edició Enterprise"
-      required_for_feature: "Aquest add-om només està disponible amb un token de suport de l'edició Enterprise."
+      required_for_feature: "Aquesta extensió només està disponible amb un token de suport de l'edició Enterprise."
       enterprise_link: "Per a més informació, cliqueu aquí."
       start_trial: 'Inicia la prova gratuïta'
       book_now: 'Reserva ara'
@@ -1260,11 +1260,11 @@ ca:
   ee:
     upsale:
       form_configuration:
-        description: "Personalitza la configuració del formulari amb aquests add-ons extres:"
+        description: "Personalitza la configuració del formulari amb aquestes extensions addicionals:"
         add_groups: "Afegir un nou atribut de grups"
         rename_groups: "Reanomena els atributs de grups"
       project_filters:
-        description_html: "Filtrar i ordenar camps personalitzats és un add-on de l'edició Enterprise."
+        description_html: "Filtrar i ordenar camps personalitzats és una extensió de l'edició Enterprise."
   enumeration_activities: "Activitats de rastrejament del temps"
   enumeration_work_package_priorities: "Prioritats dels paquets de treball"
   enumeration_reported_project_statuses: "Estats de projecte notificats"
@@ -2621,9 +2621,9 @@ ca:
   text_custom_field_hint_activate_per_project_and_type: >
     Els camps personalitzats han d'activar-se per classe de paquet de treball i per projecte.
   text_wp_status_read_only_html: >
-    L'edició Enterprise afegirà add-ons extra pels estats de paquets de treball: <br> <ul> <li><b>Permet marcar paquets de treball com a només lectura per a estats específics</b></li> </ul>
+    L'edició Enterprise afegirà extensions addicionals pels estats de paquets de treball: <br> <ul> <li><b>Permet marcar paquets de treball com a només lectura per a estats específics</b></li> </ul>
   text_project_custom_field_html: >
-    L'edició Enterprise afegirà add-ons extra pels camps personalitzats de projectes: <br> <ul> <li><b>Afegeix camps personalitzats pels teus projectes a la teva llista de projectes per crear una vista de cartera de projectes</b></li> </ul>
+    L'edició Enterprise afegirà extensions addicionals pels camps personalitzats de projectes: <br> <ul> <li><b>Afegeix camps personalitzats pels teus projectes a la teva llista de projectes per crear una vista de cartera de projectes</b></li> </ul>
   text_custom_logo_instructions: >
     Es recomana un logo blanc amb fons transparent. Per a un millor resultat tant en pantalles retina o convencionals assegura't que la teva imatge té unes dimensions de 460px per 60px.
   text_custom_favicon_instructions: >

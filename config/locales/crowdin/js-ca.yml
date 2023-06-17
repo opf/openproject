@@ -228,7 +228,7 @@ ca:
           quick_overview: "Obté una visió general ràpida de la gestió de projectes i col·laboració d'equips amb l'edició Enterprise d'OpenProject."
         upsale:
           become_hero: "Sigues un heroi!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} és una extensió de l'edició Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'>."
           upgrade_info: "Si us plau, actualitza a una versió de pagament per tal d'activar i començar a utilitzar-la en el teu equip."
           benefits:
             description: "Quins són els beneficis de l'edició Enterprise on-premises?"
@@ -236,7 +236,7 @@ ca:
             high_security_text: "Inici de sessió únic (SAML, OpenID Conenct, CAS), grups LDAP."
             installation: "Suport d'instal·lació"
             installation_text: "Enginyers de programari amb experiència et guien durant tot el procés d'instal·lació i configuració de la teva pròpia estructura."
-            premium_features: "Enterprise add-ons"
+            premium_features: "Extensions Enterprise"
             premium_features_text: "Taulells \"agile\", tema personalitzat i logotip, gràfiques, fluxos de treball amb accions personalitzades, cerca de text completa per a fitxers adjunt en paquets de treball i la selecció múltiple de camps personalitzats."
             professional_support: "Suport professional"
             professional_support_text: "Obté un suport de confiança i d'alt nivell dels nostres enginyers de suport sèniors amb experiència en manegar OpenProject en ambients empresarials crítics."
@@ -249,7 +249,7 @@ ca:
           link_quote: "Obtenir un pressupost"
           more_info: "Més informació"
           text: >
-            L'edició Enterprise d'OpenProject es construeix a sobre de l'edició Community. Inclou Enterprise add-ons i suport professional pensat especialment per a organitzacions de més de 10 usuaris que manegin projectes empresarialment crítics amb OpenProject.
+            L'edició Enterprise d'OpenProject es construeix a sobre de l'edició Community. Inclou extensions Enterprise i suport professional pensat especialment per a organitzacions de més de 10 usuaris que manegin projectes empresarialment crítics amb OpenProject.
           unlimited: "Il·limitat"
           you_contribute: "Els desenvolupadors també han de pagar les seves factures. Actualitzant a l'edició Enterprise, donaràs suport aquesta comunitat de codi obert i contribuiràs al seu desenvolupament, manteniment i millora continua."
       working_days:
@@ -320,15 +320,15 @@ ca:
     ical_sharing_modal:
       title: "Subscripció via iCalendar"
       inital_setup_error_message: "S'ha produït un error en carregar les dades."
-      description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
-      warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
+      description: "Pots utilitzar l'URL d'iCalendar per importar o subscriure't a aquest calendari en un client extern i veure les informacions dels paquets de treball en temps real des d'allà."
+      warning: "Si us plau, no comparteixis aquesta URL amb usuaris externs. Qualsevol persona amb aquest enllaç tindrà accés als detalls dels paquets de treball sense necessitat de tenir un compte o contrasenya."
       token_name_label: "Nom del token"
-      token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
-      token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
+      token_name_placeholder: "Introdueix un nom per aquest token, ex. \"La meva aplicació de calendari\""
+      token_name_description_text: "Aquest nom s'utilitzarà per distingir-lo d'altres tokens en <a href=\"my/access_token\", target=\"_blank\">la llista de tokens d'accés</a>. Només es pot utilitzar un cop per calendari."
       copy_url_label: "Copia l'URL"
       ical_generation_error_text: "S'ha produït un error en generar l'URL del iCal."
       copy_url_success_text: "L'URL s'ha copiat al porta-retalls."
-      copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
+      copy_url_error_text: "A causa d'errors del navegador, l'URL no s'ha pogut copiar al porta-retalls. Si us plau, copia-la manualment: %{icalUrl}"
     label_activate: "Activar"
     label_assignee: 'Assignat a'
     label_add_column_after: "Afegir una columna després"
@@ -875,7 +875,7 @@ ca:
       zooms: "Nivell de zoom"
       outlines: "Nivell de jerarquia"
     upsale:
-      ee_only: 'Add-on de l''edició Enterprise'
+      ee_only: 'Extensió de l''edició Enterprise'
     wiki_formatting:
       strong: "Negreta"
       italic: "Cursiva"
@@ -932,14 +932,14 @@ ca:
       message_work_package_status_blocked: "L'estat del paquet de treball no permet l'escriptura perquè el seu estat i versió estan tancats."
       placeholder_filter_by_text: "Assumpte, descripció, comentaris, ..."
       baseline:
-        addition_label: 'Afegit a la vista en el temps de la comparació'
-        removal_label: 'Removed from view within the comparison time period'
-        modification_label: 'Modified within the comparison time period'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        addition_label: 'Afegit a la vista en el període de temps de la comparació'
+        removal_label: 'Eliminat de la vista en el període de temps de la comparació'
+        modification_label: 'Modificat dins del període de temps de la comparació'
+        column_incompatible: 'Aquest atribut no és compatible amb la base de referència i no es mostraran les seves diferències.'
       filters:
         title: 'Filtrar paquets de treball'
-        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
-        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
+        baseline_incompatible: 'Aquest filtre no és compatible amb la base de referència i no serà inclòs en la comparació.'
+        baseline_warning: 'La base de referència està activat però alguns dels teus filtres actius no estan actius en la comparació.'
       inline_create:
         title: 'Fes clic aquí per afegir un nou paquet de treball a aquesta llista'
       create:
@@ -1217,7 +1217,7 @@ ca:
           description: 'Permisos basats en el rol assignat en el projecte seleccionat'
         placeholder:
           title: 'Usuari de marcador de posició'
-          title_no_ee: 'Usuari de marcador de posició (add-on només de l''edició Enterprise)'
+          title_no_ee: 'Usuari de marcador de posició (extensió només de l''edició Enterprise)'
           description: 'No té accés al projecte i no s''han enviat els correus electrònics.'
           description_no_ee: 'No tens accés al projecte i per tant, no s''han enviat els correus electrònics. <br>Fes una ullada a <a href="%{eeHref}" target="_blank">l''edició Enterprise</a>'
       principal:
@@ -1273,8 +1273,8 @@ ca:
       toggle_title: 'Base de referència'
       clear: 'Esborra'
       apply: 'Aplica'
-      header_description: 'Highlight changes made to this list since any point in the past.'
-      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
+      header_description: 'Destaca canvis efectuats en aquesta llista des de qualsevol punt del passat.'
+      enterprise_header_description: 'Destaca canvis efectuats en aquesta llista des de qualsevol punt del passat amb l''edició Enterprise.'
       show_changes_since: 'Mostra canvis des de'
       baseline_comparison: 'Comparació en base de referència'
       help_description: 'Zona de temporal de referència per aquesta base de referència.'
@@ -1297,8 +1297,8 @@ ca:
         maintained_with_changes: 'Mantingut amb canvis'
         in_your_timezone: 'En la teva zona horària:'
       icon_tooltip:
-        added: 'Added to view within the comparison time period'
-        removed: 'Removed from view within the comparison time period'
+        added: 'Afegit a la vista en el període de temps de la comparació'
+        removed: 'Eliminat de la vista en el període de temps de la comparació'
         changed: 'Mantingut amb canvis'
     forms:
       submit_success_message: 'El formulari s''ha sotmès correctament'

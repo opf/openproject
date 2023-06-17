@@ -60,7 +60,7 @@ ca:
       host: "Si us plau, afegeix l'adreça d'allotjament del teu emmagatzematge incloent el https://. No pot més llarg de 255 caràcters."
       no_storage_set_up: "No hi ha emmagatzematges de fitxers configurats encara."
       no_specific_folder: "Per defecte, cada usuari començarà a la seva carpeta d'inici en carregar un fitxer."
-      automatic_folder: "This will automatically create a root folder for this project and manage the access permissions for each project member."
+      automatic_folder: "Això crearà automàticament una carpeta per defecte per aquest projecte i administrarà l'accés per a cada membre del projecte."
       empty_project_folder_validation: "Per procedir és obligatori seleccionar una carpeta."
       not_logged_into_storage: "Per seleccionar una carpeta de projecte, si us plau inicia sessió primer."
       existing_manual_folder: >
@@ -96,7 +96,7 @@ ca:
     label_new_storage: "Nou emmagatzematge"
     label_existing_manual_folder: "Carpeta existent amb permisos gestionats automàticament"
     label_no_specific_folder: "Cap carpeta específica"
-    label_automatic_folder: "New folder with automatically managed permissions"
+    label_automatic_folder: "Nova carpeta amb administració de permisos automàtica"
     label_no_selected_folder: "Cap carpeta seleccionada"
     label_storage: "Emmagatzematge"
     label_storages: "Emmagatzematges"
