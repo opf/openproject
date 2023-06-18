@@ -666,7 +666,7 @@ de:
         Bitte wählen Sie ein Projekt für das Arbeitspaket, um alle Attribute anzuzeigen. Sie können nur Projekte auswählen, für die der ausgewählte Typ oben aktiviert ist.
       details_activity: 'Projektdetails-Aktivität'
       context: 'Projektkontext'
-      click_to_switch_to_project: 'Project: %{projectname}'
+      click_to_switch_to_project: 'Projekt: %{projectname}'
       confirm_template_load: 'Das Ändern der Vorlage wird die Seite neu laden und Sie verlieren alle Eingaben zu diesem Formular. Fortfahren?'
       use_template: "Vorlage verwenden"
       no_template_selected: "(Keine)"
