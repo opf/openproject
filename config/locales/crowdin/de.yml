@@ -1342,9 +1342,9 @@ de:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_overview_table: "PDF Table"
-      pdf_report_with_images: "PDF Report with images"
-      pdf_report: "PDF Report"
+      pdf_overview_table: "PDF-Tabelle"
+      pdf_report_with_images: "PDF-Bericht mit Bildern"
+      pdf_report: "PDF-Bericht"
     image:
       omitted: "Bild nicht exportiert."
     units:
@@ -1473,7 +1473,7 @@ de:
   label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
   label_ical_access_key_not_present: "iCalendar token(s) not present."
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
-  label_ical_access_key_latest: "latest"
+  label_ical_access_key_latest: "neueste"
   label_ical_access_key_revoke: "Widerrufen"
   label_applied_status: "Zugewiesener Status"
   label_archive_project: "Projekt archivieren"
@@ -1668,7 +1668,7 @@ de:
   label_journal: "Änderungen"
   label_journal_diff: "Beschreibungsvergleich"
   label_language: "Sprache"
-  label_languages: "Languages"
+  label_languages: "Sprachen"
   label_jump_to_a_project: "Zu einem Projekt springen..."
   label_keyword_plural: 'Schlüsselwörter'
   label_language_based: "Sprachabhängig"
@@ -1927,7 +1927,7 @@ de:
   label_user_plural: "Benutzer"
   label_user_search: "Nach Benutzer suchen"
   label_user_settings: "Benutzereinstellungen"
-  label_users_settings: "Users settings"
+  label_users_settings: "Benutzereinstellungen"
   label_version_new: "Neue Version"
   label_version_plural: "Versionen"
   label_version_sharing_descendants: "Mit Unterprojekten"
@@ -2501,7 +2501,7 @@ de:
   setting_enabled_scm: "Aktivierte Versionskontrollsysteme"
   setting_enabled_projects_columns: "In der Projektliste sichtbar"
   setting_feeds_enabled: "Feeds aktiviert"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "iCalendar-Abonnements aktivieren"
   setting_feeds_limit: "Max. Anzahl Einträge pro Atom-Feed"
   setting_file_max_size_displayed: "Maximale Größe inline angezeigter Textdateien"
   setting_host_name: "Hostname"
@@ -2585,7 +2585,7 @@ de:
       section_project_overview: "Einstellungen für Projektliste"
     user:
       default_preferences: "Standardeinstellungen"
-      display_format: "Display format"
+      display_format: "Anzeigeformat"
       deletion: "Löschen"
     highlighting:
       mode_long:

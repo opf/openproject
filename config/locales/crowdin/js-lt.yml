@@ -647,18 +647,18 @@ lt:
         global:
           immediately:
             title: 'Dalyvaujate'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
+            description: 'Pranešimai apie visus veiksmus darbo paketuose, su kuriais jūs susiję (priskirtasis, atsakingas ar stebėtojas).'
           delayed:
             title: 'Nedalyvaujate'
-            description: 'Additional notifications for activities in all projects.'
+            description: 'Papildomi pranešimai apie veiksmus visuose projektuose.'
           date_alerts:
             title: 'Datos įspėjimai'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
+            description: 'Automatiniai pranešimai apie artėjančias svarbias atvirų darbo paketų, su kuriais jūs susiję (paskirtasis, atsakingas ar stebėtojas), datas.'
             teaser_text: 'Su datos įspėjimais jus informuos apie ateinančias pradžios ir pabaigos datas, kad niekada nepraleistumėte ar nepamirštumėte svarbių terminų.'
           overdue: Kai pavėluota
         project_specific:
           title: 'Konkrečių projektų pranešimų nustatymai'
-          description: 'These project-specific settings override default settings above.'
+          description: 'Šie konkrečių projektų nustatymai permuša aukščiau esančius numatytuosius nustatymus.'
           add: 'Pridėti nustatymą projektui'
           already_selected: 'Šis projektas jau pažymėtas'
           remove: 'Išimti projekto nustatymus'
@@ -729,8 +729,8 @@ lt:
         reset_title: "Atstatyti formos konfigūraciją"
         confirm_reset: >
           Įspėjimas: Ar tikrai norite atstatyti pradinę formos konfigūraciją? Atributai bus perkelti į jų numatytąsias grupes ir VISUS savi laukeliai bus išjungti.
-        upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
-        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
+        upgrade_to_ee: "Patobulinkite į Enteprise vietinę versiją"
+        upgrade_to_ee_text: "Oho! Jei Jums reikia šio priedo, esate super pro! Ar nenorėtumėte paremti mus, OpenSource (atviro kodo) kūrėjus, tapdami Enterprise versijos klientu?"
         more_information: "Daugiau informacijos"
         nevermind: "Nesvarbu"
       edit:
@@ -827,7 +827,7 @@ lt:
         farRight: 'Toli dešinėje'
         showNone: '-- Be etiketės --'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+          Pasirinkite atributus, kuriuos visada norite pamatyti atitinkamose Ganto grafiko pozicijose. Atkreipkite dėmesį, kad kai pelės klavišas užvestas virš elemento, jo datos informacija bus rodoma vietoj šių atributų.
       button_activate: 'Parodyti Gantto diagramą'
       button_deactivate: 'Paslėpti Gantto diagramą'
       cancel: Nutraukti
@@ -1075,7 +1075,7 @@ lt:
         upsale:
           attribute_highlighting: 'Reikia išskirti tam tikrus darbo paketus iš didelės masės?'
           relation_columns: 'Ar reikia matyti ryšius darbų paketų sąraše?'
-          check_out_link: 'Check out the Enterprise edition.'
+          check_out_link: 'Patikrinkite Enterprise versiją.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtruokite darbo paketus pagal sąryšio tipą'
       tabs:
@@ -1223,9 +1223,9 @@ lt:
           description: 'Teisės, suteiktos pagal pasirinktame projekte turimą rolę'
         placeholder:
           title: 'Statytinis naudotojas'
-          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
+          title_no_ee: 'Statytiniai naudotojai (Enterprise versijos priedas)'
           description: 'Neturi prieigos prie projekto ir jokie el. pašto laiškai nebuvo išsiųsti.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
+          description_no_ee: 'Neturi prieigos prie projekto ir jokie el. pašto laiškai nebuvo išsiųsti. <br>Pabandykite <a href="%{eeHref}" target="_blank">Enterprise versiją</a>'
       principal:
         label:
           name_or_email: 'Vardas arba elektroninio pašto adresas'

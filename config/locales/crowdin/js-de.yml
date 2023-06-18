@@ -318,15 +318,15 @@ de:
                 Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Dateien direkt in einem Arbeitspaket auf Ihren Nextcloud-Speicher hochladen oder verlinken.</li> <li>Bleiben Sie bei Projektänderungen auf dem Laufenden mit der Aktivitätsverfolgung auf Projekten.</li> <li>Fügen Sie instanzweite Feiertage für die Datumsplanung hinzu.</li> <li>Projekte sind über eine neue globale Rolle auch von Nicht-Administratoren archivierbar.</li> <li>Neuer Standardfilter für überfällige Arbeitspakete.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to iCalendar"
-      inital_setup_error_message: "An error occured while fetching data."
+      inital_setup_error_message: "Beim Abrufen der Daten ist ein Fehler aufgetreten."
       description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
       warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
       token_name_label: "Token name"
       token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
       token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
-      copy_url_label: "Copy URL"
-      ical_generation_error_text: "An error occured while generating the iCal URL."
-      copy_url_success_text: "URL copied to clipboard."
+      copy_url_label: "URL kopieren"
+      ical_generation_error_text: "Beim Generieren der iCal-URL ist ein Fehler aufgetreten."
+      copy_url_success_text: "URL in die Zwischenablage kopiert."
       copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
     label_activate: "Aktiviere"
     label_assignee: 'Zugewiesen an'
@@ -678,7 +678,7 @@ de:
         Bitte wählen Sie ein Projekt für das Arbeitspaket, um alle Attribute anzuzeigen. Sie können nur Projekte auswählen, für die der ausgewählte Typ oben aktiviert ist.
       details_activity: 'Projektdetails-Aktivität'
       context: 'Projektkontext'
-      click_to_switch_to_project: 'Project: %{projectname}'
+      click_to_switch_to_project: 'Projekt: %{projectname}'
       confirm_template_load: 'Das Ändern der Vorlage wird die Seite neu laden und Sie verlieren alle Eingaben zu diesem Formular. Fortfahren?'
       use_template: "Vorlage verwenden"
       no_template_selected: "(Keine)"
@@ -1099,7 +1099,7 @@ de:
         save_as: "Speichern unter"
         export: "Exportieren"
         visibility_settings: "Sichtbarkeits-Einstellungen"
-        share_calendar: "Subscribe to iCalendar"
+        share_calendar: "iCalendar abonnieren"
         page_settings: "Ansicht umbenennen"
         delete: "Löschen"
       filter: "Filter"

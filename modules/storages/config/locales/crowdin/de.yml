@@ -47,7 +47,7 @@ de:
       replace_provider_type_oauth: "Ersetze %{provider_type} OAuth"
       save_and_continue_setup: "Speichern und Setup fortsetzen"
       save_and_complete_setup: "Speichern und Setup abschließen"
-      select_folder: "Select folder"
+      select_folder: "Ordner auswählen"
     page_titles:
       project_settings:
         index: "Dateispeicher in diesem Projekt verfügbar"
@@ -61,7 +61,7 @@ de:
       no_storage_set_up: "Es sind noch keine Dateispeicher eingerichtet."
       no_specific_folder: "Standardmäßig startet jeder Benutzer in seinem eigenen Home-Ordner, wenn er eine Datei hochlädt."
       automatic_folder: "This will automatically create a root folder for this project and manage the access permissions for each project member."
-      empty_project_folder_validation: "Selecting a folder is mandatory to proceed."
+      empty_project_folder_validation: "Die Auswahl eines Ordners ist zwingend erforderlich, um fortzufahren."
       not_logged_into_storage: "To select a project folder, please first login"
       existing_manual_folder: >
         Sie können einen existierenden Ordner als Hauptordner für dieses Projekt definieren. Die Berechtigungen werden jedoch nicht automatisch verwaltet, der Administrator muss manuell sicherstellen, dass relevante Benutzer Zugriff haben. Der ausgewählte Ordner kann von mehreren Projekten verwendet werden.
@@ -96,8 +96,8 @@ de:
     label_new_storage: "Neuer Speicher"
     label_existing_manual_folder: "Vorhandener Ordner mit manuell verwalteten Berechtigungen"
     label_no_specific_folder: "Kein spezifischer Ordner"
-    label_automatic_folder: "New folder with automatically managed permissions"
-    label_no_selected_folder: "No selected folder"
+    label_automatic_folder: "Neuer Ordner mit automatisch verwalteten Berechtigungen"
+    label_no_selected_folder: "Kein ausgewählter Ordner"
     label_storage: "Speicher"
     label_storages: "Speicher"
     no_results: "Noch keine Speicher eingerichtet."
