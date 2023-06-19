@@ -110,9 +110,9 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
                 <span class="ellipsis">Parent node</span>
                 </span>
               </a>
-              <a class="toggler" data-action="menus--main#descend">
+              <button class="toggler main-menu-toggler" type="button" data-action="menus--main#descend">
                 <span class="spot-icon spot-icon_1 spot-icon_arrow-right3"></span>
-              </a>
+              </button>
             </div>
             <div class="main-menu--children-menu-header">
               <a title="Up" class="main-menu--arrow-left-to-project" data-action="menus--main#ascend">
@@ -201,9 +201,9 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
                   <span class="ellipsis">Parent node</span>
                 </span>
               </a>
-              <a class="toggler" data-action="menus--main#descend">
+              <button class="toggler main-menu-toggler" type="button" data-action="menus--main#descend">
                 <span class="spot-icon spot-icon_1 spot-icon_arrow-right3"></span>
-              </a>
+              </button>
             </div>
             <div class="main-menu--children-menu-header">
               <a title="Up" class="main-menu--arrow-left-to-project"
@@ -274,9 +274,9 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
                   <span class="ellipsis">Parent node</span>
                 </span>
               </a>
-              <a class="toggler" data-action="menus--main#descend">
+              <button class="toggler main-menu-toggler" type="button" data-action="menus--main#descend">
                 <span class="spot-icon spot-icon_1 spot-icon_arrow-right3"></span>
-              </a>
+              </button>
             </div>
             <div class="main-menu--children-menu-header">
               <a title="Up" class="main-menu--arrow-left-to-project" data-action="menus--main#ascend">
@@ -294,9 +294,9 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
                       <span class="ellipsis">Child node</span>
                     </span>
                   </a>
-                  <a class="toggler" data-action="menus--main#descend">
+                  <button class="toggler main-menu-toggler" type="button" data-action="menus--main#descend">
                     <span class="spot-icon spot-icon_1 spot-icon_arrow-right3"></span>
-                  </a>
+                  </button>
                 </div>
                 <div class="main-menu--children-menu-header">
                   <a title="Up" class="main-menu--arrow-left-to-project" data-action="menus--main#ascend">

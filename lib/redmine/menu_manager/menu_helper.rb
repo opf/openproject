@@ -168,7 +168,10 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def render_menu_toggler
-    content_tag(:a, class: 'toggler', data: { action: 'menus--main#descend' }) do
+    content_tag(:button,
+                class: 'toggler main-menu-toggler',
+                type: :button,
+                data: { action: 'menus--main#descend' }) do
       spot_icon('arrow-right3', size: '1')
     end
   end
