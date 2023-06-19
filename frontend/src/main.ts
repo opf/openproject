@@ -11,7 +11,6 @@ import * as Turbo from '@hotwired/turbo';
 (window as any).global = window;
 
 // Disable default turbo-drive for now while we
-//
 Turbo.session.drive = false;
 
 // Ensure we set the correct dynamic frontend path
