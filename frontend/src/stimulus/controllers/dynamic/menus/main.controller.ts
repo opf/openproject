@@ -26,16 +26,11 @@ export default class MainMenuController extends Controller {
   descend(event:MouseEvent) {
     const target = event.target as HTMLElement;
     this.sidebarTarget.classList.add('-hidden');
-    this.rootTarget.classList.remove('open');
-    this.rootTarget.classList.add('closed');
-
-    // TODO targets
-    this.rootTarget
-      .querySelectorAll<HTMLElement>('li')
-      .forEach((item) => item.classList.remove('open'));
-
     const targetLi = target.closest('li') as HTMLElement;
-    targetLi.classList.add('open');
+
+    this.toggleMenuState(this.rootTarget);
+    this.toggleMenuState(targetLi);
+
     targetLi.querySelector<HTMLElement>('li > a, .tree-menu--title')?.focus();
 
     this.markActive(targetLi.dataset.name as string);
@@ -44,12 +39,11 @@ export default class MainMenuController extends Controller {
   ascend(event:MouseEvent) {
     event.preventDefault();
     const target = event.target as HTMLElement;
-
-    this.rootTarget.classList.remove('closed');
-    this.rootTarget.classList.add('open');
-
     const parent = target.closest('li') as HTMLElement;
-    parent.classList.remove('open');
+
+    this.toggleMenuState(parent);
+    this.toggleMenuState(this.rootTarget);
+
     parent.querySelector<HTMLElement>('.toggler')?.focus();
 
     this.sidebarTarget.classList.remove('-hidden');
@@ -65,5 +59,10 @@ export default class MainMenuController extends Controller {
     void window.OpenProject.getPluginContext()
       .then((pluginContext) => pluginContext.injector.get(MainMenuNavigationService))
       .then((service) => service.navigationEvents$.next(active));
+  }
+
+  private toggleMenuState(item:HTMLElement) {
+    item.classList.toggle('closed');
+    item.classList.toggle('open');
   }
 }
