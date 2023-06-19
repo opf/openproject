@@ -447,7 +447,7 @@ GEM
     factory_bot_rails (6.2.0)
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
-    faraday (2.7.5)
+    faraday (2.7.6)
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
     faraday-follow_redirects (0.3.0)
@@ -497,7 +497,7 @@ GEM
       retriable (>= 2.0, < 4.a)
       rexml
       webrick
-    google-apis-gmail_v1 (0.28.0)
+    google-apis-gmail_v1 (0.29.0)
       google-apis-core (>= 0.11.0, < 2.a)
     googleauth (1.5.2)
       faraday (>= 0.17.3, < 3.a)
@@ -559,7 +559,7 @@ GEM
     json_spec (1.1.5)
       multi_json (~> 1.0)
       rspec (>= 2.0, < 4.0)
-    jwt (2.7.0)
+    jwt (2.7.1)
     ladle (1.0.1)
       open4 (~> 1.0)
     launchy (2.5.2)
