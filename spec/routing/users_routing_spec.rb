@@ -56,16 +56,16 @@ RSpec.describe UsersController, 'routing' do
   }
 
   it {
-    expect(subject).to route(:get, '/users/current').to(controller: 'users',
-                                                        action: 'show',
-                                                        id: 'current')
+    expect(subject).to route(:get, '/users/me').to(controller: 'users',
+                                                   action: 'show',
+                                                   id: 'me')
   }
 
   it {
-    expect(get('/users/current.xml'))
+    expect(get('/users/me.xml'))
       .to route_to controller: 'users',
                    action: 'show',
-                   id: 'current',
+                   id: 'me',
                    format: 'xml'
   }
 
