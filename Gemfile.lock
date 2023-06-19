@@ -924,6 +924,10 @@ GEM
     timeout (0.3.2)
     trailblazer-option (0.1.2)
     ttfunk (1.7.0)
+    turbo-rails (1.4.0)
+      actionpack (>= 6.0.0)
+      activejob (>= 6.0.0)
+      railties (>= 6.0.0)
     typed_dag (2.0.2)
       rails (>= 5.0.4)
     tzinfo (2.0.6)
@@ -1142,6 +1146,7 @@ DEPENDENCIES
   table_print (~> 1.5.6)
   test-prof (~> 1.2.0)
   timecop (~> 0.9.0)
+  turbo-rails (~> 1.1)
   turbo_tests!
   typed_dag (~> 2.0.2)
   tzinfo-data (~> 1.2023.1)
