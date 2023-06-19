@@ -116,6 +116,7 @@
     "@ngx-formly/core": "^5.10.19",
     "@openproject/reactivestates": "^3.0.1",
     "@primer/css": "^21.0.2",
+    "@primer/primitives": "^7.11.12",
     "@uirouter/angular": "^11.1.0",
     "@uirouter/core": "^6.0.8",
     "@uirouter/rx": "^1.0.0",
