@@ -149,6 +149,8 @@ RSpec.describe Storages::Storages::SetAttributesService, type: :model do
   end
 
   describe 'automatically managed project folders' do
+    let(:model_instance) { build_stubbed(:nextcloud_storage) }
+
     context 'with password' do
       let(:params) do
         super().merge(

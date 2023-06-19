@@ -37,7 +37,7 @@ module Storages::Storages
     end
 
     def set_default_provider_fields(_params)
-      set_nextcloud_application_credentials_defaults if storage.provider_type_nextcloud?
+      set_nextcloud_application_credentials_defaults if nextcloud_storage?
     end
 
     private
@@ -75,6 +75,10 @@ module Storages::Storages
       return prefix if last_id.nil?
 
       "#{prefix} #{last_id + 1}"
+    end
+
+    def nextcloud_storage?
+      storage.provider_type_nextcloud? && storage.is_a?(Storages::NextcloudStorage)
     end
   end
 end
