@@ -64,11 +64,17 @@ COPY --from=nodejs /app/node_modules ./node_modules
 COPY --from=nodejs /app/frontend/node_modules ./frontend/node_modules
 COPY --chown=$APP_USER:$APP_USER . .
 
+USER $APP_USER
 ENV DATABASE_URL="postgres://appuser:p4ssw0rd@127.0.0.1/appdb"
 ENV BUNDLE_WITHOUT="development:production:docker"
 
+RUN --mount=type=cache,target=/app/frontend/.angular/cache,uid=1000,gid=1000 DATABASE_URL=nulldb://db bin/rails openproject:plugins:register_frontend assets:precompile && \
+	# only keep most current angular cache since webpack is unable to cleanup after itself
+	find frontend/.angular/cache -type d -exec sh -c 'ls -dt "$1"/*/ | tail -n +2 | xargs rm -r' sh {} \;
+RUN cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json
+RUN cp docker/ci/database.yml config/
+
 COPY ./docker/ci/entrypoint.sh /usr/sbin/entrypoint.sh
 
-USER $APP_USER
 ENTRYPOINT [ "/usr/sbin/entrypoint.sh" ]
 CMD ["setup-tests", "bash"]

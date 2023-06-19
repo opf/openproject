@@ -8,7 +8,7 @@ export PARALLEL_TEST_PROCESSORS=$JOBS
 export PARALLEL_TEST_FIRST_IS_1=true
 export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
 export NODE_OPTIONS="--max-old-space-size=8192"
-LOG_FILE=/tmp/op-output.log
+export LOG_FILE=/tmp/op-output.log
 
 run_psql() {
 	$PGBIN/psql -v ON_ERROR_STOP=1 -U dev -h 127.0.0.1 "$@"
@@ -19,9 +19,10 @@ cleanup() {
 	echo "CLEANUP"
 	rm -rf tmp/cache/parallel*
 	if [ -d tmp/features ]; then mv tmp/features spec/ ; fi
+
 	if [ ! $exit_code -eq "0" ]; then
 		echo "ERROR: exit code $exit_code"
-		cat $LOG_FILE
+		tail -n 1000 $LOG_FILE
 	fi
 	rm -f $LOG_FILE
 }
@@ -35,7 +36,7 @@ execute() {
 }
 
 execute_quiet() {
-	if ! BANNER="[execute_quiet]" execute "$@" >$LOG_FILE ; then
+	if ! BANNER="[execute_quiet]" execute "$@" >"$LOG_FILE" ; then
 		return 1
 	else
 		return 0
@@ -52,14 +53,9 @@ reset_dbs() {
 	done
 }
 
-if [ "$1" == "setup-tests" ]; then
-	shift
+setup_tests() {
 	echo "Preparing environment for running tests..."
-
-	execute_quiet "mkdir -p tmp"
-	execute_quiet "cp docker/ci/database.yml config/"
-
-	for i in $(seq 0 $JOBS); do
+	for i in $(seq 1 $JOBS); do
 		folder="$CAPYBARA_DOWNLOADED_FILE_DIR/$i"
 		execute_quiet "rm -rf '$folder' ; mkdir -p '$folder' ; chmod 1777 '$folder'"
 	done
@@ -72,11 +68,10 @@ if [ "$1" == "setup-tests" ]; then
 	fi
 
 	# create test database "app" and dump schema because db/structure.sql is not checked in
-	execute_quiet "time bundle exec rails db:migrate db:schema:dump zeitwerk:check openproject:plugins:register_frontend"
-fi
+	execute_quiet "time bundle exec rails db:migrate db:schema:dump zeitwerk:check webdrivers:chromedriver:update webdrivers:geckodriver:update"
+}
 
-if [ "$1" == "run-units" ]; then
-	shift
+run_units() {
 	reset_dbs
 	execute_quiet "cp -f /cache/turbo_runtime_units.log spec/support/ || true"
 	# turbo_tests cannot yet exclude specific directories, so copying spec/features elsewhere (temporarily)
@@ -84,28 +79,44 @@ if [ "$1" == "run-units" ]; then
 	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/turbo_runtime_units.log spec"
 	execute_quiet "cp -f spec/support/turbo_runtime_units.log /cache/ || true"
 	cleanup
+}
+
+run_features() {
+	reset_dbs
+	execute_quiet "cp -f /cache/turbo_runtime_features.log spec/support/ || true"
+	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/turbo_runtime_features.log spec/features"
+	execute_quiet "cp -f spec/support/turbo_runtime_features.log /cache/ || true"
+	cleanup
+}
+
+run_all() {
+	reset_dbs
+	execute_quiet "cp -f /cache/turbo_runtime_all.log spec/support/ || true"
+	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/turbo_runtime_all.log spec"
+	execute_quiet "cp -f spec/support/turbo_runtime_all.log /cache/ || true"
+	cleanup
+}
+
+export -f cleanup execute execute_quiet run_psql reset_dbs setup_tests run_units run_features
+
+if [ "$1" == "setup-tests" ]; then
+	shift
+	setup_tests
+fi
+
+if [ "$1" == "run-units" ]; then
+	shift
+	run_units
 fi
 
 if [ "$1" == "run-features" ]; then
 	shift
-	reset_dbs
-	execute_quiet "time bundle exec rails assets:precompile webdrivers:chromedriver:update webdrivers:geckodriver:update"
-	execute_quiet "cp -f /cache/turbo_runtime_features.log spec/support/ || true"
-	execute_quiet "cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json"
-	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/turbo_runtime_features.log spec/features"
-	execute_quiet "cp -f spec/support/turbo_runtime_features.log /cache/ || true"
-	cleanup
+	run_features
 fi
 
 if [ "$1" == "run-all" ]; then
 	shift
-	reset_dbs
-	execute_quiet "time bundle exec rails assets:precompile webdrivers:chromedriver:update webdrivers:geckodriver:update"
-	execute_quiet "cp -f /cache/turbo_runtime_all.log spec/support/ || true"
-	execute_quiet "cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json"
-	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/turbo_runtime_all.log spec"
-	execute_quiet "cp -f spec/support/turbo_runtime_all.log /cache/ || true"
-	cleanup
+	run_all
 fi
 
 if [ ! -z "$1" ] ; then
