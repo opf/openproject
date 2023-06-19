@@ -222,18 +222,12 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   public search($event:SearchResultItems):void {
     this.currentValue = this.searchTerm;
-    this.openCloseMenu($event.term);
-  }
-
-  // close menu when input field is empty
-  public openCloseMenu(searchedTerm:string):void {
-    this.ngSelectComponent.ngSelectInstance.isOpen = (searchedTerm.trim().length > 0);
   }
 
   public onFocus():void {
     this.expanded = true;
     this.toggleTopMenuClass();
-    this.openCloseMenu(this.currentValue);
+    this.ngSelectComponent.openSelect();
   }
 
   public onFocusOut():void {
@@ -252,7 +246,6 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   public clearSearch():void {
     this.currentValue = '';
     this.searchTerm = '';
-    this.openCloseMenu(this.currentValue);
   }
 
   // If Enter key is pressed before result list is loaded, wait for the results to come
@@ -298,7 +291,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   private autocompleteWorkPackages(query:string):Observable<(WorkPackageResource|SearchOptionItem)[]> {
     if (!query) {
-      return of([]);
+      return of([{ text: 'This needs the latest WP to be loaded', projectScope: 'test' }]);
     }
 
     // Reset the currently selected item.
