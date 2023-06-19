@@ -267,7 +267,7 @@ Rails.application.reloader.to_prepare do
 
     map.project_module :wiki do |wiki|
       wiki.permission :view_wiki_pages,
-                      { wiki: %i[index show special] }
+                      { wiki: %i[index show special menu] }
 
       wiki.permission :list_attachments,
                       { wiki: :list_attachments },
