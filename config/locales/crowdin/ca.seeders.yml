@@ -4,67 +4,183 @@
 ---
 ca:
   seeds:
+    common:
+      colors:
+        item_0:
+          name: Blau (fosc)
+        item_1:
+          name: Blau
+        item_2:
+          name: Blau (clar)
+        item_3:
+          name: Verd (clar)
+        item_4:
+          name: Verd (fosca)
+        item_5:
+          name: Groc
+        item_6:
+          name: Taronja
+        item_7:
+          name: Vermell
+        item_8:
+          name: Magenta
+        item_9:
+          name: Blanc
+        item_10:
+          name: Gris (clar)
+        item_11:
+          name: Gris
+        item_12:
+          name: Gris (fosc)
+        item_13:
+          name: Negre
+      document_categories:
+        item_0:
+          name: Documentació
+        item_1:
+          name: Especificació
+        item_2:
+          name: Altres
+      roles:
+        item_0:
+          name: No membre
+        item_1:
+          name: Anònim
+        item_2:
+          name: Membre
+        item_3:
+          name: Lector
+        item_4:
+          name: Administrador del projecte
+        item_5:
+          name: Personal i cap de projecte
     standard:
+      priorities:
+        item_0:
+          name: Baixa
+        item_1:
+          name: Normal
+        item_2:
+          name: Alta
+        item_3:
+          name: Immediata
+      statuses:
+        item_0:
+          name: Nou
+        item_1:
+          name: En l'especificació
+        item_2:
+          name: Especificat
+        item_3:
+          name: Confirmat
+        item_4:
+          name: Per planificar
+        item_5:
+          name: Programat
+        item_6:
+          name: En progrés
+        item_7:
+          name: Desenvolupat
+        item_8:
+          name: En proves
+        item_9:
+          name: Provat
+        item_10:
+          name: Ha fallat la prova
+        item_11:
+          name: Tancat
+        item_12:
+          name: En espera
+        item_13:
+          name: Rebutjat
+      time_entry_activities:
+        item_0:
+          name: Administració
+        item_1:
+          name: Especificació
+        item_2:
+          name: Desenvolupament
+        item_3:
+          name: Proves
+        item_4:
+          name: Assistència
+        item_5:
+          name: Altres
+      types:
+        item_0:
+          name: Tasca
+        item_1:
+          name: Fita
+        item_2:
+          name: Fase
+        item_3:
+          name: Característica
+        item_4:
+          name: Èpica
+        item_5:
+          name: Història d'usuari
+        item_6:
+          name: Error
       welcome:
-        title: Welcome to OpenProject!
+        title: Benvingut a OpenProject!
         text: |
-          Select one of the demo projects to get started with some demo data we have prepared for you.
+          Selecciona un projecte de demostració per a començar amb algunes dades de demostrció que hem preparat.
 
-          * [Demo project]({{opSetting:base_url}}/projects/demo-project): to get an overview about classical project management.
-          * [Scrum project]({{opSetting:base_url}}/projects/your-scrum-project): to learn about Agile and Scrum project management.
+          * [Projecte de demostració]({{opSetting:base_url}}/projects/demo-project): per veure un resum d'un projecte en format clàssic d'administració.
+          * [Projecte Scrum]({{opSetting:base_url}}/projects/your-scrum-project): per aprendre sbre projectes utilitzant la metodologia Agile i Scrum.
 
-          Also, you can create a blank [new project]({{opSetting:base_url}}/projects/new).
+          També potse crear un projecte en blanc [nou projecte]({{opSetting:base_url}}/projects/new).
 
-          Never stop collaborating. With open source and open mind.
+          Mai paris de col·laborar. Amb codi obert i la ment oberta.
 
-          You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          Pots canviar aquest text de benviguda [aquí]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
-          name: Demo project
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo project.
+          name: Projecte de demostració
+          status_explanation: Totes les tasques estan planificades. Les persones involucrades saben les seves tasques. El sistema s'ha configurat per complet.
+          description: Aquest és un resum curt dels objectius d'aquest projecte de demostració.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Benvingut al teu projecte de demostració
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Estem contents que t'hagis unit.
+                En aquest mòdul pots comunicar notícies del projecte a nous membres de l'equip.
+              description: Les notícies actuals
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Categoria 1 (per ser canviat en la configuració del projecte)
           queries:
             item_0:
-              name: Project plan
+              name: Pla de projecte
             item_1:
-              name: Milestones
+              name: Fita
             item_2:
-              name: Tasks
+              name: Tasca
             item_3:
-              name: Team planner
+              name: Planificador d'equips
           boards:
             kanban:
-              name: Kanban board
+              name: Tauler Kanban
             basic:
-              name: Basic board
+              name: Taulell bàsic
               lists:
                 item_0:
-                  name: Wish list
+                  name: Llista de desitjos
                 item_1:
-                  name: Short list
+                  name: Llista curta
                 item_2:
-                  name: Priority list for today
+                  name: Llista de prioritats per avui
                 item_3:
-                  name: Never
+                  name: Mai
             parent_child:
-              name: Work breakdown structure
+              name: Estructura de desglossament de treball
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Benvingut
               item_1:
                 options:
-                  name: Getting started
+                  name: Primers passos
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -83,60 +199,60 @@ ca:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Paquets de treball
               item_6:
                 options:
-                  name: Milestones
+                  name: Fites
           work_packages:
             item_0:
-              subject: Start of project
+              subject: Inici del projecte
             item_1:
-              subject: Organize open source conference
+              subject: Organitzar conferència de codi obert
               children:
                 item_0:
-                  subject: Set date and location of conference
+                  subject: Establir data i lloc de la conferència
                   children:
                     item_0:
-                      subject: Send invitation to speakers
+                      subject: Enviar invitacions als ponents
                     item_1:
-                      subject: Contact sponsoring partners
+                      subject: Contactar amb els socis patrocinadors
                     item_2:
-                      subject: Create sponsorship brochure and hand-outs
+                      subject: Crear i distribuir follets de patrocini
                 item_1:
-                  subject: Invite attendees to conference
+                  subject: Convidar assistents a la conferència
                 item_2:
-                  subject: Setup conference website
+                  subject: Crear la web de la conferència
             item_2:
-              subject: Conference
+              subject: Conferència
             item_3:
-              subject: Follow-up tasks
+              subject: Tasques de seguiment
               children:
                 item_0:
-                  subject: Upload presentations to website
+                  subject: Carregar les presentacions a la web
                 item_1:
-                  subject: Party for conference supporters :-)
+                  subject: Festa per a col·laboradors de la conferència ☺️
                   description: |-
-                    *   [ ] Beer
-                    *   [ ] Snacks
-                    *   [ ] Music
-                    *   [ ] Even more beer
+                    *   [ ] Cervesa
+                    *   [ ] Pica-pica
+                    *   [ ] Música
+                    *   [ ] Més cervesa
             item_4:
-              subject: End of project
+              subject: Final del projecte
         scrum-project:
-          name: Scrum project
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo Scrum project.
+          name: Projecte Scrum
+          status_explanation: Totes les tasques estan planificades. Les persones involucrades saben les seves tasques. El sistema s'ha configurat per complet.
+          description: Aquest és un resum curt dels objectius d'aquest projecte Scrum de demostració.
           news:
             item_0:
-              title: Welcome to your Scrum demo project
+              title: Benvingut al teu projecte Scrum de demostració
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
+                Estem contents que t'hagis unit.
+                En aquest mòdul pots comunicar notícies del projecte a nous membres de l'equip.
           versions:
             item_0:
-              name: Bug Backlog
+              name: Backlog d'errors
             item_1:
-              name: Product Backlog
+              name: Backlog del producte
             item_2:
               name: Sprint 1
               wiki:
@@ -190,38 +306,38 @@ ca:
             item_3:
               name: Sprint 2
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Categoria 1 (per ser canviat en la configuració del projecte)
           queries:
             item_0:
-              name: Project plan
+              name: Pla de projecte
             item_1:
-              name: Product backlog
+              name: Llista de pendents del producte
             item_2:
               name: Sprint 1
             item_3:
-              name: Tasks
+              name: Tasques
           boards:
             kanban:
-              name: Kanban board
+              name: Tauler Kanban
             basic:
-              name: Task board
+              name: Tauler de tasques
               lists:
                 item_0:
-                  name: Wish list
+                  name: Llista de desitjos
                 item_1:
-                  name: Short list
+                  name: Llista curta
                 item_2:
-                  name: Priority list for today
+                  name: Llista de prioritats per avui
                 item_3:
-                  name: Never
+                  name: Mai
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Benvingut
               item_1:
                 options:
-                  name: Getting started
+                  name: Primers passos
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -241,61 +357,61 @@ ca:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Paquets de treball
               item_6:
                 options:
-                  name: Project plan
+                  name: Pla de projecte
           work_packages:
             item_0:
-              subject: New login screen
+              subject: Nou inici de sessió
             item_1:
-              subject: Password reset does not send email
+              subject: El restabliment de la contrasenya no envia el correu electrònic
             item_2:
-              subject: New website
+              subject: Nova web
               children:
                 item_0:
-                  subject: Newsletter registration form
+                  subject: Formulari de registre al butlletí de notícies
                 item_1:
-                  subject: Implement product tour
+                  subject: Implementar la guía del producte
                 item_2:
-                  subject: New landing page
+                  subject: Nova pàgina inicial
                   children:
                     item_0:
-                      subject: Create wireframes for new landing page
+                      subject: Crear estructura per defecte per a la nova pàgina d'inici
             item_3:
-              subject: Contact form
+              subject: Formulari de contacte
             item_4:
-              subject: Feature carousel
+              subject: Carrusel de funcions
               children:
                 item_0:
-                  subject: Make screenshots for feature tour
+                  subject: Fer captures de pantalla per a la guia de funcions
             item_5:
-              subject: Wrong hover color
+              subject: Color erroni en mantenir el cursor
             item_6:
-              subject: SSL certificate
+              subject: Certificat SSL
             item_7:
-              subject: Set-up Staging environment
+              subject: Configurar l'entorn de muntatge (Staging)
             item_8:
-              subject: Choose a content management system
+              subject: Selecciona un sistema d'administració de contingut
             item_9:
-              subject: Website navigation structure
+              subject: Estructura de navegació web
               children:
                 item_0:
-                  subject: Set up navigation concept for website.
+                  subject: Configura el concepte de navegació per la web.
             item_10:
-              subject: Internal link structure
+              subject: Estructura d'enllaços interns
             item_11:
-              subject: Develop v1.0
+              subject: Desenvolupament v1.0
             item_12:
-              subject: Release v1.0
+              subject: Llançament v1.0
             item_13:
-              subject: Develop v1.1
+              subject: Desenvolupament v1.1
             item_14:
-              subject: Release v1.1
+              subject: Llançament v1.1
             item_15:
-              subject: Develop v2.0
+              subject: Desenvolupament v2.0
             item_16:
-              subject: Release v2.0
+              subject: Llançament v2.0
           wiki: |
             ### Sprint planning meeting
 

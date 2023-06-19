@@ -4,8 +4,8 @@ hu:
     team_planner:
       add_existing: 'Létező hozzáadása'
       add_existing_title: 'Add existing work packages'
-      create_label: 'Team planner'
-      create_title: 'Create new team planner'
+      create_label: 'Csoport tervező'
+      create_title: 'Új csoport tervező létrehozása'
       unsaved_title: 'Névtelen csoport tervező'
       no_data: 'Add assignees to set up your team planner.'
       add_assignee: 'Megbízott hozzáadása'

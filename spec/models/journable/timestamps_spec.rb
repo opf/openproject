@@ -507,6 +507,31 @@ RSpec.describe Journable::Timestamps do
           end
         end
       end
+
+      context "when including projects and filtering on it (e.g. done by the work package query)" do
+        before do
+          # Pretend the work package had been moved to a different project on wednesday
+          wednesday_journal.data.update_column(:project_id, work_package.project_id + 1)
+        end
+
+        subject { WorkPackage.at_timestamp(timestamp).includes(:project).where(projects: { id: [work_package.project.id] }) }
+
+        context "when the work package was in the filtered for project at that time" do
+          let(:timestamp) { monday }
+
+          it "returns the work package" do
+            expect(subject).to eq [work_package]
+          end
+        end
+
+        context "when the work package wasn't in the filtered for project at that time" do
+          let(:timestamp) { wednesday }
+
+          it "does not return the work package" do
+            expect(subject).to be_empty
+          end
+        end
+      end
     end
 
     describe "#at_timestamp" do

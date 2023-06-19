@@ -36,4 +36,64 @@ RSpec.describe Admin::Settings::AuthenticationSettingsController do
 
     it_behaves_like 'a controller action with require_admin'
   end
+
+  describe 'PATCH #update' do
+    shared_let(:admin) { create(:admin) }
+    current_user { admin }
+
+    describe 'registration_footer' do
+      let(:old_settings) do
+        {
+          registration_footer: {
+            'de' => 'Old German registration footer',
+            'en' => 'Old English registration footer'
+          }
+        }
+      end
+
+      let(:new_settings) do
+        {
+          registration_footer: {
+            'de' => 'New German registration footer',
+            'en' => 'New English registration footer'
+          }
+        }
+      end
+
+      before do
+        old_settings.each_key do |key|
+          Setting[key] = old_settings[key]
+        end
+      end
+
+      describe 'when writable' do
+        before do
+          patch 'update', params: { settings: new_settings }
+        end
+
+        it 'is successful' do
+          expect(response).to redirect_to(admin_settings_authentication_path)
+        end
+
+        it 'changes the registration_footer' do
+          expect(Setting.registration_footer).to eq new_settings[:registration_footer]
+        end
+      end
+
+      describe 'when non-writable (set via env var)' do
+        before do
+          allow(Setting).to receive(:registration_footer_writable?).and_return(false)
+          patch 'update', params: { settings: new_settings }
+        end
+
+        it 'is successful' do
+          expect(response).to redirect_to(admin_settings_authentication_path)
+        end
+
+        it 'does not change the registration_footer' do
+          expect(Setting.registration_footer).to eq old_settings[:registration_footer]
+        end
+      end
+    end
+  end
 end

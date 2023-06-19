@@ -91,12 +91,6 @@ export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
     },
   },
   {
-    name: 'api-docs.**',
-    parent: 'optional_project',
-    url: '/api/docs',
-    loadChildren: () => import('../../features/api-docs/openproject-api-docs.module').then((m) => m.OpenprojectApiDocsModule),
-  },
-  {
     name: 'boards.**',
     parent: 'optional_project',
     url: '/boards',

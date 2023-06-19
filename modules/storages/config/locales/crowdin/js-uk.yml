@@ -15,7 +15,7 @@ uk:
       choose_location: "Виберіть папку"
       types:
         nextcloud: "Nextcloud"
-        default: "Storage"
+        default: "Сховище"
       information:
         connection_error: >
           Деякі налаштування сховища %{storageType} не працюють. Зверніться до адміністратора %{storageType}.

@@ -10,9 +10,9 @@ hr:
       free: Basic
       action: "Action board (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
+      assignee: Opunomoćeno
       status: Status
-      version: Version
-      subproject: Subproject
+      version: Verzija
+      subproject: Potprojekt
       subtasks: Parent-child
       basic: Basic

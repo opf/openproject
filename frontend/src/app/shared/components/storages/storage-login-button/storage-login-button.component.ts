@@ -29,6 +29,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   Input,
   OnInit,
 } from '@angular/core';
@@ -38,9 +39,12 @@ import { v4 as uuidv4 } from 'uuid';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IStorageLoginInput } from 'core-app/shared/components/storages/storage-login-button/storage-login-input';
 import { storageLocaleString } from 'core-app/shared/components/storages/functions/storages.functions';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+
+export const opStorageLoginButtonSelector = 'op-storage-login-button';
 
 @Component({
-  selector: 'op-storage-login-button',
+  selector: opStorageLoginButtonSelector,
   templateUrl: 'storage-login-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -50,9 +54,12 @@ export class StorageLoginButtonComponent implements OnInit {
   label:string;
 
   constructor(
+    public elementRef:ElementRef,
     private readonly i18n:I18nService,
     private readonly cookieService:CookieService,
-  ) { }
+  ) {
+    populateInputsFromDataset(this);
+  }
 
   ngOnInit():void {
     const storageType = this.i18n.t(storageLocaleString(this.input.storageType));

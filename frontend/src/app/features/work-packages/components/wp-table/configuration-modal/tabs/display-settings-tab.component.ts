@@ -7,6 +7,7 @@ import { Component, Injector } from '@angular/core';
 import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
 
 @Component({
+  selector: 'op-wp-table-configuration-settings-tab',
   templateUrl: './display-settings-tab.component.html',
 })
 export class WpTableConfigurationDisplaySettingsTabComponent implements TabComponent {

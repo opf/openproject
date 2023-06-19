@@ -50,6 +50,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
       priority
       type
       version
+      parent
     ]
   end
 
@@ -61,6 +62,13 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
   let(:type) { build_stubbed(:type) }
   let(:priority) { build_stubbed(:priority) }
   let(:version) { build_stubbed(:version) }
+  let(:parent) do
+    build_stubbed(:work_package).tap do |wp|
+      allow(wp)
+        .to receive(:visible?)
+        .and_return(true)
+    end
+  end
   let(:project) { build_stubbed(:project) }
 
   let(:work_package) do
@@ -73,6 +81,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
                   type:,
                   priority:,
                   version:,
+                  parent:,
                   responsible:).tap do |wp|
       allow(wp)
         .to receive(:respond_to?)
@@ -161,9 +170,16 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
             'href' => api_v3_paths.version(version.id),
             'title' => version.name
           },
+          'parent' => {
+            'href' => api_v3_paths.work_package(parent.id),
+            'title' => parent.subject
+          },
           'self' => {
             'href' => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
             'title' => work_package.subject
+          },
+          'schema' => {
+            'href' => api_v3_paths.work_package_schema(work_package.project_id, work_package.type_id)
           }
         }
       }.to_json
@@ -198,6 +214,9 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
           'self' => {
             'href' => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
             'title' => work_package.subject
+          },
+          'schema' => {
+            'href' => api_v3_paths.work_package_schema(work_package.project_id, work_package.type_id)
           }
         }
       }.to_json
@@ -225,6 +244,9 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
           'self' => {
             'href' => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
             'title' => work_package.subject
+          },
+          'schema' => {
+            'href' => api_v3_paths.work_package_schema(work_package.project_id, work_package.type_id)
           }
         }
       }.to_json
@@ -255,6 +277,9 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
           'self' => {
             'href' => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
             'title' => work_package.subject
+          },
+          'schema' => {
+            'href' => api_v3_paths.work_package_schema(work_package.project_id, work_package.type_id)
           }
         }
       }.to_json
@@ -307,6 +332,9 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
           'self' => {
             'href' => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
             'title' => work_package.subject
+          },
+          'schema' => {
+            'href' => api_v3_paths.work_package_schema(work_package.project_id, work_package.type_id)
           }
         }
       }.to_json
@@ -331,22 +359,25 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
     #      {
     #        "attributesByTimestamp"=>
     #          [
-    #           # The part rendered by this representer
-    #           {
-    #            "_meta"=>{"exists"=>true, "timestamp"=>"2015-01-01T00:00:00Z", "matchesFilters"=>true},
-    #            "subject"=>"The original work package",
-    #            "startDate"=>nil,
-    #            "dueDate"=>nil,
-    #            "_links"=>
-    #             {"self"=>{"href"=>"/api/v3/work_packages/101?timestamps=2015-01-01T00%3A00%3A00Z",
-    #                       "title"=>"The original work package"},
-    #              "type"=>{"href"=>"/api/v3/types/63", "title"=>"None"},
-    #              "priority"=>{"href"=>"/api/v3/priorities/3", "title"=>"Priority 1"},
-    #              "project"=>{"href"=>"/api/v3/projects/85", "title"=>"My Project No. 2"},
-    #              "status"=>{"href"=>"/api/v3/statuses/3", "title"=>"status 1"},
-    #              "responsible"=>{"href"=>nil},
-    #              "assignee"=>{"href"=>"/api/v3/users/68", "title"=>"Bob Bobbit"},
-    #              "version"=>{"href"=>nil}}
+    #            # The part rendered by this representer
+    #            {
+    #             "_meta"=>{"exists"=>true, "timestamp"=>"2015-01-01T00:00:00Z", "matchesFilters"=>true},
+    #             "subject"=>"The original work package",
+    #             "startDate"=>nil,
+    #             "dueDate"=>nil,
+    #             "_links"=> {
+    #                  "self"=>{"href"=>"/api/v3/work_packages/101?timestamps=2015-01-01T00%3A00%3A00Z",
+    #                           "title"=>"The original work package"},
+    #                  "schema"=>{"href"=>"/api/v3/work_packages/schemas/85-63"},
+    #                  "type"=>{"href"=>"/api/v3/types/63", "title"=>"None"},
+    #                  "priority"=>{"href"=>"/api/v3/priorities/3", "title"=>"Priority 1"},
+    #                  "project"=>{"href"=>"/api/v3/projects/85", "title"=>"My Project No. 2"},
+    #                  "status"=>{"href"=>"/api/v3/statuses/3", "title"=>"status 1"},
+    #                  "responsible"=>{"href"=>nil},
+    #                  "assignee"=>{"href"=>"/api/v3/users/68", "title"=>"Bob Bobbit"},
+    #                  "parent"=>{"href"=>"/api/v3/work_packages/102"}
+    #                  "version"=>{"href"=>nil}
+    #               }
     #            },
     #            {
     #              "_meta"=>{"exists"=>false, "timestamp"=>"PT0S", "matchesFilters"=>false}
@@ -400,9 +431,16 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
             'href' => api_v3_paths.version(version.id),
             'title' => version.name
           },
+          'parent' => {
+            'href' => api_v3_paths.work_package(parent.id),
+            'title' => parent.subject
+          },
           'self' => {
             'href' => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
             'title' => work_package.subject
+          },
+          'schema' => {
+            'href' => api_v3_paths.work_package_schema(work_package.project_id, work_package.type_id)
           }
         }
       }.to_json

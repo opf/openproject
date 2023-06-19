@@ -43,6 +43,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   include WorkPackage::PDFExport::Common
   include WorkPackage::PDFExport::Attachments
   include WorkPackage::PDFExport::OverviewTable
+  include WorkPackage::PDFExport::SumsTable
   include WorkPackage::PDFExport::WorkPackageDetail
   include WorkPackage::PDFExport::TableOfContents
   include WorkPackage::PDFExport::Page
@@ -102,6 +103,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
     write_title!
     write_work_packages_toc! work_packages, @id_wp_meta_map if with_descriptions?
     write_work_packages_overview! work_packages, @id_wp_meta_map unless with_descriptions?
+    write_work_packages_sums! work_packages if with_sums_table? && with_descriptions?
     if should_be_batched?(work_packages)
       render_batched(work_packages, filename)
     else
@@ -222,16 +224,11 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def title
-    "#{heading}.pdf"
+    # export filename expects to be "project.name - query.name"
+    "#{project ? "#{project} - #{heading}" : heading}.pdf"
   end
 
   def heading
-    title = query.new_record? ? I18n.t(:label_work_package_plural) : query.name
-
-    if project
-      "#{project} - #{title}"
-    else
-      title
-    end
+    query.name || I18n.t(:label_work_package_plural)
   end
 end

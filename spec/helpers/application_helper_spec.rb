@@ -185,7 +185,7 @@ RSpec.describe ApplicationHelper do
   describe '.all_lang_options_for_select' do
     it 'has all languages translated ("English" should appear only once)' do
       impostor_locales =
-        all_lang_options_for_select(false)
+        all_lang_options_for_select
           .reject { |_lang, locale| locale == 'en' }
           .select { |lang, _locale| lang == "English" }
           .map { |_lang, locale| locale }
@@ -205,13 +205,13 @@ RSpec.describe ApplicationHelper do
 
     it 'has distinct languages translation' do
       duplicate_langs =
-        all_lang_options_for_select(false)
+        all_lang_options_for_select
           .map { |lang, _locale| lang }
           .tally
           .reject { |_lang, count| count == 1 }
           .map { |lang, _count| lang }
       duplicate_options =
-        all_lang_options_for_select(false)
+        all_lang_options_for_select
           .filter { |lang, _locale| duplicate_langs.include?(lang) }
           .sort
 
@@ -220,8 +220,14 @@ RSpec.describe ApplicationHelper do
 
           duplicates: #{duplicate_options}
 
-        To fix it, inspect translation files located in "config/locales/generated/*.yml".
-        You can also try running the script "script/i18n/generate_languages_translations".
+        This happens when a new language is added to Crowdin: new translation files are
+        generated and the new language is available in Setting.all_languages, but there
+        is no translation for its name yet, and so it falls back to "English".
+
+        To fix it:
+          - run the script "script/i18n/generate_languages_translations"
+          - commit the additional translation file generated in
+            "config/locales/generated/*.yml".
       ERR
     end
   end

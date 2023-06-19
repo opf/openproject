@@ -13,6 +13,4 @@ export class DateInputComponent extends FieldType {
       ? 'form--date-picker-container -xslim'
       : null;
   }
-
-  model:IOPFormModel;
 }

@@ -3,10 +3,7 @@ class DownloadList
     ENV.fetch("CAPYBARA_DOWNLOADED_FILE_DIR", Rails.root.join('tmp/test/downloads'))
   ).join(
     ENV.fetch('TEST_ENV_NUMBER', '1')
-  ).tap do |f|
-    p ["DownloadList::SHARED_PATH", f.to_s]
-    f.mkpath
-  end
+  ).tap(&:mkpath)
 
   def initialize
     @history = []

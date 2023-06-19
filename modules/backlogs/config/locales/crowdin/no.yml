@@ -35,9 +35,6 @@
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "kan bare inneholde ID-er til arbeidspakker i den pågående sprinten."
               must_block_at_least_one_work_package: "må inneholde ID for minst en sak."
-            parent_id:
-              parent_child_relationship_across_projects: "er ugyldig fordi arbeidspakken '%{work_package_name} er en backlog-oppgave og kan derfor ikke ha en overordnet oppgave utenfor det gjeldende prosjektet."
-              type_must_be_one_of_the_following: "Type må være en av følgende: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "må være det samme som den overordnete historiens versjon."
         sprint:
@@ -78,7 +75,6 @@
     x_more: "%{count} mer..."
   backlogs_active: "aktiv"
   backlogs_any: "hvilken som helst"
-  backlogs_card_specification: "Etikettyper for utskrift av kort"
   backlogs_inactive: "Prosjekter viser ingen aktivitet"
   backlogs_points_burn_direction: "Poeng brenner opp/ned"
   backlogs_product_backlog: "Produkt-backlog"

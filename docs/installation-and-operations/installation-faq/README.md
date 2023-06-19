@@ -10,7 +10,7 @@ keywords: installation FAQ, upgrades, updates, operation faq
 
 ## Installation and configuration
 
-### Which options are there to install Openproject?
+### Which options are there to install OpenProject?
 
 There's the package based installation (recommended), installation via Docker, using a provider (like Univention, Bitnami, IONOS) and the manual installation.
 

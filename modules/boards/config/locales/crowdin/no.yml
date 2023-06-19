@@ -7,12 +7,12 @@
     label_board: "Tavle"
     label_boards: "Tavler"
     board_types:
-      free: Basic
+      free: Enkel
       action: "Action board (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
+      assignee: Deltaker
       status: Status
-      version: Version
-      subproject: Subproject
+      version: Versjon
+      subproject: Underprosjekt
       subtasks: Parent-child
-      basic: Basic
+      basic: Enkel

@@ -4,7 +4,123 @@
 ---
 lt:
   seeds:
+    common:
+      colors:
+        item_0:
+          name: Mėlyna (tamsi)
+        item_1:
+          name: Mėlyna
+        item_2:
+          name: Mėlyna (šviesi)
+        item_3:
+          name: Žalia (šviesi)
+        item_4:
+          name: Žalia (tamsi)
+        item_5:
+          name: Geltona
+        item_6:
+          name: Oranžinė
+        item_7:
+          name: Raudona
+        item_8:
+          name: Purpurinė
+        item_9:
+          name: Balta
+        item_10:
+          name: Pilka (šviesi)
+        item_11:
+          name: Pilka
+        item_12:
+          name: Pilka (tamsi)
+        item_13:
+          name: Juoda
+      document_categories:
+        item_0:
+          name: Dokumentacija
+        item_1:
+          name: Specifikacija
+        item_2:
+          name: Kita
+      roles:
+        item_0:
+          name: Nėra narys
+        item_1:
+          name: Anonimas
+        item_2:
+          name: Narys
+        item_3:
+          name: Skaitytojas
+        item_4:
+          name: Projekto administratorius
+        item_5:
+          name: Personalo ir projektų vadovas
     standard:
+      priorities:
+        item_0:
+          name: Žemas
+        item_1:
+          name: Normalus
+        item_2:
+          name: Aukštis
+        item_3:
+          name: Neatidėliotinas
+      statuses:
+        item_0:
+          name: Naujas
+        item_1:
+          name: Specifikuojama
+        item_2:
+          name: Detalizuota
+        item_3:
+          name: Patvirtinta
+        item_4:
+          name: Turimas suplanuoti
+        item_5:
+          name: Suplanuota
+        item_6:
+          name: Vykdoma
+        item_7:
+          name: Plėtota
+        item_8:
+          name: Testuojama
+        item_9:
+          name: Ištestuota
+        item_10:
+          name: Nesėkmingas testavimas
+        item_11:
+          name: Uždaryta
+        item_12:
+          name: Sulaikyta
+        item_13:
+          name: Atmesta
+      time_entry_activities:
+        item_0:
+          name: Valdymas
+        item_1:
+          name: Specifikacija
+        item_2:
+          name: Kūrimas
+        item_3:
+          name: Testavimas
+        item_4:
+          name: Palaikymas
+        item_5:
+          name: Kita
+      types:
+        item_0:
+          name: Užduotis
+        item_1:
+          name: Svarbus etapas
+        item_2:
+          name: Fazė
+        item_3:
+          name: Požymis
+        item_4:
+          name: Didingas
+        item_5:
+          name: Vartotojo istorija
+        item_6:
+          name: Klaida
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -40,12 +156,12 @@ lt:
             item_2:
               name: Tasks
             item_3:
-              name: Team planner
+              name: Komandos planas
           boards:
             kanban:
               name: Kanban board
             basic:
-              name: Basic board
+              name: Paprasta lenta
               lists:
                 item_0:
                   name: Wish list
@@ -54,7 +170,7 @@ lt:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Niekada
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -64,7 +180,7 @@ lt:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Darbo pradžia
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -83,7 +199,7 @@ lt:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Darbų paketai
               item_6:
                 options:
                   name: Milestones
@@ -195,7 +311,7 @@ lt:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Produkto darbų sąrašas
             item_2:
               name: Sprint 1
             item_3:
@@ -204,7 +320,7 @@ lt:
             kanban:
               name: Kanban board
             basic:
-              name: Task board
+              name: Užduočių lenta
               lists:
                 item_0:
                   name: Wish list
@@ -213,7 +329,7 @@ lt:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Niekada
           project-overview:
             widgets:
               item_0:
@@ -221,7 +337,7 @@ lt:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Darbo pradžia
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -241,7 +357,7 @@ lt:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Darbų paketai
               item_6:
                 options:
                   name: Project plan

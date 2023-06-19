@@ -66,7 +66,7 @@ if [ "$(id -u)" = '0' ]; then
 		exec "$@"
 	fi
 
-	exec $APP_PATH/docker/prod/gosu $APP_USER "$BASH_SOURCE" "$@"
+	exec gosu $APP_USER "$BASH_SOURCE" "$@"
 fi
 
 exec "$@"

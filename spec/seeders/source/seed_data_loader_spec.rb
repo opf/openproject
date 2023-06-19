@@ -31,142 +31,132 @@
 require 'spec_helper'
 
 RSpec.describe Source::SeedDataLoader do
-  let(:title_en) { 'Welcome to OpenProject' }
-  let(:text_en) { 'Learn how to plan projects efficiently.' }
-  let(:title_fr) { 'Bienvenue sur OpenProject' }
-  let(:text_fr) { 'Apprenez à planifier des projets efficacement.' }
-  let(:locale) { 'fr' }
-  let(:seed_file_name) { 'special_edition' }
+  subject(:loader) { described_class.new(seed_file_name:) }
 
-  subject(:loader) { described_class.new(seed_file_name:, locale:) }
-
-  def mock_translations(locale, translations_map)
-    translations_map.each do |key, translation|
-      allow(I18n).to receive(:t).with(key, hash_including(locale: locale.to_s)).and_return(translation)
-      allow(I18n).to receive(:t).with(key, hash_including(locale: locale.to_sym)).and_return(translation)
-    end
+  def seed_file_double(name:, raw_content:)
+    instance_double(
+      Source::SeedFile,
+      name:,
+      raw_content:
+    )
   end
 
-  before do
-    allow(I18n).to receive(:t).and_call_original
-  end
-
-  describe '#translate' do
-    it 'translates keys with a "t_" prefix' do
-      mock_translations(
-        locale,
-        "#{Source::Translate::I18N_PREFIX}.#{seed_file_name}.welcome.title" => title_fr,
-        "#{Source::Translate::I18N_PREFIX}.#{seed_file_name}.welcome.text" => text_fr
+  describe '#raw_content' do
+    it 'merges the data from seed files matching the given seed name' do
+      allow(Source::SeedFile).to receive(:all).and_return(
+        [
+          seed_file_double(name: 'standard',
+                           raw_content: {
+                             'data_from_file1' => 'hello'
+                           }),
+          seed_file_double(name: 'standard',
+                           raw_content: {
+                             'data_from_file2' => 'world'
+                           })
+        ]
       )
-      hash = {
-        'welcome' => {
-          't_title' => title_en,
-          't_text' => text_en,
-          'icon' => ':smile:'
+
+      loader = described_class.new(seed_name: 'standard')
+      expect(loader.raw_seed_files_content).to eq(
+        {
+          'data_from_file1' => 'hello',
+          'data_from_file2' => 'world'
         }
-      }
-
-      translated = loader.translate(hash)
-      expect(translated.dig('welcome', 'title')).to eq(title_fr)
-      expect(translated.dig('welcome', 'text')).to eq(text_fr)
-      expect(translated.dig('welcome', 'icon')).to eq(':smile:')
-    end
-
-    it 'translates nothing if prefix "t_" is absent' do
-      mock_translations(
-        locale,
-        "#{Source::Translate::I18N_PREFIX}.#{seed_file_name}.welcome.title" => title_fr,
-        "#{Source::Translate::I18N_PREFIX}.#{seed_file_name}.welcome.text" => text_fr
-      )
-      hash = {
-        'welcome' => {
-          'title' => title_en,
-          'text' => text_en
-        }
-      }
-
-      translated = loader.translate(hash)
-      expect(I18n).not_to have_received(:t)
-      expect(translated.dig('welcome', 'title')).to eq(title_en)
-      expect(translated.dig('welcome', 'text')).to eq(text_en)
-    end
-
-    it 'uses the original string if no translation exists' do
-      hash = {
-        'welcome' => {
-          't_title' => title_en,
-          't_text' => text_en
-        }
-      }
-
-      translated = loader.translate(hash)
-
-      expect(I18n).to have_received(:t).at_least(:twice)
-      expect(translated.dig('welcome', 'title')).to eq(title_en)
-      expect(translated.dig('welcome', 'text')).to eq(text_en)
-    end
-
-    it 'removes the prefixed keys from the returned hash' do
-      hash = {
-        'welcome' => {
-          't_title' => title_en,
-          't_text' => text_en
-        }
-      }
-
-      translated = loader.translate(hash)
-      expect(translated['welcome']).to eq(
-        'title' => title_en,
-        'text' => text_en
       )
     end
 
-    context 'when the value to translate is an array' do
-      let(:locale) { 'de' }
-
-      it 'translates each values using indices' do
-        mock_translations(
-          locale,
-          "#{Source::Translate::I18N_PREFIX}.#{seed_file_name}.categories.item_0" => 'Erste Kategorie',
-          "#{Source::Translate::I18N_PREFIX}.#{seed_file_name}.categories.item_1" => 'Zweite Kategorie'
-        )
-        hash = {
-          't_categories' => [
-            'First category',
-            'Second category',
-            'Missing translations are kept as-is'
-          ]
-        }
-
-        translated = loader.translate(hash)
-        expect(translated['categories'])
-          .to eq(['Erste Kategorie', 'Zweite Kategorie', 'Missing translations are kept as-is'])
-      end
+    it 'merges also the data from all common seed files regardless of the given seed name' do
+      allow(Source::SeedFile).to receive(:all).and_return(
+        [
+          seed_file_double(name: 'standard',
+                           raw_content: {
+                             'data_from_file1' => 'hello'
+                           }),
+          seed_file_double(name: 'common',
+                           raw_content: {
+                             'data_from_common_file1' => 'world'
+                           }),
+          seed_file_double(name: 'common',
+                           raw_content: {
+                             'data_from_common_file2' => '!!!'
+                           })
+        ]
+      )
     end
 
-    context 'when hash contains array of hashes' do
-      it 'translates keys in the nested values if they have translatable keys' do
-        mock_translations(
-          locale,
-          "#{Source::Translate::I18N_PREFIX}.#{seed_file_name}.queries.item_0.name" => 'Plan projet',
-          "#{Source::Translate::I18N_PREFIX}.#{seed_file_name}.queries.item_1.name" => 'Tâches'
-        )
+    it 'does not merge the data from seed files with a name different from the given name' do
+      allow(Source::SeedFile).to receive(:all).and_return(
+        [
+          seed_file_double(name: 'standard',
+                           raw_content: {
+                             'data_from_standard_file' => 'hello'
+                           }),
+          seed_file_double(name: 'different',
+                           raw_content: {
+                             'data_from_different_file' => 'this data will not be merged'
+                           }),
+          seed_file_double(name: 'bim',
+                           raw_content: {
+                             'data_from_bim_file' => 'this data will not be merged either'
+                           })
+        ]
+      )
 
-        translated = loader.translate(
-          'queries' => [
-            { 't_name' => 'Project plan', 'open' => true },
-            { 't_name' => 'Tasks', 'open' => true },
-            { 't_name' => 'Missing translations are kept as-is', 'open' => true }
-          ]
-        )
-        expect(translated['queries']).to eq(
-          [
-            { 'name' => 'Plan projet', 'open' => true },
-            { 'name' => 'Tâches', 'open' => true },
-            { 'name' => 'Missing translations are kept as-is', 'open' => true }
-          ]
-        )
-      end
+      loader = described_class.new(seed_name: 'standard')
+      expect(loader.raw_seed_files_content).to eq(
+        {
+          'data_from_standard_file' => 'hello'
+        }
+      )
+    end
+
+    it 'deep merges hashes with identical paths' do
+      allow(Source::SeedFile).to receive(:all).and_return(
+        [
+          seed_file_double(name: 'standard',
+                           raw_content: {
+                             'welcome' => { title: 'welcome title' }
+                           }),
+          seed_file_double(name: 'standard',
+                           raw_content: {
+                             'welcome' => { description: 'welcome description' }
+                           })
+        ]
+      )
+
+      loader = described_class.new(seed_name: 'standard')
+      expect(loader.raw_seed_files_content).to eq(
+        {
+          'welcome' => {
+            title: 'welcome title',
+            description: 'welcome description'
+          }
+        }
+      )
+    end
+
+    it 'does not concat arrays with identical paths' do
+      allow(Source::SeedFile).to receive(:all).and_return(
+        [
+          seed_file_double(name: 'standard',
+                           raw_content: {
+                             'project' => { 'users' => ['Alice', 'Bob'] }
+                           }),
+          seed_file_double(name: 'standard',
+                           raw_content: {
+                             'project' => { 'users' => ['Caroline', 'Devanshi'] }
+                           })
+        ]
+      )
+
+      loader = described_class.new(seed_name: 'standard')
+      expect(loader.raw_seed_files_content).to eq(
+        {
+          'project' => {
+            'users' => ['Caroline', 'Devanshi'] # last one wins...
+          }
+        }
+      )
     end
   end
 end

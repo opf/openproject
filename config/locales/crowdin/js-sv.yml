@@ -228,7 +228,7 @@ sv:
         upsale:
           become_hero: "Bli en hjälte!"
           enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
-          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+          upgrade_info: "Vänligen uppgradera till en betalplan för att aktivera och börja använda den i ditt team."
           benefits:
             description: "What are the benefits of the Enterprise on-premises edition?"
             high_security: "Security features"
@@ -240,8 +240,8 @@ sv:
             professional_support: "Professionell hjälp"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Starta fri provperiod"
-          button_upgrade: "Upgrade now"
-          button_contact_us: "Contact us for a demo"
+          button_upgrade: "Uppgradera nu"
+          button_contact_us: "Kontakta oss för en demo"
           button_book_now: "Boka nu"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
@@ -329,7 +329,7 @@ sv:
       copy_url_success_text: "URL copied to clipboard."
       copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
     label_activate: "Aktivera"
-    label_assignee: 'Assignee'
+    label_assignee: 'Tilldelad till'
     label_add_column_after: "Lägg till kolumn efter"
     label_add_column_before: "Lägg till kolumn före"
     label_add_columns: "Lägg till kolumn"
@@ -339,7 +339,7 @@ sv:
     label_add_row_before: "Lägg till rad före"
     label_add_selected_columns: "Lägga till markerade kolumner"
     label_added_by: "lagts till av"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "dagar sedan"
     label_all: "alla"
     label_all_work_packages: "alla arbetspaket"
@@ -432,7 +432,7 @@ sv:
     label_previous: "Föregående"
     label_per_page: "Per sida:"
     label_please_wait: "Vänligen vänta"
-    label_project: "Project"
+    label_project: "Projekt"
     label_project_list: "Projects list"
     label_project_plural: "Projekt"
     label_visibility_settings: "Synlighet inställningar"
@@ -446,7 +446,7 @@ sv:
     label_report: "Rapport"
     label_repository_plural: "Versionsarkiv"
     label_save_as: "Spara som"
-    label_select_project: "Select a project"
+    label_select_project: "Välj ett projekt"
     label_select_watcher: "Välj en bevakare..."
     label_selected_filter_list: "Valda filter"
     label_show_attributes: "Visa alla attribut"
@@ -488,9 +488,9 @@ sv:
     label_unwatch: "Sluta bevaka"
     label_unwatch_work_package: "Sluta bevaka arbetspaket"
     label_uploaded_by: "Uppladdad av"
-    label_default_queries: "Default"
+    label_default_queries: "Standard"
     label_starred_queries: "Favorite"
-    label_global_queries: "Public"
+    label_global_queries: "Offentlig"
     label_custom_queries: "Private"
     label_columns: "Kolumner"
     label_attachments: Bilagor
@@ -584,9 +584,9 @@ sv:
         unread: 'Unread'
         unread_title: 'Show unread'
         all: 'Alla'
-        all_title: 'Show all'
+        all_title: 'Visa alla'
       center:
-        label_actor_and: 'and'
+        label_actor_and: 'och'
         and_more_users:
           one: 'and 1 other'
           other: 'and %{count} others'
@@ -611,7 +611,7 @@ sv:
         by_reason: 'Reason'
         inbox: 'Inbox'
         mentioned: 'Mentioned'
-        watched: 'Watcher'
+        watched: 'Bevakare'
         date_alert: 'Date alert'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
@@ -633,9 +633,9 @@ sv:
           mentioned:
             title: 'Mentioned'
             description: 'Receive a notification every time someone mentions me anywhere'
-          assignee: 'Assignee'
-          responsible: 'Accountable'
-          watched: 'Watcher'
+          assignee: 'Tilldelad till'
+          responsible: 'Huvudansvarig'
+          watched: 'Bevakare'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
           work_package_processed: 'All status changes'
@@ -678,8 +678,7 @@ sv:
         Välj ett projekt för att skapa arbetspaketet för att se alla attribut. Du kan bara välja projekt som har typen ovan aktiverad.
       details_activity: 'Project details activity'
       context: 'Projektsammanhang'
-      work_package_belongs_to: 'Detta arbetspaket tillhör projektet %{projectname}.'
-      click_to_switch_context: 'Öppna detta arbetspaket i det projektet.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       use_template: "Use template"
       no_template_selected: "(None)"
@@ -937,7 +936,7 @@ sv:
         modification_label: 'Modified within the comparison time period'
         column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
       filters:
-        title: 'Filter work packages'
+        title: 'Filtrera arbetspaket'
         baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
@@ -976,7 +975,7 @@ sv:
         description: "Beskrivning"
         date: "Datum"
         dueDate: "Slutdatum"
-        duration: "Duration"
+        duration: "Varaktighet"
         estimatedTime: "Beräknad tid"
         spentTime: "Förbrukad tid"
         category: "Kategori"
@@ -1089,19 +1088,19 @@ sv:
     toolbar:
       settings:
         configure_view: "Configure view"
-        columns: "Columns"
-        sort_by: "Sort by"
-        group_by: "Group by"
+        columns: "Kolumner"
+        sort_by: "Sortera efter"
+        group_by: "Gruppera efter"
         display_sums: "Visa summor"
         display_hierarchy: "Visa hierarki"
         hide_hierarchy: "Dölj hierarki"
         hide_sums: "Dölj summor"
         save: "Spara"
-        save_as: "Save as"
-        export: "Export"
-        visibility_settings: "Visibility settings"
+        save_as: "Spara som"
+        export: "Exportera"
+        visibility_settings: "Synlighet inställningar"
         share_calendar: "Subscribe to iCalendar"
-        page_settings: "Rename view"
+        page_settings: "Byt namn på vyn"
         delete: "Ta bort"
       filter: "Filter"
       unselected_title: "Arbetspaket"
@@ -1113,7 +1112,7 @@ sv:
       button_save: "Spara"
       button_submit: "Skicka"
       button_cancel: "Avbryt"
-      button_delete: "Delete"
+      button_delete: "Ta bort"
       form_submit:
         title: 'Bekräfta för att fortsätta'
         text: 'Är du säker på att du vill utföra den här åtgärden?'
@@ -1169,8 +1168,8 @@ sv:
         other: "%{count} timmar"
         zero: "0 h"
       day:
-        one: "1 day"
-        other: "%{count} days"
+        one: "En dag"
+        other: "%{count} dagar"
         zero: "0 days"
     zen_mode:
       button_activate: 'Aktivera zen-läge'
@@ -1244,7 +1243,7 @@ sv:
       message:
         label: 'Invitation message'
         description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
-        next_button: 'Next'
+        next_button: 'Nästa'
       summary:
         next_button: 'Skicka inbjudan'
       success:
@@ -1271,23 +1270,23 @@ sv:
       no_results: 'No project matches your search criteria.'
     baseline:
       toggle_title: 'Baseline'
-      clear: 'Clear'
-      apply: 'Apply'
+      clear: 'Rensa'
+      apply: 'Tilldela'
       header_description: 'Highlight changes made to this list since any point in the past.'
       enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Show changes since'
       baseline_comparison: 'Baseline comparison'
       help_description: 'Reference time zone for the baseline.'
       time_description: 'In your local time: %{datetime}'
-      time: 'Time'
-      from: 'From'
-      to: 'To'
+      time: 'Tid'
+      from: 'Från'
+      to: 'Till'
       drop_down:
         none: '-'
-        yesterday: 'yesterday'
+        yesterday: 'igår'
         last_working_day: 'last working day'
-        last_week: 'last week'
-        last_month: 'last month'
+        last_week: 'förra veckan'
+        last_month: 'förra månaden'
         a_specific_date: 'a specific date'
         between_two_specific_dates: 'between two specific dates'
       legends:

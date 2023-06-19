@@ -223,6 +223,7 @@ OpenProject::Application.routes.draw do
         post '/new' => 'wiki#create', as: 'create'
         get :export
         get '/index' => 'wiki#index'
+        get :menu
       end
 
       member do
@@ -238,6 +239,7 @@ OpenProject::Application.routes.draw do
         post :protect
         get :select_main_menu_item, to: 'wiki_menu_items#select_main_menu_item'
         post :replace_main_menu_item, to: 'wiki_menu_items#replace_main_menu_item'
+        get :menu
       end
     end
 

@@ -66,10 +66,7 @@ RSpec.describe 'Calendar sharing via ical', js: true do
            public: false)
   end
 
-  context 'with sufficient permissions' do
-    # TODO: save_queries permission is mandatory to see settings button used for sharing option
-    # does that make sense? the sharing feature therefore has an implicit dependency on this permission
-
+  context 'with sufficient permissions', with_settings: { ical_enabled: true } do
     before do
       login_as user_with_sharing_permission
       calendar.visit!
@@ -141,6 +138,26 @@ RSpec.describe 'Calendar sharing via ical', js: true do
         end
       end
 
+      context 'when ical sharing is disabled globally', with_settings: { ical_enabled: false } do
+        it 'shows a disabled menu item' do
+          # wait for settings button to become visible
+          expect(page).to have_selector("#work-packages-settings-button")
+
+          # click on settings button
+          page.find_by_id('work-packages-settings-button').click
+
+          # expect disabled sharing menu item
+          within "#settingsDropdown" do
+            # expect(page).to have_button("Subscribe to iCalendar", disabled: true) # disabled selector not working
+            expect(page).to have_selector(".menu-item.inactive", text: "Subscribe to iCalendar")
+            page.click_button("Subscribe to iCalendar")
+
+            # modal should not be shown
+            expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
+          end
+        end
+      end
+
       it 'shows a sharing modal' do
         open_sharing_modal
 
@@ -160,7 +177,7 @@ RSpec.describe 'Calendar sharing via ical', js: true do
       it 'successfully requests a new tokenized iCalendar URL when a unique name is provided' do
         open_sharing_modal
 
-        fill_in "Name", with: "A token name"
+        fill_in "Token name", with: "A token name"
 
         click_button "Copy URL"
 
@@ -181,7 +198,7 @@ RSpec.describe 'Calendar sharing via ical', js: true do
       it 'validates the presence of a name' do
         open_sharing_modal
 
-        # fill_in "Name", with: "A token name"
+        # fill_in "Token name", with: "A token name"
 
         click_button "Copy URL"
 
@@ -193,7 +210,7 @@ RSpec.describe 'Calendar sharing via ical', js: true do
       it 'validates the uniqueness of a name' do
         open_sharing_modal
 
-        fill_in "Name", with: "A token name"
+        fill_in "Token name", with: "A token name"
 
         click_button "Copy URL"
 
@@ -204,7 +221,7 @@ RSpec.describe 'Calendar sharing via ical', js: true do
 
         open_sharing_modal
 
-        fill_in "Name", with: "A token name" # same name for same user and same query -> not allowed
+        fill_in "Token name", with: "A token name" # same name for same user and same query -> not allowed
 
         click_button "Copy URL"
 
