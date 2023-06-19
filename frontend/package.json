@@ -108,6 +108,8 @@
     "@fullcalendar/resource-timeline": "^6.1.8",
     "@fullcalendar/timegrid": "^6.1.8",
     "@hotwired/stimulus": "^3.2.1",
+    "@hotwired/turbo": "^7.3.0",
+    "@hotwired/turbo-rails": "^7.3.0",
     "@kolkov/ngx-gallery": "^2.0.1",
     "@ng-select/ng-option-highlight": "0.0.7",
     "@ng-select/ng-select": "^11.0.0",

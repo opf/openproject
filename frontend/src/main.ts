@@ -6,8 +6,13 @@ import { initializeLocale } from 'core-app/core/setup/init-locale';
 import { environment } from './environments/environment';
 import { configureErrorReporter } from 'core-app/core/errors/configure-reporter';
 import { initializeGlobalListeners } from 'core-app/core/setup/globals/global-listeners';
+import * as Turbo from '@hotwired/turbo';
 
 (window as any).global = window;
+
+// Disable default turbo-drive for now while we
+//
+Turbo.session.drive = false;
 
 // Ensure we set the correct dynamic frontend path
 // based on the RAILS_RELATIVE_URL_ROOT setting
