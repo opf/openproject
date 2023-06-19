@@ -267,6 +267,13 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
             throw new Error('No new work package was created');
           }
 
+          // We need to apply the defaults again (after them being applied in the form requests)
+          // here as the initial form requests might have led to some default
+          // values not being carried over. This can happen when custom fields not available in one type are filter values.
+          // The defaults should be applied to the customFields only, hence we ignore the other filters.
+          const ignoreFiltersFn = (id:string):boolean => /customField\d+/.exec(id) === null;
+          this.defaultsFromFilters(change, defaults, ignoreFiltersFn);
+
           return change;
         });
       });
@@ -281,13 +288,21 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
    * @param object
    * @param defaults
    */
-  private defaultsFromFilters(object:HalSource|WorkPackageChangeset, defaults?:HalSource):void {
+  private defaultsFromFilters(
+    object:HalSource|WorkPackageChangeset,
+    defaults?:HalSource,
+    ignoreFiltersFn?:(id:string) => boolean,
+  ):void {
     // Not using WorkPackageViewFiltersService here as the embedded table does not load the form
     // which will result in that service having empty current filters.
     const query = this.querySpace.query.value;
 
     if (query) {
-      const except:string[] = defaults?._links ? Object.keys(defaults._links) : [];
+      let except = defaults?._links ? Object.keys(defaults._links) : [];
+
+      if (ignoreFiltersFn !== undefined) {
+        except = except.concat(query.filters.map((f) => f.id).filter(ignoreFiltersFn));
+      }
 
       new WorkPackageFilterValues(this.injector, query.filters, except)
         .applyDefaultsFromFilters(object);
