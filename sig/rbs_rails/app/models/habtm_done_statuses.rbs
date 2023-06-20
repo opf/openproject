@@ -1,0 +1,110 @@
+class Project < ::ApplicationRecord
+  class HABTM_DoneStatuses < ::ActiveRecord::Base
+    extend _ActiveRecord_Relation_ClassMethods[Project::HABTM_DoneStatuses, ActiveRecord_Relation, top]
+
+    module GeneratedAttributeMethods
+      def project_id: () -> Integer?
+
+      def project_id=: (Integer?) -> Integer?
+
+      def project_id?: () -> bool
+
+      def project_id_changed?: () -> bool
+
+      def project_id_change: () -> [ Integer?, Integer? ]
+
+      def project_id_will_change!: () -> void
+
+      def project_id_was: () -> Integer?
+
+      def project_id_previously_changed?: () -> bool
+
+      def project_id_previous_change: () -> Array[Integer?]?
+
+      def project_id_previously_was: () -> Integer?
+
+      def project_id_before_last_save: () -> Integer?
+
+      def project_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def project_id_in_database: () -> Integer?
+
+      def saved_change_to_project_id: () -> Array[Integer?]?
+
+      def saved_change_to_project_id?: () -> bool
+
+      def will_save_change_to_project_id?: () -> bool
+
+      def restore_project_id!: () -> void
+
+      def clear_project_id_change: () -> void
+
+      def status_id: () -> Integer?
+
+      def status_id=: (Integer?) -> Integer?
+
+      def status_id?: () -> bool
+
+      def status_id_changed?: () -> bool
+
+      def status_id_change: () -> [ Integer?, Integer? ]
+
+      def status_id_will_change!: () -> void
+
+      def status_id_was: () -> Integer?
+
+      def status_id_previously_changed?: () -> bool
+
+      def status_id_previous_change: () -> Array[Integer?]?
+
+      def status_id_previously_was: () -> Integer?
+
+      def status_id_before_last_save: () -> Integer?
+
+      def status_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def status_id_in_database: () -> Integer?
+
+      def saved_change_to_status_id: () -> Array[Integer?]?
+
+      def saved_change_to_status_id?: () -> bool
+
+      def will_save_change_to_status_id?: () -> bool
+
+      def restore_status_id!: () -> void
+
+      def clear_status_id_change: () -> void
+    end
+    include GeneratedAttributeMethods
+
+    def left_side: () -> Project?
+    def left_side=: (Project?) -> Project?
+    def reload_left_side: () -> Project?
+    def build_left_side: (untyped) -> Project
+    def create_left_side: (untyped) -> Project
+    def create_left_side!: (untyped) -> Project
+    def done_status: () -> Status?
+    def done_status=: (Status?) -> Status?
+    def reload_done_status: () -> Status?
+    def build_done_status: (untyped) -> Status
+    def create_done_status: (untyped) -> Status
+    def create_done_status!: (untyped) -> Status
+    module GeneratedAssociationMethods
+    end
+    include GeneratedAssociationMethods
+
+    module GeneratedRelationMethods
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Project::HABTM_DoneStatuses, top]
+      include Enumerable[Project::HABTM_DoneStatuses]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Project::HABTM_DoneStatuses, top]
+    end
+  end
+end

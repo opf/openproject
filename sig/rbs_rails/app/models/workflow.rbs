@@ -1,0 +1,300 @@
+class Workflow < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[Workflow, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def type_id: () -> Integer
+
+    def type_id=: (Integer) -> Integer
+
+    def type_id?: () -> bool
+
+    def type_id_changed?: () -> bool
+
+    def type_id_change: () -> [ Integer?, Integer? ]
+
+    def type_id_will_change!: () -> void
+
+    def type_id_was: () -> Integer?
+
+    def type_id_previously_changed?: () -> bool
+
+    def type_id_previous_change: () -> Array[Integer?]?
+
+    def type_id_previously_was: () -> Integer?
+
+    def type_id_before_last_save: () -> Integer?
+
+    def type_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def type_id_in_database: () -> Integer?
+
+    def saved_change_to_type_id: () -> Array[Integer?]?
+
+    def saved_change_to_type_id?: () -> bool
+
+    def will_save_change_to_type_id?: () -> bool
+
+    def restore_type_id!: () -> void
+
+    def clear_type_id_change: () -> void
+
+    def old_status_id: () -> Integer
+
+    def old_status_id=: (Integer) -> Integer
+
+    def old_status_id?: () -> bool
+
+    def old_status_id_changed?: () -> bool
+
+    def old_status_id_change: () -> [ Integer?, Integer? ]
+
+    def old_status_id_will_change!: () -> void
+
+    def old_status_id_was: () -> Integer?
+
+    def old_status_id_previously_changed?: () -> bool
+
+    def old_status_id_previous_change: () -> Array[Integer?]?
+
+    def old_status_id_previously_was: () -> Integer?
+
+    def old_status_id_before_last_save: () -> Integer?
+
+    def old_status_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def old_status_id_in_database: () -> Integer?
+
+    def saved_change_to_old_status_id: () -> Array[Integer?]?
+
+    def saved_change_to_old_status_id?: () -> bool
+
+    def will_save_change_to_old_status_id?: () -> bool
+
+    def restore_old_status_id!: () -> void
+
+    def clear_old_status_id_change: () -> void
+
+    def new_status_id: () -> Integer
+
+    def new_status_id=: (Integer) -> Integer
+
+    def new_status_id?: () -> bool
+
+    def new_status_id_changed?: () -> bool
+
+    def new_status_id_change: () -> [ Integer?, Integer? ]
+
+    def new_status_id_will_change!: () -> void
+
+    def new_status_id_was: () -> Integer?
+
+    def new_status_id_previously_changed?: () -> bool
+
+    def new_status_id_previous_change: () -> Array[Integer?]?
+
+    def new_status_id_previously_was: () -> Integer?
+
+    def new_status_id_before_last_save: () -> Integer?
+
+    def new_status_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def new_status_id_in_database: () -> Integer?
+
+    def saved_change_to_new_status_id: () -> Array[Integer?]?
+
+    def saved_change_to_new_status_id?: () -> bool
+
+    def will_save_change_to_new_status_id?: () -> bool
+
+    def restore_new_status_id!: () -> void
+
+    def clear_new_status_id_change: () -> void
+
+    def role_id: () -> Integer
+
+    def role_id=: (Integer) -> Integer
+
+    def role_id?: () -> bool
+
+    def role_id_changed?: () -> bool
+
+    def role_id_change: () -> [ Integer?, Integer? ]
+
+    def role_id_will_change!: () -> void
+
+    def role_id_was: () -> Integer?
+
+    def role_id_previously_changed?: () -> bool
+
+    def role_id_previous_change: () -> Array[Integer?]?
+
+    def role_id_previously_was: () -> Integer?
+
+    def role_id_before_last_save: () -> Integer?
+
+    def role_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def role_id_in_database: () -> Integer?
+
+    def saved_change_to_role_id: () -> Array[Integer?]?
+
+    def saved_change_to_role_id?: () -> bool
+
+    def will_save_change_to_role_id?: () -> bool
+
+    def restore_role_id!: () -> void
+
+    def clear_role_id_change: () -> void
+
+    def assignee: () -> bool
+
+    def assignee=: (bool) -> bool
+
+    def assignee?: () -> bool
+
+    def assignee_changed?: () -> bool
+
+    def assignee_change: () -> [ bool?, bool? ]
+
+    def assignee_will_change!: () -> void
+
+    def assignee_was: () -> bool?
+
+    def assignee_previously_changed?: () -> bool
+
+    def assignee_previous_change: () -> Array[bool?]?
+
+    def assignee_previously_was: () -> bool?
+
+    def assignee_before_last_save: () -> bool?
+
+    def assignee_change_to_be_saved: () -> Array[bool?]?
+
+    def assignee_in_database: () -> bool?
+
+    def saved_change_to_assignee: () -> Array[bool?]?
+
+    def saved_change_to_assignee?: () -> bool
+
+    def will_save_change_to_assignee?: () -> bool
+
+    def restore_assignee!: () -> void
+
+    def clear_assignee_change: () -> void
+
+    def author: () -> bool
+
+    def author=: (bool) -> bool
+
+    def author?: () -> bool
+
+    def author_changed?: () -> bool
+
+    def author_change: () -> [ bool?, bool? ]
+
+    def author_will_change!: () -> void
+
+    def author_was: () -> bool?
+
+    def author_previously_changed?: () -> bool
+
+    def author_previous_change: () -> Array[bool?]?
+
+    def author_previously_was: () -> bool?
+
+    def author_before_last_save: () -> bool?
+
+    def author_change_to_be_saved: () -> Array[bool?]?
+
+    def author_in_database: () -> bool?
+
+    def saved_change_to_author: () -> Array[bool?]?
+
+    def saved_change_to_author?: () -> bool
+
+    def will_save_change_to_author?: () -> bool
+
+    def restore_author!: () -> void
+
+    def clear_author_change: () -> void
+  end
+  include GeneratedAttributeMethods
+
+  def role: () -> Role
+  def role=: (Role?) -> Role?
+  def reload_role: () -> Role?
+  def build_role: (untyped) -> Role
+  def create_role: (untyped) -> Role
+  def create_role!: (untyped) -> Role
+  def old_status: () -> Status
+  def old_status=: (Status?) -> Status?
+  def reload_old_status: () -> Status?
+  def build_old_status: (untyped) -> Status
+  def create_old_status: (untyped) -> Status
+  def create_old_status!: (untyped) -> Status
+  def new_status: () -> Status
+  def new_status=: (Status?) -> Status?
+  def reload_new_status: () -> Status?
+  def build_new_status: (untyped) -> Status
+  def create_new_status: (untyped) -> Status
+  def create_new_status!: (untyped) -> Status
+  def type: () -> Type
+  def type=: (Type?) -> Type?
+  def reload_type: () -> Type?
+  def build_type: (untyped) -> Type
+  def create_type: (untyped) -> Type
+  def create_type!: (untyped) -> Type
+  module GeneratedAssociationMethods
+  end
+  include GeneratedAssociationMethods
+
+  module GeneratedRelationMethods
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Workflow, Integer]
+    include Enumerable[Workflow]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Workflow, Integer]
+  end
+end

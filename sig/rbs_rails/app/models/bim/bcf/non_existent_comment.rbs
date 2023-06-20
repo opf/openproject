@@ -1,0 +1,268 @@
+module Bim
+  module Bcf
+    class NonExistentComment < ::Bim::Bcf::Comment
+      extend _ActiveRecord_Relation_ClassMethods[Bim::Bcf::NonExistentComment, ActiveRecord_Relation, Integer]
+
+      module GeneratedAttributeMethods
+        def id: () -> Integer
+
+        def id=: (Integer) -> Integer
+
+        def id?: () -> bool
+
+        def id_changed?: () -> bool
+
+        def id_change: () -> [ Integer?, Integer? ]
+
+        def id_will_change!: () -> void
+
+        def id_was: () -> Integer?
+
+        def id_previously_changed?: () -> bool
+
+        def id_previous_change: () -> Array[Integer?]?
+
+        def id_previously_was: () -> Integer?
+
+        def id_before_last_save: () -> Integer?
+
+        def id_change_to_be_saved: () -> Array[Integer?]?
+
+        def id_in_database: () -> Integer?
+
+        def saved_change_to_id: () -> Array[Integer?]?
+
+        def saved_change_to_id?: () -> bool
+
+        def will_save_change_to_id?: () -> bool
+
+        def restore_id!: () -> void
+
+        def clear_id_change: () -> void
+
+        def uuid: () -> String?
+
+        def uuid=: (String?) -> String?
+
+        def uuid?: () -> bool
+
+        def uuid_changed?: () -> bool
+
+        def uuid_change: () -> [ String?, String? ]
+
+        def uuid_will_change!: () -> void
+
+        def uuid_was: () -> String?
+
+        def uuid_previously_changed?: () -> bool
+
+        def uuid_previous_change: () -> Array[String?]?
+
+        def uuid_previously_was: () -> String?
+
+        def uuid_before_last_save: () -> String?
+
+        def uuid_change_to_be_saved: () -> Array[String?]?
+
+        def uuid_in_database: () -> String?
+
+        def saved_change_to_uuid: () -> Array[String?]?
+
+        def saved_change_to_uuid?: () -> bool
+
+        def will_save_change_to_uuid?: () -> bool
+
+        def restore_uuid!: () -> void
+
+        def clear_uuid_change: () -> void
+
+        def journal_id: () -> Integer?
+
+        def journal_id=: (Integer?) -> Integer?
+
+        def journal_id?: () -> bool
+
+        def journal_id_changed?: () -> bool
+
+        def journal_id_change: () -> [ Integer?, Integer? ]
+
+        def journal_id_will_change!: () -> void
+
+        def journal_id_was: () -> Integer?
+
+        def journal_id_previously_changed?: () -> bool
+
+        def journal_id_previous_change: () -> Array[Integer?]?
+
+        def journal_id_previously_was: () -> Integer?
+
+        def journal_id_before_last_save: () -> Integer?
+
+        def journal_id_change_to_be_saved: () -> Array[Integer?]?
+
+        def journal_id_in_database: () -> Integer?
+
+        def saved_change_to_journal_id: () -> Array[Integer?]?
+
+        def saved_change_to_journal_id?: () -> bool
+
+        def will_save_change_to_journal_id?: () -> bool
+
+        def restore_journal_id!: () -> void
+
+        def clear_journal_id_change: () -> void
+
+        def issue_id: () -> Integer?
+
+        def issue_id=: (Integer?) -> Integer?
+
+        def issue_id?: () -> bool
+
+        def issue_id_changed?: () -> bool
+
+        def issue_id_change: () -> [ Integer?, Integer? ]
+
+        def issue_id_will_change!: () -> void
+
+        def issue_id_was: () -> Integer?
+
+        def issue_id_previously_changed?: () -> bool
+
+        def issue_id_previous_change: () -> Array[Integer?]?
+
+        def issue_id_previously_was: () -> Integer?
+
+        def issue_id_before_last_save: () -> Integer?
+
+        def issue_id_change_to_be_saved: () -> Array[Integer?]?
+
+        def issue_id_in_database: () -> Integer?
+
+        def saved_change_to_issue_id: () -> Array[Integer?]?
+
+        def saved_change_to_issue_id?: () -> bool
+
+        def will_save_change_to_issue_id?: () -> bool
+
+        def restore_issue_id!: () -> void
+
+        def clear_issue_id_change: () -> void
+
+        def viewpoint_id: () -> Integer?
+
+        def viewpoint_id=: (Integer?) -> Integer?
+
+        def viewpoint_id?: () -> bool
+
+        def viewpoint_id_changed?: () -> bool
+
+        def viewpoint_id_change: () -> [ Integer?, Integer? ]
+
+        def viewpoint_id_will_change!: () -> void
+
+        def viewpoint_id_was: () -> Integer?
+
+        def viewpoint_id_previously_changed?: () -> bool
+
+        def viewpoint_id_previous_change: () -> Array[Integer?]?
+
+        def viewpoint_id_previously_was: () -> Integer?
+
+        def viewpoint_id_before_last_save: () -> Integer?
+
+        def viewpoint_id_change_to_be_saved: () -> Array[Integer?]?
+
+        def viewpoint_id_in_database: () -> Integer?
+
+        def saved_change_to_viewpoint_id: () -> Array[Integer?]?
+
+        def saved_change_to_viewpoint_id?: () -> bool
+
+        def will_save_change_to_viewpoint_id?: () -> bool
+
+        def restore_viewpoint_id!: () -> void
+
+        def clear_viewpoint_id_change: () -> void
+
+        def reply_to: () -> Integer?
+
+        def reply_to=: (Integer?) -> Integer?
+
+        def reply_to?: () -> bool
+
+        def reply_to_changed?: () -> bool
+
+        def reply_to_change: () -> [ Integer?, Integer? ]
+
+        def reply_to_will_change!: () -> void
+
+        def reply_to_was: () -> Integer?
+
+        def reply_to_previously_changed?: () -> bool
+
+        def reply_to_previous_change: () -> Array[Integer?]?
+
+        def reply_to_previously_was: () -> Integer?
+
+        def reply_to_before_last_save: () -> Integer?
+
+        def reply_to_change_to_be_saved: () -> Array[Integer?]?
+
+        def reply_to_in_database: () -> Integer?
+
+        def saved_change_to_reply_to: () -> Array[Integer?]?
+
+        def saved_change_to_reply_to?: () -> bool
+
+        def will_save_change_to_reply_to?: () -> bool
+
+        def restore_reply_to!: () -> void
+
+        def clear_reply_to_change: () -> void
+      end
+      include GeneratedAttributeMethods
+
+      def journal: () -> Journal
+      def journal=: (Journal?) -> Journal?
+      def reload_journal: () -> Journal?
+      def build_journal: (untyped) -> Journal
+      def create_journal: (untyped) -> Journal
+      def create_journal!: (untyped) -> Journal
+      def issue: () -> Bim::Bcf::Issue
+      def issue=: (Bim::Bcf::Issue?) -> Bim::Bcf::Issue?
+      def reload_issue: () -> Bim::Bcf::Issue?
+      def build_issue: (untyped) -> Bim::Bcf::Issue
+      def create_issue: (untyped) -> Bim::Bcf::Issue
+      def create_issue!: (untyped) -> Bim::Bcf::Issue
+      def viewpoint: () -> Bim::Bcf::Viewpoint?
+      def viewpoint=: (Bim::Bcf::Viewpoint?) -> Bim::Bcf::Viewpoint?
+      def reload_viewpoint: () -> Bim::Bcf::Viewpoint?
+      def build_viewpoint: (untyped) -> Bim::Bcf::Viewpoint
+      def create_viewpoint: (untyped) -> Bim::Bcf::Viewpoint
+      def create_viewpoint!: (untyped) -> Bim::Bcf::Viewpoint
+      def reply_to: () -> Bim::Bcf::Comment?
+      def reply_to=: (Bim::Bcf::Comment?) -> Bim::Bcf::Comment?
+      def reload_reply_to: () -> Bim::Bcf::Comment?
+      def build_reply_to: (untyped) -> Bim::Bcf::Comment
+      def create_reply_to: (untyped) -> Bim::Bcf::Comment
+      def create_reply_to!: (untyped) -> Bim::Bcf::Comment
+      module GeneratedAssociationMethods
+      end
+      include GeneratedAssociationMethods
+
+      module GeneratedRelationMethods
+      end
+
+      class ActiveRecord_Relation < ::ActiveRecord::Relation
+        include GeneratedRelationMethods
+        include _ActiveRecord_Relation[Bim::Bcf::NonExistentComment, Integer]
+        include Enumerable[Bim::Bcf::NonExistentComment]
+      end
+
+      class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+        include GeneratedRelationMethods
+        include _ActiveRecord_Relation[Bim::Bcf::NonExistentComment, Integer]
+      end
+    end
+  end
+end

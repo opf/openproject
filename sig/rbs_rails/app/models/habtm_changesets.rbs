@@ -1,0 +1,110 @@
+class WorkPackage < ::ApplicationRecord
+  class HABTM_Changesets < ::ActiveRecord::Base
+    extend _ActiveRecord_Relation_ClassMethods[WorkPackage::HABTM_Changesets, ActiveRecord_Relation, top]
+
+    module GeneratedAttributeMethods
+      def changeset_id: () -> Integer
+
+      def changeset_id=: (Integer) -> Integer
+
+      def changeset_id?: () -> bool
+
+      def changeset_id_changed?: () -> bool
+
+      def changeset_id_change: () -> [ Integer?, Integer? ]
+
+      def changeset_id_will_change!: () -> void
+
+      def changeset_id_was: () -> Integer?
+
+      def changeset_id_previously_changed?: () -> bool
+
+      def changeset_id_previous_change: () -> Array[Integer?]?
+
+      def changeset_id_previously_was: () -> Integer?
+
+      def changeset_id_before_last_save: () -> Integer?
+
+      def changeset_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def changeset_id_in_database: () -> Integer?
+
+      def saved_change_to_changeset_id: () -> Array[Integer?]?
+
+      def saved_change_to_changeset_id?: () -> bool
+
+      def will_save_change_to_changeset_id?: () -> bool
+
+      def restore_changeset_id!: () -> void
+
+      def clear_changeset_id_change: () -> void
+
+      def work_package_id: () -> Integer
+
+      def work_package_id=: (Integer) -> Integer
+
+      def work_package_id?: () -> bool
+
+      def work_package_id_changed?: () -> bool
+
+      def work_package_id_change: () -> [ Integer?, Integer? ]
+
+      def work_package_id_will_change!: () -> void
+
+      def work_package_id_was: () -> Integer?
+
+      def work_package_id_previously_changed?: () -> bool
+
+      def work_package_id_previous_change: () -> Array[Integer?]?
+
+      def work_package_id_previously_was: () -> Integer?
+
+      def work_package_id_before_last_save: () -> Integer?
+
+      def work_package_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def work_package_id_in_database: () -> Integer?
+
+      def saved_change_to_work_package_id: () -> Array[Integer?]?
+
+      def saved_change_to_work_package_id?: () -> bool
+
+      def will_save_change_to_work_package_id?: () -> bool
+
+      def restore_work_package_id!: () -> void
+
+      def clear_work_package_id_change: () -> void
+    end
+    include GeneratedAttributeMethods
+
+    def left_side: () -> WorkPackage?
+    def left_side=: (WorkPackage?) -> WorkPackage?
+    def reload_left_side: () -> WorkPackage?
+    def build_left_side: (untyped) -> WorkPackage
+    def create_left_side: (untyped) -> WorkPackage
+    def create_left_side!: (untyped) -> WorkPackage
+    def changeset: () -> Changeset?
+    def changeset=: (Changeset?) -> Changeset?
+    def reload_changeset: () -> Changeset?
+    def build_changeset: (untyped) -> Changeset
+    def create_changeset: (untyped) -> Changeset
+    def create_changeset!: (untyped) -> Changeset
+    module GeneratedAssociationMethods
+    end
+    include GeneratedAssociationMethods
+
+    module GeneratedRelationMethods
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[WorkPackage::HABTM_Changesets, top]
+      include Enumerable[WorkPackage::HABTM_Changesets]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[WorkPackage::HABTM_Changesets, top]
+    end
+  end
+end

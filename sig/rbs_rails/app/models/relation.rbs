@@ -1,0 +1,258 @@
+class Relation < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[Relation, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def from_id: () -> Integer
+
+    def from_id=: (Integer) -> Integer
+
+    def from_id?: () -> bool
+
+    def from_id_changed?: () -> bool
+
+    def from_id_change: () -> [ Integer?, Integer? ]
+
+    def from_id_will_change!: () -> void
+
+    def from_id_was: () -> Integer?
+
+    def from_id_previously_changed?: () -> bool
+
+    def from_id_previous_change: () -> Array[Integer?]?
+
+    def from_id_previously_was: () -> Integer?
+
+    def from_id_before_last_save: () -> Integer?
+
+    def from_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def from_id_in_database: () -> Integer?
+
+    def saved_change_to_from_id: () -> Array[Integer?]?
+
+    def saved_change_to_from_id?: () -> bool
+
+    def will_save_change_to_from_id?: () -> bool
+
+    def restore_from_id!: () -> void
+
+    def clear_from_id_change: () -> void
+
+    def to_id: () -> Integer
+
+    def to_id=: (Integer) -> Integer
+
+    def to_id?: () -> bool
+
+    def to_id_changed?: () -> bool
+
+    def to_id_change: () -> [ Integer?, Integer? ]
+
+    def to_id_will_change!: () -> void
+
+    def to_id_was: () -> Integer?
+
+    def to_id_previously_changed?: () -> bool
+
+    def to_id_previous_change: () -> Array[Integer?]?
+
+    def to_id_previously_was: () -> Integer?
+
+    def to_id_before_last_save: () -> Integer?
+
+    def to_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def to_id_in_database: () -> Integer?
+
+    def saved_change_to_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_to_id?: () -> bool
+
+    def will_save_change_to_to_id?: () -> bool
+
+    def restore_to_id!: () -> void
+
+    def clear_to_id_change: () -> void
+
+    def delay: () -> Integer?
+
+    def delay=: (Integer?) -> Integer?
+
+    def delay?: () -> bool
+
+    def delay_changed?: () -> bool
+
+    def delay_change: () -> [ Integer?, Integer? ]
+
+    def delay_will_change!: () -> void
+
+    def delay_was: () -> Integer?
+
+    def delay_previously_changed?: () -> bool
+
+    def delay_previous_change: () -> Array[Integer?]?
+
+    def delay_previously_was: () -> Integer?
+
+    def delay_before_last_save: () -> Integer?
+
+    def delay_change_to_be_saved: () -> Array[Integer?]?
+
+    def delay_in_database: () -> Integer?
+
+    def saved_change_to_delay: () -> Array[Integer?]?
+
+    def saved_change_to_delay?: () -> bool
+
+    def will_save_change_to_delay?: () -> bool
+
+    def restore_delay!: () -> void
+
+    def clear_delay_change: () -> void
+
+    def description: () -> String?
+
+    def description=: (String?) -> String?
+
+    def description?: () -> bool
+
+    def description_changed?: () -> bool
+
+    def description_change: () -> [ String?, String? ]
+
+    def description_will_change!: () -> void
+
+    def description_was: () -> String?
+
+    def description_previously_changed?: () -> bool
+
+    def description_previous_change: () -> Array[String?]?
+
+    def description_previously_was: () -> String?
+
+    def description_before_last_save: () -> String?
+
+    def description_change_to_be_saved: () -> Array[String?]?
+
+    def description_in_database: () -> String?
+
+    def saved_change_to_description: () -> Array[String?]?
+
+    def saved_change_to_description?: () -> bool
+
+    def will_save_change_to_description?: () -> bool
+
+    def restore_description!: () -> void
+
+    def clear_description_change: () -> void
+
+    def relation_type: () -> String?
+
+    def relation_type=: (String?) -> String?
+
+    def relation_type?: () -> bool
+
+    def relation_type_changed?: () -> bool
+
+    def relation_type_change: () -> [ String?, String? ]
+
+    def relation_type_will_change!: () -> void
+
+    def relation_type_was: () -> String?
+
+    def relation_type_previously_changed?: () -> bool
+
+    def relation_type_previous_change: () -> Array[String?]?
+
+    def relation_type_previously_was: () -> String?
+
+    def relation_type_before_last_save: () -> String?
+
+    def relation_type_change_to_be_saved: () -> Array[String?]?
+
+    def relation_type_in_database: () -> String?
+
+    def saved_change_to_relation_type: () -> Array[String?]?
+
+    def saved_change_to_relation_type?: () -> bool
+
+    def will_save_change_to_relation_type?: () -> bool
+
+    def restore_relation_type!: () -> void
+
+    def clear_relation_type_change: () -> void
+  end
+  include GeneratedAttributeMethods
+
+  def from: () -> WorkPackage
+  def from=: (WorkPackage?) -> WorkPackage?
+  def reload_from: () -> WorkPackage?
+  def build_from: (untyped) -> WorkPackage
+  def create_from: (untyped) -> WorkPackage
+  def create_from!: (untyped) -> WorkPackage
+  def to: () -> WorkPackage
+  def to=: (WorkPackage?) -> WorkPackage?
+  def reload_to: () -> WorkPackage?
+  def build_to: (untyped) -> WorkPackage
+  def create_to: (untyped) -> WorkPackage
+  def create_to!: (untyped) -> WorkPackage
+  module GeneratedAssociationMethods
+  end
+  include GeneratedAssociationMethods
+
+  def self.of_work_package: (untyped work_package) -> ActiveRecord_Relation
+  def self.follows_with_delay: () -> ActiveRecord_Relation
+
+  module GeneratedRelationMethods
+    def of_work_package: (untyped work_package) -> ActiveRecord_Relation
+
+    def follows_with_delay: () -> ActiveRecord_Relation
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Relation, Integer]
+    include Enumerable[Relation]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Relation, Integer]
+  end
+end

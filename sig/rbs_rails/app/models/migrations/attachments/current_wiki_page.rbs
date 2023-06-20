@@ -1,0 +1,431 @@
+module Migrations
+  module Attachments
+    class CurrentWikiPage < ::ActiveRecord::Base
+      extend _ActiveRecord_Relation_ClassMethods[Migrations::Attachments::CurrentWikiPage, ActiveRecord_Relation, Integer]
+
+      module GeneratedAttributeMethods
+        def id: () -> Integer
+
+        def id=: (Integer) -> Integer
+
+        def id?: () -> bool
+
+        def id_changed?: () -> bool
+
+        def id_change: () -> [ Integer?, Integer? ]
+
+        def id_will_change!: () -> void
+
+        def id_was: () -> Integer?
+
+        def id_previously_changed?: () -> bool
+
+        def id_previous_change: () -> Array[Integer?]?
+
+        def id_previously_was: () -> Integer?
+
+        def id_before_last_save: () -> Integer?
+
+        def id_change_to_be_saved: () -> Array[Integer?]?
+
+        def id_in_database: () -> Integer?
+
+        def saved_change_to_id: () -> Array[Integer?]?
+
+        def saved_change_to_id?: () -> bool
+
+        def will_save_change_to_id?: () -> bool
+
+        def restore_id!: () -> void
+
+        def clear_id_change: () -> void
+
+        def wiki_id: () -> Integer
+
+        def wiki_id=: (Integer) -> Integer
+
+        def wiki_id?: () -> bool
+
+        def wiki_id_changed?: () -> bool
+
+        def wiki_id_change: () -> [ Integer?, Integer? ]
+
+        def wiki_id_will_change!: () -> void
+
+        def wiki_id_was: () -> Integer?
+
+        def wiki_id_previously_changed?: () -> bool
+
+        def wiki_id_previous_change: () -> Array[Integer?]?
+
+        def wiki_id_previously_was: () -> Integer?
+
+        def wiki_id_before_last_save: () -> Integer?
+
+        def wiki_id_change_to_be_saved: () -> Array[Integer?]?
+
+        def wiki_id_in_database: () -> Integer?
+
+        def saved_change_to_wiki_id: () -> Array[Integer?]?
+
+        def saved_change_to_wiki_id?: () -> bool
+
+        def will_save_change_to_wiki_id?: () -> bool
+
+        def restore_wiki_id!: () -> void
+
+        def clear_wiki_id_change: () -> void
+
+        def title: () -> String
+
+        def title=: (String) -> String
+
+        def title?: () -> bool
+
+        def title_changed?: () -> bool
+
+        def title_change: () -> [ String?, String? ]
+
+        def title_will_change!: () -> void
+
+        def title_was: () -> String?
+
+        def title_previously_changed?: () -> bool
+
+        def title_previous_change: () -> Array[String?]?
+
+        def title_previously_was: () -> String?
+
+        def title_before_last_save: () -> String?
+
+        def title_change_to_be_saved: () -> Array[String?]?
+
+        def title_in_database: () -> String?
+
+        def saved_change_to_title: () -> Array[String?]?
+
+        def saved_change_to_title?: () -> bool
+
+        def will_save_change_to_title?: () -> bool
+
+        def restore_title!: () -> void
+
+        def clear_title_change: () -> void
+
+        def created_at: () -> ActiveSupport::TimeWithZone
+
+        def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+        def created_at?: () -> bool
+
+        def created_at_changed?: () -> bool
+
+        def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+        def created_at_will_change!: () -> void
+
+        def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+        def created_at_previously_changed?: () -> bool
+
+        def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+        def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+        def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+        def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def saved_change_to_created_at?: () -> bool
+
+        def will_save_change_to_created_at?: () -> bool
+
+        def restore_created_at!: () -> void
+
+        def clear_created_at_change: () -> void
+
+        def protected: () -> bool
+
+        def protected=: (bool) -> bool
+
+        def protected?: () -> bool
+
+        def protected_changed?: () -> bool
+
+        def protected_change: () -> [ bool?, bool? ]
+
+        def protected_will_change!: () -> void
+
+        def protected_was: () -> bool?
+
+        def protected_previously_changed?: () -> bool
+
+        def protected_previous_change: () -> Array[bool?]?
+
+        def protected_previously_was: () -> bool?
+
+        def protected_before_last_save: () -> bool?
+
+        def protected_change_to_be_saved: () -> Array[bool?]?
+
+        def protected_in_database: () -> bool?
+
+        def saved_change_to_protected: () -> Array[bool?]?
+
+        def saved_change_to_protected?: () -> bool
+
+        def will_save_change_to_protected?: () -> bool
+
+        def restore_protected!: () -> void
+
+        def clear_protected_change: () -> void
+
+        def parent_id: () -> Integer?
+
+        def parent_id=: (Integer?) -> Integer?
+
+        def parent_id?: () -> bool
+
+        def parent_id_changed?: () -> bool
+
+        def parent_id_change: () -> [ Integer?, Integer? ]
+
+        def parent_id_will_change!: () -> void
+
+        def parent_id_was: () -> Integer?
+
+        def parent_id_previously_changed?: () -> bool
+
+        def parent_id_previous_change: () -> Array[Integer?]?
+
+        def parent_id_previously_was: () -> Integer?
+
+        def parent_id_before_last_save: () -> Integer?
+
+        def parent_id_change_to_be_saved: () -> Array[Integer?]?
+
+        def parent_id_in_database: () -> Integer?
+
+        def saved_change_to_parent_id: () -> Array[Integer?]?
+
+        def saved_change_to_parent_id?: () -> bool
+
+        def will_save_change_to_parent_id?: () -> bool
+
+        def restore_parent_id!: () -> void
+
+        def clear_parent_id_change: () -> void
+
+        def slug: () -> String
+
+        def slug=: (String) -> String
+
+        def slug?: () -> bool
+
+        def slug_changed?: () -> bool
+
+        def slug_change: () -> [ String?, String? ]
+
+        def slug_will_change!: () -> void
+
+        def slug_was: () -> String?
+
+        def slug_previously_changed?: () -> bool
+
+        def slug_previous_change: () -> Array[String?]?
+
+        def slug_previously_was: () -> String?
+
+        def slug_before_last_save: () -> String?
+
+        def slug_change_to_be_saved: () -> Array[String?]?
+
+        def slug_in_database: () -> String?
+
+        def saved_change_to_slug: () -> Array[String?]?
+
+        def saved_change_to_slug?: () -> bool
+
+        def will_save_change_to_slug?: () -> bool
+
+        def restore_slug!: () -> void
+
+        def clear_slug_change: () -> void
+
+        def updated_at: () -> ActiveSupport::TimeWithZone
+
+        def updated_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+        def updated_at?: () -> bool
+
+        def updated_at_changed?: () -> bool
+
+        def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+        def updated_at_will_change!: () -> void
+
+        def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+        def updated_at_previously_changed?: () -> bool
+
+        def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+        def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+        def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+        def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def saved_change_to_updated_at?: () -> bool
+
+        def will_save_change_to_updated_at?: () -> bool
+
+        def restore_updated_at!: () -> void
+
+        def clear_updated_at_change: () -> void
+
+        def author_id: () -> Integer
+
+        def author_id=: (Integer) -> Integer
+
+        def author_id?: () -> bool
+
+        def author_id_changed?: () -> bool
+
+        def author_id_change: () -> [ Integer?, Integer? ]
+
+        def author_id_will_change!: () -> void
+
+        def author_id_was: () -> Integer?
+
+        def author_id_previously_changed?: () -> bool
+
+        def author_id_previous_change: () -> Array[Integer?]?
+
+        def author_id_previously_was: () -> Integer?
+
+        def author_id_before_last_save: () -> Integer?
+
+        def author_id_change_to_be_saved: () -> Array[Integer?]?
+
+        def author_id_in_database: () -> Integer?
+
+        def saved_change_to_author_id: () -> Array[Integer?]?
+
+        def saved_change_to_author_id?: () -> bool
+
+        def will_save_change_to_author_id?: () -> bool
+
+        def restore_author_id!: () -> void
+
+        def clear_author_id_change: () -> void
+
+        def text: () -> String?
+
+        def text=: (String?) -> String?
+
+        def text?: () -> bool
+
+        def text_changed?: () -> bool
+
+        def text_change: () -> [ String?, String? ]
+
+        def text_will_change!: () -> void
+
+        def text_was: () -> String?
+
+        def text_previously_changed?: () -> bool
+
+        def text_previous_change: () -> Array[String?]?
+
+        def text_previously_was: () -> String?
+
+        def text_before_last_save: () -> String?
+
+        def text_change_to_be_saved: () -> Array[String?]?
+
+        def text_in_database: () -> String?
+
+        def saved_change_to_text: () -> Array[String?]?
+
+        def saved_change_to_text?: () -> bool
+
+        def will_save_change_to_text?: () -> bool
+
+        def restore_text!: () -> void
+
+        def clear_text_change: () -> void
+
+        def lock_version: () -> Integer
+
+        def lock_version=: (Integer) -> Integer
+
+        def lock_version?: () -> bool
+
+        def lock_version_changed?: () -> bool
+
+        def lock_version_change: () -> [ Integer?, Integer? ]
+
+        def lock_version_will_change!: () -> void
+
+        def lock_version_was: () -> Integer?
+
+        def lock_version_previously_changed?: () -> bool
+
+        def lock_version_previous_change: () -> Array[Integer?]?
+
+        def lock_version_previously_was: () -> Integer?
+
+        def lock_version_before_last_save: () -> Integer?
+
+        def lock_version_change_to_be_saved: () -> Array[Integer?]?
+
+        def lock_version_in_database: () -> Integer?
+
+        def saved_change_to_lock_version: () -> Array[Integer?]?
+
+        def saved_change_to_lock_version?: () -> bool
+
+        def will_save_change_to_lock_version?: () -> bool
+
+        def restore_lock_version!: () -> void
+
+        def clear_lock_version_change: () -> void
+      end
+      include GeneratedAttributeMethods
+
+      def content: () -> Migrations::Attachments::CurrentWikiContent?
+      def content=: (Migrations::Attachments::CurrentWikiContent?) -> Migrations::Attachments::CurrentWikiContent?
+      def build_content: (untyped) -> Migrations::Attachments::CurrentWikiContent
+      def create_content: (untyped) -> Migrations::Attachments::CurrentWikiContent
+      def create_content!: (untyped) -> Migrations::Attachments::CurrentWikiContent
+      def reload_content: () -> Migrations::Attachments::CurrentWikiContent?
+
+      module GeneratedAssociationMethods
+      end
+      include GeneratedAssociationMethods
+
+      module GeneratedRelationMethods
+      end
+
+      class ActiveRecord_Relation < ::ActiveRecord::Relation
+        include GeneratedRelationMethods
+        include _ActiveRecord_Relation[Migrations::Attachments::CurrentWikiPage, Integer]
+        include Enumerable[Migrations::Attachments::CurrentWikiPage]
+      end
+
+      class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+        include GeneratedRelationMethods
+        include _ActiveRecord_Relation[Migrations::Attachments::CurrentWikiPage, Integer]
+      end
+    end
+  end
+end

@@ -1,0 +1,266 @@
+class Wiki < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[Wiki, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def project_id: () -> Integer
+
+    def project_id=: (Integer) -> Integer
+
+    def project_id?: () -> bool
+
+    def project_id_changed?: () -> bool
+
+    def project_id_change: () -> [ Integer?, Integer? ]
+
+    def project_id_will_change!: () -> void
+
+    def project_id_was: () -> Integer?
+
+    def project_id_previously_changed?: () -> bool
+
+    def project_id_previous_change: () -> Array[Integer?]?
+
+    def project_id_previously_was: () -> Integer?
+
+    def project_id_before_last_save: () -> Integer?
+
+    def project_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def project_id_in_database: () -> Integer?
+
+    def saved_change_to_project_id: () -> Array[Integer?]?
+
+    def saved_change_to_project_id?: () -> bool
+
+    def will_save_change_to_project_id?: () -> bool
+
+    def restore_project_id!: () -> void
+
+    def clear_project_id_change: () -> void
+
+    def start_page: () -> String
+
+    def start_page=: (String) -> String
+
+    def start_page?: () -> bool
+
+    def start_page_changed?: () -> bool
+
+    def start_page_change: () -> [ String?, String? ]
+
+    def start_page_will_change!: () -> void
+
+    def start_page_was: () -> String?
+
+    def start_page_previously_changed?: () -> bool
+
+    def start_page_previous_change: () -> Array[String?]?
+
+    def start_page_previously_was: () -> String?
+
+    def start_page_before_last_save: () -> String?
+
+    def start_page_change_to_be_saved: () -> Array[String?]?
+
+    def start_page_in_database: () -> String?
+
+    def saved_change_to_start_page: () -> Array[String?]?
+
+    def saved_change_to_start_page?: () -> bool
+
+    def will_save_change_to_start_page?: () -> bool
+
+    def restore_start_page!: () -> void
+
+    def clear_start_page_change: () -> void
+
+    def status: () -> Integer
+
+    def status=: (Integer) -> Integer
+
+    def status?: () -> bool
+
+    def status_changed?: () -> bool
+
+    def status_change: () -> [ Integer?, Integer? ]
+
+    def status_will_change!: () -> void
+
+    def status_was: () -> Integer?
+
+    def status_previously_changed?: () -> bool
+
+    def status_previous_change: () -> Array[Integer?]?
+
+    def status_previously_was: () -> Integer?
+
+    def status_before_last_save: () -> Integer?
+
+    def status_change_to_be_saved: () -> Array[Integer?]?
+
+    def status_in_database: () -> Integer?
+
+    def saved_change_to_status: () -> Array[Integer?]?
+
+    def saved_change_to_status?: () -> bool
+
+    def will_save_change_to_status?: () -> bool
+
+    def restore_status!: () -> void
+
+    def clear_status_change: () -> void
+
+    def created_at: () -> ActiveSupport::TimeWithZone
+
+    def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+    def created_at?: () -> bool
+
+    def created_at_changed?: () -> bool
+
+    def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def created_at_will_change!: () -> void
+
+    def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_previously_changed?: () -> bool
+
+    def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_created_at?: () -> bool
+
+    def will_save_change_to_created_at?: () -> bool
+
+    def restore_created_at!: () -> void
+
+    def clear_created_at_change: () -> void
+
+    def updated_at: () -> ActiveSupport::TimeWithZone
+
+    def updated_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+    def updated_at?: () -> bool
+
+    def updated_at_changed?: () -> bool
+
+    def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def updated_at_will_change!: () -> void
+
+    def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_previously_changed?: () -> bool
+
+    def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_updated_at?: () -> bool
+
+    def will_save_change_to_updated_at?: () -> bool
+
+    def restore_updated_at!: () -> void
+
+    def clear_updated_at_change: () -> void
+  end
+  include GeneratedAttributeMethods
+  def pages: () -> WikiPage::ActiveRecord_Associations_CollectionProxy
+  def pages=: (WikiPage::ActiveRecord_Associations_CollectionProxy | Array[WikiPage]) -> (WikiPage::ActiveRecord_Associations_CollectionProxy | Array[WikiPage])
+  def page_ids: () -> Array[Integer]
+  def page_ids=: (Array[Integer]) -> Array[Integer]
+  def wiki_menu_items: () -> MenuItems::WikiMenuItem::ActiveRecord_Associations_CollectionProxy
+  def wiki_menu_items=: (MenuItems::WikiMenuItem::ActiveRecord_Associations_CollectionProxy | Array[MenuItems::WikiMenuItem]) -> (MenuItems::WikiMenuItem::ActiveRecord_Associations_CollectionProxy | Array[MenuItems::WikiMenuItem])
+  def wiki_menu_item_ids: () -> Array[Integer]
+  def wiki_menu_item_ids=: (Array[Integer]) -> Array[Integer]
+  def redirects: () -> WikiRedirect::ActiveRecord_Associations_CollectionProxy
+  def redirects=: (WikiRedirect::ActiveRecord_Associations_CollectionProxy | Array[WikiRedirect]) -> (WikiRedirect::ActiveRecord_Associations_CollectionProxy | Array[WikiRedirect])
+  def redirect_ids: () -> Array[Integer]
+  def redirect_ids=: (Array[Integer]) -> Array[Integer]
+  def watchers: () -> Watcher::ActiveRecord_Associations_CollectionProxy
+  def watchers=: (Watcher::ActiveRecord_Associations_CollectionProxy | Array[Watcher]) -> (Watcher::ActiveRecord_Associations_CollectionProxy | Array[Watcher])
+  def watcher_ids: () -> Array[Integer]
+  def watcher_ids=: (Array[Integer]) -> Array[Integer]
+  def watcher_users: () -> User::ActiveRecord_Associations_CollectionProxy
+  def watcher_users=: (User::ActiveRecord_Associations_CollectionProxy | Array[User]) -> (User::ActiveRecord_Associations_CollectionProxy | Array[User])
+  def watcher_user_ids: () -> Array[Integer]
+  def watcher_user_ids=: (Array[Integer]) -> Array[Integer]
+
+  def project: () -> Project
+  def project=: (Project?) -> Project?
+  def reload_project: () -> Project?
+  def build_project: (untyped) -> Project
+  def create_project: (untyped) -> Project
+  def create_project!: (untyped) -> Project
+  module GeneratedAssociationMethods
+  end
+  include GeneratedAssociationMethods
+
+  module GeneratedRelationMethods
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Wiki, Integer]
+    include Enumerable[Wiki]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Wiki, Integer]
+  end
+end

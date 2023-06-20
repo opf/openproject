@@ -1,0 +1,183 @@
+class MemberRole < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[MemberRole, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def member_id: () -> Integer
+
+    def member_id=: (Integer) -> Integer
+
+    def member_id?: () -> bool
+
+    def member_id_changed?: () -> bool
+
+    def member_id_change: () -> [ Integer?, Integer? ]
+
+    def member_id_will_change!: () -> void
+
+    def member_id_was: () -> Integer?
+
+    def member_id_previously_changed?: () -> bool
+
+    def member_id_previous_change: () -> Array[Integer?]?
+
+    def member_id_previously_was: () -> Integer?
+
+    def member_id_before_last_save: () -> Integer?
+
+    def member_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def member_id_in_database: () -> Integer?
+
+    def saved_change_to_member_id: () -> Array[Integer?]?
+
+    def saved_change_to_member_id?: () -> bool
+
+    def will_save_change_to_member_id?: () -> bool
+
+    def restore_member_id!: () -> void
+
+    def clear_member_id_change: () -> void
+
+    def role_id: () -> Integer
+
+    def role_id=: (Integer) -> Integer
+
+    def role_id?: () -> bool
+
+    def role_id_changed?: () -> bool
+
+    def role_id_change: () -> [ Integer?, Integer? ]
+
+    def role_id_will_change!: () -> void
+
+    def role_id_was: () -> Integer?
+
+    def role_id_previously_changed?: () -> bool
+
+    def role_id_previous_change: () -> Array[Integer?]?
+
+    def role_id_previously_was: () -> Integer?
+
+    def role_id_before_last_save: () -> Integer?
+
+    def role_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def role_id_in_database: () -> Integer?
+
+    def saved_change_to_role_id: () -> Array[Integer?]?
+
+    def saved_change_to_role_id?: () -> bool
+
+    def will_save_change_to_role_id?: () -> bool
+
+    def restore_role_id!: () -> void
+
+    def clear_role_id_change: () -> void
+
+    def inherited_from: () -> Integer?
+
+    def inherited_from=: (Integer?) -> Integer?
+
+    def inherited_from?: () -> bool
+
+    def inherited_from_changed?: () -> bool
+
+    def inherited_from_change: () -> [ Integer?, Integer? ]
+
+    def inherited_from_will_change!: () -> void
+
+    def inherited_from_was: () -> Integer?
+
+    def inherited_from_previously_changed?: () -> bool
+
+    def inherited_from_previous_change: () -> Array[Integer?]?
+
+    def inherited_from_previously_was: () -> Integer?
+
+    def inherited_from_before_last_save: () -> Integer?
+
+    def inherited_from_change_to_be_saved: () -> Array[Integer?]?
+
+    def inherited_from_in_database: () -> Integer?
+
+    def saved_change_to_inherited_from: () -> Array[Integer?]?
+
+    def saved_change_to_inherited_from?: () -> bool
+
+    def will_save_change_to_inherited_from?: () -> bool
+
+    def restore_inherited_from!: () -> void
+
+    def clear_inherited_from_change: () -> void
+  end
+  include GeneratedAttributeMethods
+
+  def member: () -> Member
+  def member=: (Member?) -> Member?
+  def reload_member: () -> Member?
+  def build_member: (untyped) -> Member
+  def create_member: (untyped) -> Member
+  def create_member!: (untyped) -> Member
+  def role: () -> Role
+  def role=: (Role?) -> Role?
+  def reload_role: () -> Role?
+  def build_role: (untyped) -> Role
+  def create_role: (untyped) -> Role
+  def create_role!: (untyped) -> Role
+  module GeneratedAssociationMethods
+  end
+  include GeneratedAssociationMethods
+
+  def self.only_inherited: () -> ActiveRecord_Relation
+
+  module GeneratedRelationMethods
+    def only_inherited: () -> ActiveRecord_Relation
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[MemberRole, Integer]
+    include Enumerable[MemberRole]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[MemberRole, Integer]
+  end
+end

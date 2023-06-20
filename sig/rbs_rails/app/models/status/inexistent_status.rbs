@@ -1,0 +1,396 @@
+class Status < ::ApplicationRecord
+  class InexistentStatus < ::Status
+    extend _ActiveRecord_Relation_ClassMethods[Status::InexistentStatus, ActiveRecord_Relation, Integer]
+
+    module GeneratedAttributeMethods
+      def id: () -> Integer
+
+      def id=: (Integer) -> Integer
+
+      def id?: () -> bool
+
+      def id_changed?: () -> bool
+
+      def id_change: () -> [ Integer?, Integer? ]
+
+      def id_will_change!: () -> void
+
+      def id_was: () -> Integer?
+
+      def id_previously_changed?: () -> bool
+
+      def id_previous_change: () -> Array[Integer?]?
+
+      def id_previously_was: () -> Integer?
+
+      def id_before_last_save: () -> Integer?
+
+      def id_change_to_be_saved: () -> Array[Integer?]?
+
+      def id_in_database: () -> Integer?
+
+      def saved_change_to_id: () -> Array[Integer?]?
+
+      def saved_change_to_id?: () -> bool
+
+      def will_save_change_to_id?: () -> bool
+
+      def restore_id!: () -> void
+
+      def clear_id_change: () -> void
+
+      def name: () -> String
+
+      def name=: (String) -> String
+
+      def name?: () -> bool
+
+      def name_changed?: () -> bool
+
+      def name_change: () -> [ String?, String? ]
+
+      def name_will_change!: () -> void
+
+      def name_was: () -> String?
+
+      def name_previously_changed?: () -> bool
+
+      def name_previous_change: () -> Array[String?]?
+
+      def name_previously_was: () -> String?
+
+      def name_before_last_save: () -> String?
+
+      def name_change_to_be_saved: () -> Array[String?]?
+
+      def name_in_database: () -> String?
+
+      def saved_change_to_name: () -> Array[String?]?
+
+      def saved_change_to_name?: () -> bool
+
+      def will_save_change_to_name?: () -> bool
+
+      def restore_name!: () -> void
+
+      def clear_name_change: () -> void
+
+      def is_closed: () -> bool
+
+      def is_closed=: (bool) -> bool
+
+      def is_closed?: () -> bool
+
+      def is_closed_changed?: () -> bool
+
+      def is_closed_change: () -> [ bool?, bool? ]
+
+      def is_closed_will_change!: () -> void
+
+      def is_closed_was: () -> bool?
+
+      def is_closed_previously_changed?: () -> bool
+
+      def is_closed_previous_change: () -> Array[bool?]?
+
+      def is_closed_previously_was: () -> bool?
+
+      def is_closed_before_last_save: () -> bool?
+
+      def is_closed_change_to_be_saved: () -> Array[bool?]?
+
+      def is_closed_in_database: () -> bool?
+
+      def saved_change_to_is_closed: () -> Array[bool?]?
+
+      def saved_change_to_is_closed?: () -> bool
+
+      def will_save_change_to_is_closed?: () -> bool
+
+      def restore_is_closed!: () -> void
+
+      def clear_is_closed_change: () -> void
+
+      def is_default: () -> bool
+
+      def is_default=: (bool) -> bool
+
+      def is_default?: () -> bool
+
+      def is_default_changed?: () -> bool
+
+      def is_default_change: () -> [ bool?, bool? ]
+
+      def is_default_will_change!: () -> void
+
+      def is_default_was: () -> bool?
+
+      def is_default_previously_changed?: () -> bool
+
+      def is_default_previous_change: () -> Array[bool?]?
+
+      def is_default_previously_was: () -> bool?
+
+      def is_default_before_last_save: () -> bool?
+
+      def is_default_change_to_be_saved: () -> Array[bool?]?
+
+      def is_default_in_database: () -> bool?
+
+      def saved_change_to_is_default: () -> Array[bool?]?
+
+      def saved_change_to_is_default?: () -> bool
+
+      def will_save_change_to_is_default?: () -> bool
+
+      def restore_is_default!: () -> void
+
+      def clear_is_default_change: () -> void
+
+      def position: () -> Integer?
+
+      def position=: (Integer?) -> Integer?
+
+      def position?: () -> bool
+
+      def position_changed?: () -> bool
+
+      def position_change: () -> [ Integer?, Integer? ]
+
+      def position_will_change!: () -> void
+
+      def position_was: () -> Integer?
+
+      def position_previously_changed?: () -> bool
+
+      def position_previous_change: () -> Array[Integer?]?
+
+      def position_previously_was: () -> Integer?
+
+      def position_before_last_save: () -> Integer?
+
+      def position_change_to_be_saved: () -> Array[Integer?]?
+
+      def position_in_database: () -> Integer?
+
+      def saved_change_to_position: () -> Array[Integer?]?
+
+      def saved_change_to_position?: () -> bool
+
+      def will_save_change_to_position?: () -> bool
+
+      def restore_position!: () -> void
+
+      def clear_position_change: () -> void
+
+      def default_done_ratio: () -> Integer?
+
+      def default_done_ratio=: (Integer?) -> Integer?
+
+      def default_done_ratio?: () -> bool
+
+      def default_done_ratio_changed?: () -> bool
+
+      def default_done_ratio_change: () -> [ Integer?, Integer? ]
+
+      def default_done_ratio_will_change!: () -> void
+
+      def default_done_ratio_was: () -> Integer?
+
+      def default_done_ratio_previously_changed?: () -> bool
+
+      def default_done_ratio_previous_change: () -> Array[Integer?]?
+
+      def default_done_ratio_previously_was: () -> Integer?
+
+      def default_done_ratio_before_last_save: () -> Integer?
+
+      def default_done_ratio_change_to_be_saved: () -> Array[Integer?]?
+
+      def default_done_ratio_in_database: () -> Integer?
+
+      def saved_change_to_default_done_ratio: () -> Array[Integer?]?
+
+      def saved_change_to_default_done_ratio?: () -> bool
+
+      def will_save_change_to_default_done_ratio?: () -> bool
+
+      def restore_default_done_ratio!: () -> void
+
+      def clear_default_done_ratio_change: () -> void
+
+      def created_at: () -> ActiveSupport::TimeWithZone
+
+      def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+      def created_at?: () -> bool
+
+      def created_at_changed?: () -> bool
+
+      def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+      def created_at_will_change!: () -> void
+
+      def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_previously_changed?: () -> bool
+
+      def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+      def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def saved_change_to_created_at?: () -> bool
+
+      def will_save_change_to_created_at?: () -> bool
+
+      def restore_created_at!: () -> void
+
+      def clear_created_at_change: () -> void
+
+      def updated_at: () -> ActiveSupport::TimeWithZone
+
+      def updated_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+      def updated_at?: () -> bool
+
+      def updated_at_changed?: () -> bool
+
+      def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+      def updated_at_will_change!: () -> void
+
+      def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_previously_changed?: () -> bool
+
+      def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+      def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def saved_change_to_updated_at?: () -> bool
+
+      def will_save_change_to_updated_at?: () -> bool
+
+      def restore_updated_at!: () -> void
+
+      def clear_updated_at_change: () -> void
+
+      def color_id: () -> Integer?
+
+      def color_id=: (Integer?) -> Integer?
+
+      def color_id?: () -> bool
+
+      def color_id_changed?: () -> bool
+
+      def color_id_change: () -> [ Integer?, Integer? ]
+
+      def color_id_will_change!: () -> void
+
+      def color_id_was: () -> Integer?
+
+      def color_id_previously_changed?: () -> bool
+
+      def color_id_previous_change: () -> Array[Integer?]?
+
+      def color_id_previously_was: () -> Integer?
+
+      def color_id_before_last_save: () -> Integer?
+
+      def color_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def color_id_in_database: () -> Integer?
+
+      def saved_change_to_color_id: () -> Array[Integer?]?
+
+      def saved_change_to_color_id?: () -> bool
+
+      def will_save_change_to_color_id?: () -> bool
+
+      def restore_color_id!: () -> void
+
+      def clear_color_id_change: () -> void
+
+      def is_readonly: () -> bool?
+
+      def is_readonly=: (bool?) -> bool?
+
+      def is_readonly?: () -> bool
+
+      def is_readonly_changed?: () -> bool
+
+      def is_readonly_change: () -> [ bool?, bool? ]
+
+      def is_readonly_will_change!: () -> void
+
+      def is_readonly_was: () -> bool?
+
+      def is_readonly_previously_changed?: () -> bool
+
+      def is_readonly_previous_change: () -> Array[bool?]?
+
+      def is_readonly_previously_was: () -> bool?
+
+      def is_readonly_before_last_save: () -> bool?
+
+      def is_readonly_change_to_be_saved: () -> Array[bool?]?
+
+      def is_readonly_in_database: () -> bool?
+
+      def saved_change_to_is_readonly: () -> Array[bool?]?
+
+      def saved_change_to_is_readonly?: () -> bool
+
+      def will_save_change_to_is_readonly?: () -> bool
+
+      def restore_is_readonly!: () -> void
+
+      def clear_is_readonly_change: () -> void
+    end
+    include GeneratedAttributeMethods
+    def workflows: () -> Workflow::ActiveRecord_Associations_CollectionProxy
+    def workflows=: (Workflow::ActiveRecord_Associations_CollectionProxy | Array[Workflow]) -> (Workflow::ActiveRecord_Associations_CollectionProxy | Array[Workflow])
+    def workflow_ids: () -> Array[Integer]
+    def workflow_ids=: (Array[Integer]) -> Array[Integer]
+
+    def color: () -> Color
+    def color=: (Color?) -> Color?
+    def reload_color: () -> Color?
+    def build_color: (untyped) -> Color
+    def create_color: (untyped) -> Color
+    def create_color!: (untyped) -> Color
+    module GeneratedAssociationMethods
+    end
+    include GeneratedAssociationMethods
+
+    module GeneratedRelationMethods
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Status::InexistentStatus, Integer]
+      include Enumerable[Status::InexistentStatus]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Status::InexistentStatus, Integer]
+    end
+  end
+end

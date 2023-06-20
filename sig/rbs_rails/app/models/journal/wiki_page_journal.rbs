@@ -1,0 +1,146 @@
+class Journal < ::ApplicationRecord
+  class WikiPageJournal < ::Journal::BaseJournal
+    extend _ActiveRecord_Relation_ClassMethods[Journal::WikiPageJournal, ActiveRecord_Relation, Integer]
+
+    module GeneratedAttributeMethods
+      def id: () -> Integer
+
+      def id=: (Integer) -> Integer
+
+      def id?: () -> bool
+
+      def id_changed?: () -> bool
+
+      def id_change: () -> [ Integer?, Integer? ]
+
+      def id_will_change!: () -> void
+
+      def id_was: () -> Integer?
+
+      def id_previously_changed?: () -> bool
+
+      def id_previous_change: () -> Array[Integer?]?
+
+      def id_previously_was: () -> Integer?
+
+      def id_before_last_save: () -> Integer?
+
+      def id_change_to_be_saved: () -> Array[Integer?]?
+
+      def id_in_database: () -> Integer?
+
+      def saved_change_to_id: () -> Array[Integer?]?
+
+      def saved_change_to_id?: () -> bool
+
+      def will_save_change_to_id?: () -> bool
+
+      def restore_id!: () -> void
+
+      def clear_id_change: () -> void
+
+      def author_id: () -> Integer?
+
+      def author_id=: (Integer?) -> Integer?
+
+      def author_id?: () -> bool
+
+      def author_id_changed?: () -> bool
+
+      def author_id_change: () -> [ Integer?, Integer? ]
+
+      def author_id_will_change!: () -> void
+
+      def author_id_was: () -> Integer?
+
+      def author_id_previously_changed?: () -> bool
+
+      def author_id_previous_change: () -> Array[Integer?]?
+
+      def author_id_previously_was: () -> Integer?
+
+      def author_id_before_last_save: () -> Integer?
+
+      def author_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def author_id_in_database: () -> Integer?
+
+      def saved_change_to_author_id: () -> Array[Integer?]?
+
+      def saved_change_to_author_id?: () -> bool
+
+      def will_save_change_to_author_id?: () -> bool
+
+      def restore_author_id!: () -> void
+
+      def clear_author_id_change: () -> void
+
+      def text: () -> String?
+
+      def text=: (String?) -> String?
+
+      def text?: () -> bool
+
+      def text_changed?: () -> bool
+
+      def text_change: () -> [ String?, String? ]
+
+      def text_will_change!: () -> void
+
+      def text_was: () -> String?
+
+      def text_previously_changed?: () -> bool
+
+      def text_previous_change: () -> Array[String?]?
+
+      def text_previously_was: () -> String?
+
+      def text_before_last_save: () -> String?
+
+      def text_change_to_be_saved: () -> Array[String?]?
+
+      def text_in_database: () -> String?
+
+      def saved_change_to_text: () -> Array[String?]?
+
+      def saved_change_to_text?: () -> bool
+
+      def will_save_change_to_text?: () -> bool
+
+      def restore_text!: () -> void
+
+      def clear_text_change: () -> void
+    end
+    include GeneratedAttributeMethods
+
+    def journal: () -> Journal?
+    def journal=: (Journal?) -> Journal?
+    def build_journal: (untyped) -> Journal
+    def create_journal: (untyped) -> Journal
+    def create_journal!: (untyped) -> Journal
+    def reload_journal: () -> Journal?
+    def author: () -> User
+    def author=: (User?) -> User?
+    def reload_author: () -> User?
+    def build_author: (untyped) -> User
+    def create_author: (untyped) -> User
+    def create_author!: (untyped) -> User
+    module GeneratedAssociationMethods
+    end
+    include GeneratedAssociationMethods
+
+    module GeneratedRelationMethods
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Journal::WikiPageJournal, Integer]
+      include Enumerable[Journal::WikiPageJournal]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Journal::WikiPageJournal, Integer]
+    end
+  end
+end

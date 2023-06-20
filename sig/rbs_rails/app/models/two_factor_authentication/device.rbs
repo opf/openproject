@@ -1,0 +1,464 @@
+module TwoFactorAuthentication
+  class Device < ::ApplicationRecord
+    extend _ActiveRecord_Relation_ClassMethods[TwoFactorAuthentication::Device, ActiveRecord_Relation, Integer]
+
+    module GeneratedAttributeMethods
+      def id: () -> Integer
+
+      def id=: (Integer) -> Integer
+
+      def id?: () -> bool
+
+      def id_changed?: () -> bool
+
+      def id_change: () -> [ Integer?, Integer? ]
+
+      def id_will_change!: () -> void
+
+      def id_was: () -> Integer?
+
+      def id_previously_changed?: () -> bool
+
+      def id_previous_change: () -> Array[Integer?]?
+
+      def id_previously_was: () -> Integer?
+
+      def id_before_last_save: () -> Integer?
+
+      def id_change_to_be_saved: () -> Array[Integer?]?
+
+      def id_in_database: () -> Integer?
+
+      def saved_change_to_id: () -> Array[Integer?]?
+
+      def saved_change_to_id?: () -> bool
+
+      def will_save_change_to_id?: () -> bool
+
+      def restore_id!: () -> void
+
+      def clear_id_change: () -> void
+
+      def type: () -> String?
+
+      def type=: (String?) -> String?
+
+      def type?: () -> bool
+
+      def type_changed?: () -> bool
+
+      def type_change: () -> [ String?, String? ]
+
+      def type_will_change!: () -> void
+
+      def type_was: () -> String?
+
+      def type_previously_changed?: () -> bool
+
+      def type_previous_change: () -> Array[String?]?
+
+      def type_previously_was: () -> String?
+
+      def type_before_last_save: () -> String?
+
+      def type_change_to_be_saved: () -> Array[String?]?
+
+      def type_in_database: () -> String?
+
+      def saved_change_to_type: () -> Array[String?]?
+
+      def saved_change_to_type?: () -> bool
+
+      def will_save_change_to_type?: () -> bool
+
+      def restore_type!: () -> void
+
+      def clear_type_change: () -> void
+
+      def default: () -> bool
+
+      def default=: (bool) -> bool
+
+      def default?: () -> bool
+
+      def default_changed?: () -> bool
+
+      def default_change: () -> [ bool?, bool? ]
+
+      def default_will_change!: () -> void
+
+      def default_was: () -> bool?
+
+      def default_previously_changed?: () -> bool
+
+      def default_previous_change: () -> Array[bool?]?
+
+      def default_previously_was: () -> bool?
+
+      def default_before_last_save: () -> bool?
+
+      def default_change_to_be_saved: () -> Array[bool?]?
+
+      def default_in_database: () -> bool?
+
+      def saved_change_to_default: () -> Array[bool?]?
+
+      def saved_change_to_default?: () -> bool
+
+      def will_save_change_to_default?: () -> bool
+
+      def restore_default!: () -> void
+
+      def clear_default_change: () -> void
+
+      def active: () -> bool
+
+      def active=: (bool) -> bool
+
+      def active?: () -> bool
+
+      def active_changed?: () -> bool
+
+      def active_change: () -> [ bool?, bool? ]
+
+      def active_will_change!: () -> void
+
+      def active_was: () -> bool?
+
+      def active_previously_changed?: () -> bool
+
+      def active_previous_change: () -> Array[bool?]?
+
+      def active_previously_was: () -> bool?
+
+      def active_before_last_save: () -> bool?
+
+      def active_change_to_be_saved: () -> Array[bool?]?
+
+      def active_in_database: () -> bool?
+
+      def saved_change_to_active: () -> Array[bool?]?
+
+      def saved_change_to_active?: () -> bool
+
+      def will_save_change_to_active?: () -> bool
+
+      def restore_active!: () -> void
+
+      def clear_active_change: () -> void
+
+      def channel: () -> String
+
+      def channel=: (String) -> String
+
+      def channel?: () -> bool
+
+      def channel_changed?: () -> bool
+
+      def channel_change: () -> [ String?, String? ]
+
+      def channel_will_change!: () -> void
+
+      def channel_was: () -> String?
+
+      def channel_previously_changed?: () -> bool
+
+      def channel_previous_change: () -> Array[String?]?
+
+      def channel_previously_was: () -> String?
+
+      def channel_before_last_save: () -> String?
+
+      def channel_change_to_be_saved: () -> Array[String?]?
+
+      def channel_in_database: () -> String?
+
+      def saved_change_to_channel: () -> Array[String?]?
+
+      def saved_change_to_channel?: () -> bool
+
+      def will_save_change_to_channel?: () -> bool
+
+      def restore_channel!: () -> void
+
+      def clear_channel_change: () -> void
+
+      def phone_number: () -> String?
+
+      def phone_number=: (String?) -> String?
+
+      def phone_number?: () -> bool
+
+      def phone_number_changed?: () -> bool
+
+      def phone_number_change: () -> [ String?, String? ]
+
+      def phone_number_will_change!: () -> void
+
+      def phone_number_was: () -> String?
+
+      def phone_number_previously_changed?: () -> bool
+
+      def phone_number_previous_change: () -> Array[String?]?
+
+      def phone_number_previously_was: () -> String?
+
+      def phone_number_before_last_save: () -> String?
+
+      def phone_number_change_to_be_saved: () -> Array[String?]?
+
+      def phone_number_in_database: () -> String?
+
+      def saved_change_to_phone_number: () -> Array[String?]?
+
+      def saved_change_to_phone_number?: () -> bool
+
+      def will_save_change_to_phone_number?: () -> bool
+
+      def restore_phone_number!: () -> void
+
+      def clear_phone_number_change: () -> void
+
+      def identifier: () -> String
+
+      def identifier=: (String) -> String
+
+      def identifier?: () -> bool
+
+      def identifier_changed?: () -> bool
+
+      def identifier_change: () -> [ String?, String? ]
+
+      def identifier_will_change!: () -> void
+
+      def identifier_was: () -> String?
+
+      def identifier_previously_changed?: () -> bool
+
+      def identifier_previous_change: () -> Array[String?]?
+
+      def identifier_previously_was: () -> String?
+
+      def identifier_before_last_save: () -> String?
+
+      def identifier_change_to_be_saved: () -> Array[String?]?
+
+      def identifier_in_database: () -> String?
+
+      def saved_change_to_identifier: () -> Array[String?]?
+
+      def saved_change_to_identifier?: () -> bool
+
+      def will_save_change_to_identifier?: () -> bool
+
+      def restore_identifier!: () -> void
+
+      def clear_identifier_change: () -> void
+
+      def created_at: () -> ActiveSupport::TimeWithZone
+
+      def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+      def created_at?: () -> bool
+
+      def created_at_changed?: () -> bool
+
+      def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+      def created_at_will_change!: () -> void
+
+      def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_previously_changed?: () -> bool
+
+      def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+      def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def saved_change_to_created_at?: () -> bool
+
+      def will_save_change_to_created_at?: () -> bool
+
+      def restore_created_at!: () -> void
+
+      def clear_created_at_change: () -> void
+
+      def updated_at: () -> ActiveSupport::TimeWithZone
+
+      def updated_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+      def updated_at?: () -> bool
+
+      def updated_at_changed?: () -> bool
+
+      def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+      def updated_at_will_change!: () -> void
+
+      def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_previously_changed?: () -> bool
+
+      def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+      def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def saved_change_to_updated_at?: () -> bool
+
+      def will_save_change_to_updated_at?: () -> bool
+
+      def restore_updated_at!: () -> void
+
+      def clear_updated_at_change: () -> void
+
+      def last_used_at: () -> Integer?
+
+      def last_used_at=: (Integer?) -> Integer?
+
+      def last_used_at?: () -> bool
+
+      def last_used_at_changed?: () -> bool
+
+      def last_used_at_change: () -> [ Integer?, Integer? ]
+
+      def last_used_at_will_change!: () -> void
+
+      def last_used_at_was: () -> Integer?
+
+      def last_used_at_previously_changed?: () -> bool
+
+      def last_used_at_previous_change: () -> Array[Integer?]?
+
+      def last_used_at_previously_was: () -> Integer?
+
+      def last_used_at_before_last_save: () -> Integer?
+
+      def last_used_at_change_to_be_saved: () -> Array[Integer?]?
+
+      def last_used_at_in_database: () -> Integer?
+
+      def saved_change_to_last_used_at: () -> Array[Integer?]?
+
+      def saved_change_to_last_used_at?: () -> bool
+
+      def will_save_change_to_last_used_at?: () -> bool
+
+      def restore_last_used_at!: () -> void
+
+      def clear_last_used_at_change: () -> void
+
+      def otp_secret: () -> String?
+
+      def otp_secret=: (String?) -> String?
+
+      def otp_secret?: () -> bool
+
+      def otp_secret_changed?: () -> bool
+
+      def otp_secret_change: () -> [ String?, String? ]
+
+      def otp_secret_will_change!: () -> void
+
+      def otp_secret_was: () -> String?
+
+      def otp_secret_previously_changed?: () -> bool
+
+      def otp_secret_previous_change: () -> Array[String?]?
+
+      def otp_secret_previously_was: () -> String?
+
+      def otp_secret_before_last_save: () -> String?
+
+      def otp_secret_change_to_be_saved: () -> Array[String?]?
+
+      def otp_secret_in_database: () -> String?
+
+      def saved_change_to_otp_secret: () -> Array[String?]?
+
+      def saved_change_to_otp_secret?: () -> bool
+
+      def will_save_change_to_otp_secret?: () -> bool
+
+      def restore_otp_secret!: () -> void
+
+      def clear_otp_secret_change: () -> void
+
+      def user_id: () -> Integer?
+
+      def user_id=: (Integer?) -> Integer?
+
+      def user_id?: () -> bool
+
+      def user_id_changed?: () -> bool
+
+      def user_id_change: () -> [ Integer?, Integer? ]
+
+      def user_id_will_change!: () -> void
+
+      def user_id_was: () -> Integer?
+
+      def user_id_previously_changed?: () -> bool
+
+      def user_id_previous_change: () -> Array[Integer?]?
+
+      def user_id_previously_was: () -> Integer?
+
+      def user_id_before_last_save: () -> Integer?
+
+      def user_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def user_id_in_database: () -> Integer?
+
+      def saved_change_to_user_id: () -> Array[Integer?]?
+
+      def saved_change_to_user_id?: () -> bool
+
+      def will_save_change_to_user_id?: () -> bool
+
+      def restore_user_id!: () -> void
+
+      def clear_user_id_change: () -> void
+    end
+    include GeneratedAttributeMethods
+
+    def user: () -> User
+    def user=: (User?) -> User?
+    def reload_user: () -> User?
+    def build_user: (untyped) -> User
+    def create_user: (untyped) -> User
+    def create_user!: (untyped) -> User
+    module GeneratedAssociationMethods
+    end
+    include GeneratedAssociationMethods
+
+    module GeneratedRelationMethods
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[TwoFactorAuthentication::Device, Integer]
+      include Enumerable[TwoFactorAuthentication::Device]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[TwoFactorAuthentication::Device, Integer]
+    end
+  end
+end

@@ -1,0 +1,345 @@
+module Storages
+  class Storage < ::ApplicationRecord
+    class InexistentStorage < ::Storages::Storage
+      extend _ActiveRecord_Relation_ClassMethods[Storages::Storage::InexistentStorage, ActiveRecord_Relation, Integer]
+
+      module GeneratedAttributeMethods
+        def id: () -> Integer
+
+        def id=: (Integer) -> Integer
+
+        def id?: () -> bool
+
+        def id_changed?: () -> bool
+
+        def id_change: () -> [ Integer?, Integer? ]
+
+        def id_will_change!: () -> void
+
+        def id_was: () -> Integer?
+
+        def id_previously_changed?: () -> bool
+
+        def id_previous_change: () -> Array[Integer?]?
+
+        def id_previously_was: () -> Integer?
+
+        def id_before_last_save: () -> Integer?
+
+        def id_change_to_be_saved: () -> Array[Integer?]?
+
+        def id_in_database: () -> Integer?
+
+        def saved_change_to_id: () -> Array[Integer?]?
+
+        def saved_change_to_id?: () -> bool
+
+        def will_save_change_to_id?: () -> bool
+
+        def restore_id!: () -> void
+
+        def clear_id_change: () -> void
+
+        def provider_type: () -> String
+
+        def provider_type=: (String) -> String
+
+        def provider_type?: () -> bool
+
+        def provider_type_changed?: () -> bool
+
+        def provider_type_change: () -> [ String?, String? ]
+
+        def provider_type_will_change!: () -> void
+
+        def provider_type_was: () -> String?
+
+        def provider_type_previously_changed?: () -> bool
+
+        def provider_type_previous_change: () -> Array[String?]?
+
+        def provider_type_previously_was: () -> String?
+
+        def provider_type_before_last_save: () -> String?
+
+        def provider_type_change_to_be_saved: () -> Array[String?]?
+
+        def provider_type_in_database: () -> String?
+
+        def saved_change_to_provider_type: () -> Array[String?]?
+
+        def saved_change_to_provider_type?: () -> bool
+
+        def will_save_change_to_provider_type?: () -> bool
+
+        def restore_provider_type!: () -> void
+
+        def clear_provider_type_change: () -> void
+
+        def name: () -> String
+
+        def name=: (String) -> String
+
+        def name?: () -> bool
+
+        def name_changed?: () -> bool
+
+        def name_change: () -> [ String?, String? ]
+
+        def name_will_change!: () -> void
+
+        def name_was: () -> String?
+
+        def name_previously_changed?: () -> bool
+
+        def name_previous_change: () -> Array[String?]?
+
+        def name_previously_was: () -> String?
+
+        def name_before_last_save: () -> String?
+
+        def name_change_to_be_saved: () -> Array[String?]?
+
+        def name_in_database: () -> String?
+
+        def saved_change_to_name: () -> Array[String?]?
+
+        def saved_change_to_name?: () -> bool
+
+        def will_save_change_to_name?: () -> bool
+
+        def restore_name!: () -> void
+
+        def clear_name_change: () -> void
+
+        def host: () -> String
+
+        def host=: (String) -> String
+
+        def host?: () -> bool
+
+        def host_changed?: () -> bool
+
+        def host_change: () -> [ String?, String? ]
+
+        def host_will_change!: () -> void
+
+        def host_was: () -> String?
+
+        def host_previously_changed?: () -> bool
+
+        def host_previous_change: () -> Array[String?]?
+
+        def host_previously_was: () -> String?
+
+        def host_before_last_save: () -> String?
+
+        def host_change_to_be_saved: () -> Array[String?]?
+
+        def host_in_database: () -> String?
+
+        def saved_change_to_host: () -> Array[String?]?
+
+        def saved_change_to_host?: () -> bool
+
+        def will_save_change_to_host?: () -> bool
+
+        def restore_host!: () -> void
+
+        def clear_host_change: () -> void
+
+        def creator_id: () -> Integer
+
+        def creator_id=: (Integer) -> Integer
+
+        def creator_id?: () -> bool
+
+        def creator_id_changed?: () -> bool
+
+        def creator_id_change: () -> [ Integer?, Integer? ]
+
+        def creator_id_will_change!: () -> void
+
+        def creator_id_was: () -> Integer?
+
+        def creator_id_previously_changed?: () -> bool
+
+        def creator_id_previous_change: () -> Array[Integer?]?
+
+        def creator_id_previously_was: () -> Integer?
+
+        def creator_id_before_last_save: () -> Integer?
+
+        def creator_id_change_to_be_saved: () -> Array[Integer?]?
+
+        def creator_id_in_database: () -> Integer?
+
+        def saved_change_to_creator_id: () -> Array[Integer?]?
+
+        def saved_change_to_creator_id?: () -> bool
+
+        def will_save_change_to_creator_id?: () -> bool
+
+        def restore_creator_id!: () -> void
+
+        def clear_creator_id_change: () -> void
+
+        def created_at: () -> ActiveSupport::TimeWithZone
+
+        def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+        def created_at?: () -> bool
+
+        def created_at_changed?: () -> bool
+
+        def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+        def created_at_will_change!: () -> void
+
+        def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+        def created_at_previously_changed?: () -> bool
+
+        def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+        def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+        def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+        def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def saved_change_to_created_at?: () -> bool
+
+        def will_save_change_to_created_at?: () -> bool
+
+        def restore_created_at!: () -> void
+
+        def clear_created_at_change: () -> void
+
+        def updated_at: () -> ActiveSupport::TimeWithZone
+
+        def updated_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+        def updated_at?: () -> bool
+
+        def updated_at_changed?: () -> bool
+
+        def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+        def updated_at_will_change!: () -> void
+
+        def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+        def updated_at_previously_changed?: () -> bool
+
+        def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+        def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+        def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+        def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def saved_change_to_updated_at?: () -> bool
+
+        def will_save_change_to_updated_at?: () -> bool
+
+        def restore_updated_at!: () -> void
+
+        def clear_updated_at_change: () -> void
+
+        def provider_fields: () -> untyped
+
+        def provider_fields=: (untyped) -> untyped
+
+        def provider_fields?: () -> bool
+
+        def provider_fields_changed?: () -> bool
+
+        def provider_fields_change: () -> [ untyped?, untyped? ]
+
+        def provider_fields_will_change!: () -> void
+
+        def provider_fields_was: () -> untyped?
+
+        def provider_fields_previously_changed?: () -> bool
+
+        def provider_fields_previous_change: () -> Array[untyped?]?
+
+        def provider_fields_previously_was: () -> untyped?
+
+        def provider_fields_before_last_save: () -> untyped?
+
+        def provider_fields_change_to_be_saved: () -> Array[untyped?]?
+
+        def provider_fields_in_database: () -> untyped?
+
+        def saved_change_to_provider_fields: () -> Array[untyped?]?
+
+        def saved_change_to_provider_fields?: () -> bool
+
+        def will_save_change_to_provider_fields?: () -> bool
+
+        def restore_provider_fields!: () -> void
+
+        def clear_provider_fields_change: () -> void
+      end
+      include GeneratedAttributeMethods
+      def file_links: () -> Storages::FileLink::ActiveRecord_Associations_CollectionProxy
+      def file_links=: (Storages::FileLink::ActiveRecord_Associations_CollectionProxy | Array[Storages::FileLink]) -> (Storages::FileLink::ActiveRecord_Associations_CollectionProxy | Array[Storages::FileLink])
+      def file_link_ids: () -> Array[Integer]
+      def file_link_ids=: (Array[Integer]) -> Array[Integer]
+      def projects_storages: () -> Storages::ProjectStorage::ActiveRecord_Associations_CollectionProxy
+      def projects_storages=: (Storages::ProjectStorage::ActiveRecord_Associations_CollectionProxy | Array[Storages::ProjectStorage]) -> (Storages::ProjectStorage::ActiveRecord_Associations_CollectionProxy | Array[Storages::ProjectStorage])
+      def projects_storage_ids: () -> Array[Integer]
+      def projects_storage_ids=: (Array[Integer]) -> Array[Integer]
+      def projects: () -> Project::ActiveRecord_Associations_CollectionProxy
+      def projects=: (Project::ActiveRecord_Associations_CollectionProxy | Array[Project]) -> (Project::ActiveRecord_Associations_CollectionProxy | Array[Project])
+      def project_ids: () -> Array[Integer]
+      def project_ids=: (Array[Integer]) -> Array[Integer]
+      def oauth_client: () -> OAuthClient?
+      def oauth_client=: (OAuthClient?) -> OAuthClient?
+      def build_oauth_client: (untyped) -> OAuthClient
+      def create_oauth_client: (untyped) -> OAuthClient
+      def create_oauth_client!: (untyped) -> OAuthClient
+      def reload_oauth_client: () -> OAuthClient?
+      def oauth_application: () -> Doorkeeper::Application?
+      def oauth_application=: (Doorkeeper::Application?) -> Doorkeeper::Application?
+      def build_oauth_application: (untyped) -> Doorkeeper::Application
+      def create_oauth_application: (untyped) -> Doorkeeper::Application
+      def create_oauth_application!: (untyped) -> Doorkeeper::Application
+      def reload_oauth_application: () -> Doorkeeper::Application?
+      def creator: () -> User
+      def creator=: (User?) -> User?
+      def reload_creator: () -> User?
+      def build_creator: (untyped) -> User
+      def create_creator: (untyped) -> User
+      def create_creator!: (untyped) -> User
+      module GeneratedAssociationMethods
+      end
+      include GeneratedAssociationMethods
+
+      module GeneratedRelationMethods
+      end
+
+      class ActiveRecord_Relation < ::ActiveRecord::Relation
+        include GeneratedRelationMethods
+        include _ActiveRecord_Relation[Storages::Storage::InexistentStorage, Integer]
+        include Enumerable[Storages::Storage::InexistentStorage]
+      end
+
+      class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+        include GeneratedRelationMethods
+        include _ActiveRecord_Relation[Storages::Storage::InexistentStorage, Integer]
+      end
+    end
+  end
+end

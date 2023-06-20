@@ -1,0 +1,282 @@
+class CustomOption < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[CustomOption, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def custom_field_id: () -> Integer?
+
+    def custom_field_id=: (Integer?) -> Integer?
+
+    def custom_field_id?: () -> bool
+
+    def custom_field_id_changed?: () -> bool
+
+    def custom_field_id_change: () -> [ Integer?, Integer? ]
+
+    def custom_field_id_will_change!: () -> void
+
+    def custom_field_id_was: () -> Integer?
+
+    def custom_field_id_previously_changed?: () -> bool
+
+    def custom_field_id_previous_change: () -> Array[Integer?]?
+
+    def custom_field_id_previously_was: () -> Integer?
+
+    def custom_field_id_before_last_save: () -> Integer?
+
+    def custom_field_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def custom_field_id_in_database: () -> Integer?
+
+    def saved_change_to_custom_field_id: () -> Array[Integer?]?
+
+    def saved_change_to_custom_field_id?: () -> bool
+
+    def will_save_change_to_custom_field_id?: () -> bool
+
+    def restore_custom_field_id!: () -> void
+
+    def clear_custom_field_id_change: () -> void
+
+    def position: () -> Integer?
+
+    def position=: (Integer?) -> Integer?
+
+    def position?: () -> bool
+
+    def position_changed?: () -> bool
+
+    def position_change: () -> [ Integer?, Integer? ]
+
+    def position_will_change!: () -> void
+
+    def position_was: () -> Integer?
+
+    def position_previously_changed?: () -> bool
+
+    def position_previous_change: () -> Array[Integer?]?
+
+    def position_previously_was: () -> Integer?
+
+    def position_before_last_save: () -> Integer?
+
+    def position_change_to_be_saved: () -> Array[Integer?]?
+
+    def position_in_database: () -> Integer?
+
+    def saved_change_to_position: () -> Array[Integer?]?
+
+    def saved_change_to_position?: () -> bool
+
+    def will_save_change_to_position?: () -> bool
+
+    def restore_position!: () -> void
+
+    def clear_position_change: () -> void
+
+    def default_value: () -> bool?
+
+    def default_value=: (bool?) -> bool?
+
+    def default_value?: () -> bool
+
+    def default_value_changed?: () -> bool
+
+    def default_value_change: () -> [ bool?, bool? ]
+
+    def default_value_will_change!: () -> void
+
+    def default_value_was: () -> bool?
+
+    def default_value_previously_changed?: () -> bool
+
+    def default_value_previous_change: () -> Array[bool?]?
+
+    def default_value_previously_was: () -> bool?
+
+    def default_value_before_last_save: () -> bool?
+
+    def default_value_change_to_be_saved: () -> Array[bool?]?
+
+    def default_value_in_database: () -> bool?
+
+    def saved_change_to_default_value: () -> Array[bool?]?
+
+    def saved_change_to_default_value?: () -> bool
+
+    def will_save_change_to_default_value?: () -> bool
+
+    def restore_default_value!: () -> void
+
+    def clear_default_value_change: () -> void
+
+    def value: () -> String?
+
+    def value=: (String?) -> String?
+
+    def value?: () -> bool
+
+    def value_changed?: () -> bool
+
+    def value_change: () -> [ String?, String? ]
+
+    def value_will_change!: () -> void
+
+    def value_was: () -> String?
+
+    def value_previously_changed?: () -> bool
+
+    def value_previous_change: () -> Array[String?]?
+
+    def value_previously_was: () -> String?
+
+    def value_before_last_save: () -> String?
+
+    def value_change_to_be_saved: () -> Array[String?]?
+
+    def value_in_database: () -> String?
+
+    def saved_change_to_value: () -> Array[String?]?
+
+    def saved_change_to_value?: () -> bool
+
+    def will_save_change_to_value?: () -> bool
+
+    def restore_value!: () -> void
+
+    def clear_value_change: () -> void
+
+    def created_at: () -> ActiveSupport::TimeWithZone?
+
+    def created_at=: (ActiveSupport::TimeWithZone?) -> ActiveSupport::TimeWithZone?
+
+    def created_at?: () -> bool
+
+    def created_at_changed?: () -> bool
+
+    def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def created_at_will_change!: () -> void
+
+    def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_previously_changed?: () -> bool
+
+    def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_created_at?: () -> bool
+
+    def will_save_change_to_created_at?: () -> bool
+
+    def restore_created_at!: () -> void
+
+    def clear_created_at_change: () -> void
+
+    def updated_at: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at=: (ActiveSupport::TimeWithZone?) -> ActiveSupport::TimeWithZone?
+
+    def updated_at?: () -> bool
+
+    def updated_at_changed?: () -> bool
+
+    def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def updated_at_will_change!: () -> void
+
+    def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_previously_changed?: () -> bool
+
+    def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_updated_at?: () -> bool
+
+    def will_save_change_to_updated_at?: () -> bool
+
+    def restore_updated_at!: () -> void
+
+    def clear_updated_at_change: () -> void
+  end
+  include GeneratedAttributeMethods
+
+  def custom_field: () -> CustomField
+  def custom_field=: (CustomField?) -> CustomField?
+  def reload_custom_field: () -> CustomField?
+  def build_custom_field: (untyped) -> CustomField
+  def create_custom_field: (untyped) -> CustomField
+  def create_custom_field!: (untyped) -> CustomField
+  module GeneratedAssociationMethods
+  end
+  include GeneratedAssociationMethods
+
+  module GeneratedRelationMethods
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[CustomOption, Integer]
+    include Enumerable[CustomOption]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[CustomOption, Integer]
+  end
+end

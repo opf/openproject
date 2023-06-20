@@ -1,0 +1,432 @@
+class OAuthClientToken < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[OAuthClientToken, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def oauth_client_id: () -> Integer
+
+    def oauth_client_id=: (Integer) -> Integer
+
+    def oauth_client_id?: () -> bool
+
+    def oauth_client_id_changed?: () -> bool
+
+    def oauth_client_id_change: () -> [ Integer?, Integer? ]
+
+    def oauth_client_id_will_change!: () -> void
+
+    def oauth_client_id_was: () -> Integer?
+
+    def oauth_client_id_previously_changed?: () -> bool
+
+    def oauth_client_id_previous_change: () -> Array[Integer?]?
+
+    def oauth_client_id_previously_was: () -> Integer?
+
+    def oauth_client_id_before_last_save: () -> Integer?
+
+    def oauth_client_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def oauth_client_id_in_database: () -> Integer?
+
+    def saved_change_to_oauth_client_id: () -> Array[Integer?]?
+
+    def saved_change_to_oauth_client_id?: () -> bool
+
+    def will_save_change_to_oauth_client_id?: () -> bool
+
+    def restore_oauth_client_id!: () -> void
+
+    def clear_oauth_client_id_change: () -> void
+
+    def user_id: () -> Integer
+
+    def user_id=: (Integer) -> Integer
+
+    def user_id?: () -> bool
+
+    def user_id_changed?: () -> bool
+
+    def user_id_change: () -> [ Integer?, Integer? ]
+
+    def user_id_will_change!: () -> void
+
+    def user_id_was: () -> Integer?
+
+    def user_id_previously_changed?: () -> bool
+
+    def user_id_previous_change: () -> Array[Integer?]?
+
+    def user_id_previously_was: () -> Integer?
+
+    def user_id_before_last_save: () -> Integer?
+
+    def user_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def user_id_in_database: () -> Integer?
+
+    def saved_change_to_user_id: () -> Array[Integer?]?
+
+    def saved_change_to_user_id?: () -> bool
+
+    def will_save_change_to_user_id?: () -> bool
+
+    def restore_user_id!: () -> void
+
+    def clear_user_id_change: () -> void
+
+    def access_token: () -> String?
+
+    def access_token=: (String?) -> String?
+
+    def access_token?: () -> bool
+
+    def access_token_changed?: () -> bool
+
+    def access_token_change: () -> [ String?, String? ]
+
+    def access_token_will_change!: () -> void
+
+    def access_token_was: () -> String?
+
+    def access_token_previously_changed?: () -> bool
+
+    def access_token_previous_change: () -> Array[String?]?
+
+    def access_token_previously_was: () -> String?
+
+    def access_token_before_last_save: () -> String?
+
+    def access_token_change_to_be_saved: () -> Array[String?]?
+
+    def access_token_in_database: () -> String?
+
+    def saved_change_to_access_token: () -> Array[String?]?
+
+    def saved_change_to_access_token?: () -> bool
+
+    def will_save_change_to_access_token?: () -> bool
+
+    def restore_access_token!: () -> void
+
+    def clear_access_token_change: () -> void
+
+    def refresh_token: () -> String?
+
+    def refresh_token=: (String?) -> String?
+
+    def refresh_token?: () -> bool
+
+    def refresh_token_changed?: () -> bool
+
+    def refresh_token_change: () -> [ String?, String? ]
+
+    def refresh_token_will_change!: () -> void
+
+    def refresh_token_was: () -> String?
+
+    def refresh_token_previously_changed?: () -> bool
+
+    def refresh_token_previous_change: () -> Array[String?]?
+
+    def refresh_token_previously_was: () -> String?
+
+    def refresh_token_before_last_save: () -> String?
+
+    def refresh_token_change_to_be_saved: () -> Array[String?]?
+
+    def refresh_token_in_database: () -> String?
+
+    def saved_change_to_refresh_token: () -> Array[String?]?
+
+    def saved_change_to_refresh_token?: () -> bool
+
+    def will_save_change_to_refresh_token?: () -> bool
+
+    def restore_refresh_token!: () -> void
+
+    def clear_refresh_token_change: () -> void
+
+    def token_type: () -> String?
+
+    def token_type=: (String?) -> String?
+
+    def token_type?: () -> bool
+
+    def token_type_changed?: () -> bool
+
+    def token_type_change: () -> [ String?, String? ]
+
+    def token_type_will_change!: () -> void
+
+    def token_type_was: () -> String?
+
+    def token_type_previously_changed?: () -> bool
+
+    def token_type_previous_change: () -> Array[String?]?
+
+    def token_type_previously_was: () -> String?
+
+    def token_type_before_last_save: () -> String?
+
+    def token_type_change_to_be_saved: () -> Array[String?]?
+
+    def token_type_in_database: () -> String?
+
+    def saved_change_to_token_type: () -> Array[String?]?
+
+    def saved_change_to_token_type?: () -> bool
+
+    def will_save_change_to_token_type?: () -> bool
+
+    def restore_token_type!: () -> void
+
+    def clear_token_type_change: () -> void
+
+    def expires_in: () -> Integer?
+
+    def expires_in=: (Integer?) -> Integer?
+
+    def expires_in?: () -> bool
+
+    def expires_in_changed?: () -> bool
+
+    def expires_in_change: () -> [ Integer?, Integer? ]
+
+    def expires_in_will_change!: () -> void
+
+    def expires_in_was: () -> Integer?
+
+    def expires_in_previously_changed?: () -> bool
+
+    def expires_in_previous_change: () -> Array[Integer?]?
+
+    def expires_in_previously_was: () -> Integer?
+
+    def expires_in_before_last_save: () -> Integer?
+
+    def expires_in_change_to_be_saved: () -> Array[Integer?]?
+
+    def expires_in_in_database: () -> Integer?
+
+    def saved_change_to_expires_in: () -> Array[Integer?]?
+
+    def saved_change_to_expires_in?: () -> bool
+
+    def will_save_change_to_expires_in?: () -> bool
+
+    def restore_expires_in!: () -> void
+
+    def clear_expires_in_change: () -> void
+
+    def scope: () -> String?
+
+    def scope=: (String?) -> String?
+
+    def scope?: () -> bool
+
+    def scope_changed?: () -> bool
+
+    def scope_change: () -> [ String?, String? ]
+
+    def scope_will_change!: () -> void
+
+    def scope_was: () -> String?
+
+    def scope_previously_changed?: () -> bool
+
+    def scope_previous_change: () -> Array[String?]?
+
+    def scope_previously_was: () -> String?
+
+    def scope_before_last_save: () -> String?
+
+    def scope_change_to_be_saved: () -> Array[String?]?
+
+    def scope_in_database: () -> String?
+
+    def saved_change_to_scope: () -> Array[String?]?
+
+    def saved_change_to_scope?: () -> bool
+
+    def will_save_change_to_scope?: () -> bool
+
+    def restore_scope!: () -> void
+
+    def clear_scope_change: () -> void
+
+    def origin_user_id: () -> String?
+
+    def origin_user_id=: (String?) -> String?
+
+    def origin_user_id?: () -> bool
+
+    def origin_user_id_changed?: () -> bool
+
+    def origin_user_id_change: () -> [ String?, String? ]
+
+    def origin_user_id_will_change!: () -> void
+
+    def origin_user_id_was: () -> String?
+
+    def origin_user_id_previously_changed?: () -> bool
+
+    def origin_user_id_previous_change: () -> Array[String?]?
+
+    def origin_user_id_previously_was: () -> String?
+
+    def origin_user_id_before_last_save: () -> String?
+
+    def origin_user_id_change_to_be_saved: () -> Array[String?]?
+
+    def origin_user_id_in_database: () -> String?
+
+    def saved_change_to_origin_user_id: () -> Array[String?]?
+
+    def saved_change_to_origin_user_id?: () -> bool
+
+    def will_save_change_to_origin_user_id?: () -> bool
+
+    def restore_origin_user_id!: () -> void
+
+    def clear_origin_user_id_change: () -> void
+
+    def created_at: () -> ActiveSupport::TimeWithZone
+
+    def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+    def created_at?: () -> bool
+
+    def created_at_changed?: () -> bool
+
+    def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def created_at_will_change!: () -> void
+
+    def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_previously_changed?: () -> bool
+
+    def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_created_at?: () -> bool
+
+    def will_save_change_to_created_at?: () -> bool
+
+    def restore_created_at!: () -> void
+
+    def clear_created_at_change: () -> void
+
+    def updated_at: () -> ActiveSupport::TimeWithZone
+
+    def updated_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+    def updated_at?: () -> bool
+
+    def updated_at_changed?: () -> bool
+
+    def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def updated_at_will_change!: () -> void
+
+    def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_previously_changed?: () -> bool
+
+    def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_updated_at?: () -> bool
+
+    def will_save_change_to_updated_at?: () -> bool
+
+    def restore_updated_at!: () -> void
+
+    def clear_updated_at_change: () -> void
+  end
+  include GeneratedAttributeMethods
+
+  def user: () -> User
+  def user=: (User?) -> User?
+  def reload_user: () -> User?
+  def build_user: (untyped) -> User
+  def create_user: (untyped) -> User
+  def create_user!: (untyped) -> User
+  def oauth_client: () -> OAuthClient
+  def oauth_client=: (OAuthClient?) -> OAuthClient?
+  def reload_oauth_client: () -> OAuthClient?
+  def build_oauth_client: (untyped) -> OAuthClient
+  def create_oauth_client: (untyped) -> OAuthClient
+  def create_oauth_client!: (untyped) -> OAuthClient
+  module GeneratedAssociationMethods
+  end
+  include GeneratedAssociationMethods
+
+  module GeneratedRelationMethods
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[OAuthClientToken, Integer]
+    include Enumerable[OAuthClientToken]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[OAuthClientToken, Integer]
+  end
+end

@@ -1,0 +1,286 @@
+class MenuItem < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[MenuItem, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def name: () -> String?
+
+    def name=: (String?) -> String?
+
+    def name?: () -> bool
+
+    def name_changed?: () -> bool
+
+    def name_change: () -> [ String?, String? ]
+
+    def name_will_change!: () -> void
+
+    def name_was: () -> String?
+
+    def name_previously_changed?: () -> bool
+
+    def name_previous_change: () -> Array[String?]?
+
+    def name_previously_was: () -> String?
+
+    def name_before_last_save: () -> String?
+
+    def name_change_to_be_saved: () -> Array[String?]?
+
+    def name_in_database: () -> String?
+
+    def saved_change_to_name: () -> Array[String?]?
+
+    def saved_change_to_name?: () -> bool
+
+    def will_save_change_to_name?: () -> bool
+
+    def restore_name!: () -> void
+
+    def clear_name_change: () -> void
+
+    def title: () -> String?
+
+    def title=: (String?) -> String?
+
+    def title?: () -> bool
+
+    def title_changed?: () -> bool
+
+    def title_change: () -> [ String?, String? ]
+
+    def title_will_change!: () -> void
+
+    def title_was: () -> String?
+
+    def title_previously_changed?: () -> bool
+
+    def title_previous_change: () -> Array[String?]?
+
+    def title_previously_was: () -> String?
+
+    def title_before_last_save: () -> String?
+
+    def title_change_to_be_saved: () -> Array[String?]?
+
+    def title_in_database: () -> String?
+
+    def saved_change_to_title: () -> Array[String?]?
+
+    def saved_change_to_title?: () -> bool
+
+    def will_save_change_to_title?: () -> bool
+
+    def restore_title!: () -> void
+
+    def clear_title_change: () -> void
+
+    def parent_id: () -> Integer?
+
+    def parent_id=: (Integer?) -> Integer?
+
+    def parent_id?: () -> bool
+
+    def parent_id_changed?: () -> bool
+
+    def parent_id_change: () -> [ Integer?, Integer? ]
+
+    def parent_id_will_change!: () -> void
+
+    def parent_id_was: () -> Integer?
+
+    def parent_id_previously_changed?: () -> bool
+
+    def parent_id_previous_change: () -> Array[Integer?]?
+
+    def parent_id_previously_was: () -> Integer?
+
+    def parent_id_before_last_save: () -> Integer?
+
+    def parent_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def parent_id_in_database: () -> Integer?
+
+    def saved_change_to_parent_id: () -> Array[Integer?]?
+
+    def saved_change_to_parent_id?: () -> bool
+
+    def will_save_change_to_parent_id?: () -> bool
+
+    def restore_parent_id!: () -> void
+
+    def clear_parent_id_change: () -> void
+
+    def options: () -> String?
+
+    def options=: (String?) -> String?
+
+    def options?: () -> bool
+
+    def options_changed?: () -> bool
+
+    def options_change: () -> [ String?, String? ]
+
+    def options_will_change!: () -> void
+
+    def options_was: () -> String?
+
+    def options_previously_changed?: () -> bool
+
+    def options_previous_change: () -> Array[String?]?
+
+    def options_previously_was: () -> String?
+
+    def options_before_last_save: () -> String?
+
+    def options_change_to_be_saved: () -> Array[String?]?
+
+    def options_in_database: () -> String?
+
+    def saved_change_to_options: () -> Array[String?]?
+
+    def saved_change_to_options?: () -> bool
+
+    def will_save_change_to_options?: () -> bool
+
+    def restore_options!: () -> void
+
+    def clear_options_change: () -> void
+
+    def navigatable_id: () -> Integer?
+
+    def navigatable_id=: (Integer?) -> Integer?
+
+    def navigatable_id?: () -> bool
+
+    def navigatable_id_changed?: () -> bool
+
+    def navigatable_id_change: () -> [ Integer?, Integer? ]
+
+    def navigatable_id_will_change!: () -> void
+
+    def navigatable_id_was: () -> Integer?
+
+    def navigatable_id_previously_changed?: () -> bool
+
+    def navigatable_id_previous_change: () -> Array[Integer?]?
+
+    def navigatable_id_previously_was: () -> Integer?
+
+    def navigatable_id_before_last_save: () -> Integer?
+
+    def navigatable_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def navigatable_id_in_database: () -> Integer?
+
+    def saved_change_to_navigatable_id: () -> Array[Integer?]?
+
+    def saved_change_to_navigatable_id?: () -> bool
+
+    def will_save_change_to_navigatable_id?: () -> bool
+
+    def restore_navigatable_id!: () -> void
+
+    def clear_navigatable_id_change: () -> void
+
+    def type: () -> String?
+
+    def type=: (String?) -> String?
+
+    def type?: () -> bool
+
+    def type_changed?: () -> bool
+
+    def type_change: () -> [ String?, String? ]
+
+    def type_will_change!: () -> void
+
+    def type_was: () -> String?
+
+    def type_previously_changed?: () -> bool
+
+    def type_previous_change: () -> Array[String?]?
+
+    def type_previously_was: () -> String?
+
+    def type_before_last_save: () -> String?
+
+    def type_change_to_be_saved: () -> Array[String?]?
+
+    def type_in_database: () -> String?
+
+    def saved_change_to_type: () -> Array[String?]?
+
+    def saved_change_to_type?: () -> bool
+
+    def will_save_change_to_type?: () -> bool
+
+    def restore_type!: () -> void
+
+    def clear_type_change: () -> void
+  end
+  include GeneratedAttributeMethods
+  def children: () -> MenuItem::ActiveRecord_Associations_CollectionProxy
+  def children=: (MenuItem::ActiveRecord_Associations_CollectionProxy | Array[MenuItem]) -> (MenuItem::ActiveRecord_Associations_CollectionProxy | Array[MenuItem])
+  def child_ids: () -> Array[Integer]
+  def child_ids=: (Array[Integer]) -> Array[Integer]
+
+  def parent: () -> MenuItem?
+  def parent=: (MenuItem?) -> MenuItem?
+  def reload_parent: () -> MenuItem?
+  def build_parent: (untyped) -> MenuItem
+  def create_parent: (untyped) -> MenuItem
+  def create_parent!: (untyped) -> MenuItem
+  module GeneratedAssociationMethods
+  end
+  include GeneratedAssociationMethods
+
+  module GeneratedRelationMethods
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[MenuItem, Integer]
+    include Enumerable[MenuItem]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[MenuItem, Integer]
+  end
+end

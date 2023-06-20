@@ -1,0 +1,146 @@
+class CustomAction < ::ApplicationRecord
+  class HABTM_TypeConditions < ::ActiveRecord::Base
+    extend _ActiveRecord_Relation_ClassMethods[CustomAction::HABTM_TypeConditions, ActiveRecord_Relation, Integer]
+
+    module GeneratedAttributeMethods
+      def id: () -> Integer
+
+      def id=: (Integer) -> Integer
+
+      def id?: () -> bool
+
+      def id_changed?: () -> bool
+
+      def id_change: () -> [ Integer?, Integer? ]
+
+      def id_will_change!: () -> void
+
+      def id_was: () -> Integer?
+
+      def id_previously_changed?: () -> bool
+
+      def id_previous_change: () -> Array[Integer?]?
+
+      def id_previously_was: () -> Integer?
+
+      def id_before_last_save: () -> Integer?
+
+      def id_change_to_be_saved: () -> Array[Integer?]?
+
+      def id_in_database: () -> Integer?
+
+      def saved_change_to_id: () -> Array[Integer?]?
+
+      def saved_change_to_id?: () -> bool
+
+      def will_save_change_to_id?: () -> bool
+
+      def restore_id!: () -> void
+
+      def clear_id_change: () -> void
+
+      def type_id: () -> Integer?
+
+      def type_id=: (Integer?) -> Integer?
+
+      def type_id?: () -> bool
+
+      def type_id_changed?: () -> bool
+
+      def type_id_change: () -> [ Integer?, Integer? ]
+
+      def type_id_will_change!: () -> void
+
+      def type_id_was: () -> Integer?
+
+      def type_id_previously_changed?: () -> bool
+
+      def type_id_previous_change: () -> Array[Integer?]?
+
+      def type_id_previously_was: () -> Integer?
+
+      def type_id_before_last_save: () -> Integer?
+
+      def type_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def type_id_in_database: () -> Integer?
+
+      def saved_change_to_type_id: () -> Array[Integer?]?
+
+      def saved_change_to_type_id?: () -> bool
+
+      def will_save_change_to_type_id?: () -> bool
+
+      def restore_type_id!: () -> void
+
+      def clear_type_id_change: () -> void
+
+      def custom_action_id: () -> Integer?
+
+      def custom_action_id=: (Integer?) -> Integer?
+
+      def custom_action_id?: () -> bool
+
+      def custom_action_id_changed?: () -> bool
+
+      def custom_action_id_change: () -> [ Integer?, Integer? ]
+
+      def custom_action_id_will_change!: () -> void
+
+      def custom_action_id_was: () -> Integer?
+
+      def custom_action_id_previously_changed?: () -> bool
+
+      def custom_action_id_previous_change: () -> Array[Integer?]?
+
+      def custom_action_id_previously_was: () -> Integer?
+
+      def custom_action_id_before_last_save: () -> Integer?
+
+      def custom_action_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def custom_action_id_in_database: () -> Integer?
+
+      def saved_change_to_custom_action_id: () -> Array[Integer?]?
+
+      def saved_change_to_custom_action_id?: () -> bool
+
+      def will_save_change_to_custom_action_id?: () -> bool
+
+      def restore_custom_action_id!: () -> void
+
+      def clear_custom_action_id_change: () -> void
+    end
+    include GeneratedAttributeMethods
+
+    def left_side: () -> CustomAction?
+    def left_side=: (CustomAction?) -> CustomAction?
+    def reload_left_side: () -> CustomAction?
+    def build_left_side: (untyped) -> CustomAction
+    def create_left_side: (untyped) -> CustomAction
+    def create_left_side!: (untyped) -> CustomAction
+    def type_condition: () -> Type?
+    def type_condition=: (Type?) -> Type?
+    def reload_type_condition: () -> Type?
+    def build_type_condition: (untyped) -> Type
+    def create_type_condition: (untyped) -> Type
+    def create_type_condition!: (untyped) -> Type
+    module GeneratedAssociationMethods
+    end
+    include GeneratedAssociationMethods
+
+    module GeneratedRelationMethods
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[CustomAction::HABTM_TypeConditions, Integer]
+      include Enumerable[CustomAction::HABTM_TypeConditions]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[CustomAction::HABTM_TypeConditions, Integer]
+    end
+  end
+end

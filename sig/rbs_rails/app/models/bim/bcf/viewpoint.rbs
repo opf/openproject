@@ -1,0 +1,294 @@
+module Bim
+  module Bcf
+    class Viewpoint < ::ApplicationRecord
+      extend _ActiveRecord_Relation_ClassMethods[Bim::Bcf::Viewpoint, ActiveRecord_Relation, Integer]
+
+      module GeneratedAttributeMethods
+        def id: () -> Integer
+
+        def id=: (Integer) -> Integer
+
+        def id?: () -> bool
+
+        def id_changed?: () -> bool
+
+        def id_change: () -> [ Integer?, Integer? ]
+
+        def id_will_change!: () -> void
+
+        def id_was: () -> Integer?
+
+        def id_previously_changed?: () -> bool
+
+        def id_previous_change: () -> Array[Integer?]?
+
+        def id_previously_was: () -> Integer?
+
+        def id_before_last_save: () -> Integer?
+
+        def id_change_to_be_saved: () -> Array[Integer?]?
+
+        def id_in_database: () -> Integer?
+
+        def saved_change_to_id: () -> Array[Integer?]?
+
+        def saved_change_to_id?: () -> bool
+
+        def will_save_change_to_id?: () -> bool
+
+        def restore_id!: () -> void
+
+        def clear_id_change: () -> void
+
+        def uuid: () -> String?
+
+        def uuid=: (String?) -> String?
+
+        def uuid?: () -> bool
+
+        def uuid_changed?: () -> bool
+
+        def uuid_change: () -> [ String?, String? ]
+
+        def uuid_will_change!: () -> void
+
+        def uuid_was: () -> String?
+
+        def uuid_previously_changed?: () -> bool
+
+        def uuid_previous_change: () -> Array[String?]?
+
+        def uuid_previously_was: () -> String?
+
+        def uuid_before_last_save: () -> String?
+
+        def uuid_change_to_be_saved: () -> Array[String?]?
+
+        def uuid_in_database: () -> String?
+
+        def saved_change_to_uuid: () -> Array[String?]?
+
+        def saved_change_to_uuid?: () -> bool
+
+        def will_save_change_to_uuid?: () -> bool
+
+        def restore_uuid!: () -> void
+
+        def clear_uuid_change: () -> void
+
+        def viewpoint_name: () -> String?
+
+        def viewpoint_name=: (String?) -> String?
+
+        def viewpoint_name?: () -> bool
+
+        def viewpoint_name_changed?: () -> bool
+
+        def viewpoint_name_change: () -> [ String?, String? ]
+
+        def viewpoint_name_will_change!: () -> void
+
+        def viewpoint_name_was: () -> String?
+
+        def viewpoint_name_previously_changed?: () -> bool
+
+        def viewpoint_name_previous_change: () -> Array[String?]?
+
+        def viewpoint_name_previously_was: () -> String?
+
+        def viewpoint_name_before_last_save: () -> String?
+
+        def viewpoint_name_change_to_be_saved: () -> Array[String?]?
+
+        def viewpoint_name_in_database: () -> String?
+
+        def saved_change_to_viewpoint_name: () -> Array[String?]?
+
+        def saved_change_to_viewpoint_name?: () -> bool
+
+        def will_save_change_to_viewpoint_name?: () -> bool
+
+        def restore_viewpoint_name!: () -> void
+
+        def clear_viewpoint_name_change: () -> void
+
+        def issue_id: () -> Integer?
+
+        def issue_id=: (Integer?) -> Integer?
+
+        def issue_id?: () -> bool
+
+        def issue_id_changed?: () -> bool
+
+        def issue_id_change: () -> [ Integer?, Integer? ]
+
+        def issue_id_will_change!: () -> void
+
+        def issue_id_was: () -> Integer?
+
+        def issue_id_previously_changed?: () -> bool
+
+        def issue_id_previous_change: () -> Array[Integer?]?
+
+        def issue_id_previously_was: () -> Integer?
+
+        def issue_id_before_last_save: () -> Integer?
+
+        def issue_id_change_to_be_saved: () -> Array[Integer?]?
+
+        def issue_id_in_database: () -> Integer?
+
+        def saved_change_to_issue_id: () -> Array[Integer?]?
+
+        def saved_change_to_issue_id?: () -> bool
+
+        def will_save_change_to_issue_id?: () -> bool
+
+        def restore_issue_id!: () -> void
+
+        def clear_issue_id_change: () -> void
+
+        def json_viewpoint: () -> untyped?
+
+        def json_viewpoint=: (untyped?) -> untyped?
+
+        def json_viewpoint?: () -> bool
+
+        def json_viewpoint_changed?: () -> bool
+
+        def json_viewpoint_change: () -> [ untyped?, untyped? ]
+
+        def json_viewpoint_will_change!: () -> void
+
+        def json_viewpoint_was: () -> untyped?
+
+        def json_viewpoint_previously_changed?: () -> bool
+
+        def json_viewpoint_previous_change: () -> Array[untyped?]?
+
+        def json_viewpoint_previously_was: () -> untyped?
+
+        def json_viewpoint_before_last_save: () -> untyped?
+
+        def json_viewpoint_change_to_be_saved: () -> Array[untyped?]?
+
+        def json_viewpoint_in_database: () -> untyped?
+
+        def saved_change_to_json_viewpoint: () -> Array[untyped?]?
+
+        def saved_change_to_json_viewpoint?: () -> bool
+
+        def will_save_change_to_json_viewpoint?: () -> bool
+
+        def restore_json_viewpoint!: () -> void
+
+        def clear_json_viewpoint_change: () -> void
+
+        def created_at: () -> ActiveSupport::TimeWithZone
+
+        def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+        def created_at?: () -> bool
+
+        def created_at_changed?: () -> bool
+
+        def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+        def created_at_will_change!: () -> void
+
+        def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+        def created_at_previously_changed?: () -> bool
+
+        def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+        def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+        def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+        def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def saved_change_to_created_at?: () -> bool
+
+        def will_save_change_to_created_at?: () -> bool
+
+        def restore_created_at!: () -> void
+
+        def clear_created_at_change: () -> void
+
+        def updated_at: () -> ActiveSupport::TimeWithZone
+
+        def updated_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+        def updated_at?: () -> bool
+
+        def updated_at_changed?: () -> bool
+
+        def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+        def updated_at_will_change!: () -> void
+
+        def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+        def updated_at_previously_changed?: () -> bool
+
+        def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+        def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+        def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+        def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def saved_change_to_updated_at?: () -> bool
+
+        def will_save_change_to_updated_at?: () -> bool
+
+        def restore_updated_at!: () -> void
+
+        def clear_updated_at_change: () -> void
+      end
+      include GeneratedAttributeMethods
+      def attachments: () -> Attachment::ActiveRecord_Associations_CollectionProxy
+      def attachments=: (Attachment::ActiveRecord_Associations_CollectionProxy | Array[Attachment]) -> (Attachment::ActiveRecord_Associations_CollectionProxy | Array[Attachment])
+      def attachment_ids: () -> Array[Integer]
+      def attachment_ids=: (Array[Integer]) -> Array[Integer]
+      def comments: () -> Bim::Bcf::Comment::ActiveRecord_Associations_CollectionProxy
+      def comments=: (Bim::Bcf::Comment::ActiveRecord_Associations_CollectionProxy | Array[Bim::Bcf::Comment]) -> (Bim::Bcf::Comment::ActiveRecord_Associations_CollectionProxy | Array[Bim::Bcf::Comment])
+      def comment_ids: () -> Array[Integer]
+      def comment_ids=: (Array[Integer]) -> Array[Integer]
+
+      def issue: () -> Bim::Bcf::Issue
+      def issue=: (Bim::Bcf::Issue?) -> Bim::Bcf::Issue?
+      def reload_issue: () -> Bim::Bcf::Issue?
+      def build_issue: (untyped) -> Bim::Bcf::Issue
+      def create_issue: (untyped) -> Bim::Bcf::Issue
+      def create_issue!: (untyped) -> Bim::Bcf::Issue
+      module GeneratedAssociationMethods
+      end
+      include GeneratedAssociationMethods
+
+      module GeneratedRelationMethods
+      end
+
+      class ActiveRecord_Relation < ::ActiveRecord::Relation
+        include GeneratedRelationMethods
+        include _ActiveRecord_Relation[Bim::Bcf::Viewpoint, Integer]
+        include Enumerable[Bim::Bcf::Viewpoint]
+      end
+
+      class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+        include GeneratedRelationMethods
+        include _ActiveRecord_Relation[Bim::Bcf::Viewpoint, Integer]
+      end
+    end
+  end
+end

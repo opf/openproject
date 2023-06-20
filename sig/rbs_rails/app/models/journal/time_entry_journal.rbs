@@ -1,0 +1,578 @@
+class Journal < ::ApplicationRecord
+  class TimeEntryJournal < ::Journal::BaseJournal
+    extend _ActiveRecord_Relation_ClassMethods[Journal::TimeEntryJournal, ActiveRecord_Relation, Integer]
+
+    module GeneratedAttributeMethods
+      def id: () -> Integer
+
+      def id=: (Integer) -> Integer
+
+      def id?: () -> bool
+
+      def id_changed?: () -> bool
+
+      def id_change: () -> [ Integer?, Integer? ]
+
+      def id_will_change!: () -> void
+
+      def id_was: () -> Integer?
+
+      def id_previously_changed?: () -> bool
+
+      def id_previous_change: () -> Array[Integer?]?
+
+      def id_previously_was: () -> Integer?
+
+      def id_before_last_save: () -> Integer?
+
+      def id_change_to_be_saved: () -> Array[Integer?]?
+
+      def id_in_database: () -> Integer?
+
+      def saved_change_to_id: () -> Array[Integer?]?
+
+      def saved_change_to_id?: () -> bool
+
+      def will_save_change_to_id?: () -> bool
+
+      def restore_id!: () -> void
+
+      def clear_id_change: () -> void
+
+      def project_id: () -> Integer
+
+      def project_id=: (Integer) -> Integer
+
+      def project_id?: () -> bool
+
+      def project_id_changed?: () -> bool
+
+      def project_id_change: () -> [ Integer?, Integer? ]
+
+      def project_id_will_change!: () -> void
+
+      def project_id_was: () -> Integer?
+
+      def project_id_previously_changed?: () -> bool
+
+      def project_id_previous_change: () -> Array[Integer?]?
+
+      def project_id_previously_was: () -> Integer?
+
+      def project_id_before_last_save: () -> Integer?
+
+      def project_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def project_id_in_database: () -> Integer?
+
+      def saved_change_to_project_id: () -> Array[Integer?]?
+
+      def saved_change_to_project_id?: () -> bool
+
+      def will_save_change_to_project_id?: () -> bool
+
+      def restore_project_id!: () -> void
+
+      def clear_project_id_change: () -> void
+
+      def user_id: () -> Integer
+
+      def user_id=: (Integer) -> Integer
+
+      def user_id?: () -> bool
+
+      def user_id_changed?: () -> bool
+
+      def user_id_change: () -> [ Integer?, Integer? ]
+
+      def user_id_will_change!: () -> void
+
+      def user_id_was: () -> Integer?
+
+      def user_id_previously_changed?: () -> bool
+
+      def user_id_previous_change: () -> Array[Integer?]?
+
+      def user_id_previously_was: () -> Integer?
+
+      def user_id_before_last_save: () -> Integer?
+
+      def user_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def user_id_in_database: () -> Integer?
+
+      def saved_change_to_user_id: () -> Array[Integer?]?
+
+      def saved_change_to_user_id?: () -> bool
+
+      def will_save_change_to_user_id?: () -> bool
+
+      def restore_user_id!: () -> void
+
+      def clear_user_id_change: () -> void
+
+      def work_package_id: () -> Integer?
+
+      def work_package_id=: (Integer?) -> Integer?
+
+      def work_package_id?: () -> bool
+
+      def work_package_id_changed?: () -> bool
+
+      def work_package_id_change: () -> [ Integer?, Integer? ]
+
+      def work_package_id_will_change!: () -> void
+
+      def work_package_id_was: () -> Integer?
+
+      def work_package_id_previously_changed?: () -> bool
+
+      def work_package_id_previous_change: () -> Array[Integer?]?
+
+      def work_package_id_previously_was: () -> Integer?
+
+      def work_package_id_before_last_save: () -> Integer?
+
+      def work_package_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def work_package_id_in_database: () -> Integer?
+
+      def saved_change_to_work_package_id: () -> Array[Integer?]?
+
+      def saved_change_to_work_package_id?: () -> bool
+
+      def will_save_change_to_work_package_id?: () -> bool
+
+      def restore_work_package_id!: () -> void
+
+      def clear_work_package_id_change: () -> void
+
+      def hours: () -> Float
+
+      def hours=: (Float) -> Float
+
+      def hours?: () -> bool
+
+      def hours_changed?: () -> bool
+
+      def hours_change: () -> [ Float?, Float? ]
+
+      def hours_will_change!: () -> void
+
+      def hours_was: () -> Float?
+
+      def hours_previously_changed?: () -> bool
+
+      def hours_previous_change: () -> Array[Float?]?
+
+      def hours_previously_was: () -> Float?
+
+      def hours_before_last_save: () -> Float?
+
+      def hours_change_to_be_saved: () -> Array[Float?]?
+
+      def hours_in_database: () -> Float?
+
+      def saved_change_to_hours: () -> Array[Float?]?
+
+      def saved_change_to_hours?: () -> bool
+
+      def will_save_change_to_hours?: () -> bool
+
+      def restore_hours!: () -> void
+
+      def clear_hours_change: () -> void
+
+      def comments: () -> String?
+
+      def comments=: (String?) -> String?
+
+      def comments?: () -> bool
+
+      def comments_changed?: () -> bool
+
+      def comments_change: () -> [ String?, String? ]
+
+      def comments_will_change!: () -> void
+
+      def comments_was: () -> String?
+
+      def comments_previously_changed?: () -> bool
+
+      def comments_previous_change: () -> Array[String?]?
+
+      def comments_previously_was: () -> String?
+
+      def comments_before_last_save: () -> String?
+
+      def comments_change_to_be_saved: () -> Array[String?]?
+
+      def comments_in_database: () -> String?
+
+      def saved_change_to_comments: () -> Array[String?]?
+
+      def saved_change_to_comments?: () -> bool
+
+      def will_save_change_to_comments?: () -> bool
+
+      def restore_comments!: () -> void
+
+      def clear_comments_change: () -> void
+
+      def activity_id: () -> Integer
+
+      def activity_id=: (Integer) -> Integer
+
+      def activity_id?: () -> bool
+
+      def activity_id_changed?: () -> bool
+
+      def activity_id_change: () -> [ Integer?, Integer? ]
+
+      def activity_id_will_change!: () -> void
+
+      def activity_id_was: () -> Integer?
+
+      def activity_id_previously_changed?: () -> bool
+
+      def activity_id_previous_change: () -> Array[Integer?]?
+
+      def activity_id_previously_was: () -> Integer?
+
+      def activity_id_before_last_save: () -> Integer?
+
+      def activity_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def activity_id_in_database: () -> Integer?
+
+      def saved_change_to_activity_id: () -> Array[Integer?]?
+
+      def saved_change_to_activity_id?: () -> bool
+
+      def will_save_change_to_activity_id?: () -> bool
+
+      def restore_activity_id!: () -> void
+
+      def clear_activity_id_change: () -> void
+
+      def spent_on: () -> Date
+
+      def spent_on=: (Date) -> Date
+
+      def spent_on?: () -> bool
+
+      def spent_on_changed?: () -> bool
+
+      def spent_on_change: () -> [ Date?, Date? ]
+
+      def spent_on_will_change!: () -> void
+
+      def spent_on_was: () -> Date?
+
+      def spent_on_previously_changed?: () -> bool
+
+      def spent_on_previous_change: () -> Array[Date?]?
+
+      def spent_on_previously_was: () -> Date?
+
+      def spent_on_before_last_save: () -> Date?
+
+      def spent_on_change_to_be_saved: () -> Array[Date?]?
+
+      def spent_on_in_database: () -> Date?
+
+      def saved_change_to_spent_on: () -> Array[Date?]?
+
+      def saved_change_to_spent_on?: () -> bool
+
+      def will_save_change_to_spent_on?: () -> bool
+
+      def restore_spent_on!: () -> void
+
+      def clear_spent_on_change: () -> void
+
+      def tyear: () -> Integer
+
+      def tyear=: (Integer) -> Integer
+
+      def tyear?: () -> bool
+
+      def tyear_changed?: () -> bool
+
+      def tyear_change: () -> [ Integer?, Integer? ]
+
+      def tyear_will_change!: () -> void
+
+      def tyear_was: () -> Integer?
+
+      def tyear_previously_changed?: () -> bool
+
+      def tyear_previous_change: () -> Array[Integer?]?
+
+      def tyear_previously_was: () -> Integer?
+
+      def tyear_before_last_save: () -> Integer?
+
+      def tyear_change_to_be_saved: () -> Array[Integer?]?
+
+      def tyear_in_database: () -> Integer?
+
+      def saved_change_to_tyear: () -> Array[Integer?]?
+
+      def saved_change_to_tyear?: () -> bool
+
+      def will_save_change_to_tyear?: () -> bool
+
+      def restore_tyear!: () -> void
+
+      def clear_tyear_change: () -> void
+
+      def tmonth: () -> Integer
+
+      def tmonth=: (Integer) -> Integer
+
+      def tmonth?: () -> bool
+
+      def tmonth_changed?: () -> bool
+
+      def tmonth_change: () -> [ Integer?, Integer? ]
+
+      def tmonth_will_change!: () -> void
+
+      def tmonth_was: () -> Integer?
+
+      def tmonth_previously_changed?: () -> bool
+
+      def tmonth_previous_change: () -> Array[Integer?]?
+
+      def tmonth_previously_was: () -> Integer?
+
+      def tmonth_before_last_save: () -> Integer?
+
+      def tmonth_change_to_be_saved: () -> Array[Integer?]?
+
+      def tmonth_in_database: () -> Integer?
+
+      def saved_change_to_tmonth: () -> Array[Integer?]?
+
+      def saved_change_to_tmonth?: () -> bool
+
+      def will_save_change_to_tmonth?: () -> bool
+
+      def restore_tmonth!: () -> void
+
+      def clear_tmonth_change: () -> void
+
+      def tweek: () -> Integer
+
+      def tweek=: (Integer) -> Integer
+
+      def tweek?: () -> bool
+
+      def tweek_changed?: () -> bool
+
+      def tweek_change: () -> [ Integer?, Integer? ]
+
+      def tweek_will_change!: () -> void
+
+      def tweek_was: () -> Integer?
+
+      def tweek_previously_changed?: () -> bool
+
+      def tweek_previous_change: () -> Array[Integer?]?
+
+      def tweek_previously_was: () -> Integer?
+
+      def tweek_before_last_save: () -> Integer?
+
+      def tweek_change_to_be_saved: () -> Array[Integer?]?
+
+      def tweek_in_database: () -> Integer?
+
+      def saved_change_to_tweek: () -> Array[Integer?]?
+
+      def saved_change_to_tweek?: () -> bool
+
+      def will_save_change_to_tweek?: () -> bool
+
+      def restore_tweek!: () -> void
+
+      def clear_tweek_change: () -> void
+
+      def overridden_costs: () -> BigDecimal?
+
+      def overridden_costs=: (BigDecimal?) -> BigDecimal?
+
+      def overridden_costs?: () -> bool
+
+      def overridden_costs_changed?: () -> bool
+
+      def overridden_costs_change: () -> [ BigDecimal?, BigDecimal? ]
+
+      def overridden_costs_will_change!: () -> void
+
+      def overridden_costs_was: () -> BigDecimal?
+
+      def overridden_costs_previously_changed?: () -> bool
+
+      def overridden_costs_previous_change: () -> Array[BigDecimal?]?
+
+      def overridden_costs_previously_was: () -> BigDecimal?
+
+      def overridden_costs_before_last_save: () -> BigDecimal?
+
+      def overridden_costs_change_to_be_saved: () -> Array[BigDecimal?]?
+
+      def overridden_costs_in_database: () -> BigDecimal?
+
+      def saved_change_to_overridden_costs: () -> Array[BigDecimal?]?
+
+      def saved_change_to_overridden_costs?: () -> bool
+
+      def will_save_change_to_overridden_costs?: () -> bool
+
+      def restore_overridden_costs!: () -> void
+
+      def clear_overridden_costs_change: () -> void
+
+      def costs: () -> BigDecimal?
+
+      def costs=: (BigDecimal?) -> BigDecimal?
+
+      def costs?: () -> bool
+
+      def costs_changed?: () -> bool
+
+      def costs_change: () -> [ BigDecimal?, BigDecimal? ]
+
+      def costs_will_change!: () -> void
+
+      def costs_was: () -> BigDecimal?
+
+      def costs_previously_changed?: () -> bool
+
+      def costs_previous_change: () -> Array[BigDecimal?]?
+
+      def costs_previously_was: () -> BigDecimal?
+
+      def costs_before_last_save: () -> BigDecimal?
+
+      def costs_change_to_be_saved: () -> Array[BigDecimal?]?
+
+      def costs_in_database: () -> BigDecimal?
+
+      def saved_change_to_costs: () -> Array[BigDecimal?]?
+
+      def saved_change_to_costs?: () -> bool
+
+      def will_save_change_to_costs?: () -> bool
+
+      def restore_costs!: () -> void
+
+      def clear_costs_change: () -> void
+
+      def rate_id: () -> Integer?
+
+      def rate_id=: (Integer?) -> Integer?
+
+      def rate_id?: () -> bool
+
+      def rate_id_changed?: () -> bool
+
+      def rate_id_change: () -> [ Integer?, Integer? ]
+
+      def rate_id_will_change!: () -> void
+
+      def rate_id_was: () -> Integer?
+
+      def rate_id_previously_changed?: () -> bool
+
+      def rate_id_previous_change: () -> Array[Integer?]?
+
+      def rate_id_previously_was: () -> Integer?
+
+      def rate_id_before_last_save: () -> Integer?
+
+      def rate_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def rate_id_in_database: () -> Integer?
+
+      def saved_change_to_rate_id: () -> Array[Integer?]?
+
+      def saved_change_to_rate_id?: () -> bool
+
+      def will_save_change_to_rate_id?: () -> bool
+
+      def restore_rate_id!: () -> void
+
+      def clear_rate_id_change: () -> void
+
+      def logged_by_id: () -> Integer
+
+      def logged_by_id=: (Integer) -> Integer
+
+      def logged_by_id?: () -> bool
+
+      def logged_by_id_changed?: () -> bool
+
+      def logged_by_id_change: () -> [ Integer?, Integer? ]
+
+      def logged_by_id_will_change!: () -> void
+
+      def logged_by_id_was: () -> Integer?
+
+      def logged_by_id_previously_changed?: () -> bool
+
+      def logged_by_id_previous_change: () -> Array[Integer?]?
+
+      def logged_by_id_previously_was: () -> Integer?
+
+      def logged_by_id_before_last_save: () -> Integer?
+
+      def logged_by_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def logged_by_id_in_database: () -> Integer?
+
+      def saved_change_to_logged_by_id: () -> Array[Integer?]?
+
+      def saved_change_to_logged_by_id?: () -> bool
+
+      def will_save_change_to_logged_by_id?: () -> bool
+
+      def restore_logged_by_id!: () -> void
+
+      def clear_logged_by_id_change: () -> void
+    end
+    include GeneratedAttributeMethods
+
+    def journal: () -> Journal?
+    def journal=: (Journal?) -> Journal?
+    def build_journal: (untyped) -> Journal
+    def create_journal: (untyped) -> Journal
+    def create_journal!: (untyped) -> Journal
+    def reload_journal: () -> Journal?
+    def author: () -> User
+    def author=: (User?) -> User?
+    def reload_author: () -> User?
+    def build_author: (untyped) -> User
+    def create_author: (untyped) -> User
+    def create_author!: (untyped) -> User
+    module GeneratedAssociationMethods
+    end
+    include GeneratedAssociationMethods
+
+    module GeneratedRelationMethods
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Journal::TimeEntryJournal, Integer]
+      include Enumerable[Journal::TimeEntryJournal]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Journal::TimeEntryJournal, Integer]
+    end
+  end
+end

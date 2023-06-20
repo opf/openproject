@@ -1,0 +1,936 @@
+class NotificationSetting < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[NotificationSetting, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def project_id: () -> Integer?
+
+    def project_id=: (Integer?) -> Integer?
+
+    def project_id?: () -> bool
+
+    def project_id_changed?: () -> bool
+
+    def project_id_change: () -> [ Integer?, Integer? ]
+
+    def project_id_will_change!: () -> void
+
+    def project_id_was: () -> Integer?
+
+    def project_id_previously_changed?: () -> bool
+
+    def project_id_previous_change: () -> Array[Integer?]?
+
+    def project_id_previously_was: () -> Integer?
+
+    def project_id_before_last_save: () -> Integer?
+
+    def project_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def project_id_in_database: () -> Integer?
+
+    def saved_change_to_project_id: () -> Array[Integer?]?
+
+    def saved_change_to_project_id?: () -> bool
+
+    def will_save_change_to_project_id?: () -> bool
+
+    def restore_project_id!: () -> void
+
+    def clear_project_id_change: () -> void
+
+    def user_id: () -> Integer
+
+    def user_id=: (Integer) -> Integer
+
+    def user_id?: () -> bool
+
+    def user_id_changed?: () -> bool
+
+    def user_id_change: () -> [ Integer?, Integer? ]
+
+    def user_id_will_change!: () -> void
+
+    def user_id_was: () -> Integer?
+
+    def user_id_previously_changed?: () -> bool
+
+    def user_id_previous_change: () -> Array[Integer?]?
+
+    def user_id_previously_was: () -> Integer?
+
+    def user_id_before_last_save: () -> Integer?
+
+    def user_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def user_id_in_database: () -> Integer?
+
+    def saved_change_to_user_id: () -> Array[Integer?]?
+
+    def saved_change_to_user_id?: () -> bool
+
+    def will_save_change_to_user_id?: () -> bool
+
+    def restore_user_id!: () -> void
+
+    def clear_user_id_change: () -> void
+
+    def watched: () -> bool?
+
+    def watched=: (bool?) -> bool?
+
+    def watched?: () -> bool
+
+    def watched_changed?: () -> bool
+
+    def watched_change: () -> [ bool?, bool? ]
+
+    def watched_will_change!: () -> void
+
+    def watched_was: () -> bool?
+
+    def watched_previously_changed?: () -> bool
+
+    def watched_previous_change: () -> Array[bool?]?
+
+    def watched_previously_was: () -> bool?
+
+    def watched_before_last_save: () -> bool?
+
+    def watched_change_to_be_saved: () -> Array[bool?]?
+
+    def watched_in_database: () -> bool?
+
+    def saved_change_to_watched: () -> Array[bool?]?
+
+    def saved_change_to_watched?: () -> bool
+
+    def will_save_change_to_watched?: () -> bool
+
+    def restore_watched!: () -> void
+
+    def clear_watched_change: () -> void
+
+    def mentioned: () -> bool?
+
+    def mentioned=: (bool?) -> bool?
+
+    def mentioned?: () -> bool
+
+    def mentioned_changed?: () -> bool
+
+    def mentioned_change: () -> [ bool?, bool? ]
+
+    def mentioned_will_change!: () -> void
+
+    def mentioned_was: () -> bool?
+
+    def mentioned_previously_changed?: () -> bool
+
+    def mentioned_previous_change: () -> Array[bool?]?
+
+    def mentioned_previously_was: () -> bool?
+
+    def mentioned_before_last_save: () -> bool?
+
+    def mentioned_change_to_be_saved: () -> Array[bool?]?
+
+    def mentioned_in_database: () -> bool?
+
+    def saved_change_to_mentioned: () -> Array[bool?]?
+
+    def saved_change_to_mentioned?: () -> bool
+
+    def will_save_change_to_mentioned?: () -> bool
+
+    def restore_mentioned!: () -> void
+
+    def clear_mentioned_change: () -> void
+
+    def created_at: () -> ActiveSupport::TimeWithZone
+
+    def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+    def created_at?: () -> bool
+
+    def created_at_changed?: () -> bool
+
+    def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def created_at_will_change!: () -> void
+
+    def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_previously_changed?: () -> bool
+
+    def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_created_at?: () -> bool
+
+    def will_save_change_to_created_at?: () -> bool
+
+    def restore_created_at!: () -> void
+
+    def clear_created_at_change: () -> void
+
+    def updated_at: () -> ActiveSupport::TimeWithZone
+
+    def updated_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+    def updated_at?: () -> bool
+
+    def updated_at_changed?: () -> bool
+
+    def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def updated_at_will_change!: () -> void
+
+    def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_previously_changed?: () -> bool
+
+    def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_updated_at?: () -> bool
+
+    def will_save_change_to_updated_at?: () -> bool
+
+    def restore_updated_at!: () -> void
+
+    def clear_updated_at_change: () -> void
+
+    def work_package_commented: () -> bool?
+
+    def work_package_commented=: (bool?) -> bool?
+
+    def work_package_commented?: () -> bool
+
+    def work_package_commented_changed?: () -> bool
+
+    def work_package_commented_change: () -> [ bool?, bool? ]
+
+    def work_package_commented_will_change!: () -> void
+
+    def work_package_commented_was: () -> bool?
+
+    def work_package_commented_previously_changed?: () -> bool
+
+    def work_package_commented_previous_change: () -> Array[bool?]?
+
+    def work_package_commented_previously_was: () -> bool?
+
+    def work_package_commented_before_last_save: () -> bool?
+
+    def work_package_commented_change_to_be_saved: () -> Array[bool?]?
+
+    def work_package_commented_in_database: () -> bool?
+
+    def saved_change_to_work_package_commented: () -> Array[bool?]?
+
+    def saved_change_to_work_package_commented?: () -> bool
+
+    def will_save_change_to_work_package_commented?: () -> bool
+
+    def restore_work_package_commented!: () -> void
+
+    def clear_work_package_commented_change: () -> void
+
+    def work_package_created: () -> bool?
+
+    def work_package_created=: (bool?) -> bool?
+
+    def work_package_created?: () -> bool
+
+    def work_package_created_changed?: () -> bool
+
+    def work_package_created_change: () -> [ bool?, bool? ]
+
+    def work_package_created_will_change!: () -> void
+
+    def work_package_created_was: () -> bool?
+
+    def work_package_created_previously_changed?: () -> bool
+
+    def work_package_created_previous_change: () -> Array[bool?]?
+
+    def work_package_created_previously_was: () -> bool?
+
+    def work_package_created_before_last_save: () -> bool?
+
+    def work_package_created_change_to_be_saved: () -> Array[bool?]?
+
+    def work_package_created_in_database: () -> bool?
+
+    def saved_change_to_work_package_created: () -> Array[bool?]?
+
+    def saved_change_to_work_package_created?: () -> bool
+
+    def will_save_change_to_work_package_created?: () -> bool
+
+    def restore_work_package_created!: () -> void
+
+    def clear_work_package_created_change: () -> void
+
+    def work_package_processed: () -> bool?
+
+    def work_package_processed=: (bool?) -> bool?
+
+    def work_package_processed?: () -> bool
+
+    def work_package_processed_changed?: () -> bool
+
+    def work_package_processed_change: () -> [ bool?, bool? ]
+
+    def work_package_processed_will_change!: () -> void
+
+    def work_package_processed_was: () -> bool?
+
+    def work_package_processed_previously_changed?: () -> bool
+
+    def work_package_processed_previous_change: () -> Array[bool?]?
+
+    def work_package_processed_previously_was: () -> bool?
+
+    def work_package_processed_before_last_save: () -> bool?
+
+    def work_package_processed_change_to_be_saved: () -> Array[bool?]?
+
+    def work_package_processed_in_database: () -> bool?
+
+    def saved_change_to_work_package_processed: () -> Array[bool?]?
+
+    def saved_change_to_work_package_processed?: () -> bool
+
+    def will_save_change_to_work_package_processed?: () -> bool
+
+    def restore_work_package_processed!: () -> void
+
+    def clear_work_package_processed_change: () -> void
+
+    def work_package_prioritized: () -> bool?
+
+    def work_package_prioritized=: (bool?) -> bool?
+
+    def work_package_prioritized?: () -> bool
+
+    def work_package_prioritized_changed?: () -> bool
+
+    def work_package_prioritized_change: () -> [ bool?, bool? ]
+
+    def work_package_prioritized_will_change!: () -> void
+
+    def work_package_prioritized_was: () -> bool?
+
+    def work_package_prioritized_previously_changed?: () -> bool
+
+    def work_package_prioritized_previous_change: () -> Array[bool?]?
+
+    def work_package_prioritized_previously_was: () -> bool?
+
+    def work_package_prioritized_before_last_save: () -> bool?
+
+    def work_package_prioritized_change_to_be_saved: () -> Array[bool?]?
+
+    def work_package_prioritized_in_database: () -> bool?
+
+    def saved_change_to_work_package_prioritized: () -> Array[bool?]?
+
+    def saved_change_to_work_package_prioritized?: () -> bool
+
+    def will_save_change_to_work_package_prioritized?: () -> bool
+
+    def restore_work_package_prioritized!: () -> void
+
+    def clear_work_package_prioritized_change: () -> void
+
+    def work_package_scheduled: () -> bool?
+
+    def work_package_scheduled=: (bool?) -> bool?
+
+    def work_package_scheduled?: () -> bool
+
+    def work_package_scheduled_changed?: () -> bool
+
+    def work_package_scheduled_change: () -> [ bool?, bool? ]
+
+    def work_package_scheduled_will_change!: () -> void
+
+    def work_package_scheduled_was: () -> bool?
+
+    def work_package_scheduled_previously_changed?: () -> bool
+
+    def work_package_scheduled_previous_change: () -> Array[bool?]?
+
+    def work_package_scheduled_previously_was: () -> bool?
+
+    def work_package_scheduled_before_last_save: () -> bool?
+
+    def work_package_scheduled_change_to_be_saved: () -> Array[bool?]?
+
+    def work_package_scheduled_in_database: () -> bool?
+
+    def saved_change_to_work_package_scheduled: () -> Array[bool?]?
+
+    def saved_change_to_work_package_scheduled?: () -> bool
+
+    def will_save_change_to_work_package_scheduled?: () -> bool
+
+    def restore_work_package_scheduled!: () -> void
+
+    def clear_work_package_scheduled_change: () -> void
+
+    def news_added: () -> bool?
+
+    def news_added=: (bool?) -> bool?
+
+    def news_added?: () -> bool
+
+    def news_added_changed?: () -> bool
+
+    def news_added_change: () -> [ bool?, bool? ]
+
+    def news_added_will_change!: () -> void
+
+    def news_added_was: () -> bool?
+
+    def news_added_previously_changed?: () -> bool
+
+    def news_added_previous_change: () -> Array[bool?]?
+
+    def news_added_previously_was: () -> bool?
+
+    def news_added_before_last_save: () -> bool?
+
+    def news_added_change_to_be_saved: () -> Array[bool?]?
+
+    def news_added_in_database: () -> bool?
+
+    def saved_change_to_news_added: () -> Array[bool?]?
+
+    def saved_change_to_news_added?: () -> bool
+
+    def will_save_change_to_news_added?: () -> bool
+
+    def restore_news_added!: () -> void
+
+    def clear_news_added_change: () -> void
+
+    def news_commented: () -> bool?
+
+    def news_commented=: (bool?) -> bool?
+
+    def news_commented?: () -> bool
+
+    def news_commented_changed?: () -> bool
+
+    def news_commented_change: () -> [ bool?, bool? ]
+
+    def news_commented_will_change!: () -> void
+
+    def news_commented_was: () -> bool?
+
+    def news_commented_previously_changed?: () -> bool
+
+    def news_commented_previous_change: () -> Array[bool?]?
+
+    def news_commented_previously_was: () -> bool?
+
+    def news_commented_before_last_save: () -> bool?
+
+    def news_commented_change_to_be_saved: () -> Array[bool?]?
+
+    def news_commented_in_database: () -> bool?
+
+    def saved_change_to_news_commented: () -> Array[bool?]?
+
+    def saved_change_to_news_commented?: () -> bool
+
+    def will_save_change_to_news_commented?: () -> bool
+
+    def restore_news_commented!: () -> void
+
+    def clear_news_commented_change: () -> void
+
+    def document_added: () -> bool?
+
+    def document_added=: (bool?) -> bool?
+
+    def document_added?: () -> bool
+
+    def document_added_changed?: () -> bool
+
+    def document_added_change: () -> [ bool?, bool? ]
+
+    def document_added_will_change!: () -> void
+
+    def document_added_was: () -> bool?
+
+    def document_added_previously_changed?: () -> bool
+
+    def document_added_previous_change: () -> Array[bool?]?
+
+    def document_added_previously_was: () -> bool?
+
+    def document_added_before_last_save: () -> bool?
+
+    def document_added_change_to_be_saved: () -> Array[bool?]?
+
+    def document_added_in_database: () -> bool?
+
+    def saved_change_to_document_added: () -> Array[bool?]?
+
+    def saved_change_to_document_added?: () -> bool
+
+    def will_save_change_to_document_added?: () -> bool
+
+    def restore_document_added!: () -> void
+
+    def clear_document_added_change: () -> void
+
+    def forum_messages: () -> bool?
+
+    def forum_messages=: (bool?) -> bool?
+
+    def forum_messages?: () -> bool
+
+    def forum_messages_changed?: () -> bool
+
+    def forum_messages_change: () -> [ bool?, bool? ]
+
+    def forum_messages_will_change!: () -> void
+
+    def forum_messages_was: () -> bool?
+
+    def forum_messages_previously_changed?: () -> bool
+
+    def forum_messages_previous_change: () -> Array[bool?]?
+
+    def forum_messages_previously_was: () -> bool?
+
+    def forum_messages_before_last_save: () -> bool?
+
+    def forum_messages_change_to_be_saved: () -> Array[bool?]?
+
+    def forum_messages_in_database: () -> bool?
+
+    def saved_change_to_forum_messages: () -> Array[bool?]?
+
+    def saved_change_to_forum_messages?: () -> bool
+
+    def will_save_change_to_forum_messages?: () -> bool
+
+    def restore_forum_messages!: () -> void
+
+    def clear_forum_messages_change: () -> void
+
+    def wiki_page_added: () -> bool?
+
+    def wiki_page_added=: (bool?) -> bool?
+
+    def wiki_page_added?: () -> bool
+
+    def wiki_page_added_changed?: () -> bool
+
+    def wiki_page_added_change: () -> [ bool?, bool? ]
+
+    def wiki_page_added_will_change!: () -> void
+
+    def wiki_page_added_was: () -> bool?
+
+    def wiki_page_added_previously_changed?: () -> bool
+
+    def wiki_page_added_previous_change: () -> Array[bool?]?
+
+    def wiki_page_added_previously_was: () -> bool?
+
+    def wiki_page_added_before_last_save: () -> bool?
+
+    def wiki_page_added_change_to_be_saved: () -> Array[bool?]?
+
+    def wiki_page_added_in_database: () -> bool?
+
+    def saved_change_to_wiki_page_added: () -> Array[bool?]?
+
+    def saved_change_to_wiki_page_added?: () -> bool
+
+    def will_save_change_to_wiki_page_added?: () -> bool
+
+    def restore_wiki_page_added!: () -> void
+
+    def clear_wiki_page_added_change: () -> void
+
+    def wiki_page_updated: () -> bool?
+
+    def wiki_page_updated=: (bool?) -> bool?
+
+    def wiki_page_updated?: () -> bool
+
+    def wiki_page_updated_changed?: () -> bool
+
+    def wiki_page_updated_change: () -> [ bool?, bool? ]
+
+    def wiki_page_updated_will_change!: () -> void
+
+    def wiki_page_updated_was: () -> bool?
+
+    def wiki_page_updated_previously_changed?: () -> bool
+
+    def wiki_page_updated_previous_change: () -> Array[bool?]?
+
+    def wiki_page_updated_previously_was: () -> bool?
+
+    def wiki_page_updated_before_last_save: () -> bool?
+
+    def wiki_page_updated_change_to_be_saved: () -> Array[bool?]?
+
+    def wiki_page_updated_in_database: () -> bool?
+
+    def saved_change_to_wiki_page_updated: () -> Array[bool?]?
+
+    def saved_change_to_wiki_page_updated?: () -> bool
+
+    def will_save_change_to_wiki_page_updated?: () -> bool
+
+    def restore_wiki_page_updated!: () -> void
+
+    def clear_wiki_page_updated_change: () -> void
+
+    def membership_added: () -> bool?
+
+    def membership_added=: (bool?) -> bool?
+
+    def membership_added?: () -> bool
+
+    def membership_added_changed?: () -> bool
+
+    def membership_added_change: () -> [ bool?, bool? ]
+
+    def membership_added_will_change!: () -> void
+
+    def membership_added_was: () -> bool?
+
+    def membership_added_previously_changed?: () -> bool
+
+    def membership_added_previous_change: () -> Array[bool?]?
+
+    def membership_added_previously_was: () -> bool?
+
+    def membership_added_before_last_save: () -> bool?
+
+    def membership_added_change_to_be_saved: () -> Array[bool?]?
+
+    def membership_added_in_database: () -> bool?
+
+    def saved_change_to_membership_added: () -> Array[bool?]?
+
+    def saved_change_to_membership_added?: () -> bool
+
+    def will_save_change_to_membership_added?: () -> bool
+
+    def restore_membership_added!: () -> void
+
+    def clear_membership_added_change: () -> void
+
+    def membership_updated: () -> bool?
+
+    def membership_updated=: (bool?) -> bool?
+
+    def membership_updated?: () -> bool
+
+    def membership_updated_changed?: () -> bool
+
+    def membership_updated_change: () -> [ bool?, bool? ]
+
+    def membership_updated_will_change!: () -> void
+
+    def membership_updated_was: () -> bool?
+
+    def membership_updated_previously_changed?: () -> bool
+
+    def membership_updated_previous_change: () -> Array[bool?]?
+
+    def membership_updated_previously_was: () -> bool?
+
+    def membership_updated_before_last_save: () -> bool?
+
+    def membership_updated_change_to_be_saved: () -> Array[bool?]?
+
+    def membership_updated_in_database: () -> bool?
+
+    def saved_change_to_membership_updated: () -> Array[bool?]?
+
+    def saved_change_to_membership_updated?: () -> bool
+
+    def will_save_change_to_membership_updated?: () -> bool
+
+    def restore_membership_updated!: () -> void
+
+    def clear_membership_updated_change: () -> void
+
+    def start_date: () -> Integer?
+
+    def start_date=: (Integer?) -> Integer?
+
+    def start_date?: () -> bool
+
+    def start_date_changed?: () -> bool
+
+    def start_date_change: () -> [ Integer?, Integer? ]
+
+    def start_date_will_change!: () -> void
+
+    def start_date_was: () -> Integer?
+
+    def start_date_previously_changed?: () -> bool
+
+    def start_date_previous_change: () -> Array[Integer?]?
+
+    def start_date_previously_was: () -> Integer?
+
+    def start_date_before_last_save: () -> Integer?
+
+    def start_date_change_to_be_saved: () -> Array[Integer?]?
+
+    def start_date_in_database: () -> Integer?
+
+    def saved_change_to_start_date: () -> Array[Integer?]?
+
+    def saved_change_to_start_date?: () -> bool
+
+    def will_save_change_to_start_date?: () -> bool
+
+    def restore_start_date!: () -> void
+
+    def clear_start_date_change: () -> void
+
+    def due_date: () -> Integer?
+
+    def due_date=: (Integer?) -> Integer?
+
+    def due_date?: () -> bool
+
+    def due_date_changed?: () -> bool
+
+    def due_date_change: () -> [ Integer?, Integer? ]
+
+    def due_date_will_change!: () -> void
+
+    def due_date_was: () -> Integer?
+
+    def due_date_previously_changed?: () -> bool
+
+    def due_date_previous_change: () -> Array[Integer?]?
+
+    def due_date_previously_was: () -> Integer?
+
+    def due_date_before_last_save: () -> Integer?
+
+    def due_date_change_to_be_saved: () -> Array[Integer?]?
+
+    def due_date_in_database: () -> Integer?
+
+    def saved_change_to_due_date: () -> Array[Integer?]?
+
+    def saved_change_to_due_date?: () -> bool
+
+    def will_save_change_to_due_date?: () -> bool
+
+    def restore_due_date!: () -> void
+
+    def clear_due_date_change: () -> void
+
+    def overdue: () -> Integer?
+
+    def overdue=: (Integer?) -> Integer?
+
+    def overdue?: () -> bool
+
+    def overdue_changed?: () -> bool
+
+    def overdue_change: () -> [ Integer?, Integer? ]
+
+    def overdue_will_change!: () -> void
+
+    def overdue_was: () -> Integer?
+
+    def overdue_previously_changed?: () -> bool
+
+    def overdue_previous_change: () -> Array[Integer?]?
+
+    def overdue_previously_was: () -> Integer?
+
+    def overdue_before_last_save: () -> Integer?
+
+    def overdue_change_to_be_saved: () -> Array[Integer?]?
+
+    def overdue_in_database: () -> Integer?
+
+    def saved_change_to_overdue: () -> Array[Integer?]?
+
+    def saved_change_to_overdue?: () -> bool
+
+    def will_save_change_to_overdue?: () -> bool
+
+    def restore_overdue!: () -> void
+
+    def clear_overdue_change: () -> void
+
+    def assignee: () -> bool
+
+    def assignee=: (bool) -> bool
+
+    def assignee?: () -> bool
+
+    def assignee_changed?: () -> bool
+
+    def assignee_change: () -> [ bool?, bool? ]
+
+    def assignee_will_change!: () -> void
+
+    def assignee_was: () -> bool?
+
+    def assignee_previously_changed?: () -> bool
+
+    def assignee_previous_change: () -> Array[bool?]?
+
+    def assignee_previously_was: () -> bool?
+
+    def assignee_before_last_save: () -> bool?
+
+    def assignee_change_to_be_saved: () -> Array[bool?]?
+
+    def assignee_in_database: () -> bool?
+
+    def saved_change_to_assignee: () -> Array[bool?]?
+
+    def saved_change_to_assignee?: () -> bool
+
+    def will_save_change_to_assignee?: () -> bool
+
+    def restore_assignee!: () -> void
+
+    def clear_assignee_change: () -> void
+
+    def responsible: () -> bool
+
+    def responsible=: (bool) -> bool
+
+    def responsible?: () -> bool
+
+    def responsible_changed?: () -> bool
+
+    def responsible_change: () -> [ bool?, bool? ]
+
+    def responsible_will_change!: () -> void
+
+    def responsible_was: () -> bool?
+
+    def responsible_previously_changed?: () -> bool
+
+    def responsible_previous_change: () -> Array[bool?]?
+
+    def responsible_previously_was: () -> bool?
+
+    def responsible_before_last_save: () -> bool?
+
+    def responsible_change_to_be_saved: () -> Array[bool?]?
+
+    def responsible_in_database: () -> bool?
+
+    def saved_change_to_responsible: () -> Array[bool?]?
+
+    def saved_change_to_responsible?: () -> bool
+
+    def will_save_change_to_responsible?: () -> bool
+
+    def restore_responsible!: () -> void
+
+    def clear_responsible_change: () -> void
+  end
+  include GeneratedAttributeMethods
+
+  def project: () -> Project?
+  def project=: (Project?) -> Project?
+  def reload_project: () -> Project?
+  def build_project: (untyped) -> Project
+  def create_project: (untyped) -> Project
+  def create_project!: (untyped) -> Project
+  def user: () -> User
+  def user=: (User?) -> User?
+  def reload_user: () -> User?
+  def build_user: (untyped) -> User
+  def create_user: (untyped) -> User
+  def create_user!: (untyped) -> User
+  module GeneratedAssociationMethods
+  end
+  include GeneratedAssociationMethods
+
+  module GeneratedRelationMethods
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[NotificationSetting, Integer]
+    include Enumerable[NotificationSetting]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[NotificationSetting, Integer]
+  end
+end

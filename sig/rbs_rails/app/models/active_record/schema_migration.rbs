@@ -1,0 +1,62 @@
+module ActiveRecord
+  class SchemaMigration < ::ActiveRecord::Base
+    extend _ActiveRecord_Relation_ClassMethods[ActiveRecord::SchemaMigration, ActiveRecord_Relation, String]
+
+    module GeneratedAttributeMethods
+      def version: () -> String
+
+      def version=: (String) -> String
+
+      def version?: () -> bool
+
+      def version_changed?: () -> bool
+
+      def version_change: () -> [ String?, String? ]
+
+      def version_will_change!: () -> void
+
+      def version_was: () -> String?
+
+      def version_previously_changed?: () -> bool
+
+      def version_previous_change: () -> Array[String?]?
+
+      def version_previously_was: () -> String?
+
+      def version_before_last_save: () -> String?
+
+      def version_change_to_be_saved: () -> Array[String?]?
+
+      def version_in_database: () -> String?
+
+      def saved_change_to_version: () -> Array[String?]?
+
+      def saved_change_to_version?: () -> bool
+
+      def will_save_change_to_version?: () -> bool
+
+      def restore_version!: () -> void
+
+      def clear_version_change: () -> void
+    end
+    include GeneratedAttributeMethods
+
+    module GeneratedAssociationMethods
+    end
+    include GeneratedAssociationMethods
+
+    module GeneratedRelationMethods
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[ActiveRecord::SchemaMigration, String]
+      include Enumerable[ActiveRecord::SchemaMigration]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[ActiveRecord::SchemaMigration, String]
+    end
+  end
+end

@@ -1,0 +1,210 @@
+class WikiRedirect < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[WikiRedirect, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def wiki_id: () -> Integer
+
+    def wiki_id=: (Integer) -> Integer
+
+    def wiki_id?: () -> bool
+
+    def wiki_id_changed?: () -> bool
+
+    def wiki_id_change: () -> [ Integer?, Integer? ]
+
+    def wiki_id_will_change!: () -> void
+
+    def wiki_id_was: () -> Integer?
+
+    def wiki_id_previously_changed?: () -> bool
+
+    def wiki_id_previous_change: () -> Array[Integer?]?
+
+    def wiki_id_previously_was: () -> Integer?
+
+    def wiki_id_before_last_save: () -> Integer?
+
+    def wiki_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def wiki_id_in_database: () -> Integer?
+
+    def saved_change_to_wiki_id: () -> Array[Integer?]?
+
+    def saved_change_to_wiki_id?: () -> bool
+
+    def will_save_change_to_wiki_id?: () -> bool
+
+    def restore_wiki_id!: () -> void
+
+    def clear_wiki_id_change: () -> void
+
+    def title: () -> String?
+
+    def title=: (String?) -> String?
+
+    def title?: () -> bool
+
+    def title_changed?: () -> bool
+
+    def title_change: () -> [ String?, String? ]
+
+    def title_will_change!: () -> void
+
+    def title_was: () -> String?
+
+    def title_previously_changed?: () -> bool
+
+    def title_previous_change: () -> Array[String?]?
+
+    def title_previously_was: () -> String?
+
+    def title_before_last_save: () -> String?
+
+    def title_change_to_be_saved: () -> Array[String?]?
+
+    def title_in_database: () -> String?
+
+    def saved_change_to_title: () -> Array[String?]?
+
+    def saved_change_to_title?: () -> bool
+
+    def will_save_change_to_title?: () -> bool
+
+    def restore_title!: () -> void
+
+    def clear_title_change: () -> void
+
+    def redirects_to: () -> String?
+
+    def redirects_to=: (String?) -> String?
+
+    def redirects_to?: () -> bool
+
+    def redirects_to_changed?: () -> bool
+
+    def redirects_to_change: () -> [ String?, String? ]
+
+    def redirects_to_will_change!: () -> void
+
+    def redirects_to_was: () -> String?
+
+    def redirects_to_previously_changed?: () -> bool
+
+    def redirects_to_previous_change: () -> Array[String?]?
+
+    def redirects_to_previously_was: () -> String?
+
+    def redirects_to_before_last_save: () -> String?
+
+    def redirects_to_change_to_be_saved: () -> Array[String?]?
+
+    def redirects_to_in_database: () -> String?
+
+    def saved_change_to_redirects_to: () -> Array[String?]?
+
+    def saved_change_to_redirects_to?: () -> bool
+
+    def will_save_change_to_redirects_to?: () -> bool
+
+    def restore_redirects_to!: () -> void
+
+    def clear_redirects_to_change: () -> void
+
+    def created_at: () -> ActiveSupport::TimeWithZone
+
+    def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+    def created_at?: () -> bool
+
+    def created_at_changed?: () -> bool
+
+    def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def created_at_will_change!: () -> void
+
+    def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_previously_changed?: () -> bool
+
+    def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_created_at?: () -> bool
+
+    def will_save_change_to_created_at?: () -> bool
+
+    def restore_created_at!: () -> void
+
+    def clear_created_at_change: () -> void
+  end
+  include GeneratedAttributeMethods
+
+  def wiki: () -> Wiki
+  def wiki=: (Wiki?) -> Wiki?
+  def reload_wiki: () -> Wiki?
+  def build_wiki: (untyped) -> Wiki
+  def create_wiki: (untyped) -> Wiki
+  def create_wiki!: (untyped) -> Wiki
+  module GeneratedAssociationMethods
+  end
+  include GeneratedAssociationMethods
+
+  module GeneratedRelationMethods
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[WikiRedirect, Integer]
+    include Enumerable[WikiRedirect]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[WikiRedirect, Integer]
+  end
+end

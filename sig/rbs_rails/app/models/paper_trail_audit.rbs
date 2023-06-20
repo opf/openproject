@@ -1,0 +1,351 @@
+class PaperTrailAudit < ::ApplicationVersion
+  extend _ActiveRecord_Relation_ClassMethods[PaperTrailAudit, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def item_type: () -> String
+
+    def item_type=: (String) -> String
+
+    def item_type?: () -> bool
+
+    def item_type_changed?: () -> bool
+
+    def item_type_change: () -> [ String?, String? ]
+
+    def item_type_will_change!: () -> void
+
+    def item_type_was: () -> String?
+
+    def item_type_previously_changed?: () -> bool
+
+    def item_type_previous_change: () -> Array[String?]?
+
+    def item_type_previously_was: () -> String?
+
+    def item_type_before_last_save: () -> String?
+
+    def item_type_change_to_be_saved: () -> Array[String?]?
+
+    def item_type_in_database: () -> String?
+
+    def saved_change_to_item_type: () -> Array[String?]?
+
+    def saved_change_to_item_type?: () -> bool
+
+    def will_save_change_to_item_type?: () -> bool
+
+    def restore_item_type!: () -> void
+
+    def clear_item_type_change: () -> void
+
+    def item_id: () -> Integer
+
+    def item_id=: (Integer) -> Integer
+
+    def item_id?: () -> bool
+
+    def item_id_changed?: () -> bool
+
+    def item_id_change: () -> [ Integer?, Integer? ]
+
+    def item_id_will_change!: () -> void
+
+    def item_id_was: () -> Integer?
+
+    def item_id_previously_changed?: () -> bool
+
+    def item_id_previous_change: () -> Array[Integer?]?
+
+    def item_id_previously_was: () -> Integer?
+
+    def item_id_before_last_save: () -> Integer?
+
+    def item_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def item_id_in_database: () -> Integer?
+
+    def saved_change_to_item_id: () -> Array[Integer?]?
+
+    def saved_change_to_item_id?: () -> bool
+
+    def will_save_change_to_item_id?: () -> bool
+
+    def restore_item_id!: () -> void
+
+    def clear_item_id_change: () -> void
+
+    def event: () -> String
+
+    def event=: (String) -> String
+
+    def event?: () -> bool
+
+    def event_changed?: () -> bool
+
+    def event_change: () -> [ String?, String? ]
+
+    def event_will_change!: () -> void
+
+    def event_was: () -> String?
+
+    def event_previously_changed?: () -> bool
+
+    def event_previous_change: () -> Array[String?]?
+
+    def event_previously_was: () -> String?
+
+    def event_before_last_save: () -> String?
+
+    def event_change_to_be_saved: () -> Array[String?]?
+
+    def event_in_database: () -> String?
+
+    def saved_change_to_event: () -> Array[String?]?
+
+    def saved_change_to_event?: () -> bool
+
+    def will_save_change_to_event?: () -> bool
+
+    def restore_event!: () -> void
+
+    def clear_event_change: () -> void
+
+    def whodunnit: () -> String?
+
+    def whodunnit=: (String?) -> String?
+
+    def whodunnit?: () -> bool
+
+    def whodunnit_changed?: () -> bool
+
+    def whodunnit_change: () -> [ String?, String? ]
+
+    def whodunnit_will_change!: () -> void
+
+    def whodunnit_was: () -> String?
+
+    def whodunnit_previously_changed?: () -> bool
+
+    def whodunnit_previous_change: () -> Array[String?]?
+
+    def whodunnit_previously_was: () -> String?
+
+    def whodunnit_before_last_save: () -> String?
+
+    def whodunnit_change_to_be_saved: () -> Array[String?]?
+
+    def whodunnit_in_database: () -> String?
+
+    def saved_change_to_whodunnit: () -> Array[String?]?
+
+    def saved_change_to_whodunnit?: () -> bool
+
+    def will_save_change_to_whodunnit?: () -> bool
+
+    def restore_whodunnit!: () -> void
+
+    def clear_whodunnit_change: () -> void
+
+    def stack: () -> String?
+
+    def stack=: (String?) -> String?
+
+    def stack?: () -> bool
+
+    def stack_changed?: () -> bool
+
+    def stack_change: () -> [ String?, String? ]
+
+    def stack_will_change!: () -> void
+
+    def stack_was: () -> String?
+
+    def stack_previously_changed?: () -> bool
+
+    def stack_previous_change: () -> Array[String?]?
+
+    def stack_previously_was: () -> String?
+
+    def stack_before_last_save: () -> String?
+
+    def stack_change_to_be_saved: () -> Array[String?]?
+
+    def stack_in_database: () -> String?
+
+    def saved_change_to_stack: () -> Array[String?]?
+
+    def saved_change_to_stack?: () -> bool
+
+    def will_save_change_to_stack?: () -> bool
+
+    def restore_stack!: () -> void
+
+    def clear_stack_change: () -> void
+
+    def object: () -> untyped?
+
+    def object=: (untyped?) -> untyped?
+
+    def object?: () -> bool
+
+    def object_changed?: () -> bool
+
+    def object_change: () -> [ untyped?, untyped? ]
+
+    def object_will_change!: () -> void
+
+    def object_was: () -> untyped?
+
+    def object_previously_changed?: () -> bool
+
+    def object_previous_change: () -> Array[untyped?]?
+
+    def object_previously_was: () -> untyped?
+
+    def object_before_last_save: () -> untyped?
+
+    def object_change_to_be_saved: () -> Array[untyped?]?
+
+    def object_in_database: () -> untyped?
+
+    def saved_change_to_object: () -> Array[untyped?]?
+
+    def saved_change_to_object?: () -> bool
+
+    def will_save_change_to_object?: () -> bool
+
+    def restore_object!: () -> void
+
+    def clear_object_change: () -> void
+
+    def object_changes: () -> untyped?
+
+    def object_changes=: (untyped?) -> untyped?
+
+    def object_changes?: () -> bool
+
+    def object_changes_changed?: () -> bool
+
+    def object_changes_change: () -> [ untyped?, untyped? ]
+
+    def object_changes_will_change!: () -> void
+
+    def object_changes_was: () -> untyped?
+
+    def object_changes_previously_changed?: () -> bool
+
+    def object_changes_previous_change: () -> Array[untyped?]?
+
+    def object_changes_previously_was: () -> untyped?
+
+    def object_changes_before_last_save: () -> untyped?
+
+    def object_changes_change_to_be_saved: () -> Array[untyped?]?
+
+    def object_changes_in_database: () -> untyped?
+
+    def saved_change_to_object_changes: () -> Array[untyped?]?
+
+    def saved_change_to_object_changes?: () -> bool
+
+    def will_save_change_to_object_changes?: () -> bool
+
+    def restore_object_changes!: () -> void
+
+    def clear_object_changes_change: () -> void
+
+    def created_at: () -> ActiveSupport::TimeWithZone?
+
+    def created_at=: (ActiveSupport::TimeWithZone?) -> ActiveSupport::TimeWithZone?
+
+    def created_at?: () -> bool
+
+    def created_at_changed?: () -> bool
+
+    def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def created_at_will_change!: () -> void
+
+    def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_previously_changed?: () -> bool
+
+    def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_created_at?: () -> bool
+
+    def will_save_change_to_created_at?: () -> bool
+
+    def restore_created_at!: () -> void
+
+    def clear_created_at_change: () -> void
+  end
+  include GeneratedAttributeMethods
+
+  def item: () -> untyped?
+  def item=: (untyped?) -> untyped?
+  def reload_item: () -> untyped?
+  module GeneratedAssociationMethods
+  end
+  include GeneratedAssociationMethods
+
+  module GeneratedRelationMethods
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[PaperTrailAudit, Integer]
+    include Enumerable[PaperTrailAudit]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[PaperTrailAudit, Integer]
+  end
+end

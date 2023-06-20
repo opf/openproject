@@ -1,0 +1,110 @@
+class Type < ::ApplicationRecord
+  class HABTM_CustomFields < ::ActiveRecord::Base
+    extend _ActiveRecord_Relation_ClassMethods[Type::HABTM_CustomFields, ActiveRecord_Relation, top]
+
+    module GeneratedAttributeMethods
+      def custom_field_id: () -> Integer
+
+      def custom_field_id=: (Integer) -> Integer
+
+      def custom_field_id?: () -> bool
+
+      def custom_field_id_changed?: () -> bool
+
+      def custom_field_id_change: () -> [ Integer?, Integer? ]
+
+      def custom_field_id_will_change!: () -> void
+
+      def custom_field_id_was: () -> Integer?
+
+      def custom_field_id_previously_changed?: () -> bool
+
+      def custom_field_id_previous_change: () -> Array[Integer?]?
+
+      def custom_field_id_previously_was: () -> Integer?
+
+      def custom_field_id_before_last_save: () -> Integer?
+
+      def custom_field_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def custom_field_id_in_database: () -> Integer?
+
+      def saved_change_to_custom_field_id: () -> Array[Integer?]?
+
+      def saved_change_to_custom_field_id?: () -> bool
+
+      def will_save_change_to_custom_field_id?: () -> bool
+
+      def restore_custom_field_id!: () -> void
+
+      def clear_custom_field_id_change: () -> void
+
+      def type_id: () -> Integer
+
+      def type_id=: (Integer) -> Integer
+
+      def type_id?: () -> bool
+
+      def type_id_changed?: () -> bool
+
+      def type_id_change: () -> [ Integer?, Integer? ]
+
+      def type_id_will_change!: () -> void
+
+      def type_id_was: () -> Integer?
+
+      def type_id_previously_changed?: () -> bool
+
+      def type_id_previous_change: () -> Array[Integer?]?
+
+      def type_id_previously_was: () -> Integer?
+
+      def type_id_before_last_save: () -> Integer?
+
+      def type_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def type_id_in_database: () -> Integer?
+
+      def saved_change_to_type_id: () -> Array[Integer?]?
+
+      def saved_change_to_type_id?: () -> bool
+
+      def will_save_change_to_type_id?: () -> bool
+
+      def restore_type_id!: () -> void
+
+      def clear_type_id_change: () -> void
+    end
+    include GeneratedAttributeMethods
+
+    def left_side: () -> Type?
+    def left_side=: (Type?) -> Type?
+    def reload_left_side: () -> Type?
+    def build_left_side: (untyped) -> Type
+    def create_left_side: (untyped) -> Type
+    def create_left_side!: (untyped) -> Type
+    def custom_field: () -> WorkPackageCustomField?
+    def custom_field=: (WorkPackageCustomField?) -> WorkPackageCustomField?
+    def reload_custom_field: () -> WorkPackageCustomField?
+    def build_custom_field: (untyped) -> WorkPackageCustomField
+    def create_custom_field: (untyped) -> WorkPackageCustomField
+    def create_custom_field!: (untyped) -> WorkPackageCustomField
+    module GeneratedAssociationMethods
+    end
+    include GeneratedAssociationMethods
+
+    module GeneratedRelationMethods
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Type::HABTM_CustomFields, top]
+      include Enumerable[Type::HABTM_CustomFields]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Type::HABTM_CustomFields, top]
+    end
+  end
+end

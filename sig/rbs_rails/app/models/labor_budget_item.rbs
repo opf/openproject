@@ -1,0 +1,258 @@
+class LaborBudgetItem < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[LaborBudgetItem, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def budget_id: () -> Integer
+
+    def budget_id=: (Integer) -> Integer
+
+    def budget_id?: () -> bool
+
+    def budget_id_changed?: () -> bool
+
+    def budget_id_change: () -> [ Integer?, Integer? ]
+
+    def budget_id_will_change!: () -> void
+
+    def budget_id_was: () -> Integer?
+
+    def budget_id_previously_changed?: () -> bool
+
+    def budget_id_previous_change: () -> Array[Integer?]?
+
+    def budget_id_previously_was: () -> Integer?
+
+    def budget_id_before_last_save: () -> Integer?
+
+    def budget_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def budget_id_in_database: () -> Integer?
+
+    def saved_change_to_budget_id: () -> Array[Integer?]?
+
+    def saved_change_to_budget_id?: () -> bool
+
+    def will_save_change_to_budget_id?: () -> bool
+
+    def restore_budget_id!: () -> void
+
+    def clear_budget_id_change: () -> void
+
+    def hours: () -> Float
+
+    def hours=: (Float) -> Float
+
+    def hours?: () -> bool
+
+    def hours_changed?: () -> bool
+
+    def hours_change: () -> [ Float?, Float? ]
+
+    def hours_will_change!: () -> void
+
+    def hours_was: () -> Float?
+
+    def hours_previously_changed?: () -> bool
+
+    def hours_previous_change: () -> Array[Float?]?
+
+    def hours_previously_was: () -> Float?
+
+    def hours_before_last_save: () -> Float?
+
+    def hours_change_to_be_saved: () -> Array[Float?]?
+
+    def hours_in_database: () -> Float?
+
+    def saved_change_to_hours: () -> Array[Float?]?
+
+    def saved_change_to_hours?: () -> bool
+
+    def will_save_change_to_hours?: () -> bool
+
+    def restore_hours!: () -> void
+
+    def clear_hours_change: () -> void
+
+    def user_id: () -> Integer?
+
+    def user_id=: (Integer?) -> Integer?
+
+    def user_id?: () -> bool
+
+    def user_id_changed?: () -> bool
+
+    def user_id_change: () -> [ Integer?, Integer? ]
+
+    def user_id_will_change!: () -> void
+
+    def user_id_was: () -> Integer?
+
+    def user_id_previously_changed?: () -> bool
+
+    def user_id_previous_change: () -> Array[Integer?]?
+
+    def user_id_previously_was: () -> Integer?
+
+    def user_id_before_last_save: () -> Integer?
+
+    def user_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def user_id_in_database: () -> Integer?
+
+    def saved_change_to_user_id: () -> Array[Integer?]?
+
+    def saved_change_to_user_id?: () -> bool
+
+    def will_save_change_to_user_id?: () -> bool
+
+    def restore_user_id!: () -> void
+
+    def clear_user_id_change: () -> void
+
+    def comments: () -> String
+
+    def comments=: (String) -> String
+
+    def comments?: () -> bool
+
+    def comments_changed?: () -> bool
+
+    def comments_change: () -> [ String?, String? ]
+
+    def comments_will_change!: () -> void
+
+    def comments_was: () -> String?
+
+    def comments_previously_changed?: () -> bool
+
+    def comments_previous_change: () -> Array[String?]?
+
+    def comments_previously_was: () -> String?
+
+    def comments_before_last_save: () -> String?
+
+    def comments_change_to_be_saved: () -> Array[String?]?
+
+    def comments_in_database: () -> String?
+
+    def saved_change_to_comments: () -> Array[String?]?
+
+    def saved_change_to_comments?: () -> bool
+
+    def will_save_change_to_comments?: () -> bool
+
+    def restore_comments!: () -> void
+
+    def clear_comments_change: () -> void
+
+    def amount: () -> BigDecimal?
+
+    def amount=: (BigDecimal?) -> BigDecimal?
+
+    def amount?: () -> bool
+
+    def amount_changed?: () -> bool
+
+    def amount_change: () -> [ BigDecimal?, BigDecimal? ]
+
+    def amount_will_change!: () -> void
+
+    def amount_was: () -> BigDecimal?
+
+    def amount_previously_changed?: () -> bool
+
+    def amount_previous_change: () -> Array[BigDecimal?]?
+
+    def amount_previously_was: () -> BigDecimal?
+
+    def amount_before_last_save: () -> BigDecimal?
+
+    def amount_change_to_be_saved: () -> Array[BigDecimal?]?
+
+    def amount_in_database: () -> BigDecimal?
+
+    def saved_change_to_amount: () -> Array[BigDecimal?]?
+
+    def saved_change_to_amount?: () -> bool
+
+    def will_save_change_to_amount?: () -> bool
+
+    def restore_amount!: () -> void
+
+    def clear_amount_change: () -> void
+  end
+  include GeneratedAttributeMethods
+
+  def budget: () -> Budget
+  def budget=: (Budget?) -> Budget?
+  def reload_budget: () -> Budget?
+  def build_budget: (untyped) -> Budget
+  def create_budget: (untyped) -> Budget
+  def create_budget!: (untyped) -> Budget
+  def user: () -> User
+  def user=: (User?) -> User?
+  def reload_user: () -> User?
+  def build_user: (untyped) -> User
+  def create_user: (untyped) -> User
+  def create_user!: (untyped) -> User
+  def principal: () -> Principal
+  def principal=: (Principal?) -> Principal?
+  def reload_principal: () -> Principal?
+  def build_principal: (untyped) -> Principal
+  def create_principal: (untyped) -> Principal
+  def create_principal!: (untyped) -> Principal
+  module GeneratedAssociationMethods
+  end
+  include GeneratedAssociationMethods
+
+  module GeneratedRelationMethods
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[LaborBudgetItem, Integer]
+    include Enumerable[LaborBudgetItem]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[LaborBudgetItem, Integer]
+  end
+end

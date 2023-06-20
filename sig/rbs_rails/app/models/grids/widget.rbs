@@ -1,0 +1,320 @@
+module Grids
+  class Widget < ::ApplicationRecord
+    extend _ActiveRecord_Relation_ClassMethods[Grids::Widget, ActiveRecord_Relation, Integer]
+
+    module GeneratedAttributeMethods
+      def id: () -> Integer
+
+      def id=: (Integer) -> Integer
+
+      def id?: () -> bool
+
+      def id_changed?: () -> bool
+
+      def id_change: () -> [ Integer?, Integer? ]
+
+      def id_will_change!: () -> void
+
+      def id_was: () -> Integer?
+
+      def id_previously_changed?: () -> bool
+
+      def id_previous_change: () -> Array[Integer?]?
+
+      def id_previously_was: () -> Integer?
+
+      def id_before_last_save: () -> Integer?
+
+      def id_change_to_be_saved: () -> Array[Integer?]?
+
+      def id_in_database: () -> Integer?
+
+      def saved_change_to_id: () -> Array[Integer?]?
+
+      def saved_change_to_id?: () -> bool
+
+      def will_save_change_to_id?: () -> bool
+
+      def restore_id!: () -> void
+
+      def clear_id_change: () -> void
+
+      def start_row: () -> Integer
+
+      def start_row=: (Integer) -> Integer
+
+      def start_row?: () -> bool
+
+      def start_row_changed?: () -> bool
+
+      def start_row_change: () -> [ Integer?, Integer? ]
+
+      def start_row_will_change!: () -> void
+
+      def start_row_was: () -> Integer?
+
+      def start_row_previously_changed?: () -> bool
+
+      def start_row_previous_change: () -> Array[Integer?]?
+
+      def start_row_previously_was: () -> Integer?
+
+      def start_row_before_last_save: () -> Integer?
+
+      def start_row_change_to_be_saved: () -> Array[Integer?]?
+
+      def start_row_in_database: () -> Integer?
+
+      def saved_change_to_start_row: () -> Array[Integer?]?
+
+      def saved_change_to_start_row?: () -> bool
+
+      def will_save_change_to_start_row?: () -> bool
+
+      def restore_start_row!: () -> void
+
+      def clear_start_row_change: () -> void
+
+      def end_row: () -> Integer
+
+      def end_row=: (Integer) -> Integer
+
+      def end_row?: () -> bool
+
+      def end_row_changed?: () -> bool
+
+      def end_row_change: () -> [ Integer?, Integer? ]
+
+      def end_row_will_change!: () -> void
+
+      def end_row_was: () -> Integer?
+
+      def end_row_previously_changed?: () -> bool
+
+      def end_row_previous_change: () -> Array[Integer?]?
+
+      def end_row_previously_was: () -> Integer?
+
+      def end_row_before_last_save: () -> Integer?
+
+      def end_row_change_to_be_saved: () -> Array[Integer?]?
+
+      def end_row_in_database: () -> Integer?
+
+      def saved_change_to_end_row: () -> Array[Integer?]?
+
+      def saved_change_to_end_row?: () -> bool
+
+      def will_save_change_to_end_row?: () -> bool
+
+      def restore_end_row!: () -> void
+
+      def clear_end_row_change: () -> void
+
+      def start_column: () -> Integer
+
+      def start_column=: (Integer) -> Integer
+
+      def start_column?: () -> bool
+
+      def start_column_changed?: () -> bool
+
+      def start_column_change: () -> [ Integer?, Integer? ]
+
+      def start_column_will_change!: () -> void
+
+      def start_column_was: () -> Integer?
+
+      def start_column_previously_changed?: () -> bool
+
+      def start_column_previous_change: () -> Array[Integer?]?
+
+      def start_column_previously_was: () -> Integer?
+
+      def start_column_before_last_save: () -> Integer?
+
+      def start_column_change_to_be_saved: () -> Array[Integer?]?
+
+      def start_column_in_database: () -> Integer?
+
+      def saved_change_to_start_column: () -> Array[Integer?]?
+
+      def saved_change_to_start_column?: () -> bool
+
+      def will_save_change_to_start_column?: () -> bool
+
+      def restore_start_column!: () -> void
+
+      def clear_start_column_change: () -> void
+
+      def end_column: () -> Integer
+
+      def end_column=: (Integer) -> Integer
+
+      def end_column?: () -> bool
+
+      def end_column_changed?: () -> bool
+
+      def end_column_change: () -> [ Integer?, Integer? ]
+
+      def end_column_will_change!: () -> void
+
+      def end_column_was: () -> Integer?
+
+      def end_column_previously_changed?: () -> bool
+
+      def end_column_previous_change: () -> Array[Integer?]?
+
+      def end_column_previously_was: () -> Integer?
+
+      def end_column_before_last_save: () -> Integer?
+
+      def end_column_change_to_be_saved: () -> Array[Integer?]?
+
+      def end_column_in_database: () -> Integer?
+
+      def saved_change_to_end_column: () -> Array[Integer?]?
+
+      def saved_change_to_end_column?: () -> bool
+
+      def will_save_change_to_end_column?: () -> bool
+
+      def restore_end_column!: () -> void
+
+      def clear_end_column_change: () -> void
+
+      def identifier: () -> String?
+
+      def identifier=: (String?) -> String?
+
+      def identifier?: () -> bool
+
+      def identifier_changed?: () -> bool
+
+      def identifier_change: () -> [ String?, String? ]
+
+      def identifier_will_change!: () -> void
+
+      def identifier_was: () -> String?
+
+      def identifier_previously_changed?: () -> bool
+
+      def identifier_previous_change: () -> Array[String?]?
+
+      def identifier_previously_was: () -> String?
+
+      def identifier_before_last_save: () -> String?
+
+      def identifier_change_to_be_saved: () -> Array[String?]?
+
+      def identifier_in_database: () -> String?
+
+      def saved_change_to_identifier: () -> Array[String?]?
+
+      def saved_change_to_identifier?: () -> bool
+
+      def will_save_change_to_identifier?: () -> bool
+
+      def restore_identifier!: () -> void
+
+      def clear_identifier_change: () -> void
+
+      def options: () -> String?
+
+      def options=: (String?) -> String?
+
+      def options?: () -> bool
+
+      def options_changed?: () -> bool
+
+      def options_change: () -> [ String?, String? ]
+
+      def options_will_change!: () -> void
+
+      def options_was: () -> String?
+
+      def options_previously_changed?: () -> bool
+
+      def options_previous_change: () -> Array[String?]?
+
+      def options_previously_was: () -> String?
+
+      def options_before_last_save: () -> String?
+
+      def options_change_to_be_saved: () -> Array[String?]?
+
+      def options_in_database: () -> String?
+
+      def saved_change_to_options: () -> Array[String?]?
+
+      def saved_change_to_options?: () -> bool
+
+      def will_save_change_to_options?: () -> bool
+
+      def restore_options!: () -> void
+
+      def clear_options_change: () -> void
+
+      def grid_id: () -> Integer?
+
+      def grid_id=: (Integer?) -> Integer?
+
+      def grid_id?: () -> bool
+
+      def grid_id_changed?: () -> bool
+
+      def grid_id_change: () -> [ Integer?, Integer? ]
+
+      def grid_id_will_change!: () -> void
+
+      def grid_id_was: () -> Integer?
+
+      def grid_id_previously_changed?: () -> bool
+
+      def grid_id_previous_change: () -> Array[Integer?]?
+
+      def grid_id_previously_was: () -> Integer?
+
+      def grid_id_before_last_save: () -> Integer?
+
+      def grid_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def grid_id_in_database: () -> Integer?
+
+      def saved_change_to_grid_id: () -> Array[Integer?]?
+
+      def saved_change_to_grid_id?: () -> bool
+
+      def will_save_change_to_grid_id?: () -> bool
+
+      def restore_grid_id!: () -> void
+
+      def clear_grid_id_change: () -> void
+    end
+    include GeneratedAttributeMethods
+
+    def grid: () -> Grids::Grid
+    def grid=: (Grids::Grid?) -> Grids::Grid?
+    def reload_grid: () -> Grids::Grid?
+    def build_grid: (untyped) -> Grids::Grid
+    def create_grid: (untyped) -> Grids::Grid
+    def create_grid!: (untyped) -> Grids::Grid
+    module GeneratedAssociationMethods
+    end
+    include GeneratedAssociationMethods
+
+    module GeneratedRelationMethods
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Grids::Widget, Integer]
+      include Enumerable[Grids::Widget]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Grids::Widget, Integer]
+    end
+  end
+end

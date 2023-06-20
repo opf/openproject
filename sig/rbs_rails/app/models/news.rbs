@@ -1,0 +1,379 @@
+class News < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[News, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def project_id: () -> Integer?
+
+    def project_id=: (Integer?) -> Integer?
+
+    def project_id?: () -> bool
+
+    def project_id_changed?: () -> bool
+
+    def project_id_change: () -> [ Integer?, Integer? ]
+
+    def project_id_will_change!: () -> void
+
+    def project_id_was: () -> Integer?
+
+    def project_id_previously_changed?: () -> bool
+
+    def project_id_previous_change: () -> Array[Integer?]?
+
+    def project_id_previously_was: () -> Integer?
+
+    def project_id_before_last_save: () -> Integer?
+
+    def project_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def project_id_in_database: () -> Integer?
+
+    def saved_change_to_project_id: () -> Array[Integer?]?
+
+    def saved_change_to_project_id?: () -> bool
+
+    def will_save_change_to_project_id?: () -> bool
+
+    def restore_project_id!: () -> void
+
+    def clear_project_id_change: () -> void
+
+    def title: () -> String
+
+    def title=: (String) -> String
+
+    def title?: () -> bool
+
+    def title_changed?: () -> bool
+
+    def title_change: () -> [ String?, String? ]
+
+    def title_will_change!: () -> void
+
+    def title_was: () -> String?
+
+    def title_previously_changed?: () -> bool
+
+    def title_previous_change: () -> Array[String?]?
+
+    def title_previously_was: () -> String?
+
+    def title_before_last_save: () -> String?
+
+    def title_change_to_be_saved: () -> Array[String?]?
+
+    def title_in_database: () -> String?
+
+    def saved_change_to_title: () -> Array[String?]?
+
+    def saved_change_to_title?: () -> bool
+
+    def will_save_change_to_title?: () -> bool
+
+    def restore_title!: () -> void
+
+    def clear_title_change: () -> void
+
+    def summary: () -> String?
+
+    def summary=: (String?) -> String?
+
+    def summary?: () -> bool
+
+    def summary_changed?: () -> bool
+
+    def summary_change: () -> [ String?, String? ]
+
+    def summary_will_change!: () -> void
+
+    def summary_was: () -> String?
+
+    def summary_previously_changed?: () -> bool
+
+    def summary_previous_change: () -> Array[String?]?
+
+    def summary_previously_was: () -> String?
+
+    def summary_before_last_save: () -> String?
+
+    def summary_change_to_be_saved: () -> Array[String?]?
+
+    def summary_in_database: () -> String?
+
+    def saved_change_to_summary: () -> Array[String?]?
+
+    def saved_change_to_summary?: () -> bool
+
+    def will_save_change_to_summary?: () -> bool
+
+    def restore_summary!: () -> void
+
+    def clear_summary_change: () -> void
+
+    def description: () -> String?
+
+    def description=: (String?) -> String?
+
+    def description?: () -> bool
+
+    def description_changed?: () -> bool
+
+    def description_change: () -> [ String?, String? ]
+
+    def description_will_change!: () -> void
+
+    def description_was: () -> String?
+
+    def description_previously_changed?: () -> bool
+
+    def description_previous_change: () -> Array[String?]?
+
+    def description_previously_was: () -> String?
+
+    def description_before_last_save: () -> String?
+
+    def description_change_to_be_saved: () -> Array[String?]?
+
+    def description_in_database: () -> String?
+
+    def saved_change_to_description: () -> Array[String?]?
+
+    def saved_change_to_description?: () -> bool
+
+    def will_save_change_to_description?: () -> bool
+
+    def restore_description!: () -> void
+
+    def clear_description_change: () -> void
+
+    def author_id: () -> Integer
+
+    def author_id=: (Integer) -> Integer
+
+    def author_id?: () -> bool
+
+    def author_id_changed?: () -> bool
+
+    def author_id_change: () -> [ Integer?, Integer? ]
+
+    def author_id_will_change!: () -> void
+
+    def author_id_was: () -> Integer?
+
+    def author_id_previously_changed?: () -> bool
+
+    def author_id_previous_change: () -> Array[Integer?]?
+
+    def author_id_previously_was: () -> Integer?
+
+    def author_id_before_last_save: () -> Integer?
+
+    def author_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def author_id_in_database: () -> Integer?
+
+    def saved_change_to_author_id: () -> Array[Integer?]?
+
+    def saved_change_to_author_id?: () -> bool
+
+    def will_save_change_to_author_id?: () -> bool
+
+    def restore_author_id!: () -> void
+
+    def clear_author_id_change: () -> void
+
+    def created_at: () -> ActiveSupport::TimeWithZone?
+
+    def created_at=: (ActiveSupport::TimeWithZone?) -> ActiveSupport::TimeWithZone?
+
+    def created_at?: () -> bool
+
+    def created_at_changed?: () -> bool
+
+    def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def created_at_will_change!: () -> void
+
+    def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_previously_changed?: () -> bool
+
+    def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_created_at?: () -> bool
+
+    def will_save_change_to_created_at?: () -> bool
+
+    def restore_created_at!: () -> void
+
+    def clear_created_at_change: () -> void
+
+    def comments_count: () -> Integer
+
+    def comments_count=: (Integer) -> Integer
+
+    def comments_count?: () -> bool
+
+    def comments_count_changed?: () -> bool
+
+    def comments_count_change: () -> [ Integer?, Integer? ]
+
+    def comments_count_will_change!: () -> void
+
+    def comments_count_was: () -> Integer?
+
+    def comments_count_previously_changed?: () -> bool
+
+    def comments_count_previous_change: () -> Array[Integer?]?
+
+    def comments_count_previously_was: () -> Integer?
+
+    def comments_count_before_last_save: () -> Integer?
+
+    def comments_count_change_to_be_saved: () -> Array[Integer?]?
+
+    def comments_count_in_database: () -> Integer?
+
+    def saved_change_to_comments_count: () -> Array[Integer?]?
+
+    def saved_change_to_comments_count?: () -> bool
+
+    def will_save_change_to_comments_count?: () -> bool
+
+    def restore_comments_count!: () -> void
+
+    def clear_comments_count_change: () -> void
+
+    def updated_at: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at=: (ActiveSupport::TimeWithZone?) -> ActiveSupport::TimeWithZone?
+
+    def updated_at?: () -> bool
+
+    def updated_at_changed?: () -> bool
+
+    def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def updated_at_will_change!: () -> void
+
+    def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_previously_changed?: () -> bool
+
+    def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_updated_at?: () -> bool
+
+    def will_save_change_to_updated_at?: () -> bool
+
+    def restore_updated_at!: () -> void
+
+    def clear_updated_at_change: () -> void
+  end
+  include GeneratedAttributeMethods
+  def comments: () -> Comment::ActiveRecord_Associations_CollectionProxy
+  def comments=: (Comment::ActiveRecord_Associations_CollectionProxy | Array[Comment]) -> (Comment::ActiveRecord_Associations_CollectionProxy | Array[Comment])
+  def comment_ids: () -> Array[Integer]
+  def comment_ids=: (Array[Integer]) -> Array[Integer]
+  def journals: () -> Journal::ActiveRecord_Associations_CollectionProxy
+  def journals=: (Journal::ActiveRecord_Associations_CollectionProxy | Array[Journal]) -> (Journal::ActiveRecord_Associations_CollectionProxy | Array[Journal])
+  def journal_ids: () -> Array[Integer]
+  def journal_ids=: (Array[Integer]) -> Array[Integer]
+  def watchers: () -> Watcher::ActiveRecord_Associations_CollectionProxy
+  def watchers=: (Watcher::ActiveRecord_Associations_CollectionProxy | Array[Watcher]) -> (Watcher::ActiveRecord_Associations_CollectionProxy | Array[Watcher])
+  def watcher_ids: () -> Array[Integer]
+  def watcher_ids=: (Array[Integer]) -> Array[Integer]
+  def watcher_users: () -> User::ActiveRecord_Associations_CollectionProxy
+  def watcher_users=: (User::ActiveRecord_Associations_CollectionProxy | Array[User]) -> (User::ActiveRecord_Associations_CollectionProxy | Array[User])
+  def watcher_user_ids: () -> Array[Integer]
+  def watcher_user_ids=: (Array[Integer]) -> Array[Integer]
+
+  def project: () -> Project
+  def project=: (Project?) -> Project?
+  def reload_project: () -> Project?
+  def build_project: (untyped) -> Project
+  def create_project: (untyped) -> Project
+  def create_project!: (untyped) -> Project
+  def author: () -> User
+  def author=: (User?) -> User?
+  def reload_author: () -> User?
+  def build_author: (untyped) -> User
+  def create_author: (untyped) -> User
+  def create_author!: (untyped) -> User
+  module GeneratedAssociationMethods
+  end
+  include GeneratedAssociationMethods
+
+  def self.visible: (*untyped args) -> ActiveRecord_Relation
+
+  module GeneratedRelationMethods
+    def visible: (*untyped args) -> ActiveRecord_Relation
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[News, Integer]
+    include Enumerable[News]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[News, Integer]
+  end
+end

@@ -1,0 +1,108 @@
+class CustomFieldsProject < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[CustomFieldsProject, ActiveRecord_Relation, top]
+
+  module GeneratedAttributeMethods
+    def custom_field_id: () -> Integer
+
+    def custom_field_id=: (Integer) -> Integer
+
+    def custom_field_id?: () -> bool
+
+    def custom_field_id_changed?: () -> bool
+
+    def custom_field_id_change: () -> [ Integer?, Integer? ]
+
+    def custom_field_id_will_change!: () -> void
+
+    def custom_field_id_was: () -> Integer?
+
+    def custom_field_id_previously_changed?: () -> bool
+
+    def custom_field_id_previous_change: () -> Array[Integer?]?
+
+    def custom_field_id_previously_was: () -> Integer?
+
+    def custom_field_id_before_last_save: () -> Integer?
+
+    def custom_field_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def custom_field_id_in_database: () -> Integer?
+
+    def saved_change_to_custom_field_id: () -> Array[Integer?]?
+
+    def saved_change_to_custom_field_id?: () -> bool
+
+    def will_save_change_to_custom_field_id?: () -> bool
+
+    def restore_custom_field_id!: () -> void
+
+    def clear_custom_field_id_change: () -> void
+
+    def project_id: () -> Integer
+
+    def project_id=: (Integer) -> Integer
+
+    def project_id?: () -> bool
+
+    def project_id_changed?: () -> bool
+
+    def project_id_change: () -> [ Integer?, Integer? ]
+
+    def project_id_will_change!: () -> void
+
+    def project_id_was: () -> Integer?
+
+    def project_id_previously_changed?: () -> bool
+
+    def project_id_previous_change: () -> Array[Integer?]?
+
+    def project_id_previously_was: () -> Integer?
+
+    def project_id_before_last_save: () -> Integer?
+
+    def project_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def project_id_in_database: () -> Integer?
+
+    def saved_change_to_project_id: () -> Array[Integer?]?
+
+    def saved_change_to_project_id?: () -> bool
+
+    def will_save_change_to_project_id?: () -> bool
+
+    def restore_project_id!: () -> void
+
+    def clear_project_id_change: () -> void
+  end
+  include GeneratedAttributeMethods
+
+  def project: () -> Project
+  def project=: (Project?) -> Project?
+  def reload_project: () -> Project?
+  def build_project: (untyped) -> Project
+  def create_project: (untyped) -> Project
+  def create_project!: (untyped) -> Project
+  def custom_field: () -> CustomField
+  def custom_field=: (CustomField?) -> CustomField?
+  def reload_custom_field: () -> CustomField?
+  def build_custom_field: (untyped) -> CustomField
+  def create_custom_field: (untyped) -> CustomField
+  def create_custom_field!: (untyped) -> CustomField
+  module GeneratedAssociationMethods
+  end
+  include GeneratedAssociationMethods
+
+  module GeneratedRelationMethods
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[CustomFieldsProject, top]
+    include Enumerable[CustomFieldsProject]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[CustomFieldsProject, top]
+  end
+end

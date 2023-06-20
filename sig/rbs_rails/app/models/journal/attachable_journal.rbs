@@ -1,0 +1,188 @@
+class Journal < ::ApplicationRecord
+  class AttachableJournal < ::Journal::AssociatedJournal
+    extend _ActiveRecord_Relation_ClassMethods[Journal::AttachableJournal, ActiveRecord_Relation, Integer]
+
+    module GeneratedAttributeMethods
+      def id: () -> Integer
+
+      def id=: (Integer) -> Integer
+
+      def id?: () -> bool
+
+      def id_changed?: () -> bool
+
+      def id_change: () -> [ Integer?, Integer? ]
+
+      def id_will_change!: () -> void
+
+      def id_was: () -> Integer?
+
+      def id_previously_changed?: () -> bool
+
+      def id_previous_change: () -> Array[Integer?]?
+
+      def id_previously_was: () -> Integer?
+
+      def id_before_last_save: () -> Integer?
+
+      def id_change_to_be_saved: () -> Array[Integer?]?
+
+      def id_in_database: () -> Integer?
+
+      def saved_change_to_id: () -> Array[Integer?]?
+
+      def saved_change_to_id?: () -> bool
+
+      def will_save_change_to_id?: () -> bool
+
+      def restore_id!: () -> void
+
+      def clear_id_change: () -> void
+
+      def journal_id: () -> Integer
+
+      def journal_id=: (Integer) -> Integer
+
+      def journal_id?: () -> bool
+
+      def journal_id_changed?: () -> bool
+
+      def journal_id_change: () -> [ Integer?, Integer? ]
+
+      def journal_id_will_change!: () -> void
+
+      def journal_id_was: () -> Integer?
+
+      def journal_id_previously_changed?: () -> bool
+
+      def journal_id_previous_change: () -> Array[Integer?]?
+
+      def journal_id_previously_was: () -> Integer?
+
+      def journal_id_before_last_save: () -> Integer?
+
+      def journal_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def journal_id_in_database: () -> Integer?
+
+      def saved_change_to_journal_id: () -> Array[Integer?]?
+
+      def saved_change_to_journal_id?: () -> bool
+
+      def will_save_change_to_journal_id?: () -> bool
+
+      def restore_journal_id!: () -> void
+
+      def clear_journal_id_change: () -> void
+
+      def attachment_id: () -> Integer
+
+      def attachment_id=: (Integer) -> Integer
+
+      def attachment_id?: () -> bool
+
+      def attachment_id_changed?: () -> bool
+
+      def attachment_id_change: () -> [ Integer?, Integer? ]
+
+      def attachment_id_will_change!: () -> void
+
+      def attachment_id_was: () -> Integer?
+
+      def attachment_id_previously_changed?: () -> bool
+
+      def attachment_id_previous_change: () -> Array[Integer?]?
+
+      def attachment_id_previously_was: () -> Integer?
+
+      def attachment_id_before_last_save: () -> Integer?
+
+      def attachment_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def attachment_id_in_database: () -> Integer?
+
+      def saved_change_to_attachment_id: () -> Array[Integer?]?
+
+      def saved_change_to_attachment_id?: () -> bool
+
+      def will_save_change_to_attachment_id?: () -> bool
+
+      def restore_attachment_id!: () -> void
+
+      def clear_attachment_id_change: () -> void
+
+      def filename: () -> String
+
+      def filename=: (String) -> String
+
+      def filename?: () -> bool
+
+      def filename_changed?: () -> bool
+
+      def filename_change: () -> [ String?, String? ]
+
+      def filename_will_change!: () -> void
+
+      def filename_was: () -> String?
+
+      def filename_previously_changed?: () -> bool
+
+      def filename_previous_change: () -> Array[String?]?
+
+      def filename_previously_was: () -> String?
+
+      def filename_before_last_save: () -> String?
+
+      def filename_change_to_be_saved: () -> Array[String?]?
+
+      def filename_in_database: () -> String?
+
+      def saved_change_to_filename: () -> Array[String?]?
+
+      def saved_change_to_filename?: () -> bool
+
+      def will_save_change_to_filename?: () -> bool
+
+      def restore_filename!: () -> void
+
+      def clear_filename_change: () -> void
+    end
+    include GeneratedAttributeMethods
+
+    def author: () -> User
+    def author=: (User?) -> User?
+    def reload_author: () -> User?
+    def build_author: (untyped) -> User
+    def create_author: (untyped) -> User
+    def create_author!: (untyped) -> User
+    def journal: () -> Journal
+    def journal=: (Journal?) -> Journal?
+    def reload_journal: () -> Journal?
+    def build_journal: (untyped) -> Journal
+    def create_journal: (untyped) -> Journal
+    def create_journal!: (untyped) -> Journal
+    def attachment: () -> Attachment
+    def attachment=: (Attachment?) -> Attachment?
+    def reload_attachment: () -> Attachment?
+    def build_attachment: (untyped) -> Attachment
+    def create_attachment: (untyped) -> Attachment
+    def create_attachment!: (untyped) -> Attachment
+    module GeneratedAssociationMethods
+    end
+    include GeneratedAssociationMethods
+
+    module GeneratedRelationMethods
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Journal::AttachableJournal, Integer]
+      include Enumerable[Journal::AttachableJournal]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Journal::AttachableJournal, Integer]
+    end
+  end
+end

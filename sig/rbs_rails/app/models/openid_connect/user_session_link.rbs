@@ -1,0 +1,212 @@
+module OpenIDConnect
+  class UserSessionLink < ::ApplicationRecord
+    extend _ActiveRecord_Relation_ClassMethods[OpenIDConnect::UserSessionLink, ActiveRecord_Relation, Integer]
+
+    module GeneratedAttributeMethods
+      def id: () -> Integer
+
+      def id=: (Integer) -> Integer
+
+      def id?: () -> bool
+
+      def id_changed?: () -> bool
+
+      def id_change: () -> [ Integer?, Integer? ]
+
+      def id_will_change!: () -> void
+
+      def id_was: () -> Integer?
+
+      def id_previously_changed?: () -> bool
+
+      def id_previous_change: () -> Array[Integer?]?
+
+      def id_previously_was: () -> Integer?
+
+      def id_before_last_save: () -> Integer?
+
+      def id_change_to_be_saved: () -> Array[Integer?]?
+
+      def id_in_database: () -> Integer?
+
+      def saved_change_to_id: () -> Array[Integer?]?
+
+      def saved_change_to_id?: () -> bool
+
+      def will_save_change_to_id?: () -> bool
+
+      def restore_id!: () -> void
+
+      def clear_id_change: () -> void
+
+      def oidc_session: () -> String
+
+      def oidc_session=: (String) -> String
+
+      def oidc_session?: () -> bool
+
+      def oidc_session_changed?: () -> bool
+
+      def oidc_session_change: () -> [ String?, String? ]
+
+      def oidc_session_will_change!: () -> void
+
+      def oidc_session_was: () -> String?
+
+      def oidc_session_previously_changed?: () -> bool
+
+      def oidc_session_previous_change: () -> Array[String?]?
+
+      def oidc_session_previously_was: () -> String?
+
+      def oidc_session_before_last_save: () -> String?
+
+      def oidc_session_change_to_be_saved: () -> Array[String?]?
+
+      def oidc_session_in_database: () -> String?
+
+      def saved_change_to_oidc_session: () -> Array[String?]?
+
+      def saved_change_to_oidc_session?: () -> bool
+
+      def will_save_change_to_oidc_session?: () -> bool
+
+      def restore_oidc_session!: () -> void
+
+      def clear_oidc_session_change: () -> void
+
+      def session_id: () -> Integer?
+
+      def session_id=: (Integer?) -> Integer?
+
+      def session_id?: () -> bool
+
+      def session_id_changed?: () -> bool
+
+      def session_id_change: () -> [ Integer?, Integer? ]
+
+      def session_id_will_change!: () -> void
+
+      def session_id_was: () -> Integer?
+
+      def session_id_previously_changed?: () -> bool
+
+      def session_id_previous_change: () -> Array[Integer?]?
+
+      def session_id_previously_was: () -> Integer?
+
+      def session_id_before_last_save: () -> Integer?
+
+      def session_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def session_id_in_database: () -> Integer?
+
+      def saved_change_to_session_id: () -> Array[Integer?]?
+
+      def saved_change_to_session_id?: () -> bool
+
+      def will_save_change_to_session_id?: () -> bool
+
+      def restore_session_id!: () -> void
+
+      def clear_session_id_change: () -> void
+
+      def created_at: () -> ActiveSupport::TimeWithZone
+
+      def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+      def created_at?: () -> bool
+
+      def created_at_changed?: () -> bool
+
+      def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+      def created_at_will_change!: () -> void
+
+      def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_previously_changed?: () -> bool
+
+      def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+      def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def saved_change_to_created_at?: () -> bool
+
+      def will_save_change_to_created_at?: () -> bool
+
+      def restore_created_at!: () -> void
+
+      def clear_created_at_change: () -> void
+
+      def updated_at: () -> ActiveSupport::TimeWithZone
+
+      def updated_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+      def updated_at?: () -> bool
+
+      def updated_at_changed?: () -> bool
+
+      def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+      def updated_at_will_change!: () -> void
+
+      def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_previously_changed?: () -> bool
+
+      def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+      def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def saved_change_to_updated_at?: () -> bool
+
+      def will_save_change_to_updated_at?: () -> bool
+
+      def restore_updated_at!: () -> void
+
+      def clear_updated_at_change: () -> void
+    end
+    include GeneratedAttributeMethods
+
+    def session: () -> Sessions::UserSession
+    def session=: (Sessions::UserSession?) -> Sessions::UserSession?
+    def reload_session: () -> Sessions::UserSession?
+    def build_session: (untyped) -> Sessions::UserSession
+    def create_session: (untyped) -> Sessions::UserSession
+    def create_session!: (untyped) -> Sessions::UserSession
+    module GeneratedAssociationMethods
+    end
+    include GeneratedAssociationMethods
+
+    module GeneratedRelationMethods
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[OpenIDConnect::UserSessionLink, Integer]
+      include Enumerable[OpenIDConnect::UserSessionLink]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[OpenIDConnect::UserSessionLink, Integer]
+    end
+  end
+end

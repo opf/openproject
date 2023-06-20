@@ -1,0 +1,606 @@
+class GithubCheckRun < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[GithubCheckRun, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def github_pull_request_id: () -> Integer
+
+    def github_pull_request_id=: (Integer) -> Integer
+
+    def github_pull_request_id?: () -> bool
+
+    def github_pull_request_id_changed?: () -> bool
+
+    def github_pull_request_id_change: () -> [ Integer?, Integer? ]
+
+    def github_pull_request_id_will_change!: () -> void
+
+    def github_pull_request_id_was: () -> Integer?
+
+    def github_pull_request_id_previously_changed?: () -> bool
+
+    def github_pull_request_id_previous_change: () -> Array[Integer?]?
+
+    def github_pull_request_id_previously_was: () -> Integer?
+
+    def github_pull_request_id_before_last_save: () -> Integer?
+
+    def github_pull_request_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def github_pull_request_id_in_database: () -> Integer?
+
+    def saved_change_to_github_pull_request_id: () -> Array[Integer?]?
+
+    def saved_change_to_github_pull_request_id?: () -> bool
+
+    def will_save_change_to_github_pull_request_id?: () -> bool
+
+    def restore_github_pull_request_id!: () -> void
+
+    def clear_github_pull_request_id_change: () -> void
+
+    def github_id: () -> Integer
+
+    def github_id=: (Integer) -> Integer
+
+    def github_id?: () -> bool
+
+    def github_id_changed?: () -> bool
+
+    def github_id_change: () -> [ Integer?, Integer? ]
+
+    def github_id_will_change!: () -> void
+
+    def github_id_was: () -> Integer?
+
+    def github_id_previously_changed?: () -> bool
+
+    def github_id_previous_change: () -> Array[Integer?]?
+
+    def github_id_previously_was: () -> Integer?
+
+    def github_id_before_last_save: () -> Integer?
+
+    def github_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def github_id_in_database: () -> Integer?
+
+    def saved_change_to_github_id: () -> Array[Integer?]?
+
+    def saved_change_to_github_id?: () -> bool
+
+    def will_save_change_to_github_id?: () -> bool
+
+    def restore_github_id!: () -> void
+
+    def clear_github_id_change: () -> void
+
+    def github_html_url: () -> String
+
+    def github_html_url=: (String) -> String
+
+    def github_html_url?: () -> bool
+
+    def github_html_url_changed?: () -> bool
+
+    def github_html_url_change: () -> [ String?, String? ]
+
+    def github_html_url_will_change!: () -> void
+
+    def github_html_url_was: () -> String?
+
+    def github_html_url_previously_changed?: () -> bool
+
+    def github_html_url_previous_change: () -> Array[String?]?
+
+    def github_html_url_previously_was: () -> String?
+
+    def github_html_url_before_last_save: () -> String?
+
+    def github_html_url_change_to_be_saved: () -> Array[String?]?
+
+    def github_html_url_in_database: () -> String?
+
+    def saved_change_to_github_html_url: () -> Array[String?]?
+
+    def saved_change_to_github_html_url?: () -> bool
+
+    def will_save_change_to_github_html_url?: () -> bool
+
+    def restore_github_html_url!: () -> void
+
+    def clear_github_html_url_change: () -> void
+
+    def app_id: () -> Integer
+
+    def app_id=: (Integer) -> Integer
+
+    def app_id?: () -> bool
+
+    def app_id_changed?: () -> bool
+
+    def app_id_change: () -> [ Integer?, Integer? ]
+
+    def app_id_will_change!: () -> void
+
+    def app_id_was: () -> Integer?
+
+    def app_id_previously_changed?: () -> bool
+
+    def app_id_previous_change: () -> Array[Integer?]?
+
+    def app_id_previously_was: () -> Integer?
+
+    def app_id_before_last_save: () -> Integer?
+
+    def app_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def app_id_in_database: () -> Integer?
+
+    def saved_change_to_app_id: () -> Array[Integer?]?
+
+    def saved_change_to_app_id?: () -> bool
+
+    def will_save_change_to_app_id?: () -> bool
+
+    def restore_app_id!: () -> void
+
+    def clear_app_id_change: () -> void
+
+    def github_app_owner_avatar_url: () -> String
+
+    def github_app_owner_avatar_url=: (String) -> String
+
+    def github_app_owner_avatar_url?: () -> bool
+
+    def github_app_owner_avatar_url_changed?: () -> bool
+
+    def github_app_owner_avatar_url_change: () -> [ String?, String? ]
+
+    def github_app_owner_avatar_url_will_change!: () -> void
+
+    def github_app_owner_avatar_url_was: () -> String?
+
+    def github_app_owner_avatar_url_previously_changed?: () -> bool
+
+    def github_app_owner_avatar_url_previous_change: () -> Array[String?]?
+
+    def github_app_owner_avatar_url_previously_was: () -> String?
+
+    def github_app_owner_avatar_url_before_last_save: () -> String?
+
+    def github_app_owner_avatar_url_change_to_be_saved: () -> Array[String?]?
+
+    def github_app_owner_avatar_url_in_database: () -> String?
+
+    def saved_change_to_github_app_owner_avatar_url: () -> Array[String?]?
+
+    def saved_change_to_github_app_owner_avatar_url?: () -> bool
+
+    def will_save_change_to_github_app_owner_avatar_url?: () -> bool
+
+    def restore_github_app_owner_avatar_url!: () -> void
+
+    def clear_github_app_owner_avatar_url_change: () -> void
+
+    def status: () -> String
+
+    def status=: (String) -> String
+
+    def status?: () -> bool
+
+    def status_changed?: () -> bool
+
+    def status_change: () -> [ String?, String? ]
+
+    def status_will_change!: () -> void
+
+    def status_was: () -> String?
+
+    def status_previously_changed?: () -> bool
+
+    def status_previous_change: () -> Array[String?]?
+
+    def status_previously_was: () -> String?
+
+    def status_before_last_save: () -> String?
+
+    def status_change_to_be_saved: () -> Array[String?]?
+
+    def status_in_database: () -> String?
+
+    def saved_change_to_status: () -> Array[String?]?
+
+    def saved_change_to_status?: () -> bool
+
+    def will_save_change_to_status?: () -> bool
+
+    def restore_status!: () -> void
+
+    def clear_status_change: () -> void
+
+    def name: () -> String
+
+    def name=: (String) -> String
+
+    def name?: () -> bool
+
+    def name_changed?: () -> bool
+
+    def name_change: () -> [ String?, String? ]
+
+    def name_will_change!: () -> void
+
+    def name_was: () -> String?
+
+    def name_previously_changed?: () -> bool
+
+    def name_previous_change: () -> Array[String?]?
+
+    def name_previously_was: () -> String?
+
+    def name_before_last_save: () -> String?
+
+    def name_change_to_be_saved: () -> Array[String?]?
+
+    def name_in_database: () -> String?
+
+    def saved_change_to_name: () -> Array[String?]?
+
+    def saved_change_to_name?: () -> bool
+
+    def will_save_change_to_name?: () -> bool
+
+    def restore_name!: () -> void
+
+    def clear_name_change: () -> void
+
+    def conclusion: () -> String?
+
+    def conclusion=: (String?) -> String?
+
+    def conclusion?: () -> bool
+
+    def conclusion_changed?: () -> bool
+
+    def conclusion_change: () -> [ String?, String? ]
+
+    def conclusion_will_change!: () -> void
+
+    def conclusion_was: () -> String?
+
+    def conclusion_previously_changed?: () -> bool
+
+    def conclusion_previous_change: () -> Array[String?]?
+
+    def conclusion_previously_was: () -> String?
+
+    def conclusion_before_last_save: () -> String?
+
+    def conclusion_change_to_be_saved: () -> Array[String?]?
+
+    def conclusion_in_database: () -> String?
+
+    def saved_change_to_conclusion: () -> Array[String?]?
+
+    def saved_change_to_conclusion?: () -> bool
+
+    def will_save_change_to_conclusion?: () -> bool
+
+    def restore_conclusion!: () -> void
+
+    def clear_conclusion_change: () -> void
+
+    def output_title: () -> String?
+
+    def output_title=: (String?) -> String?
+
+    def output_title?: () -> bool
+
+    def output_title_changed?: () -> bool
+
+    def output_title_change: () -> [ String?, String? ]
+
+    def output_title_will_change!: () -> void
+
+    def output_title_was: () -> String?
+
+    def output_title_previously_changed?: () -> bool
+
+    def output_title_previous_change: () -> Array[String?]?
+
+    def output_title_previously_was: () -> String?
+
+    def output_title_before_last_save: () -> String?
+
+    def output_title_change_to_be_saved: () -> Array[String?]?
+
+    def output_title_in_database: () -> String?
+
+    def saved_change_to_output_title: () -> Array[String?]?
+
+    def saved_change_to_output_title?: () -> bool
+
+    def will_save_change_to_output_title?: () -> bool
+
+    def restore_output_title!: () -> void
+
+    def clear_output_title_change: () -> void
+
+    def output_summary: () -> String?
+
+    def output_summary=: (String?) -> String?
+
+    def output_summary?: () -> bool
+
+    def output_summary_changed?: () -> bool
+
+    def output_summary_change: () -> [ String?, String? ]
+
+    def output_summary_will_change!: () -> void
+
+    def output_summary_was: () -> String?
+
+    def output_summary_previously_changed?: () -> bool
+
+    def output_summary_previous_change: () -> Array[String?]?
+
+    def output_summary_previously_was: () -> String?
+
+    def output_summary_before_last_save: () -> String?
+
+    def output_summary_change_to_be_saved: () -> Array[String?]?
+
+    def output_summary_in_database: () -> String?
+
+    def saved_change_to_output_summary: () -> Array[String?]?
+
+    def saved_change_to_output_summary?: () -> bool
+
+    def will_save_change_to_output_summary?: () -> bool
+
+    def restore_output_summary!: () -> void
+
+    def clear_output_summary_change: () -> void
+
+    def details_url: () -> String?
+
+    def details_url=: (String?) -> String?
+
+    def details_url?: () -> bool
+
+    def details_url_changed?: () -> bool
+
+    def details_url_change: () -> [ String?, String? ]
+
+    def details_url_will_change!: () -> void
+
+    def details_url_was: () -> String?
+
+    def details_url_previously_changed?: () -> bool
+
+    def details_url_previous_change: () -> Array[String?]?
+
+    def details_url_previously_was: () -> String?
+
+    def details_url_before_last_save: () -> String?
+
+    def details_url_change_to_be_saved: () -> Array[String?]?
+
+    def details_url_in_database: () -> String?
+
+    def saved_change_to_details_url: () -> Array[String?]?
+
+    def saved_change_to_details_url?: () -> bool
+
+    def will_save_change_to_details_url?: () -> bool
+
+    def restore_details_url!: () -> void
+
+    def clear_details_url_change: () -> void
+
+    def started_at: () -> ActiveSupport::TimeWithZone?
+
+    def started_at=: (ActiveSupport::TimeWithZone?) -> ActiveSupport::TimeWithZone?
+
+    def started_at?: () -> bool
+
+    def started_at_changed?: () -> bool
+
+    def started_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def started_at_will_change!: () -> void
+
+    def started_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def started_at_previously_changed?: () -> bool
+
+    def started_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def started_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def started_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def started_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def started_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_started_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_started_at?: () -> bool
+
+    def will_save_change_to_started_at?: () -> bool
+
+    def restore_started_at!: () -> void
+
+    def clear_started_at_change: () -> void
+
+    def completed_at: () -> ActiveSupport::TimeWithZone?
+
+    def completed_at=: (ActiveSupport::TimeWithZone?) -> ActiveSupport::TimeWithZone?
+
+    def completed_at?: () -> bool
+
+    def completed_at_changed?: () -> bool
+
+    def completed_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def completed_at_will_change!: () -> void
+
+    def completed_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def completed_at_previously_changed?: () -> bool
+
+    def completed_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def completed_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def completed_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def completed_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def completed_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_completed_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_completed_at?: () -> bool
+
+    def will_save_change_to_completed_at?: () -> bool
+
+    def restore_completed_at!: () -> void
+
+    def clear_completed_at_change: () -> void
+
+    def created_at: () -> ActiveSupport::TimeWithZone
+
+    def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+    def created_at?: () -> bool
+
+    def created_at_changed?: () -> bool
+
+    def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def created_at_will_change!: () -> void
+
+    def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_previously_changed?: () -> bool
+
+    def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_created_at?: () -> bool
+
+    def will_save_change_to_created_at?: () -> bool
+
+    def restore_created_at!: () -> void
+
+    def clear_created_at_change: () -> void
+
+    def updated_at: () -> ActiveSupport::TimeWithZone
+
+    def updated_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+    def updated_at?: () -> bool
+
+    def updated_at_changed?: () -> bool
+
+    def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def updated_at_will_change!: () -> void
+
+    def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_previously_changed?: () -> bool
+
+    def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_updated_at?: () -> bool
+
+    def will_save_change_to_updated_at?: () -> bool
+
+    def restore_updated_at!: () -> void
+
+    def clear_updated_at_change: () -> void
+  end
+  include GeneratedAttributeMethods
+
+  def github_pull_request: () -> GithubPullRequest
+  def github_pull_request=: (GithubPullRequest?) -> GithubPullRequest?
+  def reload_github_pull_request: () -> GithubPullRequest?
+  def build_github_pull_request: (untyped) -> GithubPullRequest
+  def create_github_pull_request: (untyped) -> GithubPullRequest
+  def create_github_pull_request!: (untyped) -> GithubPullRequest
+  module GeneratedAssociationMethods
+  end
+  include GeneratedAssociationMethods
+
+  module GeneratedRelationMethods
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[GithubCheckRun, Integer]
+    include Enumerable[GithubCheckRun]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[GithubCheckRun, Integer]
+  end
+end

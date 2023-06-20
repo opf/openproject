@@ -1,0 +1,555 @@
+class Notification < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[Notification, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def subject: () -> String?
+
+    def subject=: (String?) -> String?
+
+    def subject?: () -> bool
+
+    def subject_changed?: () -> bool
+
+    def subject_change: () -> [ String?, String? ]
+
+    def subject_will_change!: () -> void
+
+    def subject_was: () -> String?
+
+    def subject_previously_changed?: () -> bool
+
+    def subject_previous_change: () -> Array[String?]?
+
+    def subject_previously_was: () -> String?
+
+    def subject_before_last_save: () -> String?
+
+    def subject_change_to_be_saved: () -> Array[String?]?
+
+    def subject_in_database: () -> String?
+
+    def saved_change_to_subject: () -> Array[String?]?
+
+    def saved_change_to_subject?: () -> bool
+
+    def will_save_change_to_subject?: () -> bool
+
+    def restore_subject!: () -> void
+
+    def clear_subject_change: () -> void
+
+    def read_ian: () -> bool?
+
+    def read_ian=: (bool?) -> bool?
+
+    def read_ian?: () -> bool
+
+    def read_ian_changed?: () -> bool
+
+    def read_ian_change: () -> [ bool?, bool? ]
+
+    def read_ian_will_change!: () -> void
+
+    def read_ian_was: () -> bool?
+
+    def read_ian_previously_changed?: () -> bool
+
+    def read_ian_previous_change: () -> Array[bool?]?
+
+    def read_ian_previously_was: () -> bool?
+
+    def read_ian_before_last_save: () -> bool?
+
+    def read_ian_change_to_be_saved: () -> Array[bool?]?
+
+    def read_ian_in_database: () -> bool?
+
+    def saved_change_to_read_ian: () -> Array[bool?]?
+
+    def saved_change_to_read_ian?: () -> bool
+
+    def will_save_change_to_read_ian?: () -> bool
+
+    def restore_read_ian!: () -> void
+
+    def clear_read_ian_change: () -> void
+
+    def reason: () -> Integer?
+
+    def reason=: (Integer?) -> Integer?
+
+    def reason?: () -> bool
+
+    def reason_changed?: () -> bool
+
+    def reason_change: () -> [ Integer?, Integer? ]
+
+    def reason_will_change!: () -> void
+
+    def reason_was: () -> Integer?
+
+    def reason_previously_changed?: () -> bool
+
+    def reason_previous_change: () -> Array[Integer?]?
+
+    def reason_previously_was: () -> Integer?
+
+    def reason_before_last_save: () -> Integer?
+
+    def reason_change_to_be_saved: () -> Array[Integer?]?
+
+    def reason_in_database: () -> Integer?
+
+    def saved_change_to_reason: () -> Array[Integer?]?
+
+    def saved_change_to_reason?: () -> bool
+
+    def will_save_change_to_reason?: () -> bool
+
+    def restore_reason!: () -> void
+
+    def clear_reason_change: () -> void
+
+    def recipient_id: () -> Integer
+
+    def recipient_id=: (Integer) -> Integer
+
+    def recipient_id?: () -> bool
+
+    def recipient_id_changed?: () -> bool
+
+    def recipient_id_change: () -> [ Integer?, Integer? ]
+
+    def recipient_id_will_change!: () -> void
+
+    def recipient_id_was: () -> Integer?
+
+    def recipient_id_previously_changed?: () -> bool
+
+    def recipient_id_previous_change: () -> Array[Integer?]?
+
+    def recipient_id_previously_was: () -> Integer?
+
+    def recipient_id_before_last_save: () -> Integer?
+
+    def recipient_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def recipient_id_in_database: () -> Integer?
+
+    def saved_change_to_recipient_id: () -> Array[Integer?]?
+
+    def saved_change_to_recipient_id?: () -> bool
+
+    def will_save_change_to_recipient_id?: () -> bool
+
+    def restore_recipient_id!: () -> void
+
+    def clear_recipient_id_change: () -> void
+
+    def actor_id: () -> Integer?
+
+    def actor_id=: (Integer?) -> Integer?
+
+    def actor_id?: () -> bool
+
+    def actor_id_changed?: () -> bool
+
+    def actor_id_change: () -> [ Integer?, Integer? ]
+
+    def actor_id_will_change!: () -> void
+
+    def actor_id_was: () -> Integer?
+
+    def actor_id_previously_changed?: () -> bool
+
+    def actor_id_previous_change: () -> Array[Integer?]?
+
+    def actor_id_previously_was: () -> Integer?
+
+    def actor_id_before_last_save: () -> Integer?
+
+    def actor_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def actor_id_in_database: () -> Integer?
+
+    def saved_change_to_actor_id: () -> Array[Integer?]?
+
+    def saved_change_to_actor_id?: () -> bool
+
+    def will_save_change_to_actor_id?: () -> bool
+
+    def restore_actor_id!: () -> void
+
+    def clear_actor_id_change: () -> void
+
+    def resource_type: () -> String
+
+    def resource_type=: (String) -> String
+
+    def resource_type?: () -> bool
+
+    def resource_type_changed?: () -> bool
+
+    def resource_type_change: () -> [ String?, String? ]
+
+    def resource_type_will_change!: () -> void
+
+    def resource_type_was: () -> String?
+
+    def resource_type_previously_changed?: () -> bool
+
+    def resource_type_previous_change: () -> Array[String?]?
+
+    def resource_type_previously_was: () -> String?
+
+    def resource_type_before_last_save: () -> String?
+
+    def resource_type_change_to_be_saved: () -> Array[String?]?
+
+    def resource_type_in_database: () -> String?
+
+    def saved_change_to_resource_type: () -> Array[String?]?
+
+    def saved_change_to_resource_type?: () -> bool
+
+    def will_save_change_to_resource_type?: () -> bool
+
+    def restore_resource_type!: () -> void
+
+    def clear_resource_type_change: () -> void
+
+    def resource_id: () -> Integer
+
+    def resource_id=: (Integer) -> Integer
+
+    def resource_id?: () -> bool
+
+    def resource_id_changed?: () -> bool
+
+    def resource_id_change: () -> [ Integer?, Integer? ]
+
+    def resource_id_will_change!: () -> void
+
+    def resource_id_was: () -> Integer?
+
+    def resource_id_previously_changed?: () -> bool
+
+    def resource_id_previous_change: () -> Array[Integer?]?
+
+    def resource_id_previously_was: () -> Integer?
+
+    def resource_id_before_last_save: () -> Integer?
+
+    def resource_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def resource_id_in_database: () -> Integer?
+
+    def saved_change_to_resource_id: () -> Array[Integer?]?
+
+    def saved_change_to_resource_id?: () -> bool
+
+    def will_save_change_to_resource_id?: () -> bool
+
+    def restore_resource_id!: () -> void
+
+    def clear_resource_id_change: () -> void
+
+    def project_id: () -> Integer?
+
+    def project_id=: (Integer?) -> Integer?
+
+    def project_id?: () -> bool
+
+    def project_id_changed?: () -> bool
+
+    def project_id_change: () -> [ Integer?, Integer? ]
+
+    def project_id_will_change!: () -> void
+
+    def project_id_was: () -> Integer?
+
+    def project_id_previously_changed?: () -> bool
+
+    def project_id_previous_change: () -> Array[Integer?]?
+
+    def project_id_previously_was: () -> Integer?
+
+    def project_id_before_last_save: () -> Integer?
+
+    def project_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def project_id_in_database: () -> Integer?
+
+    def saved_change_to_project_id: () -> Array[Integer?]?
+
+    def saved_change_to_project_id?: () -> bool
+
+    def will_save_change_to_project_id?: () -> bool
+
+    def restore_project_id!: () -> void
+
+    def clear_project_id_change: () -> void
+
+    def journal_id: () -> Integer?
+
+    def journal_id=: (Integer?) -> Integer?
+
+    def journal_id?: () -> bool
+
+    def journal_id_changed?: () -> bool
+
+    def journal_id_change: () -> [ Integer?, Integer? ]
+
+    def journal_id_will_change!: () -> void
+
+    def journal_id_was: () -> Integer?
+
+    def journal_id_previously_changed?: () -> bool
+
+    def journal_id_previous_change: () -> Array[Integer?]?
+
+    def journal_id_previously_was: () -> Integer?
+
+    def journal_id_before_last_save: () -> Integer?
+
+    def journal_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def journal_id_in_database: () -> Integer?
+
+    def saved_change_to_journal_id: () -> Array[Integer?]?
+
+    def saved_change_to_journal_id?: () -> bool
+
+    def will_save_change_to_journal_id?: () -> bool
+
+    def restore_journal_id!: () -> void
+
+    def clear_journal_id_change: () -> void
+
+    def created_at: () -> ActiveSupport::TimeWithZone
+
+    def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+    def created_at?: () -> bool
+
+    def created_at_changed?: () -> bool
+
+    def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def created_at_will_change!: () -> void
+
+    def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_previously_changed?: () -> bool
+
+    def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_created_at?: () -> bool
+
+    def will_save_change_to_created_at?: () -> bool
+
+    def restore_created_at!: () -> void
+
+    def clear_created_at_change: () -> void
+
+    def updated_at: () -> ActiveSupport::TimeWithZone
+
+    def updated_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+    def updated_at?: () -> bool
+
+    def updated_at_changed?: () -> bool
+
+    def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def updated_at_will_change!: () -> void
+
+    def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_previously_changed?: () -> bool
+
+    def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_updated_at?: () -> bool
+
+    def will_save_change_to_updated_at?: () -> bool
+
+    def restore_updated_at!: () -> void
+
+    def clear_updated_at_change: () -> void
+
+    def mail_reminder_sent: () -> bool?
+
+    def mail_reminder_sent=: (bool?) -> bool?
+
+    def mail_reminder_sent?: () -> bool
+
+    def mail_reminder_sent_changed?: () -> bool
+
+    def mail_reminder_sent_change: () -> [ bool?, bool? ]
+
+    def mail_reminder_sent_will_change!: () -> void
+
+    def mail_reminder_sent_was: () -> bool?
+
+    def mail_reminder_sent_previously_changed?: () -> bool
+
+    def mail_reminder_sent_previous_change: () -> Array[bool?]?
+
+    def mail_reminder_sent_previously_was: () -> bool?
+
+    def mail_reminder_sent_before_last_save: () -> bool?
+
+    def mail_reminder_sent_change_to_be_saved: () -> Array[bool?]?
+
+    def mail_reminder_sent_in_database: () -> bool?
+
+    def saved_change_to_mail_reminder_sent: () -> Array[bool?]?
+
+    def saved_change_to_mail_reminder_sent?: () -> bool
+
+    def will_save_change_to_mail_reminder_sent?: () -> bool
+
+    def restore_mail_reminder_sent!: () -> void
+
+    def clear_mail_reminder_sent_change: () -> void
+
+    def mail_alert_sent: () -> bool?
+
+    def mail_alert_sent=: (bool?) -> bool?
+
+    def mail_alert_sent?: () -> bool
+
+    def mail_alert_sent_changed?: () -> bool
+
+    def mail_alert_sent_change: () -> [ bool?, bool? ]
+
+    def mail_alert_sent_will_change!: () -> void
+
+    def mail_alert_sent_was: () -> bool?
+
+    def mail_alert_sent_previously_changed?: () -> bool
+
+    def mail_alert_sent_previous_change: () -> Array[bool?]?
+
+    def mail_alert_sent_previously_was: () -> bool?
+
+    def mail_alert_sent_before_last_save: () -> bool?
+
+    def mail_alert_sent_change_to_be_saved: () -> Array[bool?]?
+
+    def mail_alert_sent_in_database: () -> bool?
+
+    def saved_change_to_mail_alert_sent: () -> Array[bool?]?
+
+    def saved_change_to_mail_alert_sent?: () -> bool
+
+    def will_save_change_to_mail_alert_sent?: () -> bool
+
+    def restore_mail_alert_sent!: () -> void
+
+    def clear_mail_alert_sent_change: () -> void
+  end
+  include GeneratedAttributeMethods
+
+  def recipient: () -> User
+  def recipient=: (User?) -> User?
+  def reload_recipient: () -> User?
+  def build_recipient: (untyped) -> User
+  def create_recipient: (untyped) -> User
+  def create_recipient!: (untyped) -> User
+  def actor: () -> User
+  def actor=: (User?) -> User?
+  def reload_actor: () -> User?
+  def build_actor: (untyped) -> User
+  def create_actor: (untyped) -> User
+  def create_actor!: (untyped) -> User
+  def project: () -> Project
+  def project=: (Project?) -> Project?
+  def reload_project: () -> Project?
+  def build_project: (untyped) -> Project
+  def create_project: (untyped) -> Project
+  def create_project!: (untyped) -> Project
+  def journal: () -> Journal
+  def journal=: (Journal?) -> Journal?
+  def reload_journal: () -> Journal?
+  def build_journal: (untyped) -> Journal
+  def create_journal: (untyped) -> Journal
+  def create_journal!: (untyped) -> Journal
+  def resource: () -> untyped
+  def resource=: (untyped?) -> untyped?
+  def reload_resource: () -> untyped?
+  module GeneratedAssociationMethods
+  end
+  include GeneratedAssociationMethods
+
+  module GeneratedRelationMethods
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Notification, Integer]
+    include Enumerable[Notification]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Notification, Integer]
+  end
+end

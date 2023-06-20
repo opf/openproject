@@ -1,0 +1,210 @@
+class RolePermission < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[RolePermission, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def permission: () -> String?
+
+    def permission=: (String?) -> String?
+
+    def permission?: () -> bool
+
+    def permission_changed?: () -> bool
+
+    def permission_change: () -> [ String?, String? ]
+
+    def permission_will_change!: () -> void
+
+    def permission_was: () -> String?
+
+    def permission_previously_changed?: () -> bool
+
+    def permission_previous_change: () -> Array[String?]?
+
+    def permission_previously_was: () -> String?
+
+    def permission_before_last_save: () -> String?
+
+    def permission_change_to_be_saved: () -> Array[String?]?
+
+    def permission_in_database: () -> String?
+
+    def saved_change_to_permission: () -> Array[String?]?
+
+    def saved_change_to_permission?: () -> bool
+
+    def will_save_change_to_permission?: () -> bool
+
+    def restore_permission!: () -> void
+
+    def clear_permission_change: () -> void
+
+    def role_id: () -> Integer?
+
+    def role_id=: (Integer?) -> Integer?
+
+    def role_id?: () -> bool
+
+    def role_id_changed?: () -> bool
+
+    def role_id_change: () -> [ Integer?, Integer? ]
+
+    def role_id_will_change!: () -> void
+
+    def role_id_was: () -> Integer?
+
+    def role_id_previously_changed?: () -> bool
+
+    def role_id_previous_change: () -> Array[Integer?]?
+
+    def role_id_previously_was: () -> Integer?
+
+    def role_id_before_last_save: () -> Integer?
+
+    def role_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def role_id_in_database: () -> Integer?
+
+    def saved_change_to_role_id: () -> Array[Integer?]?
+
+    def saved_change_to_role_id?: () -> bool
+
+    def will_save_change_to_role_id?: () -> bool
+
+    def restore_role_id!: () -> void
+
+    def clear_role_id_change: () -> void
+
+    def created_at: () -> ActiveSupport::TimeWithZone
+
+    def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+    def created_at?: () -> bool
+
+    def created_at_changed?: () -> bool
+
+    def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def created_at_will_change!: () -> void
+
+    def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_previously_changed?: () -> bool
+
+    def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_created_at?: () -> bool
+
+    def will_save_change_to_created_at?: () -> bool
+
+    def restore_created_at!: () -> void
+
+    def clear_created_at_change: () -> void
+
+    def updated_at: () -> ActiveSupport::TimeWithZone
+
+    def updated_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+    def updated_at?: () -> bool
+
+    def updated_at_changed?: () -> bool
+
+    def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def updated_at_will_change!: () -> void
+
+    def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_previously_changed?: () -> bool
+
+    def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_updated_at?: () -> bool
+
+    def will_save_change_to_updated_at?: () -> bool
+
+    def restore_updated_at!: () -> void
+
+    def clear_updated_at_change: () -> void
+  end
+  include GeneratedAttributeMethods
+
+  def role: () -> Role
+  def role=: (Role?) -> Role?
+  def reload_role: () -> Role?
+  def build_role: (untyped) -> Role
+  def create_role: (untyped) -> Role
+  def create_role!: (untyped) -> Role
+  module GeneratedAssociationMethods
+  end
+  include GeneratedAssociationMethods
+
+  module GeneratedRelationMethods
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[RolePermission, Integer]
+    include Enumerable[RolePermission]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[RolePermission, Integer]
+  end
+end

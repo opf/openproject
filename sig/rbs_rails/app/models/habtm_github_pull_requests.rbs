@@ -1,0 +1,110 @@
+class WorkPackage < ::ApplicationRecord
+  class HABTM_GithubPullRequests < ::ActiveRecord::Base
+    extend _ActiveRecord_Relation_ClassMethods[WorkPackage::HABTM_GithubPullRequests, ActiveRecord_Relation, top]
+
+    module GeneratedAttributeMethods
+      def github_pull_request_id: () -> Integer
+
+      def github_pull_request_id=: (Integer) -> Integer
+
+      def github_pull_request_id?: () -> bool
+
+      def github_pull_request_id_changed?: () -> bool
+
+      def github_pull_request_id_change: () -> [ Integer?, Integer? ]
+
+      def github_pull_request_id_will_change!: () -> void
+
+      def github_pull_request_id_was: () -> Integer?
+
+      def github_pull_request_id_previously_changed?: () -> bool
+
+      def github_pull_request_id_previous_change: () -> Array[Integer?]?
+
+      def github_pull_request_id_previously_was: () -> Integer?
+
+      def github_pull_request_id_before_last_save: () -> Integer?
+
+      def github_pull_request_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def github_pull_request_id_in_database: () -> Integer?
+
+      def saved_change_to_github_pull_request_id: () -> Array[Integer?]?
+
+      def saved_change_to_github_pull_request_id?: () -> bool
+
+      def will_save_change_to_github_pull_request_id?: () -> bool
+
+      def restore_github_pull_request_id!: () -> void
+
+      def clear_github_pull_request_id_change: () -> void
+
+      def work_package_id: () -> Integer
+
+      def work_package_id=: (Integer) -> Integer
+
+      def work_package_id?: () -> bool
+
+      def work_package_id_changed?: () -> bool
+
+      def work_package_id_change: () -> [ Integer?, Integer? ]
+
+      def work_package_id_will_change!: () -> void
+
+      def work_package_id_was: () -> Integer?
+
+      def work_package_id_previously_changed?: () -> bool
+
+      def work_package_id_previous_change: () -> Array[Integer?]?
+
+      def work_package_id_previously_was: () -> Integer?
+
+      def work_package_id_before_last_save: () -> Integer?
+
+      def work_package_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def work_package_id_in_database: () -> Integer?
+
+      def saved_change_to_work_package_id: () -> Array[Integer?]?
+
+      def saved_change_to_work_package_id?: () -> bool
+
+      def will_save_change_to_work_package_id?: () -> bool
+
+      def restore_work_package_id!: () -> void
+
+      def clear_work_package_id_change: () -> void
+    end
+    include GeneratedAttributeMethods
+
+    def left_side: () -> WorkPackage?
+    def left_side=: (WorkPackage?) -> WorkPackage?
+    def reload_left_side: () -> WorkPackage?
+    def build_left_side: (untyped) -> WorkPackage
+    def create_left_side: (untyped) -> WorkPackage
+    def create_left_side!: (untyped) -> WorkPackage
+    def github_pull_request: () -> GithubPullRequest?
+    def github_pull_request=: (GithubPullRequest?) -> GithubPullRequest?
+    def reload_github_pull_request: () -> GithubPullRequest?
+    def build_github_pull_request: (untyped) -> GithubPullRequest
+    def create_github_pull_request: (untyped) -> GithubPullRequest
+    def create_github_pull_request!: (untyped) -> GithubPullRequest
+    module GeneratedAssociationMethods
+    end
+    include GeneratedAssociationMethods
+
+    module GeneratedRelationMethods
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[WorkPackage::HABTM_GithubPullRequests, top]
+      include Enumerable[WorkPackage::HABTM_GithubPullRequests]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[WorkPackage::HABTM_GithubPullRequests, top]
+    end
+  end
+end

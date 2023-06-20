@@ -1,0 +1,138 @@
+class UserPreference < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[UserPreference, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def user_id: () -> Integer
+
+    def user_id=: (Integer) -> Integer
+
+    def user_id?: () -> bool
+
+    def user_id_changed?: () -> bool
+
+    def user_id_change: () -> [ Integer?, Integer? ]
+
+    def user_id_will_change!: () -> void
+
+    def user_id_was: () -> Integer?
+
+    def user_id_previously_changed?: () -> bool
+
+    def user_id_previous_change: () -> Array[Integer?]?
+
+    def user_id_previously_was: () -> Integer?
+
+    def user_id_before_last_save: () -> Integer?
+
+    def user_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def user_id_in_database: () -> Integer?
+
+    def saved_change_to_user_id: () -> Array[Integer?]?
+
+    def saved_change_to_user_id?: () -> bool
+
+    def will_save_change_to_user_id?: () -> bool
+
+    def restore_user_id!: () -> void
+
+    def clear_user_id_change: () -> void
+
+    def settings: () -> untyped?
+
+    def settings=: (untyped?) -> untyped?
+
+    def settings?: () -> bool
+
+    def settings_changed?: () -> bool
+
+    def settings_change: () -> [ untyped?, untyped? ]
+
+    def settings_will_change!: () -> void
+
+    def settings_was: () -> untyped?
+
+    def settings_previously_changed?: () -> bool
+
+    def settings_previous_change: () -> Array[untyped?]?
+
+    def settings_previously_was: () -> untyped?
+
+    def settings_before_last_save: () -> untyped?
+
+    def settings_change_to_be_saved: () -> Array[untyped?]?
+
+    def settings_in_database: () -> untyped?
+
+    def saved_change_to_settings: () -> Array[untyped?]?
+
+    def saved_change_to_settings?: () -> bool
+
+    def will_save_change_to_settings?: () -> bool
+
+    def restore_settings!: () -> void
+
+    def clear_settings_change: () -> void
+  end
+  include GeneratedAttributeMethods
+
+  def user: () -> User
+  def user=: (User?) -> User?
+  def reload_user: () -> User?
+  def build_user: (untyped) -> User
+  def create_user: (untyped) -> User
+  def create_user!: (untyped) -> User
+  module GeneratedAssociationMethods
+  end
+  include GeneratedAssociationMethods
+
+  module GeneratedRelationMethods
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[UserPreference, Integer]
+    include Enumerable[UserPreference]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[UserPreference, Integer]
+  end
+end

@@ -1,0 +1,368 @@
+module Bim
+  module IfcModels
+    class IfcModel < ::ApplicationRecord
+      extend _ActiveRecord_Relation_ClassMethods[Bim::IfcModels::IfcModel, ActiveRecord_Relation, Integer]
+
+      module GeneratedAttributeMethods
+        def id: () -> Integer
+
+        def id=: (Integer) -> Integer
+
+        def id?: () -> bool
+
+        def id_changed?: () -> bool
+
+        def id_change: () -> [ Integer?, Integer? ]
+
+        def id_will_change!: () -> void
+
+        def id_was: () -> Integer?
+
+        def id_previously_changed?: () -> bool
+
+        def id_previous_change: () -> Array[Integer?]?
+
+        def id_previously_was: () -> Integer?
+
+        def id_before_last_save: () -> Integer?
+
+        def id_change_to_be_saved: () -> Array[Integer?]?
+
+        def id_in_database: () -> Integer?
+
+        def saved_change_to_id: () -> Array[Integer?]?
+
+        def saved_change_to_id?: () -> bool
+
+        def will_save_change_to_id?: () -> bool
+
+        def restore_id!: () -> void
+
+        def clear_id_change: () -> void
+
+        def title: () -> String?
+
+        def title=: (String?) -> String?
+
+        def title?: () -> bool
+
+        def title_changed?: () -> bool
+
+        def title_change: () -> [ String?, String? ]
+
+        def title_will_change!: () -> void
+
+        def title_was: () -> String?
+
+        def title_previously_changed?: () -> bool
+
+        def title_previous_change: () -> Array[String?]?
+
+        def title_previously_was: () -> String?
+
+        def title_before_last_save: () -> String?
+
+        def title_change_to_be_saved: () -> Array[String?]?
+
+        def title_in_database: () -> String?
+
+        def saved_change_to_title: () -> Array[String?]?
+
+        def saved_change_to_title?: () -> bool
+
+        def will_save_change_to_title?: () -> bool
+
+        def restore_title!: () -> void
+
+        def clear_title_change: () -> void
+
+        def created_at: () -> ActiveSupport::TimeWithZone
+
+        def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+        def created_at?: () -> bool
+
+        def created_at_changed?: () -> bool
+
+        def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+        def created_at_will_change!: () -> void
+
+        def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+        def created_at_previously_changed?: () -> bool
+
+        def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+        def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+        def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+        def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def saved_change_to_created_at?: () -> bool
+
+        def will_save_change_to_created_at?: () -> bool
+
+        def restore_created_at!: () -> void
+
+        def clear_created_at_change: () -> void
+
+        def updated_at: () -> ActiveSupport::TimeWithZone
+
+        def updated_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+        def updated_at?: () -> bool
+
+        def updated_at_changed?: () -> bool
+
+        def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+        def updated_at_will_change!: () -> void
+
+        def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+        def updated_at_previously_changed?: () -> bool
+
+        def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+        def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+        def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+        def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def saved_change_to_updated_at?: () -> bool
+
+        def will_save_change_to_updated_at?: () -> bool
+
+        def restore_updated_at!: () -> void
+
+        def clear_updated_at_change: () -> void
+
+        def project_id: () -> Integer?
+
+        def project_id=: (Integer?) -> Integer?
+
+        def project_id?: () -> bool
+
+        def project_id_changed?: () -> bool
+
+        def project_id_change: () -> [ Integer?, Integer? ]
+
+        def project_id_will_change!: () -> void
+
+        def project_id_was: () -> Integer?
+
+        def project_id_previously_changed?: () -> bool
+
+        def project_id_previous_change: () -> Array[Integer?]?
+
+        def project_id_previously_was: () -> Integer?
+
+        def project_id_before_last_save: () -> Integer?
+
+        def project_id_change_to_be_saved: () -> Array[Integer?]?
+
+        def project_id_in_database: () -> Integer?
+
+        def saved_change_to_project_id: () -> Array[Integer?]?
+
+        def saved_change_to_project_id?: () -> bool
+
+        def will_save_change_to_project_id?: () -> bool
+
+        def restore_project_id!: () -> void
+
+        def clear_project_id_change: () -> void
+
+        def uploader_id: () -> Integer?
+
+        def uploader_id=: (Integer?) -> Integer?
+
+        def uploader_id?: () -> bool
+
+        def uploader_id_changed?: () -> bool
+
+        def uploader_id_change: () -> [ Integer?, Integer? ]
+
+        def uploader_id_will_change!: () -> void
+
+        def uploader_id_was: () -> Integer?
+
+        def uploader_id_previously_changed?: () -> bool
+
+        def uploader_id_previous_change: () -> Array[Integer?]?
+
+        def uploader_id_previously_was: () -> Integer?
+
+        def uploader_id_before_last_save: () -> Integer?
+
+        def uploader_id_change_to_be_saved: () -> Array[Integer?]?
+
+        def uploader_id_in_database: () -> Integer?
+
+        def saved_change_to_uploader_id: () -> Array[Integer?]?
+
+        def saved_change_to_uploader_id?: () -> bool
+
+        def will_save_change_to_uploader_id?: () -> bool
+
+        def restore_uploader_id!: () -> void
+
+        def clear_uploader_id_change: () -> void
+
+        def is_default: () -> bool
+
+        def is_default=: (bool) -> bool
+
+        def is_default?: () -> bool
+
+        def is_default_changed?: () -> bool
+
+        def is_default_change: () -> [ bool?, bool? ]
+
+        def is_default_will_change!: () -> void
+
+        def is_default_was: () -> bool?
+
+        def is_default_previously_changed?: () -> bool
+
+        def is_default_previous_change: () -> Array[bool?]?
+
+        def is_default_previously_was: () -> bool?
+
+        def is_default_before_last_save: () -> bool?
+
+        def is_default_change_to_be_saved: () -> Array[bool?]?
+
+        def is_default_in_database: () -> bool?
+
+        def saved_change_to_is_default: () -> Array[bool?]?
+
+        def saved_change_to_is_default?: () -> bool
+
+        def will_save_change_to_is_default?: () -> bool
+
+        def restore_is_default!: () -> void
+
+        def clear_is_default_change: () -> void
+
+        def conversion_status: () -> Integer?
+
+        def conversion_status=: (Integer?) -> Integer?
+
+        def conversion_status?: () -> bool
+
+        def conversion_status_changed?: () -> bool
+
+        def conversion_status_change: () -> [ Integer?, Integer? ]
+
+        def conversion_status_will_change!: () -> void
+
+        def conversion_status_was: () -> Integer?
+
+        def conversion_status_previously_changed?: () -> bool
+
+        def conversion_status_previous_change: () -> Array[Integer?]?
+
+        def conversion_status_previously_was: () -> Integer?
+
+        def conversion_status_before_last_save: () -> Integer?
+
+        def conversion_status_change_to_be_saved: () -> Array[Integer?]?
+
+        def conversion_status_in_database: () -> Integer?
+
+        def saved_change_to_conversion_status: () -> Array[Integer?]?
+
+        def saved_change_to_conversion_status?: () -> bool
+
+        def will_save_change_to_conversion_status?: () -> bool
+
+        def restore_conversion_status!: () -> void
+
+        def clear_conversion_status_change: () -> void
+
+        def conversion_error_message: () -> String?
+
+        def conversion_error_message=: (String?) -> String?
+
+        def conversion_error_message?: () -> bool
+
+        def conversion_error_message_changed?: () -> bool
+
+        def conversion_error_message_change: () -> [ String?, String? ]
+
+        def conversion_error_message_will_change!: () -> void
+
+        def conversion_error_message_was: () -> String?
+
+        def conversion_error_message_previously_changed?: () -> bool
+
+        def conversion_error_message_previous_change: () -> Array[String?]?
+
+        def conversion_error_message_previously_was: () -> String?
+
+        def conversion_error_message_before_last_save: () -> String?
+
+        def conversion_error_message_change_to_be_saved: () -> Array[String?]?
+
+        def conversion_error_message_in_database: () -> String?
+
+        def saved_change_to_conversion_error_message: () -> Array[String?]?
+
+        def saved_change_to_conversion_error_message?: () -> bool
+
+        def will_save_change_to_conversion_error_message?: () -> bool
+
+        def restore_conversion_error_message!: () -> void
+
+        def clear_conversion_error_message_change: () -> void
+      end
+      include GeneratedAttributeMethods
+      def attachments: () -> Attachment::ActiveRecord_Associations_CollectionProxy
+      def attachments=: (Attachment::ActiveRecord_Associations_CollectionProxy | Array[Attachment]) -> (Attachment::ActiveRecord_Associations_CollectionProxy | Array[Attachment])
+      def attachment_ids: () -> Array[Integer]
+      def attachment_ids=: (Array[Integer]) -> Array[Integer]
+
+      def project: () -> Project
+      def project=: (Project?) -> Project?
+      def reload_project: () -> Project?
+      def build_project: (untyped) -> Project
+      def create_project: (untyped) -> Project
+      def create_project!: (untyped) -> Project
+      def uploader: () -> User
+      def uploader=: (User?) -> User?
+      def reload_uploader: () -> User?
+      def build_uploader: (untyped) -> User
+      def create_uploader: (untyped) -> User
+      def create_uploader!: (untyped) -> User
+      module GeneratedAssociationMethods
+      end
+      include GeneratedAssociationMethods
+
+      module GeneratedRelationMethods
+      end
+
+      class ActiveRecord_Relation < ::ActiveRecord::Relation
+        include GeneratedRelationMethods
+        include _ActiveRecord_Relation[Bim::IfcModels::IfcModel, Integer]
+        include Enumerable[Bim::IfcModels::IfcModel]
+      end
+
+      class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+        include GeneratedRelationMethods
+        include _ActiveRecord_Relation[Bim::IfcModels::IfcModel, Integer]
+      end
+    end
+  end
+end

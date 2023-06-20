@@ -1,0 +1,288 @@
+class Rate < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[Rate, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def valid_from: () -> Date
+
+    def valid_from=: (Date) -> Date
+
+    def valid_from?: () -> bool
+
+    def valid_from_changed?: () -> bool
+
+    def valid_from_change: () -> [ Date?, Date? ]
+
+    def valid_from_will_change!: () -> void
+
+    def valid_from_was: () -> Date?
+
+    def valid_from_previously_changed?: () -> bool
+
+    def valid_from_previous_change: () -> Array[Date?]?
+
+    def valid_from_previously_was: () -> Date?
+
+    def valid_from_before_last_save: () -> Date?
+
+    def valid_from_change_to_be_saved: () -> Array[Date?]?
+
+    def valid_from_in_database: () -> Date?
+
+    def saved_change_to_valid_from: () -> Array[Date?]?
+
+    def saved_change_to_valid_from?: () -> bool
+
+    def will_save_change_to_valid_from?: () -> bool
+
+    def restore_valid_from!: () -> void
+
+    def clear_valid_from_change: () -> void
+
+    def rate: () -> BigDecimal
+
+    def rate=: (BigDecimal) -> BigDecimal
+
+    def rate?: () -> bool
+
+    def rate_changed?: () -> bool
+
+    def rate_change: () -> [ BigDecimal?, BigDecimal? ]
+
+    def rate_will_change!: () -> void
+
+    def rate_was: () -> BigDecimal?
+
+    def rate_previously_changed?: () -> bool
+
+    def rate_previous_change: () -> Array[BigDecimal?]?
+
+    def rate_previously_was: () -> BigDecimal?
+
+    def rate_before_last_save: () -> BigDecimal?
+
+    def rate_change_to_be_saved: () -> Array[BigDecimal?]?
+
+    def rate_in_database: () -> BigDecimal?
+
+    def saved_change_to_rate: () -> Array[BigDecimal?]?
+
+    def saved_change_to_rate?: () -> bool
+
+    def will_save_change_to_rate?: () -> bool
+
+    def restore_rate!: () -> void
+
+    def clear_rate_change: () -> void
+
+    def type: () -> String
+
+    def type=: (String) -> String
+
+    def type?: () -> bool
+
+    def type_changed?: () -> bool
+
+    def type_change: () -> [ String?, String? ]
+
+    def type_will_change!: () -> void
+
+    def type_was: () -> String?
+
+    def type_previously_changed?: () -> bool
+
+    def type_previous_change: () -> Array[String?]?
+
+    def type_previously_was: () -> String?
+
+    def type_before_last_save: () -> String?
+
+    def type_change_to_be_saved: () -> Array[String?]?
+
+    def type_in_database: () -> String?
+
+    def saved_change_to_type: () -> Array[String?]?
+
+    def saved_change_to_type?: () -> bool
+
+    def will_save_change_to_type?: () -> bool
+
+    def restore_type!: () -> void
+
+    def clear_type_change: () -> void
+
+    def project_id: () -> Integer?
+
+    def project_id=: (Integer?) -> Integer?
+
+    def project_id?: () -> bool
+
+    def project_id_changed?: () -> bool
+
+    def project_id_change: () -> [ Integer?, Integer? ]
+
+    def project_id_will_change!: () -> void
+
+    def project_id_was: () -> Integer?
+
+    def project_id_previously_changed?: () -> bool
+
+    def project_id_previous_change: () -> Array[Integer?]?
+
+    def project_id_previously_was: () -> Integer?
+
+    def project_id_before_last_save: () -> Integer?
+
+    def project_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def project_id_in_database: () -> Integer?
+
+    def saved_change_to_project_id: () -> Array[Integer?]?
+
+    def saved_change_to_project_id?: () -> bool
+
+    def will_save_change_to_project_id?: () -> bool
+
+    def restore_project_id!: () -> void
+
+    def clear_project_id_change: () -> void
+
+    def user_id: () -> Integer?
+
+    def user_id=: (Integer?) -> Integer?
+
+    def user_id?: () -> bool
+
+    def user_id_changed?: () -> bool
+
+    def user_id_change: () -> [ Integer?, Integer? ]
+
+    def user_id_will_change!: () -> void
+
+    def user_id_was: () -> Integer?
+
+    def user_id_previously_changed?: () -> bool
+
+    def user_id_previous_change: () -> Array[Integer?]?
+
+    def user_id_previously_was: () -> Integer?
+
+    def user_id_before_last_save: () -> Integer?
+
+    def user_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def user_id_in_database: () -> Integer?
+
+    def saved_change_to_user_id: () -> Array[Integer?]?
+
+    def saved_change_to_user_id?: () -> bool
+
+    def will_save_change_to_user_id?: () -> bool
+
+    def restore_user_id!: () -> void
+
+    def clear_user_id_change: () -> void
+
+    def cost_type_id: () -> Integer?
+
+    def cost_type_id=: (Integer?) -> Integer?
+
+    def cost_type_id?: () -> bool
+
+    def cost_type_id_changed?: () -> bool
+
+    def cost_type_id_change: () -> [ Integer?, Integer? ]
+
+    def cost_type_id_will_change!: () -> void
+
+    def cost_type_id_was: () -> Integer?
+
+    def cost_type_id_previously_changed?: () -> bool
+
+    def cost_type_id_previous_change: () -> Array[Integer?]?
+
+    def cost_type_id_previously_was: () -> Integer?
+
+    def cost_type_id_before_last_save: () -> Integer?
+
+    def cost_type_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def cost_type_id_in_database: () -> Integer?
+
+    def saved_change_to_cost_type_id: () -> Array[Integer?]?
+
+    def saved_change_to_cost_type_id?: () -> bool
+
+    def will_save_change_to_cost_type_id?: () -> bool
+
+    def restore_cost_type_id!: () -> void
+
+    def clear_cost_type_id_change: () -> void
+  end
+  include GeneratedAttributeMethods
+
+  def user: () -> User
+  def user=: (User?) -> User?
+  def reload_user: () -> User?
+  def build_user: (untyped) -> User
+  def create_user: (untyped) -> User
+  def create_user!: (untyped) -> User
+  def project: () -> Project
+  def project=: (Project?) -> Project?
+  def reload_project: () -> Project?
+  def build_project: (untyped) -> Project
+  def create_project: (untyped) -> Project
+  def create_project!: (untyped) -> Project
+  module GeneratedAssociationMethods
+  end
+  include GeneratedAssociationMethods
+
+  module GeneratedRelationMethods
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Rate, Integer]
+    include Enumerable[Rate]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Rate, Integer]
+  end
+end

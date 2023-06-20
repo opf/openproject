@@ -1,0 +1,400 @@
+module Grids
+  class Overview < ::Grids::Grid
+    extend _ActiveRecord_Relation_ClassMethods[Grids::Overview, ActiveRecord_Relation, Integer]
+
+    module GeneratedAttributeMethods
+      def id: () -> Integer
+
+      def id=: (Integer) -> Integer
+
+      def id?: () -> bool
+
+      def id_changed?: () -> bool
+
+      def id_change: () -> [ Integer?, Integer? ]
+
+      def id_will_change!: () -> void
+
+      def id_was: () -> Integer?
+
+      def id_previously_changed?: () -> bool
+
+      def id_previous_change: () -> Array[Integer?]?
+
+      def id_previously_was: () -> Integer?
+
+      def id_before_last_save: () -> Integer?
+
+      def id_change_to_be_saved: () -> Array[Integer?]?
+
+      def id_in_database: () -> Integer?
+
+      def saved_change_to_id: () -> Array[Integer?]?
+
+      def saved_change_to_id?: () -> bool
+
+      def will_save_change_to_id?: () -> bool
+
+      def restore_id!: () -> void
+
+      def clear_id_change: () -> void
+
+      def row_count: () -> Integer
+
+      def row_count=: (Integer) -> Integer
+
+      def row_count?: () -> bool
+
+      def row_count_changed?: () -> bool
+
+      def row_count_change: () -> [ Integer?, Integer? ]
+
+      def row_count_will_change!: () -> void
+
+      def row_count_was: () -> Integer?
+
+      def row_count_previously_changed?: () -> bool
+
+      def row_count_previous_change: () -> Array[Integer?]?
+
+      def row_count_previously_was: () -> Integer?
+
+      def row_count_before_last_save: () -> Integer?
+
+      def row_count_change_to_be_saved: () -> Array[Integer?]?
+
+      def row_count_in_database: () -> Integer?
+
+      def saved_change_to_row_count: () -> Array[Integer?]?
+
+      def saved_change_to_row_count?: () -> bool
+
+      def will_save_change_to_row_count?: () -> bool
+
+      def restore_row_count!: () -> void
+
+      def clear_row_count_change: () -> void
+
+      def column_count: () -> Integer
+
+      def column_count=: (Integer) -> Integer
+
+      def column_count?: () -> bool
+
+      def column_count_changed?: () -> bool
+
+      def column_count_change: () -> [ Integer?, Integer? ]
+
+      def column_count_will_change!: () -> void
+
+      def column_count_was: () -> Integer?
+
+      def column_count_previously_changed?: () -> bool
+
+      def column_count_previous_change: () -> Array[Integer?]?
+
+      def column_count_previously_was: () -> Integer?
+
+      def column_count_before_last_save: () -> Integer?
+
+      def column_count_change_to_be_saved: () -> Array[Integer?]?
+
+      def column_count_in_database: () -> Integer?
+
+      def saved_change_to_column_count: () -> Array[Integer?]?
+
+      def saved_change_to_column_count?: () -> bool
+
+      def will_save_change_to_column_count?: () -> bool
+
+      def restore_column_count!: () -> void
+
+      def clear_column_count_change: () -> void
+
+      def type: () -> String?
+
+      def type=: (String?) -> String?
+
+      def type?: () -> bool
+
+      def type_changed?: () -> bool
+
+      def type_change: () -> [ String?, String? ]
+
+      def type_will_change!: () -> void
+
+      def type_was: () -> String?
+
+      def type_previously_changed?: () -> bool
+
+      def type_previous_change: () -> Array[String?]?
+
+      def type_previously_was: () -> String?
+
+      def type_before_last_save: () -> String?
+
+      def type_change_to_be_saved: () -> Array[String?]?
+
+      def type_in_database: () -> String?
+
+      def saved_change_to_type: () -> Array[String?]?
+
+      def saved_change_to_type?: () -> bool
+
+      def will_save_change_to_type?: () -> bool
+
+      def restore_type!: () -> void
+
+      def clear_type_change: () -> void
+
+      def user_id: () -> Integer?
+
+      def user_id=: (Integer?) -> Integer?
+
+      def user_id?: () -> bool
+
+      def user_id_changed?: () -> bool
+
+      def user_id_change: () -> [ Integer?, Integer? ]
+
+      def user_id_will_change!: () -> void
+
+      def user_id_was: () -> Integer?
+
+      def user_id_previously_changed?: () -> bool
+
+      def user_id_previous_change: () -> Array[Integer?]?
+
+      def user_id_previously_was: () -> Integer?
+
+      def user_id_before_last_save: () -> Integer?
+
+      def user_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def user_id_in_database: () -> Integer?
+
+      def saved_change_to_user_id: () -> Array[Integer?]?
+
+      def saved_change_to_user_id?: () -> bool
+
+      def will_save_change_to_user_id?: () -> bool
+
+      def restore_user_id!: () -> void
+
+      def clear_user_id_change: () -> void
+
+      def created_at: () -> ActiveSupport::TimeWithZone
+
+      def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+      def created_at?: () -> bool
+
+      def created_at_changed?: () -> bool
+
+      def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+      def created_at_will_change!: () -> void
+
+      def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_previously_changed?: () -> bool
+
+      def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+      def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def saved_change_to_created_at?: () -> bool
+
+      def will_save_change_to_created_at?: () -> bool
+
+      def restore_created_at!: () -> void
+
+      def clear_created_at_change: () -> void
+
+      def updated_at: () -> ActiveSupport::TimeWithZone
+
+      def updated_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+      def updated_at?: () -> bool
+
+      def updated_at_changed?: () -> bool
+
+      def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+      def updated_at_will_change!: () -> void
+
+      def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_previously_changed?: () -> bool
+
+      def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+      def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def saved_change_to_updated_at?: () -> bool
+
+      def will_save_change_to_updated_at?: () -> bool
+
+      def restore_updated_at!: () -> void
+
+      def clear_updated_at_change: () -> void
+
+      def project_id: () -> Integer?
+
+      def project_id=: (Integer?) -> Integer?
+
+      def project_id?: () -> bool
+
+      def project_id_changed?: () -> bool
+
+      def project_id_change: () -> [ Integer?, Integer? ]
+
+      def project_id_will_change!: () -> void
+
+      def project_id_was: () -> Integer?
+
+      def project_id_previously_changed?: () -> bool
+
+      def project_id_previous_change: () -> Array[Integer?]?
+
+      def project_id_previously_was: () -> Integer?
+
+      def project_id_before_last_save: () -> Integer?
+
+      def project_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def project_id_in_database: () -> Integer?
+
+      def saved_change_to_project_id: () -> Array[Integer?]?
+
+      def saved_change_to_project_id?: () -> bool
+
+      def will_save_change_to_project_id?: () -> bool
+
+      def restore_project_id!: () -> void
+
+      def clear_project_id_change: () -> void
+
+      def name: () -> String?
+
+      def name=: (String?) -> String?
+
+      def name?: () -> bool
+
+      def name_changed?: () -> bool
+
+      def name_change: () -> [ String?, String? ]
+
+      def name_will_change!: () -> void
+
+      def name_was: () -> String?
+
+      def name_previously_changed?: () -> bool
+
+      def name_previous_change: () -> Array[String?]?
+
+      def name_previously_was: () -> String?
+
+      def name_before_last_save: () -> String?
+
+      def name_change_to_be_saved: () -> Array[String?]?
+
+      def name_in_database: () -> String?
+
+      def saved_change_to_name: () -> Array[String?]?
+
+      def saved_change_to_name?: () -> bool
+
+      def will_save_change_to_name?: () -> bool
+
+      def restore_name!: () -> void
+
+      def clear_name_change: () -> void
+
+      def options: () -> String?
+
+      def options=: (String?) -> String?
+
+      def options?: () -> bool
+
+      def options_changed?: () -> bool
+
+      def options_change: () -> [ String?, String? ]
+
+      def options_will_change!: () -> void
+
+      def options_was: () -> String?
+
+      def options_previously_changed?: () -> bool
+
+      def options_previous_change: () -> Array[String?]?
+
+      def options_previously_was: () -> String?
+
+      def options_before_last_save: () -> String?
+
+      def options_change_to_be_saved: () -> Array[String?]?
+
+      def options_in_database: () -> String?
+
+      def saved_change_to_options: () -> Array[String?]?
+
+      def saved_change_to_options?: () -> bool
+
+      def will_save_change_to_options?: () -> bool
+
+      def restore_options!: () -> void
+
+      def clear_options_change: () -> void
+    end
+    include GeneratedAttributeMethods
+    def widgets: () -> Grids::Widget::ActiveRecord_Associations_CollectionProxy
+    def widgets=: (Grids::Widget::ActiveRecord_Associations_CollectionProxy | Array[Grids::Widget]) -> (Grids::Widget::ActiveRecord_Associations_CollectionProxy | Array[Grids::Widget])
+    def widget_ids: () -> Array[Integer]
+    def widget_ids=: (Array[Integer]) -> Array[Integer]
+    def attachments: () -> Attachment::ActiveRecord_Associations_CollectionProxy
+    def attachments=: (Attachment::ActiveRecord_Associations_CollectionProxy | Array[Attachment]) -> (Attachment::ActiveRecord_Associations_CollectionProxy | Array[Attachment])
+    def attachment_ids: () -> Array[Integer]
+    def attachment_ids=: (Array[Integer]) -> Array[Integer]
+
+    def project: () -> Project
+    def project=: (Project?) -> Project?
+    def reload_project: () -> Project?
+    def build_project: (untyped) -> Project
+    def create_project: (untyped) -> Project
+    def create_project!: (untyped) -> Project
+    module GeneratedAssociationMethods
+    end
+    include GeneratedAssociationMethods
+
+    module GeneratedRelationMethods
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Grids::Overview, Integer]
+      include Enumerable[Grids::Overview]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Grids::Overview, Integer]
+    end
+  end
+end

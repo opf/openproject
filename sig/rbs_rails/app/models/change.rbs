@@ -1,0 +1,318 @@
+class Change < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[Change, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def changeset_id: () -> Integer
+
+    def changeset_id=: (Integer) -> Integer
+
+    def changeset_id?: () -> bool
+
+    def changeset_id_changed?: () -> bool
+
+    def changeset_id_change: () -> [ Integer?, Integer? ]
+
+    def changeset_id_will_change!: () -> void
+
+    def changeset_id_was: () -> Integer?
+
+    def changeset_id_previously_changed?: () -> bool
+
+    def changeset_id_previous_change: () -> Array[Integer?]?
+
+    def changeset_id_previously_was: () -> Integer?
+
+    def changeset_id_before_last_save: () -> Integer?
+
+    def changeset_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def changeset_id_in_database: () -> Integer?
+
+    def saved_change_to_changeset_id: () -> Array[Integer?]?
+
+    def saved_change_to_changeset_id?: () -> bool
+
+    def will_save_change_to_changeset_id?: () -> bool
+
+    def restore_changeset_id!: () -> void
+
+    def clear_changeset_id_change: () -> void
+
+    def action: () -> String
+
+    def action=: (String) -> String
+
+    def action?: () -> bool
+
+    def action_changed?: () -> bool
+
+    def action_change: () -> [ String?, String? ]
+
+    def action_will_change!: () -> void
+
+    def action_was: () -> String?
+
+    def action_previously_changed?: () -> bool
+
+    def action_previous_change: () -> Array[String?]?
+
+    def action_previously_was: () -> String?
+
+    def action_before_last_save: () -> String?
+
+    def action_change_to_be_saved: () -> Array[String?]?
+
+    def action_in_database: () -> String?
+
+    def saved_change_to_action: () -> Array[String?]?
+
+    def saved_change_to_action?: () -> bool
+
+    def will_save_change_to_action?: () -> bool
+
+    def restore_action!: () -> void
+
+    def clear_action_change: () -> void
+
+    def path: () -> String
+
+    def path=: (String) -> String
+
+    def path?: () -> bool
+
+    def path_changed?: () -> bool
+
+    def path_change: () -> [ String?, String? ]
+
+    def path_will_change!: () -> void
+
+    def path_was: () -> String?
+
+    def path_previously_changed?: () -> bool
+
+    def path_previous_change: () -> Array[String?]?
+
+    def path_previously_was: () -> String?
+
+    def path_before_last_save: () -> String?
+
+    def path_change_to_be_saved: () -> Array[String?]?
+
+    def path_in_database: () -> String?
+
+    def saved_change_to_path: () -> Array[String?]?
+
+    def saved_change_to_path?: () -> bool
+
+    def will_save_change_to_path?: () -> bool
+
+    def restore_path!: () -> void
+
+    def clear_path_change: () -> void
+
+    def from_path: () -> String?
+
+    def from_path=: (String?) -> String?
+
+    def from_path?: () -> bool
+
+    def from_path_changed?: () -> bool
+
+    def from_path_change: () -> [ String?, String? ]
+
+    def from_path_will_change!: () -> void
+
+    def from_path_was: () -> String?
+
+    def from_path_previously_changed?: () -> bool
+
+    def from_path_previous_change: () -> Array[String?]?
+
+    def from_path_previously_was: () -> String?
+
+    def from_path_before_last_save: () -> String?
+
+    def from_path_change_to_be_saved: () -> Array[String?]?
+
+    def from_path_in_database: () -> String?
+
+    def saved_change_to_from_path: () -> Array[String?]?
+
+    def saved_change_to_from_path?: () -> bool
+
+    def will_save_change_to_from_path?: () -> bool
+
+    def restore_from_path!: () -> void
+
+    def clear_from_path_change: () -> void
+
+    def from_revision: () -> String?
+
+    def from_revision=: (String?) -> String?
+
+    def from_revision?: () -> bool
+
+    def from_revision_changed?: () -> bool
+
+    def from_revision_change: () -> [ String?, String? ]
+
+    def from_revision_will_change!: () -> void
+
+    def from_revision_was: () -> String?
+
+    def from_revision_previously_changed?: () -> bool
+
+    def from_revision_previous_change: () -> Array[String?]?
+
+    def from_revision_previously_was: () -> String?
+
+    def from_revision_before_last_save: () -> String?
+
+    def from_revision_change_to_be_saved: () -> Array[String?]?
+
+    def from_revision_in_database: () -> String?
+
+    def saved_change_to_from_revision: () -> Array[String?]?
+
+    def saved_change_to_from_revision?: () -> bool
+
+    def will_save_change_to_from_revision?: () -> bool
+
+    def restore_from_revision!: () -> void
+
+    def clear_from_revision_change: () -> void
+
+    def revision: () -> String?
+
+    def revision=: (String?) -> String?
+
+    def revision?: () -> bool
+
+    def revision_changed?: () -> bool
+
+    def revision_change: () -> [ String?, String? ]
+
+    def revision_will_change!: () -> void
+
+    def revision_was: () -> String?
+
+    def revision_previously_changed?: () -> bool
+
+    def revision_previous_change: () -> Array[String?]?
+
+    def revision_previously_was: () -> String?
+
+    def revision_before_last_save: () -> String?
+
+    def revision_change_to_be_saved: () -> Array[String?]?
+
+    def revision_in_database: () -> String?
+
+    def saved_change_to_revision: () -> Array[String?]?
+
+    def saved_change_to_revision?: () -> bool
+
+    def will_save_change_to_revision?: () -> bool
+
+    def restore_revision!: () -> void
+
+    def clear_revision_change: () -> void
+
+    def branch: () -> String?
+
+    def branch=: (String?) -> String?
+
+    def branch?: () -> bool
+
+    def branch_changed?: () -> bool
+
+    def branch_change: () -> [ String?, String? ]
+
+    def branch_will_change!: () -> void
+
+    def branch_was: () -> String?
+
+    def branch_previously_changed?: () -> bool
+
+    def branch_previous_change: () -> Array[String?]?
+
+    def branch_previously_was: () -> String?
+
+    def branch_before_last_save: () -> String?
+
+    def branch_change_to_be_saved: () -> Array[String?]?
+
+    def branch_in_database: () -> String?
+
+    def saved_change_to_branch: () -> Array[String?]?
+
+    def saved_change_to_branch?: () -> bool
+
+    def will_save_change_to_branch?: () -> bool
+
+    def restore_branch!: () -> void
+
+    def clear_branch_change: () -> void
+  end
+  include GeneratedAttributeMethods
+
+  def changeset: () -> Changeset
+  def changeset=: (Changeset?) -> Changeset?
+  def reload_changeset: () -> Changeset?
+  def build_changeset: (untyped) -> Changeset
+  def create_changeset: (untyped) -> Changeset
+  def create_changeset!: (untyped) -> Changeset
+  module GeneratedAssociationMethods
+  end
+  include GeneratedAssociationMethods
+
+  module GeneratedRelationMethods
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Change, Integer]
+    include Enumerable[Change]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Change, Integer]
+  end
+end

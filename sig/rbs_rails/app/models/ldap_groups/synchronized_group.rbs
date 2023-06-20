@@ -1,0 +1,372 @@
+module LdapGroups
+  class SynchronizedGroup < ::ApplicationRecord
+    extend _ActiveRecord_Relation_ClassMethods[LdapGroups::SynchronizedGroup, ActiveRecord_Relation, Integer]
+
+    module GeneratedAttributeMethods
+      def id: () -> Integer
+
+      def id=: (Integer) -> Integer
+
+      def id?: () -> bool
+
+      def id_changed?: () -> bool
+
+      def id_change: () -> [ Integer?, Integer? ]
+
+      def id_will_change!: () -> void
+
+      def id_was: () -> Integer?
+
+      def id_previously_changed?: () -> bool
+
+      def id_previous_change: () -> Array[Integer?]?
+
+      def id_previously_was: () -> Integer?
+
+      def id_before_last_save: () -> Integer?
+
+      def id_change_to_be_saved: () -> Array[Integer?]?
+
+      def id_in_database: () -> Integer?
+
+      def saved_change_to_id: () -> Array[Integer?]?
+
+      def saved_change_to_id?: () -> bool
+
+      def will_save_change_to_id?: () -> bool
+
+      def restore_id!: () -> void
+
+      def clear_id_change: () -> void
+
+      def group_id: () -> Integer?
+
+      def group_id=: (Integer?) -> Integer?
+
+      def group_id?: () -> bool
+
+      def group_id_changed?: () -> bool
+
+      def group_id_change: () -> [ Integer?, Integer? ]
+
+      def group_id_will_change!: () -> void
+
+      def group_id_was: () -> Integer?
+
+      def group_id_previously_changed?: () -> bool
+
+      def group_id_previous_change: () -> Array[Integer?]?
+
+      def group_id_previously_was: () -> Integer?
+
+      def group_id_before_last_save: () -> Integer?
+
+      def group_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def group_id_in_database: () -> Integer?
+
+      def saved_change_to_group_id: () -> Array[Integer?]?
+
+      def saved_change_to_group_id?: () -> bool
+
+      def will_save_change_to_group_id?: () -> bool
+
+      def restore_group_id!: () -> void
+
+      def clear_group_id_change: () -> void
+
+      def auth_source_id: () -> Integer?
+
+      def auth_source_id=: (Integer?) -> Integer?
+
+      def auth_source_id?: () -> bool
+
+      def auth_source_id_changed?: () -> bool
+
+      def auth_source_id_change: () -> [ Integer?, Integer? ]
+
+      def auth_source_id_will_change!: () -> void
+
+      def auth_source_id_was: () -> Integer?
+
+      def auth_source_id_previously_changed?: () -> bool
+
+      def auth_source_id_previous_change: () -> Array[Integer?]?
+
+      def auth_source_id_previously_was: () -> Integer?
+
+      def auth_source_id_before_last_save: () -> Integer?
+
+      def auth_source_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def auth_source_id_in_database: () -> Integer?
+
+      def saved_change_to_auth_source_id: () -> Array[Integer?]?
+
+      def saved_change_to_auth_source_id?: () -> bool
+
+      def will_save_change_to_auth_source_id?: () -> bool
+
+      def restore_auth_source_id!: () -> void
+
+      def clear_auth_source_id_change: () -> void
+
+      def created_at: () -> ActiveSupport::TimeWithZone
+
+      def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+      def created_at?: () -> bool
+
+      def created_at_changed?: () -> bool
+
+      def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+      def created_at_will_change!: () -> void
+
+      def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_previously_changed?: () -> bool
+
+      def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+      def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def saved_change_to_created_at?: () -> bool
+
+      def will_save_change_to_created_at?: () -> bool
+
+      def restore_created_at!: () -> void
+
+      def clear_created_at_change: () -> void
+
+      def updated_at: () -> ActiveSupport::TimeWithZone
+
+      def updated_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+      def updated_at?: () -> bool
+
+      def updated_at_changed?: () -> bool
+
+      def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+      def updated_at_will_change!: () -> void
+
+      def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_previously_changed?: () -> bool
+
+      def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+      def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def saved_change_to_updated_at?: () -> bool
+
+      def will_save_change_to_updated_at?: () -> bool
+
+      def restore_updated_at!: () -> void
+
+      def clear_updated_at_change: () -> void
+
+      def dn: () -> String?
+
+      def dn=: (String?) -> String?
+
+      def dn?: () -> bool
+
+      def dn_changed?: () -> bool
+
+      def dn_change: () -> [ String?, String? ]
+
+      def dn_will_change!: () -> void
+
+      def dn_was: () -> String?
+
+      def dn_previously_changed?: () -> bool
+
+      def dn_previous_change: () -> Array[String?]?
+
+      def dn_previously_was: () -> String?
+
+      def dn_before_last_save: () -> String?
+
+      def dn_change_to_be_saved: () -> Array[String?]?
+
+      def dn_in_database: () -> String?
+
+      def saved_change_to_dn: () -> Array[String?]?
+
+      def saved_change_to_dn?: () -> bool
+
+      def will_save_change_to_dn?: () -> bool
+
+      def restore_dn!: () -> void
+
+      def clear_dn_change: () -> void
+
+      def users_count: () -> Integer
+
+      def users_count=: (Integer) -> Integer
+
+      def users_count?: () -> bool
+
+      def users_count_changed?: () -> bool
+
+      def users_count_change: () -> [ Integer?, Integer? ]
+
+      def users_count_will_change!: () -> void
+
+      def users_count_was: () -> Integer?
+
+      def users_count_previously_changed?: () -> bool
+
+      def users_count_previous_change: () -> Array[Integer?]?
+
+      def users_count_previously_was: () -> Integer?
+
+      def users_count_before_last_save: () -> Integer?
+
+      def users_count_change_to_be_saved: () -> Array[Integer?]?
+
+      def users_count_in_database: () -> Integer?
+
+      def saved_change_to_users_count: () -> Array[Integer?]?
+
+      def saved_change_to_users_count?: () -> bool
+
+      def will_save_change_to_users_count?: () -> bool
+
+      def restore_users_count!: () -> void
+
+      def clear_users_count_change: () -> void
+
+      def filter_id: () -> Integer?
+
+      def filter_id=: (Integer?) -> Integer?
+
+      def filter_id?: () -> bool
+
+      def filter_id_changed?: () -> bool
+
+      def filter_id_change: () -> [ Integer?, Integer? ]
+
+      def filter_id_will_change!: () -> void
+
+      def filter_id_was: () -> Integer?
+
+      def filter_id_previously_changed?: () -> bool
+
+      def filter_id_previous_change: () -> Array[Integer?]?
+
+      def filter_id_previously_was: () -> Integer?
+
+      def filter_id_before_last_save: () -> Integer?
+
+      def filter_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def filter_id_in_database: () -> Integer?
+
+      def saved_change_to_filter_id: () -> Array[Integer?]?
+
+      def saved_change_to_filter_id?: () -> bool
+
+      def will_save_change_to_filter_id?: () -> bool
+
+      def restore_filter_id!: () -> void
+
+      def clear_filter_id_change: () -> void
+
+      def sync_users: () -> bool
+
+      def sync_users=: (bool) -> bool
+
+      def sync_users?: () -> bool
+
+      def sync_users_changed?: () -> bool
+
+      def sync_users_change: () -> [ bool?, bool? ]
+
+      def sync_users_will_change!: () -> void
+
+      def sync_users_was: () -> bool?
+
+      def sync_users_previously_changed?: () -> bool
+
+      def sync_users_previous_change: () -> Array[bool?]?
+
+      def sync_users_previously_was: () -> bool?
+
+      def sync_users_before_last_save: () -> bool?
+
+      def sync_users_change_to_be_saved: () -> Array[bool?]?
+
+      def sync_users_in_database: () -> bool?
+
+      def saved_change_to_sync_users: () -> Array[bool?]?
+
+      def saved_change_to_sync_users?: () -> bool
+
+      def will_save_change_to_sync_users?: () -> bool
+
+      def restore_sync_users!: () -> void
+
+      def clear_sync_users_change: () -> void
+    end
+    include GeneratedAttributeMethods
+    def users: () -> LdapGroups::Membership::ActiveRecord_Associations_CollectionProxy
+    def users=: (LdapGroups::Membership::ActiveRecord_Associations_CollectionProxy | Array[LdapGroups::Membership]) -> (LdapGroups::Membership::ActiveRecord_Associations_CollectionProxy | Array[LdapGroups::Membership])
+    def user_ids: () -> Array[Integer]
+    def user_ids=: (Array[Integer]) -> Array[Integer]
+
+    def group: () -> Group
+    def group=: (Group?) -> Group?
+    def reload_group: () -> Group?
+    def build_group: (untyped) -> Group
+    def create_group: (untyped) -> Group
+    def create_group!: (untyped) -> Group
+    def auth_source: () -> AuthSource
+    def auth_source=: (AuthSource?) -> AuthSource?
+    def reload_auth_source: () -> AuthSource?
+    def build_auth_source: (untyped) -> AuthSource
+    def create_auth_source: (untyped) -> AuthSource
+    def create_auth_source!: (untyped) -> AuthSource
+    def filter: () -> LdapGroups::SynchronizedFilter
+    def filter=: (LdapGroups::SynchronizedFilter?) -> LdapGroups::SynchronizedFilter?
+    def reload_filter: () -> LdapGroups::SynchronizedFilter?
+    def build_filter: (untyped) -> LdapGroups::SynchronizedFilter
+    def create_filter: (untyped) -> LdapGroups::SynchronizedFilter
+    def create_filter!: (untyped) -> LdapGroups::SynchronizedFilter
+    module GeneratedAssociationMethods
+    end
+    include GeneratedAssociationMethods
+
+    module GeneratedRelationMethods
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[LdapGroups::SynchronizedGroup, Integer]
+      include Enumerable[LdapGroups::SynchronizedGroup]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[LdapGroups::SynchronizedGroup, Integer]
+    end
+  end
+end

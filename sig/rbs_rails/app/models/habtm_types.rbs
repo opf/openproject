@@ -1,0 +1,110 @@
+class Project < ::ApplicationRecord
+  class HABTM_Types < ::ActiveRecord::Base
+    extend _ActiveRecord_Relation_ClassMethods[Project::HABTM_Types, ActiveRecord_Relation, top]
+
+    module GeneratedAttributeMethods
+      def project_id: () -> Integer
+
+      def project_id=: (Integer) -> Integer
+
+      def project_id?: () -> bool
+
+      def project_id_changed?: () -> bool
+
+      def project_id_change: () -> [ Integer?, Integer? ]
+
+      def project_id_will_change!: () -> void
+
+      def project_id_was: () -> Integer?
+
+      def project_id_previously_changed?: () -> bool
+
+      def project_id_previous_change: () -> Array[Integer?]?
+
+      def project_id_previously_was: () -> Integer?
+
+      def project_id_before_last_save: () -> Integer?
+
+      def project_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def project_id_in_database: () -> Integer?
+
+      def saved_change_to_project_id: () -> Array[Integer?]?
+
+      def saved_change_to_project_id?: () -> bool
+
+      def will_save_change_to_project_id?: () -> bool
+
+      def restore_project_id!: () -> void
+
+      def clear_project_id_change: () -> void
+
+      def type_id: () -> Integer
+
+      def type_id=: (Integer) -> Integer
+
+      def type_id?: () -> bool
+
+      def type_id_changed?: () -> bool
+
+      def type_id_change: () -> [ Integer?, Integer? ]
+
+      def type_id_will_change!: () -> void
+
+      def type_id_was: () -> Integer?
+
+      def type_id_previously_changed?: () -> bool
+
+      def type_id_previous_change: () -> Array[Integer?]?
+
+      def type_id_previously_was: () -> Integer?
+
+      def type_id_before_last_save: () -> Integer?
+
+      def type_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def type_id_in_database: () -> Integer?
+
+      def saved_change_to_type_id: () -> Array[Integer?]?
+
+      def saved_change_to_type_id?: () -> bool
+
+      def will_save_change_to_type_id?: () -> bool
+
+      def restore_type_id!: () -> void
+
+      def clear_type_id_change: () -> void
+    end
+    include GeneratedAttributeMethods
+
+    def left_side: () -> Project?
+    def left_side=: (Project?) -> Project?
+    def reload_left_side: () -> Project?
+    def build_left_side: (untyped) -> Project
+    def create_left_side: (untyped) -> Project
+    def create_left_side!: (untyped) -> Project
+    def type: () -> Type?
+    def type=: (Type?) -> Type?
+    def reload_type: () -> Type?
+    def build_type: (untyped) -> Type
+    def create_type: (untyped) -> Type
+    def create_type!: (untyped) -> Type
+    module GeneratedAssociationMethods
+    end
+    include GeneratedAssociationMethods
+
+    module GeneratedRelationMethods
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Project::HABTM_Types, top]
+      include Enumerable[Project::HABTM_Types]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Project::HABTM_Types, top]
+    end
+  end
+end

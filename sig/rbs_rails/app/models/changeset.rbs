@@ -1,0 +1,376 @@
+class Changeset < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[Changeset, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def repository_id: () -> Integer
+
+    def repository_id=: (Integer) -> Integer
+
+    def repository_id?: () -> bool
+
+    def repository_id_changed?: () -> bool
+
+    def repository_id_change: () -> [ Integer?, Integer? ]
+
+    def repository_id_will_change!: () -> void
+
+    def repository_id_was: () -> Integer?
+
+    def repository_id_previously_changed?: () -> bool
+
+    def repository_id_previous_change: () -> Array[Integer?]?
+
+    def repository_id_previously_was: () -> Integer?
+
+    def repository_id_before_last_save: () -> Integer?
+
+    def repository_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def repository_id_in_database: () -> Integer?
+
+    def saved_change_to_repository_id: () -> Array[Integer?]?
+
+    def saved_change_to_repository_id?: () -> bool
+
+    def will_save_change_to_repository_id?: () -> bool
+
+    def restore_repository_id!: () -> void
+
+    def clear_repository_id_change: () -> void
+
+    def revision: () -> String
+
+    def revision=: (String) -> String
+
+    def revision?: () -> bool
+
+    def revision_changed?: () -> bool
+
+    def revision_change: () -> [ String?, String? ]
+
+    def revision_will_change!: () -> void
+
+    def revision_was: () -> String?
+
+    def revision_previously_changed?: () -> bool
+
+    def revision_previous_change: () -> Array[String?]?
+
+    def revision_previously_was: () -> String?
+
+    def revision_before_last_save: () -> String?
+
+    def revision_change_to_be_saved: () -> Array[String?]?
+
+    def revision_in_database: () -> String?
+
+    def saved_change_to_revision: () -> Array[String?]?
+
+    def saved_change_to_revision?: () -> bool
+
+    def will_save_change_to_revision?: () -> bool
+
+    def restore_revision!: () -> void
+
+    def clear_revision_change: () -> void
+
+    def committer: () -> String?
+
+    def committer=: (String?) -> String?
+
+    def committer?: () -> bool
+
+    def committer_changed?: () -> bool
+
+    def committer_change: () -> [ String?, String? ]
+
+    def committer_will_change!: () -> void
+
+    def committer_was: () -> String?
+
+    def committer_previously_changed?: () -> bool
+
+    def committer_previous_change: () -> Array[String?]?
+
+    def committer_previously_was: () -> String?
+
+    def committer_before_last_save: () -> String?
+
+    def committer_change_to_be_saved: () -> Array[String?]?
+
+    def committer_in_database: () -> String?
+
+    def saved_change_to_committer: () -> Array[String?]?
+
+    def saved_change_to_committer?: () -> bool
+
+    def will_save_change_to_committer?: () -> bool
+
+    def restore_committer!: () -> void
+
+    def clear_committer_change: () -> void
+
+    def committed_on: () -> ActiveSupport::TimeWithZone
+
+    def committed_on=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+    def committed_on?: () -> bool
+
+    def committed_on_changed?: () -> bool
+
+    def committed_on_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def committed_on_will_change!: () -> void
+
+    def committed_on_was: () -> ActiveSupport::TimeWithZone?
+
+    def committed_on_previously_changed?: () -> bool
+
+    def committed_on_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def committed_on_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def committed_on_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def committed_on_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def committed_on_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_committed_on: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_committed_on?: () -> bool
+
+    def will_save_change_to_committed_on?: () -> bool
+
+    def restore_committed_on!: () -> void
+
+    def clear_committed_on_change: () -> void
+
+    def comments: () -> String?
+
+    def comments=: (String?) -> String?
+
+    def comments?: () -> bool
+
+    def comments_changed?: () -> bool
+
+    def comments_change: () -> [ String?, String? ]
+
+    def comments_will_change!: () -> void
+
+    def comments_was: () -> String?
+
+    def comments_previously_changed?: () -> bool
+
+    def comments_previous_change: () -> Array[String?]?
+
+    def comments_previously_was: () -> String?
+
+    def comments_before_last_save: () -> String?
+
+    def comments_change_to_be_saved: () -> Array[String?]?
+
+    def comments_in_database: () -> String?
+
+    def saved_change_to_comments: () -> Array[String?]?
+
+    def saved_change_to_comments?: () -> bool
+
+    def will_save_change_to_comments?: () -> bool
+
+    def restore_comments!: () -> void
+
+    def clear_comments_change: () -> void
+
+    def commit_date: () -> Date?
+
+    def commit_date=: (Date?) -> Date?
+
+    def commit_date?: () -> bool
+
+    def commit_date_changed?: () -> bool
+
+    def commit_date_change: () -> [ Date?, Date? ]
+
+    def commit_date_will_change!: () -> void
+
+    def commit_date_was: () -> Date?
+
+    def commit_date_previously_changed?: () -> bool
+
+    def commit_date_previous_change: () -> Array[Date?]?
+
+    def commit_date_previously_was: () -> Date?
+
+    def commit_date_before_last_save: () -> Date?
+
+    def commit_date_change_to_be_saved: () -> Array[Date?]?
+
+    def commit_date_in_database: () -> Date?
+
+    def saved_change_to_commit_date: () -> Array[Date?]?
+
+    def saved_change_to_commit_date?: () -> bool
+
+    def will_save_change_to_commit_date?: () -> bool
+
+    def restore_commit_date!: () -> void
+
+    def clear_commit_date_change: () -> void
+
+    def scmid: () -> String?
+
+    def scmid=: (String?) -> String?
+
+    def scmid?: () -> bool
+
+    def scmid_changed?: () -> bool
+
+    def scmid_change: () -> [ String?, String? ]
+
+    def scmid_will_change!: () -> void
+
+    def scmid_was: () -> String?
+
+    def scmid_previously_changed?: () -> bool
+
+    def scmid_previous_change: () -> Array[String?]?
+
+    def scmid_previously_was: () -> String?
+
+    def scmid_before_last_save: () -> String?
+
+    def scmid_change_to_be_saved: () -> Array[String?]?
+
+    def scmid_in_database: () -> String?
+
+    def saved_change_to_scmid: () -> Array[String?]?
+
+    def saved_change_to_scmid?: () -> bool
+
+    def will_save_change_to_scmid?: () -> bool
+
+    def restore_scmid!: () -> void
+
+    def clear_scmid_change: () -> void
+
+    def user_id: () -> Integer?
+
+    def user_id=: (Integer?) -> Integer?
+
+    def user_id?: () -> bool
+
+    def user_id_changed?: () -> bool
+
+    def user_id_change: () -> [ Integer?, Integer? ]
+
+    def user_id_will_change!: () -> void
+
+    def user_id_was: () -> Integer?
+
+    def user_id_previously_changed?: () -> bool
+
+    def user_id_previous_change: () -> Array[Integer?]?
+
+    def user_id_previously_was: () -> Integer?
+
+    def user_id_before_last_save: () -> Integer?
+
+    def user_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def user_id_in_database: () -> Integer?
+
+    def saved_change_to_user_id: () -> Array[Integer?]?
+
+    def saved_change_to_user_id?: () -> bool
+
+    def will_save_change_to_user_id?: () -> bool
+
+    def restore_user_id!: () -> void
+
+    def clear_user_id_change: () -> void
+  end
+  include GeneratedAttributeMethods
+  def file_changes: () -> Change::ActiveRecord_Associations_CollectionProxy
+  def file_changes=: (Change::ActiveRecord_Associations_CollectionProxy | Array[Change]) -> (Change::ActiveRecord_Associations_CollectionProxy | Array[Change])
+  def file_change_ids: () -> Array[Integer]
+  def file_change_ids=: (Array[Integer]) -> Array[Integer]
+  def journals: () -> Journal::ActiveRecord_Associations_CollectionProxy
+  def journals=: (Journal::ActiveRecord_Associations_CollectionProxy | Array[Journal]) -> (Journal::ActiveRecord_Associations_CollectionProxy | Array[Journal])
+  def journal_ids: () -> Array[Integer]
+  def journal_ids=: (Array[Integer]) -> Array[Integer]
+  def project: () -> Project?
+  def project=: (Project?) -> Project?
+  def build_project: (untyped) -> Project
+  def create_project: (untyped) -> Project
+  def create_project!: (untyped) -> Project
+  def reload_project: () -> Project?
+  def repository: () -> Repository
+  def repository=: (Repository?) -> Repository?
+  def reload_repository: () -> Repository?
+  def build_repository: (untyped) -> Repository
+  def create_repository: (untyped) -> Repository
+  def create_repository!: (untyped) -> Repository
+  def user: () -> User
+  def user=: (User?) -> User?
+  def reload_user: () -> User?
+  def build_user: (untyped) -> User
+  def create_user: (untyped) -> User
+  def create_user!: (untyped) -> User
+  module GeneratedAssociationMethods
+  end
+  include GeneratedAssociationMethods
+
+  def self.visible: (*untyped args) -> ActiveRecord_Relation
+
+  module GeneratedRelationMethods
+    def visible: (*untyped args) -> ActiveRecord_Relation
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Changeset, Integer]
+    include Enumerable[Changeset]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Changeset, Integer]
+  end
+end

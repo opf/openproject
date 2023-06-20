@@ -1,0 +1,434 @@
+class Journal < ::ApplicationRecord
+  class AttachmentJournal < ::Journal::BaseJournal
+    extend _ActiveRecord_Relation_ClassMethods[Journal::AttachmentJournal, ActiveRecord_Relation, Integer]
+
+    module GeneratedAttributeMethods
+      def id: () -> Integer
+
+      def id=: (Integer) -> Integer
+
+      def id?: () -> bool
+
+      def id_changed?: () -> bool
+
+      def id_change: () -> [ Integer?, Integer? ]
+
+      def id_will_change!: () -> void
+
+      def id_was: () -> Integer?
+
+      def id_previously_changed?: () -> bool
+
+      def id_previous_change: () -> Array[Integer?]?
+
+      def id_previously_was: () -> Integer?
+
+      def id_before_last_save: () -> Integer?
+
+      def id_change_to_be_saved: () -> Array[Integer?]?
+
+      def id_in_database: () -> Integer?
+
+      def saved_change_to_id: () -> Array[Integer?]?
+
+      def saved_change_to_id?: () -> bool
+
+      def will_save_change_to_id?: () -> bool
+
+      def restore_id!: () -> void
+
+      def clear_id_change: () -> void
+
+      def container_id: () -> Integer?
+
+      def container_id=: (Integer?) -> Integer?
+
+      def container_id?: () -> bool
+
+      def container_id_changed?: () -> bool
+
+      def container_id_change: () -> [ Integer?, Integer? ]
+
+      def container_id_will_change!: () -> void
+
+      def container_id_was: () -> Integer?
+
+      def container_id_previously_changed?: () -> bool
+
+      def container_id_previous_change: () -> Array[Integer?]?
+
+      def container_id_previously_was: () -> Integer?
+
+      def container_id_before_last_save: () -> Integer?
+
+      def container_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def container_id_in_database: () -> Integer?
+
+      def saved_change_to_container_id: () -> Array[Integer?]?
+
+      def saved_change_to_container_id?: () -> bool
+
+      def will_save_change_to_container_id?: () -> bool
+
+      def restore_container_id!: () -> void
+
+      def clear_container_id_change: () -> void
+
+      def container_type: () -> String?
+
+      def container_type=: (String?) -> String?
+
+      def container_type?: () -> bool
+
+      def container_type_changed?: () -> bool
+
+      def container_type_change: () -> [ String?, String? ]
+
+      def container_type_will_change!: () -> void
+
+      def container_type_was: () -> String?
+
+      def container_type_previously_changed?: () -> bool
+
+      def container_type_previous_change: () -> Array[String?]?
+
+      def container_type_previously_was: () -> String?
+
+      def container_type_before_last_save: () -> String?
+
+      def container_type_change_to_be_saved: () -> Array[String?]?
+
+      def container_type_in_database: () -> String?
+
+      def saved_change_to_container_type: () -> Array[String?]?
+
+      def saved_change_to_container_type?: () -> bool
+
+      def will_save_change_to_container_type?: () -> bool
+
+      def restore_container_type!: () -> void
+
+      def clear_container_type_change: () -> void
+
+      def filename: () -> String
+
+      def filename=: (String) -> String
+
+      def filename?: () -> bool
+
+      def filename_changed?: () -> bool
+
+      def filename_change: () -> [ String?, String? ]
+
+      def filename_will_change!: () -> void
+
+      def filename_was: () -> String?
+
+      def filename_previously_changed?: () -> bool
+
+      def filename_previous_change: () -> Array[String?]?
+
+      def filename_previously_was: () -> String?
+
+      def filename_before_last_save: () -> String?
+
+      def filename_change_to_be_saved: () -> Array[String?]?
+
+      def filename_in_database: () -> String?
+
+      def saved_change_to_filename: () -> Array[String?]?
+
+      def saved_change_to_filename?: () -> bool
+
+      def will_save_change_to_filename?: () -> bool
+
+      def restore_filename!: () -> void
+
+      def clear_filename_change: () -> void
+
+      def disk_filename: () -> String
+
+      def disk_filename=: (String) -> String
+
+      def disk_filename?: () -> bool
+
+      def disk_filename_changed?: () -> bool
+
+      def disk_filename_change: () -> [ String?, String? ]
+
+      def disk_filename_will_change!: () -> void
+
+      def disk_filename_was: () -> String?
+
+      def disk_filename_previously_changed?: () -> bool
+
+      def disk_filename_previous_change: () -> Array[String?]?
+
+      def disk_filename_previously_was: () -> String?
+
+      def disk_filename_before_last_save: () -> String?
+
+      def disk_filename_change_to_be_saved: () -> Array[String?]?
+
+      def disk_filename_in_database: () -> String?
+
+      def saved_change_to_disk_filename: () -> Array[String?]?
+
+      def saved_change_to_disk_filename?: () -> bool
+
+      def will_save_change_to_disk_filename?: () -> bool
+
+      def restore_disk_filename!: () -> void
+
+      def clear_disk_filename_change: () -> void
+
+      def filesize: () -> Integer
+
+      def filesize=: (Integer) -> Integer
+
+      def filesize?: () -> bool
+
+      def filesize_changed?: () -> bool
+
+      def filesize_change: () -> [ Integer?, Integer? ]
+
+      def filesize_will_change!: () -> void
+
+      def filesize_was: () -> Integer?
+
+      def filesize_previously_changed?: () -> bool
+
+      def filesize_previous_change: () -> Array[Integer?]?
+
+      def filesize_previously_was: () -> Integer?
+
+      def filesize_before_last_save: () -> Integer?
+
+      def filesize_change_to_be_saved: () -> Array[Integer?]?
+
+      def filesize_in_database: () -> Integer?
+
+      def saved_change_to_filesize: () -> Array[Integer?]?
+
+      def saved_change_to_filesize?: () -> bool
+
+      def will_save_change_to_filesize?: () -> bool
+
+      def restore_filesize!: () -> void
+
+      def clear_filesize_change: () -> void
+
+      def content_type: () -> String?
+
+      def content_type=: (String?) -> String?
+
+      def content_type?: () -> bool
+
+      def content_type_changed?: () -> bool
+
+      def content_type_change: () -> [ String?, String? ]
+
+      def content_type_will_change!: () -> void
+
+      def content_type_was: () -> String?
+
+      def content_type_previously_changed?: () -> bool
+
+      def content_type_previous_change: () -> Array[String?]?
+
+      def content_type_previously_was: () -> String?
+
+      def content_type_before_last_save: () -> String?
+
+      def content_type_change_to_be_saved: () -> Array[String?]?
+
+      def content_type_in_database: () -> String?
+
+      def saved_change_to_content_type: () -> Array[String?]?
+
+      def saved_change_to_content_type?: () -> bool
+
+      def will_save_change_to_content_type?: () -> bool
+
+      def restore_content_type!: () -> void
+
+      def clear_content_type_change: () -> void
+
+      def digest: () -> String
+
+      def digest=: (String) -> String
+
+      def digest?: () -> bool
+
+      def digest_changed?: () -> bool
+
+      def digest_change: () -> [ String?, String? ]
+
+      def digest_will_change!: () -> void
+
+      def digest_was: () -> String?
+
+      def digest_previously_changed?: () -> bool
+
+      def digest_previous_change: () -> Array[String?]?
+
+      def digest_previously_was: () -> String?
+
+      def digest_before_last_save: () -> String?
+
+      def digest_change_to_be_saved: () -> Array[String?]?
+
+      def digest_in_database: () -> String?
+
+      def saved_change_to_digest: () -> Array[String?]?
+
+      def saved_change_to_digest?: () -> bool
+
+      def will_save_change_to_digest?: () -> bool
+
+      def restore_digest!: () -> void
+
+      def clear_digest_change: () -> void
+
+      def downloads: () -> Integer
+
+      def downloads=: (Integer) -> Integer
+
+      def downloads?: () -> bool
+
+      def downloads_changed?: () -> bool
+
+      def downloads_change: () -> [ Integer?, Integer? ]
+
+      def downloads_will_change!: () -> void
+
+      def downloads_was: () -> Integer?
+
+      def downloads_previously_changed?: () -> bool
+
+      def downloads_previous_change: () -> Array[Integer?]?
+
+      def downloads_previously_was: () -> Integer?
+
+      def downloads_before_last_save: () -> Integer?
+
+      def downloads_change_to_be_saved: () -> Array[Integer?]?
+
+      def downloads_in_database: () -> Integer?
+
+      def saved_change_to_downloads: () -> Array[Integer?]?
+
+      def saved_change_to_downloads?: () -> bool
+
+      def will_save_change_to_downloads?: () -> bool
+
+      def restore_downloads!: () -> void
+
+      def clear_downloads_change: () -> void
+
+      def author_id: () -> Integer
+
+      def author_id=: (Integer) -> Integer
+
+      def author_id?: () -> bool
+
+      def author_id_changed?: () -> bool
+
+      def author_id_change: () -> [ Integer?, Integer? ]
+
+      def author_id_will_change!: () -> void
+
+      def author_id_was: () -> Integer?
+
+      def author_id_previously_changed?: () -> bool
+
+      def author_id_previous_change: () -> Array[Integer?]?
+
+      def author_id_previously_was: () -> Integer?
+
+      def author_id_before_last_save: () -> Integer?
+
+      def author_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def author_id_in_database: () -> Integer?
+
+      def saved_change_to_author_id: () -> Array[Integer?]?
+
+      def saved_change_to_author_id?: () -> bool
+
+      def will_save_change_to_author_id?: () -> bool
+
+      def restore_author_id!: () -> void
+
+      def clear_author_id_change: () -> void
+
+      def description: () -> String?
+
+      def description=: (String?) -> String?
+
+      def description?: () -> bool
+
+      def description_changed?: () -> bool
+
+      def description_change: () -> [ String?, String? ]
+
+      def description_will_change!: () -> void
+
+      def description_was: () -> String?
+
+      def description_previously_changed?: () -> bool
+
+      def description_previous_change: () -> Array[String?]?
+
+      def description_previously_was: () -> String?
+
+      def description_before_last_save: () -> String?
+
+      def description_change_to_be_saved: () -> Array[String?]?
+
+      def description_in_database: () -> String?
+
+      def saved_change_to_description: () -> Array[String?]?
+
+      def saved_change_to_description?: () -> bool
+
+      def will_save_change_to_description?: () -> bool
+
+      def restore_description!: () -> void
+
+      def clear_description_change: () -> void
+    end
+    include GeneratedAttributeMethods
+
+    def journal: () -> Journal?
+    def journal=: (Journal?) -> Journal?
+    def build_journal: (untyped) -> Journal
+    def create_journal: (untyped) -> Journal
+    def create_journal!: (untyped) -> Journal
+    def reload_journal: () -> Journal?
+    def author: () -> User
+    def author=: (User?) -> User?
+    def reload_author: () -> User?
+    def build_author: (untyped) -> User
+    def create_author: (untyped) -> User
+    def create_author!: (untyped) -> User
+    module GeneratedAssociationMethods
+    end
+    include GeneratedAssociationMethods
+
+    module GeneratedRelationMethods
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Journal::AttachmentJournal, Integer]
+      include Enumerable[Journal::AttachmentJournal]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Journal::AttachmentJournal, Integer]
+    end
+  end
+end

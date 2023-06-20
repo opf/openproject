@@ -1,0 +1,868 @@
+class GithubPullRequest < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[GithubPullRequest, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def github_user_id: () -> Integer?
+
+    def github_user_id=: (Integer?) -> Integer?
+
+    def github_user_id?: () -> bool
+
+    def github_user_id_changed?: () -> bool
+
+    def github_user_id_change: () -> [ Integer?, Integer? ]
+
+    def github_user_id_will_change!: () -> void
+
+    def github_user_id_was: () -> Integer?
+
+    def github_user_id_previously_changed?: () -> bool
+
+    def github_user_id_previous_change: () -> Array[Integer?]?
+
+    def github_user_id_previously_was: () -> Integer?
+
+    def github_user_id_before_last_save: () -> Integer?
+
+    def github_user_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def github_user_id_in_database: () -> Integer?
+
+    def saved_change_to_github_user_id: () -> Array[Integer?]?
+
+    def saved_change_to_github_user_id?: () -> bool
+
+    def will_save_change_to_github_user_id?: () -> bool
+
+    def restore_github_user_id!: () -> void
+
+    def clear_github_user_id_change: () -> void
+
+    def merged_by_id: () -> Integer?
+
+    def merged_by_id=: (Integer?) -> Integer?
+
+    def merged_by_id?: () -> bool
+
+    def merged_by_id_changed?: () -> bool
+
+    def merged_by_id_change: () -> [ Integer?, Integer? ]
+
+    def merged_by_id_will_change!: () -> void
+
+    def merged_by_id_was: () -> Integer?
+
+    def merged_by_id_previously_changed?: () -> bool
+
+    def merged_by_id_previous_change: () -> Array[Integer?]?
+
+    def merged_by_id_previously_was: () -> Integer?
+
+    def merged_by_id_before_last_save: () -> Integer?
+
+    def merged_by_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def merged_by_id_in_database: () -> Integer?
+
+    def saved_change_to_merged_by_id: () -> Array[Integer?]?
+
+    def saved_change_to_merged_by_id?: () -> bool
+
+    def will_save_change_to_merged_by_id?: () -> bool
+
+    def restore_merged_by_id!: () -> void
+
+    def clear_merged_by_id_change: () -> void
+
+    def github_id: () -> Integer?
+
+    def github_id=: (Integer?) -> Integer?
+
+    def github_id?: () -> bool
+
+    def github_id_changed?: () -> bool
+
+    def github_id_change: () -> [ Integer?, Integer? ]
+
+    def github_id_will_change!: () -> void
+
+    def github_id_was: () -> Integer?
+
+    def github_id_previously_changed?: () -> bool
+
+    def github_id_previous_change: () -> Array[Integer?]?
+
+    def github_id_previously_was: () -> Integer?
+
+    def github_id_before_last_save: () -> Integer?
+
+    def github_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def github_id_in_database: () -> Integer?
+
+    def saved_change_to_github_id: () -> Array[Integer?]?
+
+    def saved_change_to_github_id?: () -> bool
+
+    def will_save_change_to_github_id?: () -> bool
+
+    def restore_github_id!: () -> void
+
+    def clear_github_id_change: () -> void
+
+    def number: () -> Integer
+
+    def number=: (Integer) -> Integer
+
+    def number?: () -> bool
+
+    def number_changed?: () -> bool
+
+    def number_change: () -> [ Integer?, Integer? ]
+
+    def number_will_change!: () -> void
+
+    def number_was: () -> Integer?
+
+    def number_previously_changed?: () -> bool
+
+    def number_previous_change: () -> Array[Integer?]?
+
+    def number_previously_was: () -> Integer?
+
+    def number_before_last_save: () -> Integer?
+
+    def number_change_to_be_saved: () -> Array[Integer?]?
+
+    def number_in_database: () -> Integer?
+
+    def saved_change_to_number: () -> Array[Integer?]?
+
+    def saved_change_to_number?: () -> bool
+
+    def will_save_change_to_number?: () -> bool
+
+    def restore_number!: () -> void
+
+    def clear_number_change: () -> void
+
+    def github_html_url: () -> String
+
+    def github_html_url=: (String) -> String
+
+    def github_html_url?: () -> bool
+
+    def github_html_url_changed?: () -> bool
+
+    def github_html_url_change: () -> [ String?, String? ]
+
+    def github_html_url_will_change!: () -> void
+
+    def github_html_url_was: () -> String?
+
+    def github_html_url_previously_changed?: () -> bool
+
+    def github_html_url_previous_change: () -> Array[String?]?
+
+    def github_html_url_previously_was: () -> String?
+
+    def github_html_url_before_last_save: () -> String?
+
+    def github_html_url_change_to_be_saved: () -> Array[String?]?
+
+    def github_html_url_in_database: () -> String?
+
+    def saved_change_to_github_html_url: () -> Array[String?]?
+
+    def saved_change_to_github_html_url?: () -> bool
+
+    def will_save_change_to_github_html_url?: () -> bool
+
+    def restore_github_html_url!: () -> void
+
+    def clear_github_html_url_change: () -> void
+
+    def state: () -> String
+
+    def state=: (String) -> String
+
+    def state?: () -> bool
+
+    def state_changed?: () -> bool
+
+    def state_change: () -> [ String?, String? ]
+
+    def state_will_change!: () -> void
+
+    def state_was: () -> String?
+
+    def state_previously_changed?: () -> bool
+
+    def state_previous_change: () -> Array[String?]?
+
+    def state_previously_was: () -> String?
+
+    def state_before_last_save: () -> String?
+
+    def state_change_to_be_saved: () -> Array[String?]?
+
+    def state_in_database: () -> String?
+
+    def saved_change_to_state: () -> Array[String?]?
+
+    def saved_change_to_state?: () -> bool
+
+    def will_save_change_to_state?: () -> bool
+
+    def restore_state!: () -> void
+
+    def clear_state_change: () -> void
+
+    def repository: () -> String
+
+    def repository=: (String) -> String
+
+    def repository?: () -> bool
+
+    def repository_changed?: () -> bool
+
+    def repository_change: () -> [ String?, String? ]
+
+    def repository_will_change!: () -> void
+
+    def repository_was: () -> String?
+
+    def repository_previously_changed?: () -> bool
+
+    def repository_previous_change: () -> Array[String?]?
+
+    def repository_previously_was: () -> String?
+
+    def repository_before_last_save: () -> String?
+
+    def repository_change_to_be_saved: () -> Array[String?]?
+
+    def repository_in_database: () -> String?
+
+    def saved_change_to_repository: () -> Array[String?]?
+
+    def saved_change_to_repository?: () -> bool
+
+    def will_save_change_to_repository?: () -> bool
+
+    def restore_repository!: () -> void
+
+    def clear_repository_change: () -> void
+
+    def github_updated_at: () -> ActiveSupport::TimeWithZone?
+
+    def github_updated_at=: (ActiveSupport::TimeWithZone?) -> ActiveSupport::TimeWithZone?
+
+    def github_updated_at?: () -> bool
+
+    def github_updated_at_changed?: () -> bool
+
+    def github_updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def github_updated_at_will_change!: () -> void
+
+    def github_updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def github_updated_at_previously_changed?: () -> bool
+
+    def github_updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def github_updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def github_updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def github_updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def github_updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_github_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_github_updated_at?: () -> bool
+
+    def will_save_change_to_github_updated_at?: () -> bool
+
+    def restore_github_updated_at!: () -> void
+
+    def clear_github_updated_at_change: () -> void
+
+    def title: () -> String?
+
+    def title=: (String?) -> String?
+
+    def title?: () -> bool
+
+    def title_changed?: () -> bool
+
+    def title_change: () -> [ String?, String? ]
+
+    def title_will_change!: () -> void
+
+    def title_was: () -> String?
+
+    def title_previously_changed?: () -> bool
+
+    def title_previous_change: () -> Array[String?]?
+
+    def title_previously_was: () -> String?
+
+    def title_before_last_save: () -> String?
+
+    def title_change_to_be_saved: () -> Array[String?]?
+
+    def title_in_database: () -> String?
+
+    def saved_change_to_title: () -> Array[String?]?
+
+    def saved_change_to_title?: () -> bool
+
+    def will_save_change_to_title?: () -> bool
+
+    def restore_title!: () -> void
+
+    def clear_title_change: () -> void
+
+    def body: () -> String?
+
+    def body=: (String?) -> String?
+
+    def body?: () -> bool
+
+    def body_changed?: () -> bool
+
+    def body_change: () -> [ String?, String? ]
+
+    def body_will_change!: () -> void
+
+    def body_was: () -> String?
+
+    def body_previously_changed?: () -> bool
+
+    def body_previous_change: () -> Array[String?]?
+
+    def body_previously_was: () -> String?
+
+    def body_before_last_save: () -> String?
+
+    def body_change_to_be_saved: () -> Array[String?]?
+
+    def body_in_database: () -> String?
+
+    def saved_change_to_body: () -> Array[String?]?
+
+    def saved_change_to_body?: () -> bool
+
+    def will_save_change_to_body?: () -> bool
+
+    def restore_body!: () -> void
+
+    def clear_body_change: () -> void
+
+    def draft: () -> bool?
+
+    def draft=: (bool?) -> bool?
+
+    def draft?: () -> bool
+
+    def draft_changed?: () -> bool
+
+    def draft_change: () -> [ bool?, bool? ]
+
+    def draft_will_change!: () -> void
+
+    def draft_was: () -> bool?
+
+    def draft_previously_changed?: () -> bool
+
+    def draft_previous_change: () -> Array[bool?]?
+
+    def draft_previously_was: () -> bool?
+
+    def draft_before_last_save: () -> bool?
+
+    def draft_change_to_be_saved: () -> Array[bool?]?
+
+    def draft_in_database: () -> bool?
+
+    def saved_change_to_draft: () -> Array[bool?]?
+
+    def saved_change_to_draft?: () -> bool
+
+    def will_save_change_to_draft?: () -> bool
+
+    def restore_draft!: () -> void
+
+    def clear_draft_change: () -> void
+
+    def merged: () -> bool?
+
+    def merged=: (bool?) -> bool?
+
+    def merged?: () -> bool
+
+    def merged_changed?: () -> bool
+
+    def merged_change: () -> [ bool?, bool? ]
+
+    def merged_will_change!: () -> void
+
+    def merged_was: () -> bool?
+
+    def merged_previously_changed?: () -> bool
+
+    def merged_previous_change: () -> Array[bool?]?
+
+    def merged_previously_was: () -> bool?
+
+    def merged_before_last_save: () -> bool?
+
+    def merged_change_to_be_saved: () -> Array[bool?]?
+
+    def merged_in_database: () -> bool?
+
+    def saved_change_to_merged: () -> Array[bool?]?
+
+    def saved_change_to_merged?: () -> bool
+
+    def will_save_change_to_merged?: () -> bool
+
+    def restore_merged!: () -> void
+
+    def clear_merged_change: () -> void
+
+    def merged_at: () -> ActiveSupport::TimeWithZone?
+
+    def merged_at=: (ActiveSupport::TimeWithZone?) -> ActiveSupport::TimeWithZone?
+
+    def merged_at?: () -> bool
+
+    def merged_at_changed?: () -> bool
+
+    def merged_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def merged_at_will_change!: () -> void
+
+    def merged_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def merged_at_previously_changed?: () -> bool
+
+    def merged_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def merged_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def merged_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def merged_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def merged_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_merged_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_merged_at?: () -> bool
+
+    def will_save_change_to_merged_at?: () -> bool
+
+    def restore_merged_at!: () -> void
+
+    def clear_merged_at_change: () -> void
+
+    def comments_count: () -> Integer?
+
+    def comments_count=: (Integer?) -> Integer?
+
+    def comments_count?: () -> bool
+
+    def comments_count_changed?: () -> bool
+
+    def comments_count_change: () -> [ Integer?, Integer? ]
+
+    def comments_count_will_change!: () -> void
+
+    def comments_count_was: () -> Integer?
+
+    def comments_count_previously_changed?: () -> bool
+
+    def comments_count_previous_change: () -> Array[Integer?]?
+
+    def comments_count_previously_was: () -> Integer?
+
+    def comments_count_before_last_save: () -> Integer?
+
+    def comments_count_change_to_be_saved: () -> Array[Integer?]?
+
+    def comments_count_in_database: () -> Integer?
+
+    def saved_change_to_comments_count: () -> Array[Integer?]?
+
+    def saved_change_to_comments_count?: () -> bool
+
+    def will_save_change_to_comments_count?: () -> bool
+
+    def restore_comments_count!: () -> void
+
+    def clear_comments_count_change: () -> void
+
+    def review_comments_count: () -> Integer?
+
+    def review_comments_count=: (Integer?) -> Integer?
+
+    def review_comments_count?: () -> bool
+
+    def review_comments_count_changed?: () -> bool
+
+    def review_comments_count_change: () -> [ Integer?, Integer? ]
+
+    def review_comments_count_will_change!: () -> void
+
+    def review_comments_count_was: () -> Integer?
+
+    def review_comments_count_previously_changed?: () -> bool
+
+    def review_comments_count_previous_change: () -> Array[Integer?]?
+
+    def review_comments_count_previously_was: () -> Integer?
+
+    def review_comments_count_before_last_save: () -> Integer?
+
+    def review_comments_count_change_to_be_saved: () -> Array[Integer?]?
+
+    def review_comments_count_in_database: () -> Integer?
+
+    def saved_change_to_review_comments_count: () -> Array[Integer?]?
+
+    def saved_change_to_review_comments_count?: () -> bool
+
+    def will_save_change_to_review_comments_count?: () -> bool
+
+    def restore_review_comments_count!: () -> void
+
+    def clear_review_comments_count_change: () -> void
+
+    def additions_count: () -> Integer?
+
+    def additions_count=: (Integer?) -> Integer?
+
+    def additions_count?: () -> bool
+
+    def additions_count_changed?: () -> bool
+
+    def additions_count_change: () -> [ Integer?, Integer? ]
+
+    def additions_count_will_change!: () -> void
+
+    def additions_count_was: () -> Integer?
+
+    def additions_count_previously_changed?: () -> bool
+
+    def additions_count_previous_change: () -> Array[Integer?]?
+
+    def additions_count_previously_was: () -> Integer?
+
+    def additions_count_before_last_save: () -> Integer?
+
+    def additions_count_change_to_be_saved: () -> Array[Integer?]?
+
+    def additions_count_in_database: () -> Integer?
+
+    def saved_change_to_additions_count: () -> Array[Integer?]?
+
+    def saved_change_to_additions_count?: () -> bool
+
+    def will_save_change_to_additions_count?: () -> bool
+
+    def restore_additions_count!: () -> void
+
+    def clear_additions_count_change: () -> void
+
+    def deletions_count: () -> Integer?
+
+    def deletions_count=: (Integer?) -> Integer?
+
+    def deletions_count?: () -> bool
+
+    def deletions_count_changed?: () -> bool
+
+    def deletions_count_change: () -> [ Integer?, Integer? ]
+
+    def deletions_count_will_change!: () -> void
+
+    def deletions_count_was: () -> Integer?
+
+    def deletions_count_previously_changed?: () -> bool
+
+    def deletions_count_previous_change: () -> Array[Integer?]?
+
+    def deletions_count_previously_was: () -> Integer?
+
+    def deletions_count_before_last_save: () -> Integer?
+
+    def deletions_count_change_to_be_saved: () -> Array[Integer?]?
+
+    def deletions_count_in_database: () -> Integer?
+
+    def saved_change_to_deletions_count: () -> Array[Integer?]?
+
+    def saved_change_to_deletions_count?: () -> bool
+
+    def will_save_change_to_deletions_count?: () -> bool
+
+    def restore_deletions_count!: () -> void
+
+    def clear_deletions_count_change: () -> void
+
+    def changed_files_count: () -> Integer?
+
+    def changed_files_count=: (Integer?) -> Integer?
+
+    def changed_files_count?: () -> bool
+
+    def changed_files_count_changed?: () -> bool
+
+    def changed_files_count_change: () -> [ Integer?, Integer? ]
+
+    def changed_files_count_will_change!: () -> void
+
+    def changed_files_count_was: () -> Integer?
+
+    def changed_files_count_previously_changed?: () -> bool
+
+    def changed_files_count_previous_change: () -> Array[Integer?]?
+
+    def changed_files_count_previously_was: () -> Integer?
+
+    def changed_files_count_before_last_save: () -> Integer?
+
+    def changed_files_count_change_to_be_saved: () -> Array[Integer?]?
+
+    def changed_files_count_in_database: () -> Integer?
+
+    def saved_change_to_changed_files_count: () -> Array[Integer?]?
+
+    def saved_change_to_changed_files_count?: () -> bool
+
+    def will_save_change_to_changed_files_count?: () -> bool
+
+    def restore_changed_files_count!: () -> void
+
+    def clear_changed_files_count_change: () -> void
+
+    def labels: () -> untyped?
+
+    def labels=: (untyped?) -> untyped?
+
+    def labels?: () -> bool
+
+    def labels_changed?: () -> bool
+
+    def labels_change: () -> [ untyped?, untyped? ]
+
+    def labels_will_change!: () -> void
+
+    def labels_was: () -> untyped?
+
+    def labels_previously_changed?: () -> bool
+
+    def labels_previous_change: () -> Array[untyped?]?
+
+    def labels_previously_was: () -> untyped?
+
+    def labels_before_last_save: () -> untyped?
+
+    def labels_change_to_be_saved: () -> Array[untyped?]?
+
+    def labels_in_database: () -> untyped?
+
+    def saved_change_to_labels: () -> Array[untyped?]?
+
+    def saved_change_to_labels?: () -> bool
+
+    def will_save_change_to_labels?: () -> bool
+
+    def restore_labels!: () -> void
+
+    def clear_labels_change: () -> void
+
+    def created_at: () -> ActiveSupport::TimeWithZone
+
+    def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+    def created_at?: () -> bool
+
+    def created_at_changed?: () -> bool
+
+    def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def created_at_will_change!: () -> void
+
+    def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_previously_changed?: () -> bool
+
+    def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_created_at?: () -> bool
+
+    def will_save_change_to_created_at?: () -> bool
+
+    def restore_created_at!: () -> void
+
+    def clear_created_at_change: () -> void
+
+    def updated_at: () -> ActiveSupport::TimeWithZone
+
+    def updated_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+    def updated_at?: () -> bool
+
+    def updated_at_changed?: () -> bool
+
+    def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def updated_at_will_change!: () -> void
+
+    def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_previously_changed?: () -> bool
+
+    def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_updated_at?: () -> bool
+
+    def will_save_change_to_updated_at?: () -> bool
+
+    def restore_updated_at!: () -> void
+
+    def clear_updated_at_change: () -> void
+
+    def repository_html_url: () -> String?
+
+    def repository_html_url=: (String?) -> String?
+
+    def repository_html_url?: () -> bool
+
+    def repository_html_url_changed?: () -> bool
+
+    def repository_html_url_change: () -> [ String?, String? ]
+
+    def repository_html_url_will_change!: () -> void
+
+    def repository_html_url_was: () -> String?
+
+    def repository_html_url_previously_changed?: () -> bool
+
+    def repository_html_url_previous_change: () -> Array[String?]?
+
+    def repository_html_url_previously_was: () -> String?
+
+    def repository_html_url_before_last_save: () -> String?
+
+    def repository_html_url_change_to_be_saved: () -> Array[String?]?
+
+    def repository_html_url_in_database: () -> String?
+
+    def saved_change_to_repository_html_url: () -> Array[String?]?
+
+    def saved_change_to_repository_html_url?: () -> bool
+
+    def will_save_change_to_repository_html_url?: () -> bool
+
+    def restore_repository_html_url!: () -> void
+
+    def clear_repository_html_url_change: () -> void
+  end
+  include GeneratedAttributeMethods
+  def github_check_runs: () -> GithubCheckRun::ActiveRecord_Associations_CollectionProxy
+  def github_check_runs=: (GithubCheckRun::ActiveRecord_Associations_CollectionProxy | Array[GithubCheckRun]) -> (GithubCheckRun::ActiveRecord_Associations_CollectionProxy | Array[GithubCheckRun])
+  def github_check_run_ids: () -> Array[Integer]
+  def github_check_run_ids=: (Array[Integer]) -> Array[Integer]
+
+  def github_user: () -> GithubUser?
+  def github_user=: (GithubUser?) -> GithubUser?
+  def reload_github_user: () -> GithubUser?
+  def build_github_user: (untyped) -> GithubUser
+  def create_github_user: (untyped) -> GithubUser
+  def create_github_user!: (untyped) -> GithubUser
+  def merged_by: () -> GithubUser?
+  def merged_by=: (GithubUser?) -> GithubUser?
+  def reload_merged_by: () -> GithubUser?
+  def build_merged_by: (untyped) -> GithubUser
+  def create_merged_by: (untyped) -> GithubUser
+  def create_merged_by!: (untyped) -> GithubUser
+  module GeneratedAssociationMethods
+  end
+  include GeneratedAssociationMethods
+
+  module GeneratedRelationMethods
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[GithubPullRequest, Integer]
+    include Enumerable[GithubPullRequest]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[GithubPullRequest, Integer]
+  end
+end

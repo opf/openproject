@@ -1,0 +1,312 @@
+class CustomStyle < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[CustomStyle, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def logo: () -> String?
+
+    def logo=: (String?) -> String?
+
+    def logo?: () -> bool
+
+    def logo_changed?: () -> bool
+
+    def logo_change: () -> [ String?, String? ]
+
+    def logo_will_change!: () -> void
+
+    def logo_was: () -> String?
+
+    def logo_previously_changed?: () -> bool
+
+    def logo_previous_change: () -> Array[String?]?
+
+    def logo_previously_was: () -> String?
+
+    def logo_before_last_save: () -> String?
+
+    def logo_change_to_be_saved: () -> Array[String?]?
+
+    def logo_in_database: () -> String?
+
+    def saved_change_to_logo: () -> Array[String?]?
+
+    def saved_change_to_logo?: () -> bool
+
+    def will_save_change_to_logo?: () -> bool
+
+    def restore_logo!: () -> void
+
+    def clear_logo_change: () -> void
+
+    def created_at: () -> ActiveSupport::TimeWithZone
+
+    def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+    def created_at?: () -> bool
+
+    def created_at_changed?: () -> bool
+
+    def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def created_at_will_change!: () -> void
+
+    def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_previously_changed?: () -> bool
+
+    def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_created_at?: () -> bool
+
+    def will_save_change_to_created_at?: () -> bool
+
+    def restore_created_at!: () -> void
+
+    def clear_created_at_change: () -> void
+
+    def updated_at: () -> ActiveSupport::TimeWithZone
+
+    def updated_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+    def updated_at?: () -> bool
+
+    def updated_at_changed?: () -> bool
+
+    def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def updated_at_will_change!: () -> void
+
+    def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_previously_changed?: () -> bool
+
+    def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_updated_at?: () -> bool
+
+    def will_save_change_to_updated_at?: () -> bool
+
+    def restore_updated_at!: () -> void
+
+    def clear_updated_at_change: () -> void
+
+    def favicon: () -> String?
+
+    def favicon=: (String?) -> String?
+
+    def favicon?: () -> bool
+
+    def favicon_changed?: () -> bool
+
+    def favicon_change: () -> [ String?, String? ]
+
+    def favicon_will_change!: () -> void
+
+    def favicon_was: () -> String?
+
+    def favicon_previously_changed?: () -> bool
+
+    def favicon_previous_change: () -> Array[String?]?
+
+    def favicon_previously_was: () -> String?
+
+    def favicon_before_last_save: () -> String?
+
+    def favicon_change_to_be_saved: () -> Array[String?]?
+
+    def favicon_in_database: () -> String?
+
+    def saved_change_to_favicon: () -> Array[String?]?
+
+    def saved_change_to_favicon?: () -> bool
+
+    def will_save_change_to_favicon?: () -> bool
+
+    def restore_favicon!: () -> void
+
+    def clear_favicon_change: () -> void
+
+    def touch_icon: () -> String?
+
+    def touch_icon=: (String?) -> String?
+
+    def touch_icon?: () -> bool
+
+    def touch_icon_changed?: () -> bool
+
+    def touch_icon_change: () -> [ String?, String? ]
+
+    def touch_icon_will_change!: () -> void
+
+    def touch_icon_was: () -> String?
+
+    def touch_icon_previously_changed?: () -> bool
+
+    def touch_icon_previous_change: () -> Array[String?]?
+
+    def touch_icon_previously_was: () -> String?
+
+    def touch_icon_before_last_save: () -> String?
+
+    def touch_icon_change_to_be_saved: () -> Array[String?]?
+
+    def touch_icon_in_database: () -> String?
+
+    def saved_change_to_touch_icon: () -> Array[String?]?
+
+    def saved_change_to_touch_icon?: () -> bool
+
+    def will_save_change_to_touch_icon?: () -> bool
+
+    def restore_touch_icon!: () -> void
+
+    def clear_touch_icon_change: () -> void
+
+    def theme: () -> String?
+
+    def theme=: (String?) -> String?
+
+    def theme?: () -> bool
+
+    def theme_changed?: () -> bool
+
+    def theme_change: () -> [ String?, String? ]
+
+    def theme_will_change!: () -> void
+
+    def theme_was: () -> String?
+
+    def theme_previously_changed?: () -> bool
+
+    def theme_previous_change: () -> Array[String?]?
+
+    def theme_previously_was: () -> String?
+
+    def theme_before_last_save: () -> String?
+
+    def theme_change_to_be_saved: () -> Array[String?]?
+
+    def theme_in_database: () -> String?
+
+    def saved_change_to_theme: () -> Array[String?]?
+
+    def saved_change_to_theme?: () -> bool
+
+    def will_save_change_to_theme?: () -> bool
+
+    def restore_theme!: () -> void
+
+    def clear_theme_change: () -> void
+
+    def theme_logo: () -> String?
+
+    def theme_logo=: (String?) -> String?
+
+    def theme_logo?: () -> bool
+
+    def theme_logo_changed?: () -> bool
+
+    def theme_logo_change: () -> [ String?, String? ]
+
+    def theme_logo_will_change!: () -> void
+
+    def theme_logo_was: () -> String?
+
+    def theme_logo_previously_changed?: () -> bool
+
+    def theme_logo_previous_change: () -> Array[String?]?
+
+    def theme_logo_previously_was: () -> String?
+
+    def theme_logo_before_last_save: () -> String?
+
+    def theme_logo_change_to_be_saved: () -> Array[String?]?
+
+    def theme_logo_in_database: () -> String?
+
+    def saved_change_to_theme_logo: () -> Array[String?]?
+
+    def saved_change_to_theme_logo?: () -> bool
+
+    def will_save_change_to_theme_logo?: () -> bool
+
+    def restore_theme_logo!: () -> void
+
+    def clear_theme_logo_change: () -> void
+  end
+  include GeneratedAttributeMethods
+
+  module GeneratedAssociationMethods
+  end
+  include GeneratedAssociationMethods
+
+  module GeneratedRelationMethods
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[CustomStyle, Integer]
+    include Enumerable[CustomStyle]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[CustomStyle, Integer]
+  end
+end

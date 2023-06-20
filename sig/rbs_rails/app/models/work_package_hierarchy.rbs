@@ -1,0 +1,144 @@
+class WorkPackageHierarchy < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[WorkPackageHierarchy, ActiveRecord_Relation, top]
+
+  module GeneratedAttributeMethods
+    def ancestor_id: () -> Integer
+
+    def ancestor_id=: (Integer) -> Integer
+
+    def ancestor_id?: () -> bool
+
+    def ancestor_id_changed?: () -> bool
+
+    def ancestor_id_change: () -> [ Integer?, Integer? ]
+
+    def ancestor_id_will_change!: () -> void
+
+    def ancestor_id_was: () -> Integer?
+
+    def ancestor_id_previously_changed?: () -> bool
+
+    def ancestor_id_previous_change: () -> Array[Integer?]?
+
+    def ancestor_id_previously_was: () -> Integer?
+
+    def ancestor_id_before_last_save: () -> Integer?
+
+    def ancestor_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def ancestor_id_in_database: () -> Integer?
+
+    def saved_change_to_ancestor_id: () -> Array[Integer?]?
+
+    def saved_change_to_ancestor_id?: () -> bool
+
+    def will_save_change_to_ancestor_id?: () -> bool
+
+    def restore_ancestor_id!: () -> void
+
+    def clear_ancestor_id_change: () -> void
+
+    def descendant_id: () -> Integer
+
+    def descendant_id=: (Integer) -> Integer
+
+    def descendant_id?: () -> bool
+
+    def descendant_id_changed?: () -> bool
+
+    def descendant_id_change: () -> [ Integer?, Integer? ]
+
+    def descendant_id_will_change!: () -> void
+
+    def descendant_id_was: () -> Integer?
+
+    def descendant_id_previously_changed?: () -> bool
+
+    def descendant_id_previous_change: () -> Array[Integer?]?
+
+    def descendant_id_previously_was: () -> Integer?
+
+    def descendant_id_before_last_save: () -> Integer?
+
+    def descendant_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def descendant_id_in_database: () -> Integer?
+
+    def saved_change_to_descendant_id: () -> Array[Integer?]?
+
+    def saved_change_to_descendant_id?: () -> bool
+
+    def will_save_change_to_descendant_id?: () -> bool
+
+    def restore_descendant_id!: () -> void
+
+    def clear_descendant_id_change: () -> void
+
+    def generations: () -> Integer
+
+    def generations=: (Integer) -> Integer
+
+    def generations?: () -> bool
+
+    def generations_changed?: () -> bool
+
+    def generations_change: () -> [ Integer?, Integer? ]
+
+    def generations_will_change!: () -> void
+
+    def generations_was: () -> Integer?
+
+    def generations_previously_changed?: () -> bool
+
+    def generations_previous_change: () -> Array[Integer?]?
+
+    def generations_previously_was: () -> Integer?
+
+    def generations_before_last_save: () -> Integer?
+
+    def generations_change_to_be_saved: () -> Array[Integer?]?
+
+    def generations_in_database: () -> Integer?
+
+    def saved_change_to_generations: () -> Array[Integer?]?
+
+    def saved_change_to_generations?: () -> bool
+
+    def will_save_change_to_generations?: () -> bool
+
+    def restore_generations!: () -> void
+
+    def clear_generations_change: () -> void
+  end
+  include GeneratedAttributeMethods
+
+  def ancestor: () -> WorkPackage
+  def ancestor=: (WorkPackage?) -> WorkPackage?
+  def reload_ancestor: () -> WorkPackage?
+  def build_ancestor: (untyped) -> WorkPackage
+  def create_ancestor: (untyped) -> WorkPackage
+  def create_ancestor!: (untyped) -> WorkPackage
+  def descendant: () -> WorkPackage
+  def descendant=: (WorkPackage?) -> WorkPackage?
+  def reload_descendant: () -> WorkPackage?
+  def build_descendant: (untyped) -> WorkPackage
+  def create_descendant: (untyped) -> WorkPackage
+  def create_descendant!: (untyped) -> WorkPackage
+  module GeneratedAssociationMethods
+  end
+  include GeneratedAssociationMethods
+
+  module GeneratedRelationMethods
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[WorkPackageHierarchy, top]
+    include Enumerable[WorkPackageHierarchy]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[WorkPackageHierarchy, top]
+  end
+end

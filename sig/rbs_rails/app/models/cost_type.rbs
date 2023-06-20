@@ -1,0 +1,252 @@
+class CostType < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[CostType, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def name: () -> String
+
+    def name=: (String) -> String
+
+    def name?: () -> bool
+
+    def name_changed?: () -> bool
+
+    def name_change: () -> [ String?, String? ]
+
+    def name_will_change!: () -> void
+
+    def name_was: () -> String?
+
+    def name_previously_changed?: () -> bool
+
+    def name_previous_change: () -> Array[String?]?
+
+    def name_previously_was: () -> String?
+
+    def name_before_last_save: () -> String?
+
+    def name_change_to_be_saved: () -> Array[String?]?
+
+    def name_in_database: () -> String?
+
+    def saved_change_to_name: () -> Array[String?]?
+
+    def saved_change_to_name?: () -> bool
+
+    def will_save_change_to_name?: () -> bool
+
+    def restore_name!: () -> void
+
+    def clear_name_change: () -> void
+
+    def unit: () -> String
+
+    def unit=: (String) -> String
+
+    def unit?: () -> bool
+
+    def unit_changed?: () -> bool
+
+    def unit_change: () -> [ String?, String? ]
+
+    def unit_will_change!: () -> void
+
+    def unit_was: () -> String?
+
+    def unit_previously_changed?: () -> bool
+
+    def unit_previous_change: () -> Array[String?]?
+
+    def unit_previously_was: () -> String?
+
+    def unit_before_last_save: () -> String?
+
+    def unit_change_to_be_saved: () -> Array[String?]?
+
+    def unit_in_database: () -> String?
+
+    def saved_change_to_unit: () -> Array[String?]?
+
+    def saved_change_to_unit?: () -> bool
+
+    def will_save_change_to_unit?: () -> bool
+
+    def restore_unit!: () -> void
+
+    def clear_unit_change: () -> void
+
+    def unit_plural: () -> String
+
+    def unit_plural=: (String) -> String
+
+    def unit_plural?: () -> bool
+
+    def unit_plural_changed?: () -> bool
+
+    def unit_plural_change: () -> [ String?, String? ]
+
+    def unit_plural_will_change!: () -> void
+
+    def unit_plural_was: () -> String?
+
+    def unit_plural_previously_changed?: () -> bool
+
+    def unit_plural_previous_change: () -> Array[String?]?
+
+    def unit_plural_previously_was: () -> String?
+
+    def unit_plural_before_last_save: () -> String?
+
+    def unit_plural_change_to_be_saved: () -> Array[String?]?
+
+    def unit_plural_in_database: () -> String?
+
+    def saved_change_to_unit_plural: () -> Array[String?]?
+
+    def saved_change_to_unit_plural?: () -> bool
+
+    def will_save_change_to_unit_plural?: () -> bool
+
+    def restore_unit_plural!: () -> void
+
+    def clear_unit_plural_change: () -> void
+
+    def default: () -> bool
+
+    def default=: (bool) -> bool
+
+    def default?: () -> bool
+
+    def default_changed?: () -> bool
+
+    def default_change: () -> [ bool?, bool? ]
+
+    def default_will_change!: () -> void
+
+    def default_was: () -> bool?
+
+    def default_previously_changed?: () -> bool
+
+    def default_previous_change: () -> Array[bool?]?
+
+    def default_previously_was: () -> bool?
+
+    def default_before_last_save: () -> bool?
+
+    def default_change_to_be_saved: () -> Array[bool?]?
+
+    def default_in_database: () -> bool?
+
+    def saved_change_to_default: () -> Array[bool?]?
+
+    def saved_change_to_default?: () -> bool
+
+    def will_save_change_to_default?: () -> bool
+
+    def restore_default!: () -> void
+
+    def clear_default_change: () -> void
+
+    def deleted_at: () -> ActiveSupport::TimeWithZone?
+
+    def deleted_at=: (ActiveSupport::TimeWithZone?) -> ActiveSupport::TimeWithZone?
+
+    def deleted_at?: () -> bool
+
+    def deleted_at_changed?: () -> bool
+
+    def deleted_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def deleted_at_will_change!: () -> void
+
+    def deleted_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def deleted_at_previously_changed?: () -> bool
+
+    def deleted_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def deleted_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def deleted_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def deleted_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def deleted_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_deleted_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_deleted_at?: () -> bool
+
+    def will_save_change_to_deleted_at?: () -> bool
+
+    def restore_deleted_at!: () -> void
+
+    def clear_deleted_at_change: () -> void
+  end
+  include GeneratedAttributeMethods
+  def material_budget_items: () -> MaterialBudgetItem::ActiveRecord_Associations_CollectionProxy
+  def material_budget_items=: (MaterialBudgetItem::ActiveRecord_Associations_CollectionProxy | Array[MaterialBudgetItem]) -> (MaterialBudgetItem::ActiveRecord_Associations_CollectionProxy | Array[MaterialBudgetItem])
+  def material_budget_item_ids: () -> Array[Integer]
+  def material_budget_item_ids=: (Array[Integer]) -> Array[Integer]
+  def cost_entries: () -> CostEntry::ActiveRecord_Associations_CollectionProxy
+  def cost_entries=: (CostEntry::ActiveRecord_Associations_CollectionProxy | Array[CostEntry]) -> (CostEntry::ActiveRecord_Associations_CollectionProxy | Array[CostEntry])
+  def cost_entry_ids: () -> Array[Integer]
+  def cost_entry_ids=: (Array[Integer]) -> Array[Integer]
+  def rates: () -> CostRate::ActiveRecord_Associations_CollectionProxy
+  def rates=: (CostRate::ActiveRecord_Associations_CollectionProxy | Array[CostRate]) -> (CostRate::ActiveRecord_Associations_CollectionProxy | Array[CostRate])
+  def rate_ids: () -> Array[Integer]
+  def rate_ids=: (Array[Integer]) -> Array[Integer]
+
+  module GeneratedAssociationMethods
+  end
+  include GeneratedAssociationMethods
+
+  module GeneratedRelationMethods
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[CostType, Integer]
+    include Enumerable[CostType]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[CostType, Integer]
+  end
+end

@@ -1,0 +1,188 @@
+class Journal < ::ApplicationRecord
+  class CustomizableJournal < ::Journal::AssociatedJournal
+    extend _ActiveRecord_Relation_ClassMethods[Journal::CustomizableJournal, ActiveRecord_Relation, Integer]
+
+    module GeneratedAttributeMethods
+      def id: () -> Integer
+
+      def id=: (Integer) -> Integer
+
+      def id?: () -> bool
+
+      def id_changed?: () -> bool
+
+      def id_change: () -> [ Integer?, Integer? ]
+
+      def id_will_change!: () -> void
+
+      def id_was: () -> Integer?
+
+      def id_previously_changed?: () -> bool
+
+      def id_previous_change: () -> Array[Integer?]?
+
+      def id_previously_was: () -> Integer?
+
+      def id_before_last_save: () -> Integer?
+
+      def id_change_to_be_saved: () -> Array[Integer?]?
+
+      def id_in_database: () -> Integer?
+
+      def saved_change_to_id: () -> Array[Integer?]?
+
+      def saved_change_to_id?: () -> bool
+
+      def will_save_change_to_id?: () -> bool
+
+      def restore_id!: () -> void
+
+      def clear_id_change: () -> void
+
+      def journal_id: () -> Integer
+
+      def journal_id=: (Integer) -> Integer
+
+      def journal_id?: () -> bool
+
+      def journal_id_changed?: () -> bool
+
+      def journal_id_change: () -> [ Integer?, Integer? ]
+
+      def journal_id_will_change!: () -> void
+
+      def journal_id_was: () -> Integer?
+
+      def journal_id_previously_changed?: () -> bool
+
+      def journal_id_previous_change: () -> Array[Integer?]?
+
+      def journal_id_previously_was: () -> Integer?
+
+      def journal_id_before_last_save: () -> Integer?
+
+      def journal_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def journal_id_in_database: () -> Integer?
+
+      def saved_change_to_journal_id: () -> Array[Integer?]?
+
+      def saved_change_to_journal_id?: () -> bool
+
+      def will_save_change_to_journal_id?: () -> bool
+
+      def restore_journal_id!: () -> void
+
+      def clear_journal_id_change: () -> void
+
+      def custom_field_id: () -> Integer
+
+      def custom_field_id=: (Integer) -> Integer
+
+      def custom_field_id?: () -> bool
+
+      def custom_field_id_changed?: () -> bool
+
+      def custom_field_id_change: () -> [ Integer?, Integer? ]
+
+      def custom_field_id_will_change!: () -> void
+
+      def custom_field_id_was: () -> Integer?
+
+      def custom_field_id_previously_changed?: () -> bool
+
+      def custom_field_id_previous_change: () -> Array[Integer?]?
+
+      def custom_field_id_previously_was: () -> Integer?
+
+      def custom_field_id_before_last_save: () -> Integer?
+
+      def custom_field_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def custom_field_id_in_database: () -> Integer?
+
+      def saved_change_to_custom_field_id: () -> Array[Integer?]?
+
+      def saved_change_to_custom_field_id?: () -> bool
+
+      def will_save_change_to_custom_field_id?: () -> bool
+
+      def restore_custom_field_id!: () -> void
+
+      def clear_custom_field_id_change: () -> void
+
+      def value: () -> String?
+
+      def value=: (String?) -> String?
+
+      def value?: () -> bool
+
+      def value_changed?: () -> bool
+
+      def value_change: () -> [ String?, String? ]
+
+      def value_will_change!: () -> void
+
+      def value_was: () -> String?
+
+      def value_previously_changed?: () -> bool
+
+      def value_previous_change: () -> Array[String?]?
+
+      def value_previously_was: () -> String?
+
+      def value_before_last_save: () -> String?
+
+      def value_change_to_be_saved: () -> Array[String?]?
+
+      def value_in_database: () -> String?
+
+      def saved_change_to_value: () -> Array[String?]?
+
+      def saved_change_to_value?: () -> bool
+
+      def will_save_change_to_value?: () -> bool
+
+      def restore_value!: () -> void
+
+      def clear_value_change: () -> void
+    end
+    include GeneratedAttributeMethods
+
+    def author: () -> User
+    def author=: (User?) -> User?
+    def reload_author: () -> User?
+    def build_author: (untyped) -> User
+    def create_author: (untyped) -> User
+    def create_author!: (untyped) -> User
+    def journal: () -> Journal
+    def journal=: (Journal?) -> Journal?
+    def reload_journal: () -> Journal?
+    def build_journal: (untyped) -> Journal
+    def create_journal: (untyped) -> Journal
+    def create_journal!: (untyped) -> Journal
+    def custom_field: () -> CustomField
+    def custom_field=: (CustomField?) -> CustomField?
+    def reload_custom_field: () -> CustomField?
+    def build_custom_field: (untyped) -> CustomField
+    def create_custom_field: (untyped) -> CustomField
+    def create_custom_field!: (untyped) -> CustomField
+    module GeneratedAssociationMethods
+    end
+    include GeneratedAssociationMethods
+
+    module GeneratedRelationMethods
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Journal::CustomizableJournal, Integer]
+      include Enumerable[Journal::CustomizableJournal]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Journal::CustomizableJournal, Integer]
+    end
+  end
+end

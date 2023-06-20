@@ -1,0 +1,752 @@
+class LdapAuthSource < ::AuthSource
+  extend _ActiveRecord_Relation_ClassMethods[LdapAuthSource, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def type: () -> String
+
+    def type=: (String) -> String
+
+    def type?: () -> bool
+
+    def type_changed?: () -> bool
+
+    def type_change: () -> [ String?, String? ]
+
+    def type_will_change!: () -> void
+
+    def type_was: () -> String?
+
+    def type_previously_changed?: () -> bool
+
+    def type_previous_change: () -> Array[String?]?
+
+    def type_previously_was: () -> String?
+
+    def type_before_last_save: () -> String?
+
+    def type_change_to_be_saved: () -> Array[String?]?
+
+    def type_in_database: () -> String?
+
+    def saved_change_to_type: () -> Array[String?]?
+
+    def saved_change_to_type?: () -> bool
+
+    def will_save_change_to_type?: () -> bool
+
+    def restore_type!: () -> void
+
+    def clear_type_change: () -> void
+
+    def name: () -> String
+
+    def name=: (String) -> String
+
+    def name?: () -> bool
+
+    def name_changed?: () -> bool
+
+    def name_change: () -> [ String?, String? ]
+
+    def name_will_change!: () -> void
+
+    def name_was: () -> String?
+
+    def name_previously_changed?: () -> bool
+
+    def name_previous_change: () -> Array[String?]?
+
+    def name_previously_was: () -> String?
+
+    def name_before_last_save: () -> String?
+
+    def name_change_to_be_saved: () -> Array[String?]?
+
+    def name_in_database: () -> String?
+
+    def saved_change_to_name: () -> Array[String?]?
+
+    def saved_change_to_name?: () -> bool
+
+    def will_save_change_to_name?: () -> bool
+
+    def restore_name!: () -> void
+
+    def clear_name_change: () -> void
+
+    def host: () -> String?
+
+    def host=: (String?) -> String?
+
+    def host?: () -> bool
+
+    def host_changed?: () -> bool
+
+    def host_change: () -> [ String?, String? ]
+
+    def host_will_change!: () -> void
+
+    def host_was: () -> String?
+
+    def host_previously_changed?: () -> bool
+
+    def host_previous_change: () -> Array[String?]?
+
+    def host_previously_was: () -> String?
+
+    def host_before_last_save: () -> String?
+
+    def host_change_to_be_saved: () -> Array[String?]?
+
+    def host_in_database: () -> String?
+
+    def saved_change_to_host: () -> Array[String?]?
+
+    def saved_change_to_host?: () -> bool
+
+    def will_save_change_to_host?: () -> bool
+
+    def restore_host!: () -> void
+
+    def clear_host_change: () -> void
+
+    def port: () -> Integer?
+
+    def port=: (Integer?) -> Integer?
+
+    def port?: () -> bool
+
+    def port_changed?: () -> bool
+
+    def port_change: () -> [ Integer?, Integer? ]
+
+    def port_will_change!: () -> void
+
+    def port_was: () -> Integer?
+
+    def port_previously_changed?: () -> bool
+
+    def port_previous_change: () -> Array[Integer?]?
+
+    def port_previously_was: () -> Integer?
+
+    def port_before_last_save: () -> Integer?
+
+    def port_change_to_be_saved: () -> Array[Integer?]?
+
+    def port_in_database: () -> Integer?
+
+    def saved_change_to_port: () -> Array[Integer?]?
+
+    def saved_change_to_port?: () -> bool
+
+    def will_save_change_to_port?: () -> bool
+
+    def restore_port!: () -> void
+
+    def clear_port_change: () -> void
+
+    def account: () -> String?
+
+    def account=: (String?) -> String?
+
+    def account?: () -> bool
+
+    def account_changed?: () -> bool
+
+    def account_change: () -> [ String?, String? ]
+
+    def account_will_change!: () -> void
+
+    def account_was: () -> String?
+
+    def account_previously_changed?: () -> bool
+
+    def account_previous_change: () -> Array[String?]?
+
+    def account_previously_was: () -> String?
+
+    def account_before_last_save: () -> String?
+
+    def account_change_to_be_saved: () -> Array[String?]?
+
+    def account_in_database: () -> String?
+
+    def saved_change_to_account: () -> Array[String?]?
+
+    def saved_change_to_account?: () -> bool
+
+    def will_save_change_to_account?: () -> bool
+
+    def restore_account!: () -> void
+
+    def clear_account_change: () -> void
+
+    def account_password: () -> String?
+
+    def account_password=: (String?) -> String?
+
+    def account_password?: () -> bool
+
+    def account_password_changed?: () -> bool
+
+    def account_password_change: () -> [ String?, String? ]
+
+    def account_password_will_change!: () -> void
+
+    def account_password_was: () -> String?
+
+    def account_password_previously_changed?: () -> bool
+
+    def account_password_previous_change: () -> Array[String?]?
+
+    def account_password_previously_was: () -> String?
+
+    def account_password_before_last_save: () -> String?
+
+    def account_password_change_to_be_saved: () -> Array[String?]?
+
+    def account_password_in_database: () -> String?
+
+    def saved_change_to_account_password: () -> Array[String?]?
+
+    def saved_change_to_account_password?: () -> bool
+
+    def will_save_change_to_account_password?: () -> bool
+
+    def restore_account_password!: () -> void
+
+    def clear_account_password_change: () -> void
+
+    def base_dn: () -> String?
+
+    def base_dn=: (String?) -> String?
+
+    def base_dn?: () -> bool
+
+    def base_dn_changed?: () -> bool
+
+    def base_dn_change: () -> [ String?, String? ]
+
+    def base_dn_will_change!: () -> void
+
+    def base_dn_was: () -> String?
+
+    def base_dn_previously_changed?: () -> bool
+
+    def base_dn_previous_change: () -> Array[String?]?
+
+    def base_dn_previously_was: () -> String?
+
+    def base_dn_before_last_save: () -> String?
+
+    def base_dn_change_to_be_saved: () -> Array[String?]?
+
+    def base_dn_in_database: () -> String?
+
+    def saved_change_to_base_dn: () -> Array[String?]?
+
+    def saved_change_to_base_dn?: () -> bool
+
+    def will_save_change_to_base_dn?: () -> bool
+
+    def restore_base_dn!: () -> void
+
+    def clear_base_dn_change: () -> void
+
+    def attr_login: () -> String?
+
+    def attr_login=: (String?) -> String?
+
+    def attr_login?: () -> bool
+
+    def attr_login_changed?: () -> bool
+
+    def attr_login_change: () -> [ String?, String? ]
+
+    def attr_login_will_change!: () -> void
+
+    def attr_login_was: () -> String?
+
+    def attr_login_previously_changed?: () -> bool
+
+    def attr_login_previous_change: () -> Array[String?]?
+
+    def attr_login_previously_was: () -> String?
+
+    def attr_login_before_last_save: () -> String?
+
+    def attr_login_change_to_be_saved: () -> Array[String?]?
+
+    def attr_login_in_database: () -> String?
+
+    def saved_change_to_attr_login: () -> Array[String?]?
+
+    def saved_change_to_attr_login?: () -> bool
+
+    def will_save_change_to_attr_login?: () -> bool
+
+    def restore_attr_login!: () -> void
+
+    def clear_attr_login_change: () -> void
+
+    def attr_firstname: () -> String?
+
+    def attr_firstname=: (String?) -> String?
+
+    def attr_firstname?: () -> bool
+
+    def attr_firstname_changed?: () -> bool
+
+    def attr_firstname_change: () -> [ String?, String? ]
+
+    def attr_firstname_will_change!: () -> void
+
+    def attr_firstname_was: () -> String?
+
+    def attr_firstname_previously_changed?: () -> bool
+
+    def attr_firstname_previous_change: () -> Array[String?]?
+
+    def attr_firstname_previously_was: () -> String?
+
+    def attr_firstname_before_last_save: () -> String?
+
+    def attr_firstname_change_to_be_saved: () -> Array[String?]?
+
+    def attr_firstname_in_database: () -> String?
+
+    def saved_change_to_attr_firstname: () -> Array[String?]?
+
+    def saved_change_to_attr_firstname?: () -> bool
+
+    def will_save_change_to_attr_firstname?: () -> bool
+
+    def restore_attr_firstname!: () -> void
+
+    def clear_attr_firstname_change: () -> void
+
+    def attr_lastname: () -> String?
+
+    def attr_lastname=: (String?) -> String?
+
+    def attr_lastname?: () -> bool
+
+    def attr_lastname_changed?: () -> bool
+
+    def attr_lastname_change: () -> [ String?, String? ]
+
+    def attr_lastname_will_change!: () -> void
+
+    def attr_lastname_was: () -> String?
+
+    def attr_lastname_previously_changed?: () -> bool
+
+    def attr_lastname_previous_change: () -> Array[String?]?
+
+    def attr_lastname_previously_was: () -> String?
+
+    def attr_lastname_before_last_save: () -> String?
+
+    def attr_lastname_change_to_be_saved: () -> Array[String?]?
+
+    def attr_lastname_in_database: () -> String?
+
+    def saved_change_to_attr_lastname: () -> Array[String?]?
+
+    def saved_change_to_attr_lastname?: () -> bool
+
+    def will_save_change_to_attr_lastname?: () -> bool
+
+    def restore_attr_lastname!: () -> void
+
+    def clear_attr_lastname_change: () -> void
+
+    def attr_mail: () -> String?
+
+    def attr_mail=: (String?) -> String?
+
+    def attr_mail?: () -> bool
+
+    def attr_mail_changed?: () -> bool
+
+    def attr_mail_change: () -> [ String?, String? ]
+
+    def attr_mail_will_change!: () -> void
+
+    def attr_mail_was: () -> String?
+
+    def attr_mail_previously_changed?: () -> bool
+
+    def attr_mail_previous_change: () -> Array[String?]?
+
+    def attr_mail_previously_was: () -> String?
+
+    def attr_mail_before_last_save: () -> String?
+
+    def attr_mail_change_to_be_saved: () -> Array[String?]?
+
+    def attr_mail_in_database: () -> String?
+
+    def saved_change_to_attr_mail: () -> Array[String?]?
+
+    def saved_change_to_attr_mail?: () -> bool
+
+    def will_save_change_to_attr_mail?: () -> bool
+
+    def restore_attr_mail!: () -> void
+
+    def clear_attr_mail_change: () -> void
+
+    def onthefly_register: () -> bool
+
+    def onthefly_register=: (bool) -> bool
+
+    def onthefly_register?: () -> bool
+
+    def onthefly_register_changed?: () -> bool
+
+    def onthefly_register_change: () -> [ bool?, bool? ]
+
+    def onthefly_register_will_change!: () -> void
+
+    def onthefly_register_was: () -> bool?
+
+    def onthefly_register_previously_changed?: () -> bool
+
+    def onthefly_register_previous_change: () -> Array[bool?]?
+
+    def onthefly_register_previously_was: () -> bool?
+
+    def onthefly_register_before_last_save: () -> bool?
+
+    def onthefly_register_change_to_be_saved: () -> Array[bool?]?
+
+    def onthefly_register_in_database: () -> bool?
+
+    def saved_change_to_onthefly_register: () -> Array[bool?]?
+
+    def saved_change_to_onthefly_register?: () -> bool
+
+    def will_save_change_to_onthefly_register?: () -> bool
+
+    def restore_onthefly_register!: () -> void
+
+    def clear_onthefly_register_change: () -> void
+
+    def attr_admin: () -> String?
+
+    def attr_admin=: (String?) -> String?
+
+    def attr_admin?: () -> bool
+
+    def attr_admin_changed?: () -> bool
+
+    def attr_admin_change: () -> [ String?, String? ]
+
+    def attr_admin_will_change!: () -> void
+
+    def attr_admin_was: () -> String?
+
+    def attr_admin_previously_changed?: () -> bool
+
+    def attr_admin_previous_change: () -> Array[String?]?
+
+    def attr_admin_previously_was: () -> String?
+
+    def attr_admin_before_last_save: () -> String?
+
+    def attr_admin_change_to_be_saved: () -> Array[String?]?
+
+    def attr_admin_in_database: () -> String?
+
+    def saved_change_to_attr_admin: () -> Array[String?]?
+
+    def saved_change_to_attr_admin?: () -> bool
+
+    def will_save_change_to_attr_admin?: () -> bool
+
+    def restore_attr_admin!: () -> void
+
+    def clear_attr_admin_change: () -> void
+
+    def created_at: () -> ActiveSupport::TimeWithZone
+
+    def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+    def created_at?: () -> bool
+
+    def created_at_changed?: () -> bool
+
+    def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def created_at_will_change!: () -> void
+
+    def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_previously_changed?: () -> bool
+
+    def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_created_at?: () -> bool
+
+    def will_save_change_to_created_at?: () -> bool
+
+    def restore_created_at!: () -> void
+
+    def clear_created_at_change: () -> void
+
+    def updated_at: () -> ActiveSupport::TimeWithZone
+
+    def updated_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+    def updated_at?: () -> bool
+
+    def updated_at_changed?: () -> bool
+
+    def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def updated_at_will_change!: () -> void
+
+    def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_previously_changed?: () -> bool
+
+    def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_updated_at?: () -> bool
+
+    def will_save_change_to_updated_at?: () -> bool
+
+    def restore_updated_at!: () -> void
+
+    def clear_updated_at_change: () -> void
+
+    def tls_mode: () -> Integer
+
+    def tls_mode=: (Integer) -> Integer
+
+    def tls_mode?: () -> bool
+
+    def tls_mode_changed?: () -> bool
+
+    def tls_mode_change: () -> [ Integer?, Integer? ]
+
+    def tls_mode_will_change!: () -> void
+
+    def tls_mode_was: () -> Integer?
+
+    def tls_mode_previously_changed?: () -> bool
+
+    def tls_mode_previous_change: () -> Array[Integer?]?
+
+    def tls_mode_previously_was: () -> Integer?
+
+    def tls_mode_before_last_save: () -> Integer?
+
+    def tls_mode_change_to_be_saved: () -> Array[Integer?]?
+
+    def tls_mode_in_database: () -> Integer?
+
+    def saved_change_to_tls_mode: () -> Array[Integer?]?
+
+    def saved_change_to_tls_mode?: () -> bool
+
+    def will_save_change_to_tls_mode?: () -> bool
+
+    def restore_tls_mode!: () -> void
+
+    def clear_tls_mode_change: () -> void
+
+    def filter_string: () -> String?
+
+    def filter_string=: (String?) -> String?
+
+    def filter_string?: () -> bool
+
+    def filter_string_changed?: () -> bool
+
+    def filter_string_change: () -> [ String?, String? ]
+
+    def filter_string_will_change!: () -> void
+
+    def filter_string_was: () -> String?
+
+    def filter_string_previously_changed?: () -> bool
+
+    def filter_string_previous_change: () -> Array[String?]?
+
+    def filter_string_previously_was: () -> String?
+
+    def filter_string_before_last_save: () -> String?
+
+    def filter_string_change_to_be_saved: () -> Array[String?]?
+
+    def filter_string_in_database: () -> String?
+
+    def saved_change_to_filter_string: () -> Array[String?]?
+
+    def saved_change_to_filter_string?: () -> bool
+
+    def will_save_change_to_filter_string?: () -> bool
+
+    def restore_filter_string!: () -> void
+
+    def clear_filter_string_change: () -> void
+
+    def verify_peer: () -> bool
+
+    def verify_peer=: (bool) -> bool
+
+    def verify_peer?: () -> bool
+
+    def verify_peer_changed?: () -> bool
+
+    def verify_peer_change: () -> [ bool?, bool? ]
+
+    def verify_peer_will_change!: () -> void
+
+    def verify_peer_was: () -> bool?
+
+    def verify_peer_previously_changed?: () -> bool
+
+    def verify_peer_previous_change: () -> Array[bool?]?
+
+    def verify_peer_previously_was: () -> bool?
+
+    def verify_peer_before_last_save: () -> bool?
+
+    def verify_peer_change_to_be_saved: () -> Array[bool?]?
+
+    def verify_peer_in_database: () -> bool?
+
+    def saved_change_to_verify_peer: () -> Array[bool?]?
+
+    def saved_change_to_verify_peer?: () -> bool
+
+    def will_save_change_to_verify_peer?: () -> bool
+
+    def restore_verify_peer!: () -> void
+
+    def clear_verify_peer_change: () -> void
+
+    def tls_certificate_string: () -> String?
+
+    def tls_certificate_string=: (String?) -> String?
+
+    def tls_certificate_string?: () -> bool
+
+    def tls_certificate_string_changed?: () -> bool
+
+    def tls_certificate_string_change: () -> [ String?, String? ]
+
+    def tls_certificate_string_will_change!: () -> void
+
+    def tls_certificate_string_was: () -> String?
+
+    def tls_certificate_string_previously_changed?: () -> bool
+
+    def tls_certificate_string_previous_change: () -> Array[String?]?
+
+    def tls_certificate_string_previously_was: () -> String?
+
+    def tls_certificate_string_before_last_save: () -> String?
+
+    def tls_certificate_string_change_to_be_saved: () -> Array[String?]?
+
+    def tls_certificate_string_in_database: () -> String?
+
+    def saved_change_to_tls_certificate_string: () -> Array[String?]?
+
+    def saved_change_to_tls_certificate_string?: () -> bool
+
+    def will_save_change_to_tls_certificate_string?: () -> bool
+
+    def restore_tls_certificate_string!: () -> void
+
+    def clear_tls_certificate_string_change: () -> void
+  end
+  include GeneratedAttributeMethods
+  def users: () -> User::ActiveRecord_Associations_CollectionProxy
+  def users=: (User::ActiveRecord_Associations_CollectionProxy | Array[User]) -> (User::ActiveRecord_Associations_CollectionProxy | Array[User])
+  def user_ids: () -> Array[Integer]
+  def user_ids=: (Array[Integer]) -> Array[Integer]
+  def ldap_groups_synchronized_groups: () -> LdapGroups::SynchronizedGroup::ActiveRecord_Associations_CollectionProxy
+  def ldap_groups_synchronized_groups=: (LdapGroups::SynchronizedGroup::ActiveRecord_Associations_CollectionProxy | Array[LdapGroups::SynchronizedGroup]) -> (LdapGroups::SynchronizedGroup::ActiveRecord_Associations_CollectionProxy | Array[LdapGroups::SynchronizedGroup])
+  def ldap_groups_synchronized_group_ids: () -> Array[Integer]
+  def ldap_groups_synchronized_group_ids=: (Array[Integer]) -> Array[Integer]
+
+  module GeneratedAssociationMethods
+  end
+  include GeneratedAssociationMethods
+
+  module GeneratedRelationMethods
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[LdapAuthSource, Integer]
+    include Enumerable[LdapAuthSource]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[LdapAuthSource, Integer]
+  end
+end

@@ -1,0 +1,246 @@
+class AttributeHelpText < ::ApplicationRecord
+  class WorkPackage < ::AttributeHelpText
+    extend _ActiveRecord_Relation_ClassMethods[AttributeHelpText::WorkPackage, ActiveRecord_Relation, Integer]
+
+    module GeneratedAttributeMethods
+      def id: () -> Integer
+
+      def id=: (Integer) -> Integer
+
+      def id?: () -> bool
+
+      def id_changed?: () -> bool
+
+      def id_change: () -> [ Integer?, Integer? ]
+
+      def id_will_change!: () -> void
+
+      def id_was: () -> Integer?
+
+      def id_previously_changed?: () -> bool
+
+      def id_previous_change: () -> Array[Integer?]?
+
+      def id_previously_was: () -> Integer?
+
+      def id_before_last_save: () -> Integer?
+
+      def id_change_to_be_saved: () -> Array[Integer?]?
+
+      def id_in_database: () -> Integer?
+
+      def saved_change_to_id: () -> Array[Integer?]?
+
+      def saved_change_to_id?: () -> bool
+
+      def will_save_change_to_id?: () -> bool
+
+      def restore_id!: () -> void
+
+      def clear_id_change: () -> void
+
+      def help_text: () -> String
+
+      def help_text=: (String) -> String
+
+      def help_text?: () -> bool
+
+      def help_text_changed?: () -> bool
+
+      def help_text_change: () -> [ String?, String? ]
+
+      def help_text_will_change!: () -> void
+
+      def help_text_was: () -> String?
+
+      def help_text_previously_changed?: () -> bool
+
+      def help_text_previous_change: () -> Array[String?]?
+
+      def help_text_previously_was: () -> String?
+
+      def help_text_before_last_save: () -> String?
+
+      def help_text_change_to_be_saved: () -> Array[String?]?
+
+      def help_text_in_database: () -> String?
+
+      def saved_change_to_help_text: () -> Array[String?]?
+
+      def saved_change_to_help_text?: () -> bool
+
+      def will_save_change_to_help_text?: () -> bool
+
+      def restore_help_text!: () -> void
+
+      def clear_help_text_change: () -> void
+
+      def type: () -> String
+
+      def type=: (String) -> String
+
+      def type?: () -> bool
+
+      def type_changed?: () -> bool
+
+      def type_change: () -> [ String?, String? ]
+
+      def type_will_change!: () -> void
+
+      def type_was: () -> String?
+
+      def type_previously_changed?: () -> bool
+
+      def type_previous_change: () -> Array[String?]?
+
+      def type_previously_was: () -> String?
+
+      def type_before_last_save: () -> String?
+
+      def type_change_to_be_saved: () -> Array[String?]?
+
+      def type_in_database: () -> String?
+
+      def saved_change_to_type: () -> Array[String?]?
+
+      def saved_change_to_type?: () -> bool
+
+      def will_save_change_to_type?: () -> bool
+
+      def restore_type!: () -> void
+
+      def clear_type_change: () -> void
+
+      def attribute_name: () -> String
+
+      def attribute_name=: (String) -> String
+
+      def attribute_name?: () -> bool
+
+      def attribute_name_changed?: () -> bool
+
+      def attribute_name_change: () -> [ String?, String? ]
+
+      def attribute_name_will_change!: () -> void
+
+      def attribute_name_was: () -> String?
+
+      def attribute_name_previously_changed?: () -> bool
+
+      def attribute_name_previous_change: () -> Array[String?]?
+
+      def attribute_name_previously_was: () -> String?
+
+      def attribute_name_before_last_save: () -> String?
+
+      def attribute_name_change_to_be_saved: () -> Array[String?]?
+
+      def attribute_name_in_database: () -> String?
+
+      def saved_change_to_attribute_name: () -> Array[String?]?
+
+      def saved_change_to_attribute_name?: () -> bool
+
+      def will_save_change_to_attribute_name?: () -> bool
+
+      def restore_attribute_name!: () -> void
+
+      def clear_attribute_name_change: () -> void
+
+      def created_at: () -> ActiveSupport::TimeWithZone
+
+      def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+      def created_at?: () -> bool
+
+      def created_at_changed?: () -> bool
+
+      def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+      def created_at_will_change!: () -> void
+
+      def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_previously_changed?: () -> bool
+
+      def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+      def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def saved_change_to_created_at?: () -> bool
+
+      def will_save_change_to_created_at?: () -> bool
+
+      def restore_created_at!: () -> void
+
+      def clear_created_at_change: () -> void
+
+      def updated_at: () -> ActiveSupport::TimeWithZone
+
+      def updated_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+      def updated_at?: () -> bool
+
+      def updated_at_changed?: () -> bool
+
+      def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+      def updated_at_will_change!: () -> void
+
+      def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_previously_changed?: () -> bool
+
+      def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+      def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def saved_change_to_updated_at?: () -> bool
+
+      def will_save_change_to_updated_at?: () -> bool
+
+      def restore_updated_at!: () -> void
+
+      def clear_updated_at_change: () -> void
+    end
+    include GeneratedAttributeMethods
+    def attachments: () -> Attachment::ActiveRecord_Associations_CollectionProxy
+    def attachments=: (Attachment::ActiveRecord_Associations_CollectionProxy | Array[Attachment]) -> (Attachment::ActiveRecord_Associations_CollectionProxy | Array[Attachment])
+    def attachment_ids: () -> Array[Integer]
+    def attachment_ids=: (Array[Integer]) -> Array[Integer]
+
+    module GeneratedAssociationMethods
+    end
+    include GeneratedAssociationMethods
+
+    module GeneratedRelationMethods
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[AttributeHelpText::WorkPackage, Integer]
+      include Enumerable[AttributeHelpText::WorkPackage]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[AttributeHelpText::WorkPackage, Integer]
+    end
+  end
+end

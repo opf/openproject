@@ -1,0 +1,428 @@
+module Webhooks
+  class Log < ::ApplicationRecord
+    extend _ActiveRecord_Relation_ClassMethods[Webhooks::Log, ActiveRecord_Relation, Integer]
+
+    module GeneratedAttributeMethods
+      def id: () -> Integer
+
+      def id=: (Integer) -> Integer
+
+      def id?: () -> bool
+
+      def id_changed?: () -> bool
+
+      def id_change: () -> [ Integer?, Integer? ]
+
+      def id_will_change!: () -> void
+
+      def id_was: () -> Integer?
+
+      def id_previously_changed?: () -> bool
+
+      def id_previous_change: () -> Array[Integer?]?
+
+      def id_previously_was: () -> Integer?
+
+      def id_before_last_save: () -> Integer?
+
+      def id_change_to_be_saved: () -> Array[Integer?]?
+
+      def id_in_database: () -> Integer?
+
+      def saved_change_to_id: () -> Array[Integer?]?
+
+      def saved_change_to_id?: () -> bool
+
+      def will_save_change_to_id?: () -> bool
+
+      def restore_id!: () -> void
+
+      def clear_id_change: () -> void
+
+      def webhooks_webhook_id: () -> Integer?
+
+      def webhooks_webhook_id=: (Integer?) -> Integer?
+
+      def webhooks_webhook_id?: () -> bool
+
+      def webhooks_webhook_id_changed?: () -> bool
+
+      def webhooks_webhook_id_change: () -> [ Integer?, Integer? ]
+
+      def webhooks_webhook_id_will_change!: () -> void
+
+      def webhooks_webhook_id_was: () -> Integer?
+
+      def webhooks_webhook_id_previously_changed?: () -> bool
+
+      def webhooks_webhook_id_previous_change: () -> Array[Integer?]?
+
+      def webhooks_webhook_id_previously_was: () -> Integer?
+
+      def webhooks_webhook_id_before_last_save: () -> Integer?
+
+      def webhooks_webhook_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def webhooks_webhook_id_in_database: () -> Integer?
+
+      def saved_change_to_webhooks_webhook_id: () -> Array[Integer?]?
+
+      def saved_change_to_webhooks_webhook_id?: () -> bool
+
+      def will_save_change_to_webhooks_webhook_id?: () -> bool
+
+      def restore_webhooks_webhook_id!: () -> void
+
+      def clear_webhooks_webhook_id_change: () -> void
+
+      def event_name: () -> String?
+
+      def event_name=: (String?) -> String?
+
+      def event_name?: () -> bool
+
+      def event_name_changed?: () -> bool
+
+      def event_name_change: () -> [ String?, String? ]
+
+      def event_name_will_change!: () -> void
+
+      def event_name_was: () -> String?
+
+      def event_name_previously_changed?: () -> bool
+
+      def event_name_previous_change: () -> Array[String?]?
+
+      def event_name_previously_was: () -> String?
+
+      def event_name_before_last_save: () -> String?
+
+      def event_name_change_to_be_saved: () -> Array[String?]?
+
+      def event_name_in_database: () -> String?
+
+      def saved_change_to_event_name: () -> Array[String?]?
+
+      def saved_change_to_event_name?: () -> bool
+
+      def will_save_change_to_event_name?: () -> bool
+
+      def restore_event_name!: () -> void
+
+      def clear_event_name_change: () -> void
+
+      def url: () -> String?
+
+      def url=: (String?) -> String?
+
+      def url?: () -> bool
+
+      def url_changed?: () -> bool
+
+      def url_change: () -> [ String?, String? ]
+
+      def url_will_change!: () -> void
+
+      def url_was: () -> String?
+
+      def url_previously_changed?: () -> bool
+
+      def url_previous_change: () -> Array[String?]?
+
+      def url_previously_was: () -> String?
+
+      def url_before_last_save: () -> String?
+
+      def url_change_to_be_saved: () -> Array[String?]?
+
+      def url_in_database: () -> String?
+
+      def saved_change_to_url: () -> Array[String?]?
+
+      def saved_change_to_url?: () -> bool
+
+      def will_save_change_to_url?: () -> bool
+
+      def restore_url!: () -> void
+
+      def clear_url_change: () -> void
+
+      def request_headers: () -> String?
+
+      def request_headers=: (String?) -> String?
+
+      def request_headers?: () -> bool
+
+      def request_headers_changed?: () -> bool
+
+      def request_headers_change: () -> [ String?, String? ]
+
+      def request_headers_will_change!: () -> void
+
+      def request_headers_was: () -> String?
+
+      def request_headers_previously_changed?: () -> bool
+
+      def request_headers_previous_change: () -> Array[String?]?
+
+      def request_headers_previously_was: () -> String?
+
+      def request_headers_before_last_save: () -> String?
+
+      def request_headers_change_to_be_saved: () -> Array[String?]?
+
+      def request_headers_in_database: () -> String?
+
+      def saved_change_to_request_headers: () -> Array[String?]?
+
+      def saved_change_to_request_headers?: () -> bool
+
+      def will_save_change_to_request_headers?: () -> bool
+
+      def restore_request_headers!: () -> void
+
+      def clear_request_headers_change: () -> void
+
+      def request_body: () -> String?
+
+      def request_body=: (String?) -> String?
+
+      def request_body?: () -> bool
+
+      def request_body_changed?: () -> bool
+
+      def request_body_change: () -> [ String?, String? ]
+
+      def request_body_will_change!: () -> void
+
+      def request_body_was: () -> String?
+
+      def request_body_previously_changed?: () -> bool
+
+      def request_body_previous_change: () -> Array[String?]?
+
+      def request_body_previously_was: () -> String?
+
+      def request_body_before_last_save: () -> String?
+
+      def request_body_change_to_be_saved: () -> Array[String?]?
+
+      def request_body_in_database: () -> String?
+
+      def saved_change_to_request_body: () -> Array[String?]?
+
+      def saved_change_to_request_body?: () -> bool
+
+      def will_save_change_to_request_body?: () -> bool
+
+      def restore_request_body!: () -> void
+
+      def clear_request_body_change: () -> void
+
+      def response_code: () -> Integer?
+
+      def response_code=: (Integer?) -> Integer?
+
+      def response_code?: () -> bool
+
+      def response_code_changed?: () -> bool
+
+      def response_code_change: () -> [ Integer?, Integer? ]
+
+      def response_code_will_change!: () -> void
+
+      def response_code_was: () -> Integer?
+
+      def response_code_previously_changed?: () -> bool
+
+      def response_code_previous_change: () -> Array[Integer?]?
+
+      def response_code_previously_was: () -> Integer?
+
+      def response_code_before_last_save: () -> Integer?
+
+      def response_code_change_to_be_saved: () -> Array[Integer?]?
+
+      def response_code_in_database: () -> Integer?
+
+      def saved_change_to_response_code: () -> Array[Integer?]?
+
+      def saved_change_to_response_code?: () -> bool
+
+      def will_save_change_to_response_code?: () -> bool
+
+      def restore_response_code!: () -> void
+
+      def clear_response_code_change: () -> void
+
+      def response_headers: () -> String?
+
+      def response_headers=: (String?) -> String?
+
+      def response_headers?: () -> bool
+
+      def response_headers_changed?: () -> bool
+
+      def response_headers_change: () -> [ String?, String? ]
+
+      def response_headers_will_change!: () -> void
+
+      def response_headers_was: () -> String?
+
+      def response_headers_previously_changed?: () -> bool
+
+      def response_headers_previous_change: () -> Array[String?]?
+
+      def response_headers_previously_was: () -> String?
+
+      def response_headers_before_last_save: () -> String?
+
+      def response_headers_change_to_be_saved: () -> Array[String?]?
+
+      def response_headers_in_database: () -> String?
+
+      def saved_change_to_response_headers: () -> Array[String?]?
+
+      def saved_change_to_response_headers?: () -> bool
+
+      def will_save_change_to_response_headers?: () -> bool
+
+      def restore_response_headers!: () -> void
+
+      def clear_response_headers_change: () -> void
+
+      def response_body: () -> String?
+
+      def response_body=: (String?) -> String?
+
+      def response_body?: () -> bool
+
+      def response_body_changed?: () -> bool
+
+      def response_body_change: () -> [ String?, String? ]
+
+      def response_body_will_change!: () -> void
+
+      def response_body_was: () -> String?
+
+      def response_body_previously_changed?: () -> bool
+
+      def response_body_previous_change: () -> Array[String?]?
+
+      def response_body_previously_was: () -> String?
+
+      def response_body_before_last_save: () -> String?
+
+      def response_body_change_to_be_saved: () -> Array[String?]?
+
+      def response_body_in_database: () -> String?
+
+      def saved_change_to_response_body: () -> Array[String?]?
+
+      def saved_change_to_response_body?: () -> bool
+
+      def will_save_change_to_response_body?: () -> bool
+
+      def restore_response_body!: () -> void
+
+      def clear_response_body_change: () -> void
+
+      def created_at: () -> ActiveSupport::TimeWithZone
+
+      def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+      def created_at?: () -> bool
+
+      def created_at_changed?: () -> bool
+
+      def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+      def created_at_will_change!: () -> void
+
+      def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_previously_changed?: () -> bool
+
+      def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+      def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def saved_change_to_created_at?: () -> bool
+
+      def will_save_change_to_created_at?: () -> bool
+
+      def restore_created_at!: () -> void
+
+      def clear_created_at_change: () -> void
+
+      def updated_at: () -> ActiveSupport::TimeWithZone
+
+      def updated_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+      def updated_at?: () -> bool
+
+      def updated_at_changed?: () -> bool
+
+      def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+      def updated_at_will_change!: () -> void
+
+      def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_previously_changed?: () -> bool
+
+      def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+      def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def saved_change_to_updated_at?: () -> bool
+
+      def will_save_change_to_updated_at?: () -> bool
+
+      def restore_updated_at!: () -> void
+
+      def clear_updated_at_change: () -> void
+    end
+    include GeneratedAttributeMethods
+
+    def webhook: () -> Webhooks::Webhook
+    def webhook=: (Webhooks::Webhook?) -> Webhooks::Webhook?
+    def reload_webhook: () -> Webhooks::Webhook?
+    def build_webhook: (untyped) -> Webhooks::Webhook
+    def create_webhook: (untyped) -> Webhooks::Webhook
+    def create_webhook!: (untyped) -> Webhooks::Webhook
+    module GeneratedAssociationMethods
+    end
+    include GeneratedAssociationMethods
+
+    module GeneratedRelationMethods
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Webhooks::Log, Integer]
+      include Enumerable[Webhooks::Log]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Webhooks::Log, Integer]
+    end
+  end
+end

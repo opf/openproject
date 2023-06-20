@@ -1,0 +1,213 @@
+class CustomValue < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[CustomValue, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def customized_type: () -> String
+
+    def customized_type=: (String) -> String
+
+    def customized_type?: () -> bool
+
+    def customized_type_changed?: () -> bool
+
+    def customized_type_change: () -> [ String?, String? ]
+
+    def customized_type_will_change!: () -> void
+
+    def customized_type_was: () -> String?
+
+    def customized_type_previously_changed?: () -> bool
+
+    def customized_type_previous_change: () -> Array[String?]?
+
+    def customized_type_previously_was: () -> String?
+
+    def customized_type_before_last_save: () -> String?
+
+    def customized_type_change_to_be_saved: () -> Array[String?]?
+
+    def customized_type_in_database: () -> String?
+
+    def saved_change_to_customized_type: () -> Array[String?]?
+
+    def saved_change_to_customized_type?: () -> bool
+
+    def will_save_change_to_customized_type?: () -> bool
+
+    def restore_customized_type!: () -> void
+
+    def clear_customized_type_change: () -> void
+
+    def customized_id: () -> Integer
+
+    def customized_id=: (Integer) -> Integer
+
+    def customized_id?: () -> bool
+
+    def customized_id_changed?: () -> bool
+
+    def customized_id_change: () -> [ Integer?, Integer? ]
+
+    def customized_id_will_change!: () -> void
+
+    def customized_id_was: () -> Integer?
+
+    def customized_id_previously_changed?: () -> bool
+
+    def customized_id_previous_change: () -> Array[Integer?]?
+
+    def customized_id_previously_was: () -> Integer?
+
+    def customized_id_before_last_save: () -> Integer?
+
+    def customized_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def customized_id_in_database: () -> Integer?
+
+    def saved_change_to_customized_id: () -> Array[Integer?]?
+
+    def saved_change_to_customized_id?: () -> bool
+
+    def will_save_change_to_customized_id?: () -> bool
+
+    def restore_customized_id!: () -> void
+
+    def clear_customized_id_change: () -> void
+
+    def custom_field_id: () -> Integer
+
+    def custom_field_id=: (Integer) -> Integer
+
+    def custom_field_id?: () -> bool
+
+    def custom_field_id_changed?: () -> bool
+
+    def custom_field_id_change: () -> [ Integer?, Integer? ]
+
+    def custom_field_id_will_change!: () -> void
+
+    def custom_field_id_was: () -> Integer?
+
+    def custom_field_id_previously_changed?: () -> bool
+
+    def custom_field_id_previous_change: () -> Array[Integer?]?
+
+    def custom_field_id_previously_was: () -> Integer?
+
+    def custom_field_id_before_last_save: () -> Integer?
+
+    def custom_field_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def custom_field_id_in_database: () -> Integer?
+
+    def saved_change_to_custom_field_id: () -> Array[Integer?]?
+
+    def saved_change_to_custom_field_id?: () -> bool
+
+    def will_save_change_to_custom_field_id?: () -> bool
+
+    def restore_custom_field_id!: () -> void
+
+    def clear_custom_field_id_change: () -> void
+
+    def value: () -> String?
+
+    def value=: (String?) -> String?
+
+    def value?: () -> bool
+
+    def value_changed?: () -> bool
+
+    def value_change: () -> [ String?, String? ]
+
+    def value_will_change!: () -> void
+
+    def value_was: () -> String?
+
+    def value_previously_changed?: () -> bool
+
+    def value_previous_change: () -> Array[String?]?
+
+    def value_previously_was: () -> String?
+
+    def value_before_last_save: () -> String?
+
+    def value_change_to_be_saved: () -> Array[String?]?
+
+    def value_in_database: () -> String?
+
+    def saved_change_to_value: () -> Array[String?]?
+
+    def saved_change_to_value?: () -> bool
+
+    def will_save_change_to_value?: () -> bool
+
+    def restore_value!: () -> void
+
+    def clear_value_change: () -> void
+  end
+  include GeneratedAttributeMethods
+
+  def custom_field: () -> CustomField
+  def custom_field=: (CustomField?) -> CustomField?
+  def reload_custom_field: () -> CustomField?
+  def build_custom_field: (untyped) -> CustomField
+  def create_custom_field: (untyped) -> CustomField
+  def create_custom_field!: (untyped) -> CustomField
+  def customized: () -> untyped
+  def customized=: (untyped?) -> untyped?
+  def reload_customized: () -> untyped?
+  module GeneratedAssociationMethods
+  end
+  include GeneratedAssociationMethods
+
+  module GeneratedRelationMethods
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[CustomValue, Integer]
+    include Enumerable[CustomValue]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[CustomValue, Integer]
+  end
+end

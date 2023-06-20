@@ -1,0 +1,498 @@
+module Delayed
+  module Backend
+    module ActiveRecord
+      class Job < ::ActiveRecord::Base
+        extend _ActiveRecord_Relation_ClassMethods[Delayed::Backend::ActiveRecord::Job, ActiveRecord_Relation, Integer]
+
+        module GeneratedAttributeMethods
+          def id: () -> Integer
+
+          def id=: (Integer) -> Integer
+
+          def id?: () -> bool
+
+          def id_changed?: () -> bool
+
+          def id_change: () -> [ Integer?, Integer? ]
+
+          def id_will_change!: () -> void
+
+          def id_was: () -> Integer?
+
+          def id_previously_changed?: () -> bool
+
+          def id_previous_change: () -> Array[Integer?]?
+
+          def id_previously_was: () -> Integer?
+
+          def id_before_last_save: () -> Integer?
+
+          def id_change_to_be_saved: () -> Array[Integer?]?
+
+          def id_in_database: () -> Integer?
+
+          def saved_change_to_id: () -> Array[Integer?]?
+
+          def saved_change_to_id?: () -> bool
+
+          def will_save_change_to_id?: () -> bool
+
+          def restore_id!: () -> void
+
+          def clear_id_change: () -> void
+
+          def priority: () -> Integer?
+
+          def priority=: (Integer?) -> Integer?
+
+          def priority?: () -> bool
+
+          def priority_changed?: () -> bool
+
+          def priority_change: () -> [ Integer?, Integer? ]
+
+          def priority_will_change!: () -> void
+
+          def priority_was: () -> Integer?
+
+          def priority_previously_changed?: () -> bool
+
+          def priority_previous_change: () -> Array[Integer?]?
+
+          def priority_previously_was: () -> Integer?
+
+          def priority_before_last_save: () -> Integer?
+
+          def priority_change_to_be_saved: () -> Array[Integer?]?
+
+          def priority_in_database: () -> Integer?
+
+          def saved_change_to_priority: () -> Array[Integer?]?
+
+          def saved_change_to_priority?: () -> bool
+
+          def will_save_change_to_priority?: () -> bool
+
+          def restore_priority!: () -> void
+
+          def clear_priority_change: () -> void
+
+          def attempts: () -> Integer?
+
+          def attempts=: (Integer?) -> Integer?
+
+          def attempts?: () -> bool
+
+          def attempts_changed?: () -> bool
+
+          def attempts_change: () -> [ Integer?, Integer? ]
+
+          def attempts_will_change!: () -> void
+
+          def attempts_was: () -> Integer?
+
+          def attempts_previously_changed?: () -> bool
+
+          def attempts_previous_change: () -> Array[Integer?]?
+
+          def attempts_previously_was: () -> Integer?
+
+          def attempts_before_last_save: () -> Integer?
+
+          def attempts_change_to_be_saved: () -> Array[Integer?]?
+
+          def attempts_in_database: () -> Integer?
+
+          def saved_change_to_attempts: () -> Array[Integer?]?
+
+          def saved_change_to_attempts?: () -> bool
+
+          def will_save_change_to_attempts?: () -> bool
+
+          def restore_attempts!: () -> void
+
+          def clear_attempts_change: () -> void
+
+          def handler: () -> String?
+
+          def handler=: (String?) -> String?
+
+          def handler?: () -> bool
+
+          def handler_changed?: () -> bool
+
+          def handler_change: () -> [ String?, String? ]
+
+          def handler_will_change!: () -> void
+
+          def handler_was: () -> String?
+
+          def handler_previously_changed?: () -> bool
+
+          def handler_previous_change: () -> Array[String?]?
+
+          def handler_previously_was: () -> String?
+
+          def handler_before_last_save: () -> String?
+
+          def handler_change_to_be_saved: () -> Array[String?]?
+
+          def handler_in_database: () -> String?
+
+          def saved_change_to_handler: () -> Array[String?]?
+
+          def saved_change_to_handler?: () -> bool
+
+          def will_save_change_to_handler?: () -> bool
+
+          def restore_handler!: () -> void
+
+          def clear_handler_change: () -> void
+
+          def last_error: () -> String?
+
+          def last_error=: (String?) -> String?
+
+          def last_error?: () -> bool
+
+          def last_error_changed?: () -> bool
+
+          def last_error_change: () -> [ String?, String? ]
+
+          def last_error_will_change!: () -> void
+
+          def last_error_was: () -> String?
+
+          def last_error_previously_changed?: () -> bool
+
+          def last_error_previous_change: () -> Array[String?]?
+
+          def last_error_previously_was: () -> String?
+
+          def last_error_before_last_save: () -> String?
+
+          def last_error_change_to_be_saved: () -> Array[String?]?
+
+          def last_error_in_database: () -> String?
+
+          def saved_change_to_last_error: () -> Array[String?]?
+
+          def saved_change_to_last_error?: () -> bool
+
+          def will_save_change_to_last_error?: () -> bool
+
+          def restore_last_error!: () -> void
+
+          def clear_last_error_change: () -> void
+
+          def run_at: () -> ActiveSupport::TimeWithZone?
+
+          def run_at=: (ActiveSupport::TimeWithZone?) -> ActiveSupport::TimeWithZone?
+
+          def run_at?: () -> bool
+
+          def run_at_changed?: () -> bool
+
+          def run_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+          def run_at_will_change!: () -> void
+
+          def run_at_was: () -> ActiveSupport::TimeWithZone?
+
+          def run_at_previously_changed?: () -> bool
+
+          def run_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+          def run_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+          def run_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+          def run_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+          def run_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+          def saved_change_to_run_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+          def saved_change_to_run_at?: () -> bool
+
+          def will_save_change_to_run_at?: () -> bool
+
+          def restore_run_at!: () -> void
+
+          def clear_run_at_change: () -> void
+
+          def locked_at: () -> ActiveSupport::TimeWithZone?
+
+          def locked_at=: (ActiveSupport::TimeWithZone?) -> ActiveSupport::TimeWithZone?
+
+          def locked_at?: () -> bool
+
+          def locked_at_changed?: () -> bool
+
+          def locked_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+          def locked_at_will_change!: () -> void
+
+          def locked_at_was: () -> ActiveSupport::TimeWithZone?
+
+          def locked_at_previously_changed?: () -> bool
+
+          def locked_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+          def locked_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+          def locked_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+          def locked_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+          def locked_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+          def saved_change_to_locked_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+          def saved_change_to_locked_at?: () -> bool
+
+          def will_save_change_to_locked_at?: () -> bool
+
+          def restore_locked_at!: () -> void
+
+          def clear_locked_at_change: () -> void
+
+          def failed_at: () -> ActiveSupport::TimeWithZone?
+
+          def failed_at=: (ActiveSupport::TimeWithZone?) -> ActiveSupport::TimeWithZone?
+
+          def failed_at?: () -> bool
+
+          def failed_at_changed?: () -> bool
+
+          def failed_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+          def failed_at_will_change!: () -> void
+
+          def failed_at_was: () -> ActiveSupport::TimeWithZone?
+
+          def failed_at_previously_changed?: () -> bool
+
+          def failed_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+          def failed_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+          def failed_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+          def failed_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+          def failed_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+          def saved_change_to_failed_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+          def saved_change_to_failed_at?: () -> bool
+
+          def will_save_change_to_failed_at?: () -> bool
+
+          def restore_failed_at!: () -> void
+
+          def clear_failed_at_change: () -> void
+
+          def locked_by: () -> String?
+
+          def locked_by=: (String?) -> String?
+
+          def locked_by?: () -> bool
+
+          def locked_by_changed?: () -> bool
+
+          def locked_by_change: () -> [ String?, String? ]
+
+          def locked_by_will_change!: () -> void
+
+          def locked_by_was: () -> String?
+
+          def locked_by_previously_changed?: () -> bool
+
+          def locked_by_previous_change: () -> Array[String?]?
+
+          def locked_by_previously_was: () -> String?
+
+          def locked_by_before_last_save: () -> String?
+
+          def locked_by_change_to_be_saved: () -> Array[String?]?
+
+          def locked_by_in_database: () -> String?
+
+          def saved_change_to_locked_by: () -> Array[String?]?
+
+          def saved_change_to_locked_by?: () -> bool
+
+          def will_save_change_to_locked_by?: () -> bool
+
+          def restore_locked_by!: () -> void
+
+          def clear_locked_by_change: () -> void
+
+          def created_at: () -> ActiveSupport::TimeWithZone?
+
+          def created_at=: (ActiveSupport::TimeWithZone?) -> ActiveSupport::TimeWithZone?
+
+          def created_at?: () -> bool
+
+          def created_at_changed?: () -> bool
+
+          def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+          def created_at_will_change!: () -> void
+
+          def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+          def created_at_previously_changed?: () -> bool
+
+          def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+          def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+          def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+          def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+          def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+          def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+          def saved_change_to_created_at?: () -> bool
+
+          def will_save_change_to_created_at?: () -> bool
+
+          def restore_created_at!: () -> void
+
+          def clear_created_at_change: () -> void
+
+          def updated_at: () -> ActiveSupport::TimeWithZone?
+
+          def updated_at=: (ActiveSupport::TimeWithZone?) -> ActiveSupport::TimeWithZone?
+
+          def updated_at?: () -> bool
+
+          def updated_at_changed?: () -> bool
+
+          def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+          def updated_at_will_change!: () -> void
+
+          def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+          def updated_at_previously_changed?: () -> bool
+
+          def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+          def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+          def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+          def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+          def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+          def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+          def saved_change_to_updated_at?: () -> bool
+
+          def will_save_change_to_updated_at?: () -> bool
+
+          def restore_updated_at!: () -> void
+
+          def clear_updated_at_change: () -> void
+
+          def queue: () -> String?
+
+          def queue=: (String?) -> String?
+
+          def queue?: () -> bool
+
+          def queue_changed?: () -> bool
+
+          def queue_change: () -> [ String?, String? ]
+
+          def queue_will_change!: () -> void
+
+          def queue_was: () -> String?
+
+          def queue_previously_changed?: () -> bool
+
+          def queue_previous_change: () -> Array[String?]?
+
+          def queue_previously_was: () -> String?
+
+          def queue_before_last_save: () -> String?
+
+          def queue_change_to_be_saved: () -> Array[String?]?
+
+          def queue_in_database: () -> String?
+
+          def saved_change_to_queue: () -> Array[String?]?
+
+          def saved_change_to_queue?: () -> bool
+
+          def will_save_change_to_queue?: () -> bool
+
+          def restore_queue!: () -> void
+
+          def clear_queue_change: () -> void
+
+          def cron: () -> String?
+
+          def cron=: (String?) -> String?
+
+          def cron?: () -> bool
+
+          def cron_changed?: () -> bool
+
+          def cron_change: () -> [ String?, String? ]
+
+          def cron_will_change!: () -> void
+
+          def cron_was: () -> String?
+
+          def cron_previously_changed?: () -> bool
+
+          def cron_previous_change: () -> Array[String?]?
+
+          def cron_previously_was: () -> String?
+
+          def cron_before_last_save: () -> String?
+
+          def cron_change_to_be_saved: () -> Array[String?]?
+
+          def cron_in_database: () -> String?
+
+          def saved_change_to_cron: () -> Array[String?]?
+
+          def saved_change_to_cron?: () -> bool
+
+          def will_save_change_to_cron?: () -> bool
+
+          def restore_cron!: () -> void
+
+          def clear_cron_change: () -> void
+        end
+        include GeneratedAttributeMethods
+
+        module GeneratedAssociationMethods
+        end
+        include GeneratedAssociationMethods
+
+        module GeneratedRelationMethods
+        end
+
+        class ActiveRecord_Relation < ::ActiveRecord::Relation
+          include GeneratedRelationMethods
+          include _ActiveRecord_Relation[Delayed::Backend::ActiveRecord::Job, Integer]
+          include Enumerable[Delayed::Backend::ActiveRecord::Job]
+        end
+
+        class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+          include GeneratedRelationMethods
+          include _ActiveRecord_Relation[Delayed::Backend::ActiveRecord::Job, Integer]
+        end
+      end
+    end
+  end
+end

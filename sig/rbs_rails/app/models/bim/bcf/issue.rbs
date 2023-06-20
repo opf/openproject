@@ -1,0 +1,371 @@
+module Bim
+  module Bcf
+    class Issue < ::ApplicationRecord
+      extend _ActiveRecord_Relation_ClassMethods[Bim::Bcf::Issue, ActiveRecord_Relation, Integer]
+
+      module GeneratedAttributeMethods
+        def id: () -> Integer
+
+        def id=: (Integer) -> Integer
+
+        def id?: () -> bool
+
+        def id_changed?: () -> bool
+
+        def id_change: () -> [ Integer?, Integer? ]
+
+        def id_will_change!: () -> void
+
+        def id_was: () -> Integer?
+
+        def id_previously_changed?: () -> bool
+
+        def id_previous_change: () -> Array[Integer?]?
+
+        def id_previously_was: () -> Integer?
+
+        def id_before_last_save: () -> Integer?
+
+        def id_change_to_be_saved: () -> Array[Integer?]?
+
+        def id_in_database: () -> Integer?
+
+        def saved_change_to_id: () -> Array[Integer?]?
+
+        def saved_change_to_id?: () -> bool
+
+        def will_save_change_to_id?: () -> bool
+
+        def restore_id!: () -> void
+
+        def clear_id_change: () -> void
+
+        def uuid: () -> String?
+
+        def uuid=: (String?) -> String?
+
+        def uuid?: () -> bool
+
+        def uuid_changed?: () -> bool
+
+        def uuid_change: () -> [ String?, String? ]
+
+        def uuid_will_change!: () -> void
+
+        def uuid_was: () -> String?
+
+        def uuid_previously_changed?: () -> bool
+
+        def uuid_previous_change: () -> Array[String?]?
+
+        def uuid_previously_was: () -> String?
+
+        def uuid_before_last_save: () -> String?
+
+        def uuid_change_to_be_saved: () -> Array[String?]?
+
+        def uuid_in_database: () -> String?
+
+        def saved_change_to_uuid: () -> Array[String?]?
+
+        def saved_change_to_uuid?: () -> bool
+
+        def will_save_change_to_uuid?: () -> bool
+
+        def restore_uuid!: () -> void
+
+        def clear_uuid_change: () -> void
+
+        def markup: () -> untyped?
+
+        def markup=: (untyped?) -> untyped?
+
+        def markup?: () -> bool
+
+        def markup_changed?: () -> bool
+
+        def markup_change: () -> [ untyped?, untyped? ]
+
+        def markup_will_change!: () -> void
+
+        def markup_was: () -> untyped?
+
+        def markup_previously_changed?: () -> bool
+
+        def markup_previous_change: () -> Array[untyped?]?
+
+        def markup_previously_was: () -> untyped?
+
+        def markup_before_last_save: () -> untyped?
+
+        def markup_change_to_be_saved: () -> Array[untyped?]?
+
+        def markup_in_database: () -> untyped?
+
+        def saved_change_to_markup: () -> Array[untyped?]?
+
+        def saved_change_to_markup?: () -> bool
+
+        def will_save_change_to_markup?: () -> bool
+
+        def restore_markup!: () -> void
+
+        def clear_markup_change: () -> void
+
+        def work_package_id: () -> Integer?
+
+        def work_package_id=: (Integer?) -> Integer?
+
+        def work_package_id?: () -> bool
+
+        def work_package_id_changed?: () -> bool
+
+        def work_package_id_change: () -> [ Integer?, Integer? ]
+
+        def work_package_id_will_change!: () -> void
+
+        def work_package_id_was: () -> Integer?
+
+        def work_package_id_previously_changed?: () -> bool
+
+        def work_package_id_previous_change: () -> Array[Integer?]?
+
+        def work_package_id_previously_was: () -> Integer?
+
+        def work_package_id_before_last_save: () -> Integer?
+
+        def work_package_id_change_to_be_saved: () -> Array[Integer?]?
+
+        def work_package_id_in_database: () -> Integer?
+
+        def saved_change_to_work_package_id: () -> Array[Integer?]?
+
+        def saved_change_to_work_package_id?: () -> bool
+
+        def will_save_change_to_work_package_id?: () -> bool
+
+        def restore_work_package_id!: () -> void
+
+        def clear_work_package_id_change: () -> void
+
+        def stage: () -> String?
+
+        def stage=: (String?) -> String?
+
+        def stage?: () -> bool
+
+        def stage_changed?: () -> bool
+
+        def stage_change: () -> [ String?, String? ]
+
+        def stage_will_change!: () -> void
+
+        def stage_was: () -> String?
+
+        def stage_previously_changed?: () -> bool
+
+        def stage_previous_change: () -> Array[String?]?
+
+        def stage_previously_was: () -> String?
+
+        def stage_before_last_save: () -> String?
+
+        def stage_change_to_be_saved: () -> Array[String?]?
+
+        def stage_in_database: () -> String?
+
+        def saved_change_to_stage: () -> Array[String?]?
+
+        def saved_change_to_stage?: () -> bool
+
+        def will_save_change_to_stage?: () -> bool
+
+        def restore_stage!: () -> void
+
+        def clear_stage_change: () -> void
+
+        def index: () -> Integer?
+
+        def index=: (Integer?) -> Integer?
+
+        def index?: () -> bool
+
+        def index_changed?: () -> bool
+
+        def index_change: () -> [ Integer?, Integer? ]
+
+        def index_will_change!: () -> void
+
+        def index_was: () -> Integer?
+
+        def index_previously_changed?: () -> bool
+
+        def index_previous_change: () -> Array[Integer?]?
+
+        def index_previously_was: () -> Integer?
+
+        def index_before_last_save: () -> Integer?
+
+        def index_change_to_be_saved: () -> Array[Integer?]?
+
+        def index_in_database: () -> Integer?
+
+        def saved_change_to_index: () -> Array[Integer?]?
+
+        def saved_change_to_index?: () -> bool
+
+        def will_save_change_to_index?: () -> bool
+
+        def restore_index!: () -> void
+
+        def clear_index_change: () -> void
+
+        def labels: () -> String?
+
+        def labels=: (String?) -> String?
+
+        def labels?: () -> bool
+
+        def labels_changed?: () -> bool
+
+        def labels_change: () -> [ String?, String? ]
+
+        def labels_will_change!: () -> void
+
+        def labels_was: () -> String?
+
+        def labels_previously_changed?: () -> bool
+
+        def labels_previous_change: () -> Array[String?]?
+
+        def labels_previously_was: () -> String?
+
+        def labels_before_last_save: () -> String?
+
+        def labels_change_to_be_saved: () -> Array[String?]?
+
+        def labels_in_database: () -> String?
+
+        def saved_change_to_labels: () -> Array[String?]?
+
+        def saved_change_to_labels?: () -> bool
+
+        def will_save_change_to_labels?: () -> bool
+
+        def restore_labels!: () -> void
+
+        def clear_labels_change: () -> void
+
+        def created_at: () -> ActiveSupport::TimeWithZone
+
+        def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+        def created_at?: () -> bool
+
+        def created_at_changed?: () -> bool
+
+        def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+        def created_at_will_change!: () -> void
+
+        def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+        def created_at_previously_changed?: () -> bool
+
+        def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+        def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+        def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+        def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def saved_change_to_created_at?: () -> bool
+
+        def will_save_change_to_created_at?: () -> bool
+
+        def restore_created_at!: () -> void
+
+        def clear_created_at_change: () -> void
+
+        def updated_at: () -> ActiveSupport::TimeWithZone
+
+        def updated_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+        def updated_at?: () -> bool
+
+        def updated_at_changed?: () -> bool
+
+        def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+        def updated_at_will_change!: () -> void
+
+        def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+        def updated_at_previously_changed?: () -> bool
+
+        def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+        def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+        def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+        def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+        def saved_change_to_updated_at?: () -> bool
+
+        def will_save_change_to_updated_at?: () -> bool
+
+        def restore_updated_at!: () -> void
+
+        def clear_updated_at_change: () -> void
+      end
+      include GeneratedAttributeMethods
+      def viewpoints: () -> Bim::Bcf::Viewpoint::ActiveRecord_Associations_CollectionProxy
+      def viewpoints=: (Bim::Bcf::Viewpoint::ActiveRecord_Associations_CollectionProxy | Array[Bim::Bcf::Viewpoint]) -> (Bim::Bcf::Viewpoint::ActiveRecord_Associations_CollectionProxy | Array[Bim::Bcf::Viewpoint])
+      def viewpoint_ids: () -> Array[Integer]
+      def viewpoint_ids=: (Array[Integer]) -> Array[Integer]
+      def comments: () -> Bim::Bcf::Comment::ActiveRecord_Associations_CollectionProxy
+      def comments=: (Bim::Bcf::Comment::ActiveRecord_Associations_CollectionProxy | Array[Bim::Bcf::Comment]) -> (Bim::Bcf::Comment::ActiveRecord_Associations_CollectionProxy | Array[Bim::Bcf::Comment])
+      def comment_ids: () -> Array[Integer]
+      def comment_ids=: (Array[Integer]) -> Array[Integer]
+      def project: () -> Project?
+      def project=: (Project?) -> Project?
+      def build_project: (untyped) -> Project
+      def create_project: (untyped) -> Project
+      def create_project!: (untyped) -> Project
+      def reload_project: () -> Project?
+      def work_package: () -> WorkPackage
+      def work_package=: (WorkPackage?) -> WorkPackage?
+      def reload_work_package: () -> WorkPackage?
+      def build_work_package: (untyped) -> WorkPackage
+      def create_work_package: (untyped) -> WorkPackage
+      def create_work_package!: (untyped) -> WorkPackage
+      module GeneratedAssociationMethods
+      end
+      include GeneratedAssociationMethods
+
+      module GeneratedRelationMethods
+      end
+
+      class ActiveRecord_Relation < ::ActiveRecord::Relation
+        include GeneratedRelationMethods
+        include _ActiveRecord_Relation[Bim::Bcf::Issue, Integer]
+        include Enumerable[Bim::Bcf::Issue]
+      end
+
+      class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+        include GeneratedRelationMethods
+        include _ActiveRecord_Relation[Bim::Bcf::Issue, Integer]
+      end
+    end
+  end
+end

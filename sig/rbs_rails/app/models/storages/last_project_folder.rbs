@@ -1,0 +1,248 @@
+module Storages
+  class LastProjectFolder < ::ApplicationRecord
+    extend _ActiveRecord_Relation_ClassMethods[Storages::LastProjectFolder, ActiveRecord_Relation, Integer]
+
+    module GeneratedAttributeMethods
+      def id: () -> Integer
+
+      def id=: (Integer) -> Integer
+
+      def id?: () -> bool
+
+      def id_changed?: () -> bool
+
+      def id_change: () -> [ Integer?, Integer? ]
+
+      def id_will_change!: () -> void
+
+      def id_was: () -> Integer?
+
+      def id_previously_changed?: () -> bool
+
+      def id_previous_change: () -> Array[Integer?]?
+
+      def id_previously_was: () -> Integer?
+
+      def id_before_last_save: () -> Integer?
+
+      def id_change_to_be_saved: () -> Array[Integer?]?
+
+      def id_in_database: () -> Integer?
+
+      def saved_change_to_id: () -> Array[Integer?]?
+
+      def saved_change_to_id?: () -> bool
+
+      def will_save_change_to_id?: () -> bool
+
+      def restore_id!: () -> void
+
+      def clear_id_change: () -> void
+
+      def projects_storage_id: () -> Integer
+
+      def projects_storage_id=: (Integer) -> Integer
+
+      def projects_storage_id?: () -> bool
+
+      def projects_storage_id_changed?: () -> bool
+
+      def projects_storage_id_change: () -> [ Integer?, Integer? ]
+
+      def projects_storage_id_will_change!: () -> void
+
+      def projects_storage_id_was: () -> Integer?
+
+      def projects_storage_id_previously_changed?: () -> bool
+
+      def projects_storage_id_previous_change: () -> Array[Integer?]?
+
+      def projects_storage_id_previously_was: () -> Integer?
+
+      def projects_storage_id_before_last_save: () -> Integer?
+
+      def projects_storage_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def projects_storage_id_in_database: () -> Integer?
+
+      def saved_change_to_projects_storage_id: () -> Array[Integer?]?
+
+      def saved_change_to_projects_storage_id?: () -> bool
+
+      def will_save_change_to_projects_storage_id?: () -> bool
+
+      def restore_projects_storage_id!: () -> void
+
+      def clear_projects_storage_id_change: () -> void
+
+      def origin_folder_id: () -> String?
+
+      def origin_folder_id=: (String?) -> String?
+
+      def origin_folder_id?: () -> bool
+
+      def origin_folder_id_changed?: () -> bool
+
+      def origin_folder_id_change: () -> [ String?, String? ]
+
+      def origin_folder_id_will_change!: () -> void
+
+      def origin_folder_id_was: () -> String?
+
+      def origin_folder_id_previously_changed?: () -> bool
+
+      def origin_folder_id_previous_change: () -> Array[String?]?
+
+      def origin_folder_id_previously_was: () -> String?
+
+      def origin_folder_id_before_last_save: () -> String?
+
+      def origin_folder_id_change_to_be_saved: () -> Array[String?]?
+
+      def origin_folder_id_in_database: () -> String?
+
+      def saved_change_to_origin_folder_id: () -> Array[String?]?
+
+      def saved_change_to_origin_folder_id?: () -> bool
+
+      def will_save_change_to_origin_folder_id?: () -> bool
+
+      def restore_origin_folder_id!: () -> void
+
+      def clear_origin_folder_id_change: () -> void
+
+      def mode: () -> untyped
+
+      def mode=: (untyped) -> untyped
+
+      def mode?: () -> bool
+
+      def mode_changed?: () -> bool
+
+      def mode_change: () -> [ untyped?, untyped? ]
+
+      def mode_will_change!: () -> void
+
+      def mode_was: () -> untyped?
+
+      def mode_previously_changed?: () -> bool
+
+      def mode_previous_change: () -> Array[untyped?]?
+
+      def mode_previously_was: () -> untyped?
+
+      def mode_before_last_save: () -> untyped?
+
+      def mode_change_to_be_saved: () -> Array[untyped?]?
+
+      def mode_in_database: () -> untyped?
+
+      def saved_change_to_mode: () -> Array[untyped?]?
+
+      def saved_change_to_mode?: () -> bool
+
+      def will_save_change_to_mode?: () -> bool
+
+      def restore_mode!: () -> void
+
+      def clear_mode_change: () -> void
+
+      def created_at: () -> ActiveSupport::TimeWithZone
+
+      def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+      def created_at?: () -> bool
+
+      def created_at_changed?: () -> bool
+
+      def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+      def created_at_will_change!: () -> void
+
+      def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_previously_changed?: () -> bool
+
+      def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+      def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def saved_change_to_created_at?: () -> bool
+
+      def will_save_change_to_created_at?: () -> bool
+
+      def restore_created_at!: () -> void
+
+      def clear_created_at_change: () -> void
+
+      def updated_at: () -> ActiveSupport::TimeWithZone
+
+      def updated_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+      def updated_at?: () -> bool
+
+      def updated_at_changed?: () -> bool
+
+      def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+      def updated_at_will_change!: () -> void
+
+      def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_previously_changed?: () -> bool
+
+      def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+      def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def saved_change_to_updated_at?: () -> bool
+
+      def will_save_change_to_updated_at?: () -> bool
+
+      def restore_updated_at!: () -> void
+
+      def clear_updated_at_change: () -> void
+    end
+    include GeneratedAttributeMethods
+
+    def projects_storage: () -> Storages::ProjectStorage
+    def projects_storage=: (Storages::ProjectStorage?) -> Storages::ProjectStorage?
+    def reload_projects_storage: () -> Storages::ProjectStorage?
+    def build_projects_storage: (untyped) -> Storages::ProjectStorage
+    def create_projects_storage: (untyped) -> Storages::ProjectStorage
+    def create_projects_storage!: (untyped) -> Storages::ProjectStorage
+    module GeneratedAssociationMethods
+    end
+    include GeneratedAssociationMethods
+
+    module GeneratedRelationMethods
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Storages::LastProjectFolder, Integer]
+      include Enumerable[Storages::LastProjectFolder]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Storages::LastProjectFolder, Integer]
+    end
+  end
+end

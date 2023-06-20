@@ -1,0 +1,552 @@
+module Doorkeeper
+  class Application < ::ActiveRecord::Base
+    extend _ActiveRecord_Relation_ClassMethods[Doorkeeper::Application, ActiveRecord_Relation, Integer]
+
+    module GeneratedAttributeMethods
+      def id: () -> Integer
+
+      def id=: (Integer) -> Integer
+
+      def id?: () -> bool
+
+      def id_changed?: () -> bool
+
+      def id_change: () -> [ Integer?, Integer? ]
+
+      def id_will_change!: () -> void
+
+      def id_was: () -> Integer?
+
+      def id_previously_changed?: () -> bool
+
+      def id_previous_change: () -> Array[Integer?]?
+
+      def id_previously_was: () -> Integer?
+
+      def id_before_last_save: () -> Integer?
+
+      def id_change_to_be_saved: () -> Array[Integer?]?
+
+      def id_in_database: () -> Integer?
+
+      def saved_change_to_id: () -> Array[Integer?]?
+
+      def saved_change_to_id?: () -> bool
+
+      def will_save_change_to_id?: () -> bool
+
+      def restore_id!: () -> void
+
+      def clear_id_change: () -> void
+
+      def name: () -> String
+
+      def name=: (String) -> String
+
+      def name?: () -> bool
+
+      def name_changed?: () -> bool
+
+      def name_change: () -> [ String?, String? ]
+
+      def name_will_change!: () -> void
+
+      def name_was: () -> String?
+
+      def name_previously_changed?: () -> bool
+
+      def name_previous_change: () -> Array[String?]?
+
+      def name_previously_was: () -> String?
+
+      def name_before_last_save: () -> String?
+
+      def name_change_to_be_saved: () -> Array[String?]?
+
+      def name_in_database: () -> String?
+
+      def saved_change_to_name: () -> Array[String?]?
+
+      def saved_change_to_name?: () -> bool
+
+      def will_save_change_to_name?: () -> bool
+
+      def restore_name!: () -> void
+
+      def clear_name_change: () -> void
+
+      def uid: () -> String
+
+      def uid=: (String) -> String
+
+      def uid?: () -> bool
+
+      def uid_changed?: () -> bool
+
+      def uid_change: () -> [ String?, String? ]
+
+      def uid_will_change!: () -> void
+
+      def uid_was: () -> String?
+
+      def uid_previously_changed?: () -> bool
+
+      def uid_previous_change: () -> Array[String?]?
+
+      def uid_previously_was: () -> String?
+
+      def uid_before_last_save: () -> String?
+
+      def uid_change_to_be_saved: () -> Array[String?]?
+
+      def uid_in_database: () -> String?
+
+      def saved_change_to_uid: () -> Array[String?]?
+
+      def saved_change_to_uid?: () -> bool
+
+      def will_save_change_to_uid?: () -> bool
+
+      def restore_uid!: () -> void
+
+      def clear_uid_change: () -> void
+
+      def secret: () -> String
+
+      def secret=: (String) -> String
+
+      def secret?: () -> bool
+
+      def secret_changed?: () -> bool
+
+      def secret_change: () -> [ String?, String? ]
+
+      def secret_will_change!: () -> void
+
+      def secret_was: () -> String?
+
+      def secret_previously_changed?: () -> bool
+
+      def secret_previous_change: () -> Array[String?]?
+
+      def secret_previously_was: () -> String?
+
+      def secret_before_last_save: () -> String?
+
+      def secret_change_to_be_saved: () -> Array[String?]?
+
+      def secret_in_database: () -> String?
+
+      def saved_change_to_secret: () -> Array[String?]?
+
+      def saved_change_to_secret?: () -> bool
+
+      def will_save_change_to_secret?: () -> bool
+
+      def restore_secret!: () -> void
+
+      def clear_secret_change: () -> void
+
+      def owner_type: () -> String?
+
+      def owner_type=: (String?) -> String?
+
+      def owner_type?: () -> bool
+
+      def owner_type_changed?: () -> bool
+
+      def owner_type_change: () -> [ String?, String? ]
+
+      def owner_type_will_change!: () -> void
+
+      def owner_type_was: () -> String?
+
+      def owner_type_previously_changed?: () -> bool
+
+      def owner_type_previous_change: () -> Array[String?]?
+
+      def owner_type_previously_was: () -> String?
+
+      def owner_type_before_last_save: () -> String?
+
+      def owner_type_change_to_be_saved: () -> Array[String?]?
+
+      def owner_type_in_database: () -> String?
+
+      def saved_change_to_owner_type: () -> Array[String?]?
+
+      def saved_change_to_owner_type?: () -> bool
+
+      def will_save_change_to_owner_type?: () -> bool
+
+      def restore_owner_type!: () -> void
+
+      def clear_owner_type_change: () -> void
+
+      def owner_id: () -> Integer?
+
+      def owner_id=: (Integer?) -> Integer?
+
+      def owner_id?: () -> bool
+
+      def owner_id_changed?: () -> bool
+
+      def owner_id_change: () -> [ Integer?, Integer? ]
+
+      def owner_id_will_change!: () -> void
+
+      def owner_id_was: () -> Integer?
+
+      def owner_id_previously_changed?: () -> bool
+
+      def owner_id_previous_change: () -> Array[Integer?]?
+
+      def owner_id_previously_was: () -> Integer?
+
+      def owner_id_before_last_save: () -> Integer?
+
+      def owner_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def owner_id_in_database: () -> Integer?
+
+      def saved_change_to_owner_id: () -> Array[Integer?]?
+
+      def saved_change_to_owner_id?: () -> bool
+
+      def will_save_change_to_owner_id?: () -> bool
+
+      def restore_owner_id!: () -> void
+
+      def clear_owner_id_change: () -> void
+
+      def client_credentials_user_id: () -> Integer?
+
+      def client_credentials_user_id=: (Integer?) -> Integer?
+
+      def client_credentials_user_id?: () -> bool
+
+      def client_credentials_user_id_changed?: () -> bool
+
+      def client_credentials_user_id_change: () -> [ Integer?, Integer? ]
+
+      def client_credentials_user_id_will_change!: () -> void
+
+      def client_credentials_user_id_was: () -> Integer?
+
+      def client_credentials_user_id_previously_changed?: () -> bool
+
+      def client_credentials_user_id_previous_change: () -> Array[Integer?]?
+
+      def client_credentials_user_id_previously_was: () -> Integer?
+
+      def client_credentials_user_id_before_last_save: () -> Integer?
+
+      def client_credentials_user_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def client_credentials_user_id_in_database: () -> Integer?
+
+      def saved_change_to_client_credentials_user_id: () -> Array[Integer?]?
+
+      def saved_change_to_client_credentials_user_id?: () -> bool
+
+      def will_save_change_to_client_credentials_user_id?: () -> bool
+
+      def restore_client_credentials_user_id!: () -> void
+
+      def clear_client_credentials_user_id_change: () -> void
+
+      def redirect_uri: () -> String
+
+      def redirect_uri=: (String) -> String
+
+      def redirect_uri?: () -> bool
+
+      def redirect_uri_changed?: () -> bool
+
+      def redirect_uri_change: () -> [ String?, String? ]
+
+      def redirect_uri_will_change!: () -> void
+
+      def redirect_uri_was: () -> String?
+
+      def redirect_uri_previously_changed?: () -> bool
+
+      def redirect_uri_previous_change: () -> Array[String?]?
+
+      def redirect_uri_previously_was: () -> String?
+
+      def redirect_uri_before_last_save: () -> String?
+
+      def redirect_uri_change_to_be_saved: () -> Array[String?]?
+
+      def redirect_uri_in_database: () -> String?
+
+      def saved_change_to_redirect_uri: () -> Array[String?]?
+
+      def saved_change_to_redirect_uri?: () -> bool
+
+      def will_save_change_to_redirect_uri?: () -> bool
+
+      def restore_redirect_uri!: () -> void
+
+      def clear_redirect_uri_change: () -> void
+
+      def scopes: () -> String
+
+      def scopes=: (String) -> String
+
+      def scopes?: () -> bool
+
+      def scopes_changed?: () -> bool
+
+      def scopes_change: () -> [ String?, String? ]
+
+      def scopes_will_change!: () -> void
+
+      def scopes_was: () -> String?
+
+      def scopes_previously_changed?: () -> bool
+
+      def scopes_previous_change: () -> Array[String?]?
+
+      def scopes_previously_was: () -> String?
+
+      def scopes_before_last_save: () -> String?
+
+      def scopes_change_to_be_saved: () -> Array[String?]?
+
+      def scopes_in_database: () -> String?
+
+      def saved_change_to_scopes: () -> Array[String?]?
+
+      def saved_change_to_scopes?: () -> bool
+
+      def will_save_change_to_scopes?: () -> bool
+
+      def restore_scopes!: () -> void
+
+      def clear_scopes_change: () -> void
+
+      def confidential: () -> bool
+
+      def confidential=: (bool) -> bool
+
+      def confidential?: () -> bool
+
+      def confidential_changed?: () -> bool
+
+      def confidential_change: () -> [ bool?, bool? ]
+
+      def confidential_will_change!: () -> void
+
+      def confidential_was: () -> bool?
+
+      def confidential_previously_changed?: () -> bool
+
+      def confidential_previous_change: () -> Array[bool?]?
+
+      def confidential_previously_was: () -> bool?
+
+      def confidential_before_last_save: () -> bool?
+
+      def confidential_change_to_be_saved: () -> Array[bool?]?
+
+      def confidential_in_database: () -> bool?
+
+      def saved_change_to_confidential: () -> Array[bool?]?
+
+      def saved_change_to_confidential?: () -> bool
+
+      def will_save_change_to_confidential?: () -> bool
+
+      def restore_confidential!: () -> void
+
+      def clear_confidential_change: () -> void
+
+      def created_at: () -> ActiveSupport::TimeWithZone
+
+      def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+      def created_at?: () -> bool
+
+      def created_at_changed?: () -> bool
+
+      def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+      def created_at_will_change!: () -> void
+
+      def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_previously_changed?: () -> bool
+
+      def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+      def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def saved_change_to_created_at?: () -> bool
+
+      def will_save_change_to_created_at?: () -> bool
+
+      def restore_created_at!: () -> void
+
+      def clear_created_at_change: () -> void
+
+      def updated_at: () -> ActiveSupport::TimeWithZone
+
+      def updated_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+      def updated_at?: () -> bool
+
+      def updated_at_changed?: () -> bool
+
+      def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+      def updated_at_will_change!: () -> void
+
+      def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_previously_changed?: () -> bool
+
+      def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+      def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def saved_change_to_updated_at?: () -> bool
+
+      def will_save_change_to_updated_at?: () -> bool
+
+      def restore_updated_at!: () -> void
+
+      def clear_updated_at_change: () -> void
+
+      def integration_type: () -> String?
+
+      def integration_type=: (String?) -> String?
+
+      def integration_type?: () -> bool
+
+      def integration_type_changed?: () -> bool
+
+      def integration_type_change: () -> [ String?, String? ]
+
+      def integration_type_will_change!: () -> void
+
+      def integration_type_was: () -> String?
+
+      def integration_type_previously_changed?: () -> bool
+
+      def integration_type_previous_change: () -> Array[String?]?
+
+      def integration_type_previously_was: () -> String?
+
+      def integration_type_before_last_save: () -> String?
+
+      def integration_type_change_to_be_saved: () -> Array[String?]?
+
+      def integration_type_in_database: () -> String?
+
+      def saved_change_to_integration_type: () -> Array[String?]?
+
+      def saved_change_to_integration_type?: () -> bool
+
+      def will_save_change_to_integration_type?: () -> bool
+
+      def restore_integration_type!: () -> void
+
+      def clear_integration_type_change: () -> void
+
+      def integration_id: () -> Integer?
+
+      def integration_id=: (Integer?) -> Integer?
+
+      def integration_id?: () -> bool
+
+      def integration_id_changed?: () -> bool
+
+      def integration_id_change: () -> [ Integer?, Integer? ]
+
+      def integration_id_will_change!: () -> void
+
+      def integration_id_was: () -> Integer?
+
+      def integration_id_previously_changed?: () -> bool
+
+      def integration_id_previous_change: () -> Array[Integer?]?
+
+      def integration_id_previously_was: () -> Integer?
+
+      def integration_id_before_last_save: () -> Integer?
+
+      def integration_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def integration_id_in_database: () -> Integer?
+
+      def saved_change_to_integration_id: () -> Array[Integer?]?
+
+      def saved_change_to_integration_id?: () -> bool
+
+      def will_save_change_to_integration_id?: () -> bool
+
+      def restore_integration_id!: () -> void
+
+      def clear_integration_id_change: () -> void
+    end
+    include GeneratedAttributeMethods
+    def access_grants: () -> Doorkeeper::AccessGrant::ActiveRecord_Associations_CollectionProxy
+    def access_grants=: (Doorkeeper::AccessGrant::ActiveRecord_Associations_CollectionProxy | Array[Doorkeeper::AccessGrant]) -> (Doorkeeper::AccessGrant::ActiveRecord_Associations_CollectionProxy | Array[Doorkeeper::AccessGrant])
+    def access_grant_ids: () -> Array[Integer]
+    def access_grant_ids=: (Array[Integer]) -> Array[Integer]
+    def access_tokens: () -> Doorkeeper::AccessToken::ActiveRecord_Associations_CollectionProxy
+    def access_tokens=: (Doorkeeper::AccessToken::ActiveRecord_Associations_CollectionProxy | Array[Doorkeeper::AccessToken]) -> (Doorkeeper::AccessToken::ActiveRecord_Associations_CollectionProxy | Array[Doorkeeper::AccessToken])
+    def access_token_ids: () -> Array[Integer]
+    def access_token_ids=: (Array[Integer]) -> Array[Integer]
+    def authorized_tokens: () -> Doorkeeper::AccessToken::ActiveRecord_Associations_CollectionProxy
+    def authorized_tokens=: (Doorkeeper::AccessToken::ActiveRecord_Associations_CollectionProxy | Array[Doorkeeper::AccessToken]) -> (Doorkeeper::AccessToken::ActiveRecord_Associations_CollectionProxy | Array[Doorkeeper::AccessToken])
+    def authorized_token_ids: () -> Array[Integer]
+    def authorized_token_ids=: (Array[Integer]) -> Array[Integer]
+    def authorized_applications: () -> Doorkeeper::Application::ActiveRecord_Associations_CollectionProxy
+    def authorized_applications=: (Doorkeeper::Application::ActiveRecord_Associations_CollectionProxy | Array[Doorkeeper::Application]) -> (Doorkeeper::Application::ActiveRecord_Associations_CollectionProxy | Array[Doorkeeper::Application])
+    def authorized_application_ids: () -> Array[Integer]
+    def authorized_application_ids=: (Array[Integer]) -> Array[Integer]
+
+    def integration: () -> untyped
+    def integration=: (untyped?) -> untyped?
+    def reload_integration: () -> untyped?
+    def owner: () -> untyped?
+    def owner=: (untyped?) -> untyped?
+    def reload_owner: () -> untyped?
+    module GeneratedAssociationMethods
+    end
+    include GeneratedAssociationMethods
+
+    module GeneratedRelationMethods
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Doorkeeper::Application, Integer]
+      include Enumerable[Doorkeeper::Application]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Doorkeeper::Application, Integer]
+    end
+  end
+end

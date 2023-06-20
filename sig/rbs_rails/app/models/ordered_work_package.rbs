@@ -1,0 +1,180 @@
+class OrderedWorkPackage < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[OrderedWorkPackage, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def position: () -> Integer
+
+    def position=: (Integer) -> Integer
+
+    def position?: () -> bool
+
+    def position_changed?: () -> bool
+
+    def position_change: () -> [ Integer?, Integer? ]
+
+    def position_will_change!: () -> void
+
+    def position_was: () -> Integer?
+
+    def position_previously_changed?: () -> bool
+
+    def position_previous_change: () -> Array[Integer?]?
+
+    def position_previously_was: () -> Integer?
+
+    def position_before_last_save: () -> Integer?
+
+    def position_change_to_be_saved: () -> Array[Integer?]?
+
+    def position_in_database: () -> Integer?
+
+    def saved_change_to_position: () -> Array[Integer?]?
+
+    def saved_change_to_position?: () -> bool
+
+    def will_save_change_to_position?: () -> bool
+
+    def restore_position!: () -> void
+
+    def clear_position_change: () -> void
+
+    def query_id: () -> Integer?
+
+    def query_id=: (Integer?) -> Integer?
+
+    def query_id?: () -> bool
+
+    def query_id_changed?: () -> bool
+
+    def query_id_change: () -> [ Integer?, Integer? ]
+
+    def query_id_will_change!: () -> void
+
+    def query_id_was: () -> Integer?
+
+    def query_id_previously_changed?: () -> bool
+
+    def query_id_previous_change: () -> Array[Integer?]?
+
+    def query_id_previously_was: () -> Integer?
+
+    def query_id_before_last_save: () -> Integer?
+
+    def query_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def query_id_in_database: () -> Integer?
+
+    def saved_change_to_query_id: () -> Array[Integer?]?
+
+    def saved_change_to_query_id?: () -> bool
+
+    def will_save_change_to_query_id?: () -> bool
+
+    def restore_query_id!: () -> void
+
+    def clear_query_id_change: () -> void
+
+    def work_package_id: () -> Integer?
+
+    def work_package_id=: (Integer?) -> Integer?
+
+    def work_package_id?: () -> bool
+
+    def work_package_id_changed?: () -> bool
+
+    def work_package_id_change: () -> [ Integer?, Integer? ]
+
+    def work_package_id_will_change!: () -> void
+
+    def work_package_id_was: () -> Integer?
+
+    def work_package_id_previously_changed?: () -> bool
+
+    def work_package_id_previous_change: () -> Array[Integer?]?
+
+    def work_package_id_previously_was: () -> Integer?
+
+    def work_package_id_before_last_save: () -> Integer?
+
+    def work_package_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def work_package_id_in_database: () -> Integer?
+
+    def saved_change_to_work_package_id: () -> Array[Integer?]?
+
+    def saved_change_to_work_package_id?: () -> bool
+
+    def will_save_change_to_work_package_id?: () -> bool
+
+    def restore_work_package_id!: () -> void
+
+    def clear_work_package_id_change: () -> void
+  end
+  include GeneratedAttributeMethods
+
+  def query: () -> Query
+  def query=: (Query?) -> Query?
+  def reload_query: () -> Query?
+  def build_query: (untyped) -> Query
+  def create_query: (untyped) -> Query
+  def create_query!: (untyped) -> Query
+  def work_package: () -> WorkPackage
+  def work_package=: (WorkPackage?) -> WorkPackage?
+  def reload_work_package: () -> WorkPackage?
+  def build_work_package: (untyped) -> WorkPackage
+  def create_work_package: (untyped) -> WorkPackage
+  def create_work_package!: (untyped) -> WorkPackage
+  module GeneratedAssociationMethods
+  end
+  include GeneratedAssociationMethods
+
+  module GeneratedRelationMethods
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[OrderedWorkPackage, Integer]
+    include Enumerable[OrderedWorkPackage]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[OrderedWorkPackage, Integer]
+  end
+end
