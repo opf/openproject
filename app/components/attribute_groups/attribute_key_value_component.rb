@@ -31,9 +31,5 @@
 module AttributeGroups
   class AttributeKeyValueComponent < ::RailsComponent
     options :key, :value
-
-    def initialize(attribute_key:, attribute_value:, **options)
-      super(attribute_key:, attribute_value:, **options)
-    end
   end
 end
