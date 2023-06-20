@@ -30,11 +30,11 @@ source 'https://rubygems.org'
 
 ruby '~> 3.2.1'
 
-gem 'ox'
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 1.4.0'
 gem 'activerecord-session_store', '~> 2.0.0'
+gem 'ox'
 gem 'rails', '~> 7.0', '>= 7.0.3.1'
 gem 'responders', '~> 3.0'
 
@@ -155,8 +155,8 @@ gem 'structured_warnings', '~> 0.4.0'
 # don't require by default, instead load on-demand when actually configured
 gem 'airbrake', '~> 13.0.0', require: false
 
-gem 'prawn', '~> 2.2'
 gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', tag: 'v0.0.18'
+gem 'prawn', '~> 2.2'
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem 'matrix', '~> 0.4.2'
 
@@ -323,6 +323,11 @@ gem 'googleauth', require: false
 
 # Required for contracts
 gem 'disposable', '~> 0.6.2'
+
+# Typing support
+gem 'rbs', '~> 3.1'
+gem 'rbs_rails', '~> 0.12.0'
+gem 'steep', '~> 1.4', group: :development, require: false
 
 platforms :mri, :mingw, :x64_mingw do
   group :postgres do
