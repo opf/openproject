@@ -283,11 +283,23 @@ Redmine::MenuManager.map :admin_menu do |menu|
             if: Proc.new { User.current.admin? },
             icon: 'enumerations'
 
+  menu.push :calendars_and_dates,
+            { controller: '/admin/settings/working_days_settings', action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_calendars_and_dates,
+            icon: 'calendar'
+
   menu.push :working_days,
             { controller: '/admin/settings/working_days_settings', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_working_days,
-            icon: 'calendar'
+            parent: :calendars_and_dates
+
+  menu.push :date_format,
+            { controller: '/admin/settings/date_format_settings', action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_date_format,
+            parent: :calendars_and_dates
 
   menu.push :settings,
             { controller: '/admin/settings/general_settings', action: :show },
