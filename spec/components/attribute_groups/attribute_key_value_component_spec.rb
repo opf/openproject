@@ -31,13 +31,9 @@
 require "rails_helper"
 
 RSpec.describe AttributeGroups::AttributeKeyValueComponent, type: :component do
-  subject(:component_render) do
-    render_inline(described_class.new(key: 'Attribute Key', value: 'Attribute Value'))
-  end
-
-  before { component_render }
-
   it 'renders the attribute key and value' do
+    render_inline(described_class.new(key: 'Attribute Key', value: 'Attribute Value'))
+
     expect(page).to have_css('.attributes-key-value--key', text: 'Attribute Key') &
       have_css('.attributes-key-value--value.-text', text: 'Attribute Value')
   end

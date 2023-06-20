@@ -31,13 +31,9 @@
 require "rails_helper"
 
 RSpec.describe AttributeGroups::AttributeGroupHeaderComponent, type: :component do
-  subject(:component_render) do
-    render_inline(described_class.new(title: 'A Title'))
-  end
-
-  before { component_render }
-
   it 'renders the title' do
+    render_inline(described_class.new(title: 'A Title'))
+
     expect(page).to have_css('h3.attributes-group--header-text', text: 'A Title')
   end
 end
