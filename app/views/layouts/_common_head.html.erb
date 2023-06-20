@@ -4,6 +4,9 @@
 <%= appsignal_frontend_tag %>
 <%= javascript_include_tag("primer_view_components") %>
 
+<link href="https://unpkg.com/@primer/css@^21.0.3/dist/primer.css" rel="stylesheet" />
+<link href="https://primer.style/assets/primer_view_components-b26de84ca0cd2f09f95c7e8960769ae271ffc78ec133c0ad33cd7b1498dc4aa8.css" rel="stylesheet" />
+
 <% relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || '' %>
 <meta name="app_base_path" content="<%= relative_url_root %>"/>
 <base href="<%= relative_url_root %>/" />

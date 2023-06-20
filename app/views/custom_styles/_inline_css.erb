@@ -29,26 +29,39 @@ See COPYRIGHT and LICENSE files for more details.
 
 <style type="text/css">
   :root {
-  <%  DesignColor.overwritten.each do |design_color| %>
-    --<%= design_color.variable %>: <%= design_color.hexcode %>;
-    <% if design_color.variable == "header-border-bottom-color" %>
-    --header-border-bottom-width: 1px;
+    <% DesignColor.overwritten.each do |design_color| %>
+      --<%= design_color.variable %>: <%= design_color.hexcode %>;
+      <% if design_color.variable == "header-border-bottom-color" %>
+      --header-border-bottom-width: 1px;
+      <% end %>
+      <% if design_color.variable == "main-menu-border-color" %>
+      --main-menu-border-width: 1px;
+      <% end %>
+      <% if design_color.variable == "alternative-color" %>
+      --button--alt-highlight-background-hover-color: <%= design_color.darken 0.18 %>;
+      <% end %>
+      <% if design_color.variable == "primary-color" %>
+        --primary-color--minor1: <%= design_color.lighten 0.3 %>;
+        --primary-color--minor2: <%= design_color.lighten 0.6 %>;
+        --primary-color--minor3: <%= design_color.lighten 0.8 %>;
+        --primary-color--major1: <%= design_color.darken 0.2 %>;
+        --primary-color--major2: <%= design_color.darken 0.4 %>;
+        --primary-color--major3: <%= design_color.darken 0.6 %>;
+      <% end %>
     <% end %>
-    <% if design_color.variable == "main-menu-border-color" %>
-    --main-menu-border-width: 1px;
+  }
+
+  /* Overwrite Primer primitives */
+  [data-color-mode] {
+    <% DesignColor.overwritten.each do |design_color| %>
+      <% if design_color.variable == "alternative-color" %>
+        --color-btn-primary-bg:  <%= design_color.hexcode %> !important;
+        --color-btn-primary-hover-bg:  <%= design_color.darken 0.18 %> !important;
+      <% end %>
+      <% if design_color.variable == "content-link-color" %>
+        --color-accent-fg: <%= design_color.hexcode %> !important;
+      <% end %>
     <% end %>
-    <% if design_color.variable == "alternative-color" %>
-    --button--alt-highlight-background-hover-color: <%= design_color.darken 0.18 %>;
-    <% end %>
-    <% if design_color.variable == "primary-color" %>
-      --primary-color--minor1: <%= design_color.lighten 0.3 %>;
-      --primary-color--minor2: <%= design_color.lighten 0.6 %>;
-      --primary-color--minor3: <%= design_color.lighten 0.8 %>;
-      --primary-color--major1: <%= design_color.darken 0.2 %>;
-      --primary-color--major2: <%= design_color.darken 0.4 %>;
-      --primary-color--major3: <%= design_color.darken 0.6 %>;
-    <% end %>
-  <% end %>
   }
 
   <%# Conditional styles %>

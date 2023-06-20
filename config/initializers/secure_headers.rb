@@ -74,7 +74,7 @@ Rails.application.config.after_initialize do
       # Allow scripts from self
       script_src:,
       # Allow unsafe-inline styles
-      style_src: assets_src + %w('unsafe-inline'),
+      style_src: assets_src + %w('unsafe-inline' https://unpkg.com https://primer.style),
       # Allow object-src from Release API
       object_src: [OpenProject::Configuration[:security_badge_url]],
 

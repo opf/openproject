@@ -26,12 +26,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= render(Primer::Beta::Button.new(size: :small)) { "Small" } %>
 
-<button id="button-preview" type="button" data-view-component="true" class="Button--secondary Button--medium Button">    <span class="Button-content">
-    <span class="Button-label">Button</span>
-  </span>
-</button>
+<%= render(Primer::Beta::Button.new(scheme: :primary)) do |_c|
+  "I am a Primer PRIMARY button with OP's theme"
+end %>
+
+<%= render(Primer::Beta::Button.new(scheme: :secondary)) do |_c|
+  "I am a Primer SECONDARY button with OP's theme"
+end %>
 
 <% breadcrumb_paths(nil) %>
 <h2 class="headline--application">
