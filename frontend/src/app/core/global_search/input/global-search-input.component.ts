@@ -38,7 +38,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { first, map, tap } from 'rxjs/operators';
 import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
@@ -291,7 +291,12 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   private autocompleteWorkPackages(query:string):Observable<(WorkPackageResource|SearchOptionItem)[]> {
     if (!query) {
-      return of([{ text: 'This needs the latest WP to be loaded', projectScope: 'test' }]);
+      // replace with recent work packages read from local storage
+      const wpIds = ['9', '12'];
+      void this.apiV3Service
+        .work_packages
+        .requireAll(wpIds);
+      return this.apiV3Service.work_packages.cache.observeSome(wpIds);
     }
 
     // Reset the currently selected item.
