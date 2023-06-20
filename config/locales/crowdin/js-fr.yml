@@ -127,7 +127,7 @@ fr:
     description_available_columns: "Colonnes disponibles"
     description_current_position: "Vous êtes ici :"
     description_select_work_package: "Sélectionner le lot de travaux #%{id}"
-    description_selected_columns: "Colonnes Sélectionnées"
+    description_selected_columns: "Colonnes sélectionnées"
     description_subwork_package: "Enfant du lot de travaux #%{id}"
     editor:
       preview: 'Basculer en mode aperçu'
@@ -325,13 +325,13 @@ fr:
       token_name_label: "Token name"
       token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
       token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
-      copy_url_label: "Copy URL"
+      copy_url_label: "Copier l'URL"
       ical_generation_error_text: "An error occured while generating the iCal URL."
       copy_url_success_text: "URL copied to clipboard."
       copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
     label_activate: "Activer"
     label_assignee: 'Responsable'
-    label_add_column_after: "Ajouter une colonne au-dessus"
+    label_add_column_after: "Ajouter une colonne après"
     label_add_column_before: "Ajouter une colonne avant"
     label_add_columns: "Ajouter des colonnes"
     label_add_comment: "Ajouter un commentaire"
@@ -1016,8 +1016,8 @@ fr:
         hierarchy_disabled_by_group_by: "Le mode hiérarchie est désactivé, car les résultats sont groupés par %{column}."
         sort_ascending: "Trier par ordre croissant"
         sort_descending: "Trier par ordre décroissant"
-        move_column_left: "Déplacer la colonne de gauche"
-        move_column_right: "Déplacer le colonne de droite"
+        move_column_left: "Déplacer la colonne à gauche"
+        move_column_right: "Déplacer la colonne à droite"
         hide_column: "Masquer la colonne"
         insert_columns: "Insérer des colonnes"
         filters: "Filtres"
@@ -1040,7 +1040,7 @@ fr:
         configure_button: 'Configurer le tableau du lot de travaux'
         summary: "Tableau avec lignes de lots de travaux et colonnes d’attributs de lots de travaux."
         text_inline_edit: "La plupart des cellules de ce tableau sont des boutons qui activent la fonctionnalité d'édition en ligne de l’attribut."
-        text_sort_hint: "Avec les liens dans les en-têtes de tableau vous pouvez trier, regrouper, réorganiser, supprimer et ajouter des colonnes."
+        text_sort_hint: "Avec les liens dans les entêtes de tableau, vous pouvez trier, regrouper, réorganiser, supprimer et ajouter des colonnes."
         text_select_hint: "Les boîtes de sélection doivent être ouvertes avec la touche « ALT » et les flèches directionelles."
       table_configuration:
         button: 'Configurer ce tableau du lot de travaux'
@@ -1069,7 +1069,7 @@ fr:
           automatic: 'Automatique'
           manually: 'Manuellement'
           warning: 'Vous perdrez votre tri précédent lors de l''activation du mode de tri automatique.'
-        columns_help_text: "Utilisez le champ de saisie ci-dessus pour ajouter des colonnes à votre vue table. Vous pouvez glisser-déposer les colonnes pour les réorganiser."
+        columns_help_text: "Utilisez le champ de saisie ci-dessus pour ajouter des colonnes à votre vue de tableau. Vous pouvez glisser-déposer les colonnes pour les réorganiser."
         upsale:
           attribute_highlighting: 'Vous avez besoin de lots de travaux qui sortent du lot ?'
           relation_columns: 'Besoin de voir les relations sur la liste des lots de travaux ?'

@@ -3,11 +3,11 @@ lt:
   permission_view_file_links: "Žiūrėti failo nuorodas"
   permission_manage_file_links: "Tvarkyti failo nuorodas"
   permission_manage_storages_in_project: "Tvarkyti failų saugyklas projekte"
-  permission_read_files: "Read files"
-  permission_write_files: "Write files"
-  permission_create_files: "Create files"
-  permission_delete_files: "Delete files"
-  permission_share_files: "Share files"
+  permission_read_files: "Skaityti failus"
+  permission_write_files: "Rašyti failus"
+  permission_create_files: "Kurti failus"
+  permission_delete_files: "Trinti failus"
+  permission_share_files: "Bendrinti failus"
   project_module_storages: "Failų saugyklos"
   activerecord:
     models:
@@ -30,9 +30,9 @@ lt:
               minimal_nextcloud_version_unmet: "neatitinka minimalių versijos reikalavimų (turi būti Nextcloud 23 ar aukštesnis)"
               not_nextcloud_server: "nėra Nextcloud serveris"
               op_application_not_installed: >
-                appears to not have the app "OpenProject integration" installed. Please install it first and then try again.
+                panašu neturi įdiegtos „OpenProject integracijos“ aplikacijos. Prašome ją įdiegti ir bandyti dar kartą.
               authorization_header_missing: >
-                is not fully set up. The Nextcloud instance does not receive the "Authorization" header, which is necessary for a Bearer token based authorization of API requests. Please double check your HTTP server configuration.
+                nėra pilnai nustatytas. Nextcloud egzempliorius negauna „Autorizacijos“ antraštės, kuri būtina Turėtojo žetonu paremtoms autorizacijos API užklausoms. Prašome patikrinti jūsų HTTP serverio konfigūraciją.
         storages/file_link:
           attributes:
             origin_id:
@@ -42,40 +42,40 @@ lt:
       too_many_elements_created_at_once: "Per daug elementu vienu metu. Tikėtasi daugiausia %{max}, gauta %{actual}."
   storages:
     buttons:
-      done_continue_setup: "Done. Continue setup"
-      replace_openproject_oauth: "Replace OpenProject OAuth"
-      replace_provider_type_oauth: "Replace %{provider_type} OAuth"
-      save_and_continue_setup: "Save and continue setup"
-      save_and_complete_setup: "Save and complete setup"
-      select_folder: "Select folder"
+      done_continue_setup: "Atlikta. Tęsti nustatymą"
+      replace_openproject_oauth: "Keisti OpenProject OAuth"
+      replace_provider_type_oauth: "Keisti %{provider_type} OAuth"
+      save_and_continue_setup: "Įrašyti r tęsti nustatymą"
+      save_and_complete_setup: "Įrašyti ir baigti nustatymą"
+      select_folder: "Parinkti aplanką"
     page_titles:
       project_settings:
         index: "Šiame projekte prieinamos failų saugyklos."
-        new: "Add a file storage to this project"
-        edit: "Edit the file storage to this project"
+        new: "Pridėti failų saugyklą šiam projektui"
+        edit: "Keisti šio projekto failų saugyklą"
     instructions:
-      type: "Please make sure you have administration privileges in your Nextcloud instance and have the following application installed before doing the setup:"
-      type_link_text: "“Integration OpenProject”"
-      name: "Give your storage a name so that users can differentiate between multiple storages."
-      host: "Please add the host address of your storage including the https://. It should not be longer than 255 characters."
-      no_storage_set_up: "There are no file storages set up yet."
-      no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
-      automatic_folder: "This will automatically create a root folder for this project and manage the access permissions for each project member."
-      empty_project_folder_validation: "Selecting a folder is mandatory to proceed."
-      not_logged_into_storage: "To select a project folder, please first login"
+      type: "Prašome įsitikinti, kad turite administratoriaus teises jūsų Nextcloud egzemplioriuje bei kad įdiegtos šios aplikacijos, prieš tęsiant nustatymą:"
+      type_link_text: "„Integration OpenProject“"
+      name: "Suteikite jūsų saugyklai pavadinimą, kad naudotojai galėtų atskirti tarp skirtingų saugyklų."
+      host: "Prašome pridėti jūsų saugyklos stoties adresą, įskaitant https://. Jis turi būti ne ilgesnis už 255 simbolius."
+      no_storage_set_up: "Dar nėra nustatyta nei viena failų saugykla."
+      no_specific_folder: "Pagal nutylėjimą visi naudotojai įkeldami naujus failus pradės savo namų aplanke."
+      automatic_folder: "Tai automatiškai sukurs šakninį aplanką šiam projektui ir tvarkys prieigos teises kiekvienam projekto nariui."
+      empty_project_folder_validation: "Norint tęsti būtina parinkti aplanką."
+      not_logged_into_storage: "Prieš parinkdami projekto aplanką turite prisijungti"
       existing_manual_folder: >
-        You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
+        Jūs galite esamą aplanką paskirti šakniniu šiam projektui. Kaip bebūtų, teisės automatiškai netvarkomos, administratoriui reikia rankiniu būdu užtikrinti, kad atitinkami naudotojai turėtų prieigą. Parintktą aplanką gali naudoti keli projektai.
       setting_up_additional_storages: "Norėdami sukurti papildomas failų saugyklas, prašome aplankyti"
       setting_up_additional_storages_non_admin: "Administratoriai gali sukurti papildomas failų saugyklas: Administravimas / Failų saugyklos."
       setting_up_storages: "Norėdami nustatyti failų saugyklas aplankykite"
       setting_up_storages_non_admin: "Administratoriai gali nustatyti failų saugyklas: Administravimas / Failų saugyklos"
       all_available_storages_already_added: "Visos galimos failų saugyklos jau pridėtos į projektą."
-      copy_from: "Copy this value from"
+      copy_from: "Kopijuoti reikšmę iš"
       nextcloud:
-        integration: "Nextcloud Administration / OpenProject"
+        integration: "Nextclout Administravimas / OpenProject"
     help_texts:
       project_folder: >
-        The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
+        Projekto aplankas yra numatytasis aplankas failų įkėlimui šiame projekte. Naudotojai gali įkelti failus ir į kitas vietas.
     delete_warning:
       storage: >
         Ar tikrai norite ištrinti šią failų saugyklą? Saugykla taipogi bus ištrinta iš visų projektų, kur ji naudojama. Taipogi tai ištrins visus ryšius iš darbo paketų į failus, esančius šioje saugykloje.
@@ -85,28 +85,28 @@ lt:
     label_file_link: "Failo nuoroda"
     label_file_links: "Failo nuorodos"
     label_name: "Pavadinimas"
-    label_host: "Host URL"
+    label_host: "Stoties URL"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
-    label_oauth_application_details: "OAuth application details"
-    label_oauth_client_details: "OAuth client details"
+    label_oauth_application_details: "OAuth aplikacijos detalės"
+    label_oauth_client_details: "OAuth kliento detalės"
     label_provider_type: "Tiekėjo tipas"
-    label_project_folder: "Project folder"
+    label_project_folder: "Projekto aplankas"
     label_new_storage: "Nauja saugykla"
-    label_existing_manual_folder: "Existing folder with manually managed permissions"
-    label_no_specific_folder: "No specific folder"
-    label_automatic_folder: "New folder with automatically managed permissions"
-    label_no_selected_folder: "No selected folder"
+    label_existing_manual_folder: "Esamas aplankas su rankiniu būdu valdomomis teisėmis"
+    label_no_specific_folder: "Jokio konkretaus aplanko"
+    label_automatic_folder: "Naujas aplankas su automatiškai valdomomis teisėmis"
+    label_no_selected_folder: "Nėra prinkto aplanko"
     label_storage: "Saugykla"
     label_storages: "Saugyklos"
-    no_results: "No storages set up yet."
+    no_results: "Dar nenustatyta jokia saugykla."
     provider_types:
       label: "Tiekėjo tipas"
       nextcloud:
         name: "Nextcloud"
-        name_placeholder: "e.g. Nextcloud"
-        default_name: "My Nextcloud"
+        name_placeholder: "pvz. Nextcloud"
+        default_name: "Mano Nextcloud"
     confirm_replace_oauth_application: "Are you sure? All users will have to authorize again against OpenProject."
     confirm_replace_oauth_client: "Are you sure? All users will have to authorize again against the storage."
     oauth_client_details_missing: "To complete the setup, please add OAuth client credentials from your storage."
