@@ -88,8 +88,10 @@ See COPYRIGHT and LICENSE files for more details.
 
   <% if @object.oauth_client %>
     <% component.with_attributes_key_value([
-      { key: t(:'storages.label_oauth_client_id'), value: @object.oauth_client.client_id },
-      { key: t(:'storages.label_oauth_client_secret'), value: short_secret(@object.oauth_client.client_secret) },
+      { key: "#{t("storages.provider_types.#{@object.short_provider_type}.name")} #{Storages::Admin::LABEL_OAUTH_CLIENT_ID}",
+        value: @object.oauth_client.client_id },
+      { key: "#{t("storages.provider_types.#{@object.short_provider_type}.name")} #{Storages::Admin::LABEL_OAUTH_CLIENT_SECRET}",
+        value: short_secret(@object.oauth_client.client_secret) },
     ]) %>
   <% else %>
     <% t(:'storages.oauth_client_details_missing') %>
