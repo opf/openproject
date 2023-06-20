@@ -1,0 +1,7 @@
+module Aws
+  module ClientStubs
+    def stub_responses: (Symbol operation_name, *untyped stubs) -> void
+    def api_requests: () -> Array[{ operation_name: Symbol, params: untyped, context: untyped }]
+    def stub_data: (Symbol operation_name, untyped data) -> untyped
+  end
+end

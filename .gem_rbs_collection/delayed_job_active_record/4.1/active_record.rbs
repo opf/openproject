@@ -1,0 +1,33 @@
+module Delayed
+  module Backend
+    module ActiveRecord
+      self.@configuration: Configuration
+
+      def self.configuration: -> Configuration
+      def self.configure: [T] () { (Configuration) -> T } -> T
+
+      class Configuration
+        attr_reader reserve_sql_strategy: Symbol
+        def initialize: -> void
+        def reserve_sql_strategy=: (Symbol val) -> Symbol
+      end
+
+      class Job < ::ActiveRecord::Base
+        def self.set_delayed_job_table_name: -> String
+        def self.ready_to_run: (untyped worker_name, untyped max_run_time) -> untyped
+        def self.before_fork: -> untyped
+        def self.after_fork: -> untyped
+        def self.clear_locks!: (untyped worker_name) -> untyped
+        def self.reserve: (untyped worker, ?untyped max_run_time) -> untyped
+        def self.reserve_with_scope: (untyped ready_scope, untyped worker, Time now) -> untyped
+        def self.reserve_with_scope_using_optimized_sql: (untyped ready_scope, untyped worker, Time now) -> untyped
+        def self.reserve_with_scope_using_default_sql: (untyped ready_scope, untyped worker, Time now) -> untyped
+        def self.reserve_with_scope_using_optimized_postgres: (untyped ready_scope, untyped worker, Time now) -> untyped
+        def self.reserve_with_scope_using_optimized_mysql: (untyped ready_scope, untyped worker, Time now) -> Job?
+        def self.reserve_with_scope_using_optimized_mssql: (untyped ready_scope, untyped worker, Time now) -> Job?
+        def self.db_time_now: -> Time
+        def reload: (*untyped args) -> untyped
+      end
+    end
+  end
+end

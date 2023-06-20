@@ -1,0 +1,269 @@
+module I18n
+  def self.cache_store: -> untyped
+  def self.cache_store=: (untyped store) -> untyped
+  def self.cache_namespace: -> untyped
+  def self.cache_namespace=: (untyped namespace) -> untyped
+  def self.cache_key_digest: -> untyped
+  def self.cache_key_digest=: (untyped key_digest) -> untyped
+  def self.perform_caching?: -> bool
+
+  def self.fallbacks: -> untyped
+  def self.fallbacks=: (untyped fallbacks) -> untyped
+
+  class JSON
+    def self.encode: (untyped value) -> untyped
+    def self.decode: (untyped value) -> untyped
+  end
+
+  module Backend
+    module Base
+      include I18n::Backend::Transliterator
+
+      def load_translations: (*untyped filenames) { (untyped, untyped) -> untyped } -> untyped
+      def store_translations: (untyped locale, untyped data, ?untyped options) -> untyped
+      def translate: (untyped locale, untyped key, ?untyped options) -> (nil | untyped)
+      def exists?: (untyped locale, untyped key, ?untyped options) -> untyped
+      def localize: (untyped locale, untyped object, ?::Symbol format, ?untyped options) -> untyped
+      def available_locales: -> untyped
+      def reload!: -> untyped
+      def eager_load!: -> true
+      def eager_loaded?: -> bool
+      def lookup: (untyped locale, untyped key, ?untyped scope, ?untyped options) -> untyped
+      def subtrees?: -> true
+      def default: (untyped locale, untyped object, untyped subject, ?untyped options) -> untyped
+      def resolve: (untyped locale, untyped object, untyped subject, ?untyped options) -> untyped
+      def pluralize: (untyped locale, untyped entry, untyped count) -> untyped
+      def interpolate: (untyped locale, untyped subject, ?untyped values) -> untyped
+      def deep_interpolate: (untyped locale, untyped data, ?untyped values) -> untyped
+      def load_file: (String filename) -> Hash[untyped, untyped]
+      def load_rb: (String filename) -> [untyped, false]
+      def load_yml: (String filename) -> [untyped, bool]
+      def load_json: (String filename) -> [untyped, bool]
+      def translate_localization_format: (untyped locale, untyped object, untyped format, untyped options) -> untyped
+      def pluralization_key: (untyped entry, untyped count) -> Symbol
+    end
+
+    module Cache
+      def translate: (untyped locale, untyped key, ?untyped options) -> untyped
+      def fetch: (String cache_key) { -> untyped } -> untyped
+      def _fetch: (String cache_key) { -> untyped } -> untyped
+      def cache_key: (untyped locale, untyped key, untyped options) -> String
+
+      private
+      def digest_item: (untyped key) -> untyped
+    end
+
+    module CacheFile
+      attr_accessor path_roots: Array[untyped]
+      def load_file: (String filename) -> untyped
+      def normalized_path: (String file) -> String
+    end
+
+    module Cascade
+      def lookup: (untyped locale, untyped key, ?Array[untyped] scope, ?untyped options) -> untyped
+    end
+
+    class Chain
+      include Implementation
+
+      module Implementation
+        attr_accessor backends: untyped
+        def initialize: (*untyped backends) -> void
+        def initialized?: -> bool
+        def reload!: -> untyped
+        def eager_load!: -> untyped
+        def store_translations: (untyped locale, untyped data, ?untyped options) -> untyped
+        def available_locales: -> untyped
+        def translate: (untyped locale, untyped key, ?untyped default_options) -> untyped
+        def exists?: (untyped locale, untyped key, ?untyped options) -> untyped
+        def localize: (untyped locale, untyped object, ?untyped format, ?untyped options) -> untyped
+        def init_translations: -> untyped
+        def translations: -> Hash[untyped, untyped]
+        def namespace_lookup?: (untyped result, untyped options) -> bool
+
+        private
+        def _deep_merge: (Hash[untyped, untyped] hash, Hash[untyped, untyped] other_hash) -> Hash[untyped, untyped]
+      end
+    end
+
+    module Fallbacks
+      def translate: (untyped locale, untyped key, ?untyped options) -> untyped
+      def resolve_entry: (untyped locale, untyped object, untyped subject, ?untyped options) -> untyped
+      def extract_non_symbol_default!: (untyped options) -> untyped
+      def exists?: (untyped locale, untyped key, ?untyped options) -> bool
+
+      private
+      def on_fallback: (untyped _original_locale, untyped _fallback_locale, untyped _key, untyped _optoins) -> untyped
+    end
+
+    module Flatten
+      SEPARATOR_ESCAPE_CHAR: String
+      FLATTEN_SEPARATOR: String
+
+      def self.normalize_flat_keys: (untyped locale, untyped key, untyped scope, untyped separator) -> String
+      def self.escape_default_separator: (untyped key) -> String
+      def normalize_flat_keys: (untyped locale, untyped key, untyped scope, untyped separator) -> String
+      def links: -> untyped
+      def flatten_keys: (Hash[untyped, untyped] hash, untyped escape, ?untyped? prev_key) { (untyped, untyped) -> void } -> untyped
+      def flatten_translations: (untyped locale, untyped data, untyped escape, untyped subtree) -> Hash[untyped, untyped]
+      def store_link: (untyped locale, String key, untyped link) -> String
+      def resolve_link: (untyped locale, untyped key) -> String
+      def find_link: (untyped locale, String key) -> [untyped, untyped]?
+      def escape_default_separator: (untyped key) -> untyped
+    end
+
+    module Gettext
+      def load_po: (String filename) -> [Hash[Symbol, untyped], false]
+      def parse: (String filename) -> untyped
+      def normalize: (Symbol locale, untyped data) -> untyped
+      def normalize_pluralization: (Symbol locale, String key, untyped value) -> [String, Hash[untyped, untyped]]
+
+      class PoData < Hash[untyped, untyped]
+        def set_comment: (untyped msgid_or_sym, untyped comment) -> void
+      end
+    end
+
+    module InterpolationCompiler
+      def interpolate: (untyped locale, untyped string, untyped values) -> untyped
+      def store_translations: (untyped locale, untyped data, ?untyped options) -> untyped
+      def compile_all_strings_in: (untyped data) -> untyped
+
+      module Compiler
+        TOKENIZER: Regexp
+        INTERPOLATION_SYNTAX_PATTERN: Regexp
+        extend Compiler
+
+        def compile_if_an_interpolation: (untyped string) -> untyped
+        def interpolated_str?: (untyped str) -> untyped
+        def tokenize: (String str) -> Array[String]
+        def compiled_interpolation_body: (String str) -> String
+        def handle_interpolation_token: (untyped interpolation, untyped matchdata) -> String
+        def compile_interpolation_token: (untyped key) -> String
+        def interpolate_or_raise_missing: (untyped key) -> String
+        def interpolate_key: (untyped key) -> String
+        def direct_key: (untyped key) -> String
+        def nil_key: (untyped key) -> String
+        def missing_key: (untyped key) -> String
+        def reserved_key: (untyped key) -> String
+        def escape_plain_str: (String str) -> String
+        def escape_key_sym: (untyped key) -> String
+      end
+    end
+
+    class KeyValue
+      include Implementation
+
+      module Implementation
+        attr_accessor store: untyped
+        def initialize: (untyped store, ?bool subtrees) -> void
+        def initialized?: -> bool
+        def store_translations: (untyped locale, untyped data, ?untyped options) -> untyped
+        def available_locales: -> Array[Symbol]
+        def translations: -> Hash[untyped, untyped]
+        def init_translations: -> void
+        def subtrees?: -> bool
+        def lookup: (untyped locale, untyped key, ?Array[untyped] scope, ?untyped options) -> untyped
+        def pluralize: (untyped locale, untyped entry, untyped count) -> untyped
+      end
+
+      class SubtreeProxy
+        def initialize: (untyped master_key, untyped store) -> void
+        def has_key?: (untyped key) -> bool
+        def []: (untyped key) -> untyped
+        def is_a?: (untyped klass) -> bool
+        alias kind_of? is_a?
+        def instance_of?: (untyped klass) -> bool
+        def nil?: -> bool
+        def inspect: -> String
+      end
+    end
+
+    module Metadata
+      def self.included: (untyped base) -> void
+      def translate: (untyped locale, untyped key, ?untyped options) -> untyped
+      def interpolate: (untyped locale, untyped entry, ?untyped values) -> untyped
+      def pluralize: (untyped locale, untyped entry, untyped count) -> untyped
+      def with_metadata: (Hash[Symbol, untyped] metadata) { -> untyped } -> untyped
+    end
+
+    class Simple
+      include Implementation
+
+      module Implementation
+        def initialized?: -> bool
+        def store_translations: (untyped locale, untyped data, ?untyped options) -> untyped
+        def available_locales: -> untyped
+        def reload!: -> untyped
+        def eager_load!: -> untyped
+        def translations: (?do_init: bool) -> untyped
+        def init_translations: -> true
+        def lookup: (untyped locale, untyped key, ?Array[untyped] scope, ?untyped options) -> untyped
+      end
+    end
+
+    module Transliterator
+      DEFAULT_REPLACEMENT_CHAR: String
+
+      def transliterate: (untyped locale, untyped string, ?untyped replacement) -> untyped
+      def self.get: (?untyped rule) -> (HashTransliterator | ProcTransliterator)
+
+      class ProcTransliterator
+        def initialize: (untyped rule) -> void
+        def transliterate: (untyped string, ?untyped replacement) -> untyped
+      end
+
+      class HashTransliterator
+        DEFAULT_APPROXIMATIONS: Hash[String, String]
+
+        def initialize: (?untyped rule) -> void
+        def transliterate: (String string, ?untyped replacement) -> String
+
+        private
+        def approximations: -> Hash[untyped, untyped]
+        def add_default_approximations: -> Hash[String, String]
+        def add: (Hash[untyped, untyped] hash) -> untyped
+      end
+    end
+
+    module Memoize
+      def available_locales: -> untyped
+      def store_translations: (untyped locale, untyped data, ?untyped options) -> untyped
+      def reload!: -> untyped
+      def eager_load!: -> untyped
+      def lookup: (untyped locale, untyped key, ?untyped scope, ?untyped options) -> untyped
+      def memoized_lookup: -> untyped
+      def reset_memoizations!: (?untyped locale) -> untyped
+    end
+
+    class LazyLoadable
+      def initialize: (?lazy_load: bool) -> void
+      def initialized?: -> bool
+      def reload!: -> untyped
+      def eager_load!: -> untyped
+      def available_locales: -> untyped
+      def lookup: (untyped locale, untyped key, ?Array[untyped] scope, ?untyped options) -> untyped
+      def init_translations: -> void
+      def initialized_locales: -> Hash[untyped, untyped]
+
+      private
+      def lazy_load?: -> bool
+      def load_translations_and_collect_file_errors: (untyped files) -> Array[untyped]
+      def filenames_for_current_locale: -> untyped
+      def assert_file_named_correctly!: (untyped file, untyped translations) -> void
+
+      class FilenameIncorrect < StandardError
+        def initialize: (untyped file, Symbol? expected_locale, untyped unexpected_locales) -> void
+      end
+    end
+
+    class LocaleExtractor
+      def self.locale_from_path: (String path) -> Symbol?
+    end
+
+    module Pluralization
+      def pluralize: (untyped locale, untyped entry, untyped count) -> untyped
+      def pluralizers: -> Hash[untyped, untyped]
+      def pluralizer: (untyped locale) -> untyped
+    end
+  end
+end

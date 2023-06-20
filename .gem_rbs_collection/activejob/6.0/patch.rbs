@@ -1,0 +1,36 @@
+# Remove the fake type if the real type is available
+module Que
+  class Job
+  end
+end
+
+# Remove the fake type if the real type is available
+class QC
+  class Queue
+  end
+end
+
+# Remove the fake type if the real type is available
+module Sidekiq
+  module Worker
+  end
+end
+
+# Remove the fake type if the real type is available
+module Sneakers
+  module Worker
+  end
+end
+
+# Remove the fake type if the real type is available
+module SuckerPunch
+  module Job
+  end
+end
+
+# Remove the fake types for Gem::Version
+# if the real types are available.
+module Gem
+  class Version
+  end
+end

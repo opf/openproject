@@ -1,0 +1,56 @@
+# WARNING ABOUT GENERATED CODE
+#
+# This file is generated. See the generator README.md for more information:
+# https://github.com/ruby/gem_rbs_collection/blob/main/generators/aws-sdk-rbs-generator/README.md
+#
+# WARNING ABOUT GENERATED CODE
+
+module Aws
+  module S3
+    class BucketWebsite
+      # identifiers
+
+      def initialize: (bucket_name: String, ?client: Client, **untyped) -> void
+      def bucket_name: () -> String
+
+      # data_attribute
+
+      def redirect_all_requests_to: () -> Types::RedirectAllRequestsTo
+      def index_document: () -> Types::IndexDocument
+      def error_document: () -> Types::ErrorDocument
+      def routing_rules: () -> Types::routing_rules_output
+
+      # client_method
+
+      def client: () -> Client
+
+      # load_method
+
+      def load: () -> self
+      alias reload load
+
+      # data_method
+
+      def data: () -> Types::GetBucketWebsiteOutput
+
+      def data_loaded?: () -> bool
+
+      # waiters
+
+
+      # actions
+
+      def delete: (?expected_bucket_owner: Types::account_id) -> EmptyStructure
+      def put: (?content_md5: Types::content_md5, ?checksum_algorithm: Types::checksum_algorithm, website_configuration: Types::website_configuration, ?expected_bucket_owner: Types::account_id) -> EmptyStructure
+
+      # associations
+
+      def bucket: () -> Bucket
+
+      # batch_actions
+
+      class Collection < ::Aws::Resources::Collection[BucketWebsite]
+      end
+    end
+  end
+end

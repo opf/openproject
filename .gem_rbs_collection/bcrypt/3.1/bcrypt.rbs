@@ -1,0 +1,45 @@
+module BCrypt
+  class Password < String
+    attr_reader checksum: String
+    attr_reader salt: String
+    attr_reader version: String
+    attr_reader cost: Integer
+    def self.create: (_ToS secret, {cost: _ToI} options) -> BCrypt::Password
+    def self.valid_hash?: (String h) -> bool
+    def initialize: (String raw_hash) -> void
+    def ==: (_ToS secret) -> bool
+  end
+
+  class Engine
+    DEFAULT_COST: Integer
+    MIN_COST: Integer
+    MAX_COST: Integer
+    MAX_SECRET_BYTESIZE: Integer
+    MAX_SALT_LENGTH: Integer
+
+    def self.cost: -> Integer
+    def self.cost=: (Integer cost) -> Integer
+    def self.hash_secret: (_ToS secret, String salt, ?untyped _) -> String
+    def self.generate_salt: (?_ToI cost) -> String
+    def self.valid_salt?: (String salt) -> bool
+    def self.valid_secret?: (Object secret) -> bool
+    def self.calibrate: (Numeric upper_time_limit_in_ms) -> Integer
+    def self.autodetect_cost: (String salt) -> Integer
+  end
+
+  class Error < StandardError
+  end
+  module Errors
+    class InvalidSalt < Error
+    end
+
+    class InvalidHash < Error
+    end
+
+    class InvalidCost < Error
+    end
+
+    class InvalidSecret < Error
+    end
+  end
+end

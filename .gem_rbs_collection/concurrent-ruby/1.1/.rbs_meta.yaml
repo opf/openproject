@@ -1,0 +1,9 @@
+---
+name: concurrent-ruby
+version: '1.1'
+source:
+  type: git
+  name: ruby/gem_rbs_collection
+  revision: 80c41dad0190d5968841b8e892523e5031fa3eb1
+  remote: https://github.com/ruby/gem_rbs_collection.git
+  repo_dir: gems

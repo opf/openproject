@@ -1,0 +1,27 @@
+module Aws
+  module S3
+    class ObjectSummary
+      alias content_length size
+      def copy_from: (Object::copy_target, ?multipart_copy: false, **untyped) -> Types::CopyObjectOutput
+                   | (bucket: String, key: String, ?version_id: String, ?multipart_copy: false, **untyped) -> Types::CopyObjectOutput
+                   | (Object::copy_target, multipart_copy: true, **untyped) -> Types::CompleteMultipartUploadOutput
+                   | (bucket: String, key: String, ?version_id: String, multipart_copy: true, **untyped) -> Types::CompleteMultipartUploadOutput
+                   | ...
+      def copy_to: (Object::copy_source, ?multipart_copy: false, **untyped) -> Types::CopyObjectOutput
+                 | (bucket: String, key: String, ?multipart_copy: false, **untyped) -> Types::CopyObjectOutput
+                 | (Object::copy_source, multipart_copy: true, **untyped) -> Types::CompleteMultipartUploadOutput
+                 | (bucket: String, key: String, multipart_copy: true, **untyped) -> Types::CompleteMultipartUploadOutput
+      def move_to: (Object::copy_source, **untyped) -> Types::DeleteObjectOutput
+                 | (bucket: String, key: String, **untyped) -> Types::DeleteObjectOutput
+
+      def presigned_post: (?PresignedPost::options) -> PresignedPost
+      def presigned_url: (Symbol, ?virtual_host: bool, ?expires_in: Integer, **untyped) -> String
+      # def presigned_request: (Symbol, ?virtual_host: bool, ?expires_in: Integer, **untyped) -> [String, Hash[untyped, untyped]]
+      def public_url: (?virtual_host: bool, ?secure: bool) -> String
+      def upload_stream: (?thread_count: Integer, ?tempfile: bool, ?part_size: Integer) { (IO write_stream) -> void } -> true
+      def upload_file: ((String | Pathname | File) source, ?multipart_threshold: Integer, ?thread_count: Integer, ?progress_callback: Proc) ?{ (Types::PutObjectOutput response) -> void } -> true
+      def download_file: (String, ?mode: ("auto" | "single_request"), ?thread_count: Integer, ?version_id: String) -> true
+                       | (String, mode: "get_range", chunk_size: Integer, ?thread_count: Integer, ?version_id: String) -> true
+    end
+  end
+end

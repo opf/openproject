@@ -1,0 +1,67 @@
+# WARNING ABOUT GENERATED CODE
+#
+# This file is generated. See the generator README.md for more information:
+# https://github.com/ruby/gem_rbs_collection/blob/main/generators/aws-sdk-rbs-generator/README.md
+#
+# WARNING ABOUT GENERATED CODE
+
+module Aws
+  module KMS
+    class Client < Seahorse::Client::Base
+      include Aws::ClientStubs
+
+      def self.new: (?credentials: untyped, ?region: String, ?access_key_id: String?, ?active_endpoint_cache: bool?, ?adaptive_retry_wait_to_fill: bool?, ?client_side_monitoring: bool?, ?client_side_monitoring_client_id: String?, ?client_side_monitoring_host: String?, ?client_side_monitoring_port: Integer?, ?client_side_monitoring_publisher: untyped?, ?convert_params: bool?, ?correct_clock_skew: bool?, ?defaults_mode: String?, ?disable_host_prefix_injection: bool?, ?endpoint: untyped?, ?endpoint_cache_max_entries: Integer?, ?endpoint_cache_max_threads: Integer?, ?endpoint_cache_poll_interval: Integer?, ?endpoint_discovery: bool?, ?endpoint_provider: untyped?, ?http_continue_timeout: Integer?, ?http_idle_timeout: Integer?, ?http_open_timeout: Integer?, ?http_proxy: String?, ?http_read_timeout: Integer?, ?http_wire_trace: bool?, ?log_formatter: untyped?, ?log_level: Symbol?, ?logger: untyped?, ?max_attempts: Integer?, ?on_chunk_sent: Proc?, ?profile: String?, ?raise_response_errors: bool?, ?retry_backoff: Proc?, ?retry_base_delay: Float?, ?retry_jitter: (:none | :equal | :full | ^(Integer) -> Integer)?, ?retry_limit: Integer?, ?retry_max_delay: Integer?, ?retry_mode: ("legacy" | "standard" | "adaptive")?, ?secret_access_key: String?, ?session_token: String?, ?simple_json: bool?, ?ssl_ca_bundle: String?, ?ssl_ca_directory: String?, ?ssl_ca_store: String?, ?ssl_timeout: Float?, ?ssl_verify_peer: bool?, ?stub_responses: untyped?, ?token_provider: untyped?, ?use_dualstack_endpoint: bool?, ?use_fips_endpoint: bool?, ?validate_params: bool?) -> instance
+      def cancel_key_deletion: (key_id: Types::key_id_type) -> Types::CancelKeyDeletionResponse
+      def connect_custom_key_store: (custom_key_store_id: Types::custom_key_store_id_type) -> Types::ConnectCustomKeyStoreResponse
+      def create_alias: (alias_name: Types::alias_name_type, target_key_id: Types::key_id_type) -> Aws::EmptyStructure
+      def create_custom_key_store: (custom_key_store_name: Types::custom_key_store_name_type, ?cloud_hsm_cluster_id: Types::cloud_hsm_cluster_id_type, ?trust_anchor_certificate: Types::trust_anchor_certificate_type, ?key_store_password: Types::key_store_password_type, ?custom_key_store_type: Types::custom_key_store_type, ?xks_proxy_uri_endpoint: Types::xks_proxy_uri_endpoint_type, ?xks_proxy_uri_path: Types::xks_proxy_uri_path_type, ?xks_proxy_vpc_endpoint_service_name: Types::xks_proxy_vpc_endpoint_service_name_type, ?xks_proxy_authentication_credential: Types::xks_proxy_authentication_credential_type, ?xks_proxy_connectivity: Types::xks_proxy_connectivity_type) -> Types::CreateCustomKeyStoreResponse
+      def create_grant: (key_id: Types::key_id_type, grantee_principal: Types::principal_id_type, ?retiring_principal: Types::principal_id_type, operations: Types::grant_operation_list, ?constraints: Types::grant_constraints, ?grant_tokens: Types::grant_token_list, ?name: Types::grant_name_type) -> Types::CreateGrantResponse
+      def create_key: (?policy: Types::policy_type, ?description: Types::description_type, ?key_usage: Types::key_usage_type, ?customer_master_key_spec: Types::customer_master_key_spec, ?key_spec: Types::key_spec, ?origin: Types::origin_type, ?custom_key_store_id: Types::custom_key_store_id_type, ?bypass_policy_lockout_safety_check: Types::boolean_type, ?tags: Types::tag_list_input, ?multi_region: Types::nullable_boolean_type, ?xks_key_id: Types::xks_key_id_type) -> Types::CreateKeyResponse
+      def decrypt: (ciphertext_blob: Types::ciphertext_type, ?encryption_context: Types::encryption_context_type, ?grant_tokens: Types::grant_token_list, ?key_id: Types::key_id_type, ?encryption_algorithm: Types::encryption_algorithm_spec, ?recipient: Types::recipient_info) -> Types::DecryptResponse
+      def delete_alias: (alias_name: Types::alias_name_type) -> Aws::EmptyStructure
+      def delete_custom_key_store: (custom_key_store_id: Types::custom_key_store_id_type) -> Types::DeleteCustomKeyStoreResponse
+      def delete_imported_key_material: (key_id: Types::key_id_type) -> Aws::EmptyStructure
+      def describe_custom_key_stores: (?custom_key_store_id: Types::custom_key_store_id_type, ?custom_key_store_name: Types::custom_key_store_name_type, ?limit: Types::limit_type, ?marker: Types::marker_type) -> Types::DescribeCustomKeyStoresResponse
+      def describe_key: (key_id: Types::key_id_type, ?grant_tokens: Types::grant_token_list) -> Types::DescribeKeyResponse
+      def disable_key: (key_id: Types::key_id_type) -> Aws::EmptyStructure
+      def disable_key_rotation: (key_id: Types::key_id_type) -> Aws::EmptyStructure
+      def disconnect_custom_key_store: (custom_key_store_id: Types::custom_key_store_id_type) -> Types::DisconnectCustomKeyStoreResponse
+      def enable_key: (key_id: Types::key_id_type) -> Aws::EmptyStructure
+      def enable_key_rotation: (key_id: Types::key_id_type) -> Aws::EmptyStructure
+      def encrypt: (key_id: Types::key_id_type, plaintext: Types::plaintext_type, ?encryption_context: Types::encryption_context_type, ?grant_tokens: Types::grant_token_list, ?encryption_algorithm: Types::encryption_algorithm_spec) -> Types::EncryptResponse
+      def generate_data_key: (key_id: Types::key_id_type, ?encryption_context: Types::encryption_context_type, ?number_of_bytes: Types::number_of_bytes_type, ?key_spec: Types::data_key_spec, ?grant_tokens: Types::grant_token_list, ?recipient: Types::recipient_info) -> Types::GenerateDataKeyResponse
+      def generate_data_key_pair: (?encryption_context: Types::encryption_context_type, key_id: Types::key_id_type, key_pair_spec: Types::data_key_pair_spec, ?grant_tokens: Types::grant_token_list, ?recipient: Types::recipient_info) -> Types::GenerateDataKeyPairResponse
+      def generate_data_key_pair_without_plaintext: (?encryption_context: Types::encryption_context_type, key_id: Types::key_id_type, key_pair_spec: Types::data_key_pair_spec, ?grant_tokens: Types::grant_token_list) -> Types::GenerateDataKeyPairWithoutPlaintextResponse
+      def generate_data_key_without_plaintext: (key_id: Types::key_id_type, ?encryption_context: Types::encryption_context_type, ?key_spec: Types::data_key_spec, ?number_of_bytes: Types::number_of_bytes_type, ?grant_tokens: Types::grant_token_list) -> Types::GenerateDataKeyWithoutPlaintextResponse
+      def generate_mac: (message: Types::plaintext_type, key_id: Types::key_id_type, mac_algorithm: Types::mac_algorithm_spec, ?grant_tokens: Types::grant_token_list) -> Types::GenerateMacResponse
+      def generate_random: (?number_of_bytes: Types::number_of_bytes_type, ?custom_key_store_id: Types::custom_key_store_id_type, ?recipient: Types::recipient_info) -> Types::GenerateRandomResponse
+      def get_key_policy: (key_id: Types::key_id_type, policy_name: Types::policy_name_type) -> Types::GetKeyPolicyResponse
+      def get_key_rotation_status: (key_id: Types::key_id_type) -> Types::GetKeyRotationStatusResponse
+      def get_parameters_for_import: (key_id: Types::key_id_type, wrapping_algorithm: Types::algorithm_spec, wrapping_key_spec: Types::wrapping_key_spec) -> Types::GetParametersForImportResponse
+      def get_public_key: (key_id: Types::key_id_type, ?grant_tokens: Types::grant_token_list) -> Types::GetPublicKeyResponse
+      def import_key_material: (key_id: Types::key_id_type, import_token: Types::ciphertext_type, encrypted_key_material: Types::ciphertext_type, ?valid_to: Types::date_type, ?expiration_model: Types::expiration_model_type) -> Types::ImportKeyMaterialResponse
+      def list_aliases: (?key_id: Types::key_id_type, ?limit: Types::limit_type, ?marker: Types::marker_type) -> Types::ListAliasesResponse
+      def list_grants: (?limit: Types::limit_type, ?marker: Types::marker_type, key_id: Types::key_id_type, ?grant_id: Types::grant_id_type, ?grantee_principal: Types::principal_id_type) -> Types::ListGrantsResponse
+      def list_key_policies: (key_id: Types::key_id_type, ?limit: Types::limit_type, ?marker: Types::marker_type) -> Types::ListKeyPoliciesResponse
+      def list_keys: (?limit: Types::limit_type, ?marker: Types::marker_type) -> Types::ListKeysResponse
+      def list_resource_tags: (key_id: Types::key_id_type, ?limit: Types::limit_type, ?marker: Types::marker_type) -> Types::ListResourceTagsResponse
+      def list_retirable_grants: (?limit: Types::limit_type, ?marker: Types::marker_type, retiring_principal: Types::principal_id_type) -> Types::ListGrantsResponse
+      def put_key_policy: (key_id: Types::key_id_type, policy_name: Types::policy_name_type, policy: Types::policy_type, ?bypass_policy_lockout_safety_check: Types::boolean_type) -> Aws::EmptyStructure
+      def re_encrypt: (ciphertext_blob: Types::ciphertext_type, ?source_encryption_context: Types::encryption_context_type, ?source_key_id: Types::key_id_type, destination_key_id: Types::key_id_type, ?destination_encryption_context: Types::encryption_context_type, ?source_encryption_algorithm: Types::encryption_algorithm_spec, ?destination_encryption_algorithm: Types::encryption_algorithm_spec, ?grant_tokens: Types::grant_token_list) -> Types::ReEncryptResponse
+      def replicate_key: (key_id: Types::key_id_type, replica_region: Types::region_type, ?policy: Types::policy_type, ?bypass_policy_lockout_safety_check: Types::boolean_type, ?description: Types::description_type, ?tags: Types::tag_list_input) -> Types::ReplicateKeyResponse
+      def retire_grant: (?grant_token: Types::grant_token_type, ?key_id: Types::key_id_type, ?grant_id: Types::grant_id_type) -> Aws::EmptyStructure
+      def revoke_grant: (key_id: Types::key_id_type, grant_id: Types::grant_id_type) -> Aws::EmptyStructure
+      def schedule_key_deletion: (key_id: Types::key_id_type, ?pending_window_in_days: Types::pending_window_in_days_type) -> Types::ScheduleKeyDeletionResponse
+      def sign: (key_id: Types::key_id_type, message: Types::plaintext_type, ?message_type: Types::message_type, ?grant_tokens: Types::grant_token_list, signing_algorithm: Types::signing_algorithm_spec) -> Types::SignResponse
+      def tag_resource: (key_id: Types::key_id_type, tags: Types::tag_list_input) -> Aws::EmptyStructure
+      def untag_resource: (key_id: Types::key_id_type, tag_keys: Types::tag_key_list) -> Aws::EmptyStructure
+      def update_alias: (alias_name: Types::alias_name_type, target_key_id: Types::key_id_type) -> Aws::EmptyStructure
+      def update_custom_key_store: (custom_key_store_id: Types::custom_key_store_id_type, ?new_custom_key_store_name: Types::custom_key_store_name_type, ?key_store_password: Types::key_store_password_type, ?cloud_hsm_cluster_id: Types::cloud_hsm_cluster_id_type, ?xks_proxy_uri_endpoint: Types::xks_proxy_uri_endpoint_type, ?xks_proxy_uri_path: Types::xks_proxy_uri_path_type, ?xks_proxy_vpc_endpoint_service_name: Types::xks_proxy_vpc_endpoint_service_name_type, ?xks_proxy_authentication_credential: Types::xks_proxy_authentication_credential_type, ?xks_proxy_connectivity: Types::xks_proxy_connectivity_type) -> Types::UpdateCustomKeyStoreResponse
+      def update_key_description: (key_id: Types::key_id_type, description: Types::description_type) -> Aws::EmptyStructure
+      def update_primary_region: (key_id: Types::key_id_type, primary_region: Types::region_type) -> Aws::EmptyStructure
+      def verify: (key_id: Types::key_id_type, message: Types::plaintext_type, ?message_type: Types::message_type, signature: Types::ciphertext_type, signing_algorithm: Types::signing_algorithm_spec, ?grant_tokens: Types::grant_token_list) -> Types::VerifyResponse
+      def verify_mac: (message: Types::plaintext_type, key_id: Types::key_id_type, mac_algorithm: Types::mac_algorithm_spec, mac: Types::ciphertext_type, ?grant_tokens: Types::grant_token_list) -> Types::VerifyMacResponse
+    end
+  end
+end
+

@@ -1,0 +1,24 @@
+# WARNING ABOUT GENERATED CODE
+#
+# This file is generated. See the generator README.md for more information:
+# https://github.com/ruby/gem_rbs_collection/blob/main/generators/aws-sdk-rbs-generator/README.md
+#
+# WARNING ABOUT GENERATED CODE
+
+module Aws
+  module S3
+    class Resource
+      def initialize: (?client: Client, ?credentials: untyped, ?region: String, ?access_key_id: String?, ?active_endpoint_cache: bool?, ?adaptive_retry_wait_to_fill: bool?, ?client_side_monitoring: bool?, ?client_side_monitoring_client_id: String?, ?client_side_monitoring_host: String?, ?client_side_monitoring_port: Integer?, ?client_side_monitoring_publisher: untyped?, ?compute_checksums: bool?, ?convert_params: bool?, ?correct_clock_skew: bool?, ?defaults_mode: String?, ?disable_host_prefix_injection: bool?, ?endpoint: untyped?, ?endpoint_cache_max_entries: Integer?, ?endpoint_cache_max_threads: Integer?, ?endpoint_cache_poll_interval: Integer?, ?endpoint_discovery: bool?, ?endpoint_provider: untyped?, ?event_stream_handler: Proc?, ?follow_redirects: bool?, ?force_path_style: bool?, ?http_continue_timeout: Integer?, ?http_idle_timeout: Integer?, ?http_open_timeout: Integer?, ?http_proxy: String?, ?http_read_timeout: Integer?, ?http_wire_trace: bool?, ?input_event_stream_handler: Proc?, ?log_formatter: untyped?, ?log_level: Symbol?, ?logger: untyped?, ?max_attempts: Integer?, ?on_chunk_sent: Proc?, ?output_event_stream_handler: Proc?, ?profile: String?, ?raise_response_errors: bool?, ?require_https_for_sse_cpk: bool?, ?retry_backoff: Proc?, ?retry_base_delay: Float?, ?retry_jitter: (:none | :equal | :full | ^(Integer) -> Integer)?, ?retry_limit: Integer?, ?retry_max_delay: Integer?, ?retry_mode: ("legacy" | "standard" | "adaptive")?, ?s3_disable_multiregion_access_points: bool?, ?s3_us_east_1_regional_endpoint: String?, ?s3_use_arn_region: bool?, ?secret_access_key: String?, ?session_token: String?, ?ssl_ca_bundle: String?, ?ssl_ca_directory: String?, ?ssl_ca_store: String?, ?ssl_timeout: Float?, ?ssl_verify_peer: bool?, ?stub_responses: untyped?, ?token_provider: untyped?, ?use_accelerate_endpoint: bool?, ?use_dualstack_endpoint: bool?, ?use_fips_endpoint: bool?, ?validate_params: bool?) -> void
+      def client: () -> Client
+
+      # actions
+
+      def create_bucket: (?acl: Types::bucket_canned_acl, bucket: Types::bucket_name, ?create_bucket_configuration: Types::create_bucket_configuration, ?grant_full_control: Types::grant_full_control, ?grant_read: Types::grant_read, ?grant_read_acp: Types::grant_read_acp, ?grant_write: Types::grant_write, ?grant_write_acp: Types::grant_write_acp, ?object_lock_enabled_for_bucket: Types::object_lock_enabled_for_bucket, ?object_ownership: Types::object_ownership) -> Bucket
+
+      # associations
+
+      def bucket: (String name) -> Bucket
+      def buckets: () -> Bucket::Collection
+    end
+  end
+end

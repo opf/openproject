@@ -1,0 +1,27 @@
+module ActionMailer
+  class Base < AbstractController::Base
+    def self.default: (**untyped) -> void
+
+    def self.layout: (String) -> void
+
+    def mail: (**untyped) ?{ (untyped) -> void } -> MessageDelivery
+
+    def self.with: (**untyped) -> instance
+
+    def params: () -> Hash[untyped, untyped]
+
+    def self?.email_address_with_name: (String, String) -> String
+  end
+
+  class MessageDelivery
+    def deliver_later: (?wait: untyped, ?wait_until: untyped, ?queue: untyped, ?priority: Integer) -> void
+
+    def deliver_now: () -> void
+
+    def deliver_now!: () -> void
+
+    def message: () -> Mail::Message
+
+    def processed: () -> bool
+  end
+end

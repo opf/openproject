@@ -1,0 +1,41 @@
+module ActiveRecord
+  class Relation
+    # It is necessary to satisfy alias target.
+    # TODO: Define this method to correct place.
+    def lock_value: () -> untyped
+  end
+
+  module QueryMethods
+    # It is defined with meta programming
+    def extending_values: () -> untyped
+  end
+
+  class Migration
+    class CommandRecorder
+      # They are defined with meta programming
+      def add_reference: (*untyped) -> untyped
+      def remove_reference: (*untyped) -> untyped
+      def invert_add_reference: (*untyped) -> untyped
+      def invert_remove_reference: (*untyped) -> untyped
+    end
+  end
+end
+
+# Remove the fake PG type if the real type is available
+module PG
+  class Connection
+    def async_exec: (*untyped) -> untyped
+  end
+end
+
+# Remove the fake SimpleDelegator type
+# if the real types are available.
+class SimpleDelegator
+end
+
+# Remove the fake types for Gem::Version
+# if the real types are available.
+module Gem
+  class Version
+  end
+end

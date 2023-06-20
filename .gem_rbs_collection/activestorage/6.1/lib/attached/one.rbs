@@ -1,0 +1,46 @@
+module ActiveStorage
+  # Representation of a single attachment to a model.
+  class Attached::One < Attached
+    # delegated from Blob
+    def url: () -> String
+
+    # Returns the associated attachment record.
+    #
+    # You don't have to call this method to access the attachment's methods as
+    # they are all available at the model level.
+    def attachment: () -> ActiveStorage::Attachment?
+
+    def blank?: () -> bool
+
+    # Attaches an +attachable+ to the record.
+    #
+    # If the record is persisted and unchanged, the attachment is saved to
+    # the database immediately. Otherwise, it'll be saved to the DB when the
+    # record is next saved.
+    #
+    #   person.avatar.attach(params[:avatar]) # ActionDispatch::Http::UploadedFile object
+    #   person.avatar.attach(params[:signed_blob_id]) # Signed reference to blob from direct upload
+    #   person.avatar.attach(io: File.open("/path/to/face.jpg"), filename: "face.jpg", content_type: "image/jpg")
+    #   person.avatar.attach(avatar_blob) # ActiveStorage::Blob object
+    def attach: (untyped attachable) -> untyped
+
+    # Returns +true+ if an attachment has been made.
+    #
+    #   class User < ActiveRecord::Base
+    #     has_one_attached :avatar
+    #   end
+    #
+    #   User.new.avatar.attached? # => false
+    def attached?: () -> bool
+
+    # Deletes the attachment without purging it, leaving its blob in place.
+    def detach: () -> untyped
+
+    # Directly purges the attachment (i.e. destroys the blob and
+    # attachment and deletes the file on the service).
+    def purge: () -> untyped
+
+    # Purges the attachment through the queuing system.
+    def purge_later: () -> untyped
+  end
+end

@@ -1,0 +1,60 @@
+# WARNING ABOUT GENERATED CODE
+#
+# This file is generated. See the generator README.md for more information:
+# https://github.com/ruby/gem_rbs_collection/blob/main/generators/aws-sdk-rbs-generator/README.md
+#
+# WARNING ABOUT GENERATED CODE
+
+module Aws
+  module S3
+    class MultipartUploadPart
+      # identifiers
+
+      def initialize: (bucket_name: String, object_key: String, multipart_upload_id: String, part_number: String, ?client: Client, **untyped) -> void
+      def bucket_name: () -> String
+      def object_key: () -> String
+      def multipart_upload_id: () -> String
+      def part_number: () -> String
+
+      # data_attribute
+
+      def last_modified: () -> Types::last_modified
+      def etag: () -> Types::etag
+      def size: () -> Types::size
+      def checksum_crc32: () -> Types::checksum_crc32
+      def checksum_crc32c: () -> Types::checksum_crc32c
+      def checksum_sha1: () -> Types::checksum_sha1
+      def checksum_sha256: () -> Types::checksum_sha256
+
+      # client_method
+
+      def client: () -> Client
+
+      # load_method
+
+
+      # data_method
+
+      def data: () -> Types::Part
+
+      def data_loaded?: () -> bool
+
+      # waiters
+
+
+      # actions
+
+      def copy_from: (copy_source: Types::copy_source, ?copy_source_if_match: Types::copy_source_if_match, ?copy_source_if_modified_since: Types::copy_source_if_modified_since, ?copy_source_if_none_match: Types::copy_source_if_none_match, ?copy_source_if_unmodified_since: Types::copy_source_if_unmodified_since, ?copy_source_range: Types::copy_source_range, ?sse_customer_algorithm: Types::sse_customer_algorithm, ?sse_customer_key: Types::sse_customer_key, ?sse_customer_key_md5: Types::sse_customer_key_md5, ?copy_source_sse_customer_algorithm: Types::copy_source_sse_customer_algorithm, ?copy_source_sse_customer_key: Types::copy_source_sse_customer_key, ?copy_source_sse_customer_key_md5: Types::copy_source_sse_customer_key_md5, ?request_payer: Types::request_payer, ?expected_bucket_owner: Types::account_id, ?expected_source_bucket_owner: Types::account_id) -> Types::UploadPartCopyOutput
+      def upload: (?body: Types::body_streaming, ?content_length: Types::content_length, ?content_md5: Types::content_md5, ?checksum_algorithm: Types::checksum_algorithm, ?checksum_crc32: Types::checksum_crc32, ?checksum_crc32c: Types::checksum_crc32c, ?checksum_sha1: Types::checksum_sha1, ?checksum_sha256: Types::checksum_sha256, ?sse_customer_algorithm: Types::sse_customer_algorithm, ?sse_customer_key: Types::sse_customer_key, ?sse_customer_key_md5: Types::sse_customer_key_md5, ?request_payer: Types::request_payer, ?expected_bucket_owner: Types::account_id) -> Types::UploadPartOutput
+
+      # associations
+
+      def multipart_upload: () -> MultipartUpload
+
+      # batch_actions
+
+      class Collection < ::Aws::Resources::Collection[MultipartUploadPart]
+      end
+    end
+  end
+end

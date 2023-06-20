@@ -1,0 +1,4 @@
+module Aws
+  attr_reader self.config: Hash[Symbol, untyped]
+  def self.use_bundled_cert!: () -> String
+end

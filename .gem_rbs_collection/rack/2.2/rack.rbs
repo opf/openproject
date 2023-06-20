@@ -1,0 +1,1429 @@
+# Classes
+module Rack
+  VERSION: [Integer, Integer]
+  RELEASE: String
+  HTTP_HOST: String
+  HTTP_PORT: String
+  HTTP_VERSION: String
+  HTTPS: String
+  PATH_INFO: String
+  REQUEST_METHOD: String
+  REQUEST_PATH: String
+  SCRIPT_NAME: String
+  QUERY_STRING: String
+  SERVER_PROTOCOL: String
+  SERVER_NAME: String
+  SERVER_PORT: String
+  CACHE_CONTROL: String
+  EXPIRES: String
+  CONTENT_LENGTH: String
+  CONTENT_TYPE: String
+  SET_COOKIE: String
+  TRANSFER_ENCODING: String
+  HTTP_COOKIE: String
+  ETAG: String
+  GET: String
+  POST: String
+  PUT: String
+  PATCH: String
+  DELETE: String
+  HEAD: String
+  OPTIONS: String
+  LINK: String
+  UNLINK: String
+  TRACE: String
+  RACK_VERSION: String
+  RACK_TEMPFILES: String
+  RACK_ERRORS: String
+  RACK_LOGGER: String
+  RACK_INPUT: String
+  RACK_SESSION: String
+  RACK_SESSION_OPTIONS: String
+  RACK_SHOWSTATUS_DETAIL: String
+  RACK_MULTITHREAD: String
+  RACK_MULTIPROCESS: String
+  RACK_RUNONCE: String
+  RACK_URL_SCHEME: String
+  RACK_HIJACK: String
+  RACK_IS_HIJACK: String
+  RACK_HIJACK_IO: String
+  RACK_RECURSIVE_INCLUDE: String
+  RACK_MULTIPART_BUFFER_SIZE: String
+  RACK_MULTIPART_TEMPFILE_FACTORY: String
+  RACK_REQUEST_FORM_INPUT: String
+  RACK_REQUEST_FORM_HASH: String
+  RACK_REQUEST_FORM_VARS: String
+  RACK_REQUEST_COOKIE_HASH: String
+  RACK_REQUEST_COOKIE_STRING: String
+  RACK_REQUEST_QUERY_HASH: String
+  RACK_REQUEST_QUERY_STRING: String
+  RACK_METHODOVERRIDE_ORIGINAL_METHOD: String
+  RACK_SESSION_UNPACKED_COOKIE_DATA: String
+
+  def self.version: -> String
+  def self.release: -> String
+
+  type env = Hash[String, untyped]
+  type response = [_ToI, _Each[[String, String]], _Each[String]]
+
+  interface _Application
+    def call: (env) -> response
+  end
+
+  class Lobster
+    include _Application
+
+    LobsterString: String
+    LambdaLobster: ^(env) -> [Integer, Hash[String, String], Array[String]]
+  end
+
+  module Auth
+    module Digest
+      class Nonce
+        def self.parse: (untyped string) -> Nonce
+        def initialize: (?Time timestamp, ?nil given_digest) -> void
+        def to_s: -> untyped
+        def digest: -> untyped
+        def valid?: -> untyped
+        def stale?: -> bool
+        def fresh?: -> bool
+      end
+
+      class Params < Hash[untyped, untyped]
+        UNQUOTED: [String, String]
+
+        def self.parse: (untyped str) -> Hash[untyped, untyped]
+        def self.dequote: (untyped str) -> String?
+        def self.split_header_value: (untyped str) -> untyped
+        def initialize: ?{ (Params) -> Hash[bot, bot] } -> void
+        def []: (untyped k) -> untyped
+        def []=: (String k, String? v) -> untyped
+        def to_s: -> String
+        def quote: (untyped str) -> String
+      end
+
+      class MD5 < AbstractHandler
+        QOP: String
+
+        attr_accessor opaque: nil
+        attr_writer passwords_hashed: nil
+        def initialize: (untyped app, ?nil realm, ?nil opaque) -> void
+        def passwords_hashed?: -> bool
+        def call: (untyped env) -> [Integer, Hash[String, String], Array[bot]]
+
+        private
+        def params: (?Hash[bot, bot] hash) -> Params
+        def challenge: (?Hash[bot, bot] hash) -> String
+        def valid?: (Request auth) -> bool
+        def valid_qop?: (Request auth) -> bool
+        def valid_opaque?: (Request auth) -> untyped
+        def valid_nonce?: (Request auth) -> untyped
+        def valid_digest?: (Request auth) -> bool
+        def md5: (String? data) -> untyped
+        alias H md5
+        def KD: (untyped secret, String data) -> untyped
+        def A1: (Request auth, untyped password) -> String
+        def A2: (Request auth) -> String
+        def digest: (Request auth, untyped password) -> untyped
+      end
+
+      class Request < AbstractRequest
+        def method: -> untyped
+        def digest?: -> bool
+        def correct_uri?: -> bool
+        def nonce: -> Nonce
+        def params: -> Hash[untyped, untyped]
+        def respond_to?: (untyped sym, *untyped _2) -> bool
+        def method_missing: (:cnonce | :nc | :opaque | :qop | :realm | :response | :uri | :username sym, *bot args) -> untyped
+      end
+    end
+
+    class Basic
+      def call: (untyped env) -> untyped
+
+      private
+      def challenge: -> String
+      def valid?: (Request auth) -> untyped
+
+      class Request
+        def basic?: -> false
+        def credentials: -> untyped
+        def username: -> untyped
+      end
+    end
+
+    class AbstractRequest
+      AUTHORIZATION_KEYS: [String, String, String]
+
+      def initialize: (untyped env) -> void
+      def request: -> Request
+      def provided?: -> false
+      def valid?: -> untyped
+      def parts: -> untyped
+      def scheme: -> untyped
+      def params: -> untyped
+
+      private
+      def authorization_key: -> String?
+    end
+
+    class AbstractHandler
+      attr_accessor realm: nil
+      def initialize: (untyped app, ?nil realm) -> void
+
+      private
+      def unauthorized: (?String www_authenticate) -> [Integer, Hash[String, String], Array[bot]]
+      def bad_request: -> [Integer, Hash[String, String], Array[bot]]
+    end
+  end
+
+  module Session
+    class SessionId
+      ID_VERSION: Integer
+
+      attr_reader public_id: Cookie::Base64::Marshal | Integer | SessionId | String | true
+      def initialize: (Cookie::Base64::Marshal | Integer | SessionId | String | true public_id) -> void
+      def private_id: -> String
+      alias cookie_value public_id
+      alias to_s public_id
+      def empty?: -> false
+      def inspect: -> String
+
+      private
+      def hash_sid: (Cookie::Base64::Marshal | Integer | SessionId | String | true sid) -> untyped
+    end
+
+    module Abstract
+      class SessionHash
+        Unspecified: Object
+        include Enumerable[[String, untyped]]
+
+        attr_writer id: (Cookie::Base64::Marshal | Integer | String | bool)?
+        def self.find: (untyped req) -> untyped
+        def self.set: (untyped req, untyped session) -> untyped
+        def self.set_options: (untyped req, untyped options) -> untyped
+        def initialize: (Persisted store, Request req) -> void
+        def id: -> ((Cookie::Base64::Marshal | Integer | String | bool)?)
+        def options: -> String?
+        def each: { ([String, untyped]) -> void } -> void
+                | -> Enumerator[untyped, untyped]
+        def []: (String key) -> nil
+        def dig: (untyped key, *untyped keys) -> untyped
+        def fetch: (untyped key, ?Object default) -> Object
+        def has_key?: (untyped key) -> bool
+        alias key? has_key?
+        alias include? has_key?
+        def []=: (untyped key, untyped value) -> untyped
+        alias store []=
+        def clear: -> Hash[untyped, untyped]
+        def destroy: -> untyped
+        def to_hash: -> Hash[untyped, untyped]
+        def update: (String hash) -> untyped
+        alias merge! update
+        def replace: (untyped hash) -> untyped
+        def delete: (untyped key) -> nil
+        def inspect: -> String
+        def exists?: -> nil
+        def loaded?: -> bool?
+        def empty?: -> bool
+        def keys: -> Array[untyped]
+        def values: -> Array[untyped]
+
+        private
+        def load_for_read!: -> true?
+        def load_for_write!: -> true?
+        def load!: -> true
+        def stringify_keys: (String other) -> Hash[bot, bot]
+      end
+
+      class Persisted
+        DEFAULT_OPTIONS: {key: String, path: String, domain: nil, expire_after: nil, secure: false, httponly: true, defer: false, renew: false, sidbits: Integer, cookie_only: true, secure_random: untyped}
+        attr_reader key: (Cookie::Base64::Marshal | Integer | String | bool)?
+        attr_reader default_options: {coder: (Cookie::Base64::Marshal | Integer | String | bool)?, key: (Cookie::Base64::Marshal | Integer | String | bool)?, path: (Cookie::Base64::Marshal | Integer | String | bool)?, domain: (Cookie::Base64::Marshal | Integer | String | bool)?, expire_after: (Cookie::Base64::Marshal | Integer | String | bool)?, secure: (Cookie::Base64::Marshal | Integer | String | bool)?, httponly: (Cookie::Base64::Marshal | Integer | String | bool)?, defer: (Cookie::Base64::Marshal | Integer | String | bool)?, renew: (Cookie::Base64::Marshal | Integer | String | bool)?, sidbits: (Cookie::Base64::Marshal | Integer | String | bool)?, cookie_only: (Cookie::Base64::Marshal | Integer | String | bool)?, secure_random: (Cookie::Base64::Marshal | Integer | String | bool)?}
+        attr_reader sid_secure: (Cookie::Base64::Marshal | Integer | String | bool)?
+        def initialize: (untyped app, ?{coder: Cookie::Base64::Marshal} options) -> void
+        def call: (untyped env) -> [untyped, untyped, untyped]
+        def context: (untyped env, ?untyped app) -> [untyped, untyped, untyped]
+
+        private
+        def make_request: (untyped env) -> Request
+        def initialize_sid: -> Integer
+        def generate_sid: (?(Cookie::Base64::Marshal | Integer | String | bool)? secure) -> (SessionId | String)
+        def prepare_session: (Request req) -> nil
+        def load_session: (Request? req) -> bot
+        def extract_session_id: (Request? request) -> ((Cookie::Base64::Marshal | Integer | String | bool)?)
+        def current_session_id: (Request? req) -> untyped
+        def session_exists?: (Request? req) -> untyped
+        def commit_session?: (Request req, String? session, untyped options) -> bool?
+        def loaded_session?: (String? session) -> true
+        def forced_session_update?: (String? session, untyped options) -> bool?
+        def force_options?: (untyped options) -> untyped
+        def security_matches?: (Request request, untyped options) -> bool
+
+        public
+        def commit_session: (Request req, Response::Raw res) -> String?
+
+        private
+        def cookie_value: (bot data) -> bot
+        def set_cookie: (Request request, Response::Raw res, {value: bot, expires: Time, same_site: (Cookie::Base64::Marshal | Integer | String | bool)?} cookie) -> String?
+        def session_class: -> singleton(SessionHash)
+        def find_session: (Request? env, untyped sid) -> bot
+        def write_session: (Request req, untyped sid, untyped session, untyped options) -> bot
+        def delete_session: (Request req, (Cookie::Base64::Marshal | Integer | SessionId | String | bool)? sid, String? options) -> bot
+      end
+
+      class PersistedSecure < Persisted
+        def generate_sid: (*false _3) -> SessionId
+        def extract_session_id: (*untyped _3) -> ((SessionId | false)?)
+
+        private
+        def session_class: -> singleton(SecureSessionHash)
+        def cookie_value: (untyped data) -> untyped
+
+        class SecureSessionHash < SessionHash
+          def []: (untyped key) -> nil
+        end
+      end
+
+      class ID < Persisted
+        def self.inherited: (untyped klass) -> untyped
+        def find_session: (untyped req, untyped sid) -> untyped
+        def write_session: (untyped req, untyped sid, untyped session, untyped options) -> untyped
+        def delete_session: (untyped req, untyped sid, untyped options) -> untyped
+      end
+    end
+
+    class Pool < Abstract::PersistedSecure
+      DEFAULT_OPTIONS: untyped
+
+      attr_reader mutex: Thread::Mutex
+      attr_reader pool: Hash[bot, bot]
+      def initialize: (untyped app, ?Hash[bot, bot] options) -> void
+      def generate_sid: -> untyped
+      def find_session: (untyped req, untyped sid) -> [untyped, Hash[bot, bot]?]?
+      def write_session: (untyped req, untyped session_id, untyped new_session, untyped options) -> [untyped, Hash[bot, bot]?]?
+      def delete_session: (untyped req, untyped session_id, untyped options) -> [untyped, Hash[bot, bot]?]?
+      def with_lock: (untyped req) { -> [untyped, Hash[bot, bot]?]? } -> [untyped, Hash[bot, bot]?]?
+
+      private
+      def get_session_with_fallback: (untyped sid) -> nil
+    end
+
+    class Cookie < Abstract::PersistedSecure
+      attr_reader coder: Base64::Marshal
+      def initialize: (untyped app, ?Hash[bot, bot] options) -> void
+
+      private
+      def find_session: (untyped req, untyped sid) -> [SessionId, Hash[String, SessionId]]
+      def extract_session_id: (untyped request) -> untyped
+      def unpacked_cookie_data: (untyped request) -> untyped
+      def persistent_session_id!: (untyped data, ?nil sid) -> Hash[String, SessionId]
+      def write_session: (untyped req, untyped session_id, untyped session, untyped options) -> SessionId?
+      def delete_session: (untyped req, untyped session_id, untyped options) -> SessionId?
+      def digest_match?: (untyped data, untyped digest) -> bool?
+      def generate_hmac: (untyped data, nil secret) -> untyped
+      def secure?: (Hash[bot, bot] options) -> true?
+
+      class Base64
+        def encode: (Object str) -> untyped
+        def decode: (untyped str) -> untyped
+
+        class Marshal < Base64
+          def encode: (untyped str) -> untyped
+          def decode: (nil str) -> Object?
+        end
+
+        class JSON < Base64
+          def encode: (untyped obj) -> untyped
+          def decode: (untyped str) -> nil
+        end
+
+        class ZipJSON < Base64
+          def encode: (untyped obj) -> untyped
+          def decode: (untyped str) -> nil
+        end
+      end
+
+      class Identity
+        def encode: (untyped str) -> untyped
+        def decode: (untyped str) -> untyped
+      end
+
+      class SessionId
+        attr_reader cookie_value: untyped
+        def initialize: (untyped session_id, untyped cookie_value) -> void
+      end
+    end
+  end
+
+  class Builder
+    UTF_8_BOM: String
+    include _Application
+
+    def self.parse_file: (String config, ?Server::Options opts) -> [bot, Hash[Symbol, untyped]]
+    def self.load_file: (String config, ?Server::Options opts) -> [_Application, Hash[Symbol, untyped]]
+    def self.new_from_string: (String builder_script, ?String file) -> _Application
+    def initialize: (?_Application? default_app) ?{ (self) -> void } -> void
+    def self.app: (?_Application? default_app) ?{ (self) -> void } -> _Application
+    def use: (Class middleware, *untyped args, **untyped kwargs) ?{ (*untyped) -> void } -> void
+    def run: (_Application app) -> _Application
+    def warmup: (?(^(_Application) -> void)?) ?{ (_Application) -> void } -> (^(_Application) -> void)?
+    def map: (String path) { (Builder) -> void } -> ^(Builder) -> void
+    def freeze_app: -> true
+    def to_app: -> _Application
+
+    private
+    def generate_map: (_Application? default_app, Hash[String, ^(Builder) -> void] mapping) -> URLMap
+  end
+
+  class BodyProxy
+    def initialize: ((Array[(Lint | String)?] | BodyProxy | Lint)? body) ?{ -> nil } -> void
+    def respond_to_missing?: (untyped method_name, ?false include_all) -> bool
+    def close: -> nil
+    def closed?: -> bool
+    def method_missing: (:each method_name, *untyped args) ?{ -> (IO | StringIO) } -> untyped
+  end
+
+  class Cascade
+    NotFound: [Integer, Hash[String, String], Array[bot]]
+
+    attr_reader apps: Array[untyped]
+    def initialize: (untyped apps, ?[Integer, Integer] cascade_for) -> void
+    def call: (untyped env) -> [Integer, Hash[String, String], Array[bot]]?
+    def add: (untyped app) -> Array[untyped]
+    def include?: (untyped app) -> bool
+  end
+
+  class CommonLogger
+    FORMAT: String
+
+    # TODO: This method may receive Adapter::Rails and Thin::Stats::Adapter too?
+    def initialize: ((CommonLogger | Files | Integer | String | URLMap | {chdir: String, environment: String, address: String, port: Integer, timeout: Integer, log: String, pid: String, max_conns: Integer, max_persistent_conns: Integer, require: Array[bot], wait: Integer, threadpool_size: Integer, rackup: bot, backend: untyped})? app, ?nil logger) -> void
+    def call: (untyped env) -> ([Integer | String, Hash[String, String] | Utils::HeaderHash, BodyProxy])
+
+    private
+    def log: (untyped env, untyped status, Hash[bot, bot] | Utils::HeaderHash header, Float | Integer began_at) -> untyped
+    def extract_content_length: (Hash[bot, bot] | Utils::HeaderHash headers) -> String?
+  end
+
+  class ConditionalGet
+    def initialize: (untyped app) -> void
+    def call: (untyped env) -> ([Integer, Hash[String, String] | Utils::HeaderHash, BodyProxy])
+
+    private
+    def fresh?: (untyped env, Hash[String, String] | Utils::HeaderHash headers) -> bool?
+    def etag_matches?: (untyped none_match, Hash[String, String] | Utils::HeaderHash headers) -> bool
+    def modified_since?: (Time? modified_since, Hash[String, String] | Utils::HeaderHash headers) -> bool?
+    def to_rfc2822: (String? since) -> Time?
+  end
+
+  class Config
+    include _Application
+
+    def initialize: (_Application app) {(env) -> void} -> void
+  end
+
+  class ContentLength
+    def initialize: (untyped app) -> void
+    def call: (Hash[String?, (Integer | String | true)?] env) -> [untyped, untyped, BodyProxy]
+  end
+
+  class ContentType
+    def initialize: (untyped app, ?String content_type) -> void
+    def call: (untyped env) -> ([untyped, Hash[String, String] | Utils::HeaderHash, untyped])
+  end
+
+  class Events
+    def initialize: (untyped app, untyped handlers) -> void
+    def call: (untyped env) -> [untyped, untyped, EventedBodyProxy]
+
+    private
+    def on_error: (Request request, nil response, nil e) -> untyped
+    def on_commit: (Request request, BufferedResponse response) -> untyped
+    def on_start: (Request request, nil response) -> untyped
+    def on_finish: (Request request, nil response) -> untyped
+    def make_request: (untyped env) -> Request
+    def make_response: (untyped status, untyped headers, untyped body) -> BufferedResponse
+
+    module Abstract
+      def on_start: (untyped req, untyped res) -> nil
+      def on_commit: (untyped req, untyped res) -> nil
+      def on_send: (untyped req, untyped res) -> nil
+      def on_finish: (untyped req, untyped res) -> nil
+      def on_error: (untyped req, untyped res, untyped e) -> nil
+    end
+
+    class EventedBodyProxy < BodyProxy
+      attr_reader request: Request
+      attr_reader response: BufferedResponse?
+      def initialize: (nil body, Request request, BufferedResponse? response, untyped handlers) ?{ -> untyped } -> void
+      def each: -> untyped
+    end
+
+    class BufferedResponse
+      attr_reader body: untyped
+      def initialize: (untyped status, untyped headers, untyped body) -> void
+      def to_a: -> [untyped, untyped, untyped]
+    end
+  end
+
+  class Files
+    ALLOWED_VERBS: [String, String, String]
+    ALLOW_HEADER: String
+    MULTIPART_BOUNDARY: String
+
+    def self.method_added: (untyped name) -> untyped
+    attr_reader root: String?
+    def initialize: (String? root, ?Hash[bot, bot] headers, ?String default_mime) -> void
+    def call: (untyped env) -> [untyped, untyped, BodyProxy]
+    def get: (nil env) -> ([Integer, Hash[String, String], (Array[String] | BaseIterator | Iterator)?])
+    def serving: (Request request, String path) -> ([Integer, Hash[String, String], (Array[String] | BaseIterator | Iterator)?])
+
+    private
+    def fail: (Integer status, String body, ?Hash[String, String] headers) -> [Integer, Hash[String, String], [String]]
+    def mime_type: (String path, String default_mime) -> String
+    def filesize: (String path) -> Integer
+
+    class BaseIterator
+      attr_reader path: untyped
+      attr_reader ranges: untyped
+      attr_reader options: untyped
+      def initialize: (untyped path, untyped ranges, untyped options) -> void
+      def each: -> nil
+      def bytesize: -> untyped
+      def close: -> nil
+
+      private
+      def multipart?: -> untyped
+      def multipart_heading: (untyped range) -> String
+      def each_range_part: (File file, untyped range) ?{ (String) -> untyped } -> nil
+    end
+
+    class Iterator < BaseIterator
+      alias to_path path
+    end
+  end
+
+  class Chunked
+    def initialize: (untyped app) -> void
+    def chunkable_version?: (untyped ver) -> bool
+    def call: (untyped env) -> ([untyped, untyped, Body | TrailerBody])
+
+    class Body
+      TERM: String
+      TAIL: String
+
+      def initialize: (untyped body) -> void
+      def each: -> untyped
+      def close: -> nil
+
+      private
+      def yield_trailers: -> nil
+    end
+
+    class TrailerBody < Body
+
+      private
+      def yield_trailers: -> untyped
+    end
+  end
+
+  class Deflater
+    def initialize: (untyped app, ?Hash[bot, bot] options) -> void
+    def call: (untyped env) -> ([Integer, Hash[String, String] | Utils::HeaderHash, BodyProxy | GzipStream]?)
+
+    private
+    def should_deflate?: (untyped env, untyped status, Hash[String, String] | Utils::HeaderHash headers, untyped body) -> bool
+
+    class GzipStream
+      def initialize: (untyped body, Integer mtime, true sync) -> void
+      def each: -> untyped
+      def write: (untyped data) -> untyped
+      def close: -> nil
+    end
+  end
+
+  class Directory
+    DIR_FILE: String
+    DIR_PAGE_HEADER: String
+    DIR_PAGE_FOOTER: String
+    FILESIZE_FORMAT: [[String, Integer], [String, Integer], [String, Integer], [String, Integer]]
+
+    attr_reader root: String
+    def initialize: (untyped root, ?nil app) -> void
+    def call: (untyped env) -> [untyped, untyped, BodyProxy]
+    def get: (untyped env) -> ([Integer, Hash[String, String], BodyProxy | DirectoryBody | [String]]?)
+    def check_bad_request: (untyped path_info) -> [Integer, Hash[String, String], [String]]?
+    def check_forbidden: (untyped path_info) -> [Integer, Hash[String, String], [String]]?
+    def list_directory: (untyped path_info, String path, untyped script_name) -> [Integer, Hash[String, String], DirectoryBody]
+    def stat: (String path) -> File::Stat?
+    def list_path: (untyped env, String path, untyped path_info, untyped script_name) -> ([Integer, Hash[String, String], BodyProxy | DirectoryBody | [String]])
+    def entity_not_found: (untyped path_info) -> [Integer, Hash[String, String], [String]]
+    def filesize_format: (Integer int) -> String
+
+    class DirectoryBody
+      attr_accessor root(): untyped
+      attr_accessor path(): untyped
+      attr_accessor files(): untyped
+
+      def each: -> untyped
+
+      private
+      def DIR_FILE_escape: ([String, String, String, String, String]? htmls) -> Array[untyped]
+    end
+  end
+
+  class ForwardRequest < Exception
+    attr_reader url: untyped
+    attr_reader env: Hash[String, untyped]
+    def initialize: (untyped url, ?Hash[bot, bot] env) -> void
+  end
+
+  class Recursive
+    def initialize: (untyped app) -> void
+    def call: (untyped env) -> untyped
+    def _call: (untyped env) -> untyped
+    def include: (untyped env, untyped path) -> untyped
+  end
+
+  module Handler
+    SERVER_NAMES: [String, String, String, String]
+
+    def self.get: (String? server) -> nil
+    def self.pick: ([String, String, String, String] server_names) -> nil
+    def self.default: -> ((singleton(CGI) | singleton(FastCGI))?)
+    def self.try_require: (String prefix, String const_name) -> nil
+    # TODO: klass may be of type singleton(Thin)
+    def self.register: (:thin | String server, String klass) -> String
+
+    class CGI
+      def self.run: (ContentLength | Lint | ShowExceptions | TempfileReaper app, **(Array[bot] | Integer | String)?) -> untyped
+      def self.serve: (ContentLength | Lint | ShowExceptions | TempfileReaper app) -> untyped
+      def self.send_headers: (Integer status, Hash[String, String?] headers) -> IO
+      def self.send_body: (BodyProxy | Lint | [String?] body) -> untyped
+    end
+
+    class WEBrick
+      def self.run: (untyped app, **untyped) -> untyped
+      def self.valid_options: -> Hash[String, String]
+      def self.shutdown: -> nil
+      def initialize: (untyped server, untyped app) -> void
+      def service: (untyped req, untyped res) -> untyped
+    end
+
+    class LSWS
+      def self.run: (untyped app, **untyped) -> nil
+      def self.serve: (untyped app) -> untyped
+      def self.send_headers: (untyped status, untyped headers) -> IO
+      def self.send_body: (untyped body) -> untyped
+    end
+
+    class SCGI
+      attr_accessor app: nil
+      def self.run: (untyped app, **untyped) -> untyped
+      def self.valid_options: -> Hash[String, String]
+      def initialize: (?Hash[bot, bot] settings) -> void
+      def process_request: (untyped request, untyped input_body, untyped socket) -> untyped
+    end
+
+    class FastCGI
+      def self.run: (ContentLength | Lint | ShowExceptions | TempfileReaper app, **(Array[bot] | Integer | String)?) -> bot
+      def self.valid_options: -> Hash[String, String]
+      # TODO: request is of type FCGI::Request
+      def self.serve: (untyped request, ContentLength | Lint | ShowExceptions | TempfileReaper app) -> untyped
+      def self.send_headers: (StringIO `out`, Integer status, Hash[String, String?] headers) -> StringIO
+      def self.send_body: (StringIO `out`, BodyProxy | Lint | [String?] body) -> untyped
+    end
+  end
+
+  class Head
+    def initialize: (Method | Proc app) -> void
+    def call: (untyped env) -> [untyped, untyped, BodyProxy]
+  end
+
+  class Lint
+    include Assertion
+
+    def initialize: (untyped app) -> void
+    def call: (?(Array[(Hash[String, String] | Integer | String)?] | Hash[(:input | String)?, (Array[(Integer | String)?] | Hash[:input | String, String?] | Integer | MockRequest::FatalWarner | String | StringIO | bool)?] | MockRequest::FatalWarner | String | StringIO | bool)? env) -> [untyped, untyped, Lint]
+    def _call: ((Array[(Hash[String, String] | Integer | String)?] | Hash[(:input | String)?, (Array[(Integer | String)?] | Hash[:input | String, String?] | Integer | MockRequest::FatalWarner | String | StringIO | bool)?] | MockRequest::FatalWarner | String | StringIO | bool)? env) -> [untyped, untyped, Lint]
+    def check_env: ((Array[(Hash[String, String] | Integer | String)?] | Hash[(:input | String)?, (Array[(Integer | String)?] | Hash[:input | String, String?] | Integer | MockRequest::FatalWarner | String | StringIO | bool)?] | MockRequest::FatalWarner | String | StringIO | bool)? env) -> nil
+    def check_input: ((Array[(Integer | String)?] | Hash[(:input | String)?, (Array[(Integer | String)?] | Hash[:input | String, String?] | Integer | MockRequest::FatalWarner | Proc | String | StringIO | bool)?] | Integer | MockRequest::FatalWarner | Proc | String | StringIO | bool)? input) -> [:gets, :each, :read, :rewind]
+    def check_error: ((Array[(Integer | String)?] | Hash[(:input | String)?, (Array[(Integer | String)?] | Hash[:input | String, String?] | Integer | MockRequest::FatalWarner | Proc | String | StringIO | bool)?] | Integer | MockRequest::FatalWarner | Proc | String | StringIO | bool)? error) -> [:puts, :write, :flush]
+    def check_hijack: ((Array[(Hash[(:input | String)?, (Integer | MockRequest::FatalWarner | Proc | String | StringIO | bool)?] | Integer | Proc | String)?] | Hash[(:input | String)?, (Array[(Integer | String)?] | Hash[:input | String, String?] | Integer | MockRequest::FatalWarner | Proc | String | StringIO | bool)?] | MockRequest::FatalWarner | String | StringIO | bool)? env) -> ^-> untyped?
+    def check_hijack_response: (untyped headers, (Array[(ErrorWrapper | Hash[String, String] | InputWrapper | Integer | String)?] | Hash[(:input | String)?, (Array[(Integer | String)?] | ErrorWrapper | Hash[:input | String, String?] | InputWrapper | Integer | MockRequest::FatalWarner | String | StringIO | bool)?] | MockRequest::FatalWarner | String | StringIO | bool)? env) -> ^(untyped) -> untyped?
+    def check_status: (untyped status) -> nil
+    def check_headers: (untyped header) -> untyped
+    def check_content_type: (untyped status, untyped headers) -> nil
+    def check_content_length: (untyped status, untyped headers) -> untyped
+    def verify_content_length: (Integer bytes) -> nil
+    def each: ?{ (Lint?) -> (Complex | Float | Integer | Rational | String) } -> nil
+    def close: -> nil
+
+    class LintError < RuntimeError
+    end
+
+    module Assertion
+      def assert: (String message) ?{ -> ((Integer | bool)?) } -> nil
+    end
+
+    class InputWrapper
+      include Assertion
+
+      def initialize: ((Array[(Integer | String)?] | Hash[:input | String, String?] | Integer | MockRequest::FatalWarner | String | StringIO | bool)? input) -> void
+      def gets: (*untyped args) -> String?
+      def read: (*untyped args) -> String?
+      def each: (*untyped args) -> (Hash[:input | String, String?])
+      def rewind: (*untyped args) -> nil
+      def close: (*untyped args) -> nil
+    end
+
+    class ErrorWrapper
+      include Assertion
+
+      def initialize: ((Array[(Integer | String)?] | Hash[:input | String, String?] | InputWrapper | Integer | MockRequest::FatalWarner | String | StringIO | bool)? error) -> void
+      def puts: (untyped str) -> nil
+      def write: (untyped str) -> Integer
+      def flush: -> StringIO?
+      def close: (*untyped args) -> nil
+    end
+
+    class HijackWrapper
+      REQUIRED_METHODS: [:read, :write, :read_nonblock, :write_nonblock, :flush, :close, :close_read, :close_write, :closed?]
+      include Assertion
+
+      def initialize: ((Array[(Integer | String)?] | Hash[(:input | String)?, (Integer | MockRequest::FatalWarner | Proc | String | StringIO | bool)?] | Integer | MockRequest::FatalWarner | Proc | String | StringIO | bool)? io) -> void
+    end
+  end
+
+  class Lock
+    def initialize: (untyped app, ?Thread::Mutex mutex) -> void
+    def call: (untyped env) -> untyped
+
+    private
+    def unlock: -> untyped
+  end
+
+  class Logger
+    def initialize: (untyped app, ?untyped level) -> void
+    def call: (untyped env) -> untyped
+  end
+
+  class MediaType
+    SPLIT_PATTERN: Regexp
+
+    def self.type: (String content_type) -> String | (false | nil) -> nil
+    def self.params: (String? content_type) -> Hash[String, String]
+    def self.strip_doublequotes: (String str) -> String
+  end
+
+  class MethodOverride
+    HTTP_METHODS: [String, String, String, String, String, String, String, String, String]
+    METHOD_OVERRIDE_PARAM_KEY: String
+    HTTP_METHOD_OVERRIDE_HEADER: String
+    ALLOWED_METHODS: [String]
+
+    def initialize: (untyped app) -> void
+    def call: (untyped env) -> untyped
+    def method_override: (untyped env) -> String
+
+    private
+    def allowed_methods: -> [String]
+    def method_override_param: (Request req) -> String?
+  end
+
+  module Mime
+    MIME_TYPES: Hash[String, String]
+
+    def mime_type: (String ext, ?String fallback) -> String
+    def self.mime_type: (String ext, ?String fallback) -> String
+    def match?: (String value, String? matcher) -> bool
+    def self.match?: (String value, String? matcher) -> bool
+  end
+
+  class NullLogger
+    def initialize: (untyped app) -> void
+    def call: (untyped env) -> untyped
+    def info: (?nil progname) -> nil
+    def debug: (?nil progname) -> nil
+    def warn: (?nil progname) -> nil
+    def error: (?nil progname) -> nil
+    def fatal: (?nil progname) -> nil
+    def unknown: (?nil progname) -> nil
+    def info?: -> nil
+    def debug?: -> nil
+    def warn?: -> nil
+    def error?: -> nil
+    def fatal?: -> nil
+    def level: -> nil
+    def progname: -> nil
+    def datetime_format: -> nil
+    def formatter: -> nil
+    def sev_threshold: -> nil
+    def level=: (untyped level) -> nil
+    def progname=: (untyped progname) -> nil
+    def datetime_format=: (untyped datetime_format) -> nil
+    def formatter=: (untyped formatter) -> nil
+    def sev_threshold=: (untyped sev_threshold) -> nil
+    def close: -> nil
+    def add: (untyped severity, ?nil message, ?nil progname) -> nil
+    def <<: (untyped msg) -> nil
+  end
+
+  class Reloader
+    def initialize: (untyped app, ?Integer cooldown, ?singleton(Stat) backend) -> void
+    def call: (untyped env) -> untyped
+    def reload!: (?IO stderr) -> untyped
+    def safe_load: (untyped file, untyped mtime, ?IO stderr) -> nil
+
+    module Stat
+      def rotation: -> Array[nil]
+      def figure_path: (String file, Array[String] paths) -> ([String | false, (File::Stat | false)?])
+      def safe_stat: (String file) -> (([String, File::Stat] | false)?)
+    end
+  end
+
+  class Runtime
+    FORMAT_STRING: String
+    HEADER_NAME: String
+
+    def initialize: (untyped app, ?nil name) -> void
+    def call: (untyped env) -> ([untyped, Hash[String, String] | Utils::HeaderHash, untyped])
+  end
+
+  class Sendfile
+    def initialize: (untyped app, ?nil variation, ?Array[bot] mappings) -> void
+    def call: (untyped env) -> [untyped, untyped, BodyProxy]
+
+    private
+    def variation: (untyped env) -> untyped
+    def map_accel_path: (untyped env, String path) -> String?
+  end
+
+  class ShowStatus
+    TEMPLATE: String
+
+    def initialize: (untyped app) -> void
+    def call: (untyped env) -> ([untyped, Hash[String, String] | Utils::HeaderHash, [untyped]])
+    def h: (untyped obj) -> untyped
+  end
+
+  class Static
+    def initialize: (untyped app, ?Hash[bot, bot] options) -> void
+    def add_index_root?: (untyped path) -> nil
+    def overwrite_file_path: (untyped path) -> nil
+    def route_file: (untyped path) -> bool
+    def can_serve: (untyped path) -> true?
+    def call: (untyped env) -> [untyped, untyped, BodyProxy]
+    def applicable_rules: (untyped path) -> Array[[:all, Hash[String, nil]]]
+  end
+
+  class TempfileReaper
+    def initialize: (untyped app) -> void
+    def call: (Hash[String?, (Integer | String | true)?] env) -> [untyped, untyped, BodyProxy]
+  end
+
+  class URLMap
+    def initialize: (?Hash[String, URLMap] map) -> void
+    def remap: (Hash[String, URLMap] map) -> Array[[String?, String, Regexp, URLMap]]
+    def call: (untyped env) -> [Integer, Hash[String, String], [String]]
+
+    private
+    def casecmp?: (untyped v1, String? v2) -> bool
+  end
+
+  class Request
+    attr_accessor ip_filter: ^(_ToStr? ip) -> bool
+    ALLOWED_SCHEMES: Array[String]
+    SCHEME_WHITELIST: Array[String]
+    include Helpers
+    include Env
+
+    def initialize: (env) -> void
+    def params: -> Hash[untyped, untyped]
+    def update_param: (top k, top v) -> void
+    def delete_param: (top k) -> bot
+
+    module Env
+      attr_reader env: env
+      def initialize: (env) -> void
+      def has_header?: (String name) -> bool
+      def get_header: (String name) -> untyped?
+      def fetch_header: (String name) ?{ (String) -> untyped } -> untyped?
+      def each_header: { ([String, untyped]) -> void } -> env | -> Enumerator[[String, untyped], env]
+      def set_header: (String name, untyped v) -> untyped
+      def add_header: (String key, untyped v) -> untyped
+      def delete_header: (String name) -> untyped
+      def initialize_copy: (Env other) -> void
+    end
+
+    module Helpers
+      FORM_DATA_MEDIA_TYPES: Array[String]
+      PARSEABLE_DATA_MEDIA_TYPES: Array[String]
+      DEFAULT_PORTS: Hash[String, Integer]
+      HTTP_X_FORWARDED_FOR: String
+      HTTP_X_FORWARDED_HOST: String
+      HTTP_X_FORWARDED_SCHEME: String
+      HTTP_X_FORWARDED_PROTO: String
+      HTTP_X_FORWARDED_PORT: String
+      HTTP_X_FORWARDED_SSL: String
+      AUTHORITY: Regexp
+
+      # FIXME: write SPEC-specified duck type for #body and #logger
+      def body: -> untyped
+      def script_name: -> String
+      def script_name=: (_ToS s) -> String
+      def path_info: -> String
+      def path_info=: (_ToS s) -> String
+      def request_method: -> String
+      def query_string: -> String
+      def content_length: -> String?
+      def logger: -> untyped
+      def user_agent: -> String?
+      def multithread?: -> bool
+      def referer: -> String?
+      alias referrer referer
+      def session: -> _ToHash[untyped, untyped]
+      # FIXME: SPEC does not document `rack.session_options`
+      def session_options: -> bot
+      def delete?: -> bool
+      def get?: -> bool
+      def head?: -> bool
+      def options?: -> bool
+      def link?: -> bool
+      def patch?: -> bool
+      def post?: -> bool
+      def put?: -> bool
+      def trace?: -> bool
+      def unlink?: -> bool
+      def scheme: -> String?
+      def authority: -> String?
+      def server_authority: -> String?
+      def server_name: -> String
+      def server_port: -> Integer?
+      def cookies: -> Hash[String, String]
+      def content_type: -> String?
+      def xhr?: -> bool
+      def host_authority: -> String?
+      def host_with_port: (?String? authority) -> String?
+      def host: -> String?
+      def hostname: -> String?
+      def port: -> Integer?
+      def forwarded_for: -> Array[String?]?
+      def forwarded_port: -> Array[Integer]?
+      def forwarded_authority: -> String?
+      def ssl?: -> bool
+      def ip: -> String?
+      def media_type: -> String?
+      def media_type_params: -> Hash[String, String]
+      def content_charset: -> String?
+      def form_data?: -> bool
+      def parseable_data?: -> bool
+      def GET: -> Hash[untyped, untyped]
+      def POST: -> Hash[untyped, untyped]
+      def params: -> Hash[untyped, untyped]
+      def update_param: (top k, top v) -> void
+      def delete_param: (top k) -> bot
+      def base_url: -> String
+      def url: -> String
+      def path: -> String
+      def fullpath: -> String
+      def accept_encoding: -> Array[[String?, Float]]
+      def accept_language: -> Array[[String?, Float]]
+      def trusted_proxy?: (String? ip) -> bool
+      def []: (untyped key) -> untyped
+      def []=: (untyped key, untyped value) -> untyped
+      def values_at: (*untyped keys) -> Array[untyped]
+
+      private
+      def default_session: -> Hash[untyped, untyped]
+      def wrap_ipv6: (String host) -> String
+      def parse_http_accept_header: (_ToS header) -> Array[[String?, Float]]
+      def query_parser: -> QueryParser
+      def parse_query: (String qs, ?String? d) -> Hash[String, String | Array[String]]
+      # FIXME: What exactly does #parse_multipart return?
+      def parse_multipart: -> bot
+      def split_header: (String? value) -> Array[String]
+      def split_authority: (String authority) -> [String?, String?, Integer?]
+      def reject_trusted_ip_addresses: (Array[String?]? ip_addresses) -> Array[String?]
+      def forwarded_scheme: -> String?
+      def allowed_scheme: (String? header) -> String?
+      def extract_proto_header: (String? header) -> String?
+    end
+  end
+
+  class Response
+    CHUNKED: String
+    STATUS_WITH_NO_ENTITY_BODY: Hash[Integer, true]
+    include Helpers
+
+    def self.[]: (_ToI status, _Each[[String, String]] headers, nil | _Each[String] | _ToStr body) -> Response
+    attr_accessor length: Integer
+    attr_accessor status: _ToI
+    attr_accessor body: _Each[String]
+    attr_reader headers: _Each[[String, String]]
+    alias header headers
+    def initialize: (?nil | _Each[String] | _ToStr body, ?_ToI status, ?_Each[[String, String]] headers) -> void
+    def redirect: (String target, ?_ToI status) -> void
+    def chunked?: -> bool
+    def finish: -> response
+    alias to_a finish
+    def each: ?{ (String) -> void } -> void
+    def write: (_ToS chunk) -> void
+    def close: -> void
+    def empty?: -> bool
+    def has_header?: (String key) -> bool
+    def get_header: (String key) -> String?
+    def set_header: (String key, String v) -> String
+    def delete_header: (String key) -> String?
+    alias [] get_header
+    alias []= set_header
+
+    module Helpers
+      def invalid?: -> bool
+      def informational?: -> bool
+      def successful?: -> bool
+      def redirection?: -> bool
+      def client_error?: -> bool
+      def server_error?: -> bool
+      def ok?: -> bool
+      def created?: -> bool
+      def accepted?: -> bool
+      def no_content?: -> bool
+      def moved_permanently?: -> bool
+      def bad_request?: -> bool
+      def unauthorized?: -> bool
+      def forbidden?: -> bool
+      def not_found?: -> bool
+      def method_not_allowed?: -> bool
+      def precondition_failed?: -> bool
+      def unprocessable?: -> bool
+      def redirect?: -> bool
+      def include?: (untyped header) -> bool
+      def add_header: (String key, String v) -> String
+      def content_type: -> String?
+      def content_type=: (String content_type) -> String
+      def media_type: -> String?
+      def media_type_params: -> Hash[String, String]
+      def content_length: -> Integer?
+      def location: -> String?
+      def location=: (String location) -> String
+      def set_cookie: (String key, _ToS value) -> String
+      def delete_cookie: (String key, ?Hash[Symbol, _ToS] value) -> String
+      def set_cookie_header: -> String?
+      def set_cookie_header=: (String v) -> String
+      def cache_control: -> String?
+      def cache_control=: (String v) -> String
+      def do_not_cache!: -> void
+      def cache!: (?Integer duration, ?directive: String) -> void
+      def etag: -> String?
+      def etag=: (String v) -> String
+      def buffered_body!: -> true?
+      def append: (String chunk) -> String
+    end
+
+    class Raw
+      include Helpers
+
+      attr_reader headers: Hash[String, String]
+      attr_accessor status: untyped
+      def initialize: (untyped status, Hash[String, String] headers) -> void
+      def has_header?: (String key) -> bool
+      def get_header: (String key) -> String?
+      def set_header: (String key, String v) -> String
+      def delete_header: (String key) -> String?
+    end
+  end
+
+  module RegexpExtensions
+  end
+
+  class Server
+    def self.start: (?untyped options) -> untyped
+    attr_writer options: {config: String?}
+    def initialize: (?nil options) -> void
+    def options: -> ({config: (Array[bot] | Integer | String)?, environment: (Array[bot] | Integer | String)?, pid: (Array[bot] | Integer | String)?, Port: (Array[bot] | Integer | String)?, Host: (Array[bot] | Integer | String)?, AccessLog: (Array[bot] | Integer | String)?})
+    def default_options: -> {environment: String, pid: nil, Port: Integer, Host: String, AccessLog: Array[bot], config: String}
+    def app: -> untyped
+    def self.logging_middleware: -> Proc
+    def self.default_middleware_by_environment: -> (Hash[String, Array[Proc | [singleton(ContentLength) | singleton(Lint) | singleton(ShowExceptions) | singleton(TempfileReaper)]]])
+    def self.middleware: -> (Hash[String, Array[Proc | [singleton(ContentLength) | singleton(Lint) | singleton(ShowExceptions) | singleton(TempfileReaper)]]])
+    def middleware: -> (Hash[String, Array[Proc | [singleton(ContentLength) | singleton(Lint) | singleton(ShowExceptions) | singleton(TempfileReaper)]]])
+    def start: -> untyped
+    def server: -> ((singleton(Handler::CGI) | singleton(Handler::FastCGI))?)
+
+    private
+    def build_app_and_options_from_config: -> untyped
+    def handle_profiling: (nil heapfile, nil profile_mode, nil filename) { -> (ContentLength | Lint | ShowExceptions | TempfileReaper) } -> (ContentLength | Lint | ShowExceptions | TempfileReaper)
+    def make_profile_name: (untyped filename) -> untyped
+    def build_app_from_string: -> untyped
+    def parse_options: (Array[String] args) -> {config: String?}
+    def opt_parser: -> Options
+    def build_app: (untyped app) -> (ContentLength | Lint | ShowExceptions | TempfileReaper)
+    def wrapped_app: -> (ContentLength | Lint | ShowExceptions | TempfileReaper)
+    def daemonize_app: -> Integer
+    def write_pid: -> Proc
+    def check_pid!: -> nil
+    def pidfile_process_status: -> (:dead | :exited | :not_owned | :running)
+
+    class Options
+      def parse!: (Array[String] args) -> {config: String?}
+      def handler_opts: (untyped options) -> String
+    end
+  end
+
+  class ShowExceptions
+    CONTEXT: Integer
+    TEMPLATE: untyped
+
+    def initialize: (untyped app) -> void
+    def call: (Hash[String?, (Integer | String | true)?] env) -> [Integer, Hash[String, String?], [String?]]
+    def prefers_plaintext?: (untyped env) -> bool
+
+    private
+    def accepts_html?: (Hash[String, String?] env) -> ((Float | String)?)
+
+    public
+    def dump_exception: (nil exception) -> String
+    def pretty: (Hash[String, String?] env, nil exception) -> untyped
+    def template: -> untyped
+    def h: (untyped obj) -> untyped
+  end
+
+  class QueryParser
+    DEFAULT_SEP: Regexp
+    COMMON_SEP: Hash[String, Regexp]
+
+    def self.make_default: (Integer key_space_limit, Integer param_depth_limit) -> QueryParser
+    attr_reader key_space_limit: Integer
+    attr_reader param_depth_limit: Integer
+    def initialize: (singleton(Params) params_class, Integer key_space_limit, Integer param_depth_limit) -> void
+    def parse_query: (untyped qs, ?nil d) -> (Hash[String?, (Array[(Array[nil] | Hash[String?, untyped] | Params | String)?] | Hash[String?, (Array[untyped] | Hash[String?, untyped] | Params | String)?] | Params | String)?])
+    def parse_nested_query: (untyped qs, ?nil d) -> (Hash[String?, (Array[(Array[nil] | Params | String)?] | Hash[String?, (Params | String)?] | Params | String)?])
+    def normalize_params: ((Array[(Array[nil] | Hash[String?, untyped] | Params | String)?] | Hash[String?, (Array[untyped] | Hash[String?, untyped] | Params | String)?] | Params | String)? params, String? name, String? v, Integer depth) -> ((Array[(Array[(Params | String)?] | Hash[String?, (Params | String)?] | Params | String)?] | Hash[String?, (Array[(Params | String)?] | Hash[String?, (Params | String)?] | Params | String)?] | Params | String)?)
+    def make_params: -> Params
+    def new_space_limit: (untyped key_space_limit) -> QueryParser
+    def new_depth_limit: (untyped param_depth_limit) -> QueryParser
+
+    private
+    def params_hash_type?: ((Array[(Array[nil] | Hash[String?, untyped] | Params | String)?] | Hash[String?, (Array[untyped] | Hash[String?, untyped] | Params | String)?] | Params | String)? obj) -> bool
+    def params_hash_has_key?: ((Array[nil] | Hash[String?, untyped] | Params | String)? hash, String? key) -> bool
+    def unescape: (String s) -> untyped
+
+    class ParameterTypeError < TypeError
+    end
+
+    class InvalidParameterError < ArgumentError
+    end
+
+    class ParamsTooDeepError < RangeError
+    end
+
+    class Params
+      def initialize: (Integer limit) -> void
+      def []: (String? key) -> ((Array[(Array[nil] | Hash[String?, untyped] | Params | String)?] | Hash[String?, (Array[untyped] | Hash[String?, untyped] | Params | String)?] | Params | String)?)
+      def []=: (String? key, (Array[(Array[(Params | String)?] | Hash[String?, (Params | String)?] | Params | String)?] | Hash[String?, (Array[(Params | String)?] | Hash[String?, (Params | String)?] | Params | String)?] | Params | String)? value) -> ((Array[(Array[(Params | String)?] | Hash[String?, (Params | String)?] | Params | String)?] | Hash[String?, (Array[(Params | String)?] | Hash[String?, (Params | String)?] | Params | String)?] | Params | String)?)
+      def key?: (String key) -> bool
+      def to_h: -> (Hash[String?, (Array[(Array[nil] | Hash[String?, untyped] | Params | String)?] | Hash[String?, (Array[untyped] | Hash[String?, untyped] | Params | String)?] | Params | String)?])
+    end
+  end
+
+  module Utils
+    DEFAULT_SEP: Regexp
+    COMMON_SEP: Hash[String, Regexp]
+    RFC2822_DAY_NAME: Array[String]
+    RFC2822_MONTH_NAME: Array[String]
+    ESCAPE_HTML: Hash[String, String]
+    ESCAPE_HTML_PATTERN: Regexp
+    HTTP_STATUS_CODES: Hash[Integer, String]
+    STATUS_WITH_NO_ENTITY_BODY: Hash[true, true]
+    SYMBOL_TO_STATUS_CODE: Hash[untyped, untyped]
+    PATH_SEPS: Regexp
+    NULL_BYTE: String
+
+    def escape: ((Integer | Session::Cookie::Base64::Marshal | String | [:expires | :same_site | :value, Time] | bool | {value: bot, expires: Time, same_site: untyped})? s) -> untyped
+    def self.escape: ((Integer | Session::Cookie::Base64::Marshal | String | [:expires | :same_site | :value, Time] | bool | {value: bot, expires: Time, same_site: untyped})? s) -> untyped
+    def escape_path: (String? s) -> untyped
+    def self.escape_path: (String? s) -> untyped
+    def unescape_path: (String s) -> untyped
+    def self.unescape_path: (String s) -> untyped
+    def unescape: (String s, ?Encoding encoding) -> untyped
+    def self.unescape: (String s, ?Encoding encoding) -> untyped
+    def self.param_depth_limit: -> untyped
+    def self.param_depth_limit=: (untyped v) -> untyped
+    def self.key_space_limit: -> untyped
+    def self.key_space_limit=: (untyped v) -> untyped
+    def clock_time: -> (Float | Integer)
+    def self.clock_time: -> (Float | Integer)
+    def parse_query: (String? qs, ?String? d) { -> untyped } -> untyped
+    def self.parse_query: (String? qs, ?String? d) { -> untyped } -> untyped
+    def parse_nested_query: ((MockRequest::FatalWarner | String | StringIO | [Integer, Integer] | bool)? qs, ?nil d) -> untyped
+    def self.parse_nested_query: ((MockRequest::FatalWarner | String | StringIO | [Integer, Integer] | bool)? qs, ?nil d) -> untyped
+    def build_query: (untyped params) -> untyped
+    def self.build_query: (untyped params) -> untyped
+    def build_nested_query: (nil value, ?String? prefix) -> String?
+    def self.build_nested_query: (nil value, ?String? prefix) -> String?
+    def q_values: (String? q_value_header) -> Array[[String?, Float]]
+    def self.q_values: (String? q_value_header) -> Array[[String?, Float]]
+    def best_q_match: (String? q_value_header, [String] available_mimes) -> ((Float | String)?)
+    def self.best_q_match: (String? q_value_header, [String] available_mimes) -> ((Float | String)?)
+    def escape_html: (String string) -> untyped
+    def self.escape_html: (String string) -> untyped
+    def select_best_encoding: ([String, String] available_encodings, Array[[String?, Float]] accept_encoding) -> (Array[(Array[untyped] | Float | Integer | String)?] | String)
+    def self.select_best_encoding: ([String, String] available_encodings, Array[[String?, Float]] accept_encoding) -> (Array[(Array[untyped] | Float | Integer | String)?] | String)
+    def parse_cookies: (untyped env) -> untyped
+    def self.parse_cookies: (untyped env) -> untyped
+    def parse_cookies_header: (String? header) -> untyped
+    def self.parse_cookies_header: (String? header) -> untyped
+    def add_cookie_to_header: (String header, (Integer | Session::Cookie::Base64::Marshal | String | bool)? key, {value: bot, expires: Time, same_site: (Integer | Session::Cookie::Base64::Marshal | String | bool)?} value) -> String
+    def self.add_cookie_to_header: (String header, (Integer | Session::Cookie::Base64::Marshal | String | bool)? key, {value: bot, expires: Time, same_site: (Integer | Session::Cookie::Base64::Marshal | String | bool)?} value) -> String
+    def set_cookie_header!: (untyped header, untyped key, untyped value) -> nil
+    def self.set_cookie_header!: (untyped header, untyped key, untyped value) -> nil
+    def make_delete_cookie_header: (untyped header, untyped key, Hash[bot, bot] value) -> String
+    def self.make_delete_cookie_header: (untyped header, untyped key, Hash[bot, bot] value) -> String
+    def delete_cookie_header!: (untyped header, untyped key, ?Hash[bot, bot] value) -> nil
+    def self.delete_cookie_header!: (untyped header, untyped key, ?Hash[bot, bot] value) -> nil
+    def add_remove_cookie_to_header: (untyped header, untyped key, ?Hash[bot, bot] value) -> String
+    def self.add_remove_cookie_to_header: (untyped header, untyped key, ?Hash[bot, bot] value) -> String
+    def rfc2822: (untyped time) -> untyped
+    def self.rfc2822: (untyped time) -> untyped
+    def rfc2109: (untyped time) -> untyped
+    def self.rfc2109: (untyped time) -> untyped
+    def byte_ranges: (untyped env, untyped size) -> Array[Range[Integer]]?
+    def self.byte_ranges: (untyped env, untyped size) -> Array[Range[Integer]]?
+    def get_byte_ranges: (String? http_range, Integer size) -> Array[Range[Integer]]?
+    def self.get_byte_ranges: (String? http_range, Integer size) -> Array[Range[Integer]]?
+    def secure_compare: (untyped a, untyped b) -> bool
+    def self.secure_compare: (untyped a, untyped b) -> bool
+    def status_code: (untyped status) -> untyped
+    def self.status_code: (untyped status) -> untyped
+    def clean_path_info: (untyped path_info) -> String
+    def self.clean_path_info: (untyped path_info) -> String
+    def valid_path?: (untyped path) -> untyped
+    def self.valid_path?: (untyped path) -> untyped
+
+    class Context
+      attr_reader for: untyped
+      attr_reader app: untyped
+      def initialize: (untyped app_f, untyped app_r) -> void
+      def call: (untyped env) -> untyped
+      def recontext: (untyped app) -> Context
+      def context: (untyped env, ?untyped app) -> untyped
+    end
+
+    class HeaderHash < Hash[untyped, untyped]
+      def self.[]: (Hash[String, String] | HeaderHash headers) -> (Hash[String, String] | HeaderHash)
+      def initialize: (?Hash[String, String] | HeaderHash hash) -> void
+      def initialize_copy: (untyped other) -> untyped
+      def clear: -> Hash[String, String]
+      def each: ?{ ([String, String], ?untyped) -> String } -> HeaderHash
+      def to_hash: -> Hash[untyped, untyped]
+      def []: (String k) -> untyped
+      def []=: (String k, Array[(Array[String] | String)?] | String v) -> untyped
+      def delete: (String k) -> nil
+      def include?: (untyped k) -> bool
+      def merge!: (untyped other) -> HeaderHash
+      def merge: (untyped other) -> HeaderHash
+      def replace: (untyped other) -> HeaderHash
+      def names: -> Hash[String, String]
+    end
+  end
+
+  module Multipart
+    EOL: String
+    MULTIPART_BOUNDARY: String
+    MULTIPART: Regexp
+    TOKEN: Regexp
+    CONDISP: Regexp
+    VALUE: Regexp
+    BROKEN: Regexp
+    MULTIPART_CONTENT_TYPE: Regexp
+    MULTIPART_CONTENT_DISPOSITION: Regexp
+    MULTIPART_CONTENT_ID: Regexp
+    ATTRIBUTE_CHAR: Regexp
+    ATTRIBUTE: Regexp
+    SECTION: Regexp
+    REGULAR_PARAMETER_NAME: Regexp
+    REGULAR_PARAMETER: Regexp
+    EXTENDED_OTHER_NAME: Regexp
+    EXTENDED_OTHER_VALUE: Regexp
+    EXTENDED_OTHER_PARAMETER: Regexp
+    EXTENDED_INITIAL_NAME: Regexp
+    EXTENDED_INITIAL_VALUE: Regexp
+    EXTENDED_INITIAL_PARAMETER: Regexp
+    EXTENDED_PARAMETER: Regexp
+    DISPPARM: Regexp
+    RFC2183: Regexp
+
+    def self.parse_multipart: (untyped env, ?untyped params) -> nil
+    def self.extract_multipart: (Request | Request::Helpers req, ?untyped params) -> nil
+    def self.build_multipart: (nil params, ?bool first) -> ((Hash[bot, bot] | String)?)
+
+    class MultipartPartLimitError < Errno::EMFILE
+    end
+
+    class Parser
+      BUFSIZE: Integer
+      TEXT_PLAIN: String
+      TEMPFILE_FACTORY: Proc
+      BOUNDARY_REGEX: Regexp
+      EMPTY: MultipartInfo
+      CHARSET: String
+
+      def self.parse_boundary: (String? content_type) -> String?
+      def self.parse: (String? io, Integer? content_length, String? content_type, Proc | String tmpfile, Integer | String bufsize, untyped qp) -> MultipartInfo
+      attr_reader state: :CONSUME_TOKEN | :DONE | :FAST_FORWARD | :MIME_BODY | :MIME_HEAD
+      def initialize: (String boundary, Proc | String tempfile, Integer | String bufsize, untyped query_parser) -> void
+      def on_read: (nil content) -> nil
+      def result: -> MultipartInfo
+
+      private
+      def run_parser: -> nil
+      def handle_fast_forward: -> (:MIME_HEAD | :want_read)
+      def handle_consume_token: -> (:DONE | :MIME_HEAD)
+      def handle_mime_head: -> (:MIME_BODY | :want_read)
+      def handle_mime_body: -> (:want_read | Integer)
+      def full_boundary: -> String
+      def consume_boundary: -> ((:BOUNDARY | :END_BOUNDARY)?)
+      def get_filename: (untyped head) -> String?
+      def tag_multipart_encoding: (String? filename, untyped content_type, String? name, String | {filename: String?, type: untyped, name: String?, tempfile: String, head: untyped} body) -> String?
+      def handle_empty_content!: (nil content) -> nil
+
+      class BoundedIO
+        def initialize: (String? io, Integer content_length) -> void
+        def read: (Integer | String size, ?String? outbuf) -> nil
+        def rewind: -> untyped
+      end
+
+      class MultipartInfo < Struct[untyped]
+        attr_accessor params(): nil
+        attr_accessor tmp_files(): Array[untyped]
+      end
+
+      class Collector
+        include Enumerable[MimePart]
+
+        def initialize: (Proc | String tempfile) -> void
+        def each: { (MimePart) -> void } -> void
+                  | -> Enumerator[MimePart, untyped]
+        def on_mime_head: (Integer mime_index, untyped head, String? filename, untyped content_type, String? name) -> nil
+        def on_mime_body: (Integer mime_index, untyped content) -> String
+        def on_mime_finish: (untyped mime_index) -> nil
+
+        private
+        def check_open_files: -> nil
+
+        class MimePart
+          attr_accessor body(): untyped
+          attr_accessor head(): untyped
+          attr_accessor filename(): untyped
+          attr_accessor content_type(): untyped
+          attr_accessor name(): untyped
+
+          def get_data: { (String | {filename: String?, type: untyped, name: String?, tempfile: String, head: untyped}) -> untyped } -> nil
+        end
+
+        class BufferPart < MimePart
+          def file?: -> false
+          def close: -> nil
+        end
+
+        class TempfilePart < MimePart
+          def file?: -> true
+          def close: -> untyped
+        end
+      end
+    end
+
+    class UploadedFile
+      attr_reader original_filename: String?
+      attr_accessor content_type: String
+      def initialize: (?nil filepath, ?String ct, ?false bin, ?path: untyped, ?content_type: untyped, ?binary: untyped, ?filename: nil, ?io: nil) -> void
+      def path: -> nil
+      def respond_to?: (*untyped args) -> bool
+      def method_missing: (untyped method_name, *untyped args) -> untyped
+    end
+
+    class Generator
+      def initialize: (nil params, ?bool first) -> void
+      def dump: -> ((Hash[bot, bot] | String)?)
+
+      private
+      def multipart?: -> untyped
+      def flattened_params: -> Hash[bot, bot]
+      def content_for_tempfile: (File io, bot file, bot name) -> String
+      def content_for_other: (bot file, bot name) -> String
+    end
+  end
+
+  class ETag
+    ETAG_STRING: String
+    DEFAULT_CACHE_CONTROL: String
+
+    def initialize: (untyped app, ?nil no_cache_control, ?String cache_control) -> void
+    def call: (untyped env) -> [untyped, untyped, BodyProxy]
+
+    private
+    def etag_status?: (untyped status) -> untyped
+    def etag_body?: (untyped body) -> untyped
+    def skip_caching?: (untyped headers) -> untyped
+    def digest_body: (untyped body) -> [nil, Array[bot]]
+  end
+
+  class RewindableInput
+    def initialize: (IO | String | StringIO io) -> void
+    def gets: -> String?
+    def read: (*untyped args) -> untyped
+    def each: -> untyped
+    def rewind: -> untyped
+    def close: -> nil
+
+    private
+    def make_rewindable: -> untyped
+    def filesystem_has_posix_semantics?: -> bool
+  end
+
+  class MockRequest
+    DEFAULT_ENV: env
+
+    def initialize: (_Application app) -> void
+    def get: (?String uri, ?Hash[Symbol, untyped] opts) -> MockResponse
+    def post: (?String uri, ?Hash[Symbol, untyped] opts) -> MockResponse
+    def put: (?String uri, ?Hash[Symbol, untyped] opts) -> MockResponse
+    def patch: (?String uri, ?Hash[Symbol, untyped] opts) -> MockResponse
+    def delete: (?String uri, ?Hash[Symbol, untyped] opts) -> MockResponse
+    def head: (?String uri, ?Hash[Symbol, untyped] opts) -> MockResponse
+    def options: (?String uri, ?Hash[Symbol, untyped] opts) -> MockResponse
+    def request: (?_ToS method, ?String uri, ?Hash[Symbol, untyped] opts) -> MockResponse
+    def self.parse_uri_rfc2396: (String uri) -> URI::Generic
+    def self.env_for: (?String uri, ?Hash[Symbol, untyped] opts) -> env
+
+    class FatalWarning < RuntimeError
+    end
+
+    class FatalWarner
+      def puts: (untyped warning) -> bot
+      def write: (untyped warning) -> bot
+      def flush: -> nil
+      def string: -> ""
+    end
+  end
+
+  class MockResponse < Response
+    alias self.[] self.new
+    attr_reader original_headers: _Each[[String, String]]
+    attr_reader cookies: Hash[String, CGI::Cookie]
+    attr_accessor errors: String
+    # FIXME: write SPEC-specified duck type for errors parameter
+    def initialize: (_ToI status, _Each[[String, String]] headers, nil | _Each[String] | _ToStr body, ?untyped errors) -> void
+    def =~: (untyped other) -> Integer?
+    def match: (Regexp | string other) -> MatchData?
+    def body: -> String
+    def empty?: -> bool
+    def cookie: (String name) -> CGI::Cookie?
+
+    private
+    def parse_cookies_from_header: -> Hash[String, CGI::Cookie]
+    def identify_cookie_attributes: (String cookie_filling) -> Hash[String, untyped]
+  end
+end

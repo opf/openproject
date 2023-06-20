@@ -1,0 +1,71 @@
+module Rails
+  module Generators
+    class PluginGenerator < AppBase
+      # It is necessary to satisfy alias target.
+      # TODO: Define this method to correct place.
+      def app_path: () -> untyped
+    end
+  end
+end
+
+# rbs gem has erb library but it doesn't have ERB::Compiler definition.
+class ERB
+  class Compiler
+  end
+end
+
+# Remove the fake Minitest type
+# if the real type of Minitest is available
+module Minitest
+  class SummaryReporter
+  end
+
+  class StatisticsReporter
+  end
+end
+
+# Remove the fake Rack type
+# if the real type of Minitest is available
+module Rack
+  class Server
+  end
+end
+
+# Remove the fake RDoc type
+# if the real type of Minitest is available
+module RDoc
+  module Generator
+    class SDoc
+    end
+  end
+
+  class Task
+  end
+end
+
+# Remove the fake RDoc type
+# if the real type of Minitest is available
+class Thor
+  class Group
+  end
+
+  module Actions
+    class CreateFile
+    end
+  end
+
+  class Error
+  end
+end
+
+# Remove the fake types for Gem::Version
+# if the real types are available.
+module Gem
+  class Version
+  end
+end
+
+# Remove the fake types for FileUtils
+# if the real types are available.
+module FileUtils
+end

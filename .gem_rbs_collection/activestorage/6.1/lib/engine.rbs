@@ -1,0 +1,10 @@
+module ActiveRecord
+  class Base
+    include ::ActiveStorage::Attached::Model
+    extend ::ActiveStorage::Attached::Model::ClassMethods
+    include ::ActiveStorage::Reflection::ActiveRecordExtensions
+    # included in ActiveRecordExtensions
+    attr_accessor self.attachment_reflections: Hash[String, ActiveStorage::Reflection::HasOneAttachedReflection | ActiveStorage::Reflection::HasManyAttachedReflection]
+    extend ::ActiveStorage::Reflection::ActiveRecordExtensions::ClassMethods
+  end
+end

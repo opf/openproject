@@ -1,0 +1,237 @@
+module ActiveSupport
+  module Callbacks
+    module ClassMethods
+      # Manual definition to make block optional
+      def set_callback: (untyped name, *untyped filter_list) ?{ () -> untyped } -> untyped
+                      | ...
+
+      # Manual definition to make block optional
+      def skip_callback: (untyped name, *untyped filter_list) ?{ () -> untyped } -> untyped
+                       | ...
+    end
+  end
+
+  module Configurable
+    module ClassMethods
+      # Manual definition to make block optional
+      def config_accessor: (*untyped names, ?instance_accessor: bool instance_accessor, ?instance_writer: bool instance_writer, ?instance_reader: bool instance_reader) ?{ () -> untyped } -> untyped
+                         | ...
+    end
+  end
+
+  class Deprecation
+    class DeprecatedConstantProxy
+      # Manual definition to make block optional
+      def self.new: (*untyped args, **untyped kwargs) ?{ () -> untyped } -> untyped
+                  | ...
+    end
+  end
+
+  class HashWithIndifferentAccess[T, U] < Hash[T, U]
+    # Manual definition to make block optional
+    def fetch_values: (*untyped indices) ?{ () -> untyped } -> untyped
+                    | ...
+
+    # Manual definition to make block optional
+    def merge: (untyped hash) ?{ () -> untyped } -> untyped
+             | ...
+
+    # Manual definition to make block optional
+    def select: (*untyped args) ?{ () -> untyped } -> untyped
+              | ...
+
+    # Manual definition to make block optional
+    def reject: (*untyped args) ?{ () -> untyped } -> untyped
+              | ...
+
+    # Manual definition to make block optional
+    def transform_values: (*untyped args) ?{ () -> untyped } -> untyped
+                        | ...
+
+    # Manual definition to make block optional
+    def transform_keys: (*untyped args) ?{ () -> untyped } -> untyped
+                      | ...
+
+    # Manual definition to make block optional
+    def transform_keys!: () ?{ (untyped) -> untyped } -> untyped
+                       | ...
+  end
+
+  module Testing
+    module TimeHelpers
+      # Manual definition to make block optional
+      def travel: (untyped duration) ?{ () -> untyped } -> untyped
+                | ...
+
+      # Manual definition to make block optional
+      def travel_to: (untyped date_or_time) ?{ () -> untyped } -> untyped
+                   | ...
+
+      # Manual definition to make block optional
+      def freeze_time: () ?{ () -> untyped } -> untyped
+                     | ...
+    end
+  end
+
+  class TimeWithZone
+    include DateAndTime::Calculations
+
+    # class_eval
+    def year: () -> Integer
+    def mon: () -> Integer
+    def month: () -> Integer
+    def day: () -> Integer
+    def mday: () -> Integer
+    def wday: () -> Integer
+    def yday: () -> Integer
+    def hour: () -> Integer
+    def min: () -> Integer
+    def sec: () -> Integer
+    def usec: () -> Integer
+    def nsec: () -> Integer
+    def to_date: () -> Date
+
+    # method_missing
+    def asctime: () -> String
+    alias at_beginning_of_day beginning_of_day
+    alias at_beginning_of_hour beginning_of_hour
+    alias at_beginning_of_minute beginning_of_minute
+    alias at_end_of_day end_of_day
+    alias at_end_of_hour end_of_hour
+    alias at_end_of_minute end_of_minute
+    alias at_midday middle_of_day
+    alias at_middle_of_day middle_of_day
+    alias at_midnight beginning_of_day
+    alias at_noon middle_of_day
+    def beginning_of_day: () -> self
+    def beginning_of_hour: () -> self
+    def beginning_of_minute: () -> self
+    def ceil: (?int ndigits) -> self
+    def compare_with_coercion: (untyped other) -> (-1 | 0 | 1 | nil)
+    def compare_without_coercion: (untyped other) -> (-1 | 0 | 1 | nil)
+    def ctime: () -> String
+    def end_of_day: () -> self
+    def end_of_hour: () -> self
+    def end_of_minute: () -> self
+    def eql_with_coercion: (untyped other) -> bool
+    def eql_without_coercion: (untyped other) -> bool
+    def floor: (?int ndigits) -> self
+    def friday?: () -> bool
+    alias midday middle_of_day
+    def middle_of_day: () -> self
+    alias midnight beginning_of_day
+    def minus_with_coercion: (Time | self arg0) -> Float
+                           | (Numeric arg0) -> self
+    def minus_with_duration: (Time | self arg0) -> Float
+                           | (Numeric arg0) -> self
+    def minus_without_coercion: (Time | self arg0) -> Float
+                           | (Numeric arg0) -> self
+    def minus_without_duration: (Time | self arg0) -> Float
+                           | (Numeric arg0) -> self
+    def monday?: () -> bool
+    def next_day: () -> self
+    def next_month: () -> self
+    def next_year: () -> self
+    alias noon middle_of_day
+    def plus_without_duration: (Time | self arg0) -> Float
+                             | (Numeric arg0) -> self
+    def prev_day: () -> self
+    def prev_month: () -> self
+    def prev_year: () -> self
+    def round: (?int ndigits) -> self
+    def saturday?: () -> bool
+    def seconds_since_midnight: () -> Float
+    def seconds_until_end_of_day: () -> Integer
+    def sec_fraction: () -> (Integer | Rational)
+    def subsec: () -> (Integer | Rational)
+    def sunday?: () -> bool
+    def thursday?: () -> bool
+    def to_default_s: () -> String
+    def tuesday?: () -> bool
+    def tv_nsec: () -> Integer
+    def tv_usec: () -> Integer
+    def wednesday?: () -> bool
+  end
+end
+
+class Hash[unchecked out K, unchecked out V]
+  # Manual definition to make block optional
+  def deep_merge: (untyped other_hash) ?{ () -> untyped } -> untyped
+                | ...
+
+  # Manual definition to make block optional
+  def deep_merge!: (untyped other_hash) ?{ () -> untyped } -> untyped
+                 | ...
+
+  def stringify_keys: () -> Hash[String, V]
+
+  def stringify_keys!: () -> self
+
+  def symbolize_keys: () -> Hash[Symbol, V]
+  alias to_options symbolize_keys
+
+  def symbolize_keys!: () -> self
+  alias to_options! symbolize_keys!
+
+  def deep_stringify_keys: () -> Hash[String, untyped]
+
+  def deep_stringify_keys!: () -> self
+
+  def deep_symbolize_keys: () -> Hash[Symbol, untyped]
+
+  def deep_symbolize_keys!: () -> self
+end
+
+class Module
+  # Manual definition to make block optional
+  def mattr_reader: (*untyped syms, ?default: untyped? default, ?instance_accessor: bool instance_accessor, ?instance_reader: bool instance_reader) ?{ () -> untyped } -> untyped
+                  | ...
+
+  # Manual definition to make block optional
+  def mattr_writer: (*untyped syms, ?default: untyped? default, ?instance_accessor: bool instance_accessor, ?instance_writer: bool instance_writer) ?{ () -> untyped } -> untyped
+                  | ...
+
+  # Manual definition to make block optional
+  def mattr_accessor: (*untyped syms, ?default: untyped? default, ?instance_accessor: bool instance_accessor, ?instance_writer: bool instance_writer, ?instance_reader: bool instance_reader) ?{ () -> untyped } -> untyped
+                    | ...
+end
+
+class Integer
+  prepend ActiveSupport::NumericWithFormat
+end
+
+class Float
+  prepend ActiveSupport::NumericWithFormat
+end
+
+class BigDecimal
+  prepend ActiveSupport::NumericWithFormat
+end
+
+module ActiveSupport
+  module Tryable : BasicObject
+    def try: [T] () { (self) -> T } -> T # When yield self
+           | [T] () { () -> T } -> T # When instance_eval
+           | (Object::name method_name, *untyped args) ?{ (*untyped) -> untyped } -> untyped
+
+    def try!: [T] () { (self) -> T } -> T # When yield self
+            | [T] () { () -> T } -> T # When instance_eval
+            | (Object::name method_name, *untyped args) ?{ (*untyped) -> untyped } -> untyped
+  end
+end
+
+class NilClass
+    def try: () { (untyped) -> untyped } -> nil
+           | () { () -> untyped } -> nil
+           | (Object::name method_name, *untyped args) ?{ (*untyped) -> untyped } -> nil
+
+    def try!: () { (untyped) -> untyped } -> nil
+            | () { () -> untyped } -> nil
+            | (Object::name method_name, *untyped args) ?{ (*untyped) -> untyped } -> nil
+
+end
+
+class Array[unchecked out Elem]
+  # Manual definition to make block optional
+  def in_groups: (untyped number, ?untyped? fill_with) ?{ (untyped) -> untyped } -> untyped
+end

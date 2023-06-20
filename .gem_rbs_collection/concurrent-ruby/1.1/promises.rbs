@@ -1,0 +1,249 @@
+module Concurrent
+  module Promises
+    module FactoryMethods
+      def any_event: (*(Event | Future[top, top]) futures_and_or_events) -> Event
+      def any_event_on: (executor default_executor, *(Event | Future[top, top]) futures_and_or_events) -> Event
+
+      def any_fulfilled_future: (*Event events) -> Future[nil, bot]
+        | [T, E] (*Future[T, E] futures) -> Future[T, E]
+        | [T, E] (*(Event | Future[T, E]) futures_and_or_events) -> Future[T | nil, E]
+      def any_fulfilled_future_on: (executor default_executor, *Event events) -> Future[nil, bot]
+        | [T, E] (executor default_executor, *Future[T, E] futures) -> Future[T, E]
+        | [T, E] (executor default_executor, *(Event | Future[T, E]) futures_and_or_events) -> Future[T | nil, E]
+
+      def any_resolved_future: (*Event events) -> Future[nil, bot]
+        | [T, E] (*Future[T, E] futures) -> Future[T, E]
+        | [T, E] (*(Event | Future[T, E]) futures_and_or_events) -> Future[T | nil, E]
+      alias any any_resolved_future
+      def any_resolved_future_on: (executor default_executor, *Event events) -> Future[nil, bot]
+        | [T, E] (executor default_executor, *Future[T, E] futures) -> Future[T, E]
+        | [T, E] (executor default_executor, *(Event | Future[T, E]) futures_and_or_events) -> Future[T | nil, E]
+
+      def default_executor: () -> executor
+
+      def delay: () -> Event
+        | [A, T] (*A args) { (*A args) -> T } -> Future[T, Exception]
+      def delay_on: (executor default_executor) -> Event
+        | [A, T] (executor default_executor, *A args) { (*A args) -> T } -> Future[T, Exception]
+
+      def fulfilled_future: [T] (T value, ?executor default_executor) -> Future[T, bot]
+
+      def future: [A, T] (*A args) { (*A args) -> T } -> Future[T, Exception]
+      def future_on: [A, T] (executor default_executor, *A args) { (*A args) -> T } -> Future[T, Exception]
+
+      def make_future: (nil, ?executor default_executor) -> Event
+        | [X < AbstractEventFuture] (X event_or_future, ?executor default_executor) -> X
+        | [E < Exception] (E reason, ?executor default_executor) -> Future[bot, E]
+        | [T] (T value, ?executor default_executor) -> Future[T, bot]
+
+      def rejected_future: [E] (E reason, ?executor default_executor) -> Future[bot, E]
+
+      def resolvable_event: () -> ResolvableEvent
+      def resolvable_event_on: (executor default_executor) -> ResolvableEvent
+
+      def resolvable_future: () -> ResolvableFuture[untyped, untyped]
+      def resolvable_future_on: (executor default_executor) -> ResolvableFuture[untyped, untyped]
+
+      def resolved_event: (?executor default_executor) -> Event
+
+      def resolved_future: [T] (true fulfilled, T value, top reason, ?executor default_executor) -> Future[T, bot]
+        | [E] (false fulfilled, top value, E reason, ?executor default_executor) -> Future[bot, E]
+        | [T, E] (boolish fulfilled, T? value, E? reason, ?executor default_executor) -> Future[T, E]
+
+      def schedule: (Numeric | Time intended_time) -> Event
+        | [A, T] (Numeric | Time intended_time, *A args) { (*A args) -> T } -> Future[T, Exception]
+      def schedule_on: (executor default_executor, Numeric | Time intended_time) -> Event
+        | [A, T] (executor default_executor, Numeric | Time intended_time, *A args) { (*A args) -> T } -> Future[T, Exception]
+
+      def zip_events: (*(Event | Future[top, top]) futures_and_or_events) -> Event
+      def zip_events_on: (executor default_executor, *(Event | Future[top, top]) futures_and_or_events) -> Event
+
+      def zip_futures: (*Event events) -> Future[Array[nil], bot]
+        | [T, E] (*Future[T, E] futures) -> Future[Array[T], Array[E]]
+        | [T, E] (*(Event | Future[T, E]) futures_and_or_events) -> Future[Array[T | nil], Array[E | nil]]
+      alias zip zip_futures
+      def zip_futures_on: (executor default_executor, *Event events) -> Future[Array[nil], bot]
+        | [T, E] (executor default_executor, *Future[T, E] futures) -> Future[Array[T], Array[E]]
+        | [T, E] (executor default_executor, *(Event | Future[T, E]) futures_and_or_events) -> Future[Array[T | nil], Array[E]]
+    end
+
+    extend FactoryMethods
+
+    class AbstractEventFuture
+      def chain: [A, U] (*A args) { (*untyped) -> U } -> Future[U, Exception]
+      def chain_on: [A, U] (executor executor, *A args) { (*untyped) -> U } -> Future[U, Exception]
+
+      def chain_resolvable: (Resolvable resolvable) -> self
+      alias tangle chain_resolvable
+
+      def default_executor: () -> executor
+
+      def internal_state: () -> Object
+
+      def on_resolution: [A] (*A args) { (*untyped) -> void } -> self
+      def on_resolution!: [A] (*A args) { (*untyped) -> void } -> self
+      def on_resolution_using: [A] (executor executor, *A args) { (*untyped) -> void } -> self
+
+      def resolved?: () -> bool
+
+      def pending?: () -> bool
+
+      def state: () -> Symbol
+
+      def touch: () -> self
+
+      def wait: (?nil) -> self
+        | (Numeric timeout) -> bool
+    end
+
+    class Event < AbstractEventFuture
+      def any: (Event | Future[top, top] event_or_future) -> Event
+      alias | any
+
+      def delay: () -> Event
+
+      def schedule: (Numeric | Time intended_time) -> Event
+
+      def to_event: () -> self
+
+      def to_future: () -> Future[nil, bot]
+
+      def with_default_executor: (executor executor) -> Event
+
+      def zip: (Event event) -> Event
+        | [T, E] (Future[T, E] future) -> Future[T, E]
+      alias & zip
+
+
+      ## Following methods are actually defined in the base class and have specific types for Event
+
+      def chain: [A, U] (*A args) { (*A args) -> U } -> Future[U, Exception]
+      def chain_on: [A, U] (executor executor, *A args) { (*A args) -> U } -> Future[U, Exception]
+
+      def on_resolution: [A] (*A args) { (*A args) -> void } -> self
+      def on_resolution!: [A] (*A args) { (*A args) -> void } -> self
+      def on_resolution_using: [A] (executor executor, *A args) { (*A args) -> void } -> self
+
+      def state: () -> (:pending | :resolved)
+    end
+
+    class Future[out T, out E] < AbstractEventFuture
+      def any: (Event event) -> Future[T | nil, E]
+        | [T2, E2] (Future[T2, E2] future) -> Future[T | T2, E | E2]
+      alias | any
+
+      def delay: () -> Future[T, E]
+
+      def exception: () -> Exception  # TODO: Return type can be narrowed to E when E <: Exception
+
+      def flat_event: () -> Event
+
+      def flat_future: (?Integer level) -> untyped  # TODO: Valid only if T <: Future[top, top]
+      alias flat flat_future
+
+      def fulfilled?: () -> bool
+
+      def on_fulfillment: [A] (*A args) { (T value, *A args) -> void } -> self
+      def on_fulfillment!: [A] (*A args) { (T value, *A args) -> void } -> self
+      def on_fulfillment_using: [A] (executor executor, *A args) { (T value, A args) -> void } -> self
+
+      def on_rejection: [A] (*A args) { (E reason, *A args) -> void } -> self
+      def on_rejection!: [A] (*A args) { (E reason, *A args) -> void } -> self
+      def on_rejection_using: [A] (executor executor, *A args) { (E reason, A args) -> void } -> self
+
+      def reason: (?Numeric timeout) -> (E | nil)
+        | [R] (Numeric timeout, R timeout_value) -> (E | R | nil)
+
+      def rejected?: () -> bool
+
+      def rescue: [A, U] (*A args) { (E reason, *A args) -> U } -> Future[U, Exception]
+      def rescue_on: [A, U] (executor executor, *A args) { (E reason, *A args) -> U } -> Future[U, Exception]
+
+      def result: (?nil) -> ([true, T, nil] | [false, nil, E])
+        | (Numeric timeout) -> ([true, T, nil] | [false, nil, E] | nil)
+
+      def run: (?^(untyped) -> Future[untyped, untyped]? run_test) -> Future[untyped, untyped]  # TODO: Any specific type?
+
+      def schedule: (Numeric | Time intended_time) -> Future[T, E]
+
+      def then: [A, U] (*A args) { (T value, *A args) -> U } -> Future[U, E | Exception]
+      def then_on: [A, U] (executor executor, *A args) { (T value, *A args) -> U } -> Future[U, E | Exception]
+
+      def to_event: () -> Event
+
+      def to_future: () -> self
+
+      def value: (?Numeric timeout) -> (T | nil)
+        | [R] (Numeric timeout, R timeout_value) -> (T | R | nil)
+      def value!: (?nil) -> T
+        | (Numeric timeout) -> (T | nil)
+        | [R] (Numeric timeout, R timeout_value) -> (T | R | nil)
+
+      def wait!: (?nil) -> self
+        | (Numeric timeout) -> bool
+
+      def with_default_executor: (executor executor) -> Future[T, E]
+
+      def zip: (Event event) -> Future[T, E]
+        | [T2, E2] (Future[T2, E2] future) -> Future[[T, T2], [E, E2]]
+      alias & zip
+
+
+      ## Following methods are actually defined in the base class and have specific types for Future
+
+      def chain: [A, U] (*A args) { (bool fulfilled, T? value, E? reason, *A args) -> U } -> Future[U, Exception]
+      def chain_on: [A, U] (executor executor, *A args) { (bool fulfilled, T? value, E? reason, *A args) -> U } -> Future[U, Exception]
+
+      def on_resolution: [A] (*A args) { (bool fulfilled, T? value, E? reason, *A args) -> void } -> self
+      def on_resolution!: [A] (*A args) { (bool fulfilled, T? value, E? reason, *A args) -> void } -> self
+      def on_resolution_using: [A] (executor executor, *A args) { (bool fulfilled, T? value, E? reason, *A args) -> void } -> self
+
+      def state: () -> (:pending | :fulfilled | :rejected)
+    end
+
+    module Resolvable
+    end
+
+    class ResolvableEvent < Event
+      include Resolvable
+
+      def resolve: (?true raise_on_reassign, ?boolish reserved) -> self
+        | (boolish raise_on_reassign, ?boolish reserved) -> (self | false)
+
+      def wait: (Numeric timeout, boolish resolve_on_timeout) -> bool
+        | ...
+
+      def with_hidden_resolvable: () -> Event
+    end
+
+    class ResolvableFuture[T, E] < Future[T, E]  # Note: ResolvableFuture is invariant on T and E
+      include Resolvable
+
+      def evalute_to: [A] (*A args) { (*A args) -> T } -> self  # TODO: Unsound unless E :> Exception
+      def evalute_to!: [A] (*A args) { (*A args) -> T } -> self  # TODO: ditto
+
+      def fulfill:  (T value, ?true raise_on_reassign, ?boolish reserved) -> self
+        | (T value, boolish raise_on_reassign, ?boolish reserved) -> (self | false)
+
+      def reason: [R] (Numeric timeout, R timeout_value, [boolish, T?, E?] resolve_on_timeout) -> (E | R | nil)
+        | ...
+
+      def reject: (E reason, ?true raise_on_reassign, ?boolish reserved) -> self
+        | (E reason, boolish raise_on_reassign, ?boolish reserved) -> (self | false)
+
+      def resolve: (?boolish fulfilled, ?T? value, ?E? reason, ?true raise_on_reassign, ?boolish reserved) -> self
+        | (boolish fulfilled, T? value, E? reason, boolish raise_on_reassign, ?boolish reserved) -> (self | false)
+
+      def result: (Numeric timeout, [boolish, T?, E?] resolve_on_timeout) -> ([true, T, nil] | [false, nil, E] | nil)
+        | ...
+
+      def value: [R] (Numeric timeout, R timeout_value, [boolish, T?, E?] resolve_on_timeout) -> (T | R | nil)
+        | ...
+
+      def value!: [R] (Numeric timeout, R timeout_value, [boolish, T?, E?] resolve_on_timeout) -> (T | R | nil)
+        | ...
+
+      def with_hidden_resolvable: () -> Future[T, E]
+    end
+  end
+end

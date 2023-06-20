@@ -1,0 +1,5 @@
+module Delayed
+  class Lifecycle
+    # TODO
+  end
+end

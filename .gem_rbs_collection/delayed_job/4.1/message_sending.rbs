@@ -1,0 +1,20 @@
+module Delayed
+  class DelayProxy
+    @payload_class: untyped
+    @target: MessageSending
+    @options: Hash[untyped, untyped]
+
+    def initialize: (untyped payload_class, MessageSending target, Hash[untyped, untyped] options) -> void
+    def method_missing: (untyped method, *untyped args) -> untyped
+  end
+
+  module MessageSending
+    def delay: (?Hash[untyped, untyped] options) -> DelayProxy
+    def send_later: (untyped method, *untyped args) -> untyped
+    def send_at: (untyped time, untyped method, *untyped args) -> untyped
+  end
+
+  module MessageSendingClassMethods
+    def handle_asynchronously: (untyped method, ?Hash[untyped, untyped] opts) -> nil
+  end
+end

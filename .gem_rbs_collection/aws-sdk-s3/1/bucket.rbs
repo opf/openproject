@@ -1,0 +1,70 @@
+# WARNING ABOUT GENERATED CODE
+#
+# This file is generated. See the generator README.md for more information:
+# https://github.com/ruby/gem_rbs_collection/blob/main/generators/aws-sdk-rbs-generator/README.md
+#
+# WARNING ABOUT GENERATED CODE
+
+module Aws
+  module S3
+    class Bucket
+      # identifiers
+
+      def initialize: (name: String, ?client: Client, **untyped) -> void
+      def name: () -> String
+
+      # data_attribute
+
+      def creation_date: () -> Types::creation_date
+
+      # client_method
+
+      def client: () -> Client
+
+      # load_method
+
+
+      # data_method
+
+      def data: () -> Types::Bucket
+
+      def data_loaded?: () -> bool
+
+      # waiters
+
+      def exists?: (?Aws::Waiters::waiter_options) -> bool
+      def wait_until_exists: (?Aws::Waiters::waiter_options) -> self
+      def wait_until_not_exists: (?Aws::Waiters::waiter_options) -> self
+
+      # actions
+
+      def create: (?acl: Types::bucket_canned_acl, ?create_bucket_configuration: Types::create_bucket_configuration, ?grant_full_control: Types::grant_full_control, ?grant_read: Types::grant_read, ?grant_read_acp: Types::grant_read_acp, ?grant_write: Types::grant_write, ?grant_write_acp: Types::grant_write_acp, ?object_lock_enabled_for_bucket: Types::object_lock_enabled_for_bucket, ?object_ownership: Types::object_ownership) -> Types::CreateBucketOutput
+      def delete: (?expected_bucket_owner: Types::account_id) -> EmptyStructure
+      def delete_objects: (delete: Types::delete, ?mfa: Types::mfa, ?request_payer: Types::request_payer, ?bypass_governance_retention: Types::bypass_governance_retention, ?expected_bucket_owner: Types::account_id, ?checksum_algorithm: Types::checksum_algorithm) -> Types::DeleteObjectsOutput
+      def put_object: (?acl: Types::object_canned_acl, ?body: Types::body_streaming, ?cache_control: Types::cache_control, ?content_disposition: Types::content_disposition, ?content_encoding: Types::content_encoding, ?content_language: Types::content_language, ?content_length: Types::content_length, ?content_md5: Types::content_md5, ?content_type: Types::content_type, ?checksum_algorithm: Types::checksum_algorithm, ?checksum_crc32: Types::checksum_crc32, ?checksum_crc32c: Types::checksum_crc32c, ?checksum_sha1: Types::checksum_sha1, ?checksum_sha256: Types::checksum_sha256, ?expires: Types::expires, ?grant_full_control: Types::grant_full_control, ?grant_read: Types::grant_read, ?grant_read_acp: Types::grant_read_acp, ?grant_write_acp: Types::grant_write_acp, key: Types::object_key, ?metadata: Types::metadata, ?server_side_encryption: Types::server_side_encryption, ?storage_class: Types::storage_class, ?website_redirect_location: Types::website_redirect_location, ?sse_customer_algorithm: Types::sse_customer_algorithm, ?sse_customer_key: Types::sse_customer_key, ?sse_customer_key_md5: Types::sse_customer_key_md5, ?ssekms_key_id: Types::ssekms_key_id, ?ssekms_encryption_context: Types::ssekms_encryption_context, ?bucket_key_enabled: Types::bucket_key_enabled, ?request_payer: Types::request_payer, ?tagging: Types::tagging_header, ?object_lock_mode: Types::object_lock_mode, ?object_lock_retain_until_date: Types::object_lock_retain_until_date, ?object_lock_legal_hold_status: Types::object_lock_legal_hold_status, ?expected_bucket_owner: Types::account_id) -> Object
+
+      # associations
+
+      def acl: () -> BucketAcl
+      def cors: () -> BucketCors
+      def lifecycle: () -> BucketLifecycle
+      def lifecycle_configuration: () -> BucketLifecycleConfiguration
+      def logging: () -> BucketLogging
+      def multipart_uploads: (?delimiter: Types::delimiter, ?encoding_type: Types::encoding_type, ?key_marker: Types::key_marker, ?max_uploads: Types::max_uploads, ?prefix: Types::prefix, ?upload_id_marker: Types::upload_id_marker, ?expected_bucket_owner: Types::account_id) -> MultipartUpload::Collection
+      def notification: () -> BucketNotification
+      def object: (String key) -> Object
+      def object_versions: (?delimiter: Types::delimiter, ?encoding_type: Types::encoding_type, ?key_marker: Types::key_marker, ?max_keys: Types::max_keys, ?prefix: Types::prefix, ?version_id_marker: Types::version_id_marker, ?expected_bucket_owner: Types::account_id) -> ObjectVersion::Collection
+      def objects: (?delimiter: Types::delimiter, ?encoding_type: Types::encoding_type, ?max_keys: Types::max_keys, ?prefix: Types::prefix, ?continuation_token: Types::token, ?fetch_owner: Types::fetch_owner, ?start_after: Types::start_after, ?request_payer: Types::request_payer, ?expected_bucket_owner: Types::account_id) -> ObjectSummary::Collection
+      def policy: () -> BucketPolicy
+      def request_payment: () -> BucketRequestPayment
+      def tagging: () -> BucketTagging
+      def versioning: () -> BucketVersioning
+      def website: () -> BucketWebsite
+
+      # batch_actions
+
+      class Collection < ::Aws::Resources::Collection[Bucket]
+      end
+    end
+  end
+end

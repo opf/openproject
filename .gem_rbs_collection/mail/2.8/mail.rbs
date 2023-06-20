@@ -1,0 +1,5743 @@
+# encoding: utf-8
+# frozen_string_literal: true
+module Mail
+  def self.register_autoload: (untyped name, untyped path) -> untyped
+
+  # This runs through the autoload list and explictly requires them for you.
+  # Useful when running mail in a threaded process.
+  #
+  # Usage:
+  #
+  #   require 'mail'
+  #   Mail.eager_autoload!
+  def self.eager_autoload!: () -> untyped
+end
+
+# frozen_string_literal: true
+module Mail
+  class AttachmentsList < Array[untyped]
+    def initialize: (untyped parts_list) -> void
+
+    def inline: () -> self
+
+    # Returns the attachment by filename or at index.
+    #
+    # mail.attachments['test.png'] = File.read('test.png')
+    # mail.attachments['test.jpg'] = File.read('test.jpg')
+    #
+    # mail.attachments['test.png'].filename #=> 'test.png'
+    # mail.attachments[1].filename          #=> 'test.jpg'
+    def []: (untyped index_value) -> untyped
+
+    def []=: (untyped name, untyped value) -> untyped
+
+    # Uses the mime type to try and guess the encoding, if it is a binary type, or unknown, then we
+    # set it to binary, otherwise as set to plain text
+    def guess_encoding: () -> ("7bit" | "binary")
+
+    def set_mime_type: (untyped filename) -> untyped
+  end
+end
+
+# encoding: utf-8
+# frozen_string_literal: true
+module Mail
+  # = Body
+  #
+  # The body is where the text of the email is stored.  Mail treats the body
+  # as a single object.  The body itself has no information about boundaries
+  # used in the MIME standard, it just looks at its content as either a single
+  # block of text, or (if it is a multipart message) as an array of blocks of text.
+  #
+  # A body has to be told to split itself up into a multipart message by calling
+  # #split with the correct boundary.  This is because the body object has no way
+  # of knowing what the correct boundary is for itself (there could be many
+  # boundaries in a body in the case of a nested MIME text).
+  #
+  # Once split is called, Mail::Body will slice itself up on this boundary,
+  # assigning anything that appears before the first part to the preamble, and
+  # anything that appears after the closing boundary to the epilogue, then
+  # each part gets initialized into a Mail::Part object.
+  #
+  # The boundary that is used to split up the Body is also stored in the Body
+  # object for use on encoding itself back out to a string.  You can
+  # overwrite this if it needs to be changed.
+  #
+  # On encoding, the body will return the preamble, then each part joined by
+  # the boundary, followed by a closing boundary string and then the epilogue.
+  class Body
+    def initialize: (?::String string) -> void
+
+    def init_with: (untyped coder) -> untyped
+
+    # Matches this body with another body.  Also matches the decoded value of this
+    # body with a string.
+    #
+    # Examples:
+    #
+    #   body = Mail::Body.new('The body')
+    #   body == body #=> true
+    #
+    #   body = Mail::Body.new('The body')
+    #   body == 'The body' #=> true
+    #
+    #   body = Mail::Body.new("VGhlIGJvZHk=\n")
+    #   body.encoding = 'base64'
+    #   body == "The body" #=> true
+    def ==: (untyped other) -> untyped
+
+    # Accepts a string and performs a regular expression against the decoded text
+    #
+    # Examples:
+    #
+    #   body = Mail::Body.new('The body')
+    #   body =~ /The/ #=> 0
+    #
+    #   body = Mail::Body.new("VGhlIGJvZHk=\n")
+    #   body.encoding = 'base64'
+    #   body =~ /The/ #=> 0
+    def =~: (untyped regexp) -> untyped
+
+    # Accepts a string and performs a regular expression against the decoded text
+    #
+    # Examples:
+    #
+    #   body = Mail::Body.new('The body')
+    #   body.match(/The/) #=> #<MatchData "The">
+    #
+    #   body = Mail::Body.new("VGhlIGJvZHk=\n")
+    #   body.encoding = 'base64'
+    #   body.match(/The/) #=> #<MatchData "The">
+    def match: (untyped regexp) -> untyped
+
+    # Accepts anything that responds to #to_s and checks if it's a substring of the decoded text
+    #
+    # Examples:
+    #
+    #   body = Mail::Body.new('The body')
+    #   body.include?('The') #=> true
+    #
+    #   body = Mail::Body.new("VGhlIGJvZHk=\n")
+    #   body.encoding = 'base64'
+    #   body.include?('The') #=> true
+    def include?: (untyped other) -> untyped
+
+    # Allows you to set the sort order of the parts, overriding the default sort order.
+    # Defaults to 'text/plain', then 'text/enriched', then 'text/html', then 'multipart/alternative'
+    # with any other content type coming after.
+    def set_sort_order: (untyped order) -> untyped
+
+    # Allows you to sort the parts according to the default sort order, or the sort order you
+    # set with :set_sort_order.
+    #
+    # sort_parts! is also called from :encode, so there is no need for you to call this explicitly
+    def sort_parts!: () -> untyped
+
+    def negotiate_best_encoding: (untyped message_encoding, ?untyped? allowed_encodings) -> untyped
+
+    # Returns a body encoded using transfer_encoding.  Multipart always uses an
+    # identiy encoding (i.e. no encoding).
+    # Calling this directly is not a good idea, but supported for compatibility
+    # TODO: Validate that preamble and epilogue are valid for requested encoding
+    def encoded: (?untyped? transfer_encoding) -> untyped
+
+    def decoded: () -> untyped
+
+    def to_s: () -> untyped
+
+    def encoding: (?untyped? val) -> untyped
+
+    def encoding=: (untyped val) -> untyped
+
+    # Returns the raw source that the body was initialized with, without
+    # any tampering
+    attr_reader raw_source: untyped
+
+    # Returns parts of the body
+    attr_reader parts: untyped
+
+    # Returns and sets the original character encoding
+    attr_accessor charset: untyped
+
+    # Returns and sets the preamble as a string (any text that is before the first MIME boundary)
+    attr_accessor preamble: untyped
+
+    # Returns and sets the epilogue as a string (any text that is after the last MIME boundary)
+    attr_accessor epilogue: untyped
+
+    # Returns and sets the boundary used by the body
+    # Allows you to change the boundary of this Body object
+    attr_accessor boundary: untyped
+
+    # Returns true if there are parts defined in the body
+    def multipart?: () -> (true | nil)
+
+    def <<: (untyped val) -> untyped
+
+    def split!: (untyped boundary) -> self
+
+    def ascii_only?: () -> untyped
+
+    def empty?: () -> untyped
+
+    def default_encoding: () -> ("7bit" | "8bit")
+
+    private
+
+    # split parts by boundary, ignore first part if empty, append final part when closing boundary was missing
+    def extract_parts: () -> untyped
+
+    def crlf_boundary: () -> ::String
+
+    def end_boundary: () -> ::String
+
+    def set_charset: () -> untyped
+  end
+end
+
+module Mail
+  # The Configuration class is a Singleton used to hold the default
+  # configuration for all Mail objects.
+  #
+  # Each new mail object gets a copy of these values at initialization
+  # which can be overwritten on a per mail object basis.
+  class Configuration
+    def initialize: () -> void
+
+    def delivery_method: (?untyped? method, ?::Hash[untyped, untyped] settings) -> untyped
+
+    def lookup_delivery_method: (untyped method) -> untyped
+
+    def retriever_method: (?untyped? method, ?::Hash[untyped, untyped] settings) -> untyped
+
+    def lookup_retriever_method: (untyped method) -> untyped
+
+    def param_encode_language: (?untyped? value) -> untyped
+  end
+end
+
+# encoding: us-ascii
+# frozen_string_literal: true
+module Mail
+  module Constants
+    LAX_CRLF: ::Regexp
+
+    WSP: ::Regexp
+
+    FWS: ::Regexp
+
+    UNFOLD_WS: ::Regexp
+
+    TEXT: ::Regexp
+
+    FIELD_NAME: ::Regexp
+
+    FIELD_PREFIX: ::Regexp
+
+    FIELD_BODY: ::Regexp
+
+    FIELD_LINE: ::Regexp
+
+    FIELD_SPLIT: ::Regexp
+
+    HEADER_LINE: ::Regexp
+
+    HEADER_SPLIT: ::Regexp
+
+    QP_UNSAFE: ::Regexp
+
+    QP_SAFE: ::Regexp
+
+    CONTROL_CHAR: ::Regexp
+
+    ATOM_UNSAFE: ::Regexp
+
+    PHRASE_UNSAFE: ::Regexp
+
+    TOKEN_UNSAFE: ::Regexp
+
+    ENCODED_VALUE: ::Regexp
+
+    FULL_ENCODED_VALUE: ::Regexp
+
+    EMPTY: ""
+
+    SPACE: " "
+
+    UNDERSCORE: "_"
+
+    HYPHEN: "-"
+
+    COLON: ":"
+
+    ASTERISK: "*"
+
+    CRLF: "\r\n"
+
+    CR: "\r"
+
+    LF: "\n"
+
+    CR_ENCODED: "=0D"
+
+    LF_ENCODED: "=0A"
+
+    CAPITAL_M: "M"
+
+    EQUAL_LF: "=\n"
+
+    NULL_SENDER: "<>"
+
+    Q_VALUES: ::Array["Q" | "q"]
+
+    B_VALUES: ::Array["B" | "b"]
+  end
+end
+
+# frozen_string_literal: true
+module Mail
+end
+
+module Mail
+  # Mail::Address handles all email addresses in Mail.  It takes an email address string
+  # and parses it, breaking it down into its component parts and allowing you to get the
+  # address, comments, display name, name, local part, domain part and fully formatted
+  # address.
+  #
+  # Mail::Address requires a correctly formatted email address per RFC2822 or RFC822.  It
+  # handles all obsolete versions including obsolete domain routing on the local part.
+  #
+  #  a = Address.new('Mikel Lindsaar (My email address) <mikel@test.lindsaar.net>')
+  #  a.format       #=> 'Mikel Lindsaar <mikel@test.lindsaar.net> (My email address)'
+  #  a.address      #=> 'mikel@test.lindsaar.net'
+  #  a.display_name #=> 'Mikel Lindsaar'
+  #  a.local        #=> 'mikel'
+  #  a.domain       #=> 'test.lindsaar.net'
+  #  a.comments     #=> ['My email address']
+  #  a.to_s         #=> 'Mikel Lindsaar <mikel@test.lindsaar.net> (My email address)'
+  class Address
+    def initialize: (?untyped? value) -> void
+
+    # Returns the raw input of the passed in string, this is before it is passed
+    # by the parser.
+    def raw: () -> untyped
+
+    # Returns a correctly formatted address for the email going out.  If given
+    # an incorrectly formatted address as input, Mail::Address will do its best
+    # to format it correctly.  This includes quoting display names as needed and
+    # putting the address in angle brackets etc.
+    #
+    #  a = Address.new('Mikel Lindsaar (My email address) <mikel@test.lindsaar.net>')
+    #  a.format #=> 'Mikel Lindsaar <mikel@test.lindsaar.net> (My email address)'
+    def format: (?::Symbol output_type) -> untyped
+
+    # Returns the address that is in the address itself.  That is, the
+    # local@domain string, without any angle brackets or the like.
+    #
+    #  a = Address.new('Mikel Lindsaar (My email address) <mikel@test.lindsaar.net>')
+    #  a.address #=> 'mikel@test.lindsaar.net'
+    def address: (?::Symbol output_type) -> untyped
+
+    # Provides a way to assign an address to an already made Mail::Address object.
+    #
+    #  a = Address.new
+    #  a.address = 'Mikel Lindsaar (My email address) <mikel@test.lindsaar.net>'
+    #  a.address #=> 'mikel@test.lindsaar.net'
+    def address=: (untyped value) -> untyped
+
+    # Returns the display name of the email address passed in.
+    #
+    #  a = Address.new('Mikel Lindsaar (My email address) <mikel@test.lindsaar.net>')
+    #  a.display_name #=> 'Mikel Lindsaar'
+    def display_name: (?::Symbol output_type) -> untyped
+
+    # Provides a way to assign a display name to an already made Mail::Address object.
+    #
+    #  a = Address.new
+    #  a.address = 'mikel@test.lindsaar.net'
+    #  a.display_name = 'Mikel Lindsaar'
+    #  a.format #=> 'Mikel Lindsaar <mikel@test.lindsaar.net>'
+    def display_name=: (untyped str) -> untyped
+
+    # Returns the local part (the left hand side of the @ sign in the email address) of
+    # the address
+    #
+    #  a = Address.new('Mikel Lindsaar (My email address) <mikel@test.lindsaar.net>')
+    #  a.local #=> 'mikel'
+    def local: (?::Symbol output_type) -> untyped
+
+    # Returns the domain part (the right hand side of the @ sign in the email address) of
+    # the address
+    #
+    #  a = Address.new('Mikel Lindsaar (My email address) <mikel@test.lindsaar.net>')
+    #  a.domain #=> 'test.lindsaar.net'
+    def domain: (?::Symbol output_type) -> ::String
+
+    def comments: () -> untyped
+
+    # Sometimes an address will not have a display name, but might have the name
+    # as a comment field after the address.  This returns that name if it exists.
+    #
+    #  a = Address.new('mikel@test.lindsaar.net (Mikel Lindsaar)')
+    #  a.name #=> 'Mikel Lindsaar'
+    def name: () -> untyped
+
+    # Returns the format of the address, or returns nothing
+    #
+    #  a = Address.new('Mikel Lindsaar (My email address) <mikel@test.lindsaar.net>')
+    #  a.format #=> 'Mikel Lindsaar <mikel@test.lindsaar.net> (My email address)'
+    def to_s: () -> untyped
+
+    # Shows the Address object basic details, including the Address
+    #  a = Address.new('Mikel (My email) <mikel@test.lindsaar.net>')
+    #  a.inspect #=> "#<Mail::Address:14184910 Address: |Mikel <mikel@test.lindsaar.net> (My email)| >"
+    def inspect: () -> ::String
+
+    def encoded: () -> untyped
+
+    def decoded: () -> untyped
+
+    def group: () -> untyped
+
+    private
+
+    def parse: (?untyped? value) -> untyped
+
+    def strip_all_comments: (untyped string) -> untyped
+
+    def strip_domain_comments: (untyped value) -> untyped
+
+    def get_display_name: () -> untyped
+
+    def get_name: () -> untyped
+
+    def format_comments: () -> (untyped | nil)
+
+    def get_local: () -> untyped
+
+    def get_domain: () -> untyped
+
+    def get_comments: () -> untyped
+  end
+end
+
+module Mail
+  class AddressList
+    attr_reader addresses: untyped
+
+    attr_reader group_names: untyped
+
+    # Mail::AddressList is the class that parses To, From and other address fields from
+    # emails passed into Mail.
+    #
+    # AddressList provides a way to query the groups and mailbox lists of the passed in
+    # string.
+    #
+    # It can supply all addresses in an array, or return each address as an address object.
+    #
+    # Mail::AddressList requires a correctly formatted group or mailbox list per RFC2822 or
+    # RFC822.  It also handles all obsolete versions in those RFCs.
+    #
+    #  list = 'ada@test.lindsaar.net, My Group: mikel@test.lindsaar.net, Bob <bob@test.lindsaar.net>;'
+    #  a = AddressList.new(list)
+    #  a.addresses    #=> [#<Mail::Address:14943130 Address: |ada@test.lindsaar.net...
+    #  a.group_names  #=> ["My Group"]
+    def initialize: (untyped string) -> void
+
+    def addresses_grouped_by_group: () -> untyped
+  end
+end
+
+module Mail
+  class ContentDispositionElement
+    attr_reader disposition_type: untyped
+
+    attr_reader parameters: untyped
+
+    def initialize: (untyped string) -> void
+
+    private
+
+    def cleaned: (untyped string) -> untyped
+  end
+end
+
+module Mail
+  class ContentLocationElement
+    attr_reader location: untyped
+
+    def initialize: (untyped string) -> void
+
+    def to_s: (*untyped args) -> untyped
+  end
+end
+
+module Mail
+  class ContentTransferEncodingElement
+    attr_reader encoding: untyped
+
+    def initialize: (untyped string) -> void
+  end
+end
+
+module Mail
+  class ContentTypeElement
+    attr_reader main_type: untyped
+
+    attr_reader sub_type: untyped
+
+    attr_reader parameters: untyped
+
+    def initialize: (untyped string) -> void
+
+    private
+
+    def cleaned: (untyped string) -> untyped
+  end
+end
+
+module Mail
+  class DateTimeElement
+    attr_reader date_string: untyped
+
+    attr_reader time_string: untyped
+
+    def initialize: (untyped string) -> void
+  end
+end
+
+module Mail
+  class EnvelopeFromElement
+    attr_reader date_time: untyped
+
+    attr_reader address: untyped
+
+    def initialize: (untyped string) -> void
+
+    # RFC 4155:
+    #   a timestamp indicating the UTC date and time when the message
+    #   was originally received, conformant with the syntax of the
+    #   traditional UNIX 'ctime' output sans timezone (note that the
+    #   use of UTC precludes the need for a timezone indicator);
+    def formatted_date_time: () -> (untyped | nil)
+
+    def to_s: () -> (::String | untyped)
+  end
+end
+
+module Mail
+  class MessageIdsElement
+    def self.parse: (untyped string) -> untyped
+
+    attr_reader message_ids: untyped
+
+    def initialize: (untyped string) -> void
+
+    def message_id: () -> untyped
+
+    private
+
+    def parse: (untyped string) -> (::Array[untyped] | untyped)
+  end
+end
+
+module Mail
+  class MimeVersionElement
+    attr_reader major: untyped
+
+    attr_reader minor: untyped
+
+    def initialize: (untyped string) -> void
+  end
+end
+
+module Mail
+  class PhraseList
+    attr_reader phrases: untyped
+
+    def initialize: (untyped string) -> void
+  end
+end
+
+module Mail
+  class ReceivedElement
+    attr_reader info: untyped
+
+    attr_reader date_time: untyped
+
+    def initialize: (untyped string) -> void
+
+    def to_s: (*untyped args) -> ::String
+
+    private
+
+    def datetime_for: (untyped received) -> untyped
+  end
+end
+
+module Mail
+  # Raised when attempting to decode an unknown encoding type
+  class UnknownEncodingType < StandardError
+  end
+
+  module Encodings
+    include Mail::Constants
+
+    extend Mail::Utilities
+
+    # Register transfer encoding
+    #
+    # Example
+    #
+    # Encodings.register "base64", Mail::Encodings::Base64
+    def self.register: (untyped name, untyped cls) -> untyped
+
+    # Is the encoding we want defined?
+    #
+    # Example:
+    #
+    #  Encodings.defined?(:base64) #=> true
+    def self.defined?: (untyped name) -> untyped
+
+    # Gets a defined encoding type, QuotedPrintable or Base64 for now.
+    #
+    # Each encoding needs to be defined as a Mail::Encodings::ClassName for
+    # this to work, allows us to add other encodings in the future.
+    #
+    # Example:
+    #
+    #  Encodings.get_encoding(:base64) #=> Mail::Encodings::Base64
+    def self.get_encoding: (untyped name) -> untyped
+
+    def self.get_all: () -> untyped
+
+    def self.get_name: (untyped name) -> untyped
+
+    def self.transcode_charset: (untyped str, untyped from_charset, ?::String to_charset) -> untyped
+
+    # Encodes a parameter value using URI Escaping, note the language field 'en' can
+    # be set using Mail::Configuration, like so:
+    #
+    #  Mail.defaults do
+    #    param_encode_language 'jp'
+    #  end
+    #
+    # The character set used for encoding will be the encoding on the string passed in.
+    #
+    # Example:
+    #
+    #  Mail::Encodings.param_encode("This is fun") #=> "us-ascii'en'This%20is%20fun"
+    def self.param_encode: (untyped str) -> untyped
+
+    # Decodes a parameter value using URI Escaping.
+    #
+    # Example:
+    #
+    #  Mail::Encodings.param_decode("This%20is%20fun", 'us-ascii') #=> "This is fun"
+    #
+    #  str = Mail::Encodings.param_decode("This%20is%20fun", 'iso-8559-1')
+    #  str.encoding #=> 'ISO-8859-1'      ## Only on Ruby 1.9
+    #  str #=> "This is fun"
+    def self.param_decode: (untyped str, untyped encoding) -> untyped
+
+    # Decodes or encodes a string as needed for either Base64 or QP encoding types in
+    # the =?<encoding>?[QB]?<string>?=" format.
+    #
+    # The output type needs to be :decode to decode the input string or :encode to
+    # encode the input string.  The character set used for encoding will be the
+    # encoding on the string passed in.
+    #
+    # On encoding, will only send out Base64 encoded strings.
+    def self.decode_encode: (untyped str, untyped output_type) -> untyped
+
+    # Decodes a given string as Base64 or Quoted Printable, depending on what
+    # type it is.
+    #
+    # String has to be of the format =?<encoding>?[QB]?<string>?=
+    def self.value_decode: (untyped str) -> untyped
+
+    # Takes an encoded string of the format =?<encoding>?[QB]?<string>?=
+    def self.unquote_and_convert_to: (untyped str, untyped to_encoding) -> untyped
+
+    def self.address_encode: (untyped address, ?::String charset) -> (untyped | untyped | nil)
+
+    def self.encode_non_usascii: (untyped address, untyped charset) -> untyped
+
+    # Encode a string with Base64 Encoding and returns it ready to be inserted
+    # as a value for a field, that is, in the =?<charset>?B?<string>?= format
+    #
+    # Example:
+    #
+    #  Encodings.b_value_encode('This is あ string', 'UTF-8')
+    #  #=> "=?UTF-8?B?VGhpcyBpcyDjgYIgc3RyaW5n?="
+    def self.b_value_encode: (untyped string, ?untyped? encoding) -> untyped
+
+    # Encode a string with Quoted-Printable Encoding and returns it ready to be inserted
+    # as a value for a field, that is, in the =?<charset>?Q?<string>?= format
+    #
+    # Example:
+    #
+    #  Encodings.q_value_encode('This is あ string', 'UTF-8')
+    #  #=> "=?UTF-8?Q?This_is_=E3=81=82_string?="
+    def self.q_value_encode: (untyped encoded_str, ?untyped? encoding) -> untyped
+
+    private
+
+    # Decodes a Base64 string from the "=?UTF-8?B?VGhpcyBpcyDjgYIgc3RyaW5n?=" format
+    #
+    # Example:
+    #
+    #  Encodings.b_value_decode("=?UTF-8?B?VGhpcyBpcyDjgYIgc3RyaW5n?=")
+    #  #=> 'This is あ string'
+    def self.b_value_decode: (untyped str) -> untyped
+
+    # Decodes a Quoted-Printable string from the "=?UTF-8?Q?This_is_=E3=81=82_string?=" format
+    #
+    # Example:
+    #
+    #  Encodings.q_value_decode("=?UTF-8?Q?This_is_=E3=81=82_string?=")
+    #  #=> 'This is あ string'
+    def self.q_value_decode: (untyped str) -> untyped
+
+    # Gets the encoding type (Q or B) from the string.
+    def self.value_encoding_from_string: (untyped str) -> untyped
+
+    # Split header line into proper encoded and unencoded parts.
+    #
+    # String has to be of the format =?<encoding>?[QB]?<string>?=
+    #
+    # Omit unencoded space after an encoded-word.
+    def self.collapse_adjacent_encodings: (untyped str) -> untyped
+
+    # Partition the string into bounded-size chunks without splitting
+    # multibyte characters.
+    def self.each_base64_chunk_byterange: (untyped str, untyped max_bytesize_per_base64_chunk) ?{ () -> untyped } -> untyped
+
+    # Partition the string into bounded-size chunks without splitting
+    # multibyte characters.
+    def self.each_chunk_byterange: (untyped str, untyped max_bytesize_per_chunk) { (untyped) -> untyped } -> untyped
+  end
+end
+
+module Mail
+  module Encodings
+    # 7bit and 8bit are equivalent. 7bit encoding is for text only.
+    class SevenBit < EightBit
+      NAME: "7bit"
+
+      PRIORITY: 1
+
+      def self.decode: (untyped str) -> untyped
+
+      def self.encode: (untyped str) -> untyped
+
+      # Per RFC 2045 2.7. 7bit Data, No octets with decimal values greater than 127 are allowed.
+      def self.compatible_input?: (untyped str) -> untyped
+    end
+  end
+end
+
+module Mail
+  module Encodings
+    class EightBit < Binary
+      NAME: "8bit"
+
+      PRIORITY: 4
+
+      # Per RFC 2821 4.5.3.1, SMTP lines may not be longer than 1000 octets including the <CRLF>.
+      def self.compatible_input?: (untyped str) -> untyped
+    end
+  end
+end
+
+module Mail
+  module Encodings
+    # Base64 encoding handles binary content at the cost of 4 output bytes
+    # per input byte.
+    class Base64 < SevenBit
+      NAME: "base64"
+
+      PRIORITY: 3
+
+      def self.can_encode?: (untyped enc) -> true
+
+      def self.decode: (untyped str) -> untyped
+
+      def self.encode: (untyped str) -> untyped
+
+      # 3 bytes in -> 4 bytes out
+      def self.cost: (untyped str) -> untyped
+
+      # Ruby Base64 inserts newlines automatically, so it doesn't exceed
+      # SMTP line length limits.
+      def self.compatible_input?: (untyped str) -> true
+    end
+  end
+end
+
+module Mail
+  module Encodings
+    class Binary < Identity
+      NAME: "binary"
+
+      PRIORITY: 5
+    end
+  end
+end
+
+module Mail
+  module Encodings
+    # Identity encodings do no encoding/decoding and have a fixed cost:
+    # 1 byte in -> 1 byte out.
+    class Identity < TransferEncoding
+      def self.decode: (untyped str) -> untyped
+
+      def self.encode: (untyped str) -> untyped
+
+      # 1 output byte per input byte.
+      def self.cost: (untyped str) -> ::Float
+    end
+  end
+end
+
+module Mail
+  module Encodings
+    class QuotedPrintable < SevenBit
+      NAME: "quoted-printable"
+
+      PRIORITY: 2
+
+      def self.can_encode?: (untyped enc) -> untyped
+
+      # Decode the string from Quoted-Printable. Cope with hard line breaks
+      # that were incorrectly encoded as hex instead of literal CRLF.
+      def self.decode: (untyped str) -> untyped
+
+      def self.encode: (untyped str) -> untyped
+
+      def self.cost: (untyped str) -> untyped
+
+      # QP inserts newlines automatically and cannot violate the SMTP spec.
+      def self.compatible_input?: (untyped str) -> true
+    end
+  end
+end
+
+# encoding: utf-8
+# frozen_string_literal: true
+module Mail
+  module Encodings
+    class TransferEncoding
+      NAME: ""
+
+      PRIORITY: -1
+
+      # And encoding's superclass can always transport it since the
+      # class hierarchy is arranged e.g. Base64 < 7bit < 8bit < Binary.
+      def self.can_transport?: (untyped enc) -> untyped
+
+      # Override in subclasses to indicate that they can encode text
+      # that couldn't be directly transported, e.g. Base64 has 7bit output,
+      # but it can encode binary.
+      def self.can_encode?: (untyped enc) -> untyped
+
+      def self.cost: (untyped str) -> untyped
+
+      def self.compatible_input?: (untyped str) -> true
+
+      def self.to_s: () -> untyped
+
+      def self.negotiate: (untyped message_encoding, untyped source_encoding, untyped str, ?untyped? allowed_encodings) -> untyped
+
+      def self.renegotiate: (untyped message_encoding, untyped source_encoding, untyped str, ?untyped? allowed_encodings) -> untyped
+
+      def self.lowest_cost: (untyped str, untyped encodings) -> untyped
+    end
+  end
+end
+
+# frozen_string_literal: true
+module Mail
+  module Encodings
+    class UnixToUnix < TransferEncoding
+      NAME: "x-uuencode"
+
+      def self.decode: (untyped str) -> untyped
+
+      def self.encode: (untyped str) -> untyped
+    end
+  end
+end
+
+module Mail
+  class Envelope < NamedStructuredField
+    NAME: "Envelope-From"
+
+    def element: () -> untyped
+
+    def from: () -> untyped
+
+    def date: () -> untyped
+  end
+end
+
+# encoding: utf-8
+module Mail
+  # Provides a single class to call to create a new structured or unstructured
+  # field.  Works out per RFC what field of field it is being given and returns
+  # the correct field of class back on new.
+  #
+  # ===Per RFC 2822
+  #
+  #  2.2. Header Fields
+  #
+  #     Header fields are lines composed of a field name, followed by a colon
+  #     (":"), followed by a field body, and terminated by CRLF.  A field
+  #     name MUST be composed of printable US-ASCII characters (i.e.,
+  #     characters that have values between 33 and 126, inclusive), except
+  #     colon.  A field body may be composed of any US-ASCII characters,
+  #     except for CR and LF.  However, a field body may contain CRLF when
+  #     used in header "folding" and  "unfolding" as described in section
+  #     2.2.3.  All field bodies MUST conform to the syntax described in
+  #     sections 3 and 4 of this standard.
+  #
+  class Field
+    include Comparable
+
+    STRUCTURED_FIELDS: ::Array["bcc" | "cc" | "content-description" | "content-disposition" | "content-id" | "content-location" | "content-transfer-encoding" | "content-type" | "date" | "from" | "in-reply-to" | "keywords" | "message-id" | "mime-version" | "received" | "references" | "reply-to" | "resent-bcc" | "resent-cc" | "resent-date" | "resent-from" | "resent-message-id" | "resent-sender" | "resent-to" | "return-path" | "sender" | "to"]
+
+    KNOWN_FIELDS: untyped
+
+    FIELDS_MAP: ::Hash[::String, untyped]
+
+    FIELD_NAME_MAP: untyped
+
+    # Generic Field Exception
+    class FieldError < StandardError
+    end
+
+    # Raised when a parsing error has occurred (ie, a StructuredField has tried
+    # to parse a field that is invalid or improperly written)
+    class ParseError < FieldError
+      attr_accessor element: untyped
+
+      attr_accessor value: untyped
+
+      attr_accessor reason: untyped
+
+      def initialize: (untyped element, untyped value, untyped reason) -> void
+
+      private
+
+      def to_utf8: (untyped text) -> untyped
+    end
+
+    class NilParseError < ParseError
+      def initialize: (untyped element) -> void
+    end
+
+    class IncompleteParseError < ParseError
+      def initialize: (untyped element, untyped original_text, untyped unparsed_index) -> void
+    end
+
+    # Raised when attempting to set a structured field's contents to an invalid syntax
+    class SyntaxError < FieldError
+    end
+
+    # Parse a field from a raw header line:
+    #
+    #  Mail::Field.parse("field-name: field data")
+    #  # => #<Mail::Field …>
+    def self.parse: (untyped field, ?::String charset) -> untyped
+
+    def self.split: (untyped raw_field) -> untyped
+
+    def self.field_class_for: (untyped name) -> untyped
+
+    attr_reader unparsed_value: untyped
+
+    # Create a field by name and optional value:
+    #
+    #  Mail::Field.new("field-name", "value")
+    #  # => #<Mail::Field …>
+    #
+    # Values that aren't strings or arrays are coerced to Strings with `#to_s`.
+    #
+    #  Mail::Field.new("field-name", 1234)
+    #  # => #<Mail::Field …>
+    #
+    #  Mail::Field.new('content-type', ['text', 'plain', {:charset => 'UTF-8'}])
+    #  # => #<Mail::Field …>
+    def initialize: (untyped name, ?untyped? value, ?::String charset) -> void
+
+    def field=: (untyped field) -> untyped
+
+    def field: () -> untyped
+
+    def name: () -> untyped
+
+    def value: () -> untyped
+
+    def value=: (untyped val) -> untyped
+
+    def to_s: () -> untyped
+
+    def inspect: () -> ::String
+
+    def same: (untyped other) -> untyped
+
+    def ==: (untyped other) -> untyped
+
+    def responsible_for?: (untyped field_name) -> untyped
+
+    def <=>: (untyped other) -> untyped
+
+    def field_order_id: () -> untyped
+
+    def method_missing: (untyped name, *untyped args) ?{ () -> untyped } -> untyped
+
+    def respond_to_missing?: (untyped method_name, untyped include_private) -> untyped
+
+    FIELD_ORDER_LOOKUP: untyped
+
+    private
+
+    def create_field: (untyped name, untyped value, untyped charset) -> untyped
+
+    def parse_field: (untyped name, untyped value, untyped charset) -> untyped
+
+    # 2.2.3. Long Header Fields
+    #
+    #  The process of moving from this folded multiple-line representation
+    #  of a header field to its single line representation is called
+    #  "unfolding". Unfolding is accomplished by simply removing any CRLF
+    #  that is immediately followed by WSP.  Each header field should be
+    #  treated in its unfolded form for further syntactic and semantic
+    #  evaluation.
+    def unfold: (untyped string) -> untyped
+  end
+end
+
+# encoding: utf-8
+# frozen_string_literal: true
+module Mail
+  # Field List class provides an enhanced array that keeps a list of
+  # email fields in order.  And allows you to insert new fields without
+  # having to worry about the order they will appear in.
+  class FieldList < Array[untyped]
+    def has_field?: (untyped field_name) -> untyped
+
+    def get_field: (untyped field_name) -> untyped
+
+    def add_field: (untyped field) -> untyped
+
+    alias << add_field
+
+    def replace_field: (untyped field) -> untyped
+
+    # Insert the field in sorted order.
+    #
+    # Heavily based on bisect.insort from Python, which is:
+    #   Copyright (C) 2001-2013 Python Software Foundation.
+    #   Licensed under <http://docs.python.org/license.html>
+    #   From <http://hg.python.org/cpython/file/2.7/Lib/bisect.py>
+    def insert_field: (untyped field) -> untyped
+
+    def delete_field: (untyped name) -> untyped
+
+    def summary: () -> untyped
+
+    private
+
+    def select_fields: (untyped field_name) -> untyped
+
+    def singular?: (untyped field_name) -> (untyped | false)
+  end
+end
+
+# frozen_string_literal: true
+module Mail
+end
+
+module Mail
+  # = Blind Carbon Copy Field
+  #
+  # The Bcc field inherits from StructuredField and handles the Bcc: header
+  # field in the email.
+  #
+  # Sending bcc to a mail message will instantiate a Mail::Field object that
+  # has a BccField as its field type.  This includes all Mail::CommonAddress
+  # module instance metods.
+  #
+  # Only one Bcc field can appear in a header, though it can have multiple
+  # addresses and groups of addresses.
+  #
+  # == Examples:
+  #
+  #  mail = Mail.new
+  #  mail.bcc = 'Mikel Lindsaar <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+  #  mail.bcc    #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+  #  mail[:bcc]  #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::BccField:0x180e1c4
+  #  mail['bcc'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::BccField:0x180e1c4
+  #  mail['Bcc'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::BccField:0x180e1c4
+  #
+  #  mail[:bcc].encoded   #=> ''      # Bcc field does not get output into an email
+  #  mail[:bcc].decoded   #=> 'Mikel Lindsaar <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+  #  mail[:bcc].addresses #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+  #  mail[:bcc].formatted #=> ['Mikel Lindsaar <mikel@test.lindsaar.net>', 'ada@test.lindsaar.net']
+  class BccField < CommonAddressField
+    NAME: "Bcc"
+
+    attr_accessor include_in_headers: untyped
+
+    def initialize: (?untyped? value, ?untyped? charset) -> void
+
+    # Bcc field should not be :encoded by default
+    def encoded: () -> (untyped | "")
+  end
+end
+
+module Mail
+  # = Carbon Copy Field
+  #
+  # The Cc field inherits from StructuredField and handles the Cc: header
+  # field in the email.
+  #
+  # Sending cc to a mail message will instantiate a Mail::Field object that
+  # has a CcField as its field type.  This includes all Mail::CommonAddress
+  # module instance metods.
+  #
+  # Only one Cc field can appear in a header, though it can have multiple
+  # addresses and groups of addresses.
+  #
+  # == Examples:
+  #
+  #  mail = Mail.new
+  #  mail.cc = 'Mikel Lindsaar <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+  #  mail.cc    #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+  #  mail[:cc]  #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::CcField:0x180e1c4
+  #  mail['cc'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::CcField:0x180e1c4
+  #  mail['Cc'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::CcField:0x180e1c4
+  #
+  #  mail[:cc].encoded   #=> 'Cc: Mikel Lindsaar <mikel@test.lindsaar.net>, ada@test.lindsaar.net\r\n'
+  #  mail[:cc].decoded   #=> 'Mikel Lindsaar <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+  #  mail[:cc].addresses #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+  #  mail[:cc].formatted #=> ['Mikel Lindsaar <mikel@test.lindsaar.net>', 'ada@test.lindsaar.net']
+  class CcField < CommonAddressField
+    NAME: "Cc"
+  end
+end
+
+module Mail
+  # = Comments Field
+  #
+  # The Comments field inherits from UnstructuredField and handles the Comments:
+  # header field in the email.
+  #
+  # Sending comments to a mail message will instantiate a Mail::Field object that
+  # has a CommentsField as its field type.
+  #
+  # An email header can have as many comments fields as it wants.  There is no upper
+  # limit, the comments field is also optional (that is, no comment is needed)
+  #
+  # == Examples:
+  #
+  #  mail = Mail.new
+  #  mail.comments = 'This is a comment'
+  #  mail.comments    #=> 'This is a comment'
+  #  mail[:comments]  #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::CommentsField:0x180e1c4
+  #  mail['comments'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::CommentsField:0x180e1c4
+  #  mail['comments'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::CommentsField:0x180e1c4
+  #
+  #  mail.comments = "This is another comment"
+  #  mail[:comments].map { |c| c.to_s }
+  #  #=> ['This is a comment', "This is another comment"]
+  class CommentsField < NamedUnstructuredField
+    NAME: "Comments"
+  end
+end
+
+module Mail
+  class AddressContainer < Array[untyped]
+    def initialize: (untyped field, ?untyped? list) -> void
+
+    def <<: (untyped address) -> untyped
+  end
+
+  class CommonAddressField < NamedStructuredField
+    def self.singular?: () -> true
+
+    def initialize: (?untyped? value, ?untyped? charset) -> void
+
+    def element: () -> untyped
+
+    # Allows you to iterate through each address object in the address_list
+    def each: () { (untyped) -> untyped } -> untyped
+
+    def default: () -> untyped
+
+    def address: () -> untyped
+
+    # Returns the address string of all the addresses in the address list
+    def addresses: () -> untyped
+
+    # Returns the formatted string of all the addresses in the address list
+    def formatted: () -> untyped
+
+    # Returns the display name of all the addresses in the address list
+    def display_names: () -> untyped
+
+    # Returns the actual address objects in the address list
+    def addrs: () -> untyped
+
+    # Returns a hash of group name => address strings for the address list
+    def groups: () -> untyped
+
+    # Returns the addresses that are part of groups
+    def group_addresses: () -> untyped
+
+    # Returns a list of decoded group addresses
+    def decoded_group_addresses: () -> untyped
+
+    # Returns a list of encoded group addresses
+    def encoded_group_addresses: () -> untyped
+
+    # Returns the name of all the groups in a string
+    def group_names: () -> untyped
+
+    def <<: (untyped val) -> untyped
+
+    def encode_if_needed: (untyped val, ?untyped val_charset) -> untyped
+
+    private
+
+    # Pass through UTF-8 addresses
+    def utf8_if_needed: (untyped val, untyped val_charset) -> (untyped | nil)
+
+    def do_encode: () -> ("" | ::String)
+
+    def do_decode: () -> (nil | untyped)
+
+    def get_group_addresses: (untyped group_list) -> (untyped | ::Array[untyped])
+  end
+end
+
+module Mail
+  class CommonDateField < NamedStructuredField
+    def self.singular?: () -> true
+
+    def self.normalize_datetime: (untyped string) -> untyped
+
+    def initialize: (?untyped? value, ?untyped? charset) -> void
+
+    # Returns a date time object of the parsed date
+    def date_time: () -> untyped
+
+    def default: () -> untyped
+
+    def element: () -> untyped
+
+    private
+
+    def do_encode: () -> ::String
+
+    def do_decode: () -> untyped
+  end
+end
+
+module Mail
+  class CommonField
+    def self.singular?: () -> false
+
+    def self.parse: (*untyped args) -> untyped
+
+    attr_accessor name: untyped
+
+    attr_reader value: untyped
+
+    attr_accessor charset: untyped
+
+    attr_reader errors: untyped
+
+    def initialize: (?untyped? name, ?untyped? value, ?untyped? charset) -> void
+
+    def singular?: () -> untyped
+
+    def value=: (untyped value) -> untyped
+
+    def parse: () -> untyped
+
+    def element: () -> nil
+
+    def to_s: () -> untyped
+
+    def default: () -> untyped
+
+    def decoded: () -> untyped
+
+    def encoded: () -> untyped
+
+    def responsible_for?: (untyped field_name) -> untyped
+
+    private
+
+    FILENAME_RE: ::Regexp
+
+    def ensure_filename_quoted: (untyped value) -> untyped
+  end
+end
+
+module Mail
+  class CommonMessageIdField < NamedStructuredField
+    def element: () -> untyped
+
+    def message_id: () -> untyped
+
+    def message_ids: () -> untyped
+
+    def default: () -> untyped
+
+    def to_s: () -> untyped
+
+    private
+
+    def do_encode: () -> ::String
+
+    def do_decode: () -> untyped
+
+    def formatted_message_ids: (?::String join) -> (untyped | nil)
+  end
+end
+
+module Mail
+  class ContentDescriptionField < NamedUnstructuredField
+    NAME: "Content-Description"
+
+    def self.singular?: () -> true
+  end
+end
+
+module Mail
+  class ContentDispositionField < NamedStructuredField
+    NAME: "Content-Disposition"
+
+    def self.singular?: () -> true
+
+    def initialize: (?untyped? value, ?untyped? charset) -> void
+
+    def element: () -> untyped
+
+    def disposition_type: () -> untyped
+
+    def parameters: () -> untyped
+
+    def filename: () -> untyped
+
+    def encoded: () -> ::String
+
+    def decoded: () -> ::String
+  end
+end
+
+module Mail
+  class ContentIdField < NamedStructuredField
+    NAME: "Content-ID"
+
+    def self.singular?: () -> true
+
+    def initialize: (?untyped? value, ?untyped? charset) -> void
+
+    def element: () -> untyped
+
+    def content_id: () -> untyped
+
+    private
+
+    def do_decode: () -> ::String
+
+    def do_encode: () -> ::String
+  end
+end
+
+module Mail
+  class ContentLocationField < NamedStructuredField
+    NAME: "Content-Location"
+
+    def self.singular?: () -> true
+
+    def element: () -> untyped
+
+    def location: () -> untyped
+
+    def encoded: () -> ::String
+
+    def decoded: () -> untyped
+  end
+end
+
+module Mail
+  class ContentTransferEncodingField < NamedStructuredField
+    NAME: "Content-Transfer-Encoding"
+
+    def self.singular?: () -> true
+
+    def self.normalize_content_transfer_encoding: (untyped value) -> untyped
+
+    def initialize: (?untyped? value, ?untyped? charset) -> void
+
+    def element: () -> untyped
+
+    def encoding: () -> untyped
+
+    private
+
+    def do_encode: () -> ::String
+
+    def do_decode: () -> untyped
+  end
+end
+
+module Mail
+  class ContentTypeField < NamedStructuredField
+    NAME: "Content-Type"
+
+    def self.singular?: () -> true
+
+    def self.with_boundary: (untyped `type`) -> untyped
+
+    def self.generate_boundary: () -> ::String
+
+    def initialize: (?untyped? value, ?untyped? charset) -> void
+
+    def element: () -> untyped
+
+    def attempt_to_clean: () -> untyped
+
+    def main_type: () -> untyped
+
+    def sub_type: () -> untyped
+
+    def string: () -> ::String
+
+    alias content_type string
+
+    def default: () -> untyped
+
+    def parameters: () -> untyped
+
+    def value: () -> (::String | untyped)
+
+    def stringify: (untyped params) -> untyped
+
+    def filename: () -> untyped
+
+    def encoded: () -> ::String
+
+    def decoded: () -> ::String
+
+    private
+
+    def method_missing: (untyped name, *untyped args) ?{ () -> untyped } -> untyped
+
+    # Various special cases from random emails found that I am not going to change
+    # the parser for
+    def sanitize: (untyped val) -> untyped
+
+    def get_mime_type: (untyped val) -> untyped
+  end
+end
+
+module Mail
+  # = Date Field
+  #
+  # The Date field inherits from StructuredField and handles the Date: header
+  # field in the email.
+  #
+  # Sending date to a mail message will instantiate a Mail::Field object that
+  # has a DateField as its field type.  This includes all Mail::CommonAddress
+  # module instance methods.
+  #
+  # There must be excatly one Date field in an RFC2822 email.
+  #
+  # == Examples:
+  #
+  #  mail = Mail.new
+  #  mail.date = 'Mon, 24 Nov 1997 14:22:01 -0800'
+  #  mail.date       #=> #<DateTime: 211747170121/86400,-1/3,2299161>
+  #  mail.date.to_s  #=> 'Mon, 24 Nov 1997 14:22:01 -0800'
+  #  mail[:date]     #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::DateField:0x180e1c4
+  #  mail['date']    #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::DateField:0x180e1c4
+  #  mail['Date']    #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::DateField:0x180e1c4
+  class DateField < CommonDateField
+    NAME: "Date"
+  end
+end
+
+module Mail
+  # = From Field
+  #
+  # The From field inherits from StructuredField and handles the From: header
+  # field in the email.
+  #
+  # Sending from to a mail message will instantiate a Mail::Field object that
+  # has a FromField as its field type.  This includes all Mail::CommonAddress
+  # module instance metods.
+  #
+  # Only one From field can appear in a header, though it can have multiple
+  # addresses and groups of addresses.
+  #
+  # == Examples:
+  #
+  #  mail = Mail.new
+  #  mail.from = 'Mikel Lindsaar <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+  #  mail.from    #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+  #  mail[:from]  #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::FromField:0x180e1c4
+  #  mail['from'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::FromField:0x180e1c4
+  #  mail['From'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::FromField:0x180e1c4
+  #
+  #  mail[:from].encoded   #=> 'from: Mikel Lindsaar <mikel@test.lindsaar.net>, ada@test.lindsaar.net\r\n'
+  #  mail[:from].decoded   #=> 'Mikel Lindsaar <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+  #  mail[:from].addresses #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+  #  mail[:from].formatted #=> ['Mikel Lindsaar <mikel@test.lindsaar.net>', 'ada@test.lindsaar.net']
+  class FromField < CommonAddressField
+    NAME: "From"
+  end
+end
+
+module Mail
+  # = In-Reply-To Field
+  #
+  # The In-Reply-To field inherits from StructuredField and handles the
+  # In-Reply-To: header field in the email.
+  #
+  # Sending in_reply_to to a mail message will instantiate a Mail::Field object that
+  # has a InReplyToField as its field type.  This includes all Mail::CommonMessageId
+  # module instance metods.
+  #
+  # Note that, the #message_ids method will return an array of message IDs without the
+  # enclosing angle brackets which per RFC are not syntactically part of the message id.
+  #
+  # Only one InReplyTo field can appear in a header, though it can have multiple
+  # Message IDs.
+  #
+  # == Examples:
+  #
+  #  mail = Mail.new
+  #  mail.in_reply_to = '<F6E2D0B4-CC35-4A91-BA4C-C7C712B10C13@test.me.dom>'
+  #  mail.in_reply_to    #=> '<F6E2D0B4-CC35-4A91-BA4C-C7C712B10C13@test.me.dom>'
+  #  mail[:in_reply_to]  #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::InReplyToField:0x180e1c4
+  #  mail['in_reply_to'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::InReplyToField:0x180e1c4
+  #  mail['In-Reply-To'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::InReplyToField:0x180e1c4
+  #
+  #  mail[:in_reply_to].message_ids #=> ['F6E2D0B4-CC35-4A91-BA4C-C7C712B10C13@test.me.dom']
+  class InReplyToField < CommonMessageIdField
+    NAME: "In-Reply-To"
+
+    def self.singular?: () -> true
+
+    def initialize: (?untyped? value, ?untyped? charset) -> void
+  end
+end
+
+module Mail
+  # keywords        =       "Keywords:" phrase *("," phrase) CRLF
+  class KeywordsField < NamedStructuredField
+    NAME: "Keywords"
+
+    def element: () -> untyped
+
+    def keywords: () -> untyped
+
+    def default: () -> untyped
+
+    private
+
+    def do_decode: () -> untyped
+
+    def do_encode: () -> ::String
+  end
+end
+
+module Mail
+  # Only one Message-ID field may appear in a header.
+  #
+  # Note that parsed Message IDs do not contain their enclosing angle
+  # brackets which, per RFC, are not part of the ID.
+  #
+  #  mail = Mail.new
+  #  mail.message_id = '<F6E2D0B4-CC35-4A91-BA4C-C7C712B10C13@test.me.dom>'
+  #  mail.message_id    #=> '<F6E2D0B4-CC35-4A91-BA4C-C7C712B10C13@test.me.dom>'
+  #  mail[:message_id]  #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::MessageIdField:0x180e1c4
+  #  mail['message_id'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::MessageIdField:0x180e1c4
+  #  mail['Message-ID'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::MessageIdField:0x180e1c4
+  #
+  #  mail[:message_id].message_id   #=> 'F6E2D0B4-CC35-4A91-BA4C-C7C712B10C13@test.me.dom'
+  #  mail[:message_id].message_ids  #=> ['F6E2D0B4-CC35-4A91-BA4C-C7C712B10C13@test.me.dom']
+  class MessageIdField < CommonMessageIdField
+    NAME: "Message-ID"
+
+    def self.singular?: () -> true
+
+    def initialize: (?untyped? value, ?untyped? charset) -> void
+
+    def message_ids: () -> ::Array[untyped]
+  end
+end
+
+module Mail
+  class MimeVersionField < NamedStructuredField
+    NAME: "Mime-Version"
+
+    def self.singular?: () -> true
+
+    def initialize: (?untyped? value, ?untyped? charset) -> void
+
+    def element: () -> untyped
+
+    def version: () -> ::String
+
+    def major: () -> untyped
+
+    def minor: () -> untyped
+
+    def encoded: () -> ::String
+
+    def decoded: () -> untyped
+  end
+end
+
+module Mail
+  class NamedStructuredField < StructuredField
+    def initialize: (?untyped? value, ?untyped? charset) -> void
+  end
+end
+
+module Mail
+  class NamedUnstructuredField < UnstructuredField
+    def initialize: (?untyped? value, ?untyped? charset) -> void
+  end
+end
+
+module Mail
+  # The field names of any optional-field MUST NOT be identical to any
+  # field name specified elsewhere in this standard.
+  #
+  # optional-field  =       field-name ":" unstructured CRLF
+  class OptionalField < UnstructuredField
+    private
+
+    def do_encode: () -> ::String
+  end
+end
+
+module Mail
+  # ParameterHash is an intelligent Hash that allows you to add
+  # parameter values including the MIME extension paramaters that
+  # have the name*0="blah", name*1="bleh" keys, and will just return
+  # a single key called name="blahbleh" and do any required un-encoding
+  # to make that happen
+  #
+  # Parameters are defined in RFC2045. Split keys are in RFC2231.
+  class ParameterHash < IndifferentHash
+    def []: (untyped key_name) -> untyped
+
+    def encoded: () -> untyped
+
+    def decoded: () -> untyped
+  end
+end
+
+module Mail
+  # trace           =       [return]
+  #                         1*received
+  #
+  # return          =       "Return-Path:" path CRLF
+  #
+  # path            =       ([CFWS] "<" ([CFWS] / addr-spec) ">" [CFWS]) /
+  #                         obs-path
+  #
+  # received        =       "Received:" name-val-list ";" date-time CRLF
+  #
+  # name-val-list   =       [CFWS] [name-val-pair *(CFWS name-val-pair)]
+  #
+  # name-val-pair   =       item-name CFWS item-value
+  #
+  # item-name       =       ALPHA *(["-"] (ALPHA / DIGIT))
+  #
+  # item-value      =       1*angle-addr / addr-spec /
+  #                          atom / domain / msg-id
+  class ReceivedField < NamedStructuredField
+    NAME: "Received"
+
+    def element: () -> untyped
+
+    def date_time: () -> untyped
+
+    def info: () -> untyped
+
+    def formatted_date: () -> (untyped | nil)
+
+    private
+
+    def do_encode: () -> ::String
+
+    def do_decode: () -> ("" | ::String)
+  end
+end
+
+module Mail
+  # = References Field
+  #
+  # The References field inherits references StructuredField and handles the References: header
+  # field in the email.
+  #
+  # Sending references to a mail message will instantiate a Mail::Field object that
+  # has a ReferencesField as its field type.  This includes all Mail::CommonAddress
+  # module instance metods.
+  #
+  # Note that, the #message_ids method will return an array of message IDs without the
+  # enclosing angle brackets which per RFC are not syntactically part of the message id.
+  #
+  # Only one References field can appear in a header, though it can have multiple
+  # Message IDs.
+  #
+  # == Examples:
+  #
+  #  mail = Mail.new
+  #  mail.references = '<F6E2D0B4-CC35-4A91-BA4C-C7C712B10C13@test.me.dom>'
+  #  mail.references    #=> '<F6E2D0B4-CC35-4A91-BA4C-C7C712B10C13@test.me.dom>'
+  #  mail[:references]  #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::ReferencesField:0x180e1c4
+  #  mail['references'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::ReferencesField:0x180e1c4
+  #  mail['References'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::ReferencesField:0x180e1c4
+  #
+  #  mail[:references].message_ids #=> ['F6E2D0B4-CC35-4A91-BA4C-C7C712B10C13@test.me.dom']
+  class ReferencesField < CommonMessageIdField
+    NAME: "References"
+
+    def self.singular?: () -> true
+
+    def initialize: (?untyped? value, ?untyped? charset) -> void
+  end
+end
+
+module Mail
+  # = Reply-To Field
+  #
+  # The Reply-To field inherits reply-to StructuredField and handles the Reply-To: header
+  # field in the email.
+  #
+  # Sending reply_to to a mail message will instantiate a Mail::Field object that
+  # has a ReplyToField as its field type.  This includes all Mail::CommonAddress
+  # module instance metods.
+  #
+  # Only one Reply-To field can appear in a header, though it can have multiple
+  # addresses and groups of addresses.
+  #
+  # == Examples:
+  #
+  #  mail = Mail.new
+  #  mail.reply_to = 'Mikel Lindsaar <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+  #  mail.reply_to    #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+  #  mail[:reply_to]  #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::ReplyToField:0x180e1c4
+  #  mail['reply-to'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::ReplyToField:0x180e1c4
+  #  mail['Reply-To'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::ReplyToField:0x180e1c4
+  #
+  #  mail[:reply_to].encoded   #=> 'Reply-To: Mikel Lindsaar <mikel@test.lindsaar.net>, ada@test.lindsaar.net\r\n'
+  #  mail[:reply_to].decoded   #=> 'Mikel Lindsaar <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+  #  mail[:reply_to].addresses #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+  #  mail[:reply_to].formatted #=> ['Mikel Lindsaar <mikel@test.lindsaar.net>', 'ada@test.lindsaar.net']
+  class ReplyToField < CommonAddressField
+    NAME: "Reply-To"
+  end
+end
+
+module Mail
+  # = Resent-Bcc Field
+  #
+  # The Resent-Bcc field inherits resent-bcc StructuredField and handles the
+  # Resent-Bcc: header field in the email.
+  #
+  # Sending resent_bcc to a mail message will instantiate a Mail::Field object that
+  # has a ResentBccField as its field type.  This includes all Mail::CommonAddress
+  # module instance metods.
+  #
+  # Only one Resent-Bcc field can appear in a header, though it can have multiple
+  # addresses and groups of addresses.
+  #
+  # == Examples:
+  #
+  #  mail = Mail.new
+  #  mail.resent_bcc = 'Mikel Lindsaar <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+  #  mail.resent_bcc    #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+  #  mail[:resent_bcc]  #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::ResentBccField:0x180e1c4
+  #  mail['resent-bcc'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::ResentBccField:0x180e1c4
+  #  mail['Resent-Bcc'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::ResentBccField:0x180e1c4
+  #
+  #  mail[:resent_bcc].encoded   #=> 'Resent-Bcc: Mikel Lindsaar <mikel@test.lindsaar.net>, ada@test.lindsaar.net\r\n'
+  #  mail[:resent_bcc].decoded   #=> 'Mikel Lindsaar <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+  #  mail[:resent_bcc].addresses #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+  #  mail[:resent_bcc].formatted #=> ['Mikel Lindsaar <mikel@test.lindsaar.net>', 'ada@test.lindsaar.net']
+  class ResentBccField < CommonAddressField
+    NAME: "Resent-Bcc"
+  end
+end
+
+module Mail
+  # = Resent-Cc Field
+  #
+  # The Resent-Cc field inherits resent-cc StructuredField and handles the Resent-Cc: header
+  # field in the email.
+  #
+  # Sending resent_cc to a mail message will instantiate a Mail::Field object that
+  # has a ResentCcField as its field type.  This includes all Mail::CommonAddress
+  # module instance metods.
+  #
+  # Only one Resent-Cc field can appear in a header, though it can have multiple
+  # addresses and groups of addresses.
+  #
+  # == Examples:
+  #
+  #  mail = Mail.new
+  #  mail.resent_cc = 'Mikel Lindsaar <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+  #  mail.resent_cc    #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+  #  mail[:resent_cc]  #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::ResentCcField:0x180e1c4
+  #  mail['resent-cc'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::ResentCcField:0x180e1c4
+  #  mail['Resent-Cc'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::ResentCcField:0x180e1c4
+  #
+  #  mail[:resent_cc].encoded   #=> 'Resent-Cc: Mikel Lindsaar <mikel@test.lindsaar.net>, ada@test.lindsaar.net\r\n'
+  #  mail[:resent_cc].decoded   #=> 'Mikel Lindsaar <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+  #  mail[:resent_cc].addresses #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+  #  mail[:resent_cc].formatted #=> ['Mikel Lindsaar <mikel@test.lindsaar.net>', 'ada@test.lindsaar.net']
+  class ResentCcField < CommonAddressField
+    NAME: "Resent-Cc"
+  end
+end
+
+module Mail
+  #
+  # resent-date     =       "Resent-Date:" date-time CRLF
+  class ResentDateField < CommonDateField
+    NAME: "Resent-Date"
+  end
+end
+
+module Mail
+  # = Resent-From Field
+  #
+  # The Resent-From field inherits resent-from StructuredField and handles the Resent-From: header
+  # field in the email.
+  #
+  # Sending resent_from to a mail message will instantiate a Mail::Field object that
+  # has a ResentFromField as its field type.  This includes all Mail::CommonAddress
+  # module instance metods.
+  #
+  # Only one Resent-From field can appear in a header, though it can have multiple
+  # addresses and groups of addresses.
+  #
+  # == Examples:
+  #
+  #  mail = Mail.new
+  #  mail.resent_from = 'Mikel Lindsaar <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+  #  mail.resent_from    #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+  #  mail[:resent_from]  #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::ResentFromField:0x180e1c4
+  #  mail['resent-from'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::ResentFromField:0x180e1c4
+  #  mail['Resent-From'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::ResentFromField:0x180e1c4
+  #
+  #  mail[:resent_from].encoded   #=> 'Resent-From: Mikel Lindsaar <mikel@test.lindsaar.net>, ada@test.lindsaar.net\r\n'
+  #  mail[:resent_from].decoded   #=> 'Mikel Lindsaar <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+  #  mail[:resent_from].addresses #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+  #  mail[:resent_from].formatted #=> ['Mikel Lindsaar <mikel@test.lindsaar.net>', 'ada@test.lindsaar.net']
+  class ResentFromField < CommonAddressField
+    NAME: "Resent-From"
+  end
+end
+
+module Mail
+  #
+  # resent-msg-id   =       "Resent-Message-ID:" msg-id CRLF
+  class ResentMessageIdField < CommonMessageIdField
+    NAME: "Resent-Message-ID"
+  end
+end
+
+module Mail
+  # = Resent-Sender Field
+  #
+  # The Resent-Sender field inherits resent-sender StructuredField and handles the Resent-Sender: header
+  # field in the email.
+  #
+  # Sending resent_sender to a mail message will instantiate a Mail::Field object that
+  # has a ResentSenderField as its field type.  This includes all Mail::CommonAddress
+  # module instance metods.
+  #
+  # Only one Resent-Sender field can appear in a header, though it can have multiple
+  # addresses and groups of addresses.
+  #
+  # == Examples:
+  #
+  #  mail = Mail.new
+  #  mail.resent_sender = 'Mikel Lindsaar <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+  #  mail.resent_sender    #=> ['mikel@test.lindsaar.net']
+  #  mail[:resent_sender]  #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::ResentSenderField:0x180e1c4
+  #  mail['resent-sender'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::ResentSenderField:0x180e1c4
+  #  mail['Resent-Sender'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::ResentSenderField:0x180e1c4
+  #
+  #  mail.resent_sender.to_s  #=> 'Mikel Lindsaar <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+  #  mail.resent_sender.addresses #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+  #  mail.resent_sender.formatted #=> ['Mikel Lindsaar <mikel@test.lindsaar.net>', 'ada@test.lindsaar.net']
+  class ResentSenderField < CommonAddressField
+    NAME: "Resent-Sender"
+  end
+end
+
+module Mail
+  # = Resent-To Field
+  #
+  # The Resent-To field inherits resent-to StructuredField and handles the Resent-To: header
+  # field in the email.
+  #
+  # Sending resent_to to a mail message will instantiate a Mail::Field object that
+  # has a ResentToField as its field type.  This includes all Mail::CommonAddress
+  # module instance metods.
+  #
+  # Only one Resent-To field can appear in a header, though it can have multiple
+  # addresses and groups of addresses.
+  #
+  # == Examples:
+  #
+  #  mail = Mail.new
+  #  mail.resent_to = 'Mikel Lindsaar <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+  #  mail.resent_to    #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+  #  mail[:resent_to]  #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::ResentToField:0x180e1c4
+  #  mail['resent-to'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::ResentToField:0x180e1c4
+  #  mail['Resent-To'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::ResentToField:0x180e1c4
+  #
+  #  mail[:resent_to].encoded   #=> 'Resent-To: Mikel Lindsaar <mikel@test.lindsaar.net>, ada@test.lindsaar.net\r\n'
+  #  mail[:resent_to].decoded   #=> 'Mikel Lindsaar <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+  #  mail[:resent_to].addresses #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+  #  mail[:resent_to].formatted #=> ['Mikel Lindsaar <mikel@test.lindsaar.net>', 'ada@test.lindsaar.net']
+  class ResentToField < CommonAddressField
+    NAME: "Resent-To"
+  end
+end
+
+module Mail
+  # 4.4.3.  REPLY-TO / RESENT-REPLY-TO
+  #
+  #    Note:  The "Return-Path" field is added by the mail  transport
+  #           service,  at the time of final deliver.  It is intended
+  #           to identify a path back to the orginator  of  the  mes-
+  #           sage.   The  "Reply-To"  field  is added by the message
+  #           originator and is intended to direct replies.
+  #
+  # trace           =       [return]
+  #                         1*received
+  #
+  # return          =       "Return-Path:" path CRLF
+  #
+  # path            =       ([CFWS] "<" ([CFWS] / addr-spec) ">" [CFWS]) /
+  #                         obs-path
+  #
+  # received        =       "Received:" name-val-list ";" date-time CRLF
+  #
+  # name-val-list   =       [CFWS] [name-val-pair *(CFWS name-val-pair)]
+  #
+  # name-val-pair   =       item-name CFWS item-value
+  #
+  # item-name       =       ALPHA *(["-"] (ALPHA / DIGIT))
+  #
+  # item-value      =       1*angle-addr / addr-spec /
+  #                          atom / domain / msg-id
+  #
+  class ReturnPathField < CommonAddressField
+    NAME: "Return-Path"
+
+    def self.singular?: () -> true
+
+    def initialize: (?untyped? value, ?untyped? charset) -> void
+
+    def default: () -> untyped
+
+    private
+
+    def do_encode: () -> ::String
+
+    def do_decode: () -> untyped
+  end
+end
+
+module Mail
+  # = Sender Field
+  #
+  # The Sender field inherits sender StructuredField and handles the Sender: header
+  # field in the email.
+  #
+  # Sending sender to a mail message will instantiate a Mail::Field object that
+  # has a SenderField as its field type.  This includes all Mail::CommonAddress
+  # module instance metods.
+  #
+  # Only one Sender field can appear in a header, though it can have multiple
+  # addresses and groups of addresses.
+  #
+  # == Examples:
+  #
+  #  mail = Mail.new
+  #  mail.sender = 'Mikel Lindsaar <mikel@test.lindsaar.net>'
+  #  mail.sender    #=> 'mikel@test.lindsaar.net'
+  #  mail[:sender]  #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::SenderField:0x180e1c4
+  #  mail['sender'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::SenderField:0x180e1c4
+  #  mail['Sender'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::SenderField:0x180e1c4
+  #
+  #  mail[:sender].encoded   #=> "Sender: Mikel Lindsaar <mikel@test.lindsaar.net>\r\n"
+  #  mail[:sender].decoded   #=> 'Mikel Lindsaar <mikel@test.lindsaar.net>'
+  #  mail[:sender].addresses #=> ['mikel@test.lindsaar.net']
+  #  mail[:sender].formatted #=> ['Mikel Lindsaar <mikel@test.lindsaar.net>']
+  class SenderField < CommonAddressField
+    NAME: "Sender"
+
+    def self.singular?: () -> true
+
+    def default: () -> untyped
+
+    def addresses: () -> untyped
+  end
+end
+
+module Mail
+  # Provides access to a structured header field
+  #
+  # ===Per RFC 2822:
+  #  2.2.2. Structured Header Field Bodies
+  #
+  #     Some field bodies in this standard have specific syntactical
+  #     structure more restrictive than the unstructured field bodies
+  #     described above. These are referred to as "structured" field bodies.
+  #     Structured field bodies are sequences of specific lexical tokens as
+  #     described in sections 3 and 4 of this standard.  Many of these tokens
+  #     are allowed (according to their syntax) to be introduced or end with
+  #     comments (as described in section 3.2.3) as well as the space (SP,
+  #     ASCII value 32) and horizontal tab (HTAB, ASCII value 9) characters
+  #     (together known as the white space characters, WSP), and those WSP
+  #     characters are subject to header "folding" and "unfolding" as
+  #     described in section 2.2.3.  Semantic analysis of structured field
+  #     bodies is given along with their syntax.
+  class StructuredField < CommonField
+  end
+end
+
+module Mail
+  #
+  # subject         =       "Subject:" unstructured CRLF
+  class SubjectField < NamedUnstructuredField
+    NAME: "Subject"
+
+    def self.singular?: () -> true
+  end
+end
+
+module Mail
+  # = To Field
+  #
+  # The To field inherits to StructuredField and handles the To: header
+  # field in the email.
+  #
+  # Sending to to a mail message will instantiate a Mail::Field object that
+  # has a ToField as its field type.  This includes all Mail::CommonAddress
+  # module instance metods.
+  #
+  # Only one To field can appear in a header, though it can have multiple
+  # addresses and groups of addresses.
+  #
+  # == Examples:
+  #
+  #  mail = Mail.new
+  #  mail.to = 'Mikel Lindsaar <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+  #  mail.to    #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+  #  mail[:to]  #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::ToField:0x180e1c4
+  #  mail['to'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::ToField:0x180e1c4
+  #  mail['To'] #=> '#<Mail::Field:0x180e5e8 @field=#<Mail::ToField:0x180e1c4
+  #
+  #  mail[:to].encoded   #=> 'To: Mikel Lindsaar <mikel@test.lindsaar.net>, ada@test.lindsaar.net\r\n'
+  #  mail[:to].decoded   #=> 'Mikel Lindsaar <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+  #  mail[:to].addresses #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+  #  mail[:to].formatted #=> ['Mikel Lindsaar <mikel@test.lindsaar.net>', 'ada@test.lindsaar.net']
+  class ToField < CommonAddressField
+    NAME: "To"
+  end
+end
+
+module Mail
+  # Provides access to an unstructured header field
+  #
+  # ===Per RFC 2822:
+  #  2.2.1. Unstructured Header Field Bodies
+  #
+  #     Some field bodies in this standard are defined simply as
+  #     "unstructured" (which is specified below as any US-ASCII characters,
+  #     except for CR and LF) with no further restrictions.  These are
+  #     referred to as unstructured field bodies.  Semantically, unstructured
+  #     field bodies are simply to be treated as a single line of characters
+  #     with no further processing (except for header "folding" and
+  #     "unfolding" as described in section 2.2.3).
+  class UnstructuredField < CommonField
+    def initialize: (untyped name, untyped value, ?untyped? charset) -> void
+
+    # An unstructured field does not parse
+    def parse: () -> self
+
+    private
+
+    def do_encode: () -> (::String | "")
+
+    def do_decode: () -> (nil | untyped)
+
+    # 2.2.3. Long Header Fields
+    #
+    #  Each header field is logically a single line of characters comprising
+    #  the field name, the colon, and the field body.  For convenience
+    #  however, and to deal with the 998/78 character limitations per line,
+    #  the field body portion of a header field can be split into a multiple
+    #  line representation; this is called "folding".  The general rule is
+    #  that wherever this standard allows for folding white space (not
+    #  simply WSP characters), a CRLF may be inserted before any WSP.  For
+    #  example, the header field:
+    #
+    #          Subject: This is a test
+    #
+    #  can be represented as:
+    #
+    #          Subject: This
+    #           is a test
+    #
+    #  Note: Though structured field bodies are defined in such a way that
+    #  folding can take place between many of the lexical tokens (and even
+    #  within some of the lexical tokens), folding SHOULD be limited to
+    #  placing the CRLF at higher-level syntactic breaks.  For instance, if
+    #  a field body is defined as comma-separated values, it is recommended
+    #  that folding occur after the comma separating the structured items in
+    #  preference to other places where the field could be folded, even if
+    #  it is allowed elsewhere.
+    def wrapped_value: () -> untyped
+
+    # 6.2. Display of 'encoded-word's
+    #
+    #  When displaying a particular header field that contains multiple
+    #  'encoded-word's, any 'linear-white-space' that separates a pair of
+    #  adjacent 'encoded-word's is ignored.  (This is to allow the use of
+    #  multiple 'encoded-word's to represent long strings of unencoded text,
+    #  without having to separate 'encoded-word's where spaces occur in the
+    #  unencoded text.)
+    def wrap_lines: (untyped name, untyped folded_lines) -> untyped
+
+    def fold: (?::Integer `prepend`) -> untyped
+
+    def encode: (untyped value) -> untyped
+
+    def encode_crlf: (untyped value) -> untyped
+
+    def normalized_encoding: () -> untyped
+  end
+end
+
+module Mail
+  # Provides access to a header object.
+  #
+  # ===Per RFC2822
+  #
+  #  2.2. Header Fields
+  #
+  #   Header fields are lines composed of a field name, followed by a colon
+  #   (":"), followed by a field body, and terminated by CRLF.  A field
+  #   name MUST be composed of printable US-ASCII characters (i.e.,
+  #   characters that have values between 33 and 126, inclusive), except
+  #   colon.  A field body may be composed of any US-ASCII characters,
+  #   except for CR and LF.  However, a field body may contain CRLF when
+  #   used in header "folding" and  "unfolding" as described in section
+  #   2.2.3.  All field bodies MUST conform to the syntax described in
+  #   sections 3 and 4 of this standard.
+  class Header
+    include Enumerable[untyped]
+
+    # Large amount of headers in Email might create extra high CPU load
+    # Use this parameter to limit number of headers that will be parsed by
+    # mail library.
+    # Default: 1000
+    def self.maximum_amount: () -> untyped
+
+    def self.maximum_amount=: (untyped value) -> untyped
+
+    attr_reader raw_source: untyped
+
+    attr_reader charset: untyped
+
+    # Creates a new header object.
+    #
+    # Accepts raw text or nothing.  If given raw text will attempt to parse
+    # it and split it into the various fields, instantiating each field as
+    # it goes.
+    #
+    # If it finds a field that should be a structured field (such as content
+    # type), but it fails to parse it, it will simply make it an unstructured
+    # field and leave it alone.  This will mean that the data is preserved but
+    # no automatic processing of that field will happen.  If you find one of
+    # these cases, please make a patch and send it in, or at the least, send
+    # me the example so we can fix it.
+    def initialize: (?untyped? header_text, ?untyped? charset) -> void
+
+    def initialize_copy: (untyped original) -> untyped
+
+    # Returns an array of all the fields in the header in order that they
+    # were read in.
+    def fields: () -> untyped
+
+    #  3.6. Field definitions
+    #
+    #   It is important to note that the header fields are not guaranteed to
+    #   be in a particular order.  They may appear in any order, and they
+    #   have been known to be reordered occasionally when transported over
+    #   the Internet.  However, for the purposes of this standard, header
+    #   fields SHOULD NOT be reordered when a message is transported or
+    #   transformed.  More importantly, the trace header fields and resent
+    #   header fields MUST NOT be reordered, and SHOULD be kept in blocks
+    #   prepended to the message.  See sections 3.6.6 and 3.6.7 for more
+    #   information.
+    #
+    # Populates the fields container with Field objects in the order it
+    # receives them in.
+    #
+    # Acceps an array of field string values, for example:
+    #
+    #  h = Header.new
+    #  h.fields = ['From: mikel@me.com', 'To: bob@you.com']
+    def fields=: (untyped unfolded_fields) -> untyped
+
+    def errors: () -> untyped
+
+    #  3.6. Field definitions
+    #
+    #   The following table indicates limits on the number of times each
+    #   field may occur in a message header as well as any special
+    #   limitations on the use of those fields.  An asterisk next to a value
+    #   in the minimum or maximum column indicates that a special restriction
+    #   appears in the Notes column.
+    #
+    #   <snip table from 3.6>
+    #
+    # As per RFC, many fields can appear more than once, we will return a string
+    # of the value if there is only one header, or if there is more than one
+    # matching header, will return an array of values in order that they appear
+    # in the header ordered from top to bottom.
+    #
+    # Example:
+    #
+    #  h = Header.new
+    #  h.fields = ['To: mikel@me.com', 'X-Mail-SPAM: 15', 'X-Mail-SPAM: 20']
+    #  h['To']          #=> 'mikel@me.com'
+    #  h['X-Mail-SPAM'] #=> ['15', '20']
+    def []: (untyped name) -> untyped
+
+    # Sets the FIRST matching field in the header to passed value, or deletes
+    # the FIRST field matched from the header if passed nil
+    #
+    # Example:
+    #
+    #  h = Header.new
+    #  h.fields = ['To: mikel@me.com', 'X-Mail-SPAM: 15', 'X-Mail-SPAM: 20']
+    #  h['To'] = 'bob@you.com'
+    #  h['To']    #=> 'bob@you.com'
+    #  h['X-Mail-SPAM'] = '10000'
+    #  h['X-Mail-SPAM'] # => ['15', '20', '10000']
+    #  h['X-Mail-SPAM'] = nil
+    #  h['X-Mail-SPAM'] # => nil
+    def []=: (untyped name, untyped value) -> untyped
+
+    def charset=: (untyped val) -> untyped
+
+    def encoded: () -> untyped
+
+    def to_s: () -> untyped
+
+    def decoded: () -> untyped
+
+    def field_summary: () -> untyped
+
+    # Returns true if the header has a Message-ID defined (empty or not)
+    def has_message_id?: () -> untyped
+
+    # Returns true if the header has a Content-ID defined (empty or not)
+    def has_content_id?: () -> untyped
+
+    # Returns true if the header has a Date defined (empty or not)
+    def has_date?: () -> untyped
+
+    # Returns true if the header has a MIME version defined (empty or not)
+    def has_mime_version?: () -> untyped
+
+    # Enumerable support. Yield each field in order.
+    def each: () ?{ () -> untyped } -> untyped
+
+    private
+
+    # Splits an unfolded and line break cleaned header into individual field
+    # strings.
+    def split_header: () -> untyped
+  end
+end
+
+module Mail
+  class IndifferentHash < Hash[untyped, untyped]
+    def initialize: (?::Hash[untyped, untyped] constructor) -> void
+
+    def default: (?untyped? key) -> untyped
+
+    def self.new_from_hash_copying_default: (untyped hash) -> untyped
+
+    alias regular_writer []=
+
+    alias regular_update update
+
+    # Assigns a new value to the hash:
+    #
+    #   hash = HashWithIndifferentAccess.new
+    #   hash[:key] = "value"
+    #
+    def []=: (untyped key, untyped value) -> untyped
+
+    alias store []=
+
+    # Updates the instantized hash with values from the second:
+    #
+    #   hash_1 = HashWithIndifferentAccess.new
+    #   hash_1[:key] = "value"
+    #
+    #   hash_2 = HashWithIndifferentAccess.new
+    #   hash_2[:key] = "New Value!"
+    #
+    #   hash_1.update(hash_2) # => {"key"=>"New Value!"}
+    #
+    def update: (untyped other_hash) -> self
+
+    alias merge! update
+
+    # Checks the hash for a key matching the argument passed in:
+    #
+    #   hash = HashWithIndifferentAccess.new
+    #   hash["key"] = "value"
+    #   hash.key? :key  # => true
+    #   hash.key? "key" # => true
+    #
+    def key?: (untyped key) -> untyped
+
+    alias include? key?
+
+    alias has_key? key?
+
+    alias member? key?
+
+    # Fetches the value for the specified key, same as doing hash[key]
+    def fetch: (untyped key, *untyped extras) -> untyped
+
+    # Returns an array of the values at the specified indices:
+    #
+    #   hash = HashWithIndifferentAccess.new
+    #   hash[:a] = "x"
+    #   hash[:b] = "y"
+    #   hash.values_at("a", "b") # => ["x", "y"]
+    #
+    def values_at: (*untyped indices) -> untyped
+
+    # Returns an exact copy of the hash.
+    def dup: () -> untyped
+
+    # Merges the instantized and the specified hashes together, giving precedence to the values from the second hash
+    # Does not overwrite the existing hash.
+    def merge: (untyped hash) -> untyped
+
+    # Performs the opposite of merge, with the keys and values from the first hash taking precedence over the second.
+    # This overloaded definition prevents returning a regular hash, if reverse_merge is called on a HashWithDifferentAccess.
+    def reverse_merge: (untyped other_hash) -> untyped
+
+    def reverse_merge!: (untyped other_hash) -> untyped
+
+    # Removes a specified key from the hash.
+    def delete: (untyped key) -> untyped
+
+    def stringify_keys!: () -> self
+
+    def stringify_keys: () -> untyped
+
+    def symbolize_keys: () -> untyped
+
+    def to_options!: () -> self
+
+    def to_hash: () -> untyped
+
+    def convert_key: (untyped key) -> untyped
+
+    def convert_value: (untyped value) -> untyped
+  end
+end
+
+# encoding: utf-8
+# frozen_string_literal: true
+module Mail
+  # Allows you to create a new Mail::Message object.
+  #
+  # You can make an email via passing a string or passing a block.
+  #
+  # For example, the following two examples will create the same email
+  # message:
+  #
+  # Creating via a string:
+  #
+  #  string = "To: mikel@test.lindsaar.net\r\n"
+  #  string << "From: bob@test.lindsaar.net\r\n"
+  #  string << "Subject: This is an email\r\n"
+  #  string << "\r\n"
+  #  string << "This is the body"
+  #  Mail.new(string)
+  #
+  # Or creating via a block:
+  #
+  #  message = Mail.new do
+  #    to 'mikel@test.lindsaar.net'
+  #    from 'bob@test.lindsaar.net'
+  #    subject 'This is an email'
+  #    body 'This is the body'
+  #  end
+  #
+  # Or creating via a hash (or hash like object):
+  #
+  #  message = Mail.new({:to => 'mikel@test.lindsaar.net',
+  #                      'from' => 'bob@test.lindsaar.net',
+  #                      :subject => 'This is an email',
+  #                      :body => 'This is the body' })
+  #
+  # Note, the hash keys can be strings or symbols, the passed in object
+  # does not need to be a hash, it just needs to respond to :each_pair
+  # and yield each key value pair.
+  #
+  # As a side note, you can also create a new email through creating
+  # a Mail::Message object directly and then passing in values via string,
+  # symbol or direct method calls.  See Mail::Message for more information.
+  #
+  #  mail = Mail.new
+  #  mail.to = 'mikel@test.lindsaar.net'
+  #  mail[:from] = 'bob@test.lindsaar.net'
+  #  mail['subject'] = 'This is an email'
+  #  mail.body = 'This is the body'
+  def self.new: (*untyped args) ?{ () -> untyped } -> Message
+
+  # Sets the default delivery method and retriever method for all new Mail objects.
+  # The delivery_method and retriever_method default to :smtp and :pop3, with defaults
+  # set.
+  #
+  # So sending a new email, if you have an SMTP server running on localhost is
+  # as easy as:
+  #
+  #   Mail.deliver do
+  #     to      'mikel@test.lindsaar.net'
+  #     from    'bob@test.lindsaar.net'
+  #     subject 'hi there!'
+  #     body    'this is a body'
+  #   end
+  #
+  # If you do not specify anything, you will get the following equivalent code set in
+  # every new mail object:
+  #
+  #   Mail.defaults do
+  #     delivery_method :smtp, { :address              => "localhost",
+  #                              :port                 => 25,
+  #                              :domain               => 'localhost.localdomain',
+  #                              :user_name            => nil,
+  #                              :password             => nil,
+  #                              :authentication       => nil,
+  #                              :enable_starttls_auto => true  }
+  #
+  #     retriever_method :pop3, { :address             => "localhost",
+  #                               :port                => 995,
+  #                               :user_name           => nil,
+  #                               :password            => nil,
+  #                               :enable_ssl          => true }
+  #   end
+  #
+  #   Mail.delivery_method.new  #=> Mail::SMTP instance
+  #   Mail.retriever_method.new #=> Mail::POP3 instance
+  #
+  # Each mail object inherits the default set in Mail.delivery_method, however, on
+  # a per email basis, you can override the method:
+  #
+  #   mail.delivery_method :smtp
+  #
+  # Or you can override the method and pass in settings:
+  #
+  #   mail.delivery_method :smtp, :address => 'some.host'
+  def self.defaults: () ?{ () -> untyped } -> untyped
+
+  # Returns the delivery method selected, defaults to an instance of Mail::SMTP
+  def self.delivery_method: () -> untyped
+
+  # Returns the retriever method selected, defaults to an instance of Mail::POP3
+  def self.retriever_method: () -> untyped
+
+  # Send an email using the default configuration.  You do need to set a default
+  # configuration first before you use self.deliver, if you don't, an appropriate
+  # error will be raised telling you to.
+  #
+  # If you do not specify a delivery type, SMTP will be used.
+  #
+  #  Mail.deliver do
+  #   to 'mikel@test.lindsaar.net'
+  #   from 'ada@test.lindsaar.net'
+  #   subject 'This is a test email'
+  #   body 'Not much to say here'
+  #  end
+  #
+  # You can also do:
+  #
+  #  mail = Mail.read('email.eml')
+  #  mail.deliver!
+  #
+  # And your email object will be created and sent.
+  def self.deliver: (*untyped args) ?{ () -> untyped } -> untyped
+
+  # Find emails from the default retriever
+  # See Mail::Retriever for a complete documentation.
+  def self.find: (*untyped args) ?{ () -> untyped } -> untyped
+
+  # Finds and then deletes retrieved emails from the default retriever
+  # See Mail::Retriever for a complete documentation.
+  def self.find_and_delete: (*untyped args) ?{ () -> untyped } -> untyped
+
+  # Receive the first email(s) from the default retriever
+  # See Mail::Retriever for a complete documentation.
+  def self.first: (*untyped args) ?{ () -> untyped } -> untyped
+
+  # Receive the first email(s) from the default retriever
+  # See Mail::Retriever for a complete documentation.
+  def self.last: (*untyped args) ?{ () -> untyped } -> untyped
+
+  # Receive all emails from the default retriever
+  # See Mail::Retriever for a complete documentation.
+  def self.all: (*untyped args) ?{ () -> untyped } -> untyped
+
+  # Reads in an email message from a path and instantiates it as a new Mail::Message
+  def self.read: (untyped filename) -> untyped
+
+  # Delete all emails from the default retriever
+  # See Mail::Retriever for a complete documentation.
+  def self.delete_all: (*untyped args) ?{ () -> untyped } -> untyped
+
+  # Instantiates a new Mail::Message using a string
+  def self.read_from_string: (untyped mail_as_string) -> untyped
+
+  def self.connection: () ?{ () -> untyped } -> untyped
+
+  # You can register an object to be informed of every email that is sent through
+  # this method.
+  #
+  # Your object needs to respond to a single method #delivered_email(mail)
+  # which receives the email that is sent.
+  def self.register_observer: (untyped observer) -> (untyped | nil)
+
+  # Unregister the given observer, allowing mail to resume operations
+  # without it.
+  def self.unregister_observer: (untyped observer) -> untyped
+
+  # You can register an object to be given every mail object that will be sent,
+  # before it is sent.  So if you want to add special headers or modify any
+  # email that gets sent through the Mail library, you can do so.
+  #
+  # Your object needs to respond to a single method #delivering_email(mail)
+  # which receives the email that is about to be sent.  Make your modifications
+  # directly to this object.
+  def self.register_interceptor: (untyped interceptor) -> (untyped | nil)
+
+  # Unregister the given interceptor, allowing mail to resume operations
+  # without it.
+  def self.unregister_interceptor: (untyped interceptor) -> untyped
+
+  def self.inform_observers: (untyped mail) -> untyped
+
+  def self.inform_interceptors: (untyped mail) -> untyped
+
+  RANDOM_TAG: "%x%x_%x%x%d%x"
+
+  def self.random_tag: () -> untyped
+
+  private
+
+  def self.something_random: () -> untyped
+
+  def self.uniq: () -> untyped
+end
+
+# frozen_string_literal: true
+module Mail
+  module Matchers
+    def any_attachment: () -> untyped
+
+    def an_attachment_with_filename: (untyped filename) -> untyped
+
+    def an_attachment_with_mime_type: (untyped filename) -> untyped
+
+    class AnyAttachmentMatcher
+      def ===: (untyped other) -> untyped
+    end
+
+    class AttachmentFilenameMatcher
+      attr_reader filename: untyped
+
+      def initialize: (untyped filename) -> void
+
+      def ===: (untyped other) -> untyped
+    end
+
+    class AttachmentMimeTypeMatcher
+      attr_reader mime_type: untyped
+
+      def initialize: (untyped mime_type) -> void
+
+      def ===: (untyped other) -> untyped
+    end
+  end
+end
+
+# frozen_string_literal: true
+module Mail
+  module Matchers
+    def have_sent_email: () -> untyped
+
+    class HasSentEmailMatcher
+      def initialize: (untyped _context) -> void
+
+      def matches?: (untyped subject) -> untyped
+
+      def from: (untyped sender) -> self
+
+      def to: (untyped recipient_or_list) -> self
+
+      def cc: (untyped recipient_or_list) -> self
+
+      def bcc: (untyped recipient_or_list) -> self
+
+      def with_attachments: (untyped attachments) -> self
+
+      def with_no_attachments: () -> self
+
+      def with_any_attachments: () -> self
+
+      def with_subject: (untyped subject) -> self
+
+      def matching_subject: (untyped subject_matcher) -> self
+
+      def with_body: (untyped body) -> self
+
+      def matching_body: (untyped body_matcher) -> self
+
+      def with_html: (untyped body) -> self
+
+      def with_text: (untyped body) -> self
+
+      def description: () -> untyped
+
+      def failure_message: () -> untyped
+
+      def failure_message_when_negated: () -> untyped
+
+      def filter_matched_deliveries: (untyped deliveries) -> untyped
+
+      def matches_on_sender?: (untyped delivery) -> untyped
+
+      def matches_on_recipients?: (untyped delivery) -> untyped
+
+      def matches_on_copy_recipients?: (untyped delivery) -> untyped
+
+      def matches_on_blind_copy_recipients?: (untyped delivery) -> untyped
+
+      def matches_on_subject?: (untyped delivery) -> untyped
+
+      def matches_on_subject_matcher?: (untyped delivery) -> untyped
+
+      def matches_on_having_attachments?: (untyped delivery) -> untyped
+
+      def matches_on_attachments?: (untyped delivery) -> untyped
+
+      def matches_on_body?: (untyped delivery) -> untyped
+
+      def matches_on_body_matcher?: (untyped delivery) -> untyped
+
+      def matches_on_html_part_body?: (untyped delivery) -> untyped
+
+      def matches_on_text_part_body?: (untyped delivery) -> untyped
+
+      def explain_expectations: () -> untyped
+
+      def dump_deliveries: () -> untyped
+    end
+  end
+end
+
+module Mail
+  # The Message class provides a single point of access to all things to do with an
+  # email message.
+  #
+  # You create a new email message by calling the Mail::Message.new method, or just
+  # Mail.new
+  #
+  # A Message object by default has the following objects inside it:
+  #
+  # * A Header object which contains all information and settings of the header of the email
+  # * Body object which contains all parts of the email that are not part of the header, this
+  #   includes any attachments, body text, MIME parts etc.
+  #
+  # ==Per RFC2822
+  #
+  #  2.1. General Description
+  #
+  #   At the most basic level, a message is a series of characters.  A
+  #   message that is conformant with this standard is comprised of
+  #   characters with values in the range 1 through 127 and interpreted as
+  #   US-ASCII characters [ASCII].  For brevity, this document sometimes
+  #   refers to this range of characters as simply "US-ASCII characters".
+  #
+  #   Note: This standard specifies that messages are made up of characters
+  #   in the US-ASCII range of 1 through 127.  There are other documents,
+  #   specifically the MIME document series [RFC2045, RFC2046, RFC2047,
+  #   RFC2048, RFC2049], that extend this standard to allow for values
+  #   outside of that range.  Discussion of those mechanisms is not within
+  #   the scope of this standard.
+  #
+  #   Messages are divided into lines of characters.  A line is a series of
+  #   characters that is delimited with the two characters carriage-return
+  #   and line-feed; that is, the carriage return (CR) character (ASCII
+  #   value 13) followed immediately by the line feed (LF) character (ASCII
+  #   value 10).  (The carriage-return/line-feed pair is usually written in
+  #   this document as "CRLF".)
+  #
+  #   A message consists of header fields (collectively called "the header
+  #   of the message") followed, optionally, by a body.  The header is a
+  #   sequence of lines of characters with special syntax as defined in
+  #   this standard. The body is simply a sequence of characters that
+  #   follows the header and is separated from the header by an empty line
+  #   (i.e., a line with nothing preceding the CRLF).
+  class Message
+    # ==Making an email
+    #
+    # You can make an new mail object via a block, passing a string, file or direct assignment.
+    #
+    # ===Making an email via a block
+    #
+    #  mail = Mail.new do |m|
+    #    m.from 'mikel@test.lindsaar.net'
+    #    m.to 'you@test.lindsaar.net'
+    #    m.subject 'This is a test email'
+    #    m.body File.read('body.txt')
+    #  end
+    #
+    #  mail.to_s #=> "From: mikel@test.lindsaar.net\r\nTo: you@...
+    #
+    # If may also pass a block with no arguments, in which case it will
+    # be evaluated in the scope of the new message instance:
+    #
+    #  mail = Mail.new do
+    #    from 'mikel@test.lindsaar.net'
+    #    # …
+    #  end
+    #
+    # ===Making an email via passing a string
+    #
+    #  mail = Mail.new("To: mikel@test.lindsaar.net\r\nSubject: Hello\r\n\r\nHi there!")
+    #  mail.body.to_s #=> 'Hi there!'
+    #  mail.subject   #=> 'Hello'
+    #  mail.to        #=> 'mikel@test.lindsaar.net'
+    #
+    # ===Making an email from a file
+    #
+    #  mail = Mail.read('path/to/file.eml')
+    #  mail.body.to_s #=> 'Hi there!'
+    #  mail.subject   #=> 'Hello'
+    #  mail.to        #=> 'mikel@test.lindsaar.net'
+    #
+    # ===Making an email via assignment
+    #
+    # You can assign values to a mail object via four approaches:
+    #
+    # * Message#field_name=(value)
+    # * Message#field_name(value)
+    # * Message#['field_name']=(value)
+    # * Message#[:field_name]=(value)
+    #
+    # Examples:
+    #
+    #  mail = Mail.new
+    #  mail['from'] = 'mikel@test.lindsaar.net'
+    #  mail[:to]    = 'you@test.lindsaar.net'
+    #  mail.subject 'This is a test email'
+    #  mail.body    = 'This is a body'
+    #
+    #  mail.to_s #=> "From: mikel@test.lindsaar.net\r\nTo: you@...
+    #
+    def initialize: (*untyped args) { (untyped) -> untyped } -> void
+
+    # If you assign a delivery handler, mail will call :deliver_mail on the
+    # object you assign to delivery_handler, it will pass itself as the
+    # single argument.
+    #
+    # If you define a delivery_handler, then you are responsible for the
+    # following actions in the delivery cycle:
+    #
+    # * Appending the mail object to Mail.deliveries as you see fit.
+    # * Checking the mail.perform_deliveries flag to decide if you should
+    #   actually call :deliver! the mail object or not.
+    # * Checking the mail.raise_delivery_errors flag to decide if you
+    #   should raise delivery errors if they occur.
+    # * Actually calling :deliver! (with the bang) on the mail object to
+    #   get it to deliver itself.
+    #
+    # A simplest implementation of a delivery_handler would be
+    #
+    #   class MyObject
+    #
+    #     def initialize
+    #       @mail = Mail.new('To: mikel@test.lindsaar.net')
+    #       @mail.delivery_handler = self
+    #     end
+    #
+    #     attr_accessor :mail
+    #
+    #     def deliver_mail(mail)
+    #       yield
+    #     end
+    #   end
+    #
+    # Then doing:
+    #
+    #   obj = MyObject.new
+    #   obj.mail.deliver
+    #
+    # Would cause Mail to call obj.deliver_mail passing itself as a parameter,
+    # which then can just yield and let Mail do its own private do_delivery
+    # method.
+    attr_accessor delivery_handler: untyped
+
+    # If set to false, mail will go through the motions of doing a delivery,
+    # but not actually call the delivery method or append the mail object to
+    # the Mail.deliveries collection.  Useful for testing.
+    #
+    #   Mail.deliveries.size #=> 0
+    #   mail.delivery_method :smtp
+    #   mail.perform_deliveries = false
+    #   mail.deliver                        # Mail::SMTP not called here
+    #   Mail.deliveries.size #=> 0
+    #
+    # If you want to test and query the Mail.deliveries collection to see what
+    # mail you sent, you should set perform_deliveries to true and use
+    # the :test mail delivery_method:
+    #
+    #   Mail.deliveries.size #=> 0
+    #   mail.delivery_method :test
+    #   mail.perform_deliveries = true
+    #   mail.deliver
+    #   Mail.deliveries.size #=> 1
+    #
+    # This setting is ignored by mail (though still available as a flag) if you
+    # define a delivery_handler
+    attr_accessor perform_deliveries: untyped
+
+    # If set to false, mail will silently catch and ignore any exceptions
+    # raised through attempting to deliver an email.
+    #
+    # This setting is ignored by mail (though still available as a flag) if you
+    # define a delivery_handler
+    attr_accessor raise_delivery_errors: untyped
+
+    def self.default_charset: () -> untyped
+
+    def self.default_charset=: (untyped charset) -> untyped
+
+    def inform_observers: () -> untyped
+
+    def inform_interceptors: () -> untyped
+
+    # Delivers a mail object.
+    #
+    # Examples:
+    #
+    #  mail = Mail.read('file.eml')
+    #  mail.deliver
+    def deliver: () -> self
+
+    # This method bypasses checking perform_deliveries and raise_delivery_errors,
+    # so use with caution.
+    #
+    # It still however fires off the interceptors and calls the observers callbacks if they are defined.
+    #
+    # Returns self
+    def deliver!: () -> untyped
+
+    def delivery_method: (?untyped? method, ?::Hash[untyped, untyped] settings) -> untyped
+
+    def reply: (*untyped args) ?{ () -> untyped } -> untyped
+
+    # Provides the operator needed for sort et al.
+    #
+    # Compares this mail object with another mail object, this is done by date, so an
+    # email that is older than another will appear first.
+    #
+    # Example:
+    #
+    #  mail1 = Mail.new do
+    #    date(Time.now)
+    #  end
+    #  mail2 = Mail.new do
+    #    date(Time.now - 86400) # 1 day older
+    #  end
+    #  [mail2, mail1].sort #=> [mail2, mail1]
+    def <=>: (untyped other) -> (1 | untyped)
+
+    # Two emails are the same if they have the same fields and body contents. One
+    # gotcha here is that Mail will insert Message-IDs when calling encoded, so doing
+    # mail1.encoded == mail2.encoded is most probably not going to return what you think
+    # as the assigned Message-IDs by Mail (if not already defined as the same) will ensure
+    # that the two objects are unique, and this comparison will ALWAYS return false.
+    #
+    # So the == operator has been defined like so:  Two messages are the same if they have
+    # the same content, ignoring the Message-ID field, unless BOTH emails have a defined and
+    # different Message-ID value, then they are false.
+    #
+    # So, in practice the == operator works like this:
+    #
+    #  m1 = Mail.new("Subject: Hello\r\n\r\nHello")
+    #  m2 = Mail.new("Subject: Hello\r\n\r\nHello")
+    #  m1 == m2 #=> true
+    #
+    #  m1 = Mail.new("Subject: Hello\r\n\r\nHello")
+    #  m2 = Mail.new("Message-ID: <1234@test>\r\nSubject: Hello\r\n\r\nHello")
+    #  m1 == m2 #=> true
+    #
+    #  m1 = Mail.new("Message-ID: <1234@test>\r\nSubject: Hello\r\n\r\nHello")
+    #  m2 = Mail.new("Subject: Hello\r\n\r\nHello")
+    #  m1 == m2 #=> true
+    #
+    #  m1 = Mail.new("Message-ID: <1234@test>\r\nSubject: Hello\r\n\r\nHello")
+    #  m2 = Mail.new("Message-ID: <1234@test>\r\nSubject: Hello\r\n\r\nHello")
+    #  m1 == m2 #=> true
+    #
+    #  m1 = Mail.new("Message-ID: <1234@test>\r\nSubject: Hello\r\n\r\nHello")
+    #  m2 = Mail.new("Message-ID: <DIFFERENT@test>\r\nSubject: Hello\r\n\r\nHello")
+    #  m1 == m2 #=> false
+    def ==: (untyped other) -> (false | untyped)
+
+    def initialize_copy: (untyped original) -> untyped
+
+    # Provides access to the raw source of the message as it was when it
+    # was instantiated. This is set at initialization and so is untouched
+    # by the parsers or decoder / encoders
+    #
+    # Example:
+    #
+    #  mail = Mail.new('This is an invalid email message')
+    #  mail.raw_source #=> "This is an invalid email message"
+    def raw_source: () -> untyped
+
+    # Sets the envelope from for the email
+    def set_envelope: (untyped val) -> untyped
+
+    # The raw_envelope is the From mikel@test.lindsaar.net Mon May  2 16:07:05 2009
+    # type field that you can see at the top of any email that has come
+    # from a mailbox
+    def raw_envelope: () -> untyped
+
+    def envelope_from: () -> (untyped | nil)
+
+    def envelope_date: () -> (untyped | nil)
+
+    # Sets the header of the message object.
+    #
+    # Example:
+    #
+    #  mail.header = 'To: mikel@test.lindsaar.net\r\nFrom: Bob@bob.com'
+    #  mail.header #=> <#Mail::Header
+    def header=: (untyped value) -> untyped
+
+    # Returns the header object of the message object. Or, if passed
+    # a parameter sets the value.
+    #
+    # Example:
+    #
+    #  mail = Mail::Message.new('To: mikel\r\nFrom: you')
+    #  mail.header #=> #<Mail::Header:0x13ce14 @raw_source="To: mikel\r\nFr...
+    #
+    #  mail.header #=> nil
+    #  mail.header 'To: mikel\r\nFrom: you'
+    #  mail.header #=> #<Mail::Header:0x13ce14 @raw_source="To: mikel\r\nFr...
+    def header: (?untyped? value) -> untyped
+
+    # Provides a way to set custom headers, by passing in a hash
+    def headers: (?::Hash[untyped, untyped] hash) -> untyped
+
+    # Returns a list of parser errors on the header, each field that had an error
+    # will be reparsed as an unstructured field to preserve the data inside, but
+    # will not be used for further processing.
+    #
+    # It returns a nested array of [field_name, value, original_error_message]
+    # per error found.
+    #
+    # Example:
+    #
+    #  message = Mail.new("Content-Transfer-Encoding: weirdo\r\n")
+    #  message.errors.size #=> 1
+    #  message.errors.first[0] #=> "Content-Transfer-Encoding"
+    #  message.errors.first[1] #=> "weirdo"
+    #  message.errors.first[3] #=> <The original error message exception>
+    #
+    # This is a good first defence on detecting spam by the way.  Some spammers send
+    # invalid emails to try and get email parsers to give up parsing them.
+    def errors: () -> untyped
+
+    # Returns the Bcc value of the mail object as an array of strings of
+    # address specs.
+    #
+    # Example:
+    #
+    #  mail.bcc = 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.bcc #=> ['mikel@test.lindsaar.net']
+    #  mail.bcc = 'Mikel <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+    #  mail.bcc #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+    #
+    # Also allows you to set the value by passing a value as a parameter
+    #
+    # Example:
+    #
+    #  mail.bcc 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.bcc #=> ['mikel@test.lindsaar.net']
+    #
+    # Additionally, you can append new addresses to the returned Array like
+    # object.
+    #
+    # Example:
+    #
+    #  mail.bcc 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.bcc << 'ada@test.lindsaar.net'
+    #  mail.bcc #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+    def bcc: (?untyped? val) -> untyped
+
+    # Sets the Bcc value of the mail object, pass in a string of the field
+    #
+    # Example:
+    #
+    #  mail.bcc = 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.bcc #=> ['mikel@test.lindsaar.net']
+    #  mail.bcc = 'Mikel <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+    #  mail.bcc #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+    def bcc=: (untyped val) -> untyped
+
+    # Returns the Cc value of the mail object as an array of strings of
+    # address specs.
+    #
+    # Example:
+    #
+    #  mail.cc = 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.cc #=> ['mikel@test.lindsaar.net']
+    #  mail.cc = 'Mikel <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+    #  mail.cc #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+    #
+    # Also allows you to set the value by passing a value as a parameter
+    #
+    # Example:
+    #
+    #  mail.cc 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.cc #=> ['mikel@test.lindsaar.net']
+    #
+    # Additionally, you can append new addresses to the returned Array like
+    # object.
+    #
+    # Example:
+    #
+    #  mail.cc 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.cc << 'ada@test.lindsaar.net'
+    #  mail.cc #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+    def cc: (?untyped? val) -> untyped
+
+    # Sets the Cc value of the mail object, pass in a string of the field
+    #
+    # Example:
+    #
+    #  mail.cc = 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.cc #=> ['mikel@test.lindsaar.net']
+    #  mail.cc = 'Mikel <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+    #  mail.cc #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+    def cc=: (untyped val) -> untyped
+
+    def comments: (?untyped? val) -> untyped
+
+    def comments=: (untyped val) -> untyped
+
+    def content_description: (?untyped? val) -> untyped
+
+    def content_description=: (untyped val) -> untyped
+
+    def content_disposition: (?untyped? val) -> untyped
+
+    def content_disposition=: (untyped val) -> untyped
+
+    def content_id: (?untyped? val) -> untyped
+
+    def content_id=: (untyped val) -> untyped
+
+    def content_location: (?untyped? val) -> untyped
+
+    def content_location=: (untyped val) -> untyped
+
+    def content_transfer_encoding: (?untyped? val) -> untyped
+
+    def content_transfer_encoding=: (untyped val) -> untyped
+
+    def content_type: (?untyped? val) -> untyped
+
+    def content_type=: (untyped val) -> untyped
+
+    def date: (?untyped? val) -> untyped
+
+    def date=: (untyped val) -> untyped
+
+    def transport_encoding: (?untyped? val) -> untyped
+
+    def transport_encoding=: (untyped val) -> untyped
+
+    # Returns the From value of the mail object as an array of strings of
+    # address specs.
+    #
+    # Example:
+    #
+    #  mail.from = 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.from #=> ['mikel@test.lindsaar.net']
+    #  mail.from = 'Mikel <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+    #  mail.from #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+    #
+    # Also allows you to set the value by passing a value as a parameter
+    #
+    # Example:
+    #
+    #  mail.from 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.from #=> ['mikel@test.lindsaar.net']
+    #
+    # Additionally, you can append new addresses to the returned Array like
+    # object.
+    #
+    # Example:
+    #
+    #  mail.from 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.from << 'ada@test.lindsaar.net'
+    #  mail.from #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+    def from: (?untyped? val) -> untyped
+
+    # Sets the From value of the mail object, pass in a string of the field
+    #
+    # Example:
+    #
+    #  mail.from = 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.from #=> ['mikel@test.lindsaar.net']
+    #  mail.from = 'Mikel <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+    #  mail.from #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+    def from=: (untyped val) -> untyped
+
+    def in_reply_to: (?untyped? val) -> untyped
+
+    def in_reply_to=: (untyped val) -> untyped
+
+    def keywords: (?untyped? val) -> untyped
+
+    def keywords=: (untyped val) -> untyped
+
+    # Returns the Message-ID of the mail object.  Note, per RFC 2822 the Message ID
+    # consists of what is INSIDE the < > usually seen in the mail header, so this method
+    # will return only what is inside.
+    #
+    # Example:
+    #
+    #  mail.message_id = '<1234@message.id>'
+    #  mail.message_id #=> '1234@message.id'
+    #
+    # Also allows you to set the Message-ID by passing a string as a parameter
+    #
+    #  mail.message_id '<1234@message.id>'
+    #  mail.message_id #=> '1234@message.id'
+    def message_id: (?untyped? val) -> untyped
+
+    # Sets the Message-ID. Note, per RFC 2822 the Message ID consists of what is INSIDE
+    # the < > usually seen in the mail header, so this method will return only what is inside.
+    #
+    #  mail.message_id = '<1234@message.id>'
+    #  mail.message_id #=> '1234@message.id'
+    def message_id=: (untyped val) -> untyped
+
+    # Returns the MIME version of the email as a string
+    #
+    # Example:
+    #
+    #  mail.mime_version = '1.0'
+    #  mail.mime_version #=> '1.0'
+    #
+    # Also allows you to set the MIME version by passing a string as a parameter.
+    #
+    # Example:
+    #
+    #  mail.mime_version '1.0'
+    #  mail.mime_version #=> '1.0'
+    def mime_version: (?untyped? val) -> untyped
+
+    # Sets the MIME version of the email by accepting a string
+    #
+    # Example:
+    #
+    #  mail.mime_version = '1.0'
+    #  mail.mime_version #=> '1.0'
+    def mime_version=: (untyped val) -> untyped
+
+    def received: (?untyped? val) -> untyped
+
+    def received=: (untyped val) -> untyped
+
+    def references: (?untyped? val) -> untyped
+
+    def references=: (untyped val) -> untyped
+
+    # Returns the Reply-To value of the mail object as an array of strings of
+    # address specs.
+    #
+    # Example:
+    #
+    #  mail.reply_to = 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.reply_to #=> ['mikel@test.lindsaar.net']
+    #  mail.reply_to = 'Mikel <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+    #  mail.reply_to #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+    #
+    # Also allows you to set the value by passing a value as a parameter
+    #
+    # Example:
+    #
+    #  mail.reply_to 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.reply_to #=> ['mikel@test.lindsaar.net']
+    #
+    # Additionally, you can append new addresses to the returned Array like
+    # object.
+    #
+    # Example:
+    #
+    #  mail.reply_to 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.reply_to << 'ada@test.lindsaar.net'
+    #  mail.reply_to #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+    def reply_to: (?untyped? val) -> untyped
+
+    # Sets the Reply-To value of the mail object, pass in a string of the field
+    #
+    # Example:
+    #
+    #  mail.reply_to = 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.reply_to #=> ['mikel@test.lindsaar.net']
+    #  mail.reply_to = 'Mikel <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+    #  mail.reply_to #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+    def reply_to=: (untyped val) -> untyped
+
+    # Returns the Resent-Bcc value of the mail object as an array of strings of
+    # address specs.
+    #
+    # Example:
+    #
+    #  mail.resent_bcc = 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.resent_bcc #=> ['mikel@test.lindsaar.net']
+    #  mail.resent_bcc = 'Mikel <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+    #  mail.resent_bcc #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+    #
+    # Also allows you to set the value by passing a value as a parameter
+    #
+    # Example:
+    #
+    #  mail.resent_bcc 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.resent_bcc #=> ['mikel@test.lindsaar.net']
+    #
+    # Additionally, you can append new addresses to the returned Array like
+    # object.
+    #
+    # Example:
+    #
+    #  mail.resent_bcc 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.resent_bcc << 'ada@test.lindsaar.net'
+    #  mail.resent_bcc #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+    def resent_bcc: (?untyped? val) -> untyped
+
+    # Sets the Resent-Bcc value of the mail object, pass in a string of the field
+    #
+    # Example:
+    #
+    #  mail.resent_bcc = 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.resent_bcc #=> ['mikel@test.lindsaar.net']
+    #  mail.resent_bcc = 'Mikel <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+    #  mail.resent_bcc #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+    def resent_bcc=: (untyped val) -> untyped
+
+    # Returns the Resent-Cc value of the mail object as an array of strings of
+    # address specs.
+    #
+    # Example:
+    #
+    #  mail.resent_cc = 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.resent_cc #=> ['mikel@test.lindsaar.net']
+    #  mail.resent_cc = 'Mikel <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+    #  mail.resent_cc #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+    #
+    # Also allows you to set the value by passing a value as a parameter
+    #
+    # Example:
+    #
+    #  mail.resent_cc 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.resent_cc #=> ['mikel@test.lindsaar.net']
+    #
+    # Additionally, you can append new addresses to the returned Array like
+    # object.
+    #
+    # Example:
+    #
+    #  mail.resent_cc 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.resent_cc << 'ada@test.lindsaar.net'
+    #  mail.resent_cc #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+    def resent_cc: (?untyped? val) -> untyped
+
+    # Sets the Resent-Cc value of the mail object, pass in a string of the field
+    #
+    # Example:
+    #
+    #  mail.resent_cc = 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.resent_cc #=> ['mikel@test.lindsaar.net']
+    #  mail.resent_cc = 'Mikel <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+    #  mail.resent_cc #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+    def resent_cc=: (untyped val) -> untyped
+
+    def resent_date: (?untyped? val) -> untyped
+
+    def resent_date=: (untyped val) -> untyped
+
+    # Returns the Resent-From value of the mail object as an array of strings of
+    # address specs.
+    #
+    # Example:
+    #
+    #  mail.resent_from = 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.resent_from #=> ['mikel@test.lindsaar.net']
+    #  mail.resent_from = 'Mikel <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+    #  mail.resent_from #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+    #
+    # Also allows you to set the value by passing a value as a parameter
+    #
+    # Example:
+    #
+    #  mail.resent_from ['Mikel <mikel@test.lindsaar.net>']
+    #  mail.resent_from #=> 'mikel@test.lindsaar.net'
+    #
+    # Additionally, you can append new addresses to the returned Array like
+    # object.
+    #
+    # Example:
+    #
+    #  mail.resent_from 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.resent_from << 'ada@test.lindsaar.net'
+    #  mail.resent_from #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+    def resent_from: (?untyped? val) -> untyped
+
+    # Sets the Resent-From value of the mail object, pass in a string of the field
+    #
+    # Example:
+    #
+    #  mail.resent_from = 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.resent_from #=> ['mikel@test.lindsaar.net']
+    #  mail.resent_from = 'Mikel <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+    #  mail.resent_from #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+    def resent_from=: (untyped val) -> untyped
+
+    def resent_message_id: (?untyped? val) -> untyped
+
+    def resent_message_id=: (untyped val) -> untyped
+
+    # Returns the Resent-Sender value of the mail object, as a single string of an address
+    # spec.  A sender per RFC 2822 must be a single address, so you can not append to
+    # this address.
+    #
+    # Example:
+    #
+    #  mail.resent_sender = 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.resent_sender #=> 'mikel@test.lindsaar.net'
+    #
+    # Also allows you to set the value by passing a value as a parameter
+    #
+    # Example:
+    #
+    #  mail.resent_sender 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.resent_sender #=> 'mikel@test.lindsaar.net'
+    def resent_sender: (?untyped? val) -> untyped
+
+    # Sets the Resent-Sender value of the mail object, pass in a string of the field
+    #
+    # Example:
+    #
+    #  mail.resent_sender = 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.resent_sender #=> 'mikel@test.lindsaar.net'
+    def resent_sender=: (untyped val) -> untyped
+
+    # Returns the Resent-To value of the mail object as an array of strings of
+    # address specs.
+    #
+    # Example:
+    #
+    #  mail.resent_to = 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.resent_to #=> ['mikel@test.lindsaar.net']
+    #  mail.resent_to = 'Mikel <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+    #  mail.resent_to #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+    #
+    # Also allows you to set the value by passing a value as a parameter
+    #
+    # Example:
+    #
+    #  mail.resent_to 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.resent_to #=> ['mikel@test.lindsaar.net']
+    #
+    # Additionally, you can append new addresses to the returned Array like
+    # object.
+    #
+    # Example:
+    #
+    #  mail.resent_to 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.resent_to << 'ada@test.lindsaar.net'
+    #  mail.resent_to #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+    def resent_to: (?untyped? val) -> untyped
+
+    # Sets the Resent-To value of the mail object, pass in a string of the field
+    #
+    # Example:
+    #
+    #  mail.resent_to = 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.resent_to #=> ['mikel@test.lindsaar.net']
+    #  mail.resent_to = 'Mikel <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+    #  mail.resent_to #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+    def resent_to=: (untyped val) -> untyped
+
+    # Returns the return path of the mail object, or sets it if you pass a string
+    def return_path: (?untyped? val) -> untyped
+
+    # Sets the return path of the object
+    def return_path=: (untyped val) -> untyped
+
+    # Returns the Sender value of the mail object, as a single string of an address
+    # spec.  A sender per RFC 2822 must be a single address.
+    #
+    # Example:
+    #
+    #  mail.sender = 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.sender #=> 'mikel@test.lindsaar.net'
+    #
+    # Also allows you to set the value by passing a value as a parameter
+    #
+    # Example:
+    #
+    #  mail.sender 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.sender #=> 'mikel@test.lindsaar.net'
+    def sender: (?untyped? val) -> untyped
+
+    # Sets the Sender value of the mail object, pass in a string of the field
+    #
+    # Example:
+    #
+    #  mail.sender = 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.sender #=> 'mikel@test.lindsaar.net'
+    def sender=: (untyped val) -> untyped
+
+    # Returns the SMTP Envelope From value of the mail object, as a single
+    # string of an address spec.
+    #
+    # Defaults to Return-Path, Sender, or the first From address.
+    #
+    # Example:
+    #
+    #  mail.smtp_envelope_from = 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.smtp_envelope_from #=> 'mikel@test.lindsaar.net'
+    #
+    # Also allows you to set the value by passing a value as a parameter
+    #
+    # Example:
+    #
+    #  mail.smtp_envelope_from 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.smtp_envelope_from #=> 'mikel@test.lindsaar.net'
+    def smtp_envelope_from: (?untyped? val) -> untyped
+
+    # Sets the From address on the SMTP Envelope.
+    #
+    # Example:
+    #
+    #  mail.smtp_envelope_from = 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.smtp_envelope_from #=> 'mikel@test.lindsaar.net'
+    def smtp_envelope_from=: (untyped val) -> untyped
+
+    # Returns the SMTP Envelope To value of the mail object.
+    #
+    # Defaults to #destinations: To, Cc, and Bcc addresses.
+    #
+    # Example:
+    #
+    #  mail.smtp_envelope_to = 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.smtp_envelope_to #=> 'mikel@test.lindsaar.net'
+    #
+    # Also allows you to set the value by passing a value as a parameter
+    #
+    # Example:
+    #
+    #  mail.smtp_envelope_to ['Mikel <mikel@test.lindsaar.net>', 'Lindsaar <lindsaar@test.lindsaar.net>']
+    #  mail.smtp_envelope_to #=> ['mikel@test.lindsaar.net', 'lindsaar@test.lindsaar.net']
+    def smtp_envelope_to: (?untyped? val) -> untyped
+
+    # Sets the To addresses on the SMTP Envelope.
+    #
+    # Example:
+    #
+    #  mail.smtp_envelope_to = 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.smtp_envelope_to #=> 'mikel@test.lindsaar.net'
+    #
+    #  mail.smtp_envelope_to = ['Mikel <mikel@test.lindsaar.net>', 'Lindsaar <lindsaar@test.lindsaar.net>']
+    #  mail.smtp_envelope_to #=> ['mikel@test.lindsaar.net', 'lindsaar@test.lindsaar.net']
+    def smtp_envelope_to=: (untyped val) -> untyped
+
+    # Returns the decoded value of the subject field, as a single string.
+    #
+    # Example:
+    #
+    #  mail.subject = "G'Day mate"
+    #  mail.subject #=> "G'Day mate"
+    #  mail.subject = '=?UTF-8?Q?This_is_=E3=81=82_string?='
+    #  mail.subject #=> "This is あ string"
+    #
+    # Also allows you to set the value by passing a value as a parameter
+    #
+    # Example:
+    #
+    #  mail.subject "G'Day mate"
+    #  mail.subject #=> "G'Day mate"
+    def subject: (?untyped? val) -> untyped
+
+    # Sets the Subject value of the mail object, pass in a string of the field
+    #
+    # Example:
+    #
+    #  mail.subject = '=?UTF-8?Q?This_is_=E3=81=82_string?='
+    #  mail.subject #=> "This is あ string"
+    def subject=: (untyped val) -> untyped
+
+    # Returns the To value of the mail object as an array of strings of
+    # address specs.
+    #
+    # Example:
+    #
+    #  mail.to = 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.to #=> ['mikel@test.lindsaar.net']
+    #  mail.to = 'Mikel <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+    #  mail.to #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+    #
+    # Also allows you to set the value by passing a value as a parameter
+    #
+    # Example:
+    #
+    #  mail.to 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.to #=> ['mikel@test.lindsaar.net']
+    #
+    # Additionally, you can append new addresses to the returned Array like
+    # object.
+    #
+    # Example:
+    #
+    #  mail.to 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.to << 'ada@test.lindsaar.net'
+    #  mail.to #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+    def to: (?untyped? val) -> untyped
+
+    # Sets the To value of the mail object, pass in a string of the field
+    #
+    # Example:
+    #
+    #  mail.to = 'Mikel <mikel@test.lindsaar.net>'
+    #  mail.to #=> ['mikel@test.lindsaar.net']
+    #  mail.to = 'Mikel <mikel@test.lindsaar.net>, ada@test.lindsaar.net'
+    #  mail.to #=> ['mikel@test.lindsaar.net', 'ada@test.lindsaar.net']
+    def to=: (untyped val) -> untyped
+
+    # Returns the default value of the field requested as a symbol.
+    #
+    # Each header field has a :default method which returns the most common use case for
+    # that field, for example, the date field types will return a DateTime object when
+    # sent :default, the subject, or unstructured fields will return a decoded string of
+    # their value, the address field types will return a single addr_spec or an array of
+    # addr_specs if there is more than one.
+    def default: (untyped sym, ?untyped? val) -> (untyped | untyped | nil)
+
+    # Sets the body object of the message object.
+    #
+    # Example:
+    #
+    #  mail.body = 'This is the body'
+    #  mail.body #=> #<Mail::Body:0x13919c @raw_source="This is the bo...
+    #
+    # You can also reset the body of an Message object by setting body to nil
+    #
+    # Example:
+    #
+    #  mail.body = 'this is the body'
+    #  mail.body.encoded #=> 'this is the body'
+    #  mail.body = nil
+    #  mail.body.encoded #=> ''
+    #
+    # If you try and set the body of an email that is a multipart email, then instead
+    # of deleting all the parts of your email, mail will add a text/plain part to
+    # your email:
+    #
+    #  mail.add_file 'somefilename.png'
+    #  mail.parts.length #=> 1
+    #  mail.body = "This is a body"
+    #  mail.parts.length #=> 2
+    #  mail.parts.last.content_type.content_type #=> 'This is a body'
+    def body=: (untyped value) -> untyped
+
+    # Returns the body of the message object. Or, if passed
+    # a parameter sets the value.
+    #
+    # Example:
+    #
+    #  mail = Mail::Message.new('To: mikel\r\n\r\nThis is the body')
+    #  mail.body #=> #<Mail::Body:0x13919c @raw_source="This is the bo...
+    #
+    #  mail.body 'This is another body'
+    #  mail.body #=> #<Mail::Body:0x13919c @raw_source="This is anothe...
+    def body: (?untyped? value) -> untyped
+
+    def body_encoding: (?untyped? value) -> untyped
+
+    def body_encoding=: (untyped value) -> untyped
+
+    # Returns the list of addresses this message should be sent to by
+    # collecting the addresses off the to, cc and bcc fields.
+    #
+    # Example:
+    #
+    #  mail.to = 'mikel@test.lindsaar.net'
+    #  mail.cc = 'sam@test.lindsaar.net'
+    #  mail.bcc = 'bob@test.lindsaar.net'
+    #  mail.destinations.length #=> 3
+    #  mail.destinations.first #=> 'mikel@test.lindsaar.net'
+    def destinations: () -> untyped
+
+    # Returns an array of addresses (the encoded value) in the From field,
+    # if no From field, returns an empty array
+    def from_addrs: () -> (untyped | ::Array[untyped])
+
+    # Returns an array of addresses (the encoded value) in the To field,
+    # if no To field, returns an empty array
+    def to_addrs: () -> (untyped | ::Array[untyped])
+
+    # Returns an array of addresses (the encoded value) in the Cc field,
+    # if no Cc field, returns an empty array
+    def cc_addrs: () -> (untyped | ::Array[untyped])
+
+    # Returns an array of addresses (the encoded value) in the Bcc field,
+    # if no Bcc field, returns an empty array
+    def bcc_addrs: () -> (untyped | ::Array[untyped])
+
+    # Allows you to add an arbitrary header
+    #
+    # Example:
+    #
+    #  mail['foo'] = '1234'
+    #  mail['foo'].to_s #=> '1234'
+    def []=: (untyped name, untyped value) -> untyped
+
+    # Allows you to read an arbitrary header
+    #
+    # Example:
+    #
+    #  mail['foo'] = '1234'
+    #  mail['foo'].to_s #=> '1234'
+    def []: (untyped name) -> untyped
+
+    # Method Missing in this implementation allows you to set any of the
+    # standard fields directly as you would the "to", "subject" etc.
+    #
+    # Those fields used most often (to, subject et al) are given their
+    # own method for ease of documentation and also to avoid the hook
+    # call to method missing.
+    #
+    # This will only catch the known fields listed in:
+    #
+    #  Mail::Field::KNOWN_FIELDS
+    #
+    # as per RFC 2822, any ruby string or method name could pretty much
+    # be a field name, so we don't want to just catch ANYTHING sent to
+    # a message object and interpret it as a header.
+    #
+    # This method provides all three types of header call to set, read
+    # and explicitly set with the = operator
+    #
+    # Examples:
+    #
+    #  mail.comments = 'These are some comments'
+    #  mail.comments #=> 'These are some comments'
+    #
+    #  mail.comments 'These are other comments'
+    #  mail.comments #=> 'These are other comments'
+    #
+    #
+    #  mail.date = 'Tue, 1 Jul 2003 10:52:37 +0200'
+    #  mail.date.to_s #=> 'Tue, 1 Jul 2003 10:52:37 +0200'
+    #
+    #  mail.date 'Tue, 1 Jul 2003 10:52:37 +0200'
+    #  mail.date.to_s #=> 'Tue, 1 Jul 2003 10:52:37 +0200'
+    #
+    #
+    #  mail.resent_msg_id = '<1234@resent_msg_id.lindsaar.net>'
+    #  mail.resent_msg_id #=> '<1234@resent_msg_id.lindsaar.net>'
+    #
+    #  mail.resent_msg_id '<4567@resent_msg_id.lindsaar.net>'
+    #  mail.resent_msg_id #=> '<4567@resent_msg_id.lindsaar.net>'
+    def method_missing: (untyped name, *untyped args) ?{ () -> untyped } -> untyped
+
+    # Returns an FieldList of all the fields in the header in the order that
+    # they appear in the header
+    def header_fields: () -> untyped
+
+    # Returns true if the message has a message ID field, the field may or may
+    # not have a value, but the field exists or not.
+    def has_message_id?: () -> untyped
+
+    # Returns true if the message has a Date field, the field may or may
+    # not have a value, but the field exists or not.
+    def has_date?: () -> untyped
+
+    # Returns true if the message has a Mime-Version field, the field may or may
+    # not have a value, but the field exists or not.
+    def has_mime_version?: () -> untyped
+
+    def has_content_type?: () -> untyped
+
+    def has_charset?: () -> untyped
+
+    def has_content_transfer_encoding?: () -> untyped
+
+    # Creates a new empty Message-ID field and inserts it in the correct order
+    # into the Header.  The MessageIdField object will automatically generate
+    # a unique message ID if you try and encode it or output it to_s without
+    # specifying a message id.
+    #
+    # It will preserve the message ID you specify if you do.
+    def add_message_id: (?::String msg_id_val) -> untyped
+
+    # Creates a new empty Date field and inserts it in the correct order
+    # into the Header.  The DateField object will automatically generate
+    # DateTime.now's date if you try and encode it or output it to_s without
+    # specifying a date yourself.
+    #
+    # It will preserve any date you specify if you do.
+    def add_date: (?::String date_val) -> untyped
+
+    # Creates a new empty Mime Version field and inserts it in the correct order
+    # into the Header.  The MimeVersion object will automatically generate
+    # set itself to '1.0' if you try and encode it or output it to_s without
+    # specifying a version yourself.
+    #
+    # It will preserve any date you specify if you do.
+    def add_mime_version: (?::String ver_val) -> untyped
+
+    # Adds a content type and charset if the body is US-ASCII
+    #
+    # Otherwise raises a warning
+    def add_content_type: () -> untyped
+
+    # Adds a content type and charset if the body is US-ASCII
+    #
+    # Otherwise raises a warning
+    def add_charset: () -> (untyped | nil)
+
+    # Adds a content transfer encoding
+    def add_content_transfer_encoding: () -> untyped
+
+    # Returns the MIME media type of part we are on, this is taken from the content-type header
+    def mime_type: () -> untyped
+
+    # Returns the character set defined in the content type field
+    def charset: () -> untyped
+
+    # Sets the charset to the supplied value.
+    def charset=: (untyped value) -> untyped
+
+    # Returns the main content type
+    def main_type: () -> untyped
+
+    # Returns the sub content type
+    def sub_type: () -> untyped
+
+    # Returns the content type parameters
+    def content_type_parameters: () -> untyped
+
+    # Returns true if the message is multipart
+    def multipart?: () -> (untyped | false)
+
+    # Returns true if the message is a multipart/report
+    def multipart_report?: () -> untyped
+
+    # Returns true if the message is a multipart/report; report-type=delivery-status;
+    def delivery_status_report?: () -> untyped
+
+    # returns the part in a multipart/report email that has the content-type delivery-status
+    def delivery_status_part: () -> untyped
+
+    def bounced?: () -> untyped
+
+    def action: () -> untyped
+
+    def final_recipient: () -> untyped
+
+    def error_status: () -> untyped
+
+    def diagnostic_code: () -> untyped
+
+    def remote_mta: () -> untyped
+
+    def retryable?: () -> untyped
+
+    # Returns the current boundary for this message part
+    def boundary: () -> (untyped | nil)
+
+    # Returns a parts list object of all the parts in the message
+    def parts: () -> untyped
+
+    # Returns an AttachmentsList object, which holds all of the attachments in
+    # the receiver object (either the entire email or a part within) and all
+    # of its descendants.
+    #
+    # It also allows you to add attachments to the mail object directly, like so:
+    #
+    #  mail.attachments['filename.jpg'] = File.read('/path/to/filename.jpg')
+    #
+    # If you do this, then Mail will take the file name and work out the MIME media type
+    # set the Content-Type, Content-Disposition, Content-Transfer-Encoding and
+    # base64 encode the contents of the attachment all for you.
+    #
+    # You can also specify overrides if you want by passing a hash instead of a string:
+    #
+    #  mail.attachments['filename.jpg'] = {:mime_type => 'application/x-gzip',
+    #                                      :content => File.read('/path/to/filename.jpg')}
+    #
+    # If you want to use a different encoding than Base64, you can pass an encoding in,
+    # but then it is up to you to pass in the content pre-encoded, and don't expect
+    # Mail to know how to decode this data:
+    #
+    #  file_content = SpecialEncode(File.read('/path/to/filename.jpg'))
+    #  mail.attachments['filename.jpg'] = {:mime_type => 'application/x-gzip',
+    #                                      :encoding => 'SpecialEncoding',
+    #                                      :content => file_content }
+    #
+    # You can also search for specific attachments:
+    #
+    #  # By Filename
+    #  mail.attachments['filename.jpg']   #=> Mail::Part object or nil
+    #
+    #  # or by index
+    #  mail.attachments[0]                #=> Mail::Part (first attachment)
+    #
+    def attachments: () -> untyped
+
+    def has_attachments?: () -> untyped
+
+    # Accessor for html_part
+    def html_part: () ?{ () -> untyped } -> untyped
+
+    # Accessor for text_part
+    def text_part: () ?{ () -> untyped } -> untyped
+
+    # Helper to add a html part to a multipart/alternative email.  If this and
+    # text_part are both defined in a message, then it will be a multipart/alternative
+    # message and set itself that way.
+    def html_part=: (untyped msg) -> (untyped | untyped | nil)
+
+    # Helper to add a text part to a multipart/alternative email.  If this and
+    # html_part are both defined in a message, then it will be a multipart/alternative
+    # message and set itself that way.
+    def text_part=: (untyped msg) -> (untyped | untyped | nil)
+
+    # Adds a part to the parts list or creates the part list
+    def add_part: (untyped part) -> untyped
+
+    # Allows you to add a part in block form to an existing mail message object
+    #
+    # Example:
+    #
+    #  mail = Mail.new do
+    #    part :content_type => "multipart/alternative", :content_disposition => "inline" do |p|
+    #      p.part :content_type => "text/plain", :body => "test text\nline #2"
+    #      p.part :content_type => "text/html", :body => "<b>test</b> HTML<br/>\nline #2"
+    #    end
+    #  end
+    def part: (?::Hash[untyped, untyped] params) { (untyped) -> untyped } -> untyped
+
+    # Adds a file to the message.  You have two options with this method, you can
+    # just pass in the absolute path to the file you want and Mail will read the file,
+    # get the filename from the path you pass in and guess the MIME media type, or you
+    # can pass in the filename as a string, and pass in the file content as a blob.
+    #
+    # Example:
+    #
+    #  m = Mail.new
+    #  m.add_file('/path/to/filename.png')
+    #
+    #  m = Mail.new
+    #  m.add_file(:filename => 'filename.png', :content => File.read('/path/to/file.jpg'))
+    #
+    # Note also that if you add a file to an existing message, Mail will convert that message
+    # to a MIME multipart email, moving whatever plain text body you had into its own text
+    # plain part.
+    #
+    # Example:
+    #
+    #  m = Mail.new do
+    #    body 'this is some text'
+    #  end
+    #  m.multipart? #=> false
+    #  m.add_file('/path/to/filename.png')
+    #  m.multipart? #=> true
+    #  m.parts.first.content_type.content_type #=> 'text/plain'
+    #  m.parts.last.content_type.content_type #=> 'image/png'
+    #
+    # See also #attachments
+    def add_file: (untyped values) -> untyped
+
+    MULTIPART_CONVERSION_CONTENT_FIELDS: ::Array[:content_description | :content_disposition | :content_transfer_encoding | :content_type]
+
+    def convert_to_multipart: () -> untyped
+
+    # Encodes the message, calls encode on all its parts, gets an email message
+    # ready to send
+    def ready_to_send!: () -> untyped
+
+    # Outputs an encoded string representation of the mail message including
+    # all headers, attachments, etc.  This is an encoded email in US-ASCII,
+    # so it is able to be directly sent to an email server.
+    def encoded: () -> untyped
+
+    def without_attachments!: () -> self
+
+    def to_yaml: (?::Hash[untyped, untyped] opts) -> untyped
+
+    def self.from_yaml: (untyped str) -> untyped
+
+    def self.from_hash: (untyped hash) -> untyped
+
+    def to_s: () -> untyped
+
+    def inspect: () -> ::String
+
+    def inspect_structure: () -> untyped
+
+    def decoded: () -> untyped
+
+    def read: () -> untyped
+
+    def decode_body: () -> untyped
+
+    # Returns true if this part is an attachment,
+    # false otherwise.
+    def attachment?: () -> untyped
+
+    # Returns the attachment data if there is any
+    def attachment: () -> untyped
+
+    # Returns the filename of the attachment
+    def filename: () -> untyped
+
+    def all_parts: () -> untyped
+
+    def find_first_mime_type: (untyped mt) -> untyped
+
+    # Skips the deletion of this message. All other messages
+    # flagged for delete still will be deleted at session close (i.e. when
+    # #find exits). Only has an effect if you're using #find_and_delete
+    # or #find with :delete_after_find set to true.
+    def skip_deletion: () -> untyped
+
+    # Sets whether this message should be deleted at session close (i.e.
+    # after #find). Message will only be deleted if messages are retrieved
+    # using the #find_and_delete method, or by calling #find with
+    # :delete_after_find set to true.
+    def mark_for_delete=: (?bool value) -> untyped
+
+    # Returns whether message will be marked for deletion.
+    # If so, the message will be deleted at session close (i.e. after #find
+    # exits), but only if also using the #find_and_delete method, or by
+    # calling #find with :delete_after_find set to true.
+    #
+    # Side-note: Just to be clear, this method will return true even if
+    # the message hasn't yet been marked for delete on the mail server.
+    # However, if this method returns true, it *will be* marked on the
+    # server after each block yields back to #find or #find_and_delete.
+    def is_marked_for_delete?: () -> untyped
+
+    def text?: () -> (untyped | false)
+
+    private
+
+    HEADER_SEPARATOR: ::Regexp
+
+    #  2.1. General Description
+    #   A message consists of header fields (collectively called "the header
+    #   of the message") followed, optionally, by a body.  The header is a
+    #   sequence of lines of characters with special syntax as defined in
+    #   this standard. The body is simply a sequence of characters that
+    #   follows the header and is separated from the header by an empty line
+    #   (i.e., a line with nothing preceding the CRLF).
+    def parse_message: () -> untyped
+
+    def raw_source=: (untyped value) -> untyped
+
+    # see comments to body=. We take data and process it lazily
+    def body_lazy: (untyped value) -> untyped
+
+    def process_body_raw: () -> untyped
+
+    def set_envelope_header: () -> untyped
+
+    def separate_parts: () -> untyped
+
+    def allowed_encodings: () -> untyped
+
+    def add_encoding_to_body: () -> (untyped | nil)
+
+    def identify_and_set_transfer_encoding: () -> (untyped | nil)
+
+    def add_required_fields: () -> untyped
+
+    def add_required_message_fields: () -> untyped
+
+    def add_multipart_alternate_header: () -> untyped
+
+    def add_boundary: () -> (untyped | nil)
+
+    def add_multipart_mixed_header: () -> (untyped | nil)
+
+    def init_with_hash: (untyped hash) -> untyped
+
+    def init_with_string: (untyped string) -> untyped
+
+    # Returns the filename of the attachment (if it exists) or returns nil
+    def find_attachment: () -> untyped
+
+    def do_delivery: () -> untyped
+
+    def decode_body_as_text: () -> untyped
+  end
+end
+
+module Mail
+  module Multibyte
+    # Raised when a problem with the encoding was found.
+    class EncodingError < StandardError
+    end
+
+    # The proxy class returned when calling mb_chars. You can use this accessor to configure your own proxy
+    # class so you can support other encodings. See the Mail::Multibyte::Chars implementation for
+    # an example how to do this.
+    #
+    # Example:
+    #   Mail::Multibyte.proxy_class = CharsForUTF32
+    attr_accessor self.proxy_class: untyped
+
+    # == Multibyte proxy
+    #
+    # +mb_chars+ is a multibyte safe proxy for string methods.
+    #
+    # In Ruby 1.8 and older it creates and returns an instance of the Mail::Multibyte::Chars class which
+    # encapsulates the original string. A Unicode safe version of all the String methods are defined on this proxy
+    # class. If the proxy class doesn't respond to a certain method, it's forwarded to the encapsuled string.
+    #
+    #   name = 'Claus Müller'
+    #   name.reverse # => "rell??M sualC"
+    #   name.length  # => 13
+    #
+    #   name.mb_chars.reverse.to_s # => "rellüM sualC"
+    #   name.mb_chars.length       # => 12
+    #
+    # In Ruby 1.9 and newer +mb_chars+ returns +self+ because String is (mostly) encoding aware. This means that
+    # it becomes easy to run one version of your code on multiple Ruby versions.
+    #
+    # == Method chaining
+    #
+    # All the methods on the Chars proxy which normally return a string will return a Chars object. This allows
+    # method chaining on the result of any of these methods.
+    #
+    #   name.mb_chars.reverse.length # => 12
+    #
+    # == Interoperability and configuration
+    #
+    # The Chars object tries to be as interchangeable with String objects as possible: sorting and comparing between
+    # String and Char work like expected. The bang! methods change the internal string representation in the Chars
+    # object. Interoperability problems can be resolved easily with a +to_s+ call.
+    #
+    # For more information about the methods defined on the Chars proxy see Mail::Multibyte::Chars. For
+    # information about how to change the default Multibyte behaviour see Mail::Multibyte.
+    def self.mb_chars: (untyped str) -> untyped
+
+    # Regular expressions that describe valid byte sequences for a character
+    VALID_CHARACTER: ::Hash[::String, ::Regexp]
+  end
+end
+
+module Mail
+  module Multibyte
+    # Chars enables you to work transparently with UTF-8 encoding in the Ruby String class without having extensive
+    # knowledge about the encoding. A Chars object accepts a string upon initialization and proxies String methods in an
+    # encoding safe manner. All the normal String methods are also implemented on the proxy.
+    #
+    # String methods are proxied through the Chars object, and can be accessed through the +mb_chars+ method. Methods
+    # which would normally return a String object now return a Chars object so methods can be chained.
+    #
+    #   "The Perfect String  ".mb_chars.downcase.strip.normalize # => "the perfect string"
+    #
+    # Chars objects are perfectly interchangeable with String objects as long as no explicit class checks are made.
+    # If certain methods do explicitly check the class, call +to_s+ before you pass chars objects to them.
+    #
+    #   bad.explicit_checking_method "T".mb_chars.downcase.to_s
+    #
+    # The default Chars implementation assumes that the encoding of the string is UTF-8, if you want to handle different
+    # encodings you can write your own multibyte string handler and configure it through
+    # Mail::Multibyte.proxy_class.
+    #
+    #   class CharsForUTF32
+    #     def size
+    #       @wrapped_string.size / 4
+    #     end
+    #
+    #     def self.accepts?(string)
+    #       string.length % 4 == 0
+    #     end
+    #   end
+    #
+    #   Mail::Multibyte.proxy_class = CharsForUTF32
+    class Chars
+      attr_reader wrapped_string: untyped
+
+      alias to_s wrapped_string
+
+      alias to_str wrapped_string
+
+      # Creates a new Chars instance by wrapping _string_.
+      def initialize: (untyped string) -> void
+
+      # Forward all undefined methods to the wrapped string.
+      def method_missing: (untyped method, *untyped args) ?{ () -> untyped } -> (self | untyped)
+
+      # Returns +true+ if _obj_ responds to the given method. Private methods are included in the search
+      # only if the optional second parameter evaluates to +true+.
+      def respond_to?: (untyped method, ?bool include_private) -> untyped
+
+      # Enable more predictable duck-typing on String-like classes. See Object#acts_like?.
+      def acts_like_string?: () -> true
+
+      include Comparable
+
+      # Returns -1, 0, or 1, depending on whether the Chars object is to be sorted before,
+      # equal or after the object on the right side of the operation. It accepts any object
+      # that implements +to_s+:
+      #
+      #   'é'.mb_chars <=> 'ü'.mb_chars # => -1
+      #
+      # See <tt>String#<=></tt> for more details.
+      def <=>: (untyped other) -> untyped
+
+      def =~: (untyped other) -> untyped
+
+      # Works just like <tt>String#split</tt>, with the exception that the items in the resulting list are Chars
+      # instances instead of String. This makes chaining methods easier.
+      #
+      # Example:
+      #   Mail::Multibyte.mb_chars('Café périferôl').split(/é/).map { |part| part.upcase.to_s } # => ["CAF", " P", "RIFERÔL"]
+      def split: (*untyped args) -> untyped
+
+      # Like <tt>String#[]=</tt>, except instead of byte offsets you specify character offsets.
+      #
+      # Example:
+      #
+      #   s = "Müller"
+      #   s.mb_chars[2] = "e" # Replace character with offset 2
+      #   s
+      #   # => "Müeler"
+      #
+      #   s = "Müller"
+      #   s.mb_chars[1, 2] = "ö" # Replace 2 characters at character offset 1
+      #   s
+      #   # => "Möler"
+      def []=: (*untyped args) -> untyped
+
+      # Reverses all characters in the string.
+      #
+      # Example:
+      #   Mail::Multibyte.mb_chars('Café').reverse.to_s # => 'éfaC'
+      def reverse: () -> untyped
+
+      # Implements Unicode-aware slice with codepoints. Slicing on one point returns the codepoints for that
+      # character.
+      #
+      # Example:
+      #   Mail::Multibyte.mb_chars('こんにちは').slice(2..3).to_s # => "にち"
+      def slice: (*untyped args) -> untyped
+
+      alias [] slice
+
+      # Limit the byte size of the string to a number of bytes without breaking characters. Usable
+      # when the storage for a string is limited for some reason.
+      #
+      # Example:
+      #   s = 'こんにちは'
+      #   s.mb_chars.limit(7) # => "こん"
+      def limit: (untyped limit) -> untyped
+
+      # Convert characters in the string to uppercase.
+      #
+      # Example:
+      #   Mail::Multibyte.mb_chars('Laurent, où sont les tests ?').upcase.to_s # => "LAURENT, OÙ SONT LES TESTS ?"
+      def upcase: () -> untyped
+
+      # Convert characters in the string to lowercase.
+      #
+      # Example:
+      #   Mail::Multibyte.mb_chars('VĚDA A VÝZKUM').downcase.to_s # => "věda a výzkum"
+      def downcase: () -> untyped
+
+      # Converts the first character to uppercase and the remainder to lowercase.
+      #
+      # Example:
+      #  Mail::Multibyte.mb_chars('über').capitalize.to_s # => "Über"
+      def capitalize: () -> untyped
+
+      # Capitalizes the first letter of every word, when possible.
+      #
+      # Example:
+      #   Mail::Multibyte.mb_chars("ÉL QUE SE ENTERÓ").titleize    # => "Él Que Se Enteró"
+      #   Mail::Multibyte.mb_chars("日本語").titleize                 # => "日本語"
+      def titleize: () -> untyped
+
+      alias titlecase titleize
+
+      # Returns the KC normalization of the string by default. NFKC is considered the best normalization form for
+      # passing strings to databases and validations.
+      #
+      # * <tt>form</tt> - The form you want to normalize in. Should be one of the following:
+      #   <tt>:c</tt>, <tt>:kc</tt>, <tt>:d</tt>, or <tt>:kd</tt>. Default is
+      #   Mail::Multibyte::Unicode.default_normalization_form
+      def normalize: (?untyped? form) -> untyped
+
+      # Performs canonical decomposition on all the characters.
+      #
+      # Example:
+      #   'é'.length                         # => 2
+      #   Mail::Multibyte.mb_chars('é').decompose.to_s.length # => 3
+      def decompose: () -> untyped
+
+      # Performs composition on all the characters.
+      #
+      # Example:
+      #   'é'.length                       # => 3
+      #   Mail::Multibyte.mb_chars('é').compose.to_s.length # => 2
+      def compose: () -> untyped
+
+      # Returns the number of grapheme clusters in the string.
+      #
+      # Example:
+      #   Mail::Multibyte.mb_chars('क्षि').length   # => 4
+      #   Mail::Multibyte.mb_chars('क्षि').g_length # => 3
+      def g_length: () -> untyped
+
+      # Replaces all ISO-8859-1 or CP1252 characters by their UTF-8 equivalent resulting in a valid UTF-8 string.
+      #
+      # Passing +true+ will forcibly tidy all bytes, assuming that the string's encoding is entirely CP1252 or ISO-8859-1.
+      def tidy_bytes: (?bool force) -> untyped
+
+      def translate_offset: (untyped byte_offset) -> (nil | 0 | untyped)
+
+      def justify: (untyped integer, untyped way, ?::String padstr) -> untyped
+
+      def padding: (untyped padsize, ?::String padstr) -> (untyped | "")
+
+      def chars: (untyped string) -> untyped
+    end
+  end
+end
+
+# frozen_string_literal: true
+module Mail
+  module Multibyte
+    module Unicode
+      # Adapted from https://github.com/rails/rails/blob/master/activesupport/lib/active_support/multibyte/unicode.rb
+      # under the MIT license
+      # The Unicode version that is supported by the implementation
+      UNICODE_VERSION: "7.0.0"
+
+      # Holds data about a codepoint in the Unicode database.
+      class Codepoint
+        attr_accessor code: untyped
+
+        attr_accessor combining_class: untyped
+
+        attr_accessor decomp_type: untyped
+
+        attr_accessor decomp_mapping: untyped
+
+        attr_accessor uppercase_mapping: untyped
+
+        attr_accessor lowercase_mapping: untyped
+
+        # Initializing Codepoint object with default values
+        def initialize: () -> void
+
+        def swapcase_mapping: () -> untyped
+      end
+
+      extend ::Mail::Multibyte::Unicode
+
+      # A list of all available normalization forms. See http://www.unicode.org/reports/tr15/tr15-29.html for more
+      # information about normalization.
+      NORMALIZATION_FORMS: ::Array[:c | :kc | :d | :kd]
+
+      # The default normalization used for operations that require normalization. It can be set to any of the
+      # normalizations in NORMALIZATION_FORMS.
+      #
+      # Example:
+      #   Mail::Multibyte::Unicode.default_normalization_form = :c
+      attr_accessor default_normalization_form: untyped
+
+      # Hangul character boundaries and properties
+      HANGUL_SBASE: 44032
+
+      HANGUL_LBASE: 4352
+
+      HANGUL_VBASE: 4449
+
+      HANGUL_TBASE: 4519
+
+      HANGUL_LCOUNT: 19
+
+      HANGUL_VCOUNT: 21
+
+      HANGUL_TCOUNT: 28
+
+      HANGUL_NCOUNT: untyped
+
+      HANGUL_SCOUNT: 11172
+
+      HANGUL_SLAST: untyped
+
+      HANGUL_JAMO_FIRST: 4352
+
+      HANGUL_JAMO_LAST: 4607
+
+      # All the unicode whitespace
+      WHITESPACE: untyped
+
+      # BOM (byte order mark) can also be seen as whitespace, it's a non-rendering character used to distinguish
+      # between little and big endian. This is not an issue in utf-8, so it must be ignored.
+      LEADERS_AND_TRAILERS: untyped
+
+      # Returns a regular expression pattern that matches the passed Unicode codepoints
+      def self.codepoints_to_pattern: (untyped array_of_codepoints) -> untyped
+
+      TRAILERS_PAT: ::Regexp
+
+      LEADERS_PAT: ::Regexp
+
+      # Unpack the string at codepoints boundaries. Raises an EncodingError when the encoding of the string isn't
+      # valid UTF-8.
+      #
+      # Example:
+      #   Unicode.u_unpack('Café') # => [67, 97, 102, 233]
+      def u_unpack: (untyped string) -> untyped
+
+      # Detect whether the codepoint is in a certain character class. Returns +true+ when it's in the specified
+      # character class and +false+ otherwise. Valid character classes are: <tt>:cr</tt>, <tt>:lf</tt>, <tt>:l</tt>,
+      # <tt>:v</tt>, <tt>:lv</tt>, <tt>:lvt</tt> and <tt>:t</tt>.
+      #
+      # Primarily used by the grapheme cluster support.
+      def in_char_class?: (untyped codepoint, untyped classes) -> (true | false)
+
+      # Unpack the string at grapheme boundaries. Returns a list of character lists.
+      #
+      # Example:
+      #   Unicode.g_unpack('क्षि') # => [[2325, 2381], [2359], [2367]]
+      #   Unicode.g_unpack('Café') # => [[67], [97], [102], [233]]
+      def g_unpack: (untyped string) -> untyped
+
+      # Reverse operation of g_unpack.
+      #
+      # Example:
+      #   Unicode.g_pack(Unicode.g_unpack('क्षि')) # => 'क्षि'
+      def g_pack: (untyped unpacked) -> untyped
+
+      # Re-order codepoints so the string becomes canonical.
+      def reorder_characters: (untyped codepoints) -> untyped
+
+      # Decompose composed characters to the decomposed form.
+      def decompose_codepoints: (untyped `type`, untyped codepoints) -> untyped
+
+      # Compose decomposed characters to the composed form.
+      def compose_codepoints: (untyped codepoints) -> untyped
+
+      # Replaces all ISO-8859-1 or CP1252 characters by their UTF-8 equivalent resulting in a valid UTF-8 string.
+      #
+      # Passing +true+ will forcibly tidy all bytes, assuming that the string's encoding is entirely CP1252 or ISO-8859-1.
+      def tidy_bytes: (untyped string, ?bool force) -> untyped
+
+      # Returns the KC normalization of the string by default. NFKC is considered the best normalization form for
+      # passing strings to databases and validations.
+      #
+      # * <tt>string</tt> - The string to perform normalization on.
+      # * <tt>form</tt> - The form you want to normalize in. Should be one of the following:
+      #   <tt>:c</tt>, <tt>:kc</tt>, <tt>:d</tt>, or <tt>:kd</tt>. Default is
+      #   Mail::Multibyte.default_normalization_form
+      def normalize: (untyped string, ?untyped? form) -> untyped
+
+      def apply_mapping: (untyped string, untyped mapping) -> untyped
+
+      # Holds static data from the Unicode database
+      class UnicodeDatabase
+        ATTRIBUTES: ::Array[:codepoints | :composition_exclusion | :composition_map | :boundary | :cp1252]
+
+        def initialize: () -> void
+
+        # Loads the Unicode database and returns all the internal objects of UnicodeDatabase.
+        def load: () -> untyped
+
+        # Returns the directory in which the data files are stored
+        def self.dirname: () -> untyped
+
+        # Returns the filename for the data file for this version
+        def self.filename: () -> untyped
+      end
+
+      private
+
+      def tidy_byte: (untyped byte) -> (untyped | ::Array[194 | untyped] | ::Array[195 | untyped])
+
+      def database: () -> untyped
+    end
+  end
+end
+
+module Mail
+  module Multibyte
+    # Returns a regular expression that matches valid characters in the current encoding
+    def self.valid_character: () -> untyped
+
+    # Returns true if string has valid utf-8 encoding
+    def self.is_utf8?: (untyped string) -> untyped
+
+    # Verifies the encoding of a string
+    def self.verify: (untyped string) -> untyped
+
+    # Verifies the encoding of the string and raises an exception when it's not valid
+    def self.verify!: (untyped string) -> (untyped | nil)
+
+    # Removes all invalid characters from the string.
+    #
+    # Note: this method is a no-op in Ruby 1.9
+    def self.clean: (untyped string) -> untyped
+
+    def self.to_utf8: (untyped string) -> untyped
+  end
+end
+
+module Mail
+end
+
+module Mail
+  # A delivery method implementation which sends via exim.
+  #
+  # To use this, first find out where the exim binary is on your computer,
+  # if you are on a mac or unix box, it is usually in /usr/sbin/exim, this will
+  # be your exim location.
+  #
+  #   Mail.defaults do
+  #     delivery_method :exim
+  #   end
+  #
+  # Or if your exim binary is not at '/usr/sbin/exim'
+  #
+  #   Mail.defaults do
+  #     delivery_method :exim, :location => '/absolute/path/to/your/exim'
+  #   end
+  #
+  # Then just deliver the email as normal:
+  #
+  #   Mail.deliver do
+  #     to 'mikel@test.lindsaar.net'
+  #     from 'ada@test.lindsaar.net'
+  #     subject 'testing exim'
+  #     body 'testing exim'
+  #   end
+  #
+  # Or by calling deliver on a Mail message
+  #
+  #   mail = Mail.new do
+  #     to 'mikel@test.lindsaar.net'
+  #     from 'ada@test.lindsaar.net'
+  #     subject 'testing exim'
+  #     body 'testing exim'
+  #   end
+  #
+  #   mail.deliver!
+  class Exim < Sendmail
+    DEFAULTS: { location: "/usr/sbin/exim", arguments: ::Array["-i" | "-t"] }
+
+    # Uses -t option to extract recipients from the message.
+    def destinations_for: (untyped envelope) -> nil
+  end
+end
+
+module Mail
+  # FileDelivery class delivers emails into multiple files based on the destination
+  # address.  Each file is appended to if it already exists.
+  #
+  # So if you have an email going to fred@test, bob@test, joe@anothertest, and you
+  # set your location path to /path/to/mails then FileDelivery will create the directory
+  # if it does not exist, and put one copy of the email in three files, called
+  # by their message id
+  #
+  # Make sure the path you specify with :location is writable by the Ruby process
+  # running Mail.
+  class FileDelivery
+    attr_accessor settings: untyped
+
+    def initialize: (untyped values) -> void
+
+    def deliver!: (untyped mail) -> untyped
+  end
+end
+
+module Mail
+  class LoggerDelivery
+    attr_reader logger: untyped
+
+    attr_reader severity: untyped
+
+    attr_reader settings: untyped
+
+    def initialize: (untyped settings) -> void
+
+    def deliver!: (untyped mail) -> untyped
+
+    private
+
+    def default_logger: () -> untyped
+
+    def derive_severity: (untyped severity) -> untyped
+  end
+end
+
+module Mail
+  # A delivery method implementation which sends via sendmail.
+  #
+  # To use this, first find out where the sendmail binary is on your computer,
+  # if you are on a mac or unix box, it is usually in /usr/sbin/sendmail, this will
+  # be your sendmail location.
+  #
+  #   Mail.defaults do
+  #     delivery_method :sendmail
+  #   end
+  #
+  # Or if your sendmail binary is not at '/usr/sbin/sendmail'
+  #
+  #   Mail.defaults do
+  #     delivery_method :sendmail, :location => '/absolute/path/to/your/sendmail'
+  #   end
+  #
+  # Then just deliver the email as normal:
+  #
+  #   Mail.deliver do
+  #     to 'mikel@test.lindsaar.net'
+  #     from 'ada@test.lindsaar.net'
+  #     subject 'testing sendmail'
+  #     body 'testing sendmail'
+  #   end
+  #
+  # Or by calling deliver on a Mail message
+  #
+  #   mail = Mail.new do
+  #     to 'mikel@test.lindsaar.net'
+  #     from 'ada@test.lindsaar.net'
+  #     subject 'testing sendmail'
+  #     body 'testing sendmail'
+  #   end
+  #
+  #   mail.deliver!
+  class Sendmail
+    DEFAULTS: { location: "/usr/sbin/sendmail", arguments: ::Array["-i"] }
+
+    attr_accessor settings: untyped
+
+    class DeliveryError < StandardError
+    end
+
+    def initialize: (untyped values) -> void
+
+    def destinations_for: (untyped envelope) -> untyped
+
+    def deliver!: (untyped mail) -> untyped
+
+    private
+
+    def popen: (untyped command) ?{ () -> untyped } -> untyped
+  end
+end
+
+module Mail
+  # == Sending Email with SMTP
+  #
+  # Mail allows you to send emails using SMTP.  This is done by wrapping Net::SMTP in
+  # an easy to use manner.
+  #
+  # === Sending via SMTP server on Localhost
+  #
+  # Sending locally (to a postfix or sendmail server running on localhost) requires
+  # no special setup.  Just to Mail.deliver &block or message.deliver! and it will
+  # be sent in this method.
+  #
+  # === Sending via MobileMe
+  #
+  #   Mail.defaults do
+  #     delivery_method :smtp, { :address              => "smtp.me.com",
+  #                              :port                 => 587,
+  #                              :domain               => 'your.host.name',
+  #                              :user_name            => '<username>',
+  #                              :password             => '<password>',
+  #                              :authentication       => 'plain',
+  #                              :enable_starttls_auto => true  }
+  #   end
+  #
+  # === Sending via GMail
+  #
+  #   Mail.defaults do
+  #     delivery_method :smtp, { :address              => "smtp.gmail.com",
+  #                              :port                 => 587,
+  #                              :domain               => 'your.host.name',
+  #                              :user_name            => '<username>',
+  #                              :password             => '<password>',
+  #                              :authentication       => 'plain',
+  #                              :enable_starttls_auto => true  }
+  #   end
+  #
+  # === Certificate verification
+  #
+  # When using TLS, some mail servers provide certificates that are self-signed
+  # or whose names do not exactly match the hostname given in the address.
+  # OpenSSL will reject these by default. The best remedy is to use the correct
+  # hostname or update the certificate authorities trusted by your ruby. If
+  # that isn't possible, you can control this behavior with
+  # an :openssl_verify_mode setting. Its value may be either an OpenSSL
+  # verify mode constant (OpenSSL::SSL::VERIFY_NONE, OpenSSL::SSL::VERIFY_PEER),
+  # or a string containing the name of an OpenSSL verify mode (none, peer).
+  #
+  # === Others
+  #
+  # Feel free to send me other examples that were tricky
+  #
+  # === Delivering the email
+  #
+  # Once you have the settings right, sending the email is done by:
+  #
+  #   Mail.deliver do
+  #     to 'mikel@test.lindsaar.net'
+  #     from 'ada@test.lindsaar.net'
+  #     subject 'testing sendmail'
+  #     body 'testing sendmail'
+  #   end
+  #
+  # Or by calling deliver on a Mail message
+  #
+  #   mail = Mail.new do
+  #     to 'mikel@test.lindsaar.net'
+  #     from 'ada@test.lindsaar.net'
+  #     subject 'testing sendmail'
+  #     body 'testing sendmail'
+  #   end
+  #
+  #   mail.deliver!
+  class SMTP
+    attr_accessor settings: untyped
+
+    DEFAULTS: { address: "localhost", port: 25, domain: "localhost.localdomain", user_name: nil, password: nil, authentication: nil, enable_starttls: nil, enable_starttls_auto: true, openssl_verify_mode: nil, ssl: nil, tls: nil, open_timeout: 5, read_timeout: 5 }
+
+    def initialize: (untyped values) -> void
+
+    def deliver!: (untyped mail) -> untyped
+
+    private
+
+    def start_smtp_session: () ?{ () -> untyped } -> untyped
+
+    def build_smtp_session: () -> untyped
+
+    # Allow SSL context to be configured via settings, for Ruby >= 1.9
+    # Just returns openssl verify mode for Ruby 1.8.x
+    def ssl_context: () -> untyped
+  end
+end
+
+module Mail
+  # == Sending Email with SMTP
+  #
+  # Mail allows you to send emails using an open SMTP connection.  This is done by
+  # passing a created Net::SMTP object.  This way we can get better performance to
+  # our local mail server by reducing the number of connections at any one time.
+  #
+  # === Sending via SMTP server on Localhost
+  #
+  # To send mail open a connection with Net::Smtp using any options you like
+  # === Delivering the email
+  #
+  # Once you have the settings right, sending the email is done by:
+  #
+  #   smtp_conn = Net::SMTP.start(settings[:address], settings[:port])
+  #   Mail.defaults do
+  #     delivery_method :smtp_connection, { :connection => smtp_conn }
+  #   end
+  #
+  #   Mail.deliver do
+  #     to 'mikel@test.lindsaar.net'
+  #     from 'ada@test.lindsaar.net'
+  #     subject 'testing sendmail'
+  #     body 'testing sendmail'
+  #   end
+  #
+  # Or by calling deliver on a Mail message
+  #
+  #   mail = Mail.new do
+  #     to 'mikel@test.lindsaar.net'
+  #     from 'ada@test.lindsaar.net'
+  #     subject 'testing sendmail'
+  #     body 'testing sendmail'
+  #   end
+  #
+  #   mail.deliver!
+  class SMTPConnection
+    attr_accessor smtp: untyped
+
+    attr_accessor settings: untyped
+
+    def initialize: (untyped values) -> void
+
+    # Send the message via SMTP.
+    # The from and to attributes are optional. If not set, they are retrieve from the Message.
+    def deliver!: (untyped mail) -> untyped
+  end
+end
+
+module Mail
+  # The TestMailer is a bare bones mailer that does nothing.  It is useful
+  # when you are testing.
+  #
+  # It also provides a template of the minimum methods you require to implement
+  # if you want to make a custom mailer for Mail
+  class TestMailer
+    # Provides a store of all the emails sent with the TestMailer so you can check them.
+    def self.deliveries: () -> untyped
+
+    # Allows you to over write the default deliveries store from an array to some
+    # other object.  If you just want to clear the store,
+    # call TestMailer.deliveries.clear.
+    #
+    # If you place another object here, please make sure it responds to:
+    #
+    # * << (message)
+    # * clear
+    # * length
+    # * size
+    # * and other common Array methods
+    def self.deliveries=: (untyped val) -> untyped
+
+    attr_accessor settings: untyped
+
+    def initialize: (untyped values) -> void
+
+    def deliver!: (untyped mail) -> untyped
+  end
+end
+
+module Mail
+  class Retriever
+    # Get the oldest received email(s)
+    #
+    # Possible options:
+    #   count: number of emails to retrieve. The default value is 1.
+    #   order: order of emails returned. Possible values are :asc or :desc. Default value is :asc.
+    #
+    def first: (?untyped? options) ?{ () -> untyped } -> untyped
+
+    # Get the most recent received email(s)
+    #
+    # Possible options:
+    #   count: number of emails to retrieve. The default value is 1.
+    #   order: order of emails returned. Possible values are :asc or :desc. Default value is :asc.
+    #
+    def last: (?untyped? options) ?{ () -> untyped } -> untyped
+
+    # Get all emails.
+    #
+    # Possible options:
+    #   order: order of emails returned. Possible values are :asc or :desc. Default value is :asc.
+    #
+    def all: (?untyped? options) ?{ () -> untyped } -> untyped
+
+    # Find emails in the mailbox, and then deletes them. Without any options, the
+    # five last received emails are returned.
+    #
+    # Possible options:
+    #   what:  last or first emails. The default is :first.
+    #   order: order of emails returned. Possible values are :asc or :desc. Default value is :asc.
+    #   count: number of emails to retrieve. The default value is 10. A value of 1 returns an
+    #          instance of Message, not an array of Message instances.
+    #   delete_after_find: flag for whether to delete each retreived email after find. Default
+    #           is true. Call #find if you would like this to default to false.
+    #
+    def find_and_delete: (?untyped? options) ?{ () -> untyped } -> untyped
+  end
+end
+
+module Mail
+  # The IMAP retriever allows to get the last, first or all emails from a IMAP server.
+  # Each email retrieved (RFC2822) is given as an instance of +Message+.
+  #
+  # While being retrieved, emails can be yielded if a block is given.
+  #
+  # === Example of retrieving Emails from GMail:
+  #
+  #   Mail.defaults do
+  #     retriever_method :imap, { :address             => "imap.googlemail.com",
+  #                               :port                => 993,
+  #                               :user_name           => '<username>',
+  #                               :password            => '<password>',
+  #                               :enable_ssl          => true }
+  #   end
+  #
+  #   Mail.all    #=> Returns an array of all emails
+  #   Mail.first  #=> Returns the first unread email
+  #   Mail.last   #=> Returns the last unread email
+  #
+  # You can also pass options into Mail.find to locate an email in your imap mailbox
+  # with the following options:
+  #
+  #   mailbox: name of the mailbox used for email retrieval. The default is 'INBOX'.
+  #   what:    last or first emails. The default is :first.
+  #   order:   order of emails returned. Possible values are :asc or :desc. Default value is :asc.
+  #   count:   number of emails to retrieve. The default value is 10. A value of 1 returns an
+  #            instance of Message, not an array of Message instances.
+  #   keys:    are passed as criteria to the SEARCH command.  They can either be a string holding the entire search string,
+  #            or a single-dimension array of search keywords and arguments.  Refer to  [IMAP] section 6.4.4 for a full list
+  #            The default is 'ALL'
+  #
+  #   Mail.find(:what => :first, :count => 10, :order => :asc, :keys=>'ALL')
+  #   #=> Returns the first 10 emails in ascending order
+  #
+  class IMAP < Retriever
+    def initialize: (untyped values) -> void
+
+    attr_accessor settings: untyped
+
+    # Find emails in a IMAP mailbox. Without any options, the 10 last received emails are returned.
+    #
+    # Possible options:
+    #   mailbox: mailbox to search the email(s) in. The default is 'INBOX'.
+    #   what:    last or first emails. The default is :first.
+    #   order:   order of emails returned. Possible values are :asc or :desc. Default value is :asc.
+    #   count:   number of emails to retrieve. The default value is 10. A value of 1 returns an
+    #            instance of Message, not an array of Message instances.
+    #   read_only: will ensure that no writes are made to the inbox during the session.  Specifically, if this is
+    #              set to true, the code will use the EXAMINE command to retrieve the mail.  If set to false, which
+    #              is the default, a SELECT command will be used to retrieve the mail
+    #              This is helpful when you don't want your messages to be set to read automatically. Default is false.
+    #   delete_after_find: flag for whether to delete each retreived email after find. Default
+    #           is false. Use #find_and_delete if you would like this to default to true.
+    #   keys:   are passed as criteria to the SEARCH command.  They can either be a string holding the entire search string,
+    #           or a single-dimension array of search keywords and arguments.  Refer to  [IMAP] section 6.4.4 for a full list
+    #           The default is 'ALL'
+    #   search_charset: charset to pass to IMAP server search. Omitted by default. Example: 'UTF-8' or 'ASCII'.
+    #
+    def find: (?untyped? options) { (untyped, untyped, untyped, untyped) -> untyped } -> untyped
+
+    # Delete all emails from a IMAP mailbox
+    def delete_all: (?::String mailbox) -> untyped
+
+    # Returns the connection object of the retrievable (IMAP or POP3)
+    def connection: () { (untyped) -> untyped } -> untyped
+
+    private
+
+    # Set default options
+    def validate_options: (untyped options) -> untyped
+
+    # Start an IMAP session and ensures that it will be closed in any case.
+    def start: (?untyped config) { (untyped) -> untyped } -> untyped
+  end
+end
+
+module Mail
+  # The Pop3 retriever allows to get the last, first or all emails from a POP3 server.
+  # Each email retrieved (RFC2822) is given as an instance of +Message+.
+  #
+  # While being retrieved, emails can be yielded if a block is given.
+  #
+  # === Example of retrieving Emails from GMail:
+  #
+  #   Mail.defaults do
+  #     retriever_method :pop3, { :address             => "pop.gmail.com",
+  #                               :port                => 995,
+  #                               :user_name           => '<username>',
+  #                               :password            => '<password>',
+  #                               :enable_ssl          => true }
+  #   end
+  #
+  #   Mail.all    #=> Returns an array of all emails
+  #   Mail.first  #=> Returns the first unread email
+  #   Mail.last   #=> Returns the last unread email
+  #
+  # You can also pass options into Mail.find to locate an email in your pop mailbox
+  # with the following options:
+  #
+  #   what:  last or first emails. The default is :first.
+  #   order: order of emails returned. Possible values are :asc or :desc. Default value is :asc.
+  #   count: number of emails to retrieve. The default value is 10. A value of 1 returns an
+  #          instance of Message, not an array of Message instances.
+  #
+  #   Mail.find(:what => :first, :count => 10, :order => :asc)
+  #   #=> Returns the first 10 emails in ascending order
+  #
+  class POP3 < Retriever
+    def initialize: (untyped values) -> void
+
+    attr_accessor settings: untyped
+
+    # Find emails in a POP3 mailbox. Without any options, the 5 last received emails are returned.
+    #
+    # Possible options:
+    #   what:  last or first emails. The default is :first.
+    #   order: order of emails returned. Possible values are :asc or :desc. Default value is :asc.
+    #   count: number of emails to retrieve. The default value is 10. A value of 1 returns an
+    #          instance of Message, not an array of Message instances.
+    #   delete_after_find: flag for whether to delete each retreived email after find. Default
+    #           is false. Use #find_and_delete if you would like this to default to true.
+    #
+    def find: (?untyped? options) { (untyped) -> untyped } -> untyped
+
+    # Delete all emails from a POP3 server
+    def delete_all: () -> untyped
+
+    # Returns the connection object of the retrievable (IMAP or POP3)
+    def connection: () { (untyped) -> untyped } -> untyped
+
+    private
+
+    # Set default options
+    def validate_options: (untyped options) -> untyped
+
+    # Start a POP3 session and ensure that it will be closed in any case. Any messages
+    # marked for deletion via #find_and_delete or with the :delete_after_find option
+    # will be deleted when the session is closed.
+    def start: (?untyped config) { (untyped) -> untyped } -> untyped
+  end
+end
+
+module Mail
+  class TestRetriever < Retriever
+    def self.emails: () -> untyped
+
+    def self.emails=: (untyped val) -> untyped
+
+    def initialize: (untyped values) -> void
+
+    def find: (?untyped? options) { (untyped) -> untyped } -> untyped
+  end
+end
+
+module Mail
+  # Extends each field parser with utility methods.
+  module ParserTools
+    def chars: (untyped data, untyped from_bytes, untyped to_bytes) -> untyped
+  end
+end
+
+module Mail::Parsers
+  module AddressListsParser
+    extend Mail::ParserTools
+
+    AddressListStruct: untyped
+
+    AddressStruct: untyped
+
+    attr_accessor self._trans_keys: untyped
+
+    attr_accessor self._key_spans: untyped
+
+    attr_accessor self._index_offsets: untyped
+
+    attr_accessor self._indicies: untyped
+
+    attr_accessor self._trans_targs: untyped
+
+    attr_accessor self._trans_actions: untyped
+
+    attr_accessor self._eof_actions: untyped
+
+    attr_accessor self.start: untyped
+
+    attr_accessor self.first_final: untyped
+
+    attr_accessor self.error: untyped
+
+    attr_accessor self.en_comment_tail: untyped
+
+    attr_accessor self.en_main: untyped
+
+    def self.parse: (untyped data) -> untyped
+  end
+end
+
+module Mail::Parsers
+  module ContentDispositionParser
+    extend Mail::ParserTools
+
+    ContentDispositionStruct: untyped
+
+    attr_accessor self._trans_keys: untyped
+
+    attr_accessor self._key_spans: untyped
+
+    attr_accessor self._index_offsets: untyped
+
+    attr_accessor self._indicies: untyped
+
+    attr_accessor self._trans_targs: untyped
+
+    attr_accessor self._trans_actions: untyped
+
+    attr_accessor self._eof_actions: untyped
+
+    attr_accessor self.start: untyped
+
+    attr_accessor self.first_final: untyped
+
+    attr_accessor self.error: untyped
+
+    attr_accessor self.en_comment_tail: untyped
+
+    attr_accessor self.en_main: untyped
+
+    def self.parse: (untyped data) -> untyped
+  end
+end
+
+module Mail::Parsers
+  module ContentLocationParser
+    extend Mail::ParserTools
+
+    ContentLocationStruct: untyped
+
+    attr_accessor self._trans_keys: untyped
+
+    attr_accessor self._key_spans: untyped
+
+    attr_accessor self._index_offsets: untyped
+
+    attr_accessor self._indicies: untyped
+
+    attr_accessor self._trans_targs: untyped
+
+    attr_accessor self._trans_actions: untyped
+
+    attr_accessor self._eof_actions: untyped
+
+    attr_accessor self.start: untyped
+
+    attr_accessor self.first_final: untyped
+
+    attr_accessor self.error: untyped
+
+    attr_accessor self.en_comment_tail: untyped
+
+    attr_accessor self.en_main: untyped
+
+    def self.parse: (untyped data) -> untyped
+  end
+end
+
+module Mail::Parsers
+  module ContentTransferEncodingParser
+    extend Mail::ParserTools
+
+    ContentTransferEncodingStruct: untyped
+
+    attr_accessor self._trans_keys: untyped
+
+    attr_accessor self._key_spans: untyped
+
+    attr_accessor self._index_offsets: untyped
+
+    attr_accessor self._indicies: untyped
+
+    attr_accessor self._trans_targs: untyped
+
+    attr_accessor self._trans_actions: untyped
+
+    attr_accessor self._eof_actions: untyped
+
+    attr_accessor self.start: untyped
+
+    attr_accessor self.first_final: untyped
+
+    attr_accessor self.error: untyped
+
+    attr_accessor self.en_comment_tail: untyped
+
+    attr_accessor self.en_main: untyped
+
+    def self.parse: (untyped data) -> untyped
+  end
+end
+
+module Mail::Parsers
+  module ContentTypeParser
+    extend Mail::ParserTools
+
+    ContentTypeStruct: untyped
+
+    attr_accessor self._trans_keys: untyped
+
+    attr_accessor self._key_spans: untyped
+
+    attr_accessor self._index_offsets: untyped
+
+    attr_accessor self._indicies: untyped
+
+    attr_accessor self._trans_targs: untyped
+
+    attr_accessor self._trans_actions: untyped
+
+    attr_accessor self._eof_actions: untyped
+
+    attr_accessor self.start: untyped
+
+    attr_accessor self.first_final: untyped
+
+    attr_accessor self.error: untyped
+
+    attr_accessor self.en_comment_tail: untyped
+
+    attr_accessor self.en_main: untyped
+
+    def self.parse: (untyped data) -> untyped
+  end
+end
+
+module Mail::Parsers
+  module DateTimeParser
+    extend Mail::ParserTools
+
+    DateTimeStruct: untyped
+
+    attr_accessor self._trans_keys: untyped
+
+    attr_accessor self._key_spans: untyped
+
+    attr_accessor self._index_offsets: untyped
+
+    attr_accessor self._indicies: untyped
+
+    attr_accessor self._trans_targs: untyped
+
+    attr_accessor self._trans_actions: untyped
+
+    attr_accessor self._eof_actions: untyped
+
+    attr_accessor self.start: untyped
+
+    attr_accessor self.first_final: untyped
+
+    attr_accessor self.error: untyped
+
+    attr_accessor self.en_comment_tail: untyped
+
+    attr_accessor self.en_main: untyped
+
+    def self.parse: (untyped data) -> untyped
+  end
+end
+
+module Mail::Parsers
+  module EnvelopeFromParser
+    extend Mail::ParserTools
+
+    EnvelopeFromStruct: untyped
+
+    attr_accessor self._trans_keys: untyped
+
+    attr_accessor self._key_spans: untyped
+
+    attr_accessor self._index_offsets: untyped
+
+    attr_accessor self._indicies: untyped
+
+    attr_accessor self._trans_targs: untyped
+
+    attr_accessor self._trans_actions: untyped
+
+    attr_accessor self._eof_actions: untyped
+
+    attr_accessor self.start: untyped
+
+    attr_accessor self.first_final: untyped
+
+    attr_accessor self.error: untyped
+
+    attr_accessor self.en_comment_tail: untyped
+
+    attr_accessor self.en_main: untyped
+
+    def self.parse: (untyped data) -> untyped
+  end
+end
+
+module Mail::Parsers
+  module MessageIdsParser
+    extend Mail::ParserTools
+
+    MessageIdsStruct: untyped
+
+    attr_accessor self._trans_keys: untyped
+
+    attr_accessor self._key_spans: untyped
+
+    attr_accessor self._index_offsets: untyped
+
+    attr_accessor self._indicies: untyped
+
+    attr_accessor self._trans_targs: untyped
+
+    attr_accessor self._trans_actions: untyped
+
+    attr_accessor self._eof_actions: untyped
+
+    attr_accessor self.start: untyped
+
+    attr_accessor self.first_final: untyped
+
+    attr_accessor self.error: untyped
+
+    attr_accessor self.en_comment_tail: untyped
+
+    attr_accessor self.en_main: untyped
+
+    def self.parse: (untyped data) -> untyped
+  end
+end
+
+module Mail::Parsers
+  module MimeVersionParser
+    extend Mail::ParserTools
+
+    MimeVersionStruct: untyped
+
+    attr_accessor self._trans_keys: untyped
+
+    attr_accessor self._key_spans: untyped
+
+    attr_accessor self._index_offsets: untyped
+
+    attr_accessor self._indicies: untyped
+
+    attr_accessor self._trans_targs: untyped
+
+    attr_accessor self._trans_actions: untyped
+
+    attr_accessor self._eof_actions: untyped
+
+    attr_accessor self.start: untyped
+
+    attr_accessor self.first_final: untyped
+
+    attr_accessor self.error: untyped
+
+    attr_accessor self.en_comment_tail: untyped
+
+    attr_accessor self.en_main: untyped
+
+    def self.parse: (untyped data) -> untyped
+  end
+end
+
+module Mail::Parsers
+  class PhraseListsParser
+    extend Mail::ParserTools
+
+    PhraseListsStruct: untyped
+
+    attr_accessor self._trans_keys: untyped
+
+    attr_accessor self._key_spans: untyped
+
+    attr_accessor self._index_offsets: untyped
+
+    attr_accessor self._indicies: untyped
+
+    attr_accessor self._trans_targs: untyped
+
+    attr_accessor self._trans_actions: untyped
+
+    attr_accessor self._eof_actions: untyped
+
+    attr_accessor self.start: untyped
+
+    attr_accessor self.first_final: untyped
+
+    attr_accessor self.error: untyped
+
+    attr_accessor self.en_comment_tail: untyped
+
+    attr_accessor self.en_main: untyped
+
+    def self.parse: (untyped data) -> untyped
+  end
+end
+
+module Mail::Parsers
+  module ReceivedParser
+    extend Mail::ParserTools
+
+    ReceivedStruct: untyped
+
+    attr_accessor self._trans_keys: untyped
+
+    attr_accessor self._key_spans: untyped
+
+    attr_accessor self._index_offsets: untyped
+
+    attr_accessor self._indicies: untyped
+
+    attr_accessor self._trans_targs: untyped
+
+    attr_accessor self._trans_actions: untyped
+
+    attr_accessor self._eof_actions: untyped
+
+    attr_accessor self.start: untyped
+
+    attr_accessor self.first_final: untyped
+
+    attr_accessor self.error: untyped
+
+    attr_accessor self.en_comment_tail: untyped
+
+    attr_accessor self.en_main: untyped
+
+    def self.parse: (untyped data) -> untyped
+  end
+end
+
+module Mail
+  class Part < Message
+    # Creates a new empty Content-ID field and inserts it in the correct order
+    # into the Header.  The ContentIdField object will automatically generate
+    # a unique content ID if you try and encode it or output it to_s without
+    # specifying a content id.
+    #
+    # It will preserve the content ID you specify if you do.
+    def add_content_id: (?::String content_id_val) -> untyped
+
+    # Returns true if the part has a content ID field, the field may or may
+    # not have a value, but the field exists or not.
+    def has_content_id?: () -> untyped
+
+    def cid: () -> untyped
+
+    def url: () -> ::String
+
+    def inline?: () -> (untyped | nil)
+
+    def add_required_fields: () -> untyped
+
+    def add_required_message_fields: () -> nil
+
+    def delivery_status_report_part?: () -> untyped
+
+    def delivery_status_data: () -> (untyped | ::Hash[untyped, untyped])
+
+    def bounced?: () -> untyped
+
+    # Either returns the action if the message has just a single report, or an
+    # array of all the actions, one for each report
+    def action: () -> untyped
+
+    def final_recipient: () -> untyped
+
+    def error_status: () -> untyped
+
+    def diagnostic_code: () -> untyped
+
+    def remote_mta: () -> untyped
+
+    def retryable?: () -> untyped
+
+    private
+
+    def get_return_values: (untyped key) -> (untyped | untyped | nil)
+
+    # A part may not have a header.... so, just init a body if no header
+    def parse_message: () -> untyped
+
+    def parse_delivery_status_report: () -> untyped
+  end
+end
+
+module Mail
+  class PartsList
+    attr_reader parts: untyped
+
+    def initialize: (*untyped args) -> void
+
+    # The #encode_with and #to_yaml methods are just implemented
+    # for the sake of backward compatibility ; the delegator does
+    # not correctly delegate these calls to the delegated object
+    def encode_with: (untyped coder) -> untyped
+
+    def to_yaml: (?::Hash[untyped, untyped] options) -> untyped
+
+    def attachments: () -> untyped
+
+    def collect: () { (untyped) -> untyped } -> untyped
+
+    alias map collect
+
+    def map!: () -> untyped
+
+    def collect!: () -> untyped
+
+    def inspect_structure: (?::String parent_id) -> untyped
+
+    def recursive_each: () { (untyped) -> untyped } -> untyped
+
+    def recursive_size: () -> untyped
+
+    def recursive_delete_if: () { (untyped) -> untyped } -> untyped
+
+    def delete_attachments: () -> untyped
+
+    def sort: () -> untyped
+
+    def sort!: (untyped order) -> untyped
+
+    private
+
+    def get_order_value: (untyped part, untyped order) -> ::Array[untyped]
+  end
+end
+
+module Mail
+  class SmtpEnvelope
+    # Reasonable cap on address length to avoid SMTP line length
+    # overflow on old SMTP servers.
+    MAX_ADDRESS_BYTESIZE: 2000
+
+    attr_reader from: untyped
+
+    attr_reader to: untyped
+
+    attr_reader message: untyped
+
+    def initialize: (untyped mail) -> void
+
+    def from=: (untyped addr) -> untyped
+
+    def to=: (untyped addr) -> untyped
+
+    def message=: (untyped message) -> untyped
+
+    private
+
+    def validate_addr: (untyped addr_name, untyped addr) -> untyped
+  end
+end
+
+module Mail
+  module Utilities
+    extend ::Mail::Utilities
+
+    # Returns true if the string supplied is free from characters not allowed as an ATOM
+    def atom_safe?: (untyped str) -> untyped
+
+    # If the string supplied has ATOM unsafe characters in it, will return the string quoted
+    # in double quotes, otherwise returns the string unmodified
+    def quote_atom: (untyped str) -> untyped
+
+    # If the string supplied has PHRASE unsafe characters in it, will return the string quoted
+    # in double quotes, otherwise returns the string unmodified
+    def quote_phrase: (untyped str) -> untyped
+
+    # Returns true if the string supplied is free from characters not allowed as a TOKEN
+    def token_safe?: (untyped str) -> untyped
+
+    # If the string supplied has TOKEN unsafe characters in it, will return the string quoted
+    # in double quotes, otherwise returns the string unmodified
+    def quote_token: (untyped str) -> untyped
+
+    # Wraps supplied string in double quotes and applies \-escaping as necessary,
+    # unless it is already wrapped.
+    #
+    # Example:
+    #
+    #  string = 'This is a string'
+    #  dquote(string) #=> '"This is a string"'
+    #
+    #  string = 'This is "a string"'
+    #  dquote(string #=> '"This is \"a string\"'
+    def dquote: (untyped str) -> untyped
+
+    # Unwraps supplied string from inside double quotes and
+    # removes any \-escaping.
+    #
+    # Example:
+    #
+    #  string = '"This is a string"'
+    #  unquote(string) #=> 'This is a string'
+    #
+    #  string = '"This is \"a string\""'
+    #  unqoute(string) #=> 'This is "a string"'
+    def unquote: (untyped str) -> untyped
+
+    # Removes any \-escaping.
+    #
+    # Example:
+    #
+    #  string = 'This is \"a string\"'
+    #  unescape(string) #=> 'This is "a string"'
+    #
+    #  string = '"This is \"a string\""'
+    #  unescape(string) #=> '"This is "a string""'
+    def unescape: (untyped str) -> untyped
+
+    # Wraps a string in parenthesis and escapes any that are in the string itself.
+    #
+    # Example:
+    #
+    #  paren( 'This is a string' ) #=> '(This is a string)'
+    def paren: (untyped str) -> untyped
+
+    # Unwraps a string from being wrapped in parenthesis
+    #
+    # Example:
+    #
+    #  str = '(This is a string)'
+    #  unparen( str ) #=> 'This is a string'
+    def unparen: (untyped str) -> untyped
+
+    # Wraps a string in angle brackets and escapes any that are in the string itself
+    #
+    # Example:
+    #
+    #  bracket( 'This is a string' ) #=> '<This is a string>'
+    def bracket: (untyped str) -> untyped
+
+    # Unwraps a string from being wrapped in parenthesis
+    #
+    # Example:
+    #
+    #  str = '<This is a string>'
+    #  unbracket( str ) #=> 'This is a string'
+    def unbracket: (untyped str) -> untyped
+
+    # Escape parenthesies in a string
+    #
+    # Example:
+    #
+    #  str = 'This is (a) string'
+    #  escape_paren( str ) #=> 'This is \(a\) string'
+    def escape_paren: (untyped str) -> untyped
+
+    def uri_escape: (untyped str) -> untyped
+
+    def uri_unescape: (untyped str) -> untyped
+
+    def uri_parser: () -> untyped
+
+    # Matches two objects with their to_s values case insensitively
+    #
+    # Example:
+    #
+    #  obj2 = "This_is_An_object"
+    #  obj1 = :this_IS_an_object
+    #  match_to_s( obj1, obj2 ) #=> true
+    def match_to_s: (untyped obj1, untyped obj2) -> untyped
+
+    # Capitalizes a string that is joined by hyphens correctly.
+    #
+    # Example:
+    #
+    #  string = 'resent-from-field'
+    #  capitalize_field( string ) #=> 'Resent-From-Field'
+    def capitalize_field: (untyped str) -> untyped
+
+    # Takes an underscored word and turns it into a class name
+    #
+    # Example:
+    #
+    #  constantize("hello") #=> "Hello"
+    #  constantize("hello-there") #=> "HelloThere"
+    #  constantize("hello-there-mate") #=> "HelloThereMate"
+    def constantize: (untyped str) -> untyped
+
+    # Swaps out all underscores (_) for hyphens (-) good for stringing from symbols
+    # a field name.
+    #
+    # Example:
+    #
+    #  string = :resent_from_field
+    #  dasherize( string ) #=> 'resent-from-field'
+    def dasherize: (untyped str) -> untyped
+
+    # Swaps out all hyphens (-) for underscores (_) good for stringing to symbols
+    # a field name.
+    #
+    # Example:
+    #
+    #  string = :resent_from_field
+    #  underscoreize ( string ) #=> 'resent_from_field'
+    def underscoreize: (untyped str) -> untyped
+
+    def map_lines: (untyped str) ?{ () -> untyped } -> untyped
+
+    def map_with_index: (untyped enum) ?{ () -> untyped } -> untyped
+
+    def self.binary_unsafe_to_lf: (untyped string) -> untyped
+
+    TO_CRLF_REGEX: untyped
+
+    def self.binary_unsafe_to_crlf: (untyped string) -> untyped
+
+    def self.safe_for_line_ending_conversion?: (untyped string) -> untyped
+
+    # Convert line endings to \n unless the string is binary. Used for
+    # sendmail delivery and for decoding 8bit Content-Transfer-Encoding.
+    def self.to_lf: (untyped string) -> untyped
+
+    # Convert line endings to \r\n unless the string is binary. Used for
+    # encoding 8bit and base64 Content-Transfer-Encoding and for convenience
+    # when parsing emails with \n line endings instead of the required \r\n.
+    def self.to_crlf: (untyped string) -> untyped
+
+    # Returns true if the object is considered blank.
+    # A blank includes things like '', '   ', nil,
+    # and arrays and hashes that have nothing in them.
+    #
+    # This logic is mostly shared with ActiveSupport's blank?
+    def blank?: (untyped value) -> (true | untyped)
+
+    def generate_message_id: () -> ::String
+
+    class StrictCharsetEncoder
+      def encode: (untyped string, untyped charset) -> untyped
+    end
+
+    class BestEffortCharsetEncoder
+      def encode: (untyped string, untyped charset) -> untyped
+
+      private
+
+      def pick_encoding: (untyped charset) -> untyped
+    end
+
+    attr_accessor self.charset_encoder: untyped
+
+    # Escapes any parenthesis in a string that are unescaped this uses
+    # a Ruby 1.9.1 regexp feature of negative look behind
+    def self.escape_paren: (untyped str) -> untyped
+
+    def self.paren: (untyped str) -> untyped
+
+    def self.escape_bracket: (untyped str) -> untyped
+
+    def self.bracket: (untyped str) -> untyped
+
+    def self.decode_base64: (untyped str) -> untyped
+
+    def self.encode_base64: (untyped str) -> untyped
+
+    def self.has_constant?: (untyped klass, untyped string) -> untyped
+
+    def self.get_constant: (untyped klass, untyped string) -> untyped
+
+    def self.transcode_charset: (untyped str, untyped from_encoding, ?untyped to_encoding) -> untyped
+
+    # From Ruby stdlib Net::IMAP
+    def self.encode_utf7: (untyped string) -> untyped
+
+    def self.decode_utf7: (untyped utf7) -> untyped
+
+    def self.b_value_encode: (untyped str, ?untyped? encoding) -> ::Array[untyped]
+
+    def self.b_value_decode: (untyped str) -> untyped
+
+    def self.q_value_encode: (untyped str, ?untyped? encoding) -> ::Array[untyped]
+
+    def self.q_value_decode: (untyped str) -> untyped
+
+    def self.param_decode: (untyped str, untyped encoding) -> untyped
+
+    def self.param_encode: (untyped str) -> ::String
+
+    def self.uri_parser: () -> untyped
+
+    # Pick a Ruby encoding corresponding to the message charset. Most
+    # charsets have a Ruby encoding, but some need manual aliasing here.
+    #
+    # TODO: add this as a test somewhere:
+    #   Encoding.list.map { |e| [e.to_s.upcase == pick_encoding(e.to_s.downcase.gsub("-", "")), e.to_s] }.select {|a,b| !b}
+    #   Encoding.list.map { |e| [e.to_s == pick_encoding(e.to_s), e.to_s] }.select {|a,b| !b}
+    def self.pick_encoding: (untyped charset) -> untyped
+
+    def self.string_byteslice: (untyped str, *untyped args) -> untyped
+
+    private
+
+    def self.convert_to_encoding: (untyped encoding) -> untyped
+
+    def self.transcode_to_scrubbed_utf8: (untyped str) -> untyped
+  end
+end
+
+# frozen_string_literal: true
+module Mail
+  module VERSION
+    MAJOR: 2
+
+    MINOR: 9
+
+    PATCH: 0
+
+    BUILD: "edge"
+
+    STRING: untyped
+
+    def self.version: () -> untyped
+  end
+end
+
+module Mail
+  module YAML
+    def self.load: (untyped yaml) -> untyped
+  end
+end

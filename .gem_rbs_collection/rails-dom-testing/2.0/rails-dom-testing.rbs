@@ -1,0 +1,55 @@
+module Rails
+  module Dom
+    module Testing
+      module Assertions
+        include Rails::Dom::Testing::Assertions::SelectorAssertions
+
+        include Rails::Dom::Testing::Assertions::DomAssertions
+
+        module DomAssertions
+          public
+
+          def assert_dom_equal: (untyped expected, untyped actual, ?untyped message) -> untyped
+
+          def assert_dom_not_equal: (untyped expected, untyped actual, ?untyped message) -> untyped
+
+          private
+
+          def fragment: (untyped text) -> untyped
+        end
+
+        module SelectorAssertions
+          include Rails::Dom::Testing::Assertions::SelectorAssertions::CountDescribable
+
+          public
+
+          def assert_select: (*untyped args) { (*untyped) -> untyped } -> untyped
+
+          def assert_select_email: () { (*untyped) -> untyped } -> untyped
+
+          def assert_select_encoded: (?untyped element) { (*untyped) -> untyped } -> untyped
+
+          def css_select: (*untyped args) -> untyped
+
+          private
+
+          def assert_size_match!: (untyped size, untyped equals, untyped css_selector, ?untyped message) -> untyped
+
+          def document_root_element: () -> untyped
+
+          def nest_selection: (untyped selection) { (untyped) -> untyped } -> untyped
+
+          def nodeset: (untyped node) -> untyped
+
+          module CountDescribable
+            private
+
+            def count_description: (untyped min, untyped max, untyped count) -> untyped
+
+            def pluralize_element: (untyped quantity) -> untyped
+          end
+        end
+      end
+    end
+  end
+end

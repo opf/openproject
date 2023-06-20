@@ -1,0 +1,55 @@
+# WARNING ABOUT GENERATED CODE
+#
+# This file is generated. See the generator README.md for more information:
+# https://github.com/ruby/gem_rbs_collection/blob/main/generators/aws-sdk-rbs-generator/README.md
+#
+# WARNING ABOUT GENERATED CODE
+
+module Aws
+  module S3
+    class BucketVersioning
+      # identifiers
+
+      def initialize: (bucket_name: String, ?client: Client, **untyped) -> void
+      def bucket_name: () -> String
+
+      # data_attribute
+
+      def status: () -> Types::bucket_versioning_status
+      def mfa_delete: () -> Types::mfa_delete_status
+
+      # client_method
+
+      def client: () -> Client
+
+      # load_method
+
+      def load: () -> self
+      alias reload load
+
+      # data_method
+
+      def data: () -> Types::GetBucketVersioningOutput
+
+      def data_loaded?: () -> bool
+
+      # waiters
+
+
+      # actions
+
+      def enable: (?content_md5: Types::content_md5, ?checksum_algorithm: Types::checksum_algorithm, ?mfa: Types::mfa, ?expected_bucket_owner: Types::account_id) -> EmptyStructure
+      def put: (?content_md5: Types::content_md5, ?checksum_algorithm: Types::checksum_algorithm, ?mfa: Types::mfa, versioning_configuration: Types::versioning_configuration, ?expected_bucket_owner: Types::account_id) -> EmptyStructure
+      def suspend: (?content_md5: Types::content_md5, ?checksum_algorithm: Types::checksum_algorithm, ?mfa: Types::mfa, ?expected_bucket_owner: Types::account_id) -> EmptyStructure
+
+      # associations
+
+      def bucket: () -> Bucket
+
+      # batch_actions
+
+      class Collection < ::Aws::Resources::Collection[BucketVersioning]
+      end
+    end
+  end
+end

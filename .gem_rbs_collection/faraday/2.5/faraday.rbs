@@ -1,0 +1,263 @@
+module Faraday
+  VERSION: ::String
+
+  attr_reader self.default_adapter: Symbol
+
+  def self.new: (?untyped url, ?untyped options) ?{ (?untyped) -> void } -> Faraday::Connection
+
+  class Adapter
+    extend MiddlewareRegistry
+
+    CONTENT_LENGTH: "Content-Length"
+
+    interface _SupportsParallel
+      def supports_parallel: () -> boolish
+      def supports_parallel=: (boolish value) -> void
+      def supports_parallel?: () -> boolish
+    end
+
+    module Parallelism
+      include _SupportsParallel
+
+      def inherited: (_SupportsParallel subclass) -> void
+    end
+
+    extend Parallelism
+
+    def initialize: (?untyped? _app, ?::Hash[untyped, untyped] opts) ?{ () -> untyped } -> void
+    def connection: (untyped env) ?{ (untyped) -> untyped } -> untyped # TODO: `env` should be Faraday::Env
+    def close: () -> void
+    def call: (untyped env) -> Response # TODO: `env` should be Faraday::Env
+
+    private
+
+    # TODO: The block parameter should be `Utils::Headers`, but it has not yet been defined.
+    def save_response: (untyped env, Integer status, String body, ?Hash[untyped, untyped]? headers, ?String? reason_phrase, ?finished: bool) ?{ (untyped) -> void } -> Response # TODO: `env` should be Faraday::Env
+    def request_timeout: (:read | :open | :write `type`, Hash[Symbol, untyped] options) -> Integer?
+
+    TIMEOUT_KEYS: { read: :read_timeout, open: :open_timeout, write: :write_timeout }
+
+    class Test < Adapter
+      type meta = { match_data: ::MatchData? }
+
+      attr_accessor stubs: untyped
+
+      class Stubs
+        class NotFound < StandardError
+        end
+
+        def initialize: (?strict_mode: bool) ?{ (self) -> void } -> void
+        def empty?: () -> bool
+        def match: (untyped env) -> ((false | nil) | [Stub, meta]) # TODO: `env` should be Faraday::Env
+        def get: (String | URI | Regexp path, ?::Hash[Symbol | String, untyped] headers) { (untyped env, meta) -> [Integer, ::Hash[String | Symbol, untyped], String] } -> void # TODO: `env` should be Faraday::Env
+        def head: (String | URI | Regexp path, ?::Hash[Symbol | String, untyped] headers) { (untyped env, meta) -> [Integer, ::Hash[String | Symbol, untyped], String] } -> void # TODO: `env` should be Faraday::Env
+        def post: (String | URI | Regexp path, ?(^(String) -> bool | _ToS)? body, ?::Hash[Symbol | String, untyped] headers) { (untyped env, meta) -> [Integer, ::Hash[String | Symbol, untyped], String] } -> void # TODO: `env` should be Faraday::Env
+        def put: (String | URI | Regexp path, ?(^(String) -> bool | _ToS)? body, ?::Hash[Symbol | String, untyped] headers) { (untyped env, meta) -> [Integer, ::Hash[String | Symbol, untyped], String] } -> void # TODO: `env` should be Faraday::Env
+        def patch: (String | URI | Regexp path, ?(^(String) -> bool | _ToS)? body, ?::Hash[Symbol | String, untyped] headers) { (untyped env, meta) -> [Integer, ::Hash[String | Symbol, untyped], String] } -> void # TODO: `env` should be Faraday::Env
+        def delete: (String | URI | Regexp path, ?::Hash[Symbol | String, untyped] headers) { (untyped env, meta) -> [Integer, ::Hash[String | Symbol, untyped], String] } -> void # TODO: `env` should be Faraday::Env
+        def options: (String | URI | Regexp path, ?::Hash[Symbol | String, untyped] headers) { (untyped env, meta) -> [Integer, ::Hash[String | Symbol, untyped], String] } -> void # TODO: `env` should be Faraday::Env
+        def verify_stubbed_calls: () -> void
+        def strict_mode=: (boolish value) -> void
+
+        private # protected is not yet supported. See https://github.com/ruby/rbs/issues/579
+
+        def new_stub: (:get | :head | :post | :put | :patch | :delete | :options request_method, String | URI | Regexp path, ?::Hash[Symbol | String, untyped] headers, ?(^(String) -> bool | _ToS)? body) { (untyped env, meta) -> [Integer, ::Hash[String | Symbol, untyped], String] } -> void
+        def matches?: (::Hash[Symbol, untyped] stack, untyped env) -> ([Stub, meta] | nil) # TODO: `env` should be Faraday::Env
+      end
+
+      class Stub
+        attr_accessor host: String?
+        attr_accessor path: String?
+        attr_accessor query: String?
+        attr_accessor headers: Utils::Headers?
+        attr_accessor body: String?
+        attr_accessor strict_mode: boolish
+        attr_accessor block: Proc?
+
+        def initialize: (String? host, String? path, String? query, Utils::Headers? headers, String? body, boolish strict_mode, Proc block) -> void
+        def matches?: (untyped env) -> [bool, meta] # TODO: `env` should be Faraday::Env
+        def path_match?: (String request_path, meta) -> bool
+        def params_match?: (untyped env) -> bool # TODO: `env` should be Faraday::Env
+        def headers_match?: (::Hash[String | Symbol, untyped] request_headers) -> bool
+        def body_match?: (String request_body) -> bool
+        def to_s: () -> ::String
+      end
+
+      def initialize: (untyped app) ?{ (Stubs stubs) -> void } -> void
+                    | (untyped app, untyped? stubs) ?{ (untyped stubs) -> void } -> void
+      def configure: () { (untyped) -> void } -> void
+      def call: (untyped env) -> untyped # TODO: `env` should be Faraday::Env
+    end
+  end
+
+  class AdapterRegistry
+    @lock: untyped # TODO: Replace this with `Monitor`
+    @constants: Hash[String, untyped]
+
+    def initialize: () -> void
+    def get: (Symbol | String name) -> untyped
+    def set: (untyped klass, ?_ToS? name) -> void
+  end
+
+  class Connection
+    attr_reader headers: Hash[String, String]
+
+    def get: (?String | URI url, ?untyped params, ?untyped headers) ?{ (Faraday::Request) -> void } -> Faraday::Response
+    def head: (?String | URI url, ?untyped params, ?untyped headers) ?{ (Faraday::Request) -> void } -> Faraday::Response
+    def delete: (?String | URI url, ?untyped params, ?untyped headers) ?{ (Faraday::Request) -> void } -> Faraday::Response
+    def trace: (?String | URI url, ?untyped params, ?untyped headers) ?{ (Faraday::Request) -> void } -> Faraday::Response
+
+    def post: (?String | URI url, ?untyped body, ?untyped headers) ?{ (Faraday::Request) -> void } -> Faraday::Response
+    def put: (?String | URI url, ?untyped body, ?untyped headers) ?{ (Faraday::Request) -> void } -> Faraday::Response
+    def patch: (?String | URI url, ?untyped body, ?untyped headers) ?{ (Faraday::Request) -> void } -> Faraday::Response
+  end
+
+  class Error < StandardError
+    attr_reader response: Hash[Symbol, untyped]?
+    attr_reader wrapped_exception: Exception?
+
+    type exc = Exception | Hash[Symbol, untyped] | String
+
+    def initialize: (?exc? exc, ?Hash[Symbol, untyped]? response) -> void
+    def backtrace: () -> ::Array[String]?
+    def inspect: () -> ::String
+    def response_status: () -> untyped
+    def response_headers: () -> untyped
+    def response_body: () -> untyped
+    def exc_msg_and_response!: (?exc? exc, ?Hash[Symbol, untyped]? response) -> String
+    def exc_msg_and_response: (?exc? exc, ?Hash[Symbol, untyped]? response) -> [Exception?, String, Hash[Symbol, untyped]?]
+  end
+
+  class ClientError < Error
+  end
+
+  class BadRequestError < ClientError
+  end
+
+  class UnauthorizedError < ClientError
+  end
+
+  class ForbiddenError < ClientError
+  end
+
+  class ResourceNotFound < ClientError
+  end
+
+  class ProxyAuthError < ClientError
+  end
+
+  class ConflictError < ClientError
+  end
+
+  class UnprocessableEntityError < ClientError
+  end
+
+  class ServerError < Error
+  end
+
+  class TimeoutError < ServerError
+    def initialize: (?(Exception | Hash[Symbol, untyped] | String)? exc, ?Hash[Symbol, untyped]? response) -> void
+  end
+
+  class NilStatusError < ServerError
+    def initialize: ((Exception | Hash[Symbol, untyped] | String)? exc, ?Hash[Symbol, untyped]? response) -> void
+  end
+
+  class ConnectionFailed < Error
+  end
+
+  class SSLError < Error
+  end
+
+  class ParsingError < Error
+  end
+
+  class Response
+    def status: () -> Integer
+    def headers: () -> untyped
+    def body: () -> String
+    def success?: () -> bool
+  end
+
+  class Request
+    def http_method=: (untyped) -> void
+    def path=: (String | URI) -> void
+    def params=: (untyped) -> void
+    def headers=: (untyped) -> void
+    def body=: (untyped) -> void
+    def options=: (untyped) -> void
+    def url: (String | URI path, ?::Hash[untyped, untyped] params) -> void
+    def []: (untyped key) -> void
+    def []=: (untyped key, untyped value) -> void
+  end
+
+  module FlatParamsEncoder
+    extend Forwardable
+
+    def self.encode: (Hash[_ToS, _ToS | Array[_ToS]] | nil params) -> (nil | String)
+    def self.decode: (String | nil query) -> (nil | Hash[String, true | String | Array[String]])
+
+    attr_accessor self.sort_params: boolish
+  end
+
+  class Middleware
+    extend MiddlewareRegistry
+
+    attr_reader app: untyped
+    attr_reader options: Hash[untyped, untyped]
+
+    def initialize: (?untyped? app, ?::Hash[untyped, untyped] options) -> void
+    def call: (untyped env) -> untyped # TODO: `env` should be Faraday::Env
+    def close: () -> void
+  end
+
+  module MiddlewareRegistry
+    def registered_middleware: () -> Hash[Symbol, untyped]
+    def register_middleware: (**untyped mappings) -> void
+    def unregister_middleware: (Symbol key) -> void
+    def lookup_middleware: (Symbol key) -> untyped
+
+    private
+
+    def middleware_mutex: () ?{ () -> untyped } -> void
+    def load_middleware: (Symbol key) -> untyped
+  end
+
+  module Utils
+    class Headers < ::Hash[Symbol | String, untyped]
+      @names: ::Hash[String, String]
+
+      def self.from: (untyped value) -> Headers
+      def self.allocate: () -> Headers
+      def initialize: (?::Hash[Symbol | String, untyped]? hash) -> void
+      def initialize_names: () -> void
+      def initialize_copy: (self other) -> self
+
+      KeyMap: ::Hash[Symbol, String]
+
+      def []: (String | Symbol key) -> untyped?
+      def []=: (String | Symbol key, untyped val) -> untyped
+      def fetch: (String | Symbol key, *untyped args) ?{ () -> untyped } -> untyped
+      def delete: (String | Symbol key) -> untyped?
+      def include?: (String | Symbol key) -> bool
+
+      alias has_key? include?
+      alias member? include?
+      alias key? include?
+
+      def merge!: (::Hash[Symbol | String, untyped] other) -> self
+      alias update merge!
+
+      def merge: (::Hash[Symbol | String, untyped] other) -> Headers
+      def replace: (::Hash[Symbol | String, untyped] other) -> self
+      def to_hash: () -> Headers
+      def parse: (String? header_string) -> Array[untyped]?
+
+      attr_reader names: ::Hash[String, String]
+
+      private
+
+      def add_parsed: (Symbol | String key, String value) -> untyped
+    end
+  end
+end

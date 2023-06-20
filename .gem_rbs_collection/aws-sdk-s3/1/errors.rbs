@@ -1,0 +1,34 @@
+# WARNING ABOUT GENERATED CODE
+#
+# This file is generated. See the generator README.md for more information:
+# https://github.com/ruby/gem_rbs_collection/blob/main/generators/aws-sdk-rbs-generator/README.md
+#
+# WARNING ABOUT GENERATED CODE
+
+module Aws
+  module S3
+    module Errors
+      class ServiceError < Aws::Errors::ServiceError
+      end
+
+      class BucketAlreadyExists < ServiceError
+      end
+      class BucketAlreadyOwnedByYou < ServiceError
+      end
+      class InvalidObjectState < ServiceError
+        def storage_class: () -> Types::storage_class
+        def access_tier: () -> Types::intelligent_tiering_access_tier
+      end
+      class NoSuchBucket < ServiceError
+      end
+      class NoSuchKey < ServiceError
+      end
+      class NoSuchUpload < ServiceError
+      end
+      class ObjectAlreadyInActiveTierError < ServiceError
+      end
+      class ObjectNotInActiveTierError < ServiceError
+      end
+    end
+  end
+end

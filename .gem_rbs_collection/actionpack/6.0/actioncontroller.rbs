@@ -1,0 +1,110 @@
+module ActionController
+  interface _API_and_Base
+    def session: () -> untyped
+    def flash: () -> untyped
+  end
+
+  interface _API_and_Base_singletion
+    def rescue_from: (*Class, ?with: Symbol | Proc) -> void
+                   | (*Class) { (Exception) -> void } -> void
+  end
+
+  class Base < Metal
+    include _API_and_Base
+    extend _API_and_Base_singletion
+
+    # https://github.com/rails/rails/blob/v6.0.3.2/actionpack/lib/action_controller/base.rb#L205-L255
+    include AbstractController::Rendering
+    include AbstractController::Translation
+    include AbstractController::AssetPaths
+    include Helpers
+    extend Helpers::ClassMethods
+    include UrlFor
+    include Redirecting
+    include ActionView::Layouts
+    extend ::ActionView::Layouts::ClassMethods
+    include Rendering
+    extend Rendering::ClassMethods
+    include Renderers::All
+    include ConditionalGet
+    extend ConditionalGet::ClassMethods
+    include EtagWithTemplateDigest
+    include EtagWithFlash
+    include Caching
+    include MimeResponds
+    include ImplicitRender
+    include StrongParameters
+    include ParameterEncoding
+    extend ParameterEncoding::ClassMethods
+    include Cookies
+    include Flash
+    extend Flash::ClassMethods
+    include FormBuilder
+    extend FormBuilder::ClassMethods
+    include RequestForgeryProtection
+    extend RequestForgeryProtection::ClassMethods
+    include ContentSecurityPolicy
+    extend ContentSecurityPolicy::ClassMethods
+    include ForceSSL
+    extend ForceSSL::ClassMethods
+    include Streaming
+    include DataStreaming
+    include HttpAuthentication::Basic::ControllerMethods
+    extend HttpAuthentication::Basic::ControllerMethods::ClassMethods
+    include HttpAuthentication::Digest::ControllerMethods
+    include HttpAuthentication::Token::ControllerMethods
+    include DefaultHeaders
+    extend DefaultHeaders::ClassMethods
+    include AbstractController::Callbacks
+    extend AbstractController::Callbacks::ClassMethods
+    include Rescue
+    include Instrumentation
+    extend Instrumentation::ClassMethods
+    include ParamsWrapper
+    extend ParamsWrapper::ClassMethods
+  end
+
+  class API < Metal
+    include _API_and_Base
+    extend _API_and_Base_singletion
+
+    # https://github.com/rails/rails/blob/v6.0.3.2/actionpack/lib/action_controller/api.rb#L112-L145
+    include AbstractController::Rendering
+    include UrlFor
+    include Redirecting
+    include ApiRendering
+    include Renderers::All
+    include ConditionalGet
+    extend ConditionalGet::ClassMethods
+    include BasicImplicitRender
+    include StrongParameters
+    include ForceSSL
+    extend ForceSSL::ClassMethods
+    include DataStreaming
+    include DefaultHeaders
+    extend DefaultHeaders::ClassMethods
+    include AbstractController::Callbacks
+    extend AbstractController::Callbacks::ClassMethods
+    include Rescue
+    include Instrumentation
+    extend Instrumentation::ClassMethods
+    include ParamsWrapper
+    extend ParamsWrapper::ClassMethods
+  end
+end
+
+module AbstractController::Callbacks::ClassMethods
+  def before_action: (*untyped) -> void
+  def around_action: (*untyped) -> void
+  def after_action: (*untyped) -> void
+  def skip_before_action: (*untyped) -> void
+  def skip_around_action: (*untyped) -> void
+  def skip_after_action: (*untyped) -> void
+  def prepend_before_action: (*untyped) -> void
+  def prepend_around_action: (*untyped) -> void
+  def prepend_after_action: (*untyped) -> void
+  def append_before_action: (*untyped) -> void
+  def append_around_action: (*untyped) -> void
+  def append_after_action: (*untyped) -> void
+end
+

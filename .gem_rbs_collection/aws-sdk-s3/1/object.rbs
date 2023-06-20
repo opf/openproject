@@ -1,0 +1,99 @@
+# WARNING ABOUT GENERATED CODE
+#
+# This file is generated. See the generator README.md for more information:
+# https://github.com/ruby/gem_rbs_collection/blob/main/generators/aws-sdk-rbs-generator/README.md
+#
+# WARNING ABOUT GENERATED CODE
+
+module Aws
+  module S3
+    class Object
+      # identifiers
+
+      def initialize: (bucket_name: String, key: String, ?client: Client, **untyped) -> void
+      def bucket_name: () -> String
+      def key: () -> String
+
+      # data_attribute
+
+      def delete_marker: () -> Types::delete_marker
+      def accept_ranges: () -> Types::accept_ranges
+      def expiration: () -> Types::expiration
+      def restore: () -> Types::restore
+      def archive_status: () -> Types::archive_status
+      def last_modified: () -> Types::last_modified
+      def content_length: () -> Types::content_length
+      def checksum_crc32: () -> Types::checksum_crc32
+      def checksum_crc32c: () -> Types::checksum_crc32c
+      def checksum_sha1: () -> Types::checksum_sha1
+      def checksum_sha256: () -> Types::checksum_sha256
+      def etag: () -> Types::etag
+      def missing_meta: () -> Types::missing_meta
+      def version_id: () -> Types::object_version_id
+      def cache_control: () -> Types::cache_control
+      def content_disposition: () -> Types::content_disposition
+      def content_encoding: () -> Types::content_encoding
+      def content_language: () -> Types::content_language
+      def content_type: () -> Types::content_type
+      def expires: () -> Types::expires
+      def website_redirect_location: () -> Types::website_redirect_location
+      def server_side_encryption: () -> Types::server_side_encryption
+      def metadata: () -> Types::metadata
+      def sse_customer_algorithm: () -> Types::sse_customer_algorithm
+      def sse_customer_key_md5: () -> Types::sse_customer_key_md5
+      def ssekms_key_id: () -> Types::ssekms_key_id
+      def bucket_key_enabled: () -> Types::bucket_key_enabled
+      def storage_class: () -> Types::storage_class
+      def request_charged: () -> Types::request_charged
+      def replication_status: () -> Types::replication_status
+      def parts_count: () -> Types::parts_count
+      def object_lock_mode: () -> Types::object_lock_mode
+      def object_lock_retain_until_date: () -> Types::object_lock_retain_until_date
+      def object_lock_legal_hold_status: () -> Types::object_lock_legal_hold_status
+
+      # client_method
+
+      def client: () -> Client
+
+      # load_method
+
+      def load: () -> self
+      alias reload load
+
+      # data_method
+
+      def data: () -> Types::HeadObjectOutput
+
+      def data_loaded?: () -> bool
+
+      # waiters
+
+      def exists?: (?Aws::Waiters::waiter_options) -> bool
+      def wait_until_exists: (?Aws::Waiters::waiter_options) -> self
+      def wait_until_not_exists: (?Aws::Waiters::waiter_options) -> self
+
+      # actions
+
+      def copy_from: (?acl: Types::object_canned_acl, ?cache_control: Types::cache_control, ?checksum_algorithm: Types::checksum_algorithm, ?content_disposition: Types::content_disposition, ?content_encoding: Types::content_encoding, ?content_language: Types::content_language, ?content_type: Types::content_type, copy_source: Types::copy_source, ?copy_source_if_match: Types::copy_source_if_match, ?copy_source_if_modified_since: Types::copy_source_if_modified_since, ?copy_source_if_none_match: Types::copy_source_if_none_match, ?copy_source_if_unmodified_since: Types::copy_source_if_unmodified_since, ?expires: Types::expires, ?grant_full_control: Types::grant_full_control, ?grant_read: Types::grant_read, ?grant_read_acp: Types::grant_read_acp, ?grant_write_acp: Types::grant_write_acp, ?metadata: Types::metadata, ?metadata_directive: Types::metadata_directive, ?tagging_directive: Types::tagging_directive, ?server_side_encryption: Types::server_side_encryption, ?storage_class: Types::storage_class, ?website_redirect_location: Types::website_redirect_location, ?sse_customer_algorithm: Types::sse_customer_algorithm, ?sse_customer_key: Types::sse_customer_key, ?sse_customer_key_md5: Types::sse_customer_key_md5, ?ssekms_key_id: Types::ssekms_key_id, ?ssekms_encryption_context: Types::ssekms_encryption_context, ?bucket_key_enabled: Types::bucket_key_enabled, ?copy_source_sse_customer_algorithm: Types::copy_source_sse_customer_algorithm, ?copy_source_sse_customer_key: Types::copy_source_sse_customer_key, ?copy_source_sse_customer_key_md5: Types::copy_source_sse_customer_key_md5, ?request_payer: Types::request_payer, ?tagging: Types::tagging_header, ?object_lock_mode: Types::object_lock_mode, ?object_lock_retain_until_date: Types::object_lock_retain_until_date, ?object_lock_legal_hold_status: Types::object_lock_legal_hold_status, ?expected_bucket_owner: Types::account_id, ?expected_source_bucket_owner: Types::account_id) -> Types::CopyObjectOutput
+      def delete: (?mfa: Types::mfa, ?version_id: Types::object_version_id, ?request_payer: Types::request_payer, ?bypass_governance_retention: Types::bypass_governance_retention, ?expected_bucket_owner: Types::account_id) -> Types::DeleteObjectOutput
+      def get: (?if_match: Types::if_match, ?if_modified_since: Types::if_modified_since, ?if_none_match: Types::if_none_match, ?if_unmodified_since: Types::if_unmodified_since, ?range: Types::range, ?response_cache_control: Types::response_cache_control, ?response_content_disposition: Types::response_content_disposition, ?response_content_encoding: Types::response_content_encoding, ?response_content_language: Types::response_content_language, ?response_content_type: Types::response_content_type, ?response_expires: Types::response_expires, ?version_id: Types::object_version_id, ?sse_customer_algorithm: Types::sse_customer_algorithm, ?sse_customer_key: Types::sse_customer_key, ?sse_customer_key_md5: Types::sse_customer_key_md5, ?request_payer: Types::request_payer, ?part_number: Types::part_number, ?expected_bucket_owner: Types::account_id, ?checksum_mode: Types::checksum_mode) -> Types::GetObjectOutput
+      def initiate_multipart_upload: (?acl: Types::object_canned_acl, ?cache_control: Types::cache_control, ?content_disposition: Types::content_disposition, ?content_encoding: Types::content_encoding, ?content_language: Types::content_language, ?content_type: Types::content_type, ?expires: Types::expires, ?grant_full_control: Types::grant_full_control, ?grant_read: Types::grant_read, ?grant_read_acp: Types::grant_read_acp, ?grant_write_acp: Types::grant_write_acp, ?metadata: Types::metadata, ?server_side_encryption: Types::server_side_encryption, ?storage_class: Types::storage_class, ?website_redirect_location: Types::website_redirect_location, ?sse_customer_algorithm: Types::sse_customer_algorithm, ?sse_customer_key: Types::sse_customer_key, ?sse_customer_key_md5: Types::sse_customer_key_md5, ?ssekms_key_id: Types::ssekms_key_id, ?ssekms_encryption_context: Types::ssekms_encryption_context, ?bucket_key_enabled: Types::bucket_key_enabled, ?request_payer: Types::request_payer, ?tagging: Types::tagging_header, ?object_lock_mode: Types::object_lock_mode, ?object_lock_retain_until_date: Types::object_lock_retain_until_date, ?object_lock_legal_hold_status: Types::object_lock_legal_hold_status, ?expected_bucket_owner: Types::account_id, ?checksum_algorithm: Types::checksum_algorithm) -> MultipartUpload
+      def put: (?acl: Types::object_canned_acl, ?body: Types::body_streaming, ?cache_control: Types::cache_control, ?content_disposition: Types::content_disposition, ?content_encoding: Types::content_encoding, ?content_language: Types::content_language, ?content_length: Types::content_length, ?content_md5: Types::content_md5, ?content_type: Types::content_type, ?checksum_algorithm: Types::checksum_algorithm, ?checksum_crc32: Types::checksum_crc32, ?checksum_crc32c: Types::checksum_crc32c, ?checksum_sha1: Types::checksum_sha1, ?checksum_sha256: Types::checksum_sha256, ?expires: Types::expires, ?grant_full_control: Types::grant_full_control, ?grant_read: Types::grant_read, ?grant_read_acp: Types::grant_read_acp, ?grant_write_acp: Types::grant_write_acp, ?metadata: Types::metadata, ?server_side_encryption: Types::server_side_encryption, ?storage_class: Types::storage_class, ?website_redirect_location: Types::website_redirect_location, ?sse_customer_algorithm: Types::sse_customer_algorithm, ?sse_customer_key: Types::sse_customer_key, ?sse_customer_key_md5: Types::sse_customer_key_md5, ?ssekms_key_id: Types::ssekms_key_id, ?ssekms_encryption_context: Types::ssekms_encryption_context, ?bucket_key_enabled: Types::bucket_key_enabled, ?request_payer: Types::request_payer, ?tagging: Types::tagging_header, ?object_lock_mode: Types::object_lock_mode, ?object_lock_retain_until_date: Types::object_lock_retain_until_date, ?object_lock_legal_hold_status: Types::object_lock_legal_hold_status, ?expected_bucket_owner: Types::account_id) -> Types::PutObjectOutput
+      def restore_object: (?version_id: Types::object_version_id, ?restore_request: Types::restore_request, ?request_payer: Types::request_payer, ?checksum_algorithm: Types::checksum_algorithm, ?expected_bucket_owner: Types::account_id) -> Types::RestoreObjectOutput
+      def head: (?if_match: Types::if_match, ?if_modified_since: Types::if_modified_since, ?if_none_match: Types::if_none_match, ?if_unmodified_since: Types::if_unmodified_since, ?range: Types::range, ?version_id: Types::object_version_id, ?sse_customer_algorithm: Types::sse_customer_algorithm, ?sse_customer_key: Types::sse_customer_key, ?sse_customer_key_md5: Types::sse_customer_key_md5, ?request_payer: Types::request_payer, ?part_number: Types::part_number, ?expected_bucket_owner: Types::account_id, ?checksum_mode: Types::checksum_mode) -> Types::HeadObjectOutput
+
+      # associations
+
+      def acl: () -> ObjectAcl
+      def bucket: () -> Bucket
+      def multipart_upload: (String id) -> MultipartUpload
+      def version: (String id) -> ObjectVersion
+
+      # batch_actions
+
+      class Collection < ::Aws::Resources::Collection[Object]
+        def batch_delete!: (?mfa: Types::mfa, ?request_payer: Types::request_payer, ?bypass_governance_retention: Types::bypass_governance_retention, ?expected_bucket_owner: Types::account_id, ?checksum_algorithm: Types::checksum_algorithm) -> void
+      end
+    end
+  end
+end

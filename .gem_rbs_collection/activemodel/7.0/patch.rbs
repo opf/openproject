@@ -1,0 +1,20 @@
+module ActiveModel
+  module Serialization
+    # It is necessary to satisfy alias target.
+    # TODO: Define this method to correct place.
+    def `send`: (String name, *untyped args) ?{ (*untyped) -> untyped } -> untyped
+  end
+
+  module Validations
+    # It is necessary to satisfy alias target.
+    # TODO: Define this method to correct place.
+    def `send`: (String name, *untyped args) ?{ (*untyped) -> untyped } -> untyped
+  end
+end
+
+# Remove the fake types for Gem::Version
+# if the real types are available.
+module Gem
+  class Version
+  end
+end

@@ -1,0 +1,2 @@
+class ActiveStorage::Record < ActiveRecord::Base #:nodoc:
+end

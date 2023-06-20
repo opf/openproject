@@ -1,0 +1,7 @@
+# manifest.yaml describes dependencies which do not appear in the gemspec.
+# If this gem includes such dependencies, comment-out the following lines and
+# declare the dependencies.
+# If all dependencies appear in the gemspec, you should remove this file.
+#
+# dependencies:
+#   - name: pathname

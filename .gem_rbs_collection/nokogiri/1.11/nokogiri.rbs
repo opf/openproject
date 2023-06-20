@@ -1,0 +1,2332 @@
+class Object
+  def Nokogiri: (untyped string, ?untyped url, ?untyped encoding, ?untyped options) -> (Nokogiri::HTML::Document | Nokogiri::XML::Document)
+              | () { (Nokogiri::HTML::Builder) -> untyped } -> Nokogiri::XML::Node
+end
+
+module Nokogiri
+  def self.HTML: (untyped thing, ?untyped url, ?untyped encoding, ?untyped options) ?{ (*untyped) -> untyped } -> HTML::Document
+
+  def self.Slop: (*untyped args) { (*untyped) -> untyped } -> (XML::Document & Nokogiri::Decorators::Slop)
+
+  def self.XML: (untyped thing, ?untyped url, ?untyped encoding, ?untyped options) ?{ (*untyped) -> untyped } -> XML::Document
+
+  def self.XSLT: (untyped stylesheet, ?untyped modules) -> untyped
+
+  def self.install_default_aliases: () -> untyped
+
+  def self.jruby?: () -> boolish
+
+  def self.make: (?untyped input, ?untyped opts) { (*untyped) -> untyped } -> untyped
+
+  def self.parse: (untyped string, ?untyped url, ?untyped encoding, ?untyped options) -> (Nokogiri::HTML::Document | Nokogiri::XML::Document)
+
+  def self.uses_libxml?: () -> boolish
+end
+
+Nokogiri::LIBXML_ICONV_ENABLED: bool
+
+Nokogiri::LIBXML_PARSER_VERSION: String
+
+Nokogiri::LIBXML_VERSION: String
+
+Nokogiri::NOKOGIRI_LIBXML2_PATCHES: Array[untyped]
+
+Nokogiri::NOKOGIRI_LIBXML2_PATH: String
+
+Nokogiri::NOKOGIRI_LIBXSLT_PATCHES: Array[untyped]
+
+Nokogiri::NOKOGIRI_LIBXSLT_PATH: String
+
+Nokogiri::NOKOGIRI_USE_PACKAGED_LIBRARIES: bool
+
+Nokogiri::VERSION: String
+
+Nokogiri::VERSION_INFO: Hash[untyped, untyped]
+
+module Nokogiri::CSS
+  def self.parse: (untyped selector) -> untyped
+
+  def self.xpath_for: (untyped selector, ?untyped options) -> untyped
+end
+
+class Nokogiri::CSS::Node
+  public
+
+  def accept: (untyped visitor) -> untyped
+
+  def find_by_type: (untyped types) -> untyped
+
+  def to_a: () -> untyped
+
+  def to_type: () -> untyped
+
+  def to_xpath: (?untyped prefix, ?untyped visitor) -> untyped
+
+  def type: () -> untyped
+
+  def type=: (untyped) -> untyped
+
+  def value: () -> untyped
+
+  def value=: (untyped) -> untyped
+
+  private
+
+  def initialize: (untyped `type`, untyped value) -> untyped
+end
+
+Nokogiri::CSS::Node::ALLOW_COMBINATOR_ON_SELF: Array[untyped]
+
+class Nokogiri::CSS::Parser < Racc::Parser
+  def self.[]: (untyped string) -> untyped
+
+  def self.[]=: (untyped string, untyped value) -> untyped
+
+  def self.cache_on: () -> untyped
+
+  def self.cache_on=: (untyped) -> untyped
+
+  alias self.cache_on? self.cache_on
+
+  def self.clear_cache: () -> untyped
+
+  def self.parse: (untyped selector) -> untyped
+
+  alias self.set_cache self.cache_on=
+
+  def self.without_cache: () { (*untyped) -> untyped } -> untyped
+
+  public
+
+  def _reduce_1: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_11: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_12: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_13: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_14: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_15: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_16: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_18: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_2: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_20: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_21: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_22: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_23: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_25: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_26: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_27: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_28: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_29: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_3: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_30: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_31: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_32: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_33: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_34: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_35: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_36: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_37: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_4: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_40: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_41: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_42: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_43: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_44: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_45: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_48: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_49: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_5: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_50: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_51: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_52: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_58: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_59: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_6: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_60: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_61: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_63: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_64: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_65: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_66: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_67: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_68: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_69: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_7: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_70: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_8: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_9: (untyped val, untyped _values, untyped result) -> untyped
+
+  def _reduce_none: (untyped val, untyped _values, untyped result) -> untyped
+
+  def next_token: () -> untyped
+
+  def on_error: (untyped error_token_id, untyped error_value, untyped value_stack) -> untyped
+
+  def parse: (untyped string) -> untyped
+
+  def unescape_css_identifier: (untyped identifier) -> untyped
+
+  def unescape_css_string: (untyped str) -> untyped
+
+  def xpath_for: (untyped string, ?untyped options) -> untyped
+
+  private
+
+  def initialize: (?untyped namespaces) -> untyped
+end
+
+Nokogiri::CSS::Parser::Racc_arg: Array[untyped]
+
+Nokogiri::CSS::Parser::Racc_debug_parser: bool
+
+Nokogiri::CSS::Parser::Racc_token_to_s_table: Array[untyped]
+
+class Nokogiri::CSS::SyntaxError < Nokogiri::SyntaxError
+end
+
+class Nokogiri::CSS::Tokenizer
+  public
+
+  def _next_token: () -> untyped
+
+  def action: () -> untyped
+
+  def filename: () -> untyped
+
+  def lineno: () -> untyped
+
+  def load_file: (untyped filename) -> untyped
+
+  def next_token: () -> untyped
+
+  alias scan scan_str
+
+  def scan_file: (untyped filename) -> untyped
+
+  def scan_setup: (untyped str) -> untyped
+
+  def scan_str: (untyped str) -> untyped
+
+  def state: () -> untyped
+
+  def state=: (untyped) -> untyped
+end
+
+class Nokogiri::CSS::Tokenizer::ScanError < StandardError
+end
+
+class Nokogiri::CSS::XPathVisitor
+  public
+
+  def accept: (untyped node) -> untyped
+
+  def visit_attribute_condition: (untyped node) -> untyped
+
+  def visit_child_selector: (untyped node) -> untyped
+
+  def visit_class_condition: (untyped node) -> untyped
+
+  def visit_combinator: (untyped node) -> untyped
+
+  def visit_conditional_selector: (untyped node) -> untyped
+
+  def visit_descendant_selector: (untyped node) -> untyped
+
+  def visit_direct_adjacent_selector: (untyped node) -> untyped
+
+  def visit_element_name: (untyped node) -> untyped
+
+  def visit_following_selector: (untyped node) -> untyped
+
+  def visit_function: (untyped node) -> untyped
+
+  def visit_id: (untyped node) -> untyped
+
+  def visit_not: (untyped node) -> untyped
+
+  def visit_pseudo_class: (untyped node) -> untyped
+
+  private
+
+  def is_of_type_pseudo_class?: (untyped node) -> untyped
+
+  def nth: (untyped node, ?untyped options) -> untyped
+
+  def read_a_and_positive_b: (untyped values) -> untyped
+end
+
+module Nokogiri::Decorators
+end
+
+module Nokogiri::Decorators::Slop
+  public
+
+  def method_missing: (untyped name, *untyped args) { (*untyped) -> untyped } -> untyped
+
+  private
+
+  def respond_to_missing?: (untyped name, ?untyped include_private) -> untyped
+end
+
+Nokogiri::Decorators::Slop::XPATH_PREFIX: String
+
+class Nokogiri::EncodingHandler
+  def self.[]: (untyped) -> untyped
+
+  def self.alias: (untyped, untyped) -> untyped
+
+  def self.clear_aliases!: () -> untyped
+
+  def self.delete: (untyped) -> untyped
+
+  public
+
+  def name: () -> untyped
+end
+
+module Nokogiri::HTML
+  def self.fragment: (String string, ?untyped encoding) -> Nokogiri::HTML::DocumentFragment
+
+  def self.parse: (untyped thing, ?untyped url, ?untyped encoding, ?untyped options) { (*untyped) -> untyped } -> untyped
+end
+
+Nokogiri::HTML::NamedCharacters: Nokogiri::HTML::EntityLookup
+
+class Nokogiri::HTML::Builder < Nokogiri::XML::Builder
+  public
+
+  def to_html: () -> untyped
+end
+
+class Nokogiri::HTML::Document < Nokogiri::XML::Document
+  def self.new: (*untyped) -> untyped
+
+  def self.parse: (untyped string_or_io, ?untyped url, ?untyped encoding, ?untyped options) -> untyped
+
+  def self.read_io: (untyped, untyped, untyped, untyped) -> untyped
+
+  def self.read_memory: (untyped, untyped, untyped, untyped) -> untyped
+
+  public
+
+  def fragment: (?untyped tags) -> untyped
+
+  def meta_encoding: () -> untyped
+
+  def meta_encoding=: (untyped encoding) -> untyped
+
+  def serialize: (?untyped options) -> untyped
+
+  def title: () -> untyped
+
+  def title=: (untyped text) -> untyped
+
+  def type: () -> untyped
+
+  private
+
+  def meta_content_type: () -> untyped
+
+  def set_metadata_element: (untyped element) -> untyped
+end
+
+class Nokogiri::HTML::Document::EncodingFound < StandardError
+  public
+
+  def found_encoding: () -> untyped
+
+  private
+
+  def initialize: (untyped encoding) -> untyped
+end
+
+class Nokogiri::HTML::Document::EncodingReader
+  def self.detect_encoding: (untyped chunk) -> untyped
+
+  def self.detect_encoding_for_jruby_without_fix: (untyped chunk) -> untyped
+
+  def self.is_jruby_without_fix?: () -> untyped
+
+  public
+
+  def encoding_found: () -> untyped
+
+  def read: (untyped len) -> untyped
+
+  private
+
+  def initialize: (untyped io) -> untyped
+end
+
+class Nokogiri::HTML::Document::EncodingReader::JumpSAXHandler < Nokogiri::HTML::Document::EncodingReader::SAXHandler
+  public
+
+  def start_element: (untyped name, ?untyped attrs) -> untyped
+
+  private
+
+  def initialize: (untyped jumptag) -> untyped
+end
+
+class Nokogiri::HTML::Document::EncodingReader::SAXHandler < Nokogiri::XML::SAX::Document
+  public
+
+  def encoding: () -> untyped
+
+  def start_element: (untyped name, ?untyped attrs) -> untyped
+
+  private
+
+  def initialize: () -> untyped
+end
+
+class Nokogiri::HTML::DocumentFragment < Nokogiri::XML::DocumentFragment
+  def self.parse: (untyped tags, ?untyped encoding) -> untyped
+
+  private
+
+  def initialize: (untyped document, ?untyped tags, ?untyped ctx) -> untyped
+end
+
+class Nokogiri::HTML::ElementDescription
+  def self.[]: (untyped) -> untyped
+
+  public
+
+  def block?: () -> untyped
+
+  def default_sub_element: () -> untyped
+
+  def deprecated?: () -> untyped
+
+  def deprecated_attributes: () -> untyped
+
+  def description: () -> untyped
+
+  def empty?: () -> untyped
+
+  def implied_end_tag?: () -> untyped
+
+  def implied_start_tag?: () -> untyped
+
+  def inline?: () -> untyped
+
+  def inspect: () -> untyped
+
+  def name: () -> untyped
+
+  def optional_attributes: () -> untyped
+
+  def required_attributes: () -> untyped
+
+  def save_end_tag?: () -> untyped
+
+  def sub_elements: () -> untyped
+
+  def to_s: () -> untyped
+
+  private
+
+  def default_desc: () -> untyped
+end
+
+Nokogiri::HTML::ElementDescription::ACTION_ATTR: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::ALIGN_ATTR: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::ALT_ATTR: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::APPLET_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::AREA_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::A_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::BASEFONT_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::BGCOLOR_ATTR: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::BLOCK: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::BLOCKLI_ELT: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::BODY_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::BODY_CONTENTS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::BODY_DEPR: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::BUTTON_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::CELLHALIGN: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::CELLVALIGN: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::CLEAR_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::COL_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::COL_ELT: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::COMPACT_ATTR: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::COMPACT_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::CONTENT_ATTR: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::COREATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::CORE_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::CORE_I18N_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::DIR_ATTR: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::DL_CONTENTS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::DefaultDescriptions: Hash[untyped, untyped]
+
+Nokogiri::HTML::ElementDescription::EDIT_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::EMBED_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::EMPTY: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::EVENTS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::FIELDSET_CONTENTS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::FLOW: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::FLOW_PARAM: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::FONTSTYLE: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::FONT_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::FORMCTRL: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::FORM_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::FORM_CONTENTS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::FRAMESET_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::FRAMESET_CONTENTS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::FRAME_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::HEADING: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::HEAD_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::HEAD_CONTENTS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::HREF_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::HR_DEPR: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::HTML_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::HTML_CDATA: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::HTML_CONTENT: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::HTML_FLOW: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::HTML_INLINE: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::HTML_PCDATA: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::I18N: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::I18N_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::IFRAME_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::IMG_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::INLINE: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::INLINE_P: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::INPUT_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::LABEL_ATTR: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::LABEL_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::LANGUAGE_ATTR: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::LEGEND_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::LINK_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::LIST: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::LI_ELT: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::MAP_CONTENTS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::META_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::MODIFIER: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::NAME_ATTR: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::NOFRAMES_CONTENT: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::OBJECT_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::OBJECT_CONTENTS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::OBJECT_DEPR: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::OL_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::OPTGROUP_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::OPTION_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::OPTION_ELT: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::PARAM_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::PCDATA: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::PHRASE: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::PRE_CONTENT: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::PROMPT_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::QUOTE_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::ROWS_COLS_ATTR: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::SCRIPT_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::SELECT_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::SELECT_CONTENT: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::SPECIAL: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::SRC_ALT_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::STYLE_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::TABLE_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::TABLE_CONTENTS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::TABLE_DEPR: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::TALIGN_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::TARGET_ATTR: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::TEXTAREA_ATTRS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::TH_TD_ATTR: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::TH_TD_DEPR: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::TR_CONTENTS: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::TR_ELT: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::TYPE_ATTR: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::UL_DEPR: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::VERSION_ATTR: Array[untyped]
+
+Nokogiri::HTML::ElementDescription::WIDTH_ATTR: Array[untyped]
+
+class Nokogiri::HTML::EntityDescription
+end
+
+class Nokogiri::HTML::EntityLookup
+  public
+
+  def []: (untyped name) -> untyped
+
+  def get: (untyped) -> untyped
+end
+
+module Nokogiri::HTML::SAX
+end
+
+class Nokogiri::HTML::SAX::Parser < Nokogiri::XML::SAX::Parser
+  public
+
+  def parse_file: (untyped filename, ?untyped encoding) -> untyped
+
+  def parse_io: (untyped io, ?untyped encoding) -> untyped
+
+  def parse_memory: (untyped data, ?untyped encoding) -> untyped
+end
+
+class Nokogiri::HTML::SAX::ParserContext < Nokogiri::XML::SAX::ParserContext
+  def self.file: (untyped, untyped) -> untyped
+
+  def self.memory: (untyped, untyped) -> untyped
+
+  def self.new: (untyped thing, ?untyped encoding) -> untyped
+
+  public
+
+  def parse_with: (untyped) -> untyped
+end
+
+class Nokogiri::HTML::SAX::PushParser < Nokogiri::XML::SAX::PushParser
+  public
+
+  alias << write
+
+  def document: () -> untyped
+
+  def document=: (untyped) -> untyped
+
+  def finish: () -> untyped
+
+  def write: (untyped chunk, ?untyped last_chunk) -> untyped
+
+  private
+
+  def initialize: (?untyped doc, ?untyped file_name, ?untyped encoding) -> untyped
+
+  def initialize_native: (untyped, untyped, untyped) -> untyped
+
+  def native_write: (untyped, untyped) -> untyped
+end
+
+class Nokogiri::SyntaxError < StandardError
+end
+
+class Nokogiri::VersionInfo
+  def self.instance: () -> untyped
+
+  public
+
+  def compiled_parser_version: () -> untyped
+
+  def engine: () -> untyped
+
+  def jruby?: () -> untyped
+
+  def libxml2?: () -> untyped
+
+  def libxml2_using_packaged?: () -> untyped
+
+  def libxml2_using_system?: () -> untyped
+
+  def loaded_parser_version: () -> untyped
+
+  def to_hash: () -> untyped
+
+  def to_markdown: () -> untyped
+
+  def warnings: () -> untyped
+end
+
+module Nokogiri::XML
+  def self.Reader: (untyped string_or_io, ?untyped url, ?untyped encoding, ?untyped options) -> untyped
+
+  def self.RelaxNG: (untyped string_or_io) -> untyped
+
+  def self.Schema: (untyped string_or_io) -> untyped
+
+  def self.fragment: (untyped string) -> untyped
+
+  def self.parse: (untyped thing, ?untyped url, ?untyped encoding, ?untyped options) { (*untyped) -> untyped } -> untyped
+end
+
+Nokogiri::XML::XML_C14N_1_0: Integer
+
+Nokogiri::XML::XML_C14N_1_1: Integer
+
+Nokogiri::XML::XML_C14N_EXCLUSIVE_1_0: Integer
+
+class Nokogiri::XML::Attr < Nokogiri::XML::Node
+  def self.new: (*untyped) -> untyped
+
+  public
+
+  alias content= value=
+
+  alias to_s content
+
+  alias value content
+
+  def value=: (untyped) -> untyped
+
+  private
+
+  def inspect_attributes: () -> untyped
+end
+
+class Nokogiri::XML::AttributeDecl < Nokogiri::XML::Node
+  public
+
+  def attribute_type: () -> untyped
+
+  def default: () -> untyped
+
+  def enumeration: () -> untyped
+
+  def inspect: () -> untyped
+end
+
+class Nokogiri::XML::Builder
+  def self.with: (untyped root) { (*untyped) -> untyped } -> untyped
+
+  public
+
+  def <<: (untyped string) -> untyped
+
+  def []: (untyped ns) -> untyped
+
+  def arity: () -> untyped
+
+  def arity=: (untyped) -> untyped
+
+  def cdata: (untyped string) -> untyped
+
+  def comment: (untyped string) -> untyped
+
+  def context: () -> untyped
+
+  def context=: (untyped) -> untyped
+
+  def doc: () -> untyped
+
+  def doc=: (untyped) -> untyped
+
+  def method_missing: (untyped method, *untyped args) { (*untyped) -> untyped } -> untyped
+
+  def parent: () -> untyped
+
+  def parent=: (untyped) -> untyped
+
+  def text: (untyped string) -> untyped
+
+  def to_xml: (*untyped args) -> untyped
+
+  private
+
+  def initialize: (?untyped options, ?untyped root) { (*untyped) -> untyped } -> untyped
+
+  def insert: (untyped node) { (*untyped) -> untyped } -> untyped
+end
+
+class Nokogiri::XML::Builder::NodeBuilder
+  public
+
+  def []: (untyped k) -> untyped
+
+  def []=: (untyped k, untyped v) -> untyped
+
+  def method_missing: (untyped method, *untyped args) { (*untyped) -> untyped } -> untyped
+
+  private
+
+  def initialize: (untyped node, untyped doc_builder) -> untyped
+end
+
+class Nokogiri::XML::CDATA < Nokogiri::XML::Text
+  def self.new: (*untyped) -> untyped
+
+  public
+
+  def name: () -> untyped
+end
+
+class Nokogiri::XML::CharacterData < Nokogiri::XML::Node
+  include Nokogiri::XML::PP::CharacterData
+end
+
+class Nokogiri::XML::Comment < Nokogiri::XML::CharacterData
+  def self.new: (*untyped) -> untyped
+end
+
+class Nokogiri::XML::DTD < Nokogiri::XML::Node
+  public
+
+  def attributes: () -> untyped
+
+  def each: () -> untyped
+
+  def elements: () -> untyped
+
+  def entities: () -> untyped
+
+  def external_id: () -> untyped
+
+  def html5_dtd?: () -> untyped
+
+  def html_dtd?: () -> untyped
+
+  def keys: () -> untyped
+
+  def notations: () -> untyped
+
+  def system_id: () -> untyped
+
+  def validate: (untyped) -> untyped
+end
+
+class Nokogiri::XML::Document < Nokogiri::XML::Node
+  def self.empty_doc?: (untyped string_or_io) -> untyped
+
+  def self.new: (*untyped) -> untyped
+
+  def self.parse: (untyped string_or_io, ?untyped url, ?untyped encoding, ?untyped options) -> untyped
+
+  def self.read_io: (untyped, untyped, untyped, untyped) -> untyped
+
+  def self.read_memory: (untyped, untyped, untyped, untyped) -> untyped
+
+  def self.wrap: (untyped document) -> untyped
+
+  public
+
+  alias << add_child
+
+  def add_child: (untyped node_or_tags) -> untyped
+
+  def canonicalize: (*untyped) -> untyped
+
+  alias clone dup
+
+  def collect_namespaces: () -> untyped
+
+  def create_cdata: (untyped string) ?{ (*untyped) -> untyped } -> untyped
+
+  def create_comment: (untyped string) ?{ (*untyped) -> untyped } -> untyped
+
+  def create_element: (untyped name, *untyped args) ?{ (*untyped) -> untyped } -> untyped
+
+  def create_entity: (*untyped) -> untyped
+
+  def create_text_node: (untyped string) ?{ (*untyped) -> untyped } -> untyped
+
+  def decorate: (untyped node) -> untyped
+
+  def decorators: (untyped key) -> untyped
+
+  def document: () -> untyped
+
+  def dup: (*untyped) -> untyped
+
+  def encoding: () -> untyped
+
+  def encoding=: (untyped) -> untyped
+
+  def errors: () -> untyped
+
+  def errors=: (untyped) -> untyped
+
+  def fragment: (?untyped tags) -> untyped
+
+  def name: () -> untyped
+
+  def namespaces: () -> untyped
+
+  def remove_namespaces!: () -> untyped
+
+  def root: () -> untyped
+
+  def root=: (untyped) -> untyped
+
+  def slop!: () -> untyped
+
+  def to_java: () -> untyped
+
+  alias to_xml serialize
+
+  def url: () -> untyped
+
+  def validate: () -> untyped
+
+  def version: () -> untyped
+
+  private
+
+  def initialize: (*untyped args) -> untyped
+
+  def inspect_attributes: () -> untyped
+end
+
+Nokogiri::XML::Document::IMPLIED_XPATH_CONTEXTS: Array[untyped]
+
+Nokogiri::XML::Document::NCNAME_CHAR: String
+
+Nokogiri::XML::Document::NCNAME_RE: Regexp
+
+Nokogiri::XML::Document::NCNAME_START_CHAR: String
+
+class Nokogiri::XML::DocumentFragment < Nokogiri::XML::Node
+  def self.new: (*untyped) -> untyped
+
+  def self.parse: (untyped tags) -> untyped
+
+  public
+
+  def css: (*String args) -> Nokogiri::XML::NodeSet
+
+  def dup: () -> untyped
+
+  def errors: () -> untyped
+
+  def errors=: (untyped things) -> untyped
+
+  def name: () -> untyped
+
+  def search: (*String rules) -> Nokogiri::XML::NodeSet
+
+  alias serialize to_s
+
+  def to_html: (*untyped args) -> untyped
+
+  def to_s: () -> untyped
+
+  def to_xhtml: (*untyped args) -> untyped
+
+  def to_xml: (*untyped args) -> untyped
+
+  private
+
+  def coerce: (untyped data) -> untyped
+
+  def initialize: (untyped document, ?untyped tags, ?untyped ctx) -> untyped
+
+  def namespace_declarations: (untyped ctx) -> untyped
+end
+
+class Nokogiri::XML::Element < Nokogiri::XML::Node
+end
+
+class Nokogiri::XML::ElementContent
+  public
+
+  def children: () -> untyped
+
+  def document: () -> untyped
+
+  def name: () -> untyped
+
+  def occur: () -> untyped
+
+  def prefix: () -> untyped
+
+  def type: () -> untyped
+
+  private
+
+  def c1: () -> untyped
+
+  def c2: () -> untyped
+end
+
+Nokogiri::XML::ElementContent::ELEMENT: Integer
+
+Nokogiri::XML::ElementContent::MULT: Integer
+
+Nokogiri::XML::ElementContent::ONCE: Integer
+
+Nokogiri::XML::ElementContent::OPT: Integer
+
+Nokogiri::XML::ElementContent::OR: Integer
+
+Nokogiri::XML::ElementContent::PCDATA: Integer
+
+Nokogiri::XML::ElementContent::PLUS: Integer
+
+Nokogiri::XML::ElementContent::SEQ: Integer
+
+class Nokogiri::XML::ElementDecl < Nokogiri::XML::Node
+  public
+
+  def content: () -> untyped
+
+  def element_type: () -> untyped
+
+  def inspect: () -> untyped
+
+  def prefix: () -> untyped
+end
+
+class Nokogiri::XML::EntityDecl < Nokogiri::XML::Node
+  def self.new: (untyped name, untyped doc, *untyped args) -> untyped
+
+  public
+
+  def content: () -> untyped
+
+  def entity_type: () -> untyped
+
+  def external_id: () -> untyped
+
+  def inspect: () -> untyped
+
+  def original_content: () -> untyped
+
+  def system_id: () -> untyped
+end
+
+Nokogiri::XML::EntityDecl::EXTERNAL_GENERAL_PARSED: Integer
+
+Nokogiri::XML::EntityDecl::EXTERNAL_GENERAL_UNPARSED: Integer
+
+Nokogiri::XML::EntityDecl::EXTERNAL_PARAMETER: Integer
+
+Nokogiri::XML::EntityDecl::INTERNAL_GENERAL: Integer
+
+Nokogiri::XML::EntityDecl::INTERNAL_PARAMETER: Integer
+
+Nokogiri::XML::EntityDecl::INTERNAL_PREDEFINED: Integer
+
+class Nokogiri::XML::EntityReference < Nokogiri::XML::Node
+  def self.new: (*untyped) -> untyped
+
+  public
+
+  def children: () -> untyped
+
+  def inspect_attributes: () -> untyped
+end
+
+class Nokogiri::XML::Namespace
+  include Nokogiri::XML::PP::Node
+
+  public
+
+  def document: () -> untyped
+
+  def href: () -> untyped
+
+  def prefix: () -> untyped
+
+  private
+
+  def inspect_attributes: () -> untyped
+end
+
+class Nokogiri::XML::Node
+  include Enumerable[untyped]
+
+  include Nokogiri::XML::Searchable
+
+  include Nokogiri::XML::PP::Node
+
+  def self.new: (*untyped) -> untyped
+
+  public
+
+  def <<: (untyped node_or_tags) -> untyped
+
+  def <=>: (untyped other) -> untyped
+
+  def ==: (untyped other) -> untyped
+
+  def >: (untyped selector) -> untyped
+
+  def []: (untyped name) -> untyped
+
+  def []=: (untyped name, untyped value) -> untyped
+
+  def accept: (untyped visitor) -> untyped
+
+  def add_child: (untyped node_or_tags) -> untyped
+
+  def add_class: (untyped name) -> untyped
+
+  alias add_namespace add_namespace_definition
+
+  def add_namespace_definition: (untyped, untyped) -> untyped
+
+  def add_next_sibling: (untyped node_or_tags) -> untyped
+
+  def add_previous_sibling: (untyped node_or_tags) -> untyped
+
+  def after: (untyped node_or_tags) -> untyped
+
+  def ancestors: (?untyped selector) -> untyped
+
+  def append_class: (untyped name) -> untyped
+
+  alias attr []
+
+  def attribute: (untyped) -> untyped
+
+  def attribute_nodes: () -> untyped
+
+  def attribute_with_ns: (untyped, untyped) -> untyped
+
+  def attributes: () -> untyped
+
+  def before: (untyped node_or_tags) -> untyped
+
+  def blank?: () -> untyped
+
+  def canonicalize: (?untyped mode, ?untyped inclusive_namespaces, ?untyped with_comments) -> untyped
+
+  def cdata?: () -> untyped
+
+  def child: () -> Nokogiri::XML::Node
+
+  def children: () -> Nokogiri::XML::NodeSet
+
+  def children=: (Nokogiri::XML::NodeSet | String node_or_tags) -> Nokogiri::XML::NodeSet
+
+  def classes: () -> untyped
+
+  alias clone dup
+
+  def comment?: () -> untyped
+
+  def content: () -> String
+
+  def content=: (String string) -> String
+
+  def create_external_subset: (untyped, untyped, untyped) -> untyped
+
+  def create_internal_subset: (untyped, untyped, untyped) -> untyped
+
+  def css_path: () -> untyped
+
+  def decorate!: () -> untyped
+
+  def default_namespace=: (untyped url) -> untyped
+
+  alias delete remove_attribute
+
+  def description: () -> untyped
+
+  def do_xinclude: (?untyped options) -> untyped
+
+  def document: () -> untyped
+
+  def document?: () -> untyped
+
+  def dup: (*untyped) -> untyped
+
+  def each: () { (untyped) -> void } -> untyped
+
+  alias elem? element?
+
+  def element?: () -> untyped
+
+  def element_children: () -> untyped
+
+  alias elements element_children
+
+  def encode_special_chars: (untyped) -> untyped
+
+  def external_subset: () -> untyped
+
+  def first_element_child: () -> untyped
+
+  def fragment: (untyped tags) -> untyped
+
+  def fragment?: () -> untyped
+
+  alias get_attribute []
+
+  alias has_attribute? key?
+
+  def html?: () -> untyped
+
+  def inner_html: (*untyped args) -> untyped
+
+  def inner_html=: (untyped node_or_tags) -> untyped
+
+  alias inner_text content
+
+  def internal_subset: () -> untyped
+
+  def key?: (untyped) -> untyped
+
+  def keys: () -> untyped
+
+  def lang: () -> untyped
+
+  def lang=: (untyped) -> untyped
+
+  def last_element_child: () -> untyped
+
+  def line: () -> untyped
+
+  def matches?: (untyped selector) -> untyped
+
+  alias name node_name
+
+  alias name= node_name=
+
+  def namespace: () -> untyped
+
+  def namespace=: (untyped ns) -> untyped
+
+  def namespace_definitions: () -> untyped
+
+  def namespace_scopes: () -> untyped
+
+  def namespaced_key?: (untyped, untyped) -> untyped
+
+  def namespaces: () -> untyped
+
+  def native_content=: (untyped) -> untyped
+
+  alias next next_sibling
+
+  alias next= add_next_sibling
+
+  def next_element: () -> untyped
+
+  def next_sibling: () -> untyped
+
+  def node_name: () -> String
+
+  def node_name=: (String) -> String
+
+  def node_type: () -> untyped
+
+  def parent: () -> Nokogiri::XML::Node?
+
+  def parent=: (untyped parent_node) -> untyped
+
+  def parse: (untyped string_or_io, ?untyped options) -> untyped
+
+  def path: () -> untyped
+
+  def pointer_id: () -> untyped
+
+  def prepend_child: (untyped node_or_tags) -> untyped
+
+  alias previous previous_sibling
+
+  alias previous= add_previous_sibling
+
+  def previous_element: () -> untyped
+
+  def previous_sibling: () -> untyped
+
+  def processing_instruction?: () -> untyped
+
+  def read_only?: () -> untyped
+
+  alias remove unlink
+
+  def remove_attribute: (untyped name) -> untyped
+
+  def remove_class: (?untyped name) -> untyped
+
+  def replace: (untyped node_or_tags) -> Nokogiri::XML::NodeSet
+
+  def serialize: (*untyped args) ?{ (*untyped) -> untyped } -> untyped
+
+  alias set_attribute []=
+
+  def swap: (untyped node_or_tags) -> untyped
+
+  alias text content
+
+  def text?: () -> untyped
+
+  def to_html: (?untyped options) -> untyped
+
+  def to_s: () -> untyped
+
+  alias to_str content
+
+  def to_xhtml: (?untyped options) -> untyped
+
+  def to_xml: (?untyped options) -> untyped
+
+  def traverse: () { (*untyped) -> untyped } -> untyped
+
+  alias type node_type
+
+  def unlink: () -> untyped
+
+  def values: () -> untyped
+
+  def wrap: (untyped html) -> untyped
+
+  def write_html_to: (untyped io, ?untyped options) -> untyped
+
+  def write_to: (untyped io, *untyped options) -> untyped
+
+  def write_xhtml_to: (untyped io, ?untyped options) -> untyped
+
+  def write_xml_to: (untyped io, ?untyped options) -> untyped
+
+  def xml?: () -> untyped
+
+  private
+
+  def add_child_node: (untyped) -> untyped
+
+  def add_child_node_and_reparent_attrs: (untyped node) -> untyped
+
+  def add_next_sibling_node: (untyped) -> untyped
+
+  def add_previous_sibling_node: (untyped) -> untyped
+
+  def add_sibling: (untyped next_or_previous, untyped node_or_tags) -> untyped
+
+  def coerce: (untyped data) -> untyped
+
+  def compare: (untyped) -> untyped
+
+  def dump_html: () -> untyped
+
+  def get: (untyped) -> untyped
+
+  def in_context: (untyped, untyped) -> untyped
+
+  def initialize: (untyped name, untyped document) -> untyped
+
+  def inspect_attributes: () -> untyped
+
+  def native_write_to: (untyped, untyped, untyped, untyped) -> untyped
+
+  def process_xincludes: (untyped) -> untyped
+
+  def replace_node: (untyped) -> untyped
+
+  def set: (untyped, untyped) -> untyped
+
+  def set_namespace: (untyped) -> untyped
+
+  def to_format: (untyped save_option, untyped options) -> untyped
+
+  def write_format_to: (untyped save_option, untyped io, untyped options) -> untyped
+end
+
+Nokogiri::XML::Node::ATTRIBUTE_DECL: Integer
+
+Nokogiri::XML::Node::ATTRIBUTE_NODE: Integer
+
+Nokogiri::XML::Node::CDATA_SECTION_NODE: Integer
+
+Nokogiri::XML::Node::COMMENT_NODE: Integer
+
+Nokogiri::XML::Node::DOCB_DOCUMENT_NODE: Integer
+
+Nokogiri::XML::Node::DOCUMENT_FRAG_NODE: Integer
+
+Nokogiri::XML::Node::DOCUMENT_NODE: Integer
+
+Nokogiri::XML::Node::DOCUMENT_TYPE_NODE: Integer
+
+Nokogiri::XML::Node::DTD_NODE: Integer
+
+Nokogiri::XML::Node::ELEMENT_DECL: Integer
+
+Nokogiri::XML::Node::ELEMENT_NODE: Integer
+
+Nokogiri::XML::Node::ENTITY_DECL: Integer
+
+Nokogiri::XML::Node::ENTITY_NODE: Integer
+
+Nokogiri::XML::Node::ENTITY_REF_NODE: Integer
+
+Nokogiri::XML::Node::HTML_DOCUMENT_NODE: Integer
+
+Nokogiri::XML::Node::IMPLIED_XPATH_CONTEXTS: Array[untyped]
+
+Nokogiri::XML::Node::NAMESPACE_DECL: Integer
+
+Nokogiri::XML::Node::NOTATION_NODE: Integer
+
+Nokogiri::XML::Node::PI_NODE: Integer
+
+Nokogiri::XML::Node::TEXT_NODE: Integer
+
+Nokogiri::XML::Node::XINCLUDE_END: Integer
+
+Nokogiri::XML::Node::XINCLUDE_START: Integer
+
+class Nokogiri::XML::Node::SaveOptions
+  public
+
+  def as_html: () -> untyped
+
+  def as_html?: () -> untyped
+
+  def as_xhtml: () -> untyped
+
+  def as_xhtml?: () -> untyped
+
+  def as_xml: () -> untyped
+
+  def as_xml?: () -> untyped
+
+  def default_html: () -> untyped
+
+  def default_html?: () -> untyped
+
+  def default_xhtml: () -> untyped
+
+  def default_xhtml?: () -> untyped
+
+  def default_xml: () -> untyped
+
+  def default_xml?: () -> untyped
+
+  def format: () -> untyped
+
+  def format?: () -> untyped
+
+  def no_declaration: () -> untyped
+
+  def no_declaration?: () -> untyped
+
+  def no_empty_tags: () -> untyped
+
+  def no_empty_tags?: () -> untyped
+
+  def no_xhtml: () -> untyped
+
+  def no_xhtml?: () -> untyped
+
+  def options: () -> untyped
+
+  alias to_i options
+
+  private
+
+  def initialize: (?untyped options) -> untyped
+end
+
+Nokogiri::XML::Node::SaveOptions::AS_HTML: Integer
+
+Nokogiri::XML::Node::SaveOptions::AS_XHTML: Integer
+
+Nokogiri::XML::Node::SaveOptions::AS_XML: Integer
+
+Nokogiri::XML::Node::SaveOptions::DEFAULT_HTML: Integer
+
+Nokogiri::XML::Node::SaveOptions::DEFAULT_XHTML: Integer
+
+Nokogiri::XML::Node::SaveOptions::DEFAULT_XML: Integer
+
+Nokogiri::XML::Node::SaveOptions::FORMAT: Integer
+
+Nokogiri::XML::Node::SaveOptions::NO_DECLARATION: Integer
+
+Nokogiri::XML::Node::SaveOptions::NO_EMPTY_TAGS: Integer
+
+Nokogiri::XML::Node::SaveOptions::NO_XHTML: Integer
+
+class Nokogiri::XML::NodeSet
+  include Enumerable[Nokogiri::XML::Node]
+
+  include Nokogiri::XML::Searchable
+
+  public
+
+  alias % at
+
+  def &: (untyped) -> untyped
+
+  alias + |
+
+  def -: (untyped) -> untyped
+
+  alias << push
+
+  def ==: (untyped other) -> untyped
+
+  def >: (untyped selector) -> untyped
+
+  def []: (*untyped) -> untyped
+
+  def add_class: (untyped name) -> untyped
+
+  def after: (untyped datum) -> untyped
+
+  def append_class: (untyped name) -> untyped
+
+  def at: (*untyped args) -> untyped
+
+  def attr: (untyped key, ?untyped value) { (*untyped) -> untyped } -> untyped
+
+  alias attribute attr
+
+  def before: (untyped datum) -> untyped
+
+  def children: () -> untyped
+
+  alias clone dup
+
+  def css: (*String args) -> Nokogiri::XML::NodeSet
+
+  def delete: (untyped) -> untyped
+
+  def document: () -> untyped
+
+  def document=: (untyped) -> untyped
+
+  def dup: () -> untyped
+
+  def each: () { (Nokogiri::XML::Node) -> void } -> self
+
+  def empty?: () -> untyped
+
+  def filter: (untyped expr) -> untyped
+
+  def first: () -> Nokogiri::XML::Node
+           | (?Integer? n) -> Array[Nokogiri::XML::Node]
+
+  def include?: (untyped) -> untyped
+
+  def index: (?untyped node) -> untyped
+
+  def inner_html: (*untyped args) -> untyped
+
+  def inner_text: () -> untyped
+
+  def inspect: () -> untyped
+
+  def last: () -> untyped
+
+  def length: () -> untyped
+
+  def pop: () -> untyped
+
+  def push: (untyped) -> untyped
+
+  alias remove unlink
+
+  def remove_attr: (untyped name) -> untyped
+
+  alias remove_attribute remove_attr
+
+  def remove_class: (?untyped name) -> untyped
+
+  def reverse: () -> untyped
+
+  alias set attr
+
+  def shift: () -> untyped
+
+  alias size length
+
+  def slice: (*untyped) -> untyped
+
+  alias text inner_text
+
+  def to_a: () -> untyped
+
+  alias to_ary to_a
+
+  def to_html: (*untyped args) -> untyped
+
+  def to_s: () -> untyped
+
+  def to_xhtml: (*untyped args) -> untyped
+
+  def to_xml: (*untyped args) -> untyped
+
+  def unlink: () -> untyped
+
+  def wrap: (untyped html) -> untyped
+
+  def xpath: (*untyped args) -> untyped
+
+  def |: (untyped) -> untyped
+
+  private
+
+  def initialize: (untyped document, ?untyped list) -> untyped
+end
+
+Nokogiri::XML::NodeSet::IMPLIED_XPATH_CONTEXTS: Array[untyped]
+
+class Nokogiri::XML::Notation
+end
+
+module Nokogiri::XML::PP
+end
+
+module Nokogiri::XML::PP::CharacterData
+  public
+
+  def inspect: () -> untyped
+
+  def pretty_print: (untyped pp) -> untyped
+end
+
+module Nokogiri::XML::PP::Node
+  public
+
+  def inspect: () -> untyped
+
+  def pretty_print: (untyped pp) -> untyped
+end
+
+class Nokogiri::XML::ParseOptions
+  public
+
+  def compact: () -> untyped
+
+  def compact?: () -> untyped
+
+  def default_html: () -> untyped
+
+  def default_html?: () -> untyped
+
+  def default_xml: () -> untyped
+
+  def default_xml?: () -> untyped
+
+  def dtdattr: () -> untyped
+
+  def dtdattr?: () -> untyped
+
+  def dtdload: () -> untyped
+
+  def dtdload?: () -> untyped
+
+  def dtdvalid: () -> untyped
+
+  def dtdvalid?: () -> untyped
+
+  def huge: () -> untyped
+
+  def huge?: () -> untyped
+
+  def inspect: () -> untyped
+
+  def nobasefix: () -> untyped
+
+  def nobasefix?: () -> untyped
+
+  def noblanks: () -> untyped
+
+  def noblanks?: () -> untyped
+
+  def nocdata: () -> untyped
+
+  def nocdata?: () -> untyped
+
+  def nocompact: () -> untyped
+
+  def nodefault_html: () -> untyped
+
+  def nodefault_xml: () -> untyped
+
+  def nodict: () -> untyped
+
+  def nodict?: () -> untyped
+
+  def nodtdattr: () -> untyped
+
+  def nodtdload: () -> untyped
+
+  def nodtdvalid: () -> untyped
+
+  def noent: () -> untyped
+
+  def noent?: () -> untyped
+
+  def noerror: () -> untyped
+
+  def noerror?: () -> untyped
+
+  def nohuge: () -> untyped
+
+  def nonet: () -> untyped
+
+  def nonet?: () -> untyped
+
+  def nonobasefix: () -> untyped
+
+  def nonoblanks: () -> untyped
+
+  def nonocdata: () -> untyped
+
+  def nonodict: () -> untyped
+
+  def nonoent: () -> untyped
+
+  def nonoerror: () -> untyped
+
+  def nononet: () -> untyped
+
+  def nonowarning: () -> untyped
+
+  def nonoxincnode: () -> untyped
+
+  def nonsclean: () -> untyped
+
+  def noold10: () -> untyped
+
+  def nopedantic: () -> untyped
+
+  def norecover: () -> untyped
+
+  def nosax1: () -> untyped
+
+  def nowarning: () -> untyped
+
+  def nowarning?: () -> untyped
+
+  def noxinclude: () -> untyped
+
+  def noxincnode: () -> untyped
+
+  def noxincnode?: () -> untyped
+
+  def nsclean: () -> untyped
+
+  def nsclean?: () -> untyped
+
+  def old10: () -> untyped
+
+  def old10?: () -> untyped
+
+  def options: () -> untyped
+
+  def options=: (untyped) -> untyped
+
+  def pedantic: () -> untyped
+
+  def pedantic?: () -> untyped
+
+  def recover: () -> untyped
+
+  def recover?: () -> untyped
+
+  def sax1: () -> untyped
+
+  def sax1?: () -> untyped
+
+  def strict: () -> untyped
+
+  def strict?: () -> untyped
+
+  alias to_i options
+
+  def xinclude: () -> untyped
+
+  def xinclude?: () -> untyped
+
+  private
+
+  def initialize: (?untyped options) -> untyped
+end
+
+Nokogiri::XML::ParseOptions::COMPACT: Integer
+
+Nokogiri::XML::ParseOptions::DEFAULT_HTML: Integer
+
+Nokogiri::XML::ParseOptions::DEFAULT_XML: Integer
+
+Nokogiri::XML::ParseOptions::DTDATTR: Integer
+
+Nokogiri::XML::ParseOptions::DTDLOAD: Integer
+
+Nokogiri::XML::ParseOptions::DTDVALID: Integer
+
+Nokogiri::XML::ParseOptions::HUGE: Integer
+
+Nokogiri::XML::ParseOptions::NOBASEFIX: Integer
+
+Nokogiri::XML::ParseOptions::NOBLANKS: Integer
+
+Nokogiri::XML::ParseOptions::NOCDATA: Integer
+
+Nokogiri::XML::ParseOptions::NODICT: Integer
+
+Nokogiri::XML::ParseOptions::NOENT: Integer
+
+Nokogiri::XML::ParseOptions::NOERROR: Integer
+
+Nokogiri::XML::ParseOptions::NONET: Integer
+
+Nokogiri::XML::ParseOptions::NOWARNING: Integer
+
+Nokogiri::XML::ParseOptions::NOXINCNODE: Integer
+
+Nokogiri::XML::ParseOptions::NSCLEAN: Integer
+
+Nokogiri::XML::ParseOptions::OLD10: Integer
+
+Nokogiri::XML::ParseOptions::PEDANTIC: Integer
+
+Nokogiri::XML::ParseOptions::RECOVER: Integer
+
+Nokogiri::XML::ParseOptions::SAX1: Integer
+
+Nokogiri::XML::ParseOptions::STRICT: Integer
+
+Nokogiri::XML::ParseOptions::XINCLUDE: Integer
+
+class Nokogiri::XML::ProcessingInstruction < Nokogiri::XML::Node
+  def self.new: (*untyped) -> untyped
+
+  private
+
+  def initialize: (untyped document, untyped name, untyped content) -> untyped
+end
+
+class Nokogiri::XML::Reader
+  include Enumerable[untyped]
+
+  def self.from_io: (*untyped) -> untyped
+
+  def self.from_memory: (*untyped) -> untyped
+
+  public
+
+  def attribute: (untyped) -> untyped
+
+  def attribute_at: (untyped) -> untyped
+
+  def attribute_count: () -> untyped
+
+  def attribute_nodes: () -> untyped
+
+  def attributes: () -> untyped
+
+  def attributes?: () -> untyped
+
+  def base_uri: () -> untyped
+
+  def default?: () -> untyped
+
+  def depth: () -> untyped
+
+  def each: () { (untyped) -> void } -> untyped
+
+  def empty_element?: () -> untyped
+
+  def encoding: () -> untyped
+
+  def errors: () -> untyped
+
+  def errors=: (untyped) -> untyped
+
+  def inner_xml: () -> untyped
+
+  def lang: () -> untyped
+
+  def local_name: () -> untyped
+
+  def name: () -> untyped
+
+  def namespace_uri: () -> untyped
+
+  def namespaces: () -> untyped
+
+  def node_type: () -> untyped
+
+  def outer_xml: () -> untyped
+
+  def prefix: () -> untyped
+
+  def read: () -> untyped
+
+  alias self_closing? empty_element?
+
+  def source: () -> untyped
+
+  def state: () -> untyped
+
+  def value: () -> untyped
+
+  def value?: () -> untyped
+
+  def xml_version: () -> untyped
+
+  private
+
+  def attr_nodes: () -> untyped
+
+  def initialize: (untyped source, ?untyped url, ?untyped encoding) -> untyped
+end
+
+Nokogiri::XML::Reader::TYPE_ATTRIBUTE: Integer
+
+Nokogiri::XML::Reader::TYPE_CDATA: Integer
+
+Nokogiri::XML::Reader::TYPE_COMMENT: Integer
+
+Nokogiri::XML::Reader::TYPE_DOCUMENT: Integer
+
+Nokogiri::XML::Reader::TYPE_DOCUMENT_FRAGMENT: Integer
+
+Nokogiri::XML::Reader::TYPE_DOCUMENT_TYPE: Integer
+
+Nokogiri::XML::Reader::TYPE_ELEMENT: Integer
+
+Nokogiri::XML::Reader::TYPE_END_ELEMENT: Integer
+
+Nokogiri::XML::Reader::TYPE_END_ENTITY: Integer
+
+Nokogiri::XML::Reader::TYPE_ENTITY: Integer
+
+Nokogiri::XML::Reader::TYPE_ENTITY_REFERENCE: Integer
+
+Nokogiri::XML::Reader::TYPE_NONE: Integer
+
+Nokogiri::XML::Reader::TYPE_NOTATION: Integer
+
+Nokogiri::XML::Reader::TYPE_PROCESSING_INSTRUCTION: Integer
+
+Nokogiri::XML::Reader::TYPE_SIGNIFICANT_WHITESPACE: Integer
+
+Nokogiri::XML::Reader::TYPE_TEXT: Integer
+
+Nokogiri::XML::Reader::TYPE_WHITESPACE: Integer
+
+Nokogiri::XML::Reader::TYPE_XML_DECLARATION: Integer
+
+class Nokogiri::XML::RelaxNG < Nokogiri::XML::Schema
+  def self.from_document: (untyped) -> untyped
+
+  def self.read_memory: (untyped) -> untyped
+
+  private
+
+  def validate_document: (untyped) -> untyped
+end
+
+module Nokogiri::XML::SAX
+end
+
+class Nokogiri::XML::SAX::Document
+  public
+
+  def cdata_block: (untyped string) -> untyped
+
+  def characters: (untyped string) -> untyped
+
+  def comment: (untyped string) -> untyped
+
+  def end_document: () -> untyped
+
+  def end_element: (untyped name) -> untyped
+
+  def end_element_namespace: (untyped name, ?untyped prefix, ?untyped uri) -> untyped
+
+  def error: (untyped string) -> untyped
+
+  def processing_instruction: (untyped name, untyped content) -> untyped
+
+  def start_document: () -> untyped
+
+  def start_element: (untyped name, ?untyped attrs) -> untyped
+
+  def start_element_namespace: (untyped name, ?untyped attrs, ?untyped prefix, ?untyped uri, ?untyped ns) -> untyped
+
+  def warning: (untyped string) -> untyped
+
+  def xmldecl: (untyped version, untyped encoding, untyped standalone) -> untyped
+end
+
+class Nokogiri::XML::SAX::Parser
+  public
+
+  def document: () -> untyped
+
+  def document=: (untyped) -> untyped
+
+  def encoding: () -> untyped
+
+  def encoding=: (untyped) -> untyped
+
+  def parse: (untyped thing) { (*untyped) -> untyped } -> untyped
+
+  def parse_file: (untyped filename) -> untyped
+
+  def parse_io: (untyped io, ?untyped encoding) -> untyped
+
+  def parse_memory: (untyped data) -> untyped
+
+  private
+
+  def check_encoding: (untyped encoding) -> untyped
+
+  def initialize: (?untyped doc, ?untyped encoding) -> untyped
+end
+
+Nokogiri::XML::SAX::Parser::ENCODINGS: Hash[untyped, untyped]
+
+class Nokogiri::XML::SAX::Parser::Attribute
+end
+
+class Nokogiri::XML::SAX::ParserContext
+  def self.file: (untyped) -> untyped
+
+  def self.io: (untyped, untyped) -> untyped
+
+  def self.memory: (untyped) -> untyped
+
+  def self.new: (untyped thing, ?untyped encoding) -> untyped
+
+  public
+
+  def column: () -> untyped
+
+  def line: () -> untyped
+
+  def parse_with: (untyped) -> untyped
+
+  def recovery: () -> untyped
+
+  def recovery=: (untyped) -> untyped
+
+  def replace_entities: () -> untyped
+
+  def replace_entities=: (untyped) -> untyped
+end
+
+class Nokogiri::XML::SAX::PushParser
+  public
+
+  alias << write
+
+  def document: () -> untyped
+
+  def document=: (untyped) -> untyped
+
+  def finish: () -> untyped
+
+  def options: () -> untyped
+
+  def options=: (untyped) -> untyped
+
+  def replace_entities: () -> untyped
+
+  def replace_entities=: (untyped) -> untyped
+
+  def write: (untyped chunk, ?untyped last_chunk) -> untyped
+
+  private
+
+  def initialize: (?untyped doc, ?untyped file_name, ?untyped encoding) -> untyped
+
+  def initialize_native: (untyped, untyped) -> untyped
+
+  def native_write: (untyped, untyped) -> untyped
+end
+
+class Nokogiri::XML::Schema
+  def self.from_document: (untyped) -> untyped
+
+  def self.new: (untyped string_or_io) -> untyped
+
+  def self.read_memory: (untyped) -> untyped
+
+  public
+
+  def errors: () -> untyped
+
+  def errors=: (untyped) -> untyped
+
+  def valid?: (untyped thing) -> untyped
+
+  def validate: (untyped thing) -> untyped
+
+  private
+
+  def validate_document: (untyped) -> untyped
+
+  def validate_file: (untyped) -> untyped
+end
+
+module Nokogiri::XML::Searchable
+  public
+
+  alias % at
+
+  alias / search
+
+  def at: (*untyped args) -> untyped
+
+  def at_css: (*untyped args) -> untyped
+
+  def at_xpath: (*untyped args) -> untyped
+
+  def css: (*untyped args) -> Nokogiri::XML::NodeSet
+
+  def search: (*untyped args) -> Nokogiri::XML::NodeSet
+
+  def xpath: (*untyped args) -> Nokogiri::XML::NodeSet
+
+  private
+
+  def css_internal: (untyped node, untyped rules, untyped handler, untyped ns) -> untyped
+
+  def css_rules_to_xpath: (untyped rules, untyped ns) -> untyped
+
+  def extract_params: (untyped params) -> untyped
+
+  def xpath_impl: (untyped node, untyped path, untyped handler, untyped ns, untyped binds) -> untyped
+
+  def xpath_internal: (untyped node, untyped paths, untyped handler, untyped ns, untyped binds) -> untyped
+
+  def xpath_query_from_css_rule: (untyped rule, untyped ns) -> untyped
+end
+
+Nokogiri::XML::Searchable::LOOKS_LIKE_XPATH: Regexp
+
+class Nokogiri::XML::SyntaxError < Nokogiri::SyntaxError
+  public
+
+  def code: () -> untyped
+
+  def column: () -> untyped
+
+  def domain: () -> untyped
+
+  def error?: () -> untyped
+
+  def fatal?: () -> untyped
+
+  def file: () -> untyped
+
+  def int1: () -> untyped
+
+  def level: () -> untyped
+
+  def line: () -> untyped
+
+  def none?: () -> untyped
+
+  def str1: () -> untyped
+
+  def str2: () -> untyped
+
+  def str3: () -> untyped
+
+  def to_s: () -> untyped
+
+  def warning?: () -> untyped
+
+  private
+
+  def level_to_s: () -> untyped
+
+  def location_to_s: () -> untyped
+
+  def nil_or_zero?: (untyped attribute) -> untyped
+end
+
+class Nokogiri::XML::Text < Nokogiri::XML::CharacterData
+  def self.new: (*untyped) -> untyped
+
+  public
+
+  def content=: (untyped string) -> untyped
+end
+
+class Nokogiri::XML::XPath
+  public
+
+  def document: () -> untyped
+
+  def document=: (untyped) -> untyped
+end
+
+class Nokogiri::XML::XPath::SyntaxError < Nokogiri::XML::SyntaxError
+  public
+
+  def to_s: () -> untyped
+end
+
+class Nokogiri::XML::XPathContext
+  def self.new: (untyped) -> untyped
+
+  public
+
+  def evaluate: (*untyped) -> untyped
+
+  def register_namespaces: (untyped namespaces) -> untyped
+
+  def register_ns: (untyped, untyped) -> untyped
+
+  def register_variable: (untyped, untyped) -> untyped
+end
+
+module Nokogiri::XSLT
+  def self.parse: (untyped string, ?untyped modules) -> untyped
+
+  def self.quote_params: (untyped params) -> untyped
+
+  def self.register: (untyped, untyped) -> untyped
+end
+
+class Nokogiri::XSLT::Stylesheet
+  def self.parse_stylesheet_doc: (untyped) -> untyped
+
+  public
+
+  def apply_to: (untyped document, ?untyped params) -> untyped
+
+  def serialize: (untyped) -> untyped
+
+  def transform: (*untyped) -> untyped
+end

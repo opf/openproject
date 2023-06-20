@@ -1,0 +1,55 @@
+# WARNING ABOUT GENERATED CODE
+#
+# This file is generated. See the generator README.md for more information:
+# https://github.com/ruby/gem_rbs_collection/blob/main/generators/aws-sdk-rbs-generator/README.md
+#
+# WARNING ABOUT GENERATED CODE
+
+module Aws
+  module S3
+    class BucketNotification
+      # identifiers
+
+      def initialize: (bucket_name: String, ?client: Client, **untyped) -> void
+      def bucket_name: () -> String
+
+      # data_attribute
+
+      def topic_configurations: () -> Types::topic_configuration_list_output
+      def queue_configurations: () -> Types::queue_configuration_list_output
+      def lambda_function_configurations: () -> Types::lambda_function_configuration_list_output
+      def event_bridge_configuration: () -> Types::EventBridgeConfiguration
+
+      # client_method
+
+      def client: () -> Client
+
+      # load_method
+
+      def load: () -> self
+      alias reload load
+
+      # data_method
+
+      def data: () -> Types::NotificationConfiguration
+
+      def data_loaded?: () -> bool
+
+      # waiters
+
+
+      # actions
+
+      def put: (notification_configuration: Types::notification_configuration, ?expected_bucket_owner: Types::account_id, ?skip_destination_validation: Types::skip_validation) -> EmptyStructure
+
+      # associations
+
+      def bucket: () -> Bucket
+
+      # batch_actions
+
+      class Collection < ::Aws::Resources::Collection[BucketNotification]
+      end
+    end
+  end
+end

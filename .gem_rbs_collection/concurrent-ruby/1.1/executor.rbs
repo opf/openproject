@@ -1,0 +1,26 @@
+module Concurrent
+  module ExecutorService
+    interface _Task
+      def call: () -> void
+    end
+
+    def post: [A] (*A args) { (*A args) -> void } -> bool
+
+    def <<: (_Task task) -> bool
+
+    def can_overflow?: () -> bool
+
+    def serialized?: () -> bool
+  end
+
+  type executor = ExecutorService | :io | :fast | :immediate
+
+  def self.executor: (executor executor_identifier) -> ExecutorService
+
+  def self.global_io_executor: () -> ExecutorService
+  def self.global_fast_executor: () -> ExecutorService
+  def self.global_immediate_executor: () -> ExecutorService
+
+  def self.new_io_executor: (?Hash[Symbol, untyped] opts) -> ExecutorService
+  def self.new_fast_executor: (?Hash[Symbol, untyped] opts) -> ExecutorService
+end

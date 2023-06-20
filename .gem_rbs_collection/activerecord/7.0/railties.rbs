@@ -1,0 +1,120 @@
+class Thor
+  class Group
+  end
+end
+
+module Rails
+  module Generators
+    class Base < Thor::Group
+    end
+
+    class NamedBase < Base
+    end
+
+    module Migration
+    end
+  end
+end
+
+module ActiveRecord
+  module Generators
+    class ApplicationRecordGenerator < ::Rails::Generators::Base
+      # FIXME: Change this file to a symlink once RubyGems 2.5.0 is required.
+      def create_application_record: () -> untyped
+
+      private
+
+      def application_record_file_name: () -> untyped
+    end
+  end
+end
+
+module ActiveRecord
+  module Generators
+    class MigrationGenerator < Base
+      def create_migration_file: () -> untyped
+
+      private
+
+      attr_reader migration_action: untyped
+
+      attr_reader join_tables: untyped
+
+      # Sets the default migration template that is being used for the generation of the migration.
+      # Depending on command line arguments, the migration template and the table name instance
+      # variables are set up.
+      def set_local_assigns!: () -> untyped
+
+      def set_index_names: () -> untyped
+
+      def index_name_for: (untyped attribute) -> untyped
+
+      def attributes_with_index: () -> untyped
+
+      # A migration file name can only contain underscores (_), lowercase characters,
+      # and numbers 0-9. Any other file name will raise an IllegalMigrationNameError.
+      def validate_file_name!: () -> untyped
+
+      def normalize_table_name: (untyped _table_name) -> untyped
+    end
+  end
+end
+
+module ActiveRecord
+  module Generators
+    # :nodoc:
+    module Migration
+      extend ActiveSupport::Concern
+
+      include Rails::Generators::Migration
+
+      module ClassMethods
+        # Implement the required interface for Rails::Generators::Migration.
+        def next_migration_number: (untyped dirname) -> untyped
+      end
+
+      private
+
+      def primary_key_type: () -> untyped
+
+      def db_migrate_path: () -> untyped
+
+      def default_migrate_path: () -> untyped
+
+      def configured_migrate_path: () -> (nil | untyped)
+    end
+  end
+end
+
+module ActiveRecord
+  module Generators
+    class ModelGenerator < Base
+      # creates the migration file for the model.
+      def create_migration_file: () -> (nil | untyped)
+
+      def create_model_file: () -> untyped
+
+      def create_module_file: () -> (nil | untyped)
+
+      private
+
+      def attributes_with_index: () -> untyped
+
+      # Used by the migration template to determine the parent name of the model
+      def parent_class_name: () -> untyped
+    end
+  end
+end
+
+module ActiveRecord
+  module Generators
+    class Base < Rails::Generators::NamedBase
+      # :nodoc:
+      # :nodoc:
+      include ActiveRecord::Generators::Migration
+
+      # Set the current directory as base for the inherited generators.
+      def self.base_root: () -> untyped
+    end
+  end
+end

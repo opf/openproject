@@ -1,0 +1,55 @@
+# WARNING ABOUT GENERATED CODE
+#
+# This file is generated. See the generator README.md for more information:
+# https://github.com/ruby/gem_rbs_collection/blob/main/generators/aws-sdk-rbs-generator/README.md
+#
+# WARNING ABOUT GENERATED CODE
+
+module Aws
+  module S3
+    class ObjectAcl
+      # identifiers
+
+      def initialize: (bucket_name: String, object_key: String, ?client: Client, **untyped) -> void
+      def bucket_name: () -> String
+      def object_key: () -> String
+
+      # data_attribute
+
+      def owner: () -> Types::Owner
+      def grants: () -> Types::grants_output
+      def request_charged: () -> Types::request_charged
+
+      # client_method
+
+      def client: () -> Client
+
+      # load_method
+
+      def load: () -> self
+      alias reload load
+
+      # data_method
+
+      def data: () -> Types::GetObjectAclOutput
+
+      def data_loaded?: () -> bool
+
+      # waiters
+
+
+      # actions
+
+      def put: (?acl: Types::object_canned_acl, ?access_control_policy: Types::access_control_policy, ?content_md5: Types::content_md5, ?checksum_algorithm: Types::checksum_algorithm, ?grant_full_control: Types::grant_full_control, ?grant_read: Types::grant_read, ?grant_read_acp: Types::grant_read_acp, ?grant_write: Types::grant_write, ?grant_write_acp: Types::grant_write_acp, ?request_payer: Types::request_payer, ?version_id: Types::object_version_id, ?expected_bucket_owner: Types::account_id) -> Types::PutObjectAclOutput
+
+      # associations
+
+      def object: () -> Object
+
+      # batch_actions
+
+      class Collection < ::Aws::Resources::Collection[ObjectAcl]
+      end
+    end
+  end
+end

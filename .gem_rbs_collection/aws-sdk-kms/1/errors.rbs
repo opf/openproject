@@ -1,0 +1,154 @@
+# WARNING ABOUT GENERATED CODE
+#
+# This file is generated. See the generator README.md for more information:
+# https://github.com/ruby/gem_rbs_collection/blob/main/generators/aws-sdk-rbs-generator/README.md
+#
+# WARNING ABOUT GENERATED CODE
+
+module Aws
+  module KMS
+    module Errors
+      class ServiceError < Aws::Errors::ServiceError
+      end
+
+      class AlreadyExistsException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class CloudHsmClusterInUseException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class CloudHsmClusterInvalidConfigurationException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class CloudHsmClusterNotActiveException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class CloudHsmClusterNotFoundException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class CloudHsmClusterNotRelatedException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class CustomKeyStoreHasCMKsException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class CustomKeyStoreInvalidStateException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class CustomKeyStoreNameInUseException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class CustomKeyStoreNotFoundException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class DependencyTimeoutException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class DisabledException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class ExpiredImportTokenException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class IncorrectKeyException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class IncorrectKeyMaterialException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class IncorrectTrustAnchorException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class InvalidAliasNameException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class InvalidArnException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class InvalidCiphertextException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class InvalidGrantIdException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class InvalidGrantTokenException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class InvalidImportTokenException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class InvalidKeyUsageException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class InvalidMarkerException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class KMSInternalException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class KMSInvalidMacException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class KMSInvalidSignatureException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class KMSInvalidStateException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class KeyUnavailableException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class LimitExceededException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class MalformedPolicyDocumentException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class NotFoundException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class TagException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class UnsupportedOperationException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class XksKeyAlreadyInUseException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class XksKeyInvalidConfigurationException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class XksKeyNotFoundException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class XksProxyIncorrectAuthenticationCredentialException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class XksProxyInvalidConfigurationException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class XksProxyInvalidResponseException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class XksProxyUriEndpointInUseException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class XksProxyUriInUseException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class XksProxyUriUnreachableException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class XksProxyVpcEndpointServiceInUseException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class XksProxyVpcEndpointServiceInvalidConfigurationException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+      class XksProxyVpcEndpointServiceNotFoundException < ServiceError
+        def message: () -> Types::error_message_type
+      end
+    end
+  end
+end

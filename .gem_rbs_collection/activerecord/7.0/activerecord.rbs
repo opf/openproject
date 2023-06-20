@@ -1,0 +1,555 @@
+module ActiveRecord
+  class Base
+    # puts ActiveRecord::Base.singleton_class.ancestors.map(&:to_s).select { |s| /ClassMethods$/.match?(s) }.map{ |s| "extend ::#{s}" }.sort
+    extend ::ActiveModel::AttributeMethods::ClassMethods
+    extend ::ActiveModel::Conversion::ClassMethods
+    extend ::ActiveModel::SecurePassword::ClassMethods
+    extend ::ActiveModel::Validations::Callbacks::ClassMethods
+    extend ::ActiveModel::Validations::ClassMethods
+    extend ::ActiveRecord::Associations::ClassMethods
+    extend ::ActiveRecord::AttributeMethods::ClassMethods
+    extend ::ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods
+    extend ::ActiveRecord::AttributeMethods::Read::ClassMethods
+    extend ::ActiveRecord::AttributeMethods::Serialization::ClassMethods
+    extend ::ActiveRecord::AttributeMethods::TimeZoneConversion::ClassMethods
+    extend ::ActiveRecord::AttributeMethods::Write::ClassMethods
+    extend ::ActiveRecord::Attributes::ClassMethods
+    extend ::ActiveRecord::AutosaveAssociation::ClassMethods
+    extend ::ActiveRecord::Core::ClassMethods
+    extend ::ActiveRecord::CounterCache::ClassMethods
+    extend ::ActiveRecord::Inheritance::ClassMethods
+    extend ::ActiveRecord::Integration::ClassMethods
+    extend ::ActiveRecord::Locking::Optimistic::ClassMethods
+    extend ::ActiveRecord::ModelSchema::ClassMethods
+    extend ::ActiveRecord::NestedAttributes::ClassMethods
+    extend ::ActiveRecord::NoTouching::ClassMethods
+    extend ::ActiveRecord::Persistence::ClassMethods
+    extend ::ActiveRecord::ReadonlyAttributes::ClassMethods
+    extend ::ActiveRecord::Reflection::ClassMethods
+    extend ::ActiveRecord::Sanitization::ClassMethods
+    extend ::ActiveRecord::Scoping::ClassMethods
+    extend ::ActiveRecord::Scoping::Default::ClassMethods
+    extend ::ActiveRecord::Scoping::Named::ClassMethods
+    extend ::ActiveRecord::SecureToken::ClassMethods
+    extend ::ActiveRecord::Store::ClassMethods
+    extend ::ActiveRecord::Suppressor::ClassMethods
+    extend ::ActiveRecord::Timestamp::ClassMethods
+    extend ::ActiveRecord::Transactions::ClassMethods
+    extend ::ActiveRecord::Validations::ClassMethods
+    extend ::ActiveSupport::Callbacks::ClassMethods
+
+    def self.abstract_class=: (bool) -> void
+    def self.scope: (Symbol, Proc) ?{ () -> untyped } -> void
+    def self.belongs_to: (Symbol, ?untyped, **untyped) -> void
+    def self.has_many: (Symbol, ?untyped, **untyped) -> void
+    def self.has_one: (Symbol, ?untyped, **untyped) -> void
+    def self.has_and_belongs_to_many: (untyped name, ?untyped? scope, **untyped options) ?{ () -> untyped } -> untyped
+    def self.transaction: [T] () { () -> T } -> T
+    def self.create: (**untyped) -> instance
+    def self.create!: (**untyped) -> instance
+    def self.validate: (*untyped) -> void
+    def self.validates: (*untyped) -> void
+
+    # callbacks
+    def self.after_commit: (*untyped) ?{ () -> untyped} -> void
+    def self.after_create_commit: (*untyped) -> void | ...
+    def self.after_update_commit: (*untyped) -> void | ...
+    def self.after_destroy_commit: (*untyped) -> void | ...
+    def self.after_save_commit: (*untyped) -> void | ...
+    def self.after_create: (*untyped) ?{ () -> untyped} -> void
+    def self.after_destroy: (*untyped) ?{ () -> untyped} -> void
+    def self.after_rollback: (*untyped) ?{ () -> untyped} -> void
+    def self.after_save: (*untyped) ?{ () -> untyped} -> void
+    def self.after_update: (*untyped) ?{ () -> untyped} -> void
+    def self.after_validation: (*untyped) ?{ () -> untyped} -> void
+    def self.around_create: (*untyped) ?{ () -> untyped} -> void
+    def self.around_destroy: (*untyped) ?{ () -> untyped} -> void
+    def self.around_save: (*untyped) ?{ () -> untyped} -> void
+    def self.around_update: (*untyped) ?{ () -> untyped} -> void
+    def self.before_create: (*untyped) ?{ () -> untyped} -> void
+    def self.before_destroy: (*untyped) ?{ () -> untyped} -> void
+    def self.before_save: (*untyped) ?{ () -> untyped} -> void
+    def self.before_update: (*untyped) ?{ () -> untyped} -> void
+    def self.before_validation: (*untyped) ?{ () -> untyped} -> void
+
+    def self.columns: () -> Array[untyped]
+    def self.reflect_on_all_associations: (?Symbol) -> Array[untyped]
+
+    def will_save_change_to_attribute?: (String | Symbol attr_name, ?from: untyped, ?to: untyped) -> bool
+
+    def save!: (?validate: bool, ?touch: bool) -> self
+    def save: () -> bool
+    def update!: (*untyped) -> self
+    def update: (*untyped) -> bool
+    def destroy!: () -> self
+    def destroy: () -> bool
+    def valid?: () -> bool
+    def invalid?: () -> bool
+    def errors: () -> untyped
+    def []: (Symbol) -> untyped
+    def []=: (Symbol, untyped) -> untyped
+
+    # class_attributes
+    def self.defined_enums: () -> untyped
+    def self.defined_enums?: () -> bool
+    def self.defined_enums=: (untyped) -> untyped
+    def defined_enums: () -> untyped
+    def defined_enums?: () -> bool
+
+    def self.default_connection_handler: () -> untyped
+    def self.default_connection_handler?: () -> bool
+    def self.default_connection_handler=: (untyped) -> untyped
+    def default_connection_handler: () -> untyped
+    def default_connection_handler?: () -> bool
+
+    def self.table_name_prefix: () -> untyped
+    def self.table_name_prefix?: () -> bool
+    def self.table_name_prefix=: (untyped) -> untyped
+    def table_name_prefix: () -> untyped
+    def table_name_prefix?: () -> bool
+
+    def self.table_name_suffix: () -> untyped
+    def self.table_name_suffix?: () -> bool
+    def self.table_name_suffix=: (untyped) -> untyped
+    def table_name_suffix: () -> untyped
+    def table_name_suffix?: () -> bool
+
+    def self.schema_migrations_table_name: () -> untyped
+    def self.schema_migrations_table_name?: () -> bool
+    def self.schema_migrations_table_name=: (untyped) -> untyped
+
+    def self.internal_metadata_table_name: () -> untyped
+    def self.internal_metadata_table_name?: () -> bool
+    def self.internal_metadata_table_name=: (untyped) -> untyped
+
+    def self.pluralize_table_names: () -> untyped
+    def self.pluralize_table_names?: () -> bool
+    def self.pluralize_table_names=: (untyped) -> untyped
+    def pluralize_table_names: () -> untyped
+    def pluralize_table_names?: () -> bool
+
+    def self.implicit_order_column: () -> untyped
+    def self.implicit_order_column?: () -> bool
+    def self.implicit_order_column=: (untyped) -> untyped
+
+    def self.store_full_sti_class: () -> untyped
+    def self.store_full_sti_class?: () -> bool
+    def self.store_full_sti_class=: (untyped) -> untyped
+    def store_full_sti_class: () -> untyped
+    def store_full_sti_class?: () -> bool
+
+    def self.default_scopes: () -> untyped
+    def self.default_scopes=: (untyped) -> untyped
+    def default_scopes: () -> untyped
+
+    def self.default_scope_override: () -> untyped
+    def self.default_scope_override=: (untyped) -> untyped
+    def default_scope_override: () -> untyped
+
+    def self.unscoped: () -> untyped | ...
+
+    def self.cache_timestamp_format: () -> untyped
+    def self.cache_timestamp_format?: () -> bool
+    def self.cache_timestamp_format=: (untyped) -> untyped
+    def cache_timestamp_format: () -> untyped
+    def cache_timestamp_format?: () -> bool
+
+    def self.cache_versioning: () -> untyped
+    def self.cache_versioning?: () -> bool
+    def self.cache_versioning=: (untyped) -> untyped
+    def cache_versioning: () -> untyped
+    def cache_versioning?: () -> bool
+
+    def self.collection_cache_versioning: () -> untyped
+    def self.collection_cache_versioning?: () -> bool
+    def self.collection_cache_versioning=: (untyped) -> untyped
+    def collection_cache_versioning: () -> untyped
+    def collection_cache_versioning?: () -> bool
+
+    def self.lock_optimistically: () -> untyped
+    def self.lock_optimistically?: () -> bool
+    def self.lock_optimistically=: (untyped) -> untyped
+    def lock_optimistically: () -> untyped
+    def lock_optimistically?: () -> bool
+
+    def self.attribute_aliases: () -> untyped
+    def self.attribute_aliases?: () -> bool
+    def self.attribute_aliases=: (untyped) -> untyped
+    def attribute_aliases: () -> untyped
+    def attribute_aliases?: () -> bool
+
+    def self.attribute_method_matchers: () -> untyped
+    def self.attribute_method_matchers?: () -> bool
+    def self.attribute_method_matchers=: (untyped) -> untyped
+    def attribute_method_matchers: () -> untyped
+    def attribute_method_matchers?: () -> bool
+
+    def self.skip_time_zone_conversion_for_attributes: () -> untyped
+    def self.skip_time_zone_conversion_for_attributes?: () -> bool
+    def self.skip_time_zone_conversion_for_attributes=: (untyped) -> untyped
+    def skip_time_zone_conversion_for_attributes: () -> untyped
+    def skip_time_zone_conversion_for_attributes?: () -> bool
+
+    def self.time_zone_aware_types: () -> untyped
+    def self.time_zone_aware_types?: () -> bool
+    def self.time_zone_aware_types=: (untyped) -> untyped
+    def time_zone_aware_types: () -> untyped
+    def time_zone_aware_types?: () -> bool
+
+    def self.partial_writes: () -> untyped
+    def self.partial_writes?: () -> bool
+    def self.partial_writes=: (untyped) -> untyped
+    def partial_writes: () -> untyped
+    def partial_writes?: () -> bool
+
+    def self.record_timestamps: () -> untyped
+    def self.record_timestamps?: () -> bool
+    def self.record_timestamps=: (untyped) -> untyped
+    def record_timestamps: () -> untyped
+    def record_timestamps?: () -> bool
+    def record_timestamps=: (untyped) -> untyped
+
+    def self.nested_attributes_options: () -> untyped
+    def self.nested_attributes_options?: () -> bool
+    def self.nested_attributes_options=: (untyped) -> untyped
+    def nested_attributes_options: () -> untyped
+    def nested_attributes_options?: () -> bool
+
+    def self.aggregate_reflections: () -> untyped
+    def self.aggregate_reflections?: () -> bool
+    def self.aggregate_reflections=: (untyped) -> untyped
+    def aggregate_reflections: () -> untyped
+    def aggregate_reflections?: () -> bool
+
+    def self.include_root_in_json: () -> untyped
+    def self.include_root_in_json?: () -> bool
+    def self.include_root_in_json=: (untyped) -> untyped
+    def include_root_in_json: () -> untyped
+    def include_root_in_json?: () -> bool
+
+    # mattr_accessor
+    attr_accessor self.logger: untyped
+    def logger: () -> untyped
+
+    attr_accessor self.verbose_query_logs: untyped
+    def verbose_query_logs: () -> untyped
+
+    attr_accessor self.default_timezone: untyped
+    def default_timezone: () -> untyped
+
+    attr_accessor self.schema_format: untyped
+    def schema_format: () -> untyped
+
+    attr_accessor self.error_on_ignored_order: untyped
+    def error_on_ignored_order: () -> untyped
+
+    attr_accessor self.allow_unsafe_raw_sql: untyped
+    def allow_unsafe_raw_sql: () -> untyped
+
+    attr_accessor self.timestamped_migrations: untyped
+    def timestamped_migrations: () -> untyped
+
+    attr_accessor self.dump_schema_after_migration: untyped
+    def dump_schema_after_migration: () -> untyped
+
+    attr_accessor self.dump_schemas: untyped
+    def dump_schemas: () -> untyped
+
+    attr_accessor self.warn_on_records_fetched_greater_than: untyped
+    def warn_on_records_fetched_greater_than: () -> untyped
+
+    attr_accessor self.maintain_test_schema: untyped
+
+    attr_accessor self.belongs_to_required_by_default: untyped
+
+    attr_accessor self.connection_handlers: untyped
+
+    attr_accessor self.writing_role: untyped
+
+    attr_accessor self.reading_role: untyped
+
+    attr_accessor self.primary_key_prefix_type: untyped
+    def primary_key_prefix_type: () -> untyped
+
+    attr_accessor self.time_zone_aware_attributes: untyped
+    def time_zone_aware_attributes: () -> untyped
+
+    attr_accessor self.index_nested_attribute_errors: untyped
+    def index_nested_attribute_errors: () -> untyped
+
+    private
+
+    def self.default_scope: (?untyped? scope) -> untyped | ...
+  end
+end
+
+interface _ActiveRecord_Relation[Model, PrimaryKey]
+  def all: () -> self
+  def ids: () -> Array[PrimaryKey]
+  def none: () -> self
+  def pluck: (Symbol | String column) -> Array[untyped]
+           | (*Symbol | String columns) -> Array[Array[untyped]]
+  def where: (*untyped) -> self
+  def not: (*untyped) -> self
+  def exists?: (*untyped) -> bool
+  def order: (*untyped) -> self
+  def group: (*Symbol | String) -> untyped
+  def distinct: () -> self
+  def or: (self) -> self
+  def merge: (Array[untyped] | Hash[untyped, untyped] | ActiveRecord::Relation | Proc) -> self
+  def joins: (*String | Symbol | Hash[untyped, untyped]) -> self
+  def left_joins: (*String | Symbol | Hash[untyped, untyped]) -> self
+  def left_outer_joins: (*String | Symbol | Hash[untyped, untyped]) -> self
+  def includes: (*String | Symbol | Hash[untyped, untyped]) -> self
+  def eager_load: (*String | Symbol | Hash[untyped, untyped]) -> self
+  def preload: (*String | Symbol | Hash[untyped, untyped]) -> self
+  def find_by: (*untyped) -> Model?
+  def find_by!: (*untyped) -> Model
+  def find: (PrimaryKey id) -> Model
+          | (Array[PrimaryKey]) -> Array[Model]
+          | (*PrimaryKey) -> Array[Model]
+          | () { (Model) -> boolish } -> Model?
+  def find_or_create_by: (*untyped) -> Model
+                       | (*untyped) { (Model) -> void } -> Model
+  def find_or_create_by!: (*untyped) -> Model
+                        | (*untyped) { (Model) -> void } -> Model
+  def find_or_initialize_by: (*untyped) -> Model
+                           | (*untyped) { (Model) -> void } -> Model
+  def create_or_find_by: (*untyped) -> Model
+                       | (*untyped) { (Model) -> void } -> Model
+  def create_or_find_by!: (*untyped) -> Model
+                        | (*untyped) { (Model) -> void } -> Model
+  def take: () -> Model
+          | (Integer limit) -> Array[Model]
+  def take!: () -> Model
+  def first: () -> Model?
+           | (Integer count) -> Array[Model]
+  def first!: () -> Model
+  def second: () -> Model?
+  def second!: () -> Model
+  def third: () -> Model?
+  def third!: () -> Model
+  def fourth: () -> Model?
+  def fourth!: () -> Model
+  def fifth: () -> Model?
+  def fifth!: () -> Model
+  def forty_two: () -> Model?
+  def forty_two!: () -> Model
+  def second_to_last: () -> Model?
+  def second_to_last!: () -> Model
+  def third_to_last: () -> Model?
+  def third_to_last!: () -> Model
+  def last: () -> Model?
+           | (Integer count) -> Array[Model]
+  def last!: () -> Model
+  def limit: (Integer | Arel::Nodes::SqlLiteral | nil) -> self
+  def limit!: (Integer | Arel::Nodes::SqlLiteral | nil) -> self
+  def find_each: (?batch_size: Integer, ?start: Integer, ?finish: Integer, ?error_on_ignore: bool) { (Model) -> void } -> nil
+  def find_in_batches: (?batch_size: Integer, ?start: Integer, ?finish: Integer, ?error_on_ignore: bool) { (Array[Model]) -> void } -> nil
+  def in_batches: (?of: Integer, ?start: Integer, ?finish: Integer, ?load: bool, ?error_on_ignore: bool, ?order: untyped) { (self) -> void } -> nil
+  def destroy_all: () -> untyped
+  def delete_all: () -> untyped
+  def update_all: (*untyped) -> untyped
+  def touch_all: (*untyped, ?time: untyped) -> untyped
+  def destroy_by: (*untyped) -> untyped
+  def delete_by: (*untyped) -> untyped
+  def each: () { (Model) -> void } -> self
+  def select: (*Symbol | String) -> self
+            | () { (Model) -> boolish } -> Array[Model]
+  def reselect: (*Symbol | String) -> self
+end
+
+interface _ActiveRecord_Relation_ClassMethods[Model, Relation, PrimaryKey]
+  def all: () -> Relation
+  def ids: () -> Array[PrimaryKey]
+  def none: () -> Relation
+  def pluck: (Symbol | String column) -> Array[untyped]
+           | (*Symbol | String columns) -> Array[Array[untyped]]
+  def where: (*untyped) -> Relation
+  def exists?: (*untyped) -> bool
+  def any?: () -> bool
+          | () { (Model) -> boolish } -> bool
+  def many?: () -> bool
+           | () { (Model) -> boolish } -> bool
+  def none?: () -> bool
+           | () { (Model) -> boolish } -> bool
+  def one?: () -> bool
+          | () { (Model) -> boolish } -> bool
+  def order: (*untyped) -> Relation
+  def group: (*Symbol | String) -> untyped
+  def distinct: () -> Relation
+  def or: (Relation) -> Relation
+  def merge: (Array[untyped] | Hash[untyped, untyped] | ActiveRecord::Relation | Proc) -> Relation
+  def joins: (*String | Symbol | Hash[untyped, untyped]) -> Relation
+  def left_joins: (*String | Symbol | Hash[untyped, untyped]) -> Relation
+  def left_outer_joins: (*String | Symbol | Hash[untyped, untyped]) -> Relation
+  def includes: (*String | Symbol | Hash[untyped, untyped]) -> Relation
+  def eager_load: (*String | Symbol | Hash[untyped, untyped]) -> Relation
+  def preload: (*String | Symbol | Hash[untyped, untyped]) -> Relation
+  def find_by: (*untyped) -> Model?
+  def find_by!: (*untyped) -> Model
+  def find: (PrimaryKey id) -> Model
+          | (Array[PrimaryKey]) -> Array[Model]
+          | (*PrimaryKey) -> Array[Model]
+  def find_or_create_by: (*untyped) -> Model
+                       | (*untyped) { (Model) -> void } -> Model
+  def find_or_create_by!: (*untyped) -> Model
+                        | (*untyped) { (Model) -> void } -> Model
+  def find_or_initialize_by: (*untyped) -> Model
+                           | (*untyped) { (Model) -> void } -> Model
+  def create_or_find_by: (*untyped) -> Model
+                       | (*untyped) { (Model) -> void } -> Model
+  def create_or_find_by!: (*untyped) -> Model
+                        | (*untyped) { (Model) -> void } -> Model
+  def take: () -> Model
+          | (Integer limit) -> Array[Model]
+  def take!: () -> Model
+  def first: () -> Model?
+           | (Integer count) -> Array[Model]
+  def first!: () -> Model
+  def second: () -> Model?
+  def second!: () -> Model
+  def third: () -> Model?
+  def third!: () -> Model
+  def fourth: () -> Model?
+  def fourth!: () -> Model
+  def fifth: () -> Model?
+  def fifth!: () -> Model
+  def forty_two: () -> Model?
+  def forty_two!: () -> Model
+  def second_to_last: () -> Model?
+  def second_to_last!: () -> Model
+  def third_to_last: () -> Model?
+  def third_to_last!: () -> Model
+  def last: () -> Model?
+           | (Integer count) -> Array[Model]
+  def last!: () -> Model
+  def limit: (Integer | Arel::Nodes::SqlLiteral | nil) -> Relation
+  def find_each: (?batch_size: Integer, ?start: Integer, ?finish: Integer, ?error_on_ignore: bool) { (Model) -> void } -> nil
+  def find_in_batches: (?batch_size: Integer, ?start: Integer, ?finish: Integer, ?error_on_ignore: bool) { (Array[Model]) -> void } -> nil
+  def in_batches: (?of: Integer, ?start: Integer, ?finish: Integer, ?load: bool, ?error_on_ignore: bool, ?order: untyped) { (Relation) -> void } -> nil
+  def destroy_all: () -> untyped
+  def delete_all: () -> untyped
+  def update_all: (*untyped) -> untyped
+  def touch_all: (*untyped, ?time: untyped) -> untyped
+  def destroy_by: (*untyped) -> untyped
+  def delete_by: (*untyped) -> untyped
+  def select: (*Symbol | String) -> Relation
+            | () { (Model) -> boolish } -> Array[Model]
+  def reselect: (*Symbol | String) -> Relation
+end
+
+# https://github.com/rails/rails/blob/fbe2433be6e052a1acac63c7faf287c52ed3c5ba/activerecord/lib/arel/nodes/unary.rb
+module Arel
+  module Nodes
+    class Bin < Unary
+    end
+    class Cube < Unary
+    end
+    class DistinctOn < Unary
+    end
+    class Group < Unary
+    end
+    class GroupingElement < Unary
+    end
+    class GroupingSet < Unary
+    end
+    class Lateral < Unary
+    end
+    class Limit < Unary
+    end
+    class Lock < Unary
+    end
+    class Not < Unary
+    end
+    class Offset < Unary
+    end
+    class On < Unary
+    end
+    class OptimizerHints < Unary
+    end
+    class Ordering < Unary
+    end
+    class RollUp < Unary
+    end
+  end
+end
+
+# https://github.com/rails/rails/blob/fbe2433be6e052a1acac63c7faf287c52ed3c5ba/activerecord/lib/arel/nodes/binary.rb
+module Arel
+  module Nodes
+    class As < Binary
+    end
+    class Assignment < Binary
+    end
+    class Between < Binary
+    end
+    class GreaterThan < Binary
+    end
+    class GreaterThanOrEqual < Binary
+    end
+    class Join < Binary
+    end
+    class LessThan < Binary
+    end
+    class LessThanOrEqual < Binary
+    end
+    class NotEqual < Binary
+    end
+    class NotIn < Binary
+    end
+    class Or < Binary
+    end
+    class Union < Binary
+    end
+    class UnionAll < Binary
+    end
+    class Intersect < Binary
+    end
+    class Except < Binary
+    end
+  end
+end
+
+# https://github.com/rails/rails/blob/fbe2433be6e052a1acac63c7faf287c52ed3c5ba/activerecord/lib/arel/nodes/equality.rb
+module Arel
+  module Nodes
+    class IsDistinctFrom < Equality
+    end
+
+    class IsNotDistinctFrom < Equality
+    end
+  end
+end
+
+# https://github.com/rails/rails/blob/fbe2433be6e052a1acac63c7faf287c52ed3c5ba/activerecord/lib/arel/nodes/function.rb
+module Arel
+  module Nodes
+    class Sum < Function
+    end
+    class Exists < Function
+    end
+    class Max < Function
+    end
+    class Min < Function
+    end
+    class Avg < Function
+    end
+  end
+end
+
+module ActiveRecord
+  class Base
+    extend Associations::ClassMethods
+  end
+end
+
+module ActiveRecord
+  module Associations
+    class CollectionProxy
+      def build: (?::Hash[untyped, untyped] attributes) -> untyped | ...
+      def create: (?::Hash[untyped, untyped] attributes) -> untyped | ...
+      def create!: (?::Hash[untyped, untyped] attributes) -> untyped | ...
+    end
+  end
+end

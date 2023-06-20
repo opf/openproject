@@ -1,0 +1,74 @@
+module Delayed
+  class Worker
+    DEFAULT_LOG_LEVEL: String
+    DEFAULT_SLEEP_DELAY: Integer
+    DEFAULT_MAX_ATTEMPTS: Integer
+    DEFAULT_MAX_RUN_TIME: ActiveSupport::Duration
+    DEFAULT_DEFAULT_PRIORITY: Integer
+    DEFAULT_DELAY_JOBS: true
+    DEFAULT_QUEUES: Array[untyped]
+    DEFAULT_QUEUE_ATTRIBUTES: ActiveSupport::HashWithIndifferentAccess[untyped, untyped]
+    DEFAULT_READ_AHEAD: Integer
+
+    attr_accessor self.min_priority: untyped
+    attr_accessor self.max_priority: untyped
+    attr_accessor self.max_attempts: untyped
+    attr_accessor self.max_run_time: untyped
+    attr_accessor self.default_priority: untyped
+    attr_accessor self.sleep_delay: untyped
+    attr_accessor self.logger: untyped
+    attr_accessor self.delay_jobs: bool | ^(untyped job) -> boolish
+    attr_accessor self.queues: untyped
+    attr_accessor self.read_ahead: untyped
+    attr_accessor self.plugins: untyped
+    attr_accessor self.destroy_failed_jobs: untyped
+    attr_accessor self.exit_on_complete: untyped
+    attr_accessor self.default_log_level: untyped
+    attr_accessor self.default_queue_name: untyped
+    attr_accessor self.raise_signal_exceptions: bool | :term
+
+    attr_reader self.backend: untyped
+    attr_reader self.queue_attributes: untyped
+
+    self.@lifecycle: Delayed::Lifecycle?
+    self.@files_to_reopen: Array[File]
+    @quiet: boolish
+    @failed_reserve_count: Integer
+    @exit: true?
+    @result: [Integer, Integer]
+    @realtime: Float
+    @@queue_attributes: ActiveSupport::HashWithIndifferentAccess[untyped, untyped]
+    @@backend: untyped
+
+    attr_accessor name_prefix: _ToS
+    def self.reset: -> void
+    def self.backend=: (untyped backend) -> untyped
+    def self.queue_attributes=: (untyped val) -> untyped
+    def self.guess_backend: -> void
+    def self.before_fork: -> untyped
+    def self.after_fork: -> untyped
+    def self.lifecycle: -> Delayed::Lifecycle?
+    def self.setup_lifecycle: -> void
+    def self.reload_app?: -> boolish
+    def self.delay_job?: (untyped job) -> untyped
+    def initialize: (?Hash[untyped, untyped] options) -> void
+    def name: -> String
+    attr_writer name: String
+    def start: -> untyped
+    def stop: -> true
+    def stop?: -> bool
+    def work_off: (?Integer num) -> [Integer, Integer]
+    def run: (untyped job) -> bool
+    def reschedule: (untyped job, ?untyped time) -> untyped
+    def failed: (untyped job) -> untyped
+    def job_say: (untyped job, String text, ?String level) -> nil
+    def say: (String text, ?String level) -> nil
+    def max_attempts: (untyped job) -> untyped
+    def max_run_time: (untyped job) -> untyped
+    def say_queue: (untyped queue) -> String?
+    def handle_failed_job: (untyped job, Exception error) -> untyped
+    def reserve_and_run_one_job: -> untyped
+    def reserve_job: -> untyped
+    def reload!: -> untyped
+  end
+end

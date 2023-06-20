@@ -1,0 +1,24 @@
+module Listen
+  class Listener
+    # Starts processing events and starts adapters
+    # or resumes invoking callbacks if paused
+    def start: () -> void
+
+    # Stops both listening for events and processing them
+    def stop: () -> void
+
+    # Stops invoking callbacks (messages pile up)
+    def pause: () -> void
+
+    # processing means callbacks are called
+    def processing?: () -> bool
+
+    def paused?: () -> bool
+
+    def ignore: (Regexp regexps) -> void
+
+    def ignore!: (Regexp regexps) -> void
+
+    def only: (Regexp regexps) -> void
+  end
+end

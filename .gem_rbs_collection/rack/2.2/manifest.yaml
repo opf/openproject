@@ -1,0 +1,3 @@
+dependencies:
+  - name: cgi
+  - name: uri

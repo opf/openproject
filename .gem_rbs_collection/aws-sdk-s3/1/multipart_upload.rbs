@@ -1,0 +1,61 @@
+# WARNING ABOUT GENERATED CODE
+#
+# This file is generated. See the generator README.md for more information:
+# https://github.com/ruby/gem_rbs_collection/blob/main/generators/aws-sdk-rbs-generator/README.md
+#
+# WARNING ABOUT GENERATED CODE
+
+module Aws
+  module S3
+    class MultipartUpload
+      # identifiers
+
+      def initialize: (bucket_name: String, object_key: String, id: String, ?client: Client, **untyped) -> void
+      def bucket_name: () -> String
+      def object_key: () -> String
+      def id: () -> String
+
+      # data_attribute
+
+      def upload_id: () -> Types::multipart_upload_id
+      def key: () -> Types::object_key
+      def initiated: () -> Types::initiated
+      def storage_class: () -> Types::storage_class
+      def owner: () -> Types::Owner
+      def initiator: () -> Types::Initiator
+      def checksum_algorithm: () -> Types::checksum_algorithm
+
+      # client_method
+
+      def client: () -> Client
+
+      # load_method
+
+
+      # data_method
+
+      def data: () -> Types::MultipartUpload
+
+      def data_loaded?: () -> bool
+
+      # waiters
+
+
+      # actions
+
+      def abort: (?request_payer: Types::request_payer, ?expected_bucket_owner: Types::account_id) -> Types::AbortMultipartUploadOutput
+      def complete: (?multipart_upload: Types::completed_multipart_upload, ?checksum_crc32: Types::checksum_crc32, ?checksum_crc32c: Types::checksum_crc32c, ?checksum_sha1: Types::checksum_sha1, ?checksum_sha256: Types::checksum_sha256, ?request_payer: Types::request_payer, ?expected_bucket_owner: Types::account_id, ?sse_customer_algorithm: Types::sse_customer_algorithm, ?sse_customer_key: Types::sse_customer_key, ?sse_customer_key_md5: Types::sse_customer_key_md5) -> Object
+
+      # associations
+
+      def object: () -> Object
+      def part: (String part_number) -> MultipartUploadPart
+      def parts: (?max_parts: Types::max_parts, ?part_number_marker: Types::part_number_marker, ?request_payer: Types::request_payer, ?expected_bucket_owner: Types::account_id, ?sse_customer_algorithm: Types::sse_customer_algorithm, ?sse_customer_key: Types::sse_customer_key, ?sse_customer_key_md5: Types::sse_customer_key_md5) -> MultipartUploadPart::Collection
+
+      # batch_actions
+
+      class Collection < ::Aws::Resources::Collection[MultipartUpload]
+      end
+    end
+  end
+end

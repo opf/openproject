@@ -1,0 +1,81 @@
+module I18n
+  extend Base
+
+  RESERVED_KEYS: Array[Symbol]
+  DEFAULT_INTERPOLATION_PATTERNS: [Regexp]
+  INTERPOLATION_PATTERN: Regexp
+  VERSION: String
+
+  module Base
+    def config: -> I18n::Config
+    def config=: (I18n::Config value) -> I18n::Config
+
+    def locale: -> Symbol
+    def locale=: (untyped value) -> untyped
+    def backend: -> untyped
+    def backend=: (untyped value) -> untyped
+    def default_locale: -> Symbol
+    def default_locale=: (untyped value) -> untyped
+    def available_locales: -> Array[String | Symbol]
+    def available_locales=: (untyped value) -> untyped
+    def default_separator: -> String
+    def default_separator=: (String value) -> String
+    def exception_handler: -> untyped
+    def exception_handler=: (untyped value) -> untyped
+    def load_path: -> Array[untyped]
+    def load_path=: (untyped value) -> untyped
+    def enforce_available_locales: -> untyped
+    def enforce_available_locales=: (untyped value) -> untyped
+
+    def reload!: -> void
+    def eager_load!: -> void
+    def translate: (String | Symbol | Array[untyped] key, ?throw: bool throw, ?raise: bool raise, ?locale: untyped? locale, **untyped options) -> String
+    alias t translate
+    def translate!: (untyped key, **untyped options) -> String
+    alias t! translate!
+    def exists?: (untyped key, ?untyped? _locale, ?locale: untyped locale, **untyped options) -> bool
+    def transliterate: (untyped key, ?throw: bool, ?raise: bool, ?locale: untyped?, ?replacement: untyped?, **untyped) -> untyped
+    def localize: (untyped object, ?locale: untyped, ?format: untyped, **untyped) -> untyped
+    alias l localize
+    def with_locale: (?untyped? tmp_locale) { () -> untyped } -> untyped
+    def normalize_keys: (untyped locale, untyped key, untyped scope, ?untyped separator) -> Array[Symbol]
+    def locale_available?: (Symbol | String locale) -> bool
+    def enforce_available_locales!: (untyped locale) -> nil
+    def available_locales_initialized?: -> bool
+  end
+
+  class Config
+    def locale: -> Symbol
+    def locale=: (untyped locale) -> untyped
+    def backend: -> untyped
+    def backend=: (untyped backend) -> untyped
+    def default_locale: -> Symbol
+    def default_locale=: (untyped locale) -> untyped
+    def available_locales: -> Array[String | Symbol]
+    def available_locales_set: -> untyped
+    def available_locales=: (untyped locales) -> void
+    def available_locales_initialized?: -> bool
+    def clear_available_locales_set: -> void
+    def default_separator: -> String
+    def default_separator=: (String separator) -> String
+    def exception_handler: -> untyped
+    def exception_handler=: (untyped exception_handler) -> untyped
+    def missing_interpolation_argument_handler: -> untyped
+    def missing_interpolation_argument_handler=: (untyped exception_handler) -> untyped
+    def load_path: -> Array[untyped]
+    def load_path=: (untyped load_path) -> void
+    def enforce_available_locales: -> untyped
+    def enforce_available_locales=: (untyped enforce_available_locales) -> untyped
+    def interpolation_patterns: -> untyped
+    def interpolation_patterns=: (untyped interpolation_patterns) -> untyped
+  end
+
+  module Utils
+    def self.except: (Hash[untyped, untyped] hash, *untyped keys) -> Hash[untyped, untyped]
+                   | (Hash[untyped, untyped] hash, *untyped keys) -> Hash[untyped, untyped]
+    def self.deep_merge: (Hash[untyped, untyped] hash, Hash[untyped, untyped] other_hash) -> Hash[untyped, untyped]
+    def self.deep_merge!: (untyped hash, untyped other_hash) -> Hash[untyped, untyped]
+    def self.deep_symbolize_keys: (Hash[untyped, untyped] hash) -> Hash[Symbol, untyped]
+    def self.deep_symbolize_keys_in_object: (untyped value) -> untyped
+  end
+end

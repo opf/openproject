@@ -1,0 +1,29 @@
+# WARNING ABOUT GENERATED CODE
+#
+# This file is generated. See the generator README.md for more information:
+# https://github.com/ruby/gem_rbs_collection/blob/main/generators/aws-sdk-rbs-generator/README.md
+#
+# WARNING ABOUT GENERATED CODE
+
+module Aws
+  module S3
+    module Waiters
+      class BucketExists
+        def initialize: (client: Client, ?max_attempts: Integer, ?delay: Integer, ?before_attempt: Proc, before_wait: Proc) -> void
+        def wait: (Types::head_bucket_request) -> Aws::EmptyStructure
+      end
+      class BucketNotExists
+        def initialize: (client: Client, ?max_attempts: Integer, ?delay: Integer, ?before_attempt: Proc, before_wait: Proc) -> void
+        def wait: (Types::head_bucket_request) -> Aws::EmptyStructure
+      end
+      class ObjectExists
+        def initialize: (client: Client, ?max_attempts: Integer, ?delay: Integer, ?before_attempt: Proc, before_wait: Proc) -> void
+        def wait: (Types::head_object_request) -> Types::HeadObjectOutput
+      end
+      class ObjectNotExists
+        def initialize: (client: Client, ?max_attempts: Integer, ?delay: Integer, ?before_attempt: Proc, before_wait: Proc) -> void
+        def wait: (Types::head_object_request) -> Types::HeadObjectOutput
+      end
+    end
+  end
+end

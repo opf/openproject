@@ -1,0 +1,15 @@
+class GlobalID
+  module Identification
+    def to_global_id: (?::Hash[untyped, untyped] options) -> GlobalID
+
+    alias to_gid to_global_id
+
+    def to_gid_param: (?::Hash[untyped, untyped] options) -> String
+
+    def to_signed_global_id: (?::Hash[untyped, untyped] options) -> SignedGlobalID
+
+    alias to_sgid to_signed_global_id
+
+    def to_sgid_param: (?::Hash[untyped, untyped] options) -> untyped
+  end
+end

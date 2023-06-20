@@ -1,0 +1,48 @@
+class SignedGlobalID < GlobalID
+  class ExpiredMessage < StandardError
+  end
+
+  attr_accessor self.verifier: untyped
+
+  attr_accessor self.expires_in: untyped
+
+  def self.parse: (untyped sgid, ?::Hash[untyped, untyped] options) -> instance?
+
+  # Grab the verifier from options and fall back to SignedGlobalID.verifier.
+  # Raise ArgumentError if neither is available.
+  def self.pick_verifier: (untyped options) -> untyped
+
+  DEFAULT_PURPOSE: "default"
+
+  def self.pick_purpose: (untyped options) -> untyped
+
+  private
+
+  def self.verify: (untyped sgid, untyped options) -> untyped
+
+  def self.verify_with_verifier_validated_metadata: (untyped sgid, untyped options) -> untyped
+
+  def self.verify_with_legacy_self_validated_metadata: (untyped sgid, untyped options) -> untyped
+
+  def self.raise_if_expired: (untyped expires_at) -> (untyped | nil)
+
+  public
+
+  attr_reader verifier: untyped
+
+  attr_reader purpose: untyped
+
+  attr_reader expires_at: untyped
+
+  def initialize: (untyped gid, ?::Hash[untyped, untyped] options) -> void
+
+  def to_s: () -> String
+
+  alias to_param to_s
+
+  def ==: (untyped other) -> bool
+
+  private
+
+  def pick_expiration: (untyped options) -> untyped
+end

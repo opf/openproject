@@ -1,0 +1,48 @@
+class GlobalID
+  attr_reader self.app: untyped
+
+  def self.eager_load!: () -> void
+
+  def self.create: (untyped model, ?::Hash[untyped, untyped] options) -> instance
+
+  def self.find: (untyped gid, ?::Hash[untyped, untyped] options) -> untyped
+
+  def self.parse: (untyped gid, ?::Hash[untyped, untyped] options) -> instance?
+
+  def self.app=: (untyped app) -> untyped
+
+  private
+
+  def self.parse_encoded_gid: (untyped gid, untyped options) -> instance?
+
+  public
+
+  attr_reader uri: untyped
+
+  def initialize: (untyped gid, ?::Hash[untyped, untyped] options) -> void
+
+  def find: (?::Hash[untyped, untyped] options) -> untyped
+
+  def model_class: () -> Class
+
+  def ==: (untyped other) -> bool
+
+  alias eql? ==
+
+  def hash: () -> Integer
+
+  def to_param: () -> String
+
+  def as_json: (*void) -> String
+
+  # Delegated methods
+
+  attr_reader app (): String
+  attr_reader model_name (): String
+  attr_reader model_id (): String
+  attr_reader params (): Hash[untyped, untyped]?
+
+  def to_s: () -> String
+
+  def deconstruct_keys: (void _keys) -> { app: String, model_name: String, model_id: String, params: Hash[untyped, untyped]? }
+end

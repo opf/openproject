@@ -1,0 +1,4319 @@
+# The generated code is based on Ruby on Rails source code
+# You can find the license of Ruby on Rails from following.
+
+#Copyright (c) 2005-2019 David Heinemeier Hansson
+#
+#Permission is hereby granted, free of charge, to any person obtaining
+#a copy of this software and associated documentation files (the
+#"Software"), to deal in the Software without restriction, including
+#without limitation the rights to use, copy, modify, merge, publish,
+#distribute, sublicense, and/or sell copies of the Software, and to
+#permit persons to whom the Software is furnished to do so, subject to
+#the following conditions:
+#
+#The above copyright notice and this permission notice shall be
+#included in all copies or substantial portions of the Software.
+#
+#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+#EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+#MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+#NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+#LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+#OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+#WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+module ActiveModel
+  class Attribute
+    class UserProvidedDefault < FromUser
+      # :nodoc:
+      # :nodoc:
+      def initialize: (untyped name, untyped value, untyped `type`, untyped database_default) -> untyped
+
+      def value_before_type_cast: () -> untyped
+
+      def with_type: (untyped `type`) -> untyped
+
+      def marshal_dump: () -> untyped
+
+      def marshal_load: (untyped values) -> untyped
+
+      private
+
+      attr_reader user_provided_value: untyped
+    end
+  end
+end
+
+module ActiveModel
+  class Attribute
+    def self.from_database: (untyped name, untyped value, untyped `type`) -> FromDatabase
+
+    def self.from_user: (untyped name, untyped value, untyped `type`, ?untyped? original_attribute) -> FromUser
+
+    def self.with_cast_value: (untyped name, untyped value, untyped `type`) -> WithCastValue
+
+    def self.null: (untyped name) -> Null
+
+    def self.uninitialized: (untyped name, untyped `type`) -> Uninitialized
+
+    attr_reader name: untyped
+
+    attr_reader value_before_type_cast: untyped
+
+    attr_reader type: untyped
+
+    # This method should not be called directly.
+    # Use #from_database or #from_user
+    def initialize: (untyped name, untyped value_before_type_cast, untyped `type`, ?untyped? original_attribute) -> untyped
+
+    def value: () -> untyped
+
+    def original_value: () -> untyped
+
+    def value_for_database: () -> untyped
+
+    def changed?: () -> untyped
+
+    def changed_in_place?: () -> untyped
+
+    def forgetting_assignment: () -> untyped
+
+    def with_value_from_user: (untyped value) -> untyped
+
+    def with_value_from_database: (untyped value) -> untyped
+
+    def with_cast_value: (untyped value) -> untyped
+
+    def with_type: (untyped `type`) -> untyped
+
+    def type_cast: () -> untyped
+
+    def initialized?: () -> ::TrueClass
+
+    def came_from_user?: () -> ::FalseClass
+
+    def has_been_read?: () -> untyped
+
+    def ==: (untyped other) -> untyped
+
+    alias eql? ==
+
+    def hash: () -> untyped
+
+    def init_with: (untyped coder) -> untyped
+
+    def encode_with: (untyped coder) -> untyped
+
+    def original_value_for_database: () -> untyped
+
+    private
+
+    attr_reader original_attribute: untyped
+
+    alias assigned? original_attribute
+
+    def initialize_dup: (untyped other) -> untyped
+
+    def changed_from_assignment?: () -> untyped
+
+    def _original_value_for_database: () -> untyped
+
+    class FromDatabase < Attribute
+      # :nodoc:
+      def type_cast: (untyped value) -> untyped
+
+      def _original_value_for_database: () -> untyped
+    end
+
+    class FromUser < Attribute
+      # :nodoc:
+      def type_cast: (untyped value) -> untyped
+
+      def came_from_user?: () -> untyped
+    end
+
+    class WithCastValue < Attribute
+      # :nodoc:
+      def type_cast: (untyped value) -> untyped
+
+      def changed_in_place?: () -> ::FalseClass
+    end
+
+    class Null < Attribute
+      # :nodoc:
+      def initialize: (untyped name) -> untyped
+
+      def type_cast: () -> nil
+
+      def with_type: (untyped `type`) -> untyped
+
+      def with_value_from_database: (untyped value) -> untyped
+
+      alias with_value_from_user with_value_from_database
+
+      alias with_cast_value with_value_from_database
+    end
+
+    class Uninitialized < Attribute
+      # :nodoc:
+      UNINITIALIZED_ORIGINAL_VALUE: untyped
+
+      def initialize: (untyped name, untyped `type`) -> untyped
+
+      def value: () { (untyped) -> untyped } -> untyped
+
+      def original_value: () -> untyped
+
+      def value_for_database: () -> nil
+
+      def initialized?: () -> ::FalseClass
+
+      def forgetting_assignment: () -> untyped
+
+      def with_type: (untyped `type`) -> untyped
+    end
+  end
+end
+
+module ActiveModel
+  module AttributeAssignment
+    include ActiveModel::ForbiddenAttributesProtection
+
+    # Allows you to set all the attributes by passing in a hash of attributes with
+    # keys matching the attribute names.
+    #
+    # If the passed hash responds to <tt>permitted?</tt> method and the return value
+    # of this method is +false+ an <tt>ActiveModel::ForbiddenAttributesError</tt>
+    # exception is raised.
+    #
+    #   class Cat
+    #     include ActiveModel::AttributeAssignment
+    #     attr_accessor :name, :status
+    #   end
+    #
+    #   cat = Cat.new
+    #   cat.assign_attributes(name: "Gorby", status: "yawning")
+    #   cat.name # => 'Gorby'
+    #   cat.status # => 'yawning'
+    #   cat.assign_attributes(status: "sleeping")
+    #   cat.name # => 'Gorby'
+    #   cat.status # => 'sleeping'
+    def assign_attributes: (untyped new_attributes) -> (nil | untyped)
+
+    alias attributes= assign_attributes
+
+    private
+
+    def _assign_attributes: (untyped attributes) -> untyped
+
+    def _assign_attribute: (untyped k, untyped v) -> untyped
+  end
+end
+
+module ActiveModel
+  # Raised when an attribute is not defined.
+  #
+  #   class User < ActiveRecord::Base
+  #     has_many :pets
+  #   end
+  #
+  #   user = User.first
+  #   user.pets.select(:id).first.user_id
+  #   # => ActiveModel::MissingAttributeError: missing attribute: user_id
+  class MissingAttributeError[T] < NoMethodError[T]
+  end
+
+  # == Active \Model \Attribute \Methods
+  #
+  # Provides a way to add prefixes and suffixes to your methods as
+  # well as handling the creation of <tt>ActiveRecord::Base</tt>-like
+  # class methods such as +table_name+.
+  #
+  # The requirements to implement <tt>ActiveModel::AttributeMethods</tt> are to:
+  #
+  # * <tt>include ActiveModel::AttributeMethods</tt> in your class.
+  # * Call each of its methods you want to add, such as +attribute_method_suffix+
+  #   or +attribute_method_prefix+.
+  # * Call +define_attribute_methods+ after the other methods are called.
+  # * Define the various generic +_attribute+ methods that you have declared.
+  # * Define an +attributes+ method which returns a hash with each
+  #   attribute name in your model as hash key and the attribute value as hash value.
+  #   Hash keys must be strings.
+  #
+  # A minimal implementation could be:
+  #
+  #   class Person
+  #     include ActiveModel::AttributeMethods
+  #
+  #     attribute_method_affix  prefix: 'reset_', suffix: '_to_default!'
+  #     attribute_method_suffix '_contrived?'
+  #     attribute_method_prefix 'clear_'
+  #     define_attribute_methods :name
+  #
+  #     attr_accessor :name
+  #
+  #     def attributes
+  #       { 'name' => @name }
+  #     end
+  #
+  #     private
+  #
+  #     def attribute_contrived?(attr)
+  #       true
+  #     end
+  #
+  #     def clear_attribute(attr)
+  #       send("#{attr}=", nil)
+  #     end
+  #
+  #     def reset_attribute_to_default!(attr)
+  #       send("#{attr}=", 'Default Name')
+  #     end
+  #   end
+  module AttributeMethods
+    extend ActiveSupport::Concern
+
+    NAME_COMPILABLE_REGEXP: untyped
+
+    CALL_COMPILABLE_REGEXP: untyped
+
+    module ClassMethods
+      # Declares a method available for all attributes with the given prefix.
+      # Uses +method_missing+ and <tt>respond_to?</tt> to rewrite the method.
+      #
+      #   #{prefix}#{attr}(*args, &block)
+      #
+      # to
+      #
+      #   #{prefix}attribute(#{attr}, *args, &block)
+      #
+      # An instance method <tt>#{prefix}attribute</tt> must exist and accept
+      # at least the +attr+ argument.
+      #
+      #   class Person
+      #     include ActiveModel::AttributeMethods
+      #
+      #     attr_accessor :name
+      #     attribute_method_prefix 'clear_'
+      #     define_attribute_methods :name
+      #
+      #     private
+      #
+      #     def clear_attribute(attr)
+      #       send("#{attr}=", nil)
+      #     end
+      #   end
+      #
+      #   person = Person.new
+      #   person.name = 'Bob'
+      #   person.name          # => "Bob"
+      #   person.clear_name
+      #   person.name          # => nil
+      def attribute_method_prefix: (*untyped prefixes) -> untyped
+
+      # Declares a method available for all attributes with the given suffix.
+      # Uses +method_missing+ and <tt>respond_to?</tt> to rewrite the method.
+      #
+      #   #{attr}#{suffix}(*args, &block)
+      #
+      # to
+      #
+      #   attribute#{suffix}(#{attr}, *args, &block)
+      #
+      # An <tt>attribute#{suffix}</tt> instance method must exist and accept at
+      # least the +attr+ argument.
+      #
+      #   class Person
+      #     include ActiveModel::AttributeMethods
+      #
+      #     attr_accessor :name
+      #     attribute_method_suffix '_short?'
+      #     define_attribute_methods :name
+      #
+      #     private
+      #
+      #     def attribute_short?(attr)
+      #       send(attr).length < 5
+      #     end
+      #   end
+      #
+      #   person = Person.new
+      #   person.name = 'Bob'
+      #   person.name          # => "Bob"
+      #   person.name_short?   # => true
+      def attribute_method_suffix: (*untyped suffixes) -> untyped
+
+      # Declares a method available for all attributes with the given prefix
+      # and suffix. Uses +method_missing+ and <tt>respond_to?</tt> to rewrite
+      # the method.
+      #
+      #   #{prefix}#{attr}#{suffix}(*args, &block)
+      #
+      # to
+      #
+      #   #{prefix}attribute#{suffix}(#{attr}, *args, &block)
+      #
+      # An <tt>#{prefix}attribute#{suffix}</tt> instance method must exist and
+      # accept at least the +attr+ argument.
+      #
+      #   class Person
+      #     include ActiveModel::AttributeMethods
+      #
+      #     attr_accessor :name
+      #     attribute_method_affix prefix: 'reset_', suffix: '_to_default!'
+      #     define_attribute_methods :name
+      #
+      #     private
+      #
+      #     def reset_attribute_to_default!(attr)
+      #       send("#{attr}=", 'Default Name')
+      #     end
+      #   end
+      #
+      #   person = Person.new
+      #   person.name                         # => 'Gem'
+      #   person.reset_name_to_default!
+      #   person.name                         # => 'Default Name'
+      def attribute_method_affix: (*untyped affixes) -> untyped
+
+      # Allows you to make aliases for attributes.
+      #
+      #   class Person
+      #     include ActiveModel::AttributeMethods
+      #
+      #     attr_accessor :name
+      #     attribute_method_suffix '_short?'
+      #     define_attribute_methods :name
+      #
+      #     alias_attribute :nickname, :name
+      #
+      #     private
+      #
+      #     def attribute_short?(attr)
+      #       send(attr).length < 5
+      #     end
+      #   end
+      #
+      #   person = Person.new
+      #   person.name = 'Bob'
+      #   person.name            # => "Bob"
+      #   person.nickname        # => "Bob"
+      #   person.name_short?     # => true
+      #   person.nickname_short? # => true
+      def alias_attribute: (untyped new_name, untyped old_name) -> untyped
+
+      # Is +new_name+ an alias?
+      def attribute_alias?: (untyped new_name) -> untyped
+
+      # Returns the original name for the alias +name+
+      def attribute_alias: (untyped name) -> untyped
+
+      # Declares the attributes that should be prefixed and suffixed by
+      # <tt>ActiveModel::AttributeMethods</tt>.
+      #
+      # To use, pass attribute names (as strings or symbols). Be sure to declare
+      # +define_attribute_methods+ after you define any prefix, suffix or affix
+      # methods, or they will not hook in.
+      #
+      #   class Person
+      #     include ActiveModel::AttributeMethods
+      #
+      #     attr_accessor :name, :age, :address
+      #     attribute_method_prefix 'clear_'
+      #
+      #     # Call to define_attribute_methods must appear after the
+      #     # attribute_method_prefix, attribute_method_suffix or
+      #     # attribute_method_affix declarations.
+      #     define_attribute_methods :name, :age, :address
+      #
+      #     private
+      #
+      #     def clear_attribute(attr)
+      #       send("#{attr}=", nil)
+      #     end
+      #   end
+      def define_attribute_methods: (*untyped attr_names) -> untyped
+
+      # Declares an attribute that should be prefixed and suffixed by
+      # <tt>ActiveModel::AttributeMethods</tt>.
+      #
+      # To use, pass an attribute name (as string or symbol). Be sure to declare
+      # +define_attribute_method+ after you define any prefix, suffix or affix
+      # method, or they will not hook in.
+      #
+      #   class Person
+      #     include ActiveModel::AttributeMethods
+      #
+      #     attr_accessor :name
+      #     attribute_method_suffix '_short?'
+      #
+      #     # Call to define_attribute_method must appear after the
+      #     # attribute_method_prefix, attribute_method_suffix or
+      #     # attribute_method_affix declarations.
+      #     define_attribute_method :name
+      #
+      #     private
+      #
+      #     def attribute_short?(attr)
+      #       send(attr).length < 5
+      #     end
+      #   end
+      #
+      #   person = Person.new
+      #   person.name = 'Bob'
+      #   person.name        # => "Bob"
+      #   person.name_short? # => true
+      def define_attribute_method: (untyped attr_name) -> untyped
+
+      # Removes all the previously dynamically defined methods from the class.
+      #
+      #   class Person
+      #     include ActiveModel::AttributeMethods
+      #
+      #     attr_accessor :name
+      #     attribute_method_suffix '_short?'
+      #     define_attribute_method :name
+      #
+      #     private
+      #
+      #     def attribute_short?(attr)
+      #       send(attr).length < 5
+      #     end
+      #   end
+      #
+      #   person = Person.new
+      #   person.name = 'Bob'
+      #   person.name_short? # => true
+      #
+      #   Person.undefine_attribute_methods
+      #
+      #   person.name_short? # => NoMethodError
+      def undefine_attribute_methods: () -> untyped
+
+      private
+
+      def generated_attribute_methods: () -> untyped
+
+      def instance_method_already_implemented?: (untyped method_name) -> untyped
+
+      # The methods +method_missing+ and +respond_to?+ of this module are
+      # invoked often in a typical rails, both of which invoke the method
+      # +matched_attribute_method+. The latter method iterates through an
+      # array doing regular expression matches, which results in a lot of
+      # object creations. Most of the time it returns a +nil+ match. As the
+      # match result is always the same given a +method_name+, this cache is
+      # used to alleviate the GC, which ultimately also speeds up the app
+      # significantly (in our case our test suite finishes 10% faster with
+      # this cache).
+      def attribute_method_matchers_cache: () -> untyped
+
+      def attribute_method_matchers_matching: (untyped method_name) -> untyped
+
+      # Define a method `name` in `mod` that dispatches to `send`
+      # using the given `extra` args. This falls back on `define_method`
+      # and `send` if the given names cannot be compiled.
+      def define_proxy_call: (untyped include_private, untyped mod, untyped name, untyped target, *untyped extra) -> untyped
+
+      class AttributeMethodMatcher
+        # nodoc:
+        attr_reader prefix: untyped
+
+        # nodoc:
+        attr_reader suffix: untyped
+
+        # nodoc:
+        attr_reader target: untyped
+
+        class AttributeMethodMatch[T] < ::Struct[T]
+          attr_accessor target(): untyped
+
+          attr_accessor attr_name(): untyped
+        end
+
+        def initialize: (?::Hash[untyped, untyped] options) -> untyped
+
+        def match: (untyped method_name) -> untyped
+
+        def method_name: (untyped attr_name) -> untyped
+
+        def plain?: () -> untyped
+      end
+    end
+
+    # Allows access to the object attributes, which are held in the hash
+    # returned by <tt>attributes</tt>, as though they were first-class
+    # methods. So a +Person+ class with a +name+ attribute can for example use
+    # <tt>Person#name</tt> and <tt>Person#name=</tt> and never directly use
+    # the attributes hash -- except for multiple assignments with
+    # <tt>ActiveRecord::Base#attributes=</tt>.
+    #
+    # It's also possible to instantiate related objects, so a <tt>Client</tt>
+    # class belonging to the +clients+ table with a +master_id+ foreign key
+    # can instantiate master through <tt>Client#master</tt>.
+    def method_missing: (untyped method, *untyped args) { () -> untyped } -> untyped
+
+    # +attribute_missing+ is like +method_missing+, but for attributes. When
+    # +method_missing+ is called we check to see if there is a matching
+    # attribute method. If so, we tell +attribute_missing+ to dispatch the
+    # attribute. This method can be overloaded to customize the behavior.
+    def attribute_missing: (untyped match, *untyped args) { () -> untyped } -> untyped
+
+    # A +Person+ instance with a +name+ attribute can ask
+    # <tt>person.respond_to?(:name)</tt>, <tt>person.respond_to?(:name=)</tt>,
+    # and <tt>person.respond_to?(:name?)</tt> which will all return +true+.
+    alias respond_to_without_attributes? respond_to?
+
+    def respond_to?: (untyped method, ?bool include_private_methods) -> untyped
+
+    private
+
+    def attribute_method?: (untyped attr_name) -> untyped
+
+    # Returns a struct representing the matching attribute method.
+    # The struct's attributes are prefix, base and suffix.
+    def matched_attribute_method: (untyped method_name) -> untyped
+
+    def missing_attribute: (untyped attr_name, untyped stack) -> untyped
+
+    def _read_attribute: (untyped attr) -> untyped
+
+    module AttrNames
+      # :nodoc:
+      DEF_SAFE_NAME: untyped
+
+      # We want to generate the methods via module_eval rather than
+      # define_method, because define_method is slower on dispatch.
+      # Evaluating many similar methods may use more memory as the instruction
+      # sequences are duplicated and cached (in MRI).  define_method may
+      # be slower on dispatch, but if you're careful about the closure
+      # created, then define_method will consume much less memory.
+      #
+      # But sometimes the database might return columns with
+      # characters that are not allowed in normal method names (like
+      # 'my_column(omg)'. So to work around this we first define with
+      # the __temp__ identifier, and then use alias method to rename
+      # it to what we want.
+      #
+      # We are also defining a constant to hold the frozen string of
+      # the attribute name. Using a constant means that we do not have
+      # to allocate an object on each call to the attribute method.
+      # Making it frozen means that it doesn't get duped when used to
+      # key the @attributes in read_attribute.
+      def self.define_attribute_accessor_method: (untyped mod, untyped attr_name, ?writer: bool writer) { (untyped, untyped) -> untyped } -> untyped
+    end
+  end
+end
+
+module ActiveModel
+  class AttributeMutationTracker
+    # :nodoc:
+    OPTION_NOT_GIVEN: untyped
+
+    def initialize: (untyped attributes, ?untyped forced_changes) -> untyped
+
+    def changed_attribute_names: () -> untyped
+
+    def changed_values: () -> untyped
+
+    def changes: () -> untyped
+
+    def change_to_attribute: (untyped attr_name) -> untyped
+
+    def any_changes?: () -> untyped
+
+    def changed?: (untyped attr_name, ?to: untyped to, ?from: untyped from) -> untyped
+
+    def changed_in_place?: (untyped attr_name) -> untyped
+
+    def forget_change: (untyped attr_name) -> untyped
+
+    def original_value: (untyped attr_name) -> untyped
+
+    def force_change: (untyped attr_name) -> untyped
+
+    private
+
+    attr_reader attributes: untyped
+
+    attr_reader forced_changes: untyped
+
+    def attr_names: () -> untyped
+
+    def attribute_changed?: (untyped attr_name) -> untyped
+
+    def fetch_value: (untyped attr_name) -> untyped
+  end
+
+  class ForcedMutationTracker < AttributeMutationTracker
+    # :nodoc:
+    def initialize: (untyped attributes, ?::Hash[untyped, untyped] forced_changes) -> untyped
+
+    def changed_in_place?: (untyped attr_name) -> ::FalseClass
+
+    def change_to_attribute: (untyped attr_name) -> untyped
+
+    def forget_change: (untyped attr_name) -> untyped
+
+    def original_value: (untyped attr_name) -> untyped
+
+    def force_change: (untyped attr_name) -> untyped
+
+    def finalize_changes: () -> untyped
+
+    private
+
+    attr_reader finalized_changes: untyped
+
+    def attr_names: () -> untyped
+
+    def attribute_changed?: (untyped attr_name) -> untyped
+
+    def fetch_value: (untyped attr_name) -> untyped
+
+    def clone_value: (untyped attr_name) -> untyped
+  end
+
+  class NullMutationTracker
+    # :nodoc:
+    include Singleton
+
+    def changed_attribute_names: () -> ::Array[untyped]
+
+    def changed_values: () -> ::Hash[untyped, untyped]
+
+    def changes: () -> ::Hash[untyped, untyped]
+
+    def change_to_attribute: (untyped attr_name) -> nil
+
+    def any_changes?: () -> ::FalseClass
+
+    def changed?: (untyped attr_name) -> ::FalseClass
+
+    def changed_in_place?: (untyped attr_name) -> ::FalseClass
+
+    def original_value: (untyped attr_name) -> nil
+  end
+end
+
+module ActiveModel
+  class AttributeSet
+    class Builder
+      # :nodoc:
+      # :nodoc:
+      attr_reader types: untyped
+
+      # :nodoc:
+      # :nodoc:
+      attr_reader default_attributes: untyped
+
+      def initialize: (untyped types, ?::Hash[untyped, untyped] default_attributes) -> untyped
+
+      def build_from_database: (?::Hash[untyped, untyped] values, ?::Hash[untyped, untyped] additional_types) -> AttributeSet
+    end
+  end
+
+  class LazyAttributeHash
+    def initialize: (untyped types, untyped values, untyped additional_types, untyped default_attributes, ?::Hash[untyped, untyped] delegate_hash) -> untyped
+
+    def key?: (untyped key) -> untyped
+
+    def []: (untyped key) -> untyped
+
+    def []=: (untyped key, untyped value) -> untyped
+
+    def deep_dup: () -> untyped
+
+    def initialize_dup: (untyped _) -> untyped
+
+    def select: () { (untyped, untyped) -> untyped } -> untyped
+
+    def ==: (untyped other) -> untyped
+
+    def marshal_dump: () -> ::Array[untyped]
+
+    def marshal_load: (untyped values) -> untyped
+
+    def materialize: () -> untyped
+
+    private
+
+    attr_reader types: untyped
+
+    attr_reader values: untyped
+
+    attr_reader additional_types: untyped
+
+    attr_reader delegate_hash: untyped
+
+    attr_reader default_attributes: untyped
+
+    def assign_default_value: (untyped name) -> untyped
+  end
+end
+
+module ActiveModel
+  class AttributeSet
+    class YAMLEncoder
+      # Attempts to do more intelligent YAML dumping of an
+      # ActiveModel::AttributeSet to reduce the size of the resulting string
+      # :nodoc:
+      def initialize: (untyped default_types) -> untyped
+
+      def encode: (untyped attribute_set, untyped coder) -> untyped
+
+      def decode: (untyped coder) -> untyped
+
+      private
+
+      attr_reader default_types: untyped
+    end
+  end
+end
+
+module ActiveModel
+  class AttributeSet
+    def initialize: (untyped attributes) -> untyped
+
+    def []: (untyped name) -> untyped
+
+    def []=: (untyped name, untyped value) -> untyped
+
+    def values_before_type_cast: () -> untyped
+
+    def to_hash: () -> untyped
+
+    alias to_h to_hash
+
+    def key?: (untyped name) -> untyped
+
+    def keys: () -> untyped
+
+    def fetch_value: (untyped name) { () -> untyped } -> untyped
+
+    def write_from_database: (untyped name, untyped value) -> untyped
+
+    def write_from_user: (untyped name, untyped value) -> untyped
+
+    def write_cast_value: (untyped name, untyped value) -> untyped
+
+    def freeze: () -> untyped
+
+    def deep_dup: () -> untyped
+
+    def initialize_dup: (untyped _) -> untyped
+
+    def initialize_clone: (untyped _) -> untyped
+
+    def reset: (untyped key) -> untyped
+
+    def accessed: () -> untyped
+
+    def map: () { () -> untyped } -> AttributeSet
+
+    def ==: (untyped other) -> untyped
+
+    attr_reader attributes: untyped
+
+    private
+
+    def initialized_attributes: () -> untyped
+  end
+end
+
+module ActiveModel
+  module Attributes
+    # nodoc:
+    extend ActiveSupport::Concern
+
+    include ActiveModel::AttributeMethods
+
+    module ClassMethods
+      def attribute: (untyped name, ?untyped `type`, **untyped options) -> untyped
+
+      # Returns an array of attribute names as strings
+      #
+      #   class Person
+      #     include ActiveModel::Attributes
+      #
+      #     attribute :name, :string
+      #     attribute :age, :integer
+      #   end
+      #
+      #   Person.attribute_names
+      #   # => ["name", "age"]
+      def attribute_names: () -> untyped
+
+      private
+
+      def define_method_attribute=: (untyped name) -> untyped
+
+      NO_DEFAULT_PROVIDED: untyped
+
+      def define_default_attribute: (untyped name, untyped value, untyped `type`) -> untyped
+    end
+
+    def initialize: () -> untyped
+
+    # Returns a hash of all the attributes with their names as keys and the values of the attributes as values.
+    #
+    #   class Person
+    #     include ActiveModel::Model
+    #     include ActiveModel::Attributes
+    #
+    #     attribute :name, :string
+    #     attribute :age, :integer
+    #   end
+    #
+    #   person = Person.new(name: 'Francesco', age: 22)
+    #   person.attributes
+    #   # => {"name"=>"Francesco", "age"=>22}
+    def attributes: () -> untyped
+
+    # Returns an array of attribute names as strings
+    #
+    #   class Person
+    #     include ActiveModel::Attributes
+    #
+    #     attribute :name, :string
+    #     attribute :age, :integer
+    #   end
+    #
+    #   person = Person.new
+    #   person.attribute_names
+    #   # => ["name", "age"]
+    def attribute_names: () -> untyped
+
+    private
+
+    def write_attribute: (untyped attr_name, untyped value) -> untyped
+
+    def attribute: (untyped attr_name) -> untyped
+
+    # Dispatch target for <tt>*=</tt> attribute methods.
+    def attribute=: (untyped attribute_name, untyped value) -> untyped
+  end
+end
+
+module ActiveModel
+  # == Active \Model \Callbacks
+  #
+  # Provides an interface for any class to have Active Record like callbacks.
+  #
+  # Like the Active Record methods, the callback chain is aborted as soon as
+  # one of the methods throws +:abort+.
+  #
+  # First, extend ActiveModel::Callbacks from the class you are creating:
+  #
+  #   class MyModel
+  #     extend ActiveModel::Callbacks
+  #   end
+  #
+  # Then define a list of methods that you want callbacks attached to:
+  #
+  #   define_model_callbacks :create, :update
+  #
+  # This will provide all three standard callbacks (before, around and after)
+  # for both the <tt>:create</tt> and <tt>:update</tt> methods. To implement,
+  # you need to wrap the methods you want callbacks on in a block so that the
+  # callbacks get a chance to fire:
+  #
+  #   def create
+  #     run_callbacks :create do
+  #       # Your create action methods here
+  #     end
+  #   end
+  #
+  # Then in your class, you can use the +before_create+, +after_create+ and
+  # +around_create+ methods, just as you would in an Active Record model.
+  #
+  #   before_create :action_before_create
+  #
+  #   def action_before_create
+  #     # Your code here
+  #   end
+  #
+  # When defining an around callback remember to yield to the block, otherwise
+  # it won't be executed:
+  #
+  #  around_create :log_status
+  #
+  #  def log_status
+  #    puts 'going to call the block...'
+  #    yield
+  #    puts 'block successfully called.'
+  #  end
+  #
+  # You can choose to have only specific callbacks by passing a hash to the
+  # +define_model_callbacks+ method.
+  #
+  #   define_model_callbacks :create, only: [:after, :before]
+  #
+  # Would only create the +after_create+ and +before_create+ callback methods in
+  # your class.
+  #
+  # NOTE: Calling the same callback multiple times will overwrite previous callback definitions.
+  #
+  module Callbacks
+    def self.extended: (untyped base) -> untyped
+
+    # define_model_callbacks accepts the same options +define_callbacks+ does,
+    # in case you want to overwrite a default. Besides that, it also accepts an
+    # <tt>:only</tt> option, where you can choose if you want all types (before,
+    # around or after) or just some.
+    #
+    #   define_model_callbacks :initializer, only: :after
+    #
+    # Note, the <tt>only: <type></tt> hash will apply to all callbacks defined
+    # on that method call. To get around this you can call the define_model_callbacks
+    # method as many times as you need.
+    #
+    #   define_model_callbacks :create,  only: :after
+    #   define_model_callbacks :update,  only: :before
+    #   define_model_callbacks :destroy, only: :around
+    #
+    # Would create +after_create+, +before_update+ and +around_destroy+ methods
+    # only.
+    #
+    # You can pass in a class to before_<type>, after_<type> and around_<type>,
+    # in which case the callback will call that class's <action>_<type> method
+    # passing the object that the callback is being called on.
+    #
+    #   class MyModel
+    #     extend ActiveModel::Callbacks
+    #     define_model_callbacks :create
+    #
+    #     before_create AnotherClass
+    #   end
+    #
+    #   class AnotherClass
+    #     def self.before_create( obj )
+    #       # obj is the MyModel instance that the callback is being called on
+    #     end
+    #   end
+    #
+    # NOTE: +method_name+ passed to define_model_callbacks must not end with
+    # <tt>!</tt>, <tt>?</tt> or <tt>=</tt>.
+    def define_model_callbacks: (*untyped callbacks) -> untyped
+
+    private
+
+    def _define_before_model_callback: (untyped klass, untyped callback) -> untyped
+
+    def _define_around_model_callback: (untyped klass, untyped callback) -> untyped
+
+    def _define_after_model_callback: (untyped klass, untyped callback) -> untyped
+  end
+end
+
+module ActiveModel
+  # == Active \Model \Conversion
+  #
+  # Handles default conversions: to_model, to_key, to_param, and to_partial_path.
+  #
+  # Let's take for example this non-persisted object.
+  #
+  #   class ContactMessage
+  #     include ActiveModel::Conversion
+  #
+  #     # ContactMessage are never persisted in the DB
+  #     def persisted?
+  #       false
+  #     end
+  #   end
+  #
+  #   cm = ContactMessage.new
+  #   cm.to_model == cm  # => true
+  #   cm.to_key          # => nil
+  #   cm.to_param        # => nil
+  #   cm.to_partial_path # => "contact_messages/contact_message"
+  module Conversion
+    extend ActiveSupport::Concern
+
+    # If your object is already designed to implement all of the \Active \Model
+    # you can use the default <tt>:to_model</tt> implementation, which simply
+    # returns +self+.
+    #
+    #   class Person
+    #     include ActiveModel::Conversion
+    #   end
+    #
+    #   person = Person.new
+    #   person.to_model == person # => true
+    #
+    # If your model does not act like an \Active \Model object, then you should
+    # define <tt>:to_model</tt> yourself returning a proxy object that wraps
+    # your object with \Active \Model compliant methods.
+    def to_model: () -> untyped
+
+    # Returns an Array of all key attributes if any of the attributes is set, whether or not
+    # the object is persisted. Returns +nil+ if there are no key attributes.
+    #
+    #   class Person
+    #     include ActiveModel::Conversion
+    #     attr_accessor :id
+    #
+    #     def initialize(id)
+    #       @id = id
+    #     end
+    #   end
+    #
+    #   person = Person.new(1)
+    #   person.to_key # => [1]
+    def to_key: () -> untyped
+
+    # Returns a +string+ representing the object's key suitable for use in URLs,
+    # or +nil+ if <tt>persisted?</tt> is +false+.
+    #
+    #   class Person
+    #     include ActiveModel::Conversion
+    #     attr_accessor :id
+    #
+    #     def initialize(id)
+    #       @id = id
+    #     end
+    #
+    #     def persisted?
+    #       true
+    #     end
+    #   end
+    #
+    #   person = Person.new(1)
+    #   person.to_param # => "1"
+    def to_param: () -> untyped
+
+    # Returns a +string+ identifying the path associated with the object.
+    # ActionPack uses this to find a suitable partial to represent the object.
+    #
+    #   class Person
+    #     include ActiveModel::Conversion
+    #   end
+    #
+    #   person = Person.new
+    #   person.to_partial_path # => "people/person"
+    def to_partial_path: () -> untyped
+
+    module ClassMethods
+      def _to_partial_path: () -> untyped
+    end
+  end
+end
+
+module ActiveModel
+  # == Active \Model \Dirty
+  #
+  # Provides a way to track changes in your object in the same way as
+  # Active Record does.
+  #
+  # The requirements for implementing ActiveModel::Dirty are:
+  #
+  # * <tt>include ActiveModel::Dirty</tt> in your object.
+  # * Call <tt>define_attribute_methods</tt> passing each method you want to
+  #   track.
+  # * Call <tt>[attr_name]_will_change!</tt> before each change to the tracked
+  #   attribute.
+  # * Call <tt>changes_applied</tt> after the changes are persisted.
+  # * Call <tt>clear_changes_information</tt> when you want to reset the changes
+  #   information.
+  # * Call <tt>restore_attributes</tt> when you want to restore previous data.
+  #
+  # A minimal implementation could be:
+  #
+  #   class Person
+  #     include ActiveModel::Dirty
+  #
+  #     define_attribute_methods :name
+  #
+  #     def initialize
+  #       @name = nil
+  #     end
+  #
+  #     def name
+  #       @name
+  #     end
+  #
+  #     def name=(val)
+  #       name_will_change! unless val == @name
+  #       @name = val
+  #     end
+  #
+  #     def save
+  #       # do persistence work
+  #
+  #       changes_applied
+  #     end
+  #
+  #     def reload!
+  #       # get the values from the persistence layer
+  #
+  #       clear_changes_information
+  #     end
+  #
+  #     def rollback!
+  #       restore_attributes
+  #     end
+  #   end
+  #
+  # A newly instantiated +Person+ object is unchanged:
+  #
+  #   person = Person.new
+  #   person.changed? # => false
+  #
+  # Change the name:
+  #
+  #   person.name = 'Bob'
+  #   person.changed?       # => true
+  #   person.name_changed?  # => true
+  #   person.name_changed?(from: nil, to: "Bob") # => true
+  #   person.name_was       # => nil
+  #   person.name_change    # => [nil, "Bob"]
+  #   person.name = 'Bill'
+  #   person.name_change    # => [nil, "Bill"]
+  #
+  # Save the changes:
+  #
+  #   person.save
+  #   person.changed?      # => false
+  #   person.name_changed? # => false
+  #
+  # Reset the changes:
+  #
+  #   person.previous_changes         # => {"name" => [nil, "Bill"]}
+  #   person.name_previously_changed? # => true
+  #   person.name_previous_change     # => [nil, "Bill"]
+  #   person.reload!
+  #   person.previous_changes         # => {}
+  #
+  # Rollback the changes:
+  #
+  #   person.name = "Uncle Bob"
+  #   person.rollback!
+  #   person.name          # => "Bill"
+  #   person.name_changed? # => false
+  #
+  # Assigning the same value leaves the attribute unchanged:
+  #
+  #   person.name = 'Bill'
+  #   person.name_changed? # => false
+  #   person.name_change   # => nil
+  #
+  # Which attributes have changed?
+  #
+  #   person.name = 'Bob'
+  #   person.changed # => ["name"]
+  #   person.changes # => {"name" => ["Bill", "Bob"]}
+  #
+  # If an attribute is modified in-place then make use of
+  # <tt>[attribute_name]_will_change!</tt> to mark that the attribute is changing.
+  # Otherwise \Active \Model can't track changes to in-place attributes. Note
+  # that Active Record can detect in-place modifications automatically. You do
+  # not need to call <tt>[attribute_name]_will_change!</tt> on Active Record models.
+  #
+  #   person.name_will_change!
+  #   person.name_change # => ["Bill", "Bill"]
+  #   person.name << 'y'
+  #   person.name_change # => ["Bill", "Billy"]
+  module Dirty
+    extend ActiveSupport::Concern
+
+    include ActiveModel::AttributeMethods
+
+    def initialize_dup: (untyped other) -> untyped
+
+    # Clears dirty data and moves +changes+ to +previously_changed+ and
+    # +mutations_from_database+ to +mutations_before_last_save+ respectively.
+    def changes_applied: () -> untyped
+
+    # Returns +true+ if any of the attributes has unsaved changes, +false+ otherwise.
+    #
+    #   person.changed? # => false
+    #   person.name = 'bob'
+    #   person.changed? # => true
+    def changed?: () -> untyped
+
+    # Returns an array with the name of the attributes with unsaved changes.
+    #
+    #   person.changed # => []
+    #   person.name = 'bob'
+    #   person.changed # => ["name"]
+    def changed: () -> untyped
+
+    def attribute_changed?: (untyped attr_name, **untyped options) -> untyped
+
+    def attribute_was: (untyped attr_name) -> untyped
+
+    def attribute_previously_changed?: (untyped attr_name) -> untyped
+
+    # Restore all previous data of the provided attributes.
+    def restore_attributes: (?untyped attr_names) -> untyped
+
+    # Clears all dirty data: current changes and previous changes.
+    def clear_changes_information: () -> untyped
+
+    def clear_attribute_changes: (untyped attr_names) -> untyped
+
+    # Returns a hash of the attributes with unsaved changes indicating their original
+    # values like <tt>attr => original value</tt>.
+    #
+    #   person.name # => "bob"
+    #   person.name = 'robert'
+    #   person.changed_attributes # => {"name" => "bob"}
+    def changed_attributes: () -> untyped
+
+    # Returns a hash of changed attributes indicating their original
+    # and new values like <tt>attr => [original value, new value]</tt>.
+    #
+    #   person.changes # => {}
+    #   person.name = 'bob'
+    #   person.changes # => { "name" => ["bill", "bob"] }
+    def changes: () -> untyped
+
+    # Returns a hash of attributes that were changed before the model was saved.
+    #
+    #   person.name # => "bob"
+    #   person.name = 'robert'
+    #   person.save
+    #   person.previous_changes # => {"name" => ["bob", "robert"]}
+    def previous_changes: () -> untyped
+
+    def attribute_changed_in_place?: (untyped attr_name) -> untyped
+
+    private
+
+    def clear_attribute_change: (untyped attr_name) -> untyped
+
+    def mutations_from_database: () -> untyped
+
+    def forget_attribute_assignments: () -> untyped
+
+    def mutations_before_last_save: () -> untyped
+
+    # Dispatch target for <tt>*_change</tt> attribute methods.
+    def attribute_change: (untyped attr_name) -> untyped
+
+    # Dispatch target for <tt>*_previous_change</tt> attribute methods.
+    def attribute_previous_change: (untyped attr_name) -> untyped
+
+    # Dispatch target for <tt>*_will_change!</tt> attribute methods.
+    def attribute_will_change!: (untyped attr_name) -> untyped
+
+    # Dispatch target for <tt>restore_*!</tt> attribute methods.
+    def restore_attribute!: (untyped attr_name) -> untyped
+  end
+end
+
+module ActiveModel
+  # == Active \Model \Errors
+  #
+  # Provides a modified +Hash+ that you can include in your object
+  # for handling error messages and interacting with Action View helpers.
+  #
+  # A minimal implementation could be:
+  #
+  #   class Person
+  #     # Required dependency for ActiveModel::Errors
+  #     extend ActiveModel::Naming
+  #
+  #     def initialize
+  #       @errors = ActiveModel::Errors.new(self)
+  #     end
+  #
+  #     attr_accessor :name
+  #     attr_reader   :errors
+  #
+  #     def validate!
+  #       errors.add(:name, :blank, message: "cannot be nil") if name.nil?
+  #     end
+  #
+  #     # The following methods are needed to be minimally implemented
+  #
+  #     def read_attribute_for_validation(attr)
+  #       send(attr)
+  #     end
+  #
+  #     def self.human_attribute_name(attr, options = {})
+  #       attr
+  #     end
+  #
+  #     def self.lookup_ancestors
+  #       [self]
+  #     end
+  #   end
+  #
+  # The last three methods are required in your object for +Errors+ to be
+  # able to generate error messages correctly and also handle multiple
+  # languages. Of course, if you extend your object with <tt>ActiveModel::Translation</tt>
+  # you will not need to implement the last two. Likewise, using
+  # <tt>ActiveModel::Validations</tt> will handle the validation related methods
+  # for you.
+  #
+  # The above allows you to do:
+  #
+  #   person = Person.new
+  #   person.validate!            # => ["cannot be nil"]
+  #   person.errors.full_messages # => ["name cannot be nil"]
+  #   # etc..
+  class Errors
+    include Enumerable[untyped]
+
+    CALLBACKS_OPTIONS: ::Array[untyped]
+
+    MESSAGE_OPTIONS: ::Array[untyped]
+
+    attr_accessor self.i18n_customize_full_message: untyped
+
+    attr_reader messages: untyped
+
+    attr_reader details: untyped
+
+    # Pass in the instance of the object that is using the errors object.
+    #
+    #   class Person
+    #     def initialize
+    #       @errors = ActiveModel::Errors.new(self)
+    #     end
+    #   end
+    def initialize: (untyped base) -> untyped
+
+    def initialize_dup: (untyped other) -> untyped
+
+    def copy!: (untyped other) -> untyped
+
+    # Merges the errors from <tt>other</tt>.
+    #
+    # other - The ActiveModel::Errors instance.
+    #
+    # Examples
+    #
+    #   person.errors.merge!(other)
+    def merge!: (untyped other) -> untyped
+
+    # Removes all errors except the given keys. Returns a hash containing the removed errors.
+    #
+    #   person.errors.keys                  # => [:name, :age, :gender, :city]
+    #   person.errors.slice!(:age, :gender) # => { :name=>["cannot be nil"], :city=>["cannot be nil"] }
+    #   person.errors.keys                  # => [:age, :gender]
+    def slice!: (*untyped keys) -> untyped
+
+    # Clear the error messages.
+    #
+    #   person.errors.full_messages # => ["name cannot be nil"]
+    #   person.errors.clear
+    #   person.errors.full_messages # => []
+    def clear: () -> untyped
+
+    # Returns +true+ if the error messages include an error for the given key
+    # +attribute+, +false+ otherwise.
+    #
+    #   person.errors.messages        # => {:name=>["cannot be nil"]}
+    #   person.errors.include?(:name) # => true
+    #   person.errors.include?(:age)  # => false
+    def include?: (untyped attribute) -> untyped
+
+    alias has_key? include?
+
+    alias key? include?
+
+    # Delete messages for +key+. Returns the deleted messages.
+    #
+    #   person.errors[:name]        # => ["cannot be nil"]
+    #   person.errors.delete(:name) # => ["cannot be nil"]
+    #   person.errors[:name]        # => []
+    def delete: (untyped key) -> untyped
+
+    # When passed a symbol or a name of a method, returns an array of errors
+    # for the method.
+    #
+    #   person.errors[:name]  # => ["cannot be nil"]
+    #   person.errors['name'] # => ["cannot be nil"]
+    def []: (untyped attribute) -> untyped
+
+    # Iterates through each error key, value pair in the error messages hash.
+    # Yields the attribute and the error for that attribute. If the attribute
+    # has more than one error message, yields once for each error message.
+    #
+    #   person.errors.add(:name, :blank, message: "can't be blank")
+    #   person.errors.each do |attribute, error|
+    #     # Will yield :name and "can't be blank"
+    #   end
+    #
+    #   person.errors.add(:name, :not_specified, message: "must be specified")
+    #   person.errors.each do |attribute, error|
+    #     # Will yield :name and "can't be blank"
+    #     # then yield :name and "must be specified"
+    #   end
+    def each: () { ([untyped, untyped]) -> untyped } -> untyped
+
+    # Returns the number of error messages.
+    #
+    #   person.errors.add(:name, :blank, message: "can't be blank")
+    #   person.errors.size # => 1
+    #   person.errors.add(:name, :not_specified, message: "must be specified")
+    #   person.errors.size # => 2
+    def size: () -> untyped
+
+    alias count size
+
+    # Returns all message values.
+    #
+    #   person.errors.messages # => {:name=>["cannot be nil", "must be specified"]}
+    #   person.errors.values   # => [["cannot be nil", "must be specified"]]
+    def values: () -> untyped
+
+    # Returns all message keys.
+    #
+    #   person.errors.messages # => {:name=>["cannot be nil", "must be specified"]}
+    #   person.errors.keys     # => [:name]
+    def keys: () -> untyped
+
+    # Returns +true+ if no errors are found, +false+ otherwise.
+    # If the error message is a string it can be empty.
+    #
+    #   person.errors.full_messages # => ["name cannot be nil"]
+    #   person.errors.empty?        # => false
+    def empty?: () -> untyped
+
+    alias blank? empty?
+
+    # Returns an xml formatted representation of the Errors hash.
+    #
+    #   person.errors.add(:name, :blank, message: "can't be blank")
+    #   person.errors.add(:name, :not_specified, message: "must be specified")
+    #   person.errors.to_xml
+    #   # =>
+    #   #  <?xml version=\"1.0\" encoding=\"UTF-8\"?>
+    #   #  <errors>
+    #   #    <error>name can't be blank</error>
+    #   #    <error>name must be specified</error>
+    #   #  </errors>
+    def to_xml: (?::Hash[untyped, untyped] options) -> untyped
+
+    # Returns a Hash that can be used as the JSON representation for this
+    # object. You can pass the <tt>:full_messages</tt> option. This determines
+    # if the json object should contain full messages or not (false by default).
+    #
+    #   person.errors.as_json                      # => {:name=>["cannot be nil"]}
+    #   person.errors.as_json(full_messages: true) # => {:name=>["name cannot be nil"]}
+    def as_json: (?untyped? options) -> untyped
+
+    # Returns a Hash of attributes with their error messages. If +full_messages+
+    # is +true+, it will contain full messages (see +full_message+).
+    #
+    #   person.errors.to_hash       # => {:name=>["cannot be nil"]}
+    #   person.errors.to_hash(true) # => {:name=>["name cannot be nil"]}
+    def to_hash: (?bool full_messages) -> untyped
+
+    # Adds +message+ to the error messages and used validator type to +details+ on +attribute+.
+    # More than one error can be added to the same +attribute+.
+    # If no +message+ is supplied, <tt>:invalid</tt> is assumed.
+    #
+    #   person.errors.add(:name)
+    #   # => ["is invalid"]
+    #   person.errors.add(:name, :not_implemented, message: "must be implemented")
+    #   # => ["is invalid", "must be implemented"]
+    #
+    #   person.errors.messages
+    #   # => {:name=>["is invalid", "must be implemented"]}
+    #
+    #   person.errors.details
+    #   # => {:name=>[{error: :not_implemented}, {error: :invalid}]}
+    #
+    # If +message+ is a symbol, it will be translated using the appropriate
+    # scope (see +generate_message+).
+    #
+    # If +message+ is a proc, it will be called, allowing for things like
+    # <tt>Time.now</tt> to be used within an error.
+    #
+    # If the <tt>:strict</tt> option is set to +true+, it will raise
+    # ActiveModel::StrictValidationFailed instead of adding the error.
+    # <tt>:strict</tt> option can also be set to any other exception.
+    #
+    #   person.errors.add(:name, :invalid, strict: true)
+    #   # => ActiveModel::StrictValidationFailed: Name is invalid
+    #   person.errors.add(:name, :invalid, strict: NameIsInvalid)
+    #   # => NameIsInvalid: Name is invalid
+    #
+    #   person.errors.messages # => {}
+    #
+    # +attribute+ should be set to <tt>:base</tt> if the error is not
+    # directly associated with a single attribute.
+    #
+    #   person.errors.add(:base, :name_or_email_blank,
+    #     message: "either name or email must be present")
+    #   person.errors.messages
+    #   # => {:base=>["either name or email must be present"]}
+    #   person.errors.details
+    #   # => {:base=>[{error: :name_or_email_blank}]}
+    def add: (untyped attribute, ?::Symbol message, ?::Hash[untyped, untyped] options) -> untyped
+
+    # Returns +true+ if an error on the attribute with the given message is
+    # present, or +false+ otherwise. +message+ is treated the same as for +add+.
+    #
+    #   person.errors.add :name, :blank
+    #   person.errors.added? :name, :blank           # => true
+    #   person.errors.added? :name, "can't be blank" # => true
+    #
+    # If the error message requires options, then it returns +true+ with
+    # the correct options, or +false+ with incorrect or missing options.
+    #
+    #   person.errors.add :name, :too_long, { count: 25 }
+    #   person.errors.added? :name, :too_long, count: 25                     # => true
+    #   person.errors.added? :name, "is too long (maximum is 25 characters)" # => true
+    #   person.errors.added? :name, :too_long, count: 24                     # => false
+    #   person.errors.added? :name, :too_long                                # => false
+    #   person.errors.added? :name, "is too long"                            # => false
+    def added?: (untyped attribute, ?::Symbol message, ?::Hash[untyped, untyped] options) -> untyped
+
+    # Returns +true+ if an error on the attribute with the given message is
+    # present, or +false+ otherwise. +message+ is treated the same as for +add+.
+    #
+    #   person.errors.add :age
+    #   person.errors.add :name, :too_long, { count: 25 }
+    #   person.errors.of_kind? :age                                            # => true
+    #   person.errors.of_kind? :name                                           # => false
+    #   person.errors.of_kind? :name, :too_long                                # => true
+    #   person.errors.of_kind? :name, "is too long (maximum is 25 characters)" # => true
+    #   person.errors.of_kind? :name, :not_too_long                            # => false
+    #   person.errors.of_kind? :name, "is too long"                            # => false
+    def of_kind?: (untyped attribute, ?::Symbol message) -> untyped
+
+    # Returns all the full error messages in an array.
+    #
+    #   class Person
+    #     validates_presence_of :name, :address, :email
+    #     validates_length_of :name, in: 5..30
+    #   end
+    #
+    #   person = Person.create(address: '123 First St.')
+    #   person.errors.full_messages
+    #   # => ["Name is too short (minimum is 5 characters)", "Name can't be blank", "Email can't be blank"]
+    def full_messages: () -> untyped
+
+    alias to_a full_messages
+
+    # Returns all the full error messages for a given attribute in an array.
+    #
+    #   class Person
+    #     validates_presence_of :name, :email
+    #     validates_length_of :name, in: 5..30
+    #   end
+    #
+    #   person = Person.create()
+    #   person.errors.full_messages_for(:name)
+    #   # => ["Name is too short (minimum is 5 characters)", "Name can't be blank"]
+    def full_messages_for: (untyped attribute) -> untyped
+
+    # Returns a full message for a given attribute.
+    #
+    #   person.errors.full_message(:name, 'is invalid') # => "Name is invalid"
+    #
+    # The `"%{attribute} %{message}"` error format can be overridden with either
+    #
+    # * <tt>activemodel.errors.models.person/contacts/addresses.attributes.street.format</tt>
+    # * <tt>activemodel.errors.models.person/contacts/addresses.format</tt>
+    # * <tt>activemodel.errors.models.person.attributes.name.format</tt>
+    # * <tt>activemodel.errors.models.person.format</tt>
+    # * <tt>errors.format</tt>
+    def full_message: (untyped attribute, untyped message) -> untyped
+
+    # Translates an error message in its default scope
+    # (<tt>activemodel.errors.messages</tt>).
+    #
+    # Error messages are first looked up in <tt>activemodel.errors.models.MODEL.attributes.ATTRIBUTE.MESSAGE</tt>,
+    # if it's not there, it's looked up in <tt>activemodel.errors.models.MODEL.MESSAGE</tt> and if
+    # that is not there also, it returns the translation of the default message
+    # (e.g. <tt>activemodel.errors.messages.MESSAGE</tt>). The translated model
+    # name, translated attribute name and the value are available for
+    # interpolation.
+    #
+    # When using inheritance in your models, it will check all the inherited
+    # models too, but only if the model itself hasn't been found. Say you have
+    # <tt>class Admin < User; end</tt> and you wanted the translation for
+    # the <tt>:blank</tt> error message for the <tt>title</tt> attribute,
+    # it looks for these translations:
+    #
+    # * <tt>activemodel.errors.models.admin.attributes.title.blank</tt>
+    # * <tt>activemodel.errors.models.admin.blank</tt>
+    # * <tt>activemodel.errors.models.user.attributes.title.blank</tt>
+    # * <tt>activemodel.errors.models.user.blank</tt>
+    # * any default you provided through the +options+ hash (in the <tt>activemodel.errors</tt> scope)
+    # * <tt>activemodel.errors.messages.blank</tt>
+    # * <tt>errors.attributes.title.blank</tt>
+    # * <tt>errors.messages.blank</tt>
+    def generate_message: (untyped attribute, ?::Symbol `type`, ?::Hash[untyped, untyped] options) -> untyped
+
+    def marshal_dump: () -> ::Array[untyped]
+
+    def marshal_load: (untyped array) -> untyped
+
+    def init_with: (untyped coder) -> untyped
+
+    private
+
+    def normalize_message: (untyped attribute, untyped message, untyped options) -> untyped
+
+    def normalize_detail: (untyped message, untyped options) -> untyped
+
+    def without_default_proc: (untyped hash) -> untyped
+
+    def apply_default_array: (untyped hash) -> untyped
+  end
+
+  # Raised when a validation cannot be corrected by end users and are considered
+  # exceptional.
+  #
+  #   class Person
+  #     include ActiveModel::Validations
+  #
+  #     attr_accessor :name
+  #
+  #     validates_presence_of :name, strict: true
+  #   end
+  #
+  #   person = Person.new
+  #   person.name = nil
+  #   person.valid?
+  #   # => ActiveModel::StrictValidationFailed: Name can't be blank
+  class StrictValidationFailed < StandardError
+  end
+
+  # Raised when attribute values are out of range.
+  class RangeError < ::RangeError
+  end
+
+  # Raised when unknown attributes are supplied via mass assignment.
+  #
+  #   class Person
+  #     include ActiveModel::AttributeAssignment
+  #     include ActiveModel::Validations
+  #   end
+  #
+  #   person = Person.new
+  #   person.assign_attributes(name: 'Gorby')
+  #   # => ActiveModel::UnknownAttributeError: unknown attribute 'name' for Person.
+  class UnknownAttributeError[T] < NoMethodError[T]
+    attr_reader record: untyped
+
+    attr_reader attribute: untyped
+
+    def initialize: (untyped record, untyped attribute) -> untyped
+  end
+end
+
+module ActiveModel
+  # Raised when forbidden attributes are used for mass assignment.
+  #
+  #   class Person < ActiveRecord::Base
+  #   end
+  #
+  #   params = ActionController::Parameters.new(name: 'Bob')
+  #   Person.new(params)
+  #   # => ActiveModel::ForbiddenAttributesError
+  #
+  #   params.permit!
+  #   Person.new(params)
+  #   # => #<Person id: nil, name: "Bob">
+  class ForbiddenAttributesError < StandardError
+  end
+
+  module ForbiddenAttributesProtection
+    private
+
+    def sanitize_for_mass_assignment: (untyped attributes) -> untyped
+
+    alias sanitize_forbidden_attributes sanitize_for_mass_assignment
+  end
+end
+
+module ActiveModel
+  # Returns the version of the currently loaded \Active \Model as a <tt>Gem::Version</tt>
+  def self.gem_version: () -> Gem::Version
+
+  module VERSION
+    MAJOR: ::Integer
+
+    MINOR: ::Integer
+
+    TINY: ::Integer
+
+    PRE: ::String
+
+    STRING: untyped
+  end
+end
+
+module ActiveModel
+  module Lint
+    # == Active \Model \Lint \Tests
+    #
+    # You can test whether an object is compliant with the Active \Model API by
+    # including <tt>ActiveModel::Lint::Tests</tt> in your TestCase. It will
+    # include tests that tell you whether your object is fully compliant,
+    # or if not, which aspects of the API are not implemented.
+    #
+    # Note an object is not required to implement all APIs in order to work
+    # with Action Pack. This module only intends to provide guidance in case
+    # you want all features out of the box.
+    #
+    # These tests do not attempt to determine the semantic correctness of the
+    # returned values. For instance, you could implement <tt>valid?</tt> to
+    # always return +true+, and the tests would pass. It is up to you to ensure
+    # that the values are semantically meaningful.
+    #
+    # Objects you pass in are expected to return a compliant object from a call
+    # to <tt>to_model</tt>. It is perfectly fine for <tt>to_model</tt> to return
+    # +self+.
+    module Tests
+      # Passes if the object's model responds to <tt>to_key</tt> and if calling
+      # this method returns +nil+ when the object is not persisted.
+      # Fails otherwise.
+      #
+      # <tt>to_key</tt> returns an Enumerable of all (primary) key attributes
+      # of the model, and is used to a generate unique DOM id for the object.
+      def test_to_key: () -> untyped
+
+      # Passes if the object's model responds to <tt>to_param</tt> and if
+      # calling this method returns +nil+ when the object is not persisted.
+      # Fails otherwise.
+      #
+      # <tt>to_param</tt> is used to represent the object's key in URLs.
+      # Implementers can decide to either raise an exception or provide a
+      # default in case the record uses a composite primary key. There are no
+      # tests for this behavior in lint because it doesn't make sense to force
+      # any of the possible implementation strategies on the implementer.
+      def test_to_param: () -> untyped
+
+      # Passes if the object's model responds to <tt>to_partial_path</tt> and if
+      # calling this method returns a string. Fails otherwise.
+      #
+      # <tt>to_partial_path</tt> is used for looking up partials. For example,
+      # a BlogPost model might return "blog_posts/blog_post".
+      def test_to_partial_path: () -> untyped
+
+      # Passes if the object's model responds to <tt>persisted?</tt> and if
+      # calling this method returns either +true+ or +false+. Fails otherwise.
+      #
+      # <tt>persisted?</tt> is used when calculating the URL for an object.
+      # If the object is not persisted, a form for that object, for instance,
+      # will route to the create action. If it is persisted, a form for the
+      # object will route to the update action.
+      def test_persisted?: () -> untyped
+
+      # Passes if the object's model responds to <tt>model_name</tt> both as
+      # an instance method and as a class method, and if calling this method
+      # returns a string with some convenience methods: <tt>:human</tt>,
+      # <tt>:singular</tt> and <tt>:plural</tt>.
+      #
+      # Check ActiveModel::Naming for more information.
+      def test_model_naming: () -> untyped
+
+      # Passes if the object's model responds to <tt>errors</tt> and if calling
+      # <tt>[](attribute)</tt> on the result of this method returns an array.
+      # Fails otherwise.
+      #
+      # <tt>errors[attribute]</tt> is used to retrieve the errors of a model
+      # for a given attribute. If errors are present, the method should return
+      # an array of strings that are the errors for the attribute in question.
+      # If localization is used, the strings should be localized for the current
+      # locale. If no error is present, the method should return an empty array.
+      def test_errors_aref: () -> untyped
+
+      private
+
+      def model: () -> untyped
+
+      def assert_boolean: (untyped result, untyped name) -> untyped
+    end
+  end
+end
+
+module ActiveModel
+  # == Active \Model \Basic \Model
+  #
+  # Includes the required interface for an object to interact with
+  # Action Pack and Action View, using different Active Model modules.
+  # It includes model name introspections, conversions, translations and
+  # validations. Besides that, it allows you to initialize the object with a
+  # hash of attributes, pretty much like Active Record does.
+  #
+  # A minimal implementation could be:
+  #
+  #   class Person
+  #     include ActiveModel::Model
+  #     attr_accessor :name, :age
+  #   end
+  #
+  #   person = Person.new(name: 'bob', age: '18')
+  #   person.name # => "bob"
+  #   person.age  # => "18"
+  #
+  # Note that, by default, <tt>ActiveModel::Model</tt> implements <tt>persisted?</tt>
+  # to return +false+, which is the most common case. You may want to override
+  # it in your class to simulate a different scenario:
+  #
+  #   class Person
+  #     include ActiveModel::Model
+  #     attr_accessor :id, :name
+  #
+  #     def persisted?
+  #       self.id == 1
+  #     end
+  #   end
+  #
+  #   person = Person.new(id: 1, name: 'bob')
+  #   person.persisted? # => true
+  #
+  # Also, if for some reason you need to run code on <tt>initialize</tt>, make
+  # sure you call +super+ if you want the attributes hash initialization to
+  # happen.
+  #
+  #   class Person
+  #     include ActiveModel::Model
+  #     attr_accessor :id, :name, :omg
+  #
+  #     def initialize(attributes={})
+  #       super
+  #       @omg ||= true
+  #     end
+  #   end
+  #
+  #   person = Person.new(id: 1, name: 'bob')
+  #   person.omg # => true
+  #
+  # For more detailed information on other functionalities available, please
+  # refer to the specific modules included in <tt>ActiveModel::Model</tt>
+  # (see below).
+  module Model
+    extend ActiveSupport::Concern
+
+    include ActiveModel::AttributeAssignment
+
+    include ActiveModel::Validations
+
+    include ActiveModel::Conversion
+
+    extend ActiveModel::Naming
+
+    extend ActiveModel::Translation
+
+    # Initializes a new model with the given +params+.
+    #
+    #   class Person
+    #     include ActiveModel::Model
+    #     attr_accessor :name, :age
+    #   end
+    #
+    #   person = Person.new(name: 'bob', age: '18')
+    #   person.name # => "bob"
+    #   person.age  # => "18"
+    def initialize: (?::Hash[untyped, untyped] attributes) -> untyped
+
+    # Indicates if the model is persisted. Default is +false+.
+    #
+    #  class Person
+    #    include ActiveModel::Model
+    #    attr_accessor :id, :name
+    #  end
+    #
+    #  person = Person.new(id: 1, name: 'bob')
+    #  person.persisted? # => false
+    def persisted?: () -> ::FalseClass
+  end
+end
+
+module ActiveModel
+  class Name
+    include Comparable
+
+    attr_reader singular: untyped
+
+    attr_reader plural: untyped
+
+    attr_reader element: untyped
+
+    attr_reader collection: untyped
+
+    attr_reader singular_route_key: untyped
+
+    attr_reader route_key: untyped
+
+    attr_reader param_key: untyped
+
+    attr_reader i18n_key: untyped
+
+    attr_reader name: untyped
+
+    alias cache_key collection
+
+    # Returns a new ActiveModel::Name instance. By default, the +namespace+
+    # and +name+ option will take the namespace and name of the given class
+    # respectively.
+    #
+    #   module Foo
+    #     class Bar
+    #     end
+    #   end
+    #
+    #   ActiveModel::Name.new(Foo::Bar).to_s
+    #   # => "Foo::Bar"
+    def initialize: (untyped klass, ?untyped? namespace, ?untyped? name) -> untyped
+
+    # Transform the model name into a more human format, using I18n. By default,
+    # it will underscore then humanize the class name.
+    #
+    #   class BlogPost
+    #     extend ActiveModel::Naming
+    #   end
+    #
+    #   BlogPost.model_name.human # => "Blog post"
+    #
+    # Specify +options+ with additional translating options.
+    def human: (?::Hash[untyped, untyped] options) -> untyped
+
+    private
+
+    def _singularize: (untyped string) -> untyped
+  end
+
+  # == Active \Model \Naming
+  #
+  # Creates a +model_name+ method on your object.
+  #
+  # To implement, just extend ActiveModel::Naming in your object:
+  #
+  #   class BookCover
+  #     extend ActiveModel::Naming
+  #   end
+  #
+  #   BookCover.model_name.name   # => "BookCover"
+  #   BookCover.model_name.human  # => "Book cover"
+  #
+  #   BookCover.model_name.i18n_key              # => :book_cover
+  #   BookModule::BookCover.model_name.i18n_key  # => :"book_module/book_cover"
+  #
+  # Providing the functionality that ActiveModel::Naming provides in your object
+  # is required to pass the \Active \Model Lint test. So either extending the
+  # provided method below, or rolling your own is required.
+  module Naming
+    def self.extended: (untyped base) -> untyped
+
+    # Returns an ActiveModel::Name object for module. It can be
+    # used to retrieve all kinds of naming-related information
+    # (See ActiveModel::Name for more information).
+    #
+    #   class Person
+    #     extend ActiveModel::Naming
+    #   end
+    #
+    #   Person.model_name.name     # => "Person"
+    #   Person.model_name.class    # => ActiveModel::Name
+    #   Person.model_name.singular # => "person"
+    #   Person.model_name.plural   # => "people"
+    def model_name: () -> untyped
+
+    # Returns the plural class name of a record or class.
+    #
+    #   ActiveModel::Naming.plural(post)             # => "posts"
+    #   ActiveModel::Naming.plural(Highrise::Person) # => "highrise_people"
+    def self.plural: (untyped record_or_class) -> untyped
+
+    # Returns the singular class name of a record or class.
+    #
+    #   ActiveModel::Naming.singular(post)             # => "post"
+    #   ActiveModel::Naming.singular(Highrise::Person) # => "highrise_person"
+    def self.singular: (untyped record_or_class) -> untyped
+
+    # Identifies whether the class name of a record or class is uncountable.
+    #
+    #   ActiveModel::Naming.uncountable?(Sheep) # => true
+    #   ActiveModel::Naming.uncountable?(Post)  # => false
+    def self.uncountable?: (untyped record_or_class) -> untyped
+
+    # Returns string to use while generating route names. It differs for
+    # namespaced models regarding whether it's inside isolated engine.
+    #
+    #   # For isolated engine:
+    #   ActiveModel::Naming.singular_route_key(Blog::Post) # => "post"
+    #
+    #   # For shared engine:
+    #   ActiveModel::Naming.singular_route_key(Blog::Post) # => "blog_post"
+    def self.singular_route_key: (untyped record_or_class) -> untyped
+
+    # Returns string to use while generating route names. It differs for
+    # namespaced models regarding whether it's inside isolated engine.
+    #
+    #   # For isolated engine:
+    #   ActiveModel::Naming.route_key(Blog::Post) # => "posts"
+    #
+    #   # For shared engine:
+    #   ActiveModel::Naming.route_key(Blog::Post) # => "blog_posts"
+    #
+    # The route key also considers if the noun is uncountable and, in
+    # such cases, automatically appends _index.
+    def self.route_key: (untyped record_or_class) -> untyped
+
+    # Returns string to use for params names. It differs for
+    # namespaced models regarding whether it's inside isolated engine.
+    #
+    #   # For isolated engine:
+    #   ActiveModel::Naming.param_key(Blog::Post) # => "post"
+    #
+    #   # For shared engine:
+    #   ActiveModel::Naming.param_key(Blog::Post) # => "blog_post"
+    def self.param_key: (untyped record_or_class) -> untyped
+
+    def self.model_name_from_record_or_class: (untyped record_or_class) -> untyped
+  end
+end
+
+module ActiveModel
+  class Railtie < Rails::Railtie
+  end
+end
+
+module ActiveModel
+  module SecurePassword
+    extend ActiveSupport::Concern
+
+    # BCrypt hash function can handle maximum 72 bytes, and if we pass
+    # password of length more than 72 bytes it ignores extra characters.
+    # Hence need to put a restriction on password length.
+    MAX_PASSWORD_LENGTH_ALLOWED: ::Integer
+
+    attr_accessor self.min_cost: untyped
+
+    module ClassMethods
+      # Adds methods to set and authenticate against a BCrypt password.
+      # This mechanism requires you to have a +XXX_digest+ attribute.
+      # Where +XXX+ is the attribute name of your desired password.
+      #
+      # The following validations are added automatically:
+      # * Password must be present on creation
+      # * Password length should be less than or equal to 72 bytes
+      # * Confirmation of password (using a +XXX_confirmation+ attribute)
+      #
+      # If confirmation validation is not needed, simply leave out the
+      # value for +XXX_confirmation+ (i.e. don't provide a form field for
+      # it). When this attribute has a +nil+ value, the validation will not be
+      # triggered.
+      #
+      # For further customizability, it is possible to suppress the default
+      # validations by passing <tt>validations: false</tt> as an argument.
+      #
+      # Add bcrypt (~> 3.1.7) to Gemfile to use #has_secure_password:
+      #
+      #   gem 'bcrypt', '~> 3.1.7'
+      #
+      # Example using Active Record (which automatically includes ActiveModel::SecurePassword):
+      #
+      #   # Schema: User(name:string, password_digest:string, recovery_password_digest:string)
+      #   class User < ActiveRecord::Base
+      #     has_secure_password
+      #     has_secure_password :recovery_password, validations: false
+      #   end
+      #
+      #   user = User.new(name: 'david', password: '', password_confirmation: 'nomatch')
+      #   user.save                                                       # => false, password required
+      #   user.password = 'mUc3m00RsqyRe'
+      #   user.save                                                       # => false, confirmation doesn't match
+      #   user.password_confirmation = 'mUc3m00RsqyRe'
+      #   user.save                                                       # => true
+      #   user.recovery_password = "42password"
+      #   user.recovery_password_digest                                   # => "$2a$04$iOfhwahFymCs5weB3BNH/uXkTG65HR.qpW.bNhEjFP3ftli3o5DQC"
+      #   user.save                                                       # => true
+      #   user.authenticate('notright')                                   # => false
+      #   user.authenticate('mUc3m00RsqyRe')                              # => user
+      #   user.authenticate_recovery_password('42password')               # => user
+      #   User.find_by(name: 'david').try(:authenticate, 'notright')      # => false
+      #   User.find_by(name: 'david').try(:authenticate, 'mUc3m00RsqyRe') # => user
+      def has_secure_password: (?::Symbol attribute, ?validations: bool validations) -> untyped
+    end
+
+    class InstanceMethodsOnActivation < Module
+      def initialize: (untyped attribute) -> untyped
+    end
+  end
+end
+
+module ActiveModel
+  # == Active \Model \Serialization
+  #
+  # Provides a basic serialization to a serializable_hash for your objects.
+  #
+  # A minimal implementation could be:
+  #
+  #   class Person
+  #     include ActiveModel::Serialization
+  #
+  #     attr_accessor :name
+  #
+  #     def attributes
+  #       {'name' => nil}
+  #     end
+  #   end
+  #
+  # Which would provide you with:
+  #
+  #   person = Person.new
+  #   person.serializable_hash   # => {"name"=>nil}
+  #   person.name = "Bob"
+  #   person.serializable_hash   # => {"name"=>"Bob"}
+  #
+  # An +attributes+ hash must be defined and should contain any attributes you
+  # need to be serialized. Attributes must be strings, not symbols.
+  # When called, serializable hash will use instance methods that match the name
+  # of the attributes hash's keys. In order to override this behavior, take a look
+  # at the private method +read_attribute_for_serialization+.
+  #
+  # ActiveModel::Serializers::JSON module automatically includes
+  # the <tt>ActiveModel::Serialization</tt> module, so there is no need to
+  # explicitly include <tt>ActiveModel::Serialization</tt>.
+  #
+  # A minimal implementation including JSON would be:
+  #
+  #   class Person
+  #     include ActiveModel::Serializers::JSON
+  #
+  #     attr_accessor :name
+  #
+  #     def attributes
+  #       {'name' => nil}
+  #     end
+  #   end
+  #
+  # Which would provide you with:
+  #
+  #   person = Person.new
+  #   person.serializable_hash   # => {"name"=>nil}
+  #   person.as_json             # => {"name"=>nil}
+  #   person.to_json             # => "{\"name\":null}"
+  #
+  #   person.name = "Bob"
+  #   person.serializable_hash   # => {"name"=>"Bob"}
+  #   person.as_json             # => {"name"=>"Bob"}
+  #   person.to_json             # => "{\"name\":\"Bob\"}"
+  #
+  # Valid options are <tt>:only</tt>, <tt>:except</tt>, <tt>:methods</tt> and
+  # <tt>:include</tt>. The following are all valid examples:
+  #
+  #   person.serializable_hash(only: 'name')
+  #   person.serializable_hash(include: :address)
+  #   person.serializable_hash(include: { address: { only: 'city' }})
+  module Serialization
+    # Returns a serialized hash of your object.
+    #
+    #   class Person
+    #     include ActiveModel::Serialization
+    #
+    #     attr_accessor :name, :age
+    #
+    #     def attributes
+    #       {'name' => nil, 'age' => nil}
+    #     end
+    #
+    #     def capitalized_name
+    #       name.capitalize
+    #     end
+    #   end
+    #
+    #   person = Person.new
+    #   person.name = 'bob'
+    #   person.age  = 22
+    #   person.serializable_hash                # => {"name"=>"bob", "age"=>22}
+    #   person.serializable_hash(only: :name)   # => {"name"=>"bob"}
+    #   person.serializable_hash(except: :name) # => {"age"=>22}
+    #   person.serializable_hash(methods: :capitalized_name)
+    #   # => {"name"=>"bob", "age"=>22, "capitalized_name"=>"Bob"}
+    #
+    # Example with <tt>:include</tt> option
+    #
+    #   class User
+    #     include ActiveModel::Serializers::JSON
+    #     attr_accessor :name, :notes # Emulate has_many :notes
+    #     def attributes
+    #       {'name' => nil}
+    #     end
+    #   end
+    #
+    #   class Note
+    #     include ActiveModel::Serializers::JSON
+    #     attr_accessor :title, :text
+    #     def attributes
+    #       {'title' => nil, 'text' => nil}
+    #     end
+    #   end
+    #
+    #   note = Note.new
+    #   note.title = 'Battle of Austerlitz'
+    #   note.text = 'Some text here'
+    #
+    #   user = User.new
+    #   user.name = 'Napoleon'
+    #   user.notes = [note]
+    #
+    #   user.serializable_hash
+    #   # => {"name" => "Napoleon"}
+    #   user.serializable_hash(include: { notes: { only: 'title' }})
+    #   # => {"name" => "Napoleon", "notes" => [{"title"=>"Battle of Austerlitz"}]}
+    def serializable_hash: (?untyped? options) -> untyped
+
+    private
+
+    # Hook method defining how an attribute value should be retrieved for
+    # serialization. By default this is assumed to be an instance named after
+    # the attribute. Override this method in subclasses should you need to
+    # retrieve the value for a given attribute differently:
+    #
+    #   class MyClass
+    #     include ActiveModel::Serialization
+    #
+    #     def initialize(data = {})
+    #       @data = data
+    #     end
+    #
+    #     def read_attribute_for_serialization(key)
+    #       @data[key]
+    #     end
+    #   end
+    alias read_attribute_for_serialization send
+
+    def serializable_add_includes: (?::Hash[untyped, untyped] options) { (untyped, untyped, untyped) -> untyped } -> (nil | untyped)
+  end
+end
+
+module ActiveModel
+  module Serializers
+    # == Active \Model \JSON \Serializer
+    module JSON
+      extend ActiveSupport::Concern
+
+      include ActiveModel::Serialization
+
+      extend ActiveModel::Naming
+
+      # Returns a hash representing the model. Some configuration can be
+      # passed through +options+.
+      #
+      # The option <tt>include_root_in_json</tt> controls the top-level behavior
+      # of +as_json+. If +true+, +as_json+ will emit a single root node named
+      # after the object's type. The default value for <tt>include_root_in_json</tt>
+      # option is +false+.
+      #
+      #   user = User.find(1)
+      #   user.as_json
+      #   # => { "id" => 1, "name" => "Konata Izumi", "age" => 16,
+      #   #     "created_at" => "2006-08-01T17:27:133.000Z", "awesome" => true}
+      #
+      #   ActiveRecord::Base.include_root_in_json = true
+      #
+      #   user.as_json
+      #   # => { "user" => { "id" => 1, "name" => "Konata Izumi", "age" => 16,
+      #   #                  "created_at" => "2006-08-01T17:27:13.000Z", "awesome" => true } }
+      #
+      # This behavior can also be achieved by setting the <tt>:root</tt> option
+      # to +true+ as in:
+      #
+      #   user = User.find(1)
+      #   user.as_json(root: true)
+      #   # => { "user" => { "id" => 1, "name" => "Konata Izumi", "age" => 16,
+      #   #                  "created_at" => "2006-08-01T17:27:13.000Z", "awesome" => true } }
+      #
+      # Without any +options+, the returned Hash will include all the model's
+      # attributes.
+      #
+      #   user = User.find(1)
+      #   user.as_json
+      #   # => { "id" => 1, "name" => "Konata Izumi", "age" => 16,
+      #   #      "created_at" => "2006-08-01T17:27:13.000Z", "awesome" => true}
+      #
+      # The <tt>:only</tt> and <tt>:except</tt> options can be used to limit
+      # the attributes included, and work similar to the +attributes+ method.
+      #
+      #   user.as_json(only: [:id, :name])
+      #   # => { "id" => 1, "name" => "Konata Izumi" }
+      #
+      #   user.as_json(except: [:id, :created_at, :age])
+      #   # => { "name" => "Konata Izumi", "awesome" => true }
+      #
+      # To include the result of some method calls on the model use <tt>:methods</tt>:
+      #
+      #   user.as_json(methods: :permalink)
+      #   # => { "id" => 1, "name" => "Konata Izumi", "age" => 16,
+      #   #      "created_at" => "2006-08-01T17:27:13.000Z", "awesome" => true,
+      #   #      "permalink" => "1-konata-izumi" }
+      #
+      # To include associations use <tt>:include</tt>:
+      #
+      #   user.as_json(include: :posts)
+      #   # => { "id" => 1, "name" => "Konata Izumi", "age" => 16,
+      #   #      "created_at" => "2006-08-01T17:27:13.000Z", "awesome" => true,
+      #   #      "posts" => [ { "id" => 1, "author_id" => 1, "title" => "Welcome to the weblog" },
+      #   #                   { "id" => 2, "author_id" => 1, "title" => "So I was thinking" } ] }
+      #
+      # Second level and higher order associations work as well:
+      #
+      #   user.as_json(include: { posts: {
+      #                              include: { comments: {
+      #                                             only: :body } },
+      #                              only: :title } })
+      #   # => { "id" => 1, "name" => "Konata Izumi", "age" => 16,
+      #   #      "created_at" => "2006-08-01T17:27:13.000Z", "awesome" => true,
+      #   #      "posts" => [ { "comments" => [ { "body" => "1st post!" }, { "body" => "Second!" } ],
+      #   #                     "title" => "Welcome to the weblog" },
+      #   #                   { "comments" => [ { "body" => "Don't think too hard" } ],
+      #   #                     "title" => "So I was thinking" } ] }
+      def as_json: (?untyped? options) -> untyped
+
+      # Sets the model +attributes+ from a JSON string. Returns +self+.
+      #
+      #   class Person
+      #     include ActiveModel::Serializers::JSON
+      #
+      #     attr_accessor :name, :age, :awesome
+      #
+      #     def attributes=(hash)
+      #       hash.each do |key, value|
+      #         send("#{key}=", value)
+      #       end
+      #     end
+      #
+      #     def attributes
+      #       instance_values
+      #     end
+      #   end
+      #
+      #   json = { name: 'bob', age: 22, awesome:true }.to_json
+      #   person = Person.new
+      #   person.from_json(json) # => #<Person:0x007fec5e7a0088 @age=22, @awesome=true, @name="bob">
+      #   person.name            # => "bob"
+      #   person.age             # => 22
+      #   person.awesome         # => true
+      #
+      # The default value for +include_root+ is +false+. You can change it to
+      # +true+ if the given JSON string includes a single root node.
+      #
+      #   json = { person: { name: 'bob', age: 22, awesome:true } }.to_json
+      #   person = Person.new
+      #   person.from_json(json, true) # => #<Person:0x007fec5e7a0088 @age=22, @awesome=true, @name="bob">
+      #   person.name                  # => "bob"
+      #   person.age                   # => 22
+      #   person.awesome               # => true
+      def from_json: (untyped json, ?untyped include_root) -> untyped
+    end
+  end
+end
+
+module ActiveModel
+  # == Active \Model \Translation
+  #
+  # Provides integration between your object and the Rails internationalization
+  # (i18n) framework.
+  #
+  # A minimal implementation could be:
+  #
+  #   class TranslatedPerson
+  #     extend ActiveModel::Translation
+  #   end
+  #
+  #   TranslatedPerson.human_attribute_name('my_attribute')
+  #   # => "My attribute"
+  #
+  # This also provides the required class methods for hooking into the
+  # Rails internationalization API, including being able to define a
+  # class based +i18n_scope+ and +lookup_ancestors+ to find translations in
+  # parent classes.
+  module Translation
+    include ActiveModel::Naming
+
+    # Returns the +i18n_scope+ for the class. Overwrite if you want custom lookup.
+    def i18n_scope: () -> :activemodel
+
+    # When localizing a string, it goes through the lookup returned by this
+    # method, which is used in ActiveModel::Name#human,
+    # ActiveModel::Errors#full_messages and
+    # ActiveModel::Translation#human_attribute_name.
+    def lookup_ancestors: () -> untyped
+
+    # Transforms attribute names into a more human format, such as "First name"
+    # instead of "first_name".
+    #
+    #   Person.human_attribute_name("first_name") # => "First name"
+    #
+    # Specify +options+ with additional translating options.
+    def human_attribute_name: (untyped attribute, ?::Hash[untyped, untyped] options) -> untyped
+  end
+end
+
+module ActiveModel
+  module Type
+    class BigInteger < Integer
+      private
+
+      def max_value: () -> untyped
+    end
+  end
+end
+
+module ActiveModel
+  module Type
+    class Binary < Value
+      # :nodoc:
+      def type: () -> :binary
+
+      def binary?: () -> ::TrueClass
+
+      def cast: (untyped value) -> untyped
+
+      def serialize: (untyped value) -> (nil | Data)
+
+      def changed_in_place?: (untyped raw_old_value, untyped value) -> untyped
+
+      class Data
+        # :nodoc:
+        def initialize: (untyped value) -> untyped
+
+        def to_s: () -> untyped
+
+        alias to_str to_s
+
+        def hex: () -> untyped
+
+        def ==: (untyped other) -> untyped
+      end
+    end
+  end
+end
+
+module ActiveModel
+  module Type
+    # == Active \Model \Type \Boolean
+    #
+    # A class that behaves like a boolean type, including rules for coercion of user input.
+    #
+    # === Coercion
+    # Values set from user input will first be coerced into the appropriate ruby type.
+    # Coercion behavior is roughly mapped to Ruby's boolean semantics.
+    #
+    # - "false", "f" , "0", +0+ or any other value in +FALSE_VALUES+ will be coerced to +false+
+    # - Empty strings are coerced to +nil+
+    # - All other values will be coerced to +true+
+    class Boolean < Value
+      FALSE_VALUES: untyped
+
+      def type: () -> :boolean
+
+      def serialize: (untyped value) -> untyped
+
+      private
+
+      def cast_value: (untyped value) -> untyped
+    end
+  end
+end
+
+module ActiveModel
+  module Type
+    class Date < Value
+      # :nodoc:
+      include Helpers::Timezone
+
+      def type: () -> :date
+
+      def type_cast_for_schema: (untyped value) -> untyped
+
+      private
+
+      def cast_value: (untyped value) -> untyped
+
+      ISO_DATE: untyped
+
+      def fast_string_to_date: (untyped string) -> untyped
+
+      def fallback_string_to_date: (untyped string) -> untyped
+
+      def new_date: (untyped year, untyped mon, untyped mday) -> untyped
+
+      def value_from_multiparameter_assignment: () -> untyped
+    end
+  end
+end
+
+module ActiveModel
+  module Type
+    class DateTime < Value
+      # :nodoc:
+      include Helpers::Timezone
+
+      include Helpers::TimeValue
+
+      def type: () -> :datetime
+
+      private
+
+      def cast_value: (untyped value) -> (untyped | nil)
+
+      # '0.123456' -> 123456
+      # '1.123456' -> 123456
+      def microseconds: (untyped time) -> untyped
+
+      def fallback_string_to_time: (untyped string) -> untyped
+
+      def value_from_multiparameter_assignment: (untyped values_hash) -> untyped
+    end
+  end
+end
+
+module ActiveModel
+  module Type
+    class Decimal < Value
+      # :nodoc:
+      include Helpers::Numeric
+
+      BIGDECIMAL_PRECISION: ::Integer
+
+      def type: () -> :decimal
+
+      def type_cast_for_schema: (untyped value) -> untyped
+
+      private
+
+      def cast_value: (untyped value) -> untyped
+
+      def convert_float_to_big_decimal: (untyped value) -> untyped
+
+      def float_precision: () -> untyped
+
+      def apply_scale: (untyped value) -> untyped
+    end
+  end
+end
+
+module ActiveModel
+  module Type
+    class Float < Value
+      # :nodoc:
+      include Helpers::Numeric
+
+      def type: () -> :float
+
+      def type_cast_for_schema: (untyped value) -> ("::Float::NAN" | untyped)
+
+      private
+
+      def cast_value: (untyped value) -> untyped
+    end
+  end
+end
+
+module ActiveModel
+  module Type
+    module Helpers
+      # :nodoc: all
+      class AcceptsMultiparameterTime < Module
+        def initialize: (?defaults: ::Hash[untyped, untyped] defaults) -> (nil | untyped)
+      end
+    end
+  end
+end
+
+module ActiveModel
+  module Type
+    module Helpers
+      # :nodoc: all
+      module Mutable
+        def cast: (untyped value) -> untyped
+
+        # +raw_old_value+ will be the `_before_type_cast` version of the
+        # value (likely a string). +new_value+ will be the current, type
+        # cast value.
+        def changed_in_place?: (untyped raw_old_value, untyped new_value) -> untyped
+      end
+    end
+  end
+end
+
+module ActiveModel
+  module Type
+    module Helpers
+      # :nodoc: all
+      module Numeric
+        def serialize: (untyped value) -> untyped
+
+        def cast: (untyped value) -> untyped
+
+        def changed?: (untyped old_value, untyped _new_value, untyped new_value_before_type_cast) -> untyped
+
+        private
+
+        def number_to_non_number?: (untyped old_value, untyped new_value_before_type_cast) -> untyped
+
+        def non_numeric_string?: (untyped value) -> untyped
+
+        NUMERIC_REGEX: untyped
+      end
+    end
+  end
+end
+
+module ActiveModel
+  module Type
+    module Helpers
+      # :nodoc: all
+      module TimeValue
+        def serialize: (untyped value) -> untyped
+
+        def apply_seconds_precision: (untyped value) -> untyped
+
+        def type_cast_for_schema: (untyped value) -> untyped
+
+        def user_input_in_time_zone: (untyped value) -> untyped
+
+        private
+
+        def new_time: (untyped year, untyped mon, untyped mday, untyped hour, untyped min, untyped sec, untyped microsec, ?untyped? offset) -> (nil | untyped)
+
+        ISO_DATETIME: untyped
+
+        # Doesn't handle time zones.
+        def fast_string_to_time: (untyped string) -> untyped
+      end
+    end
+  end
+end
+
+module ActiveModel
+  module Type
+    module Helpers
+      # :nodoc: all
+      module Timezone
+        def is_utc?: () -> untyped
+
+        def default_timezone: () -> untyped
+      end
+    end
+  end
+end
+
+module ActiveModel
+  module Type
+    class ImmutableString < Value
+      # :nodoc:
+      def type: () -> :string
+
+      def serialize: (untyped value) -> untyped
+
+      private
+
+      def cast_value: (untyped value) -> untyped
+    end
+  end
+end
+
+module ActiveModel
+  module Type
+    class Integer < Value
+      # :nodoc:
+      include Helpers::Numeric
+
+      # Column storage size in bytes.
+      # 4 bytes means an integer as opposed to smallint etc.
+      DEFAULT_LIMIT: ::Integer
+
+      def initialize: () -> untyped
+
+      def type: () -> :integer
+
+      def deserialize: (untyped value) -> (nil | untyped)
+
+      def serialize: (untyped value) -> (nil | untyped)
+
+      private
+
+      attr_reader range: untyped
+
+      def cast_value: (untyped value) -> untyped
+
+      def ensure_in_range: (untyped value) -> untyped
+
+      def max_value: () -> untyped
+
+      def min_value: () -> untyped
+
+      def _limit: () -> untyped
+    end
+  end
+end
+
+module ActiveModel
+  # :stopdoc:
+  module Type
+    class Registry
+      def initialize: () -> untyped
+
+      def register: (untyped type_name, ?untyped? klass, **untyped options) { () -> untyped } -> untyped
+
+      def lookup: (untyped symbol, *untyped args, **untyped kwargs) -> untyped
+
+      private
+
+      attr_reader registrations: untyped
+
+      def registration_klass: () -> untyped
+
+      def find_registration: (untyped symbol, *untyped args) -> untyped
+    end
+
+    class Registration
+      # Options must be taken because of https://bugs.ruby-lang.org/issues/10856
+      def initialize: (untyped name, untyped block) -> untyped
+
+      def call: (untyped _registry, *untyped args, **untyped kwargs) -> untyped
+
+      def matches?: (untyped type_name, *untyped args, **untyped kwargs) -> untyped
+
+      private
+
+      attr_reader name: untyped
+
+      attr_reader block: untyped
+    end
+  end
+end
+
+module ActiveModel
+  module Type
+    class String < ImmutableString
+      # :nodoc:
+      def changed_in_place?: (untyped raw_old_value, untyped new_value) -> untyped
+
+      private
+
+      def cast_value: (untyped value) -> untyped
+    end
+  end
+end
+
+module ActiveModel
+  module Type
+    class Time < Value
+      # :nodoc:
+      include Helpers::Timezone
+
+      include Helpers::TimeValue
+
+      def type: () -> :time
+
+      def user_input_in_time_zone: (untyped value) -> (nil | untyped)
+
+      private
+
+      def cast_value: (untyped value) -> (untyped | nil)
+    end
+  end
+end
+
+module ActiveModel
+  module Type
+    class Value
+      attr_reader precision: untyped
+
+      attr_reader scale: untyped
+
+      attr_reader limit: untyped
+
+      def initialize: (?scale: untyped? scale, ?limit: untyped? limit, ?precision: untyped? precision) -> untyped
+
+      def type: () -> nil
+
+      # Converts a value from database input to the appropriate ruby type. The
+      # return value of this method will be returned from
+      # ActiveRecord::AttributeMethods::Read#read_attribute. The default
+      # implementation just calls Value#cast.
+      #
+      # +value+ The raw input, as provided from the database.
+      def deserialize: (untyped value) -> untyped
+
+      # Type casts a value from user input (e.g. from a setter). This value may
+      # be a string from the form builder, or a ruby object passed to a setter.
+      # There is currently no way to differentiate between which source it came
+      # from.
+      #
+      # The return value of this method will be returned from
+      # ActiveRecord::AttributeMethods::Read#read_attribute. See also:
+      # Value#cast_value.
+      #
+      # +value+ The raw input, as provided to the attribute setter.
+      def cast: (untyped value) -> untyped
+
+      # Casts a value from the ruby type to a type that the database knows how
+      # to understand. The returned value from this method should be a
+      # +String+, +Numeric+, +Date+, +Time+, +Symbol+, +true+, +false+, or
+      # +nil+.
+      def serialize: (untyped value) -> untyped
+
+      def type_cast_for_schema: (untyped value) -> untyped
+
+      def binary?: () -> ::FalseClass
+
+      # Determines whether a value has changed for dirty checking. +old_value+
+      # and +new_value+ will always be type-cast. Types should not need to
+      # override this method.
+      def changed?: (untyped old_value, untyped new_value, untyped _new_value_before_type_cast) -> untyped
+
+      # Determines whether the mutable value has been modified since it was
+      # read. Returns +false+ by default. If your type returns an object
+      # which could be mutated, you should override this method. You will need
+      # to either:
+      #
+      # - pass +new_value+ to Value#serialize and compare it to
+      #   +raw_old_value+
+      #
+      # or
+      #
+      # - pass +raw_old_value+ to Value#deserialize and compare it to
+      #   +new_value+
+      #
+      # +raw_old_value+ The original value, before being passed to
+      # +deserialize+.
+      #
+      # +new_value+ The current value, after type casting.
+      def changed_in_place?: (untyped raw_old_value, untyped new_value) -> ::FalseClass
+
+      def value_constructed_by_mass_assignment?: (untyped _value) -> ::FalseClass
+
+      def force_equality?: (untyped _value) -> ::FalseClass
+
+      def map: (untyped value) { (untyped) -> untyped } -> untyped
+
+      def ==: (untyped other) -> untyped
+
+      alias eql? ==
+
+      def hash: () -> untyped
+
+      def assert_valid_value: () -> nil
+
+      private
+
+      def cast_value: (untyped value) -> untyped
+    end
+  end
+end
+
+module ActiveModel
+  module Type
+    attr_accessor self.registry: untyped
+
+    # Add a new type to the registry, allowing it to be gotten through ActiveModel::Type#lookup
+    def self.register: (untyped type_name, ?untyped? klass, **untyped options) { () -> untyped } -> untyped
+
+    def self.lookup: (*untyped args, **untyped kwargs) -> untyped
+
+    def self.default_value: () -> untyped
+  end
+end
+
+module ActiveModel
+  module Validations
+    class AbsenceValidator < EachValidator
+      # == \Active \Model Absence Validator
+      # nodoc:
+      def validate_each: (untyped record, untyped attr_name, untyped value) -> untyped
+    end
+
+    module HelperMethods
+      # Validates that the specified attributes are blank (as defined by
+      # Object#present?). Happens by default on save.
+      #
+      #   class Person < ActiveRecord::Base
+      #     validates_absence_of :first_name
+      #   end
+      #
+      # The first_name attribute must be in the object and it must be blank.
+      #
+      # Configuration options:
+      # * <tt>:message</tt> - A custom error message (default is: "must be blank").
+      #
+      # There is also a list of default options supported by every validator:
+      # +:if+, +:unless+, +:on+, +:allow_nil+, +:allow_blank+, and +:strict+.
+      # See <tt>ActiveModel::Validations#validates</tt> for more information
+      def validates_absence_of: (*untyped attr_names) -> untyped
+    end
+  end
+end
+
+module ActiveModel
+  module Validations
+    class AcceptanceValidator < EachValidator
+      # :nodoc:
+      def initialize: (untyped options) -> untyped
+
+      def validate_each: (untyped record, untyped attribute, untyped value) -> untyped
+
+      private
+
+      def setup!: (untyped klass) -> untyped
+
+      def acceptable_option?: (untyped value) -> untyped
+
+      class LazilyDefineAttributes < Module
+        def initialize: (untyped attributes) -> untyped
+
+        def included: (untyped klass) -> untyped
+
+        def matches?: (untyped method_name) -> untyped
+
+        def define_on: (untyped klass) -> untyped
+
+        def ==: (untyped other) -> untyped
+
+        attr_reader attributes: untyped
+      end
+    end
+
+    module HelperMethods
+      # Encapsulates the pattern of wanting to validate the acceptance of a
+      # terms of service check box (or similar agreement).
+      #
+      #   class Person < ActiveRecord::Base
+      #     validates_acceptance_of :terms_of_service
+      #     validates_acceptance_of :eula, message: 'must be abided'
+      #   end
+      #
+      # If the database column does not exist, the +terms_of_service+ attribute
+      # is entirely virtual. This check is performed only if +terms_of_service+
+      # is not +nil+ and by default on save.
+      #
+      # Configuration options:
+      # * <tt>:message</tt> - A custom error message (default is: "must be
+      #   accepted").
+      # * <tt>:accept</tt> - Specifies a value that is considered accepted.
+      #   Also accepts an array of possible values. The default value is
+      #   an array ["1", true], which makes it easy to relate to an HTML
+      #   checkbox. This should be set to, or include, +true+ if you are validating
+      #   a database column, since the attribute is typecast from "1" to +true+
+      #   before validation.
+      #
+      # There is also a list of default options supported by every validator:
+      # +:if+, +:unless+, +:on+, +:allow_nil+, +:allow_blank+, and +:strict+.
+      # See <tt>ActiveModel::Validations#validates</tt> for more information.
+      def validates_acceptance_of: (*untyped attr_names) -> untyped
+    end
+  end
+end
+
+module ActiveModel
+  module Validations
+    # == Active \Model \Validation \Callbacks
+    #
+    # Provides an interface for any class to have +before_validation+ and
+    # +after_validation+ callbacks.
+    #
+    # First, include ActiveModel::Validations::Callbacks from the class you are
+    # creating:
+    #
+    #   class MyModel
+    #     include ActiveModel::Validations::Callbacks
+    #
+    #     before_validation :do_stuff_before_validation
+    #     after_validation  :do_stuff_after_validation
+    #   end
+    #
+    # Like other <tt>before_*</tt> callbacks if +before_validation+ throws
+    # +:abort+ then <tt>valid?</tt> will not be called.
+    module Callbacks
+      extend ActiveSupport::Concern
+
+      include ActiveSupport::Callbacks
+
+      module ClassMethods
+        # Defines a callback that will get called right before validation.
+        #
+        #   class Person
+        #     include ActiveModel::Validations
+        #     include ActiveModel::Validations::Callbacks
+        #
+        #     attr_accessor :name
+        #
+        #     validates_length_of :name, maximum: 6
+        #
+        #     before_validation :remove_whitespaces
+        #
+        #     private
+        #
+        #     def remove_whitespaces
+        #       name.strip!
+        #     end
+        #   end
+        #
+        #   person = Person.new
+        #   person.name = '  bob  '
+        #   person.valid? # => true
+        #   person.name   # => "bob"
+        def before_validation: (*untyped args) { () -> untyped } -> untyped
+
+        # Defines a callback that will get called right after validation.
+        #
+        #   class Person
+        #     include ActiveModel::Validations
+        #     include ActiveModel::Validations::Callbacks
+        #
+        #     attr_accessor :name, :status
+        #
+        #     validates_presence_of :name
+        #
+        #     after_validation :set_status
+        #
+        #     private
+        #
+        #     def set_status
+        #       self.status = errors.empty?
+        #     end
+        #   end
+        #
+        #   person = Person.new
+        #   person.name = ''
+        #   person.valid? # => false
+        #   person.status # => false
+        #   person.name = 'bob'
+        #   person.valid? # => true
+        #   person.status # => true
+        def after_validation: (*untyped args) { () -> untyped } -> untyped
+      end
+
+      private
+
+      # Overwrite run validations to include callbacks.
+      def run_validations!: () -> untyped
+    end
+  end
+end
+
+module ActiveModel
+  module Validations
+    module Clusivity
+      # nodoc:
+      ERROR_MESSAGE: ::String
+
+      def check_validity!: () -> untyped
+
+      private
+
+      def include?: (untyped record, untyped value) -> untyped
+
+      def delimiter: () -> untyped
+
+      # After Ruby 2.2, <tt>Range#include?</tt> on non-number-or-time-ish ranges checks all
+      # possible values in the range for equality, which is slower but more accurate.
+      # <tt>Range#cover?</tt> uses the previous logic of comparing a value with the range
+      # endpoints, which is fast but is only accurate on Numeric, Time, Date,
+      # or DateTime ranges.
+      def inclusion_method: (untyped enumerable) -> untyped
+    end
+  end
+end
+
+module ActiveModel
+  module Validations
+    class ConfirmationValidator < EachValidator
+      # :nodoc:
+      def initialize: (untyped options) -> untyped
+
+      def validate_each: (untyped record, untyped attribute, untyped value) -> untyped
+
+      private
+
+      def setup!: (untyped klass) -> untyped
+
+      def confirmation_value_equal?: (untyped record, untyped attribute, untyped value, untyped confirmed) -> untyped
+    end
+
+    module HelperMethods
+      # Encapsulates the pattern of wanting to validate a password or email
+      # address field with a confirmation.
+      #
+      #   Model:
+      #     class Person < ActiveRecord::Base
+      #       validates_confirmation_of :user_name, :password
+      #       validates_confirmation_of :email_address,
+      #                                 message: 'should match confirmation'
+      #     end
+      #
+      #   View:
+      #     <%= password_field "person", "password" %>
+      #     <%= password_field "person", "password_confirmation" %>
+      #
+      # The added +password_confirmation+ attribute is virtual; it exists only
+      # as an in-memory attribute for validating the password. To achieve this,
+      # the validation adds accessors to the model for the confirmation
+      # attribute.
+      #
+      # NOTE: This check is performed only if +password_confirmation+ is not
+      # +nil+. To require confirmation, make sure to add a presence check for
+      # the confirmation attribute:
+      #
+      #   validates_presence_of :password_confirmation, if: :password_changed?
+      #
+      # Configuration options:
+      # * <tt>:message</tt> - A custom error message (default is: "doesn't match
+      #   <tt>%{translated_attribute_name}</tt>").
+      # * <tt>:case_sensitive</tt> - Looks for an exact match. Ignored by
+      #   non-text columns (+true+ by default).
+      #
+      # There is also a list of default options supported by every validator:
+      # +:if+, +:unless+, +:on+, +:allow_nil+, +:allow_blank+, and +:strict+.
+      # See <tt>ActiveModel::Validations#validates</tt> for more information
+      def validates_confirmation_of: (*untyped attr_names) -> untyped
+    end
+  end
+end
+
+module ActiveModel
+  module Validations
+    class ExclusionValidator < EachValidator
+      # :nodoc:
+      include Clusivity
+
+      def validate_each: (untyped record, untyped attribute, untyped value) -> untyped
+    end
+
+    module HelperMethods
+      # Validates that the value of the specified attribute is not in a
+      # particular enumerable object.
+      #
+      #   class Person < ActiveRecord::Base
+      #     validates_exclusion_of :username, in: %w( admin superuser ), message: "You don't belong here"
+      #     validates_exclusion_of :age, in: 30..60, message: 'This site is only for under 30 and over 60'
+      #     validates_exclusion_of :format, in: %w( mov avi ), message: "extension %{value} is not allowed"
+      #     validates_exclusion_of :password, in: ->(person) { [person.username, person.first_name] },
+      #                            message: 'should not be the same as your username or first name'
+      #     validates_exclusion_of :karma, in: :reserved_karmas
+      #   end
+      #
+      # Configuration options:
+      # * <tt>:in</tt> - An enumerable object of items that the value shouldn't
+      #   be part of. This can be supplied as a proc, lambda or symbol which returns an
+      #   enumerable. If the enumerable is a numerical, time or datetime range the test
+      #   is performed with <tt>Range#cover?</tt>, otherwise with <tt>include?</tt>. When
+      #   using a proc or lambda the instance under validation is passed as an argument.
+      # * <tt>:within</tt> - A synonym(or alias) for <tt>:in</tt>
+      #   <tt>Range#cover?</tt>, otherwise with <tt>include?</tt>.
+      # * <tt>:message</tt> - Specifies a custom error message (default is: "is
+      #   reserved").
+      #
+      # There is also a list of default options supported by every validator:
+      # +:if+, +:unless+, +:on+, +:allow_nil+, +:allow_blank+, and +:strict+.
+      # See <tt>ActiveModel::Validations#validates</tt> for more information
+      def validates_exclusion_of: (*untyped attr_names) -> untyped
+    end
+  end
+end
+
+module ActiveModel
+  module Validations
+    class FormatValidator < EachValidator
+      # :nodoc:
+      def validate_each: (untyped record, untyped attribute, untyped value) -> untyped
+
+      def check_validity!: () -> untyped
+
+      private
+
+      def option_call: (untyped record, untyped name) -> untyped
+
+      def record_error: (untyped record, untyped attribute, untyped name, untyped value) -> untyped
+
+      def check_options_validity: (untyped name) -> untyped
+
+      def regexp_using_multiline_anchors?: (untyped regexp) -> untyped
+    end
+
+    module HelperMethods
+      # Validates whether the value of the specified attribute is of the correct
+      # form, going by the regular expression provided. You can require that the
+      # attribute matches the regular expression:
+      #
+      #   class Person < ActiveRecord::Base
+      #     validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :create
+      #   end
+      #
+      # Alternatively, you can require that the specified attribute does _not_
+      # match the regular expression:
+      #
+      #   class Person < ActiveRecord::Base
+      #     validates_format_of :email, without: /NOSPAM/
+      #   end
+      #
+      # You can also provide a proc or lambda which will determine the regular
+      # expression that will be used to validate the attribute.
+      #
+      #   class Person < ActiveRecord::Base
+      #     # Admin can have number as a first letter in their screen name
+      #     validates_format_of :screen_name,
+      #                         with: ->(person) { person.admin? ? /\A[a-z0-9][a-z0-9_\-]*\z/i : /\A[a-z][a-z0-9_\-]*\z/i }
+      #   end
+      #
+      # Note: use <tt>\A</tt> and <tt>\z</tt> to match the start and end of the
+      # string, <tt>^</tt> and <tt>$</tt> match the start/end of a line.
+      #
+      # Due to frequent misuse of <tt>^</tt> and <tt>$</tt>, you need to pass
+      # the <tt>multiline: true</tt> option in case you use any of these two
+      # anchors in the provided regular expression. In most cases, you should be
+      # using <tt>\A</tt> and <tt>\z</tt>.
+      #
+      # You must pass either <tt>:with</tt> or <tt>:without</tt> as an option.
+      # In addition, both must be a regular expression or a proc or lambda, or
+      # else an exception will be raised.
+      #
+      # Configuration options:
+      # * <tt>:message</tt> - A custom error message (default is: "is invalid").
+      # * <tt>:with</tt> - Regular expression that if the attribute matches will
+      #   result in a successful validation. This can be provided as a proc or
+      #   lambda returning regular expression which will be called at runtime.
+      # * <tt>:without</tt> - Regular expression that if the attribute does not
+      #   match will result in a successful validation. This can be provided as
+      #   a proc or lambda returning regular expression which will be called at
+      #   runtime.
+      # * <tt>:multiline</tt> - Set to true if your regular expression contains
+      #   anchors that match the beginning or end of lines as opposed to the
+      #   beginning or end of the string. These anchors are <tt>^</tt> and <tt>$</tt>.
+      #
+      # There is also a list of default options supported by every validator:
+      # +:if+, +:unless+, +:on+, +:allow_nil+, +:allow_blank+, and +:strict+.
+      # See <tt>ActiveModel::Validations#validates</tt> for more information
+      def validates_format_of: (*untyped attr_names) -> untyped
+    end
+  end
+end
+
+module ActiveModel
+  module Validations
+    module HelperMethods
+      private
+
+      def _merge_attributes: (untyped attr_names) -> untyped
+    end
+  end
+end
+
+module ActiveModel
+  module Validations
+    class InclusionValidator < EachValidator
+      # :nodoc:
+      include Clusivity
+
+      def validate_each: (untyped record, untyped attribute, untyped value) -> untyped
+    end
+
+    module HelperMethods
+      # Validates whether the value of the specified attribute is available in a
+      # particular enumerable object.
+      #
+      #   class Person < ActiveRecord::Base
+      #     validates_inclusion_of :role, in: %w( admin contributor )
+      #     validates_inclusion_of :age, in: 0..99
+      #     validates_inclusion_of :format, in: %w( jpg gif png ), message: "extension %{value} is not included in the list"
+      #     validates_inclusion_of :states, in: ->(person) { STATES[person.country] }
+      #     validates_inclusion_of :karma, in: :available_karmas
+      #   end
+      #
+      # Configuration options:
+      # * <tt>:in</tt> - An enumerable object of available items. This can be
+      #   supplied as a proc, lambda or symbol which returns an enumerable. If the
+      #   enumerable is a numerical, time or datetime range the test is performed
+      #   with <tt>Range#cover?</tt>, otherwise with <tt>include?</tt>. When using
+      #   a proc or lambda the instance under validation is passed as an argument.
+      # * <tt>:within</tt> - A synonym(or alias) for <tt>:in</tt>
+      # * <tt>:message</tt> - Specifies a custom error message (default is: "is
+      #   not included in the list").
+      #
+      # There is also a list of default options supported by every validator:
+      # +:if+, +:unless+, +:on+, +:allow_nil+, +:allow_blank+, and +:strict+.
+      # See <tt>ActiveModel::Validations#validates</tt> for more information
+      def validates_inclusion_of: (*untyped attr_names) -> untyped
+    end
+  end
+end
+
+module ActiveModel
+  module Validations
+    class LengthValidator < EachValidator
+      # :nodoc:
+      MESSAGES: untyped
+
+      CHECKS: untyped
+
+      RESERVED_OPTIONS: ::Array[untyped]
+
+      def initialize: (untyped options) -> untyped
+
+      def check_validity!: () -> untyped
+
+      def validate_each: (untyped record, untyped attribute, untyped value) -> untyped
+
+      private
+
+      def skip_nil_check?: (untyped key) -> untyped
+    end
+
+    module HelperMethods
+      # Validates that the specified attributes match the length restrictions
+      # supplied. Only one constraint option can be used at a time apart from
+      # +:minimum+ and +:maximum+ that can be combined together:
+      #
+      #   class Person < ActiveRecord::Base
+      #     validates_length_of :first_name, maximum: 30
+      #     validates_length_of :last_name, maximum: 30, message: "less than 30 if you don't mind"
+      #     validates_length_of :fax, in: 7..32, allow_nil: true
+      #     validates_length_of :phone, in: 7..32, allow_blank: true
+      #     validates_length_of :user_name, within: 6..20, too_long: 'pick a shorter name', too_short: 'pick a longer name'
+      #     validates_length_of :zip_code, minimum: 5, too_short: 'please enter at least 5 characters'
+      #     validates_length_of :smurf_leader, is: 4, message: "papa is spelled with 4 characters... don't play me."
+      #     validates_length_of :words_in_essay, minimum: 100, too_short: 'Your essay must be at least 100 words.'
+      #
+      #     private
+      #
+      #     def words_in_essay
+      #       essay.scan(/\w+/)
+      #     end
+      #   end
+      #
+      # Constraint options:
+      #
+      # * <tt>:minimum</tt> - The minimum size of the attribute.
+      # * <tt>:maximum</tt> - The maximum size of the attribute. Allows +nil+ by
+      #   default if not used with +:minimum+.
+      # * <tt>:is</tt> - The exact size of the attribute.
+      # * <tt>:within</tt> - A range specifying the minimum and maximum size of
+      #   the attribute.
+      # * <tt>:in</tt> - A synonym (or alias) for <tt>:within</tt>.
+      #
+      # Other options:
+      #
+      # * <tt>:allow_nil</tt> - Attribute may be +nil+; skip validation.
+      # * <tt>:allow_blank</tt> - Attribute may be blank; skip validation.
+      # * <tt>:too_long</tt> - The error message if the attribute goes over the
+      #   maximum (default is: "is too long (maximum is %{count} characters)").
+      # * <tt>:too_short</tt> - The error message if the attribute goes under the
+      #   minimum (default is: "is too short (minimum is %{count} characters)").
+      # * <tt>:wrong_length</tt> - The error message if using the <tt>:is</tt>
+      #   method and the attribute is the wrong size (default is: "is the wrong
+      #   length (should be %{count} characters)").
+      # * <tt>:message</tt> - The error message to use for a <tt>:minimum</tt>,
+      #   <tt>:maximum</tt>, or <tt>:is</tt> violation. An alias of the appropriate
+      #   <tt>too_long</tt>/<tt>too_short</tt>/<tt>wrong_length</tt> message.
+      #
+      # There is also a list of default options supported by every validator:
+      # +:if+, +:unless+, +:on+ and +:strict+.
+      # See <tt>ActiveModel::Validations#validates</tt> for more information
+      def validates_length_of: (*untyped attr_names) -> untyped
+
+      alias validates_size_of validates_length_of
+    end
+  end
+end
+
+module ActiveModel
+  module Validations
+    class NumericalityValidator < EachValidator
+      # :nodoc:
+      CHECKS: untyped
+
+      RESERVED_OPTIONS: untyped
+
+      INTEGER_REGEX: untyped
+
+      HEXADECIMAL_REGEX: untyped
+
+      def check_validity!: () -> untyped
+
+      def validate_each: (untyped record, untyped attr_name, untyped value) -> (nil | untyped)
+
+      private
+
+      def is_number?: (untyped raw_value) -> untyped
+
+      def parse_as_number: (untyped raw_value) -> untyped
+
+      def is_integer?: (untyped raw_value) -> untyped
+
+      def is_hexadecimal_literal?: (untyped raw_value) -> untyped
+
+      def filtered_options: (untyped value) -> untyped
+
+      def allow_only_integer?: (untyped record) -> untyped
+
+      def record_attribute_changed_in_place?: (untyped record, untyped attr_name) -> untyped
+    end
+
+    module HelperMethods
+      # Validates whether the value of the specified attribute is numeric by
+      # trying to convert it to a float with Kernel.Float (if <tt>only_integer</tt>
+      # is +false+) or applying it to the regular expression <tt>/\A[\+\-]?\d+\z/</tt>
+      # (if <tt>only_integer</tt> is set to +true+).
+      #
+      #   class Person < ActiveRecord::Base
+      #     validates_numericality_of :value, on: :create
+      #   end
+      #
+      # Configuration options:
+      # * <tt>:message</tt> - A custom error message (default is: "is not a number").
+      # * <tt>:only_integer</tt> - Specifies whether the value has to be an
+      #   integer, e.g. an integral value (default is +false+).
+      # * <tt>:allow_nil</tt> - Skip validation if attribute is +nil+ (default is
+      #   +false+). Notice that for Integer and Float columns empty strings are
+      #   converted to +nil+.
+      # * <tt>:greater_than</tt> - Specifies the value must be greater than the
+      #   supplied value.
+      # * <tt>:greater_than_or_equal_to</tt> - Specifies the value must be
+      #   greater than or equal the supplied value.
+      # * <tt>:equal_to</tt> - Specifies the value must be equal to the supplied
+      #   value.
+      # * <tt>:less_than</tt> - Specifies the value must be less than the
+      #   supplied value.
+      # * <tt>:less_than_or_equal_to</tt> - Specifies the value must be less
+      #   than or equal the supplied value.
+      # * <tt>:other_than</tt> - Specifies the value must be other than the
+      #   supplied value.
+      # * <tt>:odd</tt> - Specifies the value must be an odd number.
+      # * <tt>:even</tt> - Specifies the value must be an even number.
+      #
+      # There is also a list of default options supported by every validator:
+      # +:if+, +:unless+, +:on+, +:allow_nil+, +:allow_blank+, and +:strict+ .
+      # See <tt>ActiveModel::Validations#validates</tt> for more information
+      #
+      # The following checks can also be supplied with a proc or a symbol which
+      # corresponds to a method:
+      #
+      # * <tt>:greater_than</tt>
+      # * <tt>:greater_than_or_equal_to</tt>
+      # * <tt>:equal_to</tt>
+      # * <tt>:less_than</tt>
+      # * <tt>:less_than_or_equal_to</tt>
+      # * <tt>:only_integer</tt>
+      #
+      # For example:
+      #
+      #   class Person < ActiveRecord::Base
+      #     validates_numericality_of :width, less_than: ->(person) { person.height }
+      #     validates_numericality_of :width, greater_than: :minimum_weight
+      #   end
+      def validates_numericality_of: (*untyped attr_names) -> untyped
+    end
+  end
+end
+
+module ActiveModel
+  module Validations
+    class PresenceValidator < EachValidator
+      # :nodoc:
+      def validate_each: (untyped record, untyped attr_name, untyped value) -> untyped
+    end
+
+    module HelperMethods
+      # Validates that the specified attributes are not blank (as defined by
+      # Object#blank?). Happens by default on save.
+      #
+      #   class Person < ActiveRecord::Base
+      #     validates_presence_of :first_name
+      #   end
+      #
+      # The first_name attribute must be in the object and it cannot be blank.
+      #
+      # If you want to validate the presence of a boolean field (where the real
+      # values are +true+ and +false+), you will want to use
+      # <tt>validates_inclusion_of :field_name, in: [true, false]</tt>.
+      #
+      # This is due to the way Object#blank? handles boolean values:
+      # <tt>false.blank? # => true</tt>.
+      #
+      # Configuration options:
+      # * <tt>:message</tt> - A custom error message (default is: "can't be blank").
+      #
+      # There is also a list of default options supported by every validator:
+      # +:if+, +:unless+, +:on+, +:allow_nil+, +:allow_blank+, and +:strict+.
+      # See <tt>ActiveModel::Validations#validates</tt> for more information
+      def validates_presence_of: (*untyped attr_names) -> untyped
+    end
+  end
+end
+
+module ActiveModel
+  module Validations
+    module ClassMethods
+      # This method is a shortcut to all default validators and any custom
+      # validator classes ending in 'Validator'. Note that Rails default
+      # validators can be overridden inside specific classes by creating
+      # custom validator classes in their place such as PresenceValidator.
+      #
+      # Examples of using the default rails validators:
+      #
+      #   validates :terms, acceptance: true
+      #   validates :password, confirmation: true
+      #   validates :username, exclusion: { in: %w(admin superuser) }
+      #   validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :create }
+      #   validates :age, inclusion: { in: 0..9 }
+      #   validates :first_name, length: { maximum: 30 }
+      #   validates :age, numericality: true
+      #   validates :username, presence: true
+      #
+      # The power of the +validates+ method comes when using custom validators
+      # and default validators in one call for a given attribute.
+      #
+      #   class EmailValidator < ActiveModel::EachValidator
+      #     def validate_each(record, attribute, value)
+      #       record.errors.add attribute, (options[:message] || "is not an email") unless
+      #         value =~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+      #     end
+      #   end
+      #
+      #   class Person
+      #     include ActiveModel::Validations
+      #     attr_accessor :name, :email
+      #
+      #     validates :name, presence: true, length: { maximum: 100 }
+      #     validates :email, presence: true, email: true
+      #   end
+      #
+      # Validator classes may also exist within the class being validated
+      # allowing custom modules of validators to be included as needed.
+      #
+      #   class Film
+      #     include ActiveModel::Validations
+      #
+      #     class TitleValidator < ActiveModel::EachValidator
+      #       def validate_each(record, attribute, value)
+      #         record.errors.add attribute, "must start with 'the'" unless value =~ /\Athe/i
+      #       end
+      #     end
+      #
+      #     validates :name, title: true
+      #   end
+      #
+      # Additionally validator classes may be in another namespace and still
+      # used within any class.
+      #
+      #   validates :name, :'film/title' => true
+      #
+      # The validators hash can also handle regular expressions, ranges, arrays
+      # and strings in shortcut form.
+      #
+      #   validates :email, format: /@/
+      #   validates :role, inclusion: %(admin contributor)
+      #   validates :password, length: 6..20
+      #
+      # When using shortcut form, ranges and arrays are passed to your
+      # validator's initializer as <tt>options[:in]</tt> while other types
+      # including regular expressions and strings are passed as <tt>options[:with]</tt>.
+      #
+      # There is also a list of options that could be used along with validators:
+      #
+      # * <tt>:on</tt> - Specifies the contexts where this validation is active.
+      #   Runs in all validation contexts by default +nil+. You can pass a symbol
+      #   or an array of symbols. (e.g. <tt>on: :create</tt> or
+      #   <tt>on: :custom_validation_context</tt> or
+      #   <tt>on: [:create, :custom_validation_context]</tt>)
+      # * <tt>:if</tt> - Specifies a method, proc or string to call to determine
+      #   if the validation should occur (e.g. <tt>if: :allow_validation</tt>,
+      #   or <tt>if: Proc.new { |user| user.signup_step > 2 }</tt>). The method,
+      #   proc or string should return or evaluate to a +true+ or +false+ value.
+      # * <tt>:unless</tt> - Specifies a method, proc or string to call to determine
+      #   if the validation should not occur (e.g. <tt>unless: :skip_validation</tt>,
+      #   or <tt>unless: Proc.new { |user| user.signup_step <= 2 }</tt>). The
+      #   method, proc or string should return or evaluate to a +true+ or
+      #   +false+ value.
+      # * <tt>:allow_nil</tt> - Skip validation if the attribute is +nil+.
+      # * <tt>:allow_blank</tt> - Skip validation if the attribute is blank.
+      # * <tt>:strict</tt> - If the <tt>:strict</tt> option is set to true
+      #   will raise ActiveModel::StrictValidationFailed instead of adding the error.
+      #   <tt>:strict</tt> option can also be set to any other exception.
+      #
+      # Example:
+      #
+      #   validates :password, presence: true, confirmation: true, if: :password_required?
+      #   validates :token, length: 24, strict: TokenLengthException
+      #
+      #
+      # Finally, the options +:if+, +:unless+, +:on+, +:allow_blank+, +:allow_nil+, +:strict+
+      # and +:message+ can be given to one specific validator, as a hash:
+      #
+      #   validates :password, presence: { if: :password_required?, message: 'is forgotten.' }, confirmation: true
+      def validates: (*untyped attributes) -> untyped
+
+      # This method is used to define validations that cannot be corrected by end
+      # users and are considered exceptional. So each validator defined with bang
+      # or <tt>:strict</tt> option set to <tt>true</tt> will always raise
+      # <tt>ActiveModel::StrictValidationFailed</tt> instead of adding error
+      # when validation fails. See <tt>validates</tt> for more information about
+      # the validation itself.
+      #
+      #   class Person
+      #     include ActiveModel::Validations
+      #
+      #     attr_accessor :name
+      #     validates! :name, presence: true
+      #   end
+      #
+      #   person = Person.new
+      #   person.name = ''
+      #   person.valid?
+      #   # => ActiveModel::StrictValidationFailed: Name can't be blank
+      def validates!: (*untyped attributes) -> untyped
+
+      private
+
+      # When creating custom validators, it might be useful to be able to specify
+      # additional default keys. This can be done by overwriting this method.
+      def _validates_default_keys: () -> ::Array[:if | :unless | :on | :allow_blank | :allow_nil | :strict]
+
+      def _parse_validates_options: (untyped options) -> untyped
+    end
+  end
+end
+
+module ActiveModel
+  module Validations
+    class WithValidator < EachValidator
+      # :nodoc:
+      def validate_each: (untyped record, untyped attr, untyped val) -> untyped
+    end
+
+    module ClassMethods
+      # Passes the record off to the class or classes specified and allows them
+      # to add errors based on more complex conditions.
+      #
+      #   class Person
+      #     include ActiveModel::Validations
+      #     validates_with MyValidator
+      #   end
+      #
+      #   class MyValidator < ActiveModel::Validator
+      #     def validate(record)
+      #       if some_complex_logic
+      #         record.errors.add :base, 'This record is invalid'
+      #       end
+      #     end
+      #
+      #     private
+      #       def some_complex_logic
+      #         # ...
+      #       end
+      #   end
+      #
+      # You may also pass it multiple classes, like so:
+      #
+      #   class Person
+      #     include ActiveModel::Validations
+      #     validates_with MyValidator, MyOtherValidator, on: :create
+      #   end
+      #
+      # Configuration options:
+      # * <tt>:on</tt> - Specifies the contexts where this validation is active.
+      #   Runs in all validation contexts by default +nil+. You can pass a symbol
+      #   or an array of symbols. (e.g. <tt>on: :create</tt> or
+      #   <tt>on: :custom_validation_context</tt> or
+      #   <tt>on: [:create, :custom_validation_context]</tt>)
+      # * <tt>:if</tt> - Specifies a method, proc or string to call to determine
+      #   if the validation should occur (e.g. <tt>if: :allow_validation</tt>,
+      #   or <tt>if: Proc.new { |user| user.signup_step > 2 }</tt>).
+      #   The method, proc or string should return or evaluate to a +true+ or
+      #   +false+ value.
+      # * <tt>:unless</tt> - Specifies a method, proc or string to call to
+      #   determine if the validation should not occur
+      #   (e.g. <tt>unless: :skip_validation</tt>, or
+      #   <tt>unless: Proc.new { |user| user.signup_step <= 2 }</tt>).
+      #   The method, proc or string should return or evaluate to a +true+ or
+      #   +false+ value.
+      # * <tt>:strict</tt> - Specifies whether validation should be strict.
+      #   See <tt>ActiveModel::Validations#validates!</tt> for more information.
+      #
+      # If you pass any additional configuration options, they will be passed
+      # to the class and available as +options+:
+      #
+      #   class Person
+      #     include ActiveModel::Validations
+      #     validates_with MyValidator, my_custom_key: 'my custom value'
+      #   end
+      #
+      #   class MyValidator < ActiveModel::Validator
+      #     def validate(record)
+      #       options[:my_custom_key] # => "my custom value"
+      #     end
+      #   end
+      def validates_with: (*untyped args) ?{ () -> untyped } -> untyped
+    end
+
+    # Passes the record off to the class or classes specified and allows them
+    # to add errors based on more complex conditions.
+    #
+    #   class Person
+    #     include ActiveModel::Validations
+    #
+    #     validate :instance_validations
+    #
+    #     def instance_validations
+    #       validates_with MyValidator
+    #     end
+    #   end
+    #
+    # Please consult the class method documentation for more information on
+    # creating your own validator.
+    #
+    # You may also pass it multiple classes, like so:
+    #
+    #   class Person
+    #     include ActiveModel::Validations
+    #
+    #     validate :instance_validations, on: :create
+    #
+    #     def instance_validations
+    #       validates_with MyValidator, MyOtherValidator
+    #     end
+    #   end
+    #
+    # Standard configuration options (<tt>:on</tt>, <tt>:if</tt> and
+    # <tt>:unless</tt>), which are available on the class version of
+    # +validates_with+, should instead be placed on the +validates+ method
+    # as these are applied and tested in the callback.
+    #
+    # If you pass any additional configuration options, they will be passed
+    # to the class and available as +options+, please refer to the
+    # class version of this method for more information.
+    def validates_with: (*untyped args) { () -> untyped } -> untyped
+  end
+end
+
+module ActiveModel
+  # == Active \Model \Validations
+  #
+  # Provides a full validation framework to your objects.
+  #
+  # A minimal implementation could be:
+  #
+  #   class Person
+  #     include ActiveModel::Validations
+  #
+  #     attr_accessor :first_name, :last_name
+  #
+  #     validates_each :first_name, :last_name do |record, attr, value|
+  #       record.errors.add attr, 'starts with z.' if value.to_s[0] == ?z
+  #     end
+  #   end
+  #
+  # Which provides you with the full standard validation stack that you
+  # know from Active Record:
+  #
+  #   person = Person.new
+  #   person.valid?                   # => true
+  #   person.invalid?                 # => false
+  #
+  #   person.first_name = 'zoolander'
+  #   person.valid?                   # => false
+  #   person.invalid?                 # => true
+  #   person.errors.messages          # => {first_name:["starts with z."]}
+  #
+  # Note that <tt>ActiveModel::Validations</tt> automatically adds an +errors+
+  # method to your instances initialized with a new <tt>ActiveModel::Errors</tt>
+  # object, so there is no need for you to do this manually.
+  module Validations
+    extend ActiveSupport::Concern
+
+    extend ActiveModel::Naming
+
+    extend ActiveModel::Callbacks
+
+    extend ActiveModel::Translation
+
+    extend HelperMethods
+
+    include HelperMethods
+
+    attr_accessor validation_context: untyped
+
+    module ClassMethods
+      # Validates each attribute against a block.
+      #
+      #   class Person
+      #     include ActiveModel::Validations
+      #
+      #     attr_accessor :first_name, :last_name
+      #
+      #     validates_each :first_name, :last_name, allow_blank: true do |record, attr, value|
+      #       record.errors.add attr, 'starts with z.' if value.to_s[0] == ?z
+      #     end
+      #   end
+      #
+      # Options:
+      # * <tt>:on</tt> - Specifies the contexts where this validation is active.
+      #   Runs in all validation contexts by default +nil+. You can pass a symbol
+      #   or an array of symbols. (e.g. <tt>on: :create</tt> or
+      #   <tt>on: :custom_validation_context</tt> or
+      #   <tt>on: [:create, :custom_validation_context]</tt>)
+      # * <tt>:allow_nil</tt> - Skip validation if attribute is +nil+.
+      # * <tt>:allow_blank</tt> - Skip validation if attribute is blank.
+      # * <tt>:if</tt> - Specifies a method, proc or string to call to determine
+      #   if the validation should occur (e.g. <tt>if: :allow_validation</tt>,
+      #   or <tt>if: Proc.new { |user| user.signup_step > 2 }</tt>). The method,
+      #   proc or string should return or evaluate to a +true+ or +false+ value.
+      # * <tt>:unless</tt> - Specifies a method, proc or string to call to
+      #   determine if the validation should not occur (e.g. <tt>unless: :skip_validation</tt>,
+      #   or <tt>unless: Proc.new { |user| user.signup_step <= 2 }</tt>). The
+      #   method, proc or string should return or evaluate to a +true+ or +false+
+      #   value.
+      def validates_each: (*untyped attr_names) { () -> untyped } -> untyped
+
+      VALID_OPTIONS_FOR_VALIDATE: untyped
+
+      # Adds a validation method or block to the class. This is useful when
+      # overriding the +validate+ instance method becomes too unwieldy and
+      # you're looking for more descriptive declaration of your validations.
+      #
+      # This can be done with a symbol pointing to a method:
+      #
+      #   class Comment
+      #     include ActiveModel::Validations
+      #
+      #     validate :must_be_friends
+      #
+      #     def must_be_friends
+      #       errors.add(:base, 'Must be friends to leave a comment') unless commenter.friend_of?(commentee)
+      #     end
+      #   end
+      #
+      # With a block which is passed with the current record to be validated:
+      #
+      #   class Comment
+      #     include ActiveModel::Validations
+      #
+      #     validate do |comment|
+      #       comment.must_be_friends
+      #     end
+      #
+      #     def must_be_friends
+      #       errors.add(:base, 'Must be friends to leave a comment') unless commenter.friend_of?(commentee)
+      #     end
+      #   end
+      #
+      # Or with a block where self points to the current record to be validated:
+      #
+      #   class Comment
+      #     include ActiveModel::Validations
+      #
+      #     validate do
+      #       errors.add(:base, 'Must be friends to leave a comment') unless commenter.friend_of?(commentee)
+      #     end
+      #   end
+      #
+      # Note that the return value of validation methods is not relevant.
+      # It's not possible to halt the validate callback chain.
+      #
+      # Options:
+      # * <tt>:on</tt> - Specifies the contexts where this validation is active.
+      #   Runs in all validation contexts by default +nil+. You can pass a symbol
+      #   or an array of symbols. (e.g. <tt>on: :create</tt> or
+      #   <tt>on: :custom_validation_context</tt> or
+      #   <tt>on: [:create, :custom_validation_context]</tt>)
+      # * <tt>:if</tt> - Specifies a method, proc or string to call to determine
+      #   if the validation should occur (e.g. <tt>if: :allow_validation</tt>,
+      #   or <tt>if: Proc.new { |user| user.signup_step > 2 }</tt>). The method,
+      #   proc or string should return or evaluate to a +true+ or +false+ value.
+      # * <tt>:unless</tt> - Specifies a method, proc or string to call to
+      #   determine if the validation should not occur (e.g. <tt>unless: :skip_validation</tt>,
+      #   or <tt>unless: Proc.new { |user| user.signup_step <= 2 }</tt>). The
+      #   method, proc or string should return or evaluate to a +true+ or +false+
+      #   value.
+      #
+      # NOTE: Calling +validate+ multiple times on the same method will overwrite previous definitions.
+      #
+      def validate: (*untyped args) ?{ (untyped) -> untyped } -> untyped
+
+      # List all validators that are being used to validate the model using
+      # +validates_with+ method.
+      #
+      #   class Person
+      #     include ActiveModel::Validations
+      #
+      #     validates_with MyValidator
+      #     validates_with OtherValidator, on: :create
+      #     validates_with StrictValidator, strict: true
+      #   end
+      #
+      #   Person.validators
+      #   # => [
+      #   #      #<MyValidator:0x007fbff403e808 @options={}>,
+      #   #      #<OtherValidator:0x007fbff403d930 @options={on: :create}>,
+      #   #      #<StrictValidator:0x007fbff3204a30 @options={strict:true}>
+      #   #    ]
+      def validators: () -> untyped
+
+      # Clears all of the validators and validations.
+      #
+      # Note that this will clear anything that is being used to validate
+      # the model for both the +validates_with+ and +validate+ methods.
+      # It clears the validators that are created with an invocation of
+      # +validates_with+ and the callbacks that are set by an invocation
+      # of +validate+.
+      #
+      #   class Person
+      #     include ActiveModel::Validations
+      #
+      #     validates_with MyValidator
+      #     validates_with OtherValidator, on: :create
+      #     validates_with StrictValidator, strict: true
+      #     validate :cannot_be_robot
+      #
+      #     def cannot_be_robot
+      #       errors.add(:base, 'A person cannot be a robot') if person_is_robot
+      #     end
+      #   end
+      #
+      #   Person.validators
+      #   # => [
+      #   #      #<MyValidator:0x007fbff403e808 @options={}>,
+      #   #      #<OtherValidator:0x007fbff403d930 @options={on: :create}>,
+      #   #      #<StrictValidator:0x007fbff3204a30 @options={strict:true}>
+      #   #    ]
+      #
+      # If one runs <tt>Person.clear_validators!</tt> and then checks to see what
+      # validators this class has, you would obtain:
+      #
+      #   Person.validators # => []
+      #
+      # Also, the callback set by <tt>validate :cannot_be_robot</tt> will be erased
+      # so that:
+      #
+      #   Person._validate_callbacks.empty?  # => true
+      #
+      def clear_validators!: () -> untyped
+
+      # List all validators that are being used to validate a specific attribute.
+      #
+      #   class Person
+      #     include ActiveModel::Validations
+      #
+      #     attr_accessor :name , :age
+      #
+      #     validates_presence_of :name
+      #     validates_inclusion_of :age, in: 0..99
+      #   end
+      #
+      #   Person.validators_on(:name)
+      #   # => [
+      #   #       #<ActiveModel::Validations::PresenceValidator:0x007fe604914e60 @attributes=[:name], @options={}>,
+      #   #    ]
+      def validators_on: (*untyped attributes) -> untyped
+
+      # Returns +true+ if +attribute+ is an attribute method, +false+ otherwise.
+      #
+      #  class Person
+      #    include ActiveModel::Validations
+      #
+      #    attr_accessor :name
+      #  end
+      #
+      #  User.attribute_method?(:name) # => true
+      #  User.attribute_method?(:age)  # => false
+      def attribute_method?: (untyped attribute) -> untyped
+
+      def inherited: (untyped base) -> untyped
+    end
+
+    def initialize_dup: (untyped other) -> untyped
+
+    # Returns the +Errors+ object that holds all information about attribute
+    # error messages.
+    #
+    #   class Person
+    #     include ActiveModel::Validations
+    #
+    #     attr_accessor :name
+    #     validates_presence_of :name
+    #   end
+    #
+    #   person = Person.new
+    #   person.valid? # => false
+    #   person.errors # => #<ActiveModel::Errors:0x007fe603816640 @messages={name:["can't be blank"]}>
+    def errors: () -> untyped
+
+    # Runs all the specified validations and returns +true+ if no errors were
+    # added otherwise +false+.
+    #
+    #   class Person
+    #     include ActiveModel::Validations
+    #
+    #     attr_accessor :name
+    #     validates_presence_of :name
+    #   end
+    #
+    #   person = Person.new
+    #   person.name = ''
+    #   person.valid? # => false
+    #   person.name = 'david'
+    #   person.valid? # => true
+    #
+    # Context can optionally be supplied to define which callbacks to test
+    # against (the context is defined on the validations using <tt>:on</tt>).
+    #
+    #   class Person
+    #     include ActiveModel::Validations
+    #
+    #     attr_accessor :name
+    #     validates_presence_of :name, on: :new
+    #   end
+    #
+    #   person = Person.new
+    #   person.valid?       # => true
+    #   person.valid?(:new) # => false
+    def valid?: (?untyped? context) -> untyped
+
+    alias validate valid?
+
+    # Performs the opposite of <tt>valid?</tt>. Returns +true+ if errors were
+    # added, +false+ otherwise.
+    #
+    #   class Person
+    #     include ActiveModel::Validations
+    #
+    #     attr_accessor :name
+    #     validates_presence_of :name
+    #   end
+    #
+    #   person = Person.new
+    #   person.name = ''
+    #   person.invalid? # => true
+    #   person.name = 'david'
+    #   person.invalid? # => false
+    #
+    # Context can optionally be supplied to define which callbacks to test
+    # against (the context is defined on the validations using <tt>:on</tt>).
+    #
+    #   class Person
+    #     include ActiveModel::Validations
+    #
+    #     attr_accessor :name
+    #     validates_presence_of :name, on: :new
+    #   end
+    #
+    #   person = Person.new
+    #   person.invalid?       # => false
+    #   person.invalid?(:new) # => true
+    def invalid?: (?untyped? context) -> untyped
+
+    # Runs all the validations within the specified context. Returns +true+ if
+    # no errors are found, raises +ValidationError+ otherwise.
+    #
+    # Validations with no <tt>:on</tt> option will run no matter the context. Validations with
+    # some <tt>:on</tt> option will only run in the specified context.
+    def validate!: (?untyped? context) -> untyped
+
+    # Hook method defining how an attribute value should be retrieved. By default
+    # this is assumed to be an instance named after the attribute. Override this
+    # method in subclasses should you need to retrieve the value for a given
+    # attribute differently:
+    #
+    #   class MyClass
+    #     include ActiveModel::Validations
+    #
+    #     def initialize(data = {})
+    #       @data = data
+    #     end
+    #
+    #     def read_attribute_for_validation(key)
+    #       @data[key]
+    #     end
+    #   end
+    alias read_attribute_for_validation send
+
+    private
+
+    def run_validations!: () -> untyped
+
+    def raise_validation_error: () -> untyped
+  end
+
+  # = Active Model ValidationError
+  #
+  # Raised by <tt>validate!</tt> when the model is invalid. Use the
+  # +model+ method to retrieve the record which did not validate.
+  #
+  #   begin
+  #     complex_operation_that_internally_calls_validate!
+  #   rescue ActiveModel::ValidationError => invalid
+  #     puts invalid.model.errors
+  #   end
+  class ValidationError < StandardError
+    attr_reader model: untyped
+
+    def initialize: (untyped model) -> untyped
+  end
+end
+
+module ActiveModel
+  # == Active \Model \Validator
+  #
+  # A simple base class that can be used along with
+  # ActiveModel::Validations::ClassMethods.validates_with
+  #
+  #   class Person
+  #     include ActiveModel::Validations
+  #     validates_with MyValidator
+  #   end
+  #
+  #   class MyValidator < ActiveModel::Validator
+  #     def validate(record)
+  #       if some_complex_logic
+  #         record.errors.add(:base, "This record is invalid")
+  #       end
+  #     end
+  #
+  #     private
+  #       def some_complex_logic
+  #         # ...
+  #       end
+  #   end
+  #
+  # Any class that inherits from ActiveModel::Validator must implement a method
+  # called +validate+ which accepts a +record+.
+  #
+  #   class Person
+  #     include ActiveModel::Validations
+  #     validates_with MyValidator
+  #   end
+  #
+  #   class MyValidator < ActiveModel::Validator
+  #     def validate(record)
+  #       record # => The person instance being validated
+  #       options # => Any non-standard options passed to validates_with
+  #     end
+  #   end
+  #
+  # To cause a validation error, you must add to the +record+'s errors directly
+  # from within the validators message.
+  #
+  #   class MyValidator < ActiveModel::Validator
+  #     def validate(record)
+  #       record.errors.add :base, "This is some custom error message"
+  #       record.errors.add :first_name, "This is some complex validation"
+  #       # etc...
+  #     end
+  #   end
+  #
+  # To add behavior to the initialize method, use the following signature:
+  #
+  #   class MyValidator < ActiveModel::Validator
+  #     def initialize(options)
+  #       super
+  #       @my_custom_field = options[:field_name] || :first_name
+  #     end
+  #   end
+  #
+  # Note that the validator is initialized only once for the whole application
+  # life cycle, and not on each validation run.
+  #
+  # The easiest way to add custom validators for validating individual attributes
+  # is with the convenient <tt>ActiveModel::EachValidator</tt>.
+  #
+  #   class TitleValidator < ActiveModel::EachValidator
+  #     def validate_each(record, attribute, value)
+  #       record.errors.add attribute, 'must be Mr., Mrs., or Dr.' unless %w(Mr. Mrs. Dr.).include?(value)
+  #     end
+  #   end
+  #
+  # This can now be used in combination with the +validates+ method
+  # (see <tt>ActiveModel::Validations::ClassMethods.validates</tt> for more on this).
+  #
+  #   class Person
+  #     include ActiveModel::Validations
+  #     attr_accessor :title
+  #
+  #     validates :title, presence: true, title: true
+  #   end
+  #
+  # It can be useful to access the class that is using that validator when there are prerequisites such
+  # as an +attr_accessor+ being present. This class is accessible via <tt>options[:class]</tt> in the constructor.
+  # To setup your validator override the constructor.
+  #
+  #   class MyValidator < ActiveModel::Validator
+  #     def initialize(options={})
+  #       super
+  #       options[:class].attr_accessor :custom_attribute
+  #     end
+  #   end
+  class Validator
+    attr_reader options: untyped
+
+    # Returns the kind of the validator.
+    #
+    #   PresenceValidator.kind   # => :presence
+    #   AcceptanceValidator.kind # => :acceptance
+    def self.kind: () -> untyped
+
+    # Accepts options that will be made available through the +options+ reader.
+    def initialize: (?::Hash[untyped, untyped] options) -> untyped
+
+    # Returns the kind for this validator.
+    #
+    #   PresenceValidator.new(attributes: [:username]).kind # => :presence
+    #   AcceptanceValidator.new(attributes: [:terms]).kind  # => :acceptance
+    def kind: () -> untyped
+
+    # Override this method in subclasses with validation logic, adding errors
+    # to the records +errors+ array where necessary.
+    def validate: (untyped record) -> untyped
+  end
+
+  class EachValidator < Validator
+    # +EachValidator+ is a validator which iterates through the attributes given
+    # in the options hash invoking the <tt>validate_each</tt> method passing in the
+    # record, attribute and value.
+    #
+    # All \Active \Model validations are built on top of this validator.
+    # nodoc:
+    attr_reader attributes: untyped
+
+    # Returns a new validator instance. All options will be available via the
+    # +options+ reader, however the <tt>:attributes</tt> option will be removed
+    # and instead be made available through the +attributes+ reader.
+    def initialize: (untyped options) -> untyped
+
+    # Performs validation on the supplied record. By default this will call
+    # +validate_each+ to determine validity therefore subclasses should
+    # override +validate_each+ with validation logic.
+    def validate: (untyped record) -> untyped
+
+    # Override this method in subclasses with the validation logic, adding
+    # errors to the records +errors+ array where necessary.
+    def validate_each: (untyped record, untyped attribute, untyped value) -> untyped
+
+    # Hook method that gets called by the initializer allowing verification
+    # that the arguments supplied are valid. You could for example raise an
+    # +ArgumentError+ when invalid options are supplied.
+    def check_validity!: () -> nil
+  end
+
+  class BlockValidator < EachValidator
+    # +BlockValidator+ is a special +EachValidator+ which receives a block on initialization
+    # and call this block for each attribute being validated. +validates_each+ uses this validator.
+    # nodoc:
+    def initialize: (untyped options) { () -> untyped } -> untyped
+
+    private
+
+    def validate_each: (untyped record, untyped attribute, untyped value) -> untyped
+  end
+end
+
+module ActiveModel
+  # Returns the version of the currently loaded \Active \Model as a <tt>Gem::Version</tt>
+  def self.version: () -> untyped
+end
+
+module ActiveModel
+  extend ActiveSupport::Autoload
+
+  module Serializers
+    extend ActiveSupport::Autoload
+  end
+
+  def self.eager_load!: () -> untyped
+end
+

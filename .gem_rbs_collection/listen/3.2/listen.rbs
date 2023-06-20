@@ -1,0 +1,25 @@
+module Listen
+  # Listens to file system modifications on a either single directory or
+  # multiple directories.
+  #
+  # @param (see Listen::Listener#new)
+  #
+  # @yield [modified, added, removed] the changed files
+  # @yieldparam [Array<String>] modified the list of modified files
+  # @yieldparam [Array<String>] added the list of added files
+  # @yieldparam [Array<String>] removed the list of removed files
+  #
+  # @return [Listen::Listener] the listener
+  #
+  def self.to: (*String dirs,
+                ?debug: bool,
+                ?wait_for_delay: Integer?,
+                ?relative: bool,
+                ?force_polling: bool,
+                ?ignore: Regexp | Array[Regexp],
+                ?ignore!: Regexp,
+                ?only: Regexp?,
+                ?polling_fallback_message: String?) {
+                  (Array[String] modified, Array[String] added, Array[String] removed) -> void
+                } -> Listener
+end

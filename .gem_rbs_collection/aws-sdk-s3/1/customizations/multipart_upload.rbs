@@ -1,0 +1,9 @@
+module Aws
+  module S3
+    class MultipartUpload
+      alias basic_complete complete
+      def complete: (?compute_parts: bool) -> Object
+                  | ...
+    end
+  end
+end

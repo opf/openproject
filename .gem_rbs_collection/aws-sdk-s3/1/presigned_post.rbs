@@ -1,0 +1,77 @@
+module Aws
+  module S3
+    class PresignedPost
+      type allow_any = (String | Array[String])
+      type metadata = Hash[_ToS, String]
+      type success_action_status = ("200" | "201" | "204")
+      type storage_class = ("STANDARD" | "REDUCED_REDUNDANCY")
+      type options = {
+        use_accelerate_endpoint: bool?,
+        url: String?,
+        allow_any: allow_any?,
+        signature_expiration: Time?,
+        key: String?,
+        key_starts_with: String?,
+        acl: Types::object_canned_acl?,
+        acl_starts_with: String?,
+        cache_control: String?,
+        cache_control_starts_with: String?,
+        content_type: String?,
+        content_type_starts_with: String?,
+        content_disposition: String?,
+        content_disposition_starts_with: String?,
+        content_encoding: String?,
+        content_encoding_starts_with: String?,
+        expires: Time?,
+        expires_starts_with: String?,
+        content_length_range: Range[Integer]?,
+        success_action_redirect: String?,
+        success_action_redirect_starts_with: String?,
+        success_action_status: success_action_status?,
+        storage_class: storage_class?,
+        website_redirect_location: String?,
+        metadata: metadata?,
+        metadata_starts_with: metadata?,
+        server_side_encryption: Types::server_side_encryption?,
+        server_side_encryption_aws_kms_key_id: String?,
+        server_side_encryption_customer_algorithm: String?,
+        server_side_encryption_customer_key: String?,
+        server_side_encryption_customer_key_starts_with: String?
+      }
+      def initialize: (untyped credentials, String bucket_region, String bucket_name, ?options) -> void
+
+      attr_reader url: String
+
+      def fields: () -> Hash[String, String]
+      def allow_any: (*allow_any) -> self
+
+      def key: (String) -> self
+      def key_starts_with: (String) -> self
+      def acl: (Types::object_canned_acl) -> self
+      def acl_starts_with: (String) -> self
+      def cache_control: (String) -> self
+      def cache_control_starts_with: (String) -> self
+      def content_type: (String) -> self
+      def content_type_starts_with: (String) -> self
+      def content_disposition: (String) -> self
+      def content_disposition_starts_with: (String) -> self
+      def content_encoding: (String) -> self
+      def content_encoding_starts_with: (String) -> self
+      def expires: (Time) -> self
+      def expires_starts_with: (String) -> self
+      def content_length_range: (Range[Integer]) -> self
+      def success_action_redirect: (String) -> self
+      def success_action_redirect_starts_with: (String) -> self
+      def success_action_status: (success_action_status) -> self
+      def storage_class: (storage_class) -> self
+      def website_redirect_location: (String) -> self
+      def metadata: (metadata) -> self
+      def metadata_starts_with: (metadata) -> self
+      def server_side_encryption: (Types::server_side_encryption) -> self
+      def server_side_encryption_aws_kms_key_id: (String) -> self
+      def server_side_encryption_customer_algorithm: (String) -> self
+      def server_side_encryption_customer_key: (String) -> self
+      def server_side_encryption_customer_key_starts_with: (String) -> self
+    end
+  end
+end

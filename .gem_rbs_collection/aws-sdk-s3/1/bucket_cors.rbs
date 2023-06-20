@@ -1,0 +1,53 @@
+# WARNING ABOUT GENERATED CODE
+#
+# This file is generated. See the generator README.md for more information:
+# https://github.com/ruby/gem_rbs_collection/blob/main/generators/aws-sdk-rbs-generator/README.md
+#
+# WARNING ABOUT GENERATED CODE
+
+module Aws
+  module S3
+    class BucketCors
+      # identifiers
+
+      def initialize: (bucket_name: String, ?client: Client, **untyped) -> void
+      def bucket_name: () -> String
+
+      # data_attribute
+
+      def cors_rules: () -> Types::cors_rules_output
+
+      # client_method
+
+      def client: () -> Client
+
+      # load_method
+
+      def load: () -> self
+      alias reload load
+
+      # data_method
+
+      def data: () -> Types::GetBucketCorsOutput
+
+      def data_loaded?: () -> bool
+
+      # waiters
+
+
+      # actions
+
+      def delete: (?expected_bucket_owner: Types::account_id) -> EmptyStructure
+      def put: (cors_configuration: Types::cors_configuration, ?content_md5: Types::content_md5, ?checksum_algorithm: Types::checksum_algorithm, ?expected_bucket_owner: Types::account_id) -> EmptyStructure
+
+      # associations
+
+      def bucket: () -> Bucket
+
+      # batch_actions
+
+      class Collection < ::Aws::Resources::Collection[BucketCors]
+      end
+    end
+  end
+end

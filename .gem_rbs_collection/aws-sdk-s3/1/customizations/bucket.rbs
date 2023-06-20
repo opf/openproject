@@ -1,0 +1,12 @@
+module Aws
+  module S3
+    class Bucket
+      def clear!: () -> void
+      def delete!: (?max_attempts: Integer, ?initial_wait: Float) -> void
+      def url: (?virtual_host: false?, ?secure: bool) -> String
+             | (virtual_host: true, secure: bool) -> String
+
+      def presigned_post: (?PresignedPost::options) -> PresignedPost
+    end
+  end
+end

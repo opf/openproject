@@ -1,0 +1,93 @@
+module ActionController
+  class Metal
+    # It is necessary to satisfy alias target.
+    # TODO: Define this method to correct place.
+    def status: -> untyped
+  end
+
+  class LiveTestResponse < Live::Response
+    # It is necessary to satisfy alias target.
+    # TODO: Define this method to correct place.
+    def successful?: -> untyped
+    def not_found?: -> untyped
+    def server_error?: -> untyped
+  end
+end
+
+module ActionDispatch
+  class Response
+    # It is necessary to satisfy alias target.
+    # TODO: Define this method to correct place.
+    attr_accessor cache_control: untyped
+  end
+end
+
+# Remove the fake types for Capybara
+# if the real types are available.
+module Capybara
+  module DSL
+  end
+
+  module Minitest
+    module Assertions
+    end
+  end
+
+  module Poltergeist
+    class Driver
+    end
+  end
+end
+
+# Remove the fake types for Minitest
+# if the real types are available.
+module Minitest
+  module Assertions
+  end
+end
+
+# Remove the fake types for Racc
+# if the real types are available.
+module Racc
+  class Parser
+  end
+end
+
+# Remove the fake types for Rack
+# if the real types are available.
+module Rack
+  module Session
+    class Dalli
+    end
+  end
+
+  module Cache
+    class MetaStore
+    end
+
+    class EntityStore
+    end
+  end
+
+  module Test
+    class UploadedFile
+    end
+  end
+end
+
+# Remove the fake types for Gem::Version
+# if the real types are available.
+module Gem
+  class Version
+  end
+end
+
+# Remove the fake types for SimpleDelegator
+# if the real types are available.
+class SimpleDelegator
+end
+
+module Rails
+  class Engine
+  end
+end

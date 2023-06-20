@@ -1,0 +1,10 @@
+module Seahorse
+  module Client
+    module HandlerBuilder
+      def handle_request: (*untyped) { (untyped context) -> void } -> untyped
+      def handle_response: (*untyped) { (untyped resp) -> void } -> untyped
+      def handle: (*untyped) ?{ (untyped context) -> void } -> untyped
+      alias handler handle
+    end
+  end
+end

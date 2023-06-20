@@ -1,0 +1,86 @@
+module Parallel
+  class Break < StandardError
+    attr_reader value: untyped
+
+    def initialize: (?untyped value) -> void
+  end
+
+  class Kill < Break
+  end
+
+  type stop = Object
+  Stop: stop
+
+  VERSION: String
+
+  Version: String
+
+  type callable_source[T] = ^() -> (T | stop)
+
+  def self.all?: [T] (Enumerable[T] | callable_source[T] source,
+                      ?in_processes: Integer,
+                      ?in_threads: Integer,
+                      ?progress: _ToStr,
+                      ?start: ^(T item, Integer index) -> void,
+                      ?finish: ^(T item, Integer index, boolish result) -> void) { (T) -> boolish } -> bool
+
+  def self.any?: [T] (Enumerable[T] | callable_source[T] source,
+                      ?in_processes: Integer,
+                      ?in_threads: Integer,
+                      ?progress: _ToStr,
+                      ?start: ^(T item, Integer index) -> void,
+                      ?finish: ^(T item, Integer index, boolish result) -> void) { (T) -> boolish } -> bool
+
+  def self.each: [T, U] (Enumerable[T] source,
+                         ?in_processes: Integer,
+                         ?in_threads: Integer,
+                         ?progress: _ToStr,
+                         ?start: ^(T item, Integer index) -> void,
+                         ?finish: ^(T item, Integer index, U result) -> void) { (T) -> U } -> Enumerable[U]
+               | [T, U] (callable_source[T] source,
+                         ?in_processes: Integer,
+                         ?in_threads: Integer,
+                         ?progress: _ToStr,
+                         ?start: ^(T item, Integer index) -> void,
+                         ?finish: ^(T item, Integer index, U result) -> void) { (T) -> U } -> callable_source[T]
+
+  def self.each_with_index: [T, U] (Enumerable[T] source,
+                                    ?in_processes: Integer,
+                                    ?in_threads: Integer,
+                                    ?progress: _ToStr,
+                                    ?start: ^(T item, Integer index) -> void,
+                                    ?finish: ^(T item, Integer index, U result) -> void) { (T, Integer) -> U } -> Enumerable[T]
+                          | [T, U] (callable_source[T] array,
+                                    ?in_processes: Integer,
+                                    ?in_threads: Integer,
+                                    ?progress: _ToStr,
+                                    ?start: ^(T item, Integer index) -> void,
+                                    ?finish: ^(T item, Integer index, U result) -> void) { (T, Integer) -> U } -> callable_source[U]
+
+  def self.flat_map: [T, U] (Enumerable[T] | callable_source[T] src,
+                             ?in_processes: Integer,
+                             ?in_threads: Integer,
+                             ?progress: _ToStr,
+                             ?start: ^(T item, Integer index) -> void,
+                             ?finish: ^(T item, Integer index, U result) -> void) { (T) -> U } -> Array[U]
+
+  def self.map: [T, U] (Enumerable[T] | callable_source[T] | Thread::Queue source,
+                        ?in_processes: Integer,
+                        ?in_threads: Integer,
+                        ?progress: _ToStr,
+                        ?start: ^(T item, Integer index) -> void,
+                        ?finish: ^(T item, Integer index, U result) -> void) { (T) -> U } -> Array[U]
+
+  def self.map_with_index: [T, U] (Enumerable[T] | callable_source[T] source,
+                                   ?in_processes: Integer,
+                                   ?in_threads: Integer,
+                                   ?progress: _ToStr,
+                                   ?start: ^(T item, Integer index) -> untyped,
+                                   ?finish: ^(T item, Integer index, U result) -> untyped) { (T, Integer) -> U } -> Array[U]
+
+  def self.physical_processor_count: () -> Integer
+
+  def self.processor_count: () -> Integer
+
+  def self.worker_number: () -> Integer
+end
