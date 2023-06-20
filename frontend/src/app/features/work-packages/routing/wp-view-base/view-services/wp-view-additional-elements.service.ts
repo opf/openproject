@@ -42,7 +42,6 @@ import { RelationResource } from 'core-app/features/hal/resources/relation-resou
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { WorkPackageViewHierarchiesService } from './wp-view-hierarchy.service';
 import { WorkPackageViewColumnsService } from './wp-view-columns.service';
-import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class WorkPackageViewAdditionalElementsService {
