@@ -1735,6 +1735,7 @@ en:
   label_hierarchy_leaf: "Hierarchy leaf"
   label_home: "Home"
   label_subject_or_id: "Subject or ID"
+  label_icalendar: "iCalendar"
   label_impressum: "Legal notice"
   label_in: "in"
   label_in_less_than: "in less than"
@@ -2627,7 +2628,7 @@ en:
   setting_enabled_scm: "Enabled SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Enable Feeds"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_host_name: "Host name"
@@ -2692,11 +2693,6 @@ en:
   setting_working_days: "Working days"
 
   settings:
-    general: "General"
-    other: "Other"
-    passwords: "Passwords"
-    session: "Session"
-    brute_force_prevention: "Automated user blocking"
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files.
@@ -2705,9 +2701,7 @@ en:
         <br/>
         Leave empty to allow any file type to be uploaded.
         Multiple values allowed (one line for each value).
-    notifications:
-      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+    brute_force_prevention: "Automated user blocking"
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set,
@@ -2715,13 +2709,7 @@ en:
       first_week_of_year_text: >
         Select the date of January that is contained in the first week of the year.
         This value together with first day of the week determines the total number of weeks in a year.
-    projects:
-      section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
-    user:
-      default_preferences: "Default preferences"
-      display_format: "Display format"
-      deletion: "Deletion"
+    general: "General"
     highlighting:
       mode_long:
         inline: "Highlight attribute(s) inline"
@@ -2729,9 +2717,28 @@ en:
         status: "Entire row by Status"
         type: "Entire row by Type"
         priority: "Entire row by Priority"
+    icalendar:
+      enable_subscriptions_text: >
+        Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+      note_text: >
+        Note: Please read about iCalendar subscriptions to understand potential security risks before enabling this.
+    notifications:
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+    other: "Other"
+    passwords: "Passwords"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
+    session: "Session"
+    user:
+      default_preferences: "Default preferences"
+      display_format: "Display format"
+      deletion: "Deletion"
     working_days:
       section_work_week: "Work week"
       section_holidays_and_closures: "Holidays and closures"
+
   text_formatting:
     markdown: 'Markdown'
     plain: 'Plain text'
