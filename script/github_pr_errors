@@ -16,6 +16,7 @@ GITHUB_API_OPENPROJECT_PREFIX = 'https://api.github.com/repos/opf/openproject'.f
 GITHUB_HTML_OPENPROJECT_PREFIX = 'https://github.com/opf/openproject'.freeze
 RAILS_ROOT = Pathname.new(__dir__).dirname
 SPEC_PATTERN = %r{^\S+ (?:rspec (\S+) #.+|An error occurred while loading (\S+)\.\r?)$}
+EXCLUDED_JOB_NAMES = %w[eslint rubocop]
 
 if !ENV['GITHUB_USERNAME']
   raise "Missing GITHUB_USERNAME env"
@@ -267,7 +268,7 @@ get_jobs(workflow_run)
   .sort_by { _1['name'] }
   .each { |job| warn "    #{status_line(job)}" }
   .select { _1['conclusion'] == 'failure' }
-  .reject { _1['name'] == 'rubocop' }
+  .reject { EXCLUDED_JOB_NAMES.include?(_1['name']) }
   .each do |job|
     is_successful = false
     get_log(job)
