@@ -54,7 +54,7 @@ class User < Principal
      dependent: :destroy,
      inverse_of: :user
   has_one :rss_token, class_name: "::Token::RSS", dependent: :destroy
-  has_one :api_token, class_name: "::Token::API", dependent: :destroy
+  has_many :api_tokens, class_name: "::Token::API", dependent: :destroy
 
   # The user might have one invitation token
   has_one :invitation_token, class_name: "::Token::Invitation", dependent: :destroy
@@ -157,6 +157,7 @@ class User < Principal
   def self.unique_attribute
     :login
   end
+
   prepend ::Mixins::UniqueFinder
 
   def current_password
@@ -279,12 +280,12 @@ class User < Principal
     # Don't forget to check columns_for_name
     case formatter || Setting.user_format
 
-    when :firstname_lastname      then "#{firstname} #{lastname}"
-    when :lastname_firstname      then "#{lastname} #{firstname}"
-    when :lastname_n_firstname    then "#{lastname}#{firstname}"
+    when :firstname_lastname then "#{firstname} #{lastname}"
+    when :lastname_firstname then "#{lastname} #{firstname}"
+    when :lastname_n_firstname then "#{lastname}#{firstname}"
     when :lastname_coma_firstname then "#{lastname}, #{firstname}"
-    when :firstname               then firstname
-    when :username                then login
+    when :firstname then firstname
+    when :username then login
 
     else
       "#{firstname} #{lastname}"
@@ -344,7 +345,7 @@ class User < Principal
   # Does the backend storage allow this user to change their password?
   def change_password_allowed?
     return false if uses_external_authentication? ||
-                    OpenProject::Configuration.disable_password_login?
+      OpenProject::Configuration.disable_password_login?
 
     ldap_auth_source_id.blank?
   end
@@ -376,7 +377,7 @@ class User < Principal
     return false if block_threshold == 0 # disabled
 
     last_failed_login_within_block_time? and
-            failed_login_count >= block_threshold
+      failed_login_count >= block_threshold
   end
 
   def log_failed_login
@@ -526,22 +527,23 @@ class User < Principal
   # Returns the anonymous user.  If the anonymous user does not exist, it is created.  There can be only
   # one anonymous user per database.
   def self.anonymous # rubocop:disable Metrics/AbcSize
-    RequestStore[:anonymous_user] ||= begin
-      anonymous_user = AnonymousUser.first
+    RequestStore[:anonymous_user] ||=
+      begin
+        anonymous_user = AnonymousUser.first
 
-      if anonymous_user.nil?
-        (anonymous_user = AnonymousUser.new.tap do |u|
-          u.lastname = "Anonymous"
-          u.login = ""
-          u.firstname = ""
-          u.mail = ""
-          u.status = User.statuses[:active]
-        end).save
+        if anonymous_user.nil?
+          (anonymous_user = AnonymousUser.new.tap do |u|
+            u.lastname = "Anonymous"
+            u.login = ""
+            u.firstname = ""
+            u.mail = ""
+            u.status = User.statuses[:active]
+          end).save
 
-        raise "Unable to create the anonymous user." if anonymous_user.new_record?
+          raise "Unable to create the anonymous user." if anonymous_user.new_record?
+        end
+        anonymous_user
       end
-      anonymous_user
-    end
   end
 
   def self.system
