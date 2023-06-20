@@ -42,6 +42,7 @@ import { RelationResource } from 'core-app/features/hal/resources/relation-resou
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { WorkPackageViewHierarchiesService } from './wp-view-hierarchy.service';
 import { WorkPackageViewColumnsService } from './wp-view-columns.service';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class WorkPackageViewAdditionalElementsService {
@@ -75,12 +76,14 @@ export class WorkPackageViewAdditionalElementsService {
       .apiV3Service
       .work_packages
       .requireAll(wpIds)
-      .then(() => {
-        this.querySpace.additionalRequiredWorkPackages.putValue(null, 'All required work packages are loaded');
-      })
-      .catch((e) => {
-        this.querySpace.additionalRequiredWorkPackages.putValue(null, 'Failure loading required work packages');
-        this.notificationService.handleRawError(e);
+      .subscribe({
+        next: () => {
+          this.querySpace.additionalRequiredWorkPackages.putValue(null, 'All required work packages are loaded');
+        },
+        error: (e:Error) => {
+          this.querySpace.additionalRequiredWorkPackages.putValue(null, 'Failure loading required work packages');
+          this.notificationService.handleRawError(e);
+        },
       });
   }
 

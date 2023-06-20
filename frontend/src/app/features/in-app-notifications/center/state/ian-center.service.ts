@@ -26,7 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
+import {
+  Injectable,
+  Injector,
+} from '@angular/core';
 import {
   debounceTime,
   defaultIfEmpty,
@@ -40,17 +43,24 @@ import {
   tap,
 } from 'rxjs/operators';
 import {
+  firstValueFrom,
   forkJoin,
   from,
   Observable,
   Subject,
 } from 'rxjs';
-import { ID, Query } from '@datorama/akita';
+import {
+  ID,
+  Query,
+} from '@datorama/akita';
 import { UIRouterGlobals } from '@uirouter/core';
 import { StateService } from '@uirouter/angular';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { IToast, ToastService } from 'core-app/shared/components/toaster/toast.service';
+import {
+  IToast,
+  ToastService,
+} from 'core-app/shared/components/toaster/toast.service';
 import {
   centerUpdatedInPlace,
   markNotificationsAsRead,
@@ -59,7 +69,10 @@ import {
   notificationsMarkedRead,
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
 import { INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
-import { EffectCallback, EffectHandler } from 'core-app/core/state/effects/effect-handler.decorator';
+import {
+  EffectCallback,
+  EffectHandler,
+} from 'core-app/core/state/effects/effect-handler.decorator';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -76,7 +89,10 @@ import {
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { DeviceService } from 'core-app/core/browser/device.service';
-import { ApiV3ListFilter, ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import {
+  ApiV3ListFilter,
+  ApiV3ListParameters,
+} from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 
 @Injectable()
 @EffectHandler
@@ -371,10 +387,12 @@ export class IanCenterService extends UntilDestroyedMixin {
       })
       .filter((id) => id && cache.stale(id)) as string[];
 
-    const promise = this
-      .apiV3Service
-      .work_packages
-      .requireAll(_.compact(wpIds));
+    const promise = firstValueFrom(
+      this
+        .apiV3Service
+        .work_packages
+        .requireAll(_.compact(wpIds)),
+    );
 
     wpIds.forEach((id) => {
       cache.clearAndLoad(

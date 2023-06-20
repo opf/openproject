@@ -26,7 +26,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Observable } from 'rxjs';
+import {
+  forkJoin,
+  from,
+  Observable,
+  of,
+  switchMap,
+} from 'rxjs';
 import { ApiV3WorkPackagePaths } from 'core-app/core/apiv3/endpoints/work_packages/api-v3-work-package-paths';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
@@ -42,13 +48,16 @@ import {
   ApiV3FilterValueType,
   ApiV3Filter,
 } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { filter } from 'rxjs/operators';
 
 export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource, ApiV3WorkPackagePaths, WorkPackageCache> {
   // Base path
   public readonly path:string;
 
-  constructor(readonly apiRoot:ApiV3Service,
-    protected basePath:string) {
+  constructor(
+    readonly apiRoot:ApiV3Service,
+    protected basePath:string,
+  ) {
     super(apiRoot, basePath, 'work_packages', ApiV3WorkPackagePaths);
   }
 
@@ -63,30 +72,38 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
    *
    * @param ids
    */
-  public requireAll(ids:string[]):Promise<unknown> {
+  public requireAll(ids:string[]):Observable<WorkPackageResource[]> {
     if (ids.length === 0) {
-      return Promise.resolve();
+      return of([]);
     }
 
-    return new Promise<undefined>((resolve, reject) => {
-      this
-        .loadCollectionsFor(_.uniq(ids))
-        .then((pagedResults:WorkPackageCollectionResource[]) => {
-          _.each(pagedResults, (results) => {
-            if (results.schemas) {
+    const unique = _.uniq(ids);
+    return from(this.loadCollectionsFor(unique))
+      .pipe(
+        switchMap(
+          (pagedResults:WorkPackageCollectionResource[]) => {
+            _.each(pagedResults, (results) => {
               _.each(results.schemas.elements, (schema:SchemaResource) => {
+                // Get the schema cache object and insert a cached "schema" here.
                 this.states.schemas.get(schema.href as string).putValue(schema);
               });
-            }
 
-            if (results.elements) {
               this.cache.updateWorkPackageList(results.elements);
-            }
-          });
+            });
 
-          resolve(undefined);
-        }, reject);
-    });
+            return forkJoin(
+              unique
+                .map(
+                  (id) => this.cache
+                    .observe(id)
+                    .pipe(
+                      filter((state) => !!state),
+                    ),
+                ),
+            );
+          },
+        ),
+      );
   }
 
   /**
@@ -104,7 +121,9 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
       );
   }
 
-  filtered<R = ApiV3GettableResource<WorkPackageCollectionResource>>(filters:ApiV3FilterBuilder, params:{ [p:string]:string } = {}):R {
+  filtered<R = ApiV3GettableResource<WorkPackageCollectionResource>>(filters:ApiV3FilterBuilder, params:{
+    [p:string]:string
+  } = {}):R {
     return super.filtered(filters, params, ApiV3WorkPackageCachedSubresource) as any;
   }
 
@@ -114,7 +133,9 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
    * @param idOnly
    * @param additionalParams Additional set of params to the API
    */
-  public filterByTypeaheadOrId(term:string, idOnly = false, additionalParams:{ [key:string]:string } = {}):ApiV3WorkPackageCachedSubresource {
+  public filterByTypeaheadOrId(term:string, idOnly = false, additionalParams:{
+    [key:string]:string
+  } = {}):ApiV3WorkPackageCachedSubresource {
     const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
 
     if (idOnly) {
