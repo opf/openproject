@@ -22,3 +22,5 @@ gems:
     ignore: true
   - name: rbs_rails
     ignore: true
+  - name: meta-tags
+    ignore: true

@@ -203,10 +203,6 @@ gems:
   version: 0.0.18
   source:
     type: rubygems
-- name: meta-tags
-  version: 2.18.0
-  source:
-    type: rubygems
 - name: minitest
   version: '0'
   source:
