@@ -25,15 +25,10 @@
       document: "Dokument"
   activity:
     filter:
-      document: "Documents"
+      document: "Dokumenter"
   default_doc_category_tech: "Teknisk dokumentasjon"
   default_doc_category_user: "Brukerdokumentasjon"
   enumeration_doc_categories: "Dokumentkategorier"
-  enumeration:
-    document_category:
-      documentation: Dokumentasjon
-      specification: Spesifikasjon
-      other: Andre
   documents:
     label_attachment_author: "Attachment author"
   label_document_added: "Dokument lagt til"

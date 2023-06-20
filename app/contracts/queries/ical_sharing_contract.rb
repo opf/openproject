@@ -35,9 +35,13 @@ module Queries
     protected
 
     def user_allowed_to_subscribe_to_query_via_ical
-      return if user_allowed_to_use_ical_sharing? && query_visible_for_user? && token_valid_for_query?
+      return if ical_globally_enabled? && user_allowed_to_use_ical_sharing? && query_visible_for_user? && token_valid_for_query?
 
       errors.add :base, :error_unauthorized
+    end
+
+    def ical_globally_enabled?
+      Setting.ical_enabled?
     end
 
     def user_allowed_to_use_ical_sharing?

@@ -25,7 +25,7 @@
       cost_entry:
         work_package: "Arbeidspakke"
         overridden_costs: "Overridden costs"
-        spent: "Spent"
+        spent: "Brukt"
         spent_on: "Dato"
       cost_type:
         unit: "Unit name"
@@ -43,7 +43,7 @@
         default_rates: "Default rates"
     models:
       cost_type:
-        one: "Cost type"
+        one: "Type kostnader"
         other: "Cost types"
       rate: "Rate"
     errors:
@@ -53,7 +53,7 @@
           nullify_is_not_valid_for_cost_entries: "Cost entries can not be assigned to a project."
   attributes:
     comment: "Kommentar"
-    cost_type: "Cost type"
+    cost_type: "Type kostnader"
     costs: "Costs"
     current_rate: "Current rate"
     hours: "Timer"
@@ -130,7 +130,7 @@
   permission_view_own_cost_entries: "View own booked costs"
   permission_view_own_hourly_rate: "View own hourly rate"
   permission_view_own_time_entries: "View own spent time"
-  project_module_costs: "Time and costs"
+  project_module_costs: "Tid og kostnader"
   text_assign_time_and_cost_entries_to_project: "Assign reported hours and costs to the project"
   text_destroy_cost_entries_question: "%{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?"
   text_destroy_time_and_cost_entries: "Delete reported hours and costs"

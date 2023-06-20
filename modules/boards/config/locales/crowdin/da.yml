@@ -7,12 +7,12 @@ da:
     label_board: "Board"
     label_boards: "Boards"
     board_types:
-      free: Basic
+      free: Grundlæggende
       action: "Action board (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
+      assignee: Tildelt
       status: Status
       version: Version
-      subproject: Subproject
+      subproject: Underprojekt
       subtasks: Parent-child
-      basic: Basic
+      basic: Grundlæggende

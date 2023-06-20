@@ -23,5 +23,5 @@ hi:
   js:
     work_packages:
       properties:
-        storyPoints: "Story Points"
-        remainingTime: "Remaining hours"
+        storyPoints: "कहानी अंक"
+        remainingTime: "बाकी बचे घंटे"

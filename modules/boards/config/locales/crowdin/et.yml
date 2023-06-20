@@ -10,9 +10,9 @@ et:
       free: Basic
       action: "Action board (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
-      status: Status
-      version: Version
-      subproject: Subproject
+      assignee: Määratud tegija
+      status: Olek
+      version: Versioon
+      subproject: Alamprojekt
       subtasks: Parent-child
       basic: Basic

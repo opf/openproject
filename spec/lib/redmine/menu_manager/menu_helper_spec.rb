@@ -52,7 +52,7 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
   describe '#render_single_menu_node' do
     let(:item) { Redmine::MenuManager::MenuItem.new(:testing, '/test', caption: 'This is a test') }
     let(:expected) do
-      <<~HTML.squish
+      <<~HTML
         <a class="testing-menu-item op-menu--item-action" title="This is a test" data-qa-selector="op-menu--item-action" href="/test">
           <span class="op-menu--item-title">
             <span class="ellipsis">This is a test</span>
@@ -73,7 +73,7 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
 
       let(:expected) do
         <<~HTML.squish
-          <li data-name="single_node">
+          <li class="main-menu-item" data-name="single_node">
             <a class="single-node-menu-item op-menu--item-action" title="Single node" data-qa-selector="op-menu--item-action" href="/test">
               <span class="op-menu--item-title">
                 <span class="ellipsis">Single node</span>
@@ -102,38 +102,56 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
 
       let(:expected) do
         <<~HTML.squish
-          <li data-name="parent_node">
-            <a class="parent-node-menu-item op-menu--item-action" title="Parent node" data-qa-selector="op-menu--item-action" href="/test">
-              <span class="op-menu--item-title">
-                <span class="ellipsis">
-                  Parent node
+          <li data-name="parent_node" data-menus--main-target="item">
+            <div class="main-item-wrapper" id="parent_node-wrapper">
+              <a class="parent-node-menu-item op-menu--item-action" title="Parent node" data-qa-selector="op-menu--item-action"
+                 href="/test">
+                <span class="op-menu--item-title">
+                <span class="ellipsis">Parent node</span>
                 </span>
-              </span>
-            </a>
+              </a>
+              <button class="toggler main-menu-toggler" type="button" data-action="menus--main#descend">
+                <span class="spot-icon spot-icon_1 spot-icon_arrow-right3"></span>
+              </button>
+            </div>
+            <div class="main-menu--children-menu-header">
+              <a title="Up" class="main-menu--arrow-left-to-project" data-action="menus--main#ascend">
+                <span class="spot-icon spot-icon_1_25 spot-icon_arrow-left1"></span>
+              </a>
+              <a class="main-menu--parent-node ellipsis" href="/test">Parent node</a>
+            </div>
             <ul class="main-menu--children">
-              <li data-name="child_one_node">
-                <a class="child-one-node-menu-item op-menu--item-action" title="Child one node" data-qa-selector="op-menu--item-action" href="/test">
+              <li class="main-menu-item" data-name="child_one_node">
+                <a class="child-one-node-menu-item op-menu--item-action"
+                   title="Child one node"
+                   data-qa-selector="op-menu--item-action" href="/test">
                   <span class="op-menu--item-title">
                     <span class="ellipsis">Child one node</span>
                   </span>
                 </a>
               </li>
-              <li data-name="child_two_node">
-                <a class="child-two-node-menu-item op-menu--item-action" title="Child two node" data-qa-selector="op-menu--item-action" href="/test">
+              <li class="main-menu-item" data-name="child_two_node">
+                <a class="child-two-node-menu-item op-menu--item-action"
+                   title="Child two node"
+                   data-qa-selector="op-menu--item-action" href="/test">
                   <span class="op-menu--item-title">
                     <span class="ellipsis">Child two node</span>
                   </span>
                 </a>
               </li>
-              <li data-name="child_three_node">
-                <a class="child-three-node-menu-item op-menu--item-action" title="Child three node" data-qa-selector="op-menu--item-action" href="/test">
+              <li class="main-menu-item" data-name="child_three_node">
+                <a class="child-three-node-menu-item op-menu--item-action"
+                   title="Child three node"
+                   data-qa-selector="op-menu--item-action"
+                   href="/test">
                   <span class="op-menu--item-title">
                     <span class="ellipsis">Child three node</span>
                   </span>
                 </a>
               </li>
-              <li data-name="child_three_inner_node">
-                <a class="child-three-inner-node-menu-item op-menu--item-action" title="Child three inner node" data-qa-selector="op-menu--item-action" href="/test">
+              <li class="main-menu-item" data-name="child_three_inner_node">
+                <a class="child-three-inner-node-menu-item op-menu--item-action" title="Child three inner node"
+                   data-qa-selector="op-menu--item-action" href="/test">
                   <span class="op-menu--item-title">
                     <span class="ellipsis">Child three inner node</span>
                   </span>
@@ -174,29 +192,29 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
 
       let(:expected) do
         <<~HTML.squish
-          <li data-name="parent_node">
-            <a class="parent-node-menu-item op-menu--item-action" title="Parent node" data-qa-selector="op-menu--item-action" href="/test">
-              <span class="op-menu--item-title">
-                <span class="ellipsis">Parent node</span>
-              </span>
-            </a>
-
+          <li data-name="parent_node" data-menus--main-target="item">
+            <div class="main-item-wrapper" id="parent_node-wrapper">
+              <a class="parent-node-menu-item op-menu--item-action"
+                 title="Parent node" data-qa-selector="op-menu--item-action"
+                 href="/test">
+                <span class="op-menu--item-title">
+                  <span class="ellipsis">Parent node</span>
+                </span>
+              </a>
+              <button class="toggler main-menu-toggler" type="button" data-action="menus--main#descend">
+                <span class="spot-icon spot-icon_1 spot-icon_arrow-right3"></span>
+              </button>
+            </div>
+            <div class="main-menu--children-menu-header">
+              <a title="Up" class="main-menu--arrow-left-to-project"
+                 data-action="menus--main#ascend">
+                <span class="spot-icon spot-icon_1_25 spot-icon_arrow-left1"></span>
+              </a>
+              <a class="main-menu--parent-node ellipsis" href="/test">Parent node</a></div>
             <ul class="main-menu--children unattached">
-              <li>
-                <a class="test-child-0-menu-item" href="/test">
-                  Test child 0
-                </a>
-              </li>
-              <li>
-                <a class="test-child-1-menu-item" href="/test">
-                  Test child 1
-                </a>
-              </li>
-              <li>
-                <a class="test-child-2-menu-item" href="/test">
-                  Test child 2
-                </a>
-              </li>
+              <li><a class="test-child-0-menu-item" href="/test">Test child 0</a></li>
+              <li><a class="test-child-1-menu-item" href="/test">Test child 1</a></li>
+              <li><a class="test-child-2-menu-item" href="/test">Test child 2</a></li>
             </ul>
           </li>
         HTML
@@ -247,71 +265,66 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
 
       let(:expected) do
         <<~HTML.squish
-          <li data-name="parent_node">
-            <a class="parent-node-menu-item op-menu--item-action" title="Parent node" data-qa-selector="op-menu--item-action" href="/test">
-              <span class="op-menu--item-title">
-                <span class="ellipsis">Parent node</span>
-              </span>
-            </a>
-
+           <li data-name="parent_node" data-menus--main-target="item">
+            <div class="main-item-wrapper" id="parent_node-wrapper">
+              <a class="parent-node-menu-item op-menu--item-action"
+                 title="Parent node" data-qa-selector="op-menu--item-action"
+                 href="/test">
+                <span class="op-menu--item-title">
+                  <span class="ellipsis">Parent node</span>
+                </span>
+              </a>
+              <button class="toggler main-menu-toggler" type="button" data-action="menus--main#descend">
+                <span class="spot-icon spot-icon_1 spot-icon_arrow-right3"></span>
+              </button>
+            </div>
+            <div class="main-menu--children-menu-header">
+              <a title="Up" class="main-menu--arrow-left-to-project" data-action="menus--main#ascend">
+                <span class="spot-icon spot-icon_1_25 spot-icon_arrow-left1"></span>
+              </a>
+              <a class="main-menu--parent-node ellipsis" href="/test">Parent node</a></div>
             <ul class="main-menu--children">
-              <li data-name="child_node">
-                <a class="child-node-menu-item op-menu--item-action" title="Child node" data-qa-selector="op-menu--item-action" href="/test">
-                  <span class="op-menu--item-title">
-                    <span class="ellipsis">Child node</span>
-                  </span>
-                </a>
+              <li data-name="child_node" data-menus--main-target="item">
+                <div class="main-item-wrapper" id="child_node-wrapper">
+                  <a class="child-node-menu-item op-menu--item-action"
+                     title="Child node"
+                     data-qa-selector="op-menu--item-action"
+                     href="/test">
+                    <span class="op-menu--item-title">
+                      <span class="ellipsis">Child node</span>
+                    </span>
+                  </a>
+                  <button class="toggler main-menu-toggler" type="button" data-action="menus--main#descend">
+                    <span class="spot-icon spot-icon_1 spot-icon_arrow-right3"></span>
+                  </button>
+                </div>
+                <div class="main-menu--children-menu-header">
+                  <a title="Up" class="main-menu--arrow-left-to-project" data-action="menus--main#ascend">
+                    <span class="spot-icon spot-icon_1_25 spot-icon_arrow-left1"></span>
+                  </a>
+                  <a class="main-menu--parent-node ellipsis" href="/test">Child node</a>
+                </div>
                 <ul class="main-menu--children unattached">
-                  <li>
-                    <a class="test-dynamic-child-0-menu-item" href="/test">
-                      Test dynamic child 0
-                    </a>
-                  </li>
-                  <li>
-                    <a class="test-dynamic-child-1-menu-item" href="/test">
-                      Test dynamic child 1
-                    </a>
-                  </li>
-                  <li>
-                    <a class="test-dynamic-child-2-menu-item" href="/test">
-                      Test dynamic child 2
-                    </a>
-                  </li>
-                <li>
-                  <a class="test-dynamic-child-3-menu-item" href="/test">
-                    Test dynamic child 3
-                  </a>
-                </li>
-                <li>
-                  <a class="test-dynamic-child-4-menu-item" href="/test">
-                    Test dynamic child 4
-                  </a>
-                </li>
-                <li>
-                  <a class="test-dynamic-child-5-menu-item" href="/test">
-                    Test dynamic child 5
-                  </a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-
+                  <li><a class="test-dynamic-child-0-menu-item" href="/test">Test dynamic child 0</a></li>
+                  <li><a class="test-dynamic-child-1-menu-item" href="/test">Test dynamic child 1</a></li>
+                  <li><a class="test-dynamic-child-2-menu-item" href="/test">Test dynamic child 2</a></li>
+                  <li><a class="test-dynamic-child-3-menu-item" href="/test">Test dynamic child 3</a></li>
+                  <li><a class="test-dynamic-child-4-menu-item" href="/test">Test dynamic child 4</a></li>
+                  <li><a class="test-dynamic-child-5-menu-item" href="/test">Test dynamic child 5</a></li>
+                </ul>
+              </li>
+            </ul>
+            <div class="main-menu--children-menu-header">
+              <a title="Up" class="main-menu--arrow-left-to-project"
+                 data-action="menus--main#ascend">
+                <span class="spot-icon spot-icon_1_25 spot-icon_arrow-left1"></span>
+              </a>
+              <a class="main-menu--parent-node ellipsis" href="/test">Parent node</a>
+            </div>
             <ul class="main-menu--children unattached">
-              <li>
-                <a class="test-child-0-menu-item" href="/test">
-                  Test child 0
-                </a>
-              </li>
-              <li>
-                <a class="test-child-1-menu-item" href="/test">
-                  Test child 1
-                </a>
-              </li>
-              <li>
-                <a class="test-child-2-menu-item" href="/test">
-                  Test child 2
-                </a>
-              </li>
+              <li><a class="test-child-0-menu-item" href="/test">Test child 0</a></li>
+              <li><a class="test-child-1-menu-item" href="/test">Test child 1</a></li>
+              <li><a class="test-child-2-menu-item" href="/test">Test child 2</a></li>
             </ul>
           </li>
         HTML

@@ -41,7 +41,7 @@ de:
       github_actions: Aktionen
       pull_requests:
         message: >
-          Pull Request #%{pr_number} %{pr_link} für %{repository_link} wurde zu %{pr_state} von %{github_user_link}. #%{pr_number} %{pr_link} für %{repository_link} wurde zu %{pr_state} von %{github_user_link}.
+          Pull Request #%{pr_number} %{pr_link} für %{repository_link} wurde %{pr_state} von %{github_user_link}. #%{pr_number} %{pr_link} für %{repository_link} wurde %{pr_state} von %{github_user_link}.
         referenced_message: >
           %{github_user_link} hat dieses Arbeitspaket im Pull Request #%{pr_number} %{pr_link} auf %{repository_link} referenziert. #%{pr_number} %{pr_link} auf %{repository_link} referenziert.
         states:

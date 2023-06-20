@@ -27,6 +27,11 @@
 #++
 module BasicData
   class SettingSeeder < Seeder
+    self.needs = [
+      BasicData::RoleSeeder,
+      BasicData::StatusSeeder
+    ]
+
     def seed_data!
       Setting.transaction do
         settings_not_in_db.each do |setting_name|
@@ -34,6 +39,7 @@ module BasicData
 
           Setting[setting_name.to_sym] = datum
         end
+        force_default_language_setting
       end
     end
 
@@ -54,16 +60,30 @@ module BasicData
         # deviate from the defaults specified in the settings definition here
         # to set a default role. The role cannot be specified in the definition as
         # that would mean to know the ID upfront.
-        settings['new_project_user_role_id'] = Role.find_by(name: I18n.t(:default_role_project_admin)).try(:id)
+        new_project_user_role_id = seed_data.find_reference(:default_role_project_admin, default: nil).try(:id)
+        settings['new_project_user_role_id'] = new_project_user_role_id
 
         # Set the closed status for repository commit references
-        settings['commit_fix_status_id'] = Status.find_by(name: I18n.t(:default_status_closed)).try(:id)
+        status_closed = seed_data.find_reference(:default_status_closed, default: nil)
+        settings['commit_fix_status_id'] = status_closed.try(:id)
+
+        # Add the current locale to the list of available languages
+        settings['available_languages'] = (Setting.available_languages + [I18n.locale.to_s]).uniq.sort
 
         settings.compact
       end
     end
 
     private
+
+    # Set the default language to the current locale
+    def force_default_language_setting
+      default_language_setting = Setting.find_or_initialize_by(name: 'default_language')
+      # Need to force the value because it's non-writable if
+      # OPENPROJECT_DEFAULT_LANGUAGE env var is set.
+      default_language_setting.set_value!(I18n.locale, force: true)
+      default_language_setting.save!
+    end
 
     def seedable_setting_definitions
       Settings::Definition

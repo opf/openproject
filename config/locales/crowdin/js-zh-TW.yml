@@ -240,7 +240,7 @@ zh-TW:
             professional_support: "專業支援"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "開始免費試用"
-          button_upgrade: "Upgrade now"
+          button_upgrade: "立即更新"
           button_contact_us: "Contact us for a demo"
           button_book_now: "立即預約"
           confidence: >
@@ -255,7 +255,7 @@ zh-TW:
         calendar:
           empty_state_header: "Non-working days"
           empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
-          new_date: '(new)'
+          new_date: '（新）'
         add_non_working_day: "Non-working day"
         already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
         change_button: "Save and reschedule"
@@ -339,7 +339,7 @@ zh-TW:
     label_add_row_before: "在前面增加一列"
     label_add_selected_columns: "新增所選欄"
     label_added_by: "新增者"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "天前"
     label_all: "所有"
     label_all_work_packages: "所有工作項目"
@@ -578,7 +578,7 @@ zh-TW:
         property_was: 'was %{difference_in_days} ago'
         property_is_deleted: 'is deleted'
         upsale:
-          title: 'Date alerts'
+          title: '日期提醒'
           description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
       facets:
         unread: '未讀'
@@ -677,8 +677,7 @@ zh-TW:
         Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
       details_activity: 'Project details activity'
       context: '專案內容'
-      work_package_belongs_to: '此工作項目屬於專案 %{projectname}。'
-      click_to_switch_context: '在該專案中打開此工作項目。'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       use_template: "使用範本"
       no_template_selected: "(None)"
@@ -936,7 +935,7 @@ zh-TW:
         modification_label: 'Modified within the comparison time period'
         column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
       filters:
-        title: 'Filter work packages'
+        title: '篩選的工作項目'
         baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
@@ -975,7 +974,7 @@ zh-TW:
         description: "說明"
         date: "日期"
         dueDate: "完成日期"
-        duration: "Duration"
+        duration: "時間長度"
         estimatedTime: "預估時間"
         spentTime: "耗時"
         category: "類別"
@@ -1088,19 +1087,19 @@ zh-TW:
     toolbar:
       settings:
         configure_view: "Configure view"
-        columns: "Columns"
-        sort_by: "Sort by"
-        group_by: "Group by"
+        columns: "欄"
+        sort_by: "排序方式"
+        group_by: "分組依據"
         display_sums: "顯示匯總"
         display_hierarchy: "顯示層次結構"
         hide_hierarchy: "隱藏層次結構"
         hide_sums: "隱藏匯總"
         save: "儲存"
-        save_as: "Save as"
-        export: "Export"
-        visibility_settings: "Visibility settings"
+        save_as: "保存為"
+        export: "匯出"
+        visibility_settings: "可見度設定"
         share_calendar: "Subscribe to iCalendar"
-        page_settings: "Rename view"
+        page_settings: "重新命名視圖"
         delete: "删除"
       filter: "篩選器"
       unselected_title: "工作項目"
@@ -1112,7 +1111,7 @@ zh-TW:
       button_save: "儲存"
       button_submit: "提交"
       button_cancel: "取消"
-      button_delete: "Delete"
+      button_delete: "删除"
       form_submit:
         title: '確認以繼續'
         text: '確定要執行此操作嗎？'
@@ -1167,7 +1166,7 @@ zh-TW:
         zero: "0 h"
       day:
         one: "1 day"
-        other: "%{count} days"
+        other: "%{count} 天"
         zero: "0 days"
     zen_mode:
       button_activate: '啟動 zen 模式'
@@ -1241,7 +1240,7 @@ zh-TW:
       message:
         label: 'Invitation message'
         description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
-        next_button: 'Next'
+        next_button: '下一個'
       summary:
         next_button: '發送邀請'
       success:
@@ -1268,23 +1267,23 @@ zh-TW:
       no_results: 'No project matches your search criteria.'
     baseline:
       toggle_title: 'Baseline'
-      clear: 'Clear'
-      apply: 'Apply'
+      clear: '清除'
+      apply: '套用'
       header_description: 'Highlight changes made to this list since any point in the past.'
       enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Show changes since'
       baseline_comparison: 'Baseline comparison'
       help_description: 'Reference time zone for the baseline.'
       time_description: 'In your local time: %{datetime}'
-      time: 'Time'
-      from: 'From'
-      to: 'To'
+      time: '時間'
+      from: '寄件者'
+      to: '到'
       drop_down:
         none: '-'
-        yesterday: 'yesterday'
+        yesterday: '昨天'
         last_working_day: 'last working day'
-        last_week: 'last week'
-        last_month: 'last month'
+        last_week: '上週'
+        last_month: '上個月'
         a_specific_date: 'a specific date'
         between_two_specific_dates: 'between two specific dates'
       legends:

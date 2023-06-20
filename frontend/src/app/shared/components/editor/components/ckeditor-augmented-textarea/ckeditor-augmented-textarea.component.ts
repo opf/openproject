@@ -73,6 +73,8 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
   public initialContent:string;
 
+  public readOnly = false;
+
   public resource?:HalResource;
 
   public context:ICKEditorContext;
@@ -120,6 +122,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
       .removeAttr('required')
       .hide();
     this.initialContent = this.wrappedTextArea.val() as string;
+    this.readOnly = !!this.wrappedTextArea.attr('disabled');
 
     this.$attachmentsElement = this.formElement.find('#attachments_fields');
     this.context = {
@@ -127,7 +130,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
       resource: this.resource,
       previewContext: this.previewContext,
     };
-    if (!this.macros) {
+    if (!this.macros || this.readOnly) {
       this.context.macros = 'none';
     }
   }
@@ -145,6 +148,9 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     // Have a hacky way to access the editor from outside of angular.
     // This is e.g. employed to set the text from outside to reuse the same editor for different languages.
     this.$element.data('editor', editor);
+    if (this.readOnly) {
+      editor.enableReadOnlyMode('wrapped-text-area-disabled');
+    }
 
     if (this.resource && this.resource.attachments) {
       this.setupAttachmentAddedCallback(editor);

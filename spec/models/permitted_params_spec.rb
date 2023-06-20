@@ -734,7 +734,7 @@ RSpec.describe PermittedParams do
       it_behaves_like 'allows params'
     end
 
-    describe 'with password login disabld' do
+    describe 'with password login disabled' do
       include_context 'prepare params comparison'
 
       before do
@@ -765,11 +765,11 @@ RSpec.describe PermittedParams do
       it { expect(subject).to eq(permitted_hash) }
     end
 
-    describe 'with no registration footer configured' do
+    describe 'with writable registration footer' do
       before do
-        allow(OpenProject::Configuration)
-          .to receive(:registration_footer)
-                .and_return({})
+        allow(Setting)
+          .to receive(:registration_footer_writable?)
+                .and_return(true)
       end
 
       let(:hash) do
@@ -783,13 +783,13 @@ RSpec.describe PermittedParams do
       it_behaves_like 'allows params'
     end
 
-    describe 'with a registration footer configured' do
+    describe 'with a non-writable registration footer (set via env var or config file)' do
       include_context 'prepare params comparison'
 
       before do
-        allow(OpenProject::Configuration)
-          .to receive(:registration_footer)
-                .and_return("en" => "configured footer")
+        allow(Setting)
+          .to receive(:registration_footer_writable?)
+                .and_return(false)
       end
 
       let(:hash) do
@@ -800,11 +800,11 @@ RSpec.describe PermittedParams do
         }
       end
 
-      let(:permitted_hash) do
+      let(:expected_permitted_hash) do
         {}
       end
 
-      it { expect(subject).to eq(permitted_hash) }
+      it { expect(subject).to eq(expected_permitted_hash) }
     end
   end
 

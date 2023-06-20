@@ -339,7 +339,7 @@ ro:
     label_add_row_before: "Adauga un rand inainte"
     label_add_selected_columns: "Adăugați coloanele selectate"
     label_added_by: "adăugat de"
-    label_added_time_by: "Adăugat de <a href=%{authorLink}>%{author}</a> la %{age}"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "zile în urmă"
     label_all: "toate"
     label_all_work_packages: "toate pachetele de lucru"
@@ -679,8 +679,7 @@ ro:
         Vă rugăm să alegeți un proiect în care să creați pachetul de lucru pentru a vedea toate atributele. Puteți selecta numai proiectele care au tipul de mai sus activat.
       details_activity: 'Activitate detalii proiect'
       context: 'Contextul proiectului'
-      work_package_belongs_to: 'Acest pachet de lucru face parte din proiectul %{projectname}.'
-      click_to_switch_context: 'Deschide pachetul de lucru din acel proiect.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Schimbarea șablonului va reîncărca pagina și veți pierde toate datele introduse în acest formular. Continuați?'
       use_template: "Utilizează șablon"
       no_template_selected: "(Nimic)"
@@ -1274,23 +1273,23 @@ ro:
       no_results: 'Niciun proiect nu corespunde criteriilor de căutare.'
     baseline:
       toggle_title: 'Baseline'
-      clear: 'Clear'
-      apply: 'Apply'
+      clear: 'Inițializare'
+      apply: 'Salvare'
       header_description: 'Highlight changes made to this list since any point in the past.'
       enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Show changes since'
       baseline_comparison: 'Baseline comparison'
       help_description: 'Reference time zone for the baseline.'
       time_description: 'In your local time: %{datetime}'
-      time: 'Time'
-      from: 'From'
-      to: 'To'
+      time: 'Ora'
+      from: 'Din'
+      to: 'La'
       drop_down:
         none: '-'
-        yesterday: 'yesterday'
+        yesterday: 'ieri'
         last_working_day: 'last working day'
-        last_week: 'last week'
-        last_month: 'last month'
+        last_week: 'săptămâna trecută'
+        last_month: 'luna trecută'
         a_specific_date: 'a specific date'
         between_two_specific_dates: 'between two specific dates'
       legends:

@@ -122,13 +122,10 @@ import { LocalUploadService } from 'core-app/core/upload/local-upload.service';
 export function initializeServices(injector:Injector) {
   return () => {
     const PreviewTrigger = injector.get(PreviewTriggerService);
-    const mainMenuNavigationService = injector.get(MainMenuNavigationService);
     const topMenuService = injector.get(TopMenuService);
     const keyboardShortcuts = injector.get(KeyboardShortcutService);
     // Conditionally add the Revit Add-In settings button
     injector.get(RevitAddInSettingsButtonService);
-
-    mainMenuNavigationService.register();
 
     topMenuService.register();
 

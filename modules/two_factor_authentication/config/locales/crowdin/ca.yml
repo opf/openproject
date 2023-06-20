@@ -68,8 +68,8 @@ ca:
       delete_all_are_you_sure: 'Estàs segur que vols eliminar tots els dispositius 2FA d''aquest usuari?'
       button_delete_all_devices: 'Elimina els dispositius 2FA registrats'
       button_register_mobile_phone_for_user: 'Registra el telèfon mòbil'
-      text_2fa_enabled: 'Upon every login, this user will be requested to enter a OTP token from their default 2FA device.'
-      text_2fa_disabled: "The user did not set up a 2FA device through their 'My account page'"
+      text_2fa_enabled: 'Després de cada inici de sessió, es demanarà a aquest usuari que introdueixi un token OTP del seu dispositiu 2FA per defecte.'
+      text_2fa_disabled: "L'usuari no ha configurat cap dispositiu 2FA a través de la pàgina \"El meu compte\""
     upsale:
       title: 'Autentificació en dos passos'
       description: 'Enforteix la seguretat de la teva instància d''OpenProject oferint (o forçant) l''autentificació en dos passos per a tots els membres del projecte.'

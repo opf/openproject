@@ -128,6 +128,10 @@ class Timestamp
     to_s.match? TimestampParser::DATE_KEYWORD_REGEX
   end
 
+  def one_day_ago?
+    to_s.start_with? 'oneDayAgo'
+  end
+
   def to_s
     @timestamp_string.to_s
   end

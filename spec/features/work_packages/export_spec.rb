@@ -210,7 +210,7 @@ RSpec.describe 'work package export' do
   end
 
   context 'PDF export', js: true do
-    let(:export_type) { 'PDF' }
+    let(:export_type) { I18n.t('export.format.pdf_overview_table') }
     let(:query) do
       create(:query,
              user: current_user,
