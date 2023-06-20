@@ -31,7 +31,7 @@
 require "rails_helper"
 
 RSpec.describe AttributeGroups::AttributeGroupComponent, type: :component do
-  subject(:component_render) do
+  it 'renders the title' do
     render_inline(described_class.new) do |component|
       component.with_group_header(title: "A Title")
 
@@ -40,11 +40,7 @@ RSpec.describe AttributeGroups::AttributeGroupComponent, type: :component do
          { key: "Attribute Key 2", value: "Attribute Value 2" }]
       )
     end
-  end
 
-  before { component_render }
-
-  it 'renders the title' do
     aggregate_failures 'group header' do
       expect(page).to have_css('.attributes-group')
       expect(page).to have_css('h3.attributes-group--header-text', text: 'A Title')
