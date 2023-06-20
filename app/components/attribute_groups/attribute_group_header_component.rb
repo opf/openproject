@@ -31,9 +31,5 @@
 module AttributeGroups
   class AttributeGroupHeaderComponent < ::RailsComponent
     options :title
-
-    def initialize(title:, **options)
-      super(title:, **options)
-    end
   end
 end
