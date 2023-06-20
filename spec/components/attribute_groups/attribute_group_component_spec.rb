@@ -58,4 +58,19 @@ RSpec.describe AttributeGroups::AttributeGroupComponent, type: :component do
        have_css('.attributes-key-value--value.-text', text: 'Attribute Value 2')
     end
   end
+
+  it 'renders content when provided' do
+    render_inline(described_class.new) do |component|
+      component.with_group_header(title: "A Title")
+
+      "Raw Content"
+    end
+
+    expect(page).to have_css('.attributes-group--content', text: 'Raw Content')
+
+    aggregate_failures 'group header' do
+      expect(page).to have_css('.attributes-group')
+      expect(page).to have_css('h3.attributes-group--header-text', text: 'A Title')
+    end
+  end
 end
