@@ -1,3 +1,9 @@
+target :app do
+  signature 'sig'
+
+  check 'app'
+end
+
 # D = Steep::Diagnostic
 #
 # target :lib do
@@ -10,7 +16,7 @@
 #
 #   # library "pathname", "set"       # Standard libraries
 #   # library "strong_json"           # Gems
-#   
+#
 #   # configure_code_diagnostics(D::Ruby.strict)       # `strict` diagnostics setting
 #   # configure_code_diagnostics(D::Ruby.lenient)      # `lenient` diagnostics setting
 #   # configure_code_diagnostics do |hash|             # You can setup everything yourself
