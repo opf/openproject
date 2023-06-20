@@ -48,7 +48,10 @@ import {
   ApiV3FilterValueType,
   ApiV3Filter,
 } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
-import { filter } from 'rxjs/operators';
+import {
+  filter,
+  map,
+} from 'rxjs/operators';
 
 export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource, ApiV3WorkPackagePaths, WorkPackageCache> {
   // Base path
@@ -80,7 +83,7 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
     const unique = _.uniq(ids);
     return from(this.loadCollectionsFor(unique))
       .pipe(
-        switchMap(
+        map(
           (pagedResults:WorkPackageCollectionResource[]) => {
             _.each(pagedResults, (results) => {
               _.each(results.schemas.elements, (schema:SchemaResource) => {
@@ -91,14 +94,12 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
               this.cache.updateWorkPackageList(results.elements);
             });
 
-            return forkJoin(
-              unique
+            return _.flatten(
+              pagedResults
                 .map(
-                  (id) => this.cache
-                    .observe(id)
-                    .pipe(
-                      filter((state) => !!state),
-                    ),
+                  (page) => page
+                    .elements
+                    .filter((wp) => !!wp.id && unique.includes(wp.id.toString())),
                 ),
             );
           },
