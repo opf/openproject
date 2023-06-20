@@ -301,6 +301,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_date_format,
             parent: :calendars_and_dates
 
+  menu.push :icalendar,
+            { controller: '/admin/settings/icalendar_settings', action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_icalendar,
+            parent: :calendars_and_dates
+
   menu.push :settings,
             { controller: '/admin/settings/general_settings', action: :show },
             if: Proc.new { User.current.admin? },
