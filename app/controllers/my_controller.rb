@@ -142,8 +142,8 @@ class MyController < ApplicationController
   end
 
   def revoke_api_key
-    current_user.api_token.destroy
-    flash[:info] =  t('my.access_token.notice_api_token_revoked')
+    current_user.api_tokens.find(params[:token_id]).destroy
+    flash[:info] = t('my.access_token.notice_api_token_revoked')
   rescue StandardError => e
     Rails.logger.error "Failed to revoke api token ##{current_user.id}: #{e}"
     flash[:error] = t('my.access_token.failed_to_reset_token', error: e.message)

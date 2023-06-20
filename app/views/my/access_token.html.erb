@@ -35,16 +35,16 @@ See COPYRIGHT and LICENSE files for more details.
 	<%= toolbar title: I18n.t('my_account.access_tokens.access_tokens') %>
 
 	<%= render partial: 'my/access_token_partials/api_tokens_section',
-							locals: { api_token: @user.api_token }
+							locals: { api_tokens: @user.api_tokens }
 	%>
-	<%= render partial: 'my/access_token_partials/icalendar_tokens_section', 
-							locals: { ical_tokens_grouped_by_query: @ical_tokens_grouped_by_query } 
+	<%= render partial: 'my/access_token_partials/icalendar_tokens_section',
+							locals: { ical_tokens_grouped_by_query: @ical_tokens_grouped_by_query }
 	%>
-	<%= render partial: 'my/access_token_partials/oauth_tokens_section', 
-							locals: { granted_applications: granted_applications } 
+	<%= render partial: 'my/access_token_partials/oauth_tokens_section',
+							locals: { granted_applications: granted_applications }
 	%>
-	<%= render partial: 'my/access_token_partials/rss_tokens_section', 
-							locals: { rss_token: @user.rss_token } 
+	<%= render partial: 'my/access_token_partials/rss_tokens_section',
+							locals: { rss_token: @user.rss_token }
 	%>
 </div>
 

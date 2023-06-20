@@ -42,18 +42,15 @@ class User < Principal
   include ::Users::Avatars
   extend DeprecatedAlias
 
-  has_many :categories, foreign_key: 'assigned_to_id',
-                        dependent: :nullify
-  has_many :watches, class_name: 'Watcher',
-                     dependent: :delete_all
+  has_many :categories, foreign_key: 'assigned_to_id', dependent: :nullify, inverse_of: 'assigned_to'
+  has_many :watches, class_name: 'Watcher', dependent: :delete_all
   has_many :changesets, dependent: :nullify
-  has_many :passwords, -> {
-    order('id DESC')
-  }, class_name: 'UserPassword',
-     dependent: :destroy,
-     inverse_of: :user
+  has_many :passwords, -> { order('id DESC') },
+           class_name: 'UserPassword',
+           dependent: :destroy,
+           inverse_of: :user
   has_one :rss_token, class_name: '::Token::RSS', dependent: :destroy
-  has_one :api_token, class_name: '::Token::API', dependent: :destroy
+  has_many :api_tokens, class_name: '::Token::API', dependent: :destroy
 
   # everytime a user subscribes to a calendar, a new ical_token is generated
   # unlike on other token types, all previously generated ical_tokens are kept
@@ -144,6 +141,7 @@ class User < Principal
   def self.unique_attribute
     :login
   end
+
   prepend ::Mixins::UniqueFinder
 
   def current_password
@@ -243,8 +241,8 @@ class User < Principal
     return unless attrs
 
     call = Users::CreateService
-      .new(user: User.system)
-      .call(attrs)
+             .new(user: User.system)
+             .call(attrs)
 
     user = call.result
 
@@ -272,12 +270,12 @@ class User < Principal
   def name(formatter = nil)
     case formatter || Setting.user_format
 
-    when :firstname_lastname      then "#{firstname} #{lastname}"
-    when :lastname_firstname      then "#{lastname} #{firstname}"
-    when :lastname_n_firstname    then "#{lastname}#{firstname}"
+    when :firstname_lastname then "#{firstname} #{lastname}"
+    when :lastname_firstname then "#{lastname} #{firstname}"
+    when :lastname_n_firstname then "#{lastname}#{firstname}"
     when :lastname_coma_firstname then "#{lastname}, #{firstname}"
-    when :firstname               then firstname
-    when :username                then login
+    when :firstname then firstname
+    when :username then login
 
     else
       "#{firstname} #{lastname}"
@@ -337,7 +335,7 @@ class User < Principal
   # Does the backend storage allow this user to change their password?
   def change_password_allowed?
     return false if uses_external_authentication? ||
-                    OpenProject::Configuration.disable_password_login?
+      OpenProject::Configuration.disable_password_login?
     return true if auth_source_id.blank?
 
     auth_source.allow_password_changes?
@@ -370,7 +368,7 @@ class User < Principal
     return false if block_threshold == 0 # disabled
 
     (last_failed_login_within_block_time? and
-            failed_login_count >= block_threshold)
+      failed_login_count >= block_threshold)
   end
 
   def log_failed_login
@@ -470,6 +468,7 @@ class User < Principal
   def roles_for_project(project)
     project_role_cache.fetch(project)
   end
+
   alias :roles :roles_for_project
 
   # Cheap version of Project.visible.count
@@ -542,22 +541,23 @@ class User < Principal
   # Returns the anonymous user.  If the anonymous user does not exist, it is created.  There can be only
   # one anonymous user per database.
   def self.anonymous
-    RequestStore[:anonymous_user] ||= begin
-      anonymous_user = AnonymousUser.first
+    RequestStore[:anonymous_user] ||=
+      begin
+        anonymous_user = AnonymousUser.first
 
-      if anonymous_user.nil?
-        (anonymous_user = AnonymousUser.new.tap do |u|
-          u.lastname = 'Anonymous'
-          u.login = ''
-          u.firstname = ''
-          u.mail = ''
-          u.status = User.statuses[:active]
-        end).save
+        if anonymous_user.nil?
+          (anonymous_user = AnonymousUser.new.tap do |u|
+            u.lastname = 'Anonymous'
+            u.login = ''
+            u.firstname = ''
+            u.mail = ''
+            u.status = User.statuses[:active]
+          end).save
 
-        raise 'Unable to create the anonymous user.' if anonymous_user.new_record?
+          raise 'Unable to create the anonymous user.' if anonymous_user.new_record?
+        end
+        anonymous_user
       end
-      anonymous_user
-    end
   end
 
   def self.system

@@ -28,5 +28,10 @@
 
 module Token
   class API < HashedToken
+    private
+
+    def single_value?
+      false
+    end
   end
 end
