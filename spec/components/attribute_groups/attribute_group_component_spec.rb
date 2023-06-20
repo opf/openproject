@@ -36,8 +36,8 @@ RSpec.describe AttributeGroups::AttributeGroupComponent, type: :component do
       component.with_group_header(title: "A Title")
 
       component.with_attributes_key_value(
-        [{ attribute_key: "Attribute Key 1", attribute_value: "Attribute Value 1" },
-         { attribute_key: "Attribute Key 2", attribute_value: "Attribute Value 2" }]
+        [{ key: "Attribute Key 1", value: "Attribute Value 1" },
+         { key: "Attribute Key 2", value: "Attribute Value 2" }]
       )
     end
   end
