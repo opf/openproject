@@ -350,3 +350,5 @@ gemfiles.each do |file|
 end
 
 gem "primer_view_components", "~> 0.1.9"
+
+gem "turbo-rails", "~> 1.1"

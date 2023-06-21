@@ -22,7 +22,7 @@
         data-mail="<%= User.current.mail %>"
         data-id="<%= User.current.id %>" />
 <% end %>
-
+<meta name="csp-nonce" content="<%= content_security_policy_script_nonce %>" />
 <% if Setting.demo_projects_available %><meta name="demo_projects_available" content="true"/><% end %>
 <% if Setting.boards_demo_data_available %><meta name="boards_demo_data_available" content="true"/><% end %>
 <% if Setting.demo_view_of_type_team_planner_seeded %><meta name="demo_view_of_type_team_planner_seeded" content="true"/><% end %>
