@@ -37,6 +37,7 @@ class Meeting < ApplicationRecord
   has_one :minutes, dependent: :destroy, class_name: 'MeetingMinutes'
   has_many :contents, -> { readonly }, class_name: 'MeetingContent'
   has_many :participants, dependent: :destroy, class_name: 'MeetingParticipant'
+  has_many :agenda_tops, dependent: :destroy, class_name: 'MeetingAgendaTop'
 
   default_scope do
     order("#{Meeting.table_name}.start_time DESC")
@@ -89,6 +90,8 @@ class Meeting < ApplicationRecord
   before_save :add_new_participants_as_watcher
 
   after_initialize :set_initial_values
+
+  after_save :calculate_agenda_top_time_slots
 
   ##
   # Return the computed start_time when changed
@@ -209,6 +212,16 @@ class Meeting < ApplicationRecord
       participant['_destroy'] = true if !(participant['attended'] || participant['invited'])
     end
     self.original_participants_attributes = attrs
+  end
+
+  def calculate_agenda_top_time_slots
+    current_time = start_time
+    agenda_tops.order(:position).each do |top|
+      start_time = current_time
+      current_time += top.duration_in_minutes.minutes
+      end_time = current_time
+      top.update_columns(start_time: start_time, end_time: end_time) # avoid callbacks, infinite loop otherwise
+    end
   end
 
   protected

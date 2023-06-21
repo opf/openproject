@@ -32,6 +32,8 @@ OpenProject::Application.routes.draw do
   end
 
   resources :meetings, except: %i[new create] do
+    resources :agenda_tops, controller: 'meeting_agenda_tops'
+
     resource :agenda, controller: 'meeting_agendas', only: [:update] do
       member do
         get :history
