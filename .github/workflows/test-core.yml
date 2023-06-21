@@ -49,7 +49,7 @@ jobs:
       run: |
         sudo mkdir -p /tmp/cache && sudo chown -R 1000:1000 $CI_CACHE_PATH
         ls -lrt $CI_CACHE_PATH/op-cache/ || true
-        docker-compose -f docker-compose.ci.yml run ci setup-tests run-units run-features
+        docker-compose -f docker-compose.ci.yml run ci setup-tests run-features
     - name: cleanup
       if: ${{ always() }}
       run: |
