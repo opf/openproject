@@ -39,7 +39,14 @@ module AuthenticationHelpers
       # we must set the user_id in rack.session accordingly
       # Otherwise e.g. calls to Warden will behave unexpectantly
       # as they will login AnonymousUser
-      page.set_rack_session(user_id: user.id, updated_at: Time.now)
+      if using_cuprite?
+        page.driver.set_cookie(
+          OpenProject::Configuration['session_cookie_name'],
+          session_value_for(user).to_s
+        )
+      else
+        page.set_rack_session(session_value_for(user))
+      end
     end
 
     allow(User).to receive(:current).and_return(user)
@@ -57,7 +64,21 @@ module AuthenticationHelpers
   end
 
   def logout
-    visit signout_path
+    if using_cuprite?
+      page.driver.cookies.clear
+    else
+      visit signout_path
+    end
+  end
+
+  private
+
+  def using_cuprite?
+    RSpec.current_example.metadata[:with_cuprite]
+  end
+
+  def session_value_for(user)
+    { user_id: user.id, updated_at: Time.current }
   end
 
   module ClassMethods
