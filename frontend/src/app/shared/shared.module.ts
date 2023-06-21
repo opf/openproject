@@ -65,7 +65,7 @@ import {
   OpHighlightColDirective,
 } from './directives/highlight-col/highlight-col.directive';
 
-import { CopyToClipboardDirective } from './components/copy-to-clipboard/copy-to-clipboard.directive';
+import { CopyToClipboardService } from './components/copy-to-clipboard/copy-to-clipboard.service';
 import { OpDateTimeComponent } from './components/date/op-date-time.component';
 import { ToastComponent } from './components/toaster/toast.component';
 
@@ -214,6 +214,7 @@ export function bootstrapModule(injector:Injector):void {
     OpNonWorkingDaysListComponent,
   ],
   providers: [
+    CopyToClipboardService,
     StaticQueriesService,
     ViewsResourceService,
   ],
@@ -232,10 +233,8 @@ export function bootstrapModule(injector:Injector):void {
     OpHighlightColDirective,
 
     // Add functionality to rails rendered templates
-    CopyToClipboardDirective,
     CollapsibleSectionComponent,
 
-    CopyToClipboardDirective,
     ResizerComponent,
 
     TablePaginationComponent,

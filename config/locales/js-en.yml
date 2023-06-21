@@ -81,6 +81,7 @@ en:
     button_confirm: "Confirm"
     button_continue: "Continue"
     button_copy: "Copy"
+    button_copy_to_clipboard: "Copy to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Custom fields"
     button_delete: "Delete"
