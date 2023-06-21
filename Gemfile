@@ -325,9 +325,10 @@ gem 'googleauth', require: false
 gem 'disposable', '~> 0.6.2'
 
 # Typing support
-gem 'rbs', '~> 3.1'
-gem 'rbs_rails', '~> 0.12.0'
+gem 'rbs', '~> 3.1', require: false
+gem 'rbs_rails', '~> 0.12.0', require: false
 gem 'steep', '~> 1.4', group: :development, require: false
+gem 'typeprof', require: false
 
 platforms :mri, :mingw, :x64_mingw do
   group :postgres do

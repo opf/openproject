@@ -957,6 +957,8 @@ GEM
       railties (>= 6.0.0)
     typed_dag (2.0.2)
       rails (>= 5.0.4)
+    typeprof (0.21.7)
+      rbs (>= 1.8.1)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     tzinfo-data (1.2023.3)
@@ -1179,6 +1181,7 @@ DEPENDENCIES
   turbo-rails (~> 1.1)
   turbo_tests!
   typed_dag (~> 2.0.2)
+  typeprof
   tzinfo-data (~> 1.2023.1)
   validate_url
   view_component
