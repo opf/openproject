@@ -37,6 +37,9 @@
     [searchKey]="autocompleterOptions.searchKey"
     [getOptionsFn]="autocompleterOptions.getOptionsFn"
   >
+    <ng-template op-autocompleter-header-tmp let-search="searchTerm">
+      <div *ngIf="!searchTerm">RECENTLY VIEWED</div>
+    </ng-template>
     <ng-template op-autocompleter-option-tmp let-item let-index="index" let-search="searchTerm">
       <div *ngIf="!item.id; else workPackageItemTemplate">
         <div tabindex="-1" class="global-search--option" (click)="followItem(item)">

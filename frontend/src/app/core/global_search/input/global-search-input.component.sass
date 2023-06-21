@@ -100,6 +100,12 @@ $search-input-height: 30px
       input
         color: var(--header-search-field-font-color)
 
+    .ng-dropdown-header
+      line-height: 20px
+
+      &:empty
+        display: none
+
     .ng-dropdown-panel-items.scroll-host
       @include styled-scroll-bar
       max-height: 80vh
