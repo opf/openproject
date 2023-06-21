@@ -268,7 +268,11 @@ OpenProject::Application.routes.draw do
       get '(/*state)' => 'work_packages#show', on: :member, as: ''
     end
 
-    resources :activity, :activities, only: :index, controller: 'activities'
+    resources :activity, :activities, only: :index, controller: 'activities' do
+      collection do
+        get :menu
+      end
+    end
 
     resources :forums do
       member do
@@ -467,7 +471,11 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  resources :activity, :activities, only: :index, controller: 'activities'
+  resources :activity, :activities, only: :index, controller: 'activities' do
+    collection do
+      get :menu
+    end
+  end
 
   resources :users, constraints: { id: /(\d+|me)/ }, except: :edit do
     resources :memberships, controller: 'users/memberships', only: %i[update create destroy]
