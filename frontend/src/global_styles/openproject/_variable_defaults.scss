@@ -54,8 +54,8 @@
   --gray-light: #F8F8F8;
   --gray-lighter: #E9E9E9;
   --light-gray: #CCCCCC;
-  --body-background: #FFFFFF;
-  --body-font-color: #333333;
+  --body-background: var(--color-canvas-default);
+  --body-font-color: var(--color-fg-defalut);
   --base-line-height: 1.5;
   --secondary-color: #bfbfbf;
   --content-link-color: var(--primary-color-dark);
@@ -169,7 +169,6 @@
   --user-avatar-mini-width: 20px;
   --user-avatar-mini-height: 20px;
   --user-avatar-default-bg-color: white;
-  --widget-box-block-bg-color: var(--body-background);
   --widget-box-block-border-color: var(--content-default-border-color);
   --homescreen-footer-bg-color: var(--gray-light);
   --homescreen-footer-icon-color: #7B827B;
