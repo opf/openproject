@@ -1,0 +1,5 @@
+module OpenProject::Documents::Patches
+  module TextileConverterPatch
+    def models_to_convert: () -> untyped
+  end
+end

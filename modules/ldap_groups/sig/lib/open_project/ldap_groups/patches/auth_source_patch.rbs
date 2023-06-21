@@ -1,0 +1,7 @@
+module OpenProject::LdapGroups
+  module Patches
+    module AuthSourcePatch
+      def self.included: (untyped base) -> untyped
+    end
+  end
+end

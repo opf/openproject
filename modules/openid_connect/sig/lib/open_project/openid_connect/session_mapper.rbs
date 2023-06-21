@@ -1,0 +1,27 @@
+module OpenProject::OpenIDConnect
+  class SessionMapper
+    def self.handle_logout: (untyped logout_token) -> untyped
+
+    def self.handle_login: (untyped oidc_session, untyped session) -> untyped
+
+    attr_reader session_link: untyped
+
+    def initialize: (untyped link) -> void
+
+    #
+    # Link the oidc session to the given user session
+    def link_to_internal!: (untyped session) -> untyped
+
+    def delete_old_links!: () -> untyped
+
+    def find_user_session: (untyped session) -> untyped
+
+    #
+    # Expire the associated session for the given oidc session
+    def expire!: () -> untyped
+
+    private
+
+    def remove_linked_session!: () -> untyped
+  end
+end

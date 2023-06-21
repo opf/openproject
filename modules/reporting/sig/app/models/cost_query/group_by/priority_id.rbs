@@ -1,0 +1,3 @@
+class CostQuery::GroupBy::PriorityId < Report::GroupBy::Base
+  def self.label: () -> untyped
+end

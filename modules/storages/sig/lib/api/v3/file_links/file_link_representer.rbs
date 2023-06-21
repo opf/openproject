@@ -1,0 +1,29 @@
+module API::V3::FileLinks
+  URN_PERMISSION_VIEW: ::String
+
+  URN_PERMISSION_NOT_ALLOWED: ::String
+
+  URN_PERMISSION_ERROR: ::String
+
+  PERMISSION_LINKS: { view: { href: untyped, title: "View" }, not_allowed: { href: untyped, title: "Not allowed" }, error: { href: untyped, title: "Error" } }
+
+  class FileLinkRepresenter < ::API::Decorators::Single
+    include API::Decorators::LinkedResource
+
+    include API::Decorators::DateProperty
+
+    include ::API::Caching::CachedRepresenter
+
+    include Storages::Peripherals::StorageUrlHelper
+
+    def _type: () -> "FileLink"
+
+    private
+
+    def user_allowed_to_manage?: (untyped model) -> untyped
+
+    def make_origin_data: (untyped model) -> { id: untyped, name: untyped, mimeType: untyped, createdAt: untyped, lastModifiedAt: untyped, createdByName: untyped, lastModifiedByName: untyped }
+
+    def parse_origin_data: (untyped origin_data) -> { origin_id: untyped, origin_name: untyped, origin_mime_type: untyped, origin_created_by_name: untyped, origin_last_modified_by_name: untyped, origin_created_at: untyped, origin_updated_at: untyped }
+  end
+end

@@ -1,0 +1,25 @@
+module ::TwoFactorAuthentication
+  module Devices
+    class RowComponent < ::RowComponent
+      def device: () -> untyped
+
+      def row_css_class: () -> untyped
+
+      def device_type: () -> untyped
+
+      def default: () -> (untyped | "-")
+
+      def confirmed: () -> untyped
+
+      def button_links: () -> untyped
+
+      def make_default_link: () -> untyped
+
+      def delete_link: () -> untyped
+
+      def deletion_blocked?: () -> (false | untyped)
+
+      def column_css_class: (untyped _column) -> ("mobile-otp--device-default" | nil)
+    end
+  end
+end

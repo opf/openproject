@@ -1,0 +1,31 @@
+module Webhooks
+  module Outgoing
+    class AdminController < ::ApplicationController
+      def index: () -> untyped
+
+      def show: () -> nil
+
+      def edit: () -> nil
+
+      def new: () -> untyped
+
+      def create: () -> untyped
+
+      def update: () -> untyped
+
+      def destroy: () -> untyped
+
+      private
+
+      def find_webhook: () -> untyped
+
+      def webhook_class: () -> untyped
+
+      def permitted_webhooks_params: () -> untyped
+
+      def show_local_breadcrumb: () -> true
+
+      def default_breadcrumb: () -> ::Array[untyped]
+    end
+  end
+end

@@ -1,0 +1,3 @@
+class CleanupUncontaineredFileLinksJob < Cron::CronJob
+  def perform: () -> untyped
+end

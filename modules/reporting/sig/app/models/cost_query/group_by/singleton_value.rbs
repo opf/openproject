@@ -1,0 +1,2 @@
+class CostQuery::GroupBy::SingletonValue < Report::GroupBy::SingletonValue
+end

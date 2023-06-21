@@ -1,0 +1,15 @@
+class Widget::Settings < Widget::Base
+  def render_filter_settings: () -> untyped
+
+  def render_group_by_settings: () -> untyped
+
+  def render_cost_types_settings: () -> untyped
+
+  def render_controls_settings: () -> untyped
+
+  def render: () -> untyped
+
+  def render_with_options: (untyped options) { () -> untyped } -> untyped
+
+  def settings_to_render: () -> untyped
+end

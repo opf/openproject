@@ -1,0 +1,10 @@
+module API
+  module V3
+    module Grids
+      module Schemas
+        class GridSchemaAPI < ::API::OpenProjectAPI
+        end
+      end
+    end
+  end
+end

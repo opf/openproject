@@ -1,0 +1,33 @@
+module Entry
+  class Delegator < ApplicationRecord
+    def self.===: (untyped obj) -> untyped
+
+    def self.calculate: (untyped type, *untyped args) -> untyped
+
+    private
+
+    def self.find_initial: (untyped options) -> untyped
+
+    def self.find_last: (untyped options) -> untyped
+
+    def self.find_every: (untyped options) -> untyped
+
+    def self.find_from_ids: (untyped _args, untyped options) -> untyped
+
+    def self.find_one: (*untyped args) -> untyped
+
+    def self.find_many: (*untyped args) -> untyped
+
+    def self.send_all: (*untyped args) -> ::Array[untyped]
+  end
+
+  def units: () -> untyped
+
+  def cost_type: () -> untyped
+
+  def activity: () -> untyped
+
+  def activity_id: () -> untyped
+
+  def self.method_missing: (*untyped) ?{ () -> untyped } -> untyped
+end

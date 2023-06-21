@@ -1,0 +1,14 @@
+class CostQuery::Filter::CostTypeId < Report::Filter::Base
+  def self.label: () -> untyped
+
+  def initialize: (?untyped? child, ?::Hash[untyped, untyped] options) -> void
+
+  #
+  # @Override
+  # Displayability is decided on the instance
+  def display?: () -> untyped
+
+  def field: () -> (::Array[untyped] | untyped)
+
+  def self.available_values: (*untyped) -> untyped
+end

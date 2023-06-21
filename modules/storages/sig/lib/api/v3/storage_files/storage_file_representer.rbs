@@ -1,0 +1,9 @@
+module API::V3::StorageFiles
+  class StorageFileRepresenter < ::API::Decorators::Single
+    include API::Decorators::DateProperty
+
+    def initialize: (untyped model, untyped storage, current_user: untyped) -> void
+
+    def _type: () -> untyped
+  end
+end

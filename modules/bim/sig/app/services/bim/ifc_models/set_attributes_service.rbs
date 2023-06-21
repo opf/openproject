@@ -1,0 +1,15 @@
+module Bim
+  module IfcModels
+    class SetAttributesService < ::BaseServices::SetAttributes
+      def set_attributes: (untyped params) -> untyped
+
+      def set_default_attributes: (untyped _params) -> untyped
+
+      def validate_and_result: () -> untyped
+
+      def set_title: () -> untyped
+
+      def set_ifc_attachment: (untyped ifc_attachment) -> (nil | untyped)
+    end
+  end
+end

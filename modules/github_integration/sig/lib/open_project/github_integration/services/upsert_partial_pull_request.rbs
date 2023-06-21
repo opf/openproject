@@ -1,0 +1,48 @@
+# - copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2023 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+# +
+module OpenProject::GithubIntegration::Services
+  #
+  # Takes pull request data coming from GitHub webhook data and stores
+  # them as a `GithubPullRequest`.
+  # issue_comments webhooks don't give us the full PR data, but just a a subset, e.g. html_url, state and title
+  # As described in [the docs](https://docs.github.com/en/rest/reference/issues#list-organization-issues-assigned-to-the-authenticated-user),
+  # pull request are considered to also be issues.
+  #
+  # Returns the upserted partial `GithubPullRequest`.
+  class UpsertPartialPullRequest
+    def call: (untyped payload, work_packages: untyped) -> untyped
+
+    private
+
+    def extract_params: (untyped payload) -> { github_html_url: untyped, github_updated_at: untyped, github_user: untyped, number: untyped, state: untyped, repository: untyped, title: untyped }
+
+    def find_or_initialize: (untyped github_html_url) -> untyped
+
+    def github_user_id: (untyped payload) -> (nil | untyped)
+  end
+end

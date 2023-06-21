@@ -1,0 +1,21 @@
+module LdapGroups
+  module SynchronizedGroups
+    class RowComponent < ::RowComponent
+      def synchronized_group: () -> untyped
+
+      def dn: () -> untyped
+
+      def auth_source: () -> untyped
+
+      def group: () -> untyped
+
+      def sync_users: () -> untyped
+
+      def users: () -> untyped
+
+      def button_links: () -> untyped
+
+      def delete_link: () -> (nil | untyped)
+    end
+  end
+end

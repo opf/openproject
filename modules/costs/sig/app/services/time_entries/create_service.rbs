@@ -1,0 +1,3 @@
+class TimeEntries::CreateService < BaseServices::Create
+  def after_perform: (untyped call) -> untyped
+end

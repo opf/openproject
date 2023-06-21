@@ -1,0 +1,15 @@
+module Bim::Bcf::API::V2_1
+  module Comments
+    class API < ::API::OpenProjectAPI
+      def all_comments: () -> untyped
+
+      def get_viewpoint_by_uuid: (untyped viewpoint_uuid) -> (nil | untyped)
+
+      def get_comment_by_uuid: (untyped comment) -> (nil | untyped)
+
+      def transform_create_parameter: (untyped params) -> { issue: untyped, viewpoint: untyped, reply_to: untyped }
+
+      def transform_update_parameter: (untyped params) -> { original_comment: untyped, viewpoint: untyped, reply_to: untyped }
+    end
+  end
+end

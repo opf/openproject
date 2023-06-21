@@ -1,0 +1,5 @@
+class MeetingMinutesController < MeetingContentsController
+  private
+
+  def find_content: () -> untyped
+end

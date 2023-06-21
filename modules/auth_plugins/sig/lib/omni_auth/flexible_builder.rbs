@@ -1,0 +1,5 @@
+module OmniAuth
+  class FlexibleBuilder < Builder
+    def use: (untyped middleware, *untyped args) { () -> untyped } -> untyped
+  end
+end

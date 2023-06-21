@@ -1,0 +1,7 @@
+module API::V3::StorageFiles
+  class StorageFilesRepresenter < ::API::Decorators::Single
+    def initialize: (untyped model, untyped storage, current_user: untyped) -> void
+
+    def _type: () -> "StorageFiles"
+  end
+end

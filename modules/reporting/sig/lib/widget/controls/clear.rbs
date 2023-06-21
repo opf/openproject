@@ -1,0 +1,3 @@
+class Widget::Controls::Clear < Widget::Controls
+  def render: () -> untyped
+end

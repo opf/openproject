@@ -1,0 +1,15 @@
+class BacklogsSettingsController < ApplicationController
+  def show: () -> nil
+
+  def update: () -> untyped
+
+  def show_local_breadcrumb: () -> true
+
+  def default_breadcrumb: () -> untyped
+
+  private
+
+  def check_valid_settings: () -> untyped
+
+  def update_settings: () -> untyped
+end

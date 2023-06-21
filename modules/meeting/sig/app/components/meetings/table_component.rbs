@@ -1,0 +1,11 @@
+module Meetings
+  class TableComponent < ::TableComponent
+    def initial_sort: () -> ::Array[:start_time | :asc]
+
+    def paginated?: () -> true
+
+    def headers: () -> untyped
+
+    def columns: () -> untyped
+  end
+end

@@ -1,0 +1,2 @@
+class TimeEntries::DeleteService < BaseServices::Delete
+end

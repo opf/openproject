@@ -1,0 +1,7 @@
+# See also: base_contract.rb for comments
+module Storages
+  module Storages
+    class DeleteContract < ::DeleteContract
+    end
+  end
+end

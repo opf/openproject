@@ -1,0 +1,7 @@
+module LdapGroups
+  class SynchronizationJob < ::Cron::CronJob
+    def perform: () -> (nil | untyped)
+
+    def skipped?: () -> untyped
+  end
+end

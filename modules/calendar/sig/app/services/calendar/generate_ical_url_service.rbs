@@ -1,0 +1,9 @@
+module Calendar
+  class GenerateICalUrlService < ::BaseServices::BaseCallable
+    def perform: (user: untyped, query_id: untyped, project_id: untyped, token_name: untyped) -> untyped
+
+    def create_ical_token: (untyped user, untyped query_id, untyped name) -> untyped
+
+    def create_ical_url: (untyped query_id, untyped project_id, untyped ical_token) -> untyped
+  end
+end

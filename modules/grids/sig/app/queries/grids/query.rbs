@@ -1,0 +1,11 @@
+module Grids
+  class Query < ::Queries::BaseQuery
+    def self.model: () -> untyped
+
+    #
+    # Returns the scope this query is filtered for, if any.
+    def filter_scope: () -> untyped
+
+    def default_scope: () -> untyped
+  end
+end

@@ -1,0 +1,5 @@
+module OpenProject::Backlogs
+  class QueryBacklogsColumn < Queries::WorkPackages::Columns::WorkPackageColumn
+    def self.instances: (?untyped? context) -> (::Array[untyped] | untyped)
+  end
+end

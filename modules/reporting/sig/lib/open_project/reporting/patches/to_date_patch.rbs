@@ -1,0 +1,11 @@
+module OpenProject::Reporting::Patches::ToDatePatch
+  module StringAndNil
+    def to_dateish: () -> untyped
+  end
+
+  module DateAndTime
+    def to_dateish: () -> self
+
+    def force_utc: () -> (untyped | self)
+  end
+end

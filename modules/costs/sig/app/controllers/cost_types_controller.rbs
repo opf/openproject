@@ -1,0 +1,29 @@
+class CostTypesController < ApplicationController
+  include SortHelper
+
+  include CostTypesHelper
+
+  def index: () -> untyped
+
+  def edit: () -> untyped
+
+  def update: () -> untyped
+
+  def new: () -> untyped
+
+  def create: () -> untyped
+
+  def destroy: () -> untyped
+
+  def restore: () -> untyped
+
+  def set_rate: () -> untyped
+
+  private
+
+  def find_cost_type: () -> untyped
+
+  def default_breadcrumb: () -> untyped
+
+  def show_local_breadcrumb: () -> true
+end

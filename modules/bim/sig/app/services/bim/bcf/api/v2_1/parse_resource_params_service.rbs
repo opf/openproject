@@ -1,0 +1,13 @@
+module Bim::Bcf
+  module API
+    module V2_1
+      class ParseResourceParamsService < ::API::ParseResourceParamsService
+        private
+
+        def deduce_representer: (untyped model) -> untyped
+
+        def parsing_representer: () -> untyped
+      end
+    end
+  end
+end

@@ -1,0 +1,41 @@
+module Storages::Peripherals::StorageInteraction::Nextcloud
+  class FilesQuery
+    def initialize: (untyped storage) -> void
+
+    # rubocop:disable Metrics/AbcSize
+    def call: (user: untyped, folder: untyped) -> untyped
+
+    private
+
+    def requested_folder: (untyped folder) -> ("" | untyped)
+
+    # rubocop:disable Metrics/AbcSize
+    def requested_properties: () -> untyped
+
+    def storage_files: (untyped response) -> untyped
+
+    def ancestors: (untyped parent_location) -> (::Array[untyped] | untyped)
+
+    # The ancestors are simply derived objects from the parents location string. Until we have real information
+    # from the nextcloud API about the path to the parent, we need to derive name, location and forge an ID.
+    def forge_ancestor: (untyped location) -> untyped
+
+    def name: (untyped location) -> untyped
+
+    def storage_file: (untyped file_element) -> untyped
+
+    def id: (untyped element) -> untyped
+
+    def location: (untyped element) -> (nil | untyped)
+
+    def size: (untyped element) -> untyped
+
+    def mime_type: (untyped element) -> untyped
+
+    def last_modified_at: (untyped element) -> untyped
+
+    def created_by: (untyped element) -> untyped
+
+    def permissions: (untyped element) -> untyped
+  end
+end

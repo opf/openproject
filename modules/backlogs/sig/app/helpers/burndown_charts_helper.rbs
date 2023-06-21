@@ -1,0 +1,9 @@
+module BurndownChartsHelper
+  def yaxis_labels: (untyped burndown) -> untyped
+
+  def xaxis_labels: (untyped burndown) -> untyped
+
+  def dataseries: (untyped burndown) -> untyped
+
+  def burndown_series_checkboxes: (untyped burndown) -> untyped
+end

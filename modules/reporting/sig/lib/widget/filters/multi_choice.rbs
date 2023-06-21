@@ -1,0 +1,7 @@
+class Widget::Filters::MultiChoice < Widget::Filters::Base
+  def render: () -> untyped
+
+  private
+
+  def translate: (untyped label) -> untyped
+end

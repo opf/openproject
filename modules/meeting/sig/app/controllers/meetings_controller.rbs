@@ -1,0 +1,39 @@
+class MeetingsController < ApplicationController
+  include WatchersHelper
+
+  include PaginationHelper
+
+  include SortHelper
+
+  def index: () -> untyped
+
+  def show: () -> (untyped | nil)
+
+  def create: () -> untyped
+
+  def new: () -> nil
+
+  def copy: () -> untyped
+
+  def destroy: () -> untyped
+
+  def edit: () -> nil
+
+  def update: () -> untyped
+
+  private
+
+  def set_time_zone: () { () -> untyped } -> untyped
+
+  def build_meeting: () -> untyped
+
+  def find_optional_project: () -> untyped
+
+  def global_upcoming_meetings: () -> untyped
+
+  def find_meeting: () -> untyped
+
+  def convert_params: () -> untyped
+
+  def meeting_params: () -> untyped
+end

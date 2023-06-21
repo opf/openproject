@@ -1,0 +1,5 @@
+module Bim::Bcf::API::V2_1
+  class Viewpoints::SingleRepresenter < BaseRepresenter
+    def to_json: (*untyped) -> untyped
+  end
+end

@@ -1,0 +1,15 @@
+module VersionSettingsHelper
+  def version_settings_fields: (untyped version, untyped project) -> untyped
+
+  private
+
+  def version_hidden_id_field: (untyped setting) -> ("" | untyped)
+
+  def version_setting_for_project: (untyped version, untyped project) -> untyped
+
+  def name_for_setting_attributes: (untyped attribute) -> ::String
+
+  def position_display_options: () -> untyped
+
+  def humanize_display_option: (untyped option) -> untyped
+end

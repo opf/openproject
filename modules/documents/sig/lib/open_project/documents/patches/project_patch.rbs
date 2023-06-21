@@ -1,0 +1,5 @@
+module OpenProject::Documents::Patches
+  module ProjectPatch
+    def self.included: (untyped base) -> untyped
+  end
+end

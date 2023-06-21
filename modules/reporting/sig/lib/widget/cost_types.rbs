@@ -1,0 +1,7 @@
+class Widget::CostTypes < Widget::Base
+  def render_with_options: (untyped options) { () -> untyped } -> untyped
+
+  def render: () -> untyped
+
+  def contents: () -> untyped
+end

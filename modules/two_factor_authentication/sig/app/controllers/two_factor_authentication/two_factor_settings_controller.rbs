@@ -1,0 +1,23 @@
+module ::TwoFactorAuthentication
+  class TwoFactorSettingsController < ApplicationController
+    include EnterpriseTrialHelper
+
+    def show: () -> untyped
+
+    def update: () -> untyped
+
+    private
+
+    def permitted_params: () -> untyped
+
+    def merge_settings!: (untyped current, untyped permitted) -> untyped
+
+    def check_enabled: () -> (untyped | nil)
+
+    def manager: () -> untyped
+
+    def default_breadcrumb: () -> untyped
+
+    def show_local_breadcrumb: () -> true
+  end
+end

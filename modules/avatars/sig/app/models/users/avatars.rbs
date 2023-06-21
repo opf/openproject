@@ -1,0 +1,15 @@
+module Users
+  module Avatars
+    extend ActiveSupport::Concern
+
+    def get_local_avatar: (untyped user_id) -> untyped
+
+    def reload: (*untyped args) -> untyped
+
+    def local_avatar_attachment: () -> untyped
+
+    def local_avatar_attachment=: (untyped file) -> untyped
+
+    def reset_avatar_attachment_cache!: () -> untyped
+  end
+end

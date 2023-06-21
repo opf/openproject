@@ -1,0 +1,11 @@
+class Storages::StorageError
+  attr_reader code: untyped
+
+  attr_reader log_message: untyped
+
+  attr_reader data: untyped
+
+  def initialize: (code: untyped, ?log_message: untyped?, ?data: untyped?) -> void
+
+  def to_s: () -> untyped
+end

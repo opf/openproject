@@ -1,0 +1,11 @@
+module ::Avatars
+  class MyAvatarController < BaseController
+    def show: () -> untyped
+
+    private
+
+    def redirect_path: () -> untyped
+
+    def set_user: () -> untyped
+  end
+end

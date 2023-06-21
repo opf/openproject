@@ -1,0 +1,16 @@
+module Storages::Peripherals::StorageInteraction::Nextcloud
+  class DownloadLinkQuery
+    def initialize: (untyped storage) -> void
+
+    # rubocop:disable Metrics/AbcSize
+    def call: (user: untyped, file_link: untyped) -> untyped
+
+    private
+
+    def download_link: (untyped token, untyped origin_name) -> untyped
+
+    def direct_download_token: (body: untyped) -> untyped
+
+    def parse_direct_download_token: (body: untyped) -> (nil | untyped)
+  end
+end

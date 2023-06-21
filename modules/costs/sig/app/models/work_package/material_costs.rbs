@@ -1,0 +1,11 @@
+class WorkPackage
+  class MaterialCosts < AbstractCosts
+    def costs_model: () -> untyped
+
+    def filter_authorized: (untyped scope) -> untyped
+
+    def costs_sum_alias: () -> "cost_entries_sum"
+
+    def subselect_alias: () -> "cost_entries"
+  end
+end

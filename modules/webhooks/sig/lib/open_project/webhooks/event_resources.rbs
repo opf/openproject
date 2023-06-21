@@ -1,0 +1,18 @@
+module OpenProject::Webhooks
+  module EventResources
+    def self.subscribe!: () -> untyped
+
+    #
+    # Return a complete mapping of all resource modules
+    # in the form { label => { event1: label , event2: label } }
+    def self.available_events_map: () -> untyped
+
+    #
+    # Find a module based on the event name
+    def self.lookup_resource_name: (untyped event_name) -> untyped
+
+    def self.resource_modules: () -> untyped
+
+    def self.resources: () -> ::Array[:project | :work_package | :time_entry | :attachment]
+  end
+end

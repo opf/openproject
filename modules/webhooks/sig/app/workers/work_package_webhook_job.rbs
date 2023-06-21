@@ -1,0 +1,5 @@
+class WorkPackageWebhookJob < RepresentedWebhookJob
+  def payload_key: () -> :work_package
+
+  def payload_representer: () -> untyped
+end

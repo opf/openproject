@@ -1,0 +1,5 @@
+module API::V3::StorageFiles
+  class StorageUploadLinkRepresenter < ::API::Decorators::Single
+    def _type: () -> untyped
+  end
+end

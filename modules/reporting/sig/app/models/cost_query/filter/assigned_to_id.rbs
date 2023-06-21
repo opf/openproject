@@ -1,0 +1,5 @@
+class CostQuery::Filter::AssignedToId < CostQuery::Filter::UserId
+  def self.label: () -> untyped
+
+  def self.available_values: (*untyped) -> untyped
+end

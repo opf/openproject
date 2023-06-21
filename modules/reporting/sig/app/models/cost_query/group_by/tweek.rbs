@@ -1,0 +1,3 @@
+class CostQuery::GroupBy::Tweek < Report::GroupBy::Base
+  def self.label: () -> untyped
+end

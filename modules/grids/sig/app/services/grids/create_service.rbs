@@ -1,0 +1,5 @@
+class Grids::CreateService < BaseServices::Create
+  include ::Shared::ServiceContext
+
+  def instance: (untyped attributes) -> untyped
+end

@@ -1,0 +1,15 @@
+module Entry::SplashedDates
+  extend ActiveSupport::Concern
+
+  # tyear, tmonth, tweek assigned where setting spent_on attributes
+  # these attributes make time aggregations easier
+  def spent_on=: (untyped date) -> untyped
+
+  private
+
+  def set_tyear: () -> untyped
+
+  def set_tmonth: () -> untyped
+
+  def set_tweek: () -> untyped
+end

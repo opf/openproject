@@ -1,0 +1,46 @@
+module LdapGroups
+  class SynchronizeGroupsService
+    attr_reader ldap: untyped
+
+    attr_reader synced_groups: untyped
+
+    def initialize: (untyped ldap) -> void
+
+    def call: () -> untyped
+
+    def synchronize!: () -> untyped
+
+    def synchronize_members: (untyped sync_group, untyped ldap_con) -> untyped
+
+    #
+    # Map LDAP entries to user accounts, creating them if necessary
+    def map_to_users: (untyped sync_group, untyped entries) -> untyped
+
+    #
+    # Create missing users from ldap data
+    def create_missing!: (untyped entries) -> untyped
+
+    # Try to create the user from attributes
+    def try_to_create: (untyped attrs) -> untyped
+
+    #
+    # Apply memberships from the ldap group and remove outdated
+    def update_memberships!: (untyped sync, untyped users) -> untyped
+
+    #
+    # Get the current members from the ldap group
+    def get_members: (untyped ldap_con, untyped group) -> untyped
+
+    #
+    # Add new users to the synced group
+    def add_memberships!: (untyped ldap_member_ids, untyped sync) -> (nil | untyped)
+
+    #
+    # Get the memberof filter to use for querying members
+    def memberof_filter: (untyped group) -> untyped
+
+    #
+    # Remove a set of memberships
+    def remove_memberships!: (untyped memberships, untyped sync) -> (nil | untyped)
+  end
+end

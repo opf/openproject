@@ -1,0 +1,10 @@
+# Base class of all controllers in Backlogs
+class RbApplicationController < ApplicationController
+  private
+
+  # Loads the project to be used by the authorize filter to determine if
+  # User.current has permission to invoke the method in question.
+  def load_sprint_and_project: () -> untyped
+
+  def check_if_plugin_is_configured: () -> untyped
+end

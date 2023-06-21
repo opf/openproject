@@ -1,0 +1,22 @@
+module OpenProject
+  module Reporting
+    module Patches
+      module BigDecimalPatch
+        class BigDecimal
+          def to_d: () -> self
+        end
+
+        class Integer
+        end
+
+        class String
+          def to_d: () -> untyped
+        end
+
+        class NilClass
+          def to_d: () -> 0
+        end
+      end
+    end
+  end
+end

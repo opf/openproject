@@ -1,0 +1,7 @@
+class Widget::Filters::Base < Widget::Base
+  attr_reader filter: untyped
+
+  attr_reader filter_class: untyped
+
+  def initialize: (untyped filter) -> void
+end

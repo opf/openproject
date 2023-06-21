@@ -1,0 +1,73 @@
+module OpenIDConnect
+  class Provider
+    ALLOWED_TYPES: ::Array["azure" | "google"]
+
+    class NewProvider < OpenStruct
+      def to_h: () -> untyped
+    end
+
+    extend ActiveModel::Naming
+
+    include ActiveModel::Conversion
+
+    extend ActiveModel::Translation
+
+    attr_reader errors: untyped
+
+    attr_reader omniauth_provider: untyped
+
+    attr_accessor display_name: untyped
+
+    #
+    # Controls whether or not self registration shall be limited for this provider.
+    #
+    # See also:
+    #   - OpenProject::Plugins::AuthPlugin.limit_self_registration?
+    #   - OpenProject::AuthPlugins::Patches::RegisterUserServicePatch
+    attr_reader limit_self_registration: untyped
+
+    def initialize: (untyped omniauth_provider) -> void
+
+    def self.initialize_with: (untyped params) -> untyped
+
+    def new_record?: () -> untyped
+
+    def persisted?: () -> untyped
+
+    def limit_self_registration?: () -> untyped
+
+    def limit_self_registration=: (untyped value) -> untyped
+
+    def to_h: () -> (::Hash[untyped, untyped] | untyped)
+
+    def limit_self_registration_default: () -> untyped
+
+    def id: () -> (nil | untyped)
+
+    def valid?: () -> untyped
+
+    #
+    # Checks if the provider with the given name is of an allowed type.
+    #
+    # Types can be followed by a period and arbitrary names to add several
+    # providers of the same type. E.g. 'azure', 'azure.dep1', 'azure.dep2'.
+    def type_allowed?: (untyped name) -> untyped
+
+    def save: () -> (false | true)
+
+    def destroy: () -> true
+
+    def setting_with_provider: () -> untyped
+
+    def setting_without_provider: () -> untyped
+
+    def setting: () -> untyped
+
+    # https://api.rubyonrails.org/classes/ActiveModel/Errors.html
+    def read_attribute_for_validation: (untyped attr) -> untyped
+
+    private
+
+    def initial_value_for_limit_self_registration: () -> untyped
+  end
+end

@@ -1,0 +1,19 @@
+class Widget::Table::ReportTable < Widget::Table
+  attr_accessor walker: untyped
+
+  def configure_query: () -> (untyped | untyped | nil)
+
+  def configure_walker: () -> untyped
+
+  def render: () -> untyped
+
+  def render_tbody: () -> untyped
+
+  def mark_penultimate_column!: (untyped line) -> untyped
+
+  def render_thead: () -> (nil | untyped)
+
+  def render_tfoot: () -> (nil | untyped)
+
+  def debug_content: () -> untyped
+end

@@ -1,0 +1,43 @@
+module OpenProject::Backlogs::Patches::WorkPackagePatch
+  extend ActiveSupport::Concern
+
+  prepend InstanceMethods
+
+  extend ClassMethods
+
+  include OpenProject::Backlogs::List
+
+  module ClassMethods
+    def backlogs_types: () -> untyped
+
+    def children_of: (untyped ids) -> untyped
+  end
+
+  module InstanceMethods
+    def done?: () -> untyped
+
+    def to_story: () -> (untyped | nil)
+
+    def is_story?: () -> untyped
+
+    def to_task: () -> (untyped | nil)
+
+    def is_task?: () -> untyped
+
+    def is_impediment?: () -> untyped
+
+    def types: () -> (untyped | untyped | ::Array[untyped])
+
+    def story: () -> (untyped | untyped | nil)
+
+    def blocks: () -> (::Array[untyped] | untyped)
+
+    def backlogs_enabled?: () -> untyped
+
+    def in_backlogs_type?: () -> untyped
+
+    private
+
+    def backlogs_before_validation: () -> (untyped | nil)
+  end
+end

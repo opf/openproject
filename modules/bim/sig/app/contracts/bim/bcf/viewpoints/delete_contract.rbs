@@ -1,0 +1,6 @@
+module Bim::Bcf
+  module Viewpoints
+    class DeleteContract < ::DeleteContract
+    end
+  end
+end

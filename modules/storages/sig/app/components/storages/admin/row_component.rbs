@@ -1,0 +1,17 @@
+# Purpose: Defines the row model for the table of Storage objects
+# Used by: Storages table in table_component.rb
+module Storages::Admin
+  class RowComponent < ::RowComponent
+    def storage: () -> untyped
+
+    def name: () -> untyped
+
+    def creator: () -> untyped
+
+    def button_links: () -> ::Array[untyped]
+
+    def delete_link: () -> untyped
+
+    def edit_link: () -> untyped
+  end
+end

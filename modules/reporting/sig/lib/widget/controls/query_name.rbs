@@ -1,0 +1,5 @@
+class Widget::Controls::QueryName < Widget::Controls
+  def render: () -> untyped
+
+  def translations: () -> untyped
+end

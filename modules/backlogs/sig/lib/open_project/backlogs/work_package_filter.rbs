@@ -1,0 +1,51 @@
+module OpenProject::Backlogs
+  class WorkPackageFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
+    def allowed_values: () -> ::Array[::Array[untyped | "story"] | ::Array[untyped | "task"] | ::Array[untyped | "impediment"] | ::Array[untyped | "any"]]
+
+    def available?: () -> untyped
+
+    def self.key: () -> :backlogs_work_package_type
+
+    def where: () -> untyped
+
+    def type: () -> :list
+
+    def human_name: () -> untyped
+
+    def dependency_class: () -> "::API::V3::Queries::Schemas::BacklogsTypeDependencyRepresenter"
+
+    def ar_object_filter?: () -> true
+
+    def value_objects: () -> untyped
+
+    private
+
+    def backlogs_configured?: () -> untyped
+
+    def backlogs_enabled?: () -> untyped
+
+    def sql_for_field: (untyped values) -> untyped
+
+    def db_table: () -> untyped
+
+    def sql_for_story: () -> ::String
+
+    def sql_for_task: () -> ::String
+
+    def sql_for_impediment: () -> ::String
+
+    def is_child_sql: () -> untyped
+
+    def blocks_backlogs_type_sql: () -> untyped
+  end
+
+  # Need to be conformant to the interface required
+  # by api/v3/queries/filters/query_filter_instance_representer.rb
+  class BacklogsType
+    attr_accessor id: untyped
+
+    attr_accessor name: untyped
+
+    def initialize: (untyped name, untyped id) -> void
+  end
+end

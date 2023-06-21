@@ -1,0 +1,21 @@
+module Storages::Peripherals
+  class ParseCreateParamsService < ::API::ParseResourceParamsService
+    MAX_ELEMENTS: 20
+
+    attr_reader request_body: untyped
+
+    private
+
+    def parse_attributes: (untyped request_body) -> untyped
+
+    def elements: () -> untyped
+
+    def assert_valid_elements: () -> untyped
+
+    def assert_elements_is_present: () -> (nil | untyped)
+
+    def assert_elements_is_an_array: () -> (nil | untyped)
+
+    def assert_elements_does_not_exceed_maximum: () -> (nil | untyped)
+  end
+end

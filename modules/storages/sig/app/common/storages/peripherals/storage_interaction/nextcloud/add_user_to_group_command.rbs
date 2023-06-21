@@ -1,0 +1,8 @@
+module Storages::Peripherals::StorageInteraction::Nextcloud
+  class AddUserToGroupCommand
+    def initialize: (untyped storage) -> void
+
+    # rubocop:disable Metrics/AbcSize
+    def call: (user: untyped, ?group: untyped) -> untyped
+  end
+end

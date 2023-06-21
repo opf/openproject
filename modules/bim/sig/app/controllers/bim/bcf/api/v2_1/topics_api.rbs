@@ -1,0 +1,12 @@
+module Bim::Bcf::API::V2_1
+  class TopicsAPI < ::API::OpenProjectAPI
+    def topics: () -> untyped
+
+    def transform_attributes: (untyped attributes) -> untyped
+
+    # In a put request, every non required and non provided
+    # parameter needs to be nilled. As we cannot nil type, status and priority
+    # as they are required for a work package we use the default values.
+    def default_put_params: () -> { index: nil, assigned_to: nil, description: nil, due_date: nil, subject: nil, type: untyped, status: untyped, priority: untyped }
+  end
+end

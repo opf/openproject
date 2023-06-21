@@ -1,0 +1,5 @@
+module Boards
+  class CopyService < ::Grids::CopyService
+    def set_attributes_params: (untyped params) -> untyped
+  end
+end

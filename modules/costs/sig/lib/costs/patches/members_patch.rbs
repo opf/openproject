@@ -1,0 +1,63 @@
+module Costs
+  module Patches::MembersPatch
+    def self.mixin!: () -> untyped
+
+    module TableOptions
+      def members_table_options: (untyped _roles) -> untyped
+    end
+
+    module TableComponent
+      def sort_collection: (untyped query, untyped sort_clause, untyped sort_columns) -> untyped
+
+      #
+      # Joins user's rates so the results can be sorted by them.
+      # Each member is paired by one rate row of either (if present, in this order):
+      #
+      #   1) a user's rate in the given project
+      #   2) a user's rate in one of the given project's parents
+      #   3) a user's default rate
+      #
+      # This mirrors the behaviour as implemented in `HourlyRate#at_date_for_user_in_project`.
+      def join_rate: (untyped query) -> untyped
+
+      def project_rates: () -> ::String
+
+      def parent_project_rates: () -> ::String
+
+      def default_rates: () -> ::String
+
+      def rate_valid_from: () -> untyped
+
+      def parent_project_ids: () -> untyped
+
+      def project: () -> untyped
+
+      def columns: () -> untyped
+
+      def costs_enabled?: () -> untyped
+    end
+
+    module RowComponent
+      include ActionView::Helpers::NumberHelper
+
+      #
+      # Getter for row's current_rate column
+      # the result of which is rendered in the table.
+      def current_rate: () -> (untyped | nil)
+
+      def column_css_class: (untyped name) -> ("currency" | untyped)
+
+      def rate: () -> untyped
+
+      def rate_action: () -> ("edit" | "show")
+
+      def show_rate?: () -> untyped
+
+      def costs_enabled?: () -> untyped
+
+      def allow_view?: () -> untyped
+
+      def allow_edit?: () -> untyped
+    end
+  end
+end

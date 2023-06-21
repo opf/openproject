@@ -1,0 +1,22 @@
+module Budgets
+  module Hooks
+    class WorkPackageHook < ::OpenProject::Hook::ViewListener
+      # Updates the cost object after a move
+      #
+      # Context:
+      # * params => Request parameters
+      # * work_package => WorkPackage to move
+      # * target_project => Target of the move
+      # * copy => true, if the work_packages are copied rather than moved
+      def controller_work_packages_move_before_save: (?::Hash[untyped, untyped] context) -> untyped
+
+      # Saves the Cost Object assignment to the work_package
+      #
+      # Context:
+      # * :work_package => WorkPackage being saved
+      # * :params => HTML parameters
+      #
+      def controller_work_packages_bulk_edit_before_save: (?::Hash[untyped, untyped] context) -> ""
+    end
+  end
+end

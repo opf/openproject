@@ -1,0 +1,5 @@
+module Bim::Bcf::API::V2_1::Viewpoints
+  class VisibilityRepresenter < BaseRepresenter
+    def scope: () -> untyped
+  end
+end

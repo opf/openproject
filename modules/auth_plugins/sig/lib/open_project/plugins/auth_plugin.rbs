@@ -1,0 +1,34 @@
+module OpenProject::Plugins
+  module AuthPlugin
+    def register_auth_providers: () { () -> untyped } -> untyped
+
+    def self.strategies: () -> untyped
+
+    def self.providers_for: (untyped strategy) -> untyped
+
+    def self.login_provider_for: (untyped user) -> (nil | untyped)
+
+    def self.find_provider_by_name: (untyped provider_name) -> untyped
+
+    def self.providers: () -> untyped
+
+    def self.filtered_strategies: (untyped options) -> untyped
+
+    def self.strategy_key: (untyped strategy) -> untyped
+
+    #
+    # Indicates whether or not self registration should be limited for the provider
+    # with the given name.
+    #
+    # @param provider [String] Name of the provider
+    def self.limit_self_registration?: (provider: untyped) -> untyped
+
+    def self.warn_unavailable: (untyped name) -> untyped
+  end
+
+  class ProviderBuilder
+    def strategy: (untyped strategy) { () -> untyped } -> untyped
+
+    def new_strategies: () -> untyped
+  end
+end

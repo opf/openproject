@@ -1,0 +1,9 @@
+class Stories::UpdateService
+  attr_accessor user: untyped
+
+  attr_accessor story: untyped
+
+  def initialize: (user: untyped, story: untyped) -> void
+
+  def call: (?attributes: ::Hash[untyped, untyped], ?prev: untyped?) -> untyped
+end

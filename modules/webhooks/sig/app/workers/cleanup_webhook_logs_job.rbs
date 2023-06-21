@@ -1,0 +1,4 @@
+class CleanupWebhookLogsJob < Cron::CronJob
+  # Clean any logs older than 7 days
+  def perform: () -> untyped
+end

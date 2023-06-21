@@ -1,0 +1,9 @@
+class Tasks::UpdateService
+  attr_accessor user: untyped
+
+  attr_accessor task: untyped
+
+  def initialize: (user: untyped, task: untyped) -> void
+
+  def call: (?attributes: ::Hash[untyped, untyped], ?prev: ::String) -> untyped
+end

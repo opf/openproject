@@ -1,0 +1,7 @@
+module Grids
+  class CreateContract < BaseContract
+    def writable?: (untyped attribute) -> untyped
+
+    def assignable_scopes: () -> untyped
+  end
+end

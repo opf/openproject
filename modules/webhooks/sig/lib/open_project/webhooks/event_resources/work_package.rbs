@@ -1,0 +1,11 @@
+module OpenProject::Webhooks::EventResources
+  class WorkPackage < Base
+    def self.notification_names: () -> ::Array[untyped]
+
+    def self.available_actions: () -> ::Array[:updated | :created]
+
+    def self.resource_name: () -> untyped
+
+    def self.handle_notification: (untyped payload, untyped event_name) -> untyped
+  end
+end

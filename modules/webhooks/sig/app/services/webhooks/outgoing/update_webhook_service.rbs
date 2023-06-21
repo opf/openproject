@@ -1,0 +1,21 @@
+module Webhooks
+  module Outgoing
+    class UpdateWebhookService
+      attr_reader current_user: untyped
+
+      attr_reader webhook: untyped
+
+      def initialize: (untyped webhook, current_user: untyped) -> void
+
+      def call: (?attributes: ::Hash[untyped, untyped]) -> untyped
+
+      private
+
+      def set_attributes: (untyped params) -> untyped
+
+      def set_selected_events!: (untyped params) -> untyped
+
+      def set_selected_projects!: (untyped params) -> untyped
+    end
+  end
+end

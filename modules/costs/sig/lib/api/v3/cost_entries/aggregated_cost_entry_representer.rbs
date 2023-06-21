@@ -1,0 +1,17 @@
+module API
+  module V3
+    module CostEntries
+      # N.B. This class is currently quite specifically crafted for the aggregation of cost entries
+      # of a single work package by their type. This might be improved in the future™
+      class AggregatedCostEntryRepresenter < ::API::Decorators::Single
+        include API::Decorators::LinkedResource
+
+        def initialize: (untyped cost_type, untyped units) -> void
+
+        def _type: () -> "AggregatedCostEntry"
+
+        def model_required?: () -> false
+      end
+    end
+  end
+end

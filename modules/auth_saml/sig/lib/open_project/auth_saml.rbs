@@ -1,0 +1,4 @@
+module OpenProject
+  module AuthSaml
+  end
+end

@@ -1,0 +1,13 @@
+module OpenProject::Backlogs::Patches::SetAttributesServicePatch
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    def set_attributes: (untyped attributes) -> untyped
+
+    def closest_story_or_impediment: (untyped parent_id) -> untyped
+
+    # ancestors array similar to Module#ancestors
+    # i.e. returns immediate ancestors first
+    def ancestor_chain: (untyped parent_id) -> untyped
+  end
+end

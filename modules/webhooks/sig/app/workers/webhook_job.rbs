@@ -1,0 +1,9 @@
+class WebhookJob < ApplicationJob
+  attr_reader webhook_id: untyped
+
+  attr_reader event_name: untyped
+
+  def perform: (untyped webhook_id, untyped event_name) -> untyped
+
+  def webhook: () -> untyped
+end

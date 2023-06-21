@@ -1,0 +1,7 @@
+module OpenProject::Backlogs::Patches::Versions::RowComponentPatch
+  def button_links: () -> untyped
+
+  private
+
+  def backlogs_edit_link: () -> (nil | untyped)
+end

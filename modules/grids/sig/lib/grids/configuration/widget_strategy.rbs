@@ -1,0 +1,11 @@
+module Grids::Configuration
+  class WidgetStrategy
+    def self.after_destroy: (?untyped? proc) -> untyped
+
+    def self.allowed: (?untyped? proc) -> untyped
+
+    def self.allowed?: (untyped user, untyped project) -> untyped
+
+    def self.options_representer: (?untyped? klass) -> untyped
+  end
+end

@@ -1,0 +1,19 @@
+module Bim::Bcf::API::V2_1::Errors
+  class ErrorMapper
+    extend ActiveModel::Naming
+
+    extend ActiveModel::Translation
+
+    def read_attribute_for_validation: (untyped _attr) -> nil
+
+    # In case the error lookups collide, we need to provide
+    # separate error mappers for every class.
+    def self.lookup_ancestors: () -> ::Array[untyped]
+
+    def self.map: (untyped original_errors) -> untyped
+
+    def self.i18n_scope: () -> :activerecord
+
+    def self.error_key_mapper: (untyped key) -> untyped
+  end
+end

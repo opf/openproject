@@ -1,0 +1,15 @@
+module ::Avatars
+  class BaseController < ::ApplicationController
+    def update: () -> untyped
+
+    def destroy: () -> untyped
+
+    private
+
+    def redirect_path: () -> untyped
+
+    def ensure_enabled: () -> (untyped | nil)
+
+    def service_request: (type: untyped) -> untyped
+  end
+end

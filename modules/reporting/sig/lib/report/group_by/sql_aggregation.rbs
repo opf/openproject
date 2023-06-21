@@ -1,0 +1,9 @@
+class Report::GroupBy
+  module SqlAggregation
+    def responsible_for_sql?: () -> true
+
+    def compute_result: () -> untyped
+
+    def sql_statement: () -> untyped
+  end
+end

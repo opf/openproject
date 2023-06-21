@@ -1,0 +1,46 @@
+class OpenProject::XlsExport::XlsViews
+  include Redmine::I18n
+
+  include ActionView::Helpers::NumberHelper
+
+  include ApplicationHelper
+
+  include ReportingHelper
+
+  include OpenProject::StaticRouting::UrlHelpers
+
+  attr_accessor spreadsheet: untyped
+
+  attr_accessor query: untyped
+
+  attr_accessor cost_type: untyped
+
+  attr_accessor unit_id: untyped
+
+  attr_accessor options: untyped
+
+  # Overwrite a few mappings.
+  def field_representation_map: (untyped key, untyped value) -> untyped
+
+  def show_result: (untyped row, ?untyped unit_id, ?bool as_text) -> untyped
+
+  def cost_type_unit_label: (untyped cost_type_id, ?untyped? cost_type_inst, ?bool plural) -> untyped
+
+  def serialize_query_without_hidden: (untyped query) -> untyped
+
+  def self.generate: (untyped opts) -> untyped
+
+  def set_title: () -> untyped
+
+  def currency_format: () -> ::String
+
+  def number_format: () -> "0.00"
+
+  def project_representation: (untyped value) -> untyped
+
+  def user_representation: (untyped value) -> untyped
+
+  def work_package_representation: (untyped value) -> untyped
+
+  def ar_presentation: (untyped klass, untyped id) { (untyped) -> untyped } -> untyped
+end

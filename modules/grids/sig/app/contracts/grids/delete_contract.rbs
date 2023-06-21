@@ -1,0 +1,4 @@
+module Grids
+  class DeleteContract < ::DeleteContract
+  end
+end

@@ -1,0 +1,5 @@
+module ::Calendar
+  class ICalController < ApplicationController
+    def show: () -> (nil | untyped)
+  end
+end

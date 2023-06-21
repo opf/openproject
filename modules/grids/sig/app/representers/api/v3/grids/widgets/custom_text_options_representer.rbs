@@ -1,0 +1,11 @@
+module API
+  module V3
+    module Grids
+      module Widgets
+        class CustomTextOptionsRepresenter < DefaultOptionsRepresenter
+          include API::Decorators::FormattableProperty
+        end
+      end
+    end
+  end
+end

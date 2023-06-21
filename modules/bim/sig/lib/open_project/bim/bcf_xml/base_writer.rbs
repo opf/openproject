@@ -1,0 +1,31 @@
+#
+# Creates or updates a BCF issue and markup from a work package
+module OpenProject::Bim::BcfXml
+  class BaseWriter
+    attr_reader markup_doc: untyped
+
+    def initialize: () -> void
+
+    def root_node: () -> untyped
+
+    def root_node_attributes: () -> ::Hash[untyped, untyped]
+
+    #
+    # Initial markup file as basic BCF compliant xml
+    def build_markup_document: () -> untyped
+
+    def prepend_into_or_insert: (untyped parent_node, untyped node) -> untyped
+
+    def fetch: (untyped parent_node, untyped name) -> untyped
+
+    #
+    #
+    def created_by_comment: () -> ::String
+
+    def to_bcf_datetime: (untyped date_time) -> untyped
+
+    def to_bcf_date: (untyped date) -> untyped
+
+    def url_helpers: () -> untyped
+  end
+end

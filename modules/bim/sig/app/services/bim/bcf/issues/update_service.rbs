@@ -1,0 +1,9 @@
+module Bim::Bcf
+  module Issues
+    class UpdateService < ::BaseServices::Update
+      private
+
+      def before_perform: (untyped params, untyped service_result) -> untyped
+    end
+  end
+end

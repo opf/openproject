@@ -1,0 +1,5 @@
+class CostQuery::Filter::AuthorId < CostQuery::Filter::UserId
+  def self.label: () -> untyped
+
+  def self.available_values: (*untyped) -> untyped
+end

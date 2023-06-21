@@ -1,0 +1,17 @@
+module Report::InheritedAttribute
+  include Report::QueryUtils
+
+  def inherited_attribute: (*untyped attributes) -> untyped
+
+  def define_singleton_method: (untyped name) { () -> untyped } -> untyped
+
+  def get_inherited_attribute: (untyped name, ?untyped? default, ?bool list, ?bool uniq) -> untyped
+
+  def inherit?: (untyped name) -> untyped
+
+  def not_inherited: () -> untyped
+
+  def dont_inherit: (*untyped attributes) -> untyped
+
+  def set_inherited_attribute: (untyped name, untyped value) -> untyped
+end

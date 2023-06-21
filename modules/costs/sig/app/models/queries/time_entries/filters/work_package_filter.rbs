@@ -1,0 +1,7 @@
+class Queries::TimeEntries::Filters::WorkPackageFilter < Queries::TimeEntries::Filters::TimeEntryFilter
+  def allowed_values: () -> untyped
+
+  def type: () -> :list_optional
+
+  def self.key: () -> :work_package_id
+end

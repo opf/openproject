@@ -1,0 +1,12 @@
+class CostQuery::Filter::ProjectId < Report::Filter::Base
+  def self.label: () -> untyped
+
+  def self.available_operators: () -> untyped
+
+  #
+  # Calculates the available values for this filter.
+  # Gives a map of [project_name, project_id, nesting_level_of_project].
+  # The map is sorted such that projects appear in alphabetical order within a nesting level
+  # and so that descendant projects appear after their ancestors.
+  def self.available_values: (*untyped) -> untyped
+end

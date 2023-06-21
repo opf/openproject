@@ -1,0 +1,31 @@
+module ::TwoFactorAuthentication
+  module ForcedRegistration
+    class TwoFactorDevicesController < ::TwoFactorAuthentication::BaseController
+      #
+      # Avoid dynamic route hitting the base controller
+      def make_default: () -> untyped
+
+      def destroy: () -> untyped
+
+      #
+      # Register the device and let the user confirm
+      def register: () -> untyped
+
+      private
+
+      def target_user: () -> untyped
+
+      def show_local_breadcrumb: () -> false
+
+      def index_path: () -> untyped
+
+      def registration_success_path: () -> untyped
+
+      def registration_failure_path: () -> untyped
+
+      #
+      # Ensure the authentication stage from the core provided the authenticated user
+      def require_authenticated_user: () -> untyped
+    end
+  end
+end

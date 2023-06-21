@@ -1,0 +1,15 @@
+module OpenProject::Backlogs::Patches::VersionPatch
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    def rebuild_story_positions: (?untyped project) -> nil
+
+    def rebuild_task_positions: (untyped task) -> nil
+
+    def ==: (untyped other) -> untyped
+
+    def eql?: (untyped other) -> untyped
+
+    def rebuild_positions: (untyped scope, untyped type_ids) -> untyped
+  end
+end

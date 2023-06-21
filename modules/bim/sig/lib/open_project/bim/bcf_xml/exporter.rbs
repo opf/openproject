@@ -1,0 +1,42 @@
+module OpenProject::Bim::BcfXml
+  class Exporter < ::WorkPackage::Exports::QueryExporter
+    def initialize: (untyped object, ?::Hash[untyped, untyped] options) -> void
+
+    def current_user: () -> untyped
+
+    def self.key: () -> :bcf
+
+    def export!: () -> untyped
+
+    def success: (untyped zip) -> untyped
+
+    def bcf_filename: () -> untyped
+
+    def zip_folder: (untyped dir, untyped files) -> untyped
+
+    def create_bcf!: (untyped bcf_folder) -> untyped
+
+    #
+    # Write the manifest file <dir>/bcf.version
+    def write_manifest: (untyped dir) -> untyped
+
+    #
+    # Create and return the issue folder
+    # /dir/<uuid>/
+    def topic_folder_for: (untyped dir, untyped issue) -> untyped
+
+    #
+    # Write each work package BCF
+    def topic_markup_file: (untyped issue_dir, untyped issue) -> untyped
+
+    #
+    # Write viewpoints
+    def viewpoints_for: (untyped issue_dir, untyped issue) -> untyped
+
+    def manifest_xml: () -> untyped
+
+    def dump_file: (untyped path, untyped content) -> untyped
+
+    def created_by_comment: () -> ::String
+  end
+end

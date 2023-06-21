@@ -1,0 +1,9 @@
+module Bim
+  module IfcModels
+    class CreateService < ::BaseServices::Create
+      def after_perform: (untyped call) -> untyped
+
+      def instance: (untyped _params) -> untyped
+    end
+  end
+end

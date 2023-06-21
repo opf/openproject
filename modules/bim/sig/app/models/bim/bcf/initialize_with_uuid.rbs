@@ -1,0 +1,10 @@
+module Bim::Bcf
+  #
+  # Module to set an initial UUID on the model
+  # whenever it is created
+  module InitializeWithUuid
+    extend ActiveSupport::Concern
+
+    def set_initial_uuid: () -> untyped
+  end
+end

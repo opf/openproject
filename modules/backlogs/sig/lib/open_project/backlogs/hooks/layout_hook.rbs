@@ -1,0 +1,11 @@
+module OpenProject::Backlogs::Hooks
+  class LayoutHook < OpenProject::Hook::ViewListener
+    include RbCommonHelper
+
+    def view_versions_show_bottom: (?::Hash[untyped, untyped] context) -> ("" | untyped)
+
+    def view_my_settings: (?::Hash[untyped, untyped] context) -> untyped
+
+    def controller_work_package_new_after_save: (?::Hash[untyped, untyped] context) -> (nil | untyped)
+  end
+end

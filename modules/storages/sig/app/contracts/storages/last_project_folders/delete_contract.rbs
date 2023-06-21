@@ -1,0 +1,4 @@
+module Storages::LastProjectFolders
+  class DeleteContract < ::DeleteContract
+  end
+end

@@ -1,0 +1,19 @@
+module API
+  module Bim
+    module BcfXml
+      module V1
+        class BcfXmlAPI < ::API::OpenProjectAPI
+          # Global helper to set allowed content_types
+          # This may be overridden when multipart is allowed (file uploads)
+          def allowed_content_types: () -> (::Array["multipart/form-data"] | untyped)
+
+          def post_request?: () -> untyped
+
+          def import_options: () -> untyped
+
+          def find_project: () -> untyped
+        end
+      end
+    end
+  end
+end

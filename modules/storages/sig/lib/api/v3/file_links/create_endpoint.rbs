@@ -1,0 +1,27 @@
+# Handles /api/v3/work_packages/:work_package_id/file_links as defined
+# in modules/storages/lib/api/v3/file_links/work_packages_file_links_api.rb
+#
+# Multiple classes are involved during its lifecycle:
+#   - Storages::Peripherals::ParseCreateParamsService
+#   - API::V3::FileLinks::FileLinkCollectionRepresenter
+#   - Storages::FileLinks::CreateService
+#
+# These classes are either deduced from the model class, or given as parameter
+# on class instantiation.
+class API::V3::FileLinks::CreateEndpoint < API::Utilities::Endpoints::Create
+  include ::API::V3::Utilities::Endpoints::V3Deductions
+
+  include ::API::V3::Utilities::Endpoints::V3PresentSingle
+
+  # As this endpoint receives a list of file links to create, it calls the
+  # create service multiple times, one time for each file link to create. The
+  # call is done by calling the `super` method. Results are aggregated in
+  # global_result using the `add_dependent!` method.
+  def process: (untyped request, untyped params_elements) -> untyped
+
+  def present_success: (untyped request, untyped service_call) -> untyped
+
+  private
+
+  def self_link: (untyped _request) -> ::String
+end

@@ -1,0 +1,11 @@
+module Bim::Bcf
+  module Concerns
+    module ManageBcfGuarded
+      extend ActiveSupport::Concern
+
+      private
+
+      def validate_user_allowed_to_manage: () -> (untyped | nil)
+    end
+  end
+end

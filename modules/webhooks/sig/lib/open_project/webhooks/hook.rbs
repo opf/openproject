@@ -1,0 +1,13 @@
+module OpenProject::Webhooks
+  class Hook
+    attr_accessor name: untyped
+
+    attr_accessor callback: untyped
+
+    def initialize: (untyped name) { () -> untyped } -> void
+
+    def relative_url: () -> ::String
+
+    def handle: (?untyped request, ?untyped params, ?untyped? user) -> untyped
+  end
+end

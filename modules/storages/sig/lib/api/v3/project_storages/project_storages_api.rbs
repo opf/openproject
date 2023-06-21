@@ -1,0 +1,4 @@
+module API::V3::ProjectStorages
+  class ProjectStoragesAPI < API::OpenProjectAPI
+  end
+end

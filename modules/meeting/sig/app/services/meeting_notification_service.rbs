@@ -1,0 +1,13 @@
+class MeetingNotificationService
+  attr_reader meeting: untyped
+
+  attr_reader content_type: untyped
+
+  def initialize: (untyped meeting, untyped content_type) -> void
+
+  def call: (untyped content, untyped action, ?include_author: bool) -> untyped
+
+  private
+
+  def send_notifications!: (untyped content, untyped action, include_author: untyped) -> untyped
+end

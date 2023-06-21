@@ -1,0 +1,13 @@
+module Meetings
+  class RowComponent < ::RowComponent
+    def project_id: () -> untyped
+
+    def title: () -> untyped
+
+    def start_time: () -> untyped
+
+    def duration: () -> ::String
+
+    def location: () -> untyped
+  end
+end

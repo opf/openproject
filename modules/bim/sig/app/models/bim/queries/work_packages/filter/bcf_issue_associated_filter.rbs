@@ -1,0 +1,25 @@
+module ::Bim::Queries::WorkPackages::Filter
+  class BcfIssueAssociatedFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
+    attr_reader join_table_suffix: untyped
+
+    def type: () -> :list
+
+    def allowed_values: () -> ::Array[::Array[untyped]]
+
+    def where: () -> untyped
+
+    def includes: () -> :bcf_issue
+
+    def type_strategy: () -> untyped
+
+    def dependency_class: () -> "::API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter"
+
+    def available?: () -> untyped
+
+    private
+
+    def associated?: () -> untyped
+
+    def not_associated?: () -> untyped
+  end
+end

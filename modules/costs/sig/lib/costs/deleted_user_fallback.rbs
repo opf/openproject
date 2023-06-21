@@ -1,0 +1,9 @@
+module Costs
+  module DeletedUserFallback
+    def self.included: (untyped base) -> untyped
+
+    module InstanceMethods
+      def user: (?bool force_reload) -> untyped
+    end
+  end
+end

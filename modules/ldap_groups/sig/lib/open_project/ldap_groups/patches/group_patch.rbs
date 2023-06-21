@@ -1,0 +1,7 @@
+module OpenProject::LdapGroups
+  module Patches
+    module GroupPatch
+      def self.included: (untyped base) -> untyped
+    end
+  end
+end

@@ -1,0 +1,2 @@
+class Grids::DeleteService < BaseServices::Delete
+end

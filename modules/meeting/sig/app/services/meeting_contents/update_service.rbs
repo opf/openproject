@@ -1,0 +1,7 @@
+module MeetingContents
+  class UpdateService < ::BaseServices::Update
+    include Attachments::ReplaceAttachments
+
+    def persist: (untyped call) -> untyped
+  end
+end

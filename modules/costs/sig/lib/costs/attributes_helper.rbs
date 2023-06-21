@@ -1,0 +1,23 @@
+module Costs
+  class AttributesHelper
+    def initialize: (untyped work_package, ?untyped user) -> void
+
+    def overall_costs: () -> untyped
+
+    def summarized_cost_entries: () -> untyped
+
+    def time_entries: () -> untyped
+
+    def cost_entries: () -> untyped
+
+    private
+
+    def compute_overall_costs: () -> untyped
+
+    def material_costs: () -> untyped
+
+    def labor_costs: () -> untyped
+
+    def user_allowed_to?: (*untyped privileges) -> untyped
+  end
+end

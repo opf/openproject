@@ -1,0 +1,33 @@
+module CostQuery::CustomFieldMixin
+  include Report::QueryUtils
+
+  attr_reader custom_field: untyped
+
+  SQL_TYPES: ::Hash[::String, "varchar" | "text" | "boolean" | "date" | "decimal(60,3)"]
+
+  def self.extended: (untyped base) -> untyped
+
+  def all: () -> untyped
+
+  def reset!: () -> untyped
+
+  def generate_subclasses: () -> untyped
+
+  def remove_subclasses: () -> untyped
+
+  def factory?: () -> untyped
+
+  def on_prepare: () ?{ () -> untyped } -> untyped
+
+  def table_name: () -> untyped
+
+  def label: () -> untyped
+
+  def prepare: (untyped field, untyped class_name) -> self
+
+  def list_join_table: (untyped field) -> ::String
+
+  def default_join_table: (untyped field) -> untyped
+
+  def new: (*untyped) -> untyped
+end

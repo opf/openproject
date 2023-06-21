@@ -1,0 +1,48 @@
+module Grids::Configuration
+  def self.register_grid: (untyped grid, untyped klass) -> untyped
+
+  def self.registered_grids: () -> untyped
+
+  def self.all_scopes: () -> untyped
+
+  def self.writable_scopes: () -> untyped
+
+  def self.all: () -> untyped
+
+  def self.attributes_from_scope: (untyped page) -> untyped
+
+  def self.defaults: (untyped klass) -> untyped
+
+  def self.class_from_scope: (untyped page) -> untyped
+
+  def self.to_scope: (untyped klass, untyped path_parts) -> (nil | untyped)
+
+  def self.registered_grid?: (untyped klass) -> untyped
+
+  def self.register_widget: (untyped identifier, untyped grid_classes) -> untyped
+
+  def self.allowed_widget?: (untyped grid, untyped identifier, untyped user, untyped project) -> untyped
+
+  def self.all_widget_identifiers: (untyped grid) -> untyped
+
+  def self.widget_strategy: (untyped grid, untyped identifier) -> untyped
+
+  #
+  # Determines whether the given scope is writable by the current user
+  def self.writable_scope?: (untyped scope) -> untyped
+
+  #
+  # Determine whether the given grid is writable
+  #
+  # @param grid Either a grid instance, or the grid class namespace (e.g., Grids::Grid)
+  # @param user the current user to check against
+  def self.writable?: (untyped grid, untyped user) -> untyped
+
+  def self.validations: (untyped grid, untyped mode) -> untyped
+
+  def self.grid_register: () -> untyped
+
+  def self.registered_widget_by_identifier: () -> untyped
+
+  def self.url_helpers: () -> untyped
+end

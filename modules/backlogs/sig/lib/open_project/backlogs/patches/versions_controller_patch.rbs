@@ -1,0 +1,3 @@
+module OpenProject::Backlogs::Patches::VersionsControllerPatch
+  def self.included: (untyped base) -> untyped
+end

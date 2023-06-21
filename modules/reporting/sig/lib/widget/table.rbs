@@ -1,0 +1,17 @@
+class Widget::Table < Widget::Base
+  extend Report::InheritedAttribute
+
+  include ReportingHelper
+
+  attr_accessor debug: untyped
+
+  attr_accessor fields: untyped
+
+  attr_accessor mapping: untyped
+
+  def initialize: (untyped query) -> void
+
+  def resolve_table: () -> untyped
+
+  def render: () -> untyped
+end

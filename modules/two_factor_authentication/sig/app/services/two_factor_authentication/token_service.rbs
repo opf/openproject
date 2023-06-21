@@ -1,0 +1,45 @@
+module TwoFactorAuthentication
+  class TokenService
+    attr_reader user: untyped
+
+    attr_reader device: untyped
+
+    attr_reader strategy: untyped
+
+    attr_reader channel: untyped
+
+    #
+    # Create a token service for the given user.
+    def initialize: (user: untyped, ?use_device: untyped?, ?use_channel: untyped?) -> void
+
+    #
+    # Determines whether a token should be entered by the user.
+    def requires_token?: () -> (true | untyped)
+
+    #
+    # Determines whether the given user needs to register a
+    # device during the login flow.
+    def needs_registration?: () -> (false | untyped)
+
+    #
+    # Request a token through the active strategy
+    # IF the instance is set up to have optional 2FA
+    def request: () -> untyped
+
+    #
+    # Validate a token that was input by the user
+    def verify: (untyped input_token) -> untyped
+
+    private
+
+    #
+    # Get the matching strategy from the desired channel, if set.
+    def get_matching_strategy: () -> (untyped | nil)
+
+    #
+    # Perform service checks for the request and validate endpoints of this service
+    def verify_device_and_strategy: () -> untyped
+
+    def manager: () -> untyped
+  end
+end

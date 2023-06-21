@@ -1,0 +1,9 @@
+module XlsExport::Project::Exporter
+  class XLS < Projects::Exports::QueryExporter
+    include ::XlsExport::Concerns::SpreadsheetBuilder
+
+    alias records projects
+
+    def spreadsheet_title: () -> untyped
+  end
+end

@@ -1,0 +1,28 @@
+class Storages::Admin::OAuthClientsController < ApplicationController
+  # Show the admin page to create a new OAuthClient object.
+  def new: () -> untyped
+
+  # Actually create a OAuthClient object.
+  # Use service pattern to create a new OAuthClient
+  # Called by: Global app/config/routes.rb to serve Web page
+  def create: () -> untyped
+
+  # Used by: admin layout
+  # Breadcrumbs is something like OpenProject > Admin > Storages.
+  # This returns the name of the last part (Storages admin page)
+  def default_breadcrumb: () -> untyped
+
+  # See: default_breadcrumb above
+  # Defines whether to show breadcrumbs on the page or not.
+  def show_local_breadcrumb: () -> true
+
+  private
+
+  # Called by create and update above in order to check if the
+  # update parameters are correctly set.
+  def permitted_oauth_client_params: () -> untyped
+
+  def find_storage: () -> untyped
+
+  def delete_current_oauth_client: () -> (untyped | nil)
+end

@@ -1,0 +1,9 @@
+module OpenProject::Backlogs::Patches::SettingSeederPatch
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    #
+    # Overrides data to include backlogs as a default project module.
+    def data: () -> untyped
+  end
+end

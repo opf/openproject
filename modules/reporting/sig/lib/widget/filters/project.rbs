@@ -1,0 +1,11 @@
+class Widget::Filters::Project < Widget::Filters::Base
+  include AngularHelper
+
+  def render: () -> untyped
+
+  private
+
+  def html_label: () -> untyped
+
+  def map_filter_values: () -> untyped
+end

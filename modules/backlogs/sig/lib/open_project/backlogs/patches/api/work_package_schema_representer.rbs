@@ -1,0 +1,10 @@
+module OpenProject::Backlogs
+  module Patches
+    module API
+      module WorkPackageSchemaRepresenter
+        # rubocop:disable Metrics/AbcSize
+        def self?.extension: () -> untyped
+      end
+    end
+  end
+end

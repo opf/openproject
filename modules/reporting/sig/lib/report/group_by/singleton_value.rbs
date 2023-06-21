@@ -1,0 +1,5 @@
+class Report::GroupBy
+  class SingletonValue < Base
+    def define_group: (untyped sql) -> untyped
+  end
+end

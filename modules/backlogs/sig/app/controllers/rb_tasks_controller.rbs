@@ -1,0 +1,16 @@
+class RbTasksController < RbApplicationController
+  # This is a constant here because we will recruit it elsewhere to whitelist
+  # attributes. This is necessary for now as we still directly use `attributes=`
+  # in non-controller code.
+  PERMITTED_PARAMS: ::Array["id" | "subject" | "assigned_to_id" | "remaining_hours" | "parent_id" | "estimated_hours" | "status_id" | "sprint_id"]
+
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  private
+
+  def respond_with_task: (untyped call) -> untyped
+
+  def task_params: () -> untyped
+end

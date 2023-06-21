@@ -1,0 +1,8 @@
+module API
+  module V3
+    module Budgets
+      class BudgetsAPI < ::API::OpenProjectAPI
+      end
+    end
+  end
+end

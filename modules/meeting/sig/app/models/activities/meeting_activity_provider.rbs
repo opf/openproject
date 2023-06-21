@@ -1,0 +1,29 @@
+class Activities::MeetingActivityProvider < Activities::BaseActivityProvider
+  def extend_event_query: (untyped query) -> untyped
+
+  def event_query_projection: () -> untyped
+
+  def activitied_type: () -> untyped
+
+  def projects_reference_table: () -> untyped
+
+  def activity_journals_table: () -> untyped
+
+  def event_name: (untyped event) -> untyped
+
+  def event_title: (untyped event) -> untyped
+
+  def event_type: (untyped event) -> untyped
+
+  def event_path: (untyped event) -> untyped
+
+  def event_url: (untyped event) -> untyped
+
+  private
+
+  def meetings_table: () -> untyped
+
+  def meeting_contents_table: () -> untyped
+
+  def activity_id: (untyped event) -> untyped
+end

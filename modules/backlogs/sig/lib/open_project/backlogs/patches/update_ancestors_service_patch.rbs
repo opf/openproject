@@ -1,0 +1,17 @@
+module OpenProject::Backlogs::Patches::UpdateAncestorsServicePatch
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    private
+
+    #
+    # Overrides method in original UpdateAncestorsService.
+    def inherit_attributes: (untyped ancestor, untyped loader, untyped attributes) -> untyped
+
+    def inherit_remaining_hours: (untyped ancestor, untyped loader) -> untyped
+
+    def all_remaining_hours: (untyped work_packages) -> untyped
+
+    def attributes_justify_inheritance?: (untyped attributes) -> untyped
+  end
+end

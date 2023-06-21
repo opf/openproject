@@ -1,0 +1,5 @@
+module Storages::LastProjectFolders
+  class BaseContract < ::ModelContract
+    include ActiveModel::Validations
+  end
+end

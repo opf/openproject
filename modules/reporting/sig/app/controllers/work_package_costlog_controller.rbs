@@ -1,0 +1,18 @@
+class WorkPackageCostlogController < ApplicationController
+  def index: () -> untyped
+
+  private
+
+  #
+  # only single work packages are handled here
+  # redirect to cost reports for anything else
+  def redirect_when_outside_project: () -> (untyped | nil)
+
+  #
+  # We need to find potentially three objects
+  # 1. Work package from :work_package_id and its #project
+  # 2. Cost Type from param
+  def find_objects: () -> untyped
+
+  def redirect_to_cost_reports: () -> untyped
+end

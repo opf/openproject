@@ -1,0 +1,109 @@
+module OpenProject::Bim::BcfXml
+  class IssueReader
+    attr_reader zip: untyped
+
+    attr_reader entry: untyped
+
+    attr_reader issue: untyped
+
+    attr_reader extractor: untyped
+
+    attr_reader project: untyped
+
+    attr_reader user: untyped
+
+    attr_reader import_options: untyped
+
+    attr_accessor wp_last_updated_at: untyped
+
+    attr_accessor is_update: untyped
+
+    def initialize: (untyped project, untyped zip, untyped entry, current_user: untyped, import_options: untyped) -> void
+
+    def extract!: () -> untyped
+
+    private
+
+    def synchronize_with_work_package: () -> (nil | untyped)
+
+    def import_is_newer?: () -> untyped
+
+    def create_work_package: () -> untyped
+
+    def author: () -> untyped
+
+    def update_work_package: () -> untyped
+
+    # #
+    #  Get mapped and raw attributes from MarkupExtractor
+    #  and return all values that are non-nil
+    def work_package_attributes: () -> untyped
+
+    def extractor_attributes: () -> untyped
+
+    #
+    # Extend comments with new or updated values from XML
+    def build_comments: () -> untyped
+
+    #
+    # Try to find an author with the given mail address
+    def get_comment_author: (untyped comment) -> untyped
+
+    #
+    # The uploading user might not be the author of the topic/work package. Further, we need to correct the
+    # automatically set creation timestamps.
+    def force_overwrite: (untyped work_package) -> untyped
+
+    def force_overwrite_first_journal: (untyped created_at, untyped work_package) -> untyped
+
+    def force_overwrite_work_package: (untyped created_at, untyped work_package) -> untyped
+
+    #
+    # Try to find the given user by mail in the project
+    def find_user_in_project: (untyped mail) -> untyped
+
+    def create_wp_comment: (untyped author, untyped content) -> untyped
+
+    #
+    # Extract viewpoints from XML
+    def build_viewpoints: () -> untyped
+
+    #
+    # Find existing issue or create new
+    def find_or_initialize_issue: () -> untyped
+
+    def initialize_issue: () -> untyped
+
+    #
+    # Get the topic name of an entry
+    def topic_uuid: () -> untyped
+
+    #
+    # Get an entry within the uuid
+    def as_file_entry: (untyped filename) -> untyped
+
+    #
+    # Read an entry as string
+    def read_entry: (untyped filename) -> untyped
+
+    #
+    # Map the xml viewpoint as json
+    def viewpoint_as_json: (untyped uuid, untyped xml) -> untyped
+
+    def new_comment: (untyped comment_data) -> untyped
+
+    def viewpoint_by_uuid: (untyped uuid) -> (nil | untyped)
+
+    def create_wp_comment_privileged: (untyped comment_data) -> untyped
+
+    def new_comment_handler: (untyped bcf_comment, untyped call, untyped created_at) -> untyped
+
+    def update_comment: (untyped comment_data) -> (untyped | nil)
+
+    def update_comment_viewpoint_by_uuid: (untyped bcf_comment, untyped viewpoint_uuid) -> untyped
+
+    def update_journal_attributes: (untyped bcf_comment, untyped comment_data) -> untyped
+
+    def import_is_outdated: (untyped issue) -> untyped
+  end
+end

@@ -1,0 +1,19 @@
+module ::Recaptcha
+  class AdminController < ApplicationController
+    include ::RecaptchaHelper
+
+    def show: () -> nil
+
+    def update: () -> untyped
+
+    private
+
+    def validate_settings: () -> (nil | untyped)
+
+    def permitted_params: () -> untyped
+
+    def default_breadcrumb: () -> untyped
+
+    def show_local_breadcrumb: () -> true
+  end
+end

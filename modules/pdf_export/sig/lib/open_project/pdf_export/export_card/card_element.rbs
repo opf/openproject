@@ -1,0 +1,15 @@
+module OpenProject::PDFExport::ExportCard
+  class CardElement
+    include OpenProject::PDFExport::Exceptions
+
+    def initialize: (untyped pdf, untyped orientation, untyped groups_config, untyped work_package) -> void
+
+    def assign_all_heights_new: (untyped groups) -> { group_heights: untyped, row_heights: untyped }
+
+    def reduce_rows: (untyped heights) -> (false | untyped)
+
+    def min_row_height: (untyped row) -> untyped
+
+    def draw: () -> untyped
+  end
+end

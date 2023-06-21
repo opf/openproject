@@ -1,0 +1,11 @@
+module API
+  module V3
+    module FileLinks
+      module FileLinkRelationRepresenter
+        extend ActiveSupport::Concern
+
+        def file_links: () -> untyped
+      end
+    end
+  end
+end

@@ -1,0 +1,11 @@
+module Bim::Bcf
+  module API
+    module ErrorFormatter
+      module Json
+        extend Grape::ErrorFormatter::Base
+
+        def self.call: (untyped message, untyped _backtrace, ?::Hash[untyped, untyped] _options, ?untyped? env, ?untyped? _original_exception) -> untyped
+      end
+    end
+  end
+end

@@ -1,0 +1,14 @@
+module ::TwoFactorAuthentication
+  module My
+    class BackupCodesController < ::ApplicationController
+      # Password confirmation helpers and actions
+      include PasswordConfirmation
+
+      def create: () -> untyped
+
+      def show: () -> untyped
+
+      def check_regenerate_done: () -> untyped
+    end
+  end
+end

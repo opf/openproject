@@ -1,0 +1,19 @@
+module OpenProject::Reporting::Patches
+  module CustomFieldsControllerPatch
+    def self.included: (untyped base) -> untyped
+
+    module InstanceMethods
+      def destroy: () -> untyped
+
+      private
+
+      def remove_custom_field_from_cost_report: (untyped affected_reports, untyped id) -> untyped
+
+      def reject_from_query_properties: (untyped report, untyped property, untyped custom_field_name) -> untyped
+
+      def build_query: (untyped report_engine, untyped filters, ?::Hash[untyped, untyped] groups) -> untyped
+
+      def remove_custom_field_from_session: (untyped id) -> untyped
+    end
+  end
+end

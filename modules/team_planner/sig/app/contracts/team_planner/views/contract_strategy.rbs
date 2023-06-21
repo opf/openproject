@@ -1,0 +1,13 @@
+module ::TeamPlanner
+  module Views
+    class ContractStrategy < ::BaseContract
+      private
+
+      def manageable: () -> (nil | untyped)
+
+      def query_permissions?: () -> untyped
+
+      def user_allowed_on_query?: (untyped permission) -> untyped
+    end
+  end
+end

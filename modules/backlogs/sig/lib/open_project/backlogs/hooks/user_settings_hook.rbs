@@ -1,0 +1,9 @@
+class OpenProject::Backlogs::Hooks::UserSettingsHook < OpenProject::Hook::ViewListener
+  # Updates the backlogs settings before saving the user
+  #
+  # Context:
+  # * params => Request parameters
+  # * permitted_params => whitelisted params
+  # * user => user being altered
+  def service_update_user_before_save: (?::Hash[untyped, untyped] context) -> (nil | untyped)
+end

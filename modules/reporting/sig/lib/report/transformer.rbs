@@ -1,0 +1,20 @@
+class Report::Transformer
+  attr_reader query: untyped
+
+  def initialize: (untyped query) -> void
+
+  #
+  # @return [Report::Result::Base] Result tree with row group bys at the top
+  # @see Report::Chainable#result
+  def row_first: () -> untyped
+
+  #
+  # @return [Report::Result::Base] Result tree with column group bys at the top
+  # @see Report::Walker#row_first
+  def column_first: () -> untyped
+
+  #
+  # Important side effect: it sets @ungrouped, @all_fields.
+  # @return [Array<Array<Array<String,Symbol>, Symbol>>] Group by fields + types (:row or :column)
+  def restructured: () -> untyped
+end

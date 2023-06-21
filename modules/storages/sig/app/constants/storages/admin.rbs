@@ -1,0 +1,7 @@
+module Storages
+  module Admin
+    LABEL_OAUTH_CLIENT_ID: "OAuth Client ID"
+
+    LABEL_OAUTH_CLIENT_SECRET: "OAuth Client Secret"
+  end
+end

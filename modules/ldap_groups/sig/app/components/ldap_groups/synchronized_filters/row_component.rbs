@@ -1,0 +1,21 @@
+module LdapGroups
+  module SynchronizedFilters
+    class RowComponent < ::RowComponent
+      def synchronized_filter: () -> untyped
+
+      def name: () -> untyped
+
+      def auth_source: () -> untyped
+
+      def groups: () -> untyped
+
+      def sync_users: () -> untyped
+
+      def button_links: () -> ::Array[untyped]
+
+      def edit_link: () -> untyped
+
+      def delete_link: () -> untyped
+    end
+  end
+end

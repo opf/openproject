@@ -1,0 +1,8 @@
+module Storages::Peripherals::StorageInteraction::Nextcloud
+  class SetPermissionsCommand
+    def initialize: (untyped storage) -> void
+
+    # rubocop:disable Metrics/AbcSize
+    def call: (path: untyped, permissions: untyped) -> untyped
+  end
+end

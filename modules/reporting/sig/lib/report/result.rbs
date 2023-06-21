@@ -1,0 +1,121 @@
+class Report::Result
+  include Report::QueryUtils
+
+  class Base
+    attr_accessor parent: untyped
+
+    attr_accessor type: untyped
+
+    attr_accessor important_fields: untyped
+
+    attr_accessor key: untyped
+
+    attr_reader value: untyped
+
+    alias values value
+
+    include Enumerable
+
+    include Report::QueryUtils
+
+    def initialize: (untyped value) -> void
+
+    def recursive_each_with_level: (?::Integer level, ?bool _depth_first) { () -> untyped } -> untyped
+
+    def recursive_each: () { (untyped) -> untyped } -> untyped
+
+    def to_hash: () -> untyped
+
+    #
+    # Override if you want to influence the result grouping.
+    #
+    # @return A value for grouping or nil if the given field should
+    #         not be considered for grouping.
+    def map_group_by_value: (untyped _key, untyped value) -> untyped
+
+    #
+    # This method is called when this result is requested as #grouped_by something
+    # just before the result is returned.
+    #
+    # @param data This result's grouped data.
+    def group_by_data_ready: (untyped _data) -> nil
+
+    def grouped_by: (untyped fields, untyped type, ?untyped important_fields) -> untyped
+
+    def inspect: () -> ::String
+
+    def row?: () -> untyped
+
+    def column?: () -> untyped
+
+    def direct?: () -> untyped
+
+    def each_row: () -> nil
+
+    def final?: (untyped type) -> untyped
+
+    def type?: (untyped type) -> untyped
+
+    def depth_of: (untyped type) -> (1 | 0)
+
+    def final_number: (untyped type) -> (1 | 0 | untyped)
+
+    def final_row?: () -> untyped
+
+    def final_column?: () -> untyped
+
+    def render: (?untyped keys) { (untyped, untyped) -> untyped } -> untyped
+
+    def set_key: (?untyped index) -> untyped
+  end
+
+  class DirectResult < Base
+    alias fields values
+
+    def has_children?: () -> false
+
+    def count: () -> untyped
+
+    def units: () -> untyped
+
+    #
+    # @return [Integer] Number of child results
+    def size: () -> 0
+
+    def each: () ?{ (untyped) -> untyped } -> untyped
+
+    def each_direct_result: (?bool _cached) ?{ (untyped) -> untyped } -> untyped
+
+    def sort!: (?bool force) -> untyped
+  end
+
+  class WrappedResult < Base
+    include Enumerable
+
+    def set_key: (?untyped index) -> untyped
+
+    def sort!: (?bool force) -> (false | untyped)
+
+    def depth_of: (untyped type) -> untyped
+
+    def has_children?: () -> true
+
+    def count: () -> untyped
+
+    def units: () -> untyped
+
+    def sum_for: (untyped field) -> untyped
+
+    def recursive_each_with_level: (?::Integer level, ?bool depth_first) ?{ (untyped) -> untyped } -> untyped
+
+    def to_a: () -> untyped
+
+    def each: () { () -> untyped } -> untyped
+
+    def each_direct_result: (?bool cached) ?{ (untyped) -> untyped } -> untyped
+
+    def fields: () -> untyped
+  end
+
+  def self.new: (untyped value, ?::Hash[untyped, untyped] fields, ?untyped? type, ?untyped important_fields) -> untyped
+end

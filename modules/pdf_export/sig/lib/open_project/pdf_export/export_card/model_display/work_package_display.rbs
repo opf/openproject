@@ -1,0 +1,5 @@
+module OpenProject::PDFExport::ExportCard::ModelDisplay
+  module WorkPackageDisplay
+    def display_id: () -> ::String
+  end
+end

@@ -1,0 +1,46 @@
+# Reference: Representable https://trailblazer.to/2.1/docs/representable.html
+#   "Representable maps Ruby objects to documents and back"
+# Reference: Roar is a thin layer on top of Representable https://github.com/trailblazer/roar
+# Reference: Roar-Rails integration: https://github.com/apotonick/roar-rails
+module API::V3::Storages
+  URN_CONNECTION_CONNECTED: ::String
+
+  URN_CONNECTION_AUTH_FAILED: ::String
+
+  URN_CONNECTION_ERROR: ::String
+
+  URN_STORAGE_TYPE_NEXTCLOUD: ::String
+
+  STORAGE_TYPE_MAP: ::Hash[untyped, untyped]
+
+  STORAGE_TYPE_URN_MAP: ::Hash[untyped, untyped]
+
+  class StorageRepresenter < ::API::Decorators::Single
+    # LinkedResource module defines helper methods to describe attributes
+    include API::Decorators::LinkedResource
+
+    include API::Decorators::DateProperty
+
+    include Storages::Peripherals::StorageUrlHelper
+
+    module ClassMethods
+      private
+
+      def link_without_resource: (untyped name, getter: untyped, setter: untyped) -> untyped
+    end
+
+    extend ClassMethods
+
+    def initialize: (untyped model, current_user: untyped, ?embed_links: untyped?) -> void
+
+    def _type: () -> "Storage"
+
+    private
+
+    def storage_projects: (untyped storage) -> untyped
+
+    def storage_projects_ids: (untyped storage) -> untyped
+
+    def authorization_state: () -> untyped
+  end
+end

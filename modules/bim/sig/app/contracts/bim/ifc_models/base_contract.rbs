@@ -1,0 +1,17 @@
+module Bim
+  module IfcModels
+    class BaseContract < ::ModelContract
+      def self.model: () -> untyped
+
+      def user_allowed_to_manage: () -> (untyped | nil)
+
+      def ifc_attachment_existent: () -> (untyped | nil)
+
+      def ifc_attachment_is_ifc: () -> (nil | untyped)
+
+      def clean_up: (untyped file_path) -> (nil | untyped)
+
+      def uploader_is_ifc_attachment_author: () -> (untyped | nil)
+    end
+  end
+end

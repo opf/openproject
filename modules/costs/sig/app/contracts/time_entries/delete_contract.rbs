@@ -1,0 +1,4 @@
+module TimeEntries
+  class DeleteContract < ::DeleteContract
+  end
+end

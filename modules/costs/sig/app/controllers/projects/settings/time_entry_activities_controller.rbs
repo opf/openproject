@@ -1,0 +1,7 @@
+class Projects::Settings::TimeEntryActivitiesController < Projects::SettingsController
+  def update: () -> untyped
+
+  private
+
+  def update_params: () -> untyped
+end

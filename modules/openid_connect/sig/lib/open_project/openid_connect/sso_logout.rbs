@@ -1,0 +1,19 @@
+module OpenProject
+  module OpenIDConnect
+    module SsoLogout
+      include ::OmniauthHelper
+
+      def session_expired?: () -> untyped
+
+      #
+      # Upon reauthentication just return directly with HTTP 200 OK
+      # and do not reset the session.
+      # If not call super which will reset the session, set
+      # the new user, and redirect to some page the script the
+      # reauthentication doesn't care about.
+      def successful_authentication: (untyped user, ?reset_stages: bool) -> untyped
+
+      def logout: () -> untyped
+    end
+  end
+end

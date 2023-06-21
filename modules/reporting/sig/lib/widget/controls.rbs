@@ -1,0 +1,3 @@
+class Widget::Controls < Widget::Base
+  def cache_key: () -> ::String
+end

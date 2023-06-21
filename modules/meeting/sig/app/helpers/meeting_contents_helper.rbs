@@ -1,0 +1,25 @@
+module MeetingContentsHelper
+  def can_edit_meeting_content?: (untyped content, untyped content_type) -> untyped
+
+  def saved_meeting_content_text_present?: (untyped content) -> untyped
+
+  def show_meeting_content_editor?: (untyped content, untyped content_type) -> untyped
+
+  def meeting_content_context_menu: (untyped content, untyped content_type) -> untyped
+
+  def meeting_agenda_toggle_status_link: (untyped content, untyped content_type) -> untyped
+
+  def close_meeting_agenda_link: (untyped content_type, untyped meeting) -> untyped
+
+  def open_meeting_agenda_link: (untyped content_type, untyped meeting) -> (nil | untyped)
+
+  def meeting_content_edit_link: (untyped content_type) -> untyped
+
+  def meeting_content_history_link: (untyped content_type, untyped meeting) -> untyped
+
+  def meeting_content_notify_link: (untyped content_type, untyped meeting) -> untyped
+
+  def meeting_content_icalendar_link: (untyped content_type, untyped meeting) -> untyped
+
+  def text_with_icon: (untyped text, untyped icon) -> untyped
+end

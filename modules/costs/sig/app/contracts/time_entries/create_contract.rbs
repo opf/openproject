@@ -1,0 +1,11 @@
+module TimeEntries
+  class CreateContract < BaseContract
+    private
+
+    def user_allowed_to_add: () -> (nil | untyped)
+
+    def allowed_to_log_for_others?: () -> untyped
+
+    def allowed_to_log_to_himself?: () -> untyped
+  end
+end

@@ -1,0 +1,31 @@
+module Grids::Configuration
+  class Registration
+    private
+
+    def self.macroed_getter_setter: (untyped name, ?::Symbol type) -> untyped
+
+    public
+
+    def self.widget_strategy: (untyped widget_name) ?{ () -> untyped } -> untyped
+
+    def self.defaults: (?untyped? proc) -> (nil | untyped)
+
+    def self.from_scope: (untyped _scope) -> untyped
+
+    def self.all_scopes: () -> untyped
+
+    def self.writable_scopes: () -> untyped
+
+    def self.visible: (?untyped _user) -> untyped
+
+    def self.writable?: (untyped _grid, untyped _user) -> true
+
+    def self.validations: (?untyped? mode, ?untyped? proc) -> untyped
+
+    def self.register!: () -> untyped
+
+    private
+
+    def self.url_helpers: () -> untyped
+  end
+end

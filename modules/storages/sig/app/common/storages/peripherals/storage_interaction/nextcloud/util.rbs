@@ -1,0 +1,13 @@
+module Storages::Peripherals::StorageInteraction::Nextcloud::Util
+  def self.escape_path: (untyped path) -> untyped
+
+  def self.basic_auth_header: (untyped username, untyped password) -> ::Hash[::String, ::String]
+
+  def self.error: (untyped code, ?untyped? log_message, ?untyped? data) -> untyped
+
+  def self.join_uri_path: (untyped uri, *untyped parts) -> untyped
+
+  def self.token: (user: untyped, oauth_client: untyped) { () -> untyped } -> untyped
+
+  def self.http: (untyped uri) -> untyped
+end

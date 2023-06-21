@@ -1,0 +1,9 @@
+class Widget::Filters < Widget::Base
+  def render: () -> untyped
+
+  def selectables: () -> untyped
+
+  def render_filters: () -> untyped
+
+  def render_filter: (untyped f_cls, untyped f_inst) -> untyped
+end

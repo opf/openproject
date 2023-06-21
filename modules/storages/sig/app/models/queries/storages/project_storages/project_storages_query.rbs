@@ -1,0 +1,3 @@
+class Queries::Storages::ProjectStorages::ProjectStoragesQuery < Queries::BaseQuery
+  def self.model: () -> untyped
+end

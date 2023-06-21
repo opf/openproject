@@ -1,0 +1,7 @@
+module TeamPlanner
+  class TableComponent < ::TableComponent
+    def sortable?: () -> false
+
+    def headers: () -> ::Array[::Array["name" | { caption: untyped }] | ::Array["assignees" | { caption: untyped }] | ::Array["created_at" | { caption: untyped }]]
+  end
+end

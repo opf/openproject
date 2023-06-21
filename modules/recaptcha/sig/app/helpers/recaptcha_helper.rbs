@@ -1,0 +1,5 @@
+module RecaptchaHelper
+  def recaptcha_available_options: () -> ::Array[::Array[untyped]]
+
+  def recaptcha_settings: () -> untyped
+end

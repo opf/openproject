@@ -1,0 +1,17 @@
+class Backlog
+  attr_accessor sprint: untyped
+
+  attr_accessor stories: untyped
+
+  def self.owner_backlogs: (untyped project, ?::Hash[untyped, untyped] options) -> untyped
+
+  def self.sprint_backlogs: (untyped project) -> untyped
+
+  def initialize: (?::Hash[untyped, untyped] options) -> void
+
+  def updated_at: () -> untyped
+
+  def owner_backlog?: () -> untyped
+
+  def sprint_backlog?: () -> untyped
+end

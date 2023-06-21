@@ -1,0 +1,23 @@
+module OpenProject::PDFExport::ExportCard
+  class RowElement
+    include OpenProject::PDFExport::Exceptions
+
+    def initialize: (untyped pdf, untyped orientation, untyped config, untyped work_package) -> void
+
+    def col_width: (untyped col_config) -> untyped
+
+    def draw: () -> untyped
+
+    def self.prune_empty_groups: (untyped groups, untyped wp) -> untyped
+
+    def self.prune_empty_rows: (untyped rows, untyped wp) -> untyped
+
+    def self.is_empty_column: (untyped property_name, untyped column, untyped wp) -> untyped
+
+    def self.is_existing_column?: (untyped property_name, untyped wp) -> untyped
+
+    def self.is_existing_custom_field?: (untyped property_name, untyped wp) -> untyped
+
+    def self.locale_independent_custom_field: (untyped property_name, untyped wp) -> (untyped | nil)
+  end
+end

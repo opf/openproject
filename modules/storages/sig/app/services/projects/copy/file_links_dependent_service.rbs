@@ -1,0 +1,13 @@
+module Projects::Copy
+  class FileLinksDependentService < ::Copy::Dependency
+    def self.human_name: () -> untyped
+
+    def source_count: () -> untyped
+
+    def copy_dependency: (*untyped) -> (nil | untyped)
+
+    def create_work_package_file_links: (untyped old_wp_id, untyped new_wp_id) -> untyped
+
+    def create_file_link: (untyped file_link, untyped new_wp_id) -> untyped
+  end
+end

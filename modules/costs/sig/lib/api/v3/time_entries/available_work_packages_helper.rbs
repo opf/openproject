@@ -1,0 +1,9 @@
+module API
+  module V3
+    module TimeEntries
+      module AvailableWorkPackagesHelper
+        def available_work_packages_collection: (untyped allowed_scope) -> untyped
+      end
+    end
+  end
+end

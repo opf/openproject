@@ -1,0 +1,61 @@
+module OpenProject::Bim::BcfXml
+  class Importer
+    MINIMUM_BCF_VERSION: "2.1"
+
+    attr_reader file: untyped
+
+    attr_reader project: untyped
+
+    attr_reader current_user: untyped
+
+    DEFAULT_IMPORT_OPTIONS: { unknown_types_action: "use_default", unknown_statuses_action: "use_default", unknown_priorities_action: "use_default", invalid_people_action: "anonymize", unknown_mails_action: "invite", non_members_action: "chose", unknown_types_chose_ids: ::Array[untyped], unknown_statuses_chose_ids: ::Array[untyped], unknown_priorities_chose_ids: ::Array[untyped], unknown_mails_invite_role_ids: ::Array[untyped], non_members_chose_role_ids: ::Array[untyped] }
+
+    def initialize: (untyped file, untyped project, current_user: untyped) -> void
+
+    #
+    # Get a list of issues contained in a BCF
+    # but do not perform the import
+    def extractor_list: () -> untyped
+
+    def import!: (?::Hash[untyped, untyped] options) -> untyped
+
+    def aggregations: () -> untyped
+
+    def bcf_version_valid?: () -> untyped
+
+    private
+
+    def perform_import: (untyped options) -> untyped
+
+    def create_or_add_missing_members: (untyped options) -> untyped
+
+    def treat_invalid_people: (untyped options) -> (untyped | nil)
+
+    #
+    # Invite all unknown email addresses and add them
+    def treat_unknown_mails: (untyped options) -> (untyped | nil)
+
+    #
+    # Add all non members to project
+    def treat_non_members: (untyped options) -> untyped
+
+    def add_unknown_mail: (untyped mail, untyped options) -> untyped
+
+    def add_non_member: (untyped user, untyped options) -> untyped
+
+    def treat_unknown_mails?: (untyped options) -> untyped
+
+    def treat_non_members?: (untyped options) -> untyped
+
+    def to_listing: (untyped extractor) -> untyped
+
+    def synchronize_topics: (untyped zip, untyped import_options) -> untyped
+
+    #
+    # Yields topic bcf files (that contain topic entries and their uuid) from the ZIP files
+    # while skipping all other entries
+    def yield_markup_bcf_files: (untyped zip) -> untyped
+
+    def enterprise_allow_new_users?: () -> untyped
+  end
+end

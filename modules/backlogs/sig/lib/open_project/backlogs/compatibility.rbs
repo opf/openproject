@@ -1,0 +1,5 @@
+module OpenProject::Backlogs::Compatibility
+  def using_jquery?: () -> untyped
+
+  extend ::OpenProject::Backlogs::Compatibility
+end

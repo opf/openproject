@@ -1,0 +1,10 @@
+module API
+  module V3
+    module Grids
+      module Widgets
+        class DefaultOptionsRepresenter < ::API::Decorators::Single
+        end
+      end
+    end
+  end
+end

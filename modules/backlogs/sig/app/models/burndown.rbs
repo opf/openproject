@@ -1,0 +1,33 @@
+class Burndown
+  def initialize: (untyped sprint, untyped project, ?untyped? _burn_direction) -> void
+
+  attr_reader days: untyped
+
+  attr_reader sprint_id: untyped
+
+  attr_reader max: untyped
+
+  attr_reader story_points: untyped
+
+  attr_reader story_points_ideal: untyped
+
+  def series: (?::Symbol _select) -> untyped
+
+  private
+
+  def make_date_series: (untyped sprint) -> untyped
+
+  def calculate_series: (untyped series_data) -> untyped
+
+  def calculate_ideals: (untyped data) -> untyped
+
+  def calculate_ideal: (untyped name, untyped unit) -> untyped
+
+  def make_series: (untyped name, untyped units, untyped data) -> untyped
+
+  def determine_max: () -> untyped
+
+  def to_h: (untyped keys, untyped values) -> untyped
+
+  def workday_before: (?untyped date) -> untyped
+end

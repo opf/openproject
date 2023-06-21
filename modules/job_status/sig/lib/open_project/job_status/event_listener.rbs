@@ -1,0 +1,37 @@
+module OpenProject
+  module JobStatus
+    class EventListener
+      def self.register!: () -> untyped
+
+      private
+
+      #
+      # Yiels the block if the job
+      # handles statuses
+      def self.for_statused_jobs: (untyped job) { () -> untyped } -> (untyped | nil)
+
+      #
+      # Create a status object when enqueuing a
+      # new job through activejob that stores statuses
+      def self.create_job_status: (untyped job) -> untyped
+
+      #
+      # On start processing a new job
+      def self.on_start: (untyped job) -> untyped
+
+      #
+      # On requeuing a job after error
+      def self.on_requeue: (untyped job, untyped error) -> untyped
+
+      #
+      # On cancellation due to the given error
+      def self.on_cancelled: (untyped job, untyped error) -> untyped
+
+      #
+      # On job performed, handle status updates
+      #  - on error, always update
+      #  - on success, only update if job doesn't do it itself
+      def self.on_performed: (untyped job, untyped exception_object) -> (untyped | untyped | nil)
+    end
+  end
+end

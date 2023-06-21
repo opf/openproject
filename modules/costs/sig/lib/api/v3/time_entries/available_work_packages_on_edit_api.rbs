@@ -1,0 +1,9 @@
+module API
+  module V3
+    module TimeEntries
+      class AvailableWorkPackagesOnEditAPI < ::API::OpenProjectAPI
+        def allowed_scope: () -> untyped
+      end
+    end
+  end
+end

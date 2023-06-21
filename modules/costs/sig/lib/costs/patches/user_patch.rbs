@@ -1,0 +1,27 @@
+module Costs::Patches::UserPatch
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    def allowed_to_condition_with_project_id: (untyped permission, ?untyped? projects) -> untyped
+
+    def current_rate: (?untyped? project, ?bool include_default) -> untyped
+
+    # kept for backwards compatibility
+    def rate_at: (untyped date, ?untyped? project, ?bool include_default) -> untyped
+
+    def current_default_rate: () -> untyped
+
+    # kept for backwards compatibility
+    def default_rate_at: (untyped date) -> untyped
+
+    def add_rates: (untyped project, untyped rate_attributes) -> (nil | untyped)
+
+    def set_existing_rates: (untyped project, untyped rates_attributes) -> untyped
+
+    def save_rates: () -> untyped
+
+    private
+
+    def update_rate: (untyped rate, untyped attributes, ?bool project_rate) -> untyped
+  end
+end

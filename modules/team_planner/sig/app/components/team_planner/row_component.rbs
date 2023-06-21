@@ -1,0 +1,15 @@
+module TeamPlanner
+  class RowComponent < ::RowComponent
+    def query: () -> untyped
+
+    def name: () -> untyped
+
+    def created_at: () -> untyped
+
+    def assignees: () -> untyped
+
+    def button_links: () -> untyped
+
+    def delete_link: () -> (untyped | nil)
+  end
+end

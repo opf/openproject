@@ -1,0 +1,39 @@
+class Widget::ReportingWidget < ActionView::Base
+  include ActionView::Helpers::TagHelper
+
+  include ActionView::Helpers::AssetTagHelper
+
+  include ActionView::Helpers::FormTagHelper
+
+  include ActionView::Helpers::JavaScriptHelper
+
+  include ApplicationHelper
+
+  include ReportingHelper
+
+  include Redmine::I18n
+
+  attr_accessor output_buffer: untyped
+
+  attr_accessor controller: untyped
+
+  attr_accessor config: untyped
+
+  attr_accessor _content_for: untyped
+
+  attr_accessor _routes: untyped
+
+  attr_accessor subject: untyped
+
+  def self.new: (untyped subject) -> untyped
+
+  def current_language: () -> untyped
+
+  def protect_against_forgery?: () -> false
+
+  def method_missing: (untyped name, *untyped args) { () -> untyped } -> untyped
+
+  module RenderWidgetInstanceMethods
+    def render_widget: (untyped widget, untyped subject, ?::Hash[untyped, untyped] options) { () -> untyped } -> untyped
+  end
+end

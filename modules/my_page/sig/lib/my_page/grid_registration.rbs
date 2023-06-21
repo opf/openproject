@@ -1,0 +1,7 @@
+module MyPage
+  class GridRegistration < ::Grids::Configuration::Registration
+    def self.from_scope: (untyped scope) -> ({ class: untyped } | nil)
+
+    def self.visible: (?untyped user) -> untyped
+  end
+end

@@ -1,0 +1,3 @@
+module OpenProject::Bim::Patches::JournalPatch
+  def self.included: (untyped base) -> untyped
+end

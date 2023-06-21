@@ -1,0 +1,13 @@
+class Storages::FileLinks::CreateContract < ModelContract
+  private
+
+  def creator_must_be_user: () -> (untyped | nil)
+
+  # Check that the current has the permission on the project.
+  # model variable is available because the concern is executed inside a contract.
+  def validate_user_allowed_to_manage: () -> (nil | untyped)
+
+  def validate_storage_presence: () -> untyped
+
+  def validate_project_storage_link: () -> (nil | untyped)
+end

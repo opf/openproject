@@ -1,0 +1,5 @@
+module Cron
+  class ClearOldPullRequestsJob < CronJob
+    def perform: () -> untyped
+  end
+end

@@ -1,0 +1,9 @@
+module API
+  module V3
+    module Documents
+      class DocumentsAPI < ::API::OpenProjectAPI
+        def document: () -> untyped
+      end
+    end
+  end
+end

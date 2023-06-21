@@ -1,0 +1,3 @@
+class CostQuery::GroupBy < Report::GroupBy
+  def self.all: () -> untyped
+end

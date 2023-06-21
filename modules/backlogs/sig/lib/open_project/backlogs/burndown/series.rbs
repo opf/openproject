@@ -1,0 +1,11 @@
+module OpenProject::Backlogs::Burndown
+  class Series < Array
+    def initialize: (*untyped args) -> void
+
+    attr_reader unit: untyped
+
+    attr_reader name: untyped
+
+    attr_accessor display: untyped
+  end
+end

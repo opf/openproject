@@ -1,0 +1,57 @@
+class ManageNextcloudIntegrationJob < Cron::CronJob
+  def perform: () -> untyped
+
+  class GroupFolderPropertiesSynchronization
+    PERMISSIONS_MAP: { read_files: 1, write_files: 2, create_files: 4, delete_files: 8, share_files: 16 }
+
+    ALL_PERMISSIONS: untyped
+
+    NO_PERMISSIONS: 0
+
+    def initialize: (untyped storage) -> void
+
+    # rubocop:disable Metrics/AbcSize
+    def call: () -> untyped
+
+    private
+
+    def set_group_folder_root_permissions: () -> untyped
+
+    def project_folder_path: (untyped project) -> ::String
+
+    # rubocop:disable Metrics/AbcSize
+    def ensure_project_folder: (project_storage: untyped, project_folder_path: untyped) -> untyped
+
+    def file_ids: () -> untyped
+
+    def folders_properties: () -> untyped
+
+    def rename_folder: (source: untyped, target: untyped) -> untyped
+
+    def create_folder: (path: untyped, project_storage: untyped) -> untyped
+
+    def save_file_id: () -> untyped
+
+    def obtain_file_id: () -> untyped
+
+    def calculate_permissions: (user: untyped, project: untyped) -> untyped
+
+    def set_project_folder_permissions: (path: untyped, project: untyped) -> untyped
+
+    def group_users: () -> untyped
+
+    def project_folder_permissions: (project: untyped) -> untyped
+
+    def add_active_users_to_group: () -> untyped
+
+    def remove_inactive_users_from_group: () -> untyped
+
+    def remove_user_from_group: (untyped user) -> untyped
+
+    def hide_inactive_project_folders: () -> untyped
+
+    def inactive_project_folder_paths: () -> untyped
+
+    def hide_folder: (untyped path) -> untyped
+  end
+end

@@ -1,0 +1,14 @@
+module OpenProject::Backlogs::Patches::SpecificWorkPackageSchemaPatch
+  def self.included: (untyped base) -> untyped
+
+  module ClassMethods
+  end
+
+  module InstanceMethods
+    def writable?: (untyped property) -> (false | false | untyped)
+
+    private
+
+    def version_with_backlogs_parent: (untyped property) -> untyped
+  end
+end

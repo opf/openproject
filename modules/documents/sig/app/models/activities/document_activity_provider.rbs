@@ -1,0 +1,15 @@
+class Activities::DocumentActivityProvider < Activities::BaseActivityProvider
+  def event_query_projection: () -> ::Array[untyped]
+
+  def event_title: (untyped event) -> ::String
+
+  def event_type: (untyped _event) -> "document"
+
+  def event_path: (untyped event) -> untyped
+
+  def event_url: (untyped event) -> untyped
+
+  private
+
+  def url_helper_parameter: (untyped event) -> untyped
+end

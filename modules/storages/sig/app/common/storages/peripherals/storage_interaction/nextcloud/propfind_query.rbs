@@ -1,0 +1,8 @@
+module Storages::Peripherals::StorageInteraction::Nextcloud
+  class PropfindQuery
+    def initialize: (untyped storage) -> void
+
+    # rubocop:disable Metrics/AbcSize
+    def call: (depth: untyped, path: untyped, props: untyped) -> untyped
+  end
+end

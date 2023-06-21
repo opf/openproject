@@ -1,0 +1,11 @@
+module TeamPlannerOverview
+  class TableComponent < ::TableComponent
+    def initial_sort: () -> ::Array["name" | "asc"]
+
+    def sortable?: () -> true
+
+    def paginated?: () -> true
+
+    def headers: () -> ::Array[::Array[:name | { caption: untyped }] | ::Array[:project_id | { caption: untyped }] | ::Array[:created_at | { caption: untyped }]]
+  end
+end

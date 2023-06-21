@@ -1,0 +1,39 @@
+module OpenProject::Bim::BcfXml
+  class Aggregations
+    attr_reader listings: untyped
+
+    attr_reader project: untyped
+
+    attr_reader instance_cache: untyped
+
+    def initialize: (untyped listing, untyped project) -> void
+
+    def all_people: () -> untyped
+
+    def all_mails: () -> untyped
+
+    def known_users: () -> untyped
+
+    def unknown_mails: () -> untyped
+
+    def members: () -> untyped
+
+    def non_members: () -> untyped
+
+    def invalid_people: () -> untyped
+
+    def all_statuses: () -> untyped
+
+    def unknown_statuses: () -> untyped
+
+    def all_types: () -> untyped
+
+    def unknown_types: () -> untyped
+
+    def all_priorities: () -> untyped
+
+    def unknown_priorities: () -> untyped
+
+    def clear_instance_cache: () -> untyped
+  end
+end

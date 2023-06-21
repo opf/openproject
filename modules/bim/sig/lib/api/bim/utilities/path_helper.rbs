@@ -1,0 +1,32 @@
+module API
+  module Bim
+    module Utilities
+      module PathHelper
+        include API::Utilities::UrlHelper
+
+        # rubocop:disable Naming/ClassAndModuleCamelCase
+        module BCF2_1Path
+          # rubocop:enable Naming/ClassAndModuleCamelCase
+          extend API::Utilities::UrlHelper
+
+          # Determining the root_path on every url we want to render is
+          # expensive. As the root_path will not change within a
+          # request, we can cache the first response on each request.
+          def self?.root_path: () -> untyped
+
+          def self?.root: () -> ::String
+
+          def self?.project: (untyped identifier) -> ::String
+
+          def self?.topics: (untyped project_identifier) -> ::String
+
+          def self?.topic: (untyped project_identifier, untyped uuid) -> ::String
+
+          def self?.viewpoint: (untyped project_identifier, untyped topic_uuid, untyped viewpoint_topic) -> ::String
+        end
+
+        def bcf_v2_1_paths: () -> untyped
+      end
+    end
+  end
+end

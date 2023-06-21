@@ -1,0 +1,20 @@
+module TimeEntryActivities::Scopes
+  module ActiveInProject
+    extend ActiveSupport::Concern
+
+    def active_in_project: (untyped project) -> untyped
+
+    private
+
+    # All activities, that have a specific setting for the project to be active.
+    # The global active state has no effect in that case.
+    def being_active_in_project: (untyped project) -> untyped
+
+    # All activities that are active and do not have a project specific setting stating
+    # the activity to be inactive. So there could either be no project specific setting (for that project) or
+    # a project specific setting that is active.
+    def being_not_inactive_in_project: (untyped project) -> untyped
+
+    def of_project: (untyped project) -> untyped
+  end
+end

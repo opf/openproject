@@ -1,0 +1,7 @@
+module TimeEntries::Scopes
+  module OfUserAndDay
+    extend ActiveSupport::Concern
+
+    def of_user_and_day: (untyped user, untyped date, ?excluding: untyped?) -> untyped
+  end
+end

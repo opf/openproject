@@ -1,0 +1,59 @@
+module Grids
+  class BaseContract < ::ModelContract
+    include OpenProject::StaticRouting::UrlHelpers
+
+    include AssignableValuesContract
+
+    include ::Attachments::ValidateReplacements
+
+    def self.model: () -> untyped
+
+    def edit_allowed?: () -> untyped
+
+    def assignable_widgets: () -> untyped
+
+    private
+
+    def validate_allowed: () -> (untyped | nil)
+
+    def validate_registered_widgets: () -> (nil | untyped)
+
+    def validate_widget_collisions: () -> untyped
+
+    def validate_widgets_within: () -> untyped
+
+    def validate_positive_integer: (untyped attribute) -> untyped
+
+    def validate_widgets_start_before_end: () -> untyped
+
+    def run_registration_validations: () -> untyped
+
+    def widgets_overlap?: (untyped widget, untyped other_widget) -> untyped
+
+    def top_left_inside?: (untyped widget, untyped other_widget) -> untyped
+
+    def top_right_inside?: (untyped widget, untyped other_widget) -> untyped
+
+    def bottom_left_inside?: (untyped widget, untyped other_widget) -> untyped
+
+    def bottom_right_inside?: (untyped widget, untyped other_widget) -> untyped
+
+    def outside?: (untyped widget) -> untyped
+
+    def outside_row: (untyped number) -> untyped
+
+    def outside_column: (untyped number) -> untyped
+
+    def undestroyed_widgets: () -> untyped
+
+    def widgets_to_be_created: () -> untyped
+
+    def all_allowed_widget_identifiers: (untyped user) -> untyped
+
+    def grid_class: () -> untyped
+
+    def config: () -> untyped
+
+    def grid_project: () -> (untyped | nil)
+  end
+end

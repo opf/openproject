@@ -1,0 +1,3 @@
+class CostQuery::GroupBy::CustomFieldEntries < Report::GroupBy::Base
+  extend CostQuery::CustomFieldMixin
+end

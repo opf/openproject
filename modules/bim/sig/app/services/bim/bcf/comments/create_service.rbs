@@ -1,0 +1,11 @@
+module Bim::Bcf
+  module Comments
+    class CreateService < ::BaseServices::Create
+      private
+
+      def before_perform: (untyped params, untyped service_result) -> untyped
+
+      def create_journal: (untyped work_package, untyped comment) -> untyped
+    end
+  end
+end

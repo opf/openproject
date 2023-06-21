@@ -1,0 +1,14 @@
+module API
+  module V3
+    module CostEntries
+      # Ripped from ::API::Decorators::Collection, which does not support injecting
+      # decorators directly
+      # This class should use the Collection class directly (or inherit from it) in the future
+      class WorkPackageCostsByTypeRepresenter < ::API::Decorators::Single
+        def cost_helper: () -> untyped
+
+        def _type: () -> "Collection"
+      end
+    end
+  end
+end

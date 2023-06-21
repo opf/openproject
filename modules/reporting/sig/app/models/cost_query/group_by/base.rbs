@@ -1,0 +1,4 @@
+class CostQuery::GroupBy
+  class Base < Report::GroupBy::Base
+  end
+end

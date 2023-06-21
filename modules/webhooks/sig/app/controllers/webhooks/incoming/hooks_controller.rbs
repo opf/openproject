@@ -1,0 +1,9 @@
+module Webhooks
+  module Incoming
+    class HooksController < ApplicationController
+      def api_request?: () -> untyped
+
+      def handle_hook: () -> untyped
+    end
+  end
+end

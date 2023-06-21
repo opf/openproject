@@ -1,0 +1,11 @@
+class WorkPackageBoxesController < WorkPackagesController
+  def show: () -> untyped
+
+  def edit: () -> untyped
+
+  def update: () -> untyped
+
+  private
+
+  def load_journals: () -> untyped
+end

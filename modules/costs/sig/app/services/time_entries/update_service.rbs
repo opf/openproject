@@ -1,0 +1,2 @@
+class TimeEntries::UpdateService < BaseServices::Update
+end

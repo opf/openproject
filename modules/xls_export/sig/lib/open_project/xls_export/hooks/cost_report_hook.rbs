@@ -1,0 +1,4 @@
+module OpenProject::XlsExport::Hooks
+  class CostReportHook < OpenProject::Hook::ViewListener
+  end
+end

@@ -1,0 +1,5 @@
+module Calendar
+  class ResolveICalTokenService < ::BaseServices::BaseCallable
+    def perform: (ical_token_string: untyped) -> untyped
+  end
+end

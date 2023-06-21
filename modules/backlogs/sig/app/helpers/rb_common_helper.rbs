@@ -1,0 +1,95 @@
+module RbCommonHelper
+  def assignee_id_or_empty: (untyped story) -> untyped
+
+  def assignee_name_or_empty: (untyped story) -> ("" | ::String)
+
+  def blocks_ids: (untyped ids) -> untyped
+
+  def build_inline_style: (untyped task) -> (untyped | "")
+
+  def color_style: (untyped task) -> untyped
+
+  def color_contrast_class: (untyped task) -> ("light" | "dark" | "")
+
+  # Return true if the difference between two colors
+  # matches the W3C recommendations for readability
+  # See http://www.wat-c.org/tools/CCA/1.1/
+  def colors_diff_ok?: (untyped color_1, untyped color_2) -> untyped
+
+  def color_contrast: (untyped color) -> untyped
+
+  # Return the contrast and brightness difference between two RGB values
+  def find_color_diff: (untyped c1, untyped c2) -> ::Array[untyped]
+
+  # Break a color into the R, G and B components
+  def break_color: (untyped rgb) -> ::Array[untyped]
+
+  def is_assigned_task?: (untyped task) -> untyped
+
+  def background_color_hex: (untyped task) -> untyped
+
+  def id_or_empty: (untyped item) -> untyped
+
+  def shortened_id: (untyped record) -> untyped
+
+  def work_package_link_or_empty: (untyped work_package) -> (untyped | nil)
+
+  def modal_link_to_work_package: (untyped title, untyped work_package, ?::Hash[untyped, untyped] options) -> untyped
+
+  def modal_link_to: (untyped title, untyped path, ?::Hash[untyped, untyped] options) -> untyped
+
+  def sprint_link_or_empty: (untyped item) -> untyped
+
+  def mark_if_closed: (untyped story) -> ("closed" | "")
+
+  def story_points_or_empty: (untyped story) -> untyped
+
+  def status_id_or_default: (untyped story) -> untyped
+
+  def status_label_or_default: (untyped story) -> untyped
+
+  def sprint_html_id_or_empty: (untyped sprint) -> ("" | ::String)
+
+  def story_html_id_or_empty: (untyped story) -> ("" | ::String)
+
+  def type_id_or_empty: (untyped story) -> untyped
+
+  def type_name_or_empty: (untyped story) -> ("" | untyped)
+
+  def date_string_with_milliseconds: (untyped d, ?::Integer add) -> ("" | untyped)
+
+  def remaining_hours: (untyped item) -> ("" | untyped)
+
+  def available_story_types: () -> untyped
+
+  def available_statuses_by_type: () -> untyped
+
+  def show_burndown_link: (untyped project, untyped sprint) -> untyped
+
+  private
+
+  def new_record_status: () -> untyped
+
+  def default_work_package_status: () -> untyped
+
+  def work_package_status_for_id: (untyped id) -> untyped
+
+  # Returns all distinct virtual workflows for the roles the current user has in the project and the story types.
+  # Virtual workflow because not every instance of a workflow in the database will be returned but a representation
+  # distinct by type_id, old_status_id and new_status_id. This helps in case a lot of workflows are configured.
+  def all_workflows: () -> untyped
+
+  def all_work_package_status: () -> untyped
+
+  def backlogs_types: () -> untyped
+
+  def backlogs_types_by_id: () -> untyped
+
+  def story_types: () -> untyped
+
+  def story_types_by_id: () -> untyped
+
+  def get_backlogs_preference: (untyped assignee, untyped attr) -> (untyped | "#24B3E7")
+
+  def template_story: () -> untyped
+end

@@ -1,0 +1,5 @@
+module OpenProject::XlsExport::Hooks
+  class WorkPackageHook < OpenProject::Hook::ViewListener
+    def link_to_xls: (untyped context, untyped label, ?::Hash[untyped, untyped] options) -> untyped
+  end
+end

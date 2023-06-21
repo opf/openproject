@@ -1,0 +1,59 @@
+module OpenProject::TwoFactorAuthentication
+  module TokenStrategy
+    class MessageBird < Base
+      def self.validate!: () -> untyped
+
+      def self.identifier: () -> :message_bird
+
+      def self.mobile_token?: () -> true
+
+      def self.supported_channels: () -> ::Array[:sms | :voice]
+
+      private
+
+      def send_sms: () -> untyped
+
+      #
+      # TODO ensure the originator cannot be larger than 11 characters
+      def originator: () -> "OpenProject"
+
+      def send_voice: () -> untyped
+
+      def message_bird_client: () -> untyped
+
+      #
+      # Prepares the request for the given user and token
+      def build_user_params: (?::Hash[untyped, untyped] params) -> untyped
+
+      #
+      # Available languages for the voice message
+      def available_languages: () -> ::Array[:"de-de" | :"en-us" | :"en-gb" | :"nl-nl" | :"da-dk" | :"cy-gb" | :"en-au" | :"en-in" | :"es-es" | :"es-mx" | :"es-us" | :"fr-ca" | :"fr-fr" | :"is-is" | :"it-it" | :"ja-jp" | :"ko-kr" | :"nb-no" | :"pl-pl" | :"pt-pt" | :"pt-br" | :"ro-ro" | :"ru-ru" | :"sv-se" | :"tr-tr" | :"zh-cn"]
+
+      #
+      # Select a matching language from the available languages
+      def build_localized_message: (untyped params) -> untyped
+
+      def get_matching_language: (untyped language) -> (untyped | untyped | nil)
+
+      #
+      # Fallback language
+      def fallback_language: () -> :"en-us"
+
+      #
+      # Checks whether the locale has a non-fallback
+      def has_localized_text?: (untyped locale_key) -> untyped
+
+      #
+      # Localize the message
+      def localized_message: (untyped locale_key, untyped token_value, ?fallback: bool, ?raise_on_missing: bool) -> untyped
+
+      #
+      # Prepares the user's phone number for messagebird (msisdn).
+      # Stored format: +xx yyy yyy yyyy (optional whitespacing)
+      # Output format: xxyyyyyyyyyy
+      def build_recipients: (untyped params) -> untyped
+
+      def self.validate_params: (untyped params) -> untyped
+    end
+  end
+end

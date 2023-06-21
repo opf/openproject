@@ -1,0 +1,15 @@
+module ::Avatars
+  class UpdateService
+    attr_reader user: untyped
+
+    def initialize: (untyped user) -> void
+
+    def replace: (untyped avatar) -> untyped
+
+    def destroy: () -> untyped
+
+    private
+
+    def error_result: (untyped message) -> untyped
+  end
+end

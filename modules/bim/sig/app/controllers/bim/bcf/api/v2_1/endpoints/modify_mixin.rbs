@@ -1,0 +1,13 @@
+module Bim::Bcf::API::V2_1::Endpoints
+  module ModifyMixin
+    private
+
+    def deduce_parse_service: () -> untyped
+
+    def deduce_in_and_out_representer: () -> untyped
+
+    alias deduce_parse_representer deduce_in_and_out_representer
+
+    alias deduce_render_representer deduce_in_and_out_representer
+  end
+end

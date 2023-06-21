@@ -1,0 +1,9 @@
+module OpenProject::GithubIntegration
+  module Patches
+    module API
+      module WorkPackageRepresenter
+        def self?.extension: () -> untyped
+      end
+    end
+  end
+end

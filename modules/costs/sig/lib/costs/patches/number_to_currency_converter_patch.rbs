@@ -1,0 +1,7 @@
+module Costs::Patches::NumberToCurrencyConverterPatch
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    def i18n_opts: () -> untyped
+  end
+end

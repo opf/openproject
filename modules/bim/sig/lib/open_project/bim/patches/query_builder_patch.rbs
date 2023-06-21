@@ -1,0 +1,11 @@
+module OpenProject::Bim::Patches::QueryBuilderPatch
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    private
+
+    def filters: () -> untyped
+
+    def set_bcf_issue_associated_filter!: (untyped filters) -> (untyped | nil)
+  end
+end

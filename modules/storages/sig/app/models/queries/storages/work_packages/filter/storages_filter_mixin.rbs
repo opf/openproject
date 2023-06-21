@@ -1,0 +1,27 @@
+module Queries::Storages::WorkPackages::Filter::StoragesFilterMixin
+  def type: () -> :list
+
+  def human_name: () -> untyped
+
+  # Returns the model class for which the filter will apply.
+  #
+  # Used in the where and joins clauses.
+  def filter_model: () -> untyped
+
+  # Returns the column name for which the filter will apply.
+  #
+  # Used in the where clause.
+  def filter_column: () -> untyped
+
+  def allowed_values: () -> untyped
+
+  def where: () -> untyped
+
+  def where_values: () -> untyped
+
+  def additional_where_condition: () -> ""
+
+  def joins: () -> untyped
+
+  def unescape_hosts: (untyped hosts) -> untyped
+end

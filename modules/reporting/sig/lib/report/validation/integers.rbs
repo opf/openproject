@@ -1,0 +1,5 @@
+module Report::Validation
+  module Integers
+    def validate_integers: (*untyped values) -> (true | untyped)
+  end
+end

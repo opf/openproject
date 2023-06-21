@@ -1,0 +1,4 @@
+module Storages::Peripherals
+  module ServiceResultRefinements
+  end
+end

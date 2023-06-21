@@ -1,0 +1,15 @@
+module Bim
+  module IfcModels
+    class TableComponent < ::TableComponent
+      def initial_sort: () -> ::Array[:created_at | :asc]
+
+      def sortable?: () -> false
+
+      def inline_create_link: () -> untyped
+
+      def empty_row_message: () -> untyped
+
+      def headers: () -> ::Array[::Array["title" | { caption: untyped }] | ::Array["is_default" | { caption: untyped }] | ::Array["created_at" | { caption: untyped }] | ::Array["updated_at" | { caption: untyped }] | ::Array["uploader" | { caption: untyped }] | ::Array["processing" | { caption: untyped }]]
+    end
+  end
+end

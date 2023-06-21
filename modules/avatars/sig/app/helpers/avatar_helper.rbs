@@ -1,0 +1,27 @@
+module AvatarHelper
+  include ::GravatarImageTag
+
+  include ::AngularHelper
+
+  # Returns the avatar image tag for the given +user+ if avatars are enabled
+  # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
+  def avatar: (untyped principal, ?size: ::String, ?hide_name: bool, **untyped options) -> untyped
+
+  def avatar_url: (untyped user, ?::Hash[untyped, untyped] options) -> untyped
+
+  def local_avatar?: (untyped user) -> (false | untyped)
+
+  def avatar_manager: () -> untyped
+
+  def build_gravatar_image_url: (untyped user, ?::Hash[untyped, untyped] options) -> untyped
+
+  def build_principal_avatar_tag: (untyped user, **untyped options) -> untyped
+
+  def merge_default_avatar_options: (untyped user, untyped options) -> untyped
+
+  def default_gravatar_options: () -> { secure: untyped, default: untyped }
+
+  #
+  # Get a mail address used for Gravatar
+  def extract_email_address: (untyped object) -> (untyped | nil)
+end

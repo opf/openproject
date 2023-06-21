@@ -1,0 +1,21 @@
+module OpenProject
+  module Recaptcha
+    module Configuration
+      CONFIG_KEY: "recaptcha_via_hcaptcha"
+
+      extend ::OpenProject::Recaptcha::Configuration
+
+      def use_hcaptcha?: () -> untyped
+
+      def hcaptcha_response_limit: () -> untyped
+
+      def api_server_url_override: () -> untyped
+
+      def verify_url_override: () -> untyped
+
+      def hcaptcha_verify_url: () -> "https://hcaptcha.com/siteverify"
+
+      def hcaptcha_api_server_url: () -> "https://hcaptcha.com/1/api.js"
+    end
+  end
+end

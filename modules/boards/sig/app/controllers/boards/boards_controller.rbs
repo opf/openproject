@@ -1,0 +1,11 @@
+module ::Boards
+  class BoardsController < BaseController
+    def index: () -> untyped
+
+    def overview: () -> untyped
+
+    private
+
+    def authorize_work_package_permission: () -> (untyped | nil)
+  end
+end

@@ -1,0 +1,21 @@
+class DocumentsController < ApplicationController
+  include AttachableServiceCall
+
+  def index: () -> untyped
+
+  def show: () -> untyped
+
+  def new: () -> untyped
+
+  def create: () -> untyped
+
+  def edit: () -> untyped
+
+  def update: () -> untyped
+
+  def destroy: () -> untyped
+
+  private
+
+  def document_params: () -> untyped
+end

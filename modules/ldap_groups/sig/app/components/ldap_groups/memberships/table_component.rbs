@@ -1,0 +1,13 @@
+module LdapGroups
+  module Memberships
+    class TableComponent < ::TableComponent
+      def initial_sort: () -> ::Array[:created_at | :asc]
+
+      def sortable?: () -> false
+
+      def empty_row_message: () -> untyped
+
+      def headers: () -> ::Array[::Array["user" | { caption: untyped }] | ::Array["added" | { caption: untyped }]]
+    end
+  end
+end

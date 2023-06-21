@@ -1,0 +1,42 @@
+module OpenProject::Webhooks::EventResources
+  class Base
+    #
+    # Subscribe for events on this resource schedule the respective
+    # webhooks, if any.
+    def self.subscribe!: () -> untyped
+
+    #
+    # Return a mapping of event key to its localized name
+    def self.available_events_map: () -> untyped
+
+    #
+    # Get the prefix key for this module
+    def self.prefix_key: () -> untyped
+
+    #
+    # Create a prefixed event name
+    def self.prefixed_event_name: (untyped action) -> ::String
+
+    def self.available_actions: () -> untyped
+
+    #
+    # Localize the given event name
+    def self.localize_event_name: (untyped key) -> untyped
+
+    #
+    # Get the name of this resource
+    def self.resource_name: () -> untyped
+
+    #
+    # Get the subscriptions for OP::Notifications
+    def self.notification_names: () -> untyped
+
+    #
+    # Callback for OP::Notification
+    def self.handle_notification: (untyped payload, untyped event_name) -> untyped
+
+    #
+    # Base scope for active webhooks, helper for subclasses
+    def self.active_webhooks: () -> untyped
+  end
+end

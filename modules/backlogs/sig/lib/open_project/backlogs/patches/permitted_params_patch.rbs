@@ -1,0 +1,11 @@
+module OpenProject::Backlogs::Patches::PermittedParamsPatch
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    def update_work_package: (?::Hash[untyped, untyped] args) -> untyped
+
+    def my_account_settings: () -> untyped
+
+    def backlogs_admin_settings: () -> untyped
+  end
+end

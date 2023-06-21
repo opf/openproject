@@ -1,0 +1,11 @@
+module OpenProject::Bim::Patches::ProjectSeederPatch
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    def project_content_seeder_classes: () -> untyped
+
+    private
+
+    def bim_project_content_seeder_classes: () -> ::Array[untyped]
+  end
+end

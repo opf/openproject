@@ -1,0 +1,15 @@
+module Bim
+  module IfcModels
+    class IfcViewerController < BaseController
+      def show: () -> nil
+
+      private
+
+      def parse_showing_models: () -> untyped
+
+      def find_all_ifc_models: () -> untyped
+
+      def set_default_models: () -> untyped
+    end
+  end
+end

@@ -1,0 +1,7 @@
+module OpenProject
+  module LdapGroups
+    def self.settings: () -> untyped
+
+    def self.group_dn: (untyped value) -> ::String
+  end
+end

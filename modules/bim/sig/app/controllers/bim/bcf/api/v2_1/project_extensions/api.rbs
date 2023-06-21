@@ -1,0 +1,6 @@
+module Bim::Bcf::API::V2_1
+  module ProjectExtensions
+    class API < ::API::OpenProjectAPI
+    end
+  end
+end

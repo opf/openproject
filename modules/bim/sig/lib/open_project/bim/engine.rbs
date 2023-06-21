@@ -1,0 +1,13 @@
+module OpenProject::Bim
+  class Engine < ::Rails::Engine
+    include OpenProject::Plugins::ActsAsOpEngine
+
+    include API::Bim::Utilities::PathHelper
+
+    prepend Patches::API::V3::ExportFormats
+
+    include API::Bim::Utilities::PathHelper
+
+    OpenProject::Authentication::Scope::BCF_V2_1: :bcf_v2_1
+  end
+end

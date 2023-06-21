@@ -1,0 +1,3 @@
+class CostQuery::Filter::NoFilter < Report::Filter::NoFilter
+  def sql_statement: () -> untyped
+end

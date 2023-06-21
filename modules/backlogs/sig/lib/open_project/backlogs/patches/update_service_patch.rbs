@@ -1,0 +1,13 @@
+module OpenProject::Backlogs::Patches::UpdateServicePatch
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    def update_descendants: (untyped work_package) -> untyped
+
+    def inherit_version_to_descendants: (untyped work_package) -> untyped
+
+    def sorted_descendants: (untyped work_package) -> untyped
+
+    def descendant_tasks_of: (untyped descendants) -> untyped
+  end
+end

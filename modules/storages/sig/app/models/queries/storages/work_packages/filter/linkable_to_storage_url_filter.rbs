@@ -1,0 +1,13 @@
+module Queries::Storages::WorkPackages::Filter
+  class LinkableToStorageUrlFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
+    include StoragesFilterMixin
+
+    def filter_model: () -> untyped
+
+    def filter_column: () -> "host"
+
+    def permission: () -> :manage_file_links
+
+    def where_values: () -> untyped
+  end
+end

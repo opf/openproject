@@ -1,0 +1,7 @@
+module OpenProject::Backlogs::Patches::StatusPatch
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    def is_done?: (untyped project) -> untyped
+  end
+end

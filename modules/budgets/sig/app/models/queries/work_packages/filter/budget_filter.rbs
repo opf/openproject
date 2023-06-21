@@ -1,0 +1,23 @@
+module Queries::WorkPackages::Filter
+  class BudgetFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
+    def allowed_values: () -> untyped
+
+    def available?: () -> untyped
+
+    def self.key: () -> :budget_id
+
+    def type: () -> :list_optional
+
+    def dependency_class: () -> "::API::V3::Queries::Schemas::BudgetFilterDependencyRepresenter"
+
+    def ar_object_filter?: () -> true
+
+    def value_objects: () -> untyped
+
+    def human_name: () -> untyped
+
+    private
+
+    def budgets: () -> untyped
+  end
+end

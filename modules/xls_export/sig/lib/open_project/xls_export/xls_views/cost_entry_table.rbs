@@ -1,0 +1,28 @@
+class OpenProject::XlsExport::XlsViews::CostEntryTable < OpenProject::XlsExport::XlsViews
+  def generate: () -> untyped
+
+  def setup_query_for_tab: (untyped query, untyped unit_id) -> untyped
+
+  def build_spreadsheet: () -> untyped
+
+  def build_header: () -> untyped
+
+  def build_cost_rows: () -> untyped
+
+  def format_columns: () -> untyped
+
+  def cost_row: (untyped result) -> untyped
+
+  def build_footer: () -> untyped
+
+  def one_unit_type_footer: () -> ::Array[untyped | ""]
+
+  def multiple_unit_types_footer: () -> ::Array["" | untyped]
+
+  def headers: () -> untyped
+
+  def cost_entry_attributes: () -> ::Array[:spent_on | :user_id | :activity_id | :work_package_id | :comments | :project_id]
+
+  # Returns the results of the query sorted by date the time was spent on and by id
+  def sorted_results: () -> untyped
+end

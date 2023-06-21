@@ -1,0 +1,63 @@
+module OpenProject::TwoFactorAuthentication
+  module TokenStrategyManager
+    #
+    # Select a matching OTP strategy for the given user's default device.
+    # It will select the first that supports the given channel
+    def self.find_matching_strategy: (untyped channel) -> untyped
+
+    # validate_configuration
+    def self.validate_configuration!: () -> untyped
+
+    #
+    # Validate the configured set of strategies
+    def self.validate_active_strategies!: () -> untyped
+
+    #
+    # Whether any active strategy exists
+    def self.enabled?: () -> untyped
+
+    #
+    # Determines whether admins can register devices on user's behalf
+    def self.admin_register_sms_strategy: () -> untyped
+
+    #
+    # Whether the system requires 2FA for all users
+    def self.enforced?: () -> untyped
+
+    #
+    # Determine whether the plugin settings can be changed from the UI
+    def self.configurable_by_ui?: () -> untyped
+
+    def self.allow_remember_for_days: () -> untyped
+
+    #
+    # Determine whether the given configuration is invalid
+    def self.invalid_configuration?: () -> untyped
+
+    #
+    # Fetch all active strategies
+    def self.active_strategies: () -> untyped
+
+    #
+    # Get the unique strategy for the type
+    def self.get_strategy: (untyped type) -> untyped
+
+    #
+    # Get the available devices for the active strategies
+    def self.available_devices: () -> untyped
+
+    #
+    # 2FA Plugin configuration
+    def self.configuration: () -> untyped
+
+    def self.enforced_by_configuration?: () -> untyped
+
+    def self.merge_with_settings!: (untyped config) -> untyped
+
+    def self.add_default_strategy?: (untyped config) -> untyped
+
+    def self.available_strategies: () -> { totp: untyped, sns: untyped, message_bird: untyped }
+
+    def self.lookup_active_strategy: (untyped klazz) -> untyped
+  end
+end

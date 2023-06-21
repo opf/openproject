@@ -1,0 +1,7 @@
+class CostQuery::Filter::OverriddenCosts < Report::Filter::Base
+  def self.label: () -> untyped
+
+  def self.available_operators: () -> untyped
+
+  def self.available_values: (*untyped) -> ::Array[untyped]
+end

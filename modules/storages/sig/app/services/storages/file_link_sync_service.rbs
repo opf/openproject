@@ -1,0 +1,71 @@
+# Handle synchronization of FileLinks with external data store such as Storages
+class Storages::FileLinkSyncService
+  FILESINFO_URL_PATH: "/ocs/v1.php/apps/integration_openproject/filesinfo"
+
+  def initialize: (user: untyped) -> void
+
+  def call: (untyped file_links) -> untyped
+
+  private
+
+  # Get the OAuthClientToken that will authenticate us against Nextcloud
+  def get_connection_manager: (untyped storage_id) -> untyped
+
+  def get_oauth_client_token: (untyped connection_manager) -> (nil | untyped)
+
+  # Sync a Nextcloud storage
+  def sync_nextcloud: (untyped storage_id, untyped file_links) -> (nil | untyped)
+
+  def set_file_link_permissions: (untyped file_links, untyped parsed_response) -> untyped
+
+  # Write the updated information from Nextcloud to a single file
+  # @param storage Storage of the file
+  # @param origin_file_id Nextcloud ID of the file
+  # @param origin_file_info_hash Hash with updated information from Nextcloud
+  # "24" => {
+  #    "id" : 24,                 # origin_file_id
+  #    "ctime" : 0,               # Linux epoch file creation +overwrite
+  #    "mtime" : 1655301278,      # Linux epoch file modification +overwrite
+  #    "mimetype" : "application/pdf",  # +overwrite
+  #    "name" : "Nextcloud Manual.pdf", # "Canonical" name, could changed by owner +overwrite
+  #    "owner_id" : "admin",      # ID at Nextcloud side +overwrite
+  #    "owner_name" : "admin",    # Name at Nextcloud side +overwrite
+  #    "size" : 12706214,         # Not used yet in OpenProject +overwrite
+  #    "status" : "OK",           # Not used yet
+  #    "statuscode" : 200,        # Not used yet
+  #    "trashed" : false          # Exclude trashed files from result array of FileLinks
+  # }
+  # In case of permission errors (depending on the current user) we get:
+  # "24" => { "status" => "Forbidden", "statuscode" => 403 }
+  # In case of completely deleted file or other errors we might also get:
+  # "24" = { "status" => "Not Found", "statuscode" => 404 }
+  # rubocop:disable Metrics/AbcSize
+  def sync_single_file: (untyped file_link, untyped origin_file_info_hash) -> untyped
+
+  def set_error_for_file_links: (untyped storage_file_links) -> untyped
+
+  # Check the Nextcloud status of a list of files:
+  # The endpoint returns "canonical" infos per file. Canonical means that the attributes are the same
+  # as the owner sees them and not the current user. If it was the current user the file name could be
+  # different for that user as a shared file can be renamed.
+  # @param file_ids An array of Nextcloud IDs of files to check
+  # @return A HTTP response or an Exception object
+  #
+  # curl -H "Accept: application/json" -H "Content-Type:application/json" -H "OCS-APIRequest: true"
+  # 		-u USER:PASSWD http://my.nc.org/ocs/v1.php/apps/integration_openproject/filesinfo
+  # 		-X POST -d '{"fileIds":[FILE_ID_1,FILE_ID_2,...]}'
+  def request_files_info: (untyped token, untyped file_ids) -> untyped
+
+  # HTTP Request options: Keep the request short for the sake of the front-end
+  def request_file_info_options: () -> { max_retries: 0, open_timeout: 5, read_timeout: 3 }
+
+  def build_files_info_request: (untyped uri, untyped token, untyped file_ids) -> untyped
+
+  # Takes a response from querying Nextcloud file IDS (an Exception or a HTTP::Response),
+  # parses the returned JSON and
+  # @returns ServiceResult containing data in result and success=true,
+  #   or success=false with result=:error or result=:not_authorized.
+  def parse_files_info_response: (untyped response) -> untyped
+
+  def files_info_response_error?: (untyped response) -> untyped
+end

@@ -1,0 +1,17 @@
+module Queries::Storages::WorkPackages::Filter
+  class StorageUrlFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
+    include StoragesFilterMixin
+
+    def filter_model: () -> untyped
+
+    def filter_column: () -> "host"
+
+    def permission: () -> :view_file_links
+
+    def where_values: () -> untyped
+
+    def joins: () -> ::Array[{ file_links: :storage } | { project: :projects_storages }]
+
+    def additional_where_condition: () -> ::String
+  end
+end

@@ -1,0 +1,9 @@
+module Boards
+  class TableComponent < ::TableComponent
+    def initial_sort: () -> ::Array[:name | :asc]
+
+    def paginated?: () -> true
+
+    def headers: () -> untyped
+  end
+end

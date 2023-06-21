@@ -1,0 +1,7 @@
+module OpenProject
+  module AuthSaml
+    module Inspector
+      def self?.inspect_response: (untyped auth_hash) { (untyped) -> untyped } -> untyped
+    end
+  end
+end

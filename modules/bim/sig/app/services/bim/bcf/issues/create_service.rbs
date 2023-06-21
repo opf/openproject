@@ -1,0 +1,25 @@
+module Bim::Bcf
+  module Issues
+    class CreateService < ::BaseServices::Create
+      private
+
+      def before_perform: (untyped params, untyped service_result) -> untyped
+
+      def issue_params: (work_package: untyped, params: untyped) -> untyped
+
+      def get_work_package: (untyped params) -> untyped
+
+      def use_work_package: (links: untyped, params: untyped) -> untyped
+
+      def create_work_package: (untyped params) -> untyped
+
+      def work_package_id_from_links: (untyped links) -> untyped
+
+      def remove_work_package_links!: (untyped links) -> untyped
+
+      def work_package_not_found_result: () -> untyped
+
+      def api_path_helper: () -> untyped
+    end
+  end
+end

@@ -1,0 +1,9 @@
+class RbMasterBacklogsController < RbApplicationController
+  def index: () -> untyped
+
+  private
+
+  def set_export_card_config_meta: () -> untyped
+
+  def default_breadcrumb: () -> untyped
+end

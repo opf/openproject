@@ -1,0 +1,27 @@
+class CostlogController < ApplicationController
+  include CostlogHelper
+
+  def new: () -> untyped
+
+  def edit: () -> (untyped | nil)
+
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  def destroy: () -> (nil | untyped)
+
+  private
+
+  def find_project: () -> untyped
+
+  def find_optional_project: () -> untyped
+
+  def find_associated_objects: () -> untyped
+
+  def new_default_cost_entry: () -> untyped
+
+  def update_cost_entry_from_params: () -> untyped
+
+  def cost_entry_params: () -> untyped
+end

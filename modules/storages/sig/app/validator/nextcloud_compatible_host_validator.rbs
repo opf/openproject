@@ -1,0 +1,65 @@
+# - copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2023 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+# +
+class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
+  MINIMAL_NEXTCLOUD_VERSION: 22
+
+  AUTHORIZATION_HEADER: "Bearer TESTBEARERTOKEN"
+
+  def validate_each: (untyped contract, untyped attribute, untyped value) -> (nil | untyped)
+
+  private
+
+  def validate_capabilities: (untyped contract, untyped attribute, untyped value) -> untyped
+
+  # Apparently some Nextcloud installations do not use mod_rewrite. Then requesting its app root (the storage host name)
+  # the response is a redirect to a URI containing 'index.php' in its path. If that is the case that installation
+  # is not compatible with our integration. It is missing support for Bearer token based authorization. Apparently
+  # Apache strips that part of the request header by default.
+  # https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/oauth2.html
+  def validate_setup_completeness: (untyped contract, untyped attribute, untyped value) -> untyped
+
+  def check_capabilities_response: (untyped response) -> (:cannot_be_connected_to | :not_nextcloud_server | :minimal_nextcloud_version_unmet | nil)
+
+  def check_config_check_response: (untyped response) -> (:cannot_be_connected_to | :op_application_not_installed | :authorization_header_missing | nil)
+
+  def message: (untyped host, untyped response_or_exception, untyped error_type) -> untyped
+
+  def major_version_sufficient?: (untyped response) -> (false | true)
+
+  def make_request: (untyped request) -> untyped
+
+  def request_capabilities: (untyped host) -> untyped
+
+  def request_config_check: (untyped host) -> untyped
+
+  def json_response_with_version?: (untyped response) -> untyped
+
+  def read_version: (untyped response) -> untyped
+
+  def read_authorization_header: (untyped response) -> untyped
+end

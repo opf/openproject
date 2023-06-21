@@ -1,0 +1,4 @@
+module Budgets
+  class UpdateContract < BaseContract
+  end
+end

@@ -1,0 +1,5 @@
+module Storages::Peripherals
+  module StorageErrorHelper
+    def raise_error: (untyped error) -> untyped
+  end
+end

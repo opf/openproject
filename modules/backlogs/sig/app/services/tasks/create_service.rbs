@@ -1,0 +1,7 @@
+class Tasks::CreateService
+  attr_accessor user: untyped
+
+  def initialize: (user: untyped) -> void
+
+  def call: (?attributes: ::Hash[untyped, untyped], ?prev: ::String) -> untyped
+end

@@ -1,0 +1,25 @@
+class MeetingContentsController < ApplicationController
+  include AttachableServiceCall
+
+  include PaginationHelper
+
+  def show: () -> (nil | untyped)
+
+  def update: () -> untyped
+
+  def history: () -> untyped
+
+  def diff: () -> untyped
+
+  def notify: () -> untyped
+
+  def icalendar: () -> untyped
+
+  def default_breadcrumb: () -> untyped
+
+  private
+
+  def find_meeting: () -> untyped
+
+  def content_params: () -> untyped
+end

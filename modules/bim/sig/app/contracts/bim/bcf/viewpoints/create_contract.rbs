@@ -1,0 +1,87 @@
+module Bim::Bcf
+  module Viewpoints
+    class CreateContract < ::ModelContract
+      include ::Bim::Bcf::Concerns::ManageBcfGuarded
+
+      WHITELISTED_PROPERTIES: ::Array["guid" | "index" | "snapshot" | "orthogonal_camera" | "perspective_camera" | "clipping_planes" | "bitmaps" | "lines" | "components"]
+
+      ORTHOGONAL_CAMERA_PROPERTIES: ::Array["camera_view_point" | "camera_direction" | "camera_up_vector" | "view_to_world_scale"]
+
+      PERSPECTIVE_CAMERA_PROPERTIES: ::Array["camera_view_point" | "camera_direction" | "camera_up_vector" | "field_of_view"]
+
+      LINES_PROPERTIES: ::Array["start_point" | "end_point"]
+
+      CLIPPING_PLANES_PROPERTIES: ::Array["location" | "direction"]
+
+      COMPONENTS_PROPERTIES: ::Array["visibility" | "selection" | "coloring"]
+
+      COMPONENT_PROPERTIES: ::Array["ifc_guid" | "originating_system" | "authoring_tool_id"]
+
+      COLORING_PROPERTIES: ::Array["color" | "components"]
+
+      VISIBILITY_PROPERTIES: ::Array["default_visibility" | "exceptions" | "view_setup_hints"]
+
+      VIEW_SETUP_HINTS_PROPERTIES: ::Array["spaces_visible" | "space_boundaries_visible" | "openings_visible"]
+
+      COLOR_REGEXP: ::Regexp
+
+      WHITELISTED_DIMENSIONS: ::Array["x" | "y" | "z"]
+
+      def validate_json_viewpoint_blank: () -> (untyped | nil)
+
+      def validate_json_viewpoint_hash: () -> (untyped | nil)
+
+      def validate_properties: () -> (untyped | nil)
+
+      def validate_snapshot: () -> (nil | untyped)
+
+      def validate_index: () -> (nil | untyped)
+
+      def validate_orthogonal_camera: () -> (nil | untyped)
+
+      def validate_perspective_camera: () -> (nil | untyped)
+
+      def validate_lines: () -> (nil | untyped)
+
+      def validate_clipping_planes: () -> (nil | untyped)
+
+      def validate_bitmaps: () -> (untyped | nil)
+
+      def validate_components: () -> (nil | untyped)
+
+      def validate_guid: () -> (nil | untyped)
+
+      def invalid_components_properties?: (untyped json) -> untyped
+
+      def invalid_line?: (untyped line) -> untyped
+
+      def invalid_clipping_plane?: (untyped line) -> untyped
+
+      def invalid_hash_point?: (untyped hash, untyped whitelist) -> untyped
+
+      def invalid_visibility?: (untyped visibility) -> untyped
+
+      def invalid_components?: (untyped components) -> (false | untyped)
+
+      def invalid_colorings?: (untyped colorings) -> (false | untyped)
+
+      def invalid_component?: (untyped component) -> untyped
+
+      def invalid_coloring?: (untyped coloring) -> untyped
+
+      def invalid_color?: (untyped color) -> untyped
+
+      def invalid_direction?: (untyped direction) -> untyped
+
+      alias invalid_point? invalid_direction?
+
+      def invalid_default_visibility?: (untyped visibility) -> untyped
+
+      def invalid_view_setup_hints?: (untyped hints) -> (false | untyped)
+
+      def no_boolean?: (untyped property) -> untyped
+
+      def viewpoint: () -> untyped
+    end
+  end
+end

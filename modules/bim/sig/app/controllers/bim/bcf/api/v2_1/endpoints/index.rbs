@@ -1,0 +1,11 @@
+module Bim::Bcf::API::V2_1::Endpoints
+  class Index < API::Utilities::Endpoints::Index
+    def mount: () -> untyped
+
+    def render: (untyped request) -> untyped
+
+    private
+
+    def deduce_render_representer: () -> untyped
+  end
+end

@@ -1,0 +1,17 @@
+module RbMasterBacklogsHelper
+  include Redmine::I18n
+
+  def render_backlog_menu: (untyped backlog) -> untyped
+
+  def backlog_menu_items_for: (untyped backlog) -> untyped
+
+  def common_backlog_menu_items_for: (untyped backlog) -> untyped
+
+  def export_export_cards_link: (untyped backlog) -> untyped
+
+  def properties_link: (untyped backlog) -> untyped
+
+  def export_modal_link: (untyped backlog, ?::Hash[untyped, untyped] options) -> untyped
+
+  def sprint_backlog_menu_items_for: (untyped backlog) -> untyped
+end

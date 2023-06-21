@@ -1,0 +1,7 @@
+module OpenProject::Backlogs
+  class Engine < ::Rails::Engine
+    def self.settings: () -> { default: ::Hash[::String, nil | "up" | ""], menu_item: :backlogs_settings }
+
+    include OpenProject::Plugins::ActsAsOpEngine
+  end
+end

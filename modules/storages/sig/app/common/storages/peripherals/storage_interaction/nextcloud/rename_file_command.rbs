@@ -1,0 +1,7 @@
+module Storages::Peripherals::StorageInteraction::Nextcloud
+  class RenameFileCommand
+    def initialize: (untyped storage) -> void
+
+    def call: (source: untyped, target: untyped) -> untyped
+  end
+end

@@ -1,0 +1,65 @@
+module Bim
+  module Bcf
+    class IssuesController < BaseController
+      include PaginationHelper
+
+      def upload: () -> nil
+
+      def index: () -> untyped
+
+      def prepare_import: () -> untyped
+
+      def configure_import: () -> untyped
+
+      def perform_import: () -> untyped
+
+      def redirect_to_bcf_issues_listset: () -> untyped
+
+      private
+
+      def import_file: () -> untyped
+
+      def import_canceled?: () -> (untyped | nil)
+
+      def set_import_options: () -> untyped
+
+      def render_next: () -> untyped
+
+      def render_config_invalid_people: () -> untyped
+
+      def render_config_invalid_people?: () -> untyped
+
+      def render_config_unknown_types: () -> untyped
+
+      def render_config_unknown_types?: () -> untyped
+
+      def render_config_unknown_statuses: () -> untyped
+
+      def render_config_unknown_statuses?: () -> untyped
+
+      def render_config_unknown_priorities?: () -> untyped
+
+      def render_config_unknown_priorities: () -> untyped
+
+      def render_config_unknown_mails: () -> untyped
+
+      def render_config_unknown_mails?: () -> untyped
+
+      def render_config_non_members: () -> untyped
+
+      def render_config_non_members?: () -> untyped
+
+      def build_importer: () -> untyped
+
+      def get_persisted_file: () -> untyped
+
+      def persist_file: () -> untyped
+
+      def create_attachment: () -> untyped
+
+      def check_file_param: () -> untyped
+
+      def check_bcf_version: () -> (untyped | nil)
+    end
+  end
+end

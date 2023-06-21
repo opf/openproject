@@ -1,0 +1,4 @@
+module Storages::ProjectStorages
+  class DeleteContract < ::DeleteContract
+  end
+end

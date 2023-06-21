@@ -1,0 +1,65 @@
+module OpenProject::XlsExport
+  class SpreadsheetBuilder
+    Worksheet: untyped
+
+    def initialize: (?untyped? name) -> void
+
+    # Retrieve or create the worksheet at index x
+    def worksheet: (untyped idx, ?untyped? name) -> untyped
+
+    def create_worksheet: (untyped name) -> untyped
+
+    # Update column widths and wrap text if necessary
+    def update_sheet_widths: () -> untyped
+
+    # Get the approximate width of a value as seen in the excel sheet
+    def get_value_width: (untyped value) -> (18 | untyped)
+
+    # Add a "Title". This basically just set the first column to
+    # the passed text and makes it bold and larger (font-size 18)
+    def add_title: (untyped arr_or_str) -> untyped
+
+    # Add an empty row in the next sequential position. Convenience method
+    # for calling add_row([""])
+    def add_empty_row: () -> untyped
+
+    # Add headers. This is usually used for adding a table header to the
+    # second row in the document, but the row can be set using the second
+    # optional parameter. The format is automatically set to bold font
+    def add_headers: (untyped arr, ?untyped? idx) -> untyped
+
+    # Add sums. The format, that might already have been set (e.g. currency formatting)
+    # is not overwritten but extended.
+    def add_sums: (untyped arr, ?untyped? idx) -> untyped
+
+    def increase_column_width: (untyped index, untyped amount) -> untyped
+
+    # Add a simple row. This will default to the next row in the sequence.
+    # Integer, Float, Date, and Time instances are preserved, all other types
+    # are converted to String as the spreadsheet gem cannot do more formats
+    def add_row: (untyped arr, ?untyped? idx) -> untyped
+
+    # Add a default format to the column at index
+    def add_format_option_to_column: (untyped index, untyped opt) -> (untyped | nil)
+
+    # Return the next free row we would write to in natural indexing (Starting at 1)
+    def current_row: () -> untyped
+
+    # Return the xls file as a string
+    def xls: () -> untyped
+
+    private
+
+    def column_width_including_affix: (untyped index) -> untyped
+
+    def limit_and_wrap_column: (untyped index, untyped limit) -> untyped
+
+    def raw_xls: () -> untyped
+
+    def raw_sheet: () -> untyped
+
+    def currency_sign: () -> untyped
+
+    def escaped_worksheet_name: (untyped name) -> untyped
+  end
+end

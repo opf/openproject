@@ -1,0 +1,10 @@
+module Costs::Patches::ProjectPatch
+  def self.included: (untyped base) -> untyped
+
+  module ClassMethods
+  end
+
+  module InstanceMethods
+    def costs_enabled?: () -> untyped
+  end
+end

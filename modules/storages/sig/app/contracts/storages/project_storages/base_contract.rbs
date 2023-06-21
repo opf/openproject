@@ -1,0 +1,19 @@
+# A "contract" is an OpenProject pattern used to validate parameters
+# before actually creating, updating, or deleting a model.
+# Used by: projects_storages_controller.rb and in the API
+module Storages::ProjectStorages
+  class BaseContract < ::ModelContract
+    # "Concern" just injects a permission checking routine.
+    # Not sure where this concern is reused.
+    include ::Storages::ProjectStorages::Concerns::ManageStoragesGuarded
+
+    # Include validation library
+    include ActiveModel::Validations
+
+    def assignable_storages: () -> untyped
+
+    private
+
+    def project_folder_mode_manual?: () -> untyped
+  end
+end

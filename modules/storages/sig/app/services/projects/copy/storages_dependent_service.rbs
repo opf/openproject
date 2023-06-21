@@ -1,0 +1,11 @@
+module Projects::Copy
+  class StoragesDependentService < ::Copy::Dependency
+    def self.human_name: () -> untyped
+
+    def source_count: () -> untyped
+
+    def copy_dependency: (*untyped) -> untyped
+
+    def create_project_storage: (untyped project_storage) -> untyped
+  end
+end

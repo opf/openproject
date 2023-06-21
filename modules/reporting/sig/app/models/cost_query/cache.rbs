@@ -1,0 +1,21 @@
+module CostQuery::Cache
+  def self.check: () -> (untyped | nil)
+
+  def self.reset!: () -> untyped
+
+  attr_accessor self.latest_custom_field_change: untyped
+
+  attr_accessor self.custom_field_count: untyped
+
+  def self.invalid?: () -> untyped
+
+  def self.update_reset_on: () -> (nil | untyped)
+
+  def self.fetch_latest_custom_field_change: () -> untyped
+
+  def self.fetch_current_custom_field_count: () -> untyped
+
+  def self.caching_disabled?: () -> untyped
+
+  def self.reset_required?: () -> untyped
+end

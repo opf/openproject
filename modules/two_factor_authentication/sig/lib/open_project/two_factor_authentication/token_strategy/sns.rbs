@@ -1,0 +1,34 @@
+module OpenProject::TwoFactorAuthentication
+  module TokenStrategy
+    class Sns < Base
+      def self.validate!: () -> untyped
+
+      def self.identifier: () -> :sns
+
+      def self.mobile_token?: () -> true
+
+      def self.supported_channels: () -> ::Array[:sms]
+
+      def self.validate_params: () -> untyped
+
+      private
+
+      def send_sms: () -> untyped
+
+      #
+      # Prepares the request for the given user and token
+      def build_sms_params: () -> { phone_number: untyped, message: untyped }
+
+      def build_token_text: (untyped token) -> untyped
+
+      #
+      # Prepares the user's phone number for commcit.
+      # Required format: +xxaaabbbccc
+      # Stored format: +xx yyy yyy yyyy (optional whitespacing)
+      def build_user_phone: () -> untyped
+
+      # rubocop:disable Metrics/AbcSize
+      def submit: () -> untyped
+    end
+  end
+end

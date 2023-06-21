@@ -1,0 +1,15 @@
+OpenProject::CustomStyles::ColorThemes::BIM_THEME_NAME: "OpenProject BIM"
+
+module OpenProject::Bim
+  module Patches
+    module ColorThemesPatch
+      def self.included: (untyped base) -> untyped
+
+      module ClassMethods
+        def themes: () -> untyped
+
+        def bim_theme: () -> { theme: untyped, colors: ::Hash[::String, "#3270DB" | "#163473" | "#349939" | "#05002C" | "#275BB5" | "#0E2045"], logo: "bim/logo_openproject_bim_big.png" }
+      end
+    end
+  end
+end

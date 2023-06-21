@@ -1,0 +1,31 @@
+module TimeEntries
+  class BaseContract < ::ModelContract
+    include AssignableValuesContract
+
+    include AssignableCustomFieldValues
+
+    def self.model: () -> untyped
+
+    def assignable_activities: () -> untyped
+
+    # Necessary for custom fields
+    # of type version.
+    def assignable_versions: () -> untyped
+
+    private
+
+    def validate_work_package: () -> (nil | untyped)
+
+    def validate_hours_are_in_range: () -> (untyped | nil)
+
+    def validate_project_is_set: () -> (untyped | nil)
+
+    def validate_activity_active: () -> (untyped | nil)
+
+    def work_package_invisible?: () -> untyped
+
+    def work_package_not_in_project?: () -> untyped
+
+    def validate_logged_by_current_user: () -> (untyped | nil)
+  end
+end

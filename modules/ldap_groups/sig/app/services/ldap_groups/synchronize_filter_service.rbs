@@ -1,0 +1,36 @@
+module LdapGroups
+  class SynchronizeFilterService
+    attr_reader filter: untyped
+
+    def initialize: (untyped filter) -> void
+
+    def call: () -> untyped
+
+    #
+    # Perform the synchronization for the given filter
+    def synchronize!: () -> untyped
+
+    private
+
+    #
+    # Get the current members from the ldap group
+    def upstream_groups: () -> untyped
+
+    #
+    # Find groups by the filter string
+    # and yield them one by one
+    def each_group: () { (untyped, untyped) -> untyped } -> untyped
+
+    #
+    # Perform the LDAP search for the groups
+    def search: (untyped filter, untyped ldap_con) { () -> untyped } -> untyped
+
+    #
+    # Create or update the synchronized group item
+    def create_or_update_sync_group: (untyped dn) -> untyped
+
+    #
+    # Create or update the group
+    def create_or_update_group: (untyped sync, untyped name) -> untyped
+  end
+end

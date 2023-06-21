@@ -1,0 +1,19 @@
+module OpenProject::GithubIntegration
+  module NotificationHandler
+    #
+    # Handles GitHub issue comment notifications.
+    class CheckRun
+      include OpenProject::GithubIntegration::NotificationHandler::Helper
+
+      def process: (untyped params) -> (nil | untyped)
+
+      private
+
+      attr_reader payload: untyped
+
+      def associated_with_pr?: () -> untyped
+
+      def find_pull_request: () -> untyped
+    end
+  end
+end

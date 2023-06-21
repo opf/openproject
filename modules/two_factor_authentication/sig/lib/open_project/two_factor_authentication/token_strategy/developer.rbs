@@ -1,0 +1,21 @@
+module OpenProject::TwoFactorAuthentication
+  module TokenStrategy
+    class Developer < Base
+      def self.validate!: () -> (untyped | nil)
+
+      def self.identifier: () -> :developer
+
+      def self.supported_channels: () -> ::Array[:sms | :voice]
+
+      def self.mobile_token?: () -> true
+
+      def transmit_success_message: () -> untyped
+
+      private
+
+      def send_sms: () -> untyped
+
+      def send_voice: () -> untyped
+    end
+  end
+end

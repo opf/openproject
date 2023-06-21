@@ -1,0 +1,7 @@
+class Widget::GroupBys < Widget::Base
+  def render_options: (untyped group_by_ary) -> untyped
+
+  def render_group: (untyped type, untyped initially_selected) -> untyped
+
+  def render: () -> untyped
+end

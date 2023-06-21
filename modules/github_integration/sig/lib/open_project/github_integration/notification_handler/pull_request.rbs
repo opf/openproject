@@ -1,0 +1,29 @@
+module OpenProject::GithubIntegration
+  module NotificationHandler
+    #
+    # Handles GitHub pull request notifications.
+    class PullRequest
+      include OpenProject::GithubIntegration::NotificationHandler::Helper
+
+      include ActionView::Helpers::TagHelper
+
+      include ::AngularHelper
+
+      COMMENT_ACTIONS: ::Array["closed" | "opened" | "ready_for_review" | "referenced" | "reopened"]
+
+      def process: (untyped params) -> (nil | untyped)
+
+      private
+
+      def work_packages_to_comment_on: (untyped action, untyped work_packages, untyped already_referenced) -> (untyped | untyped | ::Array[untyped])
+
+      def already_referenced_work_packages: (untyped payload) -> untyped
+
+      def upsert_pull_request: (untyped payload, untyped work_packages) -> untyped
+
+      def journal_entry: (untyped pull_request, untyped payload) -> untyped
+
+      def pull_request_state: (untyped payload) -> ("merged" | "draft" | untyped)
+    end
+  end
+end

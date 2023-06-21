@@ -1,0 +1,11 @@
+module Costs
+  class Engine < ::Rails::Engine
+    include OpenProject::Plugins::ActsAsOpEngine
+
+    include Redmine::I18n
+
+    include ActionView::Helpers::NumberHelper
+
+    prepend API::V3::CostsApiUserPermissionCheck
+  end
+end

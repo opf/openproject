@@ -1,0 +1,29 @@
+module LdapGroups
+  class SynchronizedGroupsController < ::ApplicationController
+    include PaginationHelper
+
+    def index: () -> untyped
+
+    def new: () -> untyped
+
+    def show: () -> untyped
+
+    def create: () -> untyped
+
+    def destroy_info: () -> untyped
+
+    def destroy: () -> untyped
+
+    private
+
+    def find_group: () -> untyped
+
+    def check_ee: () -> (false | nil)
+
+    def permitted_params: () -> untyped
+
+    def default_breadcrumb: () -> untyped
+
+    def show_local_breadcrumb: () -> true
+  end
+end

@@ -1,0 +1,9 @@
+module OpenProject::PDFExport::ExportCard
+  class GroupElement
+    include OpenProject::PDFExport::Exceptions
+
+    def initialize: (untyped pdf, untyped orientation, untyped config, untyped work_package) -> void
+
+    def draw: () -> untyped
+  end
+end

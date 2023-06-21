@@ -1,0 +1,3 @@
+module DocumentsHelper
+  def api_v3_document_resource: (untyped document) -> untyped
+end

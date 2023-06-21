@@ -1,0 +1,9 @@
+class Storages::StorageFiles
+  attr_reader files: untyped
+
+  attr_reader parent: untyped
+
+  attr_reader ancestors: untyped
+
+  def initialize: (untyped files, untyped parent, untyped ancestors) -> void
+end

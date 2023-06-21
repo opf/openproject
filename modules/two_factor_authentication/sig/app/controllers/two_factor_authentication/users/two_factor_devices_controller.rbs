@@ -1,0 +1,42 @@
+module ::TwoFactorAuthentication
+  module Users
+    class TwoFactorDevicesController < ::TwoFactorAuthentication::BaseController
+      # Password confirmation helpers and actions
+      include PasswordConfirmation
+
+      def index: () -> nil
+
+      #
+      # Register the device and let the user confirm
+      def register: () -> untyped
+
+      #
+      # Delete all devices
+      def delete_all: () -> untyped
+
+      #
+      # Confirm the change of the default device
+      # using the token on it.
+      # Subject to password confirmation if the user supports it.
+      def make_default: () -> untyped
+
+      #
+      # Destroy the given device if its not the default
+      def destroy: () -> (nil | untyped)
+
+      private
+
+      def new_device_params: () -> untyped
+
+      def index_path: () -> untyped
+
+      def registration_success_path: () -> untyped
+
+      def find_user: () -> untyped
+
+      def target_user: () -> untyped
+
+      def require_not_self: () -> (untyped | nil)
+    end
+  end
+end

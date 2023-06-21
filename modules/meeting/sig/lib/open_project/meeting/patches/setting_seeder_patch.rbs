@@ -1,0 +1,7 @@
+module OpenProject::Meeting::Patches::SettingSeederPatch
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    def data: () -> untyped
+  end
+end

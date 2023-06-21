@@ -1,0 +1,8 @@
+# Purpose: validate the model before deletion
+# Used by: Storages::FileLinks::DeleteService (looked up in BaseServices::Delete#default_contract_class)
+module Storages
+  module FileLinks
+    class DeleteContract < ::DeleteContract
+    end
+  end
+end

@@ -1,0 +1,13 @@
+class Projects::Settings::BacklogsController < Projects::SettingsController
+  def show: () -> untyped
+
+  def update: () -> untyped
+
+  def rebuild_positions: () -> untyped
+
+  private
+
+  def redirect_to_backlogs_settings: () -> untyped
+
+  def log_rebuild_position_error: () -> untyped
+end

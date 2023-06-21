@@ -1,0 +1,13 @@
+module API
+  module V3
+    module BacklogsTypes
+      class BacklogsTypeRepresenter < ::API::Decorators::Single
+        def _type: () -> "BacklogsType"
+
+        def id: () -> untyped
+
+        def name: () -> untyped
+      end
+    end
+  end
+end

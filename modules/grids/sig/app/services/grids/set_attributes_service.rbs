@@ -1,0 +1,37 @@
+class Grids::SetAttributesService < BaseServices::SetAttributes
+  include Attachments::SetReplacements
+
+  private
+
+  def set_attributes: (untyped attributes) -> untyped
+
+  # Updates grid's widget but does not persist the changes:
+  # * new ones are build
+  # * removed ones are marked_for_destruction
+  # * updated ones are not saved
+  # Goes through all provided widgets to find widgets with the same identifier but disregarding the id.
+  # All widgets identified as such are updated.
+  # Provided widgets that do not correspond to an existing widget are created.
+  # Widgets in the set of existing widgets that do not have a corresponding provided widget are deleted.
+  #
+  # All this is done to maximize reuse of widgets without having to expose the id.
+  #
+  # Do not use any methods changing the widgets array as those get persisted to the db right away.
+  def update_widgets: (untyped widgets) -> (nil | untyped)
+
+  def classify_widgets: (untyped widgets) -> untyped
+
+  def classify_create_all: (untyped widgets) -> ::Array[untyped | ::Array[untyped]]
+
+  def classify_preserve_existing: (untyped widgets) -> ::Array[untyped]
+
+  def match_widget: (untyped widget_map, untyped widget) -> untyped
+
+  # Removes prohibited widgets from the grid.
+  # That way, a valid subset of the default widgets is returned e.g. in the form
+  # or on a create request without widgets.
+  # Will only work on new records and only if no widgets have been specified.
+  def cleanup_prohibited_widgets: (untyped widgets) -> (nil | untyped)
+
+  def allowed_widget?: (untyped widget) -> untyped
+end

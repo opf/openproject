@@ -1,0 +1,31 @@
+module OmniAuth
+  module FlexibleStrategy
+    def on_auth_path?: () -> untyped
+
+    #
+    # Tries to match the request path of the current request with one of the registered providers.
+    # If a match is found the strategy is initialised with that provider to handle the request.
+    def match_provider!: () -> (false | untyped)
+
+    def omniauth_hash_to_user_attributes: (untyped auth) -> (untyped | ::Hash[untyped, untyped])
+
+    def path_for_provider: (untyped name) -> ::String
+
+    #
+    # Returns true if the current path could be an authentication request,
+    # false otherwise (e.g. for resources).
+    def possible_auth_path?: () -> untyped
+
+    def providers: () -> untyped
+
+    def provider: () -> untyped
+
+    def providers=: (untyped providers) -> untyped
+
+    def dup: () -> untyped
+  end
+
+  module FlexibleStrategyClass
+    def new: (untyped app, *untyped args) { () -> untyped } -> untyped
+  end
+end

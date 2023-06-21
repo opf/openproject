@@ -1,0 +1,3 @@
+module StorageLoginHelper
+  def storage_login_input: (untyped storage) -> (::Hash[untyped, untyped] | { storageType: untyped, authorizationLink: { href: untyped } })
+end

@@ -1,0 +1,7 @@
+module Projects::Scopes
+  module ActivatedTimeActivity
+    extend ActiveSupport::Concern
+
+    def activated_time_activity: (untyped time_entry_activity) -> untyped
+  end
+end

@@ -1,0 +1,33 @@
+module OpenIDConnect
+  class ProvidersController < ::ApplicationController
+    def index: () -> nil
+
+    def new: () -> untyped
+
+    def create: () -> untyped
+
+    def edit: () -> nil
+
+    def update: () -> untyped
+
+    def destroy: () -> untyped
+
+    private
+
+    def check_ee: () -> (false | nil)
+
+    def create_params: () -> untyped
+
+    def update_params: () -> untyped
+
+    def find_provider: () -> untyped
+
+    def providers: () -> untyped
+
+    def openid_connect_providers_available_for_configure: () -> untyped
+
+    def default_breadcrumb: () -> (untyped | nil)
+
+    def show_local_breadcrumb: () -> true
+  end
+end

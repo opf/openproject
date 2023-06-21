@@ -1,0 +1,5 @@
+class DocumentsMailer < UserMailer
+  def document_added: (untyped user, untyped document) -> untyped
+
+  def attachments_added: (untyped user, untyped attachments) -> untyped
+end

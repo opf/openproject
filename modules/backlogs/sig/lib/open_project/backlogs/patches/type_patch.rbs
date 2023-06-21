@@ -1,0 +1,12 @@
+module OpenProject::Backlogs::Patches::TypePatch
+  def self.included: (untyped base) -> untyped
+
+  module ClassMethods
+  end
+
+  module InstanceMethods
+    def story?: () -> untyped
+
+    def task?: () -> untyped
+  end
+end

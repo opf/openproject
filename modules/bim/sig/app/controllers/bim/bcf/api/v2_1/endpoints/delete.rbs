@@ -1,0 +1,11 @@
+module Bim::Bcf::API::V2_1::Endpoints
+  class Delete < API::Utilities::Endpoints::Delete
+    include ModifyMixin
+
+    def render_success: (untyped call) -> untyped
+
+    private
+
+    def render_representer: () -> untyped
+  end
+end

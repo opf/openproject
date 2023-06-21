@@ -1,0 +1,7 @@
+module OpenProject::Meeting
+  module Patches
+    module ProjectPatch
+      def self.included: (untyped receiver) -> untyped
+    end
+  end
+end

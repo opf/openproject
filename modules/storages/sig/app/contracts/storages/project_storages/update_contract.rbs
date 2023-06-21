@@ -1,0 +1,5 @@
+# See also: base_contract.rb for comments
+module Storages::ProjectStorages
+  class UpdateContract < ::Storages::ProjectStorages::BaseContract
+  end
+end

@@ -1,0 +1,39 @@
+class Report::GroupBy
+  class Base < Report::Chainable
+    include Report::QueryUtils
+
+    def correct_position?: () -> untyped
+
+    def filter?: () -> false
+
+    def sql_aggregation?: () -> untyped
+
+    def cache_key: () -> untyped
+
+    #
+    # @param [FalseClass, TrueClass] prefix Whether or not add a table prefix the field names
+    # @return [Array<String,Symbol>] List of group by fields corresponding to self and all parents'
+    def all_group_fields: (?bool prefix) -> untyped
+
+    def self.select_fields: (*untyped fields) -> untyped
+
+    def select_fields: () -> untyped
+
+    #
+    # @param [FalseClass, TrueClass] prefix Whether or not add a table prefix the field names
+    # @return [Array<String,Symbol>] List of select fields corresponding to self and all parents'
+    def all_select_fields: (?bool prefix) -> untyped
+
+    def clear: () -> untyped
+
+    def aggregation_mixin: () -> untyped
+
+    def initialize: (?untyped? child, ?::Hash[untyped, untyped] options) -> void
+
+    def result: () -> untyped
+
+    def compute_result: () -> untyped
+
+    def define_group: (untyped sql) -> untyped
+  end
+end

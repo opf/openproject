@@ -1,0 +1,11 @@
+module Budgets
+  class BaseContract < ::ModelContract
+    include Attachments::ValidateReplacements
+
+    def self.model: () -> untyped
+
+    private
+
+    def validate_manage_allowed: () -> (untyped | nil)
+  end
+end

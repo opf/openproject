@@ -1,0 +1,9 @@
+class CostQuery::Filter::PermissionFilter < Report::Filter::Base
+  def permission_statement: (untyped permission) -> untyped
+
+  def permission_for: (untyped type) -> ::String
+
+  def display_costs: () -> ::String
+
+  def sql_statement: () -> untyped
+end

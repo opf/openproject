@@ -1,0 +1,19 @@
+module ::Webhooks
+  module Outgoing
+    module Webhooks
+      class TableComponent < ::TableComponent
+        def initial_sort: () -> ::Array[:id | :asc]
+
+        def target_controller: () -> "webhooks/outgoing/admin"
+
+        def sortable?: () -> false
+
+        def inline_create_link: () -> untyped
+
+        def empty_row_message: () -> untyped
+
+        def headers: () -> ::Array[::Array["name" | { caption: untyped }] | ::Array["enabled" | { caption: untyped }] | ::Array["selected_projects" | { caption: untyped }] | ::Array["events" | { caption: untyped }] | ::Array["description" | { caption: untyped }]]
+      end
+    end
+  end
+end

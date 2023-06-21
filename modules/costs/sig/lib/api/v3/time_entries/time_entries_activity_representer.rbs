@@ -1,0 +1,13 @@
+module API
+  module V3
+    module TimeEntries
+      class TimeEntriesActivityRepresenter < ::API::Decorators::Single
+        include API::Decorators::LinkedResource
+
+        def _type: () -> "TimeEntriesActivity"
+
+        def active_projects: () -> untyped
+      end
+    end
+  end
+end

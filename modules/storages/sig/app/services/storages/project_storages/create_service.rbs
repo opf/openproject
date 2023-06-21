@@ -1,0 +1,10 @@
+# See: ../storages/create_service.rb for comments on services
+module Storages::ProjectStorages
+  class CreateService < ::BaseServices::Create
+    def after_perform: (untyped service_call) -> untyped
+
+    private
+
+    def add_historical_data: (untyped service_call) -> untyped
+  end
+end

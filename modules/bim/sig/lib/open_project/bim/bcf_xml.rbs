@@ -1,0 +1,4 @@
+module OpenProject::Bim
+  module Bcf
+  end
+end

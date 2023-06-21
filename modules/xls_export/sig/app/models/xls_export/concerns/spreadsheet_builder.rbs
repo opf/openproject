@@ -1,0 +1,35 @@
+module XlsExport
+  module Concerns
+    module SpreadsheetBuilder
+      def records: () -> untyped
+
+      def spreadsheet_title: () -> untyped
+
+      def export!: () -> untyped
+
+      def success: (untyped content) -> untyped
+
+      def spreadsheet: () -> untyped
+
+      def add_headers!: (untyped spreadsheet) -> untyped
+
+      def add_rows!: (untyped spreadsheet) -> untyped
+
+      def rows: () -> untyped
+
+      # Forwards to column_values by default
+      # but allows for extensions
+      def row: (untyped object) -> untyped
+
+      def column_values: (untyped object) -> untyped
+
+      def set_column_format_options!: (untyped spreadsheet) -> untyped
+
+      def spreadsheet_builder: () -> untyped
+
+      def headers: () -> untyped
+
+      def xls_export_filename: () -> untyped
+    end
+  end
+end

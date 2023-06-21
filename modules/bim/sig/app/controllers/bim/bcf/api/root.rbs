@@ -1,0 +1,6 @@
+module Bim::Bcf
+  module API
+    class Root < ::API::RootAPI
+    end
+  end
+end

@@ -1,0 +1,11 @@
+module API
+  module V3
+    module Grids
+      module Widgets
+        class WidgetRepresenter < ::API::Decorators::Single
+          def _type: () -> "GridWidget"
+        end
+      end
+    end
+  end
+end

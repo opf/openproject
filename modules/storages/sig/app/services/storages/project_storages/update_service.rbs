@@ -1,0 +1,11 @@
+# Reference: https://www.openproject.org/docs/development/concepts/contracted-services/
+# The comments here are also valid for the other *_service.rb files
+module Storages::ProjectStorages
+  class UpdateService < ::BaseServices::Update
+    def after_perform: (untyped service_call) -> untyped
+
+    private
+
+    def add_historical_data: (untyped service_call) -> untyped
+  end
+end

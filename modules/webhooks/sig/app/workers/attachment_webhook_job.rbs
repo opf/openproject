@@ -1,0 +1,7 @@
+class AttachmentWebhookJob < RepresentedWebhookJob
+  def payload_key: () -> :attachment
+
+  def accepted_in_project?: () -> (true | untyped)
+
+  def payload_representer: () -> untyped
+end

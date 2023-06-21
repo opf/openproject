@@ -1,0 +1,23 @@
+module OpenProject::PDFExport::ExportCard
+  class ColumnElement
+    def initialize: (untyped pdf, untyped property_name, untyped config, untyped orientation, untyped work_package) -> void
+
+    def draw: () -> untyped
+
+    private
+
+    def extract_property: () -> untyped
+
+    def extract_custom_field: () -> untyped
+
+    def available_languages: () -> untyped
+
+    def label_text: (untyped value) -> untyped
+
+    def abbreviated_text: (untyped text, untyped options) -> untyped
+
+    def localised_property_name: () -> untyped
+
+    def draw_value: (untyped value) -> untyped
+  end
+end

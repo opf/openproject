@@ -1,0 +1,50 @@
+#
+# Creates or updates a BCF issue and markup from a work package
+module OpenProject::Bim::BcfXml
+  class ViewpointWriter < BaseWriter
+    attr_reader viewpoint: untyped
+
+    def initialize: (untyped viewpoint) -> void
+
+    def to_xml: () -> untyped
+
+    def doc: () -> untyped
+
+    def root_node: () -> :VisualizationInfo
+
+    def root_node_attributes: () -> { Guid: untyped }
+
+    def dig_json: (*untyped args) -> untyped
+
+    def components: (untyped xml) -> (nil | untyped)
+
+    def view_setup_hints: (untyped xml) -> (nil | untyped)
+
+    def selected_components: (untyped xml) -> (nil | untyped)
+
+    def visibility: (untyped xml) -> (nil | untyped)
+
+    def coloring: (untyped xml) -> (nil | untyped)
+
+    def camera: (untyped type, untyped xml) -> (nil | untyped)
+
+    def lines: (untyped xml) -> (nil | untyped)
+
+    def clipping_planes: (untyped xml) -> (nil | untyped)
+
+    def bitmaps: (untyped xml) -> (nil | untyped)
+
+    #
+    # Helper to transform a hash into camelized keys
+    def camelized: (untyped hash) -> untyped
+
+    #
+    # Convert a float to BCF format that strips
+    # insignificant zeros
+    def convert_float: (untyped val) -> untyped
+
+    #
+    # Helper to render X,Y,Z hash as set of nodes
+    def to_xml_coords: (untyped hash, untyped xml) -> untyped
+  end
+end

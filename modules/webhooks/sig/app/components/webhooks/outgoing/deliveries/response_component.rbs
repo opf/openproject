@@ -1,0 +1,9 @@
+module ::Webhooks
+  module Outgoing
+    module Deliveries
+      class ResponseComponent < RailsComponent
+        def title: () -> untyped
+      end
+    end
+  end
+end

@@ -1,0 +1,4 @@
+module Overviews
+  class SetAttributesService < ::BaseServices::SetAttributes
+  end
+end

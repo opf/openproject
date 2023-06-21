@@ -1,0 +1,3 @@
+class Report::Filter::NoFilter < Report::Filter::Base
+  def sql_statement: () -> untyped
+end

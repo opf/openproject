@@ -1,0 +1,7 @@
+module OpenProject::Backlogs::Patches::BaseContractPatch
+  extend ActiveSupport::Concern
+
+  private
+
+  def validate_has_parents_version: () -> (untyped | nil)
+end

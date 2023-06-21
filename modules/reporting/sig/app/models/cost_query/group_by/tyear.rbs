@@ -1,0 +1,3 @@
+class CostQuery::GroupBy::Tyear < Report::GroupBy::Base
+  def self.label: () -> untyped
+end

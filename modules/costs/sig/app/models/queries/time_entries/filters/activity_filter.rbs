@@ -1,0 +1,15 @@
+class Queries::TimeEntries::Filters::ActivityFilter < Queries::TimeEntries::Filters::TimeEntryFilter
+  def allowed_values: () -> untyped
+
+  def type: () -> :list_optional
+
+  def self.key: () -> :activity_id
+
+  def where: () -> untyped
+
+  private
+
+  def child_values: () -> untyped
+
+  def shared_values: () -> untyped
+end

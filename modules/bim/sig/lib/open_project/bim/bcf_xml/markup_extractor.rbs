@@ -1,0 +1,53 @@
+module OpenProject::Bim::BcfXml
+  class MarkupExtractor
+    attr_reader entry: untyped
+
+    attr_accessor markup: untyped
+
+    attr_accessor doc: untyped
+
+    def initialize: (untyped entry) -> void
+
+    def uuid: () -> untyped
+
+    def title: () -> untyped
+
+    def priority: () -> untyped
+
+    def status: () -> untyped
+
+    def type: () -> untyped
+
+    def description: () -> untyped
+
+    def author: () -> untyped
+
+    def assignee: () -> untyped
+
+    def modified_author: () -> untyped
+
+    def creation_date: () -> untyped
+
+    def modified_date: () -> untyped
+
+    def due_date: () -> untyped
+
+    def viewpoints: () -> untyped
+
+    def comments: () -> untyped
+
+    def mail_addresses: () -> untyped
+
+    def people: () -> untyped
+
+    private
+
+    def comment_viewpoint_uuid: (untyped node) -> untyped
+
+    def extract_date_time: (untyped path, ?untyped? node) -> untyped
+
+    def extract: (untyped path, ?prefix: untyped, ?attribute: bool) -> untyped
+
+    def extract_from_node: (untyped path, untyped node, ?attribute: bool) -> untyped
+  end
+end

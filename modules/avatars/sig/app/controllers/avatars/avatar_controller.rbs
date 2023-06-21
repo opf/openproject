@@ -1,0 +1,11 @@
+module ::Avatars
+  class AvatarController < ::ApplicationController
+    def show: () -> untyped
+
+    private
+
+    def find_avatar: () -> untyped
+
+    def ensure_enabled: () -> (false | nil)
+  end
+end

@@ -1,0 +1,5 @@
+module OpenProject::TwoFactorAuthentication::Patches
+  module UserPatch
+    def self.included: (untyped base) -> untyped
+  end
+end

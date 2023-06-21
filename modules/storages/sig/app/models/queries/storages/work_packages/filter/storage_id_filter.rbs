@@ -1,0 +1,15 @@
+module Queries::Storages::WorkPackages::Filter
+  class StorageIdFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
+    include StoragesFilterMixin
+
+    def filter_model: () -> untyped
+
+    def filter_column: () -> "storage_id"
+
+    def permission: () -> :view_file_links
+
+    def joins: () -> ::Array[:file_links | { project: :projects_storages }]
+
+    def additional_where_condition: () -> ::String
+  end
+end

@@ -1,0 +1,5 @@
+class CostQuery::Filter::CategoryId < Report::Filter::Base
+  def self.label: () -> untyped
+
+  def self.available_values: (*untyped) -> untyped
+end

@@ -1,0 +1,7 @@
+module Grids
+  module Filters
+    class GridFilter < Queries::Filters::Base
+      def human_name: () -> untyped
+    end
+  end
+end

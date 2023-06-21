@@ -1,0 +1,11 @@
+class Grids::UpdateService < BaseServices::Update
+  def perform: (untyped attributes) -> untyped
+
+  def after_perform: (untyped service_call) -> untyped
+
+  def only_widgets_updated?: () -> untyped
+
+  # Changing the scope/type after the grid has been created is prohibited.
+  # But we set the value so that an error message can be displayed
+  def set_type_for_error_message: (untyped scope) -> (untyped | nil)
+end

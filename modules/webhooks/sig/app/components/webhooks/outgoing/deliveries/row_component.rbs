@@ -1,0 +1,13 @@
+module ::Webhooks
+  module Outgoing
+    module Deliveries
+      class RowComponent < ::RowComponent
+        def log: () -> untyped
+
+        def time: () -> untyped
+
+        def response_body: () -> untyped
+      end
+    end
+  end
+end

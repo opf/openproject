@@ -1,0 +1,20 @@
+class MeetingMailer < UserMailer
+  def content_for_review: (untyped content, untyped content_type, untyped user) -> untyped
+
+  def icalendar_notification: (untyped content, untyped content_type, untyped user) -> untyped
+
+  private
+
+  def set_headers: (untyped meeting) -> untyped
+
+  def format_timezone_offset: (untyped timezone, untyped time) -> ::String
+
+  def ical_subject: (untyped meeting, untyped content_type) -> ::String
+
+  # rubocop:disable Metrics/AbcSize
+  def generate_ical: (untyped timezone, untyped meeting, untyped content_type) -> untyped
+
+  def ical_datetime: (untyped time, untyped timezone_id) -> untyped
+
+  def ical_organizer: (untyped meeting) -> untyped
+end

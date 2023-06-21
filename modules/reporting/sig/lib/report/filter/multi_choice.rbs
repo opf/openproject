@@ -1,0 +1,5 @@
+class Report::Filter
+  class MultiChoice < Base
+    def self.is_multiple_choice?: () -> true
+  end
+end

@@ -1,0 +1,19 @@
+module API::V3::CostsApiUserPermissionCheck
+  def overall_costs_visible?: () -> untyped
+
+  def labor_costs_visible?: () -> untyped
+
+  def material_costs_visible?: () -> untyped
+
+  def costs_by_type_visible?: () -> untyped
+
+  def spent_time_visible?: () -> untyped
+
+  private
+
+  def user_has_hourly_rate_permissions?: () -> untyped
+
+  def user_has_cost_rates_permission?: () -> untyped
+
+  def user_has_cost_entry_permissions?: () -> untyped
+end

@@ -1,0 +1,9 @@
+module Storages::Peripherals
+  class StorageRequests
+    COMMANDS: ::Array[:set_permissions_command | :create_folder_command | :add_user_to_group_command | :remove_user_from_group_command | :rename_file_command]
+
+    QUERIES: ::Array[:download_link_query | :file_query | :files_query | :upload_link_query | :group_users_query | :propfind_query]
+
+    def initialize: (storage: untyped) -> void
+  end
+end

@@ -1,0 +1,5 @@
+module Report::Validation
+  module Dates
+    def validate_dates: (*untyped values) -> (true | untyped)
+  end
+end

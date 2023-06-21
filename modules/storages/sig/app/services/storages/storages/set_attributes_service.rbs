@@ -1,0 +1,14 @@
+# See also: create_service.rb for comments
+module Storages::Storages
+  class SetAttributesService < ::BaseServices::SetAttributes
+    def set_default_attributes: (untyped _params) -> untyped
+
+    private
+
+    def remove_host_trailing_slashes: () -> untyped
+
+    def storage: () -> untyped
+
+    def derive_default_storage_name: () -> (untyped | ::String)
+  end
+end

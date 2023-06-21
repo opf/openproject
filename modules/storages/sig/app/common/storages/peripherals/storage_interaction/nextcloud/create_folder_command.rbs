@@ -1,0 +1,12 @@
+module Storages::Peripherals::StorageInteraction::Nextcloud
+  class CreateFolderCommand
+    def initialize: (untyped storage) -> void
+
+    # rubocop:disable Metrics/AbcSize
+    def call: (folder_path: untyped) -> untyped
+
+    private
+
+    def error_text_from_response: (untyped response) -> untyped
+  end
+end

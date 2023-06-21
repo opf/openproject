@@ -1,0 +1,23 @@
+class Storages::StorageFile
+  attr_reader id: untyped
+
+  attr_reader name: untyped
+
+  attr_reader size: untyped
+
+  attr_reader mime_type: untyped
+
+  attr_reader created_at: untyped
+
+  attr_reader last_modified_at: untyped
+
+  attr_reader created_by_name: untyped
+
+  attr_reader last_modified_by_name: untyped
+
+  attr_reader location: untyped
+
+  attr_reader permissions: untyped
+
+  def initialize: (untyped id, untyped name, untyped size, untyped mime_type, untyped created_at, untyped last_modified_at, untyped created_by_name, untyped last_modified_by_name, untyped location, untyped permissions) -> void
+end

@@ -1,0 +1,21 @@
+module OpenProject::TwoFactorAuthentication
+  module TokenStrategy
+    class Totp < Base
+      def verify: (untyped input_token) -> untyped
+
+      def transmit_success_message: () -> nil
+
+      def self.mobile_token?: () -> false
+
+      def self.supported_channels: () -> ::Array[:totp]
+
+      def self.device_type: () -> :totp
+
+      def self.identifier: () -> :totp
+
+      private
+
+      def send_totp: () -> untyped
+    end
+  end
+end

@@ -1,0 +1,7 @@
+class VersionSettingsController < RbApplicationController
+  def edit: () -> untyped
+
+  private
+
+  def authorize: () -> untyped
+end

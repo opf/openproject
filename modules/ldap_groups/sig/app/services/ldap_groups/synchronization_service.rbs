@@ -1,0 +1,7 @@
+module LdapGroups
+  class SynchronizationService
+    def self.synchronize!: () -> untyped
+
+    def call: () -> untyped
+  end
+end

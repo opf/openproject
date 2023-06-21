@@ -1,0 +1,5 @@
+class Widget::Settings::Fieldset < Widget::Base
+  def render_with_options: (untyped options) { () -> untyped } -> untyped
+
+  def render: () { () -> untyped } -> untyped
+end

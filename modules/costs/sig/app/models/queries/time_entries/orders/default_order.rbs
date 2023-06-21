@@ -1,0 +1,3 @@
+class Queries::TimeEntries::Orders::DefaultOrder < Queries::Orders::Base
+  def self.key: () -> ::Regexp
+end

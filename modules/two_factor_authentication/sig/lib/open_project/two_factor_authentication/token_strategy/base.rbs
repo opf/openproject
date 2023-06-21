@@ -1,0 +1,41 @@
+module OpenProject::TwoFactorAuthentication
+  module TokenStrategy
+    class Base
+      attr_reader user: untyped
+
+      attr_reader device: untyped
+
+      attr_reader token: untyped
+
+      attr_reader channel: untyped
+
+      def initialize: (user: untyped, device: untyped, ?channel: untyped?) -> void
+
+      def verify: (untyped input_token) -> true
+
+      def transmit: () -> untyped
+
+      def identifier: () -> untyped
+
+      def transmit_success_message: () -> untyped
+
+      def self.mobile_token?: () -> false
+
+      def self.supported?: (untyped channel) -> untyped
+
+      def self.supported_channels: () -> ::Array[untyped]
+
+      def self.identifier: () -> untyped
+
+      def self.device_type: () -> :sms
+
+      def self.validate!: () -> true
+
+      def self.configuration_params: () -> untyped
+
+      def create_mobile_otp: () -> untyped
+
+      def configuration_params: () -> untyped
+    end
+  end
+end

@@ -1,0 +1,5 @@
+module Calendar
+  class ResolveWorkPackagesService < ::BaseServices::BaseCallable
+    def perform: (query: untyped) -> untyped
+  end
+end

@@ -1,0 +1,19 @@
+module TimeEntries
+  class SetAttributesService < ::BaseServices::SetAttributes
+    private
+
+    def set_attributes: (untyped attributes) -> untyped
+
+    def set_default_attributes: (*untyped) -> untyped
+
+    def set_logged_by: () -> untyped
+
+    def set_default_user: () -> untyped
+
+    def set_default_activity: () -> untyped
+
+    def set_default_hours: () -> (untyped | nil)
+
+    def no_project_or_context_changed?: () -> untyped
+  end
+end

@@ -1,0 +1,9 @@
+module Bim::Bcf
+  module Comments
+    class CreateContract < ::Bim::Bcf::Comments::BaseContract
+      private
+
+      def validate_journal: () -> (untyped | nil)
+    end
+  end
+end

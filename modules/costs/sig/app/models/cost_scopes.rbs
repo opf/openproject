@@ -1,0 +1,17 @@
+module CostScopes
+  def self.included: (untyped base_module) -> untyped
+
+  def view_allowed_entries_permission: () -> untyped
+
+  def view_allowed_own_entries_permission: () -> untyped
+
+  def view_rates_permissions: () -> untyped
+
+  def with_visible_costs_on: (untyped scope, ?user: untyped, ?project: untyped?) -> untyped
+
+  def with_visible_entries_on: (untyped scope, ?user: untyped, ?project: untyped?) -> untyped
+
+  def view_or_view_own: (untyped table, untyped view_allowed, untyped view_own_allowed, untyped user) -> untyped
+
+  def with_visible_rates_on: (untyped scope, ?user: untyped) -> untyped
+end

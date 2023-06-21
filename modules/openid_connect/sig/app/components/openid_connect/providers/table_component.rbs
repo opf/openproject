@@ -1,0 +1,13 @@
+module OpenIDConnect
+  module Providers
+    class TableComponent < ::TableComponent
+      def initial_sort: () -> ::Array[:id | :asc]
+
+      def sortable?: () -> false
+
+      def empty_row_message: () -> untyped
+
+      def headers: () -> ::Array[::Array["name" | { caption: untyped }]]
+    end
+  end
+end

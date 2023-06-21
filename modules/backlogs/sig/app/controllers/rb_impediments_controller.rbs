@@ -1,0 +1,11 @@
+class RbImpedimentsController < RbApplicationController
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  private
+
+  def respond_with_impediment: (untyped call) -> untyped
+
+  def impediment_params: (untyped instance) -> untyped
+end

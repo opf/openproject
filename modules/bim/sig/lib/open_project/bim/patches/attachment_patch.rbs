@@ -1,0 +1,15 @@
+module OpenProject::Bim::Patches::AttachmentPatch
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    def external_url_options: (?expires_in: untyped?) -> untyped
+
+    def content_disposition: (?include_filename: bool) -> untyped
+
+    def ifc_file?: () -> untyped
+
+    def ifc_content_disposition: () -> ::String
+
+    def ifc_file_name: () -> untyped
+  end
+end

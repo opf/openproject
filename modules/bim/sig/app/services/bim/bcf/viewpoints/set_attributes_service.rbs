@@ -1,0 +1,27 @@
+module Bim::Bcf
+  module Viewpoints
+    class SetAttributesService < ::BaseServices::SetAttributes
+      private
+
+      def set_attributes: (untyped params) -> untyped
+
+      def set_default_attributes: (untyped _params) -> untyped
+
+      def set_snapshot: () -> (nil | untyped)
+
+      def snapshot_data_complete?: () -> untyped
+
+      def snapshot_content_type: () -> (nil | untyped)
+
+      def snapshot_extension: () -> untyped
+
+      def snapshot_base64: () -> untyped
+
+      def snapshot_binary_contents: () -> untyped
+
+      def snapshot_url_parts: () -> untyped
+
+      def viewpoint: () -> untyped
+    end
+  end
+end

@@ -1,0 +1,7 @@
+module MeetingContents
+  class UpdateContract < BaseContract
+    private
+
+    def validate_editable: () -> (untyped | nil)
+  end
+end

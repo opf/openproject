@@ -1,0 +1,11 @@
+module API
+  module V3
+    module GithubPullRequests
+      class GithubUserRepresenter < ::API::Decorators::Single
+        include API::Caching::CachedRepresenter
+
+        def _type: () -> "GithubUser"
+      end
+    end
+  end
+end

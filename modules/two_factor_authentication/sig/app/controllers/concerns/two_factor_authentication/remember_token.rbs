@@ -1,0 +1,43 @@
+module ::TwoFactorAuthentication
+  module RememberToken
+    extend ActiveSupport::Concern
+
+    #
+    # Check for valid 2FA autologin cookie and log in the user
+    # if that's the case
+    def perform_2fa_authentication_with_remember: (untyped service) -> untyped
+
+    #
+    # Set a 2FA autologin cookie for the user (if supported).
+    def set_remember_token!: () -> (nil | untyped)
+
+    #
+    # Remove the 2FA autologin cookie
+    # and all potentially stored tokens
+    def clear_remember_token!: (?untyped user) -> untyped
+
+    def remember_2fa_enabled?: () -> untyped
+
+    #
+    # Return whether for the given user,
+    # any valid remember tokens exist (not necessary in this session!)
+    def any_remember_token_present?: (?untyped user) -> (false | untyped)
+
+    #
+    # Return whether the user has a valid remember token
+    # that is identified by his cookie value.
+    def has_valid_2fa_remember_token?: (?untyped user) -> (false | untyped)
+
+    #
+    # Try to read a Remember token from the cookie
+    def get_2fa_remember_token: (untyped user) -> (false | untyped)
+
+    def remember_2fa_days: () -> untyped
+
+    private
+
+    def remember_cookie_name: () -> :op2fa_remember_token
+
+    def new_token!: (untyped user) -> untyped
+  end
+end

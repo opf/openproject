@@ -1,0 +1,25 @@
+module Bim
+  module IfcModels
+    class RowComponent < ::RowComponent
+      def title: () -> untyped
+
+      def default?: () -> (untyped | nil)
+
+      def updated_at: () -> untyped
+
+      def uploader: () -> untyped
+
+      def processing: () -> untyped
+
+      def still_processing?: () -> untyped
+
+      def button_links: () -> untyped
+
+      def delete_link: () -> untyped
+
+      def download_link: () -> untyped
+
+      def edit_link: () -> untyped
+    end
+  end
+end

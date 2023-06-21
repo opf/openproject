@@ -1,0 +1,9 @@
+module Bim::Bcf::API::V2_1::Endpoints
+  class Create < API::Utilities::Endpoints::Create
+    include ModifyMixin
+
+    def present_success: (untyped _request, untyped call) -> untyped
+
+    def postprocess_errors: (untyped call) -> untyped
+  end
+end

@@ -1,0 +1,65 @@
+module XlsExport::WorkPackage::Exporter
+  class XLS < WorkPackage::Exports::QueryExporter
+    include ::XlsExport::Concerns::SpreadsheetBuilder
+
+    def records: () -> untyped
+
+    def spreadsheet_title: () -> untyped
+
+    def with_descriptions: () -> untyped
+
+    def with_relations: () -> untyped
+
+    def enable!: (untyped singleton_module) -> untyped
+
+    def export!: () -> untyped
+  end
+
+  module WithTimeZone
+    def format_column_value: (untyped column, untyped work_package) -> untyped
+  end
+
+  module WithDescription
+    def headers: () -> untyped
+
+    def row: (untyped work_package) -> untyped
+
+    def sanitize: (untyped string) -> untyped
+  end
+
+  module WithRelations
+    def add_headers!: (untyped spreadsheet) -> untyped
+
+    def headers: () -> untyped
+
+    def rows: () -> untyped
+
+    def row: (untyped work_package) -> untyped
+
+    #
+    # Work packages both related explicitly through relation records
+    # as well via their parent_id association (parent and children).
+    #
+    # @return Array A list of work package - relation tuples
+    #               where the relation may be nil which indicates
+    #               that the respective work package is either a
+    #               parent or a child.
+    def self?.related_work_packages: (untyped work_package) -> untyped
+
+    #
+    # Work packages related through explicit relation records.
+    #
+    # @return Array<Array<WorkPackage, Relation>> A list of work package - relation tuples.
+    def self?.relation_work_packages: (untyped work_package) -> untyped
+
+    def self?.unrelated_row: (untyped wp_columns) -> ::Array[untyped]
+
+    def self?.relation_row: (untyped work_package, untyped wp_columns, untyped other, untyped relation) -> untyped
+
+    def self?.relation_type: (untyped work_package, untyped other, untyped relation) -> (untyped | untyped | untyped | nil)
+
+    def self?.with_relations_headers: () -> ::Array[untyped]
+
+    def self?.work_package_relations: (untyped work_package) -> untyped
+  end
+end

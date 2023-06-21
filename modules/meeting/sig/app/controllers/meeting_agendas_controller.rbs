@@ -1,0 +1,9 @@
+class MeetingAgendasController < MeetingContentsController
+  def close: () -> untyped
+
+  def open: () -> untyped
+
+  private
+
+  def find_content: () -> untyped
+end

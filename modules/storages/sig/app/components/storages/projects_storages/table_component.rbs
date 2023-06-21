@@ -1,0 +1,18 @@
+# Purpose: Defines a table based on TableComponent for listing the
+# Storages::ProjectStorage per project in the projects' settings
+# page.
+# See also: row_component.rb, which contains a method
+# for every "column" defined below.
+module Storages::ProjectsStorages
+  class TableComponent < ::TableComponent
+    def initial_sort: () -> ::Array[:created_at | :asc]
+
+    def sortable?: () -> false
+
+    def inline_create_link: () -> untyped
+
+    def empty_row_message: () -> untyped
+
+    def headers: () -> ::Array[::Array["name" | { caption: untyped }] | ::Array["provider_type" | { caption: untyped }] | ::Array["creator" | { caption: untyped }] | ::Array["created_at" | { caption: untyped }]]
+  end
+end

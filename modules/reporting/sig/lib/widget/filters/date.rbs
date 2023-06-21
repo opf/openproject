@@ -1,0 +1,5 @@
+class Widget::Filters::Date < Widget::Filters::Base
+  include AngularHelper
+
+  def render: () -> untyped
+end

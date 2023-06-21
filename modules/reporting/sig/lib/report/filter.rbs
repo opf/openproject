@@ -1,0 +1,9 @@
+class Report::Filter
+  def self.all: () -> untyped
+
+  def self.reset!: () -> untyped
+
+  def self.all_grouped: () -> untyped
+
+  def self.from_hash: () -> untyped
+end

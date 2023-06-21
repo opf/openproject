@@ -1,0 +1,7 @@
+class Storages::UploadLink
+  attr_reader destination: untyped
+
+  attr_reader method: untyped
+
+  def initialize: (?::String destination, ?::Symbol method) -> void
+end

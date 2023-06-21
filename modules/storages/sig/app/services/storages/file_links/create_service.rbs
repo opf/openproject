@@ -1,0 +1,7 @@
+class Storages::FileLinks::CreateService < BaseServices::Create
+  def persist: (untyped service_result) -> untyped
+
+  private
+
+  def find_existing: (untyped file_link) -> untyped
+end

@@ -1,0 +1,27 @@
+module ::Webhooks
+  module Outgoing
+    module Webhooks
+      class RowComponent < ::RowComponent
+        def webhook: () -> untyped
+
+        def name: () -> untyped
+
+        def enabled: () -> (untyped | nil)
+
+        def events: () -> untyped
+
+        def lookup_event_name: (untyped name) -> untyped
+
+        def selected_projects: () -> (::String | untyped)
+
+        def row_css_class: () -> untyped
+
+        def button_links: () -> ::Array[untyped]
+
+        def edit_link: () -> untyped
+
+        def delete_link: () -> untyped
+      end
+    end
+  end
+end

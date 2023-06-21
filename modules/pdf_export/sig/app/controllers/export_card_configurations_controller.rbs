@@ -1,0 +1,33 @@
+class ExportCardConfigurationsController < ApplicationController
+  def index: () -> nil
+
+  def show: () -> nil
+
+  def edit: () -> nil
+
+  def new: () -> untyped
+
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  def destroy: () -> untyped
+
+  def activate: () -> untyped
+
+  def deactivate: () -> untyped
+
+  def show_local_breadcrumb: () -> true
+
+  private
+
+  def cannot_update_default: () -> untyped
+
+  def export_card_configurations_params: () -> untyped
+
+  def load_config: () -> untyped
+
+  def load_configs: () -> untyped
+
+  def default_breadcrumb: () -> untyped
+end

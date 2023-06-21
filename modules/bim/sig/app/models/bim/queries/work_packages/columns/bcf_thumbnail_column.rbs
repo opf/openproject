@@ -1,0 +1,7 @@
+module ::Bim::Queries::WorkPackages::Columns
+  class BcfThumbnailColumn < Queries::WorkPackages::Columns::WorkPackageColumn
+    def caption: () -> untyped
+
+    def self.instances: (?untyped? _context) -> ::Array[untyped]
+  end
+end

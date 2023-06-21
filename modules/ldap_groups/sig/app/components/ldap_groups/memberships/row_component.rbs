@@ -1,0 +1,13 @@
+module LdapGroups
+  module Memberships
+    class RowComponent < ::RowComponent
+      include ::OpenProject::ObjectLinking
+
+      def membership: () -> untyped
+
+      def user: () -> untyped
+
+      def added: () -> untyped
+    end
+  end
+end

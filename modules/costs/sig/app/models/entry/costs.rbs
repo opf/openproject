@@ -1,0 +1,13 @@
+module Entry::Costs
+  extend ActiveSupport::Concern
+
+  def real_costs: () -> untyped
+
+  def calculated_costs: (?untyped? rate_attr) -> untyped
+
+  def update_costs: (?untyped? rate_attr) -> (nil | untyped)
+
+  def update_costs!: (?untyped? rate_attr) -> untyped
+
+  def cost_attribute: () -> untyped
+end

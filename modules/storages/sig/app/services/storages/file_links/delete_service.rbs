@@ -1,0 +1,7 @@
+# See also: ../storages/create_service.rb for comments
+module Storages
+  module FileLinks
+    class DeleteService < ::BaseServices::Delete
+    end
+  end
+end

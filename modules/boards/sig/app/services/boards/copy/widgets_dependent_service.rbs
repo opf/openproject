@@ -1,0 +1,5 @@
+module Boards::Copy
+  class WidgetsDependentService < ::Grids::Copy::WidgetsDependentService
+    def duplicate_widget: (untyped widget, untyped _new_board, untyped _params) -> untyped
+  end
+end

@@ -1,0 +1,12 @@
+module ::TwoFactorAuthentication
+  module My
+    class RememberCookieController < ::ApplicationController
+      # Remember token functionality
+      include ::TwoFactorAuthentication::RememberToken
+
+      #
+      # Remove the remember token
+      def destroy: () -> untyped
+    end
+  end
+end

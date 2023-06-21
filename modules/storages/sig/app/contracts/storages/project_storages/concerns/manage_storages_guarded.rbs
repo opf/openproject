@@ -1,0 +1,16 @@
+# Purpose: This is a "concern" to check if a user is authorized to
+# Manage Storages and guard against unauthorized users.
+# See also: Storages::Storages::Concerns::ManageStoragesGuarded for more details
+module Storages::ProjectStorages
+  module Concerns
+    module ManageStoragesGuarded
+      extend ActiveSupport::Concern
+
+      private
+
+      # Check that the current has the permission on the project.
+      # model variable is available because the concern is executed inside a contract.
+      def validate_user_allowed_to_manage: () -> (untyped | nil)
+    end
+  end
+end

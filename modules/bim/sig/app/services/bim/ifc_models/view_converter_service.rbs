@@ -1,0 +1,68 @@
+module Bim
+  module IfcModels
+    class ViewConverterService
+      attr_reader ifc_model: untyped
+
+      attr_reader errors: untyped
+
+      PIPELINE_COMMANDS: ::Array["IfcConvert" | "COLLADA2GLTF" | "gltf2xkt" | "xeokit-metadata"]
+
+      def initialize: (untyped ifc_model) -> void
+
+      #
+      # Check availability of the pipeline
+      def self.available?: () -> untyped
+
+      def self.available_commands: () -> untyped
+
+      def call: () -> untyped
+
+      private
+
+      def perform_conversion!: () -> untyped
+
+      def link_to_ifc_file: () -> untyped
+
+      def ifc_model_path: () -> untyped
+
+      def save_xkt: (untyped xkt_path) -> untyped
+
+      #
+      # Call IfcConvert with an IFC file to output an identically-named
+      # DAE collada file.
+      #
+      # @param ifc_filepath {String} Path to the IFC model file
+      def convert_to_collada: (untyped ifc_filepath) -> untyped
+
+      #
+      # Call COLLADA2GLTF with the converted DAE file.
+      #
+      # @param dae_filepath {String} Path to the converted DAE model file
+      def convert_to_gltf: (untyped dae_filepath) -> untyped
+
+      #
+      # Call gltf2xkt with the converted gltf file.
+      #
+      # @param gltf_filepath {String} Path to the converted GLTF model file
+      def convert_to_xkt: (untyped gltf_filepath) -> untyped
+
+      #
+      # Call xeokit-metadata
+      #
+      # @param ifc_filepath {String} Path to the converted IFC model file
+      def convert_metadata: (untyped ifc_filepath) -> untyped
+
+      #
+      # Build input filename and target filename
+      def convert!: (untyped source_file, untyped ext) { (untyped) -> untyped } -> untyped
+
+      def validate!: () -> true
+
+      def change_basename: (untyped from, untyped to, untyped ext) -> untyped
+
+      def working_directory=: (untyped dir) -> untyped
+
+      def working_directory: () -> untyped
+    end
+  end
+end

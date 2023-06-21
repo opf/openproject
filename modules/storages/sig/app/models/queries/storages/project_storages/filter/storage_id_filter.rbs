@@ -1,0 +1,9 @@
+module Queries::Storages::ProjectStorages::Filter
+  class StorageIdFilter < ::Queries::Filters::Base
+    def type: () -> :list
+
+    def human_name: () -> untyped
+
+    def allowed_values: () -> untyped
+  end
+end

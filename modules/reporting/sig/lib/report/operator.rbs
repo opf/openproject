@@ -1,0 +1,71 @@
+class Report::Operator
+  include Report::QueryUtils
+
+  include Report::Validation
+
+  extend Forwardable
+
+  # ###########################################################################################
+  # Wrapped so we can place this at the top of the file.
+  def self.define_operators: () -> untyped
+
+  module CoreExt
+    def to_operator: () -> untyped
+  end
+
+  def self.force!: (untyped type) -> untyped
+
+  def self.forced?: () -> untyped
+
+  def self.forced: () -> untyped
+
+  def self.new: (untyped name, ?::Hash[untyped, untyped] values) { () -> untyped } -> untyped
+
+  # TODO: this should be inheritable by subclasses
+  def self.all: () -> untyped
+
+  def self.load: () -> (nil | untyped)
+
+  def self.find: (untyped name) -> untyped
+
+  def self.exists?: (untyped name) -> untyped
+
+  def self.defaults: () { () -> untyped } -> untyped
+
+  def self.default_operator: () -> untyped
+
+  def self.integer_operators: () -> untyped
+
+  def self.null_operators: () -> untyped
+
+  def self.string_operators: () -> untyped
+
+  def self.time_operators: () -> untyped
+
+  def self.default_operators: () -> untyped
+
+  attr_reader name: untyped
+
+  def initialize: (untyped name, ?::Hash[untyped, untyped] values) ?{ () -> untyped } -> void
+
+  def to_operator: () -> self
+
+  def to_s: () -> untyped
+
+  def arity: () -> untyped
+
+  def inspect: () -> ::String
+
+  def <=>: (untyped other) -> untyped
+
+  #  Creates an alias for a given operator.
+  def aka: (untyped alt_name, untyped alt_label) -> untyped
+
+  module DateRange
+    def modify: (untyped query, untyped field, untyped from, untyped to) -> untyped
+  end
+
+  private
+
+  def rename_to: (untyped new_name) -> untyped
+end

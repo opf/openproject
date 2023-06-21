@@ -1,0 +1,3 @@
+class Queries::TimeEntries::Filters::TimeEntryFilter < Queries::Filters::Base
+  def human_name: () -> untyped
+end

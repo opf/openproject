@@ -1,0 +1,9 @@
+class Impediments::UpdateService
+  attr_accessor user: untyped
+
+  attr_accessor impediment: untyped
+
+  def initialize: (user: untyped, impediment: untyped) -> void
+
+  def call: (?attributes: ::Hash[untyped, untyped]) -> untyped
+end

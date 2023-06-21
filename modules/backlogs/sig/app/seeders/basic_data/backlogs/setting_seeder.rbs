@@ -1,0 +1,29 @@
+module BasicData
+  module Backlogs
+    class SettingSeeder < ::Seeder
+      BACKLOGS_SETTINGS_KEYS: ::Array["story_types" | "task_type" | "points_burn_direction" | "wiki_template"]
+
+      def seed_data!: () -> untyped
+
+      def applicable?: () -> untyped
+
+      private
+
+      def configure_backlogs_settings: () -> untyped
+
+      def backlogs_configured?: () -> untyped
+
+      def configured?: (untyped key) -> untyped
+
+      def current_backlogs_settings: () -> untyped
+
+      def missing_backlogs_settings: () -> untyped
+
+      def setting_value: (untyped setting_key) -> untyped
+
+      def backlogs_story_types: () -> untyped
+
+      def backlogs_task_type: () -> untyped
+    end
+  end
+end

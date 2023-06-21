@@ -1,0 +1,5 @@
+module OpenProject::Backlogs::Patches::Versions::BaseContractPatch
+  private
+
+  def user_allowed_to_manage: () -> untyped
+end

@@ -1,0 +1,23 @@
+# Purpose: This is a "concern" to check if a user is authorized to
+# Manage Storages and guard against unauthorized users.
+# It acts as a factored-out add-on to a model, that's why there is
+# model specific functions in the "included" callback.
+# Reference: Here is a tutorial about concerns. They basically inject
+# the content of the "included do ... end" block into their target.
+# http://vaidehijoshi.github.io/blog/2015/10/13/stop-worrying-and-start-being-concerned-activesupport-concerns/
+# Used by: Storages::Storages::BaseContract and Storages::Storages::DeleteContract
+# Returns: An array of errors with section and code
+module Storages::Storages
+  module Concerns
+    module ManageStoragesGuarded
+      # extend is like include, but imports methods as class (not instance) methods.
+      # Using extend ActiveSupport::Concern is part of the Concern pattern.
+      extend ActiveSupport::Concern
+
+      private
+
+      # Small procedure to check that the current user is admin and active
+      def validate_user_allowed_to_manage: () -> (untyped | nil)
+    end
+  end
+end

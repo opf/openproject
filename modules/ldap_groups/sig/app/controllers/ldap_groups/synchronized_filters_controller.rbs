@@ -1,0 +1,31 @@
+module LdapGroups
+  class SynchronizedFiltersController < ::ApplicationController
+    def new: () -> untyped
+
+    def show: () -> nil
+
+    def end: () -> nil
+
+    def destroy_info: () -> nil
+
+    def create: () -> untyped
+
+    def update: () -> untyped
+
+    def destroy: () -> untyped
+
+    def synchronize: () -> untyped
+
+    private
+
+    def find_filter: () -> untyped
+
+    def check_ee: () -> (false | nil)
+
+    def permitted_params: () -> untyped
+
+    def default_breadcrumb: () -> untyped
+
+    def show_local_breadcrumb: () -> true
+  end
+end

@@ -1,0 +1,9 @@
+module Bim::Bcf::API::V2_1
+  class ProjectExtensions::Representer < BaseRepresenter
+    def to_hash: (*untyped) -> untyped
+
+    def with_check: (?::Symbol permissions) { () -> untyped } -> (untyped | ::Array[untyped])
+
+    def allowed?: (untyped permission) -> untyped
+  end
+end

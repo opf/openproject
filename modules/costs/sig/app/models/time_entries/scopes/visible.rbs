@@ -1,0 +1,7 @@
+module TimeEntries::Scopes
+  module Visible
+    extend ActiveSupport::Concern
+
+    def visible: (?untyped user) -> untyped
+  end
+end

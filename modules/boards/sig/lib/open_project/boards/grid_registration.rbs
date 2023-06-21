@@ -1,0 +1,25 @@
+module OpenProject
+  module Boards
+    class GridRegistration < ::Grids::Configuration::Registration
+      def self.from_scope: (untyped scope) -> (nil | untyped)
+
+      def self.writable_scopes: () -> untyped
+
+      #
+      # Determines whether the given scope is writable by the current user
+      def self.writable_scope?: (untyped scope) -> untyped
+
+      def self.all_scopes: () -> untyped
+
+      alias self.super_visible self.visible
+
+      def self.visible: (?untyped user) -> untyped
+
+      def self.writable?: (untyped model, untyped user) -> untyped
+
+      private
+
+      def self.in_project_with_permission: (untyped user, untyped permission) -> untyped
+    end
+  end
+end

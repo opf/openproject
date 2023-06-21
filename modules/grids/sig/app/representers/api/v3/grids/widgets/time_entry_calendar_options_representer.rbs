@@ -1,0 +1,10 @@
+module API
+  module V3
+    module Grids
+      module Widgets
+        class TimeEntryCalendarOptionsRepresenter < DefaultOptionsRepresenter
+        end
+      end
+    end
+  end
+end

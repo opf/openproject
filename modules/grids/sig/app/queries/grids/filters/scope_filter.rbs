@@ -1,0 +1,25 @@
+module Grids
+  module Filters
+    class ScopeFilter < Filters::GridFilter
+      def allowed_values: () -> untyped
+
+      def allowed_values_subset: () -> untyped
+
+      def type: () -> :list
+
+      def where: () -> untyped
+
+      private
+
+      def grid_configs_of_values: () -> untyped
+
+      def class_condition: (untyped klass) -> (nil | untyped)
+
+      def project_id_condition: (untyped project_id) -> (nil | untyped)
+
+      def type_strategy: () -> untyped
+
+      def available_operators: () -> ::Array[untyped]
+    end
+  end
+end

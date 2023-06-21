@@ -1,0 +1,31 @@
+class Report::Walker
+  attr_accessor query: untyped
+
+  attr_accessor header_stack: untyped
+
+  def initialize: (untyped query) -> void
+
+  def for_row: () { () -> untyped } -> untyped
+
+  def for_final_row: () { () -> untyped } -> untyped
+
+  def for_cell: () { () -> untyped } -> untyped
+
+  def for_empty_cell: () { () -> untyped } -> untyped
+
+  def access_block: (untyped name) ?{ () -> untyped } -> untyped
+
+  def walk_cell: (untyped cell) -> untyped
+
+  def headers: (?untyped? result) ?{ (untyped, untyped, untyped, untyped) -> untyped } -> untyped
+
+  def reverse_headers: () { (untyped, untyped, untyped, untyped) -> untyped } -> untyped
+
+  def headers_empty?: () -> untyped
+
+  def sort_keys: () -> untyped
+
+  def sort: (untyped result) -> untyped
+
+  def body: (?untyped? result) ?{ () -> untyped } -> untyped
+end

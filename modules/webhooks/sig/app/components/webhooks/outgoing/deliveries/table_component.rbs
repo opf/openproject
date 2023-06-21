@@ -1,0 +1,13 @@
+module ::Webhooks
+  module Outgoing
+    module Deliveries
+      class TableComponent < ::TableComponent
+        def sortable?: () -> false
+
+        def empty_row_message: () -> untyped
+
+        def headers: () -> ::Array[::Array["id" | { caption: untyped }] | ::Array["event_name" | { caption: untyped }] | ::Array["time" | { caption: untyped }] | ::Array["response_code" | { caption: untyped }] | ::Array["response_body" | { caption: untyped }]]
+      end
+    end
+  end
+end

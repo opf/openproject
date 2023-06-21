@@ -1,0 +1,9 @@
+module OpenProject::AuthPlugins::Patches::RegisterUserServicePatch
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    def skip_omniauth_user?: () -> untyped
+
+    def limit_self_registration?: (untyped user) -> untyped
+  end
+end

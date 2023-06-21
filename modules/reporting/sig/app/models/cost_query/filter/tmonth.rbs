@@ -1,0 +1,5 @@
+class CostQuery::Filter::Tmonth < Report::Filter::Base
+  def self.label: () -> untyped
+
+  def self.available_values: (*untyped) -> untyped
+end

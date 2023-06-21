@@ -1,0 +1,3 @@
+module TaskboardsHelper
+  def impediments_by_position_for_status: (untyped sprint, untyped project, untyped status) -> untyped
+end

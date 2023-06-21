@@ -1,0 +1,22 @@
+class ::OpenProject::Storages::AppendStoragesHostsToCspHook < OpenProject::Hook::Listener
+  # OpenProject's front-end needs to allow the browser to connect to external
+  # file servers for direct file uploads. Therefore it needs to extend its
+  # Content Security Policy (CSP) `connect-src` with the hostnames of all
+  # servers that the current user is allowed to upload files to. That is all
+  # storages activated in at least one active project for which the user has the
+  # `manage_file_links` permission.
+  #
+  # The allowed values can be different for each user and can change on store
+  # activations, store removals, role changes, and even project membership
+  # changes. Caching it without accessing the database seems almost impossible,
+  # so we decided to not do it for now.
+  #
+  # The CSP is extended for all HTML requests as work packages can pop in many
+  # places of OpenProject, and we want to be able to upload in all those places
+  # (work packages module, BCF module, notification center, boards, ...).
+  def application_controller_before_action: (untyped context) -> (nil | untyped)
+
+  private
+
+  def remove_uri_path: (untyped url) -> ::String
+end

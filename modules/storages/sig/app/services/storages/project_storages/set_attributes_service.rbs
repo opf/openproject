@@ -1,0 +1,6 @@
+# Used by: CreateService when setting attributes
+module Storages::ProjectStorages
+  class SetAttributesService < ::BaseServices::SetAttributes
+    def set_default_attributes: (untyped _params) -> untyped
+  end
+end

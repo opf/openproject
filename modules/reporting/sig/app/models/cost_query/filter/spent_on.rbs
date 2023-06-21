@@ -1,0 +1,3 @@
+class CostQuery::Filter::SpentOn < Report::Filter::Base
+  def self.label: () -> untyped
+end

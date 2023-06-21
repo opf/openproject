@@ -1,0 +1,7 @@
+module OpenProject::Bim::Patches::API::V3::WorkPackages::EagerLoading::ChecksumPatch
+  def self.included: (untyped base) -> untyped
+
+  module ClassMethods
+    def checksum_associations: () -> untyped
+  end
+end

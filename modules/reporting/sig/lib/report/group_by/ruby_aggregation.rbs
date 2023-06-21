@@ -1,0 +1,9 @@
+class Report::GroupBy
+  module RubyAggregation
+    def responsible_for_sql?: () -> false
+
+    #
+    # @return [Report::Result] aggregation
+    def compute_result: () -> untyped
+  end
+end

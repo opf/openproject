@@ -1,0 +1,29 @@
+module OpenProject::GithubIntegration
+  module NotificationHandler
+    #
+    # Handles GitHub issue comment notifications.
+    class IssueComment
+      include OpenProject::GithubIntegration::NotificationHandler::Helper
+
+      include ActionView::Helpers::TagHelper
+
+      include ::AngularHelper
+
+      COMMENT_ACTIONS: ::Array["created" | "edited"]
+
+      def process: (untyped params) -> (nil | untyped)
+
+      private
+
+      attr_reader payload: untyped
+
+      def associated_with_pr?: () -> untyped
+
+      def pull_request: () -> untyped
+
+      def upsert_partial_pull_request: (untyped work_packages) -> untyped
+
+      def journal_entry: (untyped pull_request, untyped payload) -> (nil | untyped)
+    end
+  end
+end

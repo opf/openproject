@@ -1,0 +1,13 @@
+module API
+  module V3
+    module Grids
+      class GridCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
+        attr_reader grid_scope: untyped
+
+        attr_reader grid_writable: untyped
+
+        def initialize: (untyped models, self_link: untyped, grid_scope: untyped, **untyped args) -> void
+      end
+    end
+  end
+end

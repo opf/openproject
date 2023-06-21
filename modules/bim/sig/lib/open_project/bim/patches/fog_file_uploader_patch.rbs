@@ -1,0 +1,7 @@
+module OpenProject::Bim::Patches::FogFileUploaderPatch
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    def fog_attributes: () -> untyped
+  end
+end

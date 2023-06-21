@@ -1,0 +1,5 @@
+class RbTaskboardsController < RbApplicationController
+  def show: () -> untyped
+
+  def default_breadcrumb: () -> untyped
+end

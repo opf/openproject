@@ -1,0 +1,11 @@
+class Widget::Controls::SaveAs < Widget::Controls
+  def render: () -> untyped
+
+  def cache_key: () -> ::String
+
+  def render_popup_form: () -> untyped
+
+  def render_popup_buttons: () -> untyped
+
+  def render_popup: () -> untyped
+end

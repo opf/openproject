@@ -1,0 +1,11 @@
+module Grids::Configuration
+  class InProjectBaseRegistration < ::Grids::Configuration::Registration
+    def self.all_scopes: () -> untyped
+
+    def self.from_scope: (untyped scope) -> (nil | { class: untyped, project_id: untyped })
+
+    def self.writable?: (untyped grid, untyped user) -> untyped
+
+    def self.visible: (?untyped user) -> untyped
+  end
+end

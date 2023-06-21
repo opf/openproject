@@ -1,0 +1,44 @@
+module ::Recaptcha
+  class RequestController < ApplicationController
+    #
+    # Request verification form
+    def perform: () -> untyped
+
+    def verify: () -> untyped
+
+    private
+
+    #
+    # Insert that the account was verified
+    def save_recaptcha_verification_success!: () -> untyped
+
+    def recaptcha_version: () -> untyped
+
+    #
+    #
+    def valid_recaptcha?: () -> untyped
+
+    #
+    # fail the recaptcha
+    def fail_recaptcha: (untyped msg) -> untyped
+
+    #
+    # Ensure the authentication stage from the core provided the authenticated user
+    def require_authenticated_user: () -> untyped
+
+    def recaptcha_settings: () -> untyped
+
+    def skip_if_disabled: () -> (untyped | nil)
+
+    def skip_if_admin: () -> (untyped | nil)
+
+    def skip_if_user_verified: () -> (untyped | nil)
+
+    #
+    # Complete this authentication step and return to core
+    # logging in the user
+    def complete_stage_redirect: () -> untyped
+
+    def failure_stage_redirect: () -> untyped
+  end
+end

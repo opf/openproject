@@ -1,0 +1,11 @@
+module OpenProject::Bim::Patches::WorkPackageSeederPatch
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    def create_or_update_work_package: (untyped attributes) -> untyped
+
+    def update_parent: (untyped work_package, untyped attributes) -> (nil | untyped)
+
+    def find_bcf_issue: (untyped uuid) -> untyped
+  end
+end

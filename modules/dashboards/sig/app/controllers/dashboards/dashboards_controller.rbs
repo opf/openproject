@@ -1,0 +1,4 @@
+module ::Dashboards
+  class DashboardsController < ::Grids::BaseInProjectController
+  end
+end

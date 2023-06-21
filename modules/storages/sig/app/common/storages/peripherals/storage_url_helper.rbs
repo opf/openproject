@@ -1,0 +1,8 @@
+module Storages::Peripherals
+  # Helper for open links for a file link object.
+  module StorageUrlHelper
+    def self?.storage_url_open_file: (untyped storage, untyped file_id, ?open_location: bool) -> ::String
+
+    def self?.storage_url_open: (untyped storage) -> ::String
+  end
+end

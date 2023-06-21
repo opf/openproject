@@ -1,0 +1,59 @@
+module ReportingHelper
+  # ======================= SHARED CODE START
+  include ApplicationHelper
+
+  include WorkPackagesHelper
+
+  def with_project: (untyped project) { () -> untyped } -> untyped
+
+  def mapped: (untyped value, untyped klass, untyped default) -> untyped
+
+  def label_for: (untyped field) -> untyped
+
+  def debug_fields: (untyped result, ?::String prefix) -> (untyped | nil)
+
+  def month_name: (untyped index) -> untyped
+
+  def show_field: (untyped key, untyped value) -> untyped
+
+  def raw_field: (untyped key, untyped value) -> untyped
+
+  def budget_link: (untyped budget_id) -> untyped
+
+  def field_representation_map: (untyped key, untyped value) -> untyped
+
+  def custom_value: (untyped cf_identifier, untyped value) -> untyped
+
+  def field_sort_map: (untyped key, untyped value) -> ("" | untyped)
+
+  def show_result: (untyped row, ?untyped unit_id) -> untyped
+
+  def set_filter_options: (untyped struct, untyped key, untyped value) -> untyped
+
+  def available_cost_type_tabs: (untyped cost_types) -> untyped
+
+  def cost_type_label: (untyped cost_type_id, ?untyped? cost_type_inst, ?bool _plural) -> untyped
+
+  def link_to_details: (untyped result) -> ("" | untyped)
+
+  #
+  # Create the appropriate action for an entry with the type of log to use
+  def action_for: (untyped result, ?::Hash[untyped, untyped] options) -> untyped
+
+  def controller_for: (untyped type) -> ("timelog" | "costlog")
+
+  #
+  # Create the appropriate action for an entry with the type of log to use
+  def entry_for: (untyped result) -> untyped
+
+  #
+  # For a given row, determine how to render it's contents according to usability and
+  # localization rules
+  def show_row: (untyped row) -> untyped
+
+  def delimit: (untyped items, ?::Hash[untyped, untyped] options) -> untyped
+
+  #
+  # Finds the Filter-Class for as specific filter name while being careful with the filter_name parameter as it is user input.
+  def filter_class: (untyped filter_name) -> untyped
+end

@@ -1,0 +1,3 @@
+class Widget::Controls::Apply < Widget::Controls
+  def render: () -> untyped
+end

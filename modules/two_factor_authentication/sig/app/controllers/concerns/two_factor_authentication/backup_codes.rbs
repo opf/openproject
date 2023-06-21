@@ -1,0 +1,13 @@
+module ::TwoFactorAuthentication
+  module BackupCodes
+    extend ActiveSupport::Concern
+
+    #
+    # Request user to enter backup code
+    def enter_backup_code: () -> untyped
+
+    #
+    # Verify backup code
+    def verify_backup_code: () -> untyped
+  end
+end

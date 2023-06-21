@@ -1,0 +1,11 @@
+module Projects::Scopes
+  module VisibleWithActivatedTimeActivity
+    extend ActiveSupport::Concern
+
+    def visible_with_activated_time_activity: (untyped activity) -> untyped
+
+    private
+
+    def allowed_scope: () -> untyped
+  end
+end

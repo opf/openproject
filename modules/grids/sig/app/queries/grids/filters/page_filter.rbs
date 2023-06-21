@@ -1,0 +1,26 @@
+module Grids
+  module Filters
+    class PageFilter < Filters::GridFilter
+      def allowed_values: () -> untyped
+
+      def allowed_values_subset: () -> untyped
+
+      def type: () -> :list
+
+      def self.key: () -> :page
+
+      # TODO: add condition methods for user_id and id
+      def where: () -> untyped
+
+      private
+
+      def class_condition: (untyped klass) -> (nil | untyped)
+
+      def project_id_condition: (untyped project_id) -> (nil | untyped)
+
+      def available_operators: () -> ::Array[untyped]
+
+      def type_strategy: () -> untyped
+    end
+  end
+end

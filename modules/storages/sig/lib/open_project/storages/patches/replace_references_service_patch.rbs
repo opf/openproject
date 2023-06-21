@@ -1,0 +1,11 @@
+module OpenProject::Storages::Patches::ReplaceReferencesServicePatch
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    private
+
+    def rewrite_active_models: (untyped from, untyped to) -> untyped
+
+    def rewrite_creator: (untyped from, untyped to) -> untyped
+  end
+end

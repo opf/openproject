@@ -1,0 +1,26 @@
+class HourlyRatesController < ApplicationController
+  include SortHelper
+
+  include HourlyRatesHelper
+
+  # TODO: this should be an index
+  def show: () -> untyped
+
+  def edit: () -> untyped
+
+  def update: () -> untyped
+
+  def set_rate: () -> untyped
+
+  private
+
+  def update_rates: (untyped user, untyped project, untyped added_rates, untyped changed_rates) -> untyped
+
+  def delete_rates: (untyped user, untyped project) -> untyped
+
+  def find_project: () -> untyped
+
+  def find_optional_project: () -> untyped
+
+  def find_user: () -> untyped
+end

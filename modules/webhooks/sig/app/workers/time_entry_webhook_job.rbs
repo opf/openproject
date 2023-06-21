@@ -1,0 +1,5 @@
+class TimeEntryWebhookJob < RepresentedWebhookJob
+  def payload_key: () -> :time_entry
+
+  def payload_representer: () -> untyped
+end

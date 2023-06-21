@@ -1,0 +1,5 @@
+module Storages::Peripherals
+  module Scopes
+    def visible_storages: () -> untyped
+  end
+end

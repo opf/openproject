@@ -1,0 +1,9 @@
+module API
+  module V3
+    module Grids
+      class GridsAPI < ::API::OpenProjectAPI
+        include API::Utilities::UrlPropsParsingHelper
+      end
+    end
+  end
+end

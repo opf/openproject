@@ -1,0 +1,16 @@
+module Budgets
+  class SetAttributesService < ::BaseServices::SetAttributes
+    include Attachments::SetReplacements
+
+    private
+
+    def set_attributes: (untyped params) -> untyped
+
+    def set_default_attributes: (untyped _params) -> untyped
+
+    # fixed_date must be set before material_budget_items and labor_budget_items
+    def set_fixed_date: (untyped params) -> untyped
+
+    def unset_items: (untyped params) -> untyped
+  end
+end

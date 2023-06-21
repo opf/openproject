@@ -1,0 +1,8 @@
+module MeetingsHelper
+  def format_participant_list: (untyped participants) -> untyped
+
+  def render_meeting_journal: (untyped model, untyped journal, ?::Hash[untyped, untyped] options) -> ("" | untyped)
+
+  # This renders a journal entry with a header and details
+  def render_journal_details: (untyped journal, ?::Symbol header_label, ?untyped? _model, ?::Hash[untyped, untyped] options) -> untyped
+end

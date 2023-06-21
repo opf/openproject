@@ -1,0 +1,11 @@
+module OpenProject::GithubIntegration
+  class HookHandler
+    # List of the github events we can handle.
+    KNOWN_EVENTS: ::Array["check_run" | "issue_comment" | "ping" | "pull_request"]
+
+    # A github webhook happened.
+    # We need to check validity of the data and send a Notification
+    # to be processed in our `NotificationHandler`.
+    def process: (untyped _hook, untyped request, untyped params, untyped user) -> (404 | 403 | 200)
+  end
+end

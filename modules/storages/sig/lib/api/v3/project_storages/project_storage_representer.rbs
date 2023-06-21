@@ -1,0 +1,9 @@
+module API::V3::ProjectStorages
+  class ProjectStorageRepresenter < ::API::Decorators::Single
+    include API::Decorators::DateProperty
+
+    include API::Decorators::LinkedResource
+
+    def _type: () -> "ProjectStorage"
+  end
+end

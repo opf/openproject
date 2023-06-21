@@ -1,0 +1,5 @@
+class RbQueriesController < RbApplicationController
+  include WorkPackagesFilterHelper
+
+  def show: () -> untyped
+end

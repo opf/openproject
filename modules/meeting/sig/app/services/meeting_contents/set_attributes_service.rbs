@@ -1,0 +1,7 @@
+module MeetingContents
+  class SetAttributesService < ::BaseServices::SetAttributes
+    include Attachments::SetReplacements
+
+    def set_default_attributes: (untyped _params) -> untyped
+  end
+end

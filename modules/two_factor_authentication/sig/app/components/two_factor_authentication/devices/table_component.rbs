@@ -1,0 +1,23 @@
+module ::TwoFactorAuthentication
+  module Devices
+    class TableComponent < ::TableComponent
+      def initial_sort: () -> ::Array[:login | :asc]
+
+      def self_table?: () -> untyped
+
+      def admin_table?: () -> untyped
+
+      def target_controller: () -> ("two_factor_authentication/my/two_factor_devices" | "two_factor_authentication/users/two_factor_devices")
+
+      def sortable?: () -> false
+
+      def inline_create_link: () -> (untyped | nil)
+
+      def strategy_manager: () -> untyped
+
+      def empty_row_message: () -> untyped
+
+      def headers: () -> ::Array[::Array["device_type" | { caption: untyped }] | ::Array["default" | { caption: untyped }] | ::Array["confirmed" | { caption: untyped }]]
+    end
+  end
+end

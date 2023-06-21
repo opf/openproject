@@ -1,0 +1,9 @@
+module OpenProject::Backlogs::Patches::WorkPackages::UpdateAncestors::LoaderPatch
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    private
+
+    def selected_leaves_attributes: () -> untyped
+  end
+end

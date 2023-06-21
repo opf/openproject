@@ -1,0 +1,9 @@
+module Bim
+  module IfcModels
+    class UpdateService < ::BaseServices::Update
+      def before_perform: (untyped params, untyped _service_result) -> untyped
+
+      def after_perform: (untyped service_result) -> untyped
+    end
+  end
+end

@@ -1,0 +1,23 @@
+module OpenProject::Bim::BcfJson
+  class FasterConverter
+    def self.xml_to_hash: (untyped xml) -> untyped
+
+    private
+
+    def self.make_ox_item_look_like_loaded_by_rexml: (untyped item) -> untyped
+
+    def self.make_ox_hash_look_like_loaded_by_rexml: (untyped hash) -> untyped
+
+    def self.make_ox_array_look_like_loaded_by_rexml: (untyped array) -> untyped
+
+    def self.array_of_single_hash?: (untyped array) -> untyped
+
+    def self.array_of_hashes?: (untyped array) -> untyped
+
+    def self.array_of_similar_hashes?: (untyped array) -> (false | untyped)
+
+    def self.merge_hashes_together: (untyped array) -> untyped
+
+    def self.unwrap: (untyped value) -> untyped
+  end
+end

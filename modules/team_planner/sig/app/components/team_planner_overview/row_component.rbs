@@ -1,0 +1,11 @@
+module TeamPlannerOverview
+  class RowComponent < ::RowComponent
+    def query: () -> untyped
+
+    def name: () -> untyped
+
+    def project_id: () -> untyped
+
+    def created_at: () -> untyped
+  end
+end

@@ -1,0 +1,7 @@
+module Bim::Bcf::API::V2_1
+  class Viewpoints::BaseRepresenter < BaseRepresenter
+    def to_json: (*untyped _args) -> untyped
+
+    def scope: () -> untyped
+  end
+end

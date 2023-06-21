@@ -1,0 +1,19 @@
+module API
+  module V3
+    module TimeEntries
+      module Schemas
+        class TimeEntrySchemaRepresenter < ::API::Decorators::SchemaRepresenter
+          extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
+
+          def self.represented_class: () -> untyped
+
+          def allowed_work_package_href: () -> untyped
+
+          def allowed_projects_href: () -> untyped
+
+          def allowed_user_href: () -> untyped
+        end
+      end
+    end
+  end
+end

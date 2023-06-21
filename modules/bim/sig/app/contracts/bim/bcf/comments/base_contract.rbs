@@ -1,0 +1,13 @@
+module Bim::Bcf
+  module Comments
+    class BaseContract < BaseContract
+      private
+
+      def user_allowed_to_manage_bcf: () -> (untyped | nil)
+
+      def validate_viewpoint_reference: () -> (untyped | nil)
+
+      def validate_reply_to_comment: () -> (untyped | nil)
+    end
+  end
+end

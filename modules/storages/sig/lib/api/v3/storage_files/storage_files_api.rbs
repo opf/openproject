@@ -1,0 +1,4 @@
+module API::V3::StorageFiles
+  class StorageFilesAPI < ::API::OpenProjectAPI
+  end
+end

@@ -1,0 +1,7 @@
+module OpenProject::Bim::Patches::ActivityRepresenterPatch
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    def _type: () -> ("Activity::BcfComment" | untyped)
+  end
+end

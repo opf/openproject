@@ -1,0 +1,65 @@
+class CostQuery::SqlStatement < Report::SqlStatement
+  COMMON_FIELDS: ::Array["user_id" | "project_id" | "work_package_id" | "rate_id" | "comments" | "spent_on" | "created_at" | "updated_at" | "tyear" | "tmonth" | "tweek" | "costs" | "overridden_costs" | "type"]
+
+  # flag to mark a reporting query consisting of a union of cost and time entries
+  attr_accessor entry_union: untyped
+
+  def initialize: (untyped table, ?::String desc) -> void
+
+  # this is a hack to ensure that additional joins added by filters do not result
+  # in additional columns being selected.
+  def to_s: () -> untyped
+
+  #
+  # Generates SqlStatement that maps time_entries and cost_entries to a common structure.
+  #
+  # Mapping for direct fields:
+  #
+  #   Result                    | Time Entries             | Cost entries
+  #   --------------------------|--------------------------|--------------------------
+  #   id                        | id                       | id
+  #   user_id                   | user_id                  | user_id
+  #   project_id                | project_id               | project_id
+  #   work_package_id           | work_package_id          | work_package_id
+  #   rate_id                   | rate_id                  | rate_id
+  #   comments                  | comments                 | comments
+  #   spent_on                  | spent_on                 | spent_on
+  #   created_at                | created_at               | created_at
+  #   updated_at                | updated_at               | updated_at
+  #   tyear                     | tyear                    | tyear
+  #   tmonth                    | tmonth                   | tmonth
+  #   tweek                     | tweek                    | tweek
+  #   costs                     | costs                    | costs
+  #   overridden_costs          | overridden_costs         | overridden_costs
+  #   units                     | hours                    | units
+  #   activity_id               | activity_id              | -1
+  #   cost_type_id              | -1                       | cost_type_id
+  #   type                      | "TimeEntry"              | "CostEntry"
+  #   count                     | 1                        | 1
+  #
+  # Also: This _should_ handle joining activities and cost_types, as the logic differs for time_entries
+  # and cost_entries.
+  #
+  # @param [#table_name] model The model to map
+  # @return [CostQuery::SqlStatement] Generated statement
+  def self.unified_entry: (untyped model) -> untyped
+
+  #
+  # Applies logic for mapping time entries to general entries structure.
+  #
+  # @param [CostQuery::SqlStatement] query The statement to adjust
+  def self.unify_time_entries: (untyped query) -> untyped
+
+  #
+  # Applies logic for mapping cost entries to general entries structure.
+  #
+  # @param [CostQuery::SqlStatement] query The statement to adjust
+  def self.unify_cost_entries: (untyped query) -> untyped
+
+  #
+  # Generates a statement based on all entries (i.e. time entries and cost entries) mapped to the general entries structure,
+  # and therefore usable by filters and such.
+  #
+  # @return [CostQuery::SqlStatement] Generated statement
+  def self.for_entries: () -> untyped
+end

@@ -1,0 +1,9 @@
+module OpenProject::Backlogs::Patches::ProjectPatch
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    def rebuild_positions: () -> nil
+
+    def backlogs_enabled?: () -> untyped
+  end
+end

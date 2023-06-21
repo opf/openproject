@@ -1,0 +1,19 @@
+module API
+  module V3
+    module GithubPullRequests
+      class GithubPullRequestRepresenter < ::API::Decorators::Single
+        include API::Caching::CachedRepresenter
+
+        include API::Decorators::DateProperty
+
+        include API::Decorators::FormattableProperty
+
+        include API::Decorators::LinkedResource
+
+        def initialize: (untyped model, current_user: untyped, **untyped _opts) -> void
+
+        def _type: () -> "GithubPullRequest"
+      end
+    end
+  end
+end

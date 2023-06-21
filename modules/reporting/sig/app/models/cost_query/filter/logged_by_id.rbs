@@ -1,0 +1,12 @@
+class CostQuery::Filter::LoggedById < Report::Filter::Base
+  def self.label: () -> untyped
+
+  def self.me_value: () -> "me"
+
+  def transformed_values: () -> untyped
+
+  def replace_me_value: (untyped value) -> untyped
+
+  # rubocop:disable Metrics/AbcSize
+  def self.available_values: (*untyped) -> untyped
+end

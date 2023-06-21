@@ -1,0 +1,4 @@
+module Grids
+  class UpdateContract < BaseContract
+  end
+end

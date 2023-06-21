@@ -1,0 +1,23 @@
+module OpenProject::PDFExport::ExportCard
+  class DocumentGenerator
+    attr_reader config: untyped
+
+    attr_reader work_packages: untyped
+
+    attr_reader pdf: untyped
+
+    attr_reader current_position: untyped
+
+    attr_reader paper_width: untyped
+
+    attr_reader paper_height: untyped
+
+    def initialize: (untyped config, untyped work_packages) -> void
+
+    def render: () -> untyped
+
+    def render_pages: () -> untyped
+
+    def patch_models: () -> untyped
+  end
+end

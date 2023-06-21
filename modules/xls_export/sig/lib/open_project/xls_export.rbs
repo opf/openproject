@@ -1,0 +1,4 @@
+module OpenProject
+  module XlsExport
+  end
+end

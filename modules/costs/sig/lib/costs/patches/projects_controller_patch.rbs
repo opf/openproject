@@ -1,0 +1,7 @@
+module Costs::Patches::ProjectsControllerPatch
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    def own_total_hours: () -> (untyped | nil)
+  end
+end

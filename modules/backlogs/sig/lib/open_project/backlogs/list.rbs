@@ -1,0 +1,26 @@
+module OpenProject::Backlogs::List
+  extend ActiveSupport::Concern
+
+  # Used by acts_list to limit the list to a certain subset within
+  # the table.
+  #
+  # Also sanitize_sql seems to be unavailable in a sensible way. Therefore
+  # we're using send to circumvent visibility work_packages.
+  def scope_condition: () -> untyped
+
+  include InstanceMethods
+
+  module InstanceMethods
+    def move_after: (untyped prev_id) -> untyped
+
+    # Override acts_as_list implementation to avoid it calling save.
+    # Calling save would remove the changes/saved_changes information.
+    def set_list_position: (untyped new_position, ?bool _raise_exception_if_save_fails) -> untyped
+
+    def fix_other_work_package_positions: () -> (nil | untyped | nil)
+
+    def fix_own_work_package_position: () -> (nil | untyped | nil)
+
+    def set_default_prev_positions_silently: (untyped prev) -> untyped
+  end
+end

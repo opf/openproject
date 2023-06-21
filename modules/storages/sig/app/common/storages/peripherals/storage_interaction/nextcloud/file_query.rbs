@@ -1,0 +1,22 @@
+module Storages::Peripherals::StorageInteraction::Nextcloud
+  class FileQuery
+    FILE_INFO_PATH: "ocs/v1.php/apps/integration_openproject/fileinfo"
+
+    def initialize: (untyped storage) -> void
+
+    def call: (user: untyped, file_id: untyped) -> untyped
+
+    def error: (untyped code, ?untyped? log_message, ?untyped? data) -> untyped
+
+    private
+
+    def file_info: (untyped file_id, untyped token) -> untyped
+
+    def handle_access_control: (untyped file_info_response) -> untyped
+
+    # rubocop:disable Metrics/AbcSize
+    def storage_file: (untyped file_info_data) -> untyped
+
+    def location: (untyped files_path) -> ("/" | untyped)
+  end
+end

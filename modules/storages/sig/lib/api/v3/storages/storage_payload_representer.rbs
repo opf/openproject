@@ -1,0 +1,5 @@
+module API::V3::Storages
+  class StoragePayloadRepresenter < StorageRepresenter
+    include ::API::Utilities::PayloadRepresenter
+  end
+end

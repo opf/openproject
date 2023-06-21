@@ -1,0 +1,3 @@
+class RbBurndownChartsController < RbApplicationController
+  def show: () -> untyped
+end

@@ -1,0 +1,78 @@
+module ::TwoFactorAuthentication
+  class AuthenticationController < ApplicationController
+    # Remember token functionality
+    include ::TwoFactorAuthentication::RememberToken
+
+    # Backup tokens functionality
+    include ::TwoFactorAuthentication::BackupCodes
+
+    #
+    # Request token (if necessary) from the authenticated user
+    def request_otp: () -> untyped
+
+    #
+    # Verify the validity of the entered token
+    def confirm_otp: () -> untyped
+
+    #
+    # Resend the OTP to the given device
+    def retry: () -> untyped
+
+    private
+
+    #
+    # Successful request of the token, render input form
+    def successful_2fa_transmission: (untyped service, untyped transmit) -> untyped
+
+    #
+    # Create a token service for the current user
+    # with an optional override to use a non-default channel
+    def otp_service: (untyped user, ?use_channel: untyped?, ?use_device: untyped?) -> untyped
+
+    #
+    # Get the used device for verification
+    def otp_service_for_verification: (untyped user) -> untyped
+
+    #
+    # Detect overridden channel or device from params when trying to resend
+    def service_from_resend_params: () -> untyped
+
+    #
+    # Perform the 2FA authentication flow, sending the message
+    # if the delivery requires it.
+    def perform_2fa_authentication: (untyped service) -> untyped
+
+    #
+    # Render OTP input form
+    def render_login_otp: (untyped service) -> untyped
+
+    #
+    # Check OTP string and login if valid
+    def login_if_otp_token_valid: (untyped user, untyped token_string) -> untyped
+
+    # as the core currently provides a catchall route
+    # we prevent unwanted requests by this filter
+    def only_post: () -> (false | nil)
+
+    #
+    # fail the login
+    def fail_login: (untyped msg) -> untyped
+
+    #
+    # Ensure the authentication stage from the core provided the authenticated user
+    def require_authenticated_user: () -> untyped
+
+    def manager: () -> untyped
+
+    #
+    # In case of mis-configuration, block all logins
+    def ensure_valid_configuration: () -> (false | nil)
+
+    #
+    # Complete this authentication step and return to core
+    # logging in the user
+    def complete_stage_redirect: () -> untyped
+
+    def failure_stage_redirect: () -> untyped
+  end
+end

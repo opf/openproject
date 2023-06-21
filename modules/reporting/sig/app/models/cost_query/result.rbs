@@ -1,0 +1,27 @@
+class CostQuery::Result < Report::Result
+  module BaseAdditions
+    def inspect: () -> ::String
+
+    def display_costs?: () -> untyped
+  end
+
+  class Base < Report::Result::Base
+    include BaseAdditions
+  end
+
+  class DirectResult < Report::Result::DirectResult
+    include BaseAdditions
+
+    def display_costs: () -> untyped
+
+    def real_costs: () -> (untyped | nil)
+  end
+
+  class WrappedResult < Report::Result::WrappedResult
+    include BaseAdditions
+
+    def display_costs: () -> (1 | 0)
+
+    def real_costs: () -> (untyped | nil)
+  end
+end

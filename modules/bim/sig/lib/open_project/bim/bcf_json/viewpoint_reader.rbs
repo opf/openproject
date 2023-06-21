@@ -1,0 +1,59 @@
+module OpenProject::Bim
+  module BcfJson
+    class ViewpointReader
+      ROOT_NODE: "VisualizationInfo"
+
+      attr_reader uuid: untyped
+
+      attr_reader xml: untyped
+
+      def initialize: (untyped uuid, untyped xml) -> void
+
+      def result: () -> untyped
+
+      def to_json: (*untyped _args) -> untyped
+
+      private
+
+      #
+      # Retrieve the viewpoint hash without root node, if any.
+      def viewpoint_hash: () -> untyped
+
+      def transformations: () -> ::Array[:remove_keys | :transform_keys | :set_uuid | :transform_perspective_camera | :transform_orthogonal_camera | :transform_lines | :transform_clipping_planes | :transform_bitmaps | :transform_selections | :transform_coloring | :transform_visibility]
+
+      def remove_keys: (untyped hash) -> untyped
+
+      def set_uuid: (untyped hash) -> untyped
+
+      def transform_keys: (untyped hash) -> untyped
+
+      #
+      # Transform perspective_camera into json float values
+      def transform_orthogonal_camera: (untyped hash) -> untyped
+
+      #
+      # Transform orthogonal_camera into json float values
+      def transform_perspective_camera: (untyped hash) -> untyped
+
+      def transform_camera: (untyped hash, untyped key) -> (nil | untyped)
+
+      def transform_lines: (untyped hash) -> (nil | untyped)
+
+      def transform_clipping_planes: (untyped hash) -> (nil | untyped)
+
+      def transform_bitmaps: (untyped hash) -> (nil | untyped)
+
+      #
+      # Move selections up the tree from the nested XML node
+      def transform_selections: (untyped hash) -> (nil | untyped)
+
+      #
+      # Move coloring up the tree from the nested XML node
+      def transform_coloring: (untyped hash) -> (nil | untyped)
+
+      def transform_visibility: (untyped hash) -> (nil | untyped)
+
+      def to_numeric: (untyped anything) -> untyped
+    end
+  end
+end

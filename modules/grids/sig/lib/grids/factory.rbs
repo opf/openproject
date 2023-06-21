@@ -1,0 +1,13 @@
+module Grids
+  class Factory
+    def self.build: (untyped scope, untyped user) -> untyped
+
+    private
+
+    def self.new_default: (untyped klass, untyped project, untyped user) -> untyped
+
+    def self.class_defaults: (untyped klass) -> untyped
+
+    def self.project_from_id: (untyped id) -> untyped
+  end
+end

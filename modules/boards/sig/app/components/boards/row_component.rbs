@@ -1,0 +1,11 @@
+module Boards
+  class RowComponent < ::RowComponent
+    def project_id: () -> untyped
+
+    def name: () -> untyped
+
+    def created_at: () -> untyped
+
+    def type: () -> untyped
+  end
+end

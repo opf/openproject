@@ -1,0 +1,5 @@
+module ::Overviews
+  class OverviewsController < ::Grids::BaseInProjectController
+    def jump_to_project_menu_item: () -> (untyped | nil)
+  end
+end

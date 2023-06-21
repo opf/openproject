@@ -1,0 +1,4 @@
+module OpenProject::AuthPlugins
+  class Hooks < OpenProject::Hook::ViewListener
+  end
+end

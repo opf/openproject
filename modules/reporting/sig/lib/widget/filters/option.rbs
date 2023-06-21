@@ -1,0 +1,7 @@
+#
+# Accepts option :content, which expects an enumerable of [name, id, *args]
+# as it would appear in a filters available values. If given, it renders the
+# option-tags from the content array instead of the filters available values.
+class Widget::Filters::Option < Widget::Filters::Base
+  def render: () -> untyped
+end

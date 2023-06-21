@@ -1,0 +1,11 @@
+module OpenProject::Meeting::Patches
+  module TextileConverterPatch
+    extend ActiveSupport::Concern
+
+    prepend Patch
+
+    module Patch
+      def models_to_convert: () -> untyped
+    end
+  end
+end

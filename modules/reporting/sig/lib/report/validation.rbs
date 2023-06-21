@@ -1,0 +1,13 @@
+module Report::Validation
+  include Report::QueryUtils
+
+  def register_validations: (*untyped validation_methods) -> untyped
+
+  def register_validation: (untyped val_method) -> self
+
+  def errors: () -> untyped
+
+  def validations: () -> untyped
+
+  def validate: (*untyped values) -> (true | untyped)
+end

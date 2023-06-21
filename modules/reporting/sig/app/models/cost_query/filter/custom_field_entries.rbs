@@ -1,0 +1,9 @@
+class CostQuery::Filter::CustomFieldEntries < Report::Filter::Base
+  extend CostQuery::CustomFieldMixin
+
+  def self.field: () -> (::String | untyped)
+
+  def self.available_values: (*untyped) -> untyped
+
+  def self.get_possible_values: () -> untyped
+end

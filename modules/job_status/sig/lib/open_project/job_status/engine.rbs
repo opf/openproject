@@ -1,0 +1,5 @@
+module OpenProject::JobStatus
+  class Engine < ::Rails::Engine
+    include OpenProject::Plugins::ActsAsOpEngine
+  end
+end

@@ -1,0 +1,4 @@
+module Storages::LastProjectFolders
+  class DeleteService < ::BaseServices::Delete
+  end
+end

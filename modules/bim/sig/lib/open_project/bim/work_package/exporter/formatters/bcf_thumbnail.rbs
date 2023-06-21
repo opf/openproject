@@ -1,0 +1,7 @@
+module OpenProject::Bim::WorkPackage::Exporter::Formatters
+  class BcfThumbnail < ::Exports::Formatters::Default
+    def self.apply?: (untyped name, untyped _export_format) -> untyped
+
+    def format: (untyped work_package, **untyped _options) -> ("x" | "")
+  end
+end

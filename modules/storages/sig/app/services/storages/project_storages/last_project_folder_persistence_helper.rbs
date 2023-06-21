@@ -1,0 +1,5 @@
+module Storages::ProjectStorages::LastProjectFolderPersistenceHelper
+  def self?.create_last_project_folder: (user: untyped, projects_storage_id: untyped, origin_folder_id: untyped, mode: untyped) -> untyped
+
+  def self?.update_last_project_folder: (user: untyped, project_folder: untyped, origin_folder_id: untyped) -> untyped
+end

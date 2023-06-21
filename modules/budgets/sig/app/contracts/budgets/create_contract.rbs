@@ -1,0 +1,4 @@
+module Budgets
+  class CreateContract < BaseContract
+  end
+end

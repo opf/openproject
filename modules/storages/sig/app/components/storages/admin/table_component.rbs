@@ -1,0 +1,24 @@
+# Purpose: Defines a table with the list of Storages::Storage
+# objects in the global admin section of OpenProject
+# Used by: the admin list of all storages in the system
+# (storages/app/views/storages/admin/index.html.erb)
+# See also: row_component.rb defining the rows of the table
+module Storages::Admin
+  class TableComponent < ::TableComponent
+    # Default sort order (overwritten by user)
+    def initial_sort: () -> ::Array[:created_at | :asc]
+
+    # Should the TableComponent show ^/v icons in the header to allow custom sorting?
+    def sortable?: () -> false
+
+    # Used by: app/components/table_component.html.erb
+    # Purpose: return the link to be used to create the storage
+    def inline_create_link: () -> untyped
+
+    # Show this pretty message if there are now Storages::Storage objects in the system
+    def empty_row_message: () -> untyped
+
+    # Definition of the table header using the keys from columns above.
+    def headers: () -> ::Array[::Array["name" | { caption: untyped }] | ::Array["provider_type" | { caption: untyped }] | ::Array["host" | { caption: untyped }] | ::Array["creator" | { caption: untyped }] | ::Array["created_at" | { caption: untyped }]]
+  end
+end

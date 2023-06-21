@@ -1,0 +1,72 @@
+class WorkPackage
+  class AbstractCosts
+    attr_reader user: untyped
+
+    attr_reader project: untyped
+
+    def initialize: (?user: untyped, ?project: untyped?) -> void
+
+    #
+    # Adds to the given WorkPackage query's result an extra costs column.
+    #
+    # @param work_package_scope [WorkPackage::ActiveRecord_Relation]
+    # @return [WorkPackage::ActiveRecord_Relation] The query with the joined costs.
+    def add_to_work_packages: (untyped work_package_scope) -> untyped
+
+    #
+    # Adds to the given WorkPackage collection query an extra costs column
+    def add_to_work_package_collection: (untyped wp_collection_scope) -> untyped
+
+    #
+    # For the given work packages calculates the sum of all costs.
+    #
+    # @param [WorkPackage::ActiveRecord_Relation | Array[WorkPackage]] List of work packages.
+    # @return [Float] The sum of the work packages' costs.
+    def costs_of: (work_packages: untyped) -> untyped
+
+    #
+    # The model on which the costs calculations are based.
+    # Can be any model which has the fields `overridden_costs` and `costs`
+    # and is related to work packages (i.e. has a `work_package_id` too).
+    #
+    # @return [Class] Class of the model the costs are based on, e.g. CostEntry or TimeEntry.
+    def costs_model: () -> untyped
+
+    def costs_sum_alias: () -> untyped
+
+    def subselect_alias: () -> untyped
+
+    private
+
+    def work_package_ids: (untyped work_packages) -> untyped
+
+    def costs_table_name: () -> untyped
+
+    def add_costs_to: (untyped scope) -> untyped
+
+    def costs_sum: () -> ::String
+
+    def costs_value: () -> ::String
+
+    #
+    # Narrows down the query to only include costs visible to the user.
+    #
+    # @param [ActiveRecord::QueryMethods] scope Some query.
+    # @return [ActiveRecord::QueryMethods] The filtered query.
+    def filter_authorized: (untyped scope) -> untyped
+
+    def sum_arel: (untyped base_scope) -> untyped
+
+    def sum_subselect: (untyped base_scope) -> untyped
+
+    def wp_table: () -> untyped
+
+    def wp_table_descendants: () -> untyped
+
+    def ce_table: () -> untyped
+
+    def ce_table_join_condition: () -> untyped
+
+    def projects_table: () -> untyped
+  end
+end

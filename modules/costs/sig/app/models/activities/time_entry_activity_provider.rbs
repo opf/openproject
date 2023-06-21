@@ -1,0 +1,27 @@
+class Activities::TimeEntryActivityProvider < Activities::BaseActivityProvider
+  def extend_event_query: (untyped query) -> untyped
+
+  def event_query_projection: () -> ::Array[untyped]
+
+  def event_title: (untyped event) -> untyped
+
+  def event_type: (untyped _event) -> "time-entry"
+
+  def work_package_title: (untyped event) -> untyped
+
+  def event_description: (untyped event) -> untyped
+
+  def event_path: (untyped event) -> ::String
+
+  def event_url: (untyped event) -> untyped
+
+  def types_table: () -> untyped
+
+  def work_packages_table: () -> untyped
+
+  def event_location: (untyped event, ?only_path: bool) -> untyped
+
+  def project_id_filter: (untyped project_id) -> { :"fields[]" => "ProjectId", :"operators[ProjectId]" => "=", :"values[ProjectId]" => untyped, set_filter: 1 }
+
+  def work_package_id_filter: (untyped work_package_id) -> { :"fields[]" => "WorkPackageId", :"operators[WorkPackageId]" => "=", :"values[WorkPackageId]" => untyped, set_filter: 1 }
+end

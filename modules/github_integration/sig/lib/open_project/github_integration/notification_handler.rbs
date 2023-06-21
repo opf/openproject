@@ -1,0 +1,17 @@
+module OpenProject::GithubIntegration
+  #
+  # Handles github-related notifications.
+  # Each method is named after their webhook "event" as documented here:
+  # https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads
+  module NotificationHandler
+    def self.check_run: (untyped payload) -> untyped
+
+    def self.issue_comment: (untyped payload) -> untyped
+
+    def self.pull_request: (untyped payload) -> untyped
+
+    private
+
+    def self.with_logging: () ?{ () -> untyped } -> untyped
+  end
+end

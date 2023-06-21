@@ -1,0 +1,9 @@
+module API
+  module V3
+    module Meetings
+      class MeetingContentsAPI < ::API::OpenProjectAPI
+        def meeting_content: () -> untyped
+      end
+    end
+  end
+end

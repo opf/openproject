@@ -1,0 +1,11 @@
+module Bim::Bcf::API::V2_1
+  class Topics::SingleRepresenter < BaseRepresenter
+    include API::V3::Utilities::PathHelper
+
+    def datetime_formatter: () -> untyped
+
+    def formatted_date_time: (untyped method) -> untyped
+
+    def assigned_to: () -> untyped
+  end
+end

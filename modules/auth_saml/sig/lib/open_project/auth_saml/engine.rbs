@@ -1,0 +1,23 @@
+module OpenProject
+  module AuthSaml
+    def self.configuration: () -> untyped
+
+    def self.reload_configuration!: () -> untyped
+
+    #
+    # Loads the settings once to avoid accessing the file in each request
+    def self.load_global_settings!: () -> untyped
+
+    def self.settings_from_db: () -> untyped
+
+    def self.settings_from_config: () -> (untyped | nil)
+
+    def self.settings_from_yaml: () -> (untyped | nil)
+
+    class Engine < ::Rails::Engine
+      include OpenProject::Plugins::ActsAsOpEngine
+
+      extend OpenProject::Plugins::AuthPlugin
+    end
+  end
+end

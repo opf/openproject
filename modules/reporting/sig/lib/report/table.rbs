@@ -1,0 +1,37 @@
+class Report::Table
+  attr_accessor query: untyped
+
+  include Report::QueryUtils
+
+  def initialize: (untyped query) -> void
+
+  def row_index: () -> untyped
+
+  def column_index: () -> untyped
+
+  def row_fields: () -> untyped
+
+  def column_fields: () -> untyped
+
+  def rows_for: (untyped result) -> untyped
+
+  def columns_for: (untyped result) -> untyped
+
+  def fields_from: (untyped result, untyped type) -> untyped
+
+  #
+  # @param [Array] expected Fields expected
+  # @param [Array,Hash,Result] given Fields/result to be tested
+  # @return [TrueClass,FalseClass]
+  def satisfies?: (untyped type, untyped expected, untyped given) -> untyped
+
+  def fields_for: (untyped type) -> untyped
+
+  def get_row: (*untyped args) -> (untyped | ::Array[untyped])
+
+  def with_gaps_for: (untyped type, untyped result) ?{ (untyped) -> untyped } -> untyped
+
+  def []: (untyped x, untyped y) -> untyped
+
+  def get_index: (untyped type) -> untyped
+end

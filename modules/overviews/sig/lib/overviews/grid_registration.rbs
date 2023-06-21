@@ -1,0 +1,5 @@
+module Overviews
+  class GridRegistration < ::Grids::Configuration::InProjectBaseRegistration
+    def self.writable?: (untyped grid, untyped user) -> untyped
+  end
+end

@@ -1,0 +1,13 @@
+module OpenProject
+  module Avatars
+    module AvatarManager
+      def self.avatars_enabled?: () -> untyped
+
+      def self.settings: () -> untyped
+
+      def self.gravatar_enabled?: () -> untyped
+
+      def self.local_avatars_enabled?: () -> untyped
+    end
+  end
+end

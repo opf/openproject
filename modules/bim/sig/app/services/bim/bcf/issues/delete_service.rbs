@@ -1,0 +1,11 @@
+module Bim::Bcf
+  module Issues
+    class DeleteService < ::BaseServices::Delete
+      private
+
+      def after_validate: (untyped params, untyped contract_call) -> untyped
+
+      def work_package_delete_call: (untyped params) -> untyped
+    end
+  end
+end

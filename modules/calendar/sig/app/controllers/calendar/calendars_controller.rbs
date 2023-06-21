@@ -1,0 +1,15 @@
+module ::Calendar
+  class CalendarsController < ApplicationController
+    def index: () -> untyped
+
+    def show: () -> untyped
+
+    def destroy: () -> untyped
+
+    private
+
+    def visible_views: () -> untyped
+
+    def find_calendar: () -> untyped
+  end
+end

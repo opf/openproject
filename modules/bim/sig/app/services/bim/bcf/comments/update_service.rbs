@@ -1,0 +1,11 @@
+module Bim::Bcf
+  module Comments
+    class UpdateService < ::BaseServices::Update
+      private
+
+      def before_perform: (untyped params, untyped service_result) -> untyped
+
+      def update_journal: (untyped journal, untyped comment) -> untyped
+    end
+  end
+end

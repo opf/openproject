@@ -1,0 +1,16 @@
+module Costs::NumberHelper
+  # Turns a string representing a number in the current locale
+  # to a string representing a number in en (without delimiters).
+  def parse_number_string: (untyped value) -> untyped
+
+  # Turns a string representing a number in the current locale
+  # to a BigDecimal number.
+  #
+  # In case the string cannot be parsed, 0.0 is returned.
+  def parse_number_string_to_number: (untyped value) -> untyped
+
+  # Output currency value without unit
+  def unitless_currency_number: (untyped value) -> untyped
+
+  def to_currency_with_empty: (untyped rate) -> ("0.0" | untyped)
+end

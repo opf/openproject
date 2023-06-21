@@ -1,0 +1,7 @@
+module CostlogHelper
+  def cost_types_collection_for_select_options: (?untyped? selected_type) -> untyped
+
+  def user_collection_for_select_options: (?::Hash[untyped, untyped] _options) -> untyped
+
+  def extended_progress_bar: (untyped pcts, ?::Hash[untyped, untyped] options) -> untyped
+end

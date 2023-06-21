@@ -1,0 +1,11 @@
+module Queries::Storages::WorkPackages::Filter
+  class LinkableToStorageIdFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
+    include StoragesFilterMixin
+
+    def filter_model: () -> untyped
+
+    def filter_column: () -> "id"
+
+    def permission: () -> :manage_file_links
+  end
+end

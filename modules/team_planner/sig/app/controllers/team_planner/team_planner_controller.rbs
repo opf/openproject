@@ -1,0 +1,23 @@
+module ::TeamPlanner
+  class TeamPlannerController < BaseController
+    include EnterpriseTrialHelper
+
+    def index: () -> untyped
+
+    def overview: () -> untyped
+
+    def show: () -> untyped
+
+    def upsale: () -> nil
+
+    def destroy: () -> untyped
+
+    def require_ee_token: () -> (untyped | nil)
+
+    private
+
+    def find_plan_view: () -> untyped
+
+    def visible_plans: (?untyped? project) -> untyped
+  end
+end

@@ -1,0 +1,17 @@
+module Calendar
+  class ICalResponseService < ::BaseServices::BaseCallable
+    include Contracted
+
+    def initialize: (*untyped args) -> void
+
+    def perform: (ical_token_string: untyped, query_id: untyped) -> untyped
+
+    def resolve_ical_token: (untyped ical_token_string) -> untyped
+
+    def ical_generation: (untyped query, untyped user) -> untyped
+
+    def resolve_work_packages: (untyped query) -> untyped
+
+    def create_ical_string: (untyped work_packages, untyped calendar_name) -> untyped
+  end
+end

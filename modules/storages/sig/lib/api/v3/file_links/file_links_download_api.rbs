@@ -1,0 +1,2 @@
+class API::V3::FileLinks::FileLinksDownloadAPI < API::OpenProjectAPI
+end

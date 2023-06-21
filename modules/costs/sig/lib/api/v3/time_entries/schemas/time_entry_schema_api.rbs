@@ -1,0 +1,10 @@
+module API
+  module V3
+    module TimeEntries
+      module Schemas
+        class TimeEntrySchemaAPI < ::API::OpenProjectAPI
+        end
+      end
+    end
+  end
+end

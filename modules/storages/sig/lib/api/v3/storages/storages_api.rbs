@@ -1,0 +1,3 @@
+# OpenProjectAPI is a simple subclass of Grape::API that handles patches.
+class API::V3::Storages::StoragesAPI < API::OpenProjectAPI
+end

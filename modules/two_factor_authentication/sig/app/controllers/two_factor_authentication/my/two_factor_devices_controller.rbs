@@ -1,0 +1,37 @@
+module ::TwoFactorAuthentication
+  module My
+    class TwoFactorDevicesController < ::TwoFactorAuthentication::BaseController
+      # Remember token functionality
+      include ::TwoFactorAuthentication::RememberToken
+
+      # Password confirmation helpers and actions
+      include PasswordConfirmation
+
+      def index: () -> untyped
+
+      #
+      # Register the device and let the user confirm
+      def register: () -> untyped
+
+      #
+      # Send a confirmation and request a OTP entry from the user to activate the device
+      def confirm: () -> (untyped | nil | untyped)
+
+      private
+
+      #
+      # Request (if needed) the token for entering
+      def request_device_confirmation_token: () -> untyped
+
+      def request_token_for_device: (untyped device, untyped locals) -> untyped
+
+      def index_path: () -> untyped
+
+      def show_local_breadcrumb: () -> false
+
+      def registration_success_path: () -> untyped
+
+      def set_user_variables: () -> untyped
+    end
+  end
+end

@@ -1,0 +1,7 @@
+class CostQuery::GroupBy
+  module SqlAggregation
+    include Report::GroupBy::SqlAggregation
+
+    def sql_statement: () -> untyped
+  end
+end

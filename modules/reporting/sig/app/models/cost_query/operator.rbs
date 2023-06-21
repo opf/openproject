@@ -1,0 +1,5 @@
+class CostQuery::Operator < Report::Operator
+  def modify: (untyped query, untyped field, *untyped _values) -> untyped
+
+  def modify: (untyped query, untyped field, *untyped values) -> untyped
+end

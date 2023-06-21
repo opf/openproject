@@ -1,0 +1,7 @@
+module BasicData
+  module Documents
+    class EnumerationSeeder < ModelSeeder
+      def model_attributes: (untyped category_data) -> { name: untyped }
+    end
+  end
+end

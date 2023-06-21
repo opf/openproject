@@ -1,0 +1,5 @@
+class Widget::Filters::Operators < Widget::Filters::Base
+  def render: () -> untyped
+
+  def hidden_for_sighted_label: () -> untyped
+end

@@ -1,0 +1,2 @@
+module OpenProject::AuthPlugins::Patches
+end

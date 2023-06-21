@@ -1,0 +1,19 @@
+# Purpose: Defines how to format the components within a table row of ProjectStorages
+# associated with a project
+module Storages::ProjectsStorages
+  class RowComponent < ::RowComponent
+    def project_storage: () -> untyped
+
+    def name: () -> untyped
+
+    def provider_type: () -> untyped
+
+    def creator: () -> untyped
+
+    def button_links: () -> untyped
+
+    def edit_link: () -> untyped
+
+    def delete_link: () -> untyped
+  end
+end

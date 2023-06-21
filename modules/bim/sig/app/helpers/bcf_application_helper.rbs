@@ -1,0 +1,3 @@
+module BcfApplicationHelper
+  def body_css_classes: () -> untyped
+end

@@ -1,0 +1,11 @@
+class RbExportCardConfigurationsController < RbApplicationController
+  include OpenProject::PDFExport::ExportCard
+
+  def index: () -> untyped
+
+  def show: () -> untyped
+
+  private
+
+  def load_project_and_sprint: () -> untyped
+end

@@ -1,0 +1,9 @@
+module JobStatus
+  module Cron
+    class ClearOldJobStatusJob < ::Cron::CronJob
+      RETENTION_PERIOD: untyped
+
+      def perform: () -> untyped
+    end
+  end
+end

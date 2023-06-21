@@ -1,0 +1,6 @@
+# This class provides definitions for API routes and endpoints for the file_links namespace. It inherits the
+# functionality from the Grape REST API framework. It is mounted in lib/api/v3/work_packages/work_packages_api.rb,
+# which puts the file_links namespace behind the provided namespace of the work packages api
+# -> /api/v3/work_packages/:id/file_links/...
+class API::V3::FileLinks::WorkPackagesFileLinksAPI < API::OpenProjectAPI
+end

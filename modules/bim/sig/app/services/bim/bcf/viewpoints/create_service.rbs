@@ -1,0 +1,7 @@
+module Bim::Bcf
+  module Viewpoints
+    class CreateService < ::BaseServices::Create
+      def persist: (untyped service_result) -> untyped
+    end
+  end
+end

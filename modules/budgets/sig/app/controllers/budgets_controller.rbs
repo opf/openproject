@@ -1,0 +1,59 @@
+class BudgetsController < ApplicationController
+  include AttachableServiceCall
+
+  include SortHelper
+
+  include ProjectsHelper
+
+  include AttachmentsHelper
+
+  include CostlogHelper
+
+  include BudgetsHelper
+
+  include PaginationHelper
+
+  include ::Costs::NumberHelper
+
+  def index: () -> untyped
+
+  def show: () -> untyped
+
+  def new: () -> untyped
+
+  def copy: () -> untyped
+
+  def create: () -> untyped
+
+  def edit: () -> (untyped | nil)
+
+  def update: () -> untyped
+
+  def destroy: () -> untyped
+
+  def destroy_info: () -> untyped
+
+  def update_material_budget_item: () -> untyped
+
+  def update_labor_budget_item: () -> untyped
+
+  private
+
+  def find_budget: () -> untyped
+
+  def find_budgets: () -> untyped
+
+  def find_project: () -> untyped
+
+  def find_optional_project: () -> untyped
+
+  def render_item_as_json: (untyped element_id, untyped costs, untyped unit, untyped project, untyped permission) -> untyped
+
+  def default_budget_sort: () -> ::Hash[::String, ::String]
+
+  def visible_sorted_budgets: () -> untyped
+
+  def check_and_update_belonging_work_packages: () -> untyped
+
+  def update_belonging_work_packages: () -> untyped
+end

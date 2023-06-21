@@ -1,0 +1,11 @@
+module MeetingContents
+  class BaseContract < ::ModelContract
+    include Attachments::ValidateReplacements
+
+    def self.model: () -> untyped
+
+    private
+
+    def type_in_allowed: () -> (untyped | nil)
+  end
+end

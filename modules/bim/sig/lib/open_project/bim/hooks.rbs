@@ -1,0 +1,11 @@
+module OpenProject::Bim::Hooks
+  class Hook < OpenProject::Hook::Listener
+    include ActionView::Helpers::TagHelper
+
+    include ActionView::Context
+
+    include WorkPackagesHelper
+
+    def admin_information_checklist: (*untyped) -> ::Array[::Array[:"extraction.available.ifc_convert" | untyped]]
+  end
+end

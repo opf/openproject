@@ -1,0 +1,5 @@
+module ::Grids
+  class BaseInProjectController < ::ApplicationController
+    def show: () -> untyped
+  end
+end

@@ -1,0 +1,11 @@
+module Queries::Storages::FileLinks::Filter
+  class StorageFilter < ::Queries::Filters::Base
+    def human_name: () -> untyped
+
+    def type: () -> :list
+
+    def allowed_values: () -> untyped
+
+    def where: () -> untyped
+  end
+end

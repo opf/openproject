@@ -1,0 +1,11 @@
+class CostQuery::Filter::UserId < Report::Filter::Base
+  def self.label: () -> untyped
+
+  def self.me_value: () -> "me"
+
+  def transformed_values: () -> untyped
+
+  def replace_me_value: (untyped value) -> untyped
+
+  def self.available_values: (*untyped) -> untyped
+end

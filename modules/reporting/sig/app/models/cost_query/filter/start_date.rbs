@@ -1,0 +1,3 @@
+class CostQuery::Filter::StartDate < Report::Filter::Base
+  def self.label: () -> untyped
+end

@@ -1,0 +1,74 @@
+class Report::Filter
+  class Base < Report::Chainable
+    include Report::QueryUtils
+
+    attr_accessor values: untyped
+
+    def cache_key: () -> untyped
+
+    #
+    # A Filter is 'heavy' if it possibly returns a _hugh_ number of available_values.
+    # In that case the UI-guys should think twice about displaying all the values.
+    def self.heavy?: () -> false
+
+    # Indicates whether this Filter is a multiple choice filter,
+    # meaning that the user must select a value of a given set of choices.
+    def self.is_multiple_choice?: () -> false
+
+    # need this for sort
+    def <=>: (untyped other) -> untyped
+
+    def self.cached: (*untyped args) -> untyped
+
+    def value=: (untyped val) -> untyped
+
+    #
+    # Always empty. You may include additional_operators as a filter module.
+    # This is here for the case you don't.
+    def additional_operators: () -> ::Array[untyped]
+
+    def self.use: (*untyped names) -> untyped
+
+    def self.new: (*untyped args) { () -> untyped } -> untyped
+
+    def self.inherited: (untyped klass) -> untyped
+
+    #
+    # Returns an array of [:label_of_value, value]-kind arrays, containing
+    # valid id-label combinations of possible filter values
+    def self.available_values: (?::Hash[untyped, untyped] _params) -> ::Array[untyped]
+
+    #
+    # Returns a [:label_of_value, value]-kind array (as in self.vailable_values)
+    # for the given value
+    def self.label_for_value: (untyped value) -> untyped
+
+    def correct_position?: () -> untyped
+
+    def from_for: (untyped scope) -> untyped
+
+    def filter?: () -> true
+
+    def valid?: () -> (untyped | true)
+
+    def errors: () -> (untyped | ::Array[untyped])
+
+    def group_by_fields: () -> ::Array[untyped]
+
+    def initialize: (?untyped? child, ?::Hash[untyped, untyped] options) -> void
+
+    def might_be_responsible: () -> untyped
+
+    def operator: () -> untyped
+
+    def operator=: (untyped value) -> untyped
+
+    def responsible_for_sql?: () -> untyped
+
+    def to_hash: () -> untyped
+
+    def transformed_values: () -> untyped
+
+    def sql_statement: () -> untyped
+  end
+end

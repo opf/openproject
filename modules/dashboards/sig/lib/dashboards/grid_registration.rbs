@@ -1,0 +1,4 @@
+module Dashboards
+  class GridRegistration < ::Grids::Configuration::InProjectBaseRegistration
+  end
+end

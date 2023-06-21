@@ -1,0 +1,19 @@
+module LdapGroups
+  module SynchronizedGroups
+    class TableComponent < ::TableComponent
+      def initial_sort: () -> ::Array[:id | :asc]
+
+      def target_controller: () -> "ldap_groups/synchronized_groups"
+
+      def sortable?: () -> true
+
+      def sortable_column?: (untyped _column) -> false
+
+      def inline_create_link: () -> untyped
+
+      def empty_row_message: () -> untyped
+
+      def headers: () -> ::Array[::Array["dn" | { caption: untyped }] | ::Array["auth_source" | { caption: untyped }] | ::Array["group" | { caption: untyped }] | ::Array["users" | { caption: untyped }] | ::Array["sync_users" | { caption: untyped }]]
+    end
+  end
+end

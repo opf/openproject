@@ -1,0 +1,48 @@
+module OpenProject::GithubIntegration
+  module NotificationHandler
+    module Helper
+      #
+      # Parses the given `text` and returns a list of work_package ids mentioned in that text.
+      def extract_work_package_ids: (untyped text) -> untyped
+
+      #
+      # Given a list of work package ids, this methods returns all work packages that match those ids
+      # and are visible by the given user.
+      # Params:
+      #  - Array<int>: An list of WorkPackage ids
+      #  - User: The user who may (or may not) see those WorkPackages
+      # Returns:
+      #  - Array<WorkPackage>
+      def find_visible_work_packages: (untyped ids, untyped user) -> untyped
+
+      # Returns a list of `WorkPackage`s that were referenced in the `text` and are visible to the given `user`.
+      def find_mentioned_work_packages: (untyped text, untyped user) -> untyped
+
+      #
+      # Adds comments to the given WorkPackages.
+      def comment_on_referenced_work_packages: (untyped work_packages, untyped user, untyped notes) -> (nil | untyped)
+
+      #
+      # Filters a list of work packages, removing those that are associated to
+      # the given `GithubPullRequest`.
+      def without_already_referenced: (untyped work_packages, untyped already_referenced) -> untyped
+
+      #
+      # A wapper around a ruby Hash to access webhook payloads.
+      # All methods called on it are converted to `.fetch` hash-access, raising an error if the string-key does not exist.
+      # If the method ends with a question mark, e.g. "comment?" not error is raised if the key does not exist.
+      # If the fetched value is again a hash, the value is wrapped into a new payload object.
+      class Payload
+        def initialize: (untyped payload) -> void
+
+        def to_h: () -> untyped
+
+        def method_missing: (untyped name, *untyped args) { () -> untyped } -> untyped
+
+        def respond_to_missing?: (untyped _method_name, ?bool _include_private) -> true
+      end
+
+      def wrap_payload: (untyped payload) -> untyped
+    end
+  end
+end

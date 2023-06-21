@@ -1,0 +1,19 @@
+class RepresentedWebhookJob < WebhookJob
+  include ::OpenProjectErrorHelper
+
+  attr_reader resource: untyped
+
+  def perform: (untyped webhook_id, untyped resource, untyped event_name) -> (nil | untyped)
+
+  def accepted_in_project?: () -> untyped
+
+  def request_signature: (untyped request_body) -> (untyped | nil)
+
+  def request_headers: () -> { content_type: "application/json", accept: "application/json" }
+
+  def payload_key: () -> untyped
+
+  def payload_representer: () -> untyped
+
+  def request_body: () -> untyped
+end

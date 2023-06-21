@@ -1,0 +1,7 @@
+module Bim::Bcf
+  module Issues
+    class BaseContract < ::ModelContract
+      include ::Bim::Bcf::Concerns::ManageBcfGuarded
+    end
+  end
+end

@@ -1,0 +1,13 @@
+module Costs::Patches::PermittedParamsPatch
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    def cost_entry: () -> untyped
+
+    def budget: () -> untyped
+
+    def cost_type: () -> untyped
+
+    def user_rates: () -> untyped
+  end
+end

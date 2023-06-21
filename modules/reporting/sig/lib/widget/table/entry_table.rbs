@@ -1,0 +1,15 @@
+class ::Widget::Table::EntryTable < Widget::Table
+  FIELDS: ::Array[:spent_on | :user_id | :activity_id | :work_package_id | :comments | :logged_by_id | :project_id]
+
+  def render: () -> untyped
+
+  def colgroup: () -> untyped
+
+  def head: () -> untyped
+
+  def foot: () -> untyped
+
+  def body: () -> untyped
+
+  def icons: (untyped result) -> untyped
+end

@@ -1,0 +1,77 @@
+#
+# Creates or updates a BCF issue and markup from a work package
+module OpenProject::Bim::BcfXml
+  class IssueWriter < BaseWriter
+    attr_reader work_package: untyped
+
+    attr_reader issue: untyped
+
+    attr_reader markup_doc: untyped
+
+    attr_reader markup_node: untyped
+
+    TOPIC_SEQUENCE: ::Array["ReferenceLink" | "Title" | "Priority" | "Index" | "Labels" | "CreationDate" | "CreationAuthor" | "ModifiedDate" | "ModifiedAuthor" | "DueDate" | "AssignedTo" | "Stage" | "Description" | "BimSnippet" | "DocumentReference" | "RelatedTopic"]
+
+    def self.update_from!: (untyped work_package) -> untyped
+
+    def initialize: (untyped work_package) -> void
+
+    def update: () -> untyped
+
+    def root_node: () -> :Markup
+
+    #
+    # Get the nokogiri document from the markup xml
+    def build_markup_document: () -> untyped
+
+    #
+    # Update the topic node, or create it
+    def topic: () -> untyped
+
+    def enforce_child_order: (untyped parent_node, untyped sequence) -> untyped
+
+    def prepend_into_or_insert: (untyped parent_node, untyped node) -> untyped
+
+    def topic_attributes: (untyped topic_node) -> untyped
+
+    def topic_title: (untyped topic_node) -> untyped
+
+    def topic_creation_date: (untyped topic_node) -> untyped
+
+    def topic_modified_date: (untyped topic_node) -> untyped
+
+    def topic_description: (untyped topic_node) -> untyped
+
+    def topic_creation_author: (untyped topic_node) -> untyped
+
+    def topic_reference_link: (untyped topic_node) -> untyped
+
+    def topic_priority: (untyped topic_node) -> (untyped | nil)
+
+    def topic_assigned_to: (untyped topic_node) -> (untyped | nil)
+
+    def topic_modified_author: (untyped topic_node) -> (untyped | nil)
+
+    def topic_due_date: (untyped topic_node) -> (untyped | nil)
+
+    def replace_comments: () -> untyped
+
+    def replace_viewpoints: () -> untyped
+
+    #
+    # Render the comments of the work package as XML nodes
+    def comments: (untyped xml) -> untyped
+
+    #
+    # Create a single comment node
+    def comment_node: (untyped xml, untyped uuid, untyped journal) -> untyped
+
+    #
+    # Write the current set of viewpoints
+    def viewpoints: (untyped xml) -> untyped
+
+    #
+    # Find existing issue or create new
+    def find_or_initialize_issue: () -> untyped
+  end
+end

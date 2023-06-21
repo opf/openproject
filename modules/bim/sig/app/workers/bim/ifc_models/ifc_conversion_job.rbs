@@ -1,0 +1,9 @@
+module Bim
+  module IfcModels
+    class IfcConversionJob < ::ApplicationJob
+      #
+      # Run the conversion of IFC to
+      def perform: (untyped ifc_model) -> untyped
+    end
+  end
+end

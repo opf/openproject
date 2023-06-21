@@ -1,0 +1,37 @@
+module Bim
+  module IfcModels
+    class IfcModelsController < BaseController
+      def index: () -> untyped
+
+      def new: () -> untyped
+
+      def edit: () -> untyped
+
+      def show: () -> untyped
+
+      def defaults: () -> untyped
+
+      def set_direct_upload_file_name: () -> untyped
+
+      def direct_upload_finished: () -> (nil | untyped)
+
+      def create: () -> untyped
+
+      def update: () -> untyped
+
+      def destroy: () -> untyped
+
+      private
+
+      def prepare_form: (untyped ifc_model) -> (nil | untyped)
+
+      def frontend_redirect: (untyped model_ids) -> untyped
+
+      def find_all_ifc_models: () -> untyped
+
+      def permitted_model_params: () -> untyped
+
+      def find_ifc_model_object: () -> untyped
+    end
+  end
+end

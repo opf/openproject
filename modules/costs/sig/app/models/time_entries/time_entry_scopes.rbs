@@ -1,0 +1,11 @@
+module TimeEntries
+  module TimeEntryScopes
+    include ::CostScopes
+
+    def view_allowed_entries_permission: () -> :view_time_entries
+
+    def view_allowed_own_entries_permission: () -> :view_own_time_entries
+
+    def with_visible_rates_on: (untyped scope, ?user: untyped) -> untyped
+  end
+end

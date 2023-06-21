@@ -1,0 +1,15 @@
+module OpenProject::OpenIDConnect
+  module Hooks
+    class Hook < OpenProject::Hook::Listener
+      #
+      # Once the user has signed in and has an oidc session
+      # we want to map that to the internal session
+      def user_logged_in: (untyped context) -> (nil | untyped)
+
+      #
+      # Once omniauth has returned with an auth hash
+      # persist the access token
+      def omniauth_user_authorized: (untyped context) -> untyped
+    end
+  end
+end

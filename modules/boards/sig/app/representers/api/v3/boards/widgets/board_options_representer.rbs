@@ -1,0 +1,10 @@
+module API
+  module V3
+    module Boards
+      module Widgets
+        class BoardOptionsRepresenter < ::API::V3::Grids::Widgets::DefaultOptionsRepresenter
+        end
+      end
+    end
+  end
+end

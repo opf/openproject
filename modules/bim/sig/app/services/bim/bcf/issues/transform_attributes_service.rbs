@@ -1,0 +1,48 @@
+module Bim::Bcf
+  module Issues
+    class TransformAttributesService
+      def initialize: (untyped project) -> void
+
+      def call: (untyped attributes) -> untyped
+
+      private
+
+      attr_accessor project: untyped
+
+      #
+      # BCF issues might have empty titles. OP needs one.
+      def title: (untyped attributes) -> (untyped | "(Imported BCF issue contained no title)" | nil)
+
+      def author: (untyped project, untyped attributes) -> untyped
+
+      def assignee: (untyped attributes) -> untyped
+
+      #
+      # Try to find the given user by mail in the project
+      def find_user: (untyped mail) -> untyped
+
+      def type: (untyped attributes) -> untyped
+
+      #
+      # Handle unknown statuses during import
+      def status: (untyped attributes) -> untyped
+
+      #
+      # Handle unknown priorities during import
+      def priority: (untyped attributes) -> untyped
+
+      #
+      # Get mapped and raw attributes from MarkupExtractor
+      # and return all values that are non-nil
+      def work_package_attributes: (untyped attributes) -> untyped
+
+      def missing_status: (untyped status_name, untyped import_options) -> (untyped | untyped | untyped | nil)
+
+      def missing_priority: (untyped priority_name, untyped import_options) -> (nil | untyped | untyped | nil)
+
+      def missing_type: (untyped type_name, untyped import_options) -> untyped
+
+      def missing_assignee: (untyped assignee_name, untyped import_options) -> (untyped | nil)
+    end
+  end
+end

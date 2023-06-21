@@ -1,0 +1,43 @@
+module Calendar
+  class CreateICalService < ::BaseServices::BaseCallable
+    include ActionView::Helpers::SanitizeHelper
+
+    include TextFormattingHelper
+
+    def perform: (work_packages: untyped, calendar_name: untyped) -> untyped
+
+    def create_ical_string: (untyped work_packages, untyped calendar_name) -> untyped
+
+    def add_values_to_event: (untyped event, untyped work_package) -> untyped
+
+    def uid_value: (untyped work_package) -> ::String
+
+    def attendee_value: (untyped work_package) -> untyped
+
+    def organizer_value: (untyped work_package) -> untyped
+
+    def summary_value: (untyped work_package) -> untyped
+
+    def dtstamp_value: (untyped work_package) -> untyped
+
+    def dtstart_value: (untyped work_package) -> untyped
+
+    def start_date: (untyped work_package) -> untyped
+
+    def dtend_value: (untyped work_package) -> untyped
+
+    def due_date: (untyped work_package) -> untyped
+
+    def location_value: (untyped work_package) -> untyped
+
+    def host: () -> untyped
+
+    def add_attendee_value: (untyped event, untyped work_package) -> untyped
+
+    def description_value: (untyped work_package) -> untyped
+
+    def translated_attribute_name_and_value: (untyped work_package, untyped attribute) -> ::String
+
+    def truncated_work_package_description_value: (untyped work_package) -> (nil | ::String)
+  end
+end

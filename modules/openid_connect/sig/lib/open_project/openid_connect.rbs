@@ -1,0 +1,9 @@
+module OpenProject
+  module OpenIDConnect
+    CONFIG_KEY: "openid_connect"
+
+    def self?.providers: () -> untyped
+
+    def self?.configuration: () -> untyped
+  end
+end

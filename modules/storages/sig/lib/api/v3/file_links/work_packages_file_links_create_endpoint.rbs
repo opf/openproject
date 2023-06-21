@@ -1,0 +1,5 @@
+class API::V3::FileLinks::WorkPackagesFileLinksCreateEndpoint < API::V3::FileLinks::CreateEndpoint
+  private
+
+  def self_link: (untyped request) -> untyped
+end

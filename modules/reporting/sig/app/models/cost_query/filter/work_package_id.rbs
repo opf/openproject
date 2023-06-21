@@ -1,0 +1,16 @@
+class CostQuery::Filter::WorkPackageId < Report::Filter::Base
+  def self.label: () -> untyped
+
+  def self.available_values: (*untyped) -> untyped
+
+  def self.available_operators: () -> untyped
+
+  #
+  # Overwrites Report::Filter::Base self.label_for_value method
+  # to achieve a more performant implementation
+  def self.label_for_value: (untyped value) -> (nil | untyped)
+
+  def self.text_for_tuple: (untyped id, untyped subject) -> untyped
+
+  def self.text_for_work_package: (untyped i) -> untyped
+end

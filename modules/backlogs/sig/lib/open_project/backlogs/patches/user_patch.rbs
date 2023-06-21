@@ -1,0 +1,13 @@
+module OpenProject::Backlogs::Patches::UserPatch
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    def backlogs_preference: (untyped attr, ?untyped? new_value) -> untyped
+
+    def read_backlogs_preference: (untyped attr) -> untyped
+
+    def write_backlogs_preference: (untyped attr, untyped new_value) -> untyped
+
+    def compute_backlogs_preference: (untyped attr) -> untyped
+  end
+end

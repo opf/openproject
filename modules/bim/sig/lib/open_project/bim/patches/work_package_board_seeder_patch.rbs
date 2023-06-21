@@ -1,0 +1,13 @@
+module OpenProject::Bim::Patches::WorkPackageBoardSeederPatch
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    def seed_data!: () -> (nil | untyped)
+
+    def seed_bcf_board: (untyped board_data) -> untyped
+
+    def seed_bcf_board_widgets: () -> untyped
+
+    def seed_bcf_board_queries: () -> untyped
+  end
+end

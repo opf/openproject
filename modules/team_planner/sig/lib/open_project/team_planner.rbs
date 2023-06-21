@@ -1,0 +1,4 @@
+module OpenProject
+  module TeamPlanner
+  end
+end

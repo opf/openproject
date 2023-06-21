@@ -1,0 +1,16 @@
+module Storages::Peripherals::StorageInteraction::Nextcloud
+  class UploadLinkQuery
+    URI_TOKEN_REQUEST: "index.php/apps/integration_openproject/direct-upload-token"
+
+    URI_UPLOAD_BASE_PATH: "index.php/apps/integration_openproject/direct-upload"
+
+    def initialize: (untyped storage) -> void
+
+    def call: (user: untyped, data: untyped) -> untyped
+
+    private
+
+    # rubocop:disable Metrics/AbcSize
+    def outbound_response: (method: untyped, relative_path: untyped, payload: untyped, token: untyped) -> untyped
+  end
+end

@@ -1,0 +1,17 @@
+module TwoFactorAuthentication
+  class UseBackupCodeService
+    attr_reader user: untyped
+
+    #
+    # Create a token service for the given user.
+    def initialize: (user: untyped) -> void
+
+    #
+    # Validate a backup code that was input by the user
+    def verify: (untyped code) -> untyped
+
+    private
+
+    def use_valid_token!: (untyped token) -> untyped
+  end
+end

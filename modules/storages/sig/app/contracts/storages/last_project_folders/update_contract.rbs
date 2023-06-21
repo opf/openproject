@@ -1,0 +1,4 @@
+module Storages::LastProjectFolders
+  class UpdateContract < ::Storages::LastProjectFolders::BaseContract
+  end
+end

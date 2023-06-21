@@ -1,0 +1,3 @@
+class Widget::Filters::MultiValues < Widget::Filters::Base
+  def render: () -> untyped
+end

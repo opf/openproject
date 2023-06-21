@@ -1,0 +1,11 @@
+module IfcModelsHelper
+  def provision_gon_for_ifc_model: (untyped all_models, untyped shown_models) -> untyped
+
+  def converted_ifc_models: (untyped ifc_models) -> untyped
+
+  def gon_ifc_model_models: (untyped all_models) -> untyped
+
+  def gon_ifc_shown_models: (untyped all_models, untyped shown_models) -> untyped
+
+  def gon_ifc_model_xkt_attachment_ids: (untyped models) -> untyped
+end

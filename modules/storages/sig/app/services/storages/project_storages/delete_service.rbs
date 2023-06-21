@@ -1,0 +1,18 @@
+module Storages::ProjectStorages
+  # Performs the deletion in the superclass. Associated FileLinks are deleted
+  # by the model before_destroy hook.
+  class DeleteService < ::BaseServices::Delete
+    # "persist" is a callback from BaseContracted.perform
+    # that is supposed to do the actual work in a contract.
+    # So in a DeleteService it performs the actual delete,
+    # except for the @object.destroy that is already performed
+    # by ::BaseServices::Delete
+    def persist: (untyped service_result) -> untyped
+
+    private
+
+    # Delete FileLinks with the same Storage as the ProjectStorage.
+    # Also, they are attached to WorkPackages via the Project.
+    def delete_associated_file_links: () -> untyped
+  end
+end

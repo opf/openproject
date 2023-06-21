@@ -1,0 +1,15 @@
+module Costs
+  class QueryCurrencyColumn < Queries::WorkPackages::Columns::WorkPackageColumn
+    include ActionView::Helpers::NumberHelper
+
+    alias super_value value
+
+    def initialize: (untyped name, ?::Hash[untyped, untyped] options) -> void
+
+    def value: (untyped work_package) -> untyped
+
+    def real_value: (untyped work_package) -> untyped
+
+    def self.instances: (?untyped? context) -> (::Array[untyped] | untyped)
+  end
+end
