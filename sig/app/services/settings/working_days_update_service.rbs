@@ -1,0 +1,27 @@
+class Settings::WorkingDaysUpdateService < Settings::UpdateService
+  def call: (untyped params) -> untyped
+
+  def validate_params: (untyped params) -> untyped
+
+  def persist: (untyped call) -> untyped
+
+  def after_perform: (untyped call) -> untyped
+
+  private
+
+  attr_accessor non_working_days_params: untyped
+
+  attr_accessor previous_working_days: untyped
+
+  attr_accessor previous_non_working_days: untyped
+
+  def persist_non_working_days: () -> untyped
+
+  def attributes_to_create_and_delete: () -> untyped
+
+  def create_records: (untyped attributes) -> untyped
+
+  def destroy_records: (untyped ids) -> untyped
+
+  def wrap_result: (untyped result) -> untyped
+end

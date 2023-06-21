@@ -1,0 +1,11 @@
+module API
+  module V3
+    module Queries
+      module Helpers
+        module QueryRepresenterResponse
+          def query_representer_response: (untyped query, untyped params, ?bool valid_subset) -> untyped
+        end
+      end
+    end
+  end
+end

@@ -1,0 +1,9 @@
+class ProjectMailer < ApplicationMailer
+  def delete_project_completed: (untyped project, user: untyped, ?dependent_projects: untyped) -> untyped
+
+  def delete_project_failed: (untyped project, user: untyped) -> untyped
+
+  def copy_project_failed: (untyped user, untyped source_project, untyped target_project_name, untyped errors) -> untyped
+
+  def copy_project_succeeded: (untyped user, untyped source_project, untyped target_project, untyped errors) -> untyped
+end

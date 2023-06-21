@@ -1,0 +1,66 @@
+module Type::AttributeGroups
+  extend ActiveSupport::Concern
+
+  attr_accessor attribute_groups_objects: untyped
+
+  #
+  # Add a new default group name
+  def add_default_group: (untyped name, untyped label_key) -> untyped
+
+  #
+  # Add a mapping from attribute key to an existing default group
+  def add_default_mapping: (untyped group, *untyped keys) -> untyped
+
+  #
+  # Read the serialized attribute groups, if customized.
+  # Otherwise, return +default_attribute_groups+
+  def attribute_groups: () -> untyped
+
+  #
+  # Resets the default attribute groups
+  def reset_attribute_groups: () -> untyped
+
+  #
+  # Update the attribute groups object.
+  def attribute_groups=: (untyped groups) -> untyped
+
+  #
+  # Returns the default +attribute_groups+ put together by
+  # the default group map.
+  def default_attribute_groups: () -> untyped
+
+  def reload: (*untyped args) -> untyped
+
+  def unset_attribute_groups_objects: () -> untyped
+
+  private
+
+  def write_attribute_groups_objects: () -> (nil | untyped)
+
+  def custom_attribute_groups: () -> untyped
+
+  def default_group_key: (untyped key) -> (:other | untyped)
+
+  #
+  # Get the default attribute groups for this type.
+  # If it has activated custom fields through +custom_field_ids=+,
+  # it will put them into the other group.
+  def work_package_attributes_by_default_group_key: () -> untyped
+
+  #
+  # Custom fields should not get included into the default form configuration.
+  # This method might get patched by modules.
+  def default_attribute?: (untyped active_cfs, untyped key) -> untyped
+
+  def to_attribute_group_class: (untyped groups) -> untyped
+
+  def to_attribute_group_array: (untyped groups) -> untyped
+
+  def new_attribute_group: (untyped key, untyped attributes) -> untyped
+
+  def new_query_group: (untyped key, untyped query) -> untyped
+
+  def cleanup_query_groups_queries: () -> (nil | untyped)
+
+  def remove_attribute_groups_queries: () -> untyped
+end

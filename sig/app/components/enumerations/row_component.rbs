@@ -1,0 +1,19 @@
+module Enumerations
+  class RowComponent < ::RowComponent
+    def enumeration: () -> untyped
+
+    def name: () -> untyped
+
+    def is_default: () -> untyped
+
+    def color: () -> untyped
+
+    def active: () -> untyped
+
+    def sort: () -> untyped
+
+    def button_links: () -> ::Array[untyped]
+
+    def delete_link: () -> untyped
+  end
+end

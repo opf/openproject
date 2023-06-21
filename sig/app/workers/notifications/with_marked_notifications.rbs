@@ -1,0 +1,13 @@
+# Because we mark the notifications as read even though they in fact aren't, we do it in a transaction
+# so that the change is rolled back in case of an error.
+module Notifications
+  module WithMarkedNotifications
+    extend ActiveSupport::Concern
+
+    private
+
+    def with_marked_notifications: (untyped notification_ids) { () -> untyped } -> untyped
+
+    def mark_notifications_sent: (untyped notification_ids) -> untyped
+  end
+end

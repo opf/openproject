@@ -1,0 +1,51 @@
+module Members
+  class RowComponent < ::RowComponent
+    def member: () -> untyped
+
+    def row_css_id: () -> ::String
+
+    def row_css_class: () -> untyped
+
+    def name: () -> untyped
+
+    def mail: () -> (nil | untyped)
+
+    def roles: () -> untyped
+
+    def roles_label: () -> untyped
+
+    def role_form: () -> untyped
+
+    def groups: () -> (untyped | nil)
+
+    def status: () -> untyped
+
+    def may_update?: () -> untyped
+
+    def may_delete?: () -> untyped
+
+    def button_links: () -> (untyped | untyped | ::Array[untyped])
+
+    def edit_link: () -> untyped
+
+    def roles_css_id: () -> ::String
+
+    def toggle_item_class_name: () -> ::String
+
+    def delete_link: () -> (untyped | nil)
+
+    def delete_title: () -> untyped
+
+    def delete_link_confirmation: () -> (untyped | nil)
+
+    def column_css_class: (untyped column) -> ("email" | untyped)
+
+    def principal_link: () -> untyped
+
+    def principal_class_name: () -> untyped
+
+    def principal_show_path: () -> untyped
+
+    def user?: () -> untyped
+  end
+end

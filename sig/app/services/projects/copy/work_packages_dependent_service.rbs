@@ -1,0 +1,35 @@
+module Projects::Copy
+  class WorkPackagesDependentService < Dependency
+    include AttachmentCopier
+
+    def self.human_name: () -> untyped
+
+    def source_count: () -> untyped
+
+    def copy_dependency: (params: untyped) -> untyped
+
+    # Get work_packages sorted by their depth in the hierarchy tree
+    # so that parents get copied before their children.
+    def source_work_packages: () -> untyped
+
+    def copy_work_packages: (untyped to_copy) -> untyped
+
+    def copy_work_package: (untyped source_work_package, untyped parent_id, untyped user_cf_ids) -> untyped
+
+    def copy_work_packages_relations: (untyped to_copy, untyped work_packages_map) -> untyped
+
+    def copy_relations: (untyped source_wp, untyped new_wp_id, untyped work_packages_map) -> untyped
+
+    def copy_work_package_attribute_overrides: (untyped source_work_package, untyped parent_id, untyped user_cf_ids) -> { project: untyped, parent_id: untyped, version_id: untyped, assigned_to_id: untyped, responsible_id: untyped, custom_field_values: untyped, budget_id: nil, send_notifications: untyped }
+
+    def work_package_version_id: (untyped source_work_package) -> (nil | untyped)
+
+    def work_package_assigned_to_id: (untyped source_work_package) -> untyped
+
+    def work_package_responsible_id: (untyped source_work_package) -> untyped
+
+    def possible_principal_id: (untyped principal_id, untyped project) -> (nil | untyped)
+
+    def relations_from_to: (untyped source_relation, untyped source_wp, untyped new_wp_id, untyped work_packages_map) -> ::Array[untyped]
+  end
+end

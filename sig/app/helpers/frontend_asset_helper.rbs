@@ -1,0 +1,22 @@
+module FrontendAssetHelper
+  CLI_DEFAULT_PROXY: "http://localhost:4200"
+
+  def self.assets_proxied?: () -> untyped
+
+  def self.cli_proxy: () -> untyped
+
+  def self.cli_proxy?: () -> untyped
+
+  #
+  # Include angular CLI frontend assets by either referencing a prod build,
+  # or referencing the running CLI proxy that hosts the assets in memory.
+  def include_frontend_assets: () -> untyped
+
+  private
+
+  def angular_cli_asset: (untyped path) -> untyped
+
+  def frontend_asset_path: (untyped unhashed) -> ::String
+
+  def variable_asset_path: (untyped path) -> untyped
+end

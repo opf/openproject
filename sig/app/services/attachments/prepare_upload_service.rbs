@@ -1,0 +1,9 @@
+module Attachments
+  class PrepareUploadService < BaseService
+    def persist: (untyped call) -> untyped
+
+    private
+
+    def attributes_service_class: () -> untyped
+  end
+end

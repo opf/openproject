@@ -1,0 +1,13 @@
+module API
+  module V3
+    module Queries
+      module Schemas
+        class CustomOptionFilterDependencyRepresenter < FilterDependencyRepresenter
+          private
+
+          def type: () -> "[]CustomOption"
+        end
+      end
+    end
+  end
+end

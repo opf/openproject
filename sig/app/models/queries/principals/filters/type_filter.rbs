@@ -1,0 +1,9 @@
+class Queries::Principals::Filters::TypeFilter < Queries::Principals::Filters::PrincipalFilter
+  def allowed_values: () -> untyped
+
+  def type: () -> :list
+
+  def self.key: () -> :type
+
+  def scope: () -> untyped
+end

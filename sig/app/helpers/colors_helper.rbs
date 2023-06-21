@@ -1,0 +1,21 @@
+module ColorsHelper
+  def options_for_colors: (untyped colored_thing) -> untyped
+
+  def selected_color: (untyped colored_thing) -> untyped
+
+  def colored_text: (untyped color) -> untyped
+
+  #
+  # Styles to display colors itself (e.g. for the colors autocompleter)
+  #
+  def color_css: () -> untyped
+
+  #
+  # Styles to display the color of attributes (type, status etc.) for example in the WP view
+  #
+  def resource_color_css: (untyped name, untyped scope) -> untyped
+
+  def icon_for_color: (untyped color, ?::Hash[untyped, untyped] options) -> (nil | untyped)
+
+  def color_by_variable: (untyped variable) -> untyped
+end

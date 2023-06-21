@@ -1,0 +1,143 @@
+# In the context of the baseline-comparison feature, this class represents an active-record relation
+# that queries historic data, i.e. performs its query e.g. on the `work_package_journals` table
+# rather than the `work_packages` table.
+#
+# Usage:
+#
+#     timestamp = 1.year.ago
+#     active_record_relation = WorkPackage.where(subject: "Foo")
+#     historic_relation = Journable::HistoricActiveRecordRelation.new(active_record_relation, timestamp:)
+#
+# See also:
+#
+# - https://github.com/opf/openproject/pull/11243
+# - https://community.openproject.org/projects/openproject/work_packages/26448
+#
+class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
+  attr_accessor timestamp: untyped
+
+  include ActiveRecord::Delegation::ClassSpecificRelation
+
+  def initialize: (untyped relation, timestamp: untyped) -> void
+
+  # We need to patch the `pluck` method of an active-record relation that
+  # queries historic data (i.e. journal data). Otherwise, `pluck(:id)`
+  # would return the `id` of the journal table rather than the `id` of the
+  # journable table, which would be expected from the syntax:
+  #
+  #     WorkPackage.where(assigned_to_id: 123).at_timestamp(1.year.ago).pluck(:id)
+  #
+  def pluck: (*untyped column_names) -> untyped
+
+  alias original_build_arel build_arel
+
+  # Patch the arel object, which is used to construct the sql query, in order
+  # to modify the query to search for historic data.
+  #
+  def build_arel: (?untyped? aliases) -> untyped
+
+  def call_original_build_arel: (?untyped? aliases) -> untyped
+
+  def eager_loading?: () -> false
+
+  private
+
+  # Switch the database table, e.g. from `work_packages` to `work_package_journals`.
+  #
+  def switch_to_journals_database_table: (untyped relation) -> untyped
+
+  # Modify the where clauses such that e.g. the work-packages table is substituted
+  # with the work-package-journals table.
+  #
+  # When the where clause contains the `id` column, use `journals.journable_id` instead.
+  #
+  def substitute_database_table_in_where_clause: (untyped relation) -> untyped
+
+  # In sql, a *predicate* is an expression that evaluates to `true`, `false` or "unknown". [1]
+  # In active-record relations, predicates are components of where clauses.
+  #
+  # We need to substitute the table name ("work_packages") with the journalized table name
+  # ("work_package_journals") in order to retrieve historic data from the journalized table.
+  #
+  # However, there are columns where we need to retrieve the data from another table,
+  # in particular:
+  #
+  # - `id`
+  # - `created_at`
+  # - `updated_at`
+  #
+  # When asking for `WorkPackage.at_timestamp(...).where(id: 123)`, we are expecting `id` to refer
+  # to the id of the work package, not of the journalized table entry.
+  #
+  # Also, the `created_at` and `updated_at` columns are not included in the journalized table.
+  # We gather the `updated_at` from the `journals` mapping table, and the `created_at` from the
+  # model's table (`work_packages`) itself.
+  #
+  # [1] https://learn.microsoft.com/en-us/sql/t-sql/queries/predicates
+  #
+  def substitute_database_table_in_predicate: (untyped predicate) -> untyped
+
+  def substitute_join_tables_in_where_clause: (untyped relation) -> untyped
+
+  # For simplicity's sake we replace the "custom_values" join only when the predicate is a String.
+  # This is the way we are receiving the predicate from the `Queries::WorkPackages::Filter::CustomFieldFilter`
+  # The joins are defined in the `Queries::WorkPackages::Filter::CustomFieldContext#where_subselect_joins`
+  # method. If we ever change that method to use Arel, we will need to implement the substitution
+  # for Arel objects as well.
+  def substitute_custom_values_join_in_predicate: (untyped predicate) -> (untyped | nil)
+
+  # Add a timestamp condition: Select the work package journals that are the
+  # current ones at the given timestamp.
+  #
+  def add_timestamp_condition: (untyped relation) -> untyped
+
+  def journals_join_statement: () -> ::String
+
+  # Join the journables table itself because we need to take the `created_at` attribute from that.
+  # The `created_at` column is not present in the `work_package_journals` table.
+  #
+  def add_join_on_journables_table_with_created_at_column: (untyped relation) -> untyped
+
+  # Join the projects table on work_package_journals if :project is in the includes.
+  # It is needed when projects are filtered by id, and has to be done manually
+  # as eager_loading is disabled.
+  # It needs to be `work_package_journals` and not `journables` (the subselect of the work_packages table)
+  # because the journables table will contain the current project and not the project the work package was
+  # in at the time of the journal.
+  # Does not work yet for other includes.
+  #
+  def add_join_projects_on_work_package_journals: (untyped relation) -> untyped
+
+  def include_projects?: (untyped relation) -> untyped
+
+  # Gather the columns we need in our model from the different tables in the sql query:
+  #
+  # - the `work_packages` table (journables)
+  # - the `work_package_journals` table (data)
+  # - the `journals` table
+  #
+  # Also, add the `timestamp` as column so that we have it as attribute in our model.
+  #
+  def select_columns_from_the_appropriate_tables: (untyped relation) -> untyped
+
+  def column_select_definitions: () -> untyped
+
+  # Modify order clauses to use the work-pacakge-journals table.
+  #
+  def modify_order_clauses: (untyped arel) -> untyped
+
+  # Modify the joins to point to the journable_id.
+  #
+  def modify_joins: (untyped arel) -> untyped
+
+  # Replace table names in sql strings, e.g.
+  #
+  #     "work_package.id"      => "journals.journable_id"
+  #     "work_package.subject" => "work_package_journals.subject"
+  #     "custom_values.*"      => "customizable_journals.*"
+  #
+  def gsub_table_names_in_sql_string!: (untyped sql_string) -> untyped
+
+  class NotImplementedError < StandardError
+  end
+end

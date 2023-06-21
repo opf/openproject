@@ -1,0 +1,23 @@
+module API
+  module V3
+    module Queries
+      module Schemas
+        module FilterDependencyRepresenterFactory
+          def self?.create: (untyped filter, untyped operator, ?form_embedded: bool) -> (nil | untyped)
+
+          private
+
+          def self?.representer_class: (untyped filter) -> untyped
+
+          def self?.filter_specific_representer_class: (untyped filter) -> untyped
+
+          def self?.type_specific_representer_class: (untyped filter) -> untyped
+
+          def self?.cf_representer_class: (untyped filter) -> (nil | untyped)
+
+          def self?.custom_representer_class: (untyped filter) -> (untyped | ::String)
+        end
+      end
+    end
+  end
+end

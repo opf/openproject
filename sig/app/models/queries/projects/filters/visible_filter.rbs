@@ -1,0 +1,24 @@
+# Returns projects visible for a user.
+# This filter is only useful for admins which want to scope down the list of all the projects to those
+# visible by a user. For a non admin user, the vanilla project query is already limited to the visible projects.
+module Queries
+  module Projects
+    module Filters
+      class VisibleFilter < ::Queries::Projects::Filters::ProjectFilter
+        def allowed_values: () -> untyped
+
+        def scope: () -> untyped
+
+        def where: () -> "1 = 1"
+
+        def type: () -> :list
+
+        def available_operators: () -> ::Array[untyped]
+
+        private
+
+        def validate_only_single_value: () -> (untyped | nil)
+      end
+    end
+  end
+end

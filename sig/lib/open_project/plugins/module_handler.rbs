@@ -1,0 +1,5 @@
+module OpenProject::Plugins
+  module ModuleHandler
+    def self?.disable_modules!: (untyped module_names) -> untyped
+  end
+end

@@ -1,0 +1,17 @@
+module Notifications::CreateFromModelService::WorkPackageStrategy
+  def self.reasons: () -> ::Array[:mentioned | :assigned | :responsible | :watched | :commented | :created | :processed | :prioritized | :scheduled]
+
+  def self.permission: () -> :view_work_packages
+
+  def self.supports_ian?: () -> true
+
+  def self.supports_mail_digest?: () -> true
+
+  def self.supports_mail?: () -> true
+
+  def self.watcher_users: (untyped journal) -> untyped
+
+  def self.project: (untyped journal) -> untyped
+
+  def self.user: (untyped journal) -> untyped
+end

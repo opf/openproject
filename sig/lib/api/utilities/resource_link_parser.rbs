@@ -1,0 +1,29 @@
+module API
+  module Utilities
+    class ResourceLinkParser
+      # N.B. valid characters for URL path segments as of
+      # http://tools.ietf.org/html/rfc3986#section-3.3
+      SEGMENT_CHARACTER: "(\\w|[-~!$&'\\(\\)*+\\.,:;=@]|%[0-9A-Fa-f]{2})"
+
+      RESOURCE_REGEX: ::String
+
+      def self.parse: (untyped resource_link) -> untyped
+
+      def self.parse_id: (untyped resource_link, property: untyped, ?expected_version: untyped?, ?expected_namespace: untyped?) -> untyped
+
+      private
+
+      def self.parse_resource: (untyped resource_link) -> (nil | { version: untyped, namespace: untyped, id: untyped })
+
+      def self.resource_matcher: () -> untyped
+
+      def self.unescape: (untyped string) -> untyped
+
+      # returns whether expectation and actual are identical
+      # will always be true if there is no expectation (nil)
+      def self.matches_expectation?: (untyped expected, untyped actual) -> untyped
+
+      def self.make_expected_link: (untyped version, untyped namespaces) -> untyped
+    end
+  end
+end

@@ -1,0 +1,21 @@
+class JournalsController < ApplicationController
+  include QueriesHelper
+
+  include SortHelper
+
+  def index: () -> untyped
+
+  def diff: () -> untyped
+
+  private
+
+  def find_journal: () -> untyped
+
+  def ensure_permitted: () -> untyped
+
+  def field_param: () -> untyped
+
+  def valid_field_for_diffing?: () -> untyped
+
+  def journals_index_title: () -> ::String
+end

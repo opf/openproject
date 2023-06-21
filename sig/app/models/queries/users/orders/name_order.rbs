@@ -1,0 +1,2 @@
+class Queries::Users::Orders::NameOrder < Queries::Principals::Orders::NameOrder
+end

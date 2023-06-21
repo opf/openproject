@@ -1,0 +1,22 @@
+module API
+  module V3
+    module Principals
+      # This representer is able to render all the concrete classes of Principal: User, Group and PlaceholderUser.
+      class PrincipalSqlRepresenter
+        include API::Decorators::Sql::Hal
+
+        def self.select_sql: (untyped select, untyped walker_result) -> ::String
+
+        private
+
+        def self.group_select_sql: (untyped select, untyped walker_result) -> untyped
+
+        def self.placeholder_user_select_sql: (untyped select, untyped walker_result) -> untyped
+
+        def self.user_select_sql: (untyped select, untyped walker_result) -> untyped
+
+        def self.valid_selects: () -> untyped
+      end
+    end
+  end
+end

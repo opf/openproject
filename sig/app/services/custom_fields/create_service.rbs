@@ -1,0 +1,15 @@
+module CustomFields
+  class CreateService < ::BaseServices::Create
+    def self.careful_new_custom_field: (untyped type) -> untyped
+
+    def perform: (untyped params) -> untyped
+
+    def instance: (untyped params) -> untyped
+
+    def after_perform: (untyped call) -> untyped
+
+    private
+
+    def add_cf_to_visible_columns: (untyped custom_field) -> untyped
+  end
+end

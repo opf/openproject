@@ -1,0 +1,9 @@
+module BaseServices
+  class Create < Write
+    def service_context: (send_notifications: untyped) { () -> untyped } -> untyped
+
+    def instance: (untyped _params) -> untyped
+
+    def default_contract_class: () -> untyped
+  end
+end

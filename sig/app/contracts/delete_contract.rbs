@@ -1,0 +1,9 @@
+class DeleteContract < ModelContract
+  def self.delete_permission: (?untyped? permission) -> untyped
+
+  def user_allowed: () -> (untyped | nil)
+
+  def validate_model?: () -> false
+
+  def authorized?: () -> untyped
+end

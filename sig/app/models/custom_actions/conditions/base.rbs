@@ -1,0 +1,43 @@
+class CustomActions::Conditions::Base
+  attr_reader values: untyped
+
+  prepend CustomActions::ValuesToInteger
+
+  include CustomActions::ValidateAllowedValue
+
+  def initialize: (?untyped? values) -> void
+
+  def values=: (untyped values) -> untyped
+
+  def allowed_values: () -> untyped
+
+  def human_name: () -> untyped
+
+  def fulfilled_by?: (untyped work_package, untyped _user) -> untyped
+
+  def key: () -> untyped
+
+  def self.key: () -> untyped
+
+  def validate: (untyped errors) -> untyped
+
+  def self.getter: (untyped custom_action) -> untyped
+
+  def self.setter: (untyped custom_action, untyped condition) -> untyped
+
+  def self.custom_action_scope: (untyped work_packages, untyped user) -> untyped
+
+  def self.custom_action_scope_has_current: (untyped work_packages, untyped _user) -> untyped
+
+  def self.custom_action_scope_has_no: () -> untyped
+
+  def self.pluralized_key: () -> untyped
+
+  def self.habtm_table: () -> ::Symbol
+
+  def self.key_id: () -> untyped
+
+  def self.association_key: () -> untyped
+
+  def self.association_ids: () -> untyped
+end

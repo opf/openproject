@@ -1,0 +1,11 @@
+module Ldap
+  class ImportUsersFromFilterService < BaseService
+    attr_reader filter: untyped
+
+    def initialize: (untyped ldap, untyped filter) -> void
+
+    def perform: () -> untyped
+
+    def get_entries_from_filter: () { () -> untyped } -> untyped
+  end
+end

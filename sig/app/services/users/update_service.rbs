@@ -1,0 +1,9 @@
+module Users
+  class UpdateService < ::BaseServices::Update
+    include ::HookHelper
+
+    def before_perform: (untyped params, untyped _service_result) -> untyped
+
+    def persist: (untyped service_result) -> untyped
+  end
+end

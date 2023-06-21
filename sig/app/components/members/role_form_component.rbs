@@ -1,0 +1,9 @@
+module Members
+  class RoleFormComponent < ::RailsComponent
+    def member: () -> untyped
+
+    def form_html_options: () -> { id: ::String, class: untyped, style: "display:none", data: { :"members-form-target" => "membershipEditForm" } }
+
+    def role_disabled?: (untyped role) -> untyped
+  end
+end

@@ -1,0 +1,6 @@
+module OpenProject
+  module Hooks
+    class ViewAccountLoginBottom < OpenProject::Hook::ViewListener
+    end
+  end
+end

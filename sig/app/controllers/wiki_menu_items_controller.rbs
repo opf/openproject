@@ -1,0 +1,25 @@
+class WikiMenuItemsController < ApplicationController
+  attr_reader wiki_menu_item: untyped
+
+  include Redmine::MenuManager::WikiMenuHelper
+
+  def self.default_menu_item: (untyped controller, untyped page) -> (nil | untyped)
+
+  def edit: () -> untyped
+
+  def update: () -> (nil | untyped)
+
+  def select_main_menu_item: () -> untyped
+
+  def replace_main_menu_item: () -> untyped
+
+  private
+
+  def wiki_menu_item_params: () -> untyped
+
+  def get_data_from_params: (untyped params) -> untyped
+
+  def assign_wiki_menu_item_params: (untyped menu_item) -> untyped
+
+  def create_main_menu_item_for_wiki_page: (untyped page, ?::Hash[untyped, untyped] options) -> untyped
+end

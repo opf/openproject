@@ -1,0 +1,41 @@
+module API
+  module Utilities
+    module Endpoints
+      class Delete
+        include NamespacedLookup
+
+        def default_instance_generator: (untyped model) -> untyped
+
+        def initialize: (model: untyped, ?instance_generator: untyped?, ?process_service: untyped?, ?success_status: ::Integer, ?api_name: untyped?) -> void
+
+        def mount: () -> untyped
+
+        def process: (untyped request) -> untyped
+
+        def render: (untyped call) { () -> untyped } -> untyped
+
+        attr_accessor model: untyped
+
+        attr_accessor instance_generator: untyped
+
+        attr_accessor process_service: untyped
+
+        attr_accessor api_name: untyped
+
+        attr_accessor success_status: untyped
+
+        private
+
+        def present_error: (untyped call) -> untyped
+
+        def present_success: (untyped call) -> nil
+
+        def success?: (untyped call) -> untyped
+
+        def deduce_process_service: () -> untyped
+
+        def deduce_api_namespace: () -> untyped
+      end
+    end
+  end
+end

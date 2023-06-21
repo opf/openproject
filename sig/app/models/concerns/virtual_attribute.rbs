@@ -1,0 +1,25 @@
+module VirtualAttribute
+  extend ActiveSupport::Concern
+
+  def virtual_attribute: (untyped attribute, ?cast_type: ::Symbol) { () -> untyped } -> untyped
+
+  private
+
+  def _define_virtual_attributes_hook: (untyped attribute) -> untyped
+
+  def _define_virtual_attribute_setter: (untyped attribute) -> untyped
+
+  def _define_virtual_attribute_getter: (untyped attribute) { () -> untyped } -> untyped
+
+  def _define_virtual_attribute_reload: (untyped attribute) -> untyped
+
+  module InstanceMethods
+    # Used to persists the changes to the virtual attribute in the mutation_tracker used by
+    # AR::Dirty so that it looks like every other attribute.
+    # Using attribute_will_change! does not place the value in the tracker but merely forces
+    # the attribute to be returned when asking the object for changes.
+    def set_virtual_attribute_was: (untyped attribute, untyped value) -> untyped
+
+    def set_virtual_attribute: (untyped attribute, untyped value) -> untyped
+  end
+end

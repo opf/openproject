@@ -1,0 +1,15 @@
+module API
+  module Utilities
+    module RepresenterToJsonCache
+      def to_json: (*untyped) -> untyped
+
+      def json_cacheable?: () -> true
+
+      def json_cache_key: () -> untyped
+
+      private
+
+      def json_representer_name_cache_key: () -> untyped
+    end
+  end
+end

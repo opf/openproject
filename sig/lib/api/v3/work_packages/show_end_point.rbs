@@ -1,0 +1,5 @@
+module API::V3::WorkPackages
+  class ShowEndPoint < API::V3::Utilities::Endpoints::Show
+    def render: (untyped request) -> untyped
+  end
+end

@@ -1,0 +1,11 @@
+module API::V3::Values::Schemas
+  class Model
+    attr_reader name: untyped
+
+    attr_reader type: untyped
+
+    def initialize: (untyped name, untyped type) -> void
+
+    def ==: (untyped other) -> untyped
+  end
+end

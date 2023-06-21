@@ -1,0 +1,7 @@
+module Roles
+  class CreateContract < BaseContract
+    private
+
+    def type_in_allowed: () -> (untyped | nil)
+  end
+end

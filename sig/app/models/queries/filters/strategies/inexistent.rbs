@@ -1,0 +1,4 @@
+module Queries::Filters::Strategies
+  class Inexistent < BaseStrategy
+  end
+end

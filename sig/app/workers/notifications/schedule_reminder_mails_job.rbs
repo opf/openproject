@@ -1,0 +1,7 @@
+module Notifications
+  class ScheduleReminderMailsJob < Cron::CronJob
+    def perform: () -> untyped
+
+    def run_at: () -> untyped
+  end
+end

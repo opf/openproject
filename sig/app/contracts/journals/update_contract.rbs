@@ -1,0 +1,7 @@
+module Journals
+  class UpdateContract < BaseContract
+    private
+
+    def user_allowed_to_edit: () -> (untyped | nil)
+  end
+end

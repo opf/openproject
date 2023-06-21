@@ -1,0 +1,9 @@
+class Queries::Capabilities::Filters::ActionFilter < Queries::Capabilities::Filters::CapabilityFilter
+  include Queries::Filters::Shared::ParsedFilter
+
+  private
+
+  def split_values: () -> untyped
+
+  def value_conditions: () -> untyped
+end

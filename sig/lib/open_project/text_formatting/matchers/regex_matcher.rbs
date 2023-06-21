@@ -1,0 +1,27 @@
+module OpenProject::TextFormatting
+  module Matchers
+    class RegexMatcher
+      def self.call: (untyped node, doc: untyped, context: untyped) -> untyped
+
+      #
+      # Quick bypass method if the content is not applicable for this matcher
+      def self.applicable?: (untyped _content) -> true
+
+      #
+      # Process the node's html and possibly, replace it
+      def self.process_node!: (untyped content, untyped context) -> (nil | untyped)
+
+      #
+      # Get the regexp that matches the content
+      def self.regexp: () -> untyped
+
+      #
+      # Called with a match from the regexp on the node's content
+      def self.process_match: (untyped matchdata, untyped matched_string, untyped context) -> untyped
+
+      #
+      # Helper method for url helpers
+      def controller: () -> nil
+    end
+  end
+end

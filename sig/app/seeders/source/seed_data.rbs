@@ -1,0 +1,33 @@
+class Source::SeedData
+  def initialize: (untyped data, ?untyped? registry) -> void
+
+  def store_reference: (untyped reference, untyped record) -> (nil | untyped)
+
+  def find_reference: (untyped reference, ?default: ::Symbol) -> (nil | untyped)
+
+  def find_references: (untyped references, ?default: ::Symbol) -> untyped
+
+  # Get a `SeedData` instance with only the given top level keys.
+  #
+  # Used in tests to get the real statuses, types and other data.
+  def only: (*untyped keys) -> untyped
+
+  # Returns a new `SeedData` instance with its data and its registry merged with
+  # the ones from the given instance.
+  #
+  # The data from the given instance takes precedence for keys present in both
+  # instances.
+  def merge: (untyped other) -> untyped
+
+  def lookup: (untyped path) -> untyped
+
+  def each: (untyped path) { () -> untyped } -> untyped
+
+  def each_data: (untyped path) { (untyped) -> untyped } -> (nil | untyped)
+
+  attr_reader data: untyped
+
+  attr_reader registry: untyped
+
+  def fetch: (untyped path) -> untyped
+end

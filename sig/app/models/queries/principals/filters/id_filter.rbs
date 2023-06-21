@@ -1,0 +1,19 @@
+class Queries::Principals::Filters::IdFilter < Queries::Principals::Filters::PrincipalFilter
+  include Queries::WorkPackages::Filter::MeValueFilterMixin
+
+  def allowed_values: () -> untyped
+
+  def where: () -> untyped
+
+  def type: () -> :list
+
+  def self.key: () -> :id
+
+  def allowed_values_subset: () -> untyped
+
+  private
+
+  def type_strategy: () -> untyped
+
+  def ar_object_filter?: () -> true
+end

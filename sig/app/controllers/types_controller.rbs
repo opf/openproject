@@ -1,0 +1,37 @@
+class TypesController < ApplicationController
+  include PaginationHelper
+
+  def index: () -> untyped
+
+  def type: () -> untyped
+
+  def new: () -> untyped
+
+  def edit: () -> untyped
+
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  def move: () -> untyped
+
+  def destroy: () -> untyped
+
+  def permitted_type_params: () -> untyped
+
+  def load_projects_and_types: () -> untyped
+
+  def redirect_to_type_tab_path: (untyped type, untyped notice) -> untyped
+
+  def default_breadcrumb: () -> untyped
+
+  def render_edit_tab: (untyped type) -> untyped
+
+  def show_local_breadcrumb: () -> true
+
+  def update_success_message: () -> untyped
+
+  def destroy_error_message: () -> untyped
+
+  def belonging_wps_url: (untyped type_id) -> untyped
+end

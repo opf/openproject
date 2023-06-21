@@ -1,0 +1,11 @@
+module Queries::Filters::Strategies
+  class List < BaseStrategy
+    def operator_map: () -> untyped
+
+    def validate: () -> (untyped | nil)
+
+    def valid_values!: () -> untyped
+
+    def non_valid_values?: () -> untyped
+  end
+end

@@ -1,0 +1,13 @@
+module API
+  module V3
+    module Users
+      class UserSqlRepresenter
+        include API::Decorators::Sql::Hal
+
+        def self.user_name_projection: (*untyped) -> untyped
+
+        def self.render_if_manage_user_or_self: (*untyped) -> ("TRUE" | ::String)
+      end
+    end
+  end
+end

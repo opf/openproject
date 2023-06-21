@@ -1,0 +1,18 @@
+module OpenProject::TextFormatting
+  module Filters
+    # HTML Filter for auto_linking urls in HTML.
+    #
+    # Context options:
+    #
+    #   autolink:
+    #     classes: (string) Classes to add to auto linked urls and mails
+    #     enabled: (boolean)
+    #
+    # This filter does not write additional information to the context.
+    class AutolinkFilter < HTML::Pipeline::Filter
+      def call: () -> untyped
+
+      def default_autolink_options: () -> { enabled: true, classes: "op-uc-link" }
+    end
+  end
+end

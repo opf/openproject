@@ -1,0 +1,107 @@
+# The WikiController follows the Rails REST controller pattern but with
+# a few differences
+#
+# * index - shows a list of WikiPages grouped by page or date
+# * new - not used
+# * create - not used
+# * show - will also show the form for creating a new wiki page
+# * edit - used to edit an existing or new page
+# * update - used to save a wiki page update to the database, including new pages
+# * destroy - normal
+#
+# Other member and collection methods are also used
+class WikiController < ApplicationController
+  include AttachableServiceCall
+
+  include AttachmentsHelper
+
+  include PaginationHelper
+
+  include Redmine::MenuManager::WikiMenuHelper
+
+  attr_reader page: untyped
+
+  attr_reader related_page: untyped
+
+  # List of pages, sorted alphabetically and by parent (hierarchy)
+  def index: () -> untyped
+
+  # display a page (in editing mode if it doesn't exist)
+  def show: () -> (nil | untyped)
+
+  def new: () -> nil
+
+  def new_child: () -> (nil | untyped)
+
+  def menu: () -> untyped
+
+  # edit an existing page or a new one
+  def edit: () -> untyped
+
+  def create: () -> untyped
+
+  # Creates a new page or updates an existing one
+  def update: () -> untyped
+
+  # rename a page
+  def rename: () -> untyped
+
+  def conflicting_menu_item: (untyped title) -> untyped
+
+  def project_menu_items: () -> untyped
+
+  def wiki_root_menu_items: () -> untyped
+
+  def edit_parent_page: () -> untyped
+
+  def update_parent_page: () -> untyped
+
+  def protect: () -> untyped
+
+  # show page history
+  def history: () -> untyped
+
+  def diff: () -> untyped
+
+  def annotate: () -> untyped
+
+  # Removes a wiki page and its history
+  # Children can be either set as root pages, removed or reassigned to another parent page
+  def destroy: () -> (untyped | nil)
+
+  # Export wiki to a single html file
+  def export: () -> untyped
+
+  def current_menu_item_sym: (untyped page) -> (untyped | nil)
+
+  private
+
+  def locked?: () -> (false | true)
+
+  def page_for_menu_item: (untyped page) -> untyped
+
+  def wiki_page_title: () -> untyped
+
+  def find_wiki: () -> untyped
+
+  # Finds or created the wiki page associated
+  # to the wiki
+  def find_wiki_page: () -> untyped
+
+  # Handles new pages for non-editable permissions
+  def handle_new_wiki_page: () -> (nil | untyped)
+
+  # Finds the requested page and returns a 404 error if it doesn't exist
+  def find_existing_page: () -> untyped
+
+  def build_wiki_page: () -> untyped
+
+  # Returns true if the current user is allowed to edit the page, otherwise false
+  def editable?: (?untyped page) -> untyped
+
+  def default_breadcrumb: () -> untyped
+
+  def show_local_breadcrumb: () -> untyped
+
+  def redirect_to_show: () -> untyped
+end

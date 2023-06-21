@@ -1,0 +1,11 @@
+module OAuth
+  class ApplicationContract < ::ModelContract
+    def self.model: () -> untyped
+
+    private
+
+    def validate_integration: () -> (untyped | nil)
+
+    def validate_client_credential_user: () -> (nil | untyped)
+  end
+end

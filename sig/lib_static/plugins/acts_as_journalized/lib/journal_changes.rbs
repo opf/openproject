@@ -1,0 +1,25 @@
+module JournalChanges
+  def get_changes: () -> (untyped | ::Hash[untyped, untyped])
+
+  private
+
+  def initial_journal_data_changes: () -> untyped
+
+  def subsequent_journal_data_changes: () -> untyped
+
+  def get_association_changes: (untyped predecessor, untyped journal_association, untyped association, untyped key, untyped value) -> untyped
+
+  def changes_on_association: (untyped current, untyped predecessor, untyped association, untyped key, untyped value) -> untyped
+
+  def added_references: (untyped merged_references) -> untyped
+
+  def removed_references: (untyped merged_references) -> untyped
+
+  def changed_references: (untyped merged_references) -> untyped
+
+  def to_changes_format: (untyped references, untyped key) -> untyped
+
+  def merge_reference_journals_by_id: (untyped new_journals, untyped old_journals, untyped id_key, untyped value) -> untyped
+
+  def select_and_combine_journals: (untyped journals, untyped id, untyped key, untyped value) -> untyped
+end

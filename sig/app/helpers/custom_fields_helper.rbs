@@ -1,0 +1,29 @@
+module CustomFieldsHelper
+  def custom_fields_tabs: () -> ::Array[{ name: "WorkPackageCustomField", partial: "custom_fields/tab", path: untyped, label: :label_work_package_plural } | { name: "TimeEntryCustomField", partial: "custom_fields/tab", path: untyped, label: :label_spent_time } | { name: "ProjectCustomField", partial: "custom_fields/tab", path: untyped, label: :label_project_plural } | { name: "VersionCustomField", partial: "custom_fields/tab", path: untyped, label: :label_version_plural } | { name: "UserCustomField", partial: "custom_fields/tab", path: untyped, label: :label_user_plural } | { name: "GroupCustomField", partial: "custom_fields/tab", path: untyped, label: :label_group_plural }]
+
+  # Return custom field html tag corresponding to its format
+  def custom_field_tag: (untyped name, untyped custom_value) -> untyped
+
+  # Return custom field label tag
+  def custom_field_label_tag: (untyped name, untyped custom_value) -> untyped
+
+  def hidden_custom_field_label_tag: (untyped name, untyped custom_value) -> untyped
+
+  def blank_custom_field_label_tag: (untyped name, untyped custom_field) -> untyped
+
+  # Return custom field tag with its label tag
+  def custom_field_tag_with_label: (untyped name, untyped custom_value) -> untyped
+
+  def custom_field_tag_for_bulk_edit: (untyped name, untyped custom_field, ?untyped? project) -> untyped
+
+  # Return a string used to display a custom value
+  def show_value: (untyped custom_value) -> ("" | untyped)
+
+  # Return a string used to display a custom value
+  def format_value: (untyped value, untyped custom_field) -> untyped
+
+  # Return an array of custom field formats which can be used in select_tag
+  def custom_field_formats_for_select: (untyped custom_field) -> untyped
+
+  def label_for_custom_field_format: (untyped format_string) -> untyped
+end

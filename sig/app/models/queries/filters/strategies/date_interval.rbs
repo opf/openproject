@@ -1,0 +1,4 @@
+module Queries::Filters::Strategies
+  class DateInterval < Queries::Filters::Strategies::Date
+  end
+end

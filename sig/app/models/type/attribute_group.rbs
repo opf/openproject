@@ -1,0 +1,9 @@
+class Type::AttributeGroup < Type::FormGroup
+  def members: () -> untyped
+
+  def group_type: () -> :attribute
+
+  def ==: (untyped other) -> untyped
+
+  def active_members: (untyped project) -> untyped
+end

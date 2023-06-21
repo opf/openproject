@@ -1,0 +1,9 @@
+class Queries::WorkPackages::Filter::FilterConfiguration
+  attr_accessor filter_class: untyped
+
+  attr_accessor filter_name: untyped
+
+  attr_accessor operator: untyped
+
+  def initialize: (untyped filter_class, untyped filter_name, untyped operator) -> void
+end

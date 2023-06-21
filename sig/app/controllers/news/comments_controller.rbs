@@ -1,0 +1,5 @@
+class News::CommentsController < ApplicationController
+  def create: () -> untyped
+
+  def destroy: () -> untyped
+end

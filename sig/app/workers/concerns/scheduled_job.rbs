@@ -1,0 +1,11 @@
+module ScheduledJob
+  extend ActiveSupport::Concern
+
+  #
+  # Is there a job scheduled?
+  def scheduled?: () -> untyped
+
+  private
+
+  def delayed_job_query: () -> untyped
+end

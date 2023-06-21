@@ -1,0 +1,27 @@
+class ApplicationJob < ActiveJob::Base
+  include ::JobStatus::ApplicationJobWithStatus
+
+  #
+  # Return a priority number on the given payload
+  def self.priority_number: (?::Symbol prio) -> untyped
+
+  def self.queue_with_priority: (?::Symbol value) -> untyped
+
+  # Resets the thread local request store.
+  # This should be done, because normal application code expects the RequestStore to be
+  # invalidated between multiple requests and does usually not care whether it is executed
+  # from a request or from a delayed job.
+  # For a delayed job, each job execution is the thing that comes closest to
+  # the concept of a new request.
+  def with_clean_request_store: () { () -> untyped } -> untyped
+
+  # Reloads the thread local ActionMailer configuration.
+  # Since the email configuration is now done in the web app, we need to
+  # make sure that any changes to the configuration is correctly picked up
+  # by the background jobs at runtime.
+  def reload_mailer_settings!: () -> untyped
+
+  private
+
+  def prepare_job_context: () { () -> untyped } -> untyped
+end

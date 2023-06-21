@@ -1,0 +1,11 @@
+class Reports::VersionReport < Reports::Report
+  def self.report_type: () -> "version"
+
+  def field: () -> untyped
+
+  def rows: () -> untyped
+
+  def data: () -> untyped
+
+  def title: () -> untyped
+end

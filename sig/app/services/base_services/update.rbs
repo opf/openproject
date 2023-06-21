@@ -1,0 +1,11 @@
+module BaseServices
+  class Update < Write
+    def initialize: (user: untyped, model: untyped, ?contract_class: untyped?, ?contract_options: ::Hash[untyped, untyped]) -> void
+
+    private
+
+    def instance: (untyped _params) -> untyped
+
+    def default_contract_class: () -> untyped
+  end
+end

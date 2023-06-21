@@ -1,0 +1,7 @@
+module Projects
+  class UnarchiveContract < ::BaseContract
+    include RequiresAdminGuard
+
+    def validate_all_ancestors_active: () -> (untyped | nil)
+  end
+end

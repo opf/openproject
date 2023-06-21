@@ -1,0 +1,9 @@
+module Projects::Exports
+  class CSV < QueryExporter
+    include ::Exports::Concerns::CSV
+
+    alias records projects
+
+    def title: () -> untyped
+  end
+end

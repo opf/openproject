@@ -1,0 +1,21 @@
+module Exports
+  module Concerns
+    module CSV
+      def export!: () -> untyped
+
+      def encode_csv_columns: (untyped columns, ?untyped encoding) -> untyped
+
+      def success: (untyped serialized) -> untyped
+
+      # fetch all headers
+      def csv_headers: () -> untyped
+
+      # fetch all row values
+      def csv_row: (untyped record) -> untyped
+
+      def format_csv: (untyped record, untyped attribute) -> untyped
+
+      def csv_export_filename: () -> untyped
+    end
+  end
+end

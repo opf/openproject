@@ -1,0 +1,26 @@
+module API
+  module PatchableAPI
+    def self.included: (untyped base) -> untyped
+
+    module ClassMethods
+      def inherited: (untyped api, ?untyped base_instance_parent) -> untyped
+
+      def namespace: (untyped name, *untyped args) { () -> untyped } -> untyped
+
+      # we need to repeat all the aliases for them to work properly...
+      alias group namespace
+
+      alias resource namespace
+
+      alias resources namespace
+
+      alias segment namespace
+
+      private
+
+      def execute_patches_for: (untyped path) -> (untyped | nil)
+
+      def patches: () -> untyped
+    end
+  end
+end

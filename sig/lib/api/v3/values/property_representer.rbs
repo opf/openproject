@@ -1,0 +1,19 @@
+module API::V3::Values
+  class PropertyRepresenter < ::Roar::Decorator
+    include ::Roar::JSON::HAL
+
+    include ::Roar::Hypermedia
+
+    include ::API::Decorators::SelfLink
+
+    include ::API::V3::Utilities::PathHelper
+
+    def initialize: (untyped model, self_link: untyped) -> void
+
+    def self_v3_path: (*untyped _args) -> untyped
+
+    private
+
+    attr_reader self_link: untyped
+  end
+end

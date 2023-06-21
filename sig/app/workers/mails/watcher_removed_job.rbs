@@ -1,0 +1,7 @@
+class Mails::WatcherRemovedJob < Mails::WatcherJob
+  def perform: (untyped watcher_attributes, untyped watcher_changer) -> untyped
+
+  private
+
+  def action: () -> "removed"
+end

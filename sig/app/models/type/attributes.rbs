@@ -1,0 +1,60 @@
+module Type::Attributes
+  extend ActiveSupport::Concern
+
+  EXCLUDED: ::Array["_type" | "_dependencies" | "attribute_groups" | "derived_start_date" | "derived_due_date" | "derived_estimated_time" | "ignore_non_working_days" | "duration" | "description" | "links" | "parent_id" | "parent" | "readonly" | "schedule_manually"]
+
+  #
+  # Add a constraint for the given attribute
+  def add_constraint: (untyped attribute, untyped callable) -> untyped
+
+  #
+  # Provides a map of all work package form attributes as seen when creating
+  # or updating a work package. Through this map it can be checked whether or
+  # not an attribute is required.
+  #
+  # E.g.
+  #
+  #   ::Type.work_package_form_attributes['author'][:required] # => true
+  #
+  # @return [Hash{String => Hash}] Map from attribute names to options.
+  def all_work_package_form_attributes: (?merge_date: bool) -> untyped
+
+  def translated_work_package_form_attributes: (?merge_date: bool) -> untyped
+
+  def translated_attribute_name: (untyped name, untyped attr) -> untyped
+
+  private
+
+  def calculate_all_work_package_form_attributes: (untyped merge_date) -> untyped
+
+  def calculate_default_work_package_form_attributes: () -> untyped
+
+  def skipped_attribute?: (untyped key, untyped definition) -> (false | untyped)
+
+  def merge_date_for_form_attributes: (untyped attributes) -> untyped
+
+  def add_custom_fields_to_form_attributes: (untyped attributes) -> untyped
+
+  def attr_i18n_key: (untyped name) -> ("done_ratio" | untyped)
+
+  def attr_translate: (untyped name) -> untyped
+
+  #
+  # Get all applicable work package attributes
+  def work_package_attributes: (?merge_date: bool) -> untyped
+
+  #
+  # Verify that the given attribute is applicable
+  # in this type instance.
+  # If a project context is given, that context is passed
+  # to the constraint validator.
+  def passes_attribute_constraint?: (untyped attribute, ?project: untyped?) -> untyped
+
+  #
+  # Returns the active custom_field_attributes
+  def active_custom_field_attributes: () -> untyped
+
+  #
+  # Returns whether the custom field is active in the given project.
+  def custom_field_in_project?: (untyped attribute, untyped project) -> untyped
+end

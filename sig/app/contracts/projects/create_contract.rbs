@@ -1,0 +1,7 @@
+module Projects
+  class CreateContract < BaseContract
+    private
+
+    def validate_user_allowed_to_manage: () -> (untyped | nil)
+  end
+end

@@ -1,0 +1,11 @@
+# Only return Principals that are, direct or indirect humans.
+# Includes
+#   * User
+#   * Group
+module Principals::Scopes
+  module Human
+    extend ActiveSupport::Concern
+
+    def human: () -> untyped
+  end
+end

@@ -1,0 +1,7 @@
+class OpenProject::JournalFormatter::IgnoreNonWorkingDays < JournalFormatter::Base
+  def format_details: (untyped _key, untyped values, ?::Hash[untyped, untyped] _options) -> ::Array[untyped | nil]
+
+  private
+
+  def label: () -> untyped
+end

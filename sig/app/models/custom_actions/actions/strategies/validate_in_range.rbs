@@ -1,0 +1,15 @@
+module CustomActions::Actions::Strategies::ValidateInRange
+  def minimum: () -> nil
+
+  def maximum: () -> nil
+
+  def validate: (untyped errors) -> untyped
+
+  private
+
+  def validate_in_interval: (untyped errors) -> (nil | untyped)
+
+  def validate_smaller_than_maximum: (untyped errors) -> (untyped | nil)
+
+  def validate_greater_than_minimum: (untyped errors) -> (untyped | nil)
+end

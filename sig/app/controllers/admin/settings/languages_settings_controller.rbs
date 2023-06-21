@@ -1,0 +1,7 @@
+module Admin::Settings
+  class LanguagesSettingsController < ::Admin::SettingsController
+    def default_breadcrumb: () -> untyped
+
+    def update_service: () -> untyped
+  end
+end

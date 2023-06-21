@@ -1,0 +1,47 @@
+module API
+  module V3
+    module WorkPackages
+      module EagerLoading
+        class CustomValue < Base
+          def apply: (untyped work_package) -> untyped
+
+          def self.module: () -> untyped
+
+          private
+
+          def load_custom_values: (untyped work_package) -> untyped
+
+          def load_custom_values_values: (untyped work_package) -> untyped
+
+          def load_available_custom_fields: (untyped work_package) -> untyped
+
+          def grouped_custom_values: () -> untyped
+
+          def custom_values: (untyped id) -> untyped
+
+          def user_values: (untyped id) -> untyped
+
+          def version_values: (untyped id) -> untyped
+
+          def list_values: (untyped id) -> untyped
+
+          def eager_load_values: (untyped field_format, untyped scope) -> (::Hash[untyped, untyped] | untyped)
+
+          def custom_values_of: (untyped field_format) -> untyped
+
+          def usages: () -> untyped
+
+          def custom_field: (untyped id) -> untyped
+
+          def usage_map: () -> untyped
+
+          def custom_fields_of: (untyped work_package) -> untyped
+
+          def configured_fields_sql: () -> untyped
+
+          def usage_hash: () -> untyped
+        end
+      end
+    end
+  end
+end

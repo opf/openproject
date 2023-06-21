@@ -1,0 +1,43 @@
+class RolesController < ApplicationController
+  include PaginationHelper
+
+  include Roles::NotifyMixin
+
+  def index: () -> untyped
+
+  def new: () -> untyped
+
+  def edit: () -> untyped
+
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  def destroy: () -> untyped
+
+  def report: () -> untyped
+
+  def bulk_update: () -> untyped
+
+  def autocomplete_for_role: () -> untyped
+
+  private
+
+  def set_role_attributes: (untyped role, untyped create_or_update) -> untyped
+
+  def update_role: (untyped role, untyped params) -> untyped
+
+  def bulk_update_roles: (untyped roles) -> untyped
+
+  def create_role: () -> untyped
+
+  def roles_scope: () -> untyped
+
+  def default_breadcrumb: () -> untyped
+
+  def show_local_breadcrumb: () -> true
+
+  def new_params: () -> untyped
+
+  def create_params: () -> untyped
+end

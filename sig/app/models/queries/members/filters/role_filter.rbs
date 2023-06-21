@@ -1,0 +1,11 @@
+class Queries::Members::Filters::RoleFilter < Queries::Members::Filters::MemberFilter
+  def allowed_values: () -> untyped
+
+  def type: () -> :list_optional
+
+  def self.key: () -> :role_id
+
+  def joins: () -> :member_roles
+
+  def where: () -> untyped
+end

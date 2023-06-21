@@ -1,0 +1,33 @@
+class Admin::BackupsController < ApplicationController
+  include PasswordConfirmation
+
+  include ActionView::Helpers::TagHelper
+
+  include BackupHelper
+
+  def show: () -> untyped
+
+  def reset_token: () -> untyped
+
+  def perform_token_reset: () -> untyped
+
+  def delete_token: () -> untyped
+
+  def default_breadcrumb: () -> untyped
+
+  def show_local_breadcrumb: () -> true
+
+  def check_enabled: () -> (untyped | nil)
+
+  private
+
+  def find_backup: (?status: ::Symbol, ?user: untyped) -> untyped
+
+  def token_reset_successful!: (untyped token) -> untyped
+
+  def token_reset_flash_message: (untyped token) -> ::Array[untyped]
+
+  def token_reset_failed!: (untyped error) -> untyped
+
+  def may_include_attachments?: () -> untyped
+end

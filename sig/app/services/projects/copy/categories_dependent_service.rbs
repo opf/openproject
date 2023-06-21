@@ -1,0 +1,9 @@
+module Projects::Copy
+  class CategoriesDependentService < Dependency
+    def self.human_name: () -> untyped
+
+    def source_count: () -> untyped
+
+    def copy_dependency: (params: untyped) -> untyped
+  end
+end

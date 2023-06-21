@@ -1,0 +1,21 @@
+module HomescreenHelper
+  #
+  # Homescreen name
+  def organization_name: () -> untyped
+
+  #
+  # Homescreen organization icon
+  def organization_icon: () -> untyped
+
+  #
+  # Render a static link defined in OpenProject::Static::Links
+  def static_link_to: (untyped key) -> untyped
+
+  #
+  # Determine whether we should render the links on homescreen?
+  def show_homescreen_links?: () -> untyped
+
+  #
+  # Determine whether we should render the onboarding modal
+  def show_onboarding_modal?: () -> untyped
+end

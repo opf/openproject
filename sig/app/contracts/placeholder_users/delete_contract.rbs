@@ -1,0 +1,13 @@
+module PlaceholderUsers
+  class DeleteContract < ::DeleteContract
+    #
+    # Checks if a given placeholder user may be deleted by a user.
+    #
+    # @param actor [User] User who wants to delete the given placeholder user.
+    def self.deletion_allowed?: (untyped placeholder_user, untyped actor) -> untyped
+
+    def self.affected_projects_managed_by_actor?: (untyped placeholder_user, untyped actor) -> untyped
+
+    def deletion_allowed?: () -> untyped
+  end
+end

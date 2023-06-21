@@ -1,0 +1,46 @@
+module API
+  module V3
+    module WorkPackages
+      module Schema
+        class WorkPackageSchemaRepresenter < ::API::Decorators::SchemaRepresenter
+          extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
+
+          include API::Caching::CachedRepresenter
+
+          def self.represented_class: () -> untyped
+
+          def self.attribute_group: (untyped property) -> untyped
+
+          def self.schema: (untyped property, *untyped args) -> untyped
+
+          def self.schema_with_allowed_link: (untyped property, *untyped args) -> untyped
+
+          def self.schema_with_allowed_collection: (untyped property, *untyped args) -> untyped
+
+          def initialize: (untyped schema, self_link: untyped, **untyped context) -> void
+
+          def attribute_groups: () -> untyped
+
+          #
+          # Return a map of attribute => group name
+          def attribute_group_map: (untyped key) -> (nil | untyped)
+
+          private
+
+          def no_caching?: () -> untyped
+
+          # We do not want to make the represented a part of the cache key
+          # as they are currently dynamically created and thus will
+          # change their to_params value consistently
+          def json_key_part_represented: () -> ::Array[untyped]
+
+          def form_config_query_representation: (untyped group) -> untyped
+
+          def form_config_attribute_representation: (untyped group) -> untyped
+
+          def form_config_attribute_cache_key: (untyped group) -> untyped
+        end
+      end
+    end
+  end
+end

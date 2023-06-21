@@ -1,0 +1,2 @@
+class Queries::WeekDays::WeekDayQuery < Queries::BaseQuery
+end

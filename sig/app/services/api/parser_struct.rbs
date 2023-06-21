@@ -1,0 +1,4 @@
+module API
+  class ParserStruct < ::Hashie::Mash
+  end
+end

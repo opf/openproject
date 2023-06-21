@@ -1,0 +1,31 @@
+module Redmine
+  # Class that represents a file diff
+  class DiffTable < Array
+    attr_reader file_name: untyped
+
+    # Initialize with a Diff file and the type of Diff View
+    # The type view must be inline or sbs (side_by_side)
+    def initialize: (?::String type) -> void
+
+    # Function for add a line of this Diff
+    # Returns false when the diff ends
+    def add_line: (untyped line) -> (false | true)
+
+    def each_line: () { (untyped, untyped) -> untyped } -> untyped
+
+    def inspect: () -> untyped
+
+    private
+
+    # Escape the HTML for the diff
+    def escapeHTML: (untyped line) -> untyped
+
+    def diff_for_added_line: () -> untyped
+
+    def parse_line: (untyped line, ?::String _type) -> (true | true | untyped)
+
+    def write_offsets: () -> untyped
+
+    def offsets: (untyped line_left, untyped line_right) -> (untyped | nil)
+  end
+end

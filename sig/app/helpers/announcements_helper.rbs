@@ -1,0 +1,3 @@
+module AnnouncementsHelper
+  def notice_annoucement_active: () -> untyped
+end

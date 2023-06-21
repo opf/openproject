@@ -1,0 +1,24 @@
+module Attachments
+  class CreateContract < ::ModelContract
+    private
+
+    def validate_attachments_addable: () -> (nil | untyped)
+
+    def validate_author: () -> (untyped | nil)
+
+    def validate_container_addable: () -> (nil | untyped)
+
+    #
+    # Validates the content type, if a whitelist is set
+    def validate_content_type: () -> (untyped | nil)
+
+    #
+    # Get the user-defined whitelist or a custom whitelist
+    # defined for this invocation
+    def attachment_whitelist: () -> untyped
+
+    #
+    # Returns whether the attachment matches the whitelist
+    def matches_whitelist?: (untyped whitelist) -> (true | untyped)
+  end
+end

@@ -1,0 +1,15 @@
+class CustomActions::Actions::Notify < CustomActions::Actions::Base
+  include CustomActions::Actions::Strategies::Associated
+
+  def apply: (untyped work_package) -> untyped
+
+  def associated: () -> untyped
+
+  def self.key: () -> :notify
+
+  def multi_value?: () -> true
+
+  private
+
+  def principals: () -> untyped
+end

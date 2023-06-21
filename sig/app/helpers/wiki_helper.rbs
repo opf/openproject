@@ -1,0 +1,13 @@
+module WikiHelper
+  def wiki_page_options_for_select: (untyped pages, ?ids: bool, ?placeholder: bool) -> untyped
+
+  def breadcrumb_for_page: (untyped page, ?untyped? action) -> untyped
+
+  def nl2br: (untyped content) -> untyped
+
+  private
+
+  def wiki_page_options_for_select_of_level: (untyped pages, ?parent: untyped?, ?level: ::Integer, ?ids: bool) -> (::Array[untyped] | untyped)
+
+  def wiki_page_option: (untyped page, untyped level, untyped ids) -> ::Array[untyped]
+end

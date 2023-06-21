@@ -1,0 +1,8 @@
+# This does filter for whether a role can be assigned to a member.
+class Queries::Roles::Filters::GrantableFilter < Queries::Roles::Filters::RoleFilter
+  def type: () -> :list
+
+  def where: () -> untyped
+
+  def allowed_values: () -> ::Array[::Array[untyped]]
+end

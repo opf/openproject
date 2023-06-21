@@ -1,0 +1,33 @@
+module API
+  module V3
+    module WorkPackages
+      class WorkPackageEagerLoadingWrapper < API::V3::Utilities::EagerLoading::EagerLoadingWrapper
+        def wrapped?: () -> true
+
+        attr_accessor self.timestamps: untyped
+
+        attr_accessor self.query: untyped
+
+        def self.wrap: (untyped ids_in_order, untyped current_user, ?timestamps: untyped?, ?query: untyped?) -> untyped
+
+        def self.wrap_one: (untyped work_package, untyped _current_user, ?timestamps: untyped?, ?query: untyped?) -> untyped
+
+        private
+
+        def self.wrap_and_apply: (untyped work_packages, untyped container_classes, timestamps: untyped, query: untyped) -> untyped
+
+        def self.eager_loader_classes_all: () -> ::Array[untyped]
+
+        def self.add_eager_loading: (untyped scope, untyped current_user) -> untyped
+
+        def self.spent_time_subquery: (untyped scope, untyped current_user) -> untyped
+
+        def self.derived_dates_subquery: (untyped scope) -> untyped
+
+        def self.work_package_material_scope: (untyped scope) -> untyped
+
+        def self.work_package_labor_scope: (untyped scope) -> untyped
+      end
+    end
+  end
+end

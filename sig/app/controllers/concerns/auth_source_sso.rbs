@@ -1,0 +1,53 @@
+#
+# If OPENPROJECT_AUTH__SOURCE__SSO_HEADER and OPENPROJECT_AUTH__SOURCE__SSO_SECRET are
+# configured OpenProject will login the user given in the HTTP header with the given name
+# together with the secret in the form of `login:$secret`.
+module AuthSourceSSO
+  def find_current_user: () -> untyped
+
+  def perform_header_sso: (untyped login, untyped user) -> untyped
+
+  def match_sso_with_logged_user: (untyped login, untyped user) -> (nil | untyped)
+
+  def read_sso_login: () -> untyped
+
+  def sso_config: () -> untyped
+
+  def auth_source_sso_enabled?: () -> untyped
+
+  def op_auth_header_value: () -> untyped
+
+  def header_name: () -> untyped
+
+  def header_secret: () -> untyped
+
+  def header_optional?: () -> untyped
+
+  def header_slo_url: () -> untyped
+
+  def get_validated_login!: (untyped value) -> (nil | untyped)
+
+  def extract_from_header: (untyped value) -> (::Array[untyped] | ::Array[untyped | true])
+
+  def find_or_create_sso_user: (untyped login, ?save: bool) -> untyped
+
+  def find_user_from_auth_source: (untyped login) -> untyped
+
+  def create_user_from_auth_source: (untyped login, save: untyped) -> (nil | untyped)
+
+  def sso_in_progress!: () -> untyped
+
+  def sso_failure_in_progress!: () -> untyped
+
+  def sso_login_failed?: (untyped user) -> untyped
+
+  def handle_sso_for!: (untyped user, untyped login) -> untyped
+
+  def handle_sso_success: (untyped user, untyped just_activated) -> untyped
+
+  def activate_user_if_invited!: (untyped user) -> (nil | untyped)
+
+  def perform_post_logout: (untyped prev_session, untyped previous_user) -> untyped
+
+  def handle_sso_failure!: (?login: untyped?) -> untyped
+end

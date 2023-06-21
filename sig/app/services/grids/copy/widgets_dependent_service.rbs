@@ -1,0 +1,26 @@
+module Grids::Copy
+  class WidgetsDependentService < ::Copy::Dependency
+    def copy_dependency: (params: untyped) -> untyped
+
+    def copy_widgets: (untyped grid, untyped new_grid, untyped params) -> untyped
+
+    def duplicate_widget: (untyped widget, untyped new_grid, untyped params) -> untyped
+
+    # Provide a human readable name for the widget
+    def widget_model_name: (untyped widget) -> untyped
+
+    def map_references: (untyped widget, untyped params) -> untyped
+
+    def map_reference: (untyped option, untyped value, untyped params) -> untyped
+
+    def find_mapper: (untyped option) -> untyped
+
+    def reference_mappers: () -> ::Hash[::Regexp | :filters, untyped]
+
+    def map_query_id: (untyped query_id, untyped params) -> untyped
+
+    def map_query_filters: (untyped filters, untyped _params) -> untyped
+
+    def duplicate_query: (untyped query_id, untyped params) -> untyped
+  end
+end

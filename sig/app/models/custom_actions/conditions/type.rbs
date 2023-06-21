@@ -1,0 +1,7 @@
+class CustomActions::Conditions::Type < CustomActions::Conditions::Base
+  def self.key: () -> :type
+
+  private
+
+  def associated: () -> untyped
+end

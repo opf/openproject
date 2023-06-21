@@ -1,0 +1,9 @@
+class Attachments::DeleteService < BaseServices::Delete
+  include Attachments::TouchContainer
+
+  def call: (?::Hash[untyped, untyped] params) -> untyped
+
+  private
+
+  def destroy: (untyped attachment) -> untyped
+end

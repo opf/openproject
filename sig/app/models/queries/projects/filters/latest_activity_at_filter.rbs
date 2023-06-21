@@ -1,0 +1,13 @@
+class Queries::Projects::Filters::LatestActivityAtFilter < Queries::Projects::Filters::ProjectFilter
+  def type: () -> :datetime_past
+
+  def self.key: () -> :latest_activity_at
+
+  def name: () -> :latest_activity_at
+
+  def available?: () -> untyped
+
+  def human_name: () -> untyped
+
+  def where: () -> untyped
+end

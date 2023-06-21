@@ -1,0 +1,10 @@
+module API
+  module V3
+    module Projects
+      module Copy
+        class CreateFormAPI < ::API::OpenProjectAPI
+        end
+      end
+    end
+  end
+end

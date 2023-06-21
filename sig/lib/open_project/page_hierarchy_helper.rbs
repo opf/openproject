@@ -1,0 +1,19 @@
+module OpenProject
+  module PageHierarchyHelper
+    def render_page_hierarchy: (untyped pages, ?untyped? node, ?::Hash[untyped, untyped] options) -> ("" | untyped)
+
+    private
+
+    def render_hierarchy_item: (untyped page, untyped is_parent, ?::Hash[untyped, untyped] options) -> untyped
+
+    def url_helpers: () -> untyped
+
+    def hierarchy_span_content: (untyped is_parent) -> untyped
+
+    def hierarchy_item_title: (untyped options, untyped page) -> (untyped | nil)
+
+    def render_leaf_indicator: () -> untyped
+
+    def render_hierarchy_indicator_icons: () -> untyped
+  end
+end

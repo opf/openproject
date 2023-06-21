@@ -1,0 +1,13 @@
+module Projects
+  class ReorderHierarchyJob < ApplicationJob
+    def perform: () -> untyped
+
+    private
+
+    def reorder!: () -> untyped
+
+    def unique_parent_ids: () -> untyped
+
+    def reorder_siblings: (untyped siblings) -> (nil | untyped)
+  end
+end

@@ -1,0 +1,7 @@
+module Users
+  class UserFilterComponent < ::UserFilterComponent
+    def filter_role: (untyped query, untyped role_id) -> untyped
+
+    def clear_url: () -> untyped
+  end
+end

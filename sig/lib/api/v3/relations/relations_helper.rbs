@@ -1,0 +1,11 @@
+module API
+  module V3
+    module Relations
+      module RelationsHelper
+        def representer: () -> untyped
+
+        def parse_representer: () -> untyped
+      end
+    end
+  end
+end

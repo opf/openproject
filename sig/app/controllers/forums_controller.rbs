@@ -1,0 +1,31 @@
+class ForumsController < ApplicationController
+  include SortHelper
+
+  include WatchersHelper
+
+  include PaginationHelper
+
+  def index: () -> untyped
+
+  def show: () -> untyped
+
+  def set_topics: () -> untyped
+
+  def new: () -> nil
+
+  def edit: () -> nil
+
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  def move: () -> untyped
+
+  def destroy: () -> untyped
+
+  private
+
+  def find_forum: () -> untyped
+
+  def new_forum: () -> untyped
+end

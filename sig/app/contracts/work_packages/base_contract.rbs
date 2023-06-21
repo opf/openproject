@@ -1,0 +1,122 @@
+module WorkPackages
+  class BaseContract < ::ModelContract
+    include ::Attachments::ValidateReplacements
+
+    include AssignableValuesContract
+
+    def initialize: (untyped work_package, untyped user, ?options: ::Hash[untyped, untyped]) -> void
+
+    def assignable_statuses: (?include_default: bool) -> untyped
+
+    def assignable_types: () -> untyped
+
+    def assignable_categories: () -> (untyped | nil)
+
+    def assignable_priorities: () -> untyped
+
+    def assignable_versions: () -> (untyped | nil)
+
+    def assignable_budgets: () -> untyped
+
+    def assignable_assignees: () -> untyped
+
+    alias assignable_responsibles assignable_assignees
+
+    private
+
+    attr_reader can: untyped
+
+    def validate_estimated_hours: () -> (untyped | nil)
+
+    def validate_after_soonest_start: (untyped date_attribute) -> (untyped | nil)
+
+    def validate_enabled_type: () -> (untyped | nil)
+
+    def validate_assigned_to_exists: () -> (untyped | nil)
+
+    def validate_type_exists: () -> (untyped | nil)
+
+    def validate_milestone_constraint: () -> (untyped | nil)
+
+    def validate_parent_not_milestone: () -> (untyped | nil)
+
+    def validate_parent_exists: () -> (untyped | nil)
+
+    def validate_parent_not_self: () -> (untyped | nil)
+
+    def validate_parent_in_same_project: () -> (untyped | nil)
+
+    # have to validate ourself as the parent relation is created after saving
+    def validate_parent_not_subtask: () -> (untyped | nil)
+
+    def validate_status_exists: () -> (untyped | nil)
+
+    def validate_status_transition: () -> (untyped | nil)
+
+    def validate_active_priority: () -> (untyped | nil)
+
+    def validate_priority_exists: () -> (untyped | nil)
+
+    def validate_category: () -> (untyped | untyped | nil)
+
+    def validate_version_is_assignable: () -> (untyped | nil)
+
+    def validate_no_reopen_on_closed_version: () -> (untyped | nil)
+
+    def validate_people_visible: (untyped attribute, untyped id_attribute, untyped list) -> (nil | untyped)
+
+    def validate_duration_integer: () -> (untyped | nil)
+
+    def validate_duration_matches_dates: () -> (nil | untyped)
+
+    def validate_duration_constraint_for_milestone: () -> (untyped | nil)
+
+    def validate_duration_and_dates_are_not_derivable: () -> untyped
+
+    def not_set_but_others_are_present?: (untyped field) -> untyped
+
+    def readonly_attributes_unchanged: () -> untyped
+
+    def reduce_by_writable_permissions: (untyped attributes) -> untyped
+
+    def principal_visible?: (untyped id, untyped list) -> untyped
+
+    def before_soonest_start?: (untyped date_attribute) -> untyped
+
+    def parent_in_different_project?: () -> untyped
+
+    def inexistent_category?: () -> untyped
+
+    def category_not_of_project?: () -> untyped
+
+    def status_changed?: () -> untyped
+
+    def status_exists?: () -> untyped
+
+    def status_transition_exists?: () -> untyped
+
+    def type_context_changed?: () -> untyped
+
+    def type_inexistent?: () -> untyped
+
+    # Returns a scope of status the user is able to apply
+    def new_statuses_allowed_from: (untyped status) -> untyped
+
+    def closed_version_and_status?: (?untyped status) -> untyped
+
+    def new_statuses_by_workflow: (untyped status) -> untyped
+
+    def user_was_or_is_assignee?: () -> untyped
+
+    def user_is_author?: () -> untyped
+
+    def users_roles_in_project: () -> untyped
+
+    # We're in a readonly status and did not move into that status right now.
+    def already_in_readonly_status?: () -> untyped
+
+    def calculated_duration: () -> untyped
+
+    def automatically_scheduled_parent?: () -> untyped
+  end
+end

@@ -1,0 +1,2 @@
+class Projects::Settings::CategoriesController < Projects::SettingsController
+end

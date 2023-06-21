@@ -1,0 +1,15 @@
+class WorkPackages::DeleteService < BaseServices::Delete
+  include ::WorkPackages::Shared::UpdateAncestors
+
+  private
+
+  def persist: (untyped service_result) -> untyped
+
+  def destroy: (untyped work_package) -> untyped
+
+  def destroy_descendants: (untyped descendants, untyped result) -> untyped
+
+  def delete_associated: (untyped model) -> untyped
+
+  def delete_notifications_resource: (untyped id) -> untyped
+end

@@ -1,0 +1,20 @@
+module Settings
+  #
+  # A text field to enter numeric values.
+  class TimeZoneSettingComponent < ::RailsComponent
+    # name of setting and tag
+    def name: () -> untyped
+
+    def render_select: () -> untyped
+
+    def render_form_select: () -> untyped
+
+    def render_setting_select: () -> untyped
+
+    def time_zone_entries: () -> untyped
+
+    private
+
+    def time_zone_option: (untyped canonical_zone, untyped zones) -> ::Array[::String | untyped]
+  end
+end

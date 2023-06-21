@@ -1,0 +1,21 @@
+module ::Query::Results::Sums
+  include ActionView::Helpers::NumberHelper
+
+  def all_total_sums: () -> untyped
+
+  def all_group_sums: () -> (nil | untyped)
+
+  private
+
+  def sums_select: (?bool grouped) -> untyped
+
+  def sums_work_package_scope: (untyped grouped) -> untyped
+
+  def sums_callable_joins: (untyped grouped) -> untyped
+
+  def sums_work_package_scope_selects: (untyped grouped) -> untyped
+
+  def callable_summed_up_columns: () -> untyped
+
+  def non_callable_summed_up_columns: () -> untyped
+end

@@ -1,0 +1,15 @@
+module API
+  module V3
+    module Repositories
+      class RevisionRepresenter < ::API::Decorators::Single
+        include API::V3::Utilities
+
+        include API::Decorators::DateProperty
+
+        include API::Decorators::FormattableProperty
+
+        def _type: () -> "Revision"
+      end
+    end
+  end
+end

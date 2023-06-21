@@ -1,0 +1,66 @@
+class MyController < ApplicationController
+  include PasswordConfirmation
+
+  include Accounts::UserPasswordChange
+
+  include ActionView::Helpers::TagHelper
+
+  def account: () -> nil
+
+  def update_account: () -> untyped
+
+  def settings: () -> nil
+
+  def update_settings: () -> untyped
+
+  # Manage user's password
+  def password: () -> untyped
+
+  # When making changes here, also check AccountController.change_password
+  def change_password: () -> untyped
+
+  # Administer access tokens
+  def access_token: () -> nil
+
+  # Configure user's in app notifications
+  def notifications: () -> untyped
+
+  # Configure user's mail reminders
+  def reminders: () -> untyped
+
+  # Create a new feeds key
+  def generate_rss_key: () -> untyped
+
+  # Create a new API key
+  def generate_api_key: () -> untyped
+
+  def revoke_ical_token: () -> untyped
+
+  def default_breadcrumb: () -> untyped
+
+  def show_local_breadcrumb: () -> false
+
+  private
+
+  def redirect_if_password_change_not_allowed_for: (untyped user) -> (true | false)
+
+  def write_settings: () -> untyped
+
+  def has_tokens?: () -> untyped
+
+  def user_params: () -> untyped
+
+  def notice_account_updated: () -> untyped
+
+  def error_account_update_failed: (untyped result) -> ::Array[untyped]
+
+  def set_current_user: () -> untyped
+
+  def get_current_layout: () -> untyped
+
+  def set_ical_token: () -> untyped
+
+  def set_grouped_ical_tokens: () -> untyped
+
+  def ical_destroy_info_message: () -> untyped
+end

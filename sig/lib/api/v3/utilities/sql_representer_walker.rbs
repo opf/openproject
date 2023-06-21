@@ -1,0 +1,35 @@
+module API
+  module V3
+    module Utilities
+      class SqlRepresenterWalker
+        include API::Utilities::UrlPropsParsingHelper
+
+        def initialize: (untyped scope, current_user: untyped, ?url_query: ::Hash[untyped, untyped], ?self_path: untyped?) -> void
+
+        def walk: (untyped start) -> self
+
+        def to_json: (*untyped) -> untyped
+
+        attr_accessor scope: untyped
+
+        attr_accessor current_user: untyped
+
+        attr_accessor sql: untyped
+
+        attr_accessor url_query: untyped
+
+        attr_accessor self_path: untyped
+
+        def embed: () -> untyped
+
+        def select: () -> untyped
+
+        def embedded_depth_first: (untyped stack, untyped current_representer) { (untyped, untyped, untyped) -> untyped } -> untyped
+
+        def select_for: (untyped stack) -> untyped
+
+        def embed_for: (untyped stacker) -> untyped
+      end
+    end
+  end
+end

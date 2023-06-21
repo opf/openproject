@@ -1,0 +1,5 @@
+module Queries::Filters::Strategies
+  class EmptyValue < BaseStrategy
+    def validate: () -> untyped
+  end
+end

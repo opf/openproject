@@ -1,0 +1,10 @@
+module Projects::Copy
+  class OverviewDependentService < Dependency
+    def self.human_name: () -> untyped
+
+    # Copies the overview from +project+
+    def copy_dependency: (untyped params) -> untyped
+
+    def duplicate_overview: (untyped overview, untyped params) -> untyped
+  end
+end

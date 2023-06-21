@@ -1,0 +1,25 @@
+module Queries::Filters::Shared::GroupFilter
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    def allowed_values: () -> untyped
+
+    def available?: () -> untyped
+
+    def type: () -> :list_optional
+
+    def human_name: () -> untyped
+
+    def where: () -> untyped
+
+    private
+
+    def group_subselect: () -> untyped
+
+    def any_group_subselect: () -> untyped
+  end
+
+  module ClassMethods
+    def key: () -> :group
+  end
+end

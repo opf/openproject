@@ -1,0 +1,5 @@
+module EnterpriseHelper
+  def write_augur_to_gon: () -> untyped
+
+  def write_trial_key_to_gon: () -> untyped
+end

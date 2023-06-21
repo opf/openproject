@@ -1,0 +1,7 @@
+module CustomActions::ValuesToInteger
+  def values=: (untyped values) -> untyped
+
+  private
+
+  def to_integer_or_nil: (untyped value) -> untyped
+end

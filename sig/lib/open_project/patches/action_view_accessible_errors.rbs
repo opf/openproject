@@ -1,0 +1,32 @@
+module ActionView
+  module Helpers
+    module Tags
+      attr_reader method_name: untyped
+    end
+
+    module AccessibleErrors
+      def self.included: (untyped base) -> untyped
+
+      module ClassMethods
+        def wrap_with_error_span: (untyped html_tag, untyped object, untyped method) -> untyped
+
+        def erroneous_object_identifier: (untyped id, untyped method) -> untyped
+      end
+
+      module InstanceMethods
+        def error_message_list: (untyped objects) -> untyped
+
+        private
+
+        def erroneous_object_identifier: (untyped id, untyped method) -> untyped
+
+        def error_message_list_elements: (untyped array) -> untyped
+      end
+    end
+
+    module DateHelper
+      # distance_of_time_in_words breaks when difference is greater than 30 years
+      def distance_of_date_in_words: (untyped from_date, ?::Integer to_date, ?::Hash[untyped, untyped] options) -> untyped
+    end
+  end
+end

@@ -1,0 +1,9 @@
+module Redmine
+  module CodesetUtil
+    def self.replace_invalid_utf8: (untyped str) -> untyped
+
+    def self.to_utf8: (untyped str, untyped encoding) -> untyped
+
+    def self.from_utf8: (untyped str, untyped encoding) -> untyped
+  end
+end

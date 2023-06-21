@@ -1,0 +1,2 @@
+class PlaceholderUsers::UpdateService < BaseServices::Update
+end

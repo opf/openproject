@@ -1,0 +1,5 @@
+class Activities::DaysComponent < ViewComponent::Base
+  def initialize: (events: untyped, ?current_project: untyped?, ?display_user: bool, ?header_tag: ::String, ?activity_page: untyped?) -> void
+
+  def events_by_day_sorted_by_newest_first: () -> untyped
+end

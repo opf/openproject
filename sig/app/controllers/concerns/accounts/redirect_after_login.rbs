@@ -1,0 +1,10 @@
+#
+# Intended to be used by the AccountController to decide where to
+# send the user when they logged in.
+module Accounts::RedirectAfterLogin
+  def redirect_after_login: (untyped user) -> untyped
+
+  def default_redirect: () -> untyped
+
+  def first_login_redirect: () -> untyped
+end

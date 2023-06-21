@@ -1,0 +1,23 @@
+# Provides helper methods for a project's calendar view.
+module CalendarsHelper
+  # Generates a html link to a calendar of the previous month.
+  # @param [Integer] year the current year
+  # @param [Integer] month the current month
+  # @param [Hash, nil] options html options passed to the link generation
+  # @return [String] link to the calendar
+  def link_to_previous_month: (untyped year, untyped month, ?::Hash[untyped, untyped] options) -> untyped
+
+  # Generates a html link to a calendar of the next month.
+  # @param [Integer] year the current year
+  # @param [Integer] month the current month
+  # @param [Hash, nil] options html options passed to the link generation
+  # @return [String] link to the calendar
+  def link_to_next_month: (untyped year, untyped month, ?::Hash[untyped, untyped] options) -> untyped
+
+  # Generates a html-link which leads to a calendar displaying the given date.
+  # @param [Date, Time] date the date which should be displayed
+  # @param [Hash, nil] options html options passed to the link generation
+  # @options options [Boolean] :display_year Whether the year should be displayed
+  # @return [String] link to the calendar
+  def link_to_month: (untyped date_to_show, ?::Hash[untyped, untyped] options) -> untyped
+end

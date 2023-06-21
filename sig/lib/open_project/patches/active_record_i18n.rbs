@@ -1,0 +1,7 @@
+module ActiveRecord
+  class Base
+    include Redmine::I18n
+
+    def self.human_attribute_name: (untyped attr, ?::Hash[untyped, untyped] options) -> untyped
+  end
+end

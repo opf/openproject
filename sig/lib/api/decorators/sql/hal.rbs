@@ -1,0 +1,76 @@
+module API
+  module Decorators
+    module Sql
+      module Hal
+        extend ActiveSupport::Concern
+
+        TO_BE_REMOVED: "_to_be_removed_"
+
+        extend ::API::V3::Utilities::PathHelper
+
+        def properties_sql: (untyped select, untyped walker_results) -> untyped
+
+        def property: (untyped name, ?column: untyped, ?representation: untyped?, ?render_if: untyped?, ?join: untyped?) -> untyped
+
+        def joins: (untyped select, untyped scope) -> untyped
+
+        def link: (untyped name, ?column: untyped?, ?path: untyped?, ?title: untyped?, ?href: untyped?, ?join: untyped?, ?render_if: untyped?, ?sql: untyped?, **untyped additional_properties) -> untyped
+
+        def links_selects: (untyped select, untyped walker_result) -> untyped
+
+        def embedded: (untyped name, ?representation: untyped?) -> untyped
+
+        def embedded_selects: (untyped _selects, untyped walker_results) -> untyped
+
+        def select_sql: (untyped select, untyped walker_result) -> ::String
+
+        def ctes: (untyped _walker_result) -> ::Hash[untyped, untyped]
+
+        def to_sql: (untyped walker_result) -> untyped
+
+        def json_object_string: (untyped select, untyped walker_result) -> untyped
+
+        # All properties and links that the client can correctly signal to have selected.
+        def valid_selects: () -> untyped
+
+        private
+
+        def select_embedded: (untyped select, untyped walker_result) -> untyped
+
+        def select_links: (untyped select, untyped walker_result) -> untyped
+
+        def select_from: (untyped walker_result) -> ::String
+
+        def selected_links: (untyped select) -> untyped
+
+        def selected_properties: (untyped select) -> untyped
+
+        def selected_joins: (untyped select) -> untyped
+
+        def selected: (untyped select, untyped list) -> untyped
+
+        def cleaned_selects: (untyped select) -> untyped
+
+        def ensure_valid_selects: (untyped requested) -> untyped
+
+        def namespaced_json_object: (untyped namespace) { () -> untyped } -> (nil | ::String)
+
+        def link_attributes: (untyped name, untyped link, untyped walker_result) -> untyped
+
+        def link_href: (untyped link, untyped name, untyped walker_result) -> untyped
+
+        def link_from_sql: (untyped name, untyped link) -> untyped
+
+        def link_with_default: (untyped name, untyped attributes) -> untyped
+
+        def render_if_condition: (untyped name, untyped condition, untyped value) -> untyped
+
+        def sql_offset: (untyped walker_result) -> untyped
+
+        def sql_limit: (untyped walker_result) -> untyped
+
+        def join_condition: (untyped name, untyped options) -> untyped
+      end
+    end
+  end
+end

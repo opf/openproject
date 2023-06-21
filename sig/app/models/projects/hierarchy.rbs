@@ -1,0 +1,18 @@
+module Projects::Hierarchy
+  extend ActiveSupport::Concern
+
+  def reorder_by_name: () -> (nil | untyped)
+
+  #
+  # Find the sibling for which the current project's name is smaller.
+  # Since we sort ascending, start from the back.
+  # Returns:
+  #   - nil, if the current project does not have a left neighbor (should be added as first)
+  #   - the project sibling for which the project should be appended to the right to
+  def left_neighbor_by_name_order: () -> untyped
+
+  # We need to remember if we want to reorder as nested_set
+  # will perform another save directly in +after_save+ if a parent was set
+  # and that clear new_record? as well as previous_new_record?
+  def remember_reorder: () -> untyped
+end

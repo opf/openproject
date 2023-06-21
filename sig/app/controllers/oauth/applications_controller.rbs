@@ -1,0 +1,27 @@
+module OAuth
+  class ApplicationsController < ::ApplicationController
+    def index: () -> untyped
+
+    def show: () -> untyped
+
+    def new: () -> nil
+
+    def edit: () -> nil
+
+    def create: () -> untyped
+
+    def update: () -> untyped
+
+    def destroy: () -> untyped
+
+    def default_breadcrumb: () -> untyped
+
+    def show_local_breadcrumb: () -> untyped
+
+    private
+
+    def new_app: () -> untyped
+
+    def find_app: () -> untyped
+  end
+end

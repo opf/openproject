@@ -1,0 +1,18 @@
+class RailsComponent < ViewComponent::Base
+  attr_reader model: untyped
+
+  attr_reader options: untyped
+
+  def initialize: (?untyped? model, **untyped options) -> void
+
+  #
+  # Defines options for this cell which can be used within the cell's template.
+  # Options are passed to the cell during the render call.
+  #
+  # @param names [Array<String> | Hash<String, Any>] Either a list of names for options whose
+  #                                                  default value is empty or a hash mapping
+  #                                                  option names to default values.
+  def self.options: (*untyped names) -> untyped
+
+  def self.property: (*untyped names) -> untyped
+end

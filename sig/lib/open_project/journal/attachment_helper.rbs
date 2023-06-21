@@ -1,0 +1,7 @@
+module OpenProject
+  module Journal
+    module AttachmentHelper
+      def attachments_changed: (untyped _obj) -> (untyped | nil)
+    end
+  end
+end

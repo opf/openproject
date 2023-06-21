@@ -1,0 +1,24 @@
+module Projects
+  class DeleteService < ::BaseServices::Delete
+    include Projects::Concerns::UpdateDemoData
+
+    #
+    # Reference to the dependent projects that we're deleting
+    attr_accessor dependent_projects: untyped
+
+    def initialize: (user: untyped, model: untyped, ?contract_class: untyped?, ?contract_options: ::Hash[untyped, untyped]) -> void
+
+    def call: (*untyped) -> untyped
+
+    private
+
+    def before_perform: (*untyped) -> untyped
+
+    # Deletes all project's members
+    def delete_all_members: () -> untyped
+
+    def destroy_all_work_packages: () -> untyped
+
+    def notify: (untyped success) -> untyped
+  end
+end

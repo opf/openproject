@@ -1,0 +1,17 @@
+module ToolbarHelper
+  include ERB::Util
+
+  include ActionView::Helpers::OutputSafetyHelper
+
+  def toolbar: (title: untyped, ?title_extra: untyped?, ?title_class: untyped?, ?subtitle: ::String, ?link_to: untyped?, ?html: ::Hash[untyped, untyped]) ?{ () -> untyped } -> untyped
+
+  def editable_toolbar: (form: untyped, field_name: untyped, ?html: ::Hash[untyped, untyped]) ?{ () -> untyped } -> untyped
+
+  def breadcrumb_toolbar: (*untyped elements, ?subtitle: ::String, ?html: ::Hash[untyped, untyped]) { () -> untyped } -> untyped
+
+  def editable_toolbar_title: (untyped form, untyped field_name) -> untyped
+
+  def dom_title: (untyped raw_title, ?untyped? link_to, ?title_class: untyped?, ?title_extra: untyped?) -> untyped
+
+  def dom_toolbar: () ?{ () -> untyped } -> ("" | untyped)
+end

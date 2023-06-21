@@ -1,0 +1,17 @@
+module Groups
+  # Adds inherited roles to the users provided to mirror the roles the group has.
+  # This can be scoped to only a certain project which results in considerably better performance.
+  class CreateInheritedRolesService < ::BaseServices::BaseContracted
+    include Groups::Concerns::MembershipManipulation
+
+    def initialize: (untyped group, current_user: untyped, ?contract_class: untyped) -> void
+
+    private
+
+    def modify_members_and_roles: (untyped params) -> untyped
+
+    def add_to_user_and_projects_cte: (?project_ids: untyped?) -> untyped
+
+    def touch_updated: (untyped member_ids) -> nil
+  end
+end

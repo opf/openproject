@@ -1,0 +1,28 @@
+module OpenProject
+  #
+  # Notifications about Events in OpenProject (e.g. created work packages)
+  #
+  # @see OpenProject::Events
+  module Notifications
+    # Subscribe to a specific event with name
+    # Contrary to ActiveSupport::Notifications, we don't support regexps here, but only
+    # single events specified as string.
+    #
+    # @param name [String] The name of the event to subscribe to.
+    # @param clear_subscriptions [Boolean] Clears all previous subscriptions to this
+    #                                      event if true. Use with care!
+    # @return [Int] Subscription ID
+    # @raises ArgumentError if no block is given.
+    def self?.subscribe: (untyped name, ?clear_subscriptions: bool) ?{ () -> untyped } -> untyped
+
+    def self?.unsubscribe: (untyped name, untyped id) -> untyped
+
+    # Send a notification.
+    # Payload should be a Hash and might be marshalled and unmarshalled before being
+    # delivered (although it is not at the moment), so don't count on object equality
+    # for the payload.
+    def self?.send: (untyped name, untyped payload) -> untyped
+
+    def self?.subscriptions: () -> untyped
+  end
+end

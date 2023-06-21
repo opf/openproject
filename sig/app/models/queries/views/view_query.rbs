@@ -1,0 +1,3 @@
+class Queries::Views::ViewQuery < Queries::BaseQuery
+  def default_scope: () -> untyped
+end

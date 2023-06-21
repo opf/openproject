@@ -1,0 +1,11 @@
+module Enumerations
+  class TableComponent < ::TableComponent
+    def columns: () -> untyped
+
+    def headers: () -> untyped
+
+    def with_colors: () -> untyped
+
+    def inline_create_link: () -> untyped
+  end
+end

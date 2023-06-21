@@ -1,0 +1,7 @@
+module API::Utilities::Endpoints::NamespacedLookup
+  private
+
+  def lookup_namespaced_class: (untyped class_name) -> untyped
+
+  def possible_namespaces: () -> untyped
+end

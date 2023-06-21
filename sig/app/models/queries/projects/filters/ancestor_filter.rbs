@@ -1,0 +1,33 @@
+module Queries
+  module Projects
+    module Filters
+      class AncestorFilter < ::Queries::Projects::Filters::ProjectFilter
+        def scope: () -> untyped
+
+        def type: () -> :list
+
+        def self.key: () -> :ancestor
+
+        private
+
+        def type_strategy: () -> untyped
+
+        def join_specific_ancestor_projects: () -> untyped
+
+        def left_join_ancestor_projects: () -> untyped
+
+        def specific_ancestor_condition: () -> untyped
+
+        def ancestor_condition: () -> untyped
+
+        def ancestor_in_values_condition: () -> untyped
+
+        def ancestor_not_in_values_condition: () -> untyped
+
+        def projects_table: () -> untyped
+
+        def projects_ancestor_table: () -> untyped
+      end
+    end
+  end
+end

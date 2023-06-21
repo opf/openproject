@@ -1,0 +1,7 @@
+module CustomActions
+  class ExecuteContract < BaseContract
+    private
+
+    def work_package_visible: () -> (nil | untyped)
+  end
+end

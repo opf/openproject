@@ -1,0 +1,13 @@
+module Exports
+  class Result
+    attr_accessor format: untyped
+
+    attr_accessor title: untyped
+
+    attr_accessor content: untyped
+
+    attr_accessor mime_type: untyped
+
+    def initialize: (format: untyped, title: untyped, mime_type: untyped, ?content: untyped?) -> void
+  end
+end

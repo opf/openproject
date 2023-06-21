@@ -1,0 +1,5 @@
+class SCM::SubversionAuthorizationPolicy < SCM::AuthorizationPolicy
+  private
+
+  def readonly_request?: (untyped params) -> untyped
+end

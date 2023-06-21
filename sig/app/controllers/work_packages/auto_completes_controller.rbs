@@ -1,0 +1,9 @@
+class WorkPackages::AutoCompletesController < ApplicationController
+  def index: () -> untyped
+
+  private
+
+  def work_packages_matching_query_prop: () -> untyped
+
+  def wp_hashes_with_string: (untyped work_packages) -> untyped
+end

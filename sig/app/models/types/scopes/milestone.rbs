@@ -1,0 +1,7 @@
+module Types::Scopes
+  module Milestone
+    extend ActiveSupport::Concern
+
+    def milestone: () -> untyped
+  end
+end

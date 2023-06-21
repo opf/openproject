@@ -1,0 +1,21 @@
+class OpenProject::JournalFormatter::Attachment < JournalFormatter::Base
+  include ApplicationHelper
+
+  include OpenProject::StaticRouting::UrlHelpers
+
+  include OpenProject::ObjectLinking
+
+  def self.default_url_options: () -> { only_path: true }
+
+  def render: (untyped key, untyped values, ?::Hash[untyped, untyped] options) -> untyped
+
+  private
+
+  def label: (untyped _key) -> untyped
+
+  # we need to tell the url_helper that there is not controller to get url_options
+  # so that we can later call link_to and url_for within format_html_attachment_detail > link_to_attachment
+  def controller: () -> nil
+
+  def format_html_attachment_detail: (untyped key, untyped value) -> (untyped | untyped | nil)
+end

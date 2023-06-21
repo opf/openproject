@@ -1,0 +1,11 @@
+module API
+  module V3
+    module PlaceholderUsers
+      class PlaceholderUserRepresenter < ::API::V3::Principals::PrincipalRepresenter
+        def _type: () -> "PlaceholderUser"
+
+        def current_user_can_manage?: () -> untyped
+      end
+    end
+  end
+end

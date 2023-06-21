@@ -1,0 +1,10 @@
+# Find a user account by matching case-insensitive.
+module Users::Scopes
+  module WithTimeZone
+    extend ActiveSupport::Concern
+
+    def with_time_zone: (untyped time_zones) -> untyped
+
+    def user_default_time_zone: () -> untyped
+  end
+end

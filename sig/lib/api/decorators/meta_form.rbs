@@ -1,0 +1,7 @@
+module API
+  module Decorators
+    module MetaForm
+      def payload_representer: () -> untyped
+    end
+  end
+end

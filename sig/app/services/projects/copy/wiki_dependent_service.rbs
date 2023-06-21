@@ -1,0 +1,23 @@
+module Projects::Copy
+  class WikiDependentService < Dependency
+    include AttachmentCopier
+
+    def self.human_name: () -> untyped
+
+    def source_count: () -> untyped
+
+    def copy_dependency: (params: untyped) -> (nil | untyped)
+
+    # Copies wiki pages from +project+, requires a wiki to be already set
+    def copy_wiki_pages: (untyped _params) -> untyped
+
+    def copy_wiki_page: (untyped source_page, untyped new_parent_id) -> untyped
+
+    def pages_top_down: () { () -> untyped } -> untyped
+
+    def yield_downwards: (untyped map, untyped current) { (untyped) -> untyped } -> untyped
+
+    # Copies wiki_menu_items from +project+, requires a wiki to be already set
+    def copy_wiki_menu_items: () -> untyped
+  end
+end

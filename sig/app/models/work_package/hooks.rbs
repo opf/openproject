@@ -1,0 +1,7 @@
+module WorkPackage::Hooks
+  extend ActiveSupport::Concern
+
+  def call_after_create_hook: () -> untyped
+
+  def call_after_update_hook: () -> untyped
+end

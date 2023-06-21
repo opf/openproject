@@ -1,0 +1,5 @@
+module Queries::Operators
+  class GreaterOrEqual < Base
+    def self.sql_for_field: (untyped values, untyped db_table, untyped db_field) -> ::String
+  end
+end

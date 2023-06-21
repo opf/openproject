@@ -1,0 +1,5 @@
+class Authorization::UserRolesQuery < Authorization::AbstractUserQuery
+  def self.query: (*untyped args) -> untyped
+
+  def self.roles_member_roles_join: () -> untyped
+end

@@ -1,0 +1,18 @@
+module Groups
+  class SetAttributesService < ::BaseServices::SetAttributes
+    private
+
+    def set_attributes: (untyped params) -> untyped
+
+    # We do not want to persist the associated users (members) in a
+    # SetAttributesService. Therefore we are building the association here.
+    #
+    # Note that due to the way we handle members, via a specific AddUsersService
+    # the group should no longer simply be saved after group_users have been added.
+    def set_users: (untyped params) -> untyped
+
+    def build_new_users: (untyped new_user_ids) -> untyped
+
+    def mark_outdated_users: (untyped removed_user_ids) -> untyped
+  end
+end

@@ -1,0 +1,9 @@
+class Queries::IndividualPrincipals::Orders::GroupOrder < Queries::Orders::Base
+  def self.key: () -> :group
+
+  private
+
+  def order: () -> untyped
+
+  def joins: () -> :groups
+end

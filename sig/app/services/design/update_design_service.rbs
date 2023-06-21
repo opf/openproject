@@ -1,0 +1,19 @@
+module Design
+  class UpdateDesignService
+    attr_reader params: untyped
+
+    def initialize: (untyped params) -> void
+
+    def call: () -> untyped
+
+    private
+
+    def set_logo: () -> untyped
+
+    def set_colors: () -> (nil | untyped)
+
+    def set_theme: () -> untyped
+
+    def custom_style: () -> untyped
+  end
+end

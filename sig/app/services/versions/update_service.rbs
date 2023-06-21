@@ -1,0 +1,18 @@
+module Versions
+  class UpdateService < ::BaseServices::Update
+    private
+
+    def after_perform: (untyped service_call) -> untyped
+
+    # Update the issue's versions. Used if a version's sharing changes.
+    def update_wps_from_sharing_change: () -> (untyped | nil)
+
+    def only_custom_values_updated?: () -> untyped
+
+    def no_valid_version_before_or_now?: () -> untyped
+
+    def sharing_now_less_broad?: () -> untyped
+
+    def version_sharings: () -> untyped
+  end
+end

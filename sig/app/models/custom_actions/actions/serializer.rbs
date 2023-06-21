@@ -1,0 +1,5 @@
+module CustomActions::Actions::Serializer
+  def self?.load: (untyped value) -> (::Array[untyped] | untyped)
+
+  def self?.dump: (untyped actions) -> untyped
+end

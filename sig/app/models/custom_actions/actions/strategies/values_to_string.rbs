@@ -1,0 +1,7 @@
+module CustomActions::Actions::Strategies::ValuesToString
+  def values=: (untyped values) -> untyped
+
+  private
+
+  def to_string_or_nil: (untyped value) -> untyped
+end

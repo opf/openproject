@@ -1,0 +1,3 @@
+class Queries::Roles::Filters::RoleFilter < Queries::Filters::Base
+  def human_name: () -> untyped
+end

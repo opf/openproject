@@ -1,0 +1,9 @@
+class Queries::Filters::MeValue
+  KEY: "me"
+
+  def id: () -> untyped
+
+  def name: () -> untyped
+
+  def class: () -> untyped
+end

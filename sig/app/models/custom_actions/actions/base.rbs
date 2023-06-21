@@ -1,0 +1,39 @@
+class CustomActions::Actions::Base
+  attr_reader values: untyped
+
+  DEFAULT_PRIORITY: 100
+
+  def initialize: (?untyped values) -> void
+
+  def values=: (untyped values) -> untyped
+
+  def allowed_values: () -> untyped
+
+  def type: () -> untyped
+
+  def apply: (untyped _work_package) -> untyped
+
+  def human_name: () -> untyped
+
+  def self.key: () -> untyped
+
+  def self.all: () -> ::Array[self]
+
+  def self.for: (untyped key) -> (self | nil)
+
+  def key: () -> untyped
+
+  def required?: () -> false
+
+  def multi_value?: () -> false
+
+  def validate: (untyped errors) -> untyped
+
+  def priority: () -> untyped
+
+  private
+
+  def validate_value_required: (untyped errors) -> (untyped | nil)
+
+  def validate_only_one_value: (untyped errors) -> (untyped | nil)
+end

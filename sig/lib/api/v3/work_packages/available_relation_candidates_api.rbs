@@ -1,0 +1,17 @@
+module API
+  module V3
+    module WorkPackages
+      class AvailableRelationCandidatesAPI < ::API::OpenProjectAPI
+        def combined_params: () -> untyped
+
+        def filters_param: () -> untyped
+
+        def string_filter: () -> untyped
+
+        def type_filter: () -> untyped
+
+        def filter_param: (untyped key, untyped operator, untyped values) -> untyped
+      end
+    end
+  end
+end

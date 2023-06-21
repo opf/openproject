@@ -1,0 +1,3 @@
+class Notifications::CreateService < BaseServices::Create
+  def persist: (untyped service_result) -> untyped
+end

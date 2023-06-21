@@ -1,0 +1,21 @@
+module Queries::Operators
+  class Base
+    def self.label: (untyped label) -> untyped
+
+    def self.set_symbol: (untyped sym) -> untyped
+
+    def self.require_value: (untyped value) -> untyped
+
+    def self.requires_value?: () -> untyped
+
+    def self.sql_for_field: (untyped _values, untyped _db_table, untyped _db_field) -> untyped
+
+    def self.connection: () -> untyped
+
+    def self.to_sym: () -> untyped
+
+    def self.human_name: () -> untyped
+
+    def self.to_query: () -> untyped
+  end
+end

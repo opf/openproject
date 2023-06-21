@@ -1,0 +1,50 @@
+class Authorization::UserAllowedService
+  attr_accessor user: untyped
+
+  def initialize: (untyped user, ?role_cache: untyped) -> void
+
+  # Return true if the user is allowed to do the specified action on a specific context
+  # Action can be:
+  # * a parameter-like Hash (eg. { controller: '/projects', action: 'edit' })
+  # * a permission Symbol (eg. :edit_project)
+  # Context can be:
+  # * a project : returns true if user is allowed to do the specified action on this project
+  # * a group of projects : returns true if user is allowed on every project
+  # * nil with +global+ set to +true+ : check if user has at least one role allowed for this action,
+  #   or falls back to Non Member / Anonymous permissions depending if the user is logged
+  def call: (untyped action, untyped context, ?global: bool) -> (untyped | false)
+
+  def preload_projects_allowed_to: (untyped action) -> untyped
+
+  private
+
+  attr_accessor project_role_cache: untyped
+
+  def allowed_to?: (untyped action, untyped context, ?global: bool) -> untyped
+
+  def allowed_to_in_project?: (untyped action, untyped project) -> (untyped | false | true)
+
+  # Authorize if user is authorized on every element of the array
+  def allowed_to_in_all_projects?: (untyped action, untyped projects) -> untyped
+
+  # Is the user allowed to do the specified action on any project?
+  # See allowed_to? for the action parameter description.
+  def allowed_to_globally?: (untyped action) -> (false | true | untyped)
+
+  #
+  # Only users that are not locked may be granted actions
+  # with the exception of a temporary-granted system user
+  def authorizable_user?: () -> untyped
+
+  # Admin users are granted every permission unless the
+  # permission explicitly disables it.
+  def granted_to_admin?: (untyped action) -> untyped
+
+  def has_authorized_role?: (untyped action, ?untyped? project) -> untyped
+
+  def project_authorization_cache: () -> untyped
+
+  def normalize_action: (untyped action) -> untyped
+
+  def supported_context?: (untyped context, global: untyped) -> untyped
+end

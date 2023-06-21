@@ -1,0 +1,5 @@
+module PlaceholderUsersHelper
+  #
+  # Determine whether the given actor can delete the placeholder user
+  def can_delete_placeholder_user?: (untyped placeholder, ?untyped actor) -> untyped
+end

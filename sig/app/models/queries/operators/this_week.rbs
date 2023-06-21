@@ -1,0 +1,7 @@
+module Queries::Operators
+  class ThisWeek < Base
+    def self.sql_for_field: (untyped _values, untyped db_table, untyped db_field) -> untyped
+
+    def self.begin_of_week: () -> untyped
+  end
+end

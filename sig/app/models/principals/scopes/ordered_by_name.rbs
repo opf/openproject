@@ -1,0 +1,16 @@
+module Principals::Scopes
+  module OrderedByName
+    extend ActiveSupport::Concern
+
+    # Returns principals sorted by the name format defined by
+    # +Setting.name_format+
+    #
+    # @desc [Boolean] Whether the sortation should be reversed
+    # @return [ActiveRecord::Relation] A scope of sorted principals
+    def ordered_by_name: (?desc: bool) -> untyped
+
+    private
+
+    def user_concat_sql: () -> untyped
+  end
+end

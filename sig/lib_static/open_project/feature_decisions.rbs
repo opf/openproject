@@ -1,0 +1,41 @@
+module OpenProject
+  #
+  # This module is the container for temporary or permanent feature flags.
+  #
+  # New feature flags can automatically be added by calling
+  #
+  #   OpenProject::Application.initializer 'set flag' do
+  #     OpenProject::FeatureDecisions.add :the_name_of_the_flag
+  #   end
+  #
+  # This will set up:
+  # * the method `.the_name_of_the_flag_active?` for querying the state
+  #   of the flag. By default, it is false.
+  # * fetching the overwritten value from
+  #   * ENV variable (`OPENPROJECT_FEATURE_THE_NAME_OF_THE_FLAG_ACTIVE = 'true'`)
+  #   * configuration.yml file (`the_name_of_the_flag_active: true`)
+  #   * from the settings database table (`Setting.feature_the_name_of_the_flag_active = true)
+  # * including the flag in the `.active` array in case it is enabled
+  # * including the flag in the `.all`
+  #
+  # The setup should be carried out inside an initializer for the overwriting from ENV or configuration.yml
+  # to be picked up.
+  #
+  # A spec in which such a flag is to be enabled can do so via:
+  #
+  #   context 'some description', with_flag: { the_name_of_the_flag: true } do
+  #     ...
+  #   end
+  #
+  module FeatureDecisions
+    def self?.add: (untyped flag_name) -> untyped
+
+    def self?.active: () -> untyped
+
+    def self?.all: () -> untyped
+
+    def self?.define_flag_methods: (untyped flag_name) -> untyped
+
+    def self?.define_setting_definition: (untyped flag_name) -> untyped
+  end
+end

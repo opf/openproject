@@ -1,0 +1,35 @@
+module SearchHelper
+  def highlight_tokens: (untyped text, untyped tokens, ?text_on_not_found: bool) -> (nil | untyped)
+
+  def highlight_tokens_in_event: (untyped event, untyped tokens) -> untyped
+
+  def text_split_by_token: (untyped text, untyped tokens) -> untyped
+
+  def has_tokens?: (untyped text, untyped tokens) -> (false | untyped)
+
+  def last_journal: (untyped event) -> (untyped | nil)
+
+  def notes_anchor: (untyped event) -> untyped
+
+  def with_notes_anchor: (untyped event, untyped tokens) -> untyped
+
+  def type_label: (untyped t) -> untyped
+
+  def current_scope: () -> untyped
+
+  def link_to_previous_search_page: (untyped pagination_previous_date) -> untyped
+
+  def link_to_next_search_page: (untyped pagination_next_date) -> untyped
+
+  private
+
+  def attachment_fulltexts: (untyped event) -> untyped
+
+  def attachment_filenames: (untyped event) -> untyped
+
+  def only_if_tsv_supported: (untyped event) { () -> untyped } -> (untyped | nil)
+
+  def token_span: (untyped tokens, untyped words) -> untyped
+
+  def abbreviated_text: (untyped words) -> untyped
+end

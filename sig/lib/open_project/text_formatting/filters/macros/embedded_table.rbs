@@ -1,0 +1,11 @@
+module OpenProject::TextFormatting::Filters::Macros
+  module EmbeddedTable
+    HTML_CLASS: "embedded-table"
+
+    def self?.identifier: () -> untyped
+
+    def self?.apply: (untyped macro, result: untyped, context: untyped) -> untyped
+
+    def self?.is?: (untyped macro) -> untyped
+  end
+end

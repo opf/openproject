@@ -1,0 +1,31 @@
+module API
+  module Utilities
+    module Endpoints
+      class Index
+        include ::API::Utilities::UrlPropsParsingHelper
+
+        include ::API::RootAPI::Helpers
+
+        def initialize: (model: untyped, ?api_name: untyped, ?scope: untyped?, ?render_representer: untyped?) -> void
+
+        def mount: () -> untyped
+
+        attr_accessor model: untyped
+
+        attr_accessor api_name: untyped
+
+        attr_accessor scope: untyped
+
+        attr_accessor render_representer: untyped
+
+        private
+
+        def deduce_render_representer: () -> untyped
+
+        def deduce_api_namespace: () -> untyped
+
+        def model_class: (untyped scope) -> untyped
+      end
+    end
+  end
+end

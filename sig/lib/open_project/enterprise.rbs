@@ -1,0 +1,35 @@
+module OpenProject
+  module Enterprise
+    def self.token: () -> untyped
+
+    def self.upgrade_url: () -> ::String
+
+    def self.upgrade_path: () -> untyped
+
+    def self.user_limit: () -> (untyped | nil)
+
+    def self.active_user_count: () -> untyped
+
+    #
+    # Indicates if there are more active users than the support token allows for.
+    #
+    # @return [Boolean] True if and only if there is a support token the user limit of which is exceeded.
+    def self.user_limit_reached?: () -> (untyped | nil)
+
+    #
+    # While the active user limit has not been reached yet it would be reached
+    # if all registered and invited users were to activate their accounts.
+    def self.imminent_user_limit?: () -> (untyped | nil)
+
+    def self.fail_fast?: () -> untyped
+
+    #
+    # Informs active admins about a user who could not be activated due to
+    # the user limit having been reached.
+    def self.send_activation_limit_notification_about: (untyped user) -> untyped
+
+    private
+
+    def self.url_helpers: () -> untyped
+  end
+end

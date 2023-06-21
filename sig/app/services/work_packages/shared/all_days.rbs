@@ -1,0 +1,16 @@
+module WorkPackages
+  module Shared
+    class AllDays
+      # Returns number of days between two dates, inclusive.
+      def duration: (untyped start_date, untyped due_date) -> (nil | untyped)
+
+      def start_date: (untyped due_date, untyped duration) -> (nil | untyped)
+
+      def due_date: (untyped start_date, untyped duration) -> (nil | untyped)
+
+      def soonest_working_day: (untyped date, ?delay: untyped?) -> untyped
+
+      def working?: (untyped _date) -> true
+    end
+  end
+end

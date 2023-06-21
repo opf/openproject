@@ -1,0 +1,57 @@
+module API
+  module V3
+    module WorkPackages
+      class WorkPackageCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
+        attr_accessor timestamps: untyped
+
+        attr_accessor query: untyped
+
+        def initialize: (untyped models, self_link: untyped, groups: untyped, total_sums: untyped, current_user: untyped, ?query_params: ::Hash[untyped, untyped], ?project: untyped?, ?page: untyped?, ?per_page: untyped?, ?embed_schemas: bool, ?timestamps: untyped, ?query: untyped?) -> void
+
+        def current_user_allowed_to_add_work_packages?: () -> untyped
+
+        def current_user_allowed_to_edit_work_packages?: () -> untyped
+
+        def schemas: () -> untyped
+
+        def schemas_path: () -> untyped
+
+        def schema_pairs: () -> untyped
+
+        def all_cfs_of_project: () -> untyped
+
+        def paged_models: (untyped models) -> untyped
+
+        def _type: () -> "WorkPackageCollection"
+
+        def representation_formats: () -> untyped
+
+        def representation_format: (untyped identifier, mime_type: untyped, ?format: untyped, ?i18n_key: untyped, ?url_query_extras: untyped?) -> { href: untyped, identifier: untyped, type: untyped, title: untyped }
+
+        def representation_format_pdf: () -> untyped
+
+        def representation_format_pdf_report_with_images: () -> untyped
+
+        def representation_format_pdf_report: () -> untyped
+
+        def representation_format_xls: () -> untyped
+
+        def representation_format_xls_descriptions: () -> untyped
+
+        def representation_format_xls_relations: () -> untyped
+
+        def representation_format_csv: () -> untyped
+
+        def representation_format_atom: () -> untyped
+
+        def timestamps_active?: () -> untyped
+
+        attr_reader project: untyped
+
+        attr_reader total_sums: untyped
+
+        attr_reader embed_schemas: untyped
+      end
+    end
+  end
+end

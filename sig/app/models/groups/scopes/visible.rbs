@@ -1,0 +1,7 @@
+module Groups::Scopes
+  module Visible
+    extend ActiveSupport::Concern
+
+    def visible: (?untyped current_user) -> untyped
+  end
+end

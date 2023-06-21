@@ -1,0 +1,6 @@
+module WatchersHelper
+  # Create a link to watch/unwatch object
+  #
+  # * :replace - a string or array of strings with css selectors that will be updated, whenever the watcher status is changed
+  def watcher_link: (untyped object, untyped user, ?::Hash[untyped, untyped] options) -> ("" | untyped)
+end

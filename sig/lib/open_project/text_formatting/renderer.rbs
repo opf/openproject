@@ -1,0 +1,7 @@
+module OpenProject::TextFormatting
+  module Renderer
+    def self?.format_text: (untyped text, ?::Hash[untyped, untyped] options) -> ("" | untyped)
+
+    def self?.formatter: (?plain: bool) -> untyped
+  end
+end

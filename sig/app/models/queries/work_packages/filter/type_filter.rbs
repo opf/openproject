@@ -1,0 +1,17 @@
+class Queries::WorkPackages::Filter::TypeFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  def allowed_values: () -> untyped
+
+  def available?: () -> untyped
+
+  def type: () -> :list
+
+  def self.key: () -> :type_id
+
+  def ar_object_filter?: () -> true
+
+  def value_objects: () -> untyped
+
+  private
+
+  def types: () -> untyped
+end

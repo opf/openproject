@@ -1,0 +1,15 @@
+module API
+  module V3
+    module Attachments
+      module AttachableRepresenterMixin
+        extend ActiveSupport::Concern
+
+        def attachments: () -> untyped
+
+        def attachments_by_resource: () -> untyped
+
+        def attachment_set: () -> untyped
+      end
+    end
+  end
+end

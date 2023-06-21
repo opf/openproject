@@ -1,0 +1,47 @@
+class CopyProjectJob < ApplicationJob
+  include OpenProject::LocaleHelper
+
+  attr_reader user_id: untyped
+
+  attr_reader source_project_id: untyped
+
+  attr_reader target_project_params: untyped
+
+  attr_reader target_project_name: untyped
+
+  attr_reader target_project: untyped
+
+  attr_reader errors: untyped
+
+  attr_reader associations_to_copy: untyped
+
+  attr_reader send_mails: untyped
+
+  def perform: (user_id: untyped, source_project_id: untyped, target_project_params: untyped, associations_to_copy: untyped, ?send_mails: bool) -> untyped
+
+  def store_status?: () -> true
+
+  def updates_own_status?: () -> true
+
+  def title: () -> untyped
+
+  private
+
+  def successful_status_update: () -> untyped
+
+  def failure_status_update: () -> untyped
+
+  def user: () -> untyped
+
+  def source_project: () -> untyped
+
+  def create_project_copy: () -> untyped
+
+  def copy_project: () -> untyped
+
+  def copy_project_params: () -> untyped
+
+  def logger: () -> untyped
+
+  def url_helpers: () -> untyped
+end

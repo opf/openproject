@@ -1,0 +1,13 @@
+module Queries
+  module GroupBys
+    module AvailableGroupBys
+      def group_by_for: (untyped key) -> untyped
+
+      private
+
+      def find_registered_group_by: (untyped key) -> untyped
+
+      def group_by_register: () -> untyped
+    end
+  end
+end

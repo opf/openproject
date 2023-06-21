@@ -1,0 +1,25 @@
+class Mails::MemberJob < ApplicationJob
+  def perform: (current_user: untyped, member: untyped, ?message: untyped?) -> untyped
+
+  private
+
+  def perform_for_group: (current_user: untyped, member: untyped, ?message: untyped?) -> untyped
+
+  def perform_for_user: (current_user: untyped, member: untyped, ?message: untyped?) -> untyped
+
+  def send_for_group_user: (untyped _current_user, untyped _member, untyped _group, untyped _message) -> untyped
+
+  def send_for_project_user: (untyped _current_user, untyped _member, untyped _message) -> untyped
+
+  def send_updated_global: (untyped current_user, untyped member, untyped member_message) -> (nil | untyped)
+
+  def send_added_project: (untyped current_user, untyped member, untyped member_message) -> (nil | untyped)
+
+  def send_updated_project: (untyped current_user, untyped member, untyped member_message) -> (nil | untyped)
+
+  def every_group_user_member: (untyped member) { () -> untyped } -> untyped
+
+  def sending_disabled?: (untyped setting, untyped current_user, untyped user_id, untyped message) -> (true | false | untyped)
+
+  def roles_changed?: (untyped user_member, untyped group_member) -> untyped
+end

@@ -1,0 +1,10 @@
+module Authorization
+  # Returns all users having a certain permission within a project
+  def self?.users: (untyped action, untyped project) -> untyped
+
+  # Returns all projects a user has a certain permission in
+  def self?.projects: (untyped action, untyped user) -> untyped
+
+  # Returns all roles a user has in a certain project or globally
+  def self?.roles: (untyped user, ?untyped? project) -> untyped
+end

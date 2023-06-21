@@ -1,0 +1,89 @@
+module OpenProject
+  module Configuration
+    #
+    # To be included into OpenProject::Configuration in order to provide
+    # helper methods for easier access to certain configuration options.
+    module Helpers
+      def direct_uploads: () -> (false | untyped)
+
+      #
+      # Is hsts really enabled? We only return true
+      # if the setting is true AND HTTPS mode is on.
+      def hsts_enabled?: () -> untyped
+
+      #
+      # We only allow direct uploads to S3 as we are using the carrierwave_direct
+      # gem which only supports S3 for the time being.
+      #
+      # Do not allow direct uploads when using IAM-profile-based authorization rather
+      # than access-key-based ones since carrierwave_direct does not support that.
+      #
+      # We do support direct uploads for S3-compatible object storage services
+      # only if remote storage upload and download hosts were configured explicitly.
+      # Since these only have to be configured if you want to use direct uploads,
+      # we assume what ever provider you use does support this if you do.
+      def direct_uploads_supported?: () -> untyped
+
+      def using_amazon_s3?: () -> untyped
+
+      def using_custom_remote_storage_hosts?: () -> untyped
+
+      def direct_uploads?: () -> untyped
+
+      # Augur connect host
+      def enterprise_trial_creation_host: () -> (untyped | "https://augur.openproject-edge.com")
+
+      def file_storage?: () -> untyped
+
+      def remote_storage?: () -> untyped
+
+      def remote_storage_aws?: () -> untyped
+
+      def remote_storage_upload_host: () -> untyped
+
+      def remote_storage_download_host: () -> untyped
+
+      def remote_storage_hosts: () -> untyped
+
+      def attachments_storage_path: () -> untyped
+
+      def use_iam_profile?: () -> untyped
+
+      def fog_credentials: () -> untyped
+
+      def fog_directory: () -> untyped
+
+      def file_uploader: () -> untyped
+
+      def hidden_menu_items: () -> untyped
+
+      #
+      # Whether we're running a bim edition
+      def bim?: () -> untyped
+
+      def available_file_uploaders: () -> untyped
+
+      def web_workers: () -> untyped
+
+      def web_timeout: () -> untyped
+
+      def web_wait_timeout: () -> untyped
+
+      def web_min_threads: () -> untyped
+
+      def web_max_threads: () -> untyped
+
+      def statsd_host: () -> untyped
+
+      def statsd_port: () -> untyped
+
+      private
+
+      #
+      # Yields the given configuration value as an array.
+      # Either the value already is an array or a string with values separated by spaces.
+      # In the latter case the string will be split and the values returned as an array.
+      def array: (untyped value) -> untyped
+    end
+  end
+end

@@ -1,0 +1,7 @@
+class Relations::UpdateService < Relations::BaseService
+  attr_accessor model: untyped
+
+  def initialize: (user: untyped, model: untyped) -> void
+
+  def perform: (untyped attributes) -> untyped
+end

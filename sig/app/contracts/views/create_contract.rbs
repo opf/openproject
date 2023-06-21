@@ -1,0 +1,4 @@
+module Views
+  class CreateContract < BaseContract
+  end
+end

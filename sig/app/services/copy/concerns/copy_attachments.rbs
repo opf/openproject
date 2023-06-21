@@ -1,0 +1,11 @@
+module Copy
+  module Concerns
+    module CopyAttachments
+      #
+      # Tries to copy the given attachment between containers
+      def copy_attachments: (untyped container_type, from_id: untyped, to_id: untyped) -> untyped
+
+      def attachment_copy_attributes: (untyped source, untyped to_id) -> untyped
+    end
+  end
+end

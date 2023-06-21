@@ -1,0 +1,13 @@
+module Members::Concerns::NotificationSender
+  extend ActiveSupport::Concern
+
+  def send_notification: (untyped member) -> untyped
+
+  def set_attributes_params: (untyped params) -> untyped
+
+  def notification_message: () -> untyped
+
+  def send_notifications?: () -> untyped
+
+  def event_type: () -> untyped
+end

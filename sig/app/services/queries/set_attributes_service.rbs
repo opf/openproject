@@ -1,0 +1,9 @@
+class Queries::SetAttributesService < BaseServices::SetAttributes
+  def set_attributes: (untyped params) -> untyped
+
+  def set_default_attributes: (untyped _params) -> untyped
+
+  def set_default_user: () -> untyped
+
+  def set_ordered_work_packages: (untyped ordered_hash) -> (nil | untyped)
+end

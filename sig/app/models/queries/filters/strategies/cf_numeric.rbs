@@ -1,0 +1,7 @@
+module Queries::Filters::Strategies
+  module CfNumeric
+    private
+
+    def operator_map: () -> untyped
+  end
+end

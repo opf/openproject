@@ -1,0 +1,9 @@
+class OpenProject::JournalFormatter::TimeEntryHours < JournalFormatter::Base
+  def render: (untyped _key, untyped values, ?::Hash[untyped, untyped] options) -> untyped
+
+  private
+
+  def format_float: (untyped val) -> untyped
+
+  def value: (untyped html, untyped old_value, untyped value) -> untyped
+end

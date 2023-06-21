@@ -1,0 +1,11 @@
+module API
+  module V3
+    module Projects
+      module Statuses
+        class StatusRepresenter < ::API::Decorators::Single
+          def _type: () -> "ProjectStatus"
+        end
+      end
+    end
+  end
+end

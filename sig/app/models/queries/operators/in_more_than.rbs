@@ -1,0 +1,7 @@
+module Queries::Operators
+  class InMoreThan < Base
+    extend DateRangeClauses
+
+    def self.sql_for_field: (untyped values, untyped db_table, untyped db_field) -> untyped
+  end
+end

@@ -1,0 +1,17 @@
+module Queries::Filters::Shared::UserStatusFilter
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    def allowed_values: () -> untyped
+
+    def type: () -> :list
+
+    def status_values: () -> untyped
+
+    def where: () -> untyped
+  end
+
+  module ClassMethods
+    def self.key: () -> :status
+  end
+end

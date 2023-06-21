@@ -1,0 +1,5 @@
+class EmptyContract < ModelContract
+  def initialize: (*untyped) -> void
+
+  def validate: () -> true
+end

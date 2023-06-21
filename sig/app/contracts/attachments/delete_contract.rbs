@@ -1,0 +1,4 @@
+module Attachments
+  class DeleteContract < ::DeleteContract
+  end
+end

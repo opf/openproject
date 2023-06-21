@@ -1,0 +1,17 @@
+module OpenProject
+  module SyntaxHighlighting
+    # Highlights +text+ as the content of +filename+
+    # Should not return line numbers nor outer pre tag
+    # use CodeRay to scan normal text, since it's smart enough to find
+    # the correct source encoding before passing it to ERB::Util.html_escape
+    def self.highlight_by_filename: (untyped text, untyped filename) -> untyped
+
+    # Highlights +text+ using +language+ syntax
+    def self.highlight_by_language: (untyped text, untyped language, ?untyped formatter) -> untyped
+
+    #
+    # Guesses the appropriate lexer for the given text using rouge's guesser
+    # Can be used to extract information using the lexer's name, tag, desc methods
+    def self.guess_lexer: (untyped text, ?untyped? filename) -> untyped
+  end
+end

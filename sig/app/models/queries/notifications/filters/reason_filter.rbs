@@ -1,0 +1,9 @@
+class Queries::Notifications::Filters::ReasonFilter < Queries::Notifications::Filters::NotificationFilter
+  REASONS: untyped
+
+  def allowed_values: () -> untyped
+
+  def type: () -> :list
+
+  def where: () -> untyped
+end

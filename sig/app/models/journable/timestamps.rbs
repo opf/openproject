@@ -1,0 +1,54 @@
+# In the context of the baseline-comparison feature, this module adds convenience methods
+# to the `Journable` class in order to easy access to historic queries.
+#
+# Usage:
+#
+#     # Retrieve historic state of single work package
+#     work_package = WorkPackage.find(1)
+#     historic_work_package = work_package.at_timestamp(1.year.ago)
+#     historic_work_package.id         # => 1  (same as work_package.id)
+#     historic_work_package.historic?  # => true
+#     historic_work_package.save       # raises `ActiveRecord::ReadOnlyRecord`#
+#
+#     # Filter on historic data
+#     WorkPackage.at_timestamp(1.year.ago).where(assigned_to_id: 1)
+#
+# See also:
+#
+# - https://github.com/opf/openproject/pull/11243
+# - https://community.openproject.org/projects/openproject/work_packages/26448
+#
+module Journable::Timestamps
+  extend ActiveSupport::Concern
+
+  # Allows to query historic data of journables.
+  #
+  # For example, to check which work packages were assigned to a
+  # specific user one year ago, run:
+  #
+  #     WorkPackage.where(assigned_to_id: 123).at_timestamp(1.year.ago)
+  #
+  def at_timestamp: (untyped timestamp) -> untyped
+
+  # There may be database column for the journable class that are not
+  # present in the journal-data table, e.g. the 'lock_version' column
+  # of the work_packages table.
+  #
+  def column_names_missing_in_journal: () -> untyped
+
+  # Instantiates a journable with historic data from the given timestap.
+  #
+  #     WorkPackage.find(1).at_timestamp(1.year.ago)
+  #
+  def at_timestamp: (untyped timestamp) -> (untyped | nil)
+
+  def historic?: () -> untyped
+
+  def historical?: () -> untyped
+
+  # Rollback a journable record to a historic state of that record.
+  #
+  #     WorkPackage.find(2).at_timestamp(1.year.ago).rollback!
+  #
+  def rollback!: () -> untyped
+end

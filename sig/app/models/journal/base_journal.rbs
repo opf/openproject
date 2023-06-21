@@ -1,0 +1,7 @@
+class Journal::BaseJournal < ApplicationRecord
+  def journaled_attributes: () -> untyped
+
+  def self.journaled_attributes: () -> untyped
+
+  def self.excluded_attributes: () -> ::Array[untyped]
+end

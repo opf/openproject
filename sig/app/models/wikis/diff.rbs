@@ -1,0 +1,7 @@
+class Wikis::Diff < Redmine::Helpers::Diff
+  attr_reader content_to: untyped
+
+  attr_reader content_from: untyped
+
+  def initialize: (untyped content_to, untyped content_from) -> void
+end

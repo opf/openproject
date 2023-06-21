@@ -1,0 +1,34 @@
+module API
+  module V3
+    module Utilities
+      class CustomFieldInjector
+        module LinkValueGetter
+          def self.link_for: (untyped custom_field) -> untyped
+
+          #
+          # Since the block returned by .new above is `instance_exec`'d some place else we need to
+          # refer to this module in order to be able to split up the logic into methods.
+          module Methods
+            extend API::V3::Utilities::PathHelper
+
+            def self?.link_value_getter_values: (untyped represented, untyped custom_field) -> untyped
+
+            def self?.link_value_href: (untyped custom_field, untyped custom_value) -> (nil | untyped)
+
+            def self?.link_value_path_method: (untyped custom_field, untyped custom_value) -> untyped
+
+            def self?.derive_principal_path_method: (untyped custom_value) -> untyped
+
+            def self?.link_value_title: (untyped custom_value) -> untyped
+
+            #
+            # While multi value custom fields are expected to simply return an empty array
+            # if they have no value a normal single value custom field is expected by
+            # the frontend to return a single element with a null href and title.
+            def self?.single_empty_value: () -> { href: nil, title: nil }
+          end
+        end
+      end
+    end
+  end
+end

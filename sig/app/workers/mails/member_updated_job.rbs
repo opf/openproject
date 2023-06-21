@@ -1,0 +1,7 @@
+class Mails::MemberUpdatedJob < Mails::MemberJob
+  private
+
+  alias send_for_project_user send_updated_project
+
+  def send_for_group_user: (untyped current_user, untyped member, untyped _group, untyped message) -> untyped
+end

@@ -1,0 +1,5 @@
+module Redmine
+  module About
+    def self?.print_plugin_info: () -> untyped
+  end
+end

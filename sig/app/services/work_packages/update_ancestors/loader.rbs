@@ -1,0 +1,64 @@
+class WorkPackages::UpdateAncestors::Loader
+  def initialize: (untyped work_package, untyped include_former_ancestors) -> void
+
+  def select: () { (untyped, untyped) -> untyped } -> untyped
+
+  def descendants_of: (untyped queried_work_package) -> untyped
+
+  def leaves_of: (untyped queried_work_package) -> untyped
+
+  def children_of: (untyped queried_work_package) -> untyped
+
+  private
+
+  attr_accessor work_package: untyped
+
+  attr_accessor include_former_ancestors: untyped
+
+  # Contains both the new as well as the former ancestors in ascending order from the leaves up (breadth first).
+  def ancestors: () -> untyped
+
+  # Replace descendants/leaves by ancestors if they are the same.
+  # This can e.g. be the case in scenario of
+  # grandparent
+  #      |
+  #    parent
+  #      |
+  # work_package
+  #
+  # when grandparent used to be the direct parent of work_package (the work_package moved down the hierarchy).
+  # Then grandparent and parent are already in ancestors.
+  # Parent might be modified during the UpdateAncestorsService run,
+  # and the descendants of grandparent need to have the updated value.
+  def replaced_related_of: (untyped queried_work_package, untyped relation_type) ?{ (untyped) -> untyped } -> untyped
+
+  def related_of: (untyped queried_work_package, untyped relation_type) -> untyped
+
+  # Returns the current ancestors sorted by distance (called generations in the table)
+  # so the order is parent, grandparent, ..., root.
+  def current_ancestors: () -> untyped
+
+  # Returns the former ancestors sorted by distance (called generations in the table)
+  # so the order is former parent, former grandparent, ..., former root.
+  def former_ancestors: () -> untyped
+
+  def selected_descendants_attributes: () -> ::Array[:id | :estimated_hours | :parent_id | :schedule_manually | :ignore_non_working_days]
+
+  def descendants_joins: () -> nil
+
+  def selected_leaves_attributes: () -> ::Array[:id | :done_ratio | :derived_estimated_hours | :estimated_hours | :is_closed]
+
+  def leaves_joins: () -> :status
+
+  #
+  # Get the previous parent ID
+  # This could either be +parent_id_was+ if parent was changed
+  # (when work_package was saved/destroyed)
+  # Or the set parent before saving
+  def previous_parent_id: () -> untyped
+
+  def previous_change_parent_id: () -> untyped
+
+  class LoaderStruct < Hashie::Mash
+  end
+end

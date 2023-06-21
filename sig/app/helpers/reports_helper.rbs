@@ -1,0 +1,7 @@
+module ReportsHelper
+  include WorkPackagesFilterHelper
+
+  def aggregate: (untyped data, untyped criteria) -> untyped
+
+  def aggregate_link: (untyped data, untyped criteria, *untyped args) -> untyped
+end

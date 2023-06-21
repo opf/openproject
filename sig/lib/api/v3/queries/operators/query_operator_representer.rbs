@@ -1,0 +1,17 @@
+module API
+  module V3
+    module Queries
+      module Operators
+        class QueryOperatorRepresenter < ::API::Decorators::Single
+          def initialize: (untyped model, *untyped _) -> void
+
+          def name: () -> untyped
+
+          def id: () -> untyped
+
+          def _type: () -> "QueryOperator"
+        end
+      end
+    end
+  end
+end

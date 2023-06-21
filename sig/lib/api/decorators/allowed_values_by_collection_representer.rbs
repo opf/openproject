@@ -1,0 +1,19 @@
+module API
+  module Decorators
+    class AllowedValuesByCollectionRepresenter < PropertySchemaRepresenter
+      attr_accessor allowed_values: untyped
+
+      attr_reader value_representer: untyped
+
+      attr_reader link_factory: untyped
+
+      attr_reader allowed_values_getter: untyped
+
+      def initialize: (type: untyped, name: untyped, value_representer: untyped, link_factory: untyped, ?location: ::Symbol, ?required: bool, ?has_default: bool, ?writable: bool, ?attribute_group: untyped?, ?current_user: untyped?, ?allowed_values_getter: untyped?) -> void
+
+      private
+
+      def allowed_values_getter_default: () -> (nil | untyped)
+    end
+  end
+end

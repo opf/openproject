@@ -1,0 +1,11 @@
+module Queries::Filters::Strategies
+  class Date < Queries::Filters::Strategies::Integer
+    def validate: () -> untyped
+
+    private
+
+    def validate_values_all_date: () -> (untyped | nil)
+
+    def date?: (untyped str) -> untyped
+  end
+end

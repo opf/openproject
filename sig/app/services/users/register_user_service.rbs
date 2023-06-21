@@ -1,0 +1,53 @@
+module Users
+  class RegisterUserService
+    attr_reader user: untyped
+
+    def initialize: (untyped user) -> void
+
+    def call: () -> untyped
+
+    private
+
+    #
+    # Check whether the system allows registration
+    # for non-invited users
+    def ensure_registration_allowed!: () -> (untyped | nil)
+
+    #
+    # Ensure the user limit is not reached
+    def ensure_user_limit_not_reached!: () -> (untyped | nil)
+
+    #
+    # Try to register an invited user
+    # bypassing regular restrictions
+    def register_invited_user: () -> (nil | untyped)
+
+    #
+    # Try to register a user with an auth source connection
+    # bypassing regular account registration restrictions
+    def register_ldap_user: () -> (nil | untyped)
+
+    #
+    # Try to register a user with an existsing omniauth connection
+    # bypassing regular account registration restrictions
+    def register_omniauth_user: () -> (nil | untyped)
+
+    def skip_omniauth_user?: () -> untyped
+
+    def register_by_email_activation: () -> (nil | untyped)
+
+    # Automatically register a user
+    #
+    # Pass a block for behavior when a user fails to save
+    def register_automatically: () -> (nil | untyped)
+
+    def register_manually: () -> untyped
+
+    def fail_activation: () -> untyped
+
+    #
+    # Try to save result, return it in case of errors
+    # and add a user error to make sure we can render the account registration form
+    def with_saved_user_result: (?success_message: untyped) ?{ () -> untyped } -> untyped
+  end
+end

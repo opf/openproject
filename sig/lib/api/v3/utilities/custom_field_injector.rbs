@@ -1,0 +1,99 @@
+module API
+  module V3
+    module Utilities
+      class CustomFieldInjector
+        TYPE_MAP: ::Hash[::String, "String" | "Formattable" | "Integer" | "Float" | "Date" | "Boolean" | "User" | "Version" | "CustomOption"]
+
+        LINK_FORMATS: ::Array["list" | "user" | "version"]
+
+        NAMESPACE_MAP: ::Hash[::String, ::Array["users" | "groups" | "placeholder_users"] | "versions" | "custom_options"]
+
+        REPRESENTER_MAP: ::Hash[::String, "::API::V3::Principals::PrincipalRepresenterFactory" | "::API::V3::Versions::VersionRepresenter" | "::API::V3::CustomOptions::CustomOptionRepresenter"]
+
+        def self.create_value_representer: (untyped custom_fields, untyped representer) -> untyped
+
+        def self.create_schema_representer: (untyped custom_fields, untyped representer) -> untyped
+
+        private
+
+        def self.linked_field?: (untyped custom_field) -> untyped
+
+        def self.property_field?: (untyped custom_field) -> untyped
+
+        def self.new_representer_class_with: (untyped representer) { (untyped) -> untyped } -> untyped
+
+        public
+
+        def initialize: (untyped representer_class) -> void
+
+        def modified_representer_class: () -> untyped
+
+        def inject_schema: (untyped custom_field) -> untyped
+
+        def inject_value: (untyped custom_field) -> untyped
+
+        private
+
+        def property_name: (untyped custom_field) -> untyped
+
+        def inject_version_schema: (untyped custom_field) -> untyped
+
+        def inject_user_schema: (untyped custom_field) -> untyped
+
+        def inject_list_schema: (untyped custom_field) -> untyped
+
+        def inject_basic_schema: (untyped custom_field) -> untyped
+
+        def inject_link_value: (untyped custom_field) -> untyped
+
+        def link_value_setter_for: (untyped custom_field, untyped property, untyped expected_namespace) -> untyped
+
+        def embedded_link_value_getter: (untyped custom_field) -> untyped
+
+        def inject_property_value: (untyped custom_field) -> untyped
+
+        def property_value_getter_for: (untyped custom_field) -> untyped
+
+        def property_value_setter_for: (untyped custom_field) -> untyped
+
+        def allowed_users_href_callback: () -> untyped
+
+        def cf_min_length: (untyped custom_field) -> (untyped | nil)
+
+        def cf_max_length: (untyped custom_field) -> (untyped | nil)
+
+        def cf_regexp: (untyped custom_field) -> untyped
+
+        def cf_options: (untyped custom_field) -> { rtl: untyped }
+
+        def list_schemas_values_callback: (untyped custom_field) -> untyped
+
+        def list_schemas_link_callback: () -> untyped
+
+        def derive_representer_class: (untyped custom_field) -> untyped
+
+        def resource_type: (untyped custom_field) -> untyped
+
+        def allowed_users_static_filters: () -> ::Array[{ status: { operator: "!", values: ::Array[untyped] } } | { type: { operator: "=", values: ::Array["User" | "Group" | "PlaceholderUser"] } }]
+
+        def allowed_users_instance_filter: (untyped represented) -> untyped
+
+        module RepresenterClass
+          def self.extended: (untyped base) -> untyped
+
+          def custom_field_injector: (untyped config) -> untyped
+
+          def custom_field_injector_config: () -> untyped
+
+          def create_class: (untyped represented, untyped current_user) -> untyped
+
+          def create: (untyped represented, **untyped args) -> untyped
+
+          def custom_field_class: (untyped custom_fields) -> untyped
+
+          def cached_custom_field_classes: () -> untyped
+        end
+      end
+    end
+  end
+end

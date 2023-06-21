@@ -1,0 +1,27 @@
+class Redmine::Diff::ArrayStringDiff
+  VERSION: ::Float
+
+  def self.lcs: (untyped a, untyped b) -> untyped
+
+  def makediff: (untyped a, untyped b) -> 1
+
+  def compactdiffs: () -> untyped
+
+  attr_reader diffs: untyped
+
+  attr_reader difftype: untyped
+
+  def initialize: (untyped diffs_or_a, ?untyped? b, ?untyped? isstring) -> void
+
+  def match: (untyped _ai, untyped _bi) -> untyped
+
+  def discarda: (untyped i, untyped elem) -> untyped
+
+  def discardb: (untyped i, untyped elem) -> untyped
+
+  def compact: () -> untyped
+
+  def compact!: () -> untyped
+
+  def inspect: () -> untyped
+end

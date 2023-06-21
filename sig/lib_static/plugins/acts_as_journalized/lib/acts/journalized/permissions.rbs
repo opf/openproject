@@ -1,0 +1,11 @@
+module Acts::Journalized
+  module Permissions
+    # Default implementation of journal editing permission
+    # Is overridden if defined in the journalized model directly
+    def journal_editable_by?: (untyped journal, untyped user) -> (true | untyped)
+
+    private
+
+    def journable_edit_permission: () -> (untyped | ::Symbol)
+  end
+end

@@ -1,0 +1,17 @@
+module Actions::Scopes
+  module Default
+    extend ActiveSupport::Concern
+
+    def default: () -> untyped
+
+    private
+
+    def action_map: () -> untyped
+
+    def map_actions: (untyped permission, actions: untyped, global: untyped, module_name: untyped, grant_to_admin: untyped, public: untyped) -> untyped
+
+    def action_v3_name: (untyped name) -> untyped
+
+    def quote_string: (untyped string) -> untyped
+  end
+end

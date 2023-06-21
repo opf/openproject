@@ -1,0 +1,21 @@
+module Notifications::CreateFromModelService::WikiPageStrategy
+  def self.reasons: () -> ::Array[:watched | :subscribed]
+
+  def self.permission: () -> :view_wiki_pages
+
+  def self.supports_ian?: () -> false
+
+  def self.supports_mail_digest?: () -> false
+
+  def self.supports_mail?: () -> true
+
+  def self.subscribed_users: (untyped journal) -> untyped
+
+  def self.subscribed_notification_reason: (untyped journal) -> untyped
+
+  def self.watcher_users: (untyped journal) -> untyped
+
+  def self.project: (untyped journal) -> untyped
+
+  def self.user: (untyped journal) -> untyped
+end

@@ -1,0 +1,9 @@
+module API
+  module V3
+    module WorkPackages
+      module LinkToObjectExtractor
+        def self.parse_links: (untyped links) -> untyped
+      end
+    end
+  end
+end

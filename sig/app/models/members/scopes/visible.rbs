@@ -1,0 +1,14 @@
+module Members::Scopes
+  module Visible
+    extend ActiveSupport::Concern
+
+    # Find all members visible to the inquiring user
+    def visible: (untyped user) -> untyped
+
+    private
+
+    def visible_for_non_admins: (untyped user) -> untyped
+
+    def visible_for_admins: () -> untyped
+  end
+end

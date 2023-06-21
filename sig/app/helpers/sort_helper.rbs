@@ -1,0 +1,125 @@
+module SortHelper
+  class SortCriteria
+    attr_reader criteria: untyped
+
+    def initialize: () -> void
+
+    def available_criteria=: (untyped criteria) -> untyped
+
+    def from_param: (untyped param) -> untyped
+
+    def criteria=: (untyped arg) -> untyped
+
+    def to_param: (?untyped? format) -> untyped
+
+    def to_sql: () -> untyped
+
+    def to_a: () -> untyped
+
+    def to_query_hash: () -> untyped
+
+    def map_each: () { () -> untyped } -> untyped
+
+    def add!: (untyped key, untyped asc) -> untyped
+
+    def add: (*untyped args) -> untyped
+
+    def first_key: () -> untyped
+
+    def first_asc?: () -> untyped
+
+    def empty?: () -> untyped
+
+    private
+
+    def normalize!: () -> self
+
+    def append_direction: (untyped criterion, ?bool asc) -> untyped
+
+    # Appends DESC to the sort criterion unless it has a fixed order
+    def append_desc: (untyped criterion) -> (untyped | ::String)
+
+    def to_json_param: () -> untyped
+
+    def criteria_with_direction: () -> untyped
+
+    def to_sort_param: () -> untyped
+  end
+
+  def sort_name: () -> untyped
+
+  # Initializes the default sort.
+  # Examples:
+  #
+  #   sort_init 'name'
+  #   sort_init 'id', 'desc'
+  #   sort_init ['name', ['id', 'desc']]
+  #   sort_init [['name', 'desc'], ['id', 'desc']]
+  #
+  def sort_init: (*untyped args) -> untyped
+
+  # Updates the sort state. Call this in the controller prior to calling
+  # sort_clause.
+  # - criteria can be either an array or a hash of allowed keys
+  #
+  def sort_update: (untyped criteria) -> untyped
+
+  # Clears the sort criteria session data
+  #
+  def sort_clear: () -> untyped
+
+  # Returns an SQL sort clause corresponding to the current sort state.
+  # Use this to sort the controller's table items collection.
+  #
+  def sort_clause: () -> untyped
+
+  def sort_columns: () -> untyped
+
+  # Determines whether the current selected sort criteria
+  # is identical to the default
+  def default_sort_order?: () -> untyped
+
+  # Returns a link which sorts by the named column.
+  #
+  # - column is the name of an attribute in the sorted record collection.
+  # - the optional caption explicitly specifies the displayed link text.
+  # - 2 CSS classes reflect the state of the link: sort and asc or desc
+  #
+  def sort_link: (untyped column, untyped caption, untyped default_order, ?::Hash[untyped, untyped] html_options) -> untyped
+
+  # Returns a table header <th> tag with a sort link for the named column
+  # attribute.
+  #
+  # Options:
+  #   :caption     The displayed link name (defaults to titleized column name).
+  #   :title       The tag's 'title' attribute (defaults to 'Sort by :caption').
+  #
+  # Other options hash entries generate additional table header tag attributes.
+  #
+  # Example:
+  #
+  #   <%= sort_header_tag('id', title: 'Sort by contact ID') %>
+  #
+  #   Generates (for the users controller and if the table is sorted by the column)
+  #     <th>
+  #       <div class="generic-table--sort-header-outer">
+  #         <div class="generic-table--sort-header">
+  #           <span class="sort asc">
+  #             <a href="/users?sort=id:desc%3Adesc">Id</a>
+  #           </span>
+  #         </div>
+  #       </div>
+  #     </th>
+  #
+  def sort_header_tag: (untyped column, ?::Hash[untyped, untyped] options) -> untyped
+
+  def sort_class: (untyped column) -> untyped
+
+  def order_string: (untyped column, ?inverted: bool) -> ("desc" | "asc" | "asc" | "desc" | nil)
+
+  def within_sort_header_tag_hierarchy: (untyped options, untyped classes) { () -> untyped } -> untyped
+
+  def sort_header_title: (untyped column, untyped caption, untyped options) -> (untyped | untyped | nil)
+
+  def get_caption: (untyped column, untyped options) -> untyped
+end

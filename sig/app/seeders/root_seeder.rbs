@@ -1,0 +1,44 @@
+# Seeds the minimum data required to run OpenProject (BasicDataSeeder, AdminUserSeeder)
+# as well as optional demo data (DemoDataSeeder) to give a user some orientation.
+class RootSeeder < Seeder
+  def initialize: (?seed_development_data: untyped) -> void
+
+  # Returns the demo data in the default language.
+  def seed_data: () -> untyped
+
+  def seed_data!: () -> untyped
+
+  def do_seed!: () -> untyped
+
+  def seed_development_data?: () -> untyped
+
+  private
+
+  # Load all seeders so that they can be discovered when doing
+  # `Seeder.subclasses`.
+  def load_available_seeders: () -> untyped
+
+  def load_engine_seeders: (untyped engine) -> untyped
+
+  def rails_engines: () -> untyped
+
+  #
+  # Clears some schema caches and column information.
+  def reset_active_record!: () -> untyped
+
+  def set_locale!: () { () -> untyped } -> untyped
+
+  def prepare_seed!: () { () -> untyped } -> untyped
+
+  def seed_basic_data: () -> untyped
+
+  def seed_admin_user: () -> untyped
+
+  def seed_demo_data: () -> untyped
+
+  def seed_development_data: () -> untyped
+
+  def seed_plugins_data: () -> untyped
+
+  def desired_lang: () -> untyped
+end

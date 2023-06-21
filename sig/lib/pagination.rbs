@@ -1,0 +1,2 @@
+module Pagination
+end

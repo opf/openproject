@@ -1,0 +1,17 @@
+class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  include Queries::WorkPackages::Filter::TextFilterOnJoinMixin
+
+  def type: () -> :text
+
+  def available?: () -> untyped
+
+  def where_condition: () -> ::String
+
+  def attachment_table: () -> untyped
+
+  def tsv_condition: () -> untyped
+
+  def search_column: () -> untyped
+
+  def normalization_type: () -> :text
+end

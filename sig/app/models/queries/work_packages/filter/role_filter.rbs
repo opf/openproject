@@ -1,0 +1,31 @@
+class Queries::WorkPackages::Filter::RoleFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  def allowed_values: () -> untyped
+
+  def available?: () -> untyped
+
+  def type: () -> :list_optional
+
+  def human_name: () -> untyped
+
+  def self.key: () -> :assigned_to_role
+
+  def ar_object_filter?: () -> true
+
+  def value_objects: () -> untyped
+
+  def where: () -> untyped
+
+  private
+
+  def roles: () -> untyped
+
+  def operator_for_filtering: () -> untyped
+
+  def user_ids_for_filtering: () -> untyped
+
+  def user_ids_for_filtering_scope: () -> untyped
+
+  def user_ids_for_filter_project_scope: () -> untyped
+
+  def user_ids_for_filter_non_project_scope: () -> untyped
+end

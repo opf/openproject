@@ -1,0 +1,17 @@
+module API
+  module V3
+    module Configuration
+      class ConfigurationRepresenter < ::API::Decorators::Single
+        def _type: () -> "Configuration"
+
+        def user_preferences: () -> untyped
+
+        def date_format: () -> untyped
+
+        def time_format: () -> untyped
+
+        def reformated: (untyped setting) { () -> untyped } -> untyped
+      end
+    end
+  end
+end

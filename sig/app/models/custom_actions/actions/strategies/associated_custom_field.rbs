@@ -1,0 +1,7 @@
+module CustomActions::Actions::Strategies::AssociatedCustomField
+  include CustomActions::Actions::Strategies::Associated
+
+  include CustomActions::Actions::Strategies::CustomField
+
+  def associated: () -> untyped
+end

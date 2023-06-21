@@ -1,0 +1,33 @@
+module WorkPackage::PDFExport::WorkPackageDetail
+  include WorkPackage::PDFExport::MarkdownField
+
+  def write_work_packages_details!: (untyped work_packages, untyped id_wp_meta_map) -> untyped
+
+  def write_work_package_detail!: (untyped work_package, untyped id_wp_meta_map_entry) -> untyped
+
+  def write_work_package_detail_content!: (untyped work_package) -> untyped
+
+  private
+
+  def write_work_package_subject!: (untyped work_package, untyped level_path) -> untyped
+
+  def write_work_package_level!: (untyped level_path) -> (0 | untyped)
+
+  def write_attributes_table!: (untyped work_package) -> untyped
+
+  def attributes_table_column_widths: () -> untyped
+
+  def build_columns_table_rows: (untyped work_package) -> untyped
+
+  def build_attributes_table_rows: (untyped work_package) -> untyped
+
+  def build_attributes_table_cells: (untyped attribute, untyped work_package) -> (::Array[""] | untyped)
+
+  def build_columns_table_cells: (untyped column, untyped work_package) -> (::Array[""] | untyped)
+
+  def build_attributes_row: (untyped label, untyped col_name, untyped work_package) -> ::Array[untyped]
+
+  def write_description!: (untyped work_package) -> untyped
+
+  def write_custom_fields!: (untyped work_package) -> untyped
+end

@@ -1,0 +1,4 @@
+module Queries
+  class CreateContract < BaseContract
+  end
+end

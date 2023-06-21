@@ -1,0 +1,33 @@
+# In the context of the baseline-comparison feature, this module adds the `at_timestamp`
+# scope to the `Journal` class.
+#
+# Usage:
+#
+#     work_package.journals.at_timestamp(1.year.ago)
+#
+# See also:
+#
+# - https://github.com/opf/openproject/pull/11243
+# - https://community.openproject.org/projects/openproject/work_packages/26448
+#
+module Journal::Timestamps
+  extend ActiveSupport::Concern
+
+  # Select all journals that are the most current at the given timestamp
+  # for their respective journables.
+  #
+  # Suppose, all journables have three journals: One for Monday, one for Wednesday,
+  # one for Friday.
+  #
+  # `at_timestamp(before_monday)` will return none
+  # `at_timestamp(monday)` will return the Monday journals
+  # `at_timestamp(tuesday)` will return the Monday journals
+  # `at_timestamp(wednesday)` will return the Wednesday journals
+  # `at_timestamp(thursday)` will return the Wednesday journals
+  # `at_timestamp(friday)` will return the Friday journals
+  #
+  # You may use this to find the journal that represents the data state of
+  # a journable at a given timestamp.
+  #
+  def at_timestamp: (untyped timestamp) -> untyped
+end

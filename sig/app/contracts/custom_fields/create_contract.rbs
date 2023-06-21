@@ -1,0 +1,4 @@
+module CustomFields
+  class CreateContract < BaseContract
+  end
+end

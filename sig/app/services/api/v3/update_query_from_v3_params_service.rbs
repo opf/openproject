@@ -1,0 +1,13 @@
+module API
+  module V3
+    class UpdateQueryFromV3ParamsService
+      def initialize: (untyped query, untyped user) -> void
+
+      def call: (untyped params, ?valid_subset: bool) -> untyped
+
+      attr_accessor query: untyped
+
+      attr_accessor current_user: untyped
+    end
+  end
+end

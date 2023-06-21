@@ -1,0 +1,17 @@
+class CategoriesController < ApplicationController
+  def new: () -> untyped
+
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  def destroy: () -> (nil | untyped)
+
+  private
+
+  # Wrap ApplicationController's find_model_object method to set
+  # @category instead of just @category
+  def find_model_object: () -> untyped
+
+  def find_project: () -> untyped
+end

@@ -1,0 +1,9 @@
+module CustomActions::Actions::Strategies::Boolean
+  include CustomActions::ValidateAllowedValue
+
+  def allowed_values: () -> ::Array[{ label: untyped, value: untyped }]
+
+  def type: () -> :boolean
+
+  def validate: (untyped errors) -> untyped
+end

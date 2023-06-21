@@ -1,0 +1,3 @@
+module DeprecatedAlias
+  def deprecated_alias: (untyped old_method, untyped new_method) -> untyped
+end

@@ -1,0 +1,19 @@
+class Type::QueryGroup < Type::FormGroup
+  MEMBER_PREFIX: "query_"
+
+  def self.query_attribute?: (untyped name) -> untyped
+
+  def self.query_attribute_id: (untyped name) -> untyped
+
+  def query_attribute_name: () -> ::Symbol
+
+  def group_type: () -> :query
+
+  def ==: (untyped other) -> untyped
+
+  alias query attributes
+
+  def members: () -> ::Array[untyped]
+
+  def active_members: (untyped _project) -> ::Array[untyped]
+end

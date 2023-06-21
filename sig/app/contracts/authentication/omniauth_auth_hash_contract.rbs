@@ -1,0 +1,17 @@
+module Authentication
+  class OmniauthAuthHashContract
+    include ActiveModel::Validations
+
+    attr_reader auth_hash: untyped
+
+    def initialize: (untyped auth_hash) -> void
+
+    private
+
+    def validate_auth_hash: () -> (nil | untyped)
+
+    def validate_auth_hash_not_expired: () -> (nil | untyped)
+
+    def validate_authorization_callback: () -> (nil | untyped)
+  end
+end

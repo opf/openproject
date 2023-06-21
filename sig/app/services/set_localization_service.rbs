@@ -1,0 +1,25 @@
+class SetLocalizationService
+  attr_reader user: untyped
+
+  attr_reader http_accept_header: untyped
+
+  include Redmine::I18n
+
+  def initialize: (untyped user, ?untyped? http_accept_header) -> void
+
+  def call: () -> untyped
+
+  private
+
+  def user_language: () -> (untyped | nil)
+
+  def header_language: () -> (nil | untyped)
+
+  def default_language: () -> untyped
+
+  # qvalues http header parser
+  # code taken from webrick
+  def parse_qvalues: (untyped value) -> untyped
+
+  def find_language_or_prefix: (untyped language) -> (nil | untyped)
+end

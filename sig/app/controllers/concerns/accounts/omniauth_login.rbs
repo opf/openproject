@@ -1,0 +1,21 @@
+#
+# Intended to be used by the AccountController to handle omniauth logins
+module Accounts::OmniauthLogin
+  extend ActiveSupport::Concern
+
+  def omniauth_login: () -> untyped
+
+  def omniauth_failure: () -> untyped
+
+  def direct_login_provider_url: (?::Hash[untyped, untyped] params) -> untyped
+
+  private
+
+  def redirect_omniauth_register_modal: (untyped user, untyped auth_hash) -> untyped
+
+  def show_error: (untyped error) -> untyped
+
+  def register_via_omniauth: (untyped session, untyped user_attributes) -> untyped
+
+  def handle_omniauth_authentication: (untyped auth_hash, ?user_params: untyped?) -> untyped
+end

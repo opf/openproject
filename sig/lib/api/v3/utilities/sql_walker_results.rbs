@@ -1,0 +1,29 @@
+module API
+  module V3
+    module Utilities
+      class SqlWalkerResults
+        def initialize: (untyped scope, url_query: untyped, ?self_path: untyped?, ?replace_map: ::Hash[untyped, untyped]) -> void
+
+        attr_accessor filter_scope: untyped
+
+        attr_accessor projection_scope: untyped
+
+        attr_accessor sql: untyped
+
+        attr_accessor selects: untyped
+
+        attr_accessor ctes: untyped
+
+        attr_accessor self_path: untyped
+
+        attr_accessor url_query: untyped
+
+        attr_accessor replace_map: untyped
+
+        def page_size: () -> untyped
+
+        def offset: () -> untyped
+      end
+    end
+  end
+end

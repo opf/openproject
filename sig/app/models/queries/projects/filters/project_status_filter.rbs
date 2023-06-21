@@ -1,0 +1,19 @@
+module Queries
+  module Projects
+    module Filters
+      class ProjectStatusFilter < ::Queries::Projects::Filters::ProjectFilter
+        include ProjectStatusHelper
+
+        def allowed_values: () -> untyped
+
+        def type: () -> :list_optional
+
+        def where: () -> untyped
+
+        def self.key: () -> :project_status_code
+
+        def human_name: () -> untyped
+      end
+    end
+  end
+end

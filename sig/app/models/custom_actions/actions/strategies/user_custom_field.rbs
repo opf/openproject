@@ -1,0 +1,9 @@
+module CustomActions::Actions::Strategies::UserCustomField
+  include CustomActions::Actions::Strategies::CustomField
+
+  include ::CustomActions::Actions::Strategies::MeAssociated
+
+  def apply: (untyped work_package) -> (untyped | nil)
+
+  def available_principles: () -> untyped
+end

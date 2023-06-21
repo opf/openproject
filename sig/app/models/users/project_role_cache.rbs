@@ -1,0 +1,17 @@
+class Users::ProjectRoleCache
+  attr_accessor user: untyped
+
+  def initialize: (untyped user) -> void
+
+  def fetch: (untyped project) -> untyped
+
+  private
+
+  def roles: (untyped project) -> (::Array[untyped] | untyped)
+
+  def cache: () -> untyped
+
+  def all_givable_roles: () -> untyped
+
+  def archived?: (untyped project) -> (false | untyped)
+end

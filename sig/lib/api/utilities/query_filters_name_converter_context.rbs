@@ -1,0 +1,11 @@
+module API
+  module Utilities
+    class QueryFiltersNameConverterContext
+      def initialize: (?untyped query_class) -> void
+
+      def respond_to?: (untyped method_name, ?bool include_private) -> untyped
+
+      attr_accessor query_class: untyped
+    end
+  end
+end

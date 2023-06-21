@@ -1,0 +1,65 @@
+class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::QueryExporter
+  include WorkPackage::PDFExport::Common
+
+  include WorkPackage::PDFExport::Attachments
+
+  include WorkPackage::PDFExport::OverviewTable
+
+  include WorkPackage::PDFExport::SumsTable
+
+  include WorkPackage::PDFExport::WorkPackageDetail
+
+  include WorkPackage::PDFExport::TableOfContents
+
+  include WorkPackage::PDFExport::Page
+
+  include WorkPackage::PDFExport::Style
+
+  attr_accessor pdf: untyped
+
+  attr_accessor options: untyped
+
+  def self.key: () -> :pdf
+
+  def initialize: (untyped object, ?::Hash[untyped, untyped] options) -> void
+
+  def export!: () -> untyped
+
+  private
+
+  def setup_page!: () -> untyped
+
+  def render_work_packages: (untyped work_packages, ?filename: ::String) -> untyped
+
+  def wants_total_page_nrs?: () -> true
+
+  def render_work_packages_pdfs: (untyped work_packages, untyped filename) -> untyped
+
+  def render_batched: (untyped work_packages, untyped filename) -> untyped
+
+  def merge_batched_pdfs: (untyped batch_files, untyped filename) -> untyped
+
+  def batch_supported?: () -> untyped
+
+  def render_pdf: (untyped work_packages, untyped filename) -> untyped
+
+  def write_after_pages!: () -> untyped
+
+  def init_meta_infos_map_nodes: (untyped work_packages) -> untyped
+
+  def link_meta_infos_map_nodes: (untyped infos_map, untyped work_packages) -> untyped
+
+  def fill_meta_infos_map_nodes: (untyped node, untyped level_path, untyped flat_list) -> untyped
+
+  def build_flat_meta_infos_map: (untyped work_packages) -> ::Array[untyped]
+
+  def build_meta_infos_map: (untyped work_packages) -> (untyped | ::Array[untyped])
+
+  def should_be_batched?: (untyped work_packages) -> untyped
+
+  def project: () -> untyped
+
+  def title: () -> ::String
+
+  def heading: () -> untyped
+end

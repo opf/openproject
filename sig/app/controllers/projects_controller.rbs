@@ -1,0 +1,36 @@
+class ProjectsController < ApplicationController
+  include SortHelper
+
+  include PaginationHelper
+
+  include QueriesHelper
+
+  include ProjectsHelper
+
+  def index: () -> untyped
+
+  def new: () -> untyped
+
+  def copy: () -> untyped
+
+  # Delete @project
+  def destroy: () -> untyped
+
+  def destroy_info: () -> untyped
+
+  private
+
+  def find_optional_project: () -> untyped
+
+  def hide_project_in_layout: () -> untyped
+
+  def load_query: () -> untyped
+
+  def export_list: (untyped mime_type) -> untyped
+
+  def load_projects: (untyped query) -> untyped
+
+  def set_sorting: (untyped query) -> untyped
+
+  def supported_export_formats: () -> untyped
+end

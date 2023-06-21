@@ -1,0 +1,13 @@
+class AnnouncementMailer < ApplicationMailer
+  include OpenProject::StaticRouting::UrlHelpers
+
+  include OpenProject::TextFormatting
+
+  def announce: (untyped user, subject: untyped, body: untyped, ?salutation: ::Symbol, ?body_header: untyped?, ?body_subheader: untyped?) -> untyped
+
+  private
+
+  def localized: (untyped input) -> untyped
+
+  def user_salutation: (untyped user, untyped salutation) -> untyped
+end

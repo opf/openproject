@@ -1,0 +1,5 @@
+module API::V3::Notifications::PropertyFactory
+  module Default
+    def self?.for: (untyped _notification) -> ::Array[untyped]
+  end
+end

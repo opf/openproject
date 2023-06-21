@@ -1,0 +1,27 @@
+class SCM::AuthorizationPolicy
+  attr_reader project: untyped
+
+  attr_reader user: untyped
+
+  def initialize: (untyped project, untyped user) -> void
+
+  #
+  # Determines the authorization status for the user of this project
+  # for a given repository request.
+  # May be overridden by descendents when more than the read/write distinction
+  # is necessary.
+  def authorized?: (untyped params) -> untyped
+
+  #
+  # Determines whether the given request is a read access
+  # Must be implemented by descendents of this policy.
+  def readonly_request?: (untyped _params) -> untyped
+
+  #
+  # Returns whether the user has read access permission to the repository
+  def read_access?: () -> untyped
+
+  #
+  # Returns whether the user has read/write access permission to the repository
+  def write_access?: () -> untyped
+end

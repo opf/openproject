@@ -1,0 +1,23 @@
+module API
+  module V3
+    module Queries
+      module GroupBys
+        class QueryGroupByRepresenter < ::API::Decorators::Single
+          include API::Utilities::RepresenterToJsonCache
+
+          def initialize: (untyped model, *untyped _) -> void
+
+          def converted_name: () -> untyped
+
+          alias id converted_name
+
+          def _type: () -> "QueryGroupBy"
+
+          def convert_attribute: (untyped attribute) -> untyped
+
+          def json_cache_key: () -> ::Array[untyped]
+        end
+      end
+    end
+  end
+end

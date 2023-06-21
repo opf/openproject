@@ -1,0 +1,13 @@
+module BaseServices
+  class BaseCallable
+    extend ActiveModel::Callbacks
+
+    include ::WithReversibleState
+
+    def call: (?::Hash[untyped, untyped] params) -> untyped
+
+    attr_accessor params: untyped
+
+    def perform: (*untyped) -> untyped
+  end
+end

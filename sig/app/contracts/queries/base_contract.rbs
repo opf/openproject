@@ -1,0 +1,15 @@
+module Queries
+  class BaseContract < ::ModelContract
+    def self.model: () -> untyped
+
+    def validate_project: () -> (untyped | nil)
+
+    def project_visible?: () -> untyped
+
+    def may_not_manage_queries?: () -> untyped
+
+    def user_allowed_to_make_public: () -> (nil | untyped)
+
+    def timestamps_are_parsable: () -> untyped
+  end
+end

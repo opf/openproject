@@ -1,0 +1,11 @@
+class Queries::WorkPackages::Filter::OnlySubprojectFilter < Queries::WorkPackages::Filter::SubprojectFilter
+  def type: () -> :list
+
+  def human_name: () -> untyped
+
+  def self.key: () -> :only_subproject_id
+
+  private
+
+  def ids_for_where: () -> untyped
+end

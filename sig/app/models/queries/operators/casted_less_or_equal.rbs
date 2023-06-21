@@ -1,0 +1,5 @@
+module Queries::Operators
+  class CastedLessOrEqual < Base
+    def self.sql_for_field: (untyped values, untyped db_table, untyped db_field) -> untyped
+  end
+end

@@ -1,0 +1,25 @@
+module OpenProject
+  module Configuration
+    extend Helpers
+
+    TRUE_VALUES: ::Array["true" | true | "1"]
+
+    # Returns a configuration setting
+    def self.[]: (untyped name) -> untyped
+
+    # Sets configuration setting
+    def self.[]=: (untyped name, untyped value) -> untyped
+
+    def self.cache_store_configuration: () -> untyped
+
+    def self.cache_store_parameters: () -> untyped
+
+    private
+
+    def self.method_missing: (untyped name, *untyped args) { () -> untyped } -> untyped
+
+    def self.respond_to_missing?: (untyped name, ?bool include_private) -> untyped
+
+    def self.define_config_methods: (untyped definition) -> untyped
+  end
+end

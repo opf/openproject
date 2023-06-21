@@ -1,0 +1,7 @@
+class Queries::Projects::Orders::RequiredDiskSpaceOrder < Queries::Orders::Base
+  def self.key: () -> :required_disk_space
+
+  private
+
+  def order: () -> untyped
+end

@@ -1,0 +1,3 @@
+class Queries::WorkPackages::Filter::CustomFieldFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  include Queries::Filters::Shared::CustomFieldFilter
+end

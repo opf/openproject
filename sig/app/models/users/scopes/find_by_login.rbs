@@ -1,0 +1,12 @@
+# Find a user account by matching case-insensitive.
+module Users::Scopes
+  module FindByLogin
+    extend ActiveSupport::Concern
+
+    def by_login: (untyped login) -> untyped
+
+    # Find a user scope by matching the exact login and then a case-insensitive
+    # version. Exact matches will be given priority.
+    def find_by_login: (untyped login) -> untyped
+  end
+end

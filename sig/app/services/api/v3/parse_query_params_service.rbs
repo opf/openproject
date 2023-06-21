@@ -1,0 +1,82 @@
+module API
+  module V3
+    class ParseQueryParamsService
+      KEYS_GROUP_BY: ::Array[:group_by | :groupBy | :g]
+
+      KEYS_COLUMNS: ::Array[:columns | :c | :column_names | :"columns[]"]
+
+      def call: (untyped params) -> untyped
+
+      private
+
+      def json_parsed_params: (untyped params) -> untyped
+
+      # rubocop:disable Metrics/AbcSize
+      def parsed_params: (untyped params) -> untyped
+
+      def determine_allowed_empty: (untyped params) -> untyped
+
+      # Group will be set to nil if parameter exists but set to empty string ('')
+      def group_by_from_params: (untyped params) -> (nil | untyped)
+
+      def sort_by_from_params: (untyped params) -> (nil | untyped)
+
+      def timeline_labels_from_params: (untyped params) -> (nil | untyped)
+
+      # Expected format looks like:
+      # [
+      #   {
+      #     "filtered_field_name": {
+      #       "operator": "a name for a filter operation",
+      #       "values": ["values", "for the", "operation"]
+      #     }
+      #   },
+      #   { /* more filters if needed */}
+      # ]
+      def filters_from_params: (untyped params) -> (nil | untyped)
+
+      def filter_from_params: (untyped filter) -> { field: untyped, operator: untyped, values: untyped }
+
+      def columns_from_params: (untyped params) -> (nil | untyped)
+
+      def highlighted_attributes_from_params: (untyped params) -> (nil | untyped)
+
+      def boolearize: (untyped value) -> untyped
+
+      #
+      # Maps given field names coming from the frontend to the actual names
+      # as expected by the query. This works slightly different to what happens
+      # in #column_names_from_params. For instance while they column name is
+      # :type the expected field name is :type_id.
+      #
+      # Examples:
+      #   * status => status_id
+      #   * progresssDone => done_ratio
+      #   * assigned => assigned_to
+      #   * customField1 => cf_1
+      #
+      # @param field_names [Array] Field names as read from the params.
+      # @return [Array] Returns a list of fixed field names. The list may contain nil values
+      #                 for fields which could not be found.
+      def fix_field_array: (untyped field_names) -> (::Array[untyped] | untyped)
+
+      def parse_sorting_from_json: (untyped json) -> untyped
+
+      def convert_attribute: (untyped attribute, ?append_id: bool) -> untyped
+
+      def convert_filter_attribute: (untyped attribute, ?append_id: bool) -> untyped
+
+      def params_exist?: (untyped params, untyped symbols) -> untyped
+
+      def params_value: (untyped params, untyped symbols) -> untyped
+
+      #
+      # Access the parameters as a hash, which has been deprecated
+      def unsafe_params: (untyped params) -> untyped
+
+      def without_empty: (untyped hash, untyped exceptions) -> untyped
+
+      def group_by_empty?: (untyped params) -> untyped
+    end
+  end
+end

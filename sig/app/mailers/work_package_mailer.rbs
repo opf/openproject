@@ -1,0 +1,11 @@
+class WorkPackageMailer < ApplicationMailer
+  def mentioned: (untyped recipient, untyped journal) -> untyped
+
+  def watcher_changed: (untyped work_package, untyped user, untyped watcher_changer, untyped action) -> untyped
+
+  private
+
+  def subject_for_work_package: (untyped work_package) -> untyped
+
+  def set_work_package_headers: (untyped work_package) -> untyped
+end

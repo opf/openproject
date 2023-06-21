@@ -1,0 +1,7 @@
+module Admin::Settings
+  class IncomingMailsSettingsController < ::Admin::SettingsController
+    def default_breadcrumb: () -> untyped
+
+    def show_local_breadcrumb: () -> true
+  end
+end

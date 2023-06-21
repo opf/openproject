@@ -1,0 +1,13 @@
+# Only return Principals that are not built into the system so only return those that where
+# created by a human.
+# Excludes
+#   * DeletedUser
+#   * SystemUser
+#   * AnonymousUser
+module Principals::Scopes
+  module NotBuiltin
+    extend ActiveSupport::Concern
+
+    def not_builtin: () -> untyped
+  end
+end

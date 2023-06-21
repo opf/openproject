@@ -1,0 +1,11 @@
+class Reports::PriorityReport < Reports::Report
+  def self.report_type: () -> "priority"
+
+  def field: () -> "priority_id"
+
+  def rows: () -> untyped
+
+  def data: () -> untyped
+
+  def title: () -> untyped
+end

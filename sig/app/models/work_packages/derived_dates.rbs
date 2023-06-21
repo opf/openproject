@@ -1,0 +1,29 @@
+module WorkPackages::DerivedDates
+  # Returns the maximum of the dates of all descendants (start and due date)
+  # No visibility check is applied so a user will always see the maximum regardless of his permission.
+  #
+  # The value can stem from either eager loading the value via
+  # WorkPackage.include_derived_dates in which case the work package has a
+  # derived_start_date attribute or it is loaded on calling the method.
+  def derived_start_date: () -> untyped
+
+  # Returns the minimum of the dates of all descendants (start and due date)
+  # No visibility check is applied so a user will always see the minimum regardless of his permission.
+  #
+  # The value can stem from either eager loading the value via
+  # WorkPackage.include_derived_dates in which case the work package has a
+  # derived_due_date attribute or it is loaded on calling the method.
+  def derived_due_date: () -> untyped
+
+  def derived_start_date=: (untyped date) -> untyped
+
+  def derived_due_date=: (untyped date) -> untyped
+
+  def reload: (*untyped) -> untyped
+
+  private
+
+  def derived_date: (untyped key) -> untyped
+
+  def compute_derived_dates: () -> untyped
+end

@@ -1,0 +1,9 @@
+module Redmine
+  module Views
+    class OtherFormatsBuilder
+      def initialize: (untyped view) -> void
+
+      def link_to: (untyped name, ?::Hash[untyped, untyped] options) -> (nil | untyped)
+    end
+  end
+end

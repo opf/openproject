@@ -1,0 +1,39 @@
+module Versions
+  class RowComponent < ::RowComponent
+    # Overriding cell's method to set the project instance variable.
+    # A lot of helpers rely on the existence of it.
+    def setup!: (untyped model, untyped options) -> untyped
+
+    def version: () -> untyped
+
+    def row_css_class: () -> untyped
+
+    def name: () -> untyped
+
+    def start_date: () -> untyped
+
+    def effective_date: () -> untyped
+
+    def description: () -> untyped
+
+    def status: () -> untyped
+
+    def sharing: () -> untyped
+
+    def wiki_page: () -> ("" | untyped)
+
+    def button_links: () -> untyped
+
+    private
+
+    def wiki_page_title: () -> untyped
+
+    def edit_link: () -> (nil | untyped)
+
+    def delete_link: () -> (nil | untyped)
+
+    def column_css_class: (untyped column) -> untyped
+
+    def name_css_class: () -> untyped
+  end
+end

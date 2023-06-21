@@ -1,0 +1,22 @@
+module Contracted
+  extend ActiveSupport::Concern
+
+  attr_reader contract_class: untyped
+
+  attr_accessor contract_options: untyped
+
+  def contract_class=: (untyped cls) -> untyped
+
+  private
+
+  def instantiate_contract: (untyped object, untyped user, ?options: ::Hash[untyped, untyped]) -> untyped
+
+  def validate_and_save: (untyped object, untyped user, ?options: ::Hash[untyped, untyped]) -> untyped
+
+  #
+  # Call the given block and assume object is erroneous if
+  # it does not return truthy
+  def validate_and_yield: (untyped object, untyped user, ?options: ::Hash[untyped, untyped]) { () -> untyped } -> untyped
+
+  def validate: (untyped object, untyped user, ?options: ::Hash[untyped, untyped]) -> untyped
+end

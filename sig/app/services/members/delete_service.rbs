@@ -1,0 +1,9 @@
+class Members::DeleteService < BaseServices::Delete
+  include Members::Concerns::CleanedUp
+
+  def after_perform: (untyped service_call) -> untyped
+
+  def send_notification: (untyped member) -> untyped
+
+  def cleanup_for_group: (untyped member) -> (nil | untyped)
+end

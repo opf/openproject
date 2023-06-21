@@ -1,0 +1,29 @@
+module DemoData
+  class OverviewSeeder < Seeder
+    include CreateAttachments
+
+    include References
+
+    def seed_data!: () -> untyped
+
+    def applicable?: () -> untyped
+
+    private
+
+    def demo_projects_exist?: () -> untyped
+
+    def build_widget: (untyped overview, untyped widget_config) -> untyped
+
+    def find_project: (untyped project_data) -> untyped
+
+    def create_overview: (untyped overview_data, untyped project_data) -> untyped
+
+    def overview_data: (untyped project_data) -> untyped
+
+    def text_with_references: (untyped overview, untyped widget_options) -> (untyped | nil)
+
+    def query_id_references: (untyped overview, untyped widget_options) -> (untyped | nil)
+
+    def add_permission: () -> untyped
+  end
+end

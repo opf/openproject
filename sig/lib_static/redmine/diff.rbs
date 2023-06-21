@@ -1,0 +1,40 @@
+module Redmine
+  # A line of diff
+  class Diff
+    include ActionView::Helpers::TagHelper
+
+    attr_accessor nb_line_left: untyped
+
+    attr_accessor line_left: untyped
+
+    attr_accessor nb_line_right: untyped
+
+    attr_accessor line_right: untyped
+
+    attr_accessor type_diff_right: untyped
+
+    attr_accessor type_diff_left: untyped
+
+    attr_accessor offsets: untyped
+
+    def initialize: () -> void
+
+    def type_diff: () -> untyped
+
+    def line: () -> untyped
+
+    def html_line_left: () -> untyped
+
+    def html_line_right: () -> untyped
+
+    def html_line: () -> untyped
+
+    def inspect: () -> untyped
+
+    private
+
+    def line_to_html: (untyped line, untyped offsets) -> untyped
+
+    def line_to_html_raw: (untyped line, untyped offsets) -> untyped
+  end
+end

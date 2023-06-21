@@ -1,0 +1,20 @@
+module Queries
+  module Filters
+    class EmptyFilter < Base
+      def available?: () -> true
+
+      def type: () -> :inexistent
+
+      def self.key: () -> :empty
+
+      def human_name: () -> untyped
+
+      # deactivating superclass validation
+      def validate_inclusion_of_operator: () -> nil
+
+      def scope: () -> untyped
+
+      def attributes_hash: () -> nil
+    end
+  end
+end

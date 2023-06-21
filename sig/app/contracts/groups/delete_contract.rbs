@@ -1,0 +1,4 @@
+module Groups
+  class DeleteContract < ::DeleteContract
+  end
+end

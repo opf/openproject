@@ -1,0 +1,7 @@
+module OpenProject::TextFormatting::Formats
+  module Plain
+    class Helper
+      def wikitoolbar_for: (*untyped _args) -> untyped
+    end
+  end
+end

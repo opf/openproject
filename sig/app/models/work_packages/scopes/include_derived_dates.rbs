@@ -1,0 +1,13 @@
+module WorkPackages::Scopes::IncludeDerivedDates
+  extend ActiveSupport::Concern
+
+  def include_derived_dates: () -> untyped
+
+  private
+
+  def derived_dates_select_statement: () -> ::Array[::String]
+
+  def derived_dates_join_statement: () -> untyped
+
+  def descendants_alias: () -> "descendants_work_packages"
+end

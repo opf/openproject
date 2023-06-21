@@ -1,0 +1,38 @@
+class UpdateQueryFromParamsService
+  def initialize: (untyped query, untyped user) -> void
+
+  # rubocop:disable Metrics/AbcSize
+  def call: (untyped params, ?valid_subset: bool) -> untyped
+
+  private
+
+  def apply_group_by: (untyped params) -> (untyped | nil)
+
+  def apply_sort_by: (untyped params) -> (untyped | nil)
+
+  def apply_filters: (untyped params) -> (nil | untyped)
+
+  def apply_columns: (untyped params) -> (untyped | nil)
+
+  def apply_sums: (untyped params) -> (untyped | nil)
+
+  def apply_timeline: (untyped params) -> untyped
+
+  def apply_hierarchy: (untyped params) -> (untyped | nil)
+
+  def apply_highlighting: (untyped params) -> untyped
+
+  def apply_display_representation: (untyped params) -> (untyped | nil)
+
+  def apply_include_subprojects: (untyped params) -> (untyped | nil)
+
+  def apply_timestamps: (untyped params) -> (untyped | nil)
+
+  def disable_hierarchy_when_only_grouped_by: (untyped params) -> (untyped | nil)
+
+  attr_accessor query: untyped
+
+  attr_accessor current_user: untyped
+
+  attr_accessor params: untyped
+end

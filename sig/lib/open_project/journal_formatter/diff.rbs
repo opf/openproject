@@ -1,0 +1,21 @@
+class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
+  include OpenProject::StaticRouting::UrlHelpers
+
+  def render: (untyped key, untyped values, ?::Hash[untyped, untyped] options) -> untyped
+
+  private
+
+  def label: (untyped key, ?html: bool) -> untyped
+
+  def render_ternary_detail_text: (untyped key, untyped value, untyped old_value, untyped options) -> untyped
+
+  # url_for wants to access the controller method, which we do not have in our Diff class.
+  # see: http://stackoverflow.com/questions/3659455/is-there-a-new-syntax-for-url-for-in-rails-3
+  def controller: () -> nil
+
+  def link: (untyped key, untyped options) -> untyped
+
+  def url_attr: (untyped key, untyped options) -> untyped
+
+  def default_attributes: (untyped options) -> ({ only_path: untyped, script_name: untyped } | { only_path: untyped, protocol: untyped, host: untyped })
+end

@@ -1,0 +1,11 @@
+class CustomActions::Actions::AssignedTo < CustomActions::Actions::Base
+  include CustomActions::Actions::Strategies::MeAssociated
+
+  def self.key: () -> :assigned_to
+
+  def available_principles: () -> untyped
+
+  def apply: (untyped work_package) -> untyped
+
+  def principal_class: () -> untyped
+end

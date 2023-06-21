@@ -1,0 +1,21 @@
+class PermittedParams
+  module AllowedSettings
+    class Restriction
+      attr_reader restricted_keys: untyped
+
+      attr_reader condition: untyped
+
+      def initialize: (untyped restricted_keys, untyped condition) -> void
+
+      def applicable?: () -> untyped
+    end
+
+    def self?.all: () -> untyped
+
+    def self?.add_restriction!: (keys: untyped, condition: untyped) -> untyped
+
+    def self?.restrictions: () -> untyped
+
+    def self?.init!: () -> untyped
+  end
+end

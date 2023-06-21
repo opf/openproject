@@ -1,0 +1,10 @@
+module API
+  module V3
+    module Memberships
+      module Schemas
+        class MembershipSchemaAPI < ::API::OpenProjectAPI
+        end
+      end
+    end
+  end
+end

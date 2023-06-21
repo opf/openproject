@@ -1,0 +1,29 @@
+class DirectFogUploader < FogFileUploader
+  include CarrierWaveDirect::Uploader
+
+  #
+  # This needs to be true so that the necessary condition is included
+  # in S3 upload policy (only relevant for direct uploads).
+  def will_include_content_type: () -> true
+
+  def self.for_attachment: (untyped attachment) -> untyped
+
+  def self.for_uploader: (untyped fog_file_uploader) -> untyped
+
+  #
+  # Generates the direct upload form for the given attachment.
+  #
+  # @param attachment [Attachment] The attachment for which a file is to be uploaded.
+  # @param success_action_redirect [String] URL to redirect to if successful (none by default, using status).
+  # @param success_action_status [String] The HTTP status to return on success (201 by default).
+  # @param max_file_size [Integer] The maximum file size to be allowed in bytes.
+  def self.direct_fog_hash: (attachment: untyped, ?success_action_redirect: untyped?, ?success_action_status: ::String, ?max_file_size: untyped) -> untyped
+
+  def self.extra_fog_hash_attributes: (uploader: untyped) -> (::Hash[untyped, untyped] | { :"Content-Type" => untyped })
+
+  private
+
+  def self.include_content_type?: (untyped uploader) -> untyped
+
+  def self.direct_fog_hash_uploader: (untyped attachment, untyped success_action_redirect, untyped success_action_status) -> untyped
+end

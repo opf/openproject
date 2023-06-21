@@ -1,0 +1,10 @@
+module OpenProject
+  module Logging
+    module ThreadPoolContextBuilder
+      #
+      # Build an object informing about current Rails connection pool
+      # and active thread usage and their traces
+      def self?.build!: () -> { connection_pool: untyped, thread_info: untyped }
+    end
+  end
+end

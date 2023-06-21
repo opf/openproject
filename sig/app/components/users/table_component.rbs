@@ -1,0 +1,11 @@
+module Users
+  class TableComponent < ::TableComponent
+    def initial_sort: () -> ::Array[:id | :asc]
+
+    def headers: () -> untyped
+
+    def header_options: (untyped name) -> untyped
+
+    def desc_by_default: () -> ::Array[:admin | :created_at | :last_login_on]
+  end
+end

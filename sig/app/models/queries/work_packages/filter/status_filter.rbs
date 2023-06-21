@@ -1,0 +1,25 @@
+class Queries::WorkPackages::Filter::StatusFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  def allowed_values: () -> untyped
+
+  def available_operators: () -> ::Array[untyped]
+
+  def available?: () -> untyped
+
+  def type: () -> :list
+
+  def self.key: () -> :status_id
+
+  def value_objects: () -> untyped
+
+  def allowed_objects: () -> untyped
+
+  def ar_object_filter?: () -> true
+
+  def joins: () -> :status
+
+  private
+
+  def all_statuses: () -> untyped
+
+  def operator_strategy: () -> untyped
+end

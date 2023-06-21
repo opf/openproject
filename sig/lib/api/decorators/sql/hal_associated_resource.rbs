@@ -1,0 +1,19 @@
+module API
+  module Decorators
+    module Sql
+      module HalAssociatedResource
+        extend ActiveSupport::Concern
+
+        def associated_user_link: (untyped name, ?column_name: ::String) -> untyped
+
+        private
+
+        def associated_user_link_href: (untyped table_name, untyped column_name) -> untyped
+
+        def associated_user_link_title: (untyped table_name) -> untyped
+
+        def associated_user_link_join: (untyped table_name, untyped column_name) -> { table: :users, condition: ::String, select: ::Array[::String] }
+      end
+    end
+  end
+end

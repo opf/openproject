@@ -1,0 +1,15 @@
+module CustomActions
+  class RowComponent < ::RowComponent
+    def action: () -> untyped
+
+    def name: () -> untyped
+
+    def sort: () -> untyped
+
+    def button_links: () -> ::Array[untyped]
+
+    def edit_link: () -> untyped
+
+    def delete_link: () -> untyped
+  end
+end

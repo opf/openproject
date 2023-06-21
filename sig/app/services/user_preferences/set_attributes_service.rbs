@@ -1,0 +1,9 @@
+module UserPreferences
+  class SetAttributesService < ::BaseServices::SetAttributes
+    def set_attributes: (untyped params) -> untyped
+
+    private
+
+    def set_boolean_value: (untyped key, untyped value) -> untyped
+  end
+end

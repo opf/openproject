@@ -1,0 +1,11 @@
+module API
+  module V3
+    module WorkPackages
+      class FormRepresenter < ::API::Decorators::Form
+        def payload_representer: () -> untyped
+
+        def schema_representer: () -> untyped
+      end
+    end
+  end
+end

@@ -1,0 +1,5 @@
+module CustomActions::ValidateAllowedValue
+  private
+
+  def validate_allowed_value: (untyped errors, untyped attribute) -> (nil | untyped)
+end

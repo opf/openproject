@@ -1,0 +1,22 @@
+class Journal::NotificationConfiguration
+  DEFAULT: true
+
+  # Allows controlling whether notifications are sent out for created journals.
+  # After the block is executed, the setting is returned to its original state which is true by default.
+  # In case the method is called multiple times within itself, the first setting prevails.
+  # This allows to control the setting globally without having to pass the setting down the call stack in
+  # order to ensure all subsequent code follows the provided setting.
+  def self.with: (untyped send_notifications) { () -> untyped } -> untyped
+
+  def self.active?: () -> untyped
+
+  def self.with_first: (untyped send_notifications) { () -> untyped } -> untyped
+
+  def self.log_warning: (untyped send_notifications) -> (nil | untyped)
+
+  def self.active=: (untyped value) -> untyped
+
+  def self.already_set?: () -> untyped
+
+  def self.already_set=: (untyped value) -> untyped
+end

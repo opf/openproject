@@ -1,0 +1,49 @@
+# Rewrites mentions in user provided text (e.g. work package journals) from one user to another.
+# No data is to be removed.
+module Users
+  class ReplaceMentionsService
+    include ActiveRecord::Sanitization
+
+    def self.replacements: () -> ::Array[{ class: untyped, column: :description } | { class: untyped, column: :notes } | { class: untyped, column: :comments } | { class: untyped, column: :value, condition: untyped } | { class: untyped, column: :text } | { class: untyped, column: :content } | { class: untyped, column: :status_explanation }]
+
+    def initialize: (*untyped classes) -> void
+
+    def call: (from: untyped, to: untyped) -> untyped
+
+    private
+
+    attr_accessor replacements: untyped
+
+    def check_input: (untyped from, untyped to) -> (untyped | nil)
+
+    def rewrite: (untyped from, untyped to) -> untyped
+
+    def focus_on_replacement: (untyped replacement) -> untyped
+
+    def rewrite_column: (untyped from, untyped to) -> untyped
+
+    def replace_sql: (untyped from, untyped to) -> untyped
+
+    def condition_sql: (untyped from) -> untyped
+
+    def mention_tag_replace: (untyped from, untyped to) -> untyped
+
+    def hash_replace: (untyped source, untyped from, untyped to) -> untyped
+
+    def regexp_replace: (untyped source, untyped search, untyped replacement, untyped values) -> untyped
+
+    def sanitize_sql_like: (untyped string) -> untyped
+
+    def sanitize_sql_for_conditions: (untyped string) -> untyped
+
+    def journal_classes: () -> untyped
+
+    def klass: () -> untyped
+
+    def table_name: () -> untyped
+
+    def column_name: () -> untyped
+
+    def condition: () -> untyped
+  end
+end

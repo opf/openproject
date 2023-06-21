@@ -1,0 +1,5 @@
+module Queries::Filters::Strategies
+  class IntegerListOptional < ::Queries::Filters::Strategies::Integer
+    def operator_map: () -> untyped
+  end
+end

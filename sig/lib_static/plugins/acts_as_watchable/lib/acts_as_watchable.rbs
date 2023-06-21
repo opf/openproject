@@ -1,0 +1,50 @@
+# ActsAsWatchable
+module Redmine
+  module Acts
+    module Watchable
+      def self.included: (untyped base) -> untyped
+
+      module ClassMethods
+        def acts_as_watchable: (?::Hash[untyped, untyped] options) -> (nil | untyped)
+
+        def acts_as_watchable_enforce_project_association: () -> (untyped | nil)
+      end
+
+      module InstanceMethods
+        def self.prepended: (untyped base) -> untyped
+
+        def possible_watcher?: (untyped user) -> untyped
+
+        # Returns all users that could potentially be watchers.
+        # This includes those already added as watchers.
+        #
+        # Admins are excluded at least for non public projects
+        # because while they have the right to be added as watchers having
+        # them pop up in every project would be weird.
+        def possible_watcher_users: () -> untyped
+
+        # Returns an array of users that are proposed as watchers
+        def addable_watcher_users: () -> untyped
+
+        # Adds user as a watcher
+        def add_watcher: (untyped user) -> (untyped | nil)
+
+        # Removes user from the watchers list
+        def remove_watcher: (untyped user) -> (nil | untyped)
+
+        # Adds/removes watcher
+        def set_watcher: (untyped user, ?bool watching) -> untyped
+
+        # Overrides watcher_user_ids= to make user_ids uniq
+        def watcher_user_ids=: (untyped user_ids) -> untyped
+
+        # Returns true if object is watched by +user+
+        def watched_by?: (untyped user) -> untyped
+
+        module ClassMethods
+          def acts_as_watchable_permission: () -> untyped
+        end
+      end
+    end
+  end
+end

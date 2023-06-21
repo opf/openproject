@@ -1,0 +1,3 @@
+class Projects::Settings::ModulesController < Projects::SettingsController
+  def update: () -> untyped
+end

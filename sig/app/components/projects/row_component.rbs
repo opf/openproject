@@ -1,0 +1,40 @@
+module Projects
+  class RowComponent < ::RowComponent
+    def project: () -> untyped
+
+    def level: () -> untyped
+
+    # Hierarchy cell is just a placeholder
+    def hierarchy: () -> ""
+
+    def column_value: (untyped column) -> untyped
+
+    def custom_field_column: (untyped column) -> untyped
+
+    def created_at: () -> untyped
+
+    def latest_activity_at: () -> untyped
+
+    def required_disk_space: () -> ("" | untyped)
+
+    def name: () -> untyped
+
+    def project_status: () -> untyped
+
+    def status_explanation: () -> (untyped | nil)
+
+    def public: () -> untyped
+
+    def row_css_class: () -> untyped
+
+    def row_css_level_classes: () -> (::String | "")
+
+    def project_css_classes: () -> untyped
+
+    def column_css_class: (untyped column) -> ::String
+
+    def custom_field: (untyped name) -> untyped
+
+    def additional_css_class: (untyped column) -> untyped
+  end
+end

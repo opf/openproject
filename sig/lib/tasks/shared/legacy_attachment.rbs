@@ -1,0 +1,48 @@
+module Tasks
+  module Shared
+    #
+    # In the olden times (pre 4.1) files were all saved under the configured storage path,
+    # most likely `files`, with a timestamp attached to their name to avoid conflicts.
+    #
+    # e.g. `files/140917231758_openshift-setup.txt`
+    #
+    # The new approach is using CarrierWave for attachments. There the files will be stored
+    # some place else. Where is not material for this migration.
+    # It could be another directory or S3.
+    #
+    # The migration does the following:
+    #
+    # * rename the legacy files - it strips off the timestamps
+    # * assign the renamed file to the CarrierWave uploader - this moves the file to
+    #   the new location
+    #
+    # The rollback does the opposite using the remaining legacy column `disk_filename`
+    # of Attachment. Meaning it adds the timestamp again and puts the files back into
+    # the configured attachment storage path.
+    #
+    # This assumes that the attachment storage path is the same as before the migration
+    # to CarrierWave and also that the legacy columns `filename` and `disk_filename`
+    # are still present.
+    module LegacyAttachment
+      def self?.migrate_attachment: (untyped attachment) -> untyped
+
+      def self?.rollback_attachment: (untyped attachment) -> (nil | untyped)
+
+      #
+      # Returns rolled back file name for an attachment.
+      # If an attachment was created after the migration to CarrierWave it doesn't have an original
+      # legacy name. Instead one will be generated. Not with a timestamp, however, but with a
+      # random hex string as a prefix.
+      #
+      # This way new attachments won't be lost when rolling back to an old version of OpenProject.
+      def self?.rolled_back_file_name: (untyped attachment) -> untyped
+
+      def self?.legacy_file_name: (untyped file_name) -> untyped
+
+      #
+      # This method strips the leading timestamp from a given file name and returns the plain,
+      # original file name.
+      def self?.strip_timestamp_from_filename: (untyped file) -> untyped
+    end
+  end
+end

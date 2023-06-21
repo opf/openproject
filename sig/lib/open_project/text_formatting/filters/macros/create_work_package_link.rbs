@@ -1,0 +1,13 @@
+module OpenProject::TextFormatting::Filters::Macros
+  module CreateWorkPackageLink
+    extend OpenProject::StaticRouting::UrlHelpers
+
+    HTML_CLASS: "create_work_package_link"
+
+    def self?.identifier: () -> untyped
+
+    def self?.apply: (untyped macro, result: untyped, context: untyped) -> untyped
+
+    def self?.work_package_link: (untyped macro, untyped context) -> untyped
+  end
+end

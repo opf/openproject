@@ -1,0 +1,9 @@
+module API
+  module V3
+    module CustomActions
+      class CustomActionExecuteRepresenter < ::API::Decorators::Single
+        include API::Decorators::LinkedResource
+      end
+    end
+  end
+end

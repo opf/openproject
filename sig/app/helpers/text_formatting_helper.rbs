@@ -1,0 +1,20 @@
+module TextFormattingHelper
+  include OpenProject::TextFormatting
+
+  extend Forwardable
+
+  def preview_context: (untyped object, ?untyped? project) -> untyped
+
+  # TODO remove
+  def current_formatting_helper: () -> untyped
+
+  def project_preview_context: (untyped object, untyped project) -> (nil | untyped)
+
+  def message_preview_context: (untyped message) -> untyped
+
+  def object_preview_context: (untyped object, untyped project) -> untyped
+
+  def truncate_formatted_text: (untyped text, ?length: ::Integer, ?replace_newlines: bool) -> untyped
+
+  def truncate_multiline: (untyped string, untyped length) -> (::String | untyped)
+end

@@ -1,0 +1,26 @@
+module WorkPackagesFilterHelper
+  # Links for project overview
+  def project_work_packages_closed_version_path: (untyped version, ?::Hash[untyped, untyped] options) -> untyped
+
+  def project_work_packages_open_version_path: (untyped version, ?::Hash[untyped, untyped] options) -> untyped
+
+  def project_report_property_path: (untyped project, untyped property_name, untyped property_id, ?::Hash[untyped, untyped] options) -> untyped
+
+  def project_report_property_status_path: (untyped project, untyped status_id, untyped property, untyped property_id, ?::Hash[untyped, untyped] options) -> untyped
+
+  def project_report_property_open_path: (untyped project, untyped property, untyped property_id, ?::Hash[untyped, untyped] options) -> untyped
+
+  def project_report_property_closed_path: (untyped project, untyped property, untyped property_id, ?::Hash[untyped, untyped] options) -> untyped
+
+  def project_version_property_path: (untyped version, untyped property_name, untyped property_id, ?::Hash[untyped, untyped] options) -> untyped
+
+  private
+
+  def default_sort: () -> "updated_at:desc"
+
+  def project_work_packages_with_query_path: (untyped project, untyped query, ?::Hash[untyped, untyped] options) -> untyped
+
+  def filter_object: (untyped property, untyped operator, ?untyped? values) -> untyped
+
+  def filter_values: (untyped values) -> untyped
+end

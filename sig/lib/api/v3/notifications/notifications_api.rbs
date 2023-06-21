@@ -1,0 +1,15 @@
+module API
+  module V3
+    module Notifications
+      class NotificationsAPI < ::API::OpenProjectAPI
+        def notification_query: () -> untyped
+
+        def notification_scope: () -> untyped
+
+        def bulk_update_status: (untyped attributes) -> untyped
+
+        def update_status: (untyped attributes) -> untyped
+      end
+    end
+  end
+end

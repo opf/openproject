@@ -1,0 +1,23 @@
+module Projects
+  class UpdateService < ::BaseServices::Update
+    private
+
+    attr_accessor memoized_changes: untyped
+
+    def set_attributes: (untyped params) -> untyped
+
+    def after_perform: (untyped service_call) -> untyped
+
+    def touch_on_custom_values_update: () -> (untyped | nil)
+
+    def notify_on_identifier_renamed: () -> (nil | untyped)
+
+    def send_update_notification: () -> untyped
+
+    def only_custom_values_updated?: () -> untyped
+
+    def update_wp_versions_on_parent_change: () -> (nil | untyped)
+
+    def handle_archiving: () -> (nil | untyped)
+  end
+end

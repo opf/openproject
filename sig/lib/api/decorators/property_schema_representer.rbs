@@ -1,0 +1,44 @@
+module API
+  module Decorators
+    class PropertySchemaRepresenter < ::API::Decorators::Single
+      include API::Decorators::FormattableProperty
+
+      def initialize: (type: untyped, name: untyped, ?location: untyped?, ?required: bool, ?has_default: bool, ?writable: bool, ?attribute_group: untyped?, ?description: untyped?, ?current_user: untyped?, ?deprecated: untyped?) -> void
+
+      attr_accessor type: untyped
+
+      attr_accessor name: untyped
+
+      attr_accessor required: untyped
+
+      attr_accessor has_default: untyped
+
+      attr_accessor writable: untyped
+
+      attr_accessor attribute_group: untyped
+
+      attr_accessor min_length: untyped
+
+      attr_accessor max_length: untyped
+
+      attr_accessor regular_expression: untyped
+
+      attr_accessor options: untyped
+
+      attr_accessor location: untyped
+
+      attr_accessor description: untyped
+
+      attr_accessor deprecated: untyped
+
+      private
+
+      def model_required?: () -> false
+
+      #
+      # Derive the frontend location value to be passed
+      # either nil, _links, or _meta depending on the input
+      def derive_location: (untyped location) -> untyped
+    end
+  end
+end

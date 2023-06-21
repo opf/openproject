@@ -1,0 +1,9 @@
+module API
+  module V3
+    module Versions
+      class FormRepresenter < ::API::Decorators::SimpleForm
+        def model: () -> untyped
+      end
+    end
+  end
+end

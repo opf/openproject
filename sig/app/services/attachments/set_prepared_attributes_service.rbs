@@ -1,0 +1,14 @@
+module Attachments
+  class SetPreparedAttributesService < SetAttributesService
+    private
+
+    def set_attributes: (untyped params) -> untyped
+
+    def set_prepared_attributes: (untyped params) -> untyped
+
+    # The name has to be in the same format as what Carrierwave will produce later on. If they are different,
+    # Carrierwave will alter the name (both local and remote) whenever the attachment is saved with the remote
+    # file loaded.
+    def pending_direct_upload_filename: (untyped filename) -> untyped
+  end
+end

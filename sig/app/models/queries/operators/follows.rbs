@@ -1,0 +1,4 @@
+module Queries::Operators
+  class Follows < Base
+  end
+end

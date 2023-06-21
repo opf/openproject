@@ -1,0 +1,37 @@
+class CustomFieldsController < ApplicationController
+  def index: () -> untyped
+
+  def new: () -> untyped
+
+  def edit: () -> nil
+
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  def reorder_alphabetical: () -> untyped
+
+  def destroy: () -> untyped
+
+  def delete_option: () -> untyped
+
+  private
+
+  def perform_update: (untyped custom_field_params) -> untyped
+
+  def new_custom_field: () -> untyped
+
+  def get_custom_field_params: () -> untyped
+
+  def find_custom_option: () -> untyped
+
+  def delete_custom_values!: (untyped custom_option) -> untyped
+
+  def prepare_custom_option_position: () -> (nil | untyped)
+
+  def find_custom_field: () -> untyped
+
+  def default_breadcrumb: () -> untyped
+
+  def show_local_breadcrumb: () -> true
+end

@@ -1,0 +1,23 @@
+module ::TypesHelper
+  def types_tabs: () -> ::Array[{ name: "settings", partial: "types/form/settings", path: untyped, label: "types.edit.settings" } | { name: "form_configuration", partial: "types/form/form_configuration", path: untyped, label: "types.edit.form_configuration" } | { name: "projects", partial: "types/form/projects", path: untyped, label: "types.edit.projects" }]
+
+  def icon_for_type: (untyped type) -> (nil | untyped)
+
+  #
+  # Collect active and inactive form configuration groups for editing.
+  def form_configuration_groups: (untyped type) -> { actives: untyped, inactives: untyped }
+
+  def active_group_attributes_map: (untyped group, untyped available, untyped inactive) -> (nil | untyped)
+
+  def query_to_query_props: (untyped group) -> (nil | untyped)
+
+  private
+
+  #
+  # Collect active attributes from the current form configuration.
+  # Using the available attributes from +work_package_attributes+,
+  # determines which attributes are not used
+  def get_active_groups: (untyped type, untyped available, untyped inactive) -> untyped
+
+  def attr_form_map: (untyped key, untyped represented) -> { key: untyped, is_cf: untyped, is_required: untyped, translation: untyped }
+end

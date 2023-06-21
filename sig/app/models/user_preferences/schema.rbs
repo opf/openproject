@@ -1,0 +1,9 @@
+class UserPreferences::Schema
+  PATH: untyped
+
+  def self.schema: () -> untyped
+
+  def self.merge!: (untyped path, untyped hash) -> untyped
+
+  def self.properties: () -> untyped
+end

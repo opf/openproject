@@ -1,0 +1,21 @@
+class Members::RolesDiff
+  attr_reader user_member: untyped
+
+  attr_reader group_member: untyped
+
+  def initialize: (untyped user_member, untyped group_member) -> void
+
+  def roles_created?: () -> untyped
+
+  def roles_updated?: () -> untyped
+
+  def roles_changed?: () -> untyped
+
+  def result: () -> untyped
+
+  private
+
+  def user_previous_member_roles_ids: () -> untyped
+
+  def group_roles_ids: () -> untyped
+end

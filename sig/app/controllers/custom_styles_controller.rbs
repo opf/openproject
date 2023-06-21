@@ -1,0 +1,41 @@
+class CustomStylesController < ApplicationController
+  def show: () -> untyped
+
+  def upsale: () -> nil
+
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  def logo_download: () -> untyped
+
+  def favicon_download: () -> untyped
+
+  def touch_icon_download: () -> untyped
+
+  def logo_delete: () -> untyped
+
+  def favicon_delete: () -> untyped
+
+  def touch_icon_delete: () -> untyped
+
+  def update_colors: () -> untyped
+
+  def update_themes: () -> untyped
+
+  def show_local_breadcrumb: () -> true
+
+  private
+
+  def options_for_theme_select: () -> untyped
+
+  def get_or_create_custom_style: () -> untyped
+
+  def require_ee_token: () -> (untyped | nil)
+
+  def custom_style_params: () -> untyped
+
+  def file_download: (untyped path_method) -> untyped
+
+  def file_delete: (untyped remove_method) -> untyped
+end

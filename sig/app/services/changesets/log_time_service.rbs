@@ -1,0 +1,19 @@
+module Changesets
+  class LogTimeService
+    def initialize: (user: untyped, changeset: untyped) -> void
+
+    def call: (untyped work_package, untyped hours) -> untyped
+
+    private
+
+    attr_accessor user: untyped
+
+    attr_accessor changeset: untyped
+
+    def combined_parameters: (untyped work_package, untyped hours) -> untyped
+
+    def log_error: (untyped service_result) -> (untyped | nil)
+
+    def log_time_activity: () -> (untyped | nil)
+  end
+end

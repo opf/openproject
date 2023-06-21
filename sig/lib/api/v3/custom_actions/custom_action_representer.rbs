@@ -1,0 +1,9 @@
+module API
+  module V3
+    module CustomActions
+      class CustomActionRepresenter < ::API::Decorators::Single
+        def _type: () -> "CustomAction"
+      end
+    end
+  end
+end

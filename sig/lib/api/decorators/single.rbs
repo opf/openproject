@@ -1,0 +1,39 @@
+module API
+  module Decorators
+    class Single < ::Roar::Decorator
+      include ::Roar::JSON::HAL
+
+      include ::Roar::Hypermedia
+
+      include ::API::Decorators::SelfLink
+
+      include ::API::V3::Utilities::PathHelper
+
+      attr_reader current_user: untyped
+
+      attr_reader embed_links: untyped
+
+      # Use this to create our own representers, giving them a chance to override the instantiation
+      # if desired.
+      # Explicitly forwards all arguments to new, to avoid having to override #create on subclasses
+      # such as collection
+      def self.create: (*untyped) ?{ () -> untyped } -> untyped
+
+      def initialize: (untyped model, current_user: untyped, ?embed_links: bool) -> void
+
+      def current_user_allowed_to: (untyped permission, ?context: untyped) -> untyped
+
+      # Override in subclasses to specify the JSON indicated "_type" of this representer
+      def _type: () -> nil
+
+      def call_or_send_to_represented: (untyped callable_or_name) -> untyped
+
+      def call_or_use: (untyped callable_or_value) -> untyped
+
+      # If a subclass does not depend on a model being passed to this class, it can override
+      # this method and return false. Otherwise it will be enforced that the model of each
+      # representer is non-nil.
+      def model_required?: () -> true
+    end
+  end
+end

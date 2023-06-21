@@ -1,0 +1,7 @@
+class Queries::WorkPackages::Filter::DurationFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  def type: () -> :integer
+
+  def where: () -> untyped
+
+  def joins: () -> :type
+end

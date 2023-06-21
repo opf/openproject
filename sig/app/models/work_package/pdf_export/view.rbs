@@ -1,0 +1,31 @@
+class WorkPackage::PDFExport::View
+  include Prawn::View
+
+  include Redmine::I18n
+
+  def initialize: (untyped lang) -> void
+
+  def options: () -> untyped
+
+  def info: () -> untyped
+
+  def document: () -> untyped
+
+  def fallback_fonts: () -> ::Array[untyped]
+
+  def register_fonts!: (untyped document) -> untyped
+
+  def register_font!: (untyped family, untyped font_path, untyped document) -> untyped
+
+  def title=: (untyped title) -> untyped
+
+  def title: () -> untyped
+
+  def apply_font: (?name: untyped?, ?font_style: untyped?, ?size: untyped?) -> untyped
+
+  private
+
+  def noto_font_base_path: () -> untyped
+
+  def spacemono_font_base_path: () -> untyped
+end

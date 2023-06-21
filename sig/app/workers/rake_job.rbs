@@ -1,0 +1,26 @@
+#
+# Invoke a rake task while safely loading the tasks only once
+# to ensure they are only loaded once.
+module RakeJob
+  attr_reader task_name: untyped
+
+  attr_reader args: untyped
+
+  def perform: (untyped task_name, *untyped args) -> untyped
+
+  def invoke: () -> untyped
+
+  #
+  # Load tasks if there are none. This should only be run once in an environment
+  def load_tasks!: () -> (untyped | nil)
+
+  #
+  # Reference to the task name.
+  # Will raise NameError or NoMethodError depending on what of rake is (not) loaded
+  def task: () -> untyped
+
+  #
+  # Returns whether any task is loaded
+  # Will raise NameError or NoMethodError depending on what of rake is (not) loaded
+  def tasks_loaded?: () -> untyped
+end

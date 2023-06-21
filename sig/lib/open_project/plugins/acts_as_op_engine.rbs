@@ -1,0 +1,109 @@
+module OpenProject::Plugins
+  module ActsAsOpEngine
+    def self.included: (untyped base) -> untyped
+
+    module InstanceMethods
+      def name: () -> untyped
+
+      # Patch classes
+      #
+      # Looks for patches via autoloading in
+      # <plugin root>/lib/openproject/<plugin name>/patches/<patched_class>_patch.rb
+      # Make sure the patch module has the name the Rails autoloading expects.
+      #
+      # Example:
+      #  patches [:IssuesController]
+      # This looks for OpenProject::XlsExport::Patches::IssuesControllerPatch
+      #  in openproject/xls_export/patches/issues_controller_patch.rb
+      def patches: (untyped patched_classes) -> untyped
+
+      def patch_with_namespace: (*untyped args) -> untyped
+
+      # Define assets provided by the plugin
+      def assets: (untyped assets) -> untyped
+
+      # Prepend view paths of this engine
+      # Note: YOU WILL override views of the core with this functionality
+      def override_core_views!: () -> untyped
+
+      # Add permitted attributes (strong_parameters)
+      #
+      # Useful when adding a field to an OpenProject core model. We discourage adding
+      # a field to a core model, but at the moment there's no API to do this in a better way
+      # and a lot of existing plugins already do it.
+      #
+      # See PermittedParams in OpenProject for available models
+      #
+      # Example:
+      #  additional_permitted_attributes user: [:registration_reason]
+      def additional_permitted_attributes: (untyped attributes) -> untyped
+
+      # Register a plugin with OpenProject
+      #
+      # Uses Gem specification for plugin name, author etc.
+      #
+      # gem_name:      The gem name, used for querying the gem for metadata like author
+      # options:       An options Hash, at least :requires_openproject is recommended to
+      #                define the minimal version of OpenProject the plugin is compatible with
+      #                Another common option is :author_url.
+      # block:         Pass a block to the plugin (for defining permissions, menu items and the like)
+      def register: (untyped gem_name, untyped options) { () -> untyped } -> untyped
+
+      #
+      # Add a tab entry to an extensible tab
+      def add_tab_entry: (untyped key, name: untyped, partial: untyped, path: untyped, label: untyped, ?only_if: untyped?) -> untyped
+
+      def add_view: (untyped type, ?contract_strategy: untyped?) -> untyped
+
+      def add_api_path: (untyped path_name) { () -> untyped } -> untyped
+
+      def add_api_endpoint: (untyped base_endpoint, ?untyped? path) { () -> untyped } -> untyped
+
+      def extend_api_response: (*untyped args) { () -> untyped } -> untyped
+
+      def add_api_attribute: (on: untyped, ar_name: untyped, ?writable_for: ::Array[untyped], ?writable: bool) { () -> untyped } -> untyped
+
+      # Register a block to return results when an api representer's cache key is asked for.
+      #
+      # This is important for cache invalidation e.g. when another schema needs
+      # to be returned depending on whether a module is active or not.
+      #
+      # path:          The fully namespaced representer name, excluding 'API' at the
+      #                beginning and 'Representer' at the end.
+      # keys:          The block to be executed when the cache key is queried for. The block's
+      #                results will be appended to the original cache key if a cache key is already
+      #                defined. If no cache key was defined before, the block's result makes up
+      #                the whole cache key.
+      def add_api_representer_cache_key: (*untyped path) { () -> untyped } -> untyped
+
+      # Registers an activity provider.
+      #
+      # @param event_type [Symbol]
+      #
+      # Options:
+      # * <tt>:class_name</tt> - one or more model(s) that provide these events, those need to inherit
+      #                          from Activities::BaseActivityProvider
+      # * <tt>:default</tt> - setting this option to false will make the events not displayed by default
+      #
+      # Example
+      #   activity_provider :meetings, class_name: 'Activities::MeetingActivityProvider', default: false
+      #
+      def activity_provider: (untyped event_type, ?::Hash[untyped, untyped] options) -> untyped
+
+      #
+      # Register a "cron"-like background job
+      def add_cron_jobs: () { () -> untyped } -> untyped
+
+      # Add custom inflection for file name to class name mapping. Otherwise, the default zeitwerk
+      # #camelize method will be utilized.
+      #
+      #   class_inflection_override('asap' => 'ASAP')
+      #
+      #   inflector.camelize("asap", abspath)      # => "ASAP"
+      #
+      # @param overrides [{String => String}]
+      # @return [void]
+      def class_inflection_override: (untyped overrides) -> untyped
+    end
+  end
+end

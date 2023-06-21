@@ -1,0 +1,7 @@
+module API
+  module Decorators
+    class Digest < Single
+      def initialize: (untyped model, algorithm: untyped) -> void
+    end
+  end
+end

@@ -1,0 +1,24 @@
+module API
+  module Decorators
+    module PolymorphicResource
+      # Dynamically derive a linked resource from the given polymorphic resource
+      def polymorphic_resource: (untyped name, ?as: untyped?, ?skip_render: untyped, ?skip_link: untyped, ?uncacheable_link: bool, ?link_title_attribute: ::Symbol) -> untyped
+
+      private
+
+      def polymorphic_resource_getter: (untyped name) -> untyped
+
+      def polymorphic_resource_setter: (untyped as) -> untyped
+
+      def polymorphic_link: (untyped name, untyped title_attribute, untyped skip_link) -> untyped
+
+      def polymorphic_resource_representer: (untyped resource) -> untyped
+
+      def mapped_representer: (untyped resource) -> untyped
+
+      def polymorphic_resource_path: (untyped resource) -> untyped
+
+      def polymorphic_default_representer: (untyped model_name) -> untyped
+    end
+  end
+end

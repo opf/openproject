@@ -1,0 +1,5 @@
+module Admin::Settings
+  class ProjectsSettingsController < ::Admin::SettingsController
+    def default_breadcrumb: () -> untyped
+  end
+end

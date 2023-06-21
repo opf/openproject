@@ -1,0 +1,19 @@
+module Members
+  class CleanupService < ::BaseServices::BaseCallable
+    def initialize: (untyped users, untyped projects) -> void
+
+    def perform: (*untyped) -> untyped
+
+    attr_accessor users: untyped
+
+    attr_accessor projects: untyped
+
+    def prune_watchers: () -> untyped
+
+    def unassign_categories: () -> untyped
+
+    def project_ids: () -> untyped
+
+    def members_table: () -> untyped
+  end
+end

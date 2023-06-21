@@ -1,0 +1,15 @@
+class CustomValue::ARObjectStrategy < CustomValue::FormatStrategy
+  def typed_value: () -> untyped
+
+  def formatted_value: () -> untyped
+
+  def parse_value: (untyped val) -> untyped
+
+  def validate_type_of_value: () -> (:inclusion | nil)
+
+  private
+
+  def ar_class: () -> untyped
+
+  def ar_object: (untyped _value) -> untyped
+end

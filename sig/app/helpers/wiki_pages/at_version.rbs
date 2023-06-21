@@ -1,0 +1,40 @@
+# The class represents a wiki page at a specific version.
+# It is implemented as somewhat of a mix between a decorator and a view model. It simplifies
+# both the controller as well as the view. The controller will only have to provide a single object
+# to the view and the view can serve all it's data needs from that one object.
+#
+# In case more objects like this are generated, a separate folder under e.g. app/view_models or app/decorators
+# should be introduced.
+class WikiPages::AtVersion < SimpleDelegator
+  attr_reader latest_version: untyped
+
+  attr_reader version: untyped
+
+  def initialize: (untyped wiki_page, ?untyped? version) -> void
+
+  # rubocop:disable Style/OptionalBooleanParameter
+  # Overwriting a superclass method.
+  def respond_to?: (untyped method_name, ?bool include_all) -> (false | untyped)
+
+  def author: () -> untyped
+
+  def journals: () -> untyped
+
+  def readonly?: () -> untyped
+
+  def current_version?: () -> untyped
+
+  def object: () -> untyped
+
+  def to_ary: () -> untyped
+
+  private
+
+  attr_writer latest_version: untyped
+
+  attr_writer version: untyped
+
+  def data: () -> untyped
+
+  def last_journal: () -> untyped
+end

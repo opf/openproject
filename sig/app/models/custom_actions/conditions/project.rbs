@@ -1,0 +1,7 @@
+class CustomActions::Conditions::Project < CustomActions::Conditions::Base
+  def self.key: () -> :project
+
+  private
+
+  def associated: () -> untyped
+end

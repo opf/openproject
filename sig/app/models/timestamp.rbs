@@ -1,0 +1,63 @@
+class Timestamp
+  ALLOWED_DATE_KEYWORDS: ::Array["oneDayAgo" | "lastWorkingDay" | "oneWeekAgo" | "oneMonthAgo"]
+
+  class Exception < StandardError
+  end
+
+  class TimestampParser
+    DURATION_REGEX: ::Regexp
+
+    DATE_KEYWORD_REGEX: ::Regexp
+
+    def initialize: (untyped string) -> void
+
+    def parse!: () -> untyped
+
+    def self.substitute_special_shortcut_values: (untyped string) -> ("PT0S" | untyped | ::String)
+  end
+
+  def self.parse: (untyped timestamp_string) -> untyped
+
+  # Take a comma-separated string of ISO-8601 timestamps and convert it
+  # into an array of Timestamp objects.
+  #
+  def self.parse_multiple: (untyped comma_separated_timestamp_string) -> untyped
+
+  def self.now: () -> untyped
+
+  def initialize: (?untyped arg) -> void
+
+  def relative?: () -> untyped
+
+  def duration?: () -> untyped
+
+  def relative_date_keyword?: () -> untyped
+
+  def one_day_ago?: () -> untyped
+
+  def to_s: () -> untyped
+
+  def to_str: () -> untyped
+
+  def inspect: () -> ::String
+
+  def absolute: () -> untyped
+
+  def to_time: () -> untyped
+
+  def to_duration: () -> untyped
+
+  def relative_date_keyword_to_time: () -> untyped
+
+  def as_json: (*untyped _args) -> untyped
+
+  def to_json: (*untyped _args) -> untyped
+
+  def ==: (untyped other) -> untyped
+
+  def eql?: (untyped other) -> untyped
+
+  def historic?: () -> untyped
+
+  def valid?: () -> untyped
+end

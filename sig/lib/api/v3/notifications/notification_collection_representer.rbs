@@ -1,0 +1,11 @@
+module API
+  module V3
+    module Notifications
+      class NotificationCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
+        def initialize: (untyped models, self_link: untyped, current_user: untyped, ?query_params: ::Hash[untyped, untyped], ?page: untyped?, ?per_page: untyped?, ?groups: untyped?) -> void
+
+        def details_schemas: () -> untyped
+      end
+    end
+  end
+end

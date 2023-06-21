@@ -1,0 +1,7 @@
+module Queries::Filters::Strategies
+  class HugeList < List
+    def validate: () -> untyped
+
+    def valid_values!: () -> untyped
+  end
+end

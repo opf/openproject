@@ -1,0 +1,36 @@
+module Projects::Storage
+  def self.included: (untyped base) -> untyped
+
+  module ModelMethods
+    #
+    # Count required disk storage for this project.
+    # Returns a hash of the form:
+    # 'total' => Total required disk space for this project
+    # 'modules' => Hash of localization keys and required space for this module
+    def count_required_storage: () -> ::Hash[::String, untyped]
+  end
+
+  module StorageMethods
+    #
+    # Count required disk storage used by Projects.
+    # This currently provides the following values
+    #
+    #  - +wiki_required_space+ required disk space from attachments on the wiki
+    #  - +work_package_required_space+ required disk space from attachments on work packages
+    #  - +repositories_required_space+ required disk space from a locally registered repository
+    #  - +required_disk_space+ Total required disk space for this project over these above values.
+    def with_required_storage: () -> untyped
+
+    #
+    # Returns the total required disk space for all projects in bytes
+    def total_projects_size: () -> untyped
+
+    def required_disk_space_sum: () -> "(COALESCE(wiki.filesize, 0) + COALESCE(wp.filesize, 0) + COALESCE(repos.required_storage_bytes, 0))"
+
+    private
+
+    def wiki_storage_sql: () -> ::String
+
+    def work_package_sql: () -> ::String
+  end
+end

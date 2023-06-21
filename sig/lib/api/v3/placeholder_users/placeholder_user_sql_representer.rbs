@@ -1,0 +1,9 @@
+module API
+  module V3
+    module PlaceholderUsers
+      class PlaceholderUserSqlRepresenter
+        include API::Decorators::Sql::Hal
+      end
+    end
+  end
+end

@@ -1,0 +1,27 @@
+module WorkPackage::PDFExport::SumsTable
+  def write_work_packages_sums!: (untyped work_packages) -> (nil | untyped)
+
+  private
+
+  def has_summable_column?: () -> untyped
+
+  def write_sums_title!: () -> untyped
+
+  def sums_columns_objects: () -> untyped
+
+  def sums_table_column_widths: () -> untyped
+
+  def write_sums_table!: (untyped work_packages) -> untyped
+
+  def sums_table_options: () -> { header: true, cell_style: untyped }
+
+  def build_sums_header_row: () -> untyped
+
+  def sums_column_name: (untyped col) -> untyped
+
+  def build_sums_group_row: (untyped group) -> untyped
+
+  def build_sums_total_row: () -> untyped
+
+  def build_sums_row: (untyped sums, untyped label, untyped sums_style) -> untyped
+end

@@ -1,0 +1,7 @@
+module Queries::Filters::Strategies
+  class CfListOptional < ListOptional
+    private
+
+    def operator_map: () -> untyped
+  end
+end

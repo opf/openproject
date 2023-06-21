@@ -1,0 +1,9 @@
+module Projects::Copy
+  class WorkPackageAttachmentsDependentService < Dependency
+    include ::Projects::Copy::NoCopier
+
+    def self.human_name: () -> untyped
+
+    def source_count: () -> untyped
+  end
+end

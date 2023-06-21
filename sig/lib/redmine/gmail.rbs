@@ -1,0 +1,17 @@
+module Redmine
+  module Gmail
+    def self.check: (?::Hash[untyped, untyped] gmail_options, ?::Hash[untyped, untyped] options) -> untyped
+
+    def self.authenticate: (untyped credentials, untyped user_id) -> untyped
+
+    def self.receive: (untyped message_id, untyped gmail, untyped gmail_options, untyped options) -> untyped
+
+    def self.message_received: (untyped message_id, untyped gmail, untyped _gmail_options) -> untyped
+
+    def self.message_error: (untyped message_id, untyped gmail, untyped gmail_options) -> untyped
+
+    def self.log_debug: () { () -> untyped } -> untyped
+
+    def self.logger: () -> untyped
+  end
+end

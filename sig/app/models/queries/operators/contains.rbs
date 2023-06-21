@@ -1,0 +1,5 @@
+module Queries::Operators
+  class Contains < Base
+    include Concerns::ContainsAllValues
+  end
+end

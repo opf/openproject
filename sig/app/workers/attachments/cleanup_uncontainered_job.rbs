@@ -1,0 +1,7 @@
+class Attachments::CleanupUncontaineredJob < Cron::CronJob
+  def perform: () -> untyped
+
+  private
+
+  def too_old: () -> untyped
+end

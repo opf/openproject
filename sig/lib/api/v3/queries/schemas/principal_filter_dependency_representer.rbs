@@ -1,0 +1,17 @@
+module API
+  module V3
+    module Queries
+      module Schemas
+        class PrincipalFilterDependencyRepresenter < FilterDependencyRepresenter
+          def href_callback: () -> ::String
+
+          def type: () -> "[]User"
+
+          private
+
+          def filter_query: () -> untyped
+        end
+      end
+    end
+  end
+end

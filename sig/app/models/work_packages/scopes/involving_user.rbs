@@ -1,0 +1,15 @@
+module WorkPackages::Scopes
+  module InvolvingUser
+    extend ActiveSupport::Concern
+
+    # Fetches all work packages for which a user is assigned to, responsible
+    # for, or watcher, via a group or themself
+    #
+    # @param user User the user involved in work packages.
+    def involving_user: (untyped user) -> untyped
+
+    private
+
+    def group_having: (untyped user) -> untyped
+  end
+end

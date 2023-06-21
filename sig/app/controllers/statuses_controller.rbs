@@ -1,0 +1,21 @@
+class StatusesController < ApplicationController
+  include PaginationHelper
+
+  def index: () -> untyped
+
+  def new: () -> untyped
+
+  def edit: () -> untyped
+
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  def destroy: () -> untyped
+
+  def update_work_package_done_ratio: () -> untyped
+
+  def default_breadcrumb: () -> untyped
+
+  def show_local_breadcrumb: () -> true
+end

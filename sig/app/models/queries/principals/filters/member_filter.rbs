@@ -1,0 +1,15 @@
+class Queries::Principals::Filters::MemberFilter < Queries::Principals::Filters::PrincipalFilter
+  def allowed_values: () -> untyped
+
+  def type: () -> :list_optional
+
+  def self.key: () -> :member
+
+  def scope: () -> untyped
+
+  private
+
+  def visible_scope: () -> untyped
+
+  def member_included_scope: () -> untyped
+end

@@ -1,0 +1,4 @@
+module API::V3::Days
+  class WeekAPI < ::API::OpenProjectAPI
+  end
+end

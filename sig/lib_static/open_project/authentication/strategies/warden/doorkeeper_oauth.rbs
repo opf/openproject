@@ -1,0 +1,34 @@
+module OpenProject
+  module Authentication
+    module Strategies
+      module Warden
+        #
+        # Allows testing authentication via doorkeeper OAuth2 token
+        #
+        class DoorkeeperOAuth < ::Warden::Strategies::Base
+          def valid?: () -> untyped
+
+          def authenticate!: () -> untyped
+
+          private
+
+          #
+          # We allow applications to designate a user to be used for client credentials.
+          # When using client credentials flow, find this user and try to authenticate
+          def authenticate_client_credentials: (untyped token) -> untyped
+
+          #
+          # Find a credentials-enabled application with the given ID
+          # and return its allowed application user, if there is one.
+          # Avoid going through token.application.client_credentials_user_id for performance
+          # (this is going to be called on every request with CC flows!)
+          def find_credential_app_user: (untyped app_id) -> untyped
+
+          def authenticate_user: (untyped id) -> untyped
+
+          def decorated_request: () -> untyped
+        end
+      end
+    end
+  end
+end

@@ -1,0 +1,8 @@
+module WorkPackages
+  module Shared
+    module Days
+      # Returns the right day computation instance for the given instance.
+      def self?.for: (untyped work_package) -> untyped
+    end
+  end
+end

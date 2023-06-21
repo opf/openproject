@@ -1,0 +1,11 @@
+class Queries::Capabilities::CapabilityQuery < Queries::BaseQuery
+  def self.model: () -> untyped
+
+  def results: () -> untyped
+
+  def default_scope: () -> untyped
+
+  private
+
+  def minimum_filters_set: () -> untyped
+end

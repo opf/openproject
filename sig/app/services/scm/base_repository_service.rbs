@@ -1,0 +1,7 @@
+class SCM::BaseRepositoryService
+  def initialize: (untyped repository) -> void
+
+  private
+
+  attr_accessor repository: untyped
+end

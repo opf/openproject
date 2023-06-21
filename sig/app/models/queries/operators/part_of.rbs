@@ -1,0 +1,4 @@
+module Queries::Operators
+  class PartOf < Base
+  end
+end

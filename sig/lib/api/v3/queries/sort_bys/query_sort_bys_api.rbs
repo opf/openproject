@@ -1,0 +1,13 @@
+module API
+  module V3
+    module Queries
+      module SortBys
+        class QuerySortBysAPI < ::API::OpenProjectAPI
+          def convert_to_ar: (untyped attribute) -> untyped
+
+          def find_column: (untyped attribute) -> untyped
+        end
+      end
+    end
+  end
+end

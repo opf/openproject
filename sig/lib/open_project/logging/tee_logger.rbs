@@ -1,0 +1,16 @@
+module OpenProject
+  module Logging
+    class TeeLogger
+      attr_reader loggers: untyped
+
+      attr_reader stdout: untyped
+
+      attr_reader file: untyped
+
+      #
+      # Initialize a stdout/stderr and file logger
+      # with the file logger within <rails root>/log/<filename>
+      def initialize: (untyped log_name, ?untyped max_level) -> void
+    end
+  end
+end

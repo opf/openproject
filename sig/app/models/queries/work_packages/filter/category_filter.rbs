@@ -1,0 +1,17 @@
+class Queries::WorkPackages::Filter::CategoryFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  def allowed_values: () -> untyped
+
+  def available?: () -> untyped
+
+  def type: () -> :list_optional
+
+  def self.key: () -> :category_id
+
+  def value_objects: () -> untyped
+
+  def ar_object_filter?: () -> true
+
+  private
+
+  def all_project_categories: () -> untyped
+end

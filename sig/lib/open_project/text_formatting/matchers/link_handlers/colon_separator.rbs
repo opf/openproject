@@ -1,0 +1,65 @@
+module OpenProject::TextFormatting::Matchers
+  module LinkHandlers
+    class ColonSeparator < Base
+      def self.allowed_prefixes: () -> ::Array["commit" | "source" | "export" | "version" | "project" | "user" | "attachment" | "document" | "meeting" | "view"]
+
+      #
+      # Colon-separated object links
+      # Condition: Separator is ':'
+      # Condition: Prefix is present, checked to be one of the allowed values
+      def applicable?: () -> untyped
+
+      #   Documents:
+      #     document:Greetings -> Link to the document with title "Greetings"
+      #     document:"Some document" -> Link to the document with title "Some document"
+      #   Versions:
+      #     version:1.0.0 -> Link to version named "1.0.0"
+      #     version:"1.0 beta 2" -> Link to version named "1.0 beta 2"
+      #   Attachments:
+      #     attachment:file.zip -> Link to the attachment of the current object named file.zip
+      #   Source files:
+      #     source:"some/file" -> Link to the file located at /some/file in the project's repository
+      #     source:"some/file@52" -> Link to the file's revision 52
+      #     source:"some/file#L120" -> Link to line 120 of the file
+      #     source:"some/file@52#L120" -> Link to line 120 of the file's revision 52
+      #     export:"some/file" -> Force the download of the file
+      #
+      #   Links can refer other objects from other projects, using project identifier:
+      #     identifier:r52
+      #     identifier:document:"Some document"
+      #     identifier:version:1.0.0
+      #     identifier:source:some/file
+      def call: () -> untyped
+
+      def valid_prefix?: () -> untyped
+
+      def prefix_method: () -> ::String
+
+      def oid: () -> untyped
+
+      private
+
+      def render_version: () -> (untyped | nil)
+
+      def render_commit: () -> (untyped | nil)
+
+      def render_source: () -> (untyped | nil)
+
+      alias render_export render_source
+
+      def render_attachment: () -> untyped
+
+      def render_project: () -> untyped
+
+      def render_user: () -> (untyped | nil)
+
+      def render_document: () -> untyped
+
+      def render_meeting: () -> untyped
+
+      # view is the user-facing name of work package queries
+      # query is the technical/internal name of the concept
+      def render_view: () -> (untyped | nil)
+    end
+  end
+end

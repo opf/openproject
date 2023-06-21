@@ -1,0 +1,11 @@
+module Projects
+  class EnabledModulesContract < ModelContract
+    def validate_model?: () -> false
+
+    def validate_permission: () -> (untyped | nil)
+
+    def validate_dependencies_met: () -> untyped
+
+    def enabled_modules_with_dependencies: () -> untyped
+  end
+end

@@ -1,0 +1,12 @@
+module ErrorMessageHelper
+  def error_messages_for: (*untyped params) -> untyped
+
+  # Will take a contract to display the errors in a rails form.
+  # In order to have faulty field highlighted, the method sets
+  # all errors in the contract on the object as well.
+  def error_messages_for_contract: (untyped object, untyped errors) -> (nil | untyped)
+
+  def extract_objects_from_params: (untyped params) -> ::Array[untyped]
+
+  def render_error_messages_partial: (untyped messages, untyped options) -> (untyped | nil)
+end

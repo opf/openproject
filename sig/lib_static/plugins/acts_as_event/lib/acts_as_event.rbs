@@ -1,0 +1,22 @@
+module Redmine
+  module Acts
+    module Event
+      def self.included: (untyped base) -> untyped
+
+      module ClassMethods
+        def acts_as_event: (?::Hash[untyped, untyped] options) -> (nil | untyped)
+      end
+
+      module InstanceMethods
+        def self.included: (untyped base) -> untyped
+
+        def event_date: () -> untyped
+
+        def event_url: (?::Hash[untyped, untyped] options) -> untyped
+
+        module ClassMethods
+        end
+      end
+    end
+  end
+end

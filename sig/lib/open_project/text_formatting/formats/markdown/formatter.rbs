@@ -1,0 +1,11 @@
+module OpenProject::TextFormatting::Formats::Markdown
+  class Formatter < OpenProject::TextFormatting::Formats::BaseFormatter
+    def to_html: (untyped text) -> untyped
+
+    def to_document: (untyped text) -> untyped
+
+    def filters: () -> ::Array[untyped]
+
+    def self.format: () -> :markdown
+  end
+end

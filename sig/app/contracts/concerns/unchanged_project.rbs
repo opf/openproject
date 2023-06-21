@@ -1,0 +1,5 @@
+module UnchangedProject
+  extend ActiveSupport::Concern
+
+  def with_unchanged_project_id: () { () -> untyped } -> untyped
+end

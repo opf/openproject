@@ -1,0 +1,7 @@
+class Queries::Versions::Filters::SharingFilter < Queries::Versions::Filters::VersionFilter
+  def allowed_values: () -> untyped
+
+  def type: () -> :list
+
+  def self.key: () -> :sharing
+end

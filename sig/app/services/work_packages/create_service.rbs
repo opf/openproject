@@ -1,0 +1,23 @@
+class WorkPackages::CreateService < BaseServices::BaseCallable
+  include ::WorkPackages::Shared::UpdateAncestors
+
+  include ::Shared::ServiceContext
+
+  attr_accessor user: untyped
+
+  attr_accessor contract_class: untyped
+
+  def initialize: (user: untyped, ?contract_class: untyped) -> void
+
+  def perform: (?work_package: untyped, ?send_notifications: untyped?, **untyped attributes) -> untyped
+
+  def create: (untyped attributes, untyped work_package) -> untyped
+
+  def set_attributes: (untyped attributes, untyped wp) -> untyped
+
+  def reschedule_related: (untyped work_package) -> untyped
+
+  def set_user_as_watcher: (untyped work_package) -> untyped
+
+  def attributes_service_class: () -> untyped
+end

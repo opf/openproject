@@ -1,0 +1,3 @@
+class Queries::Notifications::Orders::ReadIanOrder < Queries::Orders::Base
+  def self.key: () -> :read_ian
+end

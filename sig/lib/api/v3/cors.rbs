@@ -1,0 +1,16 @@
+# CORS helper methods for the API v3
+module API
+  module V3
+    module CORS
+      #
+      # Returns whether CORS headers should
+      # be set on the APIv3 resources
+      def self.enabled?: () -> untyped
+
+      #
+      # Determine whether the given origin is included
+      # in the allowed origin list
+      def self.allowed?: (untyped source) -> untyped
+    end
+  end
+end

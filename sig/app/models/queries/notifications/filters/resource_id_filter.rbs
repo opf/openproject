@@ -1,0 +1,5 @@
+class Queries::Notifications::Filters::ResourceIdFilter < Queries::Notifications::Filters::NotificationFilter
+  def allowed_values: () -> untyped
+
+  def type: () -> :list
+end

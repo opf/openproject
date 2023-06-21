@@ -1,0 +1,3 @@
+module Queries::Operators
+  OPERATORS: untyped
+end

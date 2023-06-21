@@ -1,0 +1,7 @@
+class Queries::Projects::ProjectQuery < Queries::BaseQuery
+  include Queries::Serialization::Hash
+
+  def self.model: () -> untyped
+
+  def default_scope: () -> untyped
+end

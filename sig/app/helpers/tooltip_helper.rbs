@@ -1,0 +1,12 @@
+module TooltipHelper
+  include OpenProject::FormTagHelper
+
+  #
+  # Render a tooltip span
+  #
+  # @param text [string] Content of the tooltip
+  # @param placement [string] placement (top, left, right, bottom)
+  # @param span_classes [string] Additional classes on the span
+  # @param icon [string] icon class
+  def tooltip_tag: (untyped text, ?placement: ::String, ?icon: ::String, ?span_classes: untyped?) -> untyped
+end

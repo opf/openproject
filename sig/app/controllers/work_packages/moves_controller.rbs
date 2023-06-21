@@ -1,0 +1,31 @@
+class WorkPackages::MovesController < ApplicationController
+  include WorkPackages::BulkErrorMessage
+
+  def new: () -> untyped
+
+  def create: () -> untyped
+
+  private
+
+  def perform_operation: () -> untyped
+
+  def within_frontend_treshold?: () -> untyped
+
+  # rubocop:disable Metrics/AbcSize
+  def perform_in_frontend: () -> untyped
+
+  def perform_in_background: () -> untyped
+
+  def job_args: () -> { user: untyped, work_package_ids: untyped, project: untyped, target_project: untyped, params: untyped, follow: untyped }
+
+  def job_class: () -> untyped
+
+  def default_breadcrumb: () -> untyped
+
+  # Check if project is unique before bulk operations
+  def check_project_uniqueness: () -> (false | nil)
+
+  def prepare_for_work_package_move: () -> untyped
+
+  def attributes_for_create: () -> untyped
+end

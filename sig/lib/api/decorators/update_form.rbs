@@ -1,0 +1,17 @@
+module API
+  module Decorators
+    module UpdateForm
+      def form_url: () -> untyped
+
+      def resource_url: () -> untyped
+
+      def commit_method: () -> :patch
+
+      def contract_class: () -> untyped
+
+      private
+
+      def downcase_model_name: () -> untyped
+    end
+  end
+end

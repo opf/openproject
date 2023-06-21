@@ -1,0 +1,7 @@
+class Queries::Members::MemberQuery < Queries::BaseQuery
+  def self.model: () -> untyped
+
+  def results: () -> untyped
+
+  def default_scope: () -> untyped
+end

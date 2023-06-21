@@ -1,0 +1,15 @@
+module Queries::Filters::Shared::ProjectFilter
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    def allowed_values: () -> untyped
+
+    def type: () -> :list_optional
+
+    def type_strategy: () -> untyped
+  end
+
+  module ClassMethods
+    def key: () -> :project_id
+  end
+end

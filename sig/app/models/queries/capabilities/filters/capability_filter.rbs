@@ -1,0 +1,5 @@
+class Queries::Capabilities::Filters::CapabilityFilter < Queries::Filters::Base
+  def human_name: () -> untyped
+
+  def where: () -> untyped
+end

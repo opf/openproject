@@ -1,0 +1,7 @@
+class Queries::Projects::Filters::ParentFilter < Queries::Projects::Filters::ProjectFilter
+  def type: () -> :list_optional
+
+  def self.key: () -> :parent_id
+
+  def allowed_values: () -> untyped
+end

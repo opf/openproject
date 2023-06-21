@@ -1,0 +1,7 @@
+module Queries::Operators
+  module CustomFields
+    class NotEqualsAll < ::Queries::Operators::NotEquals
+      def self.sql_for_customized: (untyped values, untyped customized_type, untyped customized_id_join_field) -> untyped
+    end
+  end
+end

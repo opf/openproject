@@ -1,0 +1,2 @@
+class Authorization::UserProjectRolesQuery < Authorization::UserRolesQuery
+end

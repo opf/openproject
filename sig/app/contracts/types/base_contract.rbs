@@ -1,0 +1,15 @@
+module Types
+  class BaseContract < ::ModelContract
+    def self.model: () -> untyped
+
+    def validate_current_user_is_admin: () -> (untyped | nil)
+
+    def validate_attribute_group_names: () -> (nil | untyped)
+
+    def validate_attribute_groups: () -> (nil | untyped)
+
+    def validate_query_group: (untyped group) -> untyped
+
+    def validate_attribute_group: (untyped group) -> untyped
+  end
+end

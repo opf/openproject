@@ -1,0 +1,7 @@
+module Cron
+  class ClearTmpCacheJob < CronJob
+    include ::RakeJob
+
+    def perform: () -> untyped
+  end
+end

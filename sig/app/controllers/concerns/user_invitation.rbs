@@ -1,0 +1,58 @@
+module UserInvitation
+  module Events
+    def self.user_invited: () -> "user_invited"
+
+    def self.user_reinvited: () -> "user_reinvited"
+  end
+
+  #
+  # Creates an invited user with the given email address.
+  #
+  # @param email E-Mail address the invitation is sent to.
+  # @param login User's login (optional)
+  # @param first_name The user's first name (optional)
+  # @param last_name The user's last name (optional)
+  #
+  # @yield [user] Allows modifying the created user before saving it.
+  #
+  # @return The invited user. If the invitation failed, calling `#registered?`
+  #         on the returned user will yield `false`. Check for validation errors
+  #         in that case.
+  def self?.invite_new_user: (email: untyped, ?login: untyped?, ?first_name: untyped?, ?last_name: untyped?) ?{ (untyped) -> untyped } -> untyped
+
+  #
+  # For the given user with at least the mail attribute set,
+  # derives login and first name
+  #
+  # The default login is the email address.
+  def self?.user_from_attributes: (untyped attributes) -> untyped
+
+  #
+  # Sends a new invitation to the user with a new token.
+  #
+  # @param user_id [Integer] ID of the user to be re-invited.
+  # @return [Token] The new token used for the invitation.
+  def self?.reinvite_user: (untyped user_id) -> untyped
+
+  def self?.clear_tokens: (untyped user_id) -> untyped
+
+  def self?.reset_login: (untyped user_id) -> untyped
+
+  #
+  # Invites the given user. An email will be sent to their email address
+  # containing the token necessary for the user to register.
+  #
+  # Validates and saves the given user. The invitation will fail if the user is invalid.
+  #
+  # @return The invited user or nil if the invitation failed.
+  def self?.invite_user!: (untyped user) -> untyped
+
+  #
+  # Creates an invited user with the given email address.
+  # If no first and last is given it will default to 'OpenProject User'
+  # for the first name and 'To-be' for the last name.
+  # The default login is the email address.
+  #
+  # @return Returns the user and the invitation token required to register.
+  def self?.user_invitation: (untyped user) -> untyped
+end

@@ -1,0 +1,17 @@
+module MailNotificationHelper
+  include ::ColorsHelper
+
+  def unique_reasons_of_notifications: (untyped notifications) -> untyped
+
+  def notifications_path: (untyped id) -> untyped
+
+  def type_color: (untyped type, untyped default_fallback) -> untyped
+
+  def status_colors: (untyped status) -> untyped
+
+  def placeholder_table_styles: (?::Hash[untyped, untyped] options) -> untyped
+
+  def placeholder_text_styles: (**untyped overwrites) -> untyped
+
+  def placeholder_cell: (untyped number, vertical: untyped) -> untyped
+end

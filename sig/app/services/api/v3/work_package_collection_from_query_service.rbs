@@ -1,0 +1,49 @@
+module API
+  module V3
+    class WorkPackageCollectionFromQueryService
+      include Utilities::PathHelper
+
+      include ::API::Utilities::UrlPropsParsingHelper
+
+      def initialize: (untyped query, untyped user, ?scope: untyped?) -> void
+
+      def call: (?::Hash[untyped, untyped] params, ?valid_subset: bool) -> untyped
+
+      private
+
+      def results_to_representer: (untyped params) -> untyped
+
+      attr_accessor query: untyped
+
+      attr_accessor current_user: untyped
+
+      attr_accessor scope: untyped
+
+      def representer: () -> untyped
+
+      def calculate_resulting_params: (untyped provided_params) -> untyped
+
+      def calculate_default_params: () -> untyped
+
+      def generate_groups: () -> (nil | untyped)
+
+      def generate_total_sums: () -> (nil | untyped)
+
+      def generate_group_sums: () -> (::Hash[untyped, untyped] | untyped)
+
+      def format_query_sums: (untyped sums) -> untyped
+
+      def format_column_keys: (untyped hash_by_column) -> untyped
+
+      def collection_representer: (untyped work_packages, params: untyped, project: untyped, groups: untyped, sums: untyped) -> untyped
+
+      def to_i_or_nil: (untyped value) -> (untyped | nil)
+
+      def pageSizeParam: (untyped params) -> untyped
+
+      def self_link: (untyped project) -> untyped
+
+      def convert_to_v3: (untyped attribute) -> untyped
+    end
+  end
+end

@@ -1,0 +1,5 @@
+module OpenProject
+  module DefaultWpQueries
+    GANTT: "{\"tv\":true,\"hi\":true}"
+  end
+end

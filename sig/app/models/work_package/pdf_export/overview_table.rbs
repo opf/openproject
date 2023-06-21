@@ -1,0 +1,29 @@
+module WorkPackage::PDFExport::OverviewTable
+  def write_work_packages_overview!: (untyped work_packages, untyped id_wp_meta_map) -> untyped
+
+  private
+
+  def write_grouped!: (untyped work_packages, untyped id_wp_meta_map) -> untyped
+
+  def overview_columns_objects: () -> untyped
+
+  def limit_table_columns_objects: () -> untyped
+
+  def table_column_widths: () -> untyped
+
+  def write_group!: (untyped group, untyped work_packages, untyped id_wp_meta_map, untyped sums) -> untyped
+
+  def write_table!: (untyped work_packages, untyped id_wp_meta_map, untyped sums) -> untyped
+
+  def overview_table_options: () -> { header: true, cell_style: untyped }
+
+  def build_table_rows: (untyped work_packages, untyped id_wp_meta_map, untyped sums) -> untyped
+
+  def build_table_row: (untyped work_package, untyped id_wp_meta_map) -> untyped
+
+  def build_subject_cell: (untyped content, untyped work_package, untyped id_wp_meta_map) -> untyped
+
+  def build_header_row: () -> untyped
+
+  def build_overview_sum_row: (untyped sums) -> untyped
+end

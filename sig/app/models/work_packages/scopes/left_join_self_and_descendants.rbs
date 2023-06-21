@@ -1,0 +1,25 @@
+module WorkPackages::Scopes::LeftJoinSelfAndDescendants
+  extend ActiveSupport::Concern
+
+  def left_join_self_and_descendants: (untyped user, ?untyped? work_package) -> untyped
+
+  private
+
+  def join_descendants: (untyped user, untyped work_package) -> untyped
+
+  def hierarchy_of_wp_condition: () -> untyped
+
+  def hierarchies_join_condition: (untyped work_package) -> untyped
+
+  def hierarchy_and_allowed_condition: (untyped user) -> untyped
+
+  def allowed_to_view_work_packages: (untyped user) -> untyped
+
+  def self_or_descendant_condition: () -> untyped
+
+  def wp_table: () -> untyped
+
+  def hierarchies_table: () -> untyped
+
+  def wp_descendants_table: () -> untyped
+end

@@ -1,0 +1,5 @@
+module OpenProject::Patches::FogFile
+  extend ActiveSupport::Concern
+
+  def authenticated_url: (?::Hash[untyped, untyped] options) -> (untyped | nil)
+end

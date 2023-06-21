@@ -1,0 +1,9 @@
+module OpenProject::TextFormatting::Filters::Macros
+  module IncludeWikiPage
+    HTML_CLASS: "include_wiki_page"
+
+    def self?.identifier: () -> untyped
+
+    def self?.apply: (*untyped) -> untyped
+  end
+end

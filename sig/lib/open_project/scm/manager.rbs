@@ -1,0 +1,33 @@
+module OpenProject
+  module SCM
+    class Manager
+      def self.registered: () -> untyped
+
+      #
+      # Returns a list of registered SCM vendor symbols
+      # (e.g., :git, :subversion)
+      def self.vendors: () -> untyped
+
+      #
+      # Returns all enabled repositories as a Hash
+      # { vendor_name: repository class constant }
+      def self.enabled: () -> untyped
+
+      #
+      # Returns whether the particular vendor symbol
+      # is available AND enabled through settings.
+      def self.enabled?: (untyped vendor) -> untyped
+
+      # Return all manageable vendors
+      def self.manageable: () -> untyped
+
+      #
+      # Return a hash of all managed paths for SCM vendors
+      # { Vendor: <Path> }
+      def self.managed_paths: () -> untyped
+
+      # Add a new SCM adapter and repository
+      def self.add: (untyped vendor) -> untyped
+    end
+  end
+end

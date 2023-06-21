@@ -1,0 +1,19 @@
+class ErrorsController < ActionController::Base
+  include ErrorsHelper
+
+  include OpenProjectErrorHelper
+
+  include Accounts::CurrentUser
+
+  def not_found: () -> untyped
+
+  def unacceptable: () -> untyped
+
+  def internal_error: () -> untyped
+
+  private
+
+  def error_options: () -> untyped
+
+  def use_layout: () -> "only_logo"
+end

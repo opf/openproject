@@ -1,0 +1,5 @@
+module AssignableCustomFieldValues
+  extend ActiveSupport::Concern
+
+  def assignable_custom_field_values: (untyped custom_field) -> untyped
+end

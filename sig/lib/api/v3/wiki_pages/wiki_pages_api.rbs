@@ -1,0 +1,9 @@
+module API
+  module V3
+    module WikiPages
+      class WikiPagesAPI < ::API::OpenProjectAPI
+        def wiki_page: () -> untyped
+      end
+    end
+  end
+end

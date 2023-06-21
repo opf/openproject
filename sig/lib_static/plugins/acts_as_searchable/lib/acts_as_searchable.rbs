@@ -1,0 +1,40 @@
+module Redmine
+  module Acts
+    module Searchable
+      def self.included: (untyped base) -> untyped
+
+      module ClassMethods
+        # Options:
+        # * :columns - a column or an array of columns to search
+        # * :project_key - project foreign key (default to project_id)
+        # * :date_column - name of the datetime column (default to created_at)
+        # * :order_column - name of the column used to sort results (default to :date_column or created_at)
+        # * :permission - permission required to search the model (default to :view_"objects")
+        def acts_as_searchable: (?::Hash[untyped, untyped] options) -> (nil | untyped)
+      end
+
+      module InstanceMethods
+        def self.included: (untyped base) -> untyped
+
+        module ClassMethods
+          # Searches the model for the given tokens
+          # projects argument can be either nil (will search all projects), a project or an array of projects
+          # Returns the results and the results count
+          def search: (untyped tokens, ?untyped? projects, ?::Hash[untyped, untyped] options) -> ::Array[untyped]
+
+          private
+
+          def searchable_projects_condition: () -> ::String
+
+          def searchable_column_conditions: () -> untyped
+
+          def searchable_tsv_column_conditions: (untyped tokens) -> untyped
+
+          def searchable_custom_fields_conditions: () -> untyped
+
+          def subquery_condition: (untyped scope_clause, untyped match_condition) -> ::String
+        end
+      end
+    end
+  end
+end

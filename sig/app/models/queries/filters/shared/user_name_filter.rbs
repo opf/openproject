@@ -1,0 +1,21 @@
+module Queries::Filters::Shared::UserNameFilter
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    def type: () -> :string
+
+    def self.key: () -> :name
+
+    def where: () -> untyped
+
+    private
+
+    def sql_value: () -> untyped
+
+    def sql_concat_name: () -> untyped
+  end
+
+  module ClassMethods
+    def key: () -> :name
+  end
+end

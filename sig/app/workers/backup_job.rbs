@@ -1,0 +1,69 @@
+class BackupJob < ApplicationJob
+  attr_reader backup: untyped
+
+  attr_reader user: untyped
+
+  def perform: (backup: untyped, user: untyped, ?include_attachments: untyped, ?attachment_size_max_sum_mb: untyped) -> untyped
+
+  def run_backup!: () -> (nil | untyped)
+
+  def after_backup: () -> untyped
+
+  def notify_backup_ready!: () -> untyped
+
+  def dumped?: () -> untyped
+
+  def archived?: () -> untyped
+
+  def db_dump_file_name: () -> untyped
+
+  def archive_file_name: () -> untyped
+
+  def status_reference: () -> untyped
+
+  def updates_own_status?: () -> true
+
+  def cleanup_previous_backups!: () -> untyped
+
+  def success?: () -> untyped
+
+  def remove_files!: (*untyped files) -> untyped
+
+  def remove_backup_attachment!: () -> untyped
+
+  def store_backup: (untyped file_name, backup: untyped, user: untyped) -> untyped
+
+  def create_backup_archive!: (file_name: untyped, db_dump_file_name: untyped, ?attachments: untyped) -> untyped
+
+  def local_disk_path: (untyped attachment) -> untyped
+
+  def remove_paths!: (untyped paths) -> untyped
+
+  def get_cache_folder_path: (untyped attachment) -> untyped
+
+  def attachments_to_include: () -> untyped
+
+  def skip_attachments?: () -> untyped
+
+  def date_tag: () -> untyped
+
+  def tmp_file_name: (untyped name, untyped ext) -> untyped
+
+  def include_attachments?: () -> untyped
+
+  def attachment_size_max_sum_mb: () -> untyped
+
+  def dump_database!: (untyped path) -> untyped
+
+  def dump_command: (untyped output_file_path) -> ::String
+
+  def failure!: (?error: untyped?) -> untyped
+
+  def pg_env: () -> untyped
+
+  def database_config: () -> untyped
+
+  #
+  # Maps the PG env variable name to the key in the AR connection config.
+  def pg_env_to_connection_config: () -> { PGHOST: :host, PGPORT: :port, PGUSER: ::Array[:username | :user], PGPASSWORD: :password, PGDATABASE: :database }
+end

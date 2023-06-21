@@ -1,0 +1,32 @@
+class Seeder
+  attr_writer self.logger: untyped
+
+  def self.logger: () -> untyped
+
+  def self.log_to_stdout!: () -> untyped
+
+  attr_reader seed_data: untyped
+
+  def initialize: (?untyped? seed_data) -> void
+
+  def seed!: () -> untyped
+
+  def seed_data!: () -> untyped
+
+  def applicable?: () -> true
+
+  # Called if the seeding is not applicable to have a chance to lookup
+  # existing records and set some references to them.
+  def lookup_existing_references: () -> nil
+
+  def not_applicable_message: () -> ::String
+
+  # The user being the author of all data created during seeding.
+  def admin_user: () -> untyped
+
+  def print_status: (untyped message) ?{ () -> untyped } -> untyped
+
+  def print_error: (untyped message) -> untyped
+
+  def without_notifications: () { () -> untyped } -> untyped
+end

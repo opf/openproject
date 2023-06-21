@@ -1,0 +1,10 @@
+# Creates scopes for the :status enums but ensuring that not_builtin is used at the same time
+# Excludes
+#   * DeletedUser
+#   * SystemUser
+#   * AnonymousUser
+module Principals::Scopes
+  module Status
+    extend ActiveSupport::Concern
+  end
+end

@@ -1,0 +1,27 @@
+class CustomFieldFormBuilder < TabularFormBuilder
+  include ActionView::Context
+
+  attr_reader custom_value: untyped
+
+  attr_reader custom_field: untyped
+
+  def initialize: (untyped object_name, untyped object, untyped template, untyped options) -> void
+
+  # Return custom field html tag corresponding to its format
+  def cf_form_field: (?::Hash[untyped, untyped] options) -> untyped
+
+  private
+
+  def custom_field_input: (?::Hash[untyped, untyped] options) -> untyped
+
+  def custom_field_input_list: (untyped field, untyped input_options) -> untyped
+
+  def custom_field_select_options_for_object: () -> untyped
+
+  def custom_field_field_name: () -> ::String
+
+  def custom_field_field_id: () -> untyped
+
+  # Return custom field label tag
+  def custom_field_label_tag: (untyped options) -> untyped
+end

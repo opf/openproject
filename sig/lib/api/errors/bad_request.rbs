@@ -1,0 +1,7 @@
+module API
+  module Errors
+    class BadRequest < ErrorBase
+      def initialize: (untyped message, **untyped **) -> void
+    end
+  end
+end

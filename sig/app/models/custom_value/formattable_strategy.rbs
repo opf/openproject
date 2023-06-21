@@ -1,0 +1,7 @@
+class CustomValue::FormattableStrategy < CustomValue::FormatStrategy
+  def formatted_value: () -> untyped
+
+  def typed_value: () -> untyped
+
+  def validate_type_of_value: () -> nil
+end

@@ -1,0 +1,21 @@
+module Backups
+  class CreateContract < ::ModelContract
+    include SingleTableInheritanceModelContract
+
+    private
+
+    def backup_token: () -> untyped
+
+    def check_waiting_period: (untyped token) -> (untyped | nil)
+
+    def backup_limit: () -> untyped
+
+    def no_pending_backups: () -> untyped
+
+    def user_allowed_to_create_backup: () -> (untyped | nil)
+
+    def user_allowed_to_create_backup?: () -> untyped
+
+    def pending_statuses: () -> untyped
+  end
+end

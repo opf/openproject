@@ -1,0 +1,71 @@
+module OpenProject
+  module Database
+    DB_VALUE_FALSE: "f"
+
+    DB_VALUE_TRUE: "t"
+
+    class InsufficientVersionError < StandardError
+    end
+
+    class UnsupportedDatabaseError < StandardError
+    end
+
+    class DeprecatedVersionWarning < StandardError
+    end
+
+    # This method returns a hash which maps the identifier of the supported
+    # adapter to a regex matching the adapter_name.
+    def self.supported_adapters: () -> untyped
+
+    #
+    # Get the database system requirements
+    def self.required_version: () -> { numeric: 100000, string: "10.0.0" }
+
+    #
+    # Check pending database migrations
+    # and cache the result for up to one hour
+    def self.migrations_pending?: (?ensure_fresh: bool) -> (untyped | false)
+
+    #
+    # Determine whether the current version is deprecated
+    def self.version_deprecated?: () -> untyped
+
+    #
+    # Check the database for
+    # * being postgresql
+    # * version compatibility
+    #
+    # Raises an +UnsupportedDatabaseError+ when the version is incompatible
+    # Raises an +InsufficientVersionError+ when the version is incompatible
+    def self.check!: () -> (untyped | untyped | untyped | nil)
+
+    #
+    # Return +true+ if the required version is matched by the current connection.
+    def self.version_matches?: (?untyped? required_numeric_version) -> untyped
+
+    # Get the raw name of the currently used database adapter.
+    # This string is set by the used adapter gem.
+    def self.adapter_name: (?untyped connection) -> untyped
+
+    # Get the AR base connection object handle
+    # will open a db connection implicitly
+    def self.connection: () -> untyped
+
+    # returns the identifier of the specified connection
+    # (defaults to ActiveRecord::Base.connection)
+    def self.name: (?untyped connection) -> untyped
+
+    def self.mysql?: (?untyped? _arg) -> false
+
+    # Return the version of the underlying database engine.
+    # Set the +raw+ argument to true to return the unmangled string
+    # from the database.
+    def self.version: (?bool raw) -> untyped
+
+    def self.numeric_version: () -> untyped
+
+    # Return if the version of the underlying database engine is capable of TSVECTOR features, needed for full-text
+    # search.
+    def self.allows_tsv?: () -> untyped
+  end
+end

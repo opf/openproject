@@ -1,0 +1,9 @@
+module API
+  module V3
+    module Watchers
+      class WatcherRepresenter < ::API::Decorators::Single
+        include API::Decorators::LinkedResource
+      end
+    end
+  end
+end

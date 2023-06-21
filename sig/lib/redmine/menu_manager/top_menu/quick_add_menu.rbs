@@ -1,0 +1,31 @@
+module Redmine::MenuManager::TopMenu::QuickAddMenu
+  include OpenProject::StaticRouting::UrlHelpers
+
+  def render_quick_add_menu: () -> (nil | untyped)
+
+  private
+
+  def render_quick_add_dropdown: () -> untyped
+
+  def work_package_quick_add_items: () -> (nil | untyped)
+
+  def work_package_type_heading: () -> untyped
+
+  def visible_types: () -> untyped
+
+  def work_package_create_link: (untyped type_id, untyped type_name) -> untyped
+
+  def user_can_create_work_package?: () -> untyped
+
+  def show_quick_add_menu?: () -> untyped
+
+  def in_project_context?: () -> untyped
+
+  def anonymous_and_login_required?: () -> untyped
+
+  def global_add_permissions?: () -> untyped
+
+  def add_subproject_permission?: () -> untyped
+
+  def any_types?: () -> untyped
+end

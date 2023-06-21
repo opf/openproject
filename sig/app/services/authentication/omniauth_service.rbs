@@ -1,0 +1,99 @@
+module Authentication
+  class OmniauthService
+    include Contracted
+
+    attr_accessor auth_hash: untyped
+
+    attr_accessor strategy: untyped
+
+    attr_accessor controller: untyped
+
+    attr_accessor contract: untyped
+
+    attr_accessor user_attributes: untyped
+
+    attr_accessor identity_url: untyped
+
+    attr_accessor user: untyped
+
+    def initialize: (strategy: untyped, auth_hash: untyped, controller: untyped) -> void
+
+    def call: (?untyped? additional_user_params) -> untyped
+
+    private
+
+    #
+    # Inspect the response object, trying to find out what got returned
+    def inspect_response: (untyped log_level) -> untyped
+
+    #
+    # After login flow
+    def tap_service_result: (untyped call) -> untyped
+
+    #
+    # After validating the omniauth hash
+    # and the authorization is successful,
+    #
+    # login the user by locating or creating it
+    def update_user_from_omniauth!: (untyped additional_user_params) -> untyped
+
+    #
+    # Try to find or create the user
+    # in the following order:
+    #
+    # 1. Look for an active invitation token
+    # 2. Look for an existing user for the current identity_url
+    # 3. Look for an existing user that we can remap (IF remapping is allowed)
+    # 4. Try to register a new user and activate according to settings
+    def lookup_or_initialize_user: () -> untyped
+
+    #
+    # Return an invited user, if there is a token
+    def find_invited_user: () -> (nil | untyped)
+
+    #
+    # Find an existing user by the identity url
+    def find_existing_user: () -> untyped
+
+    #
+    # Allow to map existing users with an Omniauth source if the login
+    # already exists, and no existing auth source or omniauth provider is
+    # linked
+    def remap_existing_user: () -> (nil | untyped)
+
+    #
+    # Create the new user and try to activate it
+    # according to settings and system limits
+    def initialize_new_user: () -> untyped
+
+    #
+    # Update or assign the user attributes
+    def update_attributes: () -> untyped
+
+    def activate_user!: () -> untyped
+
+    #
+    # Determines if the given user is activatable on the fly, that is:
+    #
+    # 1. The user has just been initialized by us
+    # 2. The user has been invited
+    # 3. The user had been registered manually (e.g., through a previous self-registration setting)
+    def activatable?: () -> untyped
+
+    #
+    # Maps the omniauth attribute hash
+    # to our internal user attributes
+    def build_omniauth_hash_to_user_attributes: () -> untyped
+
+    #
+    # Allow strategies to map a value for uid instead
+    # of always taking the global UID.
+    # For SAML, the global UID may change with every session
+    # (in case of transient nameIds)
+    def identity_url_from_omniauth: () -> ::String
+
+    #
+    # Try to provide some context of the auth_hash in case of errors
+    def auth_uid: () -> untyped
+  end
+end

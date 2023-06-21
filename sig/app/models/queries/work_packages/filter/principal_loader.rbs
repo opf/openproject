@@ -1,0 +1,17 @@
+class Queries::WorkPackages::Filter::PrincipalLoader
+  attr_accessor project: untyped
+
+  def initialize: (untyped project) -> void
+
+  def user_values: () -> untyped
+
+  def group_values: () -> untyped
+
+  def principal_values: () -> untyped
+
+  private
+
+  def principals: () -> untyped
+
+  def principals_by_class: () -> untyped
+end

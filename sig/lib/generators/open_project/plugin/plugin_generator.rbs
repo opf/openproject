@@ -1,0 +1,22 @@
+class OpenProject::PluginGenerator < Rails::Generators::Base
+  # every public method is run when the generator is invoked
+  def generate_plugin: () -> untyped
+
+  def full_name: () -> untyped
+
+  private
+
+  def raise_on_params: () -> untyped
+
+  def plugin_path: () -> ::String
+
+  def plugin_dir: () -> untyped
+
+  def lib_path: () -> ::String
+
+  def lib_dir: () -> untyped
+
+  def bin_path: () -> ::String
+
+  def bin_dir: () -> untyped
+end

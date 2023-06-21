@@ -1,0 +1,7 @@
+module Layout
+  extend ActiveSupport::Concern
+
+  def layout_non_or_no_menu: () -> (false | true | "no_menu")
+
+  def project_or_wp_query_menu: () -> (:project_menu | :wp_query_menu)
+end

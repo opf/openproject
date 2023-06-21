@@ -1,0 +1,9 @@
+class Projects::Settings::CustomFieldsController < Projects::SettingsController
+  def show: () -> untyped
+
+  def update: () -> untyped
+
+  private
+
+  def update_custom_fields: () -> untyped
+end

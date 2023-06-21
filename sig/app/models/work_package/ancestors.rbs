@@ -1,0 +1,29 @@
+module WorkPackage::Ancestors
+  extend ActiveSupport::Concern
+
+  attr_accessor work_package_ancestors: untyped
+
+  #
+  # Retrieve stored eager loaded ancestors
+  # or use awesome_nested_set#ancestors reduced by visibility
+  def visible_ancestors: (untyped user) -> untyped
+
+  def aggregate_ancestors: (untyped work_package_ids, untyped user) -> untyped
+
+  #
+  # Aggregate ancestor data for the given work package IDs.
+  # Ancestors visible to the given user are returned, grouped by each input ID.
+  class Aggregator
+    attr_accessor user: untyped
+
+    attr_accessor ids: untyped
+
+    def initialize: (untyped work_package_ids, untyped user) -> void
+
+    def results: () -> untyped
+
+    private
+
+    def ancestors_by_work_package: () -> untyped
+  end
+end

@@ -1,0 +1,5 @@
+module CustomFields
+  class BaseContract < ::ModelContract
+    include RequiresAdminGuard
+  end
+end

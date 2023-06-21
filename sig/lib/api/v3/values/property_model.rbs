@@ -1,0 +1,9 @@
+module API::V3::Values
+  class PropertyModel
+    attr_reader property: untyped
+
+    attr_reader value: untyped
+
+    def initialize: (untyped property, untyped value) -> void
+  end
+end

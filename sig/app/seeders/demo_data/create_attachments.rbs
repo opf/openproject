@@ -1,0 +1,5 @@
+module DemoData::CreateAttachments
+  def create_attachments!: (untyped container, untyped attributes) -> untyped
+
+  def attachment_path: (untyped file_name) -> untyped
+end

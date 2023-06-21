@@ -1,0 +1,45 @@
+class Authorization::ProjectQuery < Authorization::AbstractQuery
+  def self.projects_members_join: (untyped user) -> untyped
+
+  def self.enabled_modules_join: (untyped action) -> untyped
+
+  def self.role_permissions_join: () -> untyped
+
+  def self.project_enabled_module_id_eq_condition: () -> untyped
+
+  def self.enabled_module_name_eq_condition: (untyped action) -> untyped
+
+  def self.project_active_condition: () -> untyped
+
+  def self.members_member_roles_join: () -> untyped
+
+  def self.roles_having_permissions: (untyped action) -> untyped
+
+  def self.projects_table: () -> untyped
+
+  def self.enabled_modules_table: () -> untyped
+
+  def self.member_roles_table: () -> untyped
+
+  def self.members_table: () -> untyped
+
+  def self.role_permissions_table: () -> untyped
+
+  def self.permission_roles_table: () -> untyped
+
+  def self.assigned_roles_table: () -> untyped
+
+  def self.role_has_permission_and_is_assigned: (untyped user, untyped action) -> untyped
+
+  def self.role_has_permission_condition: (untyped action) -> untyped
+
+  def self.project_public_and_builtin_role_condition: (untyped user) -> untyped
+
+  def self.permissions: (untyped action) -> untyped
+
+  def self.action_project_modules: (untyped action) -> untyped
+
+  def self.action_public?: (untyped action) -> untyped
+
+  def self.granted_to_admin?: (untyped user, untyped action) -> untyped
+end

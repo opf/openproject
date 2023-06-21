@@ -1,0 +1,197 @@
+class ApplicationController < ActionController::Base
+  include I18n
+
+  include Redmine::I18n
+
+  include HookHelper
+
+  include ErrorsHelper
+
+  include Accounts::CurrentUser
+
+  include Accounts::UserLogin
+
+  include ::OpenProject::Authentication::SessionExpiry
+
+  include AdditionalUrlHelpers
+
+  include OpenProjectErrorHelper
+
+  # CSRF protection prevents two things. It prevents an attacker from using a
+  # user's session to execute requests. It also prevents an attacker to log in
+  # a user with the attacker's account. API requests each contain their own
+  # authentication token, e.g. as key parameter or header, so they don't have
+  # to be protected by CSRF protection as long as they don't create a session
+  #
+  # We can't reliably determine here whether a request is an API
+  # request as this happens in our way too complex find_current_user method
+  # that is only executed after this method. E.g we might have to check that
+  # no session is active and that no autologin cookie is set.
+  #
+  # Thus, we always reset any active session and the autologin cookie to make
+  # sure find_current user doesn't find a user based on an active session.
+  #
+  # Nevertheless, API requests should not be aborted, which they would be
+  # if we raised an error here. Still, users should see an error message
+  # when sending a form with a wrong CSRF token (e.g. after session expiration).
+  # Thus, we show an error message unless the request probably is an API
+  # request.
+  def handle_unverified_request: () -> untyped
+
+  include Redmine::Search::Controller
+
+  include Redmine::MenuManager::MenuController
+
+  def default_url_options: (?::Hash[untyped, untyped] _options) -> { layout: untyped, protocol: untyped }
+
+  # set http headers so that the browser does not store any
+  # data (caches) of this site
+  # see:
+  # https://websecuritytool.codeplex.com/wikipage?title=Checks#http-cache-control-header-no-store
+  # http://stackoverflow.com/questions/711418/how-to-prevent-browser-page-caching-in-rails
+  def set_cache_buster: () -> (untyped | nil)
+
+  def tag_request: () -> untyped
+
+  def reload_mailer_settings!: () -> untyped
+
+  # Checks if the session cookie is missing.
+  # This is useful only on a second request
+  def openproject_cookie_missing?: () -> untyped
+
+  #
+  # Create CSRF issue
+  def log_csrf_failure: () -> untyped
+
+  def log_requesting_user: () -> (nil | untyped)
+
+  # Escape string to prevent log injection
+  # e.g. setting the user name to contain \r allows overwriting a log line on console
+  # replaces all invalid characters with #
+  def escape_for_logging: (untyped string) -> untyped
+
+  def reset_i18n_fallbacks: () -> (nil | untyped)
+
+  def set_localization: () -> untyped
+
+  def deny_access: (?not_found: bool) -> untyped
+
+  # Authorize the user for the requested controller action.
+  # To be used in before_action hooks
+  def authorize: (?untyped ctrl, ?untyped action) -> untyped
+
+  # Authorize the user for the requested controller action outside a project
+  # To be used in before_action hooks
+  def authorize_global: () -> untyped
+
+  # Deny access if user is not allowed to do the specified action.
+  #
+  # Action can be:
+  # * a parameter-like Hash (eg. { controller: '/projects', action: 'edit' })
+  # * a permission Symbol (eg. :edit_project)
+  def do_authorize: (untyped action, ?global: bool) -> untyped
+
+  # Find project of id params[:id]
+  # Note: find() is Project.friendly.find()
+  def find_project: () -> untyped
+
+  # Find project of id params[:project_id]
+  # Note: find() is Project.friendly.find()
+  def find_project_by_project_id: () -> untyped
+
+  # Find a project based on params[:project_id]
+  # TODO: some subclasses override this, see about merging their logic
+  def find_optional_project: () -> untyped
+
+  def find_optional_project_and_raise_error: () -> untyped
+
+  # Finds and sets @project based on @object.project
+  def find_project_from_association: () -> untyped
+
+  def find_model_object: (?::Symbol object_id) -> untyped
+
+  def find_model_object_and_project: (?::Symbol object_id) -> untyped
+
+  # TODO: this method is right now only suited for controllers of objects that somehow have an association to Project
+  def find_object_and_scope: () -> untyped
+
+  # this method finds all records that are specified in the associations param
+  # after the first object is found it traverses the belongs_to chain of that first object
+  # if a start_object is provided it is taken as the starting point of the traversal
+  # e.g associations [Message, Board, Project] finds Message by find(:message_id)
+  # then message.forum and board.project
+  def find_belongs_to_chained_objects: (untyped associations, ?untyped? start_object) -> untyped
+
+  def self.model_object: (untyped model, ?::Hash[untyped, untyped] options) -> untyped
+
+  # Filter for bulk work package operations
+  def find_work_packages: () -> untyped
+
+  # Make sure that the user is a member of the project (or admin) if project is private
+  # used as a before_action for actions that do not require any particular permission
+  # on the project.
+  def check_project_privacy: () -> (true | untyped | false)
+
+  def back_url: () -> untyped
+
+  def redirect_back_or_default: (untyped default, ?bool use_escaped) -> untyped
+
+  # Picks which layout to use based on the request
+  #
+  # @return [boolean, string] name of the layout to use or false for no layout
+  def use_layout: () -> (false | "no_menu")
+
+  def render_feed: (untyped items, ?::Hash[untyped, untyped] options) -> untyped
+
+  def self.accept_key_auth: (*untyped actions) -> untyped
+
+  def accept_key_auth_actions: () -> untyped
+
+  # Returns a string that can be used as filename value in Content-Disposition header
+  def filename_for_content_disposition: (untyped name) -> untyped
+
+  def api_request?: () -> untyped
+
+  # Returns the API key present in the request
+  def api_key_from_request: () -> (untyped | untyped | nil)
+
+  # Converts the errors on an ActiveRecord object into a common JSON format
+  def object_errors_to_json: (untyped object) -> untyped
+
+  # Renders API response on validation failure
+  def render_validation_errors: (untyped object) -> untyped
+
+  # Overrides #default_template so that the api template
+  # is used automatically if it exists
+  def default_template: (?untyped action_name) -> untyped
+
+  # Overrides #pick_layout so that #render with no arguments
+  # doesn't use the layout for api requests
+  def pick_layout: (*untyped args) -> (nil | untyped)
+
+  def default_breadcrumb: () -> untyped
+
+  def show_local_breadcrumb: () -> false
+
+  def admin_first_level_menu_entry: () -> untyped
+
+  def check_session_lifetime: () -> untyped
+
+  def feed_request?: () -> untyped
+
+  def stop_if_feeds_disabled: () -> (untyped | nil)
+
+  private
+
+  def session_expired?: () -> untyped
+
+  def permitted_params: () -> untyped
+
+  def login_back_url_params: () -> ::Hash[untyped, untyped]
+
+  def login_back_url: () -> untyped
+
+  def action_hooks: () -> untyped
+
+  prepend AuthSourceSSO
+end

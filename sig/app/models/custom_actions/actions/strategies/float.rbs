@@ -1,0 +1,9 @@
+module CustomActions::Actions::Strategies::Float
+  include CustomActions::Actions::Strategies::ValidateInRange
+
+  def values=: (untyped values) -> untyped
+
+  def type: () -> :float_property
+
+  def to_float_or_nil: (untyped value) -> untyped
+end

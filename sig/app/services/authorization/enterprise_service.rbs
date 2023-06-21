@@ -1,0 +1,16 @@
+class Authorization::EnterpriseService
+  attr_accessor token: untyped
+
+  GUARDED_ACTIONS: ::Array[:attribute_help_texts | :baseline_comparison | :board_view | :conditional_highlighting | :custom_actions | :custom_fields_in_projects_list | :date_alerts | :define_custom_style | :edit_attribute_groups | :grid_widget_wp_graph | :ldap_groups | :openid_providers | :placeholder_users | :readonly_work_packages | :team_planner_view | :two_factor_authentication | :work_package_query_relation_columns]
+
+  def initialize: (untyped token) -> void
+
+  # Return a true ServiceResult if the token contains this particular action.
+  def call: (untyped action) -> untyped
+
+  private
+
+  def process: (untyped action) -> untyped
+
+  def result: (untyped bool) -> untyped
+end

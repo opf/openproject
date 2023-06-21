@@ -1,0 +1,9 @@
+module API
+  module V3
+    module WorkPackages
+      class WorkPackageLockVersionPayloadRepresenter < ::API::Decorators::Single
+        include ::API::Utilities::PayloadRepresenter
+      end
+    end
+  end
+end

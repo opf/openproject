@@ -1,0 +1,5 @@
+class Queries::Users::Filters::LoginFilter < Queries::Users::Filters::UserFilter
+  def type: () -> :string
+
+  def self.key: () -> :login
+end

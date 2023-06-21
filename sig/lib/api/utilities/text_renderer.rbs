@@ -1,0 +1,19 @@
+module API
+  module Utilities
+    class TextRenderer
+      include ActionView::Helpers::UrlHelper
+
+      include OpenProject::StaticRouting::UrlHelpers
+
+      include OpenProject::TextFormatting
+
+      include WorkPackagesHelper
+
+      def initialize: (untyped text, ?format: untyped?, ?object: untyped?) -> void
+
+      def to_html: () -> untyped
+
+      def controller: () -> nil
+    end
+  end
+end

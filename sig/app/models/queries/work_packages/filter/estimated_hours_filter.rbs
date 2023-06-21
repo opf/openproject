@@ -1,0 +1,5 @@
+class Queries::WorkPackages::Filter::EstimatedHoursFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  def type: () -> :integer
+
+  def where: () -> untyped
+end

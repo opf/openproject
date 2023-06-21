@@ -1,0 +1,8 @@
+module RemovedJsHelpersHelper
+  # removed in rails 4.1
+  def link_to_function: (untyped content, untyped function, ?::Hash[untyped, untyped] html_options) -> untyped
+
+  #
+  # Execute the callback on click
+  def csp_onclick: (untyped callback_str, untyped selector, ?prevent_default: bool) -> untyped
+end

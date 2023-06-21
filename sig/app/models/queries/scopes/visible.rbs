@@ -1,0 +1,15 @@
+module Queries::Scopes
+  module Visible
+    extend ActiveSupport::Concern
+
+    # Return queries visible to a user:
+    # * the user is the query user and the user has the :view_work_packages permission in the project OR
+    # * the user is the query user and the user has the :view_work_packages permission in any project
+    #   and the query is global (no project) OR
+    # * the user is not the query user and the user has the :view_work_packages permission in the project
+    #   and the query is public OR
+    # * the user is not the query user and the user has the :view_work_packages permission in any project
+    #   and the query is public and the query is global (no project)
+    def visible: (untyped user) -> untyped
+  end
+end

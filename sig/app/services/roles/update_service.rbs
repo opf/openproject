@@ -1,0 +1,7 @@
+class Roles::UpdateService < BaseServices::Update
+  include Roles::NotifyMixin
+
+  private
+
+  def after_safe: () -> untyped
+end

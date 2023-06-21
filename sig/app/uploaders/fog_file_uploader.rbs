@@ -1,0 +1,41 @@
+class FogFileUploader < CarrierWave::Uploader::Base
+  include FileUploader
+
+  def copy_to: (untyped attachment) -> untyped
+
+  def store_dir: () -> ::String
+
+  def remote_file: () -> untyped
+
+  def local_file: () -> untyped
+
+  #
+  # This is necessary for carrierwave to set the Content-Type in the S3 metadata for instance.
+  def fog_attributes: () -> untyped
+
+  #
+  # Generates a download URL for this file.
+  #
+  # @param options [Hash] Options hash.
+  # @option options [String] :content_disposition Pass this content disposition to S3 so that it serves the file with it.
+  # @option options [DateTime] :expires_at Date at which the link should expire (default: now + 5 minutes)
+  # @option options [ActiveSupport::Duration] :expires_in Duration in which the link should expire.
+  #
+  # @return [String] The URL to download the file from.
+  def download_url: (?::Hash[untyped, untyped] options) -> untyped
+
+  #
+  # Checks if this file exists and is readable in the remote storage.
+  #
+  # In the current version of carrierwave the call to #exists?
+  # throws an error if the file does not exist:
+  #
+  #   Excon::Errors::Forbidden: Expected(200) <=> Actual(403 Forbidden)
+  def readable?: () -> untyped
+
+  private
+
+  def set_content_disposition!: (untyped url_options, options: untyped) -> (untyped | nil)
+
+  def set_expires_at!: (untyped url_options, options: untyped) -> untyped
+end

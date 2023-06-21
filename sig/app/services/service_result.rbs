@@ -1,0 +1,84 @@
+class ServiceResult
+  SUCCESS: true
+
+  FAILURE: false
+
+  attr_accessor success: untyped
+
+  attr_accessor result: untyped
+
+  attr_accessor errors: untyped
+
+  attr_accessor dependent_results: untyped
+
+  attr_writer state: untyped
+
+  # Creates a successful ServiceResult.
+  def self.success: (?errors: untyped?, ?message: untyped?, ?message_type: untyped?, ?state: untyped?, ?dependent_results: untyped, ?result: untyped?) -> untyped
+
+  # Creates a failed ServiceResult.
+  def self.failure: (?errors: untyped?, ?message: untyped?, ?message_type: untyped?, ?state: untyped?, ?dependent_results: untyped, ?result: untyped?) -> untyped
+
+  def initialize: (?success: bool, ?errors: untyped?, ?message: untyped?, ?message_type: untyped?, ?state: untyped?, ?dependent_results: untyped, ?result: untyped?) -> void
+
+  alias success? success
+
+  def failure?: () -> untyped
+
+  #
+  # Merge another service result into this instance
+  # allowing optionally to skip updating its service
+  def merge!: (untyped other, ?without_success: bool) -> untyped
+
+  #
+  # Print messages to flash
+  def apply_flash_message!: (untyped flash) -> (untyped | nil)
+
+  def all_results: () -> untyped
+
+  def all_errors: () -> untyped
+
+  #
+  # Test whether the returned errors respond
+  # to the search key
+  def includes_error?: (untyped attribute, untyped error_key) -> untyped
+
+  #
+  # Collect all present errors for the given result
+  # and dependent results.
+  #
+  # Returns a map of the service result to the error object
+  def results_with_errors: (?include_self: bool) -> untyped
+
+  def self_and_dependent: () -> untyped
+
+  def add_dependent!: (untyped dependent) -> untyped
+
+  def on_success: () { () -> untyped } -> self
+
+  def on_failure: () { () -> untyped } -> self
+
+  def each: () { (untyped) -> untyped } -> self
+
+  def map: () { (untyped) -> untyped } -> (self | untyped)
+
+  def to_a: () -> ::Array[untyped]
+
+  def message: () -> (untyped | untyped | nil)
+
+  def state: () -> untyped
+
+  private
+
+  def initialize_errors: (untyped errors) -> untyped
+
+  def new_errors_with_result: () -> untyped
+
+  def message_type: () -> (untyped | :notice | :error)
+
+  def merge_success!: (untyped other) -> untyped
+
+  def merge_errors!: (untyped other) -> untyped
+
+  def merge_dependent!: (untyped other) -> untyped
+end

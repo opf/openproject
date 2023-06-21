@@ -1,0 +1,19 @@
+module Acts
+end
+
+module Acts
+  module Journalized
+    def self.included: (untyped base) -> untyped
+
+    module ClassMethods
+      def plural_name: () -> untyped
+
+      # This call will start journaling the model.
+      def acts_as_journalized: (?::Hash[untyped, untyped] options) -> (nil | untyped)
+
+      private
+
+      def include_aaj_modules: () -> untyped
+    end
+  end
+end

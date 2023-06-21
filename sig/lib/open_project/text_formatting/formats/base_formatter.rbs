@@ -1,0 +1,13 @@
+module OpenProject::TextFormatting::Formats
+  class BaseFormatter
+    attr_reader context: untyped
+
+    attr_reader pipeline: untyped
+
+    def initialize: (untyped context) -> void
+
+    def to_html: (untyped text) -> untyped
+
+    def filters: () -> ::Array[untyped]
+  end
+end

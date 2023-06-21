@@ -1,0 +1,3 @@
+module JournalsHelper
+  def back_to_activity_page_url: (untyped activity_page) -> untyped
+end

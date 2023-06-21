@@ -1,0 +1,13 @@
+module OpenProject
+  module Cache
+    module CacheKey
+      def self.key: (*untyped parts) -> untyped
+
+      #
+      # Expand a cache key.
+      # Shallow wrapper around ActiveSupport::Cache, which supports
+      # anything that responds to #cache_key or #to_param, or strings
+      def self.expand: (untyped cachable) -> untyped
+    end
+  end
+end

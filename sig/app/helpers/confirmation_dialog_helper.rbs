@@ -1,0 +1,6 @@
+module ConfirmationDialogHelper
+  #
+  # Show an angular modal confirmation dialog using the augmented
+  # ConfirmationDialogService
+  def augmented_confirmation_dialog: (?title: untyped?, ?text: untyped?, ?danger_zone: bool, ?show_list_data: bool, ?refresh_on_cancel: bool, ?list_title: untyped?, ?warning_text: untyped?, ?button_continue: untyped?, ?button_cancel: untyped?, ?icon_continue: untyped?, ?divider: untyped?, ?passed_data: untyped?) -> { :"augmented-confirm-dialog" => untyped }
+end

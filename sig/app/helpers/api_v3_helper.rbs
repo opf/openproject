@@ -1,0 +1,3 @@
+module APIV3Helper
+  def api_v3_paths: () -> untyped
+end

@@ -1,0 +1,2 @@
+class Authorization::UserGlobalRolesQuery < Authorization::UserRolesQuery
+end

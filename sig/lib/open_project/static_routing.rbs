@@ -1,0 +1,33 @@
+module OpenProject
+  module StaticRouting
+    #
+    # Makes URL helpers accessible outside the view or controller context.
+    # It's called static routing url helpers as it does not use request information.
+    # For instance it does not read the host from the request but instead
+    # it takes the host from the Settings. This may or may not work completely.
+    #
+    # Most importantly it does work for the '#{model}_path|url' helpers, though.
+    module UrlHelpers
+      extend ActiveSupport::Concern
+
+      def default_url_options: () -> untyped
+
+      def self.host: () -> untyped
+    end
+
+    class StaticRouter
+      def url_helpers: () -> untyped
+    end
+
+    class StaticUrlHelpers
+      include StaticRouting::UrlHelpers
+    end
+
+    #
+    # Try to recognize a route entry for the given path
+    # but strips the relative URL root information away beforehand.
+    #
+    # Returns nil if it could not be processed.
+    def self.recognize_route: (untyped path) -> untyped
+  end
+end

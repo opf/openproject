@@ -1,0 +1,7 @@
+class Wikis::Annotate
+  attr_reader lines: untyped
+
+  attr_reader content: untyped
+
+  def initialize: (untyped content) -> void
+end

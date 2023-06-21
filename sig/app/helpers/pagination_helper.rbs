@@ -1,0 +1,40 @@
+module PaginationHelper
+  def pagination_links_full: (untyped paginator, ?::Hash[untyped, untyped] options) -> (nil | untyped)
+
+  def pagination_option_links: (untyped paginator, untyped pagination_options) -> untyped
+
+  #
+  # Builds the pagination nav with pages and range
+  def pagination_entries: (untyped paginator, untyped options) -> untyped
+
+  #
+  # Builds pagination options (range).
+  def pagination_settings: (untyped paginator, untyped options) -> untyped
+
+  #
+  # Constructs the 'n items per page' entries
+  # determined from available options in the settings.
+  def per_page_links: (untyped paginator, untyped options) -> untyped
+
+  def page_param: (?untyped options) -> untyped
+
+  def per_page_param: (?untyped options) -> untyped
+
+  class LinkRenderer < ::WillPaginate::ActionView::LinkRenderer
+    def to_html: () -> untyped
+
+    def page_number: (untyped page) -> untyped
+
+    def gap: () -> untyped
+
+    def previous_page: () -> untyped
+
+    def next_page: () -> untyped
+
+    def previous_or_next_page: (untyped page, untyped text, untyped class_suffix) -> (untyped | "")
+  end
+
+  private
+
+  def default_options: () -> { renderer: untyped, per_page_links: true, params: ::Hash[untyped, untyped] }
+end

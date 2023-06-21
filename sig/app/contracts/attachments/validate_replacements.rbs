@@ -1,0 +1,13 @@
+module Attachments
+  module ValidateReplacements
+    extend ActiveSupport::Concern
+
+    private
+
+    def validate_attachments_replacements: () -> untyped
+
+    def error_if_attachment_assigned: (untyped attachment) -> (untyped | nil)
+
+    def error_if_other_user_attachment: (untyped attachment) -> (untyped | nil)
+  end
+end

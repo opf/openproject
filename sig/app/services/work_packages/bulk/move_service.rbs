@@ -1,0 +1,11 @@
+module WorkPackages
+  module Bulk
+    class MoveService < BulkedService
+      private
+
+      def alter_work_package: (untyped work_package, untyped params) -> untyped
+
+      def call_move_hook: (untyped work_package, untyped params) -> (nil | untyped)
+    end
+  end
+end

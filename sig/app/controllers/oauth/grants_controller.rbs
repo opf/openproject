@@ -1,0 +1,11 @@
+module OAuth
+  class GrantsController < ::ApplicationController
+    def index: () -> untyped
+
+    def revoke_application: () -> (nil | untyped)
+
+    private
+
+    def find_application: () -> untyped
+  end
+end

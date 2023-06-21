@@ -1,0 +1,9 @@
+module Queries::Projects::Filters::CustomFieldContext
+  def self.custom_field_class: () -> untyped
+
+  def self.model: () -> untyped
+
+  def self.custom_fields: (untyped _context) -> untyped
+
+  def self.where_subselect_joins: (untyped custom_field) -> ::String
+end

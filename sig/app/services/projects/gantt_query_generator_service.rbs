@@ -1,0 +1,21 @@
+module Projects
+  class GanttQueryGeneratorService
+    DEFAULT_GANTT_QUERY: untyped
+
+    attr_reader selected_project_ids: untyped
+
+    #
+    # Returns the current query or the default one if none was saved
+    def self.current_query: () -> untyped
+
+    def self.default_gantt_query: () -> untyped
+
+    def initialize: (untyped selected_project_ids) -> void
+
+    def call: () -> untyped
+
+    private
+
+    def params_from_settings: () -> untyped
+  end
+end

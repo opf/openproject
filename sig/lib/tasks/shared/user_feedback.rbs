@@ -1,0 +1,9 @@
+module Tasks
+  module Shared
+    module UserFeedback
+      def ask_for_confirmation: (untyped questions) -> untyped
+
+      def ask_confirmation_question: (untyped question) -> untyped
+    end
+  end
+end

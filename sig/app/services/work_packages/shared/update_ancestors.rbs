@@ -1,0 +1,13 @@
+module WorkPackages
+  module Shared
+    module UpdateAncestors
+      def update_ancestors: (untyped changed_work_packages) -> untyped
+
+      def update_ancestors_all_attributes: (untyped work_packages) -> untyped
+
+      def update_each_ancestor: (untyped work_packages, untyped changes) -> untyped
+
+      def inherit_to_ancestors: (untyped wp, untyped changes) -> untyped
+    end
+  end
+end

@@ -1,0 +1,13 @@
+class Queries::BaseService
+  include Contracted
+
+  attr_reader user: untyped
+
+  def initialize: (user: untyped) -> void
+
+  def call: (untyped query) -> untyped
+
+  private
+
+  def service_result: (untyped result, untyped errors, untyped query) -> untyped
+end

@@ -1,0 +1,19 @@
+module API::V3::Values::Schemas
+  module ValueSchemaFactory
+    extend ::API::V3::Utilities::PathHelper
+
+    SUPPORTED: ::Array["start_date" | "due_date" | "date"]
+
+    def self?.for: (untyped property) -> (nil | untyped)
+
+    def self?.all_for: (untyped properties) -> untyped
+
+    def self?.supported?: (untyped property) -> untyped
+
+    def self?.model_for: (untyped property) -> untyped
+
+    def self?.i18n_for: (untyped property) -> untyped
+
+    def self?.type_for: (untyped _property) -> "Date"
+  end
+end

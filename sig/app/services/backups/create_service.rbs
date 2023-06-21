@@ -1,0 +1,9 @@
+module Backups
+  class CreateService < ::BaseServices::Create
+    def initialize: (user: untyped, backup_token: untyped, ?include_attachments: bool, ?contract_class: untyped) -> void
+
+    def include_attachments?: () -> untyped
+
+    def after_perform: (untyped call) -> untyped
+  end
+end

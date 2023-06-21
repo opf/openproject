@@ -1,0 +1,9 @@
+module Admin::Settings
+  class AttachmentsSettingsController < ::Admin::SettingsController
+    def default_breadcrumb: () -> untyped
+
+    private
+
+    def settings_params: () -> untyped
+  end
+end

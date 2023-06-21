@@ -1,0 +1,15 @@
+module Projects
+  class ArchiveService < ::BaseServices::BaseContracted
+    include Contracted
+
+    include Projects::Concerns::UpdateDemoData
+
+    def initialize: (user: untyped, model: untyped, ?contract_class: untyped) -> void
+
+    private
+
+    def persist: (untyped service_call) -> untyped
+
+    def archive_project: (untyped project) -> untyped
+  end
+end

@@ -1,0 +1,19 @@
+module API
+  module Decorators
+    module FormattableProperty
+      def self.included: (untyped base) -> untyped
+
+      def self.prepended: (untyped base) -> untyped
+
+      module ClassMethods
+        def formattable_property: (untyped name, ?plain: bool, ?getter: untyped, ?setter: untyped, **untyped args) -> untyped
+
+        private
+
+        def default_formattable_getter: (untyped name, ?bool plain) -> untyped
+
+        def default_formattable_setter: (untyped name) -> untyped
+      end
+    end
+  end
+end

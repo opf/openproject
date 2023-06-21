@@ -1,0 +1,5 @@
+module Relations::Scopes
+  module Types
+    extend ActiveSupport::Concern
+  end
+end

@@ -1,0 +1,9 @@
+class Setting
+  #
+  # Shorthand to common setting aliases to avoid checking values
+  module Aliases
+    #
+    # Restore the previous Setting.protocol now replaced by https?
+    def protocol: () -> ("https" | "http")
+  end
+end

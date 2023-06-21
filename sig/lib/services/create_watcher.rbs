@@ -1,0 +1,5 @@
+class Services::CreateWatcher
+  def initialize: (untyped work_package, untyped user) -> void
+
+  def run: (?send_notifications: untyped?, ?success: untyped, ?failure: untyped) -> untyped
+end

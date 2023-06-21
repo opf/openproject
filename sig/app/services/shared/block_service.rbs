@@ -1,0 +1,3 @@
+module Shared::BlockService
+  def block_with_result: (untyped result) ?{ (untyped) -> untyped } -> untyped
+end

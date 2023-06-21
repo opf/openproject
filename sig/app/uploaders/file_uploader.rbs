@@ -1,0 +1,32 @@
+module FileUploader
+  def self.included: (untyped base) -> untyped
+
+  #
+  # Returns an URL if the attachment is stored in an external (fog) attachment storage
+  # or nil otherwise.
+  def external_url: () -> untyped
+
+  def external_storage?: () -> untyped
+
+  def local_file: () -> untyped
+
+  def download_url: (?::Hash[untyped, untyped] _options) -> untyped
+
+  def cache_dir: () -> untyped
+
+  def readable?: () -> (false | untyped)
+
+  # store! nil's the cache_id after it finishes so we need to remember it for deletion
+  def remember_cache_id: (untyped _new_file) -> untyped
+
+  def delete_tmp_dir: (untyped _new_file) -> untyped
+
+  # remember the tmp file
+  def cache!: (?untyped new_file) -> untyped
+
+  def delete_old_tmp_file: (untyped _dummy) -> untyped
+
+  module ClassMethods
+    def cache_dir: () -> untyped
+  end
+end

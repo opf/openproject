@@ -1,0 +1,15 @@
+module Queries
+  module Relations
+    module Filters
+      class TypeFilter < ::Queries::Relations::Filters::RelationFilter
+        def allowed_values: () -> untyped
+
+        def type: () -> :list
+
+        def self.key: () -> :type
+
+        def where: () -> untyped
+      end
+    end
+  end
+end

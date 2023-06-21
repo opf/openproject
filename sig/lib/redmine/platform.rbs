@@ -1,0 +1,5 @@
+module Redmine
+  module Platform
+    def self.mswin?: () -> untyped
+  end
+end

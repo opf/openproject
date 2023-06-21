@@ -1,0 +1,24 @@
+module UserPreferences
+  class UpdateService < ::BaseServices::Update
+    attr_accessor notifications: untyped
+
+    def validate_params: (untyped params) -> untyped
+
+    def before_perform: (untyped params, untyped _service_result) -> untyped
+
+    def after_perform: (untyped service_call) -> untyped
+
+    def persist_notifications: () -> untyped
+
+    def remove_other_notifications: (untyped ids) -> untyped
+
+    #
+    # Upsert notification while respecting the partial index on notification_settings
+    # depending on the project presence
+    #
+    # @param notifications The array of notification hashes to upsert
+    # @param conflict_target The uniqueness constraint to upsert within
+    # @param index_predicate The partial index condition on the project
+    def upsert_notifications: (untyped notifications, untyped conflict_target, untyped index_predicate) -> (::Array[untyped] | untyped)
+  end
+end

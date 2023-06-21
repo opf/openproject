@@ -1,0 +1,5 @@
+module ReorderLinksHelper
+  def reorder_links: (untyped name, untyped url, ?::Hash[untyped, untyped] options) -> untyped
+
+  def reorder_link: (untyped name, untyped url, untyped direction, untyped icon_class, untyped label, untyped method) -> untyped
+end

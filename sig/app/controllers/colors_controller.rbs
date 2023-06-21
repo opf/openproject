@@ -1,0 +1,23 @@
+class ColorsController < ApplicationController
+  def index: () -> untyped
+
+  def show: () -> untyped
+
+  def new: () -> untyped
+
+  def edit: () -> untyped
+
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  def confirm_destroy: () -> untyped
+
+  def destroy: () -> untyped
+
+  def default_breadcrumb: () -> untyped
+
+  def show_local_breadcrumb: () -> true
+
+  def require_admin_unless_readonly_api_request: () -> (untyped | nil)
+end

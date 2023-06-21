@@ -1,0 +1,23 @@
+module Relations
+  class BaseContract < ::ModelContract
+    def self.model: () -> untyped
+
+    def validate!: (*untyped args) -> untyped
+
+    private
+
+    def validate_from_exists: () -> (untyped | nil)
+
+    def validate_to_exists: () -> (untyped | nil)
+
+    def validate_nodes_relatable: () -> (untyped | nil)
+
+    def validate_accepted_type: () -> (nil | untyped)
+
+    def manage_relations_permission?: () -> (untyped | nil)
+
+    def visible_work_packages: () -> untyped
+
+    def manage_relations?: () -> untyped
+  end
+end

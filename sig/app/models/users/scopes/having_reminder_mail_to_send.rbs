@@ -1,0 +1,37 @@
+module Users::Scopes
+  module HavingReminderMailToSend
+    extend ActiveSupport::Concern
+
+    # Returns all users for which a reminder mails should be sent now. A user
+    # will be included if:
+    #
+    # * That user has an unread notification
+    # * The user hasn't been informed about the unread notification before
+    # * The user has configured reminder mails to be within the time frame
+    #   between the provided time and now.
+    #
+    # This assumes that users only have full hours specified for the times
+    # they desire to receive a reminder mail at.
+    #
+    # @param [DateTime] earliest_time The earliest time to consider as a
+    #   matching slot. All quarter hours from that time to now are included.
+    #
+    #   Only the time part is used which is moved forward to the next quarter
+    #   hour (e.g. 2021-05-03 10:34:12+02:00 -> 08:45:00). This is done
+    #   because time zones always have a mod(15) == 0 minutes offset. Needs to
+    #   be before the current time.
+    def having_reminder_mail_to_send: (untyped earliest_time) -> untyped
+
+    def local_time_join: (untyped local_times) -> untyped
+
+    def local_times_from: (untyped earliest_time) -> untyped
+
+    def times_for_zones: (untyped times) -> untyped
+
+    def build_local_times: (untyped times, untyped zone) -> untyped
+
+    def quarters_between_earliest_and_now: (untyped earliest_time) -> untyped
+
+    def next_quarter_hour: (untyped time) -> untyped
+  end
+end

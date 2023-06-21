@@ -1,0 +1,7 @@
+module WikiPages
+  class CreateContract < BaseContract
+    private
+
+    def validate_user_current_user: () -> (untyped | nil)
+  end
+end

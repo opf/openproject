@@ -1,0 +1,17 @@
+#
+# Implements the deletion of a user.
+module Users
+  class DeleteService < ::BaseServices::Delete
+    #
+    # Deletes the given user if allowed.
+    #
+    # @return True if the user deletion has been initiated, false otherwise.
+    def destroy: (untyped user_object) -> true
+
+    private
+
+    def self_delete?: () -> untyped
+
+    def logout!: () -> untyped
+  end
+end

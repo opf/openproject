@@ -1,0 +1,3 @@
+class Projects::Settings::StorageController < Projects::SettingsController
+  def show: () -> untyped
+end

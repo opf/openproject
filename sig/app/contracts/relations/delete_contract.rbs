@@ -1,0 +1,4 @@
+module Relations
+  class DeleteContract < ::DeleteContract
+  end
+end

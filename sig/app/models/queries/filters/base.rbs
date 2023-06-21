@@ -1,0 +1,78 @@
+class Queries::Filters::Base
+  include ActiveModel::Validations
+
+  def self.i18n_scope: () -> :activerecord
+
+  attr_reader name: untyped
+
+  alias field name
+
+  def initialize: (untyped name, ?::Hash[untyped, untyped] options) -> void
+
+  #
+  # Creates a filter instance with the given name if the options are acceptable.
+  # Raises an +InvalidFilterError+ if the given filter cannot be created with this option.
+  def self.create!: (?name: untyped, **untyped options) -> untyped
+
+  def []: (untyped name) -> untyped
+
+  def filter_instance_options: () -> untyped
+
+  def human_name: () -> untyped
+
+  def type: () -> untyped
+
+  def allowed_values: () -> nil
+
+  def available?: () -> true
+
+  def available_operators: () -> untyped
+
+  def default_operator: () -> untyped
+
+  def scope: () -> untyped
+
+  def self.key: () -> untyped
+
+  def self.connection: () -> untyped
+
+  def self.all_for: (?untyped? context) -> untyped
+
+  def where: () -> untyped
+
+  def from: () -> nil
+
+  def joins: () -> nil
+
+  def left_outer_joins: () -> nil
+
+  def includes: () -> nil
+
+  def values: () -> untyped
+
+  # Values may contain an internal representation for some filters
+  alias values_replaced values
+
+  def values=: (untyped values) -> untyped
+
+  # Does the filter filter on other models, e.g. User, Status
+  def ar_object_filter?: () -> false
+
+  # List of objects the value represents
+  # is empty if the filter does not filter on other AR objects
+  def value_objects: () -> ::Array[untyped]
+
+  def operator_class: () -> untyped
+
+  def error_messages: () -> untyped
+
+  def type_strategy: () -> untyped
+
+  def operator_strategy: () -> untyped
+
+  def validate_inclusion_of_operator: () -> (untyped | nil)
+
+  def validate_presence_of_values: () -> (untyped | nil)
+
+  def validate_values: () -> untyped
+end

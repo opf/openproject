@@ -1,0 +1,107 @@
+module Redmine::MenuManager::MenuHelper
+  include ::Redmine::MenuManager::TopMenuHelper
+
+  include ::Redmine::MenuManager::WikiMenuHelper
+
+  include AccessibilityHelper
+
+  include IconsHelper
+
+  # Renders the application main menu
+  def render_main_menu: (untyped menu, ?untyped? project) -> untyped
+
+  def render_menu: (untyped menu, ?untyped? project) -> untyped
+
+  def select_leafs: (untyped items) -> untyped
+
+  #
+  # Render a dropdown menu item with the given MenuItem children.
+  # Caller may add additional items through the optional block.
+  # Remaining options are passed through to +render_menu_dropdown+.
+  def render_menu_dropdown_with_items: (label: untyped, label_options: untyped, items: untyped, ?options: ::Hash[untyped, untyped], ?project: untyped?) ?{ () -> untyped } -> untyped
+
+  #
+  # Render a dropdown menu item with arbitrary content.
+  # As these are not menu-items, the whole dropdown may never be marked selected.
+  # Available options:
+  # menu_item_class: Additional classes for the menu item li wrapper
+  # drop_down_class: Additional classes for the hidden drop down
+  def render_menu_dropdown: (untyped label_node, ?::Hash[untyped, untyped] options) { () -> untyped } -> untyped
+
+  def render_drop_down_label_node: (untyped label, untyped selected, ?::Hash[untyped, untyped] options) -> untyped
+
+  def render_menu_node: (untyped node, ?untyped? project) -> ("" | untyped)
+
+  # rubocop:disable Metrics/AbcSize
+  def render_menu_node_with_children: (untyped node, ?untyped? project) -> untyped
+
+  def render_wrapped_menu_parent_node: (untyped node, untyped project) -> untyped
+
+  def render_wrapped_single_node: (untyped node, untyped project) -> untyped
+
+  def render_menu_toggler: () -> untyped
+
+  def render_visible_children_list: (untyped node, untyped project) -> untyped
+
+  def render_unattached_children_list: (untyped node, untyped project) -> untyped
+
+  def render_children_menu_header: (untyped node, untyped project) -> untyped
+
+  def render_children_back_up_link: () -> untyped
+
+  # rubocop:disable Metrics/AbcSize
+  def render_single_menu_node: (untyped item, ?untyped? project, ?::String menu_class) -> untyped
+
+  def current_menu_item_part_of_menu?: (untyped menu, ?untyped? project) -> (true | false)
+
+  def first_level_menu_items_for: (untyped menu, ?untyped? project) { () -> untyped } -> untyped
+
+  private
+
+  def menu_node_options: (untyped node) -> untyped
+
+  # Returns a list of unattached children menu items
+  def render_unattached_children_menu: (untyped node, untyped project) -> (nil | untyped)
+
+  def render_unattached_menu_item: (untyped menu_item, untyped project) -> untyped
+
+  def render_single_node_or_partial: (untyped node, untyped project) -> untyped
+
+  def all_menu_items_for: (untyped menu, ?untyped? project) -> untyped
+
+  def node_or_children_selected?: (untyped node) -> untyped
+
+  def node_selected?: (untyped item) -> untyped
+
+  def extract_node_details: (untyped node, ?untyped? project) -> ::Array[untyped]
+
+  def allowed_node_url: (untyped node, untyped project) -> untyped
+
+  def node_url: (untyped node, untyped project) -> untyped
+
+  def menu_items_for: (untyped iteratable, untyped menu, ?untyped? project) ?{ (untyped) -> untyped } -> untyped
+
+  # Checks if a user is allowed to access the menu item by:
+  #
+  # * Checking the conditions of the item
+  # * Checking the url target (project only)
+  def allowed_node?: (untyped node, untyped user, untyped project) -> (false | untyped)
+
+  def allowed_project_node?: (untyped node, untyped project, untyped user) -> (true | untyped | false)
+
+  def node_action_allowed?: (untyped node, untyped project, untyped user) -> (true | untyped)
+
+  def visible_node?: (untyped menu, untyped node) -> untyped
+
+  def node_engine: (untyped node) -> untyped
+
+  def no_wiki_menu_item_selected?: (untyped item) -> untyped
+
+  def no_menu_item_wiki_prefix?: () -> untyped
+
+  def wiki_prefix?: () -> untyped
+
+  def badge_for: (untyped item) -> untyped
+
+  def any_item_selected?: (untyped items) -> untyped
+end

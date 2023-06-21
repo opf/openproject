@@ -1,0 +1,26 @@
+module Versions
+  class BaseContract < ::ModelContract
+    include AssignableValuesContract
+
+    def self.model: () -> untyped
+
+    def assignable_statuses: () -> untyped
+
+    # Returns the sharings that +user+ can set the version to
+    def assignable_sharings: () -> untyped
+
+    def assignable_wiki_pages: () -> untyped
+
+    def assignable_custom_field_values: (untyped custom_field) -> untyped
+
+    private
+
+    def validate_sharing_included: () -> (untyped | nil)
+
+    def user_allowed_to_manage: () -> (untyped | nil)
+
+    def validate_project_is_set: () -> (untyped | nil)
+
+    def validate_page_title_in_wiki: () -> (nil | untyped)
+  end
+end

@@ -1,0 +1,20 @@
+module OpenProject
+  module Storage
+    #
+    # List available storage endpoints
+    def self.mount_information: () -> (::Hash[untyped, untyped] | untyped)
+
+    #
+    # List available storage paths of OpenProject
+    def self.known_storage_paths: () -> untyped
+
+    private
+
+    #
+    # Return mount information based on their filesystem id
+    #
+    def self.list_mounts: (untyped entries) -> untyped
+
+    def self.read_fs_info: (untyped dir) -> untyped
+  end
+end

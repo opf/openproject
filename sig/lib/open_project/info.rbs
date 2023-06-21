@@ -1,0 +1,12 @@
+module OpenProject
+  module Info
+    def self.app_name: () -> untyped
+
+    def self.url: () -> untyped
+
+    def self.versioned_name: () -> ::String
+
+    # Creates the url string to a specific Redmine issue
+    def self.issue: (untyped issue_id) -> untyped
+  end
+end

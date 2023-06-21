@@ -1,0 +1,32 @@
+module OpenProject::TextFormatting
+  module Filters
+    class MentionFilter < HTML::Pipeline::Filter
+      include ERB::Util
+
+      include ActionView::Helpers::UrlHelper
+
+      include OpenProject::ObjectLinking
+
+      include OpenProject::StaticRouting::UrlHelpers
+
+      def call: () -> untyped
+
+      private
+
+      def mention_anchor: (untyped mention) -> untyped
+
+      def user_mention: (untyped user) -> untyped
+
+      def group_mention: (untyped group) -> untyped
+
+      def work_package_mention: (untyped work_package) -> untyped
+
+      def class_from_mention: (untyped mention) -> untyped
+
+      # For link_to
+      def controller: () -> nil
+
+      def mention_id: (untyped mention) -> untyped
+    end
+  end
+end

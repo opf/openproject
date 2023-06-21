@@ -1,0 +1,21 @@
+module OAuth
+  module Applications
+    class RowComponent < ::RowComponent
+      def application: () -> untyped
+
+      def name: () -> untyped
+
+      def owner: () -> untyped
+
+      def confidential: () -> (untyped | nil)
+
+      def redirect_uri: () -> untyped
+
+      def client_credentials: () -> (untyped | "-")
+
+      def edit_link: () -> untyped
+
+      def button_links: () -> ::Array[untyped]
+    end
+  end
+end

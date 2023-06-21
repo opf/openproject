@@ -1,0 +1,13 @@
+module API
+  module V3
+    module Queries
+      module Schemas
+        class QueryFilterInstanceSchemaCollectionRepresenter < ::API::V3::Schemas::SchemaCollectionRepresenter
+          def initialize: (untyped filters, *untyped) ?{ () -> untyped } -> void
+
+          def model_self_link: (untyped model) -> untyped
+        end
+      end
+    end
+  end
+end

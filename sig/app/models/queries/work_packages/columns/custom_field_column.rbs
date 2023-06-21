@@ -1,0 +1,27 @@
+class Queries::WorkPackages::Columns::CustomFieldColumn < Queries::WorkPackages::Columns::WorkPackageColumn
+  def initialize: (untyped custom_field) -> void
+
+  def groupable_custom_field?: (untyped custom_field) -> untyped
+
+  def caption: () -> untyped
+
+  def custom_field: () -> untyped
+
+  def value: (untyped work_package) -> untyped
+
+  def self.instances: (?untyped? context) -> untyped
+
+  private
+
+  def set_name!: () -> untyped
+
+  def set_sortable!: () -> untyped
+
+  def set_groupable!: () -> untyped
+
+  def set_summable!: () -> untyped
+
+  def summable_scope: (untyped query) -> untyped
+
+  def summable_select_statement: () -> ::String
+end

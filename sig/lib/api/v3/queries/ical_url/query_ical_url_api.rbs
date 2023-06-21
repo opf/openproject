@@ -1,0 +1,11 @@
+module API
+  module V3
+    module Queries
+      module ICalUrl
+        # API inflection rule prevents ICal inflection rule to be used in this context
+        class QueryIcalUrlAPI < ::API::OpenProjectAPI
+        end
+      end
+    end
+  end
+end

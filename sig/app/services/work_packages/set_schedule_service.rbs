@@ -1,0 +1,71 @@
+class WorkPackages::SetScheduleService
+  attr_accessor user: untyped
+
+  attr_accessor work_packages: untyped
+
+  def initialize: (user: untyped, work_package: untyped) -> void
+
+  def call: (?::Array[untyped] changed_attributes) -> untyped
+
+  private
+
+  # rubocop:disable Metrics/AbcSize
+  def schedule_by_parent: () -> untyped
+
+  # Finds all work packages that need to be rescheduled because of a
+  # rescheduling of the service's work package and reschedules them.
+  #
+  # The order of the rescheduling is important as successors' dates are
+  # calculated based on their predecessors' dates and ancestors' dates based on
+  # their children's dates.
+  #
+  # Thus, the work packages following (having a follows relation, direct or
+  # transitively) the service's work package are first all loaded, and then
+  # sorted by their need to be scheduled before one another:
+  #
+  # - predecessors are scheduled before their successors
+  # - children/descendants are scheduled before their parents/ancestors
+  #
+  # Manually scheduled work packages are not encountered at this point as they
+  # are filtered out when fetching the work packages eligible for rescheduling.
+  def schedule_following: () -> untyped
+
+  # Schedules work packages based on either
+  #  - their descendants if they are parents
+  #  - their predecessors (or predecessors of their ancestors) if they are
+  #    leaves
+  def reschedule: (untyped scheduled, untyped dependency) -> untyped
+
+  # Inherits the start/due_date from the descendants of this work package.
+  #
+  # Only parent work packages are scheduled like this. start_date receives the
+  # minimum of the dates (start_date and due_date) of the descendants due_date
+  # receives the maximum of the dates (start_date and due_date) of the
+  # descendants
+  def reschedule_by_descendants: (untyped scheduled, untyped dependency) -> untyped
+
+  # Calculates the dates of a work package based on its follows relations.
+  #
+  # The start date of a work package is constrained by its direct and indirect
+  # predecessors, as it must start strictly after all predecessors finish.
+  #
+  # The follows relations of ancestors are considered to be equal to own follows
+  # relations as they inhibit moving a work package just the same. Only leaf
+  # work packages are calculated like this.
+  #
+  # work package is moved to a later date:
+  #   - following work packages are moved forward only to ensure they start
+  #     after their predecessor's finish date. They may not need to move at all
+  #     when there a time buffer between a follower and its predecessors
+  #     (predecessors can also be acquired transitively by ancestors)
+  #
+  # work package moved to an earlier date:
+  #   - following work packages do not move at all.
+  def reschedule_by_predecessors: (untyped scheduled, untyped dependency) -> (nil | untyped)
+
+  def determine_due_date: (untyped work_package, untyped start_date) -> (nil | untyped)
+
+  def set_dates: (untyped work_package, untyped start_date, untyped due_date) -> untyped
+
+  def days: (untyped work_package) -> untyped
+end

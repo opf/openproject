@@ -1,0 +1,11 @@
+module OAuthClients
+  class RedirectUriFromStateService
+    def initialize: (state: untyped, cookies: untyped) -> void
+
+    def call: () -> untyped
+
+    private
+
+    def oauth_state_cookie: () -> (nil | untyped)
+  end
+end

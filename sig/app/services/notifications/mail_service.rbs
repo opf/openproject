@@ -1,0 +1,27 @@
+module Notifications
+  class MailService
+    include WithMarkedNotifications
+
+    def initialize: (untyped notification) -> void
+
+    def call: () -> (nil | untyped)
+
+    private
+
+    attr_accessor notification: untyped
+
+    def ian_read?: () -> untyped
+
+    def strategy: () -> untyped
+
+    def strategy_model: () -> untyped
+
+    def journal: () -> untyped
+
+    def resource: () -> untyped
+
+    def supported?: () -> untyped
+
+    def notification_marked_attribute: () -> :mail_alert_sent
+  end
+end

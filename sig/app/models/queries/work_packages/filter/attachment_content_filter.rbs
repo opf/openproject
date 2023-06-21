@@ -1,0 +1,9 @@
+class Queries::WorkPackages::Filter::AttachmentContentFilter < Queries::WorkPackages::Filter::AttachmentBaseFilter
+  def self.key: () -> :attachment_content
+
+  def name: () -> :attachment_content
+
+  def human_name: () -> untyped
+
+  def search_column: () -> "fulltext"
+end

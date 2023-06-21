@@ -1,0 +1,22 @@
+module AttachableServiceCall
+  #
+  # Call the presented CreateContract service
+  # with the given params, merging in any attachment params
+  #
+  # @param service_cls the service class instance
+  # @param args permitted args for the service call
+  def attachable_create_call: (untyped service_cls, args: untyped) -> untyped
+
+  #
+  # Call the presented UpdateContract service
+  # with the given params, merging in any attachment params
+  #
+  # @param service_cls the service class instance
+  # @param args permitted args for the service call
+  def attachable_update_call: (untyped service_cls, model: untyped, args: untyped) -> untyped
+
+  #
+  # Attachable parameters mapped to a format the
+  # SetReplacements service concern
+  def attachment_params: () -> untyped
+end

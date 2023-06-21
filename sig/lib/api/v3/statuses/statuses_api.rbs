@@ -1,0 +1,11 @@
+module API
+  module V3
+    module Statuses
+      class StatusesAPI < ::API::OpenProjectAPI
+        # Note that naming the method #status or having
+        # a variable named @status colides with grape.
+        def work_package_status: () -> untyped
+      end
+    end
+  end
+end

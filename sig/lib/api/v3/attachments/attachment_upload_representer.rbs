@@ -1,0 +1,33 @@
+module API
+  module V3
+    module Attachments
+      class AttachmentUploadRepresenter < ::API::Decorators::Single
+        include API::Decorators::DateProperty
+
+        include API::Decorators::FormattableProperty
+
+        include API::Decorators::LinkedResource
+
+        def self.associated_container_getter: () -> untyped
+
+        def self.associated_container_link: () -> untyped
+
+        attr_reader form_url: untyped
+
+        attr_reader form_fields: untyped
+
+        attr_reader attachment: untyped
+
+        def initialize: (untyped attachment, current_user: untyped, ?embed_links: bool) -> void
+
+        def _type: () -> "AttachmentUpload"
+
+        def container_representer: () -> untyped
+
+        def v3_container_name: () -> untyped
+
+        def container_title_attribute: () -> (:subject | :title)
+      end
+    end
+  end
+end

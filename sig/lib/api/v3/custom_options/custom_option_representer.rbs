@@ -1,0 +1,9 @@
+module API
+  module V3
+    module CustomOptions
+      class CustomOptionRepresenter < ::API::Decorators::Single
+        def _type: () -> "CustomOption"
+      end
+    end
+  end
+end

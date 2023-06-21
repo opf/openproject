@@ -1,0 +1,114 @@
+# This class is used to wrap a Journable and provide access to its attributes at given timestamps.
+# It is used to provide the old and new values of a journable in the journables's payload.
+# https://github.com/opf/openproject/pull/11783
+#
+# Usage:
+#
+#   # Wrap single work package
+#   timestamps = [Timestamp.parse("2022-01-01T00:00:00Z"), Timestamp.parse("PT0S")]
+#   work_package = WorkPackage.find(1)
+#   work_package = Journable::WithHistoricAttributes.wrap(work_package, timestamps:)
+#
+#   # Wrap multiple work packages
+#   timestamps = query.timestamps
+#   work_packages = query.results.work_packages
+#   work_packages = Journable::WithHistoricAttributes.wrap_multiple(work_packages, timestamps:)
+#
+#   # Access historic attributes at timestamps after wrapping
+#   work_package = Journable::WithHistoricAttributes.wrap(work_package, timestamps:)
+#   work_package.subject  # => "Subject at PT0S (current time)"
+#   work_package.attributes_by_timestamp["2022-01-01T00:00:00Z"].subject  # => "Subject at 2022-01-01 (baseline time)"
+#
+#   # Check at which timestamps the work package matches query filters after wrapping
+#   query.timestamps  # => [<Timestamp 2022-01-01T00:00:00Z>, <Timestamp PT0S>]
+#   work_package = Journable::WithHistoricAttributes.wrap(work_package, query:)
+#   work_package.matches_query_filters_at_timestamps  # => [<Timestamp 2022-01-01T00:00:00Z>]
+#
+#   # Include only changed attributes in payload
+#   # i.e. only historic attributes that differ from the work_package's attributes
+#   timestamps = [Timestamp.parse("2022-01-01T00:00:00Z"), Timestamp.parse("PT0S")]
+#   work_package = Journable::WithHistoricAttributes.wrap(work_package, timestamps:, include_only_changed_attributes: true)
+#   work_package.attributes_by_timestamp["2022-01-01T00:00:00Z"].subject  # => "Subject at 2022-01-01 (baseline time)"
+#   work_package.attributes_by_timestamp["PT0S"].subject  # => nil
+#   # Get only the changed attribute names at the timestamp
+#   work_package.changed_at_timestamp("PT0S") #=> ['subject']
+#
+#   # Simplified interface for two timestamps
+#   query.timestamps  # => [<Timestamp 2022-01-01T00:00:00Z>, <Timestamp PT0S>]
+#   work_package = Journable::WithHistoricAttributes.wrap(work_package, query:)
+#   work_package.baseline_timestamp  # => [<Timestamp 2022-01-01T00:00:00Z>]
+#   work_package.current_timestamp  # => [<Timestamp PT0S>]
+#   work_package.matches_query_filters_at_baseline_timestamp?
+#   work_package.matches_query_filters_at_current_timestamp?
+#   work_package.baseline_attributes.subject # => "Subject at 2022-01-01 (baseline time)"
+#   work_package.subject  # => "Subject at PT0S (current time)"
+#
+# Visibility (permissions) of the work packages at the timestamps is checked with the following rules:
+# * If the work package is visible currently, it is visible at all timestamps.
+# * If the work package is not visible currently, visibility is checked at the individual timestamps.
+# The reason for this discrepancy lies in the needs of the presentation layer. A client should be able to see
+# the full history of a work package if it is currently visible.
+class Journable::WithHistoricAttributes < SimpleDelegator
+  attr_accessor timestamps: untyped
+
+  attr_accessor query: untyped
+
+  attr_accessor include_only_changed_attributes: untyped
+
+  attr_accessor loader: untyped
+
+  def initialize: (untyped journable, ?timestamps: untyped?, ?query: untyped?, ?include_only_changed_attributes: bool, ?loader: untyped) -> void
+
+  def self.wrap: (untyped journable_or_journables, ?timestamps: untyped, ?query: untyped?, ?include_only_changed_attributes: bool) -> untyped
+
+  private
+
+  def self.wrap_each_journable: (untyped journables, timestamps: untyped, query: untyped, include_only_changed_attributes: untyped) -> untyped
+
+  public
+
+  def attributes_by_timestamp: () -> untyped
+
+  # Analogous to ActiveModel::Dirty#changed, returns the
+  # names of attributes changed at a specific timestamp compared
+  # to the attributes the object (e.g. work package) this
+  # Journable::WithHistoricAttributes instance is initialized with.
+  def changed_at_timestamp: (untyped timestamp) -> untyped
+
+  def matches_query_filters_at_timestamps: () -> (untyped | ::Array[untyped])
+
+  def exists_at_timestamps: () -> untyped
+
+  def baseline_timestamp: () -> untyped
+
+  def baseline_attributes: () -> untyped
+
+  def matches_query_filters_at_baseline_timestamp?: () -> untyped
+
+  def current_timestamp: () -> untyped
+
+  def matches_query_filters_at_current_timestamp?: () -> untyped
+
+  def matches_query_filters_at_timestamp?: (untyped timestamp) -> untyped
+
+  def at_timestamp: (untyped timestamp) -> untyped
+
+  def id: () -> untyped
+
+  def attributes: () -> (::Hash[untyped, untyped] | untyped)
+
+  def to_ary: () -> untyped
+
+  def inspect: () -> untyped
+
+  private
+
+  def historic_attributes_at_timestamp: (untyped timestamp) -> (nil | untyped)
+
+  def changes_at_timestamp: (untyped timestamp) -> (nil | untyped)
+
+  def changed_attributes_at_timestamp: (untyped timestamp) -> untyped
+
+  class NotImplemented < StandardError
+  end
+end

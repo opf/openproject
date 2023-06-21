@@ -1,0 +1,7 @@
+class Queries::Members::Orders::NameOrder < Queries::Orders::Base
+  def self.key: () -> :name
+
+  def joins: () -> :principal
+
+  def order: () -> untyped
+end

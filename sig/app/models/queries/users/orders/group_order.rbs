@@ -1,0 +1,2 @@
+class Queries::Users::Orders::GroupOrder < Queries::IndividualPrincipals::Orders::GroupOrder
+end

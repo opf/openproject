@@ -1,0 +1,7 @@
+class Queries::WorkPackages::Columns::ManualSortingColumn < Queries::WorkPackages::Columns::WorkPackageColumn
+  include ::Queries::WorkPackages::Common::ManualSorting
+
+  def initialize: () -> void
+
+  def sortable_join_statement: (untyped query) -> untyped
+end

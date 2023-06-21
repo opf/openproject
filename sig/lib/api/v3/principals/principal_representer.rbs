@@ -1,0 +1,21 @@
+module API
+  module V3
+    module Principals
+      class PrincipalRepresenter < ::API::Decorators::Single
+        include AvatarHelper
+
+        include API::Decorators::DateProperty
+
+        include ::API::Caching::CachedRepresenter
+
+        def current_user_is_admin_or_self: () -> untyped
+
+        def current_user_is_admin?: () -> untyped
+
+        def current_user_is_self?: () -> untyped
+
+        def current_user_allowed_to_see_members?: () -> untyped
+      end
+    end
+  end
+end

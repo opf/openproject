@@ -1,0 +1,5 @@
+class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Columns::WorkPackageColumn
+  def caption: () -> untyped
+
+  def self.instances: (?untyped? _context) -> untyped
+end

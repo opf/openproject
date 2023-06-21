@@ -1,0 +1,4 @@
+module Views
+  class UpdateContract < BaseContract
+  end
+end

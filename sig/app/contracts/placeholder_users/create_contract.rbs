@@ -1,0 +1,9 @@
+module PlaceholderUsers
+  class CreateContract < BaseContract
+    include RequiresEnterpriseGuard
+
+    private
+
+    def type_is_placeholder_user: () -> (untyped | nil)
+  end
+end

@@ -1,0 +1,15 @@
+class CustomActions::Actions::Project < CustomActions::Actions::Base
+  include CustomActions::Actions::Strategies::Associated
+
+  PRIORITY: 10
+
+  def self.key: () -> :project
+
+  def required?: () -> true
+
+  def priority: () -> untyped
+
+  private
+
+  def associated: () -> untyped
+end

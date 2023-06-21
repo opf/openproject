@@ -1,0 +1,9 @@
+module OpenProject
+  module Patches
+    module DelayedJobAdapter
+      module AllowNonExistingJobClass
+        def log_arguments?: () -> untyped
+      end
+    end
+  end
+end

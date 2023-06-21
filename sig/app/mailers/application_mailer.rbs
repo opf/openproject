@@ -1,0 +1,62 @@
+class ApplicationMailer < ActionMailer::Base
+  include OpenProject::LocaleHelper
+
+  # Activates/deactivates email deliveries during +block+
+  def self.with_deliveries: (?bool temporary_state) { () -> untyped } -> untyped
+
+  def self.host: () -> untyped
+
+  def self.protocol: () -> untyped
+
+  def self.default_url_options: () -> untyped
+
+  def mail: (?::Hash[untyped, untyped] headers) ?{ () -> untyped } -> untyped
+
+  # Sets a Message-ID header.
+  #
+  # While the value is set in here, email gateways such as postmark, unless instructed explicitly will assign
+  # their own message id overwriting the value calculated in here.
+  #
+  # Because of this, the message id and the value affected by it (In-Reply-To) is not relied upon when an email response
+  # is handled by OpenProject.
+  def message_id: (untyped object, untyped user) -> untyped
+
+  # Sets a References header.
+  #
+  # The value is used within the MailHandler to find the appropriate objects for update
+  # when a mail has been received but should also allow mail clients to mails
+  # by the referenced entities. Because of this it might make sense to provide more than one object
+  # of reference. E.g. for a message, the message parent can also be provided.
+  def references: (*untyped objects) -> untyped
+
+  # Prepends given fields with 'X-OpenProject-' to save some duplication
+  def open_project_headers: (untyped hash) -> untyped
+
+  private
+
+  def default_formats_for_setting: (untyped format) -> untyped
+
+  def send_mail: (untyped user, untyped subject) -> untyped
+
+  # Generates a unique value for the Message-ID header.
+  # Contains:
+  # * an 'op' prefix
+  # * an object id part that consists of the object's class name and the id unless that part is provided as a string
+  # * the current time
+  # * the recipient's id
+  #
+  # Note that this values, as opposed to the one from #references_value is unique.
+  def message_id_value: (untyped object, untyped recipient) -> ::String
+
+  # Generates a value for the References header.
+  # Contains:
+  # * an 'op' prefix
+  # * an object id part that consists of the object's class name and the id
+  #
+  # Note that this values, as opposed to the one from #message_id_value is not unique.
+  # It in fact is aimed not not so that similar messages (i.e. those belonging to the same
+  # work package and journal) end up being grouped together.
+  def references_value: (untyped object) -> ::String
+
+  def header_host_value: () -> untyped
+end

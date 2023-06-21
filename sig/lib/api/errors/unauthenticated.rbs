@@ -1,0 +1,7 @@
+module API
+  module Errors
+    class Unauthenticated < ErrorBase
+      def initialize: (?untyped message) -> void
+    end
+  end
+end

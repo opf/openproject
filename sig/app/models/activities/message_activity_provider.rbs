@@ -1,0 +1,23 @@
+class Activities::MessageActivityProvider < Activities::BaseActivityProvider
+  def extend_event_query: (untyped query) -> untyped
+
+  def event_query_projection: () -> ::Array[untyped]
+
+  def projects_reference_table: () -> untyped
+
+  def event_title: (untyped event) -> ::String
+
+  def event_description: (untyped event) -> untyped
+
+  def event_type: (untyped event) -> ("message" | "reply")
+
+  def event_path: (untyped event) -> untyped
+
+  def event_url: (untyped event) -> untyped
+
+  private
+
+  def forums_table: () -> untyped
+
+  def url_helper_parameter: (untyped event) -> untyped
+end

@@ -1,0 +1,34 @@
+module API
+  module V3
+    module Users
+      class UserRepresenter < ::API::V3::Principals::PrincipalRepresenter
+        include AvatarHelper
+
+        extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
+
+        #
+        # Used while parsing JSON to initialize `auth_source_id` through the given link.
+        def initialize_embedded_links!: (untyped data) -> untyped
+
+        #
+        # Overrides Roar::JSON::HAL::Resources#from_hash
+        def from_hash: (untyped hash, *untyped) -> untyped
+
+        def parse_auth_source_id: (untyped data, untyped link_name) -> untyped
+
+        def _type: () -> "User"
+
+        def current_user_can_delete_represented?: () -> untyped
+
+        def current_user_can_manage?: () -> untyped
+
+        private
+
+        #
+        # Dependencies required to cache users with avatars
+        # Extended by plugin
+        def avatar_cache_dependencies: () -> ::Array[untyped]
+      end
+    end
+  end
+end

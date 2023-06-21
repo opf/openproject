@@ -1,0 +1,4 @@
+module Queries
+  class UpdateFormContract < BaseContract
+  end
+end

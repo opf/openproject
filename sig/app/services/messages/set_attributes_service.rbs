@@ -1,0 +1,12 @@
+# TODO: This is but a stub
+module Messages
+  class SetAttributesService < ::BaseServices::SetAttributes
+    include Attachments::SetReplacements
+
+    private
+
+    def set_default_attributes: (*untyped) -> untyped
+
+    def set_default_author: () -> untyped
+  end
+end

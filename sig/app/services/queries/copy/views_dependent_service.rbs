@@ -1,0 +1,7 @@
+module Queries::Copy
+  class ViewsDependentService < ::Copy::Dependency
+    def copy_dependency: (params: untyped) -> untyped
+
+    def duplicate_views: (untyped query, untyped new_query) -> (nil | untyped)
+  end
+end

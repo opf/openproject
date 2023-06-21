@@ -1,0 +1,11 @@
+module WorkPackages
+  module Bulk
+    class UpdateService < BulkedService
+      private
+
+      def alter_work_package: (untyped work_package, untyped attributes) -> untyped
+
+      def call_move_hook: (untyped work_package, untyped params) -> untyped
+    end
+  end
+end

@@ -1,0 +1,13 @@
+module Queries
+  class ICalSharingContract < BaseContract
+    def user_allowed_to_subscribe_to_query_via_ical: () -> (nil | untyped)
+
+    def ical_globally_enabled?: () -> untyped
+
+    def user_allowed_to_use_ical_sharing?: () -> untyped
+
+    def query_visible_for_user?: () -> untyped
+
+    def token_valid_for_query?: () -> untyped
+  end
+end

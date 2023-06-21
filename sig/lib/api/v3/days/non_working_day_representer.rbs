@@ -1,0 +1,9 @@
+module API::V3::Days
+  class NonWorkingDayRepresenter < ::API::Decorators::Single
+    include ::API::Decorators::DateProperty
+
+    include ::API::Caching::CachedRepresenter
+
+    def _type: () -> "NonWorkingDay"
+  end
+end

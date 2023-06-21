@@ -1,0 +1,7 @@
+module API::V3::Notifications::PropertyFactory
+  module DateAlertStartDate
+    extend ::API::V3::Utilities::PathHelper
+
+    def self?.for: (untyped notification) -> ::Array[untyped]
+  end
+end

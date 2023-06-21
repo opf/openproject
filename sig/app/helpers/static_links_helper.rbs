@@ -1,0 +1,9 @@
+module StaticLinksHelper
+  #
+  # Create a static link to the given key entry
+  def static_link_to: (untyped key, ?label: untyped?) -> untyped
+
+  #
+  # Link to the correct installation guides for the current selected method
+  def installation_guide_link: () -> untyped
+end

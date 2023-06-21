@@ -1,0 +1,3 @@
+module WorkPackages::Relations
+  extend ActiveSupport::Concern
+end

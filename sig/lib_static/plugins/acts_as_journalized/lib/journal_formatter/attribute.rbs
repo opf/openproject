@@ -1,0 +1,9 @@
+module JournalFormatter
+  class Attribute < Base
+    private
+
+    def format_details: (untyped key, untyped values) -> ::Array[untyped]
+
+    def format_values: (untyped values) -> untyped
+  end
+end

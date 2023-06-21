@@ -1,0 +1,17 @@
+module JournalFormatter
+  def self.register: (untyped hash) -> untyped
+
+  def self.register_formatted_field: (untyped journal_data_type, untyped field, untyped formatter_key) -> untyped
+
+  def self.default_formatters: () -> { datetime: untyped, day_count: untyped, decimal: untyped, fraction: untyped, id: untyped, named_association: untyped, plaintext: untyped }
+
+  def render_detail: (untyped detail, ?::Hash[untyped, untyped] options) -> (nil | untyped)
+
+  def formatter_instance: (untyped field) -> untyped
+
+  def journal_data_type: () -> untyped
+
+  def lookup_formatter_key: (untyped field) -> untyped
+
+  def formatter_instances: () -> untyped
+end

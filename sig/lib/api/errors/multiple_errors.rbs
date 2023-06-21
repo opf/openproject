@@ -1,0 +1,9 @@
+module API
+  module Errors
+    class MultipleErrors < ErrorBase
+      def self.create_if_many: (untyped errors) -> untyped
+
+      def initialize: (untyped errors) -> void
+    end
+  end
+end

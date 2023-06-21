@@ -1,0 +1,13 @@
+module Queries
+  module Serialization
+    module Hash
+      extend ActiveSupport::Concern
+
+      def from_hash: (untyped hash) -> untyped
+
+      def to_hash: () -> { filters: untyped, orders: untyped, group_by: untyped, user: untyped }
+
+      def add_filters: (untyped filters) -> untyped
+    end
+  end
+end

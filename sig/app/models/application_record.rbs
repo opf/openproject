@@ -1,0 +1,17 @@
+class ApplicationRecord < ActiveRecord::Base
+  #
+  # Determine whether this resource was just created ?
+  def just_created?: () -> untyped
+
+  #
+  # Returns whether the given attribute is free of errors
+  def valid_attribute?: (untyped attribute) -> untyped
+
+  #
+  # Get the newest recently changed resource for the given record classes
+  #
+  # e.g., +most_recently_changed(WorkPackage, Type, Status)+
+  #
+  # Returns the timestamp of the most recently updated value
+  def self.most_recently_changed: (*untyped record_classes) -> untyped
+end

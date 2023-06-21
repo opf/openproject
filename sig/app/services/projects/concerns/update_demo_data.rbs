@@ -1,0 +1,7 @@
+module Projects::Concerns
+  module UpdateDemoData
+    private
+
+    def after_perform: (untyped call) -> untyped
+  end
+end

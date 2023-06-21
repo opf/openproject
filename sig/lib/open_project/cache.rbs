@@ -1,0 +1,7 @@
+module OpenProject
+  module Cache
+    def self.fetch: (*untyped parts, **untyped options) { () -> untyped } -> untyped
+
+    def self.clear: () -> untyped
+  end
+end

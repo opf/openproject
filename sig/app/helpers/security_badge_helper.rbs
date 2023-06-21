@@ -1,0 +1,5 @@
+module SecurityBadgeHelper
+  def security_badge_url: (?::Hash[untyped, untyped] args) -> untyped
+
+  def display_security_badge_graphic?: () -> untyped
+end

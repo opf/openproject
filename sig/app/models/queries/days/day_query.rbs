@@ -1,0 +1,13 @@
+class Queries::Days::DayQuery < Queries::BaseQuery
+  def self.model: () -> untyped
+
+  def default_scope: () -> untyped
+
+  #
+  # The dates interval filter needs to adjust the `from` clause of the query.
+  # If there are multiple filters with custom from clause (currently not possible),
+  # the first one is applied and the rest is ignored.
+  def apply_filters: (untyped scope) -> untyped
+
+  def results: () -> untyped
+end

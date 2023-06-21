@@ -1,0 +1,17 @@
+module Queries::Filters::Strategies
+  module Numeric
+    def self.included: (untyped base) -> untyped
+
+    def validate: () -> untyped
+
+    private
+
+    def numeric_class: () -> untyped
+
+    def error_message: () -> untyped
+
+    def validate_values_all_numeric: () -> (untyped | nil)
+
+    def numeric?: (untyped str) -> untyped
+  end
+end

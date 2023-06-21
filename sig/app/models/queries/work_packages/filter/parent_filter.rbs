@@ -1,0 +1,7 @@
+class Queries::WorkPackages::Filter::ParentFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  include ::Queries::WorkPackages::Filter::FilterForWpMixin
+
+  def relation_type: () -> untyped
+
+  def where: () -> untyped
+end

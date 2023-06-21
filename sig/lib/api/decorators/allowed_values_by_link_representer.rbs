@@ -1,0 +1,7 @@
+module API
+  module Decorators
+    class AllowedValuesByLinkRepresenter < PropertySchemaRepresenter
+      attr_accessor allowed_values_href: untyped
+    end
+  end
+end

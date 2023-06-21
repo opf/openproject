@@ -1,0 +1,58 @@
+module API
+  module Caching
+    module CachedRepresenter
+      extend ::ActiveSupport::Concern
+
+      DEFAULT_CONFIGURATION: { disabled: false, key_parts: ::Array[untyped] }
+
+      def to_json: (*untyped args) -> untyped
+
+      def json_cache_key: () -> untyped
+
+      attr_accessor caching_state: untyped
+
+      private
+
+      def apply_link_cache_ifs: (untyped hash_rep) -> untyped
+
+      def apply_property_cache_ifs: (untyped hash_rep) -> untyped
+
+      def add_uncacheable_links: (untyped hash_rep) -> untyped
+
+      # Overriding Roar::Hypermedia#perpare_link_for
+      # to remove the cache_if option which would otherwise
+      # be visible in the output
+      def prepare_link_for: (untyped href, untyped options) -> untyped
+
+      # Overriding Roar::Hypermedia#combile_links_for
+      # to remove all uncacheable links if the caching_state is set to :cacheable
+      def compile_links_for: (untyped configs, *untyped args) -> untyped
+
+      def delete_from_hash: (untyped hash, untyped path, untyped key) -> untyped
+
+      def representable_map: (*untyped) -> untyped
+
+      def with_caching_state: (untyped state) { () -> untyped } -> untyped
+
+      def json_key_representer_parts: () -> untyped
+
+      def json_key_part_represented: () -> ::Array[untyped]
+
+      def json_key_parts_of_represented: () -> untyped
+
+      def json_key_custom_fields: () -> (untyped | nil)
+
+      def json_key_dependencies: () -> (nil | untyped)
+
+      def no_caching?: () -> untyped
+
+      def cached_representer_configuration: () -> untyped
+
+      def cached_representer: (untyped config) -> untyped
+
+      def link: (untyped name, ?::Hash[untyped, untyped] options) { () -> untyped } -> untyped
+
+      def links: (untyped name, ?::Hash[untyped, untyped] options) { () -> untyped } -> untyped
+    end
+  end
+end

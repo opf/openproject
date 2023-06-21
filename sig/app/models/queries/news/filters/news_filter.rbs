@@ -1,0 +1,3 @@
+class Queries::News::Filters::NewsFilter < Queries::Filters::Base
+  def human_name: () -> untyped
+end

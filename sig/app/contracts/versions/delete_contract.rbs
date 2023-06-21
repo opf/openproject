@@ -1,0 +1,5 @@
+module Versions
+  class DeleteContract < ::DeleteContract
+    def validate_no_work_packages_attached: () -> (nil | untyped)
+  end
+end

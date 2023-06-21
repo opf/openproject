@@ -1,0 +1,11 @@
+module Queries::Filters
+  STRATEGIES: { list: untyped, list_all: untyped, list_optional: untyped, integer: untyped, date: untyped, datetime_past: untyped, string: untyped, text: untyped, search: untyped, float: untyped, inexistent: untyped, empty_value: untyped }
+
+  #
+  # Wrapper class for invalid filters being created
+  class InvalidError < StandardError
+  end
+
+  class MissingError < StandardError
+  end
+end

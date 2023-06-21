@@ -1,0 +1,23 @@
+module API
+  module Decorators
+    class AggregationGroup < Single
+      def initialize: (untyped group_key, untyped count, query: untyped, current_user: untyped) -> void
+
+      def model_required?: () -> false
+
+      attr_reader count: untyped
+
+      attr_reader query: untyped
+
+      #
+      # Initializes the links collection for this group if the group has multiple keys
+      #
+      # @return [String] A new group key for the multi value custom field.
+      def set_links!: (untyped group_key) -> untyped
+
+      def value: () -> (untyped | untyped | nil)
+
+      def convert_attribute: (untyped attribute) -> untyped
+    end
+  end
+end

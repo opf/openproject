@@ -1,0 +1,40 @@
+module API
+  module V3
+    module Queries
+      module Schemas
+        class QueryFilterInstanceSchemaRepresenter < ::API::Decorators::SchemaRepresenter
+          include API::Utilities::RepresenterToJsonCache
+
+          def self.filter_representer: () -> untyped
+
+          def self.filter_link_factory: () -> untyped
+
+          def self.operator_representer: () -> untyped
+
+          def self.operator_link_factory: () -> untyped
+
+          # While this is not actually the represented class,
+          # this is what the superclass expects in order to have the
+          # right i18n
+          def self.represented_class: () -> untyped
+
+          alias filter represented
+
+          def _type: () -> "QueryFilterInstanceSchema"
+
+          def _name: () -> untyped
+
+          def _dependencies: () -> ::Array[untyped]
+
+          def convert_attribute: (untyped attribute) -> untyped
+
+          def dependencies: () -> untyped
+
+          def json_cacheable?: () -> untyped
+
+          def json_cache_key: () -> untyped
+        end
+      end
+    end
+  end
+end

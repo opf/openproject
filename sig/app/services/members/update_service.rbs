@@ -1,0 +1,13 @@
+class Members::UpdateService < BaseServices::Update
+  include Members::Concerns::CleanedUp
+
+  include Members::Concerns::NotificationSender
+
+  private
+
+  def post_process: () { () -> untyped } -> (nil | untyped)
+
+  def update_group_roles: (untyped member) -> untyped
+
+  def event_type: () -> untyped
+end

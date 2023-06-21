@@ -1,0 +1,15 @@
+module API
+  module Errors
+    class InternalError < ErrorBase
+      def initialize: (?untyped? error_message, ?exception: untyped?, **untyped **) -> void
+
+      private
+
+      #
+      # Hide internal database errors in production
+      def visible_exception?: (untyped exception) -> untyped
+
+      def exception_blacklist: () -> ::Array[untyped]
+    end
+  end
+end

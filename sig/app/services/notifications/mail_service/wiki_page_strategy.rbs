@@ -1,0 +1,7 @@
+module Notifications::MailService::WikiPageStrategy
+  def self.send_mail: (untyped notification) -> untyped
+
+  private
+
+  def self.mailer_method: (untyped notification) -> (:wiki_page_added | :wiki_page_updated)
+end

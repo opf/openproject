@@ -1,0 +1,5 @@
+class Queries::Days::Filters::WorkingFilter < Queries::Days::Filters::DayFilter
+  include Queries::Filters::Shared::BooleanFilter
+
+  def self.key: () -> :working
+end

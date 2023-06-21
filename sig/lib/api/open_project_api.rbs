@@ -1,0 +1,17 @@
+module API
+  class OpenProjectAPI < ::Grape::API
+    include ::API::AppsignalAPI
+
+    def self.inherited: (untyped api, *untyped) -> untyped
+  end
+end
+
+class Object
+  alias orig_namespace namespace
+
+  def namespace: (?untyped? space, ?::Hash[untyped, untyped] options) { () -> untyped } -> untyped
+
+  def apply_patches: (untyped path) -> untyped
+
+  def patches: () -> untyped
+end

@@ -1,0 +1,11 @@
+class Notifications::GroupMemberAlteredJob < ApplicationJob
+  def perform: (untyped current_user, untyped members_ids, untyped message, untyped send_notifications) -> untyped
+
+  private
+
+  def event_type: (untyped member) -> untyped
+
+  def matching_timestamps?: (untyped member) -> untyped
+
+  def each_member: (untyped members_ids) { () -> untyped } -> untyped
+end

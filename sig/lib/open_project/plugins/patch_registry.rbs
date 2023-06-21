@@ -1,0 +1,7 @@
+module OpenProject::Plugins
+  module PatchRegistry
+    def self.register: (untyped target, untyped patch) -> untyped
+
+    def self.patches: () -> untyped
+  end
+end

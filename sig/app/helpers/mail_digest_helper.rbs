@@ -1,0 +1,25 @@
+module MailDigestHelper
+  def digest_summary_text: (untyped notification_count, untyped mentioned_count) -> untyped
+
+  def date_alerts_text: (untyped notification, ?html: bool) -> untyped
+
+  def digest_notification_timestamp_text: (untyped notification, ?html: bool) -> untyped
+
+  def digest_additional_author_text: (untyped notifications) -> untyped
+
+  private
+
+  def timestamp_text: (untyped user, untyped journal) -> untyped
+
+  def number_of_authors: (untyped notifications) -> untyped
+
+  def date_value: (untyped notification) -> untyped
+
+  def text_modifiers_for: (untyped notification, untyped value) -> (nil | ::Array[untyped])
+
+  def build_property_text: (untyped notification, untyped is_overdue, untyped days_diff) -> untyped
+
+  def build_alert_text: (untyped date_value, untyped is_past, untyped is_overdue, untyped days_diff) -> untyped
+
+  def highlight_overdue: (untyped text, untyped is_overdue, untyped html) -> untyped
+end

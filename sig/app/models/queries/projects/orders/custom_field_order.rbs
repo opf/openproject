@@ -1,0 +1,11 @@
+class Queries::Projects::Orders::CustomFieldOrder < Queries::Orders::Base
+  def self.key: () -> ::Regexp
+
+  def custom_field: () -> untyped
+
+  def scope: () -> untyped
+
+  private
+
+  def order: () -> untyped
+end

@@ -1,0 +1,11 @@
+class CustomValue::ListStrategy < CustomValue::ARObjectStrategy
+  def validate_type_of_value: () -> (:inclusion | nil)
+
+  def typed_value: () -> untyped
+
+  private
+
+  def ar_class: () -> untyped
+
+  def ar_object: (untyped value) -> untyped
+end

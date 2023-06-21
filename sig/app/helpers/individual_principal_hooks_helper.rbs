@@ -1,0 +1,5 @@
+module IndividualPrincipalHooksHelper
+  def call_individual_principals_memberships_hook: (untyped individual_principal, untyped suffix, ?::Hash[untyped, untyped] context) -> untyped
+
+  def individual_principal_key: (untyped individual_principal) -> untyped
+end

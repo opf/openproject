@@ -1,0 +1,13 @@
+module BrowserHelper
+  #
+  # Instead of defining what makes up a modern user,
+  # only define those where we want to show a warning.
+  #
+  # Uses the +browser+ gem.
+  def unsupported_browser?: () -> untyped
+
+  #
+  # Browser specific classes for browser-specific fixes
+  # or mobile detection
+  def browser_specific_classes: () -> untyped
+end

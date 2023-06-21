@@ -1,0 +1,5 @@
+module API
+  class Formatter
+    def call: (untyped object, untyped _env) -> untyped
+  end
+end

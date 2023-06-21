@@ -1,0 +1,45 @@
+class WorkPackagesController < ApplicationController
+  include QueriesHelper
+
+  include PaginationHelper
+
+  include Layout
+
+  def index: () -> untyped
+
+  def show: () -> untyped
+
+  def export_list: (untyped mime_type) -> untyped
+
+  def export_single: (untyped mime_type) -> untyped
+
+  def atom_journals: () -> untyped
+
+  def atom_list: () -> untyped
+
+  private
+
+  def authorize_on_work_package: () -> (untyped | nil)
+
+  def protect_from_unauthorized_export: () -> (false | nil)
+
+  def supported_list_formats: () -> untyped
+
+  def supported_single_formats: () -> untyped
+
+  def load_and_validate_query: () -> untyped
+
+  def per_page_param: () -> untyped
+
+  def project: () -> untyped
+
+  def work_package: () -> untyped
+
+  def journals: () -> untyped
+
+  def index_redirect_path: () -> untyped
+
+  def load_work_packages: () -> untyped
+
+  def login_back_url_params: () -> untyped
+end

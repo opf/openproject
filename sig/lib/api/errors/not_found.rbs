@@ -1,0 +1,11 @@
+module API
+  module Errors
+    class NotFound < ErrorBase
+      def initialize: (?untyped? _message, ?exception: untyped?, ?model: untyped?) -> void
+
+      private
+
+      def not_found_message: (untyped model) -> untyped
+    end
+  end
+end

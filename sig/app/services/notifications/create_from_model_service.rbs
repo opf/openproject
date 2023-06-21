@@ -1,0 +1,119 @@
+class Notifications::CreateFromModelService
+  MENTION_USER_TAG_ID_PATTERN: "<mention[^>]*(?:data-type=\"user\"[^>]*data-id=\"(\\d+)\")|(?:data-id=\"(\\d+)\"[^>]*data-type=\"user\")[^>]*>"
+
+  MENTION_USER_HASH_ID_PATTERN: "\\buser#(\\d+)\\b"
+
+  MENTION_USER_LOGIN_PATTERN: "\\buser:\"(.+?)\""
+
+  MENTION_GROUP_TAG_ID_PATTERN: "<mention[^>]*(?:data-type=\"group\"[^>]*data-id=\"(\\d+)\")|(?:data-id=\"(\\d+)\"[^>]*data-type=\"group\")[^>]*>"
+
+  MENTION_GROUP_HASH_ID_PATTERN: "\\bgroup#(\\d+)\\b"
+
+  COMBINED_MENTION_PATTERN: untyped
+
+  # Skip looking for mentions in quoted lines completely.
+  # We need to allow an optional single white space before the ">", because the `#text_for_mentions`
+  # method appends a white space to the journal details. With the notes it's not the case.
+  QUOTED_LINES_PATTERN: ::Regexp
+
+  MENTION_PATTERN: untyped
+
+  def initialize: (untyped model) -> void
+
+  # Creates Notifications according to the various settings:
+  #
+  # * configured by the individual users
+  # * the send_notifications property provided
+  #
+  # and also by the properties of the journal, e.g.:
+  #
+  # * a work package mentioning a user
+  # * a news begin watched
+  #
+  # This method might be called multiple times, mostly when a journal is
+  # aggregated. On the second run, the potentially existing Notifications need
+  # to be taken into account by
+  #
+  # * updating them if the user is still to be notified: resetting the read_ian
+  #   to false if the strategy supports ian
+  # * destroying them if the user is no longer to be notified
+  def call: (untyped send_notifications) -> untyped
+
+  private
+
+  attr_accessor model: untyped
+
+  # In case a notification already exists (because the journal was aggregated)
+  # an existing notification is updated
+  def update_or_create_notification: (untyped recipient_id, untyped reason) -> untyped
+
+  def create_notification: (untyped recipient_id, untyped reason) -> untyped
+
+  def update_notification: (untyped recipient_id, untyped reason) -> (nil | untyped)
+
+  def delete_outdated_notifications: (untyped current_recipient_ids) -> untyped
+
+  def notification_receivers: (untyped send_notifications) -> untyped
+
+  def add_receivers_by_reason: (untyped receivers, untyped reason) -> untyped
+
+  def settings_of_mentioned: () -> untyped
+
+  def settings_of_assigned: () -> untyped
+
+  def settings_of_responsible: () -> untyped
+
+  def settings_of_subscribed: () -> untyped
+
+  def settings_of_watched: () -> untyped
+
+  def settings_of_commented: () -> untyped
+
+  def settings_of_created: () -> untyped
+
+  def settings_of_processed: () -> untyped
+
+  def settings_of_prioritized: () -> untyped
+
+  def settings_of_scheduled: () -> untyped
+
+  def project_applicable_settings: (untyped user_scope, untyped project, untyped reason) -> untyped
+
+  def settings_for_allowed_users: (untyped user_scope, untyped reason) -> untyped
+
+  # Returns the text of the model (currently suited to work package description and subject) eligible
+  # to be looked at for mentions of users and groups:
+  # * only lines added
+  # * excluding quoted lines
+  def text_for_mentions: () -> untyped
+
+  def mentioned_ids: () -> untyped
+
+  def send_notification?: (untyped send_notifications) -> untyped
+
+  def mention_matches: () -> { user_ids: untyped, user_login_names: untyped, group_ids: untyped }
+
+  def abort_sending?: () -> untyped
+
+  def group_or_user_ids: (untyped association) -> untyped
+
+  def user_with_fallback: () -> untyped
+
+  def add_receiver: (untyped receivers, untyped collection, untyped reason) -> untyped
+
+  def remove_self_recipient: (untyped receivers) -> (untyped | nil)
+
+  def receivers_hash: () -> untyped
+
+  def strategy: () -> untyped
+
+  def supported?: () -> untyped
+
+  def user: () -> untyped
+
+  def project: () -> untyped
+
+  def resource: () -> untyped
+
+  def journal: () -> (untyped | nil)
+end

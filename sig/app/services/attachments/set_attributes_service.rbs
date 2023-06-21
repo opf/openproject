@@ -1,0 +1,7 @@
+module Attachments
+  class SetAttributesService < ::BaseServices::SetAttributes
+    def set_attributes: (untyped params) -> untyped
+
+    def set_default_attributes: (untyped _params) -> (untyped | nil)
+  end
+end

@@ -1,0 +1,9 @@
+module WorkPackages
+  class BulkCopyJob < BulkJob
+    def service_class: () -> untyped
+
+    def success_message: () -> untyped
+
+    def failure_message: () -> untyped
+  end
+end

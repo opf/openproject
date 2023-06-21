@@ -1,0 +1,21 @@
+module AccessibilityHelper
+  def you_are_here_info: (?bool condition, ?untyped? disabled) -> (untyped | untyped | "")
+
+  def empty_element_tag: () -> untyped
+
+  # Returns the locale :en for the given menu item if the user locale is
+  # different but equals the English translation
+  #
+  # Returns nil if user locale is :en (English) or no translation is given,
+  # thus, assumes English to be the default language. Returns :en iff a
+  # translation exists and the translation equals the English one.
+  def menu_item_locale: (untyped menu_item) -> (nil | untyped)
+
+  private
+
+  def locale_exists?: (untyped key, ?untyped locale) -> untyped
+
+  def english_locale_set?: () -> untyped
+
+  def equals_english_locale: (untyped key) -> (untyped | false)
+end

@@ -1,0 +1,13 @@
+class CustomActions::Actions::DoneRatio < CustomActions::Actions::Base
+  include CustomActions::Actions::Strategies::Integer
+
+  def self.key: () -> :done_ratio
+
+  def apply: (untyped work_package) -> untyped
+
+  def minimum: () -> 0
+
+  def maximum: () -> 100
+
+  def self.all: () -> (untyped | ::Array[untyped])
+end

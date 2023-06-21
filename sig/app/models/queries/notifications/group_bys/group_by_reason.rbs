@@ -1,0 +1,5 @@
+class Queries::Notifications::GroupBys::GroupByReason < Queries::GroupBys::Base
+  def self.key: () -> :reason
+
+  def name: () -> :reason
+end

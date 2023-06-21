@@ -1,0 +1,3 @@
+class PlaceholderUsers::DeleteService < BaseServices::Delete
+  def destroy: (untyped placeholder) -> true
+end

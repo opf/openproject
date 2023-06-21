@@ -1,0 +1,15 @@
+module PlaceholderUsers
+  class RowComponent < ::RowComponent
+    def placeholder_user: () -> untyped
+
+    def name: () -> untyped
+
+    def created_at: () -> untyped
+
+    def button_links: () -> untyped
+
+    def delete_link: () -> untyped
+
+    def row_css_class: () -> "placeholder_user"
+  end
+end

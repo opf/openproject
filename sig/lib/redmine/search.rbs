@@ -1,0 +1,26 @@
+module Redmine
+  module Search
+    def self.map: () { (untyped) -> untyped } -> untyped
+
+    # Registers a search provider
+    def self.register: (untyped search_type, ?::Hash[untyped, untyped] _options) -> untyped
+
+    module Controller
+      def self.included: (untyped base) -> untyped
+
+      module ClassMethods
+        # Set the default search scope for a controller or specific actions
+        # Examples:
+        #   * search_scope :issues # => sets the search scope to :issues for the whole controller
+        #   * search_scope :issues, only: :index
+        #   * search_scope :issues, only: [:index, :show]
+        def default_search_scope: (untyped id, ?::Hash[untyped, untyped] options) -> untyped
+      end
+
+      def default_search_scopes: () -> untyped
+
+      # Returns the default search scope according to the current action
+      def default_search_scope: () -> untyped
+    end
+  end
+end

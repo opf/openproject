@@ -1,0 +1,7 @@
+module WorkPackages::BulkErrorMessage
+  extend ActiveSupport::Concern
+
+  private
+
+  def bulk_error_message: (untyped selected_work_packages, untyped service_result) -> untyped
+end

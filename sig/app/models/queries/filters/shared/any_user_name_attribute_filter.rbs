@@ -1,0 +1,17 @@
+module Queries::Filters::Shared::AnyUserNameAttributeFilter
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    def key: () -> :any_name_attribute
+
+    def available_operators: () -> ::Array[untyped]
+
+    private
+
+    def sql_concat_name: () -> "    LOWER(\n      CONCAT(\n        users.firstname, ' ', users.lastname,\n        ' ',\n        users.lastname, ' ', users.firstname,\n        ' ',\n        users.login,\n        ' ',\n        users.mail\n      )\n    )\n"
+  end
+
+  module ClassMethods
+    def key: () -> :any_name_attribute
+  end
+end

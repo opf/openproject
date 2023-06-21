@@ -1,0 +1,30 @@
+module API
+  module V3
+    module Queries
+      module QueryHelper
+        #
+        # @param query [Query]
+        # @param contract [Class]
+        # @param form_representer [Class]
+        #
+        # Additionally, two parameters are accepted under the hood.
+        #
+        # # request_body
+        # # params
+        #
+        # Both are applied to the query in order to adapt it.
+        def create_or_update_query_form: (untyped query, untyped contract, untyped form_representer) -> untyped
+
+        def form_result: (untyped query, untyped form_representer, untyped api_errors) -> untyped
+
+        def update_query: (untyped query, untyped request_body, untyped current_user) -> untyped
+
+        def representer: () -> untyped
+
+        def update_query_from_get_params: (untyped query) -> untyped
+
+        def update_query_from_body_and_params: (untyped query) -> untyped
+      end
+    end
+  end
+end

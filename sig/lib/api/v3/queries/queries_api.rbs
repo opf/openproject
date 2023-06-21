@@ -1,0 +1,11 @@
+module API
+  module V3
+    module Queries
+      class QueriesAPI < ::API::OpenProjectAPI
+        def authorize_by_policy: (untyped action) { () -> untyped } -> untyped
+
+        def allowed_to?: (untyped action) -> untyped
+      end
+    end
+  end
+end

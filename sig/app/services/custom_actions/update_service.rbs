@@ -1,0 +1,9 @@
+class CustomActions::UpdateService < CustomActions::BaseService
+  attr_accessor user: untyped
+
+  attr_accessor action: untyped
+
+  def initialize: (action: untyped, user: untyped) -> void
+
+  def call: (attributes: untyped) { () -> untyped } -> untyped
+end

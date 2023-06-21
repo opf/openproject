@@ -1,0 +1,19 @@
+class Queries::WorkPackages::Filter::ManualSortFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  include ::Queries::WorkPackages::Common::ManualSorting
+
+  def available_operators: () -> ::Array[untyped]
+
+  def available?: () -> true
+
+  def type: () -> :empty_value
+
+  def where: () -> untyped
+
+  def self.key: () -> :manual_sort
+
+  def ar_object_filter?: () -> true
+
+  private
+
+  def operator_strategy: () -> untyped
+end

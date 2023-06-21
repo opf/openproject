@@ -1,0 +1,9 @@
+module AttributeHelpTexts
+  class BaseContract < ::ModelContract
+    include RequiresAdminGuard
+
+    include Attachments::ValidateReplacements
+
+    def self.model: () -> untyped
+  end
+end

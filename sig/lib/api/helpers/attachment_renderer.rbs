@@ -1,0 +1,38 @@
+#
+# Attachment helper to be included into endpoints
+module API
+  module Helpers
+    module AttachmentRenderer
+      def self.content_endpoint: () { () -> untyped } -> untyped
+
+      #
+      # Render an attachment, either by redirecting
+      # to the external storage,
+      #
+      # or by directly rendering the file
+      #
+      # @param attachment [Attachment] Attachment to be responded with.
+      # @param cache_seconds [integer] Time in seconds the cache headers signal the browser to cache the attachment.
+      #                                Defaults to no cache headers.
+      def respond_with_attachment: (untyped attachment, ?cache_seconds: untyped?) -> untyped
+
+      private
+
+      def redirect_to_external_attachment: (untyped attachment, untyped cache_seconds) -> untyped
+
+      def send_attachment: (untyped attachment) -> untyped
+
+      def set_cache_headers: () -> (untyped | nil)
+
+      def prepare_cache_headers: (untyped seconds) -> untyped
+
+      def set_cache_headers!: (?untyped? seconds) -> untyped
+
+      def fog_cache_seconds: () -> untyped
+
+      def avatar_link_expires_in: () -> untyped
+
+      def avatar_link_expiry_seconds: () -> untyped
+    end
+  end
+end

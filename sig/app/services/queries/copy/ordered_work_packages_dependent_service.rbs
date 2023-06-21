@@ -1,0 +1,12 @@
+module Queries::Copy
+  class OrderedWorkPackagesDependentService < ::Copy::Dependency
+    def copy_dependency: (params: untyped) -> (nil | untyped)
+
+    def duplicate_query_order: (untyped query, untyped new_query) -> untyped
+
+    #
+    # Tries to lookup the work package id if
+    # we're in a mapped condition (e.g., copying a project)
+    def lookup_work_package_id: (untyped id) -> untyped
+  end
+end

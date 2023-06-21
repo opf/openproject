@@ -1,0 +1,15 @@
+module Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
+  include ::Queries::WorkPackages::Filter::FilterForWpMixin
+
+  def where: () -> ::String
+
+  def relation_type: () -> untyped
+
+  def normalized_relation_type: () -> untyped
+
+  private
+
+  def relation_filter: () -> untyped
+
+  def relation_select: () -> untyped
+end

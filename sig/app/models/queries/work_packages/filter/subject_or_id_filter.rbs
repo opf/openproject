@@ -1,0 +1,19 @@
+class Queries::WorkPackages::Filter::SubjectOrIdFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  include Queries::WorkPackages::Filter::OrFilterForWpMixin
+
+  CONTAINS_OPERATOR: "~"
+
+  EQUALS_OPERATOR: "="
+
+  FILTERS: ::Array[untyped]
+
+  def self.key: () -> :subject_or_id
+
+  def name: () -> :subject_or_id
+
+  def type: () -> :search
+
+  def human_name: () -> untyped
+
+  def filter_configurations: () -> untyped
+end

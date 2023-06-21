@@ -1,0 +1,6 @@
+module API
+  module Errors
+    class InvalidQuery < ErrorBase
+    end
+  end
+end

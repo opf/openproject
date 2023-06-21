@@ -1,0 +1,11 @@
+module Relations::Scopes
+  module Visible
+    extend ActiveSupport::Concern
+
+    # Returns all relationships visible to the user. The relationships have to be:
+    #   * Start (from_id) on a work package visible to the user (view_work_packages in the work package's project)
+    #   * End (to_id) on a work package visible to the user (view_work_packages in the work package's project)
+    # @param [User] user
+    def visible: (?untyped user) -> untyped
+  end
+end

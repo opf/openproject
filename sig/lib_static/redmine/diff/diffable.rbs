@@ -1,0 +1,9 @@
+module Redmine::Diff::Diffable
+  def diff: (untyped b) -> untyped
+
+  def reverse_hash: (?untyped range) -> untyped
+
+  def replacenextlarger: (untyped value, ?untyped? high) -> (untyped | nil)
+
+  def patch: (untyped diff) -> untyped
+end

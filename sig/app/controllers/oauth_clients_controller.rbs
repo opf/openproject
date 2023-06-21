@@ -1,0 +1,36 @@
+# This controller handles OAuth2 Authorization Code Grant redirects from a Authorization Server to
+# "callback" endpoint.
+class OAuthClientsController < ApplicationController
+  # Provide the OAuth2 "callback" endpoint.
+  # The Authorization Server redirects
+  # here after successful authentication and authorization.
+  # This endpoint gets a "code" parameter that cryptographically
+  # contains a grant.
+  # We get here by a URL like this:
+  # http://localhost:4200/oauth_clients/asdf12341234qsdfasdfasdf/callback?
+  #   state=http%3A%2F%2Flocalhost%3A4200%2Fprojects%2Fdemo-project%2Foauth2_example&
+  #   code=MQoOnUTJGFdAo5jBGD1SqnDH0PV6yioG7NoYM2zZZlK3g6LuKrGUmOxjIS1bIy7fHEfZy2WrgYcx
+  def callback: () -> untyped
+
+  private
+
+  def set_oauth_state: () -> untyped
+
+  def clear_oauth_state_cookie: () -> (untyped | nil)
+
+  def set_oauth_errors: (untyped service_result) -> untyped
+
+  def set_code: () -> untyped
+
+  def set_redirect_uri: () -> untyped
+
+  def set_connection_manager: () -> untyped
+
+  def find_oauth_client: () -> untyped
+
+  def redirect_user_or_admin: (?untyped? redirect_uri) { () -> untyped } -> untyped
+
+  def nextcloud?: () -> untyped
+
+  def get_redirect_uri: () -> untyped
+end

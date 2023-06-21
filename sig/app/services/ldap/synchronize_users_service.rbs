@@ -1,0 +1,16 @@
+module Ldap
+  class SynchronizeUsersService < BaseService
+    attr_reader logins: untyped
+
+    def initialize: (untyped ldap, ?untyped? logins) -> void
+
+    private
+
+    def perform: () -> untyped
+
+    # Get the applicable users
+    # as the service can be called with just a subset of users
+    # from rake/external services.
+    def applicable_users: () -> untyped
+  end
+end

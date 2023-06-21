@@ -1,0 +1,31 @@
+class QueryPolicy < BasePolicy
+  private
+
+  def cache: (untyped query) -> untyped
+
+  def persisted_and_own_or_public?: (untyped query) -> untyped
+
+  def viewable?: (untyped query) -> untyped
+
+  def create_allowed?: (untyped query) -> untyped
+
+  def create_new_allowed?: (untyped query) -> untyped
+
+  def publicize_allowed?: (untyped query) -> untyped
+
+  def depublicize_allowed?: (untyped query) -> untyped
+
+  def public_manageable_query?: (untyped query) -> untyped
+
+  def reorder_work_packages?: (untyped query) -> untyped
+
+  def view_work_packages_allowed?: (untyped query) -> untyped
+
+  def edit_work_packages_allowed?: (untyped query) -> untyped
+
+  def save_queries_allowed?: (untyped query) -> untyped
+
+  def manage_public_queries_allowed?: (untyped query) -> untyped
+
+  def share_via_ical_allowed?: (untyped query) -> untyped
+end

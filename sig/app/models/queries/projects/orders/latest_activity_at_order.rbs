@@ -1,0 +1,7 @@
+class Queries::Projects::Orders::LatestActivityAtOrder < Queries::Orders::Base
+  def self.key: () -> :latest_activity_at
+
+  private
+
+  def order: () -> untyped
+end

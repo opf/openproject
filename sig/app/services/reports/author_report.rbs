@@ -1,0 +1,11 @@
+class Reports::AuthorReport < Reports::Report
+  def self.report_type: () -> "author"
+
+  def field: () -> "author_id"
+
+  def rows: () -> untyped
+
+  def data: () -> untyped
+
+  def title: () -> untyped
+end

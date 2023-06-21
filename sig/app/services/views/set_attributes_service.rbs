@@ -1,0 +1,4 @@
+module Views
+  class SetAttributesService < ::BaseServices::SetAttributes
+  end
+end

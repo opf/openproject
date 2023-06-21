@@ -1,0 +1,22 @@
+class Type::FormGroup
+  attr_accessor key: untyped
+
+  attr_accessor attributes: untyped
+
+  attr_accessor type: untyped
+
+  def initialize: (untyped type, untyped key, untyped attributes) -> void
+
+  #
+  # Returns the symbol key, if it is not translated
+  def internal_key?: () -> untyped
+
+  #
+  # Translate the given attribute group if its internal
+  # (== if it's a symbol)
+  def translated_key: () -> untyped
+
+  def members: () -> untyped
+
+  def active_members: (untyped _project) -> untyped
+end

@@ -1,0 +1,20 @@
+module API
+  module V3
+    module WorkPackages
+      class ParseParamsService < API::V3::ParseResourceParamsService
+        # Be compatible to super
+        def initialize: (untyped user, **untyped _args) -> void
+
+        private
+
+        def parse_attributes: (untyped request_body) -> untyped
+
+        def struct: () -> untyped
+
+        class ParsingStruct < OpenStruct
+          def available_custom_fields: () -> untyped
+        end
+      end
+    end
+  end
+end

@@ -1,0 +1,22 @@
+#
+# This job gets called when internally using
+#
+# ```
+# UserMailer.some_mail("some param").deliver_later
+# ```
+#
+# because we want to have the sending of the email run in an `ApplicationJob`
+# as opposed to using `ActiveJob::QueueAdapters::DelayedJobAdapter::JobWrapper`.
+# We want it to run in an `ApplicationJob` because of the shared setup required
+# such as reloading the mailer configuration and resetting the request store.
+class Mails::MailerJob < ApplicationJob
+  def perform: (untyped mailer, untyped mail_method, untyped delivery, args: untyped) -> untyped
+
+  private
+
+  # "Deserialize" the mailer class name by hand in case another argument
+  # (like a Global ID reference) raised DeserializationError.
+  def mailer_class: () -> (untyped | nil)
+
+  def handle_exception_with_mailer_class: (untyped exception) -> untyped
+end

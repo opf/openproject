@@ -1,0 +1,11 @@
+module BreadcrumbHelper
+  def full_breadcrumb: () -> untyped
+
+  def breadcrumb: (*untyped args) -> untyped
+
+  def breadcrumb_list: (*untyped args) -> untyped
+
+  def breadcrumb_paths: (*untyped args) -> (nil | untyped)
+
+  def show_breadcrumb: () -> (untyped | false)
+end

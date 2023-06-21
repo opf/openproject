@@ -1,0 +1,11 @@
+module OpenProject
+  module TextFormatting
+    include ::OpenProject::TextFormatting::Truncation
+
+    # Formats text according to system settings.
+    # 2 ways to call this method:
+    # * with a String: format_text(text, options)
+    # * with an object and one of its attribute: format_text(issue, :description, options)
+    def format_text: (*untyped args) -> ("" | untyped)
+  end
+end

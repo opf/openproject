@@ -1,0 +1,15 @@
+module Statuses
+  class TableComponent < ::TableComponent
+    def initial_sort: () -> ::Array[:id | :asc]
+
+    def sortable?: () -> false
+
+    def columns: () -> untyped
+
+    def inline_create_link: () -> untyped
+
+    def empty_row_message: () -> untyped
+
+    def headers: () -> untyped
+  end
+end

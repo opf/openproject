@@ -1,0 +1,9 @@
+module Versions::Scopes
+  module RolledUp
+    extend ActiveSupport::Concern
+
+    # Returns a scope of the Versions defined on the project
+    # itself or its descendants.
+    def rolled_up: (untyped project) -> untyped
+  end
+end

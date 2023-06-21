@@ -1,0 +1,33 @@
+class VersionsController < ApplicationController
+  def index: () -> untyped
+
+  def show: () -> untyped
+
+  def new: () -> untyped
+
+  def edit: () -> nil
+
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  def close_completed: () -> untyped
+
+  def destroy: () -> untyped
+
+  private
+
+  def redirect_back_or_version_settings: () -> untyped
+
+  def find_project: () -> untyped
+
+  def retrieve_selected_type_ids: (untyped selectable_types, ?untyped? default_types) -> untyped
+
+  def selected_type_ids: (untyped selectable_types, ?untyped? default_types) -> untyped
+
+  def render_cu: (untyped call, untyped success_message, untyped failure_action) -> untyped
+
+  def find_versions: (untyped subprojects, untyped completed) -> untyped
+
+  def work_packages_of_version: (untyped version, untyped project_ids, untyped selected_type_ids) -> untyped
+end

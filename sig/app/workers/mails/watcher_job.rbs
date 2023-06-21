@@ -1,0 +1,19 @@
+class Mails::WatcherJob < Mails::DeliverJob
+  include Mails::WithSender
+
+  def perform: (untyped watcher, untyped watcher_changer) -> untyped
+
+  def render_mail: () -> untyped
+
+  private
+
+  attr_accessor watcher: untyped
+
+  def abort?: () -> untyped
+
+  def notify_about_watcher_changed?: () -> (false | untyped)
+
+  def self_watching?: () -> untyped
+
+  def action: () -> untyped
+end

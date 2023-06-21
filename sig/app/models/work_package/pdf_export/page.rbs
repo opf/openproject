@@ -1,0 +1,27 @@
+module WorkPackage::PDFExport::Page
+  def configure_page_size!: (untyped layout) -> untyped
+
+  def write_logo!: () -> untyped
+
+  def logo_pdf_left: (untyped logo_width) -> untyped
+
+  def logo_pdf_top: () -> untyped
+
+  def logo_pdf_image: () -> ::Array[untyped]
+
+  def custom_logo_image: () -> (nil | untyped)
+
+  def write_title!: () -> untyped
+
+  def write_headers!: () -> untyped
+
+  def write_footers!: () -> untyped
+
+  def write_footer_page_nr!: () -> untyped
+
+  def total_page_nr_text: () -> (::String | "")
+
+  def write_footer_title!: () -> untyped
+
+  def write_footer_date!: () -> untyped
+end

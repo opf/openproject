@@ -1,0 +1,7 @@
+module Queries::Filters::Shared::BooleanFilter
+  def allowed_values: () -> ::Array[::Array[untyped]]
+
+  def type: () -> :list
+
+  def type_strategy: () -> untyped
+end

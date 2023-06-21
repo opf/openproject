@@ -1,0 +1,13 @@
+module Admin::Settings
+  class DateFormatSettingsController < ::Admin::SettingsController
+    def update: () -> untyped
+
+    def default_breadcrumb: () -> untyped
+
+    def show_local_breadcrumb: () -> true
+
+    private
+
+    def validate_start_of_week_and_first_week_of_year_combination: () -> untyped
+  end
+end

@@ -1,0 +1,14 @@
+module Users
+  module StatusOptions
+    #
+    # @param extra [Hash] A hash containing extra entries with a count for each.
+    #                     For example: { random: 42 }
+    # @return [Hash[Symbol, Integer]] A hash mapping each status symbol (such as :active, :blocked,
+    #                               etc.) to its count (e.g. { active: 1, blocked: 5, random: 42).
+    def self?.user_statuses_with_count: (?extra: ::Hash[untyped, untyped]) -> untyped
+
+    def self?.user_count_by_status: (?extra: ::Hash[untyped, untyped]) -> untyped
+
+    def self?.symbolic_user_counts: () -> { blocked: untyped, all: untyped, active: untyped }
+  end
+end

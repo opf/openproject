@@ -1,0 +1,45 @@
+module API
+  module Decorators
+    module LinkedResource
+      def self.included: (untyped base) -> untyped
+
+      def self.prepended: (untyped base) -> untyped
+
+      def from_hash: (untyped hash, *untyped args) -> untyped
+
+      module ClassMethods
+        def resource: (untyped name, getter: untyped, setter: untyped, link: untyped, ?uncacheable_link: bool, ?show_if: untyped, ?skip_render: untyped?, ?embedded: bool) -> untyped
+
+        def resources: (untyped name, getter: untyped, setter: untyped, link: untyped, ?uncacheable_link: bool, ?show_if: untyped, ?skip_render: untyped?, ?embedded: bool) -> untyped
+
+        def resource_link: (untyped name, setter: untyped, getter: untyped, ?show_if: untyped) -> untyped
+
+        # Includes _link and _embedded elements into the HAL representer for
+        # resources that are connected to the current resource via a belongs_to association, e.g.
+        # WorkPackage -> belongs_to -> project.
+        #
+        # @param skip_render [optional, Proc] If the proc returns true, neither _link nor _embedded of the resource will be rendered.
+        # @param undisclosed [optional, true, false] If true, instead of not rendering the resource upon `skip_render`, an { "href": "urn:openproject-org:api:v3:undisclosed" } link will be rendered. This can be used e.g. when the parent of a project is invisible to the user and the existence, if not the actual parent, is to be communicated. The resource is still not embedded in this case.
+        def associated_resource: (untyped name, ?as: untyped?, ?representer: untyped?, ?v3_path: untyped, ?skip_render: untyped, ?skip_link: untyped, ?undisclosed: bool, ?link_title_attribute: ::Symbol, ?uncacheable_link: bool, ?getter: untyped, ?setter: untyped, ?link: untyped) -> untyped
+
+        def link_attr: (untyped name, untyped uncacheable) -> untyped
+
+        def associated_resource_default_getter: (untyped name, untyped representer) -> untyped
+
+        def associated_resource_default_setter: (untyped name, untyped as, untyped v3_path) -> untyped
+
+        def associated_resource_default_link: (untyped name, v3_path: untyped, skip_link: untyped, title_attribute: untyped, ?getter: untyped, ?undisclosed: bool) -> untyped
+
+        def associated_resources: (untyped name, ?as: untyped, ?representer: untyped?, ?v3_path: untyped, ?skip_render: untyped, ?skip_link: untyped, ?link_title_attribute: ::Symbol, ?uncacheable_link: bool, ?getter: untyped, ?setter: untyped, ?link: untyped) -> untyped
+
+        def associated_resources_default_getter: (untyped name, untyped representer) -> untyped
+
+        def associated_resources_default_setter: (untyped name, untyped v3_path) -> untyped
+
+        def associated_resources_default_link: (untyped name, v3_path: untyped, skip_link: untyped, title_attribute: untyped) -> untyped
+
+        def default_representer: (untyped name) -> untyped
+      end
+    end
+  end
+end

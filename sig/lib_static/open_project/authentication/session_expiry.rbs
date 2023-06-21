@@ -1,0 +1,11 @@
+module OpenProject
+  module Authentication
+    module SessionExpiry
+      def session_ttl_enabled?: () -> untyped
+
+      def session_ttl_minutes: () -> untyped
+
+      def session_ttl_expired?: () -> (false | untyped)
+    end
+  end
+end

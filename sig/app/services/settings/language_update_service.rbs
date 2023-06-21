@@ -1,0 +1,7 @@
+class Settings::LanguageUpdateService < Settings::UpdateService
+  def after_perform: (untyped call) -> untyped
+
+  private
+
+  def force_users_to_use_only_available_languages: () -> untyped
+end

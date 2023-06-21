@@ -1,0 +1,4 @@
+module Backups
+  class SetAttributesService < ::BaseServices::SetAttributes
+  end
+end

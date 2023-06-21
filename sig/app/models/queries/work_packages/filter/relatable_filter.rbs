@@ -1,0 +1,18 @@
+class Queries::WorkPackages::Filter::RelatableFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  include Queries::WorkPackages::Filter::FilterForWpMixin
+
+  def available?: () -> untyped
+
+  def type: () -> :relation
+
+  def type_strategy: () -> untyped
+
+  def where: () -> "(1 = 1)"
+
+  def scope: () -> untyped
+
+  private
+
+  # 'children' used to be supported by the API although 'child' would be more fitting.
+  def scope_operator: () -> untyped
+end

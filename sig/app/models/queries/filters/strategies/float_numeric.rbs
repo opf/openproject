@@ -1,0 +1,9 @@
+module Queries::Filters::Strategies
+  module FloatNumeric
+    private
+
+    def numeric_class: () -> untyped
+
+    def error_message: () -> :not_a_float
+  end
+end

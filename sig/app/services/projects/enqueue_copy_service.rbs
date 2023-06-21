@@ -1,0 +1,21 @@
+module Projects
+  class EnqueueCopyService < ::BaseServices::BaseCallable
+    attr_reader source: untyped
+
+    attr_reader user: untyped
+
+    def initialize: (user: untyped, ?model: untyped?, **untyped **) -> void
+
+    private
+
+    def perform: (untyped params) -> untyped
+
+    #
+    # Tests whether the copy can be performed
+    def test_copy: (untyped params) -> untyped
+
+    #
+    # Schedule the project copy job
+    def schedule_copy_job: (untyped params) -> untyped
+  end
+end

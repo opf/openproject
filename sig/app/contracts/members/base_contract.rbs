@@ -1,0 +1,23 @@
+module Members
+  class BaseContract < ::ModelContract
+    def assignable_projects: () -> untyped
+
+    private
+
+    def user_allowed_to_manage: () -> (untyped | nil)
+
+    def roles_grantable: () -> untyped
+
+    def project_set: () -> (untyped | nil)
+
+    def project_manageable: () -> (untyped | nil)
+
+    def role_grantable?: (untyped role) -> untyped
+
+    def user_allowed_to_manage?: () -> untyped
+
+    def project_manageable_or_blank?: () -> untyped
+
+    def project_set_or_admin?: () -> untyped
+  end
+end

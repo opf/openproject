@@ -1,0 +1,9 @@
+class Queries::Views::Filters::TypeFilter < Queries::Views::Filters::ViewFilter
+  def type: () -> :list_optional
+
+  def where: () -> untyped
+
+  def transformed_values: () -> untyped
+
+  def allowed_values: () -> untyped
+end

@@ -1,0 +1,23 @@
+module API::V3::Notifications
+  module PropertyFactory
+    extend ::API::V3::Utilities::PathHelper
+
+    PROPERTY_FOR_REASON: { date_alert_start_date: "start_date", date_alert_due_date: "due_date", date_alert_date: "date" }
+
+    DATE_ALERT_REASONS: ::Array["date_alert_start_date" | "date_alert_due_date"]
+
+    # Fetch the collection of details for a notification
+    def self?.details_for: (untyped notification) -> untyped
+
+    # Fetch the collection of schemas for the provided notifications.
+    def self?.schemas_for: (untyped notifications) -> untyped
+
+    # Returns the outward facing notification group attributes
+    def self?.groups_for: (untyped values) -> untyped
+
+    # Returns the outward facing reason e.g. `dateAlert` as opposed to `date_alert_start_date`.
+    def self?.reason_for: (untyped notification) -> untyped
+
+    def self?.concrete_factory_for: (untyped notification) -> untyped
+  end
+end

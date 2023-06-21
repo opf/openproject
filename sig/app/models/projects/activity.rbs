@@ -1,0 +1,19 @@
+module Projects::Activity
+  def self.included: (untyped base) -> untyped
+
+  module ActivityScopes
+    def latest_project_activity: () -> untyped
+
+    def with_latest_activity: () -> untyped
+
+    def latest_activity_sql: () -> ::String
+
+    def all_activity_provider_union_sql: () -> untyped
+
+    def build_latest_project_activity_for: (on: untyped, chain: untyped, attribute: untyped, project_id_attribute: untyped) -> ::String
+
+    def build_joins_from_chain: (untyped join_chain) -> untyped
+
+    def build_join: (untyped right, untyped left) -> ::String
+  end
+end

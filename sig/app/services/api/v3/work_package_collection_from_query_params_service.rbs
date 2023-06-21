@@ -1,0 +1,15 @@
+module API
+  module V3
+    class WorkPackageCollectionFromQueryParamsService
+      def initialize: (untyped user, ?scope: untyped?) -> void
+
+      def call: (?::Hash[untyped, untyped] params) -> untyped
+
+      private
+
+      attr_accessor current_user: untyped
+
+      attr_accessor scope: untyped
+    end
+  end
+end

@@ -1,0 +1,7 @@
+class Projects::Settings::RepositoryController < Projects::SettingsController
+  def show: () -> untyped
+
+  private
+
+  def new_repository: () -> (nil | untyped)
+end

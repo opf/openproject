@@ -1,0 +1,15 @@
+module API
+  module V3
+    module Queries
+      module Schemas
+        class GroupFilterDependencyRepresenter < PrincipalFilterDependencyRepresenter
+          def json_cache_key: () -> untyped
+
+          private
+
+          def filter_query: () -> untyped
+        end
+      end
+    end
+  end
+end

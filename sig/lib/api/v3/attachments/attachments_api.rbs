@@ -1,0 +1,9 @@
+module API
+  module V3
+    module Attachments
+      class AttachmentsAPI < ::API::OpenProjectAPI
+        def container: () -> nil
+      end
+    end
+  end
+end

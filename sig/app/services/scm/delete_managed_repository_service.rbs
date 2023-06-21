@@ -1,0 +1,15 @@
+#
+# Implements the asynchronous deletion of a local repository.
+class SCM::DeleteManagedRepositoryService < SCM::BaseRepositoryService
+  #
+  # Checks if a given repository may be deleted
+  # Registers an asynchronous job to delete the repository on disk.
+  #
+  def call: () -> untyped
+
+  def delete_local_repository: () -> untyped
+
+  #
+  # Returns the error symbol
+  def localized_rejected_reason: () -> untyped
+end

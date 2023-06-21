@@ -1,0 +1,7 @@
+module Redmine::MenuManager
+  def self.map: (untyped menu_name) { () -> untyped } -> untyped
+
+  def self.loose: (untyped menu_name) { () -> untyped } -> untyped
+
+  def self.items: (untyped menu_name, ?untyped? project) -> untyped
+end

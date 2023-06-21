@@ -1,0 +1,15 @@
+#
+# This is a fix for a new SMTP bug introduced with Ruby 3.
+# This can be removed once the official fix from the `mail` gem maintainers
+# has been released and the gem bumped by us.
+#
+# Details: https://community.openproject.org/projects/openproject/work_packages/42385/activity
+module OpenProject
+  module Patches
+    module MailSmtpStartTlsAutoHotfix
+      def build_smtp_session: () -> untyped
+
+      def disable_starttls?: () -> untyped
+    end
+  end
+end

@@ -1,0 +1,34 @@
+module OpenProject
+  module MimeType
+    MIME_TYPES: ::Hash[::String, "txt,tpl,properties,patch,diff,ini,readme,install,upgrade" | "css" | "html,htm,xhtml" | "jsp" | "c,cpp,cc,h,hh" | "cs" | "java" | "js" | "rhtml" | "pl,pm" | "php,php3,php4,php5" | "py" | "rb,rbw,ruby,rake,erb" | "csh" | "sh" | "xml,xsd,mxml" | "yml,yaml" | "csv" | "po" | "gif" | "jpg,jpeg,jpe" | "png" | "webp" | "tiff,tif" | "bmp" | "xpm" | "pdf" | "rtf" | "doc" | "xls" | "ppt,pps" | "docx" | "xlsx" | "pptx" | "ppsx" | "ods" | "odt" | "odp" | "7z" | "rar" | "tar" | "zip" | "gz" | "flv,f4v" | "mpeg,mpg,mpe" | "mp4" | "wmv" | "webm" | "qt,mov" | "viv,vivo" | "avi"]
+
+    PLAIN_TEXT_TYPES: ::Array["text/plain"]
+
+    INLINE_IMAGE_TYPES: ::Array["image/gif" | "image/jpeg" | "image/png" | "image/apng" | "image/tiff" | "image/bmp" | "image/webp"]
+
+    INLINE_MOVIE_TYPES: ::Array["video/x-msvideo" | "video/quicktime" | "video/mpeg" | "video/mp4" | "video/webm" | "video/x-ms-wmv"]
+
+    EXTENSIONS: untyped
+
+    def self.movie?: (untyped mime_type) -> untyped
+
+    def self.image?: (untyped mime_type) -> untyped
+
+    def self.plain_text?: (untyped mime_type) -> untyped
+
+    # returns mime type for name or nil if unknown
+    def self.of: (untyped name) -> (nil | untyped)
+
+    # Returns the css class associated to
+    # the mime type of name
+    def self.css_class_of: (untyped name) -> untyped
+
+    def self.main_mimetype_of: (untyped name) -> untyped
+
+    # return true if mime-type for name is type/*
+    # otherwise false
+    def self.is_type?: (untyped type, untyped name) -> untyped
+
+    def self.narrow_type: (untyped name, untyped content_type) -> untyped
+  end
+end

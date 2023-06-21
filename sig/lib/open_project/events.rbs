@@ -1,0 +1,45 @@
+module OpenProject
+  #
+  # Events defined in OpenProject, e.g. created work packages.
+  # The module defines a constant for each event.
+  #
+  # Plugins should register their events here too by prepending a module
+  # including the respective constants.
+  #
+  # @note Does not include all events but it should!
+  # @see OpenProject::Notifications
+  module Events
+    AGGREGATED_WORK_PACKAGE_JOURNAL_READY: "aggregated_work_package_journal_ready"
+
+    AGGREGATED_WIKI_JOURNAL_READY: "aggregated_wiki_journal_ready"
+
+    AGGREGATED_NEWS_JOURNAL_READY: "aggregated_news_journal_ready"
+
+    AGGREGATED_MESSAGE_JOURNAL_READY: "aggregated_message_journal_ready"
+
+    ATTACHMENT_CREATED: "attachment_created"
+
+    JOURNAL_CREATED: "journal_created"
+
+    MEMBER_CREATED: "member_created"
+
+    MEMBER_UPDATED: "member_updated"
+
+    # Called like this for historic reasons, should be called 'member_destroyed'
+    MEMBER_DESTROYED: "member_removed"
+
+    TIME_ENTRY_CREATED: "time_entry_created"
+
+    NEWS_COMMENT_CREATED: "news_comment_created"
+
+    PROJECT_CREATED: "project_created"
+
+    PROJECT_UPDATED: "project_updated"
+
+    PROJECT_RENAMED: "project_renamed"
+
+    WATCHER_ADDED: "watcher_added"
+
+    WATCHER_REMOVED: "watcher_removed"
+  end
+end

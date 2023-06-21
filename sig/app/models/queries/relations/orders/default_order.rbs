@@ -1,0 +1,9 @@
+module Queries
+  module Relations
+    module Orders
+      class DefaultOrder < ::Queries::Orders::Base
+        def self.key: () -> ::Regexp
+      end
+    end
+  end
+end

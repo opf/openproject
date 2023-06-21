@@ -1,0 +1,19 @@
+class UserSearchService
+  attr_accessor params: untyped
+
+  attr_reader users_only: untyped
+
+  attr_reader project: untyped
+
+  SEARCH_SCOPES: ::Array["project_id" | "ids" | "group_id" | "status" | "name"]
+
+  def initialize: (untyped params, ?users_only: bool) -> void
+
+  def scope: () -> untyped
+
+  def search: () -> untyped
+
+  def ids_search: (untyped scope) -> untyped
+
+  def query_search: (untyped scope) -> untyped
+end

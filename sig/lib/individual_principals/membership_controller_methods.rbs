@@ -1,0 +1,17 @@
+module IndividualPrincipals
+  module MembershipControllerMethods
+    extend ActiveSupport::Concern
+
+    def create: () -> untyped
+
+    def update: () -> untyped
+
+    def destroy: () -> untyped
+
+    private
+
+    def find_membership: () -> untyped
+
+    def respond_with_service_call: (untyped call, message: untyped) -> untyped
+  end
+end

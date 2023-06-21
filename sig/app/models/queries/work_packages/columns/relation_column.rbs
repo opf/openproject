@@ -1,0 +1,5 @@
+class Queries::WorkPackages::Columns::RelationColumn < Queries::WorkPackages::Columns::WorkPackageColumn
+  attr_accessor type: untyped
+
+  def self.granted_by_enterprise_token: () -> untyped
+end

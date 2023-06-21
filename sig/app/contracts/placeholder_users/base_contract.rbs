@@ -1,0 +1,11 @@
+module PlaceholderUsers
+  class BaseContract < ::ModelContract
+    def self.model: () -> untyped
+
+    #
+    # Placeholder users can only be updated by Admins
+    def user_allowed_to_modify: () -> (untyped | nil)
+
+    def user_allowed_to_add?: () -> untyped
+  end
+end

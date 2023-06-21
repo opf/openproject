@@ -1,0 +1,41 @@
+module OpenProject
+  module ObjectLinking
+    # Displays a link to user's account page if active or registered
+    def link_to_user: (untyped user, ?::Hash[untyped, untyped] options) -> untyped
+
+    # Displays a link to groups's account page
+    def link_to_group: (untyped group, ?::Hash[untyped, untyped] options) -> untyped
+
+    # Generates a link to an attachment.
+    # Options:
+    # * :text - Link text (default to attachment filename)
+    # * :download - Force download (default: false)
+    def link_to_attachment: (untyped attachment, ?::Hash[untyped, untyped] options) -> untyped
+
+    # Generates a link to a SCM revision
+    # Options:
+    # * :text - Link text (default to the formatted revision)
+    def link_to_revision: (untyped revision, untyped project, ?::Hash[untyped, untyped] options) -> untyped
+
+    # Generates a link to a query
+    def link_to_query: (untyped query, ?::Hash[untyped, untyped] options, ?untyped? html_options) -> untyped
+
+    # Generates a link to a message
+    def link_to_message: (untyped message, ?::Hash[untyped, untyped] options, ?untyped? html_options) -> untyped
+
+    # Generates a link to a project if active
+    # Examples:
+    #
+    #   link_to_project(project)                          # => link to the specified project overview
+    #   link_to_project(project, {only_path: false}, class: "project") # => 3rd arg adds html options
+    #   link_to_project(project, {}, class: "project") # => html options with default url (project overview)
+    #
+    def link_to_project: (untyped project, ?::Hash[untyped, untyped] options, ?untyped? html_options, ?bool show_icon) -> untyped
+
+    private
+
+    def project_link_name: (untyped project, untyped show_icon) -> untyped
+
+    def url_to_attachment: (untyped attachment, ?only_path: bool) -> untyped
+  end
+end

@@ -1,0 +1,15 @@
+module Versions::Scopes
+  module OrderBySemverName
+    extend ActiveSupport::Concern
+
+    def order_by_semver_name: () -> untyped
+
+    # Returns an sql for ordering which:
+    # * Returns a substring from the beginning of the name up until the first alphabetical character e.g. "1.2.3 "
+    #   from "1.2.3 ABC"
+    # * Replaces all non numerical character groups in that substring by a blank, e.g "1.2.3 " to "1 2 3 "
+    # * Splits the result into an array of individual number parts, e.g. "{1, 2, 3, ''}" from "1 2 3 "
+    # * removes all empty array items, e.g. "{1, 2, 3}" from "{1, 2, 3, ''}"
+    def semver_sql: (?untyped table_name) -> untyped
+  end
+end

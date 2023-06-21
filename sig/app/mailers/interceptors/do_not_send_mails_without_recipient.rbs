@@ -1,0 +1,5 @@
+module Interceptors
+  module DoNotSendMailsWithoutRecipient
+    def self?.delivering_email: (untyped mail) -> untyped
+  end
+end

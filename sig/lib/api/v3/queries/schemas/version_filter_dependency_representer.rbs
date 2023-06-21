@@ -1,0 +1,19 @@
+module API
+  module V3
+    module Queries
+      module Schemas
+        class VersionFilterDependencyRepresenter < FilterDependencyRepresenter
+          def json_cache_key: () -> untyped
+
+          def href_callback: () -> untyped
+
+          def type: () -> "[]Version"
+
+          private
+
+          def to_query: (untyped param) -> untyped
+        end
+      end
+    end
+  end
+end

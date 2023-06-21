@@ -1,0 +1,11 @@
+module Queries::Filters::Strategies
+  module Validations
+    private
+
+    def date?: (untyped str) -> untyped
+
+    def validate: () -> (untyped | nil)
+
+    def integer?: (untyped str) -> untyped
+  end
+end

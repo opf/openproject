@@ -1,0 +1,13 @@
+module Queries::Operators
+  module DateRangeClauses
+    # Returns a SQL clause for a date or datetime field for a relative range from
+    # the end of the day of yesterday + from until the end of today + to.
+    def relative_date_range_clause: (untyped table, untyped field, untyped from, untyped to) -> untyped
+
+    # Returns a SQL clause for date or datetime field for an exact range starting
+    # at the beginning of the day of from until the end of the day of to
+    def date_range_clause: (untyped table, untyped field, untyped from, untyped to) -> untyped
+
+    def quoted_date_from_utc: (untyped value) -> untyped
+  end
+end

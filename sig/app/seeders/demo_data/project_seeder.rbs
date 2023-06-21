@@ -1,0 +1,38 @@
+module DemoData
+  class ProjectSeeder < Seeder
+    attr_reader project: untyped
+
+    alias project_data seed_data
+
+    def seed_data!: () -> untyped
+
+    # override to add additional seeders
+    def project_content_seeder_classes: () -> ::Array[untyped]
+
+    private
+
+    attr_writer project: untyped
+
+    def reset_project: () -> untyped
+
+    def delete_project: () -> untyped
+
+    def create_project: () -> untyped
+
+    def set_members: () -> untyped
+
+    def set_types: () -> untyped
+
+    def seed_categories: () -> untyped
+
+    def seed_news: () -> untyped
+
+    def seed_queries: () -> untyped
+
+    def seed_versions: () -> untyped
+
+    def seed_project_content: () -> untyped
+
+    def project_attributes: () -> { name: untyped, identifier: untyped, status_code: untyped, status_explanation: untyped, description: untyped, enabled_module_names: untyped, types: untyped, parent: untyped }
+  end
+end

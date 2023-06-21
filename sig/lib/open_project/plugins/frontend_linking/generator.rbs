@@ -1,0 +1,40 @@
+module ::OpenProject::Plugins
+  module FrontendLinking
+    class Generator
+      attr_reader openproject_plugins: untyped
+
+      def initialize: () -> void
+
+      #
+      # Register plugins with an Angular frontend to the CLI build.
+      # For that, search all gems with the group :opf_plugins
+      def regenerate!: () -> untyped
+
+      private
+
+      #
+      # Register plugins with an Angular frontend to the CLI build.
+      # For that, search all gems with the group :opf_plugins
+      def regenerate_angular_links: () -> untyped
+
+      def all_frontend_plugins: () -> untyped
+
+      def all_angular_frontend_plugins: () -> untyped
+
+      def all_plugins_with_global_styles: () -> untyped
+
+      #
+      # Regenerate the frontend plugin module orchestrating the linked frontends
+      def generate_plugin_module: (untyped plugins) -> untyped
+
+      #
+      # Regenerate the frontend plugin sass files
+      def generate_plugin_sass: (untyped plugins) -> untyped
+
+      #
+      # Print all gemspecs of registered OP plugins
+      # from the :opf_plugins group.
+      def load_known_opf_plugins: () -> untyped
+    end
+  end
+end

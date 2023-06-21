@@ -1,0 +1,15 @@
+class Queries::WorkPackages::Filter::PrincipalBaseFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  include Queries::WorkPackages::Filter::MeValueFilterMixin
+
+  def allowed_values: () -> untyped
+
+  def available?: () -> untyped
+
+  def ar_object_filter?: () -> true
+
+  def where: () -> untyped
+
+  private
+
+  def principal_loader: () -> untyped
+end

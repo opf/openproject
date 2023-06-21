@@ -1,0 +1,112 @@
+module OpenProject
+  module SCM
+    module Adapters
+      class Subversion < ::OpenProject::SCM::Adapters::Base
+        include LocalClient
+
+        def client_command: () -> untyped
+
+        def svnadmin_command: () -> untyped
+
+        def client_version: () -> untyped
+
+        def svn_binary_version: () -> untyped
+
+        def scm_version_from_command_line: () -> untyped
+
+        #
+        # Subversion may be local or remote,
+        # for now determine it by the URL type.
+        def local?: () -> untyped
+
+        #
+        # Returns the local repository path
+        # (if applicable).
+        def local_repository_path: () -> untyped
+
+        def initialize: (untyped url, ?untyped? root_url, ?untyped? login, ?untyped? password, ?untyped? _path_encoding, ?untyped? identifier) -> void
+
+        def checkout_command: () -> "svn checkout"
+
+        def subtree_checkout?: () -> true
+
+        #
+        # Checks the status of this repository and throws unless it can be accessed
+        # correctly by the adapter.
+        #
+        # @raise [SCMUnavailable] raised when repository is unavailable.
+        def check_availability!: () -> (nil | untyped)
+
+        #
+        # Creates an empty repository using svnadmin
+        #
+        def create_empty_svn: () -> untyped
+
+        # Get info about the svn repository
+        def info: () -> untyped
+
+        def entries: (?untyped? path, ?untyped? identifier) -> untyped
+
+        def properties: (untyped path, ?untyped? identifier) -> (nil | untyped)
+
+        def revisions: (?untyped? path, ?untyped? identifier_from, ?untyped? identifier_to, ?::Hash[untyped, untyped] options) -> untyped
+
+        #
+        # For repositories that are actually checked-out sub directories of
+        # other repositories Repository#fetch_changesets will fail trying to
+        # go through revisions 1:200 because the lowest available revision
+        # can be greater than 200.
+        #
+        # To fix this we find out the earliest available revision here
+        # and start from there.
+        def start_revision: () -> untyped
+
+        def diff: (untyped path, untyped identifier_from, ?untyped? identifier_to, ?::String _type) -> untyped
+
+        def numeric_identifier: (untyped identifier, ?::String default) -> untyped
+
+        def cat: (untyped path, ?untyped? identifier) -> untyped
+
+        def annotate: (untyped path, ?untyped? identifier) -> untyped
+
+        private
+
+        #
+        # Builds the SVM command arguments around the given parameters
+        # Appends to the parameter:
+        # --username, --password    if specified for this repository
+        # --no-auth-cache           force re-authentication
+        # --non-interactive         avoid prompts
+        def build_svn_cmd: (untyped args) -> untyped
+
+        def xml_capture: (untyped cmd, ?::Hash[untyped, untyped] opts) { (untyped) -> untyped } -> untyped
+
+        def extract_entry: (untyped entry, untyped path) -> (nil | untyped)
+
+        def parse_entry: (untyped entry) -> ::Array[untyped]
+
+        def build_path: (untyped entry) -> { action: untyped, path: untyped, from_path: untyped, from_revision: untyped }
+
+        def extract_revision: (untyped commit_node) -> untyped
+
+        def fetch_revision_entries: (untyped identifier_from, untyped identifier_to, untyped options, untyped path) { () -> untyped } -> untyped
+
+        #
+        # Builds the full git arguments from the parameters
+        # and return the executed stdout as a string
+        def capture_svn: (untyped args, ?::Hash[untyped, untyped] opt) -> untyped
+
+        #
+        # Target path with optional peg revision
+        # http://svnbook.red-bean.com/en/1.7/svn.advanced.pegrevs.html
+        def target: (?::String path, ?peg: untyped?) -> untyped
+
+        #
+        # Builds the full git arguments from the parameters
+        # and calls the given block with in, out, err, thread
+        # from +Open3#popen3+.
+        def popen3: (untyped args) { () -> untyped } -> untyped
+      end
+    end
+  end
+end

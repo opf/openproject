@@ -1,0 +1,15 @@
+module API
+  module Decorators
+    module SelfLink
+      def self.included: (untyped base) -> untyped
+
+      def self.prepended: (untyped base) -> untyped
+
+      def self_v3_path: (untyped path, untyped id_attribute) -> untyped
+
+      module ClassMethods
+        def self_link: (?path: untyped?, ?id_attribute: ::Symbol, ?title: bool, ?title_getter: untyped, **untyped options) -> untyped
+      end
+    end
+  end
+end

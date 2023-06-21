@@ -1,0 +1,9 @@
+module Projects
+  class DeleteProjectJob < UserJob
+    include OpenProject::LocaleHelper
+
+    attr_reader project: untyped
+
+    def execute: (project: untyped) -> untyped
+  end
+end

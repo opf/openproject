@@ -1,0 +1,13 @@
+module Members
+  class SetAttributesService < ::BaseServices::SetAttributes
+    private
+
+    def set_attributes: (untyped params) -> untyped
+
+    def assign_roles: (untyped params) -> (nil | untyped)
+
+    def mark_roles_for_destruction: (untyped role_ids) -> untyped
+
+    def build_roles: (untyped role_ids) -> untyped
+  end
+end

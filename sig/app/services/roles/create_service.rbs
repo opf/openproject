@@ -1,0 +1,11 @@
+class Roles::CreateService < BaseServices::Create
+  include Roles::NotifyMixin
+
+  private
+
+  def perform: (untyped params) -> untyped
+
+  def instance: (untyped params) -> untyped
+
+  def copy_workflows: (untyped copy_workflow_id, untyped role) -> (untyped | nil)
+end

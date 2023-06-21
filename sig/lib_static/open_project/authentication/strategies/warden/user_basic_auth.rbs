@@ -1,0 +1,22 @@
+module OpenProject
+  module Authentication
+    module Strategies
+      module Warden
+        #
+        # Allows users to authenticate using their API key via basic auth.
+        # Note that in order for a user to be able to generate one
+        # `Setting.rest_api_enabled` has to be `1`.
+        #
+        # The basic auth credentials are expected to contain the literal 'apikey'
+        # as the user name and the API key as the password.
+        class UserBasicAuth < ::Warden::Strategies::BasicAuth
+          def self.user: () -> "apikey"
+
+          def valid?: () -> untyped
+
+          def authenticate_user: (untyped _, untyped api_key) -> untyped
+        end
+      end
+    end
+  end
+end

@@ -1,0 +1,42 @@
+module OpenProject::TextFormatting::Matchers
+  module LinkHandlers
+    class HashSeparator < Base
+      def self.allowed_prefixes: () -> ::Array["version" | "message" | "project" | "user" | "group" | "document" | "meeting" | "view"]
+
+      #
+      # Hash-separated object links
+      # Condition: Separator is '#'
+      # Condition: Prefix is present, checked to be one of the allowed values
+      def applicable?: () -> untyped
+
+      # Examples:
+      #     document#17 -> Link to document with id 17
+      #     version#3 -> Link to version with id 3
+      #     message#1218 -> Link to message with id 1218
+      #
+      def call: () -> untyped
+
+      def valid_prefix?: () -> untyped
+
+      private
+
+      def render_version: () -> untyped
+
+      def render_document: () -> (untyped | nil)
+
+      def render_meeting: () -> untyped
+
+      def render_message: () -> untyped
+
+      def render_project: () -> untyped
+
+      def render_user: () -> untyped
+
+      def render_group: () -> untyped
+
+      # view is the user-facing name of work package queries
+      # query is the technical/internal name of the concept
+      def render_view: () -> untyped
+    end
+  end
+end

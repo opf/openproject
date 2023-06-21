@@ -1,0 +1,15 @@
+class MailHandler::UserCreator
+  # Creates a user account for the +email+ sender
+  def self.create_user_from_email: (untyped email) -> untyped
+
+  private
+
+  # Returns a User from an email address and a full name
+  def self.new_user_from_attributes: (untyped email_address, ?untyped? fullname) -> untyped
+
+  def self.user_initialization_attributes: (untyped email_address, ?untyped? fullname) -> { mail: untyped, login: untyped, firstname: untyped, lastname: untyped }
+
+  def self.assign_fallback_attributes: (untyped user, untyped errors) -> (untyped | nil)
+
+  def self.extract_addr_and_name_from_email: (untyped email) -> ::Array[untyped]
+end

@@ -1,0 +1,5 @@
+module Roles::NotifyMixin
+  private
+
+  def notify_changed_roles: (untyped action, untyped changed_role) -> untyped
+end

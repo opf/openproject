@@ -1,0 +1,15 @@
+module Queries::Filters::Shared::UserBlockedFilter
+  def self.included: (untyped base) -> untyped
+
+  module InstanceMethods
+    def allowed_values: () -> ::Array[::Array[untyped | :blocked]]
+
+    def type: () -> :list
+
+    def where: () -> untyped
+  end
+
+  module ClassMethods
+    def self.key: () -> :blocked
+  end
+end

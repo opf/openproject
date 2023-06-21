@@ -1,0 +1,21 @@
+module Groups::Concerns
+  module MembershipManipulation
+    extend ActiveSupport::Concern
+
+    def after_validate: (untyped params, untyped _call) -> untyped
+
+    private
+
+    def with_error_handled: () { () -> untyped } -> untyped
+
+    def exec_query!: (untyped params, untyped send_notifications, untyped message) -> untyped
+
+    def modify_members_and_roles: (untyped _params) -> untyped
+
+    def execute_query: (untyped query) -> untyped
+
+    def touch_updated: (untyped member_ids) -> untyped
+
+    def send_notifications: (untyped member_ids, untyped message) -> untyped
+  end
+end

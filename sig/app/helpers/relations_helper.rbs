@@ -1,0 +1,3 @@
+module RelationsHelper
+  def collection_for_relation_type_select: () -> untyped
+end

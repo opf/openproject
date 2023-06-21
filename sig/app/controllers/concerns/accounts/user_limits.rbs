@@ -1,0 +1,31 @@
+#
+# Intended to be used by the UsersController to enforce the user limit.
+module Accounts::UserLimits
+  def enforce_user_limit: (?redirect_to: untyped, ?hard: untyped, ?flash_now: bool) -> (true | true | false)
+
+  def enforce_activation_user_limit: (?user: untyped?, ?redirect_to: untyped) -> (true | false)
+
+  #
+  # Ensures that the given user object has an email set.
+  # If it hasn't it takes the value from the params.
+  def user_with_email: (untyped user) -> untyped
+
+  def send_activation_limit_notification_about: (untyped user) -> untyped
+
+  def show_user_limit_warning!: (?flash_now: bool) -> untyped
+
+  def show_user_limit_error!: () -> untyped
+
+  def user_limit_warning: () -> untyped
+
+  def show_imminent_user_limit_warning!: (?flash_now: bool) -> untyped
+
+  #
+  # A warning for when the user limit has technically not been reached yet
+  # but if all invited users were to activate their accounts it would be reached.
+  def imminent_user_limit_warning: () -> untyped
+
+  def user_limit_reached?: () -> untyped
+
+  def imminent_user_limit?: () -> untyped
+end

@@ -1,0 +1,15 @@
+module JournalFormatter
+  class NamedAssociation < Attribute
+    def render: (untyped key_with_id, untyped values, ?::Hash[untyped, untyped] options) -> untyped
+
+    private
+
+    def format_details: (untyped key, untyped values, cache: untyped) -> ::Array[untyped]
+
+    def format_values: (untyped values, untyped key, cache: untyped) -> untyped
+
+    def associated_object: (untyped klass, untyped id, cache: untyped) -> untyped
+
+    def class_from_field: (untyped field) -> untyped
+  end
+end

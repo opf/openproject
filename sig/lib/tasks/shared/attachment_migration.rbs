@@ -1,0 +1,46 @@
+module Tasks
+  module Shared
+    module AttachmentMigration
+      def self?.move_obsolete_attachments_to_wiki!: () -> untyped
+
+      #
+      # Why do we do this? Consider the migrations process:
+      #
+      # ... (other migrations)
+      # |A| delete version and project attachments
+      # |B| move these attachments to new wiki pages to prevent data loss (new)
+      # ... (other migrations)
+      # |C| migrate legacy journals to new format
+      #
+      # We are at 'B'. Creating new wiki pages and also updating attachment entries
+      # creates journal entries (starting with ID 1).
+      # Step 'C' assumes there are no journals yet which would normally be the case.
+      # Due to the newly introduced step B there are some already, though.
+      # The journal migrations wants to use the same IDs as in the original journals.
+      # These may now be taken by the new attachment journals.
+      #
+      # To prevent this we skip all possible IDs of the legacy journals so the
+      # journals created during the attachment business don't conflict with
+      # the legacy journals.
+      def self?.reset_journal_id_sequence!: () -> untyped
+
+      def self?.move_project_attachments_to_wiki!: () -> untyped
+
+      def self?.move_version_attachments_to_wiki!: () -> untyped
+
+      def self?.affected_containers: (untyped model) -> untyped
+
+      def self?.enable_wiki!: (untyped project) -> (untyped | nil)
+
+      def self?.create_project_attachments_page!: (untyped project, ?name: ::String) -> untyped
+
+      def self?.create_version_attachments_page!: (untyped version, ?name: ::String) -> untyped
+
+      def self?.attachments_page!: (untyped wiki, name: untyped) -> untyped
+
+      def self?.try_delete_attachments_from_projects_and_versions: () -> untyped
+
+      def self?.user_agrees_to_delete_versions_and_projects_documents: () -> untyped
+    end
+  end
+end

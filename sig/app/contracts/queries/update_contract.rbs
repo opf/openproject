@@ -1,0 +1,15 @@
+module Queries
+  class UpdateContract < BaseContract
+    #
+    # Check if the current user may save the changes
+    def user_allowed_to_change: () -> untyped
+
+    def user_allowed_to_change_query: () -> (untyped | nil)
+
+    def user_allowed_to_change_public: () -> (untyped | nil)
+
+    def user_allowed_to_edit_work_packages?: () -> untyped
+
+    def user_allowed_to_save_queries?: () -> untyped
+  end
+end

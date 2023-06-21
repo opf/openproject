@@ -1,0 +1,5 @@
+class Queries::Capabilities::Orders::IdOrder < Queries::Orders::Base
+  def self.key: () -> :id
+
+  def name: () -> :action
+end

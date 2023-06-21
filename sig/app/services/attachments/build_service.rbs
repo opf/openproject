@@ -1,0 +1,9 @@
+module Attachments
+  class BuildService < BaseService
+    private
+
+    def persist: (untyped service_result) -> untyped
+
+    def add_to_association: (untyped attachment) -> (nil | untyped)
+  end
+end

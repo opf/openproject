@@ -1,0 +1,7 @@
+module API
+  module Errors
+    class InvalidResourceLink < ErrorBase
+      def initialize: (untyped property_name, untyped expected_link, untyped actual_link) -> void
+    end
+  end
+end

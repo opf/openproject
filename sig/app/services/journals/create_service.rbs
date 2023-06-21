@@ -1,0 +1,154 @@
+# rubocop:disable Rails/SquishedSQLHeredocs
+module Journals
+  class CreateService
+    attr_accessor journable: untyped
+
+    attr_accessor user: untyped
+
+    def initialize: (untyped journable, untyped user) -> void
+
+    def call: (?notes: ::String) -> untyped
+
+    private
+
+    # If the journalizing happens within the configured aggregation time, is carried out by the same user
+    # and only the predecessor or the journal to be created has notes, the changes are aggregated.
+    # Instead of removing the predecessor, return it here so that it can be stripped in the journal creating
+    # SQL to than be refilled. That way, references to the journal, including ones users have, are kept intact.
+    def aggregatable_predecessor: (untyped notes) -> untyped
+
+    def create_journal: (untyped notes) -> untyped
+
+    # The sql necessary for creating the journal inside the database.
+    # It consists of a couple of parts that are kept as individual queries (as CTEs) but
+    # are all executed within a single database call.
+    #
+    # The first three CTEs('cleanup_predecessor_data', 'cleanup_predecessor_attachable' and 'cleanup_predecessor_customizable')
+    # strip the information of a predecessor if one exists. If no predecessor exists, a noop SQL statement is employed instead.
+    # To strip the information from the journal, the data record (e.g. from work_packages_journals) as well as the
+    # attachment and custom value information is removed. The journal itself is kept and will later on have its
+    # updated_at and possibly its notes property updated.
+    #
+    # The next CTEs (`max_journals`) responsibility is to fetch the latests journal and have that available for later queries
+    # (i.e. when determining the latest state of the journable and when getting the current version number).
+    #
+    # The next CTE (`changes`) determines whether a change as occurred so that a new journal needs to be created. The next CTE,
+    # that will insert new data, will only do so if the changes CTE returns an entry. The only two exceptions to this check is
+    # that if a note is provided or a predecessor is replaced, a journal will be created regardless of whether any changes are
+    # detected. To determine whether a change is worthy of being journalized, the current and the latest journalized state are
+    # compared in three aspects:
+    # * the journable's table columns are compared to the columns in the journable's journal data table
+    # (e.g. work_package_journals for WorkPackages). Only columns that exist in the journable's journal data table are considered
+    # (and some columns like the primary key `id` is ignored). Therefore, to add an attribute to be journalized, it needs to
+    # be added to that table.
+    # * the journable's attachments are compared to the attachable_journals entries being associated with the most recent journal.
+    # * the journable's custom values are compared to the customizable_journals entries being associated with the most
+    # recent journal.
+    # When comparing text based values, newlines are normalized as otherwise users having a different OS might change a text value
+    # without intending to.
+    #
+    # Only if a change has been identified (or if a note/predecessor is present) is a journal inserted by the
+    # next CTE (`insert_journal`). Its creation timestamp will be the updated_at value of the journable as this is the
+    # logical creation time. If a note is present, however, the current time is taken as it signifies an action in itself and
+    # there might not be a change at all. In such a case, the journable will later on receive the creation date of the
+    # journal as its updated_at value. The update timestamp of a journable and the creation date of its most recent
+    # journal should always be in sync. In case a predecessor is aggregated, an update of the already persisted, and
+    # stripped of its data, journal is carried out.
+    #
+    # Both cases (having a note or a change) can at this point be identified by a journal having been created. Therefore, the
+    # return value of that insert statement is further on used to identify whether the next statements (`insert_data`,
+    # `insert_attachable` and `insert_customizable`) should actually insert data. It is additionally used as the values returned
+    # by the overall SQL statement so that an AR instance can be instantiated with it.
+    #
+    # If a journal is created, all columns that also exist in the journable's data table are inserted as a new entry into
+    # to the data table with a reference to the newly created journal. Again, newlines are normalized.
+    #
+    # If a journal is created, all entries in the attachments table associated to the journable are recreated as entries
+    # in the attachable_journals table.
+    #
+    # If a journal is created, all entries in the custom_values table associated to the journable are recreated as entries
+    # in the customizable_journals table. Again, newlines are normalized.
+    def create_journal_sql: (untyped predecessor, untyped notes) -> ::String
+
+    def cleanup_predecessor_data: (untyped predecessor) -> untyped
+
+    def cleanup_predecessor_attachable: (untyped predecessor) -> untyped
+
+    def cleanup_predecessor_customizable: (untyped predecessor) -> untyped
+
+    def cleanup_predecessor: (untyped predecessor, untyped table_name, untyped column, untyped referenced_id) -> ("SELECT 1" | untyped)
+
+    def update_or_insert_journal_sql: (untyped predecessor, untyped notes) -> untyped
+
+    def update_journal_sql: (untyped predecessor, untyped notes) -> untyped
+
+    def insert_journal_sql: (untyped notes) -> untyped
+
+    def insert_data_sql: (untyped notes, untyped predecessor) -> untyped
+
+    def journable_class_name: () -> untyped
+
+    def insert_attachable_sql: () -> untyped
+
+    def insert_customizable_sql: () -> untyped
+
+    def select_max_journal_sql: (untyped predecessor) -> untyped
+
+    def select_changed_sql: () -> ::String
+
+    def attachable_changes_sql: () -> untyped
+
+    def customizable_changes_sql: () -> untyped
+
+    def data_changes_sql: () -> untyped
+
+    def max_journal_sql: (untyped predecessor) -> untyped
+
+    def only_if_created_sql: () -> "EXISTS (SELECT * from inserted_journal)"
+
+    def id_from_inserted_journal_sql: () -> "(SELECT id FROM inserted_journal)"
+
+    def data_changes_condition_sql: () -> untyped
+
+    def data_sink_columns: () -> untyped
+
+    def data_source_columns: () -> untyped
+
+    def journable_data_sql_addition: () -> untyped
+
+    def text_column_names: () -> untyped
+
+    def journable_timestamp: () -> untyped
+
+    def journable_type: () -> untyped
+
+    def journable_table_name: () -> untyped
+
+    def data_table_name: () -> untyped
+
+    def normalize_newlines_sql: (untyped column) -> ::String
+
+    def journal_timestamp_sql: (untyped notes, untyped attribute) -> untyped
+
+    def timestamp_sql: () -> "statement_timestamp() AT TIME ZONE 'utc'"
+
+    # Because we added the journal via bare metal sql, rails does not yet
+    # know of the journal. If the journable has the journals loaded already,
+    # the caller might expect the journals to also be updated so we do it for him.
+    def reload_journals: () -> (untyped | nil)
+
+    def touch_journable: (untyped journal) -> (nil | untyped)
+
+    def aggregatable?: (untyped predecessor, untyped notes) -> untyped
+
+    def aggregation_active?: () -> untyped
+
+    def within_aggregation_time?: (untyped predecessor) -> untyped
+
+    def only_one_note: (untyped predecessor, untyped notes) -> untyped
+
+    def same_user?: (untyped predecessor) -> untyped
+
+    def log_journal_creation: (untyped predecessor) -> untyped
+  end
+end

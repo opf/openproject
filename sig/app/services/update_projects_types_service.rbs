@@ -1,0 +1,13 @@
+class UpdateProjectsTypesService < BaseProjectService
+  def call: (untyped type_ids) -> untyped
+
+  def standard_types: () -> untyped
+
+  def types_missing?: (untyped type_ids) -> untyped
+
+  def missing_types: (untyped type_ids) -> untyped
+
+  def types_used_by_work_packages: () -> untyped
+
+  def update_project_types: (untyped type_ids) -> untyped
+end

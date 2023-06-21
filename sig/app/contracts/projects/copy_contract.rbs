@@ -1,0 +1,9 @@
+module Projects
+  class CopyContract < BaseContract
+    def validate_model?: () -> untyped
+
+    private
+
+    def validate_user_allowed_to_manage: () -> (untyped | nil)
+  end
+end

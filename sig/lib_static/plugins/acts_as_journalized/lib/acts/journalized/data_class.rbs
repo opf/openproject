@@ -1,0 +1,9 @@
+module Acts::Journalized
+  module DataClass
+    def self.included: (untyped base) -> untyped
+
+    module ClassMethods
+      def journal_class: () -> untyped
+    end
+  end
+end

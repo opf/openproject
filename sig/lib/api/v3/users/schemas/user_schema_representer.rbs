@@ -1,0 +1,13 @@
+module API
+  module V3
+    module Users
+      module Schemas
+        class UserSchemaRepresenter < ::API::Decorators::SchemaRepresenter
+          extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
+
+          def self.represented_class: () -> untyped
+        end
+      end
+    end
+  end
+end

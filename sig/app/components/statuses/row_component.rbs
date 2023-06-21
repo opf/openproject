@@ -1,0 +1,23 @@
+module Statuses
+  class RowComponent < ::RowComponent
+    def status: () -> untyped
+
+    def name: () -> untyped
+
+    def default?: () -> untyped
+
+    def closed?: () -> untyped
+
+    def readonly?: () -> untyped
+
+    def color: () -> untyped
+
+    def done_ratio: () -> untyped
+
+    def sort: () -> untyped
+
+    def button_links: () -> ::Array[untyped]
+
+    def delete_link: () -> untyped
+  end
+end

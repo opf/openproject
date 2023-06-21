@@ -1,0 +1,11 @@
+class Activities::ItemSubtitleComponent < ViewComponent::Base
+  def initialize: (user: untyped, datetime: untyped, is_creation: untyped, journable_type: untyped) -> void
+
+  def user_html: () -> (nil | untyped)
+
+  def datetime_html: () -> untyped
+
+  def time_entry?: () -> untyped
+
+  def i18n_key: () -> untyped
+end

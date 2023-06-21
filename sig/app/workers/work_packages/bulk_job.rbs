@@ -1,0 +1,33 @@
+module WorkPackages
+  class BulkJob < ApplicationJob
+    include WorkPackages::BulkErrorMessage
+
+    attr_accessor work_packages: untyped
+
+    attr_accessor user: untyped
+
+    attr_accessor follow: untyped
+
+    attr_accessor project: untyped
+
+    attr_accessor target_project: untyped
+
+    def perform: (user: untyped, work_package_ids: untyped, project: untyped, target_project: untyped, params: untyped, follow: untyped) -> untyped
+
+    def store_status?: () -> true
+
+    def updates_own_status?: () -> true
+
+    def wrap_result: (untyped call) -> untyped
+
+    def service_class: () -> untyped
+
+    def successful_status_update: (untyped call) -> untyped
+
+    def redirect_path: (untyped call, untyped follow) -> untyped
+
+    def failure_status_update: (untyped call) -> untyped
+
+    def url_helpers: () -> untyped
+  end
+end

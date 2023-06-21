@@ -1,0 +1,33 @@
+class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
+  include WorkPackage::PDFExport::Common
+
+  include WorkPackage::PDFExport::Attachments
+
+  include WorkPackage::PDFExport::WorkPackageDetail
+
+  include WorkPackage::PDFExport::Page
+
+  include WorkPackage::PDFExport::Style
+
+  attr_accessor pdf: untyped
+
+  attr_accessor columns: untyped
+
+  alias work_package object
+
+  def self.key: () -> :pdf
+
+  def initialize: (untyped work_package, ?::Hash[untyped, untyped] _options) -> void
+
+  def export!: () -> untyped
+
+  private
+
+  def setup_page!: () -> untyped
+
+  def render_work_package: () -> untyped
+
+  def heading: () -> ::String
+
+  def title: () -> ::String
+end

@@ -1,0 +1,7 @@
+module API
+  module Errors
+    class InvalidUserStatusTransition < ErrorBase
+      def initialize: (*untyped) -> void
+    end
+  end
+end

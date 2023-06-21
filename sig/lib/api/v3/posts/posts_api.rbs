@@ -1,0 +1,9 @@
+module API
+  module V3
+    module Posts
+      class PostsAPI < ::API::OpenProjectAPI
+        def post: () -> untyped
+      end
+    end
+  end
+end

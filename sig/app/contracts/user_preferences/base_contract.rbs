@@ -1,0 +1,38 @@
+module UserPreferences
+  class BaseContract < ::BaseContract
+    #
+    # Returns time zones supported by OpenProject. Those include only the subset of all the
+    # TZInfo timezones also handled by ActiveSupport::TimeZone.
+    # The reason for this is currently:
+    #   * the reminder mail implementation which could be amended
+    #   * the select in the form which only displays ActiveSupport::TimeZone as they are more
+    #     user friendly.
+    # As we only store tzinfo compatible data we only provide options, for which the
+    # values can later on be retrieved unambiguously. This is not always the case
+    # for values in ActiveSupport::TimeZone since multiple AS zones map to single tzinfo zones.
+    def self.assignable_time_zones: () -> untyped
+
+    private
+
+    # If there are multiple AS::TimeZones for a single TZInfo::Timezone, we
+    # only return the one that is the namesake.
+    def self.namesake_time_zone: (untyped time_zones) -> untyped
+
+    public
+
+    def assignable_time_zones: () -> untyped
+
+    def time_zone_correctness: () -> (untyped | nil)
+
+    #
+    # User preferences can only be accessed with the manage_user permission
+    # or if an active, logged user is editing their own prefs
+    def user_allowed_to_access: () -> (untyped | nil)
+
+    def full_hour_reminder_time: () -> (untyped | nil)
+
+    def no_duplicate_workdays: () -> (untyped | nil)
+
+    def valid_pause_days: () -> (nil | untyped)
+  end
+end

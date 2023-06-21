@@ -1,0 +1,19 @@
+module Capabilities::Scopes
+  module Default
+    extend ActiveSupport::Concern
+
+    # Currently, this does not reflect the behaviour present in the backend that every permission in at least one project
+    # leads to having that permission in the global context as well. Hopefully, this is not necessary to be added.
+    def default: () -> untyped
+
+    private
+
+    def default_sql_by_member: () -> ::String
+
+    def default_sql_by_admin: () -> ::String
+
+    def default_sql_by_non_member: () -> ::String
+
+    def default_sql_by_non_member_with_anonymous: () -> ::String
+  end
+end

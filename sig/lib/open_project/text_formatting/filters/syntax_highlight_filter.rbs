@@ -1,0 +1,11 @@
+module OpenProject::TextFormatting
+  module Filters
+    class SyntaxHighlightFilter < HTML::Pipeline::SyntaxHighlightFilter
+      def initialize: (*untyped args) -> void
+
+      #
+      # Get highlighter class for the current context
+      def highlighter_class: () -> untyped
+    end
+  end
+end

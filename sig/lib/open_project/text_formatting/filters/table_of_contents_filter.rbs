@@ -1,0 +1,40 @@
+module OpenProject::TextFormatting
+  module Filters
+    class TableOfContentsFilter < HTML::Pipeline::TableOfContentsFilter
+      include ActionView::Context
+
+      include ActionView::Helpers::TagHelper
+
+      attr_reader headings: untyped
+
+      attr_reader ids: untyped
+
+      def initialize: (untyped doc, ?untyped? context, ?untyped? result) -> void
+
+      def add_header_link: (untyped node, untyped id) -> untyped
+
+      #
+      # Build a unique id used for anchoring
+      def get_unique_id: (untyped text) -> untyped
+
+      #
+      # Appends the header link and returns
+      # a toc item.
+      # The item is prefixed by a number. If there is already a number prefix provided in the text,
+      # that prefix is used if it matches the calculated number.
+      def process_item: (untyped node, untyped number) -> untyped
+
+      def get_heading_number: (untyped parent_number, untyped num_in_level) -> (untyped | ::String)
+
+      def render_nested: (?::Integer level, ?::String parent_number) -> untyped
+
+      def call: () -> untyped
+
+      def process!: () -> untyped
+
+      private
+
+      def anchor_tag: (untyped text, untyped number, untyped id) -> untyped
+    end
+  end
+end

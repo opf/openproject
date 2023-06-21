@@ -1,0 +1,25 @@
+module OpenProject::TextFormatting
+  module Helpers
+    #
+    # Rewrite relative URLs to their absolute paths
+    # when only_path is false.
+    class LinkRewriter
+      attr_reader context: untyped
+
+      def initialize: (untyped context) -> void
+
+      #
+      # Test whether the given URL is relative and we need to replace it
+      def applicable?: (untyped url) -> untyped
+
+      #
+      # Replace the given relative_url to an absolute URL
+      # from the current context
+      def replace: (untyped relative_url) -> (untyped | ::String)
+
+      def determine_url_segments: () -> (::Array[untyped] | ::Array[::String | untyped])
+
+      def url_helpers: () -> untyped
+    end
+  end
+end

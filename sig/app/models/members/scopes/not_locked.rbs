@@ -1,0 +1,8 @@
+module Members::Scopes
+  module NotLocked
+    extend ActiveSupport::Concern
+
+    # Find all members whose principals are not locked.
+    def not_locked: () -> untyped
+  end
+end

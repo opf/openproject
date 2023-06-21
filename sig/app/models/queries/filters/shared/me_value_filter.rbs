@@ -1,0 +1,14 @@
+module Queries::Filters::Shared::MeValueFilter
+  #
+  # Return the values object with the me value
+  # mapped to the current user.
+  def values_replaced: () -> untyped
+
+  #
+  # Returns the me value if the user is logged
+  def me_allowed_value: () -> untyped
+
+  def me_label: () -> untyped
+
+  def me_value_key: () -> untyped
+end

@@ -1,0 +1,29 @@
+class AdminController < ApplicationController
+  def index: () -> untyped
+
+  def projects: () -> untyped
+
+  def plugins: () -> untyped
+
+  def test_email: () -> untyped
+
+  def info: () -> untyped
+
+  def default_breadcrumb: () -> untyped
+
+  def show_local_breadcrumb: () -> true
+
+  private
+
+  def hidden_admin_menu_items: () -> untyped
+
+  def plaintext_extraction_checks: () -> (::Array[::Array[:"extraction.available.pdftotext" | untyped] | ::Array[:"extraction.available.unrtf" | untyped] | ::Array[:"extraction.available.catdoc" | untyped] | ::Array[:"extraction.available.xls2csv" | untyped] | ::Array[:"extraction.available.catppt" | untyped] | ::Array[:"extraction.available.tesseract" | untyped]] | ::Array[untyped])
+
+  def image_conversion_checks: () -> ::Array[::Array[:"image_conversion.imagemagick" | untyped]]
+
+  def image_conversion_libs_available?: () -> untyped
+
+  def file_storage_checks: () -> (::Array[::Array[:text_file_repository_writable | untyped]] | ::Array[untyped])
+
+  def admin_information_hook_checks: () -> untyped
+end

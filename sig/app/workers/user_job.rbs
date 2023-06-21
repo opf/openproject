@@ -1,0 +1,5 @@
+class UserJob < ApplicationJob
+  attr_reader user: untyped
+
+  def perform: (user: untyped, **untyped args) -> untyped
+end

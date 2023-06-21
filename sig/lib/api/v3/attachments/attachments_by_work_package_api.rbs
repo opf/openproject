@@ -1,0 +1,11 @@
+module API
+  module V3
+    module Attachments
+      class AttachmentsByWorkPackageAPI < ::API::OpenProjectAPI
+        def container: () -> untyped
+
+        def get_attachment_self_path: () -> untyped
+      end
+    end
+  end
+end

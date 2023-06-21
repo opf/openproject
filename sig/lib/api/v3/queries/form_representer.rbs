@@ -1,0 +1,25 @@
+module API
+  module V3
+    module Queries
+      class FormRepresenter < ::API::Decorators::Form
+        def commit_action: () -> untyped
+
+        def commit_method: () -> untyped
+
+        def form_url: () -> untyped
+
+        def resource_url: () -> untyped
+
+        def payload_representer: () -> untyped
+
+        def schema_representer: () -> untyped
+
+        def allow_commit?: () -> untyped
+
+        def allow_save?: () -> untyped
+
+        def allow_create_as_new?: () -> untyped
+      end
+    end
+  end
+end

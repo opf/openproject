@@ -1,0 +1,9 @@
+class OpenProject::JournalFormatter::TimeEntryNamedAssociation < JournalFormatter::NamedAssociation
+  private
+
+  def format_details: (untyped key, untyped values, cache: untyped) -> ::Array[untyped]
+
+  def format_html_details: (untyped label, untyped old_value, untyped value) -> ::Array[untyped]
+
+  def render_ternary_detail_text: (untyped label, untyped value, untyped _old_value, untyped _options) -> untyped
+end

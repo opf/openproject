@@ -1,0 +1,7 @@
+module API
+  module Errors
+    class Validation < ErrorBase
+      def initialize: (untyped property, untyped full_message) -> void
+    end
+  end
+end

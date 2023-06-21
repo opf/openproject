@@ -1,0 +1,12 @@
+class Setting
+  module MailSettings
+    #
+    # Reload the currently configured mailer configuration
+    def reload_mailer_settings!: () -> untyped
+
+    private
+
+    # rubocop:disable Metrics/AbcSize
+    def reload_smtp_settings!: () -> untyped
+  end
+end

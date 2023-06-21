@@ -1,0 +1,7 @@
+class Queries::Principals::Filters::TypeaheadFilter < Queries::Principals::Filters::AnyNameAttributeFilter
+  def self.key: () -> :typeahead
+
+  def type: () -> :search
+
+  def human_name: () -> untyped
+end

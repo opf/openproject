@@ -1,0 +1,20 @@
+module WorkPackages
+  module Bulk
+    class CopyService < BulkedService
+      def initialize: (user: untyped, work_packages: untyped) -> void
+
+      private
+
+      def alter_work_package: (untyped work_package, untyped attributes) -> untyped
+
+      def call_move_hook: (untyped work_package, untyped params) -> (nil | untyped)
+
+      def copy_with_updated_parent_id: (untyped work_package, untyped attributes, untyped ancestors) -> untyped
+
+      def with_updated_parent_id: (untyped work_package, untyped attributes, untyped ancestors) { (untyped) -> untyped } -> untyped
+
+      # Check if a parent work package is also selected for copying
+      def remove_hierarchy_duplicates: (untyped work_packages) -> untyped
+    end
+  end
+end

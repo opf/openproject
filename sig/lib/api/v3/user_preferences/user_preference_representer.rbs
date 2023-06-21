@@ -1,0 +1,9 @@
+module API
+  module V3
+    module UserPreferences
+      class UserPreferenceRepresenter < ::API::Decorators::Single
+        def _type: () -> "UserPreferences"
+      end
+    end
+  end
+end

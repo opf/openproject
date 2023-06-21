@@ -1,0 +1,133 @@
+class WorkPackages::SetAttributesService < BaseServices::SetAttributes
+  include Attachments::SetReplacements
+
+  private
+
+  def set_attributes: (untyped attributes) -> untyped
+
+  def set_static_attributes: (untyped attributes) -> untyped
+
+  def set_calculated_attributes: (untyped attributes) -> untyped
+
+  def derivable_attribute: () -> untyped
+
+  # Returns a field derivable by the presence of the two others, or +nil+ if
+  # none was found.
+  #
+  # Matching is done in the order :duration, :due_date, :start_date. The first
+  # one to match is returned.
+  #
+  # If +ignore_non_working_days+ has been changed, try deriving +due_date+ and
+  # +start_date+ before +duration+.
+  def derivable_attribute_by_others_presence: () -> untyped
+
+  # Returns true if given +field+ is derivable from the presence of the two
+  # others.
+  #
+  # A field is derivable if it has not been set explicitly while the other two
+  # fields are set.
+  def derivable_by_others_presence?: (untyped field) -> untyped
+
+  # Returns a field derivable by the absence of one of the two others, or +nil+
+  # if none was found.
+  #
+  # Matching is done in the order :duration, :due_date, :start_date. The first
+  # one to match is returned.
+  def derivable_attribute_by_others_absence: () -> untyped
+
+  # Returns true if given +field+ is derivable from the absence of one of the
+  # two others.
+  #
+  # A field is derivable if it has not been set explicitly while the other two
+  # fields have one set and one nil.
+  #
+  # Note: if both other fields are nil, then the field is not derivable
+  def derivable_by_others_absence?: (untyped field) -> untyped
+
+  def attribute_not_set_in_params?: (untyped field) -> untyped
+
+  def all_present?: (*untyped fields) -> untyped
+
+  def only_one_present?: (*untyped fields) -> untyped
+
+  # rubocop:disable Metrics/AbcSize
+  def update_derivable: () -> untyped
+
+  def set_default_attributes: (untyped attributes) -> untyped
+
+  def non_or_default_description?: () -> untyped
+
+  def set_default_author: () -> untyped
+
+  def set_default_status: () -> untyped
+
+  def set_default_priority: () -> untyped
+
+  def set_default_start_date: (untyped attributes) -> (nil | untyped)
+
+  def set_default_due_date: (untyped attributes) -> (nil | untyped)
+
+  def set_templated_description: () -> (nil | untyped)
+
+  def default_description?: () -> untyped
+
+  def normalize_whitespace: (untyped string) -> untyped
+
+  def set_custom_attributes: (untyped attributes) -> untyped
+
+  def custom_field_context_changed?: () -> untyped
+
+  def work_package_now_milestone?: () -> untyped
+
+  def update_project_dependent_attributes: () -> (nil | untyped)
+
+  def update_dates: () -> (nil | untyped)
+
+  def unify_milestone_dates: () -> (nil | untyped)
+
+  def shift_dates_to_soonest_working_days: () -> (nil | untyped)
+
+  def update_duration: () -> (untyped | nil)
+
+  def set_version_to_nil: () -> (untyped | nil)
+
+  def set_parent_to_nil: () -> (untyped | nil)
+
+  def reassign_category: () -> (untyped | nil)
+
+  def reassign_type: () -> (nil | untyped)
+
+  def reassign_status: (untyped available_statuses) -> (nil | untyped)
+
+  def reassign_invalid_status_if_type_changed: () -> (untyped | nil)
+
+  # Take over any default custom values
+  # for new custom fields
+  def initialize_unset_custom_values: () -> (untyped | nil)
+
+  def new_start_date: () -> (nil | untyped)
+
+  def new_start_date_from_parent: () -> (nil | untyped)
+
+  def new_start_date_from_self: () -> (nil | untyped)
+
+  def new_due_date: (untyped min_start) -> untyped
+
+  def work_package: () -> untyped
+
+  def assignable_statuses: () -> untyped
+
+  def min_child_date: () -> untyped
+
+  def children_duration: () -> (nil | untyped)
+
+  def days: () -> untyped
+
+  def max_child_date: () -> untyped
+
+  def children_dates: () -> untyped
+
+  def parent_start_earlier_than_due?: () -> untyped
+
+  def parent_due_later_than_start?: () -> untyped
+end

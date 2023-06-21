@@ -1,0 +1,9 @@
+class Queries::WorkPackages::Filter::WorkPackageFilter < Queries::Filters::Base
+  include ::Queries::Filters::Serializable
+
+  def human_name: () -> untyped
+
+  def includes: () -> nil
+
+  def scope: () -> untyped
+end

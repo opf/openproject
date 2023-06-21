@@ -1,0 +1,31 @@
+module API
+  module Utilities
+    module Endpoints
+      class Show
+        def default_instance_generator: (untyped model) -> untyped
+
+        def initialize: (model: untyped, ?api_name: untyped, ?render_representer: untyped?, ?instance_generator: untyped) -> void
+
+        def mount: () -> untyped
+
+        def render: (untyped request) -> untyped
+
+        def self_path: () -> untyped
+
+        attr_accessor model: untyped
+
+        attr_accessor api_name: untyped
+
+        attr_accessor instance_generator: untyped
+
+        attr_accessor render_representer: untyped
+
+        private
+
+        def deduce_render_representer: () -> untyped
+
+        def deduce_api_namespace: () -> untyped
+      end
+    end
+  end
+end

@@ -1,0 +1,18 @@
+module Members
+  class TableComponent < ::TableComponent
+    def initial_sort: () -> ::Array[:name | :asc]
+
+    def headers: () -> untyped
+
+    def header_options: (untyped name) -> { caption: untyped }
+
+    #
+    # Adjusts the order so that users are joined to support
+    # sorting by their attributes
+    def sort_collection: (untyped query, untyped sort_clause, untyped sort_columns) -> untyped
+
+    def join_users: (untyped query) -> untyped
+
+    def empty_row_message: () -> untyped
+  end
+end

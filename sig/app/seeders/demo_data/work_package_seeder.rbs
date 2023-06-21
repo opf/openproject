@@ -1,0 +1,120 @@
+# - copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2023 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+module DemoData
+  class WorkPackageSeeder < Seeder
+    include CreateAttachments
+
+    include References
+
+    attr_reader project: untyped
+
+    attr_reader statuses: untyped
+
+    attr_reader repository: untyped
+
+    attr_reader types: untyped
+
+    alias project_data seed_data
+
+    def initialize: (untyped project, untyped project_data) -> void
+
+    def seed_data!: () -> untyped
+
+    private
+
+    RelationData: untyped
+
+    attr_reader relations_to_create: untyped
+
+    def seed_demo_work_packages: () -> untyped
+
+    # Decides what to do with work package seed data.
+    # The default here is to create the work package.
+    # Modules may patch this method.
+    def create_or_update_work_package: (untyped attributes) -> untyped
+
+    def create_work_package: (untyped attributes) -> untyped
+
+    def base_work_package_attributes: (untyped attributes) -> { project: untyped, author: untyped, assigned_to: untyped, subject: untyped, description: untyped, status: untyped, type: untyped, priority: untyped, parent: untyped }
+
+    def create_children!: (untyped work_package, untyped attributes) -> untyped
+
+    def update_description!: (untyped work_package) -> untyped
+
+    def add_relations_to_create: (untyped work_package, untyped attributes) -> untyped
+
+    def memorize_work_package: (untyped work_package, untyped attributes) -> untyped
+
+    def find_work_package: (untyped reference) -> untyped
+
+    def find_principal: (untyped reference) -> untyped
+
+    def find_status: (untyped attributes) -> untyped
+
+    def find_type: (untyped attributes) -> untyped
+
+    def set_version!: (untyped wp_attr, untyped attributes) -> untyped
+
+    def set_time_tracking_attributes!: (untyped wp_attr, untyped attributes) -> untyped
+
+    def time_tracking_attributes: (untyped attributes) -> untyped
+
+    def set_backlogs_attributes!: (untyped wp_attr, untyped attributes) -> untyped
+
+    def set_work_package_relations: () -> untyped
+
+    def create_relation: (to: untyped, from: untyped, type: untyped) -> untyped
+
+    class TimeTrackingAttributes
+      def self.for: (untyped attributes) -> untyped
+
+      def work_package_attributes: () -> { start_date: untyped, due_date: untyped, duration: untyped, ignore_non_working_days: untyped, estimated_hours: untyped }
+
+      private
+
+      attr_reader attributes: untyped
+
+      def initialize: (untyped attributes) -> void
+
+      def start_date: () -> untyped
+
+      def due_date: () -> untyped
+
+      def duration: () -> untyped
+
+      def ignore_non_working_days: () -> untyped
+
+      def estimated_hours: () -> untyped
+
+      def all_days: () -> untyped
+
+      def working_days: () -> untyped
+
+      def days: () -> untyped
+    end
+  end
+end

@@ -1,0 +1,9 @@
+module API::V3::Days
+  class WeekDayRepresenter < ::API::Decorators::Single
+    include ::API::Caching::CachedRepresenter
+
+    def _type: () -> "WeekDay"
+
+    def json_key_part_represented: () -> ::Array[untyped]
+  end
+end

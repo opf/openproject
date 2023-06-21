@@ -1,0 +1,18 @@
+module API
+  module Decorators
+    class Formattable < Single
+      include OpenProject::TextFormatting
+
+      def initialize: (untyped model, ?plain: bool, ?object: untyped?) -> void
+
+      def to_html: () -> untyped
+
+      private
+
+      # Ensure the raw text is always a string
+      def raw_text: () -> untyped
+
+      def model_required?: () -> false
+    end
+  end
+end

@@ -1,0 +1,8 @@
+module Settings
+  #
+  # A text field to enter numeric values.
+  class NumericSettingComponent < ::RailsComponent
+    # name of setting and tag
+    def name: () -> untyped
+  end
+end

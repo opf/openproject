@@ -1,0 +1,15 @@
+module OpenProject
+  module AccessControl
+    class Mapper
+      def permission: (untyped name, untyped hash, **untyped options) -> untyped
+
+      def project_module: (untyped name, ?::Hash[untyped, untyped] options) ?{ (untyped) -> untyped } -> untyped
+
+      def mapped_modules: () -> untyped
+
+      def mapped_permissions: () -> untyped
+
+      def project_modules_without_permissions: () -> untyped
+    end
+  end
+end

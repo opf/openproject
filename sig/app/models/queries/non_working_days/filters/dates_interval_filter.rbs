@@ -1,0 +1,13 @@
+class Queries::NonWorkingDays::Filters::DatesIntervalFilter < Queries::NonWorkingDays::Filters::NonWorkingDayFilter
+  include Queries::Operators::DateRangeClauses
+
+  def type: () -> :date
+
+  def self.key: () -> :date
+
+  def where: () -> untyped
+
+  def type_strategy: () -> untyped
+
+  def connection: () -> untyped
+end

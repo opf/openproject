@@ -1,0 +1,7 @@
+class AngularController < ApplicationController
+  def empty_layout: () -> untyped
+
+  def notifications_layout: () -> untyped
+
+  def login_back_url_params: () -> untyped
+end

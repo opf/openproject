@@ -1,0 +1,23 @@
+module API
+  module V3
+    module WorkPackages
+      module Schema
+        module FormConfigurations
+          class AttributeRepresenter < ::API::Decorators::Single
+            attr_accessor project: untyped
+
+            def initialize: (untyped model, current_user: untyped, project: untyped, ?embed_links: bool) -> void
+
+            def _type: () -> "WorkPackageFormAttributeGroup"
+
+            def name: () -> untyped
+
+            def attributes: () -> untyped
+
+            def convert_property: (untyped attribute) -> untyped
+          end
+        end
+      end
+    end
+  end
+end

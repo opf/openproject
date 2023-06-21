@@ -1,0 +1,19 @@
+module OAuth
+  module Applications
+    class TableComponent < ::TableComponent
+      def self.row_class: () -> untyped
+
+      def initial_sort: () -> ::Array[:id | :asc]
+
+      def sortable?: () -> false
+
+      def columns: () -> untyped
+
+      def inline_create_link: () -> untyped
+
+      def empty_row_message: () -> untyped
+
+      def headers: () -> ::Array[::Array["name" | { caption: untyped }] | ::Array["owner" | { caption: untyped }] | ::Array["client_credentials" | { caption: untyped }] | ::Array["redirect_uri" | { caption: untyped }] | ::Array["confidential" | { caption: untyped }]]
+    end
+  end
+end

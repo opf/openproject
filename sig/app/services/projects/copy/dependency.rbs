@@ -1,0 +1,13 @@
+module Projects::Copy
+  class Dependency < ::Copy::Dependency
+    #
+    # Allow to count the source dependency count
+    # if applicable
+    def source_count: () -> nil
+
+    #
+    # Check whether this dependency should be copied
+    # as it was selected
+    def self.should_copy?: (untyped params, untyped check) -> (false | untyped)
+  end
+end

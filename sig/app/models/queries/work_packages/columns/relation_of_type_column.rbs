@@ -1,0 +1,13 @@
+class Queries::WorkPackages::Columns::RelationOfTypeColumn < Queries::WorkPackages::Columns::RelationColumn
+  def initialize: (untyped type) -> void
+
+  def name: () -> untyped
+
+  def sym: () -> untyped
+
+  alias relation_type sym
+
+  def caption: () -> untyped
+
+  def self.instances: (?untyped? _context) -> (::Array[untyped] | untyped)
+end

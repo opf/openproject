@@ -1,0 +1,83 @@
+# Get the schedule order and information for work packages that have just been
+# moved dates.
+#
+# The schedule order is given by calling +in_schedule_order+ with a block. The
+# dependency object given as a block parameter contains helpful information for
+# setting the work package start and due dates.
+#
+# About the terminology:
+# * moved work packages have just been changed and rescheduled with moved dates.
+# * moving work packages are impacted by the rescheduling of moved work package,
+#   and will potentially be rescheduled and will be moving to other dates.
+# * unmoving work packages are not impacted by the rescheduling of moved work
+#   package, but are necessary to accurately determine the new start and due
+#   dates of the moving work packages.
+class WorkPackages::ScheduleDependency
+  attr_accessor dependencies: untyped
+
+  def initialize: (untyped moved_work_packages) -> void
+
+  # Returns each dependency in the order necessary for scheduling:
+  #   * successors after predecessors
+  #   * ancestors after descendants
+  def in_schedule_order: () { (untyped, untyped) -> untyped } -> untyped
+
+  def work_package_by_id: (untyped id) -> (nil | untyped)
+
+  def children_by_parent_id: (untyped parent_id) -> (::Array[untyped] | untyped)
+
+  def moving?: (untyped work_package) -> untyped
+
+  def ancestors: (untyped work_package) -> untyped
+
+  def descendants: (untyped work_package) -> untyped
+
+  # Get relations of type follows for which the given work package is a direct
+  # follower, or an indirect follower (through parent and/or children).
+  #
+  # Used by +Dependency#dependent_ids+ to get work packages that must be
+  # scheduled prior to the given work package.
+  def follows_relations: (untyped work_package) -> untyped
+
+  private
+
+  attr_accessor known_follows_relations: untyped
+
+  attr_accessor moved_work_packages: untyped
+
+  def all_direct_and_indirect_follows_relations_for: (untyped work_package) -> untyped
+
+  def follows_relations_by_follower_id: () -> untyped
+
+  def create_dependencies: () -> untyped
+
+  def moving_work_packages: () -> untyped
+
+  # All work packages preloaded during initialization.
+  # See +#preload_scheduling_data+
+  def known_work_packages: () -> untyped
+
+  def preload_scheduling_data: () -> untyped
+
+  # Returns all the descendants of moved and moving work packages that are not
+  # already loaded.
+  #
+  # There are two cases in which descendants are not loaded for scheduling
+  # because they will not move:
+  #   * manual scheduling: A descendant is either scheduled manually itself or
+  #     all of its descendants are scheduled manually.
+  #   * sibling: the descendant is not below a moving work package but below an
+  #     ancestor of a moving work package.
+  def fetch_unmoving_descendants: () -> untyped
+
+  # Load all the predecessors of follows relations that are not already loaded.
+  def fetch_unmoving_predecessors: () -> untyped
+
+  # Preload the predecessors relations for preloaded work packages.
+  def preload_follows_relations: () -> untyped
+
+  # rehydrate the #to and #from members of the preloaded follows relations, to
+  # prevent triggering additional database requests when computing soonest
+  # start.
+  def rehydrate_follows_relations: () -> untyped
+end

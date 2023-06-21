@@ -1,0 +1,13 @@
+module OpenProject::TextFormatting::Formats
+  class BaseFormat
+    def self.format: () -> untyped
+
+    def self.priority: () -> untyped
+
+    def self.helper: () -> untyped
+
+    def self.formatter: () -> untyped
+
+    def self.setup: () -> untyped
+  end
+end

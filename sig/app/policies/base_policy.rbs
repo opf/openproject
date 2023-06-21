@@ -1,0 +1,9 @@
+class BasePolicy
+  attr_accessor user: untyped
+
+  def initialize: (untyped user) -> void
+
+  def actions: (untyped wp) -> untyped
+
+  def allowed?: (untyped object, untyped action) -> untyped
+end

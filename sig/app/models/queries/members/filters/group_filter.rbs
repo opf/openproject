@@ -1,0 +1,7 @@
+class Queries::Members::Filters::GroupFilter < Queries::Members::Filters::MemberFilter
+  include Queries::Filters::Shared::GroupFilter
+
+  def joins: () -> nil
+
+  def scope: () -> untyped
+end

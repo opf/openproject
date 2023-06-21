@@ -1,0 +1,25 @@
+module Redmine
+  module Ciphering
+    def self.included: (untyped base) -> untyped
+
+    def self.encrypt_text: (untyped text) -> untyped
+
+    def self.decrypt_text: (untyped text) -> untyped
+
+    def self.cipher_key: () -> untyped
+
+    module ClassMethods
+      def encrypt_all: (untyped attribute) -> untyped
+
+      def decrypt_all: (untyped attribute) -> untyped
+    end
+
+    private
+
+    # Returns the value of the given ciphered attribute
+    def read_ciphered_attribute: (untyped attribute) -> untyped
+
+    # Sets the value of the given ciphered attribute
+    def write_ciphered_attribute: (untyped attribute, untyped value) -> untyped
+  end
+end

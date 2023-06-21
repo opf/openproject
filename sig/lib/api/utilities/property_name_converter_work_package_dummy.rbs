@@ -1,0 +1,7 @@
+module API
+  module Utilities
+    class PropertyNameConverterWorkPackageDummy < ::WorkPackage
+      def set_default_values: () -> nil
+    end
+  end
+end

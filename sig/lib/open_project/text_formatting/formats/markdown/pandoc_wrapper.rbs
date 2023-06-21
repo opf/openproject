@@ -1,0 +1,34 @@
+module OpenProject::TextFormatting::Formats
+  module Markdown
+    class PandocWrapper
+      attr_reader logger: untyped
+
+      def initialize: (?untyped logger) -> void
+
+      def execute!: (untyped stdin) -> untyped
+
+      def check_arguments!: () -> untyped
+
+      def pandoc_arguments: () -> ::Array[untyped | "--atx-headers" | "-f" | "textile" | "-t" | "commonmark"]
+
+      #
+      # Detect available wrap mode
+      # --wrap=preserve will keep the wrapping the same, however is only available in versions 1.16+
+      # In older versions we try to use the deprecated --no-wrap instead
+      # --atx-headers will lead to headers like `### Some header` and '## Another header'
+      def wrap_mode: () -> untyped
+
+      def pandoc_timeout: () -> untyped
+
+      private
+
+      #
+      # Run pandoc through posix-spawn and raise if an exception occurred
+      def run_pandoc!: (untyped command, ?stdin_data: untyped?, ?timeout: untyped) -> untyped
+
+      def read_usage_string: () -> untyped
+
+      def read_output_formats: () -> untyped
+    end
+  end
+end

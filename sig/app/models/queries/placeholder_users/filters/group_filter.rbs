@@ -1,0 +1,11 @@
+class Queries::PlaceholderUsers::Filters::GroupFilter < Queries::PlaceholderUsers::Filters::PlaceholderUserFilter
+  include Queries::Filters::Shared::GroupFilter
+
+  def human_name: () -> untyped
+
+  private
+
+  def group_subselect: () -> untyped
+
+  def any_group_subselect: () -> untyped
+end

@@ -1,0 +1,8 @@
+module API
+  module V3
+    module Users
+      class UserSqlCollectionRepresenter < API::Decorators::SqlCollectionRepresenter
+      end
+    end
+  end
+end

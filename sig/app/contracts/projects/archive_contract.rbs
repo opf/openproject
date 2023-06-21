@@ -1,0 +1,13 @@
+module Projects
+  class ArchiveContract < ::BaseContract
+    # Check that there is no wp of a non descendant project that is assigned
+    # to one of the project or descendant versions
+    def validate_no_foreign_wp_references: () -> untyped
+
+    def validate_has_archive_project_permission: () -> untyped
+
+    def validate_can_archive_project: () -> (nil | untyped)
+
+    def validate_can_archive_subprojects: () -> (nil | untyped)
+  end
+end

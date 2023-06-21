@@ -1,0 +1,4 @@
+module OpenProject
+  module Plugins
+  end
+end

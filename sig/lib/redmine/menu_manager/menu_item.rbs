@@ -1,0 +1,56 @@
+class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
+  include Redmine::I18n
+
+  attr_reader name: untyped
+
+  attr_reader param: untyped
+
+  attr_reader icon_after: untyped
+
+  attr_reader context: untyped
+
+  attr_reader condition: untyped
+
+  attr_reader parent: untyped
+
+  attr_reader child_menus: untyped
+
+  attr_reader last: untyped
+
+  attr_reader partial: untyped
+
+  attr_reader engine: untyped
+
+  attr_reader enterprise_feature: untyped
+
+  def initialize: (untyped name, untyped url, untyped options) -> void
+
+  def caption: (?untyped? project) -> untyped
+
+  def caption=: (untyped new_caption) -> untyped
+
+  def icon: (?untyped? project) -> untyped
+
+  def icon=: (untyped new_icon) -> untyped
+
+  def badge: (?untyped? project) -> untyped
+
+  def badge=: (untyped new_badge) -> untyped
+
+  def url: (?untyped? project) -> untyped
+
+  def url=: (untyped new_url) -> untyped
+
+  # Allow special case that the user is not allowed to see the parent node but at least one children.
+  # In that case, parent and the children are shown.
+  # The parent's url is then changed to the children's url.
+  def allow_deeplink?: () -> untyped
+
+  def allow_deeplink=: (untyped allow_deeplink) -> untyped
+
+  def skip_permissions_check?: () -> untyped
+
+  def html_options: (?::Hash[untyped, untyped] options) -> untyped
+
+  def add_condition: (untyped new_condition) -> untyped
+end

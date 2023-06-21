@@ -1,0 +1,5 @@
+module GroupsHelper
+  def group_settings_tabs: (untyped group) -> ::Array[{ name: "general", partial: "groups/general", path: untyped, label: :label_general } | { name: "users", partial: "groups/users", path: untyped, label: :label_user_plural } | { name: "memberships", partial: "groups/memberships", path: untyped, label: :label_project_plural } | { name: "global_roles", partial: "principals/global_roles", path: untyped, label: :label_global_roles }]
+
+  def autocompleter_filters: (untyped group) -> ::Array[{ selector: "status", operator: "=", values: ::Array["active" | "invited"] } | { selector: "group", operator: "!", values: ::Array[untyped] }]
+end

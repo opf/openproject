@@ -1,0 +1,19 @@
+class Relations::BaseService < BaseServices::BaseCallable
+  include Contracted
+
+  include Shared::ServiceContext
+
+  attr_accessor user: untyped
+
+  def initialize: (user: untyped) -> void
+
+  private
+
+  def update_relation: (untyped model, untyped attributes) -> untyped
+
+  def set_defaults: (untyped model) -> untyped
+
+  def reschedule: (untyped model) -> untyped
+
+  def retry_with_inverse_for_relates: (untyped model, untyped errors) -> (untyped | ::Array[false | untyped])
+end

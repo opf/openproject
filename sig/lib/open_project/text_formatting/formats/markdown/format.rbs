@@ -1,0 +1,7 @@
+module OpenProject::TextFormatting::Formats::Markdown
+  class Format < OpenProject::TextFormatting::Formats::BaseFormat
+    def self.format: () -> :markdown
+
+    def self.priority: () -> 5
+  end
+end

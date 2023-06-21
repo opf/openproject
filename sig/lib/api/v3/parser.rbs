@@ -1,0 +1,5 @@
+module API::V3
+  class Parser
+    def call: (untyped object, untyped _env) -> untyped
+  end
+end

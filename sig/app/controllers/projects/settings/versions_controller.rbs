@@ -1,0 +1,3 @@
+class Projects::Settings::VersionsController < Projects::SettingsController
+  def show: () -> untyped
+end

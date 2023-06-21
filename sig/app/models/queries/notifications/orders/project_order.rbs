@@ -1,0 +1,7 @@
+class Queries::Notifications::Orders::ProjectOrder < Queries::Orders::Base
+  def self.key: () -> :project
+
+  def joins: () -> :project
+
+  def order: () -> untyped
+end

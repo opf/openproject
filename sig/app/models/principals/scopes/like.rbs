@@ -1,0 +1,12 @@
+# Returns principals whose
+# * login
+# * firstname
+# * lastname
+# matches the provided string
+module Principals::Scopes
+  module Like
+    extend ActiveSupport::Concern
+
+    def like: (untyped query) -> untyped
+  end
+end

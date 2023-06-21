@@ -1,0 +1,15 @@
+module API
+  module Utilities
+    module Endpoints
+      class Create < Modify
+        def default_instance_generator: (untyped _model) -> untyped
+
+        def success_status: () -> :created
+
+        private
+
+        def update_or_create: () -> "Create"
+      end
+    end
+  end
+end

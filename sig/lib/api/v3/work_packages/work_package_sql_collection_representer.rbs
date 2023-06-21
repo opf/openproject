@@ -1,0 +1,9 @@
+module API
+  module V3
+    module WorkPackages
+      class WorkPackageSqlCollectionRepresenter < API::Decorators::SqlCollectionRepresenter
+        def self._type: () -> "WorkPackageCollection"
+      end
+    end
+  end
+end

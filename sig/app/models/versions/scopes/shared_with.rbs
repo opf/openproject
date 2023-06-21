@@ -1,0 +1,20 @@
+module Versions::Scopes
+  module SharedWith
+    extend ActiveSupport::Concern
+
+    # Returns a scope of the Versions available
+    # in the project either because the project defined it itself
+    # or because it was shared with it
+    def shared_with: (untyped project) -> untyped
+
+    def shared_versions_on_persisted: (untyped project) -> untyped
+
+    def shared_versions_by_tree: (untyped project) -> untyped
+
+    def shared_versions_by_hierarchy_or_descendants: (untyped project) -> untyped
+
+    def shared_versions_by_hierarchy: (untyped project) -> untyped
+
+    def shared_versions_by_system: () -> untyped
+  end
+end

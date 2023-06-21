@@ -1,0 +1,7 @@
+class Queries::Projects::Orders::ProjectStatusOrder < Queries::Orders::Base
+  def self.key: () -> :project_status
+
+  private
+
+  def order: () -> untyped
+end

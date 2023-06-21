@@ -1,0 +1,31 @@
+module Members
+  class EditMembershipService
+    attr_reader current_user: untyped
+
+    attr_reader member: untyped
+
+    attr_reader do_save: untyped
+
+    def initialize: (untyped member, save: untyped, current_user: untyped) -> void
+
+    def call: (?attributes: ::Hash[untyped, untyped]) -> untyped
+
+    private
+
+    def make_result: (success: untyped) -> untyped
+
+    def process_attributes!: (untyped attributes) -> (untyped | nil)
+
+    #
+    # We need to validate attributes before passing them to user
+    # because role_ids are modified instantly and may cause errors if empty
+    def validate_attributes!: (untyped attributes) -> (false | true)
+
+    #
+    # Checks whether the member has any inherited role from a group,
+    # in which case it is okay to remove all other role_ids.
+    def has_inherited_roles?: () -> untyped
+
+    def set_attributes: (untyped attributes) -> untyped
+  end
+end

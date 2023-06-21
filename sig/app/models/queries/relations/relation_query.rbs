@@ -1,0 +1,9 @@
+module Queries
+  module Relations
+    class RelationQuery < ::Queries::BaseQuery
+      def self.model: () -> untyped
+
+      def results: () -> untyped
+    end
+  end
+end

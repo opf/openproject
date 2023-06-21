@@ -1,0 +1,13 @@
+module OAuthHelper
+  #
+  # Output the translated scope names for the given application
+  def oauth_scope_translations: (untyped application) -> untyped
+
+  #
+  # Show first two and last two characters, with **** in the middle
+  def short_secret: (untyped secret) -> untyped
+
+  #
+  # Get granted applications for the given user
+  def granted_applications: (?untyped user) -> untyped
+end

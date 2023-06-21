@@ -1,0 +1,5 @@
+module Queries::Operators
+  class OpenWorkPackages < Base
+    def self.sql_for_field: (untyped _values, untyped _db_table, untyped _db_field) -> ::String
+  end
+end

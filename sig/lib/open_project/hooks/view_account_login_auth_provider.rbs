@@ -1,0 +1,8 @@
+module OpenProject
+  module Hooks
+    #
+    # Hook called in the login forms which displays the different auth providers
+    class ViewAccountLoginAuthProvider < OpenProject::Hook::ViewListener
+    end
+  end
+end

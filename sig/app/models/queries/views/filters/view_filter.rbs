@@ -1,0 +1,3 @@
+class Queries::Views::Filters::ViewFilter < Queries::Filters::Base
+  def human_name: () -> untyped
+end

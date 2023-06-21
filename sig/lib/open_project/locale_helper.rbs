@@ -1,0 +1,5 @@
+module OpenProject
+  module LocaleHelper
+    def self?.with_locale_for: (untyped user) { () -> untyped } -> untyped
+  end
+end

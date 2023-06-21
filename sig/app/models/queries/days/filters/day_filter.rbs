@@ -1,0 +1,3 @@
+class Queries::Days::Filters::DayFilter < Queries::Filters::Base
+  def human_name: () -> untyped
+end

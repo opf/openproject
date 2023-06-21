@@ -1,0 +1,15 @@
+module WorkPackages::Scopes::IncludeSpentTime
+  extend ActiveSupport::Concern
+
+  def include_spent_time: (untyped user, ?untyped? work_package) -> untyped
+
+  def join_time_entries: (untyped user) -> untyped
+
+  def allowed_to_view_time_entries: (untyped user) -> untyped
+
+  def wp_table: () -> untyped
+
+  def wp_descendants: () -> untyped
+
+  def time_entries_table: () -> untyped
+end

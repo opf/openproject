@@ -1,0 +1,24 @@
+module Queries
+  module Filters
+    module Serializable
+      include ActiveModel::Serialization
+
+      extend ActiveSupport::Concern
+
+      # (de-)serialization
+      def from_hash: (untyped filter_hash) -> untyped
+
+      def to_hash: () -> ::Hash[untyped, untyped]
+
+      def attributes: () -> { name: untyped, operator: untyped, values: untyped }
+
+      def ==: (untyped other) -> untyped
+
+      def attributes_hash: () -> untyped
+
+      private
+
+      def stringify_values: () -> (untyped | nil)
+    end
+  end
+end

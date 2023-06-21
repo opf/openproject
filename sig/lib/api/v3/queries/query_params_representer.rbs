@@ -1,0 +1,25 @@
+module API
+  module V3
+    module Queries
+      class QueryParamsRepresenter < API::Decorators::QueryParamsRepresenter
+        #
+        # To json hash outputs the hash to be parsed to the frontend http
+        # which contains a reference to the columns array as columns[].
+        # This will match the Rails +to_query+ output
+        def to_json: (*untyped _args) -> untyped
+
+        def to_h: (?column_key: ::Symbol) -> untyped
+
+        def self_link: () -> untyped
+
+        private
+
+        def orders_to_v3: () -> untyped
+
+        def columns_to_v3: () -> untyped
+
+        attr_accessor query: untyped
+      end
+    end
+  end
+end

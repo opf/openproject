@@ -1,0 +1,160 @@
+module OpenProject
+  #
+  # OpenProject uses Warden strategies for request authentication.
+  module Authentication
+    #
+    # Registers a given Warden strategy to be used for authentication.
+    #
+    # @param [Symbol] Name under which the strategy can be referred to.
+    # @param [Class] The strategy class.
+    # @param [String] The authentication scheme implemented by this strategy.
+    #                 Used in the WWW-Authenticate header in 401 responses.
+    def self.add_strategy: (untyped name, untyped clazz, untyped auth_scheme) -> untyped
+
+    #
+    # Updates the used warden strategies for a given scope. The strategies will be tried
+    # in the order they are set here. Plugins can call this to add or remove strategies.
+    # For available scopes please refer to `OpenProject::Authentication::Scope`.
+    #
+    # @param [Symbol] scope The scope for which to update the used warden strategies.
+    # @param [Hash] opts Options for that scope.
+    # @option opts [Boolean] :store Indicates whether the user should be stored in the session
+    #                               for this scope. Optional. If not given, the current store
+    #                               flag for this strategy will remain unchanged what ever it is.
+    # @option opts [String] :realm The WWW-Authenticate realm used for authentication challenges
+    #                              for this scope. The default value ()
+    #
+    # @yield [strategies] A block returning the strategies to be used for this scope.
+    # @yieldparam [Set] strategies The strategies currently used by this scope. May be empty.
+    # @yieldreturn [Set] The strategies to be used by this scope.
+    def self.update_strategies: (untyped scope, ?::Hash[untyped, untyped] opts) { () -> untyped } -> untyped
+
+    #
+    # Allows to handle an authentication failure with a custom response.
+    #
+    # @param [Symbol] scope The scope for which to set the custom failure handler. Optional.
+    #                       If omitted the default failure handler is set.
+    #
+    # @yield [failure_handler] A block returning a custom failure response.
+    # @yieldparam [Warden::Proxy] warden Warden instance giving access to the would-be
+    #                             result message and headers.
+    # @yieldparam [Hash] warden_options Warden options including the scope of the failed
+    #                                   strategy and the attempted request path.
+    # @yieldreturn [Array] A rack standard response such as `[401, {}, ['unauthenticated']]`.
+    def self.handle_failure: (?scope: untyped?) { () -> untyped } -> untyped
+
+    #
+    # This module is only there to declare all used scopes. Technically a scope can be an
+    # arbitrary symbol. But we declare them here not to lose sight of them.
+    #
+    # Plugins can declare new scopes by declaring new constants in this module.
+    module Scope
+      API_V3: :api_v3
+
+      def self.values: () -> untyped
+    end
+
+    module Stage
+      class Entry
+        include OpenProject::StaticRouting::UrlHelpers
+
+        attr_reader identifier: untyped
+
+        def initialize: (untyped identifier, untyped path, untyped run_after_activation, untyped active) -> void
+
+        def path: () -> untyped
+
+        def run_after_activation?: () -> untyped
+
+        def active?: () -> untyped
+      end
+
+      extend OpenProject::StaticRouting::UrlHelpers
+
+      #
+      # Registers a new authentication stage which will be triggered after the
+      # user has been authenticated through the core and before they are actually logged in.
+      #
+      # With a plugin registering an extra stage the login flow would look as follows:
+      #
+      #     :|--------------------|>-------------------|>----------------|:
+      #           Password Auth      Extra Stage (2FA)    Complete Login
+      #
+      #      {       core         }{     2FA plugin    }{      core      }
+      #
+      # Only in the final complete login stage will the user's session be reset and
+      # the current_user set to the successfully authenticated user. Until then the
+      # initially authenticated user will be stored in the intermediate session
+      # as `authenticated_user_id`.
+      #
+      # Any stage has to be completed by redirecting back to `Stage.complete_path`.
+      # If the stage fails it may handle displaying the failure itself. If not it can
+      # redirect to `Stage.failure_path` to show a generic failure page which will show
+      # any flash errors.
+      #
+      # Example calls:
+      #
+      #     OpenProject::Authentication::Stage
+      #       .register :security_question, '/users/security_question'
+      #
+      #     OpenProject::Authentication::Stage
+      #       .register(:security_question) { security_question_path } # using url helper
+      #
+      # @param identifier [Symbol] Used to tell the stages apart.
+      # @param path [String] Path to redirect to for the stage to start.
+      # @param run_after_activation [Boolean] If true the stage will also be run just after
+      #                                       a user was registered and activated. This only
+      #                                       makes sense if the extra stage is possible at
+      #                                       that point yet.
+      # @param active [Block] A block returning true (default) if this stage is active.
+      # @param before [Symbol] Identifier before which to insert this stage. Stage will be
+      #                        appended to the end if no such identifier is registered.
+      #                        Cannot be used with `after`.
+      # @param after [Symbol] Identifier after which to insert this stage. The stage will be
+      #                       appended to the end if no such identifier is registered.
+      #                       Cannot be used with `before`.
+      #
+      # @yield [path_provider] A block returning a path to redirect to. Is evaluated in the
+      #                        context of a controller giving access to URL helpers.
+      def self.register: (untyped identifier, ?untyped? path, ?run_after_activation: bool, ?active: untyped, ?before: untyped?, ?after: untyped?) { () -> untyped } -> (nil | untyped)
+
+      def self.deregister: (untyped identifier) -> untyped
+
+      #
+      # Contains 3-tuples of stage identifier, run-after-activation flag and
+      # the block to be executed to start the stage.
+      def self.stages: () -> untyped
+
+      def self.find_all: (untyped identifiers) -> untyped
+
+      def self.complete_path: (untyped identifier, session: untyped, ?back_url: untyped?) -> untyped
+
+      def self.failure_path: (untyped identifier) -> untyped
+    end
+
+    #
+    # Options used in the WWW-Authenticate header returned to the user
+    # in case authentication failed (401).
+    module WWWAuthenticate
+      def self?.pick_auth_scheme: (untyped supported_schemes, untyped default_scheme, ?::Hash[untyped, untyped] request_headers) -> untyped
+
+      def self?.default_auth_scheme: () -> "Basic"
+
+      def self?.default_realm: () -> "OpenProject API"
+
+      def self?.scope_realm: (?untyped? scope) -> untyped
+
+      def self?.response_header: (?default_auth_scheme: untyped, ?scope: untyped?, ?request_headers: ::Hash[untyped, untyped]) -> ::String
+
+      def self?.auth_schemes: (untyped scope) -> untyped
+    end
+
+    module AuthHeaders
+      include WWWAuthenticate
+
+      def auth_scheme: () -> untyped
+
+      def realm: () -> untyped
+    end
+  end
+end

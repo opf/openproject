@@ -1,0 +1,11 @@
+module Settings
+  class WorkingDaysParamsContract < ::ParamsContract
+    include RequiresAdminGuard
+
+    def working_days_are_present: () -> (untyped | nil)
+
+    def unique_job: () -> (untyped | nil)
+
+    def working_days: () -> untyped
+  end
+end

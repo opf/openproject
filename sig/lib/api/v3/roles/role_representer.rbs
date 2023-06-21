@@ -1,0 +1,9 @@
+module API
+  module V3
+    module Roles
+      class RoleRepresenter < ::API::Decorators::Single
+        def _type: () -> "Role"
+      end
+    end
+  end
+end

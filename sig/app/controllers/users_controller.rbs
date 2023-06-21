@@ -1,0 +1,60 @@
+class UsersController < ApplicationController
+  # Password confirmation helpers and actions
+  include PasswordConfirmation
+
+  include Accounts::UserLimits
+
+  include SortHelper
+
+  include CustomFieldsHelper
+
+  include PaginationHelper
+
+  def index: () -> untyped
+
+  def show: () -> untyped
+
+  def new: () -> untyped
+
+  def edit: () -> untyped
+
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  def change_status_info: () -> untyped
+
+  def change_status: () -> (nil | untyped)
+
+  def resend_invitation: () -> untyped
+
+  def destroy: () -> untyped
+
+  def deletion_info: () -> untyped
+
+  private
+
+  def can_show_user?: () -> (true | untyped)
+
+  def events: () -> untyped
+
+  def find_user: () -> untyped
+
+  def authorize_for_user: () -> (false | nil)
+
+  def check_if_deletion_allowed: () -> (untyped | nil)
+
+  def set_current_activity_page: () -> untyped
+
+  def my_or_admin_layout: () -> ("my" | "admin")
+
+  def set_password?: (untyped params) -> untyped
+
+  def default_breadcrumb: () -> untyped
+
+  def show_local_breadcrumb: () -> untyped
+
+  def build_user_update_params: () -> untyped
+
+  def create_params: () -> untyped
+end

@@ -1,0 +1,5 @@
+class Queries::Notifications::Orders::ReasonOrder < Queries::Orders::Base
+  def self.key: () -> :reason
+
+  def name: () -> :reason
+end

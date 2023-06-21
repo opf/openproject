@@ -1,0 +1,23 @@
+class Activities::WikiPageActivityProvider < Activities::BaseActivityProvider
+  def extend_event_query: (untyped query) -> untyped
+
+  def event_query_projection: () -> ::Array[untyped]
+
+  def projects_reference_table: () -> untyped
+
+  def event_title: (untyped event) -> ::String
+
+  def event_type: (untyped _event) -> "wiki-page"
+
+  def event_path: (untyped event) -> untyped
+
+  def event_url: (untyped event) -> untyped
+
+  private
+
+  def wiki_pages_table: () -> untyped
+
+  def wikis_table: () -> untyped
+
+  def url_helper_parameter: (untyped event) -> ::Array[untyped]
+end

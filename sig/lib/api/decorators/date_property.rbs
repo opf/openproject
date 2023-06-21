@@ -1,0 +1,31 @@
+module API
+  module Decorators
+    module DateProperty
+      def self.included: (untyped base) -> untyped
+
+      def self.prepended: (untyped base) -> untyped
+
+      def datetime_formatter: () -> untyped
+
+      module ClassMethods
+        def date_property: (untyped name, ?getter: untyped, ?setter: untyped, **untyped args) -> untyped
+
+        def date_time_property: (untyped name, ?getter: untyped, **untyped args) -> untyped
+
+        def duration_property: (untyped name, ?getter: untyped, ?setter: untyped, **untyped args) -> untyped
+
+        private
+
+        def default_date_getter: (untyped name) -> untyped
+
+        def default_date_setter: (untyped name) -> untyped
+
+        def default_date_time_getter: (untyped name) -> untyped
+
+        def default_duration_getter: (untyped name) -> untyped
+
+        def default_duration_setter: (untyped name) -> untyped
+      end
+    end
+  end
+end

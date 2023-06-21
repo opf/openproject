@@ -1,0 +1,23 @@
+class Activities::WorkPackageActivityProvider < Activities::BaseActivityProvider
+  def extend_event_query: (untyped query) -> untyped
+
+  def event_query_projection: () -> ::Array[untyped]
+
+  def self.work_package_title: (untyped id, untyped subject, untyped type_name) -> ::String
+
+  def event_title: (untyped event) -> untyped
+
+  def event_type: (untyped event) -> ("work_package-closed" | "work_package-edit")
+
+  def event_path: (untyped event) -> untyped
+
+  def event_url: (untyped event) -> untyped
+
+  private
+
+  def notes_anchor: (untyped event) -> untyped
+
+  def types_table: () -> untyped
+
+  def statuses_table: () -> untyped
+end

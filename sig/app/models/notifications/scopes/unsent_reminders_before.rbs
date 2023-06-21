@@ -1,0 +1,9 @@
+module Notifications::Scopes
+  module UnsentRemindersBefore
+    extend ActiveSupport::Concern
+
+    # Return notifications for the user for who email reminders shall be sent and that were created before
+    # the specified time.
+    def unsent_reminders_before: (recipient: untyped, time: untyped) -> untyped
+  end
+end

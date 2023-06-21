@@ -1,0 +1,21 @@
+module API
+  module V3
+    module Relations
+      class RelationRepresenter < ::API::Decorators::Single
+        include API::Decorators::LinkedResource
+
+        def _type: () -> untyped
+
+        def _type=: (untyped _type) -> nil
+
+        def name: () -> untyped
+
+        def name=: (untyped name) -> nil
+
+        def reverse_type=: (untyped reverse_type) -> nil
+
+        def manage_relations?: () -> untyped
+      end
+    end
+  end
+end

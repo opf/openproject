@@ -1,0 +1,15 @@
+module API
+  module V3
+    module WorkPackages
+      module EagerLoading
+        class NeutralWrapper < SimpleDelegator
+          def wrapped?: () -> true
+
+          def self.wrap_one: (untyped work_package, untyped _current_user) -> untyped
+
+          def self.name: () -> "WorkPackage"
+        end
+      end
+    end
+  end
+end

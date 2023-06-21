@@ -1,0 +1,15 @@
+class Authorization::AbstractUserQuery < Authorization::AbstractQuery
+  def self.members_member_roles_join: () -> untyped
+
+  def self.users_members_join: () -> untyped
+
+  def self.members_table: () -> untyped
+
+  def self.users_table: () -> untyped
+
+  def self.member_roles_table: () -> untyped
+
+  def self.roles_table: () -> untyped
+
+  def self.role_permissions_table: () -> untyped
+end

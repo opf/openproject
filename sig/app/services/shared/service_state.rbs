@@ -1,0 +1,21 @@
+#
+# Service state object to be passed around services
+# for remembering state between service calls (e.g., when copying).
+#
+# Borrows heavily from interactor gem's context class at
+# https://github.com/collectiveidea/interactor
+module Shared
+  class ServiceState < Hashie::Mash
+    #
+    # Builds the context object unless
+    # it's already an instance of this context.
+    def self.build: (?::Hash[untyped, untyped] state) -> untyped
+
+    #
+    # Remember that the state was passed to the given service
+    def called!: (untyped service) -> untyped
+
+    # Remembered service calls this context was used against
+    def service_chain: () -> untyped
+  end
+end

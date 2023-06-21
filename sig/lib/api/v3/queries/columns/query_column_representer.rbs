@@ -1,0 +1,21 @@
+module API
+  module V3
+    module Queries
+      module Columns
+        class QueryColumnRepresenter < ::API::Decorators::Single
+          include API::Utilities::RepresenterToJsonCache
+
+          def initialize: (untyped model, *untyped _) -> void
+
+          def converted_name: () -> untyped
+
+          alias id converted_name
+
+          def convert_attribute: (untyped attribute) -> untyped
+
+          def json_cache_key: () -> ::Array[untyped]
+        end
+      end
+    end
+  end
+end

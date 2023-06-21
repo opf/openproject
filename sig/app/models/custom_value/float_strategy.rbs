@@ -1,0 +1,9 @@
+class CustomValue::FloatStrategy < CustomValue::FormatStrategy
+  include ActionView::Helpers::NumberHelper
+
+  def typed_value: () -> (untyped | nil)
+
+  def formatted_value: () -> untyped
+
+  def validate_type_of_value: () -> untyped
+end

@@ -1,0 +1,13 @@
+module API
+  module V3
+    module Queries
+      module Columns
+        module QueryColumnsFactory
+          def self.representer: (untyped column) -> untyped
+
+          def self.create: (untyped column) -> untyped
+        end
+      end
+    end
+  end
+end

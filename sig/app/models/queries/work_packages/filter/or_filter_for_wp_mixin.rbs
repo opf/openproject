@@ -1,0 +1,17 @@
+module Queries::WorkPackages::Filter::OrFilterForWpMixin
+  extend ActiveSupport::Concern
+
+  def filters: () -> untyped
+
+  def where: () -> untyped
+
+  def filter_configurations: () -> untyped
+
+  def create_instances: () -> untyped
+
+  def update_instances: () -> untyped
+
+  def ar_object_filter?: () -> false
+
+  def minimum_one_filter_valid: () -> (untyped | nil)
+end

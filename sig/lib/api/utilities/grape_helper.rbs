@@ -1,0 +1,19 @@
+module API
+  module Utilities
+    module GrapeHelper
+      #
+      # We need this to be able to use `Grape::Middleware::Error#error_response`
+      # outside of the Grape context. We use it outside of the Grape context because
+      # OpenProject authentication happens in a middleware upstream of Grape.
+      class GrapeError < Grape::Middleware::Error
+        def initialize: (untyped env) -> void
+      end
+
+      def grape_error_for: (untyped env, untyped api) -> untyped
+
+      def error_response: (untyped rescued_error, ?untyped? error, ?rescue_subclasses: untyped?, ?headers: untyped, ?log: bool) -> untyped
+
+      def default_error_response: (untyped headers, untyped log) -> untyped
+    end
+  end
+end

@@ -1,0 +1,21 @@
+class Notifications::CreateDateAlertsNotificationsJob::AlertableWorkPackages
+  attr_reader user: untyped
+
+  def initialize: (untyped user) -> void
+
+  def alertable_for_start: () -> untyped
+
+  def alertable_for_due: () -> untyped
+
+  private
+
+  def alertable_for: (untyped alert) -> untyped
+
+  def find_alertables: () -> untyped
+
+  def query: () -> untyped
+
+  def alertable_work_packages: () -> untyped
+
+  def alertable_dates: () -> untyped
+end

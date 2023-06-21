@@ -1,0 +1,40 @@
+class MessagesController < ApplicationController
+  include AttachmentsHelper
+
+  include PaginationHelper
+
+  REPLIES_PER_PAGE: 100
+
+  # Show a topic and its replies
+  def show: () -> untyped
+
+  # new topic
+  def new: () -> untyped
+
+  # Edit a message
+  def edit: () -> untyped
+
+  # Create a new topic
+  def create: () -> untyped
+
+  # Reply to a topic
+  def reply: () -> untyped
+
+  # Edit a message
+  def update: () -> untyped
+
+  # Delete a messages
+  def destroy: () -> untyped
+
+  def quote: () -> untyped
+
+  private
+
+  def update_message: (untyped message) -> untyped
+
+  def create_message: (untyped forum, ?untyped message_params) -> untyped
+
+  def create_reply: (untyped forum, untyped parent) -> untyped
+
+  def attachment_params: () -> untyped
+end

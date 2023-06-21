@@ -1,0 +1,20 @@
+module Users
+  class CreateContract < BaseContract
+    private
+
+    def user_limit_not_exceeded: () -> (untyped | nil)
+
+    def notification_settings_present: () -> (untyped | nil)
+
+    def authentication_defined: () -> (untyped | nil)
+
+    def no_auth?: () -> untyped
+
+    #
+    # Users can only be created by Admins or users with
+    # the global right to :manage_user
+    def user_allowed_to_add: () -> (untyped | nil)
+
+    def type_is_user: () -> (untyped | nil)
+  end
+end

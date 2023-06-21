@@ -1,0 +1,75 @@
+module API
+  module Utilities
+    module Endpoints
+      class Bodied
+        include NamespacedLookup
+
+        def default_instance_generator: (untyped _model) -> untyped
+
+        def default_params_modifier: () -> untyped
+
+        def default_process_state: () -> untyped
+
+        def default_params_source: () -> untyped
+
+        def initialize: (model: untyped, ?api_name: untyped?, ?instance_generator: untyped?, ?params_modifier: untyped?, ?params_source: untyped?, ?process_state: untyped?, ?before_hook: untyped?, ?parse_representer: untyped?, ?render_representer: untyped?, ?process_service: untyped?, ?process_contract: untyped?, ?parse_service: untyped?) -> void
+
+        def mount: () -> untyped
+
+        def parse: (untyped request) -> untyped
+
+        def process: (untyped request, untyped params) -> untyped
+
+        def render: (untyped request, untyped call) { () -> untyped } -> untyped
+
+        def success_status: () -> :ok
+
+        attr_accessor model: untyped
+
+        attr_accessor api_name: untyped
+
+        attr_accessor instance_generator: untyped
+
+        attr_accessor parse_representer: untyped
+
+        attr_accessor render_representer: untyped
+
+        attr_accessor params_source: untyped
+
+        attr_accessor params_modifier: untyped
+
+        attr_accessor process_contract: untyped
+
+        attr_accessor process_service: untyped
+
+        attr_accessor parse_service: untyped
+
+        attr_accessor process_state: untyped
+
+        attr_accessor before_hook: untyped
+
+        private
+
+        def present_success: (untyped _request, untyped _call) -> untyped
+
+        def present_error: (untyped _call) -> untyped
+
+        def success?: (untyped call) -> untyped
+
+        def deduce_process_service: () -> untyped
+
+        def deduce_process_contract: () -> untyped
+
+        def deduce_parse_representer: () -> untyped
+
+        def deduce_parse_service: () -> untyped
+
+        def deduce_render_representer: () -> untyped
+
+        def deduce_api_namespace: () -> untyped
+
+        def update_or_create: () -> untyped
+      end
+    end
+  end
+end

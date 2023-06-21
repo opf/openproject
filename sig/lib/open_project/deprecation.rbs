@@ -1,0 +1,21 @@
+module OpenProject::Deprecation
+  def self.deprecator: () -> untyped
+
+  #
+  # Deprecate the given method with a notice regarding future removal
+  #
+  # @mod [Class] The module on which the method is to be replaced.
+  # @method [:symbol] The method to replace.
+  # @replacement [nil, :symbol, String] The replacement method.
+  def self.deprecate_method: (untyped mod, untyped method, ?untyped? replacement) -> untyped
+
+  #
+  # Deprecate the given class method with a notice regarding future removal
+  #
+  # @mod [Class] The module on which the method is to be replaced.
+  # @method [:symbol] The method to replace.
+  # @replacement [nil, :symbol, String] The replacement method.
+  def self.deprecate_class_method: (untyped mod, untyped method, ?untyped? replacement) -> untyped
+
+  def self.replaced: (untyped old_method, untyped new_method, untyped called_from) -> untyped
+end

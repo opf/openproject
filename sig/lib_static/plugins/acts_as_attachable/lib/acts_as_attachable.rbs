@@ -1,0 +1,83 @@
+module Redmine
+  module Acts
+    module Attachable
+      extend ActiveSupport::Concern
+
+      extend ClassMethods
+
+      def self.attachables: () -> untyped
+
+      module ClassMethods
+        def acts_as_attachable: (?::Hash[untyped, untyped] options) -> untyped
+
+        private
+
+        def set_acts_as_attachable_options: (untyped options) -> untyped
+
+        def view_permission: (untyped options) -> untyped
+
+        def delete_permission: (untyped options) -> untyped
+
+        def add_on_new_permission: (untyped options) -> untyped
+
+        def add_on_persisted_permission: (untyped options) -> untyped
+
+        def viewable_by_all_users: (untyped options) -> untyped
+
+        def only_user_allowed: (untyped options) -> untyped
+
+        def allow_uncontainered: (untyped options) -> untyped
+
+        def view_permission_default: () -> untyped
+
+        def edit_permission_default: () -> untyped
+
+        def attachable_extract_tsv_option: (untyped options) -> untyped
+      end
+
+      module InstanceMethods
+        extend ActiveSupport::Concern
+
+        include InstanceMethods
+
+        #
+        # Can this acts_as_attachable instance accept attachments from the given user
+        # @param user [User]
+        def attachments_addable?: (?untyped user) -> untyped
+
+        #
+        # Can this acts_as_attachable instance accept uncontainered attachments from the given user
+        # @param user [User]
+        def uncontainered_attachable?: (?untyped user) -> (false | untyped)
+
+        def attachment_tsv_extracted?: () -> untyped
+
+        module InstanceMethods
+          def modification_blocked?: () -> (untyped | false)
+
+          def attachments_visible?: (?untyped user) -> (true | untyped)
+
+          def attachments_deletable?: (?untyped user) -> (false | untyped)
+
+          def attachments_addable?: (?untyped user) -> (false | untyped)
+
+          private
+
+          def allowed_to_on_attachment?: (untyped user, untyped permissions) -> untyped
+
+          def persist_attachments_claimed: () -> (nil | untyped)
+
+          def attachable_class: () -> untyped
+
+          def validate_attachments_claimable: () -> (nil | untyped)
+
+          def claimed_attachments?: () -> untyped
+
+          def claimed_attachments_of_other_author?: () -> untyped
+
+          def claimed_attachments_already_claimed?: () -> untyped
+        end
+      end
+    end
+  end
+end

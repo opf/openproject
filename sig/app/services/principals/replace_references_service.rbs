@@ -1,0 +1,37 @@
+# Rewrites references to a principal from one principal to the other.
+# No data is to be removed.
+module Principals
+  class ReplaceReferencesService
+    def call: (from: untyped, to: untyped) -> untyped
+
+    private
+
+    def rewrite_active_models: (untyped from, untyped to) -> untyped
+
+    def rewrite_custom_value: (untyped from, untyped to) -> untyped
+
+    def rewrite_default_journals: (untyped from, untyped to) -> untyped
+
+    def rewrite_customizable_journals: (untyped from, untyped to) -> untyped
+
+    def rewrite_author: (untyped from, untyped to) -> untyped
+
+    def rewrite_user: (untyped from, untyped to) -> untyped
+
+    def rewrite_actor: (untyped from, untyped to) -> untyped
+
+    def rewrite_owner: (untyped from, untyped to) -> untyped
+
+    def rewrite_assigned_to: (untyped from, untyped to) -> untyped
+
+    def rewrite_responsible: (untyped from, untyped to) -> untyped
+
+    def rewrite_logged_by: (untyped from, untyped to) -> untyped
+
+    def journal_classes: () -> untyped
+
+    def foreign_keys: () -> ::Array["author_id" | "user_id" | "assigned_to_id" | "responsible_id" | "logged_by_id"]
+
+    def rewrite: (untyped klass, untyped attribute, untyped from, untyped to) -> untyped
+  end
+end

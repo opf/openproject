@@ -1,0 +1,3 @@
+class Queries::NonWorkingDays::Filters::NonWorkingDayFilter < Queries::Filters::Base
+  def human_name: () -> untyped
+end

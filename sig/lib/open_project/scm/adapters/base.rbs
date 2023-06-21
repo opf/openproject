@@ -1,0 +1,77 @@
+module OpenProject
+  module SCM
+    module Adapters
+      class Base
+        include CheckoutInstructions
+
+        attr_accessor url: untyped
+
+        attr_accessor root_url: untyped
+
+        def self.vendor: () -> untyped
+
+        def initialize: (untyped url, ?untyped? root_url) -> void
+
+        def local?: () -> false
+
+        #
+        # Overridden by descendants when
+        # they are able to retrieve current
+        # storage usage.
+        def storage_available?: () -> false
+
+        def available?: () -> untyped
+
+        def logger: () -> untyped
+
+        def vendor: () -> untyped
+
+        def info: () -> nil
+
+        # Returns the entry identified by path and revision identifier
+        # or nil if entry doesn't exist in the repository
+        def entry: (?untyped? path, ?untyped? identifier) -> untyped
+
+        #
+        # Split path according to the local filesystem
+        def split_path: (untyped path) -> untyped
+
+        def search_entries: (untyped parts, untyped identifier) -> untyped
+
+        # Returns an Entries collection
+        # or nil if the given path doesn't exist in the repository
+        def entries: (?untyped? _path, ?untyped? _identifier) -> nil
+
+        def branches: () -> nil
+
+        def tags: () -> nil
+
+        def default_branch: () -> nil
+
+        def properties: (untyped _path, ?untyped? _identifier) -> nil
+
+        def revisions: (?untyped? _path, ?untyped? _identifier_from, ?untyped? _identifier_to, ?::Hash[untyped, untyped] _options) -> nil
+
+        def diff: (untyped _path, untyped _identifier_from, ?untyped? _identifier_to) -> nil
+
+        def cat: (untyped _path, ?untyped? _identifier) -> nil
+
+        def with_leading_slash: (untyped path) -> untyped
+
+        def with_trailling_slash: (untyped path) -> untyped
+
+        def without_leading_slash: (untyped path) -> untyped
+
+        def without_trailling_slash: (untyped path) -> untyped
+      end
+
+      class Info
+        attr_accessor root_url: untyped
+
+        attr_accessor lastrev: untyped
+
+        def initialize: (?::Hash[untyped, untyped] attributes) -> void
+      end
+    end
+  end
+end

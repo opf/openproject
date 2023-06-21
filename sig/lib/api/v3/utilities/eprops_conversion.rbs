@@ -1,0 +1,11 @@
+module API
+  module V3
+    module Utilities
+      module EpropsConversion
+        def raise_invalid_eprops: (untyped error, untyped i18n_key) -> untyped
+
+        def transform_eprops: () -> untyped
+      end
+    end
+  end
+end

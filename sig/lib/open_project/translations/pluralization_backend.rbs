@@ -1,0 +1,9 @@
+module OpenProject
+  module Translations
+    module PluralizationBackend
+      include ::I18n::Backend::Pluralization
+
+      def pluralize: (untyped locale, untyped entry, untyped count) -> untyped
+    end
+  end
+end

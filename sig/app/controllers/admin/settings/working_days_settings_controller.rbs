@@ -1,0 +1,21 @@
+module Admin::Settings
+  class WorkingDaysSettingsController < ::Admin::SettingsController
+    def default_breadcrumb: () -> untyped
+
+    def show_local_breadcrumb: () -> true
+
+    def failure_callback: (untyped call) -> untyped
+
+    def settings_params: () -> untyped
+
+    def update_service: () -> untyped
+
+    private
+
+    def working_days_params: (untyped settings) -> (untyped | ::Array[untyped])
+
+    def non_working_days_params: () -> untyped
+
+    def modified_non_working_days_for: (untyped result) -> (nil | untyped)
+  end
+end

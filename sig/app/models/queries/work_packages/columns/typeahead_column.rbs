@@ -1,0 +1,3 @@
+class Queries::WorkPackages::Columns::TypeaheadColumn < Queries::WorkPackages::Columns::WorkPackageColumn
+  def self.instances: (?untyped? _context) -> untyped
+end

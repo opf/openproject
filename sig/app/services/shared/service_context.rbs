@@ -1,0 +1,13 @@
+module Shared
+  module ServiceContext
+    private
+
+    def in_context: (untyped model, ?send_notifications: untyped?) { () -> untyped } -> untyped
+
+    def in_mutex_context: (untyped model, ?send_notifications: untyped?) { () -> untyped } -> untyped
+
+    def in_user_context: (?send_notifications: untyped?) { () -> untyped } -> untyped
+
+    def without_context_transaction: (send_notifications: untyped) { () -> untyped } -> untyped
+  end
+end

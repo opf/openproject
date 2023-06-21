@@ -1,0 +1,13 @@
+module API
+  module V3
+    module Queries
+      module Schemas
+        class DateFilterDependencyRepresenter < IntegerFilterDependencyRepresenter
+          private
+
+          def type: () -> ("[1]Date" | "[2]Date" | untyped)
+        end
+      end
+    end
+  end
+end

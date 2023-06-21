@@ -1,0 +1,23 @@
+module OpenProject::TextFormatting
+  module Filters
+    class MarkdownFilter < HTML::Pipeline::MarkdownFilter
+      # Convert Markdown to HTML using CommonMarker
+      def call: () -> untyped
+
+      private
+
+      #
+      # Get initial CommonMarker AST for further processing
+      #
+      def parse: () -> untyped
+
+      #
+      # Render the transformed AST
+      def render_html: (untyped ast) -> untyped
+
+      #
+      # Extensions to the default CommonMarker operation
+      def commonmark_extensions: () -> untyped
+    end
+  end
+end

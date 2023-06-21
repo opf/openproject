@@ -1,0 +1,11 @@
+module API
+  module V3
+    module Projects
+      module Copy
+        class ProjectCopyMetaRepresenter < ::API::Decorators::Single
+          def model_required?: () -> false
+        end
+      end
+    end
+  end
+end

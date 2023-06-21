@@ -1,0 +1,9 @@
+class CustomActions::Actions::Responsible < CustomActions::Actions::Base
+  include CustomActions::Actions::Strategies::Associated
+
+  def associated: () -> untyped
+
+  def required?: () -> false
+
+  def self.key: () -> :responsible
+end

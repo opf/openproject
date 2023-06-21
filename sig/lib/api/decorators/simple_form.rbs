@@ -1,0 +1,27 @@
+module API
+  module Decorators
+    class SimpleForm < ::API::Decorators::Form
+      def commit_method: () -> untyped
+
+      def form_url: () -> untyped
+
+      def resource_url: () -> untyped
+
+      def payload_representer: () -> untyped
+
+      def schema_representer: () -> untyped
+
+      def contract_class: () -> untyped
+
+      def model: () -> untyped
+
+      private
+
+      def model_name: () -> untyped
+
+      def payload_representer_class: () -> untyped
+
+      def schema_representer_class: () -> untyped
+    end
+  end
+end

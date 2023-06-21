@@ -1,0 +1,7 @@
+module Messages
+  class BaseContract < ::ModelContract
+    include Attachments::ValidateReplacements
+
+    def self.model: () -> untyped
+  end
+end

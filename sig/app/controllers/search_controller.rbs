@@ -1,0 +1,39 @@
+class SearchController < ApplicationController
+  include Layout
+
+  LIMIT: 10
+
+  def index: () -> untyped
+
+  private
+
+  def prepare_tokens: () -> untyped
+
+  def find_optional_project: () -> untyped
+
+  def limit_results_first_page: () -> untyped
+
+  def limit_results_subsequent_page: () -> untyped
+
+  # extract tokens from the question
+  # eg. hello "bye bye" => ["hello", "bye bye"]
+  def scan_query_tokens: (untyped query) -> untyped
+
+  def search_params: () -> untyped
+
+  def offset: () -> untyped
+
+  def projects_to_search: () -> untyped
+
+  def search_results: (untyped tokens) -> ::Array[untyped]
+
+  def sort_by_event_datetime: (untyped results) -> untyped
+
+  def search_types: () -> untyped
+
+  def search_classes: () -> untyped
+
+  def scope_class: (untyped scope) -> untyped
+
+  def provision_gon: () -> untyped
+end

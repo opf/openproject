@@ -1,0 +1,3 @@
+class Queries::PlaceholderUsers::PlaceholderUserQuery < Queries::BaseQuery
+  def self.model: () -> untyped
+end

@@ -1,0 +1,13 @@
+module OpenProject
+  module Acts
+    module Watchable
+      module Routes
+        def self.matches?: (untyped request) -> untyped
+
+        def self.watched?: (untyped object) -> untyped
+
+        def self.watchable_object?: (untyped object) -> untyped
+      end
+    end
+  end
+end

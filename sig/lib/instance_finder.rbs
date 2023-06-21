@@ -1,0 +1,5 @@
+module InstanceFinder
+  def self?.register: (untyped model, untyped method) -> untyped
+
+  def self?.find: (untyped model, untyped identifier) -> untyped
+end

@@ -1,0 +1,9 @@
+module Attachments
+  module TouchContainer
+    extend ActiveSupport::Concern
+
+    private
+
+    def touch: (untyped container) -> untyped
+  end
+end

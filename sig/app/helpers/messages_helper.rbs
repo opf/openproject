@@ -1,0 +1,5 @@
+module MessagesHelper
+  def message_attachment_representer: (untyped message) -> untyped
+
+  def message_url: (untyped message) -> untyped
+end

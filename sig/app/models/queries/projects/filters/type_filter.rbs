@@ -1,0 +1,21 @@
+module Queries
+  module Projects
+    module Filters
+      class TypeFilter < ::Queries::Projects::Filters::ProjectFilter
+        def allowed_values: () -> untyped
+
+        def joins: () -> :types
+
+        def where: () -> untyped
+
+        def type: () -> :list
+
+        def self.key: () -> :type_id
+
+        private
+
+        def type_strategy: () -> untyped
+      end
+    end
+  end
+end

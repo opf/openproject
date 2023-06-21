@@ -1,0 +1,11 @@
+module NotificationSettings::Scopes
+  module Applicable
+    extend ActiveSupport::Concern
+
+    # Return notifications settings that prevail in the selected context (project)
+    # If there is only the global notification setting in place, those are authoritative.
+    # If there is a project specific setting in place, it is the project specific setting instead.
+    # rubocop:disable Metrics/AbcSize
+    def applicable: (untyped project) -> untyped
+  end
+end

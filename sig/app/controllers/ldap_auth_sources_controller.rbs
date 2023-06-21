@@ -1,0 +1,3 @@
+class LdapAuthSourcesController < AuthSourcesController
+  def auth_source_class: () -> untyped
+end

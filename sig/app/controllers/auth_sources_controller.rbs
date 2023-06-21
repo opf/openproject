@@ -1,0 +1,25 @@
+class AuthSourcesController < ApplicationController
+  include PaginationHelper
+
+  def index: () -> untyped
+
+  def new: () -> untyped
+
+  def edit: () -> untyped
+
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  def test_connection: () -> untyped
+
+  def destroy: () -> untyped
+
+  def auth_source_class: () -> untyped
+
+  def default_breadcrumb: () -> untyped
+
+  def show_local_breadcrumb: () -> true
+
+  def block_if_password_login_disabled: () -> (untyped | nil)
+end

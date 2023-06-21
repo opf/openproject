@@ -1,0 +1,8 @@
+module OpenProject
+  module Patches
+    #
+    # Check against a particular gem version
+    # before patching it
+    def self?.patch_gem_version: (untyped gem, untyped version) { () -> untyped } -> untyped
+  end
+end

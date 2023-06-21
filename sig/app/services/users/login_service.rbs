@@ -1,0 +1,17 @@
+module Users
+  class LoginService
+    attr_accessor controller: untyped
+
+    attr_accessor request: untyped
+
+    def initialize: (controller: untyped, request: untyped) -> void
+
+    def call: (untyped user) -> untyped
+
+    private
+
+    def after_login_hook: (untyped user) -> untyped
+
+    def retain_sso_session_values!: () -> (nil | untyped)
+  end
+end

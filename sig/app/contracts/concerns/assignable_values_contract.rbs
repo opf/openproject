@@ -1,0 +1,3 @@
+module AssignableValuesContract
+  def assignable_values: (untyped column, untyped _user) -> untyped
+end

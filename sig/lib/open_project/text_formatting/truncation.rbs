@@ -1,0 +1,11 @@
+module OpenProject
+  module TextFormatting
+    module Truncation
+      # Used for truncation
+      include ActionView::Helpers::TextHelper
+
+      # Truncates and returns the string as a single line
+      def truncate_single_line: (untyped string, *untyped args) -> untyped
+    end
+  end
+end

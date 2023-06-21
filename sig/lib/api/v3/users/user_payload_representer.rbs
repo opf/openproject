@@ -1,0 +1,9 @@
+module API
+  module V3
+    module Users
+      class UserPayloadRepresenter < UserRepresenter
+        include ::API::Utilities::PayloadRepresenter
+      end
+    end
+  end
+end

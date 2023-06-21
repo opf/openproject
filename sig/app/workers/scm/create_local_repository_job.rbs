@@ -1,0 +1,33 @@
+#
+# Provides an asynchronous job to create a managed repository on the filesystem.
+# Currently, this is run synchronously due to potential issues
+# with error handling.
+# We envision a repository management wrapper that covers transactional
+# creation and deletion of repositories BOTH on the database and filesystem.
+# Until then, a synchronous process is more failsafe.
+class SCM::CreateLocalRepositoryJob < ApplicationJob
+  def self.ensure_not_existing!: (untyped repository) -> (untyped | nil)
+
+  def perform: (untyped repository) -> untyped
+
+  def destroy_failed_jobs?: () -> true
+
+  private
+
+  #
+  # Creates the repository at the +root_url+.
+  # Accepts an overridden permission mode mask from the scm config,
+  # or sets a sensible default of 0700.
+  def create: (untyped mode) -> untyped
+
+  #
+  # Overrides the group permission of the created repository
+  # after the adapter was able to work in the directory.
+  def ensure_group: (untyped mode, untyped group) -> untyped
+
+  def config: () -> untyped
+
+  def repository: () -> untyped
+
+  def default_mode: () -> 448
+end

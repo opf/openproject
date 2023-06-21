@@ -1,0 +1,14 @@
+module OpenProject
+  module Static
+    module Homescreen
+      #
+      # Manage the given content for this item,
+      # yielding it.
+      def self.manage: (untyped item, ?untyped default) { (untyped) -> untyped } -> untyped
+
+      private
+
+      def self.homescreen: () -> untyped
+    end
+  end
+end

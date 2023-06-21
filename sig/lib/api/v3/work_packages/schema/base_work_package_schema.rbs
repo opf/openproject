@@ -1,0 +1,32 @@
+module API
+  module V3
+    module WorkPackages
+      module Schema
+        class BaseWorkPackageSchema
+          def project: () -> nil
+
+          def type: () -> nil
+
+          def assignable_values: (untyped _property, untyped _current_user) -> nil
+
+          def assignable_custom_field_values: (untyped _custom_field) -> nil
+
+          def available_custom_fields: () -> ::Array[untyped]
+
+          def writable?: (untyped property) -> untyped
+
+          def milestone?: () -> false
+
+          def readonly?: () -> untyped
+
+          # Alias method will not work since work_package is only defined in subclasses.
+          def model: () -> untyped
+
+          private
+
+          def contract: () -> untyped
+        end
+      end
+    end
+  end
+end

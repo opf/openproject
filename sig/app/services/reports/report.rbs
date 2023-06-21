@@ -1,0 +1,18 @@
+class Reports::Report
+  def initialize: (untyped project) -> void
+
+  def self.report_type: () -> "default"
+
+  def report_type: () -> untyped
+
+  def statuses: () -> untyped
+
+  # ---- every report needs to implement these methods to supply all needed data for a report -----
+  def field: () -> untyped
+
+  def rows: () -> untyped
+
+  def data: () -> untyped
+
+  def title: () -> untyped
+end

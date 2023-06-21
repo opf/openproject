@@ -1,0 +1,153 @@
+module ApplicationHelper
+  include OpenProject::TextFormatting
+
+  include OpenProject::ObjectLinking
+
+  include OpenProject::SafeParams
+
+  include I18n
+
+  include ERB::Util
+
+  include Redmine::I18n
+
+  include HookHelper
+
+  include IconsHelper
+
+  include AdditionalUrlHelpers
+
+  include OpenProject::PageHierarchyHelper
+
+  # Return true if user is authorized for controller/action, otherwise false
+  def authorize_for: (untyped controller, untyped action, ?project: untyped) -> untyped
+
+  # Display a link if user is authorized
+  #
+  # @param [String] name Anchor text (passed to link_to)
+  # @param [Hash] options Hash params. This will checked by authorize_for to see if the user is authorized
+  # @param [optional, Hash] html_options Options passed to link_to
+  # @param [optional, Hash] parameters_for_method_reference Extra parameters for link_to
+  #
+  # When a block is given, skip the name parameter
+  def link_to_if_authorized: (*untyped args) ?{ () -> untyped } -> (nil | untyped)
+
+  def required_field_name: (?::String name) -> untyped
+
+  def li_unless_nil: (untyped link, ?::Hash[untyped, untyped] options) -> (untyped | nil)
+
+  # Show a sorted linkified (if active) comma-joined list of users
+  def list_users: (untyped users, ?::Hash[untyped, untyped] options) -> untyped
+
+  # returns a class name based on the user's status
+  def user_status_class: (untyped user) -> untyped
+
+  def user_status_i18n: (untyped user) -> untyped
+
+  def delete_link: (untyped url, ?::Hash[untyped, untyped] options) -> untyped
+
+  def format_activity_day: (untyped date) -> untyped
+
+  def due_date_distance_in_words: (untyped date) -> (untyped | nil)
+
+  # Renders flash messages
+  def render_flash_messages: () -> untyped
+
+  def join_flash_messages: (untyped messages) -> untyped
+
+  def render_flash_message: (untyped type, untyped message, ?::Hash[untyped, untyped] html_options) -> untyped
+
+  # Yields the given block for each project with its level in the tree
+  #
+  # Wrapper for Project#project_tree
+  def project_tree: (untyped projects) { () -> untyped } -> untyped
+
+  def project_nested_ul: (untyped projects) { (untyped) -> untyped } -> untyped
+
+  def principals_check_box_tags: (untyped name, untyped principals) -> untyped
+
+  def labeled_check_box_tags: (untyped name, untyped collection, ?::Hash[untyped, untyped] options) -> untyped
+
+  def html_hours: (untyped text) -> untyped
+
+  def authoring: (untyped created, untyped author, ?::Hash[untyped, untyped] options) -> untyped
+
+  def authoring_at: (untyped created, untyped author) -> (nil | untyped)
+
+  def time_tag: (untyped time) -> untyped
+
+  def syntax_highlight: (untyped name, untyped content) { (untyped) -> untyped } -> untyped
+
+  def to_path_param: (untyped path) -> untyped
+
+  def other_formats_links: () { () -> untyped } -> untyped
+
+  # Returns the theme, controller name, and action as css classes for the
+  # HTML body.
+  def body_css_classes: () -> untyped
+
+  def accesskey: (untyped s) -> untyped
+
+  # Same as Rails' simple_format helper without using paragraphs
+  def simple_format_without_paragraph: (untyped text) -> untyped
+
+  def lang_options_for_select: (?bool blank) -> untyped
+
+  def all_lang_options_for_select: () -> untyped
+
+  def labelled_tabular_form_for: (untyped record, ?::Hash[untyped, untyped] options) { () -> untyped } -> untyped
+
+  def back_url_hidden_field_tag: () -> untyped
+
+  def back_url_to_current_page_hidden_field_tag: () -> untyped
+
+  def check_all_links: (untyped form_name) -> untyped
+
+  def current_layout: () -> untyped
+
+  # Generates the HTML for a progress bar
+  # Params:
+  # * pcts:
+  #   * a number indicating the percentage done
+  #   * or an array of two numbers -> [percentage_closed, percentage_done]
+  #     where percentage_closed <= percentage_done
+  #     and   percentage_close + percentage_done <= 100
+  # * options:
+  #   A hash containing the following keys:
+  #   * width: (default '100px') the css-width for the progress bar
+  #   * legend: (default: '') the text displayed alond with the progress bar
+  def progress_bar: (untyped pcts, ?::Hash[untyped, untyped] options) -> untyped
+
+  def checked_image: (?bool checked) -> (untyped | nil)
+
+  def calendar_for: (*untyped _args) -> untyped
+
+  def locale_first_day_of_week: () -> untyped
+
+  def locale_first_week_of_year: () -> untyped
+
+  # To avoid the menu flickering, disable it
+  # by default unless we're in test mode
+  def initial_menu_styles: (untyped side_displayed) -> ("" | "display:none")
+
+  def initial_menu_classes: (untyped side_displayed, untyped show_decoration) -> untyped
+
+  # Add a HTML meta tag to control robots (web spiders)
+  #
+  # @param [optional, String] content the content of the ROBOTS tag.
+  #   defaults to no index, follow, and no archive
+  def robot_exclusion_tag: (?::String content) -> untyped
+
+  def permitted_params: () -> untyped
+
+  # Returns the language name in its own language for a given locale
+  #
+  # @param lang_code [String] the locale for the desired language, like `en`,
+  #   `de`, `fil`, `zh-CN`, and so on.
+  # @return [String] the language name translated in its own language
+  def translate_language: (untyped lang_code) -> ::Array[untyped]
+
+  def link_to_content_update: (untyped text, ?::Hash[untyped, untyped] url_params, ?::Hash[untyped, untyped] html_options) -> untyped
+
+  def password_complexity_requirements: () -> untyped
+end

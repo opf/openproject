@@ -1,0 +1,11 @@
+module API
+  module V3
+    module Utilities
+      module Endpoints
+        module V3PresentSingle
+          def present_success: (untyped request, untyped call) -> untyped
+        end
+      end
+    end
+  end
+end

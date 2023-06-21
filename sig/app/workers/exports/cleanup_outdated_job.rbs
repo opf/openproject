@@ -1,0 +1,5 @@
+class Exports::CleanupOutdatedJob < ApplicationJob
+  def self.perform_after_grace: () -> untyped
+
+  def perform: () -> untyped
+end

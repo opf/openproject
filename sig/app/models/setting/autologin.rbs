@@ -1,0 +1,5 @@
+class Setting
+  module Autologin
+    def self.enabled?: () -> untyped
+  end
+end

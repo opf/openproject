@@ -1,0 +1,7 @@
+class Queries::WorkPackages::Filter::AssignedToFilter < Queries::WorkPackages::Filter::PrincipalBaseFilter
+  def type: () -> :list_optional
+
+  def human_name: () -> untyped
+
+  def self.key: () -> :assigned_to_id
+end

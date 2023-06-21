@@ -1,0 +1,15 @@
+module OpenProject
+  module Configuration
+    module AssetHost
+      def self?.value: () -> untyped
+
+      def self?.asset_host: () -> untyped
+
+      def self?.serve_through_asset_host?: (untyped source) -> untyped
+
+      #
+      # Only serve resources with these prefixes from the asset host.
+      def self?.include_prefixes: () -> ::Array["/assets/"]
+    end
+  end
+end

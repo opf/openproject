@@ -1,0 +1,3 @@
+class Mails::InvitationJob < ApplicationJob
+  def perform: (untyped token) -> untyped
+end

@@ -1,0 +1,3 @@
+class Queries::Versions::Filters::VersionFilter < Queries::Filters::Base
+  def human_name: () -> untyped
+end

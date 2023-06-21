@@ -1,0 +1,12 @@
+module Acts::Journalized
+  # Adds the functionality necessary to control journal creation on a journaled instance of
+  # ActiveRecord::Base.
+  module Creation
+    def self.included: (untyped base) -> untyped
+
+    module InstanceMethods
+      # Returns an array of column names that are journaled.
+      def journaled_columns_names: () -> untyped
+    end
+  end
+end

@@ -1,0 +1,31 @@
+class WorkflowsController < ApplicationController
+  def show: () -> untyped
+
+  def edit: () -> untyped
+
+  def update: () -> untyped
+
+  def copy: () -> untyped
+
+  def default_breadcrumb: () -> untyped
+
+  def show_local_breadcrumb: () -> true
+
+  private
+
+  def statuses_for_form: () -> untyped
+
+  def workflows_for_form: () -> untyped
+
+  def find_roles: () -> untyped
+
+  def find_types: () -> untyped
+
+  def find_role: () -> untyped
+
+  def find_type: () -> untyped
+
+  def find_optional_role: () -> untyped
+
+  def find_optional_type: () -> untyped
+end

@@ -1,0 +1,115 @@
+module OpenProject
+  module SCM
+    module Adapters
+      class Git < ::OpenProject::SCM::Adapters::Base
+        include LocalClient
+
+        SCM_GIT_REPORT_LAST_COMMIT: true
+
+        def initialize: (untyped url, ?untyped? root_url, ?untyped? _login, ?untyped? _password, ?untyped? path_encoding, ?untyped? identifier) -> void
+
+        def checkout_command: () -> "git clone"
+
+        def client_command: () -> untyped
+
+        def client_version: () -> untyped
+
+        def scm_version_from_command_line: () -> untyped
+
+        def git_binary_version: () -> untyped
+
+        #
+        # Create a bare repository for the current path
+        def initialize_bare_git: () -> untyped
+
+        def git_dir: () -> untyped
+
+        #
+        # Checks the status of this repository and throws unless it can be accessed
+        # correctly by the adapter.
+        #
+        # @raise [SCMUnavailable] raised when repository is unavailable.
+        def check_availability!: () -> untyped
+
+        #
+        # Checks if the repository is up-to-date. It is not it's updated.
+        # Checks out the repository if necessary.
+        def refresh_repository!: () -> (untyped | nil)
+
+        def checkout_repository!: () -> untyped
+
+        def update_repository!: () -> untyped
+
+        def fetch_all: () -> untyped
+
+        def remote_branches: () -> untyped
+
+        def local_branches: () -> untyped
+
+        def track_branch!: (untyped local_branch, untyped remote_branch) -> untyped
+
+        def update_branch!: (untyped local_branch, untyped remote_branch) -> untyped
+
+        def info: () -> untyped
+
+        def bare?: () -> untyped
+
+        def checkout?: () -> untyped
+
+        def checkout_path: () -> untyped
+
+        def checkout_uri: () -> untyped
+
+        def branches: () -> untyped
+
+        def tags: () -> untyped
+
+        def default_branch: () -> (nil | untyped)
+
+        def entries: (untyped path, ?untyped? identifier) -> untyped
+
+        def parse_entry: (untyped line, untyped path, untyped identifier) -> (untyped | nil)
+
+        def encode_full_path: (untyped name, untyped path) -> untyped
+
+        def lastrev: (untyped path, untyped rev) -> (nil | untyped)
+
+        def build_lastrev: (untyped lines) -> untyped
+
+        def revisions: (untyped path, untyped identifier_from, untyped identifier_to, ?::Hash[untyped, untyped] options) ?{ (untyped) -> untyped } -> untyped
+
+        def build_revision_args: (untyped path, untyped identifier_from, untyped identifier_to, untyped options) -> untyped
+
+        def diff: (untyped path, untyped identifier_from, ?untyped? identifier_to) -> untyped
+
+        def annotate: (untyped path, ?untyped? identifier) -> (nil | untyped)
+
+        def cat: (untyped path, ?untyped? identifier) -> untyped
+
+        class Revision < OpenProject::SCM::Adapters::Revision
+          # Returns the readable identifier
+          def format_identifier: () -> untyped
+        end
+
+        #
+        # Builds the full git arguments from the parameters
+        # and return the executed stdout as a string
+        def capture_git: (untyped args, ?::Hash[untyped, untyped] opt) -> untyped
+
+        #
+        # Builds the full git arguments from the parameters
+        # and calls the given block with in, out, err, thread
+        # from +Open3#popen3+.
+        def popen3: (untyped args, ?::Hash[untyped, untyped] opt) { () -> untyped } -> untyped
+
+        #
+        # Runs the given arguments through git
+        # and processes the result line by line.
+        #
+        def parse_by_line: (untyped cmd, ?::Hash[untyped, untyped] opts) { () -> untyped } -> untyped
+
+        def build_git_cmd: (untyped args, ?::Hash[untyped, untyped] opts) -> untyped
+      end
+    end
+  end
+end

@@ -1,0 +1,25 @@
+class CustomActions::UpdateWorkPackageService
+  include Shared::BlockService
+
+  include Contracted
+
+  attr_accessor user: untyped
+
+  attr_accessor action: untyped
+
+  def initialize: (action: untyped, user: untyped) -> void
+
+  def call: (work_package: untyped) { () -> untyped } -> untyped
+
+  private
+
+  def apply_actions: (untyped work_package, untyped actions) -> untyped
+
+  def retry_apply_actions: (untyped work_package, untyped actions, untyped errors, untyped changes_before) -> untyped
+
+  def without_invalid_actions: (untyped actions, untyped errors) -> untyped
+
+  def apply_actions_sorted: (untyped work_package, untyped actions) -> untyped
+
+  def append_id: (untyped sym) -> ::String
+end

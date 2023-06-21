@@ -1,0 +1,7 @@
+module API
+  module Utilities
+    module WpPropertyNameConverter
+      def self?.to_ar_name: (untyped attribute, ?refer_to_ids: bool) -> untyped
+    end
+  end
+end

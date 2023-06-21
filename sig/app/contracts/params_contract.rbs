@@ -1,0 +1,5 @@
+class ParamsContract < BaseContract
+  attr_reader params: untyped
+
+  def initialize: (untyped model, untyped user, params: untyped, ?options: ::Hash[untyped, untyped]) -> void
+end

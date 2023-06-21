@@ -1,0 +1,3 @@
+class WikiPages::UpdateService < BaseServices::Update
+  include Attachments::ReplaceAttachments
+end

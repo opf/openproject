@@ -1,0 +1,47 @@
+class BaseTypeService
+  include Shared::BlockService
+
+  include Contracted
+
+  attr_accessor contract_class: untyped
+
+  attr_accessor type: untyped
+
+  attr_accessor user: untyped
+
+  def initialize: (untyped type, untyped user) -> void
+
+  def call: (untyped params, untyped options) { () -> untyped } -> untyped
+
+  private
+
+  def update: (untyped params, untyped options) -> untyped
+
+  def set_params_and_validate: (untyped params) -> untyped
+
+  def set_scalar_params: (untyped params) -> untyped
+
+  def set_attribute_groups: (untyped params) -> untyped
+
+  def parse_attribute_groups_params: (untyped params) -> (nil | untyped)
+
+  def after_type_save: (untyped _params, untyped _options) -> nil
+
+  def transform_attribute_groups: (untyped groups) -> untyped
+
+  def transform_attribute_group: (untyped group) -> ::Array[untyped]
+
+  def transform_query_group: (untyped group) -> ::Array[untyped | ::Array[untyped]]
+
+  #
+  # Syncs attribute group settings for custom fields with enabled custom fields
+  # for this type. If a custom field is not in a group, it is removed from the
+  # custom_field_ids list.
+  def set_active_custom_fields: () -> untyped
+
+  def active_custom_field_ids: () -> untyped
+
+  def set_active_custom_fields_for_projects: (untyped projects, untyped custom_field_ids) -> (nil | untyped)
+
+  def set_active_custom_fields_for_project_ids: (untyped project_ids) -> untyped
+end

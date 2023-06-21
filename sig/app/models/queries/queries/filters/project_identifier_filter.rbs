@@ -1,0 +1,11 @@
+class Queries::Queries::Filters::ProjectIdentifierFilter < Queries::Queries::Filters::QueryFilter
+  def type: () -> :list
+
+  def self.key: () -> :project_identifier
+
+  def joins: () -> :project
+
+  def where: () -> untyped
+
+  def allowed_values: () -> untyped
+end

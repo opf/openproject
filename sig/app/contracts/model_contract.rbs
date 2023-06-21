@@ -1,0 +1,22 @@
+#
+# Model contract for AR records that
+# support change tracking
+class ModelContract < BaseContract
+  def valid?: (*untyped _args) -> untyped
+
+  #
+  # Allow subclasses to disable model validation
+  # during contract validation.
+  #
+  # This is necessary during, e.g., deletion contract validations
+  # to ensure invalid models can be deleted when allowed.
+  def validate_model?: () -> true
+
+  private
+
+  def readonly_attributes_unchanged: () -> untyped
+
+  def unauthenticated_changed: () -> untyped
+
+  def changed_by_user: () -> untyped
+end

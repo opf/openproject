@@ -1,0 +1,45 @@
+module OpenProject
+  module FormTagHelper
+    include ActionView::Helpers::FormTagHelper
+
+    TEXT_LIKE_FIELDS: ::Array["number_field" | "password_field" | "url_field" | "telephone_field" | "email_field" | "time_field"]
+
+    def styled_form_tag: (?::Hash[untyped, untyped] url_for_options, ?::Hash[untyped, untyped] options) { () -> untyped } -> untyped
+
+    def styled_select_tag: (untyped name, ?untyped? styled_option_tags, ?::Hash[untyped, untyped] options) -> untyped
+
+    def styled_text_field_tag: (untyped name, ?untyped? value, ?::Hash[untyped, untyped] options) -> untyped
+
+    def styled_label_tag: (?untyped? name, ?untyped? content_or_options, ?::Hash[untyped, untyped] options) ?{ () -> untyped } -> untyped
+
+    def styled_file_field_tag: (untyped name, ?::Hash[untyped, untyped] options) -> untyped
+
+    def styled_text_area_tag: (untyped name, ?untyped? content, ?::Hash[untyped, untyped] options) -> untyped
+
+    #
+    # Create a wrapper for the text formatting toolbar for this field
+    def text_formatting_wrapper: (untyped target_id, ?::Hash[untyped, untyped] options) -> untyped
+
+    def styled_check_box_tag: (untyped name, ?::String value, ?bool checked, ?::Hash[untyped, untyped] options) -> untyped
+
+    def styled_radio_button_tag: (untyped name, untyped value, ?bool checked, ?::Hash[untyped, untyped] options) -> untyped
+
+    def styled_submit_tag: (?::String value, ?::Hash[untyped, untyped] options) -> untyped
+
+    def styled_button_tag: (?untyped? content_or_options, ?untyped? options) ?{ () -> untyped } -> untyped
+
+    def styled_field_set_tag: (?untyped? legend, ?untyped? options) { () -> untyped } -> untyped
+
+    def styled_search_field_tag: (untyped name, ?untyped? value, ?::Hash[untyped, untyped] options) -> untyped
+
+    def styled_range_field_tag: (untyped name, ?untyped? value, ?::Hash[untyped, untyped] options) -> untyped
+
+    private
+
+    def wrap_field: (untyped name, untyped options) { () -> untyped } -> untyped
+
+    def apply_css_class_to_options: (untyped options, untyped css_class) -> untyped
+
+    def field_container_css_class: (untyped selector, untyped options) -> untyped
+  end
+end

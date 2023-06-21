@@ -1,0 +1,16 @@
+module WorkPackages::Scopes::CoveringDatesAndDaysOfWeek
+  extend ActiveSupport::Concern
+
+  # Fetches all work packages that cover specific days of the week, and/or specific dates.
+  #
+  # The period considered is from the work package start date to the due date.
+  #
+  # @param dates Date[] An array of the Date objects.
+  # @param days_of_week number[] An array of the ISO days of the week to
+  #   consider. 1 is Monday, 7 is Sunday.
+  def covering_dates_and_days_of_week: (?days_of_week: untyped, ?dates: untyped) -> untyped
+
+  private
+
+  def query: (untyped days_of_week, untyped dates) -> untyped
+end

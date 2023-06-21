@@ -1,0 +1,33 @@
+module Queries
+  module Orders
+    class Base
+      include ActiveModel::Validations
+
+      VALID_DIRECTIONS: ::Array[:asc | :desc]
+
+      def self.i18n_scope: () -> :activerecord
+
+      attr_accessor direction: untyped
+
+      attr_accessor attribute: untyped
+
+      def initialize: (untyped attribute) -> void
+
+      def self.key: () -> untyped
+
+      def scope: () -> untyped
+
+      def name: () -> untyped
+
+      private
+
+      def order: () -> untyped
+
+      def joins: () -> nil
+
+      def left_outer_joins: () -> nil
+
+      def with_raise_on_invalid: () { () -> untyped } -> untyped
+    end
+  end
+end

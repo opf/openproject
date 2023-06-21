@@ -1,0 +1,4 @@
+module API::V3::Days
+  class NonWorkingDaysAPI < ::API::OpenProjectAPI
+  end
+end

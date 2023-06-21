@@ -1,0 +1,15 @@
+module Users
+  class LogoutService
+    attr_accessor controller: untyped
+
+    def initialize: (controller: untyped) -> void
+
+    def call: (untyped user) -> untyped
+
+    private
+
+    def remove_tokens!: (untyped user) -> untyped
+
+    def remove_cookies!: (untyped cookies) -> untyped
+  end
+end

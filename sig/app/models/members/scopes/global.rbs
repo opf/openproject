@@ -1,0 +1,8 @@
+module Members::Scopes
+  module Global
+    extend ActiveSupport::Concern
+
+    # Find all members that are global, i.e. have not project
+    def global: () -> untyped
+  end
+end

@@ -1,0 +1,13 @@
+class AnnouncementsController < ApplicationController
+  def edit: () -> untyped
+
+  def update: () -> untyped
+
+  private
+
+  def default_breadcrumb: () -> untyped
+
+  def show_local_breadcrumb: () -> true
+
+  def announcement_params: () -> untyped
+end

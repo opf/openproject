@@ -1,0 +1,7 @@
+class Queries::Versions::Orders::SemverNameOrder < Queries::Orders::Base
+  def self.key: () -> :semver_name
+
+  private
+
+  def order: () -> untyped
+end

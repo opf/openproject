@@ -1,0 +1,3 @@
+module AppsignalHelper
+  def appsignal_frontend_tag: () -> ("" | untyped)
+end

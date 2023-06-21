@@ -1,0 +1,25 @@
+module Projects
+  class SetAttributesService < ::BaseServices::SetAttributes
+    private
+
+    def set_attributes: (untyped params) -> untyped
+
+    def set_default_attributes: (untyped attributes) -> untyped
+
+    def set_default_public: (untyped provided) -> (untyped | nil)
+
+    def set_default_module_names: (untyped provided) -> (untyped | nil)
+
+    def set_default_types: (untyped provided) -> (untyped | nil)
+
+    def set_default_active_work_package_custom_fields: (untyped provided) -> (nil | untyped)
+
+    def status_code_provided?: (untyped params) -> untyped
+
+    def set_status_code: (untyped status_code) -> untyped
+
+    def faulty_code?: (untyped status_code) -> untyped
+
+    def first_not_set_code: () -> untyped
+  end
+end

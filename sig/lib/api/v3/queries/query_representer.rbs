@@ -1,0 +1,43 @@
+module API
+  module V3
+    module Queries
+      class QueryRepresenter < ::API::Decorators::Single
+        include API::Decorators::LinkedResource
+
+        include API::Decorators::DateProperty
+
+        attr_accessor results: untyped
+
+        attr_accessor params: untyped
+
+        def initialize: (untyped model, current_user: untyped, ?results: untyped?, ?embed_links: bool, ?params: ::Hash[untyped, untyped]) -> void
+
+        def _type: () -> "Query"
+
+        def filters: () -> untyped
+
+        def filters=: (untyped filters_hash) -> untyped
+
+        private
+
+        def allowed_to?: (untyped action) -> (false | untyped)
+
+        def self_v3_path: (*untyped _args) -> untyped
+
+        def convert_attribute: (untyped attribute) -> untyped
+
+        def get_filter_name: (untyped filter_attributes) -> untyped
+
+        def id_from_href: (untyped expected_namespace, untyped href) -> (nil | untyped)
+
+        def column_direction_from_href: (untyped sort_by) -> (untyped | nil)
+
+        def map_with_sort_by_as_decorated: (untyped sort_criteria) { (untyped) -> untyped } -> untyped
+
+        def default_query_path: () -> untyped
+
+        def query_props: () -> untyped
+      end
+    end
+  end
+end

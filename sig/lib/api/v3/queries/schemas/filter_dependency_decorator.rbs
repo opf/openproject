@@ -1,0 +1,21 @@
+module API
+  module V3
+    module Queries
+      module Schemas
+        class FilterDependencyDecorator
+          include ::API::V3::Utilities::PathHelper
+
+          def initialize: (untyped filter, untyped operator) -> void
+
+          def href_callback: () -> untyped
+
+          def type: () -> "[]Status"
+
+          attr_accessor filter: untyped
+
+          attr_accessor operator: untyped
+        end
+      end
+    end
+  end
+end

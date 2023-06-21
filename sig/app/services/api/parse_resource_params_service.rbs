@@ -1,0 +1,25 @@
+module API
+  class ParseResourceParamsService
+    attr_accessor model: untyped
+
+    attr_accessor representer: untyped
+
+    attr_accessor current_user: untyped
+
+    def initialize: (untyped user, ?model: untyped?, ?representer: untyped?) -> void
+
+    def call: (untyped request_body) -> untyped
+
+    private
+
+    def deduce_representer: (untyped _model) -> untyped
+
+    def parsing_representer: () -> untyped
+
+    def parse_attributes: (untyped request_body) -> untyped
+
+    def struct: () -> untyped
+
+    def deep_to_h: (untyped value) -> untyped
+  end
+end

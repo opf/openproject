@@ -1,0 +1,17 @@
+module MembersHelper
+  # Adds a link that either:
+  # * sends a delete request to memberships in case only one role is assigned to the member
+  # * sends a patch request to memberships in case there is more than one role assigned to the member
+  #
+  # If it is the later, the ids of the non delete roles are appended to the url so that they are kept.
+  def global_member_role_deletion_link: (untyped member, untyped role) -> untyped
+
+  #
+  # Decorate the form_for helper for membership of a user or a group to a global
+  # role.
+  def global_role_membership_form_for: (untyped principal, untyped global_member, ?::Hash[untyped, untyped] options) { () -> untyped } -> untyped
+
+  def principal_membership_path: (untyped principal, untyped global_member, ?::Hash[untyped, untyped] options) -> untyped
+
+  def principal_memberships_path: (untyped principal, ?::Hash[untyped, untyped] options) -> untyped
+end

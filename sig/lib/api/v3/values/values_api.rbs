@@ -1,0 +1,4 @@
+module API::V3::Values
+  class ValuesAPI < ::API::OpenProjectAPI
+  end
+end

@@ -1,0 +1,7 @@
+module Cron
+  class ClearOldSessionsJob < CronJob
+    include ::RakeJob
+
+    def perform: () -> untyped
+  end
+end

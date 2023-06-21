@@ -1,0 +1,31 @@
+class CustomActions::BaseService
+  include Shared::BlockService
+
+  attr_accessor user: untyped
+
+  def call: (attributes: untyped, action: untyped) { () -> untyped } -> untyped
+
+  private
+
+  def set_attributes: (untyped action, untyped attributes) -> untyped
+
+  def set_actions: (untyped action, untyped actions_attributes) -> untyped
+
+  def remove_actions: (untyped action, untyped keys) -> untyped
+
+  def update_actions: (untyped action, untyped key_values) -> untyped
+
+  def add_actions: (untyped action, untyped key_values) -> untyped
+
+  def update_action: (untyped action, untyped key, untyped values) -> untyped
+
+  def add_action: (untyped action, untyped key, untyped values) -> untyped
+
+  def remove_action: (untyped action, untyped key) -> untyped
+
+  def set_conditions: (untyped action, untyped conditions_attributes) -> untyped
+
+  def available_action_for: (untyped action, untyped key) -> untyped
+
+  def available_condition_for: (untyped action, untyped key) -> untyped
+end

@@ -1,0 +1,11 @@
+module Versions
+  class TableComponent < ::TableComponent
+    def sortable?: () -> false
+
+    def headers: () -> untyped
+
+    def header_options: (untyped name) -> { caption: untyped }
+
+    def wiki_page_header_options: () -> ::Array["wiki_page_title" | { caption: untyped }]
+  end
+end

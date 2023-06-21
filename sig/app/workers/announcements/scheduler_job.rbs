@@ -1,0 +1,5 @@
+module Announcements
+  class SchedulerJob < ::ApplicationJob
+    def perform: (**untyped announcement) -> untyped
+  end
+end

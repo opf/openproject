@@ -1,0 +1,37 @@
+module API
+  module Utilities
+    module UrlPropsParsingHelper
+      #
+      # Determine set page_size from string
+      def resolve_page_size: (untyped string) -> untyped
+
+      #
+      # Determine the page size from the minimum of
+      # * the provided value
+      # * the page size specified for the relation (per_page)
+      # * the minimum of the per page options specified in the settings
+      # * the maximum page size
+      def resulting_page_size: (untyped value, ?untyped? relation) -> untyped
+
+      #
+      # Get the maximum allowed page size from settings
+      def maximum_page_size: () -> untyped
+
+      private
+
+      def to_i_or_nil: (untyped string) -> (untyped | nil)
+
+      # Parses a comma separated list of values and turns it into
+      # a nested hash. e.g.:
+      #  = "a,b/c/d,e,b/f"
+      # is turned into:
+      #  = { "a" => {}, "e" => {}, "b" => { "c" => { "d" => {} }, "f" => {} } }
+      # The order of the values does not matter.
+      # It also accepts an array of individual strings, e.g.:
+      #  = ["a","b/c/d","e","b/f"]
+      def nested_from_csv: (untyped value) -> (nil | untyped)
+
+      def nested_hash: (untyped path) -> ::Hash[untyped, untyped]
+    end
+  end
+end

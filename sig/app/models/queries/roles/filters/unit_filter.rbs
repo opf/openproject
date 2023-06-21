@@ -1,0 +1,12 @@
+# This filters for the type of role (project or global)
+class Queries::Roles::Filters::UnitFilter < Queries::Roles::Filters::RoleFilter
+  def type: () -> :list
+
+  def where: () -> (::Array["roles.type != ?" | untyped] | ::Array["roles.type = ? AND roles.builtin = ?" | untyped] | ::Array["roles.type = ?" | untyped])
+
+  def allowed_values: () -> ::Array[::Array["system"] | ::Array["project"]]
+
+  private
+
+  def db_values: () -> ::Array[untyped]
+end

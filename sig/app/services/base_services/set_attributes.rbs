@@ -1,0 +1,25 @@
+module BaseServices
+  class SetAttributes < BaseCallable
+    include Contracted
+
+    def initialize: (user: untyped, model: untyped, contract_class: untyped, ?contract_options: ::Hash[untyped, untyped]) -> void
+
+    def perform: (?::Hash[untyped, untyped] params) -> untyped
+
+    private
+
+    attr_accessor user: untyped
+
+    attr_accessor model: untyped
+
+    attr_accessor contract_class: untyped
+
+    def set_attributes: (untyped params) -> untyped
+
+    def set_default_attributes: (untyped _params) -> nil
+
+    def validate_and_result: () -> untyped
+
+    def prepare_model: (untyped model) -> untyped
+  end
+end

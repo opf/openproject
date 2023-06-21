@@ -1,0 +1,44 @@
+module API
+  module Errors
+    class ErrorBase < Grape::Exceptions::Base
+      attr_reader message: untyped
+
+      attr_reader details: untyped
+
+      attr_reader errors: untyped
+
+      attr_reader property: untyped
+
+      #
+      # Converts the given ActiveRecord errors into an Array of Error objects
+      # (i.e. subclasses of ErrorBase)
+      # In case the given errors contain 'critical' errors, the resulting Array will only
+      # contain the critical error and no non-critical errors (avoiding information disclosure)
+      # That means: The returned errors are always safe for display towards a user
+      def self.create_errors: (untyped errors) -> (::Array[untyped] | untyped)
+
+      #
+      # Like :create_errors, but creates a single MultipleErrors error if
+      # more than one error would be returned otherwise.
+      def self.create_and_merge_errors: (untyped errors) -> untyped
+
+      #
+      # Allows defining this error class's identifier.
+      # Used to read it otherwise.
+      def self.identifier: (?untyped? identifier) -> untyped
+
+      #
+      # Allows defining this error class's http code
+      # Used to read it otherwise.
+      def self.code: (?untyped? status) -> untyped
+
+      private
+
+      def self.convert_ar_to_api_errors: (untyped errors) -> untyped
+
+      public
+
+      def initialize: (untyped message, **untyped **) -> void
+    end
+  end
+end

@@ -1,0 +1,30 @@
+module Queries::Copy
+  class FiltersMapper
+    attr_reader state: untyped
+
+    attr_reader filters: untyped
+
+    attr_reader mappers: untyped
+
+    def initialize: (untyped state, untyped filters) -> void
+
+    #
+    # Returns the mapped filter array for either
+    # hash-based APIv3 filters or filter clasess
+    def map_filters!: () -> untyped
+
+    #
+    # Maps an API v3 filter hash
+    # e.g.,
+    # { parent: { operator: '=', values: [1234] } }
+    def map_api_filter_hash: (untyped filter) -> untyped
+
+    def map_filter_class: (untyped filter) -> untyped
+
+    def mapped_values: (untyped ar_name, untyped values) -> untyped
+
+    def build_filter_mappers: () -> { version_id: untyped, category_id: untyped, parent: untyped }
+
+    def state_mapper: (untyped lookup_key) -> untyped
+  end
+end

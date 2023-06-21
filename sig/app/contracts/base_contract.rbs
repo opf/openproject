@@ -1,0 +1,87 @@
+class BaseContract < Disposable::Twin
+  include Expose
+
+  include ActiveModel::Validations
+
+  extend ActiveModel::Naming
+
+  extend ActiveModel::Translation
+
+  # Allows human_attribute_name to resolve custom fields correctly
+  extend Redmine::Acts::Customizable::HumanAttributeName
+
+  def self.writable_attributes: () -> untyped
+
+  def self.writable_conditions: () -> untyped
+
+  def self.attribute_permissions: () -> untyped
+
+  def self.attribute_aliases: () -> untyped
+
+  def self.attribute_alias: (untyped db, untyped outside) -> untyped
+
+  def self.property: (untyped name, ?::Hash[untyped, untyped] options) { () -> untyped } -> untyped
+
+  def self.attribute: (untyped attribute, ?::Hash[untyped, untyped] options) ?{ () -> untyped } -> untyped
+
+  def self.default_attribute_permission: (untyped permission) -> untyped
+
+  def self.attribute_permission: (untyped attribute, untyped permission) -> (nil | untyped)
+
+  private
+
+  def self.add_writable: (untyped attribute, untyped writable) -> untyped
+
+  public
+
+  attr_reader user: untyped
+
+  attr_accessor options: untyped
+
+  def initialize: (untyped model, untyped user, ?options: ::Hash[untyped, untyped]) -> void
+
+  # we want to add a validation error whenever someone sets a property that we don't know.
+  # However AR will cleverly try to resolve the value for erroneous properties. Thus we need
+  # to hook into this method and return nil for unknown properties to avoid NoMethod errors...
+  def read_attribute_for_validation: (untyped attribute) -> (untyped | nil)
+
+  def writable_attributes: () -> untyped
+
+  def writable?: (untyped attribute) -> untyped
+
+  def valid?: (*untyped _args) -> untyped
+
+  # Provide same interface with valid? and validate
+  # as with AM::Validations
+  #
+  # Do not use alias_method as this will not work when
+  # valid? is overridden in subclasses
+  def validate: (*untyped args) -> untyped
+
+  # Methods required to get ActiveModel error messages working
+  extend ActiveModel::Naming
+
+  def self.model_name: () -> untyped
+
+  def self.model: () -> untyped
+
+  # use activerecord as the base scope instead of 'activemodel' to be compatible
+  # to the messages we have already stored
+  def self.i18n_scope: () -> :activerecord
+
+  def ancestor_attribute_aliases: () -> untyped
+
+  # Traverse ancestor hierarchy to collect contract information.
+  # This allows to define attributes on a common base class of two or more contracts.
+  def collect_ancestor_attributes: (untyped attribute_to_collect) -> untyped
+
+  def collect_ancestor_attributes_by: (untyped attribute_to_collect, untyped combination_method, untyped cleanup_method) -> untyped
+
+  def collect_writable_attributes: () -> untyped
+
+  def reduce_writable_attributes: (untyped attributes) -> untyped
+
+  def reduce_by_writable_conditions: (untyped attributes) -> untyped
+
+  def reduce_by_writable_permissions: (untyped attributes) -> untyped
+end

@@ -1,0 +1,31 @@
+module Queries::WorkPackages::Filter::FilterForWpMixin
+  def type: () -> :list
+
+  def allowed_values: () -> untyped
+
+  def value_objects: () -> untyped
+
+  def allowed_objects: () -> untyped
+
+  def available?: () -> untyped
+
+  def ar_object_filter?: () -> true
+
+  def allowed_values_subset: () -> untyped
+
+  private
+
+  def visible_scope: () -> untyped
+
+  def type_strategy: () -> untyped
+
+  def no_templated_values: () -> untyped
+
+  def templated_value_keys: () -> ::Array[untyped]
+
+  def templated_value_key: () -> untyped
+
+  def deprecated_templated_value_key: () -> untyped
+
+  def has_templated_value?: () -> untyped
+end

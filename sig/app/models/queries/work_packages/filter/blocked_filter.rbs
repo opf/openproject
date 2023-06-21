@@ -1,0 +1,11 @@
+class Queries::WorkPackages::Filter::BlockedFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  include ::Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
+
+  def relation_type: () -> untyped
+
+  private
+
+  def relation_filter: () -> { from_id: untyped }
+
+  def relation_select: () -> :to_id
+end

@@ -1,0 +1,9 @@
+class Projects::Settings::TypesController < Projects::SettingsController
+  def show: () -> untyped
+
+  def update: () -> untyped
+
+  private
+
+  def success_message: () -> untyped
+end

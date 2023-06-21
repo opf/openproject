@@ -1,0 +1,39 @@
+class ParamsToQueryService
+  attr_accessor user: untyped
+
+  attr_accessor query_class: untyped
+
+  def initialize: (untyped model, untyped user, ?query_class: untyped?) -> void
+
+  def call: (untyped params) -> untyped
+
+  private
+
+  def new_query: () -> untyped
+
+  def apply_filters: (untyped query, untyped params) -> untyped
+
+  def apply_order: (untyped query, untyped params) -> untyped
+
+  def apply_group_by: (untyped query, untyped params) -> untyped
+
+  # Expected format looks like:
+  # [
+  #   {
+  #     "filtered_field_name": {
+  #       "operator": "a name for a filter operation",
+  #       "values": ["values", "for the", "operation"]
+  #     }
+  #   },
+  #   { /* more filters if needed */}
+  # ]
+  def parse_filters_from_json: (untyped json) -> { attributes: untyped, operators: untyped, values: untyped }
+
+  def parse_sorting_from_json: (untyped json) -> untyped
+
+  def convert_attribute: (untyped attribute, ?append_id: bool) -> untyped
+
+  def conversion_model: () -> untyped
+
+  def set_query_class: (untyped query_class, untyped model) -> untyped
+end

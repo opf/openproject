@@ -1,0 +1,29 @@
+module Acts::Journalized
+  # Provides +journaled+ options conjournal and cleanup.
+  module Options
+    def self.included: (untyped base) -> untyped
+
+    # Class methods that provide preparation of options passed to the +journaled+ method.
+    module ClassMethods
+      # The +prepare_journaled_options+ method has three purposes:
+      # 1. Populate the provided options with default values where needed
+      # 2. Prepare options for use with the +has_many+ association
+      # 3. Save user-configurable options in a class-level variable
+      #
+      # Options are given priority in the following order:
+      # 1. Those passed directly to the +journaled+ method
+      # 2. Those specified in an initializer +configure+ block
+      # 3. Default values specified in +prepare_journaled_options+
+      def prepare_journaled_options: (untyped options) -> untyped
+
+      private
+
+      # Returns all of the provided options suitable for the
+      # has_many :journals
+      # association created by aaj
+      def has_many_journals_options: () -> untyped
+
+      def options_with_defaults: (untyped options) -> untyped
+    end
+  end
+end

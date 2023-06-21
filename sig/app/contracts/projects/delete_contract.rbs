@@ -1,0 +1,4 @@
+module Projects
+  class DeleteContract < ::DeleteContract
+  end
+end

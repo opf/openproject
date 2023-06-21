@@ -1,0 +1,4 @@
+module Queries
+  module Relations
+  end
+end

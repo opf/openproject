@@ -1,0 +1,7 @@
+module OpenProject
+  class Footer
+    attr_accessor self.content: untyped
+
+    def self.add_content: (untyped name, untyped footer_element) -> untyped
+  end
+end

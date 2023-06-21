@@ -1,0 +1,31 @@
+module Exports
+  module Formatters
+    class Default
+      include Redmine::I18n
+
+      attr_reader attribute: untyped
+
+      def initialize: (untyped attribute) -> void
+
+      def self.apply?: (untyped _attribute, untyped _export_format) -> false
+
+      def self.key: () -> untyped
+
+      #
+      # Takes a resource and an attribute and returns the value to be exported.
+      def format: (untyped object, **untyped options) -> untyped
+
+      #
+      # Takes a value and returns the formatted value to be exported.
+      def format_value: (untyped value) -> untyped
+
+      #
+      # Takes an attribute and returns format options for it.
+      def format_options: () -> ::Hash[untyped, untyped]
+
+      # By default, use try as a non-destructive accessor
+      # in case that attribute is not available for the cell
+      def retrieve_value: (untyped object) -> untyped
+    end
+  end
+end

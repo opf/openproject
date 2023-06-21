@@ -1,0 +1,15 @@
+class Queries::Filters::TemplatedValue
+  KEY: "{id}"
+
+  DEPRECATED_KEY: "templated"
+
+  attr_accessor templated_class: untyped
+
+  def initialize: (untyped templated_class) -> void
+
+  def id: () -> "{id}"
+
+  def name: () -> nil
+
+  def class: () -> untyped
+end

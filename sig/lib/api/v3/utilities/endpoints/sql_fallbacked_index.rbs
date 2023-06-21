@@ -1,0 +1,17 @@
+module API
+  module V3
+    module Utilities
+      module Endpoints
+        class SqlFallbackedIndex < SqlIndex
+          private
+
+          def render_paginated_success: (untyped results, untyped query, untyped params, untyped self_path) -> untyped
+
+          def deduce_fallback_render_representer: () -> untyped
+
+          def calculate_resulting_params: (untyped query, untyped provided_params) -> untyped
+        end
+      end
+    end
+  end
+end

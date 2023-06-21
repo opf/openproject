@@ -1,0 +1,17 @@
+module WithReversibleState
+  extend ActiveSupport::Concern
+
+  attr_reader state: untyped
+
+  #
+  # Reuse or append state to the service
+  def with_state: (?::Hash[untyped, untyped] state) -> self
+
+  #
+  # Access to the shared service state
+  def state: () -> untyped
+
+  #
+  # Assign state to the service result
+  def assign_state: () { () -> untyped } -> untyped
+end

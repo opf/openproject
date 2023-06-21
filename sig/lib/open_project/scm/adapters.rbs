@@ -1,0 +1,112 @@
+# - copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2023 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+# +
+module OpenProject
+  module SCM
+    module Adapters
+      class Entries < Array
+        def sort_by_name: () -> untyped
+
+        def truncated=: (untyped truncated) -> untyped
+
+        def truncated: () -> untyped
+
+        def truncated?: () -> untyped
+      end
+
+      class Info
+        attr_accessor root_url: untyped
+
+        attr_accessor lastrev: untyped
+
+        def initialize: (?::Hash[untyped, untyped] attributes) -> void
+      end
+
+      class Entry
+        attr_accessor name: untyped
+
+        attr_accessor path: untyped
+
+        attr_accessor kind: untyped
+
+        attr_accessor size: untyped
+
+        attr_accessor lastrev: untyped
+
+        def initialize: (?::Hash[untyped, untyped] attributes) -> void
+
+        def file?: () -> untyped
+
+        def dir?: () -> untyped
+      end
+
+      class Revisions < Array
+        def latest: () -> untyped
+      end
+
+      class Revision
+        attr_accessor scmid: untyped
+
+        attr_accessor name: untyped
+
+        attr_accessor author: untyped
+
+        attr_accessor time: untyped
+
+        attr_accessor message: untyped
+
+        attr_accessor paths: untyped
+
+        attr_accessor revision: untyped
+
+        attr_accessor branch: untyped
+
+        attr_writer identifier: untyped
+
+        def initialize: (?::Hash[untyped, untyped] attributes) -> void
+
+        # Returns the identifier of this revision; see also Changeset model
+        def identifier: () -> untyped
+
+        # Returns the readable identifier.
+        def format_identifier: () -> untyped
+      end
+
+      class Annotate
+        attr_reader lines: untyped
+
+        attr_reader revisions: untyped
+
+        def initialize: () -> void
+
+        def add_line: (untyped line, untyped revision) -> untyped
+
+        def content: () -> untyped
+      end
+    end
+  end
+end

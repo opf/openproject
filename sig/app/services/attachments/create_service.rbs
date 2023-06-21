@@ -1,0 +1,15 @@
+module Attachments
+  class CreateService < BaseService
+    include TouchContainer
+
+    def persist: (untyped call) -> untyped
+
+    def in_container_mutex: (untyped container) { () -> untyped } -> untyped
+
+    def after_perform: (untyped call) -> untyped
+
+    def error_wrapped_call: () { () -> untyped } -> untyped
+
+    def log_attachment_saving_error: (untyped error) -> untyped
+  end
+end

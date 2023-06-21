@@ -1,0 +1,23 @@
+class ActivitiesController < ApplicationController
+  def index: () -> untyped
+
+  private
+
+  def verify_activities_module_activated: () -> (untyped | nil)
+
+  def determine_date_range: () -> untyped
+
+  def determine_subprojects: () -> untyped
+
+  def determine_author: () -> untyped
+
+  def respond_html: () -> untyped
+
+  def respond_atom: () -> untyped
+
+  def activity_scope: () -> (untyped | untyped | :default | :all)
+
+  def set_current_activity_page: () -> untyped
+
+  def set_session: () -> untyped
+end

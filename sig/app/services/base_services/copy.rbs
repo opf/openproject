@@ -1,0 +1,39 @@
+module BaseServices
+  class Copy < ::BaseServices::Write
+    #
+    # dependent services to copy associations
+    def self.copy_dependencies: () -> ::Array[untyped]
+
+    #
+    # collect copyable associated modules
+    def self.copyable_dependencies: () -> untyped
+
+    def initialize: (user: untyped, ?source: untyped?, ?model: untyped?, ?contract_class: untyped?, ?contract_options: ::Hash[untyped, untyped]) -> void
+
+    def call: (untyped params) -> untyped
+
+    def persist: (untyped call) -> untyped
+
+    def after_perform: (untyped call) -> untyped
+
+    #
+    # Should the dependency be skipped for this service run?
+    def skip_dependency?: (untyped _params, untyped _dependency_cls) -> false
+
+    #
+    # Sets up a state object that gets
+    # passed around to all service calls from here
+    #
+    # Note that for dependent copy services to be called
+    # this will already be present.
+    def prepare_state: (untyped _params) -> untyped
+
+    #
+    # Calls a dependent service with the source and copy instance
+    def call_dependent_service: (untyped service_cls, target: untyped, params: untyped) -> untyped
+
+    def instance: (untyped _params) -> untyped
+
+    def default_contract_class: () -> untyped
+  end
+end

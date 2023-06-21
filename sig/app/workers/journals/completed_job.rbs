@@ -1,0 +1,19 @@
+class Journals::CompletedJob < ApplicationJob
+  def self.schedule: (untyped journal, untyped send_mails) -> (nil | untyped)
+
+  def self.aggregated_event: (untyped journal) -> untyped
+
+  private
+
+  def self.delivery_time: () -> untyped
+
+  def self.supported?: (untyped journal) -> untyped
+
+  public
+
+  def perform: (untyped journal_id, untyped journal_updated_at, untyped send_mails) -> (nil | untyped)
+
+  private
+
+  def notify_journal_complete: (untyped journal, untyped send_mails) -> untyped
+end

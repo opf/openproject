@@ -1,0 +1,33 @@
+module API
+  module OpenAPI
+    extend ::API::OpenAPI
+
+    def spec: () -> untyped
+
+    def assemble_spec: (untyped file_path) -> untyped
+
+    private
+
+    def memoized_spec: () -> untyped
+
+    def load_spec: () -> untyped
+
+    def substitute_refs: (untyped spec, path: untyped, root_path: untyped, ?root_spec: untyped) -> untyped
+
+    def substitute_refs_in_hash: (untyped spec, path: untyped, root_path: untyped, ?root_spec: untyped) -> untyped
+
+    def resolve_refs: (untyped spec, path: untyped, root_path: untyped, root_spec: untyped) -> untyped
+
+    def resolve_refs_in_hash: (untyped spec, path: untyped, root_path: untyped, root_spec: untyped) -> untyped
+
+    def resolve_ref: (untyped spec, path: untyped, root_path: untyped, root_spec: untyped) -> untyped
+
+    def schema_ref: (untyped ref_path, path: untyped, root_path: untyped, root_spec: untyped) -> untyped
+
+    def schema_file: (untyped ref_path, path: untyped, root_path: untyped) -> untyped
+
+    def schema_path: (untyped ref_path, path: untyped, root_path: untyped) -> untyped
+
+    def schema_name: (untyped ref_path, path: untyped, root_path: untyped, root_spec: untyped) -> untyped
+  end
+end

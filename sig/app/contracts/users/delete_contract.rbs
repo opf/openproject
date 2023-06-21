@@ -1,0 +1,10 @@
+module Users
+  class DeleteContract < ::DeleteContract
+    #
+    # Checks if a given user may be deleted by another one.
+    #
+    # @param user [User] User to be deleted.
+    # @param actor [User] User who wants to delete the given user.
+    def self.deletion_allowed?: (untyped user, untyped actor) -> untyped
+  end
+end

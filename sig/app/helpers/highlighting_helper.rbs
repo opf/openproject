@@ -1,0 +1,5 @@
+module HighlightingHelper
+  def highlight_css_version_tag: (?untyped max_updated_at) -> untyped
+
+  def highlight_css_updated_at: () -> untyped
+end

@@ -1,0 +1,10 @@
+# Borrows from http://gist.github.com/bf4/5320847
+# without addressable requirement
+# Accepts options[:allowed_protocols]
+class UrlValidator < ActiveModel::EachValidator
+  def validate_each: (untyped record, untyped attribute, untyped value) -> untyped
+
+  def parse: (untyped value) -> untyped
+
+  def allowed_protocols: () -> untyped
+end

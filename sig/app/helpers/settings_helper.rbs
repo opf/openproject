@@ -1,0 +1,47 @@
+module SettingsHelper
+  extend ::SettingsHelper
+
+  include OpenProject::FormTagHelper
+
+  def system_settings_tabs: () -> ::Array[{ name: "general", controller: "/admin/settings/general_settings", label: :label_general } | { name: "languages", controller: "/admin/settings/languages_settings", label: :label_languages } | { name: "projects", controller: "/admin/settings/projects_settings", label: :label_project_plural } | { name: "attachments", controller: "/admin/settings/attachments_settings", label: :"attributes.attachments" } | { name: "repositories", controller: "/admin/settings/repositories_settings", label: :label_repository_plural }]
+
+  def setting_select: (untyped setting, untyped choices, ?::Hash[untyped, untyped] options) -> untyped
+
+  def setting_multiselect: (untyped setting, untyped choices, ?::Hash[untyped, untyped] options) -> untyped
+
+  def settings_matrix: (untyped settings, untyped choices, ?::Hash[untyped, untyped] options) -> untyped
+
+  def setting_text_field: (untyped setting, ?::Hash[untyped, untyped] options) -> untyped
+
+  def setting_number_field: (untyped setting, ?::Hash[untyped, untyped] options) -> untyped
+
+  def setting_time_field: (untyped setting, ?::Hash[untyped, untyped] options) -> untyped
+
+  def setting_field_wrapper: (untyped setting, untyped options) { () -> untyped } -> untyped
+
+  def setting_text_area: (untyped setting, ?::Hash[untyped, untyped] options) -> untyped
+
+  def setting_check_box: (untyped setting, ?::Hash[untyped, untyped] options) -> untyped
+
+  def setting_password: (untyped setting, ?::Hash[untyped, untyped] options) -> untyped
+
+  def setting_label: (untyped setting, ?::Hash[untyped, untyped] options) -> untyped
+
+  def setting_block: (untyped setting, ?::Hash[untyped, untyped] options) { () -> untyped } -> untyped
+
+  private
+
+  def wrap_field_outer: (untyped options) { () -> untyped } -> untyped
+
+  def build_settings_matrix_head: (untyped settings, ?::Hash[untyped, untyped] options) -> untyped
+
+  def build_settings_matrix_body: (untyped settings, untyped choices) -> untyped
+
+  def settings_matrix_tds: (untyped settings, untyped exceptions, untyped value) -> untyped
+
+  def setting_multiselect_choice: (untyped setting, untyped choice, untyped options) -> untyped
+
+  def disabled_setting_option: (untyped setting) -> { disabled: untyped }
+
+  def with_empty_unless_writable: (untyped setting) { () -> untyped } -> untyped
+end

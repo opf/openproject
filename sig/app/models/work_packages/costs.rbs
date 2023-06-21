@@ -1,0 +1,25 @@
+module WorkPackages::Costs
+  extend ActiveSupport::Concern
+
+  def costs_enabled?: () -> untyped
+
+  def validate_budget: () -> (untyped | nil)
+
+  def material_costs: () -> untyped
+
+  def labor_costs: () -> untyped
+
+  def overall_costs: () -> untyped
+
+  # Wraps the association to get the Cost Object subject.  Needed for the
+  # Query and filtering
+  def budget_subject: () -> untyped
+
+  def move_cost_entries: () -> (nil | untyped)
+
+  def cleanup_cost_entries_before_destruction_of: (untyped work_packages, untyped user, ?::Hash[untyped, untyped] to_do) -> (false | untyped)
+
+  def reassign_cost_entries_before_destruction: (untyped work_packages, untyped user, untyped ids) -> untyped
+
+  def update_cost_entries: (untyped work_packages, untyped action) -> untyped
+end

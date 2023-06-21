@@ -1,0 +1,9 @@
+class Mails::ReminderJob < Mails::DeliverJob
+  include ::Notifications::WithMarkedNotifications
+
+  private
+
+  def notification_marked_attribute: () -> :mail_reminder_sent
+
+  def render_mail: () -> (nil | untyped)
+end

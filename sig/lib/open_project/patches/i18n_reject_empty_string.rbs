@@ -1,0 +1,22 @@
+module OpenProject
+  module Patches
+    #
+    # Crowdin currently breaks some of our pluralized strings
+    # in locales other than the english source.
+    #
+    # Strings are being downloaded with an empty string as value despite
+    # showing up correctly in their UI.
+    #
+    # This results in the fallback not properly working as it's not checking
+    # for empty strings.
+    #
+    # This patch removes empty string values from the loaded YML before they
+    # are being processed by fallbacks. With it, english fallbacks can be used automatically.
+    # https://community.openproject.com/wp/36304
+    module I18nRejectEmptyString
+      def load_yml: (untyped filename) -> ::Array[untyped]
+
+      def replace_empty_strings: (untyped hash) -> untyped
+    end
+  end
+end

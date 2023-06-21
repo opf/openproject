@@ -1,0 +1,5 @@
+class Projects::IdentifierController < ApplicationController
+  def show: () -> nil
+
+  def update: () -> untyped
+end

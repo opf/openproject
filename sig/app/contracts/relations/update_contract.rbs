@@ -1,0 +1,15 @@
+module Relations
+  class UpdateContract < BaseContract
+    private
+
+    def from_immutable: () -> (untyped | nil)
+
+    def to_immutable: () -> (untyped | nil)
+
+    def from_id_changed_and_not_swapped?: () -> untyped
+
+    def to_id_changed_and_not_swapped?: () -> untyped
+
+    def from_and_to_swapped?: () -> untyped
+  end
+end

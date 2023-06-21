@@ -1,0 +1,25 @@
+module WorkPackages
+  module Bulk
+    class BulkedService
+      include ::Shared::ServiceContext
+
+      include ::HookHelper
+
+      attr_accessor user: untyped
+
+      attr_accessor work_packages: untyped
+
+      def initialize: (user: untyped, work_packages: untyped) -> void
+
+      def call: (untyped params) -> untyped
+
+      private
+
+      def bulk: (untyped params) -> untyped
+
+      def alter_work_package: (untyped _work_package, untyped _params) -> untyped
+
+      def call_move_hook: (untyped _work_package, untyped _params) -> untyped
+    end
+  end
+end

@@ -1,0 +1,21 @@
+module Cron
+  class CronJob < ApplicationJob
+    include ScheduledJob
+
+    #
+    # Register new job class(es)
+    def self.register!: (*untyped job_classes) -> untyped
+
+    def self.schedule_registered_jobs!: () -> untyped
+
+    #
+    # Ensure the job is scheduled unless it is already
+    def self.ensure_scheduled!: () -> (nil | untyped)
+
+    #
+    # Remove the scheduled job, if any
+    def self.remove: () -> untyped
+
+    def self.delayed_job: () -> untyped
+  end
+end

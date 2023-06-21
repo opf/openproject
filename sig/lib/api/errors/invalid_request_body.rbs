@@ -1,0 +1,6 @@
+module API
+  module Errors
+    class InvalidRequestBody < ErrorBase
+    end
+  end
+end

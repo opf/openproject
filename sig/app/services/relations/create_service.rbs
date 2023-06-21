@@ -1,0 +1,5 @@
+class Relations::CreateService < Relations::BaseService
+  def initialize: (user: untyped) -> void
+
+  def perform: (?send_notifications: untyped?, **untyped attributes) -> untyped
+end

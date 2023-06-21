@@ -1,0 +1,17 @@
+class WorkPackages::ScheduleDependency::DependencyGraph
+  attr_reader dependencies: untyped
+
+  def initialize: (untyped dependencies) -> void
+
+  def schedule_order: () -> untyped
+
+  # Returns true if the given work package depends on the work package of the
+  # dependency, either directly or transitively.
+  def depends_on?: (untyped work_package, untyped dependency) -> untyped
+
+  private
+
+  def full_dependencies_of: (untyped work_package_id) -> untyped
+
+  def dependent_ids_for_work_package_id: (untyped id) -> untyped
+end

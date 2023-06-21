@@ -1,0 +1,27 @@
+class Journable::WithHistoricAttributes
+  class Loader
+    def initialize: (untyped journables) -> void
+
+    def journable_at_timestamp: (untyped journable, untyped timestamp) -> untyped
+
+    def at_timestamp: (untyped timestamp) -> untyped
+
+    def work_package_ids_of_query_at_timestamp: (query: untyped, ?timestamp: untyped?) -> untyped
+
+    private
+
+    def work_package_ids_of_query_at_timestamp_calculation: (untyped query, untyped timestamp) -> untyped
+
+    def currently_visible_journables: () -> untyped
+
+    def currently_invisible_journables: () -> untyped
+
+    def currently_invisible_journalized_at_timestamp: (untyped timestamp) -> untyped
+
+    def currently_visible_journalized_at_timestamp: (untyped timestamp) -> untyped
+
+    def journalized_class: () -> untyped
+
+    attr_accessor journables: untyped
+  end
+end

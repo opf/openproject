@@ -1,0 +1,32 @@
+module OpenProject
+  module AccessControl
+    class Permission
+      attr_reader name: untyped
+
+      attr_reader controller_actions: untyped
+
+      attr_reader contract_actions: untyped
+
+      attr_reader project_module: untyped
+
+      attr_reader dependencies: untyped
+
+      # @param public [Boolean] when true, the permission is granted to anybody
+      # having at least one role in a project, regardless of the role's
+      # permissions.
+      def initialize: (untyped name, untyped hash, ?public: bool, ?require: untyped?, ?global: bool, ?enabled: bool, ?project_module: untyped?, ?contract_actions: untyped, ?grant_to_admin: bool, ?dependencies: untyped?) -> void
+
+      def public?: () -> untyped
+
+      def global?: () -> untyped
+
+      def grant_to_admin?: () -> untyped
+
+      def require_member?: () -> untyped
+
+      def require_loggedin?: () -> untyped
+
+      def enabled?: () -> untyped
+    end
+  end
+end

@@ -1,0 +1,17 @@
+module Redmine::MenuManager::TopMenu::HelpMenu
+  def render_help_top_menu_node: (?untyped item) -> untyped
+
+  def render_help_dropdown: () -> untyped
+
+  private
+
+  def render_onboarding: (untyped result) -> untyped
+
+  def render_onboarding_menu_item: () -> untyped
+
+  def render_help_and_support: (untyped result) -> untyped
+
+  def render_additional_resources: (untyped result) -> untyped
+
+  def static_link_item: (untyped key, ?::Hash[untyped, untyped] options) -> untyped
+end

@@ -1,0 +1,24 @@
+module Token
+  module ExpirableToken
+    extend ActiveSupport::Concern
+
+    def valid_plaintext?: (untyped input) -> (false | untyped)
+
+    def expired?: () -> untyped
+
+    def validity_time: () -> untyped
+
+    #
+    # Set the expiration column
+    def set_expiration_time: () -> untyped
+
+    # Delete all expired tokens
+    def delete_expired_tokens: () -> untyped
+
+    module ClassMethods
+      #
+      # Return a scope of active tokens
+      def not_expired: () -> untyped
+    end
+  end
+end

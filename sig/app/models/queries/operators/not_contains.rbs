@@ -1,0 +1,7 @@
+module Queries::Operators
+  class NotContains < Base
+    include Concerns::ContainsAllValues
+
+    def self.sql_for_field: (untyped values, untyped db_table, untyped db_field) -> ::String
+  end
+end

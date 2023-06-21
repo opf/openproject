@@ -1,0 +1,35 @@
+module Queries
+  module Filters
+    module AvailableFilters
+      def self.included: (untyped base) -> untyped
+
+      module ClassMethods
+        def registered_filters: () -> untyped
+
+        def find_registered_filter: (untyped key) -> untyped
+      end
+
+      def available_filters: () -> untyped
+
+      def filter_for: (untyped key, ?no_memoization: bool) -> untyped
+
+      private
+
+      def non_existing_filter: (untyped key) -> untyped
+
+      def get_initialized_filter: (untyped key, untyped no_memoization) -> (nil | untyped)
+
+      def initialize_filter: (untyped filter) -> (nil | untyped)
+
+      def find_registered_filter: (untyped key) -> untyped
+
+      def find_initialized_filter: (untyped key) -> untyped
+
+      def already_initialized_filters: () -> untyped
+
+      def initialized_filters: () -> untyped
+
+      def registered_filters: () -> untyped
+    end
+  end
+end

@@ -1,0 +1,21 @@
+module API
+  module V3
+    module Queries
+      module Schemas
+        class QuerySchemaRepresenter < ::API::Decorators::SchemaRepresenter
+          def initialize: (untyped represented, ?self_link: untyped?, ?current_user: untyped?, ?form_embedded: bool) -> void
+
+          def self.filters_schema: () -> untyped
+
+          def self.represented_class: () -> untyped
+
+          def convert_attribute: (untyped attribute) -> untyped
+
+          def filters_schemas: () -> untyped
+
+          def filter_instance_schemas_href: () -> untyped
+        end
+      end
+    end
+  end
+end

@@ -1,0 +1,5 @@
+module OpenProject::Plugins
+  module LoadDependency
+    def self.register: (untyped target, *untyped dependencies) -> untyped
+  end
+end

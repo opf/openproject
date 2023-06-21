@@ -1,0 +1,27 @@
+module UsersHelper
+  include OpenProject::FormTagHelper
+
+  #
+  # @param selected The option to be marked as selected.
+  # @param extra [Hash] A hash containing extra entries with a count for each.
+  #                     For example: { random: 42 }
+  def users_status_options_for_select: (untyped selected, ?extra: ::Hash[untyped, untyped]) -> untyped
+
+  def translate_user_status: (untyped status_name) -> untyped
+
+  # Format user status, including brute force prevention status
+  def full_user_status: (untyped user, ?bool include_num_failed_logins) -> untyped
+
+  STATUS_CHANGE_ACTIONS: ::Hash[::Array[:active | false] | ::Array[:active | true] | ::Array[:locked | false] | ::Array[:locked | true] | ::Array[:registered | false] | ::Array[:registered | true], ::Array[::Array[:lock | "lock"]] | ::Array[::Array[:reset_failed_logins | "unlock"] | ::Array[:lock | "lock"]] | ::Array[::Array[:unlock | "unlock"]] | ::Array[::Array[:unlock_and_reset_failed_logins | "unlock"]] | ::Array[::Array[:activate | "activate"]] | ::Array[::Array[:activate_and_reset_failed_logins | "activate"]]]
+
+  # Create buttons to lock/unlock a user and reset failed logins
+  def build_change_user_status_action: (untyped user) { (untyped, untyped) -> untyped } -> untyped
+
+  def change_user_status_buttons: (untyped user) -> untyped
+
+  def change_user_status_links: (untyped user) -> untyped
+
+  def user_name: (untyped user) -> untyped
+
+  def can_users_have_auth_source?: () -> untyped
+end

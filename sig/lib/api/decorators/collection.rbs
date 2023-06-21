@@ -1,0 +1,19 @@
+module API
+  module Decorators
+    class Collection < ::API::Decorators::Single
+      include API::Utilities::UrlHelper
+
+      def initialize: (untyped models, untyped total, self_link: untyped, current_user: untyped, ?groups: untyped?) -> void
+
+      def self.element_decorator: (untyped klass) -> untyped
+
+      def element_decorator: () -> untyped
+
+      def deduce_element_decorator: () -> untyped
+
+      def _type: () -> "Collection"
+
+      attr_reader groups: untyped
+    end
+  end
+end

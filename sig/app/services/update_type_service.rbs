@@ -1,0 +1,3 @@
+class UpdateTypeService < BaseTypeService
+  def call: (untyped params) -> untyped
+end

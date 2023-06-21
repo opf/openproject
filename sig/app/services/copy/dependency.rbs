@@ -1,0 +1,40 @@
+#
+# Dependent service to be executed under the BaseServices::Copy service
+module Copy
+  class Dependency < ::BaseServices::BaseCallable
+    attr_reader source: untyped
+
+    attr_reader target: untyped
+
+    attr_reader user: untyped
+
+    attr_reader result: untyped
+
+    #
+    # Identifier of this dependency to include/exclude
+    def self.identifier: () -> untyped
+
+    #
+    # Localizable human name used in errors
+    def self.human_name: () -> untyped
+
+    #
+    # Dependencies the current dependency itself supports.
+    # The most common case for this are attachment services.
+    def self.copy_dependencies: () -> ::Array[untyped]
+
+    def initialize: (source: untyped, target: untyped, user: untyped) -> void
+
+    #
+    # Merge some other model's errors with the result errors
+    def add_error!: (untyped model, untyped errors, ?model_name: untyped) -> untyped
+
+    def human_model_name: (untyped model) -> ::String
+
+    def error_messages: (untyped errors) -> untyped
+
+    def perform: (params: untyped) -> untyped
+
+    def copy_dependency: (params: untyped) -> untyped
+  end
+end

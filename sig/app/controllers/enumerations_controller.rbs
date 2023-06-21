@@ -1,0 +1,28 @@
+class EnumerationsController < ApplicationController
+  include CustomFieldsHelper
+
+  def index: () -> nil
+
+  def new: () -> untyped
+
+  def edit: () -> nil
+
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  def destroy: () -> (nil | untyped)
+
+  def default_breadcrumb: () -> untyped
+
+  def show_local_breadcrumb: () -> true
+
+  def find_enumeration: () -> untyped
+
+  #
+  # Find an enumeration class with the given Name
+  # this should be fail save for nonsense names or names
+  # which are no enumerations to prevent remote code execution attacks.
+  # params: type (string)
+  def enumeration_class: (untyped type) -> untyped
+end

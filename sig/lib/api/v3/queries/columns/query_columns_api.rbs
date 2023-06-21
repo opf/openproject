@@ -1,0 +1,11 @@
+module API
+  module V3
+    module Queries
+      module Columns
+        class QueryColumnsAPI < ::API::OpenProjectAPI
+          def convert_to_ar: (untyped attribute) -> untyped
+        end
+      end
+    end
+  end
+end

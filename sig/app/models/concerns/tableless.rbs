@@ -1,0 +1,11 @@
+module Tableless
+  extend ActiveSupport::Concern
+
+  def persisted?: () -> false
+
+  def readonly?: () -> true
+
+  def attribute_names: () -> untyped
+
+  def load_schema!: () -> untyped
+end

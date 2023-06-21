@@ -1,0 +1,19 @@
+module API
+  module V3
+    module Queries
+      module SortBys
+        class QuerySortByRepresenter < ::API::Decorators::Single
+          include API::Utilities::RepresenterToJsonCache
+
+          def initialize: (untyped model, *untyped _) -> void
+
+          def self_link_params: () -> ::Array[untyped]
+
+          def _type: () -> "QuerySortBy"
+
+          def json_cache_key: () -> ::Array[untyped]
+        end
+      end
+    end
+  end
+end

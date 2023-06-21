@@ -1,0 +1,9 @@
+module API
+  module Caching
+    class StoredRepresenter
+      def initialize: (untyped json) -> void
+
+      def to_json: (*untyped _args) -> untyped
+    end
+  end
+end

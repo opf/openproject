@@ -1,0 +1,9 @@
+module OpenProject::TextFormatting::Filters::Macros
+  module Toc
+    HTML_CLASS: "toc"
+
+    def self?.identifier: () -> untyped
+
+    def self?.apply: (untyped macro, result: untyped, context: untyped) -> untyped
+  end
+end

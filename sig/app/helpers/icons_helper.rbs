@@ -1,0 +1,13 @@
+module IconsHelper
+  #
+  # Create an <i> tag with the given icon class names
+  # and make it aria-hidden since screenreaders otherwise
+  # output the css `content` of the icon.
+  def op_icon: (untyped classnames, ?title: untyped?) -> untyped
+
+  def spot_icon: (untyped icon_name, ?title: untyped?, ?size: untyped?, ?inline: bool, ?classnames: untyped?) -> untyped
+
+  #
+  # Icon wrapper with an invisible label
+  def icon_wrapper: (untyped icon_class, untyped label) -> untyped
+end

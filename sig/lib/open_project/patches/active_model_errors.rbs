@@ -1,0 +1,8 @@
+# This patch should no longer be necessary.
+# But we have references to symbolds_and_messages_for as well as for symbols_for all over
+# the code base.
+module OpenProject::ActiveModelErrorsPatch
+  def symbols_and_messages_for: (untyped attribute) -> untyped
+
+  def symbols_for: (untyped attribute) -> untyped
+end

@@ -1,0 +1,27 @@
+module Exports
+  class Register
+    attr_reader self.lists: untyped
+
+    attr_reader self.singles: untyped
+
+    attr_reader self.formatters: untyped
+
+    def self.register: () { () -> untyped } -> untyped
+
+    def self.list: (untyped model, untyped exporter) -> untyped
+
+    def self.list_formats: (untyped model) -> untyped
+
+    def self.single: (untyped model, untyped exporter) -> untyped
+
+    def self.single_formats: (untyped model) -> untyped
+
+    def self.formatter: (untyped model, untyped formatter) -> untyped
+
+    def self.list_exporter: (untyped model, untyped format) -> untyped
+
+    def self.single_exporter: (untyped model, untyped format) -> untyped
+
+    def self.formatter_for: (untyped model, untyped attribute, untyped export_format) -> untyped
+  end
+end

@@ -1,0 +1,9 @@
+class ARCondition
+  attr_reader conditions: untyped
+
+  def initialize: (?untyped? condition) -> void
+
+  def add: (untyped condition) -> self
+
+  def <<: (untyped condition) -> untyped
+end

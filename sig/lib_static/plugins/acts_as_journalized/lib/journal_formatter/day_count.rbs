@@ -1,0 +1,5 @@
+module JournalFormatter
+  class DayCount < Attribute
+    def format_values: (untyped values) -> untyped
+  end
+end

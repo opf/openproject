@@ -1,0 +1,23 @@
+class Principals::DeleteJob < ApplicationJob
+  def perform: (untyped principal) -> untyped
+
+  private
+
+  def replace_references: (untyped principal) -> untyped
+
+  def replace_mentions: (untyped principal) -> (nil | untyped)
+
+  def delete_associated: (untyped principal) -> untyped
+
+  def delete_notifications: (untyped principal) -> untyped
+
+  def delete_private_queries: (untyped principal) -> untyped
+
+  def delete_tokens: (untyped principal) -> untyped
+
+  def update_cost_queries: (untyped principal) -> untyped
+
+  def remove_cost_query_values: (untyped name, untyped options, untyped principal) -> untyped
+
+  def remove_members: (untyped principal) -> untyped
+end

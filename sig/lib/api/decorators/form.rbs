@@ -1,0 +1,13 @@
+module API
+  module Decorators
+    class Form < ::API::Decorators::Single
+      def initialize: (untyped represented, ?current_user: untyped?, ?errors: untyped, ?meta: untyped?) -> void
+
+      def _type: () -> "Form"
+
+      def validation_errors: () -> untyped
+
+      attr_reader meta: untyped
+    end
+  end
+end

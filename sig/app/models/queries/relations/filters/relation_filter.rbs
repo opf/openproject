@@ -1,0 +1,11 @@
+module Queries
+  module Relations
+    module Filters
+      class RelationFilter < ::Queries::Filters::Base
+        def human_name: () -> untyped
+
+        def visibility_checked?: () -> false
+      end
+    end
+  end
+end

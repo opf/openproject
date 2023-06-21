@@ -1,0 +1,27 @@
+module Queries::Filters::Shared::CustomFieldFilter
+  def self.included: (untyped base) -> untyped
+
+  module ClassMethods
+    def key: () -> ::Regexp
+
+    def all_for: (?untyped? context) -> untyped
+
+    #
+    # Find the given custom field by its accessor, should it exist.
+    def find_by_accessor: (untyped name) -> untyped
+
+    #
+    # Create a filter instance for the given custom field accessor
+    def create!: (name: untyped, **untyped options) -> untyped
+
+    #
+    # Create a filter instance for the given custom field
+    def from_custom_field!: (custom_field: untyped, **untyped options) -> untyped
+
+    #
+    # Get the subfilter class name for the given custom field
+    def subfilter_module: (untyped custom_field) -> untyped
+
+    def all_custom_fields: () -> untyped
+  end
+end

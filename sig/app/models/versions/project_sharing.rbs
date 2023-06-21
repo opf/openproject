@@ -1,0 +1,34 @@
+module Versions::ProjectSharing
+  # Returns all projects the version is available in
+  def projects: () -> untyped
+
+  private
+
+  def project_sharing_join: () -> untyped
+
+  def project_sharing_select: (untyped versions_table) -> untyped
+
+  def project_sharing_tree_select: (untyped versions_table) -> untyped
+
+  def project_sharing_default_select: (untyped versions_table) -> untyped
+
+  def necessary_sharing_fields: (untyped sharing_select, untyped projects_table, untyped versions_table) -> untyped
+
+  def join_project_and_version: (untyped projects_table, untyped versions_table) -> untyped
+
+  def project_sharing_tree_root_join_condition: (untyped roots_table, untyped hierarchy_table) -> untyped
+
+  def project_sharing_join_condition: (untyped sharing_table, untyped projects_table) -> untyped
+
+  def project_sharing_tree_join_condition: (untyped sharing_table, untyped projects_table) -> untyped
+
+  def project_sharing_descendants_join_condition: (untyped sharing_table, untyped projects_table) -> untyped
+
+  def project_sharing_hierarchy_join_condition: (untyped sharing_table, untyped projects_table) -> untyped
+
+  def project_sharing_equal_condition: (untyped sharing_table, untyped projects_table) -> untyped
+
+  def project_sharing_above_condition: (untyped sharing_table, untyped projects_table) -> untyped
+
+  def project_sharing_below_condition: (untyped sharing_table, untyped projects_table) -> untyped
+end

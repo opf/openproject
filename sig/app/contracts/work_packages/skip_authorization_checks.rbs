@@ -1,0 +1,13 @@
+module WorkPackages::SkipAuthorizationChecks
+  def user_allowed_to_add: () -> nil
+
+  def validate_user_allowed_to_set_parent: () -> nil
+
+  def user_allowed_to_access: () -> nil
+
+  def user_allowed_to_edit: () -> nil
+
+  def user_allowed_to_move: () -> nil
+
+  def reduce_by_writable_permissions: (untyped attributes) -> untyped
+end

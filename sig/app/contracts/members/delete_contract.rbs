@@ -1,0 +1,7 @@
+module Members
+  class DeleteContract < ::DeleteContract
+    private
+
+    def member_is_deletable: () -> (untyped | nil)
+  end
+end

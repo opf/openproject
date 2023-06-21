@@ -1,0 +1,76 @@
+module Redmine
+  module I18n
+    include ActionView::Helpers::NumberHelper
+
+    IN_CONTEXT_TRANSLATION_CODE: :lol
+
+    IN_CONTEXT_TRANSLATION_NAME: "In-Context Crowdin Translation"
+
+    def self.included: (untyped base) -> untyped
+
+    def self.all_languages: () -> untyped
+
+    def l_or_humanize: (untyped s, ?::Hash[untyped, untyped] options) -> untyped
+
+    def l_hours: (untyped hours) -> untyped
+
+    def localized_float: (untyped number, ?locale: untyped, ?precision: ::Integer) -> untyped
+
+    def format_date: (untyped date) -> (nil | untyped)
+
+    #
+    # Gives a translation and inserts links into designated spots within it
+    # in the style of markdown links. Instead of the actual URL only names for
+    # the respective links are used in the translation.
+    #
+    # The method then expects a hash mapping each of those keys to actual URLs.
+    #
+    # For example:
+    #
+    #     en.yml:
+    #       en:
+    #         logged_out: You have been logged out. Click [here](login) to login again.
+    #
+    # Which would then be used like this:
+    #
+    #     link_translate(:logged_out, links: { login: login_url })
+    #
+    # @param i18n_key [String] The I18n key to translate.
+    # @param links [Hash] Link names mapped to URLs.
+    def link_translate: (untyped i18n_key, ?links: ::Hash[untyped, untyped], ?locale: untyped) -> untyped
+
+    #
+    # Example: in `foo [bar](name) baz` matches:
+    #
+    #   - `[bar](name)`
+    #   - `bar`
+    #   - `name`
+    def link_regex: () -> ::Regexp
+
+    # Format the time to a date in the user time zone if one is set.
+    # If none is set and the time is in utc time zone (meaning it came from active record), format the date in the system timezone
+    # otherwise just use the date in the time zone attached to the time.
+    def format_time_as_date: (untyped time, ?untyped? format) -> (nil | untyped)
+
+    def format_time: (untyped time, ?bool include_date) -> (nil | untyped)
+
+    def day_name: (untyped day) -> untyped
+
+    def month_name: (untyped month) -> untyped
+
+    def valid_languages: () -> untyped
+
+    def all_languages: () -> untyped
+
+    #
+    # Returns the given language if it is valid or nil otherwise.
+    def find_language: (untyped lang) -> (nil | untyped)
+
+    def set_language_if_valid: (untyped lang) -> (untyped | nil)
+
+    def current_language: () -> untyped
+
+    # Collects all translations for ActiveRecord attributes
+    def all_attribute_translations: (untyped locale) -> untyped
+  end
+end

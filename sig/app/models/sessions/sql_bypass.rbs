@@ -1,0 +1,39 @@
+#
+# An extension to the SqlBypass class to store
+# sessions in database without going through ActiveRecord
+module Sessions
+  class SqlBypass < ::ActiveRecord::SessionStore::SqlBypass
+    #
+    # Looks up session data for a given session ID.
+    #
+    # This is not specific to AR sessions which are stored as AR records.
+    # But this is the probably the first place one would search for session-related
+    # methods. I.e. this works just as well for cache- and file-based sessions.
+    #
+    # @param session_id [String] The session ID as found in the `_open_project_session` cookie
+    # @return [Hash] The saved session data (user_id, updated_at, etc.) or nil if no session was found.
+    def self.lookup_data: (untyped session_id) -> untyped
+
+    def self.connection_pool: () -> untyped
+
+    def self.connection: () -> untyped
+
+    #
+    # Save while updating the user_id reference and updated_at column
+    def save: () -> (false | untyped)
+
+    #
+    # Also destroy any other session when this one is actively destroyed
+    def destroy: () -> untyped
+
+    private
+
+    def user_id: () -> untyped
+
+    def insert!: () -> untyped
+
+    def update!: () -> untyped
+
+    def delete_user_sessions: () -> (nil | untyped)
+  end
+end

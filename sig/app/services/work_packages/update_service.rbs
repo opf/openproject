@@ -1,0 +1,38 @@
+class WorkPackages::UpdateService < BaseServices::Update
+  include ::WorkPackages::Shared::UpdateAncestors
+
+  include Attachments::ReplaceAttachments
+
+  private
+
+  def after_perform: (untyped service_call) -> untyped
+
+  def update_related_work_packages: (untyped service_call) -> untyped
+
+  def update_related: (untyped work_package) -> untyped
+
+  def update_descendants: (untyped work_package) -> (untyped | ::Array[untyped])
+
+  def set_descendant_attributes: (untyped attributes, untyped descendant) -> untyped
+
+  def cleanup: (untyped work_package) -> untyped
+
+  def delete_relations: (untyped work_packages) -> (untyped | nil)
+
+  def move_time_entries: (untyped work_packages, untyped project_id) -> untyped
+
+  def reset_custom_values: (untyped work_package) -> untyped
+
+  def reschedule_related: (untyped work_package) -> untyped
+
+  def reschedule_former_siblings: (untyped work_package) -> untyped
+
+  def reschedule: (untyped work_package, untyped work_packages) -> untyped
+
+  # When multiple services change a work package, we still only want one update to the database due to:
+  # * performance
+  # * having only one journal entry
+  # * stale object errors
+  # we thus consolidate the results so that one instance contains the changes made by all the services.
+  def consolidated_calls: (untyped service_calls) -> untyped
+end

@@ -1,0 +1,5 @@
+class Services::CreateRelation
+  def initialize: (untyped from_work_package, untyped to_work_package, ?::Hash[untyped, untyped] attrs) -> void
+
+  def run: (?untyped success, ?untyped _failure) -> untyped
+end

@@ -1,0 +1,52 @@
+module Redmine::MenuManager::TopMenuHelper
+  include Redmine::MenuManager::TopMenu::HelpMenu
+
+  include Redmine::MenuManager::TopMenu::ProjectsMenu
+
+  include Redmine::MenuManager::TopMenu::QuickAddMenu
+
+  def render_top_menu_left: () -> untyped
+
+  def top_menu_left_menu_items: () -> ::Array[untyped]
+
+  def render_top_menu_center: () -> untyped
+
+  def render_top_menu_search: () -> untyped
+
+  def render_top_menu_right: () -> untyped
+
+  def top_menu_right_node: () -> untyped
+
+  def top_menu_right_menu_items: () -> ::Array[untyped]
+
+  private
+
+  def render_notification_top_menu_node: () -> untyped
+
+  def render_user_top_menu_node: (?untyped items) -> untyped
+
+  def render_login_drop_down: () -> untyped
+
+  def render_direct_login: () -> untyped
+
+  def render_user_drop_down: (untyped items) -> untyped
+
+  def render_login_partial: () -> untyped
+
+  def render_module_top_menu_node: (?untyped items) -> (untyped | nil)
+
+  def render_main_top_menu_nodes: (?untyped items) -> untyped
+
+  # Menu items for the main top menu
+  def main_top_menu_items: () -> untyped
+
+  # Menu items for the modules top menu
+  def more_top_menu_items: () -> untyped
+
+  def project_menu_items: () -> untyped
+
+  def help_menu_item: () -> untyped
+
+  # Split the :top_menu into separate :main and :modules items
+  def split_top_menu_into_main_or_more_menus: () -> untyped
+end

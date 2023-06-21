@@ -1,0 +1,79 @@
+module API
+  class RootAPI < Grape::API
+    include OpenProject::Authentication::Scope
+
+    include ::API::AppsignalAPI
+
+    extend API::Utilities::GrapeHelper
+
+    module Helpers
+      def current_user: () -> untyped
+
+      def warden: () -> untyped
+
+      #
+      # Helper to access only the declared
+      # params to avoid unvalidated access
+      # (e.g., in before blocks)
+      def declared_params: () -> untyped
+
+      def request_body: () -> untyped
+
+      def authenticate: () -> untyped
+
+      def allowed_unauthenticated_route?: () -> false
+
+      def set_localization: () -> untyped
+
+      # Global helper to set allowed content_types
+      # This may be overridden when multipart is allowed (file uploads)
+      def allowed_content_types: () -> ::Array["application/json" | "application/hal+json"]
+
+      def enforce_content_type: () -> (nil | untyped)
+
+      def logged_in?: () -> untyped
+
+      # Checks that the current user has the given permission or raise
+      # {API::Errors::Unauthorized}.
+      #
+      # @param permission [String] the permission name
+      #
+      # @param context [Project, Array<Project>, nil] can be:
+      #   * a project : returns true if user is allowed to do the specified
+      #     action on this project
+      #   * a group of projects : returns true if user is allowed on every
+      #     project
+      #   * +nil+ with +options[:global]+ set: check if user has at least one
+      #     role allowed for this action, or falls back to Non Member /
+      #     Anonymous permissions depending if the user is logged
+      #
+      # @param global [Boolean] when +true+ and with +context+ set to +nil+:
+      #   checks that the current user is allowed to do the specified action on
+      #   any project
+      #
+      # @raise [API::Errors::Unauthorized] when permission is not met
+      def authorize: (untyped permission, ?context: untyped?, ?global: bool, ?user: untyped) { () -> untyped } -> untyped
+
+      def authorize_by_with_raise: (untyped callable) ?{ () -> untyped } -> (true | false)
+
+      # checks whether the user has
+      # any of the provided permission in any of the provided
+      # projects
+      def authorize_any: (untyped permissions, ?projects: untyped?, ?global: bool, ?user: untyped) { () -> untyped } -> untyped
+
+      def authorize_admin: () -> untyped
+
+      def authorize_logged_in: () -> untyped
+
+      def raise_query_errors: (untyped object) -> untyped
+
+      def raise_invalid_query_on_service_failure: () { () -> untyped } -> untyped
+    end
+
+    def self.auth_headers: () -> untyped
+
+    def self.error_representer: (untyped klass, untyped content_type) -> untyped
+
+    def self.authentication_scope: (untyped sym) -> untyped
+  end
+end

@@ -1,0 +1,17 @@
+module API
+  module V3
+    module WorkPackages
+      class WorkPackageSumsRepresenter < ::API::Decorators::Single
+        extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
+
+        include ActionView::Helpers::NumberHelper
+
+        include ::API::Decorators::DateProperty
+
+        def initialize: (untyped sums) -> void
+
+        def self.create: (untyped sums, untyped current_user) -> untyped
+      end
+    end
+  end
+end

@@ -1,0 +1,18 @@
+#
+# Logging helper to forward to the OpenProject log delegator
+# which will log and report errors appropriately.
+module OpenProjectErrorHelper
+  def op_logger: () -> untyped
+
+  def op_handle_error: (untyped message_or_exception, ?::Hash[untyped, untyped] context) -> untyped
+
+  def op_handle_warning: (untyped message_or_exception, ?::Hash[untyped, untyped] context) -> untyped
+
+  def op_handle_info: (untyped message_or_exception, ?::Hash[untyped, untyped] context) -> untyped
+
+  def op_handle_debug: (untyped message_or_exception, ?::Hash[untyped, untyped] context) -> untyped
+
+  private
+
+  def op_logging_context: () -> { current_user: untyped, params: untyped, request: untyped, session: untyped, env: untyped }
+end

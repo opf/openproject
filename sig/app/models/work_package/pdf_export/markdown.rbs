@@ -1,0 +1,29 @@
+module WorkPackage::PDFExport::Markdown
+  class MD2PDF
+    include MarkdownToPDF::Core
+
+    def initialize: (untyped styling_yml) -> void
+
+    def draw_markdown: (untyped markdown, untyped pdf, untyped image_loader) -> untyped
+
+    def image_url_to_local_file: (untyped url, ?untyped? _node) -> (nil | untyped)
+
+    def hyphenate: (untyped text) -> untyped
+
+    def handle_mention_html_tag: (untyped tag, untyped node, untyped opts) -> ::Array[untyped]
+
+    def handle_unknown_inline_html_tag: (untyped tag, untyped node, untyped opts) -> ::Array[untyped]
+
+    def handle_unknown_html_tag: (untyped tag, untyped node, untyped opts) -> (::Array[false | untyped] | ::Array[true | untyped])
+
+    def warn: (untyped text, untyped element, untyped node) -> untyped
+  end
+
+  def write_markdown!: (untyped work_package, untyped markdown) -> untyped
+
+  private
+
+  def attachment_image_filepath: (untyped work_package, untyped src) -> (nil | untyped)
+
+  def attachment_by_api_content_src: (untyped work_package, untyped src) -> untyped
+end

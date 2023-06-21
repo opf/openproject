@@ -1,0 +1,28 @@
+module OpenProject
+  module SCM
+    module Adapters
+      module CheckoutInstructions
+        #
+        # Returns the checkout URL for the given repository
+        # based on this adapter's knowledge
+        def checkout_url: (untyped repository, untyped base_url, untyped path) -> untyped
+
+        #
+        # Returns whether the SCM vendor supports subtree checkout
+        def subtree_checkout?: () -> false
+
+        #
+        # Returns the checkout command for this vendor
+        def checkout_command: () -> untyped
+
+        private
+
+        #
+        # Ensure URL has a trailing slash.
+        # Needed for base URL, because URI.join will otherwise
+        # assume a relative resource.
+        def with_trailing_slash: (untyped url) -> untyped
+      end
+    end
+  end
+end

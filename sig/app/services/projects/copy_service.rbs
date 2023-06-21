@@ -1,0 +1,39 @@
+module Projects
+  class CopyService < ::BaseServices::Copy
+    include Projects::Concerns::NewProjectService
+
+    def self.copy_dependencies: () -> ::Array[untyped]
+
+    #
+    # Whether to skip the given key.
+    # Useful when copying nested dependencies
+    def skip_dependency?: (untyped params, untyped dependency_cls) -> untyped
+
+    def set_attributes_params: (untyped _params) -> untyped
+
+    def before_perform: (untyped params, untyped service_call) -> untyped
+
+    def contract_options: () -> { copy_source: untyped, validate_model: true }
+
+    def retain_attributes: (untyped source, untyped target) -> (untyped | nil)
+
+    def skipped_attributes: () -> ::Array["id" | "created_at" | "updated_at" | "name" | "identifier" | "active" | "templated" | "lft" | "rgt"]
+
+    def source_attributes: () -> untyped
+
+    def source_enabled_modules: () -> untyped
+
+    def source_status: () -> untyped
+
+    def source_types: () -> untyped
+
+    def source_custom_fields: () -> untyped
+
+    def source_custom_field_attributes: () -> untyped
+
+    # Additional input target params
+    def target_project_params: () -> untyped
+
+    def only_allowed_parent_id: (untyped attributes) -> untyped
+  end
+end

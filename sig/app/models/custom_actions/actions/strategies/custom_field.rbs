@@ -1,0 +1,3 @@
+module CustomActions::Actions::Strategies::CustomField
+  def apply: (untyped work_package) -> (untyped | nil)
+end

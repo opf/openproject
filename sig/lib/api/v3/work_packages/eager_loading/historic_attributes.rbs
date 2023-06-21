@@ -1,0 +1,85 @@
+module API::V3::WorkPackages::EagerLoading
+  class HistoricAttributes < Base
+    attr_writer timestamps: untyped
+
+    attr_accessor query: untyped
+
+    def apply: (untyped work_package) -> (nil | untyped)
+
+    def self.module: () -> untyped
+
+    private
+
+    # Sets the attributes of the work package to be displayed directly as part of the _embedded/elements collection.
+    #
+    # Attributes can be:
+    #   * those associated with the timestamp functionality, e.g. the whether the work package existed.
+    #   * the attributes the work package had at the timestamp. This is only necessary in case a historic (i.e.) non
+    #     current timestamp is provided.
+    def set_root_work_package_attributes: (untyped work_package) -> untyped
+
+    # Sets the attributes of the work package to be displayed as part of the _embedded/attributesAtTimestamp of each
+    # work package of the collection (the full path could then be e.g. _embedded/elements/5/_embedded/attributesAtTimestamp)
+    #
+    # Attributes are:
+    #   * those associated with the timestamp functionality, e.g. whether the work package existed.
+    #   * the timestamp the work package is at. Mostly necessary in case the work package did not exist at that time as a
+    #     stand-in work package is created in this case.
+    #   * stand-in blank values for custom values/fields which are currently not used and thus do not need to be loaded.
+    def set_at_timestamp_attributes: (untyped work_package) -> untyped
+
+    def set_attributes_at_timestamp: (untyped work_package, untyped source, untyped timestamp, ?override_current: bool) -> untyped
+
+    def work_packages_with_historic_attributes: () -> untyped
+
+    def timestamps: () -> untyped
+
+    def override_attributes: (untyped work_package, untyped source) -> untyped
+
+    def set_timestamp_attributes: (untyped work_package, untyped source, untyped timestamp) -> untyped
+  end
+
+  module HistoricAttributesAccessors
+    extend ActiveSupport::Concern
+
+    attr_accessor at_timestamps: untyped
+
+    attr_accessor attributes_changed_to_baseline: untyped
+
+    attr_writer with_query: untyped
+
+    attr_writer exists_at_timestamp: untyped
+
+    attr_writer matches_filters_at_timestamp: untyped
+
+    attr_writer exists_at_current_timestamp: untyped
+
+    def with_query?: () -> untyped
+
+    def exists_at_timestamp?: () -> untyped
+
+    def exists_at_current_timestamp?: () -> untyped
+
+    def matches_filters_at_timestamp?: () -> untyped
+
+    def wrapped?: () -> true
+  end
+
+  # The wrapper around a work package only loaded to be then displayed as part of the
+  # attributesByTimestamps in the work package representer.
+  class AttributesByTimestampWorkPackage < SimpleDelegator
+    include HistoricAttributesAccessors
+
+    def initialize: (untyped work_package, untyped timestamp) -> void
+
+    attr_writer timestamp: untyped
+
+    def timestamp: () -> untyped
+
+    # Since custom fields are currently never displayed in the attributesByTimestamp,
+    # for which this object is used, simply short circuit the loading of the custom field information.
+    def available_custom_fields: () -> untyped
+
+    def define_all_custom_field_accessors: () -> nil
+  end
+end

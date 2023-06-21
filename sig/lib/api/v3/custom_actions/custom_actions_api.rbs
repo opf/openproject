@@ -1,0 +1,11 @@
+module API
+  module V3
+    module CustomActions
+      class CustomActionsAPI < ::API::OpenProjectAPI
+        def custom_action: () -> untyped
+
+        def parsed_params: () -> untyped
+      end
+    end
+  end
+end

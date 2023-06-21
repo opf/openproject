@@ -1,0 +1,43 @@
+module Exports
+  class ExportJob < ::ApplicationJob
+    def perform: (export: untyped, user: untyped, mime_type: untyped, query: untyped, **untyped options) -> untyped
+
+    def status_reference: () -> untyped
+
+    def updates_own_status?: () -> true
+
+    attr_accessor export: untyped
+
+    attr_accessor current_user: untyped
+
+    attr_accessor mime_type: untyped
+
+    attr_accessor query: untyped
+
+    attr_accessor options: untyped
+
+    def prepare!: () -> untyped
+
+    def export!: () -> untyped
+
+    def exporter_instance: () -> untyped
+
+    def handle_export_result: (untyped export, untyped result) -> untyped
+
+    def store_from_tempfile: (untyped export, untyped export_result) -> untyped
+
+    #
+    # Create a target file name, replacing any invalid characters
+    def target_file_name: (untyped export_result) -> untyped
+
+    def schedule_cleanup: () -> untyped
+
+    def clean_filename: (untyped export_result) -> untyped
+
+    def store_from_string: (untyped export, untyped export_result) -> untyped
+
+    def with_tempfile: (untyped title, untyped content) { (untyped) -> untyped } -> untyped
+
+    def store_attachment: (untyped container, untyped file, untyped export_result) -> untyped
+  end
+end

@@ -1,0 +1,7 @@
+module Versions
+  class UpdateContract < BaseContract
+    private
+
+    def assignable_projects: () -> ::Array[untyped]
+  end
+end

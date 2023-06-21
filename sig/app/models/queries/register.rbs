@@ -1,0 +1,41 @@
+module Queries::Register
+  def self.filter: (untyped query, untyped filter) -> untyped
+
+  # Exclude filter from filters collection representer.
+  def self.exclude: (untyped filter) -> untyped
+
+  def self.order: (untyped query, untyped order) -> untyped
+
+  def self.group_by: (untyped query, untyped group_by) -> untyped
+
+  def self.column: (untyped query, untyped column) -> untyped
+
+  def self.register: (untyped query) { () -> untyped } -> untyped
+
+  attr_accessor self.filters: untyped
+
+  attr_accessor self.excluded_filters: untyped
+
+  attr_accessor self.orders: untyped
+
+  attr_accessor self.columns: untyped
+
+  attr_accessor self.group_bys: untyped
+
+  class Registration
+    attr_reader query: untyped
+
+    def initialize: (untyped query) -> void
+
+    def filter: (untyped filter) -> untyped
+
+    # Exclude filter from filters collection representer.
+    def exclude: (untyped filter) -> untyped
+
+    def order: (untyped order) -> untyped
+
+    def group_by: (untyped group_by) -> untyped
+
+    def column: (untyped column) -> untyped
+  end
+end

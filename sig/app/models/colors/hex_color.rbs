@@ -1,0 +1,53 @@
+module Colors
+  module HexColor
+    #
+    # Returns the best contrasting color, either white or black
+    # depending on the overall brightness.
+    def contrasting_color: (?light_color: ::String, ?dark_color: ::String) -> untyped
+
+    #
+    # Get the fill style for this color.
+    # If the color is light, use a dark font.
+    # Otherwise, use a white font.
+    def color_styles: (?light_color: ::String, ?dark_color: ::String) -> { color: untyped, :"background-color" => untyped }
+
+    #
+    # Returns whether the color is bright according to
+    # YIQ lightness.
+    def bright?: () -> untyped
+
+    def dark?: () -> untyped
+
+    #
+    # Returns whether the color is very bright according to
+    # YIQ lightness.
+    def super_bright?: () -> untyped
+
+    #
+    # Sum the color values of each channel
+    # Same as in frontend color-contrast.functions.ts
+    def brightness_yiq: () -> untyped
+
+    #
+    # Splits the hexcode into rbg color array
+    def rgb_colors: () -> untyped
+
+    def rgb_modify: () { () -> untyped } -> untyped
+
+    #
+    # Darken this color by the given decimal amount
+    def darken: (untyped amount) -> untyped
+
+    #
+    # Lighten this color by the given decimal amount
+    def lighten: (untyped amount) -> untyped
+
+    #
+    # Blend the color with the same mix_value for all channels
+    # and the given opacity
+    def blend: (untyped mix_value, untyped opacity) -> untyped
+
+    # rubocop:disable Metrics/AbcSize
+    def normalize_hexcode: () -> (nil | untyped)
+  end
+end

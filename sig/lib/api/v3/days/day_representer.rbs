@@ -1,0 +1,5 @@
+module API::V3::Days
+  class DayRepresenter < ::API::Decorators::Single
+    def _type: () -> "Day"
+  end
+end

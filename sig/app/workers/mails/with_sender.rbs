@@ -1,0 +1,9 @@
+module Mails::WithSender
+  def perform: (untyped recipient_id, untyped sender_id) -> untyped
+
+  private
+
+  attr_accessor sender_id: untyped
+
+  def sender: () -> untyped
+end

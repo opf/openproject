@@ -1,0 +1,42 @@
+module ::Query::Results::GroupBy
+  # Returns the work package count by group or nil if query is not grouped
+  def work_package_count_by_group: () -> untyped
+
+  def work_package_count_for: (untyped group) -> untyped
+
+  private
+
+  def group_counts_by_group: () -> untyped
+
+  def work_packages_with_includes_for_count: () -> untyped
+
+  def group_by_for_count: () -> untyped
+
+  def pluck_for_count: () -> untyped
+
+  def order_for_count: () -> untyped
+
+  def transform_group_keys: (untyped groups) -> untyped
+
+  def transform_custom_field_keys: (untyped groups) -> untyped
+
+  def transform_list_custom_field_keys: (untyped custom_field, untyped groups) -> untyped
+
+  def custom_options_for_keys: (untyped custom_field, untyped groups) -> untyped
+
+  def transform_single_custom_field_keys: (untyped custom_field, untyped groups) -> untyped
+
+  def transform_property_keys: (untyped groups) -> untyped
+
+  def transform_association_property_keys: (untyped association, untyped groups) -> untyped
+
+  # Returns the SQL sort order that should be prepended for grouping
+  def group_by_sort: (?order: bool) -> (untyped | nil)
+
+  def aliased_group_by_sort_order: (untyped alias_name, untyped sortable, untyped columns_hash, ?untyped? order) -> untyped
+
+  #
+  # Retrieve the defined order for the group by
+  # IF it occurs in the sort criteria
+  def order_for_group_by: (untyped column) -> ::String
+end

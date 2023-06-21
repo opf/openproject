@@ -1,0 +1,5 @@
+class HomescreenController < ApplicationController
+  def index: () -> untyped
+
+  def robots: () -> untyped
+end

@@ -1,0 +1,16 @@
+module Grids
+  #
+  # Base class for any grid-based model's copy service.
+  class CopyService < ::BaseServices::Copy
+    #
+    # DependentServices can be specialised through a class in the
+    # concrete model's namespace, e.g. Boards::Copy::WidgetsDependentService.
+    def self.copy_dependencies: () -> ::Array[untyped]
+
+    def self.widgets_dependency: () -> untyped
+
+    def initialize: (user: untyped, source: untyped, ?contract_class: untyped) -> void
+
+    def set_attributes_params: (untyped _params) -> untyped
+  end
+end

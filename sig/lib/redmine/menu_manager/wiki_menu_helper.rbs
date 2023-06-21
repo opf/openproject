@@ -1,0 +1,15 @@
+module Redmine::MenuManager::WikiMenuHelper
+  def build_wiki_menus: (untyped project) -> (nil | untyped)
+
+  def push_wiki_main_menu: (untyped menu, untyped main_item, untyped project) -> untyped
+
+  def push_wiki_menu_subitem: (untyped menu, untyped main_item, untyped child) -> untyped
+
+  def default_menu_item: (untyped page) -> untyped
+
+  private
+
+  def wiki_main_items: (untyped wiki) -> untyped
+
+  def push_wiki_menu_partial: (untyped main_item, untyped menu) -> untyped
+end

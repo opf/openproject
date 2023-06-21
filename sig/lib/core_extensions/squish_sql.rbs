@@ -1,0 +1,6 @@
+# Refinement to also remove SQL comments when using +String#squish+.
+#
+# To use it, add +using CoreExtensions::SquishSql+. Refinements are scoped.
+# See https://docs.ruby-lang.org/en/3.1/syntax/refinements_rdoc.html
+module CoreExtensions::SquishSql
+end

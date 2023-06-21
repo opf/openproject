@@ -1,0 +1,39 @@
+module Queries::Filters::Shared
+  module CustomFields
+    class Base < Queries::Filters::Base
+      include Queries::Filters::Serializable
+
+      attr_reader custom_field: untyped
+
+      attr_reader custom_field_context: untyped
+
+      def initialize: (custom_field: untyped, custom_field_context: untyped, **untyped options) -> void
+
+      def self.create!: (custom_field: untyped, custom_field_context: untyped, **untyped options) -> untyped
+
+      def project: () -> untyped
+
+      def available?: () -> untyped
+
+      def order: () -> 20
+
+      def human_name: () -> untyped
+
+      def allowed_values: () -> untyped
+
+      def type_strategy: () -> untyped
+
+      def strategies: () -> untyped
+
+      def type: () -> untyped
+
+      def where: () -> ::String
+
+      def error_messages: () -> untyped
+
+      def condition: () -> untyped
+
+      def type_strategy_class: () -> untyped
+    end
+  end
+end

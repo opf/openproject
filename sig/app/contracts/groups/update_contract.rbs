@@ -1,0 +1,4 @@
+module Groups
+  class UpdateContract < BaseContract
+  end
+end

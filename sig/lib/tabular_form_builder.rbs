@@ -1,0 +1,70 @@
+class TabularFormBuilder < ActionView::Helpers::FormBuilder
+  include Redmine::I18n
+
+  include ActionView::Helpers::AssetTagHelper
+
+  include ERB::Util
+
+  include TextFormattingHelper
+
+  include AngularHelper
+
+  def self.tag_with_label_method: (untyped selector) ?{ () -> untyped } -> untyped
+
+  def self.with_text_formatting: () -> untyped
+
+  def label: (untyped method, ?untyped? text, ?::Hash[untyped, untyped] options) { () -> untyped } -> untyped
+
+  def date_picker: (untyped field, ?::Hash[untyped, untyped] options) -> untyped
+
+  def radio_button: (untyped field, untyped value, ?::Hash[untyped, untyped] options, *untyped args) -> untyped
+
+  def select: (untyped field, untyped choices, ?::Hash[untyped, untyped] options, ?::Hash[untyped, untyped] html_options) -> untyped
+
+  def collection_select: (untyped field, untyped collection, untyped value_method, untyped text_method, ?::Hash[untyped, untyped] options, ?::Hash[untyped, untyped] html_options) -> untyped
+
+  def collection_check_box: (untyped field, untyped checked_value, untyped checked, ?untyped text, ?::Hash[untyped, untyped] options) -> untyped
+
+  def fields_for_custom_fields: (untyped record_name, ?untyped? record_object, ?::Hash[untyped, untyped] options) { () -> untyped } -> untyped
+
+  private
+
+  attr_reader template: untyped
+
+  TEXT_LIKE_FIELDS: ::Array[:number_field | :password_field | :url_field | :telephone_field | :email_field]
+
+  def container_wrap_field: (untyped field_html, untyped selector, ?::Hash[untyped, untyped] options) -> untyped
+
+  def merge_required_attributes: (untyped required, ?untyped? options) -> (untyped | nil)
+
+  def field_container_wrap_field: (untyped field_html, ?::Hash[untyped, untyped] options) -> untyped
+
+  def field_container_css_class: (untyped selector, untyped options) -> untyped
+
+  #
+  # Create a wrapper for the text formatting toolbar for this field
+  def text_formatting_wrapper: (untyped target_id, untyped options) -> untyped
+
+  def field_css_class: (untyped selector) -> ::String
+
+  # Returns a label tag for the given field
+  def label_for_field: (untyped field, ?::Hash[untyped, untyped] options) -> untyped
+
+  def label_for_field_errors: (untyped content, untyped options, untyped field) -> (untyped | nil)
+
+  def label_for_field_for: (untyped options, untyped label_options, untyped _field) -> untyped
+
+  def label_for_field_prefix: (untyped content, untyped options) -> (untyped | nil)
+
+  def label_for_field_class: (untyped klass) -> untyped
+
+  def get_localized_field: (untyped field, untyped label) -> untyped
+
+  def field_has_errors?: (untyped field) -> untyped
+
+  def extract_from: (untyped options) -> ::Array[untyped]
+
+  def sanitized_object_name: () -> untyped
+
+  def title_from_context: (untyped method) -> untyped
+end

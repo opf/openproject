@@ -1,0 +1,5 @@
+class Queries::Groups::GroupQuery < Queries::BaseQuery
+  def self.model: () -> untyped
+
+  def default_scope: () -> untyped
+end

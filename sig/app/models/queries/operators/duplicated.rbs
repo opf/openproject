@@ -1,0 +1,4 @@
+module Queries::Operators
+  class Duplicated < Base
+  end
+end

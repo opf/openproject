@@ -1,0 +1,21 @@
+module Queries::Filters::Strategies
+  class BaseStrategy
+    attr_accessor filter: untyped
+
+    def initialize: (untyped filter) -> void
+
+    def validate: () -> nil
+
+    def operator: () -> untyped
+
+    def valid_values!: () -> nil
+
+    def supported_operator_classes: () -> untyped
+
+    def default_operator_class: () -> untyped
+
+    private
+
+    def operator_map: () -> untyped
+  end
+end

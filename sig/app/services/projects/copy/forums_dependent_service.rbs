@@ -1,0 +1,11 @@
+module Projects::Copy
+  class ForumsDependentService < Dependency
+    def self.human_name: () -> untyped
+
+    def source_count: () -> untyped
+
+    def copy_dependency: (params: untyped) -> untyped
+
+    def copy_topics: (untyped board, untyped new_forum) -> untyped
+  end
+end

@@ -1,0 +1,9 @@
+module AdditionalUrlHelpers
+  include AuthenticationStagePathHelper
+
+  def self?.fixed_home_url: () -> untyped
+
+  def self?.configurable_home_url: () -> untyped
+
+  def self?.add_params_to_uri: (untyped uri, ?::Hash[untyped, untyped] args) -> untyped
+end

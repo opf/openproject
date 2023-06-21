@@ -1,0 +1,13 @@
+class Queries::WorkPackages::Filter::CommentFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  include Queries::WorkPackages::Filter::TextFilterOnJoinMixin
+
+  def type: () -> :text
+
+  private
+
+  def where_condition: () -> ::String
+
+  def notes_condition: () -> untyped
+
+  def journal_table: () -> untyped
+end

@@ -1,0 +1,7 @@
+class Queries::Notifications::Filters::IdFilter < Queries::Notifications::Filters::NotificationFilter
+  def allowed_values: () -> untyped
+
+  def type: () -> :list
+
+  def self.key: () -> :id
+end

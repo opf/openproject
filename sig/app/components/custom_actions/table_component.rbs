@@ -1,0 +1,7 @@
+module CustomActions
+  class TableComponent < ::TableComponent
+    def headers: () -> ::Array[::Array["name" | { caption: untyped }] | ::Array["description" | { caption: untyped }] | ::Array["sort" | { caption: untyped }]]
+
+    def inline_create_link: () -> untyped
+  end
+end

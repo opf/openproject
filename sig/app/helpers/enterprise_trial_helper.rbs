@@ -1,0 +1,5 @@
+module EnterpriseTrialHelper
+  def chargebee_content_security_policy: () -> untyped
+
+  def youtube_content_security_policy: () -> untyped
+end

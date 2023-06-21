@@ -1,0 +1,10 @@
+module API
+  module V3
+    module Queries
+      module Operators
+        class QueryOperatorsAPI < ::API::OpenProjectAPI
+        end
+      end
+    end
+  end
+end

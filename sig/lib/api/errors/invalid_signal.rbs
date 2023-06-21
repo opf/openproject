@@ -1,0 +1,7 @@
+module API
+  module Errors
+    class InvalidSignal < ErrorBase
+      def initialize: (untyped invalid, untyped supported, untyped type) -> void
+    end
+  end
+end

@@ -1,0 +1,13 @@
+module API
+  module V3
+    module Views
+      class ViewRepresenter < ::API::Decorators::Single
+        include API::Decorators::DateProperty
+
+        include API::Decorators::LinkedResource
+
+        def _type: () -> ::String
+      end
+    end
+  end
+end

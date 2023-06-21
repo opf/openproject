@@ -1,0 +1,25 @@
+module OpenProject
+  module Authentication
+    class FailureApp
+      attr_reader failure_handlers: untyped
+
+      def initialize: (untyped failure_handlers) -> void
+
+      def call: (untyped env) -> untyped
+
+      def default_failure_handler: () -> untyped
+
+      def handle_failure: (untyped warden) -> ::Array[untyped | ::Array[untyped]]
+
+      def unauthorized: (untyped env) -> ::Array[401 | untyped | ::Array["unauthorized"]]
+
+      def warden: (untyped env) -> untyped
+
+      def warden_options: (untyped env) -> untyped
+
+      def unauthorized_header: (untyped env) -> ::Hash[::String, untyped]
+
+      def scope: (untyped env) -> untyped
+    end
+  end
+end

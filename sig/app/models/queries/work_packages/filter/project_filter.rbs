@@ -1,0 +1,26 @@
+class Queries::WorkPackages::Filter::ProjectFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  def allowed_values: () -> untyped
+
+  def available?: () -> untyped
+
+  def type: () -> :list
+
+  def self.key: () -> :project_id
+
+  def ar_object_filter?: () -> true
+
+  def value_objects: () -> untyped
+
+  def where: () -> untyped
+
+  private
+
+  def visible_projects: () -> untyped
+
+  #
+  # Depending on whether subprojects are included in the query,
+  # expand selected projects with its descendants
+  def projects_and_descendants: () -> untyped
+
+  def expand_subprojects: (untyped selected_project) -> (untyped | ::Array[untyped])
+end

@@ -1,0 +1,5 @@
+class CustomActions::CreateService < CustomActions::BaseService
+  def initialize: (user: untyped) -> void
+
+  def call: (attributes: untyped, ?action: untyped) { () -> untyped } -> untyped
+end

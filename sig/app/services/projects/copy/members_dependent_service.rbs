@@ -1,0 +1,11 @@
+module Projects::Copy
+  class MembersDependentService < Dependency
+    def self.human_name: () -> untyped
+
+    def source_count: () -> untyped
+
+    def copy_dependency: (*untyped) -> untyped
+
+    def create_membership: (untyped member) -> (nil | untyped)
+  end
+end

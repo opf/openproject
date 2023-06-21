@@ -1,0 +1,19 @@
+module OpenProject::TextFormatting
+  module Filters
+    class SanitizationFilter < HTML::Pipeline::SanitizationFilter
+      def allowlist: () -> untyped
+
+      private
+
+      def transformers: () -> ::Array[untyped]
+
+      # Transformer to fix task lists in sanitization
+      # Replace to do lists in tables with their markdown equivalent
+      def todo_list_transformer: () -> untyped
+
+      # Prevent nested pre + code.
+      # In such a case, the code is removed.
+      def code_block_transformer: () -> untyped
+    end
+  end
+end

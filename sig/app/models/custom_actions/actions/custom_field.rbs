@@ -1,0 +1,19 @@
+class CustomActions::Actions::CustomField < CustomActions::Actions::Base
+  def self.key: () -> untyped
+
+  def self.custom_field: () -> untyped
+
+  def custom_field: () -> untyped
+
+  def human_name: () -> untyped
+
+  def apply: (untyped work_package) -> (untyped | nil)
+
+  def self.all: () -> untyped
+
+  def self.for: (untyped key) -> untyped
+
+  def self.create_subclass: (untyped custom_field) -> untyped
+
+  def self.strategy: (untyped custom_field) -> untyped
+end

@@ -1,0 +1,13 @@
+module Projects::Copy
+  class BoardsDependentService < Dependency
+    def self.human_name: () -> untyped
+
+    def source_count: () -> untyped
+
+    # Copies boards from +project+
+    # Only includes the queries visible in the wp table view.
+    def copy_dependency: (untyped params) -> untyped
+
+    def duplicate_board: (untyped board, untyped params) -> untyped
+  end
+end

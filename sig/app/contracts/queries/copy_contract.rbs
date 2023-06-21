@@ -1,0 +1,4 @@
+module Queries
+  class CopyContract < BaseContract
+  end
+end

@@ -1,0 +1,15 @@
+module WorkPackages
+  class UpdateContract < BaseContract
+    include UnchangedProject
+
+    private
+
+    def user_allowed_to_edit: () -> untyped
+
+    def user_allowed_to_access: () -> (untyped | nil)
+
+    def allowed_journal_addition?: () -> untyped
+
+    def can_move_to_milestone: () -> (nil | untyped)
+  end
+end

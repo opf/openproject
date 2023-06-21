@@ -1,0 +1,15 @@
+class ExtractFulltextJob < ApplicationJob
+  def perform: (untyped attachment_id) -> untyped
+
+  private
+
+  def init: () -> untyped
+
+  def update: () -> untyped
+
+  def find_attachment: (untyped id) -> untyped
+
+  def remote_file?: () -> untyped
+
+  def delete_file?: () -> untyped
+end

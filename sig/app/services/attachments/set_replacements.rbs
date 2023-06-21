@@ -1,0 +1,11 @@
+module Attachments
+  module SetReplacements
+    extend ActiveSupport::Concern
+
+    private
+
+    def set_attributes: (untyped attributes) -> untyped
+
+    def set_attachments_attributes: (untyped attributes) -> (nil | untyped)
+  end
+end

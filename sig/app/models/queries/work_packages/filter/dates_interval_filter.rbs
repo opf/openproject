@@ -1,0 +1,11 @@
+class Queries::WorkPackages::Filter::DatesIntervalFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  include Queries::Operators::DateRangeClauses
+
+  def type: () -> :date
+
+  def where: () -> ::String
+
+  def type_strategy: () -> untyped
+
+  def connection: () -> untyped
+end

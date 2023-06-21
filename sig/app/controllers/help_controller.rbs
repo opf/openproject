@@ -1,0 +1,5 @@
+class HelpController < ApplicationController
+  def keyboard_shortcuts: () -> untyped
+
+  def text_formatting: () -> untyped
+end

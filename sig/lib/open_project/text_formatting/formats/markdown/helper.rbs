@@ -1,0 +1,13 @@
+module OpenProject::TextFormatting::Formats
+  module Markdown
+    class Helper
+      attr_reader view_context: untyped
+
+      def initialize: (untyped view_context) -> void
+
+      def wikitoolbar_for: (untyped field_id, **untyped context) -> untyped
+
+      def helpers: () -> untyped
+    end
+  end
+end

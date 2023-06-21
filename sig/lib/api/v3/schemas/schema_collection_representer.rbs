@@ -1,0 +1,15 @@
+module API
+  module V3
+    module Schemas
+      class SchemaCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
+        def initialize: (untyped represented, self_link: untyped, current_user: untyped, ?form_embedded: bool) -> void
+
+        private
+
+        attr_accessor form_embedded: untyped
+
+        def model_self_link: (untyped _model) -> untyped
+      end
+    end
+  end
+end

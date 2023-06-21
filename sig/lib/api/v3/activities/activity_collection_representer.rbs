@@ -1,0 +1,9 @@
+module API
+  module V3
+    module Activities
+      class ActivityCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
+        def initialize: (untyped models, self_link: untyped, current_user: untyped) -> void
+      end
+    end
+  end
+end

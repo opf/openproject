@@ -1,0 +1,25 @@
+module Users
+  class BaseContract < ::ModelContract
+    include AssignableCustomFieldValues
+
+    def self.model: () -> untyped
+
+    def reduce_writable_attributes: (untyped attributes) -> untyped
+
+    private
+
+    #
+    # Password is not a regular attribute so it bypasses
+    # attribute writable checks
+    def password_writable?: () -> untyped
+
+    #
+    # User#password is not an ActiveModel property,
+    # but just an accessor, so we need to identify it being written there.
+    # It is only present when freshly written
+    def validate_password_writable: () -> (nil | untyped)
+
+    # rubocop:disable Rails/DynamicFindBy
+    def existing_auth_source: () -> (untyped | nil)
+  end
+end

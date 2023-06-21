@@ -1,0 +1,6 @@
+#
+# A placeholder module which contains OpenProject hooks
+module OpenProject
+  module Hooks
+  end
+end

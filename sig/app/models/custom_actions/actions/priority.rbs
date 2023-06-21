@@ -1,0 +1,9 @@
+class CustomActions::Actions::Priority < CustomActions::Actions::Base
+  include CustomActions::Actions::Strategies::Associated
+
+  def associated: () -> untyped
+
+  def required?: () -> true
+
+  def self.key: () -> :priority
+end

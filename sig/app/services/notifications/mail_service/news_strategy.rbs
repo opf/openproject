@@ -1,0 +1,3 @@
+module Notifications::MailService::NewsStrategy
+  def self.send_mail: (untyped notification) -> (nil | untyped)
+end

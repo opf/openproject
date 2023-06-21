@@ -1,0 +1,35 @@
+module OpenProject
+  module Logging
+    class LogDelegator
+      #
+      # Consume a message and let it be handled
+      # by all handlers
+      def self.log: (untyped exception, ?::Hash[untyped, untyped] context) -> untyped
+
+      #
+      # Get a clean backtrace
+      def self.clean_backtrace: (untyped exception) -> (nil | untyped)
+
+      #
+      # The active set of error handlers
+      def self.registered_handlers: () -> untyped
+
+      #
+      # Register a new handler
+      def self.register: (untyped key, untyped handler) -> untyped
+
+      private
+
+      def self.default_handlers: () -> { rails_logger: untyped }
+
+      #
+      # A lambda handler for logging the error
+      # to rails.
+      def self.rails_logger_handler: (untyped message, ?::Hash[untyped, untyped] context) -> untyped
+
+      #
+      # Create a context string
+      def self.context_string: (untyped context) -> untyped
+    end
+  end
+end

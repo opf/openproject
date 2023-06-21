@@ -1,0 +1,11 @@
+class Queries::WorkPackages::Columns::WorkPackageColumn < Queries::Columns::Base
+  attr_accessor highlightable: untyped
+
+  alias highlightable? highlightable
+
+  def initialize: (untyped name, ?::Hash[untyped, untyped] options) -> void
+
+  def caption: () -> untyped
+
+  def self.scoped_column_sum: (untyped scope, untyped select, untyped group_by) -> untyped
+end

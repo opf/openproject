@@ -1,0 +1,11 @@
+class Queries::WorkPackages::Filter::AttachmentFileNameFilter < Queries::WorkPackages::Filter::AttachmentBaseFilter
+  def self.key: () -> :attachment_file_name
+
+  def name: () -> :attachment_file_name
+
+  def human_name: () -> untyped
+
+  def search_column: () -> "file"
+
+  def normalization_type: () -> :filename
+end

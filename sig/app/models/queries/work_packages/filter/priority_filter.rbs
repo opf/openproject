@@ -1,0 +1,17 @@
+class Queries::WorkPackages::Filter::PriorityFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  def allowed_values: () -> untyped
+
+  def available?: () -> untyped
+
+  def type: () -> :list
+
+  def self.key: () -> :priority_id
+
+  def ar_object_filter?: () -> true
+
+  def value_objects: () -> untyped
+
+  private
+
+  def priorities: () -> untyped
+end

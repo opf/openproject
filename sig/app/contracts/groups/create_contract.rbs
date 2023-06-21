@@ -1,0 +1,7 @@
+module Groups
+  class CreateContract < BaseContract
+    private
+
+    def type_is_group: () -> (untyped | nil)
+  end
+end

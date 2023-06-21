@@ -1,0 +1,29 @@
+class WorkPackages::BulkController < ApplicationController
+  include ProjectsHelper
+
+  include CustomFieldsHelper
+
+  include RelationsHelper
+
+  include QueriesHelper
+
+  include WorkPackages::BulkErrorMessage
+
+  def edit: () -> untyped
+
+  def update: () -> untyped
+
+  def destroy: () -> untyped
+
+  private
+
+  def setup_edit: () -> untyped
+
+  def destroy_work_packages: (untyped work_packages) -> untyped
+
+  def attributes_for_update: () -> (::Hash[untyped, untyped] | untyped)
+
+  def user: () -> untyped
+
+  def default_breadcrumb: () -> untyped
+end

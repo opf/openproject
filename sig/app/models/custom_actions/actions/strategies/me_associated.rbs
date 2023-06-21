@@ -1,0 +1,21 @@
+module CustomActions::Actions::Strategies::MeAssociated
+  include ::CustomActions::Actions::Strategies::Associated
+
+  def associated: () -> untyped
+
+  def values=: (untyped values) -> untyped
+
+  #
+  # Returns the me value if the user is logged
+  def transformed_value: (untyped val) -> untyped
+
+  def current_user_value_key: () -> "current_user"
+
+  def has_me_value?: () -> untyped
+
+  def validate: (untyped errors) -> untyped
+
+  private
+
+  def validate_me_value: (untyped errors) -> (untyped | nil)
+end

@@ -1,0 +1,13 @@
+module Queries
+  module Orders
+    module AvailableOrders
+      def order_for: (untyped key) -> untyped
+
+      private
+
+      def find_registered_order: (untyped key) -> untyped
+
+      def orders_register: () -> untyped
+    end
+  end
+end

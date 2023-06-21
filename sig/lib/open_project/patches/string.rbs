@@ -1,0 +1,10 @@
+module OpenProject
+  module Patches
+    module String
+      # Parses hours format and returns a float
+      def to_hours: () -> untyped
+
+      def with_leading_slash: () -> (self | ::String)
+    end
+  end
+end

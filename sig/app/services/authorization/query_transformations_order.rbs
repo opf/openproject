@@ -1,0 +1,17 @@
+class Authorization::QueryTransformationsOrder
+  def initialize: () -> void
+
+  def full_order: () -> untyped
+
+  private
+
+  attr_accessor array: untyped
+
+  def transformation_partial_orders: () -> untyped
+
+  def merge_transformation_partial_orders: (untyped partial_orders) -> untyped
+
+  def shift_first_if_its_turn: (untyped order, untyped partial_orders) { (untyped) -> untyped } -> untyped
+
+  def first_not_included_or_first_everywhere: (untyped order, untyped partial_orders) -> untyped
+end

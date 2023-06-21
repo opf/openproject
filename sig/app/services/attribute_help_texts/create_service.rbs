@@ -1,0 +1,7 @@
+module AttributeHelpTexts
+  class CreateService < ::BaseServices::Create
+    include Attachments::ReplaceAttachments
+
+    def instance: (untyped params) -> untyped
+  end
+end

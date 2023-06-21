@@ -1,0 +1,11 @@
+module WorkPackages
+  class CreateContract < BaseContract
+    private
+
+    def user_allowed_to_add: () -> (untyped | nil)
+
+    def user_allowed_to_manage_file_links: () -> (untyped | nil)
+
+    def attributes_changed_by_user: () -> untyped
+  end
+end

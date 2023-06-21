@@ -1,0 +1,5 @@
+module Roles
+  class SetAttributesService < ::BaseServices::SetAttributes
+    def set_default_attributes: (*untyped) -> (untyped | nil)
+  end
+end

@@ -1,0 +1,21 @@
+class Queries::WorkPackages::Filter::MilestoneFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  include Queries::Filters::Shared::BooleanFilter
+
+  def self.key: () -> :is_milestone
+
+  def available?: () -> untyped
+
+  def dependency_class: () -> "::API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter"
+
+  def where: () -> ::String
+
+  def positive?: () -> untyped
+
+  def human_name: () -> untyped
+
+  private
+
+  def types: () -> untyped
+
+  def milestone_subselect: () -> untyped
+end

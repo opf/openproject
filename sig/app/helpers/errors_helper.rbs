@@ -1,0 +1,18 @@
+module ErrorsHelper
+  def render_400: (?::Hash[untyped, untyped] options) -> false
+
+  def render_403: (?::Hash[untyped, untyped] options) -> false
+
+  def render_404: (?::Hash[untyped, untyped] options) -> false
+
+  def render_500: (?::Hash[untyped, untyped] options) -> false
+
+  def get_additional_message: () -> (nil | untyped)
+
+  def render_optional_error_file: (untyped status_code) -> untyped
+
+  # Renders an error response
+  def render_error: (untyped arg) -> untyped
+
+  def unset_template_magic: () -> untyped
+end

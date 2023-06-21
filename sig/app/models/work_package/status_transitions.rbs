@@ -1,0 +1,7 @@
+module WorkPackage::StatusTransitions
+  # Return true if the issue is being reopened
+  def reopened?: () -> (true | false)
+
+  # Return true if the issue is being closed
+  def closing?: () -> (true | false)
+end

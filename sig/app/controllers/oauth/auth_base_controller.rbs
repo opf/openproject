@@ -1,0 +1,17 @@
+module OAuth
+  #
+  # Base controller for doorkeeper to skip the login check
+  # because it needs to set a specific return URL
+  # See config/initializers/doorkeeper.rb
+  class AuthBaseController < ::ApplicationController
+    def extend_content_security_policy: () -> (nil | untyped)
+
+    def application_http_redirect_uris: () -> untyped
+
+    def application_native_redirect_uris: () -> untyped
+
+    def parse_native_redirect_uri: (untyped value) -> untyped
+
+    def registered_redirect_uris: () -> untyped
+  end
+end

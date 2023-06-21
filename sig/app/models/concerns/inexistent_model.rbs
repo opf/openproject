@@ -1,0 +1,3 @@
+module InexistentModel
+  extend ActiveSupport::Concern
+end

@@ -1,0 +1,17 @@
+module Members
+  class UserFilterComponent < ::UserFilterComponent
+    def initially_visible?: () -> false
+
+    def has_close_icon?: () -> true
+
+    #
+    # Adapts the user filter counts to count members as opposed to users.
+    def extra_user_status_options: () -> { all: untyped, blocked: untyped, active: untyped, invited: untyped, registered: untyped, locked: untyped }
+
+    def status_members_query: (untyped status) -> untyped
+
+    def filter_path: () -> untyped
+
+    def self.base_query: () -> untyped
+  end
+end

@@ -1,0 +1,154 @@
+class PermittedParams
+  # This class intends to provide a method for all params hashes coming from the
+  # client and that are used for mass assignment.
+  #
+  # A method should look like the following:
+  #
+  # def name_of_the_params_key_referenced
+  #   params.require(:name_of_the_params_key_referenced).permit(list_of_whitelisted_params)
+  # end
+  #
+  #
+  # A controller could use a permitted_params method like this
+  #
+  # model_instance.METHOD_USING_ASSIGMENT = permitted_params.name_of_the_params_key_referenced
+  #
+  attr_reader params: untyped
+
+  # This class intends to provide a method for all params hashes coming from the
+  # client and that are used for mass assignment.
+  #
+  # A method should look like the following:
+  #
+  # def name_of_the_params_key_referenced
+  #   params.require(:name_of_the_params_key_referenced).permit(list_of_whitelisted_params)
+  # end
+  #
+  #
+  # A controller could use a permitted_params method like this
+  #
+  # model_instance.METHOD_USING_ASSIGMENT = permitted_params.name_of_the_params_key_referenced
+  #
+  attr_reader current_user: untyped
+
+  def initialize: (untyped params, untyped current_user) -> void
+
+  def self.permit: (untyped key, *untyped params) -> untyped
+
+  def attribute_help_text: () -> untyped
+
+  def auth_source: () -> untyped
+
+  def forum: () -> untyped
+
+  def forum?: () -> (untyped | nil)
+
+  def forum_move: () -> untyped
+
+  def color: () -> untyped
+
+  def color_move: () -> untyped
+
+  def custom_field: () -> untyped
+
+  def custom_action: () -> untyped
+
+  def custom_field_type: () -> untyped
+
+  def enumeration_type: () -> untyped
+
+  def group: () -> untyped
+
+  def group_membership: () -> untyped
+
+  def update_work_package: (?::Hash[untyped, untyped] args) -> untyped
+
+  def move_work_package: (?::Hash[untyped, untyped] args) -> untyped
+
+  def member: () -> untyped
+
+  def oauth_application: () -> untyped
+
+  def projects_type_ids: () -> untyped
+
+  def query: () -> untyped
+
+  def role: () -> untyped
+
+  def role?: () -> (untyped | nil)
+
+  def status: () -> untyped
+
+  def settings: () -> untyped
+
+  def user: (?untyped additional_params) -> untyped
+
+  def placeholder_user: () -> untyped
+
+  def my_account_settings: () -> untyped
+
+  def user_register_via_omniauth: () -> untyped
+
+  def user_create_as_admin: (untyped external_authentication, untyped change_password_allowed, ?untyped additional_params) -> untyped
+
+  def type: (?::Hash[untyped, untyped] args) -> untyped
+
+  def type_move: () -> untyped
+
+  def search: () -> untyped
+
+  def wiki_page_rename: () -> untyped
+
+  def wiki_page: () -> untyped
+
+  def pref: () -> untyped
+
+  def project: () -> untyped
+
+  def news: () -> untyped
+
+  def category: () -> untyped
+
+  def version: () -> untyped
+
+  def comment: () -> untyped
+
+  # `params.fetch` and not `require` because the update controller action associated
+  # with this is doing multiple things, therefore not requiring a message hash
+  # all the time.
+  def message: (?untyped? project) -> untyped
+
+  def attachments: () -> untyped
+
+  def enumerations: () -> untyped
+
+  def time_entry_activities_project: () -> untyped
+
+  def watcher: () -> untyped
+
+  def reply: () -> untyped
+
+  def wiki: () -> untyped
+
+  def repository_diff: () -> untyped
+
+  def membership: () -> untyped
+
+  def custom_field_values: (?untyped? key, ?required: bool) -> untyped
+
+  def permitted_attributes: (untyped key, ?::Hash[untyped, untyped] additions) -> untyped
+
+  def self.permitted_attributes: () -> untyped
+
+  #  Add attributes as permitted attributes (only to be used by the plugins plugin)
+  #
+  # attributes should be given as a Hash in the form
+  # {key: [:param1, :param2]}
+  def self.add_permitted_attributes: (untyped attributes) -> untyped
+
+  def keys_whitelisted_by_list: (untyped hash, untyped list) -> untyped
+
+  private
+
+  def build_custom_field_values: (untyped key, required: untyped) -> untyped
+end

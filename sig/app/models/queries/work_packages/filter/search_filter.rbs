@@ -1,0 +1,21 @@
+class Queries::WorkPackages::Filter::SearchFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  include Queries::WorkPackages::Filter::OrFilterForWpMixin
+
+  CONTAINS_OPERATOR: "~"
+
+  CE_FILTERS: ::Array[untyped]
+
+  EE_TSV_FILTERS: ::Array[untyped]
+
+  def type: () -> :search
+
+  def human_name: () -> untyped
+
+  def custom_field_configurations: () -> untyped
+
+  def filter_configurations: () -> untyped
+
+  private
+
+  def attachment_filters_allowed?: () -> untyped
+end

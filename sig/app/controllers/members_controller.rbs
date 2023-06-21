@@ -1,0 +1,61 @@
+class MembersController < ApplicationController
+  include Pagination::Controller
+
+  def index: () -> untyped
+
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  def destroy: () -> untyped
+
+  def autocomplete_for_member: () -> untyped
+
+  private
+
+  def authorize_for: (untyped controller, untyped action) -> untyped
+
+  def build_members: () -> untyped
+
+  def members_table_options: (untyped roles) -> { project: untyped, available_roles: untyped, authorize_update: untyped, is_filtered: untyped }
+
+  def members_filter_options: (untyped roles) -> { groups: untyped, roles: untyped, status: untyped, clear_url: untyped, project: untyped }
+
+  def suggest_invite_via_email?: (untyped user, untyped query, untyped principals) -> untyped
+
+  def mail_regex: () -> ::Regexp
+
+  def set_index_data!: () -> untyped
+
+  def set_roles_and_principles!: () -> untyped
+
+  def possible_members: (untyped criteria, untyped limit) -> untyped
+
+  def index_members: () -> untyped
+
+  def create_members: () -> untyped
+
+  def with_new_member_params: () { (untyped) -> untyped } -> untyped
+
+  def user_ids_for_new_members: (untyped member_params) -> untyped
+
+  def invite_new_users: (untyped user_ids) -> untyped
+
+  def enterprise_allow_new_users?: () -> untyped
+
+  def each_comma_separated: (untyped array) { () -> untyped } -> untyped
+
+  def transform_array_of_comma_separated_ids: (untyped array) -> untyped
+
+  def possibly_separated_ids_for_entity: (untyped array, ?::Symbol entity) -> (untyped | ::Array[untyped])
+
+  def members_added_notice: (untyped members) -> untyped
+
+  def no_create_errors?: (untyped members) -> untyped
+
+  def sort_by_groups_last: (untyped members) -> untyped
+
+  def display_error: (untyped service_call) -> untyped
+
+  def display_success: (untyped message) -> untyped
+end

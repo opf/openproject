@@ -1,0 +1,15 @@
+module API
+  module V3
+    module Errors
+      class ErrorRepresenter < Roar::Decorator
+        include Roar::JSON::HAL
+
+        include Roar::Hypermedia
+
+        def _type: () -> "Error"
+
+        def error_identifier: () -> untyped
+      end
+    end
+  end
+end

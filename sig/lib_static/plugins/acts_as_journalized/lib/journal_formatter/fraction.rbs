@@ -1,0 +1,7 @@
+module JournalFormatter
+  class Fraction < Attribute
+    include ActionView::Helpers::NumberHelper
+
+    def format_values: (untyped values) -> untyped
+  end
+end

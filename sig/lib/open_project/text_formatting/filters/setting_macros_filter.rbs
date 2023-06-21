@@ -1,0 +1,23 @@
+module OpenProject::TextFormatting
+  module Filters
+    class SettingMacrosFilter < HTML::Pipeline::Filter
+      ALLOWED_SETTINGS: ::Array["host_name" | "base_url"]
+
+      def self.regexp: () -> ::Regexp
+
+      def call: () -> untyped
+
+      private
+
+      def host_name: () -> untyped
+
+      def base_url: () -> untyped
+
+      def url_helpers: () -> untyped
+
+      #
+      # Faster inclusion check before the regex is being applied
+      def applicable?: () -> untyped
+    end
+  end
+end

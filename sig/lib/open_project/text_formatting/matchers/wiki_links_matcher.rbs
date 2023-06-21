@@ -1,0 +1,53 @@
+module OpenProject::TextFormatting
+  module Matchers
+    # OpenProject wiki link syntax
+    # Examples:
+    #   [[mypage]]
+    #   [[mypage|mytext]]
+    # wiki links can refer other project wikis, using project name or identifier:
+    #   [[project:]] -> wiki starting page
+    #   [[project:|mytext]]
+    #   [[project:mypage]]
+    #   [[project:mypage|mytext]]
+    class WikiLinksMatcher < RegexMatcher
+      # Used for escaping helper 'h()'
+      include ERB::Util
+
+      # Rails helper
+      include ActionView::Helpers::TagHelper
+
+      include ActionView::Helpers::TextHelper
+
+      include ActionView::Helpers::UrlHelper
+
+      # For route path helpers
+      include OpenProject::ObjectLinking
+
+      include OpenProject::StaticRouting::UrlHelpers
+
+      def self.regexp: () -> ::Regexp
+
+      def self.process_match: (untyped m, untyped matched_string, untyped context) -> untyped
+
+      attr_accessor matched_string: untyped
+
+      attr_accessor escaped: untyped
+
+      attr_accessor all: untyped
+
+      attr_accessor page: untyped
+
+      attr_accessor title: untyped
+
+      attr_accessor project: untyped
+
+      attr_accessor context: untyped
+
+      def initialize: (matched_string: untyped, escaped: untyped, all: untyped, page: untyped, title: untyped, context: untyped) -> void
+
+      def process: () -> untyped
+
+      def link_from_match: () -> untyped
+    end
+  end
+end

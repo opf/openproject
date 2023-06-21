@@ -1,0 +1,42 @@
+module Activities
+  # Class used to retrieve activity events
+  class Fetcher
+    attr_reader user: untyped
+
+    attr_reader project: untyped
+
+    attr_reader scope: untyped
+
+    def self.constantized_providers: () -> untyped
+
+    def initialize: (untyped user, ?::Hash[untyped, untyped] options) -> void
+
+    # Returns an array of available event types
+    def event_types: () -> untyped
+
+    # Returns an array of events for the given date range
+    # sorted in reverse chronological order
+    def events: (?from: untyped?, ?to: untyped?, ?limit: untyped?) -> untyped
+
+    # Sets the scope
+    # Argument can be :all, :default or an array of event types
+    def scope=: (untyped scope) -> untyped
+
+    # Resets the scope to the default scope
+    def default_scope!: () -> untyped
+
+    def events_from_providers: (untyped from, untyped to, untyped limit) -> untyped
+
+    def eager_load_associations: (untyped events) -> untyped
+
+    def projects_of_event_set: (untyped events) -> untyped
+
+    def users_of_event_set: (untyped events) -> untyped
+
+    def journals_of_event_set: (untyped events) -> untyped
+
+    def sort_by_most_recent_first: (untyped events) -> untyped
+
+    def constantized_providers: (untyped event_type) -> untyped
+  end
+end

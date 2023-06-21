@@ -1,0 +1,10 @@
+module CoreExtensions
+  module String
+    def to_bool: () -> untyped
+
+    #
+    # Use Stringex#to_url to create a localizable slug
+    # that is not dynamically supported in the upstream to_url.
+    def to_localized_slug: (?locale: untyped, **untyped options) -> untyped
+  end
+end

@@ -1,0 +1,10 @@
+module API
+  module V3
+    module Projects
+      module Schemas
+        class ProjectSchemaAPI < ::API::OpenProjectAPI
+        end
+      end
+    end
+  end
+end

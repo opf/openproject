@@ -1,0 +1,23 @@
+#
+# Abstract view component. Subclass this for a concrete table row.
+class RowComponent < RailsComponent
+  attr_reader table: untyped
+
+  def initialize: (row: untyped, table: untyped, **untyped options) -> void
+
+  def row: () -> untyped
+
+  def column_value: (untyped column) -> untyped
+
+  def column_css_class: (untyped column) -> untyped
+
+  def column_css_classes: () -> untyped
+
+  def button_links: () -> ::Array[untyped]
+
+  def row_css_id: () -> nil
+
+  def row_css_class: () -> nil
+
+  def checkmark: (untyped condition) -> (untyped | nil)
+end

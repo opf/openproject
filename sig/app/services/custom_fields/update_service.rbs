@@ -1,0 +1,4 @@
+module CustomFields
+  class UpdateService < ::BaseServices::Update
+  end
+end

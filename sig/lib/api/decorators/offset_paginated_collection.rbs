@@ -1,0 +1,23 @@
+module API
+  module Decorators
+    class OffsetPaginatedCollection < ::API::Decorators::Collection
+      include ::API::Utilities::UrlPropsParsingHelper
+
+      def self.per_page_default: (untyped relation) -> untyped
+
+      def initialize: (untyped models, self_link: untyped, current_user: untyped, ?query_params: ::Hash[untyped, untyped], ?page: untyped?, ?per_page: untyped?, ?groups: untyped?) -> void
+
+      def total_count: (untyped models) -> untyped
+
+      private
+
+      def make_page_link: (page: untyped, page_size: untyped) -> ::String
+
+      def href_query: (?untyped page, ?untyped page_size) -> untyped
+
+      def query_params: (?untyped page, ?untyped page_size) -> untyped
+
+      def paged_models: (untyped models) -> untyped
+    end
+  end
+end

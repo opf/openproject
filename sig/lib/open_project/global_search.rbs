@@ -1,0 +1,5 @@
+module OpenProject
+  module GlobalSearch
+    def self.tab_name: (untyped tab) -> untyped
+  end
+end

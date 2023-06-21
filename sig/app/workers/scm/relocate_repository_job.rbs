@@ -1,0 +1,17 @@
+#
+# Provides an asynchronous job to relocate a managed repository on the local or remote system
+class SCM::RelocateRepositoryJob < SCM::RemoteRepositoryJob
+  def perform: (untyped repository) -> untyped
+
+  private
+
+  #
+  # POST to the remote managed repository a request to relocate the repository
+  def relocate_remote: () -> untyped
+
+  #
+  # Tries to relocate the repository on disk.
+  # As we're performing this in a job and currently have no explicit means
+  # of error handling in this context, there's not much to do here in case of failure.
+  def relocate_on_disk: () -> untyped
+end

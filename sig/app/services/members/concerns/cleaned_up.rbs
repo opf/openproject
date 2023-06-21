@@ -1,0 +1,5 @@
+module Members::Concerns::CleanedUp
+  extend ActiveSupport::Concern
+
+  def cleanup_members: () { () -> untyped } -> (nil | untyped)
+end

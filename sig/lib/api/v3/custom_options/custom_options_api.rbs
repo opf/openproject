@@ -1,0 +1,11 @@
+module API
+  module V3
+    module CustomOptions
+      class CustomOptionsAPI < ::API::OpenProjectAPI
+        def authorize_custom_option_visibility: (untyped custom_option) -> untyped
+
+        def authorized_work_package_option: (untyped custom_option) -> untyped
+      end
+    end
+  end
+end

@@ -1,0 +1,15 @@
+module OAuth
+  class PersistApplicationService
+    include Contracted
+
+    attr_reader application: untyped
+
+    attr_reader current_user: untyped
+
+    def initialize: (untyped model, user: untyped) -> void
+
+    def call: (untyped attributes) -> untyped
+
+    def set_defaults: () -> (nil | untyped)
+  end
+end

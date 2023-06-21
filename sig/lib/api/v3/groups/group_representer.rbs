@@ -1,0 +1,11 @@
+module API
+  module V3
+    module Groups
+      class GroupRepresenter < ::API::V3::Principals::PrincipalRepresenter
+        include API::Decorators::LinkedResource
+
+        def _type: () -> "Group"
+      end
+    end
+  end
+end

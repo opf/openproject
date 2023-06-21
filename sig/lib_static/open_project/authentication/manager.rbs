@@ -1,0 +1,37 @@
+module OpenProject
+  module Authentication
+    class Manager < Warden::Manager
+      def initialize: (untyped app, ?::Hash[untyped, untyped] options) { () -> untyped } -> void
+
+      def self.config: () -> untyped
+
+      def self.scope_config: (untyped scope) -> untyped
+
+      def self.failure_handlers: () -> untyped
+
+      def self.auth_scheme: (untyped name) -> untyped
+
+      def self.auth_schemes: () -> untyped
+
+      def self.configure_warden: (untyped warden_config) -> untyped
+
+      class ScopeSettings
+        attr_accessor store: untyped
+
+        attr_accessor strategies: untyped
+
+        attr_accessor realm: untyped
+
+        def initialize: () -> void
+
+        def update!: (untyped opts) ?{ () -> untyped } -> untyped
+      end
+
+      class AuthSchemeInfo
+        attr_accessor strategies: untyped
+
+        def initialize: () -> void
+      end
+    end
+  end
+end

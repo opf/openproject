@@ -1,0 +1,15 @@
+module API
+  module V3
+    class ParseResourceParamsService < ::API::ParseResourceParamsService
+      private
+
+      def deduce_representer: (untyped model) -> untyped
+
+      def parsing_representer: () -> untyped
+
+      def parse_attributes: (untyped request_body) -> untyped
+
+      def struct: () -> untyped
+    end
+  end
+end

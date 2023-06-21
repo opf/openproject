@@ -1,0 +1,29 @@
+module API
+  module V3
+    module Activities
+      class ActivityEagerLoadingWrapper < API::V3::Utilities::EagerLoading::EagerLoadingWrapper
+        def self.wrap: (untyped journals) -> untyped
+
+        private
+
+        def self.set_journable: (untyped journals) -> untyped
+
+        def self.set_predecessor: (untyped journals) -> untyped
+
+        def self.set_data: (untyped journals) -> untyped
+
+        def self.journable_by_type_and_id: (untyped journals) -> untyped
+
+        def self.includes_for: (untyped journable_type) -> (::Array[untyped] | ::Array[:project])
+
+        def self.data_by_type_and_id: (untyped journals) -> untyped
+
+        def self.predecessors_by_type_and_id: (untyped journals) -> untyped
+
+        def self.data_ids: (untyped journals) -> untyped
+
+        def self.predecessor_journals: (untyped journals) -> untyped
+      end
+    end
+  end
+end

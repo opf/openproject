@@ -1,0 +1,3 @@
+module Activities
+  Event: untyped
+end

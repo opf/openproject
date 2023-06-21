@@ -1,0 +1,3 @@
+module AttributeHelpTextsHelper
+  def selectable_attributes: (untyped instance) -> untyped
+end

@@ -1,0 +1,31 @@
+module Projects
+  class BaseContract < ::ModelContract
+    include AssignableValuesContract
+
+    include AssignableCustomFieldValues
+
+    def assignable_parents: () -> untyped
+
+    def available_custom_fields: () -> untyped
+
+    def assignable_status_codes: () -> untyped
+
+    private
+
+    def validate_parent_assignable: () -> (untyped | nil)
+
+    def validate_active_present: () -> (untyped | nil)
+
+    def validate_user_allowed_to_manage: () -> untyped
+
+    def validate_status_code_included: () -> (untyped | nil)
+
+    def validate_templated_set_by_admin: () -> (untyped | nil)
+
+    def manage_permission: () -> untyped
+
+    def with_unchanged_id: () { () -> untyped } -> untyped
+
+    def validate_changing_active: () -> (nil | untyped)
+  end
+end

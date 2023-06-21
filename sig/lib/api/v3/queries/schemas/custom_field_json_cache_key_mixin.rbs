@@ -1,0 +1,11 @@
+module API
+  module V3
+    module Queries
+      module Schemas
+        module CustomFieldJsonCacheKeyMixin
+          def self.extended: (untyped base) -> untyped
+        end
+      end
+    end
+  end
+end

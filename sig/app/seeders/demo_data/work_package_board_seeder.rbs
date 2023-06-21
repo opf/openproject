@@ -1,0 +1,64 @@
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2023 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+module DemoData
+  class WorkPackageBoardSeeder < Seeder
+    attr_reader project: untyped
+
+    alias project_data seed_data
+
+    include ::DemoData::References
+
+    def initialize: (untyped project, untyped project_data) -> void
+
+    def seed_data!: () -> untyped
+
+    private
+
+    def seed_kanban_board: (untyped board_data) -> untyped
+
+    def seed_kanban_board_widgets: () -> untyped
+
+    def set_board_filters: (untyped board, untyped board_data) -> (nil | untyped)
+
+    def seed_kanban_board_queries: () -> untyped
+
+    def statuses: (*untyped status_references) -> untyped
+
+    def seed_basic_board: (untyped board_data) -> untyped
+
+    def seed_basic_board_widgets: (untyped board_data) -> untyped
+
+    def seed_basic_board_queries: (untyped board_data) -> untyped
+
+    def create_basic_board_query_from_list: (untyped list) -> untyped
+
+    def seed_parent_child_board: (untyped board_data) -> untyped
+
+    def seed_parent_child_board_widgets: () -> untyped
+
+    def seed_parent_child_board_queries: () -> untyped
+  end
+end

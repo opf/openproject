@@ -1,0 +1,3 @@
+class Queries::WorkPackages::Filter::DescriptionFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  def type: () -> :text
+end

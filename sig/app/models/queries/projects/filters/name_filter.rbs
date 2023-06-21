@@ -1,0 +1,13 @@
+class Queries::Projects::Filters::NameFilter < Queries::Projects::Filters::ProjectFilter
+  def type: () -> :string
+
+  def where: () -> untyped
+
+  def human_name: () -> untyped
+
+  def self.key: () -> :name
+
+  private
+
+  def sql_value: () -> untyped
+end

@@ -1,0 +1,14 @@
+module WorkPackage::Journalized
+  extend ActiveSupport::Concern
+
+  # This one is here only to ease reading
+  module JournalizedProcs
+    def self.event_title: () -> untyped
+
+    def self.event_name: () -> untyped
+
+    def self.event_type: () -> untyped
+
+    def self.event_url: () -> untyped
+  end
+end

@@ -1,0 +1,4 @@
+module CustomFields
+  class SetAttributesService < ::BaseServices::SetAttributes
+  end
+end

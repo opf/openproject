@@ -1,0 +1,3 @@
+module API::APIDocsHelper
+  def initial_menu_classes: (untyped side_displayed, untyped show_decoration) -> untyped
+end

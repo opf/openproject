@@ -1,0 +1,7 @@
+module Projects
+  class UpdateContract < BaseContract
+    private
+
+    def manage_permission: () -> (:archive_project | :edit_project)
+  end
+end

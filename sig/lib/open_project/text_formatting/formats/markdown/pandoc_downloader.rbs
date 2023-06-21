@@ -1,0 +1,25 @@
+module OpenProject::TextFormatting::Formats
+  module Markdown
+    module PandocDownloader
+      def self.check_or_download!: () -> untyped
+
+      #
+      # Check if the given pandoc version is compatible
+      # Returns true/false
+      # Raises raise_msg if set and incompatible
+      def self.compatible?: (?untyped path, ?untyped? raise_msg) -> untyped
+
+      def self.forced_pandoc_path: () -> untyped
+
+      def self.pandoc_path: () -> untyped
+
+      def self.vendored_pandoc_dir: () -> untyped
+
+      def self.pandoc_amd64_tar: () -> untyped
+
+      private
+
+      def self.download!: () -> untyped
+    end
+  end
+end

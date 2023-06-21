@@ -1,0 +1,18 @@
+module Projects::Copy
+  class QueriesDependentService < Dependency
+    def self.human_name: () -> untyped
+
+    def source_count: () -> untyped
+
+    # Copies queries from +project+
+    # Only includes the queries having a view so the ones that are e.g. in:
+    # * the work packages table
+    # * the team planner
+    # * the bcf module
+    def copy_dependency: (params: untyped) -> untyped
+
+    def queries_to_copy: () -> untyped
+
+    def duplicate_query: (untyped query, untyped params) -> untyped
+  end
+end

@@ -1,0 +1,15 @@
+module API
+  module V3
+    module Schemas
+      class SchemaDependencyRepresenter < ::API::Decorators::Single
+        def initialize: (untyped dependencies, untyped on, current_user: untyped) -> void
+
+        attr_accessor on: untyped
+
+        alias dependencies represented
+
+        def _type: () -> "SchemaDependency"
+      end
+    end
+  end
+end

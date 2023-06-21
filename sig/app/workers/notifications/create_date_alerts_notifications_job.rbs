@@ -1,0 +1,5 @@
+module Notifications
+  class CreateDateAlertsNotificationsJob < ApplicationJob
+    def perform: (untyped user) -> (nil | untyped)
+  end
+end

@@ -1,0 +1,13 @@
+module API
+  module V3
+    module Queries
+      module ICalUrl
+        class QueryICalUrlRepresenter < ::API::Decorators::Single
+          def initialize: (untyped model, *untyped _) -> void
+
+          def _type: () -> "QueryICalUrl"
+        end
+      end
+    end
+  end
+end

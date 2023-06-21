@@ -1,0 +1,29 @@
+class PlaceholderUsersController < ApplicationController
+  include EnterpriseTrialHelper
+
+  def index: () -> untyped
+
+  def show: () -> untyped
+
+  def new: () -> untyped
+
+  def edit: () -> untyped
+
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  def deletion_info: () -> untyped
+
+  def destroy: () -> untyped
+
+  private
+
+  def find_placeholder_user: () -> untyped
+
+  def authorize_deletion: () -> (untyped | nil)
+
+  def default_breadcrumb: () -> untyped
+
+  def show_local_breadcrumb: () -> untyped
+end

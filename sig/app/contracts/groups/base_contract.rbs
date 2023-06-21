@@ -1,0 +1,11 @@
+module Groups
+  class BaseContract < ::ModelContract
+    include RequiresAdminGuard
+
+    private
+
+    # Validating on the group_users since those are dealt with in the
+    # corresponding services.
+    def validate_unique_users: () -> untyped
+  end
+end

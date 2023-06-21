@@ -1,0 +1,14 @@
+module WarningBarHelper
+  def render_pending_migrations_warning?: () -> untyped
+
+  def render_host_and_protocol_mismatch?: () -> untyped
+
+  def setting_protocol_mismatched?: () -> untyped
+
+  def setting_hostname_mismatched?: () -> untyped
+
+  #
+  # By default, never show a warning bar in the
+  # test mode due to overshadowing other elements.
+  def show_warning_bar?: () -> untyped
+end

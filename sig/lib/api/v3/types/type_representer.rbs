@@ -1,0 +1,13 @@
+module API
+  module V3
+    module Types
+      class TypeRepresenter < ::API::Decorators::Single
+        include API::Decorators::DateProperty
+
+        include ::API::Caching::CachedRepresenter
+
+        def _type: () -> "Type"
+      end
+    end
+  end
+end

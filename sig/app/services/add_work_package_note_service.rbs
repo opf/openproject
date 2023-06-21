@@ -1,0 +1,11 @@
+class AddWorkPackageNoteService
+  include Contracted
+
+  attr_accessor user: untyped
+
+  attr_accessor work_package: untyped
+
+  def initialize: (user: untyped, work_package: untyped) -> void
+
+  def call: (untyped notes, ?send_notifications: untyped?) -> untyped
+end

@@ -1,0 +1,17 @@
+module OpenProject::TextFormatting
+  module Filters
+    class MacroFilter < HTML::Pipeline::Filter
+      def self.register: (*untyped macros) -> untyped
+
+      def call: () -> untyped
+
+      private
+
+      def macro_error_placeholder: (untyped macro_class, untyped message) -> untyped
+
+      def macro_placeholder: (untyped macro_class) -> untyped
+
+      def macro_applies?: (untyped macro_class, untyped element) -> untyped
+    end
+  end
+end

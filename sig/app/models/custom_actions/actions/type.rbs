@@ -1,0 +1,15 @@
+class CustomActions::Actions::Type < CustomActions::Actions::Base
+  include CustomActions::Actions::Strategies::Associated
+
+  PRIORITY: 20
+
+  def self.key: () -> :type
+
+  def required?: () -> true
+
+  def priority: () -> untyped
+
+  private
+
+  def associated: () -> untyped
+end

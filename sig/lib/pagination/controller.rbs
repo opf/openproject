@@ -1,0 +1,122 @@
+# Extending this module provides some convenience methods for easier setup of pagination inside a controller.
+# It assumes there is just one pagination method to set up per model.
+#
+# To set up basic functions:
+#   paginate_model Project
+#
+# This sets up the action #paginate_projects inside the controller.
+#
+# To change this action:
+#
+#   action_for Project, :my_own_action
+#
+# or use a block:
+#
+#   action_for Project do
+#     do_something
+#   end
+#
+# To set up multiple models at once:
+# paginate_models Project, User
+#
+# To change the call the model uses for pagination (signature as in Pagination::Model#paginate_scope!):
+#   pagination_for Project, :my_own_pagination_method
+#   pagination_for Project do |scope, opts|
+#     do_something
+#   end
+#
+# To change the scope the model uses to search (signature as in Pagination::Model#search_scope):
+#   search_for Project, :my_own_pagination_method
+#   search_for Project do |query|
+#     do_something
+#   end
+# Note that this needs to return an actual scope or its corresponding hash.
+#
+# To change the response the action will give:
+# response_for Project, :my_custom_response
+# response_for Project, Proc.new {
+#                         respond_to do |format|
+#                           DO SOMETHING
+#                         end
+#                       }
+# This needs to return something that can be #instance_eval'ed AND #call'ed, i.e. a Proc.
+# A String containing code will NOT work but a lambda will, if the execution context
+# can be changed accordingly (simply providing an additional parameter will work in most
+# cases).
+#
+# There are several possibilities to add options to the call to #search_method:
+# Procs allow to change behaviour dynamically, as with ActiveRecords scopes.
+# Lambdas will work just as procs, but an additional parameter needs to get passed to
+#   change their context.
+# Everything else just gets passed as is.
+# search_options_for Project, proc { @bar.nil? ? @bar : { a: b, c: d } }
+# search_options_for Project, lambda { |self| (@bar.nil? ? @bar : { a: b, c: d }) }
+# search_options_for Project, { a: b, c: d }
+# search_options_for Project, "yeah!"
+#
+#
+module Pagination::Controller
+  class Paginator
+    attr_accessor model: untyped
+
+    attr_accessor action: untyped
+
+    attr_accessor pagination: untyped
+
+    attr_accessor search: untyped
+
+    attr_accessor controller: untyped
+
+    attr_accessor last_action: untyped
+
+    attr_accessor block: untyped
+
+    attr_accessor response: untyped
+
+    attr_accessor search_options: untyped
+
+    def initialize: (untyped controller, untyped model) -> void
+
+    def self.resolve_model: (untyped model) -> untyped
+
+    def default_action: () -> ::Symbol
+
+    def default_pagination: () -> :paginate_scope!
+
+    def default_search: () -> :search_scope
+
+    def default_search_options: () -> ::Hash[untyped, untyped]
+
+    def last_action: () -> untyped
+
+    def action: () -> untyped
+
+    def action=: (untyped action) -> untyped
+
+    def search: () -> untyped
+
+    def pagination: () -> untyped
+
+    def block: () -> untyped
+
+    def response: () -> untyped
+
+    def search_options: () -> untyped
+
+    def changed?: () -> untyped
+
+    def refresh_action!: () -> untyped
+
+    def undef_action!: () -> untyped
+
+    def define_action!: (?untyped block) -> untyped
+
+    def default_block: () -> untyped
+
+    def default_response_block: () -> untyped
+  end
+
+  def self.included: (untyped base) -> untyped
+
+  def self.extended: (untyped base) -> untyped
+end

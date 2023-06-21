@@ -1,0 +1,65 @@
+#
+# Abstract view component. Subclass this for a concrete table.
+class TableComponent < RailsComponent
+  def initialize: (?rows: untyped, **untyped options) -> void
+
+  # Declares columns shown in the table.
+  #
+  # Use it in subclasses like so:
+  #
+  #     columns :name, :description, :sort
+  #
+  # When table is sortable, the column names are used by sort logic. It means
+  # these names will be used directly in the generated SQL queries.
+  def self.columns: (*untyped names) -> untyped
+
+  #
+  # Define which of the registered columns are sortable
+  # Applies only if +sortable?+ is true
+  def self.sortable_columns: (*untyped names) -> (nil | untyped)
+
+  def self.add_column: (untyped name) -> untyped
+
+  def self.row_class: () -> untyped
+
+  def before_render: () -> (untyped | nil)
+
+  def initialize_sorted_model: () -> untyped
+
+  def sort_criteria: () -> untyped
+
+  def apply_sort: (untyped model) -> untyped
+
+  #
+  # Sorts the data to be displayed.
+  #
+  # @param query [ActiveRecord::QueryMethods] An active record collection.
+  # @param sort_clause [String] The SQL used as the sort clause.
+  def sort_collection: (untyped query, untyped sort_clause) -> untyped
+
+  def paginate_collection: (untyped query) -> untyped
+
+  def rows: () -> untyped
+
+  def row_class: () -> untyped
+
+  def columns: () -> untyped
+
+  def sortable_columns: () -> untyped
+
+  def render_collection: (untyped rows) -> untyped
+
+  def initial_sort: () -> ::Array[untyped | :asc]
+
+  def initial_order: () -> untyped
+
+  def paginated?: () -> untyped
+
+  def inline_create_link: () -> nil
+
+  def sortable?: () -> true
+
+  def sortable_column?: (untyped column) -> untyped
+
+  def empty_row_message: () -> untyped
+end

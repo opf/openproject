@@ -1,0 +1,23 @@
+module BackupHelper
+  #
+  # The idea here is to only allow users, who can confirm their password, to backup
+  # OpenProject without delay. Users who can't (since they use Google etc.) have to wait
+  # just to make sure no one else accessed the computer to trigger a backup.
+  #
+  #   A better long-term solution might be to introduce a PIN for sensitive operations
+  #   in general. Think the PIN for Windows users or trading passwords in online trade platforms.
+  #
+  # Also we make sure that in case there is a password that it wasn't just set by a would-be attacker.
+  #
+  # If OpenProject has just been installed we don't check any of this since there's likely nothing
+  # sensitive to backup yet and it would prevent a new admin from trying this feature.
+  def allow_instant_backup_for_user?: (untyped user, ?date: untyped) -> (true | untyped)
+
+  def instant_backup_threshold_date: () -> untyped
+
+  def just_installed_openproject?: (?after: untyped) -> untyped
+
+  def create_backup_token: (?user: untyped) -> untyped
+
+  def notify_user_and_admins: (untyped user, backup_token: untyped) -> untyped
+end

@@ -1,0 +1,29 @@
+class Activities::ItemComponent < ViewComponent::Base
+  def initialize: (event: untyped, ?current_project: untyped?, ?display_user: bool, ?activity_page: untyped?) -> void
+
+  def project_suffix: () -> (nil | untyped)
+
+  def display_user?: () -> untyped
+
+  def display_details?: () -> (false | untyped)
+
+  def rendered_details: () -> untyped
+
+  def comment: () -> (nil | untyped)
+
+  def description: () -> (nil | untyped)
+
+  def time_entry_url: () -> (nil | untyped)
+
+  private
+
+  def activity?: (untyped type) -> untyped
+
+  def activity_is_from_current_project?: () -> untyped
+
+  def activity_is_from_subproject?: () -> untyped
+
+  def filter_details: () -> untyped
+
+  def delete_detail: (untyped details, untyped field) -> (untyped | nil)
+end

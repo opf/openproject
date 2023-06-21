@@ -1,0 +1,5 @@
+module Queries::Filters::Strategies
+  class BooleanListStrict < BooleanList
+    def operator_map: () -> untyped
+  end
+end

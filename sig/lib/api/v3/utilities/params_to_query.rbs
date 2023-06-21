@@ -1,0 +1,23 @@
+module API
+  module V3
+    module Utilities
+      class ParamsToQuery
+        def self.collection_response: (untyped scope, untyped current_user, untyped params, ?representer: untyped?, ?self_link: untyped?) -> untyped
+
+        private
+
+        def self.send_collection_response: (untyped model, untyped scope, untyped current_user, untyped params, untyped provided_representer, untyped self_link_base) -> untyped
+
+        def self.paths: () -> untyped
+
+        def self.default_self_link: (untyped path, untyped params) -> untyped
+
+        def self.append_params_to_link: (untyped path, untyped params) -> untyped
+
+        def self.model_class: (untyped scope) -> untyped
+
+        def self.merge_scopes: (untyped scope_a, untyped scope_b) -> untyped
+      end
+    end
+  end
+end

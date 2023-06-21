@@ -1,0 +1,15 @@
+module Queries
+  module Relations
+    module Filters
+      module VisibilityChecking
+        def visibility_checked?: () -> true
+
+        def where: () -> untyped
+
+        private
+
+        def visibility_checked_sql: (untyped _operator, untyped _values, untyped _visible_sql) -> untyped
+      end
+    end
+  end
+end

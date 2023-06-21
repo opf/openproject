@@ -1,0 +1,31 @@
+class Authorization::QueryTransformationVisitor < Arel::Visitors::Visitor
+  attr_accessor transformations: untyped
+
+  attr_accessor args: untyped
+
+  def initialize: (transformations: untyped, args: untyped) -> void
+
+  def accept: (untyped ast) -> untyped
+
+  private
+
+  def visit_Arel_SelectManager: (untyped ast) -> untyped
+
+  def visit_Arel_Nodes_OuterJoin: (untyped ast) -> untyped
+
+  def visit_Arel_Nodes_On: (untyped ast) -> untyped
+
+  def visit_Arel_Nodes_Grouping: (untyped ast) -> untyped
+
+  def visit_Arel_Nodes_Or: (untyped ast) -> untyped
+
+  def visit_Arel_Nodes_And: (untyped ast) -> untyped
+
+  def method_missing: (untyped name, *untyped args) { () -> untyped } -> (untyped | nil)
+
+  def replace_if_equals: (untyped ast, ?untyped? key) -> untyped
+
+  def applicable_transformation?: (untyped key) -> (true | false)
+
+  def applied_transformations: () -> untyped
+end

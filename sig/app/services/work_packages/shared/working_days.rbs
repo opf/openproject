@@ -1,0 +1,35 @@
+module WorkPackages
+  module Shared
+    class WorkingDays
+      # Returns number of working days between two dates, excluding weekend days
+      # and non working days.
+      def duration: (untyped start_date, untyped due_date) -> (nil | untyped)
+
+      def start_date: (untyped due_date, untyped duration) -> (nil | untyped)
+
+      def due_date: (untyped start_date, untyped duration) -> (nil | untyped)
+
+      def soonest_working_day: (untyped date, ?delay: untyped?) -> (nil | untyped)
+
+      def working?: (untyped date) -> untyped
+
+      def non_working?: (untyped date) -> untyped
+
+      private
+
+      def assert_strictly_positive_duration: (untyped duration) -> (untyped | nil)
+
+      def latest_working_day: (untyped date) -> (nil | untyped)
+
+      def working_week_day?: (untyped date) -> untyped
+
+      def working_specific_date?: (untyped date) -> untyped
+
+      def assert_some_working_week_days_exist: () -> (nil | untyped)
+
+      def working_week_days: () -> untyped
+
+      def non_working_dates: () -> untyped
+    end
+  end
+end

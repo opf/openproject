@@ -1,0 +1,15 @@
+module Projects::Concerns
+  module NewProjectService
+    private
+
+    def after_perform: (untyped attributes_call) -> untyped
+
+    # Add default role to the newly created project
+    # based on the setting ('new_project_user_role_id')
+    # defined in the administration. Will either create a new membership
+    # or add a role to an already existing one.
+    def set_default_role: (untyped new_project) -> (nil | untyped)
+
+    def notify_project_created: (untyped new_project) -> untyped
+  end
+end

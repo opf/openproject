@@ -1,0 +1,5 @@
+module RequiresEnterpriseGuard
+  extend ActiveSupport::Concern
+
+  def self?.has_enterprise: () -> (untyped | nil)
+end

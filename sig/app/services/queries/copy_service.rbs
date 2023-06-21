@@ -1,0 +1,11 @@
+module Queries
+  class CopyService < ::BaseServices::Copy
+    def self.copy_dependencies: () -> ::Array[untyped]
+
+    def set_attributes: (untyped _params) -> untyped
+
+    def copied_query: () -> untyped
+
+    def skipped_attributes: () -> ::Array["id" | "created_at" | "updated_at" | "project_id" | "sort_criteria"]
+  end
+end

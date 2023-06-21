@@ -1,0 +1,21 @@
+module OpenProject::TextFormatting
+  module Filters
+    class FigureWrappedFilter < HTML::Pipeline::Filter
+      include ActionView::Context
+
+      include ActionView::Helpers::TagHelper
+
+      def call: () -> untyped
+
+      private
+
+      # The figure and img/table element later on get css classes applied to them so it does
+      # not have to happen here.
+      def wrap_element: (untyped element) -> untyped
+
+      def wrap_in_figure: (untyped element) -> (untyped | nil)
+
+      def wrap_in_div: (untyped element) -> untyped
+    end
+  end
+end

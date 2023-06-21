@@ -1,0 +1,31 @@
+class CustomActionsController < ApplicationController
+  include EnterpriseTrialHelper
+
+  def index: () -> untyped
+
+  def new: () -> untyped
+
+  def edit: () -> nil
+
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  def destroy: () -> untyped
+
+  private
+
+  def index_or_render: (untyped render_action) -> untyped
+
+  def require_enterprise_token: () -> (nil | untyped)
+
+  # If no action/condition is set in the view, the
+  # actions/conditions already existing on a custom action should be removed.
+  # But because it is not feasible to have an empty and hidden hash object in a form
+  # we have to pad the params here.
+  def pad_params: () -> (nil | untyped)
+
+  def default_breadcrumb: () -> untyped
+
+  def show_local_breadcrumb: () -> true
+end

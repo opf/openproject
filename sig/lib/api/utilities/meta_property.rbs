@@ -1,0 +1,17 @@
+module API
+  module Utilities
+    module MetaProperty
+      extend ActiveSupport::Concern
+
+      attr_accessor meta: untyped
+
+      module MetaPropertyConstructor
+        def create: (untyped model, **untyped args) -> untyped
+      end
+
+      def meta_representer: () -> untyped
+
+      def meta_representer_class: () -> untyped
+    end
+  end
+end

@@ -1,0 +1,7 @@
+module WorkPackages::Scopes
+  module DirectlyRelated
+    extend ActiveSupport::Concern
+
+    def directly_related: (untyped work_package) -> untyped
+  end
+end

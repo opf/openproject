@@ -1,0 +1,19 @@
+class UserFilterComponent < IndividualPrincipalBaseFilterComponent
+  #
+  # Returns the selected status from the parameters
+  # or the default status to be filtered by (all)
+  # if no status is given.
+  def self.status_param: (untyped params) -> untyped
+
+  def self.filter_status: (untyped query, untyped status) -> (nil | untyped)
+
+  def self.base_query: () -> untyped
+
+  def self.apply_filters: (untyped params, untyped query) -> untyped
+
+  def filter_path: () -> untyped
+
+  def user_status_options: () -> untyped
+
+  def extra_user_status_options: () -> ::Hash[untyped, untyped]
+end

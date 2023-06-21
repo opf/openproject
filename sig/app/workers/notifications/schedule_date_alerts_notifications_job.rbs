@@ -1,0 +1,17 @@
+module Notifications
+  # Creates date alert jobs for users whose local time is 1:00 am.
+  class ScheduleDateAlertsNotificationsJob < Cron::CronJob
+    def perform: () -> (nil | untyped)
+
+    # Returns times from scheduled execution time to current time in 15 minutes
+    # steps.
+    #
+    # As scheduled execution time can be different from current time by more
+    # than 15 minutes when workers are busy, all times at 15 minutes interval
+    # between scheduled time and current time need to be considered to match
+    # with 1:00am in a time zone.
+    def times_from_scheduled_to_execution: () -> untyped
+
+    def scheduled_time: () -> untyped
+  end
+end

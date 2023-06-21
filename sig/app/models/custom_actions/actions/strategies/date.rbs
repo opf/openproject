@@ -1,0 +1,13 @@
+module CustomActions::Actions::Strategies::Date
+  def values=: (untyped values) -> untyped
+
+  def type: () -> :date_property
+
+  def apply: (untyped work_package) -> untyped
+
+  private
+
+  def date_to_apply: () -> untyped
+
+  def to_date_or_nil: (untyped value) -> untyped
+end

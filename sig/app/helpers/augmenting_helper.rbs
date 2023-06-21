@@ -1,0 +1,11 @@
+module AugmentingHelper
+  #
+  # Create a collapsible section and yield to render the block
+  #
+  # @param title [String] Section title
+  #
+  # @param initiallyExpanded [Boolean] Whether the section is initially expanded
+  #
+  # @param block [Block] A block that renders the section's body.
+  def augmented_collapsible_section: (title: untyped, ?initiallyExpanded: bool) { () -> untyped } -> untyped
+end

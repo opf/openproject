@@ -1,0 +1,5 @@
+module WorkPackage::PDFExport::MarkdownField
+  include WorkPackage::PDFExport::Markdown
+
+  def write_markdown_field!: (untyped work_package, untyped markdown, untyped label) -> (nil | untyped)
+end

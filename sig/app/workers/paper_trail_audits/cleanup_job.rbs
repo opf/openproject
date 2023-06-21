@@ -1,0 +1,6 @@
+module PaperTrailAudits
+  class CleanupJob < ::Cron::CronJob
+    # Clean any paper trails older than 60 days
+    def perform: () -> untyped
+  end
+end

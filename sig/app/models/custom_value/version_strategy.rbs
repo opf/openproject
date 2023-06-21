@@ -1,0 +1,7 @@
+class CustomValue::VersionStrategy < CustomValue::ARObjectStrategy
+  private
+
+  def ar_class: () -> untyped
+
+  def ar_object: (untyped value) -> untyped
+end

@@ -1,0 +1,9 @@
+module Admin::Settings
+  class UsersSettingsController < ::Admin::SettingsController
+    def show: () -> untyped
+
+    def default_breadcrumb: () -> untyped
+
+    def show_local_breadcrumb: () -> true
+  end
+end

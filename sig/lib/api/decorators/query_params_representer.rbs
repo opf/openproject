@@ -1,0 +1,32 @@
+module API
+  module Decorators
+    class QueryParamsRepresenter
+      def initialize: (untyped query) -> void
+
+      #
+      # To json hash outputs the hash to be parsed to the frontend http
+      # which contains a reference to the columns array as columns[].
+      # This will match the Rails +to_query+ output
+      def to_json: (*untyped _args) -> untyped
+
+      #
+      # Output as query params used for directly using in URL queries.
+      # Outputs columns[]=A,columns[]=B due to Rails query output.
+      def to_url_query: (?merge_params: ::Hash[untyped, untyped]) -> untyped
+
+      def to_h: (*untyped _args) -> untyped
+
+      private
+
+      def orders_to_v3: () -> untyped
+
+      def filters_to_v3: () -> untyped
+
+      def convert_to_v3: (untyped attribute) -> untyped
+
+      def default_hash: () -> { offset: 1, pageSize: untyped }
+
+      attr_accessor query: untyped
+    end
+  end
+end

@@ -1,0 +1,32 @@
+module Redmine::MenuManager::MenuController
+  def self.included: (untyped base) -> untyped
+
+  module ClassMethods
+    # Set the menu item name for a controller or specific actions
+    # Examples:
+    #   * menu_item :tickets # => sets the menu name to :tickets for the whole controller
+    #   * menu_item :tickets, only: :list # => sets the menu name to :tickets for the 'list' action only
+    #   * menu_item :tickets, only: [:list, :show] # => sets the menu name to :tickets for 2 actions only
+    #
+    # The default menu item name for a controller is controller_path by default
+    # Eg. the default menu item name for ProjectsController is :projects
+    def menu_item: (untyped id, ?::Hash[untyped, untyped] options) -> untyped
+
+    def current_menu_item: (?::Symbol actions) ?{ () -> untyped } -> untyped
+  end
+
+  def menu_items: () -> untyped
+
+  # Returns the menu item name according to the current action
+  def current_menu_item: () -> untyped
+
+  # Redirects user to the menu item of the given project
+  # Returns false if user is not authorized
+  def redirect_to_project_menu_item: (untyped project, untyped name) -> (true | false)
+
+  def project_menu_item: (untyped name) -> untyped
+
+  def admin_menu_item: (untyped name) -> untyped
+
+  def user_allowed_to_access_item?: (untyped project, untyped item) -> untyped
+end

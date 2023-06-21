@@ -1,0 +1,25 @@
+class Queries::WorkPackages::Filter::GroupFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  def allowed_values: () -> untyped
+
+  def available?: () -> untyped
+
+  def type: () -> :list_optional
+
+  def human_name: () -> untyped
+
+  def self.key: () -> :member_of_group
+
+  def ar_object_filter?: () -> true
+
+  def value_objects: () -> untyped
+
+  def where: () -> untyped
+
+  private
+
+  def operator_for_filtering: () -> untyped
+
+  def user_ids_for_filtering: () -> untyped
+
+  def all_groups: () -> untyped
+end

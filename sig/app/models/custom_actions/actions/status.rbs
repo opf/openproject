@@ -1,0 +1,11 @@
+class CustomActions::Actions::Status < CustomActions::Actions::Base
+  include CustomActions::Actions::Strategies::Associated
+
+  def self.key: () -> :status
+
+  def required?: () -> true
+
+  private
+
+  def associated: () -> untyped
+end

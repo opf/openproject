@@ -1,0 +1,4 @@
+module API::V3::Days
+  class WeekDayCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
+  end
+end

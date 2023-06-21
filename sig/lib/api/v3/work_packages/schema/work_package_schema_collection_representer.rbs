@@ -1,0 +1,13 @@
+module API
+  module V3
+    module WorkPackages
+      module Schema
+        class WorkPackageSchemaCollectionRepresenter < ::API::V3::Schemas::SchemaCollectionRepresenter
+          private
+
+          def model_self_link: (untyped model) -> untyped
+        end
+      end
+    end
+  end
+end

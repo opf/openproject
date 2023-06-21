@@ -1,0 +1,11 @@
+module Queries::WorkPackages::FilterSerializer
+  extend Queries::Filters::AvailableFilters
+
+  extend Queries::Filters::AvailableFilters::ClassMethods
+
+  def self.load: (untyped serialized_filter_hash) -> (::Array[untyped] | untyped)
+
+  def self.dump: (untyped filters) -> untyped
+
+  def self.registered_filters: () -> untyped
+end

@@ -1,0 +1,8 @@
+# Using the associated queries' project relation to filter
+class Queries::Views::Filters::ProjectFilter < Queries::Views::Filters::ViewFilter
+  include Queries::Filters::Shared::ProjectFilter
+
+  def left_outer_joins: () -> ::Array[:query]
+
+  def where: () -> untyped
+end

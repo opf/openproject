@@ -1,0 +1,9 @@
+class Reports::ReportsService
+  def self.add_report: (untyped report) -> untyped
+
+  def self.has_report_for?: (untyped report_type) -> untyped
+
+  def initialize: (untyped project) -> void
+
+  def report_for: (untyped report_type) -> untyped
+end

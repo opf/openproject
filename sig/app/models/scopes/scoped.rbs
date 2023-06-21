@@ -1,0 +1,5 @@
+module Scopes::Scoped
+  extend ActiveSupport::Concern
+
+  def self.scopes: (*untyped classes) -> untyped
+end

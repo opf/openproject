@@ -1,0 +1,2 @@
+class Views::CreateService < BaseServices::Create
+end

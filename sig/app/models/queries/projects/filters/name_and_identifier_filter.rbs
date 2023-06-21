@@ -1,0 +1,23 @@
+class Queries::Projects::Filters::NameAndIdentifierFilter < Queries::Projects::Filters::ProjectFilter
+  def type: () -> :string
+
+  def where: () -> untyped
+
+  def human_name: () -> untyped
+
+  def self.key: () -> :name_and_identifier
+
+  private
+
+  def concatenate_with_values: (untyped condition, untyped concatenation) { (untyped) -> untyped } -> untyped
+
+  def where_equal: () -> untyped
+
+  def where_not_equal: () -> untyped
+
+  def where_contains: () -> untyped
+
+  def where_not_contains: () -> untyped
+
+  def where_not: (untyped condition) -> untyped
+end

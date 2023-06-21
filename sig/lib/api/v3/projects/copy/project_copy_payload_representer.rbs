@@ -1,0 +1,17 @@
+module API
+  module V3
+    module Projects
+      module Copy
+        class ProjectCopyPayloadRepresenter < ::API::V3::Projects::ProjectRepresenter
+          include ::API::Utilities::PayloadRepresenter
+
+          include ::API::Utilities::MetaProperty
+
+          def meta_representer_class: () -> untyped
+
+          def writable_attributes: () -> untyped
+        end
+      end
+    end
+  end
+end

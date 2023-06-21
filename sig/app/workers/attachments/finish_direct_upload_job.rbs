@@ -1,0 +1,23 @@
+class Attachments::FinishDirectUploadJob < ApplicationJob
+  def perform: (untyped attachment_id, ?whitelist: bool) -> untyped
+
+  private
+
+  def attach_uploaded_file: (untyped attachment, untyped local_file, untyped whitelist) -> untyped
+
+  def set_attributes_from_file: (untyped attachment, untyped local_file) -> untyped
+
+  def save_attachment: (untyped attachment) -> (untyped | nil)
+
+  def validate_attachment: (untyped attachment, untyped whitelist) -> untyped
+
+  def create_contract: (untyped attachment, untyped whitelist) -> untyped
+
+  def derive_contract_options: (untyped whitelist) -> untyped
+
+  def journalize_container: (untyped attachment) -> (nil | untyped)
+
+  def touch_journable: (untyped journable) -> untyped
+
+  def attachment_created_event: (untyped attachment) -> untyped
+end

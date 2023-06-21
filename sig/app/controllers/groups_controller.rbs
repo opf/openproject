@@ -1,0 +1,43 @@
+class GroupsController < ApplicationController
+  include GroupsHelper
+
+  def index: () -> untyped
+
+  def show: () -> untyped
+
+  def new: () -> untyped
+
+  def edit: () -> untyped
+
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  def destroy: () -> untyped
+
+  def add_users: () -> untyped
+
+  def remove_user: () -> untyped
+
+  def create_memberships: () -> untyped
+
+  def edit_membership: () -> untyped
+
+  def destroy_membership: () -> untyped
+
+  def find_group: () -> untyped
+
+  def group_members: () -> untyped
+
+  def visible_group_members?: () -> untyped
+
+  def default_breadcrumb: () -> untyped
+
+  def show_local_breadcrumb: () -> true
+
+  def respond_membership_altered: (untyped service_call) -> untyped
+
+  def redirected_to_tab: (untyped membership) -> ("memberships" | "global_roles")
+
+  def respond_users_altered: (untyped service_call) -> untyped
+end

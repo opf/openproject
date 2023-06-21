@@ -1,0 +1,25 @@
+class WorkPackagePolicy < BasePolicy
+  private
+
+  def cache: (untyped work_package) -> untyped
+
+  def allowed_hash: (untyped work_package) -> { edit: untyped, move: untyped, copy: untyped, duplicate: untyped, delete: untyped, manage_subtasks: untyped, comment: untyped, assign_version: untyped }
+
+  def edit_allowed?: (untyped work_package) -> untyped
+
+  def move_allowed?: (untyped work_package) -> untyped
+
+  def copy_allowed?: (untyped work_package) -> untyped
+
+  def delete_allowed?: (untyped work_package) -> untyped
+
+  def add_allowed?: (untyped work_package) -> untyped
+
+  def type_active_in_project?: (untyped work_package) -> (false | untyped)
+
+  def manage_subtasks_allowed?: (untyped work_package) -> untyped
+
+  def comment_allowed?: (untyped work_package) -> untyped
+
+  def assign_version_allowed?: (untyped work_package) -> untyped
+end

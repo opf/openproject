@@ -1,0 +1,40 @@
+module WorkPackagesHelper
+  include AccessibilityHelper
+
+  extend DeprecatedAlias
+
+  # Displays a link to +work_package+ with its subject.
+  # Examples:
+  #
+  #   link_to_work_package(package)                            # => Defect #6: This is the subject
+  #   link_to_work_package(package, all_link: true)            # => Defect #6: This is the subject (everything within the link)
+  #   link_to_work_package(package, truncate: 9)               # => Defect #6: This i...
+  #   link_to_work_package(package, subject: false)            # => Defect #6
+  #   link_to_work_package(package, type: false)               # => #6: This is the subject
+  #   link_to_work_package(package, project: true)             # => Foo - Defect #6
+  #   link_to_work_package(package, id_only: true)             # => #6
+  #   link_to_work_package(package, subject_only: true)        # => This is the subject (as link)
+  #   link_to_work_package(package, status: true)              # => #6 New (if #id => true)
+  def link_to_work_package: (untyped package, ?::Hash[untyped, untyped] options) -> untyped
+
+  def work_package_list: (untyped work_packages) { (untyped, untyped) -> untyped } -> untyped
+
+  def send_notification_option: (?bool checked) -> untyped
+
+  # Returns a string of css classes that apply to the issue
+  def work_package_css_classes: (untyped work_package) -> untyped
+
+  def work_package_associations_to_address: (untyped associated) -> untyped
+
+  def back_url_is_wp_show?: () -> untyped
+
+  def last_work_package_note: (untyped work_package) -> untyped
+
+  private
+
+  def truncated_work_package_description: (untyped work_package, ?::Integer lines) -> untyped
+
+  def info_user_attributes: (untyped work_package) -> untyped
+
+  def link_to_work_package_css_classes: (untyped package, untyped options) -> untyped
+end

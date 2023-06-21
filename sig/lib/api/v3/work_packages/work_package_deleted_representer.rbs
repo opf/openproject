@@ -1,0 +1,19 @@
+module API
+  module V3
+    module WorkPackages
+      class WorkPackageDeletedRepresenter < ::API::Decorators::Single
+        include TimestampedRepresenter
+
+        attr_accessor timestamps: untyped
+
+        attr_accessor query: untyped
+
+        def initialize: (untyped model, current_user: untyped, ?embed_links: bool, ?timestamps: untyped?, ?query: untyped?) -> void
+
+        def self_v3_path: (*untyped) -> untyped
+
+        def _type: () -> "WorkPackage"
+      end
+    end
+  end
+end

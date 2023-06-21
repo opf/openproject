@@ -1,0 +1,8 @@
+class Queries::NonWorkingDays::NonWorkingDayQuery < Queries::BaseQuery
+  def self.model: () -> untyped
+
+  # If there is a date filter present, we don't apply the default scope
+  def default_scope: () -> untyped
+
+  def results: () -> untyped
+end

@@ -1,0 +1,13 @@
+module Groups
+  class UpdateRolesService < ::BaseServices::BaseContracted
+    include Groups::Concerns::MembershipManipulation
+
+    def initialize: (untyped group, current_user: untyped, ?contract_class: untyped) -> void
+
+    private
+
+    def modify_members_and_roles: (untyped params) -> untyped
+
+    def update_roles_cte: () -> ::String
+  end
+end

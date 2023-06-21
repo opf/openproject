@@ -1,0 +1,19 @@
+class MemberMailer < ApplicationMailer
+  include OpenProject::StaticRouting::UrlHelpers
+
+  include OpenProject::TextFormatting
+
+  def added_project: (untyped current_user, untyped member, untyped message) -> untyped
+
+  def updated_project: (untyped current_user, untyped member, untyped message) -> untyped
+
+  def updated_global: (untyped current_user, untyped member, untyped message) -> untyped
+
+  private
+
+  def alter_project: (untyped current_user, untyped member, untyped subject, untyped message) -> untyped
+
+  def send_mail: (untyped current_user, untyped member, untyped subject, untyped message) ?{ () -> untyped } -> untyped
+
+  def in_member_locale: (untyped member) { () -> untyped } -> untyped
+end

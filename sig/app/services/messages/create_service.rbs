@@ -1,0 +1,3 @@
+class Messages::CreateService < BaseServices::Create
+  include Attachments::ReplaceAttachments
+end

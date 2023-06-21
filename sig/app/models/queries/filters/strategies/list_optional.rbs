@@ -1,0 +1,4 @@
+module Queries::Filters::Strategies
+  class ListOptional < List
+  end
+end

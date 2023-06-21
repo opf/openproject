@@ -1,0 +1,69 @@
+class ChangesetNotFound < StandardError
+end
+
+class InvalidRevisionParam < StandardError
+end
+
+class RepositoriesController < ApplicationController
+  include PaginationHelper
+
+  include RepositoriesHelper
+
+  def show: () -> untyped
+
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  def committers: () -> untyped
+
+  def destroy_info: () -> untyped
+
+  def destroy: () -> untyped
+
+  alias browse show
+
+  def changes: () -> (nil | untyped)
+
+  def revisions: () -> untyped
+
+  def entry: () -> (nil | untyped)
+
+  def annotate: () -> (nil | untyped)
+
+  def revision: () -> untyped
+
+  def diff: () -> (nil | untyped | untyped)
+
+  def stats: () -> untyped
+
+  def graph: () -> untyped
+
+  private
+
+  REV_PARAM_RE: ::Regexp
+
+  def update_repository: (untyped repo_params) -> untyped
+
+  def find_repository: () -> untyped
+
+  def show_error_not_found: () -> untyped
+
+  def show_error_command_failed: (untyped exception) -> untyped
+
+  def graph_commits_per_month: (untyped repository) -> untyped
+
+  def graph_commits_per_author: (untyped repository) -> untyped
+
+  def login_back_url_params: () -> untyped
+
+  def raw_or_to_large_or_non_text: (untyped content, untyped path) -> untyped
+
+  def send_raw: (untyped content, untyped path) -> untyped
+
+  def render_text_entry: () -> untyped
+
+  def diff_type_persisted: () -> untyped
+
+  def entry_text_data?: (untyped ent, untyped path) -> untyped
+end

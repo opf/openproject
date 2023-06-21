@@ -1,0 +1,9 @@
+module API
+  module V3
+    module Principals
+      module NotBuiltinElements
+        extend ::ActiveSupport::Concern
+      end
+    end
+  end
+end

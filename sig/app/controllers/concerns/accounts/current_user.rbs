@@ -1,0 +1,42 @@
+#
+# Intended to be used by the ApplicationController to provide login/logout helpers
+module Accounts::CurrentUser
+  extend ActiveSupport::Concern
+
+  # The current user is a per-session kind of thing and session stuff is controller responsibility.
+  # A globally accessible User.current is a big code smell. When used incorrectly it allows getting
+  # the current user outside of a session scope, i.e. in the model layer, from mailers or
+  # in the console which doesn't make any sense. For model code that needs to be aware of the
+  # current user, i.e. when returning all visible projects for <somebody>, the controller should
+  # pass the current user to the model, instead of letting it fetch it by itself through
+  # `User.current`. This method acts as a reminder and wants to encourage you to use it.
+  # Project.visible_by actually allows the controller to pass in a user but it falls back
+  # to `User.current` and there are other places in the session-unaware codebase,
+  # that rely on `User.current`.
+  def current_user: () -> untyped
+
+  def user_setup: () -> untyped
+
+  # check if login is globally required to access the application
+  def check_if_login_required: () -> (true | untyped)
+
+  # Returns the current user or nil if no user is logged in
+  # and starts a session if needed
+  def find_current_user: () -> (untyped | untyped | untyped | untyped | nil | nil)
+
+  # Sets the logged in user
+  def logged_user=: (untyped user) -> untyped
+
+  # Logout the current user
+  def logout_user: () -> untyped
+
+  # Redirect the user according to the logout scheme
+  def perform_post_logout: (untyped prev_session, untyped prev_user) -> (nil | untyped)
+
+  # Login the current user
+  def login_user: (untyped user) -> untyped
+
+  def require_login: () -> (false | true)
+
+  def require_admin: () -> (nil | untyped)
+end

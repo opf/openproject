@@ -1,0 +1,9 @@
+# Please see https://w3c.github.io/webappsec-secure-contexts/
+# for a definition of "secure contexts".
+# Basically, a host has to have either a HTTPS scheme or be
+# localhost to provide a secure context.
+class SecureContextUriValidator < ActiveModel::EachValidator
+  def validate_each: (untyped contract, untyped attribute, untyped value) -> (nil | untyped)
+
+  def self.secure_context_uri?: (untyped uri) -> (true | false)
+end

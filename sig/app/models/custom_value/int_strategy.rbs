@@ -1,0 +1,5 @@
+class CustomValue::IntStrategy < CustomValue::FormatStrategy
+  def typed_value: () -> (untyped | nil)
+
+  def validate_type_of_value: () -> (:not_an_integer | untyped)
+end

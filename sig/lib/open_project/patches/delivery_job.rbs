@@ -1,0 +1,6 @@
+module OpenProject
+  module Patches
+    module DeliveryJob
+    end
+  end
+end

@@ -1,0 +1,19 @@
+module ::UserConsentHelper
+  def consent_param?: () -> untyped
+
+  def user_consent_required?: () -> untyped
+
+  #
+  # Gets consent instructions for the given user.
+  #
+  # @param user [User] The user to get instructions for.
+  # @param locale [String] ISO-639-1 code for the desired locale (e.g. de, en, fr).
+  #                        `I18n.locale` is set for each request individually depending
+  #                        among other things on the user's Accept-Language headers.
+  # @return [String] Instructions in the respective language.
+  def user_consent_instructions: (untyped _user, ?locale: untyped) -> untyped
+
+  def consent_checkbox_label: (?locale: untyped) -> untyped
+
+  def consent_configured?: () -> (false | true)
+end

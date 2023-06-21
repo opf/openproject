@@ -1,0 +1,4 @@
+module API::V3::Values::Schemas
+  class PropertySchemaRepresenter < ::API::Decorators::SchemaRepresenter
+  end
+end

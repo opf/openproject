@@ -1,0 +1,23 @@
+module WorkPackage::AskBeforeDestruction
+  extend ActiveSupport::Concern
+
+  DestructionRegistration: untyped
+
+  def self.included: (untyped base) -> untyped
+
+  module ClassMethods
+    def cleanup_action_required_before_destructing?: (untyped work_packages) -> untyped
+
+    def cleanup_associated_before_destructing_if_required: (untyped work_packages, untyped user, ?::Hash[untyped, untyped] to_do) -> untyped
+
+    def associated_classes_to_address_before_destruction_of: (untyped work_packages) -> untyped
+
+    private
+
+    def associated_to_ask_before_destruction_of: (untyped work_packages) -> untyped
+
+    def associated_to_ask_before_destruction: (untyped klass, untyped check, untyped action) -> untyped
+
+    def cleanup_each_associated_class: (untyped work_packages, untyped user, untyped to_do) -> untyped
+  end
+end

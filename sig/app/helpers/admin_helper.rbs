@@ -1,0 +1,3 @@
+module AdminHelper
+  def project_status_options_for_select: (untyped selected) -> untyped
+end

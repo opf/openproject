@@ -1,0 +1,34 @@
+class Activities::ChangesetActivityProvider < Activities::BaseActivityProvider
+  def extend_event_query: (untyped query) -> untyped
+
+  def event_query_projection: () -> ::Array[untyped]
+
+  def projects_reference_table: () -> untyped
+
+  #
+  # Override this method if not the journal created_at datetime, but another column
+  # value is the actual relevant time event. (e..g., commit date)
+  def filter_for_event_datetime: (untyped query, untyped from, untyped to) -> untyped
+
+  def event_type: (untyped _event) -> "changeset"
+
+  def event_title: (untyped event) -> untyped
+
+  def event_description: (untyped event) -> untyped
+
+  def event_datetime: (untyped event) -> untyped
+
+  def event_path: (untyped event) -> untyped
+
+  def event_url: (untyped event) -> untyped
+
+  private
+
+  def repositories_table: () -> untyped
+
+  def format_revision: (untyped event) -> untyped
+
+  def split_comment: (untyped comments) -> ::Array[untyped]
+
+  def url_helper_parameter: (untyped event) -> { project_id: untyped, rev: untyped }
+end

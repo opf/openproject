@@ -1,0 +1,115 @@
+module OpenProject::TextFormatting
+  module Matchers
+    # OpenProject links matching
+    #
+    # Examples:
+    #   Issues:
+    #     #52 -> Link to issue #52
+    #   Changesets:
+    #     r52 -> Link to revision 52
+    #     commit:a85130f -> Link to scmid starting with a85130f
+    #   Documents:
+    #     document#17 -> Link to document with id 17
+    #     document:Greetings -> Link to the document with title "Greetings"
+    #     document:"Some document" -> Link to the document with title "Some document"
+    #   Versions:
+    #     version#3 -> Link to version with id 3
+    #     version:1.0.0 -> Link to version named "1.0.0"
+    #     version:"1.0 beta 2" -> Link to version named "1.0 beta 2"
+    #   Attachments:
+    #     attachment:file.zip -> Link to the attachment of the current object named file.zip
+    #   Source files:
+    #     source:"some/file" -> Link to the file located at /some/file in the project's repository
+    #     source:"some/file@52" -> Link to the file's revision 52
+    #     source:"some/file#L120" -> Link to line 120 of the file
+    #     source:"some/file@52#L120" -> Link to line 120 of the file's revision 52
+    #     export:"some/file" -> Force the download of the file
+    #   Forum messages:
+    #     message#1218 -> Link to message with id 1218
+    #
+    #   Links can refer other objects from other projects, using project identifier:
+    #     identifier:r52
+    #     identifier:document:"Some document"
+    #     identifier:version:1.0.0
+    #     identifier:source:some/file
+    class ResourceLinksMatcher < RegexMatcher
+      include ::OpenProject::TextFormatting::Truncation
+
+      # used for the work package quick links
+      include WorkPackagesHelper
+
+      # Used for escaping helper 'h()'
+      include ERB::Util
+
+      # For route path helpers
+      include OpenProject::ObjectLinking
+
+      include OpenProject::StaticRouting::UrlHelpers
+
+      # Rails helper
+      include ActionView::Helpers::TagHelper
+
+      include ActionView::Helpers::TextHelper
+
+      include ActionView::Helpers::UrlHelper
+
+      def self.regexp: () -> ::Regexp
+
+      #
+      # Allowed prefix matchers
+      def self.allowed_prefixes: () -> untyped
+
+      #
+      # Link handlers, may be extended by plugins
+      def self.link_handlers: () -> ::Array[untyped]
+
+      def self.process_match: (untyped m, untyped matched_string, untyped context) -> untyped
+
+      attr_reader leading: untyped
+
+      attr_reader matched_string: untyped
+
+      attr_reader escaped: untyped
+
+      attr_reader project_prefix: untyped
+
+      attr_reader project_identifier: untyped
+
+      attr_reader project: untyped
+
+      attr_reader prefix: untyped
+
+      attr_reader sep: untyped
+
+      attr_reader identifier: untyped
+
+      attr_reader raw_identifier: untyped
+
+      attr_reader link: untyped
+
+      attr_reader context: untyped
+
+      def initialize: (matched_string: untyped, leading: untyped, escaped: untyped, project_prefix: untyped, project_identifier: untyped, prefix: untyped, sep: untyped, raw_identifier: untyped, identifier: untyped, context: untyped) -> void
+
+      #
+      # Process the matched string, returning either a link provided by a formatter,
+      # or the matched string (minus escaping, if any) if no handler matches, an error occurred,
+      # or the string was escaped.
+      def process: () -> untyped
+
+      #
+      # Whether the matched string contains the escape marker (!) , e.g., `!#1234`.
+      def escaped?: () -> untyped
+
+      private
+
+      #
+      # Build a matching link by asking all handlers
+      def link_from_match: () -> untyped
+
+      #
+      # build resulting link
+      def result: () -> untyped
+    end
+  end
+end

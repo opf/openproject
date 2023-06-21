@@ -1,0 +1,3 @@
+module OpenProject::Patches::ActionViewHelpersAssetTagHelperPatch
+  def auto_discovery_link_tag: (?::Symbol type, ?::Hash[untyped, untyped] url_options, ?::Hash[untyped, untyped] tag_options) -> (nil | untyped)
+end

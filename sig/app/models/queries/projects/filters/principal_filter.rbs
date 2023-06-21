@@ -1,0 +1,9 @@
+class Queries::Projects::Filters::PrincipalFilter < Queries::Projects::Filters::ProjectFilter
+  def type: () -> :list_optional
+
+  def allowed_values: () -> untyped
+
+  def scope: () -> untyped
+
+  def where: () -> untyped
+end

@@ -1,0 +1,7 @@
+module RolesHelper
+  def setable_permissions: (untyped role) -> untyped
+
+  def grouped_setable_permissions: (untyped role) -> untyped
+
+  def group_permissions_by_module: (untyped perms) -> untyped
+end

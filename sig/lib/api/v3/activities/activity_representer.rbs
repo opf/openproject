@@ -1,0 +1,21 @@
+module API
+  module V3
+    module Activities
+      class ActivityRepresenter < ::API::Decorators::Single
+        include API::V3::Utilities
+
+        include API::Decorators::DateProperty
+
+        include API::Decorators::FormattableProperty
+
+        include ActivityPropertyFormatters
+
+        def _type: () -> ("Activity::Comment" | "Activity")
+
+        private
+
+        def current_user_allowed_to_edit?: () -> untyped
+      end
+    end
+  end
+end

@@ -1,0 +1,57 @@
+class Queries::Columns::Base
+  attr_reader groupable: untyped
+
+  attr_reader sortable: untyped
+
+  attr_reader displayable: untyped
+
+  attr_accessor name: untyped
+
+  attr_accessor sortable_join: untyped
+
+  attr_accessor summable: untyped
+
+  attr_accessor default_order: untyped
+
+  attr_accessor association: untyped
+
+  attr_writer null_handling: untyped
+
+  attr_writer summable_select: untyped
+
+  attr_writer summable_work_packages_select: untyped
+
+  def initialize: (untyped name, ?::Hash[untyped, untyped] options) -> void
+
+  def sortable_join_statement: (untyped _query) -> untyped
+
+  def caption: () -> untyped
+
+  def null_handling: (untyped _asc) -> untyped
+
+  def groupable=: (untyped value) -> untyped
+
+  def sortable=: (untyped value) -> untyped
+
+  def displayable=: (untyped value) -> untyped
+
+  def displayable?: () -> untyped
+
+  # Returns true if the column is sortable, otherwise false
+  def sortable?: () -> untyped
+
+  # Returns true if the column is groupable, otherwise false
+  def groupable?: () -> untyped
+
+  def summable?: () -> untyped
+
+  def summable_select: () -> untyped
+
+  def summable_work_packages_select: () -> (nil | untyped | nil | untyped)
+
+  def value: (untyped model) -> untyped
+
+  def self.instances: (?untyped? _context) -> untyped
+
+  def name_or_value_or_false: (untyped value) -> untyped
+end

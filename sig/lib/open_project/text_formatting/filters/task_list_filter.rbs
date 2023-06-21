@@ -1,0 +1,26 @@
+module OpenProject::TextFormatting
+  module Filters
+    # Overwriting the gem class to roll with our own classes
+    class TaskListFilter < ::TaskList::Filter
+      # Copied and adapted from parent class
+      #
+      # Renders the item checkbox in a span including the item state.
+      #
+      # Returns an HTML-safe String.
+      def render_item_checkbox: (untyped item) -> ::String
+
+      # Copied and adapted from parent class.
+      # The added css classes are adapted or removed.
+      #
+      # Filters the source for task list items.
+      #
+      # Each item is wrapped in HTML to identify, style, and layer
+      # useful behavior on top of.
+      #
+      # Modifications apply to the parsed document directly.
+      #
+      # Returns nothing.
+      def filter!: () -> untyped
+    end
+  end
+end

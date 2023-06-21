@@ -1,0 +1,31 @@
+class IndividualPrincipalBaseFilterComponent < RailsComponent
+  def self.query: (untyped params) -> untyped
+
+  def self.filter: (untyped params) -> untyped
+
+  def self.filtered?: (untyped params) -> untyped
+
+  def self.filter_name: (untyped query, untyped name) -> (untyped | nil)
+
+  def self.filter_group: (untyped query, untyped group_id) -> (untyped | nil)
+
+  def self.filter_role: (untyped query, untyped role_id) -> (untyped | nil)
+
+  def self.filter_project: (untyped query, untyped project_id) -> (untyped | nil)
+
+  def self.base_query: () -> untyped
+
+  def self.apply_filters: (untyped params, untyped query) -> untyped
+
+  def filter_path: () -> untyped
+
+  def initially_visible?: () -> true
+
+  def has_close_icon?: () -> false
+
+  def has_statuses?: () -> untyped
+
+  def has_groups?: () -> untyped
+
+  def params: () -> untyped
+end

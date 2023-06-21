@@ -1,0 +1,17 @@
+module Queries::Filters::Shared
+  module CustomFields
+    class ListOptional < Base
+      def value_objects: () -> untyped
+
+      def ar_object_filter?: () -> true
+
+      def type: () -> :list_optional
+
+      def condition: () -> untyped
+
+      def customized_strategy?: () -> untyped
+
+      def type_strategy_class: () -> untyped
+    end
+  end
+end

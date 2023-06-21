@@ -1,0 +1,7 @@
+module Admin::Settings
+  class APISettingsController < ::Admin::SettingsController
+    def default_breadcrumb: () -> untyped
+
+    def settings_params: () -> untyped
+  end
+end

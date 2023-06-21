@@ -1,0 +1,9 @@
+module CustomStylesHelper
+  def apply_custom_styles?: (?skip_ee_check: untyped) -> untyped
+
+  # The default favicon and touch icons are both the same for normal OP and BIM.
+  def apply_custom_favicon?: () -> untyped
+
+  # The default favicon and touch icons are both the same for normal OP and BIM.
+  def apply_custom_touch_icon?: () -> untyped
+end

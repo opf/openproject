@@ -1,0 +1,19 @@
+class DigestMailer < ApplicationMailer
+  include OpenProject::StaticRouting::UrlHelpers
+
+  include OpenProject::TextFormatting
+
+  include Redmine::I18n
+
+  include MailDigestHelper
+
+  include MailNotificationHelper
+
+  MAX_SHOWN_WORK_PACKAGES: 15
+
+  def self.generate_message_id: (untyped _, untyped user) -> ::String
+
+  def work_packages: (untyped recipient_id, untyped notification_ids) -> (nil | untyped)
+
+  def load_notifications: (untyped notification_ids) -> untyped
+end

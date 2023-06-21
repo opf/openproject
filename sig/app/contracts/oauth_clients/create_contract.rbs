@@ -1,0 +1,9 @@
+module OAuthClients
+  class CreateContract < ::ModelContract
+    include ActiveModel::Validations
+
+    private
+
+    def validate_user_allowed: () -> (untyped | nil)
+  end
+end

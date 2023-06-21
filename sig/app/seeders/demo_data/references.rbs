@@ -1,0 +1,53 @@
+module DemoData
+  module References
+    def self?.url_helpers: () -> untyped
+
+    def self?.api_url_helpers: () -> untyped
+
+    #
+    # Turns ##<tag>:<ref_name> into a link to the referenced object, and
+    # ##<tag>.id:<ref_name> into its record id.
+    #
+    # - `<tag>` can be one of `query`, `sprint`, or `wp`.
+    # - `<ref_name>` is a reference which was used to register the object.
+    #
+    # For instance:
+    # - Turns `##sprint:sprint_backlog` into
+    #   `/projects/demo-project/sprints/23/taskboard` given there is a sprint
+    #   referenced with :sprint_backlog and its ID here is 23.
+    #
+    #   Alternatively `##sprint.id:sprint_backlog` is translated into just the
+    #   id.
+    #
+    # - Turns `##query:gantt_chart` into
+    #   `/projects/demo-project/work_packages?query_id=1` given there is a query
+    #   referenced with :gantt_chart and its ID here is 1.
+    #
+    #   Alternatively `##query.id:gantt_chart` is translated into just the ID.
+    #
+    # - Turns `##wp:some_subject` into
+    #   `/projects/demo-project/work_packages/42/activity` given there is a work
+    #   package referenced with :some_subject and ID here is 42.
+    #
+    #   Alternatively `##wp.id:some_subject` is translated into just the ID.
+    def self?.with_references: (untyped str) -> untyped
+
+    #
+    # Links attachments from the given set of attachments, referenced via name.
+    # For instance:
+    #
+    #   `##attachment:"picture.jpg"`
+    #
+    # @param str [String] String in which to substitute attachment references.
+    # @param attachments [ActiveRecord::QueryMethods] Query to set of attachments which can be referenced.
+    def self?.link_attachments: (untyped str, untyped attachments) -> untyped
+
+    def self?.link: (untyped tag, untyped instance) -> untyped
+
+    def self?.query_link: (untyped query) -> untyped
+
+    def self?.sprint_link: (untyped sprint) -> untyped
+
+    def self?.work_package_link: (untyped work_package) -> untyped
+  end
+end

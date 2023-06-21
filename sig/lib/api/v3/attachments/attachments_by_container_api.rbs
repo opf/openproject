@@ -1,0 +1,28 @@
+module API
+  module V3
+    module Attachments
+      module AttachmentsByContainerAPI
+        module Helpers
+          # Global helper to set allowed content_types
+          # This may be overridden when multipart is allowed (file uploads)
+          def allowed_content_types: () -> (::Array["multipart/form-data"] | untyped)
+
+          def post_request?: () -> untyped
+
+          #
+          # Additionally to what would be checked by the contract,
+          # we need to restrict permissions in some use cases of the mounts of this endpoint.
+          def restrict_permissions: (untyped permissions) -> (untyped | nil)
+        end
+
+        def self.parse_multipart: (untyped request) -> untyped
+
+        def self.read: () -> untyped
+
+        def self.create: (?untyped permissions) -> untyped
+
+        def self.prepare: (?untyped permissions) -> untyped
+      end
+    end
+  end
+end

@@ -1,0 +1,9 @@
+module Redmine::MenuManager::TopMenu::ProjectsMenu
+  def render_projects_top_menu_node: () -> ("" | untyped)
+
+  private
+
+  def render_projects_dropdown: () -> untyped
+
+  include OpenProject::StaticRouting::UrlHelpers
+end

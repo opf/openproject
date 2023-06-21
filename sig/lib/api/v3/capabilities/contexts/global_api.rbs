@@ -1,0 +1,10 @@
+module API
+  module V3
+    module Capabilities
+      module Contexts
+        class GlobalAPI < ::API::OpenProjectAPI
+        end
+      end
+    end
+  end
+end

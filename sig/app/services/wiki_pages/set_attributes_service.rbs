@@ -1,0 +1,14 @@
+# Handles setting the attributes of a wiki page.
+# The wiki page is treated as one single entity although the data layer separates
+# between the page and the content.
+#
+# In the long run, those two should probably be unified on the data layer as well.
+#
+# Attributes for both the page as well as for the content are accepted.
+class WikiPages::SetAttributesService < BaseServices::SetAttributes
+  include Attachments::SetReplacements
+
+  private
+
+  def set_default_attributes: (untyped _params) -> untyped
+end

@@ -1,0 +1,25 @@
+module Users
+  class RowComponent < ::RowComponent
+    def user: () -> untyped
+
+    def row_css_class: () -> untyped
+
+    def login: () -> untyped
+
+    def mail: () -> untyped
+
+    def admin: () -> untyped
+
+    def last_login_on: () -> (untyped | nil)
+
+    def created_at: () -> untyped
+
+    def status: () -> untyped
+
+    def button_links: () -> untyped
+
+    def status_link: () -> (nil | untyped)
+
+    def column_css_class: (untyped column) -> ("email" | "username" | untyped)
+  end
+end

@@ -1,0 +1,22 @@
+module Exports
+  module Formatters
+    class CustomField < Default
+      def self.apply?: (untyped attribute, untyped _export_format) -> untyped
+
+      #
+      # Takes a WorkPackage and an attribute and returns the value to be exported.
+      def retrieve_value: (untyped object) -> ("" | untyped)
+
+      #
+      # Print the value meant for export.
+      #
+      # - For boolean values, don't use the Yes/No formatting for the UI
+      # - For long text values, output the plain value
+      def format_for_export: (untyped object, untyped custom_field) -> untyped
+
+      #
+      # Finds a custom field from the attribute identifier
+      def find_custom_field: (untyped object) -> untyped
+    end
+  end
+end

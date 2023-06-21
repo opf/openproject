@@ -1,0 +1,19 @@
+module OpenProject::TextFormatting
+  module Filters
+    class BemCssFilter < HTML::Pipeline::Filter
+      BEM_CLASSES: untyped
+
+      # Contains all elements with their classes which should not be modified
+      # as they already have the correct BEM class.
+      UNMODIFIED: untyped
+
+      def call: () -> untyped
+
+      private
+
+      def not_to_be_modified?: (untyped element) -> untyped
+
+      def add_css_class: (untyped element, untyped css_class) -> (untyped | nil | untyped)
+    end
+  end
+end

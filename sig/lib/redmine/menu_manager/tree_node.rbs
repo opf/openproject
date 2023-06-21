@@ -1,0 +1,42 @@
+class Redmine::MenuManager::TreeNode < Tree::TreeNode
+  attr_reader last_items_count: untyped
+
+  def initialize: (untyped name, ?untyped? content) -> void
+
+  # Adds the specified child node to the receiver node.  The child node's
+  # parent is set to be the receiver.  The child is added as the first child in
+  # the current list of children for the receiver node.
+  def prepend: (untyped child) -> untyped
+
+  # Adds the specified child node to the receiver node.  The child node's
+  # parent is set to be the receiver.  The child is added at the position
+  # into the current list of children for the receiver node.
+  def add_at: (untyped child, untyped position) -> untyped
+
+  def add_last: (untyped child) -> untyped
+
+  # Adds the specified child node to the receiver node.  The child node's
+  # parent is set to be the receiver.  The child is added as the last child in
+  # the current list of children for the receiver node.
+  def add: (untyped child) -> untyped
+
+  # Wrap remove! making sure to decrement the last_items counter if
+  # the removed child was a last item
+  def remove!: (untyped child) -> untyped
+
+  # Will return the position (zero-based) of the current child in
+  # it's parent
+  def position: () -> untyped
+
+  #
+  # Returns the key used for this child's menu entry.
+  # In case there already is an entry with that key the menu entry
+  # will still be added but with an updated caption appending "(duplicate)".
+  #
+  # It should not be possible for this to happen anyway due to validations on MenuItem.
+  # But in case it does happen we don't want the whole page to be unavailable due to raising an
+  # error here. Instead we mark the duplicate menu entry giving the user a chance to fix the issue.
+  def key!: (untyped child) -> untyped
+
+  def deduplicate: (untyped name, untyped existing_names) -> ::String
+end

@@ -1,0 +1,19 @@
+class Queries::WorkPackages::Filter::AssigneeOrGroupFilter < Queries::WorkPackages::Filter::PrincipalBaseFilter
+  def allowed_values: () -> untyped
+
+  def type: () -> :list_optional
+
+  def human_name: () -> untyped
+
+  def self.key: () -> :assignee_or_group
+
+  def where: () -> untyped
+
+  private
+
+  def values_replaced: () -> untyped
+
+  def group_members_added: (untyped vals) -> untyped
+
+  def user_groups_added: (untyped vals) -> untyped
+end

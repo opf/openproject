@@ -1,0 +1,31 @@
+class WorkPackages::CopyService
+  include ::Shared::ServiceContext
+
+  include Contracted
+
+  include ::Copy::Concerns::CopyAttachments
+
+  attr_accessor user: untyped
+
+  attr_accessor work_package: untyped
+
+  attr_accessor contract_class: untyped
+
+  def initialize: (user: untyped, work_package: untyped, ?contract_class: untyped) -> void
+
+  def call: (?send_notifications: untyped?, ?copy_attachments: bool, **untyped attributes) -> untyped
+
+  def copy: (untyped attribute_override, untyped copy_attachments, untyped send_notifications) -> untyped
+
+  def create: (untyped work_package, untyped attribute_overrides, untyped send_notifications) -> untyped
+
+  def copied_attributes: (untyped work_package, untyped override) -> untyped
+
+  def writable_work_package_attributes: (untyped work_package) -> untyped
+
+  def remove_author_watcher: (untyped copied) -> untyped
+
+  def copy_watchers: (untyped copied) -> untyped
+
+  def copy_work_package_attachments: (untyped copy) -> untyped
+end

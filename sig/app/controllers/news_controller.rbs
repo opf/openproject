@@ -1,0 +1,27 @@
+class NewsController < ApplicationController
+  include PaginationHelper
+
+  include Layout
+
+  def index: () -> untyped
+
+  def show: () -> untyped
+
+  def new: () -> untyped
+
+  def edit: () -> nil
+
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  def destroy: () -> untyped
+
+  private
+
+  def find_news_object: () -> untyped
+
+  def find_project: () -> untyped
+
+  def find_optional_project: () -> untyped
+end

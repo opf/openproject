@@ -1,0 +1,8 @@
+# Contract for create (c) and update (u)
+module CustomActions
+  class CuContract < ::ModelContract
+    def self.model: () -> untyped
+
+    def initialize: (untyped model, ?untyped? user) -> void
+  end
+end

@@ -1,0 +1,7 @@
+module OpenProject::Patches::CarrierwaveSanitizedFile
+  extend ActiveSupport::Concern
+
+  # create the directory if it doesn't exist
+  # Overwritten to avoid ruby 2.7 deprecations
+  def mkdir!: (untyped path, untyped directory_permissions) -> untyped
+end

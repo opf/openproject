@@ -1,0 +1,15 @@
+module Roles
+  class BaseContract < ::ModelContract
+    def assignable_permissions: () -> untyped
+
+    private
+
+    def assignable_member_permissions: () -> untyped
+
+    def assignable_global_permissions: () -> untyped
+
+    def check_permission_prerequisites: () -> untyped
+
+    def add_unmet_dependency_error: (untyped selected, untyped unmet) -> untyped
+  end
+end

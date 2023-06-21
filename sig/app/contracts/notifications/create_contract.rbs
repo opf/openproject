@@ -1,0 +1,11 @@
+module Notifications
+  class CreateContract < ::ModelContract
+    def validate_read: () -> (untyped | nil)
+
+    def validate_sent: () -> untyped
+
+    def validate_recipient_present: () -> (untyped | nil)
+
+    def validate_reason_present: () -> (untyped | nil)
+  end
+end

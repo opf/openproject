@@ -1,0 +1,13 @@
+module Relations::Scopes
+  module FollowsNonManualAncestors
+    extend ActiveSupport::Concern
+
+    # Returns all follows relationships of work package ancestors or work package unless
+    # the ancestor or a work package between the ancestor and self is manually scheduled.
+    def follows_non_manual_ancestors: (untyped work_package) -> untyped
+
+    private
+
+    def from_manual_ancestors: (untyped work_package) -> untyped
+  end
+end

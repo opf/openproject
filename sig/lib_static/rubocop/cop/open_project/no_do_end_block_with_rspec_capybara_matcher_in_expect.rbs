@@ -1,0 +1,45 @@
+module RuboCop::Cop::OpenProject
+  # As +do .. end+ block has less precedence than method call, a +do .. end+
+  # block at the end of a rspec matcher will be an argument to the +to+ method,
+  # which is not handled by Capybara matchers (teamcapybara/capybara/#2616).
+  #
+  # # bad
+  # expect(page).to have_selector("input") do |input|
+  #   input.value == "hello world"
+  # end
+  #
+  # # good
+  # expect(page).to have_selector("input") { |input| input.value == "hello world" }
+  #
+  # # good
+  # expect(page).to have_selector("input", value: "hello world")
+  #
+  # # good
+  # match_input_with_hello_world = have_selector("input") do |input|
+  #   input.value == "hello world"
+  # end
+  # expect(page).to match_input_with_hello_world
+  #
+  # # good
+  # expect(foo).to have_received(:bar) do |arg|
+  #   arg == :baz
+  # end
+  #
+  class NoDoEndBlockWithRSpecCapybaraMatcherInExpect < RuboCop::Cop::Base
+    extend RuboCop::Cop::AutoCorrector
+
+    CAPYBARA_MATCHER_METHODS: untyped
+
+    MSG: "The `do .. end` block is associated with `to` and not with Capybara matcher `%<matcher_method>s`."
+
+    def on_block: (untyped node) -> (nil | untyped)
+
+    private
+
+    def capybara_matcher?: (untyped node) -> untyped
+
+    def offense_range: (untyped node) -> untyped
+
+    def offense_message: (untyped node) -> untyped
+  end
+end

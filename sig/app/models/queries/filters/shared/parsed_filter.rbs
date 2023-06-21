@@ -1,0 +1,15 @@
+module Queries::Filters::Shared::ParsedFilter
+  def type: () -> :string
+
+  def where: () -> untyped
+
+  def available_operators: () -> ::Array[untyped]
+
+  private
+
+  def split_values: () -> untyped
+
+  def value_conditions: () -> untyped
+
+  def validate_values: () -> untyped
+end

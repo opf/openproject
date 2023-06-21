@@ -1,0 +1,15 @@
+#
+# Schedules the deletion of a project if allowed. As the deletion can be
+# a lengthy process, the project is archived first
+#
+module Projects
+  class ScheduleDeletionService < ::BaseServices::BaseContracted
+    def initialize: (user: untyped, model: untyped, ?contract_class: untyped) -> void
+
+    private
+
+    def before_perform: (untyped _params, untyped service_result) -> untyped
+
+    def persist: (untyped call) -> untyped
+  end
+end

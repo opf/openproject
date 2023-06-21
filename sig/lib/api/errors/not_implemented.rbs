@@ -1,0 +1,7 @@
+module API
+  module Errors
+    class NotImplemented < ErrorBase
+      def initialize: (?untyped error_message, **untyped **) -> void
+    end
+  end
+end

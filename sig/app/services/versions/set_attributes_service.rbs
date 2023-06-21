@@ -1,0 +1,7 @@
+module Versions
+  class SetAttributesService < ::BaseServices::SetAttributes
+    private
+
+    def set_default_attributes: (*untyped) -> (nil | untyped)
+  end
+end

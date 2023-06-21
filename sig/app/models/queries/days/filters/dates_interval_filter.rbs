@@ -1,0 +1,13 @@
+class Queries::Days::Filters::DatesIntervalFilter < Queries::Days::Filters::DayFilter
+  include Queries::Operators::DateRangeClauses
+
+  def type: () -> :date
+
+  def self.key: () -> :date
+
+  def from: () -> untyped
+
+  def type_strategy: () -> untyped
+
+  def connection: () -> untyped
+end

@@ -1,0 +1,9 @@
+# Exists to satisfy the expectations of the default end points.
+module API
+  module V3
+    module Principals
+      class PrincipalCollectionRepresenter < ::API::V3::Users::UserCollectionRepresenter
+      end
+    end
+  end
+end

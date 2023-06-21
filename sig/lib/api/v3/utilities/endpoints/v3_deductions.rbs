@@ -1,0 +1,17 @@
+module API
+  module V3
+    module Utilities
+      module Endpoints
+        module V3Deductions
+          private
+
+          def deduce_parse_service: () -> untyped
+
+          def deduce_render_representer: () -> untyped
+
+          def deduce_parse_representer: () -> untyped
+        end
+      end
+    end
+  end
+end

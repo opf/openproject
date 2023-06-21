@@ -1,0 +1,3 @@
+class Queries::Actions::Filters::ActionFilter < Queries::Filters::Base
+  def human_name: () -> untyped
+end

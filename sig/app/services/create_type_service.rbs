@@ -1,0 +1,7 @@
+class CreateTypeService < BaseTypeService
+  def initialize: (untyped user) -> void
+
+  private
+
+  def after_type_save: (untyped _params, untyped options) -> (untyped | nil)
+end

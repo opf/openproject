@@ -1,0 +1,13 @@
+class Activities::ProjectActivityProvider < Activities::BaseActivityProvider
+  def event_query_projection: () -> ::Array[untyped]
+
+  def projects_reference_table: () -> untyped
+
+  def project_id_reference_field: () -> "journable_id"
+
+  def event_title: (untyped event) -> untyped
+
+  def event_path: (untyped event) -> untyped
+
+  def event_url: (untyped event) -> untyped
+end

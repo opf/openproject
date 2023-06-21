@@ -1,0 +1,9 @@
+module Redmine
+  module POP3
+    def self.check: (?::Hash[untyped, untyped] pop_options, ?::Hash[untyped, untyped] options) -> untyped
+
+    private
+
+    def self.logger: () -> untyped
+  end
+end

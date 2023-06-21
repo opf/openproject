@@ -1,0 +1,75 @@
+# - copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2023 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+module DemoData
+  class QueryBuilder < ::Seeder
+    attr_reader config: untyped
+
+    attr_reader project: untyped
+
+    attr_reader user: untyped
+
+    attr_reader seed_data: untyped
+
+    def initialize: (untyped config, project: untyped, user: untyped, seed_data: untyped) -> void
+
+    def create!: () -> untyped
+
+    private
+
+    def base_attributes: () -> { name: untyped, user: untyped, public: untyped, starred: untyped, show_hierarchies: untyped, timeline_visible: untyped, include_subprojects: true }
+
+    def create_query: () -> untyped
+
+    def create_view: (untyped query) -> untyped
+
+    def set_project!: (untyped attr) -> (untyped | nil)
+
+    def set_display_representation!: (untyped attr) -> (untyped | nil)
+
+    def set_columns!: (untyped attr) -> (untyped | nil)
+
+    def columns: () -> untyped
+
+    def set_sort_by!: (untyped attr) -> untyped
+
+    def set_group_by!: (untyped attr) -> untyped
+
+    def set_filters!: (untyped query_attr) -> untyped
+
+    def filters: () -> untyped
+
+    def set_status_filter!: (untyped filters) -> (untyped | nil)
+
+    def set_version_filter!: (untyped filters) -> untyped
+
+    def set_type_filter!: (untyped filters) -> untyped
+
+    def set_parent_filter!: (untyped filters) -> (untyped | nil)
+
+    def set_assigned_to_filter!: (untyped filters) -> untyped
+  end
+end

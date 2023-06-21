@@ -1,0 +1,17 @@
+class WorkPackages::Exports::ScheduleService
+  attr_accessor user: untyped
+
+  def initialize: (user: untyped) -> void
+
+  def call: (query: untyped, mime_type: untyped, ?params: ::Hash[untyped, untyped]) -> untyped
+
+  private
+
+  def schedule_export: (untyped export_storage, untyped mime_type, untyped params, untyped query) -> untyped
+
+  #
+  # Pass the query to the job if it was saved
+  def serialize_query: (untyped query) -> (untyped | nil)
+
+  def serialize_query_props: (untyped query) -> untyped
+end

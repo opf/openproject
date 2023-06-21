@@ -1,0 +1,7 @@
+class Queries::Versions::Orders::NameOrder < Queries::Orders::Base
+  def self.key: () -> :name
+
+  private
+
+  def order: () -> untyped
+end

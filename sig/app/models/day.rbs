@@ -1,0 +1,13 @@
+class Day < ApplicationRecord
+  include Tableless
+
+  def self.default_scope: () -> untyped
+
+  def self.from_range: (from: untyped, to: untyped) -> untyped
+
+  def self.from_sql: (from: untyped, to: untyped) -> untyped
+
+  def self.last_working: () -> untyped
+
+  def week_day: () -> untyped
+end

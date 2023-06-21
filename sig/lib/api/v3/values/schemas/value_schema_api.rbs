@@ -1,0 +1,4 @@
+module API::V3::Values::Schemas
+  class ValueSchemaAPI < ::API::OpenProjectAPI
+  end
+end

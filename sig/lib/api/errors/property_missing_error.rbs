@@ -1,0 +1,11 @@
+module API
+  module Errors
+    class PropertyMissingError < ErrorBase
+      attr_accessor property: untyped
+
+      def initialize: (untyped property) -> void
+
+      def details: () -> { attribute: untyped }
+    end
+  end
+end

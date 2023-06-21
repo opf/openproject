@@ -1,0 +1,6 @@
+module StimulusHelper
+  # rubocop:disable Rails/HelperInstanceVariable
+  def content_controller: (untyped name, ?dynamic: bool, **untyped data) -> untyped
+
+  def stimulus_content_data: () -> untyped
+end

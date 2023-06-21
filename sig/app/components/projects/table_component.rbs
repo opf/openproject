@@ -1,0 +1,37 @@
+module Projects
+  class TableComponent < ::TableComponent
+    def initial_sort: () -> ::Array[:lft | :asc]
+
+    def table_id: () -> "project-table"
+
+    #
+    # The project sort by is handled differently
+    def build_sort_header: (untyped column, untyped options) -> untyped
+
+    # We don't return the project row
+    # but the [project, level] array from the helper
+    def rows: () -> untyped
+
+    def initialize_sorted_model: () -> untyped
+
+    def paginated?: () -> true
+
+    def deactivate_class_on_lft_sort: () -> ("spot-link_inactive" | nil)
+
+    def href_only_when_not_sort_lft: () -> (untyped | nil)
+
+    def all_columns: () -> untyped
+
+    def headers: () -> untyped
+
+    def sortable_column?: (untyped _column) -> true
+
+    def columns: () -> untyped
+
+    def admin_columns: () -> (::Array[untyped] | ::Array[::Array[:created_at | { caption: untyped }] | ::Array[:latest_activity_at | { caption: untyped }] | ::Array[:required_disk_space | { caption: untyped }]])
+
+    def custom_field_columns: () -> untyped
+
+    def project_custom_fields: () -> untyped
+  end
+end

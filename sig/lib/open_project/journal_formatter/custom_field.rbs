@@ -1,0 +1,19 @@
+class OpenProject::JournalFormatter::CustomField < JournalFormatter::Base
+  include CustomFieldsHelper
+
+  private
+
+  def format_details: (untyped key, untyped values) -> ::Array[untyped]
+
+  def get_formatted_values: (untyped custom_field, untyped values) -> untyped
+
+  def get_modifier_function: (untyped custom_field) -> untyped
+
+  def formatted_values: (untyped custom_field, untyped values, untyped modifier_fn) -> untyped
+
+  def formatted_value: (untyped custom_field, untyped value, untyped modifier_fn) -> (nil | untyped)
+
+  def find_user_value: (untyped value, untyped _custom_field) -> untyped
+
+  def find_list_value: (untyped value, untyped custom_field) -> untyped
+end

@@ -1,0 +1,4 @@
+module Relations
+  class CreateContract < BaseContract
+  end
+end

@@ -1,0 +1,11 @@
+#
+# Provides an asynchronous job to create a managed repository on a remote system
+# using a simple HTTP callback
+# Currently, this is run synchronously due to potential issues
+# with error handling.
+# We envision a repository management wrapper that covers transactional
+# creation and deletion of repositories BOTH on the database and filesystem.
+# Until then, a synchronous process is more failsafe.
+class SCM::CreateRemoteRepositoryJob < SCM::RemoteRepositoryJob
+  def perform: (untyped repository) -> untyped
+end

@@ -1,0 +1,33 @@
+module API
+  module V3
+    module WorkPackages
+      class WorkPackageAtTimestampRepresenter < WorkPackageRepresenter
+        # List of properties that are currently supported by this representer.
+        # Probably, way more, maybe even all properties are supported but that is untested.
+        SUPPORTED_NON_LINK_PROPERTIES: ::Array["subject" | "start_date" | "due_date" | "date"]
+
+        SUPPORTED_LINK_PROPERTIES: ::Array["assignee" | "responsible" | "project" | "status" | "priority" | "type" | "version" | "parent"]
+
+        SUPPORTED_PROPERTIES: untyped
+
+        STATIC_NON_LINK_PROPERTIES: ::Array["_meta"]
+
+        STATIC_LINK_PROPERTIES: ::Array["links" | :schema | :self]
+
+        def initialize: (untyped model, current_user: untyped) -> void
+
+        def timestamps_active?: () -> true
+
+        private
+
+        def representable_map: (*untyped) -> untyped
+
+        def compile_links_for: (untyped configs, *untyped args) -> untyped
+
+        def rendered_properties: () -> untyped
+
+        def changed_properties_as_api_name: () -> untyped
+      end
+    end
+  end
+end

@@ -1,0 +1,11 @@
+module Source::FilterTranslatables
+  def filter_translatables: (untyped hash) -> untyped
+
+  private
+
+  def filter_translatables_in_object: (untyped object, ?translatable: bool) -> untyped
+
+  def filter_translatables_in_hash: (untyped hash) -> untyped
+
+  def filter_translatables_in_array: (untyped array, ?translatable: bool) -> untyped
+end

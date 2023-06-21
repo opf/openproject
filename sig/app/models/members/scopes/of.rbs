@@ -1,0 +1,8 @@
+module Members::Scopes
+  module Of
+    extend ActiveSupport::Concern
+
+    # Find all members of a project
+    def of: (untyped project) -> untyped
+  end
+end

@@ -1,0 +1,15 @@
+class Authorization::QueryTransformation
+  attr_accessor on: untyped
+
+  attr_accessor name: untyped
+
+  attr_accessor after: untyped
+
+  attr_accessor before: untyped
+
+  attr_accessor block: untyped
+
+  def initialize: (untyped on, untyped name, untyped after, untyped before, untyped block) -> void
+
+  def apply: (*untyped args) -> untyped
+end

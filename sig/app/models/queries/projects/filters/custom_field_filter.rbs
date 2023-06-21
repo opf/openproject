@@ -1,0 +1,3 @@
+class Queries::Projects::Filters::CustomFieldFilter < Queries::Projects::Filters::ProjectFilter
+  include Queries::Filters::Shared::CustomFieldFilter
+end

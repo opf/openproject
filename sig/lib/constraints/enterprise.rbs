@@ -1,0 +1,3 @@
+module Enterprise
+  def self?.matches?: (untyped _request) -> untyped
+end

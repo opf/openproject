@@ -1,0 +1,27 @@
+module API
+  module V3
+    module Queries
+      module Filters
+        class QueryFilterInstanceRepresenter < ::API::Decorators::Single
+          include API::Decorators::LinkedResource
+
+          def initialize: (untyped model) -> void
+
+          def _type: () -> ::String
+
+          def name: () -> untyped
+
+          def set_link_values: (untyped vals) -> untyped
+
+          def set_property_values: (untyped vals) -> untyped
+
+          def converted_name: () -> untyped
+
+          def query_filter_instance_links_representer: (untyped represented) -> untyped
+
+          def represented_is_boolean_list?: (untyped represented) -> untyped
+        end
+      end
+    end
+  end
+end

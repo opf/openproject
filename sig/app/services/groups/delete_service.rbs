@@ -1,0 +1,3 @@
+class Groups::DeleteService < BaseServices::Delete
+  def destroy: (untyped group) -> true
+end

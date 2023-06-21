@@ -1,0 +1,8 @@
+module Queries::Scopes
+  module HavingViews
+    extend ActiveSupport::Concern
+
+    # Return queries that have a view associated
+    def having_views: () -> untyped
+  end
+end

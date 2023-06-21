@@ -1,0 +1,18 @@
+module VersionsHelper
+  # Returns a set of options for a select field, grouped by project.
+  def version_options_for_select: (untyped versions, ?untyped? selected) -> untyped
+
+  def link_to_version: (untyped version, ?::Hash[untyped, untyped] html_options, ?::Hash[untyped, untyped] options) -> ("" | untyped)
+
+  def version_dates: (untyped version) -> untyped
+
+  def link_to_version_id: (untyped version) -> untyped
+
+  def format_version_name: (untyped version, ?untyped project) -> untyped
+
+  def version_contract: (untyped version) -> untyped
+
+  def format_version_sharing: (untyped sharing) -> untyped
+
+  def versions_by_project: (untyped versions) -> untyped
+end

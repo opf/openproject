@@ -1,0 +1,7 @@
+class OpenProject::JournalFormatter::ProjectStatusCode < JournalFormatter::Attribute
+  private
+
+  def format_values: (untyped values) -> untyped
+
+  def status_code_key_for: (untyped value) -> untyped
+end

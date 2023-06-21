@@ -1,0 +1,43 @@
+module RuboCop::Cop::OpenProject
+  # # bad
+  # ServiceResult.new(success: true, result: 'result')
+  # ServiceResult.new(success: false, errors: ['error'])
+  #
+  # # good
+  # ServiceResult.success(result: 'result')
+  # ServiceResult.failure(errors: ['error'])
+  # ServiceResult.new(success: some_value)
+  # ServiceResult.new(**kwargs)
+  class UseServiceResultFactoryMethods < RuboCop::Cop::Base
+    extend RuboCop::Cop::AutoCorrector
+
+    MSG: "Use ServiceResult.%<factory_method>s(...) instead of ServiceResult.new(success: %<success_value>s, ...)."
+
+    MSG_IMPLICIT_FAILURE: "Use ServiceResult.failure instead of ServiceResult.new."
+
+    def on_send: (untyped node) -> (nil | untyped)
+
+    private
+
+    def success_argument_present?: (untyped node) -> (false | untyped)
+
+    def success_argument_possibly_present?: (untyped node) -> (true | false | untyped)
+
+    def add_offense_if_explicit_success_argument: (untyped node) -> untyped
+
+    def add_offense_for_implicit_failure: (untyped node) -> untyped
+
+    def success_value: (untyped success_argument) -> untyped
+
+    def factory_method: (untyped success_argument) -> ("success" | "failure")
+
+    def removal_range: (untyped node, untyped success_argument) -> untyped
+
+    def sole_argument?: (untyped arg) -> untyped
+
+    def all_parameters_range: (untyped node) -> untyped
+
+    # rubocop:disable Metrics/AbcSize
+    def success_parameter_range: (untyped success_argument) -> untyped
+  end
+end

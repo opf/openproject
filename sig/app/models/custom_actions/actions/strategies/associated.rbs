@@ -1,0 +1,15 @@
+module CustomActions::Actions::Strategies::Associated
+  include CustomActions::ValidateAllowedValue
+
+  include CustomActions::ValuesToInteger
+
+  def allowed_values: () -> untyped
+
+  def apply: (untyped work_package) -> untyped
+
+  def type: () -> :associated_property
+
+  def associated: () -> untyped
+
+  def validate: (untyped errors) -> untyped
+end

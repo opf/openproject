@@ -1,0 +1,9 @@
+class Members::CreateService < BaseServices::Create
+  include Members::Concerns::NotificationSender
+
+  def post_process: () { () -> untyped } -> (nil | untyped)
+
+  def add_group_memberships: (untyped member) -> (nil | untyped)
+
+  def event_type: () -> untyped
+end

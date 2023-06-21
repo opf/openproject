@@ -1,0 +1,121 @@
+module Redmine
+  module Acts
+    module Customizable
+      def self.included: (untyped base) -> untyped
+
+      module ClassMethods
+        def acts_as_customizable: (?::Hash[untyped, untyped] options) -> (nil | untyped)
+      end
+
+      module InstanceMethods
+        def self.included: (untyped base) -> untyped
+
+        def available_custom_fields: () -> untyped
+
+        # Sets the values of the object's custom fields
+        # values is an array like [{'id' => 1, 'value' => 'foo'}, {'id' => 2, 'value' => 'bar'}]
+        def custom_fields=: (untyped values) -> untyped
+
+        # Sets the values of the object's custom fields
+        # values is a hash like {'1' => 'foo', 2 => 'bar'}
+        #
+        # Also supports multiple values for a custom field where
+        # instead of a single value you'd pass an array.
+        def custom_field_values=: (untyped values) -> (nil | untyped)
+
+        def custom_values_for_custom_field: (id: untyped) -> untyped
+
+        def custom_field_values: () -> untyped
+
+        # Returns the cache key for caching @custom_field_values_cache.
+        #
+        # In certain cases, the implementing models have a changing list of custom field values
+        # depending on certain attributes. By overriding this method, we can include the
+        # dependent attributes in the cache key, providing a more flexible key caching mechanism.
+        #
+        # i.e.: The work package custom field values are changing based on the project_id and type_id.
+        # The only way to keep the cache updated is to include those ids in the cache key.
+        def custom_field_cache_key: () -> 1
+
+        #
+        # Maps custom_values into a hash that can be passed to attributes
+        # but keeps multivalue custom fields as array values
+        def custom_value_attributes: () -> untyped
+
+        def visible_custom_field_values: () -> untyped
+
+        def custom_value_for: (untyped c) -> untyped
+
+        def typed_custom_value_for: (untyped c) -> untyped
+
+        def formatted_custom_value_for: (untyped c) -> untyped
+
+        def ensure_custom_values_complete: () -> (nil | untyped)
+
+        def reload: (*untyped args) -> untyped
+
+        def reset_custom_values_change_tracker: () -> untyped
+
+        def reset_custom_values!: () -> untyped
+
+        # Builds custom values for all custom fields for which no custom value already exists.
+        # The value of that newly build value is set to the default value which can also be nil.
+        # Calling this should only be necessary if additional custom fields are made available
+        # after custom_field_values has already been called as that method will also build custom values
+        # (with their default values set) for all custom values for which no prior value existed.
+        def set_default_values!: () -> untyped
+
+        def validate_custom_values: () -> untyped
+
+        # Build the changes hash similar to ActiveRecord::Base#changes,
+        # but for the custom field values that have been changed.
+        def custom_field_changes: () -> untyped
+
+        def changed_with_custom_fields: () -> untyped
+
+        def add_custom_value_errors!: (untyped custom_value) -> untyped
+
+        def method_missing: (untyped method, *untyped args) -> untyped
+
+        def respond_to_missing?: (untyped method, ?bool include_private) -> untyped
+
+        def define_all_custom_field_accessors: () -> untyped
+
+        attr_accessor custom_value_destroyed: untyped
+
+        private
+
+        def for_custom_field_accessor: (untyped method_symbol) { (untyped) -> untyped } -> untyped
+
+        def add_custom_field_accessors: (untyped custom_field) -> untyped
+
+        def define_custom_field_getter: (untyped custom_field) -> untyped
+
+        def define_custom_field_setter: (untyped custom_field) -> untyped
+
+        # Explicitly touch the customizable if
+        # there where only changes to custom_values (added or removed).
+        # Particularly important for caching.
+        def touch_customizable: () -> (untyped | nil)
+
+        def assign_new_values: (untyped custom_field_id, untyped existing_cv_by_value, untyped new_values) -> untyped
+
+        def delete_obsolete_custom_values: (untyped existing_cv_by_value, untyped new_values) -> untyped
+
+        # The original acts_as_customizable ensured to always have a custom value
+        # for every custom field. If no value was set, the custom value would have the value of nil
+        def handle_minimum_custom_value: (untyped custom_field_id, untyped existing_cv_by_value, untyped new_values) -> untyped
+
+        def add_custom_value: (untyped custom_field_id, untyped value) -> untyped
+
+        def remove_custom_value: (untyped custom_value) -> (nil | untyped)
+
+        def custom_field_values_cache: () -> untyped
+
+        module ClassMethods
+          def available_custom_fields: (untyped _model) -> untyped
+        end
+      end
+    end
+  end
+end

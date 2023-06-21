@@ -1,0 +1,9 @@
+class Projects::TemplatedController < ApplicationController
+  def create: () -> untyped
+
+  def destroy: () -> untyped
+
+  private
+
+  def change_templated_action: (untyped templated) -> untyped
+end

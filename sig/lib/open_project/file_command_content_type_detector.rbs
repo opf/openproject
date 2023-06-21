@@ -1,0 +1,13 @@
+module OpenProject
+  class FileCommandContentTypeDetector
+    SENSIBLE_DEFAULT: "application/binary"
+
+    def initialize: (untyped filename) -> void
+
+    def detect: () -> untyped
+
+    private
+
+    def type_from_file_command: () -> untyped
+  end
+end

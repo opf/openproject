@@ -1,0 +1,39 @@
+#
+# Implements a repository factory for building temporary and permanent repositories.
+class SCM::RepositoryFactoryService
+  attr_reader project: untyped
+
+  attr_reader params: untyped
+
+  attr_reader repository: untyped
+
+  def initialize: (untyped project, untyped params) -> void
+
+  #
+  # Build a full repository from a given scm_type
+  # and persists it.
+  #
+  # @return [Boolean] true iff the repository was built
+  def build_and_save: () -> untyped
+
+  #
+  # Build a temporary repository used only for determining available settings and types
+  # of that particular vendor.
+  #
+  # @return [Boolean] true iff the repository was built
+  def build_temporary: () -> untyped
+
+  def build_error: () -> untyped
+
+  private
+
+  #
+  # Helper to actually build the repository and return it.
+  # May raise +OpenProject::SCM::Exceptions::RepositoryBuildError+ internally.
+  #
+  # @param [Symbol] scm_type Type to build the repository with. May be nil
+  #                          during temporary build
+  def build_with_type: (untyped scm_type) -> untyped
+
+  def build_guarded: () { () -> untyped } -> untyped
+end

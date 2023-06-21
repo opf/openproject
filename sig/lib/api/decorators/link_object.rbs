@@ -1,0 +1,13 @@
+module API
+  module Decorators
+    class LinkObject < Single
+      def initialize: (untyped model, property_name: untyped, ?path: untyped, ?namespace: untyped, ?title_attribute: ::Symbol, ?getter: untyped, ?setter: untyped) -> void
+
+      def href: () -> (nil | untyped)
+
+      def href=: (untyped value) -> (nil | untyped)
+
+      def title: () -> untyped
+    end
+  end
+end

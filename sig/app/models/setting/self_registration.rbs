@@ -1,0 +1,33 @@
+class Setting
+  #
+  # Shorthand to common setting aliases to avoid checking values
+  module SelfRegistration
+    VALUES: { disabled: 0, activation_by_email: 1, manual_activation: 2, automatic_activation: 3 }
+
+    KEYS: untyped
+
+    def self.values: () -> untyped
+
+    def self.value: (key: untyped) -> untyped
+
+    def self.key: (value: untyped) -> untyped
+
+    def self.disabled: () -> untyped
+
+    def self.disabled?: () -> untyped
+
+    def self.enabled?: () -> untyped
+
+    def self.by_email: () -> untyped
+
+    def self.by_email?: () -> untyped
+
+    def self.manual: () -> untyped
+
+    def self.manual?: () -> untyped
+
+    def self.automatic: () -> untyped
+
+    def self.automatic?: () -> untyped
+  end
+end

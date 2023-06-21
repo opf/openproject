@@ -1,0 +1,15 @@
+class Queries::Members::Filters::PrincipalFilter < Queries::Members::Filters::MemberFilter
+  include Queries::Filters::Shared::MeValueFilter
+
+  def allowed_values: () -> untyped
+
+  def available?: () -> untyped
+
+  def ar_object_filter?: () -> true
+
+  def where: () -> untyped
+
+  def type: () -> :list_optional
+
+  def self.key: () -> :principal_id
+end

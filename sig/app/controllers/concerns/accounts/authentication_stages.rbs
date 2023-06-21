@@ -1,0 +1,25 @@
+module Accounts::AuthenticationStages
+  def successful_authentication: (untyped user, ?reset_stages: bool, ?just_registered: bool) -> untyped
+
+  def stage_success: () -> untyped
+
+  def stage_failure: () -> untyped
+
+  private
+
+  def finish_registration!: (untyped user) -> untyped
+
+  def authentication_stages: (?after_activation: bool, ?reset: bool) -> (untyped | ::Array[untyped])
+
+  def lookup_authentication_stages: () -> untyped
+
+  def init_authentication_stages: (after_activation: untyped) -> untyped
+
+  def active_stages: (untyped after_activation) -> untyped
+
+  def stage_secrets: () -> untyped
+
+  def new_stage_secrets: () -> untyped
+
+  def stage_secret: (untyped _ident) -> untyped
+end

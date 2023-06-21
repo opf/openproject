@@ -1,0 +1,13 @@
+module WorkPackages
+  class CreateNoteContract < ::ModelContract
+    def self.model: () -> untyped
+
+    private
+
+    def can?: (untyped permission) -> untyped
+
+    attr_writer policy: untyped
+
+    def policy: () -> untyped
+  end
+end

@@ -1,0 +1,20 @@
+module OpenProject
+  # This module provides utility methods to work with PostgreSQL's full-text capabilities (TSVECTOR)
+  module FullTextSearch
+    DISALLOWED_CHARACTERS: ::Regexp
+
+    def self.tsv_where: (untyped table_name, untyped column_name, untyped value, ?concatenation: ::Symbol, ?normalization: ::Symbol) -> (untyped | nil)
+
+    def self.tokenize: (untyped text, ?::Symbol concatenation, ?::Symbol normalization) -> untyped
+
+    def self.normalize: (untyped text, ?::Symbol type) -> untyped
+
+    def self.normalize_text: (untyped text) -> untyped
+
+    def self.normalize_filename: (untyped filename) -> untyped
+
+    def self.to_words: (untyped text) -> untyped
+
+    def self.clean_terms: (untyped terms) -> untyped
+  end
+end

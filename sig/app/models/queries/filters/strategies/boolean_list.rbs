@@ -1,0 +1,13 @@
+module Queries::Filters::Strategies
+  class BooleanList < List
+    def validate: () -> untyped
+
+    def valid_values!: () -> untyped
+
+    private
+
+    def operator_map: () -> untyped
+
+    def too_many_values: () -> untyped
+  end
+end

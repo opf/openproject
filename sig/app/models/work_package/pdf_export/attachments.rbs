@@ -1,0 +1,7 @@
+module WorkPackage::PDFExport::Attachments
+  def resize_image: (untyped file_path) -> untyped
+
+  def pdf_embeddable?: (untyped content_type) -> untyped
+
+  def delete_all_resized_images: () -> untyped
+end

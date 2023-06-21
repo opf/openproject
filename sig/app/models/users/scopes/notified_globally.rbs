@@ -1,0 +1,10 @@
+# Return all users who have a global setting configured
+# Does not take into consideration local overrides, as
+# that is currently not available for non-work-package settings
+module Users::Scopes
+  module NotifiedGlobally
+    extend ActiveSupport::Concern
+
+    def notified_globally: (untyped setting) -> untyped
+  end
+end

@@ -1,0 +1,9 @@
+class Queries::WorkPackages::Columns::RelationToTypeColumn < Queries::WorkPackages::Columns::RelationColumn
+  def initialize: (untyped type) -> void
+
+  def set_name!: (untyped type) -> untyped
+
+  def caption: () -> untyped
+
+  def self.instances: (?untyped? context) -> untyped
+end

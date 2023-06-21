@@ -1,0 +1,13 @@
+module API
+  module Decorators
+    class UnpaginatedCollection < ::API::Decorators::Collection
+      def initialize: (untyped models, self_link: untyped, current_user: untyped, ?query: ::Hash[untyped, untyped]) -> void
+
+      def model_count: (untyped models) -> untyped
+
+      private
+
+      def make_self_link: (untyped self_link_base, untyped query) -> (untyped | ::String)
+    end
+  end
+end

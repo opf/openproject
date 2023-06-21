@@ -1,0 +1,7 @@
+module API
+  module Errors
+    class Conflict < ErrorBase
+      def initialize: (*untyped args) -> void
+    end
+  end
+end

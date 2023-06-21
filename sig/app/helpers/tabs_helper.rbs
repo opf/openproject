@@ -1,0 +1,9 @@
+module TabsHelper
+  # Renders tabs and their content
+  def render_tabs: (untyped tabs, ?untyped? form) -> untyped
+
+  def selected_tab: (untyped tabs) -> untyped
+
+  # Render tabs from the ui/extensible tabs manager
+  def render_extensible_tabs: (untyped key, ?::Hash[untyped, untyped] params) -> untyped
+end

@@ -1,0 +1,15 @@
+# Validates both the wiki page as well as its associated wiki content. The two are
+# considered to be one outside of this contract.
+module WikiPages
+  class BaseContract < ::ModelContract
+    private
+
+    def validate_user_edit_allowed: () -> (untyped | nil)
+
+    def validate_author_is_set: () -> (untyped | nil)
+
+    def validate_wiki_is_set: () -> (untyped | nil)
+
+    def validate_user_protect_permission: () -> (untyped | nil)
+  end
+end

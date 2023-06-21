@@ -1,0 +1,5 @@
+class CustomActions::Actions::Inexistent < CustomActions::Actions::Base
+  def self.key: () -> :inexistent
+
+  def validate: (untyped errors) -> untyped
+end

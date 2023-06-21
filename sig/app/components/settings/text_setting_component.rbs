@@ -1,0 +1,9 @@
+module Settings
+  #
+  # A language switch and text area for updating a localized text setting.
+  class TextSettingComponent < ::RailsComponent
+    include OpenProject::FormTagHelper
+
+    def current_language: () -> untyped
+  end
+end

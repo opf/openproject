@@ -1,0 +1,4 @@
+module Queries::Operators
+  class Required < Base
+  end
+end

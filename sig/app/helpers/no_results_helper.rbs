@@ -1,0 +1,19 @@
+module NoResultsHelper
+  # Helper to render the /common/no_results partial customizable content.
+  # Example usage:
+  # no_results_box action_url: new_project_version_path(@project),
+  #                display_action: authorize_for('messages', 'new')
+  #
+  # All arguments are optional.
+  #  - 'action_url' The url for the link in the content.
+  #  - 'display_action' Whether or not the link should be displayed.
+  #  - 'custom_title' custom text for the title.
+  #  - 'custom_action_text' custom text for the title.
+  #
+  # Calling this on its on without any arguments creates the box in its simplest
+  # form with only the title. Providing an action_url and display_action: true
+  # Displays the box with the title and link to the passed in url.
+  # The title and action_text are found using the locales key lookup unless
+  # custom_title and custom_action_text are provided.
+  def no_results_box: (?action_url: untyped?, ?display_action: bool, ?custom_title: untyped?, ?custom_action_text: untyped?) -> untyped
+end

@@ -1,0 +1,10 @@
+module Redmine
+  # Class used to parse unified diffs
+  class UnifiedDiff < Array
+    attr_reader diff_type: untyped
+
+    def initialize: (untyped diff, ?::Hash[untyped, untyped] options) -> void
+
+    def truncated?: () -> untyped
+  end
+end

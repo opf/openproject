@@ -1,0 +1,29 @@
+module Queries
+  module GroupBys
+    class Base
+      include ActiveModel::Validations
+
+      def self.i18n_scope: () -> :activerecord
+
+      attr_accessor attribute: untyped
+
+      def initialize: (untyped attribute) -> void
+
+      def self.key: () -> untyped
+
+      def association_class: () -> nil
+
+      def scope: () -> untyped
+
+      def name: () -> untyped
+
+      def joins: () -> nil
+
+      # Default to the same key for order
+      # as the one for group
+      def order_key: () -> untyped
+
+      def group_by: (untyped scope) -> untyped
+    end
+  end
+end

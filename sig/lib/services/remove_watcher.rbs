@@ -1,0 +1,5 @@
+class Services::RemoveWatcher
+  def initialize: (untyped work_package, untyped user) -> void
+
+  def run: (?success: untyped, ?failure: untyped) -> untyped
+end

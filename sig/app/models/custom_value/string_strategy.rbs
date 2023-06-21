@@ -1,0 +1,5 @@
+class CustomValue::StringStrategy < CustomValue::FormatStrategy
+  def typed_value: () -> untyped
+
+  def validate_type_of_value: () -> nil
+end

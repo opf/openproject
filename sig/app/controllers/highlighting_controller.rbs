@@ -1,0 +1,7 @@
+class HighlightingController < ApplicationController
+  def styles: () -> untyped
+
+  private
+
+  def determine_freshness: () -> untyped
+end

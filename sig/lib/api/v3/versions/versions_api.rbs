@@ -1,0 +1,9 @@
+module API
+  module V3
+    module Versions
+      class VersionsAPI < ::API::OpenProjectAPI
+        def authorized_for_version?: (untyped version) -> untyped
+      end
+    end
+  end
+end

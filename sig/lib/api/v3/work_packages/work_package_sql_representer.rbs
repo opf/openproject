@@ -1,0 +1,11 @@
+module API
+  module V3
+    module WorkPackages
+      class WorkPackageSqlRepresenter
+        include API::Decorators::Sql::Hal
+
+        include API::Decorators::Sql::HalAssociatedResource
+      end
+    end
+  end
+end

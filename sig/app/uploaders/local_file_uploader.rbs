@@ -1,0 +1,7 @@
+class LocalFileUploader < CarrierWave::Uploader::Base
+  include FileUploader
+
+  def copy_to: (untyped attachment) -> untyped
+
+  def store_dir: () -> untyped
+end

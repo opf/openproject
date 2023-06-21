@@ -1,0 +1,17 @@
+class Notifications::CreateDateAlertsNotificationsJob::Service
+  def initialize: (untyped user) -> void
+
+  def call: () -> (nil | untyped)
+
+  private
+
+  attr_accessor user: untyped
+
+  def send_date_alert_notifications: (untyped user) -> untyped
+
+  def create_date_alert_notifications: (untyped user, untyped work_packages, untyped reason) -> untyped
+
+  def mark_previous_notifications_as_read: (untyped user, untyped work_packages, untyped reason) -> (nil | untyped)
+
+  def create_date_alert_notification: (untyped user, untyped work_package, untyped reason) -> untyped
+end

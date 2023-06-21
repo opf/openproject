@@ -1,0 +1,9 @@
+module Accounts::UserLogin
+  include ::Accounts::AuthenticationStages
+
+  include ::Accounts::RedirectAfterLogin
+
+  def login_user!: (untyped user) -> untyped
+
+  def set_autologin_cookie: (untyped user) -> untyped
+end

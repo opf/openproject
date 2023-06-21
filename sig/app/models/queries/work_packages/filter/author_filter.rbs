@@ -1,0 +1,7 @@
+class Queries::WorkPackages::Filter::AuthorFilter < Queries::WorkPackages::Filter::PrincipalBaseFilter
+  def allowed_values: () -> untyped
+
+  def type: () -> :list
+
+  def self.key: () -> :author_id
+end

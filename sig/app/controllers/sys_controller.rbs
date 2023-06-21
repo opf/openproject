@@ -1,0 +1,27 @@
+class SysController < ActionController::Base
+  def projects: () -> untyped
+
+  def update_required_storage: () -> untyped
+
+  def fetch_changesets: () -> untyped
+
+  def repo_auth: () -> untyped
+
+  private
+
+  def authorized?: (untyped project, untyped user) -> untyped
+
+  def check_enabled: () -> untyped
+
+  def update_storage_information: (untyped repository, ?bool force) -> (true | untyped)
+
+  def find_project: () -> untyped
+
+  def find_repository_with_storage: () -> (true | false)
+
+  def require_basic_auth: () -> (true | false)
+
+  def user_login: (untyped username, untyped password) -> untyped
+
+  def cached_user_login: (untyped username, untyped password) -> (untyped | nil)
+end

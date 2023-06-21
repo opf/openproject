@@ -1,0 +1,17 @@
+class CustomActions::Conditions::Role < CustomActions::Conditions::Base
+  def fulfilled_by?: (untyped work_package, untyped user) -> untyped
+
+  def self.key: () -> :role
+
+  def self.roles_in_project: (untyped work_packages, untyped user) -> untyped
+
+  private
+
+  def self.custom_action_scope_has_current: (untyped work_packages, untyped user) -> untyped
+
+  def self.projects_of: (untyped work_packages) -> (untyped | ::Array[untyped])
+
+  def self.with_request_store: (untyped projects) { (untyped) -> untyped } -> untyped
+
+  def associated: () -> untyped
+end

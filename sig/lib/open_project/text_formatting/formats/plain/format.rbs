@@ -1,0 +1,7 @@
+module OpenProject::TextFormatting::Formats::Plain
+  class Format < OpenProject::TextFormatting::Formats::BaseFormat
+    def self.format: () -> :plain
+
+    def self.priority: () -> 100
+  end
+end

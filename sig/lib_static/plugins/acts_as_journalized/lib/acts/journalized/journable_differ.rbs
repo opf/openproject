@@ -1,0 +1,13 @@
+module Acts::Journalized
+  class JournableDiffer
+    def self.changes: (untyped original, untyped changed) -> untyped
+
+    private
+
+    def self.normalize_newlines: (untyped data) -> untyped
+
+    def self.no_nil_to_empty_strings?: (untyped normalized_old_data, untyped attribute, untyped new_value) -> untyped
+
+    def self.journaled_attributes: (untyped object) -> untyped
+  end
+end

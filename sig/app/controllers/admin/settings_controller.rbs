@@ -1,0 +1,25 @@
+module Admin
+  class SettingsController < ApplicationController
+    def show: () -> untyped
+
+    def update: () -> (nil | untyped)
+
+    def show_plugin: () -> untyped
+
+    def update_plugin: () -> untyped
+
+    def show_local_breadcrumb: () -> true
+
+    def default_breadcrumb: () -> untyped
+
+    def find_plugin: () -> untyped
+
+    def settings_params: () -> untyped
+
+    def update_service: () -> untyped
+
+    def success_callback: (untyped _call) -> untyped
+
+    def failure_callback: (untyped call) -> untyped
+  end
+end

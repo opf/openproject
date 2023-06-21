@@ -1,0 +1,15 @@
+class WeekDay
+  DAY_RANGE: untyped
+
+  attr_accessor day: untyped
+
+  def self.find_by!: (day: untyped) -> untyped
+
+  def self.all: () -> untyped
+
+  def initialize: (day: untyped) -> void
+
+  def name: () -> untyped
+
+  def working: () -> untyped
+end

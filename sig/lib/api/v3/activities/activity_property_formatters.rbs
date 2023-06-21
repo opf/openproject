@@ -1,0 +1,17 @@
+module API
+  module V3
+    module Activities
+      module ActivityPropertyFormatters
+        def formatted_notes: (untyped journal) -> untyped
+
+        def formatted_details: (untyped journal) -> untyped
+
+        private
+
+        def render_details: (untyped journal, ?html: bool, ?activity_page: untyped?) -> untyped
+
+        def journal_note: (untyped journal) -> (::String | untyped)
+      end
+    end
+  end
+end

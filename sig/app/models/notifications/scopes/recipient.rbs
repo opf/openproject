@@ -1,0 +1,8 @@
+# Return mail notifications destined at the provided recipient
+module Notifications::Scopes
+  module Recipient
+    extend ActiveSupport::Concern
+
+    def recipient: (untyped user) -> untyped
+  end
+end

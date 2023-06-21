@@ -1,0 +1,25 @@
+module OpenProject
+  module Authentication
+    module Strategies
+      module Warden
+        #
+        # Temporary strategy necessary as long as the OpenProject authentication has
+        # not been unified in terms of Warden strategies and is only locally
+        # applied to the API v3.
+        class Session < ::Warden::Strategies::Base
+          include ::OpenProject::Authentication::SessionExpiry
+
+          def valid?: () -> (false | true | untyped)
+
+          def authenticate!: () -> untyped
+
+          def xml_request_header_set?: () -> untyped
+
+          def user_id: () -> untyped
+
+          def session: () -> untyped
+        end
+      end
+    end
+  end
+end

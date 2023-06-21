@@ -1,0 +1,5 @@
+module AuthenticationStagePathHelper
+  def authentication_stage_complete_path: (untyped identifier) -> untyped
+
+  def authentication_stage_failure_path: (untyped identifier) -> untyped
+end

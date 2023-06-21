@@ -1,0 +1,33 @@
+class WorkPackages::ScheduleDependency::Dependency
+  def initialize: (untyped work_package, untyped schedule_dependency) -> void
+
+  attr_accessor work_package: untyped
+
+  attr_accessor schedule_dependency: untyped
+
+  # Returns the work package ids that this work package directly depends on to
+  # determine its own dates. This is used for the order of the dates
+  # computations.
+  #
+  # The dates of a work package depend on its descendants and predecessors
+  # dates.
+  def dependent_ids: () -> untyped
+
+  def moving_predecessors: () -> untyped
+
+  def soonest_start_date: () -> untyped
+
+  def start_date: () -> untyped
+
+  def due_date: () -> untyped
+
+  def has_descendants?: () -> untyped
+
+  private
+
+  def descendants: () -> untyped
+
+  def follows_relations: () -> untyped
+
+  def descendants_dates: () -> untyped
+end

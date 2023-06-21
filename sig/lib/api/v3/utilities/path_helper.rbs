@@ -1,0 +1,218 @@
+module API
+  module V3
+    module Utilities
+      module PathHelper
+        include API::Utilities::UrlHelper
+
+        class ApiV3Path
+          extend API::Utilities::UrlHelper
+
+          def self.index: (untyped name, ?untyped? path) -> untyped
+
+          def self.show: (untyped name, ?untyped path) -> untyped
+
+          def self.create_form: (untyped name) -> untyped
+
+          def self.update_form: (untyped name) -> untyped
+
+          def self.schema: (untyped name) -> untyped
+
+          def self.build_path: (untyped name, *untyped kwargs) -> untyped
+
+          def self.resources: (untyped name, ?except: untyped, ?only: ::Array[untyped]) -> untyped
+
+          # Determining the root_path on every url we want to render is
+          # expensive. As the root_path will not change within a
+          # request, we can cache the first response on each request.
+          def self.root_path: () -> untyped
+
+          def self.root: () -> untyped
+
+          def self.same_origin?: (untyped url) -> untyped
+
+          def self.api_spec: () -> ::String
+
+          def self.attachment_content: (untyped id) -> ::String
+
+          def self.attachments_by_post: (untyped id) -> ::String
+
+          def self.attachments_by_work_package: (untyped id) -> ::String
+
+          def self.attachments_by_help_text: (untyped id) -> ::String
+
+          def self.attachments_by_wiki_page: (untyped id) -> ::String
+
+          def self.prepare_new_attachment_upload: () -> ::String
+
+          def self.attachment_uploaded: (untyped attachment_id) -> ::String
+
+          def self.available_assignees: (untyped project_id) -> ::String
+
+          def self.available_responsibles: (untyped project_id) -> ::String
+
+          def self.available_watchers: (untyped work_package_id) -> ::String
+
+          def self.available_projects_on_edit: (untyped work_package_id) -> ::String
+
+          def self.available_projects_on_create: () -> ::String
+
+          def self.available_relation_candidates: (untyped work_package_id) -> ::String
+
+          def self.capabilities_contexts_global: () -> ::String
+
+          def self.categories_by_project: (untyped id) -> ::String
+
+          def self.configuration: () -> ::String
+
+          def self.create_project_work_package_form: (untyped project_id) -> ::String
+
+          def self.custom_action: (untyped id) -> ::String
+
+          def self.custom_action_execute: (untyped id) -> ::String
+
+          def self.custom_option: (untyped id) -> ::String
+
+          def self.day: (untyped date) -> ::String
+
+          def self.days: () -> ::String
+
+          def self.days_week: () -> ::String
+
+          def self.days_week_day: (untyped day) -> ::String
+
+          def self.days_non_working: () -> ::String
+
+          def self.days_non_working_day: (untyped date) -> ::String
+
+          def self.memberships_available_projects: () -> ::String
+
+          def self.news: (untyped id) -> ::String
+
+          def self.notification_bulk_read_ian: () -> ::String
+
+          def self.notification_bulk_unread_ian: () -> ::String
+
+          def self.notification_read_ian: (untyped id) -> ::String
+
+          def self.notification_unread_ian: (untyped id) -> ::String
+
+          def self.notification_detail: (untyped notification_id, untyped detail_id) -> ::String
+
+          alias self.issue_priorities self.priorities
+
+          alias self.issue_priority self.priority
+
+          def self.projects_available_parents: () -> ::String
+
+          def self.projects_schema: () -> ::String
+
+          def self.project_copy: (untyped id) -> ::String
+
+          def self.project_copy_form: (untyped id) -> ::String
+
+          def self.query_default: () -> ::String
+
+          def self.query_project_default: (untyped id) -> ::String
+
+          def self.query_star: (untyped id) -> ::String
+
+          def self.query_unstar: (untyped id) -> ::String
+
+          def self.query_order: (untyped id) -> ::String
+
+          def self.query_ical_url: (untyped id) -> ::String
+
+          def self.query_column: (untyped name) -> ::String
+
+          def self.query_group_by: (untyped name) -> ::String
+
+          def self.query_sort_by: (untyped name, untyped direction) -> ::String
+
+          def self.query_filter: (untyped name) -> ::String
+
+          def self.query_filter_instance_schemas: () -> ::String
+
+          def self.query_filter_instance_schema: (untyped id) -> ::String
+
+          def self.query_project_form: (untyped id) -> ::String
+
+          def self.query_project_filter_instance_schemas: (untyped id) -> ::String
+
+          def self.query_operator: (untyped name) -> ::String
+
+          def self.query_project_schema: (untyped id) -> ::String
+
+          def self.query_available_projects: () -> ::String
+
+          def self.render_markup: (?link: untyped?, ?plain: bool) -> untyped
+
+          def self.show_revision: (untyped project_id, untyped identifier) -> untyped
+
+          def self.show_user: (untyped user_id) -> untyped
+
+          def self.string_object: (untyped value) -> ::String
+
+          def self.time_entries_activity: (untyped activity_id) -> ::String
+
+          def self.time_entries_available_projects: () -> ::String
+
+          def self.time_entries_available_work_packages_on_create: () -> ::String
+
+          def self.time_entries_available_work_packages_on_edit: (untyped time_entry_id) -> ::String
+
+          def self.types_by_project: (untyped project_id) -> ::String
+
+          def self.user_lock: (untyped id) -> ::String
+
+          def self.user_preferences: (untyped id) -> ::String
+
+          def self.my_preferences: () -> ::String
+
+          def self.value_schema: (untyped property) -> ::String
+
+          def self.views_type: (untyped type) -> ::String
+
+          def self.versions_available_projects: () -> ::String
+
+          def self.versions_by_project: (untyped project_id) -> ::String
+
+          def self.projects_by_version: (untyped version_id) -> ::String
+
+          def self.watcher: (untyped id, untyped work_package_id) -> ::String
+
+          def self.wiki_page: (untyped id) -> ::String
+
+          def self.work_package: (untyped id, ?timestamps: untyped?) -> untyped
+
+          def self.work_package_schema: (untyped project_id, untyped type_id) -> ::String
+
+          def self.work_package_activities: (untyped id) -> ::String
+
+          def self.work_package_relations: (untyped id) -> ::String
+
+          def self.work_package_relation: (untyped id, untyped work_package_id) -> ::String
+
+          def self.work_package_available_relation_candidates: (untyped id, ?type: untyped?) -> ::String
+
+          def self.work_package_revisions: (untyped id) -> ::String
+
+          def self.work_package_schemas: (*untyped args) -> untyped
+
+          def self.work_package_sums_schema: () -> ::String
+
+          def self.work_package_watchers: (untyped id) -> ::String
+
+          def self.work_packages_by_project: (untyped project_id) -> ::String
+
+          def self.timestamps_to_param_value: (untyped timestamps) -> untyped
+
+          def self.path_for: (untyped path, ?filters: untyped?, ?sort_by: untyped?, ?group_by: untyped?, ?page_size: untyped?, ?offset: untyped?, ?select: untyped?, ?timestamps: untyped?) -> untyped
+
+          def self.url_for: (untyped path, ?untyped? arguments) -> untyped
+        end
+
+        def api_v3_paths: () -> untyped
+      end
+    end
+  end
+end

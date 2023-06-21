@@ -1,0 +1,3 @@
+class Projects::SettingsController < ApplicationController
+  def show: () -> nil
+end

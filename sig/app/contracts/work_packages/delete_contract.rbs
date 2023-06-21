@@ -1,0 +1,4 @@
+module WorkPackages
+  class DeleteContract < ::DeleteContract
+  end
+end

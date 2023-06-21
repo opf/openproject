@@ -1,0 +1,25 @@
+module Source::Translate
+  I18N_PREFIX: "seeds"
+
+  TRANSLATABLE_PREFIX: "t_"
+
+  TRANSLATABLE_PREFIX_PATTERN: ::Regexp
+
+  def translate: (untyped hash, ?::String i18n_key) -> untyped
+
+  def self?.translatable?: (untyped key) -> untyped
+
+  def self?.remove_translatable_prefix: (untyped key) -> untyped
+
+  def self?.array_key: (untyped index) -> ::String
+
+  private
+
+  def translate_translatable_keys: (untyped hash, untyped i18n_key) -> untyped
+
+  def translatable_keys: (untyped hash) -> untyped
+
+  def translate_value: (untyped value, untyped i18n_key) -> untyped
+
+  def translate_nested_enumerations: (untyped hash, untyped i18n_key) -> untyped
+end

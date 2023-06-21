@@ -1,0 +1,11 @@
+module API
+  module Errors
+    class ParseError < InvalidRequestBody
+      def initialize: (?untyped? _message, ?details: untyped?) -> void
+
+      private
+
+      def clean_parse_error: (untyped message) -> untyped
+    end
+  end
+end

@@ -1,0 +1,16 @@
+module WorkPackage::Exports
+  class CSV < QueryExporter
+    include ::Exports::Concerns::CSV
+
+    alias records work_packages
+
+    private
+
+    def title: () -> untyped
+
+    def csv_headers: () -> untyped
+
+    # fetch all row values
+    def csv_row: (untyped work_package) -> untyped
+  end
+end

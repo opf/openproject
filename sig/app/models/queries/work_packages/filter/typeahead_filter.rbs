@@ -1,0 +1,11 @@
+class Queries::WorkPackages::Filter::TypeaheadFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  def type: () -> :search
+
+  def where: () -> untyped
+
+  def subject_condition: (untyped string) -> untyped
+
+  def project_name_condition: (untyped string) -> untyped
+
+  def id_condition: (untyped string) -> ::String
+end

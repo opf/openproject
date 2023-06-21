@@ -1,0 +1,13 @@
+module Ldap
+  class ImportUsersFromListService < BaseService
+    attr_reader logins: untyped
+
+    def initialize: (untyped ldap, untyped logins) -> void
+
+    def perform: () -> untyped
+
+    def import!: (untyped new_users) -> untyped
+
+    def existing_users: () -> untyped
+  end
+end

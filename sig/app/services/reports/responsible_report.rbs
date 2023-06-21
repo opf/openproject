@@ -1,0 +1,11 @@
+class Reports::ResponsibleReport < Reports::Report
+  def self.report_type: () -> "responsible"
+
+  def field: () -> untyped
+
+  def rows: () -> untyped
+
+  def data: () -> untyped
+
+  def title: () -> untyped
+end

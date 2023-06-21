@@ -1,0 +1,19 @@
+module OpenProject::TextFormatting
+  module Filters
+    class AttachmentFilter < HTML::Pipeline::Filter
+      include OpenProject::StaticRouting::UrlHelpers
+
+      include OpenProject::ObjectLinking
+
+      def matched_filenames_regex: () -> ::Regexp
+
+      def call: () -> untyped
+
+      #
+      # Lookup a local attachment name
+      def lookup_attachment_by_name: (untyped node, untyped attachments) -> (nil | untyped)
+
+      def get_attachments: () -> (nil | untyped)
+    end
+  end
+end

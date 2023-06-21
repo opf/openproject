@@ -1,0 +1,13 @@
+module WorkPackage::TimeEntriesCleaner
+  extend ActiveSupport::Concern
+
+  def self.included: (untyped base) -> untyped
+
+  module ClassMethods
+    def cleanup_time_entries_before_destruction_of: (untyped work_packages, untyped user, ?::Hash[untyped, untyped] to_do) -> (false | untyped)
+
+    def update_time_entries: (untyped work_packages, untyped action) -> untyped
+
+    def reassign_time_entries_before_destruction_of: (untyped work_packages, untyped user, untyped ids) -> untyped
+  end
+end

@@ -1,0 +1,49 @@
+module OpenProject
+  module AccessControl
+    extend ::Redmine::I18n
+
+    def self.map: () { (untyped) -> untyped } -> untyped
+
+    # Get a sorted array of module names
+    #
+    # @param include_disabled [boolean] Whether to return all modules or only those that are active (not disabled by config)
+    def self.sorted_module_names: (?include_disabled: bool) -> untyped
+
+    def self.permissions: () -> untyped
+
+    def self.modules: () -> untyped
+
+    # Returns the permission of given name or nil if it wasn't found
+    # Argument should be a symbol
+    def self.permission: (untyped action) -> untyped
+
+    # Returns the actions that are allowed by the permission of given name
+    def self.allowed_actions: (untyped permission_name) -> untyped
+
+    def self.allow_actions: (untyped action_hash) -> untyped
+
+    def self.public_permissions: () -> untyped
+
+    def self.members_only_permissions: () -> untyped
+
+    def self.loggedin_only_permissions: () -> untyped
+
+    def self.global_permissions: () -> untyped
+
+    def self.available_project_modules: () -> untyped
+
+    def self.disabled_project_modules: () -> untyped
+
+    def self.project_modules: () -> untyped
+
+    def self.modules_permissions: (untyped modules) -> untyped
+
+    def self.contract_actions_map: () -> untyped
+
+    def self.grant_to_admin?: (untyped permission_name) -> untyped
+
+    def self.remove_modules_permissions: (untyped module_name) -> untyped
+
+    def self.clear_caches: () -> untyped
+  end
+end

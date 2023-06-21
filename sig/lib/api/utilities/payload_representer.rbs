@@ -1,0 +1,40 @@
+module API
+  module Utilities
+    # PayloadRepresenter responsibility is to parse user params input and render
+    # only the writable attributes.
+    #
+    # The `UpdateContract` or the `CreateContract` is used to filter out read
+    # only attributes from the input parameters. Guessing is done by checking if
+    # the record is a new record.
+    #
+    # This module is intended to be included in a dedicated PayloadRepresenter
+    # class inheriting from the non-payload representer.
+    module PayloadRepresenter
+      def self.included: (untyped base) -> untyped
+
+      module UnwritablePropertyFilter
+        def self?.call: (untyped input, untyped options) -> untyped
+      end
+
+      module LinkRenderBlock
+        def self?.call: (untyped input, untyped options) -> untyped
+      end
+
+      def self.add_filter: (untyped property, untyped filter) -> (nil | untyped)
+
+      def from_hash: (untyped hash, *untyped args) -> untyped
+
+      def contract?: (untyped represented) -> untyped
+
+      def writable_attributes: () -> untyped
+
+      module ClassMethods
+        def create_class: (*untyped args) -> untyped
+      end
+
+      private
+
+      def contract_class: (untyped represented) -> (nil | untyped)
+    end
+  end
+end

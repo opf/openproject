@@ -1,0 +1,29 @@
+module OpenProject
+  module Logging
+    #
+    # Do we use lograge in the end to perform the payload output
+    def self.lograge_enabled?: () -> untyped
+
+    #
+    # The lograge class to output the payload object
+    def self.formatter: () -> untyped
+
+    #
+    # Extend a payload to be logged with additional information
+    # @param context {Hash} The context of the log, might contain controller related keys
+    def self.extend_payload!: (untyped payload, untyped context) -> untyped
+
+    #
+    # Get a set of extenders that may add to the logging context payload
+    def self.payload_extenders: () -> untyped
+
+    #
+    # Register a new payload extender
+    # for all logging purposes
+    def self.add_payload_extender: () { () -> untyped } -> untyped
+
+    private
+
+    def self.default_payload: (untyped _context) -> { user: untyped }
+  end
+end

@@ -1,0 +1,11 @@
+module OpenProject::TextFormatting
+  module Formats
+    attr_reader self.plain: untyped
+
+    attr_reader self.rich: untyped
+
+    def self.supported?: (untyped name) -> untyped
+
+    def self.plain?: (untyped name) -> untyped
+  end
+end

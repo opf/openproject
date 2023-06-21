@@ -1,0 +1,15 @@
+# Can be used to copy all of a project's work packages. As the
+# work packages can be old, some of the validations that would
+# apply to newly created work packages need not apply there, e.g
+# on copying, it is ok for work packages to have closed versions
+module WorkPackages
+  class CopyProjectContract < CreateContract
+    include WorkPackages::SkipAuthorizationChecks
+
+    private
+
+    def validate_version_is_assignable: () -> nil
+
+    def validate_no_reopen_on_closed_version: () -> nil
+  end
+end

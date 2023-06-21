@@ -1,0 +1,5 @@
+module BasicData
+  class BuiltinUsersSeeder < Seeder
+    def seed_data!: () -> untyped
+  end
+end

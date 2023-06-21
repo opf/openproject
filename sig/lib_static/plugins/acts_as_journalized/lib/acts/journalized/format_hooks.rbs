@@ -1,0 +1,12 @@
+module Acts::Journalized
+  module FormatHooks
+    def self.included: (untyped base) -> untyped
+
+    module ClassMethods
+      # Shortcut to register a formatter for a number of fields
+      def register_journal_formatted_fields: (untyped formatter_key, *untyped field_names) -> untyped
+
+      def register_journal_formatter: (untyped formatter_key, untyped formatter_class) -> untyped
+    end
+  end
+end

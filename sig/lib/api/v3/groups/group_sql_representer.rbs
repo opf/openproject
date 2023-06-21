@@ -1,0 +1,9 @@
+module API
+  module V3
+    module Groups
+      class GroupSqlRepresenter
+        include API::Decorators::Sql::Hal
+      end
+    end
+  end
+end

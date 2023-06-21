@@ -1,0 +1,11 @@
+module BaseServices
+  class Delete < BaseContracted
+    def initialize: (user: untyped, model: untyped, ?contract_class: untyped?, ?contract_options: ::Hash[untyped, untyped]) -> void
+
+    def persist: (untyped service_result) -> untyped
+
+    def destroy: (untyped object) -> untyped
+
+    def default_contract_class: () -> untyped
+  end
+end

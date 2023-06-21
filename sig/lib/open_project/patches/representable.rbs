@@ -1,0 +1,9 @@
+module OpenProject::Patches::Representable
+  module DecoratorPatch
+    def self.included: (untyped base) -> untyped
+  end
+
+  module OverwriteOnNilPatch
+    def self.included: (untyped base) -> untyped
+  end
+end

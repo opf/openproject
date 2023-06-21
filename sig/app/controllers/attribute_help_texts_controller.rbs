@@ -1,0 +1,31 @@
+class AttributeHelpTextsController < ApplicationController
+  def index: () -> untyped
+
+  def new: () -> untyped
+
+  def edit: () -> nil
+
+  def upsale: () -> nil
+
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  def destroy: () -> untyped
+
+  def require_ee_token: () -> (untyped | nil)
+
+  def default_breadcrumb: () -> untyped
+
+  def show_local_breadcrumb: () -> true
+
+  private
+
+  def permitted_params_with_attachments: () -> untyped
+
+  def attachment_params: () -> untyped
+
+  def find_entry: () -> untyped
+
+  def find_type_scope: () -> untyped
+end

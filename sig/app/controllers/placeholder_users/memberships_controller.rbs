@@ -1,0 +1,7 @@
+class PlaceholderUsers::MembershipsController < ApplicationController
+  include IndividualPrincipals::MembershipControllerMethods
+
+  def find_individual_principal: () -> untyped
+
+  def redirected_to_tab: (untyped _membership) -> "memberships"
+end

@@ -1,0 +1,11 @@
+class Reports::CategoryReport < Reports::Report
+  def self.report_type: () -> "category"
+
+  def field: () -> "category_id"
+
+  def rows: () -> untyped
+
+  def data: () -> untyped
+
+  def title: () -> untyped
+end

@@ -1,0 +1,19 @@
+module API
+  module V3
+    module Utilities
+      module Endpoints
+        class DelayedModify < API::Utilities::Endpoints::Modify
+          include V3Deductions
+
+          include ::API::V3::Utilities::PathHelper
+
+          private
+
+          def present_success: (untyped request, untyped call) -> untyped
+
+          def redirect_to_status: (untyped request, untyped job) -> untyped
+        end
+      end
+    end
+  end
+end

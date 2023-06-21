@@ -1,0 +1,15 @@
+module OpenProject::TextFormatting::Filters::Macros
+  module ChildPages
+    HTML_CLASS: "child_pages"
+
+    def self?.identifier: () -> untyped
+
+    def self?.apply: (untyped macro, context: untyped, **untyped _args) -> (untyped | nil)
+
+    def self?.insert_child_pages: (untyped macro, untyped pipeline_context) -> untyped
+
+    def self?.is?: (untyped macro) -> untyped
+
+    def self?.render_tree: (untyped include_parent, untyped page) -> untyped
+  end
+end

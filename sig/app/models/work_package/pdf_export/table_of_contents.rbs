@@ -1,0 +1,19 @@
+module WorkPackage::PDFExport::TableOfContents
+  def write_work_packages_toc!: (untyped work_packages, untyped id_wp_meta_map) -> untyped
+
+  private
+
+  def build_toc_data_list: (untyped work_packages, untyped id_wp_meta_map) -> untyped
+
+  def build_toc_data_list_entry: (untyped work_package, untyped id_wp_meta_map) -> { id: untyped, level_string: untyped, level_string_width: untyped, title: untyped, page_nr_string: untyped, page_nr_string_width: untyped, level: untyped }
+
+  def measure_part_width: (untyped part, untyped part_style) -> untyped
+
+  def write_part_float: (untyped part, untyped part_style) -> untyped
+
+  def write_toc!: (untyped toc_list) -> untyped
+
+  def write_toc_item_subject!: (untyped toc_item, untyped max_level_width, untyped subject_style) -> untyped
+
+  def write_toc_item!: (untyped toc_item, untyped max_level_width) -> untyped
+end

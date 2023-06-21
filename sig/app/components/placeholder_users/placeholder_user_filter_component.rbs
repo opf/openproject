@@ -1,0 +1,9 @@
+module PlaceholderUsers
+  class PlaceholderUserFilterComponent < IndividualPrincipalBaseFilterComponent
+    def self.base_query: () -> untyped
+
+    def self.apply_filters: (untyped params, untyped query) -> untyped
+
+    def filter_path: () -> untyped
+  end
+end

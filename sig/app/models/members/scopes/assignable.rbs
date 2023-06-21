@@ -1,0 +1,11 @@
+module Members::Scopes
+  module Assignable
+    extend ActiveSupport::Concern
+
+    # Find all members that are whose principals are not locked and have an
+    # assignable role.
+    def assignable: () -> untyped
+
+    def assignable_permission_exists: () -> untyped
+  end
+end

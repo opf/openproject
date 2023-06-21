@@ -1,0 +1,7 @@
+module Rack
+  class Timeout
+    module SuppressInternalErrorReportOnTimeout
+      def op_handle_error: (untyped message_or_exception, ?::Hash[untyped, untyped] context) -> (nil | untyped)
+    end
+  end
+end

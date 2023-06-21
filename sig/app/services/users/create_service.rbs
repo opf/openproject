@@ -1,0 +1,11 @@
+module Users
+  class CreateService < ::BaseServices::Create
+    private
+
+    def persist: (untyped call) -> untyped
+
+    def fail_with_missing_email: (untyped new_user) -> untyped
+
+    def invite_user!: (untyped new_user) -> untyped
+  end
+end

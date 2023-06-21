@@ -1,0 +1,3 @@
+class OnboardingController < ApplicationController
+  def user_settings: () -> untyped
+end

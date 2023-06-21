@@ -1,0 +1,19 @@
+module API
+  module V3
+    module Projects
+      class ProjectSqlRepresenter
+        include API::Decorators::Sql::Hal
+
+        def self.ctes: (untyped walker_result) -> { visible_projects: untyped, ancestors: untyped }
+
+        def self.visible_projects_sql: () -> untyped
+
+        def self.ancestors_sql: (untyped walker_result) -> untyped
+
+        def self.origin_subselect: (untyped walker_result) -> untyped
+
+        def self.ancestor_projection: () -> untyped
+      end
+    end
+  end
+end

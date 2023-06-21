@@ -1,0 +1,3 @@
+module WorkPackage::AvailableCustomFields
+  def self.for: (untyped project, untyped type) -> (untyped | ::Array[untyped])
+end

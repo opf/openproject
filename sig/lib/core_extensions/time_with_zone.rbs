@@ -1,0 +1,5 @@
+module CoreExtensions
+  module TimeWithZone
+    def utc_offest_for_timezone: (untyped timezone) -> untyped
+  end
+end

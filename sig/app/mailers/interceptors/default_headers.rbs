@@ -1,0 +1,7 @@
+module Interceptors
+  module DefaultHeaders
+    def self?.delivering_email: (untyped mail) -> untyped
+
+    def self?.default_headers: () -> ::Hash[::String, "OpenProject" | untyped | "bulk" | "auto-generated"]
+  end
+end

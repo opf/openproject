@@ -1,0 +1,20 @@
+class SCM::RemoteRepositoryJob < ApplicationJob
+  attr_reader repository: untyped
+
+  def perform: (untyped repository) -> untyped
+
+  #
+  # Submits the request to the configured managed remote as JSON.
+  def send_request: (untyped request) -> untyped
+
+  def try_to_parse_response: (untyped body) -> untyped
+
+  def repository_request: () -> { token: untyped, identifier: untyped, vendor: untyped, scm_type: untyped, project: { id: untyped, name: untyped, identifier: untyped } }
+
+  #
+  # For packager and snakeoil-ssl certificates, we need to provide the user
+  # with an option to skip SSL certificate verification when communicating
+  # with the remote repository manager.
+  # It may be overridden in the +configuration.yml+.
+  def configured_verification: () -> untyped
+end

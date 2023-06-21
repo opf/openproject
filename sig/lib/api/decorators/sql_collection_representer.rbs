@@ -1,0 +1,26 @@
+module API
+  module Decorators
+    class SqlCollectionRepresenter
+      include API::Decorators::Sql::Hal
+
+      def self.ctes: (untyped walker_result) -> { projection: untyped, total: ::String }
+
+      private
+
+      def self.select_from: (untyped _walker_result) -> "projection"
+
+      def self.full_self_path: (untyped walker_results, ?::Hash[untyped, untyped] overrides) -> ::String
+
+      def self.href_query: (untyped walker_results, untyped overrides) -> untyped
+
+      # Turns the nested values for select and embed into the external representation
+      # of a comma separated string. E.g.
+      # { '*' => {}, 'elements' => { '*' => {} } }
+      # is turned into
+      # '*,elements/*'
+      def self.select_href_params: (untyped params) -> untyped
+
+      def self._type: () -> "Collection"
+    end
+  end
+end

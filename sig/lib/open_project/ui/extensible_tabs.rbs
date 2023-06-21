@@ -1,0 +1,20 @@
+module OpenProject
+  module Ui
+    class ExtensibleTabs
+      def self.tabs: () -> untyped
+
+      #
+      # Get all enabled tabs for the given key
+      def self.enabled_tabs: (untyped key, ?::Hash[untyped, untyped] context) -> untyped
+
+      # Add a new tab for the given key
+      def self.add: (untyped key, **untyped entry) -> untyped
+
+      private
+
+      def self.core_user_tabs: () -> ::Array[{ name: "general", partial: "users/general", path: untyped, label: :label_general } | { name: "memberships", partial: "individual_principals/memberships", path: untyped, label: :label_project_plural } | { name: "groups", partial: "users/groups", path: untyped, label: :label_group_plural, only_if: untyped } | { name: "global_roles", partial: "principals/global_roles", path: untyped, label: :label_global_roles, only_if: untyped } | { name: "notifications", partial: "users/notifications", path: untyped, label: :"notifications.settings.title" } | { name: "reminders", partial: "users/reminders", path: untyped, label: :"reminders.settings.title" }]
+
+      def self.core_placeholder_user_tabs: () -> ::Array[{ name: "general", partial: "placeholder_users/general", path: untyped, label: :label_general } | { name: "memberships", partial: "individual_principals/memberships", path: untyped, label: :label_project_plural }]
+    end
+  end
+end

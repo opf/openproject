@@ -1,0 +1,15 @@
+module Groups
+  class AddUsersService < ::BaseServices::BaseContracted
+    def initialize: (untyped group, current_user: untyped, ?contract_class: untyped) -> void
+
+    private
+
+    def persist: (untyped call) -> untyped
+
+    def after_perform: (untyped call) -> untyped
+
+    def add_to_group: () -> untyped
+
+    def execute_query: (untyped query) -> untyped
+  end
+end

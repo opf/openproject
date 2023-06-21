@@ -1,0 +1,7 @@
+class BaseProjectService
+  def initialize: (untyped project) -> void
+
+  private
+
+  attr_accessor project: untyped
+end

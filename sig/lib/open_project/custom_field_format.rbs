@@ -1,0 +1,32 @@
+module OpenProject
+  class CustomFieldFormat
+    include Redmine::I18n
+
+    attr_accessor name: untyped
+
+    attr_accessor order: untyped
+
+    attr_accessor label: untyped
+
+    attr_accessor edit_as: untyped
+
+    attr_accessor class_names: untyped
+
+    attr_accessor formatter: untyped
+
+    def initialize: (untyped name, label: untyped, order: untyped, ?edit_as: untyped, ?only: untyped?, ?formatter: ::String) -> void
+
+    def formatter: () -> untyped
+
+    def self.map: () { (untyped) -> untyped } -> untyped
+
+    # Registers a custom field format
+    def self.register: (untyped custom_field_format, ?::Hash[untyped, untyped] _options) -> (untyped | nil)
+
+    def self.available_formats: () -> untyped
+
+    def self.find_by_name: (untyped name) -> untyped
+
+    def self.all_for_field: (untyped custom_field) -> untyped
+  end
+end

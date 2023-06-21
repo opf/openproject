@@ -1,0 +1,2 @@
+class PlaceholderUsers::CreateService < BaseServices::Create
+end

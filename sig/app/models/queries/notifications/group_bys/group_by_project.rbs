@@ -1,0 +1,7 @@
+class Queries::Notifications::GroupBys::GroupByProject < Queries::GroupBys::Base
+  def self.key: () -> :project
+
+  def name: () -> :project_id
+
+  def association_class: () -> untyped
+end

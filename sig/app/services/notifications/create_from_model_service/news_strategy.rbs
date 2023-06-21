@@ -1,0 +1,19 @@
+module Notifications::CreateFromModelService::NewsStrategy
+  def self.reasons: () -> ::Array[:subscribed]
+
+  def self.permission: () -> :view_news
+
+  def self.supports_ian?: () -> false
+
+  def self.supports_mail_digest?: () -> false
+
+  def self.supports_mail?: () -> true
+
+  def self.subscribed_users: (untyped journal) -> untyped
+
+  def self.subscribed_notification_reason: (untyped _journal) -> untyped
+
+  def self.project: (untyped journal) -> untyped
+
+  def self.user: (untyped journal) -> untyped
+end

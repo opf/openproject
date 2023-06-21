@@ -1,0 +1,11 @@
+module API
+  module Errors
+    class PropertyFormatError < ErrorBase
+      attr_accessor property: untyped
+
+      def initialize: (untyped property, untyped expected_format, untyped actual_value) -> void
+
+      def details: () -> { attribute: untyped }
+    end
+  end
+end

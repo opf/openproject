@@ -1,0 +1,7 @@
+module API
+  module V3
+    class RootRepresenter < ::API::Decorators::Single
+      def _type: () -> "Root"
+    end
+  end
+end

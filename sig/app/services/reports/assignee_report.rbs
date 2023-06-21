@@ -1,0 +1,11 @@
+class Reports::AssigneeReport < Reports::Report
+  def self.report_type: () -> "assigned_to"
+
+  def field: () -> untyped
+
+  def rows: () -> untyped
+
+  def data: () -> untyped
+
+  def title: () -> untyped
+end

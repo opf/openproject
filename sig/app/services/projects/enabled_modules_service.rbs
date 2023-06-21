@@ -1,0 +1,16 @@
+#
+# Adds and removes modules from a project
+#
+module Projects
+  class EnabledModulesService < ::BaseServices::BaseContracted
+    def initialize: (user: untyped, model: untyped, ?contract_class: untyped) -> void
+
+    private
+
+    def before_perform: (untyped params, untyped _service_result) -> untyped
+
+    def persist: (untyped call) -> untyped
+
+    def after_perform: (untyped call) -> untyped
+  end
+end

@@ -1,0 +1,19 @@
+module Redmine
+  module IMAP
+    def self.check: (?::Hash[untyped, untyped] imap_options, ?::Hash[untyped, untyped] options) -> untyped
+
+    private
+
+    def self.connect_imap: (untyped imap_options) -> untyped
+
+    def self.receive: (untyped message_id, untyped imap, untyped imap_options, untyped options) -> untyped
+
+    def self.message_received: (untyped message_id, untyped imap, untyped imap_options) -> untyped
+
+    def self.message_error: (untyped message_id, untyped imap, untyped imap_options) -> untyped
+
+    def self.log_debug: () { () -> untyped } -> (untyped | nil)
+
+    def self.logger: () -> untyped
+  end
+end

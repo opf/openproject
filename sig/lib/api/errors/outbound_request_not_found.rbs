@@ -1,0 +1,7 @@
+module API
+  module Errors
+    class OutboundRequestNotFound < ErrorBase
+      def initialize: () -> void
+    end
+  end
+end

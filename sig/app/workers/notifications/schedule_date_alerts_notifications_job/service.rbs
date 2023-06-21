@@ -1,0 +1,21 @@
+# Creates date alerts notifications for users whose local time is 1am for the
+# given run_times.
+class Notifications::ScheduleDateAlertsNotificationsJob::Service
+  attr_reader run_times: untyped
+
+  # @param run_times [Array<DateTime>] the times for which the service is run.
+  # Must be multiple of 15 minutes (xx:00, xx:15, xx:30, or xx:45).
+  def initialize: (untyped run_times) -> void
+
+  def call: () -> (nil | untyped)
+
+  private
+
+  def time_zones_covering_1am_local_time: () -> untyped
+
+  def executing_at_1am_for_timezone?: (untyped time_zone) -> untyped
+
+  def is_1am?: (untyped time, untyped time_zone) -> untyped
+
+  def users_at_1am_with_notification_settings: () -> untyped
+end

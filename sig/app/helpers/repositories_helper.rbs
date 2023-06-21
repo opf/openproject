@@ -1,0 +1,57 @@
+module RepositoriesHelper
+  def format_revision: (untyped revision) -> untyped
+
+  #
+  # Format revision commits with plain formatter
+  def format_revision_text: (untyped commit_message) -> untyped
+
+  def truncate_at_line_break: (untyped text, ?::Integer length) -> untyped
+
+  def render_properties: (untyped properties) -> (untyped | nil)
+
+  def render_changeset_changes: () -> untyped
+
+  # Mapping from internal action to (folder|file)-icon type
+  def change_action_mapping: () -> ::Hash[::String, :add | :remove]
+
+  # This calculates whether a folder was added, deleted or modified. It is based on the assumption that
+  # a folder was added/deleted when all content was added/deleted since the folder changes were not tracked.
+  def calculate_folder_action: (untyped tree) -> untyped
+
+  def render_changes_tree: (untyped tree) -> ("" | untyped)
+
+  def to_utf8_for_repositories: (untyped str) -> untyped
+
+  private
+
+  def to_utf8_internal: (untyped str) -> untyped
+
+  public
+
+  def replace_invalid_utf8: (untyped str) -> untyped
+
+  #
+  # Retrieves all valid SCM vendors from the Manager
+  # and injects an already persisted repository for correctly
+  # displaying an existing repository.
+  def scm_options: (?untyped? repository) -> untyped
+
+  def default_selected_option: () -> ::Array[::String | "" | { disabled: true, selected: true }]
+
+  def scm_vendor_tag: (untyped repository) -> untyped
+
+  def git_path_encoding_options: (untyped repository) -> untyped
+
+  #
+  # Determines whether the repository settings save button should be shown.
+  # By default, it is not shown when repository exists and is managed.
+  def show_settings_save_button?: (untyped _repository) -> untyped
+
+  def with_leading_slash: (untyped path) -> (untyped | ::String)
+
+  def without_leading_slash: (untyped path) -> untyped
+
+  def changes_tree_change_title: (untyped action) -> untyped
+
+  def changes_tree_li_element: (untyped action, untyped text, untyped style) -> ::String
+end

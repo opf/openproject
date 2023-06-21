@@ -1,0 +1,18 @@
+module API
+  module V3
+    module Utilities
+      module EagerLoading
+        class EagerLoadingWrapper < SimpleDelegator
+          #
+          # Workaround against warnings in flatten
+          # delegator does not forward private method #to_ary
+          def to_ary: () -> untyped
+
+          def inspect: () -> untyped
+
+          def self.wrap: (untyped objects) -> untyped
+        end
+      end
+    end
+  end
+end

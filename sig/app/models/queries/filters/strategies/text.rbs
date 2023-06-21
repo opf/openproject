@@ -1,0 +1,4 @@
+module Queries::Filters::Strategies
+  class Text < BaseStrategy
+  end
+end

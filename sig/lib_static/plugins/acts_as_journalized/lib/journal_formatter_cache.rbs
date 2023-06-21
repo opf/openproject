@@ -1,0 +1,7 @@
+class JournalFormatterCache
+  def self.request_instance: () -> untyped
+
+  def initialize: () -> void
+
+  def fetch: (untyped klass, untyped id) ?{ () -> untyped } -> untyped
+end

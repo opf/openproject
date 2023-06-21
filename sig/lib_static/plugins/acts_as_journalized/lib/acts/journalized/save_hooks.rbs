@@ -1,0 +1,15 @@
+# These hooks make sure journals are properly created and updated with Redmine user detail,
+# notes and associated custom fields
+module Acts::Journalized
+  module SaveHooks
+    def self.included: (untyped base) -> untyped
+
+    def save_journals: () -> untyped
+
+    def add_journal: (?untyped user, ?::String notes) -> untyped
+
+    private
+
+    def with_ensured_journal_attributes: () { () -> untyped } -> untyped
+  end
+end

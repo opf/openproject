@@ -1,0 +1,21 @@
+module Redmine
+  module Helpers
+    class Diff
+      include ERB::Util
+
+      include ActionView::Helpers::TagHelper
+
+      include ActionView::Helpers::TextHelper
+
+      attr_reader diff: untyped
+
+      attr_reader words: untyped
+
+      def initialize: (untyped content_to, untyped content_from) -> void
+
+      def to_html: () -> untyped
+
+      def additions: () -> untyped
+    end
+  end
+end

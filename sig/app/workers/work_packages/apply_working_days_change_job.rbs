@@ -1,0 +1,29 @@
+class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
+  include ::ScheduledJob
+
+  def perform: (user_id: untyped, previous_working_days: untyped, previous_non_working_days: untyped) -> untyped
+
+  private
+
+  def apply_change_to_work_package: (untyped user, untyped work_package) -> untyped
+
+  def apply_change_to_predecessor: (untyped user, untyped predecessor) -> untyped
+
+  def applicable_work_package: (untyped previous_working_days, untyped previous_non_working_days) -> untyped
+
+  def changed_days: (untyped previous_working_days) -> untyped
+
+  def changed_non_working_dates: (untyped previous_non_working_days) -> untyped
+
+  def applicable_predecessor: (untyped excluded) -> untyped
+
+  def set_journal_notice: (untyped updated_work_package_ids, untyped previous_working_days, untyped previous_non_working_days) -> untyped
+
+  def journal_notice_text: (untyped day_changes, untyped date_changes) -> untyped
+
+  def working_day_change_message: (untyped day, untyped working) -> untyped
+
+  def working_date_change_message: (untyped date, untyped working) -> untyped
+
+  def collect_id_for_each: (untyped scope) { (untyped) -> untyped } -> untyped
+end

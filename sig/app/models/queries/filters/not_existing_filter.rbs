@@ -1,0 +1,24 @@
+module Queries
+  module Filters
+    class NotExistingFilter < Base
+      def available?: () -> false
+
+      def type: () -> :inexistent
+
+      def self.key: () -> :not_existent
+
+      def human_name: () -> untyped
+
+      def always_false: () -> untyped
+
+      # deactivating superclass validation
+      def validate_inclusion_of_operator: () -> nil
+
+      def to_hash: () -> ::Hash[untyped, { operator: untyped, values: untyped }]
+
+      def scope: () -> untyped
+
+      def attributes_hash: () -> nil
+    end
+  end
+end

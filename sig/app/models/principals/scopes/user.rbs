@@ -1,0 +1,8 @@
+# Only return Principals that are of type User
+module Principals::Scopes
+  module User
+    extend ActiveSupport::Concern
+
+    def user: () -> untyped
+  end
+end

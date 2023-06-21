@@ -1,0 +1,5 @@
+module Queries::Operators
+  module DatetimeRangeClauses
+    def datetime_range_clause: (untyped table, untyped field, untyped from, untyped to) -> untyped
+  end
+end

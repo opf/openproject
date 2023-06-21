@@ -1,0 +1,28 @@
+class JsonValidator < ActiveModel::EachValidator
+  def initialize: (untyped options) -> void
+
+  # Validate the JSON value with a JSON schema path or String
+  def validate_each: (untyped record, untyped attribute, untyped value) -> (nil | untyped)
+
+  # Redefine the setter method for the attributes, since we want to
+  # catch JSON parsing errors.
+  def inject_setter_method: (untyped klass, untyped attributes) -> untyped
+
+  # Return a valid schema, recursively calling
+  # itself until it gets a non-Proc/non-Symbol value.
+  def schema: (untyped record, ?untyped? schema) -> untyped
+
+  def add_error: (untyped record, untyped error) -> untyped
+
+  def add_blank_error: (untyped record, untyped error, untyped path) -> untyped
+
+  def add_type_mismatch_error: (untyped record, untyped path, untyped type) -> untyped
+
+  def add_schema_violated_error: (untyped record, untyped path) -> untyped
+
+  def add_format_error: (untyped record, untyped path, untyped expected) -> untyped
+
+  def add_enum_error: (untyped record, untyped path) -> untyped
+
+  def add_invalid_error: (untyped record, untyped path) -> untyped
+end

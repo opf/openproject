@@ -1,0 +1,4 @@
+module Exports
+  class ExportError < StandardError
+  end
+end

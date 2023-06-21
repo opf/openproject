@@ -1,0 +1,113 @@
+module WorkPackage::PDFExport::Style
+  include MarkdownToPDF::StyleValidation
+
+  class PDFStyles
+    include MarkdownToPDF::Common
+
+    include MarkdownToPDF::StyleHelper
+
+    def initialize: (untyped yml) -> void
+
+    def page_size: () -> untyped
+
+    def page_header_offset: () -> untyped
+
+    def page_footer_offset: () -> untyped
+
+    def page_logo_height: () -> untyped
+
+    def page_logo_align: () -> untyped
+
+    def page_margin_top: () -> untyped
+
+    def page_margin_left: () -> untyped
+
+    def page_margin_right: () -> untyped
+
+    def page_margin_bottom: () -> untyped
+
+    def page_heading: () -> untyped
+
+    def page_heading_margins: () -> untyped
+
+    def page_header: () -> untyped
+
+    def page_footer: () -> untyped
+
+    def page_break_threshold: () -> untyped
+
+    def link_color: () -> untyped
+
+    def overview_group_header: () -> untyped
+
+    def overview_group_header_margins: () -> untyped
+
+    def overview_table_margins: () -> untyped
+
+    def overview_table_cell: () -> untyped
+
+    def overview_table_header_cell: () -> untyped
+
+    def overview_table_sums_cell: () -> untyped
+
+    def overview_table_subject_indent: () -> untyped
+
+    def toc_margins: () -> untyped
+
+    def toc_item: (untyped level) -> untyped
+
+    def toc_item_subject_indent: () -> untyped
+
+    def toc_item_margins: (untyped level) -> untyped
+
+    def wp_margins: () -> untyped
+
+    def wp_section_heading: () -> untyped
+
+    def wp_section_heading_margins: () -> untyped
+
+    def wp_section_item: () -> untyped
+
+    def wp_section_item_margins: () -> untyped
+
+    def wp_label: () -> untyped
+
+    def wp_label_margins: () -> untyped
+
+    def wp_subject: () -> untyped
+
+    def wp_detail_subject_margins: () -> untyped
+
+    def wp_attributes_table_margins: () -> untyped
+
+    def wp_attributes_table_cell: () -> untyped
+
+    def wp_attributes_table_label_cell: () -> untyped
+
+    def wp_markdown_label_size: () -> untyped
+
+    def wp_markdown_margins: () -> untyped
+
+    def wp_markdown_styling_yml: () -> untyped
+
+    private
+
+    def resolve_pt: (untyped value, untyped default) -> untyped
+
+    def resolve_table_cell: (untyped style) -> untyped
+
+    def resolve_markdown_styling: (untyped style) -> untyped
+
+    def resolve_font: (untyped style) -> untyped
+
+    def resolve_margin: (untyped style) -> untyped
+  end
+
+  def styles: () -> untyped
+
+  private
+
+  def load_style: () -> untyped
+
+  def styles_asset_path: () -> untyped
+end

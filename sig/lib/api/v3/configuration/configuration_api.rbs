@@ -1,0 +1,9 @@
+module API
+  module V3
+    module Configuration
+      class ConfigurationAPI < ::API::OpenProjectAPI
+        def allowed_unauthenticated_route?: () -> true
+      end
+    end
+  end
+end

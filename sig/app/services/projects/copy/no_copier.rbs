@@ -1,0 +1,12 @@
+module Projects::Copy
+  # Can be included in case the dependent service needs to be listed in the copy_dependency section for:
+  # * Being an option in the UI
+  # * Calculating the count
+  # but does not really need to do anything beyond that.
+  #
+  # This is currently employed to turn the attachment dependent services into NoCreate services as attachment
+  # handling has been moved into the create services e.g. of WorkPackage and WikiPage.
+  module NoCopier
+    def copy_dependency: (params: untyped) -> nil
+  end
+end

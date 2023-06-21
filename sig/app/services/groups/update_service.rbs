@@ -1,0 +1,13 @@
+class Groups::UpdateService < BaseServices::Update
+  def persist: (untyped call) -> untyped
+
+  def after_perform: (untyped call) -> untyped
+
+  def groups_removed_users: (untyped group) -> untyped
+
+  def remove_member_roles: (untyped member_role_ids) -> untyped
+
+  def member_roles_to_prune: (untyped users) -> untyped
+
+  def cleanup_members: (untyped users, untyped project_ids) -> untyped
+end

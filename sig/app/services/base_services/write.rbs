@@ -1,0 +1,23 @@
+module BaseServices
+  class Write < BaseContracted
+    def persist: (untyped service_result) -> untyped
+
+    # Validations are already handled in the SetAttributesService
+    # and thus we do not have to validate again.
+    def validate_contract: (untyped service_result) -> untyped
+
+    def before_perform: (untyped params, untyped _service_result) -> untyped
+
+    def set_attributes: (untyped params) -> untyped
+
+    def attributes_service_class: () -> untyped
+
+    def instance: (untyped _params) -> untyped
+
+    def default_contract_class: () -> untyped
+
+    def instance_class: () -> untyped
+
+    def set_attributes_params: (untyped params) -> untyped
+  end
+end

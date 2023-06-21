@@ -1,0 +1,15 @@
+class Authorization::AbstractQuery
+  def self.query: (*untyped args) -> untyped
+
+  def self.base_query: () -> untyped
+
+  def self.transformed_query: (*untyped args) -> untyped
+
+  def self.inherited: (untyped subclass) -> untyped
+
+  def self.run_transformations: (*untyped args) -> untyped
+
+  def self.wheres: (untyped arel) -> untyped
+
+  def self.joins: (untyped arel) -> untyped
+end

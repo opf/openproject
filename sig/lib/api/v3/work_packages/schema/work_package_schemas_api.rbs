@@ -1,0 +1,17 @@
+module API
+  module V3
+    module WorkPackages
+      module Schema
+        class WorkPackageSchemasAPI < ::API::OpenProjectAPI
+          def raise404: () -> untyped
+
+          def raise_invalid_query: () -> untyped
+
+          def parse_filter_for_project_type_pairs: () -> untyped
+
+          def schemas_path_with_filters_params: () -> ::String
+        end
+      end
+    end
+  end
+end

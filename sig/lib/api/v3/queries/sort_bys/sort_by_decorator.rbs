@@ -1,0 +1,31 @@
+module API
+  module V3
+    module Queries
+      module SortBys
+        class SortByDecorator
+          def initialize: (untyped column, untyped direction) -> void
+
+          def id: () -> ::String
+
+          def name: () -> untyped
+
+          def converted_name: () -> untyped
+
+          def direction_name: () -> untyped
+
+          def direction_uri: () -> ::String
+
+          def direction_l10n: () -> untyped
+
+          private
+
+          def convert_attribute: (untyped attribute) -> untyped
+
+          attr_accessor direction: untyped
+
+          attr_accessor column: untyped
+        end
+      end
+    end
+  end
+end

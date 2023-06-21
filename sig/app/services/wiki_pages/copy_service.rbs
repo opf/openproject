@@ -1,0 +1,28 @@
+class WikiPages::CopyService
+  include ::Shared::ServiceContext
+
+  include Contracted
+
+  include ::Copy::Concerns::CopyAttachments
+
+  attr_accessor user: untyped
+
+  attr_accessor model: untyped
+
+  attr_accessor contract_class: untyped
+
+  def initialize: (user: untyped, model: untyped, ?contract_class: untyped) -> void
+
+  def call: (?send_notifications: untyped?, ?copy_attachments: bool, **untyped attributes) -> untyped
+
+  def copy: (untyped attribute_override, untyped copy_attachments) -> untyped
+
+  def create: (untyped attributes) -> untyped
+
+  # Copy the wiki page attributes together with the wiki page content attributes
+  def copied_attributes: (untyped override) -> untyped
+
+  def writable_attributes: () -> untyped
+
+  def copy_wiki_page_attachments: (untyped copy) -> untyped
+end

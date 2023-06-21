@@ -1,0 +1,37 @@
+module Ldap
+  class BaseService
+    attr_reader ldap: untyped
+
+    def initialize: (untyped ldap) -> void
+
+    def call: () -> untyped
+
+    def perform: () -> untyped
+
+    def synchronize_user: (untyped user, untyped ldap_con) -> (nil | untyped)
+
+    # Try to create the user from attributes
+    def try_to_update: (untyped user, untyped attrs) -> untyped
+
+    def try_to_create: (untyped attrs) -> untyped
+
+    #
+    # Locks the given user if this is what the sync service should do.
+    def lock_user!: (untyped user) -> untyped
+
+    #
+    # Activates the given user if this is what the sync service should do.
+    def activate_user!: (untyped user) -> untyped
+
+    #
+    # Get the user attributes of a single matching LDAP entry.
+    #
+    # If the login matches multiple entries, return nil and issue a warning.
+    # If the login does not match, returns nil
+    def user_attributes: (untyped login, untyped ldap_con) -> (nil | untyped)
+
+    def find_entries_by: (login: untyped, ?ldap_con: untyped) -> untyped
+
+    def new_ldap_connection: () -> untyped
+  end
+end

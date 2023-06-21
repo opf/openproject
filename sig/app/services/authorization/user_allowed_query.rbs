@@ -1,0 +1,9 @@
+class Authorization::UserAllowedQuery < Authorization::AbstractUserQuery
+  def self.roles_member_roles_join: (untyped project) -> untyped
+
+  def self.no_membership_and_non_member_role_condition: () -> untyped
+
+  def self.anonymous_user_condition: () -> untyped
+
+  def self.member_or_public_project_condition: (untyped id_equal) -> untyped
+end

@@ -1,0 +1,5 @@
+class Queries::Projects::Orders::TypeaheadOrder < Queries::Projects::Orders::DefaultOrder
+  def self.key: () -> :typeahead
+
+  def order: () -> untyped
+end

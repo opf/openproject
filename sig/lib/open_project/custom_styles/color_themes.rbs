@@ -1,0 +1,9 @@
+module OpenProject::CustomStyles
+  module ColorThemes
+    OpenProject::CustomStyles::ColorThemes::DEFAULT_THEME_NAME: "OpenProject"
+
+    THEMES: ::Array[{ theme: untyped, colors: ::Hash[::String, "#1A67A3" | "#175A8E" | "#35C53F" | "#FFFFFF" | "" | "#333739" | "#124E7C" | "#EAEAEA"] } | { theme: "OpenProject Light", colors: ::Hash[::String, "#1A67A3" | "#175A8E" | "#138E1B" | "#FAFAFA" | "#E1E1E1" | "#313131" | "#ECECEC" | "#A9A9A9" | "#FFFFFF" | "#000000" | "#EAEAEA"], logo: "logo_openproject.png" } | { theme: "OpenProject Dark", colors: ::Hash[::String, "#3270DB" | "#163473" | "#349939" | "#275BB5" | "#05002C" | "#FFFFFF" | "" | "#0E2045" | "#EAEAEA"] }]
+
+    def self?.themes: () -> untyped
+  end
+end

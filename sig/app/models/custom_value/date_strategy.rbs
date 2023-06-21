@@ -1,0 +1,9 @@
+class CustomValue::DateStrategy < CustomValue::FormatStrategy
+  include Redmine::I18n
+
+  def typed_value: () -> (untyped | nil)
+
+  def formatted_value: () -> untyped
+
+  def validate_type_of_value: () -> (nil | untyped)
+end

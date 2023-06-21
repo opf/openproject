@@ -1,0 +1,2 @@
+class Versions::CreateService < BaseServices::Create
+end

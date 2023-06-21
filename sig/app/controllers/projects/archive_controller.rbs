@@ -1,0 +1,13 @@
+class Projects::ArchiveController < ApplicationController
+  def create: () -> untyped
+
+  def destroy: () -> untyped
+
+  private
+
+  def change_status_action: (untyped status) -> untyped
+
+  def change_status: (untyped status) -> untyped
+
+  def service_class: (untyped status) -> untyped
+end

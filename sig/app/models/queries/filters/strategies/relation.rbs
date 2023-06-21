@@ -1,0 +1,11 @@
+module Queries::Filters::Strategies
+  class Relation < BaseStrategy
+    def validate: () -> untyped
+
+    def valid_values!: () -> untyped
+
+    private
+
+    def too_many_values: () -> untyped
+  end
+end

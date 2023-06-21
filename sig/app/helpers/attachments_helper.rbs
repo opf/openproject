@@ -1,0 +1,11 @@
+module AttachmentsHelper
+  def to_utf8_for_attachments: (untyped str) -> untyped
+
+  #
+  # List attachments outside the edit form
+  # allowing immediate removal or addition of attachments
+  #
+  # Within ckeditor-augmented-textarea-form, this attachment list is added automatically
+  # when a resource is added.
+  def list_attachments: (untyped resource, ?::Hash[untyped, untyped] options) -> untyped
+end

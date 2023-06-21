@@ -1,0 +1,28 @@
+module OpenProject
+  module Assets
+    #
+    # Look up an asset in the manifest. If it does not exist,
+    # return the chunk name itself.
+    # Input: main.js
+    # Output:
+    #  - when in manifest: main.<hash>.js
+    #  - when not in manifest: main.js
+    def self.lookup_asset: (untyped unhashed_filename) -> untyped
+
+    def self.frontend_asset_path: () -> untyped
+
+    def self.manifest_path: () -> untyped
+
+    def self.load_manifest: () -> untyped
+
+    #
+    # Clear frontend asset path
+    def self.clear!: () -> untyped
+
+    #
+    # Rebuilds the manifest file
+    def self.rebuild_manifest!: () -> untyped
+
+    def self.current_assets: () -> untyped
+  end
+end

@@ -1,0 +1,17 @@
+class Queries::WorkPackages::Filter::VersionFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  def allowed_values: () -> untyped
+
+  def type: () -> :list_optional
+
+  def human_name: () -> untyped
+
+  def self.key: () -> :version_id
+
+  def ar_object_filter?: () -> true
+
+  def value_objects: () -> untyped
+
+  private
+
+  def versions: () -> untyped
+end

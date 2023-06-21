@@ -1,0 +1,7 @@
+module OpenProject::TextFormatting
+  module Filters
+    class RelativeLinkFilter < HTML::Pipeline::Filter
+      def call: () -> untyped
+    end
+  end
+end

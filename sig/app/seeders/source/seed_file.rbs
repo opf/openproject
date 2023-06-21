@@ -1,0 +1,19 @@
+class Source::SeedFile
+  def self.all: () -> untyped
+
+  def self.with_names: (*untyped names) -> untyped
+
+  private
+
+  def self.find_all_seed_files: () -> untyped
+
+  public
+
+  attr_reader path: untyped
+
+  def initialize: (untyped path) -> void
+
+  def name: () -> untyped
+
+  def raw_content: () -> untyped
+end

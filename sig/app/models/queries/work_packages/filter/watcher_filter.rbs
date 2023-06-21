@@ -1,0 +1,25 @@
+class Queries::WorkPackages::Filter::WatcherFilter < Queries::WorkPackages::Filter::PrincipalBaseFilter
+  def allowed_values: () -> untyped
+
+  def type: () -> :list
+
+  def self.key: () -> :watcher_id
+
+  def where: () -> untyped
+
+  private
+
+  def where_any_watcher: () -> ::String
+
+  def where_allowed_watchers: () -> untyped
+
+  def where_self_watcher: (untyped user_id) -> ::String
+
+  def where_watcher_in_view_watchers_allowed: () -> ::String
+
+  def db_table: () -> untyped
+
+  def db_field: () -> "user_id"
+
+  def view_watcher_allowed_scoped: () -> untyped
+end

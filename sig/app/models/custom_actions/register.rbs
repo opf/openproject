@@ -1,0 +1,5 @@
+module CustomActions::Register
+  def self.actions: () -> ::Array[untyped]
+
+  def self.conditions: () -> ::Array[untyped]
+end

@@ -1,0 +1,12 @@
+module API
+  module Utilities
+    class CamelCasingStrategy
+      # CamelCase properties of ROAR representer
+      def call: (untyped property) -> untyped
+
+      private
+
+      def to_camel_case: (untyped string) -> untyped
+    end
+  end
+end

@@ -1,0 +1,54 @@
+module ProjectsHelper
+  include WorkPackagesFilterHelper
+
+  def filter_set?: () -> untyped
+
+  def allowed_filters: (untyped query) -> untyped
+
+  def whitelisted_project_filter?: (untyped filter) -> untyped
+
+  def no_projects_result_box_params: () -> ({ action_url: untyped, display_action: true } | ::Hash[untyped, untyped])
+
+  def project_more_menu_items: (untyped project) -> untyped
+
+  def project_more_menu_subproject_item: (untyped project) -> (::Array[untyped | { class: "icon-context icon-add", title: untyped }] | nil)
+
+  def project_more_menu_settings_item: (untyped project) -> (::Array[untyped | { class: "icon-context icon-settings", title: untyped }] | nil)
+
+  def project_more_menu_activity_item: (untyped project) -> (::Array[untyped | { class: "icon-context icon-checkmark", title: untyped }] | nil)
+
+  def project_more_menu_archive_item: (untyped project) -> (::Array[untyped | { data: { confirm: untyped }, method: :post, class: "icon-context icon-locked", title: untyped }] | nil)
+
+  def project_more_menu_unarchive_item: (untyped project) -> (::Array[untyped | { method: :delete, class: "icon-context icon-unlocked", title: untyped }] | nil)
+
+  def project_more_menu_copy_item: (untyped project) -> (::Array[untyped | { class: "icon-context icon-copy", title: untyped }] | nil)
+
+  def project_more_menu_delete_item: (untyped project) -> (::Array[untyped | { class: "icon-context icon-delete", title: untyped }] | nil)
+
+  def project_options_for_status: (untyped project) -> untyped
+
+  def project_options_for_templated: () -> untyped
+
+  def shorten_text: (untyped text, untyped length) -> untyped
+
+  def projects_with_level: (untyped projects) { (untyped, untyped) -> untyped } -> untyped
+
+  def projects_with_levels_order_sensitive: (untyped projects) { () -> untyped } -> untyped
+
+  # Just like sort_header tag but removes sorting by
+  # lft from the sort criteria as lft is mutually exclusive with
+  # the other criteria.
+  def projects_sort_header_tag: (*untyped args) -> untyped
+
+  def sorted_by_lft?: () -> untyped
+
+  def allowed_parent_projects: (untyped project) -> untyped
+
+  def gantt_portfolio_query_link: (untyped filtered_project_ids) -> untyped
+
+  def gantt_portfolio_project_ids: (untyped project_scope) -> untyped
+
+  def gantt_portfolio_title: () -> untyped
+
+  def short_project_description: (untyped project, ?::Integer length) -> ("" | untyped)
+end

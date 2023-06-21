@@ -1,0 +1,5 @@
+module WorkPackage::CustomActioned
+  extend ActiveSupport::Concern
+
+  def custom_actions: (untyped user) -> untyped
+end

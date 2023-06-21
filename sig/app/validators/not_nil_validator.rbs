@@ -1,0 +1,3 @@
+class NotNilValidator < ActiveModel::EachValidator
+  def validate_each: (untyped record, untyped attribute, untyped value) -> (untyped | nil)
+end

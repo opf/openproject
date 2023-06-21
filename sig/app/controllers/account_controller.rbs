@@ -1,0 +1,112 @@
+class AccountController < ApplicationController
+  include CustomFieldsHelper
+
+  include OmniauthHelper
+
+  include Accounts::OmniauthLogin
+
+  include Accounts::UserConsent
+
+  include Accounts::UserLimits
+
+  include Accounts::UserPasswordChange
+
+  # Login request and validation
+  def login: () -> untyped
+
+  def internal_login: () -> untyped
+
+  # Log out current user and redirect to welcome page
+  def logout: () -> untyped
+
+  # Enable user to choose a new password
+  def lost_password: () -> (untyped | nil)
+
+  # User self-registration
+  def register: () -> untyped
+
+  def allow_registration?: () -> untyped
+
+  def allow_lost_password_recovery?: () -> untyped
+
+  # Token based account activation
+  def activate: () -> untyped
+
+  def handle_expired_token: (untyped token) -> untyped
+
+  def send_activation_email!: (untyped user) -> untyped
+
+  def activate_self_registered: (untyped token) -> (nil | untyped)
+
+  def activate_by_invite_token: (untyped token) -> (nil | untyped)
+
+  def activate_invited: (untyped token) -> untyped
+
+  def activate_user: (untyped user) -> untyped
+
+  def activate_through_ldap: (untyped user) -> untyped
+
+  # Process a password change form, used when the user is forced
+  # to change the password.
+  # When making changes here, also check MyController.change_password
+  def change_password: () -> untyped
+
+  def auth_source_sso_failed: () -> untyped
+
+  private
+
+  def check_auth_source_sso_failure: () -> (untyped | nil)
+
+  def show_sso_error_for: (untyped user) -> (untyped | untyped | nil)
+
+  def registration_through_invitation!: () -> untyped
+
+  def self_registration!: () -> (nil | untyped)
+
+  def assign_user_attributes: (untyped attrs) -> untyped
+
+  def register_plain_user: (untyped user) -> untyped
+
+  def register_with_auth_source: (untyped user) -> untyped
+
+  def respond_for_registered_user: (untyped user) -> untyped
+
+  def user_with_placeholder_name?: (untyped user) -> untyped
+
+  def direct_login: (untyped user) -> (untyped | untyped | nil)
+
+  def authenticate_user: () -> untyped
+
+  def password_authentication: (untyped username, untyped password) -> (nil | untyped)
+
+  def login_user_if_active: (untyped user, just_registered: untyped) -> (nil | untyped)
+
+  def pending_auth_source_registration?: () -> untyped
+
+  def pending_omniauth_registration?: () -> untyped
+
+  # Onthefly creation failed, display the registration form to fill/fix attributes
+  def onthefly_creation_failed: (untyped user, ?::Hash[untyped, untyped] auth_source_options) -> untyped
+
+  def self_registration_disabled: () -> untyped
+
+  # Call if an account is inactive - either registered or locked
+  def account_inactive: (untyped user, ?flash_now: bool) -> untyped
+
+  # Log an attempt to log in to an account in "registered" state and show a flash message.
+  def account_not_activated: (?flash_now: bool) -> untyped
+
+  def invited_account_not_activated: (untyped _user) -> untyped
+
+  def invited_user: () -> (untyped | nil)
+
+  def disable_api: () -> (untyped | nil)
+
+  def invalid_token_and_redirect: () -> untyped
+
+  def apply_csp_appends: () -> (nil | untyped)
+
+  def check_internal_login_enabled: () -> (untyped | nil)
+
+  def remove_internal_login_flag: () -> untyped
+end

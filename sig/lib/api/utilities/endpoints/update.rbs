@@ -1,0 +1,13 @@
+module API
+  module Utilities
+    module Endpoints
+      class Update < Modify
+        def default_instance_generator: (untyped model) -> untyped
+
+        private
+
+        def update_or_create: () -> "Update"
+      end
+    end
+  end
+end

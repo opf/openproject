@@ -1,0 +1,24 @@
+# Loads the right seed files according to the given edition name.
+#
+# Seed files with the same name as the edition name are merged together. Then
+# all seed files names `common.yml` are merged as well, allowing to share seed
+# data between standard and bim editions.
+class Source::SeedDataLoader
+  include Source::Translate
+
+  def self.get_data: (?edition: untyped?) -> untyped
+
+  attr_reader seed_name: untyped
+
+  attr_reader locale: untyped
+
+  def initialize: (?seed_name: ::String, ?locale: untyped) -> void
+
+  def seed_data: () -> untyped
+
+  def raw_seed_files_content: () -> untyped
+
+  private
+
+  def seed_files: () -> untyped
+end

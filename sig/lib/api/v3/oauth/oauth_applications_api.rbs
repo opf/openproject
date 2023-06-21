@@ -1,0 +1,4 @@
+module API::V3::OAuth
+  class OAuthApplicationsAPI < ::API::OpenProjectAPI
+  end
+end

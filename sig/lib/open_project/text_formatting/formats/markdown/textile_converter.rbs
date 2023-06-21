@@ -1,0 +1,121 @@
+module OpenProject::TextFormatting::Formats
+  module Markdown
+    class TextileConverter
+      include ActionView::Helpers::TagHelper
+
+      TAG_CODE: "pandoc-unescaped-single-backtick"
+
+      TAG_FENCED_CODE_BLOCK: "force-pandoc-to-ouput-fenced-code-block"
+
+      DOCUMENT_BOUNDARY: "TextileConverterDocumentBoundary09339cab-f4f4-4739-85b0-d02ba1f342e6"
+
+      BLOCKQUOTE_START: "TextileConverterBlockquoteStart09339cab-f4f4-4739-85b0-d02ba1f342e6"
+
+      BLOCKQUOTE_END: "TextileConverterBlockquoteEnd09339cab-f4f4-4739-85b0-d02ba1f342e6"
+
+      attr_reader pandoc: untyped
+
+      attr_reader logger: untyped
+
+      def initialize: () -> void
+
+      def run!: () -> untyped
+
+      private
+
+      def converters: () -> ::Array[untyped]
+
+      def convert_settings: () -> untyped
+
+      #
+      # Converting model attributes as defined in +models_to_convert+.
+      def convert_models: () -> untyped
+
+      def convert_custom_field_longtext: () -> untyped
+
+      # Iterate in batches to avoid plucking too much
+      def with_original_values_in_batches: (untyped klass, untyped attributes) { (untyped) -> untyped } -> untyped
+
+      def bulk_convert_textile_with_fallback: (untyped klass, untyped orig_values, untyped attributes) -> untyped
+
+      def new_values_for: (untyped attributes, untyped orig_values, untyped markdowns_in_groups) -> untyped
+
+      def convert_textile_to_markdown: (untyped textile, ?raise_on_timeout: bool) -> ("" | untyped)
+
+      def execute_pandoc_with_stdin!: (untyped textile, untyped raise_on_timeout) -> untyped
+
+      def non_convertible_textile_doc: (untyped textile) -> ::String
+
+      def models_to_convert: () -> ::Hash[untyped, ::Array[:text] | ::Array[:help_text] | ::Array[:comments] | ::Array[:description] | ::Array[:content] | ::Array[:notes]]
+
+      def batches_of_objects_to_convert: (untyped klass, untyped attributes) { (untyped, untyped) -> untyped } -> untyped
+
+      def batch_update_statement: (untyped klass, untyped attributes, untyped values) -> ::String
+
+      def concatenate_textile: (untyped textiles) -> untyped
+
+      def split_markdown: (untyped markdown) -> untyped
+
+      def cleanup_before_pandoc: (untyped textile) -> untyped
+
+      def cleanup_after_pandoc: (untyped markdown) -> untyped
+
+      # Convert old {{macroname(args)}} syntax to <macro class="macroname" data-arguments="">
+      def convert_macro_syntax: (untyped markdown) -> untyped
+
+      # OpenProject support @ inside inline code marked with @ (such as "@git@github.com@"), but not pandoc.
+      # So we inject a placeholder that will be replaced later on with a real backtick.
+      def placeholder_for_inline_code_at: (untyped textile) -> untyped
+
+      # Drop table colspan/rowspan notation ("|\2." or "|/2.") because pandoc does not support it
+      # See https://github.com/jgm/pandoc/issues/22
+      def drop_table_colspan_notation: (untyped textile) -> untyped
+
+      # Drop table alignment notation ("|>." or "|<." or "|=.") because pandoc does not support it
+      # See https://github.com/jgm/pandoc/issues/22
+      def drop_table_alignment_notation: (untyped textile) -> untyped
+
+      # Move the class from <code> to <pre> so pandoc can generate a code block with correct language
+      def move_class_from_code_to_pre: (untyped textile) -> untyped
+
+      # Remove the <code> directly inside <pre>, because pandoc would incorrectly preserve it
+      def remove_code_inside_pre: (untyped textile) -> untyped
+
+      # Some malformed textile content make pandoc run extremely slow,
+      # so we convert it to proper textile before hitting pandoc
+      # see https://github.com/jgm/pandoc/issues/3020
+      def convert_malformed_textile: (untyped textile) -> untyped
+
+      # Remove empty paragraph blocks which trip up pandoc
+      def remove_empty_paragraphs: (untyped textile) -> untyped
+
+      # Replace numbered headings as they are not supported in commonmark/gfm
+      def replace_numbered_headings: (untyped textile) -> untyped
+
+      # Add an additional newline before:
+      # * every pre block prefixed by only one newline
+      #   as indented code blocks do not interrupt a paragraph and also do not have precedence
+      #   compared to a list which might also be indented.
+      # * every table prefixed by only one newline (if the line before isn't a table already)
+      # * every blockquote prefixed by one newline (if the line before isn't a blockquote)
+      def add_newline_to_avoid_lazy_blocks: (untyped textile) -> untyped
+
+      # Remove spaces before a table as that would lead to the table
+      # not being identified
+      def remove_spaces_before_table: (untyped textile) -> untyped
+
+      #
+      # Redmine introduced hard breaks to support multiline tables that are not official
+      # textile. We detect tables with line breaks and replace them with <br/>
+      # https://www.redmine.org/projects/redmine/repository/revisions/2824/diff/
+      def hard_breaks_within_multiline_tables: (untyped textile) -> untyped
+
+      # Wrap all blockquote blocks into boundaries as `>` is not valid blockquote syntax and would thus be
+      # escaped
+      def wrap_blockquotes: (untyped textile) -> untyped
+
+      class OldForum < ApplicationRecord
+      end
+    end
+  end
+end

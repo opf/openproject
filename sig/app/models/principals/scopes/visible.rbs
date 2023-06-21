@@ -1,0 +1,11 @@
+# Only return Principals that are visible to the current user.
+#
+# Either the user has the `manage_members` permission in any project,
+# or all principals in visible projects are returned.
+module Principals::Scopes
+  module Visible
+    extend ActiveSupport::Concern
+
+    def visible: (?untyped user) -> untyped
+  end
+end

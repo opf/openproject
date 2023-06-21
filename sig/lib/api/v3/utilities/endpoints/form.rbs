@@ -1,0 +1,25 @@
+module API
+  module V3
+    module Utilities
+      module Endpoints
+        class Form < API::Utilities::Endpoints::Bodied
+          include V3Deductions
+
+          def success?: (untyped call) -> untyped
+
+          def present_success: (untyped request, untyped call) -> untyped
+
+          def present_error: (untyped call) -> untyped
+
+          def only_validation_errors?: (untyped errors) -> untyped
+
+          private
+
+          def api_errors: (untyped call) -> untyped
+
+          def deduce_render_representer: () -> untyped
+        end
+      end
+    end
+  end
+end

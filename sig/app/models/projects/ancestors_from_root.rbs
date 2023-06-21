@@ -1,0 +1,9 @@
+module Projects::AncestorsFromRoot
+  extend ActiveSupport::Concern
+
+  attr_writer ancestors_from_root: untyped
+
+  # Retrieve stored eager loaded ancestors
+  # or use awesome_nested_set#ancestors to fetch them.
+  def ancestors_from_root: () -> untyped
+end

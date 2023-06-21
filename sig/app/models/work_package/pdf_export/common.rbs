@@ -1,0 +1,75 @@
+module WorkPackage::PDFExport::Common
+  include Redmine::I18n
+
+  include ActionView::Helpers::TextHelper
+
+  include ActionView::Helpers::NumberHelper
+
+  include CustomFieldsHelper
+
+  include OpenProject::TextFormatting
+
+  private
+
+  def get_pdf: (untyped _language) -> untyped
+
+  def field_value: (untyped work_package, untyped attribute) -> untyped
+
+  def success: (untyped content) -> untyped
+
+  def error: (untyped message) -> untyped
+
+  def with_margin: (untyped opts) { () -> untyped } -> untyped
+
+  def with_vertical_margin: (untyped opts) { () -> untyped } -> untyped
+
+  def write_optional_page_break: () -> untyped
+
+  def get_column_value: (untyped work_package, untyped column_name) -> untyped
+
+  def get_column_value_cell: (untyped work_package, untyped column_name) -> untyped
+
+  def get_formatted_value: (untyped value, untyped column_name) -> ("" | untyped)
+
+  def escape_tags: (untyped value) -> untyped
+
+  def get_id_column_cell: (untyped work_package, untyped value) -> untyped
+
+  def get_subject_column_cell: (untyped work_package, untyped value) -> untyped
+
+  def make_link_href_cell: (untyped href, untyped caption) -> ::String
+
+  def make_link_anchor: (untyped anchor, untyped caption) -> ::String
+
+  def align_to_left_position: (untyped text, untyped align, untyped text_style) -> untyped
+
+  def link_target_at_current_y: (untyped id) -> untyped
+
+  def draw_repeating_text: (text: untyped, align: untyped, top: untyped, text_style: untyped) -> untyped
+
+  def draw_repeating_dynamic_text: (untyped align, untyped top, untyped text_style) { () -> untyped } -> untyped
+
+  def pdf_table_auto_widths: (untyped data, untyped column_widths, untyped options) { () -> untyped } -> untyped
+
+  def measure_text_width: (untyped text, untyped opts) -> untyped
+
+  def text_column?: (untyped column) -> untyped
+
+  def url_helpers: () -> untyped
+
+  def api_url_helpers: () -> untyped
+
+  def make_group_label: (untyped group) -> untyped
+
+  def get_total_sums: () -> (untyped | ::Hash[untyped, untyped])
+
+  def get_group_sums: (untyped group) -> untyped
+
+  def with_descriptions?: () -> untyped
+
+  def with_sums_table?: () -> untyped
+
+  def with_attachments?: () -> untyped
+
+  def current_page_nr: () -> untyped
+end

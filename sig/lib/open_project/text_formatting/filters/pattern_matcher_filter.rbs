@@ -1,0 +1,12 @@
+module OpenProject::TextFormatting
+  module Filters
+    class PatternMatcherFilter < HTML::Pipeline::Filter
+      # Skip text nodes that are within preformatted blocks
+      PREFORMATTED_BLOCKS: untyped
+
+      def self.matchers: () -> ::Array[untyped]
+
+      def call: () -> untyped
+    end
+  end
+end

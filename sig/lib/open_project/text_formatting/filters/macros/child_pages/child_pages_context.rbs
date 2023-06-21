@@ -1,0 +1,19 @@
+module OpenProject::TextFormatting::Filters::Macros::ChildPages
+  class ChildPagesContext
+    attr_reader page_value: untyped
+
+    attr_reader include_parent: untyped
+
+    attr_reader user: untyped
+
+    attr_reader page: untyped
+
+    def initialize: (untyped macro, untyped pipeline_context) -> void
+
+    def check: () -> (untyped | nil)
+
+    private
+
+    def fetch_page: (untyped pipeline_context) -> (untyped | untyped | nil)
+  end
+end

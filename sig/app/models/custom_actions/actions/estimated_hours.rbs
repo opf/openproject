@@ -1,0 +1,9 @@
+class CustomActions::Actions::EstimatedHours < CustomActions::Actions::Base
+  include CustomActions::Actions::Strategies::Float
+
+  def self.key: () -> :estimated_hours
+
+  def apply: (untyped work_package) -> untyped
+
+  def minimum: () -> 0
+end

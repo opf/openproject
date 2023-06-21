@@ -1,0 +1,35 @@
+module CustomField::OrderStatements
+  # Returns a ORDER BY clause that can used to sort customized
+  # objects by their value of the custom field.
+  # Returns false, if the custom field can not be used for sorting.
+  def order_statements: () -> untyped
+
+  #
+  # Returns the null handling for the given direction
+  def null_handling: (untyped asc) -> (nil | untyped)
+
+  # Returns the grouping result
+  # which differ for multi-value select fields,
+  # because in this case we do want the primary CV values
+  def group_by_statement: () -> untyped
+
+  private
+
+  def coalesce_select_custom_value_as_string: () -> ::String
+
+  def select_custom_value_as_string: () -> ::String
+
+  def select_custom_option_position: () -> ::String
+
+  def select_custom_values_as_group: () -> ::String
+
+  def select_custom_values_joined_options_as_group: () -> ::String
+
+  def select_custom_value_as_decimal: () -> ::String
+
+  def order_by_user_sql: (untyped column) -> ::String
+
+  def order_by_version_sql: (untyped column) -> ::String
+
+  def cv_sort_only_custom_field_condition_sql: () -> ::String
+end

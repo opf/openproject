@@ -1,0 +1,27 @@
+module API
+  module V3
+    module WorkPackages
+      module EagerLoading
+        class CustomAction < Base
+          def apply: (untyped work_package) -> untyped
+
+          def self.module: () -> untyped
+
+          private
+
+          def custom_actions: () -> untyped
+
+          module CustomActionAccessor
+            extend ActiveSupport::Concern
+
+            attr_writer custom_actions: untyped
+
+            # Hiding the work_package's own custom_actions method
+            # to profit from the eager loaded actions
+            def custom_actions: (untyped _user) -> untyped
+          end
+        end
+      end
+    end
+  end
+end

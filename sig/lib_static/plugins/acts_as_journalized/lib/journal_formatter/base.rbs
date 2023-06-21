@@ -1,0 +1,36 @@
+module JournalFormatter
+  class Base
+    include Redmine::I18n
+
+    include ActionView::Helpers::TagHelper
+
+    include ActionView::Helpers::UrlHelper
+
+    include ActionView::Helpers::TextHelper
+
+    include ERB::Util
+
+    # We break the values between from and to values
+    # in the formatter if the length of one of the values
+    # exceeds this magic number of characters
+    LINEBREAK_ON_VALUE_LENGTH: 100
+
+    def initialize: (untyped journal) -> void
+
+    def render: (untyped key, untyped values, ?::Hash[untyped, untyped] options) -> untyped
+
+    private
+
+    def format_details: (untyped key, untyped values, ?::Hash[untyped, untyped] _options) -> ::Array[untyped]
+
+    def format_html_details: (untyped label, untyped old_value, untyped value) -> ::Array[untyped]
+
+    def label: (untyped key) -> untyped
+
+    def render_ternary_detail_text: (untyped label, untyped value, untyped old_value, untyped options) -> untyped
+
+    def render_binary_detail_text: (untyped label, untyped value, untyped old_value) -> untyped
+
+    def should_linebreak?: (untyped old_value, untyped new_value) -> untyped
+  end
+end

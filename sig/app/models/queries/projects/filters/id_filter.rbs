@@ -1,0 +1,3 @@
+class Queries::Projects::Filters::IdFilter < Queries::Projects::Filters::ProjectFilter
+  def type: () -> :integer
+end

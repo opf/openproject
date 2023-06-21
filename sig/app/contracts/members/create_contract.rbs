@@ -1,0 +1,11 @@
+module Members
+  class CreateContract < BaseContract
+    include AssignableValuesContract
+
+    def assignable_principals: () -> untyped
+
+    private
+
+    def principal_assignable: () -> (nil | untyped)
+  end
+end

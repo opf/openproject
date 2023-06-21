@@ -1,0 +1,11 @@
+module Queries
+  module Orders
+    class NotExistingOrder < Base
+      def self.key: () -> :inexistent
+
+      private
+
+      def always_false: () -> untyped
+    end
+  end
+end

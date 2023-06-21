@@ -1,0 +1,4 @@
+module PlaceholderUsers
+  class SetAttributesService < ::BaseServices::SetAttributes
+  end
+end

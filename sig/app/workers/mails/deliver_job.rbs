@@ -1,0 +1,19 @@
+class Mails::DeliverJob < ApplicationJob
+  def perform: (untyped recipient_id) -> (nil | untyped)
+
+  private
+
+  attr_accessor recipient_id: untyped
+
+  def abort?: () -> untyped
+
+  def deliver_mail: () -> untyped
+
+  # To be implemented by subclasses.
+  # Returns a Mail::Message, or nil if no message should be sent.
+  def render_mail: () -> untyped
+
+  def build_mail: () -> untyped
+
+  def recipient: () -> untyped
+end

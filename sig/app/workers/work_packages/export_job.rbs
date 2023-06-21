@@ -1,0 +1,11 @@
+module WorkPackages
+  class ExportJob < ::Exports::ExportJob
+    def title: () -> untyped
+
+    private
+
+    def prepare!: () -> untyped
+
+    def set_query_props: (untyped query, untyped query_attributes) -> untyped
+  end
+end

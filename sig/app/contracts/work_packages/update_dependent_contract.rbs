@@ -1,0 +1,8 @@
+# Disables all validations but still allows to be queried for assignable_* (e.g. statuses)
+# that are necessary whenever a dependent (e.g. descendant of a work package) is moved to a project
+# where the type is switched.
+module WorkPackages
+  class UpdateDependentContract < UpdateContract
+    def validate: () -> true
+  end
+end

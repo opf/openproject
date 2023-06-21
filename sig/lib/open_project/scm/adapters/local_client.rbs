@@ -1,0 +1,135 @@
+module OpenProject
+  module SCM
+    module Adapters
+      module LocalClient
+        def self.included: (untyped base) -> untyped
+
+        module ClassMethods
+          #
+          # Reads the configuration for this strategy from OpenProject's `configuration.yml`.
+          def config: () -> untyped
+        end
+
+        #
+        # Determines local capabilities for SCM creation.
+        # Overridden by including classes when SCM may be remote.
+        def local?: () -> true
+
+        #
+        # Determines whether this repository is eligible
+        # to count storage.
+        def storage_available?: () -> untyped
+
+        #
+        # Counts the repository storage requirement immediately
+        # or raises an exception if this is impossible for the current repository.
+        def count_repository!: () -> untyped
+
+        #
+        # Retrieve the local FS path
+        # of this repository.
+        #
+        # Overridden by some vendors, as not
+        # all vendors have a path root_url.
+        # (e.g., subversion uses file:// URLs)
+        def local_repository_path: () -> untyped
+
+        def config: () -> untyped
+
+        #
+        # client executable command
+        def client_command: () -> ""
+
+        def client_available: () -> untyped
+
+        #
+        # Returns the version of the scm client
+        # Eg: [1, 5, 0] or [] if unknown
+        def client_version: () -> ::Array[untyped]
+
+        #
+        # Returns the version string of the scm client
+        # Eg: '1.5.0' or 'Unknown version' if unknown
+        def client_version_string: () -> untyped
+
+        #
+        # Returns true if the current client version is above
+        # or equals the given one
+        # If option is :unknown is set to true, it will return
+        # true if the client version is unknown
+        def client_version_above?: (untyped v, ?::Hash[untyped, untyped] options) -> untyped
+
+        def supports_cat?: () -> true
+
+        def supports_annotate?: () -> untyped
+
+        def target: (?::String path) -> ::String
+
+        #
+        # Returns true if any line of the IO object
+        # has a line that +include?+ the given part.
+        #
+        # @param [IO] io            An IO object from Open3.
+        # @param [String] part      The string parameter to +contains?+
+        # @return [Boolean or nil]  True iff any line of io includes the part
+        def io_include?: (untyped io, untyped part) -> untyped
+
+        # Executes the given arguments for +client_command+ on the shell
+        # and returns the resulting stdout.
+        #
+        # May optionally specify an opts hash with flags for popen3 and Process.spawn
+        # (cf., :binmode, :stdin_data in +Open3.capture3+)
+        #
+        # If the operation throws an exception or the operation yields a non-zero exit code
+        # we rethrow a +CommandFailed+ with a meaningful error message
+        def capture_out: (untyped args, ?::Hash[untyped, untyped] opts) -> untyped
+
+        # Executes the given arguments for +client_command+ on the shell
+        # and returns stdout, stderr, and the exit code.
+        #
+        # If the operation throws an exception or the operation we rethrow a
+        # +CommandFailed+ with a meaningful error message.
+        def popen3: (untyped args, ?::Hash[untyped, untyped] opts) { () -> untyped } -> untyped
+
+        #
+        # Returns the full client command and args with stripped credentials
+        def stripped_command: (untyped args) -> ::String
+
+        #
+        # Replaces argument values for --username/--password in a given command
+        # with a placeholder
+        def strip_credential: (untyped cmd) -> untyped
+
+        def scm_encode: (untyped to, untyped from, untyped str) -> (nil | untyped)
+
+        private
+
+        #
+        # Counts the repositories by files in ruby.
+        # For sake of compatibility, iterates all files
+        # in the repository to determine storage size.
+        #
+        # This is compatible, but quite inefficient, so should
+        # be run asynchronously.
+        def count_required_storage: () -> untyped
+
+        #
+        # Tries to count the required storage with du,
+        # as that causes the smallest amount of overhead
+        #
+        # Compatible only with GNU du due to `-b` (contains `--apparent-size`)
+        # being unavailable on, e.g., Mac OS X.
+        # On incompatible systems, will fall back to in-ruby counting
+        def count_storage_du: () -> untyped
+
+        #
+        # Count required storage in pure ruby.
+        # Called when `du` didn't seem to be available
+        #
+        # This is compatible, but quite inefficient
+        # being ~25% slower than shelling out to du
+        def count_storage_fallback: () -> untyped
+      end
+    end
+  end
+end

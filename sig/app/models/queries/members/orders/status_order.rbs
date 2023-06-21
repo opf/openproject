@@ -1,0 +1,7 @@
+class Queries::Members::Orders::StatusOrder < Queries::Orders::Base
+  def self.key: () -> :status
+
+  def joins: () -> :principal
+
+  def name: () -> ::String
+end

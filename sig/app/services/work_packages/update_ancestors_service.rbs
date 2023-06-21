@@ -1,0 +1,45 @@
+class WorkPackages::UpdateAncestorsService
+  attr_accessor user: untyped
+
+  attr_accessor work_package: untyped
+
+  def initialize: (user: untyped, work_package: untyped) -> void
+
+  def call: (untyped attributes) -> untyped
+
+  private
+
+  def update_current_and_former_ancestors: (untyped attributes) -> untyped
+
+  def inherit_attributes: (untyped ancestor, untyped loader, untyped attributes) -> (nil | untyped)
+
+  def inherit?: (untyped attributes, untyped attribute) -> untyped
+
+  def set_journal_note: (untyped work_packages) -> untyped
+
+  def inherit_done_ratio: (untyped ancestor, untyped loader) -> (nil | untyped)
+
+  # Sets the ignore_non_working_days to true if any ancestor has its value set to true.
+  # If there is no value returned from the descendants, that means that the work package in
+  # question no longer has a descendant. But since we are in the service going up the ancestor chain,
+  # such a work package is the former parent. The property of such a work package is reset to `false`.
+  def inherit_ignore_non_working_days: (untyped work_package, untyped loader) -> (nil | untyped)
+
+  #
+  # done ratio = weighted average ratio of leaves
+  def aggregate_done_ratio: (untyped work_package, untyped loader) -> untyped
+
+  def average_estimated_hours: (untyped leaves) -> untyped
+
+  def done_ratio_sum: (untyped leaves, untyped average_estimated_hours) -> untyped
+
+  def derive_estimated_hours: (untyped work_package, untyped loader) -> untyped
+
+  def not_zero: (untyped value) -> (untyped | nil)
+
+  def all_estimated_hours: (untyped work_packages) -> untyped
+
+  def attributes_justify_inheritance?: (untyped attributes) -> untyped
+
+  def ignore_non_working_days_of_descendants: (untyped ancestor, untyped loader) -> untyped
+end

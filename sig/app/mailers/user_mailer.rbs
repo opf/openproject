@@ -1,0 +1,51 @@
+class UserMailer < ApplicationMailer
+  include MessagesHelper
+
+  def test_mail: (untyped user) -> untyped
+
+  def backup_ready: (untyped user) -> untyped
+
+  def backup_token_reset: (untyped recipient, user: untyped, ?waiting_period: untyped) -> untyped
+
+  def password_lost: (untyped token) -> (nil | untyped)
+
+  def news_added: (untyped user, untyped news) -> untyped
+
+  def user_signed_up: (untyped token) -> (nil | untyped)
+
+  def news_comment_added: (untyped user, untyped comment) -> untyped
+
+  def wiki_page_added: (untyped user, untyped wiki_page) -> untyped
+
+  def wiki_page_updated: (untyped user, untyped wiki_page) -> untyped
+
+  def message_posted: (untyped user, untyped message) -> untyped
+
+  def account_activated: (untyped user) -> untyped
+
+  def account_information: (untyped user, untyped password) -> untyped
+
+  def account_activation_requested: (untyped admin, untyped user) -> untyped
+
+  #
+  # E-Mail to inform admin about a failed account activation due to the user limit.
+  #
+  # @param [String] user_email E-Mail of user who could not activate their account.
+  # @param [User] admin Admin to be notified of this issue.
+  def activation_limit_reached: (untyped user_email, untyped admin) -> untyped
+
+  #
+  # E-Mail sent to a user when they tried sending an email to OpenProject to create or update
+  # a work package, or forum message for instance.
+  #
+  # @param [User] user User who sent the email
+  # @param [Object] mail The mail object prepared by the mail handler
+  # @param [Array<String>] logs List of logs collected during processing of the email
+  def incoming_email_error: (untyped user, untyped mail, untyped logs) -> untyped
+
+  private
+
+  def open_project_wiki_headers: (untyped wiki_page) -> untyped
+
+  def open_project_message_headers: (untyped message) -> untyped
+end

@@ -1,0 +1,24 @@
+#
+# Intended to be used by the AccountController to implement the user consent
+# check.
+module Accounts::UserConsent
+  include ::UserConsentHelper
+
+  def consent: () -> untyped
+
+  def confirm_consent: () -> untyped
+
+  def consent_required?: () -> (false | untyped)
+
+  def decline_consent: () -> untyped
+
+  def consent_expired?: () -> (true | false | untyped)
+
+  def consenting_user: () -> untyped
+
+  def approve_consent!: (untyped user) -> untyped
+
+  def consent_finished: () -> untyped
+
+  def reject_consent!: () -> untyped
+end

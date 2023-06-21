@@ -1,0 +1,55 @@
+module API
+  module Decorators
+    class SchemaRepresenter < Single
+      module InstanceMethods
+        def self?.call_or_use: (untyped object) -> untyped
+
+        def self?.call_or_translate: (untyped object, ?untyped rep_class) -> untyped
+      end
+
+      def self.schema: (untyped property, type: untyped, ?name_source: untyped, ?as: untyped, ?location: untyped?, ?required: bool, ?has_default: bool, ?writable: untyped, ?attribute_group: untyped?, ?min_length: untyped?, ?max_length: untyped?, ?regular_expression: untyped?, ?options: ::Hash[untyped, untyped], ?show_if: bool, ?description: untyped?, ?deprecated: untyped?) -> untyped
+
+      def self.schema_with_allowed_link: (untyped property, href_callback: untyped, ?type: untyped, ?name_source: untyped, ?as: untyped, ?required: bool, ?has_default: bool, ?writable: untyped, ?attribute_group: untyped?, ?show_if: bool) -> untyped
+
+      def self.schema_with_allowed_collection: (untyped property, value_representer: untyped, link_factory: untyped, ?type: untyped, ?name_source: untyped, ?as: untyped, ?values_callback: untyped, ?required: bool, ?has_default: bool, ?writable: untyped, ?attribute_group: untyped?, ?show_if: bool) -> untyped
+
+      def self.schema_with_allowed_string_collection: (untyped property, ?type: untyped, ?name_source: untyped, ?as: untyped, ?values_callback: untyped, ?required: bool, ?has_default: bool, ?writable: untyped, ?attribute_group: untyped?, ?show_if: bool) -> untyped
+
+      def self.schema_property: (untyped property, getter: untyped, show_if: untyped, required: untyped, has_default: untyped, name_source: untyped, as: untyped) -> untyped
+
+      def self.represented_class: () -> nil
+
+      private
+
+      def self.make_type: (untyped property_name) -> untyped
+
+      def self.default_writable_property: (untyped property) -> untyped
+
+      public
+
+      include InstanceMethods
+
+      def self.create: (untyped represented, current_user: untyped, ?self_link: untyped?, ?form_embedded: bool) -> untyped
+
+      def self.representable_definitions: () -> untyped
+
+      def initialize: (untyped represented, current_user: untyped, ?self_link: untyped?, ?form_embedded: bool) -> void
+
+      attr_accessor form_embedded: untyped
+
+      attr_accessor self_link: untyped
+
+      def _type: () -> "Schema"
+
+      def _dependencies: () -> ::Array[untyped]
+
+      def schema_property_getter: (untyped type, untyped name_source, untyped required, untyped has_default, untyped writable, untyped attribute_group, untyped min_length, untyped max_length, untyped regular_expression, untyped options, untyped location, untyped description, untyped deprecated) -> untyped
+
+      def schema_with_allowed_link_property_getter: (untyped type, untyped name_source, untyped required, untyped has_default, untyped writable, untyped attribute_group, untyped href_callback) -> untyped
+
+      def schema_with_allowed_collection_getter: (untyped type, untyped name_source, untyped current_user, untyped value_representer, untyped link_factory, untyped required, untyped has_default, untyped writable, untyped attribute_group, untyped values_callback, untyped allowed_values_getter) -> untyped
+
+      def self.camelize: (untyped symbol) -> untyped
+    end
+  end
+end

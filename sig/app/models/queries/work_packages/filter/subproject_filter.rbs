@@ -1,0 +1,31 @@
+class Queries::WorkPackages::Filter::SubprojectFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  def allowed_values: () -> untyped
+
+  def default_operator: () -> untyped
+
+  def available?: () -> untyped
+
+  def type: () -> :list_optional
+
+  def human_name: () -> untyped
+
+  def self.key: () -> :subproject_id
+
+  def ar_object_filter?: () -> true
+
+  def value_objects: () -> untyped
+
+  def where: () -> untyped
+
+  def ids_for_where: () -> untyped
+
+  def ids_for_where_subproject: () -> untyped
+
+  def visible_subproject_array: () -> untyped
+
+  def visible_subprojects: () -> untyped
+
+  def visible_subproject_ids: () -> untyped
+
+  def value_ints: () -> untyped
+end

@@ -1,0 +1,21 @@
+class Workflows::BulkUpdateService < BaseServices::Update
+  def initialize: (role: untyped, type: untyped) -> void
+
+  def call: (untyped status_transitions) -> untyped
+
+  private
+
+  attr_accessor role: untyped
+
+  attr_accessor type: untyped
+
+  def build_workflows: (untyped status_transitions) -> untyped
+
+  def delete_current: () -> untyped
+
+  def bulk_insert: (untyped workflows) -> (nil | untyped)
+
+  def status_map: () -> untyped
+
+  def options_include: (untyped options, untyped string) -> untyped
+end

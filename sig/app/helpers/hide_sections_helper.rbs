@@ -1,0 +1,3 @@
+module HideSectionsHelper
+  def initialize_hide_sections_with: (untyped all, untyped active) -> untyped
+end

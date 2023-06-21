@@ -1,0 +1,12 @@
+module OpenProject
+  module Files
+    #
+    # Creates a temp file with the given file name.
+    # It will reside in some temporary directory.
+    def self?.create_temp_file: (?name: ::String, ?content: ::String, ?binary: bool) -> untyped
+
+    def self?.build_uploaded_file: (untyped tempfile, untyped type, ?binary: bool, ?file_name: untyped?) -> untyped
+
+    def self?.create_uploaded_file: (?name: ::String, ?content_type: ::String, ?content: ::String, ?binary: bool) -> untyped
+  end
+end

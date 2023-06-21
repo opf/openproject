@@ -1,0 +1,6 @@
+module API
+  module Errors
+    class InvalidRenderContext < ErrorBase
+    end
+  end
+end

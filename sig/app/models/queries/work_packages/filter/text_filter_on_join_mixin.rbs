@@ -1,0 +1,3 @@
+module Queries::WorkPackages::Filter::TextFilterOnJoinMixin
+  def where: () -> untyped
+end

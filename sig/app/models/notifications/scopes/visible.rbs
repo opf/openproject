@@ -1,0 +1,12 @@
+module Notifications::Scopes
+  module Visible
+    extend ActiveSupport::Concern
+
+    # Return notifications visible to a user:
+    # * the user is the recipient
+    # * the user has the permission to see the associated resource
+    #
+    # As currently only notifications for work packages exist, the implementation is work package specific.
+    def visible: (untyped user) -> untyped
+  end
+end

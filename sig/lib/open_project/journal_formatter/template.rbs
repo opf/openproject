@@ -1,0 +1,3 @@
+class OpenProject::JournalFormatter::Template < JournalFormatter::Base
+  def render: (untyped _key, untyped values, ?::Hash[untyped, untyped] options) -> untyped
+end

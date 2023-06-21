@@ -1,0 +1,11 @@
+module API
+  module V3
+    module Projects
+      class ProjectPayloadRepresenter < ProjectRepresenter
+        include ::API::Utilities::PayloadRepresenter
+
+        def writable_attributes: () -> untyped
+      end
+    end
+  end
+end

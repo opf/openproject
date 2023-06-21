@@ -1,0 +1,13 @@
+module Queries::Filters::Strategies
+  class DateTimePast < Queries::Filters::Strategies::Integer
+    def validate: () -> untyped
+
+    private
+
+    def operator_map: () -> untyped
+
+    def validate_values_all_datetime: () -> (untyped | nil)
+
+    def datetime?: (untyped str) -> untyped
+  end
+end

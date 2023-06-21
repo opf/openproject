@@ -1,0 +1,4 @@
+module CustomFields
+  class UpdateContract < BaseContract
+  end
+end

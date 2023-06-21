@@ -1,0 +1,19 @@
+module Views
+  class BaseContract < ::ModelContract
+    def valid?: (*untyped _args) -> untyped
+
+    private
+
+    def type_allowed: () -> (untyped | nil)
+
+    def query_present: () -> (untyped | nil)
+
+    def query_manageable: () -> (nil | untyped)
+
+    def query_visible?: () -> untyped
+
+    def query_permissions?: () -> untyped
+
+    def user_allowed_on_query?: (untyped permission) -> untyped
+  end
+end

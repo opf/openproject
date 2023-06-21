@@ -1,0 +1,6 @@
+module RequiresAdminGuard
+  extend ActiveSupport::Concern
+
+  # Adds an error if user is archived or not an admin.
+  def validate_admin_only: () -> (untyped | nil)
+end

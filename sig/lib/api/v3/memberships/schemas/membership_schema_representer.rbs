@@ -1,0 +1,25 @@
+module API
+  module V3
+    module Memberships
+      module Schemas
+        class MembershipSchemaRepresenter < ::API::Decorators::SchemaRepresenter
+          def initialize: (untyped represented, ?self_link: untyped?, ?current_user: untyped?, ?form_embedded: bool) -> void
+
+          def self.represented_class: () -> untyped
+
+          def allowed_projects_href: () -> (nil | untyped)
+
+          def allowed_projects_filters: () -> (::Array[{ principal: { operator: "!", values: ::Array[untyped] } }] | nil)
+
+          def allowed_principal_href: () -> (nil | untyped)
+
+          def allowed_principals_filters: () -> untyped
+
+          def allowed_roles_href: () -> untyped
+
+          def allowed_roles_filters: () -> ::Array[{ unit: { operator: "=", values: ::Array[untyped] } }]
+        end
+      end
+    end
+  end
+end

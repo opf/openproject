@@ -1,0 +1,7 @@
+class Queries::Notifications::Filters::ReadIanFilter < Queries::Notifications::Filters::NotificationFilter
+  include Queries::Filters::Shared::BooleanFilter
+
+  def self.key: () -> :read_ian
+
+  def type_strategy: () -> untyped
+end

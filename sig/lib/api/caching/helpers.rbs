@@ -1,0 +1,11 @@
+module API
+  module Caching
+    module Helpers
+      def with_etag!: (untyped key) -> untyped
+
+      #
+      # Store a represented object in its JSON representation
+      def cache: (untyped key, ?::Hash[untyped, untyped] args) { () -> untyped } -> untyped
+    end
+  end
+end

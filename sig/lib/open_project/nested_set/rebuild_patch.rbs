@@ -1,0 +1,9 @@
+module OpenProject::NestedSet::RebuildPatch
+  def self.included: (untyped base) -> untyped
+
+  module ClassMethods
+    # Rebuilds the left & rights if unset or invalid.  Also very useful for converting from acts_as_tree.
+    # Very similar to original nested_set implementation but uses update_all so that callbacks are not triggered
+    def rebuild_silently!: (?untyped? roots) -> (true | untyped)
+  end
+end

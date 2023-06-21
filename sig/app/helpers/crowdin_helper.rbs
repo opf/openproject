@@ -1,0 +1,3 @@
+module CrowdinHelper
+  def crowdin_in_context_translation: () -> (nil | untyped)
+end

@@ -1,0 +1,5 @@
+module API::V3::Values
+  class PropertyDateRepresenter < PropertyRepresenter
+    include API::Decorators::DateProperty
+  end
+end

@@ -1,0 +1,5 @@
+module OpenProject::Patches
+  module FactoryBotEvaluator
+    def overrides?: (untyped key) -> untyped
+  end
+end

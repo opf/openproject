@@ -1,0 +1,23 @@
+module API
+  module V3
+    module Utilities
+      module DateTimeFormatter
+        def self?.format_date: (untyped date, ?allow_nil: bool) -> (nil | untyped)
+
+        def self?.parse_date: (untyped value, untyped property_name, ?allow_nil: bool) -> (nil | untyped)
+
+        def self?.parse_datetime: (untyped value, untyped property_name, ?allow_nil: bool) -> (nil | untyped)
+
+        def self?.format_datetime: (untyped datetime, ?allow_nil: bool) -> (nil | untyped)
+
+        def self?.format_duration_from_hours: (untyped hours, ?allow_nil: bool) -> (nil | untyped)
+
+        def self?.parse_duration_to_hours: (untyped duration, untyped property_name, ?allow_nil: bool) -> (nil | untyped)
+
+        def self?.format_duration_from_days: (untyped days, ?allow_nil: bool) -> (nil | untyped)
+
+        def self?.parse_duration_to_days: (untyped duration, untyped property_name, ?allow_nil: bool) -> (nil | untyped)
+      end
+    end
+  end
+end

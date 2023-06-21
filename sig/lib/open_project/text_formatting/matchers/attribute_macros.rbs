@@ -1,0 +1,20 @@
+module OpenProject::TextFormatting
+  module Matchers
+    # OpenProject attribute macros syntax
+    # Examples:
+    #   workPackageLabel:1234:subject # Outputs work package label attribute "Subject" + help text
+    #   workPackageValue:1234:subject # Outputs the actual subject of #1234
+    #
+    #   projectLabel:statusExplanation # Outputs current project label attribute "Status description" + help text
+    #   projectValue:statusExplanation # Outputs current project value for "Status description"
+    class AttributeMacros < RegexMatcher
+      def self.regexp: () -> ::Regexp
+
+      #
+      # Faster inclusion check before the regex is being applied
+      def self.applicable?: (untyped content) -> untyped
+
+      def self.process_match: (untyped m, untyped _matched_string, untyped _context) -> untyped
+    end
+  end
+end

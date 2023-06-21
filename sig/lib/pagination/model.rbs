@@ -1,0 +1,5 @@
+module Pagination::Model
+  def self.included: (untyped base) -> untyped
+
+  def self.extended: (untyped base) -> untyped
+end

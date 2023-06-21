@@ -1,0 +1,9 @@
+module API
+  module V3
+    module WorkPackages
+      class WatchersAPI < ::API::OpenProjectAPI
+        def watchers_collection: () -> untyped
+      end
+    end
+  end
+end

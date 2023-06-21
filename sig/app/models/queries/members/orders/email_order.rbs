@@ -1,0 +1,9 @@
+class Queries::Members::Orders::EmailOrder < Queries::Orders::Base
+  def self.key: () -> :mail
+
+  def joins: () -> :principal
+
+  private
+
+  def order: () -> untyped
+end

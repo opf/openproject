@@ -1,0 +1,3 @@
+class Queries::Capabilities::Filters::PrincipalIdFilter < Queries::Capabilities::Filters::CapabilityFilter
+  def type: () -> :integer
+end

@@ -1,0 +1,9 @@
+class WorkPackages::ReportsController < ApplicationController
+  def report: () -> untyped
+
+  def report_details: () -> untyped
+
+  private
+
+  def default_breadcrumb: () -> untyped
+end

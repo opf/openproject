@@ -1,0 +1,9 @@
+module Projects::Copy
+  class WikiPageAttachmentsDependentService < Dependency
+    include ::Projects::Copy::NoCopier
+
+    def self.human_name: () -> untyped
+
+    def source_count: () -> untyped
+  end
+end

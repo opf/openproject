@@ -1,0 +1,25 @@
+class Authorization::QueryTransformations
+  def for?: (untyped on) -> untyped
+
+  def for: (untyped on) -> untyped
+
+  def register: (untyped on, untyped name, ?after: untyped, ?before: untyped) { () -> untyped } -> untyped
+
+  def copy: () -> untyped
+
+  attr_accessor transformations: untyped
+
+  attr_accessor transformation_order: untyped
+
+  private
+
+  def transformation_key: (untyped on) -> untyped
+
+  def transformations: () -> untyped
+
+  def transformation_order: () -> untyped
+
+  def add_transformation: (untyped transformation) -> untyped
+
+  def sort_transformations: (untyped on) -> untyped
+end

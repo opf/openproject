@@ -1,0 +1,13 @@
+class WatchersController < ApplicationController
+  def watch: () -> untyped
+
+  def unwatch: () -> untyped
+
+  private
+
+  def find_watched_by_object: () -> (false | untyped)
+
+  def find_project: () -> untyped
+
+  def set_watcher: (untyped user, untyped watching) -> untyped
+end

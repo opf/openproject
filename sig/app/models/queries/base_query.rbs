@@ -1,0 +1,73 @@
+class Queries::BaseQuery
+  def self.model: () -> untyped
+
+  def self.i18n_scope: () -> :activerecord
+
+  attr_accessor filters: untyped
+
+  attr_accessor orders: untyped
+
+  attr_reader group_by: untyped
+
+  include Queries::Filters::AvailableFilters
+
+  include Queries::Orders::AvailableOrders
+
+  include Queries::GroupBys::AvailableGroupBys
+
+  include ActiveModel::Validations
+
+  def initialize: (?user: untyped?) -> void
+
+  def results: () -> untyped
+
+  def groups: () -> (nil | untyped)
+
+  def group_values: () -> untyped
+
+  def where: (untyped attribute, untyped operator, untyped values) -> self
+
+  def order: (untyped hash) -> self
+
+  def group: (untyped attribute) -> self
+
+  def default_scope: () -> untyped
+
+  def find_active_filter: (untyped name) -> untyped
+
+  def find_available_filter: (untyped name) -> untyped
+
+  def ordered?: () -> untyped
+
+  attr_accessor user: untyped
+
+  attr_writer group_by: untyped
+
+  def filters_valid: () -> untyped
+
+  def sortation_valid: () -> untyped
+
+  def group_by_valid: () -> (nil | untyped)
+
+  def add_error: (untyped local_attribute, untyped attribute_name, untyped object) -> untyped
+
+  def empty_scope: () -> untyped
+
+  def context: () -> self
+
+  def apply_filters: (untyped scope) -> untyped
+
+  def apply_orders: (untyped scope) -> untyped
+
+  def apply_group_by: (untyped scope) -> untyped
+
+  def build_orders: () -> untyped
+
+  def has_group_by_order?: () -> untyped
+
+  def group_by_order: () -> untyped
+
+  def instantiate_group_keys: (untyped groups) -> untyped
+
+  def already_ordered_by_id?: (untyped scope) -> untyped
+end

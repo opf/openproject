@@ -1,0 +1,7 @@
+module API::V3::WorkPackages
+  module TimestampedRepresenter
+    extend ActiveSupport::Concern
+
+    def timestamps_active?: () -> untyped
+  end
+end

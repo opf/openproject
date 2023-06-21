@@ -1,0 +1,20 @@
+module OpenProject
+  module Appsignal
+    def self?.enabled?: () -> untyped
+
+    def self?.exception_handler: (untyped message, ?::Hash[untyped, untyped] log_context) -> untyped
+
+    #
+    # Add current user and other stateful tags to appsignal
+    # @param context A hash of context, such as passing in the current controller or request
+    def self?.tag_request: (?::Hash[untyped, untyped] context) -> (nil | untyped)
+
+    #
+    # Tags to be added for Appsignal
+    def self?.tags: (untyped context) -> untyped
+
+    #
+    # Default payload to add for appsignal
+    def self?.default_payload: () -> untyped
+  end
+end

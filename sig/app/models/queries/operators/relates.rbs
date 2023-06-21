@@ -1,0 +1,4 @@
+module Queries::Operators
+  class Relates < Base
+  end
+end

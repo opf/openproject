@@ -1,0 +1,7 @@
+module OpenProject
+  module Patches
+    module ActsAsList
+      def move_to=: (untyped pos) -> untyped
+    end
+  end
+end

@@ -1,0 +1,17 @@
+module OpenProject::TextFormatting::Matchers
+  module LinkHandlers
+    class Revisions < Base
+      #
+      # Match revision links.
+      # Condition: Separator is r
+      # Condition: Prefix is nil
+      def applicable?: () -> untyped
+
+      #
+      # Examples:
+      #
+      # r11, r13
+      def call: () -> (nil | untyped)
+    end
+  end
+end

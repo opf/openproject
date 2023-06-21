@@ -1,0 +1,75 @@
+module OAuthClients
+  class ConnectionManager
+    # Nextcloud API endpoint to check if Bearer token is valid
+    AUTHORIZATION_CHECK_PATH: "/ocs/v1.php/cloud/user"
+
+    TOKEN_IS_FRESH_DURATION: untyped
+
+    attr_reader user: untyped
+
+    attr_reader oauth_client: untyped
+
+    def initialize: (user: untyped, oauth_client: untyped) -> void
+
+    # Main method to initiate the OAuth2 flow called by a "client" component
+    # that wants to access OAuth2 protected resources.
+    # Returns an OAuthClientToken object or a String in case a renew is required.
+    # @param state (OAuth2 RFC) encapsulates the state of the calling page (URL + params) to return
+    # @param scope (OAuth2 RFC) specifies the resources to access. Nextcloud only has one global scope.
+    # @return ServiceResult with ServiceResult.result being either an OAuthClientToken or a redirection URL
+    def get_access_token: (?scope: untyped, ?state: untyped?) -> untyped
+
+    # The bearer/access token has expired or is due for renew for other reasons.
+    # Talk to OAuth2 Authorization Server to exchange the renew_token for a new bearer token.
+    def refresh_token: () -> untyped
+
+    # Returns the URI of the "authorize" endpoint of the OAuth2 Authorization Server.
+    # @param state (OAuth2 RFC) is a nonce referencing a cookie containing the calling page (URL + params) to which to
+    # return to at the end of the whole flow.
+    # @param scope (OAuth2 RFC) specifies the resources to access. Nextcloud has only one global scope.
+    def get_authorization_uri: (?scope: untyped, ?state: untyped?) -> untyped
+
+    # Called by callback_page with a cryptographic "code" that indicates
+    # that the user has successfully authorized the OAuth2 Authorization Server.
+    # We now are going to exchange this code to a token (bearer+refresh)
+    def code_to_token: (untyped code) -> untyped
+
+    # Called by StorageRepresenter to inquire about the status of the OAuth2
+    # authentication server.
+    # Returns :connected/:authorization_failed or :error for a general error.
+    # We have decided to distinguish between only these 3 cases, because the
+    # front-end (and a normal user) probably wouldn't know how to deal with
+    # other options.
+    def authorization_state: () -> untyped
+
+    # @returns ServiceResult with result to be :error or any type of object with data
+    def request_with_token_refresh: (untyped oauth_client_token) { (untyped) -> untyped } -> untyped
+
+    private
+
+    # Check if a OAuthClientToken already exists and return nil otherwise.
+    # Don't handle the case of an expired token.
+    def get_existing_token: () -> untyped
+
+    # Calls client.access_token!
+    # Convert the various exceptions into user-friendly error strings.
+    def request_new_token: (?::Hash[untyped, untyped] options) -> untyped
+
+    # Localize the error message
+    def i18n_rack_oauth2_error_message: (untyped rack_oauth2_client_exception) -> untyped
+
+    # Return a fully configured RackOAuth2Client.
+    # This client does all the heavy lifting with the OAuth2 protocol.
+    def rack_oauth_client: (?::Hash[untyped, untyped] options) -> untyped
+
+    def build_basic_rack_oauth_client: () -> untyped
+
+    # Update an OpenProject token based on updated values from a
+    # Rack::OAuth2::AccessToken::Bearer after a OAuth2 refresh operation
+    def update_oauth_client_token: (untyped oauth_client_token, untyped rack_oauth2_access_token) -> untyped
+
+    # Shortcut method to convert an error message into an unsuccessful
+    # ServiceResult with that error message
+    def service_result_with_error: (untyped message, ?untyped? result) -> untyped
+  end
+end

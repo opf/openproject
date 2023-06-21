@@ -1,0 +1,5 @@
+class OpenProject::JournalFormatter::WikiDiff < OpenProject::JournalFormatter::Diff
+  private
+
+  def url_attr: (untyped _key, untyped options) -> untyped
+end
