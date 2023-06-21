@@ -59,8 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
 
   <% if flash[:_application_secret] %>
     <% component.with_attribute(
-      key: @application.class.human_attribute_name(secret),
-      value: nil
+      key: @application.class.human_attribute_name(secret)
     ) do %>
       <p>
         <code><%= flash[:_application_secret] %></code>
@@ -72,8 +71,7 @@ See COPYRIGHT and LICENSE files for more details.
 
   <% if user_id = @application.client_credentials_user_id %>
     <% component.with_attribute(
-      key: t('oauth.client_credentials_impersonation_set_to'),
-      value: nil
+      key: t('oauth.client_credentials_impersonation_set_to')
     ) do %>
       <%= link_to_user User.find_by(id: user_id) %>
       <br/>
