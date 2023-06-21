@@ -347,7 +347,7 @@ nl:
       other: '%{count} werk pakket afstammelingen'
     bulk:
       copy_failed: "De werkpakketten konden niet gekopieerd worden."
-      move_failed: "The work packages could not be moved."
+      move_failed: "De werkpakketten konden niet worden verplaatst."
       could_not_be_saved: "De volgende werkpakketten konden niet worden opgeslagen:"
       none_could_be_saved: "Geen van de %{total} werkpakketten konden worden bijgewerkt."
       x_out_of_y_could_be_saved: "%{failing} van de %{total} werkpakketten konden niet worden bijgewerkt terwijl %{success} kon."
@@ -376,7 +376,7 @@ nl:
   account:
     delete: "Account Verwijderen"
     delete_confirmation: "Weet je zeker dat je dit account wilt verwijderen?"
-    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
+    deletion_pending: "Account is vergrendeld en is ingepland voor verwijdering. Let op dat dit proces op de achtergrond plaatsvindt. Het kan even duren voordat de gebruiker volledig verwijderd is."
     deletion_info:
       data_consequences:
         other: "Van de gegevens die de gebruiker heeft gemaakt (bijvoorbeeld e-mail, voorkeuren, werkpakketten, wiki-inzendingen) zal zoveel mogelijk worden verwijderd. Let echter op dat gegevens zoals werkpakketten en wiki-items niet kunnen worden verwijderd zonder het belemmeren van het werk van de andere gebruikers. Dergelijke gegevens worden dus opnieuw toegewezen aan een account genaamd \"Verwijderde gebruiker\". Zodra de gegevens van elk verwijderd account zijn toegewezen aan dit account, zal het niet mogelijk zijn om gegevens die de gebruiker heeft gemaakt te onderscheiden van de gegevens van een ander verwijderd account."
@@ -472,20 +472,20 @@ nl:
         roles: "Rollen"
       project:
         active_value:
-          true: "unarchived"
+          true: "Niet gearchiveerd"
           false: "gearchiveerd"
         identifier: "Identifier"
         latest_activity_at: "Laatste activiteit om"
         parent: "Subproject van"
         public_value:
           title: "Zichtbaarheid"
-          true: "public"
-          false: "private"
+          true: "Openbaar"
+          false: "Privé"
         queries: "Query 's"
         templated: "Projectsjabloon"
         templated_value:
-          true: "marked as template"
-          false: "unmarked as template"
+          true: "gemarkeerd als sjabloon"
+          false: "ongemarkeerd als sjabloon"
         types: "Typen"
         versions: "Versies"
         work_packages: "Werkpakketten"
@@ -703,7 +703,7 @@ nl:
         non_working_day:
           attributes:
             date:
-              taken: "A non-working day already exists for %{value}."
+              taken: "Er bestaat al een niet-werkende dag voor %{value}."
               format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
@@ -716,7 +716,7 @@ nl:
           foreign_wps_reference_version: 'Werkpakketten in niet-onderliggende projecten verwijzen naar versies van het project of zijn afstammelingen.'
           attributes:
             base:
-              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
+              archive_permission_missing_on_subprojects: "U hebt niet de benodigde rechten om alle sub-projecten te archiveren. Neem contact op met een beheerder."
             types:
               in_use_by_work_packages: "nog steeds in gebruik door werkpakketten: %{types}"
             enabled_modules:
