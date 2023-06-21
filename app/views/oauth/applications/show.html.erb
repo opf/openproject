@@ -59,7 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
 
   <% if flash[:_application_secret] %>
     <% component.with_attribute(
-      key: @application.class.human_attribute_name(secret)
+      key: @application.class.human_attribute_name(:secret)
     ) do %>
       <p>
         <code><%= flash[:_application_secret] %></code>
