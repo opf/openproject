@@ -80,7 +80,7 @@ cs:
       buttons:
         upgrade: "Upgradovat nyní"
         contact: "Kontaktujte nás pro demo"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
+      enterprise_info_html: "je doplněk Enterprise edice <span class='spot-icon spot-icon_enterprise-addons'></span>."
       upgrade_info: "Přejděte na placenou verzi a začněte ji používat ve vašem týmu."
     journal_aggregation:
       explanation:
@@ -489,7 +489,7 @@ cs:
           false: "soukromý"
         queries: "Dotazy"
         status_code: 'Stav projektu'
-        status_explanation: 'Project status description'
+        status_explanation: 'Popis stavu projektu'
         status_codes:
           not_started: 'Nezahájeno'
           on_track: 'Dle plánu'
@@ -697,8 +697,8 @@ cs:
         ical_token_query_assignment:
           attributes:
             name:
-              blank: "is mandatory. Please select a name."
-              not_unique: "is already in use. Please select another name."
+              blank: "je povinné. Zvolte prosím název."
+              not_unique: " už bylo použito. Prosím vyberte jiný název."
         notifications:
           at_least_one_channel: 'Alespoň jeden kanál pro odesílání oznámení musí být specifikován.'
           attributes:
@@ -713,7 +713,7 @@ cs:
         non_working_day:
           attributes:
             date:
-              taken: "A non-working day already exists for %{value}."
+              taken: "Nepracovní den již existuje pro %{value}."
               format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
@@ -726,7 +726,7 @@ cs:
           foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
             base:
-              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
+              archive_permission_missing_on_subprojects: "Nemáte dostatečná oprávnění k archivaci všech podprojektů. Obraťte se na správce."
             types:
               in_use_by_work_packages: "stále používáno pracovními balíčky: %{types}"
             enabled_modules:
@@ -749,7 +749,7 @@ cs:
               format: "%{message}"
             timestamps:
               invalid: "Časová razítka obsahují neplatné hodnoty: %{values}"
-              forbidden: "Timestamps contain forbidden values: %{values}"
+              forbidden: "Časová razítka obsahují zakázané hodnoty: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "je vzájemně exkluzivní se skupinou od '%{group_by}'. Nelze aktivovat obojí."
           filters:
@@ -948,12 +948,12 @@ cs:
           many: "%{count} hodin"
           other: "%{count} hodin"
         hour_html:
-          one: "<i>%{count} hour</i>"
-          few: "<i>%{count} hours</i>"
-          many: "<i>%{count} hours</i>"
+          one: "<i>%{count} hodina</i>"
+          few: "<i>%{count} hodiny</i>"
+          many: "<i>%{count} hodiny</i>"
           other: "<i>%{count} hours</i>"
-        updated: "changed from %{old_value} to %{value}"
-        logged_for: "Logged for"
+        updated: "změněno z %{old_value} na %{value}"
+        logged_for: "Přihlášen "
     filter:
       changeset: "Změny"
       message: "Fóra"
@@ -1385,9 +1385,9 @@ cs:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_overview_table: "PDF Table"
-      pdf_report_with_images: "PDF Report with images"
-      pdf_report: "PDF Report"
+      pdf_overview_table: "Tabulka PDF"
+      pdf_report_with_images: "PDF report s obrázky"
+      pdf_report: "PDF report"
     image:
       omitted: "Obrázek nebyl exportován."
     units:
@@ -1514,9 +1514,9 @@ cs:
   label_api_access_key_type: "API"
   label_ical_access_key_type: "iCalendar"
   label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
-  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_not_present: "toket iCalendar není přítomen."
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
-  label_ical_access_key_latest: "latest"
+  label_ical_access_key_latest: "poslední"
   label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Přiřazený stav"
   label_archive_project: "Archivovat projekt"
@@ -1553,6 +1553,7 @@ cs:
   label_bulk_edit_selected_work_packages: "Hromadná úprava vybraných pracovních balíčků"
   label_bundled: '(vlevo)'
   label_calendar: "Kalendář"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Zobrazit kalendář"
   label_category: "Kategorie"
   label_consent_settings: "Souhlas uživatele"
@@ -1606,6 +1607,7 @@ cs:
   label_database_version: "Verze PostgreSQL"
   label_date: "Datum"
   label_date_and_time: "Datum a čas"
+  label_date_format: "Date format"
   label_date_from: "Od"
   label_date_from_to: "Od %{start} do %{end}"
   label_date_to: "Do"
@@ -1711,7 +1713,7 @@ cs:
   label_journal: "Deník"
   label_journal_diff: "Popis porovnání"
   label_language: "Jazyk"
-  label_languages: "Languages"
+  label_languages: "Jazyky"
   label_jump_to_a_project: "Přejít na projekt..."
   label_keyword_plural: 'Klíčová slova'
   label_language_based: "Na základě jazyka uživatele"
@@ -1970,7 +1972,7 @@ cs:
   label_user_plural: "Uživatelé"
   label_user_search: "Vyhledat uživatele"
   label_user_settings: "Uživatelská nastavení"
-  label_users_settings: "Users settings"
+  label_users_settings: "Uživatelská nastavení"
   label_version_new: "Nová verze"
   label_version_plural: "Verze"
   label_version_sharing_descendants: "S Podprojekty"
@@ -2098,8 +2100,8 @@ cs:
         mentioned: 'Zmíněné'
         subscribed: 'vše'
         prefix: 'Obdrženo z důvodu nastavení oznámení: %{reason}'
-        date_alert_start_date: 'Date alert'
-        date_alert_due_date: 'Date alert'
+        date_alert_start_date: 'Upozornění na datum'
+        date_alert_due_date: 'Upozornění na datum'
       see_all: 'Zobrazit vše'
       updated_at: 'Aktualizováno v %{timestamp} uživatelem %{user}'
   mail_body_account_activation_request: "Nový uživatel (%{value}) byl zaregistrován. Účet čeká na Vaše schválení:"
@@ -2535,7 +2537,7 @@ cs:
   setting_consent_decline_mail: "Kontaktní e-mailová adresa pro souhlas"
   setting_cross_project_work_package_relations: "Povolit vztahy mezi projekty a pracovními balíčky"
   setting_first_week_of_year: "První týden v roce obsahuje"
-  setting_date_format: "Formát data"
+  setting_date_format: "Date"
   setting_default_language: "Výchozí jazyk"
   setting_default_projects_modules: "Výchozí zapnutné moduly pro nový projekt"
   setting_default_projects_public: "Nové projekty nastavovat jako veřejné"
@@ -2547,7 +2549,7 @@ cs:
   setting_enabled_scm: "Povolit SCM"
   setting_enabled_projects_columns: "Viditelné v seznamu projektů"
   setting_feeds_enabled: "Povolit kanály"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "Povolit odebírání iCalendar"
   setting_feeds_limit: "Limit obsahu kanálů"
   setting_file_max_size_displayed: "Maximální velikost textových souborů zobrazených přímo na stránce"
   setting_host_name: "Název serveru"
@@ -2598,9 +2600,9 @@ cs:
   setting_start_of_week: "Začátek týdne"
   setting_sys_api_enabled: "Povolit webovou službu pro správu repositářů"
   setting_sys_api_description: "Webová služba pro správu repositářů poskytuje integraci a uživatelskou autorizaci pro přístup k repositářům."
-  setting_time_format: "Formát času"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Povolit režim usnadnění pro anonymní uživatele"
-  setting_user_format: "Users name format"
+  setting_user_format: "Formát uživatelského jména"
   setting_user_default_timezone: "Výchozí časové pásmo uživatele"
   setting_users_deletable_by_admins: "Uživatelské účty lze odstranit administrátory"
   setting_users_deletable_by_self: "Uživatelé mohou odstranit jejich účty"
@@ -2609,6 +2611,7 @@ cs:
   setting_welcome_on_homescreen: "Zobrazit uvítací blok na domovské obrazovce"
   setting_work_package_list_default_highlighting_mode: "Výchozí režim zvýraznění"
   setting_work_package_list_default_highlighted_attributes: "Výchozí inline zvýrazněné atributy"
+  setting_working_days: "Working days"
   settings:
     general: "Obecné"
     other: "Ostatní"
@@ -2631,7 +2634,7 @@ cs:
       section_project_overview: "Nastavení přehledu seznamu  projektu"
     user:
       default_preferences: "Výchozí předvolby"
-      display_format: "Display format"
+      display_format: "Formát zobrazení"
       deletion: "Odstranění"
     highlighting:
       mode_long:
@@ -2640,6 +2643,9 @@ cs:
         status: "Celý řádek podle stavu"
         type: "Celý řádek podle typu"
         priority: "Celý řádek podle priority"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Zmenšení'
     plain: 'Obyčejný text'
@@ -3009,17 +3015,17 @@ cs:
       title: "Odstranit pracovní balíček"
   working_days:
     info: >
-      <b>Definujte dny považované za část pracovního týdne</b><br/> dny, které jsou při plánování pracovních balíčků označeny jsou přeskočeny (a nejsou zahrnuty do celkového denního počtu). Tyto mohou být přepsány na úrovni pracovního balíčku.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Změnit pracovní dny"
     warning: >
       Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
-        working: "%{day} is now working"
-        non_working: "%{day} is now non-working"
+        working: "%{day} je pracovní "
+        non_working: "%{day} je nepracovní "
       dates:
         working: "%{date} is now working"
         non_working: "%{date} is now non-working"

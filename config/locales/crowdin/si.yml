@@ -1515,6 +1515,7 @@ si:
   label_bulk_edit_selected_work_packages: "තොග සංස්කරණය තෝරාගත් වැඩ පැකේජ"
   label_bundled: '(මිටි)'
   label_calendar: "දින දර්ශනය"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "දින දර්ශනය පෙන්වන්න"
   label_category: "ප්රවර්ගය"
   label_consent_settings: "පරිශීලක කැමැත්ත"
@@ -1568,6 +1569,7 @@ si:
   label_database_version: "PostgreSQL version"
   label_date: "දිනය"
   label_date_and_time: "දිනය සහ වේලාව"
+  label_date_format: "Date format"
   label_date_from: "සිට"
   label_date_from_to: "%{start} සිට %{end}දක්වා"
   label_date_to: "කිරීමට"
@@ -2494,7 +2496,7 @@ si:
   setting_consent_decline_mail: "කැමැත්ත සම්බන්ධතා තැපැල් ලිපිනය"
   setting_cross_project_work_package_relations: "හරස් ව්යාපෘති වැඩ පැකේජ සබඳතා ඉඩ දෙන්න"
   setting_first_week_of_year: "First week in year contains"
-  setting_date_format: "දිනය ආකෘතිය"
+  setting_date_format: "Date"
   setting_default_language: "පෙරනිමි භාෂාව"
   setting_default_projects_modules: "නව ව්යාපෘති සඳහා පෙරනිමි සක්රීය මොඩියුල"
   setting_default_projects_public: "නව ව්යාපෘති පෙරනිමියෙන් පොදු වේ"
@@ -2557,7 +2559,7 @@ si:
   setting_start_of_week: "සතිය ආරම්භ වේ"
   setting_sys_api_enabled: "නිධි කළමනාකරණ වෙබ් සේවාව සක්රීය කරන්න"
   setting_sys_api_description: "ගබඩා කළමනාකරණ වෙබ් සේවාව මඟින් ගබඩාවට ප්රවේශ වීම සඳහා ඒකාබද්ධ කිරීම සහ පරිශීලක අවසරය ලබා දේ."
-  setting_time_format: "කාල ආකෘතිය"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "නිර්නාමික පරිශීලකයින් සඳහා ප්රවේශ්යතා ප්රකාරය සක්රීය කරන්න"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "පරිශීලකයන් පෙරනිමි කාල කලාපය"
@@ -2568,6 +2570,7 @@ si:
   setting_welcome_on_homescreen: "homescreen මත ප්රදර්ශනය පිළිගැනීමේ වාරණ"
   setting_work_package_list_default_highlighting_mode: "පෙරනිමි ඉස්මතු මාදිලිය"
   setting_work_package_list_default_highlighted_attributes: "පෙරනිමි පේළිගත උද්දීපිත ගුණාංග"
+  setting_working_days: "Working days"
   settings:
     general: "පොදු"
     other: "වෙනත්"
@@ -2599,6 +2602,9 @@ si:
         status: "තත්ත්වය විසින් සමස්ත පේළිය"
         type: "වර්ගය විසින් සම්පූර්ණ පේළිය"
         priority: "ප්රමුඛතා විසින් සම්පූර්ණ පේළිය"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'මාර්ක්ඩවුන්'
     plain: 'සරල පෙළ'
@@ -2965,9 +2971,9 @@ si:
       title: "වැඩ පැකේජය මකන්න"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.

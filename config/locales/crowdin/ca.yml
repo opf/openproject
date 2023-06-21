@@ -1511,6 +1511,7 @@ ca:
   label_bulk_edit_selected_work_packages: "Edició massiva de paquets de treball"
   label_bundled: '(Integrat)'
   label_calendar: "Calendari"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Mostreu el calendari"
   label_category: "Categoria"
   label_consent_settings: "Consentiment d'usuari"
@@ -1564,6 +1565,7 @@ ca:
   label_database_version: "Versió PostgreSQL"
   label_date: "Data"
   label_date_and_time: "Data i hora"
+  label_date_format: "Date format"
   label_date_from: "De"
   label_date_from_to: "Des de %{start} a %{end}"
   label_date_to: "Fins"
@@ -2483,7 +2485,7 @@ ca:
   setting_consent_decline_mail: "Adreça de correu electrònic de consentiment"
   setting_cross_project_work_package_relations: "Permetre les relacions creuades entre projectes pels paquets de treball"
   setting_first_week_of_year: "La primera setmana de l'any conté"
-  setting_date_format: "Format de data"
+  setting_date_format: "Date"
   setting_default_language: "Idioma per defecte"
   setting_default_projects_modules: "Mòduls activats per defecte en els projectes nous"
   setting_default_projects_public: "Els projectes nous són públics per defecte"
@@ -2546,7 +2548,7 @@ ca:
   setting_start_of_week: "La setmana comença en"
   setting_sys_api_enabled: "Activar el servei web de gestió del repositori"
   setting_sys_api_description: "La gestió del repositori per servei web proporciona integració i autorització d'usuaris per l'accés a repositoris."
-  setting_time_format: "Format d'hora"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Activar el mode d'accessibilitat per a usuaris anònims"
   setting_user_format: "Format de nom d'usuari"
   setting_user_default_timezone: "Zona horària per defecte de l'usuari"
@@ -2557,6 +2559,7 @@ ca:
   setting_welcome_on_homescreen: "Mostrar el bloc de benvinguda a la pàgina d'inici"
   setting_work_package_list_default_highlighting_mode: "Mètode de destacament per defecte"
   setting_work_package_list_default_highlighted_attributes: "Atributs de destacament en línia per defecte"
+  setting_working_days: "Working days"
   settings:
     general: "General"
     other: "Altres"
@@ -2588,6 +2591,9 @@ ca:
         status: "Fila sencera per Estat"
         type: "Fila sencera per Classe"
         priority: "Fila sencera per Prioritat"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Text sense format'
@@ -2954,9 +2960,9 @@ ca:
       title: "Suprimir el paquet de treball"
   working_days:
     info: >
-      <b>Defineix els dies que es consideren part de la setmana laboral</b><br/> Els dies no seleccionats seran omesos en planificar paquets de treball (i no seran inclosos en contar dies). Aquests poden ser substituïts directament als paquets de treball.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Dies no laborals no especificats (vacances i dies de tancament)</b><br/> Les dates afegides a la llista de sota es consideraran dies no laboral i s'ometran en planificar paquets de treball.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Canvia els dies laborals"
     warning: >
       Canviar quins dies de la setmana es consideren laborables i quins no pot afectar les dates d'inici i final de tots els paquets de treball en tots els projectes d'aquesta instància. <br/>Si us plau, tingues en compte que els canvis només s'apliquen després de fer clic al botó d'aplicar els canvis.

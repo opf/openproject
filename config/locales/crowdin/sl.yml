@@ -1550,6 +1550,7 @@ sl:
   label_bulk_edit_selected_work_packages: "Skupno urejanje izbranih delovnih paketov"
   label_bundled: '(V paketu)'
   label_calendar: "Koledar"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Prikaži koleddar"
   label_category: "Kategorija"
   label_consent_settings: "Soglasje uporabnika"
@@ -1603,6 +1604,7 @@ sl:
   label_database_version: "PostgreSQL verzija"
   label_date: "Datum"
   label_date_and_time: "Datum in ura"
+  label_date_format: "Date format"
   label_date_from: "Od"
   label_date_from_to: "Od %{start} do %{end}"
   label_date_to: "Do/za"
@@ -2532,7 +2534,7 @@ sl:
   setting_consent_decline_mail: "Kontaktni naslov elektronske pošte"
   setting_cross_project_work_package_relations: "Dovoli povezave delovnih paketov od različnih projektov"
   setting_first_week_of_year: "Prvi teden v letu vsebuje"
-  setting_date_format: "Format datuma"
+  setting_date_format: "Date"
   setting_default_language: "Privzeti jezik"
   setting_default_projects_modules: "Privzeti omogočeni moduli za nove projekte"
   setting_default_projects_public: "Novi projekti so privzeto javni"
@@ -2595,7 +2597,7 @@ sl:
   setting_start_of_week: "Teden se začne na (Automatic Translation)"
   setting_sys_api_enabled: "Omogoči spletno storitev upravljanja repozitorija"
   setting_sys_api_description: "Spletna storitev za upravljanje skladišča nudi integracijo in pooblastilo uporabnika za dostop do repozitorija."
-  setting_time_format: "Format časa"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Omogoči način dostopa za anonimne uporabnike"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Uporabniški privzeti časovni pas"
@@ -2606,6 +2608,7 @@ sl:
   setting_welcome_on_homescreen: "Prikažite blok dobrodošlice na osnovnem zaslonu"
   setting_work_package_list_default_highlighting_mode: "Privzeti način osvetlitve"
   setting_work_package_list_default_highlighted_attributes: "Privzeti atributi, označeni s črto"
+  setting_working_days: "Working days"
   settings:
     general: "Splošno"
     other: "Drugo"
@@ -2637,6 +2640,9 @@ sl:
         status: "Celotna vrstica razvrščena glede na Status"
         type: "Celotna vrstica glede na Tip"
         priority: "Celotna vrstica glede na pomembnost."
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Označba'
     plain: 'Golo besedilo'
@@ -3007,9 +3013,9 @@ sl:
       title: "Izbriši delovni paket"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.

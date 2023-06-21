@@ -1550,6 +1550,7 @@ pl:
   label_bulk_edit_selected_work_packages: "Edycja wybranych zadań zbiorczo"
   label_bundled: '(W zestawie)'
   label_calendar: "Kalendarz"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Pokaż kalendarz"
   label_category: "Kategoria"
   label_consent_settings: "Zgoda użytkownika"
@@ -1603,6 +1604,7 @@ pl:
   label_database_version: "Wersja PostgreSQL"
   label_date: "Data"
   label_date_and_time: "Data i czas"
+  label_date_format: "Date format"
   label_date_from: "Od"
   label_date_from_to: "Data od %{start} do %{end}"
   label_date_to: "Do"
@@ -2530,7 +2532,7 @@ pl:
   setting_consent_decline_mail: "Adres kontaktowy zgody"
   setting_cross_project_work_package_relations: "Zezwól na powiązania pakietów roboczych pomiędzy projektami"
   setting_first_week_of_year: "Pierwszy tydzień w roku zawiera"
-  setting_date_format: "Format daty"
+  setting_date_format: "Date"
   setting_default_language: "Język domyślny"
   setting_default_projects_modules: "Domyślnie włączone moduły dla nowych projektów"
   setting_default_projects_public: "Nowe projekty są publiczne (domyślnie)"
@@ -2593,7 +2595,7 @@ pl:
   setting_start_of_week: "Początek tygodnia"
   setting_sys_api_enabled: "Uaktywnij zarządzanie repozytoriami przez www"
   setting_sys_api_description: "Zarządzanie repozytoriami przez www umożliwia integrację i autoryzację użytkowników do dostępu do repozytoriów."
-  setting_time_format: "Format czasu"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Włącz tryb dostępu dla użytkowników anonimowych"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Domyślna strefa czasowa użytkowników"
@@ -2604,6 +2606,7 @@ pl:
   setting_welcome_on_homescreen: "Wyświetl wiadomość powitalną na ekranie głównym"
   setting_work_package_list_default_highlighting_mode: "Domyślny tryb wyróżniania"
   setting_work_package_list_default_highlighted_attributes: "Domyślnie wyróżniane atrybuty wyświetlane w treści"
+  setting_working_days: "Working days"
   settings:
     general: "Ogólne"
     other: "Inne"
@@ -2635,6 +2638,9 @@ pl:
         status: "Cały wiersz wg stanu"
         type: "Cały wiersz wg typu"
         priority: "Cały wiersz wg priorytetu"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Zwykły tekst'
@@ -3005,9 +3011,9 @@ pl:
       title: "Usuń Zestawy zadań"
   working_days:
     info: >
-      <b>Zdefiniuj dni uważane za część tygodnia pracy</b><br/> Dni, które nie zostały wybrane, są pomijane podczas planowania zadań (i nie są uwzględnione w liczniku dni). Mogą one zostać zastąpione na poziomie pakietu roboczego.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Określone dni nierobocze (wakacje i okresy zamknięcie)</b><br/> Daty dodane do poniższej listy są uważane za dni nierobocze i są pomijane podczas planowania pakietów roboczych.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Zmień dni robocze"
     warning: >
       Zmiana dni tygodnia, które są uważane za dni robocze lub dni nierobocze może mieć wpływ na dni rozpoczęcia i zakończenia wszystkich pakietów roboczych we wszystkich projektach w tym wystąpieniu. <br/> Pamiętaj, że zmiany są stosowane dopiero po kliknięciu przycisku Zastosuj zmiany.

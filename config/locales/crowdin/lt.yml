@@ -1550,6 +1550,7 @@ lt:
   label_bulk_edit_selected_work_packages: "Masiškai redaguoti pasirinktus darbų paketus"
   label_bundled: '(Įtrauktas)'
   label_calendar: "Kalendorius"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Rodyti kalendorių"
   label_category: "Kategorija"
   label_consent_settings: "Naudotojo sutikimas"
@@ -1603,6 +1604,7 @@ lt:
   label_database_version: "PostgreSQL versija"
   label_date: "Data"
   label_date_and_time: "Data ir laikas"
+  label_date_format: "Date format"
   label_date_from: "Nuo"
   label_date_from_to: "Nuo %{start} iki %{end}"
   label_date_to: "Į"
@@ -2529,7 +2531,7 @@ lt:
   setting_consent_decline_mail: "Sutikimo kontaktinis pašto adresas"
   setting_cross_project_work_package_relations: "Leisti tarp-projektinius darbų paketo ryšius"
   setting_first_week_of_year: "Pirma metų savaitė turi"
-  setting_date_format: "Datos formatas"
+  setting_date_format: "Date"
   setting_default_language: "Numatytoji kalba"
   setting_default_projects_modules: "Pagal nutylėjimą naujame projekte įjungti moduliai"
   setting_default_projects_public: "Nauji projektai yra vieši pagal nutylėjimą"
@@ -2592,7 +2594,7 @@ lt:
   setting_start_of_week: "Savaitė prasideda"
   setting_sys_api_enabled: "Įgalinti repozitorijos valdymo web tarnybą"
   setting_sys_api_description: "Repozitorijos valdymo web tarnyba teikia integraciją ir vartotojų autorizaciją bandant pasiekti repozitorijas."
-  setting_time_format: "Laiko formatas"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Leisti lengvos prieigos režimą anoniminiams vartotojams"
   setting_user_format: "Naudotojų vardo formatas"
   setting_user_default_timezone: "Numatytoji vartotojo laiko juosta"
@@ -2603,6 +2605,7 @@ lt:
   setting_welcome_on_homescreen: "Rodyti pasisveikinimo bloką namų lange"
   setting_work_package_list_default_highlighting_mode: "Numatytasis paryškinimo būdas"
   setting_work_package_list_default_highlighted_attributes: "Atributai, kuriuos numatyta paryškinti"
+  setting_working_days: "Working days"
   settings:
     general: "Bendra"
     other: "Kita"
@@ -2634,6 +2637,9 @@ lt:
         status: "Visa eilutė pagal būseną"
         type: "Visa eilutė pagal tipą"
         priority: "Visa eilutė pagal prioritetą"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Paprastas tekstas'
@@ -3003,9 +3009,9 @@ lt:
       title: "Ištrinti darbų paketą"
   working_days:
     info: >
-      <b>Nustatykite dienas, kurios laikomos darbo savaitės dalimi</b><br/>Nepažymėtos dienos praleidžiamos skaičiuojant darbo paketus (ir neįtraukiamos į dienų skaičių). Šituos nustatymus galima permušti darbo paketo lygyje.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Konkrečios nedarbo dienos (atostogos ir išeiginės)</b><br/> Į žemiau esantį sąrašą pridėtos dienos laikomos nedarbo dienomis ir praleidžiamos planuojant darbo paketus.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Keisti darbo dienas"
     warning: >
       Keičiant dienas, kurios yra darbo ar nedarbo dienos, gali keistis visų projektų darbo paketų pradžios ir pabaigos dienos. <br/>Prašome atkreipti dėmesį, kad pakeitimai pritaikomi tik po to, kai jūs paspaudžiate mygtuką pritaikyti.

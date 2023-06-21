@@ -1492,6 +1492,7 @@ ja:
   label_bulk_edit_selected_work_packages: "選択したワークパッケージを一括編集"
   label_bundled: '(バンドル)'
   label_calendar: "カレンダー"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "カレンダーを表示"
   label_category: "カテゴリ"
   label_consent_settings: "ユーザーの同意"
@@ -1545,6 +1546,7 @@ ja:
   label_database_version: "PostgreSQL バージョン"
   label_date: "日付"
   label_date_and_time: "日付と時刻"
+  label_date_format: "Date format"
   label_date_from: "日付指定: "
   label_date_from_to: "%{start} ～%{end}"
   label_date_to: "から"
@@ -2469,7 +2471,7 @@ ja:
   setting_consent_decline_mail: "連絡先メールアドレスに同意します。"
   setting_cross_project_work_package_relations: "他プロジェクトとの間にワークパッケージの関連付けを許可する"
   setting_first_week_of_year: "年の最初の週に含む"
-  setting_date_format: "日付の形式"
+  setting_date_format: "Date"
   setting_default_language: "デフォルトの言語"
   setting_default_projects_modules: "新規プロジェクトにおいてデフォルトで有効になるモジュール"
   setting_default_projects_public: "デフォルトで新しいプロジェクトは公開にする"
@@ -2532,7 +2534,7 @@ ja:
   setting_start_of_week: "週の開始"
   setting_sys_api_enabled: "リポジトリ管理Webサービスを有効にする"
   setting_sys_api_description: "リポジトリ管理Webサービスは、リポジトリへのアクセスの統合およびユーザー認証を提供します。"
-  setting_time_format: "時刻の形式"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "匿名ユーザ向けにアクセシビリティモードを有効"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "ユーザーのデフォルトのタイム ゾーン"
@@ -2543,6 +2545,7 @@ ja:
   setting_welcome_on_homescreen: "ホーム画面にようこそブロックを表示"
   setting_work_package_list_default_highlighting_mode: "デフォルトの強調表示モード"
   setting_work_package_list_default_highlighted_attributes: "デフォルトのインライン強調表示属性"
+  setting_working_days: "Working days"
   settings:
     general: "概要"
     other: "その他"
@@ -2574,6 +2577,9 @@ ja:
         status: "ステータス別の行全体"
         type: "タイプごとの行全体"
         priority: "優先度別に行全体"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'プレーンテキスト'
@@ -2937,9 +2943,9 @@ ja:
       title: "ワークパッケージの削除"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.

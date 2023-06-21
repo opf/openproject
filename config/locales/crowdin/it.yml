@@ -1512,6 +1512,7 @@ it:
   label_bulk_edit_selected_work_packages: "Modifica in blocco le macro-attività selezionate"
   label_bundled: '(Raccolto)'
   label_calendar: "Calendario"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Mostra Calendario"
   label_category: "Categoria"
   label_consent_settings: "Consenso dell'utente"
@@ -1565,6 +1566,7 @@ it:
   label_database_version: "Versione di PostgreSQL"
   label_date: "Data"
   label_date_and_time: "Data e ora"
+  label_date_format: "Date format"
   label_date_from: "Da"
   label_date_from_to: "Da %{start} a %{end}"
   label_date_to: "A"
@@ -2491,7 +2493,7 @@ it:
   setting_consent_decline_mail: "Indirizzo mail del contatto di consenso"
   setting_cross_project_work_package_relations: "Consenti di correlare macro-attività tra più progetti"
   setting_first_week_of_year: "La prima settimana dell'anno contiene"
-  setting_date_format: "Formato data"
+  setting_date_format: "Date"
   setting_default_language: "Linguaggio predefinito"
   setting_default_projects_modules: "Moduli abilitati in automatico su nuovi progetti"
   setting_default_projects_public: "I nuovi progetti sono pubblici come impostazione predefinita"
@@ -2554,7 +2556,7 @@ it:
   setting_start_of_week: "La settimana inizia da"
   setting_sys_api_enabled: "Abilita la gestione di archivi via web service"
   setting_sys_api_description: "Il web service di gestione archivio fornisce servizi per integrare ed autorizzare gli utenti nell'accesso agli archivi."
-  setting_time_format: "Formato del tempo"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Abilita la modalità di accesso facilitato per utenti anonimi"
   setting_user_format: "Formato del nome utente"
   setting_user_default_timezone: "Orario predefinito utenti"
@@ -2565,6 +2567,7 @@ it:
   setting_welcome_on_homescreen: "Mostra il blocco testo di benvenuto nella pagina home"
   setting_work_package_list_default_highlighting_mode: "Modalità evidenziazione predefinita"
   setting_work_package_list_default_highlighted_attributes: "Attributi evidenziati in linea predefiniti"
+  setting_working_days: "Working days"
   settings:
     general: "Generale"
     other: "Altro"
@@ -2596,6 +2599,9 @@ it:
         status: "Tutta la riga per Stato"
         type: "Tutta la riga per Tipo"
         priority: "Tutta la riga per Priorità"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Testo semplice'
@@ -2962,9 +2968,9 @@ it:
       title: "Eliminare la macro-attività"
   working_days:
     info: >
-      <b>Definisci i giorni considerati parte della settimana lavorativa</b><br/> I giorni non selezionati vengono saltati durante la pianificazione delle macro-attività (e non inclusi nel conteggio dei giorni). Questi possono essere sovrascritti a livello di macro-attività.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Giorni non lavorativi specifici (festivi e di chiusura)</b><br/> Le date aggiunte all'elenco seguente sono considerate non lavorative e saltate durante la pianificazione delle macro-attività.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Cambia giorni lavorativi"
     warning: >
       La modifica dei giorni della settimana da considerare lavorativi o non lavorativi può influire sui giorni di inizio e di fine di tutte le macro-attività in tutti i progetti in questa istanza. <br/> Tieni presente che le modifiche vengono applicate solo dopo aver fatto clic sul pulsante Applica modifiche.

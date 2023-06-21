@@ -1514,6 +1514,7 @@ sv:
   label_bulk_edit_selected_work_packages: "Redigera markerade arbetspaket i bulk"
   label_bundled: '(Bundlad)'
   label_calendar: "Kalender"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Visa kalendern"
   label_category: "Kategori"
   label_consent_settings: "Användarsamtycken"
@@ -1567,6 +1568,7 @@ sv:
   label_database_version: "PostgreSQL version"
   label_date: "Datum"
   label_date_and_time: "Datum och tid"
+  label_date_format: "Date format"
   label_date_from: "Från"
   label_date_from_to: "Från %{start} till %{end}"
   label_date_to: "Till"
@@ -2491,7 +2493,7 @@ sv:
   setting_consent_decline_mail: "Samtycke kontaktadress"
   setting_cross_project_work_package_relations: "Tillåt relationer mellan arbetspaket i olika projekt"
   setting_first_week_of_year: "First week in year contains"
-  setting_date_format: "Datumformat"
+  setting_date_format: "Date"
   setting_default_language: "Standardspråk"
   setting_default_projects_modules: "Standardmoduler för nya projekt"
   setting_default_projects_public: "Nya projekt är offentliga som standard"
@@ -2554,7 +2556,7 @@ sv:
   setting_start_of_week: "Veckan börjar med"
   setting_sys_api_enabled: "Aktivera webbtjänsten arkivhantering"
   setting_sys_api_description: "Webtjänsten arkivhantering ger integrering och användarautentisering för att åtkomst av arkiv."
-  setting_time_format: "Tidsformat"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Aktivera hjälpmedelsläget för anonyma användare"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Standardtidszon för användarna"
@@ -2565,6 +2567,7 @@ sv:
   setting_welcome_on_homescreen: "Visa välkomstblocket på hemsidan"
   setting_work_package_list_default_highlighting_mode: "Standardläge för markering"
   setting_work_package_list_default_highlighted_attributes: "Standardattribut för inline-markering"
+  setting_working_days: "Working days"
   settings:
     general: "Allmänt"
     other: "Andra"
@@ -2596,6 +2599,9 @@ sv:
         status: "Hel rad per status"
         type: "Hel rad efter typ"
         priority: "Hel rad per prioritet"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Oformaterad text'
@@ -2961,9 +2967,9 @@ sv:
       title: "Radera arbetspaketet"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.

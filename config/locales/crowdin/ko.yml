@@ -1495,6 +1495,7 @@ ko:
   label_bulk_edit_selected_work_packages: "선택된 작업 패키지 일괄 편집"
   label_bundled: '(번들)'
   label_calendar: "달력"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "달력 표시"
   label_category: "카테고리"
   label_consent_settings: "사용자 동의"
@@ -1548,6 +1549,7 @@ ko:
   label_database_version: "PostgreSQL 버전"
   label_date: "날짜"
   label_date_and_time: "날짜 및 시간"
+  label_date_format: "Date format"
   label_date_from: "시작"
   label_date_from_to: "%{start}부터 %{end}까지"
   label_date_to: "끝"
@@ -2469,7 +2471,7 @@ ko:
   setting_consent_decline_mail: "동의 연락처 메일 주소"
   setting_cross_project_work_package_relations: "교차 프로젝트 작업 패키지 관계 허용"
   setting_first_week_of_year: "1년의 첫 주 기준"
-  setting_date_format: "날짜 형식"
+  setting_date_format: "Date"
   setting_default_language: "기본 언어"
   setting_default_projects_modules: "새 프로젝트에 대해 기본적으로 활성화된 모듈"
   setting_default_projects_public: "새 프로젝트는 기본적으로 공용입니다."
@@ -2532,7 +2534,7 @@ ko:
   setting_start_of_week: "주의 시작:"
   setting_sys_api_enabled: "리포지토리 관리 웹 서비스 사용"
   setting_sys_api_description: "리포지토리 관리 웹 서비스는 리포지토리에 액세스하기 위한 통합 및 사용자 인증을 제공합니다."
-  setting_time_format: "시간 형식"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "익명 사용자에 대해 접근성 모드 사용"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "사용자의 기본 표준 시간대"
@@ -2543,6 +2545,7 @@ ko:
   setting_welcome_on_homescreen: "홈 화면에 환영 블록 표시"
   setting_work_package_list_default_highlighting_mode: "기본 강조 표시 모드"
   setting_work_package_list_default_highlighted_attributes: "기본 인라인 강조 표시 특성"
+  setting_working_days: "Working days"
   settings:
     general: "일반"
     other: "기타"
@@ -2574,6 +2577,9 @@ ko:
         status: "상태별 전체 행"
         type: "유형별 전체 행"
         priority: "우선 순위별 전체 행"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: '일반 텍스트'
@@ -2938,9 +2944,9 @@ ko:
       title: "작업 패키지 삭제"
   working_days:
     info: >
-      <b>근무 주의 일부로 간주되는 요일 정의</b><br/> 선택하지 않은 요일은 작업 패키지를 예약할 때 건너뜁니다(일 수에 포함되지 않음). 작업 패키지 수준에서 재정의할 수 있습니다.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>특정 휴무일(공휴일 및 휴무일)</b><br/> 아래 목록에 추가된 날짜는 휴무일로 간주되고 작업 패키지를 예약할 때 건너뜁니다.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "근무일 변경"
     warning: >
       근무일 또는 휴무일로 간주되는 요일을 변경하면 이 인스턴스의 모든 프로젝트에 있는 모든 작업 패키지의 시작 날짜 및 완료 날짜에 영향을 미칠 수 있습니다. <br/> 변경 사항 적용 버튼을 클릭한 후에만 변경 사항이 적용됩니다.

@@ -1512,6 +1512,7 @@ es:
   label_bulk_edit_selected_work_packages: "Edición masiva de paquetes de trabajo"
   label_bundled: '(Agrupado)'
   label_calendar: "Calendario"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Mostrar Calendario"
   label_category: "Categoría"
   label_consent_settings: "Consentimiento del usuario"
@@ -1565,6 +1566,7 @@ es:
   label_database_version: "Versión de PostgreSQL"
   label_date: "Fecha"
   label_date_and_time: "Fecha y hora"
+  label_date_format: "Date format"
   label_date_from: "De"
   label_date_from_to: "De %{start} al %{end}"
   label_date_to: "Para"
@@ -2490,7 +2492,7 @@ es:
   setting_consent_decline_mail: "Consentimiento de la dirección de correo electrónico"
   setting_cross_project_work_package_relations: "Permitir relaciones cruzadas en paquetes de trabajo de proyecto"
   setting_first_week_of_year: "La primera semana del año contiene"
-  setting_date_format: "Formato de fecha"
+  setting_date_format: "Date"
   setting_default_language: "Idioma predeterminado"
   setting_default_projects_modules: "Modulos activados por defecto para nuevos proyectos"
   setting_default_projects_public: "Nuevos proyectos son públicos por defecto"
@@ -2553,7 +2555,7 @@ es:
   setting_start_of_week: "La semana empieza el"
   setting_sys_api_enabled: "Habilitar el servicio web de administración de repositorios"
   setting_sys_api_description: "El servicio web de administración de repositorios proporciona integración y autorización de usuario para acceder a los repositorios."
-  setting_time_format: "Formato de hora"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Activar el modo de accesibilidad para usuarios anónimos"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Zona horaria por defecto de los usuarios"
@@ -2564,6 +2566,7 @@ es:
   setting_welcome_on_homescreen: "Mostrar bloque de bienvenida en la pagina de inicio"
   setting_work_package_list_default_highlighting_mode: "Modo de resaltado predeterminado"
   setting_work_package_list_default_highlighted_attributes: "Atributos resaltados en línea predeterminados"
+  setting_working_days: "Working days"
   settings:
     general: "General"
     other: "Otros"
@@ -2595,6 +2598,9 @@ es:
         status: "Toda la fila por estado"
         type: "Toda la fila por tipo"
         priority: "Toda la fila por prioridad"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Texto sin formato'
@@ -2960,9 +2966,9 @@ es:
       title: "Eliminar el pauqete de trabajo"
   working_days:
     info: >
-      <b>Definir los días considerados parte de la semana laboral.</b><br/> Los días que no están seleccionados se omiten al programar paquetes de trabajo (y no se incluyen en la cuenta de días). Estos pueden ser substituidos en los paquetes de trabajo.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Días no laborables específicos (días festivos y cerrados)</b><br/> Las fechas añadidas a la siguiente lista se consideran no laborales y se omiten al programar paquetes de trabajo.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Cambiar los días laborables"
     warning: >
       Cambiar qué días de la semana se consideran días laborables o no laborables puede afectar a las fechas de inicio y fin de todos los paquetes de trabajo en todos los proyectos de esta instancia. <br/> Tenga en cuenta que los cambios solo se aplican después de hacer clic en el botón aplicar cambios.

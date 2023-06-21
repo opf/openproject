@@ -1514,6 +1514,7 @@ pt:
   label_bulk_edit_selected_work_packages: "Editar em lote os pacotes de trabalho selecionados"
   label_bundled: '(Empacotado)'
   label_calendar: "Calendário"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Mostrar Calendário"
   label_category: "Categoria"
   label_consent_settings: "Consentimento do usuário"
@@ -1567,6 +1568,7 @@ pt:
   label_database_version: "Versão do PostgreSQL"
   label_date: "Data"
   label_date_and_time: "Data e hora"
+  label_date_format: "Date format"
   label_date_from: "De"
   label_date_from_to: "De %{start} até %{end}"
   label_date_to: "Para"
@@ -2491,7 +2493,7 @@ pt:
   setting_consent_decline_mail: "E-mail de contato do consentimento"
   setting_cross_project_work_package_relations: "Permitir relacionamento entre pacotes de trabalho de diferentes projetos"
   setting_first_week_of_year: "A primeira semana no ano contém"
-  setting_date_format: "Formato de data"
+  setting_date_format: "Date"
   setting_default_language: "Idioma padrão"
   setting_default_projects_modules: "Módulos habilitados por padrão para novos projetos"
   setting_default_projects_public: "Novos projetos são públicos por padrão"
@@ -2554,7 +2556,7 @@ pt:
   setting_start_of_week: "A semana começa em"
   setting_sys_api_enabled: "Habilitar o serviço web de gerenciamento de repositório"
   setting_sys_api_description: "O serviço de web de gerenciamento de repositório fornece integração e autorização de usuário para acessar repositórios."
-  setting_time_format: "Formato de hora"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Ativar o modo de acessibilidade para usuários anônimos"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Fuso horário padrão"
@@ -2565,6 +2567,7 @@ pt:
   setting_welcome_on_homescreen: "Exibir bloco de boas-vindas na tela inicial"
   setting_work_package_list_default_highlighting_mode: "Modo de destaque padrão"
   setting_work_package_list_default_highlighted_attributes: "Atributos embutidos com destaque padrão"
+  setting_working_days: "Working days"
   settings:
     general: "Geral"
     other: "Outro"
@@ -2596,6 +2599,9 @@ pt:
         status: "Toda a linha por Situação"
         type: "Toda linha por Tipo"
         priority: "Toda linha por Prioridade"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Texto simples'
@@ -2961,9 +2967,9 @@ pt:
       title: "Excluir o pacote de trabalho"
   working_days:
     info: >
-      <b>Defina os dias considerados parte da semana útil</b><br/> Dias que não são selecionados são pulados ao agendar pacotes de trabalho (e não são incluídos na contagem do dia). Estes podem ser substituídos a nível do pacotes de trabalho.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Dias não úteis específicos (feriados e dias de fechamento )</b><br/> As datas adicionadas à lista abaixo são consideradas dias não úteis e são ignoradas ao agendar pacotes de trabalho.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Alterar dias úteis"
     warning: >
       Alterar os dias da semana considerados úteis ou não úteis pode afetar as datas de início e término de todos os pacotes de trabalho em todos os projetos desta instância. <br/> Observe que as alterações só são aplicadas após clicar no botão aplicar alterações.

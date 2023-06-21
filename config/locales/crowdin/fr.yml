@@ -1515,6 +1515,7 @@ fr:
   label_bulk_edit_selected_work_packages: "Edition en masse des Lots de Travaux selectionnés"
   label_bundled: '(Inclus)'
   label_calendar: "Calendrier"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Afficher le calendrier"
   label_category: "Catégorie"
   label_consent_settings: "Accord de l'utilisateur"
@@ -1568,6 +1569,7 @@ fr:
   label_database_version: "Version de PostgreSQL"
   label_date: "date"
   label_date_and_time: "Date et heure"
+  label_date_format: "Date format"
   label_date_from: "De"
   label_date_from_to: "De %{start} à %{end}"
   label_date_to: "À"
@@ -2494,7 +2496,7 @@ fr:
   setting_consent_decline_mail: "Adresse mail de contact de l'accord"
   setting_cross_project_work_package_relations: "Autoriser les relations entre lots de travaux de projets différents"
   setting_first_week_of_year: "La première semaine de l'année contient"
-  setting_date_format: "Format de date"
+  setting_date_format: "Date"
   setting_default_language: "Langage par défaut"
   setting_default_projects_modules: "Modules activés par défaut pour les nouveaux projets"
   setting_default_projects_public: "Les nouveaux projets sont publics par défaut"
@@ -2557,7 +2559,7 @@ fr:
   setting_start_of_week: "La semaine commence le"
   setting_sys_api_enabled: "Activer le service web de gestion de dépôt"
   setting_sys_api_description: "Le service web de gestion de dépôt fournit l'intégration et l'autorisation d'accès aux dépôts."
-  setting_time_format: "Format d'heure"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Activer le mode d'accessibilité pour les utilisateurs anonymes"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Fuseau horaire par défaut des utilisateurs"
@@ -2568,6 +2570,7 @@ fr:
   setting_welcome_on_homescreen: "Afficher le bloc de bienvenue sur l'écran d'accueil"
   setting_work_package_list_default_highlighting_mode: "Mode de surbrillance par défaut"
   setting_work_package_list_default_highlighted_attributes: "Attributs en ligne mis en surbrillance par défaut"
+  setting_working_days: "Working days"
   settings:
     general: "Général"
     other: "Autre"
@@ -2599,6 +2602,9 @@ fr:
         status: "Ligne entière par Statut"
         type: "Ligne entière par Type"
         priority: "Ligne entière par Priorité"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Texte brut'
@@ -2964,9 +2970,9 @@ fr:
       title: "Supprimer le lot de travaux"
   working_days:
     info: >
-      <b>Définir les jours considérés comme une partie de la semaine de travail</b><br/> Les jours qui ne sont pas sélectionnés sont ignorés lors de la planification des lots de travaux (et non inclus dans le nombre de jours). Ils peuvent être remplacés au niveau du lot de travaux.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Les jours spécifiques non prestés (jours fériés et fermetures)</b><br/> Les dates ajoutées à la liste ci-dessous sont considérées comme non ouvrables et ignorées lors de la planification des lots de travaux.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Changer les jours ouvrables"
     warning: >
       La modification des jours de la semaine qui sont considérés comme des jours travaillés ou des jours non travaillés peut affecter les jours de début et de fin de tous les lots de travaux de tous les projets dans ce cas. <br/> Veuillez noter que les modifications ne sont appliquées qu'après que vous ayez cliqué sur le bouton appliquer les modifications.

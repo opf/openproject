@@ -1514,6 +1514,7 @@ tr:
   label_bulk_edit_selected_work_packages: "Seçilen çalışma paketlerini toplu halde düzenle"
   label_bundled: '(Birlikte) sepetlemek '
   label_calendar: "Takvim"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Takvimi Göster"
   label_category: "Kategori"
   label_consent_settings: "Kullanıcı Rızası"
@@ -1567,6 +1568,7 @@ tr:
   label_database_version: "PostgreSQL sürümü"
   label_date: "Tarih"
   label_date_and_time: "Tarih ve zaman"
+  label_date_format: "Date format"
   label_date_from: "Başlangıç"
   label_date_from_to: "%{start} tarihinden %{end} tarihine"
   label_date_to: "Bitiş"
@@ -2490,7 +2492,7 @@ tr:
   setting_consent_decline_mail: "Onay iletişim posta adresi"
   setting_cross_project_work_package_relations: "Projeler arası iş paketi ilişkilerine izin ver"
   setting_first_week_of_year: "Yılın ilk haftası"
-  setting_date_format: "Tarih formatı"
+  setting_date_format: "Date"
   setting_default_language: "Varsayılan dil"
   setting_default_projects_modules: "Yeni projeler için varsayılan etkin modüller"
   setting_default_projects_public: "Yeni projeler varsayılan olarak herkese açık"
@@ -2553,7 +2555,7 @@ tr:
   setting_start_of_week: "Hafta Başlangıcı"
   setting_sys_api_enabled: "Depo yönetimi web hizmetini etkinleştir"
   setting_sys_api_description: "Depo yönetimi web servisi depolara erişmek için entegrasyon ve kullanıcı yetkilendirmesi sağlar."
-  setting_time_format: "Zaman Biçimi"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "İsimsiz kullanıcılar için erişilebilirlik modunu etkinleştir"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Kullanıcıların varsayılan saat dilimi"
@@ -2564,6 +2566,7 @@ tr:
   setting_welcome_on_homescreen: "Hoşgeldiniz bloğunu ana ekranda göster"
   setting_work_package_list_default_highlighting_mode: "Varsayılan vurgulama modu"
   setting_work_package_list_default_highlighted_attributes: "Varsayılan satır içi vurgulanan özellikler"
+  setting_working_days: "Working days"
   settings:
     general: "Genel"
     other: "Diğer"
@@ -2595,6 +2598,9 @@ tr:
         status: "Duruma göre tüm satır"
         type: "Türe göre tüm satır"
         priority: "Önceliğe göre tüm satır"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Düz yazı'
@@ -2960,9 +2966,9 @@ tr:
       title: "İş paketini sil"
   working_days:
     info: >
-      <b>Çalışma haftasının bir parçası olarak kabul edilen günleri tanımlayın</b><br/> Seçilmeyen günler, iş paketleri planlanırken atlanır (ve gün sayısına dahil edilmez). Bunlar, iş paketi düzeyinde geçersiz kılınabilir.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Belirli çalışılmayan günler (tatiller ve kapalı günler)</b><br/> Aşağıdaki listeye eklenen tarihler, çalışılmayan tarihler olarak kabul edilir ve iş paketleri planlanırken atlanır.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "İş günlerini değiştir"
     warning: >
       Haftanın hangi günlerinin iş günü veya tatil günü olarak kabul edileceğini değiştirmek, bu durumda tüm projelerdeki tüm iş paketlerinin başlangıç ve bitiş günlerini etkileyebilir. <br/> Değişikliklerin yalnızca siz değişiklikleri kaydet düğmesine tıkladıktan sonra uygulanacağını lütfen unutmayın.

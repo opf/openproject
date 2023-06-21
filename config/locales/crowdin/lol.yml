@@ -1492,6 +1492,7 @@ lol:
   label_bulk_edit_selected_work_packages: "crwdns496971:0crwdne496971:0"
   label_bundled: 'crwdns496973:0crwdne496973:0'
   label_calendar: "crwdns496975:0crwdne496975:0"
+  label_calendars_and_dates: "crwdns855695:0crwdne855695:0"
   label_calendar_show: "crwdns496977:0crwdne496977:0"
   label_category: "crwdns496979:0crwdne496979:0"
   label_consent_settings: "crwdns496981:0crwdne496981:0"
@@ -1545,6 +1546,7 @@ lol:
   label_database_version: "crwdns497079:0crwdne497079:0"
   label_date: "crwdns497081:0crwdne497081:0"
   label_date_and_time: "crwdns497083:0crwdne497083:0"
+  label_date_format: "crwdns855697:0crwdne855697:0"
   label_date_from: "crwdns497085:0crwdne497085:0"
   label_date_from_to: "crwdns497087:0%{start}crwdnd497087:0%{end}crwdne497087:0"
   label_date_to: "crwdns497089:0crwdne497089:0"
@@ -2463,7 +2465,7 @@ lol:
   setting_consent_decline_mail: "crwdns498973:0crwdne498973:0"
   setting_cross_project_work_package_relations: "crwdns498975:0crwdne498975:0"
   setting_first_week_of_year: "crwdns498977:0crwdne498977:0"
-  setting_date_format: "crwdns498979:0crwdne498979:0"
+  setting_date_format: "crwdns855699:0crwdne855699:0"
   setting_default_language: "crwdns498981:0crwdne498981:0"
   setting_default_projects_modules: "crwdns498983:0crwdne498983:0"
   setting_default_projects_public: "crwdns498985:0crwdne498985:0"
@@ -2526,7 +2528,7 @@ lol:
   setting_start_of_week: "crwdns499099:0crwdne499099:0"
   setting_sys_api_enabled: "crwdns499101:0crwdne499101:0"
   setting_sys_api_description: "crwdns499103:0crwdne499103:0"
-  setting_time_format: "crwdns499105:0crwdne499105:0"
+  setting_time_format: "crwdns855701:0crwdne855701:0"
   setting_accessibility_mode_for_anonymous: "crwdns499107:0crwdne499107:0"
   setting_user_format: "crwdns854505:0crwdne854505:0"
   setting_user_default_timezone: "crwdns499111:0crwdne499111:0"
@@ -2537,6 +2539,7 @@ lol:
   setting_welcome_on_homescreen: "crwdns499121:0crwdne499121:0"
   setting_work_package_list_default_highlighting_mode: "crwdns499123:0crwdne499123:0"
   setting_work_package_list_default_highlighted_attributes: "crwdns499125:0crwdne499125:0"
+  setting_working_days: "crwdns855703:0crwdne855703:0"
   settings:
     general: "crwdns499127:0crwdne499127:0"
     other: "crwdns499129:0crwdne499129:0"
@@ -2568,6 +2571,9 @@ lol:
         status: "crwdns499161:0crwdne499161:0"
         type: "crwdns499163:0crwdne499163:0"
         priority: "crwdns499165:0crwdne499165:0"
+    working_days:
+      section_work_week: "crwdns855705:0crwdne855705:0"
+      section_holidays_and_closures: "crwdns855707:0crwdne855707:0"
   text_formatting:
     markdown: 'crwdns499167:0crwdne499167:0'
     plain: 'crwdns499169:0crwdne499169:0'
@@ -2933,9 +2939,9 @@ lol:
       title: "crwdns499771:0crwdne499771:0"
   working_days:
     info: >
-      crwdns845741:0crwdne845741:0
+      crwdns855709:0crwdne855709:0
     instance_wide_info: >
-      crwdns845743:0crwdne845743:0
+      crwdns855711:0crwdne855711:0
     change_button: "crwdns833348:0crwdne833348:0"
     warning: >
       crwdns845953:0crwdne845953:0

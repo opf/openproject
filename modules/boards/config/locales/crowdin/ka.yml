@@ -7,12 +7,12 @@ ka:
     label_board: "Board"
     label_boards: "Boards"
     board_types:
-      free: Basic
+      free: ძირითადი
       action: "Action board (%{attribute})"
     board_type_attributes:
       assignee: Assignee
-      status: Status
-      version: Version
+      status: სტატუსი
+      version: ვერსია
       subproject: Subproject
       subtasks: Parent-child
-      basic: Basic
+      basic: ძირითადი

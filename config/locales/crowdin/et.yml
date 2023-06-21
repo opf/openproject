@@ -1515,6 +1515,7 @@ et:
   label_bulk_edit_selected_work_packages: "Muuda valitud teemasid korraga"
   label_bundled: '(Bundled)'
   label_calendar: "Kalender"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Kuva kalender"
   label_category: "Kategooria"
   label_consent_settings: "Kasutaja nõusolek"
@@ -1568,6 +1569,7 @@ et:
   label_database_version: "PostgreSQL version"
   label_date: "Kuupäev"
   label_date_and_time: "Kuupäev ja kellaaeg"
+  label_date_format: "Date format"
   label_date_from: "Algus"
   label_date_from_to: "Kuupäevast %{start} kuni %{end}"
   label_date_to: "Lõpp"
@@ -2494,7 +2496,7 @@ et:
   setting_consent_decline_mail: "Consent contact mail address"
   setting_cross_project_work_package_relations: "Võimalda seostada teemasid teistest projektidest"
   setting_first_week_of_year: "First week in year contains"
-  setting_date_format: "Kuupäevaformaat"
+  setting_date_format: "Date"
   setting_default_language: "Vaikimisi keel"
   setting_default_projects_modules: "Uue projekti vaikimisi moodulid"
   setting_default_projects_public: "Uued projektid on vaikimisi avalikud"
@@ -2557,7 +2559,7 @@ et:
   setting_start_of_week: "Week starts on"
   setting_sys_api_enabled: "Enable repository management web service"
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
-  setting_time_format: "Aja esitusviis"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Võimalda külalistel kasutada hõlbustus- ja juurdepääsetavusrežiimi"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
@@ -2568,6 +2570,7 @@ et:
   setting_welcome_on_homescreen: "Display welcome block on homescreen"
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
+  setting_working_days: "Working days"
   settings:
     general: "Üldine"
     other: "Muu"
@@ -2599,6 +2602,9 @@ et:
         status: "Entire row by Status"
         type: "Entire row by Type"
         priority: "Entire row by Priority"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Plain text'
@@ -2965,9 +2971,9 @@ et:
       title: "Delete the work package"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.

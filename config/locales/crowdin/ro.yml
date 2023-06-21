@@ -1534,6 +1534,7 @@ ro:
   label_bulk_edit_selected_work_packages: "Editare în masă a pachetelor de lucru selectate"
   label_bundled: '(la pachet)'
   label_calendar: "Calendar"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Afișare calendar"
   label_category: "Categorie"
   label_consent_settings: "Consimţământul utilizatorului"
@@ -1587,6 +1588,7 @@ ro:
   label_database_version: "Versiunea PostgreSQL"
   label_date: "Dată"
   label_date_and_time: "Data"
+  label_date_format: "Date format"
   label_date_from: "Din"
   label_date_from_to: "Din %{start} la %{end}"
   label_date_to: "La"
@@ -2514,7 +2516,7 @@ ro:
   setting_consent_decline_mail: "Consimțământ adresa de e-mail de contact"
   setting_cross_project_work_package_relations: "Permiteți legături între pachetele de lucru din proiecte diferite"
   setting_first_week_of_year: "Prima săptămână din an conține"
-  setting_date_format: "Format dată"
+  setting_date_format: "Date"
   setting_default_language: "Limbă implicită"
   setting_default_projects_modules: "Module activate implicit la creare proiect"
   setting_default_projects_public: "Proiectele noi sunt implicit publice"
@@ -2577,7 +2579,7 @@ ro:
   setting_start_of_week: "Săptămâna începe pe"
   setting_sys_api_enabled: "Activare serviciul web de administrare repo"
   setting_sys_api_description: "Serviciul web de administrare repo oferă integrare şi autorizare utilizatori pentru accesul la repo-uri."
-  setting_time_format: "Format oră"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Activează modul de accesibilitate pentru utilizatorii anonimi"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Fusul orar implicit al utilizatorilor"
@@ -2588,6 +2590,7 @@ ro:
   setting_welcome_on_homescreen: "Afişare bloc \"bun venit\" pe ecranul de start"
   setting_work_package_list_default_highlighting_mode: "Mod de evidențiere implicit"
   setting_work_package_list_default_highlighted_attributes: "Atributele evidențiate implicit în linie"
+  setting_working_days: "Working days"
   settings:
     general: "General"
     other: "Altele"
@@ -2619,6 +2622,9 @@ ro:
         status: "Rândul întreg după statut"
         type: "Întregul rând pe tipuri"
         priority: "Întregul rând în funcție de Prioritate"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Text simplu'
@@ -2987,9 +2993,9 @@ ro:
       title: "Ştergere a pachetului de lucru"
   working_days:
     info: >
-      <b>Definire zile considerate parte a săptămânii de lucru</b><br/> Zile care nu sunt selectate sunt omise la programarea pachetelor de lucru (și nu sunt incluse în numărul de zile). Acestea pot fi depăşite la nivelul pachetelor de lucru.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Zile nelucrătoare specifice (sărbători și închidere)</b><br/> Datele adăugate în lista de mai jos sunt considerate nefuncționale și omise când se programează pachete de lucru.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Modificarea zilelor lucrătoare"
     warning: >
       În acest caz, modificarea zilelor săptămânii care sunt considerate zile lucrătoare sau nelucrătoare poate afecta zilele de început și de sfârșit ale tuturor pachetelor de lucru din toate proiectele. <br/> Vă rugăm să rețineți că modificările sunt aplicate numai după ce faceți clic pe butonul de aplicare a modificărilor.
