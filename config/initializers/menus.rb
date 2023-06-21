@@ -99,6 +99,10 @@ Redmine::MenuManager.map :account_menu do |menu|
             :my_page_path,
             caption: I18n.t('js.my_page.label'),
             if: Proc.new { User.current.logged? }
+  menu.push :my_profile,
+            { controller: '/users', action: 'show', id: 'me' },
+            caption: :label_my_activity,
+            if: Proc.new { User.current.logged? }
   menu.push :my_account,
             { controller: '/my', action: 'account' },
             if: Proc.new { User.current.logged? }

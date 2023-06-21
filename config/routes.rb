@@ -464,7 +464,7 @@ OpenProject::Application.routes.draw do
 
   resources :activity, :activities, only: :index, controller: 'activities'
 
-  resources :users, except: :edit do
+  resources :users, constraints: { id: /(\d+|me)/ }, except: :edit do
     resources :memberships, controller: 'users/memberships', only: %i[update create destroy]
 
     member do
