@@ -33,9 +33,9 @@ require "rails_helper"
 RSpec.describe AttributeGroups::AttributeGroupComponent, type: :component do
   it 'renders the title' do
     render_inline(described_class.new) do |component|
-      component.with_group_header(title: "A Title")
+      component.with_header(title: "A Title")
 
-      component.with_attributes_key_value(
+      component.with_attributes(
         [{ key: "Attribute Key 1", value: "Attribute Value 1" },
          { key: "Attribute Key 2", value: "Attribute Value 2" }]
       )
@@ -57,7 +57,7 @@ RSpec.describe AttributeGroups::AttributeGroupComponent, type: :component do
 
   it 'renders content when provided' do
     render_inline(described_class.new) do |component|
-      component.with_group_header(title: "A Title")
+      component.with_header(title: "A Title")
 
       "Raw Content"
     end

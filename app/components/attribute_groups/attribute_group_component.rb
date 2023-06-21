@@ -30,7 +30,7 @@
 
 module AttributeGroups
   class AttributeGroupComponent < ::RailsComponent
-    renders_one :group_header, AttributeGroups::AttributeGroupHeaderComponent
-    renders_many :attributes_key_value, AttributeGroups::AttributeKeyValueComponent
+    renders_one :header, AttributeGroups::AttributeGroupHeaderComponent
+    renders_many :attributes, AttributeGroups::AttributeKeyValueComponent
   end
 end

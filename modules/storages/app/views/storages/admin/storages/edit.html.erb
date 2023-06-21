@@ -12,9 +12,9 @@
 
 <% if @object.oauth_application %>
   <%= render(AttributeGroups::AttributeGroupComponent.new) do |component| %>
-    <% component.with_group_header(title: "OpenProject #{t(:'storages.label_oauth_application_details')}") %>
+    <% component.with_header(title: "OpenProject #{t(:'storages.label_oauth_application_details')}") %>
 
-    <% component.with_attributes_key_value([
+    <% component.with_attributes([
       { key: "OpenProject #{Storages::Admin::LABEL_OAUTH_CLIENT_ID}", value: @object.oauth_application.uid },
       { key: "OpenProject #{Storages::Admin::LABEL_OAUTH_CLIENT_SECRET}", value: "●●●●●●●●●●●●●●●●" },
     ]) %>
@@ -28,10 +28,10 @@
 <% end %>
 
 <%= render(AttributeGroups::AttributeGroupComponent.new) do |component| %>
-  <% component.with_group_header(title: "#{t("storages.provider_types.#{@object.short_provider_type}.name")} #{t(:'storages.label_oauth_client_details')}") %>
+  <% component.with_header(title: "#{t("storages.provider_types.#{@object.short_provider_type}.name")} #{t(:'storages.label_oauth_client_details')}") %>
 
   <% if @object.oauth_client %>
-    <% component.with_attributes_key_value([
+    <% component.with_attributes([
       { key: "#{t("storages.provider_types.#{@object.short_provider_type}.name")} #{Storages::Admin::LABEL_OAUTH_CLIENT_ID}",
         value: @object.oauth_client.client_id },
       { key: "#{t("storages.provider_types.#{@object.short_provider_type}.name")} #{Storages::Admin::LABEL_OAUTH_CLIENT_SECRET}",
