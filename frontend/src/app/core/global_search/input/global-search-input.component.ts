@@ -38,7 +38,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { first, map, tap } from 'rxjs/operators';
 import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
@@ -229,6 +229,8 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   public onFocus():void {
     this.expanded = true;
     this.toggleTopMenuClass();
+    this.ngSelectComponent.typeahead?.next(' ');
+    this.ngSelectComponent.typeahead?.next('');
     this.ngSelectComponent.openSelect();
   }
 
@@ -294,9 +296,12 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   private autocompleteWorkPackages(query:string):Observable<(WorkPackageResource|SearchOptionItem)[]> {
     if (!query) {
       const wpIds = this.recentItemsService.getAll();
-      void this.apiV3Service
-        .work_packages
-        .requireAll(wpIds);
+      // It is needed, because otherwise we get infinite spin running
+      // in the searchbar with no recent workpackages IDs inside localStorage
+      if(wpIds.length === 0) {
+        return of([]);
+      }
+      void this.apiV3Service.work_packages.requireAll(wpIds);
       return this.apiV3Service.work_packages.cache.observeSome(wpIds);
     }
 
