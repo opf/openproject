@@ -110,9 +110,6 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     getOptionsFn: this.getAutocompleterData,
   };
 
-  /** Remember the current value */
-  public currentValue = '';
-
   public isFocusedDirectly = (this.globalSearchService.searchTerm.length > 0);
 
   /** Remember the item that best matches the query.
@@ -149,7 +146,6 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit():void {
     // check searchterm on init, expand / collapse search bar and set correct classes
     this.searchTerm = this.globalSearchService.searchTerm;
-    this.currentValue = '';
     this.toggleTopMenuClass();
   }
 
@@ -221,7 +217,6 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   }
 
   public search($event:SearchResultItems):void {
-    this.currentValue = this.searchTerm;
     this.openCloseMenu($event.term);
   }
 
@@ -233,7 +228,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   public onFocus():void {
     this.expanded = true;
     this.toggleTopMenuClass();
-    this.openCloseMenu(this.currentValue);
+    this.openCloseMenu(this.searchTerm);
   }
 
   public onFocusOut():void {
@@ -245,14 +240,9 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  public onClose():void {
-    this.searchTerm = this.currentValue;
-  }
-
   public clearSearch():void {
-    this.currentValue = '';
     this.searchTerm = '';
-    this.openCloseMenu(this.currentValue);
+    this.openCloseMenu(this.searchTerm);
   }
 
   // If Enter key is pressed before result list is loaded, wait for the results to come
@@ -280,7 +270,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
       window.location.href = this.wpPath(item.id as string);
     } else if (item) {
       // update embedded table and title when new search is submitted
-      this.globalSearchService.searchTerm = this.currentValue;
+      this.globalSearchService.searchTerm = this.searchTerm;
       this.searchInScope(item.projectScope);
     }
   }
@@ -424,8 +414,8 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   }
 
   public submitNonEmptySearch(forcePageLoad = false):void {
-    this.globalSearchService.searchTerm = this.currentValue;
-    if (this.currentValue.length > 0) {
+    this.globalSearchService.searchTerm = this.searchTerm;
+    if (this.searchTerm.length > 0) {
       this.ngSelectComponent.ngSelectInstance.close();
       // Work package results can update without page reload.
       if (!forcePageLoad
