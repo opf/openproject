@@ -55,6 +55,7 @@ import { HalResourceService } from 'core-app/features/hal/services/hal-resource.
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ApiV3Service } from '../../apiv3/api-v3.service';
 import { ApiV3WorkPackageCachedSubresource } from 'core-app/core/apiv3/endpoints/work_packages/api-v3-work-package-cached-subresource';
+import { RecentItemsService } from 'core-app/core/recent-items.service';
 
 export const globalSearchSelector = 'global-search-input';
 
@@ -143,6 +144,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     readonly cdRef:ChangeDetectorRef,
     readonly halNotification:HalResourceNotificationService,
     readonly ngZone:NgZone,
+    readonly recentItemsService:RecentItemsService,
   ) {
   }
 
@@ -291,8 +293,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   private autocompleteWorkPackages(query:string):Observable<(WorkPackageResource|SearchOptionItem)[]> {
     if (!query) {
-      // replace with recent work packages read from local storage
-      const wpIds = ['9', '12'];
+      const wpIds = this.recentItemsService.getAll();
       void this.apiV3Service
         .work_packages
         .requireAll(wpIds);
