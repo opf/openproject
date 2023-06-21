@@ -148,6 +148,7 @@ module Pages
           row.hover
           menu = find('ul.project-actions')
           menu.click
+          expect(page).to have_selector('.menu-drop-down-container')
           yield menu
         end
       end
