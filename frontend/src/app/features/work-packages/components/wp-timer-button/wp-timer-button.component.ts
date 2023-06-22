@@ -77,7 +77,7 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
 
   @Input() public workPackage:WorkPackageResource;
 
-  active:TimeEntryResource|null = null;
+  active:TimeEntryResource|null|undefined;
 
   elapsed$:Observable<string> = timer(0, 1000)
     .pipe(
@@ -95,6 +95,10 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
         return `${hours}:${minutes}:${seconds}`;
       }),
     );
+
+  text = {
+    workPackage: this.I18n.t('js.label_work_package'),
+  }
 
   constructor(
     readonly I18n:I18nService,
