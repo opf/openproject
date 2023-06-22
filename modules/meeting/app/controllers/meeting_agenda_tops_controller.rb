@@ -28,7 +28,7 @@
 
 class MeetingAgendaTopsController < ApplicationController
   before_action :set_meeting, only: [:new, :index, :create]
-  before_action :set_meeting_agenda_top, only: [:show, :edit, :update, :destroy]
+  before_action :set_meeting_agenda_top, only: [:show, :edit, :update, :destroy, :drop]
 
   def index
   end
@@ -119,6 +119,18 @@ class MeetingAgendaTopsController < ApplicationController
       format.turbo_stream do
         render turbo_stream: [
           render_agenda_top_list_via_stream(@meeting_agenda_top.meeting)
+        ]
+      end
+    end
+  end
+
+  def drop
+    @meeting_agenda_top.insert_at(params[:position].to_i)
+
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: [
+          render_agenda_top_list_via_stream(@meeting_agenda_top.meeting.reload)
         ]
       end
     end

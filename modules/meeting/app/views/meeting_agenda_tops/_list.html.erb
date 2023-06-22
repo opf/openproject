@@ -27,8 +27,12 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <turbo-frame id="meeting-agenda-top-list">
-  <% meeting.agenda_tops.each do |meeting_agenda_top| %>
-    <%= render partial: 'meeting_agenda_tops/show', locals: { meeting_agenda_top: meeting_agenda_top } %>
-    <hr>
-  <% end %>
+  <div data-controller="meeting-agenda-top-drag-and-drop" data-application-target="dynamic" >
+    <% meeting.agenda_tops.each do |meeting_agenda_top| %>
+      <div data-id="<%= meeting_agenda_top.id %>" data-drop-url="<%= drop_meeting_agenda_top_path(meeting_agenda_top.meeting, meeting_agenda_top) %>"> 
+        <%= render partial: 'meeting_agenda_tops/show', locals: { meeting_agenda_top: meeting_agenda_top } %>
+        <hr>
+      </div>
+    <% end %>
+  </div>
 </turbo-frame>

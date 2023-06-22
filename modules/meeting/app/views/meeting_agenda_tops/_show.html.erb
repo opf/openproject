@@ -27,7 +27,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <turbo-frame id="<%=dom_id(meeting_agenda_top)%>" class="meeting-agenda-top d-flex flex-justify-between my-3 flex-items-center">
-  <div>
+  <div class="d-flex flex-items-center">
+    <%= render(Primer::Beta::Octicon.new(:grabber, size: :medium)) %>
     TOP <%= meeting_agenda_top.position %>:
     <%= meeting_agenda_top.title %>
   </div>
