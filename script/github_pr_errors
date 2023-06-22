@@ -206,12 +206,33 @@ def get_workflow_run(run_id)
 end
 
 class Error
-  attr_accessor :location, :page_html, :page_screenshot
+  attr_accessor :location, :page_html, :page_screenshot, :tests_group
+end
+
+# rubocop:disable Layout/LineLength
+# Looks like this in the job log:
+# Process 28: TEST_ENV_NUMBER=28 RUBYOPT=-I/usr/local/bundle/bundler/gems/turbo_tests-3148ae6c3482/lib -r/usr/local/bundle/gems/bundler-2.4.7/lib/bundler/setup -W0 RSPEC_SILENCE_FILTER_ANNOUNCEMENTS=1 /usr/local/bundle/gems/bundler-2.4.7/exe/bundle exec rspec --seed 52674 --format TurboTests::JsonRowsFormatter --out tmp/test-pipes/subprocess-28 --format ParallelTests::RSpec::RuntimeLogger --out spec/support/turbo_runtime_features.log spec/features/api_docs/index_spec.rb spec/features/custom_fields/reorder_options_spec.rb spec/features/projects/projects_portfolio_spec.rb spec/features/projects/template_spec.rb spec/features/versions/edit_spec.rb spec/features/work_packages/details/markdown/description_editor_spec.rb spec/features/work_packages/table/hierarchy/hierarchy_parent_below_spec.rb spec/features/work_packages/table/inline_create/inline_create_refresh_spec.rb spec/features/work_packages/table/invalid_query_spec.rb spec/features/work_packages/tabs/activity_revisions_spec.rb
+# rubocop:enable Layout/LineLength
+class TestsGroup
+  attr_accessor :test_env_number, :seed, :files
+
+  def initialize
+    @files = []
+  end
+
+  def include_error?(error)
+    files.any? { |file| error.location.include?(file) }
+  end
+
+  def inspect
+    "#<#{self.class} @test_env_number=#{test_env_number} @seed=#{seed} (#{files.count} files)>"
+  end
 end
 
 class JobErrorsFinder
   SPEC_PATTERN = %r{^\S+ (?:rspec (\S+) #.+|An error occurred while loading (\S+)\.\r?)$}
   SCREENSHOT_PATTERN = /\{"message":"Screenshot captured for failed feature test"[^\n]+$/
+  TESTS_GROUP_PATTERN = /Process \d+: TEST_ENV_NUMBER=\d+ [^\n]+$/
 
   def self.scan_logs(logs)
     finder = new
@@ -224,6 +245,7 @@ class JobErrorsFinder
   def scan_log(log)
     find_errors(log)
     find_screenshots(log)
+    find_tests_groups(log)
   end
 
   def errors
@@ -260,6 +282,33 @@ class JobErrorsFinder
         error(location).page_screenshot = screenshot_info["image"]
       end
   end
+
+  def find_tests_groups(log)
+    tests_groups = log
+      .scan(TESTS_GROUP_PATTERN)
+      .flatten
+      .map { build_tests_group_from_command(_1) }
+
+    errors.each do |error|
+      error.tests_group = tests_groups.find { _1.include_error?(error) }
+    end
+  end
+
+  def build_tests_group_from_command(line)
+    tests_group = TestsGroup.new
+    parts = line.split
+    while parts.any?
+      case part = parts.shift
+      when /^TEST_ENV_NUMBER=/
+        tests_group.test_env_number = part.delete_prefix("TEST_ENV_NUMBER=")
+      when "--seed"
+        tests_group.seed = parts.shift
+      when /_spec.rb$/
+        tests_group.files << part
+      end
+    end
+    tests_group
+  end
 end
 
 class Formatter
@@ -290,13 +339,27 @@ class Formatter
     if errors.empty?
       warn "No rspec errors found :-/"
     elsif compact?
-      puts errors.map { escaped_location(_1) }.join(" ")
+      display_errors_compact(errors)
     else
-      errors.each { display_error(_1) }
+      display_errors_detailed(errors)
     end
   end
 
   private
+
+  def display_errors_compact(errors)
+    puts errors.map { escaped_location(_1) }.join(" ")
+  end
+
+  def display_errors_detailed(errors)
+    errors
+      .group_by(&:tests_group)
+      .each do |tests_group, tests_group_errors|
+        display_tests_group_info(tests_group)
+        tests_group_errors.each { display_error(_1) }
+        display_tests_group_rerun_commands(tests_group)
+      end
+  end
 
   def display_error(error)
     puts escaped_location(error)
@@ -315,6 +378,20 @@ class Formatter
       ": ",
       value.blue
     ].join
+  end
+
+  def display_tests_group_info(tests_group)
+    return unless tests_group
+
+    warn "Tests group ##{tests_group.test_env_number}".bold
+  end
+
+  def display_tests_group_rerun_commands(tests_group)
+    return unless tests_group
+
+    warn "To run the tests group in the same order as CI, use this command:".white.dark
+    warn "bundle exec rspec --seed #{tests_group.seed} #{tests_group.files.join(' ')}".white.dark
+    warn ""
   end
 
   def display_pull_request_info(workflow_run)
