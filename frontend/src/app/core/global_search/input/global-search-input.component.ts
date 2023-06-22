@@ -39,7 +39,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { first, map, mergeMap, startWith, switchMap, tap } from 'rxjs/operators';
 import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
@@ -102,7 +102,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   public markable$ = this._markable.asObservable();
 
-  getAutocompleterData = (query:string):Observable<unknown[]> => this.autocompleteWorkPackages(query);
+  getAutocompleterData = ():Observable<unknown[]> => this.autocompleteWorkPackages();
 
   public autocompleterOptions = {
     filters: [],
@@ -291,8 +291,13 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     return item.id === undefined || item.subject.toLowerCase().indexOf(term.toLowerCase()) !== -1;
   }
 
-  private autocompleteWorkPackages(query:string):Observable<(WorkPackageResource|SearchOptionItem)[]> {
-    if (!query) {
+  private autocompleteWorkPackages():Observable<(WorkPackageResource|SearchOptionItem)[]> {
+    const query = this.searchTerm;
+    if (query === null) {
+      return of([]);
+    }
+
+    if (!query.length) {
       return this.recentItemsService.recentItems$.pipe(
         switchMap((wpIds) => {
           // It is needed, because otherwise we get infinite spin running
@@ -319,6 +324,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
       .fetchSearchResults(hashFreeQuery, hashFreeQuery !== query)
       .get()
       .pipe(
+        startWith({ elements: [] }),
         map((collection) => this.searchResultsToOptions(collection.elements, hashFreeQuery)),
         tap(() => {
           this.setMarkedOption();

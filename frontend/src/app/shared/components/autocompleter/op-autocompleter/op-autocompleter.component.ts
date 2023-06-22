@@ -399,6 +399,6 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
       this.initialDebounce = false;
       return 0;
     }
-    return 250;
+    return 50;
   }
 }
