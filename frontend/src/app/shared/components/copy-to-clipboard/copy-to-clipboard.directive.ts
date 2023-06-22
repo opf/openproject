@@ -73,6 +73,8 @@ export class CopyToClipboardComponent implements OnInit {
 
   onClick($event:JQuery.TriggeredEvent) {
     $event.preventDefault();
-    this.copyToClipboardService.copy(this.target.val()!.toString());
+    // Select the text in case the clipboard is not supported by the browser
+    this.target.select().focus();
+    this.copyToClipboardService.copy(String(this.target.val()));
   }
 }

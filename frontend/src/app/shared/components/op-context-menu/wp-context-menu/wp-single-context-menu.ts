@@ -36,8 +36,8 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
     readonly opModalService:OpModalService,
     readonly opContextMenuService:OPContextMenuService,
     readonly authorisationService:AuthorisationService,
-    protected copyToClipboardService:CopyToClipboardService
-    ) {
+    protected copyToClipboardService:CopyToClipboardService,
+  ) {
     super(elementRef, opContextMenuService);
   }
 

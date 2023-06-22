@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
@@ -35,48 +35,25 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 })
 
 export class CopyToClipboardService {
-
-  private renderer: Renderer2;
-
   constructor(
     readonly toastService:ToastService,
     readonly I18n:I18nService,
-    readonly rendererFactory:RendererFactory2,
-  ) {
-    this.renderer = rendererFactory.createRenderer(null, null);
-  }
+  ) { }
 
   copy(content:string) {
-    const supported = (document.queryCommandSupported && document.queryCommandSupported('copy'));
-    const contentEl = this.appendContentEl(content);
-
-    // At least select the input for the user
-    // even when clipboard API not supported
-    contentEl.select();
-    contentEl.focus();
-    if (supported) {
-      try {
-        // Copy it to the clipboard and remove the hidden input
-        if (document.execCommand('copy')) {
-          this.renderer.removeChild(document.body, contentEl);
+    if (!navigator.clipboard) {
+      // fallback for browsers that don't support clipboard API at all
+      this.addNotification('addError', this.I18n.t('js.clipboard.browser_error', { content }));
+    } else {
+      void navigator.clipboard.writeText(content)
+        .then(() => {
           this.addNotification('addSuccess', this.I18n.t('js.clipboard.copied_successful'));
-          return;
-        }
-      } catch (e) {
-        console.log(
-          `Your browser seems to support the clipboard API, but copying failed: ${e}`,
-        );
-      }
+        })
+        .catch(() => {
+          // fallback when running into e.g. browser permission errors
+          this.addNotification('addError', this.I18n.t('js.clipboard.browser_error', { content }));
+        });
     }
-
-    this.addNotification('addError', this.I18n.t('js.clipboard.browser_error'));
-  }
-
-  appendContentEl(value:string):JQuery<HTMLElement> {
-    const contentEl = this.renderer.createElement('input');
-    this.renderer.setAttribute(contentEl, 'value', value);
-    this.renderer.appendChild(document.body, contentEl);
-    return contentEl;
   }
 
   addNotification(type:'addSuccess'|'addError', message:string) {
