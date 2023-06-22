@@ -536,7 +536,6 @@ OpenProject::Application.routes.draw do
 
   # alternate routes for the current user
   scope 'my' do
-    get '/timer' => 'my/timer#show', as: 'my_timers'
     get '/deletion_info' => 'users#deletion_info', as: 'delete_my_account_info'
     post '/oauth/revoke_application/:application_id' => 'oauth/grants#revoke_application', as: 'revoke_my_oauth_application'
   end

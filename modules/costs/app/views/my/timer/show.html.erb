@@ -1,0 +1,15 @@
+<%= turbo_frame_tag "my_timers" do %>
+  <div
+    class="op-menu--item-action"
+    data-controller="my--timers"
+    data-application-target="dynamic"
+  >
+
+    <span
+      data-my--timers-target="elapsedTime"
+    ></span>
+    <% if @timer.present? %>
+      <%= format_time_entry_as_elapsed(@timer.created_at) %>
+    <% end %>
+  </div>
+<% end %>

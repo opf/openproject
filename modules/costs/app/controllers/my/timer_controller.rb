@@ -29,9 +29,20 @@
 module My
   class TimerController < ApplicationController
     before_action :require_login
+    before_action :find_active_timer, only: %i[show]
 
     def show
       render layout: nil
+    end
+
+    private
+
+    def find_active_timer
+      query = Queries::TimeEntries::TimeEntryQuery.new(user: current_user)
+      query.where 'ongoing', '=', ['t']
+      query.where 'user_id', '=', [current_user.id]
+
+      @timer = query.results.first
     end
   end
 end
