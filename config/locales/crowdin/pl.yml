@@ -1768,6 +1768,7 @@ pl:
   label_more_than_ago: "Więcej niż dni temu"
   label_move_work_package: "Przenieś pakiet roboczy"
   label_my_account: "Moje konto"
+  label_my_activity: "My activity"
   label_my_account_data: "Moje dane konta"
   label_my_projects: "Moje projekty"
   label_my_queries: "Moje zapytania niestandardowe"

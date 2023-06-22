@@ -1713,6 +1713,7 @@ ko:
   label_more_than_ago: "일 이상 전"
   label_move_work_package: "작업 패키지 이동"
   label_my_account: "내 계정"
+  label_my_activity: "My activity"
   label_my_account_data: "내 계정 데이터"
   label_my_projects: "내 프로젝트"
   label_my_queries: "내 사용자 지정 쿼리"

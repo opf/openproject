@@ -1729,6 +1729,7 @@ el:
   label_more_than_ago: "σε περισσότερο από ημέρες πριν"
   label_move_work_package: "Μετακίνηση πακέτου εργασίας"
   label_my_account: "Ο λογαριασμός μου"
+  label_my_activity: "My activity"
   label_my_account_data: "Τα δεδομένα του λογαριασμού μου"
   label_my_projects: "Τα έργα μου"
   label_my_queries: "Οι προσαρμοσμένες αναζητήσεις μου"

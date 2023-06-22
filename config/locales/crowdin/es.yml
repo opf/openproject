@@ -1730,6 +1730,7 @@ es:
   label_more_than_ago: "más días atrás"
   label_move_work_package: "Mover el paquete de trabajo"
   label_my_account: "Mi cuenta"
+  label_my_activity: "My activity"
   label_my_account_data: "Mis datos de cuenta"
   label_my_projects: "Mis proyectos"
   label_my_queries: "Mis consultas personalizadas"

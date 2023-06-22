@@ -1731,6 +1731,7 @@ da:
   label_more_than_ago: "mere end dage siden"
   label_move_work_package: "Flyt arbejdspakke"
   label_my_account: "Min konto"
+  label_my_activity: "My activity"
   label_my_account_data: "Mine kontodata"
   label_my_projects: "Mine projekter"
   label_my_queries: "Mine selvvalgte forespørgsler"

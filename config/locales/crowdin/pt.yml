@@ -1732,6 +1732,7 @@ pt:
   label_more_than_ago: "mais do que dias atrás"
   label_move_work_package: "Mover pacote de trabalho"
   label_my_account: "Minha conta"
+  label_my_activity: "My activity"
   label_my_account_data: "Dados da minha conta"
   label_my_projects: "Meus projetos"
   label_my_queries: "Minhas consultas personalizadas"

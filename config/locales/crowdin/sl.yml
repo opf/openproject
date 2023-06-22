@@ -1768,6 +1768,7 @@ sl:
   label_more_than_ago: "pred več kot nekaj dnevi"
   label_move_work_package: "Prestavi delovni paket"
   label_my_account: "Moj račun"
+  label_my_activity: "My activity"
   label_my_account_data: "Podatki mojega računa"
   label_my_projects: "Moji projekti"
   label_my_queries: "Moje poizvedbe po meri"

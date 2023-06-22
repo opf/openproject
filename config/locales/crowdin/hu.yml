@@ -1730,6 +1730,7 @@ hu:
   label_more_than_ago: "több, nappal ezelőtt"
   label_move_work_package: "A munkacsomag mozgatása"
   label_my_account: "Saját fiókom"
+  label_my_activity: "My activity"
   label_my_account_data: "Az én fiók adataim"
   label_my_projects: "Az én projektjeim"
   label_my_queries: "Az én egyéni lekérdezéseim"

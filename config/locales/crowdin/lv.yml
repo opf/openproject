@@ -1751,6 +1751,7 @@ lv:
   label_more_than_ago: "more than days ago"
   label_move_work_package: "Move work package"
   label_my_account: "Mans konts"
+  label_my_activity: "My activity"
   label_my_account_data: "Mana konta dati"
   label_my_projects: "Mani projekti"
   label_my_queries: "My custom queries"

@@ -1766,6 +1766,7 @@ uk:
   label_more_than_ago: "більш ніж днів(я) назад"
   label_move_work_package: "Перемістити робочий пакет"
   label_my_account: "Мій обліковий запис"
+  label_my_activity: "My activity"
   label_my_account_data: "Мої дані облікового запису"
   label_my_projects: "Мої проекти"
   label_my_queries: "Мої збережені запити"

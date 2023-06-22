@@ -1733,6 +1733,7 @@ et:
   label_more_than_ago: "vanem kui"
   label_move_work_package: "Tõsta teema ümber"
   label_my_account: "Oma konto"
+  label_my_activity: "My activity"
   label_my_account_data: "Oma konto andmed"
   label_my_projects: "Minu projektid"
   label_my_queries: "Mu omaloodud päringud"

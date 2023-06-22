@@ -1732,6 +1732,7 @@ sv:
   label_more_than_ago: "mer än dagar sedan"
   label_move_work_package: "Flytta arbetspaket"
   label_my_account: "Mitt konto"
+  label_my_activity: "My activity"
   label_my_account_data: "Min kontoinformation"
   label_my_projects: "Mina projekt"
   label_my_queries: "Min anpassade frågor"

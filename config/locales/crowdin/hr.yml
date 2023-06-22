@@ -1752,6 +1752,7 @@ hr:
   label_more_than_ago: "prije nekoliko dana"
   label_move_work_package: "Premjesti radni paket"
   label_my_account: "Moj korisnički račun"
+  label_my_activity: "My activity"
   label_my_account_data: "Moji korisnički podaci"
   label_my_projects: "Moji projekati"
   label_my_queries: "Moji prilagođeni upiti"

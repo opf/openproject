@@ -1808,6 +1808,7 @@ ar:
   label_more_than_ago: "منذ أكثر من أيام"
   label_move_work_package: "نقل مجموعة العمل"
   label_my_account: "حسابي"
+  label_my_activity: "My activity"
   label_my_account_data: "بيانات حسابي"
   label_my_projects: "مشاريعي"
   label_my_queries: "استعلاماتي المخصصة"

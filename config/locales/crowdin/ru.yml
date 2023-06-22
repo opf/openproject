@@ -1770,6 +1770,7 @@ ru:
   label_more_than_ago: "больше, чем дней назад"
   label_move_work_package: "Переместить пакет работ"
   label_my_account: "Моя учетная запись"
+  label_my_activity: "My activity"
   label_my_account_data: "Данные моей учетной записи"
   label_my_projects: "Мои проекты"
   label_my_queries: "Мои пользовательские запросы"

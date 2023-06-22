@@ -1730,6 +1730,7 @@ it:
   label_more_than_ago: "più di qualche giorno fa"
   label_move_work_package: "Sposta la macro-attività"
   label_my_account: "Il mio account"
+  label_my_activity: "My activity"
   label_my_account_data: "I miei dati dell'account"
   label_my_projects: "I miei progetti"
   label_my_queries: "Le mie query personalizzate"

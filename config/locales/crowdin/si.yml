@@ -1733,6 +1733,7 @@ si:
   label_more_than_ago: "දින කිහිපයකට පෙර"
   label_move_work_package: "වැඩ පැකේජය ගෙනයාම"
   label_my_account: "මගේ ගිණුම"
+  label_my_activity: "My activity"
   label_my_account_data: "මගේ ගිණුම් දත්ත"
   label_my_projects: "මගේ ව්යාපෘති"
   label_my_queries: "මගේ අභිරුචි විමසුම්"

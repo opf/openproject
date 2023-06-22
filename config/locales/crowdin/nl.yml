@@ -1730,6 +1730,7 @@ nl:
   label_more_than_ago: "meer dan dagen geleden"
   label_move_work_package: "Verplaatsen werkpakket"
   label_my_account: "Mijn gegevens"
+  label_my_activity: "My activity"
   label_my_account_data: "Mijn accountgegevens"
   label_my_projects: "Mijn projecten"
   label_my_queries: "Mijn aangepaste query 's"

@@ -1714,6 +1714,7 @@ th:
   label_more_than_ago: "มากกว่าวันที่ผ่านมา"
   label_move_work_package: "ย้ายชุดภารกิจ"
   label_my_account: "บัญชีของฉัน"
+  label_my_activity: "My activity"
   label_my_account_data: "ข้อมูลบัญชีของฉัน"
   label_my_projects: "โครงการของฉัน"
   label_my_queries: "แบบสอบถามแบบกำหนดเองของฉัน"

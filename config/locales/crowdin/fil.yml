@@ -1733,6 +1733,7 @@ fil:
   label_more_than_ago: "mahigit sa araw nakalipas"
   label_move_work_package: "Ilipat ang work package"
   label_my_account: "Ang aking akwant"
+  label_my_activity: "My activity"
   label_my_account_data: "Ang data ng aking akwant"
   label_my_projects: "Ang mga aking proyekto"
   label_my_queries: "Ang mga aking custom query"

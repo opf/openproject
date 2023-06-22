@@ -1752,6 +1752,7 @@ ro:
   label_more_than_ago: "acum mai mult de zile"
   label_move_work_package: "Mutare pachet de lucru"
   label_my_account: "Contul meu"
+  label_my_activity: "My activity"
   label_my_account_data: "Datele din contul meu"
   label_my_projects: "Proiectele mele"
   label_my_queries: "Interogările mele"

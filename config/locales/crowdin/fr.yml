@@ -1733,6 +1733,7 @@ fr:
   label_more_than_ago: "il y a plus de quelques jours"
   label_move_work_package: "Déplacer le Lot de Travaux"
   label_my_account: "Mon compte"
+  label_my_activity: "My activity"
   label_my_account_data: "Info sur mon compte"
   label_my_projects: "Mes projets"
   label_my_queries: "Mes requêtes personnalisées"

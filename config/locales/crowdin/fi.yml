@@ -1733,6 +1733,7 @@ fi:
   label_more_than_ago: "enemän kuin päivää sitten"
   label_move_work_package: "Siirrä tehtävä"
   label_my_account: "Tiliasetukset"
+  label_my_activity: "My activity"
   label_my_account_data: "Tilini tiedot"
   label_my_projects: "Omat projektit"
   label_my_queries: "Omat hakuni"

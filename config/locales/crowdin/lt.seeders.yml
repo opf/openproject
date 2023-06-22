@@ -122,62 +122,62 @@ lt:
         item_6:
           name: Klaida
       welcome:
-        title: Welcome to OpenProject!
+        title: Jus sveikina OpenProject!
         text: |
-          Select one of the demo projects to get started with some demo data we have prepared for you.
+          Parinkite vieną iš demonstracinių projektų, kad susipažintumėte su pavyzdiniais duomenimis, kuriuos mes jums paruošėme.
 
-          * [Demo project]({{opSetting:base_url}}/projects/demo-project): to get an overview about classical project management.
-          * [Scrum project]({{opSetting:base_url}}/projects/your-scrum-project): to learn about Agile and Scrum project management.
+          * [Demonstracinis projektas]({{opSetting:base_url}}/projects/demo-project): bendram supratimui apie klasikinį projektų valdymą.
+          * [Scrum projetas]({{opSetting:base_url}}/projects/your-scrum-project): sužinoti apie Agile ir Scrum projektų valdymą.
 
-          Also, you can create a blank [new project]({{opSetting:base_url}}/projects/new).
+          Taipogi galite sukurti tuščią [naują projektą]({{opSetting:base_url}}/projects/new).
 
-          Never stop collaborating. With open source and open mind.
+          Niekada nesustokite bendradarbiauti. Su atviru kodu galvoje.
 
-          You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          Jūs galite pakeisti šį sveikinimo tekstą [čia]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
-          name: Demo project
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo project.
+          name: Demonstracinis projektas
+          status_explanation: Visos užduotys vyksta pagal planą. Susiję žmonės žino savo užduotis. Sistema pilnai paruošta.
+          description: Tai trumpas demonstracinio projekto tikslų aprašymas.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Jus sveikina jūsų demonstracinis projektas
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Mes džiaugiamės, kad jūs prisijungėte.
+                Šiame modulyje jūs galite iškomunikuoti projekto naujienas jūsų komandos nariams.
+              description: Aktualios naujienos
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategorija 1 (keičiama Projekto nustatymuose)
           queries:
             item_0:
-              name: Project plan
+              name: Projekto planas
             item_1:
-              name: Milestones
+              name: Gairės
             item_2:
-              name: Tasks
+              name: Užduotys
             item_3:
               name: Komandos planas
           boards:
             kanban:
-              name: Kanban board
+              name: Kanban lenta
             basic:
               name: Paprasta lenta
               lists:
                 item_0:
-                  name: Wish list
+                  name: Pageidavimų sąrašas
                 item_1:
-                  name: Short list
+                  name: Trumpas sąrašas
                 item_2:
-                  name: Priority list for today
+                  name: Šiandienos prioritetų sąrašas
                 item_3:
                   name: Niekada
             parent_child:
-              name: Work breakdown structure
+              name: Darbo pasidalinimo struktūra
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Sveiki
               item_1:
                 options:
                   name: Darbo pradžia
@@ -202,61 +202,61 @@ lt:
                   name: Darbų paketai
               item_6:
                 options:
-                  name: Milestones
+                  name: Gairės
           work_packages:
             item_0:
-              subject: Start of project
+              subject: Projekto pradžia
             item_1:
-              subject: Organize open source conference
+              subject: Organizuoti atviro kodo konferenciją
               children:
                 item_0:
-                  subject: Set date and location of conference
+                  subject: Nustatyti konferencijos datą ir vietą
                   children:
                     item_0:
-                      subject: Send invitation to speakers
+                      subject: Išsiųsti pakvietimus pranešėjams
                     item_1:
-                      subject: Contact sponsoring partners
+                      subject: Susiekti su remiančiais partneriais
                     item_2:
-                      subject: Create sponsorship brochure and hand-outs
+                      subject: Sukurti rėmimo brošiūrą ir lankstinukus
                 item_1:
-                  subject: Invite attendees to conference
+                  subject: Pakviesti dalyvius į konferenciją
                 item_2:
-                  subject: Setup conference website
+                  subject: Nustatyti konferencijos svetainę
             item_2:
-              subject: Conference
+              subject: Konferencija
             item_3:
-              subject: Follow-up tasks
+              subject: Tolimesnės užduotys
               children:
                 item_0:
-                  subject: Upload presentations to website
+                  subject: Įkelti pristatymą į svetainę
                 item_1:
-                  subject: Party for conference supporters :-)
+                  subject: Vakarėlis konferencijos rėmėjams :-)
                   description: |-
-                    *   [ ] Beer
-                    *   [ ] Snacks
-                    *   [ ] Music
-                    *   [ ] Even more beer
+                    *   [ ] Alus
+                    *   [ ] Užkandžiai
+                    *   [ ] Muzika
+                    *   [ ] Dar daugiau alaus
             item_4:
-              subject: End of project
+              subject: Projekto pabaiga
         scrum-project:
-          name: Scrum project
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo Scrum project.
+          name: Scrum projektas
+          status_explanation: Visos užduotys vyksta pagal planą. Susiję žmonės žino savo užduotis. Sistema pilnai paruošta.
+          description: Tai trumpas demonstracinio Scrum projekto tikslų aprašymas.
           news:
             item_0:
-              title: Welcome to your Scrum demo project
+              title: Jus sveikina jūsų demonstracinis Scrum projektas
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
+                Mes džiaugiamės, kad jūs prisijungėte.
+                Šiame modulyje jūs galite iškomunikuoti projekto naujienas jūsų komandos nariams.
           versions:
             item_0:
-              name: Bug Backlog
+              name: Neištaisyti riktai
             item_1:
-              name: Product Backlog
+              name: Neatlikti produkto darbai
             item_2:
-              name: Sprint 1
+              name: Sprintas 1
               wiki:
-                title: Sprint 1
+                title: Sprintas 1
                 content: |
                   ### Sprint planning meeting
 
@@ -304,37 +304,37 @@ lt:
                   * After Sprint Review, will be moderated by Scrum Master.
                   * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
             item_3:
-              name: Sprint 2
+              name: Sprintas 2
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategorija 1 (keičiama Projekto nustatymuose)
           queries:
             item_0:
-              name: Project plan
+              name: Projekto planas
             item_1:
               name: Produkto darbų sąrašas
             item_2:
-              name: Sprint 1
+              name: Sprintas 1
             item_3:
-              name: Tasks
+              name: Užduotys
           boards:
             kanban:
-              name: Kanban board
+              name: Kanban lenta
             basic:
               name: Užduočių lenta
               lists:
                 item_0:
-                  name: Wish list
+                  name: Pageidavimų sąrašas
                 item_1:
-                  name: Short list
+                  name: Trumpas sąrašas
                 item_2:
-                  name: Priority list for today
+                  name: Šiandienos prioritetų sąrašas
                 item_3:
                   name: Niekada
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Sveiki
               item_1:
                 options:
                   name: Darbo pradžia
@@ -360,35 +360,35 @@ lt:
                   name: Darbų paketai
               item_6:
                 options:
-                  name: Project plan
+                  name: Projekto planas
           work_packages:
             item_0:
-              subject: New login screen
+              subject: Naujas prisijungimo ekranas
             item_1:
-              subject: Password reset does not send email
+              subject: Slaptažodžio atstatymas nesiunčia laiško
             item_2:
-              subject: New website
+              subject: Nauja svetainė
               children:
                 item_0:
-                  subject: Newsletter registration form
+                  subject: Naujienlaiškio registracijos forma
                 item_1:
-                  subject: Implement product tour
+                  subject: Sukurti produkto turą
                 item_2:
-                  subject: New landing page
+                  subject: Naujas pradinis puslapis
                   children:
                     item_0:
-                      subject: Create wireframes for new landing page
+                      subject: Kurti rėmą naujam pradiniam puslapiui
             item_3:
-              subject: Contact form
+              subject: Kontaktų forma
             item_4:
-              subject: Feature carousel
+              subject: Savybių karuselė
               children:
                 item_0:
-                  subject: Make screenshots for feature tour
+                  subject: Sukurti nuotraukas savybių turui
             item_5:
-              subject: Wrong hover color
+              subject: Netinkama viršelio spalva
             item_6:
-              subject: SSL certificate
+              subject: SSL sertifikatas
             item_7:
               subject: Set-up Staging environment
             item_8:
@@ -401,17 +401,17 @@ lt:
             item_10:
               subject: Internal link structure
             item_11:
-              subject: Develop v1.0
+              subject: Programuoti v1.0
             item_12:
-              subject: Release v1.0
+              subject: Išleisti v1.0
             item_13:
-              subject: Develop v1.1
+              subject: Programuoti v1.1
             item_14:
-              subject: Release v1.1
+              subject: Išleisti v1.1
             item_15:
-              subject: Develop v2.0
+              subject: Programuoti v2.0
             item_16:
-              subject: Release v2.0
+              subject: Išleisti v2.0
           wiki: |
             ### Sprint planning meeting
 

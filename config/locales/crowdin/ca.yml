@@ -1729,6 +1729,7 @@ ca:
   label_more_than_ago: "fa més dies"
   label_move_work_package: "Moure el paquet de treball"
   label_my_account: "El meu compte"
+  label_my_activity: "My activity"
   label_my_account_data: "Dades del meu compte"
   label_my_projects: "Els meus projectes"
   label_my_queries: "Les meves consultes personalitzades"

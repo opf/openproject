@@ -1733,6 +1733,7 @@ bg:
   label_more_than_ago: "повече от преди дни"
   label_move_work_package: "Премести работен пакет"
   label_my_account: "Моят профил"
+  label_my_activity: "My activity"
   label_my_account_data: "Данни за моят акаунт"
   label_my_projects: "Моите проекти"
   label_my_queries: "Моите потребителски заявки"

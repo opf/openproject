@@ -1710,6 +1710,7 @@ ja:
   label_more_than_ago: "今日より○日前以前"
   label_move_work_package: "ワークパッケージを移動"
   label_my_account: "個人設定"
+  label_my_activity: "My activity"
   label_my_account_data: "アカウントのデータ"
   label_my_projects: "参加しているプロジェクト"
   label_my_queries: "個人のクエリ"

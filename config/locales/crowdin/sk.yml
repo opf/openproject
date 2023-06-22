@@ -1771,6 +1771,7 @@ sk:
   label_more_than_ago: "pred viac než dňom"
   label_move_work_package: "Premiestniť pracovný balíček"
   label_my_account: "Môj účet"
+  label_my_activity: "My activity"
   label_my_account_data: "Moje prihlasovacie parametre"
   label_my_projects: "Moje projekty"
   label_my_queries: "Moje vlastné dopyty"
