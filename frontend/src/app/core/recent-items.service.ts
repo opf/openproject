@@ -27,9 +27,12 @@
 //++
 
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class RecentItemsService {
+  recentItems$ = new BehaviorSubject(this.getAll());
+
   add(id: string): void {
     let wps = JSON
       .parse(window.OpenProject.guardedLocalStorage('recent') || '[]')
@@ -39,6 +42,7 @@ export class RecentItemsService {
       wps = wps.slice(0, 5);
     }
     window.localStorage.setItem('recent', JSON.stringify(wps));
+    this.recentItems$.next(wps);
   }
 
   getAll(): string[] {

@@ -39,7 +39,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { first, map, tap } from 'rxjs/operators';
+import { first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
@@ -229,8 +229,6 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   public onFocus():void {
     this.expanded = true;
     this.toggleTopMenuClass();
-    this.ngSelectComponent.typeahead?.next(' ');
-    this.ngSelectComponent.typeahead?.next('');
     this.ngSelectComponent.openSelect();
   }
 
@@ -295,14 +293,18 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   private autocompleteWorkPackages(query:string):Observable<(WorkPackageResource|SearchOptionItem)[]> {
     if (!query) {
-      const wpIds = this.recentItemsService.getAll();
-      // It is needed, because otherwise we get infinite spin running
-      // in the searchbar with no recent workpackages IDs inside localStorage
-      if(wpIds.length === 0) {
-        return of([]);
-      }
-      void this.apiV3Service.work_packages.requireAll(wpIds);
-      return this.apiV3Service.work_packages.cache.observeSome(wpIds);
+      return this.recentItemsService.recentItems$.pipe(
+        switchMap((wpIds) => {
+          // It is needed, because otherwise we get infinite spin running
+          // in the searchbar with no recent workpackages IDs inside localStorage
+          if(wpIds.length === 0) {
+            return of([]);
+          }
+
+          void this.apiV3Service.work_packages.requireAll(wpIds);
+          return this.apiV3Service.work_packages.cache.observeSome(wpIds);
+        })
+      );
     }
 
     // Reset the currently selected item.
