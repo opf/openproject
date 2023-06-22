@@ -26,22 +26,25 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<turbo-frame id="<%=dom_id(meeting_agenda_top)%>" class="meeting-agenda-top d-flex flex-justify-between my-3 flex-items-center">
-  <div class="d-flex flex-items-center">
-    <%= render(Primer::Beta::Octicon.new(:grabber, size: :medium)) %>
-    TOP <%= meeting_agenda_top.position %>:
-    <%= meeting_agenda_top.title %>
-  </div>
-  <div class="d-flex flex-items-center">
-    <div class="px-3">
-      <%= meeting_agenda_top.start_time.strftime("%H:%M") %>
-      -
-      <%= meeting_agenda_top.end_time.strftime("%H:%M") %>
-      (<%= meeting_agenda_top.duration_in_minutes %> min)
-    </div>
-    <div>
-      <%= button_to 'Edit', edit_meeting_agenda_top_path(meeting_agenda_top.meeting, meeting_agenda_top), method: :get, data: { "turbo-stream": true } %>
-      <%= button_to 'Delete', meeting_agenda_top_path(meeting_agenda_top.meeting, meeting_agenda_top), method: :delete, data: { confirm: 'Are you sure?' } %>
-    </div>
+<turbo-frame id="<%=dom_id(meeting_agenda_item)%>" class="meeting-agenda-item d-flex flex-justify-between my-3">
+  <div>
+    <%= form_with(
+      model: meeting_agenda_item, 
+      method: :put, 
+      url: meeting_agenda_item_path(meeting_agenda_item.meeting, meeting_agenda_item),
+      ) do |f| %>
+      <div class="form-group">
+        <%= f.text_field :title, placeholder: "Name", class: 'form-control mb-2' %>
+        <div class="d-flex flex-items-center">
+          <%= f.number_field :duration_in_minutes, placeholder: "Duration in minutes", class: 'form-control' %>
+          <span>min</span>
+        </div>
+      </div>
+
+      <div class="actions mb-2">
+        <%= f.submit %>
+      </div>
+    <% end %>
+    <%= button_to 'Cancel', meeting_agenda_item_path(meeting_agenda_item), method: :get, data: { confirm: 'Are you sure?', "turbo-stream": true } %>
   </div>
 </turbo-frame>

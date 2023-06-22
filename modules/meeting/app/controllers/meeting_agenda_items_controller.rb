@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class MeetingAgendaTopsController < ApplicationController
+class MeetingAgendaItemsController < ApplicationController
   before_action :set_meeting, only: [:new, :index, :create]
-  before_action :set_meeting_agenda_top, only: [:show, :edit, :update, :destroy, :drop]
+  before_action :set_meeting_agenda_item, only: [:show, :edit, :update, :destroy, :drop]
 
   def index
   end
@@ -37,27 +37,27 @@ class MeetingAgendaTopsController < ApplicationController
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: [
-          render_agenda_top_via_stream(@meeting_agenda_top)
+          render_agenda_top_via_stream(@meeting_agenda_item)
         ]
       end
     end
   end
 
   def new
-    @meeting_agenda_top = @meeting.agenda_tops.build
+    @meeting_agenda_item = @meeting.agenda_items.build
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: [
-          render_new_form_via_stream(@meeting_agenda_top)
+          render_new_form_via_stream(@meeting_agenda_item)
         ]
       end
     end
   end
   
   def create
-    @meeting_agenda_top = @meeting.agenda_tops.build(meeting_agenda_top_params)
-    @meeting_agenda_top.user = User.current
-    if @meeting_agenda_top.save
+    @meeting_agenda_item = @meeting.agenda_items.build(meeting_agenda_item_params)
+    @meeting_agenda_item.user = User.current
+    if @meeting_agenda_item.save
       respond_to do |format|
         format.turbo_stream do
           render turbo_stream: [
@@ -70,7 +70,7 @@ class MeetingAgendaTopsController < ApplicationController
       respond_to do |format|
         format.turbo_stream do
           render turbo_stream: [
-            render_new_form_via_stream(@meeting_agenda_top)
+            render_new_form_via_stream(@meeting_agenda_item)
           ]
         end
       end
@@ -81,23 +81,23 @@ class MeetingAgendaTopsController < ApplicationController
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: [
-          render_agenda_top_edit_via_stream(@meeting_agenda_top)
+          render_agenda_top_edit_via_stream(@meeting_agenda_item)
         ]
       end
     end
   end
 
   def update
-    if @meeting_agenda_top.update(meeting_agenda_top_params)
+    if @meeting_agenda_item.update(meeting_agenda_item_params)
       respond_to do |format|
         format.turbo_stream do
-          if @meeting_agenda_top.duration_in_minutes_previously_changed?
+          if @meeting_agenda_item.duration_in_minutes_previously_changed?
             render turbo_stream: [
-              render_agenda_top_list_via_stream(@meeting_agenda_top.meeting)
+              render_agenda_top_list_via_stream(@meeting_agenda_item.meeting)
             ]
           else
             render turbo_stream: [
-              render_agenda_top_via_stream(@meeting_agenda_top)
+              render_agenda_top_via_stream(@meeting_agenda_item)
             ]
           end
         end
@@ -106,7 +106,7 @@ class MeetingAgendaTopsController < ApplicationController
       respond_to do |format|
         format.turbo_stream do
           render turbo_stream: [
-            render_agenda_top_edit_via_stream(@meeting_agenda_top)
+            render_agenda_top_edit_via_stream(@meeting_agenda_item)
           ]
         end
       end
@@ -114,23 +114,23 @@ class MeetingAgendaTopsController < ApplicationController
   end
   
   def destroy
-    @meeting_agenda_top.destroy!
+    @meeting_agenda_item.destroy!
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: [
-          render_agenda_top_list_via_stream(@meeting_agenda_top.meeting)
+          render_agenda_top_list_via_stream(@meeting_agenda_item.meeting)
         ]
       end
     end
   end
 
   def drop
-    @meeting_agenda_top.insert_at(params[:position].to_i)
+    @meeting_agenda_item.insert_at(params[:position].to_i)
 
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: [
-          render_agenda_top_list_via_stream(@meeting_agenda_top.meeting.reload)
+          render_agenda_top_list_via_stream(@meeting_agenda_item.meeting.reload)
         ]
       end
     end
@@ -142,53 +142,53 @@ class MeetingAgendaTopsController < ApplicationController
     @meeting = Meeting.find(params[:meeting_id])
   end
 
-  def set_meeting_agenda_top
-    @meeting_agenda_top = MeetingAgendaTop.find(params[:id])
+  def set_meeting_agenda_item
+    @meeting_agenda_item = MeetingAgendaItem.find(params[:id])
   end
 
-  def meeting_agenda_top_params
-    params.require(:meeting_agenda_top).permit(:title, :duration_in_minutes)
+  def meeting_agenda_item_params
+    params.require(:meeting_agenda_item).permit(:title, :duration_in_minutes)
   end
 
   # turbo stream helpers
 
-  def render_new_form_via_stream(meeting_agenda_top)
+  def render_new_form_via_stream(meeting_agenda_item)
     turbo_stream.replace(
-      "new-meeting-agenda-top-form",
-      partial: 'meeting_agenda_tops/new_form',
-      locals: { meeting_agenda_top: meeting_agenda_top }
+      "new-meeting-agenda-item-form",
+      partial: 'meeting_agenda_items/new_form',
+      locals: { meeting_agenda_item: meeting_agenda_item }
     )
   end
 
   def render_new_button_via_stream(meeting)
     turbo_stream.replace(
-      "new-meeting-agenda-top-form",
-      partial: 'meeting_agenda_tops/new_button',
+      "new-meeting-agenda-item-form",
+      partial: 'meeting_agenda_items/new_button',
       locals: { meeting: meeting }
     )
   end
 
   def render_agenda_top_list_via_stream(meeting)
     turbo_stream.replace(
-      "meeting-agenda-top-list",
-      partial: 'meeting_agenda_tops/list',
+      "meeting-agenda-item-list",
+      partial: 'meeting_agenda_items/list',
       locals: { meeting: meeting }
     )
   end
 
-  def render_agenda_top_via_stream(meeting_agenda_top)
+  def render_agenda_top_via_stream(meeting_agenda_item)
     turbo_stream.replace(
-      ActionView::RecordIdentifier.dom_id(meeting_agenda_top),
-      partial: 'meeting_agenda_tops/show',
-      locals: { meeting_agenda_top: meeting_agenda_top }
+      ActionView::RecordIdentifier.dom_id(meeting_agenda_item),
+      partial: 'meeting_agenda_items/show',
+      locals: { meeting_agenda_item: meeting_agenda_item }
     )
   end
 
-  def render_agenda_top_edit_via_stream(meeting_agenda_top)
+  def render_agenda_top_edit_via_stream(meeting_agenda_item)
     turbo_stream.replace(
-      ActionView::RecordIdentifier.dom_id(meeting_agenda_top),
-      partial: 'meeting_agenda_tops/edit',
-      locals: { meeting_agenda_top: meeting_agenda_top }
+      ActionView::RecordIdentifier.dom_id(meeting_agenda_item),
+      partial: 'meeting_agenda_items/edit',
+      locals: { meeting_agenda_item: meeting_agenda_item }
     )
   end
 

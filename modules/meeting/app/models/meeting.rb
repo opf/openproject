@@ -37,7 +37,7 @@ class Meeting < ApplicationRecord
   has_one :minutes, dependent: :destroy, class_name: 'MeetingMinutes'
   has_many :contents, -> { readonly }, class_name: 'MeetingContent'
   has_many :participants, dependent: :destroy, class_name: 'MeetingParticipant'
-  has_many :agenda_tops, dependent: :destroy, class_name: 'MeetingAgendaTop'
+  has_many :agenda_items, dependent: :destroy, class_name: 'MeetingAgendaItem'
 
   default_scope do
     order("#{Meeting.table_name}.start_time DESC")
@@ -214,9 +214,9 @@ class Meeting < ApplicationRecord
     self.original_participants_attributes = attrs
   end
 
-  def calculate_agenda_top_time_slots
+  def calculate_agenda_item_time_slots
     current_time = start_time
-    agenda_tops.order(:position).each do |top|
+    agenda_items.order(:position).each do |top|
       start_time = current_time
       current_time += top.duration_in_minutes.minutes
       end_time = current_time

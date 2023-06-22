@@ -26,22 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<turbo-frame id="new-meeting-agenda-top-form">
-  <%= form_with(
-    model: meeting_agenda_top, 
-    method: :post, 
-    url: meeting_agenda_tops_path(meeting_agenda_top.meeting)
-    ) do |f| %>
-    <div class="form-group">
-      <%= f.label :add_agenda_top %>
-      <%= f.text_field :title, placeholder: "Name", class: 'form-control mb-2' %>
-      <div class="d-flex flex-items-center">
-        <%= f.number_field :duration_in_minutes, placeholder: "Duration in minutes", class: 'form-control' %>
-        <span>min</span>
-      </div>
-    </div>
-    <div class="actions">
-      <%= f.submit %>
-    </div>
-  <% end %>
+<turbo-frame id="new-meeting-agenda-item-form">
+   <%= button_to 'Add agenda item', new_meeting_agenda_item_path(meeting), method: :get, data: { "turbo-stream": true } %> 
 </turbo-frame>

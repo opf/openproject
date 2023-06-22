@@ -27,7 +27,7 @@
 #++
 #
 
-class MeetingAgendaTop < ApplicationRecord
+class MeetingAgendaItem < ApplicationRecord
   belongs_to :meeting
   has_one :project, through: :meeting
   belongs_to :user
@@ -38,11 +38,13 @@ class MeetingAgendaTop < ApplicationRecord
   validates :title, presence: true
   validates :duration_in_minutes, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
-  after_create :trigger_meeting_agenda_top_time_slots_calculation
-  after_save :trigger_meeting_agenda_top_time_slots_calculation, if: Proc.new { |top| top.duration_in_minutes_previously_changed? || top.position_previously_changed? }
-  after_destroy :trigger_meeting_agenda_top_time_slots_calculation
+  after_create :trigger_meeting_agenda_item_time_slots_calculation
+  after_save :trigger_meeting_agenda_item_time_slots_calculation, if: Proc.new { 
+    |item| item.duration_in_minutes_previously_changed? || item.position_previously_changed? 
+  }
+  after_destroy :trigger_meeting_agenda_item_time_slots_calculation
 
-  def trigger_meeting_agenda_top_time_slots_calculation
-    meeting.calculate_agenda_top_time_slots
+  def trigger_meeting_agenda_item_time_slots_calculation
+    meeting.calculate_agenda_item_time_slots
   end
 end
