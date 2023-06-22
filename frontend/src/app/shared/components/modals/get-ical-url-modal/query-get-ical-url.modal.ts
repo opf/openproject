@@ -136,7 +136,7 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
 
     void promise
       .then((response:{ icalUrl:{ href:string } }) => {
-        this.copyToClipboardService.copy(String(response.icalUrl.href))
+        this.copyToClipboardService.copy(String(response.icalUrl.href));
         this.closeMe();
       })
       .catch((error:{ message:string }) => {

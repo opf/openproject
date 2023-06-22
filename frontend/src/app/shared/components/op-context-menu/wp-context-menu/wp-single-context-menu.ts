@@ -74,10 +74,11 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
           // do nothing, the user closed without changes
           });
         break;
-      case 'copy_to_clipboard':
-        const url = new URL(link!, window.location.origin);
+      case 'copy_to_clipboard': {
+        const url = new URL(String(link), window.location.origin);
         this.copyToClipboardService.copy(url.toString());
         break;
+      }
       default:
         window.location.href = link!;
         break;

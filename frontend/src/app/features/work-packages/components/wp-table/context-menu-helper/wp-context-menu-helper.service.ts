@@ -109,7 +109,7 @@ export class WorkPackageContextMenuHelperService {
         link = this.PathHelper.workPackageShortPath(workPackage.id as string);
         break;
       default:
-        link = action.link ? (workPackage[action.link as string] as HalLink).href as string : undefined;
+        link = action.link ? (workPackage[action.link] as HalLink).href as string : undefined;
     }
 
     return link;
@@ -153,13 +153,13 @@ export class WorkPackageContextMenuHelperService {
     const allowedActions:WorkPackageAction[] = [];
 
     _.each(actions, (action) => {
-      if (action.link && workPackage[action.link as string] !== undefined) {
+      if (action.link && workPackage[action.link] !== undefined) {
         action.text = action.text || I18n.t(`js.button_${action.key}`);
         allowedActions.push(action);
       }
     });
 
-    _.each(this.HookService.call('workPackageTableContextMenu'), (action) => {
+    _.each(this.HookService.call('workPackageTableContextMenu'), (action:WorkPackageAction) => {
       if (workPackage[action.link as string] !== undefined) {
         const index = action.indexBy ? action.indexBy(allowedActions) : allowedActions.length;
         allowedActions.splice(index, 0, action);
