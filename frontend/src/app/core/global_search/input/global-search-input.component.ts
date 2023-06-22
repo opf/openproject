@@ -293,7 +293,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   private autocompleteWorkPackages():Observable<(WorkPackageResource|SearchOptionItem)[]> {
     const query = this.searchTerm;
-    if (query === null) {
+    if (query === null || query.match(/^\s+$/)) {
       return of([]);
     }
 
