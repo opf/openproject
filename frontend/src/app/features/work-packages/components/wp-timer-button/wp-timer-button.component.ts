@@ -77,11 +77,11 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
 
   @Input() public workPackage:WorkPackageResource;
 
-  active$:Observable<TimeEntryResource|null>;
+  active:TimeEntryResource|null = null;
 
   elapsed$:Observable<string> = timer(0, 1000)
     .pipe(
-      switchMap(() => this.active$),
+      map(() => this.active),
       filter((timeEntry) => timeEntry !== null),
       map((timeEntry:TimeEntryResource) => {
         const start = moment(timeEntry.createdAt as string);
@@ -95,7 +95,6 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
         return `${hours}:${minutes}:${seconds}`;
       }),
     );
-
 
   constructor(
     readonly I18n:I18nService,
@@ -118,56 +117,71 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
     const filters = new ApiV3FilterBuilder();
     filters.add('ongoing', '=', true);
 
-    this.active$ = this
+    this
       .apiV3Service
       .time_entries
       .filtered(filters)
       .get()
       .pipe(
         map((collection) => collection.elements.pop() || null),
-        shareReplay(1),
-      );
-    this.cdRef.detectChanges();
-  }
-
-  clear():void {
-    this.active$ = of(null);
-    this.cdRef.detectChanges();
-  }
-
-  stop():void {
-    this
-      .active$
-      .pipe(
-        filter((active) => !!active),
-        switchMap((active:TimeEntryResource) => from(this.schemaCache.ensureLoaded(active)).pipe(map(() => active))),
       )
-      .subscribe((active:TimeEntryResource) => {
-        const change = new TimeEntryChangeset(active);
-        const hours = moment().diff(moment(active.createdAt), 'hours', true);
-        const formatted =  this.timezoneService.toISODuration(hours, 'hours');
-        change.setValue('hours', formatted);
-        change.setValue('ongoing', false);
-
-        void this
-          .halEditing
-          .save(change)
-          .then((commit) => {
-            this.clear();
-            void this.timeEntryEditService.edit(commit.resource as TimeEntryResource);
-          });
+      .subscribe((timeEntry) => {
+        this.active = timeEntry;
+        this.cdRef.detectChanges();
       });
   }
 
-  start():void {
-    this.active$ = this
-      .timeEntryCreateService
+  get activeForWorkPackage():boolean {
+    return !!this.active && this.active.workPackage.href === this.workPackage.href;
+  }
+
+  clear():void {
+    this.active = null;
+    this.cdRef.detectChanges();
+  }
+
+  async stop(edit = true):Promise<unknown> {
+    const active = this.active;
+    if (!active) {
+      return;
+    }
+
+    await this.schemaCache.ensureLoaded(active);
+
+    const change = new TimeEntryChangeset(active);
+    const hours = moment().diff(moment(active.createdAt), 'hours', true);
+    const formatted = this.timezoneService.toISODuration(hours, 'hours');
+    change.setValue('hours', formatted);
+    change.setValue('ongoing', false);
+
+    // eslint-disable-next-line consistent-return
+    return this
+      .halEditing
+      .save(change)
+      .then((commit) => {
+        this.clear();
+        if (edit) {
+          return this.timeEntryEditService.edit(commit.resource as TimeEntryResource);
+        }
+
+        return undefined;
+      });
+  }
+
+  async start():Promise<void> {
+    if (this.active) {
+      await this.stop(false);
+    }
+
+    this.timeEntryCreateService
       .createNewTimeEntry(moment(), this.workPackage, true)
       .pipe(
         switchMap((changeset) => from(this.halEditing.save(changeset))),
         map((result) => result.resource as TimeEntryResource),
-        shareReplay(1),
-      );
-    this.cdRef.detectChanges();
+      )
+      .subscribe((active) => {
+        this.active = active;
+        this.cdRef.detectChanges();
+      });
   }
 }

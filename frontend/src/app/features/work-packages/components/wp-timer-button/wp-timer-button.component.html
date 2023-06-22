@@ -1,16 +1,16 @@
-  <button
-    *ngIf="(active$ | async)"
-    class="button"
-    type="button"
-    (click)="stop()"
-  >
-    <span class="spot-icon spot-icon_milestone"></span>
-    <span [textContent]="elapsed$ | async"></span>
-  </button>
+<button
+  *ngIf="activeForWorkPackage"
+  class="button"
+  type="button"
+  (click)="stop()"
+>
+  <span class="spot-icon spot-icon_milestone"></span>
+  <span [textContent]="elapsed$ | async"></span>
+</button>
 <button
   class="button"
   type="button"
-  *ngIf="(active$ | async) === null"
+  *ngIf="!activeForWorkPackage"
   (click)="start()"
 >
   <span class="spot-icon spot-icon_play"></span>
