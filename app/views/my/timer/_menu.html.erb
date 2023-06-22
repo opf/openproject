@@ -1,0 +1,6 @@
+<%= turbo_frame_tag "my_timers",
+                    src: url_for({ controller: '/my/timer', action: :show }),
+                    target: '_top',
+                    data: { turbo: false },
+                    loading: :lazy do %>
+<% end %>
