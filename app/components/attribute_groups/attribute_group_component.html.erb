@@ -36,7 +36,9 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
   </div>
 
-  <div class="attributes-group--content">
-    <%= content %>
-  </div>
+  <% if content %>
+    <div class="attributes-group--content">
+      <%= content %>
+    </div>
+  <% end %>
 </div>
