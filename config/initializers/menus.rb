@@ -141,6 +141,10 @@ Redmine::MenuManager.map :my_menu do |menu|
             { controller: '/my', action: 'settings' },
             caption: :label_setting_plural,
             icon: 'settings2'
+  menu.push :sessions,
+            { controller: '/my/sessions', action: :index },
+            caption: :'users.sessions.title',
+            icon: 'installation-services'
   menu.push :password,
             { controller: '/my', action: 'password' },
             caption: :button_change_password,

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,36 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-##
-# An AR helper class to access sessions, but not create them.
-# You can still use AR methods to delete records however.
-module Sessions
-  class UserSession < ::ApplicationRecord
-    self.table_name = 'sessions'
+module Users
+  module Sessions
+    class TableComponent < ::TableComponent
+      columns :is_current, :name, :updated_at
+      sortable_columns :updated_at
+      options :current_session
 
-    scope :for_user, ->(user) do
-      user_id = user.is_a?(User) ? user.id : user.to_i
+      def initial_sort
+        %i[updated_at desc]
+      end
 
-      where(user_id:)
-    end
-
-    scope :non_user, -> do
-      where(user_id: nil)
-    end
-
-    ##
-    # Mark all records as readonly so they cannot
-    # modify the database
-    def readonly?
-      true
-    end
-
-    def current?(session_object)
-      session_object.id.private_id == session_id
-    end
-
-    def data
-      SqlBypass.deserialize(super)
+      def headers
+        [
+          [:is_current, { caption: I18n.t('users.sessions.current') }],
+          [:name, { caption: I18n.t(:label_name) }],
+          [:updated_at, { caption: I18n.t('attributes.updated_at') }]
+        ]
+      end
     end
   end
 end
