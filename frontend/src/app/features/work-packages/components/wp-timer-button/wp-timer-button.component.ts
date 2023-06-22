@@ -28,97 +28,146 @@
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  HostBinding,
+  Input,
+  OnInit,
+  ViewEncapsulation,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { WorkPackageWatchersService } from 'core-app/features/work-packages/components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { TimeEntryCreateService } from 'core-app/shared/components/time_entries/create/create.service';
+import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import {
+  filter,
+  map,
+  shareReplay,
+  switchMap,
+} from 'rxjs/operators';
+import {
+  from,
+  Observable,
+  of,
+  timer,
+} from 'rxjs';
+import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
+import { TimeEntryChangeset } from 'core-app/features/work-packages/helpers/time-entries/time-entry-changeset';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import * as moment from 'moment';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { TimeEntryEditService } from 'core-app/shared/components/time_entries/edit/edit.service';
+
+export function pad(val:number):string {
+  return val > 9 ? val.toString() : "0" + val.toString();
+}
 
 @Component({
-  selector: 'wp-watcher-button',
-  templateUrl: './wp-watcher-button.html',
+  selector: 'op-wp-timer-button',
+  templateUrl: './wp-timer-button.component.html',
+  styleUrls: ['./wp-timer-button.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
-export class WorkPackageWatcherButtonComponent extends UntilDestroyedMixin implements OnInit {
-  @Input('workPackage') public workPackage:WorkPackageResource;
+export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin implements OnInit {
+  @HostBinding('class.op-wp-timer-button') className = true;
 
-  @Input('showText') public showText = false;
+  @Input() public workPackage:WorkPackageResource;
 
-  @Input('disabled') public disabled = false;
+  active$:Observable<TimeEntryResource|null>;
 
-  public buttonText:string;
+  elapsed$:Observable<string> = timer(0, 1000)
+    .pipe(
+      switchMap(() => this.active$),
+      filter((timeEntry) => timeEntry !== null),
+      map((timeEntry:TimeEntryResource) => {
+        const start = moment(timeEntry.createdAt as string);
+        const now = moment();
+        const offset = moment(now).diff(start, 'seconds');
 
-  public buttonTitle:string;
+        const seconds = pad(offset % 60);
+        const minutes = pad(parseInt((offset / 60).toString(), 10) % 60);
+        const hours = pad(parseInt((offset / 3600).toString(), 10));
 
-  public buttonClass:string;
+        return `${hours}:${minutes}:${seconds}`;
+      }),
+    );
 
-  public buttonId:string;
 
-  public watchIconClass:string;
-
-  constructor(readonly I18n:I18nService,
-    readonly wpWatchersService:WorkPackageWatchersService,
+  constructor(
+    readonly I18n:I18nService,
     readonly apiV3Service:ApiV3Service,
-    readonly cdRef:ChangeDetectorRef) {
+    readonly timeEntryCreateService:TimeEntryCreateService,
+    readonly timeEntryEditService:TimeEntryEditService,
+    readonly halEditing:HalResourceEditingService,
+    readonly schemaCache:SchemaCacheService,
+    readonly timezoneService:TimezoneService,
+    readonly cdRef:ChangeDetectorRef,
+  ) {
     super();
   }
 
   ngOnInit() {
-    this
+    this.reload();
+  }
+
+  reload():void {
+    const filters = new ApiV3FilterBuilder();
+    filters.add('ongoing', '=', true);
+
+    this.active$ = this
       .apiV3Service
-      .work_packages
-      .id(this.workPackage)
-      .requireAndStream()
+      .time_entries
+      .filtered(filters)
+      .get()
       .pipe(
-        this.untilDestroyed(),
+        map((collection) => collection.elements.pop() || null),
+        shareReplay(1),
+      );
+    this.cdRef.detectChanges();
+  }
+
+  clear():void {
+    this.active$ = of(null);
+    this.cdRef.detectChanges();
+  }
+
+  stop():void {
+    this
+      .active$
+      .pipe(
+        filter((active) => !!active),
+        switchMap((active:TimeEntryResource) => from(this.schemaCache.ensureLoaded(active)).pipe(map(() => active))),
       )
-      .subscribe((wp:WorkPackageResource) => {
-        this.workPackage = wp;
-        this.setWatchStatus();
-        this.cdRef.detectChanges();
+      .subscribe((active:TimeEntryResource) => {
+        const change = new TimeEntryChangeset(active);
+        const hours = moment().diff(moment(active.createdAt), 'hours', true);
+        const formatted =  this.timezoneService.toISODuration(hours, 'hours');
+        change.setValue('hours', formatted);
+        change.setValue('ongoing', false);
+
+        void this
+          .halEditing
+          .save(change)
+          .then((commit) => {
+            this.clear();
+            void this.timeEntryEditService.edit(commit.resource as TimeEntryResource);
+          });
       });
   }
 
-  public get isWatched() {
-    return this.workPackage.hasOwnProperty('unwatch');
-  }
-
-  public get displayWatchButton() {
-    return this.isWatched || this.workPackage.hasOwnProperty('watch');
-  }
-
-  public toggleWatch() {
-    const toggleLink = this.nextStateLink();
-
-    toggleLink(toggleLink.$link.payload).then(() => {
-      this.wpWatchersService.clear(this.workPackage.id);
-      this
-        .apiV3Service
-        .work_packages
-        .id(this.workPackage)
-        .refresh();
-    });
-  }
-
-  public nextStateLink() {
-    const linkName = this.isWatched ? 'unwatch' : 'watch';
-    return this.workPackage[linkName];
-  }
-
-  private setWatchStatus() {
-    if (this.isWatched) {
-      this.buttonTitle = this.I18n.t('js.label_unwatch_work_package');
-      this.buttonText = this.I18n.t('js.label_unwatch');
-      this.buttonClass = '-active';
-      this.buttonId = 'unwatch-button';
-      this.watchIconClass = 'watched';
-    } else {
-      this.buttonTitle = this.I18n.t('js.label_watch_work_package');
-      this.buttonText = this.I18n.t('js.label_watch');
-      this.buttonClass = '';
-      this.buttonId = 'watch-button';
-      this.watchIconClass = 'unwatched';
-    }
+  start():void {
+    this.active$ = this
+      .timeEntryCreateService
+      .createNewTimeEntry(moment(), this.workPackage, true)
+      .pipe(
+        switchMap((changeset) => from(this.halEditing.save(changeset))),
+        map((result) => result.resource as TimeEntryResource),
+        shareReplay(1),
+      );
+    this.cdRef.detectChanges();
   }
 }

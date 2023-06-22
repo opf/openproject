@@ -186,6 +186,7 @@ import { OpBaselineComponent } from 'core-app/features/work-packages/components/
 import { OpBaselineLoadingComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline-loading/baseline-loading.component';
 import { OpBaselineLegendsComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline-legends/baseline-legends.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { WorkPackageTimerButtonComponent } from 'core-app/features/work-packages/components/wp-timer-button/wp-timer-button.component';
 
 @NgModule({
   imports: [
@@ -344,6 +345,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     WorkPackageRelationQueryComponent,
     WorkPackageFormAttributeGroupComponent,
     BackButtonComponent,
+    WorkPackageTimerButtonComponent,
 
     // Activity Tab
     NewestActivityOnOverviewComponent,
