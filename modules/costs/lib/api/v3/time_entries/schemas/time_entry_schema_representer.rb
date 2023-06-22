@@ -57,6 +57,10 @@ module API
                  type: 'Formattable',
                  required: false
 
+          schema :ongoing,
+                 type: 'Boolean',
+                 required: false
+
           schema_with_allowed_link :user,
                                    has_default: false,
                                    required: true,

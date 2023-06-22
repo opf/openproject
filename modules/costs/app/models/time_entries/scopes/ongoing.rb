@@ -26,19 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::TimeEntries::TimeEntryQuery < Queries::BaseQuery
-  def self.model
-    TimeEntry
-  end
+module TimeEntries::Scopes
+  module Ongoing
+    extend ActiveSupport::Concern
 
-  def default_scope
-    if filters.detect { |f| f.class.key == :ongoing }
-      TimeEntry
-        .visible(User.current)
-    else
-      TimeEntry
-        .not_ongoing
-        .visible(User.current)
+    class_methods do
+      def ongoing
+        TimeEntry.where(ongoing: true)
+      end
+
+      def not_ongoing
+        TimeEntry.where(ongoing: false)
+      end
     end
   end
 end

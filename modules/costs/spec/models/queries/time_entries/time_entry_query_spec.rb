@@ -30,7 +30,7 @@ require 'spec_helper'
 
 RSpec.describe Queries::TimeEntries::TimeEntryQuery do
   let(:user) { build_stubbed(:user) }
-  let(:base_scope) { TimeEntry.visible(user).order(id: :desc) }
+  let(:base_scope) { TimeEntry.not_ongoing.visible(user).order(id: :desc) }
   let(:instance) { described_class.new }
 
   before do

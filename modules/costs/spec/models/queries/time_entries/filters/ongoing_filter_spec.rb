@@ -26,19 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::TimeEntries::TimeEntryQuery < Queries::BaseQuery
-  def self.model
-    TimeEntry
-  end
+require 'spec_helper'
 
-  def default_scope
-    if filters.detect { |f| f.class.key == :ongoing }
-      TimeEntry
-        .visible(User.current)
-    else
-      TimeEntry
-        .not_ongoing
-        .visible(User.current)
-    end
+RSpec.describe Queries::TimeEntries::Filters::OngoingFilter do
+  it_behaves_like 'boolean query filter' do
+    let(:model) { TimeEntry }
+    let(:attribute) { :ongoing }
   end
 end

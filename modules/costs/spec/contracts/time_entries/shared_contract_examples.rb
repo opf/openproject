@@ -141,9 +141,7 @@ RSpec.shared_examples_for 'time entry contract' do
   context 'when activity is nil' do
     let(:time_entry_activity) { nil }
 
-    it 'is invalid' do
-      expect_valid(false, activity_id: %i(blank))
-    end
+    it_behaves_like 'is valid'
   end
 
   context 'if the activity is disabled in the project' do

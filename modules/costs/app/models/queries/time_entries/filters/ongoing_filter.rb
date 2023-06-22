@@ -26,19 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::TimeEntries::TimeEntryQuery < Queries::BaseQuery
-  def self.model
-    TimeEntry
-  end
-
-  def default_scope
-    if filters.detect { |f| f.class.key == :ongoing }
-      TimeEntry
-        .visible(User.current)
-    else
-      TimeEntry
-        .not_ongoing
-        .visible(User.current)
-    end
-  end
+class Queries::TimeEntries::Filters::OngoingFilter < Queries::TimeEntries::Filters::TimeEntryFilter
+  include Queries::Filters::Shared::BooleanFilter
 end

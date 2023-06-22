@@ -44,10 +44,10 @@ module Costs
     def time_entries
       if @work_package.time_entries.loaded?
         @work_package.time_entries.select do |time_entry|
-          time_entry.visible_by?(@user)
+          !time_entry.ongoing && time_entry.visible_by?(@user)
         end
       else
-        @work_package.time_entries.visible(@user, @work_package.project)
+        @work_package.time_entries.not_ongoing.visible(@user, @work_package.project)
       end
     end
 

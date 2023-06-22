@@ -74,6 +74,8 @@ module API
 
         property :id
 
+        property :ongoing
+
         formattable_property :comments,
                              as: :comment,
                              plain: true
