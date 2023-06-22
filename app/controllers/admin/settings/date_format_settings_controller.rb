@@ -26,38 +26,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkPackageCustomField < CustomField
-  has_and_belongs_to_many :projects,
-                          join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
-                          foreign_key: 'custom_field_id'
-  has_and_belongs_to_many :types,
-                          join_table: "#{table_name_prefix}custom_fields_types#{table_name_suffix}",
-                          foreign_key: 'custom_field_id'
-  has_many :work_packages,
-           through: :custom_values,
-           source: :customized,
-           source_type: "WorkPackage"
+module Admin::Settings
+  class DateFormatSettingsController < ::Admin::SettingsController
+    menu_item :date_format
 
-  scope :visible_by_user, ->(user) {
-    if user.allowed_to_globally?(:select_custom_fields)
-      all
-    else
-      where(projects: { id: Project.visible(user) })
-        .where(types: { id: Type.enabled_in(Project.visible(user)) })
-        .or(where(is_for_all: true).references(:projects, :types))
-        .includes(:projects, :types)
+    before_action :validate_start_of_week_and_first_week_of_year_combination, only: :update
+
+    def update # rubocop:disable Lint/UselessMethodDefinition
+      super
     end
-  }
 
-  def self.summable
-    where(field_format: %w[int float])
-  end
+    def default_breadcrumb
+      t(:label_date_format)
+    end
 
-  def summable?
-    %w[int float].include?(field_format)
-  end
+    def show_local_breadcrumb
+      true
+    end
 
-  def type_name
-    :label_work_package_plural
+    private
+
+    def validate_start_of_week_and_first_week_of_year_combination
+      start_of_week = settings_params[:start_of_week]
+      start_of_year = settings_params[:first_week_of_year]
+
+      if start_of_week.present? ^ start_of_year.present?
+        flash[:error] = I18n.t(
+          'settings.display.first_date_of_week_and_year_set',
+          first_week_setting_name: I18n.t(:setting_first_week_of_year),
+          day_of_week_setting_name: I18n.t(:setting_start_of_week)
+        )
+        redirect_to action: :show
+      end
+    end
   end
 end

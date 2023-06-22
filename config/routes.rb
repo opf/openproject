@@ -402,6 +402,7 @@ OpenProject::Application.routes.draw do
       resource :work_packages, controller: '/admin/settings/work_packages_settings', only: %i[show update]
       resource :working_days, controller: '/admin/settings/working_days_settings', only: %i[show update]
       resource :users, controller: '/admin/settings/users_settings', only: %i[show update]
+      resource :date_format, controller: '/admin/settings/date_format_settings', only: %i[show update]
 
       # Redirect /settings to general settings
       get '/', to: redirect('/admin/settings/general')
@@ -463,7 +464,7 @@ OpenProject::Application.routes.draw do
 
   resources :activity, :activities, only: :index, controller: 'activities'
 
-  resources :users, except: :edit do
+  resources :users, constraints: { id: /(\d+|me)/ }, except: :edit do
     resources :memberships, controller: 'users/memberships', only: %i[update create destroy]
 
     member do

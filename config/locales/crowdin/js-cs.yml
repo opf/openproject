@@ -225,7 +225,7 @@ cs:
           status_confirmed: "potvrzeno"
           status_waiting: "e-mail odeslán - čeká na potvrzení"
           test_ee: "Vyzkoušejte Enterprise Edition 14 dní zdarma"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
+          quick_overview: "Získejte rychlý přehled o řízení projektu a týmové spolupráci s OpenProject Enterprise edion."
         upsale:
           become_hero: "Staň se hrdinou!"
           enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
@@ -314,20 +314,20 @@ cs:
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
           '12_5':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+                Vydání obsahuje různé nové funkce a vylepšení: <br> <ul class="%{list_styling_class}"> <li>Nahrávání a odkazování souborů z pracovních balíčků na úložiště souborů Nextcloud.</li> <li>Následná kontrola změn projektu sledováním projektových aktivit.</li> <li>Přidejte instantní státní svátky (nepracovní dny).</li> <li>Archivovat projekty neadminy.</li> <li>Nový výchozí filtr pro dlouhé pracovní balíčky.</li> </ul>
     ical_sharing_modal:
-      title: "Subscribe to iCalendar"
-      inital_setup_error_message: "An error occured while fetching data."
+      title: "Přihlásit se k odběru iCalendar"
+      inital_setup_error_message: "Při načítání dat došlo k chybě."
       description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
       warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
-      token_name_label: "Token name"
-      token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
+      token_name_label: "Název tokenu"
+      token_name_placeholder: "Zadejte název pro tento token, např. \"Moje aplikace v kalendáři\""
       token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
-      copy_url_label: "Copy URL"
+      copy_url_label: "Kopírovat URL"
       ical_generation_error_text: "An error occured while generating the iCal URL."
-      copy_url_success_text: "URL copied to clipboard."
+      copy_url_success_text: "URL zkopírováno do schránky."
       copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
     label_activate: "Aktivovat"
     label_assignee: 'Řešitel'
@@ -340,7 +340,7 @@ cs:
     label_add_row_before: "Přidat řádek před"
     label_add_selected_columns: "Přidat vybrané sloupce"
     label_added_by: "přidal"
-    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
+    label_added_time_by: "Přidal <a href=\"%{authorLink}\">%{author}</a> v %{age}"
     label_ago: "dnů před"
     label_all: "vše"
     label_all_work_packages: "všechny pracovní balíčky"
@@ -495,8 +495,8 @@ cs:
     label_custom_queries: "Soukromé"
     label_columns: "Sloupce"
     label_attachments: Přílohy
-    label_drop_files: "Drop files here to attach files."
-    label_drop_or_click_files: "Drop files here or click to attach files."
+    label_drop_files: "Sem přetáhněte soubory pro připojení souborů."
+    label_drop_or_click_files: "Sem přetáhněte soubory nebo klikněte pro připojení souborů."
     label_drop_folders_hint: Není možné použít složku jako přílohu. Prosím vyberte jednotlivé soubory.
     label_add_attachments: "Připojit soubory"
     label_formattable_attachment_hint: "Připojit a propojit soubory smazáním tohoto pole nebo vložením ze schránky."
@@ -569,7 +569,7 @@ cs:
         commented: 'komentováno'
         processed: 'zpracováno'
         prioritized: 'upřednostněno'
-        dateAlert: 'Date alert'
+        dateAlert: 'Upozornění na datum'
       date_alerts:
         milestone_date: 'Datum milníku'
         overdue: 'Po termínu'
@@ -650,12 +650,12 @@ cs:
             description: 'Upozornění pro všechny aktivity v pracovních balíčcích, do kterých jste zapojeni (Řešitel, odpovědný nebo sledující).'
           delayed:
             title: 'Non-participating'
-            description: 'Additional notifications for activities in all projects.'
+            description: 'Další oznámení pro činnosti ve všech projektech.'
           date_alerts:
             title: 'Date alerts'
             description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
             teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
-          overdue: When overdue
+          overdue: Po termínu
         project_specific:
           title: "Nastavení upozornění pro konkrétní projekt\n"
           description: 'These project-specific settings override default settings above.'
@@ -681,7 +681,7 @@ cs:
         Vyberte projekt pro vytvoření pracovního balíčku, abyste viděli všechny atributy. Můžete vybrat pouze projekty, které mají výše uvedený typ aktivován.
       details_activity: 'Aktivita podrobností projektu'
       context: 'Kontext projektu'
-      click_to_switch_to_project: 'Project: %{projectname}'
+      click_to_switch_to_project: 'Projekt: %{projectname}'
       confirm_template_load: 'Přepnutí šablony znovu načte stránku a ztratíte všechny vstupy do tohoto formuláře. Pokračovat?'
       use_template: "Použít šablonu"
       no_template_selected: "(Žádné)"
@@ -1102,7 +1102,7 @@ cs:
         save_as: "Uložit jako"
         export: "Export"
         visibility_settings: "Nastavení viditelnosti"
-        share_calendar: "Subscribe to iCalendar"
+        share_calendar: "Přihlásit se k odběru iCalendar"
         page_settings: "Přejmenovat zobrazení"
         delete: "Odstranit"
       filter: "Filtr"
@@ -1282,9 +1282,9 @@ cs:
       header_description: 'Highlight changes made to this list since any point in the past.'
       enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Zobrazit změny od'
-      baseline_comparison: 'Baseline comparison'
+      baseline_comparison: 'Srovnání baseline'
       help_description: 'Reference time zone for the baseline.'
-      time_description: 'In your local time: %{datetime}'
+      time_description: 'Ve vašem místním čase: %{datetime}'
       time: 'Čas'
       from: 'Od'
       to: 'Do'
@@ -1297,9 +1297,9 @@ cs:
         a_specific_date: 'konkrétní datum'
         between_two_specific_dates: 'mezi dvěma konkrétními daty'
       legends:
-        changes_since: 'Changes since'
-        now_meets_filter_criteria: 'Now meets filter criteria'
-        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
+        changes_since: 'Změny od'
+        now_meets_filter_criteria: 'Nyní splňuje kritéria filtru'
+        no_longer_meets_filter_criteria: 'Již nesplňuje kritéria filtru'
         maintained_with_changes: 'Maintained with changes'
         in_your_timezone: 'In your local timezone:'
       icon_tooltip:
