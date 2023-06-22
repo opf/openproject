@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,24 +26,18 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
+#
 
-require 'support/pages/page'
+# A Cuprite edge-case with our use of select
+# fields causes a Ferrum::JavaScriptError to be raised
+# when an option HTMLElement is removed from its select field
+#
+# Use this as a temporary patch
 
-require_relative 'form'
+require 'ferrum/errors'
 
-module Pages
-  module Admin
-    module CustomActions
-      class New < Form
-        def create
-          click_button 'Create'
-        end
-
-        def path
-          new_custom_action_path
-        end
-      end
-    end
-  end
+def ignore_ferrum_javascript_error
+  yield
+rescue Ferrum::JavaScriptError
 end
