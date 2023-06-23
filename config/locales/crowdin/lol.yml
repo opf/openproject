@@ -263,6 +263,14 @@ lol:
       no_results_title_text: crwdns494987:0crwdne494987:0
       no_results_content_text: crwdns494989:0crwdne494989:0
   users:
+    sessions:
+      session_name: "crwdns855787:0%{browser_name}crwdnd855787:0%{browser_version}crwdnd855787:0%{os_name}crwdne855787:0"
+      unknown_browser: 'crwdns855789:0crwdne855789:0'
+      unknown_os: 'crwdns855791:0crwdne855791:0'
+      current: 'crwdns855793:0crwdne855793:0'
+      title: 'crwdns855795:0crwdne855795:0'
+      instructions: 'crwdns855797:0crwdne855797:0'
+      may_not_delete_current: 'crwdns855799:0crwdne855799:0'
     groups:
       member_in_these_groups: 'crwdns494991:0crwdne494991:0'
       no_results_title_text: crwdns494993:0crwdne494993:0

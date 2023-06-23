@@ -273,6 +273,14 @@ ja:
       no_results_title_text: 現在、報告するニュースはありません。
       no_results_content_text: ニュース項目を追加
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'このユーザーは現在以下のグループのメンバーです：'
       no_results_title_text: このユーザーは現在どのグループのメンバーでもありません。

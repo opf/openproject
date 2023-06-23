@@ -182,21 +182,21 @@ lt:
                 options:
                   name: Darbo pradžia
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Mes džiaugiamės, kad jūs prisijungėte! Siūlome jums pabandyti kelis dalykus, kurie padės jums susipažinti su OpenProject.
 
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true).
+                    Suraskite pačias svarbiausisa savybes, naudodami mūsų [Ekskursiją su vadovu]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true).
 
-                    _Try the following steps:_
+                    _Pabandykite šiuos žingsnius:_
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/demo-project/members) in the project navigation.
-                    2. *View the work in your project*: &rightarrow; Go to [Work packages]({{opSetting:base_url}}/projects/demo-project/work_packages) in the project navigation.
-                    3. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/demo-project/work_packages/new).
-                    4. *Create and update a project plan*: &rightarrow; Go to [Project plan]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) in the project navigation.
-                    5. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/demo-project/settings/modules).
-                    6. *Complete your tasks in the project*: &rightarrow; Go to [Work packages &rightarrow; Tasks]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
+                    1. *Pakvieskite narius į jūsų projektą*: &rightarrow; Eikite į [Nariai]({{opSetting:base_url}}/projects/demo-project/members) projekto navigacijoje.
+                    2. *Peržiūrėkite jūsų projekto darbus*: &rightarrow; Eikite į [Darbo paketai]({{opSetting:base_url}}/projects/demo-project/work_packages) projekto navigacijoje.
+                    3. *Kurkite naują darbo paketą*: &rightarrow; Eikite į [Darbo paketai &rightarrow; Kurti]({{opSetting:base_url}}/projects/demo-project/work_packages/new).
+                    4. *Kurkite ir atnaujinkite projekto planą*: &rightarrow; Eikite į [Projekto planas]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) projekto navigacijoje.
+                    5. *Įjunkite kitus modulius*: &rightarrow; Eikite į [Projekto nustatymai &rightarrow; Moduliai]({{opSetting:base_url}}/projects/demo-project/settings/modules).
+                    6. *Vykdykite jūsų užduotis projekte*: &rightarrow; Eikite į [Darbo paketai &rightarrow; Užduotys]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    Čia rasite mūsų [Naudotojų vadovus](https://www.openproject.org/docs/user-guide/).
+                    Praneškite mums, jei turite kokių klausimų ar jums reikia pagalbos. Susisiekite su mumis: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Darbų paketai
@@ -390,16 +390,16 @@ lt:
             item_6:
               subject: SSL sertifikatas
             item_7:
-              subject: Set-up Staging environment
+              subject: Nusistatyti paruošiamąją aplinką
             item_8:
-              subject: Choose a content management system
+              subject: Parinkite turinio valdymo sistemą
             item_9:
-              subject: Website navigation structure
+              subject: Svetainės navigacijos struktūra
               children:
                 item_0:
-                  subject: Set up navigation concept for website.
+                  subject: Nustatyti svetainės navigacijos koncepciją.
             item_10:
-              subject: Internal link structure
+              subject: Vidinė nuorodų struktūra
             item_11:
               subject: Programuoti v1.0
             item_12:
