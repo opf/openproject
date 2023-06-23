@@ -76,7 +76,7 @@ import {
 import {
   CopyToClipboardComponent,
   copyToClipboardSelector,
-} from 'core-app/shared/components/copy-to-clipboard/copy-to-clipboard.directive';
+} from 'core-app/shared/components/copy-to-clipboard/copy-to-clipboard.component';
 import {
   GlobalSearchInputComponent,
   globalSearchSelector,

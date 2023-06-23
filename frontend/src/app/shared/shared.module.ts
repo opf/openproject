@@ -64,8 +64,8 @@ import {
   highlightColSelector,
   OpHighlightColDirective,
 } from './directives/highlight-col/highlight-col.directive';
-
 import { CopyToClipboardService } from './components/copy-to-clipboard/copy-to-clipboard.service';
+import { CopyToClipboardComponent } from './components/copy-to-clipboard/copy-to-clipboard.component';
 import { OpDateTimeComponent } from './components/date/op-date-time.component';
 import { ToastComponent } from './components/toaster/toast.component';
 
@@ -233,6 +233,7 @@ export function bootstrapModule(injector:Injector):void {
     OpHighlightColDirective,
 
     // Add functionality to rails rendered templates
+    CopyToClipboardComponent,
     CollapsibleSectionComponent,
 
     ResizerComponent,
