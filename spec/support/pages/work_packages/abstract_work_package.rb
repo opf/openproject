@@ -120,9 +120,9 @@ module Pages
       attribute_expectations.each do |label_name, value|
         label = label_name.to_s
         if label == 'status'
-          expect(page).to have_selector("[data-qa-selector='op-wp-status-button'] .button", text: value, wait: 10)
+          expect(page).to have_selector("[data-qa-selector='op-wp-status-button'] .button", text: value)
         else
-          expect(page).to have_selector(".inline-edit--container.#{label.camelize(:lower)}", text: value, wait: 10)
+          expect(page).to have_selector(".inline-edit--container.#{label.camelize(:lower)}", text: value)
         end
       end
     end
