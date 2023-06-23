@@ -214,7 +214,8 @@ module OpenProject
             security_badge_documentation: {
               href: 'https://www.openproject.org/docs/system-admin-guide/information/#security-badge'
             },
-            display_settings_documentation: {
+            date_format_settings_documentation: {
+              # href needs to be changed once docs are changed to reflect new settings placemenets and grouping
               href: 'https://www.openproject.org/docs/system-admin-guide/system-settings/display-settings/'
             },
             chargebee: {
@@ -256,6 +257,10 @@ module OpenProject
               setup: {
                 href: 'https://www.openproject.org/docs/system-admin-guide/integrations/nextcloud/'
               }
+            },
+            ical_docs: {
+              # href needs to be added in once there are docs for this
+              href: ''
             }
           }
         end

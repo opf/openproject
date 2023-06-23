@@ -57,11 +57,9 @@ See COPYRIGHT and LICENSE files for more details.
 
     <div class="form--field">
       <%= setting_select :first_week_of_year, [[day_name(1),'1'], [day_name(4),'4']], blank: :label_language_based,  container_class: '-wide' %>
-      <span class="form--field-instructions">
-        <%= t('settings.display.first_week_of_year_text') %>
-        <br/>
-        <%= static_link_to :display_settings_documentation, label: t('documentation.see_more_link') %>
-      </span>
+     <div class="form--field-instructions">
+        <p><%= t('settings.date_format.first_week_of_year_text_html', link: OpenProject::Static::Links[:date_format_settings_documentation][:href]) %></p>
+      </div>
     </div>
 
   </section>
