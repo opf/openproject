@@ -53,11 +53,11 @@ def register_better_cuprite(language, name: :"better_cuprite_#{language}")
     end
 
     browser_options = {
-      'no-sandbox': nil,
+      'disable-dev-shm-usage': nil,
       'disable-gpu': nil,
       'disable-popup-blocking': nil,
-      'disable-dev-shm-usage': nil,
-      lang: language
+      lang: language,
+      'no-sandbox': nil
     }
 
     if ENV['OPENPROJECT_TESTING_AUTO_DEVTOOLS'].present?

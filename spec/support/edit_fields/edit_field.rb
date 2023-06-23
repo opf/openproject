@@ -135,7 +135,7 @@ class EditField
   end
 
   def submit_by_dashboard
-    field_container.find('.inplace-edit--control--save', wait: 5).click
+    field_container.find('.inplace-edit--control--save').click
   end
 
   ##

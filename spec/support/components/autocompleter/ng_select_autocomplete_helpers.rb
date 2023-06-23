@@ -38,7 +38,11 @@ module Components::Autocompleter
     # Insert the query, typing
     def ng_enter_query(element, query)
       input = element.find('input[type=text]', visible: :all).native
-      input.clear
+      if Capybara.javascript_driver == :better_cuprite_en
+        input.set ''
+      else
+        input.clear
+      end
 
       query = query.to_s
 
