@@ -275,13 +275,13 @@ ru:
       no_results_content_text: Добавить новость
   users:
     sessions:
-      session_name: "%{browser_name} %{browser_version} on %{os_name}"
-      unknown_browser: 'unknown browser'
-      unknown_os: 'unknown operating system'
-      current: 'Current session'
-      title: 'Session management'
-      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
-      may_not_delete_current: 'You cannot delete your current session.'
+      session_name: "%{browser_name} %{browser_version} на %{os_name}"
+      unknown_browser: 'неизвестный браузер'
+      unknown_os: 'неизвестная операционная система'
+      current: 'Текущая сессия'
+      title: 'Управление сессиями'
+      instructions: 'Это список устройств, с которых входили в ваш аккаунт. Закройте все подозрительные сеансы.'
+      may_not_delete_current: 'Вы не можете удалить ваш текущий сеанс.'
     groups:
       member_in_these_groups: 'Этот пользователь в настоящее время является членом следующих групп:'
       no_results_title_text: Этот пользователь в настоящее время не является членом какой-либо группы.
@@ -498,12 +498,12 @@ ru:
         status_code: 'Статус проекта'
         status_explanation: 'Описание статуса проекта'
         status_codes:
-          not_started: 'Не начато'
+          not_started: 'Не начат'
           on_track: 'По плану'
-          at_risk: 'В зоне риска'
+          at_risk: 'Под угрозой'
           off_track: 'Приостановлен'
-          finished: 'Завершено'
-          discontinued: 'Прекращено'
+          finished: 'Завершен'
+          discontinued: 'Прекращен'
         templated: "Проект шаблона"
         templated_value:
           true: "помечено как шаблон"
@@ -1560,7 +1560,7 @@ ru:
   label_bulk_edit_selected_work_packages: "Массовое изменение выбранных пакетов работ"
   label_bundled: '(В комплекте)'
   label_calendar: "Календарь"
-  label_calendars_and_dates: "Calendars and dates"
+  label_calendars_and_dates: "Календари и даты"
   label_calendar_show: "Показать календарь"
   label_category: "Категория"
   label_consent_settings: "Согласие пользователя"
@@ -1614,7 +1614,7 @@ ru:
   label_database_version: "Версия PostgreSQL"
   label_date: "Дата"
   label_date_and_time: "Дата и время"
-  label_date_format: "Date format"
+  label_date_format: "Формат даты"
   label_date_from: "От"
   label_date_from_to: "C %{start} по %{end}"
   label_date_to: "Кому"
@@ -1778,7 +1778,7 @@ ru:
   label_more_than_ago: "больше, чем дней назад"
   label_move_work_package: "Переместить пакет работ"
   label_my_account: "Моя учетная запись"
-  label_my_activity: "My activity"
+  label_my_activity: "Моя активность"
   label_my_account_data: "Данные моей учетной записи"
   label_my_projects: "Мои проекты"
   label_my_queries: "Мои пользовательские запросы"
@@ -2543,7 +2543,7 @@ ru:
   setting_consent_decline_mail: "Контактный почтовый адрес для согласия"
   setting_cross_project_work_package_relations: "Разрешить перектестные связи пакетов работ проекта"
   setting_first_week_of_year: "Первая неделя в году содержит"
-  setting_date_format: "Date"
+  setting_date_format: "Дата"
   setting_default_language: "Язык по умолчанию"
   setting_default_projects_modules: "По умолчанию доступные в новых проектах модули"
   setting_default_projects_public: "По умолчанию новые проекты видимы всем"
@@ -2606,7 +2606,7 @@ ru:
   setting_start_of_week: "Начало недели в"
   setting_sys_api_enabled: "Разрешить веб-сервис управления репоторием"
   setting_sys_api_description: "Веб-сервис управления репозиторием обеспечивает интеграцию и авторизацию пользователя для доступа к репозиторию."
-  setting_time_format: "Time"
+  setting_time_format: "Время"
   setting_accessibility_mode_for_anonymous: "Разрешить режим доступа людей с ограниченными возможностями для анонимных пользователей"
   setting_user_format: "Формат имени пользователя"
   setting_user_default_timezone: "Часовой пояс пользователя по умолчанию"
@@ -2617,7 +2617,7 @@ ru:
   setting_welcome_on_homescreen: "Показывать приветствие на домашней странице"
   setting_work_package_list_default_highlighting_mode: "Способ выделения по умолчанию"
   setting_work_package_list_default_highlighted_attributes: "Выделенные встроенные атрибуты по умолчанию"
-  setting_working_days: "Working days"
+  setting_working_days: "Рабочие дни"
   settings:
     general: "Общие"
     other: "Другие"
@@ -2650,8 +2650,8 @@ ru:
         type: "Вся строка по типу"
         priority: "Вся строка по приоритету"
     working_days:
-      section_work_week: "Work week"
-      section_holidays_and_closures: "Holidays and closures"
+      section_work_week: "Рабочая неделя"
+      section_holidays_and_closures: "Праздничные и нерабочие дни"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Обычный текст'
@@ -3021,9 +3021,9 @@ ru:
       title: "Удалить пакет работ"
   working_days:
     info: >
-      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Невыбранные дни пропускаются при планировании пакетов работ (и не включаются в подсчет дней). Они могут быть переопределены на уровне пакетов работ.
     instance_wide_info: >
-      Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Даты, добавленные в список ниже, считаются нерабочими и пропускаются при планировании пакетов работ.
     change_button: "Изменить рабочие дни"
     warning: >
       Изменение того, какие дни недели считаются рабочими или нерабочими, может повлиять на дни начала и окончания всех рабочих пакетов во всех проектах в данной системе. <br/> Пожалуйста, обратите внимание, что изменения вступят в силу после того, как вы нажмете на кнопку применить.
@@ -3196,7 +3196,7 @@ ru:
       label_refresh_token: "Токен обновления"
     errors:
       oauth_authorization_code_grant_had_errors: "OAuth2 вернул ошибку"
-      oauth_reported: "Поставщик OAuth2 сообщил"
+      oauth_reported: "Источник OAuth2 сообщил"
       oauth_returned_error: "OAuth2 вернул ошибку"
       oauth_returned_json_error: "OAuth2 вернул ошибку JSON"
       oauth_returned_http_error: "OAuth2 вернул ошибку сети"

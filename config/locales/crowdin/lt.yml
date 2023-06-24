@@ -273,13 +273,13 @@ lt:
       no_results_content_text: Pridėti kaip naujieną
   users:
     sessions:
-      session_name: "%{browser_name} %{browser_version} on %{os_name}"
-      unknown_browser: 'unknown browser'
-      unknown_os: 'unknown operating system'
-      current: 'Current session'
-      title: 'Session management'
-      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
-      may_not_delete_current: 'You cannot delete your current session.'
+      session_name: "%{browser_name} %{browser_version} %{os_name}"
+      unknown_browser: 'nežinoma naršyklė'
+      unknown_os: 'nežinoma operacinė sistema'
+      current: 'Dabartinė sesija'
+      title: 'Sesijos valdymas'
+      instructions: 'Toliau pateikiamas sąrašas įrenginių, kurie yra prisijungę prie jūsų paskyros. Panaikinkite visus seansus, kurių neatpažįstate arba prie kurių nebeturite prieigos.'
+      may_not_delete_current: 'Jūs negalite ištrinti savo dabartinės sesijos.'
     groups:
       member_in_these_groups: 'Šis naudotojas šiuo metu yra šių grupių narys:'
       no_results_title_text: Šis naudotojas nėra jokios grupės narys.
@@ -500,7 +500,7 @@ lt:
           on_track: 'Teisingame kelyje'
           at_risk: 'Rizikingas'
           off_track: 'Pasiklydęs'
-          finished: 'Baigta'
+          finished: 'Baigtas'
           discontinued: 'Nutrauktas'
         templated: "Šabloninis projektas"
         templated_value:

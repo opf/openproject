@@ -258,51 +258,51 @@ lt:
               wiki:
                 title: Sprintas 1
                 content: |
-                  ### Sprint planning meeting
+                  ### Sprinto planavimo susitikimas
 
-                  _Please document here topics to the Sprint planning meeting_
+                  _Prašome čia dokumentuoti Sprinto planavimo susitikimo temas_
 
-                  * Time boxed (8 h)
-                  * Input: Product Backlog
-                  * Output: Sprint Backlog
+                  * Laikas (8 val)
+                  * Įvestis: Produkto likę darbai
+                  * Rezultatas: Sprinto likę darbai
 
-                  * Divided into two additional time boxes of 4 h:
+                  * Padalinta į du papildomus laikus po 4 val:
 
-                      * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                      * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-
-                  ### Daily Scrum meeting
-
-                  _Please document here topics to the Daily Scrum meeting_
-
-                  * Short, daily status meeting of the team.
-                  * Time boxed (max. 15 min).
-                  * Stand-up meeting to discuss the following topics from the [Task board](##sprint:scrum_project__version__sprint_1).
-                      * What do I plan to do until the next Daily Scrum?
-                      * What has blocked my work (Impediments)?
-                  * Scrum Master moderates and notes down [Sprint Impediments](##sprint:scrum_project__version__sprint_1).
-                  * Product Owner may participate may participate in order to stay informed.
-
-                  ### Sprint Review meeting
-
-                  _Please document here topics to the Sprint Review meeting_
-
-                  * Time boxed (4 h).
-                  * A maximum of one hour of preparation time per person.
-                  * The team shows the product owner and other interested persons what has been achieved in this sprint.
-                  * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-                  * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-                  * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
+                      * Produkto savininkas pristato komandai [Produkto likusius darbus]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) ir prioritetus bei paaiškina Sprinto tikslą, su kuriuo komanda turi sutikti. Kartu jie prioritetizuoja likusių produkto darbų temas, kuriomis komanda užsiims kito sprinto metu. Komanda įsipareigoja dėl aptartų rezultatų.
+                      * Komanda detaliai planuoja autonomiškai (be Produkto savininko), padalina aptartų tikslų užduotis ir konsoliduoja [Likusius sprinto darbus]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
 
 
-                  ### Sprint Retrospective
+                  ### Kasdieninis Scrum susitikimas
 
-                  _Please document here topics to the Sprint Retrospective meeting_
+                  _Prašome čia dokumentuoti kasdieninio Scrum susitikimo temas_
 
-                  * Time boxed (3 h).
-                  * After Sprint Review, will be moderated by Scrum Master.
-                  * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+                  * Trumpas, kasdieninis komandos būsenos susitikimas.
+                  * Laikas (ne daugiau 15 min).
+                  * Stovimas susitikimas šių temų iš [Užduočių lentos](##sprint:scrum_project__version__sprint_1) aptarimui.
+                      * Ką aš planuoju daryti iki kito kasdieninio Scrum susitikimo?
+                      * Kas blokuoja mano darbą (Trukdžiai)?
+                  * Scrum vadovas moderuoja ir užsirašo [Sprinto trukdžius](##sprint:scrum_project__version__sprint_1).
+                  * Produkto savininkas gali dalyvauti, kad būtų informuotas.
+
+                  ### Sprinto peržiūros susitikimas
+
+                  _Prašome čia dokumentuoti Sprinto peržiūros susitikimo temas_
+
+                  * Laikas (4 h).
+                  * Daugiausia vienos valandos pasiruošimas vienam asmeniui.
+                  * Komanda parodo produkto savininkui ir kitims suinteresuotiems asmenims, kas buvo pasiekta šiame sprinte.
+                  * Svarbu: jokių maketų ir jokių skaidrių! Turi būti demonstruojamas tik baigtas produkto funkcionalumas (padidėjimas).
+                  * Produkto savininko, suinteresuotų asmenų ir kitų grįžtamasis ryšys pageidaujamas ir bus įtrauktas į ateities darbus.
+                  * Priklausomai nuo pademonstruoto funkcionalumo, Produkto savininkas nusprendžia ar ar diegti šį padidėjimą, ar dar toliau jį vystyti. Ši galimybė leidžia ankstyvą ROI.
+
+
+                  ### Sprinto retrospektyva
+
+                  _Prašome čia dokumentuoti Sprinto retrospektyvos susitikimo temas_
+
+                  * Laikas (3 h).
+                  * Po Sprinto peržiūros, moderuoja Scrum vadovas.
+                  * Komanda aptaria sprintą: kas suveikė gerai, ką reikia pagerinti norint padidinti kitų sprintų produktyvumą ar net labiau pasilinksminti.
             item_3:
               name: Sprintas 2
           categories:
