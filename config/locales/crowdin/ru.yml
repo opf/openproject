@@ -3201,7 +3201,7 @@ ru:
       label_refresh_token: "Токен обновления"
     errors:
       oauth_authorization_code_grant_had_errors: "OAuth2 вернул ошибку"
-      oauth_reported: "Поставщик OAuth2 сообщил"
+      oauth_reported: "Источник OAuth2 сообщил"
       oauth_returned_error: "OAuth2 вернул ошибку"
       oauth_returned_json_error: "OAuth2 вернул ошибку JSON"
       oauth_returned_http_error: "OAuth2 вернул ошибку сети"
