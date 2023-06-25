@@ -53,9 +53,9 @@ module Components::Autocompleter
         input.send_keys(query[0..-2])
         sleep 0.2
         input.send_keys(query[-1])
-      else
-        input.send_keys(query)
       end
+
+      wait_for_network_idle if using_cuprite?
     end
 
     ##
