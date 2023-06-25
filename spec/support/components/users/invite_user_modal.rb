@@ -128,7 +128,9 @@ module Components
       end
 
       def autocomplete(selector, query, select_text: query)
-        select_autocomplete modal_element.find(selector),
+        select_field = modal_element.find(selector)
+
+        select_autocomplete select_field,
                             query:,
                             select_text:,
                             results_selector: 'body'

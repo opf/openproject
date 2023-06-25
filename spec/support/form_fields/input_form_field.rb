@@ -20,10 +20,8 @@ module FormFields
       # A normal fill_in would cause the focus loss on the input for empty strings.
       # Thus the form would be submitted.
       # https://github.com/erikras/redux-form/issues/686
-      if Capybara.javascript_driver == :better_cuprite_en
-        input_element.value.length.times do
-          input_element.send_keys(:backspace)
-        end
+      if using_cuprite?
+        clear_input_field_contents(input_element)
         input_element.fill_in with: content
       else
         input_element.fill_in with: content, fill_options: { clear: :backspace }

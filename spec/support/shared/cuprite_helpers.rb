@@ -29,11 +29,29 @@
 # ++
 #
 
-# Wrapper for Cuprite's `page.driver.wait_for_reload`
-# Used to wait for both:
-# 1. Network traffic to become idle.
-# 2. Waiting for DOM to be loaded and ready avoiding
-#    AJAX timing issues.
+# Wrapper for Cuprite's `page.driver.wait_for_network_idle`
+# Used to wait for Network traffic to become idle, helping
+# in specs where AJAX requests are performed by angular components.
+# This is especially helpful as it doesn't depend on DOM elements
+# being present or gone. Instead the execution is halted until
+# requested data is done being fetched.
+def wait_for_network_idle
+  page.driver.wait_for_network_idle
+end
+
+# Takes the above `wait_for_network_idle` a step further by waiting
+# for the page to be reloaded after some triggering action.
 def wait_for_reload
   page.driver.wait_for_reload
+end
+
+# Ferrum is yet support `fill_options` as a Hash
+def clear_input_field_contents(input_element)
+  input_element.value.length.times do
+    input_element.send_keys(:backspace)
+  end
+end
+
+def using_cuprite?
+  Capybara.javascript_driver == :better_cuprite_en
 end

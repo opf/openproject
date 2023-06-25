@@ -31,7 +31,7 @@ def scroll_to_element(element)
   script = <<-JS
     arguments[0].scrollIntoView(true);
   JS
-  if Capybara.javascript_driver == :better_cuprite_en
+  if using_cuprite?
     page.driver.execute_script(script, element.native)
   else
     Capybara.current_session.driver.browser.execute_script(script, element.native)
