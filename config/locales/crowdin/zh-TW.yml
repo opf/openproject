@@ -56,7 +56,7 @@ zh-TW:
         alternative-color: "濃重的主題色，通常用於螢幕上最重要的按鈕。"
         content-link-color: "大部分連結的文字顏色"
         primary-color: "主要顏色"
-        primary-color-dark: "通常深色的主顏色用於 hover 特效。"
+        primary-color-dark: "通常深色的主顏色用於懸浮特效。"
         header-item-bg-hover-color: "當滑鼠移動到可點選的標題項目的背景顏色"
         header-item-font-color: "可點擊的標題項目的文字顏色"
         header-item-font-hover-color: "當滑鼠移動到可點選的標題項目的文字顏色"

@@ -339,22 +339,22 @@ lt:
                 options:
                   name: Darbo pradžia
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Džiaugiamės, kad jūs prisijungėte! Siūlome pabandyti kelis dalykus, kad susipažintumėte su OpenProject.
 
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
+                    Raskite svarbiausias savybes su mūsų [Gido turu]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
 
-                    _Try the following steps:_
+                    _Pabandykite šiuos žingsnius:_
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
-                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
-                    3. *View your Task board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select [Task Board](##sprint:scrum_project__version__sprint_1).
-                    4. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
-                    6. *Create a Sprint wiki*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and open the sprint wiki from the right drop down menu in a sprint. You can edit the [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) based on your needs.
-                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+                    1. *Pakvieskite naujus narius į projektą*: &rightarrow; Eikite į [Nariai]({{opSetting:base_url}}/projects/your-scrum-project/members) projekto navigacijoje.
+                    2. *Peržiūrėkite likusius Produkto ir Spinrto darbus*: &rightarrow; Eikite į [Likę darbai]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) projekto navigacijoje.
+                    3. *Peržiūrėkite jūsų Užduočių lentą*: &rightarrow; Eikite į [Likę darbai]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Spauskite rodyklę į dešinę ant Sprinto &rightarrow; Pažymėti [Užduočių lenta](##sprint:scrum_project__version__sprint_1).
+                    4. *Sukurkite naują darbo paketą*: &rightarrow; Eikite į [Darbo paketai &rightarrow; Sukurti]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    5. *Sukurkite ir atnaujinkite projekto planą*: &rightarrow; Eikite į [Projekto planas](##query:scrum_project__query__project_plan) projekto navigacijoje.
+                    6. *Sukurkite Sprinto wiki*: &rightarrow; Eikite į [Likę darbai]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) ir atidarykite sprinto wiki iš dešinėje iškrentančio sprinto meniu. Jūs galite keisti [wiki šabloną]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) pagal savo poreikius.
+                    7. *Aktyvuokite kitus modulius*: &rightarrow; Eikite į [Projekto nustatymai &rightarrow; Moduliai]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    Čia rasite mūsų [Naudotojo gidus](https://www.openproject.org/docs/user-guide/).
+                    Praneškite mums, jei turite bet kokių klausimų ar jums reikia pagalbos. Susisiekite su mumis: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Darbų paketai
