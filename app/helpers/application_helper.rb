@@ -198,7 +198,7 @@ module ApplicationHelper
 
       content_tag :div, class: 'form--field' do
         label_tag(id, object, object_options) do
-          styled_check_box_tag(name, object.id, false, id:) + object
+          styled_check_box_tag(name, object.id, false, id:) + object.to_s
         end
       end
     end.join.html_safe
