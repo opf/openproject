@@ -64,10 +64,12 @@ module AuthenticationHelpers
   end
 
   def logout
-    if using_cuprite?
-      page.driver.cookies.clear
-    else
+    # There are a select number of specs that rely on some implementation detail
+    # of `visit signout_path` that a cookie clear just doesn't cut.
+    if !using_cuprite? || RSpec.current_example.metadata[:signout_via_visit]
       visit signout_path
+    else
+      page.driver.cookies.clear
     end
   end
 
