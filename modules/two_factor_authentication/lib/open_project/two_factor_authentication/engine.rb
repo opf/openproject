@@ -1,4 +1,5 @@
 require 'open_project/plugins'
+require 'webauthn'
 
 module OpenProject::TwoFactorAuthentication
   class Engine < ::Rails::Engine
@@ -63,8 +64,8 @@ module OpenProject::TwoFactorAuthentication
 
       config.after_initialize do
         WebAuthn.configure do |config|
-          config.origin = "https://auth.example.com"
-          config.rp_name = "Example Inc."
+          config.origin = "https://auth.example.com" # TODO: See where I can find this properly
+          config.rp_name = Setting[:app_title]
         end
       end
     end
