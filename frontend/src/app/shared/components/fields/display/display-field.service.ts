@@ -80,6 +80,11 @@ export class DisplayFieldService extends AbstractFieldService<DisplayField, IDis
     if (context.container === 'single-view' && isCustomMultiLinesField) {
       return new MultipleLinesCustomOptionsDisplayField(fieldName, context) as DisplayField;
     }
+    // Separate class seems not needed (merge with []CustomOption above?)
+    const isVersionMultiLinesField = ['[]Version'].indexOf(schema.type) >= 0;
+    if (context.container === 'single-view' && isVersionMultiLinesField) {
+      return new MultipleLinesCustomOptionsDisplayField(fieldName, context) as DisplayField;
+    }
     const isUserMultiLinesField = ['[]User'].indexOf(schema.type) >= 0;
     if (context.container === 'single-view' && isUserMultiLinesField) {
       return new MultipleLinesUserFieldModule(fieldName, context) as DisplayField;

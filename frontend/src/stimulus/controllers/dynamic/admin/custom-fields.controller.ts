@@ -310,6 +310,7 @@ export default class CustomFieldsController extends Controller {
         this.unsearchable();
         break;
       case 'version':
+        this.show(...this.multiSelectTargets);
         this.activate(this.defaultValueTargets, false);
         this.activate(this.possibleValuesTargets, false);
         this.hide(...this.lengthTargets, ...this.regexpTargets, ...this.defaultValueTargets);
