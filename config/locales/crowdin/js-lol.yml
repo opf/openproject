@@ -65,6 +65,7 @@ lol:
     button_confirm: "crwdns786900:0crwdne786900:0"
     button_continue: "crwdns786902:0crwdne786902:0"
     button_copy: "crwdns786904:0crwdne786904:0"
+    button_copy_to_clipboard: "crwdns855841:0crwdne855841:0"
     button_copy_to_other_project: "crwdns786906:0crwdne786906:0"
     button_custom-fields: "crwdns786908:0crwdne786908:0"
     button_delete: "crwdns786910:0crwdne786910:0"
@@ -105,7 +106,7 @@ lol:
       remove_from_list: 'crwdns786968:0crwdne786968:0'
     caption_rate_history: "crwdns786970:0crwdne786970:0"
     clipboard:
-      browser_error: "crwdns786972:0crwdne786972:0"
+      browser_error: "crwdns855843:0%{content}crwdne855843:0"
       copied_successful: "crwdns786974:0crwdne786974:0"
     chart:
       type: 'crwdns786976:0crwdne786976:0'
@@ -325,8 +326,6 @@ lol:
       token_name_description_text: "crwdns854481:0crwdne854481:0"
       copy_url_label: "crwdns854483:0crwdne854483:0"
       ical_generation_error_text: "crwdns854485:0crwdne854485:0"
-      copy_url_success_text: "crwdns854487:0crwdne854487:0"
-      copy_url_error_text: "crwdns854489:0%{icalUrl}crwdne854489:0"
     label_activate: "crwdns787268:0crwdne787268:0"
     label_assignee: 'crwdns809580:0crwdne809580:0'
     label_add_column_after: "crwdns787270:0crwdne787270:0"

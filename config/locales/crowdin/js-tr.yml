@@ -65,6 +65,7 @@ tr:
     button_confirm: "Onaylamak"
     button_continue: "Devam et"
     button_copy: "Kopyalamak"
+    button_copy_to_clipboard: "Copy to clipboard"
     button_copy_to_other_project: "Başka bir projeye kopyala"
     button_custom-fields: "Özel Alanlar"
     button_delete: "silmek"
@@ -105,7 +106,7 @@ tr:
       remove_from_list: 'Kartı listeden çıkar'
     caption_rate_history: "Hız tarihi"
     clipboard:
-      browser_error: "Tarayıcınız panoya kopyalamayı desteklemiyor. Lütfen seçilen metni manuel olarak kopyalayın."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Panoya başarıyla kopyalandı!"
     chart:
       type: 'Grafik tipi'
@@ -326,8 +327,6 @@ tr:
       token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
       copy_url_label: "Copy URL"
       ical_generation_error_text: "An error occured while generating the iCal URL."
-      copy_url_success_text: "URL copied to clipboard."
-      copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
     label_activate: "Etkinleştir"
     label_assignee: 'Atanan'
     label_add_column_after: "Sonrasına sütun ekle"

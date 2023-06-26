@@ -65,6 +65,7 @@ fr:
     button_confirm: "Confirmer"
     button_continue: "Continuer"
     button_copy: "Copier"
+    button_copy_to_clipboard: "Copy to clipboard"
     button_copy_to_other_project: "Copier vers un autre projet"
     button_custom-fields: "Champs personnalisés"
     button_delete: "Supprimer"
@@ -105,7 +106,7 @@ fr:
       remove_from_list: 'Supprimer la carte de la liste'
     caption_rate_history: "Historique des tarifs"
     clipboard:
-      browser_error: "Votre navigateur ne prend pas en charge la copie dans le presse-papier. Veuillez copier manuellement le texte sélectionné."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Copie réussie dans le presse-papiers !"
     chart:
       type: 'Type de graphique'
@@ -327,8 +328,6 @@ fr:
       token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
       copy_url_label: "Copier l'URL"
       ical_generation_error_text: "An error occured while generating the iCal URL."
-      copy_url_success_text: "URL copied to clipboard."
-      copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
     label_activate: "Activer"
     label_assignee: 'Responsable'
     label_add_column_after: "Ajouter une colonne après"

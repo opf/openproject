@@ -65,6 +65,7 @@ de:
     button_confirm: "Bestätigen"
     button_continue: "Fortfahren"
     button_copy: "Kopieren"
+    button_copy_to_clipboard: "Copy to clipboard"
     button_copy_to_other_project: "In anderes Projekt kopieren"
     button_custom-fields: "Benutzerdefinierte Felder"
     button_delete: "Löschen"
@@ -105,7 +106,7 @@ de:
       remove_from_list: 'Karte aus Liste entfernen'
     caption_rate_history: "Stundensatz-Historie"
     clipboard:
-      browser_error: "Ihr Browser unterstützt das Kopieren in die Zwischenablage nicht nativ. Bitte selektieren und kopieren Sie den Text händisch."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Erfolgreich in die Zwischenablage kopiert!"
     chart:
       type: 'Art des Diagramms'
@@ -326,8 +327,6 @@ de:
       token_name_description_text: "Dieser Name wird verwendet, um ihn von anderen Token in der <a href=\"my/access_token\", target=\"_blank\">Zugangs-Token-Liste</a> zu unterscheiden. Er kann nur einmal pro Kalender verwendet werden."
       copy_url_label: "URL kopieren"
       ical_generation_error_text: "Beim Generieren der iCal-URL ist ein Fehler aufgetreten."
-      copy_url_success_text: "URL in die Zwischenablage kopiert."
-      copy_url_error_text: "Wegen Browser-Fehlern konnte die URL nicht in die Zwischenablage kopiert werden. Bitte kopieren Sie sie manuell: %{icalUrl}"
     label_activate: "Aktiviere"
     label_assignee: 'Zugewiesen an'
     label_add_column_after: "Spalte danach hinzufügen"

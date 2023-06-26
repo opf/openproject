@@ -65,6 +65,7 @@ sv:
     button_confirm: "Bekräfta"
     button_continue: "Fortsätt"
     button_copy: "Kopiera"
+    button_copy_to_clipboard: "Copy to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Anpassade fält"
     button_delete: "Ta bort"
@@ -105,7 +106,7 @@ sv:
       remove_from_list: 'Ta bort kort från listan'
     caption_rate_history: "Historiska timpriser"
     clipboard:
-      browser_error: "Din webbläsare stöder inte kopiera till Urklipp. Vänligen kopiera den markerade texten manuellt."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Typ av diagram'
@@ -326,8 +327,6 @@ sv:
       token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
       copy_url_label: "Copy URL"
       ical_generation_error_text: "An error occured while generating the iCal URL."
-      copy_url_success_text: "URL copied to clipboard."
-      copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
     label_activate: "Aktivera"
     label_assignee: 'Tilldelad till'
     label_add_column_after: "Lägg till kolumn efter"

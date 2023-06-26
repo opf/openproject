@@ -65,6 +65,7 @@ ro:
     button_confirm: "Confirmă"
     button_continue: "Continuaţi"
     button_copy: "Copiere"
+    button_copy_to_clipboard: "Copy to clipboard"
     button_copy_to_other_project: "Copiază în alt proiect"
     button_custom-fields: "Câmpuri personalizate"
     button_delete: "Ștergere"
@@ -105,7 +106,7 @@ ro:
       remove_from_list: 'Alegeți intervalul din listă'
     caption_rate_history: "Istoricul ratei"
     clipboard:
-      browser_error: "Browser-ul nu acceptă copierea în ecranul tampon. Vă rugăm să copiaţi textul selectat manual."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Copiat cu succes în clipboard!"
     chart:
       type: 'Tipul de diagramă'
@@ -326,8 +327,6 @@ ro:
       token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
       copy_url_label: "Copy URL"
       ical_generation_error_text: "An error occured while generating the iCal URL."
-      copy_url_success_text: "URL copied to clipboard."
-      copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
     label_activate: "Activare"
     label_assignee: 'Executant'
     label_add_column_after: "Adauga o coloana dupa"

@@ -65,6 +65,7 @@ el:
     button_confirm: "Επιβεβαίωση"
     button_continue: "Συνέχεια"
     button_copy: "Αντιγραφή"
+    button_copy_to_clipboard: "Copy to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Προσαρμοσμένα πεδία"
     button_delete: "Διαγραφή"
@@ -105,7 +106,7 @@ el:
       remove_from_list: 'Αφαίρεση κάρτας από τη λίστα'
     caption_rate_history: "Ιστορικό αμοιβής"
     clipboard:
-      browser_error: "Ο περιηγητής σας δεν υποστηρίζει αντιγραφή από το clipboard. Παρακαλούμε αντιγράψτε το επιλεγμένο κείμενο χειροκίνητα."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Αντιγράφηκε επιτυχώς στο πρόχειρο!"
     chart:
       type: 'Τύπος διαγράμματος'
@@ -326,8 +327,6 @@ el:
       token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
       copy_url_label: "Copy URL"
       ical_generation_error_text: "An error occured while generating the iCal URL."
-      copy_url_success_text: "URL copied to clipboard."
-      copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
     label_activate: "Ενεργοποίηση"
     label_assignee: 'Ανάθεση σε'
     label_add_column_after: "Προσθήκη στήλης μετά"

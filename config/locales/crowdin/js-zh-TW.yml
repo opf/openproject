@@ -65,6 +65,7 @@ zh-TW:
     button_confirm: "確認"
     button_continue: "繼續"
     button_copy: "複製"
+    button_copy_to_clipboard: "Copy to clipboard"
     button_copy_to_other_project: "複製到其他專案"
     button_custom-fields: "自訂欄位"
     button_delete: "删除"
@@ -105,7 +106,7 @@ zh-TW:
       remove_from_list: '從清單列表中移除'
     caption_rate_history: "Rate history"
     clipboard:
-      browser_error: "您的瀏覽器不支援複製到剪貼簿。請手動複製選取的文字。"
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "已成功複製到剪貼簿"
     chart:
       type: '圖表類型'
@@ -326,8 +327,6 @@ zh-TW:
       token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
       copy_url_label: "Copy URL"
       ical_generation_error_text: "An error occured while generating the iCal URL."
-      copy_url_success_text: "URL copied to clipboard."
-      copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
     label_activate: "啟用"
     label_assignee: '負責執行者'
     label_add_column_after: "在後面增加一欄"
