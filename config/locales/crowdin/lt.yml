@@ -2234,7 +2234,7 @@ lt:
   notice_successful_update_custom_fields_added_to_project: |
     Sėkmingas atnaujinimas. Savi aktyvuotų tipų laukai automatiškai aktivuoti darbo paketų formose. <a href="%{url}" target="_blank">Skaitykite daugiau</a>.
   notice_successful_update_custom_fields_added_to_type: |
-    Sėkmingas atnaujinimas. Aktyvus savi laukai automatiškai aktyvuoti susijusiems šio tipo projektams.
+    Sėkmingas atnaujinimas. Aktyvūs savi laukai automatiškai aktyvuoti susijusiems šio tipo projektams.
   notice_to_many_principals_to_display: "Per daug rezultatų. Susiaurinkite paiešką pradėdami įvesti naujo nario (ar grupės) pavadinimą."
   notice_user_missing_authentication_method: Vartotojas dar nepasirinko slaptažodžio ar kitokio būdo prisijungimui.
   notice_user_invitation_resent: Pakvietimas buvo nusiųstas į %{email}.

@@ -266,7 +266,7 @@ de:
       notice_reset_token: "Ein neuer %{type} Token wurde generiert. Der Zutrittstoken lautet:"
       token_value_warning: "Hinweis: Dieser Token ist nur einmal sichtbar, der Token kann jetzt kopiert werden."
       no_results_title_text: Zur Zeit stehen keine Zugangs-Tokens zur Verfügung.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_ical_tokens_reverted: "iCalendar-Token „%{token_name}“ für Kalender „%{calendar_name}“ des Projekts „%{project_name}“ wurde widerrufen. Die iCalendar-URL mit diesem Token ist jetzt ungültig."
   news:
     index:
       no_results_title_text: Es gibt aktuell keine Nachrichten.
@@ -278,7 +278,7 @@ de:
       unknown_os: 'unbekanntes Betriebssystem'
       current: 'Aktuelle Sitzung'
       title: 'Sitzungsverwaltung'
-      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      instructions: 'Dies ist eine Liste der Geräte, die sich bei Ihrem Konto angemeldet haben. Widerrufen Sie alle Sitzungen, die Sie nicht kennen oder auf die Sie keinen Zugriff mehr haben.'
       may_not_delete_current: 'Sie können Ihre aktuelle Sitzung nicht löschen.'
     groups:
       member_in_these_groups: 'Dieser Benutzer ist Mitglied der folgenden Gruppen:'
@@ -1478,9 +1478,9 @@ de:
   label_api_access_key_created_on: "Der API-Zugriffsschlüssel wurde vor %{value} erstellt"
   label_api_access_key_type: "Schnittstelle (API)"
   label_ical_access_key_type: "iCalendar"
-  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
-  label_ical_access_key_not_present: "iCalendar token(s) not present."
-  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_description: "iCalendar-Token „%{token_name}“ für „%{calendar_name}“ in „%{project_name}“"
+  label_ical_access_key_not_present: "iCalendar-Token(s) nicht vorhanden."
+  label_ical_access_key_generation_hint: "Wird automatisch generiert, wenn ein Kalender abonniert wird."
   label_ical_access_key_latest: "neueste"
   label_ical_access_key_revoke: "Widerrufen"
   label_applied_status: "Zugewiesener Status"
@@ -2974,9 +2974,9 @@ de:
       title: "Arbeitspaket löschen"
   working_days:
     info: >
-      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Tage, die nicht ausgewählt sind, werden bei der Planung von Arbeitspaketen übersprungen (und bei der Tageszählung nicht berücksichtigt). Diese können auf Arbeitspaket-Ebene überschrieben werden.
     instance_wide_info: >
-      Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Daten, die der Liste unten hinzugefügt werden, gelten als arbeitsfrei und werden bei der Planung von Arbeitspaketen übersprungen.
     change_button: "Arbeitstage ändern"
     warning: >
       Die Änderung der Wochentage, die als Arbeitstage oder arbeitsfreie Tage gelten, kann sich in diesem Fall auf die Start- und Endtage aller Arbeitspakete in allen Projekten auswirken. <br/> Bitte beachten Sie, dass die Änderungen erst wirksam werden, nachdem Sie auf die Schaltfläche Änderungen anwenden geklickt haben.
