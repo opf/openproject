@@ -30,23 +30,23 @@ require 'spec_helper'
 
 RSpec.describe ActivePermission do
   shared_let(:user) { create(:user) }
-  shared_let(:anonymous) { create(:anonymous) }
+  shared_let(:anonymous_user) { create(:anonymous) }
   shared_let(:admin) { create(:admin) }
   shared_let(:non_member_user) { create(:user) }
 
   let(:private_project) do
     create(:project,
            public: false,
-           active: project_status,
+           active: project_active,
            enabled_module_names: enabled_modules)
   end
   let(:public_project) do
     create(:project,
            public: true,
-           active: project_status,
+           active: project_active,
            enabled_module_names: enabled_modules)
   end
-  let(:project_status) { true }
+  let(:project_active) { true }
 
   let(:role) do
     build(:role,
@@ -57,19 +57,17 @@ RSpec.describe ActivePermission do
           permissions: global_permissions)
   end
   let!(:anonymous_role) do
-    build(:anonymous_role,
-          permissions: anonymous_permissions)
+    create(:anonymous_role,
+           permissions: anonymous_permissions)
   end
   let!(:non_member_role) do
-    build(:non_member,
-          permissions: non_member_permissions)
+    create(:non_member,
+           permissions: non_member_permissions)
   end
   let(:member_permissions) { ['view_work_packages'] }
   let(:anonymous_permissions) { ['view_work_packages'] }
   let(:non_member_permissions) { ['view_work_packages'] }
   let(:global_permissions) { ['add_project'] }
-  let(:public_action) { :view_news }
-  let(:public_non_module_action) { :view_project }
   let(:enabled_modules) { %i[work_package_tracking news] }
   let(:member) do
     create(:member,
@@ -191,7 +189,7 @@ RSpec.describe ActivePermission do
     end
 
     context 'for a member in a private but archived project for a granted permission of an active module' do
-      let(:project_status) { false }
+      let(:project_active) { false }
 
       it 'has no entry' do
         expect(subject)
@@ -405,6 +403,147 @@ RSpec.describe ActivePermission do
       it 'has no entry' do
         expect(subject)
           .not_to include([user.id, nil, 'add_project'])
+      end
+    end
+  end
+
+  describe '#create_for_public_project' do
+    subject do
+      described_class.create_for_public_project
+
+      described_class.pluck(:user_id, :project_id, :permission)
+    end
+
+    before do
+      public_project
+    end
+
+    # TODO: archived project
+
+    context 'for a user not member in a public project for a granted permission of an active module' do
+      it 'has an entry' do
+        expect(subject)
+          .to include([user.id, public_project.id, 'view_work_packages'])
+      end
+    end
+
+    context 'for a user member in a public project for a granted permission of an active module' do
+      before do
+        create(:member,
+               user:,
+               roles: [role],
+               project: public_project)
+      end
+
+      it 'has no entry' do
+        expect(subject)
+          .not_to include([user.id, public_project.id, 'view_work_packages'])
+      end
+    end
+
+    context 'for the anonymous user in a public project for a granted permission of an active module' do
+      it 'has an entry' do
+        expect(subject)
+          .to include([anonymous_user.id, public_project.id, 'view_work_packages'])
+      end
+    end
+
+    context 'for a user not member in a public project for a public permission of an active module' do
+      it 'has an entry' do
+        expect(subject)
+          .to include([user.id, public_project.id, 'view_news'])
+      end
+    end
+
+    context 'for the anonymous user in a public project for a public permission of an active module' do
+      it 'has an entry' do
+        expect(subject)
+          .to include([anonymous_user.id, public_project.id, 'view_news'])
+      end
+    end
+
+    context 'for a user not member in a public project for a non granted permission of an active module' do
+      it 'has no entry' do
+        expect(subject)
+          .not_to include([user.id, public_project.id, 'add_work_packages'])
+      end
+    end
+
+    context 'for the anonymous user in a public project for a non granted permission of an active module' do
+      it 'has no entry' do
+        expect(subject)
+          .not_to include([anonymous_user.id, public_project.id, 'add_work_packages'])
+      end
+    end
+
+    context 'for a user not member in a public project for a granted permission of an inactive module' do
+      let(:enabled_modules) { %i[news] }
+
+      it 'has no entry' do
+        expect(subject)
+          .not_to include([user.id, public_project.id, 'view_work_packages'])
+      end
+    end
+
+    context 'for the anonymous user in a public project for a granted permission of an inactive module' do
+      let(:enabled_modules) { %i[news] }
+
+      it 'has no entry' do
+        expect(subject)
+          .not_to include([anonymous_user.id, public_project.id, 'view_work_packages'])
+      end
+    end
+
+    context 'for a user not member in a private project for a granted permission of an active module' do
+      before do
+        private_project
+      end
+
+      it 'has no entry' do
+        expect(subject)
+          .not_to include([user.id, private_project.id, 'view_work_packages'])
+      end
+    end
+
+    context 'for a user not member in a public and archived project for a granted permission of an active module' do
+      let(:project_active) { false }
+
+      it 'has no entry' do
+        expect(subject)
+          .not_to include([user.id, public_project.id, 'view_work_packages'])
+      end
+    end
+
+    context 'for an invited user not member in a public project for a granted permission of an active module' do
+      before do
+        user.invited!
+      end
+
+      it 'has an entry' do
+        expect(subject)
+          .to include([user.id, public_project.id, 'view_work_packages'])
+      end
+    end
+
+    context 'for a registered user not member in a public project for a granted permission of an active module' do
+      before do
+        user.registered!
+      end
+
+      it 'has an entry' do
+        expect(subject)
+          .to include([user.id, public_project.id, 'view_work_packages'])
+      end
+    end
+
+    context 'for a locked user not member in a public projct for a granted permission of an active module' do
+      before do
+        user.locked!
+      end
+
+      it 'has no entry' do
+        expect(subject)
+          .not_to include([user.id, public_project.id, 'view_work_packages'])
       end
     end
   end

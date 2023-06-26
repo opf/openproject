@@ -32,6 +32,8 @@ class ActivePermission < ApplicationRecord
   belongs_to :user
   belongs_to :project
 
+  # TODO: only anonymous and actual users to be considered
+
   # Create entries for all members in a project (public or private).
   # TODO: move into transformation object
   # TODO: dynamic permission map
@@ -63,7 +65,6 @@ class ActivePermission < ApplicationRecord
         ('view_work_packages', 'work_package_tracking', false, false, false),
         ('add_work_packages', 'work_package_tracking', false, false, false),
         ('work_package_assigned', 'work_package_tracking', false, true, false),
-        ('view_wiki_pages', 'wiki', false, false, false),
         ('view_wiki_pages', 'wiki', false, false, false)
       ) AS permission_map(permission, project_module_name, public, grant_admin, global)
         ON enabled_modules.name = permission_map.project_module_name OR permission_map.project_module_name IS NULL
@@ -94,7 +95,6 @@ class ActivePermission < ApplicationRecord
           ('view_work_packages', 'work_package_tracking', false, true, false),
           ('add_work_packages', 'work_package_tracking', false, true, false),
           ('work_package_assigned', 'work_package_tracking', false, false, false),
-          ('view_wiki_pages', 'wiki', false, true, false),
           ('view_wiki_pages', 'wiki', false, true, false),
           ('add_project', NULL, false, true, true)
         ) AS permission_map(permission, project_module_name, public, grant_admin, global),
@@ -128,7 +128,6 @@ class ActivePermission < ApplicationRecord
           ('view_work_packages', 'work_package_tracking', false, true, false),
           ('add_work_packages', 'work_package_tracking', false, true, false),
           ('work_package_assigned', 'work_package_tracking', false, false, false),
-          ('view_wiki_pages', 'wiki', false, true, false),
           ('view_wiki_pages', 'wiki', false, true, false),
           ('add_project', NULL, false, true, true)
         ) AS permission_map(permission, project_module_name, public, grant_admin, global),
@@ -166,7 +165,6 @@ class ActivePermission < ApplicationRecord
           ('add_work_packages', 'work_package_tracking', false, true, false),
           ('work_package_assigned', 'work_package_tracking', false, false, false),
           ('view_wiki_pages', 'wiki', false, true, false),
-          ('view_wiki_pages', 'wiki', false, true, false),
           ('add_project', NULL, false, true, true)
         ) AS permission_map(permission, project_module_name, public, grant_admin, global)
       WHERE
@@ -180,6 +178,51 @@ class ActivePermission < ApplicationRecord
        )
       AND
         users.status != 3
+      ON CONFLICT DO NOTHING
+    SQL
+  end
+
+  def self.create_for_public_project
+    connection.execute <<~SQL.squish
+      INSERT INTO
+        #{table_name} (user_id, project_id, permission)
+      SELECT
+        users.id user_id,
+        projects.id project_id,
+        permission_map.permission
+      FROM projects
+      LEFT JOIN enabled_modules
+        ON projects.active AND projects.public AND enabled_modules.project_id = projects.id
+      LEFT JOIN users
+        ON users.status != 3
+      LEFT JOIN roles
+        ON (roles.builtin = #{Role::BUILTIN_NON_MEMBER} AND users.type IN ('User', 'PlaceholderUser'))
+         OR (roles.builtin = #{Role::BUILTIN_ANONYMOUS} AND users.type IN ('AnonymousUser'))
+      JOIN role_permissions
+        ON role_permissions.role_id = roles.id
+      -- TODO: extract and have only non global permissions here
+      LEFT JOIN (VALUES
+        ('view_project', NULL, true, false, false),
+        ('view_news', 'news', true, false, false),
+        ('view_work_packages', 'work_package_tracking', false, false, false),
+        ('add_work_packages', 'work_package_tracking', false, false, false),
+        ('work_package_assigned', 'work_package_tracking', false, true, false),
+        ('view_wiki_pages', 'wiki', false, false, false)
+      ) AS permission_map(permission, project_module_name, public, grant_admin, global)
+        ON (enabled_modules.name = permission_map.project_module_name OR permission_map.project_module_name IS NULL)
+         AND (role_permissions.permission = permission_map.permission OR permission_map.public)
+      WHERE
+        users.id IS NOT NULL
+      AND
+        NOT EXISTS (SELECT 1 FROM members WHERE members.user_id = users.id AND members.project_id = projects.id)
+      AND
+        projects.id IS NOT NULL
+      AND
+        permission_map.permission IS NOT NULL
+      GROUP BY
+        users.id,
+        projects.id,
+        permission_map.permission
       ON CONFLICT DO NOTHING
     SQL
   end
