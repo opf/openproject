@@ -27,113 +27,130 @@
 #++
 
 class MeetingAgendaItemsController < ApplicationController
-  before_action :set_meeting, only: [:new, :index, :create]
-  before_action :set_meeting_agenda_item, only: [:show, :edit, :update, :destroy, :drop]
-
-  def index
-  end
-
-  def show
-    respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: [
-          render_agenda_top_via_stream(@meeting_agenda_item)
-        ]
-      end
-    end
-  end
+  before_action :set_meeting
+  before_action :set_meeting_agenda_item, except: [:index, :new, :create]
 
   def new
-    @meeting_agenda_item = @meeting.agenda_items.build
-    respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: [
-          render_new_form_via_stream(@meeting_agenda_item)
-        ]
-      end
-    end
+    respond_with_turbo_stream(
+      {
+        component: MeetingAgendaItems::NewSectionComponent,
+        params: { state: :form, meeting: @meeting },
+        action: :replace
+      }
+    )
+  end
+
+  def cancel_edit
+    respond_with_turbo_stream(
+      {
+        component: MeetingAgendaItems::NewSectionComponent,
+        params: { state: :initial, meeting: @meeting },
+        action: :replace
+      }
+    )
   end
   
   def create
     @meeting_agenda_item = @meeting.agenda_items.build(meeting_agenda_item_params)
     @meeting_agenda_item.user = User.current
+
     if @meeting_agenda_item.save
-      respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream: [
-            render_agenda_top_list_via_stream(@meeting),
-            render_new_button_via_stream(@meeting)
-          ]
-        end
-      end
+      respond_with_turbo_stream(
+        {
+          component: MeetingAgendaItems::NewSectionComponent,
+          params: { state: :initial, meeting: @meeting },
+          action: :replace
+        },
+        {
+          component: MeetingAgendaItems::ListComponent,
+          params: { meeting: @meeting },
+          action: :replace
+        }
+      )
     else
-      respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream: [
-            render_new_form_via_stream(@meeting_agenda_item)
-          ]
-        end
-      end
+      respond_with_turbo_stream(
+        {
+          component: MeetingAgendaItems::NewSectionComponent,
+          params: { state: :form, meeting: @meeting, meeting_agenda_item: @meeting_agenda_item },
+          action: :replace
+        }
+      )
     end
   end
 
   def edit
-    respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: [
-          render_agenda_top_edit_via_stream(@meeting_agenda_item)
-        ]
-      end
-    end
+    respond_with_turbo_stream(
+      {
+        component: MeetingAgendaItems::ItemComponent,
+        params: { state: :edit, meeting_agenda_item: @meeting_agenda_item },
+        action: :replace
+      }
+    )
+  end
+
+  def cancel_edit
+    respond_with_turbo_stream(
+      {
+        component: MeetingAgendaItems::ItemComponent,
+        params: { state: :initial, meeting_agenda_item: @meeting_agenda_item },
+        action: :replace
+      }
+    )
   end
 
   def update
-    if @meeting_agenda_item.update(meeting_agenda_item_params)
-      respond_to do |format|
-        format.turbo_stream do
-          if @meeting_agenda_item.duration_in_minutes_previously_changed?
-            render turbo_stream: [
-              render_agenda_top_list_via_stream(@meeting_agenda_item.meeting)
-            ]
-          else
-            render turbo_stream: [
-              render_agenda_top_via_stream(@meeting_agenda_item)
-            ]
-          end
-        end
-      end
+    @meeting_agenda_item.update(meeting_agenda_item_params)
+
+    if @meeting_agenda_item.errors.any?
+      respond_with_turbo_stream(
+        {
+          component: MeetingAgendaItems::ItemComponent,
+          params: { state: :edit, meeting_agenda_item: @meeting_agenda_item },
+          action: :replace
+        }
+      )
     else
-      respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream: [
-            render_agenda_top_edit_via_stream(@meeting_agenda_item)
-          ]
-        end
+      if @meeting_agenda_item.duration_in_minutes_previously_changed?
+        respond_with_turbo_stream(
+          {
+            component: MeetingAgendaItems::ListComponent,
+            params: { meeting: @meeting },
+            action: :replace
+          }
+        )
+      else
+        respond_with_turbo_stream(
+          {
+            component: MeetingAgendaItems::ItemComponent,
+            params: { state: :initial, meeting_agenda_item: @meeting_agenda_item },
+            action: :replace
+          }
+        )
       end
     end
   end
   
   def destroy
     @meeting_agenda_item.destroy!
-    respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: [
-          render_agenda_top_list_via_stream(@meeting_agenda_item.meeting)
-        ]
-      end
-    end
+    respond_with_turbo_stream(
+      {
+        component: MeetingAgendaItems::ListComponent,
+        params: { meeting: @meeting },
+        action: :replace
+      }
+    )
   end
 
   def drop
     @meeting_agenda_item.insert_at(params[:position].to_i)
 
-    respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: [
-          render_agenda_top_list_via_stream(@meeting_agenda_item.meeting.reload)
-        ]
-      end
-    end
+    respond_with_turbo_stream(
+      {
+        component: MeetingAgendaItems::ListComponent,
+        params: { meeting: @meeting },
+        action: :replace
+      }
+    )
   end
 
   private
@@ -150,46 +167,28 @@ class MeetingAgendaItemsController < ApplicationController
     params.require(:meeting_agenda_item).permit(:title, :duration_in_minutes)
   end
 
-  # turbo stream helpers
-
-  def render_new_form_via_stream(meeting_agenda_item)
-    turbo_stream.replace(
-      "new-meeting-agenda-item-form",
-      partial: 'meeting_agenda_items/new_form',
-      locals: { meeting_agenda_item: meeting_agenda_item }
-    )
+  ###
+  # via base controller or concern
+  def respond_with_turbo_stream(*args)
+    streams = []
+    args.each do |value|
+      if value.is_a?(Hash)
+        if value[:action] == :replace # only replace is supported for now in this prototype
+          streams << value[:component].replace_via_turbo_stream(
+            view_context: view_context,
+            **value[:params]
+          )
+        end
+      else
+        streams << value
+      end
+    end
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: streams
+      end
+    end
   end
-
-  def render_new_button_via_stream(meeting)
-    turbo_stream.replace(
-      "new-meeting-agenda-item-form",
-      partial: 'meeting_agenda_items/new_button',
-      locals: { meeting: meeting }
-    )
-  end
-
-  def render_agenda_top_list_via_stream(meeting)
-    turbo_stream.replace(
-      "meeting-agenda-item-list",
-      partial: 'meeting_agenda_items/list',
-      locals: { meeting: meeting }
-    )
-  end
-
-  def render_agenda_top_via_stream(meeting_agenda_item)
-    turbo_stream.replace(
-      ActionView::RecordIdentifier.dom_id(meeting_agenda_item),
-      partial: 'meeting_agenda_items/show',
-      locals: { meeting_agenda_item: meeting_agenda_item }
-    )
-  end
-
-  def render_agenda_top_edit_via_stream(meeting_agenda_item)
-    turbo_stream.replace(
-      ActionView::RecordIdentifier.dom_id(meeting_agenda_item),
-      partial: 'meeting_agenda_items/edit',
-      locals: { meeting_agenda_item: meeting_agenda_item }
-    )
-  end
+  ###
 
 end

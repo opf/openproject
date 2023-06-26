@@ -36,16 +36,21 @@ export default class extends Controller {
   drake: Drake | undefined;
 
   connect() {
-    this.drake = dragula([this.element as HTMLElement],
-      {moves: (el, source, handle, sibling) => !!handle?.classList.contains('octicon-grabber')})
+    this.drake = dragula([this.containerTarget as HTMLElement],
+      {moves: (el, source, handle, sibling) => !!handle?.classList.contains('handle')})
       .on('drop', this.drop.bind(this));
+  }
+
+  get containerTarget(): HTMLElement {
+    const targetTag = this.data.get("target-tag");
+    return this.element.querySelector(targetTag||"ul") as HTMLElement;
   }
 
   async drop(el: Element, target: Element | null, source: Element | null, sibling: Element | null) {
     let id = el.getAttribute('data-id');
     let url = el.getAttribute('data-drop-url');
     let data = new FormData();
-    let newIndex = Array.from((this.element as HTMLElement).children).indexOf(el);
+    const newIndex = Array.from(this.containerTarget.children).indexOf(el);
   
     if (id && url) {
       data.append("position", (newIndex + 1).toString());

@@ -1,0 +1,159 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2023 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<%= component_wrapper(class: "d-flex flex-justify-between my-3 flex-items-start") do %>
+  <% if @state == :initial %>
+  
+    <div class="d-flex flex-items-start">
+      <%= 
+        render(Primer::Beta::IconButton.new(
+          mr: 4,
+          classes: "handle",
+          size: :medium,
+          disabled: false,
+          icon: :grabber,
+          show_tooltip: true,
+          "aria-label": "Move agenda item"
+        ))
+      %>
+      <div class="pt-1">
+        <div>
+          <%= 
+            render(Primer::Beta::Text.new(font_size: :normal, font_weight: :bold)) do 
+              "#{@meeting_agenda_item.position}. #{@meeting_agenda_item.title}" 
+            end 
+          %>
+        </div>
+        <div>
+          <%= 
+            render(Primer::Beta::Text.new(font_size: :small, color: :muted)) do 
+              "created by #{@meeting_agenda_item.user.name}" 
+            end 
+          %>
+          <%= 
+            render(Primer::Beta::RelativeTime.new(
+              font_size: :small,
+              color: :muted,
+              tense: :past,
+              lang: :en,
+              datetime: @meeting_agenda_item.created_at,
+            )) 
+          %>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex flex-items-center">
+      <div class="px-3">
+        <%= 
+          render(Primer::Beta::Text.new(font_size: :normal, color: :subtle)) do 
+            "#{@meeting_agenda_item.start_time.strftime("%H:%M")} - #{@meeting_agenda_item.end_time.strftime("%H:%M")} (#{@meeting_agenda_item.duration_in_minutes} min)"
+          end 
+        %>  
+      </div>
+      <div>
+        <%= form_with( 
+          url: edit_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item), 
+          method: :get, 
+          data: { "turbo-stream": true } 
+        ) do |form| %>
+          <%= 
+            render(Primer::Beta::IconButton.new(
+              mr: 2,
+              size: :medium,
+              disabled: false,
+              icon: :pencil,
+              show_tooltip: true,
+              type: :submit,
+              "aria-label": "Edit agenda item"
+            ))
+          %>
+        <% end %>
+        <%= form_with( 
+          url: meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item), 
+          method: :delete,
+          data: { "turbo-stream": true, confirm: "Are you sure?" } 
+        ) do |form| %>
+          <%= 
+            render(Primer::Beta::IconButton.new(
+              scheme: :danger,
+              size: :medium,
+              disabled: false,
+              icon: :trash,
+              show_tooltip: true,
+              type: :submit,
+              "aria-label": "Delete agenda item"
+            )) 
+          %>
+        <% end %>
+      </div>
+    </div>
+
+  <% elsif @state == :edit %>
+
+    <div class="flex-1 mr-5">
+      <div class="mb-2">
+        <%= 
+          render(Primer::Beta::Text.new(font_size: :normal, font_weight: :bold, color: :muted)) do 
+            "Edit agenda item" 
+          end 
+        %>
+      </div>
+      <div>
+        <%= primer_form_with(
+          model: @meeting_agenda_item, 
+          method: :put, 
+          url: meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item)
+          ) do |f| %>
+            <%= render(MeetingAgendaItemForm.new(f)) %>
+        <% end %>
+      </div>
+    </div>
+    <div>
+      
+      <%= form_with( 
+        url: cancel_edit_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item), 
+        method: :get, 
+        data: { "turbo-stream": true, confirm: 'Are you sure?' } 
+      ) do |form| %>
+        <%= 
+          render(Primer::Beta::IconButton.new(
+            size: :medium,
+            disabled: false,
+            icon: :x,
+            show_tooltip: true,
+            type: :submit,
+            "aria-label": "Cancel editing"
+          )) 
+        %>
+      <% end %>
+    </div>
+
+  <% end %>
+<% end %>
+  
+

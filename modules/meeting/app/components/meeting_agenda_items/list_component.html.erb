@@ -26,6 +26,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<turbo-frame id="new-meeting-agenda-item-form">
-   <%= button_to 'Add agenda item', new_meeting_agenda_item_path(meeting), method: :get, data: { "turbo-stream": true } %> 
-</turbo-frame>
+<%= component_wrapper do %>
+  <div data-controller="meeting-agenda-item-drag-and-drop" data-application-target="dynamic" data-target-tag="ul">
+    <%=
+      render(Primer::Beta::BorderBox.new(padding: :condensed)) do |component|
+        @meeting.agenda_items.each do |meeting_agenda_item|
+          component.with_row(data: { id: meeting_agenda_item.id, "drop-url": drop_meeting_agenda_item_path(meeting_agenda_item.meeting, meeting_agenda_item) }) do
+            render(MeetingAgendaItems::ItemComponent.new(meeting_agenda_item: meeting_agenda_item))
+          end
+        end
+      end
+    %>
+  </div>
+<% end %>
+  
+

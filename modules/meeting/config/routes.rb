@@ -33,7 +33,11 @@ OpenProject::Application.routes.draw do
 
   resources :meetings, except: %i[new create] do
     resources :agenda_items, controller: 'meeting_agenda_items' do
+      collection do
+        get :cancel_new
+      end
       member do
+        get :cancel_edit
         put :drop
       end
     end

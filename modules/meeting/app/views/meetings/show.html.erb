@@ -88,4 +88,7 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
 </div>
 
-<%= render partial: 'meeting_agenda_items/index', locals: { meeting: @meeting }%>
+<h2 class="mt-5">Agenda</h2>
+
+<%= render(MeetingAgendaItems::ListComponent.new(meeting: @meeting)) %>
+<%= render(MeetingAgendaItems::NewSectionComponent.new(meeting: @meeting, state: :initial)) %>

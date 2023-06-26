@@ -91,7 +91,7 @@ class Meeting < ApplicationRecord
 
   after_initialize :set_initial_values
 
-  after_save :calculate_agenda_top_time_slots
+  after_save :calculate_agenda_item_time_slots
 
   ##
   # Return the computed start_time when changed
