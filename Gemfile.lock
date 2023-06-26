@@ -447,7 +447,7 @@ GEM
     factory_bot_rails (6.2.0)
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
-    faraday (2.7.6)
+    faraday (2.7.7)
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
     faraday-follow_redirects (0.3.0)
@@ -499,7 +499,7 @@ GEM
       webrick
     google-apis-gmail_v1 (0.29.0)
       google-apis-core (>= 0.11.0, < 2.a)
-    googleauth (1.5.2)
+    googleauth (1.6.0)
       faraday (>= 0.17.3, < 3.a)
       jwt (>= 1.4, < 3.0)
       memoist (~> 0.16)
