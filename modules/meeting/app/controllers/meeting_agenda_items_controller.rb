@@ -28,7 +28,7 @@
 
 class MeetingAgendaItemsController < ApplicationController
   before_action :set_meeting
-  before_action :set_meeting_agenda_item, except: [:index, :new, :create]
+  before_action :set_meeting_agenda_item, except: [:index, :new, :cancel_new, :create]
 
   def new
     respond_with_turbo_stream(
@@ -40,7 +40,7 @@ class MeetingAgendaItemsController < ApplicationController
     )
   end
 
-  def cancel_edit
+  def cancel_new
     respond_with_turbo_stream(
       {
         component: MeetingAgendaItems::NewSectionComponent,
