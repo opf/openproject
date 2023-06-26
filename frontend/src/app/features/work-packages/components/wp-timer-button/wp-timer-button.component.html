@@ -2,6 +2,7 @@
   <button
     class="button button_flex"
     type="button"
+    data-qa-selector="timer-active"
     (click)="stop()"
   >
     <span class="spot-icon spot-icon_stop spot-icon_1_25"></span>
@@ -20,6 +21,7 @@
 <button
   class="button"
   type="button"
+  data-qa-selector="timer-inactive"
   *ngIf="active === null"
   (click)="start()"
 >
