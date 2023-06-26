@@ -54,10 +54,12 @@ RSpec.describe 'My account session management', js: true do
     trs = page.all('.generic-table tbody tr')
     expect(trs[0]).to have_selector('.icon-yes')
     expect(trs[0]).to have_text('Current session')
-    expect(trs[0]).to have_text('unknown browser on unknown operating system')
+    expect(trs[0]).to have_text('unknown browser')
+    expect(trs[0]).to have_text('unknown operating system')
     expect(trs[0]).not_to have_selector('.buttons a')
     expect(trs[1]).not_to have_selector('.spot-icon_yes')
-    expect(trs[1]).to have_text('Mozilla Firefox (12.3) on Linux')
+    expect(trs[1]).to have_text('Mozilla Firefox (Version 12.3)')
+    expect(trs[1]).to have_text('Linux')
     expect(trs[1]).to have_text format_time(old_session_time)
     expect(trs[1]).to have_selector('.buttons a')
 
@@ -65,7 +67,6 @@ RSpec.describe 'My account session management', js: true do
     page.driver.browser.switch_to.alert.accept
 
     expect(page).to have_selector('.generic-table tbody tr', count: 1)
-    expect(page).not_to have_text('Unknown browser on unknown platform')
 
     expect { user_session.reload }.to raise_error(ActiveRecord::RecordNotFound)
   end

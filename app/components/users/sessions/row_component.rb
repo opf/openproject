@@ -52,15 +52,8 @@ module Users
         end
       end
 
-      def name
-        browser_name = session_data[:browser] || I18n.t('users.sessions.unknown_browser')
-        browser_version = session_data[:browser_version]
-        os_name = session_data[:platform] || I18n.t('users.sessions.unknown_os')
-
-        I18n.t('users.sessions.session_name',
-               browser_name:,
-               browser_version: browser_version ? "(#{browser_version})" : '',
-               os_name:)
+      def device
+        session_data[:platform] || I18n.t('users.sessions.unknown_os')
       end
 
       def browser
@@ -77,7 +70,7 @@ module Users
         if current?
           I18n.t('users.sessions.current')
         else
-          helpers.format_time session_data[:updated_at]
+          helpers.format_time session.updated_at
         end
       end
 
