@@ -1,6 +1,8 @@
 require 'spec_helper'
 
-RSpec.describe "Split screen in the notification center", js: true do
+RSpec.describe "Split screen in the notification center",
+               js: true,
+               with_cuprite: true do
   let(:global_html_title) { Components::HtmlTitle.new }
   let(:center) { Pages::Notifications::Center.new }
   let(:split_screen) { Pages::Notifications::SplitScreen.new work_package }
@@ -35,6 +37,7 @@ RSpec.describe "Split screen in the notification center", js: true do
 
     before do
       visit home_path
+      wait_for_reload
       center.open
     end
 
@@ -112,6 +115,7 @@ RSpec.describe "Split screen in the notification center", js: true do
     before do
       Notification.where(recipient:).update_all(read_ian: true)
       visit home_path
+      wait_for_reload
       center.open
     end
 
