@@ -72,4 +72,115 @@ class ActivePermission < ApplicationRecord
       ON CONFLICT DO NOTHING
     SQL
   end
+
+  # Create entries for all admins in a project (public or private)
+  # TODO: move into transformation object
+  # TODO: dynamic permission map
+  def self.create_for_admins_in_project
+    connection.execute <<~SQL.squish
+      INSERT INTO
+        #{table_name} (user_id, project_id, permission)
+      SELECT
+        users.id,
+        projects.id,
+        permission_map.permission
+      FROM
+        projects,
+        enabled_modules,
+        -- TODO: extract and have only permissions grantable to admins
+        (VALUES
+          ('view_project', NULL, true, true, false),
+          ('view_news', 'news', true, true, false),
+          ('view_work_packages', 'work_package_tracking', false, true, false),
+          ('add_work_packages', 'work_package_tracking', false, true, false),
+          ('work_package_assigned', 'work_package_tracking', false, false, false),
+          ('view_wiki_pages', 'wiki', false, true, false),
+          ('view_wiki_pages', 'wiki', false, true, false),
+          ('add_project', NULL, false, true, true)
+        ) AS permission_map(permission, project_module_name, public, grant_admin, global),
+        users
+      WHERE
+        (enabled_modules.project_id = projects.id OR permission_map.global)
+      AND
+        (enabled_modules.name = permission_map.project_module_name OR permission_map.project_module_name IS NULL)
+      AND
+        users.admin = true
+      AND
+        users.status != 3
+      ON CONFLICT DO NOTHING
+    SQL
+  end
+
+  # Create entries for all admins in a global context
+  def self.create_for_admins_global
+    connection.execute <<~SQL.squish
+      INSERT INTO
+        #{table_name} (user_id, project_id, permission)
+      SELECT
+        users.id,
+        NULL,
+        permission_map.permission
+      FROM
+        -- TODO: extract and have only permissions grantable to admins
+        (VALUES
+          ('view_project', NULL, true, true, false),
+          ('view_news', 'news', true, true, false),
+          ('view_work_packages', 'work_package_tracking', false, true, false),
+          ('add_work_packages', 'work_package_tracking', false, true, false),
+          ('work_package_assigned', 'work_package_tracking', false, false, false),
+          ('view_wiki_pages', 'wiki', false, true, false),
+          ('view_wiki_pages', 'wiki', false, true, false),
+          ('add_project', NULL, false, true, true)
+        ) AS permission_map(permission, project_module_name, public, grant_admin, global),
+        users
+      WHERE
+        permission_map.global
+      AND
+        users.admin = true
+      AND
+        users.status != 3
+      ON CONFLICT DO NOTHING
+    SQL
+  end
+
+  # Create entries for all users in a global context based on a membership
+  def self.create_for_member_global
+    connection.execute <<~SQL.squish
+      INSERT INTO
+        #{table_name} (user_id, project_id, permission)
+      SELECT
+        users.id,
+        NULL,
+        permission_map.permission
+      FROM
+        users,
+        members,
+        member_roles,
+        roles,
+        role_permissions,
+          -- only global permissions needed here
+        (VALUES
+          ('view_project', NULL, true, true, false),
+          ('view_news', 'news', true, true, false),
+          ('view_work_packages', 'work_package_tracking', false, true, false),
+          ('add_work_packages', 'work_package_tracking', false, true, false),
+          ('work_package_assigned', 'work_package_tracking', false, false, false),
+          ('view_wiki_pages', 'wiki', false, true, false),
+          ('view_wiki_pages', 'wiki', false, true, false),
+          ('add_project', NULL, false, true, true)
+        ) AS permission_map(permission, project_module_name, public, grant_admin, global)
+      WHERE
+       (
+         users.id = members.user_id
+         AND members.project_id IS NULL
+         AND members.id = member_roles.member_id
+         AND member_roles.role_id = roles.id
+         AND role_permissions.role_id = roles.id
+         AND role_permissions.permission = permission_map.permission
+       )
+      AND
+        users.status != 3
+      ON CONFLICT DO NOTHING
+    SQL
+  end
 end

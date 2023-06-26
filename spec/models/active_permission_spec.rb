@@ -52,6 +52,10 @@ RSpec.describe ActivePermission do
     build(:role,
           permissions: member_permissions)
   end
+  let(:global_role) do
+    build(:global_role,
+          permissions: global_permissions)
+  end
   let!(:anonymous_role) do
     build(:anonymous_role,
           permissions: anonymous_permissions)
@@ -63,6 +67,7 @@ RSpec.describe ActivePermission do
   let(:member_permissions) { ['view_work_packages'] }
   let(:anonymous_permissions) { ['view_work_packages'] }
   let(:non_member_permissions) { ['view_work_packages'] }
+  let(:global_permissions) { ['add_project'] }
   let(:public_action) { :view_news }
   let(:public_non_module_action) { :view_project }
   let(:enabled_modules) { %i[work_package_tracking news] }
@@ -71,6 +76,11 @@ RSpec.describe ActivePermission do
            user:,
            roles: [role],
            project: private_project)
+  end
+  let(:global_member) do
+    create(:global_member,
+           user:,
+           roles: [global_role])
   end
 
   describe '#create_for_member_projects' do
@@ -186,6 +196,215 @@ RSpec.describe ActivePermission do
       it 'has no entry' do
         expect(subject)
           .not_to include([user.id, private_project.id, 'view_work_packages'])
+      end
+    end
+  end
+
+  describe '#create_for_admins_in_project' do
+    before do
+      private_project
+    end
+
+    subject do
+      described_class.create_for_admins_in_project
+
+      described_class.pluck(:user_id, :project_id, :permission)
+    end
+
+    context 'for an admin who is a not a member in a private project of an active module' do
+      it 'has an entry' do
+        expect(subject)
+          .to include([admin.id, private_project.id, 'view_work_packages'])
+      end
+    end
+
+    context 'for an admin who is a not a member in a private project of an inactive module' do
+      let(:enabled_modules) { %i[news] }
+
+      it 'has no entry' do
+        expect(subject)
+          .not_to include([admin.id, private_project.id, 'view_work_packages'])
+      end
+    end
+
+    context 'for an admin who is a not a member in a private project of a non module permission' do
+      it 'has an entry' do
+        expect(subject)
+          .to include([admin.id, private_project.id, 'view_project'])
+      end
+    end
+
+    context 'for an admin who is a not a member in a private project of a non module permission not granted to admins' do
+      it 'has no entry' do
+        expect(subject)
+          .not_to include([admin.id, private_project.id, 'work_packages_assigned'])
+      end
+    end
+
+    context 'for an non admin who is a not a member in a private project of an active module' do
+      it 'has no entry' do
+        expect(subject)
+          .not_to include([user.id, private_project.id, 'view_work_packages'])
+      end
+    end
+
+    context 'for an admin who is a not a member in a private project of an active module with the admin being invited' do
+      before { admin.invited! }
+
+      it 'has an entry' do
+        expect(subject)
+          .to include([admin.id, private_project.id, 'view_work_packages'])
+      end
+    end
+
+    context 'for an admin who is a not a member in a private project of an active module with the admin being registered' do
+      before { admin.registered! }
+
+      it 'has an entry' do
+        expect(subject)
+          .to include([admin.id, private_project.id, 'view_work_packages'])
+      end
+    end
+
+    context 'for an admin who is a not a member in a private project of an active module with the admin being locked' do
+      before { admin.locked! }
+
+      it 'has no entry' do
+        expect(subject)
+          .not_to include([admin.id, private_project.id, 'view_work_packages'])
+      end
+    end
+
+    context 'for an admin and a global permission' do
+      it 'has an entry' do
+        expect(subject)
+          .not_to include([admin.id, nil, 'add_project'])
+      end
+    end
+  end
+
+  describe '#create_for_admins_global' do
+    subject do
+      described_class.create_for_admins_global
+
+      described_class.pluck(:user_id, :project_id, :permission)
+    end
+
+    context 'for an admin and a global permission' do
+      it 'has an entry' do
+        expect(subject)
+          .to include([admin.id, nil, 'add_project'])
+      end
+    end
+
+    context 'for an non admin and a global permission' do
+      it 'has no entry' do
+        expect(subject)
+          .not_to include([user.id, nil, 'add_project'])
+      end
+    end
+
+    context 'for an admin and a project permission' do
+      it 'has no entry' do
+        expect(subject)
+          .not_to include([admin.id, nil, 'view_work_packages'])
+      end
+    end
+
+    context 'for a locked admin and a global permission' do
+      before do
+        admin.locked!
+      end
+
+      it 'has no entry' do
+        expect(subject)
+          .not_to include([admin.id, nil, 'add_project'])
+      end
+    end
+
+    context 'for an invited admin and a global permission' do
+      before do
+        admin.invited!
+      end
+
+      it 'has an entry' do
+        expect(subject)
+          .to include([admin.id, nil, 'add_project'])
+      end
+    end
+
+    context 'for a registered admin and a global permission' do
+      before do
+        admin.registered!
+      end
+
+      it 'has an entry' do
+        expect(subject)
+          .to include([admin.id, nil, 'add_project'])
+      end
+    end
+  end
+
+  describe '#create_for_member_global' do
+    subject do
+      described_class.create_for_member_global
+
+      described_class.pluck(:user_id, :project_id, :permission)
+    end
+
+    before do
+      global_member
+    end
+
+    context 'for a user with a global membership granting the permission' do
+      it 'has an entry' do
+        expect(subject)
+          .to include([user.id, nil, 'add_project'])
+      end
+    end
+
+    context 'for a user with a global membership not granting the permission' do
+      let(:global_member) { %i[manage_user] }
+
+      it 'has no entry' do
+        expect(subject)
+          .not_to include([user.id, nil, 'add_project'])
+      end
+    end
+
+    context 'for a user without a global membership granting the permission' do
+      let(:global_member) { nil }
+
+      it 'has no entry' do
+        expect(subject)
+          .not_to include([user.id, nil, 'add_project'])
+      end
+    end
+
+    context 'for an invited user with a global membership granting the permission' do
+      before { user.invited! }
+
+      it 'has an entry' do
+        expect(subject)
+          .to include([user.id, nil, 'add_project'])
+      end
+    end
+
+    context 'for a registered user with a global membership granting the permission' do
+      before { user.registered! }
+
+      it 'has an entry' do
+        expect(subject)
+          .to include([user.id, nil, 'add_project'])
+      end
+    end
+
+    context 'for a locked user with a global membership granting the permission' do
+      before { user.locked! }
+
+      it 'has no entry' do
+        expect(subject)
+          .not_to include([user.id, nil, 'add_project'])
       end
     end
   end
