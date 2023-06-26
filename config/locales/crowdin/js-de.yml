@@ -317,17 +317,17 @@ de:
               new_features_html: >
                 Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Dateien direkt in einem Arbeitspaket auf Ihren Nextcloud-Speicher hochladen oder verlinken.</li> <li>Bleiben Sie bei Projektänderungen auf dem Laufenden mit der Aktivitätsverfolgung auf Projekten.</li> <li>Fügen Sie instanzweite Feiertage für die Datumsplanung hinzu.</li> <li>Projekte sind über eine neue globale Rolle auch von Nicht-Administratoren archivierbar.</li> <li>Neuer Standardfilter für überfällige Arbeitspakete.</li> </ul>
     ical_sharing_modal:
-      title: "Subscribe to iCalendar"
+      title: "iCalendar abonnieren"
       inital_setup_error_message: "Beim Abrufen der Daten ist ein Fehler aufgetreten."
-      description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
-      warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
-      token_name_label: "Token name"
-      token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
-      token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
+      description: "Sie können die iCalendar-URL verwenden, um diesen Kalender in einen externen Client zu importieren oder zu abonnieren und von dort aus aktuelle Arbeitspaketinformationen einsehen."
+      warning: "Bitte geben Sie diese URL nicht an externe Nutzer weiter. Jeder, der über diesen Link verfügt, kann die Details des Arbeitspakets ohne Konto oder Passwort einsehen."
+      token_name_label: "Tokenname"
+      token_name_placeholder: "Geben Sie einen Namen für dieses Token ein, z. B. „Meine Kalenderanwendung“."
+      token_name_description_text: "Dieser Name wird verwendet, um ihn von anderen Token in der <a href=\"my/access_token\", target=\"_blank\">Zugangs-Token-Liste</a> zu unterscheiden. Er kann nur einmal pro Kalender verwendet werden."
       copy_url_label: "URL kopieren"
       ical_generation_error_text: "Beim Generieren der iCal-URL ist ein Fehler aufgetreten."
       copy_url_success_text: "URL in die Zwischenablage kopiert."
-      copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
+      copy_url_error_text: "Wegen Browser-Fehlern konnte die URL nicht in die Zwischenablage kopiert werden. Bitte kopieren Sie sie manuell: %{icalUrl}"
     label_activate: "Aktiviere"
     label_assignee: 'Zugewiesen an'
     label_add_column_after: "Spalte danach hinzufügen"
@@ -339,7 +339,7 @@ de:
     label_add_row_before: "Zeile davor hinzufügen"
     label_add_selected_columns: "Ausgewählte Spalten hinzufügen"
     label_added_by: "hinzugefügt von"
-    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
+    label_added_time_by: "Hinzugefügt von <a href=\"%{authorLink}\">%{author}</a> am %{age}"
     label_ago: "Tage her"
     label_all: "alle"
     label_all_work_packages: "alle Arbeitspakete"
@@ -1272,12 +1272,12 @@ de:
       toggle_title: 'Grundlinie'
       clear: 'Zurücksetzen'
       apply: 'Anwenden'
-      header_description: 'Highlight changes made to this list since any point in the past.'
-      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
+      header_description: 'An dieser Liste vorgenommene Änderungen seit einem beliebigen Zeitpunkt in der Vergangenheit hervorheben.'
+      enterprise_header_description: 'Mit der Enterprise Edition an dieser Liste vorgenommene Änderungen seit einem beliebigen Zeitpunkt in der Vergangenheit hervorheben.'
       show_changes_since: 'Änderungen anzeigen ab'
       baseline_comparison: 'Baseline comparison'
       help_description: 'Reference time zone for the baseline.'
-      time_description: 'In your local time: %{datetime}'
+      time_description: 'In Ihrer Ortszeit: %{datetime}'
       time: 'Zeit'
       from: 'Von'
       to: 'Bis'
@@ -1294,7 +1294,7 @@ de:
         now_meets_filter_criteria: 'Erfüllt nun die Filterkriterien'
         no_longer_meets_filter_criteria: 'Erfüllt Filterkriterien nicht mehr'
         maintained_with_changes: 'Änderungen erhalten'
-        in_your_timezone: 'In your local timezone:'
+        in_your_timezone: 'In Ihrer lokalen Zeitzone:'
       icon_tooltip:
         added: 'Innerhalb des Vergleichszeitraums zur Ansicht hinzugefügt'
         removed: 'Innerhalb des Vergleichszeitraums aus der Ansicht entfernt'

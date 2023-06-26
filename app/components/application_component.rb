@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class RailsComponent < ViewComponent::Base
+class ApplicationComponent < ViewComponent::Base
   attr_reader :model, :options
 
   def initialize(model = nil, **options)

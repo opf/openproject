@@ -306,6 +306,14 @@ en:
       no_results_content_text: Add a news item
 
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'This user is currently a member of the following groups:'
       no_results_title_text: This user is currently not a member in any group.
@@ -1133,6 +1141,7 @@ en:
   button_configure: "Configure"
   button_continue: "Continue"
   button_copy: "Copy"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Copy and follow"
   button_create: "Create"
   button_create_and_continue: "Create and continue"
@@ -1630,7 +1639,6 @@ en:
   label_contains: "contains"
   label_content: "Content"
   label_copied: "copied"
-  label_copy_to_clipboard: "Copy to clipboard"
   label_copy_same_as_target: "Same as target"
   label_copy_source: "Source"
   label_copy_target: "Target"
@@ -1812,6 +1820,7 @@ en:
   label_more_than_ago: "more than days ago"
   label_move_work_package: "Move work package"
   label_my_account: "My account"
+  label_my_activity: "My activity"
   label_my_account_data: "My account data"
   label_my_projects: "My projects"
   label_my_queries: "My custom queries"

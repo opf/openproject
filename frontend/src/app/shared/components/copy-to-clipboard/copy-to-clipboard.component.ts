@@ -26,18 +26,26 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, ElementRef, OnInit } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ElementRef,
+  OnInit,
+} from '@angular/core';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+
+import { CopyToClipboardService } from './copy-to-clipboard.service';
 
 export const copyToClipboardSelector = 'copy-to-clipboard';
 
 @Component({
   template: '',
   selector: copyToClipboardSelector,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CopyToClipboardDirective implements OnInit {
+
+export class CopyToClipboardComponent implements OnInit {
   public clickTarget:string;
 
   public clipboardTarget:string;
@@ -48,7 +56,7 @@ export class CopyToClipboardDirective implements OnInit {
     readonly toastService:ToastService,
     readonly elementRef:ElementRef,
     readonly I18n:I18nService,
-    readonly ConfigurationService:ConfigurationService,
+    protected copyToClipboardService:CopyToClipboardService,
   ) { }
 
   ngOnInit() {
@@ -63,35 +71,10 @@ export class CopyToClipboardDirective implements OnInit {
     this.target = jQuery(this.clipboardTarget ? this.clipboardTarget : element);
   }
 
-  addNotification(type:'addSuccess'|'addError', message:string) {
-    const notification = this.toastService[type](message);
-
-    // Remove the notification some time later
-    setTimeout(() => this.toastService.remove(notification), 5000);
-  }
-
   onClick($event:JQuery.TriggeredEvent) {
-    const supported = (document.queryCommandSupported && document.queryCommandSupported('copy'));
     $event.preventDefault();
-
-    // At least select the input for the user
-    // even when clipboard API not supported
+    // Select the text in case the clipboard is not supported by the browser
     this.target.select().focus();
-
-    if (supported) {
-      try {
-        // Copy it to the clipboard
-        if (document.execCommand('copy')) {
-          this.addNotification('addSuccess', this.I18n.t('js.clipboard.copied_successful'));
-          return;
-        }
-      } catch (e) {
-        console.log(
-          `Your browser seems to support the clipboard API, but copying failed: ${e}`,
-        );
-      }
-    }
-
-    this.addNotification('addError', this.I18n.t('js.clipboard.browser_error'));
+    this.copyToClipboardService.copy(String(this.target.val()));
   }
 }
