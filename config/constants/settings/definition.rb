@@ -962,6 +962,13 @@ module Settings
         format: :string,
         allowed: ActiveSupport::TimeZone.all.map { |tz| tz.tzinfo.canonical_identifier }.sort.uniq + [nil]
       },
+      user_default_theme: {
+        default: 'light',
+        format: :string,
+        allowed: -> do
+          UserPreferences::Schema.schema.dig('definitions', 'UserPreferences', 'properties', 'theme', 'enum')
+        end
+      },
       users_deletable_by_admins: {
         default: false
       },

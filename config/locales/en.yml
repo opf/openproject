@@ -361,6 +361,13 @@ en:
       no_results_title_text: There are currently no work package statuses.
       no_results_content_text: Add a new status
 
+  themes:
+    light: "Light"
+    light_high_contrast: "Light high contrast"
+    dark: "Dark"
+    dark_dimmed: "Dark dimmed"
+    dark_high_contrast: "Dark high contrast"
+
   types:
     index:
       no_results_title_text: There are currently no types.
