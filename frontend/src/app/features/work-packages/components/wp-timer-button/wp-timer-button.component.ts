@@ -68,7 +68,6 @@ export function pad(val:number):string {
 @Component({
   selector: 'op-wp-timer-button',
   templateUrl: './wp-timer-button.component.html',
-  styleUrls: ['./wp-timer-button.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
