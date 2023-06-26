@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Glossary
-  priority: 999
+  priority: 945
 description: Glossary of OpenProject project management software related terms, with definitions and additional links.
 keywords: glossary, help, documentation, terms, vocabulary, definition, dictionary, lexicon, index, list, wordbook
 ---
@@ -70,10 +70,9 @@ A custom action in OpenProject is defined as customizable buttons which trigger 
 
 In OpenProject, a custom field is defined as an additional value field which can be added to existing value fields. The different sections that can use custom fields are *work packages*, *spent time*, *projects*, *versions*, *users*, *groups*, *activities (time tracking)*, and *work package priorities*.
 
-** More information on custom fields in OpenProject**
+**More information on custom fields in OpenProject**
 
 - [Read how to enable custom fields in projects to use them in work packages](https://www.openproject.org/docs/user-guide/projects/project-settings/custom-fields/)
-- 
 
 ## Custom query
 
@@ -83,7 +82,7 @@ A custom query in OpenProject consists of saved filters and groupings in the wor
 
 A dashboard is defined as an overview page in a software. In OpenProject, you have several options to create dashboards:
 
-First, you have the "***My Page\***" which shows your personal customized widgets on one page, for example a calendar or work package reports.
+First, you have the **My Page** which shows your personal customized widgets on one page, for example a calendar or work package reports.
 
 Then, you can create **private dashboards inside your project** by filtering a work package view and then saving it under a new name. For example, filter all work packages assigned to yourself and save this view as "assigned to me", to quickly navigate to those work packages.
 
@@ -192,7 +191,7 @@ In OpenProject, a [project](https://www.openproject.org/docs/user-guide/projects
 
 ### Project dashboard
 
-See dashboard
+See [Dashboard](#dashboard)
 
 ### Project folder
 
