@@ -135,7 +135,7 @@ RSpec.describe 'Projects copy',
       clear_performed_jobs
     end
 
-    fit 'copies projects and the associated objects' do
+    it 'copies projects and the associated objects' do
       original_settings_page = Pages::Projects::Settings.new(project)
       original_settings_page.visit!
 
