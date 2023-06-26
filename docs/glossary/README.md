@@ -101,7 +101,7 @@ In OpenProject, some features are defined as an Enterprise add-on. This means, t
 
 ## Excel synchronisation
 
-https://www.openproject.org/docs/system-admin-guide/integrations/excel-synchronization/
+[Read more about Excel synchronization with OpenProject](https://www.openproject.org/docs/system-admin-guide/integrations/excel-synchronization/)
 
 ## Forum
 
@@ -125,7 +125,7 @@ The Gantt chart in OpenProject displays the work packages in a timeline. You can
 
 [Read more about how to activate and work with Gantt charts in OpenProject](https://www.openproject.org/docs/user-guide/gantt-chart/)
 
-![glossary-openproject-gantt-chart](glossary-openproject-gantt-chart.png)
+![A gantt chart in OpenProject](glossary-openproject-gantt-chart.png)
 
 ## Group
 
@@ -262,13 +262,13 @@ In OpenProject, a wiki is defined as a module that allows to use textile-based w
 
 A workflow in OpenProject is defined as the allowed transitions between status for a role and a type, i.e. which status changes can a certain role implement depending on the work package type. Workflows can be defined in the admin settings. For example, you might only developers to be able to set the status "developed". [Read more about work package workflows in OpenProject](https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-workflows/#manage-work-package-workflows)
 
-![glossary-openproject-work package](glossary-openproject-work package.png)
+![A workflow in OpenProject](glossary-openproject-sys-admin-edit-workflow.png)
 
 ## Work package
 
 In OpenProject, a [work package](https://www.openproject.org/docs/user-guide/work-packages/#overview) is defined as an item in a project. It is a subset of a project that can be assigned to users for execution, such as Tasks, Bugs, User Stories, Milestones, and more. Work packages have a type, an ID and a subject and may have additional attributes, such as assignee, responsible, story points or target version. Work packages are displayed in a project timeline (unless they are filtered out in the timeline configuration) - either as a milestone or as a phase. In order to use the work packages, the work package module has to be activated in the project settings.
 
-![glossary-openproject-sys-admin-edit-workflow](glossary-openproject-sys-admin-edit-workflow.png)
+![A work package in OpenProject](glossary-openproject-work-package.png)
 
 ### Work package types
 
