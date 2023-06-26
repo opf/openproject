@@ -27,6 +27,14 @@
 #++
 
 module TimerHelper
+  def pad(val)
+    time = '00'
+    unless val.nil?
+      time = val > 9 ? val.to_s : "0#{val}"
+    end
+    time
+  end
+
   def format_time_entry_as_elapsed(started_at)
     seconds = Time.zone.now - started_at
     parts = ActiveSupport::Duration
@@ -34,6 +42,6 @@ module TimerHelper
       .parts
       .transform_values(&:round)
 
-    "#{parts[:hours] || '00'}:#{parts[:minutes] || '00'}:#{parts[:seconds]}"
+    "#{pad(parts[:hours])}:#{pad(parts[:minutes])}:#{pad(parts[:seconds])}"
   end
 end
