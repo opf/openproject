@@ -33,7 +33,7 @@ class ActivePermission < ApplicationRecord
   belongs_to :project
 
   class << self
-    # TODO: only anonymous and actual users to be considered
+    # TODO: only anonymous, System and actual users to be considered
 
     # Create entries for all members in a project (public or private).
     # TODO: move into transformation object
@@ -64,6 +64,10 @@ class ActivePermission < ApplicationRecord
           ON enabled_modules.name = permission_map.project_module_name OR permission_map.project_module_name IS NULL
         WHERE
           (role_permissions.permission = permission_map.permission OR permission_map.public)
+        GROUP BY
+          members.user_id,
+          projects.id,
+          permission_map.permission
         ON CONFLICT DO NOTHING
       SQL
     end
@@ -78,24 +82,17 @@ class ActivePermission < ApplicationRecord
           users.id,
           projects.id,
           permission_map.permission
-        FROM
-          projects,
-          enabled_modules,
+        FROM projects
+        JOIN users
+          ON users.admin = true AND projects.active AND users.admin = true AND users.status != 3
+        LEFT JOIN enabled_modules
+          ON (enabled_modules.project_id = projects.id)
+        LEFT JOIN
           (VALUES
             #{permission_map(grant_admin: true, global: false)}
-          ) AS permission_map(permission, project_module_name, public, grant_admin, global),
-          users
-        WHERE
-          (enabled_modules.project_id = projects.id OR permission_map.global)
-        AND
-          projects.active
-        AND
-          (enabled_modules.name = permission_map.project_module_name OR permission_map.project_module_name IS NULL)
-        AND
-          -- TODO: remove if the permission_map does not include any permissions not grantable to admins
-          users.admin = true
-        AND
-          users.status != 3
+          ) AS permission_map(permission, project_module_name, public, grant_admin, global)
+          ON (enabled_modules.name = permission_map.project_module_name OR permission_map.project_module_name IS NULL)
+        GROUP BY users.id, projects.id, permission_map.permission
         ON CONFLICT DO NOTHING
       SQL
     end
@@ -120,6 +117,9 @@ class ActivePermission < ApplicationRecord
           users.admin = true
         AND
           users.status != 3
+        GROUP BY
+          users.id,
+          permission_map.permission
         ON CONFLICT DO NOTHING
       SQL
     end
@@ -149,10 +149,14 @@ class ActivePermission < ApplicationRecord
            AND members.id = member_roles.member_id
            AND member_roles.role_id = roles.id
            AND role_permissions.role_id = roles.id
+           AND roles.type = 'GlobalRole'
            AND role_permissions.permission = permission_map.permission
          )
         AND
           users.status != 3
+        GROUP BY
+          users.id,
+          permission_map.permission
         ON CONFLICT DO NOTHING
       SQL
     end
