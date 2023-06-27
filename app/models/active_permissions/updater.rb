@@ -31,6 +31,9 @@ class ActivePermissions::Updater
 
   def self.prepare
     RequestStore.fetch(:prepared_active_permission_update) do
+      # During migrations, we don't want the table to be updated if it does not exist yet.
+      next unless ActiveRecord::Base.connection.table_exists?('active_permissions')
+
       before_commit { new.execute }
     end
   end
