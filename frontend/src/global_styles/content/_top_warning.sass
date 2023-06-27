@@ -1,0 +1,24 @@
+@import "helpers"
+
+.op-top-warning
+  display: flex
+  padding: 0.25rem
+  margin: 0
+  background: $nm-color-warning-background
+
+  &--text
+    @include spot-caption
+    flex: 1
+    margin-bottom: 0
+
+  &--actions
+    @include spot-caption
+    flex-shrink: 0
+    display: flex
+    align-items: center
+    gap: 0.5rem
+
+  &--button
+    margin: 0
+    padding: 0.25rem
+

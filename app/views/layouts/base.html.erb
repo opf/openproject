@@ -59,6 +59,18 @@ See COPYRIGHT and LICENSE files for more details.
     </p>
   </div>
 </noscript>
+<div class="op-top-warning">
+  <p class="op-top-warning--text">
+    <strong>Backup: Before Christmas break 2022</strong>
+    <i class="icon icon-help1" title="Some more info here"></i>
+    <br/>
+    Created: 24.12.2023 18:03 PM (101 days ago) by <%= avatar(User.admin.first, size: :mini, hide_name: false) %>
+  </p>
+  <div class="op-top-warning--actions">
+    <button type="button" class="op-top-warning--button button -small -highlight">Restore backup</button>
+    <button type="button" class="op-top-warning--button button -small">Return</button>
+  </div>
+</div>
 <op-toasts-container></op-toasts-container>
 <op-modal-overlay></op-modal-overlay>
 <spot-drop-modal-portal></spot-drop-modal-portal>
@@ -150,28 +162,28 @@ See COPYRIGHT and LICENSE files for more details.
   // execute these lines to prevent flickering when page loads:
 
   (function($) {
-    var wrapper = $('#wrapper');
-    var savedMainMenuWidth = window.OpenProject.guardedLocalStorage("openProject-mainMenuWidth");
-    var mainMenuCollapsed =  window.OpenProject.guardedLocalStorage("openProject-mainMenuCollapsed");
+  var wrapper = $('#wrapper');
+  var savedMainMenuWidth = window.OpenProject.guardedLocalStorage("openProject-mainMenuWidth");
+  var mainMenuCollapsed = window.OpenProject.guardedLocalStorage("openProject-mainMenuCollapsed");
 
-    if (window.innerWidth < 680) {
-      // force hide on load for mobile
-      $('.can-hide-navigation').addClass('hidden-navigation');
-    }
+  if (window.innerWidth < 680) {
+  // force hide on load for mobile
+  $('.can-hide-navigation').addClass('hidden-navigation');
+  }
 
-    if (mainMenuCollapsed === 'true') {
-      savedMainMenuWidth = 0;
-    }
+  if (mainMenuCollapsed === 'true') {
+  savedMainMenuWidth = 0;
+  }
 
-    if (savedMainMenuWidth || savedMainMenuWidth === 0) {
-      document.documentElement.style.setProperty("--main-menu-width", savedMainMenuWidth + 'px');
-    }
+  if (savedMainMenuWidth || savedMainMenuWidth === 0) {
+  document.documentElement.style.setProperty("--main-menu-width", savedMainMenuWidth + 'px');
+  }
 
-    wrapper.show();
+  wrapper.show();
 
-    // Wrapper for page-specific JS from deprecated inline functions
-    // no longer available with CSP.
-    <%= content_for :additional_js_dom_ready %>
+  // Wrapper for page-specific JS from deprecated inline functions
+  // no longer available with CSP.
+  <%= content_for :additional_js_dom_ready %>
   }(jQuery));
 <% end %>
 <div class="op-wide-autocomplete-wrapper"></div>
