@@ -88,10 +88,13 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
   protected init() {
     super.init();
 
-    this.recentItemsService.add(this.workPackage.id!);
+    if (this.workPackage.id) {
+      this.recentItemsService.add(this.workPackage.id);
 
-    // Set Focused WP
-    this.wpTableFocus.updateFocus(this.workPackage.id!);
+      // Set Focused WP
+      this.wpTableFocus.updateFocus(this.workPackage.id);
+    }
+
     this.setWorkPackageScopeProperties(this.workPackage);
   }
 
