@@ -85,7 +85,15 @@ end
 
 register_better_cuprite 'en'
 
+MODULES_WITH_CUPRITE_ENABLED = %w[avatars].freeze
+
 RSpec.configure do |config|
+  config.define_derived_metadata(file_path: %r{/(#{MODULES_WITH_CUPRITE_ENABLED.join('|')})/spec/features/}) do |meta|
+    if meta[:js] && !meta.key?(:with_cuprite)
+      meta[:with_cuprite] = true
+    end
+  end
+
   config.around(:each, type: :feature, with_cuprite: true) do |example|
     original_driver = Capybara.javascript_driver
     Capybara.javascript_driver = :better_cuprite_en

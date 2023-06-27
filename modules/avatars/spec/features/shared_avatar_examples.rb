@@ -78,8 +78,9 @@ RSpec.shared_examples 'avatar management' do
       expect(%i(jpeg jpg)).to include image_data.type
 
       # Delete the avatar
-      find('.avatars--local-avatar-delete-link').click
-      page.driver.browser.switch_to.alert.accept
+      accept_alert do
+        find('.avatars--local-avatar-delete-link').click
+      end
 
       expect(page).to have_selector('.avatars--current-local-avatar', text: 'none', wait: 20)
     end
