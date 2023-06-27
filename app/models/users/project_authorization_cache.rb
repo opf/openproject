@@ -56,7 +56,7 @@ class Users::ProjectAuthorizationCache
   def normalized_permission_names(action)
     case action
     when Symbol
-      [OpenProject::AccessControl.permission(action).name]
+      [OpenProject::AccessControl.permission(action)&.name].compact
     when Hash
       OpenProject::AccessControl.allow_actions(action).map(&:name)
     end
