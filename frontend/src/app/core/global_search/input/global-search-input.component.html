@@ -25,7 +25,6 @@
     [model]="selectedItem"
     [searchFn]="customSearchFn"
     (focus)="onFocus()"
-    (blur)="onFocusOut()"
     (search)="search($event)"
     (close)="onClose()"
     (change)="followItem($event)"
@@ -38,7 +37,7 @@
     [getOptionsFn]="autocompleterOptions.getOptionsFn"
   >
     <ng-template op-autocompleter-header-tmp let-search="searchTerm">
-      <div *ngIf="!searchTerm">RECENTLY VIEWED</div>
+      <div *ngIf="!searchTerm">{{text.recently_viewed}}</div>
     </ng-template>
     <ng-template op-autocompleter-option-tmp let-item let-index="index" let-search="searchTerm">
       <div *ngIf="!item.id; else workPackageItemTemplate">
