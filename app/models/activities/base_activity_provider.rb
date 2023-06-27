@@ -234,7 +234,10 @@ class Activities::BaseActivityProvider
   def restrict_projects_by_permission(query, user)
     perm = activity_provider_options[:permission]
 
-    query.where(projects_table[:id].in(Project.allowed_to(user, perm).select(:id).arel))
+    query
+      .where(projects_table[:id].in(ActivePermission.where(["user_id = ? AND permission = ?", user.id, perm])
+                                                    .select(:project_id)
+                                                    .arel))
   end
 
   attr_accessor :activity
