@@ -324,7 +324,6 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
       .fetchSearchResults(hashFreeQuery, hashFreeQuery !== query)
       .get()
       .pipe(
-        startWith({ elements: [] }),
         map((collection) => this.searchResultsToOptions(collection.elements, hashFreeQuery)),
         tap(() => {
           this.setMarkedOption();
