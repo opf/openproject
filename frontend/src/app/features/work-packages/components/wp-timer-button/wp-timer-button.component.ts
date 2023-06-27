@@ -89,8 +89,7 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
 
   text = {
     workPackage: this.I18n.t('js.label_work_package'),
-  }
-
+  };
   constructor(
     readonly I18n:I18nService,
     readonly apiV3Service:ApiV3Service,
@@ -125,14 +124,13 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
   get activeForWorkPackage():boolean {
     return !!this.active && this.active.workPackage.href === this.workPackage.href;
   }
-
   clear():void {
     this.timeEntryService.activeTimer$.next(null);
     this.active = null;
     this.cdRef.detectChanges();
   }
 
-  async stop(edit = true):Promise<unknown> {
+  async stop():Promise<unknown> {
     const active = this.active;
     if (!active) {
       return;
@@ -152,9 +150,7 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
       .save(change)
       .then((commit) => {
         this.clear();
-        if (edit) {
-          return this.timeEntryEditService.edit(commit.resource as TimeEntryResource);
-        }
+        return this.timeEntryEditService.edit(commit.resource as TimeEntryResource);
 
         return undefined;
       });
@@ -162,7 +158,11 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
 
   async start():Promise<void> {
     if (this.active) {
-      await this.stop(false);
+      if (window.confirm("You have an active timer running. Do you want to stop that timer instead?")) {
+        await this.stop();
+      }
+
+      return;
     }
 
     this.timeEntryCreateService
