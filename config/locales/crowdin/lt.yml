@@ -274,6 +274,8 @@ lt:
   users:
     sessions:
       session_name: "%{browser_name} %{browser_version} %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
       unknown_browser: 'nežinoma naršyklė'
       unknown_os: 'nežinoma operacinė sistema'
       current: 'Dabartinė sesija'

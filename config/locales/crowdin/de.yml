@@ -274,6 +274,8 @@ de:
   users:
     sessions:
       session_name: "%{browser_name} %{browser_version} unter %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
       unknown_browser: 'unbekannter Browser'
       unknown_os: 'unbekanntes Betriebssystem'
       current: 'Aktuelle Sitzung'
@@ -1059,7 +1061,7 @@ de:
   button_configure: "Konfigurieren"
   button_continue: "Fortfahren"
   button_copy: "Kopieren"
-  button_copy_to_clipboard: "Copy to clipboard"
+  button_copy_to_clipboard: "In Zwischenablage kopieren"
   button_copy_and_follow: "Kopieren und Arbeitspaket anzeigen"
   button_create: "Anlegen"
   button_create_and_continue: "Anlegen und weiter"

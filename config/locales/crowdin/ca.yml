@@ -274,6 +274,8 @@ ca:
   users:
     sessions:
       session_name: "%{browser_name}%{browser_version} en %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
       unknown_browser: 'navegador desconegut'
       unknown_os: 'sistema operatiu desconegut'
       current: 'Sessió actual'

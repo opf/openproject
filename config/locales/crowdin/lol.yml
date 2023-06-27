@@ -265,6 +265,8 @@ lol:
   users:
     sessions:
       session_name: "crwdns855787:0%{browser_name}crwdnd855787:0%{browser_version}crwdnd855787:0%{os_name}crwdne855787:0"
+      browser: 'crwdns855929:0crwdne855929:0'
+      device: 'crwdns855935:0crwdne855935:0'
       unknown_browser: 'crwdns855789:0crwdne855789:0'
       unknown_os: 'crwdns855791:0crwdne855791:0'
       current: 'crwdns855793:0crwdne855793:0'

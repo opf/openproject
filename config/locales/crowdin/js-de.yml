@@ -65,7 +65,7 @@ de:
     button_confirm: "Bestätigen"
     button_continue: "Fortfahren"
     button_copy: "Kopieren"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "In Zwischenablage kopieren"
     button_copy_to_other_project: "In anderes Projekt kopieren"
     button_custom-fields: "Benutzerdefinierte Felder"
     button_delete: "Löschen"
@@ -106,7 +106,7 @@ de:
       remove_from_list: 'Karte aus Liste entfernen'
     caption_rate_history: "Stundensatz-Historie"
     clipboard:
-      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
+      browser_error: "Ihr Browser unterstützt das Kopieren in die Zwischenablage nicht nativ. Bitte selektieren und kopieren Sie den Text händisch: %{content}"
       copied_successful: "Erfolgreich in die Zwischenablage kopiert!"
     chart:
       type: 'Art des Diagramms'
@@ -933,11 +933,11 @@ de:
         addition_label: 'Innerhalb des Vergleichszeitraums zur Ansicht hinzugefügt'
         removal_label: 'Innerhalb des Vergleichszeitraums aus der Ansicht entfernt'
         modification_label: 'Innerhalb des Vergleichszeitraums geändert'
-        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
+        column_incompatible: 'Dieses Attribut ist nicht kompatibel mit dem Baseline-Vergleich und zeigt keine Unterschiede an.'
       filters:
         title: 'Arbeitspakete filtern'
-        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
-        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
+        baseline_incompatible: 'Dieser Filter ist nicht kompatibel mit dem Baseline-Vergleich und wird nicht berücksichtigt.'
+        baseline_warning: 'Der Baseline-Vergleich ist aktiviert, aber einige Ihrer aktiven Filter sind nicht im Vergleich enthalten.'
       inline_create:
         title: 'Klicken Sie hier, um ein neues Arbeitspaket zu dieser Liste hinzufügen'
       create:
@@ -1274,8 +1274,8 @@ de:
       header_description: 'An dieser Liste vorgenommene Änderungen seit einem beliebigen Zeitpunkt in der Vergangenheit hervorheben.'
       enterprise_header_description: 'Mit der Enterprise Edition an dieser Liste vorgenommene Änderungen seit einem beliebigen Zeitpunkt in der Vergangenheit hervorheben.'
       show_changes_since: 'Änderungen anzeigen ab'
-      baseline_comparison: 'Baseline comparison'
-      help_description: 'Reference time zone for the baseline.'
+      baseline_comparison: 'Baseline-Vergleich'
+      help_description: 'Referenz-Zeitzone für die Baseline.'
       time_description: 'In Ihrer Ortszeit: %{datetime}'
       time: 'Zeit'
       from: 'Von'
@@ -1297,7 +1297,7 @@ de:
       icon_tooltip:
         added: 'Innerhalb des Vergleichszeitraums zur Ansicht hinzugefügt'
         removed: 'Innerhalb des Vergleichszeitraums aus der Ansicht entfernt'
-        changed: 'Maintained with modifications'
+        changed: 'Mit Änderungen erhalten'
     forms:
       submit_success_message: 'Das Formular wurde erfolgreich übermittelt'
       load_error_message: 'Beim Laden des Formulars ist ein Fehler aufgetreten'

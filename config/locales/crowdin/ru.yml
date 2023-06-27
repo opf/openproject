@@ -276,6 +276,8 @@ ru:
   users:
     sessions:
       session_name: "%{browser_name} %{browser_version} на %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
       unknown_browser: 'неизвестный браузер'
       unknown_os: 'неизвестная операционная система'
       current: 'Текущая сессия'

@@ -273,6 +273,8 @@ el:
   users:
     sessions:
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
       unknown_browser: 'unknown browser'
       unknown_os: 'unknown operating system'
       current: 'Current session'
