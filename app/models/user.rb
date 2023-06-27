@@ -146,6 +146,9 @@ class User < Principal
   validate :password_meets_requirements
 
   after_save :update_password
+  after_save do
+    ActivePermissions::Updater.prepare
+  end
 
   scope :admin, -> { where(admin: true) }
 

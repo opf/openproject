@@ -33,9 +33,8 @@ module Users::Scopes
 
     class_methods do
       def allowed(action, project)
-        includes(:permissions)
-          .where(permissions: { project: })
-          .where(permissions: { permission: action })
+        includes(:active_permissions)
+          .where(active_permissions: { project:, permission: action })
       end
     end
   end

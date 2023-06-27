@@ -41,6 +41,10 @@ class Member < ApplicationRecord
   validate :validate_presence_of_role
   validate :validate_presence_of_principal
 
+  after_save do
+    ActivePermissions::Updater.prepare
+  end
+
   scopes :assignable,
          :global,
          :not_locked,

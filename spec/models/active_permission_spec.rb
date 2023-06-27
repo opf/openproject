@@ -118,7 +118,16 @@ RSpec.describe ActivePermission do
       end
     end
 
-    context 'for a member in a private project for the public permission not within a module' do
+    context 'for a member in a private project for a public permission not within a module' do
+      it 'has an entry' do
+        expect(subject)
+          .to include([user.id, private_project.id, 'view_project'])
+      end
+    end
+
+    context 'for a member in a private project for a public not module bound permission without the role having permissions' do
+      let(:member_permissions) { [] }
+
       it 'has an entry' do
         expect(subject)
           .to include([user.id, private_project.id, 'view_project'])
@@ -208,6 +217,13 @@ RSpec.describe ActivePermission do
           .not_to include([user.id, private_project.id, 'view_work_packages'])
       end
     end
+
+    context 'for the anonymous user for a granted permission of an active module' do
+      it 'has no entry' do
+        expect(subject)
+          .not_to include([anonymous_user.id, private_project.id, 'view_work_packages'])
+      end
+    end
   end
 
   describe '#create_for_admins_in_project' do
@@ -256,7 +272,7 @@ RSpec.describe ActivePermission do
       end
     end
 
-    context 'for an admin who is a not a member in a private project of a non module permission not granted to admins' do
+    context 'for an admin not member in a private project of an active module with the permission not granted to admins' do
       it 'has no entry' do
         expect(subject)
           .not_to include([admin.id, private_project.id, 'work_packages_assigned'])
@@ -481,6 +497,13 @@ RSpec.describe ActivePermission do
       end
     end
 
+    context 'for the anonymous user in a public project for a public permission without module' do
+      it 'has an entry' do
+        expect(subject)
+          .to include([anonymous_user.id, public_project.id, 'view_project'])
+      end
+    end
+
     context 'for a user not member in a public project for a public permission of an active module' do
       it 'has an entry' do
         expect(subject)
@@ -489,6 +512,16 @@ RSpec.describe ActivePermission do
     end
 
     context 'for a user not member in a public project for a non module bound public permission' do
+      it 'has an entry' do
+        expect(subject)
+          .to include([user.id, public_project.id, 'view_project'])
+      end
+    end
+
+    context 'for a user not member in a public project for a non module bound public permission ' \
+            'with the non member role not having any permissions' do
+      let(:non_member_permissions) { [] }
+
       it 'has an entry' do
         expect(subject)
           .to include([user.id, public_project.id, 'view_project'])
@@ -522,15 +555,6 @@ RSpec.describe ActivePermission do
       it 'has no entry' do
         expect(subject)
           .not_to include([user.id, public_project.id, 'view_work_packages'])
-      end
-    end
-
-    context 'for the anonymous user in a public project for a granted permission of an inactive module' do
-      let(:enabled_modules) { %i[news] }
-
-      it 'has no entry' do
-        expect(subject)
-          .not_to include([anonymous_user.id, public_project.id, 'view_work_packages'])
       end
     end
 
@@ -585,7 +609,7 @@ RSpec.describe ActivePermission do
       end
     end
 
-    context 'for a locked user not member in a public projct for a granted permission of an active module' do
+    context 'for a locked user not member in a public project for a granted permission of an active module' do
       before do
         user.locked!
       end
@@ -593,6 +617,15 @@ RSpec.describe ActivePermission do
       it 'has no entry' do
         expect(subject)
           .not_to include([user.id, public_project.id, 'view_work_packages'])
+      end
+    end
+
+    context 'for the anonymous user in a private project for a public permission not bound to a module' do
+      before { private_project }
+
+      it 'has no entry' do
+        expect(subject)
+          .not_to include([anonymous_user.id, private_project.id, 'view_project'])
       end
     end
   end
