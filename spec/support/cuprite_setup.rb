@@ -39,6 +39,15 @@ def headless_mode?
   !headful_mode?
 end
 
+# Customize browser download path until https://github.com/rubycdp/cuprite/pull/217 is released.
+module SetCupriteDownloadPath
+  def initialize(app, options = {})
+    super
+    @options[:save_path] = DownloadList::SHARED_PATH.to_s
+  end
+end
+Capybara::Cuprite::Driver.prepend(SetCupriteDownloadPath)
+
 def register_better_cuprite(language, name: :"better_cuprite_#{language}")
   Capybara.register_driver(name) do |app|
     options = {
