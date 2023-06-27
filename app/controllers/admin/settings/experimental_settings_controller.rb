@@ -30,10 +30,6 @@ module Admin::Settings
   class ExperimentalSettingsController < ::Admin::SettingsController
     menu_item :settings_experimental
 
-    def show
-      super
-    end
-
     def default_breadcrumb
       t(:label_experimental)
     end
