@@ -28,7 +28,7 @@
 require 'spec_helper'
 require 'representable/json'
 
-describe Representable do
+RSpec.describe Representable do
   let(:object) { Struct.new(:title).new('test') }
 
   class ReverseNamingStrategy

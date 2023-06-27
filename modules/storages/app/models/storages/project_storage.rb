@@ -40,11 +40,19 @@ class Storages::ProjectStorage < ApplicationRecord
   belongs_to :storage, touch: true, class_name: 'Storages::Storage'
   belongs_to :creator, class_name: 'User'
 
+  has_many :last_project_folders,
+           class_name: 'Storages::LastProjectFolder',
+           dependent: :destroy,
+           foreign_key: :projects_storage_id
+
   # There should be only one ProjectStorage per project and storage.
   validates :project, uniqueness: { scope: :storage }
 
   enum project_folder_mode: {
     inactive: 'inactive',
-    manual: 'manual'
+    manual: 'manual',
+    automatic: 'automatic'
   }.freeze, _prefix: 'project_folder'
+
+  scope :automatic, -> { where(project_folder_mode: 'automatic') }
 end

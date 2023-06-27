@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
 
-describe UserPreferences::UpdateContract do
+RSpec.describe UserPreferences::UpdateContract do
   include_context 'ModelContract shared context'
 
   let(:current_user) { build_stubbed(:user) }
@@ -372,5 +372,33 @@ describe UserPreferences::UpdateContract do
 
       it_behaves_like 'contract is invalid', pause_reminders: :blank
     end
+  end
+
+  context "when theme is present" do
+    let(:settings) do
+      {
+        theme:
+      }
+    end
+
+    context 'with allowed value' do
+      let(:theme) { 'light' }
+
+      it_behaves_like 'contract is valid'
+    end
+
+    context 'without allowed value' do
+      let(:theme) { 'not a theme' }
+
+      it_behaves_like 'contract is invalid'
+    end
+  end
+
+  context "when theme is not present" do
+    let(:settings) do
+      {}
+    end
+
+    it_behaves_like 'contract is valid'
   end
 end

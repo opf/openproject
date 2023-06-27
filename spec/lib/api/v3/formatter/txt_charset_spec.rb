@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Formatter::TxtCharset do
+RSpec.describe API::V3::Formatter::TxtCharset do
   let(:umlaut_object_ascii) { 'ümläutß'.force_encoding('ASCII-8BIT') }
   let(:umlaut_object_utf8) { umlaut_object_ascii.force_encoding('utf-8') }
   let(:env) { {} }

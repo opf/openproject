@@ -42,7 +42,7 @@ gem 'ffi', '~> 1.15'
 
 gem 'rdoc', '>= 2.4.2'
 
-gem 'doorkeeper', '~> 5.5.0'
+gem 'doorkeeper', '~> 5.6.6'
 # Maintain our own omniauth due to relative URL root issues
 # see upstream PR: https://github.com/omniauth/omniauth/pull/903
 gem 'omniauth', git: 'https://github.com/opf/omniauth', ref: 'fe862f986b2e846e291784d2caa3d90a658c67f0'
@@ -51,7 +51,7 @@ gem 'request_store', '~> 1.5.0'
 gem 'warden', '~> 1.2'
 gem 'warden-basic_auth', '~> 0.2.1'
 
-gem 'will_paginate', '~> 3.3.0'
+gem 'will_paginate', '~> 4.0.0'
 
 gem 'friendly_id', '~> 5.5.0'
 
@@ -103,7 +103,7 @@ gem 'svg-graph', '~> 2.2.0'
 
 gem 'date_validator', '~> 0.12.0'
 gem 'email_validator', '~> 2.2.3'
-gem 'json_schemer', '~> 0.2.18'
+gem 'json_schemer', '~> 1.0.1'
 gem 'ruby-duration', '~> 3.2.0'
 
 # `config/initializers/mail_starttls_patch.rb` has also been patched to
@@ -120,7 +120,7 @@ gem 'posix-spawn', '~> 0.3.13', require: false
 gem 'bcrypt', '~> 3.1.6'
 
 gem 'multi_json', '~> 1.15.0'
-gem 'oj', '~> 3.14.0'
+gem 'oj', '~> 3.15.0'
 
 gem 'daemons'
 gem 'delayed_cron_job', '~> 0.9.0'
@@ -156,7 +156,7 @@ gem 'structured_warnings', '~> 0.4.0'
 gem 'airbrake', '~> 13.0.0', require: false
 
 gem 'prawn', '~> 2.2'
-gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', tag: 'v0.0.15'
+gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', tag: 'v0.0.18'
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem 'matrix', '~> 0.4.2'
 
@@ -207,6 +207,8 @@ gem "appsignal", "~> 3.0", require: false
 
 gem 'view_component'
 
+gem 'turbo-rails', "~> 1.1"
+
 group :test do
   gem 'launchy', '~> 2.5.0'
   gem 'rack-test', '~> 2.1.0'
@@ -215,6 +217,7 @@ group :test do
   # Test prof provides factories from code
   # and other niceties
   gem 'test-prof', '~> 1.2.0'
+  gem 'turbo_tests', github: "crohr/turbo_tests", ref: "fix/runtime-info"
 
   gem 'rack_session_access'
   gem 'rspec', '~> 3.12.0'
@@ -273,6 +276,9 @@ group :development do
   gem 'lookbook', '~> 2.0.3'
 
   gem 'colored2'
+
+  # git hooks manager
+  gem 'lefthook', require: false
 end
 
 group :development, :test do
@@ -299,9 +305,6 @@ group :development, :test do
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
-
-  # git hooks manager
-  gem 'lefthook', require: false
 
   # Brakeman scanner
   gem 'brakeman', '~> 6.0.0'

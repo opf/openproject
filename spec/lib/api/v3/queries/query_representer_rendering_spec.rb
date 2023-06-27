@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Queries::QueryRepresenter do
+RSpec.describe API::V3::Queries::QueryRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:query) { build_stubbed(:query, project:, views:) }
@@ -543,6 +543,35 @@ describe API::V3::Queries::QueryRepresenter do
           expect(subject)
             .not_to have_json_path('_links/unstar')
         end
+      end
+    end
+  end
+
+  describe 'ical url' do
+    context 'when allowed to subscribe to ical' do
+      let(:permissions) { %i(share_via_ical) }
+
+      context 'when icalendar sharing is enabled globally', with_settings: { ical_enabled: true } do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'icalUrl' }
+          let(:href) { api_v3_paths.query_ical_url(query.id) }
+        end
+      end
+
+      context 'when icalendar sharing is disabled globally', with_settings: { ical_enabled: false } do
+        it 'has no icalUrl link' do
+          expect(subject)
+            .not_to have_json_path('_links/icalUrl')
+        end
+      end
+    end
+
+    context 'when lacking permission' do
+      let(:permissions) { [] }
+
+      it 'has no icalUrl link' do
+        expect(subject)
+          .not_to have_json_path('_links/icalUrl')
       end
     end
   end

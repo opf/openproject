@@ -27,7 +27,7 @@
 
 require 'spec_helper'
 
-describe ModelContract do
+RSpec.describe ModelContract do
   let(:model) do
     double('The model',
            child_attribute: nil,

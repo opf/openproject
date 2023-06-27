@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage do
+RSpec.describe WorkPackage do
   let(:work_package) do
     create(:work_package, project:,
                           status:)

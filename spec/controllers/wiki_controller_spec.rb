@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WikiController do
+RSpec.describe WikiController do
   shared_let(:admin) { create(:admin) }
 
   shared_let(:project) do
@@ -997,8 +997,7 @@ describe WikiController do
 
       @anon = User.anonymous.nil? ? create(:anonymous) : User.anonymous
 
-      Role.anonymous.update name: I18n.t(:default_role_anonymous),
-                            permissions: [:view_wiki_pages]
+      Role.anonymous.update permissions: [:view_wiki_pages]
     end
 
     current_user { admin }

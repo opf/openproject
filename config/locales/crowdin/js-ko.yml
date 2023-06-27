@@ -65,6 +65,7 @@ ko:
     button_confirm: "확인"
     button_continue: "계속"
     button_copy: "복사"
+    button_copy_to_clipboard: "Copy to clipboard"
     button_copy_to_other_project: "다른 프로젝트에 복사"
     button_custom-fields: "사용자 정의 필드"
     button_delete: "삭제"
@@ -105,7 +106,7 @@ ko:
       remove_from_list: '목록에서 카드 제거'
     caption_rate_history: "요금 기록"
     clipboard:
-      browser_error: "브라우저를 클립보드에 복사를 지원 하지 않습니다. 텍스트를 타이핑하여 복사하십시오."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "클립보드에 복사되었습니다!"
     chart:
       type: '차트 유형'
@@ -317,6 +318,16 @@ ko:
               learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
                 이 릴리스에는 다음과 같은 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>작업 패키지의 파일을 Nextcloud 파일 저장소에 업로드하고 연결합니다.</li> <li>프로젝트 활동 추적을 통해 프로젝트 변경 사항을 추적합니다.</li> <li>인스턴스 전체 공휴일(휴무일)을 추가합니다.</li> <li>비관리자가 프로젝트를 보관합니다.</li> <li>기한이 지난 작업 패키지에 대한 새로운 기본 필터.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to iCalendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Token name"
+      token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
+      token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the iCal URL."
     label_activate: "활성화"
     label_assignee: '담당자'
     label_add_column_after: "다음 뒤에 열 추가"
@@ -328,7 +339,7 @@ ko:
     label_add_row_before: "다음 앞에 행 추가"
     label_add_selected_columns: "선택된 열 추가"
     label_added_by: "추가함 : "
-    label_added_time_by: "<a href=%{authorLink}>%{author}</a>(%{age}) 님이 추가함"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "일 전"
     label_all: "모두"
     label_all_work_packages: "모든 작업 패키지"
@@ -666,8 +677,7 @@ ko:
         모든 특성을 보려면 작업 패키지를 만들 프로젝트를 선택하십시오. 위 유형이 활성화된 프로젝트만 선택할 수 있습니다.
       details_activity: '프로젝트 세부 정보 활동'
       context: '프로젝트 컨텍스트'
-      work_package_belongs_to: '이 작업 패키지는 프로젝트 %{projectname}에 속합니다.'
-      click_to_switch_context: '해당 프로젝트에서 이 작업 패키지를 여세요.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: '템플릿을 전환하면 페이지가 다시 로드되고 이 양식에 대한 모든 입력이 손실됩니다. 계속하시겠습니까?'
       use_template: "템플릿 사용"
       no_template_selected: "(없음)"
@@ -923,8 +933,11 @@ ko:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
+        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
       filters:
         title: '작업 패키지 필터링'
+        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: '이 목록에 새 작업 패키지를 추가하려면 여기를 클릭하세요.'
       create:
@@ -1085,6 +1098,7 @@ ko:
         save_as: "다른 이름으로 저장"
         export: "내보내기"
         visibility_settings: "표시 여부 설정"
+        share_calendar: "Subscribe to iCalendar"
         page_settings: "보기 이름 바꾸기"
         delete: "삭제"
       filter: "필터"
@@ -1253,21 +1267,23 @@ ko:
       no_results: '검색 기준과 일치하는 프로젝트가 없습니다.'
     baseline:
       toggle_title: 'Baseline'
-      clear: 'Clear'
-      apply: 'Apply'
-      header_description: 'View changes made to work packages in the current view within a time period.'
+      clear: '선택 취소'
+      apply: '적용'
+      header_description: 'Highlight changes made to this list since any point in the past.'
+      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Show changes since'
+      baseline_comparison: 'Baseline comparison'
       help_description: 'Reference time zone for the baseline.'
       time_description: 'In your local time: %{datetime}'
-      time: 'Time'
-      from: 'From'
-      to: 'To'
+      time: '시간'
+      from: '시작'
+      to: '끝'
       drop_down:
         none: '-'
-        yesterday: 'yesterday'
+        yesterday: '어제'
         last_working_day: 'last working day'
-        last_week: 'last week'
-        last_month: 'last month'
+        last_week: '지난주'
+        last_month: '지난달'
         a_specific_date: 'a specific date'
         between_two_specific_dates: 'between two specific dates'
       legends:
@@ -1276,6 +1292,10 @@ ko:
         no_longer_meets_filter_criteria: 'No longer meets filter criteria'
         maintained_with_changes: 'Maintained with changes'
         in_your_timezone: 'In your local timezone:'
+      icon_tooltip:
+        added: 'Added to view within the comparison time period'
+        removed: 'Removed from view within the comparison time period'
+        changed: 'Maintained with modifications'
     forms:
       submit_success_message: '양식을 성공적으로 제출했습니다'
       load_error_message: '양식을 불러오는 중 오류가 발생했습니다'

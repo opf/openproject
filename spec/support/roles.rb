@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-shared_context 'with non-member permissions from non_member_permissions' do
+RSpec.shared_context 'with non-member permissions from non_member_permissions' do
   around do |example|
     non_member = Role.non_member
     previous_permissions = non_member.permissions

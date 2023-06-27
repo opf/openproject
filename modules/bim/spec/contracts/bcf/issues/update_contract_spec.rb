@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_contract_examples'
 
-describe Bim::Bcf::Issues::UpdateContract do
+RSpec.describe Bim::Bcf::Issues::UpdateContract do
   it_behaves_like 'issues contract' do
     let(:issue) do
       build_stubbed(:bcf_issue,

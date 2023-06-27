@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe RbExportCardConfigurationsController do
+RSpec.describe RbExportCardConfigurationsController do
   describe 'routing' do
     it {
       expect(get('/projects/project_42/sprints/21/export_card_configurations/10')).to route_to(controller: 'rb_export_card_configurations',

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::PlaceholderUsers::PlaceholderUserRepresenter, 'rendering' do
+RSpec.describe API::V3::PlaceholderUsers::PlaceholderUserRepresenter, 'rendering' do
   include API::V3::Utilities::PathHelper
 
   let(:placeholder_user) { build_stubbed(:placeholder_user) }

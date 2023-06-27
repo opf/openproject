@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_contract_examples'
 
-describe WikiPages::CreateContract do
+RSpec.describe WikiPages::CreateContract do
   it_behaves_like 'wiki page contract' do
     subject(:contract) { described_class.new(page, current_user, options: {}) }
 

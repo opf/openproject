@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Custom actions', js: true, with_ee: %i[custom_actions] do
+RSpec.describe 'Custom actions', js: true, with_ee: %i[custom_actions] do
   shared_let(:admin) { create(:admin) }
 
   let(:permissions) { %i(view_work_packages edit_work_packages move_work_packages work_package_assigned) }
@@ -441,7 +441,7 @@ describe 'Custom actions', js: true, with_ee: %i[custom_actions] do
                               type: other_type.name.upcase,
                               "customField#{date_custom_field.id}" => (Date.today + 5.days).strftime('%m/%d/%Y')
     expect(page)
-      .to have_content(I18n.t('js.project.work_package_belongs_to', projectname: other_project.name))
+      .to have_content(I18n.t('js.project.click_to_switch_to_project', projectname: other_project.name))
 
     ## Bump the lockVersion and by that force a conflict.
     work_package.reload.touch

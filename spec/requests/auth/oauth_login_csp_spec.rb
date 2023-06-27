@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe 'CSP appends on login form from oauth',
-         type: :rails_request do
+RSpec.describe 'CSP appends on login form from oauth',
+               type: :rails_request do
   let!(:redirect_uri) { 'https://foobar.com' }
   let!(:oauth_app) { create(:oauth_application, redirect_uri:) }
   let(:oauth_path) do

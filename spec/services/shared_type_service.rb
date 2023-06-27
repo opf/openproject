@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-shared_context 'with custom field params' do
+RSpec.shared_context 'with custom field params' do
   let(:cf1) { create(:work_package_custom_field, field_format: 'text') }
   let(:cf2) { create(:work_package_custom_field, field_format: 'text') }
   let!(:cf3) { create(:work_package_custom_field, field_format: 'text') }
@@ -47,7 +47,7 @@ shared_context 'with custom field params' do
   let(:params) { attribute_groups }
 end
 
-shared_examples_for 'type service' do
+RSpec.shared_examples_for 'type service' do
   let(:success) { true }
   let(:params) { {} }
   let!(:contract) do

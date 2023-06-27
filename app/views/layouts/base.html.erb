@@ -45,7 +45,7 @@ See COPYRIGHT and LICENSE files for more details.
   data-overflowing-identifier=".__overflowing_body"
   data-rendered-at="<%= Time.zone.now.iso8601 %>"
   data-controller="application"
-  data-color-mode="light" data-light-theme="light"
+  <%= user_theme_data_attributes %>
 >
 <%= render partial: 'warning_bar/warning_bar' %>
 <noscript>
@@ -93,7 +93,12 @@ See COPYRIGHT and LICENSE files for more details.
   <div id="main"
        class="<%= initial_classes %>">
     <% if (side_displayed && show_decoration) %>
-      <div id="main-menu" class="main-menu">
+      <div
+        id="main-menu"
+        class="main-menu"
+        data-controller="menus--main"
+        data-application-target="dynamic"
+      >
         <h1 class="hidden-for-sighted"><%= t(:label_main_menu) %></h1>
         <main-menu-resizer></main-menu-resizer>
         <div id="menu-sidebar">
@@ -101,7 +106,7 @@ See COPYRIGHT and LICENSE files for more details.
           <%= content_for :main_menu %>
           <%= call_hook :view_layouts_base_main_menu %>
           <!-- Sidebar -->
-          <div id="sidebar">
+          <div id="sidebar" data-menus--main-target="sidebar">
             <%= content_for :sidebar %>
             <%= call_hook :view_layouts_base_sidebar %>
           </div>
@@ -111,7 +116,7 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="content-overlay"></div>
     <main id="content-wrapper" class="<%= initial_classes %>">
       <% if show_decoration %>
-        <div id="breadcrumb" class="<%= initial_classes %><%= show_breadcrumb ? ' -show' : '' %>">
+        <div id="breadcrumb" class="op-wp-breadcrumb <%= initial_classes %><%= show_breadcrumb ? ' op-wp-breadcrumb_show' : '' %>">
           <%= you_are_here_info %>
           <%= full_breadcrumb %>
           <%= call_hook :view_layouts_base_breadcrumb %>

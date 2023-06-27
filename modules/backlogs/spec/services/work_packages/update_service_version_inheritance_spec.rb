@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe WorkPackages::UpdateService, "version inheritance", type: :model do
+RSpec.describe WorkPackages::UpdateService, "version inheritance", type: :model do
   let(:type_feature) { build(:type_feature) }
   let(:type_task) { build(:type_task) }
   let(:type_bug) { build(:type_bug) }
@@ -192,7 +192,6 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
 
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'points_burn_direction' => 'down',
                                                                          'wiki_template' => '',
-                                                                         'card_spec' => 'Sattleford VM-5040',
                                                                          'story_types' => [type_feature.id],
                                                                          'task_type' => type_task.id.to_s })
   end

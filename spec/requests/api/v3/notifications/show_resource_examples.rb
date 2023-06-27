@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-shared_examples 'represents the notification' do
+RSpec.shared_examples 'represents the notification' do
   it 'represents the notification', :aggregate_failures do
     expect(last_response.status)
       .to eq(200)

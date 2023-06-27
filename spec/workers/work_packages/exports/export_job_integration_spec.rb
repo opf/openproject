@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::ExportJob, 'Integration' do
+RSpec.describe WorkPackages::ExportJob, 'Integration' do
   let(:project) { create(:project) }
   let(:user) do
     create(:user,

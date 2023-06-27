@@ -26,7 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { refreshOnFormChanges } from 'core-app/core/setup/globals/global-listeners/refresh-on-form-changes';
 import { registerRequestForConfirmation } from 'core-app/core/setup/globals/global-listeners/request-for-confirmation';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { scrollHeaderOnMobile } from 'core-app/core/setup/globals/global-listeners/top-menu-scroll';
@@ -101,8 +100,6 @@ export function initializeGlobalListeners():void {
       evt.preventDefault();
       return false;
     });
-
-  refreshOnFormChanges();
 
   // Allow forms with [request-for-confirmation]
   // to show the password confirmation dialog

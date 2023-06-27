@@ -43,12 +43,12 @@ module OpenProject::Bim::Patches::WorkPackageBoardSeederPatch
 
     def seed_bcf_board_queries
       statuses(
-        'default_status_new',
-        'default_status_in_progress',
-        'bim.default_status_resolved',
-        'default_status_closed'
+        :default_status_new,
+        :default_status_in_progress,
+        :default_status_resolved,
+        :default_status_closed
       ).map do |status|
-        Query.new_default(project:, user:).tap do |query|
+        Query.new_default(project:, user: admin_user).tap do |query|
           # Make it public so that new members can see it too
           query.public = true
 

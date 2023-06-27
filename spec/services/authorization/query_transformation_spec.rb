@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Authorization::QueryTransformation do
+RSpec.describe Authorization::QueryTransformation do
   let(:on) { 'on' }
   let(:name) { 'name' }
   let(:after) { 'after' }

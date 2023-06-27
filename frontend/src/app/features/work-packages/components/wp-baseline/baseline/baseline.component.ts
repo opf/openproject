@@ -54,8 +54,11 @@ import { validDate } from 'core-app/shared/components/datepicker/helpers/date-mo
 import {
   baselineFilterFromValue,
   getPartsFromTimestamp,
+  offsetToUtcString,
 } from 'core-app/features/work-packages/components/wp-baseline/baseline-helpers';
 import * as moment from 'moment-timezone';
+import { BannersService } from 'core-app/core/enterprise/banners.service';
+import { enterpriseDocsUrl } from 'core-app/core/setup/globals/constants.const';
 
 @Component({
   selector: 'op-baseline',
@@ -92,10 +95,13 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
   public tooltipPosition = SpotDropAlignmentOption.TopRight;
 
+  eeShowBanners = this.Banner.eeShowBanners;
+
   public text = {
     toggle_title: this.I18n.t('js.baseline.toggle_title'),
     drop_down_none_option: this.I18n.t('js.baseline.drop_down.none'),
     header_description: this.I18n.t('js.baseline.header_description'),
+    enterprise_header_description: this.I18n.t('js.baseline.enterprise_header_description'),
     clear: this.I18n.t('js.baseline.clear'),
     apply: this.I18n.t('js.baseline.apply'),
     show_changes_since: this.I18n.t('js.baseline.show_changes_since'),
@@ -103,7 +109,10 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     to: this.I18n.t('js.baseline.to'),
     date: this.I18n.t('js.label_date'),
     time: this.I18n.t('js.baseline.time'),
+    moreInfoLink: enterpriseDocsUrl.website,
+    more_info_text: this.I18n.t('js.admin.enterprise.upsale.more_info'),
     help_description: this.I18n.t('js.baseline.help_description'),
+    baseline_comparison: this.I18n.t('js.baseline.baseline_comparison'),
     time_description: (i:number) => {
       const date = this.selectedDates[i];
       const time = this.selectedTimes[i];
@@ -159,6 +168,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     readonly daysService:DayResourceService,
     readonly timezoneService:TimezoneService,
     readonly configuration:ConfigurationService,
+    readonly Banner:BannersService,
   ) {
     super();
   }
@@ -197,6 +207,10 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
   public onSave() {
     this.wpTableBaseline.update(this.buildBaselineFilter());
     this.submitted.emit();
+  }
+
+  public mappedOffset(offset:string) {
+    return offsetToUtcString(offset);
   }
 
   public timesChange(value:string[]):void {

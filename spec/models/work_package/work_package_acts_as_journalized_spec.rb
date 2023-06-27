@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage do
+RSpec.describe WorkPackage do
   describe '#journal' do
     let(:type) { create(:type) }
     let(:project) do

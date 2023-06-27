@@ -66,6 +66,7 @@ ja:
     button_confirm: "確認"
     button_continue: "続行"
     button_copy: "コピー"
+    button_copy_to_clipboard: "Copy to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "カスタムフィールド"
     button_delete: "削除"
@@ -106,7 +107,7 @@ ja:
       remove_from_list: 'リストからカードを削除'
     caption_rate_history: "進捗履歴"
     clipboard:
-      browser_error: "お使いのブラウザーでは、クリップボードへのコピーをサポートしていません。手動で選択したテキストをコピーしてください。"
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "クリップボードにコピーしました"
     chart:
       type: 'グラフの種類'
@@ -242,8 +243,8 @@ ja:
             professional_support: "プロフェッショナルサポート"
             professional_support_text: "ビジネスクリティカルな環境での OpenProject 利用に関する専門知識を持つ上級サポートエンジニアから、信頼性の高いハイタッチサポートを受けましょう。"
           button_start_trial: "無料トライアルを開始"
-          button_upgrade: "Upgrade now"
-          button_contact_us: "Contact us for a demo"
+          button_upgrade: "今すぐアップグレード"
+          button_contact_us: "デモについてはお問い合わせください"
           button_book_now: "今すぐ予約"
           confidence: >
             テストおよびサポートされているエンタープライズクラスのプロジェクト管理ソフトウェアの信頼性を提供します。オープンソースとオープンマインドとともに。
@@ -318,8 +319,18 @@ ja:
               learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
                 The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to iCalendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Token name"
+      token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
+      token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the iCal URL."
     label_activate: "有効にする"
-    label_assignee: 'Assignee'
+    label_assignee: '担当者'
     label_add_column_after: "後に列を追加"
     label_add_column_before: "前に列を追加"
     label_add_columns: "列を追加"
@@ -329,7 +340,7 @@ ja:
     label_add_row_before: "前に行を追加"
     label_add_selected_columns: "選択した列を追加"
     label_added_by: "追加した人"
-    label_added_time_by: "<a href=%{authorLink}>%{author}</a> によって %{age}に追加されました"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "○日前"
     label_all: "全て"
     label_all_work_packages: "全ての作業項目"
@@ -422,7 +433,7 @@ ja:
     label_previous: "前へ"
     label_per_page: "1 ページあたり"
     label_please_wait: "しばらくお待ちください"
-    label_project: "Project"
+    label_project: "プロジェクト"
     label_project_list: "Projects list"
     label_project_plural: "プロジェクト"
     label_visibility_settings: "表示の設定"
@@ -436,7 +447,7 @@ ja:
     label_report: "レポート"
     label_repository_plural: "リポジトリ"
     label_save_as: "名前をつけて保存"
-    label_select_project: "Select a project"
+    label_select_project: "プロジェクトの選択"
     label_select_watcher: "ウォッチャーを選択..."
     label_selected_filter_list: "選択されたフィルタ"
     label_show_attributes: "すべての属性を表示"
@@ -478,9 +489,9 @@ ja:
     label_unwatch: "ウォッチしない"
     label_unwatch_work_package: "作業項目のウォッチを削除"
     label_uploaded_by: "アップロードした人"
-    label_default_queries: "Default"
+    label_default_queries: "既定の項目"
     label_starred_queries: "Favorite"
-    label_global_queries: "Public"
+    label_global_queries: "公開"
     label_custom_queries: "Private"
     label_columns: "列"
     label_attachments: 添付ファイル
@@ -551,7 +562,7 @@ ja:
       reasons:
         mentioned: 'mentioned'
         watched: 'watcher'
-        assigned: 'assignee'
+        assigned: '担当者'
         responsible: 'accountable'
         created: '作成する'
         scheduled: 'スケジュール済'
@@ -574,9 +585,9 @@ ja:
         unread: 'Unread'
         unread_title: 'Show unread'
         all: '全て'
-        all_title: 'Show all'
+        all_title: '全てを表示'
       center:
-        label_actor_and: 'and'
+        label_actor_and: '及び'
         and_more_users:
           other: 'and %{count} others'
         no_results:
@@ -600,7 +611,7 @@ ja:
         by_reason: 'Reason'
         inbox: 'Inbox'
         mentioned: 'Mentioned'
-        watched: 'Watcher'
+        watched: 'ウォッチャー'
         date_alert: 'Date alert'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
@@ -622,9 +633,9 @@ ja:
           mentioned:
             title: 'Mentioned'
             description: 'Receive a notification every time someone mentions me anywhere'
-          assignee: 'Assignee'
-          responsible: 'Accountable'
-          watched: 'Watcher'
+          assignee: '担当者'
+          responsible: '責任者'
+          watched: 'ウォッチャー'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
           work_package_processed: 'All status changes'
@@ -667,8 +678,7 @@ ja:
         作業パッケージを作成するプロジェクトを選択して、すべての属性を確認してください。 上記で有効になっているタイプのプロジェクトのみ選択できます。
       details_activity: 'Project details activity'
       context: 'プロジェクトのコンテキスト'
-      work_package_belongs_to: 'このワークパッケージは、プロジェクト %{projectname} に属しています。'
-      click_to_switch_context: 'このワークパッケージをそのプロジェクトで開きます。'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'テンプレートを切り替えるとページが再読み込みされ、すべての入力が失われます。続行しますか？'
       use_template: "テンプレートを使用"
       no_template_selected: "(なし)"
@@ -924,8 +934,11 @@ ja:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
+        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
       filters:
-        title: 'Filter work packages'
+        title: 'ワークパッケージのフィルタ'
+        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'クリックしてこのリストに新しい作業項目を追加します'
       create:
@@ -962,7 +975,7 @@ ja:
         description: "説明"
         date: "日付"
         dueDate: "終了日"
-        duration: "Duration"
+        duration: "期間"
         estimatedTime: "予定工数"
         spentTime: "作業時間の記録"
         category: "カテゴリ"
@@ -1075,18 +1088,19 @@ ja:
     toolbar:
       settings:
         configure_view: "Configure view"
-        columns: "Columns"
-        sort_by: "Sort by"
-        group_by: "Group by"
+        columns: "列"
+        sort_by: "並べ替え"
+        group_by: "グループ化"
         display_sums: "合計を表示"
         display_hierarchy: "階層を表示"
         hide_hierarchy: "階層を非表示"
         hide_sums: "合計の非表示"
         save: "保存"
-        save_as: "Save as"
-        export: "Export"
-        visibility_settings: "Visibility settings"
-        page_settings: "Rename view"
+        save_as: "名前をつけて保存"
+        export: "外部出力"
+        visibility_settings: "表示の設定"
+        share_calendar: "Subscribe to iCalendar"
+        page_settings: "ビューの名前を変更..."
         delete: "削除"
       filter: "フィルタ"
       unselected_title: "ワーク パッケージ"
@@ -1098,7 +1112,7 @@ ja:
       button_save: "保存"
       button_submit: "適用"
       button_cancel: "キャンセル"
-      button_delete: "Delete"
+      button_delete: "削除"
       form_submit:
         title: '続行の確認'
         text: 'この操作を実行してもよろしいですか？'
@@ -1153,7 +1167,7 @@ ja:
         zero: "0 h"
       day:
         one: "1 day"
-        other: "%{count} days"
+        other: "%{count}日間"
         zero: "0 days"
     zen_mode:
       button_activate: 'マナーモードをアクティブにする'
@@ -1227,7 +1241,7 @@ ja:
       message:
         label: '招待メッセージ'
         description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
-        next_button: 'Next'
+        next_button: '次へ'
       summary:
         next_button: '招待状を送信'
       success:
@@ -1254,21 +1268,23 @@ ja:
       no_results: 'No project matches your search criteria.'
     baseline:
       toggle_title: 'Baseline'
-      clear: 'Clear'
-      apply: 'Apply'
-      header_description: 'View changes made to work packages in the current view within a time period.'
+      clear: 'クリア'
+      apply: '適用'
+      header_description: 'Highlight changes made to this list since any point in the past.'
+      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Show changes since'
+      baseline_comparison: 'Baseline comparison'
       help_description: 'Reference time zone for the baseline.'
       time_description: 'In your local time: %{datetime}'
-      time: 'Time'
-      from: 'From'
-      to: 'To'
+      time: '時間'
+      from: '日付指定: '
+      to: 'から'
       drop_down:
         none: '-'
-        yesterday: 'yesterday'
+        yesterday: '昨日'
         last_working_day: 'last working day'
-        last_week: 'last week'
-        last_month: 'last month'
+        last_week: '先週'
+        last_month: '先月'
         a_specific_date: 'a specific date'
         between_two_specific_dates: 'between two specific dates'
       legends:
@@ -1277,6 +1293,10 @@ ja:
         no_longer_meets_filter_criteria: 'No longer meets filter criteria'
         maintained_with_changes: 'Maintained with changes'
         in_your_timezone: 'In your local timezone:'
+      icon_tooltip:
+        added: 'Added to view within the comparison time period'
+        removed: 'Removed from view within the comparison time period'
+        changed: 'Maintained with modifications'
     forms:
       submit_success_message: 'フォームは正常に送信されました'
       load_error_message: 'フォームの読み込み中にエラーが発生しました'

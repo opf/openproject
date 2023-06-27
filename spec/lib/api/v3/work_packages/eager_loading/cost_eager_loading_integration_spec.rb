@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::WorkPackages::WorkPackageEagerLoadingWrapper, 'cost eager loading', type: :model do
+RSpec.describe API::V3::WorkPackages::WorkPackageEagerLoadingWrapper, 'cost eager loading', type: :model do
   let(:project) do
     work_package.project
   end

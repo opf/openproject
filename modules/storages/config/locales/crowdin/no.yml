@@ -14,7 +14,7 @@
       storages/storage: "Storage"
     attributes:
       storages/storage:
-        name: "Name"
+        name: "Navn"
         creator: "Creator"
         provider_type: "Provider type"
       storages/file_link:
@@ -47,6 +47,7 @@
       replace_provider_type_oauth: "Replace %{provider_type} OAuth"
       save_and_continue_setup: "Save and continue setup"
       save_and_complete_setup: "Save and complete setup"
+      select_folder: "Select folder"
     page_titles:
       project_settings:
         index: "File storages available in this project"
@@ -59,6 +60,9 @@
       host: "Please add the host address of your storage including the https://. It should not be longer than 255 characters."
       no_storage_set_up: "There are no file storages set up yet."
       no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
+      automatic_folder: "This will automatically create a root folder for this project and manage the access permissions for each project member."
+      empty_project_folder_validation: "Selecting a folder is mandatory to proceed."
+      not_logged_into_storage: "To select a project folder, please first login"
       existing_manual_folder: >
         You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
       setting_up_additional_storages: "For setting up additional file storages, please visit"
@@ -77,11 +81,10 @@
         Are you sure you want to delete this storage? This will also delete the storage from all projects where it is used. Further, it will also delete all links from work packages to files that are stored in that storage.
       project_storage: >
         Are you sure you want to remove this file storage from this project? This will also remove all links to files stored in this storage for this project.
-    placeholder_existing_folder_selection: "Select a folder"
     label_creator: "Creator"
     label_file_link: "File link"
     label_file_links: "File links"
-    label_name: "Name"
+    label_name: "Navn"
     label_host: "Host URL"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
@@ -92,8 +95,9 @@
     label_project_folder: "Project folder"
     label_new_storage: "New storage"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
-    label_existing_manual_folder_selection: "Existing folder selection"
     label_no_specific_folder: "No specific folder"
+    label_automatic_folder: "New folder with automatically managed permissions"
+    label_no_selected_folder: "No selected folder"
     label_storage: "Storage"
     label_storages: "Storages"
     no_results: "No storages set up yet."

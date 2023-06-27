@@ -52,8 +52,6 @@ namespace :assets do
     # We skip angular compilation if backend was requested
     # but frontend was not explicitly set
     if ENV['RECOMPILE_RAILS_ASSETS'] == 'true' && ENV['RECOMPILE_ANGULAR_ASSETS'] != 'true'
-      warn "RECOMPILE_RAILS_ASSETS was set by installation, but RECOMPILE_ANGULAR_ASSETS is false. " \
-           "Skipping angular compilation. Set RECOMPILE_ANGULAR_ASSETS='true' if you need to force it."
       next
     end
 
@@ -64,7 +62,8 @@ namespace :assets do
 
     puts "Building angular frontend"
     Dir.chdir Rails.root.join('frontend') do
-      sh 'npm run build' do |ok, res|
+      cmd = ENV['CI'] ? 'npm run build:ci' : 'npm run build'
+      sh(cmd) do |ok, res|
         raise "Failed to compile angular frontend: #{res.exitstatus}" if !ok
       end
     end

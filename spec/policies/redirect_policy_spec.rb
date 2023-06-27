@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe RedirectPolicy, type: :controller do
+RSpec.describe RedirectPolicy, type: :controller do
   let(:host) { 'test.host' }
 
   let(:return_escaped) { true }

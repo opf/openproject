@@ -1,7 +1,7 @@
 require_relative '../../../spec_helper'
 require_relative './../authentication_controller_shared_examples'
 
-describe TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesController do
+RSpec.describe TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesController do
   let(:user) { create(:user, login: 'foobar') }
   let(:logged_in_user) { User.anonymous }
   let(:active_strategies) { [] }

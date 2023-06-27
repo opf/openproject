@@ -28,7 +28,7 @@
 
 require_relative '../spec_helper'
 
-describe 'hourly rates on user edit', js: true do
+RSpec.describe 'hourly rates on user edit', js: true do
   let(:user) { create(:admin) }
 
   def view_rates

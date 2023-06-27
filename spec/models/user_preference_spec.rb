@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe UserPreference do
+RSpec.describe UserPreference do
   subject(:preference) do
     build(:user_preference,
           user:,

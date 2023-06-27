@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Projects::ProjectQuery do
+RSpec.describe Queries::Projects::ProjectQuery do
   let(:instance) { described_class.new }
   let(:base_scope) { Project.all.order(id: :desc) }
   let(:current_user) { build_stubbed(:admin) }

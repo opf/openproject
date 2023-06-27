@@ -57,7 +57,7 @@ eo:
   label_meeting_agenda: "Agenda"
   label_meeting_minutes: "Minutes"
   label_meeting_close: "Fermi"
-  label_meeting_open: "Open"
+  label_meeting_open: "Malfermi"
   label_meeting_agenda_close: "Close the agenda to begin the Minutes"
   label_meeting_date_time: "Date/Time"
   label_meeting_diff: "Diff"

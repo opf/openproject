@@ -27,55 +27,56 @@
 #++
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
-  class FileQuery < Storages::Peripherals::StorageInteraction::StorageQuery
+  class FileQuery
     using Storages::Peripherals::ServiceResultRefinements
 
     FILE_INFO_PATH = 'ocs/v1.php/apps/integration_openproject/fileinfo'.freeze
 
-    def initialize(base_uri:, token:, retry_proc:)
-      super()
-
-      @base_uri = base_uri
-      @token = token
-      @retry_proc = retry_proc
+    def initialize(storage)
+      @uri = URI(storage.host).normalize
+      @oauth_client = storage.oauth_client
     end
 
-    def query(file_id)
-      file_info(file_id) >>
-        method(:handle_access_control) >>
-        method(:storage_file)
+    def call(user:, file_id:)
+      Util.token(user:, oauth_client: @oauth_client) do |token|
+        file_info(file_id, token) >>
+          method(:handle_access_control) >>
+          method(:storage_file)
+      end
+    end
+
+    def error(code, log_message = nil, data = nil)
+      ServiceResult.failure(errors: Storages::StorageError.new(code:, log_message:, data:))
     end
 
     private
 
-    def file_info(file_id)
-      @retry_proc.call(@token) do |token|
-        service_result = begin
-          ServiceResult.success(
-            result: RestClient::Request.execute(
-              method: :get,
-              url: Util.join_uri_path(@base_uri, FILE_INFO_PATH, file_id),
-              headers: {
-                'Authorization' => "Bearer #{token.access_token}",
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json'
-              }
-            )
+    def file_info(file_id, token)
+      service_result = begin
+        ServiceResult.success(
+          result: RestClient::Request.execute(
+            method: :get,
+            url: Util.join_uri_path(@uri, FILE_INFO_PATH, file_id),
+            headers: {
+              'Authorization' => "Bearer #{token.access_token}",
+              'Accept' => 'application/json',
+              'Content-Type' => 'application/json'
+            }
           )
-        rescue RestClient::Unauthorized => e
-          Util.error(:not_authorized, 'Outbound request not authorized!', e.response)
-        rescue RestClient::NotFound => e
-          Util.error(:not_found, 'Outbound request destination not found!', e.response)
-        rescue RestClient::ExceptionWithResponse => e
-          Util.error(:error, 'Outbound request failed!', e.response)
-        rescue StandardError
-          Util.error(:error, 'Outbound request failed!')
-        end
-
-        # rubocop:disable Style/OpenStructUse
-        service_result.map { |response| JSON.parse(response.body, object_class: OpenStruct) }
-        # rubocop:enable Style/OpenStructUse
+        )
+      rescue RestClient::Unauthorized => e
+        error(:not_authorized, 'Outbound request not authorized!', e.response)
+      rescue RestClient::NotFound => e
+        Util.error(:not_found, 'Outbound request destination not found!', e.response)
+      rescue RestClient::ExceptionWithResponse => e
+        Util.error(:error, 'Outbound request failed!', e.response)
+      rescue StandardError
+        Util.error(:error, 'Outbound request failed!')
       end
+
+      # rubocop:disable Style/OpenStructUse
+      service_result.map { |response| JSON.parse(response.body, object_class: OpenStruct) }
+      # rubocop:enable Style/OpenStructUse
     end
 
     def handle_access_control(file_info_response)
@@ -111,7 +112,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
       idx += prefix.length - 1
 
-      files_path[idx..]
+      Util.escape_path(files_path[idx..])
     end
   end
 end

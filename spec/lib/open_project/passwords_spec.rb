@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'open_project/passwords'
 
-describe OpenProject::Passwords::Generator do
+RSpec.describe OpenProject::Passwords::Generator do
   describe '#random_password',
            with_settings: {
              password_active_rules: %w(lowercase uppercase numeric special),
@@ -43,13 +43,13 @@ describe OpenProject::Passwords::Generator do
   end
 end
 
-describe OpenProject::Passwords::Evaluator,
-         with_settings: {
-           password_active_rules: %w(lowercase uppercase numeric),
-           password_min_adhered_rules: 3,
-           password_min_length: 4
-         } do
-  it 'correctlies evaluate passwords' do
+RSpec.describe OpenProject::Passwords::Evaluator,
+               with_settings: {
+                 password_active_rules: %w(lowercase uppercase numeric),
+                 password_min_adhered_rules: 3,
+                 password_min_length: 4
+               } do
+  it 'evaluates passwords correctly' do
     expect(OpenProject::Passwords::Evaluator.conforming?('abCD')).to be(false)
     expect(OpenProject::Passwords::Evaluator.conforming?('ab12')).to be(false)
     expect(OpenProject::Passwords::Evaluator.conforming?('12CD')).to be(false)

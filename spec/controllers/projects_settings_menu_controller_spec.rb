@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Projects::Settings::ModulesController, 'menu' do
+RSpec.describe Projects::Settings::ModulesController, 'menu' do
   let(:current_user) do
     build_stubbed(:user).tap do |u|
       allow(u)

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe SortHelper do
+RSpec.describe SortHelper do
   describe '#sort_init/#sort_update/#sort_clause' do
     # Needed to mimic being included in a controller
     def controller_name; 'foo'; end

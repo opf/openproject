@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Query, "manual sorting " do
+RSpec.describe Query, "manual sorting " do
   shared_let(:user) { create(:admin) }
   shared_let(:project) { create(:project) }
   shared_let(:query) { create(:query, user:, project:) }

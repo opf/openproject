@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::Decorators::Formattable do
+RSpec.describe API::Decorators::Formattable do
   let(:represented) { 'A **raw** string!' }
 
   subject { described_class.new(represented).to_json }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Loggin (with brute force protection)' do
+RSpec.describe 'Loggin (with brute force protection)' do
   let(:login) { 'my_user' }
   let(:password) { "PassW0rd!!!" }
   let(:invalid_password) { password[0..-2] }

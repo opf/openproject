@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-describe 'Time entries widget on dashboard', js: true, with_mail: false do
+RSpec.describe 'Time entries widget on dashboard', js: true, with_mail: false do
   let!(:type) { create(:type) }
   let!(:project) { create(:project, types: [type]) }
   let!(:other_project) { create(:project, types: [type]) }

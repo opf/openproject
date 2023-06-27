@@ -49,7 +49,7 @@ ca:
         main-menu-border-color: "Vora del menú principal"
       custom_colors: "Colors personalitzats"
       customize: "Personalitza la teva instal·lació d'OpenProject amb el teu propi logotip i colors."
-      enterprise_notice: "Com un \"Gràcies!\" especial per la contribució financera al desenvolupament d'OpenProject, aquest petit add-on només està disponible pels subscriptors de l'edició Enterprise."
+      enterprise_notice: "Com un \"Gràcies!\" especial per la contribució financera al desenvolupament d'OpenProject, aquesta petita extensió només està disponible pels subscriptors de l'edició Enterprise."
       enterprise_more_info: "Nota: el logotip utilitzat serà accessible públicament."
       manage_colors: "Edita les opcions de selecció de colors"
       instructions:
@@ -72,7 +72,7 @@ ca:
       replace_token: "Substitueix el teu token de suport actual"
       order: "Ordena l'edició Enterpise on-premises"
       paste: "Enganxa el teu token de suport de l'edició Enterprise"
-      required_for_feature: "Aquest add-om només està disponible amb un token de suport de l'edició Enterprise."
+      required_for_feature: "Aquesta extensió només està disponible amb un token de suport de l'edició Enterprise."
       enterprise_link: "Per a més informació, cliqueu aquí."
       start_trial: 'Inicia la prova gratuïta'
       book_now: 'Reserva ara'
@@ -80,7 +80,7 @@ ca:
       buttons:
         upgrade: "Actualitza ara"
         contact: "Contacta amb nosaltres per una demostració"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
+      enterprise_info_html: "és una extensió de l'edició Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'>."
       upgrade_info: "Si us plau, actualitza a una versió de pagament per tal d'activar i començar a utilitzar aquesta funcionalitat en el teu equip."
     journal_aggregation:
       explanation:
@@ -266,11 +266,22 @@ ca:
       notice_reset_token: "S'ha generat un nou token %{type}. El teu token d'accés és:"
       token_value_warning: "Nota: Aquesta és la única vegada que veuràs aquest token, assegura't de copiar-lo ara."
       no_results_title_text: Actualment no hi ha cap token d'accés disponible.
+      notice_ical_tokens_reverted: "El token d'iCalendar \"%{token_name}\" per al calendari \"%{calendar_name}\" en el projecte \"%{project_name}\" s'ha revocat. L'URL d'iCalendar amb aquest token és ara invàlida."
   news:
     index:
       no_results_title_text: Actualment no hi ha cap novetat per a informar.
       no_results_content_text: Afegir una notícia
   users:
+    sessions:
+      session_name: "%{browser_name}%{browser_version} en %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'navegador desconegut'
+      unknown_os: 'sistema operatiu desconegut'
+      current: 'Sessió actual'
+      title: 'Gestió de sessions'
+      instructions: 'Aquesta és una llista de dispositius que s’han registrat al vostre compte. Revoca qualsevol sessió que no coneguis.'
+      may_not_delete_current: 'No pots eliminar la sessió actual.'
     groups:
       member_in_these_groups: 'Aquest usuari és actualment membre dels següents grups:'
       no_results_title_text: Aquest usuari no és actualment membre de cap grup.
@@ -481,15 +492,15 @@ ca:
           true: "públic"
           false: "privat"
         queries: "Consultes"
-        status_code: 'Project status'
-        status_explanation: 'Project status description'
+        status_code: 'Estat del projecte'
+        status_explanation: 'Descripció de l''estat del projecte'
         status_codes:
-          not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          not_started: 'No començat'
+          on_track: 'Pel bon camí'
+          at_risk: 'En risc'
+          off_track: 'Pel mal camí'
+          finished: 'Acabat'
+          discontinued: 'Discontinuat'
         templated: "Plantilla de projecte"
         templated_value:
           true: "marca com a plantilla"
@@ -687,6 +698,11 @@ ca:
           overlaps: 'superposició.'
           outside: 'és fora de la graella.'
           end_before_start: 'el valor final ha de ser major que el valor inicial.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "és obligatori. Si us plau, selecciona un nom."
+              not_unique: "ja està en ús. Si us plau, selecciona un altre nom."
         notifications:
           at_least_one_channel: 'És necessari d''especificar almenys un canal per enviar notificacions.'
           attributes:
@@ -736,8 +752,8 @@ ca:
               invalid: "No es pot ordenar per columna: %{value}"
               format: "%{message}"
             timestamps:
-              invalid: "Timestamps contain invalid values: %{values}"
-              forbidden: "Timestamps contain forbidden values: %{values}"
+              invalid: "La marca horària conté valors invàlids: %{values}"
+              forbidden: "La marca horària conté valors prohibits: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "és mútuament exclusiu amb el grup per \"%{group_by}\". No pots activar els dos."
           filters:
@@ -914,22 +930,22 @@ ca:
   activity:
     item:
       created_by_on: "creat per %{user} el %{datetime}"
-      created_by_on_time_entry: "time logged by %{user} on %{datetime}"
+      created_by_on_time_entry: "temps registrat per %{user} el %{datetime}"
       created_on: "creat el %{datetime}"
       updated_by_on: "actualitzat per %{user} el %{datetime}"
-      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "temps registrat actualitzat per %{user} el %{datetime}"
       updated_on: "actualitzat el %{datetime}"
       parent_without_of: "Subprojecte"
       parent_no_longer: "Ja no és subprojecte de"
       time_entry:
         hour:
-          one: "%{count} hour"
-          other: "%{count} hours"
+          one: "%{count} hora"
+          other: "%{count} hores"
         hour_html:
-          one: "<i>%{count} hour</i>"
-          other: "<i>%{count} hours</i>"
-        updated: "changed from %{old_value} to %{value}"
-        logged_for: "Logged for"
+          one: "%{count} hora</i>"
+          other: "%{count} hores</i>"
+        updated: "canviat de %{old_value} a %{value}"
+        logged_for: "Registrat per"
     filter:
       changeset: "Conjunt de canvis"
       message: "Fòrums"
@@ -1046,6 +1062,7 @@ ca:
   button_configure: "Configurar"
   button_continue: "Continua"
   button_copy: "Copiar"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Copiar i continuar"
   button_create: "Crear"
   button_create_and_continue: "Crear i continuar"
@@ -1175,7 +1192,7 @@ ca:
       - "Octubre"
       - "Novembre"
       - "Desembre"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - :any
       - :mes
@@ -1220,61 +1237,6 @@ ca:
       hour:
         one: "hora"
         other: "hores"
-  default_activity_development: "Desenvolupament"
-  default_activity_management: "Administració"
-  default_activity_other: "Altres"
-  default_activity_specification: "Especificació"
-  default_activity_support: "Suport"
-  default_activity_testing: "Proves"
-  default_color_black: "Negre"
-  default_color_blue: "Blau"
-  default_color_blue_dark: "Blau (fosc)"
-  default_color_blue_light: "Blau (clar)"
-  default_color_green_dark: "Verd (fosca)"
-  default_color_green_light: "Verd (clar)"
-  default_color_grey_dark: "Gris (fosc)"
-  default_color_grey_light: "Gris (clar)"
-  default_color_grey: "Gris"
-  default_color_magenta: "Magenta"
-  default_color_orange: "Taronja"
-  default_color_red: "Vermell"
-  default_color_white: "Blanc"
-  default_color_yellow: "Groc"
-  default_status_closed: "Tancat"
-  default_status_confirmed: "Confirmat"
-  default_status_developed: "Desenvolupat"
-  default_status_in_development: "En desenvolupament"
-  default_status_in_progress: "En progrés"
-  default_status_in_specification: "En l'especificació"
-  default_status_in_testing: "En proves"
-  default_status_new: "Nou"
-  default_status_on_hold: "En espera"
-  default_status_rejected: "Rebutjat"
-  default_status_scheduled: "Programat"
-  default_status_specified: "Especificat"
-  default_status_tested: "Provat"
-  default_status_test_failed: "Ha fallat la prova"
-  default_status_to_be_scheduled: "Per planificar"
-  default_priority_low: "Baixa"
-  default_priority_normal: "Normal"
-  default_priority_high: "Alta"
-  default_priority_immediate: "Immediata"
-  default_role_anonymous: "Anònim"
-  default_role_developer: "Desenvolupador"
-  default_role_project_admin: "Administrador del projecte"
-  default_role_project_creator_and_staff_manager: "Personal i cap de projecte"
-  default_role_non_member: "No membre"
-  default_role_reader: "Lector"
-  default_role_member: "Membre"
-  default_type: "Paquet de treball"
-  default_type_bug: "Error"
-  default_type_deliverable: "Lliurable"
-  default_type_epic: "Èpica"
-  default_type_feature: "Característica"
-  default_type_milestone: "Fita"
-  default_type_phase: "Fase"
-  default_type_task: "Tasca"
-  default_type_user_story: "Història d'usuari"
   description_active: "Actiu?"
   description_attachment_toggle: "Mostra o amaga els fitxers adjunts"
   description_autocomplete: >
@@ -1309,11 +1271,11 @@ ca:
   ee:
     upsale:
       form_configuration:
-        description: "Personalitza la configuració del formulari amb aquests add-ons extres:"
+        description: "Personalitza la configuració del formulari amb aquestes extensions addicionals:"
         add_groups: "Afegir un nou atribut de grups"
         rename_groups: "Reanomena els atributs de grups"
       project_filters:
-        description_html: "Filtrar i ordenar camps personalitzats és un add-on de l'edició Enterprise."
+        description_html: "Filtrar i ordenar camps personalitzats és una extensió de l'edició Enterprise."
   enumeration_activities: "Activitats de rastrejament del temps"
   enumeration_work_package_priorities: "Prioritats dels paquets de treball"
   enumeration_reported_project_statuses: "Estats de projecte notificats"
@@ -1392,11 +1354,14 @@ ca:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF amb descripcions"
-      pdf_with_descriptions_and_attachments: "PDF amb descripcions i fitxers adjunts"
-      pdf_with_attachments: "PDF amb fitxers adjunts"
+      pdf_overview_table: "PDF - Taula"
+      pdf_report_with_images: "PDF - Report amb imatges"
+      pdf_report: "PDF - Report"
     image:
       omitted: "Imatge no exportada."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext disponible (opcional)"
@@ -1516,6 +1481,12 @@ ca:
   label_api_access_key: "Clau d'accés API"
   label_api_access_key_created_on: "Clau d'accés API creada fa %{value}"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar roken \"%{token_name}\" per \"%{calendar_name}\" en \"%{project_name}\""
+  label_ical_access_key_not_present: "Token/s iCalendar no present."
+  label_ical_access_key_generation_hint: "Generat automàticament en subscriure't a un calendari."
+  label_ical_access_key_latest: "úlitma"
+  label_ical_access_key_revoke: "Revoca"
   label_applied_status: "Estat aplicat"
   label_archive_project: "Arxiva el projecte"
   label_ascending: "Ascendent"
@@ -1551,6 +1522,7 @@ ca:
   label_bulk_edit_selected_work_packages: "Edició massiva de paquets de treball"
   label_bundled: '(Integrat)'
   label_calendar: "Calendari"
+  label_calendars_and_dates: "Calendaris i dates"
   label_calendar_show: "Mostreu el calendari"
   label_category: "Categoria"
   label_consent_settings: "Consentiment d'usuari"
@@ -1587,7 +1559,6 @@ ca:
   label_contains: "conté"
   label_content: "Contingut"
   label_copied: "copiat"
-  label_copy_to_clipboard: "Copiar al porta-retalls"
   label_copy_same_as_target: "El mateix que l'objectiu"
   label_copy_source: "Origen"
   label_copy_target: "Destí"
@@ -1604,6 +1575,7 @@ ca:
   label_database_version: "Versió PostgreSQL"
   label_date: "Data"
   label_date_and_time: "Data i hora"
+  label_date_format: "Format de data"
   label_date_from: "De"
   label_date_from_to: "Des de %{start} a %{end}"
   label_date_to: "Fins"
@@ -1646,7 +1618,7 @@ ca:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} usuaris actius registrats"
   label_enterprise_edition: "Edició Enterprise."
-  label_enterprise_support: "Enterprise support"
+  label_enterprise_support: "Suport Enterprise"
   label_environment: "Entorn"
   label_estimates_and_time: "Estimacions i temps"
   label_equals: "és"
@@ -1709,6 +1681,7 @@ ca:
   label_journal: "Diari"
   label_journal_diff: "Descripció de comparació"
   label_language: "Idioma"
+  label_languages: "Idiomes"
   label_jump_to_a_project: "Anar al projecte..."
   label_keyword_plural: 'Paraules clau'
   label_language_based: "Basat en l'idioma de l'usuari"
@@ -1766,6 +1739,7 @@ ca:
   label_more_than_ago: "fa més dies"
   label_move_work_package: "Moure el paquet de treball"
   label_my_account: "El meu compte"
+  label_my_activity: "La meva activitat"
   label_my_account_data: "Dades del meu compte"
   label_my_projects: "Els meus projectes"
   label_my_queries: "Les meves consultes personalitzades"
@@ -1816,7 +1790,6 @@ ca:
   label_password_rule_special: "Caràcters especials"
   label_password_rule_uppercase: "Majúscules"
   label_path_encoding: "Codificació de les rutes"
-  label_pdf_with_descriptions: "PDF amb descripcions"
   label_per_page: "Per pàgina"
   label_people: "Persones"
   label_permissions: "Permisos"
@@ -1900,7 +1873,7 @@ ca:
   label_role_search: "Assignar rols als nous membres"
   label_scm: "SCM"
   label_search: "Cercar"
-  label_send_information: "Send new credentials to the user"
+  label_send_information: "Envia noves credencials a l'usuari"
   label_send_test_email: "Enviar correu electrònic de prova"
   label_setting_plural: "Configuració"
   label_system_settings: "Configuració del Sistema"
@@ -1968,6 +1941,7 @@ ca:
   label_user_plural: "Usuaris"
   label_user_search: "Cercar per usuari"
   label_user_settings: "Configuració de l'usuari"
+  label_users_settings: "Configuració d'usuaris"
   label_version_new: "Nova versió"
   label_version_plural: "Versions"
   label_version_sharing_descendants: "Amb subprojectes"
@@ -2522,7 +2496,7 @@ ca:
   setting_consent_decline_mail: "Adreça de correu electrònic de consentiment"
   setting_cross_project_work_package_relations: "Permetre les relacions creuades entre projectes pels paquets de treball"
   setting_first_week_of_year: "La primera setmana de l'any conté"
-  setting_date_format: "Format de data"
+  setting_date_format: "Data"
   setting_default_language: "Idioma per defecte"
   setting_default_projects_modules: "Mòduls activats per defecte en els projectes nous"
   setting_default_projects_public: "Els projectes nous són públics per defecte"
@@ -2534,6 +2508,7 @@ ca:
   setting_enabled_scm: "Activar SCM"
   setting_enabled_projects_columns: "Visible en la llista de projectes"
   setting_feeds_enabled: "Habilita els canals"
+  setting_ical_enabled: "Activa la subscripció d'iCalendar"
   setting_feeds_limit: "Límit de contingut del canals"
   setting_file_max_size_displayed: "Mida màxima dels fitxers de text mostrats en línia"
   setting_host_name: "Nom del servidor"
@@ -2584,9 +2559,9 @@ ca:
   setting_start_of_week: "La setmana comença en"
   setting_sys_api_enabled: "Activar el servei web de gestió del repositori"
   setting_sys_api_description: "La gestió del repositori per servei web proporciona integració i autorització d'usuaris per l'accés a repositoris."
-  setting_time_format: "Format d'hora"
+  setting_time_format: "Hora"
   setting_accessibility_mode_for_anonymous: "Activar el mode d'accessibilitat per a usuaris anònims"
-  setting_user_format: "Format de com mostrar l'usuari"
+  setting_user_format: "Format de nom d'usuari"
   setting_user_default_timezone: "Zona horària per defecte de l'usuari"
   setting_users_deletable_by_admins: "Comptes d'usuari esborrables pels administradors"
   setting_users_deletable_by_self: "Els usuaris poden suprimir els seus comptes"
@@ -2595,6 +2570,7 @@ ca:
   setting_welcome_on_homescreen: "Mostrar el bloc de benvinguda a la pàgina d'inici"
   setting_work_package_list_default_highlighting_mode: "Mètode de destacament per defecte"
   setting_work_package_list_default_highlighted_attributes: "Atributs de destacament en línia per defecte"
+  setting_working_days: "Dies laborals"
   settings:
     general: "General"
     other: "Altres"
@@ -2617,6 +2593,7 @@ ca:
       section_project_overview: "Configuracions per a la llista de visió general del projecte"
     user:
       default_preferences: "Preferències per defecte"
+      display_format: "Format the visualització"
       deletion: "Eliminació"
     highlighting:
       mode_long:
@@ -2625,6 +2602,9 @@ ca:
         status: "Fila sencera per Estat"
         type: "Fila sencera per Classe"
         priority: "Fila sencera per Prioritat"
+    working_days:
+      section_work_week: "Setmana laboral"
+      section_holidays_and_closures: "Vacances i tancaments"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Text sense format'
@@ -2658,9 +2638,9 @@ ca:
   text_custom_field_hint_activate_per_project_and_type: >
     Els camps personalitzats han d'activar-se per classe de paquet de treball i per projecte.
   text_wp_status_read_only_html: >
-    L'edició Enterprise afegirà add-ons extra pels estats de paquets de treball: <br> <ul> <li><b>Permet marcar paquets de treball com a només lectura per a estats específics</b></li> </ul>
+    L'edició Enterprise afegirà extensions addicionals pels estats de paquets de treball: <br> <ul> <li><b>Permet marcar paquets de treball com a només lectura per a estats específics</b></li> </ul>
   text_project_custom_field_html: >
-    L'edició Enterprise afegirà add-ons extra pels camps personalitzats de projectes: <br> <ul> <li><b>Afegeix camps personalitzats pels teus projectes a la teva llista de projectes per crear una vista de cartera de projectes</b></li> </ul>
+    L'edició Enterprise afegirà extensions addicionals pels camps personalitzats de projectes: <br> <ul> <li><b>Afegeix camps personalitzats pels teus projectes a la teva llista de projectes per crear una vista de cartera de projectes</b></li> </ul>
   text_custom_logo_instructions: >
     Es recomana un logo blanc amb fons transparent. Per a un millor resultat tant en pantalles retina o convencionals assegura't que la teva imatge té unes dimensions de 460px per 60px.
   text_custom_favicon_instructions: >
@@ -2991,9 +2971,9 @@ ca:
       title: "Suprimir el paquet de treball"
   working_days:
     info: >
-      <b>Defineix els dies que es consideren part de la setmana laboral</b><br/> Els dies no seleccionats seran omesos en planificar paquets de treball (i no seran inclosos en contar dies). Aquests poden ser substituïts directament als paquets de treball.
+      Els dies que no estan seleccionats s'ometen en planificar paquets de treball (i no inclosos en contar els dies). Aquests poden ser substituïts directament als paquets de treball.
     instance_wide_info: >
-      <b>Dies no laborals no especificats (vacances i dies de tancament)</b><br/> Les dates afegides a la llista de sota es consideraran dies no laboral i s'ometran en planificar paquets de treball.
+      Les dates afegides a la llista de sota són considerades com a no laborals i omeses en programar paquets de treball.
     change_button: "Canvia els dies laborals"
     warning: >
       Canviar quins dies de la setmana es consideren laborables i quins no pot afectar les dates d'inici i final de tots els paquets de treball en tots els projectes d'aquesta instància. <br/>Si us plau, tingues en compte que els canvis només s'apliquen després de fer clic al botó d'aplicar els canvis.

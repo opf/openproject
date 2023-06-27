@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::CustomActions::CustomActionExecuteRepresenter, 'parsing' do
+RSpec.describe API::V3::CustomActions::CustomActionExecuteRepresenter, 'parsing' do
   include API::V3::Utilities::PathHelper
 
   let(:struct) { OpenStruct.new }

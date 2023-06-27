@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Groups::SetAttributesService, type: :model do
+RSpec.describe Groups::SetAttributesService, type: :model do
   subject(:service_call) { instance.call(call_attributes) }
 
   let(:user) { build_stubbed(:user) }

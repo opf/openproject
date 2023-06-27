@@ -78,8 +78,8 @@ ja:
       book_now: '今すぐ予約'
       get_quote: '見積もりの入手'
       buttons:
-        upgrade: "Upgrade now"
-        contact: "Contact us for a demo"
+        upgrade: "今すぐアップグレード"
+        contact: "デモについてはお問い合わせください"
       enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
@@ -180,7 +180,7 @@ ja:
     edit: 'カスタムアクション %{name} の編集'
     execute: '%{name} を実行'
     upsale:
-      title: 'Custom actions'
+      title: 'カスタムアクション'
       description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
@@ -267,11 +267,22 @@ ja:
       notice_reset_token: "新しい %{type} トークンが生成されました。アクセストークンは:"
       token_value_warning: "注: これはこのトークンが表示される唯一の機会です。今すぐコピーして確認してください。"
       no_results_title_text: 現在、有効なアクセス トークンはありません。
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: 現在、報告するニュースはありません。
       no_results_content_text: ニュース項目を追加
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'このユーザーは現在以下のグループのメンバーです：'
       no_results_title_text: このユーザーは現在どのグループのメンバーでもありません。
@@ -288,7 +299,7 @@ ja:
       irreversible: "この操作は元に戻せません"
       confirmation: "削除を確認するため、プレースホルダーユーザー名 %{name} を入力してください。"
     upsale:
-      title: Placeholder users
+      title: プレースホルダー ユーザー
       description: >
         Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
@@ -471,23 +482,23 @@ ja:
       project:
         active_value:
           true: "unarchived"
-          false: "archived"
+          false: "アーカイブ済"
         identifier: "識別子"
         latest_activity_at: "最新の活動"
         parent: "親プロジェクト名"
         public_value:
-          title: "Visibility"
+          title: "可視性"
           true: "public"
           false: "private"
         queries: "クエリ"
-        status_code: 'Project status'
+        status_code: 'プロジェクトの進捗状況'
         status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
+          on_track: '順調'
+          at_risk: 'リスクあり'
+          off_track: '脱線'
+          finished: '完了しました'
           discontinued: 'Discontinued'
         templated: "テンプレートプロジェクト"
         templated_value:
@@ -551,7 +562,7 @@ ja:
         begin_deletion: "削除の始まり"
         children: "サブ要素"
         done_ratio: "進行状況 (%)"
-        duration: "Duration"
+        duration: "期間"
         end_insertion: "挿入の終わり"
         end_deletion: "削除の終わり"
         ignore_non_working_days: "Ignore non working days"
@@ -686,6 +697,11 @@ ja:
           overlaps: 'オーバーラップ。'
           outside: 'グリッドの外側です。'
           end_before_start: '終了値は開始値よりも大きくする必要があります。'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -914,24 +930,24 @@ ja:
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "子プロジェクト"
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
-          other: "%{count} hours"
+          other: "%{count}時間"
         hour_html:
           other: "<i>%{count} hours</i>"
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      changeset: "更新履歴"
+      message: "フォーラム"
+      news: "ニュース"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
+      time_entry: "作業時間の記録"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "ワークパッケージ"
   #common attributes of all models
   attributes:
     active: "アクティブ"
@@ -988,7 +1004,7 @@ ja:
     updated_on: "更新日時"
     uploader: "アップロード"
     user: "ユーザ"
-    value: "Value"
+    value: "値"
     version: "バージョン"
     work_package: "ワーク パッケージ"
   backup:
@@ -1039,6 +1055,7 @@ ja:
   button_configure: "設定"
   button_continue: "続行"
   button_copy: "コピー"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "コピー後表示"
   button_create: "作成"
   button_create_and_continue: "連続作成"
@@ -1168,7 +1185,7 @@ ja:
       - "10月"
       - "11月"
       - "12月"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - '：年'
       - '：月'
@@ -1201,61 +1218,6 @@ ja:
     units:
       hour:
         other: "時"
-  default_activity_development: "開発作業"
-  default_activity_management: "管理"
-  default_activity_other: "その他"
-  default_activity_specification: "仕様"
-  default_activity_support: "サポート"
-  default_activity_testing: "テスト中"
-  default_color_black: "黒"
-  default_color_blue: "青"
-  default_color_blue_dark: "青(濃い)"
-  default_color_blue_light: "青(薄い)"
-  default_color_green_dark: "緑（濃い）"
-  default_color_green_light: "緑（薄い）"
-  default_color_grey_dark: "グレー(濃い)"
-  default_color_grey_light: "グレー(薄い)"
-  default_color_grey: "グレー"
-  default_color_magenta: "赤紫"
-  default_color_orange: "オレンジ"
-  default_color_red: "赤"
-  default_color_white: "白"
-  default_color_yellow: "黄"
-  default_status_closed: "終了"
-  default_status_confirmed: "確認済み"
-  default_status_developed: "開発済み"
-  default_status_in_development: "開発中"
-  default_status_in_progress: "進行中"
-  default_status_in_specification: "仕様で"
-  default_status_in_testing: "テスト中"
-  default_status_new: "新しく作成"
-  default_status_on_hold: "保留中"
-  default_status_rejected: "却下"
-  default_status_scheduled: "スケジュール済"
-  default_status_specified: "指定済み"
-  default_status_tested: "テスト済み"
-  default_status_test_failed: "テスト失敗"
-  default_status_to_be_scheduled: "未スケジュール"
-  default_priority_low: "低め"
-  default_priority_normal: "通常"
-  default_priority_high: "高め"
-  default_priority_immediate: "急ぎ"
-  default_role_anonymous: "匿名ユーザ"
-  default_role_developer: "開発者"
-  default_role_project_admin: "プロジェクト管理者"
-  default_role_project_creator_and_staff_manager: "スタッフとプロジェクトマネージャー"
-  default_role_non_member: "非メンバー"
-  default_role_reader: "リーダー"
-  default_role_member: "メンバー"
-  default_type: "ワークパッケージ"
-  default_type_bug: "不具合"
-  default_type_deliverable: "要素成果物"
-  default_type_epic: "エピック"
-  default_type_feature: "機能"
-  default_type_milestone: "マイルストーン"
-  default_type_phase: "工程"
-  default_type_task: "タスク"
-  default_type_user_story: "ユーザストーリー"
   description_active: "有効？"
   description_attachment_toggle: "添付ファイルの表示/非表示"
   description_autocomplete: >
@@ -1355,7 +1317,7 @@ ja:
     message: メッセージが編集されました。
     news: ニュース
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'プロジェクトが編集されました。'
     reply: 返信済み
     time_entry: '時系列ログが編集されました。'
     wiki_page: 'Wiki ページが編集されました。'
@@ -1373,11 +1335,14 @@ ja:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "説明付きPDF"
-      pdf_with_descriptions_and_attachments: "説明と添付ファイル付きPDF"
-      pdf_with_attachments: "添付ファイル付きPDF"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "画像はエクスポートされませんでした。"
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotextが利用可能 (オプション)"
@@ -1497,6 +1462,12 @@ ja:
   label_api_access_key: "APIアクセスキー"
   label_api_access_key_created_on: "APIアクセスキーが%{value}前に作成されました"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "取り消し"
   label_applied_status: "適用されるステータス"
   label_archive_project: "プロジェクトをアーカイブ"
   label_ascending: "昇順"
@@ -1532,6 +1503,7 @@ ja:
   label_bulk_edit_selected_work_packages: "選択したワークパッケージを一括編集"
   label_bundled: '(バンドル)'
   label_calendar: "カレンダー"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "カレンダーを表示"
   label_category: "カテゴリ"
   label_consent_settings: "ユーザーの同意"
@@ -1568,7 +1540,6 @@ ja:
   label_contains: "含む"
   label_content: "内容"
   label_copied: "コピー"
-  label_copy_to_clipboard: "クリップボードにコピー"
   label_copy_same_as_target: "コピー先と同様"
   label_copy_source: "コピー元"
   label_copy_target: "コピー先"
@@ -1585,6 +1556,7 @@ ja:
   label_database_version: "PostgreSQL バージョン"
   label_date: "日付"
   label_date_and_time: "日付と時刻"
+  label_date_format: "Date format"
   label_date_from: "日付指定: "
   label_date_from_to: "%{start} ～%{end}"
   label_date_to: "から"
@@ -1690,6 +1662,7 @@ ja:
   label_journal: "履歴記述"
   label_journal_diff: "説明の比較"
   label_language: "言語"
+  label_languages: "Languages"
   label_jump_to_a_project: "プロジェクトへ移動..."
   label_keyword_plural: 'キーワード'
   label_language_based: "ユーザの言語設定に基づく"
@@ -1747,6 +1720,7 @@ ja:
   label_more_than_ago: "今日より○日前以前"
   label_move_work_package: "ワークパッケージを移動"
   label_my_account: "個人設定"
+  label_my_activity: "My activity"
   label_my_account_data: "アカウントのデータ"
   label_my_projects: "参加しているプロジェクト"
   label_my_queries: "個人のクエリ"
@@ -1797,7 +1771,6 @@ ja:
   label_password_rule_special: "特殊文字"
   label_password_rule_uppercase: "大文字"
   label_path_encoding: "パスのエンコード"
-  label_pdf_with_descriptions: "説明付きPDF"
   label_per_page: "ページ毎"
   label_people: "人"
   label_permissions: "権限"
@@ -1949,6 +1922,7 @@ ja:
   label_user_plural: "ユーザ"
   label_user_search: "ユーザーを検索:"
   label_user_settings: "ユーザー設定"
+  label_users_settings: "Users settings"
   label_version_new: "新しいバージョン"
   label_version_plural: "バージョン"
   label_version_sharing_descendants: "子プロジェクト単位"
@@ -2242,7 +2216,7 @@ ja:
   permission_add_work_packages: "ワークパッケージの追加"
   permission_add_messages: "メッセージの投稿"
   permission_add_project: "プロジェクトの作成"
-  permission_archive_project: "Archive project"
+  permission_archive_project: "プロジェクトをアーカイブ"
   permission_manage_user: "ユーザーの作成と編集"
   permission_manage_placeholder_user: "プレースホルダーユーザーの作成、編集、削除"
   permission_add_subprojects: "子プロジェクトの追加"
@@ -2508,7 +2482,7 @@ ja:
   setting_consent_decline_mail: "連絡先メールアドレスに同意します。"
   setting_cross_project_work_package_relations: "他プロジェクトとの間にワークパッケージの関連付けを許可する"
   setting_first_week_of_year: "年の最初の週に含む"
-  setting_date_format: "日付の形式"
+  setting_date_format: "Date"
   setting_default_language: "デフォルトの言語"
   setting_default_projects_modules: "新規プロジェクトにおいてデフォルトで有効になるモジュール"
   setting_default_projects_public: "デフォルトで新しいプロジェクトは公開にする"
@@ -2520,6 +2494,7 @@ ja:
   setting_enabled_scm: "使用するバージョン管理システム"
   setting_enabled_projects_columns: "プロジェクトリストに表示する"
   setting_feeds_enabled: "フィードを有効にする"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "フィードの項目数の上限"
   setting_file_max_size_displayed: "画面表示するテキストファイルの最大サイズ"
   setting_host_name: "ホスト名"
@@ -2570,9 +2545,9 @@ ja:
   setting_start_of_week: "週の開始"
   setting_sys_api_enabled: "リポジトリ管理Webサービスを有効にする"
   setting_sys_api_description: "リポジトリ管理Webサービスは、リポジトリへのアクセスの統合およびユーザー認証を提供します。"
-  setting_time_format: "時刻の形式"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "匿名ユーザ向けにアクセシビリティモードを有効"
-  setting_user_format: "ユーザ情報の形式"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "ユーザーのデフォルトのタイム ゾーン"
   setting_users_deletable_by_admins: "管理者によるユーザアカウントが削除可能"
   setting_users_deletable_by_self: "ユーザによる自分のアカウント削除を許可"
@@ -2581,6 +2556,7 @@ ja:
   setting_welcome_on_homescreen: "ホーム画面にようこそブロックを表示"
   setting_work_package_list_default_highlighting_mode: "デフォルトの強調表示モード"
   setting_work_package_list_default_highlighted_attributes: "デフォルトのインライン強調表示属性"
+  setting_working_days: "Working days"
   settings:
     general: "概要"
     other: "その他"
@@ -2603,6 +2579,7 @@ ja:
       section_project_overview: "プロジェクト概要リストの設定"
     user:
       default_preferences: "デフォルト設定"
+      display_format: "Display format"
       deletion: "削除"
     highlighting:
       mode_long:
@@ -2611,6 +2588,9 @@ ja:
         status: "ステータス別の行全体"
         type: "タイプごとの行全体"
         priority: "優先度別に行全体"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'プレーンテキスト'
@@ -2974,9 +2954,9 @@ ja:
       title: "ワークパッケージの削除"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
@@ -3056,7 +3036,7 @@ ja:
           unknown: 'リクエストに必要なパラメーターがありません、サポートされていないパラメーター値が含まれているか、その他の形式に誤りがあります。'
           missing_param: 'Missing required parameter: %{value}.'
           request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
+        invalid_redirect_uri: "要求されたリダイレクトURIが不正な形式であるか、クライアントのリダイレクトURIと一致しません。"
         unauthorized_client: 'クライアントはこのメソッドを使用してリクエストを実行することが許可されていません。'
         access_denied: 'リソース所有者または認証サーバーが要求を拒否しました。'
         invalid_scope: '要求された範囲は無効、不明、または不正な形式です。'
@@ -3137,11 +3117,11 @@ ja:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "エラー！"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"
-      label_redirect_uri: "Redirect URI"
+      label_redirect_uri: "リダイレクトURI"
       label_request_token: "Request token"
       label_refresh_token: "Refresh token"
     errors:

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WikiPage do
+RSpec.describe WikiPage do
   shared_let(:author) { create(:user) }
   shared_let(:project) { create(:project).reload } # a wiki is created for project, but the object doesn't know of it (FIXME?)
 

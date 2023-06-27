@@ -35,7 +35,7 @@ require 'webmock/rspec'
 # We want to test that permissions are processed correctoy and also
 # test the reaction to various types of network issues.
 # This spec bears some similarities to the connection_manager_spec.rb.
-describe Storages::FileLinkSyncService, type: :model do
+RSpec.describe Storages::FileLinkSyncService, type: :model do
   let(:user) { create(:user) }
   let(:role) { create(:existing_role, permissions: [:manage_file_links]) }
   let(:project) { create(:project, members: { user => role }) }

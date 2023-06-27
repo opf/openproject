@@ -10,9 +10,9 @@ he:
       free: Basic
       action: "Action board (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
-      status: Status
-      version: Version
-      subproject: Subproject
+      assignee: משויך אל
+      status: מצב
+      version: גירסה
+      subproject: תת פרוייקט
       subtasks: Parent-child
       basic: Basic

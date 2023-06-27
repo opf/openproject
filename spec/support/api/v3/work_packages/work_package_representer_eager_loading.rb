@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-shared_context 'eager loaded work package representer' do
+RSpec.shared_context 'eager loaded work package representer' do
   before do
     allow(API::V3::WorkPackages::WorkPackageEagerLoadingWrapper)
       .to receive(:wrap_one) do |work_package, _user|

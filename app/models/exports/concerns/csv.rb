@@ -78,7 +78,7 @@ module Exports
       end
 
       def format_csv(record, attribute)
-        format_attribute(record, attribute, array_separator: '; ')
+        format_attribute(record, attribute, :csv, array_separator: '; ')
       end
 
       def csv_export_filename

@@ -269,11 +269,22 @@ ko:
       notice_reset_token: "새로운 %{type} 토큰이 생성되었습니다. 액세스 토큰:"
       token_value_warning: "참고: 이번에만 이 토큰이 표시됩니다. 지금 이 토큰을 복사해야 합니다."
       no_results_title_text: 가능한 접근 토큰이 없습니다.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: 보고할 소식이 없습니다.
       no_results_content_text: 소식 항목 추가
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: '이 사용자는 현재 다음 그룹의 멤버입니다:'
       no_results_title_text: 이 사용자는 현재 어떤 그룹의 멤버도 아닙니다.
@@ -483,15 +494,15 @@ ko:
           true: "공개"
           false: "비공개"
         queries: "쿼리"
-        status_code: 'Project status'
+        status_code: '프로젝트 상태'
         status_explanation: 'Project status description'
         status_codes:
-          not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          not_started: '시작되지 않음'
+          on_track: '정상 상태'
+          at_risk: '위험 상태'
+          off_track: '비정상 상태'
+          finished: '마침'
+          discontinued: '중단됨'
         templated: "템플릿 프로젝트"
         templated_value:
           true: "템플릿으로 표시됨"
@@ -689,6 +700,11 @@ ko:
           overlaps: '오버랩'
           outside: '- 그리드의 외부에 있습니다.'
           end_before_start: '종료 값은 시작 값보다 커야 합니다.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: '알림을 보낼 채널을 하나 이상 지정해야 합니다.'
           attributes:
@@ -921,7 +937,7 @@ ko:
       parent_no_longer: "더 이상 다음의 하위 프로젝트 아님"
       time_entry:
         hour:
-          other: "%{count} hours"
+          other: "%{count} 시간"
         hour_html:
           other: "<i>%{count} hours</i>"
         updated: "changed from %{old_value} to %{value}"
@@ -1042,6 +1058,7 @@ ko:
   button_configure: "구성"
   button_continue: "계속"
   button_copy: "복사"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "복사하고 따라가기"
   button_create: "만들기"
   button_create_and_continue: "만들고 계속하기"
@@ -1171,7 +1188,7 @@ ko:
       - "10월"
       - "11월"
       - "12월"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - ':년'
       - ':월'
@@ -1204,61 +1221,6 @@ ko:
     units:
       hour:
         other: "시간"
-  default_activity_development: "개발"
-  default_activity_management: "관리"
-  default_activity_other: "기타"
-  default_activity_specification: "사양"
-  default_activity_support: "지원"
-  default_activity_testing: "테스팅"
-  default_color_black: "검은색"
-  default_color_blue: "파란색"
-  default_color_blue_dark: "파란색(진함)"
-  default_color_blue_light: "파란색(밝음)"
-  default_color_green_dark: "녹색(진함)"
-  default_color_green_light: "녹색(밝음)"
-  default_color_grey_dark: "회색(진함)"
-  default_color_grey_light: "회색(밝음)"
-  default_color_grey: "회색"
-  default_color_magenta: "심홍색"
-  default_color_orange: "주황색"
-  default_color_red: "빨강"
-  default_color_white: "흰색"
-  default_color_yellow: "노란색"
-  default_status_closed: "닫음"
-  default_status_confirmed: "확인됨"
-  default_status_developed: "개발됨"
-  default_status_in_development: "개발 중"
-  default_status_in_progress: "진행 중"
-  default_status_in_specification: "사양 내"
-  default_status_in_testing: "테스트 중"
-  default_status_new: "새로 만들기"
-  default_status_on_hold: "보류 중"
-  default_status_rejected: "거부됨"
-  default_status_scheduled: "예약됨"
-  default_status_specified: "지정됨"
-  default_status_tested: "테스트됨"
-  default_status_test_failed: "테스트 실패"
-  default_status_to_be_scheduled: "계획 예정"
-  default_priority_low: "낮음"
-  default_priority_normal: "보통"
-  default_priority_high: "높음"
-  default_priority_immediate: "즉시"
-  default_role_anonymous: "익명"
-  default_role_developer: "개발자"
-  default_role_project_admin: "프로젝트 관리자"
-  default_role_project_creator_and_staff_manager: "스태프 및 프로젝트 관리자"
-  default_role_non_member: "멤버 없음"
-  default_role_reader: "참관자"
-  default_role_member: "멤버"
-  default_type: "작업 패키지"
-  default_type_bug: "버그"
-  default_type_deliverable: "출시 가능"
-  default_type_epic: "에픽"
-  default_type_feature: "기능"
-  default_type_milestone: "마일스톤"
-  default_type_phase: "단계"
-  default_type_task: "일감"
-  default_type_user_story: "사용자 이야기"
   description_active: "활성?"
   description_attachment_toggle: "첨부 파일 표시/숨기기"
   description_autocomplete: >
@@ -1376,11 +1338,14 @@ ko:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "설명이 첨부된 PDF"
-      pdf_with_descriptions_and_attachments: "PDF와 설명 및 첨부 파일"
-      pdf_with_attachments: "PDF와 첨부 파일"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "이미지를 내보내지 못했습니다."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext 사용 가능(선택적)"
@@ -1500,6 +1465,12 @@ ko:
   label_api_access_key: "API 액세스 키"
   label_api_access_key_created_on: "API 액세스 키가 %{value} 전에 생성되었습니다."
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "취소"
   label_applied_status: "적용된 상태"
   label_archive_project: "프로젝트 아카이브하기"
   label_ascending: "오름차순"
@@ -1535,6 +1506,7 @@ ko:
   label_bulk_edit_selected_work_packages: "선택된 작업 패키지 일괄 편집"
   label_bundled: '(번들)'
   label_calendar: "달력"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "달력 표시"
   label_category: "카테고리"
   label_consent_settings: "사용자 동의"
@@ -1571,7 +1543,6 @@ ko:
   label_contains: "포함"
   label_content: "내용"
   label_copied: "복사됨"
-  label_copy_to_clipboard: "클립보드 복사"
   label_copy_same_as_target: "대상과 같음"
   label_copy_source: "소스"
   label_copy_target: "대상"
@@ -1588,6 +1559,7 @@ ko:
   label_database_version: "PostgreSQL 버전"
   label_date: "날짜"
   label_date_and_time: "날짜 및 시간"
+  label_date_format: "Date format"
   label_date_from: "시작"
   label_date_from_to: "%{start}부터 %{end}까지"
   label_date_to: "끝"
@@ -1693,6 +1665,7 @@ ko:
   label_journal: "기록일지"
   label_journal_diff: "설명 비교"
   label_language: "언어"
+  label_languages: "Languages"
   label_jump_to_a_project: "프로젝트로 이동..."
   label_keyword_plural: '키워드'
   label_language_based: "사용자 언어에 따름"
@@ -1750,6 +1723,7 @@ ko:
   label_more_than_ago: "일 이상 전"
   label_move_work_package: "작업 패키지 이동"
   label_my_account: "내 계정"
+  label_my_activity: "My activity"
   label_my_account_data: "내 계정 데이터"
   label_my_projects: "내 프로젝트"
   label_my_queries: "내 사용자 지정 쿼리"
@@ -1800,7 +1774,6 @@ ko:
   label_password_rule_special: "특수 문자"
   label_password_rule_uppercase: "대문자"
   label_path_encoding: "경로 인코딩"
-  label_pdf_with_descriptions: "설명이 포함된 PDF"
   label_per_page: "페이지당"
   label_people: "사용자"
   label_permissions: "권한"
@@ -1952,6 +1925,7 @@ ko:
   label_user_plural: "사용자"
   label_user_search: "사용자 검색"
   label_user_settings: "사용자 설정"
+  label_users_settings: "Users settings"
   label_version_new: "새 버전"
   label_version_plural: "버전"
   label_version_sharing_descendants: "하위 프로젝트 포함"
@@ -2508,7 +2482,7 @@ ko:
   setting_consent_decline_mail: "동의 연락처 메일 주소"
   setting_cross_project_work_package_relations: "교차 프로젝트 작업 패키지 관계 허용"
   setting_first_week_of_year: "1년의 첫 주 기준"
-  setting_date_format: "날짜 형식"
+  setting_date_format: "Date"
   setting_default_language: "기본 언어"
   setting_default_projects_modules: "새 프로젝트에 대해 기본적으로 활성화된 모듈"
   setting_default_projects_public: "새 프로젝트는 기본적으로 공용입니다."
@@ -2520,6 +2494,7 @@ ko:
   setting_enabled_scm: "활성화된 SCM"
   setting_enabled_projects_columns: "프로젝트 목록에 표시"
   setting_feeds_enabled: "피드 사용"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "피드 콘텐츠 제한"
   setting_file_max_size_displayed: "인라인에 표시되는 텍스트 파일의 최대 크기"
   setting_host_name: "호스트 이름"
@@ -2570,9 +2545,9 @@ ko:
   setting_start_of_week: "주의 시작:"
   setting_sys_api_enabled: "리포지토리 관리 웹 서비스 사용"
   setting_sys_api_description: "리포지토리 관리 웹 서비스는 리포지토리에 액세스하기 위한 통합 및 사용자 인증을 제공합니다."
-  setting_time_format: "시간 형식"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "익명 사용자에 대해 접근성 모드 사용"
-  setting_user_format: "사용자 표시 형식"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "사용자의 기본 표준 시간대"
   setting_users_deletable_by_admins: "관리자가 삭제 가능한 사용자 계정"
   setting_users_deletable_by_self: "자신의 계정을 삭제하도록 허용된 사용자"
@@ -2581,6 +2556,7 @@ ko:
   setting_welcome_on_homescreen: "홈 화면에 환영 블록 표시"
   setting_work_package_list_default_highlighting_mode: "기본 강조 표시 모드"
   setting_work_package_list_default_highlighted_attributes: "기본 인라인 강조 표시 특성"
+  setting_working_days: "Working days"
   settings:
     general: "일반"
     other: "기타"
@@ -2603,6 +2579,7 @@ ko:
       section_project_overview: "프로젝트 개요 목록의 설정"
     user:
       default_preferences: "기본 설정"
+      display_format: "Display format"
       deletion: "삭제"
     highlighting:
       mode_long:
@@ -2611,6 +2588,9 @@ ko:
         status: "상태별 전체 행"
         type: "유형별 전체 행"
         priority: "우선 순위별 전체 행"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: '일반 텍스트'
@@ -2975,9 +2955,9 @@ ko:
       title: "작업 패키지 삭제"
   working_days:
     info: >
-      <b>근무 주의 일부로 간주되는 요일 정의</b><br/> 선택하지 않은 요일은 작업 패키지를 예약할 때 건너뜁니다(일 수에 포함되지 않음). 작업 패키지 수준에서 재정의할 수 있습니다.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>특정 휴무일(공휴일 및 휴무일)</b><br/> 아래 목록에 추가된 날짜는 휴무일로 간주되고 작업 패키지를 예약할 때 건너뜁니다.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "근무일 변경"
     warning: >
       근무일 또는 휴무일로 간주되는 요일을 변경하면 이 인스턴스의 모든 프로젝트에 있는 모든 작업 패키지의 시작 날짜 및 완료 날짜에 영향을 미칠 수 있습니다. <br/> 변경 사항 적용 버튼을 클릭한 후에만 변경 사항이 적용됩니다.

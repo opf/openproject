@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Wiki do
+RSpec.describe Wiki do
   let(:project) { create(:project, disable_modules: 'wiki') }
   let(:start_page) { 'The wiki start page' }
   let(:wiki) { project.create_wiki start_page: }

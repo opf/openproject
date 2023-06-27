@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ApplicationHelper do
+RSpec.describe ApplicationHelper do
   include ApplicationHelper
   include ActionView::Helpers
   include ActionDispatch::Routing

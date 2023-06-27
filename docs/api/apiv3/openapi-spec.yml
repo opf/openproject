@@ -10,7 +10,8 @@ info:
 
     The documentation for the APIv3 is written according to the [OpenAPI 3.0 Specification](https://swagger.io/specification/).
     You can either view the static version of this documentation on the [website](https://www.openproject.org/docs/api/introduction/)
-    or the interactive Swagger UI version in your OpenProject installation under `/api/docs`.
+    or the interactive version, rendered with [OpenAPI Explorer](https://github.com/Rhosys/openapi-explorer/blob/main/README.md),
+    in your OpenProject installation under `/api/docs`.
     In the latter you can try out the various API endpoints directly interacting with our OpenProject data.
     Moreover you can access the specification source itself under `/api/v3/spec.json` and `/api/v3/spec.yml`
     (e.g. [here](https://community.openproject.org/api/v3/spec.yml)).
@@ -265,6 +266,10 @@ paths:
     "$ref": "./paths/priorities.yml"
   "/api/v3/priorities/{id}":
     "$ref": "./paths/priority.yml"
+  "/api/v3/project_storages":
+    "$ref": "./paths/project_storages.yml"
+  "/api/v3/project_storages/{id}":
+    "$ref": "./paths/project_storage.yml"
   "/api/v3/projects":
     "$ref": "./paths/projects.yml"
   "/api/v3/projects/form":
@@ -686,6 +691,10 @@ components:
       "$ref": "./components/schemas/priority_model.yml"
     ProjectModel:
       "$ref": "./components/schemas/project_model.yml"
+    ProjectStorageCollectionModel:
+      "$ref": "./components/schemas/project_storage_collection_model.yml"
+    ProjectStorageModel:
+      "$ref": "./components/schemas/project_storage_model.yml"
     Project_copy_form:
       "$ref": "./components/schemas/project_copy_form.yml"
     Project_create_form:
@@ -893,4 +902,4 @@ tags:
   - "$ref": "./tags/work_packages.yml"
   - "$ref": "./tags/work_schedule.yml"
 security:
-  - BasicAuth: []
+  - BasicAuth: [ ]

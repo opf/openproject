@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe OpenProject::TwoFactorAuthentication::TokenStrategy::Totp do
+RSpec.describe OpenProject::TwoFactorAuthentication::TokenStrategy::Totp do
   describe 'sending messages' do
     let!(:user) { create(:user) }
     let!(:device) { create(:two_factor_authentication_device_totp, user:, default: true) }

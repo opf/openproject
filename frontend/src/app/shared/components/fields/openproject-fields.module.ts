@@ -65,12 +65,16 @@ import { HoursDurationEditFieldComponent } from 'core-app/shared/components/fiel
 import { UserEditFieldComponent } from './edit/field-types/user-edit-field.component';
 import { DaysDurationEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/days-duration-edit-field.component';
 import { CombinedDateEditFieldComponent } from './edit/field-types/combined-date-edit-field.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     OpSharedModule,
     OpSpotModule,
+    FormsModule,
+    NgSelectModule,
     OpenprojectAttachmentsModule,
     OpenprojectEditorModule,
     OpenprojectModalModule,

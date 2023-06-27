@@ -43,15 +43,6 @@ module API
           to_h(column_key: :'columns[]').to_json
         end
 
-        ##
-        # Output as query params used for directly using in URL queries.
-        # Outputs columns[]=A,columns[]=B due to Rails query output.
-        def to_url_query(merge_params: {})
-          to_h
-            .merge(merge_params.symbolize_keys)
-            .to_query
-        end
-
         def to_h(column_key: :columns)
           p = super
 

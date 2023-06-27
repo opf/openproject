@@ -28,7 +28,7 @@
 
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
 
-describe WorkPackages::BaseContract, type: :model do
+RSpec.describe WorkPackages::BaseContract, type: :model do
   let(:instance) { described_class.new(work_package, user) }
   let(:type_feature) { build(:type_feature) }
   let(:type_task) { build(:type_task) }
@@ -162,7 +162,6 @@ describe WorkPackages::BaseContract, type: :model do
 
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'points_burn_direction' => 'down',
                                                                          'wiki_template' => '',
-                                                                         'card_spec' => 'Sattleford VM-5040',
                                                                          'story_types' => [type_feature.id],
                                                                          'task_type' => type_task.id.to_s })
   end
@@ -380,14 +379,6 @@ describe WorkPackages::BaseContract, type: :model do
   end
 
   describe 'parent has to be in same project' do
-    shared_examples_for 'is invalid and notes the error' do
-      it 'is invalid and notes the error' do
-        expect(subject).to be_falsey
-        expect(instance.errors.symbols_for(:parent_id))
-          .to match_array([:parent_child_relationship_across_projects])
-      end
-    end
-
     shared_examples_for 'project id unrestricted by parent' do
       describe 'WITH the parent having a different project' do
         before do

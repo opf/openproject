@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe "default query" do
+RSpec.describe "default query" do
   let(:query) { Query.new_default }
 
   describe "highlighting mode" do

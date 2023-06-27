@@ -11,7 +11,7 @@ module OpenProject::Bim::Patches::WorkPackageSeederPatch
 
         work_package = find_bcf_issue(uuid)
         work_package.update_columns(created_at: Time.current,
-                                    author_id: user.id,
+                                    author_id: admin_user.id,
                                     assigned_to_id: find_principal(attributes['assigned_to']).id,
                                     start_date: time_tracking_attributes[:start_date],
                                     due_date: time_tracking_attributes[:due_date],

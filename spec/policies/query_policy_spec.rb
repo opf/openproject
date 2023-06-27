@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe QueryPolicy, type: :controller do
+RSpec.describe QueryPolicy, type: :controller do
   let(:user)    { build_stubbed(:user) }
   let(:project) { build_stubbed(:project) }
   let(:query)   { build_stubbed(:query, project:, user:) }
@@ -378,6 +378,36 @@ describe QueryPolicy, type: :controller do
       end
     end
 
+    shared_examples 'share via ical' do |global|
+      context (global ? 'in global context' : 'in project context').to_s do
+        if global
+          let(:project) { nil }
+        end
+
+        it 'is false if the user has no permission in the project' do
+          allow(user).to receive(:allowed_to?).with(
+            :share_calendars,
+            project,
+            global: project.nil?
+          )
+          .and_return false
+
+          expect(subject.allowed?(query, :share_via_ical)).to be_falsy
+        end
+
+        it 'is true if the user has permission in the project' do
+          allow(user).to receive(:allowed_to?).with(
+            :share_calendars,
+            project,
+            global: project.nil?
+          )
+          .and_return true
+
+          expect(subject.allowed?(query, :share_via_ical)).to be_truthy
+        end
+      end
+    end
+
     it_behaves_like 'action on persisted', :update, global: true
     it_behaves_like 'action on persisted', :update, global: false
     it_behaves_like 'action on persisted', :destroy, global: true
@@ -394,5 +424,9 @@ describe QueryPolicy, type: :controller do
     it_behaves_like 'action on persisted', :unstar, global: true
     it_behaves_like 'viewing queries', global: true
     it_behaves_like 'viewing queries', global: false
+    # TODO: should this be better done in 'action on persisted' context?
+    # I'm not sure if the action on persisted perrmission dependecies apply to the share via ical context
+    it_behaves_like 'share via ical', global: true
+    it_behaves_like 'share via ical', global: false
   end
 end

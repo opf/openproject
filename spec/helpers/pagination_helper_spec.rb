@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe PaginationHelper do
+RSpec.describe PaginationHelper do
   let(:paginator) do
     # creating a mock pagination object
     # this one is then identical (from the interface) to a active record

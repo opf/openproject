@@ -1,10 +1,6 @@
 <!-- Standard Ruby view, please see the controller for comments -->
 
 <!-- We want to hide client_secret from the user while allowing the user to edit the other attributes -->
-<% content_for :header_tags do %>
-  <meta name="required_script" content="storage_form"/>
-<% end %>
-
 <% html_title t(:label_administration), t("project_module_storages"), t('label_edit_x', x: @object.name) %>
 <% local_assigns[:additional_breadcrumb] = @object.name %>
 <%= toolbar title: t('label_edit_x', x: @object.name) %>

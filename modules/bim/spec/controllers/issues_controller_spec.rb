@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Bim::Bcf::IssuesController do
+RSpec.describe Bim::Bcf::IssuesController do
   let(:manage_bcf_role) do
     create(:role,
            permissions: %i[manage_bcf view_linked_issues view_work_packages add_work_packages edit_work_packages])

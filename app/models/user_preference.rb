@@ -123,6 +123,10 @@ class UserPreference < ApplicationRecord
     super.presence || Setting.user_default_timezone.presence
   end
 
+  def theme
+    super.presence || Setting.user_default_theme
+  end
+
   def daily_reminders
     super.presence || { enabled: true, times: ["08:00:00+00:00"] }.with_indifferent_access
   end

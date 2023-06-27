@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'custom_styles/show' do
+RSpec.describe 'custom_styles/show' do
   let(:user) { build(:admin) }
 
   before do

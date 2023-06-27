@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
 
-describe Projects::DeleteContract do
+RSpec.describe Projects::DeleteContract do
   include_context 'ModelContract shared context'
 
   let(:project) { build_stubbed(:project) }

@@ -1,10 +1,6 @@
 module Bim
   module IfcModels
     class RowComponent < ::RowComponent
-      include ::IconsHelper
-      include ::AvatarHelper
-      include ::Redmine::I18n
-
       property :created_at
 
       def title
@@ -18,16 +14,16 @@ module Bim
 
       def default?
         if model.is_default?
-          op_icon 'icon icon-checkmark'
+          helpers.op_icon 'icon icon-checkmark'
         end
       end
 
       def updated_at
-        format_date(model.updated_at)
+        helpers.format_date(model.updated_at)
       end
 
       def uploader
-        icon = avatar model.uploader, size: :mini
+        icon = helpers.avatar model.uploader, size: :mini
         icon + model.uploader.name
       end
 
@@ -89,7 +85,7 @@ module Bim
         link_to '',
                 edit_bcf_project_ifc_model_path(model.project, model),
                 class: 'icon icon-edit',
-                accesskey: accesskey(:edit),
+                accesskey: helpers.accesskey(:edit),
                 title: I18n.t(:button_edit)
       end
     end

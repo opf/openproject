@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Recaptcha::AdminController do
+RSpec.describe Recaptcha::AdminController do
   let(:user) { build_stubbed(:admin) }
 
   before do

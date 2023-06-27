@@ -29,7 +29,7 @@
 module WorkPackage::PDFExport::TableOfContents
   def write_work_packages_toc!(work_packages, id_wp_meta_map)
     toc_list = build_toc_data_list work_packages, id_wp_meta_map
-    with_margin(toc_margins_style) do
+    with_margin(styles.toc_margins) do
       write_toc! toc_list
     end
     pdf.start_new_page
@@ -46,46 +46,54 @@ module WorkPackage::PDFExport::TableOfContents
   def build_toc_data_list_entry(work_package, id_wp_meta_map)
     level_path = id_wp_meta_map[work_package.id][:level_path]
     level = level_path.length
-    style = toc_item_style(level)
+    level_style = styles.toc_item(level)
     level_string = "#{level_path.join('.')}. "
-    level_string_width = measure_part_width(level_string, style)
-    title = get_column_value work_package, :subject
     page_nr_string = (id_wp_meta_map[work_package.id][:page_number] || '000').to_s
-    page_nr_string_width = measure_part_width(page_nr_string, style)
-    { id: work_package.id, level_string:, level_string_width:, title:, page_nr_string:, page_nr_string_width:, level: }
+    { id: work_package.id,
+      level_string:,
+      level_string_width: measure_part_width(level_string, level_style),
+      title: get_column_value(work_package, :subject),
+      page_nr_string:,
+      page_nr_string_width: measure_part_width(page_nr_string, level_style),
+      level: }
   end
 
-  def measure_part_width(part, style)
-    measure_text_width(part, style) + toc_item_subject_indent_style
+  def measure_part_width(part, part_style)
+    measure_text_width(part, part_style) + styles.toc_item_subject_indent
   end
 
-  def write_part_float(id, part, style)
-    text = make_link_anchor(id, part)
+  def write_part_float(part, part_style)
     pdf.float do
-      pdf.text(text, style.merge({ inline_format: true }))
+      pdf.text(part, part_style)
     end
   end
 
   def write_toc!(toc_list)
     max_level_string_width = toc_list.pluck(:level_string_width).max
     toc_list.each do |toc_item|
-      with_margin(toc_item_margins_style(toc_item[:level])) do
+      with_margin(styles.toc_item_margins(toc_item[:level])) do
         write_toc_item! toc_item, max_level_string_width
       end
     end
   end
 
-  def write_toc_item_subject!(toc_item, max_level_width, style)
-    style[:styles] = [style[:style]] if style[:style]
+  def write_toc_item_subject!(toc_item, max_level_width, subject_style)
     pdf.indent(max_level_width, toc_item[:page_nr_string_width]) do
-      pdf.formatted_text([style.merge({ text: toc_item[:title] })])
+      pdf.formatted_text([subject_style.merge({ text: toc_item[:title] })])
     end
   end
 
   def write_toc_item!(toc_item, max_level_width)
-    style = toc_item_style(toc_item[:level])
-    write_part_float(toc_item[:id], toc_item[:level_string], style)
-    write_part_float(toc_item[:id], toc_item[:page_nr_string], style.merge({ align: :right }))
-    write_toc_item_subject!(toc_item, max_level_width, style)
+    y = pdf.y
+    toc_item_style = styles.toc_item(toc_item[:level])
+    part_style = toc_item_style.clone
+    font_styles = part_style.delete(:styles) || []
+    part_style[:style] = font_styles[0] unless font_styles.empty?
+    write_part_float(toc_item[:level_string], part_style)
+    write_part_float(toc_item[:page_nr_string], part_style.merge({ align: :right }))
+    write_toc_item_subject!(toc_item, max_level_width, toc_item_style)
+
+    rect = [pdf.bounds.absolute_right, pdf.y, pdf.bounds.absolute_left, y]
+    pdf.link_annotation(rect, Border: [0, 0, 0], Dest: toc_item[:id].to_s)
   end
 end

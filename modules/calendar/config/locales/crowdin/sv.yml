@@ -3,4 +3,5 @@ sv:
   label_calendar_plural: "Kalendrar"
   permission_view_calendar: "Visa kalender"
   permission_manage_calendars: "Hantera kalendrar"
+  permission_share_calendars: "Subscribe to iCalendars"
   project_module_calendar_view: "Kalender"

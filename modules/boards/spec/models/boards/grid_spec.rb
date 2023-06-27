@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Boards::Grid do
+RSpec.describe Boards::Grid do
   let(:instance) { described_class.new }
   let(:project) { build_stubbed(:project) }
 

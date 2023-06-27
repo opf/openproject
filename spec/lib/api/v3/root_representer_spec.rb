@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::RootRepresenter do
+RSpec.describe API::V3::RootRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:user) { build_stubbed(:user) }

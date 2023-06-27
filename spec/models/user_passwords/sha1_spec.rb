@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe UserPassword::SHA1 do
+RSpec.describe UserPassword::SHA1 do
   let(:legacy_password) do
     pass = build(:legacy_sha1_password, plain_password: 'adminAdmin!')
     expect(pass).to receive(:salt_and_hash_password!).and_return nil

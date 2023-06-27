@@ -27,7 +27,7 @@
 #++
 require 'spec_helper'
 
-describe OpenProject::OpenIDConnect::SessionMapper do
+RSpec.describe OpenProject::OpenIDConnect::SessionMapper do
   let(:mock_session) do
     Class.new(Rack::Session::Abstract::SessionHash) do
       def initialize(id)

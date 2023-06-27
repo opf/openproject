@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Navigate to overview', js: true do
+RSpec.describe 'Navigate to overview', js: true do
   let(:project) { create(:project) }
   let(:permissions) { [] }
   let(:user) do

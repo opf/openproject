@@ -28,8 +28,8 @@
 
 require_relative '../spec_helper'
 
-describe 'BIM navigation spec',
-         js: true, with_config: { edition: 'bim' } do
+RSpec.describe 'BIM navigation spec',
+               js: true, with_config: { edition: 'bim' } do
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let!(:work_package) { create(:work_package, project:) }
   let(:role) do

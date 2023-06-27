@@ -56,7 +56,7 @@ be:
   label_meeting_edit: "Edit Meeting"
   label_meeting_agenda: "Agenda"
   label_meeting_minutes: "Minutes"
-  label_meeting_close: "Close"
+  label_meeting_close: "Зачыніць"
   label_meeting_open: "Open"
   label_meeting_agenda_close: "Close the agenda to begin the Minutes"
   label_meeting_date_time: "Date/Time"

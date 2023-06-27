@@ -10,9 +10,9 @@ fil:
       free: Basic
       action: "Action board (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
-      status: Status
-      version: Version
-      subproject: Subproject
+      assignee: Naitalaga
+      status: Estado
+      version: Bersyon
+      subproject: Kahaliling proyekto
       subtasks: Parent-child
       basic: Basic

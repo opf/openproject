@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
 
-describe PlaceholderUsers::DeleteContract do
+RSpec.describe PlaceholderUsers::DeleteContract do
   include_context 'ModelContract shared context'
 
   let(:placeholder_user) { create(:placeholder_user) }

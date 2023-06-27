@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Days::WeekDayCollectionRepresenter do
+RSpec.describe API::V3::Days::WeekDayCollectionRepresenter do
   let(:week_days) { WeekDay.all }
   let(:representer) do
     described_class.new(week_days,

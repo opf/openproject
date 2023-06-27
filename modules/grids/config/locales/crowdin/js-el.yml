@@ -36,7 +36,7 @@ el:
           off_track: 'Eκτός πορείας'
           at_risk: 'Σε κίνδυνο'
           not_set: 'Μη ορισμένο'
-          finished: 'Finished'
+          finished: 'Ολοκληρωμένο'
           discontinued: 'Discontinued'
         subprojects:
           title: 'Υποέργα'

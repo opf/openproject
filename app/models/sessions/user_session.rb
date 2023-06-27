@@ -50,6 +50,10 @@ module Sessions
       true
     end
 
+    def current?(session_object)
+      session_object.id.private_id == session_id
+    end
+
     def data
       SqlBypass.deserialize(super)
     end

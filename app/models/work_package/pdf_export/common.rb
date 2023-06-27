@@ -66,34 +66,41 @@ module WorkPackage::PDFExport::Common
 
   def with_margin(opts, &)
     with_vertical_margin(opts) do
-      pdf.indent(opts[:margin_left] || 0, opts[:margin_right] || 0, &)
+      pdf.indent(opts[:left_margin] || 0, opts[:right_margin] || 0, &)
     end
   end
 
   def with_vertical_margin(opts)
-    pdf.move_down(opts[:margin_top]) if opts.key?(:margin_top)
+    pdf.move_down(opts[:top_margin]) if opts.key?(:top_margin)
     yield
-    pdf.move_down(opts[:margin_bottom]) if opts.key?(:margin_bottom)
+    pdf.move_down(opts[:bottom_margin]) if opts.key?(:bottom_margin)
   end
 
-  def write_optional_page_break(threshold)
+  def write_optional_page_break
     space_from_bottom = pdf.y - pdf.bounds.bottom
-    if space_from_bottom < threshold
+    if space_from_bottom < styles.page_break_threshold
       pdf.start_new_page
     end
   end
 
-  def get_column_value(work_package, column)
-    formatter = formatter_for(column)
+  def get_column_value(work_package, column_name)
+    formatter = formatter_for(column_name, :pdf)
     formatter.format(work_package)
   end
 
-  def get_column_value_cell(work_package, column)
-    value = escape_tags(get_column_value(work_package, column))
-    return get_id_column_cell(work_package, value) if column == :id
-    return get_subject_column_cell(work_package, value) if with_descriptions? && column == :subject
+  def get_column_value_cell(work_package, column_name)
+    value = get_column_value(work_package, column_name)
+    return get_id_column_cell(work_package, value) if column_name == :id
+    return get_subject_column_cell(work_package, value) if with_descriptions? && column_name == :subject
 
-    value
+    escape_tags(value)
+  end
+
+  def get_formatted_value(value, column_name)
+    return '' if value.nil?
+
+    formatter = formatter_for(column_name, :pdf)
+    formatter.format_value(value)
   end
 
   def escape_tags(value)
@@ -107,19 +114,19 @@ module WorkPackage::PDFExport::Common
   end
 
   def get_subject_column_cell(work_package, value)
-    make_link_anchor(work_package.id, value)
+    make_link_anchor(work_package.id, escape_tags(value))
   end
 
   def make_link_href_cell(href, caption)
-    "<color rgb='#{overview_table_link_color}'><link href='#{href}'>#{caption}</link></color>"
+    "<color rgb='#{styles.link_color}'><link href='#{href}'>#{caption}</link></color>"
   end
 
   def make_link_anchor(anchor, caption)
     "<link anchor=\"#{anchor}\">#{caption}</link>"
   end
 
-  def align_to_left_position(text, align, style)
-    text_width = pdf.width_of(text, style)
+  def align_to_left_position(text, align, text_style)
+    text_width = pdf.width_of(text, text_style)
     if align == :right
       pdf.bounds.right - text_width
     elsif align == :center
@@ -134,19 +141,19 @@ module WorkPackage::PDFExport::Common
     pdf.add_dest(id.to_s, pdf_dest)
   end
 
-  def draw_repeating_text(text:, align:, top:, style:)
-    left = align_to_left_position(text, align, style)
-    opts = style.merge({ at: [left, top] })
+  def draw_repeating_text(text:, align:, top:, text_style:)
+    left = align_to_left_position(text, align, text_style)
+    opts = text_style.merge({ at: [left, top] })
     pdf.repeat :all do
       pdf.draw_text text, opts
     end
   end
 
-  def draw_repeating_dynamic_text(align, top, style)
+  def draw_repeating_dynamic_text(align, top, text_style)
     pdf.repeat :all, dynamic: true do
       text = yield
-      left = align_to_left_position(text, align, style)
-      opts = style.merge({ at: [left, top] })
+      left = align_to_left_position(text, align, text_style)
+      opts = text_style.merge({ at: [left, top] })
       pdf.draw_text text, opts
     end
   end
@@ -187,12 +194,25 @@ module WorkPackage::PDFExport::Common
     end
   end
 
+  def get_total_sums
+    query.display_sums? ? (query.results.all_total_sums || {}) : {}
+  end
+
+  def get_group_sums(group)
+    @group_sums ||= query.results.all_group_sums
+    @group_sums[group] || {}
+  end
+
   def with_descriptions?
-    options[:show_descriptions]
+    options[:show_report]
+  end
+
+  def with_sums_table?
+    query.display_sums?
   end
 
   def with_attachments?
-    options[:show_attachments]
+    options[:show_images]
   end
 
   def current_page_nr

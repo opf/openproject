@@ -1,4 +1,4 @@
-shared_examples_for 'repository can be relocated' do |vendor|
+RSpec.shared_examples_for 'repository can be relocated' do |vendor|
   let(:job_call) do
     SCM::RelocateRepositoryJob.perform_now repository
   end
@@ -19,7 +19,9 @@ shared_examples_for 'repository can be relocated' do |vendor|
     allow(Repository).to receive(:find).and_return(repository)
   end
 
-  context 'with managed local config' do
+  needed_command = 'svnadmin' if vendor == :subversion
+
+  context 'with managed local config', skip_if_command_unavailable: needed_command do
     include_context 'with tmpdir'
     let(:config) { { manages: File.join(tmpdir, 'myrepos') } }
 

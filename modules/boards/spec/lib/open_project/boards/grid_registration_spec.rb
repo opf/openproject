@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe OpenProject::Boards::GridRegistration do
+RSpec.describe OpenProject::Boards::GridRegistration do
   let(:project) { create(:project) }
   let(:permissions) { [:show_board_views] }
   let(:board) { create(:board_grid, project:) }

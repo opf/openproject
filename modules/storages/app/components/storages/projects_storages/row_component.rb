@@ -30,9 +30,6 @@
 # associated with a project
 module Storages::ProjectsStorages
   class RowComponent < ::RowComponent
-    include ::IconsHelper
-    include ::AvatarHelper
-    include ::Redmine::I18n
     def project_storage
       row
     end
@@ -48,7 +45,7 @@ module Storages::ProjectsStorages
     end
 
     def creator
-      icon = avatar project_storage.creator, size: :mini
+      icon = helpers.avatar project_storage.creator, size: :mini
       icon + project_storage.creator.name
     end
 

@@ -29,9 +29,9 @@
 require 'spec_helper'
 require 'support/edit_fields/edit_field'
 
-describe 'Datepicker modal individual non working days (WP #44453)',
-         js: true,
-         with_settings: { date_format: '%Y-%m-%d' } do
+RSpec.describe 'Datepicker modal individual non working days (WP #44453)',
+               js: true,
+               with_settings: { date_format: '%Y-%m-%d' } do
   shared_let(:user) { create(:admin) }
   shared_let(:project) { create(:project) }
 

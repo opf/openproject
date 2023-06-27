@@ -3,6 +3,6 @@ si:
   js:
     calendar:
       create_new: 'Create new calendar'
-      title: 'Calendar'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
+      title: 'දින දර්ශනය'
+      too_many: 'සම්පූර්ණ වැඩ පැකේජ %{count} ක් ඇත, නමුත් පෙන්විය හැක්කේ %{max} පමණි.'
       unsaved_title: 'Unnamed calendar'

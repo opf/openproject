@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CustomFields::SetAttributesService, type: :model do
+RSpec.describe CustomFields::SetAttributesService, type: :model do
   let(:user) { build_stubbed(:user) }
   let(:contract_instance) do
     contract = double('contract_instance')

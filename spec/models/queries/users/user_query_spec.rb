@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Users::UserQuery do
+RSpec.describe Queries::Users::UserQuery do
   let(:instance) { described_class.new }
   let(:base_scope) { User.user.order(id: :desc) }
 

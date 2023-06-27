@@ -51,9 +51,13 @@ module API
           priority
           type
           version
+          parent
         ].freeze
 
         SUPPORTED_PROPERTIES = (SUPPORTED_NON_LINK_PROPERTIES + SUPPORTED_LINK_PROPERTIES).freeze
+
+        STATIC_NON_LINK_PROPERTIES = %w[_meta].freeze
+        STATIC_LINK_PROPERTIES = ['links', :schema, :self].freeze
 
         def initialize(model, current_user:)
           super(model, current_user:, embed_links:, timestamps: [model.timestamp])
@@ -76,10 +80,10 @@ module API
 
         def rendered_properties
           @rendered_properties ||= begin
-            properties = (changed_properties_as_api_name & SUPPORTED_PROPERTIES) + ['_meta']
+            properties = changed_properties_as_api_name.intersection(SUPPORTED_PROPERTIES) + STATIC_NON_LINK_PROPERTIES
 
             if represented.exists_at_timestamp?
-              properties + ["links", :self]
+              properties + STATIC_LINK_PROPERTIES
             else
               properties
             end

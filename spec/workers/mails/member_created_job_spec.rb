@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative 'shared/member_job'
 
-describe Mails::MemberCreatedJob, type: :model do
+RSpec.describe Mails::MemberCreatedJob, type: :model do
   include_examples 'member job' do
     let(:user_project_mail_method) { :added_project }
 

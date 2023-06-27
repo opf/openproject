@@ -269,11 +269,22 @@ fr:
       notice_reset_token: "Un nouveau jeton de %{type} a été généré. Votre jeton d’accès est :"
       token_value_warning: "Note : Ceci est la seule fois où vous verrez ce jeton, veuillez le copier maintenant."
       no_results_title_text: Aucun jeton d'accès disponible pour le moment.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Il n'y a actuellement aucune actualité à publier.
       no_results_content_text: Ajouter une actualité
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'Cet utilisateur est actuellement membre des groupes suivants :'
       no_results_title_text: Cet utilisateur n'est actuellement membre d'aucun groupe.
@@ -485,15 +496,15 @@ fr:
           true: "public"
           false: "privé"
         queries: "Requêtes"
-        status_code: 'Project status'
+        status_code: 'État du projet'
         status_explanation: 'Project status description'
         status_codes:
-          not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          not_started: 'Non démarré'
+          on_track: 'Sur la bonne voie'
+          at_risk: 'À risque'
+          off_track: 'Sur la mauvaise voie'
+          finished: 'Terminé'
+          discontinued: 'Interrompu'
         templated: "Modèle de projet"
         templated_value:
           true: "marqué comme modèle"
@@ -691,6 +702,11 @@ fr:
           overlaps: 'superposition.'
           outside: 'est hors de la grille.'
           end_before_start: 'la valeur finale doit être supérieure à la valeur de départ.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'Au moins un canal pour envoyer des notifications doit être spécifié.'
           attributes:
@@ -928,7 +944,7 @@ fr:
       time_entry:
         hour:
           one: "%{count} hour"
-          other: "%{count} hours"
+          other: "%{count} heures"
         hour_html:
           one: "<i>%{count} hour</i>"
           other: "<i>%{count} hours</i>"
@@ -1050,6 +1066,7 @@ fr:
   button_configure: "Configurer"
   button_continue: "Continuer"
   button_copy: "Copier"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Copier et suivre"
   button_create: "Créer"
   button_create_and_continue: "Créer et continuer"
@@ -1179,7 +1196,7 @@ fr:
       - "Octobre"
       - "Novembre"
       - "Décembre"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - ':année'
       - :mois
@@ -1224,61 +1241,6 @@ fr:
       hour:
         one: "heure"
         other: "heures"
-  default_activity_development: "Développement"
-  default_activity_management: "Gestion"
-  default_activity_other: "Autre"
-  default_activity_specification: "Spécification"
-  default_activity_support: "Support"
-  default_activity_testing: "Test"
-  default_color_black: "Noir"
-  default_color_blue: "Bleu"
-  default_color_blue_dark: "Bleu (foncé)"
-  default_color_blue_light: "Bleu (clair)"
-  default_color_green_dark: "Vert (foncé)"
-  default_color_green_light: "Vert (clair)"
-  default_color_grey_dark: "Gris (foncé)"
-  default_color_grey_light: "Gris (clair)"
-  default_color_grey: "Gris"
-  default_color_magenta: "Magenta"
-  default_color_orange: "Orange"
-  default_color_red: "Rouge"
-  default_color_white: "Blanc"
-  default_color_yellow: "Jaune"
-  default_status_closed: "Clôturé"
-  default_status_confirmed: "Confirmé"
-  default_status_developed: "Développé"
-  default_status_in_development: "En développement"
-  default_status_in_progress: "En cours"
-  default_status_in_specification: "En cous de spécification"
-  default_status_in_testing: "En test"
-  default_status_new: "nouveau"
-  default_status_on_hold: "En attente"
-  default_status_rejected: "rejeté"
-  default_status_scheduled: "Planifié"
-  default_status_specified: "Spécifié"
-  default_status_tested: "Testé"
-  default_status_test_failed: "Test échoué"
-  default_status_to_be_scheduled: "À planifier"
-  default_priority_low: "Basse"
-  default_priority_normal: "Normal"
-  default_priority_high: "Haut"
-  default_priority_immediate: "Immédiat"
-  default_role_anonymous: "Anonyme"
-  default_role_developer: "Développeur"
-  default_role_project_admin: "Administrateur du projet"
-  default_role_project_creator_and_staff_manager: "Personnel et gestionnaire de projets"
-  default_role_non_member: "Non membre"
-  default_role_reader: "Lecteur"
-  default_role_member: "Membre"
-  default_type: "Lot de Travaux"
-  default_type_bug: "Bug"
-  default_type_deliverable: "Livrable"
-  default_type_epic: "Epic"
-  default_type_feature: "Fonctionnalité"
-  default_type_milestone: "Étape"
-  default_type_phase: "Phase"
-  default_type_task: "Tâche"
-  default_type_user_story: "Récit utilisateur"
   description_active: "Actif ?"
   description_attachment_toggle: "Afficher/Masquer les pièces jointes"
   description_autocomplete: >
@@ -1396,11 +1358,14 @@ fr:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF avec descriptions"
-      pdf_with_descriptions_and_attachments: "PDF avec descriptions et pièces jointes"
-      pdf_with_attachments: "PDF avec pièces jointes"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Image non exportée."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext disponible (optionnel)"
@@ -1520,6 +1485,12 @@ fr:
   label_api_access_key: "Clé d'accès API"
   label_api_access_key_created_on: "Clé d'accès API créé il y a %{value}"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Révoquer"
   label_applied_status: "Statut appliqué"
   label_archive_project: "Archiver le projet"
   label_ascending: "Croissant"
@@ -1555,6 +1526,7 @@ fr:
   label_bulk_edit_selected_work_packages: "Edition en masse des Lots de Travaux selectionnés"
   label_bundled: '(Inclus)'
   label_calendar: "Calendrier"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Afficher le calendrier"
   label_category: "Catégorie"
   label_consent_settings: "Accord de l'utilisateur"
@@ -1591,7 +1563,6 @@ fr:
   label_contains: "contenus"
   label_content: "Contenu"
   label_copied: "copié"
-  label_copy_to_clipboard: "Copier dans le presse-papier"
   label_copy_same_as_target: "similaire à la cible"
   label_copy_source: "Source"
   label_copy_target: "Cible"
@@ -1608,6 +1579,7 @@ fr:
   label_database_version: "Version de PostgreSQL"
   label_date: "date"
   label_date_and_time: "Date et heure"
+  label_date_format: "Date format"
   label_date_from: "De"
   label_date_from_to: "De %{start} à %{end}"
   label_date_to: "À"
@@ -1650,7 +1622,7 @@ fr:
   label_enterprise: "Entreprise"
   label_enterprise_active_users: "%{current}/%{limit} utilisateurs actifs inscrits"
   label_enterprise_edition: "Version Entreprise"
-  label_enterprise_support: "Enterprise support"
+  label_enterprise_support: "Assistance Enterprise"
   label_environment: "Environement"
   label_estimates_and_time: "Estimations et temps"
   label_equals: "est"
@@ -1713,6 +1685,7 @@ fr:
   label_journal: "Journal"
   label_journal_diff: "Comparaison de description"
   label_language: "Langue"
+  label_languages: "Languages"
   label_jump_to_a_project: "Aller à un projet…"
   label_keyword_plural: 'Mots clés'
   label_language_based: "Basé sur le langage de l'utilisateur"
@@ -1770,6 +1743,7 @@ fr:
   label_more_than_ago: "il y a plus de quelques jours"
   label_move_work_package: "Déplacer le Lot de Travaux"
   label_my_account: "Mon compte"
+  label_my_activity: "My activity"
   label_my_account_data: "Info sur mon compte"
   label_my_projects: "Mes projets"
   label_my_queries: "Mes requêtes personnalisées"
@@ -1820,7 +1794,6 @@ fr:
   label_password_rule_special: "Caractères spéciaux"
   label_password_rule_uppercase: "Majuscules"
   label_path_encoding: "Encodage du chemin d'accès"
-  label_pdf_with_descriptions: "PDF avec Descriptions"
   label_per_page: "Par page"
   label_people: "Participants"
   label_permissions: "Autorisations"
@@ -1972,6 +1945,7 @@ fr:
   label_user_plural: "Utilisateurs"
   label_user_search: "Recherche d'Utilisateurs"
   label_user_settings: "Paramètres de l'utilisateur"
+  label_users_settings: "Users settings"
   label_version_new: "Nouvelle version"
   label_version_plural: "Versions"
   label_version_sharing_descendants: "Avec sous-projets"
@@ -2533,7 +2507,7 @@ fr:
   setting_consent_decline_mail: "Adresse mail de contact de l'accord"
   setting_cross_project_work_package_relations: "Autoriser les relations entre lots de travaux de projets différents"
   setting_first_week_of_year: "La première semaine de l'année contient"
-  setting_date_format: "Format de date"
+  setting_date_format: "Date"
   setting_default_language: "Langage par défaut"
   setting_default_projects_modules: "Modules activés par défaut pour les nouveaux projets"
   setting_default_projects_public: "Les nouveaux projets sont publics par défaut"
@@ -2545,6 +2519,7 @@ fr:
   setting_enabled_scm: "Permettre SCM"
   setting_enabled_projects_columns: "Visible dans la liste des projets"
   setting_feeds_enabled: "Permettre les flux"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Limite du contenu du flux"
   setting_file_max_size_displayed: "Taille maximale de l'affichage du fichers texte inline"
   setting_host_name: "Nom d'hôte"
@@ -2595,9 +2570,9 @@ fr:
   setting_start_of_week: "La semaine commence le"
   setting_sys_api_enabled: "Activer le service web de gestion de dépôt"
   setting_sys_api_description: "Le service web de gestion de dépôt fournit l'intégration et l'autorisation d'accès aux dépôts."
-  setting_time_format: "Format d'heure"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Activer le mode d'accessibilité pour les utilisateurs anonymes"
-  setting_user_format: "Utilisateur affiche format"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Fuseau horaire par défaut des utilisateurs"
   setting_users_deletable_by_admins: "Comptes utilisateurs effaçables par admins"
   setting_users_deletable_by_self: "Utilisateurs autorisés à supprimer leur compte"
@@ -2606,6 +2581,7 @@ fr:
   setting_welcome_on_homescreen: "Afficher le bloc de bienvenue sur l'écran d'accueil"
   setting_work_package_list_default_highlighting_mode: "Mode de surbrillance par défaut"
   setting_work_package_list_default_highlighted_attributes: "Attributs en ligne mis en surbrillance par défaut"
+  setting_working_days: "Working days"
   settings:
     general: "Général"
     other: "Autre"
@@ -2628,6 +2604,7 @@ fr:
       section_project_overview: "Paramètres de la liste des projets"
     user:
       default_preferences: "Préférences par défaut"
+      display_format: "Display format"
       deletion: "Suppression"
     highlighting:
       mode_long:
@@ -2636,6 +2613,9 @@ fr:
         status: "Ligne entière par Statut"
         type: "Ligne entière par Type"
         priority: "Ligne entière par Priorité"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Texte brut'
@@ -3001,9 +2981,9 @@ fr:
       title: "Supprimer le lot de travaux"
   working_days:
     info: >
-      <b>Définir les jours considérés comme une partie de la semaine de travail</b><br/> Les jours qui ne sont pas sélectionnés sont ignorés lors de la planification des lots de travaux (et non inclus dans le nombre de jours). Ils peuvent être remplacés au niveau du lot de travaux.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Les jours spécifiques non prestés (jours fériés et fermetures)</b><br/> Les dates ajoutées à la liste ci-dessous sont considérées comme non ouvrables et ignorées lors de la planification des lots de travaux.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Changer les jours ouvrables"
     warning: >
       La modification des jours de la semaine qui sont considérés comme des jours travaillés ou des jours non travaillés peut affecter les jours de début et de fin de tous les lots de travaux de tous les projets dans ce cas. <br/> Veuillez noter que les modifications ne sont appliquées qu'après que vous ayez cliqué sur le bouton appliquer les modifications.

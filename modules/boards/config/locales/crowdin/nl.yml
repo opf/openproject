@@ -7,12 +7,12 @@ nl:
     label_board: "Bord"
     label_boards: "Borden"
     board_types:
-      free: Basic
-      action: "Action board (%{attribute})"
+      free: Basis
+      action: "Actiebord (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
+      assignee: Toegewezene
       status: Status
-      version: Version
+      version: Versie
       subproject: Subproject
-      subtasks: Parent-child
-      basic: Basic
+      subtasks: Ouder-kind
+      basic: Basis

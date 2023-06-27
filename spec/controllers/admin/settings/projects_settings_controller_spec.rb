@@ -28,27 +28,18 @@
 
 require 'spec_helper'
 
-describe Admin::Settings::ProjectsSettingsController do
-  before do
-    allow(@controller).to receive(:set_localization)
-    @params = {}
+RSpec.describe Admin::Settings::ProjectsSettingsController do
+  shared_let(:user) { create(:admin) }
+  current_user { user }
 
-    @user = create(:admin)
-    allow(User).to receive(:current).and_return @user
+  before do
+    allow(controller).to receive(:set_localization)
   end
 
-  describe 'show' do
+  describe 'GET #show' do
     render_views
 
-    context 'default project modules' do
-      before do
-        @previous_projects_modules = Setting.default_projects_modules
-      end
-
-      after do
-        Setting.default_projects_modules = @previous_projects_modules
-      end
-
+    describe 'default project modules' do
       it 'contains a check box for the activity module on the projects tab' do
         get 'show', params: { tab: 'projects' }
 
@@ -57,15 +48,7 @@ describe Admin::Settings::ProjectsSettingsController do
         expect(response.body).to have_selector "input[@name='settings[default_projects_modules][]'][@value='activity']"
       end
 
-      it 'contains a check box for the activity module on the projects tab' do
-        get 'show', params: { tab: 'projects' }
-
-        expect(response).to be_successful
-        expect(response).to render_template 'admin/settings/projects_settings/show'
-        expect(response.body).to have_selector "input[@name='settings[default_projects_modules][]'][@value='activity']"
-      end
-
-      describe 'without activated activity module' do
+      context 'without activated activity module' do
         before do
           Setting.default_projects_modules = %w[wiki]
         end
@@ -80,9 +63,9 @@ describe Admin::Settings::ProjectsSettingsController do
         end
       end
 
-      describe 'with activity in Setting.default_projects_modules' do
+      context 'with activity in Setting.default_projects_modules' do
         before do
-          Setting.default_projects_modules = %w[activity wiki]
+          Setting.default_projects_modules = %w[activity]
         end
 
         it 'contains a checked checkbox for activity' do
@@ -97,18 +80,10 @@ describe Admin::Settings::ProjectsSettingsController do
     end
   end
 
-  describe 'update' do
+  describe 'PATCH #update' do
     render_views
 
-    context 'default project modules' do
-      before do
-        @previous_projects_modules = Setting.default_projects_modules
-      end
-
-      after do
-        Setting.default_projects_modules = @previous_projects_modules
-      end
-
+    describe 'default project modules' do
       it 'does not store the activity in the default_projects_modules if unchecked' do
         patch 'update',
               params: {
@@ -141,17 +116,6 @@ describe Admin::Settings::ProjectsSettingsController do
     end
 
     describe 'password settings' do
-      let(:old_settings) do
-        {
-          password_min_length: 10,
-          password_active_rules: [],
-          password_min_adhered_rules: 0,
-          password_days_valid: 365,
-          password_count_former_banned: 2,
-          lost_password: true
-        }
-      end
-
       let(:new_settings) do
         {
           password_min_length: 42,
@@ -163,26 +127,22 @@ describe Admin::Settings::ProjectsSettingsController do
         }
       end
 
-      let(:original_settings) { Hash.new }
-
       before do
-        old_settings.keys.each do |key|
-          original_settings[key] = Setting[key]
-        end
+        old_settings = {
+          password_min_length: 10,
+          password_active_rules: [],
+          password_min_adhered_rules: 0,
+          password_days_valid: 365,
+          password_count_former_banned: 2,
+          lost_password: true
+        }
 
-        old_settings.keys.each do |key|
-          Setting[key] = old_settings[key]
-        end
-      end
-
-      after do
-        # restore settings
-        old_settings.keys.each do |key|
-          Setting[key] = original_settings[key]
+        old_settings.each do |key, value|
+          Setting[key] = value
         end
       end
 
-      describe 'PATCH #update with password login enabled' do
+      context 'with password login enabled' do
         before do
           allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
 
@@ -198,7 +158,7 @@ describe Admin::Settings::ProjectsSettingsController do
         end
 
         it 'sets the active character classes to lowercase and uppercase' do
-          expect(Setting[:password_active_rules]).to eq ['uppercase', 'lowercase']
+          expect(Setting[:password_active_rules]).to eq %w[uppercase lowercase]
         end
 
         it 'sets the required number of classes to 7' do
@@ -218,7 +178,7 @@ describe Admin::Settings::ProjectsSettingsController do
         end
       end
 
-      describe 'PATCH #update with password login disabled' do
+      describe 'with password login disabled' do
         before do
           allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
 

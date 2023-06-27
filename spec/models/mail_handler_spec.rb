@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe MailHandler do
+RSpec.describe MailHandler do
   let(:anno_user) { User.anonymous }
   let(:project) { create(:valid_project, identifier: 'onlinestore', name: 'OnlineStore', public: false) }
   let(:public_project) { create(:valid_project, identifier: 'onlinestore', name: 'OnlineStore', public: true) }

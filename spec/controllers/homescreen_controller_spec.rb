@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe HomescreenController do
+RSpec.describe HomescreenController do
   before do
     login_as(user)
 

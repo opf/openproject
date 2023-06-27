@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::CreateContract do
+RSpec.describe WorkPackages::CreateContract do
   let(:work_package) { build(:work_package, author: other_user, project:) }
   let(:other_user) { build_stubbed(:user) }
   let(:project) { build_stubbed(:project) }

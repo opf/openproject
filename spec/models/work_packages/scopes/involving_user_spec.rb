@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::Scopes::InvolvingUser do
+RSpec.describe WorkPackages::Scopes::InvolvingUser do
   create_shared_association_defaults_for_work_package_factory
 
   shared_let(:user) do

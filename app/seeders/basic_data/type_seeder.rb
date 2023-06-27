@@ -26,72 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 module BasicData
-  class TypeSeeder < Seeder
-    def seed_data!
-      Type.transaction do
-        data.each do |attributes|
-          Type.create!(attributes)
-        end
-      end
-    end
+  class TypeSeeder < ModelSeeder
+    self.model_class = Type
+    self.seed_data_model_key = 'types'
+    self.needs = [
+      BasicData::ColorSeeder,
+      BasicData::ColorSchemeSeeder
+    ]
 
-    def applicable
-      Type.all.any?
-    end
-
-    def not_applicable_message
-      'Skipping types - already exists/configured'
-    end
-
-    ##
-    # Returns the data of all types to seed.
-    #
-    # @return [Array<Hash>] List of attributes for each type.
-    def data
-      colors = Color.pluck(:name, :id).to_h
-
-      type_table.map do |_name, (position, is_default, color_name, is_in_roadmap, is_milestone, type_name)|
-        {
-          name: I18n.t(type_name),
-          position:,
-          is_default:,
-          color_id: colors.fetch(color_name),
-          is_in_roadmap:,
-          is_milestone:,
-          description: ''
-        }
-      end
-    end
-
-    def type_names
-      raise NotImplementedError
-    end
-
-    def type_table
-      raise NotImplementedError
-    end
-
-    def set_attribute_groups_for_type(type)
-      type_data = type_data_for(type)
-      return unless type_data && type_data['form_configuration']
-
-      type_data['form_configuration'].each do |form_config_attr|
-        groups = type.default_attribute_groups
-        query = seed_data.find_reference(form_config_attr['query'])
-        query_association = "query_#{query.id}"
-        groups.unshift([form_config_attr['group_name'], [query_association.to_sym]])
-
-        type.attribute_groups = groups
-      end
-
-      type.save!
-    end
-
-    private
-
-    def type_data_for(type)
-      types_data = seed_data.lookup('type_configuration') || []
-      types_data.find { |entry| I18n.t(entry['type']) == type.name }
+    def model_attributes(type_data)
+      {
+        name: type_data['name'],
+        description: '',
+        is_default: true?(type_data['is_default']),
+        color_id: color_id(type_data['color_name']),
+        is_in_roadmap: true?(type_data['is_in_roadmap']),
+        is_milestone: true?(type_data['is_milestone']),
+        position: type_data['position']
+      }
     end
   end
 end

@@ -42,7 +42,7 @@ module LdapGroups
       end
 
       def added
-        format_date(membership.updated_at)
+        helpers.format_date(membership.updated_at)
       end
     end
   end

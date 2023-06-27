@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Groups::GroupCollectionRepresenter do
+RSpec.describe API::V3::Groups::GroupCollectionRepresenter do
   let(:self_base_link) { '/api/v3/groups' }
   let(:groups) do
     build_stubbed_list(:group, 3).tap do |groups|

@@ -1,4 +1,4 @@
-shared_examples 'can upload an IFC file' do
+RSpec.shared_examples 'can upload an IFC file' do
   let(:user) { create(:admin) }
   let(:project) { create(:project, enabled_module_names: %i[bim]) }
   let(:ifc_fixture) { UploadedFile.load_from('modules/bim/spec/fixtures/files/minimal.ifc') }

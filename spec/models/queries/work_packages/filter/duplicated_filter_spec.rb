@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::DuplicatedFilter do
+RSpec.describe Queries::WorkPackages::Filter::DuplicatedFilter do
   it_behaves_like 'filter by work package id' do
     let(:class_key) { :duplicated }
 
