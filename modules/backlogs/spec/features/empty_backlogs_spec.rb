@@ -64,7 +64,7 @@ RSpec.describe 'Empty backlogs project',
     let(:role) { create(:role, permissions: %i(view_master_backlog)) }
     let(:current_user) { create(:user, member_in_project: project, member_through_role: role) }
 
-    it 'onlies show a no results box' do
+    it 'only shows a no results box' do
       expect(page).to have_selector '.generic-table--no-results-container', text: I18n.t(:backlogs_empty_title)
       expect(page).not_to have_selector '.generic-table--no-results-description'
     end

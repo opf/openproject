@@ -34,12 +34,12 @@ module AuthenticationHelpers
   end
 
   def login_as(user)
-    if is_a? RSpec::Rails::FeatureExampleGroup
+    if is_a?(RSpec::Rails::FeatureExampleGroup)
       # If we want to mock having finished the login process
       # we must set the user_id in rack.session accordingly
       # Otherwise e.g. calls to Warden will behave unexpectantly
       # as they will login AnonymousUser
-      if using_cuprite?
+      if using_cuprite? && js_enabled?
         page.driver.set_cookie(
           OpenProject::Configuration['session_cookie_name'],
           session_value_for(user).to_s
@@ -74,6 +74,10 @@ module AuthenticationHelpers
   end
 
   private
+
+  def js_enabled?
+    RSpec.current_example.metadata[:js]
+  end
 
   def using_cuprite?
     RSpec.current_example.metadata[:with_cuprite]

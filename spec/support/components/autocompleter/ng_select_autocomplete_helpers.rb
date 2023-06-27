@@ -50,9 +50,15 @@ module Components::Autocompleter
       if query.length > 1
         # Send all keys, and then with a delay the last one
         # to emulate normal typing
-        input.send_keys(query[0..-2])
-        sleep 0.2
-        input.send_keys(query[-1])
+        if using_cuprite?
+          input.native.node.type(query[0..-2])
+          sleep 0.2
+          input.native.node.type(query[-1])
+        else
+          input.send_keys(query[0..-2])
+          sleep 0.2
+          input.send_keys(query[-1])
+        end
       end
 
       wait_for_network_idle if using_cuprite?

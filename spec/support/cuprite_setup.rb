@@ -85,7 +85,10 @@ end
 
 register_better_cuprite 'en'
 
-MODULES_WITH_CUPRITE_ENABLED = %w[avatars].freeze
+MODULES_WITH_CUPRITE_ENABLED = %w[
+  avatars
+  backlogs
+].freeze
 
 RSpec.configure do |config|
   config.define_derived_metadata(file_path: %r{/(#{MODULES_WITH_CUPRITE_ENABLED.join('|')})/spec/features/}) do |meta|
