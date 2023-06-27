@@ -59,6 +59,8 @@ class Users::ProjectAuthorizationCache
       [OpenProject::AccessControl.permission(action)&.name].compact
     when Hash
       OpenProject::AccessControl.allow_actions(action).map(&:name)
+    else
+      []
     end
   end
 
