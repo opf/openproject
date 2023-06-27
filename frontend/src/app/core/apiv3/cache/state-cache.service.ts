@@ -155,10 +155,11 @@ export class StateCacheService<T> {
   observeSome(ids:string[]):Observable<T[]> {
     return combineLatest(
       ids.map(
-        (id) => this.observe(id).pipe(startWith(null))
-      )).pipe(
-        map((values) => values.filter((value) => !!value)),
-      ) as Observable<T[]>;
+        (id) => this.observe(id).pipe(startWith(null)),
+      ),
+    ).pipe(
+      map((values) => values.filter((value) => !!value)),
+    ) as Observable<T[]>;
   }
 
   /**

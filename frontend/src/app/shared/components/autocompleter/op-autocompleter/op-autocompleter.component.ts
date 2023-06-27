@@ -32,11 +32,9 @@ import {
 } from 'rxjs';
 import {
   debounce,
-  debounceTime,
   distinctUntilChanged,
   filter,
   switchMap,
-  take,
   tap,
 } from 'rxjs/operators';
 import { GroupValueFn } from '@ng-select/ng-select/lib/ng-select.component';
@@ -218,16 +216,16 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
   @ViewChild('ngSelectInstance') ngSelectInstance:NgSelectComponent;
 
   @ContentChild(OpAutocompleterOptionTemplateDirective, { read: TemplateRef })
-  optionTemplate:TemplateRef<any>;
+    optionTemplate:TemplateRef<any>;
 
   @ContentChild(OpAutocompleterLabelTemplateDirective, { read: TemplateRef })
-  labelTemplate:TemplateRef<any>;
+    labelTemplate:TemplateRef<any>;
 
   @ContentChild(OpAutocompleterHeaderTemplateDirective, { read: TemplateRef })
-  headerTemplate:TemplateRef<any>;
+    headerTemplate:TemplateRef<any>;
 
   @ContentChild(OpAutocompleterFooterTemplateDirective, { read: TemplateRef })
-  footerTemplate:TemplateRef<any>;
+    footerTemplate:TemplateRef<any>;
 
   initialDebounce = true;
 

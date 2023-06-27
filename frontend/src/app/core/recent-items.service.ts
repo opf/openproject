@@ -33,10 +33,8 @@ import { BehaviorSubject } from 'rxjs';
 export class RecentItemsService {
   recentItems$ = new BehaviorSubject(this.getAll());
 
-  add(id: string): void {
-    let wps = JSON
-      .parse(window.OpenProject.guardedLocalStorage('recent') || '[]')
-      .filter((entry : string) => entry !== id);
+  add(id:string):void {
+    let wps = this.getAll().filter((entry:string) => entry !== id);
     wps.unshift(id);
     if (wps.length > 5) {
       wps = wps.slice(0, 5);
@@ -45,7 +43,7 @@ export class RecentItemsService {
     this.recentItems$.next(wps);
   }
 
-  getAll(): string[] {
-    return JSON.parse(window.OpenProject.guardedLocalStorage('recent') || '[]')
+  getAll():string[] {
+    return JSON.parse(window.OpenProject.guardedLocalStorage('recent') || '[]') as string[];
   }
 }
