@@ -1,4 +1,3 @@
-import * as URI from 'urijs';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 
 /**
@@ -43,11 +42,16 @@ export function openExternalLinksInNewTab(evt:MouseEvent, linkElement:HTMLAnchor
   }
 
   const origin = window.location.origin;
-  const url = new URI(link, window.location.origin);
 
-  if (origin !== url.origin()) {
-    window.open(link, '_blank', 'noopener,noreferrer');
-    return true;
+  try {
+    const url = new URL(link, window.location.origin);
+    if (origin !== url.origin) {
+      window.open(link, '_blank', 'noopener,noreferrer');
+      return true;
+    }
+  } catch (_) {
+    // Do nothing if the url is invalid.
+    return false;
   }
 
   return false;

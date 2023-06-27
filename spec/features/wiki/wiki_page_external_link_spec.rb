@@ -51,4 +51,19 @@ RSpec.describe 'Wiki page external link', js: true do
     end
     new_window.close
   end
+
+  context 'when the link contains an invalid url' do
+    before do
+      wiki_page.update(text: 'A link to <a href="https:///">OpenProject</a>.')
+    end
+
+    it 'does not opens that link in a new window or tab' do
+      visit project_wiki_path(project, wiki_page)
+
+      link = page.find('a[href^="https:///"]')
+      expect do
+        window_opened_by { link.click }
+      end.to raise_error Capybara::WindowError, /window_opened_by opened 0 windows instead of 1/
+    end
+  end
 end
