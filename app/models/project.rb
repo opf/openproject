@@ -57,7 +57,12 @@ class Project < ApplicationRecord
   has_many :users, through: :members, source: :principal
   has_many :principals, through: :member_principals, source: :principal
 
-  has_many :enabled_modules, dependent: :delete_all
+  has_many :enabled_modules,
+           after_remove: ->(*) {
+             ActivePermissions::Updater.prepare
+           },
+           dependent: :delete_all
+
   has_and_belongs_to_many :types, -> {
     order("#{::Type.table_name}.position")
   }
@@ -88,6 +93,11 @@ class Project < ApplicationRecord
   has_many :projects_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
   has_many :storages, through: :projects_storages
   has_many :permissions
+  has_many :active_permissions, dependent: :delete_all, inverse_of: :project
+
+  after_save do
+    ActivePermissions::Updater.prepare
+  end
 
   acts_as_customizable
   acts_as_searchable columns: %W(#{table_name}.name #{table_name}.identifier #{table_name}.description),
@@ -209,9 +219,9 @@ class Project < ApplicationRecord
   # Returns a ActiveRecord::Relation to find all projects for which
   # +user+ has the given +permission+
   def self.allowed_to(user, permission)
-    includes(:permissions)
-      .where(permissions: { user: })
-      .where(permissions: { permission: })
+    includes(:active_permissions)
+      .where(active_permissions: { user: })
+      .where(active_permissions: { permission: })
   end
 
   def reload(*args)

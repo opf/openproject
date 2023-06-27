@@ -102,6 +102,8 @@ class ActivePermission < ApplicationRecord
       WHERE
         (enabled_modules.project_id = projects.id OR permission_map.global)
       AND
+        projects.active
+      AND
         (enabled_modules.name = permission_map.project_module_name OR permission_map.project_module_name IS NULL)
       AND
         users.admin = true
@@ -192,7 +194,7 @@ class ActivePermission < ApplicationRecord
         permission_map.permission
       FROM projects
       LEFT JOIN enabled_modules
-        ON projects.active AND projects.public AND enabled_modules.project_id = projects.id
+        ON projects.public AND enabled_modules.project_id = projects.id
       LEFT JOIN users
         ON users.status != 3
       LEFT JOIN roles
@@ -212,9 +214,11 @@ class ActivePermission < ApplicationRecord
         ON (enabled_modules.name = permission_map.project_module_name OR permission_map.project_module_name IS NULL)
          AND (role_permissions.permission = permission_map.permission OR permission_map.public)
       WHERE
-        users.id IS NOT NULL
-      AND
         NOT EXISTS (SELECT 1 FROM members WHERE members.user_id = users.id AND members.project_id = projects.id)
+      AND
+        projects.active
+      AND
+        users.id IS NOT NULL
       AND
         projects.id IS NOT NULL
       AND

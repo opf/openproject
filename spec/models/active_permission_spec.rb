@@ -83,6 +83,9 @@ RSpec.describe ActivePermission do
 
   describe '#create_for_member_projects' do
     subject do
+      # Because the setup might have created entries
+      described_class.delete_all
+
       described_class.create_for_member_projects
 
       described_class.pluck(:user_id, :project_id, :permission)
@@ -119,6 +122,15 @@ RSpec.describe ActivePermission do
       it 'has an entry' do
         expect(subject)
           .to include([user.id, private_project.id, 'view_project'])
+      end
+    end
+
+    context 'for a member in a private and archived project for the public permission not within a module' do
+      let(:project_active) { false }
+
+      it 'has no entry' do
+        expect(subject)
+          .not_to include([user.id, private_project.id, 'view_project'])
       end
     end
 
@@ -204,6 +216,9 @@ RSpec.describe ActivePermission do
     end
 
     subject do
+      # Because the setup might have created entries
+      described_class.delete_all
+
       described_class.create_for_admins_in_project
 
       described_class.pluck(:user_id, :project_id, :permission)
@@ -229,6 +244,15 @@ RSpec.describe ActivePermission do
       it 'has an entry' do
         expect(subject)
           .to include([admin.id, private_project.id, 'view_project'])
+      end
+    end
+
+    context 'for an admin who is a not a member in a private and archived project of a non module permission' do
+      let(:project_active) { false }
+
+      it 'has an entry' do
+        expect(subject)
+          .not_to include([admin.id, private_project.id, 'view_project'])
       end
     end
 
@@ -283,6 +307,9 @@ RSpec.describe ActivePermission do
 
   describe '#create_for_admins_global' do
     subject do
+      # Because the setup might have created entries
+      described_class.delete_all
+
       described_class.create_for_admins_global
 
       described_class.pluck(:user_id, :project_id, :permission)
@@ -345,6 +372,9 @@ RSpec.describe ActivePermission do
 
   describe '#create_for_member_global' do
     subject do
+      # Because the setup might have created entries
+      described_class.delete_all
+
       described_class.create_for_member_global
 
       described_class.pluck(:user_id, :project_id, :permission)
@@ -409,6 +439,9 @@ RSpec.describe ActivePermission do
 
   describe '#create_for_public_project' do
     subject do
+      # Because the setup might have created entries
+      described_class.delete_all
+
       described_class.create_for_public_project
 
       described_class.pluck(:user_id, :project_id, :permission)
@@ -452,6 +485,13 @@ RSpec.describe ActivePermission do
       it 'has an entry' do
         expect(subject)
           .to include([user.id, public_project.id, 'view_news'])
+      end
+    end
+
+    context 'for a user not member in a public project for a non module bound public permission' do
+      it 'has an entry' do
+        expect(subject)
+          .to include([user.id, public_project.id, 'view_project'])
       end
     end
 
@@ -511,6 +551,15 @@ RSpec.describe ActivePermission do
       it 'has no entry' do
         expect(subject)
           .not_to include([user.id, public_project.id, 'view_work_packages'])
+      end
+    end
+
+    context 'for a user not member in a public and archived project for non module bound public permission' do
+      let(:project_active) { false }
+
+      it 'has no entry' do
+        expect(subject)
+          .not_to include([user.id, public_project.id, 'view_project'])
       end
     end
 

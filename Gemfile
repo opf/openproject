@@ -209,6 +209,10 @@ gem 'view_component'
 
 gem 'turbo-rails', "~> 1.1"
 
+# Used to update the active_permissions table in only a single before_commit hook
+# upon changes to e.g. members, roles, projects, etc.
+gem 'after_commit_everywhere'
+
 group :test do
   gem 'launchy', '~> 2.5.0'
   gem 'rack-test', '~> 2.1.0'

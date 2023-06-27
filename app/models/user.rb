@@ -80,7 +80,11 @@ class User < Principal
            dependent: :destroy
 
   has_many :notification_settings, dependent: :destroy
-  has_many :permissions
+  has_many :active_permissions, dependent: :delete_all
+
+  after_save do
+    ActivePermissions::Updater.prepare
+  end
 
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
