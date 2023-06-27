@@ -38,16 +38,16 @@ RSpec.describe 'Wiki page external link', js: true do
            wiki: project.wiki,
            author: admin,
            title: 'Wiki Page No. 55',
-           text: 'A link to <a href="https://openproject.org">OpenProject</a>.')
+           text: 'A link to <a href="http://0.0.0.0:3001/">OpenProject</a>.')
   end
 
   it 'opens that link in a new window or tab' do
     visit project_wiki_path(project, wiki_page)
 
-    link = page.find('a[href^="https://openproject.org"]')
+    link = page.find('a[href^="http://0.0.0.0:3001/"]')
     new_window = window_opened_by { link.click }
     within_window new_window do
-      expect(page.current_url).to start_with 'https://www.openproject.org'
+      expect(page.current_url).to start_with 'http://0.0.0.0:3001/'
     end
     new_window.close
   end
