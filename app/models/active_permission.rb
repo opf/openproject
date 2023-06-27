@@ -32,7 +32,6 @@ class ActivePermission < ApplicationRecord
   belongs_to :user
   belongs_to :project
 
-
   class << self
     # TODO: only anonymous and actual users to be considered
 

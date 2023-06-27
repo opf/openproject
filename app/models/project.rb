@@ -92,7 +92,6 @@ class Project < ApplicationRecord
   has_many :notification_settings, dependent: :destroy
   has_many :projects_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
   has_many :storages, through: :projects_storages
-  has_many :permissions
   has_many :active_permissions, dependent: :delete_all, inverse_of: :project
 
   after_save do
