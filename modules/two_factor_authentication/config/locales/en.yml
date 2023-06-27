@@ -26,6 +26,7 @@ en:
       two_factor_authentication/device: "2FA device"
       two_factor_authentication/device/sms: "Mobile phone"
       two_factor_authentication/device/totp: "Authenticator application"
+      two_factor_authentication/device/webauthn: "WebAuthn"
 
   two_factor_authentication:
     error_2fa_disabled: "2FA delivery has been disabled."

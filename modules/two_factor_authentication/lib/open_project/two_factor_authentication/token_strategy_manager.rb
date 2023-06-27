@@ -124,6 +124,7 @@ module OpenProject::TwoFactorAuthentication
       def available_strategies
         {
           totp: I18n.t("activerecord.models.two_factor_authentication/device/totp"),
+          webauthn: I18n.t("activerecord.models.two_factor_authentication/device/webauthn"),
           sns: I18n.t("activerecord.models.two_factor_authentication/device/sms"),
           message_bird: I18n.t("activerecord.models.two_factor_authentication/device/sms")
         }
