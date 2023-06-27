@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe User, '.allowed_members' do
+RSpec.describe User, '.allowed_members' do
   shared_let(:project) { create(:project, public: false) }
 
   let(:user) { member.principal }
