@@ -35,7 +35,7 @@ export class PrincipalRendererService {
     container:HTMLElement,
     users:PrincipalLike[]|IPrincipal[],
     name:NameOptions = { hide: false, link: false },
-    avatar:AvatarOptions = { hide: false, size: 'default' },
+    avatar:AvatarOptions = { hide: false, size: 'default'},
     multiLine = false,
   ):void {
     container.classList.add('op-principal');
@@ -65,7 +65,8 @@ export class PrincipalRendererService {
     container:HTMLElement,
     principal:PrincipalLike|IPrincipal,
     name:NameOptions = { hide: false, link: true },
-    avatar:AvatarOptions = { hide: false, size: 'default' },
+    avatar:AvatarOptions = { hide: false, size: 'default'},
+    activeTimer: boolean = false,
   ):void {
     container.classList.add('op-principal');
     const type = typeFromHref(hrefFromPrincipal(principal)) as PrincipalType;
@@ -77,6 +78,11 @@ export class PrincipalRendererService {
 
     if (!name.hide) {
       const el = this.renderName(principal, type, name.link);
+      container.appendChild(el);
+    }
+
+    if(activeTimer) {
+      const el = this.renderTimer();
       container.appendChild(el);
     }
   }
@@ -111,6 +117,15 @@ export class PrincipalRendererService {
     }
 
     return fallback;
+  }
+  
+  private renderTimer(){
+    const timer = document.createElement('span');
+    const icon = document.createElement('span');
+    timer.classList.add('op-principal--timer');
+    icon.classList.add('spot-icon', 'spot-icon_time', 'spot-icon_1_25');
+    timer.appendChild(icon);
+    return timer;
   }
 
   private renderUserAvatar(principal:PrincipalLike|IPrincipal, fallback:HTMLElement, options:AvatarOptions):void {

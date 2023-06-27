@@ -28,10 +28,12 @@
 
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Input,
   OnInit,
+  ViewEncapsulation,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -46,6 +48,7 @@ import { PrincipalLike } from './principal-types';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { PrincipalType } from 'core-app/shared/components/principal/principal-helper';
 import { PrincipalsResourceService } from 'core-app/core/state/principals/principals.service';
+import { TimeEntryService } from '../time_entries/services/time_entry.service';
 
 export const principalSelector = 'op-principal';
 
@@ -57,7 +60,12 @@ export interface PrincipalInput {
 @Component({
   template: '',
   selector: principalSelector,
+  styleUrls: ['./principal.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  providers: [
+    TimeEntryService,
+  ],
 })
 export class OpPrincipalComponent implements OnInit {
   @Input() principal:PrincipalLike;
@@ -65,6 +73,8 @@ export class OpPrincipalComponent implements OnInit {
   @Input() hideAvatar = false;
 
   @Input() hideName = false;
+
+  @Input() showTimer = false;
 
   @Input() link = true;
 
@@ -78,6 +88,8 @@ export class OpPrincipalComponent implements OnInit {
     readonly I18n:I18nService,
     readonly apiV3Service:ApiV3Service,
     readonly timezoneService:TimezoneService,
+    readonly timeEntryService:TimeEntryService,
+    readonly cdRef:ChangeDetectorRef,
   ) {
     populateInputsFromDataset(this);
   }
@@ -86,18 +98,38 @@ export class OpPrincipalComponent implements OnInit {
     if (!this.principal.name) {
       return;
     }
-
-    this.principalRenderer.render(
-      this.elementRef.nativeElement as HTMLElement,
-      this.principal,
-      {
-        hide: this.hideName,
-        link: this.link,
-      },
-      {
-        hide: this.hideAvatar,
-        size: this.size,
-      },
-    );
+    if(this.showTimer){
+      this.timeEntryService.getActiveTimeEntry().subscribe((timeEntry) => {
+        this.principalRenderer.render(
+          this.elementRef.nativeElement as HTMLElement,
+          this.principal,
+          {
+            hide: this.hideName,
+            link: this.link,
+          },
+          {
+            hide: this.hideAvatar,
+            size: this.size,
+          },
+          timeEntry? true : false,
+        );
+      });
+     // this.cdRef.detectChanges();
+    }
+    else {
+      this.principalRenderer.render(
+        this.elementRef.nativeElement as HTMLElement,
+        this.principal,
+        {
+          hide: this.hideName,
+          link: this.link,
+        },
+        {
+          hide: this.hideAvatar,
+          size: this.size,
+        },
+        false,
+      );
+    }
   }
 }
