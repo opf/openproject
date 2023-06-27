@@ -30,4 +30,8 @@ class RolePermission < ApplicationRecord
   belongs_to :role
 
   validates :permission, presence: true
+
+  after_save do
+    ActivePermissions::Updater.prepare
+  end
 end
