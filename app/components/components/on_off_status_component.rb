@@ -31,7 +31,7 @@
 module Components
   ##
   # A language switch and text area for updating a localized text setting.
-  class OnOffStatusComponent < ::RailsComponent
+  class OnOffStatusComponent < ::ApplicationComponent
     options :on_text
     options :on_description
     options :off_text

@@ -28,40 +28,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class RailsComponent < ViewComponent::Base
-  attr_reader :model, :options
+module Users
+  module Sessions
+    class TableComponent < ::TableComponent
+      columns :is_current, :browser, :device, :updated_at
+      sortable_columns :updated_at
+      options :current_session
 
-  def initialize(model = nil, **options)
-    super
-    @model = model if model
-    @options = options
-  end
-
-  class << self
-    ##
-    # Defines options for this cell which can be used within the cell's template.
-    # Options are passed to the cell during the render call.
-    #
-    # @param names [Array<String> | Hash<String, Any>] Either a list of names for options whose
-    #                                                  default value is empty or a hash mapping
-    #                                                  option names to default values.
-    def options(*names)
-      default_values = {}
-
-      if names.size == 1 && names.first.is_a?(Hash)
-        default_values = names.first
-        names = default_values.keys
+      def initial_sort
+        %i[updated_at desc]
       end
 
-      names.each do |name|
-        define_method(name) do
-          options[name] || default_values[name]
-        end
+      def headers
+        [
+          [:is_current, { caption: I18n.t('users.sessions.current') }],
+          [:browser, { caption: I18n.t('users.sessions.browser') }],
+          [:device, { caption: I18n.t('users.sessions.device') }],
+          [:updated_at, { caption: I18n.t('attributes.updated_at') }]
+        ]
       end
-    end
-
-    def property(*names)
-      delegate *names, to: :model
     end
   end
 end

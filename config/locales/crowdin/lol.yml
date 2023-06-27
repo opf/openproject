@@ -263,6 +263,16 @@ lol:
       no_results_title_text: crwdns494987:0crwdne494987:0
       no_results_content_text: crwdns494989:0crwdne494989:0
   users:
+    sessions:
+      session_name: "crwdns855787:0%{browser_name}crwdnd855787:0%{browser_version}crwdnd855787:0%{os_name}crwdne855787:0"
+      browser: 'crwdns855929:0crwdne855929:0'
+      device: 'crwdns855935:0crwdne855935:0'
+      unknown_browser: 'crwdns855789:0crwdne855789:0'
+      unknown_os: 'crwdns855791:0crwdne855791:0'
+      current: 'crwdns855793:0crwdne855793:0'
+      title: 'crwdns855795:0crwdne855795:0'
+      instructions: 'crwdns855797:0crwdne855797:0'
+      may_not_delete_current: 'crwdns855799:0crwdne855799:0'
     groups:
       member_in_these_groups: 'crwdns494991:0crwdne494991:0'
       no_results_title_text: crwdns494993:0crwdne494993:0
@@ -1038,6 +1048,7 @@ lol:
   button_configure: "crwdns495941:0crwdne495941:0"
   button_continue: "crwdns495943:0crwdne495943:0"
   button_copy: "crwdns495945:0crwdne495945:0"
+  button_copy_to_clipboard: "crwdns855839:0crwdne855839:0"
   button_copy_and_follow: "crwdns495947:0crwdne495947:0"
   button_create: "crwdns495949:0crwdne495949:0"
   button_create_and_continue: "crwdns495951:0crwdne495951:0"
@@ -1529,7 +1540,6 @@ lol:
   label_contains: "crwdns497045:0crwdne497045:0"
   label_content: "crwdns497047:0crwdne497047:0"
   label_copied: "crwdns497049:0crwdne497049:0"
-  label_copy_to_clipboard: "crwdns497051:0crwdne497051:0"
   label_copy_same_as_target: "crwdns497053:0crwdne497053:0"
   label_copy_source: "crwdns497055:0crwdne497055:0"
   label_copy_target: "crwdns497057:0crwdne497057:0"

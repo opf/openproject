@@ -275,6 +275,16 @@
       no_results_title_text: Det er ingen nyheter å vise.
       no_results_content_text: Legg til nyhet
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'This user is currently a member of the following groups:'
       no_results_title_text: This user is currently not a member in any group.
@@ -1056,6 +1066,7 @@
   button_configure: "Konfigurer"
   button_continue: "Fortsette"
   button_copy: "Kopier"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Kopier og følg"
   button_create: "Opprett"
   button_create_and_continue: "Opprett og fortsett"
@@ -1552,7 +1563,6 @@
   label_contains: "inneholder"
   label_content: "Innhold"
   label_copied: "kopiert"
-  label_copy_to_clipboard: "Kopier til utklippstavlen"
   label_copy_same_as_target: "Samme som mål"
   label_copy_source: "Kilde"
   label_copy_target: "Mål"

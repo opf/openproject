@@ -65,6 +65,7 @@ lt:
     button_confirm: "Patvirtinti"
     button_continue: "Tęsti"
     button_copy: "Kopijuoti"
+    button_copy_to_clipboard: "Copy to clipboard"
     button_copy_to_other_project: "Kopijuoti į kitą projektą"
     button_custom-fields: "Pritaikyti laukai"
     button_delete: "Trinti"
@@ -105,7 +106,7 @@ lt:
       remove_from_list: 'Išimti kortelę iš sąrašo'
     caption_rate_history: "Koeficiento istorija"
     clipboard:
-      browser_error: "Jūsų naršyklė nepalaiko kopijavimo į iškarpinę. Prašome pažymėtą tekstą nukopijuoti rankiniu būdu."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Sėkmingai nukopijuota į iškarpinę!"
     chart:
       type: 'Grafiko tipas'
@@ -327,8 +328,6 @@ lt:
       token_name_description_text: "Šis pavadinimas bus naudojamas atskirti jį nuo kitų žetonų, esančių <a href=\"my/access_token\", target=\"_blank\">prieigos žetonų sąraše</a>. Jį galima panaudoti tik vieną kartą kalendoriuje."
       copy_url_label: "Kopijuoti URL"
       ical_generation_error_text: "Kuriant iCal URL įvyko klaida."
-      copy_url_success_text: "URL nukopijuotas į iškarpinę."
-      copy_url_error_text: "Dėl naršyklės klaidų, URL nepavyko nukopijuoti į iškarpinę. Prašome nukopijuoti rankiniu būdu: %{icalUrl}"
     label_activate: "Aktyvuoti"
     label_assignee: 'Paskirtas'
     label_add_column_after: "Pridėti stulpelį po"

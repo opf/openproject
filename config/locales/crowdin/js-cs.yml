@@ -65,6 +65,7 @@ cs:
     button_confirm: "Potvrdit"
     button_continue: "Pokračovat"
     button_copy: "Kopírovat"
+    button_copy_to_clipboard: "Copy to clipboard"
     button_copy_to_other_project: "Kopírovat do jiného projektu"
     button_custom-fields: "Vlastní pole"
     button_delete: "Odstranit"
@@ -105,7 +106,7 @@ cs:
       remove_from_list: 'Odstranit kartu ze seznamu'
     caption_rate_history: "Historie sazeb"
     clipboard:
-      browser_error: "Váš prohlížeč nepodporuje, kopírování do schránky. Ručně zkopírujte vybraný text."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Úspěšně zkopírováno do schránky!"
     chart:
       type: 'Typ grafu'
@@ -327,8 +328,6 @@ cs:
       token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
       copy_url_label: "Kopírovat URL"
       ical_generation_error_text: "An error occured while generating the iCal URL."
-      copy_url_success_text: "URL zkopírováno do schránky."
-      copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
     label_activate: "Aktivovat"
     label_assignee: 'Řešitel'
     label_add_column_after: "Přidat sloupec za"

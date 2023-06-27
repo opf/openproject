@@ -65,6 +65,7 @@ hr:
     button_confirm: "Potvrdi"
     button_continue: "Nastavi"
     button_copy: "Kopiraj"
+    button_copy_to_clipboard: "Copy to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Prilagođena polja"
     button_delete: "Obriši"
@@ -105,7 +106,7 @@ hr:
       remove_from_list: 'Remove card from list'
     caption_rate_history: "Povijest satnica"
     clipboard:
-      browser_error: "Vaš izbornik ne podržava kopiranje u međuspremnik. Molim vas manualno kopirajte odabrani tekst."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Chart type'
@@ -327,8 +328,6 @@ hr:
       token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
       copy_url_label: "Copy URL"
       ical_generation_error_text: "An error occured while generating the iCal URL."
-      copy_url_success_text: "URL copied to clipboard."
-      copy_url_error_text: "Due to browser errors, the URL couldn't be copied to the clipboard. Please copy it manually: %{icalUrl}"
     label_activate: "Aktiviraj"
     label_assignee: 'Opunomoćeno'
     label_add_column_after: "Add column after"

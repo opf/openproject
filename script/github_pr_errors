@@ -15,8 +15,7 @@ require 'yaml'
 GITHUB_API_OPENPROJECT_PREFIX = 'https://api.github.com/repos/opf/openproject'.freeze
 GITHUB_HTML_OPENPROJECT_PREFIX = 'https://github.com/opf/openproject'.freeze
 RAILS_ROOT = Pathname.new(__dir__).dirname
-SPEC_PATTERN = %r{^\S+ (?:rspec (\S+) #.+|An error occurred while loading (\S+)\.\r?)$}
-EXCLUDED_JOB_NAMES = %w[eslint rubocop]
+EXCLUDED_JOB_NAMES = %w[eslint rubocop].freeze
 
 if !ENV['GITHUB_USERNAME']
   raise "Missing GITHUB_USERNAME env"
@@ -31,7 +30,7 @@ class Options
     run_id: nil
   }.freeze
 
-  BANNER = <<~BANNER
+  BANNER = <<~BANNER.freeze
     Usage: #{$0} [options]
 
     Fetches rspec failures from last completed GitHub actions on current
@@ -58,6 +57,10 @@ class Options
       else
         super
       end
+    end
+
+    def respond_to_missing?(method_name, include_private = false)
+      DEFAULTS.key?(name) || super
     end
 
     def parse_options
@@ -123,7 +126,8 @@ def error_details(rest_client_exception_with_response)
   error = JSON.parse(response.body)
 
   parts = []
-  parts << "Failed to perform API request #{response.request.method.upcase} #{response.request.url}: #{rest_client_exception_with_response}"
+  parts << "Failed to perform API request #{response.request.method.upcase} #{response.request.url}: " \
+           "#{rest_client_exception_with_response}"
   parts << "  #{error['message']}"
   parts << "  See #{error['documentation_url']}"
   parts += rest_client_exception_with_response.backtrace.map { "    #{_1}" }
@@ -139,12 +143,6 @@ def path_to_cache_key(path)
     .gsub(/\?.*$/, '') # remove query parameter
     .gsub(/^#{GITHUB_API_OPENPROJECT_PREFIX}\/?/, '') # remove https://.../
     .gsub(/\W/, '_') # transform non alphanum chars
-end
-
-def commit_message(workflow_run)
-  workflow_run['head_commit']
-    .then { |commit| commit["message"] }
-    .then { |message| message.split("\n", 2).first }
 end
 
 def get_jobs(workflow_run)
@@ -179,35 +177,6 @@ def cached(unique_name)
   end
 end
 
-def status_icon(job)
-  case job['status']
-  when "queued", "in_progress"
-    "●".yellow
-  else
-    case job['conclusion']
-    when "success"
-      "✓".green
-    when "failure"
-      "✗".red
-    else
-      "-"
-    end
-  end
-end
-
-def status_url(job)
-  return if job['conclusion'] == "success"
-
-  job['html_url'].white.dark
-end
-
-def status_line(job)
-  [
-    "#{status_icon(job)} #{job['name']}: #{job['conclusion'] || job['status']}",
-    status_url(job)
-  ].compact.join("  ")
-end
-
 def last_with_status(workflow_runs, status)
   workflow_runs
     .select { |entry| entry['status'] == status }
@@ -236,58 +205,267 @@ def get_workflow_run(run_id)
   end
 end
 
-def display_pull_request_info(workflow_run)
-  return unless workflow_run['event'] == 'pull_request'
-
-  pr = workflow_run['pull_requests'].first or
-    raise "Pull Request info cannot be found, perhaps it is already merged or closed?"
-  pr_number = "##{pr['number']}"
-  pr_html_url = "#{GITHUB_HTML_OPENPROJECT_PREFIX}/pull/#{pr['number']}"
-  pr_display_title = "#{workflow_run['display_title']} #{pr_number.white.dark} #{pr_html_url.white.dark}"
-  warn "  Pull Request: #{pr_display_title} "
+class Error
+  attr_accessor :location, :page_html, :page_screenshot, :tests_group
 end
 
-def display_workflow_run_info(workflow_run)
-  warn "  Branch: #{workflow_run['head_branch'].bold}"
-  warn "  Commit SHA: #{workflow_run['head_sha'].bold}"
-  warn "  Commit message: #{commit_message(workflow_run).bold}"
-  display_pull_request_info(workflow_run)
+# rubocop:disable Layout/LineLength
+# Looks like this in the job log:
+# Process 28: TEST_ENV_NUMBER=28 RUBYOPT=-I/usr/local/bundle/bundler/gems/turbo_tests-3148ae6c3482/lib -r/usr/local/bundle/gems/bundler-2.4.7/lib/bundler/setup -W0 RSPEC_SILENCE_FILTER_ANNOUNCEMENTS=1 /usr/local/bundle/gems/bundler-2.4.7/exe/bundle exec rspec --seed 52674 --format TurboTests::JsonRowsFormatter --out tmp/test-pipes/subprocess-28 --format ParallelTests::RSpec::RuntimeLogger --out spec/support/turbo_runtime_features.log spec/features/api_docs/index_spec.rb spec/features/custom_fields/reorder_options_spec.rb spec/features/projects/projects_portfolio_spec.rb spec/features/projects/template_spec.rb spec/features/versions/edit_spec.rb spec/features/work_packages/details/markdown/description_editor_spec.rb spec/features/work_packages/table/hierarchy/hierarchy_parent_below_spec.rb spec/features/work_packages/table/inline_create/inline_create_refresh_spec.rb spec/features/work_packages/table/invalid_query_spec.rb spec/features/work_packages/tabs/activity_revisions_spec.rb
+# rubocop:enable Layout/LineLength
+class TestsGroup
+  attr_accessor :test_env_number, :seed, :files
+
+  def initialize
+    @files = []
+  end
+
+  def include_error?(error)
+    files.any? { |file| error.location.include?(file) }
+  end
+
+  def inspect
+    "#<#{self.class} @test_env_number=#{test_env_number} @seed=#{seed} (#{files.count} files)>"
+  end
+end
+
+class JobErrorsFinder
+  SPEC_PATTERN = %r{^\S+ (?:rspec (\S+) #.+|An error occurred while loading (\S+)\.\r?)$}
+  SCREENSHOT_PATTERN = /\{"message":"Screenshot captured for failed feature test"[^\n]+$/
+  TESTS_GROUP_PATTERN = /Process \d+: TEST_ENV_NUMBER=\d+ [^\n]+$/
+
+  def self.scan_logs(logs)
+    finder = new
+    logs.each do |log|
+      finder.scan_log(log)
+    end
+    finder.errors
+  end
+
+  def scan_log(log)
+    find_errors(log)
+    find_screenshots(log)
+    find_tests_groups(log)
+  end
+
+  def errors
+    @errors.values
+  end
+
+  protected
+
+  def initialize
+    @errors = Hash.new { |h, k| h[k] = Error.new }
+  end
+
+  def error(location)
+    @errors[location]
+  end
+
+  def find_errors(log)
+    log.scan(SPEC_PATTERN)
+      .flatten
+      .compact
+      .uniq
+      .sort
+      .each do |location|
+        error(location).location = location
+      end
+  end
+
+  def find_screenshots(log)
+    log.scan(SCREENSHOT_PATTERN)
+      .map { JSON.parse _1 }
+      .each do |screenshot_info|
+        location = screenshot_info["test_location"]
+        error(location).page_html = screenshot_info["html"]
+        error(location).page_screenshot = screenshot_info["image"]
+      end
+  end
+
+  def find_tests_groups(log)
+    tests_groups = log
+      .scan(TESTS_GROUP_PATTERN)
+      .flatten
+      .map { build_tests_group_from_command(_1) }
+
+    errors.each do |error|
+      error.tests_group = tests_groups.find { _1.include_error?(error) }
+    end
+  end
+
+  def build_tests_group_from_command(line)
+    tests_group = TestsGroup.new
+    parts = line.split
+    while parts.any?
+      case part = parts.shift
+      when /^TEST_ENV_NUMBER=/
+        tests_group.test_env_number = part.delete_prefix("TEST_ENV_NUMBER=")
+      when "--seed"
+        tests_group.seed = parts.shift
+      when /_spec.rb$/
+        tests_group.files << part
+      end
+    end
+    tests_group
+  end
+end
+
+class Formatter
+  def initialize(compact: false)
+    @compact = compact
+  end
+
+  def compact?
+    @compact
+  end
+
+  def display_workflow_run_info(workflow_run)
+    warn "  Branch: #{workflow_run['head_branch'].bold}"
+    warn "  Commit SHA: #{workflow_run['head_sha'].bold}"
+    warn "  Commit message: #{commit_message(workflow_run).bold}"
+    display_pull_request_info(workflow_run)
+  end
+
+  def display_workflow_status(workflow_run)
+    warn "  #{status_line(workflow_run)}"
+  end
+
+  def display_job_status(job)
+    warn "    #{status_line(job)}"
+  end
+
+  def display_errors(errors)
+    if errors.empty?
+      warn "No rspec errors found :-/"
+    elsif compact?
+      display_errors_compact(errors)
+    else
+      display_errors_detailed(errors)
+    end
+  end
+
+  private
+
+  def display_errors_compact(errors)
+    puts errors.map { escaped_location(_1) }.join(" ")
+  end
+
+  def display_errors_detailed(errors)
+    errors
+      .group_by(&:tests_group)
+      .each do |tests_group, tests_group_errors|
+        display_tests_group_info(tests_group)
+        tests_group_errors.each { display_error(_1) }
+        display_tests_group_rerun_commands(tests_group)
+      end
+  end
+
+  def display_error(error)
+    puts escaped_location(error)
+    display_error_attribute("html", error.page_html)
+    display_error_attribute("screenshot", error.page_screenshot)
+  end
+
+  def display_error_attribute(name, value)
+    return unless value
+
+    warn [
+      "    ",
+      '↳'.blue.bold,
+      " ",
+      name.blue,
+      ": ",
+      value.blue
+    ].join
+  end
+
+  def display_tests_group_info(tests_group)
+    return unless tests_group
+
+    warn "Tests group ##{tests_group.test_env_number}".bold
+  end
+
+  def display_tests_group_rerun_commands(tests_group)
+    return unless tests_group
+
+    warn "To run the tests group in the same order as CI, use this command:".white.dark
+    warn "bundle exec rspec --seed #{tests_group.seed} #{tests_group.files.join(' ')}".white.dark
+    warn ""
+  end
+
+  def display_pull_request_info(workflow_run)
+    return unless workflow_run['event'] == 'pull_request'
+
+    pr = workflow_run['pull_requests'].first or
+      raise "Pull Request info cannot be found, perhaps it is already merged or closed?"
+    pr_number = "##{pr['number']}"
+    pr_html_url = "#{GITHUB_HTML_OPENPROJECT_PREFIX}/pull/#{pr['number']}"
+    pr_display_title = "#{workflow_run['display_title']} #{pr_number.white.dark} #{pr_html_url.white.dark}"
+    warn "  Pull Request: #{pr_display_title} "
+  end
+
+  def commit_message(workflow_run)
+    workflow_run['head_commit']
+      .then { |commit| commit["message"] }
+      .then { |message| message.split("\n", 2).first }
+  end
+
+  def status_icon(job)
+    case job['status']
+    when "queued", "in_progress"
+      "●".yellow
+    else
+      case job['conclusion']
+      when "success"
+        "✓".green
+      when "failure"
+        "✗".red
+      else
+        "-"
+      end
+    end
+  end
+
+  def status_url(job)
+    return if job['conclusion'] == "success"
+
+    job['html_url'].white.dark
+  end
+
+  def status_line(job)
+    [
+      "#{status_icon(job)} #{job['name']}: #{job['conclusion'] || job['status']}",
+      status_url(job)
+    ].compact.join("  ")
+  end
+
+  def escaped_location(error)
+    "'#{error.location}'"
+  end
 end
 
 ##########
 
 workflow_run = get_workflow_run(Options.run_id)
 
-display_workflow_run_info(workflow_run)
+formatter = Formatter.new(compact: Options.compact)
+formatter.display_workflow_run_info(workflow_run)
 
-errors = []
-is_successful = true
-warn "  #{status_line(workflow_run)}"
-get_jobs(workflow_run)
+formatter.display_workflow_status(workflow_run)
+failed_jobs_logs = get_jobs(workflow_run)
   .then { |jobs_response| jobs_response['jobs'] }
   .sort_by { _1['name'] }
-  .each { |job| warn "    #{status_line(job)}" }
+  .each { |job| formatter.display_job_status(job) }
   .select { _1['conclusion'] == 'failure' }
   .reject { EXCLUDED_JOB_NAMES.include?(_1['name']) }
-  .each do |job|
-    is_successful = false
-    get_log(job)
-      .scan(SPEC_PATTERN)
-      .flatten
-      .compact
-      .uniq
-      .sort
-      .each do |match|
-      errors << match
-    end
-  end
+  .map { |job| get_log(job) }
+
+is_successful = failed_jobs_logs.none?
+errors = JobErrorsFinder.scan_logs(failed_jobs_logs)
 
 if is_successful
   warn "All jobs successful 🎉"
-elsif errors.empty?
-  warn "No rspec errors found :-/"
 else
-  errors = errors.map { "'#{_1}'" }
-  errors = errors.join(" ") if Options.compact
-  puts errors
+  formatter.display_errors(errors)
 end

@@ -275,6 +275,16 @@ tr:
       no_results_title_text: Şu anda rapor edilecek bir haber yok.
       no_results_content_text: Haber öğesi ekle
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'Bu kullanıcı şu anda aşağıdaki grupların bir üyesidir:'
       no_results_title_text: Bu kullanıcı şu anda hiçbir gruba üye değil.
@@ -1055,6 +1065,7 @@ tr:
   button_configure: "Düzenle"
   button_continue: "Devam et"
   button_copy: "Kopyala"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Kopyala ve takip et"
   button_create: "Oluştur"
   button_create_and_continue: "Oluştur ve devam et"
@@ -1551,7 +1562,6 @@ tr:
   label_contains: "içerir"
   label_content: "İçerik"
   label_copied: "kopyalandı"
-  label_copy_to_clipboard: "Panoya kopyala"
   label_copy_same_as_target: "Hedefle aynı"
   label_copy_source: "Kaynak"
   label_copy_target: "Hedef"

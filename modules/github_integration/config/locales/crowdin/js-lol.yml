@@ -23,30 +23,30 @@ lol:
   js:
     github_integration:
       work_packages:
-        tab_name: "crwdns499975:0crwdne499975:0"
+        tab_name: "crwdns855845:0crwdne855845:0"
       tab_header:
-        title: "crwdns499977:0crwdne499977:0"
+        title: "crwdns855847:0crwdne855847:0"
         copy_menu:
-          label: crwdns499979:0crwdne499979:0
-          description: crwdns499981:0crwdne499981:0
+          label: crwdns855849:0crwdne855849:0
+          description: crwdns855851:0crwdne855851:0
         git_actions:
-          branch_name: crwdns499983:0crwdne499983:0
-          commit_message: crwdns499985:0crwdne499985:0
-          cmd: crwdns499987:0crwdne499987:0
-          title: crwdns499989:0crwdne499989:0
-          copy_success: crwdns499991:0crwdne499991:0
-          copy_error: crwdns499993:0crwdne499993:0
+          branch_name: crwdns855853:0crwdne855853:0
+          commit_message: crwdns855855:0crwdne855855:0
+          cmd: crwdns855857:0crwdne855857:0
+          title: crwdns855859:0crwdne855859:0
+          copy_success: crwdns855861:0crwdne855861:0
+          copy_error: crwdns855863:0crwdne855863:0
       tab_prs:
-        empty: crwdns499995:0%{wp_id}crwdne499995:0
-      github_actions: crwdns499997:0crwdne499997:0
+        empty: crwdns855865:0%{wp_id}crwdne855865:0
+      github_actions: crwdns855867:0crwdne855867:0
       pull_requests:
         message: >
-          crwdns851635:0%{pr_number}crwdnd851635:0%{pr_link}crwdnd851635:0%{repository_link}crwdnd851635:0%{pr_state}crwdnd851635:0%{github_user_link}crwdne851635:0
+          crwdns855869:0%{pr_number}crwdnd855869:0%{pr_link}crwdnd855869:0%{repository_link}crwdnd855869:0%{pr_state}crwdnd855869:0%{github_user_link}crwdne855869:0
         referenced_message: >
-          crwdns851637:0%{github_user_link}crwdnd851637:0%{pr_number}crwdnd851637:0%{pr_link}crwdnd851637:0%{repository_link}crwdne851637:0
+          crwdns855871:0%{github_user_link}crwdnd855871:0%{pr_number}crwdnd855871:0%{pr_link}crwdnd855871:0%{repository_link}crwdne855871:0
         states:
-          opened: 'crwdns851639:0crwdne851639:0'
-          closed: 'crwdns851641:0crwdne851641:0'
-          draft: 'crwdns851643:0crwdne851643:0'
-          merged: 'crwdns851645:0crwdne851645:0'
-          ready_for_review: 'crwdns851647:0crwdne851647:0'
+          opened: 'crwdns855873:0crwdne855873:0'
+          closed: 'crwdns855875:0crwdne855875:0'
+          draft: 'crwdns855877:0crwdne855877:0'
+          merged: 'crwdns855879:0crwdne855879:0'
+          ready_for_review: 'crwdns855881:0crwdne855881:0'

@@ -65,6 +65,7 @@ ca:
     button_confirm: "Confirmar"
     button_continue: "Continua"
     button_copy: "Copiar"
+    button_copy_to_clipboard: "Copy to clipboard"
     button_copy_to_other_project: "Copia a un altre projecte"
     button_custom-fields: "Camps personalitzats"
     button_delete: "Esborrar"
@@ -105,7 +106,7 @@ ca:
       remove_from_list: 'Suprimeix la targeta de la llista'
     caption_rate_history: "Història d'índex"
     clipboard:
-      browser_error: "El teu navegador no permet copiar al porta-retalls. Si us plau, copia el text seleccionat manualment."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "S'ha copiat correctament al porta-retalls!"
     chart:
       type: 'Tipus de gràfica'
@@ -327,8 +328,6 @@ ca:
       token_name_description_text: "Aquest nom s'utilitzarà per distingir-lo d'altres tokens en <a href=\"my/access_token\", target=\"_blank\">la llista de tokens d'accés</a>. Només es pot utilitzar un cop per calendari."
       copy_url_label: "Copia l'URL"
       ical_generation_error_text: "S'ha produït un error en generar l'URL del iCal."
-      copy_url_success_text: "L'URL s'ha copiat al porta-retalls."
-      copy_url_error_text: "A causa d'errors del navegador, l'URL no s'ha pogut copiar al porta-retalls. Si us plau, copia-la manualment: %{icalUrl}"
     label_activate: "Activar"
     label_assignee: 'Assignat a'
     label_add_column_after: "Afegir una columna després"

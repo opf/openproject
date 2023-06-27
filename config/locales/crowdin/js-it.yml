@@ -65,6 +65,7 @@ it:
     button_confirm: "Conferma"
     button_continue: "Continua"
     button_copy: "Copia"
+    button_copy_to_clipboard: "Copy to clipboard"
     button_copy_to_other_project: "Copia su altro progetto"
     button_custom-fields: "Campo personalizzato"
     button_delete: "Cancella"
@@ -105,7 +106,7 @@ it:
       remove_from_list: 'Rimuovi la carta dall''elenco'
     caption_rate_history: "Cronologia tariffe"
     clipboard:
-      browser_error: "Il tuo browser non supporta la copia negli appunti. Copia il testo selezionato manualmente."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Copia negli appunti completata con successo!"
     chart:
       type: 'Tipo di grafico'
@@ -327,8 +328,6 @@ it:
       token_name_description_text: "Questo nome sarà utilizzato per distinguerlo da altri token nell'<a href=\"my/access_token\", target=\"_blank\">elenco di token d'accesso</a>. Può essere utilizzato soltanto una volta per calendario."
       copy_url_label: "Copia URL"
       ical_generation_error_text: "Si è verificato un errore generando l'URL di iCal."
-      copy_url_success_text: "URL copiato negli appunti."
-      copy_url_error_text: "A causa di errori del browser, non è stato possibile copiare l'URL negli appunti. Sei pregato di copiarlo manualmente: %{icalUrl}"
     label_activate: "Attiva"
     label_assignee: 'Assegnatario'
     label_add_column_after: "Aggiungi colonna dopo"

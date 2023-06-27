@@ -275,6 +275,16 @@ sv:
       no_results_title_text: Det finns för närvarande inget att rapportera.
       no_results_content_text: Lägg till nyhet
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'This user is currently a member of the following groups:'
       no_results_title_text: This user is currently not a member in any group.
@@ -1055,6 +1065,7 @@ sv:
   button_configure: "Konfigurera"
   button_continue: "Fortsätt"
   button_copy: "Kopiera"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Kopiera och följ"
   button_create: "Skapa"
   button_create_and_continue: "Skapa och fortsätt"
@@ -1551,7 +1562,6 @@ sv:
   label_contains: "innehåller"
   label_content: "Innehåll"
   label_copied: "kopierad"
-  label_copy_to_clipboard: "Kopiera till Urklipp"
   label_copy_same_as_target: "Samma som mål"
   label_copy_source: "Källa"
   label_copy_target: "Mål"

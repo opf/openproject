@@ -65,6 +65,7 @@ ru:
     button_confirm: "Подтвердить"
     button_continue: "Продолжить"
     button_copy: "Копировать"
+    button_copy_to_clipboard: "Copy to clipboard"
     button_copy_to_other_project: "Копировать в другой проект"
     button_custom-fields: "Настраиваемые поля"
     button_delete: "Удалить"
@@ -105,7 +106,7 @@ ru:
       remove_from_list: 'Удалить карту из списка'
     caption_rate_history: "История оценок"
     clipboard:
-      browser_error: "Ваш браузер не поддерживает копирование в буфер обмена. Пожалуйста, скопируйте выделенный текст вручную."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Успешно скопировано в буфер обмена!"
     chart:
       type: 'Тип диаграммы'
@@ -326,8 +327,6 @@ ru:
       token_name_description_text: "Это имя будет использоваться для выделения других маркеров в <a href=\"my/access_token\", target=\"_blank\">списке маркеров доступа</a>. Может быть использовано только один раз в календарь."
       copy_url_label: "Копировать URL"
       ical_generation_error_text: "Произошла ошибка при генерации URL-адреса iCal."
-      copy_url_success_text: "URL скопирован в буфер обмена."
-      copy_url_error_text: "Из-за ошибок браузера URL не может быть скопирован в буфер обмена. Пожалуйста, скопируйте его вручную: %{icalUrl}"
     label_activate: "Активировать"
     label_assignee: 'Ответственный'
     label_add_column_after: "Добавить столбец после"

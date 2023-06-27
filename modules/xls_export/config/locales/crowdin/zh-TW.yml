@@ -1,7 +1,7 @@
 zh-TW:
   export_to_excel: "匯出到 XLS"
   print_with_description: "預覽列印（帶描述）"
-  sentence_separator_or: "或者"
+  sentence_separator_or: "或"
   different_formats: 不同格式
   export:
     format:
