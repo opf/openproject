@@ -113,8 +113,8 @@ module OpenProject::TwoFactorAuthentication
 
       def merge_with_settings!(config)
         config['active_strategies'] ||= []
-        # Always enable totp if nothing is enabled
-        config['active_strategies'] << :totp if add_default_strategy?(config)
+        # Always enable webauthn and totp if nothing is enabled
+        config['active_strategies'] += %i[totp webauthn] if add_default_strategy?(config)
       end
 
       def add_default_strategy?(config)

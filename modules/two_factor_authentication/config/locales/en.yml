@@ -119,6 +119,9 @@ en:
       is_default_cannot_delete: 'The device is marked as default and cannot be deleted due to an active security policy. Mark another device as default before deleting.'
       not_existing: 'No 2FA device has been registered for your account.'
       request_2fa: Please enter the code from your %{device_name} to verify your identity.
+      webauthn:
+        title: 'WebAuthn'
+        description: Use Web Authentication to register a FIDO2 device (like a YubiKey) or the secure enclave of your mobile device as a second factor.
       totp:
         title: 'Use your app-based authenticator'
         provisioning_uri: 'Provisioning URI'
@@ -151,6 +154,7 @@ en:
       totp: 'Authenticator application'
       sns: 'Amazon SNS'
       resdt: 'SMS Rest API'
+      webauthn: 'WebAuthn'
 
     mobile_transmit_notification: "A one-time password has been sent to your cell phone."
     label_two_factor_authentication: 'Two-factor authentication'
