@@ -219,9 +219,7 @@ class Project < ApplicationRecord
   # Returns a ActiveRecord::Relation to find all projects for which
   # +user+ has the given +permission+
   def self.allowed_to(user, permission)
-    includes(:active_permissions)
-      .where(active_permissions: { user: })
-      .where(active_permissions: { permission: })
+    where(id: ActivePermission.where(user:, permission:).select(:project_id))
   end
 
   def reload(*args)
