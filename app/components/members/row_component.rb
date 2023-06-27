@@ -30,9 +30,6 @@
 
 module Members
   class RowComponent < ::RowComponent
-    include AvatarHelper
-    include UsersHelper
-
     property :principal
 
     def member
@@ -48,7 +45,7 @@ module Members
     end
 
     def name
-      icon = avatar principal, size: :mini
+      icon = helpers.avatar principal, size: :mini
 
       icon + principal_link
     end
@@ -105,7 +102,7 @@ module Members
     end
 
     def status
-      translate_user_status(model.principal.status)
+      helpers.translate_user_status(model.principal.status)
     end
 
     def may_update?
@@ -128,7 +125,7 @@ module Members
 
     def edit_link
       link_to(
-        op_icon('icon icon-edit'),
+        helpers.op_icon('icon icon-edit'),
         '#',
         class: "toggle-membership-button #{toggle_item_class_name}",
         'data-action': 'members-form#toggleMembershipEdit',
@@ -148,7 +145,7 @@ module Members
     def delete_link
       if model.deletable?
         link_to(
-          op_icon('icon icon-delete'),
+          helpers.op_icon('icon icon-delete'),
           { controller: '/members', action: 'destroy', id: model, page: params[:page] },
           method: :delete,
           data: { confirm: delete_link_confirmation, disable_with: I18n.t(:label_loading) },

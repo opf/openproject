@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'TimeEntry activities', with_settings: { journal_aggregation_time_minutes: 0 } do
+RSpec.describe 'TimeEntry activities', with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:user) do
     create(:user,
            member_in_project: project,

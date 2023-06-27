@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-shared_examples 'represents the created user' do |expected_attributes|
+RSpec.shared_examples 'represents the created user' do |expected_attributes|
   it 'returns the represented user' do
     send_request
 
@@ -44,18 +44,18 @@ shared_examples 'represents the created user' do |expected_attributes|
   end
 end
 
-shared_examples 'property is not writable' do |attributeName|
+RSpec.shared_examples 'property is not writable' do |attribute_name|
   it 'returns an error for the unwritable property' do
     send_request
 
     attr = JSON.parse(last_response.body).dig "_embedded", "details", "attribute"
 
     expect(last_response.status).to eq 422
-    expect(attr).to eq attributeName
+    expect(attr).to eq attribute_name
   end
 end
 
-shared_examples 'create user request flow' do
+RSpec.shared_examples 'create user request flow' do
   let(:errors) { parse_json(last_response.body)['_embedded']['errors'] }
 
   describe 'empty request body' do

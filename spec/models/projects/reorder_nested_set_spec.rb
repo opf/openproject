@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Project, 'reordering of nested set' do
+RSpec.describe Project, 'reordering of nested set' do
   # Create some parents in non-alphabetical order
   shared_let(:parent_project_b) { create(:project, name: 'ParentB') }
   shared_let(:parent_project_a) { create(:project, name: 'ParentA') }

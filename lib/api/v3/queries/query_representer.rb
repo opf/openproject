@@ -147,6 +147,17 @@ module API
           }
         end
 
+        link :icalUrl do
+          next if represented.new_record? ||
+                  !allowed_to?(:share_via_ical) ||
+                  !Setting.ical_enabled?
+
+          {
+            href: api_v3_paths.query_ical_url(represented.id),
+            method: :post
+          }
+        end
+
         associated_resource :user
 
         resources :sortBy,

@@ -4,7 +4,7 @@ import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { TabInterface } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
 import { Injectable } from '@angular/core';
 import { WpGraphConfigurationFiltersTabComponent } from 'core-app/shared/components/work-package-graphs/configuration-modal/tabs/filters-tab.component';
-import { ChartOptions, ChartType } from 'chart.js';
+import { ChartOptions } from 'chart.js';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import {
   WpGraphConfiguration,
@@ -175,11 +175,11 @@ export class WpGraphConfigurationService {
     return this._formsPromise;
   }
 
-  public get chartType():ChartType {
+  public get chartType():string {
     return this._configuration.chartType;
   }
 
-  public set chartType(type:ChartType) {
+  public set chartType(type:string) {
     this._configuration.chartType = type;
   }
 

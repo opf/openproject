@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe 'OAuth authorization code flow with PKCE',
-         js: true do
+RSpec.describe 'OAuth authorization code flow with PKCE',
+               js: true do
   let!(:user) { create(:user) }
   let!(:redirect_uri) { 'urn:ietf:wg:oauth:2.0:oob' }
   let!(:allowed_redirect_uri) { redirect_uri }

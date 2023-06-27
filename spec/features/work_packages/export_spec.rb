@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'work package export' do
+RSpec.describe 'work package export' do
   let(:project) { create(:project_with_types, types: [type_a, type_b]) }
   let(:export_type) { 'CSV' }
   let(:current_user) { create(:admin) }
@@ -210,7 +210,7 @@ describe 'work package export' do
   end
 
   context 'PDF export', js: true do
-    let(:export_type) { 'PDF' }
+    let(:export_type) { I18n.t('export.format.pdf_overview_table') }
     let(:query) do
       create(:query,
              user: current_user,

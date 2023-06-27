@@ -36,9 +36,9 @@ module WorkPackage::PDFExport::WorkPackageDetail
   end
 
   def write_work_package_detail!(work_package, id_wp_meta_map_entry)
-    write_optional_page_break(page_break_space_left_threshold)
+    write_optional_page_break
     id_wp_meta_map_entry[:page_number] = current_page_nr
-    with_margin(wp_detail_margins_style) do
+    with_margin(styles.wp_margins) do
       write_work_package_subject! work_package, id_wp_meta_map_entry[:level_path]
       write_work_package_detail_content! work_package
     end
@@ -53,11 +53,13 @@ module WorkPackage::PDFExport::WorkPackageDetail
   private
 
   def write_work_package_subject!(work_package, level_path)
-    with_margin(wp_detail_subject_margins_style) do
+    with_margin(styles.wp_detail_subject_margins) do
       link_target_at_current_y(work_package.id)
       level_string_width = write_work_package_level!(level_path)
       title = get_column_value work_package, :subject
-      @pdf.indent(level_string_width) { pdf.formatted_text([wp_detail_subject_font_style.merge({ text: title })]) }
+      @pdf.indent(level_string_width) do
+        pdf.formatted_text([styles.wp_subject.merge({ text: title })])
+      end
     end
   end
 
@@ -65,8 +67,8 @@ module WorkPackage::PDFExport::WorkPackageDetail
     return 0 if level_path.empty?
 
     level_string = "#{level_path.join('.')}. "
-    level_string_width = measure_text_width(level_string, wp_detail_subject_font_style)
-    @pdf.float { @pdf.formatted_text([wp_detail_subject_font_style.merge({ text: level_string })]) }
+    level_string_width = measure_text_width(level_string, styles.wp_subject)
+    @pdf.float { @pdf.formatted_text([styles.wp_subject.merge({ text: level_string })]) }
     level_string_width
   end
 
@@ -76,11 +78,11 @@ module WorkPackage::PDFExport::WorkPackageDetail
            else
              build_attributes_table_rows(work_package)
            end
-    with_margin(wp_attributes_table_margins_style) do
+    with_margin(styles.wp_attributes_table_margins) do
       pdf.table(
         rows,
         column_widths: attributes_table_column_widths,
-        cell_style: wp_attributes_table_cell_style.merge({ inline_format: true })
+        cell_style: styles.wp_attributes_table_cell.merge({ inline_format: true })
       )
     end
   end
@@ -138,7 +140,7 @@ module WorkPackage::PDFExport::WorkPackageDetail
   def build_attributes_row(label, col_name, work_package)
     # get work package attribute table cell data: [label, value]
     [
-      pdf.make_cell(label.upcase, wp_attributes_table_label_font_style),
+      pdf.make_cell(label.upcase, styles.wp_attributes_table_label_cell),
       get_column_value_cell(work_package, col_name)
     ]
   end

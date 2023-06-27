@@ -29,7 +29,7 @@
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
 require File.join(File.dirname(__FILE__), '..', '..', 'support', 'custom_field_filter')
 
-describe CostQuery, reporting_query_helper: true do
+RSpec.describe CostQuery, reporting_query_helper: true do
   let!(:type) { create(:type) }
   let!(:project1) { create(:project_with_types, types: [type]) }
   let!(:work_package1) { create(:work_package, project: project1, type:) }

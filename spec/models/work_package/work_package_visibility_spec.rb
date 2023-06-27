@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'WorkPackage-Visibility' do
+RSpec.describe 'WorkPackage-Visibility' do
   shared_let(:admin) { create(:admin) }
   let(:anonymous) { create(:anonymous) }
   let(:user) { create(:user) }

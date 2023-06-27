@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Projects::Copy::ProjectCopySchemaRepresenter do
+RSpec.describe API::V3::Projects::Copy::ProjectCopySchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
   shared_let(:current_user, reload: false) { build_stubbed(:user) }

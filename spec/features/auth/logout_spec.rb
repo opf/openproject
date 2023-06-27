@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Logout', js: true do
+RSpec.describe 'Logout', js: true do
   let(:user_password) { 'b0B' * 4 }
   let(:user) do
     create(:user,

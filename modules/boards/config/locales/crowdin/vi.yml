@@ -10,9 +10,9 @@ vi:
       free: Basic
       action: "Action board (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
-      status: Status
-      version: Version
-      subproject: Subproject
+      assignee: Người được giao
+      status: Trạng thái
+      version: Phiên bản
+      subproject: Dự án con
       subtasks: Parent-child
       basic: Basic

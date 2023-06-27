@@ -1,4 +1,4 @@
-shared_examples 'as an accessible inplace editor' do
+RSpec.shared_examples 'as an accessible inplace editor' do
   it 'triggers edit mode on click' do
     scroll_to_element(field.display_element)
     field.activate_edition
@@ -23,7 +23,7 @@ shared_examples 'as an accessible inplace editor' do
   end
 end
 
-shared_examples 'as an auth aware field' do
+RSpec.shared_examples 'as an auth aware field' do
   context 'when is editable' do
     it_behaves_like 'as an accessible inplace editor'
   end
@@ -52,7 +52,7 @@ shared_examples 'as an auth aware field' do
   end
 end
 
-shared_context 'as a single validation point' do
+RSpec.shared_context 'as a single validation point' do
   let(:other_field) { EditField.new page, :type }
   before do
     other_field.activate_edition
@@ -67,7 +67,7 @@ shared_context 'as a single validation point' do
   end
 end
 
-shared_context 'as a required field' do
+RSpec.shared_context 'as a required field' do
   before do
     field.activate_edition
     field.input_element.set ''
@@ -79,7 +79,7 @@ shared_context 'as a required field' do
   end
 end
 
-shared_examples 'a cancellable field' do
+RSpec.shared_examples 'a cancellable field' do
   shared_examples 'cancelling properly' do
     it 'reverts to read state and keeps its focus' do
       expect(field).not_to be_editing
@@ -101,7 +101,7 @@ shared_examples 'a cancellable field' do
   end
 end
 
-shared_examples 'a workpackage autocomplete field' do
+RSpec.shared_examples 'a workpackage autocomplete field' do
   let!(:wp2) { create(:work_package, project:, subject: 'AutoFoo') }
 
   it 'autocompletes the other work package' do
@@ -112,7 +112,7 @@ shared_examples 'a workpackage autocomplete field' do
   end
 end
 
-shared_examples 'a principal autocomplete field' do
+RSpec.shared_examples 'a principal autocomplete field' do
   let(:role) { create(:role, permissions: %i[view_work_packages edit_work_packages]) }
   let!(:user) do
     create(:user,
@@ -176,7 +176,7 @@ shared_examples 'a principal autocomplete field' do
   end
 end
 
-shared_examples 'not a principal autocomplete field' do
+RSpec.shared_examples 'not a principal autocomplete field' do
   let(:role) { create(:role, permissions: %i[view_work_packages edit_work_packages]) }
   let!(:user) do
     create(:user,

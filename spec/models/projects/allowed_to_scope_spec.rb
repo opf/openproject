@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Project, 'allowed to' do
+RSpec.describe Project, 'allowed to' do
   let(:user) { build(:user) }
   let(:anonymous) { build(:anonymous) }
   let(:admin) { build(:admin) }

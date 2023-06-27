@@ -29,14 +29,14 @@
 require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
 
-describe Storages::ProjectStorages::BaseContract do
+RSpec.describe Storages::ProjectStorages::BaseContract do
   include_context 'ModelContract shared context'
 
   let(:contract) { described_class.new(project_storage, build_stubbed(:admin)) }
   # Creator is not writable in BaseContract; just test base contract writable attributes
   let(:project_storage) { build(:project_storage) }
 
-  context 'when the project folder mode is `inactive`' do
+  context 'if the project folder mode is `inactive`' do
     before do
       project_storage.project_folder_mode = 'inactive'
     end
@@ -44,7 +44,15 @@ describe Storages::ProjectStorages::BaseContract do
     it_behaves_like 'contract is valid'
   end
 
-  context 'when the project folder mode is `manual`' do
+  context 'if the project folder mode is `automatic`' do
+    before do
+      project_storage.project_folder_mode = 'automatic'
+    end
+
+    it_behaves_like 'contract is valid'
+  end
+
+  context 'if the project folder mode is `manual`' do
     before do
       project_storage.project_folder_mode = 'manual'
     end

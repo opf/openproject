@@ -28,8 +28,8 @@
 
 require_relative '../../spec_helper'
 
-describe 'Delete viewpoint in model viewer',
-         js: true, with_config: { edition: 'bim' } do
+RSpec.describe 'Delete viewpoint in model viewer',
+               js: true, with_config: { edition: 'bim' } do
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let(:user) { create(:admin) }
 

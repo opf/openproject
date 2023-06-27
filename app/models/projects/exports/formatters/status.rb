@@ -28,7 +28,7 @@
 module Projects::Exports
   module Formatters
     class Status < ::Exports::Formatters::Default
-      def self.apply?(attribute)
+      def self.apply?(attribute, _export_format)
         %i[project_status status].include?(attribute.to_sym)
       end
 

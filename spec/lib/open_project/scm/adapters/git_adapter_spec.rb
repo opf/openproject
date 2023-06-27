@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::SCM::Adapters::Git do
+RSpec.describe OpenProject::SCM::Adapters::Git do
   shared_examples "git adapter specs" do
     let(:protocol) { "" }
     let(:url) { protocol + Rails.root.join('/tmp/does/not/exist.git').to_s }

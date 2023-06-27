@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Default device' do
+RSpec.describe 'Default device' do
   let(:user) { create(:user) }
   let(:other_otp) { build(:two_factor_authentication_device_totp, user:, default: true) }
 

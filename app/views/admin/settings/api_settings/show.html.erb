@@ -31,6 +31,9 @@ See COPYRIGHT and LICENSE files for more details.
 <%= styled_form_tag(admin_settings_api_path, method: :patch) do %>
   <section class="form--section">
     <div class="form--field">
+      <%= setting_check_box :rest_api_enabled %>
+    </div>
+    <div class="form--field">
       <%= setting_number_field :apiv3_max_page_size, min: 50, container_class: '-slim' %>
       <div class="form--field-instructions">
         <p><%= t(:setting_apiv3_max_page_instructions_html) %></p>

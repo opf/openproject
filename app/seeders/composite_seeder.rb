@@ -63,7 +63,7 @@ class CompositeSeeder < Seeder
   # e.g. 'BasicData::Documents' in order to avoid name conflicts.
   def discovered_seeder_classes
     Seeder
-      .subclasses
+      .descendants
       .reject { |cl| cl.to_s.deconstantize == namespace }
       .select { |cl| include_discovered_class? cl }
   end

@@ -23,8 +23,9 @@
         data-qa-selector="op-wp-single-card--details-button"
         *ngIf="!isNewResource(workPackage) && showInfoButton"
         [title]="text.detailsView"
-        (click)="emitStateLinkClicked($event, workPackage, true)">
-        <op-icon icon-classes="icon3 icon-info2"></op-icon>
+        (click)="emitStateLinkClicked($event, workPackage, true)"
+      >
+        <span class="spot-icon spot-icon_info2"></span>
       </button>
 
       <button
@@ -33,17 +34,17 @@
         *ngIf="isNewResource(workPackage) || showRemoveButton"
         [class.-show]="isNewResource(workPackage)"
         [title]="text.removeCard"
-        (click)="onRemoved(workPackage)">
-        <op-icon icon-classes="icon-context icon-close"></op-icon>
+        (click)="onRemoved(workPackage)"
+      >
+        <span class="spot-icon spot-icon_close"></span>
       </button>
 
-      <op-icon
+      <span
         *ngIf="disabledInfo && disabledInfo.text.length > 0"
         [attr.data-tooltip]="disabledInfo.text"
-        class="-multiline op-wp-single-card--card-action op-wp-single-card--card-action_closed"
+        class="spot-icon spot-icon_not-supported -multiline op-wp-single-card--card-action op-wp-single-card--card-action_closed"
         [ngClass]="'tooltip--' + disabledInfo.orientation"
-        icon-classes="icon-context icon-not-supported">
-      </op-icon>
+      ></span>
     </div>
   </div>
 
@@ -65,6 +66,7 @@
 
   <div *ngIf="!isNewResource(workPackage)"
        class="op-wp-single-card--content">
+       
     <span
       class="op-wp-single-card--content-project-name"
       [ngClass]="{'op-wp-single-card--content-project-name_hideable': showInfoButton || showRemoveButton}"
@@ -112,11 +114,22 @@
     <img *ngIf="this.cardCoverImageShown(workPackage) && !showAsInlineCard"
          [src]="this.bcfSnapshotPath(workPackage)"
          class="op-wp-single-card--content-cover-image">
-    <wp-status-button *ngIf="showStatusButton"
-                      [workPackage]="workPackage"
-                      [small]="true"
-                      class="op-wp-single-card--content-status">
-    </wp-status-button>
+    <div class="op-wp-single-card--content-status-baseline">
+      <wp-status-button *ngIf="showStatusButton"
+                        [workPackage]="workPackage"
+                        [small]="true"
+                        class="op-wp-single-card--content-status"
+                        >
+      </wp-status-button>
+      <span
+        *ngIf="baselineIcon(workPackage) !== ''"
+        class="spot-icon spot-icon_1 spot-icon_flex op-wp-single-card--content-baseline"
+        [ngClass]="baselineMode==='added' ? 'spot-icon_flex spot-icon_add op-table-baseline--icon-added' : (baselineMode==='removed' ? 'spot-icon_minus1 op-table-baseline--icon-removed' : 'spot-icon_arrow-left-right op-table-baseline--icon-changed')"
+        title="{{ baselineMode==='added' ? text.baseLineIconAdded : (baselineMode==='removed' ? text.baseLineIconRemoved : text.baseLineIconChanged) }}"
+      >
+      </span>
+
+    </div>
     <op-principal
       *ngIf="workPackage.assignee"
       [principal]="workPackage.assignee"

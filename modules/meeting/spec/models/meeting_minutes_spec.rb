@@ -28,7 +28,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe 'MeetingMinutes' do
+RSpec.describe 'MeetingMinutes' do
   before do
     @min = build(:meeting_minutes)
   end

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe "POST /api/v3/grids/form", content_type: :json do
+RSpec.describe "POST /api/v3/grids/form", content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 

@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 require File.expand_path(File.dirname(__FILE__) + '/../../shared_examples')
 
-describe Avatars::AvatarController do
+RSpec.describe Avatars::AvatarController do
   include_context "there are users with and without avatars"
   let(:enabled) { true }
 

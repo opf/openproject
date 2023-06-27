@@ -30,13 +30,12 @@ module Standard
     def data_seeder_classes
       [
         ::BasicData::BuiltinUsersSeeder,
-        ::BasicData::BuiltinRolesSeeder,
         ::BasicData::RoleSeeder,
-        ::Standard::BasicData::ActivitySeeder,
+        ::BasicData::TimeEntryActivitySeeder,
         ::BasicData::ColorSeeder,
         ::BasicData::ColorSchemeSeeder,
-        ::Standard::BasicData::WorkflowSeeder,
-        ::Standard::BasicData::PrioritySeeder,
+        ::BasicData::WorkflowSeeder,
+        ::BasicData::PrioritySeeder,
         ::BasicData::SettingSeeder
       ]
     end

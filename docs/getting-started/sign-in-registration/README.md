@@ -48,7 +48,7 @@ Enter you password and click the blue Next button.
 
 If you have activated Two-factor authentication, please enter your second factor and click the blue Next button.
 
-![1566204298041](1566204298041.png)
+![Enter second factor for Google authentication](1566204298041.png)
 
 Then, you are asked to create your OpenProject Account.
 

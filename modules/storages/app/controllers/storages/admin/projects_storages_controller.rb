@@ -61,9 +61,6 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
   # Show a HTML page with a form in order to create a new ProjectStorage
   # Called by: When a user clicks on the "+New" button in Project -> Settings -> File Storages
   def new
-    # Create an empty ProjectStorage object, but don't save it to the database yet.
-    # @project was calculated in before_action (see comments above).
-    # @project_storage is used in the view in order to render the form for a new object
     @project_storage = ::Storages::ProjectStorages::SetAttributesService
                          .new(user: current_user,
                               model: Storages::ProjectStorage.new,
@@ -71,11 +68,15 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
                          .call(project: @project)
                          .result
 
-    # Calculate the list of available Storage objects, subtracting already enabled storages.
-    @available_storages = Storages::ProjectStorages::CreateContract.new(@project_storage, current_user).assignable_storages
+    @available_storages = available_storages
+    @last_project_folders = {}
 
-    # Show the HTML form to create the object.
-    render '/storages/project_settings/new'
+    storage_id = params.dig(:storages_project_storage, :storage_id)
+    if storage_id.present?
+      @project_storage.storage = available_storages.find_by(id: storage_id)
+    end
+
+    render template: '/storages/project_settings/new'
   end
 
   # Create a new ProjectStorage object.
@@ -90,11 +91,13 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
     # Create success/error messages to the user
     if service_result.success?
       flash[:notice] = I18n.t(:notice_successful_create)
+      redirect_to project_settings_projects_storages_path
     else
-      flash[:error] = service_result.message || I18n.t('notice_internal_server_error')
+      @errors = service_result.errors
+      @project_storage = service_result.result
+      @available_storages = available_storages
+      render '/storages/project_settings/new'
     end
-
-    redirect_to project_settings_projects_storages_path # Redirect: Project -> Settings -> File Storages
   end
 
   # Edit page is very similar to new page, except that we don't need to set
@@ -105,6 +108,11 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
     # @object was calculated in before_action :find_model_object (see comments above).
     # @project_storage is used in the view in order to render the form for a new object
     @project_storage = @object
+
+    @last_project_folders = Storages::LastProjectFolder
+                              .where(projects_storage: @project_storage)
+                              .pluck(:mode, :origin_folder_id)
+                              .to_h
 
     render '/storages/project_settings/edit'
   end
@@ -120,10 +128,11 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
 
     if service_result.success?
       flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to project_settings_projects_storages_path # Redirect: Project -> Settings -> File Storages
+      redirect_to project_settings_projects_storages_path
     else
       @errors = service_result.errors
-      render :edit
+      @project_storage = @object
+      render '/storages/project_settings/edit'
     end
   end
 
@@ -153,5 +162,9 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
       .permit('storage_id', 'project_folder_mode', 'project_folder_id')
       .to_h
       .reverse_merge(project_id: @project.id)
+  end
+
+  def available_storages
+    Storages::ProjectStorages::CreateContract.new(@project_storage, current_user).assignable_storages
   end
 end

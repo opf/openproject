@@ -182,7 +182,7 @@ ar:
     edit: 'تعديل إجراء مخصص %{name}'
     execute: 'Execute %{name}'
     upsale:
-      title: 'Custom actions'
+      title: 'إجراءات مخصصة'
       description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
@@ -269,11 +269,22 @@ ar:
       notice_reset_token: "A new %{type} token has been generated. Your access token is:"
       token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
       no_results_title_text: لا يوجد حالياً رموز وصول مميزة متاحة.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: لا يوجد حالياً أخبار لتقدم.
       no_results_content_text: أضف عنصر أخبار
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'This user is currently a member of the following groups:'
       no_results_title_text: This user is currently not a member in any group.
@@ -325,7 +336,7 @@ ar:
       more_info_text_html: >
         Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "المشاريع"
-      enabled_projects: "Enabled projects"
+      enabled_projects: "المشاريع الممكنة"
       edit_query: "Edit table"
       query_group_placeholder: "Give the table a name"
       reset: "Reset to defaults"
@@ -485,18 +496,18 @@ ar:
         latest_activity_at: "آخر نشاط في"
         parent: "المشروع الفرعي من"
         public_value:
-          title: "Visibility"
+          title: "الظهور"
           true: "public"
           false: "private"
         queries: "الاستفسارات"
-        status_code: 'Project status'
+        status_code: 'حالة المشروع'
         status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
           at_risk: 'At risk'
           off_track: 'Off track'
-          finished: 'Finished'
+          finished: 'مكتمل'
           discontinued: 'Discontinued'
         templated: "Template project"
         templated_value:
@@ -560,7 +571,7 @@ ar:
         begin_deletion: "البدء بالحذف"
         children: "Subelements"
         done_ratio: "التقدم (%)"
-        duration: "Duration"
+        duration: "المدّة"
         end_insertion: "نهاية الإدراج"
         end_deletion: "نهاية الحذف"
         ignore_non_working_days: "Ignore non working days"
@@ -695,6 +706,11 @@ ar:
           overlaps: 'تداخل.'
           outside: 'هو خارج الشبكة.'
           end_before_start: 'يجب أن تكون قيمة النهاية أكبر من قيمة البداية.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -943,16 +959,16 @@ ar:
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "مشروع فرعي"
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
-          zero: "%{count} hours"
+          zero: "%{count} ساعات"
           one: "%{count} hour"
-          two: "%{count} hours"
-          few: "%{count} hours"
-          many: "%{count} hours"
-          other: "%{count} hours"
+          two: "%{count} ساعات"
+          few: "%{count} ساعات"
+          many: "%{count} ساعات"
+          other: "%{count} ساعات"
         hour_html:
           zero: "<i>%{count} hours</i>"
           one: "<i>%{count} hour</i>"
@@ -963,14 +979,14 @@ ar:
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      changeset: "مجموعة التغييرات"
+      message: "منتديات"
+      news: "الأخبار"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
+      time_entry: "الوقت المستهلك"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "مجموعات العمل"
   #common attributes of all models
   attributes:
     active: "مفعّل"
@@ -1027,7 +1043,7 @@ ar:
     updated_on: "تم التحديث بتاريخ"
     uploader: "Uploader"
     user: "المستخدم"
-    value: "Value"
+    value: "القيمة"
     version: "الإصدار"
     work_package: "مجموعة العمل"
   backup:
@@ -1078,6 +1094,7 @@ ar:
   button_configure: "تكوين"
   button_continue: "Continue"
   button_copy: "انسخ"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "انسخ واتبع"
   button_create: "إنشاء"
   button_create_and_continue: "إنشاء ومواصلة"
@@ -1206,7 +1223,7 @@ ar:
       - "تشرين الأول"
       - "تشرين الثاني"
       - "كانون الأول"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - ':السنة'
       - ':الشهر'
@@ -1299,61 +1316,6 @@ ar:
         few: "ساعه"
         many: "ساعه"
         other: "ساعه"
-  default_activity_development: "التطوير"
-  default_activity_management: "الإدارة"
-  default_activity_other: "اخرى"
-  default_activity_specification: "مواصفات"
-  default_activity_support: "الدعم"
-  default_activity_testing: "اختبار"
-  default_color_black: "الأسود"
-  default_color_blue: "أزرق"
-  default_color_blue_dark: "أزرق (داكن)"
-  default_color_blue_light: "أزرق (فاتح)"
-  default_color_green_dark: "أخضر (داكن)"
-  default_color_green_light: "أخضر (فاتح)"
-  default_color_grey_dark: "رمادي (داكن)"
-  default_color_grey_light: "رمادي (فاتح)"
-  default_color_grey: "رمادي"
-  default_color_magenta: "أرجواني"
-  default_color_orange: "برتقالي"
-  default_color_red: "أحمر"
-  default_color_white: "أبيض"
-  default_color_yellow: "أصفر"
-  default_status_closed: "مغلق"
-  default_status_confirmed: "تم التأكيد"
-  default_status_developed: "مطور"
-  default_status_in_development: "قيد التطوير"
-  default_status_in_progress: "بصدد الإنجاز"
-  default_status_in_specification: "المواصفات"
-  default_status_in_testing: "قيد الاختبار"
-  default_status_new: "جديد"
-  default_status_on_hold: "في الانتظار"
-  default_status_rejected: "مرفوض"
-  default_status_scheduled: "مُجدول"
-  default_status_specified: "محدد"
-  default_status_tested: "تم اختباره"
-  default_status_test_failed: "فشل الاختبار"
-  default_status_to_be_scheduled: "سيتم جدولته"
-  default_priority_low: "منخفضة"
-  default_priority_normal: "عادية"
-  default_priority_high: "مرتفعة"
-  default_priority_immediate: "عاجلة"
-  default_role_anonymous: "مجهول"
-  default_role_developer: "مطوِّر"
-  default_role_project_admin: "مدير المشروع"
-  default_role_project_creator_and_staff_manager: "Staff and projects manager"
-  default_role_non_member: "من غير الأعضاء"
-  default_role_reader: "القارئ"
-  default_role_member: "عضو"
-  default_type: "مجموعة العمل"
-  default_type_bug: "خلَل"
-  default_type_deliverable: "قابل للتسليم"
-  default_type_epic: "موجه على التوازي"
-  default_type_feature: "ميزة"
-  default_type_milestone: "الحدث الرئيسي"
-  default_type_phase: "المرحلة"
-  default_type_task: "المهمة"
-  default_type_user_story: "رواية المستخدم"
   description_active: "نشط؟"
   description_attachment_toggle: "إظهار/إخفاء المرفقات"
   description_autocomplete: >
@@ -1453,7 +1415,7 @@ ar:
     message: تم تحرير الرسالة
     news: الأخبار
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'تم تعديل المشروع'
     reply: تم الرد
     time_entry: 'تم تحرير Timelog'
     wiki_page: 'تم تحرير صفحة WiKi'
@@ -1471,11 +1433,14 @@ ar:
       atom: "ذرّة"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF مع مواصفات"
-      pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
-      pdf_with_attachments: "PDF with attachments"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Image not exported."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext available (optional)"
@@ -1595,6 +1560,12 @@ ar:
   label_api_access_key: "مفتاح الوصول إلى API"
   label_api_access_key_created_on: "مفتاح الوصول إلى API تم إنشاؤها %{value} قبل ذلك"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "الحالة المطبقة"
   label_archive_project: "Archive project"
   label_ascending: "ترتيب تصاعدي"
@@ -1630,6 +1601,7 @@ ar:
   label_bulk_edit_selected_work_packages: "تحرير كل مجموعات العمل المحددة"
   label_bundled: '(Bundled)'
   label_calendar: "التقويم"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "إظهار التقويم"
   label_category: "الفئة"
   label_consent_settings: "User Consent"
@@ -1666,7 +1638,6 @@ ar:
   label_contains: "يحتوي على"
   label_content: "المحتوى"
   label_copied: "تم النسخ"
-  label_copy_to_clipboard: "نسخ إلى الحافظة"
   label_copy_same_as_target: "نفس الهدف"
   label_copy_source: "المصدر"
   label_copy_target: "الهدف"
@@ -1683,6 +1654,7 @@ ar:
   label_database_version: "PostgreSQL version"
   label_date: "التاريخ"
   label_date_and_time: "Date and time"
+  label_date_format: "Date format"
   label_date_from: "من"
   label_date_from_to: "من %{start} إلى %{end}"
   label_date_to: "إلى"
@@ -1788,6 +1760,7 @@ ar:
   label_journal: "يوميات"
   label_journal_diff: "مقارنة التوصيف"
   label_language: "اللغة"
+  label_languages: "Languages"
   label_jump_to_a_project: "الانتقال بسرعة إلى مشروع..."
   label_keyword_plural: 'Keywords'
   label_language_based: "استناداً إلى لغة المستخدم"
@@ -1845,6 +1818,7 @@ ar:
   label_more_than_ago: "منذ أكثر من أيام"
   label_move_work_package: "نقل مجموعة العمل"
   label_my_account: "حسابي"
+  label_my_activity: "My activity"
   label_my_account_data: "بيانات حسابي"
   label_my_projects: "مشاريعي"
   label_my_queries: "استعلاماتي المخصصة"
@@ -1895,7 +1869,6 @@ ar:
   label_password_rule_special: "أحرف خاصة"
   label_password_rule_uppercase: "أحرف كبيرة"
   label_path_encoding: "ترميز المسار"
-  label_pdf_with_descriptions: "PDF مع مواصفات"
   label_per_page: "في كل صفحة"
   label_people: "الناس"
   label_permissions: "السماحيات"
@@ -2047,6 +2020,7 @@ ar:
   label_user_plural: "المستخدمين"
   label_user_search: "البحث عن مستخدم"
   label_user_settings: "User settings"
+  label_users_settings: "Users settings"
   label_version_new: "إصدار جديد"
   label_version_plural: "الإصدارات"
   label_version_sharing_descendants: "مع المشاريع الفرعية"
@@ -2610,7 +2584,7 @@ ar:
   setting_consent_decline_mail: "Consent contact mail address"
   setting_cross_project_work_package_relations: "السماح بعلاقات عبر-المشروع مجموعة العمل"
   setting_first_week_of_year: "First week in year contains"
-  setting_date_format: "صيغة التاريخ"
+  setting_date_format: "Date"
   setting_default_language: "اللغة الافتراضية"
   setting_default_projects_modules: "وحدات التمكين الافتراضية للمشاريع الجديدة"
   setting_default_projects_public: "هناك مشاريع جديدة عامة بشكل افتراضي"
@@ -2622,6 +2596,7 @@ ar:
   setting_enabled_scm: "تمكين SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "تمكين التغذية"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "حد محتوى تغذية"
   setting_file_max_size_displayed: "عرض الحد الأقصى لحجم الملفات النصية المضمنة في السطر"
   setting_host_name: "إسم المضيف"
@@ -2672,9 +2647,9 @@ ar:
   setting_start_of_week: "Week starts on"
   setting_sys_api_enabled: "تمكين خدمة ويب إدارة المستودع"
   setting_sys_api_description: "ويوفر خدمة ويب إدارة المستودع التكامل و إذن للمستخدم  للوصول إلى المستودعات."
-  setting_time_format: "تنسيق الوقت"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "تمكين وضع إمكانية الوصول للمستخدمين المجهولين"
-  setting_user_format: "تنسيق عرض المستخدمين"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
   setting_users_deletable_by_admins: "حسابات المستخدم المحذوفة بواسطة المسؤولين"
   setting_users_deletable_by_self: "المستخدمين المسموح لهم بحذف حساباتهم"
@@ -2683,6 +2658,7 @@ ar:
   setting_welcome_on_homescreen: "كتلة الترحيب عرض على الشاشة الرئيسية"
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
+  setting_working_days: "Working days"
   settings:
     general: "عام"
     other: "اخرى"
@@ -2705,6 +2681,7 @@ ar:
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
+      display_format: "Display format"
       deletion: "Deletion"
     highlighting:
       mode_long:
@@ -2713,6 +2690,9 @@ ar:
         status: "Entire row by Status"
         type: "Entire row by Type"
         priority: "Entire row by Priority"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Plain text'
@@ -3087,9 +3067,9 @@ ar:
       title: "حذف حزمة العمل"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
@@ -3255,7 +3235,7 @@ ar:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "خطأ"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"

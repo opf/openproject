@@ -4,7 +4,123 @@
 ---
 fi:
   seeds:
+    common:
+      colors:
+        item_0:
+          name: Sininen (tumma)
+        item_1:
+          name: Sininen
+        item_2:
+          name: Sininen (vaalea)
+        item_3:
+          name: Vihreä (vaalea)
+        item_4:
+          name: Vihreä (tumma)
+        item_5:
+          name: Keltainen
+        item_6:
+          name: Oranssi
+        item_7:
+          name: Punainen
+        item_8:
+          name: Purppura (magenta)
+        item_9:
+          name: Valkoinen
+        item_10:
+          name: Harmaa (vaalea)
+        item_11:
+          name: Harmaa
+        item_12:
+          name: Harmaa (tumma)
+        item_13:
+          name: Musta
+      document_categories:
+        item_0:
+          name: Käyttöohjeet
+        item_1:
+          name: Määrittely
+        item_2:
+          name: Muut
+      roles:
+        item_0:
+          name: Ei jäsen
+        item_1:
+          name: Anonyymi
+        item_2:
+          name: Jäsen
+        item_3:
+          name: Lukuoikeus
+        item_4:
+          name: Projektin ylläpitäjä
+        item_5:
+          name: Staff and projects manager
     standard:
+      priorities:
+        item_0:
+          name: Matala
+        item_1:
+          name: Normaali
+        item_2:
+          name: Korkea
+        item_3:
+          name: Valitön
+      statuses:
+        item_0:
+          name: Uusi
+        item_1:
+          name: Määrittelyssä
+        item_2:
+          name: Määritetty
+        item_3:
+          name: Vahvistettu
+        item_4:
+          name: Aikataulutettava
+        item_5:
+          name: Ajoitettu
+        item_6:
+          name: Käynnissä
+        item_7:
+          name: Kehitetty
+        item_8:
+          name: Testauksessa
+        item_9:
+          name: Testattu
+        item_10:
+          name: Testi epäonnistui
+        item_11:
+          name: Suljettu
+        item_12:
+          name: Pidossa
+        item_13:
+          name: Hylätty
+      time_entry_activities:
+        item_0:
+          name: Työnjohto
+        item_1:
+          name: Määrittely
+        item_2:
+          name: Kehitys
+        item_3:
+          name: Testaus
+        item_4:
+          name: Tuki
+        item_5:
+          name: Muut
+      types:
+        item_0:
+          name: Tehtävä
+        item_1:
+          name: Milestone
+        item_2:
+          name: Vaihe
+        item_3:
+          name: Ominaisuus
+        item_4:
+          name: Eeppinen
+        item_5:
+          name: Käyttäjän tarina
+        item_6:
+          name: Virhe
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -45,7 +161,7 @@ fi:
             kanban:
               name: Kanban board
             basic:
-              name: Basic board
+              name: Tehtävätaulu
               lists:
                 item_0:
                   name: Wish list
@@ -54,7 +170,7 @@ fi:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Ei koskaan
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -83,7 +199,7 @@ fi:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Tehtävät
               item_6:
                 options:
                   name: Milestones
@@ -195,7 +311,7 @@ fi:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Tuotteen työjono
             item_2:
               name: Sprint 1
             item_3:
@@ -204,7 +320,7 @@ fi:
             kanban:
               name: Kanban board
             basic:
-              name: Task board
+              name: Tehtävätaulu
               lists:
                 item_0:
                   name: Wish list
@@ -213,7 +329,7 @@ fi:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Ei koskaan
           project-overview:
             widgets:
               item_0:
@@ -241,7 +357,7 @@ fi:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Tehtävät
               item_6:
                 options:
                   name: Project plan

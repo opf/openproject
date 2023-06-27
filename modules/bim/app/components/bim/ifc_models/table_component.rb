@@ -1,7 +1,6 @@
 module Bim
   module IfcModels
     class TableComponent < ::TableComponent
-      include ::IconsHelper
       columns :title, :default?, :created_at, :updated_at, :uploader, :processing
 
       def initial_sort
@@ -16,7 +15,7 @@ module Bim
         link_to(new_bcf_project_ifc_model_path,
                 class: 'wp-inline-create--add-link',
                 title: I18n.t('ifc_models.label_new_ifc_model')) do
-          op_icon('icon icon-add')
+          helpers.op_icon('icon icon-add')
         end
       end
 

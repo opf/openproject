@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'webmock/rspec'
 
-describe OAuthClients::RedirectUriFromStateService, type: :model do
+RSpec.describe OAuthClients::RedirectUriFromStateService, type: :model do
   let(:state) { 'asdf123425' }
   let(:redirect_uri) { File.join(API::V3::Utilities::PathHelper::ApiV3Path::root_url, 'foo/bar') }
   let(:cookies) { { "oauth_state_#{state}": redirect_uri }.with_indifferent_access }

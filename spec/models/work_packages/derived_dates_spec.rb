@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, 'derived dates' do
+RSpec.describe WorkPackage, 'derived dates' do
   let(:work_package) do
     create(:work_package)
   end

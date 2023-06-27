@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_contract_examples'
 
-describe TimeEntries::UpdateContract do
+RSpec.describe TimeEntries::UpdateContract do
   it_behaves_like 'time entry contract' do
     let(:time_entry) do
       build_stubbed(:time_entry,

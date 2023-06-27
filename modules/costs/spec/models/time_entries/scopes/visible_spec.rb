@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe TimeEntries::Scopes::Visible do
+RSpec.describe TimeEntries::Scopes::Visible do
   let(:project) { create(:project) }
   let(:user) do
     create(:user,

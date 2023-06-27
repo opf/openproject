@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 # rubocop:disable RSpec:MultipleMemoizedHelpers
-describe Relations::CreateService do
+RSpec.describe Relations::CreateService do
   let(:work_package1_start_date) { nil }
   let(:work_package1_due_date) { Date.today }
   let(:work_package2_start_date) { nil }

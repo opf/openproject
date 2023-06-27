@@ -30,7 +30,7 @@ require 'spec_helper'
 
 Strategies = OpenProject::Authentication::Strategies::Warden
 
-describe Strategies::GlobalBasicAuth do
+RSpec.describe Strategies::GlobalBasicAuth do
   let(:user) { 'someuser' }
   let(:password) { 'somepassword' }
 

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Users::DeleteService, 'Integration', type: :model do
+RSpec.describe Users::DeleteService, 'Integration', type: :model do
   let(:input_user) { create(:user) }
   let(:actor) { build_stubbed(:admin) }
 

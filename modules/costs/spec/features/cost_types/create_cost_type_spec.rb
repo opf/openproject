@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'creating a cost type', js: true do
+RSpec.describe 'creating a cost type', js: true do
   let!(:user) { create(:admin) }
   let!(:cost_type) do
     type = create(:cost_type, name: 'Translations')

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe RepositoriesController do
+RSpec.describe RepositoriesController do
   describe 'show' do
     it {
       expect(get('/projects/testproject/repository'))

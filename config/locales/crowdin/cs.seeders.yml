@@ -4,9 +4,125 @@
 ---
 cs:
   seeds:
+    common:
+      colors:
+        item_0:
+          name: Modrá (tmavá)
+        item_1:
+          name: Modrá
+        item_2:
+          name: Modrá (světlá)
+        item_3:
+          name: Zelená (světlá)
+        item_4:
+          name: Zelená (tmavá)
+        item_5:
+          name: Žlutá
+        item_6:
+          name: Oranžová
+        item_7:
+          name: Červená
+        item_8:
+          name: Fialová
+        item_9:
+          name: Bílá
+        item_10:
+          name: Šedá (světlá)
+        item_11:
+          name: Šedá
+        item_12:
+          name: Šedá (tmavá)
+        item_13:
+          name: Černá
+      document_categories:
+        item_0:
+          name: Dokumentace
+        item_1:
+          name: Specifikace
+        item_2:
+          name: Ostatní
+      roles:
+        item_0:
+          name: Není člen
+        item_1:
+          name: Anonymní
+        item_2:
+          name: Člen
+        item_3:
+          name: Čtenář
+        item_4:
+          name: Projekt admin
+        item_5:
+          name: Manažer zaměstnanců a projektů
     standard:
+      priorities:
+        item_0:
+          name: Nízká
+        item_1:
+          name: Normální
+        item_2:
+          name: Vysoká
+        item_3:
+          name: Okamžitá
+      statuses:
+        item_0:
+          name: Nové
+        item_1:
+          name: Ve specifikaci
+        item_2:
+          name: Specifikováno
+        item_3:
+          name: Potvrzený
+        item_4:
+          name: Bude naplánováno
+        item_5:
+          name: Naplánováno
+        item_6:
+          name: Probíhá
+        item_7:
+          name: Vyvinutý
+        item_8:
+          name: V testování
+        item_9:
+          name: Testováno
+        item_10:
+          name: Test selhal
+        item_11:
+          name: Uzavřený
+        item_12:
+          name: Pozastaven
+        item_13:
+          name: Odmítnutý
+      time_entry_activities:
+        item_0:
+          name: Správa
+        item_1:
+          name: Specifikace
+        item_2:
+          name: Vývoj
+        item_3:
+          name: Testování
+        item_4:
+          name: Podpora
+        item_5:
+          name: Ostatní
+      types:
+        item_0:
+          name: Úkol
+        item_1:
+          name: Milník
+        item_2:
+          name: Fáze
+        item_3:
+          name: Funkce
+        item_4:
+          name: Epic
+        item_5:
+          name: Uživatelský příběh
+        item_6:
+          name: Chyba
       welcome:
-        title: Welcome to OpenProject!
+        title: Vítejte v OpenProject!
         text: |
           Select one of the demo projects to get started with some demo data we have prepared for you.
 
@@ -20,12 +136,12 @@ cs:
           You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
-          name: Demo project
+          name: Demo projekt
           status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
           description: This is a short summary of the goals of this demo project.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Vítejte ve vašem demo projektu
               summary: |
                 We are glad you joined.
                 In this module you can communicate project news to your team members.
@@ -34,37 +150,37 @@ cs:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
-              name: Project plan
+              name: Plán projektu
             item_1:
-              name: Milestones
+              name: Milníky
             item_2:
-              name: Tasks
+              name: Úkoly
             item_3:
-              name: Team planner
+              name: Týmový plánovač
           boards:
             kanban:
               name: Kanban board
             basic:
-              name: Basic board
+              name: Základní tabule
               lists:
                 item_0:
-                  name: Wish list
+                  name: Seznam přání
                 item_1:
                   name: Short list
                 item_2:
-                  name: Priority list for today
+                  name: Seznam priorit pro dnešek
                 item_3:
-                  name: Never
+                  name: Nikdy
             parent_child:
-              name: Work breakdown structure
+              name: Struktura členění práce
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Vítejte
               item_1:
                 options:
-                  name: Getting started
+                  name: Začínáme
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -83,13 +199,13 @@ cs:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Pracovní balíčky
               item_6:
                 options:
-                  name: Milestones
+                  name: Milníky
           work_packages:
             item_0:
-              subject: Start of project
+              subject: Zahájení projektu
             item_1:
               subject: Organize open source conference
               children:
@@ -97,22 +213,22 @@ cs:
                   subject: Set date and location of conference
                   children:
                     item_0:
-                      subject: Send invitation to speakers
+                      subject: Poslat pozvánku řečníkům
                     item_1:
                       subject: Contact sponsoring partners
                     item_2:
                       subject: Create sponsorship brochure and hand-outs
                 item_1:
-                  subject: Invite attendees to conference
+                  subject: Pozvat účastníky konference
                 item_2:
-                  subject: Setup conference website
+                  subject: Nastavit web konference
             item_2:
-              subject: Conference
+              subject: Konference
             item_3:
-              subject: Follow-up tasks
+              subject: Následné úkoly
               children:
                 item_0:
-                  subject: Upload presentations to website
+                  subject: Nahrát prezentace na webové stránky
                 item_1:
                   subject: Party for conference supporters :-)
                   description: |-
@@ -121,9 +237,9 @@ cs:
                     *   [ ] Music
                     *   [ ] Even more beer
             item_4:
-              subject: End of project
+              subject: Ukončení projektu
         scrum-project:
-          name: Scrum project
+          name: Projekt Scrum
           status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
           description: This is a short summary of the goals of this demo Scrum project.
           news:
@@ -193,18 +309,18 @@ cs:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
-              name: Project plan
+              name: Plán projektu
             item_1:
-              name: Product backlog
+              name: Nevyřízené produkty
             item_2:
-              name: Sprint 1
+              name: Sprint 2
             item_3:
-              name: Tasks
+              name: Úkoly
           boards:
             kanban:
               name: Kanban board
             basic:
-              name: Task board
+              name: Tabule úkolů
               lists:
                 item_0:
                   name: Wish list
@@ -213,15 +329,15 @@ cs:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Nikdy
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Vítejte
               item_1:
                 options:
-                  name: Getting started
+                  name: Začínáme
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -241,29 +357,29 @@ cs:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Pracovní balíčky
               item_6:
                 options:
-                  name: Project plan
+                  name: Plán projektu
           work_packages:
             item_0:
-              subject: New login screen
+              subject: Nová přihlašovací obrazovka
             item_1:
-              subject: Password reset does not send email
+              subject: Obnovení hesla neposílá e-mail
             item_2:
-              subject: New website
+              subject: Nový web
               children:
                 item_0:
-                  subject: Newsletter registration form
+                  subject: Formulář pro registraci k odběru novinek
                 item_1:
                   subject: Implement product tour
                 item_2:
-                  subject: New landing page
+                  subject: Nová vstupní stránka
                   children:
                     item_0:
                       subject: Create wireframes for new landing page
             item_3:
-              subject: Contact form
+              subject: Kontaktní formulář
             item_4:
               subject: Feature carousel
               children:

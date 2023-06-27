@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Relations::RelationPaginatedCollectionRepresenter do
+RSpec.describe API::V3::Relations::RelationPaginatedCollectionRepresenter do
   let(:work_package) do
     build_stubbed(:work_package)
   end

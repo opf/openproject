@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe UsersHelper do
+RSpec.describe UsersHelper do
   def build_user(status, blocked)
     build_stubbed(:user,
                   status:,

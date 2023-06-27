@@ -28,7 +28,7 @@
 
 require "spec_helper"
 
-describe User, "default time zone" do
+RSpec.describe User, "default time zone" do
   let(:user) { create(:user) }
 
   context "with no system default set" do

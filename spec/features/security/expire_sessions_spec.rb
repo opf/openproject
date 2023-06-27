@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Expire old user sessions' do
+RSpec.describe 'Expire old user sessions' do
   shared_let(:admin) { create(:admin) }
   let(:admin_password) { 'adminADMIN!' }
 

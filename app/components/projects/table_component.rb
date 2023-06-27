@@ -30,8 +30,6 @@
 
 module Projects
   class TableComponent < ::TableComponent
-    include ProjectsHelper
-
     options :params # We read collapsed state from params
     options :current_user # adds this option to those of the base class
 
@@ -46,21 +44,24 @@ module Projects
     ##
     # The project sort by is handled differently
     def build_sort_header(column, options)
-      projects_sort_header_tag(column, options.merge(param: :json))
+      helpers.projects_sort_header_tag(column, options.merge(param: :json))
     end
 
     # We don't return the project row
     # but the [project, level] array from the helper
     def rows
-      @rows ||= to_enum(:projects_with_levels_order_sensitive, model).to_a # rubocop:disable Lint/ToEnumArguments
+      @rows ||= begin
+        projects_enumerator = ->(model) { to_enum(:projects_with_levels_order_sensitive, model).to_a } # rubocop:disable Lint/ToEnumArguments
+        helpers.instance_exec(model, &projects_enumerator)
+      end
     end
 
     def initialize_sorted_model
-      sort_clear
+      helpers.sort_clear
 
       orders = options[:orders]
-      sort_init orders
-      sort_update orders.map(&:first)
+      helpers.sort_init orders
+      helpers.sort_update orders.map(&:first)
     end
 
     def paginated?
@@ -68,13 +69,13 @@ module Projects
     end
 
     def deactivate_class_on_lft_sort
-      if sorted_by_lft?
+      if helpers.sorted_by_lft?
         'spot-link_inactive'
       end
     end
 
     def href_only_when_not_sort_lft
-      unless sorted_by_lft?
+      unless helpers.sorted_by_lft?
         projects_path(sortBy: JSON::dump([['lft', 'asc']]))
       end
     end

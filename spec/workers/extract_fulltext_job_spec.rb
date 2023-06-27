@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ExtractFulltextJob, type: :job do
+RSpec.describe ExtractFulltextJob, type: :job do
   subject(:extracted_attributes) do
     perform_enqueued_jobs
 

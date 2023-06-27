@@ -28,7 +28,7 @@
 
 require_relative '../spec_helper'
 
-describe WorkPackage do
+RSpec.describe WorkPackage do
   describe '#backlogs_types' do
     it 'returns all the ids of types that are configures to be considered backlogs types' do
       allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types' => [1], 'task_type' => 2 })

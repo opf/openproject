@@ -27,7 +27,7 @@
 #++
 require 'spec_helper'
 
-shared_context 'with a mentioned work package being updated again' do
+RSpec.shared_context 'with a mentioned work package being updated again' do
   let(:project) { create(:project) }
 
   let(:work_package) do

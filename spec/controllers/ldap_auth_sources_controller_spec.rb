@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe LdapAuthSourcesController do
+RSpec.describe LdapAuthSourcesController do
   let(:current_user) { create(:admin) }
 
   before do

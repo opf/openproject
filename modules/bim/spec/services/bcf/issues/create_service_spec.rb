@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'services/base_services/behaves_like_create_service'
 
-describe Bim::Bcf::Issues::CreateService, type: :model do
+RSpec.describe Bim::Bcf::Issues::CreateService, type: :model do
   it_behaves_like 'BaseServices create service' do
     let(:model_class) { Bim::Bcf::Issue }
     let(:factory) { :bcf_issue }

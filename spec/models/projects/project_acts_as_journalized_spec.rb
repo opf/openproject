@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Project, 'acts_as_journalized' do
+RSpec.describe Project, 'acts_as_journalized' do
   shared_let(:user) { create(:user) }
 
   let!(:project) do

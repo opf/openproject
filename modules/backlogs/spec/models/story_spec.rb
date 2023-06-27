@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Story do
+RSpec.describe Story do
   let(:user) { @user ||= create(:user) }
   let(:role) { @role ||= create(:role) }
   let(:status1) { @status1 ||= create(:status, name: 'status 1', is_default: true) }
@@ -76,7 +76,6 @@ describe Story do
 
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'points_burn_direction' => 'down',
                                                                          'wiki_template' => '',
-                                                                         'card_spec' => 'Sattleford VM-5040',
                                                                          'story_types' => [type_feature.id.to_s],
                                                                          'task_type' => task_type.id.to_s })
     project.types << task_type

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'wiki pages', js: true, with_settings: { journal_aggregation_time_minutes: 0 } do
+RSpec.describe 'wiki pages', js: true, with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:project) do
     create(:project, enabled_module_names: [:news])
   end
@@ -78,7 +78,7 @@ describe 'wiki pages', js: true, with_settings: { journal_aggregation_time_minut
       click_button 'Save'
     end
 
-    expect(page).to have_selector('#menu-sidebar .main-item-wrapper', text: 'Wiki', visible: false)
+    expect(page).to have_selector('.wiki-menu--main-item', text: 'Wiki', visible: :all)
 
     # creating by accessing the page
     visit project_wiki_path(project, 'new page')

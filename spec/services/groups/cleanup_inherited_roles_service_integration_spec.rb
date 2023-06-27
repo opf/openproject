@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
+RSpec.describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
   subject(:service_call) do
     members.destroy_all
     instance.call(params)

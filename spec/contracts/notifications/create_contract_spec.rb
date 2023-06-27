@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
 
-describe Notifications::CreateContract do
+RSpec.describe Notifications::CreateContract do
   include_context 'ModelContract shared context'
 
   let(:current_user) do

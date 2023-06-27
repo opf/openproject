@@ -65,6 +65,7 @@ fi:
     button_confirm: "Vahvista"
     button_continue: "Jatka"
     button_copy: "Kopioi"
+    button_copy_to_clipboard: "Copy to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Mukautetut kentät"
     button_delete: "Poista"
@@ -105,7 +106,7 @@ fi:
       remove_from_list: 'Poista listalta'
     caption_rate_history: "Tuntihinnan historia"
     clipboard:
-      browser_error: "Selaimesi ei tue kopiointia leikepöydälle. Kopioi valittu teksti manuaalisesti."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Kaaviotyyppi'
@@ -241,7 +242,7 @@ fi:
             professional_support: "Ammatillinen apu"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Aloita ilmainen kokeilu"
-          button_upgrade: "Upgrade now"
+          button_upgrade: "Päivitä nyt"
           button_contact_us: "Contact us for a demo"
           button_book_now: "Book now"
           confidence: >
@@ -317,8 +318,18 @@ fi:
               learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
                 The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to iCalendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Token name"
+      token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
+      token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the iCal URL."
     label_activate: "Aktivoi"
-    label_assignee: 'Assignee'
+    label_assignee: 'Työn suorittaja'
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
     label_add_columns: "Lisää sarakkeita"
@@ -328,7 +339,7 @@ fi:
     label_add_row_before: "Add row before"
     label_add_selected_columns: "Lisää valitut sarakkeet"
     label_added_by: "lisännyt"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "päiviä sitten"
     label_all: "kaikki"
     label_all_work_packages: "kaikki tehtävät"
@@ -421,7 +432,7 @@ fi:
     label_previous: "Edellinen"
     label_per_page: "Sivulla:"
     label_please_wait: "Odota hetki"
-    label_project: "Project"
+    label_project: "Projekti"
     label_project_list: "Projects list"
     label_project_plural: "Projektit"
     label_visibility_settings: "Näkyvyysasetukset"
@@ -435,7 +446,7 @@ fi:
     label_report: "Raportti"
     label_repository_plural: "Tietovarastot"
     label_save_as: "Tallenna nimellä"
-    label_select_project: "Select a project"
+    label_select_project: "Valitse projekti"
     label_select_watcher: "Valitse seuraaja..."
     label_selected_filter_list: "Valitut suodattimet"
     label_show_attributes: "Näytä kaikki määritteet"
@@ -477,9 +488,9 @@ fi:
     label_unwatch: "Älä seuraa"
     label_unwatch_work_package: "Lopeta tehtävän seuraaminen"
     label_uploaded_by: "Lataaja"
-    label_default_queries: "Default"
+    label_default_queries: "Oletus"
     label_starred_queries: "Favorite"
-    label_global_queries: "Public"
+    label_global_queries: "Julkinen"
     label_custom_queries: "Private"
     label_columns: "Sarakkeet"
     label_attachments: Liitteet
@@ -550,7 +561,7 @@ fi:
       reasons:
         mentioned: 'mentioned'
         watched: 'watcher'
-        assigned: 'assignee'
+        assigned: 'vastuu'
         responsible: 'accountable'
         created: 'created'
         scheduled: 'scheduled'
@@ -573,7 +584,7 @@ fi:
         unread: 'Unread'
         unread_title: 'Show unread'
         all: 'Kaikki'
-        all_title: 'Show all'
+        all_title: 'Näytä kaikki'
       center:
         label_actor_and: 'and'
         and_more_users:
@@ -600,7 +611,7 @@ fi:
         by_reason: 'Reason'
         inbox: 'Inbox'
         mentioned: 'Mentioned'
-        watched: 'Watcher'
+        watched: 'Seuraajat'
         date_alert: 'Date alert'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
@@ -622,9 +633,9 @@ fi:
           mentioned:
             title: 'Mentioned'
             description: 'Receive a notification every time someone mentions me anywhere'
-          assignee: 'Assignee'
-          responsible: 'Accountable'
-          watched: 'Watcher'
+          assignee: 'Työn suorittaja'
+          responsible: 'Vastuuhenkilö'
+          watched: 'Seuraajat'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
           work_package_processed: 'All status changes'
@@ -667,8 +678,7 @@ fi:
         Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
       details_activity: 'Project details activity'
       context: 'Project context'
-      work_package_belongs_to: 'Tämä tehtävä kuuluu projektiin %{projectname}.'
-      click_to_switch_context: 'Avaa tehtävä kyseisessä projektissa.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       use_template: "Use template"
       no_template_selected: "(None)"
@@ -924,8 +934,11 @@ fi:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
+        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
       filters:
         title: 'Filter work packages'
+        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Klikkaa lisätäksesi tehtävä luetteloon'
       create:
@@ -962,7 +975,7 @@ fi:
         description: "Kuvaus"
         date: "Päivämäärä"
         dueDate: "Päättymispäivä"
-        duration: "Duration"
+        duration: "Kesto"
         estimatedTime: "Työmääräarvio"
         spentTime: "Käytetty aika"
         category: "Kategoria"
@@ -1075,18 +1088,19 @@ fi:
     toolbar:
       settings:
         configure_view: "Configure view"
-        columns: "Columns"
-        sort_by: "Sort by"
-        group_by: "Group by"
+        columns: "Sarakkeet"
+        sort_by: "Lajitteluperuste"
+        group_by: "Ryhmittely"
         display_sums: "Näytä summat"
         display_hierarchy: "Näytä hierarkia"
         hide_hierarchy: "Piilota hierarkia"
         hide_sums: "Piilottaa summat"
         save: "Tallenna"
-        save_as: "Save as"
-        export: "Export"
-        visibility_settings: "Visibility settings"
-        page_settings: "Rename view"
+        save_as: "Tallenna nimellä"
+        export: "Vie"
+        visibility_settings: "Näkyvyysasetukset"
+        share_calendar: "Subscribe to iCalendar"
+        page_settings: "Nimeä näkymä"
         delete: "Poista"
       filter: "Suodata"
       unselected_title: "Työpaketti"
@@ -1098,7 +1112,7 @@ fi:
       button_save: "Tallenna"
       button_submit: "Lähetä"
       button_cancel: "Peruuta"
-      button_delete: "Delete"
+      button_delete: "Poista"
       form_submit:
         title: 'Vahvista jatkaaksesi'
         text: 'Oletko varma, että haluat suorittaa tämän toiminnon?'
@@ -1154,8 +1168,8 @@ fi:
         other: "%{count} t"
         zero: "0 t"
       day:
-        one: "1 day"
-        other: "%{count} days"
+        one: "päivä"
+        other: "%{count} päivää"
         zero: "0 days"
     zen_mode:
       button_activate: 'Koko näyttö'
@@ -1229,7 +1243,7 @@ fi:
       message:
         label: 'Invitation message'
         description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
-        next_button: 'Next'
+        next_button: 'Seuraava'
       summary:
         next_button: 'Lähetä kutsu'
       success:
@@ -1256,21 +1270,23 @@ fi:
       no_results: 'No project matches your search criteria.'
     baseline:
       toggle_title: 'Baseline'
-      clear: 'Clear'
-      apply: 'Apply'
-      header_description: 'View changes made to work packages in the current view within a time period.'
+      clear: 'Tyhjennä'
+      apply: 'Ota käyttöön'
+      header_description: 'Highlight changes made to this list since any point in the past.'
+      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Show changes since'
+      baseline_comparison: 'Baseline comparison'
       help_description: 'Reference time zone for the baseline.'
       time_description: 'In your local time: %{datetime}'
-      time: 'Time'
-      from: 'From'
-      to: 'To'
+      time: 'Aika'
+      from: 'Alkaen'
+      to: 'Päättyen'
       drop_down:
         none: '-'
-        yesterday: 'yesterday'
+        yesterday: 'eilen'
         last_working_day: 'last working day'
-        last_week: 'last week'
-        last_month: 'last month'
+        last_week: 'viime viikolla'
+        last_month: 'viime kuussa'
         a_specific_date: 'a specific date'
         between_two_specific_dates: 'between two specific dates'
       legends:
@@ -1279,6 +1295,10 @@ fi:
         no_longer_meets_filter_criteria: 'No longer meets filter criteria'
         maintained_with_changes: 'Maintained with changes'
         in_your_timezone: 'In your local timezone:'
+      icon_tooltip:
+        added: 'Added to view within the comparison time period'
+        removed: 'Removed from view within the comparison time period'
+        changed: 'Maintained with modifications'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

@@ -31,6 +31,10 @@ module DemoData
     attr_reader :project
     alias_method :project_data, :seed_data
 
+    self.needs = WorkPackageSeeder.needs + [
+      BasicData::RoleSeeder
+    ]
+
     def seed_data!
       print_status " ↳ Creating project: #{project_data.lookup('name')}"
 
@@ -75,11 +79,11 @@ module DemoData
     def set_members
       print_status '   -Setting members.'
 
-      role = Role.find_by(name: I18n.t(:default_role_project_admin))
+      role = seed_data.find_reference(:default_role_project_admin)
 
       Member.create!(
         project:,
-        principal: user,
+        principal: admin_user,
         roles: [role]
       )
     end
@@ -87,11 +91,7 @@ module DemoData
     def set_types
       print_status '   -Assigning types.'
 
-      project.types.clear
-      Array(project_data.lookup('types')).each do |type_name|
-        type = Type.find_by(name: I18n.t(type_name))
-        project.types << type
-      end
+      project.types = seed_data.find_references(project_data.lookup('types'))
     end
 
     def seed_categories
@@ -107,7 +107,7 @@ module DemoData
 
       project_data.each('news') do |news|
         News.create!(project:,
-                     author: user,
+                     author: admin_user,
                      title: news['title'],
                      summary: news['summary'],
                      description: news['description'])
@@ -118,7 +118,7 @@ module DemoData
       print_status '   -Creating queries.'
 
       Array(project_data.lookup('queries')).each do |config|
-        QueryBuilder.new(config, project:, user:, seed_data:).create!
+        QueryBuilder.new(config, project:, user: admin_user, seed_data:).create!
       end
     end
 
@@ -126,7 +126,7 @@ module DemoData
       print_status '   -Creating versions.'
 
       project_data.each('versions') do |attributes|
-        VersionBuilder.new(attributes, project:, user:, seed_data:).create!
+        VersionBuilder.new(attributes, project:, user: admin_user, seed_data:).create!
       end
     end
 

@@ -13,7 +13,7 @@ def get_possible_values_reordered(amount)
   get_possible_values(amount).sort
 end
 
-describe 'Reordering custom options of a list custom field', js: true do
+RSpec.describe 'Reordering custom options of a list custom field', js: true do
   let(:user) { create(:admin) }
   let(:cf_page) { Pages::CustomFields.new }
 

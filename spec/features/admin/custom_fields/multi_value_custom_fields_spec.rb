@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Multi-value custom fields creation', js: true do
+RSpec.describe 'Multi-value custom fields creation', js: true do
   shared_let(:admin) { create(:admin) }
 
   before do
@@ -48,13 +48,13 @@ describe 'Multi-value custom fields creation', js: true do
     fill_in 'custom_field_custom_options_attributes_0_value', with: 'A'
 
     # Add new row
-    find_by_id('add-custom-option').click
+    page.find('[data-qa-selector="add-custom-option"]').click
     SeleniumHubWaiter.wait
     expect(page).to have_selector('input#custom_field_custom_options_attributes_1_value')
     fill_in 'custom_field_custom_options_attributes_1_value', with: 'B'
 
     # Add new row
-    find_by_id('add-custom-option').click
+    page.find('[data-qa-selector="add-custom-option"]').click
     SeleniumHubWaiter.wait
     expect(page).to have_selector('input#custom_field_custom_options_attributes_2_value')
     fill_in 'custom_field_custom_options_attributes_2_value', with: 'C'
@@ -77,8 +77,11 @@ describe 'Multi-value custom fields creation', js: true do
 
     # We need to hack a target for where to drag the row to
     page.execute_script <<-JS
-      jQuery('#custom-field-dragula-container')
-        .append('<tr class="__drag_and_drop_end_of_list"><td colspan="4" style="height: 100px"></td></tr>');
+      const container = document.querySelector('[data-qa-selector="dragula-container"]');
+      const element = document.createElement('tr')
+      element.classList.add('__drag_and_drop_end_of_list');
+      element.innerHTML = '<td colspan="4" style="height: 100px"></td>';
+      container.insertAdjacentElement('beforeend', element);
     JS
 
     rows = page.all('tr.custom-option-row')
@@ -88,15 +91,14 @@ describe 'Multi-value custom fields creation', js: true do
     sleep 1
 
     page.execute_script <<-JS
-      jQuery('.__drag_and_drop_end_of_list').remove()
+      document.querySelector('.__drag_and_drop_end_of_list').remove();
     JS
 
     click_on 'Save'
-
     # Edit again
-    expect(page).to have_selector('input#custom_field_custom_options_attributes_0_value[value=B]')
-    expect(page).to have_selector('input#custom_field_custom_options_attributes_1_value[value=C]')
-    expect(page).to have_selector('input#custom_field_custom_options_attributes_2_value[value=A]')
+    expect(page).to have_field('custom_field_custom_options_attributes_0_value', with: 'B')
+    expect(page).to have_field('custom_field_custom_options_attributes_1_value', with: 'C')
+    expect(page).to have_field('custom_field_custom_options_attributes_2_value', with: 'A')
 
     cf.reload
     expect(cf.name).to eq('My List CF')

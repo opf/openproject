@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Users::Scopes::WithTimeZone do
+RSpec.describe Users::Scopes::WithTimeZone do
   shared_let(:user_besancon) do
     create(
       :user,

@@ -29,8 +29,8 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Work package resource',
-         content_type: :json do
+RSpec.describe 'API v3 Work package resource',
+               content_type: :json do
   include API::V3::Utilities::PathHelper
 
   create_shared_association_defaults_for_work_package_factory

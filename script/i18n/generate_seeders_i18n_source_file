@@ -35,6 +35,7 @@ if !defined? Rails
 
   require 'pathname'
   require 'yaml'
+  require 'active_support/core_ext/hash/deep_merge'
   require 'active_support/core_ext/hash/keys'
   require 'active_support/core_ext/object/blank'
 
@@ -57,18 +58,23 @@ class GenerateSeederSourceTranslationFiles
     include Source::FilterTranslatables
 
     def call
-      Source::SeedFile.all.each do |seed_file|
-        create_crowdin_source_file(seed_file)
-      end
+      Source::SeedFile.all
+        .group_by { _1.path.dirname }
+        .each do |dir, seed_files|
+          create_crowdin_source_file(dir, seed_files)
+        end
       puts "Done"
     end
 
-    def create_crowdin_source_file(seed_file)
-      source_file_path(seed_file.path).open('w') do |f|
+    def create_crowdin_source_file(dir, seed_files)
+      source_data = translatable_data(seed_files)
+      return if source_data.blank?
+
+      source_file_path(dir).open('w') do |f|
         puts "Generate crowdin source file #{relative_path(f.path)}"
 
         f.puts comment
-        YAML.dump(translatable_data(seed_file), f)
+        YAML.dump(source_data, f)
       end
     end
 
@@ -90,12 +96,18 @@ class GenerateSeederSourceTranslationFiles
       COMMENT
     end
 
-    def translatable_data(seed_file)
+    def translatable_data(seed_files)
+      merged_translatables = seed_files.reduce({}) do |acc, seed_file|
+        translatables = filter_translatables(seed_file.raw_content)
+        next acc if translatables.blank?
+
+        acc.deep_merge(seed_file.name => translatables)
+      end
+      return if merged_translatables.blank?
+
       {
         'en' => {
-          Source::Translate::I18N_PREFIX => {
-            seed_file.name => filter_translatables(seed_file.raw_content)
-          }
+          Source::Translate::I18N_PREFIX => merged_translatables
         }
       }
     end

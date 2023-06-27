@@ -4,7 +4,123 @@
 ---
 he:
   seeds:
+    common:
+      colors:
+        item_0:
+          name: כחול (כהה)
+        item_1:
+          name: כחול
+        item_2:
+          name: כחול (בהיר)
+        item_3:
+          name: ירוק (בהיר)
+        item_4:
+          name: ירוק (כהה)
+        item_5:
+          name: צהוב
+        item_6:
+          name: כתום
+        item_7:
+          name: אדום
+        item_8:
+          name: מג'נטה
+        item_9:
+          name: לבן
+        item_10:
+          name: אפור (בהיר)
+        item_11:
+          name: אפור
+        item_12:
+          name: אפור (כהה)
+        item_13:
+          name: שחור
+      document_categories:
+        item_0:
+          name: Documentation
+        item_1:
+          name: מפרט
+        item_2:
+          name: אחר
+      roles:
+        item_0:
+          name: לא חבר
+        item_1:
+          name: אנונימי
+        item_2:
+          name: חבר
+        item_3:
+          name: קורא
+        item_4:
+          name: מנהל פרוייקט
+        item_5:
+          name: Staff and projects manager
     standard:
+      priorities:
+        item_0:
+          name: נמוך
+        item_1:
+          name: רגיל
+        item_2:
+          name: גבוה
+        item_3:
+          name: מיידי
+      statuses:
+        item_0:
+          name: חדש
+        item_1:
+          name: מפרט
+        item_2:
+          name: מפורט
+        item_3:
+          name: מאושר
+        item_4:
+          name: לתיכנון
+        item_5:
+          name: מתוזמן
+        item_6:
+          name: בביצוע
+        item_7:
+          name: מפתח
+        item_8:
+          name: בבדיקות
+        item_9:
+          name: נבדק
+        item_10:
+          name: הבדיקה נכשלה
+        item_11:
+          name: סגור
+        item_12:
+          name: בהמתנה
+        item_13:
+          name: נדחה
+      time_entry_activities:
+        item_0:
+          name: ניהול
+        item_1:
+          name: מפרט
+        item_2:
+          name: פיתוח
+        item_3:
+          name: בדיקות
+        item_4:
+          name: תמיכה
+        item_5:
+          name: אחר
+      types:
+        item_0:
+          name: משימה
+        item_1:
+          name: אבן דרך
+        item_2:
+          name: שלב
+        item_3:
+          name: תכונה
+        item_4:
+          name: מדהים
+        item_5:
+          name: סיפור משתמש
+        item_6:
+          name: באג
       welcome:
         title: Welcome to OpenProject!
         text: |

@@ -28,46 +28,27 @@
 
 require 'spec_helper'
 
-describe DemoData::WorkPackageSeeder do
+RSpec.describe DemoData::WorkPackageSeeder do
+  include_context 'with basic seed data'
+
   shared_let(:work_week) { week_with_saturday_and_sunday_as_weekend }
-  shared_let(:seeding) do
-    [
-      # Color records needed by StatusSeeder and TypeSeeder
-      BasicData::ColorSeeder,
-      BasicData::ColorSchemeSeeder,
 
-      # Status records needed by WorkPackageSeeder
-      Standard::BasicData::StatusSeeder,
-
-      # Type records needed by WorkPackageSeeder
-      Standard::BasicData::TypeSeeder,
-
-      # IssuePriority records needed by WorkPackageSeeder
-      Standard::BasicData::PrioritySeeder,
-    ].each { |seeder| seeder.new.seed! }
-  end
   let(:project) { create(:project) }
-  let(:new_project_role) { Role.find_by(name: I18n.t(:default_role_project_admin)) }
-  let(:closed_status) { Status.find_by(name: I18n.t(:default_status_closed)) }
+  let(:new_project_role) { seed_data.find_reference(:default_role_project_admin) }
+  let(:closed_status) { seed_data.find_reference(:default_status_closed) }
   let(:work_packages_data) { [] }
-  let(:seed_data) { Source::SeedData.new('work_packages' => work_packages_data) }
+  let(:seed_data) { basic_seed_data.merge(Source::SeedData.new('work_packages' => work_packages_data)) }
 
   def work_package_data(**attributes)
     {
       start: 0,
       subject: "Some subject",
-      status: "default_status_new",
-      type: "default_type_task"
+      status: :default_status_new,
+      type: :default_type_task
     }.merge(attributes).deep_stringify_keys
   end
 
   before do
-    # Admin user needed by ProjectSeeder
-    # The AdminUserSeeder cannot be put in the initial_seeding block as it needs
-    # to add a reference to the created admin user in the seed_data for each
-    # example.
-    AdminUserSeeder.new(seed_data).seed!
-
     work_package_seeder = described_class.new(project, seed_data)
     work_package_seeder.seed!
   end
@@ -283,7 +264,7 @@ describe DemoData::WorkPackageSeeder do
 
   context 'with a work package description referencing a query with ##query:ref notation' do
     let(:seed_data) do
-      seed_data = Source::SeedData.new('work_packages' => work_packages_data)
+      seed_data = basic_seed_data.merge(Source::SeedData.new('work_packages' => work_packages_data))
       seed_data.store_reference(:q_project_plan, query)
       seed_data
     end
@@ -303,7 +284,7 @@ describe DemoData::WorkPackageSeeder do
 
   context 'with a work package description referencing a sprint with ##sprint:ref notation' do
     let(:seed_data) do
-      seed_data = Source::SeedData.new('work_packages' => work_packages_data)
+      seed_data = basic_seed_data.merge(Source::SeedData.new('work_packages' => work_packages_data))
       seed_data.store_reference(:sprint_backlog, sprint)
       seed_data
     end
@@ -323,7 +304,7 @@ describe DemoData::WorkPackageSeeder do
 
   describe 'assigned_to' do
     let(:seed_data) do
-      seed_data = Source::SeedData.new('work_packages' => work_packages_data)
+      seed_data = basic_seed_data.merge(Source::SeedData.new('work_packages' => work_packages_data))
       seed_data.store_reference(:user_bernard, a_user)
       seed_data
     end

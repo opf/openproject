@@ -30,10 +30,6 @@
 
 module Statuses
   class RowComponent < ::RowComponent
-    include ::IconsHelper
-    include ::ColorsHelper
-    include ReorderLinksHelper
-
     def status
       model
     end
@@ -55,7 +51,7 @@ module Statuses
     end
 
     def color
-      icon_for_color status.color
+      helpers.icon_for_color status.color
     end
 
     def done_ratio
@@ -63,9 +59,9 @@ module Statuses
     end
 
     def sort
-      reorder_links 'status',
-                    { action: 'update', id: status },
-                    method: :patch
+      helpers.reorder_links 'status',
+                            { action: 'update', id: status },
+                            method: :patch
     end
 
     def button_links
@@ -76,7 +72,7 @@ module Statuses
 
     def delete_link
       link_to(
-        op_icon('icon icon-delete'),
+        helpers.op_icon('icon icon-delete'),
         status_path(status),
         method: :delete,
         data: { confirm: I18n.t(:text_are_you_sure) },

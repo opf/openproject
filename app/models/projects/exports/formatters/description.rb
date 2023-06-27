@@ -28,7 +28,7 @@
 module Projects::Exports
   module Formatters
     class Description < ::Exports::Formatters::Default
-      def self.apply?(attribute)
+      def self.apply?(attribute, _export_format)
         attribute.to_sym == :description
       end
 

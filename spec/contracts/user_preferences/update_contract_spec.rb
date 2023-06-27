@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
 
-describe UserPreferences::UpdateContract do
+RSpec.describe UserPreferences::UpdateContract do
   include_context 'ModelContract shared context'
 
   let(:current_user) { build_stubbed(:user) }

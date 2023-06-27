@@ -177,16 +177,16 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     return (this.resource.$links as unknown&{ addFileLink:IHalResourceLink }).addFileLink.href;
   }
 
-  private get projectFolderId():string|null {
+  private get projectFolderHref():string|null {
     if (this.projectStorage.projectFolderMode === 'inactive') {
       return null;
     }
 
-    if (this.projectStorage.projectFolderId === null) {
+    if (!this.projectStorage._links.projectFolder) {
       throw new Error(`Project folder id 'null' not allowed for project folder mode '${this.projectStorage.projectFolderMode}'.`);
     }
 
-    return this.projectStorage.projectFolderId;
+    return this.projectStorage._links.projectFolder.href;
   }
 
   private onGlobalDragLeave:(_event:DragEvent) => void = (_event) => {
@@ -293,7 +293,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
       .subscribe(([storage, fileLinks, collectionKey]) => {
         const locals = {
           addFileLinksHref: this.addFileLinksHref,
-          projectFolderId: this.projectFolderId,
+          projectFolderHref: this.projectFolderHref,
           storage,
           collectionKey,
           fileLinks,
@@ -328,7 +328,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
 
   private selectUploadLocation(storage:IStorage):Observable<LocationData> {
     const locals = {
-      projectFolderId: this.projectFolderId,
+      projectFolderHref: this.projectFolderHref,
       storage,
     };
 
@@ -337,7 +337,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
         switchMap((modal) => modal.closingEvent),
         filter((modal) => modal.submitted),
         first(),
-        map((modal) => ({ location: modal.location, files: modal.filesAtLocation })),
+        map((modal) => ({ location: modal.location.id as string, files: modal.filesAtLocation })),
       );
   }
 

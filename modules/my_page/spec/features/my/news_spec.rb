@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../../support/pages/my/page'
 
-describe 'My page news widget spec', js: true do
+RSpec.describe 'My page news widget spec', js: true do
   let!(:project) { create(:project) }
   let!(:other_project) { create(:project) }
   let!(:visible_news) do

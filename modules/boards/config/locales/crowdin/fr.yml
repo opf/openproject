@@ -8,11 +8,11 @@ fr:
     label_boards: "Tableaux"
     board_types:
       free: Basic
-      action: "Action board (%{attribute})"
+      action: "Tableau d'action (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
-      status: Status
+      assignee: Assigné à
+      status: Statut
       version: Version
-      subproject: Subproject
-      subtasks: Parent-child
+      subproject: Sous-projet
+      subtasks: Parent-enfant
       basic: Basic

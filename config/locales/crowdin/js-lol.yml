@@ -65,6 +65,7 @@ lol:
     button_confirm: "crwdns786900:0crwdne786900:0"
     button_continue: "crwdns786902:0crwdne786902:0"
     button_copy: "crwdns786904:0crwdne786904:0"
+    button_copy_to_clipboard: "crwdns855841:0crwdne855841:0"
     button_copy_to_other_project: "crwdns786906:0crwdne786906:0"
     button_custom-fields: "crwdns786908:0crwdne786908:0"
     button_delete: "crwdns786910:0crwdne786910:0"
@@ -105,7 +106,7 @@ lol:
       remove_from_list: 'crwdns786968:0crwdne786968:0'
     caption_rate_history: "crwdns786970:0crwdne786970:0"
     clipboard:
-      browser_error: "crwdns786972:0crwdne786972:0"
+      browser_error: "crwdns855843:0%{content}crwdne855843:0"
       copied_successful: "crwdns786974:0crwdne786974:0"
     chart:
       type: 'crwdns786976:0crwdne786976:0'
@@ -315,6 +316,16 @@ lol:
               learn_about_link: crwdns845735:0crwdne845735:0
               new_features_html: >
                 crwdns845737:0%{list_styling_class}crwdne845737:0
+    ical_sharing_modal:
+      title: "crwdns854469:0crwdne854469:0"
+      inital_setup_error_message: "crwdns854471:0crwdne854471:0"
+      description: "crwdns854473:0crwdne854473:0"
+      warning: "crwdns854475:0crwdne854475:0"
+      token_name_label: "crwdns854477:0crwdne854477:0"
+      token_name_placeholder: "crwdns854479:0crwdne854479:0"
+      token_name_description_text: "crwdns854481:0crwdne854481:0"
+      copy_url_label: "crwdns854483:0crwdne854483:0"
+      ical_generation_error_text: "crwdns854485:0crwdne854485:0"
     label_activate: "crwdns787268:0crwdne787268:0"
     label_assignee: 'crwdns809580:0crwdne809580:0'
     label_add_column_after: "crwdns787270:0crwdne787270:0"
@@ -326,7 +337,7 @@ lol:
     label_add_row_before: "crwdns787282:0crwdne787282:0"
     label_add_selected_columns: "crwdns787284:0crwdne787284:0"
     label_added_by: "crwdns787286:0crwdne787286:0"
-    label_added_time_by: "crwdns787288:0%{authorLink}crwdnd787288:0%{author}crwdnd787288:0%{age}crwdne787288:0"
+    label_added_time_by: "crwdns854509:0%{authorLink}crwdnd854509:0%{author}crwdnd854509:0%{age}crwdne854509:0"
     label_ago: "crwdns787290:0crwdne787290:0"
     label_all: "crwdns787292:0crwdne787292:0"
     label_all_work_packages: "crwdns787294:0crwdne787294:0"
@@ -665,8 +676,7 @@ lol:
         crwdns787798:0crwdne787798:0
       details_activity: 'crwdns844367:0crwdne844367:0'
       context: 'crwdns787800:0crwdne787800:0'
-      work_package_belongs_to: 'crwdns787802:0%{projectname}crwdne787802:0'
-      click_to_switch_context: 'crwdns787804:0crwdne787804:0'
+      click_to_switch_to_project: 'crwdns854867:0%{projectname}crwdne854867:0'
       confirm_template_load: 'crwdns787806:0crwdne787806:0'
       use_template: "crwdns787808:0crwdne787808:0"
       no_template_selected: "crwdns787810:0crwdne787810:0"
@@ -922,8 +932,11 @@ lol:
         addition_label: 'crwdns852071:0crwdne852071:0'
         removal_label: 'crwdns852073:0crwdne852073:0'
         modification_label: 'crwdns852075:0crwdne852075:0'
+        column_incompatible: 'crwdns854449:0crwdne854449:0'
       filters:
         title: 'crwdns833314:0crwdne833314:0'
+        baseline_incompatible: 'crwdns854385:0crwdne854385:0'
+        baseline_warning: 'crwdns854387:0crwdne854387:0'
       inline_create:
         title: 'crwdns788230:0crwdne788230:0'
       create:
@@ -1084,6 +1097,7 @@ lol:
         save_as: "crwdns847283:0crwdne847283:0"
         export: "crwdns847285:0crwdne847285:0"
         visibility_settings: "crwdns847287:0crwdne847287:0"
+        share_calendar: "crwdns854491:0crwdne854491:0"
         page_settings: "crwdns847289:0crwdne847289:0"
         delete: "crwdns788502:0crwdne788502:0"
       filter: "crwdns788504:0crwdne788504:0"
@@ -1256,8 +1270,10 @@ lol:
       toggle_title: 'crwdns852025:0crwdne852025:0'
       clear: 'crwdns852027:0crwdne852027:0'
       apply: 'crwdns852029:0crwdne852029:0'
-      header_description: 'crwdns852031:0crwdne852031:0'
+      header_description: 'crwdns854493:0crwdne854493:0'
+      enterprise_header_description: 'crwdns854495:0crwdne854495:0'
       show_changes_since: 'crwdns852033:0crwdne852033:0'
+      baseline_comparison: 'crwdns854497:0crwdne854497:0'
       help_description: 'crwdns853965:0crwdne853965:0'
       time_description: 'crwdns853967:0%{datetime}crwdne853967:0'
       time: 'crwdns852039:0crwdne852039:0'
@@ -1277,6 +1293,10 @@ lol:
         no_longer_meets_filter_criteria: 'crwdns852623:0crwdne852623:0'
         maintained_with_changes: 'crwdns852625:0crwdne852625:0'
         in_your_timezone: 'crwdns853973:0crwdne853973:0'
+      icon_tooltip:
+        added: 'crwdns854389:0crwdne854389:0'
+        removed: 'crwdns854391:0crwdne854391:0'
+        changed: 'crwdns854393:0crwdne854393:0'
     forms:
       submit_success_message: 'crwdns788750:0crwdne788750:0'
       load_error_message: 'crwdns788752:0crwdne788752:0'

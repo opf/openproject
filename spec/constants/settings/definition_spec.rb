@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Settings::Definition, :settings_reset do
+RSpec.describe Settings::Definition, :settings_reset do
   describe '.add_all' do
     it 'adds all core setting definitions if they are not loaded' do
       described_class.instance_variable_set(:@all, nil)
@@ -152,6 +152,12 @@ describe Settings::Definition, :settings_reset do
         stub_const('ENV', { 'OPENPROJECT_REST__API__ENABLED' => '0' })
         reset(:rest_api_enabled)
         expect(all[:rest_api_enabled].value).to be false
+      end
+
+      it 'overriding symbol configuration having allowed values from ENV will cast the value before validation check' do
+        stub_const('ENV', { 'OPENPROJECT_RAILS__CACHE__STORE' => 'memcache' })
+        reset(:rails_cache_store)
+        expect(all[:rails_cache_store].value).to eq :memcache
       end
 
       it 'overriding datetime configuration from ENV will cast the value' do

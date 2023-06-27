@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CustomStylesHelper do
+RSpec.describe CustomStylesHelper do
   let(:current_theme) { nil }
   let(:bim_edition?) { false }
 

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe EnumerationsController do
+RSpec.describe EnumerationsController do
   shared_let(:admin) { create(:admin) }
 
   current_user do

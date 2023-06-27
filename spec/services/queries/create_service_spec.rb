@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::CreateService do
+RSpec.describe Queries::CreateService do
   let(:user) { build_stubbed(:admin) }
 
   let(:instance) { described_class.new(user:) }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Principals::Scopes::User do
+RSpec.describe Principals::Scopes::User do
   describe '.user' do
     let!(:anonymous_user) { create(:anonymous) }
     let!(:system_user) { create(:system) }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Projects::SetAttributesService, 'integration', type: :model do
+RSpec.describe Projects::SetAttributesService, 'integration', type: :model do
   let(:user) do
     create(:user, global_permissions: %w[add_project])
   end

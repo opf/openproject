@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ProjectsHelper do
+RSpec.describe ProjectsHelper do
   include ApplicationHelper
   include ProjectsHelper
 

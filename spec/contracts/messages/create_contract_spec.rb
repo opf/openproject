@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_contract_examples'
 
-describe Messages::CreateContract do
+RSpec.describe Messages::CreateContract do
   it_behaves_like 'message contract' do
     let(:message) do
       Message.new(forum: message_forum,

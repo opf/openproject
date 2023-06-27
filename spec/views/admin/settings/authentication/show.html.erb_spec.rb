@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'admin/settings/authentication_settings/show' do
+RSpec.describe 'admin/settings/authentication_settings/show' do
   context 'with password login enabled' do
     before do
       allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
@@ -56,31 +56,6 @@ describe 'admin/settings/authentication_settings/show' do
 
     it 'does not show automated user blocking options' do
       expect(rendered).not_to have_text I18n.t('settings.brute_force_prevention')
-    end
-  end
-
-  context 'with no registration_footer configured' do
-    before do
-      allow(OpenProject::Configuration).to receive(:registration_footer).and_return({})
-      render
-    end
-
-    it 'shows the registration footer textfield' do
-      expect(rendered).to have_text I18n.t(:setting_registration_footer)
-    end
-  end
-
-  context 'with registration_footer configured' do
-    before do
-      allow(OpenProject::Configuration)
-        .to receive(:registration_footer)
-        .and_return("en" => "You approve.")
-
-      render
-    end
-
-    it 'does not show the registration footer textfield' do
-      expect(rendered).not_to have_text I18n.t(:setting_registration_footer)
     end
   end
 end

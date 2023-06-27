@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Notifications::GroupMemberAlteredJob, type: :model do
+RSpec.describe Notifications::GroupMemberAlteredJob, type: :model do
   subject(:service_call) do
     described_class.new.perform(current_user, members_ids, message, send_notification)
   end

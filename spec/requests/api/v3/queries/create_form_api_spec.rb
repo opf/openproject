@@ -28,8 +28,8 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe "POST /api/v3/queries/form",
-         with_ee: %i[baseline_comparison], with_flag: { show_changes: true } do
+RSpec.describe "POST /api/v3/queries/form",
+               with_ee: %i[baseline_comparison], with_flag: { show_changes: true } do
   include API::V3::Utilities::PathHelper
 
   let(:path) { api_v3_paths.create_query_form }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'repositories/stats' do
+RSpec.describe 'repositories/stats' do
   let(:project) { create(:project) }
 
   before do

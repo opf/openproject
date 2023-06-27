@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe TabsHelper do
+RSpec.describe TabsHelper do
   include TabsHelper
 
   let(:given_tab) do

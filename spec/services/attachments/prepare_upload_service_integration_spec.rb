@@ -27,8 +27,8 @@
 
 require 'spec_helper'
 
-describe Attachments::PrepareUploadService,
-         'integration' do
+RSpec.describe Attachments::PrepareUploadService,
+               'integration' do
   shared_let(:container) { create(:work_package) }
   shared_let(:user) do
     create(:user,

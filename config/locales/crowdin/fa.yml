@@ -78,8 +78,8 @@ fa:
       book_now: 'Book now'
       get_quote: 'Get a quote'
       buttons:
-        upgrade: "Upgrade now"
-        contact: "Contact us for a demo"
+        upgrade: "هم اکنون ارتقا داده شود"
+        contact: "جهت نسخه نمایشی با ما تماس بگیرید"
       enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
@@ -149,7 +149,7 @@ fa:
       The following fields are related to how users are created in OpenProject from LDAP entries and
       what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
     tls_mode:
-      plain: 'none'
+      plain: 'هیچ کدام'
       simple_tls: 'LDAPS'
       start_tls: 'STARTTLS'
       plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
@@ -182,7 +182,7 @@ fa:
     edit: 'ویرایش عمل سفارشی %{name}'
     execute: 'اجرای %{name}'
     upsale:
-      title: 'Custom actions'
+      title: 'اقدامات سفارشی'
       description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
@@ -202,7 +202,7 @@ fa:
     see_more_link: For more information, please see our documentation on this topic.
   global_search:
     overwritten_tabs:
-      wiki_pages: "Wiki"
+      wiki_pages: "دانشنامه"
       messages: "تالار گفتگو"
   groups:
     index:
@@ -269,11 +269,22 @@ fa:
       notice_reset_token: "نشانه %{type} جدید تولید شده است. رمز دسترسی عبارت است از:"
       token_value_warning: "توجه: این تنها زمانی است که شما رمز دسترسی را می بینید، مطمعن شوید که از آن کپی برداری کرده اید."
       no_results_title_text: There are currently no access tokens available.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: There is currently no news to report.
       no_results_content_text: Add a news item
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'This user is currently a member of the following groups:'
       no_results_title_text: This user is currently not a member in any group.
@@ -476,7 +487,7 @@ fa:
       project:
         active_value:
           true: "unarchived"
-          false: "archived"
+          false: "بایگانی"
         identifier: "شناسه"
         latest_activity_at: "Latest activity at"
         parent: "زیر پروژه ای از "
@@ -485,7 +496,7 @@ fa:
           true: "public"
           false: "private"
         queries: "پرس و جو ها"
-        status_code: 'Project status'
+        status_code: 'وضعیت پروژه'
         status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
@@ -691,6 +702,11 @@ fa:
           overlaps: 'overlap.'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -727,7 +743,7 @@ fa:
         query:
           attributes:
             project:
-              error_not_found: "not found"
+              error_not_found: "یافت نشد"
             public:
               error_unauthorized: "- The user has no permission to create public views."
             group_by:
@@ -851,11 +867,11 @@ fa:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
             password:
-              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}."
-              lowercase: "lowercase (e.g. 'a')"
-              uppercase: "uppercase (e.g. 'A')"
-              numeric: "numeric (e.g. '1')"
-              special: "special (e.g. '%')"
+              weak: "بايد كاراكترهايي از اين گروهها داشته باشد: حداقل  %{min_count} كاراكتر %{all_count}: %{rules}."
+              lowercase: "حروف كوچك"
+              uppercase: "حروف بزرگ"
+              numeric: "عدد"
+              special: "علائم خاص"
               reused:
                 one: "has been used before. Please choose one that is different from your last one."
                 other: "قبلا استفاده شده است. لطفا انتخابی متفاوت از %{count} گذشته انجام دهید."
@@ -865,7 +881,7 @@ fa:
             status:
               invalid_on_create: "is not a valid status for new users."
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "یافت نشد"
         member:
           principal_blank: "لطفا حداقل یک کاربر یا گروه را انتخاب کنید."
           role_blank: "need to be assigned."
@@ -907,7 +923,7 @@ fa:
       type: "نوع"
       user: "User"
       version: "نسخه"
-      wiki: "Wiki"
+      wiki: "دانشنامه"
       wiki_page: "Wiki page"
       workflow: "Workflow"
       work_package: "Work package"
@@ -923,12 +939,12 @@ fa:
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "زیر پروژه"
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
           one: "%{count} hour"
-          other: "%{count} hours"
+          other: "%{count} ساعت"
         hour_html:
           one: "<i>%{count} hour</i>"
           other: "<i>%{count} hours</i>"
@@ -940,8 +956,8 @@ fa:
       news: "News"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
-      wiki_edit: "Wiki"
+      time_entry: "زمان صرف شده"
+      wiki_edit: "دانشنامه"
       work_package: "Work packages"
   #common attributes of all models
   attributes:
@@ -951,7 +967,7 @@ fa:
     attachments: "Attachments"
     author: "نویسنده"
     base: "General Error:"
-    blocks_ids: "IDs of blocked work packages"
+    blocks_ids: "شناسه‌های مسدود کاربسته‌ها"
     category: "Category"
     comment: "نظر"
     comments: "نظر"
@@ -980,10 +996,10 @@ fa:
     #kept for backwards compatibility
     issue: "Work package"
     lastname: "نام خانوادگی"
-    login: "Username"
+    login: "نام كاربري"
     mail: "Email"
     name: "نام"
-    password: "Password"
+    password: "کلمه عبور"
     priority: "اولويت"
     project: "Project"
     responsible: "Accountable"
@@ -999,7 +1015,7 @@ fa:
     updated_on: "به روز شده"
     uploader: "Uploader"
     user: "User"
-    value: "Value"
+    value: "مقدار"
     version: "نسخه"
     work_package: "Work package"
   backup:
@@ -1050,6 +1066,7 @@ fa:
   button_configure: "ویرایش"
   button_continue: "Continue"
   button_copy: "کپی"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "کپی کنید و دنبال کردن"
   button_create: "ایجاد"
   button_create_and_continue: "ذخیره و ادامه"
@@ -1179,7 +1196,7 @@ fa:
       - "October"
       - "November"
       - "December"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - :year
       - :month
@@ -1224,61 +1241,6 @@ fa:
       hour:
         one: "hour"
         other: "ساعت"
-  default_activity_development: "Development"
-  default_activity_management: "مدیریت"
-  default_activity_other: "Other"
-  default_activity_specification: "Specification"
-  default_activity_support: "پشتیبانی"
-  default_activity_testing: "آزمون"
-  default_color_black: "Black"
-  default_color_blue: "Blue"
-  default_color_blue_dark: "Blue (dark)"
-  default_color_blue_light: "Blue (light)"
-  default_color_green_dark: "Green (dark)"
-  default_color_green_light: "Green (light)"
-  default_color_grey_dark: "Grey (dark)"
-  default_color_grey_light: "Grey (light)"
-  default_color_grey: "Grey"
-  default_color_magenta: "Magenta"
-  default_color_orange: "Orange"
-  default_color_red: "قرمز"
-  default_color_white: "White"
-  default_color_yellow: "Yellow"
-  default_status_closed: "Closed"
-  default_status_confirmed: "Confirmed"
-  default_status_developed: "Developed"
-  default_status_in_development: "In development"
-  default_status_in_progress: "In progress"
-  default_status_in_specification: "In specification"
-  default_status_in_testing: "In testing"
-  default_status_new: "جدید"
-  default_status_on_hold: "On hold"
-  default_status_rejected: "رد شده"
-  default_status_scheduled: "Scheduled"
-  default_status_specified: "Specified"
-  default_status_tested: "Tested"
-  default_status_test_failed: "Test failed"
-  default_status_to_be_scheduled: "To be scheduled"
-  default_priority_low: "Low"
-  default_priority_normal: "Normal"
-  default_priority_high: "High"
-  default_priority_immediate: "Immediate"
-  default_role_anonymous: "Anonymous"
-  default_role_developer: "Developer"
-  default_role_project_admin: "Project admin"
-  default_role_project_creator_and_staff_manager: "Staff and projects manager"
-  default_role_non_member: "Non member"
-  default_role_reader: "خواننده"
-  default_role_member: "Member"
-  default_type: "بسته کاری"
-  default_type_bug: "Bug"
-  default_type_deliverable: "تحویل شدنی"
-  default_type_epic: "Epic"
-  default_type_feature: "Feature"
-  default_type_milestone: "Milestone"
-  default_type_phase: "Phase"
-  default_type_task: "وظیفه"
-  default_type_user_story: "User story"
   description_active: "Active?"
   description_attachment_toggle: "Show/Hide attachments"
   description_autocomplete: >
@@ -1396,11 +1358,14 @@ fa:
       atom: "هسته"
       csv: "CSV"
       pdf: "پی دی اف"
-      pdf_with_descriptions: "PDF همراه توضيح"
-      pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
-      pdf_with_attachments: "PDF with attachments"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Image not exported."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext available (optional)"
@@ -1520,6 +1485,12 @@ fa:
   label_api_access_key: "API access key"
   label_api_access_key_created_on: "API access key created %{value} ago"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Applied status"
   label_archive_project: "Archive project"
   label_ascending: "Ascending"
@@ -1555,6 +1526,7 @@ fa:
   label_bulk_edit_selected_work_packages: "Bulk edit selected work packages"
   label_bundled: '(Bundled)'
   label_calendar: "Calendar"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Show Calendar"
   label_category: "Category"
   label_consent_settings: "User Consent"
@@ -1591,7 +1563,6 @@ fa:
   label_contains: "contains"
   label_content: "محتوا"
   label_copied: "copied"
-  label_copy_to_clipboard: "Copy to clipboard"
   label_copy_same_as_target: "Same as target"
   label_copy_source: "Source"
   label_copy_target: "Target"
@@ -1608,11 +1579,12 @@ fa:
   label_database_version: "PostgreSQL version"
   label_date: "تاریخ"
   label_date_and_time: "Date and time"
+  label_date_format: "Date format"
   label_date_from: "From"
   label_date_from_to: "From %{start} to %{end}"
   label_date_to: "To"
   label_day_plural: "days"
-  label_default: "Default"
+  label_default: "پیش‌فرض"
   label_delete_user: "حذف کاربر"
   label_delete_project: "Delete project"
   label_deleted: "deleted"
@@ -1713,6 +1685,7 @@ fa:
   label_journal: "Journal"
   label_journal_diff: "Description Comparison"
   label_language: "زبان"
+  label_languages: "Languages"
   label_jump_to_a_project: "Jump to a project..."
   label_keyword_plural: 'Keywords'
   label_language_based: "Based on user's language"
@@ -1770,6 +1743,7 @@ fa:
   label_more_than_ago: "more than days ago"
   label_move_work_package: "Move work package"
   label_my_account: "My account"
+  label_my_activity: "My activity"
   label_my_account_data: "My account data"
   label_my_projects: "My projects"
   label_my_queries: "My custom queries"
@@ -1811,7 +1785,7 @@ fa:
   label_options: "Options"
   label_other: "Other"
   label_overall_activity: "Overall activity"
-  label_overview: "Overview"
+  label_overview: "نمای کلی"
   label_page_title: "Page title"
   label_part_of: "part of"
   label_password_lost: "Forgot your password?"
@@ -1820,7 +1794,6 @@ fa:
   label_password_rule_special: "Special Characters"
   label_password_rule_uppercase: "Uppercase"
   label_path_encoding: "Path encoding"
-  label_pdf_with_descriptions: "PDF with Descriptions"
   label_per_page: "Per page"
   label_people: "افراد"
   label_permissions: "Permissions"
@@ -1835,7 +1808,7 @@ fa:
   label_modules_and_plugins: "Modules and Plugins"
   label_precedes: "precedes"
   label_preferences: "Preferences"
-  label_preview: "Preview"
+  label_preview: "پيش نمايش"
   label_previous: "Previous"
   label_previous_week: "Previous week"
   label_principal_invite_via_email: " or invite new users via email"
@@ -1972,6 +1945,7 @@ fa:
   label_user_plural: "Users"
   label_user_search: "Search for user"
   label_user_settings: "User settings"
+  label_users_settings: "Users settings"
   label_version_new: "New version"
   label_version_plural: "نسخه ها"
   label_version_sharing_descendants: "With subprojects"
@@ -2362,7 +2336,7 @@ fa:
   project_module_work_package_tracking: "Work package tracking"
   project_module_news: "News"
   project_module_repository: "Repository"
-  project_module_wiki: "Wiki"
+  project_module_wiki: "دانشنامه"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2533,7 +2507,7 @@ fa:
   setting_consent_decline_mail: "Consent contact mail address"
   setting_cross_project_work_package_relations: "Allow cross-project work package relations"
   setting_first_week_of_year: "First week in year contains"
-  setting_date_format: "Date format"
+  setting_date_format: "Date"
   setting_default_language: "Default language"
   setting_default_projects_modules: "Default enabled modules for new projects"
   setting_default_projects_public: "New projects are public by default"
@@ -2545,6 +2519,7 @@ fa:
   setting_enabled_scm: "Enabled SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Enable Feeds"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_host_name: "Host name"
@@ -2595,9 +2570,9 @@ fa:
   setting_start_of_week: "Week starts on"
   setting_sys_api_enabled: "Enable repository management web service"
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
-  setting_time_format: "Time format"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Enable accessibility mode for anonymous users"
-  setting_user_format: "Users display format"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "منطقه زمانی پیش فرض کاربران"
   setting_users_deletable_by_admins: "User accounts deletable by admins"
   setting_users_deletable_by_self: "Users allowed to delete their accounts"
@@ -2606,6 +2581,7 @@ fa:
   setting_welcome_on_homescreen: "Display welcome block on homescreen"
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
+  setting_working_days: "Working days"
   settings:
     general: "General"
     other: "Other"
@@ -2628,6 +2604,7 @@ fa:
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
+      display_format: "Display format"
       deletion: "Deletion"
     highlighting:
       mode_long:
@@ -2636,6 +2613,9 @@ fa:
         status: "Entire row by Status"
         type: "Entire row by Type"
         priority: "Entire row by Priority"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Plain text'
@@ -2842,8 +2822,8 @@ fa:
       grouping_one_phrase: "Is a subproject of"
       grouping_other: "Other"
       hide_chart: "Hide chart"
-      noneElement: "(none)"
-      noneSelection: "(none)"
+      noneElement: "(هیچ)"
+      noneSelection: "(هیچ)"
       outline: "Initial outline expansion"
       parent: "Show subprojects of"
       work_package_responsible: "Show work packages with accountable"
@@ -3002,9 +2982,9 @@ fa:
       title: "Delete the work package"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Redmine::Plugin do
+RSpec.describe Redmine::Plugin do
   let!(:registered_plugins) { described_class.instance_variable_get(:@registered_plugins) }
 
   before do

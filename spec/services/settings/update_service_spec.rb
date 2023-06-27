@@ -26,53 +26,11 @@
 
 require 'spec_helper'
 require_relative 'shared/shared_call_examples'
+require_relative 'shared/shared_setup_context'
 
-describe Settings::UpdateService do
-  let(:instance) do
-    described_class.new(user:)
-  end
-  let(:user) { build_stubbed(:user) }
-  let(:contract) do
-    instance_double(Settings::UpdateContract,
-                    validate: contract_success,
-                    errors: instance_double(ActiveModel::Error))
-  end
-  let(:contract_success) { true }
-  let(:setting_definition) do
-    instance_double(Settings::Definition)
-  end
-  let(:definition_on_change) do
-    instance_double(Proc,
-                    call: nil)
-  end
-  let(:setting_name) { :a_setting_name }
-  let(:new_setting_value) { 'a_new_setting_value' }
-  let(:previous_setting_value) { 'the_previous_setting_value' }
-  let(:params) { { setting_name => new_setting_value } }
 
-  before do
-    # stub a setting definition
-    allow(Settings::Definition)
-      .to receive(:[])
-            .and_call_original
-    allow(Settings::Definition)
-      .to receive(:[])
-            .with(setting_name)
-            .and_return(setting_definition)
-    allow(Setting)
-      .to receive(:[])
-          .and_call_original
-    allow(Setting)
-      .to receive(:[]).with(setting_name)
-          .and_return(previous_setting_value)
-    allow(Setting)
-      .to receive(:[]=)
-
-    # stub contract
-    allow(Settings::UpdateContract)
-      .to receive(:new)
-          .and_return(contract)
-  end
+RSpec.describe Settings::UpdateService do
+  include_context 'with update service setup'
 
   describe '#call' do
     subject { instance.call(params) }

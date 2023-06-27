@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Projects::ScheduleDeletionService, type: :model do
+RSpec.describe Projects::ScheduleDeletionService, type: :model do
   let(:contract_class) do
     contract = double('contract_class', '<=': true)
 

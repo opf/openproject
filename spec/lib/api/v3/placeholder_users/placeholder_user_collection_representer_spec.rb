@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::PlaceholderUsers::PlaceholderUserCollectionRepresenter do
+RSpec.describe API::V3::PlaceholderUsers::PlaceholderUserCollectionRepresenter do
   let(:self_base_link) { '/api/v3/placeholder_users' }
   let(:collection_inner_type) { 'PlaceholderUser' }
   let(:total) { 3 }

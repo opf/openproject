@@ -27,22 +27,36 @@
 //++
 
 import {
-  Component, EventEmitter, Input, OnInit, Output,
+  Component,
+  EventEmitter,
+  HostBinding,
+  Input,
+  OnInit,
+  Output,
+  ViewEncapsulation,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { halHref, compareByHref } from 'core-app/shared/helpers/angular/tracking-functions';
+import {
+  compareByHref,
+  halHref,
+} from 'core-app/shared/helpers/angular/tracking-functions';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
+import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 
 @Component({
   selector: '[query-filter]',
+  styleUrls: ['./query-filter.component.sass'],
   templateUrl: './query-filter.component.html',
+  encapsulation: ViewEncapsulation.None,
 })
 export class QueryFilterComponent implements OnInit {
+  @HostBinding('class.op-query-filter') className = true;
+
   @Input() public shouldFocus = false;
 
   @Input() public filter:QueryFilterInstanceResource;
@@ -57,6 +71,8 @@ export class QueryFilterComponent implements OnInit {
 
   public eeShowBanners = false;
 
+  public baselineIncompatibleFilter = false;
+
   public trackByHref = halHref;
 
   public compareByHref = compareByHref;
@@ -68,13 +84,17 @@ export class QueryFilterComponent implements OnInit {
     upsale_for_more: this.I18n.t('js.filter.upsale_for_more'),
     upsale_link: this.I18n.t('js.filter.upsale_link'),
     button_delete: this.I18n.t('js.button_delete'),
+    incompatible_filter: this.I18n.t('js.work_packages.filters.baseline_incompatible'),
   };
 
-  constructor(readonly wpTableFilters:WorkPackageViewFiltersService,
+  constructor(
+    readonly wpTableFilters:WorkPackageViewFiltersService,
+    readonly wpTableBaseline:WorkPackageViewBaselineService,
     readonly schemaCache:SchemaCacheService,
     readonly I18n:I18nService,
     readonly currentProject:CurrentProjectService,
-    readonly bannerService:BannersService) {
+    readonly bannerService:BannersService,
+  ) {
   }
 
   public onFilterUpdated(filter:QueryFilterInstanceResource) {
@@ -99,6 +119,7 @@ export class QueryFilterComponent implements OnInit {
     this.eeShowBanners = this.bannerService.eeShowBanners;
     this.availableOperators = this.schemaCache.of(this.filter).availableOperators;
     this.showValuesInput = this.showValues();
+    this.baselineIncompatibleFilter = this.wpTableBaseline.isActive() && this.wpTableBaseline.isIncompatibleFilter(this.filter.id);
   }
 
   private showValues() {

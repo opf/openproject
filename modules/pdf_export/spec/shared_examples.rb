@@ -1,4 +1,4 @@
-shared_examples_for "should let you create a configuration" do
+RSpec.shared_examples_for "should let you create a configuration" do
   before do
     post 'create', params:
   end
@@ -7,7 +7,7 @@ shared_examples_for "should let you create a configuration" do
   it { expect(flash[:notice]).to eq(I18n.t(:notice_successful_create)) }
 end
 
-shared_examples_for "should not let you create a configuration" do
+RSpec.shared_examples_for "should not let you create a configuration" do
   before do
     post 'create', params:
   end

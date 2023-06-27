@@ -36,7 +36,12 @@ module OpenProject::Calendar
                    { 'calendar/calendars': %i[index show new destroy] },
                    dependencies: %i[view_calendar add_work_packages edit_work_packages save_queries manage_public_queries],
                    contract_actions: { calendar: %i[create update destroy] }
+        permission :share_calendars,
+                   dependencies: %i[view_calendar],
+                   contract_actions: { calendar: %i[read] }
       end
+
+      # TODO: Add calendar icon to module menu item when Global Calendar Page is added
 
       menu :project_menu,
            :calendar_view,
@@ -56,5 +61,17 @@ module OpenProject::Calendar
 
     add_view :WorkPackagesCalendar,
              contract_strategy: 'Calendar::Views::ContractStrategy'
+
+    initializer 'calendar.register_mimetypes' do
+      # next if defined? Mime::XLS
+
+      Mime::Type.register('text/calendar', :ics)
+    end
+
+    initializer 'calendar.configuration' do
+      ::Settings::Definition.add 'ical_enabled',
+                                 default: true,
+                                 format: :boolean
+    end
   end
 end

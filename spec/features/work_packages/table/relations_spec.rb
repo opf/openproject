@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Work Package table relations', js: true, with_ee: %i[work_package_query_relation_columns] do
+RSpec.describe 'Work Package table relations', js: true, with_ee: %i[work_package_query_relation_columns] do
   let(:user) { create(:admin) }
 
   let(:type) { create(:type) }

@@ -65,6 +65,7 @@ es:
     button_confirm: "Confirmar"
     button_continue: "Continuar"
     button_copy: "Copiar"
+    button_copy_to_clipboard: "Copy to clipboard"
     button_copy_to_other_project: "Copiar en otro proyecto"
     button_custom-fields: "Campos personalizados"
     button_delete: "Eliminar"
@@ -105,7 +106,7 @@ es:
       remove_from_list: 'Eliminar tarjeta de la lista'
     caption_rate_history: "Historial de tasas"
     clipboard:
-      browser_error: "Su navegador no es compatible con copiar al portapapeles. Por favor, copie el texto seleccionado manualmente."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Copiado correctamente en el portapapeles"
     chart:
       type: 'Tipo de gráfico'
@@ -232,7 +233,7 @@ es:
           upgrade_info: "Actualice a un plan de pago para activarla y empiece a usarla en su equipo."
           benefits:
             description: "¿Cuáles son las ventajas de la edición Enterprise on-premises?"
-            high_security: "Funcionalidades de seguridad"
+            high_security: "Funciones de seguridad"
             high_security_text: "Inicio de sesión único (SAML, OpenID Connect, CAS), grupos LDAP."
             installation: "Ayuda en la instalación"
             installation_text: "Nuestros ingenieros de software especializados le guiarán en todo el proceso de instalación y configuración en su propia infraestructura."
@@ -308,15 +309,25 @@ es:
     homescreen:
       blocks:
         new_features:
-          text_new_features: "Obtenga información sobre nuevas funcionalidades y actualizaciones de productos."
-          learn_about: "Más información sobre las nuevas funcionalidades"
+          text_new_features: "Obtenga información sobre nuevas funciones y actualizaciones de productos."
+          learn_about: "Más información sobre las nuevas funciones"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
           '12_5':
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                La versión contiene varias nuevas características y mejoras: <br> <ul class="%{list_styling_class}"> <li>Sube y vincula archivos de paquetes de trabajo su almacenamiento de archivos en Nextcloud.</li> <li>Seguimiento de los cambios del proyecto con la actividad del proyecto.</li> <li>Añadir días festivos públicos para toda la instancia (días no laborables).</li> <li>Archivar proyectos a pesar de no ser administrador.</li> <li>Nuevo filtro por defecto para paquetes de trabajo atrasados.</li> </ul>
+                La versión contiene varias nuevas funciones y mejoras: <br> <ul class="%{list_styling_class}"> <li>Sube y vincula archivos de paquetes de trabajo su almacenamiento de archivos en Nextcloud.</li> <li>Seguimiento de los cambios del proyecto con la actividad del proyecto.</li> <li>Añadir días festivos públicos para toda la instancia (días no laborables).</li> <li>Archivar proyectos a pesar de no ser administrador.</li> <li>Nuevo filtro por defecto para paquetes de trabajo atrasados.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to iCalendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Token name"
+      token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
+      token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the iCal URL."
     label_activate: "Activar"
     label_assignee: 'Asignado a'
     label_add_column_after: "Añadir columna a la derecha"
@@ -328,7 +339,7 @@ es:
     label_add_row_before: "Añadir fila encima"
     label_add_selected_columns: "Agregar columnas seleccionadas"
     label_added_by: "agregado por"
-    label_added_time_by: "Añadido por <a href=%{authorLink}>%{author}</a> a las %{age}"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "días antes"
     label_all: "todos"
     label_all_work_packages: "todos los paquetes de trabajo"
@@ -445,7 +456,7 @@ es:
     label_sort_higher: "Mover hacia arriba"
     label_sort_lower: "Mover hacia abajo"
     label_sorting: "Orden"
-    label_spent_time: "Tiempo dedicado"
+    label_spent_time: "Tiempo invertido"
     label_star_query: "Favorecido"
     label_press_enter_to_save: "Presione enter para guardar los cambios."
     label_public_query: "Público"
@@ -455,7 +466,7 @@ es:
     label_subject: "Asunto"
     label_this_week: "esta semana"
     label_today: "Hoy"
-    label_time_entry_plural: "Tiempo dedicado"
+    label_time_entry_plural: "Tiempo invertido"
     label_up: "Arriba"
     label_user_plural: "Usuarios"
     label_activity_show_only_comments: "Solo mostrar las actividades con comentarios"
@@ -516,7 +527,7 @@ es:
         project_selection: 'Haga clic en uno de los proyectos de demostración que hemos preparado. Los datos de demostración solo están disponibles en inglés actualmente. <br> El <b>proyecto general de demostración</b> es la opción recomendada para la gestión de proyectos clásica, mientras que el <b>proyecto de Scrum</b> es más adecuado para la gestión de proyectos Agile.'
         quick_add_button: 'Haga clic en el icono del signo más (+) en el menú de navegación del encabezado para <b>crear un proyecto</b> o <b>invitar a compañeros</b>.'
         sidebar_arrow: "Usa la flecha de retorno en la esquina superior izquierda para regresar al <b>menú principal</b> del proyecto."
-        welcome: 'Realice un paseo de introducción de tres minutos para conocer las <b>funcionalidades más importantes</b>. <br> Le recomendamos que complete todos los pasos. Puede volver a iniciar el paseo en cualquier momento.'
+        welcome: 'Realice un paseo de introducción de tres minutos para conocer las <b>funciones más importantes</b>. <br> Le recomendamos que complete todos los pasos. Puede volver a iniciar el paseo en cualquier momento.'
         wiki: 'En la <b>wiki</b>, puede elaborar documentos y compartir conocimientos con su equipo.'
         backlogs:
           overview: "Administre su trabajo en la vista de <b>trabajos pendientes</b>."
@@ -526,7 +537,7 @@ es:
           task_board: "En el panel de tareas, se muestra el <b>progreso de este sprint</b>. Haga clic en el icono del signo más (+) junto a una historia de usuario para añadir nuevas tareas o impedimentos. <br> Puede actualizar el estado mediante las funciones de arrastrar y colocar."
         boards:
           overview: 'Seleccione los <b>paneles</b> para cambiar la vista y gestione su proyecto con la vista de paneles Agile.'
-          lists_kanban: 'Aquí puede crear varias listas (columnas) en el panel. Por ejemplo, esta funcionalidad le permite crear un <b>panel Kanban</b>.'
+          lists_kanban: 'Aquí puede crear varias listas (columnas) en el panel. Por ejemplo, esta función le permite crear un <b>panel Kanban</b>.'
           lists_basic: 'Aquí puede crear varias listas (columnas) en el panel Agile.'
           add: 'Haga clic en el icono del signo más (+) para <b>crear una tarjeta</b> o <b>añadir una tarjeta existente</b> a la lista en el panel.'
           drag: 'Arrastre y coloque las tarjetas en una lista específica para cambiar el orden o moverlas a otra lista. <br> Para ver los detalles, haga clic en el icono de información (i) de la esquina superior derecha o haga doble clic en una tarjeta.'
@@ -667,8 +678,7 @@ es:
         Seleccione el proyecto donde quiere crear el paquete de trabajo para ver todos los atributos. Solo puede seleccionar proyectos que tengan activado el tipo de paquete utilizado.
       details_activity: 'Actividad de detalles del proyecto'
       context: 'Contexto del proyecto'
-      work_package_belongs_to: 'Este paquete de trabajo pertenece al proyecto %{projectname}.'
-      click_to_switch_context: 'Abra este paquete de trabajo en ese proyecto.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Al cambiar la plantilla, se actualizará la página y perderá todos los datos introducidos en el formulario. ¿Quiere continuar?'
       use_template: "Usar plantilla"
       no_template_selected: "(Ninguna)"
@@ -823,7 +833,7 @@ es:
       empty: "(vacío)"
       error: "Ha ocurrido un error."
       errors:
-        not_implemented: "La línea temporal no puede procesarse porque utiliza una característica que no se ha implementado todavía."
+        not_implemented: "La línea temporal no puede procesarse porque utiliza una función que no se ha implementado todavía."
         report_comparison: "La línea temporal no puede hacer las comparaciones configuradas. Consulte la sección pertinente en la configuración, reiniciarla puede ayudar a resolver este problema."
         report_epicfail: "No se pudo cargar la línea temporal debido a un error inesperado."
         report_timeout: "No se pudo cargar la línea temporal en una cantidad razonable de tiempo."
@@ -924,8 +934,11 @@ es:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
+        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
       filters:
         title: 'Filtrar paquetes de trabajo'
+        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Haga clic aquí para agregar un nuevo paquete de trabajo a esta lista'
       create:
@@ -964,7 +977,7 @@ es:
         dueDate: "Fecha de finalización"
         duration: "Duración"
         estimatedTime: "Tiempo estimado"
-        spentTime: "Tiempo empleado"
+        spentTime: "Tiempo invertido"
         category: "Categoría"
         percentageDone: "Porcentaje realizado"
         priority: "Prioridad"
@@ -1086,6 +1099,7 @@ es:
         save_as: "Guardar como"
         export: "Exportar"
         visibility_settings: "Configuración de visibilidad"
+        share_calendar: "Subscribe to iCalendar"
         page_settings: "Renombrar vista"
         delete: "Borrar"
       filter: "Filtro"
@@ -1256,21 +1270,23 @@ es:
       no_results: 'Ningún producto coincide con tu criterio de búsqueda'
     baseline:
       toggle_title: 'Baseline'
-      clear: 'Clear'
-      apply: 'Apply'
-      header_description: 'View changes made to work packages in the current view within a time period.'
+      clear: 'Eliminar'
+      apply: 'Aplicar'
+      header_description: 'Highlight changes made to this list since any point in the past.'
+      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Show changes since'
+      baseline_comparison: 'Baseline comparison'
       help_description: 'Reference time zone for the baseline.'
       time_description: 'In your local time: %{datetime}'
-      time: 'Time'
-      from: 'From'
-      to: 'To'
+      time: 'Tiempo'
+      from: 'De'
+      to: 'Para'
       drop_down:
         none: '-'
-        yesterday: 'yesterday'
+        yesterday: 'ayer'
         last_working_day: 'last working day'
         last_week: 'Semana anterior'
-        last_month: 'last month'
+        last_month: 'El mes pasado'
         a_specific_date: 'a specific date'
         between_two_specific_dates: 'between two specific dates'
       legends:
@@ -1279,6 +1295,10 @@ es:
         no_longer_meets_filter_criteria: 'No longer meets filter criteria'
         maintained_with_changes: 'Maintained with changes'
         in_your_timezone: 'In your local timezone:'
+      icon_tooltip:
+        added: 'Added to view within the comparison time period'
+        removed: 'Removed from view within the comparison time period'
+        changed: 'Maintained with modifications'
     forms:
       submit_success_message: 'El formulario se envió correctamente'
       load_error_message: 'Se produjo un error al cargar el formulario'

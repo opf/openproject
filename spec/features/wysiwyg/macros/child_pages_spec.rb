@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe 'Wysiwyg child pages spec',
-         js: true do
+RSpec.describe 'Wysiwyg child pages spec',
+               js: true do
   let(:project) do
     create(:project,
            enabled_module_names: %w[wiki])

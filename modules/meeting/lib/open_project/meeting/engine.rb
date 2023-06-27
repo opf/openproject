@@ -64,9 +64,10 @@ module OpenProject::Meeting
            icon: 'meetings'
 
       menu :top_menu,
-           :meetings, { controller: '/meetings', project_id: nil, action: 'index' },
+           :meetings, { controller: '/meetings', action: 'index', project_id: nil },
            context: :modules,
            caption: :label_meeting_plural,
+           icon: 'meetings',
            if: Proc.new {
              OpenProject::FeatureDecisions.more_global_index_pages_active? &&
               (User.current.logged? || !Setting.login_required?) &&
@@ -81,7 +82,6 @@ module OpenProject::Meeting
     activity_provider :meetings, class_name: 'Activities::MeetingActivityProvider', default: false
 
     patches [:Project]
-    patch_with_namespace :BasicData, :RoleSeeder
     patch_with_namespace :BasicData, :SettingSeeder
 
     patch_with_namespace :OpenProject, :TextFormatting, :Formats, :Markdown, :TextileConverter

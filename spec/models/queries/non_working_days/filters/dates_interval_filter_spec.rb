@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::NonWorkingDays::Filters::DatesIntervalFilter do
+RSpec.describe Queries::NonWorkingDays::Filters::DatesIntervalFilter do
   it_behaves_like 'basic query filter' do
     let(:type) { :date }
     let(:class_key) { :date }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Projects::Filters::UserActionFilter do
+RSpec.describe Queries::Projects::Filters::UserActionFilter do
   it_behaves_like 'basic query filter' do
     let(:class_key) { :user_action }
     let(:type) { :list }

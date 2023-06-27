@@ -29,11 +29,6 @@ ro:
   default_doc_category_tech: "Documentație tehnică"
   default_doc_category_user: "Documentația utilizatorului"
   enumeration_doc_categories: "Document nou"
-  enumeration:
-    document_category:
-      documentation: Documentație
-      specification: Specificație
-      other: Altele
   documents:
     label_attachment_author: "Autorul anexei"
   label_document_added: "Document adăugat"

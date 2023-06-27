@@ -65,6 +65,7 @@ ro:
     button_confirm: "Confirmă"
     button_continue: "Continuaţi"
     button_copy: "Copiere"
+    button_copy_to_clipboard: "Copy to clipboard"
     button_copy_to_other_project: "Copiază în alt proiect"
     button_custom-fields: "Câmpuri personalizate"
     button_delete: "Ștergere"
@@ -105,7 +106,7 @@ ro:
       remove_from_list: 'Alegeți intervalul din listă'
     caption_rate_history: "Istoricul ratei"
     clipboard:
-      browser_error: "Browser-ul nu acceptă copierea în ecranul tampon. Vă rugăm să copiaţi textul selectat manual."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Copiat cu succes în clipboard!"
     chart:
       type: 'Tipul de diagramă'
@@ -316,6 +317,16 @@ ro:
               learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
                 Versiunea conţine diverse caracteristici noi şi îmbunătăţiri: <br> <ul class="%{list_styling_class}"> <li>Încărcaţi şi conectaţi fişiere din pachetele de lucru la spaţiul de stocare al fişierului Nextcloud.</li> <li>Monitorizarea schimbărilor de proiect în urmărirea activității proiectului.</li> <li>Adaugă sărbători publice pentru o anumită instanță (zile nelucrătoare).</li> <li>Proiecte arhivate altele decât administratorii.</li> <li>Un filtru nou implicit pentru pachetele de lucru restante.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to iCalendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Token name"
+      token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
+      token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the iCal URL."
     label_activate: "Activare"
     label_assignee: 'Executant'
     label_add_column_after: "Adauga o coloana dupa"
@@ -327,7 +338,7 @@ ro:
     label_add_row_before: "Adauga un rand inainte"
     label_add_selected_columns: "Adăugați coloanele selectate"
     label_added_by: "adăugat de"
-    label_added_time_by: "Adăugat de <a href=%{authorLink}>%{author}</a> la %{age}"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "zile în urmă"
     label_all: "toate"
     label_all_work_packages: "toate pachetele de lucru"
@@ -667,8 +678,7 @@ ro:
         Vă rugăm să alegeți un proiect în care să creați pachetul de lucru pentru a vedea toate atributele. Puteți selecta numai proiectele care au tipul de mai sus activat.
       details_activity: 'Activitate detalii proiect'
       context: 'Contextul proiectului'
-      work_package_belongs_to: 'Acest pachet de lucru face parte din proiectul %{projectname}.'
-      click_to_switch_context: 'Deschide pachetul de lucru din acel proiect.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Schimbarea șablonului va reîncărca pagina și veți pierde toate datele introduse în acest formular. Continuați?'
       use_template: "Utilizează șablon"
       no_template_selected: "(Nimic)"
@@ -924,8 +934,11 @@ ro:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
+        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
       filters:
         title: 'Filtrare pachete de lucru'
+        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Click aici pentru a adăuga un nou pachet de lucru în listă'
       create:
@@ -1086,6 +1099,7 @@ ro:
         save_as: "Salvare ca"
         export: "Exportare"
         visibility_settings: "Setări de vizibilitate"
+        share_calendar: "Subscribe to iCalendar"
         page_settings: "Redenumire"
         delete: "Ștergere"
       filter: "Filtrare"
@@ -1258,21 +1272,23 @@ ro:
       no_results: 'Niciun proiect nu corespunde criteriilor de căutare.'
     baseline:
       toggle_title: 'Baseline'
-      clear: 'Clear'
-      apply: 'Apply'
-      header_description: 'View changes made to work packages in the current view within a time period.'
+      clear: 'Inițializare'
+      apply: 'Salvare'
+      header_description: 'Highlight changes made to this list since any point in the past.'
+      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Show changes since'
+      baseline_comparison: 'Baseline comparison'
       help_description: 'Reference time zone for the baseline.'
       time_description: 'In your local time: %{datetime}'
-      time: 'Time'
-      from: 'From'
-      to: 'To'
+      time: 'Ora'
+      from: 'Din'
+      to: 'La'
       drop_down:
         none: '-'
-        yesterday: 'yesterday'
+        yesterday: 'ieri'
         last_working_day: 'last working day'
-        last_week: 'last week'
-        last_month: 'last month'
+        last_week: 'săptămâna trecută'
+        last_month: 'luna trecută'
         a_specific_date: 'a specific date'
         between_two_specific_dates: 'between two specific dates'
       legends:
@@ -1281,6 +1297,10 @@ ro:
         no_longer_meets_filter_criteria: 'No longer meets filter criteria'
         maintained_with_changes: 'Maintained with changes'
         in_your_timezone: 'In your local timezone:'
+      icon_tooltip:
+        added: 'Added to view within the comparison time period'
+        removed: 'Removed from view within the comparison time period'
+        changed: 'Maintained with modifications'
     forms:
       submit_success_message: 'Formularul a fost trimis cu succes'
       load_error_message: 'A apărut o eroare la încărcarea formularului'

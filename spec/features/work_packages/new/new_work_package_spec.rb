@@ -3,7 +3,7 @@ require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
 require 'features/page_objects/notification'
 
-describe 'new work package', js: true do
+RSpec.describe 'new work package', js: true do
   let(:type_task) { create(:type_task) }
   let(:type_milestone) { create(:type_milestone, position: type_task.position + 1) }
   let(:type_bug) { create(:type_bug, position: type_milestone.position + 1) }

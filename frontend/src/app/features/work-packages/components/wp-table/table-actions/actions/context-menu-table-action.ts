@@ -3,7 +3,7 @@ import {
   contextMenuLinkClassName,
   OpTableAction,
 } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
-import { opIconElement } from 'core-app/shared/helpers/op-icon-builder';
+import { spotIconElement } from 'core-app/shared/helpers/spot-icon-builder';
 
 export class OpContextMenuTableAction extends OpTableAction {
   public readonly identifier = 'open-context-menu-action';
@@ -17,7 +17,7 @@ export class OpContextMenuTableAction extends OpTableAction {
     contextMenu.href = '#';
     contextMenu.classList.add(contextMenuLinkClassName, contextColumnIcon);
     contextMenu.title = this.text.linkTitle;
-    contextMenu.appendChild(opIconElement('icon', 'icon-show-more-horizontal'));
+    contextMenu.appendChild(spotIconElement('show-more-horizontal'));
 
     return contextMenu;
   }

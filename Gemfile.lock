@@ -1,13 +1,24 @@
 GIT
-  remote: https://github.com/opf/md-to-pdf
-  revision: fc2724113cecd758a77b347042276ece8d119a03
-  tag: v0.0.15
+  remote: https://github.com/crohr/turbo_tests.git
+  revision: 3148ae6c34828e969e8005eaa592935bfc1afbf3
+  ref: fix/runtime-info
   specs:
-    md_to_pdf (0.0.15)
+    turbo_tests (2.0.0)
+      bundler (>= 2.1)
+      parallel_tests (>= 3.3.0, < 5)
+      rspec (>= 3.10)
+
+GIT
+  remote: https://github.com/opf/md-to-pdf
+  revision: 10bbfbd6f4afdb36918ed9ea686c818144683738
+  tag: v0.0.18
+  specs:
+    md_to_pdf (0.0.18)
       commonmarker (~> 0.23)
       front_matter_parser (~> 1.0)
+      json-schema (~> 4.0)
       matrix (~> 0.4)
-      nokogiri (~> 1.14)
+      nokogiri (~> 1.15)
       prawn (~> 2.4)
       prawn-table (~> 0.2)
       text-hyphen (~> 1.5)
@@ -86,6 +97,7 @@ PATH
   remote: modules/calendar
   specs:
     openproject-calendar (1.0.0)
+      icalendar (~> 2.8.0)
 
 PATH
   remote: modules/costs
@@ -183,7 +195,7 @@ PATH
   remote: modules/two_factor_authentication
   specs:
     openproject-two_factor_authentication (1.0.0)
-      aws-sdk-sns (~> 1.60.0)
+      aws-sdk-sns (~> 1.61.0)
       messagebird-rest (~> 1.4.2)
       rotp (~> 6.1)
 
@@ -296,7 +308,7 @@ GEM
       airbrake-ruby (~> 6.0)
     airbrake-ruby (6.2.1)
       rbtree3 (~> 0.6)
-    appsignal (3.4.2)
+    appsignal (3.4.4)
       rack
     ast (2.4.2)
     attr_required (1.0.1)
@@ -305,25 +317,25 @@ GEM
     awesome_nested_set (3.5.0)
       activerecord (>= 4.0.0, < 7.1)
     aws-eventstream (1.2.0)
-    aws-partitions (1.769.0)
-    aws-sdk-core (3.173.1)
+    aws-partitions (1.780.0)
+    aws-sdk-core (3.175.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.5)
       jmespath (~> 1, >= 1.6.1)
-    aws-sdk-kms (1.64.0)
-      aws-sdk-core (~> 3, >= 3.165.0)
+    aws-sdk-kms (1.67.0)
+      aws-sdk-core (~> 3, >= 3.174.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.122.0)
-      aws-sdk-core (~> 3, >= 3.165.0)
+    aws-sdk-s3 (1.126.0)
+      aws-sdk-core (~> 3, >= 3.174.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.4)
-    aws-sdk-sns (1.60.0)
-      aws-sdk-core (~> 3, >= 3.165.0)
+    aws-sdk-sns (1.61.0)
+      aws-sdk-core (~> 3, >= 3.174.0)
       aws-sigv4 (~> 1.1)
     aws-sigv4 (1.5.2)
       aws-eventstream (~> 1, >= 1.0.2)
-    bcrypt (3.1.18)
+    bcrypt (3.1.19)
     bindata (2.4.15)
     bootsnap (1.16.0)
       msgpack (~> 1.2)
@@ -331,7 +343,7 @@ GEM
     browser (5.3.1)
     builder (3.2.4)
     byebug (11.1.3)
-    capybara (3.39.1)
+    capybara (3.39.2)
       addressable
       matrix
       mini_mime (>= 0.1.3)
@@ -367,7 +379,7 @@ GEM
     css_parser (1.14.0)
       addressable
     daemons (1.4.1)
-    dalli (3.2.4)
+    dalli (3.2.5)
     date (3.3.3)
     date_validator (0.12.0)
       activemodel (>= 3)
@@ -391,7 +403,7 @@ GEM
       representable (>= 3.1.1, < 4)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
-    doorkeeper (5.5.4)
+    doorkeeper (5.6.6)
       railties (>= 5)
     dotenv (2.8.1)
     dotenv-rails (2.8.1)
@@ -411,8 +423,6 @@ GEM
       dry-inflector (~> 1.0)
       dry-logic (~> 1.4)
       zeitwerk (~> 2.6)
-    ecma-re-validator (0.4.0)
-      regexp_parser (~> 2.2)
     em-http-request (1.1.7)
       addressable (>= 2.3.4)
       cookiejar (!= 0.3.1)
@@ -439,7 +449,7 @@ GEM
     factory_bot_rails (6.2.0)
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
-    faraday (2.7.5)
+    faraday (2.7.6)
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
     faraday-follow_redirects (0.3.0)
@@ -489,7 +499,7 @@ GEM
       retriable (>= 2.0, < 4.a)
       rexml
       webrick
-    google-apis-gmail_v1 (0.28.0)
+    google-apis-gmail_v1 (0.29.0)
       google-apis-core (>= 0.11.0, < 2.a)
     googleauth (1.5.2)
       faraday (>= 0.17.3, < 3.a)
@@ -524,7 +534,7 @@ GEM
       domain_name (~> 0.5)
     http_parser.rb (0.6.0)
     httpclient (2.8.3)
-    i18n (1.13.0)
+    i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     i18n-js (3.9.2)
       i18n (>= 0.6.6)
@@ -533,7 +543,7 @@ GEM
     ice_cube (0.16.4)
     interception (0.5)
     io-console (0.6.0)
-    irb (1.6.4)
+    irb (1.7.0)
       reline (>= 0.3.0)
     iso8601 (0.13.0)
     jmespath (1.6.2)
@@ -544,20 +554,22 @@ GEM
       bindata
       faraday (~> 2.0)
       faraday-follow_redirects
-    json_schemer (0.2.24)
-      ecma-re-validator (~> 0.3)
+    json-schema (4.0.0)
+      addressable (>= 2.8)
+    json_schemer (1.0.3)
       hana (~> 1.3)
       regexp_parser (~> 2.0)
-      uri_template (~> 0.7)
+      simpleidn (~> 0.2)
     json_spec (1.1.5)
       multi_json (~> 1.0)
       rspec (>= 2.0, < 4.0)
-    jwt (2.7.0)
+    jwt (2.7.1)
     ladle (1.0.1)
       open4 (~> 1.0)
+    language_server-protocol (3.17.0.3)
     launchy (2.5.2)
       addressable (~> 2.8)
-    lefthook (1.4.1)
+    lefthook (1.4.3)
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
     listen (3.8.0)
@@ -612,7 +624,7 @@ GEM
     mini_mime (1.1.2)
     mini_portile2 (2.8.2)
     minisyntax (0.2.5)
-    minitest (5.18.0)
+    minitest (5.18.1)
     msgpack (1.7.1)
     multi_json (1.15.0)
     mustermann (3.0.0)
@@ -635,7 +647,7 @@ GEM
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     octicons (19.1.0)
-    oj (3.14.3)
+    oj (3.15.0)
     okcomputer (1.18.4)
     omniauth-saml (1.10.3)
       omniauth (~> 1.3, >= 1.3.2)
@@ -664,8 +676,9 @@ GEM
     parallel (1.23.0)
     parallel_tests (4.2.1)
       parallel
-    parser (3.2.2.1)
+    parser (3.2.2.3)
       ast (~> 2.4.1)
+      racc
     pdf-core (0.9.0)
     pdf-inspector (1.3.0)
       pdf-reader (>= 1.0, < 3.0.a)
@@ -713,12 +726,12 @@ GEM
       eventmachine_httpserver
       http_parser.rb (~> 0.6.0)
       multi_json
-    puma (6.2.2)
+    puma (6.3.0)
       nio4r (~> 2.0)
     puma-plugin-statsd (2.4.0)
       puma (>= 5.0, < 7)
     raabro (1.4.0)
-    racc (1.6.2)
+    racc (1.7.1)
     rack (2.2.7)
     rack-accept (0.4.5)
       rack (>= 0.4)
@@ -764,8 +777,9 @@ GEM
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.5.0)
-      loofah (~> 2.19, >= 2.19.1)
+    rails-html-sanitizer (1.6.0)
+      loofah (~> 2.21)
+      nokogiri (~> 1.14)
     rails-i18n (7.0.7)
       i18n (>= 0.7, < 2)
       railties (>= 6.0.0, < 8)
@@ -786,8 +800,8 @@ GEM
       psych (>= 4.0.0)
     recaptcha (5.14.0)
     redcarpet (3.6.0)
-    regexp_parser (2.8.0)
-    reline (0.3.4)
+    regexp_parser (2.8.1)
+    reline (0.3.5)
       io-console (~> 0.5)
     representable (3.2.0)
       declarative (< 0.1.0)
@@ -809,7 +823,7 @@ GEM
     roar (1.2.0)
       representable (~> 3.1)
     rotp (6.2.2)
-    rouge (4.1.1)
+    rouge (4.1.2)
     rspec (3.12.0)
       rspec-core (~> 3.12.0)
       rspec-expectations (~> 3.12.0)
@@ -822,7 +836,7 @@ GEM
     rspec-mocks (3.12.5)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.12.0)
-    rspec-rails (6.0.2)
+    rspec-rails (6.0.3)
       actionpack (>= 6.1)
       activesupport (>= 6.1)
       railties (>= 6.1)
@@ -833,23 +847,24 @@ GEM
     rspec-retry (0.6.2)
       rspec-core (> 3.3)
     rspec-support (3.12.0)
-    rubocop (1.51.0)
+    rubocop (1.53.0)
       json (~> 2.3)
+      language_server-protocol (>= 3.17.0)
       parallel (~> 1.10)
-      parser (>= 3.2.0.0)
+      parser (>= 3.2.2.3)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 1.8, < 3.0)
       rexml (>= 3.2.5, < 4.0)
       rubocop-ast (>= 1.28.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 3.0)
-    rubocop-ast (1.28.1)
+    rubocop-ast (1.29.0)
       parser (>= 3.2.1.0)
     rubocop-capybara (2.18.0)
       rubocop (~> 1.41)
     rubocop-factory_bot (2.23.1)
       rubocop (~> 1.33)
-    rubocop-rails (2.19.1)
+    rubocop-rails (2.20.2)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
@@ -869,7 +884,7 @@ GEM
       nokogiri (>= 1.13.10)
       rexml
     ruby2_keywords (0.0.5)
-    rubytree (2.0.0)
+    rubytree (2.0.1)
       json (~> 2.0, > 2.3.1)
     rubyzip (2.3.2)
     sanitize (6.0.1)
@@ -884,7 +899,7 @@ GEM
       sprockets-rails
       tilt
     secure_headers (6.5.0)
-    selenium-webdriver (4.9.1)
+    selenium-webdriver (4.10.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
@@ -897,6 +912,8 @@ GEM
       faraday (>= 0.17.5, < 3.a)
       jwt (>= 1.5, < 3.0)
       multi_json (~> 1.10)
+    simpleidn (0.2.1)
+      unf (~> 0.1.4)
     spreadsheet (1.3.0)
       ruby-ole
     spring (4.1.1)
@@ -912,7 +929,7 @@ GEM
     ssrf_filter (1.1.1)
     stackprof (0.2.25)
     stringex (2.8.6)
-    stringio (3.0.6)
+    stringio (3.0.7)
     structured_warnings (0.4.0)
     svg-graph (2.2.2)
     swd (2.0.2)
@@ -931,6 +948,10 @@ GEM
     timeout (0.3.2)
     trailblazer-option (0.1.2)
     ttfunk (1.7.0)
+    turbo-rails (1.4.0)
+      actionpack (>= 6.0.0)
+      activejob (>= 6.0.0)
+      railties (>= 6.0.0)
     typed_dag (2.0.2)
       rails (>= 5.0.4)
     tzinfo (2.0.6)
@@ -942,14 +963,13 @@ GEM
       unf_ext
     unf_ext (0.0.8.2)
     unicode-display_width (2.4.2)
-    uri_template (0.7.0)
     validate_email (0.1.6)
       activemodel (>= 3.0)
       mail (>= 2.2.5)
     validate_url (1.0.15)
       activemodel (>= 3.0.0)
       public_suffix
-    view_component (3.0.0)
+    view_component (3.2.0)
       activesupport (>= 5.2.0, < 8.0)
       concurrent-ruby (~> 1.0)
       method_source (~> 1.0)
@@ -974,7 +994,7 @@ GEM
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    will_paginate (3.3.1)
+    will_paginate (4.0.0)
     with_advisory_lock (4.6.0)
       activerecord (>= 4.2)
     xpath (3.2.0)
@@ -1023,7 +1043,7 @@ DEPENDENCIES
   delayed_cron_job (~> 0.9.0)
   delayed_job_active_record (~> 4.1.5)
   disposable (~> 0.6.2)
-  doorkeeper (~> 5.5.0)
+  doorkeeper (~> 5.6.6)
   dotenv-rails
   email_validator (~> 2.2.3)
   equivalent-xml (~> 0.6)
@@ -1044,7 +1064,7 @@ DEPENDENCIES
   html-pipeline (~> 2.14.0)
   htmldiff
   i18n-js (~> 3.9.0)
-  json_schemer (~> 0.2.18)
+  json_schemer (~> 1.0.1)
   json_spec (~> 1.1.4)
   ladle
   launchy (~> 2.5.0)
@@ -1063,7 +1083,7 @@ DEPENDENCIES
   my_page!
   net-ldap (~> 0.18.0)
   nokogiri (~> 1.15.1)
-  oj (~> 3.14.0)
+  oj (~> 3.15.0)
   okcomputer (~> 1.18.1)
   omniauth!
   omniauth-openid-connect!
@@ -1153,6 +1173,8 @@ DEPENDENCIES
   table_print (~> 1.5.6)
   test-prof (~> 1.2.0)
   timecop (~> 0.9.0)
+  turbo-rails (~> 1.1)
+  turbo_tests!
   typed_dag (~> 2.0.2)
   tzinfo-data (~> 1.2023.1)
   validate_url
@@ -1161,7 +1183,7 @@ DEPENDENCIES
   warden-basic_auth (~> 0.2.1)
   webdrivers (~> 5.2.0)
   webmock (~> 3.12)
-  will_paginate (~> 3.3.0)
+  will_paginate (~> 4.0.0)
   with_advisory_lock (~> 4.6.0)
 
 RUBY VERSION

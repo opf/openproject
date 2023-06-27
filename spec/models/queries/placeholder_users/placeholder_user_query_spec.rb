@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::PlaceholderUsers::PlaceholderUserQuery do
+RSpec.describe Queries::PlaceholderUsers::PlaceholderUserQuery do
   let(:instance) { described_class.new }
   let(:base_scope) { PlaceholderUser.order(id: :desc) }
 

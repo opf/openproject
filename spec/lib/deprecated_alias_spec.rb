@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe DeprecatedAlias do
+RSpec.describe DeprecatedAlias do
   let(:clazz) do
     Class.new do
       extend DeprecatedAlias

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-shared_context 'custom actions action' do
+RSpec.shared_context 'custom actions action' do
   let(:instance) do
     described_class.new
   end
@@ -46,7 +46,7 @@ shared_context 'custom actions action' do
   end
 end
 
-shared_examples_for 'base custom action' do
+RSpec.shared_examples_for 'base custom action' do
   include_context 'custom actions action'
   let(:expected_priority) do
     if defined?(priority)
@@ -122,7 +122,7 @@ shared_examples_for 'base custom action' do
   end
 end
 
-shared_examples_for 'associated custom action' do
+RSpec.shared_examples_for 'associated custom action' do
   include_context 'custom actions action' do
     describe '#apply' do
       let(:work_package) { build_stubbed(:work_package) }
@@ -142,7 +142,7 @@ shared_examples_for 'associated custom action' do
   end
 end
 
-shared_examples_for 'associated custom action validations' do
+RSpec.shared_examples_for 'associated custom action validations' do
   describe '#validate' do
     let(:errors) do
       build_stubbed(:custom_action).errors
@@ -189,7 +189,7 @@ shared_examples_for 'associated custom action validations' do
   end
 end
 
-shared_examples_for 'bool custom action validations' do
+RSpec.shared_examples_for 'bool custom action validations' do
   describe '#validate' do
     let(:errors) do
       build_stubbed(:custom_action).errors
@@ -234,7 +234,7 @@ shared_examples_for 'bool custom action validations' do
   end
 end
 
-shared_examples_for 'int custom action validations' do
+RSpec.shared_examples_for 'int custom action validations' do
   describe '#validate' do
     let(:errors) do
       build_stubbed(:custom_action).errors
@@ -270,7 +270,7 @@ shared_examples_for 'int custom action validations' do
   end
 end
 
-shared_examples_for 'float custom action validations' do
+RSpec.shared_examples_for 'float custom action validations' do
   describe '#validate' do
     let(:errors) do
       build_stubbed(:custom_action).errors
@@ -306,7 +306,7 @@ shared_examples_for 'float custom action validations' do
   end
 end
 
-shared_examples_for 'string custom action validations' do
+RSpec.shared_examples_for 'string custom action validations' do
   describe '#validate' do
     let(:errors) do
       build_stubbed(:custom_action).errors
@@ -342,11 +342,11 @@ shared_examples_for 'string custom action validations' do
   end
 end
 
-shared_examples_for 'text custom action validations' do
+RSpec.shared_examples_for 'text custom action validations' do
   it_behaves_like 'string custom action validations'
 end
 
-shared_examples_for 'date custom action validations' do
+RSpec.shared_examples_for 'date custom action validations' do
   describe '#validate' do
     let(:errors) do
       build_stubbed(:custom_action).errors
@@ -382,11 +382,11 @@ shared_examples_for 'date custom action validations' do
   end
 end
 
-shared_examples_for 'associated values transformation' do
+RSpec.shared_examples_for 'associated values transformation' do
   it_behaves_like 'int values transformation'
 end
 
-shared_examples_for 'int values transformation' do
+RSpec.shared_examples_for 'int values transformation' do
   describe '#values' do
     it 'transforms the values to integers' do
       instance.values = [42, nil, '23', 'some bogus', '12.34234', '42a34e324r32']
@@ -397,7 +397,7 @@ shared_examples_for 'int values transformation' do
   end
 end
 
-shared_examples_for 'float values transformation' do
+RSpec.shared_examples_for 'float values transformation' do
   describe '#values' do
     it 'transforms the values to integers' do
       instance.values = [42, nil, '23', 'some bogus', '12.34234', '42a34e324r32']
@@ -408,7 +408,7 @@ shared_examples_for 'float values transformation' do
   end
 end
 
-shared_examples_for 'string values transformation' do
+RSpec.shared_examples_for 'string values transformation' do
   describe '#values' do
     it 'transforms the values to integers' do
       instance.values = [42, nil, '23', 'some bogus', '12.34234', '42a34e324r32']
@@ -419,7 +419,7 @@ shared_examples_for 'string values transformation' do
   end
 end
 
-shared_examples_for 'text values transformation' do
+RSpec.shared_examples_for 'text values transformation' do
   describe '#values' do
     it 'transforms the values to integers' do
       instance.values = [42, nil, '23', 'some bogus', '12.34234', '42a34e324r32']
@@ -430,7 +430,7 @@ shared_examples_for 'text values transformation' do
   end
 end
 
-shared_examples_for 'date values transformation' do
+RSpec.shared_examples_for 'date values transformation' do
   describe '#values' do
     it 'transforms the values to integers' do
       instance.values = ["2015-03-29", Date.today, nil, (Date.today - 1.day).to_datetime, 'bogus', '%CURRENT_DATE%']
@@ -441,7 +441,7 @@ shared_examples_for 'date values transformation' do
   end
 end
 
-shared_examples_for 'associated custom condition' do
+RSpec.shared_examples_for 'associated custom condition' do
   let(:instance) do
     described_class.new
   end
@@ -508,7 +508,7 @@ shared_examples_for 'associated custom condition' do
   end
 end
 
-shared_examples_for 'date custom action apply' do
+RSpec.shared_examples_for 'date custom action apply' do
   describe '#apply' do
     let(:work_package) { build_stubbed(:work_package) }
 
