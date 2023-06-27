@@ -54,9 +54,9 @@ RSpec.describe User, '.allowed_members' do
     anonymous.save!
   end
 
-  context 'w/o the project being public
-           w/ the user being member in the project
-           w/ the role having the necessary permission' do
+  context 'without the project being public
+           with the user being member in the project
+           with the role having the necessary permission' do
     before do
       role.add_permission! action
 
@@ -64,13 +64,13 @@ RSpec.describe User, '.allowed_members' do
     end
 
     it 'returns the user' do
-      expect(described_class.allowed_members(action, project).where(id: user.id)).to match_array [user]
+      expect(described_class.allowed_members(action, project).where(id: user.id)).to contain_exactly(user)
     end
   end
 
-  context 'w/o the project being public
-           w/o the user being member in the project
-           w/ the user being admin' do
+  context 'without the project being public
+           without the user being member in the project
+           with the user being admin' do
     before do
       user.update_attribute(:admin, true)
     end
@@ -80,9 +80,9 @@ RSpec.describe User, '.allowed_members' do
     end
   end
 
-  context 'w/ the project being public
-           w/ the user being member in the project
-           w/ the role having the necessary permission' do
+  context 'with the project being public
+           with the user being member in the project
+           with the role having the necessary permission' do
     before do
       project.update_attribute(:public, true)
 
@@ -92,13 +92,13 @@ RSpec.describe User, '.allowed_members' do
     end
 
     it 'returns the user' do
-      expect(described_class.allowed_members(action, project).where(id: user.id)).to match_array [user]
+      expect(described_class.allowed_members(action, project).where(id: user.id)).to contain_exactly(user)
     end
   end
 
-  context 'w/ the project being public
-           w/o the user being member in the project
-           w/ the role having the necessary permission' do
+  context 'with the project being public
+           without the user being member in the project
+           with the role having the necessary permission' do
     before do
       project.update_attribute(:public, true)
 

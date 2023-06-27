@@ -68,7 +68,7 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it 'returns the user' do
-      expect(allowed).to match_array [user]
+      expect(allowed).to contain_exactly(user)
     end
   end
 
@@ -81,7 +81,7 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it 'returns the user' do
-      expect(allowed).to match_array [user]
+      expect(allowed).to contain_exactly(user)
     end
   end
 
@@ -178,7 +178,7 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it 'returns the user' do
-      expect(allowed).to match_array [user]
+      expect(allowed).to contain_exactly(user)
     end
   end
 
@@ -196,7 +196,7 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it 'returns the anonymous user' do
-      expect(allowed).to match_array([anonymous])
+      expect(allowed).to contain_exactly(anonymous)
     end
   end
 
@@ -267,7 +267,7 @@ RSpec.describe User, 'allowed scope' do
     let(:action) { public_action }
 
     it 'returns the user' do
-      expect(allowed).to match_array [user]
+      expect(allowed).to contain_exactly(user)
     end
   end
 
@@ -284,7 +284,7 @@ RSpec.describe User, 'allowed scope' do
     let(:action) { public_action }
 
     it 'returns the user and anonymous' do
-      expect(allowed).to match_array [user, anonymous]
+      expect(allowed).to contain_exactly(user, anonymous)
     end
   end
 
@@ -326,7 +326,7 @@ RSpec.describe User, 'allowed scope' do
     end
 
     it 'returns the user' do
-      expect(allowed).to match_array [user]
+      expect(allowed).to contain_exactly(user)
     end
   end
 
