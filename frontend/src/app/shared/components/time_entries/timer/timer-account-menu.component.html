@@ -1,9 +1,11 @@
 <ng-container *ngIf="timer">
   <a
+  class=""
     uiSref="work-packages.show"
     [uiParams]="{ workPackageId: timer.workPackage.id }"
   >
-    #{{ timer.workPackage.id }}
+  <span class="spot-icon spot-icon_inline spot-icon_time"> </span>
+   {{text.tracking}} (#{{ timer.workPackage.id }}) {{ elapsed$ | async }}
+
   </a>
-  {{ elapsed$ | async }}
 </ng-container>

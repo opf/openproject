@@ -17,6 +17,7 @@ import {
   map,
 } from 'rxjs/operators';
 import { formatElapsedTime } from 'core-app/features/work-packages/components/wp-timer-button/time-formatter.helper';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 export const timerAccountSelector = 'op-timer-account-menu';
 
@@ -35,10 +36,15 @@ export class TimerAccountMenuComponent extends UntilDestroyedMixin implements On
       map((timeEntry:TimeEntryResource) => formatElapsedTime(timeEntry.createdAt as string)),
     );
 
+  text = {
+    tracking: this.I18n.t('js.time_entry.tracking'),
+  };
+
   constructor(
     readonly elementRef:ElementRef<HTMLElement>,
     readonly timeEntryService:TimeEntryService,
     readonly cdRef:ChangeDetectorRef,
+    readonly I18n:I18nService,
   ) {
     super();
   }
