@@ -84,7 +84,9 @@ A dashboard is defined as an overview page in a software. In OpenProject, you ha
 
 First, you have the "***My Page\***" which shows your personal customized widgets on one page, for example a calendar or work package reports.
 
-Then, you can create **private dashboards inside your project** by filtering a work package view and then saving it under a new name. For example, filter all work packages assigned to yourself and save this view as "assigned to me", to quickly navigate to those work packages.
+Second, you have the project dashboard which gives you an overview of your project. Please note that only admins can add and remove widgets to the project dashboard. 
+
+Third, every member can create **private dashboards inside your project** by filtering a work package view and then saving it under a new name. For example, filter all work packages assigned to yourself and save this view as "assigned to me", to quickly navigate to those work packages.
 
 Admins of a project can also create **dashboards that are visible to everyone in the project**.
 
@@ -187,10 +189,6 @@ In OpenProject, a [project](https://www.openproject.org/docs/user-guide/projects
 - an organizational unit of a company,
 - an overarching team working on one topic or
 - separate products or customers.
-
-### Project dashboard
-
-See dashboard
 
 ### Project folder
 
