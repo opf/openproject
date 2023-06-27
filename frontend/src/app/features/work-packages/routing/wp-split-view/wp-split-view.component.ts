@@ -77,7 +77,7 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
   ngOnInit():void {
     this.observeWorkPackage();
 
-    const wpId = this.$state.params.workPackageId;
+    const wpId = this.$state.params.workPackageId as string;
     const focusedWP = this.wpTableFocus.focusedWorkPackage;
 
     if (!focusedWP) {
