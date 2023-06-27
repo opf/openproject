@@ -225,6 +225,10 @@ import {
   StorageLoginButtonComponent,
   opStorageLoginButtonSelector,
 } from 'core-app/shared/components/storages/storage-login-button/storage-login-button.component';
+import {
+  TimerAccountMenuComponent,
+  timerAccountSelector,
+} from 'core-app/shared/components/time_entries/timer/timer-account-menu.component';
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -293,4 +297,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   // It is important to initialize the remoteFieldUpdaterSelector after the datepickers,
   // because we need to access the input field of the datepickers inside the remoteFieldUpdaterSelector
   { selector: remoteFieldUpdaterSelector, cls: RemoteFieldUpdaterComponent },
+
+  { selector: timerAccountSelector, cls: TimerAccountMenuComponent },
 ];

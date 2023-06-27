@@ -60,6 +60,8 @@ import * as moment from 'moment';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { TimeEntryEditService } from 'core-app/shared/components/time_entries/edit/edit.service';
+import { TimeEntryService } from 'core-app/shared/components/time_entries/services/time_entry.service';
+import { formatElapsedTime } from 'core-app/features/work-packages/components/wp-timer-button/time-formatter.helper';
 
 export function pad(val:number):string {
   return val > 9 ? val.toString() : "0" + val.toString();
@@ -82,17 +84,7 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
     .pipe(
       map(() => this.active),
       filter((timeEntry) => timeEntry !== null),
-      map((timeEntry:TimeEntryResource) => {
-        const start = moment(timeEntry.createdAt as string);
-        const now = moment();
-        const offset = moment(now).diff(start, 'seconds');
-
-        const seconds = pad(offset % 60);
-        const minutes = pad(parseInt((offset / 60).toString(), 10) % 60);
-        const hours = pad(parseInt((offset / 3600).toString(), 10));
-
-        return `${hours}:${minutes}:${seconds}`;
-      }),
+      map((timeEntry:TimeEntryResource) => formatElapsedTime(timeEntry.createdAt as string)),
     );
 
   text = {
@@ -102,6 +94,7 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
   constructor(
     readonly I18n:I18nService,
     readonly apiV3Service:ApiV3Service,
+    readonly timeEntryService:TimeEntryService,
     readonly timeEntryCreateService:TimeEntryCreateService,
     readonly timeEntryEditService:TimeEntryEditService,
     readonly halEditing:HalResourceEditingService,
@@ -117,16 +110,11 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
   }
 
   reload():void {
-    const filters = new ApiV3FilterBuilder();
-    filters.add('ongoing', '=', true);
-
     this
-      .apiV3Service
-      .time_entries
-      .filtered(filters)
-      .get()
+      .timeEntryService
+      .activeTimer$
       .pipe(
-        map((collection) => collection.elements.pop() || null),
+        this.untilDestroyed(),
       )
       .subscribe((timeEntry) => {
         this.active = timeEntry;
@@ -139,6 +127,7 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
   }
 
   clear():void {
+    this.timeEntryService.activeTimer$.next(null);
     this.active = null;
     this.cdRef.detectChanges();
   }
@@ -183,6 +172,7 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
         map((result) => result.resource as TimeEntryResource),
       )
       .subscribe((active) => {
+        this.timeEntryService.activeTimer$.next(active);
         this.active = active;
         this.cdRef.detectChanges();
       });

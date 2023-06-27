@@ -35,10 +35,14 @@ import { TimeEntryEditModalComponent } from 'core-app/shared/components/time_ent
 import { TimeEntryFormComponent } from 'core-app/shared/components/time_entries/form/form.component';
 import { TimeEntryEditService } from 'core-app/shared/components/time_entries/edit/edit.service';
 import { TriggerActionsEntryComponent } from 'core-app/shared/components/time_entries/edit/trigger-actions-entry.component';
+import { TimeEntryService } from 'core-app/shared/components/time_entries/services/time_entry.service';
+import { CommonModule } from '@angular/common';
+import { TimerAccountMenuComponent } from 'core-app/shared/components/time_entries/timer/timer-account-menu.component';
 
 @NgModule({
   imports: [
     // Commons
+    CommonModule,
     OpSharedModule,
     OpenprojectModalModule,
 
@@ -50,6 +54,10 @@ import { TriggerActionsEntryComponent } from 'core-app/shared/components/time_en
     TimeEntryCreateModalComponent,
     TimeEntryFormComponent,
     TriggerActionsEntryComponent,
+    TimerAccountMenuComponent,
+  ],
+  providers: [
+    TimeEntryService,
   ],
 })
 export class OpenprojectTimeEntriesModule {

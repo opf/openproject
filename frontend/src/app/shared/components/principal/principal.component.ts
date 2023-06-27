@@ -63,9 +63,6 @@ export interface PrincipalInput {
   styleUrls: ['./principal.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  providers: [
-    TimeEntryService,
-  ],
 })
 export class OpPrincipalComponent implements OnInit {
   @Input() principal:PrincipalLike;
@@ -73,8 +70,6 @@ export class OpPrincipalComponent implements OnInit {
   @Input() hideAvatar = false;
 
   @Input() hideName = false;
-
-  @Input() showTimer = false;
 
   @Input() link = true;
 
@@ -98,24 +93,6 @@ export class OpPrincipalComponent implements OnInit {
     if (!this.principal.name) {
       return;
     }
-    if(this.showTimer){
-      this.timeEntryService.getActiveTimeEntry().subscribe((timeEntry) => {
-        this.principalRenderer.render(
-          this.elementRef.nativeElement as HTMLElement,
-          this.principal,
-          {
-            hide: this.hideName,
-            link: this.link,
-          },
-          {
-            hide: this.hideAvatar,
-            size: this.size,
-          },
-          timeEntry? true : false,
-        );
-      });
-     // this.cdRef.detectChanges();
-    }
     else {
       this.principalRenderer.render(
         this.elementRef.nativeElement as HTMLElement,
@@ -128,7 +105,6 @@ export class OpPrincipalComponent implements OnInit {
           hide: this.hideAvatar,
           size: this.size,
         },
-        false,
       );
     }
   }

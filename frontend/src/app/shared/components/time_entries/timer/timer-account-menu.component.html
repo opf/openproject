@@ -1,0 +1,9 @@
+<ng-container *ngIf="timer">
+  <a
+    uiSref="work-packages.show"
+    [uiParams]="{ workPackageId: timer.workPackage.id }"
+  >
+    #{{ timer.workPackage.id }}
+  </a>
+  {{ elapsed$ | async }}
+</ng-container>

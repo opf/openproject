@@ -104,8 +104,7 @@ module AvatarHelper
                           inputs: {
                             principal:,
                             size: tag_options[:size],
-                            hideName: tag_options[:hide_name],
-                            showTimer: true
+                            hideName: tag_options[:hide_name]
                           }
   end
 
