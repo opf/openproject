@@ -551,6 +551,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
             with_settings: { journal_aggregation_time_minutes: 0 } do
       let(:other_type) { create(:type) }
       let(:timestamps) { [Timestamp.parse("2023-01-01T00:00:00Z"), Timestamp.parse("PT0S")] }
+      let(:user) { create(:user) }
       let!(:member) do
         create(:member,
                user: current_user,
