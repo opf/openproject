@@ -75,7 +75,6 @@ RSpec.describe 'Meetings', js: true do
         visit meeting_path(meeting)
 
         click_on 'History'
-        SeleniumHubWaiter.wait
 
         find_by_id('version-1').click
         expect(page).to have_selector('[data-qa-selector="op-meeting--meeting_agenda"]', text: 'foo')

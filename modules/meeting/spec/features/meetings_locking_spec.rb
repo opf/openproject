@@ -39,11 +39,8 @@ RSpec.describe 'Meetings locking', js: true do
                         selector: '[data-qa-selector="op-meeting--meeting_agenda"]')
   end
 
-  current_user { user }
-
   before do
     login_as(user)
-
   end
 
   it 'shows an error when trying to update a meeting update while editing' do
@@ -55,7 +52,6 @@ RSpec.describe 'Meetings locking', js: true do
 
       agenda_field.set_value('Some new text')
 
-      SeleniumHubWaiter.wait
       agenda.text = 'blabla'
       agenda.save!
 

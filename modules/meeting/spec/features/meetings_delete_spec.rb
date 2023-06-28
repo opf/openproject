@@ -54,22 +54,18 @@ RSpec.describe 'Meetings deletion' do
     it 'can delete own and other`s meetings' do
       visit meetings_path(project)
 
-      SeleniumHubWaiter.wait
       click_link meeting.title
-      SeleniumHubWaiter.wait
-      click_link "Delete"
-
-      page.accept_confirm
+      accept_confirm do
+        click_link "Delete"
+      end
 
       expect(page)
         .to have_current_path meetings_path(project)
 
-      SeleniumHubWaiter.wait
       click_link other_meeting.title
-      SeleniumHubWaiter.wait
-      click_link "Delete"
-
-      page.accept_confirm
+      accept_confirm do
+        click_link "Delete"
+      end
 
       expect(page)
         .to have_content(I18n.t('.no_results_title_text', cascade: true))
@@ -82,7 +78,7 @@ RSpec.describe 'Meetings deletion' do
   context 'without permission to delete meetings' do
     let(:permissions) { %i[view_meetings] }
 
-    it 'cannot delete own and other`s meetings' do
+    it "cannot delete own and other's meetings" do
       visit meetings_path(project)
 
       click_link meeting.title

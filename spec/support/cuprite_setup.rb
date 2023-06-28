@@ -89,6 +89,7 @@ MODULES_WITH_CUPRITE_ENABLED = %w[
   avatars
   backlogs
   job_status
+  meeting
 ].freeze
 
 RSpec.configure do |config|

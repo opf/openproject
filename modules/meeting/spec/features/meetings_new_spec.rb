@@ -60,7 +60,7 @@ RSpec.describe 'Meetings new', js: true do
     login_as(current_user)
   end
 
-  context 'with permission to create meetings' do
+  context 'with permission to create meetings', with_cuprite: false do
     before do
       other_user
     end
