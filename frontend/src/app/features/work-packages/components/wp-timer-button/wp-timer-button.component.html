@@ -5,7 +5,7 @@
     data-qa-selector="timer-active"
     (click)="stop()"
   >
-    <span class="spot-icon spot-icon_stop spot-icon_1_25"></span>
+    <span class="spot-icon spot-icon_time-tracking-stop"></span>
     <span class="button--text">
     {{ elapsed$ | async }}
   </span>
@@ -18,5 +18,5 @@
   *ngIf="!activeForWorkPackage"
   (click)="start()"
 >
-  <span class="spot-icon spot-icon_play"></span>
+  <span class="spot-icon spot-icon_time-tracking-start"></span>
 </button>
