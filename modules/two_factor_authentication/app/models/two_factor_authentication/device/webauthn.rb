@@ -24,5 +24,15 @@ module TwoFactorAuthentication
         exclude: TwoFactorAuthentication::Device::Webauthn.where(user:).pluck(:webauthn_external_id)
       )
     end
+
+    def options_for_get
+      @options_for_get ||= WebAuthn::Credential.options_for_get(
+        allow: webauthn_external_id # TODO: Maybe also allow all other tokens? Let's see
+      )
+    end
+
+    def request_2fa_identifier(channel)
+      # NOOP
+    end
   end
 end
