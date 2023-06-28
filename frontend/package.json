@@ -88,6 +88,7 @@
     "@fullcalendar/resource-common": "^5.11.5",
     "@fullcalendar/resource-timeline": "^6.1.8",
     "@fullcalendar/timegrid": "^6.1.8",
+    "@github/webauthn-json": "^2.1.1",
     "@hotwired/stimulus": "^3.2.1",
     "@hotwired/turbo": "^7.3.0",
     "@hotwired/turbo-rails": "^7.3.0",
