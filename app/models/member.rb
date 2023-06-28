@@ -45,6 +45,10 @@ class Member < ApplicationRecord
     ActivePermissions::Updater.prepare
   end
 
+  after_destroy do
+    ActivePermissions::Updater.prepare
+  end
+
   scopes :assignable,
          :global,
          :not_locked,
