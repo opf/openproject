@@ -65,7 +65,7 @@ lt:
     button_confirm: "Patvirtinti"
     button_continue: "Tęsti"
     button_copy: "Kopijuoti"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "Kopijuoti į iškarpinę"
     button_copy_to_other_project: "Kopijuoti į kitą projektą"
     button_custom-fields: "Pritaikyti laukai"
     button_delete: "Trinti"
@@ -106,7 +106,7 @@ lt:
       remove_from_list: 'Išimti kortelę iš sąrašo'
     caption_rate_history: "Koeficiento istorija"
     clipboard:
-      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
+      browser_error: "Jūsų naršyklė nepalaiko kopijavimo į iškarpinę. Prašome nukopijuoti rankiniu būdu : %{content}"
       copied_successful: "Sėkmingai nukopijuota į iškarpinę!"
     chart:
       type: 'Grafiko tipas'

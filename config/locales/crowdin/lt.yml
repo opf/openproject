@@ -274,8 +274,8 @@ lt:
   users:
     sessions:
       session_name: "%{browser_name} %{browser_version} %{os_name}"
-      browser: 'Browser'
-      device: 'Device / OS'
+      browser: 'Naršyklė'
+      device: 'Įrenginys / OS'
       unknown_browser: 'nežinoma naršyklė'
       unknown_os: 'nežinoma operacinė sistema'
       current: 'Dabartinė sesija'
@@ -1077,7 +1077,7 @@ lt:
   button_configure: "Konfigūruoti"
   button_continue: "Tęsti"
   button_copy: "Kopijuoti"
-  button_copy_to_clipboard: "Copy to clipboard"
+  button_copy_to_clipboard: "Kopijuoti į iškarpinę"
   button_copy_and_follow: "Kopijuoti ir sekti"
   button_create: "Sukurti"
   button_create_and_continue: "Sukurti ir tęsti"
