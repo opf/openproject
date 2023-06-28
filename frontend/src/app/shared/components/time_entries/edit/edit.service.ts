@@ -1,4 +1,7 @@
-import { Injectable, Injector } from '@angular/core';
+import {
+  Injectable,
+  Injector,
+} from '@angular/core';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -8,6 +11,11 @@ import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/r
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
 import { TimeEntryEditModalComponent } from './edit.modal';
+import { TimeEntryChangeset } from 'core-app/features/work-packages/helpers/time-entries/time-entry-changeset';
+import * as moment from 'moment';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { TimeEntryService } from 'core-app/shared/components/time_entries/services/time_entry.service';
 
 export interface TimeEntryModalOptions {
   showWorkPackageField?:boolean;
@@ -16,12 +24,17 @@ export interface TimeEntryModalOptions {
 
 @Injectable()
 export class TimeEntryEditService {
-  constructor(readonly opModalService:OpModalService,
+  constructor(
+    readonly opModalService:OpModalService,
     readonly injector:Injector,
     readonly apiV3Service:ApiV3Service,
     readonly halResource:HalResourceService,
+    readonly schemaCache:SchemaCacheService,
+    readonly timezoneService:TimezoneService,
+    readonly timeEntry:TimeEntryService,
     protected halEditing:HalResourceEditingService,
-    readonly i18n:I18nService) {
+    readonly i18n:I18nService,
+    ) {
   }
 
   public edit(
@@ -52,6 +65,27 @@ export class TimeEntryEditService {
           })));
     });
   }
+
+
+  public async stopTimerAndEdit(activeTimer:TimeEntryResource):Promise<unknown> {
+    await this.schemaCache.ensureLoaded(activeTimer);
+
+    const change = new TimeEntryChangeset(activeTimer);
+    const hours = moment().diff(moment(activeTimer.createdAt as string), 'hours', true);
+    const formatted = this.timezoneService.toISODuration(hours, 'hours');
+    change.setValue('hours', formatted);
+    change.setValue('ongoing', false);
+
+    // eslint-disable-next-line consistent-return
+    return this
+      .halEditing
+      .save(change)
+      .then((commit) => {
+        this.timeEntry.activeTimer$.next(null);
+        return this.edit(commit.resource as TimeEntryResource);
+      });
+  }
+
 
   public createChangeset(entry:TimeEntryResource):Promise<ResourceChangeset<TimeEntryResource>> {
     return this

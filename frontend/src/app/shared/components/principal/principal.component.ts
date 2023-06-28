@@ -48,7 +48,6 @@ import { PrincipalLike } from './principal-types';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { PrincipalType } from 'core-app/shared/components/principal/principal-helper';
 import { PrincipalsResourceService } from 'core-app/core/state/principals/principals.service';
-import { TimeEntryService } from '../time_entries/services/time_entry.service';
 
 export const principalSelector = 'op-principal';
 
@@ -83,7 +82,6 @@ export class OpPrincipalComponent implements OnInit {
     readonly I18n:I18nService,
     readonly apiV3Service:ApiV3Service,
     readonly timezoneService:TimezoneService,
-    readonly timeEntryService:TimeEntryService,
     readonly cdRef:ChangeDetectorRef,
   ) {
     populateInputsFromDataset(this);

@@ -32,6 +32,7 @@ import {
   ChangeDetectorRef,
   Component,
   HostBinding,
+  Injector,
   Input,
   OnInit,
   ViewEncapsulation,
@@ -40,28 +41,26 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { TimeEntryCreateService } from 'core-app/shared/components/time_entries/create/create.service';
-import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import {
   filter,
   map,
-  shareReplay,
   switchMap,
 } from 'rxjs/operators';
 import {
   from,
   Observable,
-  of,
   timer,
 } from 'rxjs';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
-import { TimeEntryChangeset } from 'core-app/features/work-packages/helpers/time-entries/time-entry-changeset';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import * as moment from 'moment';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { TimeEntryEditService } from 'core-app/shared/components/time_entries/edit/edit.service';
 import { TimeEntryService } from 'core-app/shared/components/time_entries/services/time_entry.service';
 import { formatElapsedTime } from 'core-app/features/work-packages/components/wp-timer-button/time-formatter.helper';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { StopExistingTimerModalComponent } from 'core-app/shared/components/time_entries/timer/stop-existing-timer-modal.component';
+import { TimeEntryEditService } from 'core-app/shared/components/time_entries/edit/edit.service';
 
 export function pad(val:number):string {
   return val > 9 ? val.toString() : "0" + val.toString();
@@ -90,13 +89,16 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
   text = {
     workPackage: this.I18n.t('js.label_work_package'),
   };
+
   constructor(
+    readonly injector:Injector,
     readonly I18n:I18nService,
     readonly apiV3Service:ApiV3Service,
     readonly timeEntryService:TimeEntryService,
-    readonly timeEntryCreateService:TimeEntryCreateService,
     readonly timeEntryEditService:TimeEntryEditService,
+    readonly timeEntryCreateService:TimeEntryCreateService,
     readonly halEditing:HalResourceEditingService,
+    readonly modalService:OpModalService,
     readonly schemaCache:SchemaCacheService,
     readonly timezoneService:TimezoneService,
     readonly cdRef:ChangeDetectorRef,
@@ -131,37 +133,16 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
   }
 
   async stop():Promise<unknown> {
-    const active = this.active;
-    if (!active) {
-      return;
+    if (this.active) {
+      return this.timeEntryEditService.stopTimerAndEdit(this.active);
     }
 
-    await this.schemaCache.ensureLoaded(active);
-
-    const change = new TimeEntryChangeset(active);
-    const hours = moment().diff(moment(active.createdAt), 'hours', true);
-    const formatted = this.timezoneService.toISODuration(hours, 'hours');
-    change.setValue('hours', formatted);
-    change.setValue('ongoing', false);
-
-    // eslint-disable-next-line consistent-return
-    return this
-      .halEditing
-      .save(change)
-      .then((commit) => {
-        this.clear();
-        return this.timeEntryEditService.edit(commit.resource as TimeEntryResource);
-
-        return undefined;
-      });
+    return undefined;
   }
 
   async start():Promise<void> {
     if (this.active) {
-      if (window.confirm("You have an active timer running. Do you want to stop that timer instead?")) {
-        await this.stop();
-      }
-
+      this.modalService.show(StopExistingTimerModalComponent, this.injector, { timer: this.active });
       return;
     }
 

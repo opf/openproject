@@ -796,6 +796,13 @@ en:
       tracking: 'Time tracking'
       stop: 'Stop'
 
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'A time tracker is already running for the following work package:'
+      tracking_time: 'Tracking time'
+      must_stop_timer: 'You must first stop this timer to start tracking time for the current work package.'
+      button_stop: 'Stop existing timer'
+
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
 
