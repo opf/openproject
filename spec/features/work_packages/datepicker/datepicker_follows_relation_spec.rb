@@ -31,6 +31,7 @@ require 'support/edit_fields/edit_field'
 
 RSpec.describe 'Datepicker logic on follow relationships',
                js: true,
+               with_cuprite: true,
                with_settings: { date_format: '%Y-%m-%d' } do
   shared_let(:user) { create(:admin) }
 
