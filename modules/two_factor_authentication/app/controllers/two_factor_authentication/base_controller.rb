@@ -178,10 +178,6 @@ module ::TwoFactorAuthentication
       @webauthn_credential ||= WebAuthn::Credential.from_create(JSON.parse(params[:device][:webauthn_credential]))
     end
 
-    def assign_webauthn_attributes
-      @device.assign_attributes
-    end
-
     def verify_webauthn_credential
       webauthn_credential.verify(session[:webauthn_challenge])
       session.delete(:webauthn_challenge)
