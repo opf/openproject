@@ -83,6 +83,8 @@ RSpec.describe 'Invite user modal custom fields', js: true, with_cuprite: true d
 
       quick_add.toggle
 
+      wait_for_network_idle
+
       quick_add.click_link 'Invite user'
 
       modal.project_step

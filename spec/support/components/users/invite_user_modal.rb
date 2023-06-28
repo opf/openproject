@@ -130,7 +130,7 @@ module Components
       end
 
       def autocomplete(selector, query, select_text: query)
-        select_field = modal_element.find(selector)
+        select_field = modal_element.find(selector, wait: 5)
 
         select_autocomplete select_field,
                             query:,
@@ -146,6 +146,7 @@ module Components
 
       def click_next
         click_modal_button 'Next'
+        wait_for_reload
       end
 
       def invitation_message(text)
