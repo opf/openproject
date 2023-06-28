@@ -193,7 +193,7 @@ RSpec.describe API::V3::WorkPackages::AvailableRelationCandidatesAPI do
       let(:href) { "/api/v3/work_packages/#{wp2.id}/available_relation_candidates?query=WP" }
 
       before do
-        project1.update_column(:active, false)
+        project1.update(active: false)
       end
 
       it 'does not return work packages from that project' do
