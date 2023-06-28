@@ -319,7 +319,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
     menu.push :"settings_#{node[:name]}",
               { controller: node[:controller], action: :show },
               caption: node[:label],
-              if: Proc.new { User.current.admin? },
+              if: Proc.new { User.current.admin? && node[:name] != 'experimental' },
               parent: :settings
   end
 
