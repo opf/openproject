@@ -35,6 +35,14 @@ class EnabledModule < ApplicationRecord
 
   after_create :module_enabled
 
+  after_save do
+    ActivePermissions::Updater.prepare
+  end
+
+  after_destroy do
+    ActivePermissions::Updater.prepare
+  end
+
   private
 
   # after_create callback used to do things when a module is enabled

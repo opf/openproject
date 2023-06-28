@@ -61,7 +61,7 @@ RSpec.describe News do
     end
 
     it "doesn't include news elements from projects where news module is not enabled" do
-      EnabledModule.where(project_id: project.id, name: 'news').delete_all
+      EnabledModule.where(project_id: project.id, name: 'news').destroy_all
 
       expect(described_class.latest).to be_empty
     end
