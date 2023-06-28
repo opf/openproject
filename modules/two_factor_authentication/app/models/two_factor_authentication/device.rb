@@ -90,6 +90,10 @@ module TwoFactorAuthentication
       strategy_class.supported_channels & supported_channels
     end
 
+    def input_based?
+      true
+    end
+
     private
 
     def self.manager

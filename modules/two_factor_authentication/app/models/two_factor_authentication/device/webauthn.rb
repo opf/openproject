@@ -31,8 +31,12 @@ module TwoFactorAuthentication
       )
     end
 
-    def request_2fa_identifier(channel)
-      # NOOP
+    def request_2fa_identifier(_channel)
+      identifier
+    end
+
+    def input_based?
+      false
     end
   end
 end

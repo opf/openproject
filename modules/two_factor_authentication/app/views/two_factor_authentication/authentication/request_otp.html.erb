@@ -1,7 +1,6 @@
 <% resend_supported = @strategy.mobile_token? %>
 <% has_other_devices = @active_devices.count > 1 %>
 <% has_backup_codes = @authenticated_user.otp_backup_codes.exists? %>
-
 <% html_title t(:field_otp) %>
 <% breadcrumb_paths(t(:field_otp)) %>
 <div id="login-form"
@@ -13,17 +12,22 @@
         { action: :confirm_otp },
         id: 'submit_otp',
         autocomplete: "off") do %>
+    <%= back_url_hidden_field_tag %>
     <h2><%= t 'two_factor_authentication.label_two_factor_authentication' %></h2>
     <% identifier = @used_device.request_2fa_identifier(@strategy.channel) %>
-    <p><%= raw I18n.t('two_factor_authentication.devices.request_2fa', device_name: identifier) %></p>
-    <hr class="form--separator">
-    <%= back_url_hidden_field_tag %>
-    <div class="form--field -wide-label">
-      <%= styled_label_tag 'otp', t(:field_otp) %>
-      <div class="form--field-container">
-        <%= styled_text_field_tag 'otp', nil, autocomplete: 'off', size: 6, maxlength: 6, tabindex: 1, autofocus: true %>
+    <% if @used_device.input_based? %>
+      <p><%= raw I18n.t('two_factor_authentication.devices.2fa_from_input', device_name: identifier) %></p>
+      <hr class="form--separator">
+      <div class="form--field -wide-label">
+        <%= styled_label_tag 'otp', t(:field_otp) %>
+        <div class="form--field-container">
+          <%= styled_text_field_tag 'otp', nil, autocomplete: 'off', size: 6, maxlength: 6, tabindex: 1, autofocus: true %>
+        </div>
       </div>
-    </div>
+    <% else %>
+      <p><%= raw I18n.t('two_factor_authentication.devices.2fa_from_webauthn', device_name: identifier) %></p>
+      <hr class="form--separator">
+    <% end %>
     <% if remember_2fa_enabled? %>
       <div class="form--field -wide-label">
         <label class="form--label-with-check-box -no-ellipsis">
@@ -66,7 +70,6 @@
             <%= radio_button_tag 'use_channel', channel, default_channel == channel %>
             <label for="channel_<%= channel %>"><%= t("button_otp_by_#{channel}") %></label>
           <% end %>
-
         </div>
         <input type="submit" value="<%= t(:button_resend_otp_form) %>" id="submit_resend_form" class="button -highlight"/>
       <% end %>
@@ -90,9 +93,9 @@
       <ul>
         <li>
           <%= link_to(t('two_factor_authentication.login.enter_backup_code_title'), { action: :enter_backup_code }) %>
-          </a>
-        </li>
-      </ul>
-    <% end %>
-  </div>
+        </a>
+      </li>
+    </ul>
+  <% end %>
+</div>
 </div>

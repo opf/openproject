@@ -118,7 +118,8 @@ en:
       failed_to_delete: 'Failed to delete 2FA device.'
       is_default_cannot_delete: 'The device is marked as default and cannot be deleted due to an active security policy. Mark another device as default before deleting.'
       not_existing: 'No 2FA device has been registered for your account.'
-      request_2fa: Please enter the code from your %{device_name} to verify your identity.
+      2fa_from_input: Please enter the code from your <strong>%{device_name}</strong> to verify your identity.
+      2fa_from_webauthn: Please provide the WebAuthn device <strong>%{device_name}</strong>. If it is USB based make sure to plug it in and touch it.
       webauthn:
         title: 'WebAuthn'
         description: Use Web Authentication to register a FIDO2 device (like a YubiKey) or the secure enclave of your mobile device as a second factor.
