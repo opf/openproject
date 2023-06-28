@@ -1,0 +1,11 @@
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend" title="<%= @device.name  %>"><%= @device.name  %></legend>
+  <p><%= t('two_factor_authentication.devices.webauthn.description') %></p>
+  <div class="form--field -required">
+    <%= f.text_field :identifier, required: true, container_class: '-middle' %>
+    <%= f.hidden_field :webauthn_credential, value: "", "data-two-factor-authentication-target": "webauthnCredential" %>
+    <div class="form--field-instructions">
+      <%= t('two_factor_authentication.devices.text_identifier') %>
+    </div>
+  </div>
+</fieldset>

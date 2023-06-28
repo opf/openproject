@@ -28,37 +28,69 @@
  * ++
  */
 
-import { Controller } from '@hotwired/stimulus';
-import QrCreator from 'qr-creator';
+import { Controller } from "@hotwired/stimulus";
+import * as WebAuthnJSON from "@github/webauthn-json/browser-ponyfill";
+import QrCreator from "qr-creator";
 
 export default class TwoFactorAuthenticationController extends Controller {
-  static targets = [
-    'resendOptions',
-    'qrCodeElement',
-  ];
+  static targets = ["resendOptions", "qrCodeElement", "webauthnCredential"];
 
-  declare readonly resendOptionsTarget:HTMLElement;
+  declare readonly resendOptionsTarget: HTMLElement;
+  declare readonly webauthnCredentialTarget: HTMLInputElement;
 
-  qrCodeElementTargetConnected(target:HTMLElement) {
+  async onCreateDevice(event: Event) {
+    const data = (event.target as HTMLElement).dataset;
+
+    // We are not in the context of adding a WebAuthn device, so we can just submit the form
+    if (data.deviceType !== "webauthn") {
+      return true;
+    }
+
+    event.preventDefault();
+
+    try {
+      const createOptionsRequest = await fetch(data.challengeUrl as string);
+      const createOptions = await createOptionsRequest.text();
+
+      const options = WebAuthnJSON.parseCreationOptionsFromJSON({
+        publicKey: JSON.parse(createOptions),
+      });
+
+      const credential = await WebAuthnJSON.create(options);
+
+      if (credential) {
+        this.webauthnCredentialTarget.value = JSON.stringify(credential);
+        const form = event.target as HTMLFormElement;
+        form.submit();
+      }
+
+      return true;
+    } catch (error) {
+      console.log(`Error registering device: ${error}`);
+      return false;
+    }
+  }
+
+  qrCodeElementTargetConnected(target: HTMLElement) {
     QrCreator.render(
       {
         text: target.dataset.value as string,
         radius: 0,
-        ecLevel: 'H',
-        fill: '#222222',
-        background: '#FFFFFF',
+        ecLevel: "H",
+        fill: "#222222",
+        background: "#FFFFFF",
         size: 250,
       },
-      target,
+      target
     );
   }
 
-  print(evt:MouseEvent) {
+  print(evt: MouseEvent) {
     evt.preventDefault();
     window.print();
   }
 
-  toggleResendOptions(evt:MouseEvent) {
+  toggleResendOptions(evt: MouseEvent) {
     evt.preventDefault();
     this.resendOptionsTarget.hidden = !this.resendOptionsTarget.hidden;
   }

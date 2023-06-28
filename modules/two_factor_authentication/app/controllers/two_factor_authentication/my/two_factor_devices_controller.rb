@@ -6,7 +6,7 @@ module ::TwoFactorAuthentication
 
       before_action :set_user_variables
 
-      before_action :find_device, except: %i[new index register]
+      before_action :find_device, except: %i[new index register webauthn_challenge]
 
       # Remember token functionality
       include ::TwoFactorAuthentication::RememberToken
@@ -34,10 +34,20 @@ module ::TwoFactorAuthentication
         @device_type = params[:key].to_sym
         @device = new_device_type! @device_type
 
-        @device.attributes = new_device_params
+        success_target_action = :confirm
+
+        if @device_type == :webauthn
+          if verify_webauthn_credential
+            @device.attributes = new_webauthn_device_params
+            success_target_action = :index
+          end
+        else
+          @device.attributes = new_device_params
+        end
+
         if @device.save
           Rails.logger.info "User ##{current_user.id} registered a new (unconfirmed) device #{@device_type}."
-          redirect_to action: :confirm, device_id: @device.id
+          redirect_to action: success_target_action, device_id: @device.id
         else
           Rails.logger.warn { "User ##{current_user.id} failed to register a device #{@device_type}." }
           render 'two_factor_authentication/two_factor_devices/new'

@@ -1,17 +1,19 @@
 <% html_title(t(:label_my_account), t('two_factor_authentication.devices.add_new')) -%>
 <% breadcrumb_paths link_to(t('two_factor_authentication.label_two_factor_authentication'), index_path),
                     t('two_factor_authentication.devices.add_new') -%>
-
 <%= toolbar title: t('two_factor_authentication.devices.add_new') %>
-
 <%= labelled_tabular_form_for @device,
                               url: { action: :register },
-                              html: { class: nil, autocomplete: 'off' },
+                              html: { class: nil, autocomplete: 'off', data: {
+                                controller: "two-factor-authentication",
+                                application_target: "dynamic",
+                                challenge_url: url_for(action: :webauthn_challenge, format: :json),
+                                device_type: @device_type,
+                                action: "submit->two-factor-authentication#onCreateDevice"
+                              } },
                               as: :device do |f| %>
-
   <%= hidden_field_tag 'key', @device_type %>
   <%= render partial: "two_factor_authentication/two_factor_devices/form", locals: { f: f, device_type: @device_type, device: @device, user: @user } %>
-
   <p>
     <%= styled_button_tag t(:button_continue), class: '-highlight -with-icon icon-checkmark' %>
     <%= link_to t(:button_cancel), index_path, class: 'button -with-icon icon-cancel' %>

@@ -17,5 +17,12 @@ module TwoFactorAuthentication
       self.channel ||= :webauthn
     end
     validates_inclusion_of :channel, in: supported_channels
+
+    def options_for_create
+      @options_for_create ||= WebAuthn::Credential.options_for_create(
+        user: { id: user.webauthn_id, name: user.name },
+        exclude: TwoFactorAuthentication::Device::Webauthn.where(user:).pluck(:webauthn_external_id)
+      )
+    end
   end
 end

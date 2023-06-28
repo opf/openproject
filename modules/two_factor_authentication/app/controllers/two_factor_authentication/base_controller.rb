@@ -14,6 +14,7 @@ module ::TwoFactorAuthentication
       if params[:type]
         @device_type = params[:type].to_sym
         @device = new_device_type! @device_type
+
         render 'two_factor_authentication/two_factor_devices/new'
       else
         @available_devices = available_devices
@@ -65,6 +66,17 @@ module ::TwoFactorAuthentication
       else
         head :method_not_allowed
       end
+    end
+
+    def webauthn_challenge
+      device = new_device_type!(:webauthn)
+
+      ensure_user_has_webauthn_id!
+
+      webauthn_options = device.options_for_create
+      session[:webauthn_challenge] = webauthn_options.challenge
+
+      render json: webauthn_options
     end
 
     private
@@ -151,6 +163,34 @@ module ::TwoFactorAuthentication
       )
     end
 
+    def new_webauthn_device_params
+      permitted_device_params.merge(
+        user: target_user,
+        default: false,
+        active: true,
+        webauthn_external_id: webauthn_credential.id,
+        webauthn_public_key: webauthn_credential.public_key,
+        webauthn_sign_count: webauthn_credential.sign_count
+      )
+    end
+
+    def webauthn_credential
+      @webauthn_credential ||= WebAuthn::Credential.from_create(JSON.parse(params[:device][:webauthn_credential]))
+    end
+
+    def assign_webauthn_attributes
+      @device.assign_attributes
+    end
+
+    def verify_webauthn_credential
+      webauthn_credential.verify(session[:webauthn_challenge])
+      session.delete(:webauthn_challenge)
+      true
+    rescue WebAuthn::Error => e
+      Rails.logger.error "Failed to verify WebAuthn credential for registration. #{e}"
+      false
+    end
+
     def logout_other_sessions
       if current_user == target_user
         Rails.logger.info { "First 2FA device registered for #{target_user}, terminating other logged in sessions." }
@@ -218,6 +258,12 @@ module ::TwoFactorAuthentication
 
     def token_service(device)
       ::TwoFactorAuthentication::TokenService.new user: target_user, use_device: device
+    end
+
+    def ensure_user_has_webauthn_id!
+      return if target_user.webauthn_id
+
+      target_user.update(webauthn_id: WebAuthn.generate_user_id)
     end
   end
 end
