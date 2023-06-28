@@ -33,6 +33,7 @@ module Projects
     def self.copy_dependencies
       [
         ::Projects::Copy::MembersDependentService,
+        ::Projects::Copy::UpdatePermissionsDependentService,
         ::Projects::Copy::VersionsDependentService,
         ::Projects::Copy::CategoriesDependentService,
         ::Projects::Copy::WorkPackagesDependentService,
@@ -52,6 +53,8 @@ module Projects
     # Whether to skip the given key.
     # Useful when copying nested dependencies
     def skip_dependency?(params, dependency_cls)
+      return false if dependency_cls == ::Projects::Copy::UpdatePermissionsDependentService
+
       !Copy::Dependency.should_copy?(params, dependency_cls.identifier.to_sym)
     end
 

@@ -38,7 +38,7 @@ module Queries::Copy
 
     ##
     # Returns the mapped filter array for either
-    # hash-based APIv3 filters or filter clasess
+    # hash-based APIv3 filters or filter classes
     def map_filters!
       filters.map do |input|
         if input.is_a?(Hash)

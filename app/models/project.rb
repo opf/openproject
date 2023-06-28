@@ -94,6 +94,7 @@ class Project < ApplicationRecord
   has_many :storages, through: :projects_storages
   has_many :active_permissions, dependent: :delete_all, inverse_of: :project
 
+  # After destroy is not necessary because of the dependent: :delete_all on active_permissions.
   after_save do
     ActivePermissions::Updater.prepare
   end
