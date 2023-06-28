@@ -29,7 +29,8 @@
 require 'spec_helper'
 
 # TODO: Adapt the service and reenable the specs
-RSpec.xdescribe Authorization::UserAllowedService do
+RSpec.xdescribe Authorization::UserAllowedService,
+                pending: 'The service will have to be adapted to the changes by ActivePermission first' do
   let(:user) { build_stubbed(:user) }
   let(:instance) { described_class.new(user) }
   let(:action) { :an_action }
