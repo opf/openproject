@@ -67,6 +67,7 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
       });
 
     this.schema = this.changeset.schema;
+    this.workPackageSelected = !!this.changeset?.value('workPackage');
     this.setCustomFields();
     this.cdRef.detectChanges();
   }

@@ -20,6 +20,7 @@
         class="op-timer-stop-modal--timer"
         uiSref="work-packages.show"
         [uiParams]="{ workPackageId: active.workPackage.id }"
+        (click)="closeMe()"
       >
         #{{ active.workPackage.id }}: {{ active.workPackage.name }}
       </a>

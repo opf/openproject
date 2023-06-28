@@ -86,7 +86,7 @@ module API
                                          type: 'TimeEntriesActivity',
                                          value_representer: TimeEntriesActivityRepresenter,
                                          has_default: true,
-                                         required: true,
+                                         required: false,
                                          link_factory: ->(value) {
                                            {
                                              href: api_v3_paths.time_entries_activity(value.id),

@@ -7,14 +7,15 @@ import { TimeEntryBaseModal } from 'core-app/shared/components/time_entries/shar
 @Component({
   templateUrl: '../shared/modal/base.modal.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    HalResourceEditingService,
-  ],
 })
 export class TimeEntryEditModalComponent extends TimeEntryBaseModal {
   public modifiedEntry:TimeEntryResource;
 
   public destroyedEntry:TimeEntryResource;
+
+  ngOnInit() {
+    super.ngOnInit();
+  }
 
   public setModifiedEntry($event:{ savedResource:HalResource, isInital:boolean }) {
     this.modifiedEntry = $event.savedResource as TimeEntryResource;

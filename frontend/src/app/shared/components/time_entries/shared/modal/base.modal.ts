@@ -32,6 +32,8 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
 
   public formInFlight:boolean;
 
+  public changeset:ResourceChangeset<TimeEntryResource>;
+
   @InjectField() apiV3Service:ApiV3Service;
 
   constructor(readonly elementRef:ElementRef,
@@ -42,11 +44,12 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
     super(locals, cdRef, elementRef);
   }
 
-  public abstract setModifiedEntry($event:{ savedResource:HalResource, isInital:boolean }):void;
-
-  public get changeset():ResourceChangeset<TimeEntryResource> {
-    return this.locals.changeset;
+  ngOnInit() {
+    super.ngOnInit();
+    this.changeset = this.locals.changeset as ResourceChangeset<TimeEntryResource>;
   }
+
+  public abstract setModifiedEntry($event:{ savedResource:HalResource, isInital:boolean }):void;
 
   public get entry():TimeEntryResource {
     return this.changeset.projectedResource;

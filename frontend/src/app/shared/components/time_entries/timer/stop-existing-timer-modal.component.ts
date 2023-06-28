@@ -50,6 +50,7 @@ import {
 } from 'rxjs/operators';
 import { formatElapsedTime } from 'core-app/features/work-packages/components/wp-timer-button/time-formatter.helper';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { StateService } from '@uirouter/core';
 
 @Component({
   templateUrl: './stop-existing-timer-modal.component.html',
@@ -84,6 +85,7 @@ export class StopExistingTimerModalComponent extends OpModalComponent implements
     readonly elementRef:ElementRef,
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly cdRef:ChangeDetectorRef,
+    readonly state:StateService,
     readonly I18n:I18nService,
   ) {
     super(locals, cdRef, elementRef);

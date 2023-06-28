@@ -22,6 +22,11 @@ export interface TimeEntryModalOptions {
   showUserField?:boolean;
 }
 
+export interface TimeEntryUpdate {
+  entry:TimeEntryResource,
+  action:'update'|'destroy'|'unchanged';
+}
+
 @Injectable()
 export class TimeEntryEditService {
   constructor(
@@ -34,58 +39,64 @@ export class TimeEntryEditService {
     readonly timeEntry:TimeEntryService,
     protected halEditing:HalResourceEditingService,
     readonly i18n:I18nService,
-    ) {
+  ) {
   }
 
   public edit(
     entry:TimeEntryResource,
     options:TimeEntryModalOptions = {},
-  ):Promise<{ entry:TimeEntryResource, action:'update'|'destroy'|'unchanged' }> {
-    return new Promise<{ entry:TimeEntryResource, action:'update'|'destroy'|'unchanged' }>((resolve, reject) => {
-      void this
-        .createChangeset(entry)
-        .then((changeset) => this.opModalService.show(
+  ):Promise<TimeEntryUpdate> {
+    return this
+      .createChangeset(entry)
+      .then((changeset) => this.editChange(changeset, options));
+  }
+
+  public editChange(changeset:ResourceChangeset<TimeEntryResource>, options:TimeEntryModalOptions = {}) {
+    return new Promise<TimeEntryUpdate>((resolve, reject) => {
+      this
+        .opModalService
+        .show(
           TimeEntryEditModalComponent,
           this.injector,
           { ...options, changeset },
-        ).subscribe((modal) => modal
-          .closingEvent
-          .pipe(take(1))
-          .subscribe(() => {
-            if (modal.destroyedEntry) {
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-              void modal.destroyedEntry.delete().then(() => {
-                resolve({ entry: modal.destroyedEntry, action: 'destroy' });
-              });
-            } else if (modal.modifiedEntry) {
-              resolve({ entry: modal.modifiedEntry, action: 'update' });
-            } else {
-              resolve({ entry: modal.entry, action: 'unchanged' });
-            }
-          })));
+        ).subscribe((modal) => {
+          modal
+            .closingEvent
+            .pipe(take(1))
+            .subscribe(() => {
+              if (modal.destroyedEntry) {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+                void modal.destroyedEntry.delete().then(() => {
+                  resolve({ entry: modal.destroyedEntry, action: 'destroy' });
+                });
+              } else if (modal.modifiedEntry) {
+                resolve({ entry: modal.modifiedEntry, action: 'update' });
+              } else {
+                resolve({ entry: modal.entry, action: 'unchanged' });
+              }
+            });
+        },
+      );
     });
   }
-
 
   public async stopTimerAndEdit(activeTimer:TimeEntryResource):Promise<unknown> {
     await this.schemaCache.ensureLoaded(activeTimer);
 
-    const change = new TimeEntryChangeset(activeTimer);
+    const change = this.halEditing.edit(activeTimer);
     const hours = moment().diff(moment(activeTimer.createdAt as string), 'hours', true);
     const formatted = this.timezoneService.toISODuration(hours, 'hours');
     change.setValue('hours', formatted);
     change.setValue('ongoing', false);
 
-    // eslint-disable-next-line consistent-return
     return this
-      .halEditing
-      .save(change)
-      .then((commit) => {
-        this.timeEntry.activeTimer$.next(null);
-        return this.edit(commit.resource as TimeEntryResource);
+      .editChange(change)
+      .then((resource) => {
+        if (!resource.entry.ongoing) {
+          this.timeEntry.activeTimer$.next(null);
+        }
       });
   }
-
 
   public createChangeset(entry:TimeEntryResource):Promise<ResourceChangeset<TimeEntryResource>> {
     return this

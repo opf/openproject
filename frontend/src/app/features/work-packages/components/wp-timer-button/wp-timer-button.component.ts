@@ -145,10 +145,15 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
 
   async start():Promise<void> {
     if (this.active) {
-      await this.showStopModal()
-        .then(() => this.stop());
+      this.showStopModal()
+        .then(() => this.stop().then(() => this.startTimer()))
+        .catch(() => undefined);
+    } else {
+      this.startTimer();
     }
+  }
 
+  private startTimer():void {
     this.timeEntryCreateService
       .createNewTimeEntry(moment(), this.workPackage, true)
       .pipe(
