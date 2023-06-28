@@ -39,6 +39,7 @@ RSpec.describe "Notification center",
   let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
   let(:split_screen) { Pages::SplitWorkPackage.new work_package }
   let(:split_screen2) { Pages::SplitWorkPackage.new work_package2 }
+  let(:full_screen) { Pages::FullWorkPackage.new work_package }
 
   let(:notifications) do
     [notification, notification2]
@@ -141,7 +142,7 @@ RSpec.describe "Notification center",
       end
     end
 
-    it 'can open the split screen of the notification' do
+    it 'can open the split screen of the work package when clicking the notification' do
       visit home_path
       wait_for_reload
       center.expect_bell_count 2
@@ -167,6 +168,18 @@ RSpec.describe "Notification center",
       center.open
       center.expect_no_item notification
       center.expect_work_package_item notification2
+    end
+
+    it 'can open the full view of the work package when double clicking the notification' do
+      visit home_path
+      center.expect_bell_count 2
+      center.open
+
+      center.double_click_item notification
+      full_screen.expect_subject
+
+      full_screen.go_back
+      center.expect_item_not_read notification
     end
 
     context "with a new notification" do
