@@ -58,6 +58,9 @@ class Project < ApplicationRecord
   has_many :principals, through: :member_principals, source: :principal
 
   has_many :enabled_modules,
+           after_remove: ->(*) {
+             ActivePermissions::Updater.prepare
+           },
            dependent: :delete_all
 
   has_and_belongs_to_many :types, -> {
