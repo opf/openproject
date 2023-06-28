@@ -280,7 +280,7 @@ RSpec.describe WorkPackages::SetAttributesService,
         wp.save!(validate: false)
       end
     end
-    let(:user) { build_stubbed(:admin) }
+    let(:user) { create(:admin) }
     let(:instance) do
       described_class.new(user:,
                           model: invalid_wp,
