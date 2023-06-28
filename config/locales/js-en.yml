@@ -793,7 +793,8 @@ en:
     time_entry:
       work_package_required: 'Requires selecting a work package first.'
       title: 'Log time'
-      tracking: 'Tracking'
+      tracking: 'Time tracking'
+      stop: 'Stop'
 
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
