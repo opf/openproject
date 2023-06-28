@@ -918,7 +918,7 @@ GEM
     sys-filesystem (1.4.3)
       ffi (~> 1.1)
     table_print (1.5.7)
-    test-prof (1.2.1)
+    test-prof (1.2.2)
     text-hyphen (1.5.0)
     thor (1.2.2)
     tilt (2.1.0)
