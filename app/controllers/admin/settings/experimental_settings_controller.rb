@@ -28,7 +28,7 @@
 
 module Admin::Settings
   class ExperimentalSettingsController < ::Admin::SettingsController
-    menu_item :settings_experimental
+    menu_item :settings
 
     def default_breadcrumb
       t(:label_experimental)
