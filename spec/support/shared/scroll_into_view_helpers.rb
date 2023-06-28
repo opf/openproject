@@ -43,7 +43,6 @@ def scroll_to_and_click(element)
     scroll_to_element(element)
     sleep 0.2
     element.click
-    wait_for_network_idle if using_cuprite?
   end
 end
 
