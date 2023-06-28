@@ -91,8 +91,8 @@ export class TimeEntryEditService {
 
     return this
       .editChange(change)
-      .then((resource) => {
-        if (!resource.entry.ongoing) {
+      .then((update) => {
+        if (update.action !== 'unchanged') {
           this.timeEntry.activeTimer$.next(null);
         }
       });
