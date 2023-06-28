@@ -104,6 +104,10 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   public markable$ = this._markable.asObservable();
 
+  public hasRecentItems$ = this.recentItemsService.recentItems$.pipe(
+    map((items) => (items.length > 0)),
+  );
+
   getAutocompleterData = ():Observable<unknown[]> => this.autocompleteWorkPackages();
 
   public autocompleterOptions = {
