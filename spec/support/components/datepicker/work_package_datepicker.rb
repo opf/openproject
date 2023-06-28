@@ -77,26 +77,20 @@ module Components
 
     def set_milestone_date(value)
       focus_milestone_date
-      fill_in 'date', with: value, fill_options: { clear: :backspace }
-
-      # Wait until debounce applied
-      sleep 1
+      clear_input_field_contents('date')
+      fill_in 'date', with: value
     end
 
     def set_start_date(value)
       focus_start_date
-      fill_in 'startDate', with: value, fill_options: { clear: :backspace }
-
-      # Wait for the value to be applied
-      sleep 1
+      clear_input_field_contents('startDate')
+      fill_in 'startDate', with: value
     end
 
     def set_due_date(value)
       focus_due_date
-      fill_in 'endDate', with: value, fill_options: { clear: :backspace }
-
-      # Wait for the value to be applied
-      sleep 1
+      clear_input_field_contents('endDate')
+      fill_in 'endDate', with: value
     end
 
     def expect_start_highlighted
@@ -135,7 +129,8 @@ module Components
 
     def set_duration(value)
       focus_duration
-      fill_in 'duration', with: value, fill_options: { clear: :backspace }
+      clear_input_field_contents('duration')
+      fill_in 'duration', with: value
 
       # Focus a different field
       start_date_field.click
@@ -187,7 +182,8 @@ module Components
 
     def clear_duration
       duration_field.click
-      fill_in 'duration', with: '', fill_options: { clear: :backspace }
+      clear_input_field_contents('duration')
+      fill_in 'duration', with: ''
 
       # Focus a different field
       start_date_field.click

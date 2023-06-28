@@ -47,8 +47,12 @@ end
 
 # Ferrum is yet support `fill_options` as a Hash
 def clear_input_field_contents(input_element)
-  input_element.value.length.times do
-    input_element.send_keys(:backspace)
+  if input_element.is_a? String
+    input_element = find_field(input_element)
+  end
+
+  (input_element.value.length + 1).times do
+    input_element.native.node.type(:backspace)
   end
 end
 
