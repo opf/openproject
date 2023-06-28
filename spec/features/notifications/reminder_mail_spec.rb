@@ -1,7 +1,7 @@
 require 'spec_helper'
 require_relative '../users/notifications/shared_examples'
 
-RSpec.describe "Reminder email sending", js: true do
+RSpec.describe "Reminder email sending", js: true, with_cuprite: true do
   let!(:project) { create(:project, members: { current_user => role }) }
   let!(:mute_project) { create(:project, members: { current_user => role }) }
   let(:role) { create(:role, permissions: %i[view_work_packages]) }

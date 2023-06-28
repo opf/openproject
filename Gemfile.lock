@@ -376,6 +376,9 @@ GEM
     crack (0.4.5)
       rexml
     crass (1.0.6)
+    cuprite (0.14.3)
+      capybara (~> 3.0)
+      ferrum (~> 0.13.0)
     daemons (1.4.1)
     dalli (3.2.5)
     date (3.3.3)
@@ -454,6 +457,11 @@ GEM
       faraday (>= 1, < 3)
     faraday-net_http (3.0.2)
     fastimage (2.2.7)
+    ferrum (0.13)
+      addressable (~> 2.5)
+      concurrent-ruby (~> 1.1)
+      webrick (~> 1.7)
+      websocket-driver (>= 0.6, < 0.8)
     ffi (1.15.5)
     flamegraph (0.9.5)
     fog-aws (3.19.0)
@@ -1011,6 +1019,7 @@ DEPENDENCIES
   commonmarker (~> 0.23.9)
   compare-xml (~> 0.66)
   costs!
+  cuprite (~> 0.14.3)
   daemons
   dalli (~> 3.2.0)
   dashboards!

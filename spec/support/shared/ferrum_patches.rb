@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,28 +26,18 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
+#
 
-require 'spec_helper'
+# A Cuprite edge-case with our use of select
+# fields causes a Ferrum::JavaScriptError to be raised
+# when an option HTMLElement is removed from its select field
+#
+# Use this as a temporary patch
 
-RSpec.describe 'index users', js: true, with_cuprite: true do
-  current_user { create(:admin) }
+require 'ferrum/errors'
 
-  let(:index_page) { Pages::Admin::Users::Index.new }
-
-  it 'displays the user activity list', with_settings: { journal_aggregation_time_minutes: 0 } do
-    # create some activities
-    project = create(:project_with_types)
-    project.update(name: 'new name', description: 'new project description')
-
-    work_package = create(:work_package, author: current_user, project:)
-    work_package.update(subject: 'new subject', description: 'new work package description')
-
-    visit user_path(current_user)
-
-    expect(page).to have_selector('li', text: "Project: #{project.name}")
-    expected_work_package_title = "#{work_package.type.name} ##{work_package.id}: #{work_package.subject} " \
-                                  "(Project: #{work_package.project.name})"
-    expect(page).to have_selector('li', text: expected_work_package_title)
-  end
+def ignore_ferrum_javascript_error
+  yield
+rescue Ferrum::JavaScriptError
 end

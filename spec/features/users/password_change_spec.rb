@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'random password generation', js: true do
+RSpec.describe 'random password generation', js: true, with_cuprite: true do
   shared_let(:admin) { create(:admin) }
 
   let(:auth_source) { build(:dummy_auth_source) }
@@ -42,7 +42,7 @@ RSpec.describe 'random password generation', js: true do
       login_with admin.login, 'adminADMIN!'
     end
 
-    it 'can log in with a random generated password', js: true do
+    it 'can log in with a random generated password' do
       user_page.visit!
 
       expect(page).to have_selector('#user_password')
@@ -108,16 +108,8 @@ RSpec.describe 'random password generation', js: true do
       visit my_account_path
       expect(page).to have_selector('.account-menu-item.selected')
     end
-  end
 
-  ##
-  # Converted from cuke password_complexity_checks.feature
-  context 'as an admin' do
-    before do
-      login_as admin
-    end
-
-    it 'can configure and enforce password rules', js: true do
+    it 'can configure and enforce password rules' do
       visit admin_settings_authentication_path
       expect_angular_frontend_initialized
 

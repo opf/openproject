@@ -2,6 +2,7 @@ require 'spec_helper'
 
 RSpec.describe "Notification center",
                js: true,
+               with_cuprite: true,
                with_ee: %i[date_alerts],
                with_settings: { journal_aggregation_time_minutes: 0 } do
   # Notice that the setup in this file here is not following the normal rules as
@@ -59,6 +60,7 @@ RSpec.describe "Notification center",
 
     it 'will not show all details of the journal' do
       visit home_path
+      wait_for_reload
       center.expect_bell_count 2
       center.open
 
@@ -76,12 +78,14 @@ RSpec.describe "Notification center",
 
     it 'can see the notification and dismiss it' do
       visit home_path
+      wait_for_reload
       center.expect_bell_count 2
       center.open
 
       center.expect_work_package_item notification
       center.expect_work_package_item notification2
       center.mark_all_read
+      wait_for_network_idle
 
       retry_block do
         notification.reload
@@ -104,6 +108,7 @@ RSpec.describe "Notification center",
 
       it 'can dismiss all notifications of the currently selected filter' do
         visit home_path
+        wait_for_reload
         center.expect_bell_count '99+'
         center.open
 
@@ -116,6 +121,7 @@ RSpec.describe "Notification center",
         side_menu.click_item 'Watcher'
         side_menu.finished_loading
         center.mark_all_read
+        wait_for_network_idle
 
         center.expect_bell_count '99+'
         side_menu.expect_item_with_count 'Inbox', 101
@@ -126,6 +132,7 @@ RSpec.describe "Notification center",
         side_menu.click_item 'Inbox'
         side_menu.finished_loading
         center.mark_all_read
+        wait_for_network_idle
 
         center.expect_bell_count 0
         side_menu.expect_item_with_no_count 'Inbox'
@@ -136,6 +143,7 @@ RSpec.describe "Notification center",
 
     it 'can open the split screen of the notification' do
       visit home_path
+      wait_for_reload
       center.expect_bell_count 2
       center.open
 
@@ -146,13 +154,14 @@ RSpec.describe "Notification center",
       center.expect_work_package_item notification2
 
       center.mark_notification_as_read notification
-
+      wait_for_network_idle
       retry_block do
         notification.reload
         raise "Expected notification to be marked read" unless notification.read_ian
       end
 
       visit home_path
+      wait_for_reload
       center.expect_bell_count 1
 
       center.open
@@ -264,6 +273,7 @@ RSpec.describe "Notification center",
 
       it "displays the date alerts; allows reading and filtering them" do
         visit home_path
+        wait_for_reload
         center.open
         # Three date alerts and the standard (created) notification
         center.expect_bell_count 4
@@ -274,11 +284,13 @@ RSpec.describe "Notification center",
 
         # Reading one will update the unread notification list
         center.mark_notification_as_read start_date_notification
+        wait_for_network_idle
 
         center.expect_bell_count 3
 
         # Filtering for only date alert notifications (that are unread)
         side_menu.click_item 'Date alert'
+        wait_for_reload
 
         center.expect_work_package_item due_date_notification
         center.expect_work_package_item overdue_date_notification
@@ -299,6 +311,7 @@ RSpec.describe "Notification center",
 
     it 'opens the next notification after marking one as read' do
       visit home_path
+      wait_for_reload
       center.expect_bell_count 2
       center.open
 
@@ -307,6 +320,8 @@ RSpec.describe "Notification center",
 
       # Marking the first notification as read (via icon on the notification row)
       center.mark_notification_as_read notification
+      wait_for_network_idle
+
       retry_block do
         notification.reload
         raise "Expected notification to be marked read" unless notification.read_ian
@@ -318,6 +333,7 @@ RSpec.describe "Notification center",
       # When marking the second as closed (via the icon in the split screen)
       # the empty state is shown
       split_screen2.mark_notifications_as_read
+      wait_for_network_idle
 
       retry_block do
         notification.reload
@@ -353,6 +369,7 @@ RSpec.describe "Notification center",
 
       it 'aggregates notifications per work package and sets all as read when opened' do
         visit home_path
+        wait_for_reload
         center.expect_bell_count 4
         center.open
 
@@ -363,6 +380,7 @@ RSpec.describe "Notification center",
 
         split_screen.expect_open
         center.mark_notification_as_read notification4
+        wait_for_network_idle
 
         retry_block do
           notification4.reload
@@ -380,7 +398,7 @@ RSpec.describe "Notification center",
 
         split_screen2.expect_open
         center.mark_notification_as_read notification3
-
+        wait_for_network_idle
         retry_block do
           notification3.reload
           raise "Expected notification to be marked read" unless notification3.read_ian

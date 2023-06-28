@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,28 +26,32 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
+#
 
-require 'spec_helper'
+# Wrapper for Cuprite's `page.driver.wait_for_network_idle`
+# Used to wait for Network traffic to become idle, helping
+# in specs where AJAX requests are performed by angular components.
+# This is especially helpful as it doesn't depend on DOM elements
+# being present or gone. Instead the execution is halted until
+# requested data is done being fetched.
+def wait_for_network_idle
+  page.driver.wait_for_network_idle
+end
 
-RSpec.describe 'index users', js: true, with_cuprite: true do
-  current_user { create(:admin) }
+# Takes the above `wait_for_network_idle` a step further by waiting
+# for the page to be reloaded after some triggering action.
+def wait_for_reload
+  page.driver.wait_for_reload
+end
 
-  let(:index_page) { Pages::Admin::Users::Index.new }
-
-  it 'displays the user activity list', with_settings: { journal_aggregation_time_minutes: 0 } do
-    # create some activities
-    project = create(:project_with_types)
-    project.update(name: 'new name', description: 'new project description')
-
-    work_package = create(:work_package, author: current_user, project:)
-    work_package.update(subject: 'new subject', description: 'new work package description')
-
-    visit user_path(current_user)
-
-    expect(page).to have_selector('li', text: "Project: #{project.name}")
-    expected_work_package_title = "#{work_package.type.name} ##{work_package.id}: #{work_package.subject} " \
-                                  "(Project: #{work_package.project.name})"
-    expect(page).to have_selector('li', text: expected_work_package_title)
+# Ferrum is yet support `fill_options` as a Hash
+def clear_input_field_contents(input_element)
+  input_element.value.length.times do
+    input_element.send_keys(:backspace)
   end
+end
+
+def using_cuprite?
+  Capybara.javascript_driver == :better_cuprite_en
 end

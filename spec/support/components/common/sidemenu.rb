@@ -60,6 +60,7 @@ module Components
       end
 
       def finished_loading
+        wait_for_network_idle if using_cuprite?
         expect(page).not_to have_selector('[data-qa-selector="op-ian-center--loading-indicator"]')
       end
 

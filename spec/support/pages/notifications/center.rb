@@ -31,6 +31,7 @@ module Pages
     class Center < ::Pages::Page
       def open
         bell_element.click
+        wait_for_network_idle if using_cuprite?
         expect_open
       end
 
