@@ -88,21 +88,6 @@ export class TimerAccountMenuComponent extends UntilDestroyedMixin implements On
       return;
     }
 
-    await this.schemaCache.ensureLoaded(active);
-    const change = new TimeEntryChangeset(active);
-    const hours = moment().diff(moment(active.createdAt), 'hours', true);
-    const formatted = this.timezoneService.toISODuration(hours, 'hours');
-    change.setValue('hours', formatted);
-    change.setValue('ongoing', false);
-
-    // eslint-disable-next-line consistent-return
-    return this
-      .halEditing
-      .save(change)
-      .then((commit) => {
-        this.timeEntryService.activeTimer$.next(null);
-        this.cdRef.detectChanges();
-        return this.timeEntryEditService.edit(commit.resource as TimeEntryResource);
-      });
+    void this.timeEntryEditService.stopTimerAndEdit(active);
   }
 }
