@@ -1003,13 +1003,13 @@ RSpec.describe 'Projects index page',
 
         # 'More' becomes visible on hover
         # because we use css opacity we can not test for the visibility changes
-        page.find('tbody tr').hover
+        page.find("tbody tr[data-project-id=\"#{project_with_activity_enabled.id}\"]").hover
         expect(page).to have_selector('.icon-show-more-horizontal')
 
         # "Project activity" item should be displayed in the 'more' menu
         page.find('tbody tr .icon-show-more-horizontal').click
 
-        menu = page.find('tbody tr .project-actions')
+        menu = page.find("tbody tr[data-project-id=\"#{project_with_activity_enabled.id}\"] .project-actions")
         expect(menu).to have_text(I18n.t(:label_project_activity))
 
         # Clicking the menu item should redirect to project activity page
