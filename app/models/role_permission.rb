@@ -34,4 +34,8 @@ class RolePermission < ApplicationRecord
   after_save do
     ActivePermissions::Updater.prepare
   end
+
+  after_destroy do
+    ActivePermissions::Updater.prepare
+  end
 end

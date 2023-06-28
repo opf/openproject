@@ -54,7 +54,9 @@ class Seeder
   def seed!
     if applicable?
       without_notifications do
-        seed_data!
+        directly_updating_active_permissions do
+          seed_data!
+        end
       end
     else
       Seeder.logger.debug { "   *** #{not_applicable_message}" }
@@ -97,5 +99,9 @@ class Seeder
 
   def without_notifications(&)
     Journal::NotificationConfiguration.with(false, &)
+  end
+
+  def directly_updating_active_permissions(&)
+    ActivePermissions::Updater.execute_directly(&)
   end
 end

@@ -29,18 +29,46 @@
 class ActivePermissions::Updater
   extend AfterCommitEverywhere
 
-  def self.prepare
-    RequestStore.fetch(:prepared_active_permission_update) do
-      # During migrations, we don't want the table to be updated if it does not exist yet.
-      next unless ActiveRecord::Base.connection.table_exists?('active_permissions')
+  class << self
+    def prepare
+      prepare_or_execute do
+        new.execute
+      end
+    end
 
-      before_commit { new.execute }
+    def execute_directly
+      @executed_directly = true
+
+      yield
+    ensure
+      @executed_directly = false
+    end
+
+    private
+
+    def executed_directly?
+      @executed_directly ||= false
+    end
+
+    def prepare_or_execute
+      if executed_directly?
+        yield
+      else
+        RequestStore.fetch(:prepared_active_permission_update) do
+          # During migrations, we don't want the table to be updated if it does not exist yet.
+          next unless ActiveRecord::Base.connection.table_exists?('active_permissions')
+
+          before_commit do
+            RequestStore.delete(:prepared_active_permission_update)
+
+            yield
+          end
+        end
+      end
     end
   end
 
   def execute
-    RequestStore.delete(:prepared_active_permission_update)
-
     ActivePermission.delete_all
     ActivePermission.create_for_member_projects
     ActivePermission.create_for_member_global
