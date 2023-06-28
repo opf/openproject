@@ -60,7 +60,7 @@ export class TimeEntryEditService {
             } else if (modal.modifiedEntry) {
               resolve({ entry: modal.modifiedEntry, action: 'update' });
             } else {
-              reject();
+              resolve({ entry: modal.entry, action: 'unchanged' });
             }
           })));
     });

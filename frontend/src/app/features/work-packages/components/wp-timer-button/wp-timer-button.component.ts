@@ -47,6 +47,7 @@ import {
   switchMap,
 } from 'rxjs/operators';
 import {
+  firstValueFrom,
   from,
   Observable,
   timer,
@@ -61,6 +62,7 @@ import { formatElapsedTime } from 'core-app/features/work-packages/components/wp
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { StopExistingTimerModalComponent } from 'core-app/shared/components/time_entries/timer/stop-existing-timer-modal.component';
 import { TimeEntryEditService } from 'core-app/shared/components/time_entries/edit/edit.service';
+import { ConfirmDialogModalComponent } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
 
 export function pad(val:number):string {
   return val > 9 ? val.toString() : "0" + val.toString();
@@ -126,6 +128,7 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
   get activeForWorkPackage():boolean {
     return !!this.active && this.active.workPackage.href === this.workPackage.href;
   }
+
   clear():void {
     this.timeEntryService.activeTimer$.next(null);
     this.active = null;
@@ -142,8 +145,8 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
 
   async start():Promise<void> {
     if (this.active) {
-      this.modalService.show(StopExistingTimerModalComponent, this.injector, { timer: this.active });
-      return;
+      await this.showStopModal()
+        .then(() => this.stop());
     }
 
     this.timeEntryCreateService
@@ -157,5 +160,20 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
         this.active = active;
         this.cdRef.detectChanges();
       });
+  }
+
+  private showStopModal():Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this
+        .modalService
+        .show(StopExistingTimerModalComponent, this.injector, { timer: this.active })
+        .subscribe((modal) => modal.closingEvent.subscribe(() => {
+          if (modal.confirmed) {
+            resolve();
+          } else {
+            reject();
+          }
+        }));
+    });
   }
 }

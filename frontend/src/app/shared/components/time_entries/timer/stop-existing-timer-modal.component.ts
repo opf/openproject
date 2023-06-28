@@ -62,6 +62,8 @@ export class StopExistingTimerModalComponent extends OpModalComponent implements
 
   public active:TimeEntryResource;
 
+  public confirmed = false;
+
   elapsed$:Observable<string> = timer(0, 1000)
     .pipe(
       map(() => this.active),
@@ -93,6 +95,7 @@ export class StopExistingTimerModalComponent extends OpModalComponent implements
   }
 
   saveAndClose():void {
-
+    this.confirmed = true;
+    this.closeMe();
   }
 }
