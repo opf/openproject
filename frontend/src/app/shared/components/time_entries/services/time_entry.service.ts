@@ -3,7 +3,6 @@ import {
   Injector,
 } from '@angular/core';
 import {
-  delay,
   map,
   switchMap,
 } from 'rxjs/operators';
@@ -15,7 +14,6 @@ import {
   Observable,
   timer,
 } from 'rxjs';
-
 
 @Injectable()
 export class TimeEntryService {

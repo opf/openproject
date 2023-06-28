@@ -18,6 +18,7 @@ import {
 } from 'rxjs/operators';
 import { formatElapsedTime } from 'core-app/features/work-packages/components/wp-timer-button/time-formatter.helper';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { TimeEntryEditService } from 'core-app/shared/components/time_entries/edit/edit.service';
 
 export const timerAccountSelector = 'op-timer-account-menu';
 
@@ -25,6 +26,10 @@ export const timerAccountSelector = 'op-timer-account-menu';
   selector: timerAccountSelector,
   templateUrl: './timer-account-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    TimeEntryEditService,
+    TimeEntryService,
+  ]
 })
 export class TimerAccountMenuComponent extends UntilDestroyedMixin implements OnInit {
   timer:TimeEntryResource|null = null;
