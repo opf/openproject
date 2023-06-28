@@ -71,11 +71,34 @@ RSpec.shared_examples_for 'roles contract' do
   end
 
   describe '#assignable_permissions' do
-    let(:all_permissions) { %i[perm1 perm2 perm3] }
+    let(:public_permission) do
+      instance_double(OpenProject::AccessControl::Permission,
+                      name: "public permission",
+                      grant_to_admin?: true,
+                      public?: true,
+                      project_module: 'module 1',
+                      global?: false)
+    end
+    let(:project_permission) do
+      instance_double(OpenProject::AccessControl::Permission,
+                      name: "project permission",
+                      grant_to_admin?: true,
+                      public?: false,
+                      project_module: 'module 1',
+                      global?: false)
+    end
+    let(:global_permission) do
+      instance_double(OpenProject::AccessControl::Permission,
+                      name: "global permission",
+                      grant_to_admin?: true,
+                      public?: false,
+                      project_module: 'module 2',
+                      global?: true)
+    end
+
+    let(:all_permissions) { [public_permission, project_permission, global_permission] }
 
     context 'for a standard role' do
-      let(:public_permissions) { [:perm1] }
-      let(:global_permissions) { [:perm3] }
 
       before do
         allow(OpenProject::AccessControl)
@@ -83,15 +106,15 @@ RSpec.shared_examples_for 'roles contract' do
           .and_return(all_permissions)
         allow(OpenProject::AccessControl)
           .to receive(:global_permissions)
-          .and_return(global_permissions)
+          .and_return([global_permission])
         allow(OpenProject::AccessControl)
           .to receive(:public_permissions)
-          .and_return(public_permissions)
+          .and_return([public_permission])
       end
 
       it 'is all non public, non global permissions' do
         expect(contract.assignable_permissions)
-          .to eql [:perm2]
+          .to eql [project_permission]
       end
     end
 
