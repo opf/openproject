@@ -30,9 +30,9 @@ If you want to manage your project alone (without informing other team members) 
 
 ### How can I set workload, deadline and duration in a work package?
 
-- Workload: Use "Estimated time"
-- Deadline: Use the finish date
-- Duration: Create a custom field or just set start date and finish date.
+- Workload: Use the "Estimated time" field
+- Deadline: Use the "Finish date" field
+- Duration: Use the "Duration" field
 
 ### How can I see which work packages have been assigned to me as part of a group (e.g. "Marketing team")?
 
