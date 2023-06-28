@@ -100,6 +100,7 @@ RSpec.describe "Split screen in the notification center",
       # Html title should be updated with next WP data after making the current one as read
       second_title = "#{second_work_package.type.name}: #{second_work_package.subject} (##{second_work_package.id})"
       center.click_item notification
+      sleep 0.25 # Wait after the item has been clicked to not be interpreted as a double click
       center.mark_notification_as_read notification
       global_html_title.expect_first_segment second_title
 
