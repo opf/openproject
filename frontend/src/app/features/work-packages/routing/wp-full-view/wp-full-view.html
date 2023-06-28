@@ -20,7 +20,7 @@
         </div>
       </div>
       <ul id="toolbar-items" class="toolbar-items hide-when-print">
-        <li class="toolbar-item hidden-for-mobile">
+        <li class="toolbar-item hidden-for-mobile" *ngIf="displayTimerButton">
           <op-wp-timer-button
             [workPackage]="workPackage"
             >

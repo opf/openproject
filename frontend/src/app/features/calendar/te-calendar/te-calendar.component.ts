@@ -425,12 +425,13 @@ export class TimeEntryCalendarComponent {
       });
   }
 
-  private updateEventSet(event:TimeEntryResource, action:'update'|'destroy'|'create'):void {
+  private updateEventSet(event:TimeEntryResource, action:'update'|'destroy'|'create'|'unchanged'):void {
     void this.memoizedTimeEntries.entries.then((collection) => {
       const foundIndex = collection.elements.findIndex((x) => x.id === event.id);
 
       switch (action) {
         case 'update':
+        case 'unchanged':
           collection.elements[foundIndex] = event;
           break;
         case 'destroy':

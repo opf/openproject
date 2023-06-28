@@ -58,7 +58,9 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
   // Watcher properties
   public isWatched:boolean;
 
-  public displayWatchButton:boolean;
+  public displayWatchButton = false;
+
+  public displayTimerButton = false;
 
   public watchers:any;
 
@@ -95,6 +97,7 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
   private setWorkPackageScopeProperties(wp:WorkPackageResource) {
     this.isWatched = wp.hasOwnProperty('unwatch');
     this.displayWatchButton = wp.hasOwnProperty('unwatch') || wp.hasOwnProperty('watch');
+    this.displayTimerButton = wp.hasOwnProperty('logTime');
 
     // watchers
     if (wp.watchers) {

@@ -40,8 +40,8 @@ export class TimeEntryEditService {
   public edit(
     entry:TimeEntryResource,
     options:TimeEntryModalOptions = {},
-  ):Promise<{ entry:TimeEntryResource, action:'update'|'destroy' }> {
-    return new Promise<{ entry:TimeEntryResource, action:'update'|'destroy' }>((resolve, reject) => {
+  ):Promise<{ entry:TimeEntryResource, action:'update'|'destroy'|'unchanged' }> {
+    return new Promise<{ entry:TimeEntryResource, action:'update'|'destroy'|'unchanged' }>((resolve, reject) => {
       void this
         .createChangeset(entry)
         .then((changeset) => this.opModalService.show(
