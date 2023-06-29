@@ -1172,10 +1172,11 @@ vi:
       button_deactivate: 'Tắt chế độ zen'
     global_search:
       all_projects: "Cho tất cả các dự án"
-      search: "Tìm kiếm"
       close_search: "Đóng tìm kiếm"
-      current_project: "Trong dự án này"
       current_project_and_all_descendants: "Trong dự án này + các dự án con"
+      current_project: "Trong dự án này"
+      recently_viewed: "Recently viewed"
+      search: "Tìm kiếm"
       title:
         all_projects: "mọi dự án"
         project_and_subprojects: "và tất cả các dự án con"

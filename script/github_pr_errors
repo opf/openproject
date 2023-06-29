@@ -26,6 +26,8 @@ end
 class Options
   DEFAULTS = {
     compact: false,
+    display_rerun_info: false,
+    failed_jobs_logs: [],
     no_cache: false,
     run_id: nil
   }.freeze
@@ -70,6 +72,16 @@ class Options
 
         parser.on("-c", "--compact", "Output all failing rspec files on one line") do
           options[:compact] = true
+        end
+
+        parser.on("-d", "--display-rerun-info",
+                  "Displays rspec rerun instructions like CI with seed") do
+          options[:display_rerun_info] = true
+        end
+
+        parser.on("-f PATH", "--failed-job-log PATH",
+                  "Use given file as failed job log instead of downloading from GitHub. Can be used multiple times.") do |path|
+          options[:failed_jobs_logs] << path
         end
 
         parser.on("-n", "--no-cache", "Do not use cached replies from GitHub API calls") do
@@ -206,7 +218,7 @@ def get_workflow_run(run_id)
 end
 
 class Error
-  attr_accessor :location, :page_html, :page_screenshot, :tests_group
+  attr_accessor :location, :page_html, :page_screenshot, :tests_group, :loading_error
 end
 
 # rubocop:disable Layout/LineLength
@@ -221,6 +233,8 @@ class TestsGroup
   end
 
   def include_error?(error)
+    return false if error.location.nil?
+
     files.any? { |file| error.location.include?(file) }
   end
 
@@ -230,7 +244,8 @@ class TestsGroup
 end
 
 class JobErrorsFinder
-  SPEC_PATTERN = %r{^\S+ (?:rspec (\S+) #.+|An error occurred while loading (\S+)\.\r?)$}
+  SPEC_FAILURES_PATTERN = %r{^\S+ rspec (\S+) #.+$}
+  SPEC_LOADING_ERRORS_PATTERN = %r{^\S+ An error occurred while loading (\S+)\.\r?$}
   SCREENSHOT_PATTERN = /\{"message":"Screenshot captured for failed feature test"[^\n]+$/
   TESTS_GROUP_PATTERN = /Process \d+: TEST_ENV_NUMBER=\d+ [^\n]+$/
 
@@ -243,7 +258,8 @@ class JobErrorsFinder
   end
 
   def scan_log(log)
-    find_errors(log)
+    find_failures(log)
+    find_loading_errors(log)
     find_screenshots(log)
     find_tests_groups(log)
   end
@@ -255,21 +271,41 @@ class JobErrorsFinder
   protected
 
   def initialize
-    @errors = Hash.new { |h, k| h[k] = Error.new }
+    @errors = {}
   end
 
-  def error(location)
-    @errors[location]
+  def create_error(location)
+    return if location.nil?
+
+    error = Error.new
+    error.location = location
+    @errors[location] ||= error
   end
 
-  def find_errors(log)
-    log.scan(SPEC_PATTERN)
+  def with_matching_error(location: nil, id: nil)
+    error = @errors[id] || @errors[location]
+    yield error if error && block_given?
+    error
+  end
+
+  def find_failures(log)
+    log.scan(SPEC_FAILURES_PATTERN)
       .flatten
-      .compact
+      .uniq
+      .sort
+      .each do |rerun_location|
+        create_error(rerun_location)
+      end
+  end
+
+  def find_loading_errors(log)
+    log.scan(SPEC_LOADING_ERRORS_PATTERN)
+      .flatten
       .uniq
       .sort
       .each do |location|
-        error(location).location = location
+        error = create_error(location)
+        error.loading_error = true
       end
   end
 
@@ -277,9 +313,12 @@ class JobErrorsFinder
     log.scan(SCREENSHOT_PATTERN)
       .map { JSON.parse _1 }
       .each do |screenshot_info|
+        id = screenshot_info["test_id"]
         location = screenshot_info["test_location"]
-        error(location).page_html = screenshot_info["html"]
-        error(location).page_screenshot = screenshot_info["image"]
+        with_matching_error(location:, id:) do |error|
+          error.page_html = screenshot_info["html"]
+          error.page_screenshot = screenshot_info["image"]
+        end
       end
   end
 
@@ -352,17 +391,25 @@ class Formatter
   end
 
   def display_errors_detailed(errors)
-    errors
-      .group_by(&:tests_group)
-      .each do |tests_group, tests_group_errors|
-        display_tests_group_info(tests_group)
-        tests_group_errors.each { display_error(_1) }
-        display_tests_group_rerun_commands(tests_group)
-      end
+    if Options.display_rerun_info
+      errors
+        .sort_by { |error| [error.tests_group.test_env_number.to_i, error.location] }
+        .group_by(&:tests_group)
+        .each do |tests_group, tests_group_errors|
+          display_tests_group_info(tests_group)
+          tests_group_errors.each { display_error(_1) }
+          display_tests_group_rerun_commands(tests_group)
+        end
+    else
+      errors
+        .sort_by(&:location)
+        .each { display_error(_1) }
+    end
   end
 
   def display_error(error)
     puts escaped_location(error)
+    display_error_attribute("loading error", error.loading_error)
     display_error_attribute("html", error.page_html)
     display_error_attribute("screenshot", error.page_screenshot)
   end
@@ -376,7 +423,7 @@ class Formatter
       " ",
       name.blue,
       ": ",
-      value.blue
+      value.to_s.blue
     ].join
   end
 
@@ -390,7 +437,7 @@ class Formatter
     return unless tests_group
 
     warn "To run the tests group in the same order as CI, use this command:".white.dark
-    warn "bundle exec rspec --seed #{tests_group.seed} #{tests_group.files.join(' ')}".white.dark
+    warn "CI=true bundle exec rspec --seed #{tests_group.seed} #{tests_group.files.join(' ')}".white.dark
     warn ""
   end
 
@@ -445,21 +492,38 @@ class Formatter
   end
 end
 
+def get_failed_jobs_logs_from_github(formatter)
+  workflow_run = get_workflow_run(Options.run_id)
+
+  formatter.display_workflow_run_info(workflow_run)
+
+  formatter.display_workflow_status(workflow_run)
+  get_jobs(workflow_run)
+    .then { |jobs_response| jobs_response['jobs'] }
+    .sort_by { _1['name'] }
+    .each { |job| formatter.display_job_status(job) }
+    .select { _1['conclusion'] == 'failure' }
+    .reject { EXCLUDED_JOB_NAMES.include?(_1['name']) }
+    .map { |job| get_log(job) }
+end
+
+def get_failed_jobs_logs_from_args
+  Options.failed_jobs_logs.map { |path| File.read(path) }
+end
+
+def get_failed_jobs_logs(formatter)
+  if Options.failed_jobs_logs.any?
+    get_failed_jobs_logs_from_args
+  else
+    get_failed_jobs_logs_from_github(formatter)
+  end
+end
+
 ##########
 
-workflow_run = get_workflow_run(Options.run_id)
-
 formatter = Formatter.new(compact: Options.compact)
-formatter.display_workflow_run_info(workflow_run)
 
-formatter.display_workflow_status(workflow_run)
-failed_jobs_logs = get_jobs(workflow_run)
-  .then { |jobs_response| jobs_response['jobs'] }
-  .sort_by { _1['name'] }
-  .each { |job| formatter.display_job_status(job) }
-  .select { _1['conclusion'] == 'failure' }
-  .reject { EXCLUDED_JOB_NAMES.include?(_1['name']) }
-  .map { |job| get_log(job) }
+failed_jobs_logs = get_failed_jobs_logs(formatter)
 
 is_successful = failed_jobs_logs.none?
 errors = JobErrorsFinder.scan_logs(failed_jobs_logs)

@@ -28,11 +28,13 @@
 
 require 'spec_helper'
 
-RSpec.describe 'OAuth applications management', js: true do
+RSpec.describe 'OAuth applications management',
+               js: true,
+               with_cuprite: true do
   let(:admin) { create(:admin) }
 
   before do
-    login_as(admin)
+    login_as admin
     visit oauth_applications_path
   end
 
@@ -43,7 +45,6 @@ RSpec.describe 'OAuth applications management', js: true do
     # Create application
     find('.button', text: 'Add').click
 
-    SeleniumHubWaiter.wait
     fill_in 'application_name', with: 'My API application'
     # Fill invalid redirect_uri
     fill_in 'application_redirect_uri', with: "not a url!"
@@ -51,7 +52,6 @@ RSpec.describe 'OAuth applications management', js: true do
 
     expect(page).to have_selector('.errorExplanation', text: 'Redirect URI must be an absolute URI.')
 
-    SeleniumHubWaiter.wait
     fill_in('application_redirect_uri', with: "")
     # Fill rediret_uri which does not provide a Secure Context
     fill_in 'application_redirect_uri', with: "http://example.org"
@@ -60,7 +60,6 @@ RSpec.describe 'OAuth applications management', js: true do
     expect(page).to have_selector('.errorExplanation', text: 'Redirect URI is not providing a "Secure Context"')
 
     # Can create localhost without https (https://community.openproject.com/wp/34025)
-    SeleniumHubWaiter.wait
     fill_in 'application_redirect_uri', with: "urn:ietf:wg:oauth:2.0:oob\nhttp://localhost/my/callback"
     click_on 'Create'
 
@@ -74,15 +73,12 @@ RSpec.describe 'OAuth applications management', js: true do
     expect(page.first('.attributes-key-value--value code').text).to match /\w+/
 
     # Edit again
-    SeleniumHubWaiter.wait
     click_on 'Edit'
 
-    SeleniumHubWaiter.wait
     fill_in 'application_redirect_uri', with: "urn:ietf:wg:oauth:2.0:oob"
     click_on 'Save'
 
     # Show application
-    SeleniumHubWaiter.wait
     find('td a', text: 'My API application').click
 
     expect(page).not_to have_selector('.attributes-key-value--key', text: 'Client secret')
@@ -90,9 +86,9 @@ RSpec.describe 'OAuth applications management', js: true do
     expect(page).to have_selector('.attributes-key-value--key', text: 'Client ID')
     expect(page).to have_selector('.attributes-key-value--value', text: "urn:ietf:wg:oauth:2.0:oob")
 
-    SeleniumHubWaiter.wait
-    click_on 'Delete'
-    page.driver.browser.switch_to.alert.accept
+    accept_alert do
+      click_on 'Delete'
+    end
 
     # Table is empty again
     expect(page).to have_selector('.generic-table--empty-row', text: 'There is currently nothing to display')

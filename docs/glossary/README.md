@@ -29,7 +29,7 @@ In Openproject, authentication is an important element to guarantee a data prote
 
 ## Backlog
 
-A backlog in OpenProject is defined as a plugin that allows to use the backlogs feature in OpenProject. In order to use backlogs in a project, the backlogs module has to be activated in the project settings of a project.
+A backlog in OpenProject is defined as a plugin that allows to use the backlogs feature in OpenProject. The backlog is a tool in scrum: a list that contains everything needed to achieve a specific outcome. In order to use backlogs in OpenProject, the backlogs module has to be activated in the project settings of a project. [Read how to work with backlogs in OpenProject](https://www.openproject.org/docs/user-guide/backlogs-scrum)
 
 ## Baseline (Comparisons)
 
@@ -70,9 +70,9 @@ A custom action in OpenProject is defined as customizable buttons which trigger 
 
 In OpenProject, a custom field is defined as an additional value field which can be added to existing value fields. The different sections that can use custom fields are *work packages*, *spent time*, *projects*, *versions*, *users*, *groups*, *activities (time tracking)*, and *work package priorities*.
 
-**More information on custom fields in OpenProject**
-
+** More information on custom fields in OpenProject**
 - [Read how to enable custom fields in projects to use them in work packages](https://www.openproject.org/docs/user-guide/projects/project-settings/custom-fields/)
+- [Read how to create custom fields as an admin in OpenProject](https://www.openproject.org/docs/system-admin-guide/custom-fields/)
 
 ## Custom query
 
@@ -82,7 +82,7 @@ A custom query in OpenProject consists of saved filters and groupings in the wor
 
 A dashboard is defined as an overview page in a software. In OpenProject, you have several options to create dashboards:
 
-First, you have the **My Page** which shows your personal customized widgets on one page, for example a calendar or work package reports.
+First, you have the "***My Page\***" which shows your personal customized widgets on one page, for example a calendar or work package reports.
 
 Then, you can create **private dashboards inside your project** by filtering a work package view and then saving it under a new name. For example, filter all work packages assigned to yourself and save this view as "assigned to me", to quickly navigate to those work packages.
 
@@ -90,7 +90,7 @@ Admins of a project can also create **dashboards that are visible to everyone in
 
 ## Date alerts
 
-Date alerts in OpenProject are an Enterprise add-on and defined as a feature to generate automatic and customized notifications regarding a work package's due date or start date. You can find the date alerts feature in your notification center, symbolized by a little bell on the right upper side of your instance. [Read more about the date alerts feature in our user guide](https://www.openproject.org/docs/user-guide/notifications/notification-settings/#date-alerts-enterprise-add-on) or in [this article on deadline management with OpenProject](https://www.openproject.org/blog/deadline-management-date-alert/)
+Date alerts in OpenProject are an *Enterprise add-on* and defined as a feature to generate automatic and customized notifications regarding a work package's due date or start date. You can find the date alerts feature in your notification center, symbolized by a little bell on the right upper side of your instance. [Read more about the date alerts feature in our user guide](https://www.openproject.org/docs/user-guide/notifications/notification-settings/#date-alerts-enterprise-add-on) or in [this article on deadline management with OpenProject](https://www.openproject.org/blog/deadline-management-date-alert/)
 
 ## Enterprise add-on
 
@@ -100,7 +100,7 @@ In OpenProject, some features are defined as an Enterprise add-on. This means, t
 
 ## Excel synchronisation
 
-[Read more about Excel synchronization with OpenProject](https://www.openproject.org/docs/system-admin-guide/integrations/excel-synchronization/)
+Excel synchronisation is a module in OpenProject which allows you to easily import your issues from Excel to OpenProject or upload your work packages into an Excel spreadsheet. [See our video tutorials on how to work with the Excel synchronisation module](https://www.openproject.org/docs/system-admin-guide/integrations/excel-synchronization/)
 
 ## Forum
 
@@ -128,7 +128,7 @@ The Gantt chart in OpenProject displays the work packages in a timeline. You can
 
 ## Group
 
-A Group in OpenProject is defined as a list of users which can be assigned to a project with a selected role. New groups can be defined in **Administration -> Users and permissions -> Groups**.
+A Group in OpenProject is defined as a list of users which can be assigned to a project with a selected role. New groups can be defined in Administration -> Users and permissions -> Groups.
 
 ## Hybrid project management
 
@@ -140,7 +140,7 @@ In OpenProject Software, Meetings is defined as a module that allows the organiz
 
 ## Member
 
-In OpenProject Software, a member is defined as a project member in a project. Project members are added in the Members module in the project menu.
+In OpenProject Software, a member is defined as a single person in a project. Project members are added in the Members module in the project menu.
 
 ## Module
 
@@ -177,7 +177,6 @@ In OpenProject, you can chose from several plugins or integrations or add your o
 Your activated plugins are listed together with your modules in your instance under --> Administration --> Plugins. 
 
 **More information on plugins in OpenProject**
-
 - [See all available plugins and integrations for OpenProject](https://www.openproject.org/docs/system-admin-guide/integrations/)
 - [Read how to create an OpenProject plugin](https://www.openproject.org/docs/development/create-openproject-plugin/)
 
@@ -191,7 +190,7 @@ In OpenProject, a [project](https://www.openproject.org/docs/user-guide/projects
 
 ### Project dashboard
 
-See [Dashboard](#dashboard)
+See dashboard
 
 ### Project folder
 
@@ -202,6 +201,10 @@ The project identifier is defined as the unique name used to identify projects. 
 ### Project navigation
 
 The project navigation is the side navigation within a project. Entries in the project navigation can be added and removed by activating and deactivating modules in the project settings.
+
+### Project overview
+
+In OpenProject, the project overview is defined as a single dashboard page where all important information of a selected project can be displayed. The idea is to provide a central repository of information for the whole project team. Project information is added to the dashboard as *widgets*. Open the project overview by navigating to Overview in the project menu on the left. [Read more about the project overview in OpenProject](https://www.openproject.org/docs/user-guide/project-overview/#project-overview)
 
 ### Project settings
 
@@ -227,7 +230,7 @@ In OpenProject, projects can be private or public. Public means that the project
 
 ## Repository
 
-A repository is defined as a document management system that allows users to manage files and folders via different version control system (SVN or Git).
+A repository is defined as a document management system that allows users to manage files and folders via different version control system (SVN or Git). [Read more about Repository for source code control](https://www.openproject.org/docs/user-guide/repository/)
 
 ## Roadmap
 
@@ -237,15 +240,17 @@ In OpenProject, a roadmap is defined as an overview page displaying the versions
 
 In OpenProject, a role is defined as a set of permissions defined by a unique name. Project members are assigned to a project by specifying a user’s, group’s or placeholder user’s name and the role(s) they should assume in the project.
 
-## Single user
-
 ## Story points
+
+Story points is a term known in Scrum. They are defined as numbers assigned to a work package used to estimate (relatively) the size of the work.In OpenProject, you can add story points to work packages. [Read how to work with story points in OpenProject](https://www.openproject.org/docs/user-guide/backlogs-scrum/work-with-backlogs/#working-with-story-points)
 
 ## Team planner
 
-## Time tracking
+The team planner in OpenProject is defined as a module (*Enterprise add-on*) that helps you get a complete overview of what each member of your team is working on in weekly or biweekly view. You can use it to track the current progress of work packages your team is working on, schedule new tasks, reschedule them or even reassign them to different members. [Read more about the OpenProject team planner](https://www.openproject.org/docs/user-guide/team-planner/)
 
-Time tracking in OpenProject is defined as a module which allows users to log time on work packages. Once the time tracking module is activated, time can be logged via the action menu of a work package.
+## Time and costs
+
+Time and costs in OpenProject is defined as a module which allows users to log time on work packages, track costs and create time and cost reports. Once the time and costs module is activated, time can be logged via the action menu of a work package. [Read more about the time and costs module in OpenProject](https://www.openproject.org/docs/user-guide/time-and-costs/)
 
 ## User
 
@@ -253,25 +258,29 @@ In OpenProject, a user is defined as a person who uses OpenProject, described by
 
 ## Widget
 
+A widget in OpenProject is defined as a small and customizable element that provides relevant information at a glance. Use widgets on your *"My Page"* dashboard or on the *project overview*. [See all available project overview widgets](https://www.openproject.org/docs/user-guide/project-overview/#available-project-overview-widgets) and read [how to add a widget to the project overview](https://www.openproject.org/docs/user-guide/project-overview/#add-a-widget-to-the-project-overview)
+
 ## Wiki
 
-In OpenProject, a wiki is defined as a module that allows to use textile-based wiki pages. In order to use the wiki module, it has to be activated in the project settings.
+In OpenProject, a wiki is defined as a module that allows to use textile-based wiki pages. In order to use the wiki module, it has to be activated in the project settings. [Read more about wikis in OpenProject](https://www.openproject.org/docs/user-guide/wiki/)
+
+![A wiki module in OpenProject](glossary-openproject-wiki.png)
 
 ## Workflow
 
 A workflow in OpenProject is defined as the allowed transitions between status for a role and a type, i.e. which status changes can a certain role implement depending on the work package type. Workflows can be defined in the admin settings. For example, you might only developers to be able to set the status "developed". [Read more about work package workflows in OpenProject](https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-workflows/#manage-work-package-workflows)
 
-![A workflow in OpenProject](glossary-openproject-sys-admin-edit-workflow.png)
+![glossary-openproject-sys-admin-edit-workflow](glossary-openproject-sys-admin-edit-workflow.png)
 
 ## Work package
 
 In OpenProject, a [work package](https://www.openproject.org/docs/user-guide/work-packages/#overview) is defined as an item in a project. It is a subset of a project that can be assigned to users for execution, such as Tasks, Bugs, User Stories, Milestones, and more. Work packages have a type, an ID and a subject and may have additional attributes, such as assignee, responsible, story points or target version. Work packages are displayed in a project timeline (unless they are filtered out in the timeline configuration) - either as a milestone or as a phase. In order to use the work packages, the work package module has to be activated in the project settings.
 
-![A work package in OpenProject](glossary-openproject-work-package.png)
+![A work package in OpenProject](glossary-openproject-workpackage.png)
 
 ### Work package types
 
-Work package types are the different items a work package can represent. Each work package is associated to exactly one type. Examples for most used work package types are a Task, a Milestone, a Phase or a Bug. The work package types can be configured in the system administration. [Read more about work package types in OpenProject](https://www.openproject.org/docs/user-guide/projects/project-settings/work-package-types/#work-package-types).
+Work package types are the different items a work package can represent. Each work package is associated to exactly one type. Examples for most used work package types are a Task, a Milestone, a *Phase* or a Bug. The work package types can be configured in the system administration. [Read more about work package types in OpenProject](https://www.openproject.org/docs/user-guide/projects/project-settings/work-package-types/#work-package-types).
 
 ### Work package categories
 

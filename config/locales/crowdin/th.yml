@@ -1609,6 +1609,7 @@ th:
   label_equals: "เป็น"
   label_everywhere: "everywhere"
   label_example: "ตัวอย่าง"
+  label_experimental: "Experimental"
   label_import: "Import"
   label_export_to: "ยังสามารถพบใน:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
@@ -2578,6 +2579,10 @@ th:
         หากมีการตั้งค่าตัวเลือก "%{day_of_week_setting_name}" หรือ "%{first_week_setting_name}" ไว้ จะต้องตั้งค่าตัวเลือกอื่นด้วยเพื่อหลีกเลี่ยงความไม่สอดคล้องกันในส่วนหน้า
       first_week_of_year_text: >
         เลือกวันที่ของเดือนมกราคมที่อยู่ในสัปดาห์แรกของปี ค่านี้ร่วมกับวันแรกของสัปดาห์จะกำหนดจำนวนสัปดาห์รวมในหนึ่งปี
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"

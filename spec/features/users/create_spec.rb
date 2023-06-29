@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'create users', selenium: true do
+RSpec.describe 'create users', with_cuprite: true do
   shared_let(:admin) { create(:admin) }
   let(:current_user) { admin }
   let!(:auth_source) { create(:dummy_auth_source) }

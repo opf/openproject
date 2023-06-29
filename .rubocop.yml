@@ -230,6 +230,7 @@ RSpec/ContextWording:
   Prefixes:
     - as
     - for
+    - having
     - if
     - 'on'
     - to

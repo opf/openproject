@@ -274,8 +274,8 @@ ca:
   users:
     sessions:
       session_name: "%{browser_name}%{browser_version} en %{os_name}"
-      browser: 'Browser'
-      device: 'Device / OS'
+      browser: 'Navegador'
+      device: 'Dispositiu / Sistema Operatiu'
       unknown_browser: 'navegador desconegut'
       unknown_os: 'sistema operatiu desconegut'
       current: 'Sessió actual'
@@ -1062,7 +1062,7 @@ ca:
   button_configure: "Configurar"
   button_continue: "Continua"
   button_copy: "Copiar"
-  button_copy_to_clipboard: "Copy to clipboard"
+  button_copy_to_clipboard: "Copiar al porta-retalls"
   button_copy_and_follow: "Copiar i continuar"
   button_create: "Crear"
   button_create_and_continue: "Crear i continuar"
@@ -1624,6 +1624,7 @@ ca:
   label_equals: "és"
   label_everywhere: "a tot arreu"
   label_example: "Exemple"
+  label_experimental: "Experimental"
   label_import: "Importació"
   label_export_to: "També disponible en:"
   label_expanded_click_to_collapse: "Desplegat. Fes clic per col·lapsar"
@@ -2588,6 +2589,10 @@ ca:
         Si alguna de les opcions "%{day_of_week_setting_name}" o "%{first_week_setting_name}" estan configurades, l'altre ha d'estar també configurada per evitar inconsistències en l'aplicació.
       first_week_of_year_text: >
         Selecciona la data de gener que està continguda dins la primera setmana de l'any. Aquest valor conjuntament amb el primer dia de la setmana estipula el nombre total de setmanes de l'any.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Configuració per a projectes nous"
       section_project_overview: "Configuracions per a la llista de visió general del projecte"

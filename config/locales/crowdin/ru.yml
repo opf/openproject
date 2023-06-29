@@ -1665,6 +1665,7 @@ ru:
   label_equals: "—"
   label_everywhere: "везде"
   label_example: "Пример"
+  label_experimental: "Experimental"
   label_import: "Импорт"
   label_export_to: "Скачать как:"
   label_expanded_click_to_collapse: "Развернуто. Кликните для сворачивания"
@@ -2637,6 +2638,10 @@ ru:
         Если параметры "%{day_of_week_setting_name}" или "%{first_week_setting_name}" заданы,  должны быть заданы и другие тоже во избежание несоответствий в интерфейсе.
       first_week_of_year_text: >
         Выберите дату января, которая содержится в первой неделе года. Она вместе с первым днем недели определяет общее количество недель в году.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Настройки для новых проектов"
       section_project_overview: "Настройки списка обзоров проекта"
@@ -2647,7 +2652,7 @@ ru:
     highlighting:
       mode_long:
         inline: "Выделите один или несколько встроенных атрибутов"
-        none: "Без подсветки"
+        none: "Без выделения"
         status: "Вся строка по статусу"
         type: "Вся строка по типу"
         priority: "Вся строка по приоритету"
@@ -3205,7 +3210,7 @@ ru:
       oauth_returned_standard_error: "OAuth2 вернул внутреннюю ошибку"
       wrong_token_type_returned: "OAuth2 вернул неверный тип токена, ожидая AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 сообщил об ошибке. Обратитесь к системному администратору."
-      oauth_client_not_found: "OAuth2 клиент не найден в точке 'callback' (redirect_uri)."
+      oauth_client_not_found: "OAuth2 'state' не найден в конечной точке 'callback' (redirect_uri)."
       refresh_token_called_without_existing_token: >
         Внутренняя ошибка: Обнаружен refresh_token без ранее существующего токена.
       refresh_token_updated_failed: "Ошибка при обновлении OAuthClientToken"
@@ -3213,7 +3218,7 @@ ru:
         Эта ошибка появляется после того, как вы обновили client_id и client_secret в OpenProject, но не обновили поле 'Return URI' в OAuth2 провайдере.
       oauth_code_not_present: "OAuth2 'code' не найден в конечной точке 'callback' (redirect_uri)."
       oauth_code_not_present_explanation: >
-        Эта ошибка появляется если вы выбрали неправильный response_type в OAuth2 провайдере. Response_type должен быть 'code' или аналогичным.
+        Эта ошибка появляется, если вы выбрали неправильный response_type в OAuth2 провайдере. Response_type должен быть 'code' или аналогичным.
       oauth_state_not_present: "OAuth2 'state' не найден в конечной точке 'callback' (redirect_uri)."
       oauth_state_not_present_explanation: >
         OAuth2 'state' используется для указания OpenProject где продолжить после успешной авторизации OAuth2. Отсутствие 'state' - внутренняя ошибка, которая может появиться при настройке. Обратитесь к системному администратору.
@@ -3230,7 +3235,7 @@ ru:
   http:
     request:
       failed_authorization: "Запрос стороны сервера не смог авторизоваться."
-      missing_authorization: "Запрос на стороне сервера не удался из-за отсутствия информации о авторизации."
+      missing_authorization: "Запрос на стороне сервера не удался из-за отсутствия информации об авторизации."
     response:
       unexpected: "Получен неожиданный ответ."
   you: вы

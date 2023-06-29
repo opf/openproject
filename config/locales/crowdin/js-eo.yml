@@ -1176,10 +1176,11 @@ eo:
       button_deactivate: 'Malaktivigi zen reĝimo'
     global_search:
       all_projects: "En ĉiuj projektoj"
-      search: "Search"
       close_search: "Fermi serĉon"
-      current_project: "En tiu ĉi projekto"
       current_project_and_all_descendants: "En tiu ĉi projekto + subprojektoj"
+      current_project: "En tiu ĉi projekto"
+      recently_viewed: "Recently viewed"
+      search: "Search"
       title:
         all_projects: "ĉiuj projektoj"
         project_and_subprojects: "kaj ĉiuj subprojektoj"

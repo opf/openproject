@@ -1175,10 +1175,11 @@ el:
       button_deactivate: 'Απενεργοποίηση λειτουργίας zen'
     global_search:
       all_projects: "Σε όλα τα έργα"
-      search: "Αναζήτηση"
       close_search: "Κλείσιμο αναζήτησης"
-      current_project: "Σε αυτό το έργο"
       current_project_and_all_descendants: "Σε αυτό το έργο + υποέργα"
+      current_project: "Σε αυτό το έργο"
+      recently_viewed: "Recently viewed"
+      search: "Αναζήτηση"
       title:
         all_projects: "όλα τα έργα"
         project_and_subprojects: "και όλα τα υποέργα"
