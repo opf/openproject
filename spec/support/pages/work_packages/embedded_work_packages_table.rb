@@ -46,10 +46,6 @@ module Pages
     end
 
     def click_reference_inline_create
-      ##
-      # When using the inline create on initial page load,
-      # there is a delay on travis where inline create can be clicked.
-      sleep 1
       container.find('[data-qa-selector="op-wp-inline-create-reference"]').click
 
       # Returns the autocomplete container
@@ -62,7 +58,8 @@ module Pages
       autocomplete_container = container.find('[data-qa-selector="wp-relations-autocomplete"]')
       select_autocomplete autocomplete_container,
                           query:,
-                          results_selector: '.ng-dropdown-panel-items'
+                          results_selector: '.ng-dropdown-panel-items',
+                          wait_for_fetched_options: false
 
       expect_work_package_listed work_package
     end

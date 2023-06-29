@@ -71,7 +71,7 @@ module Components
       end
 
       def add(name, save_changes: true, finicky: false)
-        modal_open? or open_modal
+        open_modal unless modal_open?
 
         select_autocomplete column_autocompleter,
                             results_selector: '.ng-dropdown-panel-items',
@@ -82,7 +82,6 @@ module Components
           within ".work-package-table" do
             # for some reason these columns (e.g. 'Overall costs') don't have a proper link
             if finicky
-              SeleniumHubWaiter.wait
               expect(page).to have_selector("a", text: /#{name}/i, visible: :all)
             else
               expect(page).to have_link(name)
@@ -115,14 +114,11 @@ module Components
       end
 
       def uncheck_all(save_changes: true)
-        modal_open? or open_modal
+        open_modal unless modal_open?
 
         within_modal do
           expect(page).to have_selector('.op-draggable-autocomplete--item', minimum: 1)
-          page.all('.op-draggable-autocomplete--remove-item').each do |el|
-            el.click
-            sleep 0.2
-          end
+          page.all('.op-draggable-autocomplete--remove-item').each(&:click)
         end
 
         apply if save_changes
@@ -131,7 +127,6 @@ module Components
       def apply
         @opened = false
 
-        # SeleniumHubWaiter.wait
         click_button('Apply')
       end
 

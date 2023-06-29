@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'form query configuration', js: true do
+RSpec.describe 'form query configuration', js: true, with_cuprite: true do
   shared_let(:admin) { create(:admin) }
   let(:type_bug) { create(:type_bug) }
   let(:type_task) { create(:type_task) }
@@ -124,7 +124,7 @@ RSpec.describe 'form query configuration', js: true do
       end
     end
 
-    context 'visiting a new work package screen' do
+    context 'when visiting a new work package screen' do
       let(:wp_page) { Pages::FullWorkPackageCreate.new }
 
       it 'does not show a subgroup (Regression #29582)' do
@@ -236,7 +236,7 @@ RSpec.describe 'form query configuration', js: true do
     end
 
     shared_examples_for 'query group' do
-      it '' do
+      it do
         form.add_query_group('Subtasks', frontend_relation_type)
         form.edit_query_group('Subtasks')
 
@@ -270,7 +270,8 @@ RSpec.describe 'form query configuration', js: true do
         autocompleter = embedded_table.click_reference_inline_create
         results = embedded_table.search_autocomplete autocompleter,
                                                      query: 'Unrelated',
-                                                     results_selector: '.ng-dropdown-panel-items'
+                                                     results_selector: '.ng-dropdown-panel-items',
+                                                     wait_for_fetched_options: false
 
         expect(results).to have_text "Unrelated task"
         expect(results).not_to have_text "Bug ##{unrelated_task.id} Unrelated bug"
