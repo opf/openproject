@@ -41,7 +41,6 @@ end
 def scroll_to_and_click(element)
   retry_block do
     scroll_to_element(element)
-    sleep 0.2
     element.click
   end
 end
