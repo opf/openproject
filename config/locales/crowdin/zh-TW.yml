@@ -56,7 +56,7 @@ zh-TW:
         alternative-color: "濃重的主題色，通常用於螢幕上最重要的按鈕。"
         content-link-color: "大部分連結的文字顏色"
         primary-color: "主要顏色"
-        primary-color-dark: "通常深色的主顏色用於 hover 特效。"
+        primary-color-dark: "通常深色的主顏色用於懸浮特效。"
         header-item-bg-hover-color: "當滑鼠移動到可點選的標題項目的背景顏色"
         header-item-font-color: "可點擊的標題項目的文字顏色"
         header-item-font-hover-color: "當滑鼠移動到可點選的標題項目的文字顏色"
@@ -275,6 +275,16 @@ zh-TW:
       no_results_title_text: 目前沒有新消息報告
       no_results_content_text: 新增一個消息
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'This user is currently a member of the following groups:'
       no_results_title_text: This user is currently not a member in any group.
@@ -1049,6 +1059,7 @@ zh-TW:
   button_configure: "設定"
   button_continue: "繼續"
   button_copy: "複製"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "複製並跟隨"
   button_create: "建立"
   button_create_and_continue: "建立並繼續"
@@ -1533,7 +1544,6 @@ zh-TW:
   label_contains: "包含"
   label_content: "內容"
   label_copied: "已複製"
-  label_copy_to_clipboard: "複製到剪貼簿"
   label_copy_same_as_target: "與目標相同"
   label_copy_source: "來源"
   label_copy_target: "目標"
@@ -1599,6 +1609,7 @@ zh-TW:
   label_equals: "是"
   label_everywhere: "全部"
   label_example: "範例"
+  label_experimental: "Experimental"
   label_import: "匯入"
   label_export_to: "也可匯出成"
   label_expanded_click_to_collapse: "已擴大。按一下可折疊"
@@ -2567,6 +2578,10 @@ zh-TW:
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"

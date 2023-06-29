@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Invite user modal custom fields', js: true do
+RSpec.describe 'Invite user modal custom fields', js: true, with_cuprite: true do
   shared_let(:project) { create(:project) }
 
   let(:permissions) { %i[view_project manage_members] }

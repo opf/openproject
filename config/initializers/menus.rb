@@ -153,6 +153,10 @@ Redmine::MenuManager.map :my_menu do |menu|
             { controller: '/my', action: 'access_token' },
             caption: I18n.t('my_account.access_tokens.access_tokens'),
             icon: 'key'
+  menu.push :sessions,
+            { controller: '/my/sessions', action: :index },
+            caption: :'users.sessions.title',
+            icon: 'installation-services'
   menu.push :notifications,
             { controller: '/my', action: 'notifications' },
             caption: I18n.t('js.notifications.settings.title'),
@@ -318,7 +322,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
     menu.push :"settings_#{node[:name]}",
               { controller: node[:controller], action: :show },
               caption: node[:label],
-              if: Proc.new { User.current.admin? },
+              if: Proc.new { User.current.admin? && node[:name] != 'experimental' },
               parent: :settings
   end
 

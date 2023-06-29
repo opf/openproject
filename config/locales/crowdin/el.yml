@@ -271,6 +271,16 @@ el:
       no_results_title_text: Δεν υπάρχουν προς το παρόν νέα για αναφορά.
       no_results_content_text: Προσθέστε ένα στοιχείο νέων
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'Αυτός ο χρήστης είναι μέλος των παρακάτω ομάδων:'
       no_results_title_text: Αυτός ο χρήστης, προς το παρόν, δεν είναι μέλος κάποιας ομάδας.
@@ -1052,6 +1062,7 @@ el:
   button_configure: "Ρύθμιση παραμέτρων"
   button_continue: "Συνέχεια"
   button_copy: "Αντιγραφή"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Αντιγραφή και ακολούθηση"
   button_create: "Δημιουργία"
   button_create_and_continue: "Δημιουργία και συνέχεια"
@@ -1548,7 +1559,6 @@ el:
   label_contains: "περιέχει"
   label_content: "Περιεχόμενο"
   label_copied: "αντιγράφηκε"
-  label_copy_to_clipboard: "Αντιγραφή στο πρόχειρο"
   label_copy_same_as_target: "Ίδιο με του στόχου"
   label_copy_source: "Πηγή"
   label_copy_target: "Στόχος"
@@ -1614,6 +1624,7 @@ el:
   label_equals: "είναι"
   label_everywhere: "παντού"
   label_example: "Παράδειγμα"
+  label_experimental: "Experimental"
   label_import: "Εισαγωγή"
   label_export_to: "Επίσης διαθέσιμο σε:"
   label_expanded_click_to_collapse: "Επεκταμένο. Πατήστε για σύμπτυξη"
@@ -2584,6 +2595,10 @@ el:
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Ρυθμίσεις για νέα έργα"
       section_project_overview: "Ρυθμίσεις για τη λίστα επισκόπησης έργου"

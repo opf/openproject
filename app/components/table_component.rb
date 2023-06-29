@@ -30,7 +30,7 @@
 
 ##
 # Abstract view component. Subclass this for a concrete table.
-class TableComponent < RailsComponent
+class TableComponent < ApplicationComponent
   def initialize(rows: [], **options)
     super(rows, **options)
   end

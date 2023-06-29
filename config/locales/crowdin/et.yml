@@ -275,6 +275,16 @@ et:
       no_results_title_text: There is currently no news to report.
       no_results_content_text: Add a news item
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'This user is currently a member of the following groups:'
       no_results_title_text: This user is currently not a member in any group.
@@ -1056,6 +1066,7 @@ et:
   button_configure: "Seadista"
   button_continue: "Jätka"
   button_copy: "Kopeeri"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Kopeeri ja järgne"
   button_create: "Loo uus"
   button_create_and_continue: "Loo uus ja jätka"
@@ -1552,7 +1563,6 @@ et:
   label_contains: "sisaldab"
   label_content: "Sisu"
   label_copied: "kopeeritud"
-  label_copy_to_clipboard: "Copy to clipboard"
   label_copy_same_as_target: "Sama mis sihtkoht"
   label_copy_source: "Lähtepunkt"
   label_copy_target: "Sihtpunkt"
@@ -1618,6 +1628,7 @@ et:
   label_equals: "võrdub"
   label_everywhere: "everywhere"
   label_example: "Näide"
+  label_experimental: "Experimental"
   label_import: "Import"
   label_export_to: "Saadaval ka:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
@@ -2589,6 +2600,10 @@ et:
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"

@@ -275,6 +275,16 @@ ro:
       no_results_title_text: În acest moment nu există știri de raportat.
       no_results_content_text: Adăugare știre nouă
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'Acest utilizator este în prezent membru al următoarelor grupuri:'
       no_results_title_text: Acest utilizator nu este în prezent membru în niciun grup.
@@ -1063,6 +1073,7 @@ ro:
   button_configure: "Configurare"
   button_continue: "Continuaţi"
   button_copy: "Copiere"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Copiere și continuare"
   button_create: "Creare"
   button_create_and_continue: "Creare și continuare"
@@ -1571,7 +1582,6 @@ ro:
   label_contains: "conţine"
   label_content: "Conținut"
   label_copied: "copiat"
-  label_copy_to_clipboard: "Copiere în clipboard"
   label_copy_same_as_target: "La fel ca destinația"
   label_copy_source: "Sursă"
   label_copy_target: "Destinație"
@@ -1637,6 +1647,7 @@ ro:
   label_equals: "este"
   label_everywhere: "Peste tot"
   label_example: "Exemplu"
+  label_experimental: "Experimental"
   label_import: "Importă"
   label_export_to: "Disponibil și în:"
   label_expanded_click_to_collapse: "Extinse. Faceți clic pentru a restrânge"
@@ -2609,6 +2620,10 @@ ro:
         Dacă oricare dintre opțiunile "%{day_of_week_setting_setting_name}" sau "%{first_week_setting_name}" sunt setate, trebuie să fie setată și cealaltă pentru a evita neconcordanțele din frontend.
       first_week_of_year_text: >
         Selectați data din ianuarie care se află în prima săptămână a anului. Această valoare, împreună cu prima zi a săptămânii, determină numărul total de săptămâni dintr-un an.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Setări pentru proiecte noi"
       section_project_overview: "Setări pentru lista de prezentare generală a proiectului"

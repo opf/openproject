@@ -60,9 +60,9 @@ de:
       host: "Bitte ergänzen Sie die Host-Adresse Ihres Speichers (einschließlich https://). Sie sollte nicht länger als 255 Zeichen sein."
       no_storage_set_up: "Es sind noch keine Dateispeicher eingerichtet."
       no_specific_folder: "Standardmäßig startet jeder Benutzer in seinem eigenen Home-Ordner, wenn er eine Datei hochlädt."
-      automatic_folder: "This will automatically create a root folder for this project and manage the access permissions for each project member."
+      automatic_folder: "Dies wird automatisch einen Stammordner für dieses Projekt erstellen und die Zugriffsberechtigungen für jedes Projektmitglied verwalten."
       empty_project_folder_validation: "Die Auswahl eines Ordners ist zwingend erforderlich, um fortzufahren."
-      not_logged_into_storage: "To select a project folder, please first login"
+      not_logged_into_storage: "Bitte melden Sie sich zunächst an, um einen Projektordner auszuwählen"
       existing_manual_folder: >
         Sie können einen existierenden Ordner als Hauptordner für dieses Projekt definieren. Die Berechtigungen werden jedoch nicht automatisch verwaltet, der Administrator muss manuell sicherstellen, dass relevante Benutzer Zugriff haben. Der ausgewählte Ordner kann von mehreren Projekten verwendet werden.
       setting_up_additional_storages: "Um zusätzliche Datei-Speicher einzurichten, besuchen Sie bitte"

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,42 +26,18 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
+#
 
-class RailsComponent < ViewComponent::Base
-  attr_reader :model, :options
+# A Cuprite edge-case with our use of select
+# fields causes a Ferrum::JavaScriptError to be raised
+# when an option HTMLElement is removed from its select field
+#
+# Use this as a temporary patch
 
-  def initialize(model = nil, **options)
-    super
-    @model = model if model
-    @options = options
-  end
+require 'ferrum/errors'
 
-  class << self
-    ##
-    # Defines options for this cell which can be used within the cell's template.
-    # Options are passed to the cell during the render call.
-    #
-    # @param names [Array<String> | Hash<String, Any>] Either a list of names for options whose
-    #                                                  default value is empty or a hash mapping
-    #                                                  option names to default values.
-    def options(*names)
-      default_values = {}
-
-      if names.size == 1 && names.first.is_a?(Hash)
-        default_values = names.first
-        names = default_values.keys
-      end
-
-      names.each do |name|
-        define_method(name) do
-          options[name] || default_values[name]
-        end
-      end
-    end
-
-    def property(*names)
-      delegate *names, to: :model
-    end
-  end
+def ignore_ferrum_javascript_error
+  yield
+rescue Ferrum::JavaScriptError
 end

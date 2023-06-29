@@ -28,19 +28,20 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Enterprise token', js: true do
+RSpec.describe 'Enterprise token',
+               js: true,
+               with_cuprite: true do
   include Redmine::I18n
 
   shared_let(:admin) { create(:admin) }
   let(:token_object) do
-    token = OpenProject::Token.new
-    token.subscriber = 'Foobar'
-    token.mail = 'foo@example.org'
-    token.starts_at = Time.zone.today
-    token.expires_at = nil
-    token.domain = Setting.host_name
-
-    token
+    OpenProject::Token.new.tap do |token|
+      token.subscriber = 'Foobar'
+      token.mail = 'foo@example.org'
+      token.starts_at = Time.zone.today
+      token.expires_at = nil
+      token.domain = Setting.host_name
+    end
   end
 
   let(:textarea) { find_by_id 'enterprise_token_encoded_token' }
@@ -48,7 +49,7 @@ RSpec.describe 'Enterprise token', js: true do
 
   describe 'EnterpriseToken management' do
     before do
-      login_as(admin)
+      login_as admin
       visit enterprise_path
     end
 
@@ -64,7 +65,10 @@ RSpec.describe 'Enterprise token', js: true do
       expect(page).to have_selector('.errorExplanation',
                                     text: "Enterprise support token can't be read. " \
                                           "Are you sure it is a support token?")
-      expect(page).to have_selector('span.errorSpan #enterprise_token_encoded_token')
+
+      within 'span.errorSpan' do
+        expect(page).to have_selector('#enterprise_token_encoded_token')
+      end
     end
 
     context 'with valid input' do
@@ -72,7 +76,7 @@ RSpec.describe 'Enterprise token', js: true do
         allow(OpenProject::Token).to receive(:import).and_return(token_object)
       end
 
-      it 'allows token import flow', js: true do
+      it 'allows token import flow' do
         textarea.set 'foobar'
         submit_button.click
 
@@ -87,7 +91,7 @@ RSpec.describe 'Enterprise token', js: true do
         expect(page).to have_selector('.button.icon-delete', text: I18n.t(:button_delete))
 
         # Expect section to be collapsed
-        expect(page).not_to have_selector('#token_encoded_token', visible: true)
+        expect(page).not_to have_selector('#token_encoded_token')
 
         RequestStore.clear!
         expect(EnterpriseToken.current.encoded_token).to eq('foobar')
@@ -96,6 +100,9 @@ RSpec.describe 'Enterprise token', js: true do
         click_on "Replace your current support token"
         fill_in 'enterprise_token_encoded_token', with: "blabla"
         submit_button.click
+
+        wait_for_reload
+
         expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_update))
 
         # Assume next request
@@ -103,11 +110,13 @@ RSpec.describe 'Enterprise token', js: true do
         expect(EnterpriseToken.current.encoded_token).to eq('blabla')
 
         # Remove token
-        SeleniumHubWaiter.wait
         click_on "Delete"
 
         # Expect modal
         find('[data-qa-selector="confirmation-modal--confirmed"]').click
+
+        wait_for_reload
+
         expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_delete))
 
         # Assume next request

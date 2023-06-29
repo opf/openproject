@@ -31,7 +31,9 @@ require 'features/page_objects/notification'
 require 'features/work_packages/shared_contexts'
 require 'features/work_packages/work_packages_page'
 
-RSpec.describe 'Query menu items', js: true do
+RSpec.describe 'Query menu items',
+               js: true,
+               with_cuprite: true do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
@@ -84,7 +86,7 @@ RSpec.describe 'Query menu items', js: true do
       work_packages_page.ensure_loaded
     end
 
-    it 'can be added', js: true, selenium: true do
+    it 'can be added' do
       visit_index_page(query)
 
       click_on 'More actions'
@@ -98,14 +100,14 @@ RSpec.describe 'Query menu items', js: true do
   end
 
   describe 'renaming a menu item' do
-    let(:query_a) do
+    let!(:query_a) do
       create(:query_with_view_work_packages_table,
              public: true,
              name: 'bbbb',
              project:,
              user:)
     end
-    let(:query_b) do
+    let!(:query_b) do
       create(:query_with_view_work_packages_table,
              public: true,
              name: 'zzzz',
@@ -135,7 +137,7 @@ RSpec.describe 'Query menu items', js: true do
     it 'is renaming and reordering the list' do
       # Renaming the query should also reorder the queries.  As it is renamed
       # from zzzz to aaaa, it should now be the first query menu item.
-      expect(page).to have_selector('li:nth-child(3) a', text: new_name)
+      expect(page).to have_selector('.op-sidemenu--items li:first-child', text: new_name)
     end
   end
 end

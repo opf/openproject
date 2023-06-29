@@ -274,6 +274,16 @@ sl:
       no_results_title_text: Trenutno ni nobenih novic za poročanje.
       no_results_content_text: Dodajte novico
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'Ta uporabnik je trenutno član naslednjih skupin:'
       no_results_title_text: Ta uporabnik trenutno ni član v nobeni skupini.
@@ -1067,6 +1077,7 @@ sl:
   button_configure: "Nastavi"
   button_continue: "Nadaljuj"
   button_copy: "Kopiraj"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Kopiraj in sledi"
   button_create: "Ustvari"
   button_create_and_continue: "Ustvari in nadaljuj"
@@ -1587,7 +1598,6 @@ sl:
   label_contains: "vsebuje"
   label_content: "Vsebina"
   label_copied: "Kopirano"
-  label_copy_to_clipboard: "Kopiraj v odložišče"
   label_copy_same_as_target: "Enako kot cilj"
   label_copy_source: "Vir"
   label_copy_target: "Cilj"
@@ -1653,6 +1663,7 @@ sl:
   label_equals: "je"
   label_everywhere: "Povsod"
   label_example: "Primer"
+  label_experimental: "Experimental"
   label_import: "Uvozi"
   label_export_to: "Na razpolago tudi v:"
   label_expanded_click_to_collapse: "Razširjeno. Kliknite, če želite strniti"
@@ -2627,6 +2638,10 @@ sl:
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text: >
         Izberi datum v januarju, ki je v prvem tednu leta. Ta vrednost skupaj s prvim dnevom tedna določi skupno število tednov v letu.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Nastavitve za nove projekte"
       section_project_overview: "Nastavitve za seznam pregleda projekta."

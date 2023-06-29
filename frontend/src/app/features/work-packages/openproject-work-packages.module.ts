@@ -188,6 +188,7 @@ import { OpBaselineLegendsComponent } from 'core-app/features/work-packages/comp
 import { NgSelectModule } from '@ng-select/ng-select';
 import { WorkPackageTimerButtonComponent } from 'core-app/features/work-packages/components/wp-timer-button/wp-timer-button.component';
 import { OpenprojectTimeEntriesModule } from 'core-app/shared/components/time_entries/openproject-time-entries.module';
+import { RecentItemsService } from 'core-app/core/recent-items.service';
 
 @NgModule({
   imports: [
@@ -250,6 +251,8 @@ import { OpenprojectTimeEntriesModule } from 'core-app/shared/components/time_en
 
     StoragesResourceService,
     ProjectStoragesResourceService,
+
+    RecentItemsService,
   ],
   declarations: [
     // Routing

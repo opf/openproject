@@ -1,7 +1,7 @@
 module Components::Autocompleter
   module NgSelectAutocompleteHelpers
     def search_autocomplete(element, query:, results_selector: nil, wait_dropdown_open: true)
-      SeleniumHubWaiter.wait
+      SeleniumHubWaiter.wait unless using_cuprite?
       # Open the element
       element.click
 
@@ -9,13 +9,14 @@ module Components::Autocompleter
       ng_find_dropdown(element, results_selector:) if wait_dropdown_open
 
       # Wait for autocompleter options to be loaded (data fetching is debounced by 250ms after creation or typing)
+      wait_for_network_idle if using_cuprite?
       expect(element).not_to have_selector('.ng-spinner-loader')
 
       # Insert the text to find
       within(element) do
         ng_enter_query(element, query)
       end
-      sleep(0.5)
+      sleep(0.5) unless using_cuprite?
 
       # Find the open dropdown
       dropdown_list = ng_find_dropdown(element, results_selector:)
@@ -38,19 +39,29 @@ module Components::Autocompleter
     # Insert the query, typing
     def ng_enter_query(element, query)
       input = element.find('input[type=text]', visible: :all).native
-      input.clear
+      if using_cuprite?
+        clear_input_field_contents(input)
+      else
+        input.clear
+      end
 
       query = query.to_s
 
       if query.length > 1
         # Send all keys, and then with a delay the last one
         # to emulate normal typing
-        input.send_keys(query[0..-2])
-        sleep 0.2
-        input.send_keys(query[-1])
-      else
-        input.send_keys(query)
+        if using_cuprite?
+          input.native.node.type(query[0..-2])
+          sleep 0.2
+          input.native.node.type(query[-1])
+        else
+          input.send_keys(query[0..-2])
+          sleep 0.2
+          input.send_keys(query[-1])
+        end
       end
+
+      wait_for_network_idle if using_cuprite?
     end
 
     ##

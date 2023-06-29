@@ -275,6 +275,16 @@ tr:
       no_results_title_text: Şu anda rapor edilecek bir haber yok.
       no_results_content_text: Haber öğesi ekle
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'Bu kullanıcı şu anda aşağıdaki grupların bir üyesidir:'
       no_results_title_text: Bu kullanıcı şu anda hiçbir gruba üye değil.
@@ -1055,6 +1065,7 @@ tr:
   button_configure: "Düzenle"
   button_continue: "Devam et"
   button_copy: "Kopyala"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Kopyala ve takip et"
   button_create: "Oluştur"
   button_create_and_continue: "Oluştur ve devam et"
@@ -1551,7 +1562,6 @@ tr:
   label_contains: "içerir"
   label_content: "İçerik"
   label_copied: "kopyalandı"
-  label_copy_to_clipboard: "Panoya kopyala"
   label_copy_same_as_target: "Hedefle aynı"
   label_copy_source: "Kaynak"
   label_copy_target: "Hedef"
@@ -1617,6 +1627,7 @@ tr:
   label_equals: "şuysa"
   label_everywhere: "heryer"
   label_example: "Örnek"
+  label_experimental: "Experimental"
   label_import: "İçeri Aktar"
   label_export_to: "Ayrıca şu adreste bulunabilir:"
   label_expanded_click_to_collapse: "Genişletilmiş. Daraltmak için tıklayın"
@@ -2585,6 +2596,10 @@ tr:
         Eğer %{day_of_week_setting_name} veya %{first_week_setting_name} seçeneklerinden biri ayarlanmışsa, ön uçta tutarsızlık yaşanmaması için diğer seçeneğin de ayarlanması gerekir.
       first_week_of_year_text: >
         Yılın ilk haftasında yer alan Ocak tarihini seçin. Haftanın ilk günü ile birlikte bu değer, bir yıldaki toplam hafta sayısını belirler.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Yeni projeler için ayarlar"
       section_project_overview: "Projeye genel bakış listesi ayarları"

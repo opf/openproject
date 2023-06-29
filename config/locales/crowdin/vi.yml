@@ -277,6 +277,16 @@ vi:
       no_results_title_text: Hiện không có tin tức báo cáo.
       no_results_content_text: Thêm một mục tin tức
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'This user is currently a member of the following groups:'
       no_results_title_text: Người dùng này hiện tại chưa là thành viên của bất kỳ nhóm nào
@@ -1051,6 +1061,7 @@ vi:
   button_configure: "Thiết lập"
   button_continue: "Tiếp tục"
   button_copy: "Sao chép"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Sao chép và làm theo"
   button_create: "Tạo mới"
   button_create_and_continue: "Tạo và tiếp tục"
@@ -1535,7 +1546,6 @@ vi:
   label_contains: "bao gồm"
   label_content: "Nội dung"
   label_copied: "đã sao chép"
-  label_copy_to_clipboard: "Sao chép vào clipboard"
   label_copy_same_as_target: "Giống như mục tiêu"
   label_copy_source: "Nguồn"
   label_copy_target: "Mục tiêu"
@@ -1601,6 +1611,7 @@ vi:
   label_equals: "là"
   label_everywhere: "mọi nơi"
   label_example: "Ví dụ"
+  label_experimental: "Experimental"
   label_import: "Nhập"
   label_export_to: "Cũng có sẵn tại:"
   label_expanded_click_to_collapse: "Mở rộng. Bấm vào để thu gọn"
@@ -2570,6 +2581,10 @@ vi:
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text: >
         Chọn ngày tháng 1 có trong tuần đầu tiên của năm. Giá trị này cùng với ngày đầu tuần xác định tổng số tuần trong một năm.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"

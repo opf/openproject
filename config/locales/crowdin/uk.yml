@@ -270,6 +270,16 @@ uk:
       no_results_title_text: Наразі немає жодної новини.
       no_results_content_text: Додати новину
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'Зараз цей користувач — учасник таких груп:'
       no_results_title_text: Цей користувач зараз не належить до жодної групи.
@@ -1065,6 +1075,7 @@ uk:
   button_configure: "Настроювання"
   button_continue: "Продовжити"
   button_copy: "Копіювати"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Скопіювати та продовжити"
   button_create: "Створити"
   button_create_and_continue: "Створити та продовжити"
@@ -1585,7 +1596,6 @@ uk:
   label_contains: "містить"
   label_content: "Контент"
   label_copied: "скопійовано"
-  label_copy_to_clipboard: "Копіювати в буфер обміну"
   label_copy_same_as_target: "Те ж, що і для цілі"
   label_copy_source: "Джерело"
   label_copy_target: "Ціль"
@@ -1651,6 +1661,7 @@ uk:
   label_equals: "є"
   label_everywhere: "скрізь"
   label_example: "Приклад"
+  label_experimental: "Experimental"
   label_import: "Імпортувати"
   label_export_to: "Також вам доступні:"
   label_expanded_click_to_collapse: "Розширено. Натисніть, щоб згорнути"
@@ -2623,6 +2634,10 @@ uk:
         Якщо вибрано один із варіантів «%{day_of_week_setting_name}» і «%{first_week_setting_name}», інший із цих варіантів потрібно також вибрати, щоб уникнути розбіжностей на зовнішньому сервері.
       first_week_of_year_text: >
         Виберіть дату в січні, що входить у перший тиждень року. Це значення разом із першим днем тижня визначає загальну кількість тижнів у році.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Налаштування нових проєктів"
       section_project_overview: "Налаштування списку огляду проєктів"

@@ -272,6 +272,16 @@ es:
       no_results_title_text: No hay noticias sobre las que informar por el momento.
       no_results_content_text: Añadir un elemento de noticias
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'Este usuario es miembro actualmente de los grupos siguientes:'
       no_results_title_text: Este usuario no es miembro actualmente de ningún grupo.
@@ -1053,6 +1063,7 @@ es:
   button_configure: "Configurar"
   button_continue: "Continuar"
   button_copy: "Copiar"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Copiar y seguir"
   button_create: "Crear"
   button_create_and_continue: "Crear y continuar"
@@ -1549,7 +1560,6 @@ es:
   label_contains: "contiene"
   label_content: "Contenido"
   label_copied: "copiado"
-  label_copy_to_clipboard: "Copiar en el portapapeles"
   label_copy_same_as_target: "Igual al destino"
   label_copy_source: "Fuente"
   label_copy_target: "Objetivo"
@@ -1615,6 +1625,7 @@ es:
   label_equals: "es"
   label_everywhere: "todo"
   label_example: "Ejemplo"
+  label_experimental: "Experimental"
   label_import: "Importar"
   label_export_to: "También disponible en:"
   label_expanded_click_to_collapse: "Expandido. Haga clic para contraer"
@@ -2585,6 +2596,10 @@ es:
         Si se establece una de las opciones «%{day_of_week_setting_name}» o «%{first_week_setting_name}», también debe establecerse la otra para evitar incoherencias en el front-end.
       first_week_of_year_text: >
         Seleccione la fecha de enero de la primera semana del año. Este valor y el primer día de la semana determinan el número total de semanas de un año.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Configuración para nuevos proyectos"
       section_project_overview: "Configuración de la lista de información general del proyecto"

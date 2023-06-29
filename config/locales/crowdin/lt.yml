@@ -272,6 +272,16 @@ lt:
       no_results_title_text: Nėra jokių naujienų.
       no_results_content_text: Pridėti kaip naujieną
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} %{os_name}"
+      browser: 'Naršyklė'
+      device: 'Įrenginys / OS'
+      unknown_browser: 'nežinoma naršyklė'
+      unknown_os: 'nežinoma operacinė sistema'
+      current: 'Dabartinė sesija'
+      title: 'Sesijos valdymas'
+      instructions: 'Toliau pateikiamas sąrašas įrenginių, kurie yra prisijungę prie jūsų paskyros. Panaikinkite visus seansus, kurių neatpažįstate arba prie kurių nebeturite prieigos.'
+      may_not_delete_current: 'Jūs negalite ištrinti savo dabartinės sesijos.'
     groups:
       member_in_these_groups: 'Šis naudotojas šiuo metu yra šių grupių narys:'
       no_results_title_text: Šis naudotojas nėra jokios grupės narys.
@@ -492,7 +502,7 @@ lt:
           on_track: 'Teisingame kelyje'
           at_risk: 'Rizikingas'
           off_track: 'Pasiklydęs'
-          finished: 'Baigta'
+          finished: 'Baigtas'
           discontinued: 'Nutrauktas'
         templated: "Šabloninis projektas"
         templated_value:
@@ -1067,6 +1077,7 @@ lt:
   button_configure: "Konfigūruoti"
   button_continue: "Tęsti"
   button_copy: "Kopijuoti"
+  button_copy_to_clipboard: "Kopijuoti į iškarpinę"
   button_copy_and_follow: "Kopijuoti ir sekti"
   button_create: "Sukurti"
   button_create_and_continue: "Sukurti ir tęsti"
@@ -1587,7 +1598,6 @@ lt:
   label_contains: "turi"
   label_content: "Turinys"
   label_copied: "nukopijuotas"
-  label_copy_to_clipboard: "Kopijuoti į iškarpinę"
   label_copy_same_as_target: "Toks pat kaip tikslas"
   label_copy_source: "Šaltinis"
   label_copy_target: "Tikslas"
@@ -1653,6 +1663,7 @@ lt:
   label_equals: "yra"
   label_everywhere: "visur"
   label_example: "Pavyzdys"
+  label_experimental: "Experimental"
   label_import: "Importuoti"
   label_export_to: "Taip pat galima rasti:"
   label_expanded_click_to_collapse: "Išplėsta. Spauskite, kad sutrauktumėte"
@@ -1768,7 +1779,7 @@ lt:
   label_more_than_ago: "daugiau nei prieš dieną"
   label_move_work_package: "Perkelti darbų paketą"
   label_my_account: "Mano paskyra"
-  label_my_activity: "My activity"
+  label_my_activity: "Mano veikla"
   label_my_account_data: "Mano paskyros duomenys"
   label_my_projects: "Mano projektai"
   label_my_queries: "Mano sukurtos užklausos"
@@ -2226,7 +2237,7 @@ lt:
   notice_successful_update_custom_fields_added_to_project: |
     Sėkmingas atnaujinimas. Savi aktyvuotų tipų laukai automatiškai aktivuoti darbo paketų formose. <a href="%{url}" target="_blank">Skaitykite daugiau</a>.
   notice_successful_update_custom_fields_added_to_type: |
-    Sėkmingas atnaujinimas. Aktyvus savi laukai automatiškai aktyvuoti susijusiems šio tipo projektams.
+    Sėkmingas atnaujinimas. Aktyvūs savi laukai automatiškai aktyvuoti susijusiems šio tipo projektams.
   notice_to_many_principals_to_display: "Per daug rezultatų. Susiaurinkite paiešką pradėdami įvesti naujo nario (ar grupės) pavadinimą."
   notice_user_missing_authentication_method: Vartotojas dar nepasirinko slaptažodžio ar kitokio būdo prisijungimui.
   notice_user_invitation_resent: Pakvietimas buvo nusiųstas į %{email}.
@@ -2624,6 +2635,10 @@ lt:
         Jei vienas iš „%{day_of_week_setting_name}“ ir „%{first_week_setting_name}“ yra nustatytas, tai kitas taip pat turi būti nustatytas vengiant netikslumų naudotojo sąsajoje.
       first_week_of_year_text: >
         Pasirinkite sausio datą, kuri yra pirmoje metų savaitėje. Ši reikšmė kartu su savaitės pirmos dienos nustatymu lemia savaičių skaičių metuose.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Naujų projektų nustatymai"
       section_project_overview: "Nustatymai projektų apžvalgos sąrašui"
