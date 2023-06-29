@@ -8,6 +8,8 @@ keywords: glossary, help, documentation, terms, keywords, vocabulary, definition
 
 # OpenProject Glossary
 
+![Glossary of OpenProject](glossary-openproject-header.png)
+
 ## A
 
 ### Agile project management
@@ -16,7 +18,7 @@ Agile project management is an iterative and flexible approach to managing proje
 
 ### Authentication
 
-In Openproject, authentication is an important element to guarantee a data protected usage. To adapt these authentication settings, navigate to your user name and select -> Administration -> Authentication. At OpenProject, we use *OAuth 2.0* as this is the definitive industry standard for online authorization.
+In OpenProject, authentication is an important element to guarantee a data protected usage. To adapt these authentication settings, navigate to your user name and select -> Administration -> Authentication. At OpenProject, we use *OAuth 2.0* as this is the definitive industry standard for online authorization.
 
 **More information on authentication in OpenProject**
 
@@ -110,8 +112,6 @@ In OpenProject, some features are defined as an Enterprise add-on. This means, t
 
 Enumerations in OpenProject is defined as a menu item in admin settings that allows the configuration of Activities (for time tracking), project status and work package priorities. (Read more about enumerations in OpenProject)[https://www.openproject.org/docs/system-admin-guide/enumerations/]
 
-### Effort (shirt size)
-
 ### Excel synchronisation
 
 Excel synchronisation is a module in OpenProject which allows you to easily import your issues from Excel to OpenProject or upload your work packages into an Excel spreadsheet. [See our video tutorials on how to work with the Excel synchronisation module](https://www.openproject.org/docs/system-admin-guide/integrations/excel-synchronization/)
@@ -120,7 +120,7 @@ Excel synchronisation is a module in OpenProject which allows you to easily impo
 
 ### File storage
 
-File storages can be configured in the System Administration and then be selected in the project settings. OpenProject offers a *Nextcloud integration* to support file storage. (More information on file storage with the Nextcloud integration)[https://www.openproject.org/docs/user-guide/nextcloud-integration/]
+File storages can be configured in the System Administration and then be selected in the project settings. OpenProject offers a *Nextcloud integration* to support file storage. [More information on file storage with the Nextcloud integration](https://www.openproject.org/docs/user-guide/nextcloud-integration/)
 
 ### Filters
 
@@ -195,12 +195,6 @@ In OpenProject, you get in-app notifications about important changes that are re
 ### OAuth
 
 OAuth is an open standard authorization framework. It allows you to access certain information or resources on the internet without sharing your username and password with each individual service. In OpenProject, OAuth acts as a secure middleman, granting permissions to access your data to authorized applications or services. [Read more about OAuth applications in OpenProject](https://www.openproject.org/docs/system-admin-guide/authentication/oauth-applications/)
-
-### OAuth applications
-
-### OAuth client
-
-### OAuth provider
 
 ### On-premises
 
@@ -346,7 +340,7 @@ In OpenProject, a [work package](https://www.openproject.org/docs/user-guide/wor
 
 ### Work package table
 
-The work package table in OpenProject is defined as the overview of all work packages in a project, together with their attributes in the columns. A synonym for work package table is the term "work package list". (Read how to configure a work package table)[https://www.openproject.org/docs/user-guide/work-packages/work-package-table-configuration/]
+The work package table in OpenProject is defined as the overview of all work packages in a project, together with their attributes in the columns. A synonym for work package table is the term "work package list". [Read how to configure a work package table](https://www.openproject.org/docs/user-guide/work-packages/work-package-table-configuration/)
 
 ![A work package table in OpenProject](glossary-openproject-work-package-table.png)
 
@@ -356,7 +350,7 @@ Work package types are the different items a work package can represent. Each wo
 
 ### Work package categories
 
-Work package categories are a functionality used to automatically assign a member to a work package by specifying a category.[ Read more about work package categories in OpenProject](https://www.openproject.org/docs/user-guide/projects/project-settings/work-package-categories/#manage-work-package-categories).
+Work package categories are a functionality used to automatically assign a member to a work package by specifying a category.[Read more about work package categories in OpenProject](https://www.openproject.org/docs/user-guide/projects/project-settings/work-package-categories/#manage-work-package-categories).
 
 ### Work package view
 
