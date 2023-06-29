@@ -37,7 +37,7 @@ module TimeEntries::Scopes
 
         own_scope = TimeEntry
                     .where(project_id: Project.allowed_to(user, :view_own_time_entries))
-                    .where(user: user)
+                    .where(user:)
 
         all_scope.or(own_scope)
       end

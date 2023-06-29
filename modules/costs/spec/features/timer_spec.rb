@@ -69,7 +69,6 @@ RSpec.describe 'Work Package timer', js: true do
       time_logging_modal.has_field_with_value 'hours', /(\d\.)?\d+/
       time_logging_modal.work_package_is_missing false
 
-
       time_logging_modal.perform_action 'Save'
       time_logging_modal.is_visible false
 

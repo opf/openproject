@@ -18,13 +18,13 @@ import {
 
 @Injectable()
 export class TimeEntryTimerService {
-  private timer$ = new BehaviorSubject<TimeEntryResource|null|undefined>(undefined);
+  public timer$ = new BehaviorSubject<TimeEntryResource|null|undefined>(undefined);
 
   public activeTimer$ = this.timer$
     .asObservable()
     .pipe(
       filter((item) => item !== undefined),
-    );
+    ) as Observable<TimeEntryResource|null>;
 
   constructor(
     readonly injector:Injector,

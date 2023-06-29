@@ -93,7 +93,7 @@ export class TimeEntryEditService {
       .editChange(change)
       .then((update) => {
         if (update.action !== 'unchanged') {
-          this.timeEntry.activeTimer$.next(null);
+          this.timeEntry.timer$.next(null);
         }
       });
   }

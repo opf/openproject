@@ -48,7 +48,6 @@ import {
   take,
 } from 'rxjs/operators';
 import {
-  firstValueFrom,
   from,
   Observable,
   timer,
@@ -91,7 +90,7 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
   text = {
     workPackage: this.I18n.t('js.label_work_package'),
     start_timer: this.I18n.t('js.timer.start_new_timer'),
-    stop_timer: this.I18n.t('js.timer.stop_existing_timer'),
+    stop_timer: this.I18n.t('js.timer.button_stop'),
   };
 
   constructor(
@@ -132,7 +131,7 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
   }
 
   clear():void {
-    this.timeEntryService.activeTimer$.next(null);
+    this.timeEntryService.timer$.next(null);
     this.active = null;
     this.cdRef.detectChanges();
   }
@@ -169,7 +168,7 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
         map((result) => result.resource as TimeEntryResource),
       )
       .subscribe((active) => {
-        this.timeEntryService.activeTimer$.next(active);
+        this.timeEntryService.timer$.next(active);
         this.active = active;
         this.cdRef.detectChanges();
       });
