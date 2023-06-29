@@ -276,10 +276,10 @@ nl:
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: 'Browser'
       device: 'Device / OS'
-      unknown_browser: 'unknown browser'
-      unknown_os: 'unknown operating system'
-      current: 'Current session'
-      title: 'Session management'
+      unknown_browser: 'Onbekende browser'
+      unknown_os: 'Onbekend besturingssysteem'
+      current: 'Huidige sessie'
+      title: 'Sessiebeheer'
       instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
       may_not_delete_current: 'You cannot delete your current session.'
     groups:
@@ -940,7 +940,7 @@ nl:
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
-          one: "%{count} hour"
+          one: "%{count} uur"
           other: "%{count} uren"
         hour_html:
           one: "<i>%{count} hour</i>"
@@ -1063,7 +1063,7 @@ nl:
   button_configure: "Configureer"
   button_continue: "Verdergaan"
   button_copy: "Kopieer"
-  button_copy_to_clipboard: "Copy to clipboard"
+  button_copy_to_clipboard: "Kopiëren naar het klembord"
   button_copy_and_follow: "Kopiëren en volg"
   button_create: "Maken"
   button_create_and_continue: "Aanmaken en doorgaan"
@@ -1092,7 +1092,7 @@ nl:
   button_reset: "Herstel"
   button_rollback: "Terugdraaien naar deze versie"
   button_save: "Opslaan"
-  button_apply_changes: "Apply changes"
+  button_apply_changes: "Veranderingen doorvoeren"
   button_save_back: "Opslaan en terug"
   button_show: "Toon"
   button_sort: "Sorteren"
@@ -1355,13 +1355,13 @@ nl:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_overview_table: "PDF Table"
+      pdf_overview_table: "PDF Tabel"
       pdf_report_with_images: "PDF Report with images"
       pdf_report: "PDF Report"
     image:
       omitted: "Afbeelding niet geëxporteerd."
     units:
-      hours: h
+      hours: u
       days: d
   extraction:
     available:
@@ -1486,7 +1486,7 @@ nl:
   label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
   label_ical_access_key_not_present: "iCalendar token(s) not present."
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
-  label_ical_access_key_latest: "latest"
+  label_ical_access_key_latest: "laatste"
   label_ical_access_key_revoke: "Intrekken"
   label_applied_status: "Toegepaste status"
   label_archive_project: "Project archiveren"
@@ -1576,7 +1576,7 @@ nl:
   label_database_version: "PostgreSQL versie"
   label_date: "Datum"
   label_date_and_time: "Datum en tijd"
-  label_date_format: "Date format"
+  label_date_format: "Datumnotatie"
   label_date_from: "Van"
   label_date_from_to: "Van %{start} tot %{end}"
   label_date_to: "Aan"
@@ -1625,6 +1625,7 @@ nl:
   label_equals: "is"
   label_everywhere: "overal"
   label_example: "Voorbeeld"
+  label_experimental: "Experimental"
   label_import: "Importeren"
   label_export_to: "Ook verkrijgbaar in:"
   label_expanded_click_to_collapse: "Uitgebreid. Klik op samenvouwen"
@@ -1682,7 +1683,7 @@ nl:
   label_journal: "Logboek"
   label_journal_diff: "Beschrijving vergelijking"
   label_language: "Taal"
-  label_languages: "Languages"
+  label_languages: "Talen"
   label_jump_to_a_project: "Ga naar een project..."
   label_keyword_plural: 'Trefwoorden'
   label_language_based: "Op basis van de taal van gebruiker"
@@ -1740,7 +1741,7 @@ nl:
   label_more_than_ago: "meer dan dagen geleden"
   label_move_work_package: "Verplaatsen werkpakket"
   label_my_account: "Mijn gegevens"
-  label_my_activity: "My activity"
+  label_my_activity: "Mijn activiteit"
   label_my_account_data: "Mijn accountgegevens"
   label_my_projects: "Mijn projecten"
   label_my_queries: "Mijn aangepaste query 's"
@@ -1770,8 +1771,8 @@ nl:
   label_not_contains: "bevat geen"
   label_not_equals: "is niet"
   label_on: "op"
-  label_operator_all: "is not empty"
-  label_operator_none: "is empty"
+  label_operator_all: "is niet leeg"
+  label_operator_none: "is leeg"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
   label_open_menu: "Menu openen"
@@ -2595,6 +2596,10 @@ nl:
         Als ofwel opties "%{day_of_week_setting_name}" of "%{first_week_setting_name}" zijn ingesteld, Ook het andere moet worden vastgesteld om inconsistenties op het frontend te voorkomen.
       first_week_of_year_text: >
         Selecteer de datum van januari die in de eerste week van het jaar staat. Deze waarde bepaalt samen met de eerste dag van de week het totaal aantal weken in een jaar.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Instellingen voor nieuwe projecten"
       section_project_overview: "Instellingen voor project overzicht lijst"

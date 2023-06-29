@@ -323,7 +323,7 @@ lt:
       inital_setup_error_message: "Gaunant duomenis įvyko klaida."
       description: "Jūs galite naudoti iCalendar URL, kad importuotumėte ar prenumeruotumėte šį kalendorių išoriniame kliente ir matytumėte ten aktualią darbo paketo informaciją."
       warning: "Prašome nesidalinti šiuo URL su išoriniais naudotojais. Bet kas su šia nuoroda galės peržiūrėti darbo paketo detales be paskyros ar slaptažodžio."
-      token_name_label: "Žetoon pavadinimas"
+      token_name_label: "Žetono pavadinimas"
       token_name_placeholder: "Įrašykite šio žetono pavadinimą, pvz. „Mano kalendoriaus aplikacija“"
       token_name_description_text: "Šis pavadinimas bus naudojamas atskirti jį nuo kitų žetonų, esančių <a href=\"my/access_token\", target=\"_blank\">prieigos žetonų sąraše</a>. Jį galima panaudoti tik vieną kartą kalendoriuje."
       copy_url_label: "Kopijuoti URL"
@@ -1182,10 +1182,11 @@ lt:
       button_deactivate: 'Išjungti Zen režimą'
     global_search:
       all_projects: "Visuose projektuose"
-      search: "Paieška"
       close_search: "Uždaryti paiešką"
-      current_project: "Šiame projekte"
       current_project_and_all_descendants: "Šiame projekte + subprojektuose"
+      current_project: "Šiame projekte"
+      recently_viewed: "Recently viewed"
+      search: "Paieška"
       title:
         all_projects: "visi projektai"
         project_and_subprojects: "ir visi subprojektai"

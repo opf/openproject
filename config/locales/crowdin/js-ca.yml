@@ -65,7 +65,7 @@ ca:
     button_confirm: "Confirmar"
     button_continue: "Continua"
     button_copy: "Copiar"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "Copiar al porta-retalls"
     button_copy_to_other_project: "Copia a un altre projecte"
     button_custom-fields: "Camps personalitzats"
     button_delete: "Esborrar"
@@ -106,7 +106,7 @@ ca:
       remove_from_list: 'Suprimeix la targeta de la llista'
     caption_rate_history: "Història d'índex"
     clipboard:
-      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
+      browser_error: "El teu navegador no permet copiar al porta-retalls. Si us plau, copia-ho manualment: %{content}"
       copied_successful: "S'ha copiat correctament al porta-retalls!"
     chart:
       type: 'Tipus de gràfica'
@@ -1176,10 +1176,11 @@ ca:
       button_deactivate: 'Desactiva el mode zen'
     global_search:
       all_projects: "En tots els projectes"
-      search: "Cercar"
       close_search: "Tanca la cerca"
-      current_project: "En aquest projecte"
       current_project_and_all_descendants: "En aquest projecte + subprojectes"
+      current_project: "En aquest projecte"
+      recently_viewed: "Recently viewed"
+      search: "Cercar"
       title:
         all_projects: "tots els projectes"
         project_and_subprojects: "i tots els subprojectes"
