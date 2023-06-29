@@ -35,6 +35,7 @@ class Queries::TimeEntries::TimeEntryQuery < Queries::BaseQuery
     if filters.detect { |f| f.class.key == :ongoing }
       TimeEntry
         .visible(User.current)
+        .or(TimeEntry.visible_ongoing(User.current))
     else
       TimeEntry
         .not_ongoing

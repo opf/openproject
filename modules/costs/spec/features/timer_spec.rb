@@ -43,13 +43,11 @@ RSpec.describe 'Work Package timer', js: true do
 
   before do
     login_as user
-    wp_view_a.visit!
   end
 
-  context 'when user has permission to log time' do
-    let(:permissions) { %i[log_own_time edit_own_time_entries view_own_time_entries view_work_packages] }
-
+  shared_examples 'allows time tracking' do
     it 'shows the timer and allows tracking time' do
+      wp_view_a.visit!
       timer_button.expect_visible
       timer_button.start
       timer_button.expect_active
@@ -66,9 +64,12 @@ RSpec.describe 'Work Package timer', js: true do
       page.find('[data-qa-selector="op-timer-account-menu-stop"]').click
 
       time_logging_modal.is_visible true
+
       time_logging_modal.has_field_with_value 'spentOn', Date.current.strftime
       time_logging_modal.has_field_with_value 'hours', /(\d\.)?\d+/
       time_logging_modal.work_package_is_missing false
+
+
       time_logging_modal.perform_action 'Save'
       time_logging_modal.is_visible false
 
@@ -87,6 +88,7 @@ RSpec.describe 'Work Package timer', js: true do
       # Clicking timer opens stop modal
       timer_button.expect_visible
       timer_button.expect_inactive
+
       timer_button.start
 
       expect(page).to have_selector('.op-timer-stop-modal')
@@ -103,11 +105,12 @@ RSpec.describe 'Work Package timer', js: true do
       time_logging_modal.has_field_with_value 'spentOn', Date.current.strftime
       time_logging_modal.has_field_with_value 'hours', /(\d\.)?\d+/
       time_logging_modal.work_package_is_missing false
+
       time_logging_modal.perform_action 'Save'
-      time_logging_modal.is_visible false
 
       # Closing the modal starts the next timer
       wp_view_b.expect_and_dismiss_toaster message: I18n.t(:notice_successful_update)
+      time_logging_modal.is_visible false
       timer_button.expect_active
 
       # Timer entry has been saved
@@ -123,10 +126,18 @@ RSpec.describe 'Work Package timer', js: true do
     end
   end
 
+  context 'when user has permission to log time' do
+    let(:permissions) { %i[log_own_time edit_own_time_entries view_own_time_entries view_work_packages] }
+
+    it_behaves_like 'allows time tracking'
+  end
+
   context 'when user has no permission to log time' do
     let(:permissions) { %i[view_work_packages] }
 
     it 'does not show the timer' do
+      wp_view_a.visit!
+
       # Wait for another button to be present
       expect(page).to have_selector('#watch-button', wait: 10)
       timer_button.expect_visible visible: false
@@ -136,20 +147,12 @@ RSpec.describe 'Work Package timer', js: true do
   context 'when user has permission to add, but not edit or view' do
     let(:permissions) { %i[view_work_packages log_own_time] }
 
-    it 'does not show the timer' do
-      # Wait for another button to be present
-      expect(page).to have_selector('#watch-button', wait: 10)
-      timer_button.expect_visible visible: false
-    end
+    it_behaves_like 'allows time tracking'
   end
 
   context 'when user has permission to add and view but not edit' do
     let(:permissions) { %i[view_work_packages log_own_time view_own_logged_time] }
 
-    it 'does not show the timer' do
-      # Wait for another button to be present
-      expect(page).to have_selector('#watch-button', wait: 10)
-      timer_button.expect_visible visible: false
-    end
+    it_behaves_like 'allows time tracking'
   end
 end

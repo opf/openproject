@@ -3,6 +3,7 @@ import {
   Injector,
 } from '@angular/core';
 import {
+  filter,
   map,
   switchMap,
 } from 'rxjs/operators';
@@ -14,11 +15,16 @@ import {
   Observable,
   timer,
 } from 'rxjs';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
 @Injectable()
 export class TimeEntryTimerService {
-  public activeTimer$ = new BehaviorSubject<TimeEntryResource|null>(null);
+  private timer$ = new BehaviorSubject<TimeEntryResource|null|undefined>(undefined);
+
+  public activeTimer$ = this.timer$
+    .asObservable()
+    .pipe(
+      filter((item) => item !== undefined),
+    );
 
   constructor(
     readonly injector:Injector,
@@ -28,7 +34,7 @@ export class TimeEntryTimerService {
       .pipe(
         switchMap(() => this.getActiveTimeEntry()),
       )
-      .subscribe((entry) => this.activeTimer$.next(entry));
+      .subscribe((entry) => this.timer$.next(entry));
 
     this
       .activeTimer$
@@ -39,17 +45,6 @@ export class TimeEntryTimerService {
           this.removeTimer();
         }
       });
-  }
-
-  public trackingAllowed$(input:WorkPackageResource):Observable<boolean> {
-    return this
-      .apiV3Service
-      .work_packages
-      .id(input.id as string)
-      .requireAndStream()
-      .pipe(
-        map((wp) => !!wp.startTimer),
-      );
   }
 
   public getActiveTimeEntry():Observable<TimeEntryResource|null> {

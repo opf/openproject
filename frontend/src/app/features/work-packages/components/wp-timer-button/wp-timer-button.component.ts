@@ -45,8 +45,10 @@ import {
   filter,
   map,
   switchMap,
+  take,
 } from 'rxjs/operators';
 import {
+  firstValueFrom,
   from,
   Observable,
   timer,
@@ -144,13 +146,19 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
   }
 
   async start():Promise<void> {
-    if (this.active) {
-      this.showStopModal()
-        .then(() => this.stop().then(() => this.startTimer()))
-        .catch(() => undefined);
-    } else {
-      this.startTimer();
-    }
+    this
+      .timeEntryService
+      .activeTimer$
+      .pipe(take(1))
+      .subscribe((active) => {
+        if (active) {
+          this.showStopModal()
+            .then(() => this.stop().then(() => this.startTimer()))
+            .catch(() => undefined);
+        } else {
+          this.startTimer();
+        }
+      });
   }
 
   private startTimer():void {

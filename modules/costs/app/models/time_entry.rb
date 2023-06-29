@@ -46,8 +46,8 @@ class TimeEntry < ApplicationRecord
 
   scope :on_work_packages, ->(work_packages) { where(work_package_id: work_packages) }
 
-  include ::Scopes::Scoped
   extend ::TimeEntries::TimeEntryScopes
+  include ::Scopes::Scoped
   include Entry::Costs
   include Entry::SplashedDates
 
