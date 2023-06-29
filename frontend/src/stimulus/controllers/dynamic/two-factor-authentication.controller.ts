@@ -28,21 +28,55 @@
  * ++
  */
 
-import { Controller } from "@hotwired/stimulus";
-import * as WebAuthnJSON from "@github/webauthn-json/browser-ponyfill";
-import QrCreator from "qr-creator";
+import { Controller } from '@hotwired/stimulus';
+import * as WebAuthnJSON from '@github/webauthn-json/browser-ponyfill';
+import QrCreator from 'qr-creator';
 
 export default class TwoFactorAuthenticationController extends Controller {
-  static targets = ["resendOptions", "qrCodeElement", "webauthnCredential"];
+  static targets = ['resendOptions', 'qrCodeElement', 'webauthnCredential'];
 
   declare readonly resendOptionsTarget: HTMLElement;
   declare readonly webauthnCredentialTarget: HTMLInputElement;
 
-  async onCreateDevice(event: Event) {
-    const data = (event.target as HTMLElement).dataset;
+  async onVerifyDevice(event: SubmitEvent) {
+    const form = event.target as HTMLFormElement;
+    const data = form.dataset;
+
+    // We are not in the context of verifying a WebAuthn device, so we can just submit the form
+    if (data.deviceType !== 'webauthn') {
+      return true;
+    }
+
+    event.preventDefault();
+
+    try {
+      const verifyOptionsRequest = await fetch(data.challengeUrl as string);
+      const verifyOptions = await verifyOptionsRequest.text();
+
+      const options = WebAuthnJSON.parseRequestOptionsFromJSON({
+        publicKey: JSON.parse(verifyOptions),
+      });
+
+      const credential = await WebAuthnJSON.get(options);
+
+      if (credential) {
+        this.webauthnCredentialTarget.value = JSON.stringify(credential);
+        form.submit();
+      }
+
+      return true;
+    } catch (error) {
+      console.log(`Error registering device: ${error}`);
+      return false;
+    }
+  }
+
+  async onCreateDevice(event: SubmitEvent) {
+    const form = event.target as HTMLFormElement;
+    const data = form.dataset;
 
     // We are not in the context of adding a WebAuthn device, so we can just submit the form
-    if (data.deviceType !== "webauthn") {
+    if (data.deviceType !== 'webauthn') {
       return true;
     }
 
@@ -60,7 +94,6 @@ export default class TwoFactorAuthenticationController extends Controller {
 
       if (credential) {
         this.webauthnCredentialTarget.value = JSON.stringify(credential);
-        const form = event.target as HTMLFormElement;
         form.submit();
       }
 
@@ -76,12 +109,12 @@ export default class TwoFactorAuthenticationController extends Controller {
       {
         text: target.dataset.value as string,
         radius: 0,
-        ecLevel: "H",
-        fill: "#222222",
-        background: "#FFFFFF",
+        ecLevel: 'H',
+        fill: '#222222',
+        background: '#FFFFFF',
         size: 250,
       },
-      target
+      target,
     );
   }
 

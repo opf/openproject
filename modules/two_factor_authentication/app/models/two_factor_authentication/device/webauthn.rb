@@ -1,6 +1,6 @@
 module TwoFactorAuthentication
   class Device::Webauthn < Device
-    validates :webauthn_external_id, presence: true, uniqueness: true
+    validates :webauthn_external_id, presence: true, uniqueness: { scoped_to: :user_id }
     validates :webauthn_public_key, presence: true
 
     # Check allowed channels

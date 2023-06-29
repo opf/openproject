@@ -3,22 +3,17 @@ require 'webauthn'
 module OpenProject::TwoFactorAuthentication
   module TokenStrategy
     class Webauthn < Base
-      def verify(webauthn_params)
-        webauthn_credential = WebAuthn::Credential.from_get(webauthn_params)
-
-        # TODO: Device finding can happen by the provided ID
-
-        # TODO: Access session
-        authentication_challenge = "foo"
+      def verify(webauthn_credential, webauthn_challenge:)
+        credential = WebAuthn::Credential.from_get(JSON.parse(webauthn_credential))
 
         # This will raise WebAuthn::Error
-        webauthn_credential.verify(
-          authentication_challenge,
+        credential.verify(
+          webauthn_challenge,
           public_key: device.webauthn_public_key,
           sign_count: device.webauthn_sign_count
         )
 
-        device.update!(webauthn_sign_count: webauthn_credential.sign_count)
+        device.update!(webauthn_sign_count: credential.sign_count)
         true
       end
 

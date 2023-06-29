@@ -8,6 +8,9 @@ Rails.application.routes.draw do
 
     get :settings, to: 'two_factor_settings#show', as: 'settings_2fa'
     post :settings, to: 'two_factor_settings#update', as: 'update_settings_2fa'
+
+    # Request a challenge for WebAuthn
+    get :webauthn_challenge, to: 'authentication#webauthn_challenge', as: 'webauthn_challenge'
   end
 
   scope 'two_factor_authentication' do # Avoids adding the namespace prefix

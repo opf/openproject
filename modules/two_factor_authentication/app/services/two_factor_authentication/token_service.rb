@@ -57,17 +57,17 @@ module TwoFactorAuthentication
 
     ##
     # Validate a token that was input by the user
-    def verify(input_token)
+    def verify(input, **options)
       # Validate that we can request the token for this user
       # and get the matching strategy we will use
       verify_device_and_strategy
 
       # Produce the token with the given strategy (e.g., sending an sms)
-      result = strategy.verify input_token
+      result = strategy.verify(input, **options)
 
       ServiceResult.new(success: result)
     rescue StandardError => e
-      Rails.logger.error "[2FA plugin] Error during token validation for user##{user.id}: #{e}"
+      Rails.logger.error "[2FA plugin] Error during token validation for user##{user.id}: #{e.class} #{e}"
 
       result = ServiceResult.failure
       result.errors.add(:base, e.message)

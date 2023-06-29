@@ -11,7 +11,12 @@
   <%= styled_form_tag(
         { action: :confirm_otp },
         id: 'submit_otp',
-        autocomplete: "off") do %>
+        autocomplete: "off", data: {
+                                        controller: "two-factor-authentication",
+                                application_target: "dynamic",
+                                challenge_url: url_for(action: :webauthn_challenge, format: :json),
+                                device_type: @used_device.class.device_type,
+                                action: "submit->two-factor-authentication#onVerifyDevice"}) do %>
     <%= back_url_hidden_field_tag %>
     <h2><%= t 'two_factor_authentication.label_two_factor_authentication' %></h2>
     <% identifier = @used_device.request_2fa_identifier(@strategy.channel) %>
@@ -27,6 +32,7 @@
     <% else %>
       <p><%= raw I18n.t('two_factor_authentication.devices.2fa_from_webauthn', device_name: identifier) %></p>
       <hr class="form--separator">
+      <%= hidden_field_tag 'webauthn_credential', nil, "data-two-factor-authentication-target": "webauthnCredential" %>
     <% end %>
     <% if remember_2fa_enabled? %>
       <div class="form--field -wide-label">
