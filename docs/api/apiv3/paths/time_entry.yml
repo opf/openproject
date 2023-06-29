@@ -104,6 +104,7 @@ get:
                 createdAt: '2015-03-20T12:56:56Z'
                 customField12: 5
                 hours: PT5H
+                ongoing: false
                 id: 1
                 spentOn: '2015-03-20'
                 updatedAt: '2015-03-20T12:56:56Z'

@@ -17,6 +17,7 @@ example:
         html: "<p>Some comment</p>"
       spentOn: '2015-03-20'
       hours: PT5H
+      ongoing: false
       createdAt: '2015-03-20T12:56:56Z'
       updatedAt: '2015-03-20T12:56:56Z'
       _links:
@@ -48,6 +49,7 @@ example:
         html: "<p>Another comment</p>"
       spentOn: '2015-03-21'
       hours: PT7H
+      ongoing: false
       createdAt: '2015-03-20T12:56:56Z'
       updatedAt: '2015-03-20T12:56:56Z'
       _links:

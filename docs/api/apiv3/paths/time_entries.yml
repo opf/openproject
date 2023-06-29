@@ -46,6 +46,8 @@ get:
       + project: Filter time entries by project
 
       + user: Filter time entries by users
+      
+      + ongoing: Filter for own ongoing time entries (actively being time tracked)
 
       + spent_on: Filter time entries by spent on date
 
