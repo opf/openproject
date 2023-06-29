@@ -33,12 +33,16 @@ module Components
       include Capybara::RSpecMatchers
       include RSpec::Matchers
 
-      def open_for(work_package, card_view: false)
+      def open_for(work_package, card_view: nil)
         # Close
         find('body').send_keys :escape
-        sleep 0.5
+        sleep 0.5 unless using_cuprite?
 
-        if card_view || page.has_selector?('#wp-view-toggle-button', text: 'Cards')
+        if card_view.nil?
+          card_view = page.has_selector?('#wp-view-toggle-button', text: 'Cards', wait: 0)
+        end
+
+        if card_view
           page.find(".op-wp-single-card-#{work_package.id}").right_click
         else
           page.find(".wp-row-#{work_package.id}-table").right_click
