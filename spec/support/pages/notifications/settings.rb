@@ -75,6 +75,7 @@ module Pages
         click_button 'Add setting for project'
         container = page.find('[data-qa-selector="notification-setting-inline-create"] ng-select')
         select_autocomplete container, query: project.name, results_selector: 'body'
+        wait_for_network_idle if using_cuprite?
         expect_project project
       end
 
