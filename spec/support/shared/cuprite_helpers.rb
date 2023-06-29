@@ -51,7 +51,9 @@ def clear_input_field_contents(input_element)
     input_element = find_field(input_element)
   end
 
-  backspaces = Array.new(input_element.value.length + 1, :backspace)
+  return unless input_element.value.length.positive?
+
+  backspaces = Array.new(input_element.value.length, :backspace)
   input_element.native.node.type(*backspaces)
 end
 
