@@ -1,14 +1,14 @@
 require 'spec_helper'
 require_relative 'context_menu_shared_examples'
 
-RSpec.describe 'Work package table context menu', js: true do
-  let(:user) { create(:admin) }
-  let(:work_package) { create(:work_package) }
+RSpec.describe 'Work package table context menu', js: true, with_cuprite: true do
+  shared_let(:user) { create(:admin) }
+  shared_let(:work_package) { create(:work_package) }
 
-  let(:wp_table) { Pages::WorkPackagesTable.new(work_package.project) }
+  shared_let(:wp_table) { Pages::WorkPackagesTable.new(work_package.project) }
+  shared_let(:menu) { Components::WorkPackages::ContextMenu.new }
+  shared_let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(work_package.project) }
-  let(:menu) { Components::WorkPackages::ContextMenu.new }
-  let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
 
   before do
     login_as(user)
