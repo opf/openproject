@@ -3,13 +3,13 @@ require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
 require 'features/page_objects/notification'
 
-RSpec.describe 'new work package', js: true do
+RSpec.describe 'new work package', js: true, with_cuprite: true do
+  shared_let(:status) { create(:status, is_default: true) }
+  shared_let(:priority) { create(:priority, is_default: true) }
+  let!(:types) { [type_task, type_milestone, type_bug] }
   let(:type_task) { create(:type_task) }
   let(:type_milestone) { create(:type_milestone, position: type_task.position + 1) }
   let(:type_bug) { create(:type_bug, position: type_milestone.position + 1) }
-  let(:types) { [type_task, type_milestone, type_bug] }
-  let!(:status) { create(:status, is_default: true) }
-  let!(:priority) { create(:priority, is_default: true) }
   let!(:project) do
     create(:project, types:)
   end

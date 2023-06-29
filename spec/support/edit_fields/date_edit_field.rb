@@ -142,7 +142,6 @@ class DateEditField < EditField
       datepicker.set_start_date value.first
       datepicker.set_due_date value.last
 
-      sleep 1
       datepicker.expect_start_date value.first
       datepicker.expect_due_date value.last
     else

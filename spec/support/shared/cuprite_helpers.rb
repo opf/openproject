@@ -51,9 +51,8 @@ def clear_input_field_contents(input_element)
     input_element = find_field(input_element)
   end
 
-  (input_element.value.length + 1).times do
-    input_element.native.node.type(:backspace)
-  end
+  backspaces = Array.new(input_element.value.length + 1, :backspace)
+  input_element.native.node.type(*backspaces)
 end
 
 def using_cuprite?
