@@ -137,6 +137,7 @@ class EditField
 
   def submit_by_dashboard
     field_container.find('.inplace-edit--control--save').click
+    wait_for_reload if using_cuprite?
   end
 
   ##
