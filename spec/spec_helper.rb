@@ -111,6 +111,8 @@ RSpec.configure do |config|
   # particularly slow.
   # Disabled on CI to have a cleaner log output.
   config.profile_examples = 10 unless ENV['CI']
+  # Setting it for the cuprite work
+  config.profile_examples = 3
 
   # Run specs in random order to surface order dependencies. If you find an
   # order dependency and want to debug it, you can fix the order by providing
