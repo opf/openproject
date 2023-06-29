@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'features/page_objects/notification'
 require 'support/components/autocompleter/ng_select_autocomplete_helpers'
 
-RSpec.describe 'Copy work packages through Rails view', js: true, with_cuprite: true do
+RSpec.describe 'Copy work packages through Rails view', js: true do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   shared_let(:type) { create(:type, name: 'Bug') }
@@ -72,8 +72,6 @@ RSpec.describe 'Copy work packages through Rails view', js: true, with_cuprite: 
         context_menu.open_for work_package
         context_menu.choose 'Bulk copy'
 
-        wait_for_reload if using_cuprite?
-
         expect(page).to have_selector('#new_project_id')
         expect_page_reload do
           select_autocomplete page.find('[data-qa-selector="new_project_id"]'),
@@ -132,8 +130,6 @@ RSpec.describe 'Copy work packages through Rails view', js: true, with_cuprite: 
         it 'moves parent and child wp to a new project with the hierarchy amended' do
           click_on 'Copy and follow'
 
-          wait_for_reload
-
           wp_table_target.expect_current_path
           wp_table_target.expect_work_package_count 3
           expect(page).to have_selector('#projects-menu', text: 'Target')
@@ -166,8 +162,6 @@ RSpec.describe 'Copy work packages through Rails view', js: true, with_cuprite: 
 
         it 'fails, informing of the reasons' do
           click_on 'Copy and follow'
-
-          wait_for_reload
 
           expect(page)
             .to have_selector(
@@ -204,8 +198,6 @@ RSpec.describe 'Copy work packages through Rails view', js: true, with_cuprite: 
                 with_settings: { work_packages_bulk_request_limit: 0 } do
           it 'shows the errors properly in the frontend' do
             click_on 'Copy and follow'
-
-            wait_for_reload
 
             expect(page).to have_text 'The job has been queued and will be processed shortly.'
 
@@ -300,8 +292,6 @@ RSpec.describe 'Copy work packages through Rails view', js: true, with_cuprite: 
       context_menu.open_for work_package
       context_menu.choose 'Copy to other project'
 
-      wait_for_network_idle
-
       # On work packages move page
       select_autocomplete page.find('[data-qa-selector="new_project_id"]'),
                           query: project2.name,
@@ -309,7 +299,7 @@ RSpec.describe 'Copy work packages through Rails view', js: true, with_cuprite: 
                           results_selector: 'body'
 
       # wait for page reload after selecting the target project
-      wait_for_reload
+      sleep(2)
 
       select 'nobody', from: 'Assignee'
 
