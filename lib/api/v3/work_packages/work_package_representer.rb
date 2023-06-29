@@ -91,15 +91,22 @@ module API
         end
 
         link :logTime,
-             cache_if: -> do
-               current_user_allowed_to(:log_time, context: represented.project) ||
-                 current_user_allowed_to(:log_own_time, context: represented.project)
-             end do
+             cache_if: -> { log_time_allowed? } do
           next if represented.new_record?
 
           {
             href: api_v3_paths.time_entries,
             title: "Log time on #{represented.subject}"
+          }
+        end
+
+        link :startTimer,
+             cache_if: -> { log_time_allowed? && view_time_entries_allowed? && edit_log_time_allowed? } do
+          next if represented.new_record?
+
+          {
+            href: api_v3_paths.time_entries,
+            title: "Start time tracking on #{represented.subject}"
           }
         end
 
@@ -576,6 +583,18 @@ module API
           @view_time_entries_allowed ||=
             current_user_allowed_to(:view_time_entries, context: represented.project) ||
               current_user_allowed_to(:view_own_time_entries, context: represented.project)
+        end
+
+        def log_time_allowed?
+          @log_time_allowed ||=
+            current_user_allowed_to(:view_time_entries, context: represented.project) ||
+              current_user_allowed_to(:view_own_time_entries, context: represented.project)
+        end
+
+        def edit_log_time_allowed?
+          @edit_log_time_allowed ||=
+            current_user_allowed_to(:edit_time_entries, context: represented.project) ||
+              current_user_allowed_to(:edit_own_time_entries, context: represented.project)
         end
 
         def view_budgets_allowed?

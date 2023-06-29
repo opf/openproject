@@ -4,6 +4,7 @@ import {
   ElementRef,
   Inject,
   Injector,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
@@ -18,7 +19,7 @@ import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-re
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 
 @Directive()
-export abstract class TimeEntryBaseModal extends OpModalComponent {
+export abstract class TimeEntryBaseModal extends OpModalComponent implements OnInit {
   @ViewChild('editForm', { static: true }) editForm:TimeEntryFormComponent;
 
   public text:{ [key:string]:string } = {

@@ -88,10 +88,7 @@ export class OpPrincipalComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.principal.name) {
-      return;
-    }
-    else {
+    if (this.principal.name) {
       this.principalRenderer.render(
         this.elementRef.nativeElement as HTMLElement,
         this.principal,

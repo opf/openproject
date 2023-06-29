@@ -7,7 +7,7 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { TimeEntryService } from 'core-app/shared/components/time_entries/services/time_entry.service';
+import { TimeEntryTimerService } from 'core-app/shared/components/time_entries/services/time-entry-timer.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
 import {
@@ -20,8 +20,6 @@ import {
 } from 'rxjs/operators';
 import { formatElapsedTime } from 'core-app/features/work-packages/components/wp-timer-button/time-formatter.helper';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { TimeEntryChangeset } from 'core-app/features/work-packages/helpers/time-entries/time-entry-changeset';
-import * as moment from 'moment';
 import { TimeEntryEditService } from '../edit/edit.service';
 import { HalResourceEditingService } from '../../fields/edit/services/hal-resource-editing.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
@@ -56,7 +54,7 @@ export class TimerAccountMenuComponent extends UntilDestroyedMixin implements On
 
   constructor(
     readonly elementRef:ElementRef<HTMLElement>,
-    readonly timeEntryService:TimeEntryService,
+    readonly timeEntryService:TimeEntryTimerService,
     readonly cdRef:ChangeDetectorRef,
     readonly I18n:I18nService,
     readonly timeEntryEditService:TimeEntryEditService,

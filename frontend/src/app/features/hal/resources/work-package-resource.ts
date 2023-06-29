@@ -102,6 +102,8 @@ export interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
 
   logTime():Promise<any>;
 
+  startTimer():Promise<unknown>;
+
   move():Promise<any>;
 
   removeWatcher():Promise<any>;

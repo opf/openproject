@@ -25,17 +25,18 @@ export interface NameOptions {
 
 @Injectable({ providedIn: 'root' })
 export class PrincipalRendererService {
-  constructor(private pathHelper:PathHelperService,
+  constructor(
+    private pathHelper:PathHelperService,
     private apiV3Service:ApiV3Service,
-    private colors:ColorsService) {
-
+    private colors:ColorsService,
+  ) {
   }
 
   renderMultiple(
     container:HTMLElement,
     users:PrincipalLike[]|IPrincipal[],
     name:NameOptions = { hide: false, link: false },
-    avatar:AvatarOptions = { hide: false, size: 'default'},
+    avatar:AvatarOptions = { hide: false, size: 'default' },
     multiLine = false,
   ):void {
     container.classList.add('op-principal');
@@ -65,7 +66,7 @@ export class PrincipalRendererService {
     container:HTMLElement,
     principal:PrincipalLike|IPrincipal,
     name:NameOptions = { hide: false, link: true },
-    avatar:AvatarOptions = { hide: false, size: 'default'},
+    avatar:AvatarOptions = { hide: false, size: 'default' },
   ):void {
     container.classList.add('op-principal');
     const type = typeFromHref(hrefFromPrincipal(principal)) as PrincipalType;
@@ -112,7 +113,7 @@ export class PrincipalRendererService {
 
     return fallback;
   }
-  
+
   private renderUserAvatar(principal:PrincipalLike|IPrincipal, fallback:HTMLElement, options:AvatarOptions):void {
     const url = this.userAvatarUrl(principal);
 

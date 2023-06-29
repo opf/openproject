@@ -14,16 +14,16 @@ import {
   Observable,
   timer,
 } from 'rxjs';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
 @Injectable()
-export class TimeEntryService {
+export class TimeEntryTimerService {
   public activeTimer$ = new BehaviorSubject<TimeEntryResource|null>(null);
 
   constructor(
     readonly injector:Injector,
     readonly apiV3Service:ApiV3Service,
   ) {
-
     timer(250)
       .pipe(
         switchMap(() => this.getActiveTimeEntry()),
@@ -39,6 +39,17 @@ export class TimeEntryService {
           this.removeTimer();
         }
       });
+  }
+
+  public trackingAllowed$(input:WorkPackageResource):Observable<boolean> {
+    return this
+      .apiV3Service
+      .work_packages
+      .id(input.id as string)
+      .requireAndStream()
+      .pipe(
+        map((wp) => !!wp.startTimer),
+      );
   }
 
   public getActiveTimeEntry():Observable<TimeEntryResource|null> {

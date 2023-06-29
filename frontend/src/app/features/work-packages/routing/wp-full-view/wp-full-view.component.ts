@@ -29,7 +29,10 @@
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { StateService } from '@uirouter/core';
 import { Component, Injector, OnInit } from '@angular/core';
-import { of } from 'rxjs';
+import {
+  Observable,
+  of,
+} from 'rxjs';
 import {
   WorkPackageViewSelectionService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
@@ -43,6 +46,7 @@ import {
 import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
 import { CommentService } from 'core-app/features/work-packages/components/wp-activity/comment-service';
 import { RecentItemsService } from 'core-app/core/recent-items.service';
+import { TimeEntryTimerService } from 'core-app/shared/components/time_entries/services/time-entry-timer.service';
 
 @Component({
   templateUrl: './wp-full-view.html',
@@ -61,7 +65,7 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
 
   public displayWatchButton = false;
 
-  public displayTimerButton = false;
+  public displayTimerButton$:Observable<boolean>;
 
   public watchers:any;
 
@@ -78,6 +82,7 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
     public wpTableSelection:WorkPackageViewSelectionService,
     public recentItemsService:RecentItemsService,
     readonly $state:StateService,
+    readonly timerService:TimeEntryTimerService,
     // private readonly i18n:I18nService,
   ) {
     super(injector, $state.params.workPackageId);
@@ -103,7 +108,7 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
   private setWorkPackageScopeProperties(wp:WorkPackageResource) {
     this.isWatched = wp.hasOwnProperty('unwatch');
     this.displayWatchButton = wp.hasOwnProperty('unwatch') || wp.hasOwnProperty('watch');
-    this.displayTimerButton = wp.hasOwnProperty('logTime');
+    this.displayTimerButton$ = this.timerService.trackingAllowed$(this.workPackage);
 
     // watchers
     if (wp.watchers) {

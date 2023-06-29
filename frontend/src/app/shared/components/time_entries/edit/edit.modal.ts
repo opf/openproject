@@ -1,5 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { TimeEntryBaseModal } from 'core-app/shared/components/time_entries/shared/modal/base.modal';
@@ -8,7 +11,7 @@ import { TimeEntryBaseModal } from 'core-app/shared/components/time_entries/shar
   templateUrl: '../shared/modal/base.modal.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TimeEntryEditModalComponent extends TimeEntryBaseModal {
+export class TimeEntryEditModalComponent extends TimeEntryBaseModal implements OnInit {
   public modifiedEntry:TimeEntryResource;
 
   public destroyedEntry:TimeEntryResource;
@@ -31,6 +34,7 @@ export class TimeEntryEditModalComponent extends TimeEntryBaseModal {
   }
 
   public destroy() {
+    // eslint-disable-next-line no-alert
     if (!window.confirm(this.text.areYouSure)) {
       return;
     }

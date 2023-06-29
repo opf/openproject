@@ -47,7 +47,6 @@ import {
   switchMap,
 } from 'rxjs/operators';
 import {
-  firstValueFrom,
   from,
   Observable,
   timer,
@@ -57,15 +56,14 @@ import { HalResourceEditingService } from 'core-app/shared/components/fields/edi
 import * as moment from 'moment';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { TimeEntryService } from 'core-app/shared/components/time_entries/services/time_entry.service';
+import { TimeEntryTimerService } from 'core-app/shared/components/time_entries/services/time-entry-timer.service';
 import { formatElapsedTime } from 'core-app/features/work-packages/components/wp-timer-button/time-formatter.helper';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { StopExistingTimerModalComponent } from 'core-app/shared/components/time_entries/timer/stop-existing-timer-modal.component';
 import { TimeEntryEditService } from 'core-app/shared/components/time_entries/edit/edit.service';
-import { ConfirmDialogModalComponent } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
 
 export function pad(val:number):string {
-  return val > 9 ? val.toString() : "0" + val.toString();
+  return val > 9 ? val.toString() : `0${val.toString()}`;
 }
 
 @Component({
@@ -98,7 +96,7 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
     readonly injector:Injector,
     readonly I18n:I18nService,
     readonly apiV3Service:ApiV3Service,
-    readonly timeEntryService:TimeEntryService,
+    readonly timeEntryService:TimeEntryTimerService,
     readonly timeEntryEditService:TimeEntryEditService,
     readonly timeEntryCreateService:TimeEntryCreateService,
     readonly halEditing:HalResourceEditingService,

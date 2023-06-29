@@ -15,7 +15,7 @@ import { TimeEntryChangeset } from 'core-app/features/work-packages/helpers/time
 import * as moment from 'moment';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { TimeEntryService } from 'core-app/shared/components/time_entries/services/time_entry.service';
+import { TimeEntryTimerService } from 'core-app/shared/components/time_entries/services/time-entry-timer.service';
 
 export interface TimeEntryModalOptions {
   showWorkPackageField?:boolean;
@@ -36,7 +36,7 @@ export class TimeEntryEditService {
     readonly halResource:HalResourceService,
     readonly schemaCache:SchemaCacheService,
     readonly timezoneService:TimezoneService,
-    readonly timeEntry:TimeEntryService,
+    readonly timeEntry:TimeEntryTimerService,
     protected halEditing:HalResourceEditingService,
     readonly i18n:I18nService,
   ) {
