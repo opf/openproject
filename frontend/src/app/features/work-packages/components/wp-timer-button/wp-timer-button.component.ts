@@ -90,6 +90,8 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
 
   text = {
     workPackage: this.I18n.t('js.label_work_package'),
+    start_timer: this.I18n.t('js.timer.start_new_timer'),
+    stop_timer: this.I18n.t('js.timer.stop_existing_timer'),
   };
 
   constructor(

@@ -34,6 +34,7 @@ module API
           resources :schema do
             after_validation do
               authorize_any %i[log_time
+                               log_own_time
                                view_time_entries
                                edit_time_entries
                                edit_own_time_entries],

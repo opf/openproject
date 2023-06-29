@@ -31,14 +31,22 @@ module Components
     class TimerButton
       include Capybara::DSL
       include Capybara::RSpecMatchers
-      include RSpec::Matcher
+      include RSpec::Matchers
 
       def expect_active
-        expect(page).not_to have_selector('[data-qa-selector="timer-active"]')
+        expect(page).to have_selector('[data-qa-selector="timer-active"]', wait: 10)
       end
 
       def expect_inactive
-        expect(page).not_to have_selector('[data-qa-selector="timer-inactive"]')
+        expect(page).to have_selector('[data-qa-selector="timer-inactive"]', wait: 10)
+      end
+
+      def expect_visible(visible: true)
+        if visible
+          expect(page).to have_selector('op-wp-timer-button')
+        else
+          expect(page).not_to have_selector('op-wp-timer-button')
+        end
       end
 
       def start
@@ -54,3 +62,4 @@ module Components
       end
     end
   end
+end

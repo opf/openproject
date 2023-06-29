@@ -3,6 +3,7 @@
     class="button button_flex"
     type="button"
     data-qa-selector="timer-active"
+    [title]="text.stop_timer"
     (click)="stop()"
   >
     <span class="spot-icon spot-icon_time-tracking-stop"></span>
@@ -16,6 +17,7 @@
   type="button"
   data-qa-selector="timer-inactive"
   *ngIf="!activeForWorkPackage"
+  [title]="text.start_timer"
   (click)="start()"
 >
   <span class="spot-icon spot-icon_time-tracking-start"></span>

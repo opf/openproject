@@ -127,6 +127,7 @@ module Redmine::MenuManager::TopMenuHelper
       label: avatar.presence || '',
       label_options: {
         title: User.current.name,
+        class: 'op-top-menu-user',
         icon: (avatar.present? ? 'overridden-by-avatar' : 'user')
       },
       items:,
