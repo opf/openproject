@@ -59,7 +59,7 @@ class ActivePermission < ApplicationRecord
         LEFT JOIN enabled_modules
           ON enabled_modules.project_id = projects.id
         LEFT JOIN (VALUES
-          #{permission_map(grant_admin: true, global: false)}
+          #{permission_map(global: false)}
         ) AS permission_map(permission, project_module_name, public, grant_admin, global)
           ON enabled_modules.name = permission_map.project_module_name OR permission_map.project_module_name IS NULL
         WHERE
@@ -69,6 +69,39 @@ class ActivePermission < ApplicationRecord
           projects.id,
           permission_map.permission
         ON CONFLICT DO NOTHING
+      SQL
+    end
+
+    def select_for_member_projects
+      <<~SQL.squish
+        SELECT
+          members.user_id,
+          projects.id,
+          permission_map.permission
+        FROM members
+        JOIN projects
+          ON projects.id = members.project_id AND projects.active
+        JOIN member_roles
+          ON member_roles.member_id = members.id
+        JOIN roles
+          ON roles.id = member_roles.role_id
+        LEFT JOIN role_permissions
+          ON role_permissions.role_id = roles.id
+        JOIN users
+          ON users.id = members.user_id AND users.status != 3
+        LEFT JOIN enabled_modules
+          ON enabled_modules.project_id = projects.id
+        LEFT JOIN (VALUES
+          #{permission_map(global: false)}
+        ) AS permission_map(permission, project_module_name, public, grant_admin, global)
+          ON enabled_modules.name = permission_map.project_module_name OR permission_map.project_module_name IS NULL
+        WHERE
+          (role_permissions.permission = permission_map.permission OR permission_map.public)
+        GROUP BY
+          members.user_id,
+          projects.id,
+          permission_map.permission
+        --ON CONFLICT DO NOTHING
       SQL
     end
 

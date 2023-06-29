@@ -30,6 +30,14 @@ class MemberRole < ApplicationRecord
   belongs_to :member, touch: true
   belongs_to :role
 
+  after_save do
+    ActivePermissions::Updater.prepare
+  end
+
+  after_destroy do
+    ActivePermissions::Updater.prepare
+  end
+
   # `inherited` is reserved ActiveRecord method
   scope :only_inherited, -> { where.not(inherited_from: nil) }
 

@@ -51,6 +51,7 @@ class Role < ApplicationRecord
   has_many :role_permissions,
            dependent: :destroy
 
+  # TODO: Check if this is needed
   after_save do
     ActivePermissions::Updater.prepare
   end
