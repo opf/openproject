@@ -25,6 +25,14 @@ module TwoFactorAuthentication
       self.class.has_default? user
     end
 
+    def has_other_default?
+      if persisted?
+        Device.where.not(id:).exists?(active: true, default: true, user:)
+      else
+        has_default?
+      end
+    end
+
     ##
     # Make the device active, and set it as default if no other device exists
     def confirm_registration_and_save
@@ -101,7 +109,7 @@ module TwoFactorAuthentication
     end
 
     def cannot_set_default_if_exists
-      if default && has_default?
+      if default && has_other_default?
         errors.add :default, :default_already_exists
       end
 
