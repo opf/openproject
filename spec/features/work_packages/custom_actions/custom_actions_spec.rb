@@ -152,12 +152,10 @@ RSpec.describe 'Custom actions',
 
     new_ca_page = index_ca_page.new
 
-    retry_block do
-      new_ca_page.set_name('Unassign')
-      new_ca_page.set_description('Removes the assignee')
-      new_ca_page.add_action('Assignee', '-')
-      new_ca_page.expect_action('assigned_to', nil)
-    end
+    new_ca_page.set_name('Unassign')
+    new_ca_page.set_description('Removes the assignee')
+    new_ca_page.add_action('Assignee', '-')
+    new_ca_page.expect_action('assigned_to', nil)
 
     new_ca_page.create
 
@@ -452,11 +450,9 @@ RSpec.describe 'Custom actions',
 
     new_ca_page = index_ca_page.new
 
-    retry_block do
-      new_ca_page.set_name('Current date')
-      new_ca_page.set_description('Sets the current date')
-      new_ca_page.add_action('Date', 'Current date')
-    end
+    new_ca_page.set_name('Current date')
+    new_ca_page.set_description('Sets the current date')
+    new_ca_page.add_action('Date', 'Current date')
 
     new_ca_page.create
 
@@ -477,13 +473,11 @@ RSpec.describe 'Custom actions',
 
     new_ca_page = nil
 
-    retry_block do
-      new_ca_page = index_ca_page.new
-      new_ca_page.set_name('Unassign')
-      new_ca_page.set_description('Removes the assignee')
-      new_ca_page.add_action('Assignee', '-')
-      new_ca_page.expect_action('assigned_to', nil)
-    end
+    new_ca_page = index_ca_page.new
+    new_ca_page.set_name('Unassign')
+    new_ca_page.set_description('Removes the assignee')
+    new_ca_page.add_action('Assignee', '-')
+    new_ca_page.expect_action('assigned_to', nil)
 
     new_ca_page.create
 
