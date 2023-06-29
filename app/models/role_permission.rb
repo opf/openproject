@@ -31,11 +31,11 @@ class RolePermission < ApplicationRecord
 
   validates :permission, presence: true
 
-  after_save do
-    ActivePermissions::Updater.prepare
+  after_create do |model|
+    ActivePermissions::Updater.prepare(model)
   end
 
-  after_destroy do
-    ActivePermissions::Updater.prepare
+  after_destroy do |model|
+    ActivePermissions::Updater.prepare(model)
   end
 end

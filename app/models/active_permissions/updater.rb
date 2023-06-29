@@ -27,12 +27,14 @@
 # ++
 
 class ActivePermissions::Updater
-  extend AfterCommitEverywhere
+  include AfterCommitEverywhere
 
   class << self
-    def prepare
-      prepare_or_execute do
-        new.execute
+    def prepare(change = nil)
+      if executed_directly?
+        new_singleton.execute(force: true)
+      else
+        new_singleton.register_change(change)
       end
     end
 
@@ -44,34 +46,87 @@ class ActivePermissions::Updater
       @executed_directly = false
     end
 
+    def release_singleton
+      RequestStore.delete(:prepared_active_permission_update)
+    end
+
     private
 
     def executed_directly?
       @executed_directly ||= false
     end
 
-    def prepare_or_execute(&)
-      if executed_directly?
-        yield
-      else
-        RequestStore.fetch(:prepared_active_permission_update) do
-          # During migrations, we don't want the table to be updated if it does not exist yet.
-          next unless ActiveRecord::Base.connection.table_exists?('active_permissions')
-
-          before_commit(&)
-        end
+    def new_singleton
+      RequestStore.fetch(:prepared_active_permission_update) do
+        new
       end
     end
   end
 
-  def execute
-    RequestStore.delete(:prepared_active_permission_update)
+  def register_change(model = nil)
+    changes << change_for(model)
 
-    ActivePermission.delete_all
-    ActivePermission.create_for_member_projects
-    ActivePermission.create_for_member_global
-    ActivePermission.create_for_admins_global
-    ActivePermission.create_for_admins_in_project
-    ActivePermission.create_for_public_project
+    register_callback
+  end
+
+  def execute(force: false)
+    self.class.release_singleton
+
+    # During migrations, we don't want the table to be updated if it does not exist yet.
+    return unless ActiveRecord::Base.connection.table_exists?('active_permissions')
+
+    if force
+      reinitialize.execute
+    elsif (reinitialize_update = changes.detect { |change| change.is_a?(ActivePermissions::Updates::Reinitialize) })
+      # In case any changes calls for reinitializing, we do only that as it subsumes the rest.
+      reinitialize_update.execute
+    else
+      changes.each(&:execute)
+    end
+  end
+
+  private
+
+  def register_callback
+    @register_callback ||= before_commit { execute }
+  end
+
+  def changes
+    @changes ||= []
+  end
+
+  def change_for(model)
+    change = case model
+             when Member
+               update_for_member(model)
+             when RolePermission
+               update_for_role_permission(model)
+             end
+
+    change || reinitialize
+  end
+
+  def update_for_member(member)
+    if member.destroyed?
+      ActivePermissions::Updates::RemoveMemberProjects.new(member)
+    elsif member.persisted?
+      ActivePermissions::Updates::CreateMemberProjects.new(member)
+    end
+  end
+
+  def update_for_role_permission(role_permission)
+    if role_permission.destroyed? && role_permission.role.member?
+      ActivePermissions::Updates::RemoveProjectRolePermission.new(role_permission)
+    elsif role_permission.destroyed? && role_permission.role.builtin?
+      ActivePermissions::Updates::RemoveBuiltinRolePermission.new(role_permission)
+    elsif role_permission.persisted? && role_permission.role.member? && role_permission.role.type == 'Role'
+      ActivePermissions::Updates::CreateProjectRolePermission.new(role_permission)
+    elsif role_permission.persisted? && role_permission.role.builtin?
+      ActivePermissions::Updates::CreateBuiltinRolePermission.new(role_permission)
+    end
+  end
+
+  def reinitialize
+    ActivePermissions::Updates::Reinitialize.new
   end
 end

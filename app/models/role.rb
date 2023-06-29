@@ -80,12 +80,14 @@ class Role < ApplicationRecord
   end
 
   def permissions=(perms)
-    not_included_yet = (perms.map(&:to_sym) - permissions).reject(&:blank?)
+    not_included_yet = (perms.map(&:to_sym) - permissions).compact_blank
     included_until_now = permissions - perms.map(&:to_sym)
 
-    remove_permission!(*included_until_now)
+    Role.transaction do
+      remove_permission!(*included_until_now)
 
-    add_permission!(*not_included_yet)
+      add_permission!(*not_included_yet)
+    end
   end
 
   def add_permission!(*perms)

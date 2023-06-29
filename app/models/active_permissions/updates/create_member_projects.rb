@@ -26,18 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module Projects::Copy
-  # Not actually a dependency to be copied but the permissions need to be updated
-  # after the project has been created and the memberships are copied.
-  class UpdatePermissionsDependentService < Dependency
-    def should_copy?(_params, _check)
-      true
-    end
+class ActivePermissions::Updates::CreateMemberProjects
+  include ActivePermissions::Updates::SqlIssuer
+  using CoreExtensions::SquishSql
 
-    protected
+  attr_reader :member_id
 
-    def copy_dependency(**)
-      ActivePermissions::Updater.new.execute(force: true)
-    end
+  def initialize(member)
+    @member_id = member.id
+  end
+
+  def execute
+    sql = select_member_projects('member_id = :member_id')
+
+    insert_active_permissions(sanitize(sql, member_id:))
   end
 end

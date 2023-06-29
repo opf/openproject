@@ -48,12 +48,12 @@ class Member < ApplicationRecord
   validate :validate_presence_of_role
   validate :validate_presence_of_principal
 
-  after_save do
-    ActivePermissions::Updater.prepare
+  after_create do |member|
+    ActivePermissions::Updater.prepare(member)
   end
 
-  after_destroy do
-    ActivePermissions::Updater.prepare
+  after_destroy do |member|
+    ActivePermissions::Updater.prepare(member)
   end
 
   scopes :assignable,

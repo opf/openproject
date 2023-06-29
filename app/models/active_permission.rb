@@ -72,6 +72,74 @@ class ActivePermission < ApplicationRecord
       SQL
     end
 
+    def remove_member_projects(user_id)
+      sql = <<~SQL.squish
+        WITH existing_permissions AS (
+          SELECT
+            user_id user_id,
+            project_id project_id,
+            permission
+          FROM
+            #{table_name}
+          WHERE
+            user_id IN (:user_id)
+        ),
+        current_permissions AS (
+          SELECT
+            members.user_id,
+            projects.id project_id,
+            permission_map.permission
+          FROM members
+          JOIN projects
+            ON projects.id = members.project_id AND projects.active
+          JOIN member_roles
+            ON member_roles.member_id = members.id
+          JOIN roles
+            ON roles.id = member_roles.role_id
+          LEFT JOIN role_permissions
+            ON role_permissions.role_id = roles.id
+          JOIN users
+            ON users.id = members.user_id AND users.status != 3
+          LEFT JOIN enabled_modules
+            ON enabled_modules.project_id = projects.id
+          LEFT JOIN (VALUES
+            #{permission_map(global: false)}
+          ) AS permission_map(permission, project_module_name, public, grant_admin, global)
+            ON enabled_modules.name = permission_map.project_module_name OR permission_map.project_module_name IS NULL
+          WHERE
+            (role_permissions.permission = permission_map.permission OR permission_map.public)
+          AND
+            members.user_id IN (:user_id)
+          GROUP BY
+            members.user_id,
+            projects.id,
+            permission_map.permission
+        )
+
+        DELETE FROM
+          #{table_name}
+        WHERE
+        EXISTS (
+          SELECT
+            1
+          FROM
+          (
+            SELECT user_id, project_id, permission FROM existing_permissions
+            EXCEPT
+            SELECT user_id, project_id, permission FROM current_permissions
+          ) to_delete
+          WHERE
+            to_delete.user_id = #{table_name}.user_id
+          AND
+            to_delete.project_id = #{table_name}.project_id
+          AND
+            to_delete.permission = #{table_name}.permission
+        )
+      SQL
+
+      connection.execute(sanitize(sql, user_id:))
+    end
+
     def select_for_member_projects
       <<~SQL.squish
         SELECT
@@ -254,5 +322,8 @@ class ActivePermission < ApplicationRecord
          #{permission.grant_to_admin?},
          #{permission.global?})"
     end
+
+    delegate :sanitize,
+             to: ::OpenProject::SqlSanitization
   end
 end

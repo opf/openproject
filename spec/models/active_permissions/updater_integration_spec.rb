@@ -29,27 +29,30 @@
 require 'spec_helper'
 
 RSpec.describe ActivePermissions::Updater do
-  shared_let(:user) { create(:user) }
+  shared_let(:user) { create(:user, firstname: 'normal', lastname: 'user') }
   shared_let(:anonymous_user) { create(:anonymous) }
-  shared_let(:admin) { create(:admin) }
+  shared_let(:admin) { create(:admin, firstname: 'admin', lastname: 'user') }
   shared_let(:non_member_user) { create(:user) }
   shared_let(:system_user) { create(:system) }
 
   shared_let(:enabled_modules) { %i[work_package_tracking news] }
   shared_let(:private_project) do
     create(:project,
+           identifier: 'private_project',
            public: false,
            active: true,
            enabled_module_names: enabled_modules)
   end
   shared_let(:public_project) do
     create(:project,
+           identifier: 'public_project',
            public: true,
            active: true,
            enabled_module_names: enabled_modules)
   end
   shared_let(:memberless_private_project) do
     create(:project,
+           identifier: 'memberless_private_project',
            public: false,
            active: true,
            enabled_module_names: enabled_modules)
@@ -128,16 +131,20 @@ RSpec.describe ActivePermissions::Updater do
       expected_excluded_result = (expected_excluded + expected_excluded_default - expected_included).uniq
 
       if expected_included_result.any?
-        expect(ActivePermission.pluck(:user_id, :project_id, :permission))
+        expect(ActivePermission
+          .includes(:user, :project)
+          .map { |ap| [ap.user.name, ap.project&.identifier, ap.permission] })
           .to include(*expected_included_result.map do |user, project, permission|
-            [user.try(:id), project.try(:id), permission]
+            [user.try(:name), project.try(:identifier), permission]
           end)
       end
 
       if expected_excluded_result.any?
-        expect(ActivePermission.pluck(:user_id, :project_id, :permission))
+        expect(ActivePermission
+          .includes(:user, :project)
+          .map { |ap| [ap.user.name, ap.project&.identifier, ap.permission] })
           .not_to include(*expected_excluded_result.map do |user, project, permission|
-            [user.try(:id), project.try(:id), permission]
+            [user.try(:name), project.try(:identifier), permission]
           end)
       end
     end
@@ -145,7 +152,7 @@ RSpec.describe ActivePermissions::Updater do
 
   context 'when creating a member' do
     context 'for a private project' do
-      let(:other_role) { create(:role, permissions: %w[view_work_packages manage_news]) }
+      let!(:other_role) { create(:role, permissions: %w[view_work_packages manage_news]) }
 
       before do
         create(:member,
@@ -166,7 +173,7 @@ RSpec.describe ActivePermissions::Updater do
     end
 
     context 'for a public project' do
-      let(:other_role) { create(:role, permissions: %w[view_work_packages manage_news]) }
+      let!(:other_role) { create(:role, permissions: %w[view_work_packages manage_news]) }
 
       before do
         create(:member,
@@ -179,6 +186,24 @@ RSpec.describe ActivePermissions::Updater do
         let(:expected_included) do
           [
             [user, public_project, 'manage_news']
+          ]
+        end
+      end
+    end
+
+    context 'for the global realm' do
+      let!(:other_user) { create(:user) }
+
+      before do
+        create(:global_member,
+               user: other_user,
+               roles: [global_role])
+      end
+
+      it_behaves_like 'expected entries' do
+        let(:expected_included) do
+          [
+            [other_user, nil, 'add_project']
           ]
         end
       end
@@ -672,7 +697,7 @@ RSpec.describe ActivePermissions::Updater do
   context 'when updating a user' do
     context 'when modifying a normal user (no permission relevant stuff)' do
       before do
-        User.find(user.id).update!(firstname: 'New firstname')
+        User.find(user.id).update!(login: 'new_login')
       end
 
       it_behaves_like 'expected entries' do
@@ -835,4 +860,86 @@ RSpec.describe ActivePermissions::Updater do
       end
     end
   end
+
+  context 'when updating a role' do
+    context 'when changing the permissions of a member role' do
+      before do
+        role.permissions = %w[add_work_packages archive_project]
+      end
+
+      it_behaves_like 'expected entries' do
+        let(:expected_included) do
+          [
+            [user, private_project, 'archive_project']
+          ]
+        end
+        let(:expected_excluded) do
+          [
+            [user, private_project, 'view_work_packages']
+          ]
+        end
+      end
+    end
+
+    context 'when changing the permissions of a global role' do
+      before do
+        global_role.permissions = %w[create_backup]
+      end
+
+      it_behaves_like 'expected entries' do
+        let(:expected_included) do
+          [
+            [user, nil, 'create_backup']
+          ]
+        end
+        let(:expected_excluded) do
+          [
+            [user, nil, 'add_project']
+          ]
+        end
+      end
+    end
+
+    context 'when changing the permissions of the non member role' do
+      before do
+        non_member_role.permissions = %w[add_work_packages edit_work_package_notes]
+      end
+
+      it_behaves_like 'expected entries' do
+        let(:expected_included) do
+          [
+            [user, public_project, 'edit_work_package_notes']
+          ]
+        end
+        let(:expected_excluded) do
+          [
+            [user, public_project, 'view_work_packages']
+          ]
+        end
+      end
+    end
+
+    context 'when changing the permissions of the anonymous role' do
+      before do
+        anonymous_role.permissions = %w[add_work_packages edit_work_package_notes]
+      end
+
+      it_behaves_like 'expected entries' do
+        let(:expected_included) do
+          [
+            [anonymous_user, public_project, 'edit_work_package_notes']
+          ]
+        end
+        let(:expected_excluded) do
+          [
+            [anonymous_user, public_project, 'view_work_packages']
+          ]
+        end
+      end
+    end
+  end
 end
+
+# TODO archiving of a project
+# * public
+# * private

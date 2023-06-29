@@ -26,18 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module Projects::Copy
-  # Not actually a dependency to be copied but the permissions need to be updated
-  # after the project has been created and the memberships are copied.
-  class UpdatePermissionsDependentService < Dependency
-    def should_copy?(_params, _check)
-      true
-    end
+class ActivePermissions::Updates::CreateProjectRolePermission
+  include ActivePermissions::Updates::SqlIssuer
 
-    protected
-
-    def copy_dependency(**)
-      ActivePermissions::Updater.new.execute(force: true)
-    end
+  def initialize(role_permission)
+    @permission = role_permission.permission
   end
+
+  def execute
+    sql = select_member_projects('permission_map.permission = :permission')
+
+    insert_active_permissions(sanitize(sql, permission:))
+  end
+
+  private
+
+  attr_reader :permission
 end
