@@ -104,7 +104,7 @@ functionality to allow you to work and update your data more smoothly.
 
 OpenProject 7.4 includes several usability improvements.
 
-The PDF print layout for the work package list has been improved. When
+The PDF print layout for the work package table has been improved. When
 you print out a work package in fullscreen view (using the browser’s
 print functionality), the layout is optimized and unnecessary
 information is hidden.

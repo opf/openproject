@@ -27,7 +27,7 @@ implemented to the split screen:
 ## In-place editing on work package split screen
 
 OpenProject 4.1 enhances the work package split screen by allowing users
-to update work packages without leaving the work package list. Via the
+to update work packages without leaving the work package table. Via the
 split screen many work package attributes can be edited on the fly, such
 as:
 
@@ -37,15 +37,15 @@ as:
 
 Several work package values can be edited at once.
 
-## Improved work package list and filters
+## Improved work package table and filters
 
 The work package filter section now shows the number of activated
 filters – even when the filter section is collapsed. Additionally, the
-work package ID in the work package list is no longer static, but can be
-configured as the other columns in the work package list:
+work package ID in the work package table is no longer static, but can be
+configured as the other columns in the work package table:
 
   - Number of activated filters shown
-  - Work package ID in work package list can be added, removed, changed
+  - Work package ID in work package table can be added, removed, changed
     in order
 
 ## Improved work package full screen
@@ -75,7 +75,7 @@ on the work package page.
   - In-place editing can be performed via keyboard
   - Modal windows on work package page include helpful hints for both
     seeing and blind users
-  - Additional access key for switching between work package list and
+  - Additional access key for switching between work package table and
     split screen
   - Contrast for watcher icon improved
 
