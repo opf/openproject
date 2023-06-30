@@ -29,7 +29,8 @@ class Options
     display_rerun_info: false,
     failed_jobs_logs: [],
     no_cache: false,
-    run_id: nil
+    run_id: nil,
+    verbose: false
   }.freeze
 
   BANNER = <<~BANNER.freeze
@@ -97,11 +98,22 @@ class Options
           puts parser
           exit
         end
+
+        parser.on("-v", "--verbose",
+                  "Print more information, mostly useful for debugging") do |value|
+          options[:verbose] = true
+        end
       end
       opt_parser.parse!
       options
     end
   end
+end
+
+def say_verbose(text)
+  return unless Options.verbose
+
+  warn "| #{text}"
 end
 
 # Returns current branch
@@ -117,12 +129,15 @@ def get_http(path)
       "#{GITHUB_API_OPENPROJECT_PREFIX}/#{path}"
     end
 
+  say_verbose("HTTP GET #{url}")
   response = RestClient::Request.new(
     method: :get,
     url:,
     user: ENV.fetch('GITHUB_USERNAME'),
     password: ENV.fetch('GITHUB_TOKEN')
   ).execute
+
+  say_verbose("HTTP Response #{response.code}")
 
   response.to_str
 rescue RestClient::ExceptionWithResponse => e
@@ -179,10 +194,12 @@ def cached(unique_name)
 
   cached_file = RAILS_ROOT.join("tmp/github_pr_errors/#{unique_name}")
   if cached_file.file?
+    say_verbose("Reading from cached file #{cached_file}")
     content = cached_file.read
     content.start_with?("---") ? YAML::load(content) : content
   else
     content = yield
+    say_verbose("Writing to cached file #{cached_file}")
     cached_file.dirname.mkpath
     cached_file.write(content.is_a?(String) ? content : YAML::dump(content))
     content
