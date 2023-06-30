@@ -32,13 +32,7 @@
 require 'spec_helper'
 
 RSpec.describe Admin::Settings::IcalendarSettingsController do
-  let(:project) { create(:project) }
-  let(:user) do
-    create(:admin,
-           member_in_project: project,
-           member_through_role: role)
-  end
-  let(:role) { create(:role, permissions: '') }
+  shared_let(:user) { create(:admin) }
 
   current_user { user }
 
@@ -62,9 +56,11 @@ RSpec.describe Admin::Settings::IcalendarSettingsController do
   describe 'PATCH #update' do
     subject { patch 'update', params: }
 
-    let(:ical_enabled) { true }
     let(:base_settings) do
-      { ical_enabled: }
+      { ical_enabled: true }
+    end
+    let(:bad_base_settings) do
+      { ical_enabled: '123' }
     end
     let(:params) { { settings: } }
 
@@ -76,18 +72,6 @@ RSpec.describe Admin::Settings::IcalendarSettingsController do
 
         expect(response).to redirect_to action: :show
         expect(flash[:notice]).to eq I18n.t(:notice_successful_update)
-      end
-
-      before do
-        Setting.ical_enabled = '0'
-        user = create(:user)
-      end
-
-      it 'allows a user to share calendars', with_settings do
-        binding.pry
-        subject
-
-        expect(user.allowed_to?(:ical_enabled, project)).to be_truthy
       end
     end
   end
