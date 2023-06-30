@@ -149,7 +149,8 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
     setTimeout(() => {
       const component = this.ngSelectComponent as any;
       if (this.appendTo && component && component.dropdownPanel) {
-        component.dropdownPanel._updatePosition();
+        component.dropdownPanel._updateXPosition();
+        component.dropdownPanel._updateYPosition();
       }
     }, 25);
 

@@ -97,7 +97,8 @@ export class ProjectStatusEditFieldComponent extends EditFieldComponent implemen
     setTimeout(() => {
       const component = (this.ngSelectComponent) as any;
       if (component && component.dropdownPanel) {
-        component.dropdownPanel._updatePosition();
+        component.dropdownPanel._updateXPosition();
+        component.dropdownPanel._updateYPosition();
       }
 
       jQuery(this.hiddenOverflowContainer).one('scroll.autocompleteContainer', () => {

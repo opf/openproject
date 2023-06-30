@@ -283,7 +283,9 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
         const component = this.ngSelectInstance;
         if (this.appendTo && component && component.dropdownPanel) {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-member-access,no-underscore-dangle
-          (component.dropdownPanel as any)._updatePosition();
+          (component.dropdownPanel as any)._updateXPosition();
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-member-access,no-underscore-dangle
+          (component.dropdownPanel as any)._updateYPosition();
         }
       }, 25);
     }
@@ -373,6 +375,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
       filter(() => !!(this.defaultData || this.getOptionsFn)),
       distinctUntilChanged(),
       tap(() => this.loading$.next(true)),
+      // tap(() => console.log('Debounce is ', this.getDebounceTimeout())),
       debounce(() => timer(this.getDebounceTimeout())),
       switchMap((queryString:string) => {
         if (this.defaultData) {
@@ -395,8 +398,10 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
   private getDebounceTimeout():number {
     if (this.initialDebounce) {
       this.initialDebounce = false;
+      console.log('initial debouncing of 0');
       return 0;
     }
+    console.log('debouncing of 50');
     return 50;
   }
 }

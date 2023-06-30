@@ -187,7 +187,8 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
     setTimeout(() => {
       const component = this.ngSelectComponent as any;
       if (component && component.dropdownPanel) {
-        component.dropdownPanel._updatePosition();
+        component.dropdownPanel._updateXPosition();
+        component.dropdownPanel._updateYPosition();
       }
     }, 25);
   }
