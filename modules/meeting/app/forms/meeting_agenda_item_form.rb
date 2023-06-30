@@ -58,13 +58,13 @@ class MeetingAgendaItemForm < ApplicationForm
         name: :output,
         label: "Output",
       )
+      agenda_item_form.text_field(
+        name: :duration_in_minutes,
+        label: "Duration in minutes",
+        type: :number
+      )
     end
-    agenda_item_form.text_field(
-      name: :duration_in_minutes,
-      label: "Duration in minutes",
-      required: true,
-      type: :number
-    )
+    
     agenda_item_form.submit(name: "Save", label: "Save", scheme: :primary)
   end
 

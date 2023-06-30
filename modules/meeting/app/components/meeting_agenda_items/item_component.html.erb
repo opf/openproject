@@ -113,7 +113,7 @@ See COPYRIGHT and LICENSE files for more details.
         <div class="px-3">
           <%= 
             render(Primer::Beta::Text.new(font_size: :normal, color: :subtle)) do 
-              "#{@meeting_agenda_item.start_time.strftime("%H:%M")} - #{@meeting_agenda_item.end_time.strftime("%H:%M")} (#{@meeting_agenda_item.duration_in_minutes} min)"
+              "#{@meeting_agenda_item.start_time.strftime("%H:%M")} - #{@meeting_agenda_item.end_time.strftime("%H:%M")} (#{@meeting_agenda_item.duration_in_minutes || 0} min)"
             end 
           %>  
         </div>
