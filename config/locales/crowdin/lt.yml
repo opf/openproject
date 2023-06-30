@@ -1663,7 +1663,7 @@ lt:
   label_equals: "yra"
   label_everywhere: "visur"
   label_example: "Pavyzdys"
-  label_experimental: "Experimental"
+  label_experimental: "Eksperimentinis"
   label_import: "Importuoti"
   label_export_to: "Taip pat galima rasti:"
   label_expanded_click_to_collapse: "Išplėsta. Spauskite, kad sutrauktumėte"
@@ -2636,9 +2636,9 @@ lt:
       first_week_of_year_text: >
         Pasirinkite sausio datą, kuri yra pirmoje metų savaitėje. Ši reikšmė kartu su savaitės pirmos dienos nustatymu lemia savaičių skaičių metuose.
     experimental:
-      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
-      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
-      feature_flags: Feature flags
+      save_confirmation: Atsargiai! Duomenų praradimo rizika! Eksperimentines savybes įjunkite tik tada, jei nebijote sugadinti savo OpenProject ir prarasti visus duomenis.
+      warning_toast: Savybių vėliavėlės yra nustatymai, kurie aktyvuoja vis dar kuriamas savybes. Jos turėtų būti naudojamos tik testavimo tikslais. Jų niekada nereikia įjungti OpenProject serveriuose, kuriuose yra svarbūs duomenys. Šios savybės labai gali sugadinti jūsų duomenis. Naudokite savo rizika.
+      feature_flags: Savybių vėliavėlės
     projects:
       section_new_projects: "Naujų projektų nustatymai"
       section_project_overview: "Nustatymai projektų apžvalgos sąrašui"

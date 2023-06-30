@@ -626,7 +626,7 @@ lt:
               PT0S: tą pačią dieną
               P1D: prieš 1 dieną
               P3D: prieš 3 dienas
-              P7D: prieš savaitą
+              P7D: prieš savaitę
             overdue:
               P1D: kiekvieną dieną
               P3D: kas 3 dienas
@@ -1185,7 +1185,7 @@ lt:
       close_search: "Uždaryti paiešką"
       current_project_and_all_descendants: "Šiame projekte + subprojektuose"
       current_project: "Šiame projekte"
-      recently_viewed: "Recently viewed"
+      recently_viewed: "Neseniai žiūrėtos"
       search: "Paieška"
       title:
         all_projects: "visi projektai"
