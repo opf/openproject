@@ -159,7 +159,7 @@ Add the following in **Gemfile.lock**:
 PATH
   remote: modules/gitlab_integration
   specs:
-    openproject-gitlab_integration (2.0.6)
+    openproject-gitlab_integration (2.0.9)
       openproject-webhooks
 ```
 
