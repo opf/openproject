@@ -27,11 +27,8 @@
 #++
 
 module OAuth
-  class CleanupJob < ::Cron::CronJob
+  class CleanupJob < ApplicationJob
     include ::RakeJob
-
-    # runs at 1:52 nightly
-    self.cron_expression = '52 1 * * *'
 
     queue_with_priority :low
 

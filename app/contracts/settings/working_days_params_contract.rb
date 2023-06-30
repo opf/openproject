@@ -41,8 +41,11 @@ module Settings
       end
     end
 
+    # TODO: consider implementing using GoodJob concurrency control mechanisms
     def unique_job
-      if WorkPackages::ApplyWorkingDaysChangeJob.scheduled?
+      if GoodJob::Job
+           .where(finished_at: nil)
+           .exists?(job_class: 'WorkPackages::ApplyWorkingDaysChangeJob')
         errors.add :base, :previous_working_day_changes_unprocessed
       end
     end

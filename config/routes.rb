@@ -639,4 +639,8 @@ Rails.application.routes.draw do
   if OpenProject::Configuration.lookbook_enabled?
     mount Lookbook::Engine, at: "/lookbook"
   end
+
+  constraints(->(req) { User.exists?(id: req.session[:user_id], admin: true) }) do
+    mount GoodJob::Engine => 'good_job'
+  end
 end

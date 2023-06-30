@@ -60,7 +60,6 @@ class BigintPrimaryAndForeignKeys < ActiveRecord::Migration[7.0]
     CustomStyle => [:id],
     CustomValue => %i[id customized_id custom_field_id],
     Journal::CustomizableJournal => %i[id journal_id custom_field_id],
-    Delayed::Job => [:id],
     DesignColor => [:id],
     Journal::DocumentJournal => %i[id project_id category_id],
     Document => %i[id project_id category_id],
