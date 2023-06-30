@@ -35,8 +35,8 @@ module ActivePermissions::Updates::SqlIssuer
   def select_member_projects(condition = nil)
     <<~SQL.squish
       SELECT
-        members.user_id,
-        projects.id,
+        members.user_id user_id,
+        projects.id project_id,
         permission_map.permission
       FROM members
       JOIN projects
@@ -69,8 +69,8 @@ module ActivePermissions::Updates::SqlIssuer
   def select_admins_in_projects(condition = nil)
     <<~SQL.squish
       SELECT
-        users.id,
-        projects.id,
+        users.id user_id,
+        projects.id project_id,
         permission_map.permission
       FROM projects
       JOIN users
@@ -88,11 +88,11 @@ module ActivePermissions::Updates::SqlIssuer
   end
 
   # Select entries for all admins in a global context
-  def select_admins_global
+  def select_admins_global(condition = nil)
     <<~SQL.squish
       SELECT
-        users.id,
-        NULL,
+        users.id user_id,
+        (NULL::bigint) project_id,
         permission_map.permission
       FROM
         (VALUES
@@ -105,6 +105,7 @@ module ActivePermissions::Updates::SqlIssuer
         users.admin = true
       AND
         users.status != 3
+      #{condition ? "AND #{condition}" : ''}
       GROUP BY
         users.id,
         permission_map.permission
@@ -112,11 +113,11 @@ module ActivePermissions::Updates::SqlIssuer
   end
 
   # Select entries for all users in a global context based on a membership
-  def select_member_global
+  def select_member_global(condition = nil)
     <<~SQL.squish
       SELECT
-        users.id,
-        NULL,
+        users.id user_id,
+        (NULL::bigint) project_id,
         permission_map.permission
       FROM
         users,
@@ -139,6 +140,7 @@ module ActivePermissions::Updates::SqlIssuer
        )
       AND
         users.status != 3
+      #{condition ? "AND #{condition}" : ''}
       GROUP BY
         users.id,
         permission_map.permission

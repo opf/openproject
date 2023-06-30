@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,31 +24,21 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class MemberRole < ApplicationRecord
-  belongs_to :member, touch: true
-  belongs_to :role
+class ActivePermissions::Updates::CreateByProjectMember
+  include ActivePermissions::Updates::SqlIssuer
+  using CoreExtensions::SquishSql
 
-  after_save do |member_role|
-    ActivePermissions::Updater.prepare(member_role)
+  attr_reader :member_id
+
+  def initialize(member)
+    @member_id = member.id
   end
 
-  after_destroy do |member_role|
-    ActivePermissions::Updater.prepare(member_role)
-  end
+  def execute
+    sql = select_member_projects('member_id = :member_id')
 
-  # `inherited` is reserved ActiveRecord method
-  scope :only_inherited, -> { where.not(inherited_from: nil) }
-
-  validates :role, presence: true
-  validate :validate_project_member_role
-
-  def validate_project_member_role
-    errors.add :role_id, :invalid if role && !role.member?
-  end
-
-  def inherited?
-    !inherited_from.nil?
+    insert_active_permissions(sanitize(sql, member_id:))
   end
 end

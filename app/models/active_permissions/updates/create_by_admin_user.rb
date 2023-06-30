@@ -26,20 +26,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class ActivePermissions::Updates::CreatePrivateProject
+class ActivePermissions::Updates::CreateByAdminUser
   include ActivePermissions::Updates::SqlIssuer
+
   using CoreExtensions::SquishSql
 
-  def initialize(project)
-    @project = project
+  def initialize(user_id)
+    @user_id = user_id
   end
 
   def execute
-    insert_active_permissions(sanitize(select_admins_in_projects('project_id = :project_id'),
-                                       project_id: project.id))
+    sql = <<~SQL.squish
+      WITH admin_permissions AS (
+        #{select_admins_in_projects('users.id = :user_id')}
+      ), admins_global_permissions AS (
+        #{select_admins_global('users.id = :user_id')}
+      )
+
+      #{insert_active_permissions_sql('SELECT * FROM admin_permissions
+                                             UNION
+                                             SELECT * FROM admins_global_permissions')}
+    SQL
+
+    connection.execute(sanitize(sql,
+                                user_id:))
   end
 
   private
 
-  attr_reader :project
+  attr_accessor :user_id
 end

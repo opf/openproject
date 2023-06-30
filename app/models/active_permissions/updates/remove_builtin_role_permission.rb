@@ -78,7 +78,7 @@ class ActivePermissions::Updates::RemoveBuiltinRolePermission
         WHERE
           to_delete.user_id = #{table_name}.user_id
         AND
-          to_delete.project_id = #{table_name}.project_id
+          NULLIF(to_delete.project_id, #{table_name}.project_id) IS NULL
         AND
           to_delete.permission = #{table_name}.permission
       )

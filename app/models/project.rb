@@ -59,7 +59,8 @@ class Project < ApplicationRecord
 
   has_many :enabled_modules,
            after_remove: ->(_, enabled_module) {
-             ActivePermissions::Updater.prepare(enabled_module, :destroyed)
+             enabled_module.instance_variable_set(:@destroyed, true)
+             ActivePermissions::Updater.prepare(enabled_module)
            },
            dependent: :delete_all
 

@@ -26,24 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class ActivePermissions::Updates::RemoveMemberProjects
+class ActivePermissions::Updates::RemoveByProjectPermission
   include ActivePermissions::Updates::SqlIssuer
   using CoreExtensions::SquishSql
 
-  attr_reader :user_project_touple
-
-  def initialize(member)
-    @user_project_touple = UserProjectTouple.new(user_id: member.user_id,
-                                                 project_id: member.project_id)
+  def initialize(permission)
+    @permission = Array(permission)
   end
 
   def execute
     sql = <<~SQL.squish
       WITH existing_permissions AS (
-        #{select_active_permissions('user_id IN (:user_id) AND project_id IN (:project_id)')}
+        #{select_active_permissions('permission IN (:permission) AND project_id IS NOT NULL')}
       ),
-      current_permissions AS (
-        #{select_member_projects('members.user_id IN (:user_id) AND members.project_id IN (:project_id)')}
+      current_project_permissions AS (
+        #{select_member_projects('permission_map.permission IN (:permission)')}
+      ),
+      current_public_project_permissions AS (
+        #{select_public_projects('permission_map.permission IN (:permission)')}
+      ),
+      current_admin_permissions AS (
+        #{select_admins_in_projects('permission_map.permission IN (:permission)')}
       )
 
       DELETE FROM
@@ -56,19 +59,26 @@ class ActivePermissions::Updates::RemoveMemberProjects
         (
           SELECT user_id, project_id, permission FROM existing_permissions
           EXCEPT
-          SELECT user_id, project_id, permission FROM current_permissions
+          SELECT user_id, project_id, permission FROM current_project_permissions
+          EXCEPT
+          SELECT user_id, project_id, permission FROM current_public_project_permissions
+          EXCEPT
+          SELECT user_id, project_id, permission FROM current_admin_permissions
         ) to_delete
         WHERE
           to_delete.user_id = #{table_name}.user_id
         AND
-          to_delete.project_id = #{table_name}.project_id
+          NULLIF(to_delete.project_id, #{table_name}.project_id) IS NULL
         AND
           to_delete.permission = #{table_name}.permission
       )
     SQL
 
     connection.execute(sanitize(sql,
-                                user_id: user_project_touple.user_id,
-                                project_id: user_project_touple.project_id))
+                                permission:))
   end
+
+  private
+
+  attr_reader :permission
 end

@@ -26,41 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class ActivePermissions::Updates::RemoveProjectRolePermission
+class ActivePermissions::Updates::RemoveByProjectMember
   include ActivePermissions::Updates::SqlIssuer
   using CoreExtensions::SquishSql
 
-  def initialize(role_permission)
-    @permission = role_permission.permission
+  attr_reader :user_project_touple
+
+  def initialize(member)
+    @user_project_touple = UserProjectTouple.new(user_id: member.user_id,
+                                                 project_id: member.project_id)
   end
 
   def execute
-    # All permissions of admins are to be kept intact.
-    # All permissions of the anonymous user also need to be kept intact.
-    # Only permission of private projects should be changed.
     sql = <<~SQL.squish
       WITH existing_permissions AS (
-        SELECT
-          user_id user_id,
-          project_id project_id,
-          permission
-        FROM
-          #{table_name}
-        JOIN users
-          ON users.id = #{table_name}.user_id
-        JOIN projects
-          ON projects.id = #{table_name}.project_id
-        WHERE
-          permission = :permission
-        AND
-          NOT users.admin
-        AND
-          NOT users.type = 'AnonymousUser'
-        AND
-          NOT projects.public
+        #{select_active_permissions('user_id IN (:user_id) AND project_id IN (:project_id)')}
       ),
-      current_permissions AS (
-        #{select_member_projects('permission_map.permission = :permission')}
+      current_member_permissions AS (
+        #{select_member_projects('members.user_id IN (:user_id) AND members.project_id IN (:project_id)')}
+      ),
+      current_admin_permissions AS (
+        #{select_admins_in_projects('users.id IN (:user_id) AND projects.id IN (:project_id)')}
       )
 
       DELETE FROM
@@ -73,7 +59,9 @@ class ActivePermissions::Updates::RemoveProjectRolePermission
         (
           SELECT user_id, project_id, permission FROM existing_permissions
           EXCEPT
-          SELECT user_id, project_id, permission FROM current_permissions
+          SELECT user_id, project_id, permission FROM current_member_permissions
+          EXCEPT
+          SELECT user_id, project_id, permission FROM current_admin_permissions
         ) to_delete
         WHERE
           to_delete.user_id = #{table_name}.user_id
@@ -84,10 +72,8 @@ class ActivePermissions::Updates::RemoveProjectRolePermission
       )
     SQL
 
-    connection.execute(sanitize(sql, permission:))
+    connection.execute(sanitize(sql,
+                                user_id: user_project_touple.user_id,
+                                project_id: user_project_touple.project_id))
   end
-
-  private
-
-  attr_reader :permission
 end

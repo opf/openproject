@@ -26,17 +26,50 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class ActivePermissions::Updates::CreateBuiltinRolePermission
+class ActivePermissions::Updates::RemoveGlobalRolePermission
   include ActivePermissions::Updates::SqlIssuer
+  using CoreExtensions::SquishSql
 
   def initialize(role_permission)
     @permission = role_permission.permission
   end
 
   def execute
-    sql = select_public_projects('permission_map.permission = :permission')
+    sql = <<~SQL.squish
+      WITH existing_permissions AS (
+        #{select_active_permissions('permission IN (:permission) AND project_id IS NOT NULL')}
+      ),
+      current_member_permissions AS (
+        #{select_member_global('permission_map.permission = :permission')}
+      ),
+      current_admin_permissions AS (
+        #{select_admins_global('permission_map.permission = :permission')}
+      )
 
-    insert_active_permissions(sanitize(sql, permission:))
+      DELETE FROM
+        #{table_name}
+      WHERE
+      EXISTS (
+        SELECT
+          1
+        FROM
+        (
+          SELECT user_id, project_id, permission FROM existing_permissions
+          EXCEPT
+          SELECT user_id, project_id, permission FROM current_member_permissions
+          EXCEPT
+          SELECT user_id, project_id, permission FROM current_admin_permissions
+        ) to_delete
+        WHERE
+          to_delete.user_id = #{table_name}.user_id
+        AND
+          NULLIF(to_delete.project_id, #{table_name}.project_id) IS NULL
+        AND
+          to_delete.permission = #{table_name}.permission
+      )
+    SQL
+
+    connection.execute(sanitize(sql, permission:))
   end
 
   private

@@ -26,17 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class ActivePermissions::Updates::CreateProjectRolePermission
+class ActivePermissions::Updates::CreateByProjectPermission
   include ActivePermissions::Updates::SqlIssuer
+  using CoreExtensions::SquishSql
 
-  def initialize(role_permission)
-    @permission = role_permission.permission
+  def initialize(permission)
+    @permission = Array(permission)
   end
 
   def execute
-    sql = select_member_projects('permission_map.permission = :permission')
+    sql = <<~SQL.squish
+      WITH system_permissions AS (
+        #{select_public_projects('permission_map.permission IN (:permission)')}
+      ), member_permissions AS (
+        #{select_member_projects('permission_map.permission IN (:permission)')}
+      )
 
-    insert_active_permissions(sanitize(sql, permission:))
+      #{insert_active_permissions_sql('SELECT * FROM system_permissions
+                                             UNION
+                                             SELECT * FROM member_permissions')}
+    SQL
+
+    connection.execute(sanitize(sql, permission:))
   end
 
   private

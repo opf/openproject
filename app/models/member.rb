@@ -32,13 +32,22 @@ class Member < ApplicationRecord
   extend DeprecatedAlias
   belongs_to :principal, foreign_key: 'user_id'
   has_many :member_roles,
-           after_remove: ->(*) { ActivePermissions::Updater.prepare },
+           after_remove: ->(_, member_role) do
+             member_role.instance_variable_set(:@destroyed, true)
+             ActivePermissions::Updater.prepare(member_role)
+           end,
            dependent: :destroy,
            autosave: true,
            validate: false
   has_many :roles,
            -> { distinct },
-           after_remove: ->(*) { ActivePermissions::Updater.prepare },
+           after_remove: ->(member, role) do
+             # Actually have a destroyed member role to pass to the updater
+             member = MemberRole.new(role:, member:)
+             member.instance_variable_set(:@destroyed, true)
+
+             ActivePermissions::Updater.prepare(member)
+           end,
            through: :member_roles
   belongs_to :project
 

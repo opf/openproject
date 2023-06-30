@@ -943,3 +943,5 @@ end
 # TODO archiving of a project
 # * public
 # * private
+# TODO: becoming member in a public project -> the permissions granted to non member should disappear
+# TODO: deleting a role

@@ -26,29 +26,54 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class ActivePermissions::Updates::CreatePublicProject
+class ActivePermissions::Updates::RemoveByGlobalMember
   include ActivePermissions::Updates::SqlIssuer
   using CoreExtensions::SquishSql
 
-  def initialize(project)
-    @project = project
+  def initialize(member)
+    @user_id = member.user_id
   end
 
   def execute
     sql = <<~SQL.squish
-      WITH admin_permissions AS (
-        #{select_admins_in_projects('project_id = :project_id')}
-      ), system_permissions AS (
-        #{select_public_projects('project_id = :project_id')}
+      WITH existing_permissions AS (
+        #{select_active_permissions('user_id IN (:user_id) AND project_id IS NULL')}
+      ),
+      current_global_permissions AS (
+        #{select_member_global('members.user_id IN (:user_id)')}
+      ),
+      current_admin_permissions AS (
+        #{select_admins_global('users.id IN (:user_id)')}
       )
 
-      #{insert_active_permissions_sql('SELECT * FROM admin_permissions UNION SELECT * FROM system_permissions')}
+      DELETE FROM
+        #{table_name}
+      WHERE
+      EXISTS (
+        SELECT
+          1
+        FROM
+        (
+          SELECT user_id, project_id, permission FROM existing_permissions
+          EXCEPT
+          SELECT user_id, project_id, permission FROM current_global_permissions
+          EXCEPT
+          SELECT user_id, project_id, permission FROM current_admin_permissions
+        ) to_delete
+        WHERE
+          to_delete.user_id = #{table_name}.user_id
+        AND
+          NULLIF(to_delete.project_id, #{table_name}.project_id) IS NULL
+        AND
+          to_delete.permission = #{table_name}.permission
+      )
     SQL
 
-    connection.execute(sanitize(sql, project_id: project.id))
+    connection.execute(sanitize(sql,
+                                user_id:))
   end
 
   private
 
-  attr_reader :project
+  attr_reader :user_id
 end

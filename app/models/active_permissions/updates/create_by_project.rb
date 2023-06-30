@@ -26,19 +26,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class ActivePermissions::Updates::CreateMemberProjects
+class ActivePermissions::Updates::CreateByProject
   include ActivePermissions::Updates::SqlIssuer
   using CoreExtensions::SquishSql
 
-  attr_reader :member_id
-
-  def initialize(member)
-    @member_id = member.id
+  def initialize(project)
+    @project = project
   end
 
   def execute
-    sql = select_member_projects('member_id = :member_id')
+    sql = <<~SQL.squish
+      WITH admin_permissions AS (
+        #{select_admins_in_projects('project_id = :project_id')}
+      ), system_permissions AS (
+        #{select_public_projects('project_id = :project_id')}
+      ), member_permissions AS (
+        #{select_member_projects('projects.id = :project_id')}
+      )
 
-    insert_active_permissions(sanitize(sql, member_id:))
+      #{insert_active_permissions_sql('SELECT * FROM admin_permissions
+                                             UNION
+                                             SELECT * FROM system_permissions
+                                             UNION
+                                             SELECT * FROM member_permissions')}
+    SQL
+
+    connection.execute(sanitize(sql, project_id: project.id))
   end
+
+  private
+
+  attr_reader :project
 end

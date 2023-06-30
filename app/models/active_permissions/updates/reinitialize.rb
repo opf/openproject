@@ -34,56 +34,28 @@ class ActivePermissions::Updates::Reinitialize
   def execute
     ActivePermission.delete_all
 
-    create_for_member_projects
-    create_for_member_global
-    create_for_admins_global
-    create_for_admins_in_project
-    create_for_public_project
+    connection.execute <<~SQL.squish
+      WITH admin_permissions AS (
+        #{select_admins_in_projects}
+      ), system_permissions AS (
+        #{select_public_projects}
+      ), member_permissions AS (
+        #{select_member_projects}
+      ), admins_global_permissions AS (
+        #{select_admins_global}
+      ), global_member_permissions AS (
+        #{select_member_global}
+      )
 
-    # sql = <<~SQL.squish
-    #   WITH delete_all AS (
-    #     DELETE FROM active_permissions
-    #   ), create_for_member_projects AS (
-    #     #{insert_active_permissions_sql(select_member_projects)}
-    #   ), create_for_admins_in_projects AS (
-    #     #{insert_active_permissions_sql(select_admins_in_projects)}
-    #   ), create_for_admins_global AS (
-    #     #{insert_active_permissions_sql(select_admins_global)}
-    #   ), create_for_member_global AS (
-    #     #{insert_active_permissions_sql(select_member_global)}
-    #   ), create_for_public_project AS (
-    #     #{insert_active_permissions_sql(select_public_projects)}
-    #   )
-
-    #   SELECT 1;
-    # SQL
-
-    # connection.execute sql
-  end
-
-  private
-
-  # Create entries for all members in a project (public or private).
-  def create_for_member_projects
-    insert_active_permissions(select_member_projects)
-  end
-
-  # Create entries for all admins in a project (public or private)
-  def create_for_admins_in_project
-    insert_active_permissions(select_admins_in_projects)
-  end
-
-  # Create entries for all admins in a global context
-  def create_for_admins_global
-    insert_active_permissions(select_admins_global)
-  end
-
-  # Create entries for all users in a global context based on a membership
-  def create_for_member_global
-    insert_active_permissions(select_member_global)
-  end
-
-  def create_for_public_project
-    insert_active_permissions(select_public_projects)
+      #{insert_active_permissions_sql('SELECT * FROM admin_permissions
+                                             UNION
+                                             SELECT * FROM system_permissions
+                                             UNION
+                                             SELECT * FROM member_permissions
+                                             UNION
+                                             SELECT * FROM admins_global_permissions
+                                             UNION
+                                             SELECT * FROM global_member_permissions')}
+    SQL
   end
 end
