@@ -28,12 +28,12 @@
 
 class MeetingsController < ApplicationController
   around_action :set_time_zone
-  before_action :find_optional_project, only: %i[index new create]
+  before_action :find_optional_project, only: %i[index index_in_wp_tab new create]
   before_action :build_meeting, only: %i[new create]
-  before_action :find_meeting, except: %i[index new create]
+  before_action :find_meeting, except: %i[index index_in_wp_tab new create]
   before_action :convert_params, only: %i[create update]
-  before_action :authorize, except: [:index]
-  before_action :authorize_global, only: :index
+  before_action :authorize, except: [:index, :index_in_wp_tab]
+  before_action :authorize_global, only: [:index, :index_in_wp_tab]
 
   helper :watchers
   helper :meeting_contents
@@ -47,8 +47,25 @@ class MeetingsController < ApplicationController
     @meetings = @project ? @project.meetings : global_upcoming_meetings
   end
 
+  def index_in_wp_tab
+    @active_work_package = WorkPackage.find(params[:work_package_id]) unless params[:work_package_id].blank?
+    @upcoming_meetings = @project.meetings.from_today.limit(10).reorder('start_time ASC')
+    @past_meetings = @project.meetings.joins(:agenda_items)
+      .where(['meetings.start_time < ?', Time.now.utc]).order('start_time DESC')
+      .where('meeting_agenda_items.work_package_id = ?', @active_work_package.id)
+      .distinct
+
+    render layout: false
+  end
+
   def show
     params[:tab] ||= 'minutes' if @meeting.agenda.present? && @meeting.agenda.locked?
+  end
+
+  def show_in_wp_tab
+    @active_work_package = WorkPackage.find(params[:work_package_id]) unless params[:work_package_id].blank?
+    params[:tab] ||= 'minutes' if @meeting.agenda.present? && @meeting.agenda.locked?
+    render layout: false
   end
 
   def create

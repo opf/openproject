@@ -26,18 +26,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= component_wrapper do %>
-  <div data-controller="meeting-agenda-item-drag-and-drop" data-application-target="dynamic" data-target-tag="ul">
-    <%=
-      render(Primer::Beta::BorderBox.new(padding: :condensed)) do |component|
-        @meeting.agenda_items.each do |meeting_agenda_item|
-          component.with_row(scheme: row_scheme(meeting_agenda_item), data: { id: meeting_agenda_item.id, "drop-url": drop_meeting_agenda_item_path(meeting_agenda_item.meeting, meeting_agenda_item) }) do
-            render(MeetingAgendaItems::ItemComponent.new(meeting_agenda_item: meeting_agenda_item, active_work_package: @active_work_package))
-          end
-        end
-      end
-    %>
-  </div>
-<% end %>
-  
-
+<turbo-frame id="meetings-tab-test" data-turbo="true">
+  <%= link_to index_in_wp_tab_meetings_path(project_id: @meeting.project.id, work_package_id: @active_work_package&.id) do %>
+    <%= render(Primer::Beta::Button.new(
+      scheme: :invisible,
+      size: :large,
+      block: false,
+      mb: 3
+    )) do |component| %>
+      <% component.with_leading_visual_icon(icon: "arrow-left") %>
+      Back to overview
+    <% end %>
+  <% end %> 
+  <%= render(MeetingAgendaItems::ListComponent.new(meeting: @meeting, active_work_package: @active_work_package)) %>
+  <%= render(MeetingAgendaItems::NewSectionComponent.new(meeting: @meeting, state: :initial, active_work_package: @active_work_package)) %>
+</turbo-frame>

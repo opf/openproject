@@ -38,7 +38,7 @@ module OpenProject::Meeting
              author_url: 'https://www.openproject.org',
              bundled: true do
       project_module :meetings do
-        permission :view_meetings, meetings: %i[index show], meeting_agendas: %i[history show diff],
+        permission :view_meetings, meetings: %i[index index_in_wp_tab show show_in_wp_tab], meeting_agendas: %i[history show diff],
                                    meeting_minutes: %i[history show diff]
         permission :create_meetings, { meetings: %i[new create copy] }, require: :member
         permission :edit_meetings, { meetings: %i[edit update] }, require: :member

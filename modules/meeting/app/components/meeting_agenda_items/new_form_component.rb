@@ -27,34 +27,12 @@
 #++
 
 module MeetingAgendaItems
-  class ItemComponent < Base::TurboComponent
+  class NewFormComponent < Base::TurboComponent
 
-    def initialize(meeting_agenda_item:, active_work_package: nil, state: :initial, **kwargs)
+    def initialize(meeting:, meeting_agenda_item: nil, active_work_package: nil, **kwargs)
+      @meeting = meeting
       @meeting_agenda_item = meeting_agenda_item
       @active_work_package = active_work_package
-      @state = state
-    end
-
-    def wrapper_id
-      @meeting_agenda_item.id
-    end
-
-    def drag_and_drop_enabled?
-      @active_work_package.nil?
-    end
-
-    def show_time_slot?
-      @active_work_package.nil?
-    end
-
-    def edit_enabled?
-      if @active_work_package.nil?
-        true
-      elsif @active_work_package&.id == @meeting_agenda_item.work_package&.id
-        true
-      else
-        false
-      end
     end
 
   end

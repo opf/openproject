@@ -27,17 +27,26 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <%= component_wrapper do %>
-  <div data-controller="meeting-agenda-item-drag-and-drop" data-application-target="dynamic" data-target-tag="ul">
-    <%=
-      render(Primer::Beta::BorderBox.new(padding: :condensed)) do |component|
-        @meeting.agenda_items.each do |meeting_agenda_item|
-          component.with_row(scheme: row_scheme(meeting_agenda_item), data: { id: meeting_agenda_item.id, "drop-url": drop_meeting_agenda_item_path(meeting_agenda_item.meeting, meeting_agenda_item) }) do
-            render(MeetingAgendaItems::ItemComponent.new(meeting_agenda_item: meeting_agenda_item, active_work_package: @active_work_package))
-          end
-        end
-      end
-    %>
-  </div>
+  <%= form_with url: new_meeting_agenda_item_path(@meeting), method: :get, data: { "turbo-stream": true } do |form| %>
+    <% if @active_work_package.present? %>
+      <%= form.hidden_field :work_package_id, value: @active_work_package.id %>
+    <% end %>
+    <%= render(Primer::Beta::Button.new(
+        my: 5,
+        size: :medium,
+        disabled: false,
+        scheme: :primary,
+        show_tooltip: true,
+        type: :submit,
+        "aria-label": "Add agenda item"
+    )) do %>
+      <% if @active_work_package.present? %>
+        Add work package to agenda
+      <% else %>
+        Add agenda item
+      <% end %>
+    <% end %>
+  <% end %>
 <% end %>
   
 

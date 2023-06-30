@@ -26,35 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
+module Meetings
   class ItemComponent < Base::TurboComponent
+    include ApplicationHelper
 
-    def initialize(meeting_agenda_item:, active_work_package: nil, state: :initial, **kwargs)
-      @meeting_agenda_item = meeting_agenda_item
+    def initialize(meeting:, active_work_package: nil, **kwargs)
+      @meeting = meeting
       @active_work_package = active_work_package
-      @state = state
     end
 
     def wrapper_id
-      @meeting_agenda_item.id
+      @meeting.id
     end
 
-    def drag_and_drop_enabled?
-      @active_work_package.nil?
-    end
-
-    def show_time_slot?
-      @active_work_package.nil?
-    end
-
-    def edit_enabled?
-      if @active_work_package.nil?
-        true
-      elsif @active_work_package&.id == @meeting_agenda_item.work_package&.id
-        true
-      else
-        false
-      end
+    def count_active_work_package_references_in_meeting
+      @meeting.agenda_items.where(work_package_id: @active_work_package.id).count if @active_work_package.present?
     end
 
   end

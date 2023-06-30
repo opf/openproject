@@ -28,13 +28,18 @@
 
 class MeetingAgendaItemsController < ApplicationController
   before_action :set_meeting
+  before_action :set_optional_active_work_package
   before_action :set_meeting_agenda_item, except: [:index, :new, :cancel_new, :create]
 
   def new
     respond_with_turbo_stream(
       {
         component: MeetingAgendaItems::NewSectionComponent,
-        params: { state: :form, meeting: @meeting },
+        params: { 
+          state: :form, 
+          meeting: @meeting, 
+          active_work_package: @active_work_package
+        },
         action: :replace
       }
     )
@@ -44,7 +49,11 @@ class MeetingAgendaItemsController < ApplicationController
     respond_with_turbo_stream(
       {
         component: MeetingAgendaItems::NewSectionComponent,
-        params: { state: :initial, meeting: @meeting },
+        params: { 
+          state: :initial, 
+          meeting: @meeting,
+          active_work_package: @active_work_package
+        },
         action: :replace
       }
     )
@@ -58,12 +67,19 @@ class MeetingAgendaItemsController < ApplicationController
       respond_with_turbo_stream(
         {
           component: MeetingAgendaItems::NewSectionComponent,
-          params: { state: :initial, meeting: @meeting },
+          params: { 
+            state: :initial, 
+            meeting: @meeting,
+            active_work_package: @active_work_package
+          },
           action: :replace
         },
         {
           component: MeetingAgendaItems::ListComponent,
-          params: { meeting: @meeting },
+          params: { 
+            meeting: @meeting,
+            active_work_package: @active_work_package
+          },
           action: :replace
         }
       )
@@ -71,7 +87,12 @@ class MeetingAgendaItemsController < ApplicationController
       respond_with_turbo_stream(
         {
           component: MeetingAgendaItems::NewSectionComponent,
-          params: { state: :form, meeting: @meeting, meeting_agenda_item: @meeting_agenda_item },
+          params: { 
+            state: :form, 
+            meeting: @meeting, 
+            meeting_agenda_item: @meeting_agenda_item,
+            active_work_package: @active_work_package
+          },
           action: :replace
         }
       )
@@ -82,7 +103,11 @@ class MeetingAgendaItemsController < ApplicationController
     respond_with_turbo_stream(
       {
         component: MeetingAgendaItems::ItemComponent,
-        params: { state: :edit, meeting_agenda_item: @meeting_agenda_item },
+        params: { 
+          state: :edit, 
+          meeting_agenda_item: @meeting_agenda_item,
+          active_work_package: @active_work_package
+        },
         action: :replace
       }
     )
@@ -92,7 +117,11 @@ class MeetingAgendaItemsController < ApplicationController
     respond_with_turbo_stream(
       {
         component: MeetingAgendaItems::ItemComponent,
-        params: { state: :initial, meeting_agenda_item: @meeting_agenda_item },
+        params: { 
+          state: :initial, 
+          meeting_agenda_item: @meeting_agenda_item,
+          active_work_package: @active_work_package
+        },
         action: :replace
       }
     )
@@ -105,7 +134,11 @@ class MeetingAgendaItemsController < ApplicationController
       respond_with_turbo_stream(
         {
           component: MeetingAgendaItems::ItemComponent,
-          params: { state: :edit, meeting_agenda_item: @meeting_agenda_item },
+          params: { 
+            state: :edit, 
+            meeting_agenda_item: @meeting_agenda_item,
+            active_work_package: @active_work_package
+          },
           action: :replace
         }
       )
@@ -114,7 +147,10 @@ class MeetingAgendaItemsController < ApplicationController
         respond_with_turbo_stream(
           {
             component: MeetingAgendaItems::ListComponent,
-            params: { meeting: @meeting },
+            params: { 
+              meeting: @meeting,
+              active_work_package: @active_work_package
+            },
             action: :replace
           }
         )
@@ -122,7 +158,11 @@ class MeetingAgendaItemsController < ApplicationController
         respond_with_turbo_stream(
           {
             component: MeetingAgendaItems::ItemComponent,
-            params: { state: :initial, meeting_agenda_item: @meeting_agenda_item },
+            params: { 
+              state: :initial, 
+              meeting_agenda_item: @meeting_agenda_item,
+              active_work_package: @active_work_package
+            },
             action: :replace
           }
         )
@@ -132,10 +172,14 @@ class MeetingAgendaItemsController < ApplicationController
   
   def destroy
     @meeting_agenda_item.destroy!
+
     respond_with_turbo_stream(
       {
         component: MeetingAgendaItems::ListComponent,
-        params: { meeting: @meeting },
+        params: { 
+          meeting: @meeting,
+          active_work_package: @active_work_package
+        },
         action: :replace
       }
     )
@@ -147,7 +191,10 @@ class MeetingAgendaItemsController < ApplicationController
     respond_with_turbo_stream(
       {
         component: MeetingAgendaItems::ListComponent,
-        params: { meeting: @meeting },
+        params: { 
+          meeting: @meeting,
+          active_work_package: @active_work_package
+        },
         action: :replace
       }
     )
@@ -163,8 +210,12 @@ class MeetingAgendaItemsController < ApplicationController
     @meeting_agenda_item = MeetingAgendaItem.find(params[:id])
   end
 
+  def set_optional_active_work_package
+    @active_work_package = WorkPackage.find_by(id: params[:work_package_id]) unless params[:work_package_id].blank?
+  end
+
   def meeting_agenda_item_params
-    params.require(:meeting_agenda_item).permit(:title, :duration_in_minutes)
+    params.require(:meeting_agenda_item).permit(:title, :duration_in_minutes, :work_package_id)
   end
 
   ###

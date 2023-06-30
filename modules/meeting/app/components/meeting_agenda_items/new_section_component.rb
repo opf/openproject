@@ -29,10 +29,11 @@
 module MeetingAgendaItems
   class NewSectionComponent < Base::TurboComponent
 
-    def initialize(meeting:, meeting_agenda_item: nil, state: :initial, **kwargs)
+    def initialize(meeting:, meeting_agenda_item: nil, state: :initial, active_work_package: nil, **kwargs)
       @meeting = meeting
-      @meeting_agenda_item = meeting_agenda_item || MeetingAgendaItem.new(meeting: meeting)
+      @meeting_agenda_item = meeting_agenda_item || MeetingAgendaItem.new(meeting: meeting, work_package: active_work_package)
       @state = state
+      @active_work_package = active_work_package
     end
 
   end

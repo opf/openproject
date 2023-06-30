@@ -30,6 +30,7 @@
 class MeetingAgendaItem < ApplicationRecord
   belongs_to :meeting
   has_one :project, through: :meeting
+  belongs_to :work_package, optional: true
   belongs_to :user
 
   acts_as_list scope: :meeting

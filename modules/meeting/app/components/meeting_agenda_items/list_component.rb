@@ -29,8 +29,17 @@
 module MeetingAgendaItems
   class ListComponent < Base::TurboComponent
 
-    def initialize(meeting:, **kwargs)
+    def initialize(meeting:, active_work_package: nil, **kwargs)
       @meeting = meeting
+      @active_work_package = active_work_package
+    end
+
+    def row_scheme(meeting_agenda_item)
+      if @active_work_package.present? && (@active_work_package&.id == meeting_agenda_item.work_package&.id)
+        :info
+      else
+        :default
+      end
     end
 
   end

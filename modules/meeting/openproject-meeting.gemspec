@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
     and invitees."
   s.license     = 'GPLv3'
 
-  s.files = Dir['{app,config,db,lib,doc}/**/*', 'README.md']
+  s.files = Dir['{app,config,db,lib,frontend,doc}/**/*', 'README.md']
 
   s.add_dependency 'icalendar', '~> 2.8.0'
   s.metadata['rubygems_mfa_required'] = 'true'

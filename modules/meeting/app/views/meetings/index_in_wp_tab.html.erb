@@ -26,18 +26,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= component_wrapper do %>
-  <div data-controller="meeting-agenda-item-drag-and-drop" data-application-target="dynamic" data-target-tag="ul">
-    <%=
-      render(Primer::Beta::BorderBox.new(padding: :condensed)) do |component|
-        @meeting.agenda_items.each do |meeting_agenda_item|
-          component.with_row(scheme: row_scheme(meeting_agenda_item), data: { id: meeting_agenda_item.id, "drop-url": drop_meeting_agenda_item_path(meeting_agenda_item.meeting, meeting_agenda_item) }) do
-            render(MeetingAgendaItems::ItemComponent.new(meeting_agenda_item: meeting_agenda_item, active_work_package: @active_work_package))
-          end
-        end
-      end
-    %>
-  </div>
-<% end %>
-  
 
+<turbo-frame id="meetings-tab-test" data-turbo="true">
+  <%= 
+    render(Primer::Beta::Text.new(font_size: 3, color: :subtle, tag: :div, mb: 3)) do 
+      "Upcoming meetings"
+    end 
+  %>  
+  <%= render(Meetings::ListComponent.new(meetings: @upcoming_meetings, active_work_package: @active_work_package)) %>
+  <%= 
+    render(Primer::Beta::Text.new(font_size: 3, color: :subtle, tag: :div, mt: 5, mb: 3)) do 
+      "Past meetings referencing this work package"
+    end 
+  %>
+  <%= render(Meetings::ListComponent.new(meetings: @past_meetings, active_work_package: @active_work_package)) %>
+</turbo-frame>

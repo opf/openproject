@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2023 the OpenProject GmbH
 //
@@ -15,7 +15,6 @@
 // of the License, or (at your option) any later version.
 //
 // This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
@@ -24,16 +23,42 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
-//++
 
-// Required as the OpenProject form styles override the Primer form styles
-// disabled for now in order to see the conflicts
+import {
+  Injector,
+  NgModule,
+  CUSTOM_ELEMENTS_SCHEMA
+} from '@angular/core';
+import { OpSharedModule } from 'core-app/shared/shared.module';
+import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproject-tabs.module';
+import { WorkPackageTabsService } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service';
+import { MeetingsTabComponent } from './meetings-tab/meetings-tab.component';
 
-.Box
-  ul 
-    margin-left: 0
-// .FormControl
-//   label
-//     margin-bottom: 0
-//   input
-//     border-radius: 6px
+export function initializeMeetingPlugin(injector:Injector) {
+  const wpTabService = injector.get(WorkPackageTabsService);
+  wpTabService.register({
+    component: MeetingsTabComponent,
+    name: "Meetings",
+    id: 'meetings',
+    displayable: (workPackage) => true,
+  });
+}
+
+@NgModule({
+  imports: [
+    OpSharedModule,
+    OpenprojectTabsModule,
+  ],
+  declarations: [
+    MeetingsTabComponent,
+  ],
+  exports: [
+    MeetingsTabComponent,
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
+export class PluginModule {
+  constructor(injector:Injector) {
+    initializeMeetingPlugin(injector);
+  }
+}

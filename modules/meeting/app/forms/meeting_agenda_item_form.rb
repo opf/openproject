@@ -28,19 +28,37 @@
 
 class MeetingAgendaItemForm < ApplicationForm
   form do |agenda_item_form|
-    agenda_item_form.group(layout: :horizontal) do |group|
-      group.text_field(
-        name: :title,
-        label: "Title",
-        required: true
-      )
-      group.text_field(
-        name: :duration_in_minutes,
-        label: "Duration in minutes",
-        required: true,
-        type: :number
-      )
+    agenda_item_form.select_list(
+      name: :work_package_id,
+      label: "Work package",
+      include_blank: true,
+      # disabled: @preselected_work_package.present? # does not work, work_package_id is nil when form gets submitted
+    ) do |wp_select_list|
+      WorkPackage.visible
+        .order(:id)
+        .map { |wp| [wp.subject, wp.id] }
+        .each do |subject, id|
+          wp_select_list.option(
+            label: "##{id} #{subject}",
+            value: id
+          )
+        end
     end
+    agenda_item_form.text_field(
+      name: :title,
+      label: "Title",
+      required: true
+    )
+    agenda_item_form.text_field(
+      name: :duration_in_minutes,
+      label: "Duration in minutes",
+      required: true,
+      type: :number
+    )
     agenda_item_form.submit(name: "Save", label: "Save", scheme: :primary)
+  end
+
+  def initialize(preselected_work_package: nil)
+    @preselected_work_package = preselected_work_package
   end
 end

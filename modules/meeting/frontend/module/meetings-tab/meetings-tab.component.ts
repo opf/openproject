@@ -26,14 +26,20 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-// Required as the OpenProject form styles override the Primer form styles
-// disabled for now in order to see the conflicts
+import { Component, Input } from '@angular/core';
+import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
+import { TabComponent } from "core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/tab";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
 
-.Box
-  ul 
-    margin-left: 0
-// .FormControl
-//   label
-//     margin-bottom: 0
-//   input
-//     border-radius: 6px
+@Component({
+  selector: 'meetings-tab',
+  templateUrl: './meetings-tab.template.html'
+})
+export class MeetingsTabComponent implements TabComponent {
+  @Input() public workPackage:WorkPackageResource;
+
+  constructor(readonly PathHelper:PathHelperService,
+              readonly I18n:I18nService) {
+  }
+}
