@@ -35,8 +35,7 @@
     [#23768](https://community.openproject.com/work_packages/23768/activity),
     [#23651](https://community.openproject.com/work_packages/23651/activity)).
 
-Additionally, the performance on the work package table has been
-improved: Scrolling and hovering of large work package lists works
+Additionally, the performance of the work package table has been improved: Scrolling and hovering over large work package tables works
 faster than before.
 
 Thanks a lot to the community, in particular Marc Vollmer, for
@@ -50,5 +49,4 @@ or take a look at
 
 You can try OpenProject for free. For a free 30 day trial create your
 OpenProject instance on [OpenProject.org](https://openproject.org/).
-
 

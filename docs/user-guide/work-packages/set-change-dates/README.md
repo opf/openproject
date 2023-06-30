@@ -31,7 +31,7 @@ You can open the date picker for a work package from a number of different place
 
 - By clicking on the date field in the work package [details view](../work-package-views/#full-screen-view) 
 - By clicking the the date field in the work package [split screen view](../work-package-views/#split-screen-view) (from any other view, including [notification center](../../notifications), [team planner](../../team-planner/), [boards](../../agile-boards)...)
-- By clicking the start date, finish date or duration fields in [list view](../work-package-views/#list-view)
+- By clicking the start date, finish date or duration fields in [table view](../work-package-views/#table-view)
 
 
 ### Using the date picker
@@ -190,4 +190,4 @@ This warning banner is displayed on work packages whose start and end dates affe
 
 The information and warning banners also feature a **Show Relations** button. Clicking on this will open a new tab that displays work packages with direct relations to the current work package in [Gantt view](../../gantt-chart), in hierarchy mode. 
 
-> **Info**: This preview is intended to give a quick overview of only _direct_ relations that might affect scheduling options for the current work package. It does not show second-level relations (and above). To get a full overview, please use the project work package [list view](../work-package-views/#list-view) or [Gantt view](../../gantt-chart) with your desired [filter/view configuration](../work-package-table-configuration/).
+> **Info**: This preview is intended to give a quick overview of only _direct_ relations that might affect scheduling options for the current work package. It does not show second-level relations (and above). To get a full overview, please use the project work package [table view](../work-package-views/#table-view) or [Gantt view](../../gantt-chart) with your desired [filter/view configuration](../work-package-table-configuration/).

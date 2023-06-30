@@ -80,7 +80,7 @@ Furthermore, the **styling of the news widget** on the project overview page as 
 - Fixed: Time Tracking Issue After update OpenProject 10.5.2 (PostgreSQL) \[[#33310](https://community.openproject.com/wp/33310)\]
 - Fixed: Timeout / error 500 when setting current unit cost rate \[[#33319](https://community.openproject.com/wp/33319)\]
 - Fixed: Form misplaced after error \[[#33324](https://community.openproject.com/wp/33324)\]
-- Fixed: Create child in work package list does not create parent-child relationship \[[#33329](https://community.openproject.com/wp/33329)\]
+- Fixed: Create child in work package table does not create parent-child relationship \[[#33329](https://community.openproject.com/wp/33329)\]
 - Fixed: Oauth endpoints need to allow target hosts in CSP header "form-action" \[[#33336](https://community.openproject.com/wp/33336)\]
 - Fixed: Time logging not possible with custom field of type "version" \[[#33378](https://community.openproject.com/wp/33378)\]
 - Fixed: Mailing configuration appears not to be reloaded in workers \[[#33413](https://community.openproject.com/wp/33413)\]
