@@ -78,6 +78,34 @@ See COPYRIGHT and LICENSE files for more details.
             )) 
           %>
         </div>
+        <% if @meeting_agenda_item.input.present? %>
+          <div>
+            <%= 
+              render(Primer::Beta::Text.new(font_size: :small)) do 
+                "Input:" 
+              end 
+            %>
+            <%= 
+              render(Primer::Box.new(font_size: :small, color: :muted)) do 
+                simple_format(@meeting_agenda_item.input, {}, wrapper_tag: "span")
+              end 
+            %>
+          </div>
+        <% end %>
+        <% if @meeting_agenda_item.output.present? %>
+          <div>
+            <%= 
+              render(Primer::Beta::Text.new(font_size: :small)) do 
+                "Output:" 
+              end 
+            %>
+            <%= 
+              render(Primer::Box.new(font_size: :small, color: :muted)) do 
+                simple_format(@meeting_agenda_item.output, {}, wrapper_tag: "span")
+              end 
+            %>
+          </div>
+        <% end %>
       </div>
     </div>
     <div class="d-flex flex-items-center">
@@ -149,7 +177,7 @@ See COPYRIGHT and LICENSE files for more details.
           url: meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item)
           ) do |f| %>
             <%= hidden_field_tag :work_package_id, @active_work_package&.id %>
-            <%= render(MeetingAgendaItemForm.new(f)) %>
+            <%= render(MeetingAgendaItemForm.new(f, preselected_work_package: @active_work_package)) %>
         <% end %>
       </div>
     </div>

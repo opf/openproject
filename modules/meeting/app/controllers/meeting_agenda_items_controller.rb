@@ -215,7 +215,7 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   def meeting_agenda_item_params
-    params.require(:meeting_agenda_item).permit(:title, :duration_in_minutes, :work_package_id)
+    params.require(:meeting_agenda_item).permit(:title, :duration_in_minutes, :work_package_id, :input, :output)
   end
 
   ###

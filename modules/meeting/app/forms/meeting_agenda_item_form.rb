@@ -49,6 +49,16 @@ class MeetingAgendaItemForm < ApplicationForm
       label: "Title",
       required: true
     )
+    agenda_item_form.text_area(
+      name: :input,
+      label: "Input",
+    )
+    unless @preselected_work_package.present?
+      agenda_item_form.text_area(
+        name: :output,
+        label: "Output",
+      )
+    end
     agenda_item_form.text_field(
       name: :duration_in_minutes,
       label: "Duration in minutes",
