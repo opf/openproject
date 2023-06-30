@@ -28,7 +28,6 @@
 
 module Meetings
   class ItemComponent < Base::TurboComponent
-    include ApplicationHelper
 
     def initialize(meeting:, active_work_package: nil, **kwargs)
       @meeting = meeting

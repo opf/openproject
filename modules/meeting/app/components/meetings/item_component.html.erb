@@ -26,31 +26,45 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= component_wrapper(class: "d-flex flex-justify-between my-3 flex-items-start") do %>
+<%= component_wrapper(class: "d-flex flex-justify-between flex-items-start") do %>
   <div>
     <div>
       <%= 
-        render(Primer::Beta::Text.new(font_size: :normal, font_weight: :bold)) do 
-          "#{@meeting.title}" 
-        end
-      %>
-      <%=
-        render(Primer::Beta::Counter.new(scheme: :primary, count: count_active_work_package_references_in_meeting || 0, hide_if_zero: true))
-      %>
-    </div>
-    <div>
-      <%= 
-        render(Primer::Beta::Text.new(font_size: :small, color: :muted)) do 
-          "created by #{@meeting.author.name}" 
+        render(Primer::Beta::Label.new(size: :large)) do 
+          "#{format_date(@meeting.start_time)}"
         end 
       %>
+    </div>
+    <div class="pl-2 mt-2">
+      <div>
+        <%= 
+          render(Primer::Beta::Text.new(font_size: :normal, color: :muted, font_weight: :bold)) do 
+            "Meeting:" 
+          end
+        %>
+        <%= 
+          render(Primer::Beta::Text.new(font_size: :normal, font_weight: :bold)) do 
+            "#{@meeting.title}" 
+          end
+        %>
+        <%=
+          render(Primer::Beta::Counter.new(scheme: :primary, count: count_active_work_package_references_in_meeting || 0, hide_if_zero: true))
+        %>
+      </div>
+      <div>
+        <%= 
+          render(Primer::Beta::Text.new(font_size: :small, color: :muted)) do 
+            "created by #{@meeting.author.name}" 
+          end 
+        %>
+      </div>
     </div>
   </div>
   <div class="d-flex flex-items-center">
     <div class="px-3">
       <%= 
         render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do 
-          "#{format_date(@meeting.start_time)} #{format_time(@meeting.start_time, false)} - #{format_time(@meeting.end_time, false)}"
+          "#{format_time(@meeting.start_time, false)} - #{format_time(@meeting.end_time, false)}"
         end 
       %>  
     </div>
@@ -64,10 +78,10 @@ See COPYRIGHT and LICENSE files for more details.
             mr: 2,
             size: :medium,
             disabled: false,
-            icon: "list-ordered",
+            icon: "arrow-right",
             show_tooltip: true,
             type: :submit,
-            "aria-label": "Show agenda"
+            "aria-label": "Add to meeting"
           ))
         %>
       <% end %>

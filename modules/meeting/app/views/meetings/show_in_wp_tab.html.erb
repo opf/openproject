@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 <turbo-frame id="work-package-meetings-tab-content" data-turbo="true">
   <%= link_to index_in_wp_tab_meetings_path(project_id: @meeting.project.id, work_package_id: @active_work_package&.id) do %>
     <%= render(Primer::Beta::Button.new(
-      scheme: :invisible,
+      scheme: :secondary,
       size: :large,
       block: false,
       mb: 3
@@ -37,7 +37,26 @@ See COPYRIGHT and LICENSE files for more details.
       <% component.with_leading_visual_icon(icon: "arrow-left") %>
       Back to overview
     <% end %>
-  <% end %> 
+  <% end %>
+  <div>
+    <%= 
+      render(Primer::Beta::Text.new(font_weight: :bold, font_size: 4, color: :muted, mb: 1)) do 
+        "Meeting:" 
+      end 
+    %>
+    <%= link_to(meeting_path(@meeting), target: "_blank") do %>
+      <%= 
+        render(Primer::Beta::Text.new(font_weight: :bold, font_size: 4, mb: 1)) do 
+          "#{@meeting.title}" 
+        end 
+      %>
+    <% end %>
+  </div>
+  <%= 
+    render(Primer::Beta::Text.new(font_size: :small, color: :subtle, tag: :div, mb: 3)) do 
+      "#{format_date(@meeting.start_time)} #{format_time(@meeting.start_time, false)} - #{format_time(@meeting.end_time, false)}" 
+    end 
+  %>
   <%= render(MeetingAgendaItems::ListComponent.new(meeting: @meeting, active_work_package: @active_work_package)) %>
   <%= render(MeetingAgendaItems::NewSectionComponent.new(meeting: @meeting, state: :initial, active_work_package: @active_work_package)) %>
 </turbo-frame>

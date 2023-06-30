@@ -28,16 +28,40 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <turbo-frame id="work-package-meetings-tab-content" data-turbo="true">
-  <%= 
-    render(Primer::Beta::Text.new(font_size: 3, color: :subtle, tag: :div, mb: 3)) do 
-      "Upcoming meetings"
-    end 
-  %>  
-  <%= render(Meetings::ListComponent.new(meetings: @upcoming_meetings, active_work_package: @active_work_package)) %>
-  <%= 
-    render(Primer::Beta::Text.new(font_size: 3, color: :subtle, tag: :div, mt: 5, mb: 3)) do 
-      "Past meetings referencing this work package"
-    end 
-  %>
-  <%= render(Meetings::ListComponent.new(meetings: @past_meetings, active_work_package: @active_work_package)) %>
+  <% if @upcoming_meetings.any? %>
+    <%= 
+      render(Primer::Beta::Text.new(font_size: 4, color: :subtle, font_weight: :bold, tag: :div, mb: 3)) do 
+        "Add work package to upcoming meetings"
+      end 
+    %>  
+    <%= render(Meetings::ListComponent.new(meetings: @upcoming_meetings, active_work_package: @active_work_package)) %>
+  <% else %>
+    <%= render(Primer::Beta::Text.new(font_size: 4, color: :subtle, font_weight: :bold, tag: :div, mb: 3)) do 
+      "No upcoming meetings found"
+    end %>
+  <% end %>
+  <% if @open_agenda_items.any? %>
+    <%= 
+      render(Primer::Beta::Text.new(font_size: 4, color: :subtle, font_weight: :bold, tag: :div, mt: 5, mb: 3)) do 
+        "Summary of open agenda items referencing this work package"
+      end 
+    %>
+    <%= render(MeetingAgendaItems::ListPerWorkPackageComponent.new(work_package: @active_work_package, meeting_agenda_items: @open_agenda_items)) %>
+  <% end %>
+  <% if @discussed_agenda_items.any? %>
+    <%= 
+      render(Primer::Beta::Text.new(font_size: 4, color: :subtle, font_weight: :bold, tag: :div, mt: 5, mb: 3)) do 
+        "Summary of discussed agenda items referencing this work package"
+      end 
+    %>
+    <%= render(MeetingAgendaItems::ListPerWorkPackageComponent.new(work_package: @active_work_package, meeting_agenda_items: @discussed_agenda_items)) %>
+  <% end %>
+   <% if @past_meetings.any? %>
+    <%= 
+      render(Primer::Beta::Text.new(font_size: 4, color: :subtle, font_weight: :bold, tag: :div, mt: 5, mb: 3)) do 
+        "Past meetings referencing this work package"
+      end 
+    %>
+    <%= render(Meetings::ListComponent.new(meetings: @past_meetings, active_work_package: @active_work_package)) %>
+  <% end %>
 </turbo-frame>

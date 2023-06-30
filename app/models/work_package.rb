@@ -61,6 +61,8 @@ class WorkPackage < ApplicationRecord
 
   has_many :storages, through: :project
 
+  has_many :meeting_agenda_items
+
   has_and_belongs_to_many :changesets, -> { # rubocop:disable Rails/HasAndBelongsToMany
     order("#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC")
   }

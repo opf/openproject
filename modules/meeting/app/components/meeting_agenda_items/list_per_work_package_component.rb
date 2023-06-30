@@ -26,37 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Base
-  class TurboComponent < ViewComponent::Base
-    include ApplicationHelper
+module MeetingAgendaItems
+  class ListPerWorkPackageComponent < Base::TurboComponent
 
-    def self.replace_via_turbo_stream(**kwargs)
-      component_instance = self.new(**kwargs)
-      TurboStreamWrapper.new(
-        action: :replace, 
-        target: component_instance.wrapper_key, 
-        template: component_instance.render_in(kwargs[:view_context])
-      ).render_in(kwargs[:view_context])
+    def initialize(work_package:, meeting_agenda_items:, **kwargs)
+      @meeting_agenda_items = meeting_agenda_items
+      @work_package = work_package
     end
 
-    def component_wrapper(tag: "div", id: nil, class: nil, data: nil, &block)
-      content_tag(tag, id: id || wrapper_key, class:, data:, &block)
-    end
-
-    def self.wrapper_key
-      self.name.underscore.gsub("/", "-").gsub("_", "-")
-    end
-
-    def wrapper_key
-      if wrapper_id.nil?
-        self.class.wrapper_key
-      else
-        "#{self.class.wrapper_key}-#{wrapper_id}"
-      end
-    end
-
-    def wrapper_id
-      # optionally implemented in subclass in order to make the wrapper key unique
-    end
   end
 end

@@ -1,0 +1,115 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2023 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<%= component_wrapper do %>
+  <%= render(Primer::Beta::BorderBox.new(padding: :condensed)) do |component| %>
+    <% @meeting_agenda_items.each do |meeting_agenda_item| %>
+      <%= component.with_row do %>
+        <div class="d-flex flex-justify-between flex-items-start">
+          <div>
+            <div>
+              <%= 
+                render(Primer::Beta::Label.new(size: :large)) do 
+                  "Meeting: #{meeting_agenda_item.meeting.title}"
+                end 
+              %>
+              <%= 
+                render(Primer::Beta::Label.new(size: :large)) do 
+                  "#{format_date(meeting_agenda_item.meeting.start_time)}"
+                end 
+              %>
+            </div>
+            <div class="pl-2 mt-2">
+              <div>
+                <%= 
+                  render(Primer::Beta::Text.new(font_size: :normal, color: :muted, font_weight: :bold)) do 
+                    "Agenda item:" 
+                  end 
+                %>
+                <%= 
+                  render(Primer::Beta::Text.new(font_size: :normal, font_weight: :bold)) do 
+                    "#{meeting_agenda_item.title}" 
+                  end 
+                %>
+              </div>
+              <% if meeting_agenda_item.input.present? %>
+                <div>
+                  <%= 
+                    render(Primer::Beta::Text.new(font_size: :small)) do 
+                      "Input:" 
+                    end 
+                  %>
+                  <%= 
+                    render(Primer::Box.new(font_size: :small, color: :muted)) do 
+                      simple_format(meeting_agenda_item.input, {}, wrapper_tag: "span")
+                    end 
+                  %>
+                </div>
+              <% end %>
+              <% if meeting_agenda_item.output.present? %>
+                <div>
+                  <%= 
+                    render(Primer::Beta::Text.new(font_size: :small)) do 
+                      "Output:" 
+                    end 
+                  %>
+                  <%= 
+                    render(Primer::Box.new(font_size: :small, color: :muted)) do 
+                      simple_format(meeting_agenda_item.output, {}, wrapper_tag: "span")
+                    end 
+                  %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+          <div>
+            <%= form_with( 
+                url: show_in_wp_tab_meeting_path(meeting_agenda_item.meeting, work_package_id: @work_package&.id), 
+                method: :get, 
+                data: { "turbo-stream": true } 
+              ) do |form| %>
+                <%= 
+                  render(Primer::Beta::IconButton.new(
+                    mr: 2,
+                    size: :medium,
+                    disabled: false,
+                    icon: "arrow-right",
+                    show_tooltip: true,
+                    type: :submit,
+                    "aria-label": "Show meeting"
+                  ))
+                %>
+              <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+  
+

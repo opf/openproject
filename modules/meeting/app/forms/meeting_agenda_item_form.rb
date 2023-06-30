@@ -28,6 +28,13 @@
 
 class MeetingAgendaItemForm < ApplicationForm
   form do |agenda_item_form|
+    unless @preselected_work_package.present?
+      agenda_item_form.text_field(
+        name: :duration_in_minutes,
+        label: "Duration in minutes",
+        type: :number
+      )
+    end
     agenda_item_form.select_list(
       name: :work_package_id,
       label: "Work package",
@@ -57,11 +64,6 @@ class MeetingAgendaItemForm < ApplicationForm
       agenda_item_form.text_area(
         name: :output,
         label: "Output",
-      )
-      agenda_item_form.text_field(
-        name: :duration_in_minutes,
-        label: "Duration in minutes",
-        type: :number
       )
     end
     
