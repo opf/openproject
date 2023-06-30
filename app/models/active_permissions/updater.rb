@@ -30,11 +30,11 @@ class ActivePermissions::Updater
   include AfterCommitEverywhere
 
   class << self
-    def prepare(change = nil)
+    def prepare(change = nil, action = nil)
       if executed_directly?
         new_singleton.execute(force: true)
       else
-        new_singleton.register_change(change)
+        new_singleton.register_change(change, action)
       end
     end
 
@@ -63,8 +63,8 @@ class ActivePermissions::Updater
     end
   end
 
-  def register_change(model = nil)
-    changes << change_for(model)
+  def register_change(model = nil, action = nil)
+    changes << change_for(model, action)
 
     register_callback
   end
@@ -95,12 +95,20 @@ class ActivePermissions::Updater
     @changes ||= []
   end
 
-  def change_for(model)
+  def change_for(model, action)
     change = case model
              when Member
                update_for_member(model)
              when RolePermission
                update_for_role_permission(model)
+             when User
+               update_for_user(model)
+             when Project
+               update_for_project(model)
+             when Role
+               update_for_role(model)
+             when EnabledModule
+               update_for_enabled_module(model, action)
              end
 
     change || reinitialize
@@ -123,6 +131,30 @@ class ActivePermissions::Updater
       ActivePermissions::Updates::CreateProjectRolePermission.new(role_permission)
     elsif role_permission.persisted? && role_permission.role.builtin?
       ActivePermissions::Updates::CreateBuiltinRolePermission.new(role_permission)
+    end
+  end
+
+  def update_for_user(_user)
+    ActivePermissions::Updates::Noop.new
+  end
+
+  def update_for_project(project)
+    if !project.destroyed? && project.active && !project.public?
+      ActivePermissions::Updates::CreatePrivateProject.new(project)
+    elsif !project.destroyed? && project.active && project.public?
+      ActivePermissions::Updates::CreatePublicProject.new(project)
+    else
+      ActivePermissions::Updates::Noop.new
+    end
+  end
+
+  def update_for_role(_role); end
+
+  def update_for_enabled_module(enabled_module, action)
+    if enabled_module.destroyed? || action == :destroyed
+      ActivePermissions::Updates::RemoveEnabledModule.new(enabled_module)
+    else
+      ActivePermissions::Updates::Noop.new
     end
   end
 

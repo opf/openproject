@@ -35,12 +35,12 @@ class EnabledModule < ApplicationRecord
 
   after_create :module_enabled
 
-  after_save do
-    ActivePermissions::Updater.prepare
+  after_save do |enabled_module|
+    ActivePermissions::Updater.prepare(enabled_module)
   end
 
-  after_destroy do
-    ActivePermissions::Updater.prepare
+  after_destroy do |enabled_module|
+    ActivePermissions::Updater.prepare(enabled_module)
   end
 
   private

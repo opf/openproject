@@ -58,8 +58,8 @@ class Project < ApplicationRecord
   has_many :principals, through: :member_principals, source: :principal
 
   has_many :enabled_modules,
-           after_remove: ->(*) {
-             ActivePermissions::Updater.prepare
+           after_remove: ->(_, enabled_module) {
+             ActivePermissions::Updater.prepare(enabled_module, :destroyed)
            },
            dependent: :delete_all
 
@@ -95,8 +95,8 @@ class Project < ApplicationRecord
   has_many :active_permissions, dependent: :delete_all, inverse_of: :project
 
   # After destroy is not necessary because of the dependent: :delete_all on active_permissions.
-  after_save do
-    ActivePermissions::Updater.prepare
+  after_save do |project|
+    ActivePermissions::Updater.prepare(project)
   end
 
   acts_as_customizable

@@ -121,8 +121,8 @@ module OpenProject
             .compact
       end
 
-      def modules_permissions(modules)
-        @mapped_permissions.select { |p| p.project_module.nil? || modules.include?(p.project_module.to_s) }
+      def modules_permissions(modules, include_global: true)
+        @mapped_permissions.select { |p| (include_global && p.project_module.nil?) || modules.include?(p.project_module.to_s) }
       end
 
       def contract_actions_map

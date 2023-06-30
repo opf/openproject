@@ -82,8 +82,8 @@ class User < Principal
   has_many :notification_settings, dependent: :destroy
   has_many :active_permissions, dependent: :delete_all
 
-  after_save do
-    ActivePermissions::Updater.prepare
+  after_save do |user|
+    ActivePermissions::Updater.prepare(user)
   end
 
   # Users blocked via brute force prevention

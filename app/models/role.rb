@@ -52,8 +52,8 @@ class Role < ApplicationRecord
            dependent: :destroy
 
   # TODO: Check if this is needed
-  after_save do
-    ActivePermissions::Updater.prepare
+  after_save do |role|
+    ActivePermissions::Updater.prepare(role)
   end
 
   default_scope -> {

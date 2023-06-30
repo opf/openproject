@@ -66,7 +66,7 @@ module ActivePermissions::Updates::SqlIssuer
   end
 
   # Select entries for all admins in a project (public or private)
-  def select_admins_in_projects
+  def select_admins_in_projects(condition = nil)
     <<~SQL.squish
       SELECT
         users.id,
@@ -82,6 +82,7 @@ module ActivePermissions::Updates::SqlIssuer
           #{permission_map(grant_admin: true, global: false)}
         ) AS permission_map(permission, project_module_name, public, grant_admin, global)
         ON (enabled_modules.name = permission_map.project_module_name OR permission_map.project_module_name IS NULL)
+      #{condition ? "WHERE #{condition}" : ''}
       GROUP BY users.id, projects.id, permission_map.permission
     SQL
   end
