@@ -49,6 +49,7 @@ import { OpAutocompleterService } from './services/op-autocompleter.service';
 import { OpAutocompleterHeaderTemplateDirective } from './directives/op-autocompleter-header-template.directive';
 import { OpAutocompleterLabelTemplateDirective } from './directives/op-autocompleter-label-template.directive';
 import { OpAutocompleterOptionTemplateDirective } from './directives/op-autocompleter-option-template.directive';
+import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
 
 @Component({
   selector: 'op-autocompleter',
@@ -277,18 +278,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
   }
 
   public repositionDropdown() {
-    if (this.ngSelectInstance) {
-      setTimeout(() => {
-        this.cdRef.detectChanges();
-        const component = this.ngSelectInstance;
-        if (this.appendTo && component && component.dropdownPanel) {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-member-access,no-underscore-dangle
-          (component.dropdownPanel as any)._updateXPosition();
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-member-access,no-underscore-dangle
-          (component.dropdownPanel as any)._updateYPosition();
-        }
-      }, 25);
-    }
+    repositionDropdownBugfix(this.ngSelectInstance);
   }
 
   public opened():void { // eslint-disable-line no-unused-vars
@@ -398,10 +388,8 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
   private getDebounceTimeout():number {
     if (this.initialDebounce) {
       this.initialDebounce = false;
-      console.log('initial debouncing of 0');
       return 0;
     }
-    console.log('debouncing of 50');
     return 50;
   }
 }
