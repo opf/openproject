@@ -471,8 +471,6 @@ RSpec.describe 'Custom actions',
     # create custom action 'Unassign'
     index_ca_page.visit!
 
-    new_ca_page = nil
-
     new_ca_page = index_ca_page.new
     new_ca_page.set_name('Unassign')
     new_ca_page.set_description('Removes the assignee')
