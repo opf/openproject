@@ -40,8 +40,8 @@ class WorkPackageStatusField < EditField
     input_element.find('button', text: content).click
   end
 
-  def active?
-    page.has_selector? input_selector, wait: 1
+  def active?(wait: 1)
+    page.has_selector? input_selector, wait:
   end
   alias :editing? :active?
 

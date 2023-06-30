@@ -72,7 +72,7 @@ class EditField
   # Activate the field and check it opened correctly
   def activate!(expect_open: true)
     retry_block do
-      unless active?
+      unless active?(wait: 0)
         SeleniumHubWaiter.wait unless using_cuprite?
         scroll_to_and_click(display_element)
         SeleniumHubWaiter.wait unless using_cuprite?
@@ -99,8 +99,8 @@ class EditField
     end
   end
 
-  def active?
-    @context.has_selector? "#{@selector} #{input_selector}", wait: 1
+  def active?(wait: 1)
+    @context.has_selector? "#{@selector} #{input_selector}", wait:
   end
 
   alias :editing? :active?
