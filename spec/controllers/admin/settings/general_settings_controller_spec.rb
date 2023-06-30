@@ -31,7 +31,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Admin::Settings::IcalendarSettingsController do
+RSpec.describe Admin::Settings::GeneralSettingsController do
   shared_let(:user) { create(:admin) }
 
   current_user { user }
@@ -57,7 +57,7 @@ RSpec.describe Admin::Settings::IcalendarSettingsController do
     subject { patch 'update', params: }
 
     let(:base_settings) do
-      { ical_enabled: true }
+      { ical_enabled: true } # incorrect here
     end
     let(:params) { { settings: } }
 
@@ -65,6 +65,7 @@ RSpec.describe Admin::Settings::IcalendarSettingsController do
       let(:settings) { base_settings }
 
       it 'succeeds' do
+        binding.pry
         subject
 
         expect(response).to redirect_to action: :show
