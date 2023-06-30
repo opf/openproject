@@ -28,11 +28,9 @@
 
 class ActivePermissions::Updates::CreateByProjectPermission
   include ActivePermissions::Updates::SqlIssuer
-  using CoreExtensions::SquishSql
+  include ActivePermissions::Updates::MultipleUpdater
 
-  def initialize(permission)
-    @permission = Array(permission)
-  end
+  using CoreExtensions::SquishSql
 
   def execute
     sql = <<~SQL.squish
@@ -47,10 +45,6 @@ class ActivePermissions::Updates::CreateByProjectPermission
                                              SELECT * FROM member_permissions')}
     SQL
 
-    connection.execute(sanitize(sql, permission:))
+    connection.execute(sanitize(sql, permission: parameter))
   end
-
-  private
-
-  attr_reader :permission
 end

@@ -28,18 +28,11 @@
 
 class ActivePermissions::Updates::CreateByGlobalPermission
   include ActivePermissions::Updates::SqlIssuer
+  include ActivePermissions::Updates::MultipleUpdater
   using CoreExtensions::SquishSql
-
-  def initialize(permission)
-    @permission = Array(permission)
-  end
 
   def execute
     insert_active_permissions(sanitize(select_member_global('permission_map.permission IN (:permission)'),
-                                       permission:))
+                                       permission: parameter))
   end
-
-  private
-
-  attr_reader :permission
 end

@@ -945,3 +945,5 @@ end
 # * private
 # TODO: becoming member in a public project -> the permissions granted to non member should disappear
 # TODO: deleting a role
+# TODO: switching an admin from locked to active again
+#   * Currently not all permissions are recreated

@@ -28,17 +28,10 @@
 
 class ActivePermissions::Updates::CreateByUser
   include ActivePermissions::Updates::SqlIssuer
-
-  def initialize(user_id)
-    @user_id = user_id
-  end
+  include ActivePermissions::Updates::MultipleUpdater
 
   def execute
-    insert_active_permissions(sanitize(select_public_projects('users.id = :user_id'),
-                                       user_id:))
+    insert_active_permissions(sanitize(select_public_projects('users.id IN (:user_id)'),
+                                       user_id: parameter))
   end
-
-  private
-
-  attr_accessor :user_id
 end

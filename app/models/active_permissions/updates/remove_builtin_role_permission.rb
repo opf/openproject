@@ -28,11 +28,8 @@
 
 class ActivePermissions::Updates::RemoveBuiltinRolePermission
   include ActivePermissions::Updates::SqlIssuer
+  include ActivePermissions::Updates::MultipleUpdater
   using CoreExtensions::SquishSql
-
-  def initialize(role_permission)
-    @permission = role_permission.permission
-  end
 
   def execute
     sql = <<~SQL.squish
@@ -48,17 +45,17 @@ class ActivePermissions::Updates::RemoveBuiltinRolePermission
         JOIN projects
           ON projects.id = #{table_name}.project_id
         WHERE
-          permission = :permission
+          permission IN (:permission)
         AND
           NOT users.admin
         AND
           projects.public
       ),
       current_permissions_member AS (
-        #{select_member_projects('permission_map.permission = :permission AND projects.public')}
+        #{select_member_projects('permission_map.permission IN (:permission) AND projects.public')}
       ),
       current_permissions_public AS (
-        #{select_public_projects('permission_map.permission = :permission')}
+        #{select_public_projects('permission_map.permission IN (:permission)')}
       )
 
       DELETE FROM
@@ -84,10 +81,6 @@ class ActivePermissions::Updates::RemoveBuiltinRolePermission
       )
     SQL
 
-    connection.execute(sanitize(sql, permission:))
+    connection.execute(sanitize(sql, permission: parameter))
   end
-
-  private
-
-  attr_reader :permission
 end

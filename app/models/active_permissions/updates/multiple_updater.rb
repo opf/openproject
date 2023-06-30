@@ -26,14 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class ActivePermissions::Updates::CreateByProjectMember
-  include ActivePermissions::Updates::SqlIssuer
-  include ActivePermissions::Updates::MultipleUpdater
-  using CoreExtensions::SquishSql
-
-  def execute
-    sql = select_member_projects('member_id IN (:member_id)')
-
-    insert_active_permissions(sanitize(sql, member_id: parameter))
+module ActivePermissions::Updates::MultipleUpdater
+  def initialize(parameter)
+    add(parameter)
   end
+
+  def add(parameter)
+    @parameter = ((@parameter || []) + Array(parameter).map(&:to_s)).uniq
+  end
+
+  private
+
+  attr_accessor :parameter
 end

@@ -28,18 +28,11 @@
 
 class ActivePermissions::Updates::CreateByGlobalMember
   include ActivePermissions::Updates::SqlIssuer
+  include ActivePermissions::Updates::MultipleUpdater
   using CoreExtensions::SquishSql
 
-  def initialize(member)
-    @member = Array(member)
-  end
-
   def execute
-    insert_active_permissions(sanitize(select_member_global('members.id IN (:member)'),
-                                       member:))
+    insert_active_permissions(sanitize(select_member_global('members.id IN (:member_id)'),
+                                       member_id: parameter))
   end
-
-  private
-
-  attr_reader :member
 end

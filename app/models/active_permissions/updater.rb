@@ -32,7 +32,7 @@ class ActivePermissions::Updater
   include AfterCommitEverywhere
 
   class << self
-    def prepare(change = nil)
+    def prepare(change)
       if executed_directly?
         new_singleton.execute(force: true)
       else
@@ -65,8 +65,8 @@ class ActivePermissions::Updater
     end
   end
 
-  def register_change(model = nil)
-    changes << change_for(model)
+  def register_change(model)
+    register_change_for(model)
 
     register_callback
   end
@@ -97,7 +97,7 @@ class ActivePermissions::Updater
     @changes ||= []
   end
 
-  def change_for(model)
+  def register_change_for(model)
     case model
     when Member
       update_for_member(model)
@@ -116,27 +116,27 @@ class ActivePermissions::Updater
 
   def update_for_member(member)
     if member.destroyed? && member.project
-      ActivePermissions::Updates::RemoveByProjectMember.new(member)
+      new_or_registered_change(ActivePermissions::Updates::RemoveByProjectMember, member.user_id)
     elsif member.destroyed? && member.project.nil?
-      ActivePermissions::Updates::RemoveByGlobalMember.new(member)
+      new_or_registered_change(ActivePermissions::Updates::RemoveByGlobalMember, member.user_id)
     elsif member.persisted? && member.project
-      ActivePermissions::Updates::CreateByProjectMember.new(member)
+      new_or_registered_change(ActivePermissions::Updates::CreateByProjectMember, member.id)
     elsif member.persisted? && member.project.nil?
-      ActivePermissions::Updates::CreateByGlobalMember.new(member)
+      new_or_registered_change(ActivePermissions::Updates::CreateByGlobalMember, member.id)
     end
   end
 
   def update_for_role_permission(role_permission)
     if role_permission.destroyed? && role_permission.role.is_a?(GlobalRole)
-      ActivePermissions::Updates::RemoveByGlobalPermission.new(role_permission.permission)
+      new_or_registered_change(ActivePermissions::Updates::RemoveByGlobalPermission, role_permission.permission)
     elsif role_permission.destroyed? && role_permission.role.member?
-      ActivePermissions::Updates::RemoveProjectRolePermission.new(role_permission)
+      new_or_registered_change(ActivePermissions::Updates::RemoveProjectRolePermission, role_permission.permission)
     elsif role_permission.destroyed? && role_permission.role.builtin?
-      ActivePermissions::Updates::RemoveBuiltinRolePermission.new(role_permission)
+      new_or_registered_change(ActivePermissions::Updates::RemoveBuiltinRolePermission, role_permission.permission)
     elsif role_permission.role.is_a?(GlobalRole)
-      ActivePermissions::Updates::CreateByGlobalPermission.new(role_permission.permission)
+      new_or_registered_change(ActivePermissions::Updates::CreateByGlobalPermission, role_permission.permission)
     else
-      ActivePermissions::Updates::CreateByProjectPermission.new(role_permission.permission)
+      new_or_registered_change(ActivePermissions::Updates::CreateByProjectPermission, role_permission.permission)
     end
   end
 
@@ -144,46 +144,52 @@ class ActivePermissions::Updater
     # No destroyed users will be received as the user model only has an after_save callback.
     # Destruction is carried out via the association.
     if user.locked? && user.status_previously_changed?
-      ActivePermissions::Updates::RemoveByUser.new(user.id)
+      new_or_registered_change(ActivePermissions::Updates::RemoveByUser, user.id)
     elsif user.admin? && user.admin_previously_changed?
-      ActivePermissions::Updates::CreateByAdminUser.new(user.id)
+      new_or_registered_change(ActivePermissions::Updates::CreateByAdminUser, user.id)
     elsif !user.admin? && user.admin_previously_changed?
-      ActivePermissions::Updates::RemoveByFormerAdminUser.new(user.id)
+      new_or_registered_change(ActivePermissions::Updates::RemoveByFormerAdminUser, user.id)
     elsif user.active? && user.status_previously_changed?
-      ActivePermissions::Updates::CreateByUser.new(user.id)
+      new_or_registered_change(ActivePermissions::Updates::CreateByUser, user.id)
     end
   end
 
   def update_for_project(project)
     if !project.destroyed? && project.active
-      ActivePermissions::Updates::CreateByProject.new(project)
-    else
-      ActivePermissions::Updates::Noop.new
+      new_or_registered_change(ActivePermissions::Updates::CreateByProject, project.id)
     end
   end
 
   def update_for_enabled_module(enabled_module)
     if enabled_module.destroyed?
-      ActivePermissions::Updates::RemoveEnabledModule.new(enabled_module)
+      new_or_registered_change(ActivePermissions::Updates::RemoveEnabledModule, enabled_module)
     else
-      ActivePermissions::Updates::CreateByProject.new(enabled_module.project)
+      new_or_registered_change(ActivePermissions::Updates::CreateByProject, enabled_module.project_id)
     end
   end
 
   def update_for_member_role(member_role)
     if !member_role.destroyed? && member_role.role.is_a?(GlobalRole)
-      ActivePermissions::Updates::CreateByGlobalPermission.new(member_role.role.permissions)
+      new_or_registered_change(ActivePermissions::Updates::CreateByGlobalPermission, member_role.role.permissions)
     elsif !member_role.destroyed?
-      ActivePermissions::Updates::CreateByProjectPermission.new(member_role.role.permissions)
+      new_or_registered_change(ActivePermissions::Updates::CreateByProjectPermission, member_role.role.permissions)
     elsif member_role.destroyed? && member_role.role.is_a?(GlobalRole)
-      ActivePermissions::Updates::RemoveByGlobalPermission.new(member_role.role.permissions)
+      new_or_registered_change(ActivePermissions::Updates::RemoveByGlobalPermission, member_role.role.permissions)
     elsif member_role.destroyed?
-      ActivePermissions::Updates::RemoveByProjectPermission.new(member_role.role.permissions)
+      new_or_registered_change(ActivePermissions::Updates::RemoveByProjectPermission, member_role.role.permissions)
     end
   end
 
   def reinitialize
     ActivePermissions::Updates::Reinitialize.new
+  end
+
+  def new_or_registered_change(klass, param)
+    if (existing_change = changes.find { |c| c.is_a?(klass) }) && existing_change.respond_to?(:add)
+      existing_change.add(param)
+    else
+      changes << klass.new(param)
+    end
   end
 end
 # rubocop:enable Metrics/PerceivedComplexity

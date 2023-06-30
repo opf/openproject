@@ -28,11 +28,8 @@
 
 class ActivePermissions::Updates::RemoveProjectRolePermission
   include ActivePermissions::Updates::SqlIssuer
+  include ActivePermissions::Updates::MultipleUpdater
   using CoreExtensions::SquishSql
-
-  def initialize(role_permission)
-    @permission = role_permission.permission
-  end
 
   def execute
     # All permissions of admins are to be kept intact.
@@ -51,7 +48,7 @@ class ActivePermissions::Updates::RemoveProjectRolePermission
         JOIN projects
           ON projects.id = #{table_name}.project_id
         WHERE
-          permission = :permission
+          permission IN (:permission)
         AND
           NOT users.admin
         AND
@@ -60,7 +57,7 @@ class ActivePermissions::Updates::RemoveProjectRolePermission
           NOT projects.public
       ),
       current_permissions AS (
-        #{select_member_projects('permission_map.permission = :permission')}
+        #{select_member_projects('permission_map.permission IN (:permission)')}
       )
 
       DELETE FROM
@@ -84,10 +81,6 @@ class ActivePermissions::Updates::RemoveProjectRolePermission
       )
     SQL
 
-    connection.execute(sanitize(sql, permission:))
+    connection.execute(sanitize(sql, permission: parameter))
   end
-
-  private
-
-  attr_reader :permission
 end

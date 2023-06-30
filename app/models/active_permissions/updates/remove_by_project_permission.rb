@@ -28,11 +28,8 @@
 
 class ActivePermissions::Updates::RemoveByProjectPermission
   include ActivePermissions::Updates::SqlIssuer
+  include ActivePermissions::Updates::MultipleUpdater
   using CoreExtensions::SquishSql
-
-  def initialize(permission)
-    @permission = Array(permission)
-  end
 
   def execute
     sql = <<~SQL.squish
@@ -75,10 +72,6 @@ class ActivePermissions::Updates::RemoveByProjectPermission
     SQL
 
     connection.execute(sanitize(sql,
-                                permission:))
+                                permission: parameter))
   end
-
-  private
-
-  attr_reader :permission
 end

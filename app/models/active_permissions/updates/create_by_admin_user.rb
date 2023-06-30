@@ -28,19 +28,16 @@
 
 class ActivePermissions::Updates::CreateByAdminUser
   include ActivePermissions::Updates::SqlIssuer
+  include ActivePermissions::Updates::MultipleUpdater
 
   using CoreExtensions::SquishSql
-
-  def initialize(user_id)
-    @user_id = user_id
-  end
 
   def execute
     sql = <<~SQL.squish
       WITH admin_permissions AS (
-        #{select_admins_in_projects('users.id = :user_id')}
+        #{select_admins_in_projects('users.id IN (:user_id)')}
       ), admins_global_permissions AS (
-        #{select_admins_global('users.id = :user_id')}
+        #{select_admins_global('users.id IN (:user_id)')}
       )
 
       #{insert_active_permissions_sql('SELECT * FROM admin_permissions
@@ -49,10 +46,6 @@ class ActivePermissions::Updates::CreateByAdminUser
     SQL
 
     connection.execute(sanitize(sql,
-                                user_id:))
+                                user_id: parameter))
   end
-
-  private
-
-  attr_accessor :user_id
 end

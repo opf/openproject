@@ -28,25 +28,18 @@
 
 class ActivePermissions::Updates::RemoveByUser
   include ActivePermissions::Updates::SqlIssuer
+  include ActivePermissions::Updates::MultipleUpdater
   using CoreExtensions::SquishSql
-
-  def initialize(user_id)
-    @user_id = user_id
-  end
 
   def execute
     sql = <<~SQL.squish
       DELETE FROM
         #{table_name}
       WHERE
-        user_id = :user_id
+        user_id IN (:user_id)
     SQL
 
     connection.execute(sanitize(sql,
-                                user_id:))
+                                user_id: parameter))
   end
-
-  private
-
-  attr_reader :user_id
 end

@@ -28,11 +28,8 @@
 
 class ActivePermissions::Updates::RemoveByGlobalMember
   include ActivePermissions::Updates::SqlIssuer
+  include ActivePermissions::Updates::MultipleUpdater
   using CoreExtensions::SquishSql
-
-  def initialize(member)
-    @user_id = member.user_id
-  end
 
   def execute
     sql = <<~SQL.squish
@@ -70,10 +67,6 @@ class ActivePermissions::Updates::RemoveByGlobalMember
     SQL
 
     connection.execute(sanitize(sql,
-                                user_id:))
+                                user_id: parameter))
   end
-
-  private
-
-  attr_reader :user_id
 end

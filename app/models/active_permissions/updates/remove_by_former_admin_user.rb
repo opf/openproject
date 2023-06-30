@@ -28,11 +28,8 @@
 
 class ActivePermissions::Updates::RemoveByFormerAdminUser
   include ActivePermissions::Updates::SqlIssuer
+  include ActivePermissions::Updates::MultipleUpdater
   using CoreExtensions::SquishSql
-
-  def initialize(user_id)
-    @user_id = user_id
-  end
 
   def execute
     sql = <<~SQL.squish
@@ -72,13 +69,8 @@ class ActivePermissions::Updates::RemoveByFormerAdminUser
         AND
           to_delete.permission = #{table_name}.permission
       )
-      RETURNING #{table_name}.*
     SQL
 
-    connection.execute(sanitize(sql, user_id:))
+    connection.execute(sanitize(sql, user_id: parameter))
   end
-
-  private
-
-  attr_reader :user_id
 end

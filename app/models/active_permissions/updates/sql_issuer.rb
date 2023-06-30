@@ -29,8 +29,6 @@
 module ActivePermissions::Updates::SqlIssuer
   using CoreExtensions::SquishSql
 
-  UserProjectTouple = Data.define(:user_id, :project_id)
-
   # Select entries for all members in a project (public or private).
   def select_member_projects(condition = nil)
     <<~SQL.squish

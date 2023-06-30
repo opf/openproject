@@ -28,20 +28,17 @@
 
 class ActivePermissions::Updates::CreateByProject
   include ActivePermissions::Updates::SqlIssuer
+  include ActivePermissions::Updates::MultipleUpdater
   using CoreExtensions::SquishSql
-
-  def initialize(project)
-    @project = project
-  end
 
   def execute
     sql = <<~SQL.squish
       WITH admin_permissions AS (
-        #{select_admins_in_projects('project_id = :project_id')}
+        #{select_admins_in_projects('project_id IN (:project_id)')}
       ), system_permissions AS (
-        #{select_public_projects('project_id = :project_id')}
+        #{select_public_projects('project_id IN (:project_id)')}
       ), member_permissions AS (
-        #{select_member_projects('projects.id = :project_id')}
+        #{select_member_projects('projects.id IN (:project_id)')}
       )
 
       #{insert_active_permissions_sql('SELECT * FROM admin_permissions
@@ -51,10 +48,6 @@ class ActivePermissions::Updates::CreateByProject
                                              SELECT * FROM member_permissions')}
     SQL
 
-    connection.execute(sanitize(sql, project_id: project.id))
+    connection.execute(sanitize(sql, project_id: parameter))
   end
-
-  private
-
-  attr_reader :project
 end
