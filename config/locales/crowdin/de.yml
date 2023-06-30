@@ -268,7 +268,7 @@ de:
       no_results_title_text: Zur Zeit stehen keine Zugangs-Tokens zur Verfügung.
   news:
     index:
-      no_results_title_text: Es gibt aktuell keine Nachrichten.
+      no_results_title_text: Es gibt aktuell keine Neuigkeiten.
       no_results_content_text: Neuigkeit hinzufügen
   users:
     groups:
@@ -1761,7 +1761,7 @@ de:
   label_news_singular: "Neuigkeit"
   label_news_added: "Neuigkeit hinzugefügt"
   label_news_comment_added: "Kommentar einer Nachricht hinzugefügt"
-  label_news_latest: "Aktuellste Nachrichten"
+  label_news_latest: "Aktuellste Neuigkeiten"
   label_news_new: "Nachricht hinzufügen"
   label_news_edit: "Nachricht bearbeiten"
   label_news_plural: "Neuigkeiten"
