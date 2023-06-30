@@ -276,8 +276,8 @@ ru:
   users:
     sessions:
       session_name: "%{browser_name} %{browser_version} на %{os_name}"
-      browser: 'Browser'
-      device: 'Device / OS'
+      browser: 'Браузер'
+      device: 'Устройство / ОС'
       unknown_browser: 'неизвестный браузер'
       unknown_os: 'неизвестная операционная система'
       current: 'Текущая сессия'
@@ -1079,7 +1079,7 @@ ru:
   button_configure: "Настройка"
   button_continue: "Продолжить"
   button_copy: "Копировать"
-  button_copy_to_clipboard: "Copy to clipboard"
+  button_copy_to_clipboard: "Копировать в буфер обмена"
   button_copy_and_follow: "Скопировать и продолжить"
   button_create: "Создать"
   button_create_and_continue: "Создать и продолжить"
