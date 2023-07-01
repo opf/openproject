@@ -1091,7 +1091,7 @@ lt:
       settings:
         configure_view: "Konfigūruoti vaizdą"
         columns: "Stulpeliai"
-        sort_by: "Rūšiuoti pagal"
+        sort_by: "Rikiuoti pagal"
         group_by: "Grupuoti pagal"
         display_sums: "Rodyti suvestines"
         display_hierarchy: "Rodyti hierarchiją"
