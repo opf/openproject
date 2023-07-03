@@ -288,8 +288,8 @@ RSpec.describe WorkPackagesController do
     requires_permission_in_project do
       it 'respond with a pdf' do
         pdf_data = 'foobar'
-        time = Time.zone.local(2023, 6, 30, 23, 59)
-        allow(Time).to receive(:now).and_return(time)
+        time = DateTime.new(2023, 6, 30, 23, 59)
+        allow(DateTime).to receive(:now).and_return(time)
         expected_name = "#{stub_work_package.project.identifier}_#{stub_work_package.id}_2023-06-30_23-59.pdf"
         expected_type = 'application/pdf'
         pdf_result = double('pdf_result',

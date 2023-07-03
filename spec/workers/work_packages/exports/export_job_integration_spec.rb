@@ -67,12 +67,15 @@ RSpec.describe WorkPackages::ExportJob, 'Integration' do
     let(:project) { create(:project, name: 'Foo Bla. Report No. 4/2021 with/for Case 42') }
 
     it 'exports the job correctly, renaming the result' do
+      time = DateTime.new(2023, 6, 30, 23, 59)
+      allow(DateTime).to receive(:now).and_return(time)
+
       expect { performed_job }.not_to raise_error
 
       expect(job_status.status).to eq 'success'
 
       attachment = export.attachments.last
-      expect(attachment.filename).to eq "Foo_Bla._Report_No._4-2021_with-for_Case_42_-_Query_report_04-2021_äöü.pdf"
+      expect(attachment.filename).to eq "Foo_Bla._Report_No._4-2021_with-for_Case_42_Query_report_04-2021_äöü_2023-06-30_23-59.pdf"
     end
   end
 end
