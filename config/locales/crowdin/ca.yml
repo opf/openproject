@@ -49,7 +49,7 @@ ca:
         main-menu-border-color: "Vora del menú principal"
       custom_colors: "Colors personalitzats"
       customize: "Personalitza la teva instal·lació d'OpenProject amb el teu propi logotip i colors."
-      enterprise_notice: "Com un \"Gràcies!\" especial per la contribució financera al desenvolupament d'OpenProject, aquest petit add-on només està disponible pels subscriptors de l'edició Enterprise."
+      enterprise_notice: "Com un \"Gràcies!\" especial per la contribució financera al desenvolupament d'OpenProject, aquesta petita extensió només està disponible pels subscriptors de l'edició Enterprise."
       enterprise_more_info: "Nota: el logotip utilitzat serà accessible públicament."
       manage_colors: "Edita les opcions de selecció de colors"
       instructions:
@@ -72,7 +72,7 @@ ca:
       replace_token: "Substitueix el teu token de suport actual"
       order: "Ordena l'edició Enterpise on-premises"
       paste: "Enganxa el teu token de suport de l'edició Enterprise"
-      required_for_feature: "Aquest add-om només està disponible amb un token de suport de l'edició Enterprise."
+      required_for_feature: "Aquesta extensió només està disponible amb un token de suport de l'edició Enterprise."
       enterprise_link: "Per a més informació, cliqueu aquí."
       start_trial: 'Inicia la prova gratuïta'
       book_now: 'Reserva ara'
@@ -272,6 +272,16 @@ ca:
       no_results_title_text: Actualment no hi ha cap novetat per a informar.
       no_results_content_text: Afegir una notícia
   users:
+    sessions:
+      session_name: "%{browser_name}%{browser_version} en %{os_name}"
+      browser: 'Navegador'
+      device: 'Dispositiu / Sistema Operatiu'
+      unknown_browser: 'navegador desconegut'
+      unknown_os: 'sistema operatiu desconegut'
+      current: 'Sessió actual'
+      title: 'Gestió de sessions'
+      instructions: 'Aquesta és una llista de dispositius que s’han registrat al vostre compte. Revoca qualsevol sessió que no coneguis.'
+      may_not_delete_current: 'No pots eliminar la sessió actual.'
     groups:
       member_in_these_groups: 'Aquest usuari és actualment membre dels següents grups:'
       no_results_title_text: Aquest usuari no és actualment membre de cap grup.
@@ -1052,6 +1062,7 @@ ca:
   button_configure: "Configurar"
   button_continue: "Continua"
   button_copy: "Copiar"
+  button_copy_to_clipboard: "Copiar al porta-retalls"
   button_copy_and_follow: "Copiar i continuar"
   button_create: "Crear"
   button_create_and_continue: "Crear i continuar"
@@ -1260,11 +1271,11 @@ ca:
   ee:
     upsale:
       form_configuration:
-        description: "Personalitza la configuració del formulari amb aquests add-ons extres:"
+        description: "Personalitza la configuració del formulari amb aquestes extensions addicionals:"
         add_groups: "Afegir un nou atribut de grups"
         rename_groups: "Reanomena els atributs de grups"
       project_filters:
-        description_html: "Filtrar i ordenar camps personalitzats és un add-on de l'edició Enterprise."
+        description_html: "Filtrar i ordenar camps personalitzats és una extensió de l'edició Enterprise."
   enumeration_activities: "Activitats de rastrejament del temps"
   enumeration_work_package_priorities: "Prioritats dels paquets de treball"
   enumeration_reported_project_statuses: "Estats de projecte notificats"
@@ -1348,6 +1359,9 @@ ca:
       pdf_report: "PDF - Report"
     image:
       omitted: "Imatge no exportada."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext disponible (opcional)"
@@ -1508,6 +1522,7 @@ ca:
   label_bulk_edit_selected_work_packages: "Edició massiva de paquets de treball"
   label_bundled: '(Integrat)'
   label_calendar: "Calendari"
+  label_calendars_and_dates: "Calendaris i dates"
   label_calendar_show: "Mostreu el calendari"
   label_category: "Categoria"
   label_consent_settings: "Consentiment d'usuari"
@@ -1544,7 +1559,6 @@ ca:
   label_contains: "conté"
   label_content: "Contingut"
   label_copied: "copiat"
-  label_copy_to_clipboard: "Copiar al porta-retalls"
   label_copy_same_as_target: "El mateix que l'objectiu"
   label_copy_source: "Origen"
   label_copy_target: "Destí"
@@ -1561,6 +1575,7 @@ ca:
   label_database_version: "Versió PostgreSQL"
   label_date: "Data"
   label_date_and_time: "Data i hora"
+  label_date_format: "Format de data"
   label_date_from: "De"
   label_date_from_to: "Des de %{start} a %{end}"
   label_date_to: "Fins"
@@ -1609,6 +1624,7 @@ ca:
   label_equals: "és"
   label_everywhere: "a tot arreu"
   label_example: "Exemple"
+  label_experimental: "Experimental"
   label_import: "Importació"
   label_export_to: "També disponible en:"
   label_expanded_click_to_collapse: "Desplegat. Fes clic per col·lapsar"
@@ -1724,6 +1740,7 @@ ca:
   label_more_than_ago: "fa més dies"
   label_move_work_package: "Moure el paquet de treball"
   label_my_account: "El meu compte"
+  label_my_activity: "La meva activitat"
   label_my_account_data: "Dades del meu compte"
   label_my_projects: "Els meus projectes"
   label_my_queries: "Les meves consultes personalitzades"
@@ -2480,7 +2497,7 @@ ca:
   setting_consent_decline_mail: "Adreça de correu electrònic de consentiment"
   setting_cross_project_work_package_relations: "Permetre les relacions creuades entre projectes pels paquets de treball"
   setting_first_week_of_year: "La primera setmana de l'any conté"
-  setting_date_format: "Format de data"
+  setting_date_format: "Data"
   setting_default_language: "Idioma per defecte"
   setting_default_projects_modules: "Mòduls activats per defecte en els projectes nous"
   setting_default_projects_public: "Els projectes nous són públics per defecte"
@@ -2543,7 +2560,7 @@ ca:
   setting_start_of_week: "La setmana comença en"
   setting_sys_api_enabled: "Activar el servei web de gestió del repositori"
   setting_sys_api_description: "La gestió del repositori per servei web proporciona integració i autorització d'usuaris per l'accés a repositoris."
-  setting_time_format: "Format d'hora"
+  setting_time_format: "Hora"
   setting_accessibility_mode_for_anonymous: "Activar el mode d'accessibilitat per a usuaris anònims"
   setting_user_format: "Format de nom d'usuari"
   setting_user_default_timezone: "Zona horària per defecte de l'usuari"
@@ -2554,6 +2571,7 @@ ca:
   setting_welcome_on_homescreen: "Mostrar el bloc de benvinguda a la pàgina d'inici"
   setting_work_package_list_default_highlighting_mode: "Mètode de destacament per defecte"
   setting_work_package_list_default_highlighted_attributes: "Atributs de destacament en línia per defecte"
+  setting_working_days: "Dies laborals"
   settings:
     general: "General"
     other: "Altres"
@@ -2571,6 +2589,10 @@ ca:
         Si alguna de les opcions "%{day_of_week_setting_name}" o "%{first_week_setting_name}" estan configurades, l'altre ha d'estar també configurada per evitar inconsistències en l'aplicació.
       first_week_of_year_text: >
         Selecciona la data de gener que està continguda dins la primera setmana de l'any. Aquest valor conjuntament amb el primer dia de la setmana estipula el nombre total de setmanes de l'any.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Configuració per a projectes nous"
       section_project_overview: "Configuracions per a la llista de visió general del projecte"
@@ -2585,6 +2607,9 @@ ca:
         status: "Fila sencera per Estat"
         type: "Fila sencera per Classe"
         priority: "Fila sencera per Prioritat"
+    working_days:
+      section_work_week: "Setmana laboral"
+      section_holidays_and_closures: "Vacances i tancaments"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Text sense format'
@@ -2618,9 +2643,9 @@ ca:
   text_custom_field_hint_activate_per_project_and_type: >
     Els camps personalitzats han d'activar-se per classe de paquet de treball i per projecte.
   text_wp_status_read_only_html: >
-    L'edició Enterprise afegirà add-ons extra pels estats de paquets de treball: <br> <ul> <li><b>Permet marcar paquets de treball com a només lectura per a estats específics</b></li> </ul>
+    L'edició Enterprise afegirà extensions addicionals pels estats de paquets de treball: <br> <ul> <li><b>Permet marcar paquets de treball com a només lectura per a estats específics</b></li> </ul>
   text_project_custom_field_html: >
-    L'edició Enterprise afegirà add-ons extra pels camps personalitzats de projectes: <br> <ul> <li><b>Afegeix camps personalitzats pels teus projectes a la teva llista de projectes per crear una vista de cartera de projectes</b></li> </ul>
+    L'edició Enterprise afegirà extensions addicionals pels camps personalitzats de projectes: <br> <ul> <li><b>Afegeix camps personalitzats pels teus projectes a la teva llista de projectes per crear una vista de cartera de projectes</b></li> </ul>
   text_custom_logo_instructions: >
     Es recomana un logo blanc amb fons transparent. Per a un millor resultat tant en pantalles retina o convencionals assegura't que la teva imatge té unes dimensions de 460px per 60px.
   text_custom_favicon_instructions: >
@@ -2951,9 +2976,9 @@ ca:
       title: "Suprimir el paquet de treball"
   working_days:
     info: >
-      <b>Defineix els dies que es consideren part de la setmana laboral</b><br/> Els dies no seleccionats seran omesos en planificar paquets de treball (i no seran inclosos en contar dies). Aquests poden ser substituïts directament als paquets de treball.
+      Els dies que no estan seleccionats s'ometen en planificar paquets de treball (i no inclosos en contar els dies). Aquests poden ser substituïts directament als paquets de treball.
     instance_wide_info: >
-      <b>Dies no laborals no especificats (vacances i dies de tancament)</b><br/> Les dates afegides a la llista de sota es consideraran dies no laboral i s'ometran en planificar paquets de treball.
+      Les dates afegides a la llista de sota són considerades com a no laborals i omeses en programar paquets de treball.
     change_button: "Canvia els dies laborals"
     warning: >
       Canviar quins dies de la setmana es consideren laborables i quins no pot afectar les dates d'inici i final de tots els paquets de treball en tots els projectes d'aquesta instància. <br/>Si us plau, tingues en compte que els canvis només s'apliquen després de fer clic al botó d'aplicar els canvis.

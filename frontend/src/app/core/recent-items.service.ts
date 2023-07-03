@@ -26,34 +26,24 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-(function ($) {
-  $(() => {
-    // set selected page for menu tree if provided.
-    $('[data-selected-page]').closest('.tree-menu--container').each((_i:number, tree:HTMLElement) => {
-      const selectedPage = $(tree).data('selected-page');
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
-      if (selectedPage) {
-        const selected = $(`[slug="${selectedPage}"]`, tree);
-        selected.toggleClass('-selected', true);
-        if (selected.length > 0) {
-          selected[0].scrollIntoView();
-        }
-      }
-    });
+@Injectable()
+export class RecentItemsService {
+  recentItems$ = new BehaviorSubject(this.getAll());
 
-    function toggle(event:any) {
-      // ignore the event if a key different from ENTER was pressed.
-      if (event.type === 'keypress' && event.which !== 13) {
-        return false;
-      }
-
-      const target = $(event.target);
-      const targetList = target.closest('ul.-with-hierarchy > li');
-      targetList.toggleClass('-hierarchy-collapsed -hierarchy-expanded');
-      return false;
+  add(id:string):void {
+    let wps = this.getAll().filter((entry:string) => entry !== id);
+    wps.unshift(id);
+    if (wps.length > 5) {
+      wps = wps.slice(0, 5);
     }
+    window.localStorage.setItem('recent', JSON.stringify(wps));
+    this.recentItems$.next(wps);
+  }
 
-    // set click handlers for expanding and collapsing tree nodes
-    $('.pages-hierarchy.-with-hierarchy .tree-menu--hierarchy-span').on('click keypress', toggle);
-  });
-}(jQuery));
+  getAll():string[] {
+    return JSON.parse(window.OpenProject.guardedLocalStorage('recent') || '[]') as string[];
+  }
+}

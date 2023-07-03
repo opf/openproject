@@ -1,12 +1,12 @@
 require 'spec_helper'
 require 'support/pages/custom_fields'
 
-RSpec.describe 'custom fields', js: true do
+RSpec.describe 'custom fields', js: true, with_cuprite: true do
   let(:user) { create(:admin) }
   let(:cf_page) { Pages::CustomFields.new }
 
   before do
-    login_as(user)
+    login_as user
   end
 
   shared_examples "creating a new list custom field" do |type|
@@ -14,6 +14,7 @@ RSpec.describe 'custom fields', js: true do
       cf_page.visit_tab type
 
       click_on "Create a new custom field"
+      wait_for_reload
       cf_page.set_name "Operating System"
 
       select "List", from: "custom_field_field_format"
@@ -46,8 +47,8 @@ RSpec.describe 'custom fields', js: true do
 
       expect(page).to have_text("Successful creation")
 
-      SeleniumHubWaiter.wait
       click_on "Operating System"
+      wait_for_reload
 
       expect(page).to have_field("custom_field_multi_value", checked: true)
 
@@ -75,23 +76,21 @@ RSpec.describe 'custom fields', js: true do
       create(
         :list_wp_custom_field,
         name: "Platform",
-        possible_values: ["Playstation", "Xbox", "Nintendo", "PC"]
+        possible_values: %w[Playstation Xbox Nintendo PC]
       )
     end
 
     before do
       cf_page.visit!
-      expect_angular_frontend_initialized
-      SeleniumHubWaiter.wait
+      wait_for_reload
 
       click_on custom_field.name
-      expect_angular_frontend_initialized
-      SeleniumHubWaiter.wait
+      wait_for_reload
     end
 
     it "adds new options" do
       page.find('[data-qa-selector="add-custom-option"]').click
-      SeleniumHubWaiter.wait
+      wait_for_reload
 
       expect(page).to have_selector('.custom-option-row', count: 5)
       within all(".custom-option-row").last do
@@ -99,7 +98,7 @@ RSpec.describe 'custom fields', js: true do
       end
 
       page.find('[data-qa-selector="add-custom-option"]').click
-      SeleniumHubWaiter.wait
+      wait_for_reload
 
       expect(page).to have_selector('.custom-option-row', count: 6)
       within all(".custom-option-row").last do
@@ -112,7 +111,7 @@ RSpec.describe 'custom fields', js: true do
       expect(page).to have_text("Platform")
       expect(page).to have_selector('.custom-option-row', count: 6)
 
-      ["Playstation", "Xbox", "Nintendo", "PC", "Sega", "Atari"].each_with_index do |value, i|
+      %w[Playstation Xbox Nintendo PC Sega Atari].each_with_index do |value, i|
         expect(page).to have_field("custom_field_custom_options_attributes_#{i}_value", with: value)
       end
     end
@@ -121,11 +120,12 @@ RSpec.describe 'custom fields', js: true do
       expect(page).to have_text("Platform")
 
       expect(page).to have_selector('.custom-option-row', count: 4)
-      ["Playstation", "Xbox", "Nintendo", "PC"].each_with_index do |value, i|
+      %w[Playstation Xbox Nintendo PC].each_with_index do |value, i|
         expect(page).to have_field("custom_field_custom_options_attributes_#{i}_value", with: value)
       end
 
-      fill_in("custom_field_custom_options_attributes_1_value", with: "Sega", fill_options: { clear: :backspace })
+      fill_in("custom_field_custom_options_attributes_1_value", with: "")
+      fill_in("custom_field_custom_options_attributes_1_value", with: "Sega")
       check("custom_field_multi_value")
       check("custom_field_custom_options_attributes_0_default_value")
       check("custom_field_custom_options_attributes_2_default_value")
@@ -138,7 +138,7 @@ RSpec.describe 'custom fields', js: true do
       expect(page).to have_text("Platform")
       expect(page).to have_field("custom_field_multi_value", checked: true)
 
-      ["Sega", "Nintendo", "PC", "Playstation"].each_with_index do |value, i|
+      %w[Sega Nintendo PC Playstation].each_with_index do |value, i|
         expect(page).to have_field("custom_field_custom_options_attributes_#{i}_value", with: value)
       end
 
@@ -160,9 +160,9 @@ RSpec.describe 'custom fields', js: true do
 
       it "deletes a custom option and all values using it" do
         within all(".custom-option-row")[1] do
-          find('.icon-delete').click
-
-          cf_page.accept_alert_dialog!
+          accept_alert do
+            find('.icon-delete').click
+          end
         end
 
         expect(page).to have_text("Option 'Xbox' and its 3 occurrences were deleted.")

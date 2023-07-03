@@ -1,327 +1,325 @@
 
-Randomized with seed 36966
+Randomized with seed 17893
+spec/features/work_packages/attribute_help_texts_spec.rb:8.92405094858259
+spec/features/users/invite_user_modal/permission_lacking_current_project_spec.rb:6.348018364980817
+spec/features/members/pagination_spec.rb:13.658349271863699
+spec/features/users/self_registration_spec.rb:10.854132927954197
+spec/features/work_packages/edit_on_assign_version_permission_spec.rb:6.432319819927216
+spec/features/auth/omniauth_spec.rb:2.3507692497223616
+spec/features/colors/color_administration_spec.rb:0.23059399612247944
+spec/features/admin/custom_fields/multi_value_custom_fields_spec.rb:7.8423002399504185
+spec/features/work_packages/table/baseline/baseline_rendering_spec.rb:9.045371203683317
+spec/features/auth/lost_password_spec.rb:0.6280107880011201
+spec/features/wysiwyg/html_encoding_spec.rb:4.44162258785218
+spec/features/work_packages/table/context_menu/context_menu_spec.rb:128.7346435058862
+spec/features/work_packages/tabs/watcher_tab_spec.rb:31.47876864206046
+spec/features/work_packages/table/queries/subject_filter_spec.rb:8.508938641287386
+spec/features/placeholder_users/index_spec.rb:17.034836946055293
+spec/features/custom_fields/create_float_spec.rb:3.472029793076217
+spec/features/projects/projects_portfolio_spec.rb:24.049891026690602
+spec/features/notifications/settings/pause_reminder_settings_spec.rb:10.895500289276242
+spec/features/types/form_configuration_spec.rb:44.93848473485559
+spec/features/custom_fields/create_bool_spec.rb:4.8772979052737355
+spec/features/work_packages/cancel_editing_spec.rb:40.86943141464144
+spec/features/work_packages/table/hierarchy/hierarchy_indent_spec.rb:64.47965775430202
 
-1st Try error in ./spec/features/work_packages/bulk/copy_work_package_spec.rb:85:
-no implicit conversion of nil into String
-unable to sign request without credentials set
+Randomized with seed 17893
 
-RSpec::Retry: 2nd try ./spec/features/work_packages/bulk/copy_work_package_spec.rb:85
+Randomized with seed 16458
+spec/features/work_packages/datepicker/datepicker_follows_relation_spec.rb:19.440038044005632
+spec/features/menu_items/wiki_menu_item_spec.rb:10.678592875599861
+spec/features/projects/project_autocomplete_spec.rb:19.375980555079877
+spec/features/work_packages/navigation_spec.rb:34.80441034026444
+spec/features/wysiwyg/macros/work_package_button_spec.rb:3.857523842714727
+spec/features/work_packages/table/relations_spec.rb:13.65637147333473
+spec/features/work_packages/zen_mode_spec.rb:2.365734643302858
+spec/features/work_packages/timeline/timeline_labels_spec.rb:10.751210831105709
+spec/features/wysiwyg/macros/attribute_macros_spec.rb:6.06429903395474
+spec/features/wysiwyg/custom_css_classes_spec.rb:4.5035953633487225
+spec/features/work_packages/details/custom_fields/custom_field_spec.rb:67.16458609793335
+spec/features/types/activate_in_project_spec.rb:4.478707090951502
+spec/features/wysiwyg/paragraphs_in_lists_spec.rb:1.2477833488956094
+spec/features/work_packages/table/empty_filters_spec.rb:2.854787169955671
+spec/features/work_packages/copy_spec.rb:16.303275282494724
+spec/features/members/error_messages_spec.rb:2.5496909879148006
+spec/features/work_packages/details/date_editor_spec.rb:128.06280302628875
+spec/features/projects/work_package_type_mgmt_spec.rb:5.222034606151283
+spec/features/work_packages/new/work_package_default_description_spec.rb:24.1565153086558
+spec/features/activities/disabled_activity_spec.rb:0.8447161186486483
+spec/features/admin/menu_item_traversal_spec.rb:12.722956581041217
+spec/features/onboarding/onboarding_tour_spec.rb:43.288381688296795
+spec/features/work_packages/table/delete_work_packages_spec.rb:30.595488956198096
 
-Randomized with seed 29389
+Randomized with seed 16458
 
-1st Try error in ./spec/features/work_packages/details/date_editor_spec.rb:382:
-expected to find css "[data-qa-selector=\"op-modal-banner-warning\"] span" but there were no matches
-unable to sign request without credentials set
+Randomized with seed 38387
+spec/features/work_packages/details/workdays_spec.rb:11.850623693317175
+spec/features/work_packages/datepicker/datepicker_non_working_day_spec.rb:14.170461037196219
+spec/features/work_packages/display_fields/estimated_hours_display_spec.rb:16.26877173036337
+spec/features/placeholder_users/delete_spec.rb:11.503396170213819
+spec/features/custom_fields/create_long_text_spec.rb:6.771332711912692
+spec/features/work_packages/custom_actions/custom_actions_me_value_spec.rb:14.202185302041471
+spec/features/wysiwyg/macros/child_pages_spec.rb:7.431970654055476
+spec/features/notifications/navigation_spec.rb:10.286017086356878
+spec/features/users/edit_users_spec.rb:7.240752304904163
+spec/features/groups/group_memberships_spec.rb:61.570808979682624
+spec/features/projects/destroy_spec.rb:2.5776415280997753
+spec/features/work_packages/table/queries/me_filter_spec.rb:21.896736668422818
+spec/features/auth/auth_source_sso_login_spec.rb:0.24037113320082426
+spec/features/menu_items/admin_menu_item_spec.rb:3.65224826335907
+spec/features/projects/subproject_creation_spec.rb:3.515446327626705
+spec/features/projects/projects_custom_fields_spec.rb:49.17328054923564
+spec/features/work_packages/details/relations/hierarchy_milestone_spec.rb:2.7785843992605805
+spec/features/wysiwyg/non_breaking_spaces_spec.rb:4.202996281906962
+spec/features/security/session_ttl_spec.rb:0.9182985443621874
+spec/features/auth/logout_spec.rb:3.6112312600016594
+spec/features/work_packages/display_fields/spent_time_display_spec.rb:32.33596803061664
+spec/features/menu_items/quick_add_menu_spec.rb:26.108723514713347
+spec/features/work_packages/sorting/manual_sorting_spec.rb:154.74776839930564
 
-RSpec::Retry: 2nd try ./spec/features/work_packages/details/date_editor_spec.rb:382
+Randomized with seed 38387
 
-Randomized with seed 24955
-spec/features/work_packages/table/invalid_query_spec.rb:11.435564313083887
-spec/features/work_packages/table/configuration_modal/table_configuration_modal_spec.rb:2.647818868048489
-spec/features/projects/create_spec.rb:20.22903515677899
-spec/features/projects/template_spec.rb:16.267440443858504
-spec/features/work_packages/bulk/move_work_package_spec.rb:113.98437352478504
-spec/features/admin/custom_fields/list_custom_field_spec.rb:4.475386894308031
-spec/features/users/invite_user_modal/subproject_invite_spec.rb:11.214183720760047
-spec/features/notifications/notification_center/split_screen_spec.rb:9.689916524104774
-spec/features/projects/export_spec.rb:9.6960822455585
-spec/features/work_packages/table/configuration_modal/filter_spec.rb:11.0030806241557
-spec/features/projects/destroy_spec.rb:2.212601193226874
-spec/features/errors/errors_handler_spec.rb:0.0975031228736043
-spec/features/menu_items/help_menu_spec.rb:1.8548103412613273
-spec/features/menu_items/top_menu_item_spec.rb:7.536621457897127
-spec/features/placeholder_users/delete_spec.rb:8.417301338165998
-spec/features/work_packages/tabs/activity_revisions_spec.rb:41.416162641718984
-spec/features/wysiwyg/macros/code_block_macro_spec.rb:10.01350273936987
-spec/features/work_packages/select/select_wp_card_spec.rb:4.844749566167593
-spec/features/wysiwyg/macros/work_package_button_spec.rb:3.3674857756122947
-spec/features/notifications/notification_center/notification_center_date_alerts_spec.rb:5.61091139819473
-spec/features/work_packages/reports_spec.rb:4.445125572383404
-spec/features/localization_spec.rb:0.3263066215440631
-spec/features/admin/enumerations_spec.rb:0.13922841846942902
-spec/features/work_packages/tabs/watcher_tab_spec.rb:20.734179340302944
-spec/features/notifications/notification_center/notification_center_sidemenu_spec.rb:7.2501868205145
-spec/features/work_packages/custom_actions/custom_actions_me_value_spec.rb:12.257344757206738
-spec/features/work_packages/datepicker/datepicker_follows_relation_spec.rb:14.117008603177965
-spec/features/members/error_messages_spec.rb:1.7236590944230556
-spec/features/categories/delete_spec.rb:5.814701901748776
-spec/features/projects/projects_index_spec.rb:79.0789627963677
-spec/features/accessibility/work_packages/work_package_query_spec.rb:41.153647472150624
-spec/features/work_packages/table/queries/query_history_spec.rb:16.409281137399375
-spec/features/versions/create_spec.rb:0.725580669939518
+Randomized with seed 23420
+spec/features/work_packages/table/configuration_modal/table_configuration_modal_spec.rb:7.558880322612822
+spec/features/wysiwyg/macros/quicklink_macros_spec.rb:14.970012247562408
+spec/features/work_packages/timeline/timeline_hierarchy_spec.rb:4.690009841695428
+spec/features/work_packages/table/baseline/baseline_query_spec.rb:19.31981065683067
+spec/features/homescreen/index_spec.rb:6.807853536680341
+spec/features/work_packages/details/details_toolbar_spec.rb:3.1769467322155833
+spec/features/work_packages/table/inline_create/parallel_creation_spec.rb:12.199173061177135
+spec/features/work_packages/table/scheduling/manual_scheduling_spec.rb:9.738557256758213
+spec/features/work_packages/table/hierarchy/hierarchy_vs_grouping_spec.rb:6.777273110114038
+spec/features/work_packages/timeline/timeline_dates_spec.rb:71.35265434533358
+spec/features/work_packages/pagination_spec.rb:5.323452727869153
+spec/features/work_packages/table/hierarchy/hierarchy_parent_below_spec.rb:13.403472670353949
+spec/features/workflows/copy_spec.rb:0.12938030436635017
+spec/features/users/user_memberships_spec.rb:31.043918359093368
+spec/features/search_spec.rb:108.27054135594517
+spec/features/forums/message_spec.rb:16.42632827628404
+spec/features/work_packages/details/markdown/description_editor_spec.rb:43.591346280649304
+spec/features/work_packages/details/milestones_spec.rb:4.205773105844855
+spec/features/work_packages/bulk/update_work_package_spec.rb:62.445158023387194
+spec/features/work_packages/table/queries/id_filter_spec.rb:23.359251271001995
+spec/features/notifications/reminder_mail_spec.rb:1.148837435990572
+spec/features/work_packages/table/group_by/group_by_boolean_spec.rb:5.0721966084092855
+spec/features/auth/auth_stages_spec.rb:1.9278828958049417
 
-Randomized with seed 24955
+Randomized with seed 23420
 
-Randomized with seed 56904
+Randomized with seed 64604
+spec/features/users/notifications/user_notifications_settings_spec.rb:14.027742207981646
+spec/features/notifications/notification_center/notification_center_sidemenu_spec.rb:7.930863779969513
+spec/features/localization_spec.rb:0.26066735573112965
+spec/features/projects/edit_settings_spec.rb:14.91754103358835
+spec/features/wiki/edit_new_page_spec.rb:2.5688140131533146
+spec/features/work_packages/details/relations/hierarchy_custom_fields_spec.rb:5.475128781981766
+spec/features/work_packages/table/queries/summary_spec.rb:2.713751225732267
+spec/features/work_packages/table/queries/responsible_filter_spec.rb:12.334958617575467
+spec/features/work_packages/table/duration_field_spec.rb:3.623345280997455
+spec/features/work_packages/select/select_query_spec.rb:6.992545569315553
+spec/features/custom_fields/multi_value_custom_field_spec.rb:47.24540536850691
+spec/features/work_packages/table/inline_create/create_work_packages_spec.rb:59.142374771647155
+spec/features/work_packages/details/markdown/todolist_spec.rb:32.68470257241279
+spec/features/wysiwyg/work_package_linking_spec.rb:4.032655158080161
+spec/features/repositories/repository_settings_spec.rb:27.084693709388375
+spec/features/activities/wiki_activity_spec.rb:8.360958602279425
+spec/features/custom_fields/activate_in_project_spec.rb:5.445216527208686
+spec/features/attachments/attachments_spec.rb:0.002183404751121998
+spec/features/menu_items/top_menu_item_spec.rb:9.139792503789067
+spec/features/projects/modules_spec.rb:0.6011749431490898
+spec/features/work_packages/table/edit_work_packages_spec.rb:19.939682808704674
+spec/features/projects/copy_spec.rb:20.518948631361127
+spec/features/work_packages/custom_actions/custom_actions_spec.rb:159.0234018806368
+spec/features/wiki/wiki_unicode_spec.rb:11.462261808104813
 
-1st Try error in ./spec/features/custom_fields/multi_value_custom_field_spec.rb:124:
-unknown error: unhandled inspector error: {"code":-32000,"message":"No node with given id found"}
-  (Session info: headless chrome=113.0.5672.92)
-unable to sign request without credentials set
+Randomized with seed 64604
 
-RSpec::Retry: 2nd try ./spec/features/custom_fields/multi_value_custom_field_spec.rb:124
+Randomized with seed 53803
+spec/features/projects/export_spec.rb:12.145387193188071
+spec/features/work_packages/table/queries/mobile_date_filter_spec.rb:10.551715513691306
+spec/features/wiki/restore_main_item_spec.rb:0.23021767009049654
+spec/features/users/create_spec.rb:12.61060686595738
+spec/features/global_roles/no_module_spec.rb:1.4686032580211759
+spec/features/versions/graph_spec.rb:1.9113453784957528
+spec/features/work_packages/table/hierarchy/hierarchy_sorting_spec.rb:4.96810345724225
+spec/features/work_packages/table/queries/query_history_spec.rb:19.79441135097295
+spec/features/users/invite_user_modal/invite_user_modal_spec.rb:77.01871456578374
+spec/features/projects/attribute_help_texts_spec.rb:7.750450286082923
+spec/features/members/membership_filter_spec.rb:5.13969443552196
+spec/features/custom_fields/reorder_options_spec.rb:3.79388521425426
+spec/features/work_packages/table/queries/filter_spec.rb:127.51112752966583
+spec/features/admin/test_mail_notification_spec.rb:2.75246702414006
+spec/features/work_packages/table/invalid_query_spec.rb:10.151006967760623
+spec/features/work_packages/table/configuration_modal/column_spec.rb:17.091414211317897
+spec/features/api_docs/index_spec.rb:3.47324843890965
+spec/features/repositories/create_repository_spec.rb:34.420983341522515
+spec/features/work_packages/tabs/activity_notifications_spec.rb:29.386844156309962
+spec/features/groups/groups_spec.rb:6.2340131206437945
+spec/features/admin/enumerations_spec.rb:0.18841394037008286
+spec/features/wysiwyg/macros/code_block_macro_spec.rb:13.329092328436673
+spec/features/auth/consent_auth_stage_spec.rb:30.80673229880631
+spec/features/accessibility/work_packages/work_package_query_spec.rb:43.99127413611859
 
-Randomized with seed 15307
-spec/features/users/invite_user_modal/custom_fields_spec.rb:14.665068237110972
-spec/features/wysiwyg/user_mention_spec.rb:14.225926238112152
-spec/features/wiki/child_pages_spec.rb:4.208064356818795
-spec/features/work_packages/table/queries/assignees_role_filter_spec.rb:18.830376069061458
-spec/features/work_packages/table/hierarchy/hierarchy_sorting_spec.rb:4.343644713051617
-spec/features/notifications/reminder_mail_spec.rb:0.8177369078621268
-spec/features/work_packages/new/new_work_package_datepicker_spec.rb:4.316311141476035
-spec/features/types/reset_form_configuration_spec.rb:3.814218538813293
-spec/features/custom_fields/create_long_text_spec.rb:5.022294034250081
-spec/features/roles/create_spec.rb:6.169065300375223
-spec/features/wysiwyg/work_package_linking_spec.rb:3.1863779593259096
-spec/features/members/membership_spec.rb:25.11585632432252
-spec/features/admin/enterprise/enterprise_trial_spec.rb:21.151227162219584
-spec/features/projects/attribute_help_texts_spec.rb:6.529553516767919
-spec/features/watching/toggle_watching_spec.rb:8.306207423098385
-spec/features/work_packages/table/duration_field_spec.rb:3.577368120662868
-spec/features/work_packages/attachments/attachment_upload_spec.rb:48.305419753305614
-spec/features/work_packages/table/queries/filter_spec.rb:112.1507458947599
-spec/features/work_packages/details/closed_status_and_version_spec.rb:2.226716184988618
-spec/features/wysiwyg/custom_css_classes_spec.rb:4.4190374398604035
-spec/features/work_packages/details/custom_fields/custom_field_spec.rb:62.43782327324152
-spec/features/forums/attachment_upload_spec.rb:37.92252044565976
-spec/features/notifications/settings/my_notifications_settings_spec.rb:9.08024294488132
-spec/features/auth/auth_source_sso_logout_spec.rb:0.35186725202947855
-spec/features/auth/omniauth_spec.rb:2.8275335459038615
-spec/features/admin/test_mail_notification_spec.rb:4.387328715994954
-spec/features/global_roles/global_role_assignment_spec.rb:4.3863868759945035
-spec/features/members/roles_spec.rb:13.008751895278692
-spec/features/work_packages/export_spec.rb:51.95879925880581
-spec/features/work_packages/details/relations/hierarchy_custom_fields_spec.rb:4.745368007570505
-spec/features/activities/disabled_activity_spec.rb:0.5060885166749358
-spec/features/admin/menu_item_traversal_spec.rb:8.884326844476163
-spec/features/custom_fields/custom_fields_spec.rb:15.03915005736053
-spec/features/work_packages/index_sums_spec.rb:24.756221793591976
-spec/features/groups/membership_spec.rb:32.08068392984569
+Randomized with seed 53803
 
-Randomized with seed 15307
+Randomized with seed 7440
+spec/features/forums/attachment_upload_spec.rb:44.769606907851994
+spec/features/notifications/notification_center/split_screen_spec.rb:12.92009748890996
+spec/features/work_packages/sorting/table_sorting_spec.rb:14.460644216276705
+spec/features/work_packages/table/switch_types_spec.rb:47.126315439119935
+spec/features/work_packages/details/relations/hierarchy_spec.rb:96.57395969424397
+spec/features/work_packages/switching_to_project_from_work_package_spec.rb:3.066740511916578
+spec/features/work_packages/details/context_menu_spec.rb:3.0063329143449664
+spec/features/work_packages/work_package_workflow_form_spec.rb:4.888926517218351
+spec/features/placeholder_users/create_spec.rb:0.8361749667674303
+spec/features/repositories/checkout_instructions_spec.rb:1.7039845157414675
+spec/features/custom_fields/custom_fields_spec.rb:21.896455542184412
+spec/features/work_packages/highlighting_spec.rb:29.80848136357963
+spec/features/work_packages/details/inplace_editor/version_editor_spec.rb:14.601692475378513
+spec/features/custom_fields/multi_user_custom_field_spec.rb:17.881437146104872
+spec/features/work_packages/datepicker/datepicker_parent_spec.rb:3.904254622757435
+spec/features/users/brute_force_spec.rb:1.3476838720962405
+spec/features/notifications/settings/my_notifications_settings_spec.rb:10.428720549680293
+spec/features/work_packages/edit_work_package_spec.rb:98.73223096039146
+spec/features/activities/time_entry_activity_spec.rb:7.1252259481698275
+spec/features/menu_items/query_menu_item_spec.rb:9.675487325526774
+spec/features/work_packages/index_sums_spec.rb:28.132189087569714
+spec/features/notifications/settings/reminder_email_settings_spec.rb:5.297158666886389
+spec/features/news/creation_and_commenting_spec.rb:3.4560925094410777
 
-Randomized with seed 60374
-spec/features/work_packages/pagination_spec.rb:9.241447017528117
-spec/features/work_packages/details/inplace_editor/subject_editor_spec.rb:46.57012292742729
-spec/features/workflows/copy_spec.rb:0.19840127788484097
-spec/features/versions/graph_spec.rb:1.3573305774480104
-spec/features/users/delete_spec.rb:14.630767113529146
-spec/features/work_packages/table/relations_spec.rb:11.09713171236217
-spec/features/users/create_spec.rb:9.278860121034086
-spec/features/work_packages/table/group_by/group_by_progress_spec.rb:12.460222503170371
-spec/features/wysiwyg/macros/quicklink_macros_spec.rb:15.207798085175455
-spec/features/work_packages/new/attributes_from_filter_spec.rb:11.640058485791087
-spec/features/work_packages/tabs/keep_tab_spec.rb:7.337129030376673
-spec/features/projects/projects_custom_fields_spec.rb:42.80476704146713
-spec/features/homescreen/robots_spec.rb:0.11876943428069353
-spec/features/work_packages/table/queries/query_menu_refresh_spec.rb:3.566265843808651
-spec/features/admin/enterprise/enterprise_spec.rb:5.625469422899187
-spec/features/work_packages/table/queries/bool_cf_filter_spec.rb:7.151561432518065
-spec/features/work_packages/table/queries/filter_pagination_spec.rb:5.780005318112671
-spec/features/notifications/settings/workdays_settings_spec.rb:14.85099112521857
-spec/features/work_packages/table/hierarchy/hierarchy_spec.rb:28.47756840940565
-spec/features/activities/time_entry_activity_spec.rb:5.43858325202018
-spec/features/work_packages/zen_mode_spec.rb:3.0148236248642206
-spec/features/notifications/notification_center/notification_center_spec.rb:71.94198135659099
-spec/features/work_packages/select/select_query_spec.rb:4.885729398578405
-spec/features/work_packages/timeline/timeline_navigation_spec.rb:39.501218230463564
-spec/features/work_packages/work_package_workflow_form_spec.rb:4.713818597607315
-spec/features/work_packages/display_fields/spent_time_display_spec.rb:21.241468153893948
-spec/features/work_packages/details/details_refreshing_spec.rb:1.8543246556073427
-spec/features/work_packages/table/empty_filters_spec.rb:2.3961244439706206
-spec/features/work_packages/table/queries/query_menu_spec.rb:17.933962917886674
-spec/features/work_packages/details/relations/relations_spec.rb:33.91156412195414
-spec/features/work_packages/table/configuration_modal/column_spec.rb:13.742470973171294
-spec/features/work_packages/sorting/manual_sorting_spec.rb:134.49824917130172
-spec/features/wiki/edit_new_page_spec.rb:1.528232965618372
-spec/features/groups/group_show_spec.rb:0.2014092579483986
-spec/features/users/brute_force_spec.rb:0.7684093751013279
+Randomized with seed 7440
 
-Randomized with seed 60374
-spec/features/work_packages/table/queries/me_filter_spec.rb:24.420401244424284
-spec/features/work_packages/project_context_switch_spec.rb:3.582304266281426
-spec/features/work_packages/tabs/activity_notifications_spec.rb:23.930274272337556
-spec/features/work_packages/details/markdown/todolist_spec.rb:29.271622124128044
-spec/features/work_packages/details/query_groups/relation_query_group_spec.rb:33.698994698002934
-spec/features/auth/logout_spec.rb:2.6159394728019834
-spec/features/wysiwyg/macros/child_pages_spec.rb:5.903253030963242
-spec/features/homescreen/index_spec.rb:4.7836963618174195
-spec/features/work_packages/edit_work_package_spec.rb:91.0374071225524
-spec/features/work_packages/table/hierarchy/hierarchy_vs_grouping_spec.rb:5.855489623732865
-spec/features/auth/lost_password_spec.rb:0.5839676642790437
-spec/features/projects/modules_spec.rb:0.5295776445418596
-spec/features/wysiwyg/non_breaking_spaces_spec.rb:3.185950120911002
-spec/features/members/invitation_spec.rb:13.004714771173894
-spec/features/admin/custom_fields/multi_value_custom_fields_spec.rb:6.165144653059542
-spec/features/wysiwyg/ui_localization_spec.rb:2.6386936623603106
-spec/features/users/my_spec.rb:17.55536961182952
-spec/features/members/membership_filter_spec.rb:3.9852060191333294
-spec/features/types/form_configuration_query_spec.rb:87.0052856868133
-spec/features/work_packages/details/date_editor_spec.rb:129.44225248787552
-spec/features/work_packages/edit_on_assign_version_permission_spec.rb:5.778704348951578
-spec/features/work_packages/table/hierarchy/parent_column_spec.rb:6.6757378140464425
-spec/features/placeholder_users/edit_placeholder_users_spec.rb:3.596717049367726
-spec/features/activities/wiki_activity_spec.rb:5.04758130107075
-spec/features/projects/projects_portfolio_spec.rb:18.892626451328397
-spec/features/activities/activity_page_navigation_spec.rb:4.798913473263383
-spec/features/users/notifications/user_notifications_settings_spec.rb:8.274184189736843
-spec/features/auth/consent_auth_stage_spec.rb:18.75976036954671
-spec/features/menu_items/wiki_menu_item_spec.rb:7.796397811733186
-spec/features/work_packages/table/queries/query_name_inline_edit_spec.rb:7.591315555386245
-spec/features/work_packages/details/inplace_editor/version_editor_spec.rb:9.700799645856023
-spec/features/work_packages/table/queries/subject_filter_spec.rb:5.795954119414091
-spec/features/notifications/navigation_spec.rb:6.753970008343458
-spec/features/work_packages/table/inline_create/parallel_creation_spec.rb:9.650544281117618
-spec/features/wiki/restore_main_item_spec.rb:0.23668486159294844
+Randomized with seed 28979
+spec/features/versions/project_settings_index_spec.rb:0.5564404241740704
+spec/features/roles/create_spec.rb:13.359381313435733
+spec/features/wysiwyg/macros/embedded_tables_spec.rb:14.838358589448035
+spec/features/statuses/statuses_administration_spec.rb:0.6155185839161277
+spec/features/work_packages/table/configuration_modal/filter_spec.rb:10.979558929800987
+spec/features/admin/attribute_help_texts_spec.rb:24.940582829527557
+spec/features/work_packages/select/select_card_view_spec.rb:11.158117519691586
+spec/features/work_packages/new/new_work_package_spec.rb:227.08625391498208
+spec/features/homescreen/robots_spec.rb:0.1357471076771617
+spec/features/global_roles/global_role_assignment_spec.rb:4.897981038317084
+spec/features/work_packages/display_fields/date_field_display_spec.rb:4.225264377892017
+spec/features/work_packages/reports_spec.rb:5.4322332963347435
+spec/features/users/delete_spec.rb:19.310493698343635
+spec/features/admin/enterprise/enterprise_spec.rb:6.963595949113369
+spec/features/wysiwyg/tables_spec.rb:32.82779994793236
+spec/features/menu_items/menu_permissions_spec.rb:7.967140558175743
+spec/features/work_packages/work_package_index_spec.rb:2.284826362505555
+spec/features/global_roles/global_role_crud_spec.rb:2.9183659246191382
+spec/features/admin/working_days_spec.rb:25.30627655237913
+spec/features/work_packages/table/queries/assignee_filter_spec.rb:15.492173349484801
+spec/features/admin/backup_spec.rb:14.233659349381924
+spec/features/work_packages/tabs/activity_revisions_spec.rb:38.36605782620609
+spec/features/custom_fields/create_date_spec.rb:1.8054162040352821
 
-Randomized with seed 29389
-spec/features/work_packages/cards/wp_card_status_spec.rb:5.824393023736775
-spec/features/custom_fields/reorder_options_spec.rb:4.044327021576464
-spec/features/work_packages/table/milestones_spec.rb:6.8102271584793925
-spec/features/users/password_change_spec.rb:26.48505270201713
-spec/features/groups/group_memberships_spec.rb:59.3534054774791
-spec/features/custom_fields/create_float_spec.rb:3.1729921149089932
-spec/features/work_packages/details/details_toolbar_spec.rb:2.9554536063224077
-spec/features/auth/auth_stages_spec.rb:2.7025117883458734
-spec/features/users/invite_user_modal/permission_lacking_current_project_spec.rb:5.948378982953727
-spec/features/work_packages/timeline/timeline_labels_spec.rb:9.415959822013974
-spec/features/work_packages/table/queries/assignee_filter_spec.rb:13.165478063747287
-spec/features/projects/project_autocomplete_spec.rb:18.088550424203277
-spec/features/admin/settings_spec.rb:0.3976463684812188
-spec/features/work_packages/table/queries/responsible_filter_spec.rb:9.666588257998228
-spec/features/work_packages/table/edit_work_packages_spec.rb:19.536226863972843
-spec/features/placeholder_users/index_spec.rb:12.874128234572709
-spec/features/work_packages/table/queries/id_filter_spec.rb:21.57210807222873
-spec/features/work_packages/datepicker/datepicker_logic_spec.rb:169.31504477281123
-spec/features/repositories/checkout_instructions_spec.rb:1.6346035534515977
-spec/features/work_packages/table/queries/user_cf_filter_spec.rb:13.302349036559463
-spec/features/wysiwyg/macros/embedded_tables_spec.rb:12.901094972155988
-spec/features/work_packages/table/queries/default_queries_spec.rb:2.546831203624606
-spec/features/work_packages/copy_spec.rb:14.89037849754095
-spec/features/projects/copy_spec.rb:22.39701579324901
-spec/features/work_packages/bulk/copy_work_package_spec.rb:98.49162894114852
-spec/features/wysiwyg/linking_spec.rb:1.6938913008198142
-spec/features/custom_fields/activate_in_project_spec.rb:3.973044788464904
-spec/features/work_packages/details/relations/hierarchy_milestone_spec.rb:1.9900264628231525
-spec/features/placeholder_users/placeholder_user_memberships_spec.rb:20.956106981262565
-spec/features/work_packages/table/baseline/baseline_query_spec.rb:4.36507885530591
-spec/features/menu_items/query_menu_item_spec.rb:6.79757572337985
-spec/features/admin/oauth/oauth_applications_management_spec.rb:5.4287787694483995
-spec/features/work_packages/table/work_packages_table_project_include_spec.rb:26.28587491158396
-spec/features/notifications/settings/reminder_email_settings_spec.rb:3.8864862956106663
+Randomized with seed 28979
 
-Randomized with seed 36966
-spec/features/work_packages/tabs/activity_tab_spec.rb:36.28307048231363
-spec/features/oauth/authorization_code_flow_spec.rb:9.056792221963406
-spec/features/admin/attribute_help_texts_spec.rb:21.255865037441254
-spec/features/work_packages/table/group_by/group_headers_spec.rb:7.0796598410233855
-spec/features/custom_fields/create_int_spec.rb:2.365573864430189
-spec/features/work_packages/cancel_editing_spec.rb:35.55922083929181
-spec/features/activities/project_attributes_activity_spec.rb:3.0274937339127064
-spec/features/work_packages/table/scheduling/manual_scheduling_spec.rb:9.013182065449655
-spec/features/work_packages/display_representations/switch_display_representations_spec.rb:19.64371959399432
-spec/features/work_packages/timeline/timeline_dates_spec.rb:66.24994429387152
-spec/features/forums/message_spec.rb:16.210174162872136
-spec/features/auth/auth_source_sso_login_spec.rb:0.22303646709769964
-spec/features/notifications/settings/immediate_reminder_spec.rb:3.2251471849158406
-spec/features/users/edit_users_spec.rb:7.053333770483732
-spec/features/users/user_memberships_spec.rb:27.088316791690886
-spec/features/users/self_registration_spec.rb:8.575348122045398
-spec/features/projects/project_status_administration_spec.rb:5.834173111245036
-spec/features/work_packages/table/inline_create/inline_create_refresh_spec.rb:7.649731604382396
-spec/features/work_packages/navigation_spec.rb:25.475280852988362
-spec/features/projects/subproject_creation_spec.rb:4.327364536002278
-spec/features/work_packages/new/new_work_package_spec.rb:202.4168859263882
-spec/features/news/creation_and_commenting_spec.rb:4.413720427080989
-spec/features/work_packages/sorting/table_sorting_spec.rb:12.148443705402315
-spec/features/menu_items/menu_permissions_spec.rb:4.368558896705508
-spec/features/work_packages/table/queries/summary_spec.rb:1.5965251354500651
-spec/features/global_roles/member_roles_spec.rb:0.9578406205400825
-spec/features/custom_fields/multi_value_custom_field_spec.rb:64.37637882493436
-spec/features/users/show_spec.rb:0.7115714019164443
-spec/features/wysiwyg/html_encoding_spec.rb:2.5644155517220497
-spec/features/forums/sticky_spec.rb:0.548756055533886
-spec/features/security/expire_sessions_spec.rb:1.173183174803853
-spec/features/versions/project_settings_index_spec.rb:0.15366233605891466
-spec/features/admin/backup_spec.rb:8.653731874190271
-spec/features/work_packages/table/switch_types_spec.rb:38.182923056185246
-spec/features/oauth/pkce_spec.rb:1.8111369963735342
+Randomized with seed 56673
+spec/features/work_packages/scheduling/scheduling_mode_spec.rb:26.942060699686408
+spec/features/work_packages/table/queries/filter_pagination_spec.rb:6.438529627397656
+spec/features/projects/template_spec.rb:15.987716108560562
+spec/features/work_package_show_spec.rb:2.0728614246472716
+spec/features/work_packages/details/markdown/activity_comments_spec.rb:89.20610593818128
+spec/features/admin/oauth/oauth_applications_management_spec.rb:7.798031373880804
+spec/features/wiki/rename_spec.rb:4.708786861039698
+spec/features/activities/project_attributes_activity_spec.rb:3.2855969816446304
+spec/features/users/invite_user_modal/subproject_invite_spec.rb:10.6580794993788
+spec/features/wiki/adding_editing_history_spec.rb:13.706510965712368
+spec/features/placeholder_users/edit_placeholder_users_spec.rb:6.002083662897348
+spec/features/groups/membership_spec.rb:37.14863473176956
+spec/features/versions/create_spec.rb:1.1133147589862347
+spec/features/custom_fields/create_int_spec.rb:3.780110664665699
+spec/features/work_packages/new/new_work_package_datepicker_spec.rb:6.081270797178149
+spec/features/versions/edit_spec.rb:0.5947652021422982
+spec/features/users/password_change_spec.rb:30.888370171189308
+spec/features/work_packages/table/group_by/group_headers_spec.rb:8.617637550458312
+spec/features/work_packages/display_representations/switch_display_representations_spec.rb:22.413059842772782
+spec/features/types/form_configuration_query_spec.rb:106.94716886524111
+spec/features/work_packages/attachments/attachment_upload_spec.rb:57.10307765752077
+spec/features/admin/enterprise/token_domain_spec.rb:12.78615902364254
+spec/features/wysiwyg/user_mention_spec.rb:12.2275295779109
 
-Randomized with seed 56904
+Randomized with seed 56673
 
-Randomized with seed 19071
-spec/features/work_packages/details/markdown/description_editor_spec.rb:45.82675063889474
-spec/features/custom_fields/create_date_spec.rb:2.887147589586675
-spec/features/search_spec.rb:83.4595283837989
-spec/features/work_packages/details/markdown/activity_comments_spec.rb:88.3770853523165
-spec/features/types/crud_spec.rb:9.184589580632746
-spec/features/global_roles/no_module_spec.rb:1.306330763734877
-spec/features/work_packages/table/hierarchy/hierarchy_parent_below_spec.rb:12.629823852330446
-spec/features/work_packages/details/relations/hierarchy_spec.rb:84.03226849716157
-spec/features/work_packages/table/inline_create/create_work_packages_spec.rb:54.699887537397444
-spec/features/work_packages/work_package_index_spec.rb:2.198273035697639
-spec/features/types/activate_in_project_spec.rb:3.8078998681157827
-spec/features/members/pagination_spec.rb:11.924949683248997
-spec/features/versions/edit_spec.rb:0.3685590885579586
-spec/features/menu_items/quick_add_menu_spec.rb:21.60347161348909
-spec/features/wysiwyg/paragraphs_in_lists_spec.rb:1.0425537023693323
-spec/features/work_packages/details/milestones_spec.rb:3.742634962312877
-spec/features/work_packages/datepicker/datepicker_parent_spec.rb:4.285771891474724
-spec/features/global_roles/global_create_project_spec.rb:6.898385539650917
-spec/features/work_packages/table/hierarchy/hierarchy_indent_spec.rb:61.716185544617474
-spec/features/custom_fields/create_bool_spec.rb:4.093101464211941
-spec/features/work_packages/highlighting_spec.rb:19.885802421718836
-spec/features/wysiwyg/tables_spec.rb:23.37551190238446
-spec/features/work_packages/table/baseline/baseline_rendering_spec.rb:3.973251013085246
-spec/features/work_packages/table/delete_work_packages_spec.rb:27.696840532124043
-spec/features/statuses/statuses_administration_spec.rb:0.2877646004781127
-spec/features/global_roles/global_role_crud_spec.rb:1.8320186883211136
-spec/features/work_packages/bulk/update_work_package_spec.rb:49.923720573075116
-spec/features/custom_fields/multi_user_custom_field_spec.rb:10.568061841651797
-spec/features/repositories/repository_settings_spec.rb:12.232238397933543
-spec/features/wiki/adding_editing_history_spec.rb:8.286917824298143
-spec/features/menu_items/admin_menu_item_spec.rb:1.9511783132329583
-spec/features/work_packages/select/select_card_view_spec.rb:5.041578674688935
-spec/features/wiki/wiki_page_navigation_spec.rb:0.8151875212788582
-spec/features/work_packages/display_fields/date_field_display_spec.rb:2.7395268511027098
+Randomized with seed 19039
+spec/features/admin/settings_spec.rb:0.5231460547074676
+spec/features/work_packages/new/attributes_from_filter_spec.rb:18.001658506691456
+spec/features/work_packages/datepicker/datepicker_logic_spec.rb:185.98824584763497
+spec/features/work_packages/tabs/activity_tab_spec.rb:42.05135007947683
+spec/features/work_packages/table/queries/bool_cf_filter_spec.rb:8.71111079864204
+spec/features/users/invite_user_modal/custom_fields_spec.rb:12.880988574586809
+spec/features/types/reset_form_configuration_spec.rb:4.958542611449957
+spec/features/work_packages/details/query_groups/relation_query_group_spec.rb:35.902929769828916
+spec/features/global_roles/global_create_project_spec.rb:7.102151638828218
+spec/features/wiki/child_pages_spec.rb:3.7277902299538255
+spec/features/work_packages/table/hierarchy/hierarchy_spec.rb:33.15221011452377
+spec/features/projects/project_status_administration_spec.rb:7.496076173149049
+spec/features/work_packages/table/queries/query_menu_spec.rb:22.599527946673334
+spec/features/work_packages/table/hierarchy/parent_column_spec.rb:8.27505030669272
+spec/features/work_packages/details/closed_status_and_version_spec.rb:2.487186584621668
+spec/features/security/expire_sessions_spec.rb:1.8853571470826864
+spec/features/users/show_spec.rb:1.493129350244999
+spec/features/admin/custom_fields/list_custom_field_spec.rb:5.192789279855788
+spec/features/work_packages/table/queries/user_cf_filter_spec.rb:17.72263665869832
+spec/features/wysiwyg/ui_localization_spec.rb:2.463135140016675
+spec/features/projects/create_spec.rb:21.40256217867136
+spec/features/work_packages/details/inplace_editor/subject_editor_spec.rb:42.34228444285691
 
-Randomized with seed 19071
+Randomized with seed 19039
 
-Randomized with seed 63888
-spec/features/onboarding/onboarding_tour_spec.rb:43.39581766631454
-spec/features/work_packages/table/context_menu/context_menu_spec.rb:123.12339147273451
-spec/features/users/index_spec.rb:22.330971281975508
-spec/features/work_packages/timeline/timeline_hierarchy_spec.rb:4.684880023822188
-spec/features/work_packages/table/group_by/group_by_boolean_spec.rb:4.711434083990753
-spec/features/work_packages/attribute_help_texts_spec.rb:3.9535160129889846
-spec/features/work_packages/details/context_menu_spec.rb:3.1822214610874653
-spec/features/work_packages/datepicker/datepicker_non_working_day_spec.rb:14.161175068467855
-spec/features/projects/edit_settings_spec.rb:16.310505723580718
-spec/features/work_packages/details/workdays_spec.rb:6.70450247451663
-spec/features/notifications/settings/pause_reminder_settings_spec.rb:9.356430356390774
-spec/features/work_packages/table/queries/mobile_date_filter_spec.rb:10.13838289771229
-spec/features/work_packages/new/work_package_default_description_spec.rb:18.62448087334633
-spec/features/attachments/attachments_spec.rb:0.0009551281109452248
-spec/features/work_packages/custom_actions/custom_actions_spec.rb:144.4638349832967
-spec/features/work_packages/select/select_work_package_row_spec.rb:15.5582344699651
-spec/features/work_packages/display_fields/estimated_hours_display_spec.rb:18.221785271540284
-spec/features/repositories/create_repository_spec.rb:26.541220932267606
-spec/features/work_packages/scheduling/scheduling_mode_spec.rb:21.597794628702104
-spec/features/admin/enterprise/token_domain_spec.rb:9.420393728651106
-spec/features/wiki/rename_spec.rb:3.3066580034792423
-spec/features/admin/working_days_spec.rb:15.53875585552305
-spec/features/placeholder_users/create_spec.rb:0.7295973729342222
-spec/features/work_package_show_spec.rb:0.989504735916853
-spec/features/statuses/read_only_statuses_spec.rb:5.5600466169416904
-spec/features/wiki/wiki_unicode_spec.rb:9.767315965145826
-spec/features/wysiwyg/macros/attribute_macros_spec.rb:4.8530742060393095
-spec/features/auth/login_spec.rb:5.012020350433886
-spec/features/groups/groups_spec.rb:5.683305465616286
-spec/features/wiki/attachment_upload_spec.rb:15.315226962789893
-spec/features/colors/color_administration_spec.rb:0.14603810012340546
-spec/features/types/form_configuration_spec.rb:34.495038483291864
-spec/features/security/session_ttl_spec.rb:0.5170097192749381
-spec/features/projects/work_package_type_mgmt_spec.rb:2.989411256276071
-spec/features/users/invite_user_modal/invite_user_modal_spec.rb:55.894662791863084
+Randomized with seed 694
+spec/features/work_packages/details/details_refreshing_spec.rb:8.623304922133684
+spec/features/wiki/attachment_upload_spec.rb:17.163781113922596
+spec/features/watching/toggle_watching_spec.rb:8.25642648525536
+spec/features/menu_items/help_menu_spec.rb:4.757236091420054
+spec/features/work_packages/table/inline_create/inline_create_refresh_spec.rb:8.500345660373569
+spec/features/work_packages/select/select_wp_card_spec.rb:6.7732156701385975
+spec/features/work_packages/cards/wp_card_status_spec.rb:4.045236480422318
+spec/features/members/membership_spec.rb:29.41580468788743
+spec/features/auth/auth_source_sso_logout_spec.rb:0.37528070248663425
+spec/features/work_packages/bulk/move_work_package_spec.rb:116.79499558638781
+spec/features/work_packages/table/queries/default_queries_spec.rb:3.2365230387076735
+spec/features/oauth/authorization_code_flow_spec.rb:14.73942487500608
+spec/features/work_packages/timeline/timeline_navigation_spec.rb:54.685758602805436
+spec/features/notifications/notification_center/notification_center_spec.rb:81.73423722106963
+spec/features/forums/sticky_spec.rb:0.7238024994730949
+spec/features/admin/enterprise/enterprise_trial_spec.rb:24.207549696788192
+spec/features/activities/activity_page_navigation_spec.rb:8.320489536039531
+spec/features/work_packages/table/queries/assignees_role_filter_spec.rb:21.470770115032792
+spec/features/wysiwyg/linking_spec.rb:3.193144545890391
+spec/features/work_packages/select/select_work_package_row_spec.rb:15.075136505067348
+spec/features/work_packages/table/work_packages_table_project_include_spec.rb:38.49552214704454
+spec/features/work_packages/table/group_by/group_by_progress_spec.rb:10.47590628825128
+spec/features/work_packages/table/milestones_spec.rb:5.474881501868367
 
-Randomized with seed 63888
+Randomized with seed 694
+
+Randomized with seed 44980
+spec/features/notifications/notification_center/notification_center_date_alerts_spec.rb:14.071984888985753
+spec/features/work_packages/tabs/keep_tab_spec.rb:6.597841219976544
+spec/features/notifications/settings/immediate_reminder_spec.rb:3.6732112262398005
+spec/features/members/invitation_spec.rb:12.988723690621555
+spec/features/members/roles_spec.rb:14.070784641429782
+spec/features/errors/errors_handler_spec.rb:0.1678594220429659
+spec/features/users/my_spec.rb:25.881572583690286
+spec/features/oauth/pkce_spec.rb:3.759471475146711
+spec/features/statuses/read_only_statuses_spec.rb:7.052805786952376
+spec/features/work_packages/export_spec.rb:50.96503210067749
+spec/features/auth/login_spec.rb:7.6589055843651295
+spec/features/global_roles/member_roles_spec.rb:1.7721380358561873
+spec/features/placeholder_users/placeholder_user_memberships_spec.rb:30.050706394016743
+spec/features/work_packages/details/relations/relations_spec.rb:36.31380151677877
+spec/features/categories/delete_spec.rb:9.169131120666862
+spec/features/users/index_spec.rb:29.4627814469859
+spec/features/groups/group_show_spec.rb:0.3049213411286473
+spec/features/work_packages/table/queries/query_name_inline_edit_spec.rb:11.189818441867828
+spec/features/notifications/settings/workdays_settings_spec.rb:17.49126680288464
+spec/features/work_packages/bulk/copy_work_package_spec.rb:95.80681642983109
+spec/features/wiki/wiki_page_navigation_spec.rb:2.3503571171313524
+spec/features/projects/projects_index_spec.rb:98.80862832535058
+spec/features/types/crud_spec.rb:6.089267593808472
+spec/features/work_packages/table/queries/query_menu_refresh_spec.rb:1.8862782195210457
+
+Randomized with seed 44980

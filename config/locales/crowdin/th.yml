@@ -275,6 +275,16 @@ th:
       no_results_title_text: There is currently no news to report.
       no_results_content_text: Add a news item
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'This user is currently a member of the following groups:'
       no_results_title_text: This user is currently not a member in any group.
@@ -1049,6 +1059,7 @@ th:
   button_configure: "กำหนดค่า"
   button_continue: "Continue"
   button_copy: "คัดลอก"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "คัดลอก และปฏิบัติตาม"
   button_create: "สร้าง"
   button_create_and_continue: "สร้าง และดำเนินการต่อ"
@@ -1333,6 +1344,9 @@ th:
       pdf_report: "PDF Report"
     image:
       omitted: "Image not exported."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext available (optional)"
@@ -1493,6 +1507,7 @@ th:
   label_bulk_edit_selected_work_packages: "แก้ไขชุดภารกิจที่เลือกพร้อมกัน"
   label_bundled: '(Bundled)'
   label_calendar: "ปฏิทิน"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "แสดงปฏิทิน"
   label_category: "ประเภท"
   label_consent_settings: "User Consent"
@@ -1529,7 +1544,6 @@ th:
   label_contains: "ประกอบด้วย"
   label_content: "เนื้อหา"
   label_copied: "คัดลอกแล้ว"
-  label_copy_to_clipboard: "คัดลอกไปยังคลิปบอร์ด"
   label_copy_same_as_target: "เหมือนกับเป้าหมาย"
   label_copy_source: "แหล่งที่มา"
   label_copy_target: "เป้าหมาย"
@@ -1546,6 +1560,7 @@ th:
   label_database_version: "PostgreSQL version"
   label_date: "วันที่"
   label_date_and_time: "Date and time"
+  label_date_format: "Date format"
   label_date_from: "จาก"
   label_date_from_to: "ตั้งแต่ %{start} จนถึง %{end}"
   label_date_to: "ถึงวันที่"
@@ -1594,6 +1609,7 @@ th:
   label_equals: "เป็น"
   label_everywhere: "everywhere"
   label_example: "ตัวอย่าง"
+  label_experimental: "Experimental"
   label_import: "Import"
   label_export_to: "ยังสามารถพบใน:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
@@ -1709,6 +1725,7 @@ th:
   label_more_than_ago: "มากกว่าวันที่ผ่านมา"
   label_move_work_package: "ย้ายชุดภารกิจ"
   label_my_account: "บัญชีของฉัน"
+  label_my_activity: "My activity"
   label_my_account_data: "ข้อมูลบัญชีของฉัน"
   label_my_projects: "โครงการของฉัน"
   label_my_queries: "แบบสอบถามแบบกำหนดเองของฉัน"
@@ -2470,7 +2487,7 @@ th:
   setting_consent_decline_mail: "Consent contact mail address"
   setting_cross_project_work_package_relations: "อนุญาติให้มีความเกี่ยวข้องกันระหว่างชุดภารกิจในโครงการ"
   setting_first_week_of_year: "สัปดาห์แรกของปี ประกอบด้วย"
-  setting_date_format: "รูปแบบวันที่"
+  setting_date_format: "Date"
   setting_default_language: "ภาษาเริ่มต้น"
   setting_default_projects_modules: "ค่าเริ่มต้นของโมดูลที่เปิดใช้สำหรับโครงการใหม่"
   setting_default_projects_public: "โดยเริ่มแรก โครงการใหม่จะเป็นสาธารณะ"
@@ -2533,7 +2550,7 @@ th:
   setting_start_of_week: "Week starts on"
   setting_sys_api_enabled: "Enable repository management web service"
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
-  setting_time_format: "รูปแบบเวลา"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "เปิดใช้งาน \"โหมดจำกัดการใช้งาน\" สำหรับผู้ใช้ที่ไม่ระบุชื่อ"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
@@ -2544,6 +2561,7 @@ th:
   setting_welcome_on_homescreen: "Display welcome block on homescreen"
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
+  setting_working_days: "Working days"
   settings:
     general: "ทั่วไป"
     other: "อื่น ๆ"
@@ -2561,6 +2579,10 @@ th:
         หากมีการตั้งค่าตัวเลือก "%{day_of_week_setting_name}" หรือ "%{first_week_setting_name}" ไว้ จะต้องตั้งค่าตัวเลือกอื่นด้วยเพื่อหลีกเลี่ยงความไม่สอดคล้องกันในส่วนหน้า
       first_week_of_year_text: >
         เลือกวันที่ของเดือนมกราคมที่อยู่ในสัปดาห์แรกของปี ค่านี้ร่วมกับวันแรกของสัปดาห์จะกำหนดจำนวนสัปดาห์รวมในหนึ่งปี
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
@@ -2575,6 +2597,9 @@ th:
         status: "Entire row by Status"
         type: "Entire row by Type"
         priority: "Entire row by Priority"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Plain text'
@@ -2939,9 +2964,9 @@ th:
       title: "Delete the work package"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.

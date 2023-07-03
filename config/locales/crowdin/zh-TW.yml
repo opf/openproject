@@ -56,7 +56,7 @@ zh-TW:
         alternative-color: "濃重的主題色，通常用於螢幕上最重要的按鈕。"
         content-link-color: "大部分連結的文字顏色"
         primary-color: "主要顏色"
-        primary-color-dark: "通常深色的主顏色用於 hover 特效。"
+        primary-color-dark: "通常深色的主顏色用於懸浮特效。"
         header-item-bg-hover-color: "當滑鼠移動到可點選的標題項目的背景顏色"
         header-item-font-color: "可點擊的標題項目的文字顏色"
         header-item-font-hover-color: "當滑鼠移動到可點選的標題項目的文字顏色"
@@ -275,6 +275,16 @@ zh-TW:
       no_results_title_text: 目前沒有新消息報告
       no_results_content_text: 新增一個消息
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'This user is currently a member of the following groups:'
       no_results_title_text: This user is currently not a member in any group.
@@ -1049,6 +1059,7 @@ zh-TW:
   button_configure: "設定"
   button_continue: "繼續"
   button_copy: "複製"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "複製並跟隨"
   button_create: "建立"
   button_create_and_continue: "建立並繼續"
@@ -1333,6 +1344,9 @@ zh-TW:
       pdf_report: "PDF Report"
     image:
       omitted: "影像沒有匯出。"
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext 可用 (非必要)"
@@ -1493,6 +1507,7 @@ zh-TW:
   label_bulk_edit_selected_work_packages: "整批編輯選取的工作項目"
   label_bundled: '(已附帶)'
   label_calendar: "行事曆"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "顯示行事曆"
   label_category: "類別"
   label_consent_settings: "使用者同意"
@@ -1529,7 +1544,6 @@ zh-TW:
   label_contains: "包含"
   label_content: "內容"
   label_copied: "已複製"
-  label_copy_to_clipboard: "複製到剪貼簿"
   label_copy_same_as_target: "與目標相同"
   label_copy_source: "來源"
   label_copy_target: "目標"
@@ -1546,6 +1560,7 @@ zh-TW:
   label_database_version: "PostgreSQL 版本"
   label_date: "日期"
   label_date_and_time: "日期和時間"
+  label_date_format: "Date format"
   label_date_from: "寄件者"
   label_date_from_to: "從 %{start} 到 %{end}"
   label_date_to: "到"
@@ -1594,6 +1609,7 @@ zh-TW:
   label_equals: "是"
   label_everywhere: "全部"
   label_example: "範例"
+  label_experimental: "Experimental"
   label_import: "匯入"
   label_export_to: "也可匯出成"
   label_expanded_click_to_collapse: "已擴大。按一下可折疊"
@@ -1709,6 +1725,7 @@ zh-TW:
   label_more_than_ago: "很多天之前"
   label_move_work_package: "移動工作項目"
   label_my_account: "我的帳號"
+  label_my_activity: "My activity"
   label_my_account_data: "我的帳號資料"
   label_my_projects: "我的專案"
   label_my_queries: "我的自訂查詢"
@@ -2469,7 +2486,7 @@ zh-TW:
   setting_consent_decline_mail: "同意連絡人郵寄地址"
   setting_cross_project_work_package_relations: "允許跨專案的工作項目關聯"
   setting_first_week_of_year: "First week in year contains"
-  setting_date_format: "日期格式"
+  setting_date_format: "Date"
   setting_default_language: "預設語言"
   setting_default_projects_modules: "新專案預設啟用的模組"
   setting_default_projects_public: "新專案預設為公開"
@@ -2532,7 +2549,7 @@ zh-TW:
   setting_start_of_week: "一週起始於"
   setting_sys_api_enabled: "啟用版控容器管理網路服務"
   setting_sys_api_description: "版控容器管理網路服務提供容器存取管理和使用者認證"
-  setting_time_format: "時間格式"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "啟用匿名使用者存取模式"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "使用者預設時區"
@@ -2543,6 +2560,7 @@ zh-TW:
   setting_welcome_on_homescreen: "在主頁面上顯示歡迎區塊"
   setting_work_package_list_default_highlighting_mode: "預設突出顯示模式"
   setting_work_package_list_default_highlighted_attributes: "預設內聯突出顯示的屬性"
+  setting_working_days: "Working days"
   settings:
     general: "一般"
     other: "其他"
@@ -2560,6 +2578,10 @@ zh-TW:
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
@@ -2574,6 +2596,9 @@ zh-TW:
         status: "按狀態的整個行"
         type: "按類型劃分的整行"
         priority: "按優先順序的整個行"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: '純文字'
@@ -2938,9 +2963,9 @@ zh-TW:
       title: "刪除工作項目"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.

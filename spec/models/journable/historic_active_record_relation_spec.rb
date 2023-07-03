@@ -511,7 +511,7 @@ RSpec.describe Journable::HistoricActiveRecordRelation do
       it "joins the projects table" do
         sql = subject.to_sql.tr('"', '')
         expect(sql).to include \
-          "LEFT OUTER JOIN projects ON projects.id = journables.project_id"
+          "LEFT OUTER JOIN projects ON projects.id = work_package_journals.project_id"
         expect(sql).to include \
           "WHERE projects.id = #{project.id}"
       end

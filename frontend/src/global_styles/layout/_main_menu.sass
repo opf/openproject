@@ -142,9 +142,9 @@ $arrow-left-width: 40px
     background: none
     padding: 0
 
-.main-item-wrapper
+.main-item-wrapper,
+.main-menu .main-menu-item
   display: flex
-
 
   .toggler:hover
     @include main-menu-hover
@@ -397,6 +397,12 @@ $badge_offset: 4px
   margin-left: 5px
   font-weight: bold
   font-style: italic
+
+.main-menu-toggler
+  background: transparent
+  color: var(--main-menu-font-color)
+  border: none
+
 
 #main-menu-toggle
   .spot-icon_close

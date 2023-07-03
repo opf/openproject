@@ -274,6 +274,16 @@ ru:
       no_results_title_text: На данный момент новостей для отчета нет.
       no_results_content_text: Добавить новость
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} на %{os_name}"
+      browser: 'Браузер'
+      device: 'Устройство / ОС'
+      unknown_browser: 'неизвестный браузер'
+      unknown_os: 'неизвестная операционная система'
+      current: 'Текущая сессия'
+      title: 'Управление сессиями'
+      instructions: 'Это список устройств, с которых входили в ваш аккаунт. Закройте все подозрительные сеансы.'
+      may_not_delete_current: 'Вы не можете удалить ваш текущий сеанс.'
     groups:
       member_in_these_groups: 'Этот пользователь в настоящее время является членом следующих групп:'
       no_results_title_text: Этот пользователь в настоящее время не является членом какой-либо группы.
@@ -490,12 +500,12 @@ ru:
         status_code: 'Статус проекта'
         status_explanation: 'Описание статуса проекта'
         status_codes:
-          not_started: 'Не начато'
+          not_started: 'Не начат'
           on_track: 'По плану'
-          at_risk: 'В зоне риска'
+          at_risk: 'Под угрозой'
           off_track: 'Приостановлен'
-          finished: 'Завершено'
-          discontinued: 'Прекращено'
+          finished: 'Завершен'
+          discontinued: 'Прекращен'
         templated: "Проект шаблона"
         templated_value:
           true: "помечено как шаблон"
@@ -1069,6 +1079,7 @@ ru:
   button_configure: "Настройка"
   button_continue: "Продолжить"
   button_copy: "Копировать"
+  button_copy_to_clipboard: "Копировать в буфер обмена"
   button_copy_and_follow: "Скопировать и продолжить"
   button_create: "Создать"
   button_create_and_continue: "Создать и продолжить"
@@ -1389,6 +1400,9 @@ ru:
       pdf_report: "PDF отчёт"
     image:
       omitted: "Изображение не экспортировано."
+    units:
+      hours: ч
+      days: д
   extraction:
     available:
       pdftotext: "Pdftotext доступно (опционально)"
@@ -1549,6 +1563,7 @@ ru:
   label_bulk_edit_selected_work_packages: "Массовое изменение выбранных пакетов работ"
   label_bundled: '(В комплекте)'
   label_calendar: "Календарь"
+  label_calendars_and_dates: "Календари и даты"
   label_calendar_show: "Показать календарь"
   label_category: "Категория"
   label_consent_settings: "Согласие пользователя"
@@ -1585,7 +1600,6 @@ ru:
   label_contains: "содержит"
   label_content: "Содержание"
   label_copied: "Скопировано"
-  label_copy_to_clipboard: "Копировать в буфер обмена"
   label_copy_same_as_target: "Так, как намечено"
   label_copy_source: "Источник"
   label_copy_target: "Цель"
@@ -1602,6 +1616,7 @@ ru:
   label_database_version: "Версия PostgreSQL"
   label_date: "Дата"
   label_date_and_time: "Дата и время"
+  label_date_format: "Формат даты"
   label_date_from: "От"
   label_date_from_to: "C %{start} по %{end}"
   label_date_to: "Кому"
@@ -1650,6 +1665,7 @@ ru:
   label_equals: "—"
   label_everywhere: "везде"
   label_example: "Пример"
+  label_experimental: "Experimental"
   label_import: "Импорт"
   label_export_to: "Скачать как:"
   label_expanded_click_to_collapse: "Развернуто. Кликните для сворачивания"
@@ -1765,6 +1781,7 @@ ru:
   label_more_than_ago: "больше, чем дней назад"
   label_move_work_package: "Переместить пакет работ"
   label_my_account: "Моя учетная запись"
+  label_my_activity: "Моя активность"
   label_my_account_data: "Данные моей учетной записи"
   label_my_projects: "Мои проекты"
   label_my_queries: "Мои пользовательские запросы"
@@ -2529,7 +2546,7 @@ ru:
   setting_consent_decline_mail: "Контактный почтовый адрес для согласия"
   setting_cross_project_work_package_relations: "Разрешить перектестные связи пакетов работ проекта"
   setting_first_week_of_year: "Первая неделя в году содержит"
-  setting_date_format: "Формат даты"
+  setting_date_format: "Дата"
   setting_default_language: "Язык по умолчанию"
   setting_default_projects_modules: "По умолчанию доступные в новых проектах модули"
   setting_default_projects_public: "По умолчанию новые проекты видимы всем"
@@ -2592,7 +2609,7 @@ ru:
   setting_start_of_week: "Начало недели в"
   setting_sys_api_enabled: "Разрешить веб-сервис управления репоторием"
   setting_sys_api_description: "Веб-сервис управления репозиторием обеспечивает интеграцию и авторизацию пользователя для доступа к репозиторию."
-  setting_time_format: "Формат времени"
+  setting_time_format: "Время"
   setting_accessibility_mode_for_anonymous: "Разрешить режим доступа людей с ограниченными возможностями для анонимных пользователей"
   setting_user_format: "Формат имени пользователя"
   setting_user_default_timezone: "Часовой пояс пользователя по умолчанию"
@@ -2603,6 +2620,7 @@ ru:
   setting_welcome_on_homescreen: "Показывать приветствие на домашней странице"
   setting_work_package_list_default_highlighting_mode: "Способ выделения по умолчанию"
   setting_work_package_list_default_highlighted_attributes: "Выделенные встроенные атрибуты по умолчанию"
+  setting_working_days: "Рабочие дни"
   settings:
     general: "Общие"
     other: "Другие"
@@ -2620,6 +2638,10 @@ ru:
         Если параметры "%{day_of_week_setting_name}" или "%{first_week_setting_name}" заданы,  должны быть заданы и другие тоже во избежание несоответствий в интерфейсе.
       first_week_of_year_text: >
         Выберите дату января, которая содержится в первой неделе года. Она вместе с первым днем недели определяет общее количество недель в году.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Настройки для новых проектов"
       section_project_overview: "Настройки списка обзоров проекта"
@@ -2630,10 +2652,13 @@ ru:
     highlighting:
       mode_long:
         inline: "Выделите один или несколько встроенных атрибутов"
-        none: "Без подсветки"
+        none: "Без выделения"
         status: "Вся строка по статусу"
         type: "Вся строка по типу"
         priority: "Вся строка по приоритету"
+    working_days:
+      section_work_week: "Рабочая неделя"
+      section_holidays_and_closures: "Праздничные и нерабочие дни"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Обычный текст'
@@ -3003,9 +3028,9 @@ ru:
       title: "Удалить пакет работ"
   working_days:
     info: >
-      <b>Определить дни, которые считаются частью рабочей недели</b><br/> Невыбранные дни пропускаются при планировании пактов работ (и не включаются в подсчет дней). Они могут быть переопределены на уровне пакетов работ.
+      Невыбранные дни пропускаются при планировании пакетов работ (и не включаются в подсчет дней). Они могут быть переопределены на уровне пакетов работ.
     instance_wide_info: >
-      <b>Конкретные нерабочие дни (праздничные дни и выходные)</b><br/> Даты, добавленные в список ниже, считаются нерабочими и не участвуют в планировании пакетов работ.
+      Даты, добавленные в список ниже, считаются нерабочими и пропускаются при планировании пакетов работ.
     change_button: "Изменить рабочие дни"
     warning: >
       Изменение того, какие дни недели считаются рабочими или нерабочими, может повлиять на дни начала и окончания всех рабочих пакетов во всех проектах в данной системе. <br/> Пожалуйста, обратите внимание, что изменения вступят в силу после того, как вы нажмете на кнопку применить.
@@ -3178,14 +3203,14 @@ ru:
       label_refresh_token: "Токен обновления"
     errors:
       oauth_authorization_code_grant_had_errors: "OAuth2 вернул ошибку"
-      oauth_reported: "Поставщик OAuth2 сообщил"
+      oauth_reported: "Источник OAuth2 сообщил"
       oauth_returned_error: "OAuth2 вернул ошибку"
       oauth_returned_json_error: "OAuth2 вернул ошибку JSON"
       oauth_returned_http_error: "OAuth2 вернул ошибку сети"
       oauth_returned_standard_error: "OAuth2 вернул внутреннюю ошибку"
       wrong_token_type_returned: "OAuth2 вернул неверный тип токена, ожидая AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 сообщил об ошибке. Обратитесь к системному администратору."
-      oauth_client_not_found: "OAuth2 клиент не найден в точке 'callback' (redirect_uri)."
+      oauth_client_not_found: "OAuth2 'state' не найден в конечной точке 'callback' (redirect_uri)."
       refresh_token_called_without_existing_token: >
         Внутренняя ошибка: Обнаружен refresh_token без ранее существующего токена.
       refresh_token_updated_failed: "Ошибка при обновлении OAuthClientToken"
@@ -3193,7 +3218,7 @@ ru:
         Эта ошибка появляется после того, как вы обновили client_id и client_secret в OpenProject, но не обновили поле 'Return URI' в OAuth2 провайдере.
       oauth_code_not_present: "OAuth2 'code' не найден в конечной точке 'callback' (redirect_uri)."
       oauth_code_not_present_explanation: >
-        Эта ошибка появляется если вы выбрали неправильный response_type в OAuth2 провайдере. Response_type должен быть 'code' или аналогичным.
+        Эта ошибка появляется, если вы выбрали неправильный response_type в OAuth2 провайдере. Response_type должен быть 'code' или аналогичным.
       oauth_state_not_present: "OAuth2 'state' не найден в конечной точке 'callback' (redirect_uri)."
       oauth_state_not_present_explanation: >
         OAuth2 'state' используется для указания OpenProject где продолжить после успешной авторизации OAuth2. Отсутствие 'state' - внутренняя ошибка, которая может появиться при настройке. Обратитесь к системному администратору.
@@ -3210,7 +3235,7 @@ ru:
   http:
     request:
       failed_authorization: "Запрос стороны сервера не смог авторизоваться."
-      missing_authorization: "Запрос на стороне сервера не удался из-за отсутствия информации о авторизации."
+      missing_authorization: "Запрос на стороне сервера не удался из-за отсутствия информации об авторизации."
     response:
       unexpected: "Получен неожиданный ответ."
   you: вы

@@ -271,6 +271,16 @@ el:
       no_results_title_text: Δεν υπάρχουν προς το παρόν νέα για αναφορά.
       no_results_content_text: Προσθέστε ένα στοιχείο νέων
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'Αυτός ο χρήστης είναι μέλος των παρακάτω ομάδων:'
       no_results_title_text: Αυτός ο χρήστης, προς το παρόν, δεν είναι μέλος κάποιας ομάδας.
@@ -1052,6 +1062,7 @@ el:
   button_configure: "Ρύθμιση παραμέτρων"
   button_continue: "Συνέχεια"
   button_copy: "Αντιγραφή"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Αντιγραφή και ακολούθηση"
   button_create: "Δημιουργία"
   button_create_and_continue: "Δημιουργία και συνέχεια"
@@ -1348,6 +1359,9 @@ el:
       pdf_report: "PDF Report"
     image:
       omitted: "Η εικόνα δεν εξήχθη."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Το Pdftotext είναι διαθέσιμο (προαιρετικό)"
@@ -1508,6 +1522,7 @@ el:
   label_bulk_edit_selected_work_packages: "Μαζική επεξεργασία επιλεγμένων πακέτων εργασίας"
   label_bundled: '(Πακεταρισμένο)'
   label_calendar: "Ημερολόγιο"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Εμφάνιση Ημερολογίου"
   label_category: "Κατηγορία"
   label_consent_settings: "Συναίνεση χρήστη"
@@ -1544,7 +1559,6 @@ el:
   label_contains: "περιέχει"
   label_content: "Περιεχόμενο"
   label_copied: "αντιγράφηκε"
-  label_copy_to_clipboard: "Αντιγραφή στο πρόχειρο"
   label_copy_same_as_target: "Ίδιο με του στόχου"
   label_copy_source: "Πηγή"
   label_copy_target: "Στόχος"
@@ -1561,6 +1575,7 @@ el:
   label_database_version: "Έκδοση PostgreSQL"
   label_date: "Ημερομηνία"
   label_date_and_time: "Ημερομηνία και ώρα"
+  label_date_format: "Date format"
   label_date_from: "Από"
   label_date_from_to: "Από %{start} έως %{end}"
   label_date_to: "Έως"
@@ -1609,6 +1624,7 @@ el:
   label_equals: "είναι"
   label_everywhere: "παντού"
   label_example: "Παράδειγμα"
+  label_experimental: "Experimental"
   label_import: "Εισαγωγή"
   label_export_to: "Επίσης διαθέσιμο σε:"
   label_expanded_click_to_collapse: "Επεκταμένο. Πατήστε για σύμπτυξη"
@@ -1724,6 +1740,7 @@ el:
   label_more_than_ago: "σε περισσότερο από ημέρες πριν"
   label_move_work_package: "Μετακίνηση πακέτου εργασίας"
   label_my_account: "Ο λογαριασμός μου"
+  label_my_activity: "My activity"
   label_my_account_data: "Τα δεδομένα του λογαριασμού μου"
   label_my_projects: "Τα έργα μου"
   label_my_queries: "Οι προσαρμοσμένες αναζητήσεις μου"
@@ -2486,7 +2503,7 @@ el:
   setting_consent_decline_mail: "Συγκατάθεση επικοινωνίας διεύθυνσης email"
   setting_cross_project_work_package_relations: "Επιτρέψτε συσχετισμό πακέτων εργασίας μεταξύ έργων"
   setting_first_week_of_year: "Η πρώτη εβδομάδα του έτους περιέχει"
-  setting_date_format: "Μορφηποίηση ημερομηνίας"
+  setting_date_format: "Date"
   setting_default_language: "Προεπιλεγμένη γλώσσα"
   setting_default_projects_modules: "Ενότητα ενεργοποιημένες από προεπιλογή για τα νέα έργα"
   setting_default_projects_public: "Τα νέα έργα είναι δημόσια από προεπιλογή"
@@ -2549,7 +2566,7 @@ el:
   setting_start_of_week: "Η εβδομάδα ξεκινά από"
   setting_sys_api_enabled: "Ενεργοποίηση του web service διαχείρισης αποθετηρίων"
   setting_sys_api_description: "Το web service διαχείρισης αποθετηρίων παρέχει ενσωμάτωση και αυθεντικοποίηση χρήστη για την πρόσβαση σε αποθετήρια."
-  setting_time_format: "Μορφοποίηση ώρας"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Ενεργοποίηση της λειτουργίας προσβασιμότητας για ανώνυμους χρήστες"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Προεπιλεγμένη ζώνη ώρας του χρήστη"
@@ -2560,6 +2577,7 @@ el:
   setting_welcome_on_homescreen: "Εμφάνιση μπλοκ καλωσορίσματος στην αρχική σελίδα"
   setting_work_package_list_default_highlighting_mode: "Προεπιλεγμένη λειτουργία επισήμανσης"
   setting_work_package_list_default_highlighted_attributes: "Προεπιλεγμένα inline χαρακτηριστικά με επισήμανση"
+  setting_working_days: "Working days"
   settings:
     general: "Γενικά"
     other: "Άλλο"
@@ -2577,6 +2595,10 @@ el:
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Ρυθμίσεις για νέα έργα"
       section_project_overview: "Ρυθμίσεις για τη λίστα επισκόπησης έργου"
@@ -2591,6 +2613,9 @@ el:
         status: "Ολόκληρη η σειρά ανά Κατάσταση"
         type: "Ολόκληρη η σειρά ανά Τύπο"
         priority: "Ολόκληρη η σειρά ανά Προτεραιότητα"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Απλό κείμενο'
@@ -2956,9 +2981,9 @@ el:
       title: "Διαγραφή του πακέτου εργασίας"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.

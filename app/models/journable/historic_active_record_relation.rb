@@ -109,7 +109,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     relation = substitute_database_table_in_where_clause(relation)
     relation = add_timestamp_condition(relation)
     relation = add_join_on_journables_table_with_created_at_column(relation)
-    relation = add_join_projects_on_journables(relation)
+    relation = add_join_projects_on_work_package_journals(relation)
     relation = select_columns_from_the_appropriate_tables(relation)
 
     # Based on the previous modifications, build the algebra object.
@@ -253,22 +253,25 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   #
   def add_join_on_journables_table_with_created_at_column(relation)
     relation \
-        .joins("INNER JOIN (SELECT id, created_at#{', project_id' if include_projects?(relation)} " \
+        .joins("INNER JOIN (SELECT id, created_at " \
                "FROM \"#{model.table_name}\") AS journables " \
                "ON \"journables\".\"id\" = \"journals\".\"journable_id\"")
   end
 
-  # Join the projects table on journables if :project is in the includes.
+  # Join the projects table on work_package_journals if :project is in the includes.
   # It is needed when projects are filtered by id, and has to be done manually
   # as eager_loading is disabled.
+  # It needs to be `work_package_journals` and not `journables` (the subselect of the work_packages table)
+  # because the journables table will contain the current project and not the project the work package was
+  # in at the time of the journal.
   # Does not work yet for other includes.
   #
-  def add_join_projects_on_journables(relation)
+  def add_join_projects_on_work_package_journals(relation)
     if include_projects?(relation)
       relation
         .except(:includes, :eager_load, :preload)
         .joins('LEFT OUTER JOIN "projects" ' \
-               'ON "projects"."id" = "journables"."project_id"')
+               'ON "projects"."id" = "work_package_journals"."project_id"')
     else
       relation
     end

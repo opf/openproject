@@ -56,12 +56,8 @@ RSpec.describe Admin::Settings::LanguagesSettingsController do
     subject { patch 'update', params: }
 
     let(:available_languages) { %w[en fr de] }
-    let(:start_of_week) { 1 }
-    let(:first_week_of_year) { 1 }
-    let(:date_format) { Settings::Definition[:date_format].allowed.first }
-    let(:time_format) { Settings::Definition[:time_format].allowed.first }
     let(:base_settings) do
-      { available_languages:, start_of_week:, first_week_of_year:, date_format:, time_format: }
+      { available_languages: }
     end
     let(:params) { { settings: } }
 
@@ -92,26 +88,5 @@ RSpec.describe Admin::Settings::LanguagesSettingsController do
         expect(user_ja.reload.language).to eq('ja')
       end
     end
-
-    shared_examples 'invalid combination of start_of_week and first_week_of_year' do |missing_param:|
-      provided_param = (%i[start_of_week first_week_of_year] - [missing_param]).first
-
-      context "when setting only #{provided_param} but not #{missing_param}" do
-        let(:settings) { base_settings.except(missing_param) }
-
-        it 'redirects and sets the flash error' do
-          subject
-
-          expect(response).to redirect_to action: :show
-          expect(flash[:error])
-            .to eq(I18n.t('settings.display.first_date_of_week_and_year_set',
-                          first_week_setting_name: I18n.t(:setting_first_week_of_year),
-                          day_of_week_setting_name: I18n.t(:setting_start_of_week)))
-        end
-      end
-    end
-
-    include_examples 'invalid combination of start_of_week and first_week_of_year', missing_param: :first_week_of_year
-    include_examples 'invalid combination of start_of_week and first_week_of_year', missing_param: :start_of_week
   end
 end

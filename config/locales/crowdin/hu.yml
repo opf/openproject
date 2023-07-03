@@ -274,6 +274,16 @@ hu:
       no_results_title_text: Nincs megjeleníthető hír.
       no_results_content_text: Hír hozzáadása
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'A felhasználó a következő csoportoknak a tagja:'
       no_results_title_text: A falhasználó egyik csoportnak se a tagja
@@ -1053,6 +1063,7 @@ hu:
   button_configure: "Beállítások"
   button_continue: "Folytatás"
   button_copy: "Másol"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Másol és folytat"
   button_create: "Létrehoz"
   button_create_and_continue: "Létrehoz és folytat"
@@ -1349,6 +1360,9 @@ hu:
       pdf_report: "PDF Report"
     image:
       omitted: "Kép nem került exportálásra."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext elérhető (opcionális)"
@@ -1509,6 +1523,7 @@ hu:
   label_bulk_edit_selected_work_packages: "A kiválasztott feladatcsoportok tömeges szerkesztése"
   label_bundled: '(Csomagban)'
   label_calendar: "Naptár"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Kalendárium mutatása"
   label_category: "Kategória"
   label_consent_settings: "Felhasználói jóváhagyás"
@@ -1545,7 +1560,6 @@ hu:
   label_contains: "tartalmaznak"
   label_content: "Tartalom"
   label_copied: "másolva"
-  label_copy_to_clipboard: "Másolás a vágólapra"
   label_copy_same_as_target: "Ugyanaz, mint a cél"
   label_copy_source: "Forrás"
   label_copy_target: "Cél"
@@ -1562,6 +1576,7 @@ hu:
   label_database_version: "PostgreSQL verzió"
   label_date: "dátum"
   label_date_and_time: "Dátum és idő"
+  label_date_format: "Date format"
   label_date_from: "tól"
   label_date_from_to: "%{start}-tól %{end}-ig"
   label_date_to: "címzett"
@@ -1610,6 +1625,7 @@ hu:
   label_equals: "van"
   label_everywhere: "bárhol"
   label_example: "Példa"
+  label_experimental: "Experimental"
   label_import: "Importálás"
   label_export_to: "Is elérhető:"
   label_expanded_click_to_collapse: "Kinyitva. Kattintson az összecsukáshoz"
@@ -1725,6 +1741,7 @@ hu:
   label_more_than_ago: "több, nappal ezelőtt"
   label_move_work_package: "A munkacsomag mozgatása"
   label_my_account: "Saját fiókom"
+  label_my_activity: "My activity"
   label_my_account_data: "Az én fiók adataim"
   label_my_projects: "Az én projektjeim"
   label_my_queries: "Az én egyéni lekérdezéseim"
@@ -2487,7 +2504,7 @@ hu:
   setting_consent_decline_mail: "Hozzájárulás a kapcsolattartói e-mail címhez"
   setting_cross_project_work_package_relations: "Projektek közötti feladatcsoportok kapcsolatainak engedélyezése"
   setting_first_week_of_year: "Az év első hete tartalmazza\n"
-  setting_date_format: "Dátum formátum"
+  setting_date_format: "Date"
   setting_default_language: "Alapértelmezett nyelv"
   setting_default_projects_modules: "Az új projektekben alapértelmezetten engedélyezett modulok"
   setting_default_projects_public: "Új projektek nyilvánosak alapértelmezetten"
@@ -2550,7 +2567,7 @@ hu:
   setting_start_of_week: "Hét kezdőnapja"
   setting_sys_api_enabled: "Csomagtároló webszolgáltatás bekapcsolva"
   setting_sys_api_description: "A csomagtároló webszolgáltatás integrációt és felhasználói hozzáférést biztosít a tároló eléréséhez."
-  setting_time_format: "Időformátum"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Engedélyezi a kisegítő módot a névtelen felhasználók számára"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "A felhasználók alapértelmezett időzónája"
@@ -2561,6 +2578,7 @@ hu:
   setting_welcome_on_homescreen: "Üdvözlő blokk megjelenítése a kezdőképernyőn"
   setting_work_package_list_default_highlighting_mode: "Alapértelmezett kiemelési mód"
   setting_work_package_list_default_highlighted_attributes: "Alapértelmezett kiemelt attribútumok sorai"
+  setting_working_days: "Working days"
   settings:
     general: "Általános"
     other: "Egyéb"
@@ -2578,6 +2596,10 @@ hu:
         Ha a "%{day_of_week_setting_name}" vagy a "%{first_week_setting_name}" opciók közül valamelyik be van állítva, akkor a másiknak is be kell lennie, hogy elkerüljük az ellentmondásokat a frontendben.
       first_week_of_year_text: >
         Válassza ki azt a január dátumot, amely az év első hetében található. Ez az érték a hét első napjával együtt határozza meg az év hetek teljes számát.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Új projekt beállításai"
       section_project_overview: "A projekt áttekintési lista beállítása"
@@ -2592,6 +2614,9 @@ hu:
         status: "Teljes sor állapot szerint"
         type: "Teljes sor típus szerint"
         priority: "Teljes sor prioritás szerint"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Egyszerű szöveg'
@@ -2958,9 +2983,9 @@ hu:
       title: "Munkacsomag törlése"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.

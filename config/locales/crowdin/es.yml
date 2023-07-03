@@ -272,6 +272,16 @@ es:
       no_results_title_text: No hay noticias sobre las que informar por el momento.
       no_results_content_text: Añadir un elemento de noticias
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'Este usuario es miembro actualmente de los grupos siguientes:'
       no_results_title_text: Este usuario no es miembro actualmente de ningún grupo.
@@ -1053,6 +1063,7 @@ es:
   button_configure: "Configurar"
   button_continue: "Continuar"
   button_copy: "Copiar"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Copiar y seguir"
   button_create: "Crear"
   button_create_and_continue: "Crear y continuar"
@@ -1349,6 +1360,9 @@ es:
       pdf_report: "PDF Report"
     image:
       omitted: "Imagen no exportada."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext disponible (opcional)"
@@ -1509,6 +1523,7 @@ es:
   label_bulk_edit_selected_work_packages: "Edición masiva de paquetes de trabajo"
   label_bundled: '(Agrupado)'
   label_calendar: "Calendario"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Mostrar Calendario"
   label_category: "Categoría"
   label_consent_settings: "Consentimiento del usuario"
@@ -1545,7 +1560,6 @@ es:
   label_contains: "contiene"
   label_content: "Contenido"
   label_copied: "copiado"
-  label_copy_to_clipboard: "Copiar en el portapapeles"
   label_copy_same_as_target: "Igual al destino"
   label_copy_source: "Fuente"
   label_copy_target: "Objetivo"
@@ -1562,6 +1576,7 @@ es:
   label_database_version: "Versión de PostgreSQL"
   label_date: "Fecha"
   label_date_and_time: "Fecha y hora"
+  label_date_format: "Date format"
   label_date_from: "De"
   label_date_from_to: "De %{start} al %{end}"
   label_date_to: "Para"
@@ -1610,6 +1625,7 @@ es:
   label_equals: "es"
   label_everywhere: "todo"
   label_example: "Ejemplo"
+  label_experimental: "Experimental"
   label_import: "Importar"
   label_export_to: "También disponible en:"
   label_expanded_click_to_collapse: "Expandido. Haga clic para contraer"
@@ -1725,6 +1741,7 @@ es:
   label_more_than_ago: "más días atrás"
   label_move_work_package: "Mover el paquete de trabajo"
   label_my_account: "Mi cuenta"
+  label_my_activity: "My activity"
   label_my_account_data: "Mis datos de cuenta"
   label_my_projects: "Mis proyectos"
   label_my_queries: "Mis consultas personalizadas"
@@ -2487,7 +2504,7 @@ es:
   setting_consent_decline_mail: "Consentimiento de la dirección de correo electrónico"
   setting_cross_project_work_package_relations: "Permitir relaciones cruzadas en paquetes de trabajo de proyecto"
   setting_first_week_of_year: "La primera semana del año contiene"
-  setting_date_format: "Formato de fecha"
+  setting_date_format: "Date"
   setting_default_language: "Idioma predeterminado"
   setting_default_projects_modules: "Modulos activados por defecto para nuevos proyectos"
   setting_default_projects_public: "Nuevos proyectos son públicos por defecto"
@@ -2550,7 +2567,7 @@ es:
   setting_start_of_week: "La semana empieza el"
   setting_sys_api_enabled: "Habilitar el servicio web de administración de repositorios"
   setting_sys_api_description: "El servicio web de administración de repositorios proporciona integración y autorización de usuario para acceder a los repositorios."
-  setting_time_format: "Formato de hora"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Activar el modo de accesibilidad para usuarios anónimos"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Zona horaria por defecto de los usuarios"
@@ -2561,6 +2578,7 @@ es:
   setting_welcome_on_homescreen: "Mostrar bloque de bienvenida en la pagina de inicio"
   setting_work_package_list_default_highlighting_mode: "Modo de resaltado predeterminado"
   setting_work_package_list_default_highlighted_attributes: "Atributos resaltados en línea predeterminados"
+  setting_working_days: "Working days"
   settings:
     general: "General"
     other: "Otros"
@@ -2578,6 +2596,10 @@ es:
         Si se establece una de las opciones «%{day_of_week_setting_name}» o «%{first_week_setting_name}», también debe establecerse la otra para evitar incoherencias en el front-end.
       first_week_of_year_text: >
         Seleccione la fecha de enero de la primera semana del año. Este valor y el primer día de la semana determinan el número total de semanas de un año.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Configuración para nuevos proyectos"
       section_project_overview: "Configuración de la lista de información general del proyecto"
@@ -2592,6 +2614,9 @@ es:
         status: "Toda la fila por estado"
         type: "Toda la fila por tipo"
         priority: "Toda la fila por prioridad"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Texto sin formato'
@@ -2957,9 +2982,9 @@ es:
       title: "Eliminar el pauqete de trabajo"
   working_days:
     info: >
-      <b>Definir los días considerados parte de la semana laboral.</b><br/> Los días que no están seleccionados se omiten al programar paquetes de trabajo (y no se incluyen en la cuenta de días). Estos pueden ser substituidos en los paquetes de trabajo.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Días no laborables específicos (días festivos y cerrados)</b><br/> Las fechas añadidas a la siguiente lista se consideran no laborales y se omiten al programar paquetes de trabajo.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Cambiar los días laborables"
     warning: >
       Cambiar qué días de la semana se consideran días laborables o no laborables puede afectar a las fechas de inicio y fin de todos los paquetes de trabajo en todos los proyectos de esta instancia. <br/> Tenga en cuenta que los cambios solo se aplican después de hacer clic en el botón aplicar cambios.

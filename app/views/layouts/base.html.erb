@@ -92,7 +92,12 @@ See COPYRIGHT and LICENSE files for more details.
   <div id="main"
        class="<%= initial_classes %>">
     <% if (side_displayed && show_decoration) %>
-      <div id="main-menu" class="main-menu">
+      <div
+        id="main-menu"
+        class="main-menu"
+        data-controller="menus--main"
+        data-application-target="dynamic"
+      >
         <h1 class="hidden-for-sighted"><%= t(:label_main_menu) %></h1>
         <main-menu-resizer></main-menu-resizer>
         <div id="menu-sidebar">
@@ -100,7 +105,7 @@ See COPYRIGHT and LICENSE files for more details.
           <%= content_for :main_menu %>
           <%= call_hook :view_layouts_base_main_menu %>
           <!-- Sidebar -->
-          <div id="sidebar">
+          <div id="sidebar" data-menus--main-target="sidebar">
             <%= content_for :sidebar %>
             <%= call_hook :view_layouts_base_sidebar %>
           </div>
