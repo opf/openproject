@@ -159,14 +159,12 @@ module API::V3::WorkPackages::EagerLoading
       new_record? ? @timestamp : Timestamp.parse(__getobj__.timestamp)
     end
 
-    # Since custom fields are currently never displayed in the attributesByTimestamp,
-    # for which this object is used, simply short circuit the loading of the custom field information.
     def available_custom_fields
-      WorkPackageCustomField.none
-    end
-
-    def define_all_custom_field_accessors
-      nil
+      # The Journable::WithHistoricAttributes#load_customizable_journals loads the historic
+      # Journal::CustomizableJournal objects and they are being dubbed as custom values.
+      # The custom_values contain only the historic Journal::CustomizableJournal objects
+      # that were available on the WorkPackage at the timestamp we are looking at.
+      custom_values.map(&:custom_field)
     end
   end
 end

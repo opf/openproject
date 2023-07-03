@@ -38,7 +38,7 @@ class Journable::WithHistoricAttributes
 
     def at_timestamp(timestamp)
       @at_timestamp ||= Hash.new do |h, t|
-        h[t] = (currently_invisible_journalized_at_timestamp(t) + currently_visible_journalized_at_timestamp(t)).index_by(&:id)
+        h[t] = journalized_at_timestamp(t).index_by(&:id)
       end
 
       @at_timestamp[timestamp]
@@ -74,6 +74,11 @@ class Journable::WithHistoricAttributes
       @currently_invisible_journables ||= journables - currently_visible_journables
     end
 
+    def journalized_at_timestamp(t)
+      journalized = (currently_invisible_journalized_at_timestamp(t) + currently_visible_journalized_at_timestamp(t))
+      load_customizable_journals(journalized)
+    end
+
     def currently_invisible_journalized_at_timestamp(timestamp)
       journalized_class.visible.at_timestamp(timestamp).where(id: currently_invisible_journables)
     end
@@ -87,6 +92,22 @@ class Journable::WithHistoricAttributes
     end
 
     attr_accessor :journables
+
+    def load_customizable_journals(journalized)
+      journals_by_journable = Journal
+        .where(id: journalized.map(&:journal_id))
+        .includes({ customizable_journals: :custom_field })
+        .index_by(&:journable_id)
+
+      journalized.each do |work_package|
+        # work_package.association(:journals).loaded!
+        # work_package.association(:journals).target = Array(journals_by_journable[work_package.id])
+        work_package.association(:custom_values).loaded!
+        custom_values = Array(journals_by_journable[work_package.id]&.customizable_journals)
+        work_package.association(:custom_values).target = custom_values
+      end
+      journalized
+    end
   end
   private_constant :Loader
 end

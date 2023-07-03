@@ -89,6 +89,7 @@ module Journable::Timestamps
   #     WorkPackage.find(1).at_timestamp(1.year.ago)
   #
   def at_timestamp(timestamp)
+    # TODO: Update this method to also include the correct custom fields
     if journal = journals.at_timestamp(timestamp).first
       attributes = journal.data.attributes.merge(
         {

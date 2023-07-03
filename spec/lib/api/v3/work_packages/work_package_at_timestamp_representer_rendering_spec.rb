@@ -38,21 +38,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
   let(:embed_links) { false }
   let(:timestamps) { nil }
   let(:query) { nil }
-  let(:properties) do
-    %w[
-      subject
-      start_date
-      due_date
-      assignee
-      responsible
-      project
-      status
-      priority
-      type
-      version
-      parent
-    ]
-  end
 
   let(:due_date) { Date.current + 5.days }
   let(:start_date) { Date.current - 5.days }
@@ -70,6 +55,16 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
     end
   end
   let(:project) { build_stubbed(:project) }
+  let(:custom_field) do
+    build_stubbed(:text_wp_custom_field,
+                  name: 'Text CF',
+                  types: project.types,
+                  projects: [project])
+  end
+
+  let(:available_custom_fields) { [custom_field] }
+
+  let(:custom_values) { { custom_field.id => 'This is a text value' } }
 
   let(:work_package) do
     build_stubbed(:work_package,
@@ -82,7 +77,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
                   priority:,
                   version:,
                   parent:,
-                  responsible:).tap do |wp|
+                  responsible:,
+                  custom_values:).tap do |wp|
       allow(wp)
         .to receive(:respond_to?)
               .and_call_original
@@ -90,6 +86,9 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
         .to receive(:respond_to?)
               .with(:wrapped?)
               .and_return(true)
+      allow(wp)
+        .to receive(:available_custom_fields)
+        .and_return(available_custom_fields)
     end
   end
   let(:timestamp) { Timestamp.new(1.day.ago) }
@@ -136,6 +135,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'render
         'subject' => work_package.subject,
         'startDate' => work_package.start_date,
         'dueDate' => work_package.due_date,
+        "customField#{custom_field.id}" => 'This is a text value',
         '_meta' => {
           'matchesFilters' => true,
           'exists' => true,

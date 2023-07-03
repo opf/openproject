@@ -132,7 +132,7 @@ class Journable::WithHistoricAttributes < SimpleDelegator
       end
     end
   end
-
+  # TODO: Add comment that this is not being used for the API.
   def attributes_by_timestamp
     @attributes_by_timestamp ||= Hash.new do |h, t|
       attributes = if include_only_changed_attributes

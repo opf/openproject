@@ -54,6 +54,8 @@ module API
           parent
         ].freeze
 
+        # Support custom values and custom fields in the allow list
+
         SUPPORTED_PROPERTIES = (SUPPORTED_NON_LINK_PROPERTIES + SUPPORTED_LINK_PROPERTIES).freeze
 
         STATIC_NON_LINK_PROPERTIES = %w[_meta].freeze
