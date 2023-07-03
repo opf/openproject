@@ -118,12 +118,16 @@ Redmine::MenuManager.map :account_menu do |menu|
             if: Proc.new { User.current.logged? }
 end
 
-Redmine::MenuManager.map :application_menu do |menu|
+Redmine::MenuManager.map :global_work_packages_menu do |menu|
   menu.push :work_packages_query_select,
             { controller: '/work_packages', action: 'index' },
-            parent: :work_packages,
-            partial: 'work_packages/menu_query_select',
-            last: true
+            partial: 'work_packages/menu_query_select'
+end
+
+Redmine::MenuManager.map :global_activities_menu do |menu|
+  menu.push :activity_filters,
+            { controller: '/activities', action: 'index' },
+            partial: 'activities/filters_menu'
 end
 
 Redmine::MenuManager.map :notifications_menu do |menu|
@@ -460,6 +464,12 @@ Redmine::MenuManager.map :project_menu do |menu|
             { controller: '/activities', action: 'index' },
             if: Proc.new { |p| p.module_enabled?('activity') },
             icon: 'checkmark'
+
+  menu.push :activity_filters,
+            { controller: '/activities', action: 'index' },
+            if: Proc.new { |p| p.module_enabled?('activity') },
+            parent: :activity,
+            partial: 'activities/filters_menu'
 
   menu.push :roadmap,
             { controller: '/versions', action: 'index' },
