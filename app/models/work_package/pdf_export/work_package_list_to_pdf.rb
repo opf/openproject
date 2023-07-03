@@ -224,8 +224,19 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def title
-    # export filename expects to be "project.name - query.name"
-    "#{project ? "#{project} - #{heading}" : heading}.pdf"
+    # export filename expects to be [project.name, query.name, date YY-MM-DD, time HH-MM]
+    "#{project ? "#{project}_#{heading}" : heading}_#{title_datetime}.pdf"
+  end
+
+  def title_datetime
+    time = Time.zone.now
+    zone = User.current.time_zone
+    local_time = if zone
+                   time.in_time_zone(zone)
+                 else
+                   time.utc? ? time.localtime : time
+                 end
+    local_time.strftime('%Y-%m-%d_%H-%M')
   end
 
   def heading
