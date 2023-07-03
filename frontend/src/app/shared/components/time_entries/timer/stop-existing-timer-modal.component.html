@@ -12,12 +12,11 @@
 
   <div class="spot-divider"></div>
 
-  <div class="spot-modal--body spot-container">
+  <div class="spot-modal--body spot-container spot-body-small">
     <p>
       <strong>{{ text.tracking_time }}: {{ elapsed$ | async }}</strong>
       <br/>
       <a
-        class="op-timer-stop-modal--timer"
         uiSref="work-packages.show"
         [uiParams]="{ workPackageId: active.workPackage.id }"
         (click)="closeMe()"
@@ -26,9 +25,6 @@
       </a>
     </p>
 
-    <div class="spot-divider"></div>
-
-    <p [textContent]="text.must_stop_timer"></p>
   </div>
   <div class="spot-action-bar">
     <div class="spot-action-bar--right">

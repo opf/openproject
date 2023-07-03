@@ -54,7 +54,6 @@ import { StateService } from '@uirouter/core';
 
 @Component({
   templateUrl: './stop-existing-timer-modal.component.html',
-  styleUrls: ['./stop-existing-timer-modal.component.sass'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -78,7 +77,6 @@ export class StopExistingTimerModalComponent extends OpModalComponent implements
     button_stop: this.I18n.t('js.timer.button_stop'),
     timer_already_running: this.I18n.t('js.timer.timer_already_running'),
     tracking_time: this.I18n.t('js.timer.tracking_time'),
-    must_stop_timer: this.I18n.t('js.timer.must_stop_timer'),
   };
 
   constructor(
