@@ -117,7 +117,7 @@ module WorkPackage::PDFExport::Page
 
   def write_footer_date!
     draw_repeating_text(
-      text: format_date(Time.zone.today),
+      text: format_time(Time.zone.now, true),
       align: :left,
       top: styles.page_footer_offset,
       text_style: styles.page_footer
