@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class CleanupUncontaineredFileLinksJob < Cron::CronJob
+class Storages::CleanupUncontaineredFileLinksJob < Cron::CronJob
   queue_with_priority :low
 
   self.cron_expression = '06 22 * * *'
