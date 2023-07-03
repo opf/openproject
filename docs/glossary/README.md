@@ -137,7 +137,7 @@ In OpenProject, a custom field is defined as an additional value field which can
 
 ### Custom query
 
-A custom query in OpenProject consists of saved [filters](#filters) and [groupings](#group) in the [work package table](#work-package-table). Custom queries can be either set to public (visible by any user who is allowed to see the project and the work package table) or to private (visible only to the person creating the query).
+A custom query in OpenProject consists of saved [filters](#filters) and [groupings](#group) in the [work package table](#work-package-table). Custom queries can be either set to public (visible by any user who is allowed to see the project and the work package table) or to private (visible only to the person creating the query). For example, filter all work packages assigned to yourself and save this view as "assigned to me", to quickly navigate to those work packages.
 
 <div id="D"></div>
 
@@ -153,9 +153,7 @@ A dashboard is defined as an overview page in a software. In OpenProject, you ha
 
 2. You have the [project overview](#project-overview) dashboard which gives you an overview of your project. Please note that only admins can add and remove widgets to the project overview. 
 
-3. Every [member](#member) can create private dashboards inside your project by [filtering](#filters) a [work package view](#work-package-view) and then saving it under a new name. For example, filter all work packages assigned to yourself and save this view as "assigned to me", to quickly navigate to those work packages.
-
-4. Admins of a project can also create dashboards that are visible to everyone in the project.
+In addition to those overview dashboard options, you can create a [custom query](#custom-query) to save a filtered work package view, which might serve you as kind of a dashboard as well.
 
 <div id="date-alerts"></div>
 
@@ -177,7 +175,7 @@ In OpenProject, some features are defined as an Enterprise add-on. This means, t
 
 ### Enumerations
 
-Enumerations in OpenProject is defined as a menu item in the admin settings that allows the configuration of Activities (for [time tracking](#time-and-costs)), [project status](#project-status) and work package priorities. (Read more about enumerations in OpenProject)[https://www.openproject.org/docs/system-admin-guide/enumerations/]
+Enumerations in OpenProject is defined as a menu item in the admin settings that allows the configuration of Activities (for [time tracking](#time-and-costs)), [project status](#project-status) and work package priorities. [Read more about enumerations in OpenProject](https://www.openproject.org/docs/system-admin-guide/enumerations/)
 
 <div id="excel-synchronisation"></div>
 
@@ -269,7 +267,7 @@ The My Page in OpenProject is defined as your personal [dashboard](#dashboard) w
 
 ### News
 
-In OpenProject, News is defined as a [module](#module) that allows the publication and use of news entries. On the news page, you can see the latest news in a project in reverse chronological order. News communicate general topics to all team members. They can be displayed on the project [dashboard](#dashboard). (Read more about how to work with the News module in OpenProject)[https://www.openproject.org/docs/user-guide/news/]
+In OpenProject, News is defined as a [module](#module) that allows the publication and use of news entries. On the news page, you can see the latest news in a project in reverse chronological order. News communicate general topics to all team members. They can be displayed on the project [dashboard](#dashboard). [Read more about how to work with the News module in OpenProject](https://www.openproject.org/docs/user-guide/news/)
 
 <div id="nextcloud-integration"></div>
 
@@ -281,7 +279,7 @@ OpenProject offers a Nextcloud integration which allows you to manage files in a
 
 ### Notifications
 
-In OpenProject, you get in-app notifications about important changes that are relevant to you – for example new comments that mention you, updates to status, [type](#work-package-types) or dates or new assignments. This feature is enbled by default and can be used as an addition or an alternative to email notifications. To view the notifications, click the bell icon at the top right of the header. The bell icon will be displayed with a red badge if there are new notifications for you. (Read more about notifications in OpenProject)[https://www.openproject.org/docs/user-guide/notifications/]
+In OpenProject, you get in-app notifications about important changes that are relevant to you – for example new comments that mention you, updates to status, [type](#work-package-types) or dates or new assignments. This feature is enbled by default and can be used as an addition or an alternative to email notifications. To view the notifications, click the bell icon at the top right of the header. The bell icon will be displayed with a red badge if there are new notifications for you. [Read more about notifications in OpenProject](https://www.openproject.org/docs/user-guide/notifications/)
 
 <div id="O"></div>
 
@@ -451,7 +449,7 @@ In OpenProject, a user is defined as a person who uses OpenProject, described by
 
 ### Versions
 
-Versions in OpenProject are defined as an attribute for [work packages](#work-package) or in the [Backlogs](#backlogs) module. Versions will be displayed in the [Roadmap](#roadmap). In the [Enerprise edition](#enterprise-add-on), you can also create a version [board](#board) to get an overview of the progress of your versions. (Read more about how to manage versions in OpenProject)[https://www.openproject.org/docs/user-guide/projects/project-settings/versions/]
+Versions in OpenProject are defined as an attribute for [work packages](#work-package) or in the [Backlogs](#backlogs) module. Versions will be displayed in the [Roadmap](#roadmap). In the [Enerprise edition](#enterprise-add-on), you can also create a version [board](#board) to get an overview of the progress of your versions. [Read more about how to manage versions in OpenProject](https://www.openproject.org/docs/user-guide/projects/project-settings/versions/)
 
 <div id="W"></div>
 
@@ -483,7 +481,7 @@ A workflow in OpenProject is defined as the allowed transitions between status f
 
 ### Work package
 
-In OpenProject, a [work package](https://www.openproject.org/docs/user-guide/work-packages/#overview) is defined as an item in a project. It is a subset of a project that can be assigned to users for execution, such as Tasks, Bugs, User Stories, Milestones, and more. Work packages have a [type](#work-package-types), an [ID](#work-package-id) and a subject and may have additional attributes, such as assignee, responsible, [story points](#story-points) or target version. Work packages are displayed in a project timeline (unless they are [filtered](#filters) out in the timeline configuration) - either as a milestone or as a [phase](#phase). In order to use the work packages, the work package module has to be activated in the [project settings](#project-settings).
+In OpenProject, a [work package](https://www.openproject.org/docs/user-guide/work-packages/#overview) is defined as an item in a project. It is a subset of a project that can be assigned to users for execution, such as Tasks, Bugs, User Stories, Milestones, and more. Work packages have a [type](#work-package-types), an [ID](#work-package-id) and a subject and may have additional attributes, such as assignee, responsible, [story points](#story-points) or [version](#versions). Work packages are displayed in a project timeline (unless they are [filtered](#filters) out in the timeline configuration) - either as a milestone or as a [phase](#phase). In order to use the work packages, the work package module has to be activated in the [project settings](#project-settings).
 
 ![A work package in OpenProject](glossary-openproject-work-package.png)
 
@@ -503,19 +501,19 @@ The work package table in OpenProject is defined as the overview of all work pac
 
 ### Work package types
 
-Work package types are the different items a work package can represent. Each work package is associated to exactly one type. Examples for most used work package types are a Task, a Milestone, a [Phase](#phase) or a Bug. The work package types can be configured in the system administration. [Read more about work package types in OpenProject](https://www.openproject.org/docs/user-guide/projects/project-settings/work-package-types/#work-package-types).
+Work package types are the different items a work package can represent. Each work package is associated to exactly one type. Examples for most used work package types are a Task, a Milestone, a [Phase](#phase) or a Bug. The work package types can be configured in the system administration. [Read more about work package types in OpenProject](https://www.openproject.org/docs/user-guide/projects/project-settings/work-package-types/#work-package-types)
 
 <div id="work-package-categories"></div>
 
 ### Work package categories
 
-Work package categories are a functionality used to automatically assign a [member](#member) to a work package by specifying a category.[Read more about work package categories in OpenProject](https://www.openproject.org/docs/user-guide/projects/project-settings/work-package-categories/#manage-work-package-categories).
+Work package categories are a functionality used to automatically assign a [member](#member) to a work package by specifying a category.[Read more about work package categories in OpenProject](https://www.openproject.org/docs/user-guide/projects/project-settings/work-package-categories/#manage-work-package-categories)
 
 <div id="work-package-view"></div>
 
 ### Work package view
 
-A list of work packages is considered a view. The containing work packages in any view can be displayed a number of different ways. Examples for most used work package views are the [table view](#work-package-table), the full screen view or the split screen view. You can also display work packages  in a card view and use them in a [board](#board) to use agile methods. [Read more about work package views in OpenProject](https://www.openproject.org/docs/user-guide/work-packages/work-package-views/#work-packages-views).
+A list of work packages is considered a view. The containing work packages in any view can be displayed a number of different ways. Examples for most used work package views are the [table view](#work-package-table), the full screen view or the split screen view. You can also display work packages  in a card view and use them in a [board](#board) to use agile methods. [Read more about work package views in OpenProject](https://www.openproject.org/docs/user-guide/work-packages/work-package-views/#work-packages-views)
 
 <div id="work-package-id"></div>
 
