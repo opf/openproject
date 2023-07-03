@@ -1608,6 +1608,7 @@ ko:
   label_equals: "일치함"
   label_everywhere: "어디에 있든지"
   label_example: "예"
+  label_experimental: "Experimental"
   label_import: "가져오기"
   label_export_to: "다음에서도 사용 가능:"
   label_expanded_click_to_collapse: "확장되었습니다. 축소하려면 클릭하세요."
@@ -2574,6 +2575,10 @@ ko:
         "%{day_of_week_setting_name}"이나 "%{first_week_setting_name}" 중 하나가 설정되었다면, 프론트엔드 충돌을 방지하기 위해 나머지 하나도 설정되어야 합니다.
       first_week_of_year_text: >
         1년의 첫째 주에 포함될 1월 날짜를 선택하십시오. 이 값은 첫째 요일과 함께 1년의 총 주일 수를 결정합니다.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "새 프로젝트의 설정"
       section_project_overview: "프로젝트 개요 목록의 설정"

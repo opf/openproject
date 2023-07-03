@@ -1625,6 +1625,7 @@ it:
   label_equals: "è"
   label_everywhere: "ovunque"
   label_example: "Esempio"
+  label_experimental: "Experimental"
   label_import: "Importazione"
   label_export_to: "Disponibile anche in:"
   label_expanded_click_to_collapse: "Espanso. Clicca per comprimere"
@@ -2596,6 +2597,10 @@ it:
         Se le opzioni "%{day_of_week_setting_name}" o "%{first_week_setting_name}" sono impostate, dev'esser impostata anche l'altra per evitare incoerenze in vetrina.
       first_week_of_year_text: >
         Seleziona la data di Gennaio contenuta nella prima settimana dell'anno. Questo valore, con il primo giorno della settimana, determina il numero totale di settimane in un anno.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Impostazioni per i nuovi progetti"
       section_project_overview: "Impostazioni per l'elenco generale dei progetti"
