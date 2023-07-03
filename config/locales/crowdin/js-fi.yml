@@ -1176,10 +1176,11 @@ fi:
       button_deactivate: 'Sulje koko näyttö'
     global_search:
       all_projects: "Kaikista projekteista"
-      search: "Haku"
       close_search: "Close search"
-      current_project: "Tästä projektista"
       current_project_and_all_descendants: "Tästä projektista + aliprojekteista"
+      current_project: "Tästä projektista"
+      recently_viewed: "Recently viewed"
+      search: "Haku"
       title:
         all_projects: "kaikki projektit"
         project_and_subprojects: "and all subprojects"

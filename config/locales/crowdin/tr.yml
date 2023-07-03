@@ -1627,6 +1627,7 @@ tr:
   label_equals: "şuysa"
   label_everywhere: "heryer"
   label_example: "Örnek"
+  label_experimental: "Experimental"
   label_import: "İçeri Aktar"
   label_export_to: "Ayrıca şu adreste bulunabilir:"
   label_expanded_click_to_collapse: "Genişletilmiş. Daraltmak için tıklayın"
@@ -2595,6 +2596,10 @@ tr:
         Eğer %{day_of_week_setting_name} veya %{first_week_setting_name} seçeneklerinden biri ayarlanmışsa, ön uçta tutarsızlık yaşanmaması için diğer seçeneğin de ayarlanması gerekir.
       first_week_of_year_text: >
         Yılın ilk haftasında yer alan Ocak tarihini seçin. Haftanın ilk günü ile birlikte bu değer, bir yıldaki toplam hafta sayısını belirler.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Yeni projeler için ayarlar"
       section_project_overview: "Projeye genel bakış listesi ayarları"

@@ -1666,6 +1666,7 @@ cs:
   label_equals: "je"
   label_everywhere: "všude"
   label_example: "Příklad"
+  label_experimental: "Experimental"
   label_import: "Importovat"
   label_export_to: "K dispozici:"
   label_expanded_click_to_collapse: "Rozbaleno. Klepnutím sbalte"
@@ -2640,6 +2641,10 @@ cs:
         Pokud jsou nastaveny možnosti buď "%{day_of_week_setting_name}" nebo "%{first_week_setting_name}", druhý je třeba nastavit také aby jste se vyhli nesrovnalostem na frontendu.
       first_week_of_year_text: >
         Vyberte datum ledna, které je obsaženo v prvním týdnu roku. Tato hodnota spolu s prvním dnem v týdnu určuje celkový počet týdnů v roce.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Nastavení pro nové projekty"
       section_project_overview: "Nastavení přehledu seznamu  projektu"

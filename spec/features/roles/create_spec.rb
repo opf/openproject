@@ -28,7 +28,9 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Role creation', js: true do
+RSpec.describe 'Role creation',
+               js: true,
+               with_cuprite: true do
   let!(:admin) { create(:admin) }
   let!(:existing_role) { create(:role) }
   let!(:existing_workflow) { create(:workflow_with_default_status, role: existing_role, type:) }
@@ -38,7 +40,7 @@ RSpec.describe 'Role creation', js: true do
   end
 
   before do
-    login_as(admin)
+    login_as admin
   end
 
   it 'allows creating roles and handles errors' do
@@ -48,7 +50,6 @@ RSpec.describe 'Role creation', js: true do
       click_link 'Role'
     end
 
-    SeleniumHubWaiter.wait
     fill_in 'Name', with: existing_role.name
     select existing_role.name, from: 'Copy workflow from'
     check 'Edit work packages'
@@ -59,7 +60,6 @@ RSpec.describe 'Role creation', js: true do
     expect(page)
       .to have_selector('.errorExplanation', text: 'Name has already been taken')
 
-    SeleniumHubWaiter.wait
     fill_in 'Name', with: 'New role name'
 
     # This will lead to an error as manage versions requires view versions
@@ -71,7 +71,6 @@ RSpec.describe 'Role creation', js: true do
       .to have_selector('.errorExplanation',
                         text: "Permissions need to also include 'View members' as 'Manage members' is selected.")
 
-    SeleniumHubWaiter.wait
     check 'View members'
     select existing_role.name, from: 'Copy workflow from'
 
@@ -86,7 +85,6 @@ RSpec.describe 'Role creation', js: true do
     expect(page)
       .to have_selector('table td', text: 'New role name')
 
-    SeleniumHubWaiter.wait
     click_link 'New role name'
 
     expect(page)
@@ -113,7 +111,6 @@ RSpec.describe 'Role creation', js: true do
     # Workflow routes are not resource-oriented.
     visit(url_for(controller: :workflows, action: :edit, only_path: true))
 
-    SeleniumHubWaiter.wait
     select 'New role name', from: 'Role'
     select type.name, from: 'Type'
     click_button 'Edit'

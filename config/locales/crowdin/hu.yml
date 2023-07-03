@@ -1625,6 +1625,7 @@ hu:
   label_equals: "van"
   label_everywhere: "bárhol"
   label_example: "Példa"
+  label_experimental: "Experimental"
   label_import: "Importálás"
   label_export_to: "Is elérhető:"
   label_expanded_click_to_collapse: "Kinyitva. Kattintson az összecsukáshoz"
@@ -2595,6 +2596,10 @@ hu:
         Ha a "%{day_of_week_setting_name}" vagy a "%{first_week_setting_name}" opciók közül valamelyik be van állítva, akkor a másiknak is be kell lennie, hogy elkerüljük az ellentmondásokat a frontendben.
       first_week_of_year_text: >
         Válassza ki azt a január dátumot, amely az év első hetében található. Ez az érték a hét első napjával együtt határozza meg az év hetek teljes számát.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Új projekt beállításai"
       section_project_overview: "A projekt áttekintési lista beállítása"

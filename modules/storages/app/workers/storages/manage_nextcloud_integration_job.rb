@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ManageNextcloudIntegrationJob < Cron::CronJob
+class Storages::ManageNextcloudIntegrationJob < Cron::CronJob
   using ::Storages::Peripherals::ServiceResultRefinements
 
   queue_with_priority :low
@@ -105,7 +105,7 @@ class ManageNextcloudIntegrationJob < Cron::CronJob
     end
 
     def project_folder_path(project)
-      "#{@group_folder}/#{project.name.gsub('/', '|')}(#{project.id})/"
+      "#{@group_folder}/#{project.name.gsub('/', '|')} (#{project.id})/"
     end
 
     # rubocop:disable Metrics/AbcSize
@@ -223,7 +223,7 @@ class ManageNextcloudIntegrationJob < Cron::CronJob
     end
 
     def remove_inactive_users_from_group
-      (group_users - @nextcloud_usernames_used_in_openproject.to_a).each do |user|
+      (group_users - @nextcloud_usernames_used_in_openproject.to_a - [@nextcloud_system_user]).each do |user|
         remove_user_from_group(user)
       end
     end

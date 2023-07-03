@@ -1605,6 +1605,7 @@ ja:
   label_equals: "等しい"
   label_everywhere: "どこにでも"
   label_example: "例"
+  label_experimental: "Experimental"
   label_import: "インポート"
   label_export_to: "こちらもアクセス可能："
   label_expanded_click_to_collapse: "拡大しました。クリックすると閉じます"
@@ -2574,6 +2575,10 @@ ja:
         オプション "%{day_of_week_setting_name}" または "%{first_week_setting_name}" が設定されている場合、フロントエンドでの不整合を避けるために、もう一方も設定する必要があります。
       first_week_of_year_text: >
         その年の最初の週に含まれる1月の日付を選択します。 この値と週の開始の日によって、1年の合計週数が決定されます。
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "新規プロジェクトの設定"
       section_project_overview: "プロジェクト概要リストの設定"

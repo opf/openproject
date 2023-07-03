@@ -1624,6 +1624,7 @@ el:
   label_equals: "είναι"
   label_everywhere: "παντού"
   label_example: "Παράδειγμα"
+  label_experimental: "Experimental"
   label_import: "Εισαγωγή"
   label_export_to: "Επίσης διαθέσιμο σε:"
   label_expanded_click_to_collapse: "Επεκταμένο. Πατήστε για σύμπτυξη"
@@ -2594,6 +2595,10 @@ el:
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Ρυθμίσεις για νέα έργα"
       section_project_overview: "Ρυθμίσεις για τη λίστα επισκόπησης έργου"

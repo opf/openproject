@@ -1182,10 +1182,11 @@ he:
       button_deactivate: 'Deactivate zen mode'
     global_search:
       all_projects: "In all projects"
-      search: "חיפוש"
       close_search: "Close search"
-      current_project: "In this project"
       current_project_and_all_descendants: "In this project + subprojects"
+      current_project: "In this project"
+      recently_viewed: "Recently viewed"
+      search: "חיפוש"
       title:
         all_projects: "all projects"
         project_and_subprojects: "and all subprojects"

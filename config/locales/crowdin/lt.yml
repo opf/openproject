@@ -274,8 +274,8 @@ lt:
   users:
     sessions:
       session_name: "%{browser_name} %{browser_version} %{os_name}"
-      browser: 'Browser'
-      device: 'Device / OS'
+      browser: 'Naršyklė'
+      device: 'Įrenginys / OS'
       unknown_browser: 'nežinoma naršyklė'
       unknown_os: 'nežinoma operacinė sistema'
       current: 'Dabartinė sesija'
@@ -1077,7 +1077,7 @@ lt:
   button_configure: "Konfigūruoti"
   button_continue: "Tęsti"
   button_copy: "Kopijuoti"
-  button_copy_to_clipboard: "Copy to clipboard"
+  button_copy_to_clipboard: "Kopijuoti į iškarpinę"
   button_copy_and_follow: "Kopijuoti ir sekti"
   button_create: "Sukurti"
   button_create_and_continue: "Sukurti ir tęsti"
@@ -1663,6 +1663,7 @@ lt:
   label_equals: "yra"
   label_everywhere: "visur"
   label_example: "Pavyzdys"
+  label_experimental: "Eksperimentinis"
   label_import: "Importuoti"
   label_export_to: "Taip pat galima rasti:"
   label_expanded_click_to_collapse: "Išplėsta. Spauskite, kad sutrauktumėte"
@@ -2634,6 +2635,10 @@ lt:
         Jei vienas iš „%{day_of_week_setting_name}“ ir „%{first_week_setting_name}“ yra nustatytas, tai kitas taip pat turi būti nustatytas vengiant netikslumų naudotojo sąsajoje.
       first_week_of_year_text: >
         Pasirinkite sausio datą, kuri yra pirmoje metų savaitėje. Ši reikšmė kartu su savaitės pirmos dienos nustatymu lemia savaičių skaičių metuose.
+    experimental:
+      save_confirmation: Atsargiai! Duomenų praradimo rizika! Eksperimentines savybes įjunkite tik tada, jei nebijote sugadinti savo OpenProject ir prarasti visus duomenis.
+      warning_toast: Savybių vėliavėlės yra nustatymai, kurie aktyvuoja vis dar kuriamas savybes. Jos turėtų būti naudojamos tik testavimo tikslais. Jų niekada nereikia įjungti OpenProject serveriuose, kuriuose yra svarbūs duomenys. Šios savybės labai gali sugadinti jūsų duomenis. Naudokite savo rizika.
+      feature_flags: Savybių vėliavėlės
     projects:
       section_new_projects: "Naujų projektų nustatymai"
       section_project_overview: "Nustatymai projektų apžvalgos sąrašui"
