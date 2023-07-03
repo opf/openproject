@@ -324,7 +324,7 @@ ln -s /usr/local/share/ca-certificates/OpenProject_Development_Root_CA.crt /etc/
 
 Add generated root CA to system certicates bundle usign the following configuration option of your NixOS:
 ```nix
-  security.pki.certificatefiles = [ path_to_generated_cert_file.crt ];
+  security.pki.certificateFiles = [ path_to_generated_cert_file.crt ];
 ```
 Then rebuild your system.
 Generated root CA should be inside `/etc/ssl/certs/ca-certificates.crt`
