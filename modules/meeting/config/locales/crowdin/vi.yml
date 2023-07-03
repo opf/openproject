@@ -39,7 +39,7 @@ vi:
       meeting_minutes: "Phút"
   activity:
     filter:
-      meeting: "Meetings"
+      meeting: "Những cuộc họp"
   description_attended: "Đã tham dự"
   description_invite: "invited"
   events:

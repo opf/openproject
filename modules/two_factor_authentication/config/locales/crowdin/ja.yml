@@ -72,7 +72,7 @@ ja:
       text_2fa_enabled: 'ログインごとに、このユーザはデフォルトの2FAデバイスからOTPトークンを入力するよう要求されます。'
       text_2fa_disabled: "ユーザーは2FAデバイスを「マイアカウントページ」から設定していません"
     upsale:
-      title: 'Two-factor authentication'
+      title: '2要素認証'
       description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
     backup_codes:
       none_found: このアカウントのバックアップコードはありません。

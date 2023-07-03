@@ -63,7 +63,7 @@
           version: Versjon
           subproject: Underprosjekt
           subtasks: Parent-child
-          basic: Basic
+          basic: Enkel
         select_attribute: "Action attribute"
       add_list_modal:
         labels:

@@ -229,7 +229,7 @@ lt:
         upsale:
           become_hero: "Tapkite didvyriu!"
           enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
-          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+          upgrade_info: "Prašome atsinaujinti į mokamą planą, kad aktyvuotumėte ir pradėtumėte ji naudoti savo komandoje."
           benefits:
             description: "What are the benefits of the Enterprise on-premises edition?"
             high_security: "Saugumo funkcijos"
@@ -241,8 +241,8 @@ lt:
             professional_support: "Profesionali pagalba"
             professional_support_text: "Gaukite patikimą, artimą pagalbą iš patyrusių pagalbos inžinierių su ekspertinėmis žiniomis apie OpenProject naudojimą verslui kritinėse aplinkose."
           button_start_trial: "Pradėti bandomąjį laikotarpį"
-          button_upgrade: "Upgrade now"
-          button_contact_us: "Contact us for a demo"
+          button_upgrade: "Užsisakykite dabar"
+          button_contact_us: "Susisiekite su mumis dėl demonstracijos"
           button_book_now: "Užsakyti dabar"
           confidence: >
             Mes duodame patikrintos ir palaikomas korporacijos-lygio projektų valdymo programos užtikrintumą -- su atviru kodu ir plačiomis pažiūromis.
@@ -328,7 +328,7 @@ lt:
     label_add_row_before: "Pridėti eilutę prieš"
     label_add_selected_columns: "Pridėti pažymėtus stulpelius"
     label_added_by: "pridėjo"
-    label_added_time_by: "<a href=%{authorLink}>%{author}</a> pridėjo prieš %{age}"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "dienų prieš"
     label_all: "visi"
     label_all_work_packages: "visi darbų paketai"
@@ -421,7 +421,7 @@ lt:
     label_previous: "Ankstesnis"
     label_per_page: "Puslapyje:"
     label_please_wait: "Prašome palaukti"
-    label_project: "Project"
+    label_project: "Projektas"
     label_project_list: "Projects list"
     label_project_plural: "Projektai"
     label_visibility_settings: "Matomumo nustatymai"
@@ -435,7 +435,7 @@ lt:
     label_report: "Ataskaita"
     label_repository_plural: "Repozitorijos"
     label_save_as: "Įrašyti kaip"
-    label_select_project: "Select a project"
+    label_select_project: "Pasirinkti projektą"
     label_select_watcher: "Parinkti stebėtoją..."
     label_selected_filter_list: "Parinkti filtrus"
     label_show_attributes: "Rodyti visus atributus"
@@ -477,9 +477,9 @@ lt:
     label_unwatch: "Nestebėti"
     label_unwatch_work_package: "Nebestebėti darbų paketo"
     label_uploaded_by: "Įkėlė"
-    label_default_queries: "Default"
+    label_default_queries: "Numatytasis"
     label_starred_queries: "Favorite"
-    label_global_queries: "Public"
+    label_global_queries: "Viešas"
     label_custom_queries: "Private"
     label_columns: "Stulpeliai"
     label_attachments: Priedai
@@ -550,7 +550,7 @@ lt:
       reasons:
         mentioned: 'paminėtas'
         watched: 'watcher'
-        assigned: 'assignee'
+        assigned: 'paskirtas'
         responsible: 'atsakingas'
         created: 'created'
         scheduled: 'scheduled'
@@ -573,9 +573,9 @@ lt:
         unread: 'Neskaitytas'
         unread_title: 'Show unread'
         all: 'Visi'
-        all_title: 'Show all'
+        all_title: 'Rodyti viską'
       center:
-        label_actor_and: 'and'
+        label_actor_and: 'ir'
         and_more_users:
           one: 'ir dar 1'
           few: 'ir dar %{count}'
@@ -601,8 +601,8 @@ lt:
         by_project: 'Neperskaityti pagal projektą'
         by_reason: 'Reason'
         inbox: 'Gauti'
-        mentioned: 'Mentioned'
-        watched: 'Watcher'
+        mentioned: 'Paminėtas'
+        watched: 'Stebėtojas'
         date_alert: 'Date alert'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
@@ -622,11 +622,11 @@ lt:
               P7D: every week
         reasons:
           mentioned:
-            title: 'Mentioned'
+            title: 'Paminėtas'
             description: 'Gauti pranešimą kiekvieną kartą, kai kas nors mane bet kur pamini'
-          assignee: 'Assignee'
-          responsible: 'Accountable'
-          watched: 'Watcher'
+          assignee: 'Paskirtas'
+          responsible: 'Atsakingas'
+          watched: 'Stebėtojas'
           work_package_commented: 'Visi nauji komentarai'
           work_package_created: 'Nauji darbų paketai'
           work_package_processed: 'Visi būsenų pakeitimai'
@@ -669,8 +669,7 @@ lt:
         Prašau pasirinkti projektą, kuriame turi būti sukurtas darbo paketas, kad matytumėte visus atributus. Jūs galite pasirinkti tik tuos projektus, kurie turi aukščiau nurodytą tipą.
       details_activity: 'Project details activity'
       context: 'Projekto kontekstas'
-      work_package_belongs_to: 'Šis darbų paketas priklauso projektui %{projectname}.'
-      click_to_switch_context: 'Atidaryti darbų paketą tame projekte.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Šablono pakeitimas perkraus puslapį ir jūs prarasite visą šioje formoje įvestą informaciją. Tęsti?'
       use_template: "Naudoti šabloną"
       no_template_selected: "(Nėra)"
@@ -923,7 +922,7 @@ lt:
       message_work_package_status_blocked: "Darbų paketo būsena negali būti keičiama, nes dabar yra uždaryta ir uždaryta versija yra priskirta."
       placeholder_filter_by_text: "Tema, aprašymas, komentarai, ..."
       filters:
-        title: 'Filter work packages'
+        title: 'Filtruoti darbų paketus'
       inline_create:
         title: 'Paspauskite čia, kad pridėtumėte į sąrašą naują darbų paketą'
       create:
@@ -960,7 +959,7 @@ lt:
         description: "Aprašymas"
         date: "Data"
         dueDate: "Pabaigos data"
-        duration: "Duration"
+        duration: "Trukmė"
         estimatedTime: "Numatyta trukmė"
         spentTime: "Praleista laiko"
         category: "Kategorija"
@@ -1073,18 +1072,18 @@ lt:
     toolbar:
       settings:
         configure_view: "Configure view"
-        columns: "Columns"
-        sort_by: "Sort by"
-        group_by: "Group by"
+        columns: "Stulpeliai"
+        sort_by: "Rūšiuoti pagal"
+        group_by: "Grupuoti pagal"
         display_sums: "Rodyti suvestines"
         display_hierarchy: "Rodyti hierarchiją"
         hide_hierarchy: "Slėpti hierarchiją"
         hide_sums: "Slėpti suvestines"
         save: "Įrašyti"
-        save_as: "Save as"
-        export: "Export"
-        visibility_settings: "Visibility settings"
-        page_settings: "Rename view"
+        save_as: "Įrašyti kaip"
+        export: "Eksportuoti"
+        visibility_settings: "Matomumo nustatymai"
+        page_settings: "Pervardinti vaizdą"
         delete: "Trinti"
       filter: "Filtras"
       unselected_title: "Darbų paketas"
@@ -1096,7 +1095,7 @@ lt:
       button_save: "Įrašyti"
       button_submit: "Pateikti"
       button_cancel: "Nutraukti"
-      button_delete: "Delete"
+      button_delete: "Ištrinti"
       form_submit:
         title: 'Norėdami tęsti, patvirtinkite'
         text: 'Ar tikrai norite atlikti šį veiksmą?'
@@ -1156,8 +1155,8 @@ lt:
         other: "%{count} val"
         zero: "0 val"
       day:
-        one: "1 day"
-        other: "%{count} days"
+        one: "1 dieną"
+        other: "%{count} dienas (-ą, -ų)"
         zero: "0 days"
     zen_mode:
       button_activate: 'Įjungti Zen režimą'
@@ -1231,7 +1230,7 @@ lt:
       message:
         label: 'Kvietimo pranešimas'
         description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
-        next_button: 'Next'
+        next_button: 'Kitas'
       summary:
         next_button: 'Siųsti pakvietimą'
       success:

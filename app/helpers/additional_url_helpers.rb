@@ -7,6 +7,10 @@ module AdditionalUrlHelpers
     home_url(script_name: OpenProject::Configuration.rails_relative_url_root)
   end
 
+  def configurable_home_url
+    Setting.home_url.presence || fixed_home_url
+  end
+
   def add_params_to_uri(uri, args = {})
     uri = URI.parse uri
     query = URI.decode_www_form String(uri.query)

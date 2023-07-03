@@ -469,12 +469,12 @@ id:
       project:
         active_value:
           true: "unarchived"
-          false: "archived"
+          false: "diarsipkan"
         identifier: "Pengenal"
         latest_activity_at: "Latest activity at"
         parent: "Sub-Project dari"
         public_value:
-          title: "Visibility"
+          title: "Visibilitas"
           true: "public"
           false: "private"
         queries: "Query"
@@ -550,7 +550,7 @@ id:
         begin_deletion: "Begin of the deletion"
         children: "Subelements"
         done_ratio: "Progress (%)"
-        duration: "Duration"
+        duration: "Durasi"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
         ignore_non_working_days: "Ignore non working days"
@@ -907,17 +907,17 @@ id:
       created_on: "created on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "Sub-Project"
       parent_no_longer: "No longer subproject of"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
+      changeset: "Set perubahan"
+      message: "Forum"
       news: "News"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
+      time_entry: "Durasi"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "Paket-Penugasan"
   #common attributes of all models
   attributes:
     active: "Aktif"
@@ -974,7 +974,7 @@ id:
     updated_on: "Diperbarui"
     uploader: "Uploader"
     user: "User"
-    value: "Value"
+    value: "Nilai"
     version: "Versi"
     work_package: "Paket-Penugasan"
   backup:
@@ -2228,7 +2228,7 @@ id:
   permission_add_work_packages: "Tambah Paket-Penugasan"
   permission_add_messages: "Kirim pesan"
   permission_add_project: "Buat Project"
-  permission_archive_project: "Archive project"
+  permission_archive_project: "Proyek arsip"
   permission_manage_user: "Create and edit users"
   permission_manage_placeholder_user: "Buat, ubah, dan hapus pengguna placeholder"
   permission_add_subprojects: "Buat Sub Project"
@@ -3123,7 +3123,7 @@ id:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "Eror"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"

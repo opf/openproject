@@ -182,7 +182,7 @@ ar:
     edit: 'تعديل إجراء مخصص %{name}'
     execute: 'Execute %{name}'
     upsale:
-      title: 'Custom actions'
+      title: 'إجراءات مخصصة'
       description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
@@ -325,7 +325,7 @@ ar:
       more_info_text_html: >
         Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "المشاريع"
-      enabled_projects: "Enabled projects"
+      enabled_projects: "المشاريع الممكنة"
       edit_query: "Edit table"
       query_group_placeholder: "Give the table a name"
       reset: "Reset to defaults"
@@ -485,7 +485,7 @@ ar:
         latest_activity_at: "آخر نشاط في"
         parent: "المشروع الفرعي من"
         public_value:
-          title: "Visibility"
+          title: "الظهور"
           true: "public"
           false: "private"
         queries: "الاستفسارات"
@@ -561,7 +561,7 @@ ar:
         begin_deletion: "البدء بالحذف"
         children: "Subelements"
         done_ratio: "التقدم (%)"
-        duration: "Duration"
+        duration: "المدّة"
         end_insertion: "نهاية الإدراج"
         end_deletion: "نهاية الحذف"
         ignore_non_working_days: "Ignore non working days"
@@ -938,17 +938,17 @@ ar:
       created_on: "created on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "مشروع فرعي"
       parent_no_longer: "No longer subproject of"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      changeset: "مجموعة التغييرات"
+      message: "منتديات"
+      news: "الأخبار"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
+      time_entry: "الوقت المستهلك"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "مجموعات العمل"
   #common attributes of all models
   attributes:
     active: "مفعّل"
@@ -1005,7 +1005,7 @@ ar:
     updated_on: "تم التحديث بتاريخ"
     uploader: "Uploader"
     user: "المستخدم"
-    value: "Value"
+    value: "القيمة"
     version: "الإصدار"
     work_package: "مجموعة العمل"
   backup:
@@ -1431,7 +1431,7 @@ ar:
     message: تم تحرير الرسالة
     news: الأخبار
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'تم تعديل المشروع'
     reply: تم الرد
     time_entry: 'تم تحرير Timelog'
     wiki_page: 'تم تحرير صفحة WiKi'
@@ -3234,7 +3234,7 @@ ar:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "خطأ"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"

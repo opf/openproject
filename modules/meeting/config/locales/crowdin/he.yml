@@ -39,7 +39,7 @@ he:
       meeting_minutes: "דקות"
   activity:
     filter:
-      meeting: "Meetings"
+      meeting: "פגישות"
   description_attended: "נכחו"
   description_invite: "הוזמנו"
   events:

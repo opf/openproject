@@ -49,7 +49,7 @@ be:
         main-menu-border-color: "Main menu border"
       custom_colors: "Custom colors"
       customize: "Customize your OpenProject installation with your own logo and colors."
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
+      enterprise_notice: "Як \"Вялікі дзякуй\" за фінансавую дапамогу ў распрацоўцы OpenProject, гэты маленькі дадатак даступны для падпісчыкаў Entrerprise edition support."
       enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Edit color select options"
       instructions:
@@ -64,15 +64,15 @@ be:
         main-menu-bg-color: "Left side menu's background color."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise edition"
-      add_token: "Upload an Enterprise edition support token"
+      upgrade_to_ee: "Абнавіць да Enterprise edition"
+      add_token: "Загрузіць Enterprise edition токен."
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise edition token used?"
+        text: "Вы ўпэўнены што жадаеце выдаліць ваш Enterprise edition токен?"
         title: "Delete token"
       replace_token: "Replace your current support token"
-      order: "Order Enterprise on-premises edition"
-      paste: "Paste your Enterprise edition support token"
-      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
+      order: "Заказаць Enterprise on-premises edition"
+      paste: "Уставіць  Enterprise edition токен."
+      required_for_feature: "Гэта дадатак даступны толькі з актыўным Enterprise edition токенам. "
       enterprise_link: "For more information, click here."
       start_trial: 'Start free trial'
       book_now: 'Book now'
@@ -80,7 +80,7 @@ be:
       buttons:
         upgrade: "Upgrade now"
         contact: "Contact us for a demo"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+      enterprise_info_html: "гэта Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> дадатак."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
       explanation:
@@ -98,7 +98,7 @@ be:
     add_new: 'Add help text'
     edit: "Edit help text for %{attribute_caption}"
     enterprise:
-      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
+      description: 'Дайце дадатковую інфармацыю для атрыбутаў(укл. карыстальніцкія)'
   auth_sources:
     index:
       no_results_content_title: There are currently no authentication modes.
@@ -138,7 +138,7 @@ be:
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
     connection_encryption: 'Connection encryption'
-    encryption_details: 'LDAPS / STARTTLS options'
+    encryption_details: 'LDAPS / STARTTLS опцыі'
     system_account: 'System account'
     system_account_legend: |
       OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
@@ -152,7 +152,7 @@ be:
       plain: 'none'
       simple_tls: 'LDAPS'
       start_tls: 'STARTTLS'
-      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      plain_description: "Адчыняе неабароненае злучэнне да LDAP серверу. Не рэкамендавана выкарыстоўваць у рабочай версіі OpenProject."
       simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
       start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
@@ -417,7 +417,7 @@ be:
         downloads: "Downloads"
         file: "File"
         filename: "File"
-        filesize: "Size"
+        filesize: "Памер"
       attribute_help_text:
         attribute_name: 'Attribute'
         help_text: 'Help text'
@@ -517,8 +517,8 @@ be:
         permissions: "Permissions"
       time_entry:
         activity: "Activity"
-        hours: "Hours"
-        spent_on: "Date"
+        hours: "Гадзіны"
+        spent_on: "Дата"
         type: "Type"
       type:
         description: "Default text for description"
@@ -573,7 +573,7 @@ be:
         priority: "Priority"
         progress: "Progress (%)"
         readonly: "Read only"
-        schedule_manually: "Manual scheduling"
+        schedule_manually: "Ручное планаванне"
         spent_hours: "Spent time"
         spent_time: "Spent time"
         subproject: "Subproject"
@@ -892,7 +892,7 @@ be:
       forum: "Forum"
       comment: "Comment"
       custom_action: "Custom action"
-      custom_field: "Custom field"
+      custom_field: "Карыстальніцкае поле"
       group: "Group"
       category: "Category"
       status: "Work package status"
@@ -942,8 +942,8 @@ be:
   #common attributes of all models
   attributes:
     active: "Active"
-    assigned_to: "Assignee"
-    assignee: "Assignee"
+    assigned_to: "Прызначаная асоба"
+    assignee: "Прызначаная асоба"
     attachments: "Attachments"
     author: "Author"
     base: "General Error:"
@@ -955,8 +955,8 @@ be:
     color: "Color"
     created_at: "Created on"
     custom_options: "Possible values"
-    custom_values: "Custom fields"
-    date: "Date"
+    custom_values: "Карыстальніцкія палі"
+    date: "Дата"
     default_columns: "Default columns"
     description: "Description"
     derived_due_date: "Derived finish date"
@@ -966,7 +966,7 @@ be:
     due_date: "Finish date"
     estimated_hours: "Estimated time"
     estimated_time: "Estimated time"
-    firstname: "First name"
+    firstname: "Імя"
     group: "Group"
     groups: "Groups"
     id: "ID"
@@ -975,10 +975,10 @@ be:
     public: "Public"
     #kept for backwards compatibility
     issue: "Work package"
-    lastname: "Last name"
+    lastname: "Прозвішча"
     login: "Username"
     mail: "Email"
-    name: "Name"
+    name: "Імя"
     password: "Password"
     priority: "Priority"
     project: "Project"
@@ -1026,38 +1026,38 @@ be:
       token_cooldown: The backup token will be valid in %{hours} hours.
       backup_pending: There is already a backup pending.
       limit_reached: You can only do %{limit} backups per day.
-  button_add: "Add"
-  button_add_comment: "Add comment"
+  button_add: "Дадаць"
+  button_add_comment: "Дадаць каментарый"
   button_add_member: Add member
   button_add_watcher: "Add watcher"
   button_annotate: "Annotate"
   button_apply: "Apply"
   button_archive: "Archive"
-  button_back: "Back"
+  button_back: "Назад"
   button_cancel: "Cancel"
-  button_change: "Change"
+  button_change: "Змяніць"
   button_change_parent_page: "Change parent page"
   button_change_password: "Change password"
   button_check_all: "Check all"
   button_clear: "Clear"
   button_click_to_reveal: "Click to reveal"
-  button_close: 'Close'
-  button_collapse_all: "Collapse all"
+  button_close: 'Зачыніць'
+  button_collapse_all: "Згарнуць усё"
   button_configure: "Configure"
   button_continue: "Continue"
-  button_copy: "Copy"
+  button_copy: "Скапіраваць"
   button_copy_and_follow: "Copy and follow"
   button_create: "Create"
   button_create_and_continue: "Create and continue"
-  button_delete: "Delete"
+  button_delete: "Выдаліць"
   button_decline: "Decline"
   button_delete_watcher: "Delete watcher %{name}"
   button_download: "Download"
   button_duplicate: "Duplicate"
-  button_edit: "Edit"
+  button_edit: "Рэдагаваць"
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
-  button_expand_all: "Expand all"
-  button_filter: "Filter"
+  button_expand_all: "Разгарнуць усё"
+  button_filter: "Фільтр"
   button_generate: "Generate"
   button_list: "List"
   button_lock: "Lock"
@@ -1084,7 +1084,7 @@ be:
   button_uncheck_all: "Uncheck all"
   button_unlock: "Unlock"
   button_unwatch: "Unwatch"
-  button_update: "Update"
+  button_update: "Абнавіць"
   button_upgrade: "Upgrade"
   button_upload: "Upload"
   button_view: "View"
@@ -1312,7 +1312,7 @@ be:
   description_date_to: "Enter end date"
   description_enter_number: "Enter number"
   description_enter_text: "Enter text"
-  description_filter: "Filter"
+  description_filter: "Фільтр"
   description_filter_toggle: "Show/Hide filter"
   description_category_reassign: "Choose category"
   description_message_content: "Message content"
@@ -1451,7 +1451,7 @@ be:
       community: "OpenProject community"
       upsale:
         title: "Upgrade to Enterprise edition"
-        more_info: "More information"
+        more_info: "Дадатковыя звесткі"
     links:
       upgrade_enterprise_edition: "Upgrade to Enterprise edition"
       postgres_migration: "Migrating your installation to PostgreSQL"
@@ -1565,7 +1565,7 @@ be:
   label_blocked_by: "blocked by"
   label_blocks: "blocks"
   label_blog: "Blog"
-  label_forums_locked: "Locked"
+  label_forums_locked: "Заблакавана"
   label_forum_new: "New forum"
   label_forum_plural: "Forums"
   label_forum_sticky: "Sticky"
@@ -1598,7 +1598,7 @@ be:
   label_chronological_order: "Oldest first"
   label_close_versions: "Close completed versions"
   label_closed_work_packages: "closed"
-  label_collapse: "Collapse"
+  label_collapse: "Згарнуць"
   label_collapsed_click_to_show: "Collapsed. Click to show"
   label_configuration: configuration
   label_comment_add: "Add a comment"
@@ -1622,11 +1622,11 @@ be:
   label_current_version: "Current version"
   label_custom_field_add_no_type: "Add this field to a work package type"
   label_custom_field_new: "New custom field"
-  label_custom_field_plural: "Custom fields"
+  label_custom_field_plural: "Карыстальніцкія палі"
   label_custom_field_default_type: "Empty type"
   label_custom_style: "Design"
   label_database_version: "PostgreSQL version"
-  label_date: "Date"
+  label_date: "Дата"
   label_date_and_time: "Date and time"
   label_date_from: "From"
   label_date_from_to: "From %{start} to %{end}"
@@ -1640,7 +1640,7 @@ be:
   label_deleted_custom_option: "(deleted option)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Descending"
-  label_details: "Details"
+  label_details: "Падрабязнасці"
   label_development_roadmap: "Development roadmap"
   label_diff: "diff"
   label_diff_inline: "inline"
@@ -1656,7 +1656,7 @@ be:
   label_duplicated_by: "duplicated by"
   label_duplicate: "duplicate"
   label_duplicates: "duplicates"
-  label_edit: "Edit"
+  label_edit: "Рэдагаваць"
   label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "Toggle multiselect"
   label_enabled_project_custom_fields: 'Enabled custom fields'
@@ -1695,7 +1695,7 @@ be:
   label_form_configuration: "Form configuration"
   label_gantt: "Gantt"
   label_gantt_chart: "Gantt chart"
-  label_general: "General"
+  label_general: "Асноўныя"
   label_generate_key: "Generate a key"
   label_git_path: "Path to .git directory"
   label_greater_or_equal: ">="
@@ -1706,7 +1706,7 @@ be:
   label_group_plural: "Groups"
   label_help: "Help"
   label_here: here
-  label_hide: "Hide"
+  label_hide: "Схаваць"
   label_history: "History"
   label_hierarchy_leaf: "Hierarchy leaf"
   label_home: "Home"
@@ -1715,7 +1715,7 @@ be:
   label_in: "in"
   label_in_less_than: "in less than"
   label_in_more_than: "in more than"
-  label_inactive: "Inactive"
+  label_inactive: "Неактыўны"
   label_incoming_emails: "Incoming emails"
   label_includes: 'includes'
   label_index_by_date: "Index by date"
@@ -1785,14 +1785,14 @@ be:
   label_module_plural: "Modules"
   label_modules: "Modules"
   label_months_from: "months from"
-  label_more: "More"
+  label_more: "Яшчэ"
   label_more_than_ago: "more than days ago"
   label_move_work_package: "Move work package"
   label_my_account: "My account"
   label_my_account_data: "My account data"
   label_my_projects: "My projects"
   label_my_queries: "My custom queries"
-  label_name: "Name"
+  label_name: "Імя"
   label_never: "Never"
   label_new: "New"
   label_new_features: "New features"
@@ -1854,7 +1854,7 @@ be:
   label_modules_and_plugins: "Modules and Plugins"
   label_precedes: "precedes"
   label_preferences: "Preferences"
-  label_preview: "Preview"
+  label_preview: "Папярэдні прагляд"
   label_previous: "Previous"
   label_previous_week: "Previous week"
   label_principal_invite_via_email: " or invite new users via email"
@@ -1873,7 +1873,7 @@ be:
   label_project_new: "New project"
   label_project_plural: "Projects"
   label_project_settings: "Project settings"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "Сховішчы"
   label_projects_storage_information: "%{count} projects using %{storage} disk storage"
   label_project_view_all: "View all projects"
   label_project_show_details: "Show project details"
@@ -2631,7 +2631,7 @@ be:
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
   settings:
-    general: "General"
+    general: "Асноўныя"
     other: "Other"
     passwords: "Passwords"
     session: "Session"
@@ -2707,7 +2707,7 @@ be:
   text_database_allows_tsv: "Database allows TSVector (optional)"
   text_default_administrator_account_changed: "Default administrator account changed"
   text_default_encoding: "Default: UTF-8"
-  text_destroy: "Delete"
+  text_destroy: "Выдаліць"
   text_destroy_with_associated: "There are additional objects assossociated with the work package(s) that are to be deleted. Those objects are of the following types:"
   text_destroy_what_to_do: "What do you want to do?"
   text_diff_truncated: "... This diff was truncated because it exceeds the maximum size that can be displayed."
@@ -2805,7 +2805,7 @@ be:
     dates: "Dates"
     dates_are_calculated_based_on_sub_elements: "Dates are calculated based on sub elements."
     delete_all: "Delete all"
-    delete_thing: "Delete"
+    delete_thing: "Выдаліць"
     duration: "Duration"
     duration_days:
       one: "1 day"
@@ -2813,7 +2813,7 @@ be:
       many: "%{count} days"
       other: "%{count} days"
     edit_color: "Edit color"
-    edit_thing: "Edit"
+    edit_thing: "Рэдагаваць"
     edit_timeline: "Edit timeline report %{timeline}"
     delete_timeline: "Delete timeline report %{timeline}"
     empty: "(empty)"
@@ -2842,10 +2842,10 @@ be:
         date: "date"
         default: "default"
       column:
-        assigned_to: "Assignee"
+        assigned_to: "Прызначаная асоба"
         type: "Type"
         due_date: "End date"
-        name: "Name"
+        name: "Імя"
         status: "Status"
         start_date: "Start date"
       columns: "Columns"

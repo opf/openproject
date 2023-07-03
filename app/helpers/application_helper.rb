@@ -219,7 +219,7 @@ module ApplicationHelper
     return if author.nil?
 
     I18n.t(:'js.label_added_time_by',
-           author: author.name,
+           author: html_escape(author.name),
            age: created,
            authorLink: user_path(author)).html_safe
   end

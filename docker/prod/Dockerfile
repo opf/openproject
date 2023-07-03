@@ -1,4 +1,6 @@
-FROM ruby:3.2.1-buster
+ARG BASE_PREFIX
+FROM ${BASE_PREFIX}ruby:3.2.2-bullseye
+
 MAINTAINER operations@openproject.com
 
 # Allow platform-specific additions. Valid values are: on-prem,saas,bahn
@@ -6,6 +8,7 @@ ARG PLATFORM=on-prem
 # Use OAuth token in case private gems need to be fetched
 ARG GITHUB_OAUTH_TOKEN
 ARG DEBIAN_FRONTEND=noninteractive
+ARG BIM_SUPPORT=true
 
 ENV NODE_VERSION="16.17.0"
 ENV BUNDLER_VERSION="2.4.7"
@@ -29,6 +32,12 @@ ENV OPENPROJECT_INSTALLATION__TYPE=docker
 ENV OPENPROJECT_RAILS__CACHE__STORE=memcache
 # Set a default key base, ensure to provide a secure value in production environments!
 ENV SECRET_KEY_BASE=OVERWRITE_ME
+
+ARG GOSU_VERSION=1.16
+RUN dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" \
+ && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch" \
+ && chmod +x /usr/local/bin/gosu \
+ && gosu nobody true
 
 WORKDIR $APP_PATH
 

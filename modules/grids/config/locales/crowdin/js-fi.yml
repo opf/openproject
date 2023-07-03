@@ -36,7 +36,7 @@ fi:
           off_track: 'Huono'
           at_risk: 'Rajalla'
           not_set: 'Määrittelemätön'
-          finished: 'Finished'
+          finished: 'Valmis'
           discontinued: 'Discontinued'
         subprojects:
           title: 'Aliprojektit'

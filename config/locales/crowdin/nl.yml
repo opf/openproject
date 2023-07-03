@@ -473,12 +473,12 @@ nl:
       project:
         active_value:
           true: "unarchived"
-          false: "archived"
+          false: "gearchiveerd"
         identifier: "Identifier"
         latest_activity_at: "Laatste activiteit om"
         parent: "Subproject van"
         public_value:
-          title: "Visibility"
+          title: "Zichtbaarheid"
           true: "public"
           false: "private"
         queries: "Query 's"
@@ -782,8 +782,8 @@ nl:
             daily_reminders:
               full_hour: "kan alleen worden geconfigureerd voor levering op een volledig uur."
             notification_settings:
-              only_one_global_setting: 'There must only be one global notification setting.'
-              email_alerts_global: 'The email notification settings can only be set globally.'
+              only_one_global_setting: 'Er mag slechts één globale meldingsinstelling zijn.'
+              email_alerts_global: 'De instellingen voor e-mailmeldingen kunnen alleen globaal worden ingesteld.'
               format: "%{message}"
               wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         watcher:
@@ -918,14 +918,14 @@ nl:
       parent_without_of: "Subproject"
       parent_no_longer: "No longer subproject of"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      changeset: "Wijzigingensets"
+      message: "Fora"
+      news: "Nieuws"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
+      time_entry: "Bestede tijd"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "Werkpakketten"
   #common attributes of all models
   attributes:
     active: "Actief"
@@ -1361,7 +1361,7 @@ nl:
     message: Bericht bewerkt
     news: Nieuws
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'Project bewerkt'
     reply: Beantwoord
     time_entry: 'Tijdlog bewerkt'
     wiki_page: 'Wiki-pagina bewerkt'
@@ -2249,7 +2249,7 @@ nl:
   permission_add_work_packages: "Werkpakketten toevoegen"
   permission_add_messages: "Berichten posten"
   permission_add_project: "Project Aanmaken"
-  permission_archive_project: "Archive project"
+  permission_archive_project: "Project archiveren"
   permission_manage_user: "Gebruikers aanmaken en bewerken"
   permission_manage_placeholder_user: "Maak, bewerk en verwijder tijdelijke gebruikers"
   permission_add_subprojects: "Subprojecten maken"

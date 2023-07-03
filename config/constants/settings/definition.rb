@@ -722,6 +722,11 @@ module Settings
         default:false, # true,
         writable: false
       },
+      home_url: {
+        description: 'Override default link when clicking on the top menu logo (Homescreen by default).',
+        format: :string,
+        default: nil
+      },
       registration_footer: {
         default: {
           'en' => ''

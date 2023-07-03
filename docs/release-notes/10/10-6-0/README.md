@@ -131,7 +131,7 @@ We introduced a separate permission for deleting BCF issues.
 
 Please note that the OpenProject BIM edition is under continuous  development. The current version is only a first state, which will be  continuously enhanced with important build specific functions.
 
-Test OpenProject BIM 10.6 immediately, [create a free test instance](https://start.openproject.com/go/bim) for the OpenProject BIM edition.
+Test OpenProject BIM 10.6 immediately, [create a free test instance](https://start.openproject.com/trial/bim) for the OpenProject BIM edition.
 
 ### Credits and contributions
 

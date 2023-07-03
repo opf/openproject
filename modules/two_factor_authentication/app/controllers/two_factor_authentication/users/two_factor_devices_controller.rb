@@ -23,8 +23,10 @@ module ::TwoFactorAuthentication
         @device_type = params[:key].to_sym
         @device = new_device_type! @device_type
 
+        has_default = ::TwoFactorAuthentication::Device.has_default?(target_user)
         @device.attributes = new_device_params
         if @device.confirm_registration_and_save
+          logout_other_sessions unless has_default
           Rails.logger.info "Admin ##{current_user.id} registered a new device #{@device_type} for #{@user.id}."
           redirect_to index_path
         else
@@ -53,36 +55,6 @@ module ::TwoFactorAuthentication
         end
 
         redirect_to index_path
-      end
-
-      ##
-      # Send a confirmation and request a OTP entry from the user to activate the device
-      def confirm
-        if request.get?
-          request_device_confirmation_token
-        else
-          return unless ensure_token_parameter
-
-          validate_device_token
-        end
-      end
-
-      ##
-      # Validate the token input
-      def validate_device_token
-        service = token_service(@device)
-        result = service.verify(params[:otp])
-
-        if result.success? && @device.confirm_registration_and_save
-          flash[:notice] = t('two_factor_authentication.devices.registration_complete')
-          return redirect_to action: :index
-        elsif !result.success?
-          flash[:error] = t('two_factor_authentication.devices.registration_failed_token_invalid')
-        else
-          flash[:error] = t('two_factor_authentication.devices.registration_failed_update')
-        end
-
-        redirect_to confirm_two_factor_device_path(@device)
       end
 
       ##
@@ -116,6 +88,10 @@ module ::TwoFactorAuthentication
 
       def index_path
         edit_user_path(@user, tab: :two_factor_authentication)
+      end
+
+      def registration_success_path
+        index_path
       end
 
       def find_user

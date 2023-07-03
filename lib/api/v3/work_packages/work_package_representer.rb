@@ -60,7 +60,8 @@ module API
           api_v3_paths.work_package(represented.id, timestamps:)
         end
 
-        self_link title_getter: ->(*) { represented.subject }
+        self_link title_getter: ->(*) { represented.subject },
+                  uncacheable: true
 
         link :update,
              cache_if: -> { current_user_update_allowed? } do

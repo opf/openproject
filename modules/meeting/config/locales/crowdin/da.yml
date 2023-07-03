@@ -39,7 +39,7 @@ da:
       meeting_minutes: "Referat"
   activity:
     filter:
-      meeting: "Meetings"
+      meeting: "Møder"
   description_attended: "tilsluttede"
   description_invite: "inviteret"
   events:

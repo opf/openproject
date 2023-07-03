@@ -11,7 +11,7 @@ eu:
         custom_text:
           title: 'Custom text'
         documents:
-          title: 'Documents'
+          title: 'Dokumentuak'
           no_results: 'No documents yet.'
         members:
           title: 'Members'
@@ -60,7 +60,7 @@ eu:
         work_packages_graph:
           title: 'Work packages graph'
         work_packages_calendar:
-          title: 'Calendar'
+          title: 'Egutegia'
         work_packages_overview:
           title: 'Work packages overview'
           placeholder: 'Click to edit ...'

@@ -2,7 +2,7 @@
 sl:
   js:
     boards:
-      create_new: 'Create new board'
+      create_new: 'Ustvari novo tablo'
       label_unnamed_board: 'Neimenovana tabla'
       label_unnamed_list: 'Neimenovani seznam'
       label_board_type: 'Vrsta table'
@@ -29,7 +29,7 @@ sl:
       error_loading_the_list: "Napaka pri nalaganju seznama: %{error_message}"
       error_permission_missing: "Ni dovoljenja za izdelavo javnih poizvedb"
       error_cannot_move_into_self: "Delovnega paketa ne morate premakniti v svoj stoplpec."
-      text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
+      text_hidden_list_warning: "Vse liste niso prikazane, ker nimate pravic. Za več informacij kontaktirajte administratorja."
       click_to_remove_list: "Kliknite za izbris seznama"
       board_type:
         text: 'Vrsta table'
@@ -62,7 +62,7 @@ sl:
           status: Stanje
           version: Različica
           subproject: Podprojekt
-          subtasks: Parent-child
+          subtasks: Starš-otrok
           basic: Osnoven
         select_attribute: "Atributi opravil"
       add_list_modal:

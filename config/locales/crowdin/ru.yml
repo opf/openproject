@@ -1156,7 +1156,7 @@ ru:
       #Use the strftime parameters for formats.
       #When no format has been given, it uses default.
       #You can provide other formats here if you like!
-      default: "%m/%d/%Y"
+      default: "%d.%m.%Y"
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
@@ -2146,7 +2146,7 @@ ru:
   mail_body_register_closing: "Ваша команда OpenProject"
   mail_body_register_ending: "Оставайтесь на связи! С уважением,"
   mail_body_reminder: "%{count} пакета(ов) работ, закрепленных за Вами, должны быть представлены в следующие  %{days}:"
-  mail_body_group_reminder: "Срок выполнения комплексов работ (%{count}), назначенных группе \"%{group}\", истекает в следующие %{days} дн.:"
+  mail_body_group_reminder: "Срок выполнения пакетов работ (%{count}), назначенных группе \"%{group}\", истекает в следующие %{days} дн.:"
   mail_body_wiki_content_added: "%{author} добавил wiki-страницу '«%{id}»'."
   mail_body_wiki_content_updated: "%{author} обновил wiki-страницу '%{id}'."
   mail_subject_account_activation_request: "Запрос на активацию учетной записи %{value}"
@@ -2715,7 +2715,7 @@ ru:
   text_hint_date_format: "Введите дату в форме YYYY-MM-DD. Другие форматы могут быть изменены на нежелательные даты."
   text_hint_disable_with_0: "Примечание: Отключить с 0"
   text_hours_between: "Между %{min} и %{max} часами."
-  text_work_package_added: "Автор %{author} отчитался по пакету работ %{id}."
+  text_work_package_added: "Автор %{author} создал пакет работ %{id}."
   text_work_package_category_destroy_assignments: "Удаление категории назначений"
   text_work_package_category_destroy_question: "Некоторые пакеты работ (%{count}) принадлежат для этой категории. Что вы хотите сделать?"
   text_work_package_category_reassign_to: "Переназначить пакеты работ этой категории"
