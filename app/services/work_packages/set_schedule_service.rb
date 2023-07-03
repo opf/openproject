@@ -193,7 +193,8 @@ class WorkPackages::SetScheduleService
     type_mapping = {
       parent: 'work_package_parent_changed_times',
       children: 'work_package_children_changed_times',
-      predecessor: 'work_package_predecessor_changed_times'
+      predecessor: 'work_package_predecessor_changed_times',
+      related: 'work_package_related_changed_times'
     }
 
     work_package.journal_cause = {

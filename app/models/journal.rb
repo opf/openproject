@@ -60,6 +60,7 @@ class Journal < ApplicationRecord
     work_package_predecessor_changed_times
     work_package_parent_changed_times
     work_package_children_changed_times
+    work_package_related_changed_times
     working_days_changed
   ].freeze
 
