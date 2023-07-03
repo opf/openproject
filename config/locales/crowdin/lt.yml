@@ -272,6 +272,16 @@ lt:
       no_results_title_text: Nėra jokių naujienų.
       no_results_content_text: Pridėti kaip naujieną
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} %{os_name}"
+      browser: 'Naršyklė'
+      device: 'Įrenginys / OS'
+      unknown_browser: 'nežinoma naršyklė'
+      unknown_os: 'nežinoma operacinė sistema'
+      current: 'Dabartinė sesija'
+      title: 'Sesijos valdymas'
+      instructions: 'Toliau pateikiamas sąrašas įrenginių, kurie yra prisijungę prie jūsų paskyros. Panaikinkite visus seansus, kurių neatpažįstate arba prie kurių nebeturite prieigos.'
+      may_not_delete_current: 'Jūs negalite ištrinti savo dabartinės sesijos.'
     groups:
       member_in_these_groups: 'Šis naudotojas šiuo metu yra šių grupių narys:'
       no_results_title_text: Šis naudotojas nėra jokios grupės narys.
@@ -492,7 +502,7 @@ lt:
           on_track: 'Teisingame kelyje'
           at_risk: 'Rizikingas'
           off_track: 'Pasiklydęs'
-          finished: 'Baigta'
+          finished: 'Baigtas'
           discontinued: 'Nutrauktas'
         templated: "Šabloninis projektas"
         templated_value:
@@ -940,14 +950,14 @@ lt:
       parent_no_longer: "Nebėra dalis"
       time_entry:
         hour:
-          one: "%{count} hour"
-          few: "%{count} valandos (-a, -ų)"
-          many: "%{count} valandos (-a, -ų)"
-          other: "%{count} valandos (-a, -ų)"
+          one: "%{count} valanda"
+          few: "%{count} valandos"
+          many: "%{count} valandų"
+          other: "%{count} valandos"
         hour_html:
-          one: "<i>%{count} hour</i>"
-          few: "<i>%{count} hours</i>"
-          many: "<i>%{count} hours</i>"
+          one: "<i>%{count} valanda</i>"
+          few: "<i>%{count} valandos</i>"
+          many: "<i>%{count} valandų</i>"
           other: "<i>%{count} valandos</i>"
         updated: "pakeitė iš %{old_value} į %{value}"
         logged_for: "Registruota"
@@ -1067,6 +1077,7 @@ lt:
   button_configure: "Konfigūruoti"
   button_continue: "Tęsti"
   button_copy: "Kopijuoti"
+  button_copy_to_clipboard: "Kopijuoti į iškarpinę"
   button_copy_and_follow: "Kopijuoti ir sekti"
   button_create: "Sukurti"
   button_create_and_continue: "Sukurti ir tęsti"
@@ -1550,6 +1561,7 @@ lt:
   label_bulk_edit_selected_work_packages: "Masiškai redaguoti pasirinktus darbų paketus"
   label_bundled: '(Įtrauktas)'
   label_calendar: "Kalendorius"
+  label_calendars_and_dates: "Kalendoriai ir datos"
   label_calendar_show: "Rodyti kalendorių"
   label_category: "Kategorija"
   label_consent_settings: "Naudotojo sutikimas"
@@ -1586,7 +1598,6 @@ lt:
   label_contains: "turi"
   label_content: "Turinys"
   label_copied: "nukopijuotas"
-  label_copy_to_clipboard: "Kopijuoti į iškarpinę"
   label_copy_same_as_target: "Toks pat kaip tikslas"
   label_copy_source: "Šaltinis"
   label_copy_target: "Tikslas"
@@ -1603,6 +1614,7 @@ lt:
   label_database_version: "PostgreSQL versija"
   label_date: "Data"
   label_date_and_time: "Data ir laikas"
+  label_date_format: "Datos formatas"
   label_date_from: "Nuo"
   label_date_from_to: "Nuo %{start} iki %{end}"
   label_date_to: "Į"
@@ -1651,6 +1663,7 @@ lt:
   label_equals: "yra"
   label_everywhere: "visur"
   label_example: "Pavyzdys"
+  label_experimental: "Eksperimentinis"
   label_import: "Importuoti"
   label_export_to: "Taip pat galima rasti:"
   label_expanded_click_to_collapse: "Išplėsta. Spauskite, kad sutrauktumėte"
@@ -1766,6 +1779,7 @@ lt:
   label_more_than_ago: "daugiau nei prieš dieną"
   label_move_work_package: "Perkelti darbų paketą"
   label_my_account: "Mano paskyra"
+  label_my_activity: "Mano veikla"
   label_my_account_data: "Mano paskyros duomenys"
   label_my_projects: "Mano projektai"
   label_my_queries: "Mano sukurtos užklausos"
@@ -2223,7 +2237,7 @@ lt:
   notice_successful_update_custom_fields_added_to_project: |
     Sėkmingas atnaujinimas. Savi aktyvuotų tipų laukai automatiškai aktivuoti darbo paketų formose. <a href="%{url}" target="_blank">Skaitykite daugiau</a>.
   notice_successful_update_custom_fields_added_to_type: |
-    Sėkmingas atnaujinimas. Aktyvus savi laukai automatiškai aktyvuoti susijusiems šio tipo projektams.
+    Sėkmingas atnaujinimas. Aktyvūs savi laukai automatiškai aktyvuoti susijusiems šio tipo projektams.
   notice_to_many_principals_to_display: "Per daug rezultatų. Susiaurinkite paiešką pradėdami įvesti naujo nario (ar grupės) pavadinimą."
   notice_user_missing_authentication_method: Vartotojas dar nepasirinko slaptažodžio ar kitokio būdo prisijungimui.
   notice_user_invitation_resent: Pakvietimas buvo nusiųstas į %{email}.
@@ -2529,7 +2543,7 @@ lt:
   setting_consent_decline_mail: "Sutikimo kontaktinis pašto adresas"
   setting_cross_project_work_package_relations: "Leisti tarp-projektinius darbų paketo ryšius"
   setting_first_week_of_year: "Pirma metų savaitė turi"
-  setting_date_format: "Datos formatas"
+  setting_date_format: "Data"
   setting_default_language: "Numatytoji kalba"
   setting_default_projects_modules: "Pagal nutylėjimą naujame projekte įjungti moduliai"
   setting_default_projects_public: "Nauji projektai yra vieši pagal nutylėjimą"
@@ -2592,7 +2606,7 @@ lt:
   setting_start_of_week: "Savaitė prasideda"
   setting_sys_api_enabled: "Įgalinti repozitorijos valdymo web tarnybą"
   setting_sys_api_description: "Repozitorijos valdymo web tarnyba teikia integraciją ir vartotojų autorizaciją bandant pasiekti repozitorijas."
-  setting_time_format: "Laiko formatas"
+  setting_time_format: "Laikas"
   setting_accessibility_mode_for_anonymous: "Leisti lengvos prieigos režimą anoniminiams vartotojams"
   setting_user_format: "Naudotojų vardo formatas"
   setting_user_default_timezone: "Numatytoji vartotojo laiko juosta"
@@ -2603,6 +2617,7 @@ lt:
   setting_welcome_on_homescreen: "Rodyti pasisveikinimo bloką namų lange"
   setting_work_package_list_default_highlighting_mode: "Numatytasis paryškinimo būdas"
   setting_work_package_list_default_highlighted_attributes: "Atributai, kuriuos numatyta paryškinti"
+  setting_working_days: "Darbo dienos"
   settings:
     general: "Bendra"
     other: "Kita"
@@ -2620,6 +2635,10 @@ lt:
         Jei vienas iš „%{day_of_week_setting_name}“ ir „%{first_week_setting_name}“ yra nustatytas, tai kitas taip pat turi būti nustatytas vengiant netikslumų naudotojo sąsajoje.
       first_week_of_year_text: >
         Pasirinkite sausio datą, kuri yra pirmoje metų savaitėje. Ši reikšmė kartu su savaitės pirmos dienos nustatymu lemia savaičių skaičių metuose.
+    experimental:
+      save_confirmation: Atsargiai! Duomenų praradimo rizika! Eksperimentines savybes įjunkite tik tada, jei nebijote sugadinti savo OpenProject ir prarasti visus duomenis.
+      warning_toast: Savybių vėliavėlės yra nustatymai, kurie aktyvuoja vis dar kuriamas savybes. Jos turėtų būti naudojamos tik testavimo tikslais. Jų niekada nereikia įjungti OpenProject serveriuose, kuriuose yra svarbūs duomenys. Šios savybės labai gali sugadinti jūsų duomenis. Naudokite savo rizika.
+      feature_flags: Savybių vėliavėlės
     projects:
       section_new_projects: "Naujų projektų nustatymai"
       section_project_overview: "Nustatymai projektų apžvalgos sąrašui"
@@ -2634,6 +2653,9 @@ lt:
         status: "Visa eilutė pagal būseną"
         type: "Visa eilutė pagal tipą"
         priority: "Visa eilutė pagal prioritetą"
+    working_days:
+      section_work_week: "Darbo savaitė"
+      section_holidays_and_closures: "Nedarbo dienos"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Paprastas tekstas'
@@ -3003,9 +3025,9 @@ lt:
       title: "Ištrinti darbų paketą"
   working_days:
     info: >
-      <b>Nustatykite dienas, kurios laikomos darbo savaitės dalimi</b><br/>Nepažymėtos dienos praleidžiamos skaičiuojant darbo paketus (ir neįtraukiamos į dienų skaičių). Šituos nustatymus galima permušti darbo paketo lygyje.
+      Nepažymėtos dienos praleidžiamos skaičiuojant darbo paketus (ir neįtraukiamos į dienų skaičių). Šituos nustatymus galima permušti darbo paketo lygyje.
     instance_wide_info: >
-      <b>Konkrečios nedarbo dienos (atostogos ir išeiginės)</b><br/> Į žemiau esantį sąrašą pridėtos dienos laikomos nedarbo dienomis ir praleidžiamos planuojant darbo paketus.
+      Į žemiau esantį sąrašą pridėtos datos laikomos nedarbo dienomis ir praleidžiamos planuojant darbo paketus.
     change_button: "Keisti darbo dienas"
     warning: >
       Keičiant dienas, kurios yra darbo ar nedarbo dienos, gali keistis visų projektų darbo paketų pradžios ir pabaigos dienos. <br/>Prašome atkreipti dėmesį, kad pakeitimai pritaikomi tik po to, kai jūs paspaudžiate mygtuką pritaikyti.

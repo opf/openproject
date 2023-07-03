@@ -273,6 +273,16 @@ ja:
       no_results_title_text: 現在、報告するニュースはありません。
       no_results_content_text: ニュース項目を追加
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'このユーザーは現在以下のグループのメンバーです：'
       no_results_title_text: このユーザーは現在どのグループのメンバーでもありません。
@@ -1045,6 +1055,7 @@ ja:
   button_configure: "設定"
   button_continue: "続行"
   button_copy: "コピー"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "コピー後表示"
   button_create: "作成"
   button_create_and_continue: "連続作成"
@@ -1492,6 +1503,7 @@ ja:
   label_bulk_edit_selected_work_packages: "選択したワークパッケージを一括編集"
   label_bundled: '(バンドル)'
   label_calendar: "カレンダー"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "カレンダーを表示"
   label_category: "カテゴリ"
   label_consent_settings: "ユーザーの同意"
@@ -1528,7 +1540,6 @@ ja:
   label_contains: "含む"
   label_content: "内容"
   label_copied: "コピー"
-  label_copy_to_clipboard: "クリップボードにコピー"
   label_copy_same_as_target: "コピー先と同様"
   label_copy_source: "コピー元"
   label_copy_target: "コピー先"
@@ -1545,6 +1556,7 @@ ja:
   label_database_version: "PostgreSQL バージョン"
   label_date: "日付"
   label_date_and_time: "日付と時刻"
+  label_date_format: "Date format"
   label_date_from: "日付指定: "
   label_date_from_to: "%{start} ～%{end}"
   label_date_to: "から"
@@ -1593,6 +1605,7 @@ ja:
   label_equals: "等しい"
   label_everywhere: "どこにでも"
   label_example: "例"
+  label_experimental: "Experimental"
   label_import: "インポート"
   label_export_to: "こちらもアクセス可能："
   label_expanded_click_to_collapse: "拡大しました。クリックすると閉じます"
@@ -1708,6 +1721,7 @@ ja:
   label_more_than_ago: "今日より○日前以前"
   label_move_work_package: "ワークパッケージを移動"
   label_my_account: "個人設定"
+  label_my_activity: "My activity"
   label_my_account_data: "アカウントのデータ"
   label_my_projects: "参加しているプロジェクト"
   label_my_queries: "個人のクエリ"
@@ -2469,7 +2483,7 @@ ja:
   setting_consent_decline_mail: "連絡先メールアドレスに同意します。"
   setting_cross_project_work_package_relations: "他プロジェクトとの間にワークパッケージの関連付けを許可する"
   setting_first_week_of_year: "年の最初の週に含む"
-  setting_date_format: "日付の形式"
+  setting_date_format: "Date"
   setting_default_language: "デフォルトの言語"
   setting_default_projects_modules: "新規プロジェクトにおいてデフォルトで有効になるモジュール"
   setting_default_projects_public: "デフォルトで新しいプロジェクトは公開にする"
@@ -2532,7 +2546,7 @@ ja:
   setting_start_of_week: "週の開始"
   setting_sys_api_enabled: "リポジトリ管理Webサービスを有効にする"
   setting_sys_api_description: "リポジトリ管理Webサービスは、リポジトリへのアクセスの統合およびユーザー認証を提供します。"
-  setting_time_format: "時刻の形式"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "匿名ユーザ向けにアクセシビリティモードを有効"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "ユーザーのデフォルトのタイム ゾーン"
@@ -2543,6 +2557,7 @@ ja:
   setting_welcome_on_homescreen: "ホーム画面にようこそブロックを表示"
   setting_work_package_list_default_highlighting_mode: "デフォルトの強調表示モード"
   setting_work_package_list_default_highlighted_attributes: "デフォルトのインライン強調表示属性"
+  setting_working_days: "Working days"
   settings:
     general: "概要"
     other: "その他"
@@ -2560,6 +2575,10 @@ ja:
         オプション "%{day_of_week_setting_name}" または "%{first_week_setting_name}" が設定されている場合、フロントエンドでの不整合を避けるために、もう一方も設定する必要があります。
       first_week_of_year_text: >
         その年の最初の週に含まれる1月の日付を選択します。 この値と週の開始の日によって、1年の合計週数が決定されます。
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "新規プロジェクトの設定"
       section_project_overview: "プロジェクト概要リストの設定"
@@ -2574,6 +2593,9 @@ ja:
         status: "ステータス別の行全体"
         type: "タイプごとの行全体"
         priority: "優先度別に行全体"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'プレーンテキスト'
@@ -2937,9 +2959,9 @@ ja:
       title: "ワークパッケージの削除"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.

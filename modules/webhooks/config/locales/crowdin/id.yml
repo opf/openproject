@@ -2,62 +2,62 @@ id:
   activerecord:
     attributes:
       webhooks/webhook:
-        url: 'Payload URL'
-        secret: 'Signature secret'
-        events: 'Events'
+        url: 'URL muatan'
+        secret: 'Rahasia tanda tangan'
+        events: 'Acara'
         projects: 'Proyek-proyek yang diaktifkan'
       webhooks/log:
-        event_name: 'Event name'
-        url: 'Payload URL'
-        response_code: 'Response code'
-        response_body: 'Response'
+        event_name: 'Nama acara'
+        url: 'URL muatan'
+        response_code: 'Kode respon'
+        response_body: 'Tanggapan'
     models:
-      webhooks/outgoing_webhook: "Outgoing webhook"
+      webhooks/outgoing_webhook: "Webhook keluar"
   webhooks:
     singular: Webhook
-    plural: Webhooks
+    plural: Webhook
     resources:
       time_entry:
-        name: "Time entry"
+        name: "Entri waktu"
     outgoing:
-      no_results_table: No webhooks have been defined yet.
-      label_add_new: Add new webhook
-      label_edit: Edit webhook
-      label_event_resources: Event resources
+      no_results_table: Belum ada webhook yang ditentukan.
+      label_add_new: Tambahkan webhook baru
+      label_edit: Ubah webhook
+      label_event_resources: Sumber acara
       events:
         created: "Dibuat"
-        updated: "Updated"
+        updated: "Diperbarui"
       explanation:
         text: >
-          Upon the occurrence of an event like the creation of a work package or an update on a project, OpenProject will send a POST request to the configured web endpoints. Oftentimes, the event is sent after the %{link} has passed.
-        link: configured aggregation period
+          Setelah kejadian seperti pembuatan paket kerja atau pembaruan proyek, OpenProject akan mengirimkan permintaan POST ke titik akhir web yang dikonfigurasi.  Sering kali, acara dikirim setelah %{link} lewat.
+        link: periode agregasi yang dikonfigurasi
       status:
-        enabled: 'Webhook is enabled'
-        disabled: 'Webhook is disabled'
-        enabled_text: 'The webhook will emit payloads for the defined events below.'
-        disabled_text: 'Click the edit button to activate the webhook.'
+        enabled: 'Webhook diaktifkan'
+        disabled: 'Webhook dinonaktifkan'
+        enabled_text: 'Webhook akan mengeluarkan payload untuk peristiwa yang ditentukan di bawah.'
+        disabled_text: 'Klik tombol ubah untuk mengaktifkan webhook.'
       deliveries:
-        no_results_table: No deliveries have been made for this webhook in the past days.
-        title: 'Recent deliveries'
-        time: 'Delivery time'
+        no_results_table: Tidak ada pengiriman yang dilakukan untuk webhook ini dalam beberapa hari terakhir.
+        title: 'Pengiriman terbaru'
+        time: 'Waktu pengiriman'
       form:
         introduction: >
-          Send a POST request to the payload URL below for any event in the project you're subscribed to. Payload will correspond to the APIv3 representation of the object being modified.
-        apiv3_doc_url: For more information, visit the API documentation
+          Kirim permintaan POST ke URL payload di bawah ini untuk acara apa pun dalam proyek langganan Anda.  Muatan akan sesuai dengan representasi APIv3 dari objek yang sedang dimodifikasi.
+        apiv3_doc_url: Untuk informasi lebih lanjut, kunjungi dokumentasi API
         description:
-          placeholder: 'Optional description for the webhook.'
+          placeholder: 'Deskripsi opsional untuk webhook.'
         enabled:
           description: >
-            When checked, the webhook will trigger on the selected events. Uncheck to disable the webhook.
+            Jika dicentang, webhook akan dipicu pada peristiwa yang dipilih.  Hapus centang untuk menonaktifkan webhook.
         events:
-          title: 'Enabled events'
+          title: 'Acara yang diaktifkan'
         project_ids:
           title: 'Proyek-proyek yang diaktifkan'
-          description: 'Select for which projects this webhook should be executed for.'
-          all: 'All projects'
-          selected: 'Selected projects only'
+          description: 'Pilih untuk project mana webhook ini harus dijalankan.'
+          all: 'Semua proyek'
+          selected: 'Proyek yang dipilih saja'
         selected_project_ids:
-          title: 'Selected projects'
+          title: 'Proyek terpilih'
         secret:
           description: >
-            If set, this secret value is used by OpenProject to sign the webhook payload.
+            Jika disetel, nilai rahasia ini digunakan oleh OpenProject untuk menandatangani payload webhook.

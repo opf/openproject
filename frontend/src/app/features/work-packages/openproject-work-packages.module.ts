@@ -186,6 +186,7 @@ import { OpBaselineComponent } from 'core-app/features/work-packages/components/
 import { OpBaselineLoadingComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline-loading/baseline-loading.component';
 import { OpBaselineLegendsComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline-legends/baseline-legends.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { RecentItemsService } from 'core-app/core/recent-items.service';
 
 @NgModule({
   imports: [
@@ -246,6 +247,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 
     StoragesResourceService,
     ProjectStoragesResourceService,
+
+    RecentItemsService,
   ],
   declarations: [
     // Routing

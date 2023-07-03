@@ -306,6 +306,16 @@ en:
       no_results_content_text: Add a news item
 
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'This user is currently a member of the following groups:'
       no_results_title_text: This user is currently not a member in any group.
@@ -1133,6 +1143,7 @@ en:
   button_configure: "Configure"
   button_continue: "Continue"
   button_copy: "Copy"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Copy and follow"
   button_create: "Create"
   button_create_and_continue: "Create and continue"
@@ -1630,7 +1641,6 @@ en:
   label_contains: "contains"
   label_content: "Content"
   label_copied: "copied"
-  label_copy_to_clipboard: "Copy to clipboard"
   label_copy_same_as_target: "Same as target"
   label_copy_source: "Source"
   label_copy_target: "Target"
@@ -1696,6 +1706,7 @@ en:
   label_equals: "is"
   label_everywhere: "everywhere"
   label_example: "Example"
+  label_experimental: "Experimental"
   label_import: "Import"
   label_export_to: "Also available in:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
@@ -1776,6 +1787,7 @@ en:
   label_logged_as: "Logged in as"
   label_login: "Sign in"
   label_custom_logo: "Custom logo"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Custom favicon"
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "Sign out"
@@ -1812,6 +1824,7 @@ en:
   label_more_than_ago: "more than days ago"
   label_move_work_package: "Move work package"
   label_my_account: "My account"
+  label_my_activity: "My activity"
   label_my_account_data: "My account data"
   label_my_projects: "My projects"
   label_my_queries: "My custom queries"
@@ -2707,6 +2720,10 @@ en:
         Select the date of January that is contained in the first week of the year.
         This value together with first day of the week determines the total number of weeks in a year.
         For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     general: "General"
     highlighting:
       mode_long:
@@ -2789,14 +2806,18 @@ en:
     A white logo on transparent background is recommended.
     For best results on both, conventional and retina displays,
     make sure your image's dimensions are 460px by 60px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports.
+    It needs to be a PNG or JPEG image file.
+    A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the
     page's title.
-    It's needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
+    It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
     This is the icon that appears in your mobile or tablet when you place a
     bookmark on your homescreen.
-    It's needs to be a squared 180 by 180 pixels sized PNG image file. Please
+    It needs to be a squared 180 by 180 pixels sized PNG image file. Please
     make sure the image's background is not transparent otherwise it will look
     bad on iOS.
   text_database_allows_tsv: "Database allows TSVector (optional)"

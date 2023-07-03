@@ -277,6 +277,16 @@ vi:
       no_results_title_text: Hiện không có tin tức báo cáo.
       no_results_content_text: Thêm một mục tin tức
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'This user is currently a member of the following groups:'
       no_results_title_text: Người dùng này hiện tại chưa là thành viên của bất kỳ nhóm nào
@@ -1051,6 +1061,7 @@ vi:
   button_configure: "Thiết lập"
   button_continue: "Tiếp tục"
   button_copy: "Sao chép"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Sao chép và làm theo"
   button_create: "Tạo mới"
   button_create_and_continue: "Tạo và tiếp tục"
@@ -1498,6 +1509,7 @@ vi:
   label_bulk_edit_selected_work_packages: "Chỉnh sửa các work package đã chọn"
   label_bundled: '(Tích hợp sẵn)'
   label_calendar: "Lịch"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Hiển thị Lịch"
   label_category: "Thể loại"
   label_consent_settings: "Sự đồng ý của người dùng"
@@ -1534,7 +1546,6 @@ vi:
   label_contains: "bao gồm"
   label_content: "Nội dung"
   label_copied: "đã sao chép"
-  label_copy_to_clipboard: "Sao chép vào clipboard"
   label_copy_same_as_target: "Giống như mục tiêu"
   label_copy_source: "Nguồn"
   label_copy_target: "Mục tiêu"
@@ -1551,6 +1562,7 @@ vi:
   label_database_version: "PostgreSQL version"
   label_date: "Ngày"
   label_date_and_time: "Ngày và giờ"
+  label_date_format: "Date format"
   label_date_from: "Từ"
   label_date_from_to: "Từ %{start} tới %{end}"
   label_date_to: "Đến"
@@ -1599,6 +1611,7 @@ vi:
   label_equals: "là"
   label_everywhere: "mọi nơi"
   label_example: "Ví dụ"
+  label_experimental: "Experimental"
   label_import: "Nhập"
   label_export_to: "Cũng có sẵn tại:"
   label_expanded_click_to_collapse: "Mở rộng. Bấm vào để thu gọn"
@@ -1714,6 +1727,7 @@ vi:
   label_more_than_ago: "nhiều hơn mấy ngày trước"
   label_move_work_package: "Di chuyển work package"
   label_my_account: "Tài khoản của tôi"
+  label_my_activity: "My activity"
   label_my_account_data: "Dữ liệu tài khoản của tôi"
   label_my_projects: "Dự án của tôi"
   label_my_queries: "Các truy vấn tùy biến của tôi"
@@ -2475,7 +2489,7 @@ vi:
   setting_consent_decline_mail: "Consent contact mail address"
   setting_cross_project_work_package_relations: "Allow cross-project work package relations"
   setting_first_week_of_year: "Tuần đầu tiên trong năm"
-  setting_date_format: "Date format"
+  setting_date_format: "Date"
   setting_default_language: "Default language"
   setting_default_projects_modules: "Default enabled modules for new projects"
   setting_default_projects_public: "New projects are public by default"
@@ -2538,7 +2552,7 @@ vi:
   setting_start_of_week: "Tuần Bắt đầu"
   setting_sys_api_enabled: "Enable repository management web service"
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
-  setting_time_format: "Time format"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Enable accessibility mode for anonymous users"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Time zone mặc định"
@@ -2549,6 +2563,7 @@ vi:
   setting_welcome_on_homescreen: "Display welcome block on homescreen"
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
+  setting_working_days: "Working days"
   settings:
     general: "Tổng quan"
     other: "Khác"
@@ -2566,6 +2581,10 @@ vi:
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text: >
         Chọn ngày tháng 1 có trong tuần đầu tiên của năm. Giá trị này cùng với ngày đầu tuần xác định tổng số tuần trong một năm.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
@@ -2580,6 +2599,9 @@ vi:
         status: "Entire row by Status"
         type: "Entire row by Type"
         priority: "Entire row by Priority"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Gạch dưới'
     plain: 'Văn bản thuần'
@@ -2943,9 +2965,9 @@ vi:
       title: "Delete the work package"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.

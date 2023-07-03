@@ -99,6 +99,10 @@ Redmine::MenuManager.map :account_menu do |menu|
             :my_page_path,
             caption: I18n.t('js.my_page.label'),
             if: Proc.new { User.current.logged? }
+  menu.push :my_profile,
+            { controller: '/users', action: 'show', id: 'me' },
+            caption: :label_my_activity,
+            if: Proc.new { User.current.logged? }
   menu.push :my_account,
             { controller: '/my', action: 'account' },
             if: Proc.new { User.current.logged? }
@@ -146,6 +150,10 @@ Redmine::MenuManager.map :my_menu do |menu|
             { controller: '/my', action: 'access_token' },
             caption: I18n.t('my_account.access_tokens.access_tokens'),
             icon: 'key'
+  menu.push :sessions,
+            { controller: '/my/sessions', action: :index },
+            caption: :'users.sessions.title',
+            icon: 'installation-services'
   menu.push :notifications,
             { controller: '/my', action: 'notifications' },
             caption: I18n.t('js.notifications.settings.title'),
@@ -317,7 +325,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
     menu.push :"settings_#{node[:name]}",
               { controller: node[:controller], action: :show },
               caption: node[:label],
-              if: Proc.new { User.current.admin? },
+              if: Proc.new { User.current.admin? && node[:name] != 'experimental' },
               parent: :settings
   end
 

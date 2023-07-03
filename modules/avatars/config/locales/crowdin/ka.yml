@@ -1,8 +1,8 @@
 #English strings go here
 ka:
   label_avatar: "Avatar"
-  label_avatar_plural: "Avatars"
-  label_current_avatar: "Current Avatar"
+  label_avatar_plural: "პროფილის ფოტოები"
+  label_current_avatar: "აქტუალური ავატარი"
   label_choose_avatar: "Choose Avatar from file"
   message_avatar_uploaded: "Avatar changed successfully."
   error_image_upload: "Error saving the image."

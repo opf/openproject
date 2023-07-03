@@ -30,6 +30,10 @@ require 'support/pages/work_packages/abstract_work_package'
 
 module Pages
   class FullWorkPackage < Pages::AbstractWorkPackage
+    def ensure_loaded
+      find('.work-packages--details--subject', match: :first)
+    end
+
     private
 
     def container

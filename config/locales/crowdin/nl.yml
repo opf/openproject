@@ -272,6 +272,16 @@ nl:
       no_results_title_text: Er is momenteel geen nieuws om te rapporteren.
       no_results_content_text: Voeg een nieuwsitem toe
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'Onbekende browser'
+      unknown_os: 'Onbekend besturingssysteem'
+      current: 'Huidige sessie'
+      title: 'Sessiebeheer'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'Deze gebruiker is momenteel lid van de volgende groepen:'
       no_results_title_text: Deze gebruiker is momenteel geen lid in een groep.
@@ -348,7 +358,7 @@ nl:
       other: '%{count} werk pakket afstammelingen'
     bulk:
       copy_failed: "De werkpakketten konden niet gekopieerd worden."
-      move_failed: "The work packages could not be moved."
+      move_failed: "De werkpakketten konden niet worden verplaatst."
       could_not_be_saved: "De volgende werkpakketten konden niet worden opgeslagen:"
       none_could_be_saved: "Geen van de %{total} werkpakketten konden worden bijgewerkt."
       x_out_of_y_could_be_saved: "%{failing} van de %{total} werkpakketten konden niet worden bijgewerkt terwijl %{success} kon."
@@ -377,7 +387,7 @@ nl:
   account:
     delete: "Account Verwijderen"
     delete_confirmation: "Weet je zeker dat je dit account wilt verwijderen?"
-    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
+    deletion_pending: "Account is vergrendeld en is ingepland voor verwijdering. Let op dat dit proces op de achtergrond plaatsvindt. Het kan even duren voordat de gebruiker volledig verwijderd is."
     deletion_info:
       data_consequences:
         other: "Van de gegevens die de gebruiker heeft gemaakt (bijvoorbeeld e-mail, voorkeuren, werkpakketten, wiki-inzendingen) zal zoveel mogelijk worden verwijderd. Let echter op dat gegevens zoals werkpakketten en wiki-items niet kunnen worden verwijderd zonder het belemmeren van het werk van de andere gebruikers. Dergelijke gegevens worden dus opnieuw toegewezen aan een account genaamd \"Verwijderde gebruiker\". Zodra de gegevens van elk verwijderd account zijn toegewezen aan dit account, zal het niet mogelijk zijn om gegevens die de gebruiker heeft gemaakt te onderscheiden van de gegevens van een ander verwijderd account."
@@ -473,18 +483,18 @@ nl:
         roles: "Rollen"
       project:
         active_value:
-          true: "unarchived"
+          true: "Niet gearchiveerd"
           false: "gearchiveerd"
         identifier: "Identifier"
         latest_activity_at: "Laatste activiteit om"
         parent: "Subproject van"
         public_value:
           title: "Zichtbaarheid"
-          true: "public"
-          false: "private"
+          true: "Openbaar"
+          false: "Privé"
         queries: "Query 's"
         status_code: 'Projectstatus'
-        status_explanation: 'Project status description'
+        status_explanation: 'Beschrijving van projectstatus'
         status_codes:
           not_started: 'Nog niet gestart'
           on_track: 'Op schema'
@@ -494,8 +504,8 @@ nl:
           discontinued: 'Stopgezet'
         templated: "Projectsjabloon"
         templated_value:
-          true: "marked as template"
-          false: "unmarked as template"
+          true: "gemarkeerd als sjabloon"
+          false: "ongemarkeerd als sjabloon"
         types: "Typen"
         versions: "Versies"
         work_packages: "Werkpakketten"
@@ -692,8 +702,8 @@ nl:
         ical_token_query_assignment:
           attributes:
             name:
-              blank: "is mandatory. Please select a name."
-              not_unique: "is already in use. Please select another name."
+              blank: "Is verplicht. Selecteer een naam."
+              not_unique: "is al in gebruik. Selecteer een andere naam."
         notifications:
           at_least_one_channel: 'Er moet ten minste één kanaal voor het verzenden van meldingen worden opgegeven.'
           attributes:
@@ -708,7 +718,7 @@ nl:
         non_working_day:
           attributes:
             date:
-              taken: "A non-working day already exists for %{value}."
+              taken: "Er bestaat al een niet-werkende dag voor %{value}."
               format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
@@ -721,7 +731,7 @@ nl:
           foreign_wps_reference_version: 'Werkpakketten in niet-onderliggende projecten verwijzen naar versies van het project of zijn afstammelingen.'
           attributes:
             base:
-              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
+              archive_permission_missing_on_subprojects: "U hebt niet de benodigde rechten om alle sub-projecten te archiveren. Neem contact op met een beheerder."
             types:
               in_use_by_work_packages: "nog steeds in gebruik door werkpakketten: %{types}"
             enabled_modules:
@@ -930,7 +940,7 @@ nl:
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
-          one: "%{count} hour"
+          one: "%{count} uur"
           other: "%{count} uren"
         hour_html:
           one: "<i>%{count} hour</i>"
@@ -1053,6 +1063,7 @@ nl:
   button_configure: "Configureer"
   button_continue: "Verdergaan"
   button_copy: "Kopieer"
+  button_copy_to_clipboard: "Kopiëren naar het klembord"
   button_copy_and_follow: "Kopiëren en volg"
   button_create: "Maken"
   button_create_and_continue: "Aanmaken en doorgaan"
@@ -1081,7 +1092,7 @@ nl:
   button_reset: "Herstel"
   button_rollback: "Terugdraaien naar deze versie"
   button_save: "Opslaan"
-  button_apply_changes: "Apply changes"
+  button_apply_changes: "Veranderingen doorvoeren"
   button_save_back: "Opslaan en terug"
   button_show: "Toon"
   button_sort: "Sorteren"
@@ -1344,13 +1355,13 @@ nl:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_overview_table: "PDF Table"
+      pdf_overview_table: "PDF Tabel"
       pdf_report_with_images: "PDF Report with images"
       pdf_report: "PDF Report"
     image:
       omitted: "Afbeelding niet geëxporteerd."
     units:
-      hours: h
+      hours: u
       days: d
   extraction:
     available:
@@ -1475,7 +1486,7 @@ nl:
   label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
   label_ical_access_key_not_present: "iCalendar token(s) not present."
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
-  label_ical_access_key_latest: "latest"
+  label_ical_access_key_latest: "laatste"
   label_ical_access_key_revoke: "Intrekken"
   label_applied_status: "Toegepaste status"
   label_archive_project: "Project archiveren"
@@ -1512,6 +1523,7 @@ nl:
   label_bulk_edit_selected_work_packages: "Bulk bewerken van geselecteerd werkpakketten"
   label_bundled: '(Meegeleverde)'
   label_calendar: "Kalender"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Agenda weergeven"
   label_category: "Categorie"
   label_consent_settings: "Gebruikers toestemming"
@@ -1548,7 +1560,6 @@ nl:
   label_contains: "bevat"
   label_content: "Inhoud"
   label_copied: "gekopieerd"
-  label_copy_to_clipboard: "Kopiëren naar het klembord"
   label_copy_same_as_target: "Zelfde als doel"
   label_copy_source: "Bron"
   label_copy_target: "Doel"
@@ -1565,6 +1576,7 @@ nl:
   label_database_version: "PostgreSQL versie"
   label_date: "Datum"
   label_date_and_time: "Datum en tijd"
+  label_date_format: "Datumnotatie"
   label_date_from: "Van"
   label_date_from_to: "Van %{start} tot %{end}"
   label_date_to: "Aan"
@@ -1613,6 +1625,7 @@ nl:
   label_equals: "is"
   label_everywhere: "overal"
   label_example: "Voorbeeld"
+  label_experimental: "Experimental"
   label_import: "Importeren"
   label_export_to: "Ook verkrijgbaar in:"
   label_expanded_click_to_collapse: "Uitgebreid. Klik op samenvouwen"
@@ -1670,7 +1683,7 @@ nl:
   label_journal: "Logboek"
   label_journal_diff: "Beschrijving vergelijking"
   label_language: "Taal"
-  label_languages: "Languages"
+  label_languages: "Talen"
   label_jump_to_a_project: "Ga naar een project..."
   label_keyword_plural: 'Trefwoorden'
   label_language_based: "Op basis van de taal van gebruiker"
@@ -1728,6 +1741,7 @@ nl:
   label_more_than_ago: "meer dan dagen geleden"
   label_move_work_package: "Verplaatsen werkpakket"
   label_my_account: "Mijn gegevens"
+  label_my_activity: "Mijn activiteit"
   label_my_account_data: "Mijn accountgegevens"
   label_my_projects: "Mijn projecten"
   label_my_queries: "Mijn aangepaste query 's"
@@ -1757,8 +1771,8 @@ nl:
   label_not_contains: "bevat geen"
   label_not_equals: "is niet"
   label_on: "op"
-  label_operator_all: "is not empty"
-  label_operator_none: "is empty"
+  label_operator_all: "is niet leeg"
+  label_operator_none: "is leeg"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
   label_open_menu: "Menu openen"
@@ -2490,7 +2504,7 @@ nl:
   setting_consent_decline_mail: "Toestemming contact e-mailadres"
   setting_cross_project_work_package_relations: "Sta werkpakketten over meerdere projecten toe"
   setting_first_week_of_year: "De eerste week in het jaar bevat"
-  setting_date_format: "Datumnotatie"
+  setting_date_format: "Date"
   setting_default_language: "Standaard taal"
   setting_default_projects_modules: "Standaard actieve modules voor nieuwe projecten"
   setting_default_projects_public: "Nieuwe projecten zijn standaard publiek"
@@ -2553,7 +2567,7 @@ nl:
   setting_start_of_week: "Week begint op"
   setting_sys_api_enabled: "Repository beheer web-service inschakelen"
   setting_sys_api_description: "De repository beheer web-service biedt integratie en autorisatie van gebruikers voor toegang tot de archieven."
-  setting_time_format: "Tijdnotatie"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Toegankelijkheid modus voor anonieme gebruikers inschakelen"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Standaardtijdzone voor gebruikers"
@@ -2564,6 +2578,7 @@ nl:
   setting_welcome_on_homescreen: "Toon het Welkom blok op thuisscherm"
   setting_work_package_list_default_highlighting_mode: "Standaardmodus markeren"
   setting_work_package_list_default_highlighted_attributes: "Inline gemarkeerd standaardkenmerken"
+  setting_working_days: "Working days"
   settings:
     general: "Algemeen"
     other: "Overige"
@@ -2581,6 +2596,10 @@ nl:
         Als ofwel opties "%{day_of_week_setting_name}" of "%{first_week_setting_name}" zijn ingesteld, Ook het andere moet worden vastgesteld om inconsistenties op het frontend te voorkomen.
       first_week_of_year_text: >
         Selecteer de datum van januari die in de eerste week van het jaar staat. Deze waarde bepaalt samen met de eerste dag van de week het totaal aantal weken in een jaar.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Instellingen voor nieuwe projecten"
       section_project_overview: "Instellingen voor project overzicht lijst"
@@ -2595,6 +2614,9 @@ nl:
         status: "Hele rij per Status"
         type: "Hele rij per Type"
         priority: "Hele rij door prioriteit"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Onopgemaakte tekst'
@@ -2960,9 +2982,9 @@ nl:
       title: "Werkpakket verwijderen"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Wijzig werkdagen"
     warning: >
       Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.

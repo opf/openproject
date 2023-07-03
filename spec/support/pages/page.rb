@@ -46,7 +46,12 @@ module Pages
     end
 
     def reload!
-      page.driver.browser.navigate.refresh
+      if using_cuprite?
+        page.driver.browser.refresh
+        wait_for_reload
+      else
+        page.driver.browser.navigate.refresh
+      end
     end
 
     def accept_alert_dialog!

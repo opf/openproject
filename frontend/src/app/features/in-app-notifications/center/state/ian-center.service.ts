@@ -271,12 +271,16 @@ export class IanCenterService extends UntilDestroyedMixin {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-  openSplitScreen(wpId:string|null, tabIdentifier:string = 'activity'):void {
+  openSplitScreen(workPackageId:string|null, tabIdentifier:string = 'activity'):void {
     void this.state.go(
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
       `${this.state.current.data.baseRoute}.details.tabs`,
-      { workPackageId: wpId, tabIdentifier },
+      { workPackageId, tabIdentifier },
     );
+  }
+
+  openFullView(workPackageId:string|null):void {
+    void this.state.go('work-packages.show', { workPackageId });
   }
 
   goToCenter():void {

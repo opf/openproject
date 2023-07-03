@@ -28,7 +28,10 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Custom actions', js: true, with_ee: %i[custom_actions] do
+RSpec.describe 'Custom actions',
+               js: true,
+               with_cuprite: true,
+               with_ee: %i[custom_actions] do
   shared_let(:admin) { create(:admin) }
 
   let(:permissions) { %i(view_work_packages edit_work_packages move_work_packages work_package_assigned) }
@@ -140,16 +143,15 @@ RSpec.describe 'Custom actions', js: true, with_ee: %i[custom_actions] do
   let(:index_ca_page) { Pages::Admin::CustomActions::Index.new }
 
   before do
-    login_as(admin)
+    login_as admin
   end
 
-  it 'viewing workflow buttons' do
+  it 'viewing workflow buttons', with_cuprite: true do
     # create custom action 'Unassign'
     index_ca_page.visit!
 
     new_ca_page = index_ca_page.new
     retry_block do
-      new_ca_page.visit!
       new_ca_page.set_name('Unassign')
       new_ca_page.set_description('Removes the assignee')
       new_ca_page.add_action('Assignee', '-')
@@ -170,7 +172,6 @@ RSpec.describe 'Custom actions', js: true, with_ee: %i[custom_actions] do
     new_ca_page = index_ca_page.new
 
     retry_block do
-      new_ca_page.visit!
       new_ca_page.set_name('Close')
 
       new_ca_page.add_action('Status', 'Close')
@@ -198,7 +199,6 @@ RSpec.describe 'Custom actions', js: true, with_ee: %i[custom_actions] do
     new_ca_page = index_ca_page.new
 
     retry_block do
-      new_ca_page.visit!
       new_ca_page.set_name('Escalate')
       new_ca_page.add_action('Priority', immediate_priority.name)
       new_ca_page.expect_action('priority', immediate_priority.id)
@@ -226,7 +226,6 @@ RSpec.describe 'Custom actions', js: true, with_ee: %i[custom_actions] do
     new_ca_page = index_ca_page.new
 
     retry_block do
-      new_ca_page.visit!
       new_ca_page.set_name('Reset')
 
       new_ca_page.add_action('Priority', default_priority.name)
@@ -259,7 +258,6 @@ RSpec.describe 'Custom actions', js: true, with_ee: %i[custom_actions] do
 
     new_ca_page = index_ca_page.new
     retry_block do
-      new_ca_page.visit!
       new_ca_page.set_name('Other roles action')
 
       new_ca_page.add_action('Status', default_status.name)
@@ -282,13 +280,18 @@ RSpec.describe 'Custom actions', js: true, with_ee: %i[custom_actions] do
     new_ca_page = index_ca_page.new
 
     retry_block do
-      new_ca_page.visit!
       new_ca_page.set_name('Move project')
       # Add date custom action which has a different admin layout
-      select date_custom_field.name, from: 'Add action'
-      select 'on', from: date_custom_field.name
 
-      date = (Date.today + 5.days)
+      ignore_ferrum_javascript_error do
+        select date_custom_field.name, from: 'Add action'
+      end
+
+      ignore_ferrum_javascript_error do
+        select 'on', from: date_custom_field.name
+      end
+
+      date = (Date.current + 5.days)
       find("#custom_action_actions_custom_field_#{date_custom_field.id}_visible").click
       datepicker = Components::Datepicker.new 'body'
       datepicker.set_date date
@@ -366,7 +369,6 @@ RSpec.describe 'Custom actions', js: true, with_ee: %i[custom_actions] do
     edit_ca_page = index_ca_page.edit('Reset')
 
     retry_block do
-      edit_ca_page.visit!
       edit_ca_page.set_name 'Reject'
       edit_ca_page.remove_action 'Priority'
       edit_ca_page.set_action 'Assignee', '-'
