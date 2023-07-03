@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/categories/categories_page'
 
-describe 'Deletion', js: true do
+RSpec.describe 'Deletion', js: true, with_cuprite: true do
   let(:current_user) do
     create(:user,
            member_in_project: category.project,
@@ -46,9 +46,9 @@ describe 'Deletion', js: true do
     before do
       categories_page.visit_settings
 
-      find(delete_button).click
-
-      page.driver.browser.switch_to.alert.accept
+      accept_alert do
+        find(delete_button).click
+      end
     end
   end
 

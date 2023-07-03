@@ -40,9 +40,9 @@ module SettingsHelper
         label: :label_general
       },
       {
-        name: 'display',
-        controller: '/admin/settings/display_settings',
-        label: :label_display
+        name: 'languages',
+        controller: '/admin/settings/languages_settings',
+        label: :label_languages
       },
       {
         name: 'projects',
@@ -58,6 +58,11 @@ module SettingsHelper
         name: 'repositories',
         controller: '/admin/settings/repositories_settings',
         label: :label_repository_plural
+      },
+      {
+        name: 'experimental',
+        controller: '/admin/settings/experimental_settings',
+        label: :label_experimental
       }
     ]
   end
@@ -183,7 +188,7 @@ module SettingsHelper
     return ''.html_safe if label == false
 
     styled_label_tag(
-      "settings_#{setting}", I18n.t(label || "setting_#{setting}"),
+      "settings_#{setting}", options[:not_translated_label] || I18n.t(label || "setting_#{setting}"),
       options.slice(:title)
     )
   end

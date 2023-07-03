@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CleanupUncontaineredFileLinksJob, type: :job do
+RSpec.describe CleanupUncontaineredFileLinksJob, type: :job do
   it 'has a schedule set' do
     expect(described_class.cron_expression).to eq('06 22 * * *')
   end

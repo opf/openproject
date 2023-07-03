@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe AttributeHelpTextsController, with_ee: %i[attribute_help_texts] do
+RSpec.describe AttributeHelpTextsController, with_ee: %i[attribute_help_texts] do
   let(:user) { build_stubbed(:admin) }
   let(:model) { build(:work_package_help_text) }
 

@@ -31,11 +31,8 @@
 module Settings
   ##
   # A language switch and text area for updating a localized text setting.
-  class TextSettingComponent < ::RailsComponent
-    include ActionView::Helpers::JavaScriptHelper
-    include ActionView::Helpers::FormOptionsHelper
+  class TextSettingComponent < ::ApplicationComponent
     include OpenProject::FormTagHelper
-    include TextFormattingHelper
 
     options :name # name of setting and tag to differentiate between different language selects
 

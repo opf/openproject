@@ -1,7 +1,8 @@
 require 'spec_helper'
 
-describe 'Work Package highlighting fields',
-         js: true, with_ee: %i[conditional_highlighting] do
+RSpec.describe 'Work Package highlighting fields',
+               js: true,
+               with_ee: %i[conditional_highlighting] do
   let(:user) { create(:admin) }
 
   let(:project) { create(:project) }
@@ -192,7 +193,7 @@ describe 'Work Package highlighting fields',
     expect(page).to have_selector(".__hl_inline_priority_#{priority1.id}")
   end
 
-  it 'correctly parses custom selected inline attributes' do
+  it 'correctly parses custom selected inline attributes', :with_cuprite do
     # Highlight only one attribute
     highlighting.switch_inline_attribute_highlight "Priority"
 

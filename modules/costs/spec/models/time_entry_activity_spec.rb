@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe TimeEntryActivity do
+RSpec.describe TimeEntryActivity do
   let(:new_activity) { described_class.new }
   let(:saved_activity) { described_class.create name: 'Design' }
 

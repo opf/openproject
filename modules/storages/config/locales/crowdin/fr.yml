@@ -47,6 +47,7 @@ fr:
       replace_provider_type_oauth: "Remplacer OAuth %{provider_type}"
       save_and_continue_setup: "Enregistrer et continuer la configuration"
       save_and_complete_setup: "Enregistrer et terminer la configuration"
+      select_folder: "Select folder"
     page_titles:
       project_settings:
         index: "Stockages de fichiers disponibles dans ce projet"
@@ -59,6 +60,9 @@ fr:
       host: "Veuillez ajouter l'adresse d'hôte de votre stockage, y compris le https://. Il ne doit pas dépasser 255 caractères."
       no_storage_set_up: "Aucun stockage de fichiers configuré pour le moment."
       no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
+      automatic_folder: "This will automatically create a root folder for this project and manage the access permissions for each project member."
+      empty_project_folder_validation: "Selecting a folder is mandatory to proceed."
+      not_logged_into_storage: "To select a project folder, please first login"
       existing_manual_folder: >
         You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
       setting_up_additional_storages: "Pour configurer des stockages de fichiers supplémentaires, veuillez visiter"
@@ -77,7 +81,6 @@ fr:
         Voulez-vous vraiment supprimer ce stockage ? Cela supprimera également le stockage de tous les projets où il est utilisé. De plus, il supprimera également tous les liens des lots de travaux vers les fichiers stockés dans ce stockage.
       project_storage: >
         Voulez-vous vraiment supprimer ce stockage de fichier de ce projet ? Cela supprimera aussi tous les liens vers des fichiers stockés dans ce stockage pour ce projet.
-    placeholder_existing_folder_selection: "Select a folder"
     label_creator: "Créateur"
     label_file_link: "Lien du fichier"
     label_file_links: "Liens de fichier"
@@ -92,8 +95,9 @@ fr:
     label_project_folder: "Project folder"
     label_new_storage: "Nouveau stockage"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
-    label_existing_manual_folder_selection: "Existing folder selection"
     label_no_specific_folder: "No specific folder"
+    label_automatic_folder: "New folder with automatically managed permissions"
+    label_no_selected_folder: "No selected folder"
     label_storage: "Stockage"
     label_storages: "Stockages"
     no_results: "Aucun stockage configuré pour le moment."

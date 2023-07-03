@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-describe 'API v3 project storages resource', content_type: :json, webmock: true do
+RSpec.describe 'API v3 project storages resource', content_type: :json, webmock: true do
   include API::V3::Utilities::PathHelper
 
   let(:view_permissions) { %i(view_work_packages view_file_links) }
@@ -183,7 +183,8 @@ describe 'API v3 project storages resource', content_type: :json, webmock: true 
 
     it_behaves_like 'successful response'
 
-    it { is_expected.to be_json_eql('1337'.to_json).at_path('projectFolderId') }
+    it { is_expected.to be_json_eql(api_v3_paths.storage_file(storage3.id, '1337').to_json).at_path('_links/projectFolder/href') }
+
     it { is_expected.to be_json_eql('manual'.to_json).at_path('projectFolderMode') }
 
     context 'if user has permission to see file storages in project' do

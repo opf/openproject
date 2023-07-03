@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Users::UnpaginatedUserCollectionRepresenter do
+RSpec.describe API::V3::Users::UnpaginatedUserCollectionRepresenter do
   let(:users) do
     build_stubbed_list(:user,
                        3)

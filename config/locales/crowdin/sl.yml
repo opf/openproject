@@ -78,8 +78,8 @@ sl:
       book_now: 'Rezerviraj'
       get_quote: 'Pridobite ponudbo'
       buttons:
-        upgrade: "Upgrade now"
-        contact: "Contact us for a demo"
+        upgrade: "Nadgradi zdaj"
+        contact: "Kontaktirajte nas za poskusno različico"
       enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
@@ -149,7 +149,7 @@ sl:
       kateri atributi LDAP se uporabljajo za definiranje atributov uporabnika OpenProject (preslikava atributov).
     tls_mode:
       plain: 'Brez'
-      simple_tls: 'LDAPS'
+      simple_tls: 'LDAP-i'
       start_tls: 'STARTTLS'
       plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
       simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
@@ -181,7 +181,7 @@ sl:
     edit: 'Urejanje dejanja po meri %{name}'
     execute: 'Izvedite %{name}'
     upsale:
-      title: 'Custom actions'
+      title: 'Dejanja po meri'
       description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
@@ -268,11 +268,22 @@ sl:
       notice_reset_token: "Ustvarjen je bil nov %{type} simbol. Vaš dostopni simbol je:"
       token_value_warning: "Opomba: To simbol boste videli samo zdaj, prepričajte se, da ga kopirate."
       no_results_title_text: Trenutno ni na voljo simbolov za dostop.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Trenutno ni nobenih novic za poročanje.
       no_results_content_text: Dodajte novico
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'Ta uporabnik je trenutno član naslednjih skupin:'
       no_results_title_text: Ta uporabnik trenutno ni član v nobeni skupini.
@@ -289,7 +300,7 @@ sl:
       irreversible: "To dejanje je nepreklicno"
       confirmation: "Vnesite nadomestno uporabniško ime %{name} za potrditev izbrisa."
     upsale:
-      title: Placeholder users
+      title: Nadomestni uporabniki
       description: >
         Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
@@ -475,24 +486,24 @@ sl:
       project:
         active_value:
           true: "unarchived"
-          false: "archived"
+          false: "Arhiviran"
         identifier: "Identifikator "
         latest_activity_at: "Zadnja aktivnost ob"
         parent: "Podprojekt od"
         public_value:
-          title: "Visibility"
+          title: "Vidljivost"
           true: "public"
           false: "private"
         queries: "Poizvedbe"
-        status_code: 'Project status'
+        status_code: 'Status projekta'
         status_explanation: 'Project status description'
         status_codes:
-          not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          not_started: 'Ni začeto'
+          on_track: 'Na dobri poti'
+          at_risk: 'Ogroženo'
+          off_track: 'Izven poti'
+          finished: 'Končano'
+          discontinued: 'Opuščeno'
         templated: "Vzorčni projekt"
         templated_value:
           true: "marked as template"
@@ -690,6 +701,11 @@ sl:
           overlaps: 'prekrivanje.'
           outside: 'je zunaj omrežja.'
           end_before_start: 'končna vrednost mora biti večja od začetne vrednosti.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -930,7 +946,7 @@ sl:
       updated_by_on: "spremenil %{user} %{datetime}"
       updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "Podprojekt"
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
@@ -946,14 +962,14 @@ sl:
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      changeset: "Zapisi sprememb"
+      message: "Forumi"
+      news: "Novice"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
+      time_entry: "Porabljen čas"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "Delovni paketi"
   #common attributes of all models
   attributes:
     active: "Aktivno"
@@ -1010,7 +1026,7 @@ sl:
     updated_on: "Posodobljeno"
     uploader: "Posodobitelj"
     user: "Uporabnik"
-    value: "Value"
+    value: "vrednost"
     version: "Različica"
     work_package: "Zahtevek"
   backup:
@@ -1061,6 +1077,7 @@ sl:
   button_configure: "Nastavi"
   button_continue: "Nadaljuj"
   button_copy: "Kopiraj"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Kopiraj in sledi"
   button_create: "Ustvari"
   button_create_and_continue: "Ustvari in nadaljuj"
@@ -1190,7 +1207,7 @@ sl:
       - "oktober"
       - "November"
       - "December"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - :leto
       - :mesec
@@ -1259,61 +1276,6 @@ sl:
         two: "ure"
         few: "ure"
         other: "ure"
-  default_activity_development: "Razvoj"
-  default_activity_management: "Upravljanje"
-  default_activity_other: "Drugo"
-  default_activity_specification: "Specifikacija"
-  default_activity_support: "Podpora"
-  default_activity_testing: "Testiranje"
-  default_color_black: "Črno"
-  default_color_blue: "Modra"
-  default_color_blue_dark: "Temno modra"
-  default_color_blue_light: "Svetlo modra"
-  default_color_green_dark: "Temno zelena"
-  default_color_green_light: "Svetlo zelena"
-  default_color_grey_dark: "Temno siva"
-  default_color_grey_light: "Svetlo siva"
-  default_color_grey: "Siva"
-  default_color_magenta: "Vijolična"
-  default_color_orange: "Oranžna"
-  default_color_red: "Rdeča"
-  default_color_white: "Bela"
-  default_color_yellow: "Rumena"
-  default_status_closed: "Zaprto"
-  default_status_confirmed: "Potrjeno"
-  default_status_developed: "Razvoj"
-  default_status_in_development: "V razvijanju"
-  default_status_in_progress: "V teku"
-  default_status_in_specification: "Tehnični podatki"
-  default_status_in_testing: "V testiranju"
-  default_status_new: "Novo"
-  default_status_on_hold: "Na čakanju"
-  default_status_rejected: "Zavrnjeno"
-  default_status_scheduled: "Načrtovano"
-  default_status_specified: "Določena"
-  default_status_tested: "Preizkušeno"
-  default_status_test_failed: "Test ni bil uspešen"
-  default_status_to_be_scheduled: "Na razpolago"
-  default_priority_low: "Nizko"
-  default_priority_normal: "Običajno"
-  default_priority_high: "Visoko"
-  default_priority_immediate: "Takoj"
-  default_role_anonymous: "Anonimno"
-  default_role_developer: "Razvijalec"
-  default_role_project_admin: "Skrbnik projekta"
-  default_role_project_creator_and_staff_manager: "Staff and projects manager"
-  default_role_non_member: "Nečlan"
-  default_role_reader: "Bralec"
-  default_role_member: "Član"
-  default_type: "Delavni paketi"
-  default_type_bug: "Napaka"
-  default_type_deliverable: "Izvedljivo"
-  default_type_epic: "Epsko"
-  default_type_feature: "Lastnost"
-  default_type_milestone: "Mejnik"
-  default_type_phase: "Faza"
-  default_type_task: "Opravilo"
-  default_type_user_story: "Uporabnikova zgodba"
   description_active: "Aktivno?"
   description_attachment_toggle: "Prikaži/ skrij priloge"
   description_autocomplete: >
@@ -1413,7 +1375,7 @@ sl:
     message: Sporočilo urejeno
     news: Novice
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'Projekt urejen'
     reply: Odgovori
     time_entry: 'Časovnik urejen'
     wiki_page: 'Wiki stran posodobljena'
@@ -1431,11 +1393,14 @@ sl:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF z opisi"
-      pdf_with_descriptions_and_attachments: "PDF z opisi in prilogami"
-      pdf_with_attachments: "PDF s prilogami"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Slika ni izvožena."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Na voljo je pdftotekst (neobvezno)"
@@ -1555,6 +1520,12 @@ sl:
   label_api_access_key: "API dostopni ključ"
   label_api_access_key_created_on: "Atom dostopni ključ narejen %{value} nazaj"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Prekliči"
   label_applied_status: "Uveljavljeno stanje"
   label_archive_project: "Arhivirani projekti"
   label_ascending: "Naraščajoče"
@@ -1590,6 +1561,7 @@ sl:
   label_bulk_edit_selected_work_packages: "Skupno urejanje izbranih delovnih paketov"
   label_bundled: '(V paketu)'
   label_calendar: "Koledar"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Prikaži koleddar"
   label_category: "Kategorija"
   label_consent_settings: "Soglasje uporabnika"
@@ -1626,7 +1598,6 @@ sl:
   label_contains: "vsebuje"
   label_content: "Vsebina"
   label_copied: "Kopirano"
-  label_copy_to_clipboard: "Kopiraj v odložišče"
   label_copy_same_as_target: "Enako kot cilj"
   label_copy_source: "Vir"
   label_copy_target: "Cilj"
@@ -1643,6 +1614,7 @@ sl:
   label_database_version: "PostgreSQL verzija"
   label_date: "Datum"
   label_date_and_time: "Datum in ura"
+  label_date_format: "Date format"
   label_date_from: "Od"
   label_date_from_to: "Od %{start} do %{end}"
   label_date_to: "Do/za"
@@ -1691,6 +1663,7 @@ sl:
   label_equals: "je"
   label_everywhere: "Povsod"
   label_example: "Primer"
+  label_experimental: "Experimental"
   label_import: "Uvozi"
   label_export_to: "Na razpolago tudi v:"
   label_expanded_click_to_collapse: "Razširjeno. Kliknite, če želite strniti"
@@ -1748,6 +1721,7 @@ sl:
   label_journal: "Dnevnik"
   label_journal_diff: "Opisna Primerjava"
   label_language: "Jezik"
+  label_languages: "Languages"
   label_jump_to_a_project: "Skoči na projekt..."
   label_keyword_plural: 'Ključne besede'
   label_language_based: "Glede na uporabnikov jezik"
@@ -1805,6 +1779,7 @@ sl:
   label_more_than_ago: "pred več kot nekaj dnevi"
   label_move_work_package: "Prestavi delovni paket"
   label_my_account: "Moj račun"
+  label_my_activity: "My activity"
   label_my_account_data: "Podatki mojega računa"
   label_my_projects: "Moji projekti"
   label_my_queries: "Moje poizvedbe po meri"
@@ -1855,7 +1830,6 @@ sl:
   label_password_rule_special: "Posebni znaki"
   label_password_rule_uppercase: "Velika črka"
   label_path_encoding: "Kodiranje poti"
-  label_pdf_with_descriptions: "PDF z opisi"
   label_per_page: "na stran"
   label_people: "Ljudje"
   label_permissions: "Dovoljenja"
@@ -2007,6 +1981,7 @@ sl:
   label_user_plural: "Uporabniki"
   label_user_search: "Išči uporabnika"
   label_user_settings: "Uporabniške nastavitve"
+  label_users_settings: "Users settings"
   label_version_new: "Nova različica"
   label_version_plural: "Različice"
   label_version_sharing_descendants: "S podprojekti"
@@ -2306,7 +2281,7 @@ sl:
   permission_add_work_packages: "Dodaj delovne pakete"
   permission_add_messages: "Objavi sporočila"
   permission_add_project: "Ustvari projekt"
-  permission_archive_project: "Archive project"
+  permission_archive_project: "Arhivirani projekti"
   permission_manage_user: "Ustvari in urejaj uporabnike"
   permission_manage_placeholder_user: "Ustvari, uredi in izbriši nadomestne uporabnike"
   permission_add_subprojects: "Ustvari podprojekte"
@@ -2571,7 +2546,7 @@ sl:
   setting_consent_decline_mail: "Kontaktni naslov elektronske pošte"
   setting_cross_project_work_package_relations: "Dovoli povezave delovnih paketov od različnih projektov"
   setting_first_week_of_year: "Prvi teden v letu vsebuje"
-  setting_date_format: "Format datuma"
+  setting_date_format: "Date"
   setting_default_language: "Privzeti jezik"
   setting_default_projects_modules: "Privzeti omogočeni moduli za nove projekte"
   setting_default_projects_public: "Novi projekti so privzeto javni"
@@ -2583,6 +2558,7 @@ sl:
   setting_enabled_scm: "Omogočen SCM"
   setting_enabled_projects_columns: "Vidno na seznamu projektov"
   setting_feeds_enabled: "Omogoči vire"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Omejitev vsebine vira"
   setting_file_max_size_displayed: "Največja velikost besedilnih datotek, prikazanih v vrstici"
   setting_host_name: "Ime gostitelja"
@@ -2633,9 +2609,9 @@ sl:
   setting_start_of_week: "Teden se začne na (Automatic Translation)"
   setting_sys_api_enabled: "Omogoči spletno storitev upravljanja repozitorija"
   setting_sys_api_description: "Spletna storitev za upravljanje skladišča nudi integracijo in pooblastilo uporabnika za dostop do repozitorija."
-  setting_time_format: "Format časa"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Omogoči način dostopa za anonimne uporabnike"
-  setting_user_format: "Oblika prikaza uporabnikov"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Uporabniški privzeti časovni pas"
   setting_users_deletable_by_admins: "Uporabniške račune, ki jih skrbniki lahko izbrišejo"
   setting_users_deletable_by_self: "Uporabnikom je dovoljeno brisanje njihovih računov"
@@ -2644,6 +2620,7 @@ sl:
   setting_welcome_on_homescreen: "Prikažite blok dobrodošlice na osnovnem zaslonu"
   setting_work_package_list_default_highlighting_mode: "Privzeti način osvetlitve"
   setting_work_package_list_default_highlighted_attributes: "Privzeti atributi, označeni s črto"
+  setting_working_days: "Working days"
   settings:
     general: "Splošno"
     other: "Drugo"
@@ -2661,11 +2638,16 @@ sl:
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text: >
         Izberi datum v januarju, ki je v prvem tednu leta. Ta vrednost skupaj s prvim dnevom tedna določi skupno število tednov v letu.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Nastavitve za nove projekte"
       section_project_overview: "Nastavitve za seznam pregleda projekta."
     user:
       default_preferences: "Privzete nastavitve"
+      display_format: "Display format"
       deletion: "brisanje"
     highlighting:
       mode_long:
@@ -2674,6 +2656,9 @@ sl:
         status: "Celotna vrstica razvrščena glede na Status"
         type: "Celotna vrstica glede na Tip"
         priority: "Celotna vrstica glede na pomembnost."
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Označba'
     plain: 'Golo besedilo'
@@ -3044,9 +3029,9 @@ sl:
       title: "Izbriši delovni paket"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
@@ -3211,11 +3196,11 @@ sl:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "Napaka"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"
-      label_redirect_uri: "Redirect URI"
+      label_redirect_uri: "Preusmeritev URI"
       label_request_token: "Request token"
       label_refresh_token: "Refresh token"
     errors:

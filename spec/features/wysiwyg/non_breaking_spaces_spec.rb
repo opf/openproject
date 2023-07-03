@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe 'Wysiwyg &nbsp; behavior',
-         js: true do
+RSpec.describe 'Wysiwyg &nbsp; behavior',
+               js: true do
   shared_let(:admin) { create(:admin) }
   let(:user) { admin }
 

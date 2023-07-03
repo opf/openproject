@@ -1,7 +1,9 @@
 require 'rails_helper'
 require_relative './shared_examples'
 
-describe "user notifications settings", js: true do
+RSpec.describe "user notifications settings",
+               js: true,
+               with_cuprite: true do
   shared_let(:user) { create(:user) }
 
   let(:settings_page) { Pages::Notifications::Settings.new(user) }
@@ -11,13 +13,13 @@ describe "user notifications settings", js: true do
     settings_page.visit!
   end
 
-  context 'as admin' do
+  context 'as an admin' do
     let(:current_user) { create(:admin) }
 
     it_behaves_like 'notification settings workflow'
   end
 
-  context 'as regular user' do
+  context 'as a regular user' do
     let(:current_user) { create(:user) }
 
     it 'does not allow to visit the page' do

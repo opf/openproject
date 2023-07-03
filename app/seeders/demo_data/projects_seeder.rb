@@ -40,7 +40,7 @@ module DemoData
       end
 
       print_status ' ↳ Update form configuration with global queries'
-      set_form_configuration
+      seed_form_configuration
     end
 
     def applicable?
@@ -60,10 +60,8 @@ module DemoData
       project_seeder.seed!
     end
 
-    def set_form_configuration
-      Type.all.each do |type|
-        BasicData::TypeSeeder.new(seed_data).set_attribute_groups_for_type(type)
-      end
+    def seed_form_configuration
+      BasicData::TypeConfigurationSeeder.new(seed_data).seed!
     end
 
     def seedable_welcome_settings

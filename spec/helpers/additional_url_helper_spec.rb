@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe AdditionalUrlHelpers do
+RSpec.describe AdditionalUrlHelpers do
   describe '#configurable_home_url' do
     subject { helper.send :configurable_home_url }
 

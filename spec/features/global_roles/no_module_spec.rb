@@ -29,13 +29,15 @@
 require 'spec_helper'
 require_relative './mock_global_permissions'
 
-describe 'Global role: No module', js: true do
+RSpec.describe 'Global role: No module',
+               js: true,
+               with_cuprite: true do
   let(:admin) { create(:admin) }
   let(:project) { create(:project) }
   let!(:role) { create(:role) }
 
   before do
-    login_as(admin)
+    login_as admin
   end
 
   it 'Global Rights Modules do not exist as Project -> Settings -> Modules' do

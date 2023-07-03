@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-describe 'LDAP group sync administration spec', js: true do
+RSpec.describe 'LDAP group sync administration spec', js: true do
   let(:admin) { create(:admin) }
 
   before do

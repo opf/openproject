@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'work_package'
 
-describe Users::MembershipsController do
+RSpec.describe Users::MembershipsController do
   shared_let(:admin) { create(:admin) }
 
   let(:user) { create(:user) }

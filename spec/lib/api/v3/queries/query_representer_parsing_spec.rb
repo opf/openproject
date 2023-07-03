@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Queries::QueryRepresenter, 'parsing' do
+RSpec.describe API::V3::Queries::QueryRepresenter, 'parsing' do
   include API::V3::Utilities::PathHelper
 
   let(:query) { API::ParserStruct.new }

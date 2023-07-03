@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::CustomOptions::CustomOptionRepresenter do
+RSpec.describe API::V3::CustomOptions::CustomOptionRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:custom_option) { build_stubbed(:custom_option, custom_field:) }

@@ -1,6 +1,8 @@
 require 'spec_helper'
 
-describe "Split screen in the notification center", js: true do
+RSpec.describe "Split screen in the notification center",
+               js: true,
+               with_cuprite: true do
   let(:global_html_title) { Components::HtmlTitle.new }
   let(:center) { Pages::Notifications::Center.new }
   let(:split_screen) { Pages::Notifications::SplitScreen.new work_package }
@@ -35,6 +37,7 @@ describe "Split screen in the notification center", js: true do
 
     before do
       visit home_path
+      wait_for_reload
       center.open
     end
 
@@ -97,6 +100,7 @@ describe "Split screen in the notification center", js: true do
       # Html title should be updated with next WP data after making the current one as read
       second_title = "#{second_work_package.type.name}: #{second_work_package.subject} (##{second_work_package.id})"
       center.click_item notification
+      sleep 0.25 # Wait after the item has been clicked to not be interpreted as a double click
       center.mark_notification_as_read notification
       global_html_title.expect_first_segment second_title
 
@@ -112,6 +116,7 @@ describe "Split screen in the notification center", js: true do
     before do
       Notification.where(recipient:).update_all(read_ian: true)
       visit home_path
+      wait_for_reload
       center.open
     end
 

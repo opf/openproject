@@ -28,7 +28,7 @@
 
 require File.expand_path('../spec_helper', __dir__)
 
-describe Webhooks::Incoming::HooksController do
+RSpec.describe Webhooks::Incoming::HooksController do
   let(:hook) { double(OpenProject::Webhooks::Hook) }
   let(:user) { double(User).as_null_object }
 

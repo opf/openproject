@@ -138,7 +138,7 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
 <% end %>
 
-<%= render(partial: "wiki/content", locals: {content: @page}) %>
+<%= render(partial: "wiki/text", locals: { page: @page }) %>
 
 <% resource = ::API::V3::WikiPages::WikiPageRepresenter.new(@page, current_user: current_user, embed_links: true) %>
 <%= list_attachments(resource) %>

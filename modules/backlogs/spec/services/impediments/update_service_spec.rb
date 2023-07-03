@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe Impediments::UpdateService, type: :model do
+RSpec.describe Impediments::UpdateService, type: :model do
   let(:instance) { described_class.new(user:, impediment:) }
 
   let(:user) { create(:user) }
@@ -82,7 +82,6 @@ describe Impediments::UpdateService, type: :model do
   before do
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'points_burn_direction' => 'down',
                                                                          'wiki_template' => '',
-                                                                         'card_spec' => 'Sattleford VM-5040',
                                                                          'story_types' => [type_feature.id.to_s],
                                                                          'task_type' => type_task.id.to_s })
 

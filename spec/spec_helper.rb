@@ -86,6 +86,11 @@ RSpec.configure do |config|
   # you configure your source control system to ignore this file.
   config.example_status_persistence_file_path = "tmp/spec_examples.txt"
 
+  # Limits the available syntax to the non-monkey patched syntax that is
+  # recommended. For more details, see:
+  # https://rspec.info/features/3-12/rspec-core/configuration/zero-monkey-patching-mode/
+  config.disable_monkey_patching!
+
   # Many RSpec users commonly either run the entire suite or an individual
   # file, and it's useful to allow more verbose output when running an
   # individual spec file.
@@ -104,7 +109,8 @@ RSpec.configure do |config|
   # Print the 10 slowest examples and example groups at the
   # end of the spec run, to help surface which specs are running
   # particularly slow.
-  config.profile_examples = 10
+  # Disabled on CI to have a cleaner log output.
+  config.profile_examples = 10 unless ENV['CI']
 
   # Run specs in random order to surface order dependencies. If you find an
   # order dependency and want to debug it, you can fix the order by providing

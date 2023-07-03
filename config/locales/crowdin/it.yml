@@ -80,7 +80,7 @@ it:
       buttons:
         upgrade: "Aggiorna ora"
         contact: "Contattaci per una demo"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
+      enterprise_info_html: "è un componente aggiuntivo di Imprese <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
       upgrade_info: "Esegui l'upgrade a un piano a pagamento per attivarlo e iniziare a usarlo nel tuo team."
     journal_aggregation:
       explanation:
@@ -229,7 +229,7 @@ it:
       failed_text: "La richiesta di eliminare il progetto %{name} non è riuscita. Il progetto è stato lasciato in archivio."
       completed: "Eliminazione del progetto %{name} completata"
       completed_text: "La richiesta di cancellare il progetto '%{name}' è stata completata."
-      completed_text_children: "Additionally, the following subprojects have been deleted:"
+      completed_text_children: "Inoltre, i seguenti progetti secondari sono stati eliminati:"
     index:
       open_as_gantt: 'Apri come vista Gantt'
       open_as_gantt_title: "Usa questo pulsante per generare una vista Gantt che filtra le macro-attività per i progetti visibili in questa pagina."
@@ -266,11 +266,22 @@ it:
       notice_reset_token: "È stato generato un nuovo token %{type}. Il tuo token di accesso è:"
       token_value_warning: "Nota: Questa è l'unica volta in cui vedrai questo token, assicurati di copiarlo subito."
       no_results_title_text: Al momento non sono disponibili token di accesso.
+      notice_ical_tokens_reverted: "Il token di iCalendar \"%{token_name}\" per il calendario \"%{calendar_name}\" del progetto \"%{project_name}\" è stato revocato. L'URL di iCalendar con questo token non è ora valido."
   news:
     index:
       no_results_title_text: Al momento non c'è nessuna notizia da segnalare.
       no_results_content_text: Aggiungi una notizia
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'Questo utente è attualmente membro dei seguenti gruppi:'
       no_results_title_text: Questo utente al momento non è un membro di alcun gruppo.
@@ -482,15 +493,15 @@ it:
           true: "pubblico"
           false: "privato"
         queries: "Interrogazioni"
-        status_code: 'Project status'
-        status_explanation: 'Project status description'
+        status_code: 'Stato del progetto'
+        status_explanation: 'Descrizione dello stato del progetto'
         status_codes:
-          not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          not_started: 'Non iniziato'
+          on_track: 'Nei limiti'
+          at_risk: 'A rischio'
+          off_track: 'Fuori limite'
+          finished: 'Terminato'
+          discontinued: 'Interrotto'
         templated: "Progetto modello"
         templated_value:
           true: "contrassegnato come modello"
@@ -688,6 +699,11 @@ it:
           overlaps: 'sovrapposizione.'
           outside: 'è fuori dalla griglia.'
           end_before_start: 'il valore finale deve essere più grande del valore iniziale.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "è obbligatorio. Sei pregato di selezionare un nome."
+              not_unique: "è già in uso. Sei pregato di selezionare un altro nome."
         notifications:
           at_least_one_channel: 'Deve essere specificato almeno un canale per l''invio delle notifiche.'
           attributes:
@@ -737,8 +753,8 @@ it:
               invalid: "Impossibile ordinare per la colonna: %{value}"
               format: "%{message}"
             timestamps:
-              invalid: "Timestamps contain invalid values: %{values}"
-              forbidden: "Timestamps contain forbidden values: %{values}"
+              invalid: "Le marche orarie contengono valori non validi: %{values}"
+              forbidden: "Le marche orarie contengono valori proibiti: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "è mutuamente esclusivo con il raggruppamento per '%{group_by}'. Non puoi attivare entrambi."
           filters:
@@ -915,22 +931,22 @@ it:
   activity:
     item:
       created_by_on: "creato da %{user} il %{datetime}"
-      created_by_on_time_entry: "time logged by %{user} on %{datetime}"
+      created_by_on_time_entry: "orario registrato da %{user} il %{datetime}"
       created_on: "creato il %{datetime}"
       updated_by_on: "aggiornato da %{user} il %{datetime}"
-      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "orario registrato aggiornato da %{user} il %{datetime}"
       updated_on: "aggiornato il %{datetime}"
       parent_without_of: "Sottoprogetto"
       parent_no_longer: "Non più sottoprogetto di"
       time_entry:
         hour:
-          one: "%{count} hour"
-          other: "%{count} hours"
+          one: "%{count} ore"
+          other: "%{count} ore"
         hour_html:
-          one: "<i>%{count} hour</i>"
-          other: "<i>%{count} hours</i>"
-        updated: "changed from %{old_value} to %{value}"
-        logged_for: "Logged for"
+          one: "<i>%{count} ora</i>"
+          other: "<i>%{count} ore</i>"
+        updated: "modificato da %{old_value} a %{value}"
+        logged_for: "Registrato per"
     filter:
       changeset: "Insiemi di modifiche"
       message: "Forum"
@@ -1047,6 +1063,7 @@ it:
   button_configure: "Configura"
   button_continue: "Continua"
   button_copy: "Copia"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Copia e segui"
   button_create: "Crea"
   button_create_and_continue: "Crea e continua"
@@ -1176,7 +1193,7 @@ it:
       - "Ottobre"
       - "Novembre"
       - "Dicembre"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - :anno
       - :mese
@@ -1221,61 +1238,6 @@ it:
       hour:
         one: "ora"
         other: "ora"
-  default_activity_development: "Sviluppo"
-  default_activity_management: "Gestione"
-  default_activity_other: "Altro"
-  default_activity_specification: "Specifiche"
-  default_activity_support: "Supporto"
-  default_activity_testing: "Test"
-  default_color_black: "Nero"
-  default_color_blue: "Blu"
-  default_color_blue_dark: "Blu (scuro)"
-  default_color_blue_light: "Blu (chiaro)"
-  default_color_green_dark: "Verde (scuro)"
-  default_color_green_light: "Verde (chiaro)"
-  default_color_grey_dark: "Grigio (scuro)"
-  default_color_grey_light: "Grigio (chiaro)"
-  default_color_grey: "Grigio"
-  default_color_magenta: "Magenta"
-  default_color_orange: "Arancione"
-  default_color_red: "Rosso"
-  default_color_white: "Bianco"
-  default_color_yellow: "Giallo"
-  default_status_closed: "Chiuso"
-  default_status_confirmed: "Confermato"
-  default_status_developed: "Sviluppato"
-  default_status_in_development: "In sviluppo"
-  default_status_in_progress: "In corso"
-  default_status_in_specification: "In fase di specifica"
-  default_status_in_testing: "In fase di test"
-  default_status_new: "Nuovo"
-  default_status_on_hold: "In attesa"
-  default_status_rejected: "Respinto"
-  default_status_scheduled: "Programmato"
-  default_status_specified: "Specificato"
-  default_status_tested: "Testato"
-  default_status_test_failed: "Test non riuscito"
-  default_status_to_be_scheduled: "Da programmare"
-  default_priority_low: "Basso"
-  default_priority_normal: "Normale"
-  default_priority_high: "Alto"
-  default_priority_immediate: "Immediata"
-  default_role_anonymous: "Anonimo"
-  default_role_developer: "Sviluppatore"
-  default_role_project_admin: "Amministratore di progetto"
-  default_role_project_creator_and_staff_manager: "Staff e gestore dei progetti"
-  default_role_non_member: "Non membro"
-  default_role_reader: "Osservatore"
-  default_role_member: "Membro"
-  default_type: "Macro-attività"
-  default_type_bug: "Bug"
-  default_type_deliverable: "Risultato atteso"
-  default_type_epic: "Epic"
-  default_type_feature: "Funzionalità"
-  default_type_milestone: "Traguardo"
-  default_type_phase: "Fase"
-  default_type_task: "Attività"
-  default_type_user_story: "User story"
   description_active: "Attivo?"
   description_attachment_toggle: "Mostra/Nascondi allegati"
   description_autocomplete: >
@@ -1393,11 +1355,14 @@ it:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF con descrizioni"
-      pdf_with_descriptions_and_attachments: "PDF con descrizioni e allegati"
-      pdf_with_attachments: "PDF con allegati"
+      pdf_overview_table: "Tabella PDF"
+      pdf_report_with_images: "Rapporto PDF con immagini"
+      pdf_report: "Rapporto PDF"
     image:
       omitted: "Immagine non esportata."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdfatesto disponibile (opzionale)"
@@ -1517,6 +1482,12 @@ it:
   label_api_access_key: "Chiave di accesso API"
   label_api_access_key_created_on: "Chiave di accesso API creata %{value} fa"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "Token di iCalendar \"%{token_name}\" per \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "Token di iCalendar non presenti."
+  label_ical_access_key_generation_hint: "Generato automaticamente all'iscrizione a un calendario."
+  label_ical_access_key_latest: "più recente"
+  label_ical_access_key_revoke: "Revoca"
   label_applied_status: "Stato applicato"
   label_archive_project: "Archivia progetto"
   label_ascending: "Crescente"
@@ -1552,6 +1523,7 @@ it:
   label_bulk_edit_selected_work_packages: "Modifica in blocco le macro-attività selezionate"
   label_bundled: '(Raccolto)'
   label_calendar: "Calendario"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Mostra Calendario"
   label_category: "Categoria"
   label_consent_settings: "Consenso dell'utente"
@@ -1588,7 +1560,6 @@ it:
   label_contains: "contiene"
   label_content: "Contenuto"
   label_copied: "copiato"
-  label_copy_to_clipboard: "Copia negli appunti"
   label_copy_same_as_target: "Lo stesso della destinazione"
   label_copy_source: "Sorgente"
   label_copy_target: "Destinazione"
@@ -1605,6 +1576,7 @@ it:
   label_database_version: "Versione di PostgreSQL"
   label_date: "Data"
   label_date_and_time: "Data e ora"
+  label_date_format: "Date format"
   label_date_from: "Da"
   label_date_from_to: "Da %{start} a %{end}"
   label_date_to: "A"
@@ -1647,12 +1619,13 @@ it:
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} utenti attivi riservati"
   label_enterprise_edition: "Enterprise edition"
-  label_enterprise_support: "Enterprise support"
+  label_enterprise_support: "Supporto per Imprese"
   label_environment: "Ambiente"
   label_estimates_and_time: "Stime e tempi"
   label_equals: "è"
   label_everywhere: "ovunque"
   label_example: "Esempio"
+  label_experimental: "Experimental"
   label_import: "Importazione"
   label_export_to: "Disponibile anche in:"
   label_expanded_click_to_collapse: "Espanso. Clicca per comprimere"
@@ -1710,6 +1683,7 @@ it:
   label_journal: "Diario"
   label_journal_diff: "Confronto Descrizione"
   label_language: "Linguaggio"
+  label_languages: "Lingue"
   label_jump_to_a_project: "Salta ad altro progetto..."
   label_keyword_plural: 'Parole chiave'
   label_language_based: "Basato sulla lingua dell'utente"
@@ -1767,6 +1741,7 @@ it:
   label_more_than_ago: "più di qualche giorno fa"
   label_move_work_package: "Sposta la macro-attività"
   label_my_account: "Il mio account"
+  label_my_activity: "My activity"
   label_my_account_data: "I miei dati dell'account"
   label_my_projects: "I miei progetti"
   label_my_queries: "Le mie query personalizzate"
@@ -1817,7 +1792,6 @@ it:
   label_password_rule_special: "Caratteri Speciali"
   label_password_rule_uppercase: "Maiuscolo"
   label_path_encoding: "Codifica del percorso"
-  label_pdf_with_descriptions: "PDF con Descrizioni"
   label_per_page: "Per pagina"
   label_people: "Persone"
   label_permissions: "Permessi"
@@ -1901,7 +1875,7 @@ it:
   label_role_search: "Assegna ruolo ai nuovi membri"
   label_scm: "SCM"
   label_search: "Cerca"
-  label_send_information: "Send new credentials to the user"
+  label_send_information: "Invia nuove credenziali all'utente"
   label_send_test_email: "Invia un email di prova"
   label_setting_plural: "Impostazioni"
   label_system_settings: "Impostazioni di sistema"
@@ -1969,6 +1943,7 @@ it:
   label_user_plural: "Utenti"
   label_user_search: "Cerca per utente"
   label_user_settings: "Impostazioni utente"
+  label_users_settings: "Impostazioni utenti"
   label_version_new: "Nuova versione"
   label_version_plural: "Versioni"
   label_version_sharing_descendants: "Con i sotto-progetti"
@@ -2530,7 +2505,7 @@ it:
   setting_consent_decline_mail: "Indirizzo mail del contatto di consenso"
   setting_cross_project_work_package_relations: "Consenti di correlare macro-attività tra più progetti"
   setting_first_week_of_year: "La prima settimana dell'anno contiene"
-  setting_date_format: "Formato data"
+  setting_date_format: "Date"
   setting_default_language: "Linguaggio predefinito"
   setting_default_projects_modules: "Moduli abilitati in automatico su nuovi progetti"
   setting_default_projects_public: "I nuovi progetti sono pubblici come impostazione predefinita"
@@ -2542,6 +2517,7 @@ it:
   setting_enabled_scm: "SCM Abilitato"
   setting_enabled_projects_columns: "Visibile nell'elenco dei progetti"
   setting_feeds_enabled: "Abilita Feed"
+  setting_ical_enabled: "Abilita Iscrizioni di iCalendar"
   setting_feeds_limit: "Limite al contenuto del contributo"
   setting_file_max_size_displayed: "Dimensione massima dei file di testo visualizzati inline"
   setting_host_name: "Nome dell'Host"
@@ -2592,9 +2568,9 @@ it:
   setting_start_of_week: "La settimana inizia da"
   setting_sys_api_enabled: "Abilita la gestione di archivi via web service"
   setting_sys_api_description: "Il web service di gestione archivio fornisce servizi per integrare ed autorizzare gli utenti nell'accesso agli archivi."
-  setting_time_format: "Formato del tempo"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Abilita la modalità di accesso facilitato per utenti anonimi"
-  setting_user_format: "Formato di visualizzazione utenti"
+  setting_user_format: "Formato del nome utente"
   setting_user_default_timezone: "Orario predefinito utenti"
   setting_users_deletable_by_admins: "Account degli utenti eliminabili dagli amministratori"
   setting_users_deletable_by_self: "Gli utenti possono eliminare il proprio account"
@@ -2603,6 +2579,7 @@ it:
   setting_welcome_on_homescreen: "Mostra il blocco testo di benvenuto nella pagina home"
   setting_work_package_list_default_highlighting_mode: "Modalità evidenziazione predefinita"
   setting_work_package_list_default_highlighted_attributes: "Attributi evidenziati in linea predefiniti"
+  setting_working_days: "Working days"
   settings:
     general: "Generale"
     other: "Altro"
@@ -2620,11 +2597,16 @@ it:
         Se le opzioni "%{day_of_week_setting_name}" o "%{first_week_setting_name}" sono impostate, dev'esser impostata anche l'altra per evitare incoerenze in vetrina.
       first_week_of_year_text: >
         Seleziona la data di Gennaio contenuta nella prima settimana dell'anno. Questo valore, con il primo giorno della settimana, determina il numero totale di settimane in un anno.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Impostazioni per i nuovi progetti"
       section_project_overview: "Impostazioni per l'elenco generale dei progetti"
     user:
       default_preferences: "Preferenze predefinite"
+      display_format: "Formato di visualizzazione"
       deletion: "Eliminazione"
     highlighting:
       mode_long:
@@ -2633,6 +2615,9 @@ it:
         status: "Tutta la riga per Stato"
         type: "Tutta la riga per Tipo"
         priority: "Tutta la riga per Priorità"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Testo semplice'
@@ -2999,9 +2984,9 @@ it:
       title: "Eliminare la macro-attività"
   working_days:
     info: >
-      <b>Definisci i giorni considerati parte della settimana lavorativa</b><br/> I giorni non selezionati vengono saltati durante la pianificazione delle macro-attività (e non inclusi nel conteggio dei giorni). Questi possono essere sovrascritti a livello di macro-attività.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Giorni non lavorativi specifici (festivi e di chiusura)</b><br/> Le date aggiunte all'elenco seguente sono considerate non lavorative e saltate durante la pianificazione delle macro-attività.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Cambia giorni lavorativi"
     warning: >
       La modifica dei giorni della settimana da considerare lavorativi o non lavorativi può influire sui giorni di inizio e di fine di tutte le macro-attività in tutti i progetti in questa istanza. <br/> Tieni presente che le modifiche vengono applicate solo dopo aver fatto clic sul pulsante Applica modifiche.
@@ -3027,7 +3012,7 @@ it:
       code_409: "Impossibile aggiornare la risorsa a causa di modifiche in conflitto."
       code_429: "Troppe richieste. Sei pregato di riprovare più tardi."
       code_500: "Si è verificato un errore interno."
-      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
+      code_500_outbound_request_failure: "Una richiesta in uscita a un'altra risorsa è fallita con codice di stato %{status_code}."
       not_found:
         work_package: "La macro-attività che stai cercando non può essere trovata o è stata eliminata."
       expected:

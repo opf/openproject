@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::SCM::Manager do
+RSpec.describe OpenProject::SCM::Manager do
   let(:vendor) { 'TestScm' }
   let(:scm_class) { Class.new }
 

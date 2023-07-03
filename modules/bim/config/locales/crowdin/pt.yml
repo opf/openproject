@@ -2,12 +2,6 @@
 pt:
   bim:
     label_bim: 'BIM'
-    default_type_clash: Conflito
-    default_type_issue: Problema
-    default_type_remark: Observação
-    default_type_request: Requisição
-    default_status_resolved: Resolvido
-    default_priority_critical: Crítico
   bcf:
     label_bcf: 'BCF'
     label_imported_failed: 'Importação de tópicos BCF falhou'

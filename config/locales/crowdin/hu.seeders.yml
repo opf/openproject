@@ -4,7 +4,123 @@
 ---
 hu:
   seeds:
+    common:
+      colors:
+        item_0:
+          name: Kék (sötét)
+        item_1:
+          name: Kék
+        item_2:
+          name: Kék (világos)
+        item_3:
+          name: Zöld (világos)
+        item_4:
+          name: Zöld (sötét)
+        item_5:
+          name: Sárga
+        item_6:
+          name: Narancssárga
+        item_7:
+          name: Piros
+        item_8:
+          name: Magenta
+        item_9:
+          name: Fehér
+        item_10:
+          name: Szürke (világos)
+        item_11:
+          name: Szürke
+        item_12:
+          name: Szürke (sötét)
+        item_13:
+          name: Fekete
+      document_categories:
+        item_0:
+          name: Dokumentáció
+        item_1:
+          name: Specifikáció
+        item_2:
+          name: Egyéb
+      roles:
+        item_0:
+          name: Nem tag
+        item_1:
+          name: Anonymous
+        item_2:
+          name: Tag
+        item_3:
+          name: Olvasó
+        item_4:
+          name: Projekt admin
+        item_5:
+          name: A vezetőség és a projekt menedzser
     standard:
+      priorities:
+        item_0:
+          name: Alacsony
+        item_1:
+          name: Átlagos
+        item_2:
+          name: Magas
+        item_3:
+          name: Azonnali
+      statuses:
+        item_0:
+          name: Új
+        item_1:
+          name: Specifikálás
+        item_2:
+          name: Megadva
+        item_3:
+          name: Megerősítve
+        item_4:
+          name: Ütemezendő
+        item_5:
+          name: Beütemezve
+        item_6:
+          name: Folyamatban
+        item_7:
+          name: Lefejlesztve
+        item_8:
+          name: Tesztelés alatt
+        item_9:
+          name: Tesztelve
+        item_10:
+          name: Teszt meghiúsult
+        item_11:
+          name: Lezárva
+        item_12:
+          name: Visszatartva
+        item_13:
+          name: Elutasítva
+      time_entry_activities:
+        item_0:
+          name: Menedzsment
+        item_1:
+          name: Specifikáció
+        item_2:
+          name: Fejlesztés
+        item_3:
+          name: Tesztelés
+        item_4:
+          name: Támogatás
+        item_5:
+          name: Egyéb
+      types:
+        item_0:
+          name: Feladat
+        item_1:
+          name: Fordulópont
+        item_2:
+          name: Fázis
+        item_3:
+          name: Szolgáltatás
+        item_4:
+          name: Epic
+        item_5:
+          name: User story
+        item_6:
+          name: Hiba
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -40,12 +156,12 @@ hu:
             item_2:
               name: Tasks
             item_3:
-              name: Team planner
+              name: Csoport tervező
           boards:
             kanban:
               name: Kanban board
             basic:
-              name: Basic board
+              name: Alap tábla
               lists:
                 item_0:
                   name: Wish list
@@ -54,7 +170,7 @@ hu:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Soha
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -64,7 +180,7 @@ hu:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Kezdés
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -83,7 +199,7 @@ hu:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Munkacsomagok
               item_6:
                 options:
                   name: Milestones
@@ -195,7 +311,7 @@ hu:
             item_0:
               name: Project plan
             item_1:
-              name: Product backlog
+              name: Termék backlog
             item_2:
               name: Sprint 1
             item_3:
@@ -213,7 +329,7 @@ hu:
                 item_2:
                   name: Priority list for today
                 item_3:
-                  name: Never
+                  name: Soha
           project-overview:
             widgets:
               item_0:
@@ -221,7 +337,7 @@ hu:
                   name: Welcome
               item_1:
                 options:
-                  name: Getting started
+                  name: Kezdés
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -241,7 +357,7 @@ hu:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Munkacsomagok
               item_6:
                 options:
                   name: Project plan

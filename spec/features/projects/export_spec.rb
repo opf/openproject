@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'project export', js: true do
+RSpec.describe 'project export', js: true, with_cuprite: true do
   shared_let(:important_project) { create(:project, name: 'Important schedule plan') }
   shared_let(:party_project) { create(:project, name: 'Christmas party') }
   shared_let(:user) do

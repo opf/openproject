@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'services/base_services/behaves_like_create_service'
 
-describe Members::CreateService, type: :model do
+RSpec.describe Members::CreateService, type: :model do
   let(:user1) { build_stubbed(:user) }
   let(:user2) { build_stubbed(:user) }
   let(:group) do

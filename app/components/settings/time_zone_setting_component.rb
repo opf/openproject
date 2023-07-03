@@ -31,10 +31,7 @@
 module Settings
   ##
   # A text field to enter numeric values.
-  class TimeZoneSettingComponent < ::RailsComponent
-    include ActionView::Helpers::FormOptionsHelper
-    include SettingsHelper
-
+  class TimeZoneSettingComponent < ::ApplicationComponent
     options :form, :title
     options container_class: "-wide"
     options include_blank: true
@@ -63,7 +60,7 @@ module Settings
     end
 
     def render_setting_select
-      setting_select(
+      helpers.setting_select(
         name,
         time_zone_entries,
         include_blank:,
@@ -75,9 +72,18 @@ module Settings
     def time_zone_entries
       UserPreferences::UpdateContract
         .assignable_time_zones
-        .map do |tz|
-        [tz.to_s, tz.tzinfo.canonical_identifier]
-      end
+        .group_by { |tz| tz.tzinfo.canonical_zone }
+        .map { |canonical_zone, included_zones| time_zone_option(canonical_zone, included_zones) }
+    end
+
+    private
+
+    def time_zone_option(canonical_zone, zones)
+      zone_names = zones.map(&:name).join(', ')
+      [
+        "(UTC#{ActiveSupport::TimeZone.seconds_to_utc_offset(canonical_zone.base_utc_offset)}) #{zone_names}",
+        canonical_zone.identifier
+      ]
     end
   end
 end

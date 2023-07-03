@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'user deletion:', js: true do
+RSpec.describe 'user deletion:', js: true, with_cuprite: true do
   let(:dialog) { Components::PasswordConfirmationDialog.new }
 
   before do
@@ -43,7 +43,7 @@ describe 'user deletion:', js: true do
              password_confirmation: user_password)
     end
 
-    it 'can delete their own account', js: true do
+    it 'can delete their own account', signout_via_visit: true do
       Setting.users_deletable_by_self = 1
       visit delete_my_account_info_path
 
@@ -70,7 +70,7 @@ describe 'user deletion:', js: true do
     let!(:user) { create(:user) }
     let(:current_user) { create(:user, global_permission: :manage_user) }
 
-    it 'can not delete even if settings allow it', js: true do
+    it 'can not delete even if settings allow it' do
       Setting.users_deletable_by_admins = 1
       visit edit_user_path(user)
 
@@ -91,7 +91,7 @@ describe 'user deletion:', js: true do
              password_confirmation: user_password)
     end
 
-    it 'can delete other users if the setting permits it', selenium: true do
+    it 'can delete other users if the setting permits it' do
       Setting.users_deletable_by_admins = 1
       visit edit_user_path(user)
 
@@ -115,7 +115,7 @@ describe 'user deletion:', js: true do
       expect(page).to have_current_path '/users'
     end
 
-    it 'can delete and confirm with keyboard (Regression #44499)', selenium: true do
+    it 'can delete and confirm with keyboard (Regression #44499)' do
       Setting.users_deletable_by_admins = 1
       visit edit_user_path(user)
 

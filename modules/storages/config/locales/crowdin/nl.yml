@@ -3,11 +3,11 @@ nl:
   permission_view_file_links: "Bekijk bestandslinks"
   permission_manage_file_links: "Bestandslinks beheren"
   permission_manage_storages_in_project: "Beheer bestandsopslag in het project"
-  permission_read_files: "Read files"
-  permission_write_files: "Write files"
-  permission_create_files: "Create files"
-  permission_delete_files: "Delete files"
-  permission_share_files: "Share files"
+  permission_read_files: "Lees bestanden"
+  permission_write_files: "Schrijf bestanden"
+  permission_create_files: "Bestanden maken"
+  permission_delete_files: "Bestanden verwijderen"
+  permission_share_files: "Bestanden delen"
   project_module_storages: "Bestandsopslag"
   activerecord:
     models:
@@ -47,6 +47,7 @@ nl:
       replace_provider_type_oauth: "Vervang %{provider_type} OAuth"
       save_and_continue_setup: "Opslaan en doorgaan met instellen"
       save_and_complete_setup: "Opslaan en de installatie voltooien"
+      select_folder: "Selecteer map"
     page_titles:
       project_settings:
         index: "Bestandsopslag beschikbaar in dit project"
@@ -59,6 +60,9 @@ nl:
       host: "Voeg het hostadres van je opslag toe, inclusief de https://. Het mag niet langer dan 255 tekens zijn."
       no_storage_set_up: "There are no file storages set up yet."
       no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
+      automatic_folder: "This will automatically create a root folder for this project and manage the access permissions for each project member."
+      empty_project_folder_validation: "Selecting a folder is mandatory to proceed."
+      not_logged_into_storage: "To select a project folder, please first login"
       existing_manual_folder: >
         You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
       setting_up_additional_storages: "Voor het opzetten van extra bestandsopslag, bezoek a.u.b."
@@ -77,7 +81,6 @@ nl:
         Weet u zeker dat u deze opslag wilt verwijderen? Dit zal ook de opslag verwijderen uit alle projecten waar het wordt gebruikt. Bovendien zal het alle links van werkpakketten naar bestanden die in die opslag zijn opgeslagen verwijderen.
       project_storage: >
         Weet u zeker dat u deze bestandsopslag wilt verwijderen uit dit project? Dit verwijdert ook alle koppelingen naar bestanden die zijn opgeslagen in deze opslag voor dit project.
-    placeholder_existing_folder_selection: "Select a folder"
     label_creator: "Maker"
     label_file_link: "Bestand link"
     label_file_links: "Bestand links"
@@ -92,8 +95,9 @@ nl:
     label_project_folder: "Project folder"
     label_new_storage: "Nieuwe opslag"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
-    label_existing_manual_folder_selection: "Existing folder selection"
     label_no_specific_folder: "No specific folder"
+    label_automatic_folder: "New folder with automatically managed permissions"
+    label_no_selected_folder: "No selected folder"
     label_storage: "Opslag"
     label_storages: "Opslagplaatsen"
     no_results: "No storages set up yet."

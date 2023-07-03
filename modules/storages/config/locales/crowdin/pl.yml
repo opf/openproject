@@ -47,6 +47,7 @@ pl:
       replace_provider_type_oauth: "Zastąp %{provider_type} OAuth"
       save_and_continue_setup: "Zapisz i kontynuuj konfigurację"
       save_and_complete_setup: "Zapisz i zakończ konfigurację"
+      select_folder: "Select folder"
     page_titles:
       project_settings:
         index: "Magazyny plików dostępne w tym projekcie"
@@ -59,6 +60,9 @@ pl:
       host: "Proszę dodać adres hosta magazynu wraz z https://. Nie powinien być dłuższy niż 255 znaków."
       no_storage_set_up: "Nie ma jeszcze skonfigurowanych magazynów plików."
       no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
+      automatic_folder: "This will automatically create a root folder for this project and manage the access permissions for each project member."
+      empty_project_folder_validation: "Selecting a folder is mandatory to proceed."
+      not_logged_into_storage: "To select a project folder, please first login"
       existing_manual_folder: >
         You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
       setting_up_additional_storages: "Aby skonfigurować dodatkowe magazyny plików, odwiedź"
@@ -77,7 +81,6 @@ pl:
         Czy na pewno chcesz usunąć ten magazyn? Spowoduje to również jego usunięcie z wszystkich projektów, w których jest używany. Ponadto usunięte zostaną wszystkie linki z pakietów roboczych do plików, które są przechowywane w tym magazynie.
       project_storage: >
         Czy na pewno chcesz usunąć ten plik z tego projektu? Spowoduje to również usunięcie wszystkich linków do plików przechowywanych w magazynie tego projektu.
-    placeholder_existing_folder_selection: "Select a folder"
     label_creator: "Twórca"
     label_file_link: "Link do pliku"
     label_file_links: "Linki do plików"
@@ -92,8 +95,9 @@ pl:
     label_project_folder: "Project folder"
     label_new_storage: "Nowy magazyn"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
-    label_existing_manual_folder_selection: "Existing folder selection"
     label_no_specific_folder: "No specific folder"
+    label_automatic_folder: "New folder with automatically managed permissions"
+    label_no_selected_folder: "No selected folder"
     label_storage: "Magazyn"
     label_storages: "Magazyny"
     no_results: "Brak skonfigurowanych magazynów."

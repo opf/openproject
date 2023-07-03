@@ -46,8 +46,12 @@ class ::Query::Results
     end
   end
 
+  private
+
   def sorted_work_packages_matching_the_filters_today
-    sorted_work_packages.merge(filtered_work_packages)
+    sorted_work_packages
+      .visible
+      .merge(filtered_work_packages_matching_the_filters_today)
   end
 
   def sorted_work_packages_matching_the_filters_at_any_of_the_given_timestamps
@@ -55,24 +59,16 @@ class ::Query::Results
       .where(id: work_packages_matching_the_filters_at_any_of_the_given_timestamps)
   end
 
-  def order_option
-    order_option = [group_by_sort].compact_blank.join(', ')
-
-    if order_option.blank?
-      nil
-    else
-      Arel.sql(order_option)
-    end
-  end
-
-  private
-
   # For filtering on historic data, this returns the work packages
   # matching the filters for any of the timestamps provided in the query.
-  #
+  # Visibility (permissions) are checked at all of the times. In combination with the `or`
+  # concatenation that means that a user has to have no permission to see a work package
+  # at any of the timestamps. This has to be used with care. Callers will have to
+  # ensure to not reveal information.
   def work_packages_matching_the_filters_at_any_of_the_given_timestamps
     query.timestamps.collect do |timestamp|
-      WorkPackage.where(id: filtered_work_packages.at_timestamp(timestamp))
+      WorkPackage
+        .where(id: filtered_work_packages.visible.at_timestamp(timestamp))
     end.reduce(:or)
   end
 
@@ -90,6 +86,10 @@ class ::Query::Results
       .where(query.statement)
   end
 
+  def filtered_work_packages_matching_the_filters_today
+    filtered_work_packages.merge(filter_merges)
+  end
+
   def sorted_work_packages
     work_package_scope
       .joins(sort_criteria_joins)
@@ -97,10 +97,18 @@ class ::Query::Results
       .order(sort_criteria_array)
   end
 
+  def order_option
+    order_option = [group_by_sort].compact_blank.join(', ')
+
+    if order_option.blank?
+      nil
+    else
+      Arel.sql(order_option)
+    end
+  end
+
   def work_package_scope
     WorkPackage
-      .visible
-      .merge(filter_merges)
       .includes(all_includes)
       .references(:projects)
   end

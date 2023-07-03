@@ -29,6 +29,7 @@
 require 'digest/sha1'
 
 class User < Principal
+  CURRENT_USER_LOGIN_ALIAS = 'me'.freeze
   USER_FORMATS_STRUCTURE = {
     firstname_lastname: %i[firstname lastname],
     firstname: [:firstname],
@@ -54,6 +55,12 @@ class User < Principal
      inverse_of: :user
   has_one :rss_token, class_name: '::Token::RSS', dependent: :destroy
   has_one :api_token, class_name: '::Token::API', dependent: :destroy
+
+  # everytime a user subscribes to a calendar, a new ical_token is generated
+  # unlike on other token types, all previously generated ical_tokens are kept
+  # in order to keep all previously generated ical urls valid and usable
+  has_many :ical_tokens, class_name: '::Token::ICal', dependent: :destroy
+
   belongs_to :auth_source, optional: true
 
   # Authorized OAuth grants
@@ -128,7 +135,7 @@ class User < Principal
   auto_strip_attributes :login, nullify: false
   auto_strip_attributes :mail, nullify: false
 
-  validate :login_is_not_special_value
+  validate :login_is_not_aliased_value
   validate :password_meets_requirements
 
   after_save :update_password
@@ -578,9 +585,9 @@ class User < Principal
 
   protected
 
-  # Login must not be special value 'me'
-  def login_is_not_special_value
-    if login.present? && login == 'me'
+  # Login must not be aliased value 'me'
+  def login_is_not_aliased_value
+    if login.present? && login.to_s == CURRENT_USER_LOGIN_ALIAS
       errors.add(:login, :invalid)
     end
   end

@@ -28,12 +28,11 @@
 
 require 'spec_helper'
 
-describe 'Work packages remaining time', js: true do
+RSpec.describe 'Work packages remaining time', js: true do
   before do
     allow(User).to receive(:current).and_return current_user
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return('points_burn_direction' => 'down',
                                                                        'wiki_template' => '',
-                                                                       'card_spec' => 'Sattleford VM-5040',
                                                                        'story_types' => [story_type.id.to_s],
                                                                        'task_type' => task_type.id.to_s)
   end

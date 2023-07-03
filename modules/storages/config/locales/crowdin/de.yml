@@ -47,6 +47,7 @@ de:
       replace_provider_type_oauth: "Ersetze %{provider_type} OAuth"
       save_and_continue_setup: "Speichern und Setup fortsetzen"
       save_and_complete_setup: "Speichern und Setup abschließen"
+      select_folder: "Ordner auswählen"
     page_titles:
       project_settings:
         index: "Dateispeicher in diesem Projekt verfügbar"
@@ -59,6 +60,9 @@ de:
       host: "Bitte ergänzen Sie die Host-Adresse Ihres Speichers (einschließlich https://). Sie sollte nicht länger als 255 Zeichen sein."
       no_storage_set_up: "Es sind noch keine Dateispeicher eingerichtet."
       no_specific_folder: "Standardmäßig startet jeder Benutzer in seinem eigenen Home-Ordner, wenn er eine Datei hochlädt."
+      automatic_folder: "Dies wird automatisch einen Stammordner für dieses Projekt erstellen und die Zugriffsberechtigungen für jedes Projektmitglied verwalten."
+      empty_project_folder_validation: "Die Auswahl eines Ordners ist zwingend erforderlich, um fortzufahren."
+      not_logged_into_storage: "Bitte melden Sie sich zunächst an, um einen Projektordner auszuwählen"
       existing_manual_folder: >
         Sie können einen existierenden Ordner als Hauptordner für dieses Projekt definieren. Die Berechtigungen werden jedoch nicht automatisch verwaltet, der Administrator muss manuell sicherstellen, dass relevante Benutzer Zugriff haben. Der ausgewählte Ordner kann von mehreren Projekten verwendet werden.
       setting_up_additional_storages: "Um zusätzliche Datei-Speicher einzurichten, besuchen Sie bitte"
@@ -77,7 +81,6 @@ de:
         Sind Sie sicher, dass Sie diesen Speicher löschen möchten? Dies löscht den Speicher auch aus allen Projekten, in denen er verwendet wird. Außerdem werden alle Links von Arbeitspaketen zu Dateien gelöscht, die in diesem Speicher gespeichert sind.
       project_storage: >
         Sind Sie sicher, dass Sie diesen Datei-Speicher aus diesem Projekt entfernen möchten? Dies wird auch alle Links zu Dateien entfernen, die für dieses Projekt in diesem Speicher gespeichert sind.
-    placeholder_existing_folder_selection: "Ordner auswählen"
     label_creator: "Ersteller"
     label_file_link: "Datei-Link"
     label_file_links: "Datei-Links"
@@ -92,8 +95,9 @@ de:
     label_project_folder: "Projektordner"
     label_new_storage: "Neuer Speicher"
     label_existing_manual_folder: "Vorhandener Ordner mit manuell verwalteten Berechtigungen"
-    label_existing_manual_folder_selection: "Vorhandener Ordner"
     label_no_specific_folder: "Kein spezifischer Ordner"
+    label_automatic_folder: "Neuer Ordner mit automatisch verwalteten Berechtigungen"
+    label_no_selected_folder: "Kein ausgewählter Ordner"
     label_storage: "Speicher"
     label_storages: "Speicher"
     no_results: "Noch keine Speicher eingerichtet."

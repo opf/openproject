@@ -106,6 +106,10 @@ module API
           index :activity
           show :activity
 
+          def self.api_spec
+            "#{root}/spec.json"
+          end
+
           index :attachment
           show :attachment
 
@@ -327,6 +331,10 @@ module API
 
           def self.query_order(id)
             "#{query(id)}/order"
+          end
+
+          def self.query_ical_url(id)
+            "#{query(id)}/ical_url"
           end
 
           def self.query_column(name)

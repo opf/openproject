@@ -4,7 +4,7 @@ be:
   activemodel:
     attributes:
       openid_connect/provider:
-        name: Name
+        name: Імя
         display_name: Display name
         identifier: Identifier
         secret: Secret

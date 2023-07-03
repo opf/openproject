@@ -223,6 +223,7 @@ OpenProject::Application.routes.draw do
         post '/new' => 'wiki#create', as: 'create'
         get :export
         get '/index' => 'wiki#index'
+        get :menu
       end
 
       member do
@@ -238,6 +239,7 @@ OpenProject::Application.routes.draw do
         post :protect
         get :select_main_menu_item, to: 'wiki_menu_items#select_main_menu_item'
         post :replace_main_menu_item, to: 'wiki_menu_items#replace_main_menu_item'
+        get :menu
       end
     end
 
@@ -325,7 +327,6 @@ OpenProject::Application.routes.draw do
     collection do
       get :plugins
       get :info
-      post :force_user_language
       post :test_email
     end
   end
@@ -401,6 +402,7 @@ OpenProject::Application.routes.draw do
       resource :work_packages, controller: '/admin/settings/work_packages_settings', only: %i[show update]
       resource :working_days, controller: '/admin/settings/working_days_settings', only: %i[show update]
       resource :users, controller: '/admin/settings/users_settings', only: %i[show update]
+      resource :date_format, controller: '/admin/settings/date_format_settings', only: %i[show update]
 
       # Redirect /settings to general settings
       get '/', to: redirect('/admin/settings/general')
@@ -462,7 +464,7 @@ OpenProject::Application.routes.draw do
 
   resources :activity, :activities, only: :index, controller: 'activities'
 
-  resources :users, except: :edit do
+  resources :users, constraints: { id: /(\d+|me)/ }, except: :edit do
     resources :memberships, controller: 'users/memberships', only: %i[update create destroy]
 
     member do
@@ -536,6 +538,8 @@ OpenProject::Application.routes.draw do
   scope 'my' do
     get '/deletion_info' => 'users#deletion_info', as: 'delete_my_account_info'
     post '/oauth/revoke_application/:application_id' => 'oauth/grants#revoke_application', as: 'revoke_my_oauth_application'
+
+    resources :sessions, controller: 'my/sessions', as: 'my_sessions', only: %i[index show destroy]
   end
 
   scope controller: 'my' do
@@ -552,6 +556,7 @@ OpenProject::Application.routes.draw do
 
     post '/my/generate_rss_key', action: 'generate_rss_key'
     post '/my/generate_api_key', action: 'generate_api_key'
+    delete '/my/revoke_ical_token', action: 'revoke_ical_token'
     get '/my/access_token', action: 'access_token'
   end
 

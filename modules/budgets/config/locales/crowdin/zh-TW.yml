@@ -41,7 +41,7 @@ zh-TW:
       material_budget_item: "單位"
   activity:
     filter:
-      budget: "Budgets"
+      budget: "預算"
   attributes:
     budget: "預算"
   button_add_budget_item: "新增計畫費用"
@@ -59,7 +59,7 @@ zh-TW:
   help_currency_format: "Format of displayed currency values. %n is replaced with the currency value, %u ist replaced with the currency unit."
   help_override_rate: "Enter a value here to override the default rate."
   label_budget: "預算"
-  label_budget_new: "新增預算"
+  label_budget_new: "新預算"
   label_budget_plural: "預算"
   label_budget_id: "預算 #%{id}"
   label_deliverable: "預算"

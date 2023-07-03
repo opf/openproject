@@ -3,4 +3,5 @@ eu:
   label_calendar_plural: "Egutegiak"
   permission_view_calendar: "Ikusi egutegiak"
   permission_manage_calendars: "Kudeatu egutegiak"
+  permission_share_calendars: "Subscribe to iCalendars"
   project_module_calendar_view: "Egutegia"

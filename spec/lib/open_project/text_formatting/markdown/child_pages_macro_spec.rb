@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'OpenProject child pages macro' do
+RSpec.describe 'OpenProject child pages macro' do
   include ActionView::Helpers::UrlHelper
   include OpenProject::StaticRouting::UrlHelpers
   include OpenProject::TextFormatting

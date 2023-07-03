@@ -145,14 +145,11 @@ module DemoData
     end
 
     def set_type_filter!(filters)
-      types = Type
-                .where(name: Array(config[:type]).map { |name| I18n.t(name) })
-                .pluck(:id)
-
-      if types.any?
+      types = seed_data.find_references(config[:type])
+      if types.present?
         filters[:type_id] = {
           operator: "=",
-          values: types.map(&:to_s)
+          values: types.pluck(:id)
         }
       end
     end

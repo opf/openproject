@@ -50,6 +50,10 @@ a.button
     &::before
       padding: 0 var(--button--text-icon-spacing) 0 0
 
+  &.-icon-only
+    width: 34px
+    padding: 0
+
   &.-danger
     background: var(--content-form-danger-zone-bg-color)
     color: var(--content-form-danger-zone-font-color)
@@ -171,7 +175,14 @@ html.-browser-windows.-browser-chrome
   &:hover
     text-decoration: underline
 
-  &:disabled, &:disabled:hover
+  &[disabled], &[disabled]:hover
     cursor: not-allowed
     background: none
     color: var(--gray-dark)
+
+.clear-button
+  border: 0
+  background: transparent
+  margin: 0
+  padding: 0
+  cursor: pointer

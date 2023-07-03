@@ -65,6 +65,7 @@ de:
     button_confirm: "Bestätigen"
     button_continue: "Fortfahren"
     button_copy: "Kopieren"
+    button_copy_to_clipboard: "In Zwischenablage kopieren"
     button_copy_to_other_project: "In anderes Projekt kopieren"
     button_custom-fields: "Benutzerdefinierte Felder"
     button_delete: "Löschen"
@@ -105,7 +106,7 @@ de:
       remove_from_list: 'Karte aus Liste entfernen'
     caption_rate_history: "Stundensatz-Historie"
     clipboard:
-      browser_error: "Ihr Browser unterstützt das Kopieren in die Zwischenablage nicht nativ. Bitte selektieren und kopieren Sie den Text händisch."
+      browser_error: "Ihr Browser unterstützt das Kopieren in die Zwischenablage nicht nativ. Bitte selektieren und kopieren Sie den Text händisch: %{content}"
       copied_successful: "Erfolgreich in die Zwischenablage kopiert!"
     chart:
       type: 'Art des Diagramms'
@@ -316,6 +317,16 @@ de:
               learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
                 Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Dateien direkt in einem Arbeitspaket auf Ihren Nextcloud-Speicher hochladen oder verlinken.</li> <li>Bleiben Sie bei Projektänderungen auf dem Laufenden mit der Aktivitätsverfolgung auf Projekten.</li> <li>Fügen Sie instanzweite Feiertage für die Datumsplanung hinzu.</li> <li>Projekte sind über eine neue globale Rolle auch von Nicht-Administratoren archivierbar.</li> <li>Neuer Standardfilter für überfällige Arbeitspakete.</li> </ul>
+    ical_sharing_modal:
+      title: "iCalendar abonnieren"
+      inital_setup_error_message: "Beim Abrufen der Daten ist ein Fehler aufgetreten."
+      description: "Sie können die iCalendar-URL verwenden, um diesen Kalender in einen externen Client zu importieren oder zu abonnieren und von dort aus aktuelle Arbeitspaketinformationen einsehen."
+      warning: "Bitte geben Sie diese URL nicht an externe Nutzer weiter. Jeder, der über diesen Link verfügt, kann die Details des Arbeitspakets ohne Konto oder Passwort einsehen."
+      token_name_label: "Tokenname"
+      token_name_placeholder: "Geben Sie einen Namen für dieses Token ein, z. B. „Meine Kalenderanwendung“."
+      token_name_description_text: "Dieser Name wird verwendet, um ihn von anderen Token in der <a href=\"my/access_token\", target=\"_blank\">Zugangs-Token-Liste</a> zu unterscheiden. Er kann nur einmal pro Kalender verwendet werden."
+      copy_url_label: "URL kopieren"
+      ical_generation_error_text: "Beim Generieren der iCal-URL ist ein Fehler aufgetreten."
     label_activate: "Aktiviere"
     label_assignee: 'Zugewiesen an'
     label_add_column_after: "Spalte danach hinzufügen"
@@ -327,7 +338,7 @@ de:
     label_add_row_before: "Zeile davor hinzufügen"
     label_add_selected_columns: "Ausgewählte Spalten hinzufügen"
     label_added_by: "hinzugefügt von"
-    label_added_time_by: "Hinzugefügt von <a href=%{authorLink}>%{author}</a> am %{age}"
+    label_added_time_by: "Hinzugefügt von <a href=\"%{authorLink}\">%{author}</a> am %{age}"
     label_ago: "Tage her"
     label_all: "alle"
     label_all_work_packages: "alle Arbeitspakete"
@@ -666,8 +677,7 @@ de:
         Bitte wählen Sie ein Projekt für das Arbeitspaket, um alle Attribute anzuzeigen. Sie können nur Projekte auswählen, für die der ausgewählte Typ oben aktiviert ist.
       details_activity: 'Projektdetails-Aktivität'
       context: 'Projektkontext'
-      work_package_belongs_to: 'Dieses Arbeitspaket gehört zum Projekt %{projectname}.'
-      click_to_switch_context: 'Dieses Arbeitspaket in dem Projekt öffnen.'
+      click_to_switch_to_project: 'Projekt: %{projectname}'
       confirm_template_load: 'Das Ändern der Vorlage wird die Seite neu laden und Sie verlieren alle Eingaben zu diesem Formular. Fortfahren?'
       use_template: "Vorlage verwenden"
       no_template_selected: "(Keine)"
@@ -923,8 +933,11 @@ de:
         addition_label: 'Innerhalb des Vergleichszeitraums zur Ansicht hinzugefügt'
         removal_label: 'Innerhalb des Vergleichszeitraums aus der Ansicht entfernt'
         modification_label: 'Innerhalb des Vergleichszeitraums geändert'
+        column_incompatible: 'Dieses Attribut ist nicht kompatibel mit dem Baseline-Vergleich und zeigt keine Unterschiede an.'
       filters:
         title: 'Arbeitspakete filtern'
+        baseline_incompatible: 'Dieser Filter ist nicht kompatibel mit dem Baseline-Vergleich und wird nicht berücksichtigt.'
+        baseline_warning: 'Der Baseline-Vergleich ist aktiviert, aber einige Ihrer aktiven Filter sind nicht im Vergleich enthalten.'
       inline_create:
         title: 'Klicken Sie hier, um ein neues Arbeitspaket zu dieser Liste hinzufügen'
       create:
@@ -1085,6 +1098,7 @@ de:
         save_as: "Speichern unter"
         export: "Exportieren"
         visibility_settings: "Sichtbarkeits-Einstellungen"
+        share_calendar: "iCalendar abonnieren"
         page_settings: "Ansicht umbenennen"
         delete: "Löschen"
       filter: "Filter"
@@ -1161,10 +1175,11 @@ de:
       button_deactivate: 'Zen-Modus deaktivieren'
     global_search:
       all_projects: "In allen Projekten"
-      search: "Suche"
       close_search: "Suche schließen"
-      current_project: "In diesem Projekt"
       current_project_and_all_descendants: "In diesem Projekt + Unterprojekten"
+      current_project: "In diesem Projekt"
+      recently_viewed: "Recently viewed"
+      search: "Suche"
       title:
         all_projects: "alle Projekte"
         project_and_subprojects: "und alle Unterprojekte"
@@ -1257,11 +1272,15 @@ de:
       toggle_title: 'Grundlinie'
       clear: 'Zurücksetzen'
       apply: 'Anwenden'
-      header_description: 'Sehen Sie sich die Änderungen an, die innerhalb eines bestimmten Zeitraums an Arbeitspaketen in der aktuellen Ansicht vorgenommen wurden.'
+      header_description: 'An dieser Liste vorgenommene Änderungen seit einem beliebigen Zeitpunkt in der Vergangenheit hervorheben.'
+      enterprise_header_description: 'Mit der Enterprise Edition an dieser Liste vorgenommene Änderungen seit einem beliebigen Zeitpunkt in der Vergangenheit hervorheben.'
       show_changes_since: 'Änderungen anzeigen ab'
-      help_description: 'Vom Administrator festgelegte Standard-Zeitzone der Instanz.'
-      time_description: 'In der Standard-Zeitzone: %{time} %{days} Tag(en).'
+      baseline_comparison: 'Baseline-Vergleich'
+      help_description: 'Referenz-Zeitzone für die Baseline.'
+      time_description: 'In Ihrer Ortszeit: %{datetime}'
       time: 'Zeit'
+      from: 'Von'
+      to: 'Bis'
       drop_down:
         none: '-'
         yesterday: 'gestern'
@@ -1275,6 +1294,11 @@ de:
         now_meets_filter_criteria: 'Erfüllt nun die Filterkriterien'
         no_longer_meets_filter_criteria: 'Erfüllt Filterkriterien nicht mehr'
         maintained_with_changes: 'Änderungen erhalten'
+        in_your_timezone: 'In Ihrer lokalen Zeitzone:'
+      icon_tooltip:
+        added: 'Innerhalb des Vergleichszeitraums zur Ansicht hinzugefügt'
+        removed: 'Innerhalb des Vergleichszeitraums aus der Ansicht entfernt'
+        changed: 'Mit Änderungen erhalten'
     forms:
       submit_success_message: 'Das Formular wurde erfolgreich übermittelt'
       load_error_message: 'Beim Laden des Formulars ist ein Fehler aufgetreten'

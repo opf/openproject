@@ -65,6 +65,7 @@ el:
     button_confirm: "Επιβεβαίωση"
     button_continue: "Συνέχεια"
     button_copy: "Αντιγραφή"
+    button_copy_to_clipboard: "Copy to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Προσαρμοσμένα πεδία"
     button_delete: "Διαγραφή"
@@ -105,7 +106,7 @@ el:
       remove_from_list: 'Αφαίρεση κάρτας από τη λίστα'
     caption_rate_history: "Ιστορικό αμοιβής"
     clipboard:
-      browser_error: "Ο περιηγητής σας δεν υποστηρίζει αντιγραφή από το clipboard. Παρακαλούμε αντιγράψτε το επιλεγμένο κείμενο χειροκίνητα."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Αντιγράφηκε επιτυχώς στο πρόχειρο!"
     chart:
       type: 'Τύπος διαγράμματος'
@@ -240,8 +241,8 @@ el:
             professional_support: "Επαγγελματική υποστήριξη"
             professional_support_text: "Αποκτήστε αξιόπιστη, high-touch υποστήριξη από ανώτερους μηχανικούς υποστήριξης με εξειδικευμένες γνώσεις σχετικά με τη λειτουργία του OpenProject σε κρίσιμα επιχειρηματικά περιβάλλοντα."
           button_start_trial: "Έναρξη δωρεάν δοκιμαστικής περιόδου"
-          button_upgrade: "Upgrade now"
-          button_contact_us: "Contact us for a demo"
+          button_upgrade: "Αναβαθμίστε τώρα"
+          button_contact_us: "Επικοινωνήστε μαζί μας για μια επίδειξη"
           button_book_now: "Κάντε κράτηση τώρα"
           confidence: >
             Παρέχουμε την εμπιστοσύνη ενός δοκιμασμένου και υποστηριζόμενου λογισμικού διαχείρισης έργων, επιχειρησιακού επιπέδου - με Ανοιχτό Κώδικα και ανοιχτό μυαλό.
@@ -316,8 +317,18 @@ el:
               learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
                 The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to iCalendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Token name"
+      token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
+      token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the iCal URL."
     label_activate: "Ενεργοποίηση"
-    label_assignee: 'Assignee'
+    label_assignee: 'Ανάθεση σε'
     label_add_column_after: "Προσθήκη στήλης μετά"
     label_add_column_before: "Προσθήκη στήλης πριν"
     label_add_columns: "Προσθέστε στήλη"
@@ -327,7 +338,7 @@ el:
     label_add_row_before: "Προσθήκη γραμμής πριν"
     label_add_selected_columns: "Προσθέστε τις επιλεγμένες στήλες"
     label_added_by: "προστέθηκε από"
-    label_added_time_by: "Προστέθηκε από <a href=%{authorLink}>%{author}</a> στις %{age}"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "ημέρες πριν"
     label_all: "όλα"
     label_all_work_packages: "όλα τα πακέτα εργασίας"
@@ -420,7 +431,7 @@ el:
     label_previous: "Προηγούμενο"
     label_per_page: "Ανά σελίδα:"
     label_please_wait: "Παρακαλώ περιμένετε"
-    label_project: "Project"
+    label_project: "Έργο"
     label_project_list: "Projects list"
     label_project_plural: "Έργα"
     label_visibility_settings: "Ρυθμίσεις ορατότητας"
@@ -434,7 +445,7 @@ el:
     label_report: "Αναφορά"
     label_repository_plural: "Αποθετήρια"
     label_save_as: "Αποθήκευση ως"
-    label_select_project: "Select a project"
+    label_select_project: "Επιλογή έργου"
     label_select_watcher: "Επιλέξτε έναν παρατηρητή..."
     label_selected_filter_list: "Επιλεγμένα φίλτρα"
     label_show_attributes: "Εμφανίστε όλα τα χαρακτηριστικά"
@@ -476,9 +487,9 @@ el:
     label_unwatch: "Αναίρεση παρακολούθησης"
     label_unwatch_work_package: "Αναίρεση παρακολούθησης πακέτου εργασίας"
     label_uploaded_by: "Μεταφορτώθηκε από"
-    label_default_queries: "Default"
+    label_default_queries: "Προεπιλογή"
     label_starred_queries: "Favorite"
-    label_global_queries: "Public"
+    label_global_queries: "Δημόσιο"
     label_custom_queries: "Private"
     label_columns: "Στήλες"
     label_attachments: Συνημμένα
@@ -549,7 +560,7 @@ el:
       reasons:
         mentioned: 'mentioned'
         watched: 'watcher'
-        assigned: 'assignee'
+        assigned: 'Εντολοδόχος'
         responsible: 'accountable'
         created: 'created'
         scheduled: 'scheduled'
@@ -572,9 +583,9 @@ el:
         unread: 'Unread'
         unread_title: 'Show unread'
         all: 'Όλα'
-        all_title: 'Show all'
+        all_title: 'Εμφάνιση όλων'
       center:
-        label_actor_and: 'and'
+        label_actor_and: 'και'
         and_more_users:
           one: 'and 1 other'
           other: 'and %{count} others'
@@ -599,7 +610,7 @@ el:
         by_reason: 'Reason'
         inbox: 'Inbox'
         mentioned: 'Mentioned'
-        watched: 'Watcher'
+        watched: 'Παρατηρητής'
         date_alert: 'Date alert'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
@@ -621,9 +632,9 @@ el:
           mentioned:
             title: 'Mentioned'
             description: 'Receive a notification every time someone mentions me anywhere'
-          assignee: 'Assignee'
-          responsible: 'Accountable'
-          watched: 'Watcher'
+          assignee: 'Ανάθεση σε'
+          responsible: 'Υπόλογος'
+          watched: 'Παρατηρητής'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
           work_package_processed: 'All status changes'
@@ -666,8 +677,7 @@ el:
         Παρακαλούμε επιλέξτε ένα έργο μέσα στο οποίο θα δημιουργήσετε το πακέτο εργασίας για να δείτε όλα τα χαρακτηριστικά. Μπορείτε να επιλέξετε μόνο έργα που έχουν τον παραπάνω τύπο ενεργό.
       details_activity: 'Project details activity'
       context: 'Πλαίσιο έργου'
-      work_package_belongs_to: 'Αυτό το πακέτο εργασίας ανήκει στο έργο %{projectname}.'
-      click_to_switch_context: 'Ανοίξτε αυτό πακέτο εργασίας σε εκείνο το έργο.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Η αλλαγή του προτύπου θα επαναφορτώσει τη σελίδα και θα χάσετε όλα τα στοιχεία εισόδου σε αυτή τη φόρμα. Συνέχεια?'
       use_template: "Χρήση προτύπου"
       no_template_selected: "(Κανένα)"
@@ -923,8 +933,11 @@ el:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
+        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
       filters:
-        title: 'Filter work packages'
+        title: 'Φιλτράρισμα πακέτων εργασίας'
+        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Πατήστε εδώ για να προσθέσετε ένα καινούργιο πακέτο εργασίας σε αυτή τη λίστα'
       create:
@@ -961,7 +974,7 @@ el:
         description: "Περιγραφή"
         date: "Ημερομηνία"
         dueDate: "Ημερομηνία λήξης"
-        duration: "Duration"
+        duration: "Διάρκεια"
         estimatedTime: "Εκτιμώμενος χρόνος"
         spentTime: "Χρόνος που δαπανήθηκε"
         category: "Κατηγορία"
@@ -1074,18 +1087,19 @@ el:
     toolbar:
       settings:
         configure_view: "Configure view"
-        columns: "Columns"
-        sort_by: "Sort by"
-        group_by: "Group by"
+        columns: "Στήλες"
+        sort_by: "Ταξινόμηση κατά"
+        group_by: "Ομαδοποίηση κατά"
         display_sums: "Εμφάνιση αθροισμάτων"
         display_hierarchy: "Εμφάνιση ιεραρχίας"
         hide_hierarchy: "Απόκρυψη ιεραρχίας"
         hide_sums: "Απόκρυψη αθροισμάτων"
         save: "Αποθήκευση"
-        save_as: "Save as"
-        export: "Export"
-        visibility_settings: "Visibility settings"
-        page_settings: "Rename view"
+        save_as: "Αποθήκευση ως"
+        export: "Εξαγωγή"
+        visibility_settings: "Ρυθμίσεις ορατότητας"
+        share_calendar: "Subscribe to iCalendar"
+        page_settings: "Μετονομασία προβολής"
         delete: "Διαγραφή"
       filter: "Φίλτρο"
       unselected_title: "Εργασία"
@@ -1097,7 +1111,7 @@ el:
       button_save: "Αποθήκευση"
       button_submit: "Υποβολή"
       button_cancel: "Ακύρωση"
-      button_delete: "Delete"
+      button_delete: "Διαγραφή"
       form_submit:
         title: 'Επιβεβαιώστε για να συνεχίσετε'
         text: 'Είστε βέβαιοι ότι θέλετε να προβείτε αυτήν την ενέργεια;'
@@ -1153,18 +1167,19 @@ el:
         other: "%{count} ώρες"
         zero: "0 ω"
       day:
-        one: "1 day"
-        other: "%{count} days"
+        one: "1 ημέρα"
+        other: "%{count} ημέρες"
         zero: "0 days"
     zen_mode:
       button_activate: 'Ενεργοποίηση λειτουργίας zen'
       button_deactivate: 'Απενεργοποίηση λειτουργίας zen'
     global_search:
       all_projects: "Σε όλα τα έργα"
-      search: "Αναζήτηση"
       close_search: "Κλείσιμο αναζήτησης"
-      current_project: "Σε αυτό το έργο"
       current_project_and_all_descendants: "Σε αυτό το έργο + υποέργα"
+      current_project: "Σε αυτό το έργο"
+      recently_viewed: "Recently viewed"
+      search: "Αναζήτηση"
       title:
         all_projects: "όλα τα έργα"
         project_and_subprojects: "και όλα τα υποέργα"
@@ -1228,7 +1243,7 @@ el:
       message:
         label: 'Μήνυμα πρόσκλησης'
         description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
-        next_button: 'Next'
+        next_button: 'Επόμενο'
       summary:
         next_button: 'Αποστολή πρόσκλησης'
       success:
@@ -1255,19 +1270,23 @@ el:
       no_results: 'No project matches your search criteria.'
     baseline:
       toggle_title: 'Baseline'
-      clear: 'Clear'
-      apply: 'Apply'
-      header_description: 'View changes made to work packages in the current view within a time period.'
+      clear: 'Εκκαθάριση'
+      apply: 'Εφαρμογή'
+      header_description: 'Highlight changes made to this list since any point in the past.'
+      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Show changes since'
-      help_description: 'Default time zone of the instance set by the administrator.'
-      time_description: 'In default time zone: %{time} %{days} day(s).'
-      time: 'Time'
+      baseline_comparison: 'Baseline comparison'
+      help_description: 'Reference time zone for the baseline.'
+      time_description: 'In your local time: %{datetime}'
+      time: 'Ώρα'
+      from: 'Από'
+      to: 'Έως'
       drop_down:
         none: '-'
-        yesterday: 'yesterday'
+        yesterday: 'χθες'
         last_working_day: 'last working day'
-        last_week: 'last week'
-        last_month: 'last month'
+        last_week: 'προηγούμενη εβδομάδα'
+        last_month: 'τελευταίος μήνα'
         a_specific_date: 'a specific date'
         between_two_specific_dates: 'between two specific dates'
       legends:
@@ -1275,6 +1294,11 @@ el:
         now_meets_filter_criteria: 'Now meets filter criteria'
         no_longer_meets_filter_criteria: 'No longer meets filter criteria'
         maintained_with_changes: 'Maintained with changes'
+        in_your_timezone: 'In your local timezone:'
+      icon_tooltip:
+        added: 'Added to view within the comparison time period'
+        removed: 'Removed from view within the comparison time period'
+        changed: 'Maintained with modifications'
     forms:
       submit_success_message: 'Η φόρμα υποβλήθηκε με επιτυχία'
       load_error_message: 'There was an error loading the form'

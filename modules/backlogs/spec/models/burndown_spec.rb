@@ -28,7 +28,7 @@
 
 require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 
-describe Burndown do
+RSpec.describe Burndown do
   def set_attribute_journalized(story, attribute, value, day)
     story.reload
     story.send(attribute, value)
@@ -64,7 +64,6 @@ describe Burndown do
 
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'points_burn_direction' => 'down',
                                                                          'wiki_template' => '',
-                                                                         'card_spec' => 'Sattleford VM-5040',
                                                                          'story_types' => [type_feature.id.to_s],
                                                                          'task_type' => type_task.id.to_s })
 

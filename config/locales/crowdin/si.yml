@@ -182,7 +182,7 @@ si:
     edit: 'අභිරුචි පියවර සංස්කරණය කරන්න %{name}'
     execute: 'ක්රියාත්මක %{name}'
     upsale:
-      title: 'Custom actions'
+      title: 'අභිරුචි ක්‍රියාමාර්ග'
       description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
@@ -269,11 +269,22 @@ si:
       notice_reset_token: "නව %{type} ටෝකනයක් ජනනය කර ඇත. ඔබගේ ප්රවේශ ටෝකනය:"
       token_value_warning: "සටහන: ඔබ මෙම ටෝකනය දකින එකම අවස්ථාව මෙයයි, දැන් එය පිටපත් කිරීමට වග බලා ගන්න."
       no_results_title_text: දැනට ප්රවේශ ටෝකන නොමැත.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: වාර්තා කිරීමට දැනට කිසිදු ප්රවෘත්තියක් නොමැත.
       no_results_content_text: ප්රවෘත්ති අයිතමයක් එක් කරන්න
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'This user is currently a member of the following groups:'
       no_results_title_text: This user is currently not a member in any group.
@@ -476,22 +487,22 @@ si:
       project:
         active_value:
           true: "unarchived"
-          false: "archived"
+          false: "සංරක්ෂිත"
         identifier: "හඳුනාගැනීමේ"
         latest_activity_at: "නවතම ක්රියාකාරකම්"
         parent: "උප ව්යාපෘතිය"
         public_value:
-          title: "Visibility"
+          title: "දෘශ්යතාව"
           true: "public"
           false: "private"
         queries: "විමසුම්"
-        status_code: 'Project status'
+        status_code: 'ව්යාපෘති තත්ත්වය'
         status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
+          on_track: 'ධාවන පථයේ'
+          at_risk: 'අවදානමට'
+          off_track: 'ධාවන පථය'
           finished: 'Finished'
           discontinued: 'Discontinued'
         templated: "Template project"
@@ -556,7 +567,7 @@ si:
         begin_deletion: "මකාදැමීම ආරම්භ කරන්න"
         children: "උප මූලිකාංග"
         done_ratio: "ප්රගතිය (%)"
-        duration: "Duration"
+        duration: "කාල සීමාව"
         end_insertion: "ඇතුළත් කිරීමේ අවසානය"
         end_deletion: "මකාදැමීමේ අවසානය"
         ignore_non_working_days: "Ignore non working days"
@@ -691,6 +702,11 @@ si:
           overlaps: 'අතිච්ඡාදනය.'
           outside: 'ජාලයෙන් පිටත වේ.'
           end_before_start: 'අවසාන අගය ආරම්භක අගයට වඩා විශාල විය යුතුය.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -923,7 +939,7 @@ si:
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "උප ව්යාපෘතිය"
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
@@ -935,14 +951,14 @@ si:
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      changeset: "වෙනස්කම්"
+      message: "සංසද"
+      news: "පුවත්"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
-      wiki_edit: "Wiki"
-      work_package: "Work packages"
+      time_entry: "වැය කළ කාලය"
+      wiki_edit: "විකි"
+      work_package: "වැඩ පැකේජ"
   #common attributes of all models
   attributes:
     active: "ක්රියාකාරී"
@@ -999,7 +1015,7 @@ si:
     updated_on: "යාවත්කාලීන කරන ලදි"
     uploader: "උඩුගත කරන්නා"
     user: "පරිශීලක"
-    value: "Value"
+    value: "අගය"
     version: "අනුවාදය"
     work_package: "වැඩ පැකේජය"
   backup:
@@ -1050,6 +1066,7 @@ si:
   button_configure: "සකසන්න"
   button_continue: "ඉදිරියට යන්න"
   button_copy: "පිටපත් කරන්න"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "පිටපත් කර අනුගමනය කරන්න"
   button_create: "සාදන්න"
   button_create_and_continue: "සාදන්න සහ ඉදිරියට යන්න"
@@ -1179,7 +1196,7 @@ si:
       - "ඔක්තෝබර්"
       - "නොවැම්බර්"
       - "දෙසැම්බර්"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - ':වර්ෂය'
       - ':මාසය'
@@ -1224,61 +1241,6 @@ si:
       hour:
         one: "පැය"
         other: "පැය"
-  default_activity_development: "සංවර්ධන"
-  default_activity_management: "කළමනාකරණය"
-  default_activity_other: "වෙනත්"
-  default_activity_specification: "පිරිවිතර"
-  default_activity_support: "සහාය"
-  default_activity_testing: "පරීක්ෂා කිරීම"
-  default_color_black: "කළු"
-  default_color_blue: "නිල්"
-  default_color_blue_dark: "නිල් (අඳුරු)"
-  default_color_blue_light: "නිල් (ලා)"
-  default_color_green_dark: "කොළ (තද)"
-  default_color_green_light: "කොළ (ආලෝකය)"
-  default_color_grey_dark: "අළු (අඳුරු)"
-  default_color_grey_light: "අළු (ආලෝකය)"
-  default_color_grey: "අළු"
-  default_color_magenta: "මැජෙන්ටා"
-  default_color_orange: "තැඹිලි"
-  default_color_red: "රතු"
-  default_color_white: "සුදු"
-  default_color_yellow: "කහ"
-  default_status_closed: "වසා"
-  default_status_confirmed: "තහවුරු"
-  default_status_developed: "සංවර්ධිත"
-  default_status_in_development: "සංවර්ධනය"
-  default_status_in_progress: "ප්රගතියේ"
-  default_status_in_specification: "පිරිවිතර දී"
-  default_status_in_testing: "පරීක්ෂා කිරීමේදී"
-  default_status_new: "නව"
-  default_status_on_hold: "රඳවා තබා ගැනීම"
-  default_status_rejected: "ප්රතික්ෂේප"
-  default_status_scheduled: "නියමිත"
-  default_status_specified: "නිශ්චිතව දක්වා"
-  default_status_tested: "පරීක්ෂා"
-  default_status_test_failed: "ටෙස්ට් අසමත්"
-  default_status_to_be_scheduled: "සැලසුම් කිරීමට"
-  default_priority_low: "අඩු"
-  default_priority_normal: "සාමාන්ය"
-  default_priority_high: "ඉහළ"
-  default_priority_immediate: "ක්ෂණික"
-  default_role_anonymous: "නිර්නාමික"
-  default_role_developer: "සංවර්ධක"
-  default_role_project_admin: "ව්යාපෘති පරිපාලක"
-  default_role_project_creator_and_staff_manager: "Staff and projects manager"
-  default_role_non_member: "සාමාජික නොවන"
-  default_role_reader: "පාඨකයා"
-  default_role_member: "සාමාජික"
-  default_type: "වැඩ පැකේජය"
-  default_type_bug: "දෝශයක්"
-  default_type_deliverable: "බෙදාහැරිය හැකි"
-  default_type_epic: "එපික්"
-  default_type_feature: "විශේෂාංගය"
-  default_type_milestone: "සන්ධිස්ථානය"
-  default_type_phase: "අදියර"
-  default_type_task: "කාර්යය"
-  default_type_user_story: "පරිශීලක කතාව"
   description_active: "ක්රියාකාරී?"
   description_attachment_toggle: "ඇමුණුම් පෙන්වන්න/සඟවන්න"
   description_autocomplete: >
@@ -1378,7 +1340,7 @@ si:
     message: සංස්කරණය කරන ලද පණිවිඩය
     news: පුවත්
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'සංස්කරණය කරන ලද ව්යාපෘතිය'
     reply: පිළිතුරු
     time_entry: 'සංස්කරණය ටයිමෙලෝග්'
     wiki_page: 'විකි පිටුව සංස්කරණය'
@@ -1396,11 +1358,14 @@ si:
       atom: "පරමාණුව"
       csv: "සීඑස්වී"
       pdf: "පීඩීඑෆ්"
-      pdf_with_descriptions: "විස්තර සහිත PDF"
-      pdf_with_descriptions_and_attachments: "විස්තර සහ ඇමුණුම් සහිත PDF"
-      pdf_with_attachments: "ඇමුණුම් සහිත PDF"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "රූපය අපනයනය කර නැත."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "ලබා ගත හැකි PDftotext (විකල්ප)"
@@ -1520,6 +1485,12 @@ si:
   label_api_access_key: "API ප්රවේශ යතුර"
   label_api_access_key_created_on: "%{value} පෙර නිර්මාණය කරන ලද API ප්රවේශ යතුර"
   label_api_access_key_type: "යෙ.ක්‍ර.මු."
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "අවලංගු"
   label_applied_status: "ව්යවහාරික තත්ත්වය"
   label_archive_project: "සංරක්ෂිත ව්යාපෘතිය"
   label_ascending: "නැගීම"
@@ -1555,6 +1526,7 @@ si:
   label_bulk_edit_selected_work_packages: "තොග සංස්කරණය තෝරාගත් වැඩ පැකේජ"
   label_bundled: '(මිටි)'
   label_calendar: "දින දර්ශනය"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "දින දර්ශනය පෙන්වන්න"
   label_category: "ප්රවර්ගය"
   label_consent_settings: "පරිශීලක කැමැත්ත"
@@ -1591,7 +1563,6 @@ si:
   label_contains: "අඩංගු"
   label_content: "අන්තර්ගතය"
   label_copied: "පිටපත්"
-  label_copy_to_clipboard: "පසුරු පුවරුවට පිටපත් කරන්න"
   label_copy_same_as_target: "ඉලක්කය ලෙස සමාන වේ"
   label_copy_source: "මූලාශ්රය"
   label_copy_target: "ඉලක්කය"
@@ -1608,6 +1579,7 @@ si:
   label_database_version: "PostgreSQL version"
   label_date: "දිනය"
   label_date_and_time: "දිනය සහ වේලාව"
+  label_date_format: "Date format"
   label_date_from: "සිට"
   label_date_from_to: "%{start} සිට %{end}දක්වා"
   label_date_to: "කිරීමට"
@@ -1656,6 +1628,7 @@ si:
   label_equals: "වේ"
   label_everywhere: "සෑම තැනකම"
   label_example: "උදාහරණය"
+  label_experimental: "Experimental"
   label_import: "ආනයන"
   label_export_to: "ද ලබා ගත හැකි:"
   label_expanded_click_to_collapse: "පුළුල්. කඩා වැටීමට ක්ලික් කරන්න"
@@ -1713,6 +1686,7 @@ si:
   label_journal: "ජර්නල්"
   label_journal_diff: "විස්තරය සංසන්දනය"
   label_language: " "
+  label_languages: "Languages"
   label_jump_to_a_project: "ව්යාපෘතියකට පනින්න..."
   label_keyword_plural: 'මූල පද'
   label_language_based: "පරිශීලකයාගේ භාෂාව මත පදනම්ව"
@@ -1770,6 +1744,7 @@ si:
   label_more_than_ago: "දින කිහිපයකට පෙර"
   label_move_work_package: "වැඩ පැකේජය ගෙනයාම"
   label_my_account: "මගේ ගිණුම"
+  label_my_activity: "My activity"
   label_my_account_data: "මගේ ගිණුම් දත්ත"
   label_my_projects: "මගේ ව්යාපෘති"
   label_my_queries: "මගේ අභිරුචි විමසුම්"
@@ -1820,7 +1795,6 @@ si:
   label_password_rule_special: "විශේෂ චරිත"
   label_password_rule_uppercase: "මහකුරු"
   label_path_encoding: "මාර්ගය කේතන"
-  label_pdf_with_descriptions: "විස්තර සහිත PDF"
   label_per_page: "පිටුවකට"
   label_people: "ජනතාව"
   label_permissions: "අවසර"
@@ -1972,6 +1946,7 @@ si:
   label_user_plural: "පරිශීලකයන්"
   label_user_search: "පරිශීලකයා සඳහා සොයන්න"
   label_user_settings: "පරිශීලක සැකසුම්"
+  label_users_settings: "Users settings"
   label_version_new: "නව අනුවාදය"
   label_version_plural: "අනුවාද"
   label_version_sharing_descendants: "උප ව්යාපෘති සමඟ"
@@ -2267,7 +2242,7 @@ si:
   permission_add_work_packages: "වැඩ පැකේජ එකතු කරන්න"
   permission_add_messages: "තැපැල් පණිවිඩ"
   permission_add_project: "ව්යාපෘතිය නිර්මාණය"
-  permission_archive_project: "Archive project"
+  permission_archive_project: "සංරක්ෂිත ව්යාපෘතිය"
   permission_manage_user: "Create and edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "උප ව්යාපෘති සාදන්න"
@@ -2533,7 +2508,7 @@ si:
   setting_consent_decline_mail: "කැමැත්ත සම්බන්ධතා තැපැල් ලිපිනය"
   setting_cross_project_work_package_relations: "හරස් ව්යාපෘති වැඩ පැකේජ සබඳතා ඉඩ දෙන්න"
   setting_first_week_of_year: "First week in year contains"
-  setting_date_format: "දිනය ආකෘතිය"
+  setting_date_format: "Date"
   setting_default_language: "පෙරනිමි භාෂාව"
   setting_default_projects_modules: "නව ව්යාපෘති සඳහා පෙරනිමි සක්රීය මොඩියුල"
   setting_default_projects_public: "නව ව්යාපෘති පෙරනිමියෙන් පොදු වේ"
@@ -2545,6 +2520,7 @@ si:
   setting_enabled_scm: "සක්රීය SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "පෝෂණය සක්රීය කරන්න"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "අන්තර්ගත සීමාව සංග්රහ"
   setting_file_max_size_displayed: "පේළිගත ප්රදර්ශනය පෙළ ගොනු උපරිම ප්රමාණය"
   setting_host_name: "සත්කාරක නාමය"
@@ -2595,9 +2571,9 @@ si:
   setting_start_of_week: "සතිය ආරම්භ වේ"
   setting_sys_api_enabled: "නිධි කළමනාකරණ වෙබ් සේවාව සක්රීය කරන්න"
   setting_sys_api_description: "ගබඩා කළමනාකරණ වෙබ් සේවාව මඟින් ගබඩාවට ප්රවේශ වීම සඳහා ඒකාබද්ධ කිරීම සහ පරිශීලක අවසරය ලබා දේ."
-  setting_time_format: "කාල ආකෘතිය"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "නිර්නාමික පරිශීලකයින් සඳහා ප්රවේශ්යතා ප්රකාරය සක්රීය කරන්න"
-  setting_user_format: "පරිශීලකයන් ආකෘතිය ප්රදර්ශනය"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "පරිශීලකයන් පෙරනිමි කාල කලාපය"
   setting_users_deletable_by_admins: "පරිadmins විසින් භාවිතා කළ හැකි පරිශීලක ගිණුම්"
   setting_users_deletable_by_self: "පරිශීලකයින්ට ඔවුන්ගේ ගිණුම් මකා දැමීමට අවසර දී ඇත"
@@ -2606,6 +2582,7 @@ si:
   setting_welcome_on_homescreen: "homescreen මත ප්රදර්ශනය පිළිගැනීමේ වාරණ"
   setting_work_package_list_default_highlighting_mode: "පෙරනිමි ඉස්මතු මාදිලිය"
   setting_work_package_list_default_highlighted_attributes: "පෙරනිමි පේළිගත උද්දීපිත ගුණාංග"
+  setting_working_days: "Working days"
   settings:
     general: "පොදු"
     other: "වෙනත්"
@@ -2623,11 +2600,16 @@ si:
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "පෙරනිමි මනාප"
+      display_format: "Display format"
       deletion: "මකාදැමීම"
     highlighting:
       mode_long:
@@ -2636,6 +2618,9 @@ si:
         status: "තත්ත්වය විසින් සමස්ත පේළිය"
         type: "වර්ගය විසින් සම්පූර්ණ පේළිය"
         priority: "ප්රමුඛතා විසින් සම්පූර්ණ පේළිය"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'මාර්ක්ඩවුන්'
     plain: 'සරල පෙළ'
@@ -3002,9 +2987,9 @@ si:
       title: "වැඩ පැකේජය මකන්න"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
@@ -3166,11 +3151,11 @@ si:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "දෝෂය"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"
-      label_redirect_uri: "Redirect URI"
+      label_redirect_uri: "නැවත හරවා යැවීමේ URI"
       label_request_token: "Request token"
       label_refresh_token: "Refresh token"
     errors:

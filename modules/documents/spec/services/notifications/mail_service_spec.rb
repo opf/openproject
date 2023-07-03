@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Notifications::MailService, type: :model do
+RSpec.describe Notifications::MailService, type: :model do
   subject(:call) { instance.call }
 
   let(:recipient) do

@@ -1,7 +1,7 @@
 module ::Webhooks
   module Outgoing
     module Deliveries
-      class ResponseComponent < RailsComponent
+      class ResponseComponent < ApplicationComponent
         property :id
         property :response_headers
         property :response_body

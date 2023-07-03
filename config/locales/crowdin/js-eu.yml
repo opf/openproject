@@ -58,13 +58,14 @@ eu:
     button_back: "Back"
     button_back_to_list_view: "Back to list view"
     button_cancel: "Cancel"
-    button_close: "Close"
+    button_close: "Itxi"
     button_change_project: "Change project"
     button_check_all: "Check all"
     button_configure-form: "Configure form"
     button_confirm: "Confirm"
     button_continue: "Continue"
     button_copy: "Copy"
+    button_copy_to_clipboard: "Copy to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Custom fields"
     button_delete: "Delete"
@@ -105,7 +106,7 @@ eu:
       remove_from_list: 'Remove card from list'
     caption_rate_history: "Rate history"
     clipboard:
-      browser_error: "Your browser doesn't support copying to clipboard. Please copy the selected text manually."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Chart type'
@@ -276,7 +277,7 @@ eu:
       query_saving: "The view could not be saved."
       embedded_table_loading: "The embedded view could not be loaded: %{message}"
     enumeration_activities: "Activities (time tracking)"
-    enumeration_doc_categories: "Document categories"
+    enumeration_doc_categories: "Dokumentuen kategoriak"
     enumeration_work_package_priorities: "Work package priorities"
     filter:
       more_values_not_shown: "There are %{total} more results, search to filter results."
@@ -317,6 +318,16 @@ eu:
               learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
                 The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to iCalendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Token name"
+      token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
+      token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the iCal URL."
     label_activate: "Activate"
     label_assignee: 'Assignee'
     label_add_column_after: "Add column after"
@@ -328,14 +339,14 @@ eu:
     label_add_row_before: "Add row before"
     label_add_selected_columns: "Add selected columns"
     label_added_by: "added by"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "days ago"
     label_all: "all"
     label_all_work_packages: "all work packages"
     label_and: "and"
     label_ascending: "Ascending"
     label_author: "Author: %{user}"
-    label_avatar: "Avatar"
+    label_avatar: "Abatarra"
     label_between: "between"
     label_board: "Board"
     label_board_locked: "Locked"
@@ -399,7 +410,7 @@ eu:
     label_mail_notification: "Email notifications"
     label_me: "me"
     label_meeting_agenda: "Agenda"
-    label_meeting_minutes: "Minutes"
+    label_meeting_minutes: "Aktak"
     label_menu_collapse: "collapse"
     label_menu_expand: "expand"
     label_more_than_ago: "more than days ago"
@@ -456,7 +467,7 @@ eu:
     label_this_week: "this week"
     label_today: "Today"
     label_time_entry_plural: "Spent time"
-    label_up: "Up"
+    label_up: "Gora"
     label_user_plural: "Users"
     label_activity_show_only_comments: "Show activities with comments only"
     label_activity_show_all: "Show all activities"
@@ -501,7 +512,7 @@ eu:
     label_wait: "Please wait for configuration..."
     label_upload_counter: "%{done} of %{count} files finished"
     label_validation_error: "The work package could not be saved due to the following errors:"
-    label_version_plural: "Versions"
+    label_version_plural: "Bertsioak"
     label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
       show_modal: 'Show attribute help text entry'
@@ -572,7 +583,7 @@ eu:
       facets:
         unread: 'Unread'
         unread_title: 'Show unread'
-        all: 'All'
+        all: 'Denak'
         all_title: 'Show all'
       center:
         label_actor_and: 'and'
@@ -667,8 +678,7 @@ eu:
         Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
       details_activity: 'Project details activity'
       context: 'Project context'
-      work_package_belongs_to: 'This work package belongs to project %{projectname}.'
-      click_to_switch_context: 'Open this work package in that project.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       use_template: "Use template"
       no_template_selected: "(None)"
@@ -828,7 +838,7 @@ eu:
         report_epicfail: "The timeline could not be loaded due to an unexpected error."
         report_timeout: "The timeline could not be loaded in a reasonable amount of time."
       filter:
-        grouping_other: "Other"
+        grouping_other: "Beste bat"
         noneSelection: "(none)"
       name: "Name"
       outline: "Reset Outline"
@@ -844,7 +854,7 @@ eu:
       really_close_dialog: "Do you really want to close the dialog and lose the entered data?"
       responsible: "Responsible"
       save: Save
-      start_date: "Start date"
+      start_date: "Hasiera data"
       tooManyProjects: "More than %{count} Projects. Please use a better filter!"
       selection_mode:
         notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
@@ -924,8 +934,11 @@ eu:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
+        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
       filters:
         title: 'Filter work packages'
+        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Click here to add a new work package to this list'
       create:
@@ -954,7 +967,7 @@ eu:
         details: "Details"
         people: "People"
         estimatesAndTime: "Estimates & Time"
-        other: "Other"
+        other: "Beste bat"
       properties:
         assignee: "Assignee"
         author: "Author"
@@ -962,7 +975,7 @@ eu:
         description: "Description"
         date: "Date"
         dueDate: "Finish date"
-        duration: "Duration"
+        duration: "Iraupena"
         estimatedTime: "Estimated time"
         spentTime: "Spent time"
         category: "Category"
@@ -970,15 +983,15 @@ eu:
         priority: "Priority"
         projectName: "Project"
         responsible: "Responsible"
-        startDate: "Start date"
+        startDate: "Hasiera data"
         status: "Status"
         subject: "Subject"
         subproject: "Subproject"
         title: "Title"
         type: "Type"
         updatedAt: "Updated on"
-        versionName: "Version"
-        version: "Version"
+        versionName: "Bertsioa"
+        version: "Bertsioa"
       default_queries:
         latest_activity: "Latest activity"
         created_by_me: "Created by me"
@@ -1086,6 +1099,7 @@ eu:
         save_as: "Save as"
         export: "Export"
         visibility_settings: "Visibility settings"
+        share_calendar: "Subscribe to iCalendar"
         page_settings: "Rename view"
         delete: "Delete"
       filter: "Filter"
@@ -1162,10 +1176,11 @@ eu:
       button_deactivate: 'Deactivate zen mode'
     global_search:
       all_projects: "In all projects"
-      search: "Search"
       close_search: "Close search"
-      current_project: "In this project"
       current_project_and_all_descendants: "In this project + subprojects"
+      current_project: "In this project"
+      recently_viewed: "Recently viewed"
+      search: "Search"
       title:
         all_projects: "all projects"
         project_and_subprojects: "and all subprojects"
@@ -1258,11 +1273,15 @@ eu:
       toggle_title: 'Baseline'
       clear: 'Clear'
       apply: 'Apply'
-      header_description: 'View changes made to work packages in the current view within a time period.'
+      header_description: 'Highlight changes made to this list since any point in the past.'
+      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Show changes since'
-      help_description: 'Default time zone of the instance set by the administrator.'
-      time_description: 'In default time zone: %{time} %{days} day(s).'
-      time: 'Time'
+      baseline_comparison: 'Baseline comparison'
+      help_description: 'Reference time zone for the baseline.'
+      time_description: 'In your local time: %{datetime}'
+      time: 'Ordua'
+      from: 'From'
+      to: 'To'
       drop_down:
         none: '-'
         yesterday: 'yesterday'
@@ -1276,6 +1295,11 @@ eu:
         now_meets_filter_criteria: 'Now meets filter criteria'
         no_longer_meets_filter_criteria: 'No longer meets filter criteria'
         maintained_with_changes: 'Maintained with changes'
+        in_your_timezone: 'In your local timezone:'
+      icon_tooltip:
+        added: 'Added to view within the comparison time period'
+        removed: 'Removed from view within the comparison time period'
+        changed: 'Maintained with modifications'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'
@@ -1286,4 +1310,4 @@ eu:
         remove: 'Remove'
       drop_modal:
         focus_grab: 'This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.'
-        Close: 'Close'
+        Close: 'Itxi'

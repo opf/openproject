@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'robots.txt' do
+RSpec.describe 'robots.txt' do
   let!(:project) { create(:public_project) }
 
   before do

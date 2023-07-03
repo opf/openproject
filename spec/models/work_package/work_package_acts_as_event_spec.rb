@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage do
+RSpec.describe WorkPackage do
   describe 'acts_as_event' do
     let(:stub_work_package) { build_stubbed(:work_package) }
 

@@ -1,12 +1,12 @@
 require 'spec_helper'
 require 'support/pages/custom_fields'
 
-describe 'custom fields', js: true do
+RSpec.describe 'custom fields', js: true, with_cuprite: true do
   let(:user) { create(:admin) }
   let(:cf_page) { Pages::CustomFields.new }
 
   before do
-    login_as(user)
+    login_as user
   end
 
   describe "creating a new float custom field" do
@@ -14,7 +14,7 @@ describe 'custom fields', js: true do
       cf_page.visit!
 
       click_on "Create a new custom field"
-      SeleniumHubWaiter.wait
+      wait_for_reload
     end
 
     it "creates a new float custom field" do

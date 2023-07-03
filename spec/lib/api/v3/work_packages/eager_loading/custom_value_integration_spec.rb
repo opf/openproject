@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './eager_loading_mock_wrapper'
 
-describe API::V3::WorkPackages::EagerLoading::CustomValue do
+RSpec.describe API::V3::WorkPackages::EagerLoading::CustomValue do
   let!(:work_package) { create(:work_package) }
   let!(:type) { work_package.type }
   let!(:other_type) { create(:type) }

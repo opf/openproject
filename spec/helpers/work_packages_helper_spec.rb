@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackagesHelper do
+RSpec.describe WorkPackagesHelper do
   let(:stub_work_package) { build_stubbed(:work_package, type: stub_type) }
   let(:stub_project) { build_stubbed(:project) }
   let(:stub_type) { build_stubbed(:type) }

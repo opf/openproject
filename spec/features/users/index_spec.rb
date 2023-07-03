@@ -28,12 +28,12 @@
 
 require 'spec_helper'
 
-describe 'index users', js: true do
+RSpec.describe 'index users', js: true, with_cuprite: true do
   shared_let(:current_user) { create(:admin, firstname: 'admin', lastname: 'admin', created_at: 1.hour.ago) }
   let(:index_page) { Pages::Admin::Users::Index.new }
 
   before do
-    login_as(current_user)
+    login_as current_user
   end
 
   describe 'with some sortable users' do

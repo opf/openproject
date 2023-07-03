@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::ProjectFilter do
+RSpec.describe Queries::WorkPackages::Filter::ProjectFilter do
   it_behaves_like 'basic query filter' do
     let(:type) { :list }
     let(:class_key) { :project_id }

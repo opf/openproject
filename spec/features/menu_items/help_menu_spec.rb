@@ -28,7 +28,9 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Help menu items', js: true do
+RSpec.describe 'Help menu items',
+               js: true,
+               with_cuprite: true do
   let(:user) { create(:admin) }
   let(:help_item) { find('.op-app-help .op-app-menu--item-action') }
   let(:help_menu_dropdown_selector) { '.op-app-menu--dropdown.op-menu' }
@@ -65,8 +67,7 @@ RSpec.describe 'Help menu items', js: true do
   end
 
   describe 'Enterprise Support Link' do
-    let(:support_link_without_being_enterprise) { 'https://www.openproject.org/pricing/#support' }
-    let(:support_link_as_enterprise) { 'https://www.openproject.org/docs/enterprise-guide/support/' }
+    include_context 'support links'
 
     def fake_an_enterprise_token
       allow(EnterpriseToken).to receive(:show_banners?).and_return(false)
@@ -79,7 +80,7 @@ RSpec.describe 'Help menu items', js: true do
       help_item.click
       within help_menu_dropdown_selector do
         expect(page).to have_link(I18n.t(:label_enterprise_support),
-                                  href: support_link_without_being_enterprise)
+                                  href: support_link_as_community)
       end
 
       fake_an_enterprise_token

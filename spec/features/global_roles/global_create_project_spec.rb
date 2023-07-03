@@ -28,12 +28,14 @@
 
 require 'spec_helper'
 
-describe 'Global role: Global Create project', js: true do
+RSpec.describe 'Global role: Global Create project',
+               js: true,
+               with_cuprite: true do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
 
   before do
-    login_as(user)
+    login_as user
   end
 
   describe 'Create Project is not a member permission' do
@@ -86,7 +88,7 @@ describe 'Global role: Global Create project', js: true do
 
       name_field.set_value 'New project name'
 
-      page.find('button:not([disabled])', text: 'Save').click
+      find('button:not([disabled])', text: 'Save').click
 
       expect(page).to have_current_path '/projects/new-project-name/'
     end

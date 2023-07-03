@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'users 2fa devices' do
+RSpec.describe 'users 2fa devices' do
   it 'route to GET new' do
     expect(get('/users/2/two_factor_devices/new')).to route_to(controller: 'two_factor_authentication/users/two_factor_devices',
                                                                action: 'new',

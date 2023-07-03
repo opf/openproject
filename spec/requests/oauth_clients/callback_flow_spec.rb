@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'OAuthClient callback endpoint' do
+RSpec.describe 'OAuthClient callback endpoint' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 

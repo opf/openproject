@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::WorkPackages::WorkPackageRepresenter do
+RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:member) { build_stubbed(:user) }
@@ -1329,6 +1329,14 @@ describe API::V3::WorkPackages::WorkPackageRepresenter do
         end
         let(:project) { create(:project) }
 
+        current_user do
+          create(:user,
+                 firstname: 'user',
+                 lastname: '1',
+                 member_in_project: project,
+                 member_with_permissions: %i[view_work_packages view_file_links])
+        end
+
         def create_journal(journable:, version:, timestamp:, attributes: {})
           work_package_attributes = work_package.attributes.except("id")
           journal_attributes = work_package_attributes \
@@ -1382,7 +1390,7 @@ describe API::V3::WorkPackages::WorkPackageRepresenter do
               .at_path("_embedded/attributesByTimestamp/1/_links/self/href")
           end
 
-          it 'has no information about whether the work package matches the query filters at the timestamp' \
+          it 'has no information about whether the work package matches the query filters at the timestamp ' \
              'because there are no filters without a query' do
             expect(subject)
               .not_to have_json_path("_embedded/attributesByTimestamp/0/_meta/matchesFilters")
@@ -1403,19 +1411,11 @@ describe API::V3::WorkPackages::WorkPackageRepresenter do
         context 'when passing a query' do
           let(:search_term) { 'original' }
           let(:query) do
-            login_as(current_user)
             build(:query, user: current_user, project: nil).tap do |query|
               query.filters.clear
               query.add_filter 'subject', '~', search_term
               query.timestamps = timestamps
             end
-          end
-          let(:current_user) do
-            create(:user,
-                   firstname: 'user',
-                   lastname: '1',
-                   member_in_project: project,
-                   member_with_permissions: %i[view_work_packages view_file_links])
           end
 
           describe 'attributesByTimestamp', with_ee: %i[baseline_comparison], with_flag: { show_changes: true } do
@@ -1426,6 +1426,27 @@ describe API::V3::WorkPackages::WorkPackageRepresenter do
               expect(subject)
                 .to be_json_eql(false.to_json)
                 .at_path("_embedded/attributesByTimestamp/1/_meta/matchesFilters")
+            end
+          end
+
+          describe '_links' do
+            it_behaves_like 'has a titled link' do
+              let(:link) { 'self' }
+              let(:href) { api_v3_paths.work_package(work_package.id, timestamps:) }
+              let(:title) { work_package.name }
+            end
+
+            context 'when changing timestamps it updates the link' do
+              it_behaves_like 'has a titled link' do
+                before do
+                  representer.to_json
+                  representer.timestamps = []
+                end
+
+                let(:link) { 'self' }
+                let(:href) { api_v3_paths.work_package(work_package.id) }
+                let(:title) { work_package.name }
+              end
             end
           end
 

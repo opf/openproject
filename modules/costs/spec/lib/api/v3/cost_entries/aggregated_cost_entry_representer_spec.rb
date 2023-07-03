@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::CostEntries::AggregatedCostEntryRepresenter do
+RSpec.describe API::V3::CostEntries::AggregatedCostEntryRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:cost_entry) { build_stubbed(:cost_entry) }

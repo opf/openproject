@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::Queries::Operators::QueryOperatorRepresenter do
+RSpec.describe API::V3::Queries::Operators::QueryOperatorRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:operator) { Queries::Operators::NotContains }

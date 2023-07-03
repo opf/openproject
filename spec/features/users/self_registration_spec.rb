@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'user self registration', js: true do
+RSpec.describe 'user self registration', js: true, with_cuprite: true do
   let(:admin_password) { 'Test123Test123' }
   let(:admin) { create(:admin, password: admin_password, password_confirmation: admin_password) }
   let(:home_page) { Pages::Home.new }
@@ -55,20 +55,18 @@ describe 'user self registration', js: true do
         .to have_content('Your account was created and is now pending administrator approval.')
     end
 
-    it 'allows self registration and activation by an admin' do
+    it 'allows self registration and activation by an admin', signout_via_visit: true do
       home_page.visit!
 
       # registration as an anonymous user
       within '.op-app-header' do
         click_link 'Sign in'
 
-        SeleniumHubWaiter.wait
         click_link 'Create a new account'
       end
 
       # deliberately inserting a wrong password confirmation
       within '.registration-modal' do
-        SeleniumHubWaiter.wait
         fill_in 'Username', with: 'heidi'
         fill_in 'First name', with: 'Heidi'
         fill_in 'Last name', with: 'Switzerland'
@@ -86,7 +84,6 @@ describe 'user self registration', js: true do
       within '.registration-modal' do
         # Cannot use 'Password' here as the error message on 'Confirmation' is part of the label
         # and contains the string 'Password' as well
-        SeleniumHubWaiter.wait
         fill_in 'user_password', with: 'test123=321test'
         fill_in 'Confirmation', with: 'test123=321test'
 

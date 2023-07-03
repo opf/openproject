@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe SCM::CreateLocalRepositoryJob do
+RSpec.describe SCM::CreateLocalRepositoryJob do
   let(:instance) { described_class.new }
   # Allow to override configuration values to determine
   # whether to activate managed repositories
@@ -44,7 +44,7 @@ describe SCM::CreateLocalRepositoryJob do
     allow(OpenProject::Configuration).to receive(:[]).with('scm').and_return(config)
   end
 
-  describe 'with a managed repository' do
+  describe 'with a managed repository', skip_if_command_unavailable: 'svnadmin' do
     include_context 'with tmpdir'
 
     let(:project) { build(:project) }

@@ -3,7 +3,7 @@ cs:
   js:
     storages:
       link_files_in_storage: "Prolinkovat soubory v"
-      link_existing_files: "Link existing files"
+      link_existing_files: "Odkaz na existující soubory"
       upload_files: "Nahrát soubory"
       drop_files: "Přetáhněte soubory pro jejich nahrání na %{name}."
       drop_or_click_files: "Drop files here or click to upload them to %{name}."

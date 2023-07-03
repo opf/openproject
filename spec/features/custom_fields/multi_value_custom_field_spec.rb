@@ -1,7 +1,9 @@
 require "spec_helper"
 require "support/pages/work_packages/abstract_work_package"
 
-describe "multi select custom values", js: true do
+RSpec.describe "multi select custom values",
+               js: true,
+               with_cuprite: true do
   let(:type) { create(:type) }
   let(:wp_page) { Pages::FullWorkPackage.new work_package }
   let(:wp_table) { Pages::WorkPackagesTable.new project }
@@ -127,7 +129,7 @@ describe "multi select custom values", js: true do
         hierarchy.expect_no_hierarchies
 
         # Should show truncated values
-        expect(page).to have_text "ham, pineapple, ...\n3"
+        expect(page).to have_text "ham, pineapple, ...3"
         expect(page).not_to have_text "onions"
 
         # Group by the CF
@@ -203,7 +205,7 @@ describe "multi select custom values", js: true do
         expect(page).to have_selector('.group--value', text: 'ham, mushrooms, onions, pineapple (1)')
         expect(page).to have_selector('.group--value', text: 'ham (1)')
 
-        wp1_field.expect_state_text ", ...\n4"
+        wp1_field.expect_state_text ", ...4"
       end
     end
 

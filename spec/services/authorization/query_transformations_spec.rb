@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Authorization::QueryTransformations do
+RSpec.describe Authorization::QueryTransformations do
   let(:instance) { described_class.new }
 
   context 'registering a transformation' do

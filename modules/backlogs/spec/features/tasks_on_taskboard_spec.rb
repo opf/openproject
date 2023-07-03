@@ -29,8 +29,9 @@
 require 'spec_helper'
 require_relative '../support/pages/taskboard'
 
-describe 'Tasks on taskboard',
-         js: true do
+RSpec.describe 'Tasks on taskboard',
+               js: true,
+               with_cuprite: false do
   let!(:project) do
     create(:project,
            types: [story, task, other_story],

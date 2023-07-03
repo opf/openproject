@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Attachments::CleanupUncontaineredJob, type: :job do
+RSpec.describe Attachments::CleanupUncontaineredJob, type: :job do
   let(:grace_period) { 120 }
 
   let!(:containered_attachment) { create(:attachment) }

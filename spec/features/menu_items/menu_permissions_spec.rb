@@ -28,7 +28,9 @@
 
 require 'spec_helper'
 
-describe 'menu permissions', js: true do
+RSpec.describe 'menu permissions',
+               js: true,
+               with_cuprite: true do
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -40,7 +42,7 @@ describe 'menu permissions', js: true do
 
   context 'as an admin' do
     before do
-      login_as(admin)
+      login_as admin
 
       # Allowed to see the settings version page
       visit project_settings_versions_path(project)
@@ -52,7 +54,7 @@ describe 'menu permissions', js: true do
       expect(page).to have_selector('#menu-sidebar .op-menu--item-title', text: 'Modules')
     end
 
-    it 'the parent node directs to the general settings page' do
+    specify 'the parent node directs to the general settings page' do
       # The settings menu item exists
       expect(page).to have_selector('#menu-sidebar .main-item-wrapper', text: 'Project settings', visible: false)
 
@@ -62,9 +64,9 @@ describe 'menu permissions', js: true do
     end
   end
 
-  context 'as an user who can only manage_versions' do
+  context 'as a user who can only manage_versions' do
     before do
-      login_as(user)
+      login_as user
 
       # Allowed to see the settings version page
       visit project_settings_versions_path(project)
@@ -76,7 +78,7 @@ describe 'menu permissions', js: true do
       expect(page).not_to have_selector('#menu-sidebar .op-menu--item-title', text: 'Modules')
     end
 
-    it 'the parent node directs to the only visible children page' do
+    specify 'the parent node directs to the only visible children page' do
       # The settings menu item exists
       expect(page).to have_selector('#menu-sidebar .main-item-wrapper', text: 'Project settings', visible: false)
 

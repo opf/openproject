@@ -28,7 +28,9 @@
 
 require 'spec_helper'
 
-describe 'group memberships through project members page', js: true do
+RSpec.describe 'group memberships through project members page',
+               js: true,
+               with_cuprite: true do
   shared_let(:admin) { create(:admin) }
   let(:project) { create(:project, name: 'Project 1', identifier: 'project1', members: project_member) }
 
@@ -52,7 +54,7 @@ describe 'group memberships through project members page', js: true do
 
     current_user { bob }
 
-    it 'adding group1 as a member with the beta role' do
+    specify 'adding group1 as a member with the beta role' do
       members_page.visit!
       members_page.add_user! 'group1', as: 'beta'
 
@@ -64,7 +66,7 @@ describe 'group memberships through project members page', js: true do
       let(:project_member) { { group => beta } }
 
       context 'with the members having no roles of their own' do
-        it 'removing the group removes its members too' do
+        specify 'removing the group removes its members too' do
           members_page.visit!
           expect(members_page).to have_user('Alice Wonderland')
 
@@ -83,7 +85,7 @@ describe 'group memberships through project members page', js: true do
             .each   { |m| m.roles << alpha }
         end
 
-        it 'removing the group leaves the user without their group roles' do
+        specify 'removing the group leaves the user without their group roles' do
           members_page.visit!
           expect(members_page).to have_user('Alice Wonderland', roles: ['alpha', 'beta'])
 
@@ -108,7 +110,7 @@ describe 'group memberships through project members page', js: true do
       alice # create alice
     end
 
-    it 'adding members to that group adds them to the project too' do
+    specify 'adding members to that group adds them to the project too' do
       members_page.visit!
 
       expect(members_page).not_to have_user('Alice Wonderland') # Alice not in the project yet

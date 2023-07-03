@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenProject::TextFormatting::Formats::Plain::Formatter do
+RSpec.describe OpenProject::TextFormatting::Formats::Plain::Formatter do
   subject { described_class.new({}) }
 
   it 'plains text' do

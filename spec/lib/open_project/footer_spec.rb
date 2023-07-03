@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'open_project/footer'
 
-describe OpenProject::Footer do
+RSpec.describe OpenProject::Footer do
   describe '.add_content' do
     context 'empty content' do
       before do

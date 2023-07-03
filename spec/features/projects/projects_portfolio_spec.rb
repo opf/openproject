@@ -28,8 +28,10 @@
 
 require 'spec_helper'
 
-describe 'Projects index page',
-         js: true, with_ee: %i[custom_fields_in_projects_list], with_settings: { login_required?: false } do
+RSpec.describe 'Projects index page',
+               js: true,
+               with_cuprite: true,
+               with_ee: %i[custom_fields_in_projects_list], with_settings: { login_required?: false } do
   shared_let(:admin) { create(:admin) }
 
   let(:modal) { Components::WorkPackages::TableConfigurationModal.new }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Projects::Storage do
+RSpec.describe Projects::Storage do
   let(:project1) do
     create(:project)
       .reload # Reload required for wiki association to be available

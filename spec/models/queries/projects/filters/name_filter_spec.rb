@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Projects::Filters::NameFilter do
+RSpec.describe Queries::Projects::Filters::NameFilter do
   include_context 'filter tests'
   let(:values) { ['A name'] }
   let(:model) { Project }

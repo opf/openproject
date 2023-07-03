@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe RbStoriesController do
+RSpec.describe RbStoriesController do
   describe 'routing' do
     it {
       expect(post('/projects/project_42/sprints/21/stories')).to route_to(controller: 'rb_stories',

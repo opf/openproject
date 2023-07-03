@@ -29,7 +29,7 @@
 require 'spec_helper'
 require Rails.root.join("db/migrate/20220428071221_restore_defaults_on_empty_settings.rb")
 
-describe RestoreDefaultsOnEmptySettings, type: :model do
+RSpec.describe RestoreDefaultsOnEmptySettings, type: :model do
   # Silencing migration logs, since we are not interested in that during testing
   subject(:run_migration) { ActiveRecord::Migration.suppress_messages { described_class.new.up } }
 

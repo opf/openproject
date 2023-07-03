@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Wiki page navigation spec', js: true do
+RSpec.describe 'Wiki page navigation spec', js: true do
   shared_let(:admin) { create(:admin) }
   current_user { admin }
 

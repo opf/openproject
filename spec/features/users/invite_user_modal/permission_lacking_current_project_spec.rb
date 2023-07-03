@@ -28,7 +28,9 @@
 
 require 'spec_helper'
 
-describe 'Inviting user in project the current user is lacking permission in', js: true do
+RSpec.describe 'Inviting user in project the current user is lacking permission in',
+               js: true,
+               with_cuprite: true do
   let(:modal) do
     Components::Users::InviteUserModal.new project: invite_project,
                                            principal: other_user,
@@ -53,7 +55,7 @@ describe 'Inviting user in project the current user is lacking permission in', j
     create(:user)
   end
 
-  it 'user cannot invite in current project but for different one' do
+  specify 'user cannot invite in current project but for different one' do
     visit project_path(view_project)
 
     quick_add.expect_visible
@@ -61,6 +63,8 @@ describe 'Inviting user in project the current user is lacking permission in', j
     quick_add.toggle
 
     quick_add.click_link 'Invite user'
+
+    wait_for_network_idle
 
     modal.expect_help_displayed I18n.t('js.invite_user_modal.project.lacking_permission_info')
 

@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
 
-describe WorkPackages::BaseContract do
+RSpec.describe WorkPackages::BaseContract do
   let(:work_package) do
     build_stubbed(:work_package,
                   type:,

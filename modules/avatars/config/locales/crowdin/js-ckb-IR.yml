@@ -4,7 +4,7 @@ ckb-IR:
     label_preview: 'Preview'
     button_update: 'Update'
     avatars:
-      label_choose_avatar: "Choose Avatar from file"
+      label_choose_avatar: "لە فایلەوە ئاڤاتار هەڵبژێرە"
       uploading_avatar: "Uploading your avatar."
       text_upload_instructions: |
         Upload your own custom avatar of 128 by 128 pixels. Larger files will be resized and cropped to match.

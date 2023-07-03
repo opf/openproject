@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe OpenIDConnect::Provider do
+RSpec.describe OpenIDConnect::Provider do
   let(:provider) do
     described_class.initialize_with name: "azure", identifier: "id", secret: "secret"
   end

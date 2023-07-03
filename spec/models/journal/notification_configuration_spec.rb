@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Journal::NotificationConfiguration do
+RSpec.describe Journal::NotificationConfiguration do
   describe '.with' do
     let!(:send_notification_before) { described_class.active? }
     let!(:proc_called_counter) { OpenStruct.new called: false, send_notifications: send_notification_before }

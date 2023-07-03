@@ -27,7 +27,7 @@
 #++
 require 'spec_helper'
 
-describe "SMTP settings" do
+RSpec.describe "SMTP settings" do
   let(:smtp_settings) { {} }
   let(:enable_starttls_auto) { nil }
   let(:openssl_verify_mode) { nil }

@@ -38,8 +38,13 @@ module API::V3::ProjectStorages
     property :id
     date_time_property :created_at
     date_time_property :updated_at
-    property :project_folder_id
     property :project_folder_mode
+
+    link :projectFolder do
+      next if represented.project_folder_id.blank?
+
+      { href: api_v3_paths.storage_file(represented.storage.id, represented.project_folder_id) }
+    end
 
     associated_resource :storage, skip_render: ->(*) { true }, skip_link: ->(*) { false }
     associated_resource :project, skip_render: ->(*) { true }, skip_link: ->(*) { false }

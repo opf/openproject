@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'preview' do
+RSpec.describe 'preview' do
   it 'connects POST /meetings/:meeting_id/agenda/preview to meeting_agendas#preview' do
     expect(post('/meetings/1/agenda/preview')).to route_to(controller: 'meeting_agendas',
                                                            meeting_id: '1',

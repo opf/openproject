@@ -269,11 +269,22 @@ tr:
       notice_reset_token: "Yeni bir %{type} anahtar üretildi. Erişim anahtarınız:"
       token_value_warning: "Not: Bu anahtarı görebileceğiniz tek an bu, kopyaladığınıza emin olun."
       no_results_title_text: Şu anda hiçbir erişim anahtarı mevcut değil.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Şu anda rapor edilecek bir haber yok.
       no_results_content_text: Haber öğesi ekle
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'Bu kullanıcı şu anda aşağıdaki grupların bir üyesidir:'
       no_results_title_text: Bu kullanıcı şu anda hiçbir gruba üye değil.
@@ -484,15 +495,15 @@ tr:
           true: "genel"
           false: "özel"
         queries: "Sorgular"
-        status_code: 'Project status'
+        status_code: 'Proje Durumu'
         status_explanation: 'Project status description'
         status_codes:
-          not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          not_started: 'Başlatılmadı'
+          on_track: 'Takipte'
+          at_risk: 'Riskli'
+          off_track: 'Kapalı parça'
+          finished: 'Bitti'
+          discontinued: 'Durduruldu'
         templated: "Şablon projesi"
         templated_value:
           true: "şablon olarak kaydedildi"
@@ -690,6 +701,11 @@ tr:
           overlaps: 'üst üste gelmek.'
           outside: 'Grup dışında görünmektedir.'
           end_before_start: 'son değerin başlangıç değerinden daha büyük olması gerekir.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'Bildirim göndermek için en az bir kanal belirtilmelidir.'
           attributes:
@@ -922,12 +938,12 @@ tr:
       updated_by_on: "%{date} tarihinde %{user} tarafından güncellendi"
       updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "Güncellenme tarihi: {dateTime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "Alt proje"
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
           one: "%{count} hour"
-          other: "%{count} hours"
+          other: "%{count} saat"
         hour_html:
           one: "<i>%{count} hour</i>"
           other: "<i>%{count} hours</i>"
@@ -1049,6 +1065,7 @@ tr:
   button_configure: "Düzenle"
   button_continue: "Devam et"
   button_copy: "Kopyala"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Kopyala ve takip et"
   button_create: "Oluştur"
   button_create_and_continue: "Oluştur ve devam et"
@@ -1178,7 +1195,7 @@ tr:
       - "Ekim"
       - "Kasım"
       - "Aralık"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - ':yıl'
       - :ay
@@ -1223,61 +1240,6 @@ tr:
       hour:
         one: "saat"
         other: "saat"
-  default_activity_development: "Geliştirme"
-  default_activity_management: "Yönetim"
-  default_activity_other: "Diğer"
-  default_activity_specification: "Özellik"
-  default_activity_support: "Destek"
-  default_activity_testing: "Deneme"
-  default_color_black: "Siyah"
-  default_color_blue: "Mavi"
-  default_color_blue_dark: "Mavi (koyu)"
-  default_color_blue_light: "Mavi (açık)"
-  default_color_green_dark: "Yeşil (koyu)"
-  default_color_green_light: "Yeşil (açık)"
-  default_color_grey_dark: "Gri (koyu)"
-  default_color_grey_light: "Gri (açık)"
-  default_color_grey: "Gri"
-  default_color_magenta: "Eflatun"
-  default_color_orange: "Turuncu"
-  default_color_red: "Kırmızı"
-  default_color_white: "Beyaz"
-  default_color_yellow: "Sarı"
-  default_status_closed: "Kapalı"
-  default_status_confirmed: "Onaylandı"
-  default_status_developed: "Geliştirilen"
-  default_status_in_development: "Geliştiriliyor"
-  default_status_in_progress: "Devam eden"
-  default_status_in_specification: "Şartname"
-  default_status_in_testing: "Test ediliyor"
-  default_status_new: "Yeni"
-  default_status_on_hold: "Beklemede"
-  default_status_rejected: "Reddedildi"
-  default_status_scheduled: "Zamanlandı"
-  default_status_specified: "Belirtildi"
-  default_status_tested: "Test edildi"
-  default_status_test_failed: "Test başarısız oldu"
-  default_status_to_be_scheduled: "Zamanlanacak"
-  default_priority_low: "Düşük"
-  default_priority_normal: "Normal"
-  default_priority_high: "Yüksek"
-  default_priority_immediate: "Acil"
-  default_role_anonymous: "Anonim"
-  default_role_developer: "Geliştirici"
-  default_role_project_admin: "Proje yöneticisi"
-  default_role_project_creator_and_staff_manager: "Personel ve proje yöneticisi"
-  default_role_non_member: "Üye Değil"
-  default_role_reader: "Okuyucu"
-  default_role_member: "Üye"
-  default_type: "İş Paketi"
-  default_type_bug: "Hata"
-  default_type_deliverable: "Teslim edilebilir"
-  default_type_epic: "Epik"
-  default_type_feature: "Özellik"
-  default_type_milestone: "Kilometre taşı"
-  default_type_phase: "Aşama"
-  default_type_task: "Görev"
-  default_type_user_story: "Kullanıcı hikayesi"
   description_active: "Aktif?"
   description_attachment_toggle: "Ekleri göster/gizle"
   description_autocomplete: >
@@ -1395,11 +1357,14 @@ tr:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "Açıklamalı PDF"
-      pdf_with_descriptions_and_attachments: "Ekler ve açıklamalarla birlikte PDF"
-      pdf_with_attachments: "Eklerle birlikte PDF"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Görüntü dışa aktarılmadı."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext kullanılabilir (isteğe bağlı)"
@@ -1519,6 +1484,12 @@ tr:
   label_api_access_key: "API erişim anahtarı"
   label_api_access_key_created_on: "API erişim anahtarı %{value} önce oluşturuldu"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "İptal etmek"
   label_applied_status: "Uygulanan statü"
   label_archive_project: "Projeyi arşivle"
   label_ascending: "Azalan"
@@ -1554,6 +1525,7 @@ tr:
   label_bulk_edit_selected_work_packages: "Seçilen çalışma paketlerini toplu halde düzenle"
   label_bundled: '(Birlikte) sepetlemek '
   label_calendar: "Takvim"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Takvimi Göster"
   label_category: "Kategori"
   label_consent_settings: "Kullanıcı Rızası"
@@ -1590,7 +1562,6 @@ tr:
   label_contains: "içerir"
   label_content: "İçerik"
   label_copied: "kopyalandı"
-  label_copy_to_clipboard: "Panoya kopyala"
   label_copy_same_as_target: "Hedefle aynı"
   label_copy_source: "Kaynak"
   label_copy_target: "Hedef"
@@ -1607,6 +1578,7 @@ tr:
   label_database_version: "PostgreSQL sürümü"
   label_date: "Tarih"
   label_date_and_time: "Tarih ve zaman"
+  label_date_format: "Date format"
   label_date_from: "Başlangıç"
   label_date_from_to: "%{start} tarihinden %{end} tarihine"
   label_date_to: "Bitiş"
@@ -1655,6 +1627,7 @@ tr:
   label_equals: "şuysa"
   label_everywhere: "heryer"
   label_example: "Örnek"
+  label_experimental: "Experimental"
   label_import: "İçeri Aktar"
   label_export_to: "Ayrıca şu adreste bulunabilir:"
   label_expanded_click_to_collapse: "Genişletilmiş. Daraltmak için tıklayın"
@@ -1712,6 +1685,7 @@ tr:
   label_journal: "Günlük"
   label_journal_diff: "Açıklama Karşılaştırması"
   label_language: "Dil"
+  label_languages: "Languages"
   label_jump_to_a_project: "Projeye git..."
   label_keyword_plural: 'Anahtar kelimeler'
   label_language_based: "Kullanıcının dili tabanlı"
@@ -1769,6 +1743,7 @@ tr:
   label_more_than_ago: "günler önce"
   label_move_work_package: "İş paketini taşı"
   label_my_account: "Hesabım"
+  label_my_activity: "My activity"
   label_my_account_data: "Hesap verilerim"
   label_my_projects: "Projelerim"
   label_my_queries: "Özel sorgularım"
@@ -1819,7 +1794,6 @@ tr:
   label_password_rule_special: "Özel karakterler"
   label_password_rule_uppercase: "Büyük harf"
   label_path_encoding: "Yol kodlaması"
-  label_pdf_with_descriptions: "PDF ile açıklamaları"
   label_per_page: "Sayfa başına"
   label_people: "Kişiler"
   label_permissions: "İzinler"
@@ -1971,6 +1945,7 @@ tr:
   label_user_plural: "Kullanıcılar"
   label_user_search: "Kullanıcı ara"
   label_user_settings: "Kullanıcı ayarları"
+  label_users_settings: "Users settings"
   label_version_new: "Yeni sürüm"
   label_version_plural: "Sürümler"
   label_version_sharing_descendants: "Alt projeler ile"
@@ -2529,7 +2504,7 @@ tr:
   setting_consent_decline_mail: "Onay iletişim posta adresi"
   setting_cross_project_work_package_relations: "Projeler arası iş paketi ilişkilerine izin ver"
   setting_first_week_of_year: "Yılın ilk haftası"
-  setting_date_format: "Tarih formatı"
+  setting_date_format: "Date"
   setting_default_language: "Varsayılan dil"
   setting_default_projects_modules: "Yeni projeler için varsayılan etkin modüller"
   setting_default_projects_public: "Yeni projeler varsayılan olarak herkese açık"
@@ -2541,6 +2516,7 @@ tr:
   setting_enabled_scm: "Etkinleştirilmiş SCM"
   setting_enabled_projects_columns: "Proje listesinde görünür"
   setting_feeds_enabled: "Yayınları Etkinleştir"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Besleme içeriği sınırı"
   setting_file_max_size_displayed: "Satır içi görüntülenen maksimum metin dosyası boyutu"
   setting_host_name: "Ana bilgisayar adı"
@@ -2591,9 +2567,9 @@ tr:
   setting_start_of_week: "Hafta Başlangıcı"
   setting_sys_api_enabled: "Depo yönetimi web hizmetini etkinleştir"
   setting_sys_api_description: "Depo yönetimi web servisi depolara erişmek için entegrasyon ve kullanıcı yetkilendirmesi sağlar."
-  setting_time_format: "Zaman Biçimi"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "İsimsiz kullanıcılar için erişilebilirlik modunu etkinleştir"
-  setting_user_format: "Kullanıcılar biçimi görüntüler"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Kullanıcıların varsayılan saat dilimi"
   setting_users_deletable_by_admins: "Yöneticiler kullanıcı hesaplarını silebilsin"
   setting_users_deletable_by_self: "Kullanıcılar kendi hesaplarını silebilsin"
@@ -2602,6 +2578,7 @@ tr:
   setting_welcome_on_homescreen: "Hoşgeldiniz bloğunu ana ekranda göster"
   setting_work_package_list_default_highlighting_mode: "Varsayılan vurgulama modu"
   setting_work_package_list_default_highlighted_attributes: "Varsayılan satır içi vurgulanan özellikler"
+  setting_working_days: "Working days"
   settings:
     general: "Genel"
     other: "Diğer"
@@ -2619,11 +2596,16 @@ tr:
         Eğer %{day_of_week_setting_name} veya %{first_week_setting_name} seçeneklerinden biri ayarlanmışsa, ön uçta tutarsızlık yaşanmaması için diğer seçeneğin de ayarlanması gerekir.
       first_week_of_year_text: >
         Yılın ilk haftasında yer alan Ocak tarihini seçin. Haftanın ilk günü ile birlikte bu değer, bir yıldaki toplam hafta sayısını belirler.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Yeni projeler için ayarlar"
       section_project_overview: "Projeye genel bakış listesi ayarları"
     user:
       default_preferences: "Varsayılan Tercihler"
+      display_format: "Display format"
       deletion: "Silme"
     highlighting:
       mode_long:
@@ -2632,6 +2614,9 @@ tr:
         status: "Duruma göre tüm satır"
         type: "Türe göre tüm satır"
         priority: "Önceliğe göre tüm satır"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Düz yazı'
@@ -2705,7 +2690,7 @@ tr:
   text_journal_deleted: "%{label}, ( %{old}) silindi"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label}, ( %{link}) silindi"
-  text_journal_of: "%{label} %{value}"
+  text_journal_of: "%{value} %{label} eklendi"
   text_journal_set_to: "%{label} %{value} yapıldı"
   text_journal_set_with_diff: "%{label} ayarla ( %{link})"
   text_journal_label_value: "%{value} %{label} eklendi"
@@ -2997,9 +2982,9 @@ tr:
       title: "İş paketini sil"
   working_days:
     info: >
-      <b>Çalışma haftasının bir parçası olarak kabul edilen günleri tanımlayın</b><br/> Seçilmeyen günler, iş paketleri planlanırken atlanır (ve gün sayısına dahil edilmez). Bunlar, iş paketi düzeyinde geçersiz kılınabilir.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Belirli çalışılmayan günler (tatiller ve kapalı günler)</b><br/> Aşağıdaki listeye eklenen tarihler, çalışılmayan tarihler olarak kabul edilir ve iş paketleri planlanırken atlanır.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "İş günlerini değiştir"
     warning: >
       Haftanın hangi günlerinin iş günü veya tatil günü olarak kabul edileceğini değiştirmek, bu durumda tüm projelerdeki tüm iş paketlerinin başlangıç ve bitiş günlerini etkileyebilir. <br/> Değişikliklerin yalnızca siz değişiklikleri kaydet düğmesine tıkladıktan sonra uygulanacağını lütfen unutmayın.

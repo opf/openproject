@@ -28,7 +28,7 @@
 
 require 'rack/test'
 
-shared_examples_for 'available principals' do |principals|
+RSpec.shared_examples_for 'available principals' do |principals|
   include API::V3::Utilities::PathHelper
 
   current_user do

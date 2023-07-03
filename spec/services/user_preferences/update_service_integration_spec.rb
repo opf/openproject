@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe UserPreferences::UpdateService, 'integration', type: :model do
+RSpec.describe UserPreferences::UpdateService, 'integration', type: :model do
   shared_let(:current_user) do
     create(:user).tap do |u|
       u.pref.save

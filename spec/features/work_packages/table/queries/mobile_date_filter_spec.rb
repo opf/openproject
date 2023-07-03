@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'mobile date filter work packages', js: true do
+RSpec.describe 'mobile date filter work packages', js: true do
   shared_let(:user) { create(:admin) }
   shared_let(:project) { create(:project) }
   shared_let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -59,8 +59,11 @@ describe 'mobile date filter work packages', js: true do
 
       start_field.set 1.day.ago.strftime('%m/%d/%Y')
       end_field.set Date.current.strftime('%m/%d/%Y')
+      end_field.send_keys :tab
 
       loading_indicator_saveguard
+
+      wp_cards.expect_work_package_count 1
       wp_cards.expect_work_package_listed work_package_with_due_date
       wp_cards.expect_work_package_not_listed work_package_without_due_date
 
@@ -86,6 +89,8 @@ describe 'mobile date filter work packages', js: true do
       date_field.set Date.current.strftime('%m/%d/%Y')
 
       loading_indicator_saveguard
+
+      wp_cards.expect_work_package_count 1
       wp_cards.expect_work_package_listed work_package_with_due_date
       wp_cards.expect_work_package_not_listed work_package_without_due_date
 

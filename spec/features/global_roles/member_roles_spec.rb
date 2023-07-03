@@ -28,7 +28,9 @@
 
 require 'spec_helper'
 
-describe 'Global role: Unchanged Member Roles', js: true do
+RSpec.describe 'Global role: Unchanged Member Roles',
+               js: true,
+               with_cuprite: true do
   let(:admin) { create(:admin) }
   let(:project) { create(:project) }
   let!(:role) { create(:role, name: 'MemberRole1') }
@@ -37,7 +39,7 @@ describe 'Global role: Unchanged Member Roles', js: true do
   let(:members) { Pages::Members.new project.identifier }
 
   before do
-    login_as(admin)
+    login_as admin
   end
 
   it 'Global Rights Modules do not exist as Project -> Settings -> Modules' do

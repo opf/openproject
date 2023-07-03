@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
-describe HourlyRatesController do
+RSpec.describe HourlyRatesController do
   shared_let(:admin) { create(:admin) }
 
   let(:user) { create(:user) }

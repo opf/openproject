@@ -54,9 +54,10 @@ module OpenProject::Boards
            caption: :'boards.label_boards'
 
       menu :top_menu,
-           :boards, { controller: 'boards/boards', project_id: nil, action: 'overview' },
+           :boards, { controller: '/boards/boards', action: 'overview' },
            context: :modules,
            caption: :project_module_board_view,
+           icon: 'boards',
            if: Proc.new {
              OpenProject::FeatureDecisions.more_global_index_pages_active? &&
               (User.current.logged? || !Setting.login_required?) &&

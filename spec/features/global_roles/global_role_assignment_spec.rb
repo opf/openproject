@@ -29,9 +29,11 @@
 require 'spec_helper'
 require_relative './mock_global_permissions'
 
-describe 'Global role: Global role assignment', js: true do
+RSpec.describe 'Global role: Global role assignment',
+               js: true,
+               with_cuprite: true do
   before do
-    login_as(current_user)
+    login_as current_user
   end
 
   describe 'Going to the global role assignment page' do
@@ -65,7 +67,6 @@ describe 'Global role: Global role assignment', js: true do
         expect(page).to have_text 'global_role2'
       end
 
-      SeleniumHubWaiter.wait
       # And I select the available global role "global_role"
       check 'global_role2'
       # And I press "Add"
@@ -86,7 +87,6 @@ describe 'Global role: Global role assignment', js: true do
 
       # And I delete the assigned role "global_role"
       page.within("#assigned_global_role_#{global_role1.id}") do
-        SeleniumHubWaiter.wait
         page.find('.buttons a.icon-delete').click
       end
 

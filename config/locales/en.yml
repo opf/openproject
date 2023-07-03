@@ -301,6 +301,7 @@ en:
       notice_reset_token: "A new %{type} token has been generated. Your access token is:"
       token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
       no_results_title_text: There are currently no access tokens available.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
 
   news:
     index:
@@ -308,6 +309,16 @@ en:
       no_results_content_text: Add a news item
 
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'This user is currently a member of the following groups:'
       no_results_title_text: This user is currently not a member in any group.
@@ -758,6 +769,11 @@ en:
           overlaps: 'overlap.'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -1130,6 +1146,7 @@ en:
   button_configure: "Configure"
   button_continue: "Continue"
   button_copy: "Copy"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Copy and follow"
   button_create: "Create"
   button_create_and_continue: "Create and continue"
@@ -1223,7 +1240,7 @@ en:
       short: "%b %d"
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [ ~, "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
-    # Used in date_select and datime_select.
+    # Used in date_select and datetime_select.
     order:
       - :year
       - :month
@@ -1269,62 +1286,6 @@ en:
       hour:
         one: "hour"
         other: "hours"
-
-  default_activity_development: "Development"
-  default_activity_management: "Management"
-  default_activity_other: "Other"
-  default_activity_specification: "Specification"
-  default_activity_support: "Support"
-  default_activity_testing: "Testing"
-  default_color_black: "Black"
-  default_color_blue: "Blue"
-  default_color_blue_dark: "Blue (dark)"
-  default_color_blue_light: "Blue (light)"
-  default_color_green_dark: "Green (dark)"
-  default_color_green_light: "Green (light)"
-  default_color_grey_dark: "Grey (dark)"
-  default_color_grey_light: "Grey (light)"
-  default_color_grey: "Grey"
-  default_color_magenta: "Magenta"
-  default_color_orange: "Orange"
-  default_color_red: "Red"
-  default_color_white: "White"
-  default_color_yellow: "Yellow"
-  default_status_closed: "Closed"
-  default_status_confirmed: "Confirmed"
-  default_status_developed: "Developed"
-  default_status_in_development: "In development"
-  default_status_in_progress: "In progress"
-  default_status_in_specification: "In specification"
-  default_status_in_testing: "In testing"
-  default_status_new: "New"
-  default_status_on_hold: "On hold"
-  default_status_rejected: "Rejected"
-  default_status_scheduled: "Scheduled"
-  default_status_specified: "Specified"
-  default_status_tested: "Tested"
-  default_status_test_failed: "Test failed"
-  default_status_to_be_scheduled: "To be scheduled"
-  default_priority_low: "Low"
-  default_priority_normal: "Normal"
-  default_priority_high: "High"
-  default_priority_immediate: "Immediate"
-  default_role_anonymous: "Anonymous"
-  default_role_developer: "Developer"
-  default_role_project_admin: "Project admin"
-  default_role_project_creator_and_staff_manager: "Staff and projects manager"
-  default_role_non_member: "Non member"
-  default_role_reader: "Reader"
-  default_role_member: "Member"
-  default_type: "Work Package"
-  default_type_bug: "Bug"
-  default_type_deliverable: "Deliverable"
-  default_type_epic: "Epic"
-  default_type_feature: "Feature"
-  default_type_milestone: "Milestone"
-  default_type_phase: "Phase"
-  default_type_task: "Task"
-  default_type_user_story: "User story"
 
   description_active: "Active?"
   description_attachment_toggle: "Show/Hide attachments"
@@ -1454,11 +1415,14 @@ en:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF with descriptions"
-      pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
-      pdf_with_attachments: "PDF with attachments"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Image not exported."
+    units:
+      hours: h
+      days: d
 
   extraction:
     available:
@@ -1602,6 +1566,12 @@ en:
   label_api_access_key: "API access key"
   label_api_access_key_created_on: "API access key created %{value} ago"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Applied status"
   label_archive_project: "Archive project"
   label_ascending: "Ascending"
@@ -1637,6 +1607,7 @@ en:
   label_bulk_edit_selected_work_packages: "Bulk edit selected work packages"
   label_bundled: '(Bundled)'
   label_calendar: "Calendar"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Show Calendar"
   label_category: "Category"
   label_consent_settings: "User Consent"
@@ -1673,7 +1644,6 @@ en:
   label_contains: "contains"
   label_content: "Content"
   label_copied: "copied"
-  label_copy_to_clipboard: "Copy to clipboard"
   label_copy_same_as_target: "Same as target"
   label_copy_source: "Source"
   label_copy_target: "Target"
@@ -1690,6 +1660,7 @@ en:
   label_database_version: "PostgreSQL version"
   label_date: "Date"
   label_date_and_time: "Date and time"
+  label_date_format: "Date format"
   label_date_from: "From"
   label_date_from_to: "From %{start} to %{end}"
   label_date_to: "To"
@@ -1738,6 +1709,7 @@ en:
   label_equals: "is"
   label_everywhere: "everywhere"
   label_example: "Example"
+  label_experimental: "Experimental"
   label_import: "Import"
   label_export_to: "Also available in:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
@@ -1795,6 +1767,7 @@ en:
   label_journal: "Journal"
   label_journal_diff: "Description Comparison"
   label_language: "Language"
+  label_languages: "Languages"
   label_jump_to_a_project: "Jump to a project..."
   label_keyword_plural: 'Keywords'
   label_language_based: "Based on user's language"
@@ -1852,6 +1825,7 @@ en:
   label_more_than_ago: "more than days ago"
   label_move_work_package: "Move work package"
   label_my_account: "My account"
+  label_my_activity: "My activity"
   label_my_account_data: "My account data"
   label_my_projects: "My projects"
   label_my_queries: "My custom queries"
@@ -1902,7 +1876,6 @@ en:
   label_password_rule_special: "Special Characters"
   label_password_rule_uppercase: "Uppercase"
   label_path_encoding: "Path encoding"
-  label_pdf_with_descriptions: "PDF with Descriptions"
   label_per_page: "Per page"
   label_people: "People"
   label_permissions: "Permissions"
@@ -2054,6 +2027,7 @@ en:
   label_user_plural: "Users"
   label_user_search: "Search for user"
   label_user_settings: "User settings"
+  label_users_settings: "Users settings"
   label_version_new: "New version"
   label_version_plural: "Versions"
   label_version_sharing_descendants: "With subprojects"
@@ -2653,7 +2627,7 @@ en:
   setting_consent_decline_mail: "Consent contact mail address"
   setting_cross_project_work_package_relations: "Allow cross-project work package relations"
   setting_first_week_of_year: "First week in year contains"
-  setting_date_format: "Date format"
+  setting_date_format: "Date"
   setting_default_language: "Default language"
   setting_default_projects_modules: "Default enabled modules for new projects"
   setting_default_projects_public: "New projects are public by default"
@@ -2665,6 +2639,7 @@ en:
   setting_enabled_scm: "Enabled SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Enable Feeds"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_host_name: "Host name"
@@ -2715,9 +2690,9 @@ en:
   setting_start_of_week: "Week starts on"
   setting_sys_api_enabled: "Enable repository management web service"
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
-  setting_time_format: "Time format"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Enable accessibility mode for anonymous users"
-  setting_user_format: "Users display format"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
   setting_users_deletable_by_admins: "User accounts deletable by admins"
   setting_users_deletable_by_self: "Users allowed to delete their accounts"
@@ -2726,6 +2701,7 @@ en:
   setting_welcome_on_homescreen: "Display welcome block on homescreen"
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
+  setting_working_days: "Working days"
 
   settings:
     general: "General"
@@ -2751,11 +2727,16 @@ en:
       first_week_of_year_text: >
         Select the date of January that is contained in the first week of the year.
         This value together with first day of the week determines the total number of weeks in a year.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
+      display_format: "Display format"
       deletion: "Deletion"
     highlighting:
       mode_long:
@@ -2764,6 +2745,9 @@ en:
         status: "Entire row by Status"
         type: "Entire row by Type"
         priority: "Entire row by Priority"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Plain text'
@@ -3192,10 +3176,8 @@ en:
 
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/>
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/>
       Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >

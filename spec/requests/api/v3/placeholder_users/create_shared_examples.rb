@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-shared_context 'create placeholder user request context' do
+RSpec.shared_context 'create placeholder user request context' do
   include API::V3::Utilities::PathHelper
 
   let(:parameters) do
@@ -40,7 +40,7 @@ shared_context 'create placeholder user request context' do
   let(:parsed_response) { JSON.parse(last_response.body) }
 end
 
-shared_examples 'create placeholder user request flow' do
+RSpec.shared_examples 'create placeholder user request flow' do
   include_context 'create placeholder user request context'
 
   describe 'with EE', with_ee: %i[placeholder_users] do

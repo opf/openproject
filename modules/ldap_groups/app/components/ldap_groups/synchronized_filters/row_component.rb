@@ -31,9 +31,6 @@
 module LdapGroups
   module SynchronizedFilters
     class RowComponent < ::RowComponent
-      include ::IconsHelper
-      include ::PasswordHelper
-
       property :base_dn
 
       def synchronized_filter
@@ -53,7 +50,7 @@ module LdapGroups
       end
 
       def sync_users
-        checked_image synchronized_filter.sync_users
+        helpers.checked_image synchronized_filter.sync_users
       end
 
       def button_links

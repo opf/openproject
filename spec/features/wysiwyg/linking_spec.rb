@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe 'Wysiwyg linking',
-         js: true do
+RSpec.describe 'Wysiwyg linking',
+               js: true do
   let(:user) { create(:admin) }
   let(:project) { create(:project, enabled_module_names: %w[wiki work_package_tracking]) }
   let(:editor) { Components::WysiwygEditor.new }

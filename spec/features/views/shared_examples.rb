@@ -1,4 +1,4 @@
-shared_examples 'module specific query view management' do
+RSpec.shared_examples 'module specific query view management' do
   describe 'within a module' do
     let(:query_title) { Components::WorkPackages::QueryTitle.new }
     let(:query_menu) { Components::WorkPackages::QueryMenu.new }

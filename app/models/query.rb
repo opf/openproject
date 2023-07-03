@@ -37,14 +37,17 @@ class Query < ApplicationRecord
   belongs_to :user
   has_many :views,
            dependent: :destroy
+  has_many :ical_token_query_assignments
+  has_many :ical_tokens,
+           through: :ical_token_query_assignments,
+           class_name: 'Token::ICal'
+  # no `dependent: :destroy` as the ical_tokens are destroyed in the following before_destroy callback
+  # dependent: :destroy is not possible as this would only delete the ical_token_query_assignments
+  before_destroy :destroy_ical_tokens
 
   serialize :filters, Queries::WorkPackages::FilterSerializer
   serialize :column_names, Array
   serialize :sort_criteria, Array
-
-  validates :name,
-            presence: true,
-            length: { maximum: 255 }
 
   validates :include_subprojects,
             inclusion: [true, false]
@@ -192,6 +195,14 @@ class Query < ApplicationRecord
     filter.context = self
 
     filter
+  end
+
+  # Removes the filter with the given name
+  # from the query without persisting the change.
+  #
+  # @param [String] name the filter to remove
+  def remove_filter(name)
+    filters.delete_if { |f| f.field.to_s == name.to_s }
   end
 
   def normalized_name
@@ -427,8 +438,7 @@ class Query < ApplicationRecord
 
   def allowed_timestamps
     return timestamps if EnterpriseToken.allows_to?(:baseline_comparison)
-
-    timestamps.reject { |t| t.to_time < Date.yesterday }
+    timestamps.select { |t| t.one_day_ago? || t.to_time >= Date.yesterday }
   end
 
   def valid_filter_subset!
@@ -459,5 +469,11 @@ class Query < ApplicationRecord
 
   def valid_timestamps_subset!
     self.timestamps &= allowed_timestamps
+  end
+
+  # dependent::destroy does not work for has_many :through associations
+  # only the ical_token_query_assignments would be destroyed
+  def destroy_ical_tokens
+    ical_tokens.each(&:destroy)
   end
 end

@@ -28,7 +28,7 @@
 
 require_relative '../spec_helper'
 
-describe Storages::FileLink do
+RSpec.describe Storages::FileLink do
   let(:creator) { create(:user) }
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }

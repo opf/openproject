@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'index users', js: true do
+RSpec.describe 'index users', js: true, with_cuprite: true do
   current_user { create(:admin) }
 
   let(:index_page) { Pages::Admin::Users::Index.new }

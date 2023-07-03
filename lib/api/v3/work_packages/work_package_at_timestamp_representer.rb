@@ -51,9 +51,13 @@ module API
           priority
           type
           version
+          parent
         ].freeze
 
         SUPPORTED_PROPERTIES = (SUPPORTED_NON_LINK_PROPERTIES + SUPPORTED_LINK_PROPERTIES).freeze
+
+        STATIC_NON_LINK_PROPERTIES = %w[_meta].freeze
+        STATIC_LINK_PROPERTIES = ['links', :schema, :self].freeze
 
         def initialize(model, current_user:)
           super(model, current_user:, embed_links:, timestamps: [model.timestamp])
@@ -76,10 +80,10 @@ module API
 
         def rendered_properties
           @rendered_properties ||= begin
-            properties = (changed_properties_as_api_name & SUPPORTED_PROPERTIES) + ['_meta']
+            properties = changed_properties_as_api_name.intersection(SUPPORTED_PROPERTIES) + STATIC_NON_LINK_PROPERTIES
 
             if represented.exists_at_timestamp?
-              properties + ["links", :self]
+              properties + STATIC_LINK_PROPERTIES
             else
               properties
             end
@@ -90,16 +94,20 @@ module API
           # This conversion is good enough for the set of supported properties as it
           # * Converts assigned_to_id to assignee
           # * does not mess with `start_date` and `due_date`
-          represented
-            .attributes_changed_to_baseline
-            .flat_map do |property|
-            if property.ends_with?('_id')
-              API::Utilities::PropertyNameConverter.from_ar_name(property)
-            elsif %w[start_date due_date].include?(property)
-              ['date', property]
-            else
-              property
+          if represented.exists_at_current_timestamp?
+            represented
+              .attributes_changed_to_baseline
+              .flat_map do |property|
+              if property.ends_with?('_id')
+                API::Utilities::PropertyNameConverter.from_ar_name(property)
+              elsif %w[start_date due_date].include?(property)
+                ['date', property]
+              else
+                property
+              end
             end
+          else
+            SUPPORTED_PROPERTIES
           end
         end
       end

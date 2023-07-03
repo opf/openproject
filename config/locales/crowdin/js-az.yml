@@ -65,6 +65,7 @@ az:
     button_confirm: "Təsdiqlə"
     button_continue: "Davam"
     button_copy: "Kopyala"
+    button_copy_to_clipboard: "Copy to clipboard"
     button_copy_to_other_project: "Digər layihəyə kopyala"
     button_custom-fields: "Özəl sahələr"
     button_delete: "Sil"
@@ -105,7 +106,7 @@ az:
       remove_from_list: 'Remove card from list'
     caption_rate_history: "Rate history"
     clipboard:
-      browser_error: "Your browser doesn't support copying to clipboard. Please copy the selected text manually."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Chart type'
@@ -242,7 +243,7 @@ az:
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Start free trial"
           button_upgrade: "Upgrade now"
-          button_contact_us: "Contact us for a demo"
+          button_contact_us: "Demo üçün bizimlə əlaqə saxlayın"
           button_book_now: "Book now"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
@@ -317,6 +318,16 @@ az:
               learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
                 The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to iCalendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Token name"
+      token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
+      token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the iCal URL."
     label_activate: "Activate"
     label_assignee: 'Assignee'
     label_add_column_after: "Add column after"
@@ -328,7 +339,7 @@ az:
     label_add_row_before: "Add row before"
     label_add_selected_columns: "Add selected columns"
     label_added_by: "əlavə edən"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "days ago"
     label_all: "all"
     label_all_work_packages: "bütün iş paketləri"
@@ -356,7 +367,7 @@ az:
     label_closed_work_packages: "closed"
     label_collapse: "Collapse"
     label_collapsed: "collapsed"
-    label_collapse_all: "Collapse all"
+    label_collapse_all: "Hamısını yığcamlaşdır"
     label_comment: "Comment"
     label_committed_at: "%{committed_revision_link} at %{date}"
     label_committed_link: "committed revision %{revision_identifier}"
@@ -368,7 +379,7 @@ az:
     label_equals: "is"
     label_expand: "Genişləndir"
     label_expanded: "genişləndirilmiş"
-    label_expand_all: "Expand all"
+    label_expand_all: "Hamısını genişləndir"
     label_expand_project_menu: "Expand project menu"
     label_export: "İxrac et"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
@@ -667,8 +678,7 @@ az:
         Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
       details_activity: 'Project details activity'
       context: 'Project context'
-      work_package_belongs_to: 'This work package belongs to project %{projectname}.'
-      click_to_switch_context: 'Open this work package in that project.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       use_template: "Use template"
       no_template_selected: "(None)"
@@ -726,7 +736,7 @@ az:
         settings: "Settings"
     time_entry:
       work_package_required: 'Requires selecting a work package first.'
-      title: 'Log time'
+      title: 'Jurnal vaxtı'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:
@@ -817,7 +827,7 @@ az:
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Show Gantt chart'
       button_deactivate: 'Hide Gantt chart'
-      cancel: Cancel
+      cancel: İmtina
       change: "Change in planning"
       due_date: "Finish date"
       empty: "(empty)"
@@ -843,7 +853,7 @@ az:
       project_status: "Project status"
       really_close_dialog: "Do you really want to close the dialog and lose the entered data?"
       responsible: "Responsible"
-      save: Save
+      save: Saxla
       start_date: "Start date"
       tooManyProjects: "More than %{count} Projects. Please use a better filter!"
       selection_mode:
@@ -876,7 +886,7 @@ az:
       heading3: "Heading 3"
       unordered_list: "Unordered List"
       ordered_list: "Ordered List"
-      quote: "Quote"
+      quote: "Sitat"
       unquote: "Unquote"
       preformatted_text: "Preformatted Text"
       wiki_link: "Link to a Wiki page"
@@ -901,7 +911,7 @@ az:
         show_relations: 'Show relations'
         ignore_non_working_days:
           title: 'Working days only'
-      description_filter: "Filter"
+      description_filter: "Filtr"
       description_enter_text: "Enter text"
       description_options_hide: "Hide options"
       description_options_show: "Show options"
@@ -911,7 +921,7 @@ az:
       label_disable_multi_select: "Disable multiselect"
       label_filter_add: "Add filter"
       label_filter_by_text: "Filter by text"
-      label_options: "Options"
+      label_options: "Seçimlər"
       label_column_multiselect: "Combined dropdown field: Select with arrow keys, confirm selection with enter, delete with backspace"
       message_error_during_bulk_delete: An error occurred while trying to delete work packages.
       message_successful_bulk_delete: Successfully deleted work packages.
@@ -924,8 +934,11 @@ az:
         addition_label: 'Added to view within the comparison time period'
         removal_label: 'Removed from view within the comparison time period'
         modification_label: 'Modified within the comparison time period'
+        column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
       filters:
         title: 'Filter work packages'
+        baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
+        baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
         title: 'Click here to add a new work package to this list'
       create:
@@ -1082,23 +1095,24 @@ az:
         display_hierarchy: "Display hierarchy"
         hide_hierarchy: "Hide hierarchy"
         hide_sums: "Hide sums"
-        save: "Save"
-        save_as: "Save as"
-        export: "Export"
+        save: "Saxla"
+        save_as: "Fərqli saxla"
+        export: "İxrac et"
         visibility_settings: "Visibility settings"
+        share_calendar: "Subscribe to iCalendar"
         page_settings: "Rename view"
-        delete: "Delete"
-      filter: "Filter"
+        delete: "Sil"
+      filter: "Filtr"
       unselected_title: "Work package"
       search_query_label: "Search saved views"
     modals:
       label_name: "Name"
       label_delete_page: "Delete current page"
       button_apply: "Apply"
-      button_save: "Save"
+      button_save: "Saxla"
       button_submit: "Submit"
-      button_cancel: "Cancel"
-      button_delete: "Delete"
+      button_cancel: "İmtina"
+      button_delete: "Sil"
       form_submit:
         title: 'Confirm to continue'
         text: 'Are you sure you want to perform this action?'
@@ -1125,10 +1139,10 @@ az:
       button_edit: "%{attribute}: Edit"
       button_save: "%{attribute}: Save"
       button_cancel: "%{attribute}: Cancel"
-      button_save_all: "Save"
-      button_cancel_all: "Cancel"
+      button_save_all: "Saxla"
+      button_cancel_all: "İmtina"
       link_formatting_help: "Text formatting help"
-      btn_preview_enable: "Preview"
+      btn_preview_enable: "İlkin baxılış"
       btn_preview_disable: "Disable preview"
       null_value_label: "No value"
       clear_value_label: "-"
@@ -1162,10 +1176,11 @@ az:
       button_deactivate: 'Deactivate zen mode'
     global_search:
       all_projects: "In all projects"
-      search: "Search"
       close_search: "Close search"
-      current_project: "In this project"
       current_project_and_all_descendants: "In this project + subprojects"
+      current_project: "In this project"
+      recently_viewed: "Recently viewed"
+      search: "Search"
       title:
         all_projects: "all projects"
         project_and_subprojects: "and all subprojects"
@@ -1175,7 +1190,7 @@ az:
       list: 'Table'
       timeline: 'Gantt'
     invite_user_modal:
-      back: 'Back'
+      back: 'Geri'
       invite: 'Invite'
       title:
         invite: 'Invite user'
@@ -1238,7 +1253,7 @@ az:
           user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
-        next_button: 'Continue'
+        next_button: 'Davam'
     include_projects:
       toggle_title: 'Include projects'
       title: 'Projects'
@@ -1258,11 +1273,15 @@ az:
       toggle_title: 'Baseline'
       clear: 'Clear'
       apply: 'Apply'
-      header_description: 'View changes made to work packages in the current view within a time period.'
+      header_description: 'Highlight changes made to this list since any point in the past.'
+      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Show changes since'
-      help_description: 'Default time zone of the instance set by the administrator.'
-      time_description: 'In default time zone: %{time} %{days} day(s).'
+      baseline_comparison: 'Baseline comparison'
+      help_description: 'Reference time zone for the baseline.'
+      time_description: 'In your local time: %{datetime}'
       time: 'Time'
+      from: 'From'
+      to: 'To'
       drop_down:
         none: '-'
         yesterday: 'yesterday'
@@ -1276,6 +1295,11 @@ az:
         now_meets_filter_criteria: 'Now meets filter criteria'
         no_longer_meets_filter_criteria: 'No longer meets filter criteria'
         maintained_with_changes: 'Maintained with changes'
+        in_your_timezone: 'In your local timezone:'
+      icon_tooltip:
+        added: 'Added to view within the comparison time period'
+        removed: 'Removed from view within the comparison time period'
+        changed: 'Maintained with modifications'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'
@@ -1286,4 +1310,4 @@ az:
         remove: 'Remove'
       drop_modal:
         focus_grab: 'This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.'
-        Close: 'Close'
+        Close: 'Bağla'

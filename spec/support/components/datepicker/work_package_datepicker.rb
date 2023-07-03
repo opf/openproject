@@ -9,7 +9,6 @@ module Components
 
       clear_duration
       expect_duration ''
-      expect_start_highlighted
     end
 
     ##

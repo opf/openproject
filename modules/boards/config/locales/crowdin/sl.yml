@@ -7,12 +7,12 @@ sl:
     label_board: "Tabla"
     label_boards: "Table"
     board_types:
-      free: Basic
-      action: "Action board (%{attribute})"
+      free: Osnovno
+      action: "Tabla opravil (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
-      status: Status
-      version: Version
-      subproject: Subproject
-      subtasks: Parent-child
-      basic: Basic
+      assignee: Prevzemnik
+      status: Stanje
+      version: Različica
+      subproject: Podprojekt
+      subtasks: Starš-otrok
+      basic: Osnovno

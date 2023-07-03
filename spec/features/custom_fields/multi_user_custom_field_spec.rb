@@ -1,7 +1,9 @@
 require "spec_helper"
 require "support/pages/work_packages/abstract_work_package"
 
-describe "multi select custom values", js: true do
+RSpec.describe "multi select custom values",
+               js: true,
+               with_cuprite: true do
   shared_let(:admin) { create(:admin) }
   let(:current_user) { admin }
   let(:wp_page) { Pages::FullWorkPackage.new work_package }
@@ -28,7 +30,7 @@ describe "multi select custom values", js: true do
   before do
     login_as current_user
     wp_page.visit!
-    wp_page.ensure_page_loaded
+    wait_for_reload
   end
 
   describe 'with mixed users, group, and placeholdders' do
@@ -143,6 +145,8 @@ describe "multi select custom values", js: true do
         expect(page).to have_text "Anton Lupin"
 
         page.find(".inline-edit--display-field", text: "Billy Nobbler").click
+
+        wait_for_reload
 
         cf_edit_field.unset_value "Anton Lupin", multi: true
         cf_edit_field.set_value "Cooper Quatermaine"

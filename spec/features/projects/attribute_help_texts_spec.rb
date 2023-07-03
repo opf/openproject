@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Project attribute help texts', js: true do
+RSpec.describe 'Project attribute help texts', js: true, with_cuprite: true do
   let(:project) { create(:project) }
 
   let(:instance) do

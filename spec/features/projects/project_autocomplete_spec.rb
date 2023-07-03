@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Projects autocomplete page', js: true do
+RSpec.describe 'Projects autocomplete page', js: true, with_cuprite: true do
   let!(:user) { create(:user) }
   let(:top_menu) { Components::Projects::TopMenu.new }
 
@@ -131,7 +131,7 @@ describe 'Projects autocomplete page', js: true do
     top_menu.clear_search
 
     top_menu.expect_result 'Plain project'
-    top_menu.expect_result '<strong>foobar</strong>'
+    top_menu.expect_result '<strong>foobar</strong>', disabled: true
     top_menu.expect_item_with_hierarchy_level hierarchy_level: 2, item_name: 'Plain other project'
 
     # Show hierarchy of project

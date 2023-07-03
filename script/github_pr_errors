@@ -15,7 +15,7 @@ require 'yaml'
 GITHUB_API_OPENPROJECT_PREFIX = 'https://api.github.com/repos/opf/openproject'.freeze
 GITHUB_HTML_OPENPROJECT_PREFIX = 'https://github.com/opf/openproject'.freeze
 RAILS_ROOT = Pathname.new(__dir__).dirname
-SPEC_PATTERN = %r{^\S+ (?:rspec (\S+) #.+|An error occurred while loading (\S+)\.\r?)$}
+EXCLUDED_JOB_NAMES = %w[eslint rubocop].freeze
 
 if !ENV['GITHUB_USERNAME']
   raise "Missing GITHUB_USERNAME env"
@@ -23,41 +23,97 @@ elsif !ENV['GITHUB_TOKEN']
   raise "Missing GITHUB_TOKEN env, go to https://github.com/settings/tokens and create one with 'repo' access"
 end
 
-def parse_options
-  options = {}
-  opt_parser = OptionParser.new do |parser|
-    parser.banner = <<~BANNER
-      Usage: #{$0} [options]
+class Options
+  DEFAULTS = {
+    compact: false,
+    display_rerun_info: false,
+    failed_jobs_logs: [],
+    no_cache: false,
+    run_id: nil,
+    verbose: false
+  }.freeze
 
-      Fetches rspec failures from last completed GitHub actions on current
-      branch, and outputs them on standard output, one by line.
+  BANNER = <<~BANNER.freeze
+    Usage: #{$0} [options]
 
-      Information is printed on standard error to preserve standard output.
+    Fetches rspec failures from last completed GitHub actions on current
+    branch, and outputs them on standard output, one by line.
 
-      Use this script with xargs to run failing specs locally:
+    Information is printed on standard error to preserve standard output.
 
-          #{$0} | xargs --no-run-if-empty bundle exec rspec
+    Use this script with xargs to run failing specs locally:
+
+        #{$0} | xargs --no-run-if-empty bundle exec rspec
 
 
-      Options:
-    BANNER
+    Options:
+  BANNER
 
-    parser.on("-c", "--compact", "Output all failing rspec files on one line") do
-      options[:compact] = true
+  class << self
+    def options
+      @options ||= parse_options
     end
 
-    parser.on("-r RUN_ID", "--run-id RUN_ID", Integer,
-              "The workflow run id to use (in github url: actions/runs/{id})") do |value|
-      options[:run_id] = value
+    def method_missing(name, *)
+      if DEFAULTS.key?(name)
+        options[name]
+      else
+        super
+      end
     end
 
-    parser.on("-h", "--help", "Prints this help") do
-      puts parser
-      exit
+    def respond_to_missing?(method_name, include_private = false)
+      DEFAULTS.key?(name) || super
+    end
+
+    def parse_options
+      options = DEFAULTS.dup
+      opt_parser = OptionParser.new do |parser|
+        parser.banner = BANNER
+
+        parser.on("-c", "--compact", "Output all failing rspec files on one line") do
+          options[:compact] = true
+        end
+
+        parser.on("-d", "--display-rerun-info",
+                  "Displays rspec rerun instructions like CI with seed") do
+          options[:display_rerun_info] = true
+        end
+
+        parser.on("-f PATH", "--failed-job-log PATH",
+                  "Use given file as failed job log instead of downloading from GitHub. Can be used multiple times.") do |path|
+          options[:failed_jobs_logs] << path
+        end
+
+        parser.on("-n", "--no-cache", "Do not use cached replies from GitHub API calls") do
+          options[:no_cache] = true
+        end
+
+        parser.on("-r RUN_ID", "--run-id RUN_ID", Integer,
+                  "The workflow run id to use (in github url: actions/runs/{id})") do |value|
+          options[:run_id] = value
+        end
+
+        parser.on("-h", "--help", "Prints this help") do
+          puts parser
+          exit
+        end
+
+        parser.on("-v", "--verbose",
+                  "Print more information, mostly useful for debugging") do |value|
+          options[:verbose] = true
+        end
+      end
+      opt_parser.parse!
+      options
     end
   end
-  opt_parser.parse!
-  options
+end
+
+def say_verbose(text)
+  return unless Options.verbose
+
+  warn "| #{text}"
 end
 
 # Returns current branch
@@ -73,12 +129,15 @@ def get_http(path)
       "#{GITHUB_API_OPENPROJECT_PREFIX}/#{path}"
     end
 
+  say_verbose("HTTP GET #{url}")
   response = RestClient::Request.new(
     method: :get,
     url:,
     user: ENV.fetch('GITHUB_USERNAME'),
     password: ENV.fetch('GITHUB_TOKEN')
   ).execute
+
+  say_verbose("HTTP Response #{response.code}")
 
   response.to_str
 rescue RestClient::ExceptionWithResponse => e
@@ -94,7 +153,8 @@ def error_details(rest_client_exception_with_response)
   error = JSON.parse(response.body)
 
   parts = []
-  parts << "Failed to perform API request #{response.request.method.upcase} #{response.request.url}: #{rest_client_exception_with_response}"
+  parts << "Failed to perform API request #{response.request.method.upcase} #{response.request.url}: " \
+           "#{rest_client_exception_with_response}"
   parts << "  #{error['message']}"
   parts << "  See #{error['documentation_url']}"
   parts += rest_client_exception_with_response.backtrace.map { "    #{_1}" }
@@ -110,12 +170,6 @@ def path_to_cache_key(path)
     .gsub(/\?.*$/, '') # remove query parameter
     .gsub(/^#{GITHUB_API_OPENPROJECT_PREFIX}\/?/, '') # remove https://.../
     .gsub(/\W/, '_') # transform non alphanum chars
-end
-
-def commit_message(workflow_run)
-  workflow_run['head_commit']
-    .then { |commit| commit["message"] }
-    .then { |message| message.split("\n", 2).first }
 end
 
 def get_jobs(workflow_run)
@@ -134,45 +188,22 @@ def get_log(job)
 end
 
 def cached(unique_name)
+  if Options.no_cache
+    return yield
+  end
+
   cached_file = RAILS_ROOT.join("tmp/github_pr_errors/#{unique_name}")
   if cached_file.file?
+    say_verbose("Reading from cached file #{cached_file}")
     content = cached_file.read
     content.start_with?("---") ? YAML::load(content) : content
   else
     content = yield
+    say_verbose("Writing to cached file #{cached_file}")
     cached_file.dirname.mkpath
     cached_file.write(content.is_a?(String) ? content : YAML::dump(content))
     content
   end
-end
-
-def status_icon(job)
-  case job['status']
-  when "queued", "in_progress"
-    "●".yellow
-  else
-    case job['conclusion']
-    when "success"
-      "✓".green
-    when "failure"
-      "✗".red
-    else
-      "-"
-    end
-  end
-end
-
-def status_url(job)
-  return if job['conclusion'] == "success"
-
-  job['html_url'].white.dark
-end
-
-def status_line(job)
-  [
-    "#{status_icon(job)} #{job['name']}: #{job['conclusion'] || job['status']}",
-    status_url(job)
-  ].compact.join("  ")
 end
 
 def last_with_status(workflow_runs, status)
@@ -203,60 +234,319 @@ def get_workflow_run(run_id)
   end
 end
 
-def display_pull_request_info(workflow_run)
-  return unless workflow_run['event'] == 'pull_request'
-
-  pr = workflow_run['pull_requests'].first or
-    raise "Pull Request info cannot be found, perhaps it is already merged or closed?"
-  pr_number = "##{pr['number']}"
-  pr_html_url = "#{GITHUB_HTML_OPENPROJECT_PREFIX}/pull/#{pr['number']}"
-  pr_display_title = "#{workflow_run['display_title']} #{pr_number.white.dark} #{pr_html_url.white.dark}"
-  warn "  Pull Request: #{pr_display_title} "
+class Error
+  attr_accessor :location, :page_html, :page_screenshot, :tests_group, :loading_error
 end
 
-def display_workflow_run_info(workflow_run)
-  warn "  Branch: #{workflow_run['head_branch'].bold}"
-  warn "  Commit SHA: #{workflow_run['head_sha'].bold}"
-  warn "  Commit message: #{commit_message(workflow_run).bold}"
-  display_pull_request_info(workflow_run)
+# rubocop:disable Layout/LineLength
+# Looks like this in the job log:
+# Process 28: TEST_ENV_NUMBER=28 RUBYOPT=-I/usr/local/bundle/bundler/gems/turbo_tests-3148ae6c3482/lib -r/usr/local/bundle/gems/bundler-2.4.7/lib/bundler/setup -W0 RSPEC_SILENCE_FILTER_ANNOUNCEMENTS=1 /usr/local/bundle/gems/bundler-2.4.7/exe/bundle exec rspec --seed 52674 --format TurboTests::JsonRowsFormatter --out tmp/test-pipes/subprocess-28 --format ParallelTests::RSpec::RuntimeLogger --out spec/support/turbo_runtime_features.log spec/features/api_docs/index_spec.rb spec/features/custom_fields/reorder_options_spec.rb spec/features/projects/projects_portfolio_spec.rb spec/features/projects/template_spec.rb spec/features/versions/edit_spec.rb spec/features/work_packages/details/markdown/description_editor_spec.rb spec/features/work_packages/table/hierarchy/hierarchy_parent_below_spec.rb spec/features/work_packages/table/inline_create/inline_create_refresh_spec.rb spec/features/work_packages/table/invalid_query_spec.rb spec/features/work_packages/tabs/activity_revisions_spec.rb
+# rubocop:enable Layout/LineLength
+class TestsGroup
+  attr_accessor :test_env_number, :seed, :files
+
+  def initialize
+    @files = []
+  end
+
+  def include_error?(error)
+    return false if error.location.nil?
+
+    files.any? { |file| error.location.include?(file) }
+  end
+
+  def inspect
+    "#<#{self.class} @test_env_number=#{test_env_number} @seed=#{seed} (#{files.count} files)>"
+  end
+end
+
+class JobErrorsFinder
+  SPEC_FAILURES_PATTERN = %r{^\S+ rspec (\S+) #.+$}
+  SPEC_LOADING_ERRORS_PATTERN = %r{^\S+ An error occurred while loading (\S+)\.\r?$}
+  SCREENSHOT_PATTERN = /\{"message":"Screenshot captured for failed feature test"[^\n]+$/
+  TESTS_GROUP_PATTERN = /Process \d+: TEST_ENV_NUMBER=\d+ [^\n]+$/
+
+  def self.scan_logs(logs)
+    finder = new
+    logs.each do |log|
+      finder.scan_log(log)
+    end
+    finder.errors
+  end
+
+  def scan_log(log)
+    find_failures(log)
+    find_loading_errors(log)
+    find_screenshots(log)
+    find_tests_groups(log)
+  end
+
+  def errors
+    @errors.values
+  end
+
+  protected
+
+  def initialize
+    @errors = {}
+  end
+
+  def create_error(location)
+    return if location.nil?
+
+    error = Error.new
+    error.location = location
+    @errors[location] ||= error
+  end
+
+  def with_matching_error(location: nil, id: nil)
+    error = @errors[id] || @errors[location]
+    yield error if error && block_given?
+    error
+  end
+
+  def find_failures(log)
+    log.scan(SPEC_FAILURES_PATTERN)
+      .flatten
+      .uniq
+      .sort
+      .each do |rerun_location|
+        create_error(rerun_location)
+      end
+  end
+
+  def find_loading_errors(log)
+    log.scan(SPEC_LOADING_ERRORS_PATTERN)
+      .flatten
+      .uniq
+      .sort
+      .each do |location|
+        error = create_error(location)
+        error.loading_error = true
+      end
+  end
+
+  def find_screenshots(log)
+    log.scan(SCREENSHOT_PATTERN)
+      .map { JSON.parse _1 }
+      .each do |screenshot_info|
+        id = screenshot_info["test_id"]
+        location = screenshot_info["test_location"]
+        with_matching_error(location:, id:) do |error|
+          error.page_html = screenshot_info["html"]
+          error.page_screenshot = screenshot_info["image"]
+        end
+      end
+  end
+
+  def find_tests_groups(log)
+    tests_groups = log
+      .scan(TESTS_GROUP_PATTERN)
+      .flatten
+      .map { build_tests_group_from_command(_1) }
+
+    errors.each do |error|
+      error.tests_group = tests_groups.find { _1.include_error?(error) }
+    end
+  end
+
+  def build_tests_group_from_command(line)
+    tests_group = TestsGroup.new
+    parts = line.split
+    while parts.any?
+      case part = parts.shift
+      when /^TEST_ENV_NUMBER=/
+        tests_group.test_env_number = part.delete_prefix("TEST_ENV_NUMBER=")
+      when "--seed"
+        tests_group.seed = parts.shift
+      when /_spec.rb$/
+        tests_group.files << part
+      end
+    end
+    tests_group
+  end
+end
+
+class Formatter
+  def initialize(compact: false)
+    @compact = compact
+  end
+
+  def compact?
+    @compact
+  end
+
+  def display_workflow_run_info(workflow_run)
+    warn "  Branch: #{workflow_run['head_branch'].bold}"
+    warn "  Commit SHA: #{workflow_run['head_sha'].bold}"
+    warn "  Commit message: #{commit_message(workflow_run).bold}"
+    display_pull_request_info(workflow_run)
+  end
+
+  def display_workflow_status(workflow_run)
+    warn "  #{status_line(workflow_run)}"
+  end
+
+  def display_job_status(job)
+    warn "    #{status_line(job)}"
+  end
+
+  def display_errors(errors)
+    if errors.empty?
+      warn "No rspec errors found :-/"
+    elsif compact?
+      display_errors_compact(errors)
+    else
+      display_errors_detailed(errors)
+    end
+  end
+
+  private
+
+  def display_errors_compact(errors)
+    puts errors.map { escaped_location(_1) }.join(" ")
+  end
+
+  def display_errors_detailed(errors)
+    if Options.display_rerun_info
+      errors
+        .sort_by { |error| [error.tests_group.test_env_number.to_i, error.location] }
+        .group_by(&:tests_group)
+        .each do |tests_group, tests_group_errors|
+          display_tests_group_info(tests_group)
+          tests_group_errors.each { display_error(_1) }
+          display_tests_group_rerun_commands(tests_group)
+        end
+    else
+      errors
+        .sort_by(&:location)
+        .each { display_error(_1) }
+    end
+  end
+
+  def display_error(error)
+    puts escaped_location(error)
+    display_error_attribute("loading error", error.loading_error)
+    display_error_attribute("html", error.page_html)
+    display_error_attribute("screenshot", error.page_screenshot)
+  end
+
+  def display_error_attribute(name, value)
+    return unless value
+
+    warn [
+      "    ",
+      '↳'.blue.bold,
+      " ",
+      name.blue,
+      ": ",
+      value.to_s.blue
+    ].join
+  end
+
+  def display_tests_group_info(tests_group)
+    return unless tests_group
+
+    warn "Tests group ##{tests_group.test_env_number}".bold
+  end
+
+  def display_tests_group_rerun_commands(tests_group)
+    return unless tests_group
+
+    warn "To run the tests group in the same order as CI, use this command:".white.dark
+    warn "CI=true bundle exec rspec --seed #{tests_group.seed} #{tests_group.files.join(' ')}".white.dark
+    warn ""
+  end
+
+  def display_pull_request_info(workflow_run)
+    return unless workflow_run['event'] == 'pull_request'
+
+    pr = workflow_run['pull_requests'].first or
+      raise "Pull Request info cannot be found, perhaps it is already merged or closed?"
+    pr_number = "##{pr['number']}"
+    pr_html_url = "#{GITHUB_HTML_OPENPROJECT_PREFIX}/pull/#{pr['number']}"
+    pr_display_title = "#{workflow_run['display_title']} #{pr_number.white.dark} #{pr_html_url.white.dark}"
+    warn "  Pull Request: #{pr_display_title} "
+  end
+
+  def commit_message(workflow_run)
+    workflow_run['head_commit']
+      .then { |commit| commit["message"] }
+      .then { |message| message.split("\n", 2).first }
+  end
+
+  def status_icon(job)
+    case job['status']
+    when "queued", "in_progress"
+      "●".yellow
+    else
+      case job['conclusion']
+      when "success"
+        "✓".green
+      when "failure"
+        "✗".red
+      else
+        "-"
+      end
+    end
+  end
+
+  def status_url(job)
+    return if job['conclusion'] == "success"
+
+    job['html_url'].white.dark
+  end
+
+  def status_line(job)
+    [
+      "#{status_icon(job)} #{job['name']}: #{job['conclusion'] || job['status']}",
+      status_url(job)
+    ].compact.join("  ")
+  end
+
+  def escaped_location(error)
+    "'#{error.location}'"
+  end
+end
+
+def get_failed_jobs_logs_from_github(formatter)
+  workflow_run = get_workflow_run(Options.run_id)
+
+  formatter.display_workflow_run_info(workflow_run)
+
+  formatter.display_workflow_status(workflow_run)
+  get_jobs(workflow_run)
+    .then { |jobs_response| jobs_response['jobs'] }
+    .sort_by { _1['name'] }
+    .each { |job| formatter.display_job_status(job) }
+    .select { _1['conclusion'] == 'failure' }
+    .reject { EXCLUDED_JOB_NAMES.include?(_1['name']) }
+    .map { |job| get_log(job) }
+end
+
+def get_failed_jobs_logs_from_args
+  Options.failed_jobs_logs.map { |path| File.read(path) }
+end
+
+def get_failed_jobs_logs(formatter)
+  if Options.failed_jobs_logs.any?
+    get_failed_jobs_logs_from_args
+  else
+    get_failed_jobs_logs_from_github(formatter)
+  end
 end
 
 ##########
 
-options = parse_options
+formatter = Formatter.new(compact: Options.compact)
 
-workflow_run = get_workflow_run(options[:run_id])
+failed_jobs_logs = get_failed_jobs_logs(formatter)
 
-display_workflow_run_info(workflow_run)
-
-errors = []
-is_successful = true
-warn "  #{status_line(workflow_run)}"
-get_jobs(workflow_run)
-  .then { |jobs_response| jobs_response['jobs'] }
-  .sort_by { _1['name'] }
-  .each { |job| warn "    #{status_line(job)}" }
-  .select { _1['conclusion'] == 'failure' }
-  .reject { _1['name'] == 'rubocop' }
-  .each do |job|
-    is_successful = false
-    get_log(job)
-      .scan(SPEC_PATTERN)
-      .flatten
-      .compact
-      .uniq
-      .sort
-      .each do |match|
-      errors << match
-    end
-  end
+is_successful = failed_jobs_logs.none?
+errors = JobErrorsFinder.scan_logs(failed_jobs_logs)
 
 if is_successful
   warn "All jobs successful 🎉"
-elsif errors.empty?
-  warn "No rspec errors found :-/"
 else
-  errors = errors.map { "'#{_1}'" }
-  errors = errors.join(" ") if options[:compact]
-  puts errors
+  formatter.display_errors(errors)
 end

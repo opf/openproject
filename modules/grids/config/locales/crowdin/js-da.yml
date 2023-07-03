@@ -36,7 +36,7 @@ da:
           off_track: 'Af sporet'
           at_risk: 'I fare'
           not_set: 'Ikke angivet'
-          finished: 'Finished'
+          finished: 'Afsluttet'
           discontinued: 'Discontinued'
         subprojects:
           title: 'Underprojekter'

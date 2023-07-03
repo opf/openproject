@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe API::V3::WorkPackages::Schema::WorkPackageSumsSchema do
+RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSumsSchema do
   let(:current_user) { double('current user') }
 
   subject { described_class.new }

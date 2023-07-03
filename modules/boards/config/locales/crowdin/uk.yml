@@ -7,12 +7,12 @@ uk:
     label_board: "Дошка"
     label_boards: "Дошки"
     board_types:
-      free: Basic
-      action: "Action board (%{attribute})"
+      free: Базова
+      action: "Дошка дій (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
-      status: Status
-      version: Version
-      subproject: Subproject
-      subtasks: Parent-child
-      basic: Basic
+      assignee: Виконавець
+      status: Статус
+      version: Версія
+      subproject: Підпроєкт
+      subtasks: Батьківські й дочірні елементи
+      basic: Базова

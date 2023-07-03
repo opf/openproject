@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'version edit' do
+RSpec.describe 'version edit' do
   let(:user) do
     create(:user,
            member_in_project: version.project,

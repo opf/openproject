@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-describe OpenProject::TwoFactorAuthentication::TokenStrategyManager do
+RSpec.describe OpenProject::TwoFactorAuthentication::TokenStrategyManager do
   let(:dev_strategy) { OpenProject::TwoFactorAuthentication::TokenStrategy::Developer }
   let(:totp_strategy) { OpenProject::TwoFactorAuthentication::TokenStrategy::Totp }
   let(:configuration) do

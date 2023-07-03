@@ -185,11 +185,14 @@ import { OpBaselineModalComponent } from 'core-app/features/work-packages/compon
 import { OpBaselineComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline/baseline.component';
 import { OpBaselineLoadingComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline-loading/baseline-loading.component';
 import { OpBaselineLegendsComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline-legends/baseline-legends.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { RecentItemsService } from 'core-app/core/recent-items.service';
 
 @NgModule({
   imports: [
     // Commons
     OpSharedModule,
+    NgSelectModule,
     // Display + Edit field functionality
     OpenprojectFieldsModule,
     // CKEditor
@@ -244,6 +247,8 @@ import { OpBaselineLegendsComponent } from 'core-app/features/work-packages/comp
 
     StoragesResourceService,
     ProjectStoragesResourceService,
+
+    RecentItemsService,
   ],
   declarations: [
     // Routing

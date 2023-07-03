@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CostTypesController do
+RSpec.describe CostTypesController do
   describe 'routing' do
     it {
       expect(get('/cost_types')).to route_to(controller: 'cost_types',

@@ -30,7 +30,7 @@ require 'spec_helper'
 
 Strategies = OpenProject::Authentication::Strategies::Warden
 
-describe Strategies::GlobalBasicAuth do
+RSpec.describe Strategies::GlobalBasicAuth do
   let(:user) { 'someuser' }
   let(:password) { 'somepassword' }
 
@@ -48,7 +48,7 @@ describe Strategies::GlobalBasicAuth do
     end
 
     it 'raises an error' do
-      expect(config).to raise_error("global user must not be 'schluessel'")
+      expect(&config).to raise_error("global user must not be 'schluessel'")
     end
   end
 
@@ -56,7 +56,7 @@ describe Strategies::GlobalBasicAuth do
     let(:password) { '' }
 
     it 'raises an error' do
-      expect(config).to raise_error('password must not be empty')
+      expect(&config).to raise_error('password must not be empty')
     end
   end
 

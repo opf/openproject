@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative '../shared_expectations'
 
-describe CustomActions::Actions::DueDate do
+RSpec.describe CustomActions::Actions::DueDate do
   let(:key) { :due_date }
   let(:type) { :date_property }
   let(:value) { Date.today }

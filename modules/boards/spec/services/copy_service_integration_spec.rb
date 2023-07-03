@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Projects::CopyService, 'integration', type: :model do
+RSpec.describe Projects::CopyService, 'integration', type: :model do
   let(:current_user) do
     create(:user,
            member_in_project: source,

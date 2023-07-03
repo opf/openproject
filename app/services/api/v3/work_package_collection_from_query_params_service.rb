@@ -35,11 +35,11 @@ module API
       end
 
       def call(params = {})
-        query = Query.new_default(name: '_', project: params[:project])
+        query = Query.new_default(project: params[:project])
 
         WorkPackageCollectionFromQueryService
           .new(query, current_user, scope:)
-          .call(params)
+          .call(params, valid_subset: params['valid_subset'].present?)
       end
 
       private

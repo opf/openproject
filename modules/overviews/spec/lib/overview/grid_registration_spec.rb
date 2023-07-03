@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Overviews::GridRegistration do
+RSpec.describe Overviews::GridRegistration do
   let(:user) { build_stubbed(:user) }
   let(:project) { build_stubbed(:project) }
   let(:grid) { build_stubbed(:overview, project:) }

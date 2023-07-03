@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CostlogController do
+RSpec.describe CostlogController do
   describe 'routing' do
     it {
       expect(get('/projects/blubs/cost_entries/new')).to route_to(controller: 'costlog',

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Principals::ReplaceReferencesService, '#call', type: :model do
+RSpec.describe Principals::ReplaceReferencesService, '#call', type: :model do
   shared_let(:principal) { create(:user) }
   shared_let(:to_principal) { create(:user) }
 

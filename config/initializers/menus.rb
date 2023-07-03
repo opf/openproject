@@ -35,6 +35,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             { controller: '/projects', project_id: nil, action: 'index' },
             context: :modules,
             caption: I18n.t('label_projects_menu'),
+            icon: 'projects',
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?)
             }
@@ -42,6 +43,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             { controller: '/work_packages', project_id: nil, state: nil, action: 'index' },
             context: :modules,
             caption: I18n.t('label_work_package_plural'),
+            icon: 'work-packages',
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?) &&
                 User.current.allowed_to_globally?(:view_work_packages)
@@ -50,6 +52,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             { controller: '/news', project_id: nil, action: 'index' },
             context: :modules,
             caption: I18n.t('label_news_plural'),
+            icon: 'news',
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?) &&
                 User.current.allowed_to_globally?(:view_news)
@@ -95,6 +98,10 @@ Redmine::MenuManager.map :account_menu do |menu|
   menu.push :my_page,
             :my_page_path,
             caption: I18n.t('js.my_page.label'),
+            if: Proc.new { User.current.logged? }
+  menu.push :my_profile,
+            { controller: '/users', action: 'show', id: 'me' },
+            caption: :label_my_activity,
             if: Proc.new { User.current.logged? }
   menu.push :my_account,
             { controller: '/my', action: 'account' },
@@ -143,6 +150,10 @@ Redmine::MenuManager.map :my_menu do |menu|
             { controller: '/my', action: 'access_token' },
             caption: I18n.t('my_account.access_tokens.access_tokens'),
             icon: 'key'
+  menu.push :sessions,
+            { controller: '/my/sessions', action: :index },
+            caption: :'users.sessions.title',
+            icon: 'installation-services'
   menu.push :notifications,
             { controller: '/my', action: 'notifications' },
             caption: I18n.t('js.notifications.settings.title'),
@@ -189,7 +200,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :user_settings,
             { controller: '/admin/settings/users_settings', action: :show },
             if: Proc.new { User.current.admin? },
-            caption: :label_setting_plural,
+            caption: :label_users_settings,
             parent: :users_and_permissions
 
   menu.push :users,
@@ -280,11 +291,23 @@ Redmine::MenuManager.map :admin_menu do |menu|
             if: Proc.new { User.current.admin? },
             icon: 'enumerations'
 
+  menu.push :calendars_and_dates,
+            { controller: '/admin/settings/working_days_settings', action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_calendars_and_dates,
+            icon: 'calendar'
+
   menu.push :working_days,
             { controller: '/admin/settings/working_days_settings', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_working_days,
-            icon: 'calendar'
+            parent: :calendars_and_dates
+
+  menu.push :date_format,
+            { controller: '/admin/settings/date_format_settings', action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_date_format,
+            parent: :calendars_and_dates
 
   menu.push :settings,
             { controller: '/admin/settings/general_settings', action: :show },
@@ -296,7 +319,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
     menu.push :"settings_#{node[:name]}",
               { controller: node[:controller], action: :show },
               caption: node[:label],
-              if: Proc.new { User.current.admin? },
+              if: Proc.new { User.current.admin? && node[:name] != 'experimental' },
               parent: :settings
   end
 

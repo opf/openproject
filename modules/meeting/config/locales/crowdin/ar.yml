@@ -39,7 +39,7 @@ ar:
       meeting_minutes: "محضر الجلسة"
   activity:
     filter:
-      meeting: "Meetings"
+      meeting: "الاجتماعات"
   description_attended: "حَضَر"
   description_invite: "دعا"
   events:

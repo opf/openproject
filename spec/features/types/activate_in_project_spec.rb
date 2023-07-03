@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'support/pages/custom_fields'
 
-describe 'types', js: true do
+RSpec.describe 'types', js: true, with_cuprite: true do
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -42,7 +42,7 @@ describe 'types', js: true do
   let(:work_packages_page) { Pages::WorkPackagesTable.new(project) }
 
   before do
-    login_as(user)
+    login_as user
   end
 
   it 'is only visible in the project if it has been activated' do

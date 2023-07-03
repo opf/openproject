@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-describe 'Arbitrary WorkPackage query table widget dashboard', js: true, with_mail: false do
+RSpec.describe 'Arbitrary WorkPackage query table widget dashboard', js: true, with_mail: false do
   let!(:type) { create(:type) }
   let!(:other_type) { create(:type) }
   let!(:priority) { create(:default_priority) }

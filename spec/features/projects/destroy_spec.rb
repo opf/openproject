@@ -28,8 +28,9 @@
 
 require 'spec_helper'
 
-describe 'Projects#destroy',
-         js: true do
+RSpec.describe 'Projects#destroy',
+               js: true,
+               with_cuprite: true do
   let!(:project) { create(:project, name: 'foo', identifier: 'foo') }
   let(:project_page) { Pages::Projects::Destroy.new(project) }
   let(:danger_zone) { DangerZone.new(page) }

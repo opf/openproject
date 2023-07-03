@@ -30,10 +30,12 @@ import { NgModule } from '@angular/core';
 import { MembersAutocompleterComponent } from 'core-app/shared/components/autocompleter/members-autocompleter/members-autocompleter.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { OpSharedModule } from 'core-app/shared/shared.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     OpSharedModule,
+    FormsModule,
     NgSelectModule,
   ],
   exports: [],

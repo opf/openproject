@@ -7,7 +7,6 @@
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
-      "prefix": "",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -63,6 +62,7 @@
           },
           "configurations": {
             "production": {
+              "index": "",
               "budgets": [
                 {
                   "type": "anyComponentStyle",
@@ -177,6 +177,9 @@
     }
   },
   "cli": {
-    "analytics": false
+    "analytics": false,
+    "cache": {
+      "environment": "all"
+    }
   }
 }

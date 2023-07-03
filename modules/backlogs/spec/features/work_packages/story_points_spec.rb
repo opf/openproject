@@ -28,12 +28,11 @@
 
 require 'spec_helper'
 
-describe 'Work packages having story points', js: true do
+RSpec.describe 'Work packages having story points', js: true do
   before do
     allow(User).to receive(:current).and_return current_user
     allow(Setting).to receive(:plugin_openproject_backlogs).and_return('points_burn_direction' => 'down',
                                                                        'wiki_template' => '',
-                                                                       'card_spec' => 'Sattleford VM-5040',
                                                                        'story_types' => [story_type.id.to_s],
                                                                        'task_type' => task_type.id.to_s)
   end
@@ -65,8 +64,6 @@ describe 'Work packages having story points', js: true do
       wp_page.expect_subject
 
       wp_page.expect_attributes storyPoints: story_points
-
-      wp_page.ensure_page_loaded
     end
   end
 end

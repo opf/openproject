@@ -31,9 +31,9 @@ require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 require 'support/edit_fields/edit_field'
 
-describe 'Activity tab',
-         js: true,
-         selenium: true do
+RSpec.describe 'Activity tab',
+               js: true,
+               selenium: true do
   def alter_work_package_at(work_package, attributes:, at:, user: User.current)
     work_package.update(attributes.merge(updated_at: at))
 

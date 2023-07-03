@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'support/pages/custom_fields'
 
-describe 'custom fields', js: true do
+RSpec.describe 'custom fields', js: true, with_cuprite: true do
   let(:user) { create(:admin) }
   let(:cf_page) { Pages::CustomFields.new }
   let(:for_all_cf) { create(:list_wp_custom_field, is_for_all: true) }
@@ -37,15 +37,14 @@ describe 'custom fields', js: true do
   let(:work_package) do
     wp = build(:work_package).tap do |wp|
       wp.type.custom_fields = [for_all_cf, project_specific_cf]
+      wp.save!
     end
-    wp.save!
-    wp
   end
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
   let(:project_settings_page) { Pages::Projects::Settings.new(work_package.project) }
 
   before do
-    login_as(user)
+    login_as user
   end
 
   it 'is only visible in the project if it has been activated' do

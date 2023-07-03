@@ -7,12 +7,12 @@ it:
     label_board: "Tabellone"
     label_boards: "Tabelloni"
     board_types:
-      free: Basic
-      action: "Action board (%{attribute})"
+      free: Base
+      action: "Scheda d'azione (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
-      status: Status
-      version: Version
-      subproject: Subproject
-      subtasks: Parent-child
-      basic: Basic
+      assignee: Assegnatario
+      status: Stato
+      version: Versione
+      subproject: Sottoprogetto
+      subtasks: genitore-figlio
+      basic: Base

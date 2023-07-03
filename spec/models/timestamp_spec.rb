@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Timestamp do
+RSpec.describe Timestamp do
   describe ".new" do
     describe "when calling without argument" do
       subject { described_class.new }
@@ -100,17 +100,26 @@ describe Timestamp do
 
       {
         'PT1H' => 'PT1H',
-        'PT0001H' => 'PT0001H',
-        'PT0009H' => 'PT0009H',
+        'PT0001H' => 'PT1H',
+        'PT0009H' => 'PT9H',
         'PT-1H' => 'PT-1H',
-        '+PT1H' => '+PT1H',
-        '-PT1H' => '-PT1H',
-        '-PT-1H' => '-PT-1H',
+        '+PT1H' => 'PT1H',
+        '-PT1H' => 'PT-1H',
+        '-PT-1H' => 'PT1H',
         '  PT1H  ' => 'PT1H',
-        '-P1M-1DT1H-02M' => '-P1M-1DT1H-02M'
+        '-P1M-1DT1H-02M' => 'P-1M1DT-1H2M'
       }.each do |input, expected|
-        it "parses #{input.inspect} into #{expected.inspect}" do
-          expect(described_class.parse(input).to_s).to eq(expected)
+        context "with the duration #{input.inspect}" do
+          subject { described_class.parse(input) }
+
+          it "keeps the original duration string intact" do
+            expect(subject).to eq(input.strip)
+          end
+
+          it "parses into #{expected.inspect}" do
+            expect(subject).to be_duration
+            expect(subject.to_duration.iso8601).to eq(expected)
+          end
         end
       end
     end

@@ -41,7 +41,7 @@ fa:
       material_budget_item: "Unit"
   activity:
     filter:
-      budget: "Budgets"
+      budget: "بودجه ها"
   attributes:
     budget: "بودجه"
   button_add_budget_item: "Add planned costs"

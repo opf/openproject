@@ -27,10 +27,11 @@ import {
   NEVER,
   Observable,
   of,
+  timer,
   Subject,
 } from 'rxjs';
 import {
-  debounceTime,
+  debounce,
   distinctUntilChanged,
   filter,
   switchMap,
@@ -215,16 +216,18 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
   @ViewChild('ngSelectInstance') ngSelectInstance:NgSelectComponent;
 
   @ContentChild(OpAutocompleterOptionTemplateDirective, { read: TemplateRef })
-  optionTemplate:TemplateRef<any>;
+    optionTemplate:TemplateRef<Element>;
 
   @ContentChild(OpAutocompleterLabelTemplateDirective, { read: TemplateRef })
-  labelTemplate:TemplateRef<any>;
+    labelTemplate:TemplateRef<Element>;
 
   @ContentChild(OpAutocompleterHeaderTemplateDirective, { read: TemplateRef })
-  headerTemplate:TemplateRef<any>;
+    headerTemplate:TemplateRef<Element>;
 
   @ContentChild(OpAutocompleterFooterTemplateDirective, { read: TemplateRef })
-  footerTemplate:TemplateRef<any>;
+    footerTemplate:TemplateRef<Element>;
+
+  initialDebounce = true;
 
   constructor(
     readonly opAutocompleterService:OpAutocompleterService,
@@ -369,8 +372,8 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
     return this.typeahead.pipe(
       filter(() => !!(this.defaultData || this.getOptionsFn)),
       distinctUntilChanged(),
-      debounceTime(250),
       tap(() => this.loading$.next(true)),
+      debounce(() => timer(this.getDebounceTimeout())),
       switchMap((queryString:string) => {
         if (this.defaultData) {
           return this.opAutocompleterService.loadData(queryString, this.resource, this.filters, this.searchKey);
@@ -387,5 +390,13 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
         () => this.loading$.next(false),
       ),
     );
+  }
+
+  private getDebounceTimeout():number {
+    if (this.initialDebounce) {
+      this.initialDebounce = false;
+      return 0;
+    }
+    return 50;
   }
 }

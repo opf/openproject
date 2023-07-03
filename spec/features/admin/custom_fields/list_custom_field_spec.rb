@@ -28,7 +28,9 @@
 
 require 'spec_helper'
 
-describe 'List custom fields edit', js: true do
+RSpec.describe 'List custom fields edit',
+               js: true,
+               with_cuprite: true do
   shared_let(:admin) { create(:admin) }
 
   before do
@@ -40,11 +42,12 @@ describe 'List custom fields edit', js: true do
     # Create CF
     click_on 'Create a new custom field'
 
-    SeleniumHubWaiter.wait
+    wait_for_reload
+
     fill_in 'custom_field_name', with: 'My List CF'
     select 'List', from: 'custom_field_field_format'
 
-    expect(page).to have_selector('input#custom_field_custom_options_attributes_0_value')
+    expect(page).to have_field('custom_field_custom_options_attributes_0_value')
     fill_in 'custom_field_custom_options_attributes_0_value', with: 'A'
 
     click_on 'Save'
@@ -55,10 +58,9 @@ describe 'List custom fields edit', js: true do
     expect(cf.possible_values.map(&:value)).to eq %w(A)
 
     # Edit again
-    SeleniumHubWaiter.wait
-    page.find('a', text: 'My List CF').click
+    find('a', text: 'My List CF').click
 
-    expect(page).to have_selector('input#custom_field_custom_options_attributes_0_value')
+    expect(page).to have_field('custom_field_custom_options_attributes_0_value')
     fill_in 'custom_field_custom_options_attributes_0_value', with: 'B'
 
     click_on 'Save'

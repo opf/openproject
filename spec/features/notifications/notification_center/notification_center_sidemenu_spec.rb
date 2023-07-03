@@ -1,8 +1,9 @@
 require 'spec_helper'
 
-describe "Notification center sidemenu",
-         js: true,
-         with_ee: %i[date_alerts] do
+RSpec.describe "Notification center sidemenu",
+               js: true,
+               with_cuprite: true,
+               with_ee: %i[date_alerts] do
   shared_let(:project) { create(:project) }
   shared_let(:project2) { create(:project) }
   shared_let(:project3) { create(:project, parent: project2) }
@@ -71,6 +72,7 @@ describe "Notification center sidemenu",
     notifications
     login_as recipient
     center.visit!
+    wait_for_reload
   end
 
   context 'with no notifications to show' do

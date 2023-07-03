@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Principals::Scopes::OrderedByName do
+RSpec.describe Principals::Scopes::OrderedByName do
   describe '.ordered_by_name' do
     shared_let(:alice) { create(:user, login: 'alice', firstname: 'Alice', lastname: 'Zetop') }
     shared_let(:eve) { create(:user, login: 'eve', firstname: 'Eve', lastname: 'Baddie') }

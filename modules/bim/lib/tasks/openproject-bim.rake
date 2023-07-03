@@ -49,6 +49,10 @@ class Seedifier
     @written_work_packages_ids = []
     @projects = Project.where(identifier: @project_identifiers)
 
+    raise "Warning: this class and the bim:seedify task have not been maintained when " \
+          "work package 36933 was implemented as it was out-of-scope. It will probably " \
+          "fail to produce the expected output."
+
     all_work_packages = @projects.map { |project| project.work_packages.to_a }.flatten.sort_by(&:start_date)
     @base_date = all_work_packages.first.start_date.monday
   end

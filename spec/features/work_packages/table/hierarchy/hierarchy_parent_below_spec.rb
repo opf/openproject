@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Work Package table hierarchy parent below', js: true do
+RSpec.describe 'Work Package table hierarchy parent below', js: true do
   let(:user) { create(:admin) }
   let(:type_bug) { create(:type_bug) }
   let(:type_task) { create(:type_task) }
@@ -155,14 +155,14 @@ describe 'Work Package table hierarchy parent below', js: true do
       wp_table.visit!
       wp_table.expect_work_package_listed(child, parent)
 
-      expect(page).to have_selector('.wp-table--hierarchy-indicator-icon')
+      expect(page).to have_selector('.wp-table--hierarchy-indicator-expanded')
 
       split_page = wp_table.open_split_view(parent)
       split_page.visit_tab!("relations")
       relations.remove_child(child)
       loading_indicator_saveguard
 
-      expect(page).not_to have_selector('.wp-table--hierarchy-indicator-icon')
+      expect(page).not_to have_selector('.wp-table--hierarchy-indicator-expanded')
     end
   end
 end
