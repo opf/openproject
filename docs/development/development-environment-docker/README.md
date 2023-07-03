@@ -320,6 +320,15 @@ docker compose --project-directory docker/dev/tls cp \
 ln -s /usr/local/share/ca-certificates/OpenProject_Development_Root_CA.crt /etc/ssl/certs/OpenProject_Development_Root_CA.pem
 ```
 
+#### NixOS
+
+Add generated root CA to system certicates bundle usign the following configuration option of your NixOS:
+```nix
+  security.pki.certificatefiles = [ path_to_generated_cert_file.crt ];
+```
+Then rebuild your system.
+Generated root CA should be inside `/etc/ssl/certs/ca-certificates.crt`
+
 ### Amend docker services
 
 The docker services of the `docker-compose.yml` need additional information to be able to run in the local setup with
