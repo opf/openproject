@@ -40,7 +40,7 @@ FactoryBot.define do
   factory :custom_style_with_export_logo, class: 'CustomStyle' do
     export_logo do
       Rack::Test::UploadedFile.new(
-        Rails.root.join('spec', 'support', 'custom_styles', 'export_logos', 'export_logo_image.png')
+        Rails.root.join('spec/support/custom_styles/export_logos/export_logo_image.png')
       )
     end
   end
