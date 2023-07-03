@@ -30,8 +30,9 @@ require 'spec_helper'
 
 require_relative '../support/pages/meetings/index'
 
-RSpec.describe 'Meetings new', js: true do
-  let(:project) { create(:project, enabled_module_names: %w[meetings]) }
+RSpec.describe 'Meetings new', :js do
+  shared_let(:project) { create(:project, enabled_module_names: %w[meetings]) }
+  shared_let(:admin) { create(:admin) }
   let(:time_zone) { 'utc' }
   let(:user) do
     create(:user,
@@ -49,14 +50,11 @@ RSpec.describe 'Meetings new', js: true do
            member_in_project: project,
            member_with_permissions: permissions)
   end
-  let(:admin) do
-    create(:admin)
-  end
   let(:permissions) { %i[view_meetings create_meetings] }
   let(:current_user) { user }
 
   before do
-    login_as(current_user)
+    login_as current_user
   end
 
   context 'with permission to create meetings', with_cuprite: false do

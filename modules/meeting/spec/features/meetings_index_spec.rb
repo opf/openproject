@@ -30,9 +30,9 @@ require 'spec_helper'
 
 require_relative '../support/pages/meetings/index'
 
-RSpec.describe 'Meetings' do
-  let(:project) { create(:project, enabled_module_names: %w[meetings]) }
-  let(:other_project) { create(:project, enabled_module_names: %w[meetings]) }
+RSpec.describe 'Meetings', 'Index', :with_cuprite do
+  shared_let(:project) { create(:project, enabled_module_names: %w[meetings]) }
+  shared_let(:other_project) { create(:project, enabled_module_names: %w[meetings]) }
   let(:role) { create(:role, permissions:) }
   let(:permissions) { %i(view_meetings) }
   let(:user) do
@@ -60,10 +60,10 @@ RSpec.describe 'Meetings' do
   end
 
   before do
-    login_as(user)
+    login_as user
   end
 
-  context 'when visiting the global meeting index', with_flag: { more_global_index_pages: true } do
+  context 'when visiting from a global context', with_flag: { more_global_index_pages: true } do
     let(:meetings_page) { Pages::Meetings::Index.new(project: nil) }
 
     it 'lists all upcoming meetings for all projects the user has access to' do
@@ -75,24 +75,36 @@ RSpec.describe 'Meetings' do
       meetings_page.expect_meetings_not_listed(yesterdays_meeting)
     end
 
-    context 'when the user is allowed to create meetings' do
+    context 'and the user is allowed to create meetings' do
       let(:permissions) { %i(view_meetings create_meetings) }
 
-      it 'shows a create button' do
+      it 'shows a create new button' do
         meetings_page.navigate_by_modules_menu
 
         meetings_page.expect_create_new_button
       end
     end
+
+    context 'and the user is not allowed to create meetings' do
+      let(:permissions) { %i[view_meetings] }
+
+      it "doesn't show a create new button" do
+        meetings_page.navigate_by_modules_menu
+
+        meetings_page.expect_no_create_new_button
+      end
+    end
   end
 
-  context 'when visiting project specific meeting index' do
+  context 'when visiting from a project specific context' do
     let(:meetings_page) { Pages::Meetings::Index.new(project:) }
 
-    it 'visiting page via menu with no meetings' do
-      meetings_page.navigate_by_menu
+    context 'via the menu' do
+      specify 'with no meetings' do
+        meetings_page.navigate_by_menu
 
-      meetings_page.expect_no_meetings_listed
+        meetings_page.expect_no_meetings_listed
+      end
     end
 
     context 'when the user is allowed to create meetings' do
@@ -104,14 +116,23 @@ RSpec.describe 'Meetings' do
       end
     end
 
-    it 'visiting page with 1 meeting listed' do
+    context 'when the user is not allowed to create meetings' do
+      let(:permissions) { %i[view_meetings] }
+
+      it "doesn't show a create new button" do
+        meetings_page.navigate_by_menu
+        meetings_page.expect_no_create_new_button
+      end
+    end
+
+    specify 'with 1 meeting listed' do
       meeting
       meetings_page.visit!
 
       meetings_page.expect_meetings_listed(meeting)
     end
 
-    it 'visiting page with pagination', with_settings: { per_page_options: '1' } do
+    it 'with pagination', with_settings: { per_page_options: '1' } do
       meeting
       tomorrows_meeting
       yesterdays_meeting
