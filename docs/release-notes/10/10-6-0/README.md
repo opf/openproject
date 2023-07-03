@@ -37,7 +37,7 @@ From now on, time logging is even  quicker. You won’t have to leave your curre
 
 
 
-Also, you can log time to a work package directly from your work  package list view if you include the SPENT TIME as a column to the list. Clicking on the Log time will also open a pop-up window to book your  spent time.
+Also, you can log time to a work package directly from your work  package table view if you include the SPENT TIME as a table column. Clicking on the Log time will also open a pop-up window to book your  spent time.
 
 ![time-log-work-package](time-log-work-package-1103367.png)
 
