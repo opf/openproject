@@ -29,7 +29,7 @@
 #++
 
 module AttributeGroups
-  class AttributeGroupHeaderComponent < ::RailsComponent
+  class AttributeGroupHeaderComponent < ::ApplicationComponent
     options :title
   end
 end

@@ -29,7 +29,7 @@
 #++
 
 module AttributeGroups
-  class AttributeKeyValueComponent < ::RailsComponent
+  class AttributeKeyValueComponent < ::ApplicationComponent
     options :key, :value
   end
 end
