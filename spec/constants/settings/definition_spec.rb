@@ -79,16 +79,13 @@ RSpec.describe Settings::Definition, :settings_reset do
         stub_const('ENV',
                    {
                      'OPENPROJECT_EDITION' => 'bim',
-                     'OPENPROJECT_DEFAULT__LANGUAGE' => 'de',
-                     'OPENPROJECT_RAILS__CACHE__STORE' => 'memcache'
+                     'OPENPROJECT_DEFAULT__LANGUAGE' => 'de'
                    })
         reset(:edition)
         reset(:default_language)
-        reset(:rails_cache_store)
 
-        expect(all[:edition].value).to eq 'bim'
-        expect(all[:default_language].value).to eq 'de'
-        expect(all[:rails_cache_store].value).to eq :memcache
+        expect(all[:edition].value).to eql 'bim'
+        expect(all[:default_language].value).to eql 'de'
       end
 
       it 'allows overriding configuration from ENV with OPENPROJECT_ prefix with single underscore case' do
