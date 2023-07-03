@@ -9,8 +9,6 @@ services:
       - external
 
   frontend:
-    # The command for the frontend needs to be overwritten
-    command: 'node --max_old_space_size=8096 ./node_modules/@angular/cli/bin/ng serve --host 0.0.0.0 --public-host https://${OPENPROJECT_DEV_HOST}'
     networks:
       - external
     # Those label interpreted by traefik to create the correct HTTP router
