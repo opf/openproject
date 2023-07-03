@@ -27,10 +27,10 @@
 #++
 
 class MigrateSessionsUnlogged < ActiveRecord::Migration[6.1]
-  def change
+  def up
     truncate :sessions
 
-    # Set the table to unlogged
+    # Set the table to UNLOGGED
     execute <<~SQL.squish
       ALTER TABLE "sessions" SET UNLOGGED
     SQL
@@ -38,5 +38,14 @@ class MigrateSessionsUnlogged < ActiveRecord::Migration[6.1]
     # We don't need the created at column
     # that now no longer is set by rails
     remove_column :sessions, :created_at, null: false
+  end
+
+  def down
+    # Set the table to LOGGED
+    execute <<~SQL.squish
+      ALTER TABLE "sessions" SET LOGGED
+    SQL
+
+    add_column :sessions, :created_at, :datetime
   end
 end

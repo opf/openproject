@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "#{Rails.root}/db/migrate/migration_utils/migration_squasher"
-require "#{Rails.root}/db/migrate/migration_utils/setting_renamer"
+require Rails.root.join("db/migrate/migration_utils/migration_squasher").to_s
+require Rails.root.join("db/migrate/migration_utils/setting_renamer").to_s
 require 'open_project/plugins/migration_mapping'
 
 # This migration aggregates the migrations detailed in MIGRATION_FILES
