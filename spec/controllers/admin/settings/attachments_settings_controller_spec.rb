@@ -31,7 +31,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Admin::Settings::GeneralSettingsController do
+RSpec.describe Admin::Settings::AttachmentsSettingsController do
   shared_let(:user) { create(:admin) }
 
   current_user { user }
@@ -45,11 +45,11 @@ RSpec.describe Admin::Settings::GeneralSettingsController do
       it_behaves_like 'a controller action with require_admin'
     end
 
-    it 'renders the general settings template' do
+    it 'renders the attachments settings template' do
       subject
 
       expect(response).to be_successful
-      expect(response).to render_template 'admin/settings/general_settings/show', 'layouts/admin'
+      expect(response).to render_template 'admin/settings/attachments_settings/show', 'layouts/admin'
     end
   end
 end
