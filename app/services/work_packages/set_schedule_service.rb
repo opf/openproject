@@ -181,6 +181,7 @@ class WorkPackages::SetScheduleService
 
   def assign_cause_for_journaling(work_package, relation)
     return {} if initiated_by.nil?
+    return {} unless work_package.changes.keys.intersect?(%w(start_date due_date duration))
 
     if initiated_by.is_a?(WorkPackage)
       assign_cause_initiated_by_work_package(work_package, relation)
@@ -189,16 +190,19 @@ class WorkPackages::SetScheduleService
     end
   end
 
-  def assign_cause_initiated_by_work_package(work_package, relation)
-    type_mapping = {
-      parent: 'work_package_parent_changed_times',
-      children: 'work_package_children_changed_times',
-      predecessor: 'work_package_predecessor_changed_times',
-      related: 'work_package_related_changed_times'
-    }
+  def assign_cause_initiated_by_work_package(work_package, _relation)
+    # For now we only track a generic cause, and not a specialized reason depending on the relation
+    #
+    # type_mapping = {
+    #   parent: 'work_package_parent_changed_times',
+    #   children: 'work_package_children_changed_times',
+    #   predecessor: 'work_package_predecessor_changed_times',
+    #   related: 'work_package_related_changed_times'
+    # }
+    # work_package.journal_cause = { "type" => type_mapping[relation], "work_package_id" => initiated_by.id }
 
     work_package.journal_cause = {
-      "type" => type_mapping[relation],
+      "type" => "work_package_related_changed_times",
       "work_package_id" => initiated_by.id
     }
   end

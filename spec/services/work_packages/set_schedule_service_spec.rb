@@ -135,6 +135,7 @@ RSpec.describe WorkPackages::SetScheduleService do
 
     it 'updates the following work packages' do
       expected.each do |wp, (start_date, due_date)|
+        expected_cause_type = "work_package_related_changed_times"
         result = subject.all_results.find { |result_wp| result_wp.id == wp.id }
         expect(result)
           .to be_present,
@@ -142,8 +143,11 @@ RSpec.describe WorkPackages::SetScheduleService do
 
         expect(result.journal_cause['work_package_id'])
           .to eql(initiating_work_package.id),
-              "Expected work package ##{wp.id} to have been caused by ##{initiating_work_package.id} " \
-              "for the journal entry"
+              "Expected work package change to ##{wp.id} to have been caused by ##{initiating_work_package.id}."
+
+        expect(result.journal_cause['type'])
+        .to eql("work_package_related_changed_times"),
+            "Expected work package change to ##{wp.id} to have been caused because ##{expected_cause_type}."
 
         expect(result.start_date)
           .to eql(start_date),
@@ -182,6 +186,12 @@ RSpec.describe WorkPackages::SetScheduleService do
     it 'does not change any other work packages' do
       expect(subject.all_results)
         .to contain_exactly(work_package)
+    end
+
+    it 'does not assign a journal cause' do
+      subject.all_results.each do |work_package|
+        expect(work_package.journal_cause).to be_blank
+      end
     end
   end
 
