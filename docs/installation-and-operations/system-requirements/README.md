@@ -69,13 +69,11 @@ The [package-based installation](../installation/packaged) requires one of the f
 | ------------------------------- |
 | Ubuntu 22.04 Jammy              |
 | Ubuntu 20.04 Focal              |
-| Ubuntu 18.04 Bionic Beaver      |
-| Ubuntu 16.04 Xenial Xerus       |
 | Debian 11 Bullseye              |
 | Debian 10 Buster                |
-| Debian 9 Stretch                |
 | CentOS/RHEL 8.x                 |
 | CentOS/RHEL 7.x                 |
+| Suse Linux Enterprise Server 15 |
 | Suse Linux Enterprise Server 12 |
 
 The [docker-based installation](../installation/docker) requires a system with Docker installed. Please see the [official Docker page](https://docs.docker.com/install/) for the list of supported systems.
