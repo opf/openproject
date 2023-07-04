@@ -65,10 +65,6 @@ import { StopExistingTimerModalComponent } from 'core-app/shared/components/time
 import { TimeEntryEditService } from 'core-app/shared/components/time_entries/edit/edit.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 
-export function pad(val:number):string {
-  return val > 9 ? val.toString() : `0${val.toString()}`;
-}
-
 @Component({
   selector: 'op-wp-timer-button',
   templateUrl: './wp-timer-button.component.html',
