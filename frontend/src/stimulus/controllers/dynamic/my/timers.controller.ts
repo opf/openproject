@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
-import * as moment from 'moment';
+import { formatElapsedTime } from 'core-app/features/work-packages/components/wp-timer-button/time-formatter.helper';
 
 export default class MyTimersController extends Controller {
   static values = {
@@ -19,13 +19,9 @@ export default class MyTimersController extends Controller {
     this.timer(this.startValue);
   }
 
-
   timer(value:string|null|undefined) {
-    const start = moment(value as string);
-    const now = moment();
-    let offset = moment(now).diff(start, 'seconds');
     setInterval(() => {
-      this.elapsedTimeTarget.textContent = moment.utc(now.diff(start, 'seconds')).format("HH:mm:ss")
+      this.elapsedTimeTarget.textContent = formatElapsedTime(value as string);
     }, 1000);
   }
 }
