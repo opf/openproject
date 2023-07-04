@@ -25,7 +25,7 @@ da:
       document: "Dokument"
   activity:
     filter:
-      document: "Documents"
+      document: "Dokumenter"
   default_doc_category_tech: "Teknisk dokumentation"
   default_doc_category_user: "Brugerdokumentation"
   enumeration_doc_categories: "Dokumentkategorier"

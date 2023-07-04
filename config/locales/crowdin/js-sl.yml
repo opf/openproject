@@ -240,8 +240,8 @@ sl:
             professional_support: "Strokovna podpora"
             professional_support_text: "Pridobite zanesljivo in visoko dotično podporo starejših podpornih inženirjev s strokovnim znanjem o izvajanju OpenProject-a v poslovnih kritičnih okoljih."
           button_start_trial: "Začnite z brezplačno preizkusno dobo"
-          button_upgrade: "Upgrade now"
-          button_contact_us: "Contact us for a demo"
+          button_upgrade: "Nadgradi zdaj"
+          button_contact_us: "Kontaktirajte nas za poskusno različico"
           button_book_now: "Rezerviraj"
           confidence: >
             Zagotavljamo zaupanje preizkušene in podprte programske opreme za upravljanje projektov v podjetniškem razredu - z odprto kodo in odprto miselnostjo.
@@ -420,7 +420,7 @@ sl:
     label_previous: "Predhodnji"
     label_per_page: "Na stran:"
     label_please_wait: "Prosimo, počakajte"
-    label_project: "Project"
+    label_project: "Projekt"
     label_project_list: "Seznam projektov"
     label_project_plural: "Projekti"
     label_visibility_settings: "Nastavitve vidljivosti"
@@ -476,9 +476,9 @@ sl:
     label_unwatch: "Prenehaj slediti"
     label_unwatch_work_package: "Nihče ne spremlja delovnega paketa"
     label_uploaded_by: "Naložil"
-    label_default_queries: "Default"
+    label_default_queries: "Privzeto"
     label_starred_queries: "Favorite"
-    label_global_queries: "Public"
+    label_global_queries: "Javno"
     label_custom_queries: "Private"
     label_columns: "Stolpci"
     label_attachments: Priponka
@@ -549,7 +549,7 @@ sl:
       reasons:
         mentioned: 'mentioned'
         watched: 'watcher'
-        assigned: 'assignee'
+        assigned: 'nosilec'
         responsible: 'accountable'
         created: 'ustvarjeno'
         scheduled: 'načrtovano'
@@ -572,9 +572,9 @@ sl:
         unread: 'Neprebrano'
         unread_title: 'Pokaži neprebrano'
         all: 'Vse'
-        all_title: 'Show all'
+        all_title: 'Prikaži vse'
       center:
-        label_actor_and: 'and'
+        label_actor_and: 'in'
         and_more_users:
           one: 'and 1 other'
           two: 'and %{count} others'
@@ -601,7 +601,7 @@ sl:
         by_reason: 'Reason'
         inbox: 'Prejeto'
         mentioned: 'Omenjen'
-        watched: 'Watcher'
+        watched: 'Opazovalec'
         date_alert: 'Date alert'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
@@ -624,8 +624,8 @@ sl:
             title: 'Omenjen'
             description: 'Receive a notification every time someone mentions me anywhere'
           assignee: 'Prevzemnik'
-          responsible: 'Accountable'
-          watched: 'Watcher'
+          responsible: 'Odgovorni'
+          watched: 'Opazovalec'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
           work_package_processed: 'All status changes'
@@ -668,8 +668,7 @@ sl:
         Prosimo, izberite projekt, v katerem boste ustvarili delovni paket, če si želite ogledati vse atribute. Izberete lahko samo projekte, ki so aktivirani zgoraj.
       details_activity: 'Project details activity'
       context: 'Kontekst projekta'
-      work_package_belongs_to: 'Ta delovni paket pripada projektu %{projectname}.'
-      click_to_switch_context: 'Odpri ta delovni paket v tistem projektu. '
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Menjava predloge bo ponovno naložila stran in vsi podatki vnešeni v obrazec bodo izgubljeni. Ali želite nadaljevati?'
       use_template: "Uporabi predlogo"
       no_template_selected: "(brez)"
@@ -922,7 +921,7 @@ sl:
       message_work_package_status_blocked: "Stanja delovnega paketa ni mogoče napisati zaradi zaprtega stanja in dodeljene zaprte različice."
       placeholder_filter_by_text: "Subjekt, opis, komentarji,... "
       filters:
-        title: 'Filter work packages'
+        title: 'Filtriraj delovne pakete'
       inline_create:
         title: 'Za dodajanje novega delovnega paketa kliknite tukaj'
       create:
@@ -1072,18 +1071,18 @@ sl:
     toolbar:
       settings:
         configure_view: "Configure view"
-        columns: "Columns"
-        sort_by: "Sort by"
-        group_by: "Group by"
+        columns: "Stolpci"
+        sort_by: "Sortiraj po"
+        group_by: "Razvrsti po"
         display_sums: "Prikaži vsote"
         display_hierarchy: "Prikaži hierarhijo"
         hide_hierarchy: "Skrij hierarhijo"
         hide_sums: "Skrij vsote"
         save: "Shrani"
-        save_as: "Save as"
-        export: "Export"
-        visibility_settings: "Visibility settings"
-        page_settings: "Rename view"
+        save_as: "Shrani kot"
+        export: "Izvozi"
+        visibility_settings: "Nastavitve vidljivosti"
+        page_settings: "Preimenuj pogled"
         delete: "Izbriši"
       filter: "Filtriraj"
       unselected_title: "Zahtevek"
@@ -1095,7 +1094,7 @@ sl:
       button_save: "Shrani"
       button_submit: "Potrdi"
       button_cancel: "Prekliči"
-      button_delete: "Delete"
+      button_delete: "Izbriši"
       form_submit:
         title: 'Potrdite za nadaljevanje'
         text: 'Ali ste prepričani, da želite to izvesti?'
@@ -1155,8 +1154,8 @@ sl:
         other: "%{count} ur"
         zero: "0 ur"
       day:
-        one: "1 day"
-        other: "%{count} days"
+        one: "1 dan"
+        other: "%{count} dni"
         zero: "0 days"
     zen_mode:
       button_activate: 'Omogočite zen način'
@@ -1230,7 +1229,7 @@ sl:
       message:
         label: 'Sporočilo s povabilom'
         description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
-        next_button: 'Next'
+        next_button: 'Naprej'
       summary:
         next_button: 'Pošlji povabilo'
       success:

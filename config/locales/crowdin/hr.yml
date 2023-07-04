@@ -477,12 +477,12 @@ hr:
       project:
         active_value:
           true: "unarchived"
-          false: "archived"
+          false: "arhivirano"
         identifier: "Identifikator"
         latest_activity_at: "Latest activity at"
         parent: "Potprojekt od"
         public_value:
-          title: "Visibility"
+          title: "Vidljivost"
           true: "public"
           false: "private"
         queries: "Upiti"
@@ -558,7 +558,7 @@ hr:
         begin_deletion: "Početak brisanja"
         children: "Subelements"
         done_ratio: "Napredak (%)"
-        duration: "Duration"
+        duration: "Trajanje"
         end_insertion: "Kraj umetanja"
         end_deletion: "Kraj brisanja"
         ignore_non_working_days: "Ignore non working days"
@@ -923,17 +923,17 @@ hr:
       created_on: "created on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "Potprojekt"
       parent_no_longer: "No longer subproject of"
     filter:
       changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      message: "Forumi"
+      news: "Vijesti"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
+      time_entry: "Utrošeno vrijeme"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "Radni paketi"
   #common attributes of all models
   attributes:
     active: "Aktivno"
@@ -990,7 +990,7 @@ hr:
     updated_on: "Ažurirano"
     uploader: "Uploader"
     user: "Korisnik"
-    value: "Value"
+    value: "Vrijednost"
     version: "Verzija"
     work_package: "Radni paket"
   backup:
@@ -1381,7 +1381,7 @@ hr:
     message: Poruka uređena
     news: Vijesti
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'Projekt je uređivan'
     reply: Je odgovorio
     time_entry: 'Timelog uređen'
     wiki_page: 'Wiki stranica je uređena'
@@ -3175,7 +3175,7 @@ hr:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "Greška"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"

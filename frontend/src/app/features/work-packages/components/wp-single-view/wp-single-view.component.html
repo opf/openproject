@@ -63,17 +63,10 @@
 
   <div
     class="attributes-group -project-context hide-when-print"
-    *ngIf="!isNewResource && projectContext && !projectContext.matches"
+    *ngIf="showSwitchToProjectBanner()"
   >
     <div>
-      <p>
-        <span [innerHTML]="projectContextText"></span>
-        <br/>
-        <a [attr.href]="projectContext.href"
-           class="project-context--switch-link"
-           [textContent]="text.project.switchTo">
-        </a>
-      </p>
+      <span [innerHTML]="switchToProjectText"></span>
     </div>
   </div>
 

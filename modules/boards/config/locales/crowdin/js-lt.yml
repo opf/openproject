@@ -7,7 +7,7 @@ lt:
       label_unnamed_list: 'Bevardis sąrašas'
       label_board_type: 'Lentos tipas'
       upsale:
-        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+        teaser_text: 'Ar norite automatizuoti jūsų procesus su Lentomis? Išmaniosios lentos yra Enterprise priedas. Prašome pasikeisti į mokamą planą.'
         upgrade: 'Užsisakykite dabar'
       lists:
         delete: 'Pašalinti sąrašą'
@@ -62,7 +62,7 @@ lt:
           status: Būsena
           version: Versija
           subproject: Sub-projektas
-          subtasks: Parent-child
+          subtasks: Tėvo-vaiko
           basic: Pagrindinis
         select_attribute: "Veiksmo atributas"
       add_list_modal:

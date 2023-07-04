@@ -91,6 +91,7 @@ class CopyProjectJob < ApplicationJob
 
   def successful_status_update
     payload = redirect_payload(url_helpers.project_url(target_project))
+      .merge(hal_links(target_project))
 
     if errors.any?
       payload[:errors] = errors
@@ -109,6 +110,17 @@ class CopyProjectJob < ApplicationJob
     end
 
     upsert_status status: :failure, message:
+  end
+
+  def hal_links(project)
+    {
+      _links: {
+        project: {
+          href: ::API::V3::Utilities::PathHelper::ApiV3Path.project(project.id),
+          title: project.name
+        }
+      }
+    }
   end
 
   def user

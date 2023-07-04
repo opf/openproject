@@ -17,7 +17,7 @@ keywords: create work packages
 
 There are two ways to create new Work packages:
 
-- Work packages can be [created in-line in the Work package list](#create-a-work-package-in-the-list-view) (just like Excel) to quickly create multiple Work packages.
+- Work packages can be [created in-line in the Work package table](#create-a-work-package-in-the-table-view) (just like Excel) to quickly create multiple Work packages.
 - Work packages can be [created in a split screen](#create-a-work-package-in-the-split-screen-view) which allows you to specify detailed information from the start.
 
 Work packages always belong to a project. Therefore, you first need to [select a project](../../../getting-started/projects/#open-an-existing-project).
@@ -28,17 +28,17 @@ Then, navigate to the Work package module in the project navigation.
 
 
 
-### Create a Work package in the list view
+### Create a Work package in the table view
 
-To create new Work packages directly in line in the list view, click on the **+ Create new Work package** link below the list.
+To create new Work packages directly in line in the table view, click on the **+ Create new Work package** link below the table.
 
 ![create-split-screen](create-split-screen.png)
 
-The new Work package appears in a green row. Type in the subject of the Work package, change attributes, such as Type or Status directly in the list and hit Enter to save the changes.
+The new Work package appears in a green row. Type in the subject of the Work package, change attributes, such as Type or Status directly in the table and hit Enter to save the changes.
 
 ![create-work-package-list](1566303144875.png)
 
-This way, you can quickly and easily create new Work packages in the list, just like Excel.
+This way, you can quickly and easily create new Work packages in the table, just like Excel.
 
 ### Create a Work package in the split screen view
 

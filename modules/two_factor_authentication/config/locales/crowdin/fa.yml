@@ -27,7 +27,7 @@ fa:
     error_invalid_backup_code: 'Invalid 2FA backup code'
     channel_unavailable: "The delivery channel %{channel} is unavailable."
     no_valid_phone_number: "No valid phone number exists."
-    label_pwd_confirmation: "Password"
+    label_pwd_confirmation: "کلمه عبور"
     notice_pwd_confirmation: "You need to confirm your password upon making changes to these settings."
     label_device_type: "Device type"
     label_default_device: "Default 2FA device"

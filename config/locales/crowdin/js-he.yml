@@ -318,7 +318,7 @@ he:
               new_features_html: >
                 The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
     label_activate: "הפעל"
-    label_assignee: 'Assignee'
+    label_assignee: 'משויך אל'
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
     label_add_columns: "Add columns"
@@ -421,7 +421,7 @@ he:
     label_previous: "Previous"
     label_per_page: "לכל עמוד:"
     label_please_wait: "Please wait"
-    label_project: "Project"
+    label_project: "פרוייקט"
     label_project_list: "Projects list"
     label_project_plural: "פרויקטים"
     label_visibility_settings: "Visibility settings"
@@ -477,9 +477,9 @@ he:
     label_unwatch: "הספק מעקב"
     label_unwatch_work_package: "חבילת שעון עבודה"
     label_uploaded_by: "הועלה על ידי"
-    label_default_queries: "Default"
+    label_default_queries: "ברירת מחדל"
     label_starred_queries: "Favorite"
-    label_global_queries: "Public"
+    label_global_queries: "ציבורי"
     label_custom_queries: "Private"
     label_columns: "עמודות"
     label_attachments: קבצים מצורפים
@@ -602,7 +602,7 @@ he:
         by_reason: 'Reason'
         inbox: 'Inbox'
         mentioned: 'Mentioned'
-        watched: 'Watcher'
+        watched: 'צופה'
         date_alert: 'Date alert'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
@@ -624,9 +624,9 @@ he:
           mentioned:
             title: 'Mentioned'
             description: 'Receive a notification every time someone mentions me anywhere'
-          assignee: 'Assignee'
+          assignee: 'משויך אל'
           responsible: 'Accountable'
-          watched: 'Watcher'
+          watched: 'צופה'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
           work_package_processed: 'All status changes'
@@ -669,8 +669,7 @@ he:
         Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
       details_activity: 'Project details activity'
       context: 'Project context'
-      work_package_belongs_to: 'This work package belongs to project %{projectname}.'
-      click_to_switch_context: 'Open this work package in that project.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       use_template: "Use template"
       no_template_selected: "(None)"
@@ -960,7 +959,7 @@ he:
         description: "תיאור"
         date: "תאריך"
         dueDate: "Finish date"
-        duration: "Duration"
+        duration: "משך זמן"
         estimatedTime: "זמן משוער"
         spentTime: "זמן שבוזבז"
         category: "קטגוריה"
@@ -1073,16 +1072,16 @@ he:
     toolbar:
       settings:
         configure_view: "Configure view"
-        columns: "Columns"
+        columns: "עמודות"
         sort_by: "Sort by"
-        group_by: "Group by"
+        group_by: "קבץ לפי"
         display_sums: "Display sums"
         display_hierarchy: "Display hierarchy"
         hide_hierarchy: "Hide hierarchy"
         hide_sums: "הסתר סכומים"
         save: "שמור"
-        save_as: "Save as"
-        export: "Export"
+        save_as: "שמירה בשם"
+        export: "ייצוא"
         visibility_settings: "Visibility settings"
         page_settings: "Rename view"
         delete: "מחק"
@@ -1096,7 +1095,7 @@ he:
       button_save: "שמור"
       button_submit: "שלח"
       button_cancel: "ביטול"
-      button_delete: "Delete"
+      button_delete: "מחק"
       form_submit:
         title: 'Confirm to continue'
         text: 'Are you sure you want to perform this action?'
@@ -1156,8 +1155,8 @@ he:
         other: "%{count} h"
         zero: "0 h"
       day:
-        one: "1 day"
-        other: "%{count} days"
+        one: "יום אחד"
+        other: "%{count} ימים"
         zero: "0 days"
     zen_mode:
       button_activate: 'Activate zen mode'
@@ -1231,7 +1230,7 @@ he:
       message:
         label: 'Invitation message'
         description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
-        next_button: 'Next'
+        next_button: 'הבא'
       summary:
         next_button: 'Send invitation'
       success:

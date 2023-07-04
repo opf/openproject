@@ -481,7 +481,7 @@ et:
         latest_activity_at: "Latest activity at"
         parent: "Ülemprojekt"
         public_value:
-          title: "Visibility"
+          title: "Nähtavus"
           true: "public"
           false: "private"
         queries: "Päringuid"
@@ -557,7 +557,7 @@ et:
         begin_deletion: "Kustutamise algus"
         children: "Alamelemendid"
         done_ratio: "Progress (%)"
-        duration: "Duration"
+        duration: "kestus"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
         ignore_non_working_days: "Ignore non working days"
@@ -918,17 +918,17 @@ et:
       created_on: "created on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "Alamprojekt"
       parent_no_longer: "No longer subproject of"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      changeset: "Toimikud"
+      message: "Foorumid"
+      news: "Uudised"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
-      wiki_edit: "Wiki"
-      work_package: "Work packages"
+      time_entry: "Kulutatud aeg"
+      wiki_edit: "Viki"
+      work_package: "Teemad"
   #common attributes of all models
   attributes:
     active: "Aktiivne"
@@ -985,7 +985,7 @@ et:
     updated_on: "Uuendatud"
     uploader: "Uploader"
     user: "Kasutaja"
-    value: "Value"
+    value: "Väärtus"
     version: "Versioon"
     work_package: "Teema"
   backup:
@@ -1364,7 +1364,7 @@ et:
     message: Sõnum on muudetud
     news: Uudised
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'Projekti on muudetud'
     reply: Vastatud
     time_entry: 'Ajalogi on muudetud'
     wiki_page: 'Viki leht on muudetud'
@@ -3153,7 +3153,7 @@ et:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "Tõrge"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"

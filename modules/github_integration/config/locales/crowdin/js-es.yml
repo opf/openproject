@@ -38,4 +38,4 @@ es:
           copy_error: '❌ Error al copiar'
       tab_prs:
         empty: 'Aún no hay solicitudes de incorporación de cambios vinculadas. Vincule una solicitud de incorporación de cambios existente con el código <code>OP#%{wp_id}</code> en la descripción, o bien cree una nueva solicitud de incorporación de cambios.'
-      github_actions: Acciones
+      github_actions: Comportamiento

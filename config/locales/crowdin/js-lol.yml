@@ -665,8 +665,7 @@ lol:
         crwdns804778:0crwdne804778:0
       details_activity: 'crwdns848053:0crwdne848053:0'
       context: 'crwdns804780:0crwdne804780:0'
-      work_package_belongs_to: 'crwdns804782:0%{projectname}crwdne804782:0'
-      click_to_switch_context: 'crwdns804784:0crwdne804784:0'
+      click_to_switch_to_project: 'crwdns854873:0%{projectname}crwdne854873:0'
       confirm_template_load: 'crwdns804786:0crwdne804786:0'
       use_template: "crwdns804788:0crwdne804788:0"
       no_template_selected: "crwdns804790:0crwdne804790:0"

@@ -90,7 +90,7 @@ predefined workflows. You save time and avoid errors.
 
 
 
-## Conditional formatting for work package list (Enterprise add-on)
+## Conditional formatting for work package table (Enterprise add-on)
 
 Rows in the work package page page can be highlighted based on the
 status or priority of the work packages. This makes it very easy to see

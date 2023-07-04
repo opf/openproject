@@ -335,7 +335,7 @@ nl:
   wiki:
     page_not_editable_index: De opgevraagde pagina bestaat (nog) niet. Je bent doorverwezen naar de index van alle wiki-pagina's.
     no_results_title_text: Er zijn momenteel geen wiki-pagina's.
-    print_hint: This will print the content of this wiki page without any navigation bars.
+    print_hint: Hiermee wordt de inhoud van deze wikipagina zonder navigatiebalk afgedrukt.
     index:
       no_results_content_text: Voeg een nieuwe wiki-pagina toe
   work_flows:
@@ -346,8 +346,8 @@ nl:
       one: 'Een nakomend werkpakket'
       other: '%{count} werk pakket afstammelingen'
     bulk:
-      copy_failed: "The work packages could not be copied."
-      move_failed: "The work packages could not be moved."
+      copy_failed: "De werkpakketten konden niet gekopieerd worden."
+      move_failed: "De werkpakketten konden niet worden verplaatst."
       could_not_be_saved: "De volgende werkpakketten konden niet worden opgeslagen:"
       none_could_be_saved: "Geen van de %{total} werkpakketten konden worden bijgewerkt."
       x_out_of_y_could_be_saved: "%{failing} van de %{total} werkpakketten konden niet worden bijgewerkt terwijl %{success} kon."
@@ -376,7 +376,7 @@ nl:
   account:
     delete: "Account Verwijderen"
     delete_confirmation: "Weet je zeker dat je dit account wilt verwijderen?"
-    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
+    deletion_pending: "Account is vergrendeld en is ingepland voor verwijdering. Let op dat dit proces op de achtergrond plaatsvindt. Het kan even duren voordat de gebruiker volledig verwijderd is."
     deletion_info:
       data_consequences:
         other: "Van de gegevens die de gebruiker heeft gemaakt (bijvoorbeeld e-mail, voorkeuren, werkpakketten, wiki-inzendingen) zal zoveel mogelijk worden verwijderd. Let echter op dat gegevens zoals werkpakketten en wiki-items niet kunnen worden verwijderd zonder het belemmeren van het werk van de andere gebruikers. Dergelijke gegevens worden dus opnieuw toegewezen aan een account genaamd \"Verwijderde gebruiker\". Zodra de gegevens van elk verwijderd account zijn toegewezen aan dit account, zal het niet mogelijk zijn om gegevens die de gebruiker heeft gemaakt te onderscheiden van de gegevens van een ander verwijderd account."
@@ -472,20 +472,20 @@ nl:
         roles: "Rollen"
       project:
         active_value:
-          true: "unarchived"
-          false: "archived"
+          true: "Niet gearchiveerd"
+          false: "gearchiveerd"
         identifier: "Identifier"
         latest_activity_at: "Laatste activiteit om"
         parent: "Subproject van"
         public_value:
-          title: "Visibility"
-          true: "public"
-          false: "private"
+          title: "Zichtbaarheid"
+          true: "Openbaar"
+          false: "Privé"
         queries: "Query 's"
         templated: "Projectsjabloon"
         templated_value:
-          true: "marked as template"
-          false: "unmarked as template"
+          true: "gemarkeerd als sjabloon"
+          false: "ongemarkeerd als sjabloon"
         types: "Typen"
         versions: "Versies"
         work_packages: "Werkpakketten"
@@ -703,7 +703,7 @@ nl:
         non_working_day:
           attributes:
             date:
-              taken: "A non-working day already exists for %{value}."
+              taken: "Er bestaat al een niet-werkende dag voor %{value}."
               format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
@@ -716,7 +716,7 @@ nl:
           foreign_wps_reference_version: 'Werkpakketten in niet-onderliggende projecten verwijzen naar versies van het project of zijn afstammelingen.'
           attributes:
             base:
-              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
+              archive_permission_missing_on_subprojects: "U hebt niet de benodigde rechten om alle sub-projecten te archiveren. Neem contact op met een beheerder."
             types:
               in_use_by_work_packages: "nog steeds in gebruik door werkpakketten: %{types}"
             enabled_modules:
@@ -782,8 +782,8 @@ nl:
             daily_reminders:
               full_hour: "kan alleen worden geconfigureerd voor levering op een volledig uur."
             notification_settings:
-              only_one_global_setting: 'There must only be one global notification setting.'
-              email_alerts_global: 'The email notification settings can only be set globally.'
+              only_one_global_setting: 'Er mag slechts één globale meldingsinstelling zijn.'
+              email_alerts_global: 'De instellingen voor e-mailmeldingen kunnen alleen globaal worden ingesteld.'
               format: "%{message}"
               wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
         watcher:
@@ -918,14 +918,14 @@ nl:
       parent_without_of: "Subproject"
       parent_no_longer: "No longer subproject of"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      changeset: "Wijzigingensets"
+      message: "Fora"
+      news: "Nieuws"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
+      time_entry: "Bestede tijd"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "Werkpakketten"
   #common attributes of all models
   attributes:
     active: "Actief"
@@ -1061,7 +1061,7 @@ nl:
   button_reset: "Herstel"
   button_rollback: "Terugdraaien naar deze versie"
   button_save: "Opslaan"
-  button_apply_changes: "Apply changes"
+  button_apply_changes: "Veranderingen doorvoeren"
   button_save_back: "Opslaan en terug"
   button_show: "Toon"
   button_sort: "Sorteren"
@@ -1361,7 +1361,7 @@ nl:
     message: Bericht bewerkt
     news: Nieuws
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'Project bewerkt'
     reply: Beantwoord
     time_entry: 'Tijdlog bewerkt'
     wiki_page: 'Wiki-pagina bewerkt'
@@ -1781,8 +1781,8 @@ nl:
   label_not_contains: "bevat geen"
   label_not_equals: "is niet"
   label_on: "op"
-  label_operator_all: "is not empty"
-  label_operator_none: "is empty"
+  label_operator_all: "is niet leeg"
+  label_operator_none: "is leeg"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
   label_open_menu: "Menu openen"
@@ -2249,7 +2249,7 @@ nl:
   permission_add_work_packages: "Werkpakketten toevoegen"
   permission_add_messages: "Berichten posten"
   permission_add_project: "Project Aanmaken"
-  permission_archive_project: "Archive project"
+  permission_archive_project: "Project archiveren"
   permission_manage_user: "Gebruikers aanmaken en bewerken"
   permission_manage_placeholder_user: "Maak, bewerk en verwijder tijdelijke gebruikers"
   permission_add_subprojects: "Subprojecten maken"

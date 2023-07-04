@@ -25,7 +25,7 @@ hr:
       document: "Dokument"
   activity:
     filter:
-      document: "Documents"
+      document: "Dokumenti"
   default_doc_category_tech: "Tehnička dokumentacija"
   default_doc_category_user: "Korisnička dokumentacija"
   enumeration_doc_categories: "Kategorije dokumenata"

@@ -40,6 +40,8 @@ class AccountController < ApplicationController
   before_action :apply_csp_appends, only: %i[login]
   before_action :disable_api
   before_action :check_auth_source_sso_failure, only: :auth_source_sso_failed
+  before_action :check_internal_login_enabled, only: :internal_login
+  after_action :remove_internal_login_flag, only: :login
 
   layout 'no_menu'
 
@@ -49,11 +51,16 @@ class AccountController < ApplicationController
 
     if user.logged?
       redirect_after_login(user)
-    elsif omniauth_direct_login?
+    elsif omniauth_direct_login? && !session[:internal_login]
       direct_login(user)
     elsif request.post?
       authenticate_user
     end
+  end
+
+  def internal_login
+    session[:internal_login] = true
+    redirect_to action: :login
   end
 
   # Log out current user and redirect to welcome page
@@ -526,5 +533,13 @@ class AccountController < ApplicationController
     return unless appends
 
     append_content_security_policy_directives(appends)
+  end
+
+  def check_internal_login_enabled
+    render_404 unless omniauth_direct_login?
+  end
+
+  def remove_internal_login_flag
+    session.delete :internal_login
   end
 end

@@ -39,7 +39,7 @@ el:
       meeting_minutes: "Πρακτικά"
   activity:
     filter:
-      meeting: "Meetings"
+      meeting: "Συναντήσεις"
   description_attended: "παρευρέθηκε"
   description_invite: "προσκεκλημένος"
   events:

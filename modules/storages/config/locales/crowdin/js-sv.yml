@@ -34,7 +34,7 @@ sv:
         empty_folder_location_hint: "Click the button below to upload the file to this location."
         file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."
         upload_keep_both: "Keep both"
-        upload_replace: "Replace"
+        upload_replace: "Ersätt"
       file_links:
         empty: >
           Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
@@ -47,7 +47,7 @@ sv:
           Are you sure you want to unlink the file from this work package? Unlinking does not affect the original file and only removes the connection to this work package.
         remove_short: "Remove link"
         select: "Select files"
-        select_all: "Select all"
+        select_all: "Markera alla"
         selection:
           zero: "Select files to link"
           one: "Link 1 file"

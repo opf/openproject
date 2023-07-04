@@ -23,7 +23,7 @@ ne:
   activerecord:
     attributes:
       work_package:
-        position: "Position"
+        position: "स्थान"
         remaining_hours: "Remaining hours"
         remaining_time: "Remaining hours"
         story_points: "Story Points"

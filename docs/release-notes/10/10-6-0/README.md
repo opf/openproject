@@ -37,7 +37,7 @@ From now on, time logging is even  quicker. You won’t have to leave your curre
 
 
 
-Also, you can log time to a work package directly from your work  package list view if you include the SPENT TIME as a column to the list. Clicking on the Log time will also open a pop-up window to book your  spent time.
+Also, you can log time to a work package directly from your work  package table view if you include the SPENT TIME as a table column. Clicking on the Log time will also open a pop-up window to book your  spent time.
 
 ![time-log-work-package](time-log-work-package-1103367.png)
 
@@ -80,7 +80,7 @@ Furthermore, the **styling of the news widget** on the project overview page as 
 - Fixed: Time Tracking Issue After update OpenProject 10.5.2 (PostgreSQL) \[[#33310](https://community.openproject.com/wp/33310)\]
 - Fixed: Timeout / error 500 when setting current unit cost rate \[[#33319](https://community.openproject.com/wp/33319)\]
 - Fixed: Form misplaced after error \[[#33324](https://community.openproject.com/wp/33324)\]
-- Fixed: Create child in work package list does not create parent-child relationship \[[#33329](https://community.openproject.com/wp/33329)\]
+- Fixed: Create child in work package table does not create parent-child relationship \[[#33329](https://community.openproject.com/wp/33329)\]
 - Fixed: Oauth endpoints need to allow target hosts in CSP header "form-action" \[[#33336](https://community.openproject.com/wp/33336)\]
 - Fixed: Time logging not possible with custom field of type "version" \[[#33378](https://community.openproject.com/wp/33378)\]
 - Fixed: Mailing configuration appears not to be reloaded in workers \[[#33413](https://community.openproject.com/wp/33413)\]
