@@ -26,13 +26,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<div class="spot-container">
-  <h3 class="spot-subheader-small"><%= t("my_account.access_tokens.ical.title") %></h1>
-  <div class="spot-divider"></div>
-  <p class="spot-body-big">
-    <%= t("my_account.access_tokens.ical.text_hint", path: "https://www.openproject.org/docs/").html_safe %>
-  </p>
-  <div class="spot-body-big">
+<div class="attributes-group">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text"><%= t("my_account.access_tokens.ical.title") %></h3>
+    </div>
+  </div>
+  <div>
+    <p>
+      <%= t("my_account.access_tokens.ical.text_hint", path: "https://www.openproject.org/docs/").html_safe %>
+    </p>
     <% if Setting.ical_enabled? %>
       <% if ical_tokens_grouped_by_query.any? %>
         <div class="generic-table--container">
