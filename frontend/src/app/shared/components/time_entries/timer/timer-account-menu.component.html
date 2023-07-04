@@ -1,4 +1,4 @@
-<ng-container *ngIf="timer">
+<ng-container *ngIf="timer$ | async as timer">
   <span class="op-timer-account-menu--timer"> {{text.tracking}}:  {{ elapsed$ | async }}
     <a
     class="op-timer-account-menu--timer-icon"

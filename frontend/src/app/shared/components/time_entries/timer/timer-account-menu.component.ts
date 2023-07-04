@@ -11,7 +11,9 @@ import { TimeEntryTimerService } from 'core-app/shared/components/time_entries/s
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
 import {
+  firstValueFrom,
   Observable,
+  switchMap,
   timer,
 } from 'rxjs';
 import {
@@ -24,6 +26,7 @@ import { TimeEntryEditService } from '../edit/edit.service';
 import { HalResourceEditingService } from '../../fields/edit/services/hal-resource-editing.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 
 export const timerAccountSelector = 'op-timer-account-menu';
 
@@ -38,11 +41,12 @@ export const timerAccountSelector = 'op-timer-account-menu';
 })
 export class TimerAccountMenuComponent extends UntilDestroyedMixin implements OnInit {
   @HostBinding('class.op-timer-account-menu') className = true;
-  timer:TimeEntryResource|null = null;
+
+  timer$ = this.timeEntryService.activeTimer$;
 
   elapsed$:Observable<string> = timer(0, 1000)
     .pipe(
-      map(() => this.timer),
+      switchMap(() => this.timer$),
       filter((timeEntry) => timeEntry !== null),
       map((timeEntry:TimeEntryResource) => formatElapsedTime(timeEntry.createdAt as string)),
     );
@@ -50,6 +54,7 @@ export class TimerAccountMenuComponent extends UntilDestroyedMixin implements On
   text = {
     tracking: this.I18n.t('js.time_entry.tracking'),
     stop: this.I18n.t('js.time_entry.stop'),
+    timer_already_stopped: this.I18n.t('js.timer.timer_already_stopped'),
   };
 
   constructor(
@@ -61,6 +66,7 @@ export class TimerAccountMenuComponent extends UntilDestroyedMixin implements On
     readonly halEditing:HalResourceEditingService,
     readonly schemaCache:SchemaCacheService,
     readonly timezoneService:TimezoneService,
+    readonly toastService:ToastService,
   ) {
     super();
   }
@@ -69,23 +75,19 @@ export class TimerAccountMenuComponent extends UntilDestroyedMixin implements On
     const parent = this.elementRef.nativeElement.parentElement as HTMLElement;
     parent.hidden = true;
 
-    this
-      .timeEntryService
-      .activeTimer$
+    this.timer$
       .subscribe((active) => {
-        this.timer = active;
         parent.hidden = !active;
-
         this.cdRef.detectChanges();
       });
   }
 
-  public async stopTimer() {
-    const active = this.timer;
+  public async stopTimer():Promise<unknown> {
+    const active = await firstValueFrom(this.timeEntryService.refresh());
     if (!active) {
-      return;
+      return this.toastService.addWarning(this.text.timer_already_stopped);
     }
 
-    void this.timeEntryEditService.stopTimerAndEdit(active);
+    return this.timeEntryEditService.stopTimerAndEdit(active);
   }
 }
