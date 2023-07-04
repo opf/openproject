@@ -5,6 +5,8 @@ import {
 import {
   filter,
   map,
+  publish,
+  shareReplay,
   switchMap,
   tap,
 } from 'rxjs/operators';
@@ -32,7 +34,7 @@ export class TimeEntryTimerService {
     readonly apiV3Service:ApiV3Service,
   ) {
     // Refresh the timer after some interval to not block other resources
-    setTimeout(() => this.refresh(), 100);
+    setTimeout(() => this.refresh().subscribe(), 100);
 
     this
       .activeTimer$
