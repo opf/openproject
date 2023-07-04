@@ -798,6 +798,7 @@ en:
     timer:
       start_new_timer: 'Start new timer'
       timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
       tracking_time: 'Tracking time'
       button_stop: 'Stop current timer'
 

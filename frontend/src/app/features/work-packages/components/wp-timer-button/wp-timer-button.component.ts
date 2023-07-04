@@ -48,6 +48,7 @@ import {
   take,
 } from 'rxjs/operators';
 import {
+  firstValueFrom,
   from,
   Observable,
   timer,
@@ -62,6 +63,7 @@ import { formatElapsedTime } from 'core-app/features/work-packages/components/wp
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { StopExistingTimerModalComponent } from 'core-app/shared/components/time_entries/timer/stop-existing-timer-modal.component';
 import { TimeEntryEditService } from 'core-app/shared/components/time_entries/edit/edit.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 
 export function pad(val:number):string {
   return val > 9 ? val.toString() : `0${val.toString()}`;
@@ -88,6 +90,7 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
     workPackage: this.I18n.t('js.label_work_package'),
     start_timer: this.I18n.t('js.timer.start_new_timer'),
     stop_timer: this.I18n.t('js.timer.button_stop'),
+    timer_already_stopped: this.I18n.t('js.timer.timer_already_stopped'),
   };
 
   constructor(
@@ -101,6 +104,7 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
     readonly modalService:OpModalService,
     readonly schemaCache:SchemaCacheService,
     readonly timezoneService:TimezoneService,
+    readonly toastService:ToastService,
     readonly cdRef:ChangeDetectorRef,
   ) {
     super();
@@ -134,18 +138,18 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
   }
 
   async stop():Promise<unknown> {
-    if (this.active) {
-      return this.timeEntryEditService.stopTimerAndEdit(this.active);
+    const active = await firstValueFrom(this.timeEntryService.refresh());
+    if (!active) {
+      return this.toastService.addWarning(this.text.timer_already_stopped);
     }
 
-    return undefined;
+    return this.timeEntryEditService.stopTimerAndEdit(active);
   }
 
-  async start():Promise<void> {
+  start():void {
     this
       .timeEntryService
-      .activeTimer$
-      .pipe(take(1))
+      .refresh()
       .subscribe((active) => {
         if (active) {
           this.showStopModal()

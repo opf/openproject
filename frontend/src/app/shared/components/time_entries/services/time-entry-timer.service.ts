@@ -6,6 +6,7 @@ import {
   filter,
   map,
   switchMap,
+  tap,
 } from 'rxjs/operators';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
@@ -30,11 +31,8 @@ export class TimeEntryTimerService {
     readonly injector:Injector,
     readonly apiV3Service:ApiV3Service,
   ) {
-    timer(250)
-      .pipe(
-        switchMap(() => this.getActiveTimeEntry()),
-      )
-      .subscribe((entry) => this.timer$.next(entry));
+    // Refresh the timer after some interval to not block other resources
+    setTimeout(() => this.refresh(), 100);
 
     this
       .activeTimer$
@@ -47,7 +45,7 @@ export class TimeEntryTimerService {
       });
   }
 
-  public getActiveTimeEntry():Observable<TimeEntryResource|null> {
+  public refresh():Observable<TimeEntryResource|null> {
     const filters = new ApiV3FilterBuilder();
     filters.add('ongoing', '=', true);
 
@@ -55,8 +53,12 @@ export class TimeEntryTimerService {
       .apiV3Service
       .time_entries
       .filtered(filters)
-      .get().pipe(
-        map((collection) => collection.elements.pop() || null),
+      .get()
+      .pipe(
+        map((collection) => {
+          return collection.elements.pop() || null;
+        }),
+        tap((active) => this.timer$.next(active)),
       );
   }
 
