@@ -50,7 +50,7 @@ Rack::Attack.throttled_responder = lambda do |request|
     'RateLimit-Reset' => (now + (match_data[:period] - (now % match_data[:period]))).to_s
   }
 
-  [429, headers, ["Your request has been throttled. Try again in #{retry_after.seconds.from_now}.\n"]]
+  [429, headers, ["Your request has been throttled. Try again at #{retry_after.seconds.from_now}.\n"]]
 end
 
 Rack::Attack.throttle("limit-lost-password", limit: 3, period: 1.hour.to_i) do |req|
