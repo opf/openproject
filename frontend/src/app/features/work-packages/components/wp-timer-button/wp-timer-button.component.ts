@@ -70,14 +70,14 @@ import { ToastService } from 'core-app/shared/components/toaster/toast.service';
   templateUrl: './wp-timer-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin implements OnInit {
+export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin {
   @Input() public workPackage:WorkPackageResource;
 
-  active:TimeEntryResource|null|undefined;
+  timer$ = this.timeEntryService.activeTimer$;
 
   elapsed$:Observable<string> = timer(0, 1000)
     .pipe(
-      map(() => this.active),
+      switchMap(() => this.timer$),
       filter((timeEntry) => timeEntry !== null),
       map((timeEntry:TimeEntryResource) => formatElapsedTime(timeEntry.createdAt as string)),
     );
@@ -106,31 +106,12 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
     super();
   }
 
-  ngOnInit() {
-    this.reload();
-  }
-
-  reload():void {
-    this
-      .timeEntryService
-      .activeTimer$
-      .pipe(
-        this.untilDestroyed(),
-      )
-      .subscribe((timeEntry) => {
-        this.active = timeEntry;
-        this.cdRef.detectChanges();
-      });
-  }
-
-  get activeForWorkPackage():boolean {
-    return !!this.active && this.active.workPackage.href === this.workPackage.href;
+  activeForWorkPackage(timer:TimeEntryResource|null):boolean {
+    return !!timer && timer.workPackage.href === this.workPackage.href;
   }
 
   clear():void {
     this.timeEntryService.timer$.next(null);
-    this.active = null;
-    this.cdRef.detectChanges();
   }
 
   async stop():Promise<unknown> {
@@ -148,7 +129,7 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
       .refresh()
       .subscribe((active) => {
         if (active) {
-          this.showStopModal()
+          this.showStopModal(active)
             .then(() => this.stop().then(() => this.startTimer()))
             .catch(() => undefined);
         } else {
@@ -166,16 +147,14 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin impleme
       )
       .subscribe((active) => {
         this.timeEntryService.timer$.next(active);
-        this.active = active;
-        this.cdRef.detectChanges();
       });
   }
 
-  private showStopModal():Promise<void> {
+  private showStopModal(active:TimeEntryResource):Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this
         .modalService
-        .show(StopExistingTimerModalComponent, this.injector, { timer: this.active })
+        .show(StopExistingTimerModalComponent, this.injector, { timer: active })
         .subscribe((modal) => modal.closingEvent.subscribe(() => {
           if (modal.confirmed) {
             resolve();
