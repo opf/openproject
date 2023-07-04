@@ -117,6 +117,27 @@ RSpec.describe MeetingsController do
       end
     end
 
+    describe 'participants_section' do
+      render_views
+
+      let(:meeting) { Meeting.new(project:) }
+
+      before do
+        allow(Project).to receive(:find).and_return(project)
+        allow(Meeting).to receive(:new).and_return(meeting)
+      end
+
+      describe 'html' do
+        before do
+          get :participants_section, params: { project_id: project.id }
+        end
+
+        it { expect(response).to be_successful }
+        it { expect(response).to render_template :participants_section }
+        it { expect(assigns(:meeting)).to eql meeting }
+      end
+    end
+
     describe 'edit' do
       let(:meeting) { create(:meeting, project:) }
 

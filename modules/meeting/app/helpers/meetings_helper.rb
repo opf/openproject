@@ -78,11 +78,7 @@ module MeetingsHelper
   end
 
   def new_form_refresh_url
-    if global_create_context?
-      new_meeting_path
-    else
-      new_project_meeting_path(@project)
-    end
+    participants_section_meetings_path
   end
 
   def options_for_project_selection

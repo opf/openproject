@@ -28,11 +28,11 @@
 
 class MeetingsController < ApplicationController
   around_action :set_time_zone
-  before_action :find_optional_project, only: %i[index new create]
-  before_action :build_meeting, only: %i[new create]
-  before_action :find_meeting, except: %i[index new create]
+  before_action :find_optional_project, only: %i[index new participants_section create]
+  before_action :build_meeting, only: %i[new participants_section create]
+  before_action :find_meeting, except: %i[index new participants_section create]
   before_action :convert_params, only: %i[create update]
-  before_action :authorize, except: %i[index new]
+  before_action :authorize, except: %i[index new participants_section]
   before_action :authorize_global, only: %i[index new]
 
   helper :watchers
@@ -81,6 +81,10 @@ class MeetingsController < ApplicationController
 
   current_menu_item :new do
     :meetings
+  end
+
+  def participants_section
+    render layout: false
   end
 
   def copy

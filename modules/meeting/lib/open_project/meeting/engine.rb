@@ -40,7 +40,7 @@ module OpenProject::Meeting
       project_module :meetings do
         permission :view_meetings, meetings: %i[index show], meeting_agendas: %i[history show diff],
                                    meeting_minutes: %i[history show diff]
-        permission :create_meetings, { meetings: %i[new create copy] }, require: :member
+        permission :create_meetings, { meetings: %i[new participants_section create copy] }, require: :member
         permission :edit_meetings, { meetings: %i[edit update] }, require: :member
         permission :delete_meetings, { meetings: [:destroy] }, require: :member
         permission :meetings_send_invite, { meetings: [:icalendar] }, require: :member

@@ -29,25 +29,40 @@
  */
 
 import { ApplicationController } from 'stimulus-use';
+import { FrameElement } from '@hotwired/turbo';
 
 export default class RefreshOnFormChangesController extends ApplicationController {
   static targets = [
     'form',
+    'turboFrame',
   ];
 
   static values = {
     refreshUrl: String,
+    turboRefreshUrl: String,
   };
 
   declare readonly formTarget:HTMLFormElement;
+  declare readonly turboFrameTarget:FrameElement;
+  declare readonly hasTurboFrameTarget:boolean;
 
   declare refreshUrlValue:string;
+  declare turboRefreshUrlValue:string;
 
   triggerReload():void {
+    window.location.href = `${this.refreshUrlValue}?${this.getSerializedFormData()}`;
+  }
+
+  triggerTurboReload():void {
+    if (this.hasTurboFrameTarget) {
+      this.turboFrameTarget.src = `${this.turboRefreshUrlValue}?${this.getSerializedFormData()}`;
+    }
+  }
+
+  private getSerializedFormData():string {
     // without the cast to undefined, the URLSearchParams constructor will
     // not accept the FormData object.
     const formData = new FormData(this.formTarget) as unknown as undefined;
-    const serializedFormData = new URLSearchParams(formData).toString();
-    window.location.href = `${this.refreshUrlValue}?${serializedFormData}`;
+    return new URLSearchParams(formData).toString();
   }
 }
