@@ -53,6 +53,12 @@ input_admin_mail() {
 }
 
 input_default_language() {
+  # if legacy existing install, or when reconfiguring an existing install, we do not ask for default language again
+  if ${APP_NAME} config:get HOST &>/dev/null ; then
+    STATE="done"
+    return
+  fi
+
   wiz_put "openproject/default_language"
   if wiz_ask ; then
     STATE="done"
