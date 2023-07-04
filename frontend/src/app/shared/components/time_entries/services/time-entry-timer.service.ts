@@ -5,9 +5,6 @@ import {
 import {
   filter,
   map,
-  publish,
-  shareReplay,
-  switchMap,
   tap,
 } from 'rxjs/operators';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -16,7 +13,6 @@ import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter
 import {
   BehaviorSubject,
   Observable,
-  timer,
 } from 'rxjs';
 
 @Injectable()
@@ -39,10 +35,10 @@ export class TimeEntryTimerService {
     this
       .activeTimer$
       .subscribe((entry) => {
+        this.removeTimer();
+
         if (entry) {
           this.renderTimer();
-        } else {
-          this.removeTimer();
         }
       });
   }
