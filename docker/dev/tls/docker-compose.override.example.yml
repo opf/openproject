@@ -6,6 +6,9 @@ services:
       - /usr/local/share/ca-certificates:/usr/local/share/ca-certificates:ro
       # Volume mounts for nixOS
       - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+      # Volume mounts for macOS
+      - /etc/ssl/certs:/etc/ssl/certs:ro
+      - /usr/local/share/ca-certificates:/usr/local/share/ca-certificates:ro
 
   step:
     # add any host here run in a docker service, that need a TLS certificate

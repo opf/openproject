@@ -322,20 +322,38 @@ ln -s /usr/local/share/ca-certificates/OpenProject_Development_Root_CA.crt /etc/
 
 #### NixOS
 
-Add generated root CA to system certicates bundle usign the following configuration option of your NixOS:
-```nix
-  security.pki.certificateFiles = [ path_to_generated_cert_file.crt ];
+On NixOS, you need to add the generated root CA to system certificates bundle.
+
+```shell
+# Copy the .crt file into a location in your file system.
+docker compose --project-directory docker/dev/tls cp \
+ step:/home/step/certs/root_ca.crt ~/tmp/OpenProject_Development_Root_CA.crt
 ```
-Then rebuild your system.
-Generated root CA should be inside `/etc/ssl/certs/ca-certificates.crt`
+
+Add the following configuration option to your NixOS:
+
+```text
+security.pki.certificateFiles = [ ~/tmp/OpenProject_Development_Root_CA.crt ];
+```
+
+Then rebuild your system. After that the generated root CA should be inside `/etc/ssl/certs/ca-certificates.crt`.
 
 ### Amend docker services
 
 The docker services of the `docker-compose.yml` need additional information to be able to run in the local setup with
 TLS support. Basically, you need to tell `traefik` for which docker compose service it needs to create a HTTP router.
 There is an example compose file (see `docker/dev/tls/docker-compose.core-override.example.yml`), which contents you can
-take over to your custom `docker-compose.override.yml`. After amending the override file, ensure that you restart the
-stack.
+take over to your custom `docker-compose.override.yml`.
+
+In addition, we need to alter the environmental variables used in the new overrides. So we need to amend the `.env` file
+like that:
+
+```text
+OPENPROJECT_DEV_HOST=openproject.local
+OPENPROJECT_DEV_URL=https://${OPENPROJECT_DEV_HOST}
+```
+
+After amending the override file and the `.env`, ensure that you restart the stack.
 
 ```shell
 docker compose up -d frontend

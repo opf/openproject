@@ -2,7 +2,7 @@ services:
   backend:
     # The backend container needs some variables to be configured properly
     environment:
-      OPENPROJECT_CLI_PROXY: 'https://${OPENPROJECT_DEV_HOST}'
+      OPENPROJECT_CLI_PROXY: '${OPENPROJECT_DEV_URL}'
       OPENPROJECT_DEV_EXTRA_HOSTS: '${OPENPROJECT_DEV_HOST}'
       OPENPROJECT_HTTPS: true
     networks:
