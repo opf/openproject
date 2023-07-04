@@ -20,7 +20,7 @@ properties:
     format: date
     description: The time quantifying the expenditure
   ongoing:
-    type: Boolean
+    type: boolean
     description: Whether the time entry is actively tracking time
   createdAt:
     type: string
