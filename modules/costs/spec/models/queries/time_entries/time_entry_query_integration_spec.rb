@@ -26,18 +26,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::TimeEntries::TimeEntryQuery < Queries::BaseQuery
-  def self.model
-    TimeEntry
+require 'spec_helper'
+
+RSpec.describe Queries::TimeEntries::TimeEntryQuery, 'integration' do
+  let(:instance) { described_class.new(user:) }
+
+  before do
+    login_as(user)
   end
 
-  def default_scope
-    if filters.detect { |f| f.class.key == :ongoing }
-      TimeEntry.visible_ongoing(User.current)
-    else
-      TimeEntry
-        .not_ongoing
-        .visible(User.current)
+  context 'ongoing filter' do
+    let(:project) { create(:project, enabled_module_names: %w[costs]) }
+    let(:user) { create(:user, member_in_project: project, member_with_permissions: %i[log_own_time]) }
+    let(:other_user) { create(:user, member_in_project: project, member_with_permissions: %i[log_own_time]) }
+
+    let!(:user_timer) { create(:time_entry, user:, project:, ongoing: true) }
+    let!(:other_user_timer) { create(:time_entry, user: other_user, project:, ongoing: true) }
+
+    describe '#results' do
+      subject { instance.results }
+
+      before do
+        instance.where('ongoing', '=', ['t'])
+      end
+
+      it 'only returns the users own time entries' do
+        expect(subject).to contain_exactly(user_timer)
+      end
     end
   end
 end
