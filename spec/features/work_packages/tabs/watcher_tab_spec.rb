@@ -21,11 +21,13 @@ RSpec.describe 'Watcher tab', js: true, selenium: true do
   def expect_button_is_watching
     title = I18n.t('js.label_unwatch_work_package')
     expect(page).to have_selector("#unwatch-button[title='#{title}']", wait: 10)
+    expect(page).to have_selector('#unwatch-button .button--icon.icon-watched', wait: 10)
   end
 
   def expect_button_is_not_watching
     title = I18n.t('js.label_watch_work_package')
     expect(page).to have_selector("#watch-button[title='#{title}']")
+    expect(page).to have_selector('#watch-button .button--icon.icon-unwatched')
   end
 
   shared_examples 'watch and unwatch with button' do
