@@ -8,7 +8,7 @@ ka:
       label_board_type: 'Board type'
       upsale:
         teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
-        upgrade: 'Upgrade now'
+        upgrade: 'ახლავე განაახლე'
       lists:
         delete: 'Delete list'
       version:
@@ -24,7 +24,7 @@ ka:
         closed: 'Closed'
       new_board: 'New board'
       add_list: 'Add list to board'
-      add_card: 'Add card'
+      add_card: 'ბარათის დამატება'
       error_attribute_not_writable: "Cannot move the work package, %{attribute} is not writable."
       error_loading_the_list: "Error loading the list: %{error_message}"
       error_permission_missing: "The permission to create public queries is missing"
@@ -54,16 +54,16 @@ ka:
         action_type:
           assignee: assignee
           status: status
-          version: version
+          version: ვერსია
           subproject: subproject
           subtasks: parent-child
         board_type_title:
           assignee: Assignee
-          status: Status
-          version: Version
+          status: სტატუსი
+          version: ვერსია
           subproject: Subproject
           subtasks: Parent-child
-          basic: Basic
+          basic: ძირითადი
         select_attribute: "Action attribute"
       add_list_modal:
         labels:

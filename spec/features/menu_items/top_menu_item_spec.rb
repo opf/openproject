@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Top menu items', js: true, selenium: true do
+RSpec.describe 'Top menu items', js: true, with_cuprite: true do
   let(:user) { create(:user) }
   let(:open_menu) { true }
 
@@ -68,13 +68,13 @@ RSpec.describe 'Top menu items', js: true, selenium: true do
   end
 
   describe 'Modules' do
-    !let(:top_menu) { find(:css, "[title=#{I18n.t('label_modules')}]") }
+    let!(:top_menu) { find("[title=#{I18n.t('label_modules')}]") }
 
     let(:news_item) { I18n.t('label_news_plural') }
     let(:project_item) { I18n.t('label_projects_menu') }
     let(:reporting_item) { I18n.t('cost_reports_title') }
 
-    let(:all_items) { [news_item, project_item, reporting_item] }
+    let!(:all_items) { [news_item, project_item, reporting_item] }
 
     context 'as an admin' do
       let(:user) { create(:admin) }

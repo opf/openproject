@@ -207,6 +207,8 @@ gem "appsignal", "~> 3.0", require: false
 
 gem 'view_component'
 
+gem 'turbo-rails', "~> 1.1"
+
 group :test do
   gem 'launchy', '~> 2.5.0'
   gem 'rack-test', '~> 2.1.0'
@@ -234,6 +236,7 @@ group :test do
 
   gem 'capybara', '~> 3.39.0'
   gem 'capybara-screenshot', '~> 1.0.17'
+  gem 'cuprite', '~> 0.14.3'
   gem 'selenium-webdriver', '~> 4.0'
   gem 'webdrivers', '~> 5.2.0'
 
@@ -271,6 +274,9 @@ group :development do
   gem 'sassc-rails'
 
   gem 'colored2'
+
+  # git hooks manager
+  gem 'lefthook', require: false
 end
 
 group :development, :test do
@@ -297,9 +303,6 @@ group :development, :test do
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
-
-  # git hooks manager
-  gem 'lefthook', require: false
 
   # Brakeman scanner
   gem 'brakeman', '~> 6.0.0'

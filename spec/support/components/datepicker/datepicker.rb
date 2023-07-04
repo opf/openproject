@@ -81,11 +81,12 @@ module Components
         raise ArgumentError, "Invalid value #{value} for day, expected 1-31"
       end
 
+      expect(flatpickr_container).to have_text(value)
+
       retry_block do
         flatpickr_container
           .first('.flatpickr-days .flatpickr-day:not(.nextMonthDay):not(.prevMonthDay)',
-                 text: value,
-                 exact_text: true)
+                 text: value)
           .click
       end
     end

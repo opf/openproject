@@ -270,6 +270,16 @@ uk:
       no_results_title_text: Наразі немає жодної новини.
       no_results_content_text: Додати новину
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'Зараз цей користувач — учасник таких груп:'
       no_results_title_text: Цей користувач зараз не належить до жодної групи.
@@ -1065,6 +1075,7 @@ uk:
   button_configure: "Настроювання"
   button_continue: "Продовжити"
   button_copy: "Копіювати"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Скопіювати та продовжити"
   button_create: "Створити"
   button_create_and_continue: "Створити та продовжити"
@@ -1385,6 +1396,9 @@ uk:
       pdf_report: "PDF Report"
     image:
       omitted: "Зображення не експортовано."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Доступний текст PDF (необов'язково)"
@@ -1545,6 +1559,7 @@ uk:
   label_bulk_edit_selected_work_packages: "Масове редагування вибраних робочих пакетів"
   label_bundled: '(В комплекті)'
   label_calendar: "Календар"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Показати календар"
   label_category: "Категорія"
   label_consent_settings: "Згода користувача"
@@ -1581,7 +1596,6 @@ uk:
   label_contains: "містить"
   label_content: "Контент"
   label_copied: "скопійовано"
-  label_copy_to_clipboard: "Копіювати в буфер обміну"
   label_copy_same_as_target: "Те ж, що і для цілі"
   label_copy_source: "Джерело"
   label_copy_target: "Ціль"
@@ -1598,6 +1612,7 @@ uk:
   label_database_version: "Версія PostgreSQL"
   label_date: "Дата"
   label_date_and_time: "Дата і час"
+  label_date_format: "Date format"
   label_date_from: "Від"
   label_date_from_to: "З %{start} по %{end}"
   label_date_to: "Кому:"
@@ -1646,6 +1661,7 @@ uk:
   label_equals: "є"
   label_everywhere: "скрізь"
   label_example: "Приклад"
+  label_experimental: "Experimental"
   label_import: "Імпортувати"
   label_export_to: "Також вам доступні:"
   label_expanded_click_to_collapse: "Розширено. Натисніть, щоб згорнути"
@@ -1725,6 +1741,7 @@ uk:
   label_logged_as: "Ви увійшли як"
   label_login: "Увійти"
   label_custom_logo: "Спеціальний логотип"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "призначені для користувача іконки"
   label_custom_touch_icon: "Призначений для користувача значок логотипу"
   label_logout: "Вийти"
@@ -1761,6 +1778,7 @@ uk:
   label_more_than_ago: "більш ніж днів(я) назад"
   label_move_work_package: "Перемістити робочий пакет"
   label_my_account: "Мій обліковий запис"
+  label_my_activity: "My activity"
   label_my_account_data: "Мої дані облікового запису"
   label_my_projects: "Мої проекти"
   label_my_queries: "Мої збережені запити"
@@ -2525,7 +2543,7 @@ uk:
   setting_consent_decline_mail: "Згода на контактну пошту"
   setting_cross_project_work_package_relations: "Дозволити взаємозв'язок між робочими пакетами і проектами"
   setting_first_week_of_year: "Перший тиждень у році містить"
-  setting_date_format: "Формат дати:"
+  setting_date_format: "Date"
   setting_default_language: "Мова за замовчуванням"
   setting_default_projects_modules: "Включені по замовчуванню модулі для нових проектів"
   setting_default_projects_public: "Нові проекти є загальнодоступними"
@@ -2588,7 +2606,7 @@ uk:
   setting_start_of_week: "Тиждень починається"
   setting_sys_api_enabled: "Увімкнути веб-службу керування сховищем"
   setting_sys_api_description: "Веб-сервіс управління сховищем забезпечує інтеграцію та авторизацію користувача для доступу до сховищ."
-  setting_time_format: "Формат часу"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Увімкніть режим доступності для анонімних користувачів"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Часовий пояс користувача за замовчуванням"
@@ -2599,6 +2617,7 @@ uk:
   setting_welcome_on_homescreen: "Відображати вітальний блок на робочому столі"
   setting_work_package_list_default_highlighting_mode: "Режим виділення за умовчанням"
   setting_work_package_list_default_highlighted_attributes: "Стандартні вбудовані виділені атрибути"
+  setting_working_days: "Working days"
   settings:
     general: "Загальні"
     other: "Інше"
@@ -2616,6 +2635,10 @@ uk:
         Якщо вибрано один із варіантів «%{day_of_week_setting_name}» і «%{first_week_setting_name}», інший із цих варіантів потрібно також вибрати, щоб уникнути розбіжностей на зовнішньому сервері.
       first_week_of_year_text: >
         Виберіть дату в січні, що входить у перший тиждень року. Це значення разом із першим днем тижня визначає загальну кількість тижнів у році.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Налаштування нових проєктів"
       section_project_overview: "Налаштування списку огляду проєктів"
@@ -2630,6 +2653,9 @@ uk:
         status: "Весь рядок за Статусом"
         type: "Весь рядок за Типом"
         priority: "Весь рядок за Пріоритетом"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Простий текст'
@@ -2668,10 +2694,12 @@ uk:
     У версії Enterprise з’являться такі додаткові доповнення для користувацьких полів проєктів: <br> <ul><li><b>Додавати користувацькі поля проєктів у список проєктів для створення режиму перегляду портфеля проєктів</b></li> </ul>
   text_custom_logo_instructions: >
     Рекомендується використовувати білий логотип з прозорим фоном. Для оптимального відображення на звичайних і retina-дисплеях розмір картинки повинен бути 460 на 110 пікселів.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Це крихітні значок, який з'являється в вашому вікні / вкладці браузера поруч з назвою сторінки. Це повинно бути квадратне PNG зображення розміром 32 на 32 пікселів з прозорим фоном.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    Це значок, який відображається на вашому мобільному пристрої або планшеті, коли ви розміщуєте закладку на робочому столі. Це має бути квадратний файл зображення PNG розміром 180 на 180 пікселів. Переконайтеся, що фон зображення не є прозорим, інакше він виглядатиме погано на iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "База даних дозволяє TSVector (необов'язково)"
   text_default_administrator_account_changed: "Обліковий запис адміністратора за замовчуванням змінений"
   text_default_encoding: "По замовчуванню: UTF-8"
@@ -2999,9 +3027,9 @@ uk:
       title: "Видаліть робочий пакет"
   working_days:
     info: >
-      <b>Визначити дні, які потрібно включити до робочого тижня</b><br/> Під час планування пакетів робіт невибрані дні пропускаються і не включаються в кількість днів. Це налаштування можна змінити на рівні пакета робіт.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Конкретні неробочі дні (свята й вихідні)</b><br/> Дати зі списку нижче вважаються неробочими днями й не враховуються під час планування пакетів робіт.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Змінити робочі дні"
     warning: >
       Змінення днів тижня, які вважаються робочими або неробочими, може вплинути на дати початку й закінчення всіх пакетів робіт в усіх проєктах цього екземпляра. <br/> Зверніть увагу: зміни застосовуються лише після натискання кнопки «Застосувати зміни».

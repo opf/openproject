@@ -54,7 +54,7 @@ export class ScrollableTabsComponent implements AfterViewInit, OnChanges {
 
   private pane:Element;
 
-  private debouncedTabActivationTimeout:number|null;
+  private debouncedTabActivationTimeout:ReturnType<typeof setTimeout>|null;
 
   private dragTargetStack = 0;
 

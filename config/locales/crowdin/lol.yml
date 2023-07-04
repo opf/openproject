@@ -263,6 +263,16 @@ lol:
       no_results_title_text: crwdns494987:0crwdne494987:0
       no_results_content_text: crwdns494989:0crwdne494989:0
   users:
+    sessions:
+      session_name: "crwdns855787:0%{browser_name}crwdnd855787:0%{browser_version}crwdnd855787:0%{os_name}crwdne855787:0"
+      browser: 'crwdns855929:0crwdne855929:0'
+      device: 'crwdns855935:0crwdne855935:0'
+      unknown_browser: 'crwdns855789:0crwdne855789:0'
+      unknown_os: 'crwdns855791:0crwdne855791:0'
+      current: 'crwdns855793:0crwdne855793:0'
+      title: 'crwdns855795:0crwdne855795:0'
+      instructions: 'crwdns855797:0crwdne855797:0'
+      may_not_delete_current: 'crwdns855799:0crwdne855799:0'
     groups:
       member_in_these_groups: 'crwdns494991:0crwdne494991:0'
       no_results_title_text: crwdns494993:0crwdne494993:0
@@ -1038,6 +1048,7 @@ lol:
   button_configure: "crwdns495941:0crwdne495941:0"
   button_continue: "crwdns495943:0crwdne495943:0"
   button_copy: "crwdns495945:0crwdne495945:0"
+  button_copy_to_clipboard: "crwdns855839:0crwdne855839:0"
   button_copy_and_follow: "crwdns495947:0crwdne495947:0"
   button_create: "crwdns495949:0crwdne495949:0"
   button_create_and_continue: "crwdns495951:0crwdne495951:0"
@@ -1334,6 +1345,9 @@ lol:
       pdf_report: "crwdns854713:0crwdne854713:0"
     image:
       omitted: "crwdns496723:0crwdne496723:0"
+    units:
+      hours: crwdns855361:0crwdne855361:0
+      days: crwdns855363:0crwdne855363:0
   extraction:
     available:
       pdftotext: "crwdns496725:0crwdne496725:0"
@@ -1489,6 +1503,7 @@ lol:
   label_bulk_edit_selected_work_packages: "crwdns496971:0crwdne496971:0"
   label_bundled: 'crwdns496973:0crwdne496973:0'
   label_calendar: "crwdns496975:0crwdne496975:0"
+  label_calendars_and_dates: "crwdns855695:0crwdne855695:0"
   label_calendar_show: "crwdns496977:0crwdne496977:0"
   label_category: "crwdns496979:0crwdne496979:0"
   label_consent_settings: "crwdns496981:0crwdne496981:0"
@@ -1525,7 +1540,6 @@ lol:
   label_contains: "crwdns497045:0crwdne497045:0"
   label_content: "crwdns497047:0crwdne497047:0"
   label_copied: "crwdns497049:0crwdne497049:0"
-  label_copy_to_clipboard: "crwdns497051:0crwdne497051:0"
   label_copy_same_as_target: "crwdns497053:0crwdne497053:0"
   label_copy_source: "crwdns497055:0crwdne497055:0"
   label_copy_target: "crwdns497057:0crwdne497057:0"
@@ -1542,6 +1556,7 @@ lol:
   label_database_version: "crwdns497079:0crwdne497079:0"
   label_date: "crwdns497081:0crwdne497081:0"
   label_date_and_time: "crwdns497083:0crwdne497083:0"
+  label_date_format: "crwdns855697:0crwdne855697:0"
   label_date_from: "crwdns497085:0crwdne497085:0"
   label_date_from_to: "crwdns497087:0%{start}crwdnd497087:0%{end}crwdne497087:0"
   label_date_to: "crwdns497089:0crwdne497089:0"
@@ -1590,6 +1605,7 @@ lol:
   label_equals: "crwdns497171:0crwdne497171:0"
   label_everywhere: "crwdns497173:0crwdne497173:0"
   label_example: "crwdns497175:0crwdne497175:0"
+  label_experimental: "crwdns856591:0crwdne856591:0"
   label_import: "crwdns497177:0crwdne497177:0"
   label_export_to: "crwdns497179:0crwdne497179:0"
   label_expanded_click_to_collapse: "crwdns497181:0crwdne497181:0"
@@ -1669,6 +1685,7 @@ lol:
   label_logged_as: "crwdns497325:0crwdne497325:0"
   label_login: "crwdns497327:0crwdne497327:0"
   label_custom_logo: "crwdns497329:0crwdne497329:0"
+  label_custom_export_logo: "crwdns857281:0crwdne857281:0"
   label_custom_favicon: "crwdns497331:0crwdne497331:0"
   label_custom_touch_icon: "crwdns497333:0crwdne497333:0"
   label_logout: "crwdns497335:0crwdne497335:0"
@@ -1705,6 +1722,7 @@ lol:
   label_more_than_ago: "crwdns497395:0crwdne497395:0"
   label_move_work_package: "crwdns497397:0crwdne497397:0"
   label_my_account: "crwdns497399:0crwdne497399:0"
+  label_my_activity: "crwdns855713:0crwdne855713:0"
   label_my_account_data: "crwdns497401:0crwdne497401:0"
   label_my_projects: "crwdns497403:0crwdne497403:0"
   label_my_queries: "crwdns497405:0crwdne497405:0"
@@ -2460,7 +2478,7 @@ lol:
   setting_consent_decline_mail: "crwdns498973:0crwdne498973:0"
   setting_cross_project_work_package_relations: "crwdns498975:0crwdne498975:0"
   setting_first_week_of_year: "crwdns498977:0crwdne498977:0"
-  setting_date_format: "crwdns498979:0crwdne498979:0"
+  setting_date_format: "crwdns855699:0crwdne855699:0"
   setting_default_language: "crwdns498981:0crwdne498981:0"
   setting_default_projects_modules: "crwdns498983:0crwdne498983:0"
   setting_default_projects_public: "crwdns498985:0crwdne498985:0"
@@ -2523,7 +2541,7 @@ lol:
   setting_start_of_week: "crwdns499099:0crwdne499099:0"
   setting_sys_api_enabled: "crwdns499101:0crwdne499101:0"
   setting_sys_api_description: "crwdns499103:0crwdne499103:0"
-  setting_time_format: "crwdns499105:0crwdne499105:0"
+  setting_time_format: "crwdns855701:0crwdne855701:0"
   setting_accessibility_mode_for_anonymous: "crwdns499107:0crwdne499107:0"
   setting_user_format: "crwdns854505:0crwdne854505:0"
   setting_user_default_timezone: "crwdns499111:0crwdne499111:0"
@@ -2534,6 +2552,7 @@ lol:
   setting_welcome_on_homescreen: "crwdns499121:0crwdne499121:0"
   setting_work_package_list_default_highlighting_mode: "crwdns499123:0crwdne499123:0"
   setting_work_package_list_default_highlighted_attributes: "crwdns499125:0crwdne499125:0"
+  setting_working_days: "crwdns855703:0crwdne855703:0"
   settings:
     general: "crwdns499127:0crwdne499127:0"
     other: "crwdns499129:0crwdne499129:0"
@@ -2551,6 +2570,10 @@ lol:
         crwdns499145:0%{day_of_week_setting_name}crwdnd499145:0%{first_week_setting_name}crwdne499145:0
       first_week_of_year_text: >
         crwdns499147:0crwdne499147:0
+    experimental:
+      save_confirmation: crwdns856593:0crwdne856593:0
+      warning_toast: crwdns856595:0crwdne856595:0
+      feature_flags: crwdns856597:0crwdne856597:0
     projects:
       section_new_projects: "crwdns499149:0crwdne499149:0"
       section_project_overview: "crwdns499151:0crwdne499151:0"
@@ -2565,6 +2588,9 @@ lol:
         status: "crwdns499161:0crwdne499161:0"
         type: "crwdns499163:0crwdne499163:0"
         priority: "crwdns499165:0crwdne499165:0"
+    working_days:
+      section_work_week: "crwdns855705:0crwdne855705:0"
+      section_holidays_and_closures: "crwdns855707:0crwdne855707:0"
   text_formatting:
     markdown: 'crwdns499167:0crwdne499167:0'
     plain: 'crwdns499169:0crwdne499169:0'
@@ -2603,10 +2629,12 @@ lol:
     crwdns839567:0crwdne839567:0
   text_custom_logo_instructions: >
     crwdns499215:0crwdne499215:0
+  text_custom_export_logo_instructions: >
+    crwdns857283:0crwdne857283:0
   text_custom_favicon_instructions: >
-    crwdns499217:0crwdne499217:0
+    crwdns857285:0crwdne857285:0
   text_custom_touch_icon_instructions: >
-    crwdns499219:0crwdne499219:0
+    crwdns857287:0crwdne857287:0
   text_database_allows_tsv: "crwdns499221:0crwdne499221:0"
   text_default_administrator_account_changed: "crwdns499223:0crwdne499223:0"
   text_default_encoding: "crwdns499225:0crwdne499225:0"
@@ -2930,9 +2958,9 @@ lol:
       title: "crwdns499771:0crwdne499771:0"
   working_days:
     info: >
-      crwdns845741:0crwdne845741:0
+      crwdns855709:0crwdne855709:0
     instance_wide_info: >
-      crwdns845743:0crwdne845743:0
+      crwdns855711:0crwdne855711:0
     change_button: "crwdns833348:0crwdne833348:0"
     warning: >
       crwdns845953:0crwdne845953:0

@@ -1,3 +1,31 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2023 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 class MembersAllowNullOnProject < ActiveRecord::Migration[6.0]
   def change
     change_column_null :members, :project_id, true
@@ -28,7 +56,7 @@ class MembersAllowNullOnProject < ActiveRecord::Migration[6.0]
   private
 
   def add_updated_at_values
-    execute <<~SQL
+    execute <<~SQL.squish
       UPDATE
         members
       SET#{' '}
@@ -39,7 +67,7 @@ class MembersAllowNullOnProject < ActiveRecord::Migration[6.0]
   def migrate_principal_roles_data
     fetch_principal_roles.each do |principal_id, records|
       member_id = insert_into_members(principal_id, records.first['created_at'], records.first['updated_at'])
-      insert_into_member_roles(member_id, records.map { |r| r['role_id'] })
+      insert_into_member_roles(member_id, records.pluck('role_id'))
     end
   end
 
@@ -50,7 +78,7 @@ class MembersAllowNullOnProject < ActiveRecord::Migration[6.0]
   end
 
   def insert_into_members(principal_id, created_at, updated_at)
-    member_id = select_all <<~SQL
+    member_id = select_all <<~SQL.squish
       INSERT INTO
         members(user_id, created_on, updated_at)
       VALUES (#{principal_id}, '#{created_at}', '#{updated_at}')
@@ -63,7 +91,7 @@ class MembersAllowNullOnProject < ActiveRecord::Migration[6.0]
   def insert_into_member_roles(member_id, role_ids)
     values = role_ids.map { |role_id| "(#{member_id}, #{role_id})" }
 
-    execute <<~SQL
+    execute <<~SQL.squish
       INSERT INTO
         member_roles(member_id, role_id)
       VALUES #{values.join(', ')}
@@ -76,7 +104,7 @@ class MembersAllowNullOnProject < ActiveRecord::Migration[6.0]
   end
 
   def insert_into_principal_roles
-    execute <<~SQL
+    execute <<~SQL.squish
       INSERT INTO
         principal_roles (principal_id, role_id, created_at, updated_at)
       SELECT
@@ -96,7 +124,7 @@ class MembersAllowNullOnProject < ActiveRecord::Migration[6.0]
   end
 
   def delete_global_members
-    execute <<~SQL
+    execute <<~SQL.squish
       DELETE
       FROM
         members
@@ -104,7 +132,7 @@ class MembersAllowNullOnProject < ActiveRecord::Migration[6.0]
         project_id IS NULL
     SQL
 
-    execute <<~SQL
+    execute <<~SQL.squish
       DELETE
       FROM
         member_roles

@@ -136,12 +136,12 @@ cs:
           You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
-          name: Demo project
+          name: Demo projekt
           status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
           description: This is a short summary of the goals of this demo project.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Vítejte ve vašem demo projektu
               summary: |
                 We are glad you joined.
                 In this module you can communicate project news to your team members.
@@ -150,11 +150,11 @@ cs:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
-              name: Project plan
+              name: Plán projektu
             item_1:
-              name: Milestones
+              name: Milníky
             item_2:
-              name: Tasks
+              name: Úkoly
             item_3:
               name: Týmový plánovač
           boards:
@@ -164,20 +164,20 @@ cs:
               name: Základní tabule
               lists:
                 item_0:
-                  name: Wish list
+                  name: Seznam přání
                 item_1:
                   name: Short list
                 item_2:
-                  name: Priority list for today
+                  name: Seznam priorit pro dnešek
                 item_3:
                   name: Nikdy
             parent_child:
-              name: Work breakdown structure
+              name: Struktura členění práce
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Vítejte
               item_1:
                 options:
                   name: Začínáme
@@ -202,10 +202,10 @@ cs:
                   name: Pracovní balíčky
               item_6:
                 options:
-                  name: Milestones
+                  name: Milníky
           work_packages:
             item_0:
-              subject: Start of project
+              subject: Zahájení projektu
             item_1:
               subject: Organize open source conference
               children:
@@ -213,22 +213,22 @@ cs:
                   subject: Set date and location of conference
                   children:
                     item_0:
-                      subject: Send invitation to speakers
+                      subject: Poslat pozvánku řečníkům
                     item_1:
                       subject: Contact sponsoring partners
                     item_2:
                       subject: Create sponsorship brochure and hand-outs
                 item_1:
-                  subject: Invite attendees to conference
+                  subject: Pozvat účastníky konference
                 item_2:
-                  subject: Setup conference website
+                  subject: Nastavit web konference
             item_2:
-              subject: Conference
+              subject: Konference
             item_3:
-              subject: Follow-up tasks
+              subject: Následné úkoly
               children:
                 item_0:
-                  subject: Upload presentations to website
+                  subject: Nahrát prezentace na webové stránky
                 item_1:
                   subject: Party for conference supporters :-)
                   description: |-
@@ -237,9 +237,9 @@ cs:
                     *   [ ] Music
                     *   [ ] Even more beer
             item_4:
-              subject: End of project
+              subject: Ukončení projektu
         scrum-project:
-          name: Scrum project
+          name: Projekt Scrum
           status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
           description: This is a short summary of the goals of this demo Scrum project.
           news:
@@ -309,13 +309,13 @@ cs:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
-              name: Project plan
+              name: Plán projektu
             item_1:
               name: Nevyřízené produkty
             item_2:
-              name: Sprint 1
+              name: Sprint 2
             item_3:
-              name: Tasks
+              name: Úkoly
           boards:
             kanban:
               name: Kanban board
@@ -334,7 +334,7 @@ cs:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Vítejte
               item_1:
                 options:
                   name: Začínáme
@@ -360,26 +360,26 @@ cs:
                   name: Pracovní balíčky
               item_6:
                 options:
-                  name: Project plan
+                  name: Plán projektu
           work_packages:
             item_0:
-              subject: New login screen
+              subject: Nová přihlašovací obrazovka
             item_1:
-              subject: Password reset does not send email
+              subject: Obnovení hesla neposílá e-mail
             item_2:
-              subject: New website
+              subject: Nový web
               children:
                 item_0:
-                  subject: Newsletter registration form
+                  subject: Formulář pro registraci k odběru novinek
                 item_1:
                   subject: Implement product tour
                 item_2:
-                  subject: New landing page
+                  subject: Nová vstupní stránka
                   children:
                     item_0:
                       subject: Create wireframes for new landing page
             item_3:
-              subject: Contact form
+              subject: Kontaktní formulář
             item_4:
               subject: Feature carousel
               children:

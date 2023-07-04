@@ -34,7 +34,9 @@ class WorkPackageCustomField < CustomField
                           join_table: "#{table_name_prefix}custom_fields_types#{table_name_suffix}",
                           foreign_key: 'custom_field_id'
   has_many :work_packages,
-           through: :work_package_custom_values
+           through: :custom_values,
+           source: :customized,
+           source_type: "WorkPackage"
 
   scope :visible_by_user, ->(user) {
     if user.allowed_to_globally?(:select_custom_fields)

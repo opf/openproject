@@ -29,7 +29,7 @@
 #++
 
 module Members
-  class RoleFormComponent < ::RailsComponent
+  class RoleFormComponent < ::ApplicationComponent
     options :row, :params, :roles
 
     def member

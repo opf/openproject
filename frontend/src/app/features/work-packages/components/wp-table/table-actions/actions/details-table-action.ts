@@ -1,5 +1,5 @@
 import { contextColumnIcon, OpTableAction } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
-import { spotIconElement } from 'core-app/shared/helpers/spot-icon-builder';
+import { opIconElement } from 'core-app/shared/helpers/op-icon-builder';
 
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { UiStateLinkBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
@@ -25,7 +25,7 @@ export class OpDetailsTableAction extends OpTableAction {
     );
 
     detailsLink.classList.add(detailsLinkClassName, contextColumnIcon, 'hidden-for-mobile');
-    detailsLink.appendChild(spotIconElement('info2'));
+    detailsLink.appendChild(opIconElement('icon', 'icon-info2'));
 
     return detailsLink;
   }

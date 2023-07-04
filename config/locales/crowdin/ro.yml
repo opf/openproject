@@ -275,6 +275,16 @@ ro:
       no_results_title_text: În acest moment nu există știri de raportat.
       no_results_content_text: Adăugare știre nouă
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'Acest utilizator este în prezent membru al următoarelor grupuri:'
       no_results_title_text: Acest utilizator nu este în prezent membru în niciun grup.
@@ -1063,6 +1073,7 @@ ro:
   button_configure: "Configurare"
   button_continue: "Continuaţi"
   button_copy: "Copiere"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Copiere și continuare"
   button_create: "Creare"
   button_create_and_continue: "Creare și continuare"
@@ -1371,6 +1382,9 @@ ro:
       pdf_report: "PDF Report"
     image:
       omitted: "Imaginea nu a fost exportată."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext disponibil (opțional)"
@@ -1531,6 +1545,7 @@ ro:
   label_bulk_edit_selected_work_packages: "Editare în masă a pachetelor de lucru selectate"
   label_bundled: '(la pachet)'
   label_calendar: "Calendar"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Afișare calendar"
   label_category: "Categorie"
   label_consent_settings: "Consimţământul utilizatorului"
@@ -1567,7 +1582,6 @@ ro:
   label_contains: "conţine"
   label_content: "Conținut"
   label_copied: "copiat"
-  label_copy_to_clipboard: "Copiere în clipboard"
   label_copy_same_as_target: "La fel ca destinația"
   label_copy_source: "Sursă"
   label_copy_target: "Destinație"
@@ -1584,6 +1598,7 @@ ro:
   label_database_version: "Versiunea PostgreSQL"
   label_date: "Dată"
   label_date_and_time: "Data"
+  label_date_format: "Date format"
   label_date_from: "Din"
   label_date_from_to: "Din %{start} la %{end}"
   label_date_to: "La"
@@ -1632,6 +1647,7 @@ ro:
   label_equals: "este"
   label_everywhere: "Peste tot"
   label_example: "Exemplu"
+  label_experimental: "Experimental"
   label_import: "Importă"
   label_export_to: "Disponibil și în:"
   label_expanded_click_to_collapse: "Extinse. Faceți clic pentru a restrânge"
@@ -1711,6 +1727,7 @@ ro:
   label_logged_as: "Autentificat ca"
   label_login: "Autentificare"
   label_custom_logo: "Custom Logo"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Pictogramă personalizată"
   label_custom_touch_icon: "Pictogramă touch personalizată"
   label_logout: "Deconectare"
@@ -1747,6 +1764,7 @@ ro:
   label_more_than_ago: "acum mai mult de zile"
   label_move_work_package: "Mutare pachet de lucru"
   label_my_account: "Contul meu"
+  label_my_activity: "My activity"
   label_my_account_data: "Datele din contul meu"
   label_my_projects: "Proiectele mele"
   label_my_queries: "Interogările mele"
@@ -2511,7 +2529,7 @@ ro:
   setting_consent_decline_mail: "Consimțământ adresa de e-mail de contact"
   setting_cross_project_work_package_relations: "Permiteți legături între pachetele de lucru din proiecte diferite"
   setting_first_week_of_year: "Prima săptămână din an conține"
-  setting_date_format: "Format dată"
+  setting_date_format: "Date"
   setting_default_language: "Limbă implicită"
   setting_default_projects_modules: "Module activate implicit la creare proiect"
   setting_default_projects_public: "Proiectele noi sunt implicit publice"
@@ -2574,7 +2592,7 @@ ro:
   setting_start_of_week: "Săptămâna începe pe"
   setting_sys_api_enabled: "Activare serviciul web de administrare repo"
   setting_sys_api_description: "Serviciul web de administrare repo oferă integrare şi autorizare utilizatori pentru accesul la repo-uri."
-  setting_time_format: "Format oră"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Activează modul de accesibilitate pentru utilizatorii anonimi"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Fusul orar implicit al utilizatorilor"
@@ -2585,6 +2603,7 @@ ro:
   setting_welcome_on_homescreen: "Afişare bloc \"bun venit\" pe ecranul de start"
   setting_work_package_list_default_highlighting_mode: "Mod de evidențiere implicit"
   setting_work_package_list_default_highlighted_attributes: "Atributele evidențiate implicit în linie"
+  setting_working_days: "Working days"
   settings:
     general: "General"
     other: "Altele"
@@ -2602,6 +2621,10 @@ ro:
         Dacă oricare dintre opțiunile "%{day_of_week_setting_setting_name}" sau "%{first_week_setting_name}" sunt setate, trebuie să fie setată și cealaltă pentru a evita neconcordanțele din frontend.
       first_week_of_year_text: >
         Selectați data din ianuarie care se află în prima săptămână a anului. Această valoare, împreună cu prima zi a săptămânii, determină numărul total de săptămâni dintr-un an.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Setări pentru proiecte noi"
       section_project_overview: "Setări pentru lista de prezentare generală a proiectului"
@@ -2616,6 +2639,9 @@ ro:
         status: "Rândul întreg după statut"
         type: "Întregul rând pe tipuri"
         priority: "Întregul rând în funcție de Prioritate"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Text simplu'
@@ -2654,10 +2680,12 @@ ro:
     Ediția Enterprise va adăuga aceste add-on-uri suplimentare pentru câmpurile personalizate ale proiectelor: <br> <ul> <li><b>Adăugați câmpuri personalizate pentru proiecte la lista de proiecte pentru a crea o vizualizare a portofoliului de proiecte</b></li> </ul>
   text_custom_logo_instructions: >
     Este recomandată utilizarea unui logo cu fundal transparent. Pentru a obține rezultate satisfăcătoare pe afișajele convenționale dar și pe cele de tipe retina, asigurați-vă că dimensiunea imaginii este de 460px pe 110px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Această pictogramă este afișată în fereastra/fila browserului lângă titlul site-ului. Aceasta trebuie să aibă dimensiunea de 32px pe 32px, să fie în format PNG și fundalul să fie transparent.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    Această pictogramă apare pe telefon sau tabletă în momentul în care se scurtătura către site este salvată pe ecranul principal. Această trebuie să aibă dimensiunea de 180px pe 180 px, să fie în format PNG și este NEAPĂRAT necesar ca fundalul să fie transparent. În caz contrar, această imagine va arăta inestetic pe iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Baza de date permite TSVector (opțional)"
   text_default_administrator_account_changed: "Contul de administrator implicit a fost schimbat"
   text_default_encoding: "Implicit: UTF-8"
@@ -2984,9 +3012,9 @@ ro:
       title: "Ştergere a pachetului de lucru"
   working_days:
     info: >
-      <b>Definire zile considerate parte a săptămânii de lucru</b><br/> Zile care nu sunt selectate sunt omise la programarea pachetelor de lucru (și nu sunt incluse în numărul de zile). Acestea pot fi depăşite la nivelul pachetelor de lucru.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Zile nelucrătoare specifice (sărbători și închidere)</b><br/> Datele adăugate în lista de mai jos sunt considerate nefuncționale și omise când se programează pachete de lucru.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Modificarea zilelor lucrătoare"
     warning: >
       În acest caz, modificarea zilelor săptămânii care sunt considerate zile lucrătoare sau nelucrătoare poate afecta zilele de început și de sfârșit ale tuturor pachetelor de lucru din toate proiectele. <br/> Vă rugăm să rețineți că modificările sunt aplicate numai după ce faceți clic pe butonul de aplicare a modificărilor.

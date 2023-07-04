@@ -272,6 +272,16 @@ pl:
       no_results_title_text: Nie ma jeszcze żadnych wiadomości do wyświetlenia.
       no_results_content_text: Dodaj nowy element
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'Ten użytkownik jest obecnie członkiem następujących grup:'
       no_results_title_text: Ten użytkownik nie jest obecnie członkiem żadnej grupy.
@@ -1067,6 +1077,7 @@ pl:
   button_configure: "Konfigurowanie"
   button_continue: "Dalej"
   button_copy: "Kopiuj"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Skopiuj i wykonaj"
   button_create: "Utwórz"
   button_create_and_continue: "Utwórz i kontynuuj"
@@ -1387,6 +1398,9 @@ pl:
       pdf_report: "PDF Report"
     image:
       omitted: "Nie wyeksportowano obrazu"
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Dostępny konwerter Pdftotext (opcjonalny)"
@@ -1547,6 +1561,7 @@ pl:
   label_bulk_edit_selected_work_packages: "Edycja wybranych zadań zbiorczo"
   label_bundled: '(W zestawie)'
   label_calendar: "Kalendarz"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Pokaż kalendarz"
   label_category: "Kategoria"
   label_consent_settings: "Zgoda użytkownika"
@@ -1583,7 +1598,6 @@ pl:
   label_contains: "zawiera"
   label_content: "Zawartość"
   label_copied: "skopiowane"
-  label_copy_to_clipboard: "Skopiuj do schowka"
   label_copy_same_as_target: "Taki sam jak docelowy"
   label_copy_source: "Źródło"
   label_copy_target: "Cel"
@@ -1600,6 +1614,7 @@ pl:
   label_database_version: "Wersja PostgreSQL"
   label_date: "Data"
   label_date_and_time: "Data i czas"
+  label_date_format: "Date format"
   label_date_from: "Od"
   label_date_from_to: "Data od %{start} do %{end}"
   label_date_to: "Do"
@@ -1648,6 +1663,7 @@ pl:
   label_equals: "jest"
   label_everywhere: "wszędzie"
   label_example: "Przykład"
+  label_experimental: "Experimental"
   label_import: "Importuj"
   label_export_to: "Dostępne również w:"
   label_expanded_click_to_collapse: "Rozwinięto. Kliknij, aby zwinąć"
@@ -1727,6 +1743,7 @@ pl:
   label_logged_as: "Zalogowany jako"
   label_login: "Logowanie"
   label_custom_logo: "Własne logo"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Własny favicon"
   label_custom_touch_icon: "Własny touch icon"
   label_logout: "Wyloguj"
@@ -1763,6 +1780,7 @@ pl:
   label_more_than_ago: "Więcej niż dni temu"
   label_move_work_package: "Przenieś pakiet roboczy"
   label_my_account: "Moje konto"
+  label_my_activity: "My activity"
   label_my_account_data: "Moje dane konta"
   label_my_projects: "Moje projekty"
   label_my_queries: "Moje zapytania niestandardowe"
@@ -2527,7 +2545,7 @@ pl:
   setting_consent_decline_mail: "Adres kontaktowy zgody"
   setting_cross_project_work_package_relations: "Zezwól na powiązania pakietów roboczych pomiędzy projektami"
   setting_first_week_of_year: "Pierwszy tydzień w roku zawiera"
-  setting_date_format: "Format daty"
+  setting_date_format: "Date"
   setting_default_language: "Język domyślny"
   setting_default_projects_modules: "Domyślnie włączone moduły dla nowych projektów"
   setting_default_projects_public: "Nowe projekty są publiczne (domyślnie)"
@@ -2590,7 +2608,7 @@ pl:
   setting_start_of_week: "Początek tygodnia"
   setting_sys_api_enabled: "Uaktywnij zarządzanie repozytoriami przez www"
   setting_sys_api_description: "Zarządzanie repozytoriami przez www umożliwia integrację i autoryzację użytkowników do dostępu do repozytoriów."
-  setting_time_format: "Format czasu"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Włącz tryb dostępu dla użytkowników anonimowych"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Domyślna strefa czasowa użytkowników"
@@ -2601,6 +2619,7 @@ pl:
   setting_welcome_on_homescreen: "Wyświetl wiadomość powitalną na ekranie głównym"
   setting_work_package_list_default_highlighting_mode: "Domyślny tryb wyróżniania"
   setting_work_package_list_default_highlighted_attributes: "Domyślnie wyróżniane atrybuty wyświetlane w treści"
+  setting_working_days: "Working days"
   settings:
     general: "Ogólne"
     other: "Inne"
@@ -2618,6 +2637,10 @@ pl:
         Jeśli ustawiona jest opcja „%{day_of_week_setting_name}” albo „%{first_week_setting_name}”, druga musi zostać ustawiona w taki sposób, aby uniknąć niespójności we frontendzie.
       first_week_of_year_text: >
         Wybierz styczniową datę z pierwszego tygodnia roku. Wartość ta wraz z pierwszym dniem tygodnia określa łączną liczbę tygodni w roku.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Ustawienia nowych projektów"
       section_project_overview: "Ustawienia listy przeglądu projektu"
@@ -2632,6 +2655,9 @@ pl:
         status: "Cały wiersz wg stanu"
         type: "Cały wiersz wg typu"
         priority: "Cały wiersz wg priorytetu"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Zwykły tekst'
@@ -2670,10 +2696,12 @@ pl:
     Wersja Enterprise doda te dodatkowe funkcje niestandardowych pól projektów: <br> <ul> <li><b>Dodaj niestandardowe pola projektów do listy projektów, aby utworzyć widok portfolio projektów</b></li> </ul>
   text_custom_logo_instructions: >
     Na bezbarwnym tle zaleca się stosowanie białego logo. Najlepsze rezultaty - zarówno na tradycyjnych jak i wyświetlaczach retina - są dla obrazów o rozdzielczości 460x60 px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Ikona, która pojawia się przed adresem w polu adresowym przeglądarki internetowej lub na karcie z otwartą stroną www. Wymagany format obrazka to PNG o rozdzielczości 32x32 px z przeźroczystym tłem.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    Ikona skrótu na ekranie startowym smartfona lub tabletu. Wymagany format obrazka to PNG o rozdzielczości 180x180 px. Upewnij się, że obrazek nie ma przeźroczystego tła - inaczej źle będzie wyglądał na iOS'ach.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Baza danych umożliwia TSVector (opcjonalnie)"
   text_default_administrator_account_changed: "Domyślne konto administratora zostało zmienione"
   text_default_encoding: "Domyślnie: UTF-8"
@@ -3002,9 +3030,9 @@ pl:
       title: "Usuń Zestawy zadań"
   working_days:
     info: >
-      <b>Zdefiniuj dni uważane za część tygodnia pracy</b><br/> Dni, które nie zostały wybrane, są pomijane podczas planowania zadań (i nie są uwzględnione w liczniku dni). Mogą one zostać zastąpione na poziomie pakietu roboczego.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Określone dni nierobocze (wakacje i okresy zamknięcie)</b><br/> Daty dodane do poniższej listy są uważane za dni nierobocze i są pomijane podczas planowania pakietów roboczych.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Zmień dni robocze"
     warning: >
       Zmiana dni tygodnia, które są uważane za dni robocze lub dni nierobocze może mieć wpływ na dni rozpoczęcia i zakończenia wszystkich pakietów roboczych we wszystkich projektach w tym wystąpieniu. <br/> Pamiętaj, że zmiany są stosowane dopiero po kliknięciu przycisku Zastosuj zmiany.

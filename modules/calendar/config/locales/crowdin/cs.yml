@@ -3,5 +3,5 @@ cs:
   label_calendar_plural: "Kalendáře"
   permission_view_calendar: "Zobrazit kalendáře"
   permission_manage_calendars: "Správa kalendářů"
-  permission_share_calendars: "Subscribe to iCalendars"
+  permission_share_calendars: "Přihlásit se k odběru iCalendars"
   project_module_calendar_view: "Kalendář"

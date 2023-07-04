@@ -311,6 +311,16 @@ en:
       no_results_content_text: Add a news item
 
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'This user is currently a member of the following groups:'
       no_results_title_text: This user is currently not a member in any group.
@@ -1138,6 +1148,7 @@ en:
   button_configure: "Configure"
   button_continue: "Continue"
   button_copy: "Copy"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Copy and follow"
   button_create: "Create"
   button_create_and_continue: "Create and continue"
@@ -1617,6 +1628,7 @@ en:
   label_bulk_edit_selected_work_packages: "Bulk edit selected work packages"
   label_bundled: '(Bundled)'
   label_calendar: "Calendar"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Show Calendar"
   label_category: "Category"
   label_consent_settings: "User Consent"
@@ -1653,7 +1665,6 @@ en:
   label_contains: "contains"
   label_content: "Content"
   label_copied: "copied"
-  label_copy_to_clipboard: "Copy to clipboard"
   label_copy_same_as_target: "Same as target"
   label_copy_source: "Source"
   label_copy_target: "Target"
@@ -1670,6 +1681,7 @@ en:
   label_database_version: "PostgreSQL version"
   label_date: "Date"
   label_date_and_time: "Date and time"
+  label_date_format: "Date format"
   label_date_from: "From"
   label_date_from_to: "From %{start} to %{end}"
   label_date_to: "To"
@@ -1718,6 +1730,7 @@ en:
   label_equals: "is"
   label_everywhere: "everywhere"
   label_example: "Example"
+  label_experimental: "Experimental"
   label_import: "Import"
   label_export_to: "Also available in:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
@@ -1797,6 +1810,7 @@ en:
   label_logged_as: "Logged in as"
   label_login: "Sign in"
   label_custom_logo: "Custom logo"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Custom favicon"
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "Sign out"
@@ -1833,6 +1847,7 @@ en:
   label_more_than_ago: "more than days ago"
   label_move_work_package: "Move work package"
   label_my_account: "My account"
+  label_my_activity: "My activity"
   label_my_account_data: "My account data"
   label_my_projects: "My projects"
   label_my_queries: "My custom queries"
@@ -2634,7 +2649,7 @@ en:
   setting_consent_decline_mail: "Consent contact mail address"
   setting_cross_project_work_package_relations: "Allow cross-project work package relations"
   setting_first_week_of_year: "First week in year contains"
-  setting_date_format: "Date format"
+  setting_date_format: "Date"
   setting_default_language: "Default language"
   setting_default_projects_modules: "Default enabled modules for new projects"
   setting_default_projects_public: "New projects are public by default"
@@ -2697,7 +2712,7 @@ en:
   setting_start_of_week: "Week starts on"
   setting_sys_api_enabled: "Enable repository management web service"
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
-  setting_time_format: "Time format"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Enable accessibility mode for anonymous users"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
@@ -2708,6 +2723,7 @@ en:
   setting_welcome_on_homescreen: "Display welcome block on homescreen"
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
+  setting_working_days: "Working days"
 
   settings:
     general: "General"
@@ -2733,6 +2749,10 @@ en:
       first_week_of_year_text: >
         Select the date of January that is contained in the first week of the year.
         This value together with first day of the week determines the total number of weeks in a year.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
@@ -2747,6 +2767,9 @@ en:
         status: "Entire row by Status"
         type: "Entire row by Type"
         priority: "Entire row by Priority"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Plain text'
@@ -2800,14 +2823,18 @@ en:
     A white logo on transparent background is recommended.
     For best results on both, conventional and retina displays,
     make sure your image's dimensions are 460px by 60px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports.
+    It needs to be a PNG or JPEG image file.
+    A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
     This is the tiny icon that appears in your browser window/tab next to the
     page's title.
-    It's needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
+    It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
     This is the icon that appears in your mobile or tablet when you place a
     bookmark on your homescreen.
-    It's needs to be a squared 180 by 180 pixels sized PNG image file. Please
+    It needs to be a squared 180 by 180 pixels sized PNG image file. Please
     make sure the image's background is not transparent otherwise it will look
     bad on iOS.
   text_database_allows_tsv: "Database allows TSVector (optional)"
@@ -3175,10 +3202,8 @@ en:
 
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/>
       Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/>
       Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >

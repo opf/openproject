@@ -154,12 +154,14 @@ services:
       - db-test
       - selenium-hub
       - frontend-test
+      - cuprite-chrome
     environment:
       RAILS_ENV: test
       OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
       DATABASE_URL: postgresql://openproject:openproject@db-test/openproject
       DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: "true"
       SELENIUM_GRID_URL: http://selenium-hub:4444/wd/hub
+      CHROME_URL: http://cuprite-chrome:3333
       CAPYBARA_SERVER_PORT: 3000
       CAPYBARA_DYNAMIC_BIND_IP: 1
       CAPYBARA_APP_HOSTNAME: backend-test
@@ -241,3 +243,18 @@ services:
       # in case we want multiple sessions per container
       NODE_MAX_INSTANCES: "${CI_JOBS:-4}"
       NODE_MAX_SESSION: "${CI_JOBS:-4}"
+
+  cuprite-chrome:
+    # Currently, Apple M1 is only supported in unnumbered "latest" versions.
+    # See https://github.com/browserless/chrome/issues/1393
+    image: browserless/chrome:latest
+    networks:
+      - testing
+    ports:
+      - "3333:3333"
+    environment:
+      # By default, it uses 3000, which is typically used by Rails.
+      PORT: 3333
+      # Set connection timeout to avoid timeout exception during debugging
+      # https://docs.browserless.io/docs/docker.html#connection-timeout
+      CONNECTION_TIMEOUT: 600000

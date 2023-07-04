@@ -62,7 +62,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             OpenProject::Static::Links.help_link,
             last: true,
             caption: '',
-            icon: 'help',
+            icon: 'icon-help op-app-help--icon',
             html: { accesskey: OpenProject::AccessKeys.key_for(:help),
                     title: I18n.t('label_help'),
                     target: '_blank' }
@@ -99,6 +99,10 @@ Redmine::MenuManager.map :account_menu do |menu|
             :my_page_path,
             caption: I18n.t('js.my_page.label'),
             if: Proc.new { User.current.logged? }
+  menu.push :my_profile,
+            { controller: '/users', action: 'show', id: 'me' },
+            caption: :label_my_activity,
+            if: Proc.new { User.current.logged? }
   menu.push :my_account,
             { controller: '/my', action: 'account' },
             if: Proc.new { User.current.logged? }
@@ -114,12 +118,16 @@ Redmine::MenuManager.map :account_menu do |menu|
             if: Proc.new { User.current.logged? }
 end
 
-Redmine::MenuManager.map :application_menu do |menu|
+Redmine::MenuManager.map :global_work_packages_menu do |menu|
   menu.push :work_packages_query_select,
             { controller: '/work_packages', action: 'index' },
-            parent: :work_packages,
-            partial: 'work_packages/menu_query_select',
-            last: true
+            partial: 'work_packages/menu_query_select'
+end
+
+Redmine::MenuManager.map :global_activities_menu do |menu|
+  menu.push :activity_filters,
+            { controller: '/activities', action: 'index' },
+            partial: 'activities/filters_menu'
 end
 
 Redmine::MenuManager.map :notifications_menu do |menu|
@@ -146,6 +154,10 @@ Redmine::MenuManager.map :my_menu do |menu|
             { controller: '/my', action: 'access_token' },
             caption: I18n.t('my_account.access_tokens.access_tokens'),
             icon: 'key'
+  menu.push :sessions,
+            { controller: '/my/sessions', action: :index },
+            caption: :'users.sessions.title',
+            icon: 'installation-services'
   menu.push :notifications,
             { controller: '/my', action: 'notifications' },
             caption: I18n.t('js.notifications.settings.title'),
@@ -283,11 +295,23 @@ Redmine::MenuManager.map :admin_menu do |menu|
             if: Proc.new { User.current.admin? },
             icon: 'enumerations'
 
+  menu.push :calendars_and_dates,
+            { controller: '/admin/settings/working_days_settings', action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_calendars_and_dates,
+            icon: 'calendar'
+
   menu.push :working_days,
             { controller: '/admin/settings/working_days_settings', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_working_days,
-            icon: 'calendar'
+            parent: :calendars_and_dates
+
+  menu.push :date_format,
+            { controller: '/admin/settings/date_format_settings', action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_date_format,
+            parent: :calendars_and_dates
 
   menu.push :settings,
             { controller: '/admin/settings/general_settings', action: :show },
@@ -299,7 +323,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
     menu.push :"settings_#{node[:name]}",
               { controller: node[:controller], action: :show },
               caption: node[:label],
-              if: Proc.new { User.current.admin? },
+              if: Proc.new { User.current.admin? && node[:name] != 'experimental' },
               parent: :settings
   end
 
@@ -440,6 +464,12 @@ Redmine::MenuManager.map :project_menu do |menu|
             { controller: '/activities', action: 'index' },
             if: Proc.new { |p| p.module_enabled?('activity') },
             icon: 'checkmark'
+
+  menu.push :activity_filters,
+            { controller: '/activities', action: 'index' },
+            if: Proc.new { |p| p.module_enabled?('activity') },
+            parent: :activity,
+            partial: 'activities/filters_menu'
 
   menu.push :roadmap,
             { controller: '/versions', action: 'index' },

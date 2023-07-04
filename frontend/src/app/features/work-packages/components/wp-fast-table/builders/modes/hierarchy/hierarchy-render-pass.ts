@@ -52,7 +52,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
     this.hierarchies = this.wpTableHierarchies.current;
 
     _.each(this.workPackageTable.originalRowIndex, (row) => {
-      row.object.ancestors.forEach((ancestor:WorkPackageResource) => {
+      row.object.getAncestors().forEach((ancestor:WorkPackageResource) => {
         this.parentsWithVisibleChildren[ancestor.id!] = true;
       });
     });
@@ -73,7 +73,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
         return;
       }
 
-      if (workPackage.ancestors.length) {
+      if (workPackage.getAncestors().length) {
         // If we have ancestors, render it
         this.buildWithHierarchy(row);
       } else {
@@ -96,7 +96,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
    * @returns {boolean}
    */
   public deferInsertion(workPackage:WorkPackageResource):boolean {
-    const { ancestors } = workPackage;
+    const ancestors = workPackage.getAncestors();
 
     // Will only defer if at least one ancestor exists
     if (ancestors.length === 0) {
@@ -172,7 +172,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
 
   private buildWithHierarchy(row:WorkPackageTableRow) {
     // Ancestor data [root, med, thisrow]
-    const { ancestors } = row.object;
+    const ancestors = row.object.getAncestors();
     const ancestorGroups:string[] = [];
 
     // Iterate ancestors
