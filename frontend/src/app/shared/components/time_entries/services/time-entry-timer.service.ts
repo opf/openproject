@@ -53,9 +53,7 @@ export class TimeEntryTimerService {
       .filtered(filters)
       .get()
       .pipe(
-        map((collection) => {
-          return collection.elements.pop() || null;
-        }),
+        map((collection) => collection.elements.pop() || null),
         tap((active) => this.timer$.next(active)),
       );
   }

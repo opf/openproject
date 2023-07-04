@@ -31,11 +31,8 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  HostBinding,
   Injector,
   Input,
-  OnInit,
-  ViewEncapsulation,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -45,7 +42,6 @@ import {
   filter,
   map,
   switchMap,
-  take,
 } from 'rxjs/operators';
 import {
   firstValueFrom,
@@ -106,8 +102,8 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin {
     super();
   }
 
-  activeForWorkPackage(timer:TimeEntryResource|null):boolean {
-    return !!timer && timer.workPackage.href === this.workPackage.href;
+  activeForWorkPackage(entry:TimeEntryResource|null):boolean {
+    return !!entry && entry.workPackage.href === this.workPackage.href;
   }
 
   clear():void {

@@ -11,7 +11,6 @@ import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/r
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
 import { TimeEntryEditModalComponent } from './edit.modal';
-import { TimeEntryChangeset } from 'core-app/features/work-packages/helpers/time-entries/time-entry-changeset';
 import * as moment from 'moment';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
@@ -52,7 +51,7 @@ export class TimeEntryEditService {
   }
 
   public editChange(changeset:ResourceChangeset<TimeEntryResource>, options:TimeEntryModalOptions = {}) {
-    return new Promise<TimeEntryUpdate>((resolve, reject) => {
+    return new Promise<TimeEntryUpdate>((resolve, _) => {
       this
         .opModalService
         .show(
@@ -75,8 +74,7 @@ export class TimeEntryEditService {
                 resolve({ entry: modal.entry, action: 'unchanged' });
               }
             });
-        },
-      );
+        });
     });
   }
 

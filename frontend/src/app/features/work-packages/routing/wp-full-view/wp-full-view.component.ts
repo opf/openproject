@@ -99,9 +99,9 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
   }
 
   private setWorkPackageScopeProperties(wp:WorkPackageResource) {
-    this.isWatched = wp.hasOwnProperty('unwatch');
-    this.displayWatchButton = wp.hasOwnProperty('unwatch') || wp.hasOwnProperty('watch');
-    this.displayTimerButton = wp.hasOwnProperty('logTime');
+    this.isWatched = Object.prototype.hasOwnProperty.call(wp, 'unwatch');
+    this.displayWatchButton = Object.prototype.hasOwnProperty.call(wp, 'unwatch') || Object.prototype.hasOwnProperty.call(wp, 'watch');
+    this.displayTimerButton = Object.prototype.hasOwnProperty.call(wp, 'logTime');
 
     // watchers
     if (wp.watchers) {

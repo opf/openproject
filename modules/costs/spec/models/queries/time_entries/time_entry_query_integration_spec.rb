@@ -35,7 +35,7 @@ RSpec.describe Queries::TimeEntries::TimeEntryQuery, 'integration' do
     login_as(user)
   end
 
-  context 'ongoing filter' do
+  context 'when using ongoing filter' do
     let(:project) { create(:project, enabled_module_names: %w[costs]) }
     let(:user) { create(:user, member_in_project: project, member_with_permissions: %i[log_own_time]) }
     let(:other_user) { create(:user, member_in_project: project, member_with_permissions: %i[log_own_time]) }
