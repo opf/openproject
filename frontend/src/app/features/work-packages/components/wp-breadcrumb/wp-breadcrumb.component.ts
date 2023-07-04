@@ -49,7 +49,7 @@ export class WorkPackageBreadcrumbComponent {
   public inputActive = false;
 
   public get hierarchyCount() {
-    return this.workPackage.ancestors.length;
+    return this.workPackage.getAncestors().length;
   }
 
   public get hierarchyLabel() {

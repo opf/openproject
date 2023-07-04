@@ -1666,6 +1666,7 @@ sk:
   label_equals: "je"
   label_everywhere: "všade"
   label_example: "Príklad"
+  label_experimental: "Experimental"
   label_import: "Import"
   label_export_to: "K dispozícii tiež ako:"
   label_expanded_click_to_collapse: "Rozbalené. Kliknutí zbalíte"
@@ -1745,6 +1746,7 @@ sk:
   label_logged_as: "Prihlásený ako"
   label_login: "Prihlásiť sa"
   label_custom_logo: "Vlastné logo"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Vlastná favicon"
   label_custom_touch_icon: "Vlastná dotyková ikona"
   label_logout: "Odhlásiť sa"
@@ -2640,6 +2642,10 @@ sk:
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
@@ -2695,10 +2701,12 @@ sk:
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Odporúčané je biele logo na farebnom pozadí. Pre najlepšie výsledky na všetkých typoch monitorov (štandardných aj retina) použite obrázok s rozmermi 460px x 60px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Toto je malá ikona, ktorá sa zobrazí vedľa nadpisu stránky. Musí to byť PNG súbor s rozmermi 32 krát 32 pixelov s priehľadným pozadím.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    To je ikona, ktorá sa zobrazí vo vašom mobile alebo tablete, keď si uložíte záložku na vašej domovskej stránke. Musí to byť štvorcový PNG obrázok s rozmermi 180 krát 180 pixelov. Prosím, uistite sa, že obrázok nemá transparentné pozadie, inak bude zle vyzerať na iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Databáza umožňuje TSVector (voliteľné)"
   text_default_administrator_account_changed: "Predvolené nastavenie administrátorského účtu bolo zmenené"
   text_default_encoding: "Predvolené: UTF-8"

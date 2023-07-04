@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Project templates', js: true do
+RSpec.describe 'Project templates', js: true, with_cuprite: true do
   describe 'making project a template' do
     let(:project) { create(:project) }
 

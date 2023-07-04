@@ -47,8 +47,6 @@ module Redmine::MenuManager::MenuHelper
     elsif menu == :project_menu && project && project.persisted?
       build_wiki_menus(project)
       render_menu(:project_menu, project)
-    elsif menu == :wp_query_menu
-      render_menu(:application_menu, project)
     else
       render_menu(menu, project)
     end

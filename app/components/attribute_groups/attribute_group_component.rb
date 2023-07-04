@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,15 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class CleanupUncontaineredFileLinksJob < Cron::CronJob
-  queue_with_priority :low
-
-  self.cron_expression = '06 22 * * *'
-
-  def perform
-    Storages::FileLink
-      .where(container: nil)
-      .where('created_at <= ?', Time.current - OpenProject::Configuration.attachments_grace_period.minutes)
-      .delete_all
+module AttributeGroups
+  class AttributeGroupComponent < ::ApplicationComponent
+    renders_one :header, AttributeGroups::AttributeGroupHeaderComponent
+    renders_many :attributes, AttributeGroups::AttributeKeyValueComponent
   end
 end

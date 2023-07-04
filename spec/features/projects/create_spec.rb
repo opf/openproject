@@ -28,7 +28,9 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Projects', 'creation', js: true do
+RSpec.describe 'Projects', 'creation',
+               js: true,
+               with_cuprite: true do
   let(:name_field) { FormFields::InputFormField.new :name }
 
   current_user { create(:admin) }
@@ -45,10 +47,8 @@ RSpec.describe 'Projects', 'creation', js: true do
     name_field.set_value 'Foo bar'
     click_button 'Save'
 
-    sleep 1
-
-    expect(page).to have_content 'Foo bar'
     expect(page).to have_current_path /\/projects\/foo-bar\/?/
+    expect(page).to have_content 'Foo bar'
   end
 
   it 'does not create a project with an already existing identifier' do
@@ -94,8 +94,8 @@ RSpec.describe 'Projects', 'creation', js: true do
 
     find('.op-fieldset--toggle', text: 'ADVANCED SETTINGS').click
 
-    expect(page).to have_no_content 'Active'
-    expect(page).to have_no_content 'Identifier'
+    expect(page).not_to have_content 'Active'
+    expect(page).not_to have_content 'Identifier'
   end
 
   context 'with optional and required custom fields' do
@@ -111,7 +111,7 @@ RSpec.describe 'Projects', 'creation', js: true do
                             is_required: true)
     end
 
-    it 'seperates optional and required custom fields for new' do
+    it 'separates optional and required custom fields for new' do
       visit new_project_path
 
       expect(page).to have_content 'Required Foo'

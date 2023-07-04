@@ -31,6 +31,7 @@ import {
   State,
 } from '@openproject/reactivestates';
 import {
+  combineLatest,
   firstValueFrom,
   forkJoin,
   Observable,
@@ -152,7 +153,13 @@ export class StateCacheService<T> {
   }
 
   observeSome(ids:string[]):Observable<T[]> {
-    return forkJoin(ids.map((id) => this.observe(id)));
+    return combineLatest(
+      ids.map(
+        (id) => this.observe(id).pipe(startWith(null)),
+      ),
+    ).pipe(
+      map((values) => values.filter((value) => !!value)),
+    ) as Observable<T[]>;
   }
 
   /**

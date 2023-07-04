@@ -1181,10 +1181,11 @@ ru:
       button_deactivate: 'Отключить полноэкранный режим'
     global_search:
       all_projects: "Во всех проектах"
-      search: "Искать"
       close_search: "Закрыть поиск"
-      current_project: "В этом проекте"
       current_project_and_all_descendants: "В этом проекте + подпроектах"
+      current_project: "В этом проекте"
+      recently_viewed: "Recently viewed"
+      search: "Искать"
       title:
         all_projects: "все проекты"
         project_and_subprojects: "и все подпроекты"

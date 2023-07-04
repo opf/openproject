@@ -1174,10 +1174,11 @@ lol:
       button_deactivate: 'crwdns788612:0crwdne788612:0'
     global_search:
       all_projects: "crwdns788614:0crwdne788614:0"
-      search: "crwdns788616:0crwdne788616:0"
       close_search: "crwdns788618:0crwdne788618:0"
-      current_project: "crwdns788620:0crwdne788620:0"
       current_project_and_all_descendants: "crwdns788622:0crwdne788622:0"
+      current_project: "crwdns788620:0crwdne788620:0"
+      recently_viewed: "crwdns856599:0crwdne856599:0"
+      search: "crwdns788616:0crwdne788616:0"
       title:
         all_projects: "crwdns788624:0crwdne788624:0"
         project_and_subprojects: "crwdns788626:0crwdne788626:0"

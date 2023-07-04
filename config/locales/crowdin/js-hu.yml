@@ -1176,10 +1176,11 @@ hu:
       button_deactivate: 'Zen mód kikapcsolása'
     global_search:
       all_projects: "Az összes projektben"
-      search: "Keresés"
       close_search: "Keresés bezárása"
-      current_project: "Ebben a projektben"
       current_project_and_all_descendants: "Ebben a projektben + alprojektekben"
+      current_project: "Ebben a projektben"
+      recently_viewed: "Recently viewed"
+      search: "Keresés"
       title:
         all_projects: "minden projekt"
         project_and_subprojects: "az összes alprojektben"

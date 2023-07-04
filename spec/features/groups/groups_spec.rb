@@ -28,7 +28,9 @@
 
 require 'spec_helper'
 
-RSpec.describe 'group memberships through groups page', js: true do
+RSpec.describe 'group memberships through groups page',
+               js: true,
+               with_cuprite: true do
   shared_let(:admin) { create(:admin) }
   let!(:group) { create(:group, lastname: "Bob's Team") }
 

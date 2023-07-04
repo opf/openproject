@@ -1176,10 +1176,11 @@ fr:
       button_deactivate: 'Désactiver le mode zen'
     global_search:
       all_projects: "Pour tous les projets"
-      search: "Recherche"
       close_search: "Fermer la recherche"
-      current_project: "Pour ce projet"
       current_project_and_all_descendants: "Dans ce projet + sous-projets"
+      current_project: "Pour ce projet"
+      recently_viewed: "Recently viewed"
+      search: "Recherche"
       title:
         all_projects: "tous les projets"
         project_and_subprojects: "et tous les sous-projets"

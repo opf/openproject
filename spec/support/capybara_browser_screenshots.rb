@@ -45,6 +45,7 @@ class Capybara::ScreenshotAdditions
 
       info = {
         message: 'Screenshot captured for failed feature test',
+        test_id: example.id,
         test_location: example.location
       }.merge(screenshot)
 
