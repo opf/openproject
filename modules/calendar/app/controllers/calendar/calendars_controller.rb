@@ -54,6 +54,15 @@ module ::Calendar
 
     private
 
+    def find_optional_project
+      return unless params[:project_id]
+
+      @project = Project.find(params[:project_id])
+      authorize
+    rescue ActiveRecord::RecordNotFound
+      render_404
+    end
+
     def visible_views
       Query
         .visible(current_user)

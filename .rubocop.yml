@@ -242,6 +242,7 @@ RSpec/ContextWording:
     - unless
     - when
     - with
+    - within
     - without
 
 Style/Alias:
