@@ -26,13 +26,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
 @Component({
   templateUrl: './wp-breadcrumb.html',
   styleUrls: ['./wp-breadcrumb.sass'],
+  encapsulation: ViewEncapsulation.None,
   selector: 'wp-breadcrumb',
 })
 export class WorkPackageBreadcrumbComponent {
@@ -49,7 +50,7 @@ export class WorkPackageBreadcrumbComponent {
   public inputActive = false;
 
   public get hierarchyCount() {
-    return this.workPackage.ancestors.length;
+    return this.workPackage.getAncestors().length;
   }
 
   public get hierarchyLabel() {

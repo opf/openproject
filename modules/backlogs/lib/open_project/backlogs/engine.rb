@@ -39,7 +39,8 @@ module OpenProject::Backlogs
         default: {
           'story_types' => nil,
           'task_type' => nil,
-          'card_spec' => nil
+          'points_burn_direction' => 'up',
+          'wiki_template' => ''
         },
         menu_item: :backlogs_settings
       }

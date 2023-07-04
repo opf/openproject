@@ -1390,7 +1390,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
               .at_path("_embedded/attributesByTimestamp/1/_links/self/href")
           end
 
-          it 'has no information about whether the work package matches the query filters at the timestamp' \
+          it 'has no information about whether the work package matches the query filters at the timestamp ' \
              'because there are no filters without a query' do
             expect(subject)
               .not_to have_json_path("_embedded/attributesByTimestamp/0/_meta/matchesFilters")

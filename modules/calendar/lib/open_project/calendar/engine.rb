@@ -41,6 +41,8 @@ module OpenProject::Calendar
                    contract_actions: { calendar: %i[read] }
       end
 
+      # TODO: Add calendar icon to module menu item when Global Calendar Page is added
+
       menu :project_menu,
            :calendar_view,
            { controller: '/calendar/calendars', action: 'index' },
@@ -64,6 +66,12 @@ module OpenProject::Calendar
       # next if defined? Mime::XLS
 
       Mime::Type.register('text/calendar', :ics)
+    end
+
+    initializer 'calendar.configuration' do
+      ::Settings::Definition.add 'ical_enabled',
+                                 default: true,
+                                 format: :boolean
     end
   end
 end

@@ -10,7 +10,7 @@
   <a
     *ngIf="eeShowBanners"
     [attr.href]="text.moreInfoLink"
-    class="op-baseline--info-button"
+    class="op-baseline--info-button spot-body-small"
     target=”_blank”>
     {{ text.more_info_text }}
     <span class="spot-icon spot-icon_external-link"></span> 
@@ -48,7 +48,7 @@
       </select>
 
     </div>
-    <span slot="description">  {{ mappedSelectedDate }} </span>
+    <span slot="description" *ngIf="mappedSelectedDate">  {{ mappedSelectedDate }} </span>
   </spot-form-field>
 
   <spot-form-field
@@ -78,16 +78,12 @@
       type="time"
       class="op-baseline--time-input"/>
 
-    <spot-tooltip
+    <span
       slot="input"
-      class="op-baseline--time-tooltip op-baseline--time-help spot-body-small"
-      [alignment]="tooltipPosition"
-      [disabled]="false"
-      [light]="true">
-      <span slot="trigger" class="op-baseline--time-zone" [textContent]="mappedOffset(selectedOffsets[0])"></span>
-      <span slot="body" class="spot-body-small op-baseline--time-tooltip-body">{{ text.help_description }}</span>
-    </spot-tooltip>
-
+      class="op-baseline--time-help spot-body-small"
+        [attr.title]="text.help_description"
+        [textContent]="mappedOffset(selectedOffsets[0])"
+    ></span>
 
     <span
       *ngIf="userOffset !== selectedOffsets[0]"

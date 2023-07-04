@@ -85,7 +85,13 @@ RSpec.describe 'API v3 Query ICal Url' do
     end
 
     context 'when user has sufficient permissions and owns the query' do
-      it_behaves_like 'success'
+      context 'when icalendar sharing is enabled globally', with_settings: { ical_enabled: true } do
+        it_behaves_like 'success'
+      end
+
+      context 'when icalendar sharing is disabled globally', with_settings: { ical_enabled: false } do
+        it_behaves_like 'unauthorized access'
+      end
     end
 
     context 'when user has sufficient permissions and tries to get the iCalendar url of the public query of another user' do
@@ -98,10 +104,16 @@ RSpec.describe 'API v3 Query ICal Url' do
       let(:query) { create(:query, project:, user: other_user, public: true) }
       let(:path) { api_v3_paths.query_ical_url(query.id) }
 
-      it_behaves_like 'success'
+      context 'when icalendar sharing is enabled globally', with_settings: { ical_enabled: true } do
+        it_behaves_like 'success'
+      end
+
+      context 'when icalendar sharing is disabled globally', with_settings: { ical_enabled: false } do
+        it_behaves_like 'unauthorized access'
+      end
     end
 
-    context 'when user has no access to the associated project' do
+    context 'when user has no access to the associated project', with_settings: { ical_enabled: true } do
       let(:other_project) { create(:project) }
       let(:query) { create(:query, project: other_project, user:) }
       let(:path) { api_v3_paths.query_ical_url(query.id) }
@@ -109,7 +121,8 @@ RSpec.describe 'API v3 Query ICal Url' do
       it_behaves_like 'not found'
     end
 
-    context 'when user tries to get an iCalendar url from a private query of another user' do
+    context 'when user tries to get an iCalendar url from a private query of another user',
+            with_settings: { ical_enabled: true } do
       let(:other_user) { create(:user) }
       let(:query) { create(:query, project:, user: other_user, public: false) }
       let(:path) { api_v3_paths.query_ical_url(query.id) }
@@ -117,7 +130,7 @@ RSpec.describe 'API v3 Query ICal Url' do
       it_behaves_like 'not found'
     end
 
-    context 'when user has insufficient permissions' do
+    context 'when user has insufficient permissions', with_settings: { ical_enabled: true } do
       # :view_work_packages permission is mandatory, otherwise a 404 is returned.
       let(:permissions) { [:view_work_packages] } # share_calendars is missing
 

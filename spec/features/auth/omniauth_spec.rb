@@ -176,7 +176,7 @@ RSpec.describe 'Omniauth authentication' do
           with_settings: {
             self_registration?: true,
             self_registration: Setting::SelfRegistration.automatic,
-            available_languages: [:en]
+            available_languages: ['en']
           } do
     let(:user) do
       User.new(force_password_change: false,

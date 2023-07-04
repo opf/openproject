@@ -7,12 +7,12 @@ pl:
     label_board: "Tablica"
     label_boards: "Tablice"
     board_types:
-      free: Basic
-      action: "Action board (%{attribute})"
+      free: Podstawowe
+      action: "Tablica działania (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
+      assignee: Przypisany do
       status: Status
-      version: Version
-      subproject: Subproject
-      subtasks: Parent-child
-      basic: Basic
+      version: Wersja
+      subproject: Podprojekt
+      subtasks: Nadrzędny-podrzędny
+      basic: Podstawowe

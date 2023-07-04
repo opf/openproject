@@ -233,6 +233,24 @@ RSpec.describe 'Copy work packages through Rails view', js: true do
     end
   end
 
+  describe 'copying work package to clipboard' do
+    let(:current_user) { dev }
+    let(:wp_table_target) { Pages::WorkPackagesTable.new(project2) }
+
+    before do
+      wp_table.expect_work_package_count 2
+      context_menu.open_for work_package
+      context_menu.choose 'Copy to clipboard'
+    end
+
+    it 'successfully copies the short url of the work package' do
+      # We cannot access the navigator.clipboard from a headless browser.
+      # This test makes sure the copy to clipboard logic is working,
+      # regardless of the browser permissions.
+      expect(page).to have_content("/wp/#{work_package.id}")
+    end
+  end
+
   describe 'accessing the bulk copy from the card view' do
     before do
       display_representation.switch_to_card_layout

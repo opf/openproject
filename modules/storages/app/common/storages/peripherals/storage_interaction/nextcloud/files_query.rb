@@ -27,25 +27,20 @@
 #++
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
-  class FilesQuery < Storages::Peripherals::StorageInteraction::StorageQuery
-    include API::V3::Utilities::PathHelper
-
-    def initialize(base_uri:, token:, retry_proc:)
-      super()
-      @uri = base_uri
-      @token = token
-      @retry_proc = retry_proc
-      @base_path = Util.join_uri_path(@uri.path, "remote.php/dav/files", Util.escape_whitespace(token.origin_user_id))
+  class FilesQuery
+    def initialize(storage)
+      @uri = URI(storage.host).normalize
+      @oauth_client = storage.oauth_client
     end
 
     # rubocop:disable Metrics/AbcSize
-    def query(folder)
-      http = Net::HTTP.new(@uri.host, @uri.port)
-      http.use_ssl = @uri.scheme == 'https'
+    def call(user:, folder:)
+      result = Util.token(user:, oauth_client: @oauth_client) do |token|
+        base_path = Util.join_uri_path(@uri.path, "remote.php/dav/files")
+        @location_prefix = Util.join_uri_path(base_path, token.origin_user_id.gsub(' ', '%20'))
 
-      result = @retry_proc.call(@token) do |token|
-        response = http.propfind(
-          "#{@base_path}#{requested_folder(folder)}",
+        response = Util.http(@uri).propfind(
+          Util.join_uri_path(base_path, CGI.escapeURIComponent(token.origin_user_id), requested_folder(folder)),
           requested_properties,
           {
             'Depth' => '1',
@@ -67,6 +62,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
       storage_files(result)
     end
+
     # rubocop:enable Metrics/AbcSize
 
     private
@@ -74,7 +70,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     def requested_folder(folder)
       return '' if folder.nil?
 
-      Util.escape_whitespace(folder)
+      Util.escape_path(folder)
     end
 
     # rubocop:disable Metrics/AbcSize
@@ -176,7 +172,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
       return nil if texts.empty?
 
-      element_name = texts.first.delete_prefix(@base_path)
+      element_name = texts.first.delete_prefix(@location_prefix)
 
       return element_name if element_name == '/'
 

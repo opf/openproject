@@ -65,6 +65,7 @@ uk:
     button_confirm: "Підтвердити"
     button_continue: "Продовжити"
     button_copy: "Копіювати"
+    button_copy_to_clipboard: "Copy to clipboard"
     button_copy_to_other_project: "Копіювати в інший проєкт"
     button_custom-fields: "Індивідуальні поля"
     button_delete: "Видалити"
@@ -105,7 +106,7 @@ uk:
       remove_from_list: 'Вилучити зі списку'
     caption_rate_history: "Історія рейтингу"
     clipboard:
-      browser_error: "Ваш браузер не підтримує копіювання до буфера обміну. Потрібно скопіювати виділений текст вручну."
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Скопійовано в буфер обміну!"
     chart:
       type: 'Тип графіка'
@@ -317,6 +318,16 @@ uk:
               learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
                 Випуск містить нові й поліпшені функції. <br><ul class="%{list_styling_class}"> <li>Додавайте файли з пакетів робіт у файлове сховище Nextcloud і зв’язуйте їх.</li> <li> Реагуйте на зміни в проєкті, відстежуючи виконані в ньому дії.</li> <li>Додавайте офіційні свята (неробочі дні) для цілого екземпляра.</li> <li>Архівуйте проєкти без прав адміністратора.</li> <li>Використовуйте новий типовий фільтр для прострочених пакетів робіт.
+    ical_sharing_modal:
+      title: "Subscribe to iCalendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Token name"
+      token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
+      token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the iCal URL."
     label_activate: "Активувати"
     label_assignee: 'Виконавець'
     label_add_column_after: "Додати стовпець після"
@@ -328,7 +339,7 @@ uk:
     label_add_row_before: "Додати рядок перед"
     label_add_selected_columns: "Додати вибрані стовпці"
     label_added_by: "додав(-ла)"
-    label_added_time_by: "Додано користувачем <a href=%{authorLink}>%{author}</a> о%{age}"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "днів тому"
     label_all: "всі"
     label_all_work_packages: "всі пакети в роботі"
@@ -669,8 +680,7 @@ uk:
         Виберіть проект, щоб створити робочий пакет, щоб побачити всі атрибути. Ви можете вибирати лише проекти, які мають вказаний вище тип активації.
       details_activity: 'Докладно про дії в проєкті'
       context: 'Контекст проекту'
-      work_package_belongs_to: 'Цей робочий пакет належить до проекту %{projectname}'
-      click_to_switch_context: 'Відкрийте цей робочий пакет у цьому проекті.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Перемикання шаблону перезавантажить сторінку, і ви втратите всі дані, введені в цю форму. Продовжити?'
       use_template: "Використовувати шаблон"
       no_template_selected: "(Немає)"
@@ -1091,6 +1101,7 @@ uk:
         save_as: "Зберегти як"
         export: "Експортувати"
         visibility_settings: "Налаштування видимості"
+        share_calendar: "Subscribe to iCalendar"
         page_settings: "Перейменувати режим перегляду"
         delete: "Видалити"
       filter: "Фільтр"
@@ -1171,10 +1182,11 @@ uk:
       button_deactivate: 'Деактивуйте режим дзен'
     global_search:
       all_projects: "У всіх проектах"
-      search: "Пошук"
       close_search: "Закрити пошук"
-      current_project: "У цьому проекті"
       current_project_and_all_descendants: "У цьому проекті + підпроекти"
+      current_project: "У цьому проекті"
+      recently_viewed: "Recently viewed"
+      search: "Пошук"
       title:
         all_projects: "всі проекти"
         project_and_subprojects: "і всі підпроекти"
@@ -1265,21 +1277,23 @@ uk:
       no_results: 'Жоден проєкт не відповідає вашим критеріям пошуку.'
     baseline:
       toggle_title: 'Baseline'
-      clear: 'Clear'
-      apply: 'Apply'
-      header_description: 'View changes made to work packages in the current view within a time period.'
+      clear: 'Очистити'
+      apply: 'Застосувати'
+      header_description: 'Highlight changes made to this list since any point in the past.'
+      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Show changes since'
+      baseline_comparison: 'Baseline comparison'
       help_description: 'Reference time zone for the baseline.'
       time_description: 'In your local time: %{datetime}'
-      time: 'Time'
-      from: 'From'
-      to: 'To'
+      time: 'Час'
+      from: 'Від'
+      to: 'Кому:'
       drop_down:
         none: '-'
-        yesterday: 'yesterday'
+        yesterday: 'вчора'
         last_working_day: 'last working day'
-        last_week: 'last week'
-        last_month: 'last month'
+        last_week: 'ост. тиждень'
+        last_month: 'останній місяць'
         a_specific_date: 'a specific date'
         between_two_specific_dates: 'between two specific dates'
       legends:

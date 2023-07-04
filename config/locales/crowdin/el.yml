@@ -265,11 +265,22 @@ el:
       notice_reset_token: "Δημιουργήθηκε ένα νέο token %{type}. Το token πρόσβασής σας είναι:"
       token_value_warning: "Σημείωση: Αυτή είναι η μοναδική φορά που θα δείτε αυτό το token, φροντίστε να το αντιγράψετε τώρα."
       no_results_title_text: Δεν υπάρχουν προς το παρόν διαθέσιμα αναγνωριστικά πρόσβασης.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Δεν υπάρχουν προς το παρόν νέα για αναφορά.
       no_results_content_text: Προσθέστε ένα στοιχείο νέων
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'Αυτός ο χρήστης είναι μέλος των παρακάτω ομάδων:'
       no_results_title_text: Αυτός ο χρήστης, προς το παρόν, δεν είναι μέλος κάποιας ομάδας.
@@ -286,7 +297,7 @@ el:
       irreversible: "Αυτή η ενέργεια είναι μη αναστρέψιμη"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
-      title: Placeholder users
+      title: Placeholder χρήστες
       description: >
         Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
@@ -472,23 +483,23 @@ el:
       project:
         active_value:
           true: "unarchived"
-          false: "archived"
+          false: "αρχειοθετημένο"
         identifier: "Αναγνωριστικό"
         latest_activity_at: "Τελευταία δραστηριότητα στις"
         parent: "Υποέργο του"
         public_value:
-          title: "Visibility"
+          title: "Ορατότητα"
           true: "public"
           false: "private"
         queries: "Αναζητήσεις"
-        status_code: 'Project status'
+        status_code: 'Κατάσταση έργου'
         status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
+          on_track: 'Eντός πορείας'
+          at_risk: 'Σε κίνδυνο'
+          off_track: 'Eκτός πορείας'
+          finished: 'Ολοκληρωμένο'
           discontinued: 'Discontinued'
         templated: "Πρότυπο έργο"
         templated_value:
@@ -552,7 +563,7 @@ el:
         begin_deletion: "Ξεκινήστε την διαγραφή"
         children: "Υποστοιχεία"
         done_ratio: "Πρόοδος (%)"
-        duration: "Duration"
+        duration: "Διάρκεια"
         end_insertion: "Λήξη της εισαγωγής"
         end_deletion: "Λήξη της διαγραφής"
         ignore_non_working_days: "Ignore non working days"
@@ -687,6 +698,11 @@ el:
           overlaps: 'επικάλυψη.'
           outside: 'είναι εκτός πλέγματος.'
           end_before_start: 'η τελική τιμή πρέπει να είναι μεγαλύτερη από την αρχική τιμή.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -919,26 +935,26 @@ el:
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "Υποέργο"
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
           one: "%{count} hour"
-          other: "%{count} hours"
+          other: "%{count} ώρες"
         hour_html:
           one: "<i>%{count} hour</i>"
           other: "<i>%{count} hours</i>"
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      changeset: "Σύνολα Αλλαγών"
+      message: "Φόρουμ"
+      news: "Νέα"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
+      time_entry: "Χρόνος που δαπανήθηκε"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "Πακέτα εργασίας"
   #common attributes of all models
   attributes:
     active: "Ενεργό"
@@ -995,7 +1011,7 @@ el:
     updated_on: "Τροποποιήθηκε"
     uploader: "Μεταφορτώθηκε από"
     user: "Χρήστης"
-    value: "Value"
+    value: "Τιμή"
     version: "Έκδοση"
     work_package: "Εργασία"
   backup:
@@ -1046,6 +1062,7 @@ el:
   button_configure: "Ρύθμιση παραμέτρων"
   button_continue: "Συνέχεια"
   button_copy: "Αντιγραφή"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Αντιγραφή και ακολούθηση"
   button_create: "Δημιουργία"
   button_create_and_continue: "Δημιουργία και συνέχεια"
@@ -1175,7 +1192,7 @@ el:
       - "Οκτώβριος"
       - "Νοέμβριος"
       - "Δεκέμβριος"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - ':έτος'
       - ':μήνας'
@@ -1220,61 +1237,6 @@ el:
       hour:
         one: "ώρα"
         other: "ώρες"
-  default_activity_development: "Ανάπτυξη"
-  default_activity_management: "Διαχείριση"
-  default_activity_other: "Άλλο"
-  default_activity_specification: "Προδιαγραφές"
-  default_activity_support: "Υποστήριξη"
-  default_activity_testing: "Δοκιμή"
-  default_color_black: "Μαύρο"
-  default_color_blue: "Μπλε"
-  default_color_blue_dark: "Μπλε (σκούρο)"
-  default_color_blue_light: "Μπλε (ανοιχτό)"
-  default_color_green_dark: "Πράσινο (σκούρο)"
-  default_color_green_light: "Πράσινο (ανοιχτό)"
-  default_color_grey_dark: "Γκρι (σκούρο)"
-  default_color_grey_light: "Γκρι (ανοιχτό)"
-  default_color_grey: "Γκρι"
-  default_color_magenta: "Φούξια"
-  default_color_orange: "Πορτοκαλί"
-  default_color_red: "Κόκκινο"
-  default_color_white: "Λευκό"
-  default_color_yellow: "Κίτρινο"
-  default_status_closed: "Κλειστό"
-  default_status_confirmed: "Επιβεβαιωμένο"
-  default_status_developed: "Αναπτύχθηκε"
-  default_status_in_development: "Σε ανάπτυξη"
-  default_status_in_progress: "Σε εξέλιξη"
-  default_status_in_specification: "Στις προδιαγραφές"
-  default_status_in_testing: "Στη δοκιμή"
-  default_status_new: "Νέο"
-  default_status_on_hold: "Σε αναμονή"
-  default_status_rejected: "Απορρίφθηκε"
-  default_status_scheduled: "Προγραμματισμένο"
-  default_status_specified: "Καθορισμένο"
-  default_status_tested: "Δοκιμασμένο"
-  default_status_test_failed: "Η δοκιμή απέτυχε"
-  default_status_to_be_scheduled: "Για να προγραμματιστεί"
-  default_priority_low: "Χαμηλή"
-  default_priority_normal: "Κανονική"
-  default_priority_high: "Υψηλή"
-  default_priority_immediate: "Άμεση"
-  default_role_anonymous: "Ανώνυμος"
-  default_role_developer: "Προγραμματιστής"
-  default_role_project_admin: "Διαχειριστής"
-  default_role_project_creator_and_staff_manager: "Προσωπικό και διαχειριστής έργων"
-  default_role_non_member: "Μη μέλη"
-  default_role_reader: "Αναγνώστης"
-  default_role_member: "Μέλος"
-  default_type: "Εργασία"
-  default_type_bug: "Σφάλμα"
-  default_type_deliverable: "Παραδοτέο"
-  default_type_epic: "Epic"
-  default_type_feature: "Λειτουργία"
-  default_type_milestone: "Ορόσημο"
-  default_type_phase: "Φάση"
-  default_type_task: "Εργασία"
-  default_type_user_story: "Ιστορία χρήστη"
   description_active: "Ενεργό;"
   description_attachment_toggle: "Εμφάνιση/Απόκρυψη συνημμένων"
   description_autocomplete: >
@@ -1374,7 +1336,7 @@ el:
     message: Το μήνυμα επεξεργάστηκε
     news: Νέα
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'Το έργο επεξεργάστηκε'
     reply: Απάντησε
     time_entry: 'Η καταγραφή χρόνου επεξεργάστηκε'
     wiki_page: 'Η σελίδα Wiki επεξεργάστηκε'
@@ -1392,11 +1354,14 @@ el:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF με περιγραφές"
-      pdf_with_descriptions_and_attachments: "PDF με περιγραφές και συνημμένα"
-      pdf_with_attachments: "PDF με συνημμένα"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Η εικόνα δεν εξήχθη."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Το Pdftotext είναι διαθέσιμο (προαιρετικό)"
@@ -1516,6 +1481,12 @@ el:
   label_api_access_key: "Κλειδί πρόσβασης API"
   label_api_access_key_created_on: "Tο κλειδί πρόσβασης API δημιουργήθηκε πριν από %{value}"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Ανάκληση"
   label_applied_status: "Εφαρμόστηκε η κατάσταση"
   label_archive_project: "Αρχειοθέτηση έργου"
   label_ascending: "Αύξουσα"
@@ -1551,6 +1522,7 @@ el:
   label_bulk_edit_selected_work_packages: "Μαζική επεξεργασία επιλεγμένων πακέτων εργασίας"
   label_bundled: '(Πακεταρισμένο)'
   label_calendar: "Ημερολόγιο"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Εμφάνιση Ημερολογίου"
   label_category: "Κατηγορία"
   label_consent_settings: "Συναίνεση χρήστη"
@@ -1587,7 +1559,6 @@ el:
   label_contains: "περιέχει"
   label_content: "Περιεχόμενο"
   label_copied: "αντιγράφηκε"
-  label_copy_to_clipboard: "Αντιγραφή στο πρόχειρο"
   label_copy_same_as_target: "Ίδιο με του στόχου"
   label_copy_source: "Πηγή"
   label_copy_target: "Στόχος"
@@ -1604,6 +1575,7 @@ el:
   label_database_version: "Έκδοση PostgreSQL"
   label_date: "Ημερομηνία"
   label_date_and_time: "Ημερομηνία και ώρα"
+  label_date_format: "Date format"
   label_date_from: "Από"
   label_date_from_to: "Από %{start} έως %{end}"
   label_date_to: "Έως"
@@ -1652,6 +1624,7 @@ el:
   label_equals: "είναι"
   label_everywhere: "παντού"
   label_example: "Παράδειγμα"
+  label_experimental: "Experimental"
   label_import: "Εισαγωγή"
   label_export_to: "Επίσης διαθέσιμο σε:"
   label_expanded_click_to_collapse: "Επεκταμένο. Πατήστε για σύμπτυξη"
@@ -1709,6 +1682,7 @@ el:
   label_journal: "Ημερολόγιο"
   label_journal_diff: "Σύγκριση Περιγραφών"
   label_language: "Γλώσσα"
+  label_languages: "Languages"
   label_jump_to_a_project: "Μεταβείτε σε ένα έργο..."
   label_keyword_plural: 'Λέξεις-κλειδιά'
   label_language_based: "Με βάση τη γλώσσα του χρήστη"
@@ -1730,6 +1704,7 @@ el:
   label_logged_as: "Συνδεδεμένος ως"
   label_login: "Σύνδεση"
   label_custom_logo: "Προσαρμοσμένο λογότυπο"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Προσαρμοσμένο favicon"
   label_custom_touch_icon: "Προσαρμοσμένο εικονίδιο αφής"
   label_logout: "Αποσύνδεση"
@@ -1766,6 +1741,7 @@ el:
   label_more_than_ago: "σε περισσότερο από ημέρες πριν"
   label_move_work_package: "Μετακίνηση πακέτου εργασίας"
   label_my_account: "Ο λογαριασμός μου"
+  label_my_activity: "My activity"
   label_my_account_data: "Τα δεδομένα του λογαριασμού μου"
   label_my_projects: "Τα έργα μου"
   label_my_queries: "Οι προσαρμοσμένες αναζητήσεις μου"
@@ -1816,7 +1792,6 @@ el:
   label_password_rule_special: "Ειδικοί Χαρακτήρες"
   label_password_rule_uppercase: "Κεφαλαία"
   label_path_encoding: "Κωδικοποίηση μονοπατιού"
-  label_pdf_with_descriptions: "PDF με Περιγραφές"
   label_per_page: "Ανά σελίδα"
   label_people: "Άτομα"
   label_permissions: "Δικαιώματα"
@@ -1968,6 +1943,7 @@ el:
   label_user_plural: "Χρήστες"
   label_user_search: "Αναζήτηση για χρήστη"
   label_user_settings: "Ρυθμίσεις χρήστη"
+  label_users_settings: "Users settings"
   label_version_new: "Νέα έκδοση"
   label_version_plural: "Εκδόσεις"
   label_version_sharing_descendants: "Με υποέργα"
@@ -2262,7 +2238,7 @@ el:
   permission_add_work_packages: "Προσθήκη πακέτων εργασίας"
   permission_add_messages: "Δημοσίευση μηνυμάτων"
   permission_add_project: "Δημιουργία έργου"
-  permission_archive_project: "Archive project"
+  permission_archive_project: "Αρχειοθέτηση έργου"
   permission_manage_user: "Δημιουργία και επεξεργασία χρηστών"
   permission_manage_placeholder_user: "Δημιουργήστε, επεξεργαστείτε και διαγράψτε τους placeholder χρήστες"
   permission_add_subprojects: "Δημιουργία υποέργων"
@@ -2528,7 +2504,7 @@ el:
   setting_consent_decline_mail: "Συγκατάθεση επικοινωνίας διεύθυνσης email"
   setting_cross_project_work_package_relations: "Επιτρέψτε συσχετισμό πακέτων εργασίας μεταξύ έργων"
   setting_first_week_of_year: "Η πρώτη εβδομάδα του έτους περιέχει"
-  setting_date_format: "Μορφηποίηση ημερομηνίας"
+  setting_date_format: "Date"
   setting_default_language: "Προεπιλεγμένη γλώσσα"
   setting_default_projects_modules: "Ενότητα ενεργοποιημένες από προεπιλογή για τα νέα έργα"
   setting_default_projects_public: "Τα νέα έργα είναι δημόσια από προεπιλογή"
@@ -2540,6 +2516,7 @@ el:
   setting_enabled_scm: "Ενεργοποίηση SCM"
   setting_enabled_projects_columns: "Ορατό στη λίστα έργων"
   setting_feeds_enabled: "Ενεργοποίηση Τροφοδοσιών"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Όριο συγκατάθεσης τροφοδοσίας"
   setting_file_max_size_displayed: "Μέγιστο μέγεθος αρχείων κειμένου που εμφανίζονται inline"
   setting_host_name: "Όνομα εξυπηρετητή"
@@ -2590,9 +2567,9 @@ el:
   setting_start_of_week: "Η εβδομάδα ξεκινά από"
   setting_sys_api_enabled: "Ενεργοποίηση του web service διαχείρισης αποθετηρίων"
   setting_sys_api_description: "Το web service διαχείρισης αποθετηρίων παρέχει ενσωμάτωση και αυθεντικοποίηση χρήστη για την πρόσβαση σε αποθετήρια."
-  setting_time_format: "Μορφοποίηση ώρας"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Ενεργοποίηση της λειτουργίας προσβασιμότητας για ανώνυμους χρήστες"
-  setting_user_format: "Μορφοποίηση εμφάνισης χρηστών"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Προεπιλεγμένη ζώνη ώρας του χρήστη"
   setting_users_deletable_by_admins: "Λογαριασμοί χρηστών που είναι μπορούν να διαγραφούν από τους διαχειριστές"
   setting_users_deletable_by_self: "Επιτρέπεται στους χρήστες να διαγράψουν τους λογαριασμούς τους"
@@ -2601,6 +2578,7 @@ el:
   setting_welcome_on_homescreen: "Εμφάνιση μπλοκ καλωσορίσματος στην αρχική σελίδα"
   setting_work_package_list_default_highlighting_mode: "Προεπιλεγμένη λειτουργία επισήμανσης"
   setting_work_package_list_default_highlighted_attributes: "Προεπιλεγμένα inline χαρακτηριστικά με επισήμανση"
+  setting_working_days: "Working days"
   settings:
     general: "Γενικά"
     other: "Άλλο"
@@ -2618,11 +2596,16 @@ el:
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Ρυθμίσεις για νέα έργα"
       section_project_overview: "Ρυθμίσεις για τη λίστα επισκόπησης έργου"
     user:
       default_preferences: "Προεπιλεγμένες προτιμήσεις"
+      display_format: "Display format"
       deletion: "Διαγραφή"
     highlighting:
       mode_long:
@@ -2631,6 +2614,9 @@ el:
         status: "Ολόκληρη η σειρά ανά Κατάσταση"
         type: "Ολόκληρη η σειρά ανά Τύπο"
         priority: "Ολόκληρη η σειρά ανά Προτεραιότητα"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Απλό κείμενο'
@@ -2669,10 +2655,12 @@ el:
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Προτείνεται ένα άσπρο λογότυπο με διαφανές φόντο. Για τα καλύτερα αποτελέσματα για συμβατικές και retina οθόνες, σιγουρευτείτε ότι οι διαστάσεις της εικόνας σας είναι 460px με 60px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Αυτό είναι το μικρό εικονίδιο που εμφανίζεται στο παράθυρο/καρτέλα του περιηγητής σας δίπλα στον τίτλο της σελίδας. Πρέπει να είναι ένα τετραγωνισμένο 32 με 32 pixels PNG αρχείο εικόνας με διάφανο φόντο.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    Αυτό είναι το εικονίδιο που εμφανίζεται στο κινητό ή στο tablet σας όταν βάζετε ένα σελιδοδείκτη στην αρχική σας σελίδα. Πρέπει να είναι ένα τετραγωνισμένο PNG αρχείο εικόνας. Παρακαλούμε σιγουρευτείτε ότι το φόντο της εικόνας δεν είναι διάφανο, διαφορετικά θα φαίνεται άσχημα στο iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Η βάση δεδομένων επιτρέπει TSVector (προαιρετικό)"
   text_default_administrator_account_changed: "Ο προεπιλεγμένος λογαριασμός του διαχειριστή άλλαξε"
   text_default_encoding: "Προεπιλογή: UTF-8"
@@ -2996,9 +2984,9 @@ el:
       title: "Διαγραφή του πακέτου εργασίας"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
@@ -3078,7 +3066,7 @@ el:
           unknown: 'Λείπει μία υποχρεωτική παράμετρος από το αίτημα, περιλαμβάνει μια μη υποστηριζόμενη τιμή παραμέτρου ή είναι παραμορφωμένη με κάποιο άλλο τρόπο.'
           missing_param: 'Missing required parameter: %{value}.'
           request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
-        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
+        invalid_redirect_uri: "Το ζητούμενο uri ανακατεύθυνσης είναι παραμορφωμένη ή δεν ταιριάζει με το URI ανακατεύθυνσης του client."
         unauthorized_client: 'Ο πελάτης δεν έχει εξουσιοδότηση να εκτελέσει αυτό το αίτημα χρησιμοποιώντας αυτή τη μέθοδο.'
         access_denied: 'Ο ιδιοκτήτης του πόρου ή ο διακομιστής ταυτοποίησης απέρριψε το αίτημα.'
         invalid_scope: 'Το ζητούμενο φυσικό αντικείμενο δεν είναι έγκυρο, είναι άγνωστο ή είναι παραμορφωμένο.'
@@ -3160,11 +3148,11 @@ el:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "Σφάλμα"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"
-      label_redirect_uri: "Redirect URI"
+      label_redirect_uri: "Σύνδεσμος Ανακατεύθυνσης (URI)"
       label_request_token: "Request token"
       label_refresh_token: "Refresh token"
     errors:

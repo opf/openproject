@@ -7,12 +7,12 @@ bg:
     label_board: "Board"
     label_boards: "Boards"
     board_types:
-      free: Basic
+      free: Основен
       action: "Action board (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
-      status: Status
-      version: Version
-      subproject: Subproject
+      assignee: Изпълнител
+      status: Състояние
+      version: Версия
+      subproject: Подпроект
       subtasks: Parent-child
-      basic: Basic
+      basic: Основен

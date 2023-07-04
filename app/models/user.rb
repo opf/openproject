@@ -29,6 +29,7 @@
 require 'digest/sha1'
 
 class User < Principal
+  CURRENT_USER_LOGIN_ALIAS = 'me'.freeze
   USER_FORMATS_STRUCTURE = {
     firstname_lastname: %i[firstname lastname],
     firstname: [:firstname],
@@ -134,7 +135,7 @@ class User < Principal
   auto_strip_attributes :login, nullify: false
   auto_strip_attributes :mail, nullify: false
 
-  validate :login_is_not_special_value
+  validate :login_is_not_aliased_value
   validate :password_meets_requirements
 
   after_save :update_password
@@ -584,9 +585,9 @@ class User < Principal
 
   protected
 
-  # Login must not be special value 'me'
-  def login_is_not_special_value
-    if login.present? && login == 'me'
+  # Login must not be aliased value 'me'
+  def login_is_not_aliased_value
+    if login.present? && login.to_s == CURRENT_USER_LOGIN_ALIAS
       errors.add(:login, :invalid)
     end
   end

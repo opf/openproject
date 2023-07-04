@@ -30,7 +30,8 @@ require 'spec_helper'
 
 # rubocop:disable RSpec:MultipleMemoizedHelpers
 RSpec.describe 'Projects copy',
-               js: true do
+               js: true,
+               with_cuprite: true do
   describe 'with a full copy example' do
     let!(:project) do
       create(:project,
@@ -142,7 +143,7 @@ RSpec.describe 'Projects copy',
 
       expect(page).to have_text "Copy project \"#{project.name}\""
 
-      fill_in 'Name', with: 'Copied project', wait: 10
+      fill_in 'Name', with: 'Copied project'
 
       # Expand advanced settings
       click_on 'Advanced settings'

@@ -4,7 +4,123 @@
 ---
 de:
   seeds:
+    common:
+      colors:
+        item_0:
+          name: Blau (dunkel)
+        item_1:
+          name: Blau
+        item_2:
+          name: Blau (hell)
+        item_3:
+          name: Grün (hell)
+        item_4:
+          name: Grün (dunkel)
+        item_5:
+          name: Gelb
+        item_6:
+          name: Orange
+        item_7:
+          name: rot
+        item_8:
+          name: Magenta
+        item_9:
+          name: Weiß
+        item_10:
+          name: Grau (hell)
+        item_11:
+          name: Grau
+        item_12:
+          name: Grau (dunkel)
+        item_13:
+          name: Schwarz
+      document_categories:
+        item_0:
+          name: Dokumentation
+        item_1:
+          name: Spezifikation
+        item_2:
+          name: Andere
+      roles:
+        item_0:
+          name: Nichtmitglied
+        item_1:
+          name: Anonym
+        item_2:
+          name: Mitglied
+        item_3:
+          name: Leser
+        item_4:
+          name: Projekt-Admin
+        item_5:
+          name: Mitarbeiter und Projektmanager
     standard:
+      priorities:
+        item_0:
+          name: Niedrig
+        item_1:
+          name: Normal
+        item_2:
+          name: Hoch
+        item_3:
+          name: Sofort
+      statuses:
+        item_0:
+          name: Neu
+        item_1:
+          name: In Spezifikation
+        item_2:
+          name: Spezifiziert
+        item_3:
+          name: Bestätigt
+        item_4:
+          name: Zu planen
+        item_5:
+          name: Geplant
+        item_6:
+          name: In Bearbeitung
+        item_7:
+          name: Entwickelt
+        item_8:
+          name: In Test
+        item_9:
+          name: Getestet
+        item_10:
+          name: Test fehlgeschlagen
+        item_11:
+          name: Erledigt
+        item_12:
+          name: Gestoppt
+        item_13:
+          name: Zurückgewiesen
+      time_entry_activities:
+        item_0:
+          name: Management
+        item_1:
+          name: Spezifikation
+        item_2:
+          name: Entwicklung
+        item_3:
+          name: Testen
+        item_4:
+          name: Unterstützung
+        item_5:
+          name: Andere
+      types:
+        item_0:
+          name: Aufgabe
+        item_1:
+          name: Meilenstein
+        item_2:
+          name: Phase
+        item_3:
+          name: Feature
+        item_4:
+          name: Epic
+        item_5:
+          name: User Story
+        item_6:
+          name: Bug
       welcome:
         title: Willkommen bei OpenProject!
         text: |
@@ -29,7 +145,7 @@ de:
               summary: |
                 Wir freuen uns, dass Sie dabei sind.
                 In diesem Modul können Sie Projektnachrichten an Ihre Teammitglieder weiterleiten.
-              description: Die aktuellen Nachrichten
+              description: Die aktuellen Neuigkeiten
           categories:
             item_0: Kategorie 1 (zu ändern in den Projekteinstellungen)
           queries:

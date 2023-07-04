@@ -43,7 +43,6 @@ import { AddListModalComponent } from 'core-app/features/boards/board/add-list-m
 import { BoardHighlightingTabComponent } from 'core-app/features/boards/board/configuration-modal/tabs/highlighting-tab.component';
 import { AddCardDropdownMenuDirective } from 'core-app/features/boards/board/add-card-dropdown/add-card-dropdown-menu.directive';
 import { BoardFilterComponent } from 'core-app/features/boards/board/board-filter/board-filter.component';
-import { DragScrollModule } from 'cdk-drag-scroll';
 import { BoardListMenuComponent } from 'core-app/features/boards/board/board-list/board-list-menu.component';
 import { VersionBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/version/version-board-header.component';
 import { DynamicModule } from 'ng-dynamic-component';
@@ -63,11 +62,10 @@ import { TileViewComponent } from './tile-view/tile-view.component';
     OpSharedModule,
     OpenprojectWorkPackagesModule,
     OpenprojectModalModule,
-    DragScrollModule,
     OpenprojectAutocompleterModule,
 
     // Dynamic Module for actions
-    DynamicModule.withComponents([VersionBoardHeaderComponent]),
+    DynamicModule,
 
     // Routes for /boards
     UIRouterModule.forChild({

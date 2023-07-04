@@ -78,8 +78,8 @@ eo:
       book_now: 'Book now'
       get_quote: 'Get a quote'
       buttons:
-        upgrade: "Upgrade now"
-        contact: "Contact us for a demo"
+        upgrade: "Ppromocii nun"
+        contact: "Kontaktu nin por provoversio"
       enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
@@ -182,7 +182,7 @@ eo:
     edit: 'Redakti adaptitan agon %{name}'
     execute: 'Plenumi %{name}'
     upsale:
-      title: 'Custom actions'
+      title: 'Adaptitaj agoj'
       description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
@@ -269,11 +269,22 @@ eo:
       notice_reset_token: "Nova %{type} jetono estis kreita. Via atinga ĵetono estas:"
       token_value_warning: "Noto: Tiu ĉi estas la sola fojo kiun vi vidos tiu ĉi ĵetonon, estu certa kopii ĝin."
       no_results_title_text: Nun estas neniu disponebla alirĵetono.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Nun estas neniu novaĵo por informi.
       no_results_content_text: Aldoni novan eron
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'This user is currently a member of the following groups:'
       no_results_title_text: This user is currently not a member in any group.
@@ -485,14 +496,14 @@ eo:
           true: "public"
           false: "private"
         queries: "Informpetoj"
-        status_code: 'Project status'
+        status_code: 'Projekta stato'
         status_explanation: 'Project status description'
         status_codes:
-          not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
+          not_started: 'Nekomencita'
+          on_track: 'Laŭ la plano'
+          at_risk: 'Riske'
+          off_track: 'Preter plano'
+          finished: 'Finita'
           discontinued: 'Discontinued'
         templated: "Template project"
         templated_value:
@@ -691,6 +702,11 @@ eo:
           overlaps: 'surmeteco.'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -923,7 +939,7 @@ eo:
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
+      parent_without_of: "Subprojekto"
       parent_no_longer: "No longer subproject of"
       time_entry:
         hour:
@@ -935,14 +951,14 @@ eo:
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
+      changeset: "Ŝanĝaroj"
+      message: "Forumoj"
+      news: "Novaĵoj"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
-      time_entry: "Spent time"
-      wiki_edit: "Wiki"
-      work_package: "Work packages"
+      time_entry: "Uzata tempo"
+      wiki_edit: "Vikio"
+      work_package: "Laborpakaĵoj"
   #common attributes of all models
   attributes:
     active: "Aktiva"
@@ -999,7 +1015,7 @@ eo:
     updated_on: "Ĝisdatigita la"
     uploader: "Alŝutilo"
     user: "Uzanto"
-    value: "Value"
+    value: "Valoro"
     version: "Versio"
     work_package: "Laborpakaĵo"
   backup:
@@ -1050,6 +1066,7 @@ eo:
   button_configure: "Agordi"
   button_continue: "Daŭrigi"
   button_copy: "Kopii"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Copy and follow"
   button_create: "Krei"
   button_create_and_continue: "Krei kaj daŭrigi"
@@ -1179,7 +1196,7 @@ eo:
       - "Oktobro"
       - "Novembro"
       - "Decembro"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - :jaro
       - :monato
@@ -1224,61 +1241,6 @@ eo:
       hour:
         one: "horo"
         other: "horoj"
-  default_activity_development: "Programado"
-  default_activity_management: "Administrado"
-  default_activity_other: "Aliaj"
-  default_activity_specification: "Specifo"
-  default_activity_support: "Subteno"
-  default_activity_testing: "Testado"
-  default_color_black: "Nigra"
-  default_color_blue: "Blua"
-  default_color_blue_dark: "Blua (malhela)"
-  default_color_blue_light: "Blua (hela)"
-  default_color_green_dark: "Verda (malhela)"
-  default_color_green_light: "Verda (hela)"
-  default_color_grey_dark: "Griza (malhela)"
-  default_color_grey_light: "Griza (hela)"
-  default_color_grey: "Griza"
-  default_color_magenta: "Maĝenta"
-  default_color_orange: "Oranĝa"
-  default_color_red: "Ruĝa"
-  default_color_white: "Blanka"
-  default_color_yellow: "Flava"
-  default_status_closed: "Fermita"
-  default_status_confirmed: "Konfirmita"
-  default_status_developed: "Programado"
-  default_status_in_development: "Evoluigata"
-  default_status_in_progress: "Farata"
-  default_status_in_specification: "Specifata"
-  default_status_in_testing: "Testado"
-  default_status_new: "Nova"
-  default_status_on_hold: "Atendanta"
-  default_status_rejected: "Malakceptita"
-  default_status_scheduled: "Planita"
-  default_status_specified: "Specifita"
-  default_status_tested: "Testita"
-  default_status_test_failed: "Malsukcesa testo"
-  default_status_to_be_scheduled: "Planota"
-  default_priority_low: "Malalta"
-  default_priority_normal: "Normala"
-  default_priority_high: "Alta"
-  default_priority_immediate: "Tuja"
-  default_role_anonymous: "Aanonima"
-  default_role_developer: "Programisto"
-  default_role_project_admin: "Administranto de la projekto"
-  default_role_project_creator_and_staff_manager: "Staff and projects manager"
-  default_role_non_member: "Ne membro"
-  default_role_reader: "Leganto"
-  default_role_member: "Membro"
-  default_type: "Laborpakaĵo"
-  default_type_bug: "Cimo"
-  default_type_deliverable: "Liverebla"
-  default_type_epic: "Epopea"
-  default_type_feature: "Trajto"
-  default_type_milestone: "Mejloŝtono"
-  default_type_phase: "Fazo"
-  default_type_task: "Tasko"
-  default_type_user_story: "Historio de la uzanto"
   description_active: "Aktiva?"
   description_attachment_toggle: "Vidigi/Kaŝi aldonaĵojn"
   description_autocomplete: >
@@ -1378,7 +1340,7 @@ eo:
     message: Mesaĝo redaktita
     news: Novaĵoj
     project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    projects: 'Projekto redaktita'
     reply: Respondis
     time_entry: 'Tempprotokolo redaktita'
     wiki_page: 'Vikipaĝo redaktita'
@@ -1396,11 +1358,14 @@ eo:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF kun priskriboj"
-      pdf_with_descriptions_and_attachments: "PDF kun priskriboj kaj aldonaĵoj"
-      pdf_with_attachments: "PDF kun aldonaĵoj"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Bildo ne eksportita."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdfaltekto disponebla (nedeviga)"
@@ -1520,6 +1485,12 @@ eo:
   label_api_access_key: "API atingokodo"
   label_api_access_key_created_on: "API atingokodo kreita antaŭ la %{value}"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Eksvalidigi"
   label_applied_status: "Aplikita stato"
   label_archive_project: "Aktivi projekton"
   label_ascending: "Kreskante"
@@ -1555,6 +1526,7 @@ eo:
   label_bulk_edit_selected_work_packages: "Grupa redakto de laborpakaĵoj"
   label_bundled: '(Pakita)'
   label_calendar: "Kalendaro"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Montri kalendaron"
   label_category: "Kategorio"
   label_consent_settings: "User Consent"
@@ -1591,7 +1563,6 @@ eo:
   label_contains: "enhavas"
   label_content: "Enhavo"
   label_copied: "kopiita"
-  label_copy_to_clipboard: "Kopii al la tondujo"
   label_copy_same_as_target: "Same kiel la celo"
   label_copy_source: "Fonto"
   label_copy_target: "Celo"
@@ -1608,6 +1579,7 @@ eo:
   label_database_version: "PostgreSQL version"
   label_date: "Dato"
   label_date_and_time: "Dato kaj horo"
+  label_date_format: "Date format"
   label_date_from: "De"
   label_date_from_to: "De %{start} al %{end}"
   label_date_to: "Al"
@@ -1656,6 +1628,7 @@ eo:
   label_equals: "estas"
   label_everywhere: "everywhere"
   label_example: "Ekzemplo"
+  label_experimental: "Experimental"
   label_import: "Importi"
   label_export_to: "Krome disponebla ĉe:"
   label_expanded_click_to_collapse: "Etendita. Klaki por maletendi"
@@ -1713,6 +1686,7 @@ eo:
   label_journal: "Protokolo"
   label_journal_diff: "Komparo de la priskribo"
   label_language: "Lingvo"
+  label_languages: "Languages"
   label_jump_to_a_project: "Iri al la projekto..."
   label_keyword_plural: 'Ŝlosilvortoj'
   label_language_based: "Bazita sur la lingvo de la uzanto"
@@ -1734,6 +1708,7 @@ eo:
   label_logged_as: "Logged in as"
   label_login: "Ensaluti"
   label_custom_logo: "Adaptita emblemo"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Adaptita retpaĝsimbolo"
   label_custom_touch_icon: "Adaptita tuŝikono"
   label_logout: "Elsaluti"
@@ -1770,6 +1745,7 @@ eo:
   label_more_than_ago: "pli da tagoj malantaŭe"
   label_move_work_package: "Movi la laborpakaĵon"
   label_my_account: "Mia konto"
+  label_my_activity: "My activity"
   label_my_account_data: "Mia konta datumaro"
   label_my_projects: "Miaj projektoj"
   label_my_queries: "Miaj propraj informpetoj"
@@ -1820,7 +1796,6 @@ eo:
   label_password_rule_special: "Specialaj signoj"
   label_password_rule_uppercase: "Majusklo"
   label_path_encoding: "Path encoding"
-  label_pdf_with_descriptions: "PDF kun priskriboj"
   label_per_page: "Per page"
   label_people: "Partoprenantoj"
   label_permissions: "Permesoj"
@@ -1972,6 +1947,7 @@ eo:
   label_user_plural: "Uzantoj"
   label_user_search: "Serĉo de uzanto"
   label_user_settings: "Agordoj de uzanto"
+  label_users_settings: "Users settings"
   label_version_new: "New version"
   label_version_plural: "Versioj"
   label_version_sharing_descendants: "With subprojects"
@@ -2267,7 +2243,7 @@ eo:
   permission_add_work_packages: "Add work packages"
   permission_add_messages: "Post messages"
   permission_add_project: "Create project"
-  permission_archive_project: "Archive project"
+  permission_archive_project: "Aktivi projekton"
   permission_manage_user: "Create and edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Create subprojects"
@@ -2533,7 +2509,7 @@ eo:
   setting_consent_decline_mail: "Consent contact mail address"
   setting_cross_project_work_package_relations: "Allow cross-project work package relations"
   setting_first_week_of_year: "First week in year contains"
-  setting_date_format: "Date format"
+  setting_date_format: "Date"
   setting_default_language: "Default language"
   setting_default_projects_modules: "Default enabled modules for new projects"
   setting_default_projects_public: "New projects are public by default"
@@ -2545,6 +2521,7 @@ eo:
   setting_enabled_scm: "Enabled SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Enable Feeds"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_host_name: "Host name"
@@ -2595,9 +2572,9 @@ eo:
   setting_start_of_week: "Week starts on"
   setting_sys_api_enabled: "Enable repository management web service"
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
-  setting_time_format: "Time format"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Enable accessibility mode for anonymous users"
-  setting_user_format: "Users display format"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
   setting_users_deletable_by_admins: "User accounts deletable by admins"
   setting_users_deletable_by_self: "Users allowed to delete their accounts"
@@ -2606,6 +2583,7 @@ eo:
   setting_welcome_on_homescreen: "Display welcome block on homescreen"
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
+  setting_working_days: "Working days"
   settings:
     general: "General"
     other: "Aliaj"
@@ -2623,11 +2601,16 @@ eo:
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
+      display_format: "Display format"
       deletion: "Deletion"
     highlighting:
       mode_long:
@@ -2636,10 +2619,13 @@ eo:
         status: "Entire row by Status"
         type: "Entire row by Type"
         priority: "Entire row by Priority"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Plain text'
-  status_active: "active"
+  status_active: "aktiva"
   status_archived: "archived"
   status_invited: invited
   status_locked: locked
@@ -2674,10 +2660,12 @@ eo:
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    This is the tiny icon that appears in your browser window/tab next to the page's title. It's needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It's needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Database allows TSVector (optional)"
   text_default_administrator_account_changed: "Default administrator account changed"
   text_default_encoding: "Default: UTF-8"
@@ -2931,7 +2919,7 @@ eo:
   total_progress: "Total progress"
   user:
     all: "ĉiuj"
-    active: "active"
+    active: "aktiva"
     activate: "Activate"
     activate_and_reset_failed_logins: "Activate and reset failed logins"
     authentication_provider: "Authentication Provider"
@@ -3002,9 +2990,9 @@ eo:
       title: "Delete the work package"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
@@ -3166,11 +3154,11 @@ eo:
   oauth_client:
     urn_connection_status:
       connected: "Connected"
-      error: "Error"
+      error: "Eraro"
       failed_authorization: "Authorization failed"
     labels:
       label_oauth_integration: "OAuth2 integration"
-      label_redirect_uri: "Redirect URI"
+      label_redirect_uri: "Alidirekti URI"
       label_request_token: "Request token"
       label_refresh_token: "Refresh token"
     errors:

@@ -19,7 +19,7 @@ id:
       use_this_link_to_manage: "Use this link to upload and manage your IFC models"
       keyboard_input_disabled: "Viewer does not have keyboard controls. Click on the viewer to give keyboard control to the viewer."
       models:
-        ifc_models: 'IFC models'
+        ifc_models: 'Model IFC'
       views:
         viewer: 'Viewer'
         split: 'Viewer and table'

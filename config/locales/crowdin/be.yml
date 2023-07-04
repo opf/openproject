@@ -269,11 +269,22 @@ be:
       notice_reset_token: "A new %{type} token has been generated. Your access token is:"
       token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
       no_results_title_text: There are currently no access tokens available.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: There is currently no news to report.
       no_results_content_text: Add a news item
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'This user is currently a member of the following groups:'
       no_results_title_text: This user is currently not a member in any group.
@@ -417,7 +428,7 @@ be:
         downloads: "Downloads"
         file: "File"
         filename: "File"
-        filesize: "Size"
+        filesize: "Памер"
       attribute_help_text:
         attribute_name: 'Attribute'
         help_text: 'Help text'
@@ -516,8 +527,8 @@ be:
         permissions: "Permissions"
       time_entry:
         activity: "Activity"
-        hours: "Hours"
-        spent_on: "Date"
+        hours: "Гадзіны"
+        spent_on: "Дата"
         type: "Type"
       type:
         description: "Default text for description"
@@ -572,7 +583,7 @@ be:
         priority: "Priority"
         progress: "Progress (%)"
         readonly: "Read only"
-        schedule_manually: "Manual scheduling"
+        schedule_manually: "Ручное планаванне"
         spent_hours: "Spent time"
         spent_time: "Spent time"
         subproject: "Subproject"
@@ -693,6 +704,11 @@ be:
           overlaps: 'overlap.'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
           attributes:
@@ -895,7 +911,7 @@ be:
       forum: "Forum"
       comment: "Comment"
       custom_action: "Custom action"
-      custom_field: "Custom field"
+      custom_field: "Карыстальніцкае поле"
       group: "Group"
       category: "Category"
       status: "Work package status"
@@ -960,8 +976,8 @@ be:
   #common attributes of all models
   attributes:
     active: "Active"
-    assigned_to: "Assignee"
-    assignee: "Assignee"
+    assigned_to: "Прызначаная асоба"
+    assignee: "Прызначаная асоба"
     attachments: "Attachments"
     author: "Author"
     base: "General Error:"
@@ -973,8 +989,8 @@ be:
     color: "Color"
     created_at: "Created on"
     custom_options: "Possible values"
-    custom_values: "Custom fields"
-    date: "Date"
+    custom_values: "Карыстальніцкія палі"
+    date: "Дата"
     default_columns: "Default columns"
     description: "Description"
     derived_due_date: "Derived finish date"
@@ -984,7 +1000,7 @@ be:
     due_date: "Finish date"
     estimated_hours: "Estimated time"
     estimated_time: "Estimated time"
-    firstname: "First name"
+    firstname: "Імя"
     group: "Group"
     groups: "Groups"
     id: "ID"
@@ -993,10 +1009,10 @@ be:
     public: "Public"
     #kept for backwards compatibility
     issue: "Work package"
-    lastname: "Last name"
+    lastname: "Прозвішча"
     login: "Username"
     mail: "Email"
-    name: "Name"
+    name: "Імя"
     password: "Password"
     priority: "Priority"
     project: "Project"
@@ -1044,38 +1060,39 @@ be:
       token_cooldown: The backup token will be valid in %{hours} hours.
       backup_pending: There is already a backup pending.
       limit_reached: You can only do %{limit} backups per day.
-  button_add: "Add"
-  button_add_comment: "Add comment"
+  button_add: "Дадаць"
+  button_add_comment: "Дадаць каментарый"
   button_add_member: Add member
   button_add_watcher: "Add watcher"
   button_annotate: "Annotate"
   button_apply: "Apply"
   button_archive: "Archive"
-  button_back: "Back"
+  button_back: "Назад"
   button_cancel: "Cancel"
-  button_change: "Change"
+  button_change: "Змяніць"
   button_change_parent_page: "Change parent page"
   button_change_password: "Change password"
   button_check_all: "Check all"
   button_clear: "Clear"
   button_click_to_reveal: "Click to reveal"
-  button_close: 'Close'
-  button_collapse_all: "Collapse all"
+  button_close: 'Зачыніць'
+  button_collapse_all: "Згарнуць усё"
   button_configure: "Configure"
   button_continue: "Continue"
-  button_copy: "Copy"
+  button_copy: "Скапіраваць"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Copy and follow"
   button_create: "Create"
   button_create_and_continue: "Create and continue"
-  button_delete: "Delete"
+  button_delete: "Выдаліць"
   button_decline: "Decline"
   button_delete_watcher: "Delete watcher %{name}"
   button_download: "Download"
   button_duplicate: "Duplicate"
-  button_edit: "Edit"
+  button_edit: "Рэдагаваць"
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
-  button_expand_all: "Expand all"
-  button_filter: "Filter"
+  button_expand_all: "Разгарнуць усё"
+  button_filter: "Фільтр"
   button_generate: "Generate"
   button_list: "List"
   button_lock: "Lock"
@@ -1102,7 +1119,7 @@ be:
   button_uncheck_all: "Uncheck all"
   button_unlock: "Unlock"
   button_unwatch: "Unwatch"
-  button_update: "Update"
+  button_update: "Абнавіць"
   button_upgrade: "Upgrade"
   button_upload: "Upload"
   button_view: "View"
@@ -1193,7 +1210,7 @@ be:
       - "October"
       - "November"
       - "December"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - :year
       - :month
@@ -1262,61 +1279,6 @@ be:
         few: "hours"
         many: "hours"
         other: "hours"
-  default_activity_development: "Development"
-  default_activity_management: "Management"
-  default_activity_other: "Other"
-  default_activity_specification: "Specification"
-  default_activity_support: "Support"
-  default_activity_testing: "Testing"
-  default_color_black: "Black"
-  default_color_blue: "Blue"
-  default_color_blue_dark: "Blue (dark)"
-  default_color_blue_light: "Blue (light)"
-  default_color_green_dark: "Green (dark)"
-  default_color_green_light: "Green (light)"
-  default_color_grey_dark: "Grey (dark)"
-  default_color_grey_light: "Grey (light)"
-  default_color_grey: "Grey"
-  default_color_magenta: "Magenta"
-  default_color_orange: "Orange"
-  default_color_red: "Red"
-  default_color_white: "White"
-  default_color_yellow: "Yellow"
-  default_status_closed: "Closed"
-  default_status_confirmed: "Confirmed"
-  default_status_developed: "Developed"
-  default_status_in_development: "In development"
-  default_status_in_progress: "In progress"
-  default_status_in_specification: "In specification"
-  default_status_in_testing: "In testing"
-  default_status_new: "New"
-  default_status_on_hold: "On hold"
-  default_status_rejected: "Rejected"
-  default_status_scheduled: "Scheduled"
-  default_status_specified: "Specified"
-  default_status_tested: "Tested"
-  default_status_test_failed: "Test failed"
-  default_status_to_be_scheduled: "To be scheduled"
-  default_priority_low: "Low"
-  default_priority_normal: "Normal"
-  default_priority_high: "High"
-  default_priority_immediate: "Immediate"
-  default_role_anonymous: "Anonymous"
-  default_role_developer: "Developer"
-  default_role_project_admin: "Project admin"
-  default_role_project_creator_and_staff_manager: "Staff and projects manager"
-  default_role_non_member: "Non member"
-  default_role_reader: "Reader"
-  default_role_member: "Member"
-  default_type: "Work Package"
-  default_type_bug: "Bug"
-  default_type_deliverable: "Deliverable"
-  default_type_epic: "Epic"
-  default_type_feature: "Feature"
-  default_type_milestone: "Milestone"
-  default_type_phase: "Phase"
-  default_type_task: "Task"
-  default_type_user_story: "User story"
   description_active: "Active?"
   description_attachment_toggle: "Show/Hide attachments"
   description_autocomplete: >
@@ -1330,7 +1292,7 @@ be:
   description_date_to: "Enter end date"
   description_enter_number: "Enter number"
   description_enter_text: "Enter text"
-  description_filter: "Filter"
+  description_filter: "Фільтр"
   description_filter_toggle: "Show/Hide filter"
   description_category_reassign: "Choose category"
   description_message_content: "Message content"
@@ -1434,11 +1396,14 @@ be:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF with descriptions"
-      pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
-      pdf_with_attachments: "PDF with attachments"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Image not exported."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext available (optional)"
@@ -1469,7 +1434,7 @@ be:
       community: "OpenProject community"
       upsale:
         title: "Upgrade to Enterprise edition"
-        more_info: "More information"
+        more_info: "Дадатковыя звесткі"
     links:
       upgrade_enterprise_edition: "Upgrade to Enterprise edition"
       postgres_migration: "Migrating your installation to PostgreSQL"
@@ -1558,6 +1523,12 @@ be:
   label_api_access_key: "API access key"
   label_api_access_key_created_on: "API access key created %{value} ago"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Applied status"
   label_archive_project: "Archive project"
   label_ascending: "Ascending"
@@ -1583,7 +1554,7 @@ be:
   label_blocked_by: "blocked by"
   label_blocks: "blocks"
   label_blog: "Blog"
-  label_forums_locked: "Locked"
+  label_forums_locked: "Заблакавана"
   label_forum_new: "New forum"
   label_forum_plural: "Forums"
   label_forum_sticky: "Sticky"
@@ -1593,6 +1564,7 @@ be:
   label_bulk_edit_selected_work_packages: "Bulk edit selected work packages"
   label_bundled: '(Bundled)'
   label_calendar: "Calendar"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Show Calendar"
   label_category: "Category"
   label_consent_settings: "User Consent"
@@ -1616,7 +1588,7 @@ be:
   label_chronological_order: "Oldest first"
   label_close_versions: "Close completed versions"
   label_closed_work_packages: "closed"
-  label_collapse: "Collapse"
+  label_collapse: "Згарнуць"
   label_collapsed_click_to_show: "Collapsed. Click to show"
   label_configuration: configuration
   label_comment_add: "Add a comment"
@@ -1629,7 +1601,6 @@ be:
   label_contains: "contains"
   label_content: "Content"
   label_copied: "copied"
-  label_copy_to_clipboard: "Copy to clipboard"
   label_copy_same_as_target: "Same as target"
   label_copy_source: "Source"
   label_copy_target: "Target"
@@ -1640,12 +1611,13 @@ be:
   label_current_version: "Current version"
   label_custom_field_add_no_type: "Add this field to a work package type"
   label_custom_field_new: "New custom field"
-  label_custom_field_plural: "Custom fields"
+  label_custom_field_plural: "Карыстальніцкія палі"
   label_custom_field_default_type: "Empty type"
   label_custom_style: "Design"
   label_database_version: "PostgreSQL version"
-  label_date: "Date"
+  label_date: "Дата"
   label_date_and_time: "Date and time"
+  label_date_format: "Date format"
   label_date_from: "From"
   label_date_from_to: "From %{start} to %{end}"
   label_date_to: "To"
@@ -1658,7 +1630,7 @@ be:
   label_deleted_custom_option: "(deleted option)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Descending"
-  label_details: "Details"
+  label_details: "Падрабязнасці"
   label_development_roadmap: "Development roadmap"
   label_diff: "diff"
   label_diff_inline: "inline"
@@ -1674,7 +1646,7 @@ be:
   label_duplicated_by: "duplicated by"
   label_duplicate: "duplicate"
   label_duplicates: "duplicates"
-  label_edit: "Edit"
+  label_edit: "Рэдагаваць"
   label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "Toggle multiselect"
   label_enabled_project_custom_fields: 'Enabled custom fields'
@@ -1694,6 +1666,7 @@ be:
   label_equals: "is"
   label_everywhere: "everywhere"
   label_example: "Example"
+  label_experimental: "Experimental"
   label_import: "Import"
   label_export_to: "Also available in:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
@@ -1714,7 +1687,7 @@ be:
   label_form_configuration: "Form configuration"
   label_gantt: "Gantt"
   label_gantt_chart: "Gantt chart"
-  label_general: "General"
+  label_general: "Асноўныя"
   label_generate_key: "Generate a key"
   label_git_path: "Path to .git directory"
   label_greater_or_equal: ">="
@@ -1725,7 +1698,7 @@ be:
   label_group_plural: "Groups"
   label_help: "Help"
   label_here: here
-  label_hide: "Hide"
+  label_hide: "Схаваць"
   label_history: "History"
   label_hierarchy_leaf: "Hierarchy leaf"
   label_home: "Home"
@@ -1734,7 +1707,7 @@ be:
   label_in: "in"
   label_in_less_than: "in less than"
   label_in_more_than: "in more than"
-  label_inactive: "Inactive"
+  label_inactive: "Неактыўны"
   label_incoming_emails: "Incoming emails"
   label_includes: 'includes'
   label_index_by_date: "Index by date"
@@ -1751,6 +1724,7 @@ be:
   label_journal: "Journal"
   label_journal_diff: "Description Comparison"
   label_language: "Language"
+  label_languages: "Languages"
   label_jump_to_a_project: "Jump to a project..."
   label_keyword_plural: 'Keywords'
   label_language_based: "Based on user's language"
@@ -1772,6 +1746,7 @@ be:
   label_logged_as: "Logged in as"
   label_login: "Sign in"
   label_custom_logo: "Custom logo"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Custom favicon"
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "Sign out"
@@ -1804,14 +1779,15 @@ be:
   label_module_plural: "Modules"
   label_modules: "Modules"
   label_months_from: "months from"
-  label_more: "More"
+  label_more: "Яшчэ"
   label_more_than_ago: "more than days ago"
   label_move_work_package: "Move work package"
   label_my_account: "My account"
+  label_my_activity: "My activity"
   label_my_account_data: "My account data"
   label_my_projects: "My projects"
   label_my_queries: "My custom queries"
-  label_name: "Name"
+  label_name: "Імя"
   label_never: "Never"
   label_new: "New"
   label_new_features: "New features"
@@ -1858,7 +1834,6 @@ be:
   label_password_rule_special: "Special Characters"
   label_password_rule_uppercase: "Uppercase"
   label_path_encoding: "Path encoding"
-  label_pdf_with_descriptions: "PDF with Descriptions"
   label_per_page: "Per page"
   label_people: "People"
   label_permissions: "Permissions"
@@ -1873,7 +1848,7 @@ be:
   label_modules_and_plugins: "Modules and Plugins"
   label_precedes: "precedes"
   label_preferences: "Preferences"
-  label_preview: "Preview"
+  label_preview: "Папярэдні прагляд"
   label_previous: "Previous"
   label_previous_week: "Previous week"
   label_principal_invite_via_email: " or invite new users via email"
@@ -1891,7 +1866,7 @@ be:
   label_project_new: "New project"
   label_project_plural: "Projects"
   label_project_settings: "Project settings"
-  label_project_storage_plural: "Storages"
+  label_project_storage_plural: "Сховішчы"
   label_projects_storage_information: "%{count} projects using %{storage} disk storage"
   label_project_view_all: "View all projects"
   label_project_show_details: "Show project details"
@@ -2010,6 +1985,7 @@ be:
   label_user_plural: "Users"
   label_user_search: "Search for user"
   label_user_settings: "User settings"
+  label_users_settings: "Users settings"
   label_version_new: "New version"
   label_version_plural: "Versions"
   label_version_sharing_descendants: "With subprojects"
@@ -2575,7 +2551,7 @@ be:
   setting_consent_decline_mail: "Consent contact mail address"
   setting_cross_project_work_package_relations: "Allow cross-project work package relations"
   setting_first_week_of_year: "First week in year contains"
-  setting_date_format: "Date format"
+  setting_date_format: "Date"
   setting_default_language: "Default language"
   setting_default_projects_modules: "Default enabled modules for new projects"
   setting_default_projects_public: "New projects are public by default"
@@ -2587,6 +2563,7 @@ be:
   setting_enabled_scm: "Enabled SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Enable Feeds"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_host_name: "Host name"
@@ -2637,9 +2614,9 @@ be:
   setting_start_of_week: "Week starts on"
   setting_sys_api_enabled: "Enable repository management web service"
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
-  setting_time_format: "Time format"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Enable accessibility mode for anonymous users"
-  setting_user_format: "Users display format"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
   setting_users_deletable_by_admins: "User accounts deletable by admins"
   setting_users_deletable_by_self: "Users allowed to delete their accounts"
@@ -2648,8 +2625,9 @@ be:
   setting_welcome_on_homescreen: "Display welcome block on homescreen"
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
+  setting_working_days: "Working days"
   settings:
-    general: "General"
+    general: "Асноўныя"
     other: "Other"
     passwords: "Passwords"
     session: "Session"
@@ -2665,11 +2643,16 @@ be:
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Default preferences"
+      display_format: "Display format"
       deletion: "Deletion"
     highlighting:
       mode_long:
@@ -2678,6 +2661,9 @@ be:
         status: "Entire row by Status"
         type: "Entire row by Type"
         priority: "Entire row by Priority"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Plain text'
@@ -2716,14 +2702,16 @@ be:
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    This is the tiny icon that appears in your browser window/tab next to the page's title. It's needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It's needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Database allows TSVector (optional)"
   text_default_administrator_account_changed: "Default administrator account changed"
   text_default_encoding: "Default: UTF-8"
-  text_destroy: "Delete"
+  text_destroy: "Выдаліць"
   text_destroy_with_associated: "There are additional objects assossociated with the work package(s) that are to be deleted. Those objects are of the following types:"
   text_destroy_what_to_do: "What do you want to do?"
   text_diff_truncated: "... This diff was truncated because it exceeds the maximum size that can be displayed."
@@ -2821,7 +2809,7 @@ be:
     dates: "Dates"
     dates_are_calculated_based_on_sub_elements: "Dates are calculated based on sub elements."
     delete_all: "Delete all"
-    delete_thing: "Delete"
+    delete_thing: "Выдаліць"
     duration: "Duration"
     duration_days:
       one: "1 day"
@@ -2829,7 +2817,7 @@ be:
       many: "%{count} days"
       other: "%{count} days"
     edit_color: "Edit color"
-    edit_thing: "Edit"
+    edit_thing: "Рэдагаваць"
     edit_timeline: "Edit timeline report %{timeline}"
     delete_timeline: "Delete timeline report %{timeline}"
     empty: "(empty)"
@@ -2858,10 +2846,10 @@ be:
         date: "date"
         default: "default"
       column:
-        assigned_to: "Assignee"
+        assigned_to: "Прызначаная асоба"
         type: "Type"
         due_date: "End date"
-        name: "Name"
+        name: "Імя"
         status: "Status"
         start_date: "Start date"
       columns: "Columns"
@@ -3048,9 +3036,9 @@ be:
       title: "Delete the work package"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
       Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.

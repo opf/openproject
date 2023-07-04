@@ -129,7 +129,7 @@ es:
   permission_view_hourly_rates: "Ver todas las tarifas por hora"
   permission_view_own_cost_entries: "Ver los gastos reservados propios"
   permission_view_own_hourly_rate: "Ver tarifa por hora propia"
-  permission_view_own_time_entries: "Ver tiempo propio utilizado"
+  permission_view_own_time_entries: "Ver tiempo propio invertido"
   project_module_costs: "Tiempo y costos"
   text_assign_time_and_cost_entries_to_project: "Asignar horas reportadas y los costos al proyecto"
   text_destroy_cost_entries_question: "%{cost_entries} fueron reportados en los paquetes de trabajo que van a eliminar. ¿Qué quieres hacer?"

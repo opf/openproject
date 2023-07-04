@@ -28,6 +28,9 @@
 
 module ::Calendar
   class ICalController < ApplicationController
+    # Authentication and authorization is handled within the service.
+    skip_before_action :check_if_login_required
+
     def show
       begin
         call = ::Calendar::ICalResponseService.new.call(
@@ -41,7 +44,6 @@ module ::Calendar
 
       if call.present? && call.success?
         send_data call.result, filename: "openproject_calendar_#{DateTime.now.to_i}.ics"
-        # render plain: call.result # TODO: remove this, it's just handy for development debugging
       else
         render_404
       end

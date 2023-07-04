@@ -84,8 +84,9 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
       rowClasses.push(hierarchyRootClass(workPackage.id!));
     }
 
-    if (_.isArray(workPackage.ancestors)) {
-      workPackage.ancestors.forEach((ancestor) => {
+    const ancestors = workPackage.getAncestors();
+    if (_.isArray(ancestors)) {
+      ancestors.forEach((ancestor) => {
         rowClasses.push(hierarchyGroupClass(ancestor.id!));
 
         if (state.collapsed[ancestor.id!]) {
@@ -117,7 +118,8 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
    * @param level Indentation level
    */
   private appendHierarchyIndicator(workPackage:WorkPackageResource, jRow:JQuery, level?:number):void {
-    const hierarchyLevel = level === undefined || null ? workPackage.ancestors.length : level;
+    const ancestors = workPackage.getAncestors();
+    const hierarchyLevel = level === undefined || null ? ancestors.length : level;
     const hierarchyElement = this.buildHierarchyIndicator(workPackage, jRow, hierarchyLevel);
 
     jRow.find('td.subject')
@@ -145,7 +147,14 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
       const className = collapsed ? indicatorCollapsedClass : '';
       hierarchyIndicator.innerHTML = `
             <a href tabindex="0" role="button" class="wp-table--hierarchy-indicator ${className}">
-              <span class="wp-table--hierarchy-indicator-icon" aria-hidden="true"></span>
+              <span
+                class="spot-icon spot-icon_1 spot-icon_arrow-down1 wp-table--hierarchy-indicator-expanded"
+                aria-hidden="true"
+              ></span>
+              <span
+                class="spot-icon spot-icon_1 spot-icon_arrow-right2 wp-table--hierarchy-indicator-collapsed"
+                aria-hidden="true"
+              ></span>
               <span class="wp-table--hierarchy-indicator-expanded hidden-for-sighted">${this.text.expanded(
     level,
   )}</span>

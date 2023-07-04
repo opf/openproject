@@ -43,6 +43,8 @@ class Seeder
     end
   end
 
+  class_attribute :needs, default: []
+
   attr_reader :seed_data
 
   def initialize(seed_data = nil)
@@ -77,8 +79,8 @@ class Seeder
   end
 
   # The user being the author of all data created during seeding.
-  def user
-    @user ||= User.not_builtin.admin.first
+  def admin_user
+    @admin_user ||= User.not_builtin.admin.first
   end
 
   protected

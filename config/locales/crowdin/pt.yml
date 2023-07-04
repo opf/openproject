@@ -268,11 +268,22 @@ pt:
       notice_reset_token: "Foi gerado um novo token de %{type}. Seu token de acesso é:"
       token_value_warning: "Nota: Esta é a única vez que você verá este token, certifique-se de copiá-lo agora."
       no_results_title_text: Atualmente não há tokens de acesso disponíveis.
+      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Atualmente, não há notícias para comunicar.
       no_results_content_text: Adicionar um item de notícias
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'No momento, este usuário é um membro dos seguintes grupos: '
       no_results_title_text: No momento, este usuário não é membro de nenhum grupo.
@@ -484,15 +495,15 @@ pt:
           true: "público"
           false: "privado"
         queries: "Consultas"
-        status_code: 'Project status'
+        status_code: 'Situação do projeto'
         status_explanation: 'Project status description'
         status_codes:
-          not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
+          not_started: 'Não iniciado'
+          on_track: 'Sob controle'
+          at_risk: 'Em risco'
+          off_track: 'Fora de controle'
+          finished: 'Finalizado'
+          discontinued: 'Descontinuado'
         templated: "Projeto modelo"
         templated_value:
           true: "marcado como modelo"
@@ -690,6 +701,11 @@ pt:
           overlaps: 'sobreposição.'
           outside: 'está fora da grade.'
           end_before_start: 'o valor final precisa ser maior que o valor inicial.'
+        ical_token_query_assignment:
+          attributes:
+            name:
+              blank: "is mandatory. Please select a name."
+              not_unique: "is already in use. Please select another name."
         notifications:
           at_least_one_channel: 'É necessário especificar pelo menos um canal para o envio de notificações.'
           attributes:
@@ -927,7 +943,7 @@ pt:
       time_entry:
         hour:
           one: "%{count} hour"
-          other: "%{count} hours"
+          other: "%{count} horas"
         hour_html:
           one: "<i>%{count} hour</i>"
           other: "<i>%{count} hours</i>"
@@ -1049,6 +1065,7 @@ pt:
   button_configure: "Configurar"
   button_continue: "Continuar"
   button_copy: "Copiar"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Copiar e seguir"
   button_create: "Criar"
   button_create_and_continue: "Criar e continuar"
@@ -1178,7 +1195,7 @@ pt:
       - "Outubro"
       - "Novembro"
       - "Dezembro"
-    #Used in date_select and datime_select.
+    #Used in date_select and datetime_select.
     order:
       - :ano
       - ':mês'
@@ -1223,61 +1240,6 @@ pt:
       hour:
         one: "hora"
         other: "hora"
-  default_activity_development: "Desenvolvimento"
-  default_activity_management: "Gerenciamento"
-  default_activity_other: "Outro"
-  default_activity_specification: "Especificação"
-  default_activity_support: "Suporte"
-  default_activity_testing: "Testando"
-  default_color_black: "Preto"
-  default_color_blue: "Azul"
-  default_color_blue_dark: "Azul (escuro)"
-  default_color_blue_light: "Azul (claro)"
-  default_color_green_dark: "Verde (escuro)"
-  default_color_green_light: "Verde (claro)"
-  default_color_grey_dark: "Cinza (escuro)"
-  default_color_grey_light: "Cinza (claro)"
-  default_color_grey: "Cinza"
-  default_color_magenta: "Magenta"
-  default_color_orange: "Laranja"
-  default_color_red: "Vermelho"
-  default_color_white: "Branco"
-  default_color_yellow: "Amarelo"
-  default_status_closed: "Fechado"
-  default_status_confirmed: "Confirmado"
-  default_status_developed: "Desenvolvido"
-  default_status_in_development: "Em desenvolvimento"
-  default_status_in_progress: "Em andamento"
-  default_status_in_specification: "Em especificação"
-  default_status_in_testing: "Em testes"
-  default_status_new: "Novo"
-  default_status_on_hold: "Em espera"
-  default_status_rejected: "Rejeitado"
-  default_status_scheduled: "Planejado"
-  default_status_specified: "Especificado"
-  default_status_tested: "Testado"
-  default_status_test_failed: "Falha no teste"
-  default_status_to_be_scheduled: "A ser planejado"
-  default_priority_low: "Baixa"
-  default_priority_normal: "Normal"
-  default_priority_high: "Alta"
-  default_priority_immediate: "Imediata"
-  default_role_anonymous: "Anônimo"
-  default_role_developer: "Desenvolvedor"
-  default_role_project_admin: "Administrador do projeto"
-  default_role_project_creator_and_staff_manager: "Equipe e gerente de projetos"
-  default_role_non_member: "Não membro"
-  default_role_reader: "Leitor"
-  default_role_member: "Membro"
-  default_type: "Pacote de trabalho"
-  default_type_bug: "Bug"
-  default_type_deliverable: "Entregável"
-  default_type_epic: "Épico"
-  default_type_feature: "Funcionalidade"
-  default_type_milestone: "Marco"
-  default_type_phase: "Fase"
-  default_type_task: "Tarefa"
-  default_type_user_story: "História de usuário"
   description_active: "Ativo?"
   description_attachment_toggle: "Mostrar/Ocultar anexos"
   description_autocomplete: >
@@ -1395,11 +1357,14 @@ pt:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_with_descriptions: "PDF com descrições"
-      pdf_with_descriptions_and_attachments: "PDF com descrições e anexos"
-      pdf_with_attachments: "PDF com anexos"
+      pdf_overview_table: "PDF Table"
+      pdf_report_with_images: "PDF Report with images"
+      pdf_report: "PDF Report"
     image:
       omitted: "Imagem não exportada."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext disponível (opcional)"
@@ -1519,6 +1484,12 @@ pt:
   label_api_access_key: "Chave de acesso a API"
   label_api_access_key_created_on: "Chave de acesso a API criada %{value} atrás"
   label_api_access_key_type: "API"
+  label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
+  label_ical_access_key_not_present: "iCalendar token(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
+  label_ical_access_key_latest: "latest"
+  label_ical_access_key_revoke: "Revogar"
   label_applied_status: "Situação aplicada"
   label_archive_project: "Arquivar projeto"
   label_ascending: "Ascendente"
@@ -1554,6 +1525,7 @@ pt:
   label_bulk_edit_selected_work_packages: "Editar em lote os pacotes de trabalho selecionados"
   label_bundled: '(Empacotado)'
   label_calendar: "Calendário"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Mostrar Calendário"
   label_category: "Categoria"
   label_consent_settings: "Consentimento do usuário"
@@ -1590,7 +1562,6 @@ pt:
   label_contains: "contém"
   label_content: "Conteúdo"
   label_copied: "copiado"
-  label_copy_to_clipboard: "Copiar para a área de transferência"
   label_copy_same_as_target: "Igual ao destino"
   label_copy_source: "Fonte"
   label_copy_target: "Destino"
@@ -1607,6 +1578,7 @@ pt:
   label_database_version: "Versão do PostgreSQL"
   label_date: "Data"
   label_date_and_time: "Data e hora"
+  label_date_format: "Date format"
   label_date_from: "De"
   label_date_from_to: "De %{start} até %{end}"
   label_date_to: "Para"
@@ -1655,6 +1627,7 @@ pt:
   label_equals: "é"
   label_everywhere: "em todos os lugares"
   label_example: "Exemplo"
+  label_experimental: "Experimental"
   label_import: "Importar"
   label_export_to: "Também disponível em:"
   label_expanded_click_to_collapse: "Expandido. Clique para recolher"
@@ -1712,6 +1685,7 @@ pt:
   label_journal: "Diário"
   label_journal_diff: "Comparação de Descrição"
   label_language: "Idioma"
+  label_languages: "Languages"
   label_jump_to_a_project: "Saltar para um projeto..."
   label_keyword_plural: 'Palavras-chave'
   label_language_based: "Com base no idioma do usuário"
@@ -1733,6 +1707,7 @@ pt:
   label_logged_as: "Conectado como"
   label_login: "Fazer login"
   label_custom_logo: "Logotipo personalizado"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Ícone personalizado"
   label_custom_touch_icon: "Ícone de toque personalizado"
   label_logout: "Desconectar"
@@ -1769,6 +1744,7 @@ pt:
   label_more_than_ago: "mais do que dias atrás"
   label_move_work_package: "Mover pacote de trabalho"
   label_my_account: "Minha conta"
+  label_my_activity: "My activity"
   label_my_account_data: "Dados da minha conta"
   label_my_projects: "Meus projetos"
   label_my_queries: "Minhas consultas personalizadas"
@@ -1819,7 +1795,6 @@ pt:
   label_password_rule_special: "Caracteres Especiais"
   label_password_rule_uppercase: "Letras maiúsculas"
   label_path_encoding: "Codificação"
-  label_pdf_with_descriptions: "PDF com descrições"
   label_per_page: "Por página"
   label_people: "Pessoas"
   label_permissions: "Permissões"
@@ -1971,6 +1946,7 @@ pt:
   label_user_plural: "Usuários"
   label_user_search: "Busca por usuário"
   label_user_settings: "Configurações do usuário"
+  label_users_settings: "Users settings"
   label_version_new: "Nova versão"
   label_version_plural: "Versões"
   label_version_sharing_descendants: "Com subprojetos"
@@ -2530,7 +2506,7 @@ pt:
   setting_consent_decline_mail: "E-mail de contato do consentimento"
   setting_cross_project_work_package_relations: "Permitir relacionamento entre pacotes de trabalho de diferentes projetos"
   setting_first_week_of_year: "A primeira semana no ano contém"
-  setting_date_format: "Formato de data"
+  setting_date_format: "Date"
   setting_default_language: "Idioma padrão"
   setting_default_projects_modules: "Módulos habilitados por padrão para novos projetos"
   setting_default_projects_public: "Novos projetos são públicos por padrão"
@@ -2542,6 +2518,7 @@ pt:
   setting_enabled_scm: "SCM habilitado"
   setting_enabled_projects_columns: "Visível na lista de projetos"
   setting_feeds_enabled: "Habilitar Feeds"
+  setting_ical_enabled: "Enable iCalendar Subscriptions"
   setting_feeds_limit: "Limite de conteúdo de feed"
   setting_file_max_size_displayed: "Tamanho máximo de arquivos de texto exibidos em linha"
   setting_host_name: "Nome do servidor"
@@ -2592,9 +2569,9 @@ pt:
   setting_start_of_week: "A semana começa em"
   setting_sys_api_enabled: "Habilitar o serviço web de gerenciamento de repositório"
   setting_sys_api_description: "O serviço de web de gerenciamento de repositório fornece integração e autorização de usuário para acessar repositórios."
-  setting_time_format: "Formato de hora"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Ativar o modo de acessibilidade para usuários anônimos"
-  setting_user_format: "Formato de exibição de usuários"
+  setting_user_format: "Users name format"
   setting_user_default_timezone: "Fuso horário padrão"
   setting_users_deletable_by_admins: "Contas de usuário podem ser excluídas pelos administradores"
   setting_users_deletable_by_self: "Usuários podem excluir suas contas"
@@ -2603,6 +2580,7 @@ pt:
   setting_welcome_on_homescreen: "Exibir bloco de boas-vindas na tela inicial"
   setting_work_package_list_default_highlighting_mode: "Modo de destaque padrão"
   setting_work_package_list_default_highlighted_attributes: "Atributos embutidos com destaque padrão"
+  setting_working_days: "Working days"
   settings:
     general: "Geral"
     other: "Outro"
@@ -2620,11 +2598,16 @@ pt:
         Se as opções "%{day_of_week_setting_name}" ou "%{first_week_setting_name}" forem definidas, a outra também deve ser definida, para evitar inconsistências no front-end.
       first_week_of_year_text: >
         Selecione a data de janeiro que está contida na primeira semana do ano. Este valor, juntamente com o primeiro dia da semana, determina o número total de semanas num ano.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Configurações para novos projetos"
       section_project_overview: "Configurações para a lista de visão geral do projeto"
     user:
       default_preferences: "Preferências padrão"
+      display_format: "Display format"
       deletion: "Exclusão"
     highlighting:
       mode_long:
@@ -2633,6 +2616,9 @@ pt:
         status: "Toda a linha por Situação"
         type: "Toda linha por Tipo"
         priority: "Toda linha por Prioridade"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Texto simples'
@@ -2671,10 +2657,12 @@ pt:
     A edição Enterprise (Edição corporativa) contará com estes complementos adicionais para campos personalizados dos Projetos: <br> <ul> <li><b>Adicionar campos personalizados para projetos a sua Lista de projetos para criar uma visão do portfólio de projetos</b></li> </ul>
   text_custom_logo_instructions: >
     Recomenda-se um logotipo branco sobre fundo transparente. Para obter melhores resultados em telas convencionais e de retina, certifique-se de que as dimensões de sua imagem são de 460px por 60px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Este é o pequeno ícone que aparece em sua janela/aba do navegador ao lado do título da página. É necessário ser um arquivo de imagem PNG de 32 por 32 pixels com fundo transparente.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    Este é o ícone que aparece no seu celular ou tablet quando você coloca um marcador no sua tela inicial. É necessário um arquivo de imagem PNG de 180 por 180 pixels. Por favor, certifique-se de que plano de fundo da imagem não é transparente caso contrário vai ficar ruim no iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Banco de dados permite TSVector (opcional)"
   text_default_administrator_account_changed: "Conta do administrador padrão alterada"
   text_default_encoding: "Padrão: UTF-8"
@@ -2998,9 +2986,9 @@ pt:
       title: "Excluir o pacote de trabalho"
   working_days:
     info: >
-      <b>Defina os dias considerados parte da semana útil</b><br/> Dias que não são selecionados são pulados ao agendar pacotes de trabalho (e não são incluídos na contagem do dia). Estes podem ser substituídos a nível do pacotes de trabalho.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Dias não úteis específicos (feriados e dias de fechamento )</b><br/> As datas adicionadas à lista abaixo são consideradas dias não úteis e são ignoradas ao agendar pacotes de trabalho.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Alterar dias úteis"
     warning: >
       Alterar os dias da semana considerados úteis ou não úteis pode afetar as datas de início e término de todos os pacotes de trabalho em todos os projetos desta instância. <br/> Observe que as alterações só são aplicadas após clicar no botão aplicar alterações.

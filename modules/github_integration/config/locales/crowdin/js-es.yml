@@ -38,15 +38,15 @@ es:
           copy_error: '❌ Error al copiar'
       tab_prs:
         empty: 'Aún no hay solicitudes de incorporación de cambios vinculadas. Vincule una solicitud de incorporación de cambios existente con el código <code>OP#%{wp_id}</code> en la descripción, o bien cree una nueva solicitud de incorporación de cambios.'
-      github_actions: Acciones
+      github_actions: Comportamiento
       pull_requests:
         message: >
-          Solicitud de extracción #%{pr_number} %{pr_link} para %{repository_link} ha sido %{pr_state} por %{github_user_link}. #%{pr_number} %{pr_link} para %{repository_link} ha sido %{pr_state} por %{github_user_link}.
+          Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}. #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}.
         referenced_message: >
-          %{github_user_link} referenció este paquete de trabajo en la pull request #%{pr_number} %{pr_link} el %{repository_link}. #%{pr_number} %{pr_link} el %{repository_link}.
+          %{github_user_link} referenced this work package in pull request #%{pr_number} %{pr_link} on %{repository_link}. #%{pr_number} %{pr_link} on %{repository_link}.
         states:
-          opened: 'Abierto'
-          closed: 'cerrado'
+          opened: 'opened'
+          closed: 'closed'
           draft: 'drafted'
-          merged: 'Combinado'
-          ready_for_review: 'marcado listo para revisión'
+          merged: 'merged'
+          ready_for_review: 'marked ready for review'

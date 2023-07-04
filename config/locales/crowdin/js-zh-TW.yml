@@ -65,6 +65,7 @@ zh-TW:
     button_confirm: "確認"
     button_continue: "繼續"
     button_copy: "複製"
+    button_copy_to_clipboard: "Copy to clipboard"
     button_copy_to_other_project: "複製到其他專案"
     button_custom-fields: "自訂欄位"
     button_delete: "删除"
@@ -105,7 +106,7 @@ zh-TW:
       remove_from_list: '從清單列表中移除'
     caption_rate_history: "Rate history"
     clipboard:
-      browser_error: "您的瀏覽器不支援複製到剪貼簿。請手動複製選取的文字。"
+      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "已成功複製到剪貼簿"
     chart:
       type: '圖表類型'
@@ -240,7 +241,7 @@ zh-TW:
             professional_support: "專業支援"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "開始免費試用"
-          button_upgrade: "Upgrade now"
+          button_upgrade: "立即更新"
           button_contact_us: "Contact us for a demo"
           button_book_now: "立即預約"
           confidence: >
@@ -255,7 +256,7 @@ zh-TW:
         calendar:
           empty_state_header: "Non-working days"
           empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
-          new_date: '(new)'
+          new_date: '（新）'
         add_non_working_day: "Non-working day"
         already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
         change_button: "Save and reschedule"
@@ -316,6 +317,16 @@ zh-TW:
               learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
                 The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+    ical_sharing_modal:
+      title: "Subscribe to iCalendar"
+      inital_setup_error_message: "An error occured while fetching data."
+      description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
+      warning: "Please don't share this URL with external users. Anyone with this link will be able to view work package details without an account or password."
+      token_name_label: "Token name"
+      token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
+      token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
+      copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the iCal URL."
     label_activate: "啟用"
     label_assignee: '負責執行者'
     label_add_column_after: "在後面增加一欄"
@@ -327,7 +338,7 @@ zh-TW:
     label_add_row_before: "在前面增加一列"
     label_add_selected_columns: "新增所選欄"
     label_added_by: "新增者"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "天前"
     label_all: "所有"
     label_all_work_packages: "所有工作項目"
@@ -566,7 +577,7 @@ zh-TW:
         property_was: 'was %{difference_in_days} ago'
         property_is_deleted: 'is deleted'
         upsale:
-          title: 'Date alerts'
+          title: '日期提醒'
           description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
       facets:
         unread: '未讀'
@@ -665,8 +676,7 @@ zh-TW:
         Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
       details_activity: 'Project details activity'
       context: '專案內容'
-      work_package_belongs_to: '此工作項目屬於專案 %{projectname}。'
-      click_to_switch_context: '在該專案中打開此工作項目。'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       use_template: "使用範本"
       no_template_selected: "(None)"
@@ -924,7 +934,7 @@ zh-TW:
         modification_label: 'Modified within the comparison time period'
         column_incompatible: 'This attribute is not compatible with baseline and will not show differences.'
       filters:
-        title: 'Filter work packages'
+        title: '篩選的工作項目'
         baseline_incompatible: 'This filter is not compatible with baseline and will not be included in the comparison.'
         baseline_warning: 'Baseline mode is on but some of your active filters are not included in the comparison.'
       inline_create:
@@ -963,7 +973,7 @@ zh-TW:
         description: "說明"
         date: "日期"
         dueDate: "完成日期"
-        duration: "Duration"
+        duration: "時間長度"
         estimatedTime: "預估時間"
         spentTime: "耗時"
         category: "類別"
@@ -1076,18 +1086,19 @@ zh-TW:
     toolbar:
       settings:
         configure_view: "Configure view"
-        columns: "Columns"
-        sort_by: "Sort by"
-        group_by: "Group by"
+        columns: "欄"
+        sort_by: "排序方式"
+        group_by: "分組依據"
         display_sums: "顯示匯總"
         display_hierarchy: "顯示層次結構"
         hide_hierarchy: "隱藏層次結構"
         hide_sums: "隱藏匯總"
         save: "儲存"
-        save_as: "Save as"
-        export: "Export"
-        visibility_settings: "Visibility settings"
-        page_settings: "Rename view"
+        save_as: "保存為"
+        export: "匯出"
+        visibility_settings: "可見度設定"
+        share_calendar: "Subscribe to iCalendar"
+        page_settings: "重新命名視圖"
         delete: "删除"
       filter: "篩選器"
       unselected_title: "工作項目"
@@ -1099,7 +1110,7 @@ zh-TW:
       button_save: "儲存"
       button_submit: "提交"
       button_cancel: "取消"
-      button_delete: "Delete"
+      button_delete: "删除"
       form_submit:
         title: '確認以繼續'
         text: '確定要執行此操作嗎？'
@@ -1154,17 +1165,18 @@ zh-TW:
         zero: "0 h"
       day:
         one: "1 day"
-        other: "%{count} days"
+        other: "%{count} 天"
         zero: "0 days"
     zen_mode:
       button_activate: '啟動 zen 模式'
       button_deactivate: '停用 zen 模式'
     global_search:
       all_projects: "在所有的專案"
-      search: "搜尋"
       close_search: "關閉搜尋"
-      current_project: "對現在的專案"
       current_project_and_all_descendants: "對現在的專案和子專案"
+      current_project: "對現在的專案"
+      recently_viewed: "Recently viewed"
+      search: "搜尋"
       title:
         all_projects: "所有專案"
         project_and_subprojects: "和所有的子專案"
@@ -1228,7 +1240,7 @@ zh-TW:
       message:
         label: 'Invitation message'
         description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
-        next_button: 'Next'
+        next_button: '下一個'
       summary:
         next_button: '發送邀請'
       success:
@@ -1255,21 +1267,23 @@ zh-TW:
       no_results: 'No project matches your search criteria.'
     baseline:
       toggle_title: 'Baseline'
-      clear: 'Clear'
-      apply: 'Apply'
-      header_description: 'View changes made to work packages in the current view within a time period.'
+      clear: '清除'
+      apply: '套用'
+      header_description: 'Highlight changes made to this list since any point in the past.'
+      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
       show_changes_since: 'Show changes since'
+      baseline_comparison: 'Baseline comparison'
       help_description: 'Reference time zone for the baseline.'
       time_description: 'In your local time: %{datetime}'
-      time: 'Time'
-      from: 'From'
-      to: 'To'
+      time: '時間'
+      from: '寄件者'
+      to: '到'
       drop_down:
         none: '-'
-        yesterday: 'yesterday'
+        yesterday: '昨天'
         last_working_day: 'last working day'
-        last_week: 'last week'
-        last_month: 'last month'
+        last_week: '上週'
+        last_month: '上個月'
         a_specific_date: 'a specific date'
         between_two_specific_dates: 'between two specific dates'
       legends:

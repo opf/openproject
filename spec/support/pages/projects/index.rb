@@ -148,6 +148,8 @@ module Pages
           row.hover
           menu = find('ul.project-actions')
           menu.click
+          wait_for_network_idle if using_cuprite?
+          expect(page).to have_selector('.menu-drop-down-container')
           yield menu
         end
       end

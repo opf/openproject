@@ -37,6 +37,14 @@ FactoryBot.define do
     end
   end
 
+  factory :custom_style_with_export_logo, class: 'CustomStyle' do
+    export_logo do
+      Rack::Test::UploadedFile.new(
+        Rails.root.join('spec/support/custom_styles/export_logos/export_logo_image.png')
+      )
+    end
+  end
+
   factory :custom_style_with_favicon, class: 'CustomStyle' do
     favicon do
       Rack::Test::UploadedFile.new(

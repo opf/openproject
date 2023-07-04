@@ -173,10 +173,19 @@ RSpec.describe ApplicationHelper do
     end
   end
 
+  describe '.authoring_at' do
+    it 'escapes html from author name' do
+      created = '2023-06-02'
+      author = create(:user, firstname: '<b>Hello</b>', lastname: 'world')
+      expect(authoring_at(created, author))
+        .to eq("Added by <a href=\"/users/#{author.id}\">&lt;b&gt;Hello&lt;/b&gt; world</a> at 2023-06-02")
+    end
+  end
+
   describe '.all_lang_options_for_select' do
     it 'has all languages translated ("English" should appear only once)' do
       impostor_locales =
-        all_lang_options_for_select(false)
+        all_lang_options_for_select
           .reject { |_lang, locale| locale == 'en' }
           .select { |lang, _locale| lang == "English" }
           .map { |_lang, locale| locale }
@@ -196,13 +205,13 @@ RSpec.describe ApplicationHelper do
 
     it 'has distinct languages translation' do
       duplicate_langs =
-        all_lang_options_for_select(false)
+        all_lang_options_for_select
           .map { |lang, _locale| lang }
           .tally
           .reject { |_lang, count| count == 1 }
           .map { |lang, _count| lang }
       duplicate_options =
-        all_lang_options_for_select(false)
+        all_lang_options_for_select
           .filter { |lang, _locale| duplicate_langs.include?(lang) }
           .sort
 
@@ -211,8 +220,14 @@ RSpec.describe ApplicationHelper do
 
           duplicates: #{duplicate_options}
 
-        To fix it, inspect translation files located in "config/locales/generated/*.yml".
-        You can also try running the script "script/i18n/generate_languages_translations".
+        This happens when a new language is added to Crowdin: new translation files are
+        generated and the new language is available in Setting.all_languages, but there
+        is no translation for its name yet, and so it falls back to "English".
+
+        To fix it:
+          - run the script "script/i18n/generate_languages_translations"
+          - commit the additional translation file generated in
+            "config/locales/generated/*.yml".
       ERR
     end
   end

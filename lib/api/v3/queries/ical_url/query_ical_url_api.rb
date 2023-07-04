@@ -35,10 +35,9 @@ module API
         # API inflection rule prevents ICal inflection rule to be used in this context
         class QueryIcalUrlAPI < ::API::OpenProjectAPI
           namespace :ical_url do
-            # TODO: introduce OpenProject::Configuration.ical_subscriptions_enabled configuration
-            # before do
-            #   raise API::Errors::NotFound unless OpenProject::Configuration.ical_subscriptions_enabled?
-            # end
+            before do
+              raise API::Errors::Unauthorized unless Setting.ical_enabled?
+            end
 
             params do
               requires :token_name, type: String, desc: 'The name which should be used for the ical token'

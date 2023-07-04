@@ -244,12 +244,30 @@ export class PathHelperService {
     return `${this.staticBase}/work_packages/${id}`;
   }
 
+  public workPackageShortPath(id:string|number) {
+    return `${this.staticBase}/wp/${id}`;
+  }
+
   public workPackageCopyPath(workPackageId:string|number) {
     return `${this.workPackagePath(workPackageId)}/copy`;
   }
 
   public workPackageDetailsCopyPath(projectIdentifier:string, workPackageId:string|number) {
     return `${this.projectWorkPackagesPath(projectIdentifier)}/details/${workPackageId}/copy`;
+  }
+
+  // Work Package Bulk paths
+
+  public workPackagesBulkEditPath() {
+    return `${this.workPackagesPath()}/bulk/edit`;
+  }
+
+  public workPackagesBulkMovePath() {
+    return `${this.workPackagesPath()}/move/new`;
+  }
+
+  public workPackagesBulkCopyPath() {
+    return `${this.workPackagesBulkMovePath()}?copy=true`;
   }
 
   public workPackagesBulkDeletePath() {

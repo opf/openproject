@@ -10,9 +10,9 @@ th:
       free: Basic
       action: "Action board (%{attribute})"
     board_type_attributes:
-      assignee: Assignee
-      status: Status
-      version: Version
-      subproject: Subproject
+      assignee: ผู้ได้รับมอบหมาย
+      status: สถานะ
+      version: เวอร์ชัน
+      subproject: โครงการย่อย
       subtasks: Parent-child
       basic: Basic

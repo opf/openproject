@@ -15,7 +15,7 @@ es:
       choose_location: "Seleccionar ubicación"
       types:
         nextcloud: "Nextcloud"
-        default: "Storage"
+        default: "Almacén"
       information:
         connection_error: >
           Algunos ajustes dé %{storageType} no funcionan. Póngase en contacto con el administrador de %{storageType}.

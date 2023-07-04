@@ -113,4 +113,8 @@ module ColorsHelper
 
     content_tag(:span, ' ', options)
   end
+
+  def color_by_variable(variable)
+    DesignColor.find_by(variable:)&.hexcode
+  end
 end

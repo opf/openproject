@@ -35,9 +35,6 @@ lol:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "crwdns493497:0crwdne493497:0"
               must_block_at_least_one_work_package: "crwdns493499:0crwdne493499:0"
-            parent_id:
-              parent_child_relationship_across_projects: "crwdns493501:0%{work_package_name}crwdne493501:0"
-              type_must_be_one_of_the_following: "crwdns493503:0%{type_names}crwdne493503:0"
             version_id:
               task_version_must_be_the_same_as_story_version: "crwdns493505:0crwdne493505:0"
         sprint:
@@ -78,7 +75,6 @@ lol:
     x_more: "crwdns493573:0%{count}crwdne493573:0"
   backlogs_active: "crwdns493575:0crwdne493575:0"
   backlogs_any: "crwdns493577:0crwdne493577:0"
-  backlogs_card_specification: "crwdns493579:0crwdne493579:0"
   backlogs_inactive: "crwdns493581:0crwdne493581:0"
   backlogs_points_burn_direction: "crwdns493583:0crwdne493583:0"
   backlogs_product_backlog: "crwdns493585:0crwdne493585:0"

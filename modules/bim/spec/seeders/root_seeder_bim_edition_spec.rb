@@ -77,21 +77,62 @@ RSpec.describe RootSeeder,
         "User: OpenProject Admin" => 12
       )
     end
+
+    it 'adds additional permissions from modules' do
+      # do not test for all permissions but only some of them to ensure the ones
+      # for BIM got processed
+      member_role = root_seeder.seed_data.find_reference(:default_role_member)
+      expect(member_role.permissions).to include(
+        :view_work_packages, # from common basic data
+        :view_linked_issues # from bim module
+      )
+    end
+
+    include_examples 'it creates records', model: Color, expected_count: 144
+    include_examples 'it creates records', model: DocumentCategory, expected_count: 3
+    include_examples 'it creates records', model: IssuePriority, expected_count: 4
+    include_examples 'it creates records', model: Status, expected_count: 4
+    include_examples 'it creates records', model: TimeEntryActivity, expected_count: 3
+    include_examples 'it creates records', model: Workflow, expected_count: 182
   end
 
   describe 'demo data' do
+    shared_let(:root_seeder) { described_class.new }
+
     before_all do
       with_edition('bim') do
-        described_class.new.seed_data!
+        root_seeder.seed_data!
       end
     end
 
     include_examples 'creates BIM demo data'
 
     include_examples 'no email deliveries'
+
+    context 'when run a second time' do
+      before_all do
+        described_class.new.seed_data!
+      end
+
+      it 'does not create additional data' do
+        expect(Project.count).to eq 4
+        expect(WorkPackage.count).to eq 76
+        expect(Wiki.count).to eq 3
+        expect(Query.count).to eq 29
+        expect(Group.count).to eq 8
+        expect(Type.count).to eq 7
+        expect(Status.count).to eq 4
+        expect(IssuePriority.count).to eq 4
+        expect(Bim::IfcModels::IfcModel.count).to eq 3
+        expect(Grids::Overview.count).to eq 4
+        expect(Boards::Grid.count).to eq 2
+      end
+    end
   end
 
   describe 'demo data mock-translated in another language' do
+    shared_let(:root_seeder) { described_class.new }
+
     before_all do
       with_edition('bim') do
         # simulate a translation by changing the returned string on `I18n#t` calls
@@ -100,7 +141,7 @@ RSpec.describe RootSeeder,
           "tr: #{original_translation}"
         end
 
-        described_class.new.seed_data!
+        root_seeder.seed_data!
       end
     end
 
@@ -133,16 +174,17 @@ RSpec.describe RootSeeder,
     end
   end
 
-  describe 'demo data with a non-English language' do
+  describe 'demo data with a non-English language set with OPENPROJECT_DEFAULT__LANGUAGE', :settings_reset do
+    shared_let(:root_seeder) { described_class.new }
+
     before_all do
       with_edition('bim') do
-        stub_language('de')
-        described_class.new.seed_data!
+        stub_const('ENV', { 'OPENPROJECT_DEFAULT__LANGUAGE' => 'de' })
+        reset(:default_language) # Settings are a pain to reset
+        root_seeder.seed_data!
+      ensure
+        reset(:default_language)
       end
-    end
-
-    before do
-      stub_language('de')
     end
 
     include_examples 'creates BIM demo data'

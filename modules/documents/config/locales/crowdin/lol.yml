@@ -29,11 +29,6 @@ lol:
   default_doc_category_tech: "crwdns494201:0crwdne494201:0"
   default_doc_category_user: "crwdns494203:0crwdne494203:0"
   enumeration_doc_categories: "crwdns494205:0crwdne494205:0"
-  enumeration:
-    document_category:
-      documentation: crwdns494207:0crwdne494207:0
-      specification: crwdns494209:0crwdne494209:0
-      other: crwdns494211:0crwdne494211:0
   documents:
     label_attachment_author: "crwdns494213:0crwdne494213:0"
   label_document_added: "crwdns494215:0crwdne494215:0"

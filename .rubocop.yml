@@ -3,6 +3,13 @@ require:
   - rubocop-rspec
   - ./lib_static/rubocop/cop/open_project/no_do_end_block_with_rspec_capybara_matcher_in_expect.rb
   - ./lib_static/rubocop/cop/open_project/use_service_result_factory_methods.rb
+  - rubocop-capybara
+  - rubocop-factory_bot
+
+<% if File.exist?('.rubocop-local.yml') %>
+inherit_from:
+  - .rubocop-local.yml
+<% end %>
 
 inherit_mode:
   merge:
@@ -15,6 +22,9 @@ AllCops:
   NewCops: enable
   Exclude:
     - '**/node_modules/**/*'
+
+FactoryBot/SyntaxMethods:
+  Enabled: true
 
 Gemspec/RequiredRubyVersion:
   Exclude:
@@ -225,6 +235,7 @@ RSpec/ContextWording:
   Prefixes:
     - as
     - for
+    - having
     - if
     - 'on'
     - to
@@ -232,9 +243,6 @@ RSpec/ContextWording:
     - when
     - with
     - without
-
-RSpec/FactoryBot/SyntaxMethods:
-  Enabled: true
 
 Style/Alias:
   Enabled: false

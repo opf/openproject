@@ -4,7 +4,123 @@
 ---
 nl:
   seeds:
+    common:
+      colors:
+        item_0:
+          name: Blauw (donker)
+        item_1:
+          name: Blauw
+        item_2:
+          name: Blauw (licht)
+        item_3:
+          name: Groen (licht)
+        item_4:
+          name: Groen (donker)
+        item_5:
+          name: Geel
+        item_6:
+          name: Oranje
+        item_7:
+          name: Rood
+        item_8:
+          name: Magenta
+        item_9:
+          name: Wit
+        item_10:
+          name: Grijs (licht)
+        item_11:
+          name: Grijs
+        item_12:
+          name: Grijs (donker)
+        item_13:
+          name: Zwart
+      document_categories:
+        item_0:
+          name: Documentatie
+        item_1:
+          name: Specificatie
+        item_2:
+          name: Overige
+      roles:
+        item_0:
+          name: Derde
+        item_1:
+          name: Anoniem
+        item_2:
+          name: Deelnemer
+        item_3:
+          name: Lezer
+        item_4:
+          name: Project admin
+        item_5:
+          name: Medewerker en projectbeheerder
     standard:
+      priorities:
+        item_0:
+          name: Laag
+        item_1:
+          name: Normaal
+        item_2:
+          name: Hoog
+        item_3:
+          name: Onmiddellijk
+      statuses:
+        item_0:
+          name: Nieuw
+        item_1:
+          name: In specificatie
+        item_2:
+          name: Gespecificeerd
+        item_3:
+          name: Bevestigd
+        item_4:
+          name: Om ingepland te worden
+        item_5:
+          name: Gepland
+        item_6:
+          name: In behandeling
+        item_7:
+          name: Ontwikkel
+        item_8:
+          name: In test
+        item_9:
+          name: Getest
+        item_10:
+          name: Test is mislukt
+        item_11:
+          name: Gesloten
+        item_12:
+          name: In de wacht
+        item_13:
+          name: Afgewezen
+      time_entry_activities:
+        item_0:
+          name: Beheer
+        item_1:
+          name: Specificatie
+        item_2:
+          name: Ontwikkeling
+        item_3:
+          name: Testen
+        item_4:
+          name: Ondersteuning
+        item_5:
+          name: Overige
+      types:
+        item_0:
+          name: Taak
+        item_1:
+          name: Mijlpaal
+        item_2:
+          name: Fase
+        item_3:
+          name: Functie
+        item_4:
+          name: Episch
+        item_5:
+          name: Gebruikersverhaal
+        item_6:
+          name: Fout
       welcome:
         title: Welcome to OpenProject!
         text: |
@@ -25,46 +141,46 @@ nl:
           description: This is a short summary of the goals of this demo project.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Welkom bij uw demo-project
               summary: |
                 We are glad you joined.
                 In this module you can communicate project news to your team members.
-              description: The actual news
+              description: Het actuele nieuws
           categories:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
               name: Project plan
             item_1:
-              name: Milestones
+              name: Mijlpalen
             item_2:
-              name: Tasks
+              name: Taken
             item_3:
               name: Team planner
           boards:
             kanban:
               name: Kanban board
             basic:
-              name: Basic board
+              name: Standaard bord
               lists:
                 item_0:
-                  name: Wish list
+                  name: Verlanglijst
                 item_1:
-                  name: Short list
+                  name: Korte lijst
                 item_2:
-                  name: Priority list for today
+                  name: Lijst met prioriteiten voor vandaag
                 item_3:
-                  name: Never
+                  name: Nooit
             parent_child:
               name: Work breakdown structure
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Welkom
               item_1:
                 options:
-                  name: Getting started
+                  name: Aan de slag
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -83,36 +199,36 @@ nl:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Werkpakketten
               item_6:
                 options:
-                  name: Milestones
+                  name: Mijlpalen
           work_packages:
             item_0:
               subject: Start of project
             item_1:
-              subject: Organize open source conference
+              subject: Open source conferentie organiseren
               children:
                 item_0:
-                  subject: Set date and location of conference
+                  subject: Stel datum en plaats van conferentie in
                   children:
                     item_0:
-                      subject: Send invitation to speakers
+                      subject: Uitnodiging sturen naar sprekers
                     item_1:
                       subject: Contact sponsoring partners
                     item_2:
                       subject: Create sponsorship brochure and hand-outs
                 item_1:
-                  subject: Invite attendees to conference
+                  subject: Nodig deelnemers uit voor de conferentie
                 item_2:
                   subject: Setup conference website
             item_2:
-              subject: Conference
+              subject: Conferentie
             item_3:
               subject: Follow-up tasks
               children:
                 item_0:
-                  subject: Upload presentations to website
+                  subject: Upload presentaties naar website
                 item_1:
                   subject: Party for conference supporters :-)
                   description: |-
@@ -121,7 +237,7 @@ nl:
                     *   [ ] Music
                     *   [ ] Even more beer
             item_4:
-              subject: End of project
+              subject: Einde van project
         scrum-project:
           name: Scrum project
           status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
@@ -199,29 +315,29 @@ nl:
             item_2:
               name: Sprint 1
             item_3:
-              name: Tasks
+              name: Taken
           boards:
             kanban:
               name: Kanban board
             basic:
-              name: Task board
+              name: Taakbord
               lists:
                 item_0:
-                  name: Wish list
+                  name: Verlanglijst
                 item_1:
-                  name: Short list
+                  name: Korte lijst
                 item_2:
-                  name: Priority list for today
+                  name: Lijst met prioriteiten voor vandaag
                 item_3:
-                  name: Never
+                  name: Nooit
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Welkom
               item_1:
                 options:
-                  name: Getting started
+                  name: Aan de slag
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
@@ -241,7 +357,7 @@ nl:
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: Work packages
+                  name: Werkpakketten
               item_6:
                 options:
                   name: Project plan

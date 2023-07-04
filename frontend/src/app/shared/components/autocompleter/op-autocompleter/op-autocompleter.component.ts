@@ -32,7 +32,6 @@ import {
 } from 'rxjs';
 import {
   debounce,
-  debounceTime,
   distinctUntilChanged,
   filter,
   switchMap,
@@ -217,16 +216,16 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
   @ViewChild('ngSelectInstance') ngSelectInstance:NgSelectComponent;
 
   @ContentChild(OpAutocompleterOptionTemplateDirective, { read: TemplateRef })
-  optionTemplate:TemplateRef<any>;
+    optionTemplate:TemplateRef<Element>;
 
   @ContentChild(OpAutocompleterLabelTemplateDirective, { read: TemplateRef })
-  labelTemplate:TemplateRef<any>;
+    labelTemplate:TemplateRef<Element>;
 
   @ContentChild(OpAutocompleterHeaderTemplateDirective, { read: TemplateRef })
-  headerTemplate:TemplateRef<any>;
+    headerTemplate:TemplateRef<Element>;
 
   @ContentChild(OpAutocompleterFooterTemplateDirective, { read: TemplateRef })
-  footerTemplate:TemplateRef<any>;
+    footerTemplate:TemplateRef<Element>;
 
   initialDebounce = true;
 
@@ -398,6 +397,6 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnI
       this.initialDebounce = false;
       return 0;
     }
-    return 250;
+    return 50;
   }
 }

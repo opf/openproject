@@ -37,7 +37,6 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
   selector: 'op-baseline-modal',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './baseline-modal.component.html',
-  styleUrls: ['./baseline-modal.component.sass'],
 })
 export class OpBaselineModalComponent {
   @HostBinding('class.op-baseline-modal') className = true;

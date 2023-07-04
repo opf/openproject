@@ -9,7 +9,7 @@ it:
         identifier: Identificativo
         secret: Parola chiave
         scope: Ambito
-        limit_self_registration: Limit self registration
+        limit_self_registration: Limita registrazione autonoma
   openid_connect:
     menu_title: OpenID provider
     providers:
@@ -20,4 +20,4 @@ it:
       singular: Provider OpenID
     setting_instructions:
       limit_self_registration: >
-        If enabled users can only register using this provider if the self registration setting allows for it.
+        Se abilitato, gli utenti possono registrarsi esclusivamente utilizzando questo fornitore, se l'impostazione di registrazione autonoma lo consente.
