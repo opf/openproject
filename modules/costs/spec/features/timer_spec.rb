@@ -99,7 +99,7 @@ RSpec.describe 'Work Package timer', js: true do
       expect(timer_entry.work_package).to eq work_package_a
       expect(timer_entry.hours).to be_nil
 
-      click_button 'Stop existing timer'
+      page.within('.spot-modal') { click_button 'Stop current timer' }
       time_logging_modal.is_visible true
       time_logging_modal.has_field_with_value 'spentOn', Date.current.strftime
       time_logging_modal.has_field_with_value 'hours', /(\d\.)?\d+/
@@ -129,6 +129,53 @@ RSpec.describe 'Work Package timer', js: true do
     let(:permissions) { %i[log_own_time edit_own_time_entries view_own_time_entries view_work_packages] }
 
     it_behaves_like 'allows time tracking'
+
+    it 'correctly handles timers in multiple tabs' do
+      wp_view_a.visit!
+      timer_button.expect_visible
+
+      second_window = open_new_window
+      within_window(second_window) do
+        wp_view_a.visit!
+        timer_button.expect_visible
+        timer_button.start
+        timer_button.expect_active
+      end
+
+      timer_button.expect_inactive
+      timer_button.start
+
+      expect(page).to have_selector('.op-timer-stop-modal')
+      expect(page).to have_text('Tracking time:')
+
+      page.within('.spot-modal') { click_button 'Stop current timer' }
+      time_logging_modal.is_visible true
+      time_logging_modal.has_field_with_value 'spentOn', Date.current.strftime
+      time_logging_modal.has_field_with_value 'hours', /(\d\.)?\d+/
+      time_logging_modal.work_package_is_missing false
+
+      time_logging_modal.perform_action 'Save'
+      wp_view_b.expect_and_dismiss_toaster message: I18n.t(:notice_successful_update)
+      time_logging_modal.is_visible false
+      timer_button.expect_active
+
+      timer_button.stop
+      time_logging_modal.is_visible true
+      time_logging_modal.has_field_with_value 'spentOn', Date.current.strftime
+      time_logging_modal.has_field_with_value 'hours', /(\d\.)?\d+/
+      time_logging_modal.work_package_is_missing false
+
+      time_logging_modal.perform_action 'Save'
+      wp_view_b.expect_and_dismiss_toaster message: I18n.t(:notice_successful_update)
+      time_logging_modal.is_visible false
+      timer_button.expect_inactive
+
+      within_window(second_window) do
+        timer_button.expect_active
+        timer_button.stop
+        wp_view_b.expect_and_dismiss_toaster message: I18n.t('js.timer.timer_already_stopped'), type: :warning
+      end
+    end
   end
 
   context 'when user has no permission to log time' do
