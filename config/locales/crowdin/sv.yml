@@ -1707,6 +1707,7 @@ sv:
   label_logged_as: "Inloggad som"
   label_login: "Logga in"
   label_custom_logo: "Anpassad logotyp"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Anpassad favicon"
   label_custom_touch_icon: "Anpassad touch-ikon"
   label_logout: "Logga ut"
@@ -2656,10 +2657,12 @@ sv:
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     En vit logotyp på transparent bakgrund rekommenderas. För bästa resultat på både vanliga och Retina-skärmar bör bilden vara minst 460x60 px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Det här är är den lilla ikonen som visas vid sidans titel i webbläsaren. Den måste vara en fyrkantig PNG-fil med storleken 32x32 pixlar och ha transparent bakgrund.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    Detta är ikonen som visas i din mobil eller surfplatta när du placerar ett bokmärke på din homescreen. Det måste vara en kvadrat 180 av 180 pixlar storlek PNG bild arkivera. Kontrollera att bildens bakgrund inte är transparent annars det ser dåligt på iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Databasen tillåter TSVector (tillval)"
   text_default_administrator_account_changed: "Standardadministratörskontot har ändrats"
   text_default_encoding: "Standard: UTF-8"

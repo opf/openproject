@@ -1743,6 +1743,7 @@ pl:
   label_logged_as: "Zalogowany jako"
   label_login: "Logowanie"
   label_custom_logo: "Własne logo"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Własny favicon"
   label_custom_touch_icon: "Własny touch icon"
   label_logout: "Wyloguj"
@@ -2695,10 +2696,12 @@ pl:
     Wersja Enterprise doda te dodatkowe funkcje niestandardowych pól projektów: <br> <ul> <li><b>Dodaj niestandardowe pola projektów do listy projektów, aby utworzyć widok portfolio projektów</b></li> </ul>
   text_custom_logo_instructions: >
     Na bezbarwnym tle zaleca się stosowanie białego logo. Najlepsze rezultaty - zarówno na tradycyjnych jak i wyświetlaczach retina - są dla obrazów o rozdzielczości 460x60 px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Ikona, która pojawia się przed adresem w polu adresowym przeglądarki internetowej lub na karcie z otwartą stroną www. Wymagany format obrazka to PNG o rozdzielczości 32x32 px z przeźroczystym tłem.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    Ikona skrótu na ekranie startowym smartfona lub tabletu. Wymagany format obrazka to PNG o rozdzielczości 180x180 px. Upewnij się, że obrazek nie ma przeźroczystego tła - inaczej źle będzie wyglądał na iOS'ach.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Baza danych umożliwia TSVector (opcjonalnie)"
   text_default_administrator_account_changed: "Domyślne konto administratora zostało zmienione"
   text_default_encoding: "Domyślnie: UTF-8"

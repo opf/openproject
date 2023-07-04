@@ -1705,6 +1705,7 @@ hu:
   label_logged_as: "Bejelentkezve mint"
   label_login: "Bejelentkezés"
   label_custom_logo: "Egyedi logó"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Egyedi favicon"
   label_custom_touch_icon: "Egyedi \"touch-icon\""
   label_logout: "Kijelentkezés"
@@ -2655,10 +2656,12 @@ hu:
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Egy fehér logo átlátszó háttérrel ajánlott. A legjobb eredmény érdekében mint átlagos és retina kijelzőkön is biztosítsa, hogy a kép mérete 460px x 60px-es legyen.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Ez a kicsi ikon jelenik meg a böngésző ablakában/fülében az oldal címe mellett. 32x32px méretű PNG fájlnak kell lennie, átlátszó háttérrel.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    Ez az ikon a mobil vagy táblagépen jelenik meg, ha egy könyvjelzőt a kezdőképernyőre helyez. 180x180px méretű PNG fájlnak kell lennie. Kérem, bizonyosodjon meg arról, hogy a háttere nem átlátszó, különben iOS-en hibásan jelenhet meg.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Az adatbázis lehetővé teszi a TSVector (opcionális)"
   text_default_administrator_account_changed: "Az alapértelmezett rendszergazdai fiók megváltozott"
   text_default_encoding: "Alapértelmezett érték: UTF-8"

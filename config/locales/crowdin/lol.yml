@@ -1685,6 +1685,7 @@ lol:
   label_logged_as: "crwdns497325:0crwdne497325:0"
   label_login: "crwdns497327:0crwdne497327:0"
   label_custom_logo: "crwdns497329:0crwdne497329:0"
+  label_custom_export_logo: "crwdns857281:0crwdne857281:0"
   label_custom_favicon: "crwdns497331:0crwdne497331:0"
   label_custom_touch_icon: "crwdns497333:0crwdne497333:0"
   label_logout: "crwdns497335:0crwdne497335:0"
@@ -2628,10 +2629,12 @@ lol:
     crwdns839567:0crwdne839567:0
   text_custom_logo_instructions: >
     crwdns499215:0crwdne499215:0
+  text_custom_export_logo_instructions: >
+    crwdns857283:0crwdne857283:0
   text_custom_favicon_instructions: >
-    crwdns499217:0crwdne499217:0
+    crwdns857285:0crwdne857285:0
   text_custom_touch_icon_instructions: >
-    crwdns499219:0crwdne499219:0
+    crwdns857287:0crwdne857287:0
   text_database_allows_tsv: "crwdns499221:0crwdne499221:0"
   text_default_administrator_account_changed: "crwdns499223:0crwdne499223:0"
   text_default_encoding: "crwdns499225:0crwdne499225:0"
