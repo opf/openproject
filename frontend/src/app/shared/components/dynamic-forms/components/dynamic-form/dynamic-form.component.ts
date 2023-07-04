@@ -2,13 +2,11 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
-  HostBinding,
   Input,
   OnChanges,
   Output,
   SimpleChanges,
   ViewChild,
-  ViewEncapsulation,
 } from '@angular/core';
 import { FormlyForm } from '@ngx-formly/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -128,16 +126,13 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 @Component({
   selector: 'op-dynamic-form',
   templateUrl: './dynamic-form.component.html',
-  styleUrls: ['./dynamic-form.component.sass'],
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['./dynamic-form.component.scss'],
   providers: [
     DynamicFormService,
     DynamicFieldsService,
   ],
 })
 export class DynamicFormComponent extends UntilDestroyedMixin implements OnChanges {
-  @HostBinding('class.op-dynamic-form') className = true;
-
   /** Backend form URL (e.g. https://community.openproject.org/api/v3/projects/dev-large/form) */
   @Input() formUrl?:string;
 

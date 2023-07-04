@@ -2,12 +2,12 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { I18nService } from '../app/core/i18n/i18n.service';
-import { I18nServiceStub } from './i18n.service.stub';
+import { I18nService } from '../../../../core/i18n/i18n.service';
+import { I18nServiceStub } from '../../../../../stories/i18n.service.stub';
 
-import { OpSpotModule } from '../app/spot/spot.module';
+import { OpSpotModule } from '../../../spot.module';
 
-import { SpotSelectorFieldComponent } from '../app/spot/components/selector-field/selector-field.component';
+import { SpotSelectorFieldComponent } from '../selector-field.component';
 
 const meta:Meta = {
   title: 'Patterns/SelectorField',

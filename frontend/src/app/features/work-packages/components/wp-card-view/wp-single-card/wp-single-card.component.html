@@ -23,9 +23,8 @@
         data-qa-selector="op-wp-single-card--details-button"
         *ngIf="!isNewResource(workPackage) && showInfoButton"
         [title]="text.detailsView"
-        (click)="emitStateLinkClicked($event, workPackage, true)"
-      >
-        <span class="spot-icon spot-icon_info2"></span>
+        (click)="emitStateLinkClicked($event, workPackage, true)">
+        <op-icon icon-classes="icon3 icon-info2"></op-icon>
       </button>
 
       <button
@@ -34,17 +33,17 @@
         *ngIf="isNewResource(workPackage) || showRemoveButton"
         [class.-show]="isNewResource(workPackage)"
         [title]="text.removeCard"
-        (click)="onRemoved(workPackage)"
-      >
-        <span class="spot-icon spot-icon_close"></span>
+        (click)="onRemoved(workPackage)">
+        <op-icon icon-classes="icon-context icon-close"></op-icon>
       </button>
 
-      <span
+      <op-icon
         *ngIf="disabledInfo && disabledInfo.text.length > 0"
         [attr.data-tooltip]="disabledInfo.text"
-        class="spot-icon spot-icon_not-supported -multiline op-wp-single-card--card-action op-wp-single-card--card-action_closed"
+        class="-multiline op-wp-single-card--card-action op-wp-single-card--card-action_closed"
         [ngClass]="'tooltip--' + disabledInfo.orientation"
-      ></span>
+        icon-classes="icon-context icon-not-supported">
+      </op-icon>
     </div>
   </div>
 

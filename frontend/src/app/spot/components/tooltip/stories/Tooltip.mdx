@@ -1,6 +1,6 @@
 import { Canvas, Meta, ArgsTable } from '@storybook/blocks';
 
-import { SpotTooltipComponent } from '../app/spot/components/tooltip/tooltip.component';
+import { SpotTooltipComponent } from '../tooltip.component';
 import * as TooltipStories from './Tooltip.stories';
 
 <Meta of={TooltipStories} />
@@ -55,5 +55,3 @@ A tooltip will never hug either side of the container; it will respect the inter
 > Position, in-tree or out-of-tree to be decided
 
 Due to technical limitations, the minimum width of a tooltip is defined by its container (i.e, 80% of it).  Tooltips with content shorter this width will have additional space on the right.
-
-<ArgsTable of={SpotTooltipComponent} />
