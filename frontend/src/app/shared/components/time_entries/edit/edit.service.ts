@@ -36,7 +36,7 @@ export class TimeEntryEditService {
     readonly halResource:HalResourceService,
     readonly schemaCache:SchemaCacheService,
     readonly timezoneService:TimezoneService,
-    readonly timeEntry:TimeEntryTimerService,
+    readonly timeEntryService:TimeEntryTimerService,
     protected halEditing:HalResourceEditingService,
     readonly i18n:I18nService,
   ) {
@@ -93,7 +93,7 @@ export class TimeEntryEditService {
       .editChange(change)
       .then((update) => {
         if (update.action !== 'unchanged') {
-          this.timeEntry.timer$.next(null);
+          this.timeEntryService.timer$.next(null);
         }
       });
   }

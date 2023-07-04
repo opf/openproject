@@ -56,8 +56,6 @@ export class PrincipalComponent implements OnInit {
 
   @Input() type:PrincipalType;
 
-  @Input() showTimer = false;
-
   @Input() roleData:RoleResource;
 
   @Input() messageData = '';

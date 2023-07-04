@@ -71,11 +71,8 @@ export function pad(val:number):string {
   selector: 'op-wp-timer-button',
   templateUrl: './wp-timer-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
 })
 export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin implements OnInit {
-  @HostBinding('class.op-wp-timer-button') className = true;
-
   @Input() public workPackage:WorkPackageResource;
 
   active:TimeEntryResource|null|undefined;
