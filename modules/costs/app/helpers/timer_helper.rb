@@ -42,6 +42,6 @@ module TimerHelper
       .parts
       .transform_values(&:round)
 
-    "#{pad(parts[:hours])}:#{pad(parts[:minutes])}:#{pad(parts[:seconds])}"
+    "%02d:%02d:%02d" % [parts.fetch(:hours, 0), parts.fetch(:minutes, 0), parts.fetch(:seconds, 0)]
   end
 end
