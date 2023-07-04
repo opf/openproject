@@ -11,7 +11,7 @@
       <li class="op-wp-breadcrumb--list-item">
         <span>{{ hierarchyLabel }}: </span>
       </li>
-      <ng-container *ngFor="let ancestor of workPackage.ancestors; let first = first ; let last = last">
+      <ng-container *ngFor="let ancestor of workPackage.getAncestors(); let first = first ; let last = last">
         <li
           *ngIf="!last"
           class="op-wp-breadcrumb--list-item op-wp-breadcrumb--list-item_ellipsed"

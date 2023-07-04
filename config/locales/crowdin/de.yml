@@ -1703,6 +1703,7 @@ de:
   label_logged_as: "Angemeldet als"
   label_login: "Anmelden"
   label_custom_logo: "Benutzerdefiniertes Logo"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Benutzerdefiniertes Favicon"
   label_custom_touch_icon: "Benutzerdefiniertes Touch-Icon"
   label_logout: "Abmelden"
@@ -2654,10 +2655,12 @@ de:
     Die Enterprise Edition fügt diese zusätzlichen Add-ons für die benutzerdefinierten Felder der Projekte hinzu: <br> <ul> <li><b>Fügt benutzerdefinierte Felder für Projekte zu Ihrer Projektliste hinzu, um eine Portfolioansicht zu erstellen</b></li> </ul>
   text_custom_logo_instructions: >
     Ein weißes Logo mit transparentem Hintergrund wird empfohlen. Für ein optimales Ergebnis für konventionelle und Retina-Displays sollte die Bildabmessungen 460 x 110 Pixel betragen.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Dies ist das kleine Symbol, das in Ihrem Browser-Fenster/Tab neben dem Seitentitel angezeigt wird. Es muss ein quadratisches 32 x 32 Pixel großes PNG mit transparentem Hintergrund sein.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    Dieses Symbol wird auf Ihrem Mobilgerät oder Tablet angezeigt, wenn Sie ein Lesezeichen dieser OpenProject-Instanz erstellen. Es muss ein quadratisches 180 x 180 Pixel großes PNG sein. Der Hintergrund sollte nicht transparent sein, da dies auf iOS-Geräten nicht optimal dargestellt wird.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Datenbank unterstützt TSVector (optional)"
   text_default_administrator_account_changed: "Administrator-Kennwort geändert"
   text_default_encoding: "Default: UTF-8"

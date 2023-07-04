@@ -1705,6 +1705,7 @@ nl:
   label_logged_as: "Ingelogd als"
   label_login: "Aanmelden"
   label_custom_logo: "Eigen logo"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Aangepaste favicon"
   label_custom_touch_icon: "Aangepaste touch-pictogram"
   label_logout: "Afmelden"
@@ -2655,10 +2656,12 @@ nl:
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Een wit logo op transparante achtergrond wordt aanbevolen. Voor de beste resultaten op zowel conventionele en retina displays, doet u door ervoor te zorgen dat uw afbeelding afmetingen zijn 460px bij 60px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Dit is het kleine pictogram dat wordt weergegeven in uw browser venster/een lusje naast de titel van de pagina. Het moet een kwadraat 32 door 32 pixels formaat PNG spiegelbeeld vijl met een transparante achtergrond.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    Dit is het icoontje wat verschijnt op je mobiel apparaat wanneer je een bladwijzer op je scherm plaatst. Het icoontje moet 180 bij 180 pixels zijn in png formaat. Zorg ervoor de de achtergrond niet transparant is want dit kan er niet mooi uit zien op iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "De database ondersteund TSVector (optioneel)"
   text_default_administrator_account_changed: "Standaard beheerdersaccount gewijzigd"
   text_default_encoding: "Standaardinstelling: UTF-8"

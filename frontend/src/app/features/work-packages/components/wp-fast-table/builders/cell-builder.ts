@@ -77,7 +77,7 @@ export class CellBuilder {
     attribute:string,
   ):void {
     const base = (workPackage.attributesByTimestamp as IWorkPackageTimestamp[])[0];
-    base.$links.schema = workPackage.$links.schema;
+    base.$links.schema = base.$links.schema || workPackage.$links.schema;
     const span = this.fieldRenderer.render(base, attribute, null);
     span.classList.add('op-table-baseline--field', 'op-table-baseline--old-field');
     container.classList.add('op-table-baseline--container');

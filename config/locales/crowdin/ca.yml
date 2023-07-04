@@ -1704,6 +1704,7 @@ ca:
   label_logged_as: "Connectat com a"
   label_login: "Iniciar sessió"
   label_custom_logo: "Logotips personalitzats"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Favicon personalitzat"
   label_custom_touch_icon: "Icona \"touch\" personalitzada"
   label_logout: "Tancar sessió"
@@ -2590,9 +2591,9 @@ ca:
       first_week_of_year_text: >
         Selecciona la data de gener que està continguda dins la primera setmana de l'any. Aquest valor conjuntament amb el primer dia de la setmana estipula el nombre total de setmanes de l'any.
     experimental:
-      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
-      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
-      feature_flags: Feature flags
+      save_confirmation: Alerta! Risc de pèrdua de dades! Només activa les funcions experimentals si no t'importà desconfigurar la teva instal·lació d'OpenProject o perdre dades.
+      warning_toast: Els marcadors de funcions són una funcionalitat que activa funcions que encara estan en desenvolupament. Només s'han d'utilitzar per a realitzar tests. No s'han d'activar mai a instal·lacions d'OpenProject amb dades importants. Aquestes funcions poden, molt probablement, corrompre les teves dades. Utilitza-les sota el teu propi risc.
+      feature_flags: Marcadors de funcions
     projects:
       section_new_projects: "Configuració per a projectes nous"
       section_project_overview: "Configuracions per a la llista de visió general del projecte"
@@ -2648,10 +2649,12 @@ ca:
     L'edició Enterprise afegirà extensions addicionals pels camps personalitzats de projectes: <br> <ul> <li><b>Afegeix camps personalitzats pels teus projectes a la teva llista de projectes per crear una vista de cartera de projectes</b></li> </ul>
   text_custom_logo_instructions: >
     Es recomana un logo blanc amb fons transparent. Per a un millor resultat tant en pantalles retina o convencionals assegura't que la teva imatge té unes dimensions de 460px per 60px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Aquest és la icona petita que apareix a la pantalla del navegador just al costat del títol de la pàgina. Ha de ser un PNG de 32 per 32 píxels amb un fons transparent.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    Aquesta és la icona que apareix en el teu telèfon mòbil o tauleta quan guardes la web com a "bookmark" a la teva pantalla d'inici. Ha de ser un PNG quadrat de 180 per 180 píxels. Si us plau, assegura't que el fons de la imatge no és transparent per un millor resultat en iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "La base de dades permet TSVector (opcional)"
   text_default_administrator_account_changed: "S'ha canviat el compte d'administrador predeterminat"
   text_default_encoding: "Per defecte: UTF-8"

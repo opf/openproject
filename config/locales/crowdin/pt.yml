@@ -1707,6 +1707,7 @@ pt:
   label_logged_as: "Conectado como"
   label_login: "Fazer login"
   label_custom_logo: "Logotipo personalizado"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Ícone personalizado"
   label_custom_touch_icon: "Ícone de toque personalizado"
   label_logout: "Desconectar"
@@ -2656,10 +2657,12 @@ pt:
     A edição Enterprise (Edição corporativa) contará com estes complementos adicionais para campos personalizados dos Projetos: <br> <ul> <li><b>Adicionar campos personalizados para projetos a sua Lista de projetos para criar uma visão do portfólio de projetos</b></li> </ul>
   text_custom_logo_instructions: >
     Recomenda-se um logotipo branco sobre fundo transparente. Para obter melhores resultados em telas convencionais e de retina, certifique-se de que as dimensões de sua imagem são de 460px por 60px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Este é o pequeno ícone que aparece em sua janela/aba do navegador ao lado do título da página. É necessário ser um arquivo de imagem PNG de 32 por 32 pixels com fundo transparente.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    Este é o ícone que aparece no seu celular ou tablet quando você coloca um marcador no sua tela inicial. É necessário um arquivo de imagem PNG de 180 por 180 pixels. Por favor, certifique-se de que plano de fundo da imagem não é transparente caso contrário vai ficar ruim no iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Banco de dados permite TSVector (opcional)"
   text_default_administrator_account_changed: "Conta do administrador padrão alterada"
   text_default_encoding: "Padrão: UTF-8"
