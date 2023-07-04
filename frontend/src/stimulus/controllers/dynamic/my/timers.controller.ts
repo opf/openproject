@@ -19,9 +19,6 @@ export default class MyTimersController extends Controller {
     this.timer(this.startValue);
   }
 
-  pad(val:number):string {
-    return val > 9 ? val.toString() : `0${val}`;
-  }
 
   timer(value:string|null|undefined) {
     const start = moment(value as string);
