@@ -63,6 +63,7 @@ class GenerateSeederSourceTranslationFiles
         .each do |dir, seed_files|
           create_crowdin_source_file(dir, seed_files)
         end
+      create_additional_dummy_crowdin_source_file
       puts "Done"
     end
 
@@ -76,6 +77,24 @@ class GenerateSeederSourceTranslationFiles
         f.puts comment
         YAML.dump(source_data, f)
       end
+    end
+
+    def create_additional_dummy_crowdin_source_file
+      dummy_file = Rails.root.join('modules/boards/config/locales/en.seeders.yml')
+      content = <<~CONTENT
+        #{comment}
+        #
+        # This file is needed to prevent bug #48450: at least two 'en.seeders.yml' files
+        # located in the modules directories are needed to have crowdin cli correctly
+        # compute the path to the uploaded source file.
+        #
+        # This file does not contain any i18n strings.
+
+        en:
+      CONTENT
+      File.write(dummy_file, content)
+
+      puts "Generate additional dummy crowdin source file #{relative_path(dummy_file.to_s)}"
     end
 
     def source_file_path(seed_file_path)
