@@ -1,0 +1,83 @@
+import { Canvas, Meta, ArgsTable } from '@storybook/blocks';
+
+import { SpotFormFieldComponent } from '../form-field.component';
+import * as FormFieldStories from './FormField.stories';
+
+<Meta of={FormFieldStories} />
+
+# Form Field
+
+Form fields are a smart wrapper around input fields. Form fields handle labels, validation messages, help texts, and
+extra actions around an input field.
+
+## Basic usage
+
+Form fields work with `ng-content` a lot, which we call `slot` in SPOT. There are four slots in which content can be
+fitted:
+
+1. `input` holds the input. It can be a text input or select dropdown, or anything else that is not a
+   selection toggle.
+2. `help-text` holds the attribute help text. To achieve separation of concerns, if you want to show an attribute help
+   text this is where the `attribute-help-text` component goes.
+3. `errors` holds validation errors.
+4. `description` holds a short description of the input field. Oftentimes these are short, helpful guidelines about how
+   or what to input into the field.
+5. `action` holds extra input actions. Most often, these are `button` elements styled as a `spot-link` that allow the user to
+   perform an action related to the input.
+
+Some of these require adding an extra class on that element, so watch the examples carefully!
+
+## Adding an input
+
+Use `slot="input"` to select the input element:
+
+<Canvas of={FormFieldStories.InputSlot} />
+
+## Adding a description
+
+Use `slot="description"` to select the input element:
+
+<Canvas of={FormFieldStories.DescriptionSlot} />
+
+
+## Adding a help text
+
+Use `slot="help-text"` to select the `attribute-help-text` component:
+
+```html
+<spot-form-field label="Form field with help text">
+  <spot-text-field slot="input"></spot-text-field>
+  <attribute-help-text
+    slot="help-text"
+    class="spot-form-field--help-text"
+  ></attribute-help-text>
+</spot-form-field>
+```
+
+The example above cannot currently be rendered in Storybook, because the `attribute-help-text` component requires the 
+API to be available. They are in use in the project and work package dynamic form. So if you add an attribute help text,
+they will show up there.
+
+## Handling validation
+
+SPOT works best with reactive forms. If you have a `FormControl` for your input, `spot-form-field` will be able to
+figure out the validation state automagically.
+
+Use `slot="errors"` to set validation errors. You can set multiple errors independently by all giving them the `slot`
+attribute.
+
+<Canvas of={FormFieldStories.BasicValidation} />
+
+As you can see, by default validation messages will only be shown on submit. You can change this behavior by changing
+the `showValidationErrorOn` input to the `spot-form-field` component.
+
+The `required` input only makes sure the asterisk at the end of the label is shown, it does not add any validation to
+the form or input.
+
+## Adding extra input actions
+
+Form field actions allow you to add extra action buttons to the context of an input field.
+
+<Canvas of={FormFieldStories.ActionSlot} />
+
+<ArgsTable of={SpotFormFieldComponent} />

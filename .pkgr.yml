@@ -17,8 +17,6 @@ targets:
       - imagemagick
   debian-11:
     <<: *debian
-  ubuntu-18.04:
-    <<: *debian
   ubuntu-20.04:
     <<: *debian
   ubuntu-22.04:

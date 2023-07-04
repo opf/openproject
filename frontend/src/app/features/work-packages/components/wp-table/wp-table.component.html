@@ -21,12 +21,12 @@
         <tr>
           <th *ngIf="configuration.dragAndDropEnabled" class="wp-table--manual-sort-th -short hide-when-print">
             <div class="generic-table--empty-header">
-              <span *ngIf="manualSortEnabled" class="spot-icon spot-icon_sort-by"></span>
+              <op-icon *ngIf="manualSortEnabled" icon-classes="icon-sort-by"></op-icon>
             </div>
           </th>
           <th *ngIf="baselineEnabled" class="wp-table--baseline-th -short hide-when-print">
             <div class="generic-table--empty-header">
-              <span class="spot-icon spot-icon_baseline"></span>
+              <op-icon icon-classes="icon-baseline"></op-icon>
             </div>
           </th>
           <th *ngFor="let column of columns; trackBy:trackByHref"
@@ -54,7 +54,7 @@
       <tr id="empty-row-notification">
         <td [attr.colspan]="numTableColumns">
           <span>
-            <span class="spot-icon spot-icon_info1"></span>
+            <op-icon icon-classes="icon-info1 icon-context"></op-icon>
             <span>
               <strong>{{text.noResults.title}}</strong>
               {{text.noResults.description}}

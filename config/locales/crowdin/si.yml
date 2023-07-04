@@ -1708,6 +1708,7 @@ si:
   label_logged_as: "ලෙස ලොගින් වී"
   label_login: "පුරනය වන්න"
   label_custom_logo: "අභිරුචි ලාංඡනය"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "අභිරුචි ප්රියතම"
   label_custom_touch_icon: "අභිරුචි ස්පර්ශ අයිකනය"
   label_logout: "ලියාපදිංචි වන්න"
@@ -2659,10 +2660,12 @@ si:
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     විනිවිද පෙනෙන පසුබිම මත සුදු ලාංඡනය නිර්දේශ කරනු ලැබේ. දෙකම මත හොඳම ප්රතිඵල සඳහා, සාම්ප්රදායික හා දෘෂ්ටි විතානයේ ප්රදර්ශනය, ඔබගේ රූපයේ මානයන් 60px විසින් 460px බවට වග බලා ගන්න.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    පිටුවේ මාතෘකාවට යාබදව ඔබගේ බ්රව්සර් කවුළුව/පටිත්තෙහි දිස්වන කුඩා අයිකනය මෙයයි. එය විනිවිද පෙනෙන පසුබිමක් සහිත 32 පික්සල් ප්රමාණයේ PNG රූප ගොනුවක් විය යුතුය.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    ඔබ ඔබේ homescreen මත පිටු සලකුණක් තබන විට ඔබේ ජංගම හෝ ටැබ්ලටයේ දිස්වන අයිකනය මෙයයි. එය 180 පික්සල් ප්රමාණයේ PNG රූප ගොනුවක් විසින් කොටු කළ යුතුය. රූපයේ පසුබිම විනිවිද පෙනෙන නොවන බවට වග බලා ගන්න, එසේ නොමැති නම් එය iOS මත නරක පෙනෙනු ඇත.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "දත්ත සමුදාය TsVector ඉඩ (විකල්ප)"
   text_default_administrator_account_changed: "පෙරනිමි පරිපාලක ගිණුම වෙනස්"
   text_default_encoding: "පෙරනිමි: UTF-8"

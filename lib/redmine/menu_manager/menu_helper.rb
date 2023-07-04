@@ -47,8 +47,6 @@ module Redmine::MenuManager::MenuHelper
     elsif menu == :project_menu && project && project.persisted?
       build_wiki_menus(project)
       render_menu(:project_menu, project)
-    elsif menu == :wp_query_menu
-      render_menu(:application_menu, project)
     else
       render_menu(menu, project)
     end
@@ -120,10 +118,10 @@ module Redmine::MenuManager::MenuHelper
     options[:span_class] = "op-app-menu--item-title #{options[:span_class]}"
 
     link_to('#', options) do
-      concat(spot_icon(options[:icon])) if options[:icon]
+      concat(op_icon(options[:icon])) if options[:icon]
       concat(you_are_here_info(selected).html_safe)
       concat(content_tag(:span, label, class: options[:span_class]))
-      concat(spot_icon('dropdown')) unless options.key?(:icon)
+      concat('<i class="op-app-menu--item-dropdown-indicator button--dropdown-indicator"></i>'.html_safe) unless options.key?(:icon)
     end
   end
 

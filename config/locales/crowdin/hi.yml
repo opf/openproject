@@ -1706,6 +1706,7 @@ hi:
   label_logged_as: "Logged in as"
   label_login: "साइन इन करें"
   label_custom_logo: "Custom logo"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "विशेष या कस्टम favicon"
   label_custom_touch_icon: "कस्टम प्रतीक चिह्न"
   label_logout: "Sign out"
@@ -2657,10 +2658,12 @@ hi:
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     पारदर्शी पृष्ठभूमि पर एक सफेद लोगो की सिफारिश की है । दोनों, पारंपरिक और रेटिना प्रदर्शित करता है पर सबसे अच्छा परिणाम के लिए, सुनिश्चित करें कि आपकी छवि के आयामों 460px द्वारा 60px हैं ।
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    इस छोटे आइकन है कि आपके ब्राउज़र विंडो में प्रकट होता है/पेज के शीर्षक के बगल में टैब है । यह ३२x३२ पिक्सल एक पारदर्शी पृष्ठभूमि के साथ PNG छवि फ़ाइल के आकार से एक चुकता ३२ होने की जरूरत है ।
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    इस आइकन है कि अपने मोबाइल या टेबलेट में प्रकट होता है जब आप अपने होमस्क्रीन पर एक बुकमार्क जगह है. यह १८० पिक्सल के द्वारा एक चुकता १८० की जरूरत है PNG छवि फ़ाइल आकार । कृपया सुनिश्चित करें कि छवि की पृष्ठभूमि पारदर्शी नहीं है अंयथा यह iOS पर बुरा लगेगा ।
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "डेटाबेस TSVector की अनुमति देता है (वैकल्पिक)"
   text_default_administrator_account_changed: "Default administrator account changed"
   text_default_encoding: "Default: UTF-8"

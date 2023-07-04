@@ -9,7 +9,7 @@
   [ngClass]="{ '-active': isActive }"
   data-qa-selector="wp-filter-button"
 >
-  <span class="spot-icon spot-icon_filter"></span>
+  <op-icon icon-classes="{{ iconClass }} button--icon"></op-icon>
   <span class="button--text">
     {{ buttonText }}
     <span class="badge -secondary" *ngIf="initialized" [textContent]="filterCount"></span>

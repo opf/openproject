@@ -1708,6 +1708,7 @@ fr:
   label_logged_as: "Connecté en tant que"
   label_login: "Connexion"
   label_custom_logo: "Logo personnalisé"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Favicon personnalisé"
   label_custom_touch_icon: "Icône de contact personnalisé"
   label_logout: "Déconnexion"
@@ -2659,10 +2660,12 @@ fr:
     L'édition Entreprise ajoutera ces add-ons supplémentaires pour les champs personnalisés des projets : <br> <ul> <li><b>Ajouter des champs personnalisés pour les projets à votre liste de projets pour créer une vue du portefeuille de projets</b></li> </ul>
   text_custom_logo_instructions: >
     Un logo blanc sur fond transparent est recommandé. Pour obtenir les meilleurs résultats sur les deux, affichage classique et retina, assurez-vous que les dimensions de votre image soient de 460px par 60px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Il s’agit de la petite icône qui apparaît dans votre fenêtre/onglet de navigateur à côté du titre de la page. Il doit être un carré de 32 par 32 pixels au format d'image PNG avec un fond transparent.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    Il s’agit de l’icône qui apparaît dans votre mobile ou tablette lorsque vous placez un marque-page sur votre écran d’accueil. Il doit être un carré de 180 par 180 pixels au format d'image PNG. S’il vous plaît assurez-vous que l'arrière-plan de l’image ne soit pas transparente sinon il aura un mauvais affichage sur iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "La base de données permet TSVector (facultatif)"
   text_default_administrator_account_changed: "Changement du compte Administrateur par defaut"
   text_default_encoding: "Défaut: UTF-8"

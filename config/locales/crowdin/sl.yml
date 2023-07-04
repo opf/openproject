@@ -1743,6 +1743,7 @@ sl:
   label_logged_as: "Prijavljen(a) kot"
   label_login: "Prijava"
   label_custom_logo: "Logotip po meri"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Prilagodi favicon"
   label_custom_touch_icon: "Ikona za dotik po meri"
   label_logout: "Odjava"
@@ -2697,10 +2698,12 @@ sl:
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Priporočljiv je bel logotip na transparentnem ozadju. Za najboljše rezultate na običajnih zaslonih in mrežnici se prepričajte, da so dimenzije vaše slike 460px za 60px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    To je drobna ikona, ki se prikaže v oknu / zavihku brskalnika poleg naslova strani. Slika mora biti v slikovni datoteki PNG velikosti 32 x 32 pik s transparentnim ozadjem.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    To je ikona, ki se prikaže v vašem mobilnem telefonu ali tabličnem računalniku, ko zaznamek postavite na domači zaslon. Slika datoteke PNG mora biti velikosti 180 x 180 pik. Prepričajte se, da ozadje slike ni transparentno, sicer bo v iOS-u videti slabo.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Baza podatkov omogoča TSVector (izbirno)"
   text_default_administrator_account_changed: "Spremenjen privzeti administratorski račun"
   text_default_encoding: "Privzeto: UTF-8"
