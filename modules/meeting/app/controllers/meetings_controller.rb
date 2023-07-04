@@ -77,9 +77,7 @@ class MeetingsController < ApplicationController
     end
   end
 
-  def new
-    render layout: 'no_menu' if global_create_context?
-  end
+  def new; end
 
   current_menu_item :new do
     :meetings
