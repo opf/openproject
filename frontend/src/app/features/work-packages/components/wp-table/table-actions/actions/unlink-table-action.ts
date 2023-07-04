@@ -3,7 +3,7 @@ import {
   OpTableAction,
   OpTableActionFactory,
 } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
-import { spotIconElement } from 'core-app/shared/helpers/spot-icon-builder';
+import { opIconElement } from 'core-app/shared/helpers/op-icon-builder';
 import { Injector } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
@@ -46,7 +46,7 @@ export class OpUnlinkTableAction extends OpTableAction {
     element.href = '#';
     element.classList.add(contextColumnIcon, 'wp-table-action--unlink');
     element.dataset.workPackageId = this.workPackage.id!;
-    element.appendChild(spotIconElement('close'));
+    element.appendChild(opIconElement('icon', 'icon-close'));
     jQuery(element).click((event) => {
       event.preventDefault();
       this.onClick(this.workPackage);

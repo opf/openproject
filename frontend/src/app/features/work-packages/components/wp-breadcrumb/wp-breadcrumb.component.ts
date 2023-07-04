@@ -26,14 +26,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
 @Component({
   templateUrl: './wp-breadcrumb.html',
   styleUrls: ['./wp-breadcrumb.sass'],
-  encapsulation: ViewEncapsulation.None,
   selector: 'wp-breadcrumb',
 })
 export class WorkPackageBreadcrumbComponent {
