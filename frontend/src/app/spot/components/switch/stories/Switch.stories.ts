@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 
-import { OpSpotModule } from '../app/spot/spot.module';
-import { SpotSwitchComponent } from '../app/spot/components/switch/switch.component';
+import { OpSpotModule } from '../../../spot.module';
+import { SpotSwitchComponent } from '../switch.component';
 
 const meta:Meta = {
   title: 'Components/Switch',

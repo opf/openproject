@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 
-import { OpSpotModule } from '../app/spot/spot.module';
-import { SpotToggleComponent } from '../app/spot/components/toggle/toggle.component';
+import { OpSpotModule } from '../../../spot.module';
+import { SpotToggleComponent } from '../toggle.component';
 
 const meta:Meta = {
   title: 'Components/Toggle',
