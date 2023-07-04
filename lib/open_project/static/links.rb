@@ -134,7 +134,7 @@ module OpenProject
               label: 'links.get_in_touch'
             },
             glossary: {
-              href: 'https://www.openproject.org/docs/',
+              href: 'https://www.openproject.org/docs/glossary/',
               label: 'homescreen.links.glossary'
             },
             shortcuts: {

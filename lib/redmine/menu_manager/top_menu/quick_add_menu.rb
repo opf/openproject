@@ -42,7 +42,7 @@ module Redmine::MenuManager::TopMenu::QuickAddMenu
       label: '',
       label_options: {
         title: I18n.t('menus.quick_add.label'),
-        icon: 'add',
+        icon: 'icon-add op-quick-add-menu--icon',
         class: 'op-quick-add-menu--button'
       },
       items: first_level_menu_items_for(:quick_add_menu, @project),

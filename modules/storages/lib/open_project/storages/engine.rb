@@ -227,10 +227,10 @@ module OpenProject::Storages
 
     add_cron_jobs do
       [
-        CleanupUncontaineredFileLinksJob,
+        Storages::CleanupUncontaineredFileLinksJob
       ].tap do |cron_jobs|
         if OpenProject::FeatureDecisions.managed_project_folders_active?
-          cron_jobs << ManageNextcloudIntegrationJob
+          cron_jobs << Storages::ManageNextcloudIntegrationJob
         end
       end
     end

@@ -265,7 +265,7 @@ RSpec.describe 'Working Days', js: true, with_cuprite: true do
         expect(page).to have_selector('tr', text: nwd.date.strftime("%B %-d, %Y"))
       end
 
-      delete_button = page.first('[data-qa-selector="op-non-working-days-list--delete-icon"]', visible: :all)
+      delete_button = page.first('.op-non-working-days-list--delete-icon .icon-delete', visible: :all)
       delete_button.hover
       delete_button.click
 
@@ -287,7 +287,7 @@ RSpec.describe 'Working Days', js: true, with_cuprite: true do
         .and_return(errors)
       # rubocop:enable RSpec/AnyInstance
 
-      delete_button = page.first('[data-qa-selector="op-non-working-days-list--delete-icon"]', visible: :all)
+      delete_button = page.first('.op-non-working-days-list--delete-icon .icon-delete', visible: :all)
       delete_button.hover
       delete_button.click
 

@@ -1182,10 +1182,11 @@ pl:
       button_deactivate: 'Wyłącz tryb zen'
     global_search:
       all_projects: "We wszystkich projektach"
-      search: "Szukaj"
       close_search: "Zakończ wyszukiwanie"
-      current_project: "W tym projekcie"
       current_project_and_all_descendants: "W tym projekcie + pod projekcie"
+      current_project: "W tym projekcie"
+      recently_viewed: "Recently viewed"
+      search: "Szukaj"
       title:
         all_projects: "Wszystkie projekty"
         project_and_subprojects: "i wszystkie podprojekty"

@@ -4,8 +4,7 @@
     uiSref="work-packages.show"
     [uiParams]="{ workPackageId: parent.id }"
     class="op-wp-breadcrumb-parent nocut"
-    data-qa-selector="op-wp-breadcrumb-parent"
-  >
+    data-qa-selector="op-wp-breadcrumb-parent">
     <span [textContent]="parent.name"></span>
   </a>
   <button
@@ -16,7 +15,7 @@
       (click)="open()"
   >
     <span *ngIf="!parent" [textContent]="text.set_parent"></span>
-    <span class="spot-icon spot-icon_1 spot-icon_{{ parent ? 'edit' : 'add' }}"></span>
+    <op-icon icon-classes="icon-small {{ parent ? 'icon-edit icon5 icon-no-color' : 'icon-add icon4' }}"></op-icon>
   </button>
   <button
       *ngIf="canModifyParent() && parent"
@@ -25,7 +24,7 @@
       [title]="text.remove_parent"
       (click)="updateParent(null)"
   >
-    <span class="spot-icon spot-icon_1 spot-icon_remove"></span>
+    <op-icon icon-classes="icon-small icon-no-color icon-remove icon4"></op-icon>
   </button>
 </ng-container>
 

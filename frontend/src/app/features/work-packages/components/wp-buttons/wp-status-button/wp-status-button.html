@@ -18,13 +18,13 @@
       *ngIf="isReadonly"
       class="op-wp-status-button--text button--text"
     >
-      <span class="spot-icon spot-icon_locked"></span>
+      <op-icon icon-classes="button--icon icon-locked"></op-icon>
     </span>
     <span
       class="op-wp-status-button--text button--text"
       aria-hidden="true"
       [textContent]="status.name"
     ></span>
-    <span class="spot-icon spot-icon_dropdown"></span>
+    <op-icon icon-classes="button--icon icon-small icon-pulldown"></op-icon>
   </button>
 </div>

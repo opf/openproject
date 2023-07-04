@@ -40,11 +40,19 @@ module Layout
       end
     end
 
-    def project_or_wp_query_menu
+    def project_or_global_wp_query_menu
       if @project
         :project_menu
       else
-        :wp_query_menu
+        :global_work_packages_menu
+      end
+    end
+
+    def project_or_global_activity_menu
+      if @project
+        :project_menu
+      else
+        :global_activities_menu
       end
     end
   end

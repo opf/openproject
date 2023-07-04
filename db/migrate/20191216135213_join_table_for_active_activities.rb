@@ -1,9 +1,37 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2023 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 class JoinTableForActiveActivities < ActiveRecord::Migration[6.0]
-  class ActivitiesJoinTable < ActiveRecord::Base
+  class ActivitiesJoinTable < ApplicationRecord
     self.table_name = :time_entry_activities_projects
   end
 
-  class TimeEntryActivity < ActiveRecord::Base
+  class TimeEntryActivity < ApplicationRecord
     self.table_name = :enumerations
   end
 
@@ -38,7 +66,7 @@ class JoinTableForActiveActivities < ActiveRecord::Migration[6.0]
   # existing projects.
   def delete_invalid_project_activities
     ActiveRecord::Base.connection.exec_query(
-      <<-SQL
+      <<-SQL.squish
         DELETE FROM enumerations
         USING enumerations AS enums
         LEFT OUTER JOIN projects on enums.project_id = projects.id
@@ -49,7 +77,7 @@ class JoinTableForActiveActivities < ActiveRecord::Migration[6.0]
 
   def link_time_entries_to_root_activities
     ActiveRecord::Base.connection.exec_query(
-      <<-SQL
+      <<-SQL.squish
         UPDATE
           time_entries te_sink
         SET
@@ -65,7 +93,7 @@ class JoinTableForActiveActivities < ActiveRecord::Migration[6.0]
 
   def link_time_entries_to_project_activities
     ActiveRecord::Base.connection.exec_query(
-      <<-SQL
+      <<-SQL.squish
         UPDATE
          time_entries te_sink
         SET
@@ -85,7 +113,7 @@ class JoinTableForActiveActivities < ActiveRecord::Migration[6.0]
              .where
              .not(parent_id: nil)
              .pluck(:project_id, :parent_id, :active)
-             .map { |project_id, parent_id, active| { project_id: project_id, activity_id: parent_id, active: active } }
+             .map { |project_id, parent_id, active| { project_id:, activity_id: parent_id, active: } }
 
     ActivitiesJoinTable.insert_all(values) if values.present?
   end
@@ -96,7 +124,7 @@ class JoinTableForActiveActivities < ActiveRecord::Migration[6.0]
 
   def create_project_specific_activities
     ActiveRecord::Base.connection.exec_query(
-      <<-SQL
+      <<-SQL.squish
         INSERT INTO enumerations (name, is_default, type, position, parent_id, project_id, active, created_at, updated_at)
         SELECT
           tea.name,

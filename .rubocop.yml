@@ -6,6 +6,11 @@ require:
   - rubocop-capybara
   - rubocop-factory_bot
 
+<% if File.exist?('.rubocop-local.yml') %>
+inherit_from:
+  - .rubocop-local.yml
+<% end %>
+
 inherit_mode:
   merge:
     # adding files to Exclude should merge with inherited instead of replacing

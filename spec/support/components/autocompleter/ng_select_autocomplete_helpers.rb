@@ -16,6 +16,11 @@ module Components::Autocompleter
       within(element) do
         ng_enter_query(element, query)
       end
+
+      # Wait for options to be refreshed after having entered some text.
+      expect(element).not_to have_selector('.ng-spinner-loader')
+
+      # probably not necessary anymore
       sleep(0.5) unless using_cuprite?
 
       # Find the open dropdown

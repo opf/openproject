@@ -1605,6 +1605,7 @@ lol:
   label_equals: "crwdns497171:0crwdne497171:0"
   label_everywhere: "crwdns497173:0crwdne497173:0"
   label_example: "crwdns497175:0crwdne497175:0"
+  label_experimental: "crwdns856591:0crwdne856591:0"
   label_import: "crwdns497177:0crwdne497177:0"
   label_export_to: "crwdns497179:0crwdne497179:0"
   label_expanded_click_to_collapse: "crwdns497181:0crwdne497181:0"
@@ -1684,6 +1685,7 @@ lol:
   label_logged_as: "crwdns497325:0crwdne497325:0"
   label_login: "crwdns497327:0crwdne497327:0"
   label_custom_logo: "crwdns497329:0crwdne497329:0"
+  label_custom_export_logo: "crwdns857281:0crwdne857281:0"
   label_custom_favicon: "crwdns497331:0crwdne497331:0"
   label_custom_touch_icon: "crwdns497333:0crwdne497333:0"
   label_logout: "crwdns497335:0crwdne497335:0"
@@ -2568,6 +2570,10 @@ lol:
         crwdns499145:0%{day_of_week_setting_name}crwdnd499145:0%{first_week_setting_name}crwdne499145:0
       first_week_of_year_text: >
         crwdns499147:0crwdne499147:0
+    experimental:
+      save_confirmation: crwdns856593:0crwdne856593:0
+      warning_toast: crwdns856595:0crwdne856595:0
+      feature_flags: crwdns856597:0crwdne856597:0
     projects:
       section_new_projects: "crwdns499149:0crwdne499149:0"
       section_project_overview: "crwdns499151:0crwdne499151:0"
@@ -2623,10 +2629,12 @@ lol:
     crwdns839567:0crwdne839567:0
   text_custom_logo_instructions: >
     crwdns499215:0crwdne499215:0
+  text_custom_export_logo_instructions: >
+    crwdns857283:0crwdne857283:0
   text_custom_favicon_instructions: >
-    crwdns499217:0crwdne499217:0
+    crwdns857285:0crwdne857285:0
   text_custom_touch_icon_instructions: >
-    crwdns499219:0crwdne499219:0
+    crwdns857287:0crwdne857287:0
   text_database_allows_tsv: "crwdns499221:0crwdne499221:0"
   text_default_administrator_account_changed: "crwdns499223:0crwdne499223:0"
   text_default_encoding: "crwdns499225:0crwdne499225:0"
