@@ -21,12 +21,12 @@ module Exports
       # Takes a resource and an attribute and returns the value to be exported.
       def format(object, **options)
         value = retrieve_value(object)
-        format_value(value)
+        format_value(value, options)
       end
 
       ##
       # Takes a value and returns the formatted value to be exported.
-      def format_value(value)
+      def format_value(value, options)
         case value
         when Date
           format_date value
