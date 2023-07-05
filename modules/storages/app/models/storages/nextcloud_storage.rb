@@ -33,7 +33,7 @@ class Storages::NextcloudStorage < Storages::Storage
   }.freeze
 
   store_attribute :provider_fields, :automatically_managed, :boolean
-  store_attribute :provider_fields, :username, :string, default: PROVIDER_FIELDS_DEFAULTS[:username]
+  store_attribute :provider_fields, :username, :string
   store_attribute :provider_fields, :password, :string
   store_attribute :provider_fields, :has_managed_project_folders, :boolean
   store_attribute :provider_fields, :group, :string, default: PROVIDER_FIELDS_DEFAULTS[:username]

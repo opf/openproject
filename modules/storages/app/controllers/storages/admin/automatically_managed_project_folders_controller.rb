@@ -114,6 +114,7 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
 
   def permitted_storage_params_with_defaults
     permitted_storage_params.tap do |permitted_params|
+      permitted_params.merge!(@storage.provider_fields_defaults.slice(:username))
       # If a checkbox is unchecked when its form is submitted, neither the name nor the value is submitted to the server.
       # See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
       permitted_params.merge!(automatically_managed: false) unless permitted_params.key?('automatically_managed')
