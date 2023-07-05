@@ -1688,6 +1688,7 @@ ko:
   label_logged_as: "로그인한 계정:"
   label_login: "로그인"
   label_custom_logo: "사용자 정의 로고"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "사용자 지정 favicon"
   label_custom_touch_icon: "사용자 지정 터치 아이콘"
   label_logout: "로그아웃"
@@ -2634,10 +2635,12 @@ ko:
     Enterprise Edition은 프로젝트의 사용자 지정 필드에 대해 다음과 같은 기타 추가 기능을 추가합니다: <br> <ul> <li><b>프로젝트 목록에 프로젝트에 대한 사용자 지정 필드를 추가하여 프로젝트 포트폴리오 보기 만들기</b></li> </ul>
   text_custom_logo_instructions: >
     투명한 배경에 흰색 로고가 권장됩니다. 기존 디스플레이와 레티나 디스플레이 둘 다에서 최상의 결과를 위해 이미지의 크기는 460px x 60px여야 합니다.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    페이지 제목 옆의 브라우저 창/탭에 나타나는 작은 아이콘입니다. 투명한 배경을 가진 32x32 제곱 픽셀 크기 PNG 이미지 파일이어야 합니다.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    홈 화면에 북마크를 추가하면 휴대폰 또는 태블릿에 표시되는 아이콘입니다. 180x180 제곱 픽셀 크기의 PNG 이미지 파일이어야 합니다. 이미지의 배경이 투명하지 않은지 확인하세요. 그렇지 않으면 iOS에서 제대로 표시되지 않습니다.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "데이터베이스에서 TSVector 허용(옵션)"
   text_default_administrator_account_changed: "기본 관리자 계정 변경됨"
   text_default_encoding: "기본: UTF-8"

@@ -84,7 +84,7 @@ If you just want to report on spent **unit costs**, choose the respective unit c
 
 ## Export time and cost reports
 
-To **export reports for time and costs** to Excel you can open or create a report in the Time and costs module in your project. For the Excel export, first [filter and group the report](#group-by-criteria-for-cost-reports) according to your needs. Select the [unit to be displayed](#select-units-to-display) (Labor, Cash value, unit costs).
+To **export reports for time and costs** to Excel you can open or create a report in the Time and costs module in your project. For the Excel export, first filter the report according to your needs. Select the [units to be displayed](#select-units-to-display) (Labor, Cash value, etc.).
 
 Please note that "Group by" settings won't be applied to the exported file.
 

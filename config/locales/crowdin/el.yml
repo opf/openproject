@@ -1704,6 +1704,7 @@ el:
   label_logged_as: "Συνδεδεμένος ως"
   label_login: "Σύνδεση"
   label_custom_logo: "Προσαρμοσμένο λογότυπο"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Προσαρμοσμένο favicon"
   label_custom_touch_icon: "Προσαρμοσμένο εικονίδιο αφής"
   label_logout: "Αποσύνδεση"
@@ -2654,10 +2655,12 @@ el:
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Προτείνεται ένα άσπρο λογότυπο με διαφανές φόντο. Για τα καλύτερα αποτελέσματα για συμβατικές και retina οθόνες, σιγουρευτείτε ότι οι διαστάσεις της εικόνας σας είναι 460px με 60px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Αυτό είναι το μικρό εικονίδιο που εμφανίζεται στο παράθυρο/καρτέλα του περιηγητής σας δίπλα στον τίτλο της σελίδας. Πρέπει να είναι ένα τετραγωνισμένο 32 με 32 pixels PNG αρχείο εικόνας με διάφανο φόντο.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    Αυτό είναι το εικονίδιο που εμφανίζεται στο κινητό ή στο tablet σας όταν βάζετε ένα σελιδοδείκτη στην αρχική σας σελίδα. Πρέπει να είναι ένα τετραγωνισμένο PNG αρχείο εικόνας. Παρακαλούμε σιγουρευτείτε ότι το φόντο της εικόνας δεν είναι διάφανο, διαφορετικά θα φαίνεται άσχημα στο iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Η βάση δεδομένων επιτρέπει TSVector (προαιρετικό)"
   text_default_administrator_account_changed: "Ο προεπιλεγμένος λογαριασμός του διαχειριστή άλλαξε"
   text_default_encoding: "Προεπιλογή: UTF-8"

@@ -80,7 +80,7 @@ Also, you can add a table of related work packages to your work package form. Cl
 
 ![Sys-admin-table-of-related-work-packages](openproject_system_guide_table_of_related_wp.png)
 
-Now, you can configure which related work packages should be included in your embedded list, e.g. child work packages or work packages related to this work package, and more. Then you can configure how the list should be filtered, grouped, etc. The configuration of the work package list can be done according to the [work package table configuration](../../../user-guide/work-packages/work-package-table-configuration/).
+Now, you can configure which related work packages should be included in your embedded list, e.g. child work packages or work packages related to this work package, and more. Then you can configure how the list should be filtered, grouped, etc. The configuration of the work package table can be done according to the [work package table configuration](../../../user-guide/work-packages/work-package-table-configuration/).
 
 Click the blue **Apply** button to add this work package list to your form.
 

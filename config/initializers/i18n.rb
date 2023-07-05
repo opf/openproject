@@ -11,7 +11,7 @@ Rails.application.reloader.to_prepare do
   # to the default locale.
   # When other locales are available, fall back to them.
   if Setting.table_exists? # don't want to prevent migrations
-    defaults = Set.new I18n.fallbacks.defaults + Setting.available_languages.map(&:to_sym)
+    defaults = Set.new(I18n.fallbacks.defaults + Redmine::I18n.valid_languages.map(&:to_sym))
     I18n.fallbacks.defaults = defaults
   end
 end

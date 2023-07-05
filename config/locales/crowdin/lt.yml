@@ -1743,6 +1743,7 @@ lt:
   label_logged_as: "Prisijungęs kaip"
   label_login: "Prisijungti"
   label_custom_logo: "Savo sukurtas logotipas"
+  label_custom_export_logo: "Savas eksporto logotipas"
   label_custom_favicon: "Pasirinktinė piktograma"
   label_custom_touch_icon: "Pasirinktinė prisilietimo piktograma"
   label_logout: "Atsijungti"
@@ -2694,6 +2695,8 @@ lt:
     Enterprise versija pridės šiuos papildomus priedus projekto saviems laukams: <br> <ul> <li><b>Galimybė pridėti savo laukus į jūsų projekto sąrašą ir kurti projekto projektų portfolio vaizdą</b></li> </ul>
   text_custom_logo_instructions: >
     Baltas logotipas su permatomu fonu yra rekomenduojamas. Gariausiems rezultatams pasiekti tradiciniuose ir retina ekranuose, būkite įsitikinę, kad paveikslėlio dimensijos yra 460px 60px.
+  text_custom_export_logo_instructions: >
+    Tai logotipas, kuris rodomas jūsų PDF eksportuose. Tai turi būti PNG arba JPEG piešinio failas. Rekomenduojamas juodas arba spalvotas logotipas ant permatomo balto fono.
   text_custom_favicon_instructions: >
     Šis mažas paveikslėlis atsiranda Jūsų naršyklės lange, kortelėje šalia puslapio pavadinimo. Jis turi būti kvadratinis 32 pikselio ilgio ir pločio PNG paveikslėlis su permatomu fonu.
   text_custom_touch_icon_instructions: >

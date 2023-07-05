@@ -1745,6 +1745,7 @@ ru:
   label_logged_as: "Войти в систему как"
   label_login: "Войти"
   label_custom_logo: "Свой логотип"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Пользовательские иконки"
   label_custom_touch_icon: "Пользовательский значок логотипа"
   label_logout: "Выход"
@@ -2697,10 +2698,12 @@ ru:
     Корпоративная версия добавит эти дополнительные дополнения для пользовательских полей проектов: <br> <ul> <li><b>Добавить пользовательские поля для проектов в ваш список проектов, чтобы создать представление портфолио проекта</b></li> </ul>
   text_custom_logo_instructions: >
     Рекомендуется использовать белый логотип с прозрачным фоном. Для оптимального отображения на обычных и retina-дисплеях размер картинки должен быть 460 на 110 пикселей.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Это крошечные значок, который появляется в вашем окне/вкладке браузера рядом с названием страницы. Это должно быть квадратное PNG изображение размером 32 на 32 пикселя с прозрачным фоном.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    Это значок появится в вашем мобильном телефоне или планшете, когда вы установите закладку на вашем домашнем экране. Это должно быть PNG изображение размером 180 х 180 пикселей. Убедитесь, что фоновый рисунок не является прозрачным, иначе это будет выглядеть плохо на iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "База данных позволяет TSVector (опционально)"
   text_default_administrator_account_changed: "Первоначальная учетная запись администратора была изменена"
   text_default_encoding: "По-умолчанию: UTF-8"

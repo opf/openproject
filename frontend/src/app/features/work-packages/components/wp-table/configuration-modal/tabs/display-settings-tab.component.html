@@ -8,7 +8,7 @@
                  [(ngModel)]="displayMode"
                  value="default"
                  name="display_mode_switch">
-          <span class="spot-icon spot-icon_no-hierarchy"></span>
+          <op-icon icon-classes="icon-no-hierarchy" [attr.icon-title]="text.display_mode.default"></op-icon>
           &ngsp;
           <span [textContent]="text.display_mode.default"></span>
           &ngsp;
@@ -23,7 +23,7 @@
                  [(ngModel)]="displayMode"
                  value="hierarchy"
                  name="display_mode_switch">
-          <span class="spot-icon spot-icon_hierarchy"></span>
+          <op-icon icon-classes="icon-hierarchy" [attr.icon-title]="text.display_mode.hierarchy"></op-icon>
           &ngsp;
           <span [textContent]="text.display_mode.hierarchy"></span>
           &ngsp;
@@ -40,7 +40,7 @@
                  [(ngModel)]="displayMode"
                  value="grouped"
                  name="display_mode_switch">
-          <span class="spot-icon spot-icon_group-by"></span>
+          <op-icon icon-classes="icon-group-by" [attr.icon-title]="text.label_group_by"></op-icon>
           &ngsp;
           <span [textContent]="text.label_group_by"></span>
           &ngsp;

@@ -18,11 +18,11 @@ Read below to get a detailed overview of what is new in OpenProject 10.
 
 ## Drag & drop (manual sorting) in work package table
 
-OpenProject 10 adds drag and drop to the work package list. You can easily change the work package order by simply dragging a work package to a desired place.
+OpenProject 10 adds drag and drop to the work package table. You can easily change the work package order by simply dragging a work package to a desired place.
 
 This also allows you to change a work package's hierarchy (e.g. by dragging a work package from the first hierarchy level below an existing work package).
 
-When you group the work package list based on an attribute (e.g. the assignee, project or status), you can easily change an attribute by dropping a work package to a different group. Want to change the assignee? Simply drag and drop a work package to a different assignee group.
+When you group the work package table based on an attribute (e.g. the assignee, project or status), you can easily change an attribute by dropping a work package to a different group. Want to change the assignee? Simply drag and drop a work package to a different assignee group.
 
 ![Drag & Drop work packages](drag-drop-1.png)
 
@@ -100,7 +100,7 @@ OpenProject 10 significantly improves the performance, especially for the work p
 - Added: Custom Fields are now shown in Projects API [[#30387](https://community.openproject.com/wp/30387)]
 - Changed: Render text field links in the backend independently of the user [[#30501](https://community.openproject.com/wp/30501)]
 - Changed: Widget: add graphs with single dataset [[#30522](https://community.openproject.com/wp/30522)]
-- Changed: When drag and drop work packages indicate drop zone in work package list as flat line instead of entire row [[#30723](https://community.openproject.com/wp/30723)]
+- Changed: When drag and drop work packages indicate drop zone in work package table as flat line instead of entire row [[#30723](https://community.openproject.com/wp/30723)]
 - Changed: View selector to switch between Gantt view, tiles view and list view [[#30746](https://community.openproject.com/wp/30746)]
 - Changed: Add menu items "Sort by..." and "Group by..." to the more menu of a work packages view so the features are more visible [[#30751](https://community.openproject.com/wp/30751)]
 - Changed: Don't highlight the first row in the split view [[#30765](https://community.openproject.com/wp/30765)]

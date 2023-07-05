@@ -1689,6 +1689,7 @@ zh-TW:
   label_logged_as: "登入為"
   label_login: "登入"
   label_custom_logo: "自訂logo"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "自訂圖示"
   label_custom_touch_icon: "自訂觸控圖示"
   label_logout: "登出"
@@ -2637,10 +2638,12 @@ zh-TW:
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     建議使用背景透明的白色標誌。為了確保在一般及視網膜螢幕上有最佳效果，請確保您的圖片解析度在 460px X 60px。
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    這是顯示在您的瀏覽器視窗/標籤頁的標題旁邊的小圖示。它必需要是 32px X 32px 大小背景透明的 PNG 圖像檔。
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    這個圖示將會顯示在您的手機或平板的主畫面中。它必須是 180px X 180px 大小的 PNG 圖檔。請確保圖片的背景不是透明的，否則在 iOS 上會看起來很醜。
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "資料庫允許 TSVector (非必要)"
   text_default_administrator_account_changed: "預設管理者帳號已更改"
   text_default_encoding: "預設值: UTF-8"

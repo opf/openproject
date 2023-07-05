@@ -13,7 +13,7 @@
     "@angular-eslint/template-parser": "^16.0.3",
     "@angular/language-service": "16.1.1",
     "@babel/core": "^7.18.5",
-    "@compodoc/compodoc": "^1.1.19",
+    "@compodoc/compodoc": "^1.1.21",
     "@html-eslint/eslint-plugin": "^0.15.0",
     "@html-eslint/parser": "^0.15.0",
     "@jsdevtools/coverage-istanbul-loader": "3.0.5",

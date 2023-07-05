@@ -1741,6 +1741,7 @@ uk:
   label_logged_as: "Ви увійшли як"
   label_login: "Увійти"
   label_custom_logo: "Спеціальний логотип"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "призначені для користувача іконки"
   label_custom_touch_icon: "Призначений для користувача значок логотипу"
   label_logout: "Вийти"
@@ -2693,10 +2694,12 @@ uk:
     У версії Enterprise з’являться такі додаткові доповнення для користувацьких полів проєктів: <br> <ul><li><b>Додавати користувацькі поля проєктів у список проєктів для створення режиму перегляду портфеля проєктів</b></li> </ul>
   text_custom_logo_instructions: >
     Рекомендується використовувати білий логотип з прозорим фоном. Для оптимального відображення на звичайних і retina-дисплеях розмір картинки повинен бути 460 на 110 пікселів.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Це крихітні значок, який з'являється в вашому вікні / вкладці браузера поруч з назвою сторінки. Це повинно бути квадратне PNG зображення розміром 32 на 32 пікселів з прозорим фоном.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    Це значок, який відображається на вашому мобільному пристрої або планшеті, коли ви розміщуєте закладку на робочому столі. Це має бути квадратний файл зображення PNG розміром 180 на 180 пікселів. Переконайтеся, що фон зображення не є прозорим, інакше він виглядатиме погано на iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "База даних дозволяє TSVector (необов'язково)"
   text_default_administrator_account_changed: "Обліковий запис адміністратора за замовчуванням змінений"
   text_default_encoding: "По замовчуванню: UTF-8"

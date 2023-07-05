@@ -1707,6 +1707,7 @@ tr:
   label_logged_as: "Giriş yapılan kullanıcı"
   label_login: "Oturum aç"
   label_custom_logo: "Özel logo"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Özel favicon"
   label_custom_touch_icon: "Özel dokunma simgesi"
   label_logout: "Oturumu kapat"
@@ -2655,10 +2656,12 @@ tr:
     Enterprise sürümü, projelerin özel alanları için şu ek eklentileri ekleyecektir: <br> <ul> <li><b>Bir proje portföy görünümü oluşturmak için Projeler için özel alanları Proje listenize ekleyin</b></li > </ul>
   text_custom_logo_instructions: >
     Saydam arka plan üzerinde beyaz bir logo önerilir. Hem geleneksel en iyi sonuçları almak ve retina görüntüler için resm boyutlarının 60px ye 460px olduğundan emin olun.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Bu küçük ikon tarayıcı penceresinin/sekmesinin yanında gözükür. Kare, 32x32 piksel boyoutlarında PNG formatında ve arka planı transparan olmak zorundadır.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    Bu ikon mobil araçlarda ya da tabletlerde yerimleri bölümünde anasayfanızda görünür. Kare, 180x180 piksel boyutlarında, PNG formatında olmak zorundadır. Arka planının transparan olmasına özen gösterin. Aksi halde iOS üzerinde çok kötü gözükür.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Veritabanı TSVector erişimi  (isteğe bağlı)"
   text_default_administrator_account_changed: "Varsayılan yönetici hesabı değişti"
   text_default_encoding: "Varsayılan: UTF-8"
