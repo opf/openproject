@@ -6,8 +6,7 @@ properties:
     type: integer
     description: Category id
     readOnly: true
-    minimum: 0
-    exclusiveMinimum: true
+    exclusiveMinimum: 0
   name:
     type: string
     description: Category name

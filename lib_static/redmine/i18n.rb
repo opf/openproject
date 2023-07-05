@@ -45,6 +45,10 @@ module Redmine
           .sort
     end
 
+    def self.valid_languages
+      all_languages & (Setting.available_languages + [Setting.default_language])
+    end
+
     def l_or_humanize(s, options = {})
       k = "#{options[:prefix]}#{s}".to_sym
       ::I18n.t(k, default: s.to_s.humanize)
@@ -152,7 +156,7 @@ module Redmine
     end
 
     def valid_languages
-      all_languages & Setting.available_languages
+      Redmine::I18n.valid_languages
     end
 
     def all_languages

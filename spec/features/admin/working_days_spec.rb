@@ -123,7 +123,9 @@ RSpec.describe 'Working Days', js: true, with_cuprite: true do
       wp_page = Pages::FullWorkPackage.new(earliest_work_package)
       wp_page.visit!
 
-      wp_page.expect_comment(text: "Working days changed (Monday is now non-working, Friday is now non-working).")
+      wp_page.expect_activity_message(
+        "Dates changed by changes to working days (Monday is now non-working, Friday is now non-working)"
+      )
     end
 
     it 'shows error when non working days are all unset' do
@@ -139,7 +141,8 @@ RSpec.describe 'Working Days', js: true, with_cuprite: true do
         dialog.confirm
       end
 
-      expect(page).to have_selector('.flash.error', text: 'At least one day of the week must be defined as a working day.')
+      expect(page).to have_selector('.flash.error',
+                                    text: 'At least one day of the week must be defined as a working day.')
       # Restore the checkboxes to their valid state
       expect(page).to have_checked_field 'Monday'
       expect(page).to have_checked_field 'Tuesday'

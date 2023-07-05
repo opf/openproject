@@ -226,16 +226,16 @@ Click on the **Modules** icon with the nine squares in the header navigation. Th
 Here you will find
 
 - The [global projects list](#projects-list)
-- The global work packages list (see below)
+- The global work package tables (see below)
 - The global news overview
 - The global time and costs module
 
-### Global work packages list
+### Global work package tables
 
 Select **Work packages** from the drop down menu **Modules** in the upper right (nine squares). Now, you will see all work packages in the projects for which you have the required [permissions](../..//system-admin-guide/users-permissions/roles-permissions/).
 
-In this project overarching list, you can search, filter, group by, sort, highlight and save views the same way as in the [work package list](../work-packages/work-package-table-configuration) in each project.
+In this project overarching list, you can search, filter, group by, sort, highlight and save views the same way as in the [work package table](../work-packages/work-package-table-configuration) in each project.
 
-You can group by projects by clicking in the header of the work package list next to PROJECT and select **Group by**. Collapsing the groups will allow you an **overview of the projects' aggregated milestones** as described [here](../../user-guide/work-packages/work-package-table-configuration/#flat-list-hierarchy-mode-and-group-by).
+You can group by projects by clicking in the header of the work package table next to PROJECT and select **Group by**. Collapsing the groups will allow you an **overview of the projects' aggregated milestones** as described [here](../../user-guide/work-packages/work-package-table-configuration/#flat-list-hierarchy-mode-and-group-by).
 
 ![project overarching report](project-overarching-report.gif)

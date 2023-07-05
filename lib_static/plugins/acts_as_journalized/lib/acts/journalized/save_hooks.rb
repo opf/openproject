@@ -53,7 +53,7 @@ module Acts::Journalized
       base.class_eval do
         after_save :save_journals
 
-        attr_accessor :journal_notes, :journal_user
+        attr_accessor :journal_notes, :journal_user, :journal_cause
       end
     end
 
@@ -61,7 +61,7 @@ module Acts::Journalized
       with_ensured_journal_attributes do
         create_call = Journals::CreateService
                       .new(self, @journal_user)
-                      .call(notes: @journal_notes)
+                      .call(notes: @journal_notes, cause: @journal_cause)
 
         if create_call.success? && create_call.result
           OpenProject::Notifications.send(OpenProject::Events::JOURNAL_CREATED,
@@ -73,9 +73,10 @@ module Acts::Journalized
       end
     end
 
-    def add_journal(user = User.current, notes = '')
+    def add_journal(user: User.current, notes: '', cause: {})
       self.journal_user ||= user
       self.journal_notes ||= notes
+      self.journal_cause ||= cause
     end
 
     private
@@ -83,11 +84,13 @@ module Acts::Journalized
     def with_ensured_journal_attributes
       self.journal_user ||= User.current
       self.journal_notes ||= ''
+      self.journal_cause ||= {}
 
       yield
     ensure
       self.journal_user = nil
       self.journal_notes = nil
+      self.journal_cause = nil
     end
   end
 end
