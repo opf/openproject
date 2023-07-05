@@ -113,7 +113,6 @@ RSpec.describe MeetingsController do
           it { expect(response).to be_successful }
           it { expect(assigns(:meeting)).to eql meeting }
         end
-
       end
     end
 
