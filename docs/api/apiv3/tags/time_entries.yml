@@ -34,4 +34,4 @@ description: |-
   | updatedAt    | The time the time entry was last updated                  | DateTime |                                                      | READ                 |                                                             |
 
   Depending on custom fields defined for time entries, additional properties might exist.
-name: Time Entries
+name: Time entries

@@ -29,9 +29,6 @@
 module Admin::Settings
   class LanguagesSettingsController < ::Admin::SettingsController
     menu_item :settings_languages
-    # rubocop:disable Rails/LexicallyScopedActionFilter
-    before_action :validate_start_of_week_and_first_week_of_year_combination, only: :update
-    # rubocop:enable Rails/LexicallyScopedActionFilter
 
     def default_breadcrumb
       t(:label_languages)
@@ -41,22 +38,6 @@ module Admin::Settings
 
     def update_service
       ::Settings::LanguageUpdateService
-    end
-
-    private
-
-    def validate_start_of_week_and_first_week_of_year_combination
-      start_of_week = settings_params[:start_of_week]
-      start_of_year = settings_params[:first_week_of_year]
-
-      if start_of_week.present? ^ start_of_year.present?
-        flash[:error] = I18n.t(
-          'settings.display.first_date_of_week_and_year_set',
-          first_week_setting_name: I18n.t(:setting_first_week_of_year),
-          day_of_week_setting_name: I18n.t(:setting_start_of_week)
-        )
-        redirect_to action: :show
-      end
     end
   end
 end

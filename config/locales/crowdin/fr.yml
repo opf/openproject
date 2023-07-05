@@ -275,6 +275,16 @@ fr:
       no_results_title_text: Il n'y a actuellement aucune actualité à publier.
       no_results_content_text: Ajouter une actualité
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unknown browser'
+      unknown_os: 'unknown operating system'
+      current: 'Current session'
+      title: 'Session management'
+      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
+      may_not_delete_current: 'You cannot delete your current session.'
     groups:
       member_in_these_groups: 'Cet utilisateur est actuellement membre des groupes suivants :'
       no_results_title_text: Cet utilisateur n'est actuellement membre d'aucun groupe.
@@ -1056,6 +1066,7 @@ fr:
   button_configure: "Configurer"
   button_continue: "Continuer"
   button_copy: "Copier"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Copier et suivre"
   button_create: "Créer"
   button_create_and_continue: "Créer et continuer"
@@ -1352,6 +1363,9 @@ fr:
       pdf_report: "PDF Report"
     image:
       omitted: "Image non exportée."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext disponible (optionnel)"
@@ -1397,6 +1411,22 @@ fr:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Les modifications ont été retirées."
+    caused_changes:
+      dates_changed: "Dates changed"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} is now working"
+          non_working: "%{day} is now non-working"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} is now non-working"
   links:
     configuration_guide: 'Guide de configuration'
     get_in_touch: "Vous avez des questions ? Contactez-nous."
@@ -1512,6 +1542,7 @@ fr:
   label_bulk_edit_selected_work_packages: "Edition en masse des Lots de Travaux selectionnés"
   label_bundled: '(Inclus)'
   label_calendar: "Calendrier"
+  label_calendars_and_dates: "Calendars and dates"
   label_calendar_show: "Afficher le calendrier"
   label_category: "Catégorie"
   label_consent_settings: "Accord de l'utilisateur"
@@ -1548,7 +1579,6 @@ fr:
   label_contains: "contenus"
   label_content: "Contenu"
   label_copied: "copié"
-  label_copy_to_clipboard: "Copier dans le presse-papier"
   label_copy_same_as_target: "similaire à la cible"
   label_copy_source: "Source"
   label_copy_target: "Cible"
@@ -1565,6 +1595,7 @@ fr:
   label_database_version: "Version de PostgreSQL"
   label_date: "date"
   label_date_and_time: "Date et heure"
+  label_date_format: "Date format"
   label_date_from: "De"
   label_date_from_to: "De %{start} à %{end}"
   label_date_to: "À"
@@ -1613,6 +1644,7 @@ fr:
   label_equals: "est"
   label_everywhere: "partout"
   label_example: "Exemple"
+  label_experimental: "Experimental"
   label_import: "Importer"
   label_export_to: "Aussi disponible en :"
   label_expanded_click_to_collapse: "Déplié. Cliquez pour replier"
@@ -1692,6 +1724,7 @@ fr:
   label_logged_as: "Connecté en tant que"
   label_login: "Connexion"
   label_custom_logo: "Logo personnalisé"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Favicon personnalisé"
   label_custom_touch_icon: "Icône de contact personnalisé"
   label_logout: "Déconnexion"
@@ -1728,6 +1761,7 @@ fr:
   label_more_than_ago: "il y a plus de quelques jours"
   label_move_work_package: "Déplacer le Lot de Travaux"
   label_my_account: "Mon compte"
+  label_my_activity: "My activity"
   label_my_account_data: "Info sur mon compte"
   label_my_projects: "Mes projets"
   label_my_queries: "Mes requêtes personnalisées"
@@ -2048,6 +2082,7 @@ fr:
       more_to_see:
         one: 'Il y a encore 1 lot de travaux avec des notifications.'
         other: 'Il y a encore %{count} lots de travaux avec des notifications.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Surveillé'
         assigned: 'Assigné'
@@ -2491,7 +2526,7 @@ fr:
   setting_consent_decline_mail: "Adresse mail de contact de l'accord"
   setting_cross_project_work_package_relations: "Autoriser les relations entre lots de travaux de projets différents"
   setting_first_week_of_year: "La première semaine de l'année contient"
-  setting_date_format: "Format de date"
+  setting_date_format: "Date"
   setting_default_language: "Langage par défaut"
   setting_default_projects_modules: "Modules activés par défaut pour les nouveaux projets"
   setting_default_projects_public: "Les nouveaux projets sont publics par défaut"
@@ -2554,7 +2589,7 @@ fr:
   setting_start_of_week: "La semaine commence le"
   setting_sys_api_enabled: "Activer le service web de gestion de dépôt"
   setting_sys_api_description: "Le service web de gestion de dépôt fournit l'intégration et l'autorisation d'accès aux dépôts."
-  setting_time_format: "Format d'heure"
+  setting_time_format: "Time"
   setting_accessibility_mode_for_anonymous: "Activer le mode d'accessibilité pour les utilisateurs anonymes"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Fuseau horaire par défaut des utilisateurs"
@@ -2565,6 +2600,7 @@ fr:
   setting_welcome_on_homescreen: "Afficher le bloc de bienvenue sur l'écran d'accueil"
   setting_work_package_list_default_highlighting_mode: "Mode de surbrillance par défaut"
   setting_work_package_list_default_highlighted_attributes: "Attributs en ligne mis en surbrillance par défaut"
+  setting_working_days: "Working days"
   settings:
     general: "Général"
     other: "Autre"
@@ -2574,6 +2610,7 @@ fr:
     attachments:
       whitelist_text_html: >
         Définissez une liste d'extensions de fichiers et/ou de types MIME valides pour les fichiers téléversés. <br/> Entrez les extensions de fichier (par exemple, <code>%{ext_example}</code>) ou les types mime (par exemple, <code>%{mime_example}</code>). <br/> Laissez vide pour permettre le téléversement de tout type de fichier. Plusieurs valeurs autorisées (une ligne pour chaque valeur).
+    language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: 'Définit pour quel événement un e-mail est envoyé. Les lots de travaux sont exclus de cette liste car les notifications pour ceux-ci peuvent être configurées spécifiquement pour chaque utilisateur.'
       delay_minutes_explanation: "L'envoi d'e-mails peut être retardé pour permettre aux utilisateurs ayant des notifications configurées dans l'application de confirmer la notification dans l'application avant l'envoi. Les utilisateurs qui lisent une notification dans l'application ne recevront pas d'e-mail pour la notification déjà lue."
@@ -2582,6 +2619,10 @@ fr:
         Si une des options « %{day_of_week_setting_name} » ou « %{first_week_setting_name} » sont définies, l'autre doit être réglé aussi bien pour éviter les incohérences dans le frontend.
       first_week_of_year_text: >
         Sélectionnez la date de janvier qui se trouve dans la première semaine de l'année. Cette valeur ainsi que le premier jour de la semaine déterminent le nombre total de semaines dans une année.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Paramètres pour les nouveaux projets"
       section_project_overview: "Paramètres de la liste des projets"
@@ -2596,6 +2637,9 @@ fr:
         status: "Ligne entière par Statut"
         type: "Ligne entière par Type"
         priority: "Ligne entière par Priorité"
+    working_days:
+      section_work_week: "Work week"
+      section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Texte brut'
@@ -2634,10 +2678,12 @@ fr:
     L'édition Entreprise ajoutera ces add-ons supplémentaires pour les champs personnalisés des projets : <br> <ul> <li><b>Ajouter des champs personnalisés pour les projets à votre liste de projets pour créer une vue du portefeuille de projets</b></li> </ul>
   text_custom_logo_instructions: >
     Un logo blanc sur fond transparent est recommandé. Pour obtenir les meilleurs résultats sur les deux, affichage classique et retina, assurez-vous que les dimensions de votre image soient de 460px par 60px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Il s’agit de la petite icône qui apparaît dans votre fenêtre/onglet de navigateur à côté du titre de la page. Il doit être un carré de 32 par 32 pixels au format d'image PNG avec un fond transparent.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    Il s’agit de l’icône qui apparaît dans votre mobile ou tablette lorsque vous placez un marque-page sur votre écran d’accueil. Il doit être un carré de 180 par 180 pixels au format d'image PNG. S’il vous plaît assurez-vous que l'arrière-plan de l’image ne soit pas transparente sinon il aura un mauvais affichage sur iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "La base de données permet TSVector (facultatif)"
   text_default_administrator_account_changed: "Changement du compte Administrateur par defaut"
   text_default_encoding: "Défaut: UTF-8"
@@ -2961,9 +3007,9 @@ fr:
       title: "Supprimer le lot de travaux"
   working_days:
     info: >
-      <b>Définir les jours considérés comme une partie de la semaine de travail</b><br/> Les jours qui ne sont pas sélectionnés sont ignorés lors de la planification des lots de travaux (et non inclus dans le nombre de jours). Ils peuvent être remplacés au niveau du lot de travaux.
+      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
     instance_wide_info: >
-      <b>Les jours spécifiques non prestés (jours fériés et fermetures)</b><br/> Les dates ajoutées à la liste ci-dessous sont considérées comme non ouvrables et ignorées lors de la planification des lots de travaux.
+      Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Changer les jours ouvrables"
     warning: >
       La modification des jours de la semaine qui sont considérés comme des jours travaillés ou des jours non travaillés peut affecter les jours de début et de fin de tous les lots de travaux de tous les projets dans ce cas. <br/> Veuillez noter que les modifications ne sont appliquées qu'après que vous ayez cliqué sur le bouton appliquer les modifications.

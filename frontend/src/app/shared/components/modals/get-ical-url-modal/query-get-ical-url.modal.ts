@@ -46,6 +46,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { CopyToClipboardService } from 'core-app/shared/components/copy-to-clipboard/copy-to-clipboard.service';
 
 interface TokenNameFormValue {
   name:string;
@@ -72,7 +73,6 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
     token_name_description_text: this.I18n.t('js.ical_sharing_modal.token_name_description_text'),
     token_name_already_in_use_error_text: this.I18n.t('js.ical_sharing_modal.token_name_already_in_use_error_text'),
     button_copy: this.I18n.t('js.ical_sharing_modal.copy_url_label'),
-    copy_success_text: this.I18n.t('js.ical_sharing_modal.copy_url_success_text'),
     button_cancel: this.I18n.t('js.button_cancel'),
     close_popup: this.I18n.t('js.close_popup_title'),
   };
@@ -97,6 +97,7 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
     readonly halNotification:HalResourceNotificationService,
     readonly toastService:ToastService,
     protected apiV3Service:ApiV3Service,
+    protected copyToClipboardService:CopyToClipboardService,
   ) {
     super(locals, cdRef, elementRef);
   }
@@ -117,28 +118,6 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
     }
   }
 
-  public copyUrlAndCloseModal(url:string):void {
-    if (!navigator.clipboard) {
-      // fallback for browsers that don't support clipboard API at all
-      this.toastService.addWarning(
-        this.I18n.t('js.ical_sharing_modal.copy_url_error_text', { icalUrl: url }),
-      );
-    } else {
-      void navigator.clipboard.writeText(url)
-        .then(() => {
-          this.toastService.addSuccess(this.text.copy_success_text);
-        })
-        .catch(() => {
-        // fallback when running into e.g. browser permission errors
-          this.toastService.addWarning(
-            this.I18n.t('js.ical_sharing_modal.copy_url_error_text', { icalUrl: url }),
-          );
-        });
-    }
-
-    this.closeMe();
-  }
-
   public generateAndCopyUrl():void {
     if (this.isBusy) {
       return;
@@ -157,8 +136,8 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
 
     void promise
       .then((response:{ icalUrl:{ href:string } }) => {
-        icalUrl = String(response.icalUrl.href);
-        this.copyUrlAndCloseModal(icalUrl);
+        this.copyToClipboardService.copy(String(response.icalUrl.href));
+        this.closeMe();
       })
       .catch((error:{ message:string }) => {
         this.nameControl?.markAsDirty();

@@ -12,8 +12,7 @@ properties:
     type: integer
     description: Version id
     readOnly: true
-    minimum: 0
-    exclusiveMinimum: true
+    exclusiveMinimum: 0
   name:
     type: string
     description: Version name

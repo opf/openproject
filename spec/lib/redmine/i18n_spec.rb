@@ -97,16 +97,30 @@ module OpenProject
     end
 
     describe 'valid_languages' do
-      it 'allows only languages that are available' do
+      it 'allows languages that are available' do
         with_settings(available_languages: ['en'])
 
         expect(valid_languages).to eq ['en']
+      end
+
+      it 'allows language which is not in available languages list but is the default language' do
+        with_settings(available_languages: ['en'], default_language: 'fr')
+
+        expect(valid_languages).to eq ['en', 'fr']
       end
 
       it 'allows only languages that exist' do
         with_settings(available_languages: ['en', 'de', 'klingon'])
 
         expect(valid_languages).to contain_exactly('en', 'de')
+      end
+
+      it 'is sorted alphabetically' do
+        with_settings(available_languages: ['de', 'en'], default_language: 'fr')
+        expect(valid_languages).to eq(valid_languages.sort)
+
+        with_settings(available_languages: ['en', 'fr'], default_language: 'de')
+        expect(valid_languages).to eq(valid_languages.sort)
       end
     end
 
@@ -141,11 +155,11 @@ module OpenProject
 
     describe 'find_language' do
       before do
-        with_settings(available_languages: ['de'])
+        with_settings(available_languages: ['de'], default_language: 'en')
       end
 
-      it 'is nil if language is not active' do
-        expect(find_language(:en)).to be_nil
+      it 'is nil if language is not available nor the default language' do
+        expect(find_language(:fr)).to be_nil
       end
 
       it 'is nil if no language is given' do
@@ -153,14 +167,21 @@ module OpenProject
         expect(find_language(nil)).to be_nil
       end
 
-      it 'is the language if it is active' do
+      it 'is the language if it is in available languages' do
         expect(find_language(:de)).to eq 'de'
         expect(find_language('de')).to eq 'de'
       end
 
-      it 'can be found by uppercase if it is active' do
+      it 'is the language if it is the default language' do
+        expect(find_language(:en)).to eq 'en'
+        expect(find_language('en')).to eq 'en'
+      end
+
+      it 'can be found by uppercase' do
         expect(find_language(:DE)).to eq 'de'
         expect(find_language('DE')).to eq 'de'
+        expect(find_language(:EN)).to eq 'en'
+        expect(find_language('EN')).to eq 'en'
       end
 
       it 'is nil if non valid string is passed' do

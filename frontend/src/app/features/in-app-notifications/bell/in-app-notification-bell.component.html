@@ -3,7 +3,7 @@
   data-qa-selector="op-ian-bell"
   [href]="notificationsPath()"
 >
-  <span class="spot-icon spot-icon_bell"></span>
+  <op-icon icon-classes="icon-bell"></op-icon>
   <ng-container *ngIf="(unreadCount$ | async) as unreadCount">
     <span
       *ngIf="unreadCount !== 0"

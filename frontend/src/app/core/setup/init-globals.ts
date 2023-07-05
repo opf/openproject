@@ -32,4 +32,3 @@ import 'hammerjs';
 // Avoid require.context since that crashes angular regularly
 import './globals/dynamic-bootstrapper';
 import './globals/openproject';
-import './globals/tree-menu';

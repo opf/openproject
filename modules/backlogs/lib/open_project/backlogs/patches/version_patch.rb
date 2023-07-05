@@ -76,8 +76,6 @@ module OpenProject::Backlogs::Patches::VersionPatch
 
     delegate :hash, to: :id
 
-    private
-
     def rebuild_positions(scope, type_ids)
       wo_position = scope
                       .where(type_id: type_ids,

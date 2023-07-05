@@ -28,20 +28,33 @@
 import { State } from '@openproject/reactivestates';
 import { Injectable } from '@angular/core';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
-import { Observable } from 'rxjs';
+import {
+  firstValueFrom,
+  Observable,
+} from 'rxjs';
 import { take } from 'rxjs/operators';
 import { States } from 'core-app/core/states/states.service';
-import { ISchemaProxy, SchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
+import {
+  ISchemaProxy,
+  SchemaProxy,
+} from 'core-app/features/hal/schemas/schema-proxy';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { WorkPackageSchemaProxy } from 'core-app/features/hal/schemas/work-package-schema-proxy';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 
+export const fallbackSchemaId = '__fallback';
+
 @Injectable()
 export class SchemaCacheService extends StateCacheService<SchemaResource> {
-  constructor(readonly states:States,
-    readonly halResourceService:HalResourceService) {
+  fallbackSchema = this.halResourceService.createHalResourceOfClass<SchemaResource>(SchemaResource, {}, true);
+
+  constructor(
+    readonly states:States,
+    readonly halResourceService:HalResourceService,
+  ) {
     super(states.schemas);
+    this.putValue(fallbackSchemaId, this.fallbackSchema);
   }
 
   public state(id:string|HalResource):State<SchemaResource> {
@@ -56,27 +69,18 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
    * @return The schema for the HalResource
    */
   of(resource:HalResource):ISchemaProxy {
-    const schema = this.state(resource).value;
-
-    if (!schema) {
-      throw new Error(`Schema for resource ${resource} was expected to be loaded but isn't.`);
-    }
+    const schema = this.state(resource).value as SchemaResource;
 
     if (resource._type === 'WorkPackage') {
       return WorkPackageSchemaProxy.create(schema, resource);
     }
+
     return SchemaProxy.create(schema, resource);
   }
 
-  public getSchemaHref(resource:HalResource):string {
+  public getSchemaHref(resource:HalResource):string|undefined {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    const href = resource.$links.schema?.href as string|undefined;
-
-    if (!href) {
-      throw new Error(`Resource ${resource.toString()} has no schema to load.`);
-    }
-
-    return href;
+    return resource.$links.schema?.href as string|undefined;
   }
 
   /**
@@ -84,15 +88,9 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
    * @param resource The resource with a schema property or a string to the schema href.
    * @return A promise with the loaded schema.
    */
-  ensureLoaded<T = SchemaResource>(resource:HalResource|string):Promise<T> {
+  ensureLoaded(resource:HalResource|string):Promise<SchemaResource> {
     const href = resource instanceof HalResource ? this.getSchemaHref(resource) : resource;
-
-    return this
-      .requireAndStream(href)
-      .pipe(
-        take(1),
-      )
-      .toPromise() as unknown as Promise<T>;
+    return firstValueFrom(this.requireAndStream(href || fallbackSchemaId));
   }
 
   /**
@@ -143,8 +141,9 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
 
   private stateKey(id:string|HalResource):string {
     if (id instanceof HalResource) {
-      return this.getSchemaHref(id);
+      return this.getSchemaHref(id) || fallbackSchemaId;
     }
+
     return id;
   }
 }

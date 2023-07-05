@@ -6,8 +6,7 @@ properties:
     type: integer
     description: Priority id
     readOnly: true
-    minimum: 0
-    exclusiveMinimum: true
+    exclusiveMinimum: 0
   name:
     type: string
     description: Priority name
@@ -17,8 +16,7 @@ properties:
     type: integer
     description: Sort index of the priority
     readOnly: true
-    minimum: 0
-    exclusiveMinimum: true
+    exclusiveMinimum: 0
   isDefault:
     type: boolean
     description: Indicates whether this is the default value

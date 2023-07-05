@@ -244,7 +244,7 @@ class UsersController < ApplicationController
   end
 
   def find_user
-    if params[:id] == 'current' || params['id'].nil?
+    if params[:id] == User::CURRENT_USER_LOGIN_ALIAS || params[:id].nil?
       require_login || return
       @user = User.current
     else

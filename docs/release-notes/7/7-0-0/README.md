@@ -11,22 +11,21 @@
 
 OpenProject 7.0 is the biggest OpenProject release yet with amazing new
 features: A new interactive timeline, hierarchies in the work package
-list, multi-select custom fields and much more.
+table, multi-select custom fields and much more.
 
 ## New integrated Gantt chart / timeline
 
 OpenProject 7.0 introduces a new Gantt chart which is integrated in the
-work package list
-([#13785](https://community.openproject.com/projects/openproject/work_packages/13785/activity)).
+work package table ([#13785](https://community.openproject.com/projects/openproject/work_packages/13785/activity)).
 
 The new timeline is much more interactive and user-friendly than the old
 timeline.
 
 
 
-## Display hierarchies in work package list
+## Display hierarchies in work package table
 
-You can display hierarchies on the work package list and collapse and
+You can display hierarchies on the work package table and collapse and
 expand them
 ([#24647](https://community.openproject.com/projects/openproject/work_packages/24647/activity)).
 
@@ -43,9 +42,9 @@ hidden by default.
 
 
 
-## Filter based on date in work package list
+## Filter based on date in work package table
 
-The work package list now supports filtering based on fixed dates. This
+The work package table now supports filtering based on fixed dates. This
 affects all date attributes (e.g. start / due date, created on / updated
 on)
 ([#22585](https://community.openproject.com/projects/telekom/work_packages/22585/activity)).
@@ -71,7 +70,7 @@ project settings
 
 ## Zen-mode on work package page
 
-With the zen mode on the work package list, you can maximize the
+With the zen mode on the work package table, you can maximize the
 available screen real estate by hiding the side and top navigation
 ([#18216](https://community.openproject.com/projects/openproject/work_packages/18216/activity)).
 
@@ -104,8 +103,7 @@ Additionally, you can change the colors by using a custom color scheme
 
 ## Performance improvements
 
-The performance – especially for the work package list – has been
-improved. Loading and displaying work packages is faster.
+The performance – especially for the work package table – has been improved. Loading and displaying work packages is faster.
 
 ## Improved design
 
@@ -118,5 +116,4 @@ OpenProject 7.0 contains a large number of bugs fixes.
 
 For an extensive overview of bug fixes please refer to the [following
 list](https://community.openproject.com/projects/openproject/work_packages?query_props=%7B%22c%22:%5B%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22%5D,%22p%22:%22openproject%22,%22t%22:%22parent:desc%22,%22f%22:%5B%7B%22n%22:%22version%22,%22o%22:%22%253D%22,%22t%22:%22list_optional%22,%22v%22:%22750%22%7D,%7B%22n%22:%22type%22,%22o%22:%22%253D%22,%22t%22:%22list_model%22,%22v%22:%221%22%7D,%7B%22n%22:%22subprojectId%22,%22o%22:%22*%22,%22t%22:%22list_subprojects%22,%22v%22:%5B%5D%7D%5D,%22pa%22:1,%22pp%22:20%7D).
-
 

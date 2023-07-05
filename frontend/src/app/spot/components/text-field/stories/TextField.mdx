@@ -1,0 +1,67 @@
+import { Canvas, Meta, ArgsTable } from '@storybook/blocks';
+
+import * as TextFieldStories from './TextField.stories';
+import { SpotTextFieldComponent } from '../text-field.component';
+
+<Meta of={TextFieldStories} />
+
+# Text Field
+
+The text field is one of the most common input elements used in a wide range of scenarios: fill a form, enter work package details, search for something, pick a date.
+
+## Structure and Options
+
+The most basic text field is simply an input field where the user can type in text.
+
+<Canvas of={TextFieldStories.Default} />
+
+The text field component affords a few optional elements:
+
+An optional icon can be added to the left edge to provide additional context when this is necessary (in a search field, for example):
+
+<Canvas of={TextFieldStories.SearchWithIcon} />
+
+An icon can also optionally be placed on the right edge. This arrow can provide additional hints on how the text input field will behave; for example, a right arrow might suggest that the value will be immediately submitted, or a dropdown arrow might indicate that the text field will open a drop modal underneath it (a list of assignees, for example).
+
+The right icon can also be converted to an icon-only link that allows the user to clear the field.
+
+<Canvas of={TextFieldStories.SearchWithIconAndValue} />
+
+## Behaviour
+
+Clicking on a text field will move it to the focused state. 
+
+A text field can have placeholder text to provide additionanl context or information; this text is replaced by actual text that the user inputs, and is shown again only if the field is cleared.
+
+<Canvas of={TextFieldStories.Placeholder} />
+
+The clear icon-only link on the right only appears on some text fields.
+
+The width of a text field is fixed and defined either manually, or by the width of the containing element. When text exceeds the available width, it scrolls with the cursor within the text field (and clips on the other end).
+
+## States
+
+The **Default** state indicates that a text field is ready to accept text input.
+
+<Canvas of={TextFieldStories.WithValue} />
+
+The **Focus** state has a coloured outline, the same as any focused element in OpenProject.
+
+The **Hover** element has a darker border (Basic/Gray 1).
+
+The **Disabled** state shows all elements (including icons and any placeholder or input text) in grey, and makes any interaction impossible.
+
+<Canvas of={TextFieldStories.Disabled} />
+<Canvas of={TextFieldStories.DisabledWithValue} />
+
+The **Error** state puts a red outline around the text input. (_Note_: This state is only used when the text input is part of a _Form element_, which supplements this red outline with an message error message). The error state is usually temporary; fixing the cause of the error (via asyncronous form validation) usually allows it to revert back to the focus state.
+
+> Example: Error state
+
+## Margins and Spacing
+
+The text field has 0.5 rem left and right margins, and a 0.25 rem top and bottom margins. 
+
+There is also a 0.25 rem spacing between items (icon and text). 
+
+<ArgsTable of={SpotTextFieldComponent} />

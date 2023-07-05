@@ -17,6 +17,7 @@ import { PERMITTED_CONTEXT_MENU_ACTIONS } from 'core-app/shared/components/op-co
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { StateService } from '@uirouter/core';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { CopyToClipboardService } from 'core-app/shared/components/copy-to-clipboard/copy-to-clipboard.service';
 import { TimeEntryCreateService } from 'core-app/shared/components/time_entries/create/create.service';
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 import { WpDestroyModalComponent } from 'core-app/shared/components/modals/wp-destroy-modal/wp-destroy.modal';
@@ -56,12 +57,15 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
 
   protected items = this.buildItems();
 
+  private copyToClipboardService:CopyToClipboardService;
+
   constructor(public injector:Injector,
     protected workPackageId:string,
     protected $element:JQuery,
     protected additionalPositionArgs:any = {},
     protected allowSplitScreenActions:boolean = true) {
     super(injector.get(OPContextMenuService));
+    this.copyToClipboardService = injector.get(CopyToClipboardService);
   }
 
   public get locals():OpContextMenuLocalsMap {
@@ -92,6 +96,11 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
         this.copySelectedWorkPackages(link!);
         break;
 
+      case 'copy_to_clipboard': {
+        const url = new URL(String(link), window.location.origin);
+        this.copyToClipboardService.copy(url.toString());
+        break;
+      }
       case 'copy_to_other_project':
         window.location.href = `${this.pathHelper.staticBase}/work_packages/move/new?copy=true&ids[]=${id}`;
         break;

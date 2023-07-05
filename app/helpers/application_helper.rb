@@ -198,7 +198,7 @@ module ApplicationHelper
 
       content_tag :div, class: 'form--field' do
         label_tag(id, object, object_options) do
-          styled_check_box_tag(name, object.id, false, id:) + object
+          styled_check_box_tag(name, object.id, false, id:) + object.to_s
         end
       end
     end.join.html_safe
@@ -308,6 +308,16 @@ module ApplicationHelper
     all_languages
       .map { |lang| translate_language(lang) }
       .sort_by(&:last)
+  end
+
+  def highlight_default_language(lang_options)
+    lang_options.map do |(language_name, code)|
+      if code == Setting.default_language
+        [I18n.t('settings.language_name_being_default', language_name:), code, { disabled: true, checked: true }]
+      else
+        [language_name, code]
+      end
+    end
   end
 
   def labelled_tabular_form_for(record, options = {}, &)

@@ -266,12 +266,22 @@ de:
       notice_reset_token: "Ein neuer %{type} Token wurde generiert. Der Zutrittstoken lautet:"
       token_value_warning: "Hinweis: Dieser Token ist nur einmal sichtbar, der Token kann jetzt kopiert werden."
       no_results_title_text: Zur Zeit stehen keine Zugangs-Tokens zur Verfügung.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_ical_tokens_reverted: "iCalendar-Token „%{token_name}“ für Kalender „%{calendar_name}“ des Projekts „%{project_name}“ wurde widerrufen. Die iCalendar-URL mit diesem Token ist jetzt ungültig."
   news:
     index:
-      no_results_title_text: Es gibt aktuell keine Nachrichten.
+      no_results_title_text: Es gibt aktuell keine Neuigkeiten.
       no_results_content_text: Neuigkeit hinzufügen
   users:
+    sessions:
+      session_name: "%{browser_name} %{browser_version} unter %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
+      unknown_browser: 'unbekannter Browser'
+      unknown_os: 'unbekanntes Betriebssystem'
+      current: 'Aktuelle Sitzung'
+      title: 'Sitzungsverwaltung'
+      instructions: 'Dies ist eine Liste der Geräte, die sich bei Ihrem Konto angemeldet haben. Widerrufen Sie alle Sitzungen, die Sie nicht kennen oder auf die Sie keinen Zugriff mehr haben.'
+      may_not_delete_current: 'Sie können Ihre aktuelle Sitzung nicht löschen.'
     groups:
       member_in_these_groups: 'Dieser Benutzer ist Mitglied der folgenden Gruppen:'
       no_results_title_text: Dieser Benutzer ist derzeit kein Mitglied in einer Gruppe.
@@ -690,8 +700,8 @@ de:
         ical_token_query_assignment:
           attributes:
             name:
-              blank: "is mandatory. Please select a name."
-              not_unique: "is already in use. Please select another name."
+              blank: "ist obligatorisch. Bitte wählen Sie einen Namen aus."
+              not_unique: "ist bereits in Gebrauch. Bitte wählen Sie einen anderen Namen aus."
         notifications:
           at_least_one_channel: 'Mindestens ein Kanal zum Senden von Benachrichtigungen muss angegeben werden.'
           attributes:
@@ -1051,6 +1061,7 @@ de:
   button_configure: "Konfigurieren"
   button_continue: "Fortfahren"
   button_copy: "Kopieren"
+  button_copy_to_clipboard: "In Zwischenablage kopieren"
   button_copy_and_follow: "Kopieren und Arbeitspaket anzeigen"
   button_create: "Anlegen"
   button_create_and_continue: "Anlegen und weiter"
@@ -1342,11 +1353,14 @@ de:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_overview_table: "PDF Table"
-      pdf_report_with_images: "PDF Report with images"
-      pdf_report: "PDF Report"
+      pdf_overview_table: "PDF-Tabelle"
+      pdf_report_with_images: "PDF-Bericht mit Bildern"
+      pdf_report: "PDF-Bericht"
     image:
       omitted: "Bild nicht exportiert."
+    units:
+      hours: h
+      days: d
   extraction:
     available:
       pdftotext: "Pdftotext verfügbar (optional)"
@@ -1392,6 +1406,22 @@ de:
     imagemagick: 'ImageMagick'
   journals:
     changes_retracted: "Die Änderungen wurden zurückgezogen."
+    caused_changes:
+      dates_changed: "Dates changed"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} is now working"
+          non_working: "%{day} is now non-working"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} is now non-working"
   links:
     configuration_guide: 'Konfigurationsanleitung'
     get_in_touch: "Sie haben Fragen? Nehmen Sie Kontakt mit uns auf."
@@ -1467,10 +1497,10 @@ de:
   label_api_access_key_created_on: "Der API-Zugriffsschlüssel wurde vor %{value} erstellt"
   label_api_access_key_type: "Schnittstelle (API)"
   label_ical_access_key_type: "iCalendar"
-  label_ical_access_key_description: "iCalendar token \"%{token_name}\" for \"%{calendar_name}\" in \"%{project_name}\""
-  label_ical_access_key_not_present: "iCalendar token(s) not present."
-  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
-  label_ical_access_key_latest: "latest"
+  label_ical_access_key_description: "iCalendar-Token „%{token_name}“ für „%{calendar_name}“ in „%{project_name}“"
+  label_ical_access_key_not_present: "iCalendar-Token(s) nicht vorhanden."
+  label_ical_access_key_generation_hint: "Wird automatisch generiert, wenn ein Kalender abonniert wird."
+  label_ical_access_key_latest: "neueste"
   label_ical_access_key_revoke: "Widerrufen"
   label_applied_status: "Zugewiesener Status"
   label_archive_project: "Projekt archivieren"
@@ -1507,6 +1537,7 @@ de:
   label_bulk_edit_selected_work_packages: "Alle ausgewählten Arbeitspakete bearbeiten"
   label_bundled: '(Gebündelt)'
   label_calendar: "Kalender"
+  label_calendars_and_dates: "Kalendarien und Daten"
   label_calendar_show: "Kalender anzeigen"
   label_category: "Kategorie"
   label_consent_settings: "Nutzer-Einwilligung"
@@ -1543,7 +1574,6 @@ de:
   label_contains: "enthält"
   label_content: "Inhalt"
   label_copied: "kopiert"
-  label_copy_to_clipboard: "In Zwischenablage kopieren"
   label_copy_same_as_target: "So wie das Ziel"
   label_copy_source: "Quelle"
   label_copy_target: "Ziel"
@@ -1560,6 +1590,7 @@ de:
   label_database_version: "PostgreSQL-Version"
   label_date: "Datum"
   label_date_and_time: "Datum und Zeit"
+  label_date_format: "Datumsformat"
   label_date_from: "Von"
   label_date_from_to: "von %{start} bis %{end}"
   label_date_to: "Bis"
@@ -1608,6 +1639,7 @@ de:
   label_equals: "ist"
   label_everywhere: "überall"
   label_example: "Beispiel"
+  label_experimental: "Experimental"
   label_import: "Import"
   label_export_to: "Auch abrufbar als:"
   label_expanded_click_to_collapse: "Erweitert. Klicken Sie zum Ausblenden"
@@ -1665,7 +1697,7 @@ de:
   label_journal: "Änderungen"
   label_journal_diff: "Beschreibungsvergleich"
   label_language: "Sprache"
-  label_languages: "Languages"
+  label_languages: "Sprachen"
   label_jump_to_a_project: "Zu einem Projekt springen..."
   label_keyword_plural: 'Schlüsselwörter'
   label_language_based: "Sprachabhängig"
@@ -1687,6 +1719,7 @@ de:
   label_logged_as: "Angemeldet als"
   label_login: "Anmelden"
   label_custom_logo: "Benutzerdefiniertes Logo"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Benutzerdefiniertes Favicon"
   label_custom_touch_icon: "Benutzerdefiniertes Touch-Icon"
   label_logout: "Abmelden"
@@ -1723,6 +1756,7 @@ de:
   label_more_than_ago: "vor mehr als (Tage)"
   label_move_work_package: "Arbeitspaket verschieben"
   label_my_account: "Mein Konto"
+  label_my_activity: "Meine Aktivität"
   label_my_account_data: "Meine Kontodaten"
   label_my_projects: "Meine Projekte"
   label_my_queries: "Meine Berichte"
@@ -1734,7 +1768,7 @@ de:
   label_news_singular: "Neuigkeit"
   label_news_added: "Neuigkeit hinzugefügt"
   label_news_comment_added: "Kommentar einer Nachricht hinzugefügt"
-  label_news_latest: "Aktuellste Nachrichten"
+  label_news_latest: "Aktuellste Neuigkeiten"
   label_news_new: "Nachricht hinzufügen"
   label_news_edit: "Nachricht bearbeiten"
   label_news_plural: "Neuigkeiten"
@@ -1924,7 +1958,7 @@ de:
   label_user_plural: "Benutzer"
   label_user_search: "Nach Benutzer suchen"
   label_user_settings: "Benutzereinstellungen"
-  label_users_settings: "Users settings"
+  label_users_settings: "Benutzereinstellungen"
   label_version_new: "Neue Version"
   label_version_plural: "Versionen"
   label_version_sharing_descendants: "Mit Unterprojekten"
@@ -2043,6 +2077,7 @@ de:
       more_to_see:
         one: 'Es gibt ein weiteres Arbeitspaket mit Benachrichtigungen.'
         other: 'Es gibt %{count} weitere Arbeitspakete mit Benachrichtigungen.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Beobachtet'
         assigned: 'Zugewiesen'
@@ -2486,7 +2521,7 @@ de:
   setting_consent_decline_mail: "Kontaktadresse bei Rückfragen zur Einwilligung"
   setting_cross_project_work_package_relations: "Arbeitspaket-Beziehungen zwischen Projekten erlauben"
   setting_first_week_of_year: "Die erste Woche im Jahr enthält"
-  setting_date_format: "Datumsformat"
+  setting_date_format: "Datum"
   setting_default_language: "Standard-Sprache"
   setting_default_projects_modules: "Standardmäßig aktivierte Module für neue Projekte"
   setting_default_projects_public: "Neue Projekte sind standardmäßig öffentlich"
@@ -2498,7 +2533,7 @@ de:
   setting_enabled_scm: "Aktivierte Versionskontrollsysteme"
   setting_enabled_projects_columns: "In der Projektliste sichtbar"
   setting_feeds_enabled: "Feeds aktiviert"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "iCalendar-Abonnements aktivieren"
   setting_feeds_limit: "Max. Anzahl Einträge pro Atom-Feed"
   setting_file_max_size_displayed: "Maximale Größe inline angezeigter Textdateien"
   setting_host_name: "Hostname"
@@ -2549,9 +2584,9 @@ de:
   setting_start_of_week: "Wochenanfang am"
   setting_sys_api_enabled: "Den Web-Service zur Projektarchiv-Verwaltung aktivieren"
   setting_sys_api_description: "Der Web-Service für Projektarchiv-Verwaltung erlaubt Integration und Nutzer-Autorisierung für den Zugriff auf Projektarchive."
-  setting_time_format: "Zeitformat"
+  setting_time_format: "Zeit"
   setting_accessibility_mode_for_anonymous: "Barrierefreien Modus für nicht angemeldete Nutzer aktivieren"
-  setting_user_format: "Users name format"
+  setting_user_format: "Format des Benutzernamens"
   setting_user_default_timezone: "Standard-Zeitzone für Benutzer"
   setting_users_deletable_by_admins: "Admins können Nutzeraccounts löschen"
   setting_users_deletable_by_self: "Nutzer können ihren Account löschen"
@@ -2560,6 +2595,7 @@ de:
   setting_welcome_on_homescreen: "Willkommens-Block auf Startseite anzeigen"
   setting_work_package_list_default_highlighting_mode: "Standard Hervorhebung"
   setting_work_package_list_default_highlighted_attributes: "Voreinstellung Inline Hervorherbung"
+  setting_working_days: "Arbeitstage"
   settings:
     general: "Allgemein"
     other: "Andere"
@@ -2569,6 +2605,7 @@ de:
     attachments:
       whitelist_text_html: >
         Legen Sie eine Liste gültiger Dateierweiterungen und/oder Mime-Typen für hochgeladene Dateien fest. <br/> Dateierweiterungen (z. B. <code>%{ext_example}</code>) oder Mime-Typen (z. ., <code>%{mime_example}</code>). <br/> Lassen Sie diese Liste leer, um das Hochladen beliebiger Dateitypen zu erlauben. Mehrere Werte erlaubt (eine Zeile pro Wert).
+    language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: 'Bestimmt, für welche Ereignisse eine E-Mail verschickt wird. Arbeitspakete sind von dieser Liste ausgeschlossen, da die Benachrichtigungen hierfür pro Benutzer konfiguriert werden können.'
       delay_minutes_explanation: "Das Senden von E-Mails kann verzögert werden, damit Benutzer über In-App-Benachrichtigungen benachrichtigt werden können, bevor eine E-Mail versendet wird. Benutzer, die eine Benachrichtigung innerhalb der Anwendung lesen, erhalten keine separate E-Mail."
@@ -2577,12 +2614,16 @@ de:
         Wenn beide Optionen "%{day_of_week_setting_name}" oder "%{first_week_setting_name}" gesetzt sind der andere muss ebenfalls gesetzt werden, um Ungereimtheiten im Frontend zu vermeiden.
       first_week_of_year_text: >
         Wählen Sie das Datum vom Januar, das in der ersten Woche des Jahres enthalten ist. Dieser Wert zusammen mit dem ersten Wochentag bestimmt die Gesamtzahl der Wochen in einem Jahr.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Einstellungen für neue Projekte"
       section_project_overview: "Einstellungen für Projektliste"
     user:
       default_preferences: "Standardeinstellungen"
-      display_format: "Display format"
+      display_format: "Anzeigeformat"
       deletion: "Löschen"
     highlighting:
       mode_long:
@@ -2591,6 +2632,9 @@ de:
         status: "Ganze Zeile nach Status"
         type: "Ganze Zeile nach Typ"
         priority: "Ganze Zeile nach Priorität"
+    working_days:
+      section_work_week: "Arbeitswoche"
+      section_holidays_and_closures: "Feiertage und Schließungen"
   text_formatting:
     markdown: 'Markdown'
     plain: 'Reiner Text'
@@ -2629,10 +2673,12 @@ de:
     Die Enterprise Edition fügt diese zusätzlichen Add-ons für die benutzerdefinierten Felder der Projekte hinzu: <br> <ul> <li><b>Fügt benutzerdefinierte Felder für Projekte zu Ihrer Projektliste hinzu, um eine Portfolioansicht zu erstellen</b></li> </ul>
   text_custom_logo_instructions: >
     Ein weißes Logo mit transparentem Hintergrund wird empfohlen. Für ein optimales Ergebnis für konventionelle und Retina-Displays sollte die Bildabmessungen 460 x 110 Pixel betragen.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Dies ist das kleine Symbol, das in Ihrem Browser-Fenster/Tab neben dem Seitentitel angezeigt wird. Es muss ein quadratisches 32 x 32 Pixel großes PNG mit transparentem Hintergrund sein.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    Dieses Symbol wird auf Ihrem Mobilgerät oder Tablet angezeigt, wenn Sie ein Lesezeichen dieser OpenProject-Instanz erstellen. Es muss ein quadratisches 180 x 180 Pixel großes PNG sein. Der Hintergrund sollte nicht transparent sein, da dies auf iOS-Geräten nicht optimal dargestellt wird.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Datenbank unterstützt TSVector (optional)"
   text_default_administrator_account_changed: "Administrator-Kennwort geändert"
   text_default_encoding: "Default: UTF-8"
@@ -2956,9 +3002,9 @@ de:
       title: "Arbeitspaket löschen"
   working_days:
     info: >
-      <b>Definieren Sie die Tage, die als Teil der Arbeitswoche gelten</b><br/> Tage, die nicht ausgewählt sind, werden bei der Planung von Arbeitspaketen übersprungen (und bei der Tageszählung nicht berücksichtigt). Diese können auf Arbeitspaket-Ebene überschrieben werden.
+      Tage, die nicht ausgewählt sind, werden bei der Planung von Arbeitspaketen übersprungen (und bei der Tageszählung nicht berücksichtigt). Diese können auf Arbeitspaket-Ebene überschrieben werden.
     instance_wide_info: >
-      <b>Besondere arbeitsfreie Tage (Feiertage und Betriebsferien)</b><br/> Daten, die der Liste unten hinzugefügt werden, gelten als arbeitsfrei und werden bei der Planung von Arbeitspaketen übersprungen.
+      Daten, die der Liste unten hinzugefügt werden, gelten als arbeitsfrei und werden bei der Planung von Arbeitspaketen übersprungen.
     change_button: "Arbeitstage ändern"
     warning: >
       Die Änderung der Wochentage, die als Arbeitstage oder arbeitsfreie Tage gelten, kann sich in diesem Fall auf die Start- und Endtage aller Arbeitspakete in allen Projekten auswirken. <br/> Bitte beachten Sie, dass die Änderungen erst wirksam werden, nachdem Sie auf die Schaltfläche Änderungen anwenden geklickt haben.

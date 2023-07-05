@@ -141,20 +141,20 @@ nl:
           description: This is a short summary of the goals of this demo project.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Welkom bij uw demo-project
               summary: |
                 We are glad you joined.
                 In this module you can communicate project news to your team members.
-              description: The actual news
+              description: Het actuele nieuws
           categories:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
               name: Project plan
             item_1:
-              name: Milestones
+              name: Mijlpalen
             item_2:
-              name: Tasks
+              name: Taken
             item_3:
               name: Team planner
           boards:
@@ -164,11 +164,11 @@ nl:
               name: Standaard bord
               lists:
                 item_0:
-                  name: Wish list
+                  name: Verlanglijst
                 item_1:
-                  name: Short list
+                  name: Korte lijst
                 item_2:
-                  name: Priority list for today
+                  name: Lijst met prioriteiten voor vandaag
                 item_3:
                   name: Nooit
             parent_child:
@@ -177,7 +177,7 @@ nl:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Welkom
               item_1:
                 options:
                   name: Aan de slag
@@ -202,33 +202,33 @@ nl:
                   name: Werkpakketten
               item_6:
                 options:
-                  name: Milestones
+                  name: Mijlpalen
           work_packages:
             item_0:
               subject: Start of project
             item_1:
-              subject: Organize open source conference
+              subject: Open source conferentie organiseren
               children:
                 item_0:
-                  subject: Set date and location of conference
+                  subject: Stel datum en plaats van conferentie in
                   children:
                     item_0:
-                      subject: Send invitation to speakers
+                      subject: Uitnodiging sturen naar sprekers
                     item_1:
                       subject: Contact sponsoring partners
                     item_2:
                       subject: Create sponsorship brochure and hand-outs
                 item_1:
-                  subject: Invite attendees to conference
+                  subject: Nodig deelnemers uit voor de conferentie
                 item_2:
                   subject: Setup conference website
             item_2:
-              subject: Conference
+              subject: Conferentie
             item_3:
               subject: Follow-up tasks
               children:
                 item_0:
-                  subject: Upload presentations to website
+                  subject: Upload presentaties naar website
                 item_1:
                   subject: Party for conference supporters :-)
                   description: |-
@@ -237,7 +237,7 @@ nl:
                     *   [ ] Music
                     *   [ ] Even more beer
             item_4:
-              subject: End of project
+              subject: Einde van project
         scrum-project:
           name: Scrum project
           status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
@@ -315,7 +315,7 @@ nl:
             item_2:
               name: Sprint 1
             item_3:
-              name: Tasks
+              name: Taken
           boards:
             kanban:
               name: Kanban board
@@ -323,18 +323,18 @@ nl:
               name: Taakbord
               lists:
                 item_0:
-                  name: Wish list
+                  name: Verlanglijst
                 item_1:
-                  name: Short list
+                  name: Korte lijst
                 item_2:
-                  name: Priority list for today
+                  name: Lijst met prioriteiten voor vandaag
                 item_3:
                   name: Nooit
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Welkom
               item_1:
                 options:
                   name: Aan de slag

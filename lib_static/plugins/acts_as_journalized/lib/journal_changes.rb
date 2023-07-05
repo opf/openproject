@@ -31,14 +31,18 @@ module JournalChanges
     return @changes if @changes
     return {} if data.nil?
 
-    @changes = if predecessor.nil?
-                 initial_journal_data_changes
-               else
-                 subsequent_journal_data_changes
-               end
+    @changes = (cause.present? ? { cause: [nil, cause] } : {}).with_indifferent_access
+
+    if predecessor.nil?
+      @changes.merge!(initial_journal_data_changes)
+    else
+      @changes.merge!(subsequent_journal_data_changes)
+    end
 
     @changes.merge!(get_association_changes(predecessor, 'attachable', 'attachments', :attachment_id, :filename))
     @changes.merge!(get_association_changes(predecessor, 'customizable', 'custom_fields', :custom_field_id, :value))
+
+    @changes
   end
 
   private

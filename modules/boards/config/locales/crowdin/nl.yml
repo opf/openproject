@@ -14,5 +14,5 @@ nl:
       status: Status
       version: Versie
       subproject: Subproject
-      subtasks: Parent-child
+      subtasks: Ouder-kind
       basic: Basis

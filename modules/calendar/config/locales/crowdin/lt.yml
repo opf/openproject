@@ -3,5 +3,5 @@ lt:
   label_calendar_plural: "Kalendoriai"
   permission_view_calendar: "Žiūrėti kalendorius"
   permission_manage_calendars: "Tvarkyti kalendorius"
-  permission_share_calendars: "Subscribe to iCalendars"
+  permission_share_calendars: "Prenumeruokite iCalendar"
   project_module_calendar_view: "Kalendorius"

@@ -62,6 +62,7 @@
           },
           "configurations": {
             "production": {
+              "index": "",
               "budgets": [
                 {
                   "type": "anyComponentStyle",
@@ -138,7 +139,9 @@
               "-e",
               "json",
               "-d",
-              "."
+              ".",
+              "-p",
+              "src/tsconfig.compodoc.json"
             ],
             "port": 6006,
             "host": "0.0.0.0"
@@ -154,7 +157,9 @@
               "-e",
               "json",
               "-d",
-              "."
+              ".",
+              "-p",
+              "src/tsconfig.compodoc.json"
             ],
             "outputDir": "storybook-static"
           }

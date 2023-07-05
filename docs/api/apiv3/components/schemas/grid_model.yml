@@ -6,18 +6,15 @@ properties:
     type: integer
     description: Grid's id
     readOnly: true
-    minimum: 0
-    exclusiveMinimum: true
+    exclusiveMinimum: 0
   rowCount:
     type: integer
     description: The number of rows the grid has
-    minimum: 0
-    exclusiveMinimum: true
+    exclusiveMinimum: 0
   columnCount:
     type: integer
     description: The number of columns the grid has
-    minimum: 0
-    exclusiveMinimum: true
+    exclusiveMinimum: 0
   widgets:
     type: array
     description: |-
