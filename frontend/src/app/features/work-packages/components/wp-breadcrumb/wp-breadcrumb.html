@@ -1,48 +1,28 @@
-<div
-  class="op-wp-breadcrumb op-wp-breadcrumb_show"
-  data-qa-selector="op-wp-breadcrumb"
-  *ngIf="workPackage"
->
-  <ul
-    class="op-wp-breadcrumb--list"
-    data-qa-selector="op-breadcrumb"
-  >
+<div class="op-wp-breadcrumb -show"
+      data-qa-selector="op-wp-breadcrumb"
+     *ngIf="workPackage">
+  <ul class="op-breadcrumb"
+      data-qa-selector="op-breadcrumb">
     <ng-container *ngIf="!inputActive && hierarchyCount > 0">
-      <li class="op-wp-breadcrumb--list-item">
+      <li>
         <span>{{ hierarchyLabel }}: </span>
       </li>
       <ng-container *ngFor="let ancestor of workPackage.getAncestors(); let first = first ; let last = last">
         <li
-          *ngIf="!last"
-          class="op-wp-breadcrumb--list-item op-wp-breadcrumb--list-item_ellipsed"
-        >
-          <span
-            class="spot-icon spot-icon_1 spot-icon_arrow-right5"
-            *ngIf="!first"
-          ></span>
-          <a
-            [attr.title]="ancestor.name"
-            [textContent]="ancestor.name"
-            uiSref="work-packages.show"
-            [uiParams]="{workPackageId: ancestor.id}"
-            class="nocut"
-          ></a>
+            *ngIf="!last"
+            class="op-wp-breadcrumb--ellipsed"
+            [ngClass]="{ 'icon4 icon-small icon-arrow-right5': !first }">
+          <a [attr.title]="ancestor.name"
+             [textContent]="ancestor.name"
+             uiSref="work-packages.show"
+             [uiParams]="{workPackageId: ancestor.id}"
+             class="nocut"></a>
         </li>
       </ng-container>
     </ng-container>
     <li
-      class="op-wp-breadcrumb--list-item"
-      [ngClass]="{ 'op-wp-breadcrumb--list-item_active-parent-select': inputActive }"
-    >
-      <span
-        class="spot-icon spot-icon_1 spot-icon_arrow-right5"
-        *ngIf="!inputActive && hierarchyCount > 1"
-      ></span>
-      <wp-breadcrumb-parent
-        class="op-wp-breadcrumb--parent"
-        (onSwitch)="updateActiveInput($event)"
-        [workPackage]="workPackage"
-      ></wp-breadcrumb-parent>
+        [ngClass]="{ 'op-wp-breadcrumb--active-parent-select': inputActive, 'icon4 icon-small icon-arrow-right5': !inputActive && hierarchyCount > 1 }">
+      <wp-breadcrumb-parent (onSwitch)="updateActiveInput($event)" [workPackage]="workPackage"></wp-breadcrumb-parent>
     </li>
   </ul>
 </div>

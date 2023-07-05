@@ -75,7 +75,7 @@ OpenProject 7.3 includes several usability improvements.
 
 The context menu on the work package page – which you can use to perform
 bulk updates – was quite hidden. (You need to right-click on the work
-package list to open the menu.) Therefore, the work package list now
+package table to open the menu.) Therefore, the work package table now
 contains an additional icon for each row that allows you to open the
 context menu.
 

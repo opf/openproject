@@ -147,14 +147,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
       const className = collapsed ? indicatorCollapsedClass : '';
       hierarchyIndicator.innerHTML = `
             <a href tabindex="0" role="button" class="wp-table--hierarchy-indicator ${className}">
-              <span
-                class="spot-icon spot-icon_1 spot-icon_arrow-down1 wp-table--hierarchy-indicator-expanded"
-                aria-hidden="true"
-              ></span>
-              <span
-                class="spot-icon spot-icon_1 spot-icon_arrow-right2 wp-table--hierarchy-indicator-collapsed"
-                aria-hidden="true"
-              ></span>
+              <span class="wp-table--hierarchy-indicator-icon" aria-hidden="true"></span>
               <span class="wp-table--hierarchy-indicator-expanded hidden-for-sighted">${this.text.expanded(
     level,
   )}</span>

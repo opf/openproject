@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 
-import { OpSpotModule } from '../app/spot/spot.module';
+import { OpSpotModule } from '../../../spot.module';
 
 const meta:Meta = {
   title: 'Components/Checkbox',

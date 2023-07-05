@@ -228,6 +228,9 @@ group :test do
   gem 'retriable', '~> 3.1.1'
   gem 'rspec-retry', '~> 0.6.1'
 
+  # Modify ENV
+  gem 'climate_control'
+
   # XML comparison tests
   gem 'compare-xml', '~> 0.66', require: false
 

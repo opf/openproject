@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 
-import { OpSpotModule } from '../app/spot/spot.module';
-import { SpotTooltipComponent } from '../app/spot/components/tooltip/tooltip.component';
+import { OpSpotModule } from '../../../spot.module';
+import { SpotTooltipComponent } from '../tooltip.component';
 
 const meta:Meta = {
   title: 'Components/Tooltip',

@@ -14,7 +14,7 @@ You can export work packages from your OpenProject instance to other formats usi
 
 ## How to trigger an export
 
-To export a work package list or card view to another format, visit the *Work packages* module or a saved view and click on the settings icon in the top right corner. Trigger the **Export** dialog from the dropdown menu that opens.
+To export a work package table or card view to another format, visit the *Work packages* module or a saved view and click on the settings icon in the top right corner. Trigger the **Export** dialog from the dropdown menu that opens.
 
 ![Exporting from the table](openproject_export_wp.png)
 

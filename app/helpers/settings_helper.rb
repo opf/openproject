@@ -87,11 +87,11 @@ module SettingsHelper
         hidden = with_empty_unless_writable(setting) do
           hidden_field_tag("settings[#{setting}][]", '')
         end
+        multiselect_choices = choices.map do |choice|
+          setting_multiselect_choice(setting, choice, options)
+        end
 
-        hidden +
-          choices.map do |choice|
-            setting_multiselect_choice(setting, choice, options)
-          end.join.html_safe # rubocop:disable Rails/OutputSafety
+        safe_join([hidden, *multiselect_choices])
       end
   end
 
@@ -252,20 +252,32 @@ module SettingsHelper
     choice_options[:id] = "#{setting}_#{value}"
 
     content_tag(:label, class: 'form--label-with-check-box') do
-      styled_check_box_tag("settings[#{setting}][]", value,
-                           Setting.send(setting).include?(value), choice_options) + text.to_s
+      checked = Setting.send(setting).include?(value)
+      check_box_tag = styled_check_box_tag("settings[#{setting}][]", value, checked, choice_options)
+
+      # Adds an hidden field if the checkbox is explicitly checked and disabled
+      # so the value can be submitted.
+      if choice_options[:checked] && choice_options[:disabled] && writable_setting?(setting)
+        hidden_checked_input = hidden_field_tag("settings[#{setting}][]", value, id: "#{choice_options[:id]}_hidden")
+      end
+
+      safe_join([check_box_tag, text, hidden_checked_input])
     end
   end
 
   def disabled_setting_option(setting)
-    { disabled: !Setting.send(:"#{setting}_writable?") }
+    { disabled: !writable_setting?(setting) }
   end
 
   def with_empty_unless_writable(setting)
-    if Setting.send(:"#{setting}_writable?")
+    if writable_setting?(setting)
       yield
     else
       ''.html_safe
     end
+  end
+
+  def writable_setting?(setting)
+    Setting.send(:"#{setting}_writable?")
   end
 end

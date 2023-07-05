@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 
-import { OpSpotModule } from '../app/spot/spot.module';
-import { SpotTextFieldComponent } from '../app/spot/components/text-field/text-field.component';
+import { OpSpotModule } from '../../../spot.module';
+import { SpotTextFieldComponent } from '../text-field.component';
 
 const meta:Meta = {
   title: 'Components/TextField',
