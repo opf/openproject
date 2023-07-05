@@ -343,7 +343,7 @@ certificate on your system.
 docker compose --project-directory docker/dev/tls cp step:/home/step/certs/root_ca.crt path_to_root_ca.crt
 ```
 
-Add the following configuration option to your NixOS:
+Add the following option to your NixOS configuration:
 
 ```text
 security.pki.certificateFiles = [ path_to_root_ca.crt ];
