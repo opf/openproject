@@ -353,8 +353,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           .to_return(status: 200, body: expected_response_body, headers: {})
       end
 
-      context 'with Nextcloud storage type selected' do
-        pending "TODO BROKEN MODULE SPEC"
+      context 'with Nextcloud storage type selected', pending: 'TODO BROKEN SPEC FILE' do
         it 'must return a list of files when called' do
           result = subject
                      .file_query
