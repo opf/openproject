@@ -8,13 +8,13 @@ keywords: work package exports, CSV, Excel, XLS, PDF
 
 # Exporting work packages
 
-You can export work packages from your OpenProject instance to other formats using the export functionality. 
+You can export work packages from your OpenProject instance in various formats using the export functionality. 
 
 
 
 ## How to trigger an export
 
-To export a work package table or card view to another format, visit the *Work packages* module or a saved view and click on the settings icon in the top right corner. Trigger the **Export** dialog from the dropdown menu that opens.
+To export a work package table or card view to another format, visit the *Work packages* module or select a saved view, opening a work package table that you want to export. Click on the settings icon in the top right corner. Trigger the **Export** dialog from the dropdown menu.
 
 ![Exporting from the table](openproject_export_wp.png)
 
@@ -28,7 +28,7 @@ This will open a dialog where you can select the desired format. Below, we will 
 
 ## Export contents
 
-All work packages that are included in the work package table in the currently selected view will be exported, unless a certain export limit has been defined by the instance administrator. The limit can be changed in the [work package settings](../../../system-admin-guide/system-settings/general-settings/#general-system-settings) in the system administration.
+All work packages that are included in the work package table in the currently selected view will be exported, unless a certain export limit has been defined by the instance administrator. The limit can be changed in the [work package settings](../../../system-admin-guide/system-settings/general-settings/#general-system-settings) in the system administration. Newly created instances have a maximum of 500 work packages set as a limit by default.
 
 > **Note**: PDF export options includes all of the work packages in the selected work package table, regardless of the limit. The possible export limit is relevant for XLS, CSV and Atom export options.
 
