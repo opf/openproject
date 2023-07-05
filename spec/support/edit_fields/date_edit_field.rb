@@ -103,8 +103,8 @@ class DateEditField < EditField
     input_element.click
   end
 
-  def active?(wait: 1)
-    page.has_selector?(modal_selector, wait:)
+  def active?
+    page.has_selector?(modal_selector, wait: 1)
   end
 
   def expect_active!
