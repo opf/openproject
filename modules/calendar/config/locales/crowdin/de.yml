@@ -3,5 +3,5 @@ de:
   label_calendar_plural: "Kalender"
   permission_view_calendar: "Kalender ansehen"
   permission_manage_calendars: "Kalender verwalten"
-  permission_share_calendars: "Subscribe to iCalendars"
+  permission_share_calendars: "iCalendar abonnieren"
   project_module_calendar_view: "Kalender"

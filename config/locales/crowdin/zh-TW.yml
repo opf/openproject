@@ -277,6 +277,8 @@ zh-TW:
   users:
     sessions:
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
       unknown_browser: 'unknown browser'
       unknown_os: 'unknown operating system'
       current: 'Current session'
@@ -1057,6 +1059,7 @@ zh-TW:
   button_configure: "設定"
   button_continue: "繼續"
   button_copy: "複製"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "複製並跟隨"
   button_create: "建立"
   button_create_and_continue: "建立並繼續"
@@ -1389,6 +1392,22 @@ zh-TW:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "更改已被撤銷"
+    caused_changes:
+      dates_changed: "Dates changed"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} is now working"
+          non_working: "%{day} is now non-working"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} is now non-working"
   links:
     configuration_guide: '設定指南'
     get_in_touch: "如有任何問題，歡迎聯繫我們"
@@ -1541,7 +1560,6 @@ zh-TW:
   label_contains: "包含"
   label_content: "內容"
   label_copied: "已複製"
-  label_copy_to_clipboard: "複製到剪貼簿"
   label_copy_same_as_target: "與目標相同"
   label_copy_source: "來源"
   label_copy_target: "目標"
@@ -1607,6 +1625,7 @@ zh-TW:
   label_equals: "是"
   label_everywhere: "全部"
   label_example: "範例"
+  label_experimental: "Experimental"
   label_import: "匯入"
   label_export_to: "也可匯出成"
   label_expanded_click_to_collapse: "已擴大。按一下可折疊"
@@ -1686,6 +1705,7 @@ zh-TW:
   label_logged_as: "登入為"
   label_login: "登入"
   label_custom_logo: "自訂logo"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "自訂圖示"
   label_custom_touch_icon: "自訂觸控圖示"
   label_logout: "登出"
@@ -2042,6 +2062,7 @@ zh-TW:
       mentioned_by: '%{user} mentioned you in a comment'
       more_to_see:
         other: "還有 1 個帶有通知的工作包\n\n還有 %{count} 個帶有通知的工作包"
+      open_in_browser: 'Open in browser'
       reason:
         watched: '監看'
         assigned: '指派'
@@ -2567,6 +2588,7 @@ zh-TW:
     attachments:
       whitelist_text_html: >
         為上傳的文件定義有效文件副檔名和/或 MIME 類型的列表。 <br/> 輸入文件副檔名（例如 <code>%{ext_example}</code>）或 MIME 類型（例如 <code>%{mime_example}</code>）。 <br/> 留空以允許上傳任何文件類型。允許多個值（每個值一行）。
+    language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: '控制發送電子郵件的事件。工作包不包括在此列表中，因為可以為每個用戶專門配置它們的通知'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
@@ -2575,6 +2597,10 @@ zh-TW:
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
@@ -2630,10 +2656,12 @@ zh-TW:
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     建議使用背景透明的白色標誌。為了確保在一般及視網膜螢幕上有最佳效果，請確保您的圖片解析度在 460px X 60px。
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    這是顯示在您的瀏覽器視窗/標籤頁的標題旁邊的小圖示。它必需要是 32px X 32px 大小背景透明的 PNG 圖像檔。
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    這個圖示將會顯示在您的手機或平板的主畫面中。它必須是 180px X 180px 大小的 PNG 圖檔。請確保圖片的背景不是透明的，否則在 iOS 上會看起來很醜。
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "資料庫允許 TSVector (非必要)"
   text_default_administrator_account_changed: "預設管理者帳號已更改"
   text_default_encoding: "預設值: UTF-8"

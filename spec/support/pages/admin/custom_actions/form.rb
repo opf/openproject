@@ -36,7 +36,6 @@ module Pages
         include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
         def set_name(name)
-          fill_in 'Name', with: ''
           fill_in 'Name', with: name
         end
 
@@ -45,12 +44,13 @@ module Pages
         end
 
         def add_action(name, value)
-          sleep 1
-          select name, from: 'Add action'
-          sleep 1
+          ignore_ferrum_javascript_error do
+            select name, from: 'Add action'
+          end
           set_action_value(name, value)
-          sleep 1
-          page.assert_selector('#custom-actions-form--active-actions .form--label', text: name)
+          within '#custom-actions-form--active-actions' do
+            expect(page).to have_selector('.form--label', text: name)
+          end
         end
 
         def remove_action(name)
@@ -68,11 +68,13 @@ module Pages
         def expect_action(name, value)
           value = 'null' if value.nil?
 
-          if value.is_a?(Array)
-            value.each { |name| expect_selected_option(name.to_s) }
-          else
-            element = page.find("input[name='custom_action[actions][#{name}]']", visible: :all)
-            expect(element.value).to eq value.to_s
+          within '#custom-actions-form--actions' do
+            if value.is_a?(Array)
+              value.each { |name| expect_selected_option(name.to_s) }
+            else
+              element = find("input[name='custom_action[actions][#{name}]']", visible: :all)
+              expect(element.value).to eq value.to_s
+            end
           end
         end
 
@@ -97,8 +99,6 @@ module Pages
             within '#custom-actions-form--conditions' do
               expect_selected_option val
             end
-
-            sleep 1
           end
         end
 

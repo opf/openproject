@@ -1,3 +1,31 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2023 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 class RenameMyPageWidgets < ActiveRecord::Migration[5.2]
   def up
     reset_column_information
@@ -34,11 +62,11 @@ class RenameMyPageWidgets < ActiveRecord::Migration[5.2]
 
   def update_table_widget(widget, filter_name)
     widget.options = {
-      "name": I18n.t("js.grid.widgets.#{widget.identifier}.title"),
-      "queryProps": {
-        "columns[]": %w(id project type subject),
-        "filters": JSON.dump([{ "status": { "operator": "o", "values": [] } },
-                              { filter_name => { "operator": "=", "values": ["me"] } }])
+      name: I18n.t("js.grid.widgets.#{widget.identifier}.title"),
+      queryProps: {
+        'columns[]': %w(id project type subject),
+        filters: JSON.dump([{ status: { operator: "o", values: [] } },
+                            { filter_name => { operator: "=", values: ["me"] } }])
       }
     }
     widget.identifier = 'work_packages_table'
@@ -48,7 +76,7 @@ class RenameMyPageWidgets < ActiveRecord::Migration[5.2]
 
   def update_widget_name(widget)
     widget.options = {
-      "name": I18n.t("js.grid.widgets.#{widget.identifier}.title")
+      name: I18n.t("js.grid.widgets.#{widget.identifier}.title")
     }
 
     widget.save(validate: false)
@@ -57,11 +85,11 @@ class RenameMyPageWidgets < ActiveRecord::Migration[5.2]
   def update_query_widget(widget)
     query_id = widget.options['queryId']
 
-    name = Query.where(id: query_id).limit(1).pluck(:name).first || I18n.t('js.grid.widgets.work_packages_table.title')
+    name = Query.where(id: query_id).limit(1).pick(:name) || I18n.t('js.grid.widgets.work_packages_table.title')
 
     widget.options = {
-      "name": name,
-      "queryId": query_id
+      name:,
+      queryId: query_id
     }
 
     widget.save(validate: false)

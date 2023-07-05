@@ -228,6 +228,9 @@ group :test do
   gem 'retriable', '~> 3.1.1'
   gem 'rspec-retry', '~> 0.6.1'
 
+  # Modify ENV
+  gem 'climate_control'
+
   # XML comparison tests
   gem 'compare-xml', '~> 0.66', require: false
 
@@ -236,6 +239,7 @@ group :test do
 
   gem 'capybara', '~> 3.39.0'
   gem 'capybara-screenshot', '~> 1.0.17'
+  gem 'cuprite', '~> 0.14.3'
   gem 'selenium-webdriver', '~> 4.0'
   gem 'webdrivers', '~> 5.2.0'
 

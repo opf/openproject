@@ -41,4 +41,4 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 <% end %>
 
-<%= render ::Calendar::TableComponent.new(rows: @views, current_user: current_user) %>
+<%= render ::Calendar::TableComponent.new(rows: @views, current_project: @project, current_user: current_user) %>

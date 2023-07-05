@@ -112,13 +112,13 @@ export class WorkPackageWatcherButtonComponent extends UntilDestroyedMixin imple
       this.buttonText = this.I18n.t('js.label_unwatch');
       this.buttonClass = '-active';
       this.buttonId = 'unwatch-button';
-      this.watchIconClass = 'watched';
+      this.watchIconClass = 'icon-watched';
     } else {
       this.buttonTitle = this.I18n.t('js.label_watch_work_package');
       this.buttonText = this.I18n.t('js.label_watch');
       this.buttonClass = '';
       this.buttonId = 'watch-button';
-      this.watchIconClass = 'unwatched';
+      this.watchIconClass = 'icon-unwatched';
     }
   }
 }

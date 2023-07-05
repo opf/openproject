@@ -277,6 +277,8 @@ sv:
   users:
     sessions:
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
       unknown_browser: 'unknown browser'
       unknown_os: 'unknown operating system'
       current: 'Current session'
@@ -1063,6 +1065,7 @@ sv:
   button_configure: "Konfigurera"
   button_continue: "Fortsätt"
   button_copy: "Kopiera"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Kopiera och följ"
   button_create: "Skapa"
   button_create_and_continue: "Skapa och fortsätt"
@@ -1407,6 +1410,22 @@ sv:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Förändringarna drogs tillbaka."
+    caused_changes:
+      dates_changed: "Dates changed"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} is now working"
+          non_working: "%{day} is now non-working"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} is now non-working"
   links:
     configuration_guide: 'Konfigurationsguide'
     get_in_touch: "Har du frågor? Ta kontakt med oss."
@@ -1559,7 +1578,6 @@ sv:
   label_contains: "innehåller"
   label_content: "Innehåll"
   label_copied: "kopierad"
-  label_copy_to_clipboard: "Kopiera till Urklipp"
   label_copy_same_as_target: "Samma som mål"
   label_copy_source: "Källa"
   label_copy_target: "Mål"
@@ -1625,6 +1643,7 @@ sv:
   label_equals: "är"
   label_everywhere: "överallt"
   label_example: "Exempel"
+  label_experimental: "Experimental"
   label_import: "Importera"
   label_export_to: "Finns även som:"
   label_expanded_click_to_collapse: "Expanderat. Klicka för att dölja"
@@ -1704,6 +1723,7 @@ sv:
   label_logged_as: "Inloggad som"
   label_login: "Logga in"
   label_custom_logo: "Anpassad logotyp"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Anpassad favicon"
   label_custom_touch_icon: "Anpassad touch-ikon"
   label_logout: "Logga ut"
@@ -2061,6 +2081,7 @@ sv:
       more_to_see:
         one: 'There is 1 more work package with notifications.'
         other: 'There are %{count} more work packages with notifications.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Watched'
         assigned: 'Assigned'
@@ -2586,6 +2607,7 @@ sv:
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
@@ -2594,6 +2616,10 @@ sv:
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
@@ -2649,10 +2675,12 @@ sv:
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     En vit logotyp på transparent bakgrund rekommenderas. För bästa resultat på både vanliga och Retina-skärmar bör bilden vara minst 460x60 px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Det här är är den lilla ikonen som visas vid sidans titel i webbläsaren. Den måste vara en fyrkantig PNG-fil med storleken 32x32 pixlar och ha transparent bakgrund.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    Detta är ikonen som visas i din mobil eller surfplatta när du placerar ett bokmärke på din homescreen. Det måste vara en kvadrat 180 av 180 pixlar storlek PNG bild arkivera. Kontrollera att bildens bakgrund inte är transparent annars det ser dåligt på iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Databasen tillåter TSVector (tillval)"
   text_default_administrator_account_changed: "Standardadministratörskontot har ändrats"
   text_default_encoding: "Standard: UTF-8"

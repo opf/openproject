@@ -22,10 +22,9 @@ $search-input-height: 30px
   &--button
     @include unset-button-styles
     position: absolute
-    right: 4px
+    right: 2px
     font-size: var(--header-item-font-size)
     color: var(--header-item-font-color)
-    display: inline-flex
 
     &:hover
       text-decoration: none
@@ -99,6 +98,17 @@ $search-input-height: 30px
       .ng-clear-wrapper,
       input
         color: var(--header-search-field-font-color)
+
+    .ng-dropdown-header
+      border-bottom: none
+      color: $spot-color-basic-gray-2
+      line-height: 1rem
+      margin-top: 0.5rem
+      padding: 0.5rem 0.75rem
+      text-transform: uppercase
+
+      &:empty
+        display: none
 
     .ng-dropdown-panel-items.scroll-host
       @include styled-scroll-bar

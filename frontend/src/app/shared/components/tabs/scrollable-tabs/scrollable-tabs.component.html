@@ -22,8 +22,10 @@
           *ngIf="!tab.route"
           [href]="tab.path"
           class="op-tab-row--link"
+          role="tab"
           [class.op-tab-row--link_selected]="tab.id === currentTabId"
           [class.op-tab-row--link_disabled]="tab.disable !== undefined"
+          [attr.aria-selected]="tab.id === currentTabId"
           (click)="clickTab(tab, $event)"
           [attr.title]="tabTitle(tab)"
           [textContent]="tab.name"
@@ -33,13 +35,14 @@
           *ngIf="tab.route"
           [uiSref]="tab.route"
           [uiParams]="tab.routeParams"
+          [attr.aria-selected]="tab.id === currentTabId"
+          role="tab"
           class="op-tab-row--link"
           uiSrefActive="op-tab-row--link_selected"
           (click)="clickTab(tab, $event)"
           [attr.title]="tabTitle(tab)"
           [class.op-tab-row--link_disabled]="tab.disable !== undefined"
           href=""
-          role="button"
         >
           <span [textContent]="tab.name"></span>
           <ng-container *ngIf="counter(tab) | async as tabCounter">

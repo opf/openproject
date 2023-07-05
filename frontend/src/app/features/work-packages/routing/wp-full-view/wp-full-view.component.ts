@@ -42,6 +42,7 @@ import {
 } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
 import { CommentService } from 'core-app/features/work-packages/components/wp-activity/comment-service';
+import { RecentItemsService } from 'core-app/core/recent-items.service';
 
 @Component({
   templateUrl: './wp-full-view.html',
@@ -73,6 +74,7 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
   constructor(
     public injector:Injector,
     public wpTableSelection:WorkPackageViewSelectionService,
+    public recentItemsService:RecentItemsService,
     readonly $state:StateService,
     // private readonly i18n:I18nService,
   ) {
@@ -86,8 +88,12 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
   protected init() {
     super.init();
 
-    // Set Focused WP
-    this.wpTableFocus.updateFocus(this.workPackage.id!);
+    if (this.workPackage.id) {
+      this.recentItemsService.add(this.workPackage.id);
+
+      // Set Focused WP
+      this.wpTableFocus.updateFocus(this.workPackage.id);
+    }
 
     this.setWorkPackageScopeProperties(this.workPackage);
   }

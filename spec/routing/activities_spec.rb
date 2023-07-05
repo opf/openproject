@@ -39,6 +39,10 @@ RSpec.describe ActivitiesController, 'routing' do
                                               action: 'index',
                                               format: 'atom')
   }
+  it {
+    expect(get('/activity/menu')).to route_to(controller: 'activities',
+                                              action: 'menu')
+  }
 
   context 'project scoped' do
     it {
@@ -52,6 +56,12 @@ RSpec.describe ActivitiesController, 'routing' do
                                                              action: 'index',
                                                              project_id: 'abc',
                                                              format: 'atom')
+    }
+
+    it {
+      expect(get('/projects/abc/activity/menu')).to route_to(controller: 'activities',
+                                                             action: 'menu',
+                                                             project_id: 'abc')
     }
   end
 end

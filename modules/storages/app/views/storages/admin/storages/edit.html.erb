@@ -11,48 +11,33 @@
 <% end %>
 
 <% if @object.oauth_application %>
-  <fieldset class="form--fieldset">
-    <legend class="form--fieldset-legend">OpenProject <%= t(:'storages.label_oauth_application_details') %></legend>
-    <div class="attributes-key-value">
-      <div class="attributes-key-value--key">OpenProject <%= Storages::Admin::LABEL_OAUTH_CLIENT_ID %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <span><%= @object.oauth_application.uid %></span>
-        </div>
-      </div>
-      <div class="attributes-key-value--key">OpenProject <%= Storages::Admin::LABEL_OAUTH_CLIENT_SECRET %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <span>●●●●●●●●●●●●●●●●</span>
-        </div>
-      </div>
-    </div>
+  <%= render(AttributeGroups::AttributeGroupComponent.new) do |component| %>
+    <% component.with_header(title: "OpenProject #{t(:'storages.label_oauth_application_details')}") %>
+
+    <% component.with_attributes([
+      { key: "OpenProject #{Storages::Admin::LABEL_OAUTH_CLIENT_ID}", value: @object.oauth_application.uid },
+      { key: "OpenProject #{Storages::Admin::LABEL_OAUTH_CLIENT_SECRET}", value: "●●●●●●●●●●●●●●●●" },
+    ]) %>
 
     <%= link_to(t("storages.buttons.replace_openproject_oauth"),
                 replace_oauth_application_admin_settings_storage_path(@object),
                 method: :delete,
                 data: { confirm: t(:'storages.confirm_replace_oauth_application') },
                 class: 'button -with-icon icon-reload') %>
-  </fieldset>
+  <% end %>
 <% end %>
 
-<fieldset class="form--fieldset">
-  <legend class="form--fieldset-legend"><%= t("storages.provider_types.#{@object.short_provider_type}.name") %> <%= t(:'storages.label_oauth_client_details') %></legend>
+<%= render(AttributeGroups::AttributeGroupComponent.new) do |component| %>
+  <% component.with_header(title: "#{t("storages.provider_types.#{@object.short_provider_type}.name")} #{t(:'storages.label_oauth_client_details')}") %>
+
   <% if @object.oauth_client %>
-    <div class="attributes-key-value">
-      <div class="attributes-key-value--key"><%= t("storages.provider_types.#{@object.short_provider_type}.name") %> <%= Storages::Admin::LABEL_OAUTH_CLIENT_ID %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <span><%= @object.oauth_client.client_id %></span>
-        </div>
-      </div>
-      <div class="attributes-key-value--key"><%= t("storages.provider_types.#{@object.short_provider_type}.name") %> <%= Storages::Admin::LABEL_OAUTH_CLIENT_SECRET %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <span><%= short_secret(@object.oauth_client.client_secret) %></span>
-        </div>
-      </div>
-    </div>
+    <% component.with_attributes([
+      { key: "#{t("storages.provider_types.#{@object.short_provider_type}.name")} #{Storages::Admin::LABEL_OAUTH_CLIENT_ID}",
+        value: @object.oauth_client.client_id },
+      { key: "#{t("storages.provider_types.#{@object.short_provider_type}.name")} #{Storages::Admin::LABEL_OAUTH_CLIENT_SECRET}",
+        value: short_secret(@object.oauth_client.client_secret) },
+    ]) %>
+
     <%= link_to(t("storages.buttons.replace_provider_type_oauth", provider_type: t("storages.provider_types.#{@object.short_provider_type}.name")),
                 new_admin_settings_storage_oauth_client_path(@object),
                 data: { confirm: t(:'storages.confirm_replace_oauth_client') },
@@ -60,4 +45,4 @@
   <% else %>
     <%= link_to(t("js.label_create"), new_admin_settings_storage_oauth_client_path(@object), class: 'button -with-icon icon-add') %>
   <% end %>
-</fieldset>
+<% end %>

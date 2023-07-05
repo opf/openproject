@@ -11,9 +11,8 @@
       [ngClass]="{'-active': (showAddExistingPane | async)}"
       [title]="text.add_existing_title"
       data-qa-selector="op-team-planner--add-existing-toggle"
-      (click)="toggleAddExistingPane()"
-    >
-      <span class="spot-icon spot-icon_add"></span>
+      (click)="toggleAddExistingPane()">
+      <op-icon icon-classes="icon-add button--icon"></op-icon>
       <span
         class="button--text"
         [textContent]="text.add_existing">
@@ -34,14 +33,11 @@
       opTeamPlannerViewSelectDropdown
       [viewOptions]="viewOptions"
       (viewSelected)="switchView($event)"
-      data-qa-selector="op-team-planner--view-select-dropdown"
-    >
-      <span
-        class="button--text ellipsis"
-        [textContent]="currentViewTitle"
-        aria-hidden="true"
-      ></span>
-      <span class="spot-icon spot-icon_dropdown hidden-for-mobile"></span>
+      data-qa-selector="op-team-planner--view-select-dropdown">
+      <span class="button--text ellipsis"
+            [textContent]="currentViewTitle"
+            aria-hidden="true"></span>
+      <op-icon icon-classes="button--icon icon-small icon-pulldown hidden-for-mobile"></op-icon>
     </button>
   </ng-container>
 
@@ -78,7 +74,7 @@
               [attr.aria-label]="text.remove_assignee"
               [attr.data-qa-remove-assignee]="resource.extendedProps.principal.id"
             >
-              <span class="spot-icon spot-icon_remove"></span>
+              <op-icon icon-classes="icon-remove"></op-icon>
             </button>
           </div>
 

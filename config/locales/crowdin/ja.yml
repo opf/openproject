@@ -275,6 +275,8 @@ ja:
   users:
     sessions:
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
       unknown_browser: 'unknown browser'
       unknown_os: 'unknown operating system'
       current: 'Current session'
@@ -1053,6 +1055,7 @@ ja:
   button_configure: "設定"
   button_continue: "続行"
   button_copy: "コピー"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "コピー後表示"
   button_create: "作成"
   button_create_and_continue: "連続作成"
@@ -1385,6 +1388,22 @@ ja:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "変更は取り下げられました。"
+    caused_changes:
+      dates_changed: "Dates changed"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} is now working"
+          non_working: "%{day} is now non-working"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} is now non-working"
   links:
     configuration_guide: '設定ガイド'
     get_in_touch: "ご質問がありますか？ご連絡ください。"
@@ -1537,7 +1556,6 @@ ja:
   label_contains: "含む"
   label_content: "内容"
   label_copied: "コピー"
-  label_copy_to_clipboard: "クリップボードにコピー"
   label_copy_same_as_target: "コピー先と同様"
   label_copy_source: "コピー元"
   label_copy_target: "コピー先"
@@ -1603,6 +1621,7 @@ ja:
   label_equals: "等しい"
   label_everywhere: "どこにでも"
   label_example: "例"
+  label_experimental: "Experimental"
   label_import: "インポート"
   label_export_to: "こちらもアクセス可能："
   label_expanded_click_to_collapse: "拡大しました。クリックすると閉じます"
@@ -1682,6 +1701,7 @@ ja:
   label_logged_as: "ログイン中"
   label_login: "ログイン"
   label_custom_logo: "カスタムロゴ"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "カスタムの favicon"
   label_custom_touch_icon: "カスタムのタッチアイコン"
   label_logout: "ログアウト"
@@ -2038,6 +2058,7 @@ ja:
       mentioned_by: '%{user} mentioned you in a comment'
       more_to_see:
         other: 'There are %{count} more work packages with notifications.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Watched'
         assigned: 'Assigned'
@@ -2564,6 +2585,7 @@ ja:
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
       delay_minutes_explanation: "メール送信を遅らせることで、アプリ内通知を設定したユーザーが、メールを送信前にアプリケーション内で通知を確認できるようにすることができます。 アプリケーション内で通知を読んだユーザーは、すでに読んだ通知の電子メールを受け取りません。"
@@ -2572,6 +2594,10 @@ ja:
         オプション "%{day_of_week_setting_name}" または "%{first_week_setting_name}" が設定されている場合、フロントエンドでの不整合を避けるために、もう一方も設定する必要があります。
       first_week_of_year_text: >
         その年の最初の週に含まれる1月の日付を選択します。 この値と週の開始の日によって、1年の合計週数が決定されます。
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "新規プロジェクトの設定"
       section_project_overview: "プロジェクト概要リストの設定"
@@ -2627,10 +2653,12 @@ ja:
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     透明な背景の白いロゴをお勧めします。 従来、および Retina ディスプレイの両方で最高の結果となるように、画像の寸法は、460px x 60px を確認してください。
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    これは、ページタイトル横のブラウザーウィンドウ/タブに表示される小さなアイコンです。 32 × 32 ピクセルサイズの、背景が透明な PNG イメージファイルにする必要がありますは、。
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    これは、携帯電話またはタブレットでホーム画面にブックマークを配置したときに表示されるアイコンです。180 x 180 ピクセルサイズの PNG イメージファイルにする必要があります。iOS での表示が悪くなるため、画像の背景を透明にしないでください。
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "データベースはTSVectorが利用可能 (オプション)"
   text_default_administrator_account_changed: "管理者アカウントでデフォルト設定が変更済み"
   text_default_encoding: "既定値: UTF-8"

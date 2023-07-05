@@ -10,6 +10,10 @@ CLI="${APP_NAME}"
 ADMIN_EMAIL="$(wiz_get "openproject/admin_email" || wiz_get "smtp/admin_email")"
 ${CLI} config:set RECOMPILE_RAILS_ASSETS="true"
 
+# Set the configured default language
+# Will be unset at installation postinstall before restart to ensure the setting is writable
+${CLI} config:set OPENPROJECT_DEFAULT_LANGUAGE="$(wiz_get "openproject/default_language")"
+
 # Check for custom gems
 custom_gemfile=$(${CLI} config:get CUSTOM_PLUGIN_GEMFILE || echo "")
 if [ -n "$custom_gemfile" ] && [ -f "$custom_gemfile" ]; then
@@ -103,8 +107,8 @@ ${CLI} run rake "packager:before_postinstall"
 # Use the OpenProject internal setup in one environment task
 ${CLI} run rake "${rake_commands} packager:postinstall"
 
-# For some reason RHEL8 creates files with chmod 0600                     
-find "${APP_HOME}/public" -type f -exec chmod 0644 {} \;     
+# For some reason RHEL8 creates files with chmod 0600
+find "${APP_HOME}/public" -type f -exec chmod 0644 {} \;
 
 # Allow OpenProject to perform custom initialization steps in the context of this installer
 if [ -e "${APP_HOME}/packaging/scripts/postinstall" ]; then

@@ -31,20 +31,28 @@ require 'spec_helper'
 RSpec.describe 'Localization', with_settings: { login_required?: false,
                                                 available_languages: %w[de en],
                                                 default_language: 'en' } do
-  it 'set localization' do
-    Capybara.current_session.driver.header('Accept-Language', 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3')
+  context 'with a HTTP header Accept-Language having a valid supported language' do
+    before do
+      Capybara.current_session.driver.header('Accept-Language', 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3')
+    end
 
-    # a french user
-    visit projects_path
+    it 'uses the language from HTTP header Accept-Language' do
+      visit projects_path
 
-    expect(page)
-      .to have_content('Projekte')
+      expect(page)
+        .to have_content('Projekte')
+    end
+  end
 
-    # not a supported language: default language should be used
-    Capybara.current_session.driver.header('Accept-Language', 'zz')
-    visit projects_path
+  context 'with a HTTP header Accept-Language having an unsupported language' do
+    before do
+      Capybara.current_session.driver.header('Accept-Language', 'zz')
+    end
 
-    expect(page)
-      .to have_content('Projects')
+    it 'uses the default language configured in administration' do
+      visit projects_path
+
+      expect(page).to have_content('Projects')
+    end
   end
 end

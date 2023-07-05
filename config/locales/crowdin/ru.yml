@@ -276,6 +276,8 @@ ru:
   users:
     sessions:
       session_name: "%{browser_name} %{browser_version} на %{os_name}"
+      browser: 'Браузер'
+      device: 'Устройство / ОС'
       unknown_browser: 'неизвестный браузер'
       unknown_os: 'неизвестная операционная система'
       current: 'Текущая сессия'
@@ -1077,6 +1079,7 @@ ru:
   button_configure: "Настройка"
   button_continue: "Продолжить"
   button_copy: "Копировать"
+  button_copy_to_clipboard: "Копировать в буфер обмена"
   button_copy_and_follow: "Скопировать и продолжить"
   button_create: "Создать"
   button_create_and_continue: "Создать и продолжить"
@@ -1445,6 +1448,22 @@ ru:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Изменения отменены."
+    caused_changes:
+      dates_changed: "Dates changed"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} is now working"
+          non_working: "%{day} is now non-working"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} is now non-working"
   links:
     configuration_guide: 'Руководство по конфигурации'
     get_in_touch: "У вас есть вопросы? Свяжитесь с нами."
@@ -1597,7 +1616,6 @@ ru:
   label_contains: "содержит"
   label_content: "Содержание"
   label_copied: "Скопировано"
-  label_copy_to_clipboard: "Копировать в буфер обмена"
   label_copy_same_as_target: "Так, как намечено"
   label_copy_source: "Источник"
   label_copy_target: "Цель"
@@ -1663,6 +1681,7 @@ ru:
   label_equals: "—"
   label_everywhere: "везде"
   label_example: "Пример"
+  label_experimental: "Experimental"
   label_import: "Импорт"
   label_export_to: "Скачать как:"
   label_expanded_click_to_collapse: "Развернуто. Кликните для сворачивания"
@@ -1742,6 +1761,7 @@ ru:
   label_logged_as: "Войти в систему как"
   label_login: "Войти"
   label_custom_logo: "Свой логотип"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Пользовательские иконки"
   label_custom_touch_icon: "Пользовательский значок логотипа"
   label_logout: "Выход"
@@ -2101,6 +2121,7 @@ ru:
         few: 'Есть еще %{count} пакетов работ с уведомлениями.'
         many: 'Есть еще %{count} пакетов работ с уведомлениями.'
         other: 'Есть еще %{count} пакетов работ с уведомлениями.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Просмотрено'
         assigned: 'Назначено'
@@ -2627,6 +2648,7 @@ ru:
     attachments:
       whitelist_text_html: >
         Определите список допустимых расширений файлов и/или mime типов для загруженных файлов. <br/> Введите расширения файлов (например, <code>%{ext_example}</code>) или mime типы (e. ., <code>%{mime_example}</code>). <br/> Оставьте пустым, чтобы разрешить загрузку любого типа файла. Допустимы несколько значений (одна строка для каждого значения).
+    language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: 'Регулирует, по каким событиям отправляется письмо. Пакеты работ исключаются из этого списка, поскольку уведомления для них могут быть настроены специально для каждого пользователя.'
       delay_minutes_explanation: "Отправка электронной почты может быть отложена для разрешения пользователям с настроенными в приложении уведомлениями подтвердить уведомление внутри приложения перед отправкой почты. Пользователи, которые прочитали уведомление в приложении, не будут получать по электронной почте уже прочитанное уведомление."
@@ -2635,6 +2657,10 @@ ru:
         Если параметры "%{day_of_week_setting_name}" или "%{first_week_setting_name}" заданы,  должны быть заданы и другие тоже во избежание несоответствий в интерфейсе.
       first_week_of_year_text: >
         Выберите дату января, которая содержится в первой неделе года. Она вместе с первым днем недели определяет общее количество недель в году.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Настройки для новых проектов"
       section_project_overview: "Настройки списка обзоров проекта"
@@ -2645,7 +2671,7 @@ ru:
     highlighting:
       mode_long:
         inline: "Выделите один или несколько встроенных атрибутов"
-        none: "Без подсветки"
+        none: "Без выделения"
         status: "Вся строка по статусу"
         type: "Вся строка по типу"
         priority: "Вся строка по приоритету"
@@ -2690,10 +2716,12 @@ ru:
     Корпоративная версия добавит эти дополнительные дополнения для пользовательских полей проектов: <br> <ul> <li><b>Добавить пользовательские поля для проектов в ваш список проектов, чтобы создать представление портфолио проекта</b></li> </ul>
   text_custom_logo_instructions: >
     Рекомендуется использовать белый логотип с прозрачным фоном. Для оптимального отображения на обычных и retina-дисплеях размер картинки должен быть 460 на 110 пикселей.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Это крошечные значок, который появляется в вашем окне/вкладке браузера рядом с названием страницы. Это должно быть квадратное PNG изображение размером 32 на 32 пикселя с прозрачным фоном.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    Это значок появится в вашем мобильном телефоне или планшете, когда вы установите закладку на вашем домашнем экране. Это должно быть PNG изображение размером 180 х 180 пикселей. Убедитесь, что фоновый рисунок не является прозрачным, иначе это будет выглядеть плохо на iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "База данных позволяет TSVector (опционально)"
   text_default_administrator_account_changed: "Первоначальная учетная запись администратора была изменена"
   text_default_encoding: "По-умолчанию: UTF-8"
@@ -3203,7 +3231,7 @@ ru:
       oauth_returned_standard_error: "OAuth2 вернул внутреннюю ошибку"
       wrong_token_type_returned: "OAuth2 вернул неверный тип токена, ожидая AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 сообщил об ошибке. Обратитесь к системному администратору."
-      oauth_client_not_found: "OAuth2 клиент не найден в точке 'callback' (redirect_uri)."
+      oauth_client_not_found: "OAuth2 'state' не найден в конечной точке 'callback' (redirect_uri)."
       refresh_token_called_without_existing_token: >
         Внутренняя ошибка: Обнаружен refresh_token без ранее существующего токена.
       refresh_token_updated_failed: "Ошибка при обновлении OAuthClientToken"
@@ -3211,7 +3239,7 @@ ru:
         Эта ошибка появляется после того, как вы обновили client_id и client_secret в OpenProject, но не обновили поле 'Return URI' в OAuth2 провайдере.
       oauth_code_not_present: "OAuth2 'code' не найден в конечной точке 'callback' (redirect_uri)."
       oauth_code_not_present_explanation: >
-        Эта ошибка появляется если вы выбрали неправильный response_type в OAuth2 провайдере. Response_type должен быть 'code' или аналогичным.
+        Эта ошибка появляется, если вы выбрали неправильный response_type в OAuth2 провайдере. Response_type должен быть 'code' или аналогичным.
       oauth_state_not_present: "OAuth2 'state' не найден в конечной точке 'callback' (redirect_uri)."
       oauth_state_not_present_explanation: >
         OAuth2 'state' используется для указания OpenProject где продолжить после успешной авторизации OAuth2. Отсутствие 'state' - внутренняя ошибка, которая может появиться при настройке. Обратитесь к системному администратору.
@@ -3228,7 +3256,7 @@ ru:
   http:
     request:
       failed_authorization: "Запрос стороны сервера не смог авторизоваться."
-      missing_authorization: "Запрос на стороне сервера не удался из-за отсутствия информации о авторизации."
+      missing_authorization: "Запрос на стороне сервера не удался из-за отсутствия информации об авторизации."
     response:
       unexpected: "Получен неожиданный ответ."
   you: вы

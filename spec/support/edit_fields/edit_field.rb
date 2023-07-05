@@ -73,9 +73,9 @@ class EditField
   def activate!(expect_open: true)
     retry_block do
       unless active?
-        SeleniumHubWaiter.wait
+        SeleniumHubWaiter.wait unless using_cuprite?
         scroll_to_and_click(display_element)
-        SeleniumHubWaiter.wait
+        SeleniumHubWaiter.wait unless using_cuprite?
       end
 
       if expect_open && !active?
@@ -88,6 +88,7 @@ class EditField
 
   def openSelectField
     autocomplete_selector.click
+    wait_for_network_idle if using_cuprite?
   end
 
   def expect_state!(open:)
@@ -135,7 +136,7 @@ class EditField
   end
 
   def submit_by_dashboard
-    field_container.find('.inplace-edit--control--save', wait: 5).click
+    field_container.find('.inplace-edit--control--save').click
   end
 
   ##
@@ -145,6 +146,9 @@ class EditField
     scroll_to_element(input_element)
     if autocompleter_field?
       autocomplete(content)
+    elsif using_cuprite?
+      clear_input_field_contents(input_element)
+      input_element.fill_in with: content
     else
       # A normal fill_in would cause the focus loss on the input for empty strings.
       # Thus the form would be submitted.

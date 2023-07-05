@@ -2,25 +2,20 @@
   <div class="toolbar toolbar_empty-title">
     <ul class="toolbar-items">
       <li class="toolbar-item">
-        <button
-          type="button -alt-highlight"
-          class="form-configuration--reset button"
-          (click)="resetToDefault($event)"
-        >
-          <span class="spot-icon spot-icon_undo"></span>
+        <button type="button -alt-highlight"
+                class="form-configuration--reset button"
+                (click)="resetToDefault($event)">
+          <op-icon icon-classes="button--icon icon-undo"></op-icon>
           <span class="button--text" [textContent]="text.reset"></span>
         </button>
       </li>
       <li
         *ngIf="!typeBanner.eeShowBanners"
         class="toolbar-item drop-down">
-        <a
-          class="form-configuration--add-group button -alt-highlight"
-          aria-haspopup="true"
-        >
-          <span class="spot-icon spot-icon_add"></span>
+        <a class="form-configuration--add-group button -alt-highlight" aria-haspopup="true">
+          <op-icon icon-classes="button--icon icon-add"></op-icon>
           <span class="button--text" [textContent]="text.label_group"></span>
-          <span class="spot-icon spot-icon_dropdown"></span>
+          <op-icon icon-classes="button--dropdown-indicator"></op-icon>
         </a>
         <ul class="menu-drop-down-container">
           <li>
@@ -72,12 +67,10 @@
         <span class="advice" [textContent]="text.drag_to_activate"></span>
       </div>
       <div class="attributes" dragula="attributes" [(dragulaModel)]="inactives">
-        <div
-          *ngFor="let inactive_attribute of inactives"
-          class="type-form-conf-attribute"
-          [attr.data-key]="inactive_attribute.key"
-        >
-          <span class="attribute-handle spot-icon spot-icon_1 spot-icon_drag-handle"></span>
+        <div *ngFor="let inactive_attribute of inactives"
+             class="type-form-conf-attribute"
+             [attr.data-key]="inactive_attribute.key">
+          <span class="attribute-handle icon-drag-handle"></span>
           <span class="attribute-name">
               {{ inactive_attribute.translation }}
             <span *ngIf="inactive_attribute.is_cf"

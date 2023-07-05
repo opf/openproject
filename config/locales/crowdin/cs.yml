@@ -277,6 +277,8 @@ cs:
   users:
     sessions:
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      browser: 'Browser'
+      device: 'Device / OS'
       unknown_browser: 'unknown browser'
       unknown_os: 'unknown operating system'
       current: 'Current session'
@@ -1078,6 +1080,7 @@ cs:
   button_configure: "Přizpůsobit"
   button_continue: "Pokračovat"
   button_copy: "Kopírovat"
+  button_copy_to_clipboard: "Copy to clipboard"
   button_copy_and_follow: "Kopírovat a pokračovat"
   button_create: "Vytvořit"
   button_create_and_continue: "Vytvořit a pokračovat"
@@ -1446,6 +1449,22 @@ cs:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Změny byly staženy."
+    caused_changes:
+      dates_changed: "Dates changed"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} is now working"
+          non_working: "%{day} is now non-working"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} is now non-working"
   links:
     configuration_guide: 'Konfigurační manuál'
     get_in_touch: "Máte otázky? Spojte se s námi."
@@ -1598,7 +1617,6 @@ cs:
   label_contains: "obsahuje"
   label_content: "Obsah"
   label_copied: "zkopírováno"
-  label_copy_to_clipboard: "Kopírovat do schránky"
   label_copy_same_as_target: "Stejný jako cíl"
   label_copy_source: "Zdroj"
   label_copy_target: "Cíl"
@@ -1664,6 +1682,7 @@ cs:
   label_equals: "je"
   label_everywhere: "všude"
   label_example: "Příklad"
+  label_experimental: "Experimental"
   label_import: "Importovat"
   label_export_to: "K dispozici:"
   label_expanded_click_to_collapse: "Rozbaleno. Klepnutím sbalte"
@@ -1743,6 +1762,7 @@ cs:
   label_logged_as: "Přihlášen jako"
   label_login: "Přihlásit se"
   label_custom_logo: "Vlastní logo"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Vlastní favicon"
   label_custom_touch_icon: "Vlastní ikona dotyku"
   label_logout: "Odhlásit se"
@@ -2102,6 +2122,7 @@ cs:
         few: 'Existuje ještě  %{count}  pracovních balíčků s oznámeními.'
         many: 'Existuje ještě  %{count}  pracovních balíčků s oznámeními.'
         other: 'Existuje ještě  %{count}  pracovních balíčků s oznámeními.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Sledováno'
         assigned: 'Přiřazen'
@@ -2630,6 +2651,7 @@ cs:
     attachments:
       whitelist_text_html: >
         Definujte seznam platných přípon souborů a/nebo mime typů pro nahrané soubory. <br/> Zadejte přípony souborů (např. <code>%{ext_example}</code>) nebo mime typy (např. ., <code>%{mime_example}</code>). <br/> Ponechte prázdné pro nahrání jakéhokoli typu souboru. Povoleno více hodnot (jeden řádek pro každou hodnotu).
+    language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: 'Určuje, pro kterou událost je odeslán e-mail. Pracovní balíčky jsou z tohoto seznamu vyloučeny, protože oznámení pro ně mohou být nastavena speciálně pro každého uživatele.'
       delay_minutes_explanation: "Odesílání e-mailu může být pozdrženo, aby bylo uživatelům s nakonfigurovaným v oznámení aplikace před odesláním pošty potvrzeno oznámení. Uživatelé, kteří si přečtou oznámení v aplikaci, nedostanou e-mail pro již přečtené oznámení."
@@ -2638,6 +2660,10 @@ cs:
         Pokud jsou nastaveny možnosti buď "%{day_of_week_setting_name}" nebo "%{first_week_setting_name}", druhý je třeba nastavit také aby jste se vyhli nesrovnalostem na frontendu.
       first_week_of_year_text: >
         Vyberte datum ledna, které je obsaženo v prvním týdnu roku. Tato hodnota spolu s prvním dnem v týdnu určuje celkový počet týdnů v roce.
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     projects:
       section_new_projects: "Nastavení pro nové projekty"
       section_project_overview: "Nastavení přehledu seznamu  projektu"
@@ -2693,10 +2719,12 @@ cs:
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Doporučuje se bílé logo na průhledném pozadí. Pro nejlepší výsledky na displejích klasického i retina se ujistěte, že rozměry vašeho obrázku jsou 460px do 60px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Toto je malá ikona zobrazená v okně/záložce prohlížeče vedle názvu stránky. Musí to být čtverec velikosti PNG obrazového souboru o velikosti 32 až 32 pixelů s průhledným pozadím.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    Toto je ikona, která se zobrazí v mobilu nebo tabletu, když umístíte záložku na hlavní obrazovku. Je třeba, aby byl formát PNG obrazového souboru o velikosti 180 pixelů. Ujistěte se, že pozadí obrázku není transparentní, jinak bude vypadat špatně.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Databáze umožňuje TSVector (volitelné)"
   text_default_administrator_account_changed: "Výchozí účet správce změněn"
   text_default_encoding: "Výchozí: UTF-8"

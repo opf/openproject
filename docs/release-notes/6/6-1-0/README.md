@@ -36,7 +36,7 @@ tree-structure.
 
 ## Improved performance for work packages
 
-The work package list is now loaded more quickly and changes can be made
+The work package table is now loaded more quickly and changes can be made
 faster
 ([#23780](https://community.openproject.com/work_packages/23780/activity)).
 

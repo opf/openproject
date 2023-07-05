@@ -25,7 +25,7 @@ easy integration with OmniAuth strategy providers such as Google.
 
 OpenProject 4.0 replaces the old filter and options section on the work
 package page with a convenient integrated toolbar.  
-Now users no longer need to leave the work package list in order to use
+Now users no longer need to leave the work package table in order to use
 many features that were previously only available on a separate
 configuration page.  
 In addition, filters are now expandable and it is possible to create

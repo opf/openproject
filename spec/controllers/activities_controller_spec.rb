@@ -202,30 +202,36 @@ RSpec.describe ActivitiesController do
 
         it { expect(assigns(:activity).scope).to match_array(default_scope) }
 
-        it { expect(session[:activity]).to match_array(default_scope) }
+        it { expect(session[:activity][:scope]).to match_array(default_scope) }
+
+        it { expect(session[:activity][:with_subprojects]).to be(true) }
       end
 
       describe 'subsequent activity requests' do
         let(:scope) { [] }
         let(:params) { {} }
-        let(:session_hash) { { activity: [] } }
+        let(:session_hash) { { activity: { scope: [], with_subprojects: true } } }
 
         include_context 'for GET index with params'
 
         it { expect(assigns(:activity).scope).to match_array(scope) }
 
-        it { expect(session[:activity]).to match_array(scope) }
+        it { expect(session[:activity][:scope]).to match_array(scope) }
+
+        it { expect(session[:activity][:with_subprojects]).to be(true) }
       end
 
       describe 'selection with apply' do
         let(:scope) { [] }
-        let(:params) { { event_types: [''] } }
+        let(:params) { { event_types: [''], with_subprojects: 0 } }
 
         include_context 'for GET index with params'
 
         it { expect(assigns(:activity).scope).to match_array(scope) }
 
-        it { expect(session[:activity]).to match_array(scope) }
+        it { expect(session[:activity][:scope]).to match_array(scope) }
+
+        it { expect(session[:activity][:with_subprojects]).to be(false) }
       end
     end
   end
