@@ -90,7 +90,7 @@ module WorkPackage::PDFExport::Markdown
 
     def handle_unknown_html_tag(tag, node, opts)
       case tag.name
-      when 'figure', 'div', 'p', 'figcaption'
+      when 'div', 'p'
         # nop, but scan children [true, ...]
       else
         draw_formatted_text([text_hash(tag.to_s, opts)], opts, node)
@@ -107,7 +107,7 @@ module WorkPackage::PDFExport::Markdown
   def write_markdown!(work_package, markdown)
     md2pdf = MD2PDF.new(styles.wp_markdown_styling_yml)
     md2pdf.draw_markdown(markdown, pdf, ->(src) {
-      with_attachments? ? attachment_image_filepath(work_package, src) : nil
+      with_images? ? attachment_image_filepath(work_package, src) : nil
     })
   end
 

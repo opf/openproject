@@ -58,8 +58,6 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
     error(I18n.t(:error_pdf_failed_to_export, error: e.message))
   end
 
-  private
-
   def setup_page!
     self.pdf = get_pdf(current_language)
     @page_count = 0
@@ -79,5 +77,9 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
 
   def title
     "#{heading}.pdf"
+  end
+
+  def with_images?
+    true
   end
 end

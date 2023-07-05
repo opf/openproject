@@ -829,6 +829,9 @@
         },
         "align" : {
           "$ref" : "#/$defs/alignment"
+        },
+        "caption" : {
+          "$ref" : "#/$defs/paragraph"
         }
       },
       "allOf" : [

@@ -211,10 +211,6 @@ module WorkPackage::PDFExport::Common
     query.display_sums?
   end
 
-  def with_attachments?
-    options[:show_images]
-  end
-
   def current_page_nr
     pdf.page_number + @page_count
   end
