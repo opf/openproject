@@ -71,7 +71,6 @@ class ActivePermissions::Updates::RemoveByProjectPermission
       )
     SQL
 
-    connection.execute(sanitize(sql,
-                                permission: parameter))
+    connection.execute(sanitize(sql, permission: parameter))
   end
 end

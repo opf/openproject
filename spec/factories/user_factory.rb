@@ -108,4 +108,12 @@ FactoryBot.define do
   factory :system, class: 'SystemUser' do
     initialize_with { User.system }
   end
+
+  factory :builtin_admin_user, class: 'AdminUser' do
+    initialize_with { AdminUser.first }
+  end
+
+  factory :builtin_non_member_user, class: 'NonMemberUser' do
+    initialize_with { NonMemberUser.first }
+  end
 end

@@ -30,10 +30,12 @@ require 'spec_helper'
 
 RSpec.describe ActivePermissions::Updater do
   shared_let(:user) { create(:user, firstname: 'normal', lastname: 'user') }
-  shared_let(:anonymous_user) { create(:anonymous) }
   shared_let(:admin) { create(:admin, firstname: 'admin', lastname: 'user') }
-  shared_let(:non_member_user) { create(:user) }
-  shared_let(:system_user) { create(:system) }
+  shared_let(:non_member_user) { create(:user, firstname: 'no memberships', lastname: 'user') }
+  shared_let(:builtin_anonymous_user) { create(:anonymous) }
+  shared_let(:builtin_non_member_user) { create(:builtin_non_member_user) }
+  shared_let(:builtin_admin_user) { create(:builtin_admin_user) }
+  shared_let(:builtin_system_user) { create(:system) }
 
   shared_let(:enabled_modules) { %i[work_package_tracking news] }
   shared_let(:private_project) do
@@ -91,27 +93,29 @@ RSpec.describe ActivePermissions::Updater do
            roles: [global_role])
   end
 
+  # TODO: Think about whether this should be done by an after_save hook after all.
+  # It is mostly necessary now to have the builtin users show up.
+  before do
+    ActivePermissions::Updates::Reinitialize.new.execute
+  end
+
   shared_examples_for 'expected entries' do
     let(:expected_included) { [] }
     let(:expected_excluded) { [] }
     let(:expected_included_default) do
       [
         [user, nil, 'add_project'],
-        [admin, nil, 'add_project'],
-        [system_user, nil, 'add_project'],
-        [user, public_project, 'view_project'],
-        [user, public_project, 'view_work_packages'],
+        [builtin_admin_user, nil, 'add_project'],
+        [builtin_admin_user, nil, 'manage_user'],
         [user, private_project, 'view_work_packages'],
         [user, private_project, 'add_work_packages'],
         [user, private_project, 'view_project'],
-        [anonymous_user, public_project, 'view_project'],
-        [anonymous_user, public_project, 'view_work_packages'],
-        [admin, private_project, 'view_work_packages'],
-        [admin, private_project, 'view_project'],
-        [admin, memberless_private_project, 'view_work_packages'],
-        [system_user, private_project, 'view_work_packages'],
-        [system_user, private_project, 'view_project'],
-        [system_user, memberless_private_project, 'view_work_packages']
+        [builtin_anonymous_user, public_project, 'view_project'],
+        [builtin_anonymous_user, public_project, 'view_work_packages'],
+        [builtin_non_member_user, public_project, 'view_work_packages'],
+        [builtin_admin_user, private_project, 'view_work_packages'],
+        [builtin_admin_user, private_project, 'view_project'],
+        [builtin_admin_user, memberless_private_project, 'view_work_packages']
       ]
     end
     let(:expected_excluded_default) do
@@ -119,10 +123,29 @@ RSpec.describe ActivePermissions::Updater do
         [user, memberless_private_project, 'view_project'],
         [user, memberless_private_project, 'view_work_packages'],
         [user, private_project, 'view_wiki_pages'],
-        [admin, private_project, 'view_project_activity'],
-        [system_user, private_project, 'view_project_activity'],
-        [admin, public_project, 'view_project_activity'],
-        [system_user, public_project, 'view_project_activity']
+        [builtin_admin_user, private_project, 'view_project_activity'],
+        [builtin_system_user, private_project, 'view_project_activity'],
+        [builtin_admin_user, public_project, 'view_project_activity'],
+        [builtin_system_user, public_project, 'view_project_activity'],
+        [builtin_non_member_user, private_project, 'view_work_packages'],
+        # Excluded because admin users don't get active permission entries of their own.
+        # They 'inherit' them from the prototypical 'AdminUser' user.
+        [admin, nil, 'add_project'],
+        [admin, private_project, 'view_work_packages'],
+        [admin, private_project, 'view_project'],
+        [admin, memberless_private_project, 'view_work_packages'],
+        # Excluded because the system user is just an admin user and as such also don't get entries of their own.
+        # They 'inherit' them from the prototypical 'AdminUser' user.
+        [builtin_system_user, nil, 'add_project'],
+        [builtin_system_user, private_project, 'view_work_packages'],
+        [builtin_system_user, private_project, 'view_project'],
+        [builtin_system_user, memberless_private_project, 'view_work_packages'],
+        # Excluded because users that are not members don't get active permission entries of their own.
+        # They 'inherit' them from the prototypical 'NonMemberUser' user.
+        [non_member_user, public_project, 'view_project'],
+        [non_member_user, public_project, 'view_work_packages'],
+        [user, public_project, 'view_project'],
+        [user, public_project, 'view_work_packages']
       ]
     end
 
@@ -148,6 +171,10 @@ RSpec.describe ActivePermissions::Updater do
           end)
       end
     end
+  end
+
+  context 'for the setup' do
+    it_behaves_like 'expected entries'
   end
 
   context 'when creating a member' do
@@ -185,7 +212,12 @@ RSpec.describe ActivePermissions::Updater do
       it_behaves_like 'expected entries' do
         let(:expected_included) do
           [
-            [user, public_project, 'manage_news']
+            [user, public_project, 'manage_news'],
+            # Those are received because the user is now a member of the project.
+            # TODO: Check if they can be removed from the results since the builtin non_member already
+            # has these permissions.
+            [user, public_project, 'view_work_packages'],
+            [user, public_project, 'view_project']
           ]
         end
       end
@@ -474,8 +506,8 @@ RSpec.describe ActivePermissions::Updater do
         let(:expected_included) do
           [
             [user, private_project, 'view_messages'],
-            [user, public_project, 'view_messages'],
-            [admin, private_project, 'view_project']
+            [builtin_non_member_user, public_project, 'view_messages'],
+            [builtin_admin_user, private_project, 'view_messages']
           ]
         end
       end
@@ -547,9 +579,12 @@ RSpec.describe ActivePermissions::Updater do
             [user, public_project, 'view_work_packages'],
             [admin, private_project, 'view_news'],
             [admin, private_project, 'view_work_packages'],
-            [anonymous_user, public_project, 'view_work_packages'],
-            [system_user, private_project, 'view_work_packages'],
-            [system_user, public_project, 'view_work_packages']
+            [builtin_anonymous_user, public_project, 'view_work_packages'],
+            [builtin_system_user, private_project, 'view_work_packages'],
+            [builtin_system_user, public_project, 'view_work_packages'],
+            [builtin_admin_user, private_project, 'view_work_packages'],
+            [builtin_admin_user, public_project, 'view_work_packages'],
+            [builtin_non_member_user, public_project, 'view_work_packages']
           ]
         end
       end
@@ -572,8 +607,10 @@ RSpec.describe ActivePermissions::Updater do
             [admin, private_project, 'view_news'],
             [admin, private_project, 'view_work_packages'],
             [admin, private_project, 'view_project'],
-            [system_user, private_project, 'view_project'],
-            [system_user, private_project, 'view_work_packages']
+            [builtin_system_user, private_project, 'view_project'],
+            [builtin_system_user, private_project, 'view_work_packages'],
+            [builtin_admin_user, private_project, 'view_project'],
+            [builtin_admin_user, private_project, 'view_work_packages']
           ]
         end
       end
@@ -590,8 +627,9 @@ RSpec.describe ActivePermissions::Updater do
             [user, public_project, 'view_project'],
             [user, public_project, 'view_work_packages'],
             [admin, public_project, 'view_work_packages'],
-            [anonymous_user, public_project, 'view_project'],
-            [anonymous_user, public_project, 'view_work_packages']
+            [builtin_anonymous_user, public_project, 'view_project'],
+            [builtin_anonymous_user, public_project, 'view_work_packages'],
+            [builtin_non_member_user, public_project, 'view_work_packages']
           ]
         end
       end
@@ -605,9 +643,9 @@ RSpec.describe ActivePermissions::Updater do
       it_behaves_like 'expected entries' do
         let(:expected_included) do
           [
-            [admin, new_project, 'view_news'],
-            [admin, new_project, 'view_work_packages'],
-            [admin, new_project, 'view_project']
+            [builtin_admin_user, new_project, 'view_news'],
+            [builtin_admin_user, new_project, 'view_work_packages'],
+            [builtin_admin_user, new_project, 'view_project']
           ]
         end
       end
@@ -619,12 +657,12 @@ RSpec.describe ActivePermissions::Updater do
       it_behaves_like 'expected entries' do
         let(:expected_included) do
           [
-            [admin, new_project, 'view_news'],
-            [admin, new_project, 'view_work_packages'],
-            [admin, new_project, 'view_project'],
-            [user, new_project, 'view_news'],
-            [user, new_project, 'view_work_packages'],
-            [user, new_project, 'view_project']
+            [builtin_admin_user, new_project, 'view_news'],
+            [builtin_admin_user, new_project, 'view_work_packages'],
+            [builtin_admin_user, new_project, 'view_project'],
+            [builtin_non_member_user, new_project, 'view_news'],
+            [builtin_non_member_user, new_project, 'view_work_packages'],
+            [builtin_non_member_user, new_project, 'view_project']
           ]
         end
       end
@@ -656,16 +694,8 @@ RSpec.describe ActivePermissions::Updater do
         admin.destroy
       end
 
-      it_behaves_like 'expected entries' do
-        let(:expected_excluded) do
-          [
-            [admin, nil, 'add_project'],
-            [admin, private_project, 'view_work_packages'],
-            [admin, private_project, 'view_project'],
-            [admin, memberless_private_project, 'view_work_packages']
-          ]
-        end
-      end
+      # Does not change because admin users do not have entries of their own (unless having memberships)
+      it_behaves_like 'expected entries'
     end
   end
 
@@ -673,24 +703,15 @@ RSpec.describe ActivePermissions::Updater do
     context 'for a normal user' do
       let!(:new_user) { create(:user) }
 
-      it_behaves_like 'expected entries' do
-        # Nothing changes
-      end
+      # Nothing changes
+      it_behaves_like 'expected entries'
     end
 
     context 'for an admin user' do
       let!(:new_admin) { create(:admin) }
 
-      it_behaves_like 'expected entries' do
-        let(:expected_included) do
-          [
-            [new_admin, nil, 'add_project'],
-            [new_admin, private_project, 'view_work_packages'],
-            [new_admin, private_project, 'view_project'],
-            [new_admin, memberless_private_project, 'view_work_packages']
-          ]
-        end
-      end
+      # Does not change because admin users do not have entries of their own (unless having memberships)
+      it_behaves_like 'expected entries'
     end
   end
 
@@ -711,14 +732,7 @@ RSpec.describe ActivePermissions::Updater do
       end
 
       it_behaves_like 'expected entries' do
-        let(:expected_included) do
-          [
-            [user, private_project, 'view_work_packages'],
-            [user, private_project, 'view_project'],
-            [user, memberless_private_project, 'view_work_packages'],
-            [user, memberless_private_project, 'view_project']
-          ]
-        end
+        # Nothing changes as there is a system admin user
       end
     end
 
@@ -908,12 +922,12 @@ RSpec.describe ActivePermissions::Updater do
       it_behaves_like 'expected entries' do
         let(:expected_included) do
           [
-            [user, public_project, 'edit_work_package_notes']
+            [builtin_non_member_user, public_project, 'edit_work_package_notes']
           ]
         end
         let(:expected_excluded) do
           [
-            [user, public_project, 'view_work_packages']
+            [builtin_non_member_user, public_project, 'view_work_packages']
           ]
         end
       end
@@ -927,12 +941,12 @@ RSpec.describe ActivePermissions::Updater do
       it_behaves_like 'expected entries' do
         let(:expected_included) do
           [
-            [anonymous_user, public_project, 'edit_work_package_notes']
+            [builtin_anonymous_user, public_project, 'edit_work_package_notes']
           ]
         end
         let(:expected_excluded) do
           [
-            [anonymous_user, public_project, 'view_work_packages']
+            [builtin_anonymous_user, public_project, 'view_work_packages']
           ]
         end
       end

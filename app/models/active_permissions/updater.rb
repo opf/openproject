@@ -145,10 +145,6 @@ class ActivePermissions::Updater
     # Destruction is carried out via the association.
     if user.locked? && user.status_previously_changed?
       new_or_registered_change(ActivePermissions::Updates::RemoveByUser, user.id)
-    elsif user.admin? && user.admin_previously_changed?
-      new_or_registered_change(ActivePermissions::Updates::CreateByAdminUser, user.id)
-    elsif !user.admin? && user.admin_previously_changed?
-      new_or_registered_change(ActivePermissions::Updates::RemoveByFormerAdminUser, user.id)
     elsif user.active? && user.status_previously_changed?
       new_or_registered_change(ActivePermissions::Updates::CreateByUser, user.id)
     end

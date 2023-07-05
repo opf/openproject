@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,26 +26,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class ActivePermissions::Updates::CreateByAdminUser
-  include ActivePermissions::Updates::SqlIssuer
-  include ActivePermissions::Updates::MultipleUpdater
+class AdminUser < User
+  validate :validate_unique_admin_user, on: :create
 
-  using CoreExtensions::SquishSql
-
-  def execute
-    sql = <<~SQL.squish
-      WITH admin_permissions AS (
-        #{select_admins_in_projects('users.id IN (:user_id)')}
-      ), admins_global_permissions AS (
-        #{select_admins_global('users.id IN (:user_id)')}
-      )
-
-      #{insert_active_permissions_sql('SELECT * FROM admin_permissions
-                                             UNION
-                                             SELECT * FROM admins_global_permissions')}
-    SQL
-
-    connection.execute(sanitize(sql,
-                                user_id: parameter))
+  # There should be only one DeletedUser in the database
+  def validate_unique_admin_user
+    errors.add :base, 'An AdminUser already exists.' if AdminUser.any?
   end
+
+  def self.first
+    super || create(admin: true)
+  end
+
+  # Overrides a few properties
+  def logged?; false end
+
+  def builtin?; true end
+
+  def name(*_args); 'Builtin admin' end
+
+  def mail; nil end
+
+  def time_zone; nil end
+
+  def rss_key; nil end
+
+  def destroy; false end
 end

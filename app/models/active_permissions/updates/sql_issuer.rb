@@ -72,7 +72,7 @@ module ActivePermissions::Updates::SqlIssuer
         permission_map.permission
       FROM projects
       JOIN users
-        ON users.admin = true AND projects.active AND users.admin = true AND users.status != 3
+        ON users.type = '#{AdminUser.name}' AND projects.active
       LEFT JOIN enabled_modules
         ON (enabled_modules.project_id = projects.id)
       JOIN
@@ -100,9 +100,7 @@ module ActivePermissions::Updates::SqlIssuer
       WHERE
         permission_map.global
       AND
-        users.admin = true
-      AND
-        users.status != 3
+        users.type = '#{AdminUser.name}'
       #{condition ? "AND #{condition}" : ''}
       GROUP BY
         users.id,
@@ -157,8 +155,8 @@ module ActivePermissions::Updates::SqlIssuer
       LEFT JOIN users
         ON users.status != 3
       LEFT JOIN roles
-        ON (roles.builtin = #{Role::BUILTIN_NON_MEMBER} AND users.type IN ('User', 'PlaceholderUser'))
-         OR (roles.builtin = #{Role::BUILTIN_ANONYMOUS} AND users.type IN ('AnonymousUser'))
+        ON (roles.builtin = #{Role::BUILTIN_NON_MEMBER} AND users.type = '#{NonMemberUser.name}')
+         OR (roles.builtin = #{Role::BUILTIN_ANONYMOUS} AND users.type = '#{AnonymousUser.name}')
       LEFT JOIN role_permissions
         ON role_permissions.role_id = roles.id
       LEFT JOIN (VALUES
@@ -167,11 +165,11 @@ module ActivePermissions::Updates::SqlIssuer
         ON (enabled_modules.name = permission_map.project_module_name OR permission_map.project_module_name IS NULL)
          AND (role_permissions.permission = permission_map.permission OR permission_map.public)
       WHERE
-        NOT EXISTS (SELECT 1 FROM members WHERE members.user_id = users.id AND members.project_id = projects.id)
-      AND
         projects.active
       AND
         projects.public
+      AND
+        roles.id IS NOT NULL
       AND
         users.id IS NOT NULL
       AND

@@ -26,41 +26,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class ActivePermissions::Updates::RemoveByProjectMember
-  include ActivePermissions::Updates::SqlIssuer
-  include ActivePermissions::Updates::MultipleUpdater
-  using CoreExtensions::SquishSql
+class NonMemberUser < User
+  validate :validate_unique_non_member_user, on: :create
 
-  def execute
-    sql = <<~SQL.squish
-      WITH existing_permissions AS (
-        #{select_active_permissions('user_id IN (:user_id) AND project_id IS NOT NULL')}
-      ),
-      current_member_permissions AS (
-        #{select_member_projects('members.user_id IN (:user_id)')}
-      )
-
-      DELETE FROM
-        #{table_name}
-      WHERE
-      EXISTS (
-        SELECT
-          1
-        FROM
-        (
-          SELECT user_id, project_id, permission FROM existing_permissions
-          EXCEPT
-          SELECT user_id, project_id, permission FROM current_member_permissions
-        ) to_delete
-        WHERE
-          to_delete.user_id = #{table_name}.user_id
-        AND
-          NULLIF(to_delete.project_id, #{table_name}.project_id) IS NULL
-        AND
-          to_delete.permission = #{table_name}.permission
-      )
-    SQL
-
-    connection.execute(sanitize(sql, user_id: parameter))
+  # There should be only one AnonymousUser in the database
+  def validate_unique_non_member_user
+    errors.add :base, 'A non member user already exists.' if NonMemberUser.any?
   end
+
+  def self.first
+    super || create
+  end
+
+  def available_custom_fields
+    []
+  end
+
+  # Overrides a few properties
+  def logged?; false end
+
+  def builtin?; true end
+
+  def admin; false end
+
+  def name(*_args); 'Builtin non member user' end
+
+  def mail; nil end
+
+  def time_zone; nil end
+
+  def rss_key; nil end
+
+  def destroy; false end
 end

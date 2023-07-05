@@ -31,6 +31,10 @@ class ActivePermissions::Updates::CreateByUser
   include ActivePermissions::Updates::MultipleUpdater
 
   def execute
+    # TODO: check if this can be correct:
+    # Would have expected to no longer need to enable public projects
+    # but would need to enable member permissions for the user if the user state is changed
+    # from locked to active.
     insert_active_permissions(sanitize(select_public_projects('users.id IN (:user_id)'),
                                        user_id: parameter))
   end
