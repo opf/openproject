@@ -27,7 +27,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: Generate .env.pullpreview file
       run: |
-        echo "OP_ADMIN_USER_SEEDER_FORCE_PASSWORD_CHANGE=off" >> .env.pullpreview
+        echo "OPENPROJECT_SEED_ADMIN_USER_PASSWORD_RESET=false" >> .env.pullpreview
         echo "OPENPROJECT_SHOW__SETTING__MISMATCH__WARNING=false" >> .env.pullpreview
         echo "OPENPROJECT_FEATURE__STORAGES__MODULE__ACTIVE=true" >> .env.pullpreview
         echo "OPENPROJECT_FEATURE__SHOW__CHANGES__ACTIVE=true" >> .env.pullpreview
