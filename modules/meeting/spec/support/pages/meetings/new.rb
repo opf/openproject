@@ -31,6 +31,8 @@ require_relative './show'
 
 module Pages::Meetings
   class New < Base
+    include Components::Autocompleter::NgSelectAutocompleteHelpers
+
     def click_create
       click_button 'Create'
 
@@ -48,7 +50,9 @@ module Pages::Meetings
     end
 
     def set_project(project)
-      select project.name, from: 'Project'
+      select_autocomplete find("[data-qa-selector='project_id'"),
+                          query: project.name,
+                          results_selector: 'body'
     end
 
     def set_start_date(date)

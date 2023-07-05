@@ -127,14 +127,40 @@ RSpec.describe MeetingsController do
         allow(Meeting).to receive(:new).and_return(meeting)
       end
 
-      describe 'html' do
+      context 'with a project id' do
         before do
-          get :participants_section, params: { project_id: project.id }
+          allow(Project).to receive(:find).and_return(project)
         end
 
-        it { expect(response).to be_successful }
-        it { expect(response).to render_template :participants_section }
-        it { expect(assigns(:meeting)).to eql meeting }
+        describe 'html' do
+          before do
+            get :participants_section, params: { project_id: project.id }
+          end
+
+          it { expect(response).to be_successful }
+          it { expect(response).to render_template :participants_section }
+          it { expect(assigns(:meeting)).to eql meeting }
+          it { expect(assigns(:project)).to eql project }
+        end
+      end
+
+      context 'without a project id' do
+        context 'with a project id' do
+          before do
+            allow(Project).to receive(:find).and_return(nil)
+          end
+
+          describe 'html' do
+            before do
+              get :participants_section
+            end
+
+            it { expect(response).to be_successful }
+            it { expect(response).to render_template :participants_section }
+            it { expect(assigns(:meeting)).to eql meeting }
+            it { expect(assigns(:project)).to be_nil }
+          end
+        end
       end
     end
 

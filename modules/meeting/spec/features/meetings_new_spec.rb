@@ -81,11 +81,6 @@ RSpec.describe 'Meetings new', :js do
           new_page.set_title 'Some title'
           new_page.set_project project
 
-          # Setting the project reloads the page
-          # causing a StaleElementReferenceError
-          # if the execution is too quick.
-          SeleniumHubWaiter.wait
-
           new_page.set_start_date '2013-03-28'
           new_page.set_start_time '13:30'
           new_page.set_duration '1.5'

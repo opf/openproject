@@ -138,19 +138,6 @@ class MeetingsController < ApplicationController
     @meeting.author = User.current
   end
 
-  def project_id
-    params[:project_id] || params.dig(:meeting, :project_id)
-  end
-
-  def find_optional_project
-    return true if project_id.blank?
-
-    @project = Project.find(project_id)
-    authorize
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
   def global_upcoming_meetings
     projects = Project.allowed_to(User.current, :view_meetings)
 

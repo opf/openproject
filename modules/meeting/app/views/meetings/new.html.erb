@@ -34,7 +34,7 @@ See COPYRIGHT and LICENSE files for more details.
                               :html => {:id => 'meeting-form',
                                         :data => { :controller => 'refresh-on-form-changes',
                                                    'refresh-on-form-changes-target': 'form',
-                                                   'refresh-on-form-changes-turbo-refresh-url-value': new_form_refresh_url }} do |f| -%>
+                                                   'refresh-on-form-changes-turbo-refresh-url-value': participants_section_refresh_url }} do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>
   <%= styled_button_tag t(:button_create), class: '-highlight' %>
   <%= link_to t(:button_cancel), { :action => 'index', :project_id => @project },
