@@ -52,7 +52,7 @@ module OpenProject::PDFExport::ExportCard
       # Initialize groups
       @groups_config.each_with_index do |(_g_key, g_value), i|
         row_count = g_value["rows"].count
-        row_heights = all_heights[:row_heights].reject { |row| row[:group] != i }.pluck(:height)
+        row_heights = all_heights[:row_heights].select { |row| row[:group] == i }.pluck(:height)
         group_height = all_heights[:group_heights][i]
         group_orientation = {
           y_offset: @orientation[:height] - current_y_offset,

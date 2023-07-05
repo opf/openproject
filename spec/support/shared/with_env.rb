@@ -26,33 +26,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-
-RSpec.describe 'Localization', with_settings: { login_required?: false,
-                                                available_languages: %w[de en],
-                                                default_language: 'en' } do
-  context 'with a HTTP header Accept-Language having a valid supported language' do
-    before do
-      Capybara.current_session.driver.header('Accept-Language', 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3')
-    end
-
-    it 'uses the language from HTTP header Accept-Language' do
-      visit projects_path
-
-      expect(page)
-        .to have_content('Projekte')
+# Aggregates example and parent metadata for a given key.
+def aggregate_metadata(example, metadata_key)
+  hash = example.metadata[metadata_key] || {}
+  example.example_group.module_parents.each do |parent|
+    if parent.respond_to?(:metadata) && parent.metadata[metadata_key]
+      hash.reverse_merge!(parent.metadata[metadata_key])
     end
   end
+  hash
+end
 
-  context 'with a HTTP header Accept-Language having an unsupported language' do
-    before do
-      Capybara.current_session.driver.header('Accept-Language', 'zz')
-    end
+module WithEnvMixin
+  module_function
 
-    it 'uses the default language configured in administration' do
-      visit projects_path
+  def with_env(environment_overrides, &)
+    ClimateControl.modify(environment_overrides, &)
+  end
+end
 
-      expect(page).to have_content('Projects')
+RSpec.configure do |config|
+  config.include WithEnvMixin
+
+  config.around do |example|
+    environment_overrides = aggregate_metadata(example, :with_env)
+    if environment_overrides.present?
+      with_env(environment_overrides) do
+        example.run
+      end
+    else
+      example.run
     end
   end
 end

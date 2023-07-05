@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,33 +28,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require 'support/pages/admin/system_settings/page'
 
-RSpec.describe 'Localization', with_settings: { login_required?: false,
-                                                available_languages: %w[de en],
-                                                default_language: 'en' } do
-  context 'with a HTTP header Accept-Language having a valid supported language' do
-    before do
-      Capybara.current_session.driver.header('Accept-Language', 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3')
+module Pages::Admin::SystemSettings
+  class Languages < Page
+    def path
+      admin_settings_languages_path
     end
 
-    it 'uses the language from HTTP header Accept-Language' do
-      visit projects_path
-
-      expect(page)
-        .to have_content('Projekte')
-    end
-  end
-
-  context 'with a HTTP header Accept-Language having an unsupported language' do
-    before do
-      Capybara.current_session.driver.header('Accept-Language', 'zz')
-    end
-
-    it 'uses the default language configured in administration' do
-      visit projects_path
-
-      expect(page).to have_content('Projects')
+    def save
+      press_save_button
+      expect_and_dismiss_toaster
     end
   end
 end

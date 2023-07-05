@@ -62,43 +62,31 @@ module OpenProject::PDFExport::ExportCard
 
     def extract_custom_field
       # Look in Custom Fields
-      value = ""
-      available_languages.each do |locale|
-        I18n.with_locale(locale) do
-          if customs = @work_package.custom_field_values.select do |cf|
-               cf.custom_field.name == @property_name
-             end and customs.count > 0
-            value = customs.first.value
-            @custom_field = customs.first.custom_field
-          end
-        end
-        @localised_custom_field_name = @custom_field.name if !!@custom_field
+      custom_value = @work_package.custom_field_values.find do |cf|
+        cf.custom_field.name == @property_name
       end
+      return "" unless custom_value
 
-      value
-    end
-
-    def available_languages
-      Setting.available_languages
+      @custom_field = custom_value.custom_field
+      @work_package.send(@custom_field.attribute_name)
     end
 
     def label_text(value)
-      if @has_label
-        custom_label = @config['custom_label']
-        label_text = if custom_label
-                       custom_label.to_s
-                     else
-                       localised_property_name
-                     end
-        if @config['has_count'] && value.is_a?(Array)
-          label_text = "#{label_text} (#{value.count})"
-        end
+      return "" unless @has_label
 
-        label_text += ": "
-      else
-        label_text = ""
+      label_text =
+        if @config['custom_label']
+          @config['custom_label'].to_s
+        elsif @custom_field
+          @custom_field.name
+        else
+          WorkPackage.human_attribute_name(@property_name)
+        end
+      if @config['has_count'] && value.is_a?(Array)
+        label_text = "#{label_text} (#{value.count})"
       end
-      label_text
+
+      "#{label_text}: "
     end
 
     def abbreviated_text(text, options)
@@ -114,10 +102,6 @@ module OpenProject::PDFExport::ExportCard
       text.to_s
     rescue Prawn::Errors::CannotFit
       ''
-    end
-
-    def localised_property_name
-      @work_package.class.human_attribute_name(@localised_custom_field_name ||= @property_name)
     end
 
     def draw_value(value)
