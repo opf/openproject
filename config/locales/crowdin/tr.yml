@@ -1410,6 +1410,22 @@ tr:
     imagemagick: 'Resim büyüsü'
   journals:
     changes_retracted: "Değişiklikler geri çekildi."
+    caused_changes:
+      dates_changed: "Dates changed"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} is now working"
+          non_working: "%{day} is now non-working"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} is now non-working"
   links:
     configuration_guide: 'Yapılandırma rehberi'
     get_in_touch: "Senin soruların var? Bizimle temasa geçin."
@@ -2065,6 +2081,7 @@ tr:
       more_to_see:
         one: 'Bildirimli 1 iş paketi daha var.'
         other: 'Bildirimleri olan %{count} iş paketi daha var.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'İzlendi'
         assigned: 'Atanmış'
@@ -2589,6 +2606,7 @@ tr:
     attachments:
       whitelist_text_html: >
         Yüklenen dosyalar için geçerli dosya uzantılarının ve/veya mim türlerinin bir listesini tanımlayın. <br/> Dosya uzantılarını (ör. <code>%{ext_example}</code>) veya mime türlerini (ör. <code>%{mime_example}</code>) girin. <br/> Herhangi bir dosya türünün yüklenmesine izin vermek için boş bırakın. Birden çok değere izin verilir (her değer için bir satır).
+    language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: 'Bir e-postanın hangi olay için gönderileceğini yönetir. İş paketleri, bildirimleri her kullanıcı için özel olarak yapılandırılabileceğinden bu listenin dışında tutulur.'
       delay_minutes_explanation: "E-posta gönderimi, uygulama bildirimi yapılandırılmış olan kullanıcıların bir posta gönderilmeden önce uygulama içindeki bildirimi onaylamasına izin vermek için geciktirilebilir. Uygulama içinde bir bildirim okuyan kullanıcılar, okunan bildirim için bir e-posta almaz."

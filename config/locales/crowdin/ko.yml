@@ -1391,6 +1391,22 @@ ko:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "변경 사항이 취소되었습니다."
+    caused_changes:
+      dates_changed: "Dates changed"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} is now working"
+          non_working: "%{day} is now non-working"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} is now non-working"
   links:
     configuration_guide: '구성 가이드'
     get_in_touch: "질문이 있으신가요? 문의해 주세요."
@@ -2045,6 +2061,7 @@ ko:
       mentioned_by: '%{user} 님이 코멘트에서 회원님을 멘션했습니다.'
       more_to_see:
         other: '알림이 있는 작업 패키지가 %{count}개 더 있습니다.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: '지켜봄'
         assigned: '할당됨'
@@ -2568,6 +2585,7 @@ ko:
     attachments:
       whitelist_text_html: >
         업로드된 파일의 유효한 파일 확장명 및/또는 MIME 형식 목록을 정의합니다. <br/> 파일 확장명(예: <code>%{ext_example}</code>) 또는 MIME 형식(예: <code>%{mime_example}</code>)을 입력합니다. <br/> 모든 파일 형식을 업로드할 수 있도록 허용하려면 비워 둡니다. 여러 값이 허용됩니다(각 값에 대해 한 줄).
+    language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: '이메일을 보낼 이벤트를 관리합니다. 작업 패키지에 대한 알림은 각 사용자에 대해 구체적으로 구성할 수 있으므로 작업 패키지는 이 목록에 포함되지 않습니다.'
       delay_minutes_explanation: "인앱 알림이 구성된 사용자가 메일이 전송되기 전에 애플리케이션 내에서 알림을 확인할 수 있도록 이메일 전송이 지연될 수 있습니다. 애플리케이션 내에서 알림을 읽은 사용자는 이미 읽은 알림에 대한 이메일을 받지 않습니다."

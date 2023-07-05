@@ -1449,6 +1449,22 @@ cs:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Změny byly staženy."
+    caused_changes:
+      dates_changed: "Dates changed"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} is now working"
+          non_working: "%{day} is now non-working"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} is now non-working"
   links:
     configuration_guide: 'Konfigurační manuál'
     get_in_touch: "Máte otázky? Spojte se s námi."
@@ -2106,6 +2122,7 @@ cs:
         few: 'Existuje ještě  %{count}  pracovních balíčků s oznámeními.'
         many: 'Existuje ještě  %{count}  pracovních balíčků s oznámeními.'
         other: 'Existuje ještě  %{count}  pracovních balíčků s oznámeními.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Sledováno'
         assigned: 'Přiřazen'
@@ -2634,6 +2651,7 @@ cs:
     attachments:
       whitelist_text_html: >
         Definujte seznam platných přípon souborů a/nebo mime typů pro nahrané soubory. <br/> Zadejte přípony souborů (např. <code>%{ext_example}</code>) nebo mime typy (např. ., <code>%{mime_example}</code>). <br/> Ponechte prázdné pro nahrání jakéhokoli typu souboru. Povoleno více hodnot (jeden řádek pro každou hodnotu).
+    language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: 'Určuje, pro kterou událost je odeslán e-mail. Pracovní balíčky jsou z tohoto seznamu vyloučeny, protože oznámení pro ně mohou být nastavena speciálně pro každého uživatele.'
       delay_minutes_explanation: "Odesílání e-mailu může být pozdrženo, aby bylo uživatelům s nakonfigurovaným v oznámení aplikace před odesláním pošty potvrzeno oznámení. Uživatelé, kteří si přečtou oznámení v aplikaci, nedostanou e-mail pro již přečtené oznámení."

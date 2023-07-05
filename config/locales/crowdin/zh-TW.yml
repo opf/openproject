@@ -1392,6 +1392,22 @@ zh-TW:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "更改已被撤銷"
+    caused_changes:
+      dates_changed: "Dates changed"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} is now working"
+          non_working: "%{day} is now non-working"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} is now non-working"
   links:
     configuration_guide: '設定指南'
     get_in_touch: "如有任何問題，歡迎聯繫我們"
@@ -2046,6 +2062,7 @@ zh-TW:
       mentioned_by: '%{user} mentioned you in a comment'
       more_to_see:
         other: "還有 1 個帶有通知的工作包\n\n還有 %{count} 個帶有通知的工作包"
+      open_in_browser: 'Open in browser'
       reason:
         watched: '監看'
         assigned: '指派'
@@ -2571,6 +2588,7 @@ zh-TW:
     attachments:
       whitelist_text_html: >
         為上傳的文件定義有效文件副檔名和/或 MIME 類型的列表。 <br/> 輸入文件副檔名（例如 <code>%{ext_example}</code>）或 MIME 類型（例如 <code>%{mime_example}</code>）。 <br/> 留空以允許上傳任何文件類型。允許多個值（每個值一行）。
+    language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: '控制發送電子郵件的事件。工作包不包括在此列表中，因為可以為每個用戶專門配置它們的通知'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."

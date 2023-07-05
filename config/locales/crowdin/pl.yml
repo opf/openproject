@@ -1446,6 +1446,22 @@ pl:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Zmiany zostały wycofane."
+    caused_changes:
+      dates_changed: "Dates changed"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} is now working"
+          non_working: "%{day} is now non-working"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} is now non-working"
   links:
     configuration_guide: 'Przewodnik po konfiguracji'
     get_in_touch: "Masz pytania? Skontaktuj się z nami."
@@ -2103,6 +2119,7 @@ pl:
         few: 'Istnieją jeszcze %{count} pakiety robocze z powiadomieniami.'
         many: 'Istnieje jeszcze %{count} pakietów roboczych z powiadomieniami.'
         other: 'Istnieją jeszcze %{count} pakietów roboczych z powiadomieniami.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Obserwowane'
         assigned: 'Przypisane'
@@ -2629,6 +2646,7 @@ pl:
     attachments:
       whitelist_text_html: >
         Zdefiniuj listę poprawnych rozszerzeń plików i/lub typów mime dla przesłanych plików. <br/> Wprowadź rozszerzenia plików (np. <code>%{ext_example}</code>) lub typy mime (np. <code>%{mime_example}</code>). <br/> Pozostaw puste, aby umożliwić przesłanie dowolnego typu pliku. Dozwolone wielokrotne wartości (jeden wiersz dla każdej wartości).
+    language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: 'Zarządza dla których zdarzeń są wysyłane wiadomości e-mail. Pakiety robocze są wyłączone z tej listy, ponieważ ich powiadomienia mogą być skonfigurowane specjalnie dla każdego użytkownika.'
       delay_minutes_explanation: "Wysyłanie wiadomości e-mail może być opóźnione, aby umożliwić użytkownikom ze skonfigurowanymi powiadomieniami w aplikacji potwierdzenie powiadomienia w aplikacji przed wysłaniem wiadomości. Użytkownicy, którzy przeczytali powiadomienie w aplikacji nie otrzymają wiadomości e-mail dla powiadomień już przeczytanych."
