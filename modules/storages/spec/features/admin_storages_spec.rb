@@ -110,7 +110,7 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true, with_flag: {
     page.click_button('Done, complete setup')
     # Check that we're still on the same page
     expect(page).to have_title("Automatically managed project folders")
-    expect(page).to have_content("Application password can't be blank.")
+    expect(page).to have_content("Password can't be blank.")
 
     # Fill in application password and submit
     automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
@@ -211,7 +211,7 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true, with_flag: {
     page.click_button('Save')
     # Check that we're still on the same page
     expect(page).to have_title("Automatically managed project folders")
-    expect(page).to have_content("Application password can't be blank.")
+    expect(page).to have_content("Password can't be blank.")
 
     # Switch off automatically managed project folders
     page.find('[data-qa-selector="spot-switch-handle"]').click
