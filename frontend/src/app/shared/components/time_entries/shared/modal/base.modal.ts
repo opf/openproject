@@ -84,6 +84,8 @@ export abstract class TimeEntryBaseModal extends OpModalComponent implements OnI
   }
 
   protected reloadWorkPackageAndClose():void {
+    this.service.close();
+    this.formInFlight = false;
     // reload workPackage
     if (this.entry.workPackage) {
       void this
@@ -92,8 +94,7 @@ export abstract class TimeEntryBaseModal extends OpModalComponent implements OnI
         .id(this.entry.workPackage)
         .refresh();
     }
-    this.service.close();
-    this.formInFlight = false;
+
     this.cdRef.detectChanges();
   }
 }
