@@ -7,7 +7,7 @@ set -e
 CLI="${APP_NAME}"
 
 # Set the configured admin email
-ADMIN_EMAIL="$(wiz_get "openproject/admin_email" || wiz_get "smtp/admin_email")"
+${CLI} config:set OPENPROJECT_SEED_ADMIN_USER_MAIL="$(wiz_get "openproject/admin_email" || wiz_get "smtp/admin_email")"
 ${CLI} config:set RECOMPILE_RAILS_ASSETS="true"
 
 # Set the configured default language
