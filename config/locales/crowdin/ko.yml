@@ -2057,6 +2057,7 @@ ko:
       mentioned_by: '%{user} 님이 코멘트에서 회원님을 멘션했습니다.'
       more_to_see:
         other: '알림이 있는 작업 패키지가 %{count}개 더 있습니다.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: '지켜봄'
         assigned: '할당됨'

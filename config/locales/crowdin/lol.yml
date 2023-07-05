@@ -2053,6 +2053,7 @@ lol:
       more_to_see:
         one: 'crwdns799420:1crwdne799420:1'
         other: 'crwdns799420:5%{count}crwdne799420:5'
+      open_in_browser: 'crwdns858055:0crwdne858055:0'
       reason:
         watched: 'crwdns799422:0crwdne799422:0'
         assigned: 'crwdns799424:0crwdne799424:0'

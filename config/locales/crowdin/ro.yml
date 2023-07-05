@@ -2094,6 +2094,7 @@ ro:
         one: 'Mai există un pachet de lucru cu notificări.'
         few: 'Există %{count} mai multe pachete de lucru cu notificări.'
         other: 'Există %{count} mai multe pachete de lucru cu notificări.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Văzut'
         assigned: 'Alocat'

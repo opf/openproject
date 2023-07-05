@@ -2112,6 +2112,7 @@ cs:
         few: 'Existuje ještě %{count} pracovních balíčků s notifikacema.'
         many: 'Existuje ještě %{count} pracovních balíčků s notifikacema.'
         other: 'Existuje ještě %{count} pracovních balíčků s notifikacema.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Sledováno'
         assigned: 'Přiřazen'

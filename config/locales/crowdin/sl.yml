@@ -2109,6 +2109,7 @@ sl:
         two: 'There are %{count} more work packages with notifications.'
         few: 'There are %{count} more work packages with notifications.'
         other: 'There are %{count} more work packages with notifications.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Watched'
         assigned: 'Assigned'

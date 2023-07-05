@@ -2071,6 +2071,7 @@ de:
       more_to_see:
         one: 'Es gibt ein weiteres Arbeitspaket mit Benachrichtigungen.'
         other: 'Es gibt %{count} weitere Arbeitspakete mit Benachrichtigungen.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Beobachtet'
         assigned: 'Zugewiesen'

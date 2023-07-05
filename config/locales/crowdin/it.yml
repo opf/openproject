@@ -2073,6 +2073,7 @@ it:
       more_to_see:
         one: 'C''è un altro pacchetto di lavoro con le notifiche.'
         other: 'Ci sono altri %{count} pacchetti di lavoro con notifiche.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Visto'
         assigned: 'Assegnato'

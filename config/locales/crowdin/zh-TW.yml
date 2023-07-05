@@ -2058,6 +2058,7 @@ zh-TW:
       mentioned_by: '%{user} mentioned you in a comment'
       more_to_see:
         other: "還有 1 個帶有通知的工作包\n\n還有 %{count} 個帶有通知的工作包"
+      open_in_browser: 'Open in browser'
       reason:
         watched: '監看'
         assigned: '指派'

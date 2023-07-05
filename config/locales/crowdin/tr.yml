@@ -2075,6 +2075,7 @@ tr:
       more_to_see:
         one: 'Bildirimli 1 iş paketi daha var.'
         other: 'Bildirimleri olan %{count} iş paketi daha var.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'İzlendi'
         assigned: 'Atanmış'

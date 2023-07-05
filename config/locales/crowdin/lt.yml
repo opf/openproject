@@ -2109,6 +2109,7 @@ lt:
         few: 'Yra dar %{count} darbų paketai su pranešimais.'
         many: 'Yra dar %{count} darbų paketai su pranešimais.'
         other: 'Yra dar %{count} darbų paketų su pranešimais.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Stebimas'
         assigned: 'Paskirtas'
