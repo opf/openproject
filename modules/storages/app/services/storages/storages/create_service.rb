@@ -50,5 +50,14 @@ module Storages::Storages
 
       service_call
     end
+
+    # @override BaseServices::Create#instance to return a Storages::{ProviderType}Storage class name
+    # At this stage, the model contract has already been validated, so we can be sure of the provider_type presence
+    # @example instance_klass = Storages::NextcloudStorage
+    #
+    def instance(params)
+      instance_klass = params[:provider_type].constantize
+      instance_klass.new
+    end
   end
 end
