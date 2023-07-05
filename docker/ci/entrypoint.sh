@@ -72,6 +72,7 @@ setup_tests() {
 }
 
 run_units() {
+	shopt -s extglob
 	reset_dbs
 	execute_quiet "cp -f /cache/turbo_runtime_units.log spec/support/ || true"
 	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/turbo_runtime_units.log spec/!(features) modules/**/spec/!(features)"
@@ -80,6 +81,7 @@ run_units() {
 }
 
 run_features() {
+	shopt -s extglob
 	reset_dbs
 	execute_quiet "cp -f /cache/turbo_runtime_features.log spec/support/ || true"
 	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/turbo_runtime_features.log spec/features modules/**/spec/features"
@@ -88,6 +90,7 @@ run_features() {
 }
 
 run_all() {
+	shopt -s globstar
 	reset_dbs
 	execute_quiet "cp -f /cache/turbo_runtime_all.log spec/support/ || true"
 	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/turbo_runtime_all.log spec modules/**/spec"
