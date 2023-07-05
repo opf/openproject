@@ -222,8 +222,6 @@ configure_apache2_server() {
 PerlSwitches -I/usr/lib/perl5
 PerlLoadModule Apache::OpenProjectAuthentication
 PerlLoadModule Apache::OpenProjectRepoman
-PerlInitHandler Apache2::Reload
-PerlSetVar ReloadAll Off
 SERVER_CONF
 			;;
 		"redhat")
@@ -235,8 +233,6 @@ SERVER_CONF
 PerlSwitches -I/usr/lib64/perl5/vendor_perl
 PerlLoadModule Apache::OpenProjectAuthentication
 PerlLoadModule Apache::OpenProjectRepoman
-PerlInitHandler Apache2::Reload
-PerlSetVar ReloadAll Off
 SERVER_CONF
 			;;
 		"suse")
