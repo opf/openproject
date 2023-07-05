@@ -1,8 +1,8 @@
-version: "3.8"
+version: "3.9"
 
 services:
   traefik:
-    image: traefik
+    image: traefik:latest
     command: >
       --providers.docker
       --providers.docker.network=gateway
@@ -47,7 +47,7 @@ services:
       - "traefik.http.middlewares.redirect.redirectscheme.permanent=false"
 
   step:
-    image: smallstep/step-ca:0.20.0
+    image: smallstep/step-ca:latest
     restart: unless-stopped
     logging:
       options:

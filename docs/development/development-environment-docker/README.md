@@ -240,7 +240,7 @@ We have plans to add a local DNS to this development setup, making two things po
 1. No requirement to amend your `/etc/hosts` file anymore.
 2. Being accessible from another device within your internal network (e.g. a cellphone).
 
-### Local certificate authority and reverse proxy
+### Local certificate authority
 
 We use [traefik](https://traefik.io/) as a reverse proxy and [step-ca](https://smallstep.com/docs/step-ca/) as a local
 certificate authority, so that you can enhance your development setup with TLS encryption without being forced to have
@@ -258,17 +258,33 @@ docker network create gateway
 docker compose --project-directory docker/dev/tls up -d step
 
 # Add traefik as an ACME CA provisioner
-docker compose --project-directory docker/dev/tls exec step step ca provisioner add traefik --type ACME
+docker compose --project-directory docker/dev/tls exec step step ca provisioner add traefik \
+  --type ACME --ca-url https://step.local:9000
 
-# Restart full proxy and ca stack
-docker compose --project-directory docker/dev/tls down
-docker compose --project-directory docker/dev/tls up -d
+# Update ca.json to increase certificate duration
+# Hint: if you do not have `jq`, please edit the `ca.json` manually
+docker compose --project-directory docker/dev/tls cp step:/home/step/config/ca.json ca_src.json
+jq '.authority |= . + {"claims":{"maxTLSCertDuration":"8760h","defaultTLSCertDuration":"8760h"}}' ca_src.json > ca.json
+docker compose --project-directory docker/dev/tls cp ca.json step:/home/step/config/ca.json
+rm ca_src.json ca.json
 ```
 
-It will take a couple of seconds to start, as there is a health check in the step container. In the first run `step`
-will create the root CA, which is later stored in a persisted volume. You need to install this root CA on your machine
-and your browsers, so that any issued certificate is considered trusted. This process however is very dependent on your
-OS.
+If you do not have `jq`, please edit the `ca.json` manually and merge the following json into the source.
+
+```json
+{
+  "authority": {
+    "claims": {
+      "maxTLSCertDuration": "8760h",
+      "defaultTLSCertDuration": "8760h"
+    }
+  }
+}
+```
+
+`step` will create the root CA, which is later stored in a persisted volume. You need to install this root CA on your
+machine and your browsers, so that any issued certificate is considered trusted. This process however is very dependent
+on your OS.
 
 ### Install root CA
 
@@ -277,19 +293,12 @@ container and your browser. Once you followed the steps for your OS-dependent se
 accordingly. For that we provide a compose example file at `docker/dev/tls/docker-compose.override.example.yml`. In this
 file you find custom code, that provides the necessary configuration for each supported OS.
 
-In addition, you can find here the section `extra_hosts`, which is necessary for the `step` container to execute the
-existence checking request while the certificate issuing process.
-
-If everything went well, you can check the setup by visiting the traefik dashboard at `https://traefik.local`. Here you
-will eventually find the connected services, too, which is an easy way to check, if your services are recognized by the
-traefik proxy.
-
 ```shell
 # Copy the override example and edit it for your OS
 cp docker/dev/tls/docker-compose.override.example.yml docker/dev/tls/docker-compose.override.yml
 ```
 
-Be aware, that every new service needs to be added to that override
+After copying, delete the volume mounts, which are not applicable for your OS.
 
 #### Browser
 
@@ -307,8 +316,7 @@ for that specific browser.
 
 #### Debian/Ubuntu
 
-On a Debian OS you need the generated root CA to be put under `/usr/local/share/ca-certificates` and create a symbolic
-link to it under `/etc/ssl/certs`.
+On Debian, you need to add the generated root CA to system certificates bundle.
 
 ```shell
 # Copy the .crt file into CA certificate location.
@@ -318,32 +326,50 @@ docker compose --project-directory docker/dev/tls cp \
 
 # Create symbolic link   
 ln -s /usr/local/share/ca-certificates/OpenProject_Development_Root_CA.crt /etc/ssl/certs/OpenProject_Development_Root_CA.pem
+
+# Update certificate bundle
+update-ca-certificates
 ```
+
+After that the generated root CA should be inside `/etc/ssl/certs/ca-certificates.crt`.
 
 #### NixOS
 
-On NixOS, you need to add the generated root CA to system certificates bundle.
+On NixOS, you need to add the generated root CA to system certificates bundle. To do so, you need to persist the
+certificate on your system.
 
 ```shell
-# Copy the .crt file into a location in your file system.
-docker compose --project-directory docker/dev/tls cp \
- step:/home/step/certs/root_ca.crt ~/tmp/OpenProject_Development_Root_CA.crt
+# Copy the .crt file into a persisted location in your file system.
+docker compose --project-directory docker/dev/tls cp step:/home/step/certs/root_ca.crt path_to_root_ca.crt
 ```
 
 Add the following configuration option to your NixOS:
 
 ```text
-security.pki.certificateFiles = [ ~/tmp/OpenProject_Development_Root_CA.crt ];
+security.pki.certificateFiles = [ path_to_root_ca.crt ];
 ```
 
 Then rebuild your system. After that the generated root CA should be inside `/etc/ssl/certs/ca-certificates.crt`.
+
+### Reverse proxy
+
+After installing the root CA on your system, you need to start the reverse proxy, which now should be able to verify the
+issued certificated requested from `step-ca`.
+
+```shell
+# Restart full proxy and ca stack
+docker compose --project-directory docker/dev/tls down
+docker compose --project-directory docker/dev/tls up -d
+```
+
+It will take a couple of seconds to start, as there is a health check in the step container.
 
 ### Amend docker services
 
 The docker services of the `docker-compose.yml` need additional information to be able to run in the local setup with
 TLS support. Basically, you need to tell `traefik` for which docker compose service it needs to create a HTTP router.
 There is an example compose file (see `docker/dev/tls/docker-compose.core-override.example.yml`), which contents you can
-take over to your custom `docker-compose.override.yml`.
+take over to your custom `docker-compose.override.yml` in the repository root.
 
 In addition, we need to alter the environmental variables used in the new overrides. So we need to amend the `.env` file
 like that:
