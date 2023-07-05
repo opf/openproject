@@ -1,184 +1,111 @@
 # /api/v3/groups
 ---
 get:
+  summary: List groups
+  operationId: list_groups
+  tags:
+    - Groups
+  description: |-
+    Returns a collection of groups. The client can choose to filter the
+    groups similar to how work packages are filtered. In addition to the provided
+    filters, the server will reduce the result set to only contain groups, for which
+    the requesting client has sufficient permissions (*view_members*, *manage_members*).
   parameters:
-  - description: |-
-      JSON specifying sort criteria.
-      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported sorts are:
-
-      + id: Sort by primary key
-
-      + created_at: Sort by group creation datetime
-
-      + updated_at: Sort by the time the group was updated last
-    example: '[["id", "asc"]]'
-    in: query
-    name: sortBy
-    required: false
-    schema:
-      default: '[["id", "asc"]]'
-      type: string
-  - description: |-
-      Comma separated list of properties to include.
-    example: 'total,elements/name,elements/self,self'
-    in: query
-    name: select
-    required: false
-    schema:
-      type: string
+    - name: sortBy
+      description: |-
+        JSON specifying sort criteria.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported sorts are:
+        
+        + id: Sort by primary key
+        
+        + created_at: Sort by group creation datetime
+        
+        + updated_at: Sort by the time the group was updated last
+      in: query
+      required: false
+      example: '[["id", "asc"]]'
+      schema:
+        default: '[["id", "asc"]]'
+        type: string
+    - name: select
+      description: |-
+        Comma separated list of properties to include.
+      in: query
+      required: false
+      example: 'total,elements/name,elements/self,self'
+      schema:
+        type: string
   responses:
     '200':
-      content:
-        application/hal+json:
-          examples:
-            response:
-              value:
-                _embedded:
-                  elements:
-                  - _links:
-                      members:
-                      - href: "/api/v3/users/363"
-                        title: First user
-                      - href: "/api/v3/users/60"
-                        title: Second user
-                      memberships:
-                        href: /api/v3/memberships?filters=[{"principal":{"operator":"=","values":["9"]}}]
-                        title: Memberships
-                      self:
-                        href: "/api/v3/groups/9"
-                        title: The group
-                    _type: Group
-                    createdAt: '2015-09-23T11:06:36Z'
-                    id: 9
-                    name: The group
-                    updatedAt: '2015-09-23T11:06:36Z'
-                  - _links:
-                      members:
-                      - href: "/api/v3/users/343"
-                        title: Third user
-                      - href: "/api/v3/users/60"
-                        title: Second user
-                      memberships:
-                        href: /api/v3/memberships?filters=[{"principal":{"operator":"=","values":["123"]}}]
-                        title: Memberships
-                      self:
-                        href: "/api/v3/groups/123"
-                        title: Another group
-                    _type: Group
-                    createdAt: '2018-09-23T11:06:36Z'
-                    id: 123
-                    name: Another group
-                    updatedAt: '2019-09-23T11:06:36Z'
-                _links:
-                  self:
-                    href: "/api/v3/groups"
-                _type: Collection
-                count: 2
-                total: 2
-          schema:
-            "$ref": "../components/schemas/list_groups_model.yml"
       description: OK
-      headers: {}
-    '403':
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-                message: You are not authorized to access this resource.
+            $ref: '../components/schemas/group_collection_model.yml'
+    '403':
       description: |-
         Returned if the client does not have sufficient permissions.
 
         **Required permission:** View members or manage members in any project
-      headers: {}
-  tags:
-  - Groups
-  description: Returns a collection of groups. The client can choose to filter the
-    groups similar to how work packages are filtered. In addition to the provided
-    filters, the server will reduce the result set to only contain groups, for which
-    the requesting client has sufficient permissions (*view_members*, *manage_members*).
-  operationId: List_groups
-  summary: List groups
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+
 post:
-  responses:
-    '201':
-      content:
-        application/hal+json:
-          schema:
-            "$ref": "../components/schemas/view_group_model.yml"
-      description: Created
-      headers: {}
-    '400':
-      $ref: "../components/responses/invalid_request_body.yml"
-    '403':
-      content:
-        application/hal+json:
-          schema:
-            $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-                message: You are not authorized to access this resource.
-      description: |-
-        Returned if the client does not have sufficient permissions.
-
-        **Required permission:** Administrator
-      headers: {}
-    '406':
-      $ref: "../components/responses/missing_content_type.yml"
-    '415':
-      $ref: "../components/responses/unsupported_media_type.yml"
-    '422':
-      content:
-        application/hal+json:
-          schema:
-            $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _embedded:
-                  details:
-                    attribute: name
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
-                message: Name can't be blank.
-      description: |-
-        Returned if:
-
-        * a constraint for a property was violated (`PropertyConstraintViolation`)
-      headers: {}
+  summary: Create group
+  operationId: create_group
   tags:
-  - Groups
+    - Groups
   description: Creates a new group applying the attributes provided in the body.
-  operationId: Create_group
   requestBody:
     content:
       application/json:
         schema:
+          $ref: '../components/schemas/group_write_model.yml'
+  responses:
+    '201':
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/group_model.yml'
+    '400':
+      $ref: '../components/responses/invalid_request_body.yml'
+    '403':
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** Administrator
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
           example:
-            _links:
-              members:
-                - href: "/api/v3/users/363"
-                - href: "/api/v3/users/60"
-            name: The group
-          properties:
-            _links:
-              properties:
-                members:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-              type: object
-            name:
-              type: string
-          type: object
-  summary: Create group
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+    '406':
+      $ref: '../components/responses/missing_content_type.yml'
+    '415':
+      $ref: '../components/responses/unsupported_media_type.yml'
+    '422':
+      description: |-
+        Returned if:
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _embedded:
+              details:
+                attribute: name
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: Name can't be blank.

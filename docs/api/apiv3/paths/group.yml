@@ -1,14 +1,19 @@
 # /api/v3/groups/{id}
 ---
 delete:
+  summary: Delete group
+  operationId: delete_group
+  tags:
+    - Groups
+  description: Deletes the group.
   parameters:
-  - description: Group id
-    example: '1'
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - name: id
+      description: Group id
+      example: 1
+      in: path
+      required: true
+      schema:
+        type: integer
   responses:
     '202':
       description: |-
@@ -16,34 +21,20 @@ delete:
 
         Note that the response body is empty as of now. In future versions of the API a body
         *might* be returned, indicating the progress of deletion.
-      headers: {}
     '403':
-      content:
-        application/hal+json:
-          schema:
-            $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-                message: You are not authorized to access this resource.
       description: |-
         Returned if the client does not have sufficient permissions.
 
         **Required permission:** Administrator
-      headers: {}
-    '404':
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
-                message: The requested resource could not be found.
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+    '404':
       description: |-
         Returned if the group does not exist or the client does not have sufficient permissions
         to see it.
@@ -52,153 +43,104 @@ delete:
 
         *Note: A client without sufficient permissions shall not be able to test for the existence of
         a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
-      headers: {}
-    '406':
-      $ref: "../components/responses/missing_content_type.yml"
-    '415':
-      $ref: "../components/responses/unsupported_media_type.yml"
-  tags:
-  - Groups
-  description: Deletes the group.
-  operationId: Delete_group
-  summary: Delete group
-get:
-  parameters:
-  - description: Group id
-    example: '1'
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
-  responses:
-    '200':
-      content:
-        application/hal+json:
-          examples:
-            response:
-              value:
-                _links:
-                  delete:
-                    href: "/api/v3/group/9"
-                    method: delete
-                  members:
-                  - href: "/api/v3/users/363"
-                    title: First user
-                  - href: "/api/v3/users/60"
-                    title: Second user
-                  memberships:
-                    href: /api/v3/memberships?filters=[{"principal":{"operator":"=","values":["9"]}}]
-                    title: Memberships
-                  self:
-                    href: "/api/v3/groups/9"
-                    title: The group
-                  updateImmediately:
-                    href: "/api/v3/group/9"
-                    method: patch
-                _type: Group
-                createdAt: '2015-09-23T11:06:36Z'
-                id: 9
-                name: The group
-                updatedAt: '2015-09-23T11:06:36Z'
-          schema:
-            "$ref": "../components/schemas/view_group_model.yml"
-      description: OK
-      headers: {}
-    '404':
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
+            $ref: '../components/schemas/error_response.yml'
           examples:
             response:
               value:
                 _type: Error
                 errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
                 message: The requested resource could not be found.
+    '406':
+      $ref: '../components/responses/missing_content_type.yml'
+    '415':
+      $ref: '../components/responses/unsupported_media_type.yml'
+
+get:
+  summary: Get group
+  operationId: get_group
+  tags:
+    - Groups
+  description: Fetches a group resource.
+  parameters:
+    - name: id
+      description: Group id
+      example: 1
+      in: path
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/group_model.yml'
+    '404':
       description: |-
         Returned if the group does not exist or if the API user does not have permission to view them.
 
         **Required permission** If the user has the *manage members* permission in at least one project the user will be able to query all groups. If not, the user
         will be able to query all groups which are members in projects, he has the *view members* permission in.
-      headers: {}
-  tags:
-  - Groups
-  description: ''
-  operationId: View_group
-  summary: View group
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+
 patch:
+  summary: Update group
+  operationId: update_group
+  tags:
+    - Groups
+  description: |-
+    Updates the given group by applying the attributes provided in the body.
+
+    Please note that the `members` array provided will override the existing set of members (similar to a PUT). A
+    client thus has to provide the complete list of members the group is to have after the PATCH even if only one
+    member is to be added.
   parameters:
-  - description: Group id
-    example: '1'
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - name: id
+      description: Group id
+      example: 1
+      in: path
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/group_write_model.yml'
   responses:
     '200':
-      content:
-        application/hal+json:
-          examples:
-            response:
-              value:
-                _links:
-                  delete:
-                    href: "/api/v3/group/9"
-                    method: delete
-                  members:
-                    - href: "/api/v3/users/363"
-                      title: First user
-                    - href: "/api/v3/users/60"
-                      title: Second user
-                  memberships:
-                    href: /api/v3/memberships?filters=[{"principal":{"operator":"=","values":["9"]}}]
-                    title: Memberships
-                  self:
-                    href: "/api/v3/groups/9"
-                    title: The group
-                  updateImmediately:
-                    href: "/api/v3/group/9"
-                    method: patch
-                _type: Group
-                createdAt: '2015-09-23T11:06:36Z'
-                id: 9
-                name: The group
-                updatedAt: '2015-09-23T11:06:36Z'
-          schema:
-            "$ref": "../components/schemas/view_group_model.yml"
       description: OK
-      headers: {}
-    '400':
-      $ref: "../components/responses/invalid_request_body.yml"
-    '403':
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-                message: You are not authorized to access this resource.
+            $ref: '../components/schemas/group_model.yml'
+    '400':
+      $ref: '../components/responses/invalid_request_body.yml'
+    '403':
       description: |-
         Returned if the client does not have sufficient permissions.
 
         **Required permission:** Administrator
-      headers: {}
-    '404':
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
-                message: The requested resource could not be found.
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+    '404':
       description: |-
         Returned if the group does not exist or the client does not have sufficient permissions
         to see it.
@@ -208,61 +150,31 @@ patch:
 
         *Note: A client without sufficient permissions shall not be able to test for the existence of
         a version. That's why a 404 is returned here, even if a 403 might be more appropriate.*
-      headers: {}
-    '406':
-      $ref: "../components/responses/missing_content_type.yml"
-    '415':
-      $ref: "../components/responses/unsupported_media_type.yml"
-    '422':
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _embedded:
-                  details:
-                    attribute: members
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
-                message: Member is already taken.
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+    '406':
+      $ref: '../components/responses/missing_content_type.yml'
+    '415':
+      $ref: '../components/responses/unsupported_media_type.yml'
+    '422':
       description: |-
         Returned if:
 
         * a constraint for a property was violated (`PropertyConstraintViolation`)
-      headers: {}
-  tags:
-  - Groups
-  description: |-
-    Updates the given group by applying the attributes provided in the
-    body.
-
-    Please note that the `members` array provided will override the existing set of members (similar to a PUT). A client thus
-    has to provide the complete list of members the group is to have after the PATCH even if only one member is to be added.
-  operationId: Update_group
-  requestBody:
-    content:
-      application/json:
-        schema:
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
           example:
-            _links:
-              members:
-                - href: "/api/v3/users/363"
-                - href: "/api/v3/users/60"
-            name: The group
-          properties:
-            _links:
-              properties:
-                members:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      href:
-                        type: string
-              type: object
-            name:
-              type: string
-          type: object
-  summary: Update group
+            _embedded:
+              details:
+                attribute: members
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: Member is already taken.
