@@ -56,7 +56,11 @@ RSpec.describe Storages::NextcloudStorage do
         allow(ApplicationRecord).to receive(:with_advisory_lock).and_return(false)
 
         expect(subject).to be(false)
-        expect(ApplicationRecord).to have_received(:with_advisory_lock).with('nextcloud_storages_sync', timeout_seconds: 0).once
+        expect(ApplicationRecord).to have_received(:with_advisory_lock).with(
+          'sync_all_group_folders',
+          timeout_seconds: 0,
+          transaction: false
+        ).once
       end
     end
   end

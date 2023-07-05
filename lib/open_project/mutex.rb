@@ -58,6 +58,7 @@ module OpenProject
       lock_name = "mutex_on_#{entry.class.name}_#{entry.id}"
       lock_name << "_#{suffix}" if suffix
 
+      options[:transaction] ||= true
       ActiveRecord::Base.transaction do
         with_advisory_lock(entry.class, lock_name, options, &)
       end
@@ -65,7 +66,6 @@ module OpenProject
 
     def with_advisory_lock(resource_class, lock_name, options = {})
       debug_log("Attempting to fetched advisory lock", lock_name)
-      options[:transaction] ||= true
       result = resource_class.with_advisory_lock(lock_name, options) do
         debug_log("Fetched advisory lock", lock_name)
         yield

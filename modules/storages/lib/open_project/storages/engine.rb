@@ -58,7 +58,7 @@ module OpenProject::Storages
             OpenProject::Events::PROJECT_RENAMED
           ].each do |event|
             OpenProject::Notifications.subscribe(event) do |_payload|
-              ManageNextcloudIntegrationEventsJob.debounce
+              ::Storages::ManageNextcloudIntegrationEventsJob.debounce
             end
           end
         end
