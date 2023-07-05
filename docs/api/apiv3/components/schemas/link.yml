@@ -5,8 +5,9 @@ required:
   - href
 properties:
   href:
-    type: string
-    nullable: true
+    type:
+      - 'string'
+      - 'null'
     description: URL to the referenced resource (might be relative)
   title:
     type: string
