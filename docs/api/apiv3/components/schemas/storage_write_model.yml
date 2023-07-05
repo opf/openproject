@@ -6,8 +6,9 @@ properties:
     type: string
     description: Storage name, if not provided, falls back to a default.
   applicationPassword:
-    type: string
-    nullable: true
+    type:
+      - string
+      - 'null'
     description: |-
       The application password to use for the Nextcloud storage. Ignored if the provider type is not Nextcloud.
 
