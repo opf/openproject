@@ -29,6 +29,7 @@ module BasicData
   class StatusSeeder < ModelSeeder
     self.model_class = Status
     self.seed_data_model_key = 'statuses'
+    self.attribute_names_for_lookups = %i[name is_closed is_default]
     self.needs = [
       BasicData::ColorSeeder,
       BasicData::ColorSchemeSeeder

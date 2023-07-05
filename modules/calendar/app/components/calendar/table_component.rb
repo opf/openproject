@@ -28,18 +28,28 @@
 
 module Calendar
   class TableComponent < ::TableComponent
-    options :current_user
-    columns :name, :created_at
+    options :current_project, :current_user
 
-    def sortable?
-      false
+    sortable_columns :name, :project_id, :created_at
+
+    def initial_sort
+      %i[name asc]
+    end
+
+    def paginated?
+      true
     end
 
     def headers
-      [
+      @headers ||= [
         ['name', { caption: I18n.t(:label_name) }],
+        current_project.blank? ? ['project_id', { caption: I18n.t('attributes.project') }] : nil,
         ['created_at', { caption: I18n.t('attributes.created_at') }]
-      ]
+      ].compact
+    end
+
+    def columns
+      @columns ||= headers.map(&:first)
     end
   end
 end

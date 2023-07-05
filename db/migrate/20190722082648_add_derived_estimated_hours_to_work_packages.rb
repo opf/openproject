@@ -1,5 +1,33 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2023 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 class AddDerivedEstimatedHoursToWorkPackages < ActiveRecord::Migration[5.2]
-  class WorkPackageWithRelations < ActiveRecord::Base
+  class WorkPackageWithRelations < ApplicationRecord
     self.table_name = "work_packages"
 
     scope :with_children, ->(*_args) do
@@ -39,31 +67,31 @@ class AddDerivedEstimatedHoursToWorkPackages < ActiveRecord::Migration[5.2]
   # for parent work packages separately while the UpdateAncestorsService
   # only touches the derived_estimated_hours column.
   def migrate_to_derived_estimated_hours!
-    last_id = Journal.order(id: :desc).limit(1).pluck(:id).first || 0
+    last_id = Journal.order(id: :desc).limit(1).pick(:id) || 0
 
     work_packages = WorkPackageWithRelations.with_children.where("estimated_hours > ?", 0)
     work_packages.update_all("derived_estimated_hours = estimated_hours, estimated_hours = NULL")
     work_packages = WorkPackageWithRelations.with_children.where("derived_estimated_hours > ?", 0)
 
     create_journals_for work_packages
-    create_work_package_journals last_id: last_id
-    create_customizable_journals last_id: last_id
-    create_attachable_journals last_id: last_id
+    create_work_package_journals(last_id:)
+    create_customizable_journals(last_id:)
+    create_attachable_journals(last_id:)
 
     touch_work_packages work_packages # to invalidate cache
   end
 
   def rollback_from_derived_estimated_hours!
-    last_id = Journal.order(id: :desc).limit(1).pluck(:id).first || 0
+    last_id = Journal.order(id: :desc).limit(1).pick(:id) || 0
 
     work_packages = WorkPackageWithRelations.with_children.where("derived_estimated_hours > ?", 0)
     work_packages.update_all("estimated_hours = derived_estimated_hours, derived_estimated_hours = NULL")
     work_packages = WorkPackageWithRelations.with_children.where("estimated_hours > ?", 0)
 
     create_journals_for work_packages, notes: rollback_notes
-    create_work_package_journals last_id: last_id
-    create_customizable_journals last_id: last_id
-    create_attachable_journals last_id: last_id
+    create_work_package_journals(last_id:)
+    create_customizable_journals(last_id:)
+    create_attachable_journals(last_id:)
 
     touch_work_packages work_packages # to invalidate cache
   end

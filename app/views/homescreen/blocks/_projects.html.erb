@@ -22,8 +22,8 @@
           { class: 'button -alt-highlight',
             aria: {label: t(:label_project_new)},
             title: t(:label_project_new)} do %>
-      <%= spot_icon('add') %>
-      <span><%= Project.model_name.human %></span>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= Project.model_name.human %></span>
     <% end %>
   <% end %>
 

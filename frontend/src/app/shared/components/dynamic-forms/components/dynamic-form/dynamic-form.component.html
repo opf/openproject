@@ -1,5 +1,5 @@
 <form
-  *ngIf="form && handleSubmit && fields.length"
+  *ngIf="form && handleSubmit"
   data-qa="op-form--container"
   class="op-form"
   [formGroup]="form"
@@ -34,7 +34,7 @@
 <formly-form
   data-qa="op-form--container"
   class="op-form--fieldset"
-  *ngIf="form && !handleSubmit && fields.length"
+  *ngIf="form && !handleSubmit"
   [form]="form"
   [model]="innerModel"
   [fields]="fields"

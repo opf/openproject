@@ -166,7 +166,7 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true do
     expect(page).to have_text(created_storage.created_at.localtime.strftime("%m/%d/%Y %I:%M %p"))
 
     # List of storages
-    page.find("ul.op-wp-breadcrumb li", text: "File storages").click
+    page.find("ul.op-breadcrumb li", text: "File storages").click
 
     # Delete on List page
     page.find('td.buttons .icon-delete').click

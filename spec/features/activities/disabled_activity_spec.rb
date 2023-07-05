@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Disabled activity' do
+RSpec.describe 'Disabled activity', js: true do
   shared_let(:admin) { create(:admin) }
 
   let(:project1) do
@@ -55,9 +55,7 @@ RSpec.describe 'Disabled activity' do
     create(:wiki_page, wiki:)
   end
 
-  before do
-    login_as(admin)
-  end
+  current_user { admin }
 
   it 'does not display activities on projects disabling it' do
     visit activity_index_path
