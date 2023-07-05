@@ -38,3 +38,23 @@ if OpenProject::Configuration.blacklisted_routes.any?
     [404, {}, ['Not found']]
   end
 end
+
+Rack::Attack.throttled_responder = lambda do |request|
+  match_data = request.env['rack.attack.match_data']
+  now = match_data[:epoch_time]
+  retry_after = match_data[:period] - (now % match_data[:period])
+
+  headers = {
+    'RateLimit-Limit' => match_data[:limit].to_s,
+    'RateLimit-Remaining' => '0',
+    'RateLimit-Reset' => (now + (match_data[:period] - (now % match_data[:period]))).to_s
+  }
+
+  [429, headers, ["Your request has been throttled. Try again at #{retry_after.seconds.from_now}.\n"]]
+end
+
+Rack::Attack.throttle("limit-lost-password", limit: 3, period: 1.hour.to_i) do |req|
+  if req.post? && req.path.end_with?('/account/lost_password')
+    req.env.dig "rack.request.form_hash", "mail"
+  end
+end
