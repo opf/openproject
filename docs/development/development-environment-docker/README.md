@@ -218,6 +218,11 @@ As an overview, you need to take the following, additional steps:
 2. Extract created root certificate and install it into system and browsers
 3. Amend docker containers with labels for proxy
 
+At the end you will be running two separate docker-compose stacks:
+
+1. the normal stack in the root of the repository, and
+2. the stack defined in `docker/dev/tls` that runs the CA and reverse proxy.
+
 If the setup is successful, you will be able to access the local OpenProject application
 under `https://openproject.local`. Of course, the host name is replaceable.
 
@@ -350,6 +355,8 @@ security.pki.certificateFiles = [ path_to_root_ca.crt ];
 ```
 
 Then rebuild your system. After that the generated root CA should be inside `/etc/ssl/certs/ca-certificates.crt`.
+However, you cannot mount this directly into the containers, since it's just a link. Use `readlink -f` to find out where
+the link points in your nix store, and mount that file directly.
 
 ### Reverse proxy
 
@@ -384,6 +391,16 @@ After amending the override file and the `.env`, ensure that you restart the sta
 ```shell
 docker compose up -d frontend
 ```
+
+### Adding a new service
+
+Some development tasks require you to run separate services that interact with OpenProject. For example, you might want
+to have Nextcloud running to test the Nextcloud-OpenProject integration. To do this, you'll need to follow some steps:
+
+1. Add the Nextcloud service to your `docker-compose.override.yml`, with the appropriate traefik labels, network, and
+   ca-bundle mounted.
+2. Make sure step-ca can reach it to validate it for SSH. In `docker/dev/tls/docker-compose.override.yml`, add the host
+   to the `aliases` section of the traefik networking.
 
 ### Troubleshooting
 
