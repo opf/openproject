@@ -379,7 +379,7 @@ paths:
   "/api/v3/time_entries/{id}/form":
     "$ref": "./paths/time_entries_id_form.yml"
   "/api/v3/time_entries/activity/{id}":
-    "$ref": "./paths/time_entries_activity_item.yml"
+    "$ref": "./paths/time_entry_activity.yml"
   "/api/v3/time_entries/available_projects":
     "$ref": "./paths/time_entries_available_projects.yml"
   "/api/v3/time_entries/form":
@@ -541,9 +541,9 @@ components:
       "$ref": "./components/schemas/collection_model.yml"
     ConfigurationModel:
       "$ref": "./components/schemas/configuration_model.yml"
-    Custom_ActionModel:
+    CustomActionModel:
       "$ref": "./components/schemas/custom_action_model.yml"
-    Custom_OptionModel:
+    CustomOptionModel:
       "$ref": "./components/schemas/custom_option_model.yml"
     DayCollectionModel:
       "$ref": "./components/schemas/day_collection_model.yml"
@@ -599,8 +599,6 @@ components:
       "$ref": "./components/schemas/list_projects_model.yml"
     List_projects_by_versionModel:
       "$ref": "./components/schemas/list_projects_by_version_model.yml"
-    List_time_entriesModel:
-      "$ref": "./components/schemas/list_time_entries_model.yml"
     MarkdownModel:
       "$ref": "./components/schemas/markdown_model.yml"
     NewsModel:
@@ -701,6 +699,12 @@ components:
       "$ref": "./components/schemas/storage_read_model.yml"
     StorageWriteModel:
       "$ref": "./components/schemas/storage_write_model.yml"
+    TimeEntryActivityModel:
+      "$ref": "./components/schemas/time_entry_activity_model.yml"
+    TimeEntryCollectionModel:
+      "$ref": "./components/schemas/time_entry_collection_model.yml"
+    TimeEntryModel:
+      "$ref": "./components/schemas/time_entry_model.yml"
     TypeModel:
       "$ref": "./components/schemas/type_model.yml"
     TypesModel:
@@ -741,10 +745,6 @@ components:
       "$ref": "./components/schemas/view_membership_schema_model.yml"
     View_project_statusModel:
       "$ref": "./components/schemas/view_project_status_model.yml"
-    View_time_entries_activityModel:
-      "$ref": "./components/schemas/view_time_entries_activity_model.yml"
-    View_time_entryModel:
-      "$ref": "./components/schemas/view_time_entry_model.yml"
     View_time_entry_schemaModel:
       "$ref": "./components/schemas/view_time_entry_schema_model.yml"
     View_user_schemaModel:

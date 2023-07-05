@@ -1,199 +1,144 @@
 # /api/v3/time_entries/{id}
 ---
 delete:
+  summary: Delete time entry
+  tags:
+    - Time entries
+  description: Permanently deletes the specified time entry.
+  operationId: delete_time_entry
   parameters:
-  - description: Time entry id
-    example: '1'
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - name: id
+      description: Time entry id
+      example: 1
+      in: path
+      required: true
+      schema:
+        type: integer
   responses:
     '204':
       description: Returned if the time entry was deleted successfully.
-      headers: {}
     '403':
-      content:
-        application/hal+json:
-          schema:
-            $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-                message: You are not authorized to access this resource.
       description: Returned if the client does not have sufficient permissions
-      headers: {}
-    '404':
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
-                message: The requested resource could not be found.
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+    '404':
       description: |-
         Returned if the time entry does not exist or if the user does not have sufficient permissions to see the time entry.
 
         **Required permission** `view time entries` in the project the time entry is assigned to or `view own time entries` for time entries belonging to the user
-      headers: {}
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
     '406':
-      $ref: "../components/responses/missing_content_type.yml"
+      $ref: '../components/responses/missing_content_type.yml'
     '415':
-      $ref: "../components/responses/unsupported_media_type.yml"
-  tags:
-  - Time Entries
-  description: Permanently deletes the specified time entry.
-  operationId: Delete_time_entry
-  summary: Delete time entry
+      $ref: '../components/responses/unsupported_media_type.yml'
+
 get:
+  summary: Get time entry
+  tags:
+    - Time entries
+  description: Retrieves a single time entry identified by the given id.
+  operationId: get_time_entry
   parameters:
-  - description: time entry id
-    example: '1'
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - name: id
+      description: time entry id
+      example: 1
+      in: path
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
-      content:
-        application/hal+json:
-          examples:
-            response:
-              value:
-                _embedded:
-                  activity...: {}
-                  project...: {}
-                  user...: {}
-                  workPackage...: {}
-                _links:
-                  activity:
-                    href: "/api/v3/time_entries/activities/18"
-                    title: Some time entry activity
-                  customField4:
-                    href: "/api/v3/users/5"
-                    title: Some other user
-                  delete:
-                    href: "/api/v3/time_entries/1"
-                    method: delete
-                  project:
-                    href: "/api/v3/projects/1"
-                    title: Some project
-                  self:
-                    href: "/api/v3/time_entries/1"
-                  updateImmediately:
-                    href: "/api/v3/time_entries/1"
-                    method: patch
-                  user:
-                    href: "/api/v3/users/2"
-                    title: Some user
-                  workPackage:
-                    href: "/api/v3/work_packages/1"
-                    title: Some work package
-                _type: TimeEntry
-                comment:
-                  format: plain
-                  html: "<p>Some text explaining why the time entry was created</p>"
-                  raw: Some text explaining why the time entry was created
-                createdAt: '2015-03-20T12:56:56Z'
-                customField12: 5
-                hours: PT5H
-                id: 1
-                spentOn: '2015-03-20'
-                updatedAt: '2015-03-20T12:56:56Z'
-          schema:
-            "$ref": "../components/schemas/view_time_entry_model.yml"
       description: OK
-      headers: {}
-    '404':
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
-                message: The requested resource could not be found.
+            $ref: '../components/schemas/time_entry_model.yml'
+    '404':
       description: |-
         Returned if the time entry does not exist or if the user does not have permission to view them.
 
-        **Required permission** `view time entries` in the project the time entry is assigned to or `view own time entries` for time entries belonging to the user
-      headers: {}
-  tags:
-  - Time Entries
-  description: ''
-  operationId: View_time_entry
-  summary: View time entry
+        **Required permission**
+        - `view time entries` in the project the time entry is assigned to or
+        - `view own time entries` for time entries belonging to the user
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+
 patch:
+  summary: update time entry
+  tags:
+    - Time Entries
+  description: |-
+    Updates the given time entry by applying the attributes provided in
+    the body. Please note that while there is a fixed set of attributes, custom fields
+    can extend a time entries' attributes and are accepted by the endpoint.
+  operationId: update_time_entry
   parameters:
-  - description: Time entry id
-    example: '1'
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - name: id
+      description: Time entry id
+      example: 1
+      in: path
+      required: true
+      schema:
+        type: integer
   responses:
     '200':
-      content:
-        application/hal+json:
-          schema:
-            "$ref": "../components/schemas/view_time_entry_model.yml"
       description: OK
-      headers: {}
-    '400':
-      $ref: "../components/responses/invalid_request_body.yml"
-    '403':
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-                message: You are not authorized to access this resource.
+            $ref: '../components/schemas/time_entry_model.yml'
+    '400':
+      $ref: '../components/responses/invalid_request_body.yml'
+    '403':
       description: |-
         Returned if the client does not have sufficient permissions.
 
         **Required permission:** Edit (own) time entries, depending on what time entry is being modified.
-      headers: {}
-    '406':
-      $ref: "../components/responses/missing_content_type.yml"
-    '415':
-      $ref: "../components/responses/unsupported_media_type.yml"
-    '422':
       content:
         application/hal+json:
           schema:
-            $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _embedded:
-                  details:
-                    attribute: workPackage
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
-                message: Work package is invalid.
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+      headers: { }
+    '406':
+      $ref: '../components/responses/missing_content_type.yml'
+    '415':
+      $ref: '../components/responses/unsupported_media_type.yml'
+    '422':
       description: |-
         Returned if:
 
         * a constraint for a property was violated (`PropertyConstraintViolation`)
-      headers: {}
-  tags:
-  - Time Entries
-  description: Updates the given time entry by applying the attributes provided in
-    the body. Please note that while there is a fixed set of attributes, custom fields
-    can extend a time entries' attributes and are accepted by the endpoint.
-  operationId: Update_Time_entry
-  summary: Update Time entry
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _embedded:
+              details:
+                attribute: workPackage
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: Work package is invalid.
