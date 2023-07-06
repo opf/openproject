@@ -36,6 +36,7 @@ import {
 } from 'core-app/shared/components/fields/helpers/project-status-helper';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
 
 interface ProjectStatusOption {
   href:string
@@ -92,18 +93,11 @@ export class ProjectStatusEditFieldComponent extends EditFieldComponent implemen
   }
 
   public onOpen() {
-    // Force reposition as a workaround for BUG
-    // https://github.com/ng-select/ng-select/issues/1259
-    setTimeout(() => {
-      const component = (this.ngSelectComponent) as any;
-      if (component && component.dropdownPanel) {
-        component.dropdownPanel._updatePosition();
-      }
+    repositionDropdownBugfix(this.ngSelectComponent);
 
-      jQuery(this.hiddenOverflowContainer).one('scroll.autocompleteContainer', () => {
-        this.ngSelectComponent.close();
-      });
-    }, 25);
+    jQuery(this.hiddenOverflowContainer).one('scroll.autocompleteContainer', () => {
+      this.ngSelectComponent.close();
+    });
   }
 
   public onClose() {

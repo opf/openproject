@@ -724,7 +724,7 @@ zh-TW:
         reset_title: "重設表單配置"
         confirm_reset: >
           警告: 確實要重置表單配置嗎？這將重置屬性到其預設組, 並禁用所有自訂欄位。
-        upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
+        upgrade_to_ee: "升級至地端企業版"
         upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
         more_information: "更多資訊"
         nevermind: "無視"

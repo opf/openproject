@@ -1408,6 +1408,22 @@ it:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Le modifiche sono state annullate."
+    caused_changes:
+      dates_changed: "Dates changed"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} is now working"
+          non_working: "%{day} is now non-working"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} is now non-working"
   links:
     configuration_guide: 'Guida di configurazione'
     get_in_touch: "Hai dei dubbi? Mettiti in contatto con noi."
@@ -2063,6 +2079,7 @@ it:
       more_to_see:
         one: 'C''è un altro pacchetto di lavoro con le notifiche.'
         other: 'Ci sono altri %{count} pacchetti di lavoro con notifiche.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Visto'
         assigned: 'Assegnato'
@@ -2590,6 +2607,7 @@ it:
     attachments:
       whitelist_text_html: >
         Definisci un elenco di estensioni di file valide e/o tipi MIME per i file caricati. <br/> Inserisci le estensioni dei file (ad es. <code>%{ext_example}</code>) o i tipi MIME (ad es. <code>%{mime_example}</code>). <br/> Lascia vuoto per consentire il caricamento di qualsiasi tipo di file. Sono consentiti più valori (una riga per ogni valore).
+    language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: 'Determina per quale evento viene inviata un''e-mail. Le macro-attività sono escluse da questo elenco in quanto le notifiche per essi possono essere configurate in modo specifico per ogni utente.'
       delay_minutes_explanation: "L'invio di e-mail può essere ritardato per consentire agli utenti con la notifica in-app configurata di confermare la notifica all'interno dell'applicazione prima che la mail venga inviata. Gli utenti che leggono una notifica all'interno dell'applicazione non riceveranno un'email per la notifica già letta."

@@ -32,7 +32,7 @@ module WorkPackage::Exports
         %i[remaining_hours spent_hours].include?(name.to_sym) && export_format == :pdf
       end
 
-      def format_value(value)
+      def format_value(value, _options)
         formatted_hours(value)
       end
 
