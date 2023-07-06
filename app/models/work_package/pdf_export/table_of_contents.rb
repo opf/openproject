@@ -141,18 +141,18 @@ module WorkPackage::PDFExport::TableOfContents
   end
 
   def write_toc_item!(toc_item, levels_indent_list)
-    y = pdf.y
+    y_start_position = pdf.y
     part_style, toc_item_style = build_toc_item_styles(toc_item)
     indent = levels_indent_list[toc_item[:level] - 1]
 
     write_part_float(indent[:level_indent], toc_item[:level_string], part_style)
     write_part_float(0, toc_item[:page_nr_string], part_style.merge({ align: :right }))
     write_toc_item_subject!(toc_item, indent[:subject_index], toc_item_style)
-    write_toc_item_link(toc_item, y)
+    write_toc_item_link(toc_item, y_start_position)
   end
 
-  def write_toc_item_link(toc_item, y)
-    rect = [pdf.bounds.absolute_right, pdf.y, pdf.bounds.absolute_left, y]
+  def write_toc_item_link(toc_item, y_start_position)
+    rect = [pdf.bounds.absolute_right, pdf.y, pdf.bounds.absolute_left, y_start_position]
     pdf.link_annotation(rect, Border: [0, 0, 0], Dest: toc_item[:id].to_s)
   end
 end
