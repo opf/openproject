@@ -84,6 +84,7 @@ import { DayResourceService } from 'core-app/core/state/days/day.service';
 import {
   EffectCallback,
   EffectHandler,
+  registerEffectCallbacks,
 } from 'core-app/core/state/effects/effect-handler.decorator';
 import { calendarRefreshRequest } from 'core-app/features/calendar/calendar.actions';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
@@ -92,7 +93,6 @@ import {
   removeBackgroundEvents,
 } from 'core-app/features/team-planner/team-planner/planner/background-events';
 
-@EffectHandler
 @Component({
   templateUrl: './wp-calendar.template.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -147,6 +147,8 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
   }
 
   ngOnInit():void {
+    registerEffectCallbacks(this, this.untilDestroyed());
+
     this.wpTableFilters.hidden.push(
       'project',
     );
