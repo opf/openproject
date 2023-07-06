@@ -60,7 +60,7 @@ OpenProject has multiple options of exporting work packages in PDF format:
 
 - **PDF Report with images** is the same as PDF Report, but also includes the images from the work package description. 
 
-   > **Note**: images from the work package comments section are not included into exported report.
+   > **Note**: Images attached to the work package or in activity comments are not included into exported report.
 
    ![OpenProject_work_package_export](openproject_pdf_report_images.png)
 
