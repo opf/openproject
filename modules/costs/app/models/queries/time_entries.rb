@@ -35,6 +35,7 @@ module Queries::TimeEntries
     filter Filters::CreatedAtFilter
     filter Filters::UpdatedAtFilter
     filter Filters::ActivityFilter
+    filter Filters::OngoingFilter
 
     order Orders::DefaultOrder
   end

@@ -43,6 +43,8 @@ export class TimeEntryResource extends HalResource {
 
   spentOn:string;
 
+  ongoing:boolean;
+
   public get state():InputState<this> {
     return this.states.timeEntries.get(this.id as string) as unknown as InputState<this>;
   }

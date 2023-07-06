@@ -55,6 +55,8 @@ get:
         
         + user: Filter time entries by users
         
+        + ongoing: Filter for your ongoing timers
+        
         + spent_on: Filter time entries by spent on date
         
         + created_at: Filter time entries by creation datetime
