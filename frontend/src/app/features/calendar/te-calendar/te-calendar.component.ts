@@ -5,7 +5,6 @@ import {
   EventEmitter,
   Injector,
   Input,
-  OnInit,
   Output,
   SecurityContext,
   ViewChild,
@@ -102,7 +101,7 @@ const ADD_ENTRY_PROHIBITED_CLASS_NAME = '-prohibited';
     HalResourceEditingService,
   ],
 })
-export class TimeEntryCalendarComponent implements OnInit {
+export class TimeEntryCalendarComponent {
   @ViewChild(FullCalendarComponent) ucCalendar:FullCalendarComponent;
 
   @Input() projectIdentifier:string;
@@ -110,7 +109,7 @@ export class TimeEntryCalendarComponent implements OnInit {
   @Input() static = false;
 
   @Input() set displayedDays(days:DisplayedDays) {
-    this.hiddenDays=this.setHiddenDays(days);
+    this.initializeCalendar(days);
   }
 
   @Output() entries = new EventEmitter<CollectionResource<TimeEntryResource>>();
@@ -128,8 +127,6 @@ export class TimeEntryCalendarComponent implements OnInit {
 
   public memoizedCreateAllowed = false;
 
-  public hiddenDays:number[] = [];
-
   public text = {
     logTime: this.i18n.t('js.button_log_time'),
     today: this.i18n.t('js.team_planner.today'),
@@ -139,51 +136,52 @@ export class TimeEntryCalendarComponent implements OnInit {
 
   public nonWorkingDays:IDay[] = [];
 
-  private initializeCalendar() {
-    const additionalOptions:CalendarOptionsWithDayGrid = {
-      editable: false,
-      locale: this.i18n.locale,
-      fixedWeekCount: false,
-      timeZone: this.configuration.isTimezoneSet() ? this.configuration.timezone() : 'local',
-      headerToolbar: {
-        right: '',
-        center: 'title',
-        left: 'prev,next today',
-      },
-      buttonText: { today: this.text.today },
-      initialView: 'timeGridWeek',
-      firstDay: this.configuration.startOfWeek(),
-      hiddenDays: this.hiddenDays,
-      // This is a magic number that is derived by trial and error
-      contentHeight: 550,
-      slotEventOverlap: false,
-      slotLabelInterval: `${this.labelIntervalHours}:00:00`,
-      slotLabelFormat: (info:VerboseFormattingArg) => ((this.maxHour - info.date.hour) / this.scaleRatio).toString(),
-      allDaySlot: false,
-      displayEventTime: false,
-      slotMinTime: `${this.minHour - 1}:00:00`,
-      slotMaxTime: `${this.maxHour}:00:00`,
-      events: this.calendarEventsFunction.bind(this),
-      eventOverlap: (stillEvent:EventApi) => !stillEvent.classNames.includes(TIME_ENTRY_CLASS_NAME),
-      plugins: [timeGrid, interactionPlugin],
-      eventDidMount: this.alterEventEntry.bind(this),
-      eventWillUnmount: this.beforeEventRemove.bind(this),
-      eventClick: this.dispatchEventClick.bind(this),
-      eventDrop: this.moveEvent.bind(this),
-      dayHeaderClassNames: (data:DayHeaderContentArg) => this.calendar.applyNonWorkingDay(data, this.nonWorkingDays),
-      dayCellClassNames: (data:DayCellContentArg) => this.calendar.applyNonWorkingDay(data, this.nonWorkingDays),
-      dayGridClassNames: (data:DayCellContentArg) => this.calendar.applyNonWorkingDay(data, this.nonWorkingDays),
-      slotLaneClassNames: (data:SlotLaneContentArg) => this.calendar.applyNonWorkingDay(data, this.nonWorkingDays),
-      slotLabelClassNames: (data:SlotLabelContentArg) => this.calendar.applyNonWorkingDay(data, this.nonWorkingDays),
-    };
+  public additionalOptions:CalendarOptionsWithDayGrid = {
+    editable: false,
+    locale: this.i18n.locale,
+    fixedWeekCount: false,
+    timeZone: this.configuration.isTimezoneSet() ? this.configuration.timezone() : 'local',
+    headerToolbar: {
+      right: '',
+      center: 'title',
+      left: 'prev,next today',
+    },
+    buttonText: { today: this.text.today },
+    initialView: 'timeGridWeek',
+    firstDay: this.configuration.startOfWeek(),
+    hiddenDays: [],
+    // This is a magic number that is derived by trial and error
+    contentHeight: 550,
+    slotEventOverlap: false,
+    slotLabelInterval: `${this.labelIntervalHours}:00:00`,
+    slotLabelFormat: (info:VerboseFormattingArg) => ((this.maxHour - info.date.hour) / this.scaleRatio).toString(),
+    allDaySlot: false,
+    displayEventTime: false,
+    slotMinTime: `${this.minHour - 1}:00:00`,
+    slotMaxTime: `${this.maxHour}:00:00`,
+    events: this.calendarEventsFunction.bind(this),
+    eventOverlap: (stillEvent:EventApi) => !stillEvent.classNames.includes(TIME_ENTRY_CLASS_NAME),
+    plugins: [timeGrid, interactionPlugin],
+    eventDidMount: this.alterEventEntry.bind(this),
+    eventWillUnmount: this.beforeEventRemove.bind(this),
+    eventClick: this.dispatchEventClick.bind(this),
+    eventDrop: this.moveEvent.bind(this),
+    dayHeaderClassNames: (data:DayHeaderContentArg) => this.calendar.applyNonWorkingDay(data, this.nonWorkingDays),
+    dayCellClassNames: (data:DayCellContentArg) => this.calendar.applyNonWorkingDay(data, this.nonWorkingDays),
+    dayGridClassNames: (data:DayCellContentArg) => this.calendar.applyNonWorkingDay(data, this.nonWorkingDays),
+    slotLaneClassNames: (data:SlotLaneContentArg) => this.calendar.applyNonWorkingDay(data, this.nonWorkingDays),
+    slotLabelClassNames: (data:SlotLabelContentArg) => this.calendar.applyNonWorkingDay(data, this.nonWorkingDays),
+  };
 
+  private initializeCalendar(displayedDayss:DisplayedDays) {
     void this.weekdayService.loadWeekdays()
       .toPromise()
       .then(async () => {
         const date = moment(new Date()).toString();
         await this.requireNonWorkingDays(date);
+        this.additionalOptions.hiddenDays = this.setHiddenDays(displayedDayss);
         this.calendarOptions$.next(
-          additionalOptions,
+          this.additionalOptions,
         );
       });
   }
@@ -208,10 +206,6 @@ export class TimeEntryCalendarComponent implements OnInit {
     readonly weekdayService:WeekdayService,
     readonly dayService:DayResourceService,
   ) {}
-
-  ngOnInit():void {
-    this.initializeCalendar();
-  }
 
   async requireNonWorkingDays(date:Date|string) {
     this.nonWorkingDays = await firstValueFrom(this.dayService.requireNonWorkingYear$(date));
@@ -667,7 +661,7 @@ export class TimeEntryCalendarComponent implements OnInit {
   }
 
   protected setHiddenDays(displayedDays:DisplayedDays) {
-    const hiddenDays:number[] = Array
+    return Array
       .from(displayedDays, (value, index) => {
         if (!value) {
           return (index + 1) % 7;
@@ -675,6 +669,5 @@ export class TimeEntryCalendarComponent implements OnInit {
         return null;
       })
       .filter((value) => value !== null) as number[];
-    return hiddenDays;
   }
 }
