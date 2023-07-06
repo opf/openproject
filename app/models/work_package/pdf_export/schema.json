@@ -87,6 +87,14 @@
         "subject_indent" : {
           "$ref" : "#/$defs/measurement"
         },
+        "indent_mode" : {
+          "type" : "string",
+          "enum" : [
+            "flat",
+            "stairs",
+            "third_level"
+          ]
+        },
         "item" : {
           "$ref" : "#/$defs/font_and_margin"
         }

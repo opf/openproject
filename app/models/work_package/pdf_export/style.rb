@@ -133,6 +133,10 @@ module WorkPackage::PDFExport::Style
       resolve_margin(@styles[:toc])
     end
 
+    def toc_indent_mode
+      @styles.dig(:toc, :indent_mode)
+    end
+
     def toc_item(level)
       resolve_font(@styles.dig(:toc, :item)).merge(
         resolve_font(@styles.dig(:toc, "item_level_#{level}".to_sym))
