@@ -132,12 +132,17 @@ module WorkPackage::PDFExport::TableOfContents
     end
   end
 
-  def write_toc_item!(toc_item, levels_indent_list)
-    y = pdf.y
+  def build_toc_item_styles(toc_item)
     toc_item_style = styles.toc_item(toc_item[:level])
     part_style = toc_item_style.clone
     font_styles = part_style.delete(:styles) || []
     part_style[:style] = font_styles[0] unless font_styles.empty?
+    [part_style, toc_item_style]
+  end
+
+  def write_toc_item!(toc_item, levels_indent_list)
+    y = pdf.y
+    part_style, toc_item_style = build_toc_item_styles(toc_item)
 
     indent = levels_indent_list[toc_item[:level] - 1]
     write_part_float(indent[:level_indent], toc_item[:level_string], part_style)
