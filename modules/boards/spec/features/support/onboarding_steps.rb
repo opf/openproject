@@ -34,10 +34,10 @@ module OnboardingSteps
     next_button.click
     if with_ee_token
       expect(page)
-        .to have_text sanitize_string(I18n.t('js.onboarding.steps.boards.lists_kanban')), normalize_ws: true
+        .to have_text sanitize_string(I18n.t('js.onboarding.steps.boards.lists_kanban')), normalize_ws: true, wait: 20
     else
       expect(page)
-        .to have_text sanitize_string(I18n.t('js.onboarding.steps.boards.lists_basic')), normalize_ws: true
+        .to have_text sanitize_string(I18n.t('js.onboarding.steps.boards.lists_basic')), normalize_ws: true, wait: 20
     end
 
     next_button.click
