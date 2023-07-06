@@ -17,3 +17,10 @@ pre-commit:
       files: git diff --name-only --staged
       glob: "*.rb"
       run: bin/dirty-rubocop --uncommitted --force-exclusion {files}
+
+post-merge:
+  commands:
+    setup-dev:
+      files: git diff --name-only HEAD@\{1\} HEAD
+      glob: '{Gemfile.lock,frontend/package-lock.json,db/migrate/*.rb,modules/*/db/migrate/*.rb}'
+      run: bin/setup_dev
