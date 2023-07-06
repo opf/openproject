@@ -1,3 +1,31 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2023 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 class MigrateMyPageLayout < ActiveRecord::Migration[5.2]
   def up
     UserPreference.transaction do
@@ -27,7 +55,7 @@ class MigrateMyPageLayout < ActiveRecord::Migration[5.2]
   ##
   # Migrate a single preference entry and remove the my page
   def migrate_my_page(user_id, old_layout)
-    my_page = ::Grids::MyPage.new user_id: user_id, column_count: 4
+    my_page = ::Grids::MyPage.new user_id:, column_count: 4
 
     # Migrate top
     start_row = 1
@@ -36,7 +64,7 @@ class MigrateMyPageLayout < ActiveRecord::Migration[5.2]
     (old_layout['top'] || []).each do |block|
       map_widget my_page,
                  old_name: block,
-                 start_row: start_row,
+                 start_row:,
                  end_row: start_row + widget_height,
                  start_column: 1,
                  end_column: 5
@@ -104,10 +132,10 @@ class MigrateMyPageLayout < ActiveRecord::Migration[5.2]
 
     my_page.widgets << Grids::Widget.new(
       identifier: mapping,
-      start_row: start_row,
-      end_row: end_row,
-      start_column: start_column,
-      end_column: end_column
+      start_row:,
+      end_row:,
+      start_column:,
+      end_column:
     )
   end
 

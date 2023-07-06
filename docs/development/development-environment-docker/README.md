@@ -12,7 +12,7 @@ And nothing else!
 
 To get right into it and just start the application you can just do the following:
 
-```bash
+```shell
 git clone https://github.com/opf/openproject.git
 cd openproject
 cp .env.example .env
@@ -28,7 +28,7 @@ Once the containers are done booting you can access the application under `http:
 
 You can run tests inside the `backend-test` container. You can run specific tests, too.
 
-```bash
+```shell
 # Run all tests (not recommended)
 docker compose run --rm backend-test bundle exec rspec
 
@@ -51,7 +51,7 @@ More details and options follow in the next section.
 
 First you will need to check out the code as usual.
 
-```bash
+```shell
 git clone https://github.com/opf/openproject.git
 ```
 
@@ -64,7 +64,7 @@ as that will interfere with the database connection inside the docker containers
 
 Copy the env example to `.env`
 
-```bash
+```shell
 cp .env.example .env
 ```
 
@@ -80,13 +80,13 @@ the `docker-compose.override.yml` file, you would have to alter the original `do
 
 There is an example you can use out of the box.
 
-```bash
+```shell
 cp docker-compose.override.example.yml docker-compose.override.yml
 ```
 
 ### 3) Setup database and install dependencies
 
-```bash
+```shell
 # This will start the database as a dependency
 # and then run the migrations and seeders,
 # and will install all required server dependencies
@@ -100,25 +100,25 @@ docker compose run --rm frontend npm install
 
 The docker compose file also has the test containers defined. The easiest way to start only the development stack, use
 
-```bash
+```shell
 docker compose up frontend
 ```
 
 If you want to see the backend logs, too.
 
-```bash
+```shell
 docker compose up frontend backend
 ```
 
 Alternatively, if you do want to detach from the process you can use the `-d` option.
 
-```bash
+```shell
 docker compose up -d frontend
 ```
 
 The logs can still be accessed like this.
 
-```bash
+```shell
 # Print the logs of the `frontend` service until the time you execute this command
 docker compose logs frontend
 
@@ -131,7 +131,7 @@ are needed to execute certain background actions. Nevertheless, for most interac
 needed, the workers can be started with the following command. Be aware that this process will consume a lot of the
 system's resources.
 
-```bash
+```shell
 # Start the worker service and let it run continuously
 docker compose up -d worker
 
@@ -159,7 +159,7 @@ Changes you make to the code will be picked up automatically. No need to restart
 There is a service to launch the storybook of the SPOT design system in the local development environment. To run it,
 simply use:
 
-```bash
+```shell
 # Start the worker and let them run continuously
 docker compose up -d storybook
 ```
@@ -184,19 +184,19 @@ the data you can delete the docker volumes via `docker volume rm`.
 
 Start all linked containers and migrate the test database first:
 
-```bash
+```shell
 docker compose up -d backend-test
 ```
 
 Afterward, you can start the tests in the running `backend-test` container:
 
-```bash
+```shell
 docker compose exec backend-test bundle exec rspec
 ```
 
 or for running a particular test
 
-```bash
+```shell
 docker compose exec backend-test bundle exec rspec path/to/some_spec.rb
 ```
 
@@ -204,6 +204,202 @@ Tests are ran within Selenium containers, on a small local Selenium grid. You ca
 you want to see what the browsers are doing. `gvncviewer` or `vinagre` on Linux is a good tool for this. Set any port in
 the `docker-compose.override.yml` to access a container of a specific browser. As a default, the `chrome` container is
 exposed on port 5900. The password is `secret` for all.
+
+## TLS support
+
+Within `docker/dev/tls` compose files are provided, that elevate the development stack to be run under full TLS
+encryption. This simulates much more accurately production environments, and it allows you to connect other services
+into your development stack. This needs a couple of steps of more setup complexity, so you should only proceed, if you
+really need or want it.
+
+As an overview, you need to take the following, additional steps:
+
+1. Set up a local certificate authority and reverse proxy
+2. Extract created root certificate and install it into system and browsers
+3. Amend docker containers with labels for proxy
+
+If the setup is successful, you will be able to access the local OpenProject application
+under `https://openproject.local`. Of course, the host name is replaceable.
+
+### Resolving host names
+
+The current setup uses a simplified way to resolve host names. In order to do so, we redirect all host names, that
+should be resolved by the proxy, to localhost. The `traefik` proxy is configured to listen to the localhost ports `80`
+and `443` and redirect those requests to the specific container. To make it happen, you need to add every hostname you
+define for your services to your `/etc/hosts`.
+
+```shell
+127.0.0.1   openproject.local traefik.local step.local
+::1         openproject.local traefik.local step.local
+```
+
+#### DNS? Where are you?
+
+We have plans to add a local DNS to this development setup, making two things possible:
+
+1. No requirement to amend your `/etc/hosts` file anymore.
+2. Being accessible from another device within your internal network (e.g. a cellphone).
+
+### Local certificate authority
+
+We use [traefik](https://traefik.io/) as a reverse proxy and [step-ca](https://smallstep.com/docs/step-ca/) as a local
+certificate authority, so that you can enhance your development setup with TLS encryption without being forced to have
+an active internet connection. A compose file exists that runs those two services.
+
+```shell
+# Create a file that serves as a certificate store
+touch docker/dev/tls/acme.json
+chmod 0600 docker/dev/tls/acme.json
+
+# Create external docker network
+docker network create gateway
+
+# Start certificate authority
+docker compose --project-directory docker/dev/tls up -d step
+
+# Add traefik as an ACME CA provisioner
+docker compose --project-directory docker/dev/tls exec step step ca provisioner add traefik \
+  --type ACME --ca-url https://step.local:9000
+
+# Update ca.json to increase certificate duration
+# Hint: if you do not have `jq`, please edit the `ca.json` manually
+docker compose --project-directory docker/dev/tls cp step:/home/step/config/ca.json ca_src.json
+jq '.authority |= . + {"claims":{"maxTLSCertDuration":"8760h","defaultTLSCertDuration":"8760h"}}' ca_src.json > ca.json
+docker compose --project-directory docker/dev/tls cp ca.json step:/home/step/config/ca.json
+rm ca_src.json ca.json
+```
+
+If you do not have `jq`, please edit the `ca.json` manually and merge the following json into the source.
+
+```json
+{
+  "authority": {
+    "claims": {
+      "maxTLSCertDuration": "8760h",
+      "defaultTLSCertDuration": "8760h"
+    }
+  }
+}
+```
+
+`step` will create the root CA, which is later stored in a persisted volume. You need to install this root CA on your
+machine and your browsers, so that any issued certificate is considered trusted. This process however is very dependent
+on your OS.
+
+### Install root CA
+
+In this section you can find the ways, of how to make the just generated root CA available to your machine, the docker
+container and your browser. Once you followed the steps for your OS-dependent setup, you need to amend your proxy stack
+accordingly. For that we provide a compose example file at `docker/dev/tls/docker-compose.override.example.yml`. In this
+file you find custom code, that provides the necessary configuration for each supported OS.
+
+```shell
+# Copy the override example and edit it for your OS
+cp docker/dev/tls/docker-compose.override.example.yml docker/dev/tls/docker-compose.override.yml
+```
+
+After copying, delete the volume mounts, which are not applicable for your OS.
+
+#### Browser
+
+You need to import the created root certificate into the browser you use. Be aware, that the certificate you want to
+import cannot be located in a directory only accessible by root users, as the browser won't be able to import from
+there. Instead, you can copy the certificate from the docker container to any temporary location.
+
+```shell
+# Copy root certificate to any temporary location
+docker compose --project-directory docker/dev/tls cp step:/home/step/certs/root_ca.crt $HOME/tmp/root_ca.crt
+```
+
+The installation of the certificate into the browser depends on the browser you are using, so you should check the docs
+for that specific browser.
+
+#### Debian/Ubuntu
+
+On Debian, you need to add the generated root CA to system certificates bundle.
+
+```shell
+# Copy the .crt file into CA certificate location.
+# You need `sudo` permission to execute this.
+docker compose --project-directory docker/dev/tls cp \
+ step:/home/step/certs/root_ca.crt /usr/local/share/ca-certificates/OpenProject_Development_Root_CA.crt
+
+# Create symbolic link   
+ln -s /usr/local/share/ca-certificates/OpenProject_Development_Root_CA.crt /etc/ssl/certs/OpenProject_Development_Root_CA.pem
+
+# Update certificate bundle
+update-ca-certificates
+```
+
+After that the generated root CA should be inside `/etc/ssl/certs/ca-certificates.crt`.
+
+#### NixOS
+
+On NixOS, you need to add the generated root CA to system certificates bundle. To do so, you need to persist the
+certificate on your system.
+
+```shell
+# Copy the .crt file into a persisted location in your file system.
+docker compose --project-directory docker/dev/tls cp step:/home/step/certs/root_ca.crt path_to_root_ca.crt
+```
+
+Add the following option to your NixOS configuration:
+
+```text
+security.pki.certificateFiles = [ path_to_root_ca.crt ];
+```
+
+Then rebuild your system. After that the generated root CA should be inside `/etc/ssl/certs/ca-certificates.crt`.
+
+### Reverse proxy
+
+After installing the root CA on your system, you need to start the reverse proxy, which now should be able to verify the
+issued certificated requested from `step-ca`.
+
+```shell
+# Restart full proxy and ca stack
+docker compose --project-directory docker/dev/tls down
+docker compose --project-directory docker/dev/tls up -d
+```
+
+It will take a couple of seconds to start, as there is a health check in the step container.
+
+### Amend docker services
+
+The docker services of the `docker-compose.yml` need additional information to be able to run in the local setup with
+TLS support. Basically, you need to tell `traefik` for which docker compose service it needs to create a HTTP router.
+There is an example compose file (see `docker/dev/tls/docker-compose.core-override.example.yml`), which contents you can
+take over to your custom `docker-compose.override.yml` in the repository root.
+
+In addition, we need to alter the environmental variables used in the new overrides. So we need to amend the `.env` file
+like that:
+
+```text
+OPENPROJECT_DEV_HOST=openproject.local
+OPENPROJECT_DEV_URL=https://${OPENPROJECT_DEV_HOST}
+```
+
+After amending the override file and the `.env`, ensure that you restart the stack.
+
+```shell
+docker compose up -d frontend
+```
+
+### Troubleshooting
+
+After this setup you should be able to access your OpenProject development instance at `https://openproject.local`. If
+something went wrong, check if your problem is listed here.
+
+#### Certificate invalid
+
+At times, the issued certificate has a wrong start date. This is a known problem, that happens when the system clock is
+synchronized after the certificate was issued from `traefik`. This usually can occur, if the docker process was
+suspended and continued at a later time. To fix it, restart your proxy stack.
+
+```shell
+docker compose --project-directory docker/dev/tls down
+docker compose --project-directory docker/dev/tls up -d
+```
 
 ## Local files
 
@@ -220,7 +416,7 @@ However, keep in mind that you won't see the pry console unless you attach to th
 The easiest way to do that is getting the container name from the docker compose list and attaching to it with the
 standard docker command.
 
-```bash
+```shell
 # Check all running services and their containers.
 # As a default the `backend` container has the name `openproject-backend-1`
 docker compose ps
@@ -247,6 +443,6 @@ Your Ruby version is 2.7.6, but your Gemfile specified ~> 3.2.1
 
 This means that the current image is out-dated. You can update it like this:
 
-```bash
+```shell
 docker compose build --pull
 ```

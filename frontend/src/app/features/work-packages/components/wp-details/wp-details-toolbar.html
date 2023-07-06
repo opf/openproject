@@ -1,8 +1,7 @@
 <div class="work-packages--details-toolbar">
-  <wp-watcher-button
-    [workPackage]="workPackage"
-    [showText]="true"
-  ></wp-watcher-button>
+  <wp-watcher-button [workPackage]="workPackage"
+                     [showText]="true">
+  </wp-watcher-button>
 
   <op-work-package-mark-notification-button
     *ngIf="displayNotificationsButton"
@@ -11,14 +10,12 @@
     data-qa-selector="mark-notification-read-button"
   ></op-work-package-mark-notification-button>
 
-  <button
-    class="button dropdown-relative"
-    [attr.accesskey]="7"
+  <button class="button dropdown-relative"
+          [attr.accesskey]="7"
 
-    wpSingleContextMenu
-    [wpSingleContextMenu-workPackage]="workPackage"
-  >
+          wpSingleContextMenu
+          [wpSingleContextMenu-workPackage]="workPackage">
     <span class="button--text" [textContent]="text.button_more"></span>
-    <span class="spot-icon spot-icon_dropdown"></span>
+    <op-icon icon-classes="button--dropdown-indicator"></op-icon>
   </button>
 </div>

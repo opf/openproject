@@ -28,15 +28,15 @@ The **Gantt chart** in OpenProject displays the work packages in a timeline. You
 
 ## Activate the Gantt chart
 
-A Gantt chart can be activated in any work package list, to display the work packages in a timeline view.
+A Gantt chart can be activated in any work package table, to display the work packages in a timeline view.
 
-To activate the Gantt chart, select the **Gantt** icon at the top right of the work package list.
+To activate the Gantt chart, select the **Gantt** icon at the top right corner of the work package table.
 
 ![activate-gantt](activate-gantt.gif)
 
 ## Create a new element in the Gantt chart
 
-To add a work package (e.g. phase, milestone or task) to a Gantt chart, click the **+ Create new work package** link at the bottom of the work package list view.
+To add a work package (e.g. phase, milestone or task) to a Gantt chart, click the **+ Create new work package** link at the bottom of the work package table view.
 
 You can add a subject and make changes to type, status or more fields.
 
@@ -177,9 +177,9 @@ If you want to adjust your work package table and filter, sort or order your wor
 
 ## Aggregation by project
 
-You can get a **quick overview of multiple projects** in the Gantt chart. To accomplish this navigate to the Work packages module of a project or the [project overarching work packages list](../projects/#project-overarching-reports).
+You can get a **quick overview of multiple projects** in the Gantt chart. To accomplish this navigate to the Work packages module of a project or the [project overarching work package table](../projects/#project-overarching-reports).
 
-**Group the list** by project by using the [work packages table configuration](../work-packages/work-package-table-configuration/#flat-list-hierarchy-mode-and-group-by) (accessible in the upper right corner) or by clicking on the small triangle next to "Project" in the table header.
+**Group the work packages** by project by using the [work packages table configuration](../work-packages/work-package-table-configuration/#flat-list-hierarchy-mode-and-group-by) (accessible in the upper right corner) or by clicking on the small triangle next to "Project" in the table header.
  ![group-by-project](image-20201211020614221.png)
 
 **Display the Gantt chart** by clicking on the button in the upper right corner.

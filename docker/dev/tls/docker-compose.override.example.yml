@@ -1,0 +1,10 @@
+services:
+  traefik:
+    volumes:
+      # Linux: mount the certificate bundle
+      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+
+  step:
+    # add any host here run in a docker service, that need a TLS certificate
+    extra_hosts:
+      - "openproject.local:host-gateway"

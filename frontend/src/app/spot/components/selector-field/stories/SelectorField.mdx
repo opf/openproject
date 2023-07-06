@@ -1,0 +1,51 @@
+import { Canvas, Meta, ArgsTable } from '@storybook/blocks';
+
+import { SpotSelectorFieldComponent } from '../selector-field.component';
+import * as SelectorFieldStories from './SelectorField.stories';
+
+<Meta of={SelectorFieldStories} />
+
+# Selector Field
+
+Selector fields are used to offer the user a number of different options.
+
+The selector field consists of either a checkbox or a radio button along with a label.
+
+Checkboxes offer the possibility to make multiple selections.
+Radio buttons require the user to choose only one from a list of options.
+
+<Canvas of={SelectorFieldStories.Default} />
+
+## Behaviour
+
+The selector field extends the clickable zone of the checkbox or radio button to the entire label. Clicking on the label is then the same as clicking on the control element itself.
+
+If the label text is particular long, it should wrap within the container, but be top-aligned, like so:
+
+<Canvas of={SelectorFieldStories.LongLabel} />
+
+## Options
+
+Selector labels can be **bold** or regular. However, these two styles should not be mixed in a single set of selector fields.
+
+<Canvas of={SelectorFieldStories.FontWeight} />
+
+## Basic usage
+
+Selector fields work with `ng-content` a lot, which we call `slot` in SPOT. There are four slots in which content can be
+fitted:
+
+1. `input` holds the input. It can be any selector toggle
+2. `help-text` holds the attribute help text. To achieve separation of concerns, if you want to show an attribute help
+   text this is where the `attribute-help-text` component goes.
+3. `errors` holds validation errors.
+4. `description` holds a short description of the input field. Oftentimes these are short, helpful guidelines about how
+   or what to input into the field.
+
+Some of these require adding an extra class on that element, so watch the examples carefully!
+
+## Positioning and Margins
+
+Because the selector field itself is often placed in containers that have their own margins (like the action bar), it does not inherently have any margins of its own.
+
+<ArgsTable of={SpotSelectorFieldComponent} />

@@ -227,6 +227,30 @@ $scrollbar-size: 10px
 @mixin board-header-editable-toolbar-title
   line-height: 1 !important
 
+@mixin global-breadcrumb-styles
+  margin-top: 10px
+  display: none
+  @include default-transition
+  overflow: hidden
+  width: auto
+
+  ul.op-breadcrumb
+    height: initial
+    margin: 0
+    padding: 0
+    li
+      @include default-font(var(--breadcrumb-font-color), var(--breadcrumb-font-size), normal)
+      list-style-type: none
+      float: left
+      margin: 0 5px 0 0
+      padding: 0
+      line-height: 20px
+      max-width: 100%
+      @include text-shortener
+
+  &.-show
+    display: block
+
 @mixin indicator-bubble
   display: inline-flex
   justify-content: center

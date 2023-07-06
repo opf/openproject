@@ -116,8 +116,11 @@ $advanced-filters--grid-gap: 10px
     &:hover
       text-decoration: none
 
+.advanced-filters--remove-filter-icon
+  @extend .icon-close, .icon4
+
 .advanced-filters--add-filter-label-icon
-  margin-right: 4px
+  @extend .icon-add, .icon4
 
 .advanced-filters--add-filter-info
   @include grid-content()

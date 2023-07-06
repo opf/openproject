@@ -42,6 +42,17 @@ module OpenProject::Calendar
       end
 
       # TODO: Add calendar icon to module menu item when Global Calendar Page is added
+      menu :top_menu,
+           :calendar_view, { controller: '/calendar/calendars', action: 'index', project_id: nil },
+           context: :modules,
+           caption: :label_calendar_plural,
+           icon: 'calendar',
+           after: :work_packages,
+           if: Proc.new {
+             OpenProject::FeatureDecisions.more_global_index_pages_active? &&
+               (User.current.logged? || !Setting.login_required?) &&
+               User.current.allowed_to_globally?(:view_calendar)
+           }
 
       menu :project_menu,
            :calendar_view,

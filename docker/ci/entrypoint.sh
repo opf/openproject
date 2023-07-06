@@ -72,27 +72,28 @@ setup_tests() {
 }
 
 run_units() {
+	shopt -s extglob
 	reset_dbs
 	execute_quiet "cp -f /cache/turbo_runtime_units.log spec/support/ || true"
-	# turbo_tests cannot yet exclude specific directories, so copying spec/features elsewhere (temporarily)
-	execute_quiet "mv spec/features tmp/"
-	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/turbo_runtime_units.log spec"
+	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/turbo_runtime_units.log spec/!(features) modules/**/spec/!(features)"
 	execute_quiet "cp -f spec/support/turbo_runtime_units.log /cache/ || true"
 	cleanup
 }
 
 run_features() {
+	shopt -s extglob
 	reset_dbs
 	execute_quiet "cp -f /cache/turbo_runtime_features.log spec/support/ || true"
-	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/turbo_runtime_features.log spec/features"
+	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/turbo_runtime_features.log spec/features modules/**/spec/features"
 	execute_quiet "cp -f spec/support/turbo_runtime_features.log /cache/ || true"
 	cleanup
 }
 
 run_all() {
+	shopt -s globstar
 	reset_dbs
 	execute_quiet "cp -f /cache/turbo_runtime_all.log spec/support/ || true"
-	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/turbo_runtime_all.log spec"
+	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/turbo_runtime_all.log spec modules/**/spec"
 	execute_quiet "cp -f spec/support/turbo_runtime_all.log /cache/ || true"
 	cleanup
 }

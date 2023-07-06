@@ -45,7 +45,7 @@ class WorkPackagesController < ApplicationController
     respond_to do |format|
       format.html do
         render :index,
-               locals: { query: @query, project: @project, menu_name: project_or_wp_query_menu },
+               locals: { query: @query, project: @project, menu_name: project_or_global_wp_query_menu },
                layout: 'angular/angular'
       end
 
@@ -63,7 +63,7 @@ class WorkPackagesController < ApplicationController
     respond_to do |format|
       format.html do
         render :show,
-               locals: { work_package:, menu_name: project_or_wp_query_menu },
+               locals: { work_package:, menu_name: project_or_global_wp_query_menu },
                layout: 'angular/angular'
       end
 

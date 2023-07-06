@@ -94,6 +94,26 @@ RSpec.describe BasicData::StatusSeeder do
       created_status = Status.last
       expect(seed_data.find_reference(:status_closed)).to eq(created_status)
     end
+
+    context 'when seeding a second time' do
+      subject(:second_seeder) { described_class.new(second_seed_data) }
+
+      let(:second_seed_data) { basic_seed_data.merge(Source::SeedData.new(data_hash)) }
+
+      before do
+        second_seeder.seed!
+      end
+
+      it 'registers existing matching statuses as references in the seed data' do
+        # using the first seed data as the expected value
+        expect(second_seed_data.find_reference(:status_closed))
+          .to eq(seed_data.find_reference(:status_closed))
+        expect(second_seed_data.find_reference(:status_new))
+          .to eq(seed_data.find_reference(:status_new))
+        expect(second_seed_data.find_reference(:status_in_progress))
+          .to eq(seed_data.find_reference(:status_in_progress))
+      end
+    end
   end
 
   context 'without statuses defined' do

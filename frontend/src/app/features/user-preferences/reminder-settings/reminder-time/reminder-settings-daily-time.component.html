@@ -29,13 +29,11 @@
       [ngModelOptions]="{standalone: true}"
       [disabled]="isDisabled(time, activeTimes)"
       class="op-reminder-settings-daily-time--active"
-      attr.data-qa-selector="op-settings-daily-time--active-{{i + 1}}"
-    >
+      attr.data-qa-selector="op-settings-daily-time--active-{{i + 1}}">
     <label
       class="op-reminder-settings-daily-time--label"
       [textContent]="text.timeLabel(i + 1)"
-      attr.for="op-reminder-settings-daily-time-{{i + 1}}--time"
-    >
+      attr.for="op-reminder-settings-daily-time-{{i + 1}}--time">
     </label>
     <select
       [ngModel]="time"
@@ -44,13 +42,11 @@
       [disabled]="(enabled$ | async) === false"
       class="op-reminder-settings-daily-time--time form--select -narrow"
       attr.id="op-reminder-settings-daily-time-{{i + 1}}--time"
-      required="true"
-    >
+      required="true">
       <option
         *ngFor="let availableTime of availableTimes"
         [value]="availableTime"
-        [disabled]="time !== availableTime && selectedTimes.includes(availableTime)"
-      >
+        [disabled]="time !== availableTime && selectedTimes.includes(availableTime)">
         {{timeLabel(availableTime)}}
       </option>
     </select>
@@ -59,9 +55,8 @@
       type="button"
       *ngIf="timeRemovable$ | async"
       (click)="removeTime(selectedTimes, i)"
-      attr.data-qa-selector="op-settings-daily-time--remove-{{i + 1}}"
-    >
-      <span class="spot-icon spot-icon_1_25 spot-icon_remove"></span>
+      attr.data-qa-selector="op-settings-daily-time--remove-{{i + 1}}">
+      <op-icon icon-classes="icon-small icon-remove icon4"></op-icon>
     </button>
   </div>
 
@@ -69,9 +64,8 @@
     class="button op-reminder-settings-daily-time--add"
     type="button"
     [disabled]="nonAddable$ | async"
-    (click)="addTime(selectedTimes)"
-  >
-    <span class="spot-icon spot-icon_add"></span>
-    <span>{{text.addTime}}</span>
+    (click)="addTime(selectedTimes)">
+    <i class="button--icon icon-add"></i>
+    <span class="button--text">{{text.addTime}}</span>
   </button>
 </ng-container>

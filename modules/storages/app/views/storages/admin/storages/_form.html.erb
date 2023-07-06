@@ -33,18 +33,17 @@ See COPYRIGHT and LICENSE files for more details.
 <fieldset class="form--fieldset">
   <legend class="form--fieldset-legend"><%= I18n.t(:label_general) %></legend>
   <div class="form--field -required">
-    <% case action_name %>
-    <% when 'new' %>
+    <% if action_name == 'new' || action_name == 'create' %>
       <%= f.hidden_field :provider_type %>
       <%= f.select :provider_type,
-                  ::Storages::Storage::PROVIDER_TYPES.map { |provider_type| [I18n.t("storages.provider_types.#{::Storages::Storage.shorten_provider_type(provider_type)}.name"), provider_type] },
-                  {
-                    selected: ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD,
-                    container_class: '-slim'
-                  }
+                   ::Storages::Storage::PROVIDER_TYPES.map { |provider_type| [I18n.t("storages.provider_types.#{::Storages::Storage.shorten_provider_type(provider_type)}.name"), provider_type] },
+                   {
+                     selected: ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD,
+                     container_class: '-slim'
+                   }
       %>
       <span class="form--field-instructions"><%= t('storages.instructions.type') %> <%= t('storages.instructions.type_link_text') %></span>
-    <% when 'edit' %>
+    <% elsif action_name == 'edit' %>
       <%= f.label :provider_type, class: "form--label" do %>
         <%= t(:"storages.label_provider_type") %>
       <% end %>

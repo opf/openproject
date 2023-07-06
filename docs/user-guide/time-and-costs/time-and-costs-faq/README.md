@@ -14,15 +14,7 @@ It is not possible to prevent time logging on phases or restrict it to certain w
 
 ## Can I log time for another user than myself?
 
-Currently, that's not possible. However, there's already a [feature request](https://community.openproject.com/projects/openproject/work_packages/21754/activity) on our wish list.
-
-Possible workarounds: 
-
-- Log in as the other user.
-- Set up a cost type (e.g."developer hours" or "John Smith") for unit costs and use this to log time (as unit cost) for others.
-- Add a comment with the user's name in the time logging modal. If you want to see the comment in the time and costs module you will have to remove all selections for columns and rows.
-- Use the "Activity" drop down menu to choose a user (you can add their names [in the system administration](../../../system-admin-guide/enumerations/)). Then you could use the time and costs module to filter for or sort by "Activity". 
-- Create a work package as a dummy. It should have a special status so that it can be reliably excluded in time reporting. For this work package, each user for whom times are to be booked by others (e.g. project managers) creates several entries (time bookings) with sample values in advance. Subsequently, the project manager can assign these time entries to another work package if required and enter the actual effort.
+Since [12.2 release](https://www.openproject.org/docs/release-notes/12-2-0/) it is possible to log time for a user other than yourself. This right has to be granted by an admin to users with certain roles. You can find out more [here](https://www.openproject.org/docs/user-guide/time-and-costs/time-tracking/#logging-and-editing-time-for-other-users).
 
 ## Is it possible to view all hours assigned to each member in total? If I work on various projects I'd like to know how many hours I accumulated for all tasks assigned to me.
 

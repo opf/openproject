@@ -24,7 +24,7 @@ You can however use the meeting module in OpenProject to organize meetings and i
 
 ## Are holidays considered in the calendar?
 
-Currently, the calendar does not consider weekends or holidays as non-working days, i.e. the end date for a task could e.g. be set on a Sunday. This is important for businesses that are working on weekends or holidays. Please note that we are currently working on a feature for free days and weekends that can be adjusted as needed. 
+Since the [12.3 release](https://www.openproject.org/docs/release-notes/12-3-0/) it is possible to specify  working and non-working days on an overall instance-level and consequently define a global work week. The default value for non-working days is set to Saturday and Sunday, but can be adjusted to your specific needs. Read more [here](https://www.openproject.org/docs/user-guide/work-packages/set-change-dates/#working-days).
 
 ## Is there a limit for the number of work packages displayed in the calendar?
 

@@ -1,5 +1,7 @@
 name: pullpreview
 
+concurrency: ${{ github.ref }}
+
 on:
   schedule:
     # this is used to make sure no dangling resources are left

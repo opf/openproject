@@ -1391,6 +1391,22 @@ ko:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "변경 사항이 취소되었습니다."
+    caused_changes:
+      dates_changed: "Dates changed"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} is now working"
+          non_working: "%{day} is now non-working"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} is now non-working"
   links:
     configuration_guide: '구성 가이드'
     get_in_touch: "질문이 있으신가요? 문의해 주세요."
@@ -1688,6 +1704,7 @@ ko:
   label_logged_as: "로그인한 계정:"
   label_login: "로그인"
   label_custom_logo: "사용자 정의 로고"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "사용자 지정 favicon"
   label_custom_touch_icon: "사용자 지정 터치 아이콘"
   label_logout: "로그아웃"
@@ -2044,6 +2061,7 @@ ko:
       mentioned_by: '%{user} 님이 코멘트에서 회원님을 멘션했습니다.'
       more_to_see:
         other: '알림이 있는 작업 패키지가 %{count}개 더 있습니다.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: '지켜봄'
         assigned: '할당됨'
@@ -2567,6 +2585,7 @@ ko:
     attachments:
       whitelist_text_html: >
         업로드된 파일의 유효한 파일 확장명 및/또는 MIME 형식 목록을 정의합니다. <br/> 파일 확장명(예: <code>%{ext_example}</code>) 또는 MIME 형식(예: <code>%{mime_example}</code>)을 입력합니다. <br/> 모든 파일 형식을 업로드할 수 있도록 허용하려면 비워 둡니다. 여러 값이 허용됩니다(각 값에 대해 한 줄).
+    language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: '이메일을 보낼 이벤트를 관리합니다. 작업 패키지에 대한 알림은 각 사용자에 대해 구체적으로 구성할 수 있으므로 작업 패키지는 이 목록에 포함되지 않습니다.'
       delay_minutes_explanation: "인앱 알림이 구성된 사용자가 메일이 전송되기 전에 애플리케이션 내에서 알림을 확인할 수 있도록 이메일 전송이 지연될 수 있습니다. 애플리케이션 내에서 알림을 읽은 사용자는 이미 읽은 알림에 대한 이메일을 받지 않습니다."
@@ -2634,10 +2653,12 @@ ko:
     Enterprise Edition은 프로젝트의 사용자 지정 필드에 대해 다음과 같은 기타 추가 기능을 추가합니다: <br> <ul> <li><b>프로젝트 목록에 프로젝트에 대한 사용자 지정 필드를 추가하여 프로젝트 포트폴리오 보기 만들기</b></li> </ul>
   text_custom_logo_instructions: >
     투명한 배경에 흰색 로고가 권장됩니다. 기존 디스플레이와 레티나 디스플레이 둘 다에서 최상의 결과를 위해 이미지의 크기는 460px x 60px여야 합니다.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    페이지 제목 옆의 브라우저 창/탭에 나타나는 작은 아이콘입니다. 투명한 배경을 가진 32x32 제곱 픽셀 크기 PNG 이미지 파일이어야 합니다.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    홈 화면에 북마크를 추가하면 휴대폰 또는 태블릿에 표시되는 아이콘입니다. 180x180 제곱 픽셀 크기의 PNG 이미지 파일이어야 합니다. 이미지의 배경이 투명하지 않은지 확인하세요. 그렇지 않으면 iOS에서 제대로 표시되지 않습니다.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "데이터베이스에서 TSVector 허용(옵션)"
   text_default_administrator_account_changed: "기본 관리자 계정 변경됨"
   text_default_encoding: "기본: UTF-8"
