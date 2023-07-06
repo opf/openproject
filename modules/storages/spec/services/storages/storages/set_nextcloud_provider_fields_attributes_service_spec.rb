@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe Storages::Storages::SetNextcloudProviderFieldsAttributesService, type: :model do
+RSpec.describe Storages::Storages::SetNextcloudProviderFieldsAttributesService, type: :model do
   let(:current_user) { build_stubbed(:admin) }
-  let(:storage) { build(:storage, :as_automatically_managed) }
+  let(:storage) { build(:nextcloud_storage, :as_automatically_managed) }
   let(:contract_class) { stub_valid_contract(Storages::Storages::BaseContract) }
 
   subject(:provider_fields_attributes_service) do
@@ -40,7 +40,7 @@ describe Storages::Storages::SetNextcloudProviderFieldsAttributesService, type: 
   before { allow(storage).to receive(:valid?).and_return(true) }
 
   context 'when automatically_managed is not set' do
-    let(:storage) { build(:storage, provider_fields: {}) }
+    let(:storage) { build(:nextcloud_storage, provider_fields: {}) }
 
     it 'sets automatically_managed to true' do
       expect { provider_fields_attributes_service }
@@ -57,7 +57,7 @@ describe Storages::Storages::SetNextcloudProviderFieldsAttributesService, type: 
   end
 
   context 'when automatically_managed is already set as true' do
-    let(:storage) { build(:storage, :as_automatically_managed) }
+    let(:storage) { build(:nextcloud_storage, :as_automatically_managed) }
 
     it 'retains the set value, does not change the object' do
       expect { provider_fields_attributes_service }.not_to change(storage, :provider_fields)
@@ -74,7 +74,7 @@ describe Storages::Storages::SetNextcloudProviderFieldsAttributesService, type: 
   end
 
   context 'when automatically_managed is set as false' do
-    let(:storage) { build(:storage, :as_not_automatically_managed) }
+    let(:storage) { build(:nextcloud_storage, :as_not_automatically_managed) }
 
     it 'retains the set value, does not change the object' do
       expect { provider_fields_attributes_service }.not_to change(storage, :provider_fields)
