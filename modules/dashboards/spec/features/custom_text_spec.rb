@@ -74,7 +74,7 @@ RSpec.describe 'Project description widget on dashboard', js: true do
       custom_text_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
 
       within custom_text_widget.area do
-        find('.inplace-editing--container ').click
+        find('.inplace-editing--container').click
       end
 
       editor.insert_macro 'Insert create work package button'
@@ -101,7 +101,7 @@ RSpec.describe 'Project description widget on dashboard', js: true do
       custom_text_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
 
       within custom_text_widget.area do
-        find('.inplace-editing--container ').click
+        find('.inplace-editing--container').click
 
         field.set_value('My own little text')
         field.save!
