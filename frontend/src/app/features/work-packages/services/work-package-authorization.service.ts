@@ -48,7 +48,7 @@ export class WorkPackageAuthorization {
       case 'copy':
         link = this.copyLink();
         break;
-      case 'copy_to_clipboard':
+      case 'copy_link_to_clipboard':
         link = this.shortLink();
         break;
       case 'copy_to_other_project':
