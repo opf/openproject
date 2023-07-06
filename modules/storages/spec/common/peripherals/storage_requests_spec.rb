@@ -354,7 +354,6 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
       end
 
       context 'with Nextcloud storage type selected' do
-        pending "TODO BROKEN MODULE SPEC"
         it 'must return a list of files when called' do
           result = subject
                      .file_query
@@ -362,7 +361,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           expect(result).to be_success
           storage_file = result.result
           expect(storage_file.id).to eq(819)
-          expect(storage_file.location).to eq("/OpenProject/[Sample] Project Name | Ehuuu(10)")
+          expect(storage_file.location).to eq("/OpenProject/%5BSample%5D%20Project%20Name%20%7C%20Ehuuu%2810%29")
           expect(storage_file.mime_type).to eq("application/x-op-directory")
           expect(storage_file.name).to eq("[Sample] Project Name | Ehuuu(10)")
           expect(storage_file.permissions).to eq("RMGDNVCK")
