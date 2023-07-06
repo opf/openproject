@@ -32,7 +32,7 @@ module WorkPackage::Exports
         %i[material_costs labor_costs overall_costs].include?(name.to_sym) && export_format == :pdf
       end
 
-      def format_value(value)
+      def format_value(value, _options)
         value.nil? || value.zero? ? '' : number_to_currency(value)
       end
     end

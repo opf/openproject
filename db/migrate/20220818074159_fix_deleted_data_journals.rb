@@ -1,7 +1,35 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2023 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 class FixDeletedDataJournals < ActiveRecord::Migration[7.0]
   def up
     get_missing_journals.each do |journable_type, relation|
-      puts "Cleaning up journals on #{journable_type}"
+      Rails.logger.debug { "Cleaning up journals on #{journable_type}" }
 
       relation.find_each { |journal| fix_journal_data(journal) }
 
@@ -92,9 +120,9 @@ class FixDeletedDataJournals < ActiveRecord::Migration[7.0]
       table_name = journal_class.table_name
 
       relation = Journal
-        .joins("LEFT OUTER JOIN #{table_name} ON journals.data_type = '#{journal_class.to_s}' AND #{table_name}.id = journals.data_id")
+        .joins("LEFT OUTER JOIN #{table_name} ON journals.data_type = '#{journal_class}' AND #{table_name}.id = journals.data_id")
         .where("#{table_name}.id IS NULL")
-        .where(journable_type: journable_type)
+        .where(journable_type:)
         .where.not(data_type: nil) # Ignore special tenants with data_type nil errors
         .order('journals.version ASC')
         .includes(:journable)

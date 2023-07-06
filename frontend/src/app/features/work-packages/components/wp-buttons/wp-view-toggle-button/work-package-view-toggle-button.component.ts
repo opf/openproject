@@ -44,12 +44,12 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
     <button class="button"
             id="wp-view-toggle-button"
             wpViewDropdown>
-      <span class="spot-icon spot-icon_view-{{view}}"></span>
+      <op-icon icon-classes="button--icon icon-view-{{view}}"></op-icon>
       <span class="button--text"
             aria-hidden="true"
             [textContent]="text[view]">
-      </span>
-      <span class="spot-icon spot-icon_dropdown"></span>
+        </span>
+        <span class="spot-icon spot-icon_dropdown"></span>
     </button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

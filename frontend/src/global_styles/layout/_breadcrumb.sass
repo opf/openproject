@@ -27,58 +27,10 @@
 //++
 
 #breadcrumb
+  @include global-breadcrumb-styles
   min-height: var(--breadcrumb-height)
   padding: 10px 20px
   padding-bottom: 0
 
   li
     white-space: nowrap
-
-.op-wp-breadcrumb
-  margin-top: 10px
-  display: none
-  @include default-transition
-  overflow: hidden
-  width: auto
-
-  &_show
-    display: block
-
-  &--list
-    height: initial
-    margin: 0
-    padding: 0
-
-  &--list-item
-    @include default-font(var(--breadcrumb-font-color), var(--breadcrumb-font-size), normal)
-    display: flex
-    align-items: center
-    height: initial
-    list-style-type: none
-    float: left
-    margin: 0 5px 0 0
-    padding: 0
-    line-height: 20px
-    height: 100%
-    max-width: 100%
-    @include text-shortener
-
-    &_ellipsed
-      max-width: 600px
-      @include text-shortener
-
-    &_active-parent-select
-      width: 500px
-
-  @media screen and (max-width: 1248px)
-    margin-top: 0
-
-  &--parent
-    white-space: initial
-    display: flex
-    align-items: center
-    height: 100%
-
-  .ng-placeholder
-    @include text-shortener
-

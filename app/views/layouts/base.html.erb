@@ -115,7 +115,7 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="content-overlay"></div>
     <main id="content-wrapper" class="<%= initial_classes %>">
       <% if show_decoration %>
-        <div id="breadcrumb" class="op-wp-breadcrumb <%= initial_classes %><%= show_breadcrumb ? ' op-wp-breadcrumb_show' : '' %>">
+        <div id="breadcrumb" class="<%= initial_classes %><%= show_breadcrumb ? ' -show' : '' %>">
           <%= you_are_here_info %>
           <%= full_breadcrumb %>
           <%= call_hook :view_layouts_base_breadcrumb %>

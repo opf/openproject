@@ -34,7 +34,7 @@ With OpenProject 11.1 users are now able to **aggregate milestones for projects 
 
 ## Collapse all button for groups in the work packages list
 
-In the work package list it is possible to group by any attribute,  e.g. assignee, status, priority or type. Now, once grouped by an  attribute, you will have a **collapse all button on top of the work packages list** to close and open all attributes within a group at once.
+In the work package table it is possible to group by any attribute,  e.g. assignee, status, priority or type. Now, once grouped by an  attribute, you will have a **collapse all button on top of the work packages list** to close and open all attributes within a group at once.
 
 ![Collapse-all-button](Collapse-all-button.png)
 

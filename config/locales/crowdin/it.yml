@@ -1408,6 +1408,22 @@ it:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Le modifiche sono state annullate."
+    caused_changes:
+      dates_changed: "Dates changed"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} is now working"
+          non_working: "%{day} is now non-working"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} is now non-working"
   links:
     configuration_guide: 'Guida di configurazione'
     get_in_touch: "Hai dei dubbi? Mettiti in contatto con noi."
@@ -1705,6 +1721,7 @@ it:
   label_logged_as: "Accesso eseguito come"
   label_login: "Accedi"
   label_custom_logo: "Logo personalizzato"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Favicon personalizzata"
   label_custom_touch_icon: "Icona del touch personalizzata"
   label_logout: "Disconnetti"
@@ -2062,6 +2079,7 @@ it:
       more_to_see:
         one: 'C''è un altro pacchetto di lavoro con le notifiche.'
         other: 'Ci sono altri %{count} pacchetti di lavoro con notifiche.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Visto'
         assigned: 'Assegnato'
@@ -2589,6 +2607,7 @@ it:
     attachments:
       whitelist_text_html: >
         Definisci un elenco di estensioni di file valide e/o tipi MIME per i file caricati. <br/> Inserisci le estensioni dei file (ad es. <code>%{ext_example}</code>) o i tipi MIME (ad es. <code>%{mime_example}</code>). <br/> Lascia vuoto per consentire il caricamento di qualsiasi tipo di file. Sono consentiti più valori (una riga per ogni valore).
+    language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: 'Determina per quale evento viene inviata un''e-mail. Le macro-attività sono escluse da questo elenco in quanto le notifiche per essi possono essere configurate in modo specifico per ogni utente.'
       delay_minutes_explanation: "L'invio di e-mail può essere ritardato per consentire agli utenti con la notifica in-app configurata di confermare la notifica all'interno dell'applicazione prima che la mail venga inviata. Gli utenti che leggono una notifica all'interno dell'applicazione non riceveranno un'email per la notifica già letta."
@@ -2656,10 +2675,12 @@ it:
     L'edizione Enterprise aggiungerà queste funzionalità per i campi personalizzati dei progetti: <br> <ul> <li><b>Aggiungere campi personalizzati per i progetti all'elenco dei progetti per creare una visualizzazione del portfolio di progetti</b></li> < /ul>
   text_custom_logo_instructions: >
     Un logo bianco su sfondo trasparente è preferibile. Per ottenere i migliori risultati, sia su schermi convenzionali che ad alta risoluzione, assicurati che le dimensioni dell'immagine siano di 460x60 pixels.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Questa è l'icona che appare nella scheda del tuo browser vicino al titolo della pagina. È necessario che questa sia un'immagine quadrata di dimensioni 32x32, in formato PNG e con sfondo trasparente.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    Questa è l'icona che appare nel tuo cellulare o tablet quando posizioni un segnalibro sulla pagina home. Deve essere un'immagine quadrata di 180 per 180 pixel nel formato PNG. Assicurati che il fondo dell'immagine non sia trasparente, altrimenti non sarà esteticamente appetibile su iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Il database permette TSVector (opzionale)"
   text_default_administrator_account_changed: "Account amministratore predefinito cambiato"
   text_default_encoding: "Predefinito: UTF-8"

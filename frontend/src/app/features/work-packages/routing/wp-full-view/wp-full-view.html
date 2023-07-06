@@ -1,9 +1,8 @@
-<div
-  edit-form
-  [resource]="workPackage"
-  *ngIf="workPackage"
-  class="work-packages--show-view"
->
+<div edit-form
+     [resource]="workPackage"
+     *ngIf="workPackage"
+     class="work-packages--show-view">
+
   <wp-breadcrumb [workPackage]="workPackage"></wp-breadcrumb>
 
   <div class="toolbar-container">
@@ -27,10 +26,9 @@
           </wp-create-button>
         </li>
         <li class="toolbar-item" *ngIf="displayWatchButton">
-          <wp-watcher-button
-            [workPackage]="workPackage"
-            [showText]="false"
-          ></wp-watcher-button>
+          <wp-watcher-button [workPackage]="workPackage"
+                             [showText]="false">
+          </wp-watcher-button>
         </li>
         <li class="toolbar-item" *ngIf="(displayNotificationsButton$ | async)">
           <op-work-package-mark-notification-button
@@ -39,16 +37,15 @@
           ></op-work-package-mark-notification-button>
         </li>
         <li class="toolbar-item hidden-for-mobile">
-          <zen-mode-toggle-button></zen-mode-toggle-button>
+          <zen-mode-toggle-button>
+          </zen-mode-toggle-button>
         </li>
         <li class="toolbar-item action_menu_main" id="action-show-more-dropdown-menu">
-          <button
-            class="button -icon-only dropdown-relative toolbar-icon"
-            [attr.title]="text.fullView.buttonMore"
-            wpSingleContextMenu
-            [wpSingleContextMenu-workPackage]="workPackage"
-          >
-            <span class="spot-icon spot-icon_show-more"></span>
+          <button class="button dropdown-relative toolbar-icon"
+                  [attr.title]="text.fullView.buttonMore"
+                  wpSingleContextMenu
+                  [wpSingleContextMenu-workPackage]="workPackage">
+            <op-icon icon-classes="button--icon icon-show-more"></op-icon>
           </button>
         </li>
       </ul>
@@ -63,25 +60,17 @@
     </div>
     <div class="work-packages-full-view--split-right work-packages-tab-view--overflow">
       <div class="work-packages--panel-inner">
-        <span
-          class="hidden-for-sighted"
-          tabindex="-1"
-          opAutofocus
-          [textContent]="focusAnchorLabel"
-        ></span>
+        <span class="hidden-for-sighted" tabindex="-1" opAutofocus [textContent]="focusAnchorLabel"></span>
         <op-wp-tabs [workPackage]="workPackage" [view]="'full'"></op-wp-tabs>
-        <div
-          class="tabcontent"
-          data-notification-selector='notification-scroll-container'
-          ui-view
-        ></div>
+        <div class="tabcontent"
+             data-notification-selector='notification-scroll-container'
+             ui-view>
+        </div>
       </div>
 
       <div class="work-packages-full-view--resizer hidden-for-mobile hide-when-print">
-        <wp-resizer
-          [elementClass]="'work-packages-full-view--split-right'"
-          [localStorageKey]="'openProject-fullViewFlexBasis'"
-        ></wp-resizer>
+        <wp-resizer [elementClass]="'work-packages-full-view--split-right'"
+                    [localStorageKey]="'openProject-fullViewFlexBasis'"></wp-resizer>
       </div>
     </div>
   </div>

@@ -6,8 +6,7 @@ properties:
     type: integer
     description: News' id
     readOnly: true
-    minimum: 0
-    exclusiveMinimum: true
+    exclusiveMinimum: 0
   title:
     type: string
     description: The headline of the news

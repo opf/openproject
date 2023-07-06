@@ -99,8 +99,8 @@ module Redmine::MenuManager::TopMenuHelper
                    class: 'op-app-menu--item-action',
                    title: I18n.t(:label_login) do
       concat content_tag(:span, I18n.t(:label_login), class: 'op-app-menu--item-title hidden-for-mobile')
-      concat spot_icon('dropdown', classnames: 'hidden-for-mobile')
-      concat spot_icon('user', classnames: 'hidden-for-desktop')
+      concat content_tag(:i, '', class: 'op-app-menu--item-dropdown-indicator button--dropdown-indicator hidden-for-mobile')
+      concat content_tag(:i, '', class: 'icon2 icon-user hidden-for-desktop')
     end
 
     render_menu_dropdown(link, menu_item_class: '') do
@@ -113,7 +113,7 @@ module Redmine::MenuManager::TopMenuHelper
                    class: 'op-app-menu--item-action login',
                    title: I18n.t(:label_login) do
       concat content_tag(:span, I18n.t(:label_login), class: 'op-app-menu--item-title hidden-for-mobile')
-      concat spot_icon('user', classnames: 'hidden-for-desktop')
+      concat content_tag(:i, '', class: 'icon2 icon-user hidden-for-desktop')
     end
 
     content_tag :li, class: "" do
@@ -127,7 +127,7 @@ module Redmine::MenuManager::TopMenuHelper
       label: avatar.presence || '',
       label_options: {
         title: User.current.name,
-        icon: (avatar.present? ? 'overridden-by-avatar' : 'user')
+        icon: (avatar.present? ? 'overridden-by-avatar' : 'icon-user')
       },
       items:,
       options: { drop_down_id: 'user-menu', menu_item_class: 'last-child' }
@@ -149,7 +149,7 @@ module Redmine::MenuManager::TopMenuHelper
     unless items.empty?
       render_menu_dropdown_with_items(
         label: '',
-        label_options: { icon: 'menu', title: I18n.t('label_modules') },
+        label_options: { icon: 'icon-menu', title: I18n.t('label_modules') },
         items:,
         options: { drop_down_id: 'more-menu', drop_down_class: 'drop-down--modules ', menu_item_class: 'hidden-for-mobile' }
       )

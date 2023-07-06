@@ -52,8 +52,6 @@ import { IWorkPackageTimestamp } from 'core-app/features/hal/resources/work-pack
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
-  // eslint-disable-next-line no-use-before-define
-  ancestors:WorkPackageResource[];
   assignee:HalResource|any;
   attachments:AttachmentCollectionResource;
   fileLinks?:CollectionResource;
@@ -137,7 +135,7 @@ export class WorkPackageBaseResource extends HalResource {
   public attachments:AttachmentCollectionResource;
 
   // eslint-disable-next-line no-use-before-define
-  public ancestors:WorkPackageResource[];
+  private ancestors?:this[];
 
   public attributesByTimestamp?:IWorkPackageTimestamp[];
 
@@ -158,10 +156,17 @@ export class WorkPackageBaseResource extends HalResource {
   readonly attachmentsBackend = true;
 
   /**
+   * Returns the list of ancestors, if any
+   */
+  public getAncestors():this[] {
+    return this.ancestors || [];
+  }
+
+  /**
    * Return the ids of all its ancestors, if any
    */
   public get ancestorIds():string[] {
-    return this.ancestors.map((el:HalResource) => (el.id as string|number).toString());
+    return this.getAncestors().map((el:HalResource) => (el.id as string|number).toString());
   }
 
   /**

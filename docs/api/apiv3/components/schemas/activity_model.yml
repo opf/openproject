@@ -6,14 +6,12 @@ properties:
     type: integer
     description: Activity id
     readOnly: true
-    minimum: 0
-    exclusiveMinimum: true
+    exclusiveMinimum: 0
   version:
     type: integer
     description: Activity version
     readOnly: true
-    minimum: 0
-    exclusiveMinimum: true
+    exclusiveMinimum: 0
   comment:
     allOf:
     - "$ref": "./formattable.yml"

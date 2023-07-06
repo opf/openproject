@@ -7,7 +7,7 @@ import { States } from 'core-app/core/states/states.service';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { tdClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/cell-builder';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
-import { spotIconElement } from 'core-app/shared/helpers/spot-icon-builder';
+import { opIconElement } from 'core-app/shared/helpers/op-icon-builder';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -55,22 +55,19 @@ export class BaselineColumnBuilder {
   ):HTMLElement|null {
     const state = getBaselineState(workPackage, this.schemaCache, this.wpTableColumns);
     if (state === 'added') {
-      const icon = spotIconElement('add', '1');
-      icon.classList.add('op-table-baseline--icon-added');
+      const icon = opIconElement('spot-icon', 'spot-icon_1', 'spot-icon_flex', 'spot-icon_add', 'op-table-baseline--icon-added');
       icon.title = this.I18n.t('js.work_packages.baseline.addition_label');
       return icon;
     }
 
     if (state === 'removed') {
-      const icon = spotIconElement('minus1', '1');
-      icon.classList.add('op-table-baseline--icon-removed');
+      const icon = opIconElement('spot-icon', 'spot-icon_1', 'spot-icon_flex', 'spot-icon_minus1', 'op-table-baseline--icon-removed');
       icon.title = this.I18n.t('js.work_packages.baseline.removal_label');
       return icon;
     }
 
     if (state === 'updated') {
-      const icon = spotIconElement('arrow-left-right', '1');
-      icon.classList.add('op-table-baseline--icon-changed');
+      const icon = opIconElement('spot-icon', 'spot-icon_1', 'spot-icon_flex', 'spot-icon_arrow-left-right', 'op-table-baseline--icon-changed');
       icon.title = this.I18n.t('js.work_packages.baseline.modification_label');
       return icon;
     }

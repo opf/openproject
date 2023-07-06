@@ -34,30 +34,39 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
     user = User.find(user_id)
 
     User.execute_as user do
+      wd_update = Journal::WorkingDayUpdate.new(
+        working_days: changed_days(previous_working_days),
+        non_working_days: changed_non_working_dates(previous_non_working_days).transform_keys(&:iso8601)
+      )
+
       updated_work_package_ids = collect_id_for_each(applicable_work_package(previous_working_days,
                                                                              previous_non_working_days)) do |work_package|
-        apply_change_to_work_package(user, work_package)
-      end
-      updated_work_package_ids += collect_id_for_each(applicable_predecessor(updated_work_package_ids)) do |predecessor|
-        apply_change_to_predecessor(user, predecessor)
+        apply_change_to_work_package(user, work_package, wd_update)
       end
 
-      set_journal_notice(updated_work_package_ids, previous_working_days, previous_non_working_days)
+      applicable_predecessor(updated_work_package_ids).each do |predecessor|
+        apply_change_to_predecessor(user, predecessor, wd_update)
+      end
     end
   end
 
   private
 
-  def apply_change_to_work_package(user, work_package)
+  def apply_change_to_work_package(user, work_package, changed_working_days)
+    cause = {
+      "type" => "working_days_changed",
+      "changed_days" => changed_working_days.to_h
+    }
+
     WorkPackages::UpdateService
-      .new(user:, model: work_package, contract_class: EmptyContract)
-      .call(duration: work_package.duration) # trigger a recomputation of start and due date
+      .new(user:, model: work_package, contract_class: EmptyContract, cause_of_update: changed_working_days)
+      .call(duration: work_package.duration, journal_cause: cause) # trigger a recomputation of start and due date
       .all_results
   end
 
-  def apply_change_to_predecessor(user, predecessor)
+  def apply_change_to_predecessor(user, predecessor, initiated_by)
     schedule_result = WorkPackages::SetScheduleService
-                        .new(user:, work_package: predecessor)
+                        .new(user:, work_package: predecessor, initiated_by:)
                         .call
 
     # The SetScheduleService does not save. It has to be done by the caller.
@@ -100,38 +109,6 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
     WorkPackage
       .where(id: Relation.follows_with_delay.select(:to_id))
       .where.not(id: excluded)
-  end
-
-  def set_journal_notice(updated_work_package_ids, previous_working_days, previous_non_working_days)
-    day_changes = changed_days(previous_working_days)
-    date_changes = changed_non_working_dates(previous_non_working_days)
-    journal_note = journal_notice_text(day_changes, date_changes)
-
-    WorkPackage
-      .where(id: updated_work_package_ids.uniq)
-      .in_batches
-      .each_record do |work_package|
-      work_package.journal_notes = journal_note
-      work_package.save
-    end
-  end
-
-  def journal_notice_text(day_changes, date_changes)
-    I18n.with_locale(Setting.default_language) do
-      day_changes_messages = day_changes.collect { |day, working| working_day_change_message(day, working) }
-      date_changes_messages = date_changes.collect { |date, working| working_date_change_message(date, working) }
-      I18n.t(:'working_days.journal_note.changed',
-             changes: (day_changes_messages + date_changes_messages).join(', '))
-    end
-  end
-
-  def working_day_change_message(day, working)
-    I18n.t(:"working_days.journal_note.days.#{working ? :working : :non_working}",
-           day: WeekDay.find_by!(day:).name)
-  end
-
-  def working_date_change_message(date, working)
-    I18n.t(:"working_days.journal_note.dates.#{working ? :working : :non_working}", date:)
   end
 
   def collect_id_for_each(scope)

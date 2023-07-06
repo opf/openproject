@@ -4,7 +4,9 @@
   (click)="onAddNewClick($event)"
   *ngIf="canInviteUsersToProject$ | async"
 >
-  <span class="spot-icon spot-icon_user-plus"></span>
-  {{text.button}}
+  <span class="icon-context">
+    <op-icon icon-classes="icon-user-plus icon-context"></op-icon>
+    {{text.button}}
+  </span>
 </button>
 

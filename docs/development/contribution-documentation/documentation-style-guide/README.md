@@ -382,7 +382,7 @@ Use these terms when referring to OpenProject’s main application elements:
 
 All project menu items are spelled as in the application in bold, e.g.
 
-- In the project menu, select **Work packages** to open your work package list.
+- In the project menu, select **Work packages** to open your work package table.
 
   
 

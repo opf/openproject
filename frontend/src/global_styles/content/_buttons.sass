@@ -50,10 +50,6 @@ a.button
     &::before
       padding: 0 var(--button--text-icon-spacing) 0 0
 
-  &.-icon-only
-    width: 34px
-    padding: 0
-
   &.-danger
     background: var(--content-form-danger-zone-bg-color)
     color: var(--content-form-danger-zone-font-color)
@@ -152,6 +148,13 @@ html.-browser-windows.-browser-chrome
   .button--icon
     vertical-align: -1px
 
+.button--dropdown-indicator
+  @include icon-common
+  padding: 0 0 0 3px
+  font-size: rem-calc(13px)
+  @extend .icon-small
+  @extend .icon-pulldown
+
 // hack around the old markup (icon class applied on <a>)
 // which is used for toolbar-items to add space after icons inside buttons
 .toolbar-item
@@ -179,10 +182,3 @@ html.-browser-windows.-browser-chrome
     cursor: not-allowed
     background: none
     color: var(--gray-dark)
-
-.clear-button
-  border: 0
-  background: transparent
-  margin: 0
-  padding: 0
-  cursor: pointer

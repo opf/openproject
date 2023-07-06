@@ -78,7 +78,7 @@ RSpec.describe "Reminder email sending", js: true, with_cuprite: true do
             </mention>
       NOTE
 
-      work_package.add_journal(other_user, note)
+      work_package.add_journal(user: other_user, notes: note)
       work_package.save!
 
       watched_work_package.subject = 'New watched work package subject'

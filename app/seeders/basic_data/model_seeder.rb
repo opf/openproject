@@ -29,8 +29,13 @@
 #++
 module BasicData
   class ModelSeeder < Seeder
+    # The class of the model for creating records.
     class_attribute :model_class
+    # The key under which the data is found in the seed file.
     class_attribute :seed_data_model_key
+    # The names of the attributes used to lookup an existing model in an already
+    # seeded database. Optional.
+    class_attribute :attribute_names_for_lookups
 
     def seed_data!
       model_class.transaction do
@@ -51,6 +56,17 @@ module BasicData
 
     def applicable?
       model_class.none?
+    end
+
+    def lookup_existing_references
+      return if attribute_names_for_lookups.blank?
+
+      models_data.each do |model_data|
+        lookup_attributes = model_attributes(model_data).slice(*attribute_names_for_lookups)
+        if model = model_class.find_by(lookup_attributes)
+          seed_data.store_reference(model_data['reference'], model)
+        end
+      end
     end
 
     def not_applicable_message
