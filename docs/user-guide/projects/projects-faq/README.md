@@ -13,7 +13,7 @@ keywords: projects FAQ, project questions
 There are several possibilities:
 
 1. To see only the projects without their work packages go to [Projects](../#projects-list) ("View all projects"). Here yo can also display the Project list in a Gantt chart view with all important milestones of all Projects. Therefore you have to click on "Open as Gantt view".
-2. For work packages of all projects click on *Modules -> Work packages* in the upper right hand corner (9 squares) in the navigation bar, to access the [global work packages list](../#global-work-packages-list). Use the view configuration to group the work packages by project.
+2. For work packages of all projects click on *Modules -> Work packages* in the upper right hand corner (9 squares) in the navigation bar, to access the [global work packages list](../#global-work-package-tables). Use the view configuration to group the work packages by project.
 3. Select a project with subprojects, go to the Project overview, add the widget "Work package table" and set the filter "Including subproject". Find more information on this topic [here](../../project-overview/#add-a-widget-to-the-project-overview). Additionally you could add the column "Progress" to compare your different Project progress.
 4. Add the widget "Work package table" to your My page and set the filter mentioned above. Find more information on this topic [here](../../../getting-started/my-page/#configure-the-my-page). Additionally you could add the column "Progress".
 

@@ -2075,6 +2075,7 @@ pt:
       more_to_see:
         one: 'Há mais 1 pacote de trabalho com notificações.'
         other: 'Há mais %{count} pacotes de trabalho com notificações.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Assistido'
         assigned: 'Atribuído'

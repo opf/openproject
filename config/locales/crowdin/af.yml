@@ -2076,6 +2076,7 @@ af:
       more_to_see:
         one: 'There is 1 more work package with notifications.'
         other: 'There are %{count} more work packages with notifications.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Watched'
         assigned: 'Assigned'
