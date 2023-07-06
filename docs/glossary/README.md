@@ -163,8 +163,6 @@ The Gantt chart in OpenProject displays the work packages in a timeline. You can
 
 [Read more about how to activate and work with Gantt charts in OpenProject](https://www.openproject.org/docs/user-guide/gantt-chart/)
 
-![A gantt chart in OpenProject](glossary-openproject-gantt-chart.png)
-
 ### Group
 
 A Group in OpenProject is defined as a list of users which can be added as a member to projects with a selected [role](#role). Groups can also be assigned to work packages. New groups can be defined in Administration -> Users and permissions -> Groups.
