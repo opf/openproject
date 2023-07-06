@@ -29,15 +29,9 @@
 require 'spec_helper'
 
 RSpec.describe 'Project attributes activities' do
-  let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_with_permissions: %w[view_wiki_pages
-                                       edit_wiki_pages
-                                       view_wiki_edits])
-  end
+  let(:user) { create(:user, member_in_project: project) }
   let(:parent_project) { create(:project, name: 'parent') }
-  let(:project) { create(:project, parent: parent_project, active: false, enabled_module_names: %w[activity]) }
+  let(:project) { create(:project, parent: parent_project, active: false) }
   let!(:list_project_custom_field) { create(:list_project_custom_field) }
   let!(:version_project_custom_field) { create(:version_project_custom_field) }
   let!(:bool_project_custom_field) { create(:bool_project_custom_field) }
@@ -48,6 +42,7 @@ RSpec.describe 'Project attributes activities' do
   let!(:string_project_custom_field) { create(:string_project_custom_field) }
   let!(:date_project_custom_field) { create(:date_project_custom_field) }
 
+  let(:old_version) { create(:version, project:, name: 'Ringbo 1.0') }
   let(:next_version) { create(:version, project:, name: 'Turfu 2.0') }
 
   current_user { user }
@@ -65,7 +60,7 @@ RSpec.describe 'Project attributes activities' do
       active: true,
       templated: true,
       list_project_custom_field.attribute_name => list_project_custom_field.possible_values.first.id,
-      version_project_custom_field.attribute_name => next_version.id,
+      version_project_custom_field.attribute_name => [old_version.id, next_version.id],
       bool_project_custom_field.attribute_name => true,
       user_project_custom_field.attribute_name => current_user.id,
       int_project_custom_field.attribute_name => 42,
@@ -101,7 +96,8 @@ RSpec.describe 'Project attributes activities' do
       # custom fields
       expect(page).to have_selector('li', text: "#{list_project_custom_field.name} " \
                                                 "set to #{project.send(list_project_custom_field.attribute_getter)}")
-      expect(page).to have_selector('li', text: "#{version_project_custom_field.name} set to #{next_version.name}")
+      expect(page).to have_selector('li', text: "#{version_project_custom_field.name} " \
+                                                "set to #{old_version.name}, #{next_version.name}")
       expect(page).to have_selector('li', text: "#{bool_project_custom_field.name} set to Yes")
       expect(page).to have_selector('li', text: "#{user_project_custom_field.name} set to #{current_user.name}")
       expect(page).to have_selector('li', text: "#{int_project_custom_field.name} set to 42")
