@@ -67,7 +67,7 @@ zh-TW:
     remaining_hours_ideal: "(理想) 剩餘時數"
     show_burndown_chart: "未完成圖"
     story: "使用者需求"
-    story_points: "故事評分"
+    story_points: "需求重要性"
     story_points_ideal: "(理想) 需求重要性"
     task: "任務"
     task_color: "任務顏色"

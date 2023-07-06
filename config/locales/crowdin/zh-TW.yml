@@ -820,7 +820,7 @@ zh-TW:
           is_not_a_valid_target_for_time_entries: "工作項目 #%{id} 不是重新分配時間項目有效的目標"
           attributes:
             assigned_to:
-              format: "%{message}"
+              format: " %訊息"
             due_date:
               not_start_date: "不在開始的日期，儘管它是里程碑所必需的。"
               cannot_be_null: "can not be set to null as start date and duration are known."
@@ -1376,10 +1376,10 @@ zh-TW:
     blocks:
       community: "OpenProject 社群"
       upsale:
-        title: "Upgrade to Enterprise edition"
+        title: "升級到企業版"
         more_info: "更多資訊"
     links:
-      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
+      upgrade_enterprise_edition: "升級到企業版"
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "使用手冊"
       faq: "問答集"
@@ -1418,7 +1418,7 @@ zh-TW:
     admin:
       mail_notification: "電子郵件通知"
       mails_and_notifications: "電子郵件通知"
-      aggregation: 'Aggregation'
+      aggregation: '聚合'
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
@@ -1618,7 +1618,7 @@ zh-TW:
   label_enumerations: "條列項目"
   label_enterprise: "企業"
   label_enterprise_active_users: "%{current}/%{limit} 已預訂的活動使用者"
-  label_enterprise_edition: "Enterprise edition"
+  label_enterprise_edition: "企業版"
   label_enterprise_support: "Enterprise support"
   label_environment: "環境"
   label_estimates_and_time: "預估成本和時間"
@@ -1673,7 +1673,7 @@ zh-TW:
   label_index_by_title: "按標題索引"
   label_information: "資訊"
   label_information_plural: "資訊"
-  label_installation_guides: 'Installation guides'
+  label_installation_guides: '安裝說明'
   label_integer: "整數"
   label_internal: "內部"
   label_introduction_video: "簡介影片"
@@ -2062,7 +2062,7 @@ zh-TW:
       mentioned_by: '%{user} mentioned you in a comment'
       more_to_see:
         other: "還有 1 個帶有通知的工作包\n\n還有 %{count} 個帶有通知的工作包"
-      open_in_browser: 'Open in browser'
+      open_in_browser: '在瀏覽器中開啟'
       reason:
         watched: '監看'
         assigned: '指派'
@@ -2266,14 +2266,14 @@ zh-TW:
   permission_edit_own_time_entries: "編輯自己的時間日誌"
   permission_edit_project: "編輯專案"
   permission_edit_reportings: "編輯報表"
-  permission_edit_time_entries: "Edit time logs for other users"
+  permission_edit_time_entries: "編輯他人耗時"
   permission_edit_timelines: "編輯時間軸"
   permission_edit_wiki_pages: "編輯維基頁面"
   permission_export_work_packages: "匯出工作項目"
   permission_export_wiki_pages: "匯出維基頁面"
   permission_list_attachments: "列出附件"
-  permission_log_own_time: "Log own time"
-  permission_log_time: "Log time for other users"
+  permission_log_own_time: "記錄個人耗時"
+  permission_log_time: "紀錄他人耗時"
   permission_manage_forums: "管理論壇"
   permission_manage_categories: "管理工作項目類別"
   permission_manage_work_package_relations: "管理工作項目關聯"
