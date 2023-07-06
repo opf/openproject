@@ -83,6 +83,7 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
     // Once that is done, we can show the edit form.
     this.resource.grid.updateAttachments().then(() => {
       this.handler.activate();
+      this.cdr.detectChanges();
     });
   }
 
