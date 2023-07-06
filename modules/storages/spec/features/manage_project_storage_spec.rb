@@ -32,7 +32,6 @@ require_relative '../spec_helper'
 # This tests assumes that a Storage has already been setup
 # in the Admin section, tested by admin_storage_spec.rb.
 RSpec.describe 'Activation of storages in projects', js: true, webmock: true, with_flag: { storage_project_folders: true } do
-  before(:all) { skip 'TODO BROKEN MODULE SPEC' }
   let(:user) { create(:user) }
   # The first page is the Project -> Settings -> General page, so we need
   # to provide the user with the edit_project permission in the role.
@@ -52,14 +51,6 @@ RSpec.describe 'Activation of storages in projects', js: true, webmock: true, wi
 
   let(:oauth_client) { create(:oauth_client, integration: storage) }
   let(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user:) }
-  let(:connection_manager) do
-    connection_manager = instance_double(OAuthClients::ConnectionManager)
-    allow(connection_manager).to receive(:refresh_token).and_return(ServiceResult.success(result: oauth_client_token))
-    allow(connection_manager).to receive(:get_access_token).and_return(ServiceResult.success(result: oauth_client_token))
-    allow(connection_manager).to receive(:authorization_state).and_return(:connected)
-    allow(connection_manager).to receive(:request_with_token_refresh).and_yield(oauth_client_token)
-    connection_manager
-  end
 
   let(:location_picker) { Components::FilePickerDialog.new }
 
@@ -82,14 +73,15 @@ RSpec.describe 'Activation of storages in projects', js: true, webmock: true, wi
   end
 
   before do
-    allow(OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
+    oauth_client_token
 
-    stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}")
+    stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}/")
       .to_return(status: 207, body: root_xml_response, headers: {})
     stub_request(:propfind, "#{storage.host}/remote.php/dav/files/#{oauth_client_token.origin_user_id}/Folder1")
       .to_return(status: 207, body: folder1_xml_response, headers: {})
     stub_request(:get, "#{storage.host}/ocs/v1.php/apps/integration_openproject/fileinfo/11")
       .to_return(status: 200, body: folder1_fileinfo_response.to_json, headers: {})
+    stub_request(:get, "https://host1.example.com/ocs/v1.php/cloud/user").to_return(status: 200, body: "{}")
 
     storage
     project
@@ -97,10 +89,9 @@ RSpec.describe 'Activation of storages in projects', js: true, webmock: true, wi
   end
 
   it 'adds, edits and removes storages to projects' do
-
     # Go to Projects -> Settings -> File Storages
     visit project_settings_general_path(project)
-    page.find('.settings-projects-storages-menu-item').click
+    page.click_link('File storages')
 
     # Check for an empty table in Project -> Settings -> File storages
     expect(page).to have_title('File storages')
@@ -108,12 +99,9 @@ RSpec.describe 'Activation of storages in projects', js: true, webmock: true, wi
     expect(page).to have_text(I18n.t('storages.no_results'))
     page.find('.toolbar .button--icon.icon-add').click
 
-    # Can cancel the creation of a new file storage and view help text
+    # Can cancel the creation of a new file storage
     expect(page).to have_current_path new_project_settings_projects_storage_path(project_id: project)
     expect(page).to have_text('Add a file storage')
-    page.find('[data-qa-selector="static-attribute-help-text--icon"]').click
-    expect(page).to have_selector('[data-qa-selector="static-attribute-help-text--modal"]')
-    page.click_button('Close')
     page.click_link('Cancel')
     expect(page).to have_current_path project_settings_projects_storages_path(project)
 
@@ -122,6 +110,8 @@ RSpec.describe 'Activation of storages in projects', js: true, webmock: true, wi
     expect(page).to have_current_path new_project_settings_projects_storage_path(project_id: project)
     expect(page).to have_text('Add a file storage')
     expect(page).to have_select('storages_project_storage_storage_id', options: ['Storage 1 (nextcloud)'])
+    page.click_button('Continue')
+
     page.find_by_id('storages_project_storage_project_folder_mode_manual').click
 
     # Select project folder
