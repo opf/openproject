@@ -80,12 +80,7 @@ RSpec.describe API::V3::TimeEntries::CreateFormAPI, content_type: :json do
 
     context 'with empty parameters' do
       it 'has 4 validation errors' do
-        # There are 4 validation errors instead of 3 with two duplicating each other
-        expect(subject.body).to have_json_size(4).at_path('_embedded/validationErrors')
-      end
-
-      it 'has a validation error on activity' do
-        expect(subject.body).to have_json_path('_embedded/validationErrors/activity')
+        expect(subject.body).to have_json_size(3).at_path('_embedded/validationErrors')
       end
 
       it 'has a validation error on project' do

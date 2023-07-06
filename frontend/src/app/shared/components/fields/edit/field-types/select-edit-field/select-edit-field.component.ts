@@ -123,7 +123,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
         this.untilDestroyed(),
       )
       .subscribe(() => {
-        this.valuesLoadingPromise
+        void this.valuesLoadingPromise
           .then(() => {
             this._autocompleterComponent.openDirectly = true;
           });

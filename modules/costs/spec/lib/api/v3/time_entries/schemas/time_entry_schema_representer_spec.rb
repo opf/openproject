@@ -207,7 +207,7 @@ RSpec.describe API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
         let(:type) { 'TimeEntriesActivity' }
         let(:name) { TimeEntry.human_attribute_name('activity') }
         let(:has_default) { true }
-        let(:required) { true }
+        let(:required) { false }
         let(:writable) { true }
         let(:location) { '_links' }
       end

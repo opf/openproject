@@ -46,28 +46,26 @@ get:
         type: string
     - name: filters
       description: |-
-      JSON specifying filter conditions.
-      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported filters are:
-
-      + work_package: Filter time entries by work package
-
-      + project: Filter time entries by project
-
-      + user: Filter time entries by users
-      
-      + ongoing: Filter for own ongoing time entries (actively being time tracked)
-
-      + spent_on: Filter time entries by spent on date
-
-      + created_at: Filter time entries by creation datetime
-
-      + updated_at: Filter time entries by the last time they where updated
-
-      + activity: Filter time entries by time entry activity
-    example: '[{ "work_package": { "operator": "=", "values": ["1", "2"] } }, { "project":
-      { "operator": "=", "values": ["1"] } }]'
-    in: query
-    
+        JSON specifying filter conditions.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported filters are:
+        
+        + work_package: Filter time entries by work package
+        
+        + project: Filter time entries by project
+        
+        + user: Filter time entries by users
+        
+        + ongoing: Filter for your ongoing timers
+        
+        + spent_on: Filter time entries by spent on date
+        
+        + created_at: Filter time entries by creation datetime
+        
+        + updated_at: Filter time entries by the last time they where updated
+        
+        + activity: Filter time entries by time entry activity
+      example: '[{ "work_package": { "operator": "=", "values": ["1", "2"] } }, { "project": { "operator": "=", "values": ["1"] } }]'
+      in: query
       required: false
       schema:
         type: string
