@@ -22,7 +22,7 @@ properties:
     description: |-
       Whether the storage has the application password to use for the Nextcloud storage.
 
-      Ignored if the provider type is not Nextcloud or if the `applicationPassword` property is not set.
+      Ignored if the provider type is not Nextcloud
   createdAt:
     type: string
     format: date-time

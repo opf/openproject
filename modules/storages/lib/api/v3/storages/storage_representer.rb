@@ -95,7 +95,12 @@ module API::V3::Storages
 
     property :hasApplicationPassword,
              skip_parse: true,
-             getter: ->(represented:, **) { represented.automatically_managed? },
+             skip_render: ->(represented:, **) { !represented.provider_type_nextcloud? },
+             getter: ->(represented:, **) {
+               break unless represented.provider_type_nextcloud?
+
+               represented.automatically_managed?
+             },
              setter: ->(*) {}
 
     date_time_property :created_at
