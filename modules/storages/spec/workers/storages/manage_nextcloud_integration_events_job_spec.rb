@@ -33,12 +33,12 @@ RSpec.describe Storages::ManageNextcloudIntegrationEventsJob, type: :job do
     it 'debounces job with 1 minute timeframe' do
       ActiveJob::Base.disable_test_adapter
 
-      other_handler = ManageNextcloudIntegrationCronJob.perform_later.provider_job_id
+      other_handler = Storages::ManageNextcloudIntegrationCronJob.perform_later.provider_job_id
       same_handler_within_timeframe1 = described_class.set(wait: 10.seconds).perform_later.provider_job_id
-      same_handler_within_timeframe2 = described_class.set(wait: 30.seconds).perform_later.provider_job_id
-      same_handler_within_timeframe3 = described_class.set(wait: 50.seconds).perform_later.provider_job_id
-      same_handler_out_of_timeframe = described_class.set(wait: 5.minutes).perform_later.provider_job_id
-      same_handler_within_timeframe_in_progress = described_class.set(wait: 55.seconds).perform_later.tap do |job|
+      same_handler_within_timeframe2 = described_class.set(wait: 12.seconds).perform_later.provider_job_id
+      same_handler_within_timeframe3 = described_class.set(wait: 16.seconds).perform_later.provider_job_id
+      same_handler_out_of_timeframe = described_class.set(wait: 1.minutes).perform_later.provider_job_id
+      same_handler_within_timeframe_in_progress = described_class.set(wait: 18.seconds).perform_later.tap do |job|
         # simulate in progress state
         Delayed::Job.where(id: job.provider_job_id).update_all(locked_at: Time.current, locked_by: "test_process #{Process.pid}")
       end.provider_job_id
@@ -48,16 +48,18 @@ RSpec.describe Storages::ManageNextcloudIntegrationEventsJob, type: :job do
       described_class.debounce
 
       expect(Delayed::Job.count).to eq(4)
-      expect(Delayed::Job.pluck(:id)).to include(other_handler, same_handler_out_of_timeframe,
+      expect(Delayed::Job.pluck(:id)).to include(other_handler,
+                                                 same_handler_out_of_timeframe,
                                                  same_handler_within_timeframe_in_progress)
-      expect(Delayed::Job.pluck(:id)).not_to include(same_handler_within_timeframe1, same_handler_within_timeframe2,
+      expect(Delayed::Job.pluck(:id)).not_to include(same_handler_within_timeframe1,
+                                                     same_handler_within_timeframe2,
                                                      same_handler_within_timeframe3)
       expect(
         Delayed::Job
           .where("handler LIKE ?", "%job_class: #{described_class}%")
           .last
           .run_at
-      ).to be_within(3.seconds).of(1.minute.from_now)
+      ).to be_within(3.seconds).of(described_class::DEBOUNCE_TIME.from_now)
     end
   end
 

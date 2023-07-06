@@ -27,15 +27,16 @@
 #++
 
 class Storages::ManageNextcloudIntegrationEventsJob < ApplicationJob
+  DEBOUNCE_TIME = 20.seconds.freeze
+
   def self.debounce
-    debounce_time = 20.seconds
     count = Delayed::Job
               .where("handler LIKE ?", "%job_class: #{self}%")
               .where(locked_at: nil)
-              .where('run_at <= ?', debounce_time.from_now)
+              .where('run_at <= ?', DEBOUNCE_TIME.from_now)
               .delete_all
     Rails.logger.info("deleted: #{count} jobs")
-    set(wait: debounce_time).perform_later
+    set(wait: DEBOUNCE_TIME).perform_later
   end
 
   def perform
