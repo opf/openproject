@@ -29,9 +29,8 @@
 require 'spec_helper'
 require_relative './../support/onboarding_steps'
 
-RSpec.describe 'boards onboarding tour', js: true do
-  before(:all) { skip 'TODO BROKEN MODULE SPEC' }
-
+RSpec.describe 'boards onboarding tour',
+               js: true do
   let(:next_button) { find('.enjoyhint_next_btn') }
   let(:user) do
     create(:admin,
@@ -102,6 +101,7 @@ RSpec.describe 'boards onboarding tour', js: true do
       end
 
       it "I see the board onboarding tour in the scrum project" do
+        # Set sessionStorage value so that the tour knows that it is in the scum tour
         page.execute_script("window.sessionStorage.setItem('openProject-onboardingTour', 'startMainTourFromBacklogs');")
 
         # Set the tour parameter so that we can start on the wp page
