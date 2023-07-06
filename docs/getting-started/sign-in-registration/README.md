@@ -48,7 +48,7 @@ Enter you password and click the blue Next button.
 
 If you have activated Two-factor authentication, please enter your second factor and click the blue Next button.
 
-![1566204298041](1566204298041.png)
+![Enter second factor for Google authentication](1566204298041.png)
 
 Then, you are asked to create your OpenProject Account.
 
@@ -97,7 +97,7 @@ If you forgot your password, you can reset your password by clicking the blue **
 
 ![Forgot-password](1566205596114.png)
 
-You are then asked to enter you email address with which you have registered to OpenProject. 
+You are then asked to enter your email address with which you have registered to OpenProject. 
 
 ![enter-email-address](1566205903097.png)
 

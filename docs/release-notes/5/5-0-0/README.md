@@ -11,7 +11,7 @@
 ## Work package creation via split screen
 
 OpenProject 5.0 extends the work package split screen functionality and
-allows users to create work packages from the work package list via the
+allows users to create work packages from the work package table via the
 work package split screen
 ([#17549](https://community.openproject.com/work_packages/17549/activity)).
 
@@ -237,5 +237,4 @@ OpenProject Packager edition.
 
 A large number of bugs have been fixed with the release of OpenProject
 5.0.
-
 

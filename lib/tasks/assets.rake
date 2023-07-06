@@ -52,8 +52,6 @@ namespace :assets do
     # We skip angular compilation if backend was requested
     # but frontend was not explicitly set
     if ENV['RECOMPILE_RAILS_ASSETS'] == 'true' && ENV['RECOMPILE_ANGULAR_ASSETS'] != 'true'
-      warn "RECOMPILE_RAILS_ASSETS was set by installation, but RECOMPILE_ANGULAR_ASSETS is false. " \
-           "Skipping angular compilation. Set RECOMPILE_ANGULAR_ASSETS='true' if you need to force it."
       next
     end
 

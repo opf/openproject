@@ -71,7 +71,7 @@ fi:
       text_2fa_enabled: 'Jokaisen sisäänkirjautumisen yhteydessä tätä käyttäjää pyydetään syöttämään OTP-tunniste hänen oletusarvoisesta 2FA-laitteestaan.'
       text_2fa_disabled: "Käyttäjä ei ole asettanut tunnistuslaitetta tiliasetuksissa"
     upsale:
-      title: 'Two-factor authentication'
+      title: 'Kaksivaiheinen tunnistautuminen'
       description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
     backup_codes:
       none_found: Tälle tilille ei ole palautuskoodeja.

@@ -37,6 +37,6 @@ Time Tracker app is available in the Apple [AppStore](https://apps.apple.com/us/
 7. Set the Confidential Property to unchecked. 
 8. Leave the Client Credentials User field empty. 
 9. Once you have completed all the fields, press the Create button. 
-10. After creating the application, copy the Client ID and Base URL values. Copy  Base URL from Auth URL field, it may look like this: `https://example.com`
+10. After creating the application, copy the Client ID and Base URL values for future reference and keep them secure. Copy  Base URL from Auth URL field, it may look like this: `https://example.com`
 
 ![openproject_timetracker_configured](openproject_timetracker_configured.png)

@@ -98,6 +98,34 @@ describe AccountController,
     end
   end
 
+  describe 'GET #internal_login' do
+    context 'when direct login enabled', with_config: { omniauth_direct_login_provider: 'some_provider' } do
+      it 'allows to login internally using a special route' do
+        get :internal_login
+
+        expect(response).to redirect_to '/login'
+        expect(session[:internal_login]).to be true
+      end
+
+      it 'allows to login internally using a session flag' do
+        session[:internal_login] = true
+        get :login
+
+        expect(response).to render_template 'login'
+        expect(session).not_to have_key :internal_login
+      end
+    end
+
+    context 'when direct login disabled' do
+      it 'allows to login internally using a special route' do
+        get :internal_login
+
+        expect(response).to have_http_status(:not_found)
+        expect(session[:internal_login]).not_to be_present
+      end
+    end
+  end
+
   context 'POST #login' do
     shared_let(:admin) { create(:admin) }
 
@@ -295,7 +323,7 @@ describe AccountController,
         let(:user) { build_stubbed(:user, login: 'bob', identity_url: 'saml:foo') }
         let(:slo_callback) { nil }
         let(:sso_provider) do
-          { name: 'saml',  single_sign_out_callback: slo_callback }
+          { name: 'saml', single_sign_out_callback: slo_callback }
         end
 
         before do
@@ -456,10 +484,19 @@ describe AccountController,
     end
 
     describe 'POST' do
+      shared_let(:admin) { create(:admin) }
+
       it 'redirects to some_provider' do
         post :login, params: { username: 'foo', password: 'bar' }
 
         expect(response).to redirect_to '/auth/some_provider'
+      end
+
+      it 'allows to login internally using a session flag' do
+        session[:internal_login] = true
+        post :login, params: { username: admin.login, password: 'adminADMIN!' }
+
+        expect(response).to redirect_to '/my/page'
       end
     end
   end
@@ -795,9 +832,7 @@ describe AccountController,
         end
 
         it 'preserves the back url' do
-          expect(response).to redirect_to(
-            '/login?back_url=https%3A%2F%2Fexample.net%2Fsome_back_url'
-          )
+          expect(response).to redirect_to('/login?back_url=https%3A%2F%2Fexample.net%2Fsome_back_url')
         end
 
         it 'calls the user_registered callback' do

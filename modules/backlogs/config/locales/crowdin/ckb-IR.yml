@@ -66,7 +66,7 @@ ckb-IR:
     properties: "Properties"
     rebuild: "Rebuild"
     rebuild_positions: "Rebuild positions"
-    remaining_hours: "Remaining hours"
+    remaining_hours: "کاتژمێری ماوە"
     remaining_hours_ideal: "Remaining hours (ideal)"
     show_burndown_chart: "Burndown Chart"
     story: "Story"

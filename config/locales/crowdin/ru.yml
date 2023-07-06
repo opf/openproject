@@ -2652,7 +2652,7 @@ ru:
     highlighting:
       mode_long:
         inline: "Выделите один или несколько встроенных атрибутов"
-        none: "Без подсветки"
+        none: "Без выделения"
         status: "Вся строка по статусу"
         type: "Вся строка по типу"
         priority: "Вся строка по приоритету"
@@ -3201,14 +3201,14 @@ ru:
       label_refresh_token: "Токен обновления"
     errors:
       oauth_authorization_code_grant_had_errors: "OAuth2 вернул ошибку"
-      oauth_reported: "Поставщик OAuth2 сообщил"
+      oauth_reported: "Источник OAuth2 сообщил"
       oauth_returned_error: "OAuth2 вернул ошибку"
       oauth_returned_json_error: "OAuth2 вернул ошибку JSON"
       oauth_returned_http_error: "OAuth2 вернул ошибку сети"
       oauth_returned_standard_error: "OAuth2 вернул внутреннюю ошибку"
       wrong_token_type_returned: "OAuth2 вернул неверный тип токена, ожидая AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 сообщил об ошибке. Обратитесь к системному администратору."
-      oauth_client_not_found: "OAuth2 клиент не найден в точке 'callback' (redirect_uri)."
+      oauth_client_not_found: "OAuth2 'state' не найден в конечной точке 'callback' (redirect_uri)."
       refresh_token_called_without_existing_token: >
         Внутренняя ошибка: Обнаружен refresh_token без ранее существующего токена.
       refresh_token_updated_failed: "Ошибка при обновлении OAuthClientToken"
@@ -3216,7 +3216,7 @@ ru:
         Эта ошибка появляется после того, как вы обновили client_id и client_secret в OpenProject, но не обновили поле 'Return URI' в OAuth2 провайдере.
       oauth_code_not_present: "OAuth2 'code' не найден в конечной точке 'callback' (redirect_uri)."
       oauth_code_not_present_explanation: >
-        Эта ошибка появляется если вы выбрали неправильный response_type в OAuth2 провайдере. Response_type должен быть 'code' или аналогичным.
+        Эта ошибка появляется, если вы выбрали неправильный response_type в OAuth2 провайдере. Response_type должен быть 'code' или аналогичным.
       oauth_state_not_present: "OAuth2 'state' не найден в конечной точке 'callback' (redirect_uri)."
       oauth_state_not_present_explanation: >
         OAuth2 'state' используется для указания OpenProject где продолжить после успешной авторизации OAuth2. Отсутствие 'state' - внутренняя ошибка, которая может появиться при настройке. Обратитесь к системному администратору.
@@ -3233,7 +3233,7 @@ ru:
   http:
     request:
       failed_authorization: "Запрос стороны сервера не смог авторизоваться."
-      missing_authorization: "Запрос на стороне сервера не удался из-за отсутствия информации о авторизации."
+      missing_authorization: "Запрос на стороне сервера не удался из-за отсутствия информации об авторизации."
     response:
       unexpected: "Получен неожиданный ответ."
   you: вы

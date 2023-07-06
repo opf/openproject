@@ -229,7 +229,7 @@ nl:
         upsale:
           become_hero: "Word een held!"
           enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
-          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+          upgrade_info: "Gelieve te upgraden naar een betaald abonnement om het te activeren en te beginnen met het gebruik ervan in uw team."
           benefits:
             description: "What are the benefits of the Enterprise on-premises edition?"
             high_security: "Beveiliging functies"
@@ -242,7 +242,7 @@ nl:
             professional_support_text: "Krijg betrouwbare, krachtige ondersteuning van ervaren ondersteunende ingenieurs met deskundige kennis over het functioneren van OpenProject in zakelijke kritieke omgevingen."
           button_start_trial: "Start gratis proefperiode"
           button_upgrade: "Nu upgraden"
-          button_contact_us: "Contact us for a demo"
+          button_contact_us: "Neem contact met ons op voor een demo"
           button_book_now: "Direct boeken"
           confidence: >
             We bieden het vertrouwen van een geteste en ondersteunde software voor projectbeheer van enterprise-class - met Open Source en een open geest.
@@ -254,13 +254,13 @@ nl:
           you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
       working_days:
         calendar:
-          empty_state_header: "Non-working days"
+          empty_state_header: "Vrije dagen"
           empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
-          new_date: '(new)'
-        add_non_working_day: "Non-working day"
+          new_date: '(nieuw)'
+        add_non_working_day: "Vrije dagen"
         already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
         change_button: "Save and reschedule"
-        change_title: "Change working days"
+        change_title: "Wijzig werkdagen"
         removed_title: "You will remove the following days from the non-working days list:"
         change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
         warning: >
@@ -328,7 +328,7 @@ nl:
     label_add_row_before: "Rij invoegen"
     label_add_selected_columns: "Geselecteerde kolommen toevoegen"
     label_added_by: "toegevoegd door"
-    label_added_time_by: "Toegevoegd door <a href=%{authorLink}>%{author}</a> op %{age}"
+    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
     label_ago: "dagen geleden"
     label_all: "alle"
     label_all_work_packages: "alle werkpakketten"
@@ -408,7 +408,7 @@ nl:
     label_no_data: "Geen gegevens om weer te geven"
     label_no_due_date: "geen einddatum"
     label_no_start_date: "geen startdatum"
-    label_no_date: "no date"
+    label_no_date: "geen datum"
     label_no_value: "Geen waarde"
     label_none: "geen"
     label_not_contains: "bevat geen"
@@ -486,7 +486,7 @@ nl:
     label_drop_files: "Drop files here to attach files."
     label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: U kunt geen mappen uploaden als bijlage. Selecteer a. u. b. enkele bestanden.
-    label_add_attachments: "Attach files"
+    label_add_attachments: "Bestanden toevoegen"
     label_formattable_attachment_hint: "Hecht en link bestanden door deze in dit veld te slepen, of plak deze vanuit het klembord."
     label_remove_file: "%{fileName} verwijderen"
     label_remove_watcher: "Volger %{name} verwijderen"
@@ -550,7 +550,7 @@ nl:
       reasons:
         mentioned: 'vermeld'
         watched: 'watcher'
-        assigned: 'assignee'
+        assigned: 'Toegewezene'
         responsible: 'verantwoordelijk'
         created: 'aangemaakt'
         scheduled: 'gepland'
@@ -562,10 +562,10 @@ nl:
         milestone_date: 'Milestone date'
         overdue: 'Overdue'
         overdue_since: 'since %{difference_in_days}'
-        property_today: 'is today'
+        property_today: 'is vandaag'
         property_is: 'is in %{difference_in_days}'
-        property_was: 'was %{difference_in_days} ago'
-        property_is_deleted: 'is deleted'
+        property_was: 'was %{difference_in_days} geleden'
+        property_is_deleted: 'Is verwijderd'
         upsale:
           title: 'Date alerts'
           description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
@@ -575,7 +575,7 @@ nl:
         all: 'Alle'
         all_title: 'Alles weergeven'
       center:
-        label_actor_and: 'and'
+        label_actor_and: 'en'
         and_more_users:
           one: 'en 1 ander'
           other: 'en %{count} anderen'
@@ -587,7 +587,7 @@ nl:
         text_update_date: "%{date} door"
         total_count_warning: "De %{newest_count} meest recente meldingen weergeven. %{more_count} meer worden niet weergegeven."
         empty_state:
-          no_notification: "Looks like you are all caught up."
+          no_notification: "Het lijkt erop dat u helemaal bij bent."
           no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
           no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Klik op een melding om alle activiteit details te bekijken."
@@ -599,8 +599,8 @@ nl:
         by_project: 'Ongelezen per project'
         by_reason: 'Reason'
         inbox: 'Inkomend'
-        mentioned: 'Mentioned'
-        watched: 'Watcher'
+        mentioned: 'Genoemd'
+        watched: 'Kijker'
         date_alert: 'Date alert'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
@@ -620,11 +620,11 @@ nl:
               P7D: every week
         reasons:
           mentioned:
-            title: 'Mentioned'
+            title: 'Genoemd'
             description: 'Ontvang een melding elke keer dat iemand mij ergens noemt'
           assignee: 'Toegewezene'
-          responsible: 'Accountable'
-          watched: 'Watcher'
+          responsible: 'Verantwoording afleggen'
+          watched: 'Kijker'
           work_package_commented: 'Alle nieuwe reacties'
           work_package_created: 'Nieuwe werkpakketten'
           work_package_processed: 'Alle statuswijzigingen'
@@ -667,11 +667,10 @@ nl:
         Kies een project om het werkpakket in te creëren om alle attributen te zien. U kunt alleen projecten selecteren waarvan het type hierboven is geactiveerd.
       details_activity: 'Project details activity'
       context: 'Context van het project'
-      work_package_belongs_to: 'Dit werkpakket behoort tot project %{projectname}.'
-      click_to_switch_context: 'Open dit werkpakket in dat project.'
+      click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
-      use_template: "Use template"
-      no_template_selected: "(None)"
+      use_template: "Sjabloon gebruiken"
+      no_template_selected: "(Geen)"
       copy:
         copy_options: "Copy options"
       autocompleter:
@@ -705,8 +704,8 @@ nl:
         title: 'E-mail herinneringen'
         pause:
           label: 'Temporarily pause daily email reminders'
-          first_day: 'First day'
-          last_day: 'Last day'
+          first_day: 'Eerste dag'
+          last_day: 'Laatste dag'
     text_are_you_sure: "Weet u het zeker?"
     text_data_lost: "Alle ingevoerde gegevens zullen verloren gaan."
     types:
@@ -900,7 +899,7 @@ nl:
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
         ignore_non_working_days:
-          title: 'Working days only'
+          title: 'Alleen werkdagen'
       description_filter: "Filter"
       description_enter_text: "Tekst invoeren"
       description_options_hide: "Verberg opties"
@@ -921,7 +920,7 @@ nl:
       message_work_package_status_blocked: "Werkpakket status is niet schrijfbaar vanwege gesloten status en gesloten toegewezen versie."
       placeholder_filter_by_text: "Onderwerp, beschrijving, commentaar, ..."
       filters:
-        title: 'Filter work packages'
+        title: 'Filter werkpakketten'
       inline_create:
         title: 'Klik hier om een nieuw werkpakket aan deze lijst toe te voegen'
       create:
@@ -958,7 +957,7 @@ nl:
         description: "Omschrijving"
         date: "Datum"
         dueDate: "Einddatum"
-        duration: "Duration"
+        duration: "Duur"
         estimatedTime: "Geschatte tijd"
         spentTime: "Bestede tijd"
         category: "Categorie"
@@ -989,7 +988,7 @@ nl:
         label_content: "Klik hier om het menu overslaan en ga naar de inhoud"
       placeholders:
         default: "-"
-        date: "Select date"
+        date: "Datum selecteren"
       query:
         column_names: "Kolommen"
         group_by: "Groepeer resultaten op"
@@ -1001,7 +1000,7 @@ nl:
         move_column_left: "Verplaats kolom naar links"
         move_column_right: "Verplaats kolom naar rechts"
         hide_column: "Verberg kolom"
-        insert_columns: "Insert columns"
+        insert_columns: "Kolommen invoegen"
         filters: "Filters"
         display_sums: "Bedragen weergeven"
         confirm_edit_cancel: "Weet u zeker dat u wilt stoppen met het bewerken van de naam van deze weergave? De Titel zal terug naar vorige waarde worden ingesteld."
@@ -1071,18 +1070,18 @@ nl:
     toolbar:
       settings:
         configure_view: "Configure view"
-        columns: "Columns"
-        sort_by: "Sort by"
-        group_by: "Group by"
+        columns: "Kolommen"
+        sort_by: "Sorteer op"
+        group_by: "Groeperen op"
         display_sums: "Toon sommen"
         display_hierarchy: "De hiërarchie Weergeven"
         hide_hierarchy: "Hiërarchie modus verbergen"
         hide_sums: "Verberg sommen"
         save: "Opslaan"
-        save_as: "Save as"
-        export: "Export"
-        visibility_settings: "Visibility settings"
-        page_settings: "Rename view"
+        save_as: "Opslaan als"
+        export: "Exporteren"
+        visibility_settings: "Zichtbaarheidsinstellingen"
+        page_settings: "Hernoem weergave"
         delete: "Verwijderen"
       filter: "Filter"
       unselected_title: "Werkpakket"
@@ -1094,7 +1093,7 @@ nl:
       button_save: "Opslaan"
       button_submit: "Verzenden"
       button_cancel: "Annuleren"
-      button_delete: "Delete"
+      button_delete: "Verwijderen"
       form_submit:
         title: 'Bevestigen om verder te gaan'
         text: 'Weet u zeker dat u deze actie wilt uitvoeren?'

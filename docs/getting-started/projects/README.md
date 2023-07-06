@@ -39,7 +39,7 @@ You can also start typing in a project name to filter by the project's title.
 Projects and subprojects are displayed according to their hierarchy in the drop-down menu.
 
 <div class="glossary">
-**Subproject** is defined as a child project of another project. Subprojects can be used to display a hierarchy of projects. Several filter options (e.g. in work package list and timeline) can be applied only to the current project and its subprojects.
+**Subproject** is defined as a child project of another project. Subprojects can be used to display a hierarchy of projects. Several filter options (e.g. in work package table and timeline) can be applied only to the current project and its subprojects.
 </div>
 ![project_hierarchy](project_hierarchy-8178054.png)
 
