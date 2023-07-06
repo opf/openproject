@@ -79,4 +79,21 @@ RSpec.describe WorkPackages::ExportJob, 'Integration' do
       expect(attachment.filename).to eq expected
     end
   end
+
+  describe 'with overly long project title' do
+    let(:project) { create(:project, name: "x" * 255) }
+
+    it 'exports the job correctly, limiting the result file length' do
+      time = DateTime.new(2023, 6, 30, 23, 59)
+      allow(DateTime).to receive(:now).and_return(time)
+
+      expect { performed_job }.not_to raise_error
+
+      expect(job_status.status).to eq 'success'
+
+      attachment = export.attachments.last
+      expect(attachment.filename.chars.length).to eq 255
+      expect(attachment.filename).to end_with "_2023-06-30_23-59.pdf"
+    end
+  end
 end
