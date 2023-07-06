@@ -18,24 +18,16 @@ keywords: glossary, help, documentation, terms, keywords, vocabulary, definition
 [F](#f)
 [G](#g)
 [H](#h)
-[I](#i)
-[J](#j)
-[K](#k)
-[L](#l)
-[M](#m)
 [N](#n)
 [O](#o)
 [P](#p)
-[Q](#q)
 [R](#r)
 [S](#s)
 [T](#t)
 [U](#u)
 [V](#v)
 [W](#w)
-[X](#x)
-[Y](#y)
-[Z](#z)**
+**
 
 ## A
 
@@ -58,7 +50,7 @@ In OpenProject, authentication is an important element to guarantee a data prote
 
 ### Backlogs
 
-A backlog in OpenProject is defined as a [plugin](#plugins) that allows to use the backlogs feature in OpenProject. The backlog is a tool in scrum: a list that contains everything needed to achieve a specific outcome. In order to use backlogs in OpenProject, the backlogs module has to be activated in the [project settings](#project-settings). [Read how to work with backlogs in OpenProject](https://www.openproject.org/docs/user-guide/backlogs-scrum)
+A backlog in OpenProject is defined as a [plugin](#plugins--integrations) that allows to use the backlogs feature in OpenProject. The backlog is a tool in scrum: a list that contains everything needed to achieve a specific outcome. In order to use backlogs in OpenProject, the backlogs module has to be activated in the [project settings](#project-settings). [Read how to work with backlogs in OpenProject](https://www.openproject.org/docs/user-guide/backlogs-scrum)
 
 ### Baseline (Comparisons)
 
@@ -257,7 +249,7 @@ In OpenProject, the project overview is defined as a single [dashboard](#dashboa
 
 ### Project settings
 
-Project settings means project-specific setting configuration. The project settings contain general settings (e.g. the name and ID of the project), configuration of [modules](#module), [work package categories](#work-package-categories) and [types](#work-package-types), [custom fields](#custom-field), [version](#versions) settings, [time tracking activities](#time-and-costs), required disk storage, [file storages](#file-storage) and [Backlog](#backlog) settings (if plugin is installed). [Read more about project settings in OpenProject](https://www.openproject.org/docs/user-guide/projects/#project-settings)
+Project settings means project-specific setting configuration. The project settings contain general settings (e.g. the name and ID of the project), configuration of [modules](#module), [work package categories](#work-package-categories) and [types](#work-package-types), [custom fields](#custom-field), [version](#versions) settings, [time tracking activities](#time-and-costs), required disk storage, [file storages](#file-storage) and [Backlogs](#backlogs) settings (if plugin is installed). [Read more about project settings in OpenProject](https://www.openproject.org/docs/user-guide/projects/#project-settings)
 
 ### Project status
 
