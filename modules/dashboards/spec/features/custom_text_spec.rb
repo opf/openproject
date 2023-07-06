@@ -31,7 +31,6 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 RSpec.describe 'Project description widget on dashboard', js: true do
-  before(:all) { skip 'TODO BROKEN MODULE SPEC' }
   let!(:type) { create(:type_task, name: 'Task') }
   let!(:project) do
     create(:project, types: [type])

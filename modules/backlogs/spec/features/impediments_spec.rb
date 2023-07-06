@@ -30,7 +30,6 @@ require 'spec_helper'
 
 RSpec.describe 'Impediments on taskboard',
                js: true do
-  before(:all) { skip 'TODO BROKEN MODULE SPEC' }
   let!(:project) do
     create(:project,
            types: [story, task],

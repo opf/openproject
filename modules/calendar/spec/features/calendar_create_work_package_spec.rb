@@ -41,7 +41,7 @@ RSpec.describe 'Calendar create new work package', js: true do
     project.types << type_task
   end
 
-  it 'can create a new work package', pending: 'TODO BROKEN MODULE SPEC' do
+  it 'can create a new work package' do
     calendar.visit!
 
     start_of_week = Time.zone.today.beginning_of_week(:sunday)
