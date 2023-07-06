@@ -5,6 +5,7 @@ import {
   EventEmitter,
   Injector,
   Input,
+  OnInit,
   Output,
   SecurityContext,
   ViewChild,
@@ -20,12 +21,15 @@ import { DomSanitizer } from '@angular/platform-browser';
 import timeGrid from '@fullcalendar/timegrid';
 import {
   CalendarOptions,
+  DayCellContentArg,
   DayCellMountArg,
-  DayHeaderMountArg,
+  DayHeaderContentArg,
   Duration,
   EventApi,
   EventInput,
   EventSourceFuncArg,
+  SlotLabelContentArg,
+  SlotLaneContentArg,
 } from '@fullcalendar/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
@@ -47,7 +51,10 @@ import { SchemaResource } from 'core-app/features/hal/resources/schema-resource'
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { VerboseFormattingArg } from '@fullcalendar/common';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { firstValueFrom } from 'rxjs';
+import { Subject, firstValueFrom } from 'rxjs';
+import { WeekdayService } from 'core-app/core/days/weekday.service';
+import { IDay } from 'core-app/core/state/days/day.model';
+import { DayResourceService } from 'core-app/core/state/days/day.service';
 
 interface TimeEntrySchema extends SchemaResource {
   activity:IFieldSchema;
@@ -70,7 +77,9 @@ interface CalendarMoveEvent {
   delta:Duration;
   revert:() => void;
 }
-
+interface CalendarOptionsWithDayGrid extends CalendarOptions {
+  dayGridClassNames:(data:DayCellMountArg) => void;
+}
 // An array of all the days that are displayed. The zero index represents Monday.
 export type DisplayedDays = [boolean, boolean, boolean, boolean, boolean, boolean, boolean];
 
@@ -93,7 +102,7 @@ const ADD_ENTRY_PROHIBITED_CLASS_NAME = '-prohibited';
     HalResourceEditingService,
   ],
 })
-export class TimeEntryCalendarComponent {
+export class TimeEntryCalendarComponent implements OnInit {
   @ViewChild(FullCalendarComponent) ucCalendar:FullCalendarComponent;
 
   @Input() projectIdentifier:string;
@@ -101,7 +110,7 @@ export class TimeEntryCalendarComponent {
   @Input() static = false;
 
   @Input() set displayedDays(days:DisplayedDays) {
-    this.setHiddenDays(days);
+    this.hiddenDays=this.setHiddenDays(days);
   }
 
   @Output() entries = new EventEmitter<CollectionResource<TimeEntryResource>>();
@@ -119,43 +128,65 @@ export class TimeEntryCalendarComponent {
 
   public memoizedCreateAllowed = false;
 
+  public hiddenDays:number[] = [];
+
   public text = {
     logTime: this.i18n.t('js.button_log_time'),
     today: this.i18n.t('js.team_planner.today'),
   };
 
-  calendarOptions:CalendarOptions = {
-    editable: false,
-    locale: this.i18n.locale,
-    fixedWeekCount: false,
-    headerToolbar: {
-      right: '',
-      center: 'title',
-      left: 'prev,next today',
-    },
-    buttonText: { today: this.text.today },
-    initialView: 'timeGridWeek',
-    firstDay: this.configuration.startOfWeek(),
-    hiddenDays: [],
-    // This is a magic number that is derived by trial and error
-    contentHeight: 550,
-    slotEventOverlap: false,
-    slotLabelInterval: `${this.labelIntervalHours}:00:00`,
-    slotLabelFormat: (info:VerboseFormattingArg) => ((this.maxHour - info.date.hour) / this.scaleRatio).toString(),
-    allDaySlot: false,
-    displayEventTime: false,
-    slotMinTime: `${this.minHour - 1}:00:00`,
-    slotMaxTime: `${this.maxHour}:00:00`,
-    events: this.calendarEventsFunction.bind(this),
-    eventOverlap: (stillEvent:EventApi) => !stillEvent.classNames.includes(TIME_ENTRY_CLASS_NAME),
-    plugins: [timeGrid, interactionPlugin],
-    eventDidMount: this.alterEventEntry.bind(this),
-    eventWillUnmount: this.beforeEventRemove.bind(this),
-    eventClick: this.dispatchEventClick.bind(this),
-    eventDrop: this.moveEvent.bind(this),
-    dayHeaderClassNames: (data:DayHeaderMountArg) => this.calendar.applyNonWorkingDay(data, []),
-    dayCellClassNames: (data:DayCellMountArg) => this.calendar.applyNonWorkingDay(data, []),
-  };
+  calendarOptions$ = new Subject<CalendarOptions>();
+
+  public nonWorkingDays:IDay[] = [];
+
+  private initializeCalendar() {
+    const additionalOptions:CalendarOptionsWithDayGrid = {
+      editable: false,
+      locale: this.i18n.locale,
+      fixedWeekCount: false,
+      timeZone: this.configuration.isTimezoneSet() ? this.configuration.timezone() : 'local',
+      headerToolbar: {
+        right: '',
+        center: 'title',
+        left: 'prev,next today',
+      },
+      buttonText: { today: this.text.today },
+      initialView: 'timeGridWeek',
+      firstDay: this.configuration.startOfWeek(),
+      hiddenDays: this.hiddenDays,
+      // This is a magic number that is derived by trial and error
+      contentHeight: 550,
+      slotEventOverlap: false,
+      slotLabelInterval: `${this.labelIntervalHours}:00:00`,
+      slotLabelFormat: (info:VerboseFormattingArg) => ((this.maxHour - info.date.hour) / this.scaleRatio).toString(),
+      allDaySlot: false,
+      displayEventTime: false,
+      slotMinTime: `${this.minHour - 1}:00:00`,
+      slotMaxTime: `${this.maxHour}:00:00`,
+      events: this.calendarEventsFunction.bind(this),
+      eventOverlap: (stillEvent:EventApi) => !stillEvent.classNames.includes(TIME_ENTRY_CLASS_NAME),
+      plugins: [timeGrid, interactionPlugin],
+      eventDidMount: this.alterEventEntry.bind(this),
+      eventWillUnmount: this.beforeEventRemove.bind(this),
+      eventClick: this.dispatchEventClick.bind(this),
+      eventDrop: this.moveEvent.bind(this),
+      dayHeaderClassNames: (data:DayHeaderContentArg) => this.calendar.applyNonWorkingDay(data, this.nonWorkingDays),
+      dayCellClassNames: (data:DayCellContentArg) => this.calendar.applyNonWorkingDay(data, this.nonWorkingDays),
+      dayGridClassNames: (data:DayCellContentArg) => this.calendar.applyNonWorkingDay(data, this.nonWorkingDays),
+      slotLaneClassNames: (data:SlotLaneContentArg) => this.calendar.applyNonWorkingDay(data, this.nonWorkingDays),
+      slotLabelClassNames: (data:SlotLabelContentArg) => this.calendar.applyNonWorkingDay(data, this.nonWorkingDays),
+    };
+
+    void this.weekdayService.loadWeekdays()
+      .toPromise()
+      .then(async () => {
+        const date = moment(new Date()).toString();
+        await this.requireNonWorkingDays(date);
+        this.calendarOptions$.next(
+          additionalOptions,
+        );
+      });
+  }
 
   constructor(
     readonly states:States,
@@ -174,7 +205,17 @@ export class TimeEntryCalendarComponent {
     private colors:ColorsService,
     private browserDetector:BrowserDetector,
     private calendar:OpCalendarService,
+    readonly weekdayService:WeekdayService,
+    readonly dayService:DayResourceService,
   ) {}
+
+  ngOnInit():void {
+    this.initializeCalendar();
+  }
+
+  async requireNonWorkingDays(date:Date|string) {
+    this.nonWorkingDays = await firstValueFrom(this.dayService.requireNonWorkingYear$(date));
+  }
 
   public calendarEventsFunction(
     fetchInfo:EventSourceFuncArg,
@@ -182,10 +223,10 @@ export class TimeEntryCalendarComponent {
     failureCallback:(error:Error) => void,
   ):void|PromiseLike<EventInput[]> {
     void this.fetchTimeEntries(fetchInfo.start, fetchInfo.end)
-      .then((collection) => {
+      .then(async (collection) => {
         this.entries.emit(collection);
 
-        successCallback(this.buildEntries(collection.elements, fetchInfo));
+        successCallback(await this.buildEntries(collection.elements, fetchInfo));
       })
       .catch(failureCallback);
   }
@@ -212,9 +253,10 @@ export class TimeEntryCalendarComponent {
     return this.memoizedTimeEntries.entries;
   }
 
-  private buildEntries(entries:TimeEntryResource[], fetchInfo:{ start:Date, end:Date }):EventInput[] {
+  private async buildEntries(entries:TimeEntryResource[], fetchInfo:{ start:Date, end:Date }):Promise<EventInput[]> {
     this.setRatio(entries);
-
+    await this.requireNonWorkingDays(fetchInfo.start);
+    await this.requireNonWorkingDays(fetchInfo.end);
     return this.buildTimeEntryEntries(entries)
       .concat(this.buildAuxEntries(entries, fetchInfo));
   }
@@ -624,7 +666,7 @@ export class TimeEntryCalendarComponent {
     return 1;
   }
 
-  protected setHiddenDays(displayedDays:DisplayedDays):void {
+  protected setHiddenDays(displayedDays:DisplayedDays) {
     const hiddenDays:number[] = Array
       .from(displayedDays, (value, index) => {
         if (!value) {
@@ -633,7 +675,6 @@ export class TimeEntryCalendarComponent {
         return null;
       })
       .filter((value) => value !== null) as number[];
-
-    this.calendarOptions = { ...this.calendarOptions, hiddenDays };
+    return hiddenDays;
   }
 }
