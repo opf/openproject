@@ -92,6 +92,7 @@ RSpec.describe CopyProjectJob, type: :model do
       "#{WorkPackage.model_name.human} '#{work_package.type.name} ##{work_package.id}: #{work_package.subject}': #{custom_field.name} #{I18n.t('errors.messages.blank')}."
     end
 
+    # rubocop:disable RSpec/InstanceVariable
     before do
       source_project.work_package_custom_fields << custom_field
       type.custom_fields << custom_field
@@ -110,8 +111,12 @@ RSpec.describe CopyProjectJob, type: :model do
       expect(copy_job.job_status).to be_present
       expect(copy_job.job_status[:status]).to eq 'success'
       expect(copy_job.job_status[:payload]['redirect']).to include '/projects/copy'
+
+      expected_link = { 'href' => "/api/v3/projects/#{@copied_project.id}", 'title' => @copied_project.name }
+      expect(copy_job.job_status[:payload]['_links']['project']).to eq(expected_link)
     end
   end
+  # rubocop:enable RSpec/InstanceVariable
 
   describe 'project has an invalid repository' do
     let(:admin) { create(:admin) }

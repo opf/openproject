@@ -23,7 +23,7 @@ You can adjust the following:
 
    ![default highlighting mode](openproject_system_guide_default_highlighting_mode.png)
 
-6. Customize the appearance of the work package lists to **define which work package attributes are displayed in the work package lists by default**.
+6. Customize the appearance of the work package tables to **define which work package attributes are displayed in the work package tables by default**.
 
 Do not forget to save your changes with the blue **Save** button at the bottom.
 

@@ -73,7 +73,7 @@ Once clicked on **Invite user**, a pop up comes up where you decide to which pro
 
 **Invite within a work package**
 
-When you are working in the work package list, you can also invite users from there. For example when you want to set an assignee for a work package that has not got access to OpenProject yet, you can select Invite from the drop down. The same applies to accountables or custom fields for your project.
+When you are working in the work package table, you can also invite users from there. For example when you want to set an assignee for a work package that has not got access to OpenProject yet, you can select Invite from the drop down. The same applies to accountables or custom fields for your project.
 
 ![invite user over assignment](invite-user-over-assignment.png)
 

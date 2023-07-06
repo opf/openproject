@@ -106,16 +106,13 @@ module OpenProject::PDFExport::ExportCard
     def self.is_empty_column(property_name, column, wp)
       value = if wp.respond_to?(property_name)
                 wp.send(property_name)
-              elsif (field = locale_independent_custom_field(property_name, wp)) && !!field
+              elsif (field = custom_field(property_name, wp)) && !!field
                 field.value
               else
                 ""
               end
 
-      value = "" if value.is_a?(Array) && value.empty?
-      value = value.to_s if !value.is_a?(String)
-
-      !column["render_if_empty"] && value.empty?
+      !column["render_if_empty"] && value.to_s.empty?
     end
 
     def self.is_existing_column?(property_name, wp)
@@ -123,18 +120,11 @@ module OpenProject::PDFExport::ExportCard
     end
 
     def self.is_existing_custom_field?(property_name, wp)
-      !!locale_independent_custom_field(property_name, wp)
+      !!custom_field(property_name, wp)
     end
 
-    def self.locale_independent_custom_field(property_name, wp)
-      Setting.available_languages.each do |locale|
-        I18n.with_locale(locale) do
-          if fields = wp.custom_field_values.select { |cf| cf.custom_field.name == property_name } and fields.count > 0
-            return fields.first
-          end
-        end
-      end
-      nil
+    def self.custom_field(property_name, work_package)
+      work_package.custom_field_values.find { |cf| cf.custom_field.name == property_name }
     end
   end
 end

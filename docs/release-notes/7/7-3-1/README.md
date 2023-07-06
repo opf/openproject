@@ -18,7 +18,7 @@
   - An internal error occurred when exporting a budget as CSV.
     \[[#26518](https://community.openproject.com/wp/26518)\]
   - The selected work package was not focused when navigating from the
-    work package list to the fullscreen view and back.
+    work package table to the fullscreen view and back.
   - Drag and drop for work package custom field values of type “List”
     did not work.
   - In MS Edge work package attributes which were shown by themselves in
@@ -41,5 +41,4 @@ For further information on the 7.3.1 release, please refer to the
 [Changelog v7.3.1](https://community.openproject.com/versions/851) 
 or take a look at
 [GitHub](https://github.com/opf/openproject/tree/v7.3.1).
-
 

@@ -233,6 +233,7 @@ RSpec/NamedSubject:
 
 RSpec/ContextWording:
   Prefixes:
+    - and
     - as
     - for
     - having
@@ -242,6 +243,7 @@ RSpec/ContextWording:
     - unless
     - when
     - with
+    - within
     - without
 
 Style/Alias:
