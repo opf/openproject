@@ -54,18 +54,19 @@ module OpenProject
     # attachable journals for the attachment added by themselves. To the user this will look as if one of the actions
     # deleted the other attachment. The next action, Action 3,  will then seem to have readded the attachment,
     # seemingly removed before.
-    def with_advisory_lock_transaction(entry, suffix = nil, &)
+    def with_advisory_lock_transaction(entry, suffix = nil, options = {}, &)
       lock_name = "mutex_on_#{entry.class.name}_#{entry.id}"
       lock_name << "_#{suffix}" if suffix
 
+      options[:transaction] ||= true
       ActiveRecord::Base.transaction do
-        with_advisory_lock(entry.class, lock_name, &)
+        with_advisory_lock(entry.class, lock_name, options, &)
       end
     end
 
-    def with_advisory_lock(resource_class, lock_name)
+    def with_advisory_lock(resource_class, lock_name, options = {})
       debug_log("Attempting to fetched advisory lock", lock_name)
-      result = resource_class.with_advisory_lock(lock_name, transaction: true) do
+      result = resource_class.with_advisory_lock(lock_name, options) do
         debug_log("Fetched advisory lock", lock_name)
         yield
       end

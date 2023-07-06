@@ -66,6 +66,42 @@ RSpec.describe Storages::NextcloudStorage do
     end
   end
 
+  describe '.sync_all_group_folders' do
+    subject { described_class.sync_all_group_folders }
+
+    context 'when lock is free' do
+      it 'responds with true' do
+        expect(subject).to be(true)
+      end
+
+      it 'calls GroupFolderPropertiesSyncService for each appropriate storage' do
+        storage1 = create(:nextcloud_storage, has_managed_project_folders: true)
+        storage2 = create(:nextcloud_storage, has_managed_project_folders: false)
+        allow(Storages::GroupFolderPropertiesSyncService).to receive(:new).and_call_original
+        # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(Storages::GroupFolderPropertiesSyncService).to receive(:call).and_return(nil)
+        # rubocop:enable RSpec/AnyInstance
+
+        expect(subject).to be(true)
+        expect(Storages::GroupFolderPropertiesSyncService).to have_received(:new).with(storage1).once
+        expect(Storages::GroupFolderPropertiesSyncService).not_to have_received(:new).with(storage2)
+      end
+    end
+
+    context 'when lock is unfree' do
+      it 'responds with false' do
+        allow(ApplicationRecord).to receive(:with_advisory_lock).and_return(false)
+
+        expect(subject).to be(false)
+        expect(ApplicationRecord).to have_received(:with_advisory_lock).with(
+          'sync_all_group_folders',
+          timeout_seconds: 0,
+          transaction: false
+        ).once
+      end
+    end
+  end
+
   describe '#group' do
     it_behaves_like 'a stored attribute with default value', :group, 'OpenProject'
   end
