@@ -31,7 +31,7 @@ require 'spec_helper'
 RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
   let(:oauth_application) { build_stubbed(:oauth_application) }
   let(:oauth_client_credentials) { build_stubbed(:oauth_client) }
-  let(:storage) { build_stubbed(:storage, oauth_application:, oauth_client: oauth_client_credentials) }
+  let(:storage) { build_stubbed(:nextcloud_storage, oauth_application:, oauth_client: oauth_client_credentials) }
   let(:user) { build_stubbed(:user) }
   let(:representer) { described_class.new(storage, current_user: user, embed_links: true) }
   let(:connection_manager) { instance_double(OAuthClients::ConnectionManager) }
@@ -82,7 +82,7 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
       context 'when user has :manage_file_links permission on some projects linked to the storage' do
         let(:oauth_application) { create(:oauth_application) }
         let(:oauth_client_credentials) { create(:oauth_client) }
-        let(:storage) { create(:storage, oauth_application:, oauth_client: oauth_client_credentials) }
+        let(:storage) { create(:nextcloud_storage, oauth_application:, oauth_client: oauth_client_credentials) }
         let(:user) { create(:user) }
         let(:another_user) { create(:user) }
         let(:no_permissions_role) { create(:role, permissions: []) }
@@ -226,7 +226,7 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
 
       context 'with automatic project folder management enabled' do
         let(:storage) do
-          build_stubbed(:storage, :as_automatically_managed, oauth_application:, oauth_client: oauth_client_credentials)
+          build(:nextcloud_storage, :as_automatically_managed, oauth_application:, oauth_client: oauth_client_credentials)
         end
 
         it_behaves_like 'property', :hasApplicationPassword do
@@ -238,7 +238,7 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
 
       context 'with automatic project folder management disabled' do
         let(:storage) do
-          build_stubbed(:storage, :as_not_automatically_managed, oauth_application:, oauth_client: oauth_client_credentials)
+          build(:nextcloud_storage, :as_not_automatically_managed, oauth_application:, oauth_client: oauth_client_credentials)
         end
 
         it_behaves_like 'property', :hasApplicationPassword do

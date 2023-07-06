@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 RSpec.describe API::V3::Storages::StorageRepresenter, 'parsing' do
-  let(:storage) { build_stubbed(:storage) }
+  let(:storage) { build_stubbed(:nextcloud_storage) }
   let(:current_user) { build_stubbed(:user) }
 
   describe 'parsing' do

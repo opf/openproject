@@ -29,7 +29,7 @@
 require_relative '../spec_helper'
 
 RSpec.describe Storages::NextcloudStorage do
-  let(:storage) { build(:storage) }
+  let(:storage) { build(:nextcloud_storage) }
 
   shared_examples 'a stored attribute with default value' do |attribute, default_value|
     it "has a default value of #{default_value}" do
@@ -66,10 +66,6 @@ RSpec.describe Storages::NextcloudStorage do
     end
   end
 
-  describe '#username' do
-    it_behaves_like 'a stored attribute with default value', :username, 'OpenProject'
-  end
-
   describe '#group' do
     it_behaves_like 'a stored attribute with default value', :group, 'OpenProject'
   end
@@ -88,26 +84,26 @@ RSpec.describe Storages::NextcloudStorage do
 
   describe '#automatic_management_unspecified?' do
     context 'when automatically_managed is nil' do
-      let(:storage) { build(:storage, automatically_managed: nil) }
+      let(:storage) { build(:nextcloud_storage, automatically_managed: nil) }
 
       it { expect(storage).to be_automatic_management_unspecified }
     end
 
     context 'when automatically_managed is true' do
-      let(:storage) { build(:storage, automatically_managed: true) }
+      let(:storage) { build(:nextcloud_storage, automatically_managed: true) }
 
       it { expect(storage).not_to be_automatic_management_unspecified }
     end
 
     context 'when automatically_managed is false' do
-      let(:storage) { build(:storage, automatically_managed: false) }
+      let(:storage) { build(:nextcloud_storage, automatically_managed: false) }
 
       it { expect(storage).not_to be_automatic_management_unspecified }
     end
   end
 
   describe '#provider_fields_defaults' do
-    let(:storage) { build(:storage) }
+    let(:storage) { build(:nextcloud_storage) }
 
     it 'returns the default values for nextcloud' do
       expect(storage.provider_fields_defaults).to eq(

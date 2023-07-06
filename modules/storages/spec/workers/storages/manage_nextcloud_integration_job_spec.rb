@@ -322,7 +322,8 @@ RSpec.describe Storages::ManageNextcloudIntegrationJob, type: :job, webmock: tru
 
   # rubocop:disable RSpec/ExampleLength
   it 'does the job' do
-    storage = create(:storage,
+    storage = create(:nextcloud_storage,
+                     :as_automatically_managed,
                      host: 'https://example.com',
                      has_managed_project_folders: true,
                      password: '12345678')
