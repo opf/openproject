@@ -27,7 +27,7 @@ module OpenProject::TeamPlanner
              bundled: true,
              settings: {},
              name: 'OpenProject Team Planner' do
-      project_module :team_planner_view, dependencies: :work_package_tracking do
+      project_module :team_planner_view, dependencies: :work_package_tracking, enterprise_feature: true do
         permission :view_team_planner,
                    { 'team_planner/team_planner': %i[index show upsale overview] },
                    dependencies: %i[view_work_packages],
