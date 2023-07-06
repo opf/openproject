@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,29 +28,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OnboardingSteps
-  def step_through_onboarding_board_tour(with_ee_token: true)
-    next_button.click
-    expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.boards.overview')), normalize_ws: true
+require "rails_helper"
 
-    next_button.click
-    if with_ee_token
-      expect(page)
-        .to have_text sanitize_string(I18n.t('js.onboarding.steps.boards.lists_kanban')), normalize_ws: true, wait: 20
-    else
-      expect(page)
-        .to have_text sanitize_string(I18n.t('js.onboarding.steps.boards.lists_basic')), normalize_ws: true, wait: 20
+RSpec.describe ApplicationComponent, type: :component do
+  describe '.options' do
+    let(:component_class) do
+      Class.new(described_class) do
+        options title: 'Hello World!', subtitle: 'How are you today?'
+        options enabled: true
+        options :x, :y
+      end
     end
 
-    next_button.click
-    expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.boards.add')), normalize_ws: true
+    it 'defines options with default values as constructor attributes' do
+      component = component_class.new
 
-    next_button.click
-    expect(page)
-      .to have_text sanitize_string(I18n.t('js.onboarding.steps.boards.drag')), normalize_ws: true
+      expect(component.title).to eq('Hello World!')
+      expect(component.subtitle).to eq('How are you today?')
+      expect(component.enabled).to be(true)
+      expect(component.x).to be_nil
+      expect(component.y).to be_nil
+    end
+
+    it 'returns value used in constructor if present' do
+      component = component_class.new(title: 'My title', subtitle: nil, enabled: false, x: 13, y: 37)
+
+      expect(component.title).to eq('My title')
+      expect(component.subtitle).to be_nil
+      expect(component.enabled).to be(false)
+      expect(component.x).to eq(13)
+      expect(component.y).to eq(37)
+    end
   end
-end
-
-RSpec.configure do |config|
-  config.include OnboardingSteps
 end
