@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,40 +28,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ApplicationComponent < ViewComponent::Base
-  attr_reader :model, :options
+require "rails_helper"
 
-  def initialize(model = nil, **options)
-    super
-    @model = model if model
-    @options = options
-  end
-
-  class << self
-    ##
-    # Defines options for this cell which can be used within the cell's template.
-    # Options are passed to the cell during the render call.
-    #
-    # @param names [Array<String> | Hash<String, Any>] Either a list of names for options whose
-    #                                                  default value is empty or a hash mapping
-    #                                                  option names to default values.
-    def options(*names)
-      default_values = {}
-
-      if names.size == 1 && names.first.is_a?(Hash)
-        default_values = names.first
-        names = default_values.keys
-      end
-
-      names.each do |name|
-        define_method(name) do
-          options.has_key?(name) ? options[name] : default_values[name]
-        end
+RSpec.describe ApplicationComponent, type: :component do
+  describe '.options' do
+    let(:component_class) do
+      Class.new(described_class) do
+        options title: 'Hello World!', subtitle: 'How are you today?'
+        options enabled: true
+        options :x, :y
       end
     end
 
-    def property(*names)
-      delegate *names, to: :model
+    it 'defines options with default values as constructor attributes' do
+      component = component_class.new
+
+      expect(component.title).to eq('Hello World!')
+      expect(component.subtitle).to eq('How are you today?')
+      expect(component.enabled).to be(true)
+      expect(component.x).to be_nil
+      expect(component.y).to be_nil
+    end
+
+    it 'returns value used in constructor if present' do
+      component = component_class.new(title: 'My title', subtitle: nil, enabled: false, x: 13, y: 37)
+
+      expect(component.title).to eq('My title')
+      expect(component.subtitle).to be_nil
+      expect(component.enabled).to be(false)
+      expect(component.x).to eq(13)
+      expect(component.y).to eq(37)
     end
   end
 end
