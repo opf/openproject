@@ -231,7 +231,7 @@ module Redmine::MenuManager::MenuHelper
                              lang: menu_item_locale(item)) do
       title_text = ''.html_safe + content_tag(:span, caption, class: 'ellipsis') + badge_for(item)
       if item.enterprise_feature.present? && !EnterpriseToken.allows_to?(item.enterprise_feature)
-        title_text << (''.html_safe + spot_icon('enterprise-addons', size: '1_25'))
+        title_text << (''.html_safe + spot_icon('enterprise-addons', size: '1_25', classnames: 'upsale-icon_highlighted'))
       end
       title_text
     end
