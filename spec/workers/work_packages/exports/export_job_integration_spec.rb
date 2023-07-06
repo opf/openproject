@@ -75,7 +75,7 @@ RSpec.describe WorkPackages::ExportJob, 'Integration' do
       expect(job_status.status).to eq 'success'
 
       attachment = export.attachments.last
-      expected = "Foo_Bla._Report_No._4-2021_with-for_Case_42_Query_report_04-2021_äöü_2023-06-30_23-59.pdf"
+      expected = "Foo-Bla.-Report-No.-4-2021-with-for-Case-42_Query-report-04-2021-äöü_2023-06-30_23-59.pdf"
       expect(attachment.filename).to eq expected
     end
   end
