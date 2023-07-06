@@ -1393,6 +1393,22 @@ lol:
     imagemagick: 'crwdns496795:0crwdne496795:0'
   journals:
     changes_retracted: "crwdns496797:0crwdne496797:0"
+    caused_changes:
+      dates_changed: "crwdns858057:0crwdne858057:0"
+    cause_descriptions:
+      work_package_predecessor_changed_times: crwdns858059:0%{link}crwdne858059:0
+      work_package_parent_changed_times: crwdns858061:0%{link}crwdne858061:0
+      work_package_children_changed_times: crwdns858063:0%{link}crwdne858063:0
+      work_package_related_changed_times: crwdns858065:0%{link}crwdne858065:0
+      unaccessable_work_package_changed: crwdns858067:0crwdne858067:0
+      working_days_changed:
+        changed: "crwdns858069:0%{changes}crwdne858069:0"
+        days:
+          working: "crwdns858071:0%{day}crwdne858071:0"
+          non_working: "crwdns858073:0%{day}crwdne858073:0"
+        dates:
+          working: "crwdns858075:0%{date}crwdne858075:0"
+          non_working: "crwdns858077:0%{date}crwdne858077:0"
   links:
     configuration_guide: 'crwdns496799:0crwdne496799:0'
     get_in_touch: "crwdns496801:0crwdne496801:0"
@@ -2043,6 +2059,7 @@ lol:
       more_to_see:
         one: 'crwdns498079:1crwdne498079:1'
         other: 'crwdns498079:5%{count}crwdne498079:5'
+      open_in_browser: 'crwdns858079:0crwdne858079:0'
       reason:
         watched: 'crwdns498081:0crwdne498081:0'
         assigned: 'crwdns498083:0crwdne498083:0'
@@ -2562,6 +2579,7 @@ lol:
     attachments:
       whitelist_text_html: >
         crwdns499137:0%{ext_example}crwdnd499137:0%{mime_example}crwdne499137:0
+    language_name_being_default: 'crwdns858081:0%{language_name}crwdne858081:0'
     notifications:
       events_explanation: 'crwdns499141:0crwdne499141:0'
       delay_minutes_explanation: "crwdns499143:0crwdne499143:0"

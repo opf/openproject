@@ -1,5 +1,5 @@
 ---
-openapi: 3.0.0
+openapi: 3.1.0
 
 info:
   description: |-
@@ -379,7 +379,7 @@ paths:
   "/api/v3/time_entries/{id}/form":
     "$ref": "./paths/time_entries_id_form.yml"
   "/api/v3/time_entries/activity/{id}":
-    "$ref": "./paths/time_entries_activity_item.yml"
+    "$ref": "./paths/time_entry_activity.yml"
   "/api/v3/time_entries/available_projects":
     "$ref": "./paths/time_entries_available_projects.yml"
   "/api/v3/time_entries/form":
@@ -541,26 +541,10 @@ components:
       "$ref": "./components/schemas/collection_model.yml"
     ConfigurationModel:
       "$ref": "./components/schemas/configuration_model.yml"
-    Create_User:
-      "$ref": "./components/schemas/create_user.yml"
-    Create_group:
-      "$ref": "./components/schemas/create_group.yml"
-    Create_membership:
-      "$ref": "./components/schemas/create_membership.yml"
-    Create_project:
-      "$ref": "./components/schemas/create_project.yml"
-    Create_project_copy:
-      "$ref": "./components/schemas/create_project_copy.yml"
-    Create_time_entry:
-      "$ref": "./components/schemas/create_time_entry.yml"
-    Cursor_based_pagination:
-      "$ref": "./components/schemas/cursor_based_pagination.yml"
-    Custom_ActionModel:
+    CustomActionModel:
       "$ref": "./components/schemas/custom_action_model.yml"
-    Custom_OptionModel:
+    CustomOptionModel:
       "$ref": "./components/schemas/custom_option_model.yml"
-    CustomactionModel:
-      "$ref": "./components/schemas/customaction_model.yml"
     DayCollectionModel:
       "$ref": "./components/schemas/day_collection_model.yml"
     DayModel:
@@ -569,16 +553,6 @@ components:
       "$ref": "./components/schemas/default_query_model.yml"
     Default_Query_for_ProjectModel:
       "$ref": "./components/schemas/default_query_for_project_model.yml"
-    Delete_User:
-      "$ref": "./components/schemas/delete_user.yml"
-    Delete_group:
-      "$ref": "./components/schemas/delete_group.yml"
-    Delete_membership:
-      "$ref": "./components/schemas/delete_membership.yml"
-    Delete_project:
-      "$ref": "./components/schemas/delete_project.yml"
-    Delete_time_entry:
-      "$ref": "./components/schemas/delete_time_entry.yml"
     DocumentModel:
       "$ref": "./components/schemas/document_model.yml"
     DocumentsModel:
@@ -589,8 +563,6 @@ components:
       "$ref": "./components/schemas/example_form_model.yml"
     Example_SchemaModel:
       "$ref": "./components/schemas/example_schema_model.yml"
-    Execute_custom_action:
-      "$ref": "./components/schemas/execute_custom_action.yml"
     FileLinkCollectionReadModel:
       $ref: './components/schemas/file_link_collection_read_model.yml'
     FileLinkCollectionWriteModel:
@@ -601,26 +573,14 @@ components:
       $ref: './components/schemas/file_link_read_model.yml'
     FileLinkWriteModel:
       $ref: './components/schemas/file_link_write_model.yml'
-    FormModel:
-      "$ref": "./components/schemas/form_model.yml"
     Formattable:
       "$ref": "./components/schemas/formattable.yml"
     GridModel:
       "$ref": "./components/schemas/grid_model.yml"
-    Grid_Create_Form:
-      "$ref": "./components/schemas/grid_create_form.yml"
-    Grid_Update_Form:
-      "$ref": "./components/schemas/grid_update_form.yml"
-    GridsModel:
-      "$ref": "./components/schemas/grids_model.yml"
-    GroupModel:
-      "$ref": "./components/schemas/group_model.yml"
     Help_textModel:
       "$ref": "./components/schemas/help_text_model.yml"
     Help_textsModel:
       "$ref": "./components/schemas/help_texts_model.yml"
-    HelptextModel:
-      "$ref": "./components/schemas/helptext_model.yml"
     Link:
       "$ref": "./components/schemas/link.yml"
     List_actionsModel:
@@ -639,20 +599,8 @@ components:
       "$ref": "./components/schemas/list_projects_model.yml"
     List_projects_by_versionModel:
       "$ref": "./components/schemas/list_projects_by_version_model.yml"
-    List_time_entriesModel:
-      "$ref": "./components/schemas/list_time_entries_model.yml"
-    Lock_user:
-      "$ref": "./components/schemas/lock_user.yml"
-    Markdown:
-      "$ref": "./components/schemas/markdown.yml"
     MarkdownModel:
       "$ref": "./components/schemas/markdown_model.yml"
-    MembershipModel:
-      "$ref": "./components/schemas/membership_model.yml"
-    Membership_create_form:
-      "$ref": "./components/schemas/membership_create_form.yml"
-    Membership_update_form:
-      "$ref": "./components/schemas/membership_update_form.yml"
     NewsModel:
       "$ref": "./components/schemas/news_model.yml"
     NonWorkingDayCollectionModel:
@@ -663,26 +611,16 @@ components:
       "$ref": "./components/schemas/notification_collection_model.yml"
     NotificationModel:
       "$ref": "./components/schemas/notification_model.yml"
-    NotificationSettingsModel:
-      "$ref": "./components/schemas/notification_settings_model.yml"
-    Offset_based_pagination:
-      "$ref": "./components/schemas/offset_based_pagination.yml"
     OAuthApplicationReadModel:
       "$ref": "./components/schemas/oauth_application_read_model.yml"
     OAuthClientCredentialsReadModel:
       "$ref": "./components/schemas/oauth_client_credentials_read_model.yml"
     OAuthClientCredentialsWriteModel:
       "$ref": "./components/schemas/oauth_client_credentials_write_model.yml"
-    Plain_Text:
-      "$ref": "./components/schemas/plain_text.yml"
     Plain_TextModel:
       "$ref": "./components/schemas/plain_text_model.yml"
     PostModel:
       "$ref": "./components/schemas/post_model.yml"
-    PreviewingModel:
-      "$ref": "./components/schemas/previewing_model.yml"
-    PrincipalModel:
-      "$ref": "./components/schemas/principal_model.yml"
     PrincipalsModel:
       "$ref": "./components/schemas/principals_model.yml"
     PrioritiesModel:
@@ -695,12 +633,6 @@ components:
       "$ref": "./components/schemas/project_storage_collection_model.yml"
     ProjectStorageModel:
       "$ref": "./components/schemas/project_storage_model.yml"
-    Project_copy_form:
-      "$ref": "./components/schemas/project_copy_form.yml"
-    Project_create_form:
-      "$ref": "./components/schemas/project_create_form.yml"
-    Project_update_form:
-      "$ref": "./components/schemas/project_update_form.yml"
     Projects_schemaModel:
       "$ref": "./components/schemas/projects_schema_model.yml"
     QueriesModel:
@@ -731,12 +663,8 @@ components:
       "$ref": "./components/schemas/relation_edit_form_model.yml"
     Relation_schemaModel:
       "$ref": "./components/schemas/relation_schema_model.yml"
-    Relation_schema_for_type:
-      "$ref": "./components/schemas/relation_schema_for_type.yml"
     RelationsModel:
       "$ref": "./components/schemas/relations_model.yml"
-    Remove_Watcher:
-      "$ref": "./components/schemas/remove_watcher.yml"
     RevisionModel:
       "$ref": "./components/schemas/revision_model.yml"
     RevisionsModel:
@@ -771,10 +699,12 @@ components:
       "$ref": "./components/schemas/storage_read_model.yml"
     StorageWriteModel:
       "$ref": "./components/schemas/storage_write_model.yml"
-    Time_EntryModel:
-      "$ref": "./components/schemas/time_entry_model.yml"
-    Time_Entry_ActivityModel:
+    TimeEntryActivityModel:
       "$ref": "./components/schemas/time_entry_activity_model.yml"
+    TimeEntryCollectionModel:
+      "$ref": "./components/schemas/time_entry_collection_model.yml"
+    TimeEntryModel:
+      "$ref": "./components/schemas/time_entry_model.yml"
     TypeModel:
       "$ref": "./components/schemas/type_model.yml"
     TypesModel:
@@ -815,10 +745,6 @@ components:
       "$ref": "./components/schemas/view_membership_schema_model.yml"
     View_project_statusModel:
       "$ref": "./components/schemas/view_project_status_model.yml"
-    View_time_entries_activityModel:
-      "$ref": "./components/schemas/view_time_entries_activity_model.yml"
-    View_time_entryModel:
-      "$ref": "./components/schemas/view_time_entry_model.yml"
     View_time_entry_schemaModel:
       "$ref": "./components/schemas/view_time_entry_schema_model.yml"
     View_user_schemaModel:
@@ -845,6 +771,8 @@ components:
       "$ref": "./components/schemas/work_package_activities_model.yml"
     Work_PackagesModel:
       "$ref": "./components/schemas/work_packages_model.yml"
+    WorkPackagePatchModel:
+      "$ref": "./components/schemas/work_package_patch_model.yml"
   securitySchemes:
     BasicAuth:
       type: http

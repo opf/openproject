@@ -12,8 +12,7 @@ properties:
     type: integer
     description: Revision's id, assigned by OpenProject
     readOnly: true
-    minimum: 0
-    exclusiveMinimum: true
+    exclusiveMinimum: 0
   identifier:
     type: string
     description: The raw SCM identifier of the revision (e.g. full SHA hash)

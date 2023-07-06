@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Languages settings page', js: true do
+RSpec.describe 'Languages settings page', cuprite: true, js: true do
   current_user { create(:admin) }
 
   let(:languages_page) { Pages::Admin::SystemSettings::Languages.new }
@@ -55,7 +55,7 @@ RSpec.describe 'Languages settings page', js: true do
   end
 
   context 'when available languages setting is not writable (set by env var)', :settings_reset do
-    it 'does not change the available languages setting', with_env: {
+    it 'disables the save button and does not change the available languages setting', with_env: {
       OPENPROJECT_AVAILABLE__LANGUAGES: 'de en',
       OPENPROJECT_DEFAULT_LANGUAGE: 'fr'
     } do
@@ -70,7 +70,7 @@ RSpec.describe 'Languages settings page', js: true do
       expect(languages_page).to have_field('available_languages_fr', checked: true, disabled: true)
       expect(languages_page).to have_field('available_languages_ja', checked: false, disabled: true)
 
-      languages_page.save
+      expect(page).to have_button('Save', disabled: true)
 
       expect(Setting.where(name: 'available_languages')).not_to exist
     end

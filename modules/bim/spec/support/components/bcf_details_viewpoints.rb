@@ -29,7 +29,7 @@
 module Components
   module BcfDetailsViewpoints
     def expect_viewpoint_count(number)
-      expect(page).to have_selector('.ngx-gallery-thumbnail', visible: :all, count: number, wait: 20)
+      expect(page).to have_selector('a.ngx-gallery-thumbnail', visible: :all, count: number, wait: 20)
     end
 
     def expect_no_viewpoint_addable

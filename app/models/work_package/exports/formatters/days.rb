@@ -32,7 +32,7 @@ module WorkPackage::Exports
         name.to_sym == :duration && export_format == :pdf
       end
 
-      def format_value(value)
+      def format_value(value, _options)
         formatted_days(value)
       end
 

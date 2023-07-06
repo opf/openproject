@@ -9,8 +9,7 @@ properties:
     type: integer
     description: Query id
     readOnly: true
-    minimum: 0
-    exclusiveMinimum: true
+    exclusiveMinimum: 0
   name:
     type: string
     description: Query name

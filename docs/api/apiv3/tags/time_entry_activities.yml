@@ -21,4 +21,4 @@ description: |-
   | name         | The human readable name chosen for this activity             | String   | max 30 characters                                    | READ                 |                                                             |
   | position     | The rank the activity has in a list of activities            | Date     |                                                      | READ                 |                                                             |
   | default      | Flag to signal whether this activity is the default activity | Boolean  |                                                      | READ                 |                                                             |
-name: Time Entry Activities
+name: Time entry activities
