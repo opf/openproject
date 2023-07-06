@@ -1446,6 +1446,22 @@ lt:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Pakeitimai buvo atšaukti."
+    caused_changes:
+      dates_changed: "Dates changed"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} is now working"
+          non_working: "%{day} is now non-working"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} is now non-working"
   links:
     configuration_guide: 'Konfigūravimo vadovas'
     get_in_touch: "Turite klausimų? Susisiekite su mumis."
@@ -1743,7 +1759,7 @@ lt:
   label_logged_as: "Prisijungęs kaip"
   label_login: "Prisijungti"
   label_custom_logo: "Savo sukurtas logotipas"
-  label_custom_export_logo: "Custom export logo"
+  label_custom_export_logo: "Savas eksporto logotipas"
   label_custom_favicon: "Pasirinktinė piktograma"
   label_custom_touch_icon: "Pasirinktinė prisilietimo piktograma"
   label_logout: "Atsijungti"
@@ -2103,6 +2119,7 @@ lt:
         few: 'Yra dar %{count} darbų paketai su pranešimais.'
         many: 'Yra dar %{count} darbų paketai su pranešimais.'
         other: 'Yra dar %{count} darbų paketų su pranešimais.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Stebimas'
         assigned: 'Paskirtas'
@@ -2628,6 +2645,7 @@ lt:
     attachments:
       whitelist_text_html: >
         Sudarykite sąrašą leidžiamų failų praplėtimų ir/arba MIME tipų su kuriais bus leidžiama įkelti failus. <br/> Įveskite failų praplėtimus (t.y., <code>%{ext_example}</code>) arba MIME tipus (t.y., <code>%{mime_example}</code>). <br/> Palikite tuščią, jei norite leisti visus tipus. Leidžiama daugiau nei viena reikšmė (po vieną kiekvienoje eilutėje).
+    language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: 'Valdo, kuriems įvykiams yra siunčiami el.laiškai. Darbų paketai nepatenka į šį sąrašą, nes kiekvienam naudotojui pranešimai gali būti sukonfigūruoti individualiai.'
       delay_minutes_explanation: "El.laiškų siuntimas gali būti užlaikytas, kad būtų leista naudotojams, kurie yra susikonfigūravę gauti pranešimus tiesiai programoje, patvirtinti iki to, kol bus išsiųstas laiškas. Naudotojai, kurie perskaitė pranešimus programoje, negaus tų laiškų, kurių pranešimus jau bus perskaitę."
@@ -2696,11 +2714,11 @@ lt:
   text_custom_logo_instructions: >
     Baltas logotipas su permatomu fonu yra rekomenduojamas. Gariausiems rezultatams pasiekti tradiciniuose ir retina ekranuose, būkite įsitikinę, kad paveikslėlio dimensijos yra 460px 60px.
   text_custom_export_logo_instructions: >
-    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+    Tai logotipas, kuris rodomas jūsų PDF eksportuose. Tai turi būti PNG arba JPEG piešinio failas. Rekomenduojamas juodas arba spalvotas logotipas ant permatomo balto fono.
   text_custom_favicon_instructions: >
-    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
+    Šis mažas paveikslėlis atsiranda Jūsų naršyklės lange, kortelėje šalia puslapio pavadinimo. Jis turi būti kvadratinis 32 pikselio ilgio ir pločio PNG paveikslėlis su permatomu fonu.
   text_custom_touch_icon_instructions: >
-    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
+    Šis paveikslėlis atsiranda Jūsų mobiliajame įrenginyje ar planšetėje kaip plytelė, kai prikabinate svetainę prie namų ekrano. Jis turi būti kvadrato formos 180 pikselių ilgo ir pločio PNG paveikslėlis. Prašome įsitikinti, kad fonas nėra permatomas, nes kitaip paveikslėlis atrodys prastai naudojant iOS.
   text_database_allows_tsv: "Duomenų bazė leidžia TSVector (pasirinktinai)"
   text_default_administrator_account_changed: "Administratoriaus numatytoji paskyra pakeista"
   text_default_encoding: "Numatytasis: UTF-8"

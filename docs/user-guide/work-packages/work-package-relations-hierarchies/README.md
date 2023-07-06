@@ -15,7 +15,7 @@ Relations indicate any functional or timely relation (e.g. follows or proceeds, 
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
 | [Work packages relations](#work-package-relations)           | How can I set a relation between two work packages and which relations can I set? |
-| [Display relations in work package list](#display-relations-in-work-package-list-enterprise-add-on) | How can I display the relations between two work packages in the work package list? |
+| [Display relations in work package table](#display-relations-in-a-work-package-table-enterprise-add-on) | How can I display the relations between two work packages in the work package table? |
 | [Work package hierarchies](#work-package-hierarchies)        | What are work package hierarchies? Learn about parent and children work packages. |
 | [Adding a child work package](#adding-a-child-work-package)  | What are the possibilities to add children work packages?    |
 | [Change the parent work package](#change-the-parent-work-package) | How can I change a work package's parent?                    |
@@ -46,9 +46,9 @@ The selected relation status will be automatically displayed in the work package
 
 
 
-## Display relations in work package list (Enterprise add-on)
+## Display relations in a work package table (Enterprise add-on)
 
-As a user of [Enterprise on-premises](https://www.openproject.org/enterprise-edition/) or [Enterprise cloud](https://www.openproject.org/hosting/) you can display relations as columns in the work package list.
+As a user of [Enterprise on-premises](https://www.openproject.org/enterprise-edition/) or [Enterprise cloud](https://www.openproject.org/hosting/) you can display relations as columns in the work package tables.
 
 This is useful if you want to get an overview of certain types of relationships between work packages. You can for example see which work packages are blocking other work packages.
 
@@ -71,8 +71,8 @@ Work packages can be structured hierarchically, e.g. in order to break down a la
 There are **three ways to add or create a child work package**:
 
 1. Adding or creating a child in the *Relations* tab in a work package's details view
-2. Right-clicking on a work package in the work package list and select "Create new child"
-3. Right-clicking on a work package in the work package list and select "Indent hierarchy" to add it as the child of the work package above it.
+2. Right-clicking on a work package in the work package table and select "Create new child"
+3. Right-clicking on a work package in the work package table and select "Indent hierarchy" to add it as the child of the work package above it.
 
 ### Adding a child in the *Relations* tab in a work package's details view
 
@@ -99,7 +99,7 @@ Note that only the children are shown in the relations tab and the parent isn't.
 
 ![work package relations](image-20200129145033802.png)
 
-Hierarchies can also be displayed from the work package list view.
+Hierarchies can also be displayed from the work package table view.
 To display work package hierarchies make sure the *Subject* column is displayed. You can activate or deactivate the hierarchy by pressing the icon next to the Subject.
 
 ![User guide display hierarchy](User-guide-display-hierarchy.png)

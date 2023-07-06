@@ -30,6 +30,11 @@ require 'spec_helper'
 
 RSpec.describe Calendar::CalendarsController do
   it do
+    expect(get('calendars')).to route_to(controller: 'calendar/calendars',
+                                         action: 'index')
+  end
+
+  it do
     expect(get('/projects/1/calendars')).to route_to(controller: 'calendar/calendars',
                                                      action: 'index',
                                                      project_id: '1')

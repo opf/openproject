@@ -42,24 +42,22 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
   let!(:previous_working_days) { work_week }
   let!(:previous_non_working_days) { [] }
 
-  shared_examples_for 'journal updates with note' do
+  shared_examples_for 'journal updates with cause' do
     let(:changed_work_packages) { [] }
     let(:unchanged_work_packages) { [] }
-    let(:journal_notice) { raise 'need to specify note' }
+    let(:changed_days) { raise 'need to specify note' }
 
     it 'adds journal entries to changed work packages' do
       subject
 
       changed_work_packages.each do |work_package|
-        expect(work_package.journals.count)
-          .to eq 2
-        expect(work_package.journals.last.notes)
-          .to include(journal_notice)
+        expect(work_package.journals.count).to eq 2
+        expect(work_package.journals.last.cause_type).to eq('working_days_changed')
+        expect(work_package.journals.last.cause_changed_days).to eq(changed_days)
       end
 
       unchanged_work_packages.each do |work_package|
-        expect(work_package.journals.count)
-          .to eq 1
+        expect(work_package.journals.count).to eq 1
       end
     end
   end
@@ -95,7 +93,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [work_package,
              work_package_on_start,
@@ -103,7 +101,12 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
              wp_start_only,
              wp_due_only]
           end
-          let(:journal_notice) { "**Working days** changed (Wednesday is now non-working)." }
+          let(:changed_days) do
+            {
+              "working_days" => { "3" => false },
+              "non_working_days" => {}
+            }
+          end
         end
       end
 
@@ -126,11 +129,16 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [work_package]
           end
-          let(:journal_notice) { "**Working days** changed (Wednesday is now non-working)." }
+          let(:changed_days) do
+            {
+              "working_days" => { "3" => false },
+              "non_working_days" => {}
+            }
+          end
         end
       end
 
@@ -152,11 +160,16 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [work_package]
           end
-          let(:journal_notice) { "**Working days** changed (Saturday is now working)." }
+          let(:changed_days) do
+            {
+              "working_days" => { "6" => true },
+              "non_working_days" => {}
+            }
+          end
         end
       end
 
@@ -180,11 +193,17 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [predecessor, follower]
           end
-          let(:journal_notice) { "**Working days** changed (Wednesday is now non-working)." }
+
+          let(:changed_days) do
+            {
+              "working_days" => { "3" => false },
+              "non_working_days" => {}
+            }
+          end
         end
       end
 
@@ -208,14 +227,19 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [follower]
           end
           let(:unchanged_work_packages) do
             [predecessor]
           end
-          let(:journal_notice) { "**Working days** changed (Wednesday is now non-working)." }
+          let(:changed_days) do
+            {
+              "working_days" => { "3" => false },
+              "non_working_days" => {}
+            }
+          end
         end
       end
 
@@ -239,7 +263,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:unchanged_work_packages) do
             [predecessor, follower]
           end
@@ -268,7 +292,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:unchanged_work_packages) do
             [predecessor, follower]
           end
@@ -297,14 +321,19 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [predecessor]
           end
           let(:unchanged_work_packages) do
             [follower]
           end
-          let(:journal_notice) { "**Working days** changed (Wednesday is now working)." }
+          let(:changed_days) do
+            {
+              "working_days" => { "3" => true },
+              "non_working_days" => {}
+            }
+          end
         end
       end
 
@@ -329,7 +358,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:unchanged_work_packages) do
             [predecessor, follower]
           end
@@ -354,7 +383,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:unchanged_work_packages) do
             [work_package]
           end
@@ -376,7 +405,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           expect(work_package.duration).to eq(3)
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:unchanged_work_packages) do
             [work_package]
           end
@@ -408,10 +437,18 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [wp1, wp2, wp3]
           end
+
+          let(:changed_days) do
+            {
+              "working_days" => { "2" => false, "3" => false, "5" => false },
+              "non_working_days" => {}
+            }
+          end
+
           let(:journal_notice) do
             "**Working days** changed (Tuesday is now non-working, Wednesday is now non-working, Friday is now non-working)."
           end
@@ -451,12 +488,15 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [wp1, wp2, wp3]
           end
-          let(:journal_notice) do
-            "**Working days** changed (Tuesday is now non-working, Wednesday is now non-working, Friday is now non-working)."
+          let(:changed_days) do
+            {
+              "working_days" => { "2" => false, "3" => false, "5" => false },
+              "non_working_days" => {}
+            }
           end
         end
       end
@@ -486,15 +526,18 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           expect(WorkPackage.pluck(:lock_version)).to all(be <= 1)
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [wp1, wp3]
           end
           let(:unchanged_work_packages) do
             [wp2]
           end
-          let(:journal_notice) do
-            "**Working days** changed (Tuesday is now working, Wednesday is now working, Friday is now working)."
+          let(:changed_days) do
+            {
+              "working_days" => { "2" => true, "3" => true, "5" => true },
+              "non_working_days" => {}
+            }
           end
         end
       end
@@ -524,37 +567,15 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [wp1, wp2, wp3]
           end
-          let(:journal_notice) do
-            "**Working days** changed (Tuesday is now non-working, Wednesday is now non-working, Friday is now non-working)."
-          end
-        end
-      end
-
-      context 'when having a non english default language', with_settings: { default_language: :fr } do
-        let_schedule(<<~CHART)
-          days          | fssMTWTFSS |
-          work_package  | X▓▓XX   ░░ |
-        CHART
-
-        before do
-          set_working_week_days('saturday')
-        end
-
-        # Not interested in the scheduling changes in this spec
-        it_behaves_like 'journal updates with note' do
-          let(:changed_work_packages) do
-            [work_package]
-          end
-          let(:journal_notice) do
-            I18n.with_locale(:fr) do
-              I18n.t(:'working_days.journal_note.changed',
-                     changes: I18n.t(:'working_days.journal_note.days.working',
-                                     day: I18n.t('date.day_names')[6]))
-            end
+          let(:changed_days) do
+            {
+              "working_days" => { "2" => false, "3" => false, "5" => false },
+              "non_working_days" => {}
+            }
           end
         end
       end
@@ -570,12 +591,15 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
 
         # Not interested in the scheduling changes in this spec
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [work_package]
           end
-          let(:journal_notice) do
-            "**Working days** changed (Sunday is now working)."
+          let(:changed_days) do
+            {
+              "working_days" => { "7" => true },
+              "non_working_days" => {}
+            }
           end
         end
       end
@@ -612,7 +636,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [work_package,
              work_package_on_start,
@@ -620,8 +644,12 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
              wp_start_only,
              wp_due_only]
           end
-          let(:journal_notice) do
-            "**Working days** changed (#{next_monday.next_occurring(:wednesday)} is now non-working)."
+
+          let(:changed_days) do
+            {
+              "working_days" => {},
+              "non_working_days" => { next_monday.next_occurring(:wednesday).iso8601 => false }
+            }
           end
         end
       end
@@ -645,12 +673,16 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [work_package]
           end
-          let(:journal_notice) do
-            "**Working days** changed (#{next_monday.next_occurring(:wednesday)} is now non-working)."
+
+          let(:changed_days) do
+            {
+              "working_days" => {},
+              "non_working_days" => { next_monday.next_occurring(:wednesday).iso8601 => false }
+            }
           end
         end
       end
@@ -673,13 +705,16 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [work_package]
           end
 
-          let(:journal_notice) do
-            "**Working days** changed (#{monday.next_occurring(:saturday)} is now working)."
+          let(:changed_days) do
+            {
+              "working_days" => {},
+              "non_working_days" => { monday.next_occurring(:saturday).iso8601 => true }
+            }
           end
         end
       end
@@ -704,11 +739,17 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [predecessor, follower]
           end
-          let(:journal_notice) { "**Working days** changed (#{next_monday.next_occurring(:wednesday)} is now non-working)." }
+
+          let(:changed_days) do
+            {
+              "working_days" => {},
+              "non_working_days" => { next_monday.next_occurring(:wednesday).iso8601 => false }
+            }
+          end
         end
       end
 
@@ -732,14 +773,19 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [follower]
           end
           let(:unchanged_work_packages) do
             [predecessor]
           end
-          let(:journal_notice) { "**Working days** changed (#{next_monday.next_occurring(:wednesday)} is now non-working)." }
+          let(:changed_days) do
+            {
+              "working_days" => {},
+              "non_working_days" => { next_monday.next_occurring(:wednesday).iso8601 => false }
+            }
+          end
         end
       end
 
@@ -763,7 +809,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:unchanged_work_packages) do
             [predecessor, follower]
           end
@@ -797,7 +843,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:unchanged_work_packages) do
             [predecessor, follower]
           end
@@ -830,14 +876,19 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [predecessor]
           end
           let(:unchanged_work_packages) do
             [follower]
           end
-          let(:journal_notice) { "**Working days** changed (#{next_monday.next_occurring(:wednesday)} is now working)." }
+          let(:changed_days) do
+            {
+              "working_days" => {},
+              "non_working_days" => { next_monday.next_occurring(:wednesday).iso8601 => true }
+            }
+          end
         end
       end
 
@@ -866,7 +917,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:unchanged_work_packages) do
             [predecessor, follower]
           end
@@ -891,7 +942,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:unchanged_work_packages) do
             [work_package]
           end
@@ -913,7 +964,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           expect(work_package.duration).to eq(3)
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:unchanged_work_packages) do
             [work_package]
           end
@@ -955,12 +1006,16 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [wp1, wp2, wp3]
           end
-          let(:journal_notice) do
-            "**Working days** changed (#{non_working_days.map { |day| "#{day} is now non-working" }.join(', ')})."
+
+          let(:changed_days) do
+            {
+              "working_days" => {},
+              "non_working_days" => non_working_days.map(&:iso8601).zip([false].cycle).to_h
+            }
           end
         end
       end
@@ -1006,12 +1061,15 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [wp1, wp2, wp3]
           end
-          let(:journal_notice) do
-            "**Working days** changed (#{non_working_days.map { |day| "#{day} is now non-working" }.join(', ')})."
+          let(:changed_days) do
+            {
+              "working_days" => {},
+              "non_working_days" => non_working_days.map(&:iso8601).zip([false].cycle).to_h
+            }
           end
         end
       end
@@ -1053,15 +1111,18 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           expect(WorkPackage.pluck(:lock_version)).to all(be <= 1)
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [wp1, wp3]
           end
           let(:unchanged_work_packages) do
             [wp2]
           end
-          let(:journal_notice) do
-            "**Working days** changed (#{non_working_days.map { |day| "#{day} is now working" }.join(', ')})."
+          let(:changed_days) do
+            {
+              "working_days" => {},
+              "non_working_days" => non_working_days.map(&:iso8601).zip([true].cycle).to_h
+            }
           end
         end
       end
@@ -1101,43 +1162,16 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [wp1, wp2, wp3]
           end
-          let(:journal_notice) do
-            "**Working days** changed (#{non_working_days.map { |day| "#{day} is now non-working" }.join(', ')})."
-          end
-        end
-      end
 
-      context 'when having a non english default language', with_settings: { default_language: :fr } do
-        let_schedule(<<~CHART)
-          days          | fssMTWTFSS |
-          work_package  | X▓▓XX   ░░ |
-        CHART
-
-        let(:non_working_days) do
-          [monday.next_occurring(:saturday), next_monday.next_occurring(:saturday)]
-        end
-
-        before do
-          # Make 'saturday' a working day
-          set_working_days(*non_working_days)
-        end
-
-        # Not interested in the scheduling changes in this spec
-        it_behaves_like 'journal updates with note' do
-          let(:changed_work_packages) do
-            [work_package]
-          end
-          let(:journal_notice) do
-            I18n.with_locale(:fr) do
-              I18n.t(:'working_days.journal_note.changed',
-                     changes: non_working_days.map do |date|
-                       I18n.t(:'working_days.journal_note.dates.working', date:)
-                     end.join(", "))
-            end
+          let(:changed_days) do
+            {
+              "working_days" => {},
+              "non_working_days" => non_working_days.map(&:iso8601).zip([false].cycle).to_h
+            }
           end
         end
       end
@@ -1158,15 +1192,15 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
 
         # Not interested in the scheduling changes in this spec
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [work_package]
           end
-          let(:journal_notice) do
-            I18n.t(:'working_days.journal_note.changed',
-                   changes: non_working_days.map do |date|
-                     I18n.t(:'working_days.journal_note.dates.working', date:)
-                   end.join(", "))
+          let(:changed_days) do
+            {
+              "working_days" => {},
+              "non_working_days" => non_working_days.map(&:iso8601).zip([true].cycle).to_h
+            }
           end
         end
       end
@@ -1203,7 +1237,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [work_package,
              work_package_on_start,
@@ -1211,8 +1245,11 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
              wp_start_only,
              wp_due_only]
           end
-          let(:journal_notice) do
-            "**Working days** changed (#{next_monday.next_occurring(:wednesday)} is now non-working)."
+          let(:changed_days) do
+            {
+              "working_days" => {},
+              "non_working_days" => { next_monday.next_occurring(:wednesday).iso8601 => false }
+            }
           end
         end
       end
@@ -1236,12 +1273,15 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [work_package]
           end
-          let(:journal_notice) do
-            "**Working days** changed (#{next_monday.next_occurring(:wednesday)} is now non-working)."
+          let(:changed_days) do
+            {
+              "working_days" => {},
+              "non_working_days" => { next_monday.next_occurring(:wednesday).iso8601 => false }
+            }
           end
         end
       end
@@ -1267,13 +1307,16 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [work_package]
           end
 
-          let(:journal_notice) do
-            "**Working days** changed (Saturday is now working, #{monday.next_occurring(:saturday)} is now working)."
+          let(:changed_days) do
+            {
+              "working_days" => { "6" => true },
+              "non_working_days" => { monday.next_occurring(:saturday).iso8601 => true }
+            }
           end
         end
       end
@@ -1298,11 +1341,17 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [predecessor, follower]
           end
-          let(:journal_notice) { "**Working days** changed (#{next_monday.next_occurring(:wednesday)} is now non-working)." }
+
+          let(:changed_days) do
+            {
+              "working_days" => {},
+              "non_working_days" => { next_monday.next_occurring(:wednesday).iso8601 => false }
+            }
+          end
         end
       end
 
@@ -1326,14 +1375,19 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [follower]
           end
           let(:unchanged_work_packages) do
             [predecessor]
           end
-          let(:journal_notice) { "**Working days** changed (#{next_monday.next_occurring(:wednesday)} is now non-working)." }
+          let(:changed_days) do
+            {
+              "working_days" => {},
+              "non_working_days" => { next_monday.next_occurring(:wednesday).iso8601 => false }
+            }
+          end
         end
       end
 
@@ -1357,7 +1411,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:unchanged_work_packages) do
             [predecessor, follower]
           end
@@ -1391,7 +1445,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:unchanged_work_packages) do
             [predecessor, follower]
           end
@@ -1424,14 +1478,19 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [predecessor]
           end
           let(:unchanged_work_packages) do
             [follower]
           end
-          let(:journal_notice) { "**Working days** changed (#{next_monday.next_occurring(:wednesday)} is now working)." }
+          let(:changed_days) do
+            {
+              "working_days" => {},
+              "non_working_days" => { next_monday.next_occurring(:wednesday).iso8601 => true }
+            }
+          end
         end
       end
 
@@ -1460,7 +1519,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:unchanged_work_packages) do
             [predecessor, follower]
           end
@@ -1485,7 +1544,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:unchanged_work_packages) do
             [work_package]
           end
@@ -1507,7 +1566,7 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           expect(work_package.duration).to eq(3)
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:unchanged_work_packages) do
             [work_package]
           end
@@ -1549,12 +1608,16 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [wp1, wp2, wp3]
           end
-          let(:journal_notice) do
-            "**Working days** changed (#{non_working_days.map { |day| "#{day} is now non-working" }.join(', ')})."
+
+          let(:changed_days) do
+            {
+              "working_days" => {},
+              "non_working_days" => non_working_days.map(&:iso8601).zip([false].cycle).to_h
+            }
           end
         end
       end
@@ -1600,12 +1663,15 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [wp1, wp2, wp3]
           end
-          let(:journal_notice) do
-            "**Working days** changed (#{non_working_days.map { |day| "#{day} is now non-working" }.join(', ')})."
+          let(:changed_days) do
+            {
+              "working_days" => {},
+              "non_working_days" => non_working_days.map(&:iso8601).zip([false].cycle).to_h
+            }
           end
         end
       end
@@ -1647,15 +1713,18 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           expect(WorkPackage.pluck(:lock_version)).to all(be <= 1)
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [wp1, wp3]
           end
           let(:unchanged_work_packages) do
             [wp2]
           end
-          let(:journal_notice) do
-            "**Working days** changed (#{non_working_days.map { |day| "#{day} is now working" }.join(', ')})."
+          let(:changed_days) do
+            {
+              "working_days" => {},
+              "non_working_days" => non_working_days.map(&:iso8601).zip([true].cycle).to_h
+            }
           end
         end
       end
@@ -1695,51 +1764,15 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
           CHART
         end
 
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [wp1, wp2, wp3]
           end
-          let(:journal_notice) do
-            "**Working days** changed (#{non_working_days.map { |day| "#{day} is now non-working" }.join(', ')})."
-          end
-        end
-      end
-
-      context 'when having a non english default language', with_settings: { default_language: :fr } do
-        let_schedule(<<~CHART)
-          days          | fssMTWTFSS |
-          work_package  | X▓▓XX   ░░ |
-        CHART
-
-        let(:non_working_days) do
-          [monday.next_occurring(:saturday), next_monday.next_occurring(:saturday)]
-        end
-        let!(:previous_non_working_days) { week_with_saturday_and_sunday_as_non_working_day }
-
-        before do
-          # Make 'saturday' a working day
-          set_working_days(*non_working_days)
-          set_working_week_days('saturday')
-        end
-
-        # Not interested in the scheduling changes in this spec
-        it_behaves_like 'journal updates with note' do
-          let(:changed_work_packages) do
-            [work_package]
-          end
-          let(:journal_notice) do
-            I18n.with_locale(:fr) do
-              I18n.t(:'working_days.journal_note.changed',
-                     changes: (
-                       [
-                         I18n.t(:'working_days.journal_note.days.working',
-                                day: I18n.t('date.day_names')[6])
-                       ] +
-                       non_working_days.map do |date|
-                         I18n.t(:'working_days.journal_note.dates.working', date:)
-                       end
-                     ).join(", "))
-            end
+          let(:changed_days) do
+            {
+              "working_days" => {},
+              "non_working_days" => non_working_days.map(&:iso8601).zip([false].cycle).to_h
+            }
           end
         end
       end
@@ -1763,21 +1796,16 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
         end
 
         # Not interested in the scheduling changes in this spec
-        it_behaves_like 'journal updates with note' do
+        it_behaves_like 'journal updates with cause' do
           let(:changed_work_packages) do
             [work_package]
           end
-          let(:journal_notice) do
-            I18n.t(:'working_days.journal_note.changed',
-                   changes: (
-                     [
-                       I18n.t(:'working_days.journal_note.days.working',
-                              day: I18n.t('date.day_names')[0])
-                     ] +
-                     non_working_days.map do |date|
-                       I18n.t(:'working_days.journal_note.dates.working', date:)
-                     end
-                   ).join(", "))
+
+          let(:changed_days) do
+            {
+              "working_days" => { "7" => true },
+              "non_working_days" => non_working_days.map(&:iso8601).zip([true].cycle).to_h
+            }
           end
         end
       end

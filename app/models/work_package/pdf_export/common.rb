@@ -100,7 +100,7 @@ module WorkPackage::PDFExport::Common
     return '' if value.nil?
 
     formatter = formatter_for(column_name, :pdf)
-    formatter.format_value(value)
+    formatter.format_value(value, {})
   end
 
   def escape_tags(value)

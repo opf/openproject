@@ -4,12 +4,11 @@
   type="button"
   (click)="toggleCollapsed()"
 >
-  <span
-    class="spot-icon spot-icon_1 op-sidemenu--title-caret"
-    [ngClass]="collapsed ? 'spot-icon_arrow-down1' : 'spot-icon_arrow-up1'"
-    aria-hidden="true"
-  ></span>
-  <span [textContent]="title"></span>
+  <span class="icon3 icon-small"
+        [ngClass]="collapsed ? 'icon-arrow-down1' : 'icon-arrow-up1'"
+        aria-hidden="true">
+  </span>
+  {{ title }}
 </button>
 
 <div
@@ -74,10 +73,7 @@
   <span
     class="op-sidemenu--item-title"
   >{{ item.title }}
-    <span
-      class="op-sidemenu--enterprise-badge spot-icon spot-icon_1_25 spot-icon_enterprise-addons"
-      *ngIf="noEEToken && item.isEnterprise"
-    ></span>
+    <span class="op-sidemenu--enterprise-badge spot-icon spot-icon_enterprise-addons" *ngIf="noEEToken && item.isEnterprise"></span>
   </span>
   <span class="op-bubble op-bubble_alt_highlighting" *ngIf="item.count">{{ item.count }}</span>
 </ng-template>

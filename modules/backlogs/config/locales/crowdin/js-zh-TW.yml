@@ -23,5 +23,5 @@ zh-TW:
   js:
     work_packages:
       properties:
-        storyPoints: "故事評分"
+        storyPoints: "需求重要性"
         remainingTime: "剩餘時數"

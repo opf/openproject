@@ -98,10 +98,6 @@ $arrow-left-width: 40px
       &.toggler
         // explicitly reset to zero to avoid selector precedence problems
         padding-left: 0
-        display: flex
-        justify-content: center
-        align-items: center
-
     .main-menu--children li a
       // children have no icon so we need to push them right.
       padding-left: 32px
@@ -117,20 +113,8 @@ $arrow-left-width: 40px
     font-weight: normal
     font-size: var(--main-menu-font-size)
     font-style: normal
-
     &:hover
       text-decoration: none
-
-    &.main-menu--arrow-left-to-project
-      display: flex
-      justify-content: center
-      width: $arrow-left-width
-      float: left
-      border-radius: 3px
-      padding: 0
-
-      &:hover, &:focus, &:active
-        @include main-menu-hover
 
   .toggler
     width: 40px
@@ -191,6 +175,16 @@ $arrow-left-width: 40px
 .main-menu--children-menu-header
   padding: 10px 10px 0 10px
   height: calc(var(--main-menu-item-height) + 10px)
+
+.main-menu--arrow-left-to-project
+  display: inline-block
+  width: $arrow-left-width
+  float: left
+  border-radius: 3px
+  padding-left: 14px
+  padding-right: 14px
+  &:hover, &:focus, &:active
+    @include main-menu-hover
 
 a.main-menu--parent-node
   display: inline-block
@@ -352,41 +346,39 @@ a.main-menu--parent-node
   vertical-align: middle
   z-index: 1
   cursor: col-resize
-
   &:hover
     border-left-color: var(--main-menu-resizer-color)
+    i:before
+      color: var(--main-menu-navigation-toggler-font-hover-color)
+  &.show
+    left: var(--main-menu-folded-width)
 
 .resizer-toggle-container
   margin-top: 50vh
+  margin-left: -12px
   display: inline-block
-  color: var(--primary-color)
-
-  &.open
-    margin-left: -1rem
-    color: var(--main-menu-font-color)
-
-  .spot-icon
-    margin: 0
-
-    &.show-on-hover
-      display: none
-
-  &:hover .spot-icon
-    &.hide-on-hover
-      display: none
-
-    &.show-on-hover
-      display: inline-flex
-
   .main-menu--navigation-toggler
     cursor: pointer
-    padding: 0
-    margin: 0
-    background: transparent
-    border: 0
-    display: inline-flex
-    align-items: center
-    text-decoration: none
+    &:before
+      @include icon-common
+      font-size: 11px
+      font-weight: 400
+    &:not(.open):before
+      @include icon-mixin-arrow-right2
+      position: absolute
+      right: 0
+  &:hover
+    color: var(--main-menu-navigation-toggler-font-hover-color)
+    .main-menu--navigation-toggler
+      background-color: var(--main-menu-bg-color)
+      &.open:before
+        @include icon-mixin-arrow-left2
+  i
+    display: inline-block
+    width: 12px
+    &:before
+      vertical-align: middle
+      color: var(--light-gray)
 
 // Badges for menu items such as "EXPERIMENTAL" or "BETA"
 $badge_offset: 4px
@@ -407,5 +399,5 @@ $badge_offset: 4px
 
 
 #main-menu-toggle
-  .spot-icon_close
+  .icon-close
     display: none
