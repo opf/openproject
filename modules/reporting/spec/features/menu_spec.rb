@@ -29,8 +29,6 @@
 require 'spec_helper'
 
 RSpec.describe 'project menu' do
-  before(:all) { skip 'TODO BROKEN MODULE SPEC' }
-
   let(:current_user) { create(:admin) }
   let!(:project) { create(:valid_project, identifier: 'ponyo', name: 'Ponyo') }
 
@@ -69,7 +67,7 @@ RSpec.describe 'project menu' do
         end
 
         it 'leads to cost reports' do
-          click_on 'Time and costs'
+          find('#main-menu [data-qa-selector="op-menu--item-action"]', text: 'Time and costs').click
 
           expect(page).to have_current_path("/projects/ponyo/cost_reports")
         end
@@ -97,9 +95,7 @@ RSpec.describe 'project menu' do
         it 'leads to cost reports' do
           # doing what no human can - click on invisible items.
           # This way, we avoid having to use selenium and by that increase stability.
-          within '#more-menu', visible: false do
-            click_on 'Time and costs', visible: false
-          end
+          find('#main-menu [data-qa-selector="op-menu--item-action"]', text: 'Time and costs').click
 
           # to make sure we're not seeing the project cost reports:
           expect(page).not_to have_text('Ponyo')

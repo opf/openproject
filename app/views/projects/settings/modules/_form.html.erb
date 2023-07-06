@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% sorted_modules.each do |name| %>
 
   <div class="form--field">
-    <label class="form--label">
+    <label class="form--label" for="project_enabled_module_names_<%= name %>">
       <%= l_or_humanize(name, prefix: "project_module_")  %>
       <% if !EnterpriseToken.active? && OpenProject::AccessControl.module_enterprise_feature?(name) %>
         <%= spot_icon('enterprise-addons',
