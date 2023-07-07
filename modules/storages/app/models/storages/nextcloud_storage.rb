@@ -35,7 +35,6 @@ class Storages::NextcloudStorage < Storages::Storage
   store_attribute :provider_fields, :automatically_managed, :boolean
   store_attribute :provider_fields, :username, :string
   store_attribute :provider_fields, :password, :string
-  store_attribute :provider_fields, :has_managed_project_folders, :boolean
   store_attribute :provider_fields, :group, :string, default: PROVIDER_FIELDS_DEFAULTS[:username]
   store_attribute :provider_fields, :group_folder, :string, default: PROVIDER_FIELDS_DEFAULTS[:username]
 
@@ -45,7 +44,7 @@ class Storages::NextcloudStorage < Storages::Storage
                                           'sync_all_group_folders',
                                           timeout_seconds: 0,
                                           transaction: false) do
-      where("provider_fields->>'has_managed_project_folders' = 'true'")
+      where("provider_fields->>'automatically_managed' = 'true'")
         .includes(:oauth_client)
         .each do |storage|
         Storages::GroupFolderPropertiesSyncService.new(storage).call

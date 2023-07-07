@@ -75,8 +75,8 @@ RSpec.describe Storages::NextcloudStorage do
       end
 
       it 'calls GroupFolderPropertiesSyncService for each appropriate storage' do
-        storage1 = create(:nextcloud_storage, has_managed_project_folders: true)
-        storage2 = create(:nextcloud_storage, has_managed_project_folders: false)
+        storage1 = create(:nextcloud_storage, automatically_managed: true)
+        storage2 = create(:nextcloud_storage, automatically_managed: false)
         allow(Storages::GroupFolderPropertiesSyncService).to receive(:new).and_call_original
         # rubocop:disable RSpec/AnyInstance
         allow_any_instance_of(Storages::GroupFolderPropertiesSyncService).to receive(:call).and_return(nil)
@@ -112,10 +112,6 @@ RSpec.describe Storages::NextcloudStorage do
 
   describe '#automatically_managed?' do
     it_behaves_like 'a stored boolean attribute', :automatically_managed
-  end
-
-  describe '#has_managed_project_folders?' do
-    it_behaves_like 'a stored boolean attribute', :has_managed_project_folders
   end
 
   describe '#automatic_management_unspecified?' do
