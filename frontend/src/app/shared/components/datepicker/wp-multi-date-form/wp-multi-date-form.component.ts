@@ -414,6 +414,7 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
   handleDurationFocusOut():void {
     setTimeout(() => {
       this.durationFocused = false;
+      this.cdRef.detectChanges();
     });
   }
 
