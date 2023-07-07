@@ -121,6 +121,8 @@ Redmine::MenuManager.map :account_menu do |menu|
             if: Proc.new { User.current.logged? }
 end
 
+Redmine::MenuManager.map :global_menu
+
 Redmine::MenuManager.map :global_work_packages_menu do |menu|
   menu.push :work_packages_query_select,
             { controller: '/work_packages', action: 'index' },

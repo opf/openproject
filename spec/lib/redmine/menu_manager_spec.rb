@@ -49,6 +49,14 @@ RSpec.describe Redmine::MenuManager do
       end
     end
 
+    context 'for the global_menu' do
+      it 'includes the expected items' do
+        pending ':home menu item missing in the menu'
+        expect(described_class.items(:global_menu).map(&:name))
+          .to include(:home)
+      end
+    end
+
     context 'for the global_work_packages_menu' do
       it 'includes the expected items' do
         expect(described_class.items(:global_work_packages_menu).map(&:name))
