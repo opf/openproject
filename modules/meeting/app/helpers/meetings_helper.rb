@@ -77,20 +77,6 @@ module MeetingsHelper
     request.path == new_meeting_path
   end
 
-  def participants_section_refresh_url
-    if global_create_context?
-      participants_section_meetings_path
-    else
-      participants_section_meetings_path(project_id: @project.id)
-    end
-  end
-
-  def participants_section_attributes
-    attributes = { data: { refresh_on_form_changes_target: 'turboFrame' } }
-    attributes = attributes.merge({ src: participants_section_refresh_url }) unless global_create_context?
-    attributes
-  end
-
   def options_for_project_selection
     Project.allowed_to(User.current, :create_meetings)
            .filter { _1.module_enabled?('meetings') }

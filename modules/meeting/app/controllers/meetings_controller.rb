@@ -28,11 +28,11 @@
 
 class MeetingsController < ApplicationController
   around_action :set_time_zone
-  before_action :find_optional_project, only: %i[index new participants_section create]
-  before_action :build_meeting, only: %i[new participants_section create]
-  before_action :find_meeting, except: %i[index new participants_section create]
+  before_action :find_optional_project, only: %i[index new create]
+  before_action :build_meeting, only: %i[new create]
+  before_action :find_meeting, except: %i[index new create]
   before_action :convert_params, only: %i[create update]
-  before_action :authorize, except: %i[index new participants_section]
+  before_action :authorize, except: %i[index new]
   before_action :authorize_global, only: %i[index new]
 
   helper :watchers
@@ -83,10 +83,6 @@ class MeetingsController < ApplicationController
     :meetings
   end
 
-  def participants_section
-    render layout: false
-  end
-
   def copy
     params[:copied_from_meeting_id] = @meeting.id
     params[:copied_meeting_agenda_text] = @meeting.agenda.text if @meeting.agenda.present?
@@ -128,12 +124,6 @@ class MeetingsController < ApplicationController
 
   def build_meeting
     @meeting = Meeting.new
-    if meeting_params.present?
-      convert_params
-      @meeting.participants.clear # Start with a clean set of participants
-      @meeting.participants_attributes = @converted_params.delete(:participants_attributes)
-      @meeting.attributes = @converted_params
-    end
     @meeting.project = @project
     @meeting.author = User.current
   end

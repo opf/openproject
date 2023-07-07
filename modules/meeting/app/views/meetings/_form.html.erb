@@ -45,7 +45,7 @@ See COPYRIGHT and LICENSE files for more details.
                                     name: 'project_id',
                                     value: @project,
                                     appendTo: 'body',
-                                    hiddenFieldAction: 'change->refresh-on-form-changes#triggerTurboReload',
+                                    hiddenFieldAction: 'change->refresh-on-form-changes#triggerTurboStream',
                                   },
                                   id: 'project_id',
                                   class: 'form--select-container -wide remote-field--input',
@@ -108,8 +108,7 @@ See COPYRIGHT and LICENSE files for more details.
     </div>
   </div>
 
-  <%= turbo_frame_tag "participants_section", **participants_section_attributes do %>
-  <% end %>
+  <%= render partial: 'meetings/participants_section' %>
 
   <%= hidden_field_tag "copied_from_meeting_id", params[:copied_from_meeting_id] if params[:copied_from_meeting_id].present? %>
   <%= hidden_field_tag "copied_meeting_agenda_text", params[:copied_meeting_agenda_text] if params[:copied_meeting_agenda_text].present? %>

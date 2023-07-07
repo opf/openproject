@@ -74,9 +74,5 @@ OpenProject::Application.routes.draw do
             :via => :get,
             :as => 'tab'
     end
-
-    collection do
-      get :participants_section
-    end
   end
 end

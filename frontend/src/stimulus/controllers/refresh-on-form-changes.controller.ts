@@ -29,34 +29,34 @@
  */
 
 import { ApplicationController } from 'stimulus-use';
-import { FrameElement } from '@hotwired/turbo';
+import { renderStreamMessage } from '@hotwired/turbo';
 
 export default class RefreshOnFormChangesController extends ApplicationController {
   static targets = [
     'form',
-    'turboFrame',
   ];
 
   static values = {
     refreshUrl: String,
-    turboRefreshUrl: String,
+    turboStreamUrl: String,
   };
 
   declare readonly formTarget:HTMLFormElement;
-  declare readonly turboFrameTarget:FrameElement;
-  declare readonly hasTurboFrameTarget:boolean;
 
   declare refreshUrlValue:string;
-  declare turboRefreshUrlValue:string;
+  declare turboStreamUrlValue:string;
 
   triggerReload():void {
     window.location.href = `${this.refreshUrlValue}?${this.getSerializedFormData()}`;
   }
 
-  triggerTurboReload():void {
-    if (this.hasTurboFrameTarget) {
-      this.turboFrameTarget.src = `${this.turboRefreshUrlValue}?${this.getSerializedFormData()}`;
-    }
+  async triggerTurboStream():Promise<void> {
+    await fetch(`${this.turboStreamUrlValue}?${this.getSerializedFormData()}`, {
+      headers: {
+        Accept: 'text/vnd.turbo-stream.html',
+      },
+    }).then((r) => r.text())
+      .then((html) => renderStreamMessage(html));
   }
 
   private getSerializedFormData():string {

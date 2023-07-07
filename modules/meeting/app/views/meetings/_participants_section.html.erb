@@ -26,7 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= turbo_frame_tag "participants_section" do %>
+
+<div id="participants-section">
   <% if @project %>
     <div class="form--field">
       <label class="form--label"><%=Meeting.human_attribute_name(:participants) %></label>
@@ -71,4 +72,4 @@ See COPYRIGHT and LICENSE files for more details.
       </div>
     </div>
   <% end %>
-<% end %>
+</div>

@@ -57,7 +57,7 @@ RSpec.describe 'Meetings new', :js do
     login_as current_user
   end
 
-  context 'with permission to create meetings', with_cuprite: false do
+  context 'when creating a meeting from the global page' do
     before do
       other_user
       project
@@ -73,7 +73,7 @@ RSpec.describe 'Meetings new', :js do
       ['CET', 'UTC', '', 'Pacific Time (US & Canada)'].each do |zone|
         let(:time_zone) { zone }
 
-        it "allows creating a project and handles errors in time zone #{zone}" do
+        it "allows creating a project and handles errors in time zone #{zone}", with_cuprite: false do
           index_page.visit!
 
           new_page = index_page.click_create_new
@@ -110,11 +110,10 @@ RSpec.describe 'Meetings new', :js do
     context 'as an admin' do
       let(:current_user) { admin }
 
-      it 'allows creating meeting in a project without members' do
+      it 'allows creating meeting in a project without members', with_cuprite: false do
         index_page.visit!
 
         new_page = index_page.click_create_new
-
         new_page.set_title 'Some title'
 
         new_page.set_project project
@@ -140,7 +139,7 @@ RSpec.describe 'Meetings new', :js do
       ['CET', 'UTC', '', 'Pacific Time (US & Canada)'].each do |zone|
         let(:time_zone) { zone }
 
-        it "allows creating a project and handles errors in time zone #{zone}" do
+        it "allows creating a project and handles errors in time zone #{zone}", with_cuprite: false do
           index_page.visit!
 
           new_page = index_page.click_create_new
