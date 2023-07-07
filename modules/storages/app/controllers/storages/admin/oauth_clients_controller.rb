@@ -61,12 +61,8 @@ class Storages::Admin::OAuthClientsController < ApplicationController
     @oauth_client = service_result.result
     if service_result.success?
       flash[:notice] = I18n.t(:notice_successful_create)
-      if OpenProject::FeatureDecisions.automatically_managed_project_folders_active?
-        if @storage.automatic_management_unspecified?
-          redirect_to new_admin_settings_storage_automatically_managed_project_folders_path(@storage)
-        else
-          redirect_to admin_settings_storage_path(@storage)
-        end
+      if OpenProject::FeatureDecisions.automatically_managed_project_folders_active? && @storage.automatic_management_unspecified?
+        redirect_to new_admin_settings_storage_automatically_managed_project_folders_path(@storage)
       else
         redirect_to admin_settings_storage_path(@storage)
       end
