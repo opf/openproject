@@ -66,7 +66,7 @@ module Storages::Storages
     private
 
     def nextcloud_provider_automatically_managed?
-      return false unless @model.provider_type_nextcloud? && @model.is_a?(Storages::NextcloudStorage)
+      return false unless @model.is_a?(Storages::NextcloudStorage)
 
       @model.automatically_managed?
     end

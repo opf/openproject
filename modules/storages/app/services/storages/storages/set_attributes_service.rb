@@ -78,7 +78,7 @@ module Storages::Storages
     end
 
     def nextcloud_storage?
-      storage.provider_type_nextcloud? && storage.is_a?(Storages::NextcloudStorage)
+      storage.is_a?(Storages::NextcloudStorage)
     end
   end
 end
