@@ -126,6 +126,15 @@ Redmine::MenuManager.map :global_menu do |menu|
   menu.push :home,
             { controller: '/homescreen', action: 'index' },
             icon: 'home'
+  # Work packages
+  menu.push :work_packages,
+            { controller: '/work_packages', action: 'index' },
+            icon: 'view-timeline'
+
+  menu.push :work_packages_query_select,
+            { controller: '/work_packages', action: 'index' },
+            parent: :work_packages,
+            partial: 'work_packages/menu_query_select'
 end
 
 Redmine::MenuManager.map :global_work_packages_menu do |menu|
