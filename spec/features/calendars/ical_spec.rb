@@ -29,29 +29,50 @@
 require 'spec_helper'
 
 RSpec.describe 'iCal functionality', js: true, selenium: true do
-  # let(:user) { create(:admin) }
-  # let(:project) { create(:project) }
-  # let(:work_package) do
-  #   build(:work_package,
-  #         project:,
-  #         assigned_to: user,
-  #         responsible: user)
-  # end
+  # steps to do:
+  # 1) With setting not enabled, go to calendar page and see that it cannot be shared
+  # 2) Go to the settings page, enable the setting
+  # 3) Go back to to the calendar page and see that it can be shared now
 
-  # before do
-  #   login_as(user)
-  #   work_package.save!
-  # end
+  shared_let(:project) { create(:project) }
+  shared_let(:user) do
+    create(:admin,
+           member_in_project: project,
+           member_with_permissions: %i[view_work_packages view_calendar manage_calendars])
+  end
 
-  # it 'all different angular based work package views', js: true do
-  #   wp_page = Pages::FullWorkPackage.new(work_package)
+  before do
+    login_as(user)
+  end
 
-  #   wp_page.visit!
+  it "doesn't let a user share calendars without the setting being enabled" do
+    visit project_path(project)
 
-  #   wp_page.expect_attributes type: work_package.type.name.upcase,
-  #                             status: work_package.status.name,
-  #                             priority: work_package.priority.name,
-  #                             assignee: work_package.assigned_to.name,
-  #                             responsible: work_package.responsible.name
-  # end
+    within '#main-menu' do
+      click_link 'Calendars'
+    end
+
+    click_link "Create new calendar"
+
+    expect(page).to have_selector("#work-packages-settings-button")
+
+    page.find_by_id('work-packages-settings-button').click
+
+    within "#settingsDropdown" do
+      expect(page).to have_selector(".menu-item.inactive", text: "Subscribe to iCalendar")
+      page.click_button("Subscribe to iCalendar")
+
+      expect(page).not_to have_selector('.spot-modal--header', text: "Subscribe to iCalendar")
+    end
+  end
+
+  it 'navigates to iCal settings and enables the setting' do
+    click_link 'OpenProject'
+    click_link 'Administration'
+    click_link 'Calendars and dates'
+    click_link 'iCalendar'
+
+    binding.pry
+  end
+
 end
