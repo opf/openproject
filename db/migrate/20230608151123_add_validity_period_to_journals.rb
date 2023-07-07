@@ -11,7 +11,9 @@ class AddValidityPeriodToJournals < ActiveRecord::Migration[7.0]
       end
     end
 
-    change_column_null :journals, :validity_period, false
+    add_check_constraint :journals,
+                         'NOT isempty(validity_period) AND validity_period IS NOT NULL',
+                         name: "journals_validity_period_not_empty"
   end
 
   def fix_all_journal_timestamps
