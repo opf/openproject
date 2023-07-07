@@ -24,7 +24,7 @@ OpenProject 6.1.1 contains several bug fixes and improvements.
         ([#24265](https://community.openproject.com/work_packages/24265/activity)).
       - Textile \<pre\> and @ did not prevent code execution in the work
         package description.
-      - The “Spent time” link on the work package list caused an error
+      - The “Spent time” link on the work package table caused an error
         404 in subfolder installations
         ([#24427](https://community.openproject.com/projects/openproject/work_packages/24427/activity)).
       - Line breaks were not displayed in the work package description
@@ -68,5 +68,4 @@ or take a look at
 
 You can try OpenProject for free. For a free 30 day trial create your
 OpenProject instance on [OpenProject.org](https://openproject.org/).
-
 

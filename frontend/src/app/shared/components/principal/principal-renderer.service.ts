@@ -25,10 +25,11 @@ export interface NameOptions {
 
 @Injectable({ providedIn: 'root' })
 export class PrincipalRendererService {
-  constructor(private pathHelper:PathHelperService,
+  constructor(
+    private pathHelper:PathHelperService,
     private apiV3Service:ApiV3Service,
-    private colors:ColorsService) {
-
+    private colors:ColorsService,
+  ) {
   }
 
   renderMultiple(

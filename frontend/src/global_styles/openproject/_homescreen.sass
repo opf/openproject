@@ -48,25 +48,27 @@
   align-items: center
   justify-content: center
 
+  .icon-context:before
+    padding-right: 0
+
   .homescreen--links--item
     flex: 1
-    display: grid
-    grid-template: "icon" "label" / auto
-    grid-row-gap: $spot-spacing-0_5
+    display: block
+    text-align: center
     color: var(--content-icon-link-color)
 
-    &_icon
-      grid-area: icon
-      font-size: 4rem
-
-    &_label
-      grid-area: label
-      margin: auto
+    i::before
+      display: block
+      margin-bottom: 10px
+      font-size: 3rem
+      color: var(--content-icon-link-color)
 
     &:hover,
     &:hover span
       text-decoration: none
       color: var(--content-link-color)
+      i::before
+        color: var(--content-link-color)
 
 
 @include breakpoint(680px down)

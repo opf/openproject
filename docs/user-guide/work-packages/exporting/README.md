@@ -14,7 +14,7 @@ You can export work packages from your OpenProject instance to other formats usi
 
 ## How to trigger an export
 
-To export a work package list or card view to another format, visit the *Work packages* module or a saved view and click on the settings icon in the top right. Trigger the **Export** dialog from the dropdown menu that opens.
+To export a work package table or card view to another format, visit the *Work packages* module or a saved view and click on the settings icon in the top right. Trigger the **Export** dialog from the dropdown menu that opens.
 
 ![Exporting from the table](export-gantt-chart.png)
 
@@ -28,7 +28,7 @@ This will open a dialog similar to the following screenshot, where you can selec
 
 ## Changing what will be exported
 
-From the work packages module, all work packages that are included in the filter list will be exported. Up to a total of 500 work packages can be exported at once.
+From the work packages module, all work packages that are included in the filter table will be exported. Up to a total of 500 work packages can be exported at once.
 
 > **Note**: If you need to export more than 500 items, filter the work packages appropriately to export multiple files.
 
@@ -49,7 +49,7 @@ OpenProject has multiple options of exporting the results to PDF:
 
 
 
-- **PDF** export of the work package list as rows.
+- **PDF** export of the work package table, listing work packages as rows.
 - **PDF with descriptions** same as above with work package descriptions output. Note that this does not include a fully rendered markdown description, but a stripped version of it due to technical limitations of the PDF rendering engine.
 - **PDF with attachments** of work packages with their attachments inlined to fit as best as possible.
 - **PDF with descriptions and attachments** The above options combined to create a PDF export with work package descriptions and their attachments.

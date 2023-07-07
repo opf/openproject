@@ -46,6 +46,25 @@ module OpenProject::Storages
       OpenProject::FeatureDecisions.add :managed_project_folders
     end
 
+    initializer 'openproject_storages.event_subscriptions' do
+      Rails.application.config.after_initialize do
+        if OpenProject::FeatureDecisions.managed_project_folders_active?
+          [
+            OpenProject::Events::MEMBER_CREATED,
+            OpenProject::Events::MEMBER_UPDATED,
+            OpenProject::Events::MEMBER_DESTROYED,
+            OpenProject::Events::PROJECT_CREATED,
+            OpenProject::Events::PROJECT_UPDATED,
+            OpenProject::Events::PROJECT_RENAMED
+          ].each do |event|
+            OpenProject::Notifications.subscribe(event) do |_payload|
+              ::Storages::ManageNextcloudIntegrationEventsJob.debounce
+            end
+          end
+        end
+      end
+    end
+
     # For documentation see the definition of register in "ActsAsOpEngine"
     # This corresponds to the openproject-storage.gemspec
     # Pass a block to the plugin (for defining permissions, menu items and the like)
@@ -230,7 +249,7 @@ module OpenProject::Storages
         Storages::CleanupUncontaineredFileLinksJob
       ].tap do |cron_jobs|
         if OpenProject::FeatureDecisions.managed_project_folders_active?
-          cron_jobs << Storages::ManageNextcloudIntegrationJob
+          cron_jobs << Storages::ManageNextcloudIntegrationCronJob
         end
       end
     end

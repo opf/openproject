@@ -792,6 +792,15 @@ en:
     time_entry:
       work_package_required: 'Requires selecting a work package first.'
       title: 'Log time'
+      tracking: 'Time tracking'
+      stop: 'Stop'
+
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
 
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'

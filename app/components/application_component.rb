@@ -55,7 +55,7 @@ class ApplicationComponent < ViewComponent::Base
 
       names.each do |name|
         define_method(name) do
-          options[name] || default_values[name]
+          options.has_key?(name) ? options[name] : default_values[name]
         end
       end
     end

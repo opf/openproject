@@ -41,3 +41,6 @@ ${CLI} config:unset SMTP_PORT
 ${CLI} config:unset SMTP_USERNAME
 ${CLI} config:unset SMTP_PASSWORD
 ${CLI} config:unset SMTP_DOMAIN
+
+# Same for default language
+${CLI} config:unset OPENPROJECT_DEFAULT_LANGUAGE

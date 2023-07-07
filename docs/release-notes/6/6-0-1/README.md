@@ -52,7 +52,7 @@ automatically.
     back to previous value)
     ([#23696](https://community.openproject.com/work_packages/23696/activity)).
   - Grouped versions from other projects (inherited) in work package
-    list were not displayed correctly
+    table were not displayed correctly
     ([#23697](https://community.openproject.com/work_packages/23697/activity)).
   - Work package export (XLS, PDF, CSV) ignored filters, sorting and
     grouping
@@ -60,7 +60,7 @@ automatically.
   - Collapsing groups in work package page did not collapse related rows
     ([#23718](https://community.openproject.com/work_packages/23718/activity)).
   - Inherited versions were lost when making changes in the work package
-    list
+    table
     ([#23719](https://community.openproject.com/work_packages/23719/activity)).
   - Custom fields were not displayed in queries
     ([#23725](https://community.openproject.com/work_packages/23725/activity)).
@@ -88,5 +88,4 @@ or take a look at
 
 For a free 30 day trial create your own OpenProject instance on
 [OpenProject.org](https://openproject.org/).
-
 

@@ -36,6 +36,21 @@ class Storages::NextcloudStorage < Storages::Storage
 
   alias_method :has_managed_project_folders?, :has_managed_project_folders
 
+  def self.sync_all_group_folders
+    # Returns false if lock cannot be acquired, block is not executed then.
+    OpenProject::Mutex.with_advisory_lock(self,
+                                          'sync_all_group_folders',
+                                          timeout_seconds: 0,
+                                          transaction: false) do
+      where("provider_fields->>'has_managed_project_folders' = 'true'")
+        .includes(:oauth_client)
+        .each do |storage|
+        Storages::GroupFolderPropertiesSyncService.new(storage).call
+      end
+      true
+    end
+  end
+
   def group
     super || "OpenProject"
   end

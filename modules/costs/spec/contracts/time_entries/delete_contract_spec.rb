@@ -47,6 +47,7 @@ RSpec.describe TimeEntries::DeleteContract do
   let(:time_entry_activity) { build_stubbed(:time_entry_activity) }
   let(:time_entry_spent_on) { Date.today }
   let(:time_entry_hours) { 5 }
+  let(:time_entry_ongoing) { false }
   let(:time_entry_comments) { "A comment" }
   let(:work_package_visible) { true }
   let(:permissions) { %i[edit_time_entries] }
@@ -56,6 +57,7 @@ RSpec.describe TimeEntries::DeleteContract do
                   project: time_entry_project,
                   work_package: time_entry_work_package,
                   user: time_entry_user,
+                  ongoing: time_entry_ongoing,
                   activity: time_entry_activity,
                   spent_on: time_entry_spent_on,
                   hours: time_entry_hours,
@@ -89,6 +91,22 @@ RSpec.describe TimeEntries::DeleteContract do
 
   context 'when user is not allowed to delete time entries' do
     let(:permissions) { [] }
+
+    it 'is invalid' do
+      expect_valid(false, base: %i(error_unauthorized))
+    end
+  end
+
+  context 'when time entry ongoing and user as log_time permission' do
+    let(:time_entry_ongoing) { true }
+    let(:permissions) { %i[log_own_time] }
+
+    it_behaves_like 'is valid'
+  end
+
+  context 'when time entry not ongoing and user as log_time permission' do
+    let(:time_entry_ongoing) { false }
+    let(:permissions) { %i[log_own_time] }
 
     it 'is invalid' do
       expect_valid(false, base: %i(error_unauthorized))

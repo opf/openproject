@@ -71,7 +71,7 @@ RSpec.describe Attachments::DeleteService, 'integration', with_settings: { journ
         before do
           # Force to have a journal for the attachment
           attachment
-          container.add_journal(user)
+          container.add_journal(user:)
           container.save!
 
           call
@@ -86,7 +86,7 @@ RSpec.describe Attachments::DeleteService, 'integration', with_settings: { journ
         before do
           # Force to have a journal for the attachment
           attachment
-          container.add_journal(user, 'Some notes')
+          container.add_journal(user:, notes: 'Some notes')
           container.save!
 
           # have an invalid work package

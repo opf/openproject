@@ -45,6 +45,7 @@ module API
             after_validation do
               @time_entry = TimeEntry
                             .visible
+                            .or(TimeEntry.where(id: TimeEntry.visible_ongoing.select(:id)))
                             .find(params[:id])
             end
 

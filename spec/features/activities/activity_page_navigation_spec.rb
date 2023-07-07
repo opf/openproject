@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Activity page navigation' do
+RSpec.describe 'Activity page navigation', js: true do
   include ActiveSupport::Testing::TimeHelpers
 
   shared_let(:project) { create(:project, enabled_module_names: Setting.default_projects_modules + ['activity']) }
@@ -42,12 +42,14 @@ RSpec.describe 'Activity page navigation' do
   end
   shared_let(:project_work_package) { create(:work_package, project:, subject: 'Work package for parent project') }
   shared_let(:subproject_work_package) { create(:work_package, project: subproject, subject: 'Work package for subproject') }
+
   shared_let(:project_older_work_package) do
     travel_to 45.days.ago
     create(:work_package, project:, subject: 'Work package older for parent project')
   ensure
     travel_back
   end
+
   shared_let(:subproject_older_work_package) do
     travel_to 45.days.ago
     create(:work_package, project: subproject, subject: 'Work package older for subproject')
