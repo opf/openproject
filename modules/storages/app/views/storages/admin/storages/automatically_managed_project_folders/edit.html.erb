@@ -51,12 +51,15 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
 
     <div class="form--field-container -horizontal">
-      <label class="form--label -flex" data-storages--automatically-managed-project-folders-form-target="automaticallyManagedSwitch">
+      <label class="form--label -flex">
         <%= angular_component_tag 'spot-switch',
                                   inputs: {
                                     id: "storages_#{@storage.short_provider_type}_storage_automatically_managed",
                                     name: "storages_#{@storage.short_provider_type}_storage[automatically_managed]",
                                     checked: @storage.automatically_managed?,
+                                  },
+                                  data: {
+                                    action: 'change->storages--automatically-managed-project-folders-form#updateDisplay',
                                   }
         %>
       </label>
