@@ -39,11 +39,8 @@ module Components
     ##
     # Clear all values
     def clear!
-      focus_start_date
-      fill_in 'startDate', with: '', fill_options: { clear: :backspace }
-
-      focus_due_date
-      fill_in 'endDate', with: '', fill_options: { clear: :backspace }
+      set_field(container.find_field('startDate'), '', wait_for_changes_to_be_applied: false)
+      set_field(container.find_field('endDate'), '', wait_for_changes_to_be_applied: false)
     end
 
     def expect_visible
@@ -179,6 +176,27 @@ module Components
       label = date.strftime('%B %-d, %Y')
       expect(page).to have_selector(".flatpickr-day:not(.flatpickr-disabled)[aria-label='#{label}']",
                                     wait: 20)
+    end
+
+    protected
+
+    def focus_field(field)
+      field.click
+    end
+
+    def set_field(field, value, wait_for_changes_to_be_applied: true)
+      focus_field(field)
+      if using_cuprite?
+        clear_input_field_contents(field)
+        field.fill_in(with: value)
+      else
+        field.fill_in(with: value, fill_options: { clear: :backspace })
+      end
+
+      if wait_for_changes_to_be_applied
+        sleep 0.75 # input debounce
+        wait_for_network_idle if using_cuprite?
+      end
     end
   end
 end
