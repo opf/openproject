@@ -322,7 +322,6 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
       storage = create(:nextcloud_storage,
                        :as_automatically_managed,
                        host: 'https://example.com',
-                       has_managed_project_folders: true,
                        password: '12345678')
       projects_storage1 = create(:project_storage,
                                  project_folder_mode: 'automatic',
