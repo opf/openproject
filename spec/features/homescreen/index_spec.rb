@@ -28,11 +28,22 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Homescreen index' do
+RSpec.describe 'Homescreen', 'index', :with_cuprite do
   let(:admin) { create(:admin) }
   let(:user) { build_stubbed(:user) }
   let!(:project) { create(:public_project, identifier: 'public-project') }
   let(:general_settings_page) { Pages::Admin::SystemSettings::General.new }
+
+  it 'is reachable by the global menu' do
+    login_as user
+    visit root_url
+
+    within '#main-menu' do
+      click_on 'Home'
+    end
+
+    expect(page).to have_current_path(home_path)
+  end
 
   context 'with a dynamic URL in the welcome text' do
     before do
@@ -50,7 +61,7 @@ RSpec.describe 'Homescreen index' do
       expect(page).to have_current_path project_path(project)
     end
 
-    it 'can change the welcome text and still have a valid link', js: true, with_cuprite: true do
+    it 'can change the welcome text and still have a valid link', js: true do
       login_as admin
 
       general_settings_page.visit!
