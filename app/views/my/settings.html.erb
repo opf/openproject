@@ -42,4 +42,18 @@ See COPYRIGHT and LICENSE files for more details.
   </fieldset>
   <%= call_hook(:view_my_settings, user: @user, form: f) %>
   <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+
+  <!-- Todo -->
+  <%= render(Primer::Beta::Button.new(scheme: :primary)) do |_c|
+    "I am a Primer PRIMARY button with OP's theme"
+  end %>
+
+  <%= render(Primer::Beta::Button.new(scheme: :secondary)) do |_c|
+    "I am a Primer SECONDARY button with OP's theme"
+  end %>
+
+  <% require 'octicons'%>
+  <%= Octicons::Octicon.new("openproject").to_svg  %>
+  <%= render(Primer::IconButton.new(icon: :pencil, box: true, "aria-label": "Edit")) %>
+
 <% end %>

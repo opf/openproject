@@ -353,4 +353,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "primer_view_components", "~> 0.1.9"
+# Todo
+gem "primer_view_components", git: 'https://github.com/opf/primer_view_components'
+gem 'opticons', '19.4.0', git: 'https://github.com/opf/openproject-octicons.git'
