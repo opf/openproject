@@ -18,10 +18,10 @@ properties:
                 
                 **Resource**: User
 
-examples:
-  - name: Emperor's guard
-    _links:
-      members:
-        - href: 'api/v3/users/42'
-        - href: 'api/v3/users/43'
-        - href: 'api/v3/users/44'
+example:
+  name: Emperor's guard
+  _links:
+    members:
+      - href: '/api/v3/users/42'
+      - href: '/api/v3/users/43'
+      - href: '/api/v3/users/44'
