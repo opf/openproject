@@ -228,6 +228,9 @@ group :test do
   gem 'retriable', '~> 3.1.1'
   gem 'rspec-retry', '~> 0.6.1'
 
+  # Wait for conditions in RSpec
+  gem 'rspec-wait'
+
   # Modify ENV
   gem 'climate_control'
 
