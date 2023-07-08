@@ -47,13 +47,5 @@ module Layout
         :global_menu
       end
     end
-
-    def project_or_global_activity_menu
-      if @project
-        :project_menu
-      else
-        :global_activities_menu
-      end
-    end
   end
 end

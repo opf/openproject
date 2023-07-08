@@ -126,6 +126,17 @@ Redmine::MenuManager.map :global_menu do |menu|
   menu.push :home,
             { controller: '/homescreen', action: 'index' },
             icon: 'home'
+
+  # Activity
+  menu.push :activity,
+            { controller: '/activities', action: 'index' },
+            icon: 'checkmark'
+
+  menu.push :activity_filters,
+            { controller: '/activities', action: 'index' },
+            parent: :activity,
+            partial: 'activities/filters_menu'
+
   # Work packages
   menu.push :work_packages,
             { controller: '/work_packages', action: 'index' },

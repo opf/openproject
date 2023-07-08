@@ -105,7 +105,7 @@ class ActivitiesController < ApplicationController
   end
 
   def respond_html
-    render locals: { menu_name: project_or_global_activity_menu }
+    render locals: { menu_name: project_or_global_menu }
   end
 
   def respond_atom
