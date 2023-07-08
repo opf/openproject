@@ -58,7 +58,7 @@ module WorkPackages::Scopes::IncludeSpentTime
     end
 
     def allowed_to_view_time_entries(user)
-      time_entries_table[:id].in(TimeEntry.visible(user).select(:id).arel)
+      time_entries_table[:id].in(TimeEntry.not_ongoing.visible(user).select(:id).arel)
     end
 
     def wp_table

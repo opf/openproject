@@ -30,8 +30,10 @@ The package is available for the following Linux distributions:
 |---------------------------------------------|
 | [Ubuntu 22.04 Jammy](#ubuntu-2204)          |
 | [Ubuntu 20.04 Focal](#ubuntu-2004)          |
+| [Debian 12 Bookworm](#debian-12)            |
 | [Debian 11 Bullseye](#debian-11)            |
 | [Debian 10 Buster](#debian-10)              |
+| [CentOS/RHEL 9.x](#centos-9--rhel-9)        |
 | [CentOS/RHEL 8.x](#centos-8--rhel-8)        |
 | [CentOS/RHEL 7.x](#centos-7--rhel-7)        |
 | [Suse Linux Enterprise Server 15](#sles-15) |
@@ -114,7 +116,39 @@ Then finish the installation by reading the [*Initial configuration*](#initial-c
 
 ## Debian Installation
 
-### Debian 11 "bullseye"
+### Debian 12
+
+As root update the `apt` package index and install packages to allow `apt` to use a repository over HTTPS:
+
+```bash
+su -
+apt update
+apt install apt-transport-https ca-certificates wget
+```
+
+Import the PGP key used to sign our packages:
+
+```bash
+wget -qO- https://dl.packager.io/srv/opf/openproject/key | gpg --dearmor > /etc/apt/trusted.gpg.d/packager-io.gpg
+```
+
+Add the OpenProject package source:
+
+```bash
+wget -O /etc/apt/sources.list.d/openproject.list \
+  https://dl.packager.io/srv/opf/openproject/stable/12/installer/debian/12.repo
+```
+
+Download the OpenProject package:
+
+```bash
+apt update
+apt install openproject
+```
+
+Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
+
+### Debian 11
 
 As root update the `apt` package index and install packages to allow `apt` to use a repository over HTTPS:
 
@@ -178,6 +212,32 @@ sudo apt-get install openproject
 Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
 
 ## CentOS Installation
+
+### CentOS 9 / RHEL 9
+
+Add the OpenProject package source:
+
+```bash
+sudo wget -O /etc/yum.repos.d/openproject.repo \
+  https://dl.packager.io/srv/opf/openproject/stable/12/installer/el/9.repo
+```
+
+If it is not already enabled, make sure to enable [Extra Packages for Enterprise Linux](https://fedoraproject.org/wiki/EPEL) (EPEL).
+
+```bash
+sudo dnf install -y epel-release
+```
+
+Download the OpenProject package:
+
+```bash
+sudo yum install openproject
+```
+
+Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
+
+> **Note:** On this distribution full-text extraction for attachments [*is not supported*](#full-text-extraction-not-supported) by default.
+>
 
 ### CentOS 8 / RHEL 8
 

@@ -132,7 +132,7 @@ export class TimezoneService {
   }
 
   public toISODuration(input:string|number, unit:'hours'|'days'):string {
-    return moment.duration(input, unit).toIsoString();
+    return moment.duration(input, unit).toISOString();
   }
 
   public formattedDuration(durationString:string, unit:'hour'|'days' = 'hour'):string {

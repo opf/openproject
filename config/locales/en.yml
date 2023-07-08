@@ -594,6 +594,7 @@ en:
         hours: "Hours"
         spent_on: "Date"
         type: "Type"
+        ongoing: "Ongoing"
       type:
         description: "Default text for description"
         attribute_groups: ''

@@ -91,7 +91,7 @@ gem 'escape_utils', '~> 1.3'
 # Syntax highlighting used in html-pipeline with rouge
 gem 'rouge', '~> 4.1.0'
 # HTML sanitization used for html-pipeline
-gem 'sanitize', '~> 6.0.1'
+gem 'sanitize', '~> 6.0.2'
 # HTML autolinking for mails and urls (replaces autolink)
 gem 'rinku', '~> 2.0.4'
 # Version parsing with semver
@@ -230,6 +230,9 @@ group :test do
   # Retry failures within the same environment
   gem 'retriable', '~> 3.1.1'
   gem 'rspec-retry', '~> 0.6.1'
+
+  # Wait for conditions in RSpec
+  gem 'rspec-wait'
 
   # Modify ENV
   gem 'climate_control'

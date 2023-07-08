@@ -95,6 +95,9 @@ Redmine::MenuManager.map :quick_add_menu do |menu|
 end
 
 Redmine::MenuManager.map :account_menu do |menu|
+  menu.push :timers,
+            { controller: '/my/timer', action: 'show' },
+            partial: '/my/timer/menu'
   menu.push :my_page,
             :my_page_path,
             caption: I18n.t('js.my_page.label'),

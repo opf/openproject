@@ -39,7 +39,7 @@ module Costs::Patches::ProjectsControllerPatch
     def own_total_hours
       if User.current.allowed_to?(:view_own_time_entries, @project)
         cond = @project.project_condition(Setting.display_subprojects_work_packages?)
-        @total_hours = TimeEntry.visible.includes(:project).where(cond).sum(:hours).to_f
+        @total_hours = TimeEntry.not_ongoing.visible.includes(:project).where(cond).sum(:hours).to_f
       end
     end
   end
