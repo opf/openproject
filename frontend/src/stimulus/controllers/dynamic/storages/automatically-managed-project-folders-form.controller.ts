@@ -32,7 +32,6 @@ import { Controller } from '@hotwired/stimulus';
 
 export default class AutomaticallyManagedProjectFoldersFormController extends Controller {
   static targets = [
-    'automaticallyManagedSwitch',
     'applicationPasswordInput',
   ];
 
@@ -40,49 +39,29 @@ export default class AutomaticallyManagedProjectFoldersFormController extends Co
     isAutomaticallyManaged: Boolean,
   };
 
-  declare readonly automaticallyManagedSwitchTarget:HTMLElement;
   declare readonly applicationPasswordInputTarget:HTMLElement;
   declare readonly hasApplicationPasswordInputTarget:boolean;
 
   declare isAutomaticallyManagedValue:boolean;
 
-  spotSwitchComponent!:HTMLElement;
-  boundUpdateDisplay!:(evt:InputEvent) => (void | boolean);
-
   connect():void {
     // On first load if isAutomaticallyManaged is true, show the applicationPasswordInput
     this.toggleApplicationPasswordDisplay(this.isAutomaticallyManagedValue);
-
-    // Bind the spotSwitchComponent change event to updateDisplay
-    // The boundUpdateDisplay reference is needed to remove the same event listener in disconnect()
-    this.boundUpdateDisplay = this.updateDisplay.bind(this);
-    this.spotSwitchComponent = this.findSpotSwitchComponent();
-    this.spotSwitchComponent.addEventListener('change', this.boundUpdateDisplay);
   }
 
-  disconnect():void {
-    this.spotSwitchComponent.removeEventListener('change', this.boundUpdateDisplay);
-  }
-
-  updateDisplay(evt:InputEvent):(void | boolean) {
-    // when isAutomaticallyManaged is false, the applicationPasswordInput would have been hidden
-    if (!this.hasApplicationPasswordInputTarget) {
-      return;
-    }
-
+  public updateDisplay(evt:Event):void {
     this.toggleApplicationPasswordDisplay((evt.target as HTMLInputElement).checked);
   }
 
   toggleApplicationPasswordDisplay(displayApplicationPasswordInput:boolean):void {
+    if (!this.hasApplicationPasswordInputTarget) {
+      return;
+    }
+
     if (displayApplicationPasswordInput) {
       this.applicationPasswordInputTarget.style.display = 'flex';
     } else {
       this.applicationPasswordInputTarget.style.display = 'none';
     }
-  }
-
-  findSpotSwitchComponent():HTMLElement {
-    // spot-switch is an Angular template with an input checkbox field as the event target
-    return this.automaticallyManagedSwitchTarget.querySelector('spot-switch') as HTMLElement;
   }
 }
