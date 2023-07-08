@@ -75,12 +75,11 @@ RSpec.describe Storages::NextcloudStorage do
       end
 
       it 'calls GroupFolderPropertiesSyncService for each appropriate storage' do
-        storage1 = create(:nextcloud_storage, automatically_managed: true)
-        storage2 = create(:nextcloud_storage, automatically_managed: false)
+        storage1 = create(:nextcloud_storage, :as_automatically_managed)
+        storage2 = create(:nextcloud_storage, :as_not_automatically_managed)
+
         allow(Storages::GroupFolderPropertiesSyncService).to receive(:new).and_call_original
-        # rubocop:disable RSpec/AnyInstance
-        allow_any_instance_of(Storages::GroupFolderPropertiesSyncService).to receive(:call).and_return(nil)
-        # rubocop:enable RSpec/AnyInstance
+        allow_any_instance_of(Storages::GroupFolderPropertiesSyncService).to receive(:call).and_return(nil) # rubocop:disable RSpec/AnyInstance
 
         expect(subject).to be(true)
         expect(Storages::GroupFolderPropertiesSyncService).to have_received(:new).with(storage1).once
