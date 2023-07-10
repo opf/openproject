@@ -858,6 +858,8 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
   end
 
   describe '#propfind_query' do
+    let(:nextcloud_subpath) { '' }
+    let(:url) { "https://example.com#{nextcloud_subpath}" }
     let(:expected_request_body) do
       <<~XML
         <?xml version="1.0"?>
@@ -877,7 +879,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
           xmlns:oc="http://owncloud.org/ns"
           xmlns:nc="http://nextcloud.org/ns">
           <d:response>
-            <d:href>/remote.php/dav/files/OpenProject/OpenProject/</d:href>
+            <d:href>#{nextcloud_subpath}/remote.php/dav/files/OpenProject/OpenProject/</d:href>
             <d:propstat>
               <d:prop>
                 <oc:fileid>349</oc:fileid>
@@ -886,7 +888,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
             </d:propstat>
           </d:response>
           <d:response>
-            <d:href>/remote.php/dav/files/OpenProject/OpenProject/asd/</d:href>
+            <d:href>#{nextcloud_subpath}/remote.php/dav/files/OpenProject/OpenProject/asd/</d:href>
             <d:propstat>
               <d:prop>
                 <oc:fileid>783</oc:fileid>
@@ -895,7 +897,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
             </d:propstat>
           </d:response>
           <d:response>
-            <d:href>/remote.php/dav/files/OpenProject/OpenProject/Project%231/</d:href>
+            <d:href>#{nextcloud_subpath}/remote.php/dav/files/OpenProject/OpenProject/Project%231/</d:href>
             <d:propstat>
               <d:prop>
                 <oc:fileid>773</oc:fileid>
@@ -904,7 +906,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
             </d:propstat>
           </d:response>
           <d:response>
-            <d:href>/remote.php/dav/files/OpenProject/OpenProject/Project%20%232/</d:href>
+            <d:href>#{nextcloud_subpath}/remote.php/dav/files/OpenProject/OpenProject/Project%20%232/</d:href>
             <d:propstat>
               <d:prop>
                 <oc:fileid>381</oc:fileid>
@@ -913,7 +915,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
             </d:propstat>
           </d:response>
           <d:response>
-            <d:href>/remote.php/dav/files/OpenProject/OpenProject/Project%232/</d:href>
+            <d:href>#{nextcloud_subpath}/remote.php/dav/files/OpenProject/OpenProject/Project%232/</d:href>
             <d:propstat>
               <d:prop>
                 <oc:fileid>398</oc:fileid>
@@ -922,7 +924,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
             </d:propstat>
           </d:response>
           <d:response>
-            <d:href>/remote.php/dav/files/OpenProject/OpenProject/qwe/</d:href>
+            <d:href>#{nextcloud_subpath}/remote.php/dav/files/OpenProject/OpenProject/qwe/</d:href>
             <d:propstat>
               <d:prop>
                 <oc:fileid>767</oc:fileid>
@@ -931,7 +933,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
             </d:propstat>
           </d:response>
           <d:response>
-            <d:href>/remote.php/dav/files/OpenProject/OpenProject/qweekk/</d:href>
+            <d:href>#{nextcloud_subpath}/remote.php/dav/files/OpenProject/OpenProject/qweekk/</d:href>
             <d:propstat>
               <d:prop>
                 <oc:fileid>802</oc:fileid>
@@ -944,7 +946,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
     end
 
     before do
-      stub_request(:propfind, "https://example.com/remote.php/dav/files/OpenProject/OpenProject").with(
+      stub_request(:propfind, "#{url}/remote.php/dav/files/OpenProject/OpenProject").with(
         body: expected_request_body,
         headers: {
           'Authorization' => 'Basic T3BlblByb2plY3Q6T3BlblByb2plY3RTZWN1cmVQYXNzd29yZA==',
@@ -953,7 +955,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
       ).to_return(status: 200, body: expected_response_body, headers: {})
     end
 
-    describe 'with Nextcloud storage type selected' do
+    shared_examples 'a propfind_query response' do
       it 'responds with a list of paths and attributes for each of them' do
         result = subject
                    .propfind_query
@@ -967,6 +969,14 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
                                "OpenProject/qwe/" => { "fileid" => "767" },
                                "OpenProject/qweekk/" => { "fileid" => "802" } })
       end
+    end
+
+    it_behaves_like 'a propfind_query response'
+
+    context 'when NC is deployed under subpath' do
+      let(:nexcloud_subpath) { '/subpath' }
+
+      it_behaves_like 'a propfind_query response'
     end
   end
 
