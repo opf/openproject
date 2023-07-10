@@ -35,8 +35,8 @@ class Storages::NextcloudStorage < Storages::Storage
   store_attribute :provider_fields, :automatically_managed, :boolean
   store_attribute :provider_fields, :username, :string
   store_attribute :provider_fields, :password, :string
-  store_attribute :provider_fields, :group, :string, default: PROVIDER_FIELDS_DEFAULTS[:username]
-  store_attribute :provider_fields, :group_folder, :string, default: PROVIDER_FIELDS_DEFAULTS[:username]
+  store_attribute :provider_fields, :group, :string
+  store_attribute :provider_fields, :group_folder, :string
 
   def self.sync_all_group_folders
     # Returns false if lock cannot be acquired, block is not executed then.
@@ -55,6 +55,12 @@ class Storages::NextcloudStorage < Storages::Storage
 
   def automatic_management_unspecified?
     automatically_managed.nil?
+  end
+
+  %i[group group_folder].each do |attribute_method|
+    define_method(attribute_method) do
+      super().presence || PROVIDER_FIELDS_DEFAULTS[:username]
+    end
   end
 
   def provider_fields_defaults

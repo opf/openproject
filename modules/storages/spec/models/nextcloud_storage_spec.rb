@@ -32,11 +32,16 @@ RSpec.describe Storages::NextcloudStorage do
   let(:storage) { build(:nextcloud_storage) }
 
   shared_examples 'a stored attribute with default value' do |attribute, default_value|
-    it "has a default value of #{default_value}" do
-      expect(storage.public_send(attribute)).to eq(default_value)
+    context "when the provider fields are empty" do
+      let(:storage) { build(:nextcloud_storage, provider_fields: {}) }
+
+      it "has a default runtime value of #{default_value}" do
+        expect(storage.provider_fields).to eq({})
+        expect(storage.public_send(attribute)).to eq(default_value)
+      end
     end
 
-    context "with a value of 'foo'" do
+    context "with a new value of 'foo'" do
       it "sets the value to 'foo'" do
         storage.public_send("#{attribute}=", 'foo')
         expect(storage.public_send(attribute)).to eq('foo')
