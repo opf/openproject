@@ -112,4 +112,18 @@ RSpec.describe Storages::Storage do
       expect(Storages::FileLink.count).to be 0
     end
   end
+
+  describe '#provider_type_nextcloud?' do
+    context 'when provider_type is nextcloud' do
+      let(:storage) { build(:storage) }
+
+      it { expect(storage).to be_a_provider_type_nextcloud }
+    end
+
+    context 'when provider_type is not nextcloud' do
+      let(:storage) { build(:storage, provider_type: 'Storages::DropboxStorage') }
+
+      it { expect(storage).not_to be_a_provider_type_nextcloud }
+    end
+  end
 end

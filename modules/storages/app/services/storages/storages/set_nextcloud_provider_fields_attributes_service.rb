@@ -26,28 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_module_spec_helper
-require 'contracts/shared/model_contract_shared_context'
-require_relative 'shared_contract_examples'
-
-RSpec.describe Storages::Storages::UpdateContract do
-  include_context 'ModelContract shared context'
-
-  it_behaves_like 'storage contract' do
-    let(:storage) do
-      build_stubbed(:nextcloud_storage,
-                    creator: storage_creator,
-                    host: storage_host,
-                    name: storage_name,
-                    provider_type: storage_provider_type)
+# Used by Storages::ManagedProjectFoldersController#new to set the default values for the provider fields
+# when creating a new storage for the first time. These attributes are only for building the view and are not enforced
+# by the model.
+module Storages::Storages
+  class SetNextcloudProviderFieldsAttributesService < ::BaseServices::SetAttributes
+    def set_default_provider_fields(_params)
+      if storage.automatic_management_unspecified?
+        storage.automatically_managed = storage.provider_fields_defaults[:automatically_managed]
+      end
     end
-    let(:contract) { described_class.new(storage, current_user) }
 
-    context 'when current user is not the initial storage creator' do
-      let(:storage_creator) { build_stubbed(:user) }
+    private
 
-      include_examples 'contract is valid'
+    def set_attributes(params)
+      super(params)
+      set_default_provider_fields(params)
+    end
+
+    def storage
+      model
     end
   end
 end

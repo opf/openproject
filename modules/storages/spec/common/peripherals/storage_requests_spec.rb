@@ -34,7 +34,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
   let(:user) { create(:user) }
   let(:url) { 'https://example.com' }
   let(:origin_user_id) { 'admin' }
-  let(:storage) { build(:storage, host: url, password: 'OpenProjectSecurePassword') }
+  let(:storage) { build(:nextcloud_storage, :as_automatically_managed, host: url, password: 'OpenProjectSecurePassword') }
 
   subject { described_class.new(storage:) }
 
