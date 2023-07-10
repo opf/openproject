@@ -17,7 +17,8 @@ class AddValidityPeriodToJournals < ActiveRecord::Migration[7.0]
   end
 
   def fix_all_journal_timestamps
-    max_attempts = attempts = ENV['MAX_JOURNAL_TIMESTAMPS_ATTEMPTS'].presence.to_i || Journal.all.maximum(:version)
+    max_attempts = attempts = (ENV['MAX_JOURNAL_TIMESTAMPS_ATTEMPTS'].presence && ENV['MAX_JOURNAL_TIMESTAMPS_ATTEMPTS'].to_i) ||
+                              Journal.all.maximum(:version)
 
     loop do
       break if fix_journal_timestamps == 0
