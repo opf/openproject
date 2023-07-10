@@ -71,6 +71,7 @@ module OpenProject::Boards
            :boards,
            { controller: '/boards/boards', action: 'overview' },
            caption: :project_module_board_view,
+           before: :news,
            after: :team_planners,
            icon: 'boards',
            if: should_render_global_menu_item
