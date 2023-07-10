@@ -30,8 +30,8 @@ require 'spec_helper'
 require_relative './../../support/onboarding/onboarding_steps'
 
 RSpec.describe 'team planner onboarding tour',
-               js: true,
-               with_cuprite: false,
+               :js,
+               :with_cuprite,
                with_ee: %i[team_planner_view] do
   let(:next_button) { find('.enjoyhint_next_btn') }
 
@@ -85,7 +85,7 @@ RSpec.describe 'team planner onboarding tour',
 
   after do
     # Clear session to avoid that the onboarding tour starts
-    page.execute_script("window.sessionStorage.clear();")
+    page.driver.cookies.clear
   end
 
   context 'as a new user' do
@@ -102,7 +102,7 @@ RSpec.describe 'team planner onboarding tour',
 
     it "I do not see the team planner onboarding tour in the scrum project" do
       # Set sessionStorage value so that the tour knows that it is in the scum tour
-      page.execute_script("window.sessionStorage.setItem('openProject-onboardingTour', 'startMainTourFromBacklogs');")
+      page.driver.set_cookie('openProject-onboardingTour', 'startMainTourFromBacklogs')
 
       # Set the tour parameter so that we can start on the wp page
       visit "/projects/#{scrum_project.identifier}/work_packages?start_onboarding_tour=true"

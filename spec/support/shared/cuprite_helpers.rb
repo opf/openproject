@@ -42,7 +42,7 @@ end
 # Takes the above `wait_for_network_idle` a step further by waiting
 # for the page to be reloaded after some triggering action.
 def wait_for_reload
-  page.driver.wait_for_reload
+  page.driver.wait_for_reload if using_cuprite?
 end
 
 # Ferrum is yet support `fill_options` as a Hash
