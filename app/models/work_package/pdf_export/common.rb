@@ -161,8 +161,8 @@ module WorkPackage::PDFExport::Common
     [text_x, text_width]
   end
 
-  def draw_text_multiline_part(line, text_style, x, y)
-    pdf.draw_text line, text_style.merge({ at: [x, y] })
+  def draw_text_multiline_part(line, text_style, x_position, y_position)
+    pdf.draw_text line, text_style.merge({ at: [x_position, y_position] })
     measure_text_height(line, text_style)
   end
 
