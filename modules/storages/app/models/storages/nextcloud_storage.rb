@@ -57,7 +57,7 @@ class Storages::NextcloudStorage < Storages::Storage
     automatically_managed.nil?
   end
 
-  %i[group group_folder].each do |attribute_method|
+  %i[username group group_folder].each do |attribute_method|
     define_method(attribute_method) do
       super().presence || PROVIDER_FIELDS_DEFAULTS[:username]
     end

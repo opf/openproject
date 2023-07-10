@@ -36,30 +36,23 @@ module Storages::Storages
       storage.name ||= derive_default_storage_name
     end
 
-    def set_default_provider_fields(_params)
-      set_nextcloud_application_credentials_defaults if nextcloud_storage?
-    end
-
     private
 
     def set_attributes(params)
       super(params)
-      set_default_provider_fields(params)
+      unset_nextcloud_application_credentials if nextcloud_storage?
     end
 
     def remove_host_trailing_slashes
       storage.host = storage.host&.gsub(/\/+$/, '')
     end
 
-    def set_nextcloud_application_credentials_defaults
+    def unset_nextcloud_application_credentials
       # Do not overwrite if has never been set.
       # E.g. when setting up a new storage for the first time, passthrough, credentials are set in a later stage.
       return if storage.automatic_management_unspecified?
 
-      if storage.automatically_managed?
-        storage.username = storage.provider_fields_defaults[:username]
-      else
-        storage.automatically_managed = false
+      unless storage.automatically_managed?
         %w[username password].each { |field| storage.provider_fields.delete(field) }
       end
     end

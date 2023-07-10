@@ -106,6 +106,10 @@ RSpec.describe Storages::NextcloudStorage do
     end
   end
 
+  describe '#username' do
+    it_behaves_like 'a stored attribute with default value', :username, 'OpenProject'
+  end
+
   describe '#group' do
     it_behaves_like 'a stored attribute with default value', :group, 'OpenProject'
   end
