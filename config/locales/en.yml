@@ -1522,6 +1522,7 @@ en:
         action: "Action"
         expiration: "Expires"
       indefinite_expiration: "Never"
+      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
       api:
         title: "API"
         text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."

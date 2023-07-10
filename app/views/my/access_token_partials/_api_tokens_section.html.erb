@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<div class="attributes-group">
+<div class="attributes-group" id="api-token-section">
   <div class="attributes-group--header">
     <div class="attributes-group--header-container">
       <h3 class="attributes-group--header-text"><%= t("my_account.access_tokens.api.title") %></h3>
@@ -63,6 +63,7 @@ See COPYRIGHT and LICENSE files for more details.
                     <%= link_to "",
                                 { action: 'revoke_api_key' },
                                 method: :delete,
+                                data: { confirm: t('my_account.access_tokens.simple_revoke_confirmation') },
                                 class: 'icon icon-delete' %>
                   </td>
                 </tr>
