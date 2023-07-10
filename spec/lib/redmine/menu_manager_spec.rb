@@ -60,7 +60,8 @@ RSpec.describe Redmine::MenuManager do
                       :team_planners,
                       :boards,
                       :news,
-                      :cost_reports_global)
+                      :cost_reports_global,
+                      :meetings)
       end
     end
 

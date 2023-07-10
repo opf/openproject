@@ -79,7 +79,7 @@ module OpenProject::Reporting
       menu :global_menu,
            :cost_reports_global,
            { controller: '/cost_reports', action: 'index', project_id: nil },
-           last: true,
+           after: :news,
            caption: :cost_reports_title,
            icon: 'cost-reports',
            if: should_render
