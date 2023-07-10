@@ -53,16 +53,27 @@ module OpenProject::Boards
            last: true,
            caption: :'boards.label_boards'
 
+      should_render_global_menu_item = Proc.new do
+        OpenProject::FeatureDecisions.more_global_index_pages_active? &&
+          (User.current.logged? || !Setting.login_required?) &&
+          User.current.allowed_to_globally?(:show_board_views)
+      end
+
       menu :top_menu,
-           :boards, { controller: '/boards/boards', action: 'overview' },
+           :boards,
+           { controller: '/boards/boards', action: 'overview' },
            context: :modules,
            caption: :project_module_board_view,
            icon: 'boards',
-           if: Proc.new {
-             OpenProject::FeatureDecisions.more_global_index_pages_active? &&
-              (User.current.logged? || !Setting.login_required?) &&
-                User.current.allowed_to_globally?(:show_board_views)
-           }
+           if: should_render_global_menu_item
+
+      menu :global_menu,
+           :boards,
+           { controller: '/boards/boards', action: 'overview' },
+           caption: :project_module_board_view,
+           after: :team_planners,
+           icon: 'boards',
+           if: should_render_global_menu_item
     end
 
     patch_with_namespace :BasicData, :SettingSeeder

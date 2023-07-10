@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,51 +26,40 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
+#
 
-require 'support/pages/page'
-require_relative './board_page'
+require 'spec_helper'
 
-module Pages
-  class BoardOverview < Page
-    def visit!
-      navigate_to_modules_menu_item("Boards")
-    end
+RSpec.describe 'Global menu item for boards', :js, :with_cuprite do
+  let(:boards_label) { I18n.t('boards.label_boards') }
 
-    def expect_global_menu_item_selected
-      within '#main-menu' do
-        expect(page).to have_selector('.selected', text: 'Boards')
-      end
-    end
+  before do
+    login_as current_user
+    visit root_path
+  end
 
-    def expect_no_boards_listed
-      within '#content-wrapper' do
-        expect(page).to have_content I18n.t(:no_results_title_text)
-      end
-    end
+  context 'with more global index pages active', with_flag: { more_global_index_pages: true } do
+    context 'with permissions' do
+      let(:current_user) { create(:admin) }
 
-    def expect_boards_listed(*boards)
-      within '#content-wrapper' do
-        boards.each do |board|
-          expect(page).to have_selector("td.name", text: board.name)
+      it "sends the user to the boards overview when clicked" do
+        within '#main-menu' do
+          click_on boards_label
         end
+
+        expect(page).to have_current_path(boards_all_path)
+        expect(page).to have_content(boards_label)
+        expect(page).to have_content(I18n.t(:no_results_title_text))
       end
     end
 
-    def expect_to_be_on_page(number)
-      expect(page).to have_selector('.op-pagination--item_current', text: number)
-    end
+    context 'without permissions' do
+      let(:current_user) { create(:user) }
 
-    def to_page(number)
-      within '.op-pagination--pages' do
-        click_link number.to_s
-      end
-    end
-
-    def expect_boards_not_listed(*boards)
-      within '#content-wrapper' do
-        boards.each do |board|
-          expect(page).not_to have_selector("td.title", text: board.name)
+      it 'is not rendered' do
+        within '#main-menu' do
+          expect(page).not_to have_content(boards_label)
         end
       end
     end

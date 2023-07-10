@@ -48,6 +48,7 @@ module OpenProject::TeamPlanner
            :team_planners,
            { controller: '/team_planner/team_planner', action: :overview },
            caption: :'team_planner.label_team_planner_plural',
+           before: :boards,
            after: :calendar_view,
            icon: 'team-planner',
            if: should_render_global_menu_item,

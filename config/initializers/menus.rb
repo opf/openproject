@@ -125,12 +125,14 @@ Redmine::MenuManager.map :global_menu do |menu|
   # Homescreen
   menu.push :home,
             { controller: '/homescreen', action: 'index' },
-            icon: 'home'
+            icon: 'home',
+            first: true
 
   # Activity
   menu.push :activity,
             { controller: '/activities', action: 'index' },
-            icon: 'checkmark'
+            icon: 'checkmark',
+            after: :home
 
   menu.push :activity_filters,
             { controller: '/activities', action: 'index' },
@@ -140,7 +142,8 @@ Redmine::MenuManager.map :global_menu do |menu|
   # Work packages
   menu.push :work_packages,
             { controller: '/work_packages', action: 'index' },
-            icon: 'view-timeline'
+            icon: 'view-timeline',
+            after: :activity
 
   menu.push :work_packages_query_select,
             { controller: '/work_packages', action: 'index' },

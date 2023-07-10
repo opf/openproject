@@ -20,10 +20,15 @@ module ::Boards
     def overview
       projects = Project.allowed_to(User.current, :show_board_views)
       @board_grids = Boards::Grid.includes(:project).where(project: projects)
+      render layout: 'global'
     end
 
     current_menu_item :index do
       :board_view
+    end
+
+    current_menu_item :overview do
+      :boards
     end
 
     private
