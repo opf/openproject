@@ -26,10 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Meetings
-  class Query < ::Queries::BaseQuery
-    def self.model
-      Meeting
+module Queries::Meetings
+  module Filters
+    class MeetingFilter < Queries::Filters::Base
+      self.model = Meeting
+
+      def human_name
+        Meeting.human_attribute_name(name)
+      end
     end
   end
 end

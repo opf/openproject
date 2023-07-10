@@ -26,14 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Meetings
-  module Filters
-    class MeetingFilter < Queries::Filters::Base
-      self.model = Meeting
+module Queries::Meetings
+  class MeetingQuery < ::Queries::BaseQuery
+    def self.model
+      Meeting
+    end
 
-      def human_name
-        Meeting.human_attribute_name(name)
-      end
+    def results
+      super
+      .includes(:project, :author)
+    end
+
+    def default_scope
+      Meeting.visible(user)
     end
   end
 end

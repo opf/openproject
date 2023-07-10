@@ -45,7 +45,13 @@ class MeetingsController < ApplicationController
   menu_item :new_meeting, only: %i[new create]
 
   def index
-    @meetings = @project ? @project.meetings : global_upcoming_meetings
+    @meetings = if @project
+                  query = load_query
+                  load_meetings(query)
+                else
+                  global_upcoming_meetings
+                end
+
     render 'index', locals: { menu_name: project_or_global_menu }
   end
 
@@ -111,6 +117,23 @@ class MeetingsController < ApplicationController
   end
 
   private
+
+  def load_query
+    ParamsToQueryService.new(
+      Meeting,
+      current_user
+    ).call(params)
+  end
+
+  def load_meetings(query)
+    query
+      .results
+      .paginate(page: page_param, per_page: per_page_param)
+  end
+
+  def set_sorting(query)
+    query.orders.select(&:valid?).map { |o| [o.attribute.to_s, o.direction.to_s] }
+  end
 
   def set_time_zone(&)
     zone = User.current.time_zone
