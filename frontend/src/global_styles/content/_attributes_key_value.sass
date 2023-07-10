@@ -31,6 +31,12 @@
   // flex-wrap: wrap
   font-size: 0.875rem
   margin-bottom: 0.1875rem
+  flex-basis: 400px
+  flex-grow: 1
+  flex-shrink: 1
+  min-width: calc(50% - 3rem)
+  max-width: calc(100% - 3rem)
+  margin: 0 1.5rem
 
   &--key
     @extend .form--label
@@ -69,6 +75,7 @@
 
   &--value
     @include grid-visible-overflow
+    word-wrap: anywhere
 
   @at-root &.wp-attribute-group--attribute_span-all &--value-container
     flex-shrink: 0
