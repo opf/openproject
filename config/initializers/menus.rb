@@ -128,11 +128,26 @@ Redmine::MenuManager.map :global_menu do |menu|
             icon: 'home',
             first: true
 
+  # Projects
+  menu.push :projects,
+            { controller: '/projects', project_id: nil, action: 'index' },
+            caption: I18n.t('label_projects_menu'),
+            icon: 'projects',
+            after: :home,
+            if: Proc.new {
+              (User.current.logged? || !Setting.login_required?)
+            }
+
+  menu.push :projects_query_select,
+            { controller: '/projects', project_id: nil, action: 'index' },
+            parent: :projects,
+            partial: 'projects/menu_query_select'
+
   # Activity
   menu.push :activity,
             { controller: '/activities', action: 'index' },
             icon: 'checkmark',
-            after: :home
+            after: :projects
 
   menu.push :activity_filters,
             { controller: '/activities', action: 'index' },
