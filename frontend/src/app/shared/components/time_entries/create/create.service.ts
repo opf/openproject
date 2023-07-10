@@ -64,9 +64,10 @@ export class TimeEntryCreateService {
     });
   }
 
-  public createNewTimeEntry(date:Moment, wp?:WorkPackageResource):Observable<ResourceChangeset> {
+  public createNewTimeEntry(date:Moment, wp?:WorkPackageResource, ongoing = false):Observable<ResourceChangeset> {
     const payload:any = {
       spentOn: date.format('YYYY-MM-DD'),
+      ongoing,
     };
 
     if (wp) {

@@ -19,6 +19,12 @@
         </div>
       </div>
       <ul id="toolbar-items" class="toolbar-items hide-when-print">
+        <li class="toolbar-item hidden-for-mobile" *ngIf="displayTimerButton">
+          <op-wp-timer-button
+            [workPackage]="workPackage"
+            >
+          </op-wp-timer-button>
+        </li>
         <li class="toolbar-item hidden-for-mobile">
           <wp-create-button
             [allowed]="['work_package.addChild', 'work_package.copy']"

@@ -69,8 +69,10 @@ The [package-based installation](../installation/packaged) requires one of the f
 | ------------------------------- |
 | Ubuntu 22.04 Jammy              |
 | Ubuntu 20.04 Focal              |
+| Debian 12 Bookworm              |
 | Debian 11 Bullseye              |
 | Debian 10 Buster                |
+| CentOS/RHEL 9.x                 |
 | CentOS/RHEL 8.x                 |
 | CentOS/RHEL 7.x                 |
 | Suse Linux Enterprise Server 15 |

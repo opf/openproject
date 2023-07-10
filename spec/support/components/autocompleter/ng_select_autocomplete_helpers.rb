@@ -1,6 +1,6 @@
 module Components::Autocompleter
   module NgSelectAutocompleteHelpers
-    def search_autocomplete(element, query:, results_selector: nil, wait_dropdown_open: true)
+    def search_autocomplete(element, query:, results_selector: nil, wait_dropdown_open: true, wait_for_fetched_options: true)
       SeleniumHubWaiter.wait unless using_cuprite?
       # Open the element
       element.click
@@ -9,12 +9,12 @@ module Components::Autocompleter
       ng_find_dropdown(element, results_selector:) if wait_dropdown_open
 
       # Wait for autocompleter options to be loaded (data fetching is debounced by 250ms after creation or typing)
-      wait_for_network_idle if using_cuprite?
+      wait_for_network_idle if using_cuprite? && wait_for_fetched_options
       expect(element).not_to have_selector('.ng-spinner-loader')
 
       # Insert the text to find
       within(element) do
-        ng_enter_query(element, query)
+        ng_enter_query(element, query, wait_for_fetched_options:)
       end
 
       # Wait for options to be refreshed after having entered some text.
@@ -42,7 +42,7 @@ module Components::Autocompleter
 
     ##
     # Insert the query, typing
-    def ng_enter_query(element, query)
+    def ng_enter_query(element, query, wait_for_fetched_options: true)
       input = element.find('input[type=text]', visible: :all).native
       if using_cuprite?
         clear_input_field_contents(input)
@@ -66,7 +66,7 @@ module Components::Autocompleter
         end
       end
 
-      wait_for_network_idle if using_cuprite?
+      wait_for_network_idle if using_cuprite? && wait_for_fetched_options
     end
 
     ##
@@ -81,11 +81,17 @@ module Components::Autocompleter
       from_element.find('.ng-clear-wrapper', visible: :all).click
     end
 
-    def select_autocomplete(element, query:, select_text: nil, results_selector: nil, wait_dropdown_open: true)
+    def select_autocomplete(element,
+                            query:,
+                            select_text: nil,
+                            results_selector: nil,
+                            wait_dropdown_open: true,
+                            wait_for_fetched_options: true)
       target_dropdown = search_autocomplete(element,
                                             query:,
                                             results_selector:,
-                                            wait_dropdown_open:)
+                                            wait_dropdown_open:,
+                                            wait_for_fetched_options:)
 
       ##
       # If a specific select_text is given, use that to locate the match,

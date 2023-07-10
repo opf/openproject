@@ -248,14 +248,11 @@ RSpec.describe 'Board management spec', js: true, with_ee: %i[board_view] do
       board_page.expect_card('List 1', 'Task 1', present: false)
       board_page.expect_card('List 2', 'Task 1', present: true)
 
-      # There is no frontend visible semaphore to check for the change being saved
-      sleep(0.1)
-
       # Expect added to query
       queries = board_page.board(reload: true).contained_queries
       first = queries.find_by(name: 'List 1')
       second = queries.find_by(name: 'List 2')
-      expect(first.ordered_work_packages).to be_empty
+      wait_for(first.ordered_work_packages).to be_empty
       expect(second.ordered_work_packages.count).to eq(1)
 
       # Expect work package to be saved in query first

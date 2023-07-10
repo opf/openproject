@@ -7,8 +7,7 @@ module Components
     def clear!
       super
 
-      clear_duration
-      expect_duration ''
+      set_field(duration_field, '', wait_for_changes_to_be_applied: false)
     end
 
     ##
@@ -46,15 +45,15 @@ module Components
     end
 
     def focus_milestone_date
-      milestone_date_field.click
+      focus_field(milestone_date_field)
     end
 
     def focus_start_date
-      start_date_field.click
+      focus_field(start_date_field)
     end
 
     def focus_due_date
-      due_date_field.click
+      focus_field(due_date_field)
     end
 
     ##
@@ -76,27 +75,15 @@ module Components
     end
 
     def set_milestone_date(value)
-      focus_milestone_date
-      fill_in 'date', with: value, fill_options: { clear: :backspace }
-
-      # Wait until debounce applied
-      sleep 1
+      set_field(milestone_date_field, value)
     end
 
     def set_start_date(value)
-      focus_start_date
-      fill_in 'startDate', with: value, fill_options: { clear: :backspace }
-
-      # Wait for the value to be applied
-      sleep 1
+      set_field(start_date_field, value)
     end
 
     def set_due_date(value)
-      focus_due_date
-      fill_in 'endDate', with: value, fill_options: { clear: :backspace }
-
-      # Wait for the value to be applied
-      sleep 1
+      set_field(due_date_field, value)
     end
 
     def expect_start_highlighted
@@ -112,7 +99,7 @@ module Components
     end
 
     def focus_duration
-      duration_field.click
+      focus_field(duration_field)
     end
 
     def set_today(date)
@@ -134,8 +121,7 @@ module Components
     end
 
     def set_duration(value)
-      focus_duration
-      fill_in 'duration', with: value, fill_options: { clear: :backspace }
+      set_field(duration_field, value)
 
       # Focus a different field
       start_date_field.click
@@ -186,11 +172,7 @@ module Components
     end
 
     def clear_duration
-      duration_field.click
-      fill_in 'duration', with: '', fill_options: { clear: :backspace }
-
-      # Focus a different field
-      start_date_field.click
+      set_duration('')
     end
 
     def clear_duration_with_icon

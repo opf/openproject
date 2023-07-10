@@ -317,17 +317,17 @@ GEM
     awesome_nested_set (3.5.0)
       activerecord (>= 4.0.0, < 7.1)
     aws-eventstream (1.2.0)
-    aws-partitions (1.782.0)
-    aws-sdk-core (3.176.1)
+    aws-partitions (1.784.0)
+    aws-sdk-core (3.177.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.5)
       jmespath (~> 1, >= 1.6.1)
-    aws-sdk-kms (1.68.0)
-      aws-sdk-core (~> 3, >= 3.176.0)
+    aws-sdk-kms (1.70.0)
+      aws-sdk-core (~> 3, >= 3.177.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.127.0)
-      aws-sdk-core (~> 3, >= 3.176.0)
+    aws-sdk-s3 (1.128.0)
+      aws-sdk-core (~> 3, >= 3.177.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.6)
     aws-sdk-sns (1.61.0)
@@ -636,7 +636,7 @@ GEM
       net-protocol
     netrc (0.11.0)
     nio4r (2.5.9)
-    nokogiri (1.15.2)
+    nokogiri (1.15.3)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     oj (3.15.0)
@@ -834,6 +834,8 @@ GEM
     rspec-retry (0.6.2)
       rspec-core (> 3.3)
     rspec-support (3.12.0)
+    rspec-wait (0.0.9)
+      rspec (>= 3, < 4)
     rubocop (1.54.1)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
@@ -874,7 +876,7 @@ GEM
     rubytree (2.0.2)
       json (~> 2.0, > 2.3.1)
     rubyzip (2.3.2)
-    sanitize (6.0.1)
+    sanitize (6.0.2)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     sassc (2.4.0)
@@ -1133,6 +1135,7 @@ DEPENDENCIES
   rspec (~> 3.12.0)
   rspec-rails (~> 6.0.0)
   rspec-retry (~> 0.6.1)
+  rspec-wait
   rubocop
   rubocop-rails
   rubocop-rspec
@@ -1140,7 +1143,7 @@ DEPENDENCIES
   ruby-prof
   ruby-progressbar (~> 1.13.0)
   rubytree (~> 2.0.0)
-  sanitize (~> 6.0.1)
+  sanitize (~> 6.0.2)
   sassc-rails
   secure_headers (~> 6.5.0)
   selenium-webdriver (~> 4.0)
