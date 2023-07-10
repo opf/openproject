@@ -10,6 +10,10 @@ RSpec.describe "multi version custom field", js: true do
     field.field_type = 'create-autocompleter'
     field
   end
+  let(:work_package) { create(:work_package, project:, type:) }
+  let!(:version_old) { create(:version, project:, name: 'Version Old') }
+  let!(:version_current) { create(:version, project:, name: 'Version Current') }
+  let!(:version_future) { create(:version, project:, name: 'Version Future') }
 
   shared_let(:type) { create(:type) }
   shared_let(:project) { create(:project, types: [type]) }
@@ -31,34 +35,20 @@ RSpec.describe "multi version custom field", js: true do
     wp_page.ensure_page_loaded
   end
 
-  let(:work_package) { create(:work_package, project:, type:) }
-
-  let!(:version1) do
-    create(:version, project:, name: 'Version 1')
-  end
-
-  let!(:version2) do
-    create(:version, project:, name: 'Version 2')
-  end
-
-  let!(:version3) do
-    create(:version, project:, name: 'Version 3')
-  end
-
   it "is shown and allowed to be updated" do
     expect(page).to have_text custom_field.name
 
     cf_edit_field.activate!
-    cf_edit_field.set_value "Version 1"
-    cf_edit_field.set_value "Version 2"
-    cf_edit_field.set_value "Version 3"
+    cf_edit_field.set_value "Version Old"
+    cf_edit_field.set_value "Version Current"
+    cf_edit_field.set_value "Version Future"
 
     cf_edit_field.submit_by_dashboard
 
     expect(page).to have_text custom_field.name
-    expect(page).to have_text "Version 1"
-    expect(page).to have_text "Version 2"
-    expect(page).to have_text "Version 3"
+    expect(page).to have_text "Version Old"
+    expect(page).to have_text "Version Current"
+    expect(page).to have_text "Version Future"
 
     wp_page.expect_and_dismiss_toaster(message: "Successful update.")
 
@@ -67,18 +57,18 @@ RSpec.describe "multi version custom field", js: true do
             .custom_value_for(custom_field)
             .map(&:typed_value)
 
-    expect(cvs).to contain_exactly(version1, version2, version3)
+    expect(cvs).to contain_exactly(version_old, version_current, version_future)
 
     cf_edit_field.activate!
-    cf_edit_field.unset_value "Version 2", multi: true
-    cf_edit_field.unset_value "Version 3", multi: true
+    cf_edit_field.unset_value "Version Current", multi: true
+    cf_edit_field.unset_value "Version Future", multi: true
     cf_edit_field.submit_by_dashboard
 
     wp_page.expect_and_dismiss_toaster(message: "Successful update.")
 
-    expect(page).to have_text "Version 1"
-    expect(page).not_to have_text "Version 2"
-    expect(page).not_to have_text "Version 3"
+    expect(page).to have_text "Version Old"
+    expect(page).not_to have_text "Version Current"
+    expect(page).not_to have_text "Version Future"
 
     work_package.reload
 
@@ -87,7 +77,7 @@ RSpec.describe "multi version custom field", js: true do
             .custom_value_for(custom_field)
             .typed_value
 
-    expect(cvs).to eq version1
+    expect(cvs).to eq version_old
   end
 
   context "with existing version values" do
@@ -95,7 +85,7 @@ RSpec.describe "multi version custom field", js: true do
       wp = build(:work_package, project:, type:)
 
       wp.custom_field_values = {
-        custom_field.id => [version1.id.to_s, version2.id.to_s]
+        custom_field.id => [version_old.id.to_s, version_current.id.to_s]
       }
 
       wp.save
@@ -104,13 +94,13 @@ RSpec.describe "multi version custom field", js: true do
 
     it "is shown and allowed to be updated" do
       expect(page).to have_text custom_field.name
-      expect(page).to have_text "Version 1"
-      expect(page).to have_text "Version 2"
+      expect(page).to have_text "Version Old"
+      expect(page).to have_text "Version Current"
 
-      page.find(".inline-edit--display-field", text: "Version 1").click
+      page.find(".inline-edit--display-field", text: "Version Old").click
 
-      cf_edit_field.unset_value "Version 1", multi: true
-      cf_edit_field.set_value "Version 3"
+      cf_edit_field.unset_value "Version Old", multi: true
+      cf_edit_field.set_value "Version Future"
 
       click_on "Fix version: Save"
       wp_page.expect_and_dismiss_toaster(message: "Successful update.")
@@ -118,9 +108,9 @@ RSpec.describe "multi version custom field", js: true do
       expect(page).to have_selector(".customField#{custom_field.id} .custom-option", count: 2)
 
       expect(page).to have_text custom_field.name
-      expect(page).to have_text "Version 2"
-      expect(page).to have_text "Version 3"
-      expect(page).not_to have_text "Version 1"
+      expect(page).to have_text "Version Current"
+      expect(page).to have_text "Version Future"
+      expect(page).not_to have_text "Version Old"
     end
   end
 end
