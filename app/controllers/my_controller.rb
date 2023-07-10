@@ -101,9 +101,7 @@ class MyController < ApplicationController
   def generate_rss_key
     token = Token::RSS.create!(user: current_user)
     flash[:info] = [
-      # rubocop:disable Rails/OutputSafety
       t('my.access_token.notice_reset_token', type: 'RSS').html_safe,
-      # rubocop:enable Rails/OutputSafety
       content_tag(:strong, token.plain_value),
       t('my.access_token.token_value_warning')
     ]
@@ -116,7 +114,7 @@ class MyController < ApplicationController
 
   def revoke_rss_key
     current_user.rss_token.destroy
-    flash[:info] =  t('my.access_token.notice_rss_token_revoked')
+    flash[:info] = t('my.access_token.notice_rss_token_revoked')
   rescue StandardError => e
     Rails.logger.error "Failed to revoke rss token ##{current_user.id}: #{e}"
     flash[:error] = t('my.access_token.failed_to_reset_token', error: e.message)
@@ -128,9 +126,7 @@ class MyController < ApplicationController
   def generate_api_key
     token = Token::API.create!(user: current_user)
     flash[:info] = [
-      # rubocop:disable Rails/OutputSafety
       t('my.access_token.notice_reset_token', type: 'API').html_safe,
-      # rubocop:enable Rails/OutputSafety
       content_tag(:strong, token.plain_value),
       t('my.access_token.token_value_warning')
     ]
@@ -143,7 +139,7 @@ class MyController < ApplicationController
 
   def revoke_api_key
     current_user.api_token.destroy
-    flash[:info] =  t('my.access_token.notice_api_token_revoked')
+    flash[:info] = t('my.access_token.notice_api_token_revoked')
   rescue StandardError => e
     Rails.logger.error "Failed to revoke api token ##{current_user.id}: #{e}"
     flash[:error] = t('my.access_token.failed_to_reset_token', error: e.message)
