@@ -8,7 +8,7 @@ keywords: sign in, login, registration
 
 # Sign in and registration
 
-Here you will get an overview how to sign in and register to an existing OpenProject installation.
+This page will give you an overview of how to register or sign in to an existing OpenProject installation.
 
 > **Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../enterprise-guide/enterprise-cloud-guide/create-cloud-trial/).
 
