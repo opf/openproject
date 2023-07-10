@@ -40,6 +40,11 @@ RSpec.describe 'iCal functionality', js: true, selenium: true do
            member_in_project: project,
            member_with_permissions: %i[view_work_packages view_calendar manage_calendars])
   end
+  # shared_let(:user) do
+  #   create(:user,
+  #          member_in_project: project,
+  #          member_with_permission: %i[view_work_packages view_calendar manage_calendars])
+  # end
 
   before do
     login_as(user)
@@ -57,6 +62,16 @@ RSpec.describe 'iCal functionality', js: true, selenium: true do
     expect(page).to have_selector("#work-packages-settings-button")
 
     page.find_by_id('work-packages-settings-button').click
+    page.click_button("Save")
+
+    fill_in 'Name', with: 'cal1'
+    find('.button', text: 'Save').click
+
+    expect(page)
+      .to have_content "Successful creation."
+
+    page.find_by_id('work-packages-settings-button').click
+
 
     within "#settingsDropdown" do
       expect(page).to have_selector(".menu-item.inactive", text: "Subscribe to iCalendar")
@@ -67,12 +82,27 @@ RSpec.describe 'iCal functionality', js: true, selenium: true do
   end
 
   it 'navigates to iCal settings and enables the setting' do
-    click_link 'OpenProject'
-    click_link 'Administration'
-    click_link 'Calendars and dates'
+    visit admin_index_path
+
+    within '.menu-blocks--container' do
+      click_link 'Calendars and dates'
+    end
+
+    expect(page).to have_selector(".title-container", text: "Working days")
     click_link 'iCalendar'
 
-    binding.pry
+    expect(page)
+      .to have_field('Enable iCalendar subscriptions', checked: false)
+
+    check 'Enable iCalendar subscriptions'
+
+    click_button 'Save'
+
+    expect(page)
+      .to have_content "Successful update."
+
+    expect(page)
+      .to have_field('Enable iCalendar subscriptions', checked: true)
   end
 
 end
