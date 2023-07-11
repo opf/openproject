@@ -143,7 +143,7 @@ module API
                  getter: ->(*) { represented.mail },
                  setter: ->(fragment:, represented:, **) { represented.mail = fragment },
                  exec_context: :decorator,
-                 cache_if: -> { !represented.pref.hide_mail || represented.new_record? || current_user_can_manage? }
+                 cache_if: -> { represented.pref.can_expose_mail? || represented.new_record? || current_user_can_manage? }
 
         property :avatar,
                  exec_context: :decorator,
