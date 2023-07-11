@@ -2072,6 +2072,7 @@ ca:
       more_to_see:
         one: 'Hi ha un paquet de treball més amb notificacions.'
         other: 'Hi han %{count} paquets de treball més amb notificacions.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Observat'
         assigned: 'Assignat'

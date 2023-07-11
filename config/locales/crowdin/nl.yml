@@ -2073,6 +2073,7 @@ nl:
       more_to_see:
         one: 'Er is nog 1 werkpakket met meldingen.'
         other: 'Er zijn nog %{count} werkpakketten met meldingen.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Bekeken'
         assigned: 'Toegewezen'

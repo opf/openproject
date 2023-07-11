@@ -2111,6 +2111,7 @@ ru:
         few: 'Есть еще %{count} пакетов работ с уведомлениями.'
         many: 'Есть еще %{count} пакетов работ с уведомлениями.'
         other: 'Есть еще %{count} пакетов работ с уведомлениями.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Просмотрено'
         assigned: 'Назначено'

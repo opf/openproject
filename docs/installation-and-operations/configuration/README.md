@@ -261,7 +261,7 @@ Per default the user may choose the usual password login as well as <u>several</
 
 If this option is active, a login will lead directly to the configured omniauth provider and so will a click on 'Sign in' (the drop down menu will not open).
 
-To still reach the internal login route for e.g., an internal administrative user, you can manually navigate to `/internal_login`.
+To still reach the internal login route for e.g., an internal administrative user, you can manually navigate to `/login/internal`.
 This route is only available when the direct login provider is set.
 
 > **NOTE:** This does not stop a user from manually navigating to any other omniauth provider if additional ones are configured.
