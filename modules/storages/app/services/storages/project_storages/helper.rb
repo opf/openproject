@@ -26,40 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+module Storages::ProjectStorages::Helper
+  module_function
 
-RSpec.describe 'Meetings locking', js: true do
-  let(:project) { create(:project, enabled_module_names: %w[meetings]) }
-  let(:user) { create(:admin) }
-  let!(:meeting) { create(:meeting) }
-  let!(:agenda) { create(:meeting_agenda, meeting:) }
-  let(:agenda_field) do
-    TextEditorField.new(page,
-                        '',
-                        selector: '[data-qa-selector="op-meeting--meeting_agenda"]')
+  def create_last_project_folder(user:, projects_storage_id:, origin_folder_id:, mode:)
+    ::Storages::LastProjectFolders::CreateService
+      .new(user:)
+      .call(projects_storage_id:, origin_folder_id:, mode: mode.to_sym)
   end
 
-  before do
-    login_as(user)
+  def update_last_project_folder(user:, project_folder:, origin_folder_id:)
+    ::Storages::LastProjectFolders::UpdateService
+      .new(model: project_folder, user:)
+      .call(origin_folder_id:)
   end
 
-  it 'shows an error when trying to update a meeting update while editing' do
-    visit meeting_path(meeting)
-
-    # Edit agenda
-    within '#tab-content-agenda' do
-      find('.button--edit-agenda').click
-
-      agenda_field.set_value('Some new text')
-
-      agenda.text = 'blabla'
-      agenda.save!
-
-      click_on 'Save'
-    end
-
-    expect(page).to have_text 'Information has been updated by at least one other user in the meantime.'
-
-    agenda_field.expect_value('Some new text')
+  def trigger_nextcloud_synchronization(project_folder_mode)
+    Storages::ManageNextcloudIntegrationEventsJob.perform_later if project_folder_mode.to_sym == :automatic
   end
 end

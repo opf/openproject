@@ -29,6 +29,7 @@
 require 'spec_helper'
 require_module_spec_helper
 require 'services/base_services/behaves_like_delete_service'
+require_relative 'shared_synchronization_trigger_examples'
 
 RSpec.describe Storages::ProjectStorages::DeleteService, type: :model do
   context 'with records written to DB' do
@@ -67,5 +68,7 @@ RSpec.describe Storages::ProjectStorages::DeleteService, type: :model do
   # Collected tests on DeleteContracts from last 15 years.
   it_behaves_like 'BaseServices delete service' do
     let(:factory) { :project_storage }
+
+    it_behaves_like 'a nextcloud synchronization trigger'
   end
 end

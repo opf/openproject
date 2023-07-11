@@ -111,6 +111,34 @@ RSpec.describe 'API v3 storages resource', content_type: :json, webmock: true do
         it { is_expected.to have_json_path('_embedded/oauthApplication/clientSecret') }
       end
 
+      context 'with applicationPassword' do
+        let(:params) do
+          super().merge(
+            applicationPassword: 'myappsecret'
+          )
+        end
+
+        subject { last_response.body }
+
+        it_behaves_like 'successful response', 201
+
+        it { is_expected.to be_json_eql('true').at_path('hasApplicationPassword') }
+      end
+
+      context 'with applicationPassword as null' do
+        let(:params) do
+          super().merge(
+            applicationPassword: nil
+          )
+        end
+
+        subject { last_response.body }
+
+        it_behaves_like 'successful response', 201
+
+        it { is_expected.to be_json_eql('false').at_path('hasApplicationPassword') }
+      end
+
       context 'if missing a mandatory value' do
         let(:params) do
           {
@@ -250,6 +278,34 @@ RSpec.describe 'API v3 storages resource', content_type: :json, webmock: true do
         it_behaves_like 'successful response'
 
         it { is_expected.to be_json_eql(name.to_json).at_path('name') }
+      end
+
+      context 'with applicationPassword' do
+        let(:params) do
+          super().merge(
+            applicationPassword: 'myappsecret'
+          )
+        end
+
+        subject { last_response.body }
+
+        it_behaves_like 'successful response'
+
+        it { is_expected.to be_json_eql('true').at_path('hasApplicationPassword') }
+      end
+
+      context 'with applicationPassword as null' do
+        let(:params) do
+          super().merge(
+            applicationPassword: nil
+          )
+        end
+
+        subject { last_response.body }
+
+        it_behaves_like 'successful response'
+
+        it { is_expected.to be_json_eql('false').at_path('hasApplicationPassword') }
       end
     end
   end

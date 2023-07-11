@@ -26,40 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-
-RSpec.describe 'Meetings locking', js: true do
-  let(:project) { create(:project, enabled_module_names: %w[meetings]) }
-  let(:user) { create(:admin) }
-  let!(:meeting) { create(:meeting) }
-  let!(:agenda) { create(:meeting_agenda, meeting:) }
-  let(:agenda_field) do
-    TextEditorField.new(page,
-                        '',
-                        selector: '[data-qa-selector="op-meeting--meeting_agenda"]')
-  end
-
-  before do
-    login_as(user)
-  end
-
-  it 'shows an error when trying to update a meeting update while editing' do
-    visit meeting_path(meeting)
-
-    # Edit agenda
-    within '#tab-content-agenda' do
-      find('.button--edit-agenda').click
-
-      agenda_field.set_value('Some new text')
-
-      agenda.text = 'blabla'
-      agenda.save!
-
-      click_on 'Save'
+# Used by Storages::ManagedProjectFoldersController#new to set the default values for the provider fields
+# when creating a new storage for the first time. These attributes are only for building the view and are not enforced
+# by the model.
+module Storages::Storages
+  class SetNextcloudProviderFieldsAttributesService < ::BaseServices::SetAttributes
+    def set_default_provider_fields(_params)
+      if storage.automatic_management_unspecified?
+        storage.automatically_managed = storage.provider_fields_defaults[:automatically_managed]
+      end
     end
 
-    expect(page).to have_text 'Information has been updated by at least one other user in the meantime.'
+    private
 
-    agenda_field.expect_value('Some new text')
+    def set_attributes(params)
+      super(params)
+      set_default_provider_fields(params)
+    end
+
+    def storage
+      model
+    end
   end
 end
