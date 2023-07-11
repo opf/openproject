@@ -26,12 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Meetings
-  ::Queries::Register.register(MeetingQuery) do
-    filter Filters::ProjectFilter
-    filter Filters::TimeFilter
-    filter Filters::AttendedUserFilter
-    filter Filters::InvitedUserFilter
-    filter Filters::AuthorFilter
+class Queries::Meetings::Filters::AuthorFilter < Queries::Meetings::Filters::MeetingFilter
+  def type
+    :list_optional
+  end
+
+  def type_strategy
+    # Instead of getting the IDs of all the projects a user is allowed
+    # to see we only check that the value is an integer.  Non valid ids
+    # will then simply create an empty result but will not cause any
+    # harm.
+    @type_strategy ||= ::Queries::Filters::Strategies::IntegerListOptional.new(self)
+  end
+
+  def where
+    "meetings.author_id IN (#{values.join(',')})"
+  end
+
+  def self.key
+    :author_id
+  end
+
+  def available_operators
+    [::Queries::Operators::Equals]
   end
 end
