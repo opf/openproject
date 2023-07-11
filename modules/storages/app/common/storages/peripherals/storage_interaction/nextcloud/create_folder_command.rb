@@ -48,7 +48,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       when Net::HTTPSuccess
         ServiceResult.success(message: 'Folder was successfully created.')
       when Net::HTTPMethodNotAllowed
-        if error_text_from_response(response) == 'The resource you tried to create already exists'
+        if Util.error_text_from_response(response) == 'The resource you tried to create already exists'
           ServiceResult.success(message: 'Folder already exists.')
         else
           Util.error(:not_allowed)
