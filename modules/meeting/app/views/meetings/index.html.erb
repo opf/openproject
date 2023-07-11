@@ -27,34 +27,22 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <% html_title t(:label_meeting_plural) %>
-<div data-controller="meeting"
-     data-application-target="dynamic">
-  <%= toolbar title: t(:label_meeting_plural) do %>
-    <% if authorize_for(:meetings, :new) %>
-      <li class="toolbar-item">
-        <a href="<%= new_meeting_path %>"
+<%= toolbar title: t(:label_meeting_plural) do %>
+  <% if authorize_for(:meetings, :new) %>
+    <li class="toolbar-item">
+      <a href="<%= new_meeting_path %>"
          id="add-meeting-button"
          title="<%= I18n.t(:label_meeting_new) %>"
          arial-label="<%= I18n.t(:label_meeting_new) %>"
          class="button -alt-highlight">
-          <%= op_icon('button--icon icon-add') %>
-          <span class="button--text"><%= t(:label_meeting) %></span>
-        </a>
-      </li>
-    <% end %>
-    <li class="toolbar-item">
-      <button title="<%= t(:label_filters_toggle) %>"
-              class="button toolbar-icon <%= filter_set? ? '-active' : '' %>"
-              data-meeting-target="filterFormToggle"
-              data-action="meeting#toggleFilterForm">
-        <%= op_icon("icon-filter button--icon") %>
-      </button>
+        <%= op_icon('button--icon icon-add') %>
+        <span class="button--text"><%= t(:label_meeting) %></span>
+      </a>
     </li>
   <% end %>
-  <% if @meetings.empty? -%>
-    <%= no_results_box %>
-  <% else -%>
-    <%= render partial: 'meetings/filters/form', locals: { query: @query } %>
-    <%= render Meetings::TableComponent.new(rows: @meetings, current_project: @project) %>
-  <% end -%>
-</div>
+<% end %>
+<% if @meetings.empty? -%>
+  <%= no_results_box %>
+<% else -%>
+  <%= render Meetings::TableComponent.new(rows: @meetings, current_project: @project) %>
+<% end -%>
