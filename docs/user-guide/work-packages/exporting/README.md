@@ -82,7 +82,7 @@ XLS is a plain sheet that matches the OpenProject work packages table with its c
 
 ![OpenProject_work_package_export_excel_relations](openproject_pdf_table_export_relations.png)
 
-### CSV export
+## CSV export
 
 OpenProject can export the table into a comma-separated CSV. This file will be UTF-8 encoded.
 
@@ -90,7 +90,7 @@ OpenProject can export the table into a comma-separated CSV. This file will be U
 
 ![OpenProject_work_package_export_csv](openproject_export_csv.png)
 
-### Atom (XML) export
+## Atom (XML) export
 
 OpenProject can export the table into a XML-based atom format. This file will be UTF-8 encoded.
 
