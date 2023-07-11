@@ -81,6 +81,28 @@ module API::V3::Storages
 
     property :name
 
+    property :applicationPassword,
+             skip_render: ->(*) { true },
+             getter: ->(*) {},
+             setter: ->(fragment:, represented:, **) {
+               if fragment.present?
+                 represented.automatically_managed = true
+                 represented.password = fragment
+               else
+                 represented.automatically_managed = false
+               end
+             }
+
+    property :hasApplicationPassword,
+             skip_parse: true,
+             skip_render: ->(represented:, **) { !represented.provider_type_nextcloud? },
+             getter: ->(represented:, **) {
+               break unless represented.provider_type_nextcloud?
+
+               represented.automatically_managed?
+             },
+             setter: ->(*) {}
+
     date_time_property :created_at
 
     date_time_property :updated_at

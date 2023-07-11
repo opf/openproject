@@ -72,11 +72,13 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
   end
 
   def heading
-    "#{work_package.project} - ##{work_package.type} #{work_package.id}"
+    "#{work_package.project} - #{work_package.type} ##{work_package.id}"
   end
 
   def title
-    "#{heading}.pdf"
+    # <project>_<type>_<ID>_<subject><YYYY-MM-DD>_<HH-MM>.pdf
+    build_pdf_filename([work_package.project, work_package.type,
+                        "##{work_package.id}", work_package.subject].join('_'))
   end
 
   def with_images?

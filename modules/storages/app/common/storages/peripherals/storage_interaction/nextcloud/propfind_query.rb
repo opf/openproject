@@ -93,8 +93,11 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         doc = Nokogiri::XML response.body
         result = {}
         doc.xpath('/d:multistatus/d:response').each do |resource_section|
-          resource = CGI.unescape(resource_section.xpath("d:href").text.strip).gsub!("/remote.php/dav/files/#{@username}/", "")
+          resource = CGI
+                       .unescape(resource_section.xpath("d:href").text.strip)
+                       .gsub!(Util.join_uri_path(@uri.path, "/remote.php/dav/files/#{@username}/"), "")
           result[resource] = {}
+
           # In future it could be useful to respond not only with found, but not found props as well
           # resource_section.xpath("d:propstat[d:status[text() = 'HTTP/1.1 404 Not Found']]/d:prop/*")
           resource_section.xpath("d:propstat[d:status[text() = 'HTTP/1.1 200 OK']]/d:prop/*").each do |node|

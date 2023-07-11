@@ -258,6 +258,9 @@
 <li><span class="icon icon-ticket-minus"></span>ticket-minus</li>
 <li><span class="icon icon-ticket-note"></span>ticket-note</li>
 <li><span class="icon icon-ticket"></span>ticket</li>
+<li><span class="icon icon-time-tracking-running"></span>time-tracking-running</li>
+<li><span class="icon icon-time-tracking-start"></span>time-tracking-start</li>
+<li><span class="icon icon-time-tracking-stop"></span>time-tracking-stop</li>
 <li><span class="icon icon-time"></span>time</li>
 <li><span class="icon icon-to-fullscreen"></span>to-fullscreen</li>
 <li><span class="icon icon-training-consulting"></span>training-consulting</li>
