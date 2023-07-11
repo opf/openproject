@@ -45,16 +45,18 @@ See COPYRIGHT and LICENSE files for more details.
 <div class="grid-block medium-up-2">
   <div class="grid-content">
     <%= call_hook :view_account_left_top, user: @user %>
-    <ul>
-      <% unless @user.pref.hide_mail %>
-        <li><%= User.human_attribute_name(:mail) %>: <%= mail_to(h(escape_javascript(@user.mail)), nil, encode: 'javascript') %></li>
-      <% end %>
-      <% @user.visible_custom_field_values.each do |custom_value| %>
-        <% if !custom_value.value.blank? %>
-          <li><%=h custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
+    <% if visible_user_information?(@user) %>
+      <ul>
+        <% if @user.pref.can_expose_mail? %>
+          <li><%= User.human_attribute_name(:mail) %>: <%= mail_to(h(escape_javascript(@user.mail)), nil, encode: 'javascript') %></li>
         <% end %>
-      <% end %>
-    </ul>
+        <% @user.visible_custom_field_values.each do |custom_value| %>
+          <% if custom_value.value.present? %>
+            <li><%=h custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
+          <% end %>
+        <% end %>
+      </ul>
+    <% end %>
 
     <%= call_hook :view_account_left_middle, user: @user %>
 
