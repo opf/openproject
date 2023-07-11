@@ -501,7 +501,7 @@ RSpec.describe 'filter work packages', js: true do
     end
     shared_let(:wp_updated_3d_ago) do
       create(:work_package,
-             subject: 'Created today',
+             subject: 'Created 3d ago',
              project:,
              created_at: 3.days.ago,
              updated_at: 3.days.ago)
