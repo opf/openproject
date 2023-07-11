@@ -58,17 +58,11 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       when Net::HTTPNotFound
         Util.error(:not_found)
       when Net::HTTPConflict
-        Util.error(:conflict, error_text_from_response(response))
+        Util.error(:conflict, Util.error_text_from_response(response))
       else
         Util.error(:error)
       end
     end
     # rubocop:enable Metrics/AbcSize
-
-    private
-
-    def error_text_from_response(response)
-      Nokogiri::XML(response.body).xpath("//s:message").text
-    end
   end
 end
