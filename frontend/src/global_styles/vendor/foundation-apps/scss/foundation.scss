@@ -21,25 +21,15 @@ $foundation-version: '1.1.0';
 @import "global";
 
 // Components
-@import "components/action-sheet",
-"components/block-list",
-"components/button",
-"components/button-group",
-"components/card",
+@import "components/button",
 "components/extras",
 "components/forms",
 "components/grid",
-"components/title-bar",
 "components/label",
 "components/list",
-"components/menu-bar",
 "components/modal",
 "components/motion",
 "components/toast",
-"components/off-canvas",
-"components/popup",
-"components/switch",
 "components/tabs",
-"components/accordion",
 "components/typography",
 "components/utilities";
