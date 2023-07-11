@@ -65,7 +65,7 @@ nl:
     button_confirm: "Accepteren"
     button_continue: "Ga verder"
     button_copy: "Kopieer"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "Kopiëren naar het klembord"
     button_copy_to_other_project: "Kopiëren naar een ander project"
     button_custom-fields: "Aangepaste velden"
     button_delete: "Verwijderen"
@@ -255,10 +255,10 @@ nl:
           you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
       working_days:
         calendar:
-          empty_state_header: "Non-working days"
+          empty_state_header: "Vrije dagen"
           empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
-          new_date: '(new)'
-        add_non_working_day: "Non-working day"
+          new_date: '(nieuw)'
+        add_non_working_day: "Vrije dagen"
         already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
         change_button: "Save and reschedule"
         change_title: "Wijzig werkdagen"
@@ -326,7 +326,7 @@ nl:
       token_name_label: "Token name"
       token_name_placeholder: "Type a name for this token, e.g. \"My calendar application\""
       token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
-      copy_url_label: "Copy URL"
+      copy_url_label: "URL kopiëren"
       ical_generation_error_text: "An error occured while generating the iCal URL."
     label_activate: "Activeren"
     label_assignee: 'Toegewezene'
@@ -419,7 +419,7 @@ nl:
     label_no_data: "Geen gegevens om weer te geven"
     label_no_due_date: "geen einddatum"
     label_no_start_date: "geen startdatum"
-    label_no_date: "no date"
+    label_no_date: "geen datum"
     label_no_value: "Geen waarde"
     label_none: "geen"
     label_not_contains: "bevat geen"
@@ -497,7 +497,7 @@ nl:
     label_drop_files: "Drop files here to attach files."
     label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: U kunt geen mappen uploaden als bijlage. Selecteer a. u. b. enkele bestanden.
-    label_add_attachments: "Attach files"
+    label_add_attachments: "Bestanden toevoegen"
     label_formattable_attachment_hint: "Hecht en link bestanden door deze in dit veld te slepen, of plak deze vanuit het klembord."
     label_remove_file: "%{fileName} verwijderen"
     label_remove_watcher: "Volger %{name} verwijderen"
@@ -573,10 +573,10 @@ nl:
         milestone_date: 'Milestone date'
         overdue: 'Overdue'
         overdue_since: 'since %{difference_in_days}'
-        property_today: 'is today'
+        property_today: 'is vandaag'
         property_is: 'is in %{difference_in_days}'
-        property_was: 'was %{difference_in_days} ago'
-        property_is_deleted: 'is deleted'
+        property_was: 'was %{difference_in_days} geleden'
+        property_is_deleted: 'Is verwijderd'
         upsale:
           title: 'Date alerts'
           description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
@@ -598,7 +598,7 @@ nl:
         text_update_date: "%{date} door"
         total_count_warning: "De %{newest_count} meest recente meldingen weergeven. %{more_count} meer worden niet weergegeven."
         empty_state:
-          no_notification: "Looks like you are all caught up."
+          no_notification: "Het lijkt erop dat u helemaal bij bent."
           no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
           no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Klik op een melding om alle activiteit details te bekijken."
@@ -681,7 +681,7 @@ nl:
       click_to_switch_to_project: 'Project: %{projectname}'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       use_template: "Sjabloon gebruiken"
-      no_template_selected: "(None)"
+      no_template_selected: "(Geen)"
       copy:
         copy_options: "Copy options"
       autocompleter:
@@ -715,8 +715,8 @@ nl:
         title: 'E-mail herinneringen'
         pause:
           label: 'Temporarily pause daily email reminders'
-          first_day: 'First day'
-          last_day: 'Last day'
+          first_day: 'Eerste dag'
+          last_day: 'Laatste dag'
     text_are_you_sure: "Weet u het zeker?"
     text_data_lost: "Alle ingevoerde gegevens zullen verloren gaan."
     types:
@@ -910,7 +910,7 @@ nl:
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'Show relations'
         ignore_non_working_days:
-          title: 'Working days only'
+          title: 'Alleen werkdagen'
       description_filter: "Filter"
       description_enter_text: "Tekst invoeren"
       description_options_hide: "Verberg opties"
@@ -1006,7 +1006,7 @@ nl:
         label_content: "Klik hier om het menu overslaan en ga naar de inhoud"
       placeholders:
         default: "-"
-        date: "Select date"
+        date: "Datum selecteren"
       query:
         column_names: "Kolommen"
         group_by: "Groepeer resultaten op"
@@ -1018,7 +1018,7 @@ nl:
         move_column_left: "Verplaats kolom naar links"
         move_column_right: "Verplaats kolom naar rechts"
         hide_column: "Verberg kolom"
-        insert_columns: "Insert columns"
+        insert_columns: "Kolommen invoegen"
         filters: "Filters"
         display_sums: "Bedragen weergeven"
         confirm_edit_cancel: "Weet u zeker dat u wilt stoppen met het bewerken van de naam van deze weergave? De Titel zal terug naar vorige waarde worden ingesteld."
@@ -1176,10 +1176,11 @@ nl:
       button_deactivate: 'Deactiveren van zen modus'
     global_search:
       all_projects: "Voor alle projecten"
-      search: "Zoeken"
       close_search: "Sluit zoekopdracht"
-      current_project: "In dit project"
       current_project_and_all_descendants: "In dit project + subprojecten"
+      current_project: "In dit project"
+      recently_viewed: "Recently viewed"
+      search: "Zoeken"
       title:
         all_projects: "alle projecten"
         project_and_subprojects: "en alle subprojecten"
@@ -1274,7 +1275,7 @@ nl:
       apply: 'Toepassen'
       header_description: 'Highlight changes made to this list since any point in the past.'
       enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
-      show_changes_since: 'Show changes since'
+      show_changes_since: 'Toon wijzigingen sinds'
       baseline_comparison: 'Baseline comparison'
       help_description: 'Reference time zone for the baseline.'
       time_description: 'In your local time: %{datetime}'
@@ -1294,7 +1295,7 @@ nl:
         now_meets_filter_criteria: 'Now meets filter criteria'
         no_longer_meets_filter_criteria: 'No longer meets filter criteria'
         maintained_with_changes: 'Maintained with changes'
-        in_your_timezone: 'In your local timezone:'
+        in_your_timezone: 'In je lokale tijdzone:'
       icon_tooltip:
         added: 'Added to view within the comparison time period'
         removed: 'Removed from view within the comparison time period'

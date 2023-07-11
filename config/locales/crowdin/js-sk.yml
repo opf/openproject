@@ -1182,10 +1182,11 @@ sk:
       button_deactivate: 'Deaktivovať zen režim'
     global_search:
       all_projects: "Pre všetky projekty"
-      search: "Vyhľadávanie"
       close_search: "Zavrieť vyhľadávanie"
-      current_project: "V tomto projekte"
       current_project_and_all_descendants: "V tomto projekte + podprojektoch"
+      current_project: "V tomto projekte"
+      recently_viewed: "Recently viewed"
+      search: "Vyhľadávanie"
       title:
         all_projects: "všetky projekty"
         project_and_subprojects: "a všetky podprojekty"

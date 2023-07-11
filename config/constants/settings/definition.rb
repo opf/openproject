@@ -809,6 +809,26 @@ module Settings
         default: "https://releases.openproject.com/v1/check.svg",
         writable: false
       },
+      seed_admin_user_password: {
+        description: 'Password to set for the initially created admin user (Login remains "admin").',
+        default: 'admin',
+        writable: false
+      },
+      seed_admin_user_mail: {
+        description: 'E-mail to set for the initially created admin user.',
+        default: 'admin@example.net',
+        writable: false
+      },
+      seed_admin_user_name: {
+        description: 'Name to set for the initially created admin user.',
+        default: 'OpenProject Admin',
+        writable: false
+      },
+      seed_admin_user_password_reset: {
+        description: 'Whether to force a password reset for the initially created admin user.',
+        default: true,
+        writable: false
+      },
       self_registration: {
         default: 2
       },

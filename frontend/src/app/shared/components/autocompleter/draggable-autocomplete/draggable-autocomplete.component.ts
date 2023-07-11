@@ -15,6 +15,7 @@ import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { merge } from 'rxjs';
 import { setBodyCursor } from 'core-app/shared/helpers/dom/set-window-cursor.helper';
+import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
 
 export interface DraggableOption {
   name:string;
@@ -133,14 +134,7 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   }
 
   opened() {
-    // Force reposition as a workaround for BUG
-    // https://github.com/ng-select/ng-select/issues/1259
-    setTimeout(() => {
-      const component = this.ngSelectComponent as any;
-      if (component && component.dropdownPanel) {
-        component.dropdownPanel._updatePosition();
-      }
-    }, 25);
+    repositionDropdownBugfix(this.ngSelectComponent);
   }
 
   private updateAvailableOptions() {

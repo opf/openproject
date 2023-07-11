@@ -28,7 +28,9 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Admin menu items', js: true do
+RSpec.describe 'Admin menu items',
+               js: true,
+               with_cuprite: true do
   let(:user) { create(:admin) }
 
   before do
@@ -49,7 +51,7 @@ RSpec.describe 'Admin menu items', js: true do
     end
   end
 
-  context 'with having custom hidden menu items',
+  context 'having custom hidden menu items',
           with_config: {
             'hidden_menu_items' => { 'admin_menu' => ['colors'] }
           } do

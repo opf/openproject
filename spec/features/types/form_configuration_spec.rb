@@ -78,7 +78,7 @@ RSpec.describe 'form configuration', js: true do
         # Wait for page reload
         sleep 1
 
-        expect(page).not_to have_selector('.group-edit-handler', text: 'WHATEVER')
+        expect(page).not_to have_selector('.group-head', text: 'WHATEVER')
         form.expect_group('details', 'Details')
         form.expect_attribute(key: :assignee)
       end

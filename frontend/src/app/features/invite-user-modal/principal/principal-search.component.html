@@ -42,14 +42,14 @@
   <ng-template ng-tag-tmp>
     <!--Invite a new user by email-->
     <div *ngIf="canInviteByEmail$ | async">
-      <span class="spot-icon spot-icon_inline spot-icon_1_25 spot-icon_mail1"></span>
+      <op-icon icon-classes="icon-mail1 icon-context"></op-icon>
       <b>{{ text.inviteNewUser }}</b>
       {{ input }}
     </div>
 
     <!--Create a new placeholder by name-->
     <div *ngIf="canCreateNewPlaceholder$ | async">
-      <span class="spot-icon spot-icon_inline spot-icon_1_25 spot-icon_add"></span>
+      <op-icon icon-classes="icon-add icon-context"></op-icon>
       <b>{{ text.createNewPlaceholder }}</b>
       {{ input }}
     </div>

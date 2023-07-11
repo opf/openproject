@@ -89,18 +89,19 @@ RSpec.describe 'Moving a work package through Rails view', js: true do
                             query: 'Target',
                             select_text: 'Target',
                             results_selector: 'body'
-        SeleniumHubWaiter.wait
+        if using_cuprite?
+          wait_for_network_idle
+        else
+          SeleniumHubWaiter.wait
+        end
       end
 
       context 'when the limit to move in the frontend is 1',
               with_settings: { work_packages_bulk_request_limit: 1 } do
-        it 'copies them in the background and shows a status page' do
-          # Clicking move and follow might be broken due to the location.href
-          # in the refresh-on-form-changes component
-          retry_block do
-            click_on 'Move and follow'
-            page.find('[data-qa-selector="job-status--header"]')
-          end
+        it 'copies them in the background and shows a status page', :with_cuprite do
+          click_on 'Move and follow'
+          wait_for_reload
+          page.find('[data-qa-selector="job-status--header"]')
 
           expect(page).to have_text 'The job has been queued and will be processed shortly.'
 
@@ -114,14 +115,11 @@ RSpec.describe 'Moving a work package through Rails view', js: true do
         end
       end
 
-      it 'moves parent and child wp to a new project' do
-        # Clicking move and follow might be broken due to the location.href
-        # in the refresh-on-form-changes component
-        retry_block do
-          click_on 'Move and follow'
-          page.find('.inline-edit--container.subject', text: work_package.subject, wait: 10)
-          page.find_by_id('projects-menu', text: 'Target')
-        end
+      it 'moves parent and child wp to a new project', :with_cuprite do
+        click_on 'Move and follow'
+        wait_for_reload
+        page.find('.inline-edit--container.subject', text: work_package.subject)
+        page.find_by_id('projects-menu', text: 'Target')
 
         # Should move its children
         child_wp.reload
@@ -131,14 +129,11 @@ RSpec.describe 'Moving a work package through Rails view', js: true do
       context 'when the target project does not have the type' do
         let!(:project2) { create(:project, name: 'Target', types: [type2]) }
 
-        it 'does moves the work package and changes the type' do
-          # Clicking move and follow might be broken due to the location.href
-          # in the refresh-on-form-changes component
-          retry_block do
-            click_on 'Move and follow'
-            page.find('.inline-edit--container.subject', text: work_package.subject, wait: 10)
-            page.find_by_id('projects-menu', text: 'Target')
-          end
+        it 'does moves the work package and changes the type', :with_cuprite do
+          click_on 'Move and follow'
+          wait_for_reload
+          page.find('.inline-edit--container.subject', text: work_package.subject)
+          page.find_by_id('projects-menu', text: 'Target')
 
           # Should NOT have moved
           child_wp.reload

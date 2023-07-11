@@ -1175,10 +1175,11 @@ tr:
       button_deactivate: 'Zen modunu devre dışı bırak'
     global_search:
       all_projects: "Tüm projelerde"
-      search: "Ara"
       close_search: "Aramayı kapat"
-      current_project: "Bu projede"
       current_project_and_all_descendants: "Bu projede + alt projelerde"
+      current_project: "Bu projede"
+      recently_viewed: "Recently viewed"
+      search: "Ara"
       title:
         all_projects: "tüm projeler"
         project_and_subprojects: "ve tüm alt projeler"

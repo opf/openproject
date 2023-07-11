@@ -37,6 +37,7 @@ module Components
 
       def toggle
         page.find_by_id('projects-menu').click
+        wait_for_network_idle if using_cuprite?
       end
 
       def open?

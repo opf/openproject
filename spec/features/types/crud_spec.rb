@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Types', js: true do
+RSpec.describe 'Types', js: true, with_cuprite: true do
   shared_let(:admin) { create(:admin) }
 
   let!(:existing_role) { create(:role) }

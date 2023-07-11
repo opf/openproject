@@ -150,7 +150,7 @@ export class HalResourceService {
    */
   public getAllPaginated<T extends CollectionResource>(
     href:string,
-    params:Record<string, string|number> = {},
+    params:Record<string, string|number|boolean> = {},
     headers:HTTPClientHeaders = {},
   ):Observable<T[]> {
     return getPaginatedCollections(

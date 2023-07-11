@@ -85,18 +85,16 @@ RSpec.describe 'Wiki menu items' do
     end
   end
 
-  it 'allows managing the menu item of a wiki page', js: true do
+  it 'allows managing the menu item of a wiki page', js: true, with_cuprite: true do
     other_wiki_page
     another_wiki_page
 
     visit project_wiki_path(project, wiki_page)
 
     # creating the menu item with the pages name for the menu item
-    SeleniumHubWaiter.wait
     click_link 'More'
     click_link 'Configure menu item'
 
-    SeleniumHubWaiter.wait
     choose "Show as menu item in project navigation"
 
     click_button "Save"
@@ -104,14 +102,12 @@ RSpec.describe 'Wiki menu items' do
     expect(page)
       .to have_selector('.main-menu--children-menu-header', text: wiki_page.title)
 
-    SeleniumHubWaiter.wait
     find('.main-menu--arrow-left-to-project').click
 
     expect(page)
       .to have_selector('.main-item-wrapper', text: wiki_page.title)
 
     # clicking the menu item leads to the page
-    SeleniumHubWaiter.wait
     click_link wiki_page.title
 
     expect(page)
@@ -119,11 +115,9 @@ RSpec.describe 'Wiki menu items' do
 
     # modifying the menu item to a different name and to be a subpage
 
-    SeleniumHubWaiter.wait
     click_link 'More'
     click_link 'Configure menu item'
 
-    SeleniumHubWaiter.wait
     fill_in 'Name of menu item', with: 'Custom page name'
 
     choose "Show as submenu item of"
@@ -139,14 +133,12 @@ RSpec.describe 'Wiki menu items' do
     expect(page)
       .to have_selector('.wiki-menu--sub-item', text: 'Custom page name')
 
-    SeleniumHubWaiter.wait
     click_link 'Custom page name'
 
     expect(page)
       .to have_current_path(project_wiki_path(project, wiki_page))
 
     # the submenu item is not visible on top level
-    SeleniumHubWaiter.wait
     find('.main-menu--arrow-left-to-project').click
 
     expect(page)
@@ -156,12 +148,12 @@ RSpec.describe 'Wiki menu items' do
     visit project_wiki_path(project, wiki_page)
 
     click_link 'More'
-    click_link 'Delete'
-
-    page.driver.browser.switch_to.alert.accept
+    accept_alert do
+      click_link 'Delete'
+    end
 
     within '#menu-sidebar' do
-      expect(page).to have_no_content('Custom page name')
+      expect(page).not_to have_content('Custom page name')
     end
 
     # removing the menu item which is also the last wiki menu item
@@ -177,7 +169,6 @@ RSpec.describe 'Wiki menu items' do
     click_button 'Save'
 
     # Because it is the last wiki menu item, the user is prompted to select another menu item
-    SeleniumHubWaiter.wait
     select another_wiki_page.title, from: 'main-menu-item-select'
 
     click_button 'Save'

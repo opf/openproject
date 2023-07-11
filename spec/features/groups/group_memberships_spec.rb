@@ -28,7 +28,9 @@
 
 require 'spec_helper'
 
-RSpec.describe 'group memberships through groups page', js: true do
+RSpec.describe 'group memberships through groups page',
+               js: true,
+               with_cuprite: true do
   shared_let(:admin) { create(:admin) }
   let!(:project) do
     create(:project, name: 'Project 1', identifier: 'project1', members: project_members)
@@ -53,16 +55,11 @@ RSpec.describe 'group memberships through groups page', js: true do
   end
 
   it 'adding a user to a group adds the user to the project as well' do
-    members_page.visit!
-    expect(members_page).not_to have_user 'Hannibal Smith'
-
     group_page.visit!
 
-    SeleniumHubWaiter.wait
     group_page.add_to_project! 'Project 1', as: 'Manager'
     expect(page).to have_text 'Successful update'
 
-    SeleniumHubWaiter.wait
     group_page.add_user! 'Hannibal'
 
     members_page.visit!
@@ -76,11 +73,7 @@ RSpec.describe 'group memberships through groups page', js: true do
     let(:project_members) { { group => [manager] } }
 
     it 'removing a user from the group removes them from the project too' do
-      members_page.visit!
-      expect(members_page).to have_user 'Hannibal Smith'
-
       group_page.visit!
-      SeleniumHubWaiter.wait
       group_page.remove_user! 'Hannibal Smith'
 
       members_page.visit!
@@ -112,18 +105,6 @@ RSpec.describe 'group memberships through groups page', js: true do
     let(:project_members) { { peter => manager, group => developer } }
 
     it 'can add a new user to the group with correct member roles (Regression #33659)' do
-      members_page1.visit!
-
-      expect(members_page1).to have_group 'A-Team', roles: [developer]
-      expect(members_page1).to have_user 'Peter Pan', roles: [manager, developer]
-      expect(members_page1).not_to have_user 'Hannibal Smith'
-
-      members_page2.visit!
-
-      expect(members_page2).to have_group 'A-Team', roles: [developer]
-      expect(members_page2).to have_user 'Peter Pan', roles: [manager, developer]
-      expect(members_page2).not_to have_user 'Hannibal Smith'
-
       # Add hannibal to the group
       group_page.visit!
       group_page.add_user! 'Hannibal'
@@ -153,7 +134,7 @@ RSpec.describe 'group memberships through groups page', js: true do
 
       # Remove the group from members page
       members_page2.remove_group! 'A-Team'
-      expect(page).to have_text 'Removed A-Team from project.', wait: 10
+      expect(page).to have_text 'Removed A-Team from project.'
       expect(members_page2).to have_user 'Peter Pan', roles: [manager]
 
       expect(members_page2).not_to have_group 'A-Team'
@@ -162,7 +143,7 @@ RSpec.describe 'group memberships through groups page', js: true do
       # Expect we can remove peter pan now
       members_page2.remove_user! 'Peter Pan'
 
-      expect(page).to have_text 'Removed Peter Pan from project.', wait: 10
+      expect(page).to have_text 'Removed Peter Pan from project.'
       expect(members_page2).not_to have_user 'Peter Pan'
       expect(members_page2).not_to have_group 'A-Team'
       expect(members_page2).not_to have_user 'Hannibal Smith'

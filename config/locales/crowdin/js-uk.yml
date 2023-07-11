@@ -1182,10 +1182,11 @@ uk:
       button_deactivate: 'Деактивуйте режим дзен'
     global_search:
       all_projects: "У всіх проектах"
-      search: "Пошук"
       close_search: "Закрити пошук"
-      current_project: "У цьому проекті"
       current_project_and_all_descendants: "У цьому проекті + підпроекти"
+      current_project: "У цьому проекті"
+      recently_viewed: "Recently viewed"
+      search: "Пошук"
       title:
         all_projects: "всі проекти"
         project_and_subprojects: "і всі підпроекти"

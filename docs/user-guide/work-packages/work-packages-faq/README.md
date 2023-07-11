@@ -11,7 +11,7 @@ keywords: work packages FAQ, tickets, how to, task
 | Topic                                                     | Content                                                      |
 | --------------------------------------------------------- | ------------------------------------------------------------ |
 | [Working with work packages](#working-with-work-packages) | Work package attributes, work package form, relations        |
-| [Filters and queries](#filters-and-queries)               | Work package list, saving and changing filters and views     |
+| [Filters and queries](#filters-and-queries)               | Work package table, saving and changing filters and views    |
 | [Status and type](#status-and-type)                       | Work package statuses and work package types                 |
 | [Move and copy](#move-and-copy)                           | Moving and copying work packages                             |
 | [Custom fields](#custom-fields)                           | Additional fields, self-defined attributes and values        |
@@ -30,13 +30,13 @@ If you want to manage your project alone (without informing other team members) 
 
 ### How can I set workload, deadline and duration in a work package?
 
-- Workload: Use "Estimated time"
-- Deadline: Use the finish date
-- Duration: Create a custom field or just set start date and finish date.
+- Workload: Use the "Estimated time" field
+- Deadline: Use the "Finish date" field
+- Duration: Use the "Duration" field
 
 ### How can I see which work packages have been assigned to me as part of a group (e.g. "Marketing team")?
 
-You can set the assignee filter in the work package list to "Assignee and belonging group" to see all work package directly and indirectly (through a group membership) assigned to you. [Save the view](../work-package-table-configuration/#save-work-package-views) to keep it for the future.
+You can set the assignee filter in the work package table to "Assignee and belonging group" to see all work package directly and indirectly (through a group membership) assigned to you. [Save the view](../work-package-table-configuration/#save-work-package-views) to keep it for the future.
 
 ### How can I track the progress of my work package?
 
@@ -86,7 +86,7 @@ As an inherited change is always commented ("Updated automatically by...") they 
 ### How can I fill/populate the position field/column for work packages?
 
 The "Position" attribute is provided by the Backlogs plugin and shows the position of a work package in the backlog.
-If you create e.g. a Feature and assign it to a sprint, the position of the feature in the sprint is shown in the "Position" attribute on the work package list.
+If you create e.g. a Feature and assign it to a sprint, the position of the feature in the sprint is shown in the "Position" attribute on the work package table.
 
 ### Can I restore a deleted workpackage?
 
@@ -94,12 +94,12 @@ There is no easy way to restore a deleted workpackage. Generally, you have the o
 
 ## Filters and queries
 
-### How can I keep changed columns or filters for the work packages list?
+### How can I keep changed columns or filters for the work package tables?
 
 Click on the three dots in the upper right corner and choose **Save** or **Save as**. The view's name will appear in the menu bar on the left. 
 Please note: You can't change the default view "All open", clicking Save will have no effect.
 
-### How can I set certain filters and columns in the work packages list for my colleagues?
+### How can I set certain filters and columns in the work package tables for my colleagues?
 
 Tick the box next to "Public" when saving the work package view. We suggest ticking the box next to "Favored", too.
 
@@ -109,16 +109,16 @@ This is not possible at the moment, but you can configure and save another view.
 
 A [feature request](../../../development/submit-feature-idea/) to change this can be found [here](https://community.openproject.com/projects/openproject/work_packages/31423/activity).
 
-### I sorted my work package list and when I get back to my work package list it doesn't look the same way again. Why?
+### I sorted my work package table and when I get back to my work package table it doesn't look the same way again. Why?
 
-It is most likely that you did not save the view of your work package list after sorting it. Make sure you save it (top right menu -> **Save as** or **Save**).
+It is most likely that you did not save the view of your work package table after sorting it. Make sure you save it (top right menu -> **Save as** or **Save**).
 
-### In the global work packages list, not all custom fields are available for filters. Why?
+### In the global work package tables, not all custom fields are available for filters. Why?
 
-In the [global work packages list](../../projects/#global-work-packages-list), only the custom fields that apply to all projects are displayed in the filter area (setting "for all projects" in the administration). 
+In the [global work package tables](../../projects/#global-work-package-tables), only the custom fields that apply to all projects are displayed in the filter area (setting "for all projects" in the administration). 
 There are two reasons for this: 1. Potentially, a lot of values are displayed in the global filter list - especially if a lot of custom fields are used in individual projects. This can impair usability and (in extreme cases) performance.  2. As the values in the filter area are displayed for all users, sensitive information (name of the custom fields and their values) could in principle be visible to users who do not have access to the respective project where the custom field is activated.
 
-### I have a parent work package with multiple children. In the work package list I don't see all of the children below the parent. Why? How can I change this?
+### I have a parent work package with multiple children. In the work package table I don't see all of the children below the parent. Why? How can I change this?
 
 Please increase the number of displayed work packages per page [in the administration](../../../system-admin-guide/system-settings/general-settings/#general-system-settings). Then the probability of this phenomenon happening is lower. 
 This is a known behavior of OpenProject, but not trivial to solve. There's already a feature request for this [here](https://community.openproject.com/projects/openproject/work_packages/34925/activity).
@@ -186,13 +186,13 @@ In the following view you have the possibility to change additional attributes o
 
 ### How can I move a work package to another project?
 
-In the work package list: Right-click on the work package and choose **Change project**.  
+In the work package table: Right-click on the work package and choose **Change project**.  
 
 In the details view of the work package: Click on **More** (button with three dots in the upper right hand corner) and the on **Change project**.
 
 ### Can I group tasks into folders?
 
-There are no folders for work packages. To group work packages, such as tasks, you can use the [filter and grouping options](../work-package-table-configuration/#work-package-table-configuration) and [save the filters](../work-package-table-configuration/#save-work-package-views). You can also define all related work packages as children of the same parent work package (e.g. a phase). You can indent the hierarchy for work packages in the work packages list (with a right mouse click -> *Indent hierarchy*) to add them as children to another work package, for example a phase. This will then also be displayed in the Gantt chart. Alternatively, you can use the [work package categories](../../projects/project-settings/work-package-categories/#manage-work-package-categories) or a custom field to filter and group work packages. Also, you can create multiple projects to group different topics.
+There are no folders for work packages. To group work packages, such as tasks, you can use the [filter and grouping options](../work-package-table-configuration/#work-package-table-configuration) and [save the filters](../work-package-table-configuration/#save-work-package-views). You can also define all related work packages as children of the same parent work package (e.g. a phase). You can indent the hierarchy for work packages in the work package tables (with a right mouse click -> *Indent hierarchy*) to add them as children to another work package, for example a phase. This will then also be displayed in the Gantt chart. Alternatively, you can use the [work package categories](../../projects/project-settings/work-package-categories/#manage-work-package-categories) or a custom field to filter and group work packages. Also, you can create multiple projects to group different topics.
 
 ## Custom fields
 
@@ -200,13 +200,13 @@ There are no folders for work packages. To group work packages, such as tasks, y
 
 You can create a custom field for this that you add to the work package form. Please follow [these instructions](../../../system-admin-guide/custom-fields/).
 
-### Will work package custom fields of the type "long text" be shown in the export of a work packages list?
+### Will work package custom fields of the type "long text" be shown in the export of a work package tables?
 
 As custom fields of the type "long text" cannot be added as a column, they cannot be exported via the page-wide export. However, individual work packages can be exported. This can be done either via the "PDF Download" or (better) via the browser print function. 
 
 ### Can I sum up custom fields?
 
-Yes, you can display the sum of custom fields in the work packages list by checking the "Sum" option in [the work package display settings](../work-package-table-configuration/#display-sums-in-work-package-list).
+Yes, you can display the sum of custom fields in the work package tables by checking the "Sum" option in [the work package display settings](../work-package-table-configuration/#display-sums-in-work-package-table).
 
 Calculating a sum across different attributes (e.g. Estimated time + added hours) is however not possible.
 

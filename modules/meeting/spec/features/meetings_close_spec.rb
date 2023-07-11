@@ -57,17 +57,15 @@ RSpec.describe 'Meetings close' do
       click_link meeting.title
 
       # Go to minutes, expect uneditable
-      SeleniumHubWaiter.wait
       find('.op-tab-row--link', text: 'MINUTES').click
 
       expect(page).to have_selector('.button', text: 'Close the agenda to begin the Minutes')
 
       # Close the meeting
-      SeleniumHubWaiter.wait
       find('.op-tab-row--link', text: 'AGENDA').click
-      SeleniumHubWaiter.wait
-      find('.button', text: 'Close').click
-      page.accept_confirm
+      accept_confirm do
+        find('.button', text: 'Close').click
+      end
 
       # Expect to be on minutes
       expect(page).to have_selector('.op-tab-row--link_selected', text: 'MINUTES')
@@ -76,11 +74,10 @@ RSpec.describe 'Meetings close' do
       expect(page).to have_selector('#tab-content-minutes', text: 'asdf')
 
       # Go back to agenda, expect we can open it again
-      SeleniumHubWaiter.wait
       find('.op-tab-row--link', text: 'AGENDA').click
-      SeleniumHubWaiter.wait
-      find('.button', text: 'Open').click
-      page.accept_confirm
+      accept_confirm do
+        find('.button', text: 'Open').click
+      end
       expect(page).to have_selector('.button', text: 'Close')
     end
   end

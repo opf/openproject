@@ -1174,10 +1174,11 @@ ja:
       button_deactivate: 'マナーモードを非アクティブにする'
     global_search:
       all_projects: "すべてのプロジェクトで"
-      search: "検索"
       close_search: "検索を閉じる"
-      current_project: "このプロジェクトでは"
       current_project_and_all_descendants: "このプロジェクトとサブプロジェクトでは"
+      current_project: "このプロジェクトでは"
+      recently_viewed: "Recently viewed"
+      search: "検索"
       title:
         all_projects: "すべてのプロジェクト"
         project_and_subprojects: "すべてのプロジェクトで"

@@ -339,6 +339,16 @@ module ApplicationHelper
     mode, _theme_suffix = User.current.pref.theme.split("_", 2)
     "data-color-mode=\"#{mode}\" data-#{mode}-theme=\"#{User.current.pref.theme}\"".html_safe
   end
+  
+  def highlight_default_language(lang_options)
+    lang_options.map do |(language_name, code)|
+      if code == Setting.default_language
+        [I18n.t('settings.language_name_being_default', language_name:), code, { disabled: true, checked: true }]
+      else
+        [language_name, code]
+      end
+    end
+  end
 
   def labelled_tabular_form_for(record, options = {}, &)
     options.reverse_merge!(builder: TabularFormBuilder, html: {})

@@ -1175,10 +1175,11 @@ sv:
       button_deactivate: 'Inaktivera avskalat läge'
     global_search:
       all_projects: "I alla projekt"
-      search: "Sök"
       close_search: "Stäng sökning"
-      current_project: "I detta projekt"
       current_project_and_all_descendants: "I detta projekt + delprojekt"
+      current_project: "I detta projekt"
+      recently_viewed: "Recently viewed"
+      search: "Sök"
       title:
         all_projects: "alla projekt"
         project_and_subprojects: "och alla delprojekt"

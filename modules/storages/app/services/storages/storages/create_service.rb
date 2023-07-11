@@ -42,13 +42,22 @@ module Storages::Storages
       storage = service_call.result
       # Automatically create an OAuthApplication object for the Nextcloud storage
       # using values from storage (particularly :host) as defaults
-      if storage.provider_type == Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+      if storage.provider_type_nextcloud?
         persist_service_result = ::Storages::OAuthApplications::CreateService.new(storage:, user:).call
         storage.oauth_application = persist_service_result.result if persist_service_result.success?
         service_call.add_dependent!(persist_service_result)
       end
 
       service_call
+    end
+
+    # @override BaseServices::Create#instance to return a Storages::{ProviderType}Storage class name
+    # At this stage, the model contract has already been validated, so we can be sure of the provider_type presence
+    # @example instance_klass = Storages::NextcloudStorage
+    #
+    def instance(params)
+      instance_klass = params[:provider_type].constantize
+      instance_klass.new
     end
   end
 end

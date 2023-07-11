@@ -1175,10 +1175,11 @@ de:
       button_deactivate: 'Zen-Modus deaktivieren'
     global_search:
       all_projects: "In allen Projekten"
-      search: "Suche"
       close_search: "Suche schließen"
-      current_project: "In diesem Projekt"
       current_project_and_all_descendants: "In diesem Projekt + Unterprojekten"
+      current_project: "In diesem Projekt"
+      recently_viewed: "Recently viewed"
+      search: "Suche"
       title:
         all_projects: "alle Projekte"
         project_and_subprojects: "und alle Unterprojekte"

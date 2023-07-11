@@ -26,7 +26,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { DayResourceService } from 'core-app/core/state/days/day.service';
 import { IDay } from 'core-app/core/state/days/day.model';
 import { CalendarViewEvent } from 'core-app/features/calendar/op-work-packages-calendar.service';
-import { spotIconElement } from 'core-app/shared/helpers/spot-icon-builder';
+import { opIconElement } from 'core-app/shared/helpers/op-icon-builder';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { ConfirmDialogOptions } from '../modals/confirm-dialog/confirm-dialog.modal';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
@@ -95,8 +95,7 @@ export class OpNonWorkingDaysListComponent implements OnInit {
       anchor.title = 'Delete';
       anchor.href = '#';
       anchor.classList.add('fc-list-day-side-text', 'op-non-working-days-list--delete-icon');
-      anchor.setAttribute('data-qa-selector', 'op-non-working-days-list--delete-icon');
-      anchor.appendChild(spotIconElement('delete'));
+      anchor.appendChild(opIconElement('icon', 'icon-delete'));
 
       anchor.addEventListener('click', () => {
         // Create 4 hidden inputs(id, name, date, _destroy) for the deleted NWD

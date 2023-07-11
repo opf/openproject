@@ -70,9 +70,9 @@ module WorkPackage::PDFExport::Page
 
   def custom_logo_image
     return unless CustomStyle.current.present? &&
-      CustomStyle.current.logo.present? && CustomStyle.current.logo.local_file.present?
+      CustomStyle.current.export_logo.present? && CustomStyle.current.export_logo.local_file.present?
 
-    image_file = CustomStyle.current.logo.local_file.path
+    image_file = CustomStyle.current.export_logo.local_file.path
     content_type = OpenProject::ContentTypeDetector.new(image_file).detect
     return unless pdf_embeddable?(content_type)
 
@@ -117,7 +117,7 @@ module WorkPackage::PDFExport::Page
 
   def write_footer_date!
     draw_repeating_text(
-      text: format_date(Time.zone.today),
+      text: format_time(Time.zone.now, true),
       align: :left,
       top: styles.page_footer_offset,
       text_style: styles.page_footer

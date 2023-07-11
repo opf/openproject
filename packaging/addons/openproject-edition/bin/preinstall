@@ -21,6 +21,11 @@ if [ "$edition" = "bim" ]; then
 	case "$OSFAMILY" in
 		"debian")
 			case "$OSVERSION" in
+				"22.04")
+					wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/ubuntu/22.04/prod.list
+					apt-get update -qq
+					;;
 				"20.04")
 					wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
 					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/ubuntu/20.04/prod.list
@@ -29,6 +34,11 @@ if [ "$edition" = "bim" ]; then
 				"18.04")
 					wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
 					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/ubuntu/18.04/prod.list
+					apt-get update -qq
+					;;
+				"12")
+					wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/debian/12/prod.list
 					apt-get update -qq
 					;;
 				"11")
@@ -46,6 +56,9 @@ if [ "$edition" = "bim" ]; then
 			;;
 		"redhat")
 			case "$(wiz_fact "osversion")" in
+				9*)
+					dnf install -y dotnet-runtime-6.0
+					;;
 				8*)
 					dnf install -y dotnet-runtime-6.0
 					;;

@@ -82,12 +82,11 @@ See COPYRIGHT and LICENSE files for more details.
         <div class="attributes-key-value--value -text">
           <div class="security-badge--container">
             <%= content_tag :object, nil, data: security_badge_url, type: "image/svg+xml" %>
-            <%= link_to ::OpenProject::Static::Links[:security_badge_documentation][:href],
+            <%= link_to '',
+                        ::OpenProject::Static::Links[:security_badge_documentation][:href],
                         title: t(:label_what_is_this),
-                        class: 'spot-link',
-                        target: '_blank' do %>
-              <%= spot_icon('help1') %>
-            <% end %>
+                        class: 'security-badge--help-icon icon-context icon-help1',
+                        target: '_blank' %>
           </div>
         </div>
       </div>

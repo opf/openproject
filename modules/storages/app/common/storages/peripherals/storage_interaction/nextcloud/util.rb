@@ -36,7 +36,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Util
 
     def basic_auth_header(username, password)
       {
-        'Authorization' => "Basic #{Base64::encode64("#{username}:#{password}")}"
+        'Authorization' => "Basic #{Base64::strict_encode64("#{username}:#{password}")}"
       }
     end
 
