@@ -1,6 +1,7 @@
 module OpenProject::XlsExport::Patches
   module CostReportsControllerPatch
-    def self.included(base) # :nodoc:
+    def self.included(base)
+      # :nodoc:
       base.prepend InstanceMethods
     end
 
@@ -15,28 +16,19 @@ module OpenProject::XlsExport::Patches
 
       # If the index action is called, hook the xls format into the cost report
       def respond_to
-        if excel_export?
-          super do |format|
-            yield format
-            format.xls do
-              report = report_to_xls
-              time = Time.now.strftime('%d-%m-%Y-T-%H-%M-%S')
-              send_data(report, type: :xls, filename: "export-#{time}.xls") if report
-            end
+        return super unless excel_export?
+
+        super do |format|
+          yield format
+          format.xls do
+            job_id = XlsExport::CostReports::ScheduleExportService
+              .new(user: current_user)
+              .call(filter_params:, project: @project, cost_types: @cost_types)
+              .result
+
+            redirect_to job_status_path(job_id)
           end
-        else
-          super
         end
-      end
-
-      # Build an xls file from a cost report.
-      # We only support extracting a simple xls table, so grouping is ignored.
-      def report_to_xls
-        export_query = build_query(filter_params)
-
-        options = { query: export_query, project: @project, cost_types: @cost_types }
-
-        ::OpenProject::XlsExport::XlsViews::CostEntryTable.generate(options).xls
       end
     end
   end
