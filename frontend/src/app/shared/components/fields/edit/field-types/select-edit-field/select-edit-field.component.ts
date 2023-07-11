@@ -33,7 +33,10 @@ import {
 } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { SelectAutocompleterRegisterService } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-autocompleter-register.service';
-import { from, Observable } from 'rxjs';
+import {
+  from,
+  Observable,
+} from 'rxjs';
 import {
   map,
   tap,
@@ -120,9 +123,10 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
         this.untilDestroyed(),
       )
       .subscribe(() => {
-        this.valuesLoadingPromise.then(() => {
-          this._autocompleterComponent.openDirectly = true;
-        });
+        void this.valuesLoadingPromise
+          .then(() => {
+            this._autocompleterComponent.openDirectly = true;
+          });
       });
 
     this._syncUrlParamsOnChangeIfNeeded(this.handler.fieldName, this.editFormComponent?.editMode);
@@ -134,7 +138,9 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
       placeholder: this.I18n.t('js.placeholders.default'),
     };
 
-    this.valuesLoadingPromise = this.change.getForm().then(() => this.initialValueLoading());
+    this.valuesLoadingPromise = this.change.getForm()
+      .then(() => this.initialValueLoading())
+      .catch(() => console.error('Failed to load default form'));
   }
 
   protected initialValueLoading() {

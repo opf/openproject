@@ -1430,6 +1430,22 @@ ro:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Modificările au fost retrase."
+    caused_changes:
+      dates_changed: "Dates changed"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} is now working"
+          non_working: "%{day} is now non-working"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} is now non-working"
   links:
     configuration_guide: 'Ghid de configurare'
     get_in_touch: "Aveți întrebări? Luați legătura cu noi."
@@ -2086,6 +2102,7 @@ ro:
         one: 'Mai există un pachet de lucru cu notificări.'
         few: 'Există %{count} mai multe pachete de lucru cu notificări.'
         other: 'Există %{count} mai multe pachete de lucru cu notificări.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Văzut'
         assigned: 'Alocat'
@@ -2613,6 +2630,7 @@ ro:
     attachments:
       whitelist_text_html: >
         Definește o listă validă de extensii de fișiere și/sau tipuri mime pentru fișierele încărcate. <br/> Introduceți extensii de fișiere (de ex. <code>%{ext_example}</code>) sau tipuri mime (e. ., <code>%{mime_example}</code>). <br/> Lăsați gol pentru a permite oricărui tip de fișier să fie încărcat. Valori multiple permise (o linie pentru fiecare valoare).
+    language_name_being_default: '%{language_name} (default)'
     notifications:
       events_explanation: 'Stabilește pentru ce eveniment se trimite un e-mail. Pachetele de lucru sunt excluse din această listă, deoarece notificările pentru acestea pot fi configurate în mod specific pentru fiecare utilizator.'
       delay_minutes_explanation: "Trimiterea e-mailurilor poate fi întârziată pentru a permite utilizatorilor cu notificare configurată în aplicație să confirme notificarea în cadrul aplicației înainte de a trimite un e-mail. Utilizatorii care citesc o notificare în cadrul aplicației nu vor primi un e-mail pentru notificarea deja citită."

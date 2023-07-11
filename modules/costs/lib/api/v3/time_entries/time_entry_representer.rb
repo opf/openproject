@@ -74,6 +74,8 @@ module API
 
         property :id
 
+        property :ongoing
+
         formattable_property :comments,
                              as: :comment,
                              plain: true
@@ -115,9 +117,10 @@ module API
         end
 
         def update_allowed?
-          current_user_allowed_to(:edit_time_entries, context: represented.project) ||
-            (represented.user_id == current_user.id &&
-              current_user_allowed_to(:edit_own_time_entries, context: represented.project))
+          @update_allowed ||= begin
+            contract = ::TimeEntries::UpdateContract.new(represented, current_user)
+            contract.user_allowed_to_update?
+          end
         end
 
         def current_user_allowed_to(permission, context:)

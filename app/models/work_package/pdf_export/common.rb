@@ -100,7 +100,7 @@ module WorkPackage::PDFExport::Common
     return '' if value.nil?
 
     formatter = formatter_for(column_name, :pdf)
-    formatter.format_value(value)
+    formatter.format_value(value, {})
   end
 
   def escape_tags(value)
@@ -213,6 +213,15 @@ module WorkPackage::PDFExport::Common
 
   def with_attachments?
     options[:show_images]
+  end
+
+  def build_pdf_filename(base)
+    suffix = "_#{title_datetime}.pdf"
+    "#{truncate(base, length: 255 - suffix.chars.length)}#{suffix}".gsub(' ', '-')
+  end
+
+  def title_datetime
+    DateTime.now.strftime('%Y-%m-%d_%H-%M')
   end
 
   def current_page_nr

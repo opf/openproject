@@ -27,34 +27,43 @@
 #++
 
 class Storages::NextcloudStorage < Storages::Storage
-  store_accessor :provider_fields,
-                 %i[username
-                    password
-                    group
-                    group_folder
-                    has_managed_project_folders]
+  PROVIDER_FIELDS_DEFAULTS = {
+    automatically_managed: true,
+    username: 'OpenProject'
+  }.freeze
 
-  alias_method :has_managed_project_folders?, :has_managed_project_folders
+  store_attribute :provider_fields, :automatically_managed, :boolean
+  store_attribute :provider_fields, :username, :string
+  store_attribute :provider_fields, :password, :string
+  store_attribute :provider_fields, :group, :string
+  store_attribute :provider_fields, :group_folder, :string
 
-  def group
-    super || "OpenProject"
+  def self.sync_all_group_folders
+    # Returns false if lock cannot be acquired, block is not executed then.
+    OpenProject::Mutex.with_advisory_lock(self,
+                                          'sync_all_group_folders',
+                                          timeout_seconds: 0,
+                                          transaction: false) do
+      where("provider_fields->>'automatically_managed' = 'true'")
+        .includes(:oauth_client)
+        .each do |storage|
+        Storages::GroupFolderPropertiesSyncService.new(storage).call
+      end
+      true
+    end
   end
 
-  def group_folder
-    super || "OpenProject"
+  def automatic_management_unspecified?
+    automatically_managed.nil?
   end
 
-  def username
-    super || "OpenProject"
+  %i[username group group_folder].each do |attribute_method|
+    define_method(attribute_method) do
+      super().presence || PROVIDER_FIELDS_DEFAULTS[:username]
+    end
   end
 
-  def has_managed_project_folders=(value)
-    super(!!value)
+  def provider_fields_defaults
+    PROVIDER_FIELDS_DEFAULTS
   end
-
-  # rubocop:disable Naming/PredicateName
-  def has_managed_project_folders
-    !!super
-  end
-  # rubocop:enable Naming/PredicateName
 end

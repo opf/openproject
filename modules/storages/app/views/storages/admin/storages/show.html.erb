@@ -97,3 +97,25 @@ See COPYRIGHT and LICENSE files for more details.
     <% t(:'storages.oauth_client_details_missing') %>
   <% end %>
 <% end %>
+
+<% if OpenProject::FeatureDecisions.automatically_managed_project_folders_active? %>
+  <%= render(AttributeGroups::AttributeGroupComponent.new) do |component| %>
+    <% component.with_header(title: t("storages.page_titles.managed_project_folders.title")) %>
+
+    <% if @object.automatic_management_unspecified? %>
+      <%= t("storages.automatically_managed_project_folder_missing") %>
+    <% else %>
+      <% component.with_attribute(
+        key: t(:"storages.label_managed_project_folders.automatically_managed_folders"),
+        value: @object.automatically_managed? ? t(:"storages.label_active") : t(:"storages.label_inactive")
+      ) %>
+
+      <% if @object.automatically_managed? %>
+        <% component.with_attribute(
+          key: t(:"storages.label_managed_project_folders.application_password"),
+          value: "●●●●●●●●●●●●●●●●"
+        ) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

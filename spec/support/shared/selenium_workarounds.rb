@@ -31,6 +31,11 @@
 # https://bugs.chromium.org/p/chromedriver/issues/detail?id=1771
 module SeleniumWorkarounds
   def ensure_value_is_input_correctly(input, value:)
+    if using_cuprite?
+      input.set value
+      return
+    end
+
     correctly_set = false
     # Wait longer and longer to set the value, until it is set correctly.
     # The bug may be fixed by now...
