@@ -30,20 +30,27 @@ class Queries::Meetings::Filters::TimeFilter < Queries::Meetings::Filters::Meeti
   validate :validate_only_single_value
 
   def allowed_values
-    %w[past future]
+    [
+      %w[past],
+      %w[future]
+    ]
   end
 
   def where
     case values.first
     when 'past'
-      "start_time < NOW() || start_time + duration * interval '1 hour' < NOW()"
+      '"meetings"."start_time" < NOW() OR "meetings"."start_time" + "meetings"."duration" * interval \'1 hour\' < NOW()'
     when 'future'
-      "start_time > NOW()"
+      '"meetings"."start_time" > NOW()'
     end
   end
 
   def type
     :list
+  end
+
+  def self.key
+    :time
   end
 
   def available_operators

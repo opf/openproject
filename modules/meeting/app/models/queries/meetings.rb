@@ -28,7 +28,7 @@
 
 module Queries::Meetings
   ::Queries::Register.register(MeetingQuery) do
-    filter Queries::Meetings::Filters::ProjectFilter
-    filter Queries::Meetings::Filters::TimeFilter
+    filter Filters::ProjectFilter
+    filter Filters::TimeFilter
   end
 end
