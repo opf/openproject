@@ -26,9 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Meetings
-  ::Queries::Register.register(MeetingQuery) do
-    filter Queries::Meetings::Filters::ProjectFilter
-    filter Queries::Meetings::Filters::TimeFilter
-  end
+class Queries::Meetings::Filters::ProjectFilter < Queries::Meetings::Filters::MeetingFilter
+  include Queries::Filters::Shared::ProjectFilter
 end

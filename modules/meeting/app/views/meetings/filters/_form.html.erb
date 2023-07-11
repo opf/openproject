@@ -1,0 +1,27 @@
+<%= form_tag({},
+             method: :get,
+             class: "meeting-filters #{filter_set? ? '-expanded' : ''}",
+             data: {
+               'meeting-target': 'filterForm',
+               action: 'submit->meeting#sendForm:prevent'
+             }) do %>
+  <% operators_without_values = %w[* !* t w] %>
+  <fieldset class="advanced-filters--container">
+    <a title="<%= t('js.close_form_title') %>"
+       class="advanced-filters--close icon-context icon-close"
+       data-action="meeting#toggleFilterForm"></a>
+    <legend><%= t(:label_filter_plural) %></legend>
+    <ul class="advanced-filters--filters">
+      <% allowed_filters(query).each do |filter| %>
+        <% filter_active = query.find_active_filter(filter.name).present? %>
+        <% filter_boolean = filter.is_a?(Queries::Filters::Shared::BooleanFilter) %>
+        <li>
+          <pre><%= filter %></pre>
+        </li>
+      <% end %>
+      <li class="advanced-filters--controls">
+        <%= submit_tag t('button_apply'), class: 'button -small -highlight', name: nil %>
+      </li>
+    </ul>
+  </fieldset>
+<% end %>

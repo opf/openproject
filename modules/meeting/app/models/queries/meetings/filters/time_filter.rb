@@ -26,9 +26,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Meetings
-  ::Queries::Register.register(MeetingQuery) do
-    filter Queries::Meetings::Filters::ProjectFilter
-    filter Queries::Meetings::Filters::TimeFilter
+class Queries::Meetings::Filters::TimeFilter < Queries::Meetings::Filters::MeetingFilter
+  validate :validate_only_single_value
+
+  def allowed_values
+    %w[past future]
+  end
+
+  def where
+    case values.first
+    when 'past'
+      "start_time < NOW() || start_time + duration * interval '1 hour' < NOW()"
+    when 'future'
+      "start_time > NOW()"
+    end
+  end
+
+  def type
+    :list
+  end
+
+  def available_operators
+    [::Queries::Operators::Equals]
+  end
+
+  private
+
+  def validate_only_single_value
+    errors.add(:values, :invalid) if values.length != 1
   end
 end

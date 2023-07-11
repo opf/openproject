@@ -45,13 +45,8 @@ class MeetingsController < ApplicationController
   menu_item :new_meeting, only: %i[new create]
 
   def index
-    @meetings = if @project
-                  query = load_query
-                  load_meetings(query)
-                else
-                  global_upcoming_meetings
-                end
-
+    @query = load_query
+    @meetings = load_meetings(@query)
     render 'index', locals: { menu_name: project_or_global_menu }
   end
 
@@ -119,10 +114,16 @@ class MeetingsController < ApplicationController
   private
 
   def load_query
-    ParamsToQueryService.new(
+    query = ParamsToQueryService.new(
       Meeting,
       current_user
     ).call(params)
+
+    if @project
+      query = query.where(:project_id, '=', @project.id)
+    end
+
+    query
   end
 
   def load_meetings(query)
