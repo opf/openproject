@@ -66,13 +66,18 @@
           }
         },
         "markdown_label" : {
-          "$ref" : "#/$defs/font"
+          "$ref" : "#/$defs/font_and_margin"
         },
         "markdown_margin" : {
           "$ref" : "#/$defs/margin"
         },
         "markdown" : {
           "$ref" : "#/$defs/md_to_pdf_markdown"
+        }
+      },
+      "patternProperties" : {
+        "^subject_level_\\d+" : {
+          "$ref" : "#/$defs/font_and_margin"
         }
       },
       "allOf" : [
