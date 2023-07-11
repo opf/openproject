@@ -33,11 +33,11 @@ The exported file will display the columns that are activated for the work packa
 Some formats such as PDF will limit the number of columns available due to limitations of the PDF rendering engine to avoid overflowing the available space.
 
 ## Export format options
-OpenProject has multiple options of exporting work packages in PDF format:
+OpenProject has multiple options of exporting work packages, including PDF, XLS, CSV and Atom. See below what each format entails.
 
 ## PDF export
 
-OpenProject has multiple options of exporting work packages in PDF format:
+OpenProject has multiple options of exporting work packages in PDF format.
 
 ### PDF Table 
 PDF Table exports the work package table displaying work packages as single rows with the selected columns for the work package table.
