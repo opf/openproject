@@ -275,5 +275,17 @@ describe 'Projects custom fields', js: true do
       cv = project.custom_values.find_by(custom_field_id: custom_field.id).typed_value
       expect(cv).to eq invisible_user
     end
+
+    it 'does not show invite user button when there is no project selected' do
+      visit new_project_path
+
+      name_field.set_value 'My project name'
+
+      find('.op-fieldset--toggle', text: 'ADVANCED SETTINGS').click
+
+      cf_field.expect_visible
+      cf_field.expect_no_option invisible_user
+      expect(page).not_to have_selector('.ng-dropdown-footer button', text: 'Invite')
+    end
   end
 end
