@@ -10,7 +10,9 @@ keywords: glossary, help, documentation, terms, keywords, vocabulary, definition
 
 ![Glossary of OpenProject](glossary-openproject-header.png)
 
-**[A](#a)
+Project management is a complex process. At the same time, when it comes to software, there are many technical words involved. When these two things come together, it creates an interesting tool that introduces a completely new way of doing things. This new way of doing things has its own set of terms and concepts. In this glossary, you will find the most commonly used terms in OpenProject Software. Each term is defined briefly and supplemented with links to get more information if needed.
+
+[A](#a)
 [B](#b)
 [C](#c)
 [D](#d)
@@ -27,7 +29,6 @@ keywords: glossary, help, documentation, terms, keywords, vocabulary, definition
 [U](#u)
 [V](#v)
 [W](#w)
-**
 
 ## A
 
@@ -37,7 +38,7 @@ Agile project management is an iterative and flexible approach to managing proje
 
 ### Authentication
 
-In OpenProject, authentication is an important element to guarantee a data protected usage. To adapt these authentication settings, navigate to your user name and select -> Administration -> Authentication. At OpenProject, we use [OAuth 2.0](#oauth) as this is the definitive industry standard for online authorization.
+In OpenProject, authentication is an important element to guarantee a data protected usage. To adapt these authentication settings, you need to have admin rights. Navigate to your user name and select -> Administration -> Authentication. At OpenProject, we use [OAuth 2.0](#oauth) as this is the definitive industry standard for online authorization.
 
 **More information on authentication in OpenProject**
 
@@ -54,7 +55,7 @@ A backlog in OpenProject is defined as a [plugin](#plugins--integrations) that a
 
 ### Baseline (Comparisons)
 
-Baseline is a feature in OpenProject that will be released with 13.0. It allows users to quickly track changes on [filtered](#filters) work packages list views. [Read more about technical challenges, design and next steps for Baseline in the OpenProject blog](https://www.openproject.org/blog/news-product-team-baseline/)
+Baseline is a feature in OpenProject that will be released with 13.0. It allows users to quickly track changes on [filtered](#filters) work packages table views. [Read more about technical challenges, design and next steps for Baseline in the OpenProject blog](https://www.openproject.org/blog/news-product-team-baseline/)
 
 ### BIM
 
@@ -77,7 +78,7 @@ Classic project management is a structured and sequential approach to project ma
 
 ### Community edition
 
-Community edition is defined as the main and free-of-charge edition of OpenProject software. It is installed [on-premises](#on-premises) and therefore self-managed. Benefit from a wide range of features, data sovereignty in a free and open source project management software. The Community edition is actively maintained and is continuously being further developed. [Read more about OpenProject Community edition](https://www.openproject.org/community-edition/)
+Community edition is defined as the main and free-of-charge edition of OpenProject software. It is installed [on-premises](#on-premises) and therefore self-managed. Benefit from a wide range of features and data sovereignty in a free and open source project management software. The Community edition is actively maintained and is continuously being further developed. [Read more about OpenProject Community edition](https://www.openproject.org/community-edition/)
 
 ### Custom action
 
