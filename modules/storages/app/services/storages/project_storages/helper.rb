@@ -26,14 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'services/base_services/behaves_like_update_service'
-require_relative 'shared_synchronization_trigger_examples'
+module Storages::ProjectStorages::Helper
+  module_function
 
-RSpec.describe Storages::ProjectStorages::UpdateService, type: :model do
-  it_behaves_like 'BaseServices update service' do
-    let(:factory) { :project_storage }
+  def create_last_project_folder(user:, projects_storage_id:, origin_folder_id:, mode:)
+    ::Storages::LastProjectFolders::CreateService
+      .new(user:)
+      .call(projects_storage_id:, origin_folder_id:, mode: mode.to_sym)
+  end
 
-    it_behaves_like 'a nextcloud synchronization trigger'
+  def update_last_project_folder(user:, project_folder:, origin_folder_id:)
+    ::Storages::LastProjectFolders::UpdateService
+      .new(model: project_folder, user:)
+      .call(origin_folder_id:)
+  end
+
+  def trigger_nextcloud_synchronization(project_folder_mode)
+    Storages::ManageNextcloudIntegrationEventsJob.perform_later if project_folder_mode.to_sym == :automatic
   end
 end

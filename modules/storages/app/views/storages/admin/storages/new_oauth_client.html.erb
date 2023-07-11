@@ -39,7 +39,8 @@
   <% if @storage.oauth_client %>
     <%= styled_button_tag t(:button_replace), class: "-highlight -with-icon icon-checkmark" %>
   <% else %>
-    <%= styled_button_tag t("storages.buttons.save_and_complete_setup"), class: "-highlight -with-icon icon-checkmark" %>
+    <% label_action = @storage.automatic_management_unspecified? ? 'continue' : 'complete' %>
+    <%= styled_button_tag t("storages.buttons.save_and_#{label_action}_setup"), class: "-highlight -with-icon icon-checkmark" %>
   <% end %>
 <% end %>
 

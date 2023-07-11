@@ -26,14 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'services/base_services/behaves_like_update_service'
-require_relative 'shared_synchronization_trigger_examples'
+# Used by Storages::ManagedProjectFoldersController#new to set the default values for the provider fields
+# when creating a new storage for the first time. These attributes are only for building the view and are not enforced
+# by the model.
+module Storages::Storages
+  class SetNextcloudProviderFieldsAttributesService < ::BaseServices::SetAttributes
+    def set_default_provider_fields(_params)
+      if storage.automatic_management_unspecified?
+        storage.automatically_managed = storage.provider_fields_defaults[:automatically_managed]
+      end
+    end
 
-RSpec.describe Storages::ProjectStorages::UpdateService, type: :model do
-  it_behaves_like 'BaseServices update service' do
-    let(:factory) { :project_storage }
+    private
 
-    it_behaves_like 'a nextcloud synchronization trigger'
+    def set_attributes(params)
+      super(params)
+      set_default_provider_fields(params)
+    end
+
+    def storage
+      model
+    end
   end
 end

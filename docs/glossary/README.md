@@ -10,7 +10,9 @@ keywords: glossary, help, documentation, terms, keywords, vocabulary, definition
 
 ![Glossary of OpenProject](glossary-openproject-header.png)
 
-**[A](#a)
+Project management is a complex process. At the same time, when it comes to software, there are many technical words involved. When these two things come together, it creates an interesting tool that introduces a completely new way of doing things. This new way of doing things has its own set of terms and concepts. In this glossary, you will find the most commonly used terms in OpenProject Software. Each term is defined briefly and supplemented with links to get more information if needed.
+
+[A](#a)
 [B](#b)
 [C](#c)
 [D](#d)
@@ -18,24 +20,15 @@ keywords: glossary, help, documentation, terms, keywords, vocabulary, definition
 [F](#f)
 [G](#g)
 [H](#h)
-[I](#i)
-[J](#j)
-[K](#k)
-[L](#l)
-[M](#m)
 [N](#n)
 [O](#o)
 [P](#p)
-[Q](#q)
 [R](#r)
 [S](#s)
 [T](#t)
 [U](#u)
 [V](#v)
 [W](#w)
-[X](#x)
-[Y](#y)
-[Z](#z)**
 
 ## A
 
@@ -45,7 +38,7 @@ Agile project management is an iterative and flexible approach to managing proje
 
 ### Authentication
 
-In OpenProject, authentication is an important element to guarantee a data protected usage. To adapt these authentication settings, navigate to your user name and select -> Administration -> Authentication. At OpenProject, we use [OAuth 2.0](#oauth) as this is the definitive industry standard for online authorization.
+In OpenProject, authentication is an important element to guarantee a data protected usage. To adapt these authentication settings, you need to have admin rights. Navigate to your user name and select -> Administration -> Authentication. At OpenProject, we use [OAuth 2.0](#oauth) as this is the definitive industry standard for online authorization.
 
 **More information on authentication in OpenProject**
 
@@ -58,11 +51,11 @@ In OpenProject, authentication is an important element to guarantee a data prote
 
 ### Backlogs
 
-A backlog in OpenProject is defined as a [plugin](#plugins) that allows to use the backlogs feature in OpenProject. The backlog is a tool in scrum: a list that contains everything needed to achieve a specific outcome. In order to use backlogs in OpenProject, the backlogs module has to be activated in the [project settings](#project-settings). [Read how to work with backlogs in OpenProject](https://www.openproject.org/docs/user-guide/backlogs-scrum)
+A backlog in OpenProject is defined as a [plugin](#plugins--integrations) that allows to use the backlogs feature in OpenProject. The backlog is a tool in scrum: a list that contains everything needed to achieve a specific outcome. In order to use backlogs in OpenProject, the backlogs module has to be activated in the [project settings](#project-settings). [Read how to work with backlogs in OpenProject](https://www.openproject.org/docs/user-guide/backlogs-scrum)
 
 ### Baseline (Comparisons)
 
-Baseline is a feature in OpenProject that will be released with 13.0. It allows users to quickly track changes on [filtered](#filters) work packages list views. [Read more about technical challenges, design and next steps for Baseline in the OpenProject blog](https://www.openproject.org/blog/news-product-team-baseline/)
+Baseline is a feature in OpenProject that will be released with 13.0. It allows users to quickly track changes on [filtered](#filters) work packages table views. [Read more about technical challenges, design and next steps for Baseline in the OpenProject blog](https://www.openproject.org/blog/news-product-team-baseline/)
 
 ### BIM
 
@@ -85,7 +78,7 @@ Classic project management is a structured and sequential approach to project ma
 
 ### Community edition
 
-Community edition is defined as the main and free-of-charge edition of OpenProject software. It is installed [on-premises](#on-premises) and therefore self-managed. Benefit from a wide range of features, data sovereignty in a free and open source project management software. The Community edition is actively maintained and is continuously being further developed. [Read more about OpenProject Community edition](https://www.openproject.org/community-edition/)
+Community edition is defined as the main and free-of-charge edition of OpenProject software. It is installed [on-premises](#on-premises) and therefore self-managed. Benefit from a wide range of features and data sovereignty in a free and open source project management software. The Community edition is actively maintained and is continuously being further developed. [Read more about OpenProject Community edition](https://www.openproject.org/community-edition/)
 
 ### Custom action
 
@@ -162,8 +155,6 @@ A forum in OpenProject is defined as a module used to display forums and forum m
 The Gantt chart in OpenProject displays the work packages in a timeline. You can collaboratively create and manage your project plan. Have your project timelines available for all team [members](#member) and share up-to-date information with stakeholders. You can add start and finish dates and adapt it with drag and drop in the Gantt chart. Also, you can add dependencies, predecessor or follower within the Gantt chart.
 
 [Read more about how to activate and work with Gantt charts in OpenProject](https://www.openproject.org/docs/user-guide/gantt-chart/)
-
-![A gantt chart in OpenProject](glossary-openproject-gantt-chart.png)
 
 ### Group
 
@@ -259,7 +250,7 @@ In OpenProject, the project overview is defined as a single [dashboard](#dashboa
 
 ### Project settings
 
-Project settings means project-specific setting configuration. The project settings contain general settings (e.g. the name and ID of the project), configuration of [modules](#module), [work package categories](#work-package-categories) and [types](#work-package-types), [custom fields](#custom-field), [version](#versions) settings, [time tracking activities](#time-and-costs), required disk storage, [file storages](#file-storage) and [Backlog](#backlog) settings (if plugin is installed). [Read more about project settings in OpenProject](https://www.openproject.org/docs/user-guide/projects/#project-settings)
+Project settings means project-specific setting configuration. The project settings contain general settings (e.g. the name and ID of the project), configuration of [modules](#module), [work package categories](#work-package-categories) and [types](#work-package-types), [custom fields](#custom-field), [version](#versions) settings, [time tracking activities](#time-and-costs), required disk storage, [file storages](#file-storage) and [Backlogs](#backlogs) settings (if plugin is installed). [Read more about project settings in OpenProject](https://www.openproject.org/docs/user-guide/projects/#project-settings)
 
 ### Project status
 

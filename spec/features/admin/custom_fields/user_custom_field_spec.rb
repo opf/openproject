@@ -27,13 +27,45 @@
 #++
 
 require 'spec_helper'
-require 'services/base_services/behaves_like_update_service'
-require_relative 'shared_synchronization_trigger_examples'
 
-RSpec.describe Storages::ProjectStorages::UpdateService, type: :model do
-  it_behaves_like 'BaseServices update service' do
-    let(:factory) { :project_storage }
+RSpec.describe 'User custom fields edit',
+               js: true,
+               with_cuprite: true do
+  shared_let(:admin) { create(:admin) }
+  let(:cf_page) { Pages::CustomFields.new }
 
-    it_behaves_like 'a nextcloud synchronization trigger'
+  before do
+    login_as(admin)
+    visit custom_fields_path
+  end
+
+  it 'can create and edit user custom fields (#48725)' do
+    # Create CF
+    click_link 'Create a new custom field'
+
+    wait_for_reload
+
+    fill_in 'custom_field_name', with: 'My User CF'
+    select 'User', from: 'custom_field_field_format'
+
+    expect(page).not_to have_field('custom_field_custom_options_attributes_0_value')
+
+    click_on 'Save'
+
+    # Expect field to be created
+    cf = CustomField.last
+    expect(cf.name).to eq('My User CF')
+
+    # Edit again
+    find('a', text: 'My User CF').click
+
+    expect(page).not_to have_field('custom_field_custom_options_attributes_0_value')
+    fill_in 'custom_field_name', with: 'My User CF (edited)'
+
+    click_on 'Save'
+
+    # Expect field to be saved
+    cf = CustomField.last
+    expect(cf.name).to eq('My User CF (edited)')
   end
 end
