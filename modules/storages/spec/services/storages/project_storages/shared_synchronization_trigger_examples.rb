@@ -26,18 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::ProjectStorages::LastProjectFolderPersistenceHelper
-  module_function
-
-  def create_last_project_folder(user:, projects_storage_id:, origin_folder_id:, mode:)
-    ::Storages::LastProjectFolders::CreateService
-      .new(user:)
-      .call(projects_storage_id:, origin_folder_id:, mode: mode.to_sym)
+RSpec.shared_examples 'a nextcloud synchronization trigger' do
+  context 'when project_folder mode is automatic' do
+    it 'schedules appropriate background job' do
+      model_instance.project_folder_mode = 'automatic'
+      subject
+      expect(enqueued_jobs.count).to eq(1)
+      expect(enqueued_jobs[0][:job]).to eq(Storages::ManageNextcloudIntegrationEventsJob)
+    end
   end
 
-  def update_last_project_folder(user:, project_folder:, origin_folder_id:)
-    ::Storages::LastProjectFolders::UpdateService
-      .new(model: project_folder, user:)
-      .call(origin_folder_id:)
+  context 'when project_folder mode is manual' do
+    it 'does not schedule a background job' do
+      model_instance.project_folder_mode = 'manual'
+      subject
+      expect(enqueued_jobs.count).to eq(0)
+    end
+  end
+
+  context 'when project_folder mode is inactive' do
+    it 'does not schedule a background job' do
+      model_instance.project_folder_mode = 'inactive'
+      subject
+      expect(enqueued_jobs.count).to eq(0)
+    end
   end
 end

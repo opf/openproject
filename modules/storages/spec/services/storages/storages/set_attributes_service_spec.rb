@@ -147,4 +147,48 @@ RSpec.describe Storages::Storages::SetAttributesService, type: :model do
         .to eql(contract_errors)
     end
   end
+
+  describe 'automatically managed project folders' do
+    let(:model_instance) { build_stubbed(:nextcloud_storage) }
+
+    context 'with password' do
+      let(:params) do
+        super().merge(
+          "automatically_managed" => true,
+          "password" => "secret"
+        )
+      end
+
+      it 'enables automatic folder management with password' do
+        expect(subject.result).to have_attributes(automatically_managed: true, username: 'OpenProject',
+                                                  password: 'secret')
+      end
+    end
+
+    context 'with automatically_managed false' do
+      let(:params) do
+        super().merge(
+          "automatically_managed" => false
+        )
+      end
+
+      it 'disables automatic folder management' do
+        expect(subject.result).to have_attributes(automatically_managed: false)
+        expect(subject.result.attributes.keys).not_to include(:username, :password)
+      end
+    end
+
+    context 'with automatically_managed nil' do
+      let(:params) do
+        super().merge(
+          "automatically_managed" => nil
+        )
+      end
+
+      it 'does not change the value' do
+        expect(subject.result).to have_attributes(automatically_managed: nil)
+        expect(subject.result.attributes.keys).not_to include(:username, :password)
+      end
+    end
+  end
 end
