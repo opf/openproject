@@ -82,7 +82,7 @@ export class WpPreviewModalComponent extends OpModalComponent implements OnInit 
   ngOnInit() {
     super.ngOnInit();
     const { workPackageLink } = this.locals;
-    const workPackageId = idFromLink(workPackageLink);
+    const workPackageId = idFromLink(workPackageLink as string|null);
 
     this
       .apiV3Service
@@ -93,9 +93,9 @@ export class WpPreviewModalComponent extends OpModalComponent implements OnInit 
         this.workPackage = workPackage;
         this.cdRef.detectChanges();
 
-        const modal = this.elementRef.nativeElement;
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        void this.reposition(modal, this.locals.event.target);
+        const modal = this.elementRef.nativeElement as HTMLElement;
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-explicit-any
+        void this.reposition(modal, this.locals.event.target as HTMLElement);
       });
   }
 
