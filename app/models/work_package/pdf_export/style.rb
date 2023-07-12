@@ -177,8 +177,10 @@ module WorkPackage::PDFExport::Style
       resolve_margin(@styles.dig(:work_package, :label))
     end
 
-    def wp_subject
-      resolve_font(@styles.dig(:work_package, :subject))
+    def wp_subject(level)
+      resolve_font(@styles.dig(:work_package, :subject)).merge(
+        resolve_font(@styles.dig(:work_package, "subject_level_#{level}".to_sym))
+      )
     end
 
     def wp_detail_subject_margins
@@ -199,12 +201,16 @@ module WorkPackage::PDFExport::Style
       )
     end
 
-    def wp_markdown_label_size
-      resolve_pt(resolve_font(@styles.dig(:work_package, :markdown_label))[:size], 12)
+    def wp_markdown_label
+      resolve_font(@styles.dig(:work_package, :markdown_label))
+    end
+
+    def wp_markdown_label_margins
+      resolve_margin(@styles.dig(:work_package, :markdown_label))
     end
 
     def wp_markdown_margins
-      resolve_margin(@styles.dig(:work_package, :markdown))
+      resolve_margin(@styles.dig(:work_package, :markdown_margin))
     end
 
     def wp_markdown_styling_yml
