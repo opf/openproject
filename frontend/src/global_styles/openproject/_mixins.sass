@@ -35,6 +35,7 @@
   font-size:          $font-size
   font-weight:        $font-weight
 
+/// Taken from Foundation for Apps
 @mixin animation($animation, $duration: 500ms, $timing: ease, $delay: 0, $iterations: null)
   animation-name: $animation
   animation-duration: $duration
@@ -291,3 +292,15 @@ $scrollbar-size: 10px
 
   &:focus
     right: 0
+
+/// Taken from Foundation for Apps
+/// Clearfix
+/// Uses the micro clearfix hack popularized by Nicolas Gallagher. Include this mixin on a container if its children are all floated, to give the container a proper height.
+///
+/// @see http://nicolasgallagher.com/micro-clearfix-hack/
+@mixin clearfix
+  &:before, &:after
+    content: " "
+    display: table
+  &:after
+    clear: both
