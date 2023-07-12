@@ -34,7 +34,7 @@ RSpec.describe Storages::LastProjectFolder do
 
     it do
       expect(last_project_folder).to define_enum_for(:mode)
-        .with_values(manual: 'manual', automatic: 'automatic')
+        .with_values(inactive: 'inactive', manual: 'manual', automatic: 'automatic')
         .backed_by_column_of_type(:enum)
     end
   end
