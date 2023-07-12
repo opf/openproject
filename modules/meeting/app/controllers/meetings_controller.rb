@@ -120,10 +120,11 @@ class MeetingsController < ApplicationController
     ).call(params)
 
     if @project
-      query = query.where(:project_id, '=', @project.id)
+      query.where("project_id", '=', @project.id)
+    else
+      # global meetings page should only list future meetings
+      query.where("time", "=", "future")
     end
-
-    query
   end
 
   def load_meetings(query)
