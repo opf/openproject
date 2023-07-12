@@ -93,6 +93,7 @@ class MeetingMailer < UserMailer
       e.description = ical_subject(meeting, content_type)
       e.uid = "#{meeting.id}@#{meeting.project.identifier}"
       e.organizer = ical_organizer meeting
+      e.location = meeting.location.presence
     end
 
     calendar.publish
