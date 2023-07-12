@@ -82,6 +82,15 @@ class CostReportsController < ApplicationController
         format.html do
           session[report_engine.name.underscore.to_sym].try(:delete, :name)
         end
+
+        format.xls do
+          job_id = ::CostQuery::ScheduleExportService
+            .new(user: current_user)
+            .call(filter_params:, project: @project, cost_types: @cost_types)
+            .result
+
+          redirect_to job_status_path(job_id)
+        end
       end
     end
   end

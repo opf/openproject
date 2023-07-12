@@ -26,32 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module XlsExport
-  module CostReports
-    class ScheduleExportService
-      attr_accessor :user
+class CostQuery::ScheduleExportService
+  attr_accessor :user
 
-      def initialize(user:)
-        self.user = user
-      end
+  def initialize(user:)
+    self.user = user
+  end
 
-      def call(filter_params:, project:, cost_types:)
-        export_storage = XlsExport::CostReports::Export.create
-        job = schedule_export(export_storage, filter_params, project, cost_types)
+  def call(filter_params:, project:, cost_types:)
+    export_storage = ::CostQuery::Export.create
+    job = schedule_export(export_storage, filter_params, project, cost_types)
 
-        ServiceResult.success result: job.job_id
-      end
+    ServiceResult.success result: job.job_id
+  end
 
-      private
+  private
 
-      def schedule_export(export_storage, filter_params, project, cost_types)
-        XlsExport::CostReports::ExportJob.perform_later(export: export_storage,
-                                                        user:,
-                                                        mime_type: :xls,
-                                                        query: filter_params,
-                                                        project:,
-                                                        cost_types:)
-      end
-    end
+  def schedule_export(export_storage, filter_params, project, cost_types)
+    ::CostQuery::ExportJob.perform_later(export: export_storage,
+                                         user:,
+                                         mime_type: :xls,
+                                         query: filter_params,
+                                         project:,
+                                         cost_types:)
   end
 end
