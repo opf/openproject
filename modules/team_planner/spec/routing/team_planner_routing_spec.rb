@@ -41,10 +41,20 @@ RSpec.describe 'Team planner routing' do
             .to(controller: 'team_planner/team_planner', action: :show, project_id: 'foobar', id: '1234')
   end
 
-  it 'routes to team_planner#new' do
-    expect(subject)
-      .to route(:get, '/projects/foobar/team_planners/new')
-            .to(controller: 'team_planner/team_planner', action: :show, project_id: 'foobar')
+  context 'with :project_id' do
+    it 'routes to team_planner#new' do
+      expect(subject)
+        .to route(:get, '/projects/foobar/team_planners/new')
+              .to(controller: 'team_planner/team_planner', action: :show, project_id: 'foobar')
+    end
+  end
+
+  context 'without :project_id' do
+    it 'routes to team_planner#new' do
+      expect(subject)
+        .to route(:get, '/team_planners/new')
+              .to(controller: 'team_planner/team_planner', action: :new)
+    end
   end
 
   it 'routes to team_planner#show with state' do

@@ -3,8 +3,8 @@ module ::TeamPlanner
     include EnterpriseTrialHelper
     include Layout
     before_action :find_optional_project
-    before_action :authorize, except: %i[overview upsale]
-    before_action :authorize_global, only: %i[overview]
+    before_action :authorize, except: %i[overview new upsale]
+    before_action :authorize_global, only: %i[overview new]
     before_action :require_ee_token, except: %i[upsale]
     before_action :find_plan_view, only: %i[destroy]
 
@@ -18,6 +18,8 @@ module ::TeamPlanner
       @views = visible_plans
       render layout: 'global'
     end
+
+    def new; end
 
     def show
       render layout: 'angular/angular'
