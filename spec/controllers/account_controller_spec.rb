@@ -99,20 +99,18 @@ describe AccountController,
   end
 
   describe 'GET #internal_login' do
+    shared_let(:admin) { create(:admin) }
+
     context 'when direct login enabled', with_config: { omniauth_direct_login_provider: 'some_provider' } do
       it 'allows to login internally using a special route' do
         get :internal_login
 
-        expect(response).to redirect_to '/login'
-        expect(session[:internal_login]).to be true
+        expect(response).to render_template 'account/login'
       end
 
-      it 'allows to login internally using a session flag' do
-        session[:internal_login] = true
-        get :login
-
-        expect(response).to render_template 'login'
-        expect(session).not_to have_key :internal_login
+      it 'allows to post to login' do
+        post :login, params: { username: admin.login, password: 'adminADMIN!' }
+        expect(response).to redirect_to '/my/page'
       end
     end
 
@@ -486,17 +484,9 @@ describe AccountController,
     describe 'POST' do
       shared_let(:admin) { create(:admin) }
 
-      it 'redirects to some_provider' do
-        post :login, params: { username: 'foo', password: 'bar' }
-
-        expect(response).to redirect_to '/auth/some_provider'
-      end
-
-      it 'allows to login internally using a session flag' do
-        session[:internal_login] = true
+      it 'allows to login internally still' do
         post :login, params: { username: admin.login, password: 'adminADMIN!' }
-
-        expect(response).to redirect_to '/my/page'
+        expect(response).to redirect_to "/my/page"
       end
     end
   end
