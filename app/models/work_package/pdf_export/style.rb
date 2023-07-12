@@ -49,6 +49,10 @@ module WorkPackage::PDFExport::Style
       resolve_pt(@styles.dig(:page_footer, :offset), -30)
     end
 
+    def page_footer_horizontal_spacing
+      resolve_pt(@styles.dig(:page_footer, :spacing), 6)
+    end
+
     def page_logo_height
       resolve_pt(@styles.dig(:page_logo, :height), 20)
     end
