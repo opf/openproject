@@ -132,10 +132,6 @@ class MeetingsController < ApplicationController
       .paginate(page: page_param, per_page: per_page_param)
   end
 
-  def set_sorting(query)
-    query.orders.select(&:valid?).map { |o| [o.attribute.to_s, o.direction.to_s] }
-  end
-
   def set_time_zone(&)
     zone = User.current.time_zone
     if zone.nil?
