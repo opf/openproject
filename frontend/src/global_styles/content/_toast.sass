@@ -101,14 +101,11 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   left: $left
   font-size: $size
 
-.op-toast
-  @extend %toaster
-  @include spot-z-index("toast")
-  +toaster-layout($x: left, $y: top, $size: auto, $offset: rem-calc(0))
-  +toaster-style($background: $nm-color-background, $color: var(--body-font-color), $padding: $nm-padding-box, $radius: $nm-border-radius)
 
-  .toaster-icon
-    +toaster-icon($size: $toaster-icon-size, $margin: $toaster-icon-margin, $align: $toaster-icon-align)
+
+.op-toast
+  @include spot-z-index("toast")
+
   display: flex
   box-shadow: rem-calc(1px 2px 3px) rgba(0, 0, 0, 0.2)
   border: rem-calc(1px) solid $nm-color-border
@@ -160,16 +157,21 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
       @include messages-icon
       @extend %nm-icon-warning
 
-  &.-info::before
+  &.-info
     @extend %info-placeholder
-    @include messages-icon
-    @extend %nm-icon-info
 
-  &.-ee-upsale::before
+    &::before
+      @include messages-icon
+      @extend %nm-icon-info
+
+  &.-ee-upsale
     @extend %info-placeholder
-    @include messages-icon
+
+    &::before
+      @include messages-icon
 
   &.-upload
+    @extend %info-placeholder
     padding: $nm-upload-box-padding
 
   //@hack adapting to provided styles

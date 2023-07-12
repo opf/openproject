@@ -1,7 +1,4 @@
 @use "sass:math";
-
-@import "panel";
-
 /*
   THE GRID
   --------
@@ -366,31 +363,6 @@ $block-grid-max-size: 6 !default;
 
     &.contain-left  { @include grid-container($align: left); }
     &.contain-right { @include grid-container($align: right); }
-  }
-
-  // Breakpoint classes for blocks
-  @each $size in $breakpoint-classes {
-    .#{$size}-grid-block {
-      @extend %block-core;
-      @extend %child-core;
-
-      @include breakpoint($size) {
-        @include grid-block;
-
-        // Override panel styles
-        &.panel { @include grid-panel-reset; }
-      }
-    }
-    .#{$size}-grid-content {
-      @extend %child-core;
-
-      @include breakpoint($size) {
-        @include grid-content;
-
-        // Override panel styles
-        &.panel { @include grid-panel-reset; }
-      }
-    }
   }
 
   // Sizing and ordering classes
