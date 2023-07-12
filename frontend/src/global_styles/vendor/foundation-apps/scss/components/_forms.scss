@@ -12,7 +12,7 @@
    - Range slider
    - Progress bars and meters
 */
-
+$text-input-selectors: 'input[type="text"], input[type="password"], input[type="date"], input[type="datetime"], input[type="datetime-local"], input[type="month"], input[type="week"], input[type="email"], input[type="number"], input[type="search"], input[type="tel"], input[type="time"], input[type="url"], input[type="color"], textarea';
 /// @Foundation.settings
 // Forms
 // Basic form variables
@@ -314,8 +314,8 @@ input[type="range"] {
     color: transparent;
     border: 0;
     overflow: visible;
-    border-top: $margin solid $body-background;
-    border-bottom: $margin solid $body-background;
+    border-top: $margin solid var(--body-background);
+    border-bottom: $margin solid var(--body-background);
   }
   &::-ms-thumb {
     background: $slider-thumb-color;
