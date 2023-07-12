@@ -35,6 +35,24 @@
   font-size:          $font-size
   font-weight:        $font-weight
 
+@mixin animation($animation, $duration: 500ms, $timing: ease, $delay: 0, $iterations: null)
+  animation-name: $animation
+  animation-duration: $duration
+  animation-timing-function: $timing
+
+  backface-visibility: hidden
+  transform: translate3d(0,0,0)
+
+  @if $delay != null
+    animation-delay: $delay
+
+  @if $iterations != null
+    animation-iteration-count: $iterations
+
+  @if $animation == null
+    @warn "Please include an animation name"
+
+
 // Make sure an element doesn't collapse due to floated elements inside
 @mixin prevent-float-collapse
   &:after
@@ -139,7 +157,7 @@ $scrollbar-size: 10px
   .attributes-key-value.-column-start
     column-break-before: always !important
     break-before: column
-  
+
   @supports (column-span: all)
         // Let some elements still span both columns
         .attributes-key-value.-span-all-columns
@@ -273,4 +291,3 @@ $scrollbar-size: 10px
 
   &:focus
     right: 0
-
