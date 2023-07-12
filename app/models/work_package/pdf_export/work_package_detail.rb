@@ -74,11 +74,7 @@ module WorkPackage::PDFExport::WorkPackageDetail
   end
 
   def write_attributes_table!(work_package)
-    rows = if respond_to?(:column_objects)
-             build_columns_table_rows(work_package)
-           else
-             build_attributes_table_rows(work_package)
-           end
+    rows = attribute_table_rows(work_package)
     with_margin(styles.wp_attributes_table_margins) do
       pdf.table(
         rows,
@@ -95,54 +91,49 @@ module WorkPackage::PDFExport::WorkPackageDetail
     widths.map { |w| w * ratio }
   end
 
-  def build_columns_table_rows(work_package)
-    list = column_objects.reject { |column| column.name == :subject }
+  def attribute_table_rows(work_package)
+    list = if respond_to?(:column_objects)
+             attributes_list_by_columns(work_package)
+           else
+             attributes_list_by_wp(work_package)
+           end
     0.step(list.length - 1, 2).map do |i|
       build_columns_table_cells(list[i], work_package) +
         build_columns_table_cells(list[i + 1], work_package)
     end
   end
 
-  def build_attributes_table_rows(work_package)
-    # get work package attribute table rows data [[label, value, label, value]]
-    attrs = %i[
+  def attributes_list_by_columns(_work_package)
+    column_objects
+      .reject { |column| column.name == :subject }
+      .map { |column| [column.caption || '', column.name] }
+  end
+
+  def attributes_list_by_wp(_work_package)
+    col_names = %i[
       id
       updated_at
       type
       created_at
       status
       due_date
-      version
-      priority
       duration
-      work
-      category
+      priority
       assigned_to
+      responsible
     ]
-    0.step(attrs.length - 1, 2).map do |i|
-      build_attributes_table_cells(attrs[i], work_package) +
-        build_attributes_table_cells(attrs[i + 1], work_package)
+    col_names.map do |col_name|
+      [WorkPackage.human_attribute_name(col_name), col_name]
     end
   end
 
-  def build_attributes_table_cells(attribute, work_package)
-    # get work package attribute table cell data: [label, value]
-    return ['', ''] if attribute.nil?
+  def build_columns_table_cells(title_name_array, work_package)
+    return ['', ''] if title_name_array.nil?
 
-    build_attributes_row(WorkPackage.human_attribute_name(attribute) || '', attribute.to_sym, work_package)
-  end
-
-  def build_columns_table_cells(column, work_package)
-    return ['', ''] if column.nil?
-
-    build_attributes_row(column.caption || '', column.name, work_package)
-  end
-
-  def build_attributes_row(label, col_name, work_package)
     # get work package attribute table cell data: [label, value]
     [
-      pdf.make_cell(label.upcase, styles.wp_attributes_table_label_cell),
-      get_column_value_cell(work_package, col_name)
+      pdf.make_cell(title_name_array[0].upcase, styles.wp_attributes_table_label_cell),
+      get_column_value_cell(work_package, title_name_array[1])
     ]
   end
 
