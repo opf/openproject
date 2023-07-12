@@ -177,18 +177,6 @@ Redmine::MenuManager.map :global_menu do |menu|
             }
 end
 
-Redmine::MenuManager.map :global_work_packages_menu do |menu|
-  menu.push :work_packages_query_select,
-            { controller: '/work_packages', action: 'index' },
-            partial: 'work_packages/menu_query_select'
-end
-
-Redmine::MenuManager.map :global_activities_menu do |menu|
-  menu.push :activity_filters,
-            { controller: '/activities', action: 'index' },
-            partial: 'activities/filters_menu'
-end
-
 Redmine::MenuManager.map :notifications_menu do |menu|
   menu.push :notification_grouping_select,
             { controller: '/my', action: 'notifications' },
