@@ -26,30 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module TeamPlannerOverview
-  class TableComponent < ::TableComponent
-    options :current_user
-    columns :name, :project_id, :created_at
-    sortable_columns :name, :project_id, :created_at
+module TeamPlanner
+  module Overview
+    class TableComponent < ::TableComponent
+      options :current_user
+      columns :name, :project_id, :created_at
+      sortable_columns :name, :project_id, :created_at
 
-    def initial_sort
-      %w[name asc]
-    end
+      def initial_sort
+        %w[name asc]
+      end
 
-    def sortable?
-      true
-    end
+      def sortable?
+        true
+      end
 
-    def paginated?
-      true
-    end
+      def paginated?
+        true
+      end
 
-    def headers
-      [
-        [:name, { caption: I18n.t(:label_name) }],
-        [:project_id, { caption: Query.human_attribute_name(:project) }],
-        [:created_at, { caption: Query.human_attribute_name(:created_at) }]
-      ]
+      def headers
+        [
+          [:name, { caption: I18n.t(:label_name) }],
+          [:project_id, { caption: Query.human_attribute_name(:project) }],
+          [:created_at, { caption: Query.human_attribute_name(:created_at) }]
+        ]
+      end
     end
   end
 end

@@ -26,24 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module TeamPlannerOverview
-  class RowComponent < ::RowComponent
-    def query
-      model
-    end
+module TeamPlanner
+  module Overview
+    class RowComponent < ::RowComponent
+      def query
+        model
+      end
 
-    delegate :project, to: :query
+      delegate :project, to: :query
 
-    def name
-      link_to query.name, project_team_planner_path(project, query.id)
-    end
+      def name
+        link_to query.name, project_team_planner_path(project, query.id)
+      end
 
-    def project_id
-      helpers.link_to_project model.project, {}, {}, false
-    end
+      def project_id
+        helpers.link_to_project model.project, {}, {}, false
+      end
 
-    def created_at
-      helpers.format_time(query.created_at)
+      def created_at
+        helpers.format_time(query.created_at)
+      end
     end
   end
 end
