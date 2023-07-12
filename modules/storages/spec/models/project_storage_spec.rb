@@ -76,4 +76,15 @@ RSpec.describe Storages::ProjectStorage do
       expect(Storages::FileLink.count).not_to eq 0
     end
   end
+
+  describe '#project_folder_mode' do
+    let(:project_storage) { build(:project_storage) }
+
+    it do
+      expect(project_storage).to define_enum_for(:project_folder_mode)
+        .with_values(inactive: 'inactive', manual: 'manual', automatic: 'automatic')
+        .with_prefix(:project_folder)
+        .backed_by_column_of_type(:enum)
+    end
+  end
 end
