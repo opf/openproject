@@ -26,8 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::LastProjectFolder < ApplicationRecord
-  belongs_to :projects_storage, class_name: 'Storages::ProjectStorage'
+require_relative '../spec_helper'
 
-  enum mode: { manual: 'manual', automatic: 'automatic' }.freeze
+RSpec.describe Storages::LastProjectFolder do
+  describe '#mode' do
+    let(:last_project_folder) { build(:last_project_folder) }
+
+    it do
+      expect(last_project_folder).to define_enum_for(:mode)
+        .with_values(manual: 'manual', automatic: 'automatic')
+        .backed_by_column_of_type(:enum)
+    end
+  end
 end
