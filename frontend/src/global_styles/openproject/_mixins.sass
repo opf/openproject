@@ -109,6 +109,56 @@
   border: none
 
 
+/// Taken from Foundation for Apps
+// Button mixins
+$button-sizes: (tiny: 0.7, small: 0.8, medium: 1, large: 1.3)
+$button-background: var(--button--background-color)
+$button-background-hover: var(--button--background-hover-color)
+$button-color: var(--button--font-color)
+$button-style: solid
+$button-radius: 0
+
+@mixin button-size($size: medium, $expand: false)
+  $size: 0.875rem * map-get($button-sizes, $size)
+  font-size: $size
+
+  @if $expand
+    @include button-expand
+
+@mixin button-expand($expand: true)
+  @if $expand
+    display: block
+    width: 100%
+    margin-left: 0
+    margin-right: 0
+
+  @else
+    display: inline-block
+    width: auto
+    margin: 0 1rem 1rem 0
+
+@mixin button-style($background: $button-background, $background-hover: $button-background-hover, $color: $button-color)
+  @if $color == auto
+    $color: is-light($background)
+
+  background: $background
+  color: $color
+
+  &:hover, &:focus
+    @if $background-hover == auto
+      background: scale-color($background, $lightness: -15%)
+
+    @else
+      background: $background-hover
+      color: $color
+
+
+@mixin button-disabled()
+  opacity: 0.5
+  cursor: default
+  pointer-events: none
+
+
 $scrollbar-color: #DDDDDD
 $scrollbar-size: 10px
 
