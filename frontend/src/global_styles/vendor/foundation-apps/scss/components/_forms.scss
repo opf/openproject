@@ -225,7 +225,7 @@ select {
   $top-padding: get-side($form-padding, top);
   $bottom-padding: get-side($form-padding, bottom);
   $height: ($form-fontsize * 1.4) + $top-padding + $bottom-padding;
-  $color: isitlight($select-background);
+  $color: is-light($select-background);
 
   @include no-appearance;
   display: block;

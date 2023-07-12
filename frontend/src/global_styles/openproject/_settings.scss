@@ -267,8 +267,8 @@ $button-radius: 2px;
 // $accordion-title-background: $gray-light;
 // $accordion-title-background-hover: smartscale($accordion-title-background, 5%);
 // $accordion-title-background-active: smartscale($accordion-title-background, 3%);
-// $accordion-title-color: isitlight($accordion-title-background);
-// $accordion-title-color-active: isitlight($accordion-title-background);
+// $accordion-title-color: is-light($accordion-title-background);
+// $accordion-title-color-active: is-light($accordion-title-background);
 
 // $accordion-title-padding: $global-padding;
 // $accordion-content-padding: $global-padding;
@@ -299,7 +299,7 @@ $button-radius: 2px;
 // $blocklist-fontsize: 1rem;
 
 // $blocklist-item-padding: 0.8rem 1rem;
-// $blocklist-item-color: isitlight($blocklist-background, #000, #fff);
+// $blocklist-item-color: is-light($blocklist-background, #000, #fff);
 // $blocklist-item-background-hover: smartscale($blocklist-background, 4.5%);
 // $blocklist-item-color-disabled: #999;
 // $blocklist-item-border: 1px solid smartscale($blocklist-background, 18.5%);
@@ -324,7 +324,7 @@ $button-radius: 2px;
 // - - - - - - - - - - - - - - -
 
 $card-background: #fff;
-$card-color: isitlight($card-background);
+$card-color: is-light($card-background);
 $card-border: 1px solid;
 $card-radius: 0;
 $card-shadow: none;
@@ -428,7 +428,7 @@ $label-color: var(--gray-dark);
 // $menubar-background: #fff;
 // $menubar-background-hover: smartscale($menubar-background, 7%);
 // $menubar-background-active: $menubar-background-hover;
-// $menubar-color: isitlight($menubar-background);
+// $menubar-color: is-light($menubar-background);
 // $menubar-color-hover: $menubar-color;
 // $menubar-color-active: $menubar-color-hover;
 
@@ -541,7 +541,7 @@ $label-color: var(--gray-dark);
 // $offcanvas-size-vertical: 250px;
 
 // $offcanvas-background: #fff;
-// $offcanvas-color: isitlight($offcanvas-background);
+// $offcanvas-color: is-light($offcanvas-background);
 // $offcanvas-padding: 0;
 // $offcanvas-shadow: 3px 0 10px rgba(black, 0.25);
 // $offcanvas-animation-speed: 0.25s;
@@ -592,7 +592,7 @@ $label-color: var(--gray-dark);
 // $tab-title-background: $gray-light;
 // $tab-title-background-hover: smartscale($tab-title-background, 5%);
 // $tab-title-background-active: smartscale($tab-title-background, 3%);
-// $tab-title-color: isitlight($tab-title-background);
+// $tab-title-color: is-light($tab-title-background);
 // $tab-title-color-active: $tab-title-color;
 
 // $tab-title-padding: $global-padding;
