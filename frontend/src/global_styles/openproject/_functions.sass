@@ -33,3 +33,10 @@
   @each $pixel-val in $list-of-pixels
     $result: $result + rem-calc($pixel-val) + ' '
   @return #{$result}
+
+@function is-light($color, $yes: #000, $no: #fff, $threshold: 60%)
+  @if (lightness($color) > $threshold)
+    @return $yes
+
+  @else
+    @return $no
