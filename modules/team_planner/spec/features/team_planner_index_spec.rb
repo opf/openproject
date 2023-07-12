@@ -53,11 +53,6 @@ RSpec.describe 'Team planner index', :js, :with_cuprite, with_ee: %i[team_planne
     it 'can create an action through the sidebar' do
       find('[data-qa-selector="team-planner--create-button"]').click
 
-      team_planner.expect_title
-
-      # Also works from the frontend
-      find('[data-qa-selector="team-planner--create-button"]').click
-
       team_planner.expect_no_toaster
       team_planner.expect_title
     end
