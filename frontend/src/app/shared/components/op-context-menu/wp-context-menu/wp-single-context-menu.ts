@@ -12,6 +12,7 @@ import { OPContextMenuService } from 'core-app/shared/components/op-context-menu
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import { PERMITTED_CONTEXT_MENU_ACTIONS } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-static-context-menu-actions';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { CopyToClipboardService } from 'core-app/shared/components/copy-to-clipboard/copy-to-clipboard.service';
 import { WorkPackageAction } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { TimeEntryCreateService } from 'core-app/shared/components/time_entries/create/create.service';
@@ -34,7 +35,9 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
     readonly elementRef:ElementRef,
     readonly opModalService:OpModalService,
     readonly opContextMenuService:OPContextMenuService,
-    readonly authorisationService:AuthorisationService) {
+    readonly authorisationService:AuthorisationService,
+    protected copyToClipboardService:CopyToClipboardService,
+  ) {
     super(elementRef, opContextMenuService);
   }
 
@@ -71,7 +74,11 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
           // do nothing, the user closed without changes
           });
         break;
-
+      case 'copy_to_clipboard': {
+        const url = new URL(String(link), window.location.origin);
+        this.copyToClipboardService.copy(url.toString());
+        break;
+      }
       default:
         window.location.href = link!;
         break;

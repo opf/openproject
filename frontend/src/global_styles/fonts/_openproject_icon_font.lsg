@@ -57,6 +57,7 @@
 <li><span class="icon icon-chart3"></span>chart3</li>
 <li><span class="icon icon-checkmark-circle"></span>checkmark-circle</li>
 <li><span class="icon icon-checkmark"></span>checkmark</li>
+<li><span class="icon icon-clipboard"></span>clipboard</li>
 <li><span class="icon icon-close"></span>close</li>
 <li><span class="icon icon-code-tag"></span>code-tag</li>
 <li><span class="icon icon-color-text"></span>color-text</li>
@@ -257,6 +258,9 @@
 <li><span class="icon icon-ticket-minus"></span>ticket-minus</li>
 <li><span class="icon icon-ticket-note"></span>ticket-note</li>
 <li><span class="icon icon-ticket"></span>ticket</li>
+<li><span class="icon icon-time-tracking-running"></span>time-tracking-running</li>
+<li><span class="icon icon-time-tracking-start"></span>time-tracking-start</li>
+<li><span class="icon icon-time-tracking-stop"></span>time-tracking-stop</li>
 <li><span class="icon icon-time"></span>time</li>
 <li><span class="icon icon-to-fullscreen"></span>to-fullscreen</li>
 <li><span class="icon icon-training-consulting"></span>training-consulting</li>

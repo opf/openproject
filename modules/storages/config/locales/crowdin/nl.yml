@@ -3,11 +3,11 @@ nl:
   permission_view_file_links: "Bekijk bestandslinks"
   permission_manage_file_links: "Bestandslinks beheren"
   permission_manage_storages_in_project: "Beheer bestandsopslag in het project"
-  permission_read_files: "Read files"
-  permission_write_files: "Write files"
-  permission_create_files: "Create files"
-  permission_delete_files: "Delete files"
-  permission_share_files: "Share files"
+  permission_read_files: "Lees bestanden"
+  permission_write_files: "Schrijf bestanden"
+  permission_create_files: "Bestanden maken"
+  permission_delete_files: "Bestanden verwijderen"
+  permission_share_files: "Bestanden delen"
   project_module_storages: "Bestandsopslag"
   activerecord:
     models:
@@ -47,7 +47,7 @@ nl:
       replace_provider_type_oauth: "Vervang %{provider_type} OAuth"
       save_and_continue_setup: "Opslaan en doorgaan met instellen"
       save_and_complete_setup: "Opslaan en de installatie voltooien"
-      select_folder: "Select folder"
+      select_folder: "Selecteer map"
     page_titles:
       project_settings:
         index: "Bestandsopslag beschikbaar in dit project"

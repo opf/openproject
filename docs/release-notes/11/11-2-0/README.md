@@ -46,7 +46,7 @@ The user administration is now distributed to non-admins by a new  global role f
 
 ## UI and UX improvements and various bug fixes
 
-Furthermore, with 11.2 we have implemented various UI and UX  improvements for OpenProject. We harmonized the navigation for the time and costs module so that it is consistent with the other navigation.  Also, we adapted the background colors of sum rows and group rows in the work package list so that it is easier to understand. We introduced a group show page (similar to the users show page) in order to link this page in case of mentioning a group and be also available for non-admins.
+Furthermore, with 11.2 we have implemented various UI and UX  improvements for OpenProject. We harmonized the navigation for the time and costs module so that it is consistent with the other navigation.  Also, we adapted the background colors of sum rows and group rows in the work package table so that it is easier to understand. We introduced a group show page (similar to the users show page) in order to link this page in case of mentioning a group and be also available for non-admins.
 
 ### All bug fixes and changes
 

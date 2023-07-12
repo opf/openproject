@@ -3,37 +3,31 @@
 
   <li *ngIf="isActive">
     <button id="work-packages-timeline-zoom-auto-button"
-            class="button -icon-only timeline-toolbar--button toolbar-icon"
+            class="button timeline-toolbar--button toolbar-icon"
             [ngClass]="getAutoZoomToggleClass()"
             [attr.title]="text.zoomAuto"
-            [attr.aria-label]="text.zoomAuto"
-            type="button"
             (click)="enableAutoZoom()">
-      <span class="spot-icon spot-icon_zoom-auto"></span>
+      <op-icon icon-classes="icon-zoom-auto button--icon"></op-icon>
     </button>
   </li>
 
   <li *ngIf="isActive">
     <button id="work-packages-timeline-zoom-out-button"
-            class="button -icon-only timeline-toolbar--button toolbar-icon"
+            class="button timeline-toolbar--button toolbar-icon"
             [attr.title]="text.zoomOut"
-            [attr.aria-label]="text.zoomOut"
             [disabled]="isMaxLevel"
-            type="button"
             (click)="updateZoomWithDelta(1)">
-      <span class="spot-icon spot-icon_zoom-out"></span>
+      <op-icon icon-classes="icon-zoom-out button--icon"></op-icon>
     </button>
   </li>
 
   <li *ngIf="isActive">
     <button id="work-packages-timeline-zoom-in-button"
-            class="button -icon-only timeline-toolbar--button toolbar-icon"
+            class="button timeline-toolbar--button toolbar-icon"
             [attr.title]="text.zoomIn"
-            [attr.aria-label]="text.zoomIn"
             [disabled]="isMinLevel"
-            type="button"
             (click)="updateZoomWithDelta(-1)">
-      <span class="spot-icon spot-icon_zoom-in"></span>
+      <op-icon icon-classes="icon-zoom-in button--icon"></op-icon>
     </button>
   </li>
 </ul>

@@ -78,7 +78,7 @@ RSpec.describe 'wiki pages', js: true, with_settings: { journal_aggregation_time
       click_button 'Save'
     end
 
-    expect(page).to have_selector('#menu-sidebar .main-item-wrapper', text: 'Wiki', visible: false)
+    expect(page).to have_selector('.wiki-menu--main-item', text: 'Wiki', visible: :all)
 
     # creating by accessing the page
     visit project_wiki_path(project, 'new page')

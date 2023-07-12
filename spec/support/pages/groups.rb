@@ -51,8 +51,9 @@ module Pages
     end
 
     def delete_group!(name)
-      find_group(name).find('a[data-method=delete]').click
-      accept_alert_dialog!
+      accept_alert do
+        find_group(name).find('a[data-method=delete]').click
+      end
     end
 
     def find_group(name)

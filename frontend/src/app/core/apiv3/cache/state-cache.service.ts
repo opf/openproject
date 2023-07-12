@@ -26,13 +26,22 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { MultiInputState, State } from '@openproject/reactivestates';
 import {
+  MultiInputState,
+  State,
+} from '@openproject/reactivestates';
+import {
+  combineLatest,
   firstValueFrom,
+  forkJoin,
   Observable,
 } from 'rxjs';
 import {
-  auditTime, map, share, startWith, take,
+  auditTime,
+  map,
+  share,
+  startWith,
+  take,
 } from 'rxjs/operators';
 
 export interface HasId {
@@ -141,6 +150,16 @@ export class StateCacheService<T> {
           return mapped;
         }),
       );
+  }
+
+  observeSome(ids:string[]):Observable<T[]> {
+    return combineLatest(
+      ids.map(
+        (id) => this.observe(id).pipe(startWith(null)),
+      ),
+    ).pipe(
+      map((values) => values.filter((value) => !!value)),
+    ) as Observable<T[]>;
   }
 
   /**

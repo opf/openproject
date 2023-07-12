@@ -49,11 +49,13 @@ module Costs
 
         permission :log_own_time,
                    {},
-                   require: :loggedin
+                   require: :loggedin,
+                   dependencies: :view_own_time_entries
 
         permission :log_time,
                    {},
-                   require: :loggedin
+                   require: :loggedin,
+                   dependencies: :view_time_entries
 
         permission :edit_own_time_entries,
                    {},

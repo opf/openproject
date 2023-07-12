@@ -85,7 +85,7 @@ id:
   text_duration_in_hours: "Durasi dalam jam"
   text_in_hours: "dalam jam"
   text_meeting_agenda_for_meeting: 'agenda untuk rapat "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Are you sure you want to close the agenda?"
+  text_meeting_closing_are_you_sure: "Yakin ingin menutup agenda?"
   text_meeting_agenda_open_are_you_sure: "Ini akan mengganti semua perubahan dalam beberapa menit! Apakah anda ingin lanjut?"
   text_meeting_minutes_for_meeting: 'laporan untuk rapat "%{meeting}"'
   text_review_meeting_agenda: "%{author} telah memberikan %{link} untuk diulas."

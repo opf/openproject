@@ -158,7 +158,7 @@ An export function can then be used to distribute the BCFs back to the local app
 - Fixed: Query indicates unsaved changes without changes to query \[[#32843](https://community.openproject.com/wp/32843)\]
 - Fixed: Avatars are incorrectly cached \[[#32870](https://community.openproject.com/wp/32870)\]
 - Fixed: Hourly cron synchronization not executed in docker context \[[#32884](https://community.openproject.com/wp/32884)\]
-- Fixed: Assignee list empty when creating a task in "modules" work package list \[[#32887](https://community.openproject.com/wp/32887)\]
+- Fixed: Assignee list empty when creating a task in "modules" work package table \[[#32887](https://community.openproject.com/wp/32887)\]
 - Fixed: [Docker] Attach files error "An internal error has occurred. The attachment could not be saved due to lacking file system permissions" \[[#32890](https://community.openproject.com/wp/32890)\]
 - Fixed: Inconsistent breadcrumb in Administration -> Enterprise edition \[[#32905](https://community.openproject.com/wp/32905)\]
 - Fixed: Styling and consistency issues in the confirm deletion modal for the EE token \[[#32908](https://community.openproject.com/wp/32908)\]

@@ -7,12 +7,12 @@ id:
     label_board: "Papan"
     label_boards: "Papan"
     board_types:
-      free: Basic
+      free: Dasar
       action: "Papan aksi (%{attribute}"
     board_type_attributes:
       assignee: Pelimpahan
       status: Status
       version: Versi
       subproject: Sub-Project
-      subtasks: Parent-child
-      basic: Basic
+      subtasks: Orangtua-anak
+      basic: Dasar

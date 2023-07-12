@@ -28,11 +28,11 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Test mail notification', js: true do
+RSpec.describe 'Test mail notification', js: true, with_cuprite: true do
   shared_let(:admin) { create(:admin) }
 
   before do
-    login_as(admin)
+    login_as admin
     visit admin_settings_mail_notifications_path(tab: :notifications)
   end
 

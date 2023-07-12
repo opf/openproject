@@ -37,17 +37,15 @@ module IconsHelper
   end
 
   def spot_icon(icon_name, title: nil, size: nil, inline: false, classnames: nil)
-    size_class = if size.nil?
-                   ""
-                 else
-                   "spot-icon_#{size}"
-                 end
-    inline_class = if inline
-                     "spot-icon_inline"
-                   else
-                     ""
-                   end
-    content_tag(:span, title, class: "spot-icon #{size_class} #{inline_class} spot-icon_#{icon_name} #{classnames}")
+    classes = [
+      "spot-icon",
+      size ? "spot-icon_#{size}" : nil,
+      inline ? "spot-icon_inline" : nil,
+      "spot-icon_#{icon_name}",
+      classnames
+    ].compact.join(' ')
+
+    content_tag(:span, title, class: classes)
   end
 
   ##

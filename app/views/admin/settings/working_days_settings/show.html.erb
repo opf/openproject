@@ -42,28 +42,39 @@ See COPYRIGHT and LICENSE files for more details.
       method: :patch,
       class: 'op-working-days-admin-settings'
     ) do %>
-  <section class="form--section">
-    <p>
-      <%= t("working_days.info").html_safe %>
-    </p>
-    <div class="form--field op-working-days-admin-settings--day-selectors" id="setting_working_days">
-      <%= setting_multiselect :working_days,
-            I18n.t('date.day_names').rotate.zip(WeekDay::DAY_RANGE),
-            direction: :horizontal,
-            label: false %>
-    </div>
-  </section>
-
-  <div class="spot-divider"></div>
 
   <section class="form--section">
-    <p>
-      <%= t("working_days.instance_wide_info").html_safe %>
-    </p>
-    <%= angular_component_tag 'op-non-working-days-list',
-                              data: { modified_non_working_days: @modified_non_working_days } %>
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= t('settings.working_days.section_work_week') %></legend>
 
+      <p>
+        <%= t("working_days.info").html_safe %>
+      </p>
+
+      <div class="form--field op-working-days-admin-settings--day-selectors" id="setting_working_days">
+        <%= setting_multiselect :working_days,
+
+              I18n.t('date.day_names').rotate.zip(WeekDay::DAY_RANGE),
+              direction: :horizontal %>
+      </div>
+
+    </fieldset>
   </section>
+
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= t('settings.working_days.section_holidays_and_closures') %></legend>
+
+      <p>
+        <%= t("working_days.instance_wide_info").html_safe %>
+      </p>
+      <%= angular_component_tag 'op-non-working-days-list',
+                                data: { modified_non_working_days: @modified_non_working_days } %>
+
+    </fieldset>
+  </section>
+
+
 
   <%= styled_button_tag t(:button_apply_changes), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>

@@ -28,38 +28,43 @@
 
 require 'spec_helper'
 
-RSpec.describe 'invitation spec', js: true do
+RSpec.describe 'invitations', js: true, with_cuprite: true do
   let(:user) { create(:invited_user, mail: 'holly@openproject.com') }
 
   before do
     allow(User).to receive(:current).and_return current_user
   end
 
-  shared_examples 'resends the invitation' do
-    visit edit_user_path(user)
-    click_on I18n.t(:label_send_invitation)
-    expect(page).to have_text 'An invitation has been sent to holly@openproject.com.'
+  shared_examples 'resending invitations' do
+    it 'resends the invitation' do
+      visit edit_user_path(user)
+      click_on I18n.t(:label_send_invitation)
+      expect(page).to have_text 'An invitation has been sent to holly@openproject.com.'
 
-    # Logout admin
-    logout
+      # Logout admin
+      logout
 
-    # Visit invitation with wrong token
-    visit account_activate_path(token: 'some invalid value')
-    expect(page).to have_text 'Invalid activation token'
+      # Visit invitation with wrong token
+      visit account_activate_path(token: 'some invalid value')
+      expect(page).to have_text 'Invalid activation token'
 
-    # Visit invitation link with correct token
-    visit account_activate_path(token: Token::Invitation.last.value)
+      # Visit invitation link with correct token
+      visit account_activate_path(token: Token::Invitation.last.value)
 
-    expect(page).to have_selector('.spot-modal--header', text: 'Welcome to OpenProject')
+      expect(page).to have_selector('.spot-modal--header', text: 'Welcome to OpenProject')
+    end
   end
 
   context 'as admin' do
     shared_let(:admin) { create(:admin) }
     let(:current_user) { admin }
+    include_examples 'resending invitations'
   end
 
   context 'as global user' do
     shared_let(:global_manage_user) { create(:user, global_permission: :manage_user) }
     let(:current_user) { global_manage_user }
+
+    include_examples 'resending invitations'
   end
 end

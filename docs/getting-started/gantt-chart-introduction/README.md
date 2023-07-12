@@ -35,11 +35,11 @@ The dynamic Gantt chart in OpenProject displays the phases, tasks and milestones
 
 To open the Gantt chart view in OpenProject, the [work packages module needs to be activated](../../user-guide/activity) in the project settings.
 
-Within your project menu, navigate to the work packages module. Select the **Gantt chart view** in the work package list with the button on the top right.
+Within your project menu, navigate to the work packages module. Select the **Gantt chart view** in the work package table with the button on the top right.
 
 ![open the gantt chart view](gantt-chart-view.png)
 
-You can activate a Gantt chart view from any work package list (or saved query) by selecting the Gantt view from the top.
+You can activate a Gantt chart view from any work package table (or saved query) by selecting the Gantt view from the top.
 
 The Gantt chart then displays all work package types, e.g. phases and milestones, tasks or bugs, in a timeline view.
 
@@ -49,7 +49,7 @@ It shows dependencies between different work packages as well as additional info
 
 To create a project plan in OpenProject, switch to the work package table and select the [Gantt chart view](#activate-the-gantt-chart-view).
 
-You can create new work package directly in the list by clicking on the **create new work package** link at the bottom of the list. You can change the work package type or other attributes directly in the list view.
+You can create new work package directly in the table by clicking on the **create new work package** link at the bottom of the table. You can change the work package type or other attributes directly in the table view.
 
 Click in the at the level of the line of the work package you want to map in the Gantt chart to add an element in the project plan. 
 
@@ -59,7 +59,7 @@ You can change the duration or move the element in the project plan via drag and
 
 ## Edit a project plan
 
-You can edit a project plan by clicking directly in the list and change work package attributes, e.g. Status, Priority or Assignee.
+You can edit a project plan by clicking directly in the table and changing work package attributes, e.g. Status, Priority or Assignee.
 
 To change the start and end date or the duration of a work package, click directly in the Gantt chart and change it via drag and drop.
 All changes will also be tracked in the work packages [Activity](../../user-guide/activity).

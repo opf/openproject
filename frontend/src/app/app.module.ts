@@ -67,6 +67,7 @@ import { OpenprojectOverviewModule } from 'core-app/features/overview/openprojec
 import { OpenprojectMyPageModule } from 'core-app/features/my-page/openproject-my-page.module';
 import { OpenprojectProjectsModule } from 'core-app/features/projects/openproject-projects.module';
 import { KeyboardShortcutService } from 'core-app/shared/directives/a11y/keyboard-shortcut.service';
+import { CopyToClipboardService } from 'core-app/shared/components/copy-to-clipboard/copy-to-clipboard.service';
 import {
   OpenprojectMembersModule,
 } from 'core-app/shared/components/autocompleter/members-autocompleter/members.module';
@@ -78,7 +79,6 @@ import {
 } from 'core-app/features/bim/revit_add_in/revit-add-in-settings-button.service';
 import { OpenprojectEnterpriseModule } from 'core-app/features/enterprise/openproject-enterprise.module';
 import { MainMenuToggleComponent } from 'core-app/core/main-menu/main-menu-toggle.component';
-import { MainMenuNavigationService } from 'core-app/core/main-menu/main-menu-navigation.service';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { ConfirmDialogModalComponent } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
 import { DynamicContentModalComponent } from 'core-app/shared/components/modals/modal-wrapper/dynamic-content.modal';
@@ -122,13 +122,10 @@ import { LocalUploadService } from 'core-app/core/upload/local-upload.service';
 export function initializeServices(injector:Injector) {
   return () => {
     const PreviewTrigger = injector.get(PreviewTriggerService);
-    const mainMenuNavigationService = injector.get(MainMenuNavigationService);
     const topMenuService = injector.get(TopMenuService);
     const keyboardShortcuts = injector.get(KeyboardShortcutService);
     // Conditionally add the Revit Add-In settings button
     injector.get(RevitAddInSettingsButtonService);
-
-    mainMenuNavigationService.register();
 
     topMenuService.register();
 
@@ -241,6 +238,7 @@ export function initializeServices(injector:Injector) {
     OpenProjectBackupService,
     ConfirmDialogService,
     RevitAddInSettingsButtonService,
+    CopyToClipboardService,
   ],
   declarations: [
     OpContextMenuTrigger,

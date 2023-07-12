@@ -818,23 +818,28 @@ RSpec.describe UsersController do
     describe 'general' do
       let(:current_user) { user }
       let(:params) { { id: user.id } }
+      let(:action) { :show }
 
       before do
         as_logged_in_user current_user do
-          get :show, params:
+          get action, params:
         end
       end
 
-      it 'responds with success' do
+      it 'responds with success', :aggregate_failures do
         expect(response).to be_successful
-      end
-
-      it 'renders the show template' do
         expect(response).to render_template 'show'
+        expect(assigns(:user)).to eq(user)
       end
 
-      it 'assigns @user' do
-        expect(assigns(:user)).to eq(user)
+      context 'when requesting special value "me"' do
+        let(:params) { { id: 'me' } }
+
+        it 'responds with success', :aggregate_failures do
+          expect(response).to be_successful
+          expect(response).to render_template 'show'
+          expect(assigns(:user)).to eq(user)
+        end
       end
 
       context 'when not being logged in' do
@@ -843,6 +848,14 @@ RSpec.describe UsersController do
         it 'responds with 404' do
           expect(response)
             .to have_http_status(:not_found)
+        end
+
+        context 'when requesting special value "me"' do
+          let(:params) { { id: 'me' } }
+
+          it 'redirects to login', :aggregate_failures do
+            expect(response).to redirect_to signin_url(back_url: user_url('me'))
+          end
         end
       end
 
@@ -867,20 +880,6 @@ RSpec.describe UsersController do
         it 'responds with 200' do
           expect(response)
             .to have_http_status(:not_found)
-        end
-      end
-
-      context 'for the current user' do
-        let(:params) { { id: 'current' } }
-
-        it 'responds with 200' do
-          expect(response)
-            .to have_http_status(:ok)
-        end
-
-        it 'assigns the user' do
-          expect(assigns(:user))
-            .to eq(user)
         end
       end
     end

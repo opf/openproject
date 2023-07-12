@@ -97,3 +97,21 @@
     </tr>
   <% end %>
 </a>
+
+<table>
+  <tr>
+    <%= placeholder_cell('0px', vertical: false) %>
+  </tr>
+</table>
+
+<a style="margin-left: 12px;"
+   href="<%= notifications_path(work_package.id) %>"
+   target="_blank">
+  <%= I18n.t('mail.work_packages.open_in_browser') %>
+</a>
+
+<table>
+  <tr>
+    <%= placeholder_cell('20px', vertical: false) %>
+  </tr>
+</table>

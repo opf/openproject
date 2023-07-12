@@ -41,7 +41,7 @@ module Migrations
     class CurrentWikiPage < ::ActiveRecord::Base
       self.table_name = "wiki_pages"
 
-      has_one :content, class_name: 'WikiContent', foreign_key: 'page_id', dependent: :destroy
+      has_one :content, class_name: 'CurrentWikiContent', foreign_key: 'page_id', dependent: :destroy
     end
 
     class CurrentWikiContent < ::ActiveRecord::Base

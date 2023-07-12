@@ -1,25 +1,20 @@
 <fieldset id="filters" *ngIf="filters" class="advanced-filters--container">
   <legend [textContent]="text.selected_filter_list"></legend>
 
-  <button
-    *ngIf="showCloseFilter"
-    [attr.title]="text.close_form"
-    [attr.aria-label]="text.close_form"
-    class="clear-button advanced-filters--close"
-    (click)="closeFilter()"
-  >
-    <span class="spot-icon spot-icon_1_25 spot-icon_close"></span>
-  </button>
+  <a *ngIf="showCloseFilter"
+     [attr.title]="text.close_form"
+     class="advanced-filters--close icon-context icon-close"
+     (click)="closeFilter()">
+  </a>
 
   <ul class="advanced-filters--filters">
     <li id="filter_search"
         class="advanced-filters--filter --without-operator">
-      <label
-        for="filter-by-text-input"
-        class="advanced-filters--filter-name"
-        [textContent]="text.filter_by_text"
-        [attr.title]="text.filter_by_text"
-      ></label>
+      <label for="filter-by-text-input"
+             class="advanced-filters--filter-name"
+             [textContent]="text.filter_by_text"
+             [attr.title]="text.filter_by_text">
+      </label>
 
       <div class="advanced-filters--filter-value">
         <wp-filter-by-text-input
@@ -31,16 +26,15 @@
     <li class="advanced-filters--spacer"></li>
 
     <ng-container *ngFor="let filter of filters; trackBy: trackByName ; let index = index">
-      <li
-        *ngIf="isFilterAvailable(filter)"
-        id="filter_{{filter.id}}"
-        query-filter
-        [shouldFocus]="index === focusElementIndex"
-        [filter]="filter"
-        (deactivateFilter)="deactivateFilter($event)"
-        (filterChanged)="filtersChanged.emit(filters)"
-        class="advanced-filters--filter"
-      ></li>
+      <li *ngIf="isFilterAvailable(filter)"
+          id="filter_{{filter.id}}"
+          query-filter
+          [shouldFocus]="index == focusElementIndex"
+          [filter]="filter"
+          (deactivateFilter)="deactivateFilter($event)"
+          (filterChanged)="filtersChanged.emit(filters)"
+          class="advanced-filters--filter">
+      </li>
     </ng-container>
 
     <li class="advanced-filters--spacer" *ngIf="isSecondSpacerVisible"></li>
@@ -48,7 +42,7 @@
     <li class="advanced-filters--add-filter">
       <!-- Add filters -->
       <label for="add_filter_select" aria-hidden="true" class="advanced-filters--add-filter-label">
-        <span class="spot-icon spot-icon_inline spot-icon_1 spot-icon_add advanced-filters--add-filter-label-icon"></span>
+        <op-icon icon-classes="icon-add icon4"></op-icon>
         {{ text.label_filter_add }}:
       </label>
       <label for="add_filter_select" class="hidden-for-sighted">
@@ -58,22 +52,21 @@
       </label>
 
       <div class="advanced-filters--add-filter-value">
-        <ng-select
-          #ngSelectComponent
-          [items]="remainingFilters"
-          [clearSearchOnAdd]="true"
-          [multiple]="false"
-          [clearable]="true"
-          [clearOnBackspace]="true"
-          [closeOnSelect]="true"
-          [virtualScroll]="true"
-          [placeholder]="text.please_select"
-          (open)="onOpen()"
-          (change)="onFilterAdded($event)"
-          id="add_filter_select"
-          bindLabel="name"
-          appendTo="body"
-        ></ng-select>
+        <ng-select #ngSelectComponent
+                   [items]="remainingFilters"
+                   [clearSearchOnAdd]="true"
+                   [multiple]="false"
+                   [clearable]="true"
+                   [clearOnBackspace]="true"
+                   [closeOnSelect]="true"
+                   [virtualScroll]="true"
+                   [placeholder]="text.please_select"
+                   (open)="onOpen()"
+                   (change)="onFilterAdded($event)"
+                   id="add_filter_select"
+                   bindLabel="name"
+                   appendTo="body">
+        </ng-select>
       </div>
     </li>
   </ul>

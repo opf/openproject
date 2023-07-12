@@ -232,7 +232,7 @@ class Changeset < ApplicationRecord
     return if work_package.status && work_package.status.is_closed?
 
     journal_notes = I18n.t(:text_status_changed_by_changeset, value: text_tag, locale: Setting.default_language)
-    work_package.add_journal(user || User.anonymous, journal_notes)
+    work_package.add_journal(user: user || User.anonymous, notes: journal_notes)
     work_package.status = status
     if Setting.commit_fix_done_ratio.present?
       work_package.done_ratio = Setting.commit_fix_done_ratio.to_i
@@ -277,7 +277,7 @@ class Changeset < ApplicationRecord
 
   def assign_openproject_user_from_comitter
     self.user = repository.find_committer_user(committer)
-    add_journal(user || User.anonymous, comments)
+    add_journal(user: user || User.anonymous, notes: comments)
   end
 
   # TODO: refactor to a standard helper method

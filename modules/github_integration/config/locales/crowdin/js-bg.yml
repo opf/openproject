@@ -46,7 +46,7 @@ bg:
           %{github_user_link} referenced this work package in pull request #%{pr_number} %{pr_link} on %{repository_link}. #%{pr_number} %{pr_link} on %{repository_link}.
         states:
           opened: 'opened'
-          closed: 'затворен'
+          closed: 'closed'
           draft: 'drafted'
           merged: 'merged'
           ready_for_review: 'marked ready for review'

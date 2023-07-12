@@ -30,7 +30,8 @@ require 'spec_helper'
 require_relative '../support/pages/backlogs'
 
 RSpec.describe 'Backlogs in backlog view',
-               js: true do
+               js: true,
+               with_cuprite: false do
   let!(:project) do
     create(:project,
            types: [story, task],

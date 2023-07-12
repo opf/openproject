@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'my', js: true do
+RSpec.describe 'my', js: true, with_cuprite: true do
   let(:user_password) { 'bob' * 4 }
   let(:user) do
     create(:user,
@@ -53,7 +53,7 @@ RSpec.describe 'my', js: true do
   end
 
   before do
-    login_as(user)
+    login_as user
 
     # Create dangling session
     session = Sessions::SqlBypass.new data: { user_id: user.id }, session_id: 'other'

@@ -16,11 +16,19 @@ module Components
       container.find 'input'
     end
 
+    def dropdown
+      container.find('.ng-dropdown-panel')
+    end
+
+    def click_input
+      input.hover
+      input.click
+    end
+
     def search(query, submit: false)
       SeleniumHubWaiter.wait
       input.set ''
-      input.hover
-      input.click
+      click_input
       input.set query
 
       if submit

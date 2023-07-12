@@ -1,0 +1,22 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/app",
+    "baseUrl": "./",
+    "types": []
+  },
+  "files": [
+    "main.ts",
+    "polyfills.ts",
+    "app/core/setup/init-globals.ts",
+    "app/core/setup/init-vendors.ts",
+  ],
+  "include": [
+    "src/**/*.ts",
+    "**/*.d.ts",
+  ],
+  "exclude": [
+    "**/*.stories.*",
+    "stimulus/**/*.ts"
+  ]
+}

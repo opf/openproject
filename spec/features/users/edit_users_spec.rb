@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'edit users', js: true do
+RSpec.describe 'edit users', js: true, with_cuprite: true do
   shared_let(:admin) { create(:admin) }
   let(:current_user) { admin }
   let(:user) { create(:user, mail: 'foo@example.com') }
@@ -40,11 +40,11 @@ RSpec.describe 'edit users', js: true do
   end
 
   def auth_select
-    find :css, 'select#user_auth_source_id'
+    find 'select#user_auth_source_id'
   end
 
   def user_password
-    find :css, 'input#user_password'
+    find 'input#user_password'
   end
 
   context 'with internal authentication' do
@@ -60,7 +60,7 @@ RSpec.describe 'edit users', js: true do
     it 'hides password settings when switching to an LDAP auth source' do
       auth_select.select auth_source.name
 
-      expect(page).not_to have_selector('input#user_password')
+      expect(page).not_to have_field('#user_password')
     end
   end
 
@@ -74,7 +74,7 @@ RSpec.describe 'edit users', js: true do
 
     it 'shows external authentication being selected and no password settings' do
       expect(auth_select.value).to eq auth_source.id.to_s
-      expect(page).not_to have_selector('input#user_password')
+      expect(page).not_to have_field('#user_password')
     end
 
     it 'shows password settings when switching back to internal authentication' do
@@ -95,15 +95,19 @@ RSpec.describe 'edit users', js: true do
       expect(page).not_to have_selector('.users-and-permissions-menu-item', text: 'Users and permissions')
       expect(page).to have_selector('.users-menu-item.selected', text: 'Users')
 
-      expect(page).to have_selector 'select#user_auth_source_id'
-      expect(page).not_to have_selector 'input#user_password'
+      expect(page).to have_select(id: 'user_auth_source_id')
+      expect(page).not_to have_field '#user_password'
 
       expect(page).to have_selector '#user_login'
       expect(page).to have_selector '#user_firstname'
       expect(page).to have_selector '#user_lastname'
       expect(page).to have_selector '#user_mail'
 
-      fill_in 'user[firstname]', with: 'NewName', fill_options: { clear: :backspace }
+      firstname_field = find_by_id('user_firstname')
+      firstname_field.value.length.times do
+        firstname_field.send_keys(:backspace)
+      end
+      firstname_field.set 'NewName'
       select auth_source.name, from: 'user[auth_source_id]'
 
       click_on 'Save'

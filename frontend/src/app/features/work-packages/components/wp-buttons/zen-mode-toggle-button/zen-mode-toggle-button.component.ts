@@ -46,7 +46,7 @@ export class ZenModeButtonComponent extends AbstractWorkPackageButtonComponent {
 
   public buttonClass = 'toolbar-icon';
 
-  public icon = 'zen-mode';
+  public iconClass = 'icon-zen-mode';
 
   static inZenMode = false;
 

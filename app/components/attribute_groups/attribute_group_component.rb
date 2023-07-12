@@ -29,7 +29,7 @@
 #++
 
 module AttributeGroups
-  class AttributeGroupComponent < ::RailsComponent
+  class AttributeGroupComponent < ::ApplicationComponent
     renders_one :header, AttributeGroups::AttributeGroupHeaderComponent
     renders_many :attributes, AttributeGroups::AttributeKeyValueComponent
   end

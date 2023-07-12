@@ -10,9 +10,9 @@ ru:
       free: Базовый
       action: "Доска действий (%{attribute})"
     board_type_attributes:
-      assignee: Ответственный
+      assignee: Назначенный
       status: Статус
       version: Версия
       subproject: Подпроект
-      subtasks: Родитель-ребенок
+      subtasks: Родитель-Потомок
       basic: Базовый

@@ -182,21 +182,21 @@ ca:
                 options:
                   name: Primers passos
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Estem contents que t'hagis decidit per OpenProject! Et suggerim que provis algunes coses per començar amb OpenProject.
 
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true).
+                    Descobreix les funcions més importants amb el nostre [Tour guiat]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true).
 
-                    _Try the following steps:_
+                    _Prova els següents passos:_
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/demo-project/members) in the project navigation.
-                    2. *View the work in your project*: &rightarrow; Go to [Work packages]({{opSetting:base_url}}/projects/demo-project/work_packages) in the project navigation.
-                    3. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/demo-project/work_packages/new).
-                    4. *Create and update a project plan*: &rightarrow; Go to [Project plan]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) in the project navigation.
-                    5. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/demo-project/settings/modules).
-                    6. *Complete your tasks in the project*: &rightarrow; Go to [Work packages &rightarrow; Tasks]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
+                    1. *Convida nous membres en el teu projecte*: &rightarrow; Ves a [Membres]({{opSetting:base_url}}/projects/demo-project/members) dins la navegació del projecte.
+                    2. *Veu la feina en el teu projecte*: &rightarrow; Ves a [Paquets de treball]({{opSetting:base_url}}/projects/demo-project/work_packages) dins la navegació del projecte.
+                    3. *Crea un nou paquet de treball*: &rightarrow; Ves a [Paquets de treball &rightarrow; Crear]({{opSetting:base_url}}/projects/demo-project/work_packages/new).
+                    4. *Crea i actualitza el pla de projecte*: &rightarrow; Ves a [Pla de projecte]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) dins la navegació del projecte.
+                    5. *Activa altres mòduls*:  &rightarrow; Ves a [Configuració del projecte &rightarrow; Mòduls]({{opSetting:base_url}}/projects/demo-project/settings/modules).
+                    6. *Completa les teves tasques en el teu projecte*: &rightarrow; Ves a [Paquets de treball &rightarrow; Tasques]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    Aquí pots trobar les nostres [Guies d'usuari](https://www.openproject.org/docs/user-guide/).
+                    En cas de qualsevol dubte o requerir suport posa't en contacte amb nosaltres. Contacta amb nosaltres via: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Paquets de treball
@@ -258,51 +258,49 @@ ca:
               wiki:
                 title: Sprint 1
                 content: |
-                  ### Sprint planning meeting
+                  ### Planificació de la reunió Sprint
 
-                  _Please document here topics to the Sprint planning meeting_
+                  _Si us plau, documenta aquí els tòpics per a la planificació de la reunió Sprint_
 
-                  * Time boxed (8 h)
-                  * Input: Product Backlog
-                  * Output: Sprint Backlog
+                  * Temps estimat (8 h).
+                  * Input: Backlog de producte.
+                  * Output: Backlog d'Sprint.
 
-                  * Divided into two additional time boxes of 4 h:
+                  * Dividit entre dos intervals de temps de 4 h:
 
-                      * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                      * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
+                  * El Cap de Producte presenta el [Backlog de producte]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) i prioritza i explica a l'equip els objectius de l'Sprint, els quals l'equip ha d'acceptar. Conjuntament, prioritzen els tòpics del Backlog de producte que l'equip resoldrà en els següents sprints. L'equip es compromet a entregar el que s'ha acordat.
+                  * L'equip planifica de forma autònoma (sense el Cap de Projecte) i en detall, i divideix les tasques acordades per a consolidar el [Backlog Sprint]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
 
+                  ### Reunió diària Scrum
 
-                  ### Daily Scrum meeting
+                  _Si us plau, documenta aquí els tòpics per a la reunió diària Scrum_
 
-                  _Please document here topics to the Daily Scrum meeting_
+                  * Ràpidament, l'estat de l'equip dia a dia.
+                  * Temps estimat (màxim 15 min).
+                  * Reunió a peu dret per a discutir els tòpics del [Tauler de tasques](##sprint:scrum_project__version__sprint_1)..
+                  * Què vull assolir fins a la següent reunió diària Scrum?
+                  * Que està bloquejant la meva feina (Impediments)?
+                  * Scrum Master moderà i anota els [Impediments de l'Sprint](##sprint:scrum_project__version__sprint_1).
+                  * El cap de producte pot participar per tal de mantindre's informat.
 
-                  * Short, daily status meeting of the team.
-                  * Time boxed (max. 15 min).
-                  * Stand-up meeting to discuss the following topics from the [Task board](##sprint:scrum_project__version__sprint_1).
-                      * What do I plan to do until the next Daily Scrum?
-                      * What has blocked my work (Impediments)?
-                  * Scrum Master moderates and notes down [Sprint Impediments](##sprint:scrum_project__version__sprint_1).
-                  * Product Owner may participate may participate in order to stay informed.
+                  ### Reunió de revisió de Sprint
 
-                  ### Sprint Review meeting
+                  _Si us plau, documenta aquí els tòpics per a la reunió de revisió de Sprintg_
 
-                  _Please document here topics to the Sprint Review meeting_
+                  * Temps estimat (4 h).
+                  * Un màxim d'una hora de temps de preparació per persona.
+                  * L'equip mostra el cap de producte i altres persones interessades que s'ha aconseguit en el passat sprint.
+                  * Important: no mostrar maquetes, pantalles o presentacions PowerPoint! Només s'han de mostrar funcionalitats del producte finalitzades i funcionals (Increments).
+                  * Els comentaris del cap de producte, inversors i altres són benvinguts i s'inclouran en la reunió.
+                  * Basat en les funcionalitats mostrades, el cap de producte decideix si llançar el producte o continuar desenvolupant. Això pot permetre un ROI avançat.
 
-                  * Time boxed (4 h).
-                  * A maximum of one hour of preparation time per person.
-                  * The team shows the product owner and other interested persons what has been achieved in this sprint.
-                  * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-                  * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-                  * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
+                  ### Retrospectiva Sprint
 
+                  _Si us plau, documenta aquí els tòpics per a la reunió retrospectiva Sprintg_
 
-                  ### Sprint Retrospective
-
-                  _Please document here topics to the Sprint Retrospective meeting_
-
-                  * Time boxed (3 h).
-                  * After Sprint Review, will be moderated by Scrum Master.
-                  * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+                  * Temps estimat (3 h).
+                  * Després de la revisió de Sprint Review i moderat per l'Scrum Master.
+                  * L'equip discuteix l'sprint: que ha anat bé, que s'ha de millorar per ser més productiu en el següent sprint o inclús per fer la feina més amena.
             item_3:
               name: Sprint 2
           categories:
@@ -339,22 +337,22 @@ ca:
                 options:
                   name: Primers passos
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Estem contents que t'hagis decidit per OpenProject! Et suggerim que provis algunes coses per començar amb OpenProject.
 
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
+                    Descobreix les funcions més importants amb el nostre [Tour guiat]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true).
 
-                    _Try the following steps:_
+                    _Prova els següents passos:_
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
-                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
-                    3. *View your Task board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select [Task Board](##sprint:scrum_project__version__sprint_1).
-                    4. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
-                    6. *Create a Sprint wiki*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and open the sprint wiki from the right drop down menu in a sprint. You can edit the [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) based on your needs.
-                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+                    1. *Convida nous membres en el teu projecte*: &rightarrow; Ves a [Membres]({{opSetting:base_url}}/projects/your-scrum-project/members) dins la navegació del projecte.
+                    2. *Veu els teus backlogs de producte i sprints*: &rightarrow; Ves a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) dins la navegació del projecte.
+                    3. *Veu el teu tauler de tasques*: &rightarrow; Ves a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Fes clic a la fletxa dreat de l'sprint &rightarrow; Selecciona [Tauler de tasques](##sprint:scrum_project__version__sprint_1).
+                    4. *Crea un nou paquet de treball*: &rightarrow; Ves a [Paquets de treball &rightarrow; Crear]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    5. *Crea i actualitza el pla de projecte*: &rightarrow; Ves a [Pla de projecte](##query:scrum_project__query__project_plan) dins la navegació del projecte.
+                    6. *Crea una wiki de l'sprint*: &rightarrow; Ves a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) i obre l'sprint wiki des del menú de dalt a la dreta en l'sprint. Pots editar la [plantilla de la wiki]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) segons el que necessitis.
+                    7. *Activa altres mòduls*:  &rightarrow; Ves a [Configuració del projecte &rightarrow; Mòduls]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    Aquí pots trobar les nostres [Guies d'usuari](https://www.openproject.org/docs/user-guide/).
+                    En cas de qualsevol dubte o requerir suport posa't en contacte amb nosaltres. Contacta amb nosaltres via: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Paquets de treball
@@ -413,48 +411,46 @@ ca:
             item_16:
               subject: Llançament v2.0
           wiki: |
-            ### Sprint planning meeting
+            ### Planificació de la reunió Sprint
 
-            _Please document here topics to the Sprint planning meeting_
+            _Si us plau, documenta aquí els tòpics per a la planificació de la reunió Sprint_
 
-            * Time boxed (8 h)
-            * Input: Product Backlog
-            * Output: Sprint Backlog
+            * Temps estimat (8 h).
+            * Input: Backlog de producte.
+            * Output: Backlog d'Sprint.
 
-            * Divided into two additional time boxes of 4 h:
+            * Dividit entre dos intervals de temps de 4 h:
 
-                * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
+            * El Cap de Producte presenta el [Backlog de producte]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) i prioritza i explica a l'equip els objectius de l'Sprint, els quals l'equip ha d'acceptar. Conjuntament, prioritzen els tòpics del Backlog de producte que l'equip resoldrà en els següents sprints. L'equip es compromet a entregar el que s'ha acordat.
+            * L'equip planifica de forma autònoma (sense el Cap de Projecte) i en detall, i divideix les tasques acordades per a consolidar el [Backlog Sprint]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
 
+            ### Reunió diària Scrum
 
-            ### Daily Scrum meeting
+            _Si us plau, documenta aquí els tòpics per a la reunió diària Scrum_
 
-            _Please document here topics to the Daily Scrum meeting_
+            * Ràpidament, l'estat de l'equip dia a dia.
+            * Temps estimat (màxim 15 min).
+            * Reunió a peu dret per a discutir els tòpics del tauler de tasques.
+            * Què vull assolir fins a la següent reunió diària Scrum?
+            * Que està bloquejant la meva feina (Impediments)?
+            * Scrum Master moderà i anota els impediments de l'Sprint.
+            * El cap de producte pot participar per tal de mantindre's informat.
 
-            * Short, daily status meeting of the team.
-            * Time boxed (max. 15 min).
-            * Stand-up meeting to discuss the following topics from the Task board.
-                * What do I plan to do until the next Daily Scrum?
-                * What has blocked my work (Impediments)?
-            * Scrum Master moderates and notes down Sprint Impediments.
-            * Product Owner may participate may participate in order to stay informed.
+            ### Reunió de revisió de Sprint
 
-            ### Sprint Review meeting
+            _Si us plau, documenta aquí els tòpics per a la reunió de revisió de Sprintg_
 
-            _Please document here topics to the Sprint Review meeting_
+            * Temps estimat (4 h).
+            * Un màxim d'una hora de temps de preparació per persona.
+            * L'equip mostra el cap de producte i altres persones interessades que s'ha aconseguit en el passat sprint.
+            * Important: no mostrar maquetes, pantalles o presentacions PowerPoint! Només s'han de mostrar funcionalitats del producte finalitzades i funcionals (Increments).
+            * Els comentaris del cap de producte, inversors i altres són benvinguts i s'inclouran en la reunió.
+            * Basat en les funcionalitats mostrades, el cap de producte decideix si llançar el producte o continuar desenvolupant. Això pot permetre un ROI avançat.
 
-            * Time boxed (4 h).
-            * A maximum of one hour of preparation time per person.
-            * The team shows the product owner and other interested persons what has been achieved in this sprint.
-            * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-            * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-            * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
+            ### Retrospectiva Sprint
 
+            _Si us plau, documenta aquí els tòpics per a la reunió retrospectiva Sprintg_
 
-            ### Sprint Retrospective
-
-            _Please document here topics to the Sprint Retrospective meeting_
-
-            * Time boxed (3 h).
-            * After Sprint Review, will be moderated by Scrum Master.
-            * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+            * Temps estimat (3 h).
+            * Després de la revisió de Sprint Review i moderat per l'Scrum Master.
+            * L'equip discuteix l'sprint: que ha anat bé, que s'ha de millorar per ser més productiu en el següent sprint o inclús per fer la feina més amena.

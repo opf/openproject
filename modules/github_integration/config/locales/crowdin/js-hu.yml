@@ -43,10 +43,10 @@ hu:
         message: >
           Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}. #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}.
         referenced_message: >
-          %{github_user_link} hivatkozott erre a munkacsomagra a #%{pr_number} %{pr_link} letöltési kérelemben %{repository_link} linken. #%{pr_number} %{pr_link} letöltési kérelemben %{repository_link} linken.
+          %{github_user_link} referenced this work package in pull request #%{pr_number} %{pr_link} on %{repository_link}. #%{pr_number} %{pr_link} on %{repository_link}.
         states:
-          opened: 'nyitott'
-          closed: 'lezárt'
-          draft: 'piszkozat'
-          merged: 'egyesített'
-          ready_for_review: 'véleményezésre megjelölve'
+          opened: 'opened'
+          closed: 'closed'
+          draft: 'drafted'
+          merged: 'merged'
+          ready_for_review: 'marked ready for review'

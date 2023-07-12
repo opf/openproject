@@ -48,6 +48,7 @@ import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/que
 import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { combineLatestWith } from 'rxjs';
+import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
 
 const ADD_FILTER_SELECT_INDEX = -1;
 
@@ -184,11 +185,6 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
   }
 
   public onOpen() {
-    setTimeout(() => {
-      const component = this.ngSelectComponent as any;
-      if (component && component.dropdownPanel) {
-        component.dropdownPanel._updatePosition();
-      }
-    }, 25);
+    repositionDropdownBugfix(this.ngSelectComponent);
   }
 }

@@ -37,6 +37,8 @@ module Pages
             click_link 'Custom action'
           end
 
+          wait_for_reload
+
           Pages::Admin::CustomActions::New.new
         end
 
@@ -50,10 +52,10 @@ module Pages
         end
 
         def delete(name)
-          within_buttons_of name do
-            find('.icon-delete').click
-
-            accept_alert_dialog!
+          accept_alert do
+            within_buttons_of name do
+              find('.icon-delete').click
+            end
           end
         end
 
@@ -68,25 +70,25 @@ module Pages
 
         def move_top(name)
           within_row_of(name) do
-            click_link 'Move to top'
+            find("a[title='Move to top']").trigger('click')
           end
         end
 
         def move_bottom(name)
           within_row_of(name) do
-            click_link 'Move to bottom'
+            find("a[title='Move to bottom']").trigger('click')
           end
         end
 
         def move_up(name)
           within_row_of(name) do
-            click_link 'Move up'
+            find("a[title='Move up']").trigger('click')
           end
         end
 
         def move_down(name)
           within_row_of(name) do
-            click_link 'Move down'
+            find("a[title='Move down']").trigger('click')
           end
         end
 

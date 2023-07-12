@@ -50,7 +50,7 @@ RSpec.describe 'Homescreen index' do
       expect(page).to have_current_path project_path(project)
     end
 
-    it 'can change the welcome text and still have a valid link', js: true do
+    it 'can change the welcome text and still have a valid link', js: true, with_cuprite: true do
       login_as admin
 
       general_settings_page.visit!

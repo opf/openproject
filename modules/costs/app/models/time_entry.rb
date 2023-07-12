@@ -40,18 +40,20 @@ class TimeEntry < ApplicationRecord
 
   acts_as_journalized
 
-  validates_presence_of :user_id, :activity_id, :project_id, :hours, :spent_on
+  validates_presence_of :user_id, :project_id, :spent_on
+  validates_presence_of :hours, if: -> { !ongoing? }
   validates_numericality_of :hours, allow_nil: true, message: :invalid
 
   scope :on_work_packages, ->(work_packages) { where(work_package_id: work_packages) }
 
-  include ::Scopes::Scoped
   extend ::TimeEntries::TimeEntryScopes
+  include ::Scopes::Scoped
   include Entry::Costs
   include Entry::SplashedDates
 
   scopes :of_user_and_day,
-         :visible
+         :visible,
+         :ongoing
 
   # TODO: move into service
   before_save :update_costs

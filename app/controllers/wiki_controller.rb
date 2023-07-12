@@ -114,6 +114,11 @@ class WikiController < ApplicationController
     render action: 'new'
   end
 
+  def menu
+    @page = @wiki.pages.find_by(id: params[:id])
+    render layout: nil
+  end
+
   # edit an existing page or a new one
   def edit
     page = @wiki.find_or_new_page(wiki_page_title)

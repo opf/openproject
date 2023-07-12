@@ -2,7 +2,7 @@
 zh-TW:
   js:
     calendar:
-      create_new: 'Create new calendar'
+      create_new: '建立行事曆'
       title: '行事曆'
       too_many: '總共有 %{count} 個工作項目，但只有 %{max} 個可以顯示。'
-      unsaved_title: 'Unnamed calendar'
+      unsaved_title: '未命名的行事曆'

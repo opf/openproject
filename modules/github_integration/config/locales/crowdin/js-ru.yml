@@ -41,12 +41,12 @@ ru:
       github_actions: Действия
       pull_requests:
         message: >
-          Запрос на слияние #%{pr_number} %{pr_link} для %{repository_link} был %{pr_state} от %{github_user_link}. #%{pr_number} %{pr_link} для %{repository_link} был %{pr_state} от %{github_user_link}.
+          Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}. #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}.
         referenced_message: >
-          %{github_user_link} ссылается на этот пакет работ в запросе на слияние #%{pr_number} %{pr_link} на %{repository_link}. #%{pr_number} %{pr_link} на %{repository_link}.
+          %{github_user_link} referenced this work package in pull request #%{pr_number} %{pr_link} on %{repository_link}. #%{pr_number} %{pr_link} on %{repository_link}.
         states:
-          opened: 'открыт'
-          closed: 'закрыт'
-          draft: 'составлен'
-          merged: 'объединен'
-          ready_for_review: 'отмечен как готовый к просмотру'
+          opened: 'opened'
+          closed: 'closed'
+          draft: 'drafted'
+          merged: 'merged'
+          ready_for_review: 'marked ready for review'

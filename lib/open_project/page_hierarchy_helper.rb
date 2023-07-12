@@ -47,7 +47,9 @@ module OpenProject
 
     def render_hierarchy_item(page, is_parent, options = {})
       content_tag(:span, class: 'tree-menu--item', slug: page.slug) do
-        concat content_tag(:span, hierarchy_span_content(is_parent), class: 'tree-menu--hierarchy-span')
+        concat content_tag(:span,
+                           hierarchy_span_content(is_parent),
+                           class: 'tree-menu--hierarchy-span')
         concat link_to(page.title,
                        url_helpers.project_wiki_path(page.project, page),
                        title: hierarchy_item_title(options, page),
@@ -94,11 +96,16 @@ module OpenProject
       icon_spans << content_tag(:span,
                                 ::I18n.t(:label_collapsed_click_to_show),
                                 class: 'tree-menu--hierarchy-indicator-collapsed hidden-for-sighted')
-      content_tag(:a,
-                  icon_spans.join.html_safe,
-                  tabindex: 0,
-                  role: 'button',
-                  class: 'tree-menu--hierarchy-indicator')
+      content_tag(
+        :a,
+        safe_join(icon_spans),
+        tabindex: 0,
+        role: 'button',
+        class: 'tree-menu--hierarchy-indicator',
+        data: {
+          action: 'menus--subtree#toggle'
+        }
+      )
     end
   end
 end

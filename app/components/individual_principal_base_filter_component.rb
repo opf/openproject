@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class IndividualPrincipalBaseFilterComponent < RailsComponent
+class IndividualPrincipalBaseFilterComponent < ApplicationComponent
   class << self
     def query(params)
       q = base_query.new

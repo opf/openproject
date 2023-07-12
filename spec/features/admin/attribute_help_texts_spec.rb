@@ -28,7 +28,9 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Attribute help texts', js: true do
+RSpec.describe 'Attribute help texts',
+               js: true,
+               with_cuprite: true do
   shared_let(:admin) { create(:admin) }
 
   let(:instance) { AttributeHelpText.last }
@@ -43,13 +45,14 @@ RSpec.describe 'Attribute help texts', js: true do
       visit attribute_help_texts_path
     end
 
-    context 'with direct uploads (Regression #34285)', with_direct_uploads: true do
+    # TODO: Migrate to cuprite when the `better_cuprite_billy` driver is added
+    context 'with direct uploads (Regression #34285)', with_cuprite: false, with_direct_uploads: true do
       before do
         allow_any_instance_of(Attachment).to receive(:diskfile).and_return image_fixture
       end
 
       it 'can upload an image' do
-        page.find('.attribute-help-texts--create-button').click
+        find('.attribute-help-texts--create-button').click
         select 'Status', from: 'attribute_help_text_attribute_name'
 
         editor.set_markdown('My attribute help text')
@@ -69,7 +72,7 @@ RSpec.describe 'Attribute help texts', js: true do
 
         # Create help text
         # -> new
-        page.find('.attribute-help-texts--create-button').click
+        find('.attribute-help-texts--create-button').click
 
         # Set attributes
         # -> create
@@ -103,7 +106,7 @@ RSpec.describe 'Attribute help texts', js: true do
 
         # -> edit
         SeleniumHubWaiter.wait
-        page.find('.attribute-help-text--entry td a', text: 'Status').click
+        find('.attribute-help-text--entry td a', text: 'Status').click
         SeleniumHubWaiter.wait
         expect(page).to have_selector('#attribute_help_text_attribute_name[disabled]')
         editor.set_markdown(' ')
@@ -135,14 +138,15 @@ RSpec.describe 'Attribute help texts', js: true do
         visit attribute_help_texts_path
 
         # Create new, status is now blocked
-        page.find('.attribute-help-texts--create-button').click
+        find('.attribute-help-texts--create-button').click
         expect(page).to have_selector('#attribute_help_text_attribute_name option', text: 'Assignee')
         expect(page).not_to have_selector('#attribute_help_text_attribute_name option', text: 'Status')
         visit attribute_help_texts_path
 
         # Destroy
-        page.find('.attribute-help-text--entry .icon-delete').click
-        page.driver.browser.switch_to.alert.accept
+        accept_alert do
+          find('.attribute-help-text--entry .icon-delete').click
+        end
 
         expect(page).to have_selector('.generic-table--no-results-container')
         expect(AttributeHelpText.count).to be_zero

@@ -47,7 +47,7 @@ cs:
       replace_provider_type_oauth: "Nahradit %{provider_type} OAuth"
       save_and_continue_setup: "Uložit a pokračovat v nastavení"
       save_and_complete_setup: "Uložit a dokončit nastavení"
-      select_folder: "Select folder"
+      select_folder: "Vyberte složku"
     page_titles:
       project_settings:
         index: "Úložiště souborů v tomto projektu"
@@ -58,11 +58,11 @@ cs:
       type_link_text: "„Integration OpenProject“"
       name: "Dejte svému úložišti jméno, aby uživatelé mohli rozlišovat mezi více úložišti."
       host: "Přidejte prosím adresu hostitele vašeho úložiště obsahující https://. Nemělo by být delší než 255 znaků."
-      no_storage_set_up: "There are no file storages set up yet."
+      no_storage_set_up: "Dosud nejsou nastaveny žádné úložiště souborů."
       no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
       automatic_folder: "This will automatically create a root folder for this project and manage the access permissions for each project member."
-      empty_project_folder_validation: "Selecting a folder is mandatory to proceed."
-      not_logged_into_storage: "To select a project folder, please first login"
+      empty_project_folder_validation: "Výběr složky je povinný pro pokračování."
+      not_logged_into_storage: "Pro výběr složky projektu se prosím nejprve přihlaste"
       existing_manual_folder: >
         You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
       setting_up_additional_storages: "Pro nastavení dalších úložišť souborů navštivte prosím"
@@ -95,9 +95,9 @@ cs:
     label_project_folder: "Složka projektu"
     label_new_storage: "Nové úložiště"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
-    label_no_specific_folder: "No specific folder"
+    label_no_specific_folder: "Žádná specifická složka"
     label_automatic_folder: "New folder with automatically managed permissions"
-    label_no_selected_folder: "No selected folder"
+    label_no_selected_folder: "Žádná vybraná složka"
     label_storage: "Úložiště"
     label_storages: "Úložiště"
     no_results: "No storages set up yet."

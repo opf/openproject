@@ -37,7 +37,6 @@ RSpec.describe API::V3::WorkPackageCollectionFromQueryParamsService,
 
     allow(mock)
       .to receive(:call)
-      .with(params)
       .and_return(mock_wp_collection_service_response)
 
     mock

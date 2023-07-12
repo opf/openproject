@@ -42,6 +42,7 @@ module API
 
           def redirect_to_status(request, job)
             request.redirect api_v3_paths.job_status(job.job_id)
+            request.content_type 'application/json'
           end
         end
       end
