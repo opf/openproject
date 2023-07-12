@@ -27,19 +27,4 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% queries = report_type == :public ? CostQuery.public(@project) : CostQuery.private(@project, current_user) %>
-<% if queries.any? %>
-  <% queries.each do |query| -%>
-    <ul class="pages-hierarchy -with-hierarchy">
-      <li class="tree-menu--item" slug="<%= query.name %>">
-        <%= link_to(h(query.name),
-                    {:controller => '/cost_reports', :action => 'show', :id => query.id},
-                     :class => 'tree-menu--title ellipsis') %>
-      </li>
-    </ul>
-  <% end -%>
-<% else %>
-  <ul class="pages-hierarchy -with-hierarchy">
-    <li class="tree-menu--title"><%= t(:"label_no_reports") %></li>
-  </ul>
-<% end -%>
+<%= render template: "layouts/base", locals: { menu_name: :global_menu } %>

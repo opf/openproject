@@ -65,23 +65,41 @@ RSpec.describe 'Calendars', 'index', :js, :with_cuprite do
 
   let(:current_user) { user }
 
-  context 'when navigating via the modules menu', with_flag: { more_global_index_pages: true } do
-    before do
-      login_as current_user
-
-      visit root_path
-
-      wait_for_reload
-
-      find("a[title='Modules']").click
-      within '#more-menu' do
-        click_on 'Calendars'
+  context 'when navigating to the global index page', with_flag: { more_global_index_pages: true } do
+    shared_examples 'global index page is reachable' do
+      it 'is reachable' do
+        expect(page).to have_current_path(calendars_path)
+        expect(page).to have_text 'There is currently nothing to display.'
+        expect(page).to have_selector '#main-menu'
       end
     end
 
-    it 'is reachable' do
-      expect(page).to have_current_path(calendars_path)
-      expect(page).to have_text 'There is currently nothing to display.'
+    before do
+      login_as current_user
+      visit root_path
+      wait_for_reload
+    end
+
+    context 'with the modules menu' do
+      before do
+        find("a[title='Modules']").click
+
+        within '#more-menu' do
+          click_on 'Calendars'
+        end
+      end
+
+      it_behaves_like 'global index page is reachable'
+    end
+
+    context 'with the global menu' do
+      before do
+        within '#main-menu' do
+          click_on 'Calendars'
+        end
+      end
+
+      it_behaves_like 'global index page is reachable'
     end
   end
 

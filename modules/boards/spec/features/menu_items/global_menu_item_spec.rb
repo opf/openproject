@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,31 +26,42 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
+#
 
-class HomescreenController < ApplicationController
-  skip_before_action :check_if_login_required, only: [:robots]
+require 'spec_helper'
 
-  layout 'global'
+RSpec.describe 'Global menu item for boards', :js, :with_cuprite do
+  let(:boards_label) { I18n.t('boards.label_boards') }
 
-  def index
-    @newest_projects = Project.visible.newest.take(3)
-    @newest_users = User.active.newest.take(3)
-    @news = News.latest(count: 3)
-    @announcement = Announcement.active_and_current
-
-    @homescreen = OpenProject::Static::Homescreen
+  before do
+    login_as current_user
+    visit root_path
   end
 
-  current_menu_item [:index] do
-    :home
-  end
+  context 'with more global index pages active', with_flag: { more_global_index_pages: true } do
+    context 'with permissions' do
+      let(:current_user) { create(:admin) }
 
-  def robots
-    if Setting.login_required?
-      render template: 'homescreen/robots-login-required', format: :text
-    else
-      @projects = Project.active.public_projects
+      it "sends the user to the boards overview when clicked" do
+        within '#main-menu' do
+          click_on boards_label
+        end
+
+        expect(page).to have_current_path(boards_all_path)
+        expect(page).to have_content(boards_label)
+        expect(page).to have_content(I18n.t(:no_results_title_text))
+      end
+    end
+
+    context 'without permissions' do
+      let(:current_user) { create(:user) }
+
+      it 'is not rendered' do
+        within '#main-menu' do
+          expect(page).not_to have_content(boards_label)
+        end
+      end
     end
   end
 end

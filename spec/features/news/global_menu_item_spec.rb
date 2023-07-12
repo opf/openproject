@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,31 +26,43 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
+#
 
-class HomescreenController < ApplicationController
-  skip_before_action :check_if_login_required, only: [:robots]
+require 'spec_helper'
 
-  layout 'global'
+RSpec.describe 'News global menu item spec', :js, :with_cuprite do
+  shared_let(:admin) { create(:admin) }
+  shared_let(:user_without_permissions) { create(:user) }
 
-  def index
-    @newest_projects = Project.visible.newest.take(3)
-    @newest_users = User.active.newest.take(3)
-    @news = News.latest(count: 3)
-    @announcement = Announcement.active_and_current
-
-    @homescreen = OpenProject::Static::Homescreen
+  before do
+    login_as current_user
+    visit root_path
   end
 
-  current_menu_item [:index] do
-    :home
+  context 'as a user with permissions' do
+    let(:current_user) { admin }
+
+    it 'navigates to the global news page' do
+      within '#main-menu' do
+        click_link 'News'
+      end
+
+      expect(page).to have_current_path(news_index_path)
+
+      within '#main-menu' do
+        expect(page).to have_selector('.selected', text: 'News')
+      end
+    end
   end
 
-  def robots
-    if Setting.login_required?
-      render template: 'homescreen/robots-login-required', format: :text
-    else
-      @projects = Project.active.public_projects
+  context 'as a user without permissions' do
+    let(:current_user) { user_without_permissions }
+
+    it "doesn't render the menu item" do
+      within '#main-menu' do
+        expect(page).not_to have_link 'News'
+      end
     end
   end
 end

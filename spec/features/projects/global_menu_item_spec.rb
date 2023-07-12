@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,31 +26,40 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
+#
 
-class HomescreenController < ApplicationController
-  skip_before_action :check_if_login_required, only: [:robots]
+require 'spec_helper'
 
-  layout 'global'
+RSpec.describe 'Projects global menu item', :js, :with_cuprite do
+  let(:user) { create(:user) }
 
-  def index
-    @newest_projects = Project.visible.newest.take(3)
-    @newest_users = User.active.newest.take(3)
-    @news = News.latest(count: 3)
-    @announcement = Announcement.active_and_current
-
-    @homescreen = OpenProject::Static::Homescreen
+  before do
+    login_as user
+    visit root_path
   end
 
-  current_menu_item [:index] do
-    :home
+  it 'navigates to the projects#index page' do
+    within '#main-menu' do
+      click_link text: 'Projects'
+    end
+
+    expect(page).to have_current_path(projects_path)
   end
 
-  def robots
-    if Setting.login_required?
-      render template: 'homescreen/robots-login-required', format: :text
-    else
-      @projects = Project.active.public_projects
+  context 'when navigated to the projects#index page' do
+    before do
+      within '#main-menu' do
+        click_link text: 'Projects'
+      end
+    end
+
+    it 'renders the preset filters' do
+      within '#main-menu' do
+        expect(page).to have_link text: I18n.t(:label_all_projects)
+        expect(page).to have_link text: I18n.t(:label_public_projects)
+        expect(page).to have_link text: I18n.t(:label_archived_projects)
+      end
     end
   end
 end
