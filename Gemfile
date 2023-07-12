@@ -156,7 +156,7 @@ gem 'structured_warnings', '~> 0.4.0'
 gem 'airbrake', '~> 13.0.0', require: false
 
 gem 'prawn', '~> 2.2'
-gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', tag: 'v0.0.19'
+gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: '2bd7655fbb8bda61c7b52822b401b6864c5e0270'
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem 'matrix', '~> 0.4.2'
 
