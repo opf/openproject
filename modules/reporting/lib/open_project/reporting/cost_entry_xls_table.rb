@@ -1,4 +1,4 @@
-class OpenProject::XlsExport::XlsViews::CostEntryTable < OpenProject::XlsExport::XlsViews
+class OpenProject::Reporting::CostEntryXlsTable < OpenProject::XlsExport::XlsViews
   def generate
     @spreadsheet = OpenProject::XlsExport::SpreadsheetBuilder.new(I18n.t(:label_money))
     default_query = serialize_query_without_hidden(@query)

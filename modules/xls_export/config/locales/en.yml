@@ -5,8 +5,6 @@ en:
   different_formats: Different formats
 
   export:
-    cost_reports:
-      title: "Your Cost Reports XLS export"
     format:
       xls: "XLS"
       xls_with_descriptions: "XLS with descriptions"
