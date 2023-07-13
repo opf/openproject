@@ -27,20 +27,23 @@
 #++
 
 class Queries::Meetings::Filters::TimeFilter < Queries::Meetings::Filters::MeetingFilter
+  PAST_VALUE = 'past'.freeze
+  FUTURE_VALUE = 'future'.freeze
+
   validate :validate_only_single_value
 
   def allowed_values
     [
-      %w[past],
-      %w[future]
+      [PAST_VALUE],
+      [FUTURE_VALUE]
     ]
   end
 
   def where
     case values.first
-    when 'past'
+    when PAST_VALUE
       '"meetings"."start_time" < NOW()'
-    when 'future'
+    when FUTURE_VALUE
       '"meetings"."start_time" + "meetings"."duration" * interval \'1 hour\' > NOW()'
     end
   end

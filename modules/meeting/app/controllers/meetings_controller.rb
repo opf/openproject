@@ -123,7 +123,7 @@ class MeetingsController < ApplicationController
       query.where("project_id", '=', @project.id)
     else
       # global meetings page should only list future meetings
-      query.where("time", "=", "future")
+      query.where("time", "=", Queries::Meetings::Filters::TimeFilter::FUTURE_VALUE)
     end
   end
 
