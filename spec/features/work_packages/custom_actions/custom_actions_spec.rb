@@ -146,17 +146,16 @@ RSpec.describe 'Custom actions',
     login_as admin
   end
 
-  it 'viewing workflow buttons', with_cuprite: true do
+  it 'viewing workflow buttons' do
     # create custom action 'Unassign'
     index_ca_page.visit!
 
     new_ca_page = index_ca_page.new
-    retry_block do
-      new_ca_page.set_name('Unassign')
-      new_ca_page.set_description('Removes the assignee')
-      new_ca_page.add_action('Assignee', '-')
-      new_ca_page.expect_action('assigned_to', nil)
-    end
+
+    new_ca_page.set_name('Unassign')
+    new_ca_page.set_description('Removes the assignee')
+    new_ca_page.add_action('Assignee', '-')
+    new_ca_page.expect_action('assigned_to', nil)
 
     new_ca_page.create
 
@@ -171,19 +170,17 @@ RSpec.describe 'Custom actions',
 
     new_ca_page = index_ca_page.new
 
-    retry_block do
-      new_ca_page.set_name('Close')
+    new_ca_page.set_name('Close')
 
-      new_ca_page.add_action('Status', 'Close')
-      new_ca_page.expect_action('status', closed_status.id)
+    new_ca_page.add_action('Status', 'Close')
+    new_ca_page.expect_action('status', closed_status.id)
 
-      new_ca_page.set_condition('Role', role.name)
-      new_ca_page.expect_selected_option role.name
+    new_ca_page.set_condition('Role', role.name)
+    new_ca_page.expect_selected_option role.name
 
-      new_ca_page.set_condition('Status', [default_status.name, rejected_status.name])
-      new_ca_page.expect_selected_option default_status.name
-      new_ca_page.expect_selected_option rejected_status.name
-    end
+    new_ca_page.set_condition('Status', [default_status.name, rejected_status.name])
+    new_ca_page.expect_selected_option default_status.name
+    new_ca_page.expect_selected_option rejected_status.name
 
     new_ca_page.create
 
@@ -197,20 +194,17 @@ RSpec.describe 'Custom actions',
     # create custom action 'Escalate'
 
     new_ca_page = index_ca_page.new
+    new_ca_page.set_name('Escalate')
+    new_ca_page.add_action('Priority', immediate_priority.name)
+    new_ca_page.expect_action('priority', immediate_priority.id)
 
-    retry_block do
-      new_ca_page.set_name('Escalate')
-      new_ca_page.add_action('Priority', immediate_priority.name)
-      new_ca_page.expect_action('priority', immediate_priority.id)
+    new_ca_page.add_action('Notify', other_member_user.name)
 
-      new_ca_page.add_action('Notify', other_member_user.name)
+    new_ca_page.expect_selected_option other_member_user.name
+    new_ca_page.add_action(list_custom_field.name, selected_list_custom_field_options.map(&:name))
 
-      new_ca_page.expect_selected_option other_member_user.name
-      new_ca_page.add_action(list_custom_field.name, selected_list_custom_field_options.map(&:name))
-
-      new_ca_page.expect_selected_option 'A'
-      new_ca_page.expect_selected_option 'G'
-    end
+    new_ca_page.expect_selected_option 'A'
+    new_ca_page.expect_selected_option 'G'
 
     new_ca_page.create
 
@@ -225,25 +219,23 @@ RSpec.describe 'Custom actions',
 
     new_ca_page = index_ca_page.new
 
-    retry_block do
-      new_ca_page.set_name('Reset')
+    new_ca_page.set_name('Reset')
 
-      new_ca_page.add_action('Priority', default_priority.name)
-      new_ca_page.expect_action('priority', default_priority.id)
+    new_ca_page.add_action('Priority', default_priority.name)
+    new_ca_page.expect_action('priority', default_priority.id)
 
-      new_ca_page.add_action('Status', default_status.name)
-      new_ca_page.expect_action('status', default_status.id)
+    new_ca_page.add_action('Status', default_status.name)
+    new_ca_page.expect_action('status', default_status.id)
 
-      new_ca_page.add_action('Assignee', user.name)
-      new_ca_page.expect_action('assigned_to', user.id)
+    new_ca_page.add_action('Assignee', user.name)
+    new_ca_page.expect_action('assigned_to', user.id)
 
-      # This custom field is not applicable
-      new_ca_page.add_action(int_custom_field.name, '1')
-      new_ca_page.expect_action(int_custom_field.attribute_name, '1')
+    # This custom field is not applicable
+    new_ca_page.add_action(int_custom_field.name, '1')
+    new_ca_page.expect_action(int_custom_field.attribute_name, '1')
 
-      new_ca_page.set_condition('Status', closed_status.name)
-      new_ca_page.expect_selected_option closed_status.name
-    end
+    new_ca_page.set_condition('Status', closed_status.name)
+    new_ca_page.expect_selected_option closed_status.name
 
     new_ca_page.create
 
@@ -257,15 +249,14 @@ RSpec.describe 'Custom actions',
     # create custom action 'Other roles action'
 
     new_ca_page = index_ca_page.new
-    retry_block do
-      new_ca_page.set_name('Other roles action')
 
-      new_ca_page.add_action('Status', default_status.name)
-      new_ca_page.expect_action('status', default_status.id)
+    new_ca_page.set_name('Other roles action')
 
-      new_ca_page.set_condition('Role', other_role.name)
-      new_ca_page.expect_selected_option other_role.name
-    end
+    new_ca_page.add_action('Status', default_status.name)
+    new_ca_page.expect_action('status', default_status.id)
+
+    new_ca_page.set_condition('Role', other_role.name)
+    new_ca_page.expect_selected_option other_role.name
     new_ca_page.create
 
     index_ca_page.expect_current_path
@@ -459,12 +450,9 @@ RSpec.describe 'Custom actions',
 
     new_ca_page = index_ca_page.new
 
-    retry_block do
-      new_ca_page.visit!
-      new_ca_page.set_name('Current date')
-      new_ca_page.set_description('Sets the current date')
-      new_ca_page.add_action('Date', 'Current date')
-    end
+    new_ca_page.set_name('Current date')
+    new_ca_page.set_description('Sets the current date')
+    new_ca_page.add_action('Date', 'Current date')
 
     new_ca_page.create
 
@@ -484,13 +472,10 @@ RSpec.describe 'Custom actions',
     index_ca_page.visit!
 
     new_ca_page = index_ca_page.new
-    retry_block do
-      new_ca_page.visit!
-      new_ca_page.set_name('Unassign')
-      new_ca_page.set_description('Removes the assignee')
-      new_ca_page.add_action('Assignee', '-')
-      new_ca_page.expect_action('assigned_to', nil)
-    end
+    new_ca_page.set_name('Unassign')
+    new_ca_page.set_description('Removes the assignee')
+    new_ca_page.add_action('Assignee', '-')
+    new_ca_page.expect_action('assigned_to', nil)
 
     new_ca_page.create
 

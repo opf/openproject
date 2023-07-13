@@ -29,7 +29,10 @@
 require 'spec_helper'
 require_relative './support/board_overview_page'
 
-RSpec.describe 'Work Package boards overview spec', with_ee: %i[board_view], with_flag: { more_global_index_pages: true } do
+RSpec.describe 'Work Package boards overview spec',
+               with_cuprite: true,
+               with_ee: %i[board_view],
+               with_flag: { more_global_index_pages: true } do
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -48,7 +51,13 @@ RSpec.describe 'Work Package boards overview spec', with_ee: %i[board_view], wit
   let(:other_project_board_view) { create(:board_grid_with_query, name: 'Unseeable Board', project: other_project) }
 
   before do
-    login_as(user)
+    login_as user
+  end
+
+  it 'renders the global menu with its item selected' do
+    board_overview.visit!
+
+    board_overview.expect_global_menu_item_selected
   end
 
   context 'when no boards exist' do

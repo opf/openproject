@@ -1,0 +1,26 @@
+<div class="op-sidebar">
+  <div class="op-sidebar--body">
+    <div class="op-sidemenu">
+      <ul class="op-sidemenu--items">
+        <% global_menu_items.each do |menu_item| %>
+          <li class="op-sidemenu--item">
+            <%= link_to *menu_item %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+
+  <div class="op-sidebar--footer">
+    <% if User.current.allowed_to_globally?(:add_project) %>
+      <%= button_to new_project_path,
+                  { method: :get,
+                    class: 'button -alt-highlight -expand',
+                    aria: { label: t(:label_project_new) },
+                    title: t(:label_project_new) } do %>
+        <%= spot_icon('add') %>
+        <span><%= Project.model_name.human %></span>
+      <% end %>
+    <% end %>
+  </div>
+</div>

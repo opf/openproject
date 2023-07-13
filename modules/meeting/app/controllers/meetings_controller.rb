@@ -37,6 +37,7 @@ class MeetingsController < ApplicationController
 
   helper :watchers
   helper :meeting_contents
+  include Layout
   include WatchersHelper
   include PaginationHelper
   include SortHelper
@@ -45,6 +46,7 @@ class MeetingsController < ApplicationController
 
   def index
     @meetings = @project ? @project.meetings : global_upcoming_meetings
+    render 'index', locals: { menu_name: project_or_global_menu }
   end
 
   def show

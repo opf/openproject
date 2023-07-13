@@ -3,14 +3,14 @@ require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
 require 'features/page_objects/notification'
 
-RSpec.describe 'new work package', js: true do
-  let(:type_task) { create(:type_task) }
-  let(:type_milestone) { create(:type_milestone, position: type_task.position + 1) }
-  let(:type_bug) { create(:type_bug, position: type_milestone.position + 1) }
-  let(:types) { [type_task, type_milestone, type_bug] }
-  let!(:status) { create(:status, is_default: true) }
-  let!(:priority) { create(:priority, is_default: true) }
-  let!(:project) do
+RSpec.describe 'new work package', js: true, with_cuprite: true do
+  shared_let(:status) { create(:status, is_default: true) }
+  shared_let(:priority) { create(:priority, is_default: true) }
+  shared_let(:type_task) { create(:type_task) }
+  shared_let(:type_milestone) { create(:type_milestone, position: type_task.position + 1) }
+  shared_let(:type_bug) { create(:type_bug, position: type_milestone.position + 1) }
+  shared_let(:types) { [type_task, type_milestone, type_bug] }
+  shared_let(:project) do
     create(:project, types:)
   end
 
@@ -58,7 +58,7 @@ RSpec.describe 'new work package', js: true do
     expect(page).to have_focus_on('#wp-new-inline-edit--field-subject')
     wp_page.subject_field.set(subject)
 
-    sleep 1
+    wait_for_network_idle
   end
 
   def create_work_package_globally(type, project_name)
@@ -69,13 +69,13 @@ RSpec.describe 'new work package', js: true do
     project_field.openSelectField
     project_field.set_value project_name
 
-    sleep 1
+    wait_for_network_idle
 
     # Select self as assignee
     assignee_field.openSelectField
     assignee_field.set_value user.name
 
-    sleep 1
+    wait_for_network_idle
   end
 
   before do
@@ -385,8 +385,6 @@ RSpec.describe 'new work package', js: true do
       it 'will not show that value in the project drop down' do
         create_work_package_globally(type_bug, project.name)
 
-        sleep 2
-
         project_field.openSelectField
 
         expect(page).to have_selector('.ng-dropdown-panel .ng-option', text: project.name)
@@ -513,7 +511,6 @@ RSpec.describe 'new work package', js: true do
       subject.submit_by_enter
 
       wp_page.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_create'))
-      sleep 1
 
       # Move to the newly created child
       wp_page.find("wp-children-query tbody.results-tbody tr").double_click

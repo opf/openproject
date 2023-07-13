@@ -26,18 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::ProjectStorages::LastProjectFolderPersistenceHelper
-  module_function
-
-  def create_last_project_folder(user:, projects_storage_id:, origin_folder_id:, mode:)
-    ::Storages::LastProjectFolders::CreateService
-      .new(user:)
-      .call(projects_storage_id:, origin_folder_id:, mode: mode.to_sym)
-  end
-
-  def update_last_project_folder(user:, project_folder:, origin_folder_id:)
-    ::Storages::LastProjectFolders::UpdateService
-      .new(model: project_folder, user:)
-      .call(origin_folder_id:)
-  end
+class Queries::TimeEntries::Filters::OngoingFilter < Queries::TimeEntries::Filters::TimeEntryFilter
+  include Queries::Filters::Shared::BooleanFilter
 end

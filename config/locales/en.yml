@@ -591,6 +591,7 @@ en:
         hours: "Hours"
         spent_on: "Date"
         type: "Type"
+        ongoing: "Ongoing"
       type:
         description: "Default text for description"
         attribute_groups: ''
@@ -1144,6 +1145,7 @@ en:
   button_continue: "Continue"
   button_copy: "Copy"
   button_copy_to_clipboard: "Copy to clipboard"
+  button_copy_link_to_clipboard: "Copy link to clipboard"
   button_copy_and_follow: "Copy and follow"
   button_create: "Create"
   button_create_and_continue: "Create and continue"
@@ -1573,6 +1575,7 @@ en:
   label_age: "Age"
   label_ago: "days ago"
   label_all: "all"
+  label_all_projects: "All projects"
   label_all_time: "all time"
   label_all_words: "All words"
   label_all_open_wps: "All open"
@@ -1589,6 +1592,7 @@ en:
   label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Applied status"
   label_archive_project: "Archive project"
+  label_archived_projects: "Archived projects"
   label_ascending: "Ascending"
   label_assigned_to_me_work_packages: "Work packages assigned to me"
   label_associated_revisions: "Associated revisions"
@@ -2455,7 +2459,7 @@ en:
 
   project_module_activity: "Activity"
   project_module_forums: "Forums"
-  project_module_work_package_tracking: "Work package tracking"
+  project_module_work_package_tracking: "Work packages"
   project_module_news: "News"
   project_module_repository: "Repository"
   project_module_wiki: "Wiki"

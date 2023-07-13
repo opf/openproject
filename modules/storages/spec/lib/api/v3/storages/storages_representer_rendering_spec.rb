@@ -31,7 +31,7 @@ require 'spec_helper'
 RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
   let(:oauth_application) { build_stubbed(:oauth_application) }
   let(:oauth_client_credentials) { build_stubbed(:oauth_client) }
-  let(:storage) { build_stubbed(:storage, oauth_application:, oauth_client: oauth_client_credentials) }
+  let(:storage) { build_stubbed(:nextcloud_storage, oauth_application:, oauth_client: oauth_client_credentials) }
   let(:user) { build_stubbed(:user) }
   let(:representer) { described_class.new(storage, current_user: user, embed_links: true) }
   let(:connection_manager) { instance_double(OAuthClients::ConnectionManager) }
@@ -82,7 +82,7 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
       context 'when user has :manage_file_links permission on some projects linked to the storage' do
         let(:oauth_application) { create(:oauth_application) }
         let(:oauth_client_credentials) { create(:oauth_client) }
-        let(:storage) { create(:storage, oauth_application:, oauth_client: oauth_client_credentials) }
+        let(:storage) { create(:nextcloud_storage, oauth_application:, oauth_client: oauth_client_credentials) }
         let(:user) { create(:user) }
         let(:another_user) { create(:user) }
         let(:no_permissions_role) { create(:role, permissions: []) }
@@ -123,8 +123,7 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
 
           project_ids = JSON.parse(generated).dig('_links', 'prepareUpload').map { _1.dig('payload', 'projectId') }
           expect(project_ids)
-            .to match_array([project_linked_with_upload_permission.id,
-                             another_project_linked_with_upload_permission.id])
+            .to contain_exactly(project_linked_with_upload_permission.id, another_project_linked_with_upload_permission.id)
         end
         # rubocop:enable RSpec/ExampleLength
       end
@@ -216,6 +215,62 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
 
     it_behaves_like 'datetime property', :updatedAt do
       let(:value) { storage.updated_at }
+    end
+
+    describe 'Automatically managed project folders' do
+      shared_examples 'protects applicationPassword' do
+        it 'does not render the applicationPassword' do
+          expect(generated).not_to have_json_path('applicationPassword')
+        end
+      end
+
+      context 'with automatic project folder management enabled' do
+        let(:storage) do
+          build(:nextcloud_storage, :as_automatically_managed, oauth_application:, oauth_client: oauth_client_credentials)
+        end
+
+        it_behaves_like 'property', :hasApplicationPassword do
+          let(:value) { true }
+        end
+
+        it_behaves_like 'protects applicationPassword'
+      end
+
+      context 'with automatic project folder management disabled' do
+        let(:storage) do
+          build(:nextcloud_storage, :as_not_automatically_managed, oauth_application:, oauth_client: oauth_client_credentials)
+        end
+
+        it_behaves_like 'property', :hasApplicationPassword do
+          let(:value) { false }
+        end
+
+        it_behaves_like 'protects applicationPassword'
+      end
+
+      context 'when automatic project folder management is not configured' do
+        let(:storage) do
+          build(:nextcloud_storage, provider_fields: {}, oauth_application:, oauth_client: oauth_client_credentials)
+        end
+
+        it 'hasApplicationPassword is false' do
+          expect(generated).to be_json_eql(false).at_path('hasApplicationPassword')
+        end
+
+        it_behaves_like 'protects applicationPassword'
+      end
+
+      context 'with a non-Nextcloud storage' do
+        let(:storage) do
+          build(:storage, provider_type: 'unknown', oauth_application:, oauth_client: oauth_client_credentials)
+        end
+
+        it 'does not include the property hasApplicationPassword' do
+          expect(generated).not_to have_json_path('hasApplicationPassword')
+        end
+
+        it_behaves_like 'protects applicationPassword'
+      end
     end
   end
 end

@@ -31,13 +31,11 @@ require 'spec_helper'
 RSpec.describe OpenProject::Bim::WorkPackage::Exporter::Formatters::BcfThumbnail do
   describe '::apply?' do
     it 'returns TRUE the bcf thumbnail' do
-      pending "TODO BROKEN MODULE SPEC"
-      expect(described_class).to be_apply(:bcf_thumbnail)
+      expect(described_class).to be_apply(:bcf_thumbnail, :whatever)
     end
 
     it 'returns FALSE for any other class' do
-      pending "TODO BROKEN MODULE SPEC"
-      expect(described_class).not_to be_apply(:whatever)
+      expect(described_class).not_to be_apply(:whatever, :whatever)
     end
   end
 

@@ -36,7 +36,7 @@ RSpec.describe Storages::Storages::UpdateContract do
 
   it_behaves_like 'storage contract' do
     let(:storage) do
-      build_stubbed(:storage,
+      build_stubbed(:nextcloud_storage,
                     creator: storage_creator,
                     host: storage_host,
                     name: storage_name,

@@ -57,9 +57,3 @@ See COPYRIGHT and LICENSE files for more details.
   <%= t(:text_costs_are_rounded_note) %>
   <%= "<br />#{t(:information_restricted_depending_on_permission)}".html_safe unless User.current.admin?%>
 </p>
-
-<% if @project.blank? %>
-  <% content_for :sidebar do %>
-    <%= render :partial => "report_menu" %>
-  <% end -%>
-<% end %>

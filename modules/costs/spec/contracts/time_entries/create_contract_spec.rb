@@ -42,11 +42,13 @@ RSpec.describe TimeEntries::CreateContract do
                     activity: time_entry_activity,
                     spent_on: time_entry_spent_on,
                     hours: time_entry_hours,
+                    ongoing: time_entry_ongoing,
                     comments: time_entry_comments).tap do |t|
         t.extend(OpenProject::ChangedBySystem)
         t.changed_by_system(changed_by_system) if changed_by_system
       end
     end
+    let(:time_entry_ongoing) { false }
     let(:permissions) { %i(log_time) }
     let(:other_user) { build_stubbed(:user) }
     let(:changed_by_system) do
@@ -62,6 +64,15 @@ RSpec.describe TimeEntries::CreateContract do
 
       it 'is invalid' do
         expect_valid(false, base: %i(error_unauthorized))
+      end
+    end
+
+    context 'when ongoing and different user' do
+      let(:time_entry_user) { other_user }
+      let(:time_entry_ongoing) { true }
+
+      it 'is invalid' do
+        expect_valid(false, ongoing: %i(not_current_user))
       end
     end
 

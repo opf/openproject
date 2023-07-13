@@ -216,7 +216,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def should_be_batched?(work_packages)
-    batch_supported? && with_descriptions? && with_attachments? && (work_packages.length > @work_packages_per_batch)
+    batch_supported? && with_descriptions? && with_images? && (work_packages.length > @work_packages_per_batch)
   end
 
   def project
@@ -224,11 +224,15 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def title
-    # export filename expects to be "project.name - query.name"
-    "#{project ? "#{project} - #{heading}" : heading}.pdf"
+    # <project>_<querytitle>_<YYYY-MM-DD>_<HH-MM>.pdf
+    build_pdf_filename(project ? "#{project}_#{heading}" : heading)
   end
 
   def heading
     query.name || I18n.t(:label_work_package_plural)
+  end
+
+  def with_images?
+    options[:show_images]
   end
 end

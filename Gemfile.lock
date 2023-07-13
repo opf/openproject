@@ -10,10 +10,10 @@ GIT
 
 GIT
   remote: https://github.com/opf/md-to-pdf
-  revision: 10bbfbd6f4afdb36918ed9ea686c818144683738
-  tag: v0.0.18
+  revision: 4c42148220ecaa8363134f34331ce90277e1b380
+  ref: 4c42148220ecaa8363134f34331ce90277e1b380
   specs:
-    md_to_pdf (0.0.18)
+    md_to_pdf (0.0.19)
       commonmarker (~> 0.23)
       front_matter_parser (~> 1.0)
       json-schema (~> 4.0)
@@ -317,17 +317,17 @@ GEM
     awesome_nested_set (3.5.0)
       activerecord (>= 4.0.0, < 7.1)
     aws-eventstream (1.2.0)
-    aws-partitions (1.782.0)
-    aws-sdk-core (3.176.1)
+    aws-partitions (1.785.0)
+    aws-sdk-core (3.178.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.5)
       jmespath (~> 1, >= 1.6.1)
-    aws-sdk-kms (1.68.0)
-      aws-sdk-core (~> 3, >= 3.176.0)
+    aws-sdk-kms (1.71.0)
+      aws-sdk-core (~> 3, >= 3.177.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.127.0)
-      aws-sdk-core (~> 3, >= 3.176.0)
+    aws-sdk-s3 (1.129.0)
+      aws-sdk-core (~> 3, >= 3.177.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.6)
     aws-sdk-sns (1.61.0)
@@ -574,7 +574,7 @@ GEM
     language_server-protocol (3.17.0.3)
     launchy (2.5.2)
       addressable (~> 2.8)
-    lefthook (1.4.3)
+    lefthook (1.4.5)
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
     listen (3.8.0)
@@ -636,7 +636,7 @@ GEM
       net-protocol
     netrc (0.11.0)
     nio4r (2.5.9)
-    nokogiri (1.15.2)
+    nokogiri (1.15.3)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     oj (3.15.0)
@@ -874,7 +874,7 @@ GEM
     rubytree (2.0.2)
       json (~> 2.0, > 2.3.1)
     rubyzip (2.3.2)
-    sanitize (6.0.1)
+    sanitize (6.0.2)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     sassc (2.4.0)
@@ -915,6 +915,8 @@ GEM
       sprockets (>= 3.0.0)
     ssrf_filter (1.1.1)
     stackprof (0.2.25)
+    store_attribute (1.1.1)
+      activerecord (>= 6.0)
     stringex (2.8.6)
     stringio (3.0.7)
     structured_warnings (0.4.0)
@@ -956,7 +958,7 @@ GEM
     validate_url (1.0.15)
       activemodel (>= 3.0.0)
       public_suffix
-    view_component (3.3.0)
+    view_component (3.4.0)
       activesupport (>= 5.2.0, < 8.0)
       concurrent-ruby (~> 1.0)
       method_source (~> 1.0)
@@ -1140,7 +1142,7 @@ DEPENDENCIES
   ruby-prof
   ruby-progressbar (~> 1.13.0)
   rubytree (~> 2.0.0)
-  sanitize (~> 6.0.1)
+  sanitize (~> 6.0.2)
   sassc-rails
   secure_headers (~> 6.5.0)
   selenium-webdriver (~> 4.0)
@@ -1152,6 +1154,7 @@ DEPENDENCIES
   sprockets (~> 3.7.2)
   sprockets-rails (~> 3.4.2)
   stackprof
+  store_attribute (~> 1.0)
   stringex (~> 2.8.5)
   structured_warnings (~> 0.4.0)
   svg-graph (~> 2.2.0)

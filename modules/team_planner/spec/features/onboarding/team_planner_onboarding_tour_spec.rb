@@ -27,9 +27,12 @@
 #++
 
 require 'spec_helper'
-require_relative './../../support/onboarding/onboarding_steps'
+require_relative '../../support/onboarding/onboarding_steps'
 
-RSpec.describe 'team planner onboarding tour', js: true, with_ee: %i[team_planner_view] do
+RSpec.describe 'team planner onboarding tour',
+               js: true,
+               with_cuprite: false,
+               with_ee: %i[team_planner_view] do
   let(:next_button) { find('.enjoyhint_next_btn') }
 
   let(:demo_project) do
@@ -87,6 +90,7 @@ RSpec.describe 'team planner onboarding tour', js: true, with_ee: %i[team_planne
 
   context 'as a new user' do
     it 'I see the team planner onboarding tour in the demo project' do
+      skip("Flaky test disabled. Fix it in https://community.openproject.org/wp/49073")
       # Set the tour parameter so that we can start on the wp page
       visit "/projects/#{demo_project.identifier}/work_packages?start_onboarding_tour=true"
 

@@ -35,6 +35,10 @@ OpenProject::Application.routes.draw do
     end
   end
 
+  scope 'my' do
+    get '/timer' => 'my/timer#show', as: 'my_timers'
+  end
+
   scope 'projects/:project_id', as: 'project', module: 'projects' do
     namespace 'settings' do
       resource :time_entry_activities, only: %i[show update]

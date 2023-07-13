@@ -27,7 +27,7 @@ module OpenProject::TeamPlanner
              bundled: true,
              settings: {},
              name: 'OpenProject Team Planner' do
-      project_module :team_planner_view, dependencies: :work_package_tracking do
+      project_module :team_planner_view, dependencies: :work_package_tracking, enterprise_feature: true do
         permission :view_team_planner,
                    { 'team_planner/team_planner': %i[index show upsale overview] },
                    dependencies: %i[view_work_packages],
@@ -37,6 +37,22 @@ module OpenProject::TeamPlanner
                    dependencies: %i[view_team_planner add_work_packages edit_work_packages save_queries manage_public_queries],
                    contract_actions: { team_planner: %i[create update destroy] }
       end
+
+      should_render_global_menu_item = Proc.new do
+        OpenProject::FeatureDecisions.more_global_index_pages_active? &&
+          (User.current.logged? || !Setting.login_required?) &&
+          User.current.allowed_to_globally?(:view_team_planner)
+      end
+
+      menu :global_menu,
+           :team_planners,
+           { controller: '/team_planner/team_planner', action: :overview },
+           caption: :'team_planner.label_team_planner_plural',
+           before: :boards,
+           after: :calendar_view,
+           icon: 'team-planner',
+           if: should_render_global_menu_item,
+           enterprise_feature: 'team_planner_view'
 
       menu :project_menu,
            :team_planner_view,
@@ -59,11 +75,7 @@ module OpenProject::TeamPlanner
            context: :modules,
            caption: :'team_planner.label_team_planner_plural',
            icon: 'team-planner',
-           if: Proc.new {
-             OpenProject::FeatureDecisions.more_global_index_pages_active? &&
-              (User.current.logged? || !Setting.login_required?) &&
-                User.current.allowed_to_globally?(:view_team_planner)
-           },
+           if: should_render_global_menu_item,
            enterprise_feature: 'team_planner_view'
     end
 

@@ -67,6 +67,7 @@ import { TimeEntryCreateService } from 'core-app/shared/components/time_entries/
 import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
 import { WorkPackageService } from 'core-app/features/work-packages/services/work-package.service';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
+import { TimeEntryEditService } from 'core-app/shared/components/time_entries/edit/edit.service';
 
 /**
  * Directive to open a work package query 'space', an isolated injector hierarchy
@@ -124,6 +125,7 @@ import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/
 
     HalResourceEditingService,
     TimeEntryCreateService,
+    TimeEntryEditService,
     WorkPackageCreateService,
 
     WorkPackageStatesInitializationService,
