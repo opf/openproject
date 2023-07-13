@@ -128,7 +128,7 @@ RSpec.describe API::V3::Capabilities::CapabilitySqlRepresenter, 'rendering' do
   context 'with a global permission' do
     let(:principal) do
       create(:user,
-             global_permission: %i[create_user manage_user],
+             global_permission: %i[create_user],
              member_in_project: project,
              member_with_permissions: [])
     end

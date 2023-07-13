@@ -147,7 +147,7 @@ class MembersController < ApplicationController
   end
 
   def suggest_invite_via_email?(user, query, principals)
-    user.allowed_to_globally?(:manage_user) &&
+    user.allowed_to_globally?(:create_user) && # TODO: Maybe change to new INVITE
       query =~ mail_regex &&
       principals.none? { |p| p.mail == query || p.login == query } &&
       query # finally return email
@@ -278,7 +278,7 @@ class MembersController < ApplicationController
   end
 
   def no_create_errors?(members)
-    members.present? && members.map(&:errors).select(&:any?).empty?
+    members.present? && members.map(&:errors).none?(&:any?)
   end
 
   def sort_by_groups_last(members)

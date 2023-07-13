@@ -50,7 +50,7 @@ module API
           # The namespace only exists to add the after_validation callback
           namespace '' do
             after_validation do
-              authorize_by_with_raise(current_user.allowed_to_globally?(:manage_user))
+              authorize_by_with_raise(current_user.allowed_to_globally?(:create_user))
             end
 
             get &::API::V3::Utilities::Endpoints::SqlFallbackedIndex
