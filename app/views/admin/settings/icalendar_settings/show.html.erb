@@ -1,4 +1,4 @@
-<%#-- copyright
+<%# -- copyright
 OpenProject is an open source project management software.
 Copyright (C) 2012-2023 the OpenProject GmbH
 
@@ -27,41 +27,21 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= toolbar title: t(:label_date_format) %>
+<%= toolbar title: t(:label_icalendar) %>
 
 <%= styled_form_tag(
-      admin_settings_date_format_path,
+      admin_settings_icalendar_path,
       method: :patch,
-      class: 'op-date-format-admin-settings'
+      class: 'op-icalendar-admin-settings'
     ) do %>
 
   <section class="form--section">
-
     <div class="form--field">
-      <%= setting_select :date_format,
-                         Settings::Definition[:date_format].allowed.collect {|f| [Date.today.strftime(f), f]},
-                         blank: :label_language_based,
-                         container_class: '-wide' %>
-    </div>
-
-    <div class="form--field">
-      <%= setting_select :time_format,
-                         Settings::Definition[:time_format].allowed.collect {|f| [Time.now.strftime(f), f]},
-                         blank: :label_language_based,
-                         container_class: '-wide' %>
-    </div>
-
-    <div class="form--field">
-      <%= setting_select :start_of_week, [[day_name(1),'1'], [day_name(6),'6'], [day_name(7),'7']], blank: :label_language_based, container_class: '-wide' %>
-    </div>
-
-    <div class="form--field">
-      <%= setting_select :first_week_of_year, [[day_name(1),'1'], [day_name(4),'4']], blank: :label_language_based,  container_class: '-wide' %>
-     <div class="form--field-instructions">
-        <p><%= t('settings.date_format.first_week_of_year_text_html', link: OpenProject::Static::Links[:date_format_settings_documentation][:href]) %></p>
+      <%= setting_check_box :ical_enabled, size: 6 %>
+      <div class="form--field-instructions">
+        <p><%= t('settings.icalendar.enable_subscriptions_text_html', link: OpenProject::Static::Links[:ical_docs][:href]) %></p>
       </div>
     </div>
-
   </section>
 
   <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
