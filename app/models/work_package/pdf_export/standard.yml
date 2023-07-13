@@ -49,6 +49,7 @@ overview:
 
 toc:
   subject_indent: 4
+  indent_mode: "stairs"
   margin_top: 10
   margin_bottom: 20
   item:
