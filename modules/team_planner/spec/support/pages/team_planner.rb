@@ -177,6 +177,39 @@ module Pages
       end
     end
 
+    def click_on_create_button
+      within '.toolbar-items' do
+        click_link 'Team planner'
+      end
+    end
+
+    def click_on_cancel_button
+      click_on 'Cancel'
+    end
+
+    def set_title(title)
+      fill_in 'Title', with: title
+    end
+
+    def set_project(project)
+      select_autocomplete(find('[data-qa-selector="project_id"]'),
+                          query: project,
+                          results_selector: 'body',
+                          wait_for_fetched_options: false)
+    end
+
+    def set_public
+      check 'Public'
+    end
+
+    def set_favoured
+      check 'Favoured'
+    end
+
+    def click_on_submit
+      click_on 'Create'
+    end
+
     def add_assignee(name)
       click_add_user
       page.find('[data-qa-selector="tp-add-assignee"] input')

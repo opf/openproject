@@ -75,6 +75,12 @@ RSpec.describe 'Team planner routing' do
     end
   end
 
+  it 'routes to team_planner#create' do
+    expect(subject)
+      .to route(:post, '/team_planners')
+            .to(controller: 'team_planner/team_planner', action: :create)
+  end
+
   it 'routes to team_planner#show with state' do
     expect(subject)
       .to route(:get, '/projects/foobar/team_planners/1234/details/555')

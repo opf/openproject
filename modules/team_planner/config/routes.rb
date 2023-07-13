@@ -1,7 +1,7 @@
 OpenProject::Application.routes.draw do
   resources :team_planners,
             controller: 'team_planner/team_planner',
-            only: %i[] do
+            only: %i[create] do
     collection do
       get '/', to: 'team_planner/team_planner#overview'
       get '/new', to: 'team_planner/team_planner#new'
