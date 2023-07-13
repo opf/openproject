@@ -45,6 +45,8 @@ import {
   ICKEditorWatchdog,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import { CKEditorSetupService } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
+import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
+import { debugLog } from 'core-app/shared/helpers/debug_output';
 
 declare module 'codemirror';
 
@@ -75,6 +77,9 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
 
   // Output notification when editor cannot be initialized
   @Output() onInitializationFailed = new EventEmitter<string>();
+
+  // Output save requests (ctrl+enter and cmd+enter)
+  @Output() saveRequested = new EventEmitter<string>();
 
   // View container of the replacement used to initialize CKEditor5
   @ViewChild('opCkeditorReplacementContainer', { static: true }) opCkeditorReplacementContainer:ElementRef;
@@ -208,14 +213,18 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
       })
       .then((watchdog:ICKEditorWatchdog) => {
         this.setupWatchdog(watchdog);
-        this.ckEditorInstance = watchdog.editor;
+        const editor = watchdog.editor;
+        this.ckEditorInstance = editor;
 
         // Save changes while in wysiwyg mode
-        watchdog.editor.model.document.on('change', this.debouncedEmitter);
+        editor.model.document.on('change', this.debouncedEmitter);
 
         // Switch mode
-        watchdog.editor.on('op:source-code-enabled', () => this.enableManualMode());
-        watchdog.editor.on('op:source-code-disabled', () => this.disableManualMode());
+        editor.on('op:source-code-enabled', () => this.enableManualMode());
+        editor.on('op:source-code-disabled', () => this.disableManualMode());
+
+        // Capture CTRL+ENTER commands
+        this.interceptModifiedEnterKeystrokes(editor);
 
         // Emit global dragend events for other drop zones to react.
         // This is needed, as CKEditor does not bubble any drag events
@@ -235,6 +244,21 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
       });
 
     this.$element.data('editor', editorPromise);
+  }
+
+  private interceptModifiedEnterKeystrokes(editor:ICKEditorInstance) {
+    editor.listenTo(
+      editor.editing.view.document,
+      'keydown',
+      (evt, data) => {
+        if ((data.ctrlKey || data.metaKey) && data.keyCode === KeyCodes.ENTER) {
+          debugLog('Sending save request from CKEditor.');
+          this.saveRequested.emit();
+          evt.stop();
+        }
+      },
+      { priority: 'highest' },
+    );
   }
 
   /**

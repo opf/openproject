@@ -5,6 +5,7 @@
                  (onContentChange)="onContentChange($event)"
                  (onInitializationFailed)="initializationError = true"
                  (onInitialized)="onCkeditorSetup($event)"
+                 (saveRequested)="handleUserSubmit()"
                  >
     </op-ckeditor>
   </div>
