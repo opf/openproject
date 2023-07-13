@@ -50,8 +50,6 @@ import { debugLog } from 'core-app/shared/helpers/debug_output';
 
 declare module 'codemirror';
 
-const manualModeLocalStorageKey = 'op-ckeditor-uses-manual-mode';
-
 @Component({
   selector: 'op-ckeditor',
   templateUrl: './op-ckeditor.html',
@@ -70,13 +68,13 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
   }
 
   // Output notification once ready
-  @Output() onInitialized = new EventEmitter<ICKEditorInstance>();
+  @Output() initializeDone = new EventEmitter<ICKEditorInstance>();
 
   // Output notification at max once/s for data changes
-  @Output() onContentChange = new EventEmitter<string>();
+  @Output() contentChanged = new EventEmitter<string>();
 
   // Output notification when editor cannot be initialized
-  @Output() onInitializationFailed = new EventEmitter<string>();
+  @Output() initializationFailed = new EventEmitter<string>();
 
   // Output save requests (ctrl+enter and cmd+enter)
   @Output() saveRequested = new EventEmitter<string>();
@@ -110,9 +108,9 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
   // to read back changes as they happen
   private debouncedEmitter = _.debounce(
     () => {
-      this.getTransformedContent(false)
+      void this.getTransformedContent(false)
         .then((val) => {
-          this.onContentChange.emit(val);
+          this.contentChanged.emit(val);
         });
     },
     1000,
@@ -121,11 +119,13 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
 
   private $element:JQuery;
 
-  constructor(private readonly elementRef:ElementRef,
+  constructor(
+    private readonly elementRef:ElementRef,
     private readonly Notifications:ToastService,
     private readonly I18n:I18nService,
     private readonly configurationService:ConfigurationService,
-    private readonly ckEditorSetup:CKEditorSetupService) {
+    private readonly ckEditorSetup:CKEditorSetupService,
+  ) {
   }
 
   /**
@@ -181,13 +181,14 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
   ngOnInit() {
     try {
       this.initializeEditor();
-    } catch (error) {
+    } catch (error:unknown) {
       // We will run into this error if, among others, the browser does not fully support
       // CKEditor's requirements on ES6.
 
-      console.error(`Failed to setup CKEditor instance: ${error}`);
-      this.error = error;
-      this.onInitializationFailed.emit(error);
+      const message = (error as Error).toString();
+      console.error('Failed to setup CKEditor instance: %O', error);
+      this.error = message;
+      this.initializationFailed.emit(message);
     }
   }
 
@@ -216,8 +217,6 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
         const editor = watchdog.editor;
         this.ckEditorInstance = editor;
 
-        // Save changes while in wysiwyg mode
-        editor.model.document.on('change', this.debouncedEmitter);
 
         // Switch mode
         editor.on('op:source-code-enabled', () => this.enableManualMode());
@@ -228,7 +227,8 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
 
         // Emit global dragend events for other drop zones to react.
         // This is needed, as CKEditor does not bubble any drag events
-        const model = watchdog.editor.model as unknown&{ on:(ev:string, callback:() => unknown) => void };
+        const model = watchdog.editor.model;
+        model.document.on('change', this.debouncedEmitter);
         model.on('op:attachment-added', () => document.body.dispatchEvent(new DragEvent('dragend')));
         model.on('op:attachment-removed', () => document.body.dispatchEvent(new DragEvent('dragend')));
 
@@ -239,7 +239,7 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
         // not vanishing after ending the drag.
         this.$element.on('dragleave', () => document.body.dispatchEvent(new DragEvent('dragleave')));
 
-        this.onInitialized.emit(watchdog.editor);
+        this.initializeDone.emit(watchdog.editor);
         return watchdog.editor;
       });
 

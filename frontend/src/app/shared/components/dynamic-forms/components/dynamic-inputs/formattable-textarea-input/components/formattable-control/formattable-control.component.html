@@ -2,9 +2,9 @@
   <op-ckeditor
       [context]="ckEditorContext"
       [content]="value?.raw"
-      (onContentChange)="onContentChange($event)"
-      (onInitializationFailed)="initializationError = true"
-      (onInitialized)="onCkeditorSetup($event)"
+      (contentChanged)="onContentChange($event)"
+      (initializationFailed)="initializationError = true"
+      (initializeDone)="onCkeditorSetup($event)"
   >
   </op-ckeditor>
 </div>

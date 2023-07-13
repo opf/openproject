@@ -35,7 +35,13 @@ export interface ICKEditorInstance {
 
   listenTo(node:unknown, key:string, callback:(evt:CKEditorEvent, data:CKEditorDomEventData) => unknown, options:CKEditorListenOptions):void;
 
-  model:any;
+  model:{
+    on(ev:string, callback:() => unknown):void
+    fire(ev:string, data:unknown):void
+    document:{
+      on(ev:string, callback:() => unknown):void
+    };
+  };
   editing:{
     view:{
       focus():void;

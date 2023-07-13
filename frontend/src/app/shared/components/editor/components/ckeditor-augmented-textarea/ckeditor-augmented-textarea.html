@@ -2,8 +2,8 @@
   <op-ckeditor
     [context]="context"
     [content]="initialContent"
-    (onInitialized)="setup($event)"
-    (onContentChange)="markEdited()"
+    (initializeDone)="setup($event)"
+    (contentChanged)="markEdited()"
   ></op-ckeditor>
 </div>
 
