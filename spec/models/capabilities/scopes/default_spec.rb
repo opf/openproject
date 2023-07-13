@@ -146,9 +146,10 @@ RSpec.describe Capabilities::Scopes::Default do
 
       include_examples 'consists of contract actions', with: 'the actions of the global permission' do
         let(:expected) do
-          [['users/create', user.id, nil],
-           ['users/read', user.id, nil],
-           ['users/update', user.id, nil]]
+          [
+            ['users/read', user.id, nil],
+            ['users/update', user.id, nil]
+          ]
         end
       end
 
@@ -414,7 +415,6 @@ RSpec.describe Capabilities::Scopes::Default do
             ['memberships/create', user.id, project.id],
             ['memberships/destroy', user.id, project.id],
             ['memberships/update', user.id, project.id],
-            ['users/create', user.id, nil],
             ['users/read', user.id, nil],
             ['users/update', user.id, nil]
           ]
