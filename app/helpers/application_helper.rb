@@ -130,22 +130,42 @@ module ApplicationHelper
   end
 
   def render_flash_message(type, message, html_options = {})
-    css_classes  = ["flash #{type} icon icon-#{type}", html_options.delete(:class)]
-
     # Add autohide class to notice flashes if configured
-    if type.to_s == 'notice' && User.current.pref.auto_hide_popups?
-      css_classes << 'autohide-toaster'
-    end
+    css_classes = User.current.pref.auto_hide_popups? ? 'autohide-toaster' : ''
 
-    html_options = { class: css_classes.join(' '), role: 'alert' }.merge(html_options)
+    render(Primer::Beta::Flash.new(
+      scheme: primer_flash_type(type),
+      classes: css_classes,
+      icon: primer_flash_icon_type(type)
+    )) { join_flash_messages(message) }
+  end
 
-    content_tag :div, html_options do
-      concat(join_flash_messages(message))
-      concat(content_tag(:i, '', class: 'icon-close close-handler',
-                                 tabindex: '0',
-                                 role: 'button',
-                                 aria: { label: ::I18n.t('js.close_popup_title') }))
-    end
+  ##
+  # Map our flash types to the ones used by Primer ViewComponent
+  #
+  def primer_flash_type(type)
+    primer_types = {
+      :"error" => :danger,
+      :"notice" => :success,
+      :"warning" => :warning,
+      :"info" => :default,
+    }
+
+    primer_types[type.to_sym]
+  end
+
+  ##
+  # Map our icons used in flash to the octicons of Primer
+  #
+  def primer_flash_icon_type(type)
+    primer_flash_icons = {
+      :"error" => :'alert-fill',
+      :"notice" => :check,
+      :"warning" => :alert,
+      :"info" => :info,
+    }
+
+    primer_flash_icons[type.to_sym]
   end
 
   # Yields the given block for each project with its level in the tree
