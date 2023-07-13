@@ -41,7 +41,7 @@ class ProjectsController < ApplicationController
   include ProjectsHelper
 
   current_menu_item :index do
-    :list_projects
+    :projects
   end
 
   def index
@@ -56,7 +56,7 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        render layout: 'no_menu'
+        render layout: 'global'
       end
 
       format.any(*supported_export_formats) do

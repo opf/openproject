@@ -577,6 +577,12 @@ components:
       "$ref": "./components/schemas/formattable.yml"
     GridModel:
       "$ref": "./components/schemas/grid_model.yml"
+    GroupCollectionModel:
+      "$ref": "./components/schemas/group_collection_model.yml"
+    GroupModel:
+      "$ref": "./components/schemas/group_model.yml"
+    GroupWriteModel:
+      "$ref": "./components/schemas/group_write_model.yml"
     Help_textModel:
       "$ref": "./components/schemas/help_text_model.yml"
     Help_textsModel:
@@ -589,8 +595,6 @@ components:
       "$ref": "./components/schemas/list_available_parent_project_candidates_model.yml"
     List_capabilitiesModel:
       "$ref": "./components/schemas/list_capabilities_model.yml"
-    List_groupsModel:
-      "$ref": "./components/schemas/list_groups_model.yml"
     List_membershipsModel:
       "$ref": "./components/schemas/list_memberships_model.yml"
     List_of_NewsModel:
@@ -737,8 +741,6 @@ components:
       "$ref": "./components/schemas/view_capabilities_model.yml"
     View_global_contextModel:
       "$ref": "./components/schemas/view_global_context_model.yml"
-    View_groupModel:
-      "$ref": "./components/schemas/view_group_model.yml"
     View_membershipModel:
       "$ref": "./components/schemas/view_membership_model.yml"
     View_membership_schemaModel:

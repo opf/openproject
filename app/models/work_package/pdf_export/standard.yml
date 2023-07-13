@@ -49,6 +49,7 @@ overview:
 
 toc:
   subject_indent: 4
+  indent_mode: "stairs"
   margin_top: 10
   margin_bottom: 20
   item:
@@ -167,10 +168,11 @@ work_package:
       no_border_bottom: true
       no_border_top: true
     image:
-      align: "left"
+      align: "center"
       margin_bottom: 4
       caption:
         size: 8
+        align: "center"
     codeblock:
       background_color: "F5F5F5"
       color: "880000"
