@@ -40,10 +40,20 @@ class AddValidityPeriodToJournals < ActiveRecord::Migration[7.0]
   end
 
   def fix_journal_timestamps
+    # Update journals with their timestamps after the timestamp of their successor
+    # (as identified by the journal belonging to the same journable and having the smallest version
+    # larger than the journal's).
+    # If one such is found, the:
+    # * created_at is set to be the minimum of the journal's and the successor's created_at. But of the successor's value some
+    #   small amount needs to be subtracted as later on the validity_period is calculated as a range from the predecessor's
+    #   created_at to the successor's created_at. If the two values would be equal, the range would be empty
+    #   resulting in an error.
+    # * updated_at is set to be the minimum of the journal's updated_at and the successor's created_at
+    #   (as the predecessor cannot have been updated after the successor was created)
     update <<~SQL.squish
       UPDATE journals
       SET
-        created_at = LEAST(journals.created_at, values.created_at),
+        created_at = LEAST(journals.created_at, values.created_at - interval '1  ms'),
         updated_at = LEAST(journals.updated_at, values.created_at)
       FROM (
         SELECT
@@ -55,6 +65,7 @@ class AddValidityPeriodToJournals < ActiveRecord::Migration[7.0]
                            FROM "journals"
                            WHERE "journals"."version" > predecessors.version
                              AND "journals"."journable_id" = predecessors.journable_id
+                             AND "journals"."journable_type" = predecessors.journable_type
                            ORDER BY "journals"."journable_type" ASC,
                                     "journals"."journable_id" ASC,
                                     "journals"."version" ASC) successors
@@ -62,7 +73,7 @@ class AddValidityPeriodToJournals < ActiveRecord::Migration[7.0]
         AND successors.journable_type = predecessors.journable_type
       ) values
       WHERE values.id = journals.id
-      AND (values.created_at < journals.created_at OR values.created_at < journals.updated_at)
+      AND (values.created_at <= journals.created_at OR values.created_at < journals.updated_at)
     SQL
   end
 
