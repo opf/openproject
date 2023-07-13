@@ -39,10 +39,6 @@ class Queries::Meetings::Filters::AuthorFilter < Queries::Meetings::Filters::Mee
     @type_strategy ||= ::Queries::Filters::Strategies::IntegerListOptional.new(self)
   end
 
-  def where
-    "meetings.author_id IN (#{values.join(',')})"
-  end
-
   def self.key
     :author_id
   end
