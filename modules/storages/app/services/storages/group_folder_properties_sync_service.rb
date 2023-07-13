@@ -69,9 +69,9 @@ class Storages::GroupFolderPropertiesSyncService
       set_project_folder_permissions(path: project_folder_path, project:)
     end
 
+    hide_inactive_project_folders
     add_active_users_to_group
     remove_inactive_users_from_group
-    hide_inactive_project_folders
   end
   # rubocop:enable Metrics/AbcSize
 
