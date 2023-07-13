@@ -157,8 +157,8 @@ class Project < ApplicationRecord
   scope :visible, ->(user = User.current) { where(id: Project.visible_by(user)) }
   scope :newest, -> { order(created_at: :desc) }
   scope :active, -> { where(active: true) }
-  scope :with_member, ->(user = User.current) { where(id: user.memberships.pluck(:project_id)) }
-  scope :without_member, ->(user = User.current) { where.not(id: user.memberships.pluck(:project_id)) }
+  scope :with_member, ->(user = User.current) { where(id: user.memberships.select(:project_id)) }
+  scope :without_member, ->(user = User.current) { where.not(id: user.memberships.select(:project_id)) }
 
   scopes :activated_time_activity,
          :visible_with_activated_time_activity
