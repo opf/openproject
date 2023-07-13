@@ -26,37 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::TemplatedController < ApplicationController
-  before_action :find_project_by_project_id
-  before_action :authorize
+class CostQuery::ScheduleExportService
+  attr_accessor :user
 
-  def create
-    change_templated_action(true)
+  def initialize(user:)
+    self.user = user
   end
 
-  def destroy
-    change_templated_action(false)
+  def call(filter_params:, project:, cost_types:)
+    export_storage = ::CostQuery::Export.create
+    job = schedule_export(export_storage, filter_params, project, cost_types)
+
+    ServiceResult.success result: job.job_id
   end
 
   private
 
-  def change_templated_action(templated)
-    service_call = Projects::UpdateService
-                     .new(user: current_user,
-                          model: @project)
-                     .call(templated:)
-
-    if service_call.success?
-      flash[:notice] = t(:notice_successful_update)
-    else
-      messages = [
-        t('activerecord.errors.template.header', model: Project.model_name.human, count: service_call.errors.count),
-        service_call.message
-      ]
-
-      flash[:error] = messages.join(". ")
-    end
-
-    redirect_to project_settings_general_path(@project)
+  def schedule_export(export_storage, filter_params, project, cost_types)
+    ::CostQuery::ExportJob.perform_later(export: export_storage,
+                                         user:,
+                                         mime_type: :xls,
+                                         query: filter_params,
+                                         project:,
+                                         cost_types:)
   end
 end
