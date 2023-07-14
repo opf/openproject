@@ -40,12 +40,12 @@ OpenProject has multiple options of exporting work packages, including PDF, XLS,
 OpenProject has multiple options of exporting work packages in PDF format.
 
 ### PDF Table 
-PDF Table exports the work package table displaying work packages as single rows with the selected columns for the work package table.
+PDF Table exports the work package table displaying work packages as single rows with the selected columns for the work package table. Work packages IDs are linked to the respective work packages. Clicking on a work package ID will lead you directly to the work package in OpenProject.
 
 ![OpenProject PDF Table export](openproject_pdf_table_export.png)
 
 ### PDF Report
-With PDF Reports you can export detailed up to date work plans for your project in a clean and practical format. It includes includes a table of contents (listing all of the work packages), followed by the description of single work packages in a block form. For each work package a table of attributes is included (attributes correspond to the columns in the work package table). 
+With PDF Reports you can export detailed up to date work plans for your project in a clean and practical format. It includes includes a table of contents (listing all of the work packages), followed by the description of single work packages in a block form. Table of contents is clickable and is linked to the respective pages within the report, making navigation much easier. For each work package a table of attributes is included (attributes correspond to the columns in the work package table). Work package ID attribute is clickable and linked directly to the respective work package in OpenProject.
 
 ![OpenProject_pdf_report_export](openproject_pdf_report.png)
 > **Note**: If "display sums" is activated in the work package table, then the sum table is included between table of contents and work packages description in an Overview section.
@@ -95,3 +95,9 @@ OpenProject can export the table into a comma-separated CSV. This file will be U
 OpenProject can export the table into a XML-based atom format. This file will be UTF-8 encoded.
 
 ![OpenProject_work_package_export_atom](openproject_export_atom.png)
+
+## Export single work packages
+
+It is also possible to export single work packages in PDF and Atom format. To do that click on the settings icon in the top right corner and select the preferred format from the dropdown menu.
+
+![OpenProject_single_work_package_export_options](openProject_single_work_package_export_options.png)
