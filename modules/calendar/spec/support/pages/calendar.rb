@@ -111,5 +111,33 @@ module Pages
     def expect_wp_not_draggable(work_package)
       expect(page).to have_selector('.fc-event:not(.fc-event-draggable)', text: work_package.subject)
     end
+
+    def expect_create_button
+      expect(page).to have_selector '.button', text: 'Calendar'
+    end
+
+    def expect_no_create_button
+      expect(page).not_to have_selector '.button', text: 'Calendar'
+    end
+
+    def expect_delete_button(query)
+      expect(page).to have_selector "[data-qa-selector='calendar-remove-#{query.id}']"
+    end
+
+    def expect_no_delete_button(query)
+      expect(page).not_to have_selector "[data-qa-selector='calendar-remove-#{query.id}']"
+    end
+
+    def expect_no_views_visible
+      expect(page).to have_text 'There is currently nothing to display.'
+    end
+
+    def expect_view_visible(query)
+      expect(page).to have_selector 'td', text: query.name
+    end
+
+    def expect_view_not_visible(query)
+      expect(page).not_to have_selector 'td', text: query.name
+    end
   end
 end
