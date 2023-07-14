@@ -27,6 +27,7 @@
 #++
 
 require 'spec_helper'
+require_relative '../support/pages/calendar'
 
 RSpec.describe 'Calendars', 'index', :js, :with_cuprite do
   shared_let(:project) do
@@ -104,6 +105,7 @@ RSpec.describe 'Calendars', 'index', :js, :with_cuprite do
   end
 
   context 'when visiting from a global context', with_flag: { more_global_index_pages: true } do
+    let(:calendars_page) { Pages::Calendar.new(nil) }
     let(:queries) { [query, other_query] }
 
     before do
@@ -114,7 +116,7 @@ RSpec.describe 'Calendars', 'index', :js, :with_cuprite do
 
     context 'with permissions to globally manage calendars' do
       it 'shows no create button' do
-        expect(page).not_to have_selector '.button', text: 'Calendar'
+        calendars_page.expect_no_create_button
       end
     end
 
@@ -122,15 +124,15 @@ RSpec.describe 'Calendars', 'index', :js, :with_cuprite do
       let(:queries) { [] }
 
       it 'shows an empty index page' do
-        expect(page).to have_text 'There is currently nothing to display.'
+        calendars_page.expect_no_views_visible
       end
     end
 
     context 'with existing views' do
       it 'shows those views', :aggregate_failures do
         queries.each do |q|
-          expect(page).to have_selector 'td', text: q.name
-          expect(page).to have_selector "[data-qa-selector='calendar-remove-#{q.id}']"
+          calendars_page.expect_view_visible(q)
+          calendars_page.expect_no_delete_button(q)
         end
       end
     end
@@ -147,17 +149,18 @@ RSpec.describe 'Calendars', 'index', :js, :with_cuprite do
         let(:query) { create(:query, user:, project:, public: false) }
 
         it 'does not show a non-public view' do
-          expect(page).to have_text 'There is currently nothing to display.'
-          expect(page).not_to have_selector 'td', text: query.name
+          calendars_page.expect_no_views_visible
+          calendars_page.expect_view_not_visible query
 
-          # Does not show the delete
-          expect(page).not_to have_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
+          calendars_page.expect_no_delete_button query
         end
       end
     end
   end
 
   context 'when visiting from a project-specific context' do
+    let(:calendars_page) { Pages::Calendar.new(project) }
+
     before do
       login_as current_user
       query
@@ -168,15 +171,15 @@ RSpec.describe 'Calendars', 'index', :js, :with_cuprite do
       let(:query) { nil }
 
       it 'shows an empty index page' do
-        expect(page).to have_text 'There is currently nothing to display.'
-        expect(page).to have_selector '.button', text: 'Calendar'
+        calendars_page.expect_no_views_visible
+        calendars_page.expect_create_button
       end
     end
 
     context 'with an existing view' do
       it 'shows that view' do
-        expect(page).to have_selector 'td', text: query.name
-        expect(page).to have_selector "[data-qa-selector='calendar-remove-#{query.id}']"
+        calendars_page.expect_view_visible query
+        calendars_page.expect_delete_button query
       end
 
       context 'with another user with limited access' do
@@ -187,28 +190,21 @@ RSpec.describe 'Calendars', 'index', :js, :with_cuprite do
                  member_with_permissions: %w[view_work_packages view_calendar])
         end
 
-        it 'does not show the create button' do
-          expect(page).to have_selector 'td', text: query.name
+        it 'does not show the management buttons' do
+          calendars_page.expect_view_visible query
 
-          # Does not show the delete
-          expect(page).not_to have_selector "[data-qa-selector='calendar-remove-#{query.id}']"
-
-          # Does not show the create button
-          expect(page).not_to have_selector '.button', text: 'Calendar'
+          calendars_page.expect_no_delete_button query
+          calendars_page.expect_no_create_button
         end
 
         context 'when the view is non-public' do
           let(:query) { create(:query, user:, project:, public: false) }
 
           it 'does not show a non-public view' do
-            expect(page).to have_text 'There is currently nothing to display.'
-            expect(page).not_to have_selector 'td', text: query.name
+            calendars_page.expect_no_views_visible
+            calendars_page.expect_view_not_visible query
 
-            # Does not show the delete
-            expect(page).not_to have_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
-
-            # Does not show the create button
-            expect(page).not_to have_selector '.button', text: 'Calendar'
+            calendars_page.expect_no_create_button
           end
         end
       end
