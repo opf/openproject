@@ -25,7 +25,18 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
-@import "variables"
+
+
+html, body
+  height: 100%
+  font-size: var(--body-font-size)
+
+// Set box-sizing globally to handle padding and border widths
+html
+  box-sizing: border-box
+
+*, *:before, *:after
+  box-sizing: inherit
 
 body
   // avoid applying font-family from primer
@@ -39,166 +50,3 @@ dl
 ul,
 ol
   margin-left: 2rem
-
-/*
-  FORMS (taken from Foundation for Apps)
-  -----
-
-  Our form styles include basic resets for text fields, select menus, and so on, along with some of our own custom components.
-
-  Includes:
-   - Text fields
-   - Text areas
-   - Select menus
-   - Checkboxes and radio buttons
-   - Range slider
-   - Progress bars and meters
-
-// Basic form variables
-$form-fontsize: 1rem !default
-$form-padding: 0.5rem !default
-
-// Text fields
-$input-color: #000 !default
-$input-color-hover: $input-color !default
-$input-color-focus: $input-color !default
-$input-background: #fff !default
-$input-background-hover: $input-background !default
-$input-background-focus: $input-background !default
-$input-border: 1px solid #ccc !default
-$input-border-hover: 1px solid #bbb !default
-$input-border-focus: 1px solid #999 !default
-
-// Labels
-$form-label-margin: 0.5rem !default
-$form-label-color: #333 !default
-
-// Inline labels
-$inlinelabel-color: #333 !default
-$inlinelabel-background: #eee !default
-$inlinelabel-border: $input-border !default
-
-// Select menus
-$select-color: #000 !default
-$select-background: #fafafa !default
-$select-background-hover: smartscale($select-background, 4%) !default
-$select-arrow: true !default
-$select-arrow-color: $select-color !default
-
-// Text fields
-// - - - - - - - - - - - - - - - - - - - - - - - - -
-#{$text-input-selectors}
-  $top-padding: get-side($form-padding, top)
-  $bottom-padding: get-side($form-padding, bottom)
-  $height: ($form-fontsize * 1.4) + $top-padding + $bottom-padding
-
-  @include no-appearance
-  display: block
-  width: 100%
-  height: $height
-  padding: $form-padding
-  margin: 0 0 1rem 0
-  border: $input-border
-  border-radius: 2px
-  background: $input-background
-  color: $input-color
-  font-size: $form-fontsize
-  -webkit-font-smoothing: antialiased
-  vertical-align: middle
-
-  &:hover
-    border: $input-border-hover
-    background: $input-background-hover
-    color: $input-color-hover
-
-  &:focus
-    border: $input-border-focus
-    background: $input-background-focus
-    color: $input-color-focus
-
-  label > &
-    margin-top: $form-label-margin
-
-// Inline labels
-// Inline labels allow you to prefix or postfix special labels to inputs
-// - - - - - - - - - - - - - - - - - - - - - - - - -
-.inline-label
-  display: flex
-  flex-flow: row nowrap
-  align-items: stretch
-  margin-bottom: 1rem
-
-  // Imitates the top margin on normal inputs
-  label > &
-    margin-top: $form-label-margin
-
-  // Inputs stretch all the way out
-  > input, > select
-    flex: 1 1 auto
-    margin: 0
-
-  // Inline labels and buttons shrink
-  > .form-label
-    flex: 0 0 auto
-    background: $inlinelabel-background
-    color: $inlinelabel-color
-    border: $inlinelabel-border
-    padding: 0 $form-padding
-    display: flex
-    align-items: center
-
-    &:first-child
-      border-right: 0
-    &:last-child
-      border-left: 0
-
-  // Buttons also shrink
-  > a,
-  > button,
-  > input[type="button"],
-  > input[type="submit"]
-    flex: 0 0 auto
-    display: flex
-    align-items: center
-    padding-top: 0
-    padding-bottom: 0
-    margin: 0
-    border-radius: 0
-
-
-// Text areas
-// - - - - - - - - - - - - - - - - - - - - - - - - -
-textarea
-  height: auto
-  width: 100%
-  min-height: 50px
-
-
-// Select menus
-// - - - - - - - - - - - - - - - - - - - - - - - - -
-select
-  $top-padding: get-side($form-padding, top)
-  $bottom-padding: get-side($form-padding, bottom)
-  $height: ($form-fontsize * 1.4) + $top-padding + $bottom-padding
-  $color: is-light($select-background)
-
-  @include no-appearance
-  display: block
-  width: 100%
-  height: $height
-  padding: $form-padding
-  color: $select-color
-  border-radius: 0
-  border: $input-border
-
-  @if $select-arrow
-    background: $select-background url(image-triangle($select-arrow-color)) right 10px center no-repeat
-    background-size: 8px 8px
-    padding-right: rem-calc(18px) + $form-padding
-
-  @else
-    background-color: $select-background
-
-
-    &:hover
-      background-color: $select-background-hover
