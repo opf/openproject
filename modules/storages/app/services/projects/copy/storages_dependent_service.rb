@@ -40,9 +40,15 @@ module Projects::Copy
 
     def copy_dependency(*)
       source.projects_storages.find_each do |project_storage|
-        create_project_storage(project_storage)
+        copied_project_storage = create_project_storage(project_storage)
+
+        if project_storage.project_folder_automatic?
+          copy_project_folder(project_storage, copied_project_storage.project)
+        end
       end
     end
+
+    private
 
     def create_project_storage(project_storage)
       attributes = project_storage
@@ -55,6 +61,21 @@ module Projects::Copy
 
       copied_storage = service_result.result
       copied_storage.save
+      copied_storage
+    end
+
+    def copy_project_folder(source_project_storage, destination_project)
+      source_folder_name = project_folder_path(source_project_storage.project)
+      destination_folder_name = project_folder_path(destination_project)
+
+      Storages::Peripherals::StorageRequests
+        .new(storage: source_project_storage.storage)
+        .copy_template_folder_command
+        .call(source_path: source_folder_name, destination_path: destination_folder_name)
+    end
+
+    def project_folder_path(project)
+      "#{@group_folder}/#{project.name.gsub('/', '|')} (#{project.id})/"
     end
   end
 end
