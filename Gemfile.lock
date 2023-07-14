@@ -10,10 +10,10 @@ GIT
 
 GIT
   remote: https://github.com/opf/md-to-pdf
-  revision: 10bbfbd6f4afdb36918ed9ea686c818144683738
-  tag: v0.0.18
+  revision: 4c42148220ecaa8363134f34331ce90277e1b380
+  ref: 4c42148220ecaa8363134f34331ce90277e1b380
   specs:
-    md_to_pdf (0.0.18)
+    md_to_pdf (0.0.19)
       commonmarker (~> 0.23)
       front_matter_parser (~> 1.0)
       json-schema (~> 4.0)
@@ -327,16 +327,16 @@ GEM
     awesome_nested_set (3.5.0)
       activerecord (>= 4.0.0, < 7.1)
     aws-eventstream (1.2.0)
-    aws-partitions (1.784.0)
-    aws-sdk-core (3.177.0)
+    aws-partitions (1.785.0)
+    aws-sdk-core (3.178.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.5)
       jmespath (~> 1, >= 1.6.1)
-    aws-sdk-kms (1.70.0)
+    aws-sdk-kms (1.71.0)
       aws-sdk-core (~> 3, >= 3.177.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.128.0)
+    aws-sdk-s3 (1.129.0)
       aws-sdk-core (~> 3, >= 3.177.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.6)
@@ -584,7 +584,7 @@ GEM
     language_server-protocol (3.17.0.3)
     launchy (2.5.2)
       addressable (~> 2.8)
-    lefthook (1.4.4)
+    lefthook (1.4.5)
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
     listen (3.8.0)
@@ -845,8 +845,6 @@ GEM
     rspec-retry (0.6.2)
       rspec-core (> 3.3)
     rspec-support (3.12.0)
-    rspec-wait (0.0.9)
-      rspec (>= 3, < 4)
     rubocop (1.54.1)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
@@ -971,7 +969,7 @@ GEM
     validate_url (1.0.15)
       activemodel (>= 3.0.0)
       public_suffix
-    view_component (3.3.0)
+    view_component (3.4.0)
       activesupport (>= 5.2.0, < 8.0)
       concurrent-ruby (~> 1.0)
       method_source (~> 1.0)
@@ -1149,7 +1147,6 @@ DEPENDENCIES
   rspec (~> 3.12.0)
   rspec-rails (~> 6.0.0)
   rspec-retry (~> 0.6.1)
-  rspec-wait
   rubocop
   rubocop-rails
   rubocop-rspec

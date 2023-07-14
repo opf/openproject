@@ -1,6 +1,7 @@
 module ::TeamPlanner
   class TeamPlannerController < BaseController
     include EnterpriseTrialHelper
+    include Layout
     before_action :find_optional_project
     before_action :authorize, except: %i[overview upsale]
     before_action :authorize_global, only: %i[overview]
@@ -15,6 +16,7 @@ module ::TeamPlanner
 
     def overview
       @views = visible_plans
+      render layout: 'global'
     end
 
     def show
@@ -41,6 +43,10 @@ module ::TeamPlanner
 
     current_menu_item :index do
       :team_planner_view
+    end
+
+    current_menu_item :overview do
+      :team_planners
     end
 
     private

@@ -63,16 +63,25 @@ module OpenProject::Meeting
            before: :members,
            icon: 'meetings'
 
+      should_render_global_menu_item = Proc.new do
+        OpenProject::FeatureDecisions.more_global_index_pages_active? &&
+          (User.current.logged? || !Setting.login_required?) &&
+          User.current.allowed_to_globally?(:view_meetings)
+      end
+
       menu :top_menu,
            :meetings, { controller: '/meetings', action: 'index', project_id: nil },
            context: :modules,
            caption: :label_meeting_plural,
            icon: 'meetings',
-           if: Proc.new {
-             OpenProject::FeatureDecisions.more_global_index_pages_active? &&
-              (User.current.logged? || !Setting.login_required?) &&
-                User.current.allowed_to_globally?(:view_meetings)
-           }
+           if: should_render_global_menu_item
+
+      menu :global_menu,
+           :meetings, { controller: '/meetings', action: 'index', project_id: nil },
+           caption: :label_meeting_plural,
+           last: true,
+           icon: 'meetings',
+           if: should_render_global_menu_item
 
       ActiveSupport::Inflector.inflections do |inflect|
         inflect.uncountable 'meeting_minutes'

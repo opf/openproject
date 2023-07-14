@@ -40,6 +40,34 @@ module Pages
         expect(rows.map(&:text)).to eq(users.map(&:login))
       end
 
+      def expect_projects_listed(*projects, archived: false)
+        within '#project-table' do
+          projects.each do |project|
+            displayed_name = if archived
+                               "ARCHIVED #{project.name}"
+                             else
+                               project.name
+                             end
+
+            expect(page).to have_text(displayed_name)
+          end
+        end
+      end
+
+      def expect_projects_not_listed(*projects)
+        within '#project-table' do
+          projects.each do |project|
+            expect(page).not_to have_text(project)
+          end
+        end
+      end
+
+      def set_sidebar_filter(filter_name)
+        within '#main-menu' do
+          click_link text: filter_name
+        end
+      end
+
       def filter_by_active(value)
         set_filter('active',
                    'Active',
@@ -151,6 +179,18 @@ module Pages
           wait_for_network_idle if using_cuprite?
           expect(page).to have_selector('.menu-drop-down-container')
           yield menu
+        end
+      end
+
+      def navigate_to_new_project_page_from_global_sidebar
+        within '#main-menu' do
+          click_on 'New project'
+        end
+      end
+
+      def navigate_to_new_project_page_from_toolbar_items
+        within '.toolbar-items' do
+          click_on 'New project'
         end
       end
 

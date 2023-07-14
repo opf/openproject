@@ -105,7 +105,7 @@ export class WorkPackageContextMenuHelperService {
   public linkForAction(workPackage:WorkPackageResource, action:WorkPackageAction):string|undefined {
     let link:string|undefined;
     switch (action.key) {
-      case 'copy_to_clipboard':
+      case 'copy_link_to_clipboard':
         link = this.PathHelper.workPackageShortPath(workPackage.id as string);
         break;
       default:
