@@ -158,6 +158,12 @@ $button-radius: 0
   cursor: default
   pointer-events: none
 
+// Disable OS-level styles
+@mixin no-appearance
+  -webkit-appearance: none
+  -moz-appearance: none
+
+// ------------------------------------------------------------------
 
 $scrollbar-color: #DDDDDD
 $scrollbar-size: 10px

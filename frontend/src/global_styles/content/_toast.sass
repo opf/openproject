@@ -54,6 +54,7 @@ $nm-padding-box: rem-calc(10px)
 
 $nm-pb-border-color: $nm-color-border
 $nm-pb-regress-color: whiteSmoke
+$nm-pb-regress-fill-color: #00558b
 $nm-pb-border-radius: rem-calc(6)
 $nm-pb-height: rem-calc(20)
 
@@ -279,6 +280,16 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   border: rem-calc(1) solid $nm-pb-border-color
   color: var(--primary-color-dark)
   margin: 0
+  width: 100%
+
+  &::-webkit-progress-bar
+    background: $nm-pb-regress-color
+
+  &::-webkit-progress-value
+    background: $nm-pb-regress-fill-color
+
+  &::-moz-progress-bar
+    background: $nm-pb-regress-fill-color
 
 .op-toast--toggle-message
   font-size: rem-calc(16)

@@ -26,7 +26,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+@import "../openproject/variables"
+
 $form--field-types: (text-field, text-area, select, check-box, radio-button, range-field, search, file, date-picker)
+$base-line-height: 1.5
+$form-label-color: var(--body-font-color)
 
 %input-style
   border: var(--content-form-input-border)
@@ -864,12 +868,11 @@ input[readonly].-clickable
   flex: 0 0 auto
   display: flex
   font-size: 0.9rem
-  background: $inlinelabel-background
-  color: $inlinelabel-color
+  background: #EEEEEE
+  color: var(--body-font-color)
   border: var(--content-form-input-border)
-  // OR $inlinelabel-border
   border-radius: 2px
-  padding: 0 $form-padding
+  padding: 0 0.5rem
   margin-bottom: 0rem
   align-items: center
   line-height: 1
