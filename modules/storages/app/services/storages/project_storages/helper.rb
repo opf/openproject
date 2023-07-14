@@ -40,8 +40,4 @@ module Storages::ProjectStorages::Helper
       .new(model: project_folder, user:)
       .call(origin_folder_id:)
   end
-
-  def trigger_nextcloud_synchronization(project_folder_mode)
-    Storages::ManageNextcloudIntegrationEventsJob.perform_later if project_folder_mode.to_sym == :automatic
-  end
 end

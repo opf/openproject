@@ -28,7 +28,6 @@
 
 class RolesController < ApplicationController
   include PaginationHelper
-  include Roles::NotifyMixin
 
   layout 'admin'
 
@@ -54,7 +53,7 @@ class RolesController < ApplicationController
   end
 
   def create
-    @call = create_role
+    @call = Roles::CreateService.new(user: current_user).call(create_params)
     @role = @call.result
 
     if @call.success?
@@ -81,10 +80,17 @@ class RolesController < ApplicationController
 
   def destroy
     @role = Role.find(params[:id])
+    # after destroy permissions can not be reached
+    permissions = @role.permissions
     @role.destroy
+
     flash[:notice] = I18n.t(:notice_successful_delete)
     redirect_to action: 'index'
-    notify_changed_roles(:removed, @role)
+
+    OpenProject::Notifications.send(
+      OpenProject::Events::ROLE_DESTROYED,
+      permissions:
+    )
   rescue StandardError
     flash[:error] = I18n.t(:error_can_not_remove_role)
     redirect_to action: 'index'
@@ -146,12 +152,6 @@ class RolesController < ApplicationController
 
       update_role(role, new_permissions)
     end
-  end
-
-  def create_role
-    Roles::CreateService
-      .new(user: current_user)
-      .call(create_params)
   end
 
   def roles_scope

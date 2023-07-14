@@ -32,6 +32,13 @@
 # gets loaded.
 module OpenProject::Storages
   class Engine < ::Rails::Engine
+    PERMISSIONS = %i[
+      read_files
+      write_files
+      create_files
+      delete_files
+      share_files
+    ].freeze
     # engine name is used as a default prefix for module tables when generating
     # tables with the rails command.
     # It may also be used in other places, please investigate.
@@ -49,7 +56,7 @@ module OpenProject::Storages
 
     initializer 'openproject_storages.event_subscriptions' do
       Rails.application.config.after_initialize do
-        if OpenProject::FeatureDecisions.managed_project_folders_active?
+        if OpenProject::FeatureDecisions.managed_project_folders_active? || Rails.env.test?
           [
             OpenProject::Events::MEMBER_CREATED,
             OpenProject::Events::MEMBER_UPDATED,
@@ -60,6 +67,47 @@ module OpenProject::Storages
           ].each do |event|
             OpenProject::Notifications.subscribe(event) do |_payload|
               ::Storages::ManageNextcloudIntegrationEventsJob.debounce
+            end
+          end
+
+          OpenProject::Notifications.subscribe(
+            OpenProject::Events::OAUTH_CLIENT_TOKEN_CREATED
+          ) do |payload|
+            if payload[:integration_type] == 'Storages::Storage'
+              ::Storages::ManageNextcloudIntegrationEventsJob.debounce
+            end
+          end
+          OpenProject::Notifications.subscribe(
+            OpenProject::Events::ROLE_CREATED
+          ) do |payload|
+            if payload[:permissions].intersect?(PERMISSIONS)
+              ::Storages::ManageNextcloudIntegrationEventsJob.debounce
+            end
+          end
+          OpenProject::Notifications.subscribe(
+            OpenProject::Events::ROLE_UPDATED
+          ) do |payload|
+            if payload[:permissions_diff].intersect?(PERMISSIONS)
+              ::Storages::ManageNextcloudIntegrationEventsJob.debounce
+            end
+          end
+          OpenProject::Notifications.subscribe(
+            OpenProject::Events::ROLE_DESTROYED
+          ) do |payload|
+            if payload[:permissions].intersect?(PERMISSIONS)
+              ::Storages::ManageNextcloudIntegrationEventsJob.debounce
+            end
+          end
+
+          [
+            OpenProject::Events::PROJECTS_STORAGE_CREATED,
+            OpenProject::Events::PROJECTS_STORAGE_UPDATED,
+            OpenProject::Events::PROJECTS_STORAGE_DESTROYED
+          ].each do |event|
+            OpenProject::Notifications.subscribe(event) do |payload|
+              if payload[:project_folder_mode] == :automatic
+                ::Storages::ManageNextcloudIntegrationEventsJob.debounce
+              end
             end
           end
         end
@@ -93,21 +141,9 @@ module OpenProject::Storages
         # explicit check for test env is needed, because `with_flag: { managed_project_folders: true }` set for a test case
         # handled later and at this moment feature is disabled.
         if OpenProject::FeatureDecisions.managed_project_folders_active? || Rails.env.test?
-          permission :read_files,
-                     {},
-                     dependencies: %i[]
-          permission :write_files,
-                     {},
-                     dependencies: %i[]
-          permission :create_files,
-                     {},
-                     dependencies: %i[]
-          permission :delete_files,
-                     {},
-                     dependencies: %i[]
-          permission :share_files,
-                     {},
-                     dependencies: %i[]
+          PERMISSIONS.each do |p|
+            permission(p, {}, dependencies: %i[])
+          end
         end
       end
 

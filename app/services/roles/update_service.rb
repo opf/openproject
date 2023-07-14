@@ -27,11 +27,20 @@
 #++
 
 class Roles::UpdateService < BaseServices::Update
-  include Roles::NotifyMixin
-
   private
 
-  def after_safe
-    notify_changed_roles(:updated, model)
+  def before_perform(params, service_call)
+    @permissions_old = service_call.result.permissions
+    super
+  end
+
+  def after_perform(call)
+    permissions_new = call.result.permissions
+    permissions_diff = (@permissions_old - permissions_new) | (permissions_new - @permissions_old)
+    OpenProject::Notifications.send(
+      OpenProject::Events::ROLE_UPDATED,
+      permissions_diff:
+    )
+    call
   end
 end
