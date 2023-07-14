@@ -73,7 +73,9 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
 
     storage_id = params.dig(:storages_project_storage, :storage_id)
     if storage_id.present?
-      @project_storage.storage = available_storages.find_by(id: storage_id)
+      storage = available_storages.find_by(id: storage_id)
+      @project_storage.storage = storage
+      @project_storage.project_folder_mode = "automatic" if storage.automatically_managed?
     end
 
     render template: '/storages/project_settings/new'
