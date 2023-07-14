@@ -801,6 +801,40 @@ RSpec.describe WorkPackage do
         end
       end
     end
+
+    context 'when aggregation leads to an empty change (changing back and forth)',
+            with_settings: { journal_aggregation_time_minutes: 1 } do
+      let!(:work_package) do
+        User.execute_as current_user do
+          create(:work_package,
+                 :created_in_past,
+                 created_at: 5.minutes.ago,
+                 project_id: project.id,
+                 type:,
+                 description: 'Description',
+                 priority:,
+                 status:,
+                 duration: 1)
+        end
+      end
+
+      let(:other_status) { create(:status) }
+
+      before do
+        work_package.status = other_status
+        work_package.save!
+        work_package.status = status
+        work_package.save!
+      end
+
+      it 'creates a new journal' do
+        expect(work_package.journals.count).to be 2
+      end
+
+      it 'has the old state in the last journal`s data' do
+        expect(work_package.journals.last.data.status_id).to be status.id
+      end
+    end
   end
 
   describe '#destroy' do

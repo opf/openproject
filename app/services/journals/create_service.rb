@@ -176,7 +176,7 @@ module Journals
         ), fetch_time AS (
           #{fetch_time_sql}
         ), insert_data AS (
-          #{insert_data_sql(notes, cause)}
+          #{insert_data_sql(predecessor, notes, cause)}
         ), update_predecessor AS (
           #{update_predecessor_sql(predecessor, notes, cause)}
         ), inserted_journal AS (
@@ -304,7 +304,7 @@ module Journals
                data_type: journable.class.journal_class.name)
     end
 
-    def insert_data_sql(notes, cause)
+    def insert_data_sql(predecessor, notes, cause)
       data_sql = <<~SQL
         INSERT INTO
           #{data_table_name} (
@@ -316,7 +316,7 @@ module Journals
         #{journable_data_sql_addition}
         WHERE
           #{journable_table_name}.id = :journable_id
-          #{only_on_changed_or_forced_condition_sql(notes, cause)}
+          #{only_on_changed_or_forced_condition_sql(predecessor, notes, cause)}
         RETURNING *
       SQL
 
@@ -397,7 +397,7 @@ module Journals
             updated_at = COALESCE(:update_timestamp, statement_timestamp())
           WHERE
             id = :id
-            #{only_on_changed_or_forced_condition_sql(notes, cause)}
+            #{only_on_changed_or_forced_condition_sql(predecessor, notes, cause)}
             AND NOT updated_at > COALESCE(:predecessor_timestamp, (SELECT updated_at FROM max_journals))
           RETURNING updated_at
         SQL
@@ -441,7 +441,7 @@ module Journals
           validity_period = tstzrange(lower(validity_period), (SELECT updated_at FROM fetch_time), '[)')
         WHERE
           id = (SELECT id from max_journals)
-          #{only_on_changed_or_forced_condition_sql(notes, cause)}
+          #{only_on_changed_or_forced_condition_sql(predecessor, notes, cause)}
       SQL
     end
 
@@ -612,8 +612,13 @@ module Journals
       data_changes.join(' OR ')
     end
 
-    def only_on_changed_or_forced_condition_sql(notes, cause)
-      if notes.blank? && cause.blank?
+    def only_on_changed_or_forced_condition_sql(predecessor, notes, cause)
+      # The predecessor part of the condition is in in case the predecessor is being aggregated.
+      # In one of the cases, the change that is being aggregated in nullifies the changes done by the predecessor so
+      # that in effect, there would be no changes any more (compared to the predecessor's predecessor).
+      # With changes being a precondition for journalizing, no journal data would be created and the predecessor
+      # that is aggregated ends up having no data.
+      if notes.blank? && cause.blank? && predecessor.nil?
         "AND EXISTS (SELECT * FROM changes)"
       else
         ""
