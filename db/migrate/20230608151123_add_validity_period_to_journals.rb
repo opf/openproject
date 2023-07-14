@@ -20,8 +20,12 @@ class AddValidityPeriodToJournals < ActiveRecord::Migration[7.0]
     max_attempts = attempts = (ENV['MAX_JOURNAL_TIMESTAMPS_ATTEMPTS'].presence && ENV['MAX_JOURNAL_TIMESTAMPS_ATTEMPTS'].to_i) ||
                               Journal.all.maximum(:version)
 
+    invalid_journables = nil
+
     loop do
-      break if fix_journal_timestamps == 0
+      invalid_journables = fix_journal_timestamps(invalid_journables)
+
+      break if invalid_journables.empty?
 
       if attempts == 0
         raise <<~MSG.squish
@@ -39,7 +43,9 @@ class AddValidityPeriodToJournals < ActiveRecord::Migration[7.0]
     say "All journals' timestamps in the database are correct."
   end
 
-  def fix_journal_timestamps
+  def fix_journal_timestamps(invalid_journables)
+    limit_condition = invalid_journables ? "AND journable_id IN (#{invalid_journables.uniq.join(', ')})" : ""
+
     # Update journals with their timestamps after the timestamp of their successor
     # (as identified by the journal belonging to the same journable and having the smallest version
     # larger than the journal's).
@@ -50,7 +56,7 @@ class AddValidityPeriodToJournals < ActiveRecord::Migration[7.0]
     #   resulting in an error.
     # * updated_at is set to be the minimum of the journal's updated_at and the successor's created_at
     #   (as the predecessor cannot have been updated after the successor was created)
-    update <<~SQL.squish
+    updated = select_rows <<~SQL.squish
       UPDATE journals
       SET
         created_at = LEAST(journals.created_at, values.created_at - interval '1  ms'),
@@ -74,7 +80,11 @@ class AddValidityPeriodToJournals < ActiveRecord::Migration[7.0]
       ) values
       WHERE values.id = journals.id
       AND (values.created_at <= journals.created_at OR values.created_at < journals.updated_at)
+      #{limit_condition}
+      RETURNING journals.journable_id
     SQL
+
+    updated.flatten
   end
 
   def write_validity_period
