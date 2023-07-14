@@ -36,20 +36,5 @@ RSpec.describe Admin::Settings::WorkPackagesSettingsController do
 
   current_user { user }
 
-  describe 'GET #show' do
-    subject { get 'show' }
-
-    describe 'permissions' do
-      let(:fetch) { subject }
-
-      it_behaves_like 'a controller action with require_admin'
-    end
-
-    it 'renders the work packages settings template' do
-      subject
-
-      expect(response).to be_successful
-      expect(response).to render_template 'admin/settings/work_packages_settings/show', 'layouts/admin'
-    end
-  end
+  require_admin_and_render_template('work_packages_settings')
 end

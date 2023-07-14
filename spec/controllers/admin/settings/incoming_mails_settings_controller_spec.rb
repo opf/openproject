@@ -36,20 +36,5 @@ RSpec.describe Admin::Settings::IncomingMailsSettingsController do
 
   current_user { user }
 
-  describe 'GET #show' do
-    subject { get 'show' }
-
-    describe 'permissions' do
-      let(:fetch) { subject }
-
-      it_behaves_like 'a controller action with require_admin'
-    end
-
-    it 'renders the incoming mails settings template' do
-      subject
-
-      expect(response).to be_successful
-      expect(response).to render_template 'admin/settings/incoming_mails_settings/show', 'layouts/admin'
-    end
-  end
+  require_admin_and_render_template('incoming_mails_settings')
 end
