@@ -193,6 +193,6 @@
     "storybook:build": "ng run OpenProject:build-storybook"
   },
   "overrides": {
-    "@primer/view-components": "git+https://github.com/opf/primer_view_components.git"
+    "@primer/view-components": "git+https://github.com/opf/primer_view_components.git#f231e2e"
   }
 }
