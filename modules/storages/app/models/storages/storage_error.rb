@@ -35,6 +35,12 @@ class Storages::StorageError
     @data = data
   end
 
+  def to_active_model_errors
+    errors = ActiveModel::Errors.new(self)
+    errors.add(:storage_error, code, message: log_message)
+    errors
+  end
+
   def to_s
     output = code.to_s
     output << " | #{log_message}" unless log_message.nil?

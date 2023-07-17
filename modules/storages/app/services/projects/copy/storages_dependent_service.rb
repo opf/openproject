@@ -72,6 +72,7 @@ module Projects::Copy
         .new(storage: source_project_storage.storage)
         .copy_template_folder_command
         .call(source_path: source_folder_name, destination_path: destination_folder_name)
+        .on_failure { |result| add_error! source_folder_name, result.to_active_model_errors }
     end
 
     def project_folder_path(project)
