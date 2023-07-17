@@ -112,6 +112,18 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true, with_flag: {
     expect(page).to have_title("Automatically managed project folders")
     expect(page).to have_content("Password can't be blank.")
 
+    # Test the error path for an invalid storage password.
+    # Mock a valid response (=401) for example.com, so the password validation should fail
+    mock_nextcloud_application_credentials_validation("https://example.com", password: "1234567890", response_code: 401)
+    automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
+    expect(automatically_managed_switch).to be_checked
+    page.fill_in 'storages_nextcloud_storage_password', with: "1234567890"
+    # Clicking submit with application password empty should show an error
+    page.click_button('Save')
+    # Check that we're still on the same page
+    expect(page).to have_title("Automatically managed project folders")
+    expect(page).to have_content("Password is not valid.")
+
     # Test the happy path for a valid storage password.
     # Mock a valid response (=200) for example.com, so the password validation should succeed
     # Fill in application password and submit
@@ -202,16 +214,6 @@ RSpec.describe 'Admin storages', :storage_server_helpers, js: true, with_flag: {
     ######### Begin Edit Automatically managed project folders #########
     page.find('.button--icon.icon-edit').click
     page.find('a', text: 'Edit automatically managed project folders').click
-
-    # Test the error path for an invalid storage password.
-    # Mock a valid response (=401) for example.com, so the password validation should fail
-    mock_nextcloud_application_credentials_validation("https://example.com", password: "1234567890", response_code: '401')
-    automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
-    expect(automatically_managed_switch).to be_checked
-    page.fill_in 'storages_nextcloud_storage_password', with: "1234567890"
-    # Clicking submit with application password empty should show an error
-    page.click_button('Save')
-    expect(page).to have_content("Password is not valid.")
 
     expect(page).to have_title("Automatically managed project folders")
     automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
