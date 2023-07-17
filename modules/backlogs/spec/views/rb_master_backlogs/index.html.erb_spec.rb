@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.dirname(__FILE__) + '/../../spec_helper'
+require 'spec_helper'
 
 RSpec.describe 'rb_master_backlogs/index' do
   let(:user) { create(:user) }
