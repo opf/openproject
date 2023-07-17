@@ -241,7 +241,7 @@ ka:
             professional_support: "Professional support"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Start free trial"
-          button_upgrade: "Upgrade now"
+          button_upgrade: "ახლავე განაახლე"
           button_contact_us: "Contact us for a demo"
           button_book_now: "Book now"
           confidence: >
@@ -966,14 +966,14 @@ ka:
         projectName: "Project"
         responsible: "Responsible"
         startDate: "Start date"
-        status: "Status"
+        status: "სტატუსი"
         subject: "Subject"
         subproject: "Subproject"
         title: "Title"
         type: "Type"
         updatedAt: "Updated on"
-        versionName: "Version"
-        version: "Version"
+        versionName: "ვერსია"
+        version: "ვერსია"
       default_queries:
         latest_activity: "Latest activity"
         created_by_me: "Created by me"
@@ -1042,7 +1042,7 @@ ka:
           inline: 'Highlighted attribute(s)'
           inline_all: 'All attributes'
           entire_row_by: 'Entire row by'
-          status: 'Status'
+          status: 'სტატუსი'
           priority: 'Priority'
           type: 'Type'
         sorting_mode:

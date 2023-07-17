@@ -64,7 +64,7 @@ zh-TW:
           subproject: 子專案
           subtasks: Parent-child
           basic: 基本
-        select_attribute: "Action attribute"
+        select_attribute: "動作屬性"
       add_list_modal:
         labels:
           assignee: 選擇使用者至新的指派列表
@@ -74,13 +74,12 @@ zh-TW:
           subtasks: 依選擇任務新增清單
         warning:
           status: |
-            There is currently no status available. <br>
-            Either there are none or they have all already been added to the board.
-          assignee: There isn't any member matched with your filter value.  <br>
-          no_member: This project currently does not have any members that can be added.  <br>
-          add_members: <a href="%{link}">Add a new member to this project</a> to select users again.
+            目前無可用狀態
+          assignee: 沒有任何符合您設定篩選值的人員
+          no_member: 此專案目前沒有任何可以加入的人員
+          add_members: <a href="%{link}">新增人員至此專案</a> 來再次選擇使用者。
       configuration_modal:
-        title: 'Configure this board'
+        title: '設定此看板'
         display_settings:
-          card_mode: "Display as cards"
+          card_mode: "顯示為卡片"
           table_mode: "顯示為預覽圖"

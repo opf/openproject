@@ -1789,7 +1789,7 @@ id:
   label_personalize_page: "Personalisasi halaman"
   label_placeholder_user: "Pengguna placeholder"
   label_placeholder_user_new: "New placeholder user"
-  label_placeholder_user_plural: "Placeholder users"
+  label_placeholder_user_plural: "Pengguna placeholder"
   label_planning: "Perencanaan"
   label_please_login: "Silakan login"
   label_plugins: "Plugin"
@@ -1806,7 +1806,7 @@ id:
   label_professional_support: "Professional support"
   label_profile: "Profil"
   label_project_activity: "Project activity"
-  label_project_attribute_plural: "Project attributes"
+  label_project_attribute_plural: "Atribut proyek"
   label_project_count: "Jumlah proyek"
   label_project_copy_notifications: "Kirim email notifikasi selama meng-copy Project"
   label_project_latest: "Project terbaru"
@@ -1982,7 +1982,7 @@ id:
   label_workflow: "Workflow"
   label_workflow_plural: "Alur kerja"
   label_workflow_summary: "Ringkasan"
-  label_working_days: "Working days"
+  label_working_days: "Hari kerja"
   label_x_closed_work_packages_abbr:
     one: "1 closed"
     other: "%{count} tertutup"
@@ -2055,11 +2055,11 @@ id:
       reason:
         watched: 'Watched'
         assigned: 'Assigned'
-        responsible: 'Accountable'
+        responsible: 'Akuntabel'
         mentioned: 'Mentioned'
         subscribed: 'semua'
         prefix: 'Received because of the notification setting: %{reason}'
-        date_alert_start_date: 'Date alert'
+        date_alert_start_date: 'Peringatan tanggal'
         date_alert_due_date: 'Peringatan tanggal'
       see_all: 'Lihat semua'
       updated_at: 'Diperbarui pada %{timestamp} oleh %{user}'
@@ -3073,7 +3073,7 @@ id:
     close_warning: "Abaikan peringatan ini."
   oauth:
     application:
-      singular: "OAuth application"
+      singular: "aplikasi OAuth"
       plural: "OAuth applications"
       named: "OAuth application '%{name}'"
       new: "New OAuth application"

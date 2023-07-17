@@ -790,7 +790,7 @@ nl:
           attributes:
             user_id:
               not_allowed_to_view: "is not allowed to view this resource."
-              locked: "is locked."
+              locked: "is vergrendeld."
         wiki_page:
           attributes:
             slug:
@@ -3004,7 +3004,7 @@ nl:
   api_v3:
     attributes:
       lock_version: "Vergrendel versie"
-      property: 'Property'
+      property: 'Eigendom'
     errors:
       code_400: "Verkeerd verzoek: %{message}"
       code_401: "U moet geauthenticeerd zijn om toegang te hebben tot deze resource."
