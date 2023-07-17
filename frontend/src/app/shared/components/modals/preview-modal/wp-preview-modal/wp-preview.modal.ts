@@ -27,7 +27,13 @@
 //++
 
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+  Input,
 } from '@angular/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsToken, OpModalService } from 'core-app/shared/components/modal/modal.service';
@@ -37,6 +43,13 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { StateService } from '@uirouter/core';
+import {
+  computePosition,
+  flip,
+  limitShift,
+  Placement,
+  shift,
+} from '@floating-ui/dom';
 
 @Component({
   templateUrl: './wp-preview.modal.html',
@@ -50,20 +63,26 @@ export class WpPreviewModalComponent extends OpModalComponent implements OnInit 
     created_by: this.i18n.t('js.label_created_by'),
   };
 
-  constructor(readonly elementRef:ElementRef,
+  @Input() public alignment?:Placement = 'bottom-end';
+
+  @Input() public allowRepositioning? = true;
+
+  constructor(
+    readonly elementRef:ElementRef,
     @Inject(OpModalLocalsToken) readonly locals:OpModalLocalsMap,
     readonly cdRef:ChangeDetectorRef,
     readonly i18n:I18nService,
     readonly apiV3Service:ApiV3Service,
     readonly opModalService:OpModalService,
-    readonly $state:StateService) {
+    readonly $state:StateService,
+  ) {
     super(locals, cdRef, elementRef);
   }
 
   ngOnInit() {
     super.ngOnInit();
     const { workPackageLink } = this.locals;
-    const workPackageId = idFromLink(workPackageLink);
+    const workPackageId = idFromLink(workPackageLink as string|null);
 
     this
       .apiV3Service
@@ -74,23 +93,37 @@ export class WpPreviewModalComponent extends OpModalComponent implements OnInit 
         this.workPackage = workPackage;
         this.cdRef.detectChanges();
 
-        const modal = jQuery(this.elementRef.nativeElement);
-        this.reposition(modal, this.locals.event.target);
+        const modal = this.elementRef.nativeElement as HTMLElement;
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-explicit-any
+        void this.reposition(modal, this.locals.event.target as HTMLElement);
       });
   }
 
-  public reposition(element:JQuery<HTMLElement>, target:JQuery<HTMLElement>) {
-    element.position({
-      my: 'right top',
-      at: 'right bottom',
-      of: target,
-      collision: 'flipfit',
+  public async reposition(element:HTMLElement, target:HTMLElement) {
+    const floatingEl = element.children[0] as HTMLElement;
+    const { x, y } = await computePosition(
+      target,
+      floatingEl,
+      {
+        placement: this.alignment,
+        middleware: this.allowRepositioning ? [
+          flip({
+            mainAxis: true,
+            crossAxis: true,
+            fallbackAxisSideDirection: 'start',
+          }),
+          shift({ limiter: limitShift() }),
+        ] : [],
+      },
+    );
+    Object.assign(floatingEl.style, {
+      left: `${x}px`,
+      top: `${y}px`,
     });
   }
 
   public openStateLink(event:{ workPackageId:string; requestedState:string }) {
     const params = { workPackageId: event.workPackageId };
-
-    this.$state.go(event.requestedState, params);
+    void this.$state.go(event.requestedState, params);
   }
 }

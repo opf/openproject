@@ -20,7 +20,7 @@ RSpec.describe 'Work package single context menu', js: true do
   end
 
   it 'successfully copies the short url of the work package' do
-    find('.menu-item', text: 'Copy to clipboard', exact_text: true).click
+    find('.menu-item', text: 'Copy link to clipboard', exact_text: true).click
 
     # We cannot access the navigator.clipboard from a headless browser.
     # This test makes sure the copy to clipboard logic is working,

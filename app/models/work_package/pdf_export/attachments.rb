@@ -37,7 +37,7 @@ module WorkPackage::PDFExport::Attachments
     resized_file_path = tmp_file.path
 
     image = MiniMagick::Image.open(file_path)
-    image.resize("x325>")
+    image.resize("x800>")
     image.write(resized_file_path)
 
     resized_file_path

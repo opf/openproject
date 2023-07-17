@@ -43,12 +43,19 @@ ko:
   storages:
     buttons:
       done_continue_setup: "완료. 설정을 계속하세요."
+      done_complete_setup: "Done, complete setup"
+      edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "OpenProject OAuth 바꾸기"
       replace_provider_type_oauth: "%{provider_type} OAuth 바꾸기"
       save_and_continue_setup: "저장하고 설정 계속하기"
       save_and_complete_setup: "저장하고 설정 완료"
       select_folder: "Select folder"
+      configure: "Configure"
     page_titles:
+      managed_project_folders:
+        title: "Automatically managed project folders"
+        subtitle: >
+          Let OpenProject create folders per project automatically. This is recommended as it ensures that every team member always has the correct access permissions.
       project_settings:
         index: "이 프로젝트에서 사용 가능한 파일 저장소"
         new: "이 프로젝트에 파일 저장소 추가"
@@ -58,6 +65,8 @@ ko:
       type_link_text: "“Integration OpenProject”"
       name: "사용자가 여러 저장소 간에 구별할 수 있도록 저장소에 이름을 지정하세요."
       host: "https://를 포함하여 저장소의 호스트 주소를 추가하세요. 255자 이하여야 합니다."
+      managed_project_folders_application_password: >
+        Copy this value from:
       no_storage_set_up: "아직 파일 저장소가 설정되지 않았습니다."
       no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
       automatic_folder: "This will automatically create a root folder for this project and manage the access permissions for each project member."
@@ -81,11 +90,17 @@ ko:
         이 저장소를 삭제하시겠습니까? 이렇게 하면 이 저장소가 사용되는 모든 프로젝트에서도 삭제됩니다. 또한 해당 저장소에 저장된 파일에 대한 모든 링크도 작업 패키지에서 삭제합니다.
       project_storage: >
         이 프로젝트에서 해당 파일 저장소를 제거하시겠습니까? 이렇게 하면 이 프로젝트에서는 해당 저장소에 저장된 파일에 대한 모든 링크도 제거됩니다.
+    label_active: "Active"
+    label_inactive: "Inactive"
     label_creator: "생성자"
     label_file_link: "파일 링크"
     label_file_links: "파일 링크"
     label_name: "이름"
     label_host: "호스트 URL"
+    label_managed_project_folders:
+      automatically_managed_folders: "Automatically managed folders"
+      application_password: "Application password"
+    label_managed_project_folders_breadcrumb: "Automatically managed project folders"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
@@ -110,4 +125,5 @@ ko:
     confirm_replace_oauth_application: "계속하시겠습니까? 모든 사용자는 OpenProject에 대해 다시 권한을 부여해야 합니다."
     confirm_replace_oauth_client: "계속하시겠습니까? 모든 사용자는 저장소에 대해 다시 권한을 부여해야 합니다."
     oauth_client_details_missing: "설정을 완료하려면 저장소에서 OAuth 클라이언트 자격 증명을 추가하세요."
+    automatically_managed_project_folder_missing: "To complete the setup, please configure automatically managed project folders for your storage."
     notice_oauth_application_replaced: "OpenProject OAuth 애플리케이션이 성공적으로 교체되었습니다."

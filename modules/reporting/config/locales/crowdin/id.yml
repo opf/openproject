@@ -81,6 +81,9 @@ id:
   units: "Unit"
   validation_failure_date: "validasi tanggal gagal"
   validation_failure_integer: "validasi bilangan bulat gagal"
+  export:
+    cost_reports:
+      title: "Your Cost Reports XLS export"
   reporting:
     group_by:
       selected_columns: "Kolom terpilih"

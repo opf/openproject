@@ -65,7 +65,8 @@ ru:
     button_confirm: "Подтвердить"
     button_continue: "Продолжить"
     button_copy: "Копировать"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "Копировать в буфер обмена"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Копировать в другой проект"
     button_custom-fields: "Настраиваемые поля"
     button_delete: "Удалить"
@@ -738,6 +739,14 @@ ru:
     time_entry:
       work_package_required: 'Сначала необходимо выбрать пакет работ.'
       title: 'Журналировать время'
+      tracking: 'Учет времени'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Двухфакторная аутентификация'
     watchers:

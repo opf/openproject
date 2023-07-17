@@ -28,7 +28,10 @@
 
 require 'spec_helper'
 
-RSpec.describe 'TimeEntry activities', with_settings: { journal_aggregation_time_minutes: 0 } do
+RSpec.describe 'TimeEntry activity',
+               :js,
+               :with_cuprite,
+               with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -46,13 +49,12 @@ RSpec.describe 'TimeEntry activities', with_settings: { journal_aggregation_time
   let(:time_entry_activity2) { create(:time_entry_activity) }
   let(:work_package) { create(:work_package, project:, type: project.types.first) }
   let(:work_package2) { build(:work_package, project:, type: project.types.second) }
-  let(:hours) { 5.0 }
   let!(:time_entry) do
     create(:time_entry,
            project:,
            work_package:,
            spent_on: Time.zone.today,
-           hours:,
+           hours: 5,
            user:,
            activity_id: time_entry_activity.id,
            comments: 'lorem ipsum')
@@ -62,7 +64,7 @@ RSpec.describe 'TimeEntry activities', with_settings: { journal_aggregation_time
     login_as user
   end
 
-  it 'tracks the time_entry\'s activities', js: true do
+  it "tracks the time_entry's activities" do
     visit project_activity_index_path(project)
 
     check 'Spent time'
@@ -75,6 +77,9 @@ RSpec.describe 'TimeEntry activities', with_settings: { journal_aggregation_time
       expect(page).to have_link('Details')
       click_link('Details')
     end
+
+    wait_for_reload
+
     expect(find_field('work_package_id_arg_1_val').value).to eq(work_package.id.to_s)
 
     old_comments = time_entry.comments
@@ -108,6 +113,9 @@ RSpec.describe 'TimeEntry activities', with_settings: { journal_aggregation_time
       expect(page).to have_selector('li', text: "Date changed from #{old_spent_on} to #{time_entry.spent_on}")
       click_link('Details')
     end
+
+    wait_for_reload
+
     expect(find_field('work_package_id_arg_1_val').value).to eq(work_package2.id.to_s)
   end
 end

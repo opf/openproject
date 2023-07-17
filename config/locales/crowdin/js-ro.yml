@@ -65,7 +65,8 @@ ro:
     button_confirm: "Confirmă"
     button_continue: "Continuaţi"
     button_copy: "Copiere"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "Copiere în clipboard"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copiază în alt proiect"
     button_custom-fields: "Câmpuri personalizate"
     button_delete: "Ștergere"
@@ -737,6 +738,14 @@ ro:
     time_entry:
       work_package_required: 'Necesită să se selecteze mai întâi un pachet de lucru.'
       title: 'Consum timp'
+      tracking: 'Monitorizare efort'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Autentificare cu doi factori'
     watchers:

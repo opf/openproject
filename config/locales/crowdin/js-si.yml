@@ -65,7 +65,8 @@ si:
     button_confirm: "තහවුරු කරන්න"
     button_continue: "ඉදිරියට යන්න"
     button_copy: "පිටපත් කරන්න"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "පසුරු පුවරුවට පිටපත් කරන්න"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "අභිරුචි ක්ෂේත්ර"
     button_delete: "මකන්න"
@@ -737,6 +738,14 @@ si:
     time_entry:
       work_package_required: 'පළමුව වැඩ පැකේජයක් තෝරා ගැනීම අවශ්ය වේ.'
       title: 'ලොග් වේලාව'
+      tracking: 'ෙසොයා ගැනීෙම්'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:

@@ -29,126 +29,70 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title(t(:label_administration), t(:label_information_plural)) -%>
 
-<%= toolbar title: I18n.t('label_information_plural') %>
+<%= call_hook(:view_admin_info_top) %>
 
-<div class="attributes-group">
-  <div class="attributes-key-value">
-    <%= call_hook(:view_admin_info_top) %>
-    <% if (product_version = OpenProject::VERSION.product_version).present? %>
-      <div class="attributes-key-value--key"><%= t(:label_product_version) %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <span><strong><%= product_version %></strong></span>
-        </div>
-      </div>
-    <% end %>
-    <div class="attributes-key-value--key"><%= t(:label_core_version) %></div>
-    <div class="attributes-key-value--value-container">
-      <div class="attributes-key-value--value -text">
-        <span><strong><%= OpenProject::Info.versioned_name %></strong> </span>
-      </div>
-    </div>
-    <div class="attributes-key-value--key"><%= t(:label_database_version) %></div>
-    <div class="attributes-key-value--value-container">
-      <div class="attributes-key-value--value -text">
-        <span><%= @db_version %></span>
-      </div>
-    </div>
-    <% if OpenProject::Database.version_deprecated? %>
-      <div class="attributes-key-value--key"></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <strong>
-            <%= op_icon 'icon3 icon-warning' %>
-            Deprecation warning:
-          </strong>
-          <p>
-            The next major release of OpenProject will update the requirements
-            on the required PostgreSQL database version.
-            <br/>
-            Starting with OpenProject 12.0, anticipated end of 2021, PostgreSQL 13 will be required
-            to use OpenProject.
-            <br/>
-            We have prepared <%= static_link_to :postgres_13_upgrade,
-                                                label: 'upgrade guides for all installation methods' %>.
-            You can perform the upgrade ahead of the release at any time by following the guides.
-          </p>
-        </div>
-      </div>
-    <% end %>
-    <% if display_security_badge_graphic? %>
-      <div class="attributes-key-value--key"></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <div class="security-badge--container">
-            <%= content_tag :object, nil, data: security_badge_url, type: "image/svg+xml" %>
-            <%= link_to '',
-                        ::OpenProject::Static::Links[:security_badge_documentation][:href],
-                        title: t(:label_what_is_this),
-                        class: 'security-badge--help-icon icon-context icon-help1',
-                        target: '_blank' %>
-          </div>
-        </div>
-      </div>
-    <% end %>
-    <% if (updated_on = OpenProject::VERSION.updated_on).present? %>
-      <div class="attributes-key-value--key"><%= t(:label_last_change_on) %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <span><%= format_date(updated_on) %></span>
-        </div>
-      </div>
-    <% end %>
-  </div>
-</div>
+<%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
+  component.with_header(title: I18n.t('label_information_plural'))
 
-<%= content_tag :h3, I18n.t('label_system') %>
+  if (product_version = OpenProject::VERSION.product_version).present?
+    component.with_attribute(key: t(:label_product_version), value: product_version)
+  end
 
-<div class="attributes-group">
-  <div class="attributes-key-value">
-    <% @checklist.each do |label, result| %>
-      <div class="attributes-key-value--key"><%= I18n.t(label) %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <span><%= icon_wrapper((result ? 'icon-context icon-checkmark' : 'icon-context icon-bug'), (result ? t(:general_text_Yes) : t(:general_text_No))) %></span>
-        </div>
-      </div>
-    <% end %>
-  </div>
-</div>
+  component.with_attribute(key: t(:label_core_version), value: OpenProject::Info.versioned_name)
+  component.with_attribute(key: t(:label_database_version), value: @db_version)
+
+  if display_security_badge_graphic?
+    content = content_tag :object, nil, data: security_badge_url, type: "image/svg+xml"
+    content += link_to '',
+                       ::OpenProject::Static::Links[:security_badge_documentation][:href],
+                       title: t(:label_what_is_this),
+                       class: 'security-badge--help-icon icon-context icon-help1',
+                       target: '_blank'
+    component.with_attribute(key: '', value: content)
+  end
+
+  if OpenProject::Database.version_deprecated?
+    value = <<~STR.html_safe
+     <p>
+       Starting with OpenProject 12.0, PostgreSQL 13 is required to use OpenProject.
+       <br/>
+       We have prepared #{static_link_to(:postgres_13_upgrade, label: 'upgrade guides for all installation methods')}.
+      You can perform the upgrade ahead of the release at any time by following the guides.
+      </p>
+    STR
+    component.with_attribute(key: 'Deprecation warning', value:)
+  end
+
+
+  if (updated_on = OpenProject::VERSION.updated_on).present?
+    component.with_attribute(key: t(:label_last_change_on), value: format_date(updated_on))
+  end
+end %>
+
+<%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
+  component.with_header(title: I18n.t(:label_system))
+
+  @checklist.each do |label, result|
+    value = icon_wrapper((result ? 'icon-context icon-checkmark' : 'icon-context icon-bug'), (result ? t(:general_text_Yes) : t(:general_text_No)))
+    component.with_attribute(key: I18n.t(label), value:)
+  end
+end %>
 
 <% @storage_information.each_with_index do |(_, entries), i| %>
-  <%= content_tag :h3, t(:label_storage_group, identifier: i + 1) %>
-  <div class="attributes-group">
-    <div class="attributes-key-value">
-      <div class="attributes-key-value--key"><%= t(:label_storage_for) %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-        <span>
-          <% entries[:labels].each do |l| %>
-            <%= l %>
-            <br/>
-          <% end %>
-        </span>
-        </div>
-      </div>
-      <div class="attributes-key-value--key"><%= t(:label_storage_free_space) %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-          <span><%= number_to_human_size(entries[:data][:free], precision: 2) %></span>
-        </div>
-      </div>
-      <div class="attributes-key-value--key"><%= t(:label_storage_used_space) %></div>
-      <div class="attributes-key-value--value-container">
-        <div class="attributes-key-value--value -text">
-        <span>
-          <%= number_to_human_size(entries[:data][:used], precision: 2) %>
-          (<%= entries[:data][:percent_used].round(2) %> %)
-        </span>
-        </div>
-      </div>
-    </div>
-  </div>
+  <%=
+    render(AttributeGroups::AttributeGroupComponent.new) do |component|
+      component.with_header(title: t(:label_storage_group, identifier: i + 1))
+
+      component.with_attribute(key: t(:label_storage_for),
+                               value: safe_join(entries[:labels], '<br/>'.html_safe))
+
+      component.with_attribute(key: t(:label_storage_free_space),
+                               value: number_to_human_size(entries[:data][:free], precision: 2))
+
+      value = number_to_human_size(entries[:data][:used], precision: 2)
+      value += "(#{entries[:data][:percent_used].round(2)})"
+      component.with_attribute(key: t(:label_storage_used_space), value:)
+    end %>
 <% end %>
 
 <%= call_hook(:view_admin_info_bottom) %>

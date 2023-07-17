@@ -323,11 +323,11 @@ cs:
               name: Tabule úkolů
               lists:
                 item_0:
-                  name: Wish list
+                  name: Seznam přání
                 item_1:
                   name: Short list
                 item_2:
-                  name: Priority list for today
+                  name: Seznam priorit pro dnešek
                 item_3:
                   name: Nikdy
           project-overview:

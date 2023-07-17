@@ -40,6 +40,34 @@ module Pages
         expect(rows.map(&:text)).to eq(users.map(&:login))
       end
 
+      def expect_projects_listed(*projects, archived: false)
+        within '#project-table' do
+          projects.each do |project|
+            displayed_name = if archived
+                               "ARCHIVED #{project.name}"
+                             else
+                               project.name
+                             end
+
+            expect(page).to have_text(displayed_name)
+          end
+        end
+      end
+
+      def expect_projects_not_listed(*projects)
+        within '#project-table' do
+          projects.each do |project|
+            expect(page).not_to have_text(project)
+          end
+        end
+      end
+
+      def set_sidebar_filter(filter_name)
+        within '#main-menu' do
+          click_link text: filter_name
+        end
+      end
+
       def filter_by_active(value)
         set_filter('active',
                    'Active',
@@ -52,6 +80,15 @@ module Pages
       def filter_by_public(value)
         set_filter('public',
                    'Public',
+                   'is',
+                   [value])
+
+        click_button 'Apply'
+      end
+
+      def filter_by_membership(value)
+        set_filter('member_of',
+                   'I am member',
                    'is',
                    [value])
 
@@ -154,10 +191,22 @@ module Pages
         end
       end
 
+      def navigate_to_new_project_page_from_global_sidebar
+        within '#main-menu' do
+          click_on 'New project'
+        end
+      end
+
+      def navigate_to_new_project_page_from_toolbar_items
+        within '.toolbar-items' do
+          click_on 'New project'
+        end
+      end
+
       private
 
       def boolean_filter?(filter)
-        %w[active public templated].include?(filter.to_s)
+        %w[active member_of public templated].include?(filter.to_s)
       end
 
       def within_row(project)

@@ -198,8 +198,6 @@ hr:
       no_results_content_text: Novo prilagođeno polje
   concatenation:
     single: 'or'
-  documentation:
-    see_more_link: For more information, please see our documentation on this topic.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -529,6 +527,7 @@ hr:
         hours: "Sati"
         spent_on: "Datum"
         type: "Tip"
+        ongoing: "Ongoing"
       type:
         description: "Default text for description"
         attribute_groups: ''
@@ -1073,7 +1072,8 @@ hr:
   button_configure: "Postavi"
   button_continue: "Nastavi"
   button_copy: "Kopiraj"
-  button_copy_to_clipboard: "Copy to clipboard"
+  button_copy_to_clipboard: "Kopiraj u međuspremnik"
+  button_copy_link_to_clipboard: "Copy link to clipboard"
   button_copy_and_follow: "Kopirajte i pratite"
   button_create: "Stvori"
   button_create_and_continue: "Stvori i nastavi"
@@ -1512,6 +1512,7 @@ hr:
   label_age: "Dob"
   label_ago: "dana ranije"
   label_all: "sve"
+  label_all_projects: "All projects"
   label_all_time: "sve vrijeme"
   label_all_words: "Sve riječi"
   label_all_open_wps: "Svi otvoreni"
@@ -1528,6 +1529,7 @@ hr:
   label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Dodijeljeni status"
   label_archive_project: "Archive project"
+  label_archived_projects: "Archived projects"
   label_ascending: "Uzlazno"
   label_assigned_to_me_work_packages: "Radni paketi dodijeljeni meni"
   label_associated_revisions: "Pridružene revizije"
@@ -1614,7 +1616,7 @@ hr:
   label_database_version: "PostgreSQL version"
   label_date: "Datum"
   label_date_and_time: "Datum i vrijeme"
-  label_date_format: "Date format"
+  label_date_format: "Format datuma"
   label_date_from: "Od"
   label_date_from_to: "Od %{start} do %{end}"
   label_date_to: "Prima"
@@ -1664,6 +1666,7 @@ hr:
   label_everywhere: "everywhere"
   label_example: "Primjer"
   label_experimental: "Experimental"
+  label_i_am_member: "I am member"
   label_import: "Import"
   label_export_to: "Također dostupan kao:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
@@ -1700,6 +1703,7 @@ hr:
   label_hierarchy_leaf: "Hierarchy leaf"
   label_home: "Početna"
   label_subject_or_id: "Subject or ID"
+  label_icalendar: "iCalendar"
   label_impressum: "Legal notice"
   label_in: "u"
   label_in_less_than: "u manje od"
@@ -2373,7 +2377,7 @@ hr:
       archived: "Archived"
   project_module_activity: "Aktivnost"
   project_module_forums: "Forumi"
-  project_module_work_package_tracking: "Praćenje radnog paketa"
+  project_module_work_package_tracking: "Radni paketi"
   project_module_news: "Vijesti"
   project_module_repository: "Repozitorij"
   project_module_wiki: "Wiki"
@@ -2547,7 +2551,7 @@ hr:
   setting_consent_decline_mail: "E-mail kontakta za suglasnost"
   setting_cross_project_work_package_relations: "Omogući relacije između unakrsnih projekata"
   setting_first_week_of_year: "First week in year contains"
-  setting_date_format: "Date"
+  setting_date_format: "Datum"
   setting_default_language: "Zadani jezik"
   setting_default_projects_modules: "Zadani omogućeni moduli za nove projekte"
   setting_default_projects_public: "Novi projekti su zadani kao javni"
@@ -2559,7 +2563,7 @@ hr:
   setting_enabled_scm: "Omogući SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Omogući sažetke sadržaja aktivnosti"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Maksimalna veličina tesktualnih datoteka prikazanih u liniji"
   setting_host_name: "Hostname"
@@ -2610,7 +2614,7 @@ hr:
   setting_start_of_week: "Week starts on"
   setting_sys_api_enabled: "Enable repository management web service"
   setting_sys_api_description: "Web servis za upravljanje repozitorijom omogućava integraciju i autorizaciju za pristup repozitorijima."
-  setting_time_format: "Time"
+  setting_time_format: "Vrijeme"
   setting_accessibility_mode_for_anonymous: "Enable accessibility mode for anonymous users"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
@@ -2623,34 +2627,21 @@ hr:
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
   setting_working_days: "Working days"
   settings:
-    general: "Općenito"
-    other: "Ostalo"
-    passwords: "Lozinke"
-    session: "Sesija"
-    brute_force_prevention: "Automatizirano blokiranje korisnika"
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    brute_force_prevention: "Automatizirano blokiranje korisnika"
     language_name_being_default: '%{language_name} (default)'
-    notifications:
-      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
-    display:
+    date_format:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
-      first_week_of_year_text: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+      first_week_of_year_text_html: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+    general: "Općenito"
     experimental:
       save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
       warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
       feature_flags: Feature flags
-    projects:
-      section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
-    user:
-      default_preferences: "Default preferences"
-      display_format: "Display format"
-      deletion: "Deletion"
     highlighting:
       mode_long:
         inline: "Highlight attribute(s) inline"
@@ -2658,6 +2649,23 @@ hr:
         status: "Entire row by Status"
         type: "Entire row by Type"
         priority: "Entire row by Priority"
+    icalendar:
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+    #below line needs to be appended above after docs are ready
+    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    notifications:
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+    other: "Ostalo"
+    passwords: "Lozinke"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
+    session: "Sesija"
+    user:
+      default_preferences: "Default preferences"
+      display_format: "Display format"
+      deletion: "Deletion"
     working_days:
       section_work_week: "Work week"
       section_holidays_and_closures: "Holidays and closures"

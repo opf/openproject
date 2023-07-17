@@ -66,6 +66,7 @@ he:
     button_continue: "Continue"
     button_copy: "העתק"
     button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "שדות מותאמים אישית"
     button_delete: "מחק"
@@ -739,6 +740,14 @@ he:
     time_entry:
       work_package_required: 'Requires selecting a work package first.'
       title: 'נרשם ביומן'
+      tracking: 'Time tracking'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:
