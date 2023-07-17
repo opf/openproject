@@ -32,6 +32,8 @@ require_relative './shared_context'
 RSpec.describe 'Calendar sharing via ical', js: true do
   include_context 'with calendar full access'
 
+  # let(:status) { create(:default_status) }
+
   let(:user_with_sharing_permission) do
     create(:user,
            firstname: 'Bernd',
@@ -59,6 +61,11 @@ RSpec.describe 'Calendar sharing via ical', js: true do
            ])
   end
 
+  let(:admin) do
+    create(:admin,
+           member_in_project: project)
+  end
+
   let(:saved_query) do
     create(:query_with_view_work_packages_calendar,
            user: user_with_sharing_permission,
@@ -66,7 +73,7 @@ RSpec.describe 'Calendar sharing via ical', js: true do
            public: false)
   end
 
-  context 'without sufficient permissions' do
+  context 'without sufficient permissions and the ical_enabled setting enabled', with_settings: { ical_enabled: true } do
     let(:saved_query) do
       create(:query_with_view_work_packages_calendar,
              user: user_without_sharing_permission,
@@ -93,8 +100,6 @@ RSpec.describe 'Calendar sharing via ical', js: true do
       end
 
       it 'shows disabled sharing menu item' do
-        binding.pry
-
         # wait for settings button to become visible
         expect(page).to have_selector("#work-packages-settings-button")
 
@@ -114,12 +119,9 @@ RSpec.describe 'Calendar sharing via ical', js: true do
     end
   end
 
-  # Add in - 2) Go to the settings page, enable the setting
-
-
-  context 'with sufficient permissions', with_settings: { ical_enabled: true } do
+  context 'with sufficient permissions and the ical_enabled setting enabled', with_settings: { ical_enabled: true } do
     before do
-      login_as user_with_sharing_permission # do this manually via settings page
+      login_as user_with_sharing_permission
       calendar.visit!
     end
 
@@ -189,8 +191,48 @@ RSpec.describe 'Calendar sharing via ical', js: true do
         end
       end
 
-      context 'when ical sharing is disabled globally', with_settings: { ical_enabled: false } do
+      context 'when ical sharing is disabled globally' do
+
+        current_user { admin }
+
+        it 'navigates to iCal settings and disables the setting as an admin' do
+
+              visit admin_index_path
+
+              binding.pry
+
+              within '.menu-blocks--container' do
+                click_link 'Calendars and dates'
+              end
+
+              expect(page).to have_selector(".title-container", text: "Working days")
+              click_link 'iCalendar'
+
+              expect(page)
+                .to have_field('Enable iCalendar subscriptions', checked: true)
+
+              uncheck 'settings[ical_enabled]'
+
+              click_button 'Save'
+
+              expect(page)
+                .to have_content "Successful update."
+        end
+
+        current_user { user_with_sharing_permission }
+
         it 'shows a disabled menu item' do
+
+          saved_query
+
+          visit project_calendars_path(project)
+
+          within '#content' do
+            click_link saved_query.name
+          end
+
+          loading_indicator_saveguard
+
           # wait for settings button to become visible
           expect(page).to have_selector("#work-packages-settings-button")
 
