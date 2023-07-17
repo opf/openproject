@@ -29,25 +29,40 @@
  */
 
 import { ApplicationController } from 'stimulus-use';
+import { renderStreamMessage } from '@hotwired/turbo';
 
-export default class RefreshOnFromChangesController extends ApplicationController {
+export default class RefreshOnFormChangesController extends ApplicationController {
   static targets = [
     'form',
   ];
 
   static values = {
     refreshUrl: String,
+    turboStreamUrl: String,
   };
 
   declare readonly formTarget:HTMLFormElement;
 
   declare refreshUrlValue:string;
+  declare turboStreamUrlValue:string;
 
   triggerReload():void {
+    window.location.href = `${this.refreshUrlValue}?${this.getSerializedFormData()}`;
+  }
+
+  async triggerTurboStream():Promise<void> {
+    await fetch(`${this.turboStreamUrlValue}?${this.getSerializedFormData()}`, {
+      headers: {
+        Accept: 'text/vnd.turbo-stream.html',
+      },
+    }).then((r) => r.text())
+      .then((html) => renderStreamMessage(html));
+  }
+
+  private getSerializedFormData():string {
     // without the cast to undefined, the URLSearchParams constructor will
     // not accept the FormData object.
     const formData = new FormData(this.formTarget) as unknown as undefined;
-    const serializedFormData = new URLSearchParams(formData).toString();
-    window.location.href = `${this.refreshUrlValue}?${serializedFormData}`;
+    return new URLSearchParams(formData).toString();
   }
 }

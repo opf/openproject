@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,57 +26,53 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
+#
 
-require_relative './base'
-require_relative './show'
+module Meetings
+  class AddButtonComponent < ::ApplicationComponent
+    options :current_project
 
-module Pages::Meetings
-  class New < Base
-    include Components::Autocompleter::NgSelectAutocompleteHelpers
-
-    def click_create
-      click_button 'Create'
-
-      meeting = Meeting.last
-
-      if meeting
-        Pages::Meetings::Show.new(meeting)
+    def render?
+      if current_project
+        User.current.allowed_to?(:create_meetings, current_project)
       else
-        self
+        User.current.allowed_to_globally?(:create_meetings)
       end
     end
 
-    def set_title(text)
-      fill_in 'Title', with: text
+    def li_css_class
+      'toolbar-item'
     end
 
-    def set_project(project)
-      select_autocomplete find("[data-qa-selector='project_id'"),
-                          query: project.name,
-                          results_selector: 'body'
+    def dynamic_path
+      polymorphic_path([:new, current_project, :meeting])
     end
 
-    def set_start_date(date)
-      find_by_id('meeting_start_date').click
-      datepicker = Components::BasicDatepicker.new
-      datepicker.set_date(date)
+    def id
+      'add-meeting-button'
     end
 
-    def set_start_time(time)
-      fill_in 'Time', with: time
+    def title
+      I18n.t(:label_meeting_new)
     end
 
-    def set_duration(duration)
-      fill_in 'Duration', with: duration
+    def aria_label
+      I18n.t(:label_meeting_new)
     end
 
-    def invite(user)
-      check "#{user.name} invited"
+    def link_css_class
+      'button -alt-highlight'
     end
 
-    def path
-      polymorphic_path([:new, project, :meeting])
+    def label
+      content_tag(:span,
+                  I18n.t(:label_meeting),
+                  class: 'button--text')
+    end
+
+    def icon
+      helpers.op_icon('button--icon icon-add')
     end
   end
 end

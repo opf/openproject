@@ -36,6 +36,7 @@ en:
         participants: "Participants"
         participants_attended: "Attendees"
         participants_invited: "Invitees"
+        project: "Project"
         start_time: "Time"
         start_time_hour: "Starting time"
     errors:
@@ -78,6 +79,7 @@ en:
   label_version: "Version"
   label_time_zone: "Time zone"
   label_start_date: "Start date"
+
 
   meeting:
     copied: "Copied from Meeting #%{id}"
