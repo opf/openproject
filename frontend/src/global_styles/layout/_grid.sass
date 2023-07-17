@@ -67,10 +67,10 @@ $block-grid-max-size: 6 !default
     max-width: $pct
 
   @else if ($size == shrink)
-          flex: 0 0 auto
+    flex: 0 0 auto
 
   @else if ($size == expand)
-          flex: 1 1 auto
+    flex: 1 1 auto
 
 
 /*
@@ -222,12 +222,6 @@ $block-grid-max-size: 6 !default
   // Change the direction children flow
   &.vertical
     @include grid-orient(vertical)
-  @each $size in $breakpoint-classes
-    @include breakpoint($size)
-      &.#{$size}-vertical
-        @include grid-orient(vertical)
-      &.#{$size}-horizontal
-        @include grid-orient(horizontal)
 
   // Align the children of a grid block
   &.align-right
@@ -303,29 +297,22 @@ $block-grid-max-size: 6 !default
   .order-#{$i}
     @include grid-order($i)
 
+// All of the names in this list will be output as classes in your CSS, like small-12, medium-6, and so on.
+$breakpoint-classes: (small medium large xlarge) !default
+
+// Since the above breakpoints are coming from Foundation we hve to map it to Primer
+$breakpoint-map: (small: sm, medium: md, large: lg, xlarge: xl)
+
 @each $size in $breakpoint-classes
   @for $i from 1 through $total-columns
-    @include breakpoint($size)
+    $primer_breakpoint: map-get($breakpoint-map, $size)
+    @include breakpoint($primer_breakpoint)
       // Block sizing
       .#{$size}-#{$i}
         @include grid-size($i)
 
-      // Source ordering
-      .#{$size}-order-#{$i}
-        @include grid-order($i)
-
-      // Offsets
-      .#{$size}-offset-#{$i}
-        @include grid-offset($i)
-
-      // Parent sizing (block grids)
-      .#{$size}-up-#{$i}
-        @include grid-layout($i)
-
 .grid-content .modal .grid-block
   flex-wrap: nowrap
-
-
 
 
 // ----------------------------------------------------------------------------------------------------------

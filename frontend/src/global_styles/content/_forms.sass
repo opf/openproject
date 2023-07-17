@@ -443,7 +443,7 @@ fieldset.form--fieldset
   &.-horizontal
     flex-direction: column
 
-    @include breakpoint(1080px up)
+    @include breakpoint(lg)
       flex-direction: row
       flex-wrap: wrap
 
@@ -926,10 +926,10 @@ input[readonly].-clickable
   margin: 0
   @include grid-layout(3)
 
-  @include breakpoint(large)
+  @media screen and (max-width: $breakpoint-lg)
     @include grid-layout(4)
 
-  @include breakpoint(xlarge)
+  @media screen and (max-width: $breakpoint-xl)
     @include grid-layout(6)
 
   li, div

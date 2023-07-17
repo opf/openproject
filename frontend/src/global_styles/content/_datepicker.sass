@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+@import '../../global_styles/openproject/variables'
 $datepicker--selected-border-radius: 5px
 
 @mixin disabled-day
@@ -60,7 +61,7 @@ $datepicker--selected-border-radius: 5px
   svg:hover
     fill: var(--primary-color) !important
 
-.flatpickr-prev-month, .flatpickr-next-month 
+.flatpickr-prev-month, .flatpickr-next-month
   svg
     fill: $spot-color-basic-gray-1 !important
 
@@ -125,7 +126,7 @@ $datepicker--selected-border-radius: 5px
       grid-template-columns: repeat(7, 1fr)
       justify-items: center
 
-      @media screen and (max-width: 679px)
+      @media screen and (max-width: $breakpoint-sm)
         min-width: 267px
         max-width: 267px
 
@@ -194,18 +195,18 @@ $datepicker--selected-border-radius: 5px
           &.flatpickr-non-working-day
             background: $spot-color-basic-gray-6
             border-color: $spot-color-basic-gray-6
-  
+
         &.flatpickr-disabled
           @include disabled-day
 
           &.flatpickr-non-working-day
             background: $spot-color-basic-gray-6
             color: $spot-color-basic-gray-3
-  
+
           &.flatpickr-non-working-day_enabled
             background: $spot-color-basic-gray-6
             color: $spot-color-basic-gray-3
-  
+
             &.inRange
               color: $spot-color-basic-gray-3
               background: $spot-color-basic-gray-6
@@ -240,7 +241,7 @@ $datepicker--selected-border-radius: 5px
     &.flatpickr-non-working-day
       background: $spot-color-basic-gray-6 !important
       color: $spot-color-basic-gray-3 !important
-  
+
     &.flatpickr-non-working-day_enabled
       background: $spot-color-basic-gray-6 !important
       color: $spot-color-basic-gray-1 !important
@@ -259,7 +260,7 @@ $datepicker--selected-border-radius: 5px
           color: $spot-color-basic-gray-1 !important
           background: $spot-color-indication-current-date !important
           border-color: $spot-color-indication-current-date !important
-  
+
     &.today
       background: $spot-color-indication-current-date !important
       border-color: $spot-color-indication-current-date !important
@@ -275,4 +276,3 @@ $datepicker--selected-border-radius: 5px
 
   .flatpickr-next-month, .flatpickr-prev-month
     position: static !important
-

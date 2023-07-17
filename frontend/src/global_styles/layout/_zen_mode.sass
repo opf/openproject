@@ -10,12 +10,12 @@ body.zen-mode
     top: 0px
     height: 100%
     grid-template-columns: auto
-    
+
   &.controller-wiki #content
     margin: 0 auto
 
-    @media only screen and (max-width: 1280px)
+    @media only screen and (max-width: $breakpoint-xl)
       max-width: 90vw
 
-    @media only screen and (min-width: 1281px)
+    @include breakpoint(xl)
       max-width: 60vw
