@@ -106,5 +106,17 @@ RSpec.describe Storages::Storages::BaseContract, :storage_server_helpers, webmoc
         expect(credentials_request).not_to have_been_made
       end
     end
+
+    context 'when the storage host has a subpath' do
+      let(:storage) { build(:nextcloud_storage, :as_automatically_managed, host: 'https://host1.example.com/api') }
+
+      it 'passes validation' do
+        credentials_request = mock_nextcloud_application_credentials_validation(storage.host)
+        contract = described_class.new(storage, current_user)
+
+        expect(contract).to be_valid
+        expect(credentials_request).to have_been_made.once
+      end
+    end
   end
 end
