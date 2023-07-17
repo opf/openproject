@@ -68,6 +68,19 @@ module Pages
         end
       end
 
+      def expect_filters_container_toggled
+        expect(page).to have_selector('form.project-filters')
+      end
+
+      def expect_filters_container_hidden
+        expect(page).to have_selector('form.project-filters', visible: :hidden)
+      end
+
+      def expect_filter_set(filter_name)
+        expect(page).to have_selector("li[filter-name='#{filter_name}']:not(.hidden)",
+                                      visible: :hidden)
+      end
+
       def filter_by_active(value)
         set_filter('active',
                    'Active',
