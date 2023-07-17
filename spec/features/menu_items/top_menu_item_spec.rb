@@ -28,29 +28,26 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Top menu items', js: true, with_cuprite: true do
+RSpec.describe 'Top menu items', :js, :with_cuprite do
   let(:user) { create(:user) }
   let(:open_menu) { true }
 
-  def has_menu_items?(*labels)
+  def has_menu_items?(*items)
     within '.op-app-header' do
-      labels.each do |l|
-        expect(page).to have_link(l)
+      items.each do |item|
+        expect(page).to have_link(item.label)
       end
-      (all_items - labels).each do |l|
-        expect(page).not_to have_link(l)
+      (all_items - items).each do |item|
+        expect(page).not_to have_link(item.label)
       end
     end
   end
 
   def click_link_in_open_menu(title)
-    # if the menu is not completely expanded (e.g. if the frontend thread is too fast),
-    # the click might be ignored
-
     within '.op-app-menu--dropdown[aria-expanded=true]' do
       expect(page).not_to have_selector('[style~=overflow]')
 
-      page.click_link(title)
+      click_link(title)
     end
   end
 
@@ -64,48 +61,80 @@ RSpec.describe 'Top menu items', js: true, with_cuprite: true do
     end
 
     visit root_path
+    wait_for_reload
     top_menu.click if open_menu
   end
 
-  describe 'Modules' do
+  describe 'Modules', with_flag: { more_global_index_pages_active: true } do
     let!(:top_menu) { find("[title=#{I18n.t('label_modules')}]") }
 
-    let(:news_item) { I18n.t('label_news_plural') }
-    let(:project_item) { I18n.t('label_projects_menu') }
-    let(:reporting_item) { I18n.t('cost_reports_title') }
+    shared_let(:menu_link_item) { Struct.new(:label, :path) }
 
-    let!(:all_items) { [news_item, project_item, reporting_item] }
+    shared_let(:project_item) { menu_link_item.new(I18n.t(:label_projects_menu), projects_path) }
+    shared_let(:activity_item) { menu_link_item.new(I18n.t(:label_activity), activity_index_path) }
+    shared_let(:work_packages_item) { menu_link_item.new(I18n.t(:label_work_package_plural), work_packages_path) }
+    shared_let(:calendar_item) { menu_link_item.new(I18n.t(:label_calendar_plural), calendars_path) }
+    shared_let(:team_planners_item) { menu_link_item.new(I18n.t('team_planner.label_team_planner_plural'), team_planners_path) }
+    shared_let(:boards_item) { menu_link_item.new(I18n.t(:project_module_board_view), boards_all_path) }
+    shared_let(:news_item) { menu_link_item.new(I18n.t(:label_news_plural), news_index_path) }
+    shared_let(:reporting_item) { menu_link_item.new(I18n.t(:cost_reports_title), '/cost_reports') }
+    shared_let(:meetings_item) { menu_link_item.new(I18n.t(:label_meeting_plural), '/meetings') }
+
+    shared_let(:all_items) do
+      [
+        project_item,
+        activity_item,
+        work_packages_item,
+        calendar_item,
+        team_planners_item,
+        boards_item,
+        news_item,
+        reporting_item,
+        meetings_item
+      ]
+    end
+
+    shared_examples 'visits the global index page' do |item:|
+      it "visits the #{item.label} page" do
+        click_link_in_open_menu item.label
+        expect(page).to have_current_path item.path
+      end
+    end
 
     context 'as an admin' do
       let(:user) { create(:admin) }
 
       it 'displays all items' do
-        has_menu_items?(reporting_item, news_item, project_item)
+        has_menu_items?(*all_items)
       end
 
-      it 'visits the news page' do
-        click_link_in_open_menu(news_item)
-        expect(page).to have_current_path(news_index_path)
+      it 'visits all module pages', :aggregate_failures, with_ee: %i[team_planner_view] do
+        all_items.each do |item|
+          click_link_in_open_menu item.label
+          expect(page).to have_current_path(item.path)
+
+          top_menu.click if open_menu
+        end
       end
     end
 
     context 'as a regular user' do
-      it 'displays news and projects only' do
-        has_menu_items? news_item, project_item
+      it 'only displays projects, activity and news' do
+        has_menu_items? project_item, activity_item, news_item
       end
     end
 
     context 'as a user with permissions', allowed_to: true do
       it 'displays all options' do
-        has_menu_items?(reporting_item, news_item, project_item)
+        has_menu_items?(*all_items)
       end
     end
 
     context 'as an anonymous user' do
       let(:user) { create(:anonymous) }
 
-      it 'displays only news and projects' do
-        has_menu_items? news_item, project_item
+      it 'displays only projects, activity and news' do
+        has_menu_items? project_item, activity_item, news_item
       end
     end
   end

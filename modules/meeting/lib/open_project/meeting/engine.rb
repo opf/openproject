@@ -76,6 +76,7 @@ module OpenProject::Meeting
            :meetings, { controller: '/meetings', action: 'index', project_id: nil },
            context: :modules,
            caption: :label_meeting_plural,
+           last: true,
            icon: 'meetings',
            if: should_render_global_menu_item
 
