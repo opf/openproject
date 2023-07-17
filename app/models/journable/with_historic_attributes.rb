@@ -227,9 +227,20 @@ class Journable::WithHistoricAttributes < SimpleDelegator
     historic_journable = at_timestamp(Timestamp.parse(timestamp))
 
     return unless historic_journable
+    changes = ::Acts::Journalized::JournableDiffer.changes(__getobj__, historic_journable)
 
-    ::Acts::Journalized::JournableDiffer
-      .changes(__getobj__, historic_journable)
+    changes.merge!(
+      ::Acts::Journalized::JournableDiffer.association_changes(
+        historic_journable,
+        __getobj__,
+        'custom_values',
+        'custom_fields',
+        :custom_field_id,
+        :value
+      )
+    )
+
+    changes
   end
 
   def changed_attributes_at_timestamp(timestamp)

@@ -103,8 +103,16 @@ class Journable::WithHistoricAttributes
         journal = journals_by_id[work_package.journal_id]
         work_package.association(:journals).loaded!
         work_package.association(:journals).target = Array(journal)
+
+        # Build the associated customizable_journals as custom values, this way the historic work packages
+        # will behave just as the normal ones. Additionally set the reverse customized association
+        # on the custom_values that points to the work_package itself.
+        historic_custom_values = Array(journal&.customizable_journals).map do |customizable_journal|
+          customizable_journal.as_custom_value(customized: work_package)
+        end
+
         work_package.association(:custom_values).loaded!
-        work_package.association(:custom_values).target = Array(journal&.customizable_journals)
+        work_package.association(:custom_values).target = historic_custom_values
       end
       journalized
     end

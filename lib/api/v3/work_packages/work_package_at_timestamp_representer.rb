@@ -72,7 +72,9 @@ module API
         private
 
         def representable_map(*)
-          Representable::Binding::Map.new(super.select { |bind| rendered_properties.include?(bind.name) })
+          Representable::Binding::Map.new(super.select do |bind|
+                                            rendered_properties.include?(bind.name) || bind.name.starts_with?("custom_field_")
+                                          end)
         end
 
         def compile_links_for(configs, *args)
