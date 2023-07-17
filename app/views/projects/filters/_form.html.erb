@@ -1,6 +1,6 @@
 <%= form_tag({},
              method: :get,
-             class: "project-filters #{filter_set? ? '-expanded' : ''}",
+             class: "project-filters #{show_filters_section? ? '-expanded' : ''}",
              data: {
                'project-target': 'filterForm',
                action: 'submit->project#sendForm:prevent'
