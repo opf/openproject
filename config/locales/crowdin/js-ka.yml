@@ -66,6 +66,7 @@ ka:
     button_continue: "Continue"
     button_copy: "Copy"
     button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Custom fields"
     button_delete: "Delete"
@@ -242,7 +243,7 @@ ka:
             professional_support: "Professional support"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Start free trial"
-          button_upgrade: "Upgrade now"
+          button_upgrade: "ახლავე განაახლე"
           button_contact_us: "Contact us for a demo"
           button_book_now: "Book now"
           confidence: >
@@ -737,6 +738,14 @@ ka:
     time_entry:
       work_package_required: 'Requires selecting a work package first.'
       title: 'Log time'
+      tracking: 'Time tracking'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:
@@ -984,14 +993,14 @@ ka:
         projectName: "Project"
         responsible: "Responsible"
         startDate: "Start date"
-        status: "Status"
+        status: "სტატუსი"
         subject: "Subject"
         subproject: "Subproject"
         title: "Title"
         type: "Type"
         updatedAt: "Updated on"
-        versionName: "Version"
-        version: "Version"
+        versionName: "ვერსია"
+        version: "ვერსია"
       default_queries:
         latest_activity: "Latest activity"
         created_by_me: "Created by me"
@@ -1060,7 +1069,7 @@ ka:
           inline: 'Highlighted attribute(s)'
           inline_all: 'All attributes'
           entire_row_by: 'Entire row by'
-          status: 'Status'
+          status: 'სტატუსი'
           priority: 'Priority'
           type: 'Type'
         sorting_mode:

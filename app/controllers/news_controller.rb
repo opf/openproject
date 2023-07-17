@@ -48,7 +48,7 @@ class NewsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        render layout: layout_non_or_no_menu
+        render locals: { menu_name: project_or_global_menu }
       end
       format.atom do
         render_feed(@newss,

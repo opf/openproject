@@ -27,8 +27,6 @@
 #++
 
 class RbStoriesController < RbApplicationController
-  include OpenProject::PDFExport::ExportCard
-
   # This is a constant here because we will recruit it elsewhere to whitelist
   # attributes. This is necessary for now as we still directly use `attributes=`
   # in non-controller code.

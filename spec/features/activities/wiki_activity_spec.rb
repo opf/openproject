@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Wiki activities' do
+RSpec.describe 'Wiki Activity', :js, :with_cuprite do
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -44,7 +44,7 @@ RSpec.describe 'Wiki activities' do
     login_as user
   end
 
-  it 'tracks the wiki\'s activities', js: true do
+  it "tracks the wiki's activities" do
     # create a wiki page
     visit project_wiki_path(project, 'mypage')
 
@@ -59,7 +59,6 @@ RSpec.describe 'Wiki activities' do
     Journal.last.update_columns(created_at: Time.now - 5.days, updated_at: Time.now - 5.days)
 
     # alter the page
-    SeleniumHubWaiter.wait
     click_link 'Edit'
 
     editor.set_markdown('Second content')
@@ -105,6 +104,6 @@ RSpec.describe 'Wiki activities' do
     visit project_activity_index_path(project)
 
     expect(page)
-      .to have_no_content('Wiki edits')
+      .not_to have_content('Wiki edits')
   end
 end

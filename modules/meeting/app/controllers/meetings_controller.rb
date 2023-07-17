@@ -38,6 +38,7 @@ class MeetingsController < ApplicationController
   helper :watchers
   helper :meeting_contents
   include MeetingsHelper
+  include Layout
   include WatchersHelper
   include PaginationHelper
   include SortHelper
@@ -45,7 +46,9 @@ class MeetingsController < ApplicationController
   menu_item :new_meeting, only: %i[new create]
 
   def index
-    @meetings = @project ? @project.meetings : global_upcoming_meetings
+    @query = load_query
+    @meetings = load_meetings(@query)
+    render 'index', locals: { menu_name: project_or_global_menu }
   end
 
   def show
@@ -110,6 +113,26 @@ class MeetingsController < ApplicationController
   end
 
   private
+
+  def load_query
+    query = ParamsToQueryService.new(
+      Meeting,
+      current_user
+    ).call(params)
+
+    if @project
+      query.where("project_id", '=', @project.id)
+    else
+      # global meetings page should only list future meetings
+      query.where("time", "=", Queries::Meetings::Filters::TimeFilter::FUTURE_VALUE)
+    end
+  end
+
+  def load_meetings(query)
+    query
+      .results
+      .paginate(page: page_param, per_page: per_page_param)
+  end
 
   def set_time_zone(&)
     zone = User.current.time_zone

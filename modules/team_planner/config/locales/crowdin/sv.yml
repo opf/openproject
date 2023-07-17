@@ -5,9 +5,15 @@ sv:
   project_module_team_planner_view: "Team planerare"
   team_planner:
     label_team_planner: "Team planerare"
+    label_new_team_planner: "New team planner"
     label_create_new_team_planner: "Skapa ny teamplanerare"
     label_team_planner_plural: "Team planerare"
     label_assignees: "Utförare"
+    label_favoured: "Favoured"
+    help_text:
+      project: Team planners are always attached to a project. After creating a team planner you can add work packages from other projects to it.
+      public: Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+      favoured: Mark this view as favourite and add to the saved views sidebar on the left.
     upsale:
       title: "Team planerare"
       description: "Få en fullständig överblick över ditt teams planering med Team Planner. Tänj ut, förkorta och dra-och-släpp arbetspaket för att ändra datum, flytta dem eller ändra utförare."

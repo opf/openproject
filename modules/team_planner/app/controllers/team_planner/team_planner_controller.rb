@@ -1,9 +1,11 @@
 module ::TeamPlanner
   class TeamPlannerController < BaseController
     include EnterpriseTrialHelper
+    include Layout
     before_action :find_optional_project
-    before_action :authorize, except: %i[overview upsale]
-    before_action :authorize_global, only: %i[overview]
+    before_action :build_plan_view, only: %i[new]
+    before_action :authorize, except: %i[overview new create upsale]
+    before_action :authorize_global, only: %i[overview new create]
     before_action :require_ee_token, except: %i[upsale]
     before_action :find_plan_view, only: %i[destroy]
 
@@ -15,6 +17,24 @@ module ::TeamPlanner
 
     def overview
       @views = visible_plans
+      render layout: 'global'
+    end
+
+    def new; end
+
+    def create
+      service_result = create_service_class.new(user: User.current)
+                                           .call(plan_view_params)
+
+      @view = service_result.result
+
+      if service_result.success?
+        flash[:notice] = I18n.t(:notice_successful_create)
+        redirect_to project_team_planner_path(@project, @view.query)
+      else
+        @errors = service_result.errors
+        render action: :new
+      end
     end
 
     def show
@@ -43,7 +63,23 @@ module ::TeamPlanner
       :team_planner_view
     end
 
+    current_menu_item :overview do
+      :team_planners
+    end
+
     private
+
+    def create_service_class
+      TeamPlanner::Views::GlobalCreateService
+    end
+
+    def plan_view_params
+      params.require(:query).permit(:name, :public, :starred).merge(project_id: @project&.id)
+    end
+
+    def build_plan_view
+      @view = Query.new
+    end
 
     def find_plan_view
       @view = Query

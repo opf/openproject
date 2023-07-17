@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Top menu item for boards', js: true, selenium: true do
+RSpec.describe 'Top menu item for boards', :js, :with_cuprite do
   let(:user) { create(:admin) }
 
   let(:menu) { find(".op-app-menu a[title='#{I18n.t('label_modules')}']") }
@@ -39,12 +39,12 @@ RSpec.describe 'Top menu item for boards', js: true, selenium: true do
   end
 
   shared_examples_for 'the boards menu item' do
-    it "displays the menu item" do
-      expect(page).to have_link(boards)
-    end
-
     it "sends the user to the boards overview when clicked" do
-      click_on boards
+      menu.click
+
+      within '#more-menu' do
+        click_on boards
+      end
 
       expect(page).to have_content(boards)
       expect(page).to have_content(I18n.t(:no_results_title_text))
@@ -57,8 +57,6 @@ RSpec.describe 'Top menu item for boards', js: true, selenium: true do
 
       before do
         visit "/projects/#{project.identifier}/settings/general"
-
-        menu.click
       end
 
       it_behaves_like 'the boards menu item'
@@ -67,24 +65,30 @@ RSpec.describe 'Top menu item for boards', js: true, selenium: true do
     context 'on the landing page' do
       before do
         visit root_path
-
-        menu.click
       end
 
       it_behaves_like 'the boards menu item'
+
+      context 'with missing permissions' do
+        let(:user) { create(:user) }
+
+        it "does not display the menu item" do
+          within '#more-menu', visible: false do
+            expect(page).not_to have_link boards
+          end
+        end
+      end
+    end
+  end
+
+  context 'without more global index pages enabled' do
+    before do
+      visit root_path
     end
 
-    context 'with missing permissions' do
-      let(:user) { create(:user) }
-
-      before do
-        visit root_path
-
-        menu.click
-      end
-
-      it "does not display the menu item" do
-        expect(page).not_to have_link(boards)
+    it 'does not display the menu item' do
+      within '#more-menu', visible: false do
+        expect(page).not_to have_link boards
       end
     end
   end

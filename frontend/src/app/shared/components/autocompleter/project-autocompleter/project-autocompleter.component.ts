@@ -123,6 +123,8 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
 
   @Input() public hiddenFieldAction = '';
 
+  @Input() public clearable?:boolean = true;
+
   dataLoaded = false;
 
   projects:IProjectAutocompleteItem[];

@@ -156,7 +156,7 @@ gem 'structured_warnings', '~> 0.4.0'
 gem 'airbrake', '~> 13.0.0', require: false
 
 gem 'prawn', '~> 2.2'
-gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', tag: 'v0.0.18'
+gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: '4c42148220ecaa8363134f34331ce90277e1b380'
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem 'matrix', '~> 0.4.2'
 
@@ -202,6 +202,9 @@ gem 'mini_magick', '~> 4.12.0', require: false
 
 gem 'validate_url'
 
+# ActiveRecord extension which adds typecasting to store accessors
+gem "store_attribute", "~> 1.0"
+
 # Appsignal integration
 gem "appsignal", "~> 3.0", require: false
 
@@ -227,9 +230,6 @@ group :test do
   # Retry failures within the same environment
   gem 'retriable', '~> 3.1.1'
   gem 'rspec-retry', '~> 0.6.1'
-
-  # Wait for conditions in RSpec
-  gem 'rspec-wait'
 
   # Modify ENV
   gem 'climate_control'

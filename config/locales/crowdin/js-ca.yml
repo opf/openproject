@@ -66,6 +66,7 @@ ca:
     button_continue: "Continua"
     button_copy: "Copiar"
     button_copy_to_clipboard: "Copiar al porta-retalls"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copia a un altre projecte"
     button_custom-fields: "Camps personalitzats"
     button_delete: "Esborrar"
@@ -737,6 +738,14 @@ ca:
     time_entry:
       work_package_required: 'Requereix seleccionar un paquet de treball primer.'
       title: 'Registrar temps'
+      tracking: 'Seguiment de temps'
+      stop: 'Aturar'
+    timer:
+      start_new_timer: 'Iniciar nou temporitzador'
+      timer_already_running: 'Per començar un nou temporitzador, has de parar el temporitzador actual:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Seguiment de temps'
+      button_stop: 'Aturar el temporitzador actual'
     two_factor_authentication:
       label_two_factor_authentication: 'Autentificació en dos passos'
     watchers:

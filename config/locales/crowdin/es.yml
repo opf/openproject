@@ -195,8 +195,6 @@ es:
       no_results_content_text: Crear un nuevo campo personalizado
   concatenation:
     single: 'o bien'
-  documentation:
-    see_more_link: Para obtener más información, consulte la documentación sobre este tema.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -525,6 +523,7 @@ es:
         hours: "Horas"
         spent_on: "Fecha"
         type: "Tipo"
+        ongoing: "Ongoing"
       type:
         description: "Texto predeterminado para descripción"
         attribute_groups: ''
@@ -1063,7 +1062,8 @@ es:
   button_configure: "Configurar"
   button_continue: "Continuar"
   button_copy: "Copiar"
-  button_copy_to_clipboard: "Copy to clipboard"
+  button_copy_to_clipboard: "Copiar en el portapapeles"
+  button_copy_link_to_clipboard: "Copy link to clipboard"
   button_copy_and_follow: "Copiar y seguir"
   button_create: "Crear"
   button_create_and_continue: "Crear y continuar"
@@ -1419,8 +1419,8 @@ es:
       working_days_changed:
         changed: "by changes to working days (%{changes})"
         days:
-          working: "%{day} is now working"
-          non_working: "%{day} is now non-working"
+          working: "%{day} es ahora laboral"
+          non_working: "%{day} es ahora no laboral"
         dates:
           working: "%{date} is now working"
           non_working: "%{date} is now non-working"
@@ -1490,6 +1490,7 @@ es:
   label_age: "Edad"
   label_ago: "días antes"
   label_all: "todos"
+  label_all_projects: "All projects"
   label_all_time: "todo el tiempo"
   label_all_words: "Todas las palabras"
   label_all_open_wps: "Todo abierto"
@@ -1506,6 +1507,7 @@ es:
   label_ical_access_key_revoke: "Revocar"
   label_applied_status: "Estado aplicado"
   label_archive_project: "Archivar proyecto"
+  label_archived_projects: "Archived projects"
   label_ascending: "Ascendente"
   label_assigned_to_me_work_packages: "Paquetes de trabajo asignados a mí"
   label_associated_revisions: "Revisiones asociadas"
@@ -1592,7 +1594,7 @@ es:
   label_database_version: "Versión de PostgreSQL"
   label_date: "Fecha"
   label_date_and_time: "Fecha y hora"
-  label_date_format: "Date format"
+  label_date_format: "Formato de fecha"
   label_date_from: "De"
   label_date_from_to: "De %{start} al %{end}"
   label_date_to: "Para"
@@ -1642,6 +1644,7 @@ es:
   label_everywhere: "todo"
   label_example: "Ejemplo"
   label_experimental: "Experimental"
+  label_i_am_member: "I am member"
   label_import: "Importar"
   label_export_to: "También disponible en:"
   label_expanded_click_to_collapse: "Expandido. Haga clic para contraer"
@@ -1678,6 +1681,7 @@ es:
   label_hierarchy_leaf: "Hoja de jerarquía"
   label_home: "Inicio"
   label_subject_or_id: "Asunto o ID"
+  label_icalendar: "iCalendar"
   label_impressum: "Aviso legal"
   label_in: "en"
   label_in_less_than: "en menos de"
@@ -2348,7 +2352,7 @@ es:
       archived: "Archivado"
   project_module_activity: "Actividad"
   project_module_forums: "Foros"
-  project_module_work_package_tracking: "Seguimiento de paquetes de trabajo"
+  project_module_work_package_tracking: "Paquetes de trabajo"
   project_module_news: "Noticias"
   project_module_repository: "Repositorio"
   project_module_wiki: "Wiki"
@@ -2522,7 +2526,7 @@ es:
   setting_consent_decline_mail: "Consentimiento de la dirección de correo electrónico"
   setting_cross_project_work_package_relations: "Permitir relaciones cruzadas en paquetes de trabajo de proyecto"
   setting_first_week_of_year: "La primera semana del año contiene"
-  setting_date_format: "Date"
+  setting_date_format: "Fecha"
   setting_default_language: "Idioma predeterminado"
   setting_default_projects_modules: "Modulos activados por defecto para nuevos proyectos"
   setting_default_projects_public: "Nuevos proyectos son públicos por defecto"
@@ -2534,7 +2538,7 @@ es:
   setting_enabled_scm: "SCM activado"
   setting_enabled_projects_columns: "Visible en la lista de proyectos"
   setting_feeds_enabled: "Activar Feeds"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Limite de contenido de feed"
   setting_file_max_size_displayed: "Tamaño máximo de archivos de texto mostrado en linea"
   setting_host_name: "Nombre de host"
@@ -2585,7 +2589,7 @@ es:
   setting_start_of_week: "La semana empieza el"
   setting_sys_api_enabled: "Habilitar el servicio web de administración de repositorios"
   setting_sys_api_description: "El servicio web de administración de repositorios proporciona integración y autorización de usuario para acceder a los repositorios."
-  setting_time_format: "Time"
+  setting_time_format: "Tiempo"
   setting_accessibility_mode_for_anonymous: "Activar el modo de accesibilidad para usuarios anónimos"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Zona horaria por defecto de los usuarios"
@@ -2596,36 +2600,23 @@ es:
   setting_welcome_on_homescreen: "Mostrar bloque de bienvenida en la pagina de inicio"
   setting_work_package_list_default_highlighting_mode: "Modo de resaltado predeterminado"
   setting_work_package_list_default_highlighted_attributes: "Atributos resaltados en línea predeterminados"
-  setting_working_days: "Working days"
+  setting_working_days: "Días laborables"
   settings:
-    general: "General"
-    other: "Otros"
-    passwords: "Contraseñas"
-    session: "Sesión"
-    brute_force_prevention: "Bloqueo automático de usuarios"
     attachments:
       whitelist_text_html: >
         Define una lista de extensiones de archivo válidas o tipos MIME para los archivos cargados. <br/> Escriba las extensiones de archivo (por ejemplo, <code>%{ext_example}</code>) o tipos MIME (<code>%{mime_example}</code>). <br/> Deje vacío este campo para que pueda cargarse cualquier tipo de archivo. Se permiten varios valores (una línea para cada valor).
+    brute_force_prevention: "Bloqueo automático de usuarios"
     language_name_being_default: '%{language_name} (default)'
-    notifications:
-      events_explanation: 'Controla para qué evento se envía un correo electrónico. Los paquetes de trabajo se excluyen de esta lista, ya que las notificaciones para estos se pueden configurar específicamente por usuario.'
-      delay_minutes_explanation: "El envío de correos electrónicos se puede retrasar para permitir que los usuarios que reciban notificaciones en la aplicación puedan confirmarlas desde la aplicación antes de que se envíe un correo. Los usuarios que lean notificaciones en la aplicación no recibirán correos electrónicos de las notificaciones ya leídas."
-    display:
+    date_format:
       first_date_of_week_and_year_set: >
-        Si se establece una de las opciones «%{day_of_week_setting_name}» o «%{first_week_setting_name}», también debe establecerse la otra para evitar incoherencias en el front-end.
-      first_week_of_year_text: >
-        Seleccione la fecha de enero de la primera semana del año. Este valor y el primer día de la semana determinan el número total de semanas de un año.
+        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text_html: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+    general: "General"
     experimental:
       save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
       warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
       feature_flags: Feature flags
-    projects:
-      section_new_projects: "Configuración para nuevos proyectos"
-      section_project_overview: "Configuración de la lista de información general del proyecto"
-    user:
-      default_preferences: "Preferencias predeterminadas"
-      display_format: "Display format"
-      deletion: "Eliminación"
     highlighting:
       mode_long:
         inline: "Resaltar atributos en línea"
@@ -2633,8 +2624,25 @@ es:
         status: "Toda la fila por estado"
         type: "Toda la fila por tipo"
         priority: "Toda la fila por prioridad"
+    icalendar:
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+    #below line needs to be appended above after docs are ready
+    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    notifications:
+      events_explanation: 'Controla para qué evento se envía un correo electrónico. Los paquetes de trabajo se excluyen de esta lista, ya que las notificaciones para estos se pueden configurar específicamente por usuario.'
+      delay_minutes_explanation: "El envío de correos electrónicos se puede retrasar para permitir que los usuarios que reciban notificaciones en la aplicación puedan confirmarlas desde la aplicación antes de que se envíe un correo. Los usuarios que lean notificaciones en la aplicación no recibirán correos electrónicos de las notificaciones ya leídas."
+    other: "Otros"
+    passwords: "Contraseñas"
+    projects:
+      section_new_projects: "Configuración para nuevos proyectos"
+      section_project_overview: "Configuración de la lista de información general del proyecto"
+    session: "Sesión"
+    user:
+      default_preferences: "Preferencias predeterminadas"
+      display_format: "Display format"
+      deletion: "Eliminación"
     working_days:
-      section_work_week: "Work week"
+      section_work_week: "Semana de trabajo"
       section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'

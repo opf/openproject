@@ -50,6 +50,7 @@ import {
 })
 export class WorkPackageFormAttributeGroupComponent extends UntilDestroyedMixin {
   @HostBinding('class.wp-attribute-group') className = true;
+  @HostBinding('class.attributes-group--attributes') parentClassName = true;
 
   @Input() public workPackage:WorkPackageResource;
 

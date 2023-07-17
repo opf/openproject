@@ -81,6 +81,9 @@ hu:
   units: "Egységek"
   validation_failure_date: "nem érvényes dátum"
   validation_failure_integer: "nem érvényes egész szám"
+  export:
+    cost_reports:
+      title: "Your Cost Reports XLS export"
   reporting:
     group_by:
       selected_columns: "A kijelölt oszlopok"
