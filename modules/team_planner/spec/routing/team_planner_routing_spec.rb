@@ -29,6 +29,12 @@
 require 'spec_helper'
 
 RSpec.describe 'Team planner routing' do
+  it 'routes to team_planner#overview' do
+    expect(subject)
+      .to route(:get, '/team_planners')
+            .to(controller: 'team_planner/team_planner', action: :overview)
+  end
+
   it 'routes to team_planner#index' do
     expect(subject)
       .to route(:get, '/projects/foobar/team_planners')
@@ -41,10 +47,38 @@ RSpec.describe 'Team planner routing' do
             .to(controller: 'team_planner/team_planner', action: :show, project_id: 'foobar', id: '1234')
   end
 
-  it 'routes to team_planner#new' do
+  context 'with :project_id' do
+    it 'routes to team_planner#upsale' do
+      expect(subject)
+        .to route(:get, '/projects/foobar/team_planners/upsale')
+              .to(controller: 'team_planner/team_planner', action: :upsale, project_id: 'foobar')
+    end
+
+    it 'routes to team_planner#show' do
+      expect(subject)
+        .to route(:get, '/projects/foobar/team_planners/new')
+              .to(controller: 'team_planner/team_planner', action: :show, project_id: 'foobar')
+    end
+  end
+
+  context 'without :project_id' do
+    it 'routes to team_planner#upsale' do
+      expect(subject)
+        .to route(:get, '/team_planners/upsale')
+              .to(controller: 'team_planner/team_planner', action: :upsale)
+    end
+
+    it 'routes to team_planner#new' do
+      expect(subject)
+        .to route(:get, '/team_planners/new')
+              .to(controller: 'team_planner/team_planner', action: :new)
+    end
+  end
+
+  it 'routes to team_planner#create' do
     expect(subject)
-      .to route(:get, '/projects/foobar/team_planners/new')
-            .to(controller: 'team_planner/team_planner', action: :show, project_id: 'foobar')
+      .to route(:post, '/team_planners')
+            .to(controller: 'team_planner/team_planner', action: :create)
   end
 
   it 'routes to team_planner#show with state' do

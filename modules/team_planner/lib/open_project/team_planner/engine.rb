@@ -33,7 +33,7 @@ module OpenProject::TeamPlanner
                    dependencies: %i[view_work_packages],
                    contract_actions: { team_planner: %i[read] }
         permission :manage_team_planner,
-                   { 'team_planner/team_planner': %i[index show new destroy upsale] },
+                   { 'team_planner/team_planner': %i[index show new create destroy upsale] },
                    dependencies: %i[view_team_planner add_work_packages edit_work_packages save_queries manage_public_queries],
                    contract_actions: { team_planner: %i[create update destroy] }
       end

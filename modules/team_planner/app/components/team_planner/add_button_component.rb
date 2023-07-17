@@ -1,12 +1,14 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -24,26 +26,49 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
+#
 
-module TeamPlannerOverview
-  class RowComponent < ::RowComponent
-    def query
-      model
+module TeamPlanner
+  class AddButtonComponent < ::ApplicationComponent
+    options :current_project
+
+    def render?
+      if current_project
+        User.current.allowed_to?(:manage_team_planner, current_project)
+      else
+        User.current.allowed_to_globally?(:manage_team_planner)
+      end
     end
 
-    delegate :project, to: :query
-
-    def name
-      link_to query.name, project_team_planner_path(project, query.id)
+    def dynamic_path
+      polymorphic_path([:new, current_project, :team_planners])
     end
 
-    def project_id
-      helpers.link_to_project model.project, {}, {}, false
+    def title
+      I18n.t('team_planner.label_create_new_team_planner')
     end
 
-    def created_at
-      helpers.format_time(query.created_at)
+    def aria_label
+      I18n.t('team_planner.label_create_new_team_planner')
+    end
+
+    def li_css_class
+      'toolbar-item'
+    end
+
+    def link_css_class
+      'button -alt-highlight'
+    end
+
+    def label
+      content_tag(:span,
+                  t(:'team_planner.label_team_planner'),
+                  class: 'button--text')
+    end
+
+    def icon
+      helpers.op_icon('button--icon icon-add')
     end
   end
 end
