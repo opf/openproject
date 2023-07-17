@@ -26,13 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class NewButtonComponent < Base::TurboComponent
-
-    def initialize(meeting:, active_work_package: nil, **kwargs)
-      @meeting = meeting
-      @active_work_package = active_work_package
-    end
-
+module Base
+  class Component < ViewComponent::Base
+    include ApplicationHelper
+    include OpPrimer::ComponentHelpers
   end
 end

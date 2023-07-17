@@ -26,34 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class NewSectionComponent < Base::OpTurbo::Component
-    def initialize(meeting:, meeting_agenda_item: nil, state: :initial, active_work_package: nil, **kwargs)
-      @meeting = meeting
-      @meeting_agenda_item = meeting_agenda_item || MeetingAgendaItem.new(meeting: meeting, work_package: active_work_package)
-      @state = state
-      @active_work_package = active_work_package
-    end
-
-    def call
-      component_wrapper do
-        case @state
-        when :initial
-          render(MeetingAgendaItems::NewSectionComponent::ButtonComponent.new(**child_component_params))
-        when :form
-          render(MeetingAgendaItems::NewSectionComponent::FormComponent.new(**child_component_params))
-        end
+module Base
+  module OpPrimer::ComponentHelpers
+    def flex_layout(**system_arguments, &block)
+      render(OpPrimer::FlexLayoutComponent.new(**system_arguments)) do |component|
+        yield component
       end
     end
 
-    private
-
-    def child_component_params
-      {
-        meeting: @meeting,
-        active_work_package: @active_work_package,
-        meeting_agenda_item: @meeting_agenda_item
-      }
+    def box_collection(**system_arguments, &block)
+      render(OpPrimer::BoxCollectionComponent.new(**system_arguments)) do |component|
+        yield component
+      end
     end
   end
 end

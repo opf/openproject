@@ -26,14 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class NewFormComponent < Base::TurboComponent
-
-    def initialize(meeting:, meeting_agenda_item: nil, active_work_package: nil, **kwargs)
-      @meeting = meeting
-      @meeting_agenda_item = meeting_agenda_item
+module WorkPackageTab
+  class Meetings::ListComponent < Base::Component
+    def initialize(meetings:, active_work_package: nil,  **kwargs)
+      @meetings = meetings
       @active_work_package = active_work_package
     end
 
+    def call
+      render(Primer::Beta::BorderBox.new(padding: :condensed)) do |component|
+        @meetings.each do |meeting|
+          component.with_row do
+            render(WorkPackageTab::Meetings::ItemComponent.new(meeting: meeting, active_work_package: @active_work_package))
+          end
+        end
+      end
+    end
   end
 end

@@ -26,13 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class ListPerWorkPackageComponent < Base::TurboComponent
+module Base
+  class OpPrimer::FlexLayoutComponent < Primer::Component
+    def initialize(**system_arguments)
+      @system_arguments = deny_tag_argument(**system_arguments) || {}
 
-    def initialize(work_package:, meeting_agenda_items:, **kwargs)
-      @meeting_agenda_items = meeting_agenda_items
-      @work_package = work_package
+      @system_arguments[:classes] = class_names(
+        "d-flex",
+        system_arguments[:classes]
+      )
     end
 
+    renders_many :rows, lambda { |**system_arguments|
+      Primer::Box.new(**system_arguments||{})
+    }
+    renders_many :columns, lambda { |**system_arguments|
+      Primer::Box.new(**system_arguments||{})
+    }
   end
 end

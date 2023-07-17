@@ -27,36 +27,13 @@
 #++
 
 module Base
-  class TurboComponent < ViewComponent::Base
-    include ApplicationHelper
-
-    def self.replace_via_turbo_stream(**kwargs)
-      component_instance = self.new(**kwargs)
-      TurboStreamWrapper.new(
-        action: :replace, 
-        target: component_instance.wrapper_key, 
-        template: component_instance.render_in(kwargs[:view_context])
-      ).render_in(kwargs[:view_context])
+  class OpPrimer::BoxCollectionComponent < Primer::Component
+    def initialize(**system_arguments)
+      @system_arguments = deny_tag_argument(**system_arguments) || {}
     end
 
-    def component_wrapper(tag: "div", id: nil, class: nil, data: nil, &block)
-      content_tag(tag, id: id || wrapper_key, class:, data:, &block)
-    end
-
-    def self.wrapper_key
-      self.name.underscore.gsub("/", "-").gsub("_", "-")
-    end
-
-    def wrapper_key
-      if wrapper_id.nil?
-        self.class.wrapper_key
-      else
-        "#{self.class.wrapper_key}-#{wrapper_id}"
-      end
-    end
-
-    def wrapper_id
-      # optionally implemented in subclass in order to make the wrapper key unique
-    end
+    renders_many :boxes, lambda { |**system_arguments|
+      Primer::Box.new(**system_arguments||{})
+    }
   end
 end

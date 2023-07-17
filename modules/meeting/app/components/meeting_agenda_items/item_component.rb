@@ -27,35 +27,35 @@
 #++
 
 module MeetingAgendaItems
-  class ItemComponent < Base::TurboComponent
-
-    def initialize(meeting_agenda_item:, active_work_package: nil, state: :initial, **kwargs)
+  class ItemComponent < Base::OpTurbo::Component
+    def initialize(meeting_agenda_item:, active_work_package: nil, state: :show, **kwargs)
       @meeting_agenda_item = meeting_agenda_item
       @active_work_package = active_work_package
       @state = state
     end
 
-    def wrapper_id
+    def wrapper_uniq_by
       @meeting_agenda_item.id
     end
 
-    def drag_and_drop_enabled?
-      @active_work_package.nil?
-    end
-
-    def show_time_slot?
-      @active_work_package.nil?
-    end
-
-    def edit_enabled?
-      if @active_work_package.nil?
-        true
-      elsif @active_work_package&.id == @meeting_agenda_item.work_package&.id
-        true
-      else
-        false
+    def call
+      component_wrapper do
+        case @state
+        when :show
+          render(MeetingAgendaItems::ItemComponent::ShowComponent.new(**child_component_params))
+        when :edit
+          render(MeetingAgendaItems::ItemComponent::EditComponent.new(**child_component_params))
+        end
       end
     end
 
+    private
+
+    def child_component_params
+      {
+        meeting_agenda_item: @meeting_agenda_item,
+        active_work_package: @active_work_package
+      }
+    end
   end
 end

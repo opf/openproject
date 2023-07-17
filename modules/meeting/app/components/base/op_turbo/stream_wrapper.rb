@@ -26,21 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Meetings
-  class ItemComponent < Base::TurboComponent
-
-    def initialize(meeting:, active_work_package: nil, **kwargs)
-      @meeting = meeting
-      @active_work_package = active_work_package
+module Base
+  class OpTurbo::StreamWrapper < Base::Component
+    def initialize(template:, action:, target:)
+      @template = template
+      @action = action
+      @target = target
     end
-
-    def wrapper_id
-      @meeting.id
-    end
-
-    def count_active_work_package_references_in_meeting
-      @meeting.agenda_items.where(work_package_id: @active_work_package.id).count if @active_work_package.present?
-    end
-
   end
 end

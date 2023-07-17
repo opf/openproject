@@ -26,16 +26,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= component_wrapper do %>
-  <%=
-    render(Primer::Beta::BorderBox.new(padding: :condensed)) do |component|
-      @meetings.each do |meeting|
-        component.with_row do
-          render(Meetings::ItemComponent.new(meeting: meeting, active_work_package: @active_work_package))
-        end
-      end
-    end
-  %>
+<% if rows.any? %>
+  <%= render(Primer::Box.new(**@system_arguments.merge(direction: :column))) do %>
+    <% rows.each do |row| %>
+      <%= row %>
+    <% end %>
+  <% end %>
 <% end %>
-  
+
+<% if columns.any? %>
+  <%= render(Primer::Box.new(**@system_arguments.merge(direction: :row))) do %>
+    <% columns.each do |column| %>
+      <%= column %>
+    <% end %>
+  <% end %>
+<% end %>
 

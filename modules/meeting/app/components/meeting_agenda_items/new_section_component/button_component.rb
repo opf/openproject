@@ -26,12 +26,51 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Meetings
-  class ListComponent < Base::TurboComponent
+module MeetingAgendaItems
+  class NewSectionComponent::ButtonComponent < Base::Component
 
-    def initialize(meetings:, active_work_package: nil,  **kwargs)
-      @meetings = meetings
+    def initialize(meeting:, active_work_package: nil, **kwargs)
+      @meeting = meeting
       @active_work_package = active_work_package
+    end
+
+    def call
+      form_with(
+        url: new_meeting_agenda_item_path(@meeting), 
+        method: :get, 
+        data: { "turbo-stream": true }
+      ) do |form|
+        box_collection do |collection|
+          if @active_work_package.present?
+            collection.with_box do
+              form.hidden_field :work_package_id, value: @active_work_package.id
+            end
+          end
+          collection.with_box do
+            button_content_partial
+          end
+        end
+      end
+    end
+
+    private
+
+    def button_content_partial
+      render(Primer::Beta::Button.new(
+        my: 5,
+        size: :medium,
+        disabled: false,
+        scheme: :primary,
+        show_tooltip: true,
+        type: :submit,
+        "aria-label": "Add agenda item"
+      )) do
+        if @active_work_package.present?
+          "Add work package to agenda"
+        else
+          "Add agenda item"
+        end
+      end
     end
 
   end

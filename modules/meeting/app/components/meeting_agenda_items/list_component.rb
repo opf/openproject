@@ -27,11 +27,45 @@
 #++
 
 module MeetingAgendaItems
-  class ListComponent < Base::TurboComponent
-
-    def initialize(meeting:, active_work_package: nil, **kwargs)
+  class ListComponent < Base::OpTurbo::Component
+    def initialize(meeting:, active_work_package: nil, **_kwargs)
       @meeting = meeting
       @active_work_package = active_work_package
+    end
+
+    def call
+      component_wrapper(data: wrapper_data_attributes) do
+        render(Primer::Beta::BorderBox.new(padding: :condensed)) do |border_box|
+          @meeting.agenda_items.each do |meeting_agenda_item|
+            row_partial(border_box, meeting_agenda_item)
+          end
+        end
+      end
+    end
+
+    private
+
+    def wrapper_data_attributes
+      {
+        controller: 'meeting-agenda-item-drag-and-drop',
+        'application-target': 'dynamic',
+        'target-tag': 'ul'
+      }
+    end
+
+    def row_partial(border_box, meeting_agenda_item)
+      border_box.with_row(
+        scheme: row_scheme(meeting_agenda_item),
+        data: {
+          id: meeting_agenda_item.id,
+          'drop-url': drop_meeting_agenda_item_path(meeting_agenda_item.meeting, meeting_agenda_item)
+        }
+      ) do
+        render(MeetingAgendaItems::ItemComponent.new(
+                 meeting_agenda_item:,
+                 active_work_package: @active_work_package
+               ))
+      end
     end
 
     def row_scheme(meeting_agenda_item)
@@ -41,6 +75,5 @@ module MeetingAgendaItems
         :default
       end
     end
-
   end
 end

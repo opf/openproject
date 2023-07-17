@@ -118,7 +118,7 @@ class MeetingAgendaItemsController < ApplicationController
       {
         component: MeetingAgendaItems::ItemComponent,
         params: { 
-          state: :initial, 
+          state: :show, 
           meeting_agenda_item: @meeting_agenda_item,
           active_work_package: @active_work_package
         },
@@ -159,7 +159,7 @@ class MeetingAgendaItemsController < ApplicationController
           {
             component: MeetingAgendaItems::ItemComponent,
             params: { 
-              state: :initial, 
+              state: :show, 
               meeting_agenda_item: @meeting_agenda_item,
               active_work_package: @active_work_package
             },
