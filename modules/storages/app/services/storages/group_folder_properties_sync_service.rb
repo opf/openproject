@@ -69,25 +69,26 @@ class Storages::GroupFolderPropertiesSyncService
       set_project_folder_permissions(path: project_folder_path, project:)
     end
 
+    hide_inactive_project_folders
     add_active_users_to_group
     remove_inactive_users_from_group
-    hide_inactive_project_folders
   end
   # rubocop:enable Metrics/AbcSize
 
   private
 
   def set_group_folder_root_permissions
-    permissions = {
-      users: { @nextcloud_system_user.to_sym => ALL_PERMISSIONS },
-      groups: { @group.to_sym => PERMISSIONS_MAP[:read_files] }
+    command_params = {
+      path: @group_folder,
+      permissions: {
+        users: { @nextcloud_system_user.to_sym => ALL_PERMISSIONS },
+        groups: { @group.to_sym => PERMISSIONS_MAP[:read_files] }
+      }
     }
     @requests
       .set_permissions_command
-      .call(path: @group_folder, permissions:)
-      .on_failure do |r|
-      raise "set_permissions_command(path: #{@group_folder}, permissions: #{permissions}) failed: #{r.inspect}"
-    end
+      .call(**command_params)
+      .on_failure(&failure_handler('set_permissions_command', command_params))
   end
 
   def project_folder_path(project)
@@ -116,25 +117,33 @@ class Storages::GroupFolderPropertiesSyncService
   end
 
   def folders_properties
-    @folders_properties ||= @requests
-                              .propfind_query
-                              .call(depth: '1', path: @group_folder, props: %w[oc:fileid])
-                              .on_failure do |r|
-      raise "propfind_query(depth: 1, path: #{@group_folder}, props: #{%w[oc:fileid]}) failed: #{r.inspect}"
-    end.result
+    @folders_properties ||=
+      begin
+        query_params = {
+          depth: '1',
+          path: @group_folder,
+          props: %w[oc:fileid]
+        }
+        @requests
+          .propfind_query
+          .call(**query_params)
+          .on_failure(&failure_handler('propfind_query', query_params))
+          .result
+      end
   end
 
   def rename_folder(source:, target:)
-    @requests.rename_file_command.call(source:, target:).on_failure do |r|
-      raise "rename_file_command failed(source: #{source} target: #{target}) failed: #{r.inspect}"
-    end
+    @requests
+      .rename_file_command
+      .call(source:, target:)
+      .on_failure(&failure_handler('rename_file_command', { source:, target: }))
   end
 
   def create_folder(path:, project_storage:)
     @requests.create_folder_command.call(folder_path: path)
       .match(
         on_success: ->(_) { ServiceResult.success(result: [project_storage, path]) },
-        on_failure: ->(r) { raise "create_folder_command(folder_path: #{path}) failed: #{r.inspect}, " }
+        on_failure: failure_handler('create_folder_command', { folder_path: path })
       )
   end
 
@@ -146,12 +155,17 @@ class Storages::GroupFolderPropertiesSyncService
 
   def obtain_file_id
     ->((project_storage, path)) do
+      query_params = {
+        depth: '0',
+        path:,
+        props: %w[oc:fileid]
+      }
       @requests
         .propfind_query
-        .call(depth: '0', path:, props: %w[oc:fileid])
+        .call(**query_params)
         .match(
           on_success: ->(result) { ServiceResult.success(result: [project_storage, result.dig(path, 'fileid')]) },
-          on_failure: ->(_result) { raise "propfind_query failed: #{r}, depth: 0, path: #{path}" }
+          on_failure: failure_handler('propfind_query', query_params)
         )
     end
   end
@@ -173,16 +187,25 @@ class Storages::GroupFolderPropertiesSyncService
   end
 
   def set_project_folder_permissions(path:, project:)
-    permissions = project_folder_permissions(project:)
-    @requests.set_permissions_command.call(path:, permissions:).on_failure do |r|
-      raise "set_permissions_command path(#{path}, permissions: #{permissions}) failed: #{r.inspect}"
-    end
+    command_params = {
+      path:,
+      permissions: project_folder_permissions(project:)
+    }
+    @requests
+      .set_permissions_command
+      .call(**command_params)
+      .on_failure(&failure_handler('set_permissions_command', command_params))
   end
 
   def group_users
-    @group_users ||= @requests.group_users_query.call(group: @group).on_failure do |r|
-      raise "group_users_query(group: #{@group}) failed: #{r.inspect}"
-    end.result
+    @group_users ||= begin
+      query_params = { group: @group }
+      @requests
+        .group_users_query
+        .call(**query_params)
+        .on_failure(&failure_handler('group_users_query', query_params))
+        .result
+    end
   end
 
   def project_folder_permissions(project:)
@@ -202,9 +225,11 @@ class Storages::GroupFolderPropertiesSyncService
   def add_active_users_to_group
     @nextcloud_usernames_used_in_openproject.each do |nextcloud_username|
       if group_users.exclude?(nextcloud_username)
-        @requests.add_user_to_group_command.call(user: nextcloud_username).on_failure do |r|
-          raise "add_user_to_group_command(user: #{netcloud_username}) failed: #{r.inspect}, "
-        end
+        query_params = { user: nextcloud_username }
+        @requests
+          .add_user_to_group_command
+          .call(**query_params)
+          .on_failure(&failure_handler('add_user_to_group_command', query_params))
       end
     end
   end
@@ -219,7 +244,7 @@ class Storages::GroupFolderPropertiesSyncService
     @requests
       .remove_user_from_group_command
       .call(user:)
-      .on_failure { |r| raise "remove_user_from_group_command(user: #{user}) failed: #{r.inspect}" }
+      .on_failure(&failure_handler('remove_user_from_group_command', { user: }))
   end
 
   def hide_inactive_project_folders
@@ -233,13 +258,22 @@ class Storages::GroupFolderPropertiesSyncService
   end
 
   def hide_folder(path)
-    permissions = {
-      users: { "#{@nextcloud_system_user}": ALL_PERMISSIONS },
-      groups: { "#{@group}": NO_PERMISSIONS }
+    command_params = {
+      path:,
+      permissions: {
+        users: { "#{@nextcloud_system_user}": ALL_PERMISSIONS },
+        groups: { "#{@group}": NO_PERMISSIONS }
+      }
     }
     @requests
       .set_permissions_command
-      .call(path:, permissions:)
-      .on_failure { |r| raise "set_permissions_command(path: #{path}, permissions: #{permissions}) failed: #{r.inspect}" }
+      .call(**command_params)
+      .on_failure(&failure_handler('set_permissions_command', command_params))
+  end
+
+  def failure_handler(command, params)
+    ->(service_result) do
+      raise "#{command} was called with #{params} and failed with: #{service_result.inspect}"
+    end
   end
 end
