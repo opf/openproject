@@ -333,6 +333,7 @@ RSpec.describe Capabilities::Scopes::Default do
               .map { |_, v| v[:actions].map { |vk, vv| vv.map { |vvv| item.call(vk, vvv, v[:global], v[:module_name]) } } }
               .flatten(2)
               .compact
+              .uniq { |v| v.join(",") }
           end
 
           it 'does not include actions of permissions non-grantable to admin' do
@@ -368,6 +369,7 @@ RSpec.describe Capabilities::Scopes::Default do
               .map { |_, v| v[:actions].map { |vk, vv| vv.map { |vvv| item.call(vk, vvv, v[:global], v[:module_name]) } } }
               .flatten(2)
               .compact
+              .uniq { |v| v.join(",") }
           end
         end
       end
