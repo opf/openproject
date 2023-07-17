@@ -52,7 +52,8 @@ Rails.application.reloader.to_prepare do
 
       map.permission :create_user,
                      {
-                       users: %i[new create]
+                       users: %i[new create],
+                       admin: %i[index]
                      },
                      require: :loggedin,
                      global: true,
