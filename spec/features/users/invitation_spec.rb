@@ -62,7 +62,7 @@ RSpec.describe 'invitations', js: true, with_cuprite: true do
     include_examples 'resending invitations'
   end
 
-  context 'as global user' do
+  context 'as as user with global user_create permission' do
     shared_let(:global_create_user) { create(:user, global_permission: :create_user) }
     let(:current_user) { global_create_user }
 

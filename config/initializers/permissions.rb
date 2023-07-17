@@ -52,7 +52,9 @@ Rails.application.reloader.to_prepare do
 
       map.permission :create_user,
                      {
-                       users: %i[index show new create resend_invitation],
+                       # TODO: edit is added because the resend invitiation link is currently displayed on the edit page,
+                       # maybe we need to move that to the show page?
+                       users: %i[index show edit new create resend_invitation],
                        'users/memberships': %i[create],
                        admin: %i[index]
                      },
