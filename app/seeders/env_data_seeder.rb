@@ -24,15 +24,14 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+class EnvDataSeeder < CompositeSeeder
+  def data_seeder_classes
+    [
+      EnvData::LdapSeeder
+    ]
+  end
 
-FactoryBot.define do
-  factory :ldap_auth_source, class: 'LdapAuthSource' do
-    name { 'Test LDAP LdapAuthSource' }
-    host { '127.0.0.1' }
-    port { 225 }  # a reserved port, should not be in use
-    attr_login { 'uid' }
-    tls_mode { 'plain_ldap' }
-    base_dn { 'dc=example,dc=com' }
+  def namespace
+    'EnvData'
   end
 end

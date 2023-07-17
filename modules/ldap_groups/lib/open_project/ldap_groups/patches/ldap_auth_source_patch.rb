@@ -6,6 +6,10 @@ module OpenProject::LdapGroups
           has_many :ldap_groups_synchronized_groups,
                    class_name: '::LdapGroups::SynchronizedGroup',
                    dependent: :destroy
+
+          has_many :ldap_groups_synchronized_filters,
+                   class_name: '::LdapGroups::SynchronizedFilter',
+                   dependent: :destroy
         end
       end
     end
