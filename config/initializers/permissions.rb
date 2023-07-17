@@ -52,16 +52,17 @@ Rails.application.reloader.to_prepare do
 
       map.permission :create_user,
                      {
-                       users: %i[new create],
+                       users: %i[index show new create resend_invitation],
+                       'users/memberships': %i[create],
                        admin: %i[index]
                      },
                      require: :loggedin,
                      global: true,
-                     contract_actions: { users: %i[create] }
+                     contract_actions: { users: %i[read create] }
 
       map.permission :manage_user,
                      {
-                       users: %i[index show edit update resend_invitation],
+                       users: %i[index show edit update],
                        'users/memberships': %i[create update destroy],
                        admin: %i[index]
                      },
