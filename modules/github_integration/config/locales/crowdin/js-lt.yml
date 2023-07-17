@@ -41,12 +41,12 @@ lt:
       github_actions: Veiksmai
       pull_requests:
         message: >
-          Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}. #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}.
+          Pakeitimo užklausą #%{pr_number} %{pr_link} skirtą %{repository_link} naudotojas %{github_user_link}  %{pr_state}. #%{pr_number} %{pr_link} skirtą %{repository_link} naudotojas %{github_user_link}  %{pr_state}.
         referenced_message: >
-          %{github_user_link} referenced this work package in pull request #%{pr_number} %{pr_link} on %{repository_link}. #%{pr_number} %{pr_link} on %{repository_link}.
+          %{github_user_link} minėjo šį darbo paketą pakeitimo užklausoje #%{pr_number} %{pr_link} %{repository_link}. #%{pr_number} %{pr_link} %{repository_link}.
         states:
-          opened: 'opened'
-          closed: 'closed'
-          draft: 'drafted'
-          merged: 'merged'
-          ready_for_review: 'marked ready for review'
+          opened: 'atidarė'
+          closed: 'uždarė'
+          draft: 'sukūrė juodraštį'
+          merged: 'suliejo'
+          ready_for_review: 'pažymėjo paruoštu peržiūrai'
