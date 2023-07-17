@@ -94,17 +94,17 @@ class Journable::WithHistoricAttributes
     attr_accessor :journables
 
     def load_customizable_journals(journalized)
-      journals_by_journable = Journal
+      journals_by_id = Journal
         .where(id: journalized.map(&:journal_id))
         .includes({ customizable_journals: :custom_field })
-        .index_by(&:journable_id)
+        .index_by(&:id)
 
       journalized.each do |work_package|
-        # work_package.association(:journals).loaded!
-        # work_package.association(:journals).target = Array(journals_by_journable[work_package.id])
+        journal = journals_by_id[work_package.journal_id]
+        work_package.association(:journals).loaded!
+        work_package.association(:journals).target = Array(journal)
         work_package.association(:custom_values).loaded!
-        custom_values = Array(journals_by_journable[work_package.id]&.customizable_journals)
-        work_package.association(:custom_values).target = custom_values
+        work_package.association(:custom_values).target = Array(journal&.customizable_journals)
       end
       journalized
     end
