@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Copy, move, delete work packages
-  priority: 980
+  priority: 960
 description: How to copy, change project or delete a work package.
 keywords: copy work package, delete work package, move work package
 ---

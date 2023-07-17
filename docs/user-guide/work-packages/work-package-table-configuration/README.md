@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Configure work package table
-  priority: 970
+  priority: 950
 description: How to configure the work package list in OpenProject.
 keywords: work packages table configuration, work package table, columns, filter, group
 ---

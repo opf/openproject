@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Export work packages
-  priority: 950
+  priority: 930
 description: How to export work packages for other tools, such as Microsoft Excel
 keywords: work package exports, CSV, Excel, XLS, PDF
 ---
