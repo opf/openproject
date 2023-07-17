@@ -1,11 +1,7 @@
 import * as moment from 'moment/moment';
 
 function paddedNumber(input:number):string {
-  if (input < 10) {
-    return `0${input}`;
-  }
-
-  return input.toString();
+  return input.toString().padStart(2, '0');
 }
 
 export function formatElapsedTime(startTime:string):string {
