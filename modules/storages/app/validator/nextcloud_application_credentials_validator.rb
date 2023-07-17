@@ -36,16 +36,13 @@ class NextcloudApplicationCredentialsValidator
   def call
     return unless contract.model.password_changed?
 
-    request = build_http_head_request
-    response = make_http_head_request_for(request)
-
-    case response
+    case make_http_head_request_from(build_http_head_request)
     when Net::HTTPSuccess
       true
     when Net::HTTPUnauthorized
-      add_contract_error_for_password_with(:invalid_password)
+      contract.errors.add(:password, :invalid_password)
     else
-      add_contract_error_for_password_with(:unknown_error)
+      contract.errors.add(:password, :unknown_error)
     end
   end
 
@@ -59,13 +56,9 @@ class NextcloudApplicationCredentialsValidator
     request
   end
 
-  def make_http_head_request_for(request)
+  def make_http_head_request_from(request)
     Storages::Peripherals::StorageInteraction::Nextcloud::Util
       .http(uri)
       .request(request)
-  end
-
-  def add_contract_error_for_password_with(error_kind)
-    contract.errors.add(:password, error_kind)
   end
 end
