@@ -2,12 +2,18 @@
 pl:
   permission_view_team_planner: "Wyświetlanie planisty zespołu"
   permission_manage_team_planner: "Zarządzanie planistą zespołu"
-  project_module_team_planner_view: "Planista zespołu"
+  project_module_team_planner_view: "Planiści zespołu"
   team_planner:
     label_team_planner: "Planista zespołu"
+    label_new_team_planner: "New team planner"
     label_create_new_team_planner: "Utwórz nowego planistę zespołu"
     label_team_planner_plural: "Planiści zespołu"
     label_assignees: "Przypisane osoby"
+    label_favoured: "Favoured"
+    help_text:
+      project: Team planners are always attached to a project. After creating a team planner you can add work packages from other projects to it.
+      public: Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+      favoured: Mark this view as favourite and add to the saved views sidebar on the left.
     upsale:
       title: "Planista zespołu"
       description: "Zdobądź pełny przegląd planowania swojej drużyny za pomocą Planisty zespołu. Rozciągnij, skróć i przeciągnij pakiety robocze, aby modyfikować daty, przenosić je lub zmieniać przypisane osoby."

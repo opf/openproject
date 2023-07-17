@@ -81,6 +81,9 @@ sv:
   units: "Enheter"
   validation_failure_date: "inte är ett giltigt datum"
   validation_failure_integer: "är inte ett giltigt heltal"
+  export:
+    cost_reports:
+      title: "Your Cost Reports XLS export"
   reporting:
     group_by:
       selected_columns: "Valda kolumner"

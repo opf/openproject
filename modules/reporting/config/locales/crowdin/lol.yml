@@ -81,6 +81,9 @@ lol:
   units: "crwdns494189:0crwdne494189:0"
   validation_failure_date: "crwdns494191:0crwdne494191:0"
   validation_failure_integer: "crwdns494193:0crwdne494193:0"
+  export:
+    cost_reports:
+      title: "crwdns859083:0crwdne859083:0"
   reporting:
     group_by:
       selected_columns: "crwdns494195:0crwdne494195:0"

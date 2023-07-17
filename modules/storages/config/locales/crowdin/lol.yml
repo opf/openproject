@@ -43,12 +43,19 @@ lol:
   storages:
     buttons:
       done_continue_setup: "crwdns823076:0crwdne823076:0"
+      done_complete_setup: "crwdns858767:0crwdne858767:0"
+      edit_automatically_managed_project_folders: "crwdns858769:0crwdne858769:0"
       replace_openproject_oauth: "crwdns823078:0crwdne823078:0"
       replace_provider_type_oauth: "crwdns823080:0%{provider_type}crwdne823080:0"
       save_and_continue_setup: "crwdns823136:0crwdne823136:0"
       save_and_complete_setup: "crwdns823138:0crwdne823138:0"
       select_folder: "crwdns854395:0crwdne854395:0"
+      configure: "crwdns858771:0crwdne858771:0"
     page_titles:
+      managed_project_folders:
+        title: "crwdns858773:0crwdne858773:0"
+        subtitle: >
+          crwdns858775:0crwdne858775:0
       project_settings:
         index: "crwdns807928:0crwdne807928:0"
         new: "crwdns824326:0crwdne824326:0"
@@ -58,6 +65,8 @@ lol:
       type_link_text: "crwdns823144:0crwdne823144:0"
       name: "crwdns823146:0crwdne823146:0"
       host: "crwdns823148:0crwdne823148:0"
+      managed_project_folders_application_password: >
+        crwdns858777:0crwdne858777:0
       no_storage_set_up: "crwdns844777:0crwdne844777:0"
       no_specific_folder: "crwdns852277:0crwdne852277:0"
       automatic_folder: "crwdns854931:0crwdne854931:0"
@@ -81,11 +90,17 @@ lol:
         crwdns807948:0crwdne807948:0
       project_storage: >
         crwdns807950:0crwdne807950:0
+    label_active: "crwdns858779:0crwdne858779:0"
+    label_inactive: "crwdns858781:0crwdne858781:0"
     label_creator: "crwdns807952:0crwdne807952:0"
     label_file_link: "crwdns807954:0crwdne807954:0"
     label_file_links: "crwdns807956:0crwdne807956:0"
     label_name: "crwdns807958:0crwdne807958:0"
     label_host: "crwdns824866:0crwdne824866:0"
+    label_managed_project_folders:
+      automatically_managed_folders: "crwdns858783:0crwdne858783:0"
+      application_password: "crwdns858785:0crwdne858785:0"
+    label_managed_project_folders_breadcrumb: "crwdns858787:0crwdne858787:0"
     label_oauth_breadcrumb:
       openproject: "crwdns824160:0crwdne824160:0"
       nextcloud: "crwdns824162:0crwdne824162:0"
@@ -110,4 +125,5 @@ lol:
     confirm_replace_oauth_application: "crwdns823084:0crwdne823084:0"
     confirm_replace_oauth_client: "crwdns816768:0crwdne816768:0"
     oauth_client_details_missing: "crwdns816770:0crwdne816770:0"
+    automatically_managed_project_folder_missing: "crwdns858789:0crwdne858789:0"
     notice_oauth_application_replaced: "crwdns823086:0crwdne823086:0"

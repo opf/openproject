@@ -66,6 +66,7 @@ nl:
     button_continue: "Ga verder"
     button_copy: "Kopieer"
     button_copy_to_clipboard: "Kopiëren naar het klembord"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Kopiëren naar een ander project"
     button_custom-fields: "Aangepaste velden"
     button_delete: "Verwijderen"
@@ -260,7 +261,7 @@ nl:
           new_date: '(nieuw)'
         add_non_working_day: "Vrije dagen"
         already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
-        change_button: "Save and reschedule"
+        change_button: "Opslaan en opnieuw plannen"
         change_title: "Wijzig werkdagen"
         removed_title: "You will remove the following days from the non-working days list:"
         change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
@@ -608,7 +609,7 @@ nl:
       menu:
         accountable: 'Verantwoording afleggen'
         by_project: 'Ongelezen per project'
-        by_reason: 'Reason'
+        by_reason: 'Reden'
         inbox: 'Inkomend'
         mentioned: 'Genoemd'
         watched: 'Kijker'
@@ -618,17 +619,17 @@ nl:
         title: "Instellingen voor meldingen"
         notify_me: "Waarschuw mij"
         reminders:
-          no_notification: No notification
+          no_notification: Geen melding
           timeframes:
             normal:
-              PT0S: same day
-              P1D: 1 day before
-              P3D: 3 days before
-              P7D: a week before
+              PT0S: dezelfde dag
+              P1D: 1 dag ervoor
+              P3D: 3 dagen ervoor
+              P7D: een week ervoor
             overdue:
-              P1D: every day
-              P3D: every 3 days
-              P7D: every week
+              P1D: elke dag
+              P3D: elke 3 dagen
+              P7D: elke week
         reasons:
           mentioned:
             title: 'Genoemd'
@@ -737,6 +738,14 @@ nl:
     time_entry:
       work_package_required: 'Vereist eerst een werkpakket te selecteren.'
       title: 'Gelogde tijd'
+      tracking: 'Tijdregistratie'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Twee-factor-authenticatie'
     watchers:

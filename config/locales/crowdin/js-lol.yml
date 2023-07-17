@@ -66,6 +66,7 @@ lol:
     button_continue: "crwdns786902:0crwdne786902:0"
     button_copy: "crwdns786904:0crwdne786904:0"
     button_copy_to_clipboard: "crwdns855841:0crwdne855841:0"
+    button_copy_link_to_clipboard: "crwdns858843:0crwdne858843:0"
     button_copy_to_other_project: "crwdns786906:0crwdne786906:0"
     button_custom-fields: "crwdns786908:0crwdne786908:0"
     button_delete: "crwdns786910:0crwdne786910:0"
@@ -735,6 +736,14 @@ lol:
     time_entry:
       work_package_required: 'crwdns787892:0crwdne787892:0'
       title: 'crwdns787904:0crwdne787904:0'
+      tracking: 'crwdns858103:0crwdne858103:0'
+      stop: 'crwdns858105:0crwdne858105:0'
+    timer:
+      start_new_timer: 'crwdns858107:0crwdne858107:0'
+      timer_already_running: 'crwdns858109:0crwdne858109:0'
+      timer_already_stopped: 'crwdns858111:0crwdne858111:0'
+      tracking_time: 'crwdns858113:0crwdne858113:0'
+      button_stop: 'crwdns858115:0crwdne858115:0'
     two_factor_authentication:
       label_two_factor_authentication: 'crwdns787906:0crwdne787906:0'
     watchers:

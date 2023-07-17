@@ -186,8 +186,6 @@ lol:
       no_results_content_text: crwdns494909:0crwdne494909:0
   concatenation:
     single: 'crwdns494911:0crwdne494911:0'
-  documentation:
-    see_more_link: crwdns494913:0crwdne494913:0
   global_search:
     overwritten_tabs:
       wiki_pages: "crwdns494915:0crwdne494915:0"
@@ -510,6 +508,7 @@ lol:
         hours: "crwdns495267:0crwdne495267:0"
         spent_on: "crwdns495269:0crwdne495269:0"
         type: "crwdns495271:0crwdne495271:0"
+        ongoing: "crwdns858099:0crwdne858099:0"
       type:
         description: "crwdns495273:0crwdne495273:0"
         attribute_groups: 'crwdns495275:0crwdne495275:0'
@@ -1049,6 +1048,7 @@ lol:
   button_continue: "crwdns495943:0crwdne495943:0"
   button_copy: "crwdns495945:0crwdne495945:0"
   button_copy_to_clipboard: "crwdns855839:0crwdne855839:0"
+  button_copy_link_to_clipboard: "crwdns858837:0crwdne858837:0"
   button_copy_and_follow: "crwdns495947:0crwdne495947:0"
   button_create: "crwdns495949:0crwdne495949:0"
   button_create_and_continue: "crwdns495951:0crwdne495951:0"
@@ -1470,6 +1470,7 @@ lol:
   label_age: "crwdns496885:0crwdne496885:0"
   label_ago: "crwdns496887:0crwdne496887:0"
   label_all: "crwdns496889:0crwdne496889:0"
+  label_all_projects: "crwdns858839:0crwdne858839:0"
   label_all_time: "crwdns496891:0crwdne496891:0"
   label_all_words: "crwdns496893:0crwdne496893:0"
   label_all_open_wps: "crwdns496895:0crwdne496895:0"
@@ -1486,6 +1487,7 @@ lol:
   label_ical_access_key_revoke: "crwdns854467:0crwdne854467:0"
   label_applied_status: "crwdns496907:0crwdne496907:0"
   label_archive_project: "crwdns496909:0crwdne496909:0"
+  label_archived_projects: "crwdns858841:0crwdne858841:0"
   label_ascending: "crwdns496911:0crwdne496911:0"
   label_assigned_to_me_work_packages: "crwdns496913:0crwdne496913:0"
   label_associated_revisions: "crwdns496915:0crwdne496915:0"
@@ -1622,6 +1624,7 @@ lol:
   label_everywhere: "crwdns497173:0crwdne497173:0"
   label_example: "crwdns497175:0crwdne497175:0"
   label_experimental: "crwdns856591:0crwdne856591:0"
+  label_i_am_member: "crwdns859089:0crwdne859089:0"
   label_import: "crwdns497177:0crwdne497177:0"
   label_export_to: "crwdns497179:0crwdne497179:0"
   label_expanded_click_to_collapse: "crwdns497181:0crwdne497181:0"
@@ -1658,6 +1661,7 @@ lol:
   label_hierarchy_leaf: "crwdns497243:0crwdne497243:0"
   label_home: "crwdns497245:0crwdne497245:0"
   label_subject_or_id: "crwdns497247:0crwdne497247:0"
+  label_icalendar: "crwdns859073:0crwdne859073:0"
   label_impressum: "crwdns497249:0crwdne497249:0"
   label_in: "crwdns497251:0crwdne497251:0"
   label_in_less_than: "crwdns497253:0crwdne497253:0"
@@ -2323,7 +2327,7 @@ lol:
       archived: "crwdns498691:0crwdne498691:0"
   project_module_activity: "crwdns498693:0crwdne498693:0"
   project_module_forums: "crwdns498695:0crwdne498695:0"
-  project_module_work_package_tracking: "crwdns498699:0crwdne498699:0"
+  project_module_work_package_tracking: "crwdns858101:0crwdne858101:0"
   project_module_news: "crwdns498701:0crwdne498701:0"
   project_module_repository: "crwdns498703:0crwdne498703:0"
   project_module_wiki: "crwdns498705:0crwdne498705:0"
@@ -2507,7 +2511,7 @@ lol:
   setting_enabled_scm: "crwdns498997:0crwdne498997:0"
   setting_enabled_projects_columns: "crwdns498999:0crwdne498999:0"
   setting_feeds_enabled: "crwdns499003:0crwdne499003:0"
-  setting_ical_enabled: "crwdns854865:0crwdne854865:0"
+  setting_ical_enabled: "crwdns859075:0crwdne859075:0"
   setting_feeds_limit: "crwdns499005:0crwdne499005:0"
   setting_file_max_size_displayed: "crwdns499007:0crwdne499007:0"
   setting_host_name: "crwdns499009:0crwdne499009:0"
@@ -2571,34 +2575,21 @@ lol:
   setting_work_package_list_default_highlighted_attributes: "crwdns499125:0crwdne499125:0"
   setting_working_days: "crwdns855703:0crwdne855703:0"
   settings:
-    general: "crwdns499127:0crwdne499127:0"
-    other: "crwdns499129:0crwdne499129:0"
-    passwords: "crwdns499131:0crwdne499131:0"
-    session: "crwdns499133:0crwdne499133:0"
-    brute_force_prevention: "crwdns499135:0crwdne499135:0"
     attachments:
       whitelist_text_html: >
         crwdns499137:0%{ext_example}crwdnd499137:0%{mime_example}crwdne499137:0
+    brute_force_prevention: "crwdns499135:0crwdne499135:0"
     language_name_being_default: 'crwdns858081:0%{language_name}crwdne858081:0'
-    notifications:
-      events_explanation: 'crwdns499141:0crwdne499141:0'
-      delay_minutes_explanation: "crwdns499143:0crwdne499143:0"
-    display:
+    date_format:
       first_date_of_week_and_year_set: >
-        crwdns499145:0%{day_of_week_setting_name}crwdnd499145:0%{first_week_setting_name}crwdne499145:0
-      first_week_of_year_text: >
-        crwdns499147:0crwdne499147:0
+        crwdns859077:0%{day_of_week_setting_name}crwdnd859077:0%{first_week_setting_name}crwdne859077:0
+      first_week_of_year_text_html: >
+        crwdns859079:0%{link}crwdne859079:0
+    general: "crwdns499127:0crwdne499127:0"
     experimental:
       save_confirmation: crwdns856593:0crwdne856593:0
       warning_toast: crwdns856595:0crwdne856595:0
       feature_flags: crwdns856597:0crwdne856597:0
-    projects:
-      section_new_projects: "crwdns499149:0crwdne499149:0"
-      section_project_overview: "crwdns499151:0crwdne499151:0"
-    user:
-      default_preferences: "crwdns499153:0crwdne499153:0"
-      display_format: "crwdns854507:0crwdne854507:0"
-      deletion: "crwdns499155:0crwdne499155:0"
     highlighting:
       mode_long:
         inline: "crwdns499157:0crwdne499157:0"
@@ -2606,6 +2597,23 @@ lol:
         status: "crwdns499161:0crwdne499161:0"
         type: "crwdns499163:0crwdne499163:0"
         priority: "crwdns499165:0crwdne499165:0"
+    icalendar:
+      enable_subscriptions_text_html: crwdns859081:0crwdne859081:0
+    #below line needs to be appended above after docs are ready
+    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    notifications:
+      events_explanation: 'crwdns499141:0crwdne499141:0'
+      delay_minutes_explanation: "crwdns499143:0crwdne499143:0"
+    other: "crwdns499129:0crwdne499129:0"
+    passwords: "crwdns499131:0crwdne499131:0"
+    projects:
+      section_new_projects: "crwdns499149:0crwdne499149:0"
+      section_project_overview: "crwdns499151:0crwdne499151:0"
+    session: "crwdns499133:0crwdne499133:0"
+    user:
+      default_preferences: "crwdns499153:0crwdne499153:0"
+      display_format: "crwdns854507:0crwdne854507:0"
+      deletion: "crwdns499155:0crwdne499155:0"
     working_days:
       section_work_week: "crwdns855705:0crwdne855705:0"
       section_holidays_and_closures: "crwdns855707:0crwdne855707:0"

@@ -81,6 +81,9 @@ lt:
   units: "Vienetai"
   validation_failure_date: "nėra tinkama data"
   validation_failure_integer: "nėra tinkamas sveikas skaičius"
+  export:
+    cost_reports:
+      title: "Jūsų kainos ataskaitų XLS eksportas"
   reporting:
     group_by:
       selected_columns: "Pasirinkti stulpeliai"
