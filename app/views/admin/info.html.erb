@@ -31,63 +31,52 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= call_hook(:view_admin_info_top) %>
 
-<%= render(AttributeGroups::AttributeGroupComponent.new) do |component| %>
-  <% component.with_header(title: I18n.t('label_information_plural')) %>
+<%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
+  component.with_header(title: I18n.t('label_information_plural'))
 
-  <%
-    if (product_version = OpenProject::VERSION.product_version).present?
-      component.with_attribute(key: t(:label_product_version), value: product_version)
-    end
-  %>
+  if (product_version = OpenProject::VERSION.product_version).present?
+    component.with_attribute(key: t(:label_product_version), value: product_version)
+  end
 
-  <% component.with_attribute(key: t(:label_core_version), value: OpenProject::Info.versioned_name) %>
-  <% component.with_attribute(key: t(:label_database_version), value: @db_version) %>
+  component.with_attribute(key: t(:label_core_version), value: OpenProject::Info.versioned_name)
+  component.with_attribute(key: t(:label_database_version), value: @db_version)
 
-  <% if OpenProject::Database.version_deprecated?
-       value = <<~STR.html_safe
-        <p>
-          The next major release of OpenProject will update the requirements
-          on the required PostgreSQL database version.
-          <br/>
-          Starting with OpenProject 12.0, anticipated end of 2021, PostgreSQL 13 will be required
-          to use OpenProject.
-          <br/>
-          We have prepared #{static_link_to(:postgres_13_upgrade, label: 'upgrade guides for all installation methods')}.
-         You can perform the upgrade ahead of the release at any time by following the guides.
-         </p>
-       STR
-       component.with_attribute(key: 'Deprecation warning', value:)
-     end %>
+  if display_security_badge_graphic?
+    content = content_tag :object, nil, data: security_badge_url, type: "image/svg+xml"
+    content += link_to '',
+                       ::OpenProject::Static::Links[:security_badge_documentation][:href],
+                       title: t(:label_what_is_this),
+                       class: 'security-badge--help-icon icon-context icon-help1',
+                       target: '_blank'
+    component.with_attribute(key: '', value: content)
+  end
 
-  <%
-    if display_security_badge_graphic?
-      content = content_tag :object, nil, data: security_badge_url, type: "image/svg+xml"
-      content += link_to '',
-                         ::OpenProject::Static::Links[:security_badge_documentation][:href],
-                         title: t(:label_what_is_this),
-                         class: 'security-badge--help-icon icon-context icon-help1',
-                         target: '_blank'
-      component.with_attribute(key: '', value: content)
-    end
-  %>
+  if OpenProject::Database.version_deprecated?
+    value = <<~STR.html_safe
+     <p>
+       Starting with OpenProject 12.0, PostgreSQL 13 is required to use OpenProject.
+       <br/>
+       We have prepared #{static_link_to(:postgres_13_upgrade, label: 'upgrade guides for all installation methods')}.
+      You can perform the upgrade ahead of the release at any time by following the guides.
+      </p>
+    STR
+    component.with_attribute(key: 'Deprecation warning', value:)
+  end
 
-  <%
-    if (updated_on = OpenProject::VERSION.updated_on).present?
-      component.with_attribute(key: t(:label_last_change_on), value: format_date(updated_on))
-    end
-  %>
-<% end %>
 
-<%= render(AttributeGroups::AttributeGroupComponent.new) do |component| %>
-  <% component.with_header(title: I18n.t(:label_system)) %>
+  if (updated_on = OpenProject::VERSION.updated_on).present?
+    component.with_attribute(key: t(:label_last_change_on), value: format_date(updated_on))
+  end
+end %>
 
-  <%
-    @checklist.each do |label, result|
-      value = icon_wrapper((result ? 'icon-context icon-checkmark' : 'icon-context icon-bug'), (result ? t(:general_text_Yes) : t(:general_text_No)))
-      component.with_attribute(key: I18n.t(label), value:)
-    end
-  %>
-<% end %>
+<%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
+  component.with_header(title: I18n.t(:label_system))
+
+  @checklist.each do |label, result|
+    value = icon_wrapper((result ? 'icon-context icon-checkmark' : 'icon-context icon-bug'), (result ? t(:general_text_Yes) : t(:general_text_No)))
+    component.with_attribute(key: I18n.t(label), value:)
+  end
+end %>
 
 <% @storage_information.each_with_index do |(_, entries), i| %>
   <%=
