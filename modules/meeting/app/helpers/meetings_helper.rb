@@ -76,10 +76,4 @@ module MeetingsHelper
   def global_create_context?
     request.path == new_meeting_path
   end
-
-  def options_for_project_selection
-    Project.allowed_to(User.current, :create_meetings)
-           .filter { _1.module_enabled?('meetings') }
-           .map { [_1.name, _1.id] }
-  end
 end

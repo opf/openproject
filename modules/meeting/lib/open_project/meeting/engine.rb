@@ -41,7 +41,7 @@ module OpenProject::Meeting
         permission :view_meetings, meetings: %i[index show], meeting_agendas: %i[history show diff],
                                    meeting_minutes: %i[history show diff]
         permission :create_meetings,
-                   { meetings: %i[new participants_section create copy] },
+                   { meetings: %i[new create copy] },
                    require: :member,
                    contract_actions: { meetings: %i[create] }
         permission :edit_meetings, { meetings: %i[edit update] }, require: :member

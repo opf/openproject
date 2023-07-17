@@ -101,8 +101,6 @@ en:
 
   project_module_meetings: "Meetings"
 
-  project_selection_placeholder: "Select project"
-
   text_duration_in_hours: "Duration in hours"
   text_in_hours: "in hours"
   text_meeting_agenda_for_meeting: 'agenda for the meeting "%{meeting}"'
