@@ -68,7 +68,7 @@ class BigintPrimaryAndForeignKeys < ActiveRecord::Migration[7.0]
     EnabledModule => %i[id project_id],
     EnterpriseToken => [:id],
     Enumeration => %i[id project_id parent_id color_id],
-    ExportCardConfiguration => [:id],
+    :export_card_configurations => [:id],
     Forum => %i[id project_id last_message_id],
     Grids::Widget => [:grid_id],
     Grids::Grid => %i[user_id project_id],
