@@ -583,10 +583,10 @@ components:
       "$ref": "./components/schemas/group_model.yml"
     GroupWriteModel:
       "$ref": "./components/schemas/group_write_model.yml"
-    Help_textModel:
+    HelpTextCollectionModel:
+      "$ref": "./components/schemas/help_text_collection_model.yml"
+    HelpTextModel:
       "$ref": "./components/schemas/help_text_model.yml"
-    Help_textsModel:
-      "$ref": "./components/schemas/help_texts_model.yml"
     Link:
       "$ref": "./components/schemas/link.yml"
     List_actionsModel:
