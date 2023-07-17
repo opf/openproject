@@ -41,6 +41,10 @@ module Components
         expect(page).to have_selector('[data-qa-selector="timer-inactive"]', wait: 10)
       end
 
+      def expect_time(text)
+        expect(page).to have_selector('[data-qa-selector="timer-active"]', wait: 10, text:)
+      end
+
       def expect_visible(visible: true)
         if visible
           expect(page).to have_selector('op-wp-timer-button')
