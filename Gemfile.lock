@@ -913,7 +913,7 @@ GEM
     test-prof (1.2.2)
     text-hyphen (1.5.0)
     thor (1.2.2)
-    tilt (2.1.0)
+    tilt (2.2.0)
     timecop (0.9.6)
     timeout (0.4.0)
     trailblazer-option (0.1.2)
