@@ -197,8 +197,6 @@ ru:
       no_results_content_text: Создать новое настраиваемое поле
   concatenation:
     single: 'или'
-  documentation:
-    see_more_link: Для получения дополнительной информации смотрите нашу документацию по этой теме.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -529,6 +527,7 @@ ru:
         hours: "Часы"
         spent_on: "Дата"
         type: "Тип"
+        ongoing: "Ongoing"
       type:
         description: "Текст для описания по умолчанию"
         attribute_groups: ''
@@ -1080,6 +1079,7 @@ ru:
   button_continue: "Продолжить"
   button_copy: "Копировать"
   button_copy_to_clipboard: "Копировать в буфер обмена"
+  button_copy_link_to_clipboard: "Copy link to clipboard"
   button_copy_and_follow: "Скопировать и продолжить"
   button_create: "Создать"
   button_create_and_continue: "Создать и продолжить"
@@ -1459,10 +1459,10 @@ ru:
       working_days_changed:
         changed: "by changes to working days (%{changes})"
         days:
-          working: "%{day} is now working"
-          non_working: "%{day} is now non-working"
+          working: "%{day} сейчас рабочий"
+          non_working: "%{day} теперь нерабочий"
         dates:
-          working: "%{date} is now working"
+          working: "%{date} сейчас рабочий"
           non_working: "%{date} is now non-working"
   links:
     configuration_guide: 'Руководство по конфигурации'
@@ -1530,6 +1530,7 @@ ru:
   label_age: "Возраст"
   label_ago: "дней назад"
   label_all: "все"
+  label_all_projects: "All projects"
   label_all_time: "все время"
   label_all_words: "Все слова"
   label_all_open_wps: "Все открытые"
@@ -1546,6 +1547,7 @@ ru:
   label_ical_access_key_revoke: "Отозвать"
   label_applied_status: "Прикладной статус"
   label_archive_project: "Архивировать проект"
+  label_archived_projects: "Archived projects"
   label_ascending: "По возрастанию"
   label_assigned_to_me_work_packages: "Переданные мне пакеты работ"
   label_associated_revisions: "Связанные изменения"
@@ -1681,7 +1683,8 @@ ru:
   label_equals: "—"
   label_everywhere: "везде"
   label_example: "Пример"
-  label_experimental: "Experimental"
+  label_experimental: "Экспериментально"
+  label_i_am_member: "I am member"
   label_import: "Импорт"
   label_export_to: "Скачать как:"
   label_expanded_click_to_collapse: "Развернуто. Кликните для сворачивания"
@@ -1718,6 +1721,7 @@ ru:
   label_hierarchy_leaf: "Уровень иерархии"
   label_home: "Главная"
   label_subject_or_id: "Тема или ID"
+  label_icalendar: "iCalendar"
   label_impressum: "Правовое уведомление"
   label_in: "в"
   label_in_less_than: "менее чем"
@@ -2392,7 +2396,7 @@ ru:
       archived: "Архивирован"
   project_module_activity: "Деятельность"
   project_module_forums: "Форумы"
-  project_module_work_package_tracking: "Отслеживание пакета работ"
+  project_module_work_package_tracking: "Комплекс работ"
   project_module_news: "Новости"
   project_module_repository: "Репозиторий"
   project_module_wiki: "Wiki"
@@ -2576,7 +2580,7 @@ ru:
   setting_enabled_scm: "Вклченные SCM (системы управления исходным кодом)"
   setting_enabled_projects_columns: "Видимый в списке проектов"
   setting_feeds_enabled: "Включить новостные ленты"
-  setting_ical_enabled: "Включить подписку на iCalendar"
+  setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Предел содержимого новостной ленты"
   setting_file_max_size_displayed: "Максимальная длина  строки текстовых файлов"
   setting_host_name: "Имя компьютера в сети"
@@ -2640,34 +2644,21 @@ ru:
   setting_work_package_list_default_highlighted_attributes: "Выделенные встроенные атрибуты по умолчанию"
   setting_working_days: "Рабочие дни"
   settings:
-    general: "Общие"
-    other: "Другие"
-    passwords: "Пароли"
-    session: "Сессия"
-    brute_force_prevention: "Автоматическое блокирование пользователя"
     attachments:
       whitelist_text_html: >
         Определите список допустимых расширений файлов и/или mime типов для загруженных файлов. <br/> Введите расширения файлов (например, <code>%{ext_example}</code>) или mime типы (e. ., <code>%{mime_example}</code>). <br/> Оставьте пустым, чтобы разрешить загрузку любого типа файла. Допустимы несколько значений (одна строка для каждого значения).
+    brute_force_prevention: "Автоматическое блокирование пользователя"
     language_name_being_default: '%{language_name} (default)'
-    notifications:
-      events_explanation: 'Регулирует, по каким событиям отправляется письмо. Пакеты работ исключаются из этого списка, поскольку уведомления для них могут быть настроены специально для каждого пользователя.'
-      delay_minutes_explanation: "Отправка электронной почты может быть отложена для разрешения пользователям с настроенными в приложении уведомлениями подтвердить уведомление внутри приложения перед отправкой почты. Пользователи, которые прочитали уведомление в приложении, не будут получать по электронной почте уже прочитанное уведомление."
-    display:
+    date_format:
       first_date_of_week_and_year_set: >
-        Если параметры "%{day_of_week_setting_name}" или "%{first_week_setting_name}" заданы,  должны быть заданы и другие тоже во избежание несоответствий в интерфейсе.
-      first_week_of_year_text: >
-        Выберите дату января, которая содержится в первой неделе года. Она вместе с первым днем недели определяет общее количество недель в году.
+        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text_html: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+    general: "Общие"
     experimental:
       save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
       warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
       feature_flags: Feature flags
-    projects:
-      section_new_projects: "Настройки для новых проектов"
-      section_project_overview: "Настройки списка обзоров проекта"
-    user:
-      default_preferences: "Предпочтения по умолчанию"
-      display_format: "Формат отображения"
-      deletion: "Удаление"
     highlighting:
       mode_long:
         inline: "Выделите один или несколько встроенных атрибутов"
@@ -2675,6 +2666,23 @@ ru:
         status: "Вся строка по статусу"
         type: "Вся строка по типу"
         priority: "Вся строка по приоритету"
+    icalendar:
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+    #below line needs to be appended above after docs are ready
+    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    notifications:
+      events_explanation: 'Регулирует, по каким событиям отправляется письмо. Пакеты работ исключаются из этого списка, поскольку уведомления для них могут быть настроены специально для каждого пользователя.'
+      delay_minutes_explanation: "Отправка электронной почты может быть отложена для разрешения пользователям с настроенными в приложении уведомлениями подтвердить уведомление внутри приложения перед отправкой почты. Пользователи, которые прочитали уведомление в приложении, не будут получать по электронной почте уже прочитанное уведомление."
+    other: "Другие"
+    passwords: "Пароли"
+    projects:
+      section_new_projects: "Настройки для новых проектов"
+      section_project_overview: "Настройки списка обзоров проекта"
+    session: "Сессия"
+    user:
+      default_preferences: "Предпочтения по умолчанию"
+      display_format: "Формат отображения"
+      deletion: "Удаление"
     working_days:
       section_work_week: "Рабочая неделя"
       section_holidays_and_closures: "Праздничные и нерабочие дни"

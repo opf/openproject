@@ -66,7 +66,8 @@ ja:
     button_confirm: "確認"
     button_continue: "続行"
     button_copy: "コピー"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "クリップボードにコピー"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "カスタムフィールド"
     button_delete: "削除"
@@ -737,6 +738,14 @@ ja:
     time_entry:
       work_package_required: '最初にワークパッケージを選択する必要があります。'
       title: '時間を記録'
+      tracking: '作業時間の記録'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: '2要素認証'
     watchers:

@@ -12,7 +12,7 @@ nl:
       remove_assignee: 'Verwijder verantwoordelijke'
       two_weeks: '2-week'
       one_week: '1-week'
-      work_week: 'Work week'
+      work_week: 'Werkweek'
       today: 'Vandaag'
       drag_here_to_remove: 'Sleep hierheen om taakontvanger en start- en einddata te verwijderen.'
       cannot_drag_here: 'Kan het werkpakket niet verwijderen vanwege machtigingen of bewerkingsbeperkingen.'

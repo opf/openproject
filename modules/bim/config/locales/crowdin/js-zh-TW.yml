@@ -4,24 +4,24 @@ zh-TW:
     bcf:
       label_bcf: 'BCF'
       import: '匯入'
-      import_bcf_xml_file: 'Import BCF XML file (BCF version 2.1)'
+      import_bcf_xml_file: '匯出 BCF XML 檔案 (BCF version 2.1)'
       export: '匯出'
-      export_bcf_xml_file: 'Export BCF XML file (BCF version 2.1)'
-      viewpoint: 'Viewpoint'
-      add_viewpoint: 'Add viewpoint'
-      show_viewpoint: 'Show viewpoint'
-      delete_viewpoint: 'Delete viewpoint'
-      management: 'BCF management'
-      refresh: 'Refresh'
-      refresh_work_package: 'Refresh work package'
+      export_bcf_xml_file: '匯出 BCF XML 檔案 (BCF version 2.1)'
+      viewpoint: '視點'
+      add_viewpoint: '新增視點'
+      show_viewpoint: '顯示視點'
+      delete_viewpoint: '刪除視點'
+      management: 'BCF 管理'
+      refresh: '重新整理'
+      refresh_work_package: '刷新工作項目'
     ifc_models:
-      empty_warning: "This project does not yet have any IFC models."
-      use_this_link_to_manage: "Use this link to upload and manage your IFC models"
+      empty_warning: "此專案沒有任何 IFC 模型"
+      use_this_link_to_manage: "用此連結來上載及管理您的 IFC 模型"
       keyboard_input_disabled: "Viewer does not have keyboard controls. Click on the viewer to give keyboard control to the viewer."
       models:
         ifc_models: 'IFC 模型'
       views:
-        viewer: 'Viewer'
+        viewer: '檢視器'
         split: 'Viewer and table'
         split_cards: 'Viewer and cards'
     revit:

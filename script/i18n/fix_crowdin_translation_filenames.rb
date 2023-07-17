@@ -5,6 +5,9 @@ Dir.glob('**/config/locales/crowdin/*.yml').each do |crowdin_file|
   language_key = nil
   filename = File.basename(crowdin_file)
 
+  # Skip the empty in-context translations
+  next if filename.include?('lol.')
+
   File.readlines(crowdin_file).each do |line|
     if line.match(/^\s*(\S{2,}):\s*$/)
       language_key = $1

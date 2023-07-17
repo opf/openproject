@@ -65,7 +65,8 @@
     button_confirm: "Bekreft"
     button_continue: "Fortsett"
     button_copy: "Kopier"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "Kopier til utklippstavlen"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Egendefinerte felter"
     button_delete: "Slett"
@@ -467,7 +468,7 @@
     label_this_week: "denne uken"
     label_today: "I dag"
     label_time_entry_plural: "Tid brukt"
-    label_up: "Up"
+    label_up: "Opp"
     label_user_plural: "Brukere"
     label_activity_show_only_comments: "Show activities with comments only"
     label_activity_show_all: "Show all activities"
@@ -583,7 +584,7 @@
       facets:
         unread: 'Unread'
         unread_title: 'Show unread'
-        all: 'All'
+        all: 'Alle'
         all_title: 'Vis alle'
       center:
         label_actor_and: 'og'
@@ -737,6 +738,14 @@
     time_entry:
       work_package_required: 'Requires selecting a work package first.'
       title: 'Logg tid'
+      tracking: 'Tidsstyring'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Tofaktorautentisering'
     watchers:

@@ -27,6 +27,8 @@
 #++
 
 module WorkPackage::PDFExport::Page
+  MAX_NR_OF_PDF_FOOTER_LINES = 3
+
   def configure_page_size!(layout)
     pdf.options[:page_layout] = layout
     pdf.options[:page_size] = styles.page_size
@@ -92,16 +94,23 @@ module WorkPackage::PDFExport::Page
 
   def write_footers!
     pdf.repeat :all, dynamic: true do
-      draw_footer_on_page!
+      draw_footer_on_page
     end
   end
 
-  def draw_footer_on_page!
+  def draw_footer_on_page
     top = styles.page_footer_offset
     text_style = styles.page_footer
+    spacing = styles.page_footer_horizontal_spacing
     page_nr_x, page_nr_width = draw_text_centered(footer_page_nr, text_style, top)
-    draw_text_multiline_left(footer_date, text_style, page_nr_x, top)
-    draw_text_multiline_right(footer_title, text_style, page_nr_x + page_nr_width, top)
+    draw_text_multiline_left(
+      text: footer_date, max_left: page_nr_x - spacing,
+      text_style:, top:, max_lines: MAX_NR_OF_PDF_FOOTER_LINES
+    )
+    draw_text_multiline_right(
+      text: footer_title, max_left: page_nr_x + page_nr_width + spacing,
+      text_style:, top:, max_lines: MAX_NR_OF_PDF_FOOTER_LINES
+    )
   end
 
   def footer_page_nr

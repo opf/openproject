@@ -2,12 +2,18 @@
 ru:
   permission_view_team_planner: "Просмотр планировщика команды"
   permission_manage_team_planner: "Управление планировщиком команды"
-  project_module_team_planner_view: "Командный планировщик"
+  project_module_team_planner_view: "Командные планировщики"
   team_planner:
     label_team_planner: "Командный планировщик"
+    label_new_team_planner: "New team planner"
     label_create_new_team_planner: "Создать новый командный планировщик"
     label_team_planner_plural: "Командные планировщики"
     label_assignees: "Исполнители"
+    label_favoured: "Favoured"
+    help_text:
+      project: Team planners are always attached to a project. After creating a team planner you can add work packages from other projects to it.
+      public: Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+      favoured: Mark this view as favourite and add to the saved views sidebar on the left.
     upsale:
       title: "Командный планировщик"
       description: "Получите полный обзор планирования работы вашей команды с помощью Team Planner. Растягивайте, сокращайте и переносите пакеты работ, чтобы изменять даты, перемещать их или менять назначенных."

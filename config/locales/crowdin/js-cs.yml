@@ -65,7 +65,8 @@ cs:
     button_confirm: "Potvrdit"
     button_continue: "Pokračovat"
     button_copy: "Kopírovat"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "Kopírovat do schránky"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Kopírovat do jiného projektu"
     button_custom-fields: "Vlastní pole"
     button_delete: "Odstranit"
@@ -614,7 +615,7 @@ cs:
         inbox: 'Inbox'
         mentioned: 'Zmíněné'
         watched: 'Sledující'
-        date_alert: 'Date alert'
+        date_alert: 'Upozornění na datum'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Nastavení oznámení"
@@ -739,6 +740,14 @@ cs:
     time_entry:
       work_package_required: 'Vyžaduje nejprve výběr pracovního balíčku.'
       title: 'Čas protokolu'
+      tracking: 'Sledování času'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Dvoufázové ověření'
     watchers:
