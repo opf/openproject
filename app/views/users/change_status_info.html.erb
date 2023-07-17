@@ -41,42 +41,23 @@ See COPYRIGHT and LICENSE files for more details.
         <%= t('user.confirm_status_change', name: @user.name) %>
       </p>
 
-      <div class="attributes-key-value">
-        <div class="attributes-key-value--key"><%= User.human_attribute_name :login %></div>
-        <div class="attributes-key-value--value-container">
-          <div class="attributes-key-value--value -float">
-            <span><%= @user.login %></span>
-          </div>
-        </div>
+      <%=
+        render(AttributeGroups::AttributeGroupComponent.new) do |component|
+          component.with_attribute(key: User.human_attribute_name(:login),
+                                   value: @user.login)
 
-        <div class="attributes-key-value--key"><%= User.human_attribute_name :mail %></div>
-        <div class="attributes-key-value--value-container">
-          <div class="attributes-key-value--value -float">
-            <span><%= @user.mail %></span>
-          </div>
-        </div>
+          component.with_attribute(key: User.human_attribute_name(:mail),
+                                   value: @user.mail)
 
-        <div class="attributes-key-value--key"><%= User.human_attribute_name :name %></div>
-        <div class="attributes-key-value--value-container">
-          <div class="attributes-key-value--value -float">
-            <span><%= @user.name %></span>
-          </div>
-        </div>
+          component.with_attribute(key: User.human_attribute_name(:name),
+                                   value: @user.name)
 
-        <div class="attributes-key-value--key"><%= t(:label_current_status) %></div>
-        <div class="attributes-key-value--value-container">
-          <div class="attributes-key-value--value -float">
-            <span class=""><%= full_user_status(@user, true) %></span>
-          </div>
-        </div>
+          component.with_attribute(key: t(:label_current_status),
+                                   value: full_user_status(@user, true))
 
-        <div class="attributes-key-value--key"><strong><%= t(:status_change) %></strong></div>
-        <div class="attributes-key-value--value-container">
-          <div class="attributes-key-value--value -float">
-            <strong><%= new_status %></strong>
-          </div>
-        </div>
-      </div>
+          component.with_attribute(key: t(:status_change),
+                                   value: new_status)
+      end %>
 
     </section>
     <hr class="form--separator" />
