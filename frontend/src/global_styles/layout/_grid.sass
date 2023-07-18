@@ -286,11 +286,6 @@ $block-grid-max-size: 6 !default
 .grid-container
   @include grid-container
 
-  &.contain-left
-    @include grid-container($align: left)
-  &.contain-right
-    @include grid-container($align: right)
-
 // Sizing and ordering classes
 @for $i from 1 through $total-columns
   // Source ordering
