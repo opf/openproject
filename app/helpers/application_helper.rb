@@ -130,21 +130,23 @@ module ApplicationHelper
   end
 
   def render_flash_message(type, message, html_options = {})
-    css_classes  = ["flash #{type} icon icon-#{type}", html_options.delete(:class)]
-
+    toast_css_classes = ["op-toast -#{type}", html_options.delete(:class)]
     # Add autohide class to notice flashes if configured
     if type.to_s == 'notice' && User.current.pref.auto_hide_popups?
-      css_classes << 'autohide-toaster'
+      toast_css_classes << 'autohide-toaster'
     end
-
-    html_options = { class: css_classes.join(' '), role: 'alert' }.merge(html_options)
-
-    content_tag :div, html_options do
-      concat(join_flash_messages(message))
-      concat(content_tag(:i, '', class: 'icon-close close-handler',
-                                 tabindex: '0',
-                                 role: 'button',
-                                 aria: { label: ::I18n.t('js.close_popup_title') }))
+    html_options = { class: toast_css_classes.join(' '), role: 'alert' }.merge(html_options)
+    close_button = content_tag :a, '', class: 'op-toast--close icon-context icon-close',
+                                       title: I18n.t('js.close_popup_title'),
+                                       tabindex: '0'
+    toast = content_tag(:div, join_flash_messages(message), class: 'op-toast--content')
+    content_tag :div, '', class: 'op-toast--wrapper' do
+      content_tag :div, '', class: 'op-toast--casing' do
+        content_tag :div, html_options do
+          concat(close_button)
+          concat(toast)
+        end
+      end
     end
   end
 
