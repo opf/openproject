@@ -192,14 +192,24 @@ RSpec.describe 'Search', js: true, with_settings: { per_page_options: '5' } do
       context 'as custom fields are no filters' do
         let(:is_filter) { false }
 
-        it "does not find WP via custom fields" do
+        it "finds WP global custom fields" do
+          select_autocomplete(page.find('.top-menu-search--input'),
+                              query: "string",
+                              select_text: "In all projects ↵",
+                              wait_dropdown_open: false)
+          table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
+          table.ensure_work_package_not_listed!(work_packages[0])
+          table.expect_work_package_subject(work_packages[1].subject)
+        end
+
+        it "finds WP non global custom fields" do
           select_autocomplete(page.find('.top-menu-search--input'),
                               query: "text",
                               select_text: "In all projects ↵",
                               wait_dropdown_open: false)
           table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
-          table.ensure_work_package_not_listed!(work_packages[0])
           table.ensure_work_package_not_listed!(work_packages[1])
+          table.expect_work_package_subject(work_packages[0].subject)
         end
       end
 
