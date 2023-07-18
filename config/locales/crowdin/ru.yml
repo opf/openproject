@@ -527,7 +527,7 @@ ru:
         hours: "Часы"
         spent_on: "Дата"
         type: "Тип"
-        ongoing: "Ongoing"
+        ongoing: "В процессе"
       type:
         description: "Текст для описания по умолчанию"
         attribute_groups: ''
@@ -1079,7 +1079,7 @@ ru:
   button_continue: "Продолжить"
   button_copy: "Копировать"
   button_copy_to_clipboard: "Копировать в буфер обмена"
-  button_copy_link_to_clipboard: "Copy link to clipboard"
+  button_copy_link_to_clipboard: "Копировать ссылку в буфер обмена"
   button_copy_and_follow: "Скопировать и продолжить"
   button_create: "Создать"
   button_create_and_continue: "Создать и продолжить"
@@ -1451,19 +1451,19 @@ ru:
     caused_changes:
       dates_changed: "Даты изменены"
     cause_descriptions:
-      work_package_predecessor_changed_times: by changes to predecessor %{link}
-      work_package_parent_changed_times: by changes to parent %{link}
-      work_package_children_changed_times: by changes to child %{link}
-      work_package_related_changed_times: by changes to related %{link}
-      unaccessable_work_package_changed: by changes to a related work package
+      work_package_predecessor_changed_times: внесением изменений в предшественника %{link}
+      work_package_parent_changed_times: внесением изменений в родительский %{link}
+      work_package_children_changed_times: внесением изменений в дочерний элемент %{link}
+      work_package_related_changed_times: внесением изменений в связанный элемент %{link}
+      unaccessable_work_package_changed: внесением изменений в связанный пакет работ
       working_days_changed:
-        changed: "by changes to working days (%{changes})"
+        changed: "внесением изменений в рабочие дни (%{changes})"
         days:
           working: "%{day} сейчас рабочий"
           non_working: "%{day} теперь нерабочий"
         dates:
           working: "%{date} сейчас рабочий"
-          non_working: "%{date} is now non-working"
+          non_working: "%{day} теперь нерабочий"
   links:
     configuration_guide: 'Руководство по конфигурации'
     get_in_touch: "У вас есть вопросы? Свяжитесь с нами."
@@ -2651,13 +2651,13 @@ ru:
     language_name_being_default: '%{language_name} (по умолчанию)'
     date_format:
       first_date_of_week_and_year_set: >
-        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+        Если параметры "%{day_of_week_setting_name}" или "%{first_week_setting_name}" заданы,  должны быть заданы и другие тоже во избежание несоответствий в интерфейсе.
       first_week_of_year_text_html: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+        Выберите дату января, которая содержится в первой неделе года. Это значение вместе с первым днем недели определяет общее количество недель в году. Для получения дополнительной информации, пожалуйста, ознакомьтесь с нашей <a href="%{link}" target="_blank">документацией</a> по этой теме.
     general: "Общие"
     experimental:
-      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
-      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      save_confirmation: Внимание! Риск потери данных! Активируйте экспериментальные функции, только если вы не возражаете против взлома вашей установки OpenProject и потери всех содержащихся в ней данных.
+      warning_toast: Флаги функций - это настройки, активирующие функции, которые все еще находятся в стадии разработки. Они должны использоваться только в целях тестирования. Они никогда не должны активироваться на установках OpenProject, содержащих важные данные. Эти функции с большой вероятностью повредят ваши данные. Используйте их на свой страх и риск.
       feature_flags: Флаги функций
     highlighting:
       mode_long:
@@ -2667,7 +2667,7 @@ ru:
         type: "Вся строка по типу"
         priority: "Вся строка по приоритету"
     icalendar:
-      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+      enable_subscriptions_text_html: Позволяет пользователям с необходимыми разрешениями подписываться на календари OpenProject и получать доступ к информации о рабочем пакете через внешний клиент календаря.
     #below line needs to be appended above after docs are ready
     #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
     notifications:
@@ -2725,11 +2725,11 @@ ru:
   text_custom_logo_instructions: >
     Рекомендуется использовать белый логотип с прозрачным фоном. Для оптимального отображения на обычных и retina-дисплеях размер картинки должен быть 460 на 110 пикселей.
   text_custom_export_logo_instructions: >
-    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+    Это логотип, который отображается при экспорте в формате PDF. Это должен быть файл изображения в формате PNG или JPEG. Рекомендуется использовать черный или цветной логотип на прозрачном или белом фоне.
   text_custom_favicon_instructions: >
-    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
+    Это крошечный значок, который появляется в окне / вкладке вашего браузера рядом с заголовком страницы. Это должен быть файл изображения в формате PNG размером 32 на 32 пикселя с прозрачным фоном.
   text_custom_touch_icon_instructions: >
-    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
+    Это значок, который появляется на вашем мобильном устройстве или планшете, когда вы размещаете закладку на своем рабочем столе. Это должен быть файл изображения в формате PNG размером 180 на 180 пикселей в квадрате. Пожалуйста, убедитесь, что фон изображения не прозрачный, иначе это будет плохо смотреться на iOS.
   text_database_allows_tsv: "База данных позволяет TSVector (опционально)"
   text_default_administrator_account_changed: "Первоначальная учетная запись администратора была изменена"
   text_default_encoding: "По-умолчанию: UTF-8"

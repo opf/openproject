@@ -804,7 +804,7 @@ de:
       placeholder: "Suchbegriff eintippen"
       notFoundText: "Keine Elemente gefunden"
       project:
-        placeholder: "Select project"
+        placeholder: "Projekt wählen"
     repositories:
       select_tag: 'Tag auswählen'
       select_branch: 'Branch auswählen'

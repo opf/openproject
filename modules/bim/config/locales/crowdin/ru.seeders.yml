@@ -205,7 +205,7 @@ ru:
                   name: Вехи
           work_packages:
             item_0:
-              subject: Project kick off construction project
+              subject: Начало строительства проекта
               description: |-
                 The project kick off initializes the start of the project in your company. Everybody being part of this project should be invited to the kick off for a first briefing.
 
@@ -304,7 +304,7 @@ ru:
                   subject: Заморозка дизайна
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_5:
-              subject: Construction phase
+              subject: Фаза конструирования
               children:
                 item_0:
                   subject: Начать конструирование
@@ -363,7 +363,7 @@ ru:
                     *   Finish the roof
                     *   ...
                 item_4:
-                  subject: Installing the building service systems
+                  subject: Установка систем обслуживания конструкций
                   description: |-
                     ## Goal
 
@@ -405,7 +405,7 @@ ru:
         demo-bim-project:
           name: "(Demo) Проект BIM"
           status_explanation: Все задачи и подпроекты выполняются по графику. Вовлеченные люди знают свои задачи. Система полностью настроена.
-          description: This is a short summary of the goals of this demo BIM project.
+          description: Это краткое описание целей этого демо проекта BIM.
           news:
             item_0:
               title: Добро пожаловать в демо-проект
@@ -501,17 +501,17 @@ ru:
                     *   To handle the technological interfaces, a software topology will be defined and analyzed and verified
                     *   ...
                 item_2:
-                  subject: Completion of the BIM execution plan
+                  subject: Завершение выполнения плана выполнения БИМ
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_2:
               subject: Окончание подготовительного этапа
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_3:
-              subject: Creating initial BIM model
+              subject: Создание исходной BIM-модели
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
-                  subject: Modelling initial BIM model
+                  subject: Моделирование исходной BIM-модели
                   description: |-
                     # Goal
 
@@ -535,10 +535,10 @@ ru:
                     *   The model shall be checked, according to the defined standards (conventions, LOD, ...) and revised
                     *   ...
                 item_2:
-                  subject: Submitting initial BIM model
+                  subject: Отправка исходной BIM-модели
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_4:
-              subject: Modelling, first cycle
+              subject: Моделирование, первый цикл
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
