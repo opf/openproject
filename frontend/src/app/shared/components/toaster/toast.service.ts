@@ -42,7 +42,8 @@ import {
 } from 'core-app/features/hal/resources/error-resource';
 
 export function removeSuccessFlashMessages():void {
-  jQuery('.flash.notice').remove();
+  debugger;
+  jQuery('.op-toast.-success').remove();
 }
 
 export type ToastType = 'success'|'error'|'warning'|'info'|'upload'|'loading';
