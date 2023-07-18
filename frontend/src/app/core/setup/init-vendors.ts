@@ -70,3 +70,5 @@ require('expose-loader?I18n!core-vendor/i18n');
 
 // Localization for fullcalendar
 require('@fullcalendar/core/locales-all');
+
+require('@primer/view-components/app/assets/javascripts/primer_view_components.js');
