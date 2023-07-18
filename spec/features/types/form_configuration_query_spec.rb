@@ -93,7 +93,7 @@ RSpec.describe 'form query configuration', js: true, with_cuprite: true do
     it 'can save an empty query group' do
       form.add_query_group('Empty test', :children)
       form.save_changes
-      expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+      expect(page).to have_selector('.op-toast.-success', text: 'Successful update.', wait: 10)
       type_bug.reload
 
       query_group = type_bug.attribute_groups.detect { |x| x.is_a?(Type::QueryGroup) }
@@ -105,7 +105,7 @@ RSpec.describe 'form query configuration', js: true, with_cuprite: true do
       form.add_query_group('Subtasks', :children)
       # Save changed query
       form.save_changes
-      expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+      expect(page).to have_selector('.op-toast.-success', text: 'Successful update.', wait: 10)
 
       # Visit wp_table
       wp_table.visit!
@@ -131,7 +131,7 @@ RSpec.describe 'form query configuration', js: true, with_cuprite: true do
         form.add_query_group('Subtasks', :children)
         # Save changed query
         form.save_changes
-        expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+        expect(page).to have_selector('.op-toast.-success', text: 'Successful update.', wait: 10)
 
         # Visit new wp page
         visit new_project_work_packages_path(project)
@@ -156,7 +156,7 @@ RSpec.describe 'form query configuration', js: true, with_cuprite: true do
         filters.save
 
         form.save_changes
-        expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+        expect(page).to have_selector('.op-toast.-success', text: 'Successful update.', wait: 10)
 
         archived.update_attribute(:active, false)
 
@@ -184,7 +184,7 @@ RSpec.describe 'form query configuration', js: true, with_cuprite: true do
 
       # Save changed query
       form.save_changes
-      expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+      expect(page).to have_selector('.op-toast.-success', text: 'Successful update.', wait: 10)
 
       type_bug.reload
       query = type_bug.attribute_groups.detect { |x| x.key == 'Columns Test' }
@@ -206,7 +206,7 @@ RSpec.describe 'form query configuration', js: true, with_cuprite: true do
 
       # Save changed query
       form.save_changes
-      expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+      expect(page).to have_selector('.op-toast.-success', text: 'Successful update.', wait: 10)
 
       type_bug.reload
       query = type_bug.attribute_groups.detect { |x| x.key == 'Columns Test' }
@@ -253,7 +253,7 @@ RSpec.describe 'form query configuration', js: true, with_cuprite: true do
         filters.save
 
         form.save_changes
-        expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+        expect(page).to have_selector('.op-toast.-success', text: 'Successful update.', wait: 10)
 
         # Visit work package with that type
         wp_page.visit!

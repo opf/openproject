@@ -44,8 +44,8 @@ module Pages
       end
 
       # only notice is used as opposed to op-toast
-      def expect_toast(message:, type: :notice)
-        expect(page).to have_selector(".flash.#{type}", text: message, wait: 10)
+      def expect_toast(message:, type: :success)
+        expect(page).to have_selector(".op-toast.-#{type}", text: message, wait: 10)
       end
 
       def expect_type_active(type)

@@ -78,7 +78,7 @@ module Components
       SeleniumHubWaiter.wait
       fill_in('cost_entry_units', with: new_value)
       click_button 'Save'
-      expect(page).to have_selector('.flash.notice')
+      expect(page).to have_selector('.op-toast.-success')
     end
 
     def delete_entry(row)

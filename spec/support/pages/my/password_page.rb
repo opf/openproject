@@ -56,7 +56,7 @@ module Pages
 
       def expect_password_updated_message
         expect(page)
-          .to have_selector('.flash.info', text: I18n.t(:notice_account_password_updated))
+          .to have_selector('.op-toast.-info', text: I18n.t(:notice_account_password_updated))
       end
 
       private

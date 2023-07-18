@@ -86,7 +86,7 @@ RSpec.describe 'Wysiwyg work package button spec',
         # Save wiki page
         click_on 'Save'
 
-        expect(page).to have_selector('.flash.notice')
+        expect(page).to have_selector('.op-toast.-success')
 
         within('#content') do
           expect(page).to have_selector("a[href=\"/projects/my-project/work_packages/new?type=#{type.id}\"]")
