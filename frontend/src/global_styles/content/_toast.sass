@@ -129,7 +129,6 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   &.-error,
   &.-success,
   &.-warning,
-  &.-notice,
   &.-info
     padding: $nm-box-padding
 
@@ -146,8 +145,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
       @include messages-icon
       @extend %nm-icon-error
 
-  &.-success,
-  &.-notice
+  &.-success
     @extend %success-placeholder
 
     &::before
@@ -363,13 +361,6 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   &::before
     @include messages-icon
     padding: 0 !important
-
-  &.notice
-    @extend %success-placeholder
-
-    &::before
-      @extend %nm-icon-success
-      color: $nm-color-success-icon
 
   &.error, &.nodata
     @extend %error-placeholder

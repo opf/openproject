@@ -130,9 +130,12 @@ module ApplicationHelper
   end
 
   def render_flash_message(type, message, html_options = {})
+    if type.to_s == 'notice'
+      type = 'success'
+    end
     toast_css_classes = ["op-toast -#{type}", html_options.delete(:class)]
     # Add autohide class to notice flashes if configured
-    if type.to_s == 'notice' && User.current.pref.auto_hide_popups?
+    if type.to_s == 'success' && User.current.pref.auto_hide_popups?
       toast_css_classes << 'autohide-toaster'
     end
     html_options = { class: toast_css_classes.join(' '), role: 'alert' }.merge(html_options)
