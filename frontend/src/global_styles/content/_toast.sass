@@ -112,6 +112,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   border: rem-calc(1px) solid $nm-color-border
   font-size: $nm-font-size
   word-wrap: break-word
+  position: relative
 
   & .button
     margin: rem-calc(10px 10px 0 0)
@@ -128,6 +129,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   &.-error,
   &.-success,
   &.-warning,
+  &.-notice,
   &.-info
     padding: $nm-box-padding
 
@@ -144,7 +146,8 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
       @include messages-icon
       @extend %nm-icon-error
 
-  &.-success
+  &.-success,
+  &.-notice
     @extend %success-placeholder
 
     &::before
@@ -190,8 +193,6 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   &.-error
     color: var(--content-form-danger-zone-bg-color)
 
-  &.-success
-    color: $nm-color-success-icon
 
   &.-warning
     color: $nm-color-warning-icon
@@ -200,7 +201,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     color: $nm-color-info-icon
 
 .op-toast--wrapper,
-.flash, #errorExplanation
+#errorExplanation
   position: absolute
   max-width: $nm-toaster-width
   margin: 0 auto
@@ -218,7 +219,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     .op-toast
       margin-bottom: rem-calc(3px)
 
-.flash, #errorExplanation
+#errorExplanation
   top: 1rem
 
 // awesome animations
@@ -323,14 +324,12 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   &.-error
     @extend %error-placeholder
 
-  &.-success
-    @extend %success-placeholder
 
   &.-warning
     @extend %warning-placeholder
 
 // Use same styles for flash messages
-.flash, #errorExplanation
+#errorExplanation
   // Always above the toast
   @include spot-z-index("toast", 1)
   border-radius: $nm-border-radius
@@ -397,7 +396,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
       @extend %nm-icon-warning
       color: $nm-color-warning-icon
 
-.flash + .flash
+.op-toast + .op-toast
   margin-top: 3rem
 
 a.op-toast--target-link
