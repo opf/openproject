@@ -85,7 +85,7 @@ nl:
   text_duration_in_hours: "Duur in uren"
   text_in_hours: "in uren"
   text_meeting_agenda_for_meeting: 'agenda voor de vergadering "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Are you sure you want to close the agenda?"
+  text_meeting_closing_are_you_sure: "Weet u zeker dat u de agenda wilt afsluiten?"
   text_meeting_agenda_open_are_you_sure: "Dit overschrijft alle wijzigingen in de aantekeningen! Wilt u doorgaan?"
   text_meeting_minutes_for_meeting: 'minuten voor de vergadering "%{meeting}"'
   text_review_meeting_agenda: "%{author} heeft de %{link} geselecteerd voor herziening."

@@ -20,7 +20,7 @@ OpenProject 6.0.4 contains several bug and accessibility fixes.
     multiple attributes were changed in quick succession
     ([#23589](https://community.openproject.com/work_packages/23859)).
   - In the work package split screen the subject was not updated when it
-    was changed in the work package list
+    was changed in the work package table
     ([#23879](https://community.openproject.com/work_packages/23879)).
   - The project list on the work package screen appeared to be ordered
     randomly. It’s now sorted alphabetically
@@ -59,5 +59,4 @@ or take a look at
 
 You can try OpenProject for free. For a free 30 day trial create your
 OpenProject instance on [OpenProject.org](https://openproject.org/).
-
 

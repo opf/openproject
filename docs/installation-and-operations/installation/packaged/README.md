@@ -27,15 +27,14 @@ The package will:
 The package is available for the following Linux distributions:
 
 | Distribution (64 bits only)                 |
-| ------------------------------------------- |
+|---------------------------------------------|
 | [Ubuntu 22.04 Jammy](#ubuntu-2204)          |
 | [Ubuntu 20.04 Focal](#ubuntu-2004)          |
 | [Ubuntu 18.04 Bionic Beaver](#ubuntu-1804)  |
-| [Ubuntu 16.04 Xenial Xerus](#ubuntu-1604)   |
-| [Debian 11 Bullseye](#debian-11)              |
+| [Debian 11 Bullseye](#debian-11)            |
 | [Debian 10 Buster](#debian-10)              |
-| [CentOS/RHEL 8.x](#centos-8--rhel-8)                    |
-| [CentOS/RHEL 7.x](#centos-7--rhel-7)                    |
+| [CentOS/RHEL 8.x](#centos-8--rhel-8)        |
+| [CentOS/RHEL 7.x](#centos-7--rhel-7)        |
 | [Suse Linux Enterprise Server 15](#sles-15) |
 | [Suse Linux Enterprise Server 12](#sles-12) |
 

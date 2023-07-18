@@ -66,7 +66,7 @@ ar:
   label_example_placeholder: 'مثال، %{decimal}'
   label_view_all_budgets: "عرض جميع الميزانيات"
   label_yes: "نعم"
-  notice_budget_conflict: "Work packages must be of the same project."
+  notice_budget_conflict: "مجموعات العمل يجب أن تكون لنفس المشروع."
   notice_no_budgets_available: "لا يوجد ميزانيات متاحة."
   permission_edit_budgets: "تحرير الميزانية"
   permission_view_budgets: "عرض الميزانيات"

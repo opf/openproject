@@ -167,5 +167,29 @@ describe 'group memberships through groups page', js: true do
       expect(members_page2).not_to have_group 'A-Team'
       expect(members_page2).not_to have_user 'Hannibal Smith'
     end
+
+    context 'with an archived project' do
+      let!(:archived_project) do
+        create(:project,
+               name: 'Archived project',
+               identifier: 'archived_project',
+               active: false)
+      end
+
+      let!(:other_project) do
+        create(:project,
+               name: 'Other project',
+               identifier: 'other_project')
+      end
+
+      it 'can only a add the group to active projects in which the group is not yet a member' do
+        group_page.visit!
+        group_page.open_projects_tab!
+
+        target_dropdown = group_page.search_for_project 'project'
+        expect(target_dropdown).to have_selector(".ng-option", text: 'Other project')
+        expect(target_dropdown).not_to have_selector(".ng-option", text: 'Archived project')
+      end
+    end
   end
 end

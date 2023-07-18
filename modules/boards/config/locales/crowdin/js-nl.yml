@@ -62,7 +62,7 @@ nl:
           status: Status
           version: Versie
           subproject: Subproject
-          subtasks: Parent-child
+          subtasks: Ouder-kind
           basic: Basis
         select_attribute: "Actie attribuut"
       add_list_modal:

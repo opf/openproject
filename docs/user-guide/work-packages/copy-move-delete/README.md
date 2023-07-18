@@ -8,7 +8,7 @@ keywords: copy work package, delete work package, move work package
 
 # Copy, change project or delete a work package
 
-If you click with the right mouse button in the line of the work package, a list with different editing options for the selected work package opens. Here you can copy the work package, delete it and move it to another project. You can access these features from the work package list or from within a work package.
+If you click with the right mouse button in the line of the work package, a list with different editing options for the selected work package opens. Here you can copy the work package, delete it and move it to another project. You can access these features from the work package table or from within a work package.
 
 You can also dit a work package using the three dots at the far right of a row to access the menu.
 
@@ -38,4 +38,4 @@ The *change project* option moves a work package to another project or subprojec
 
 The right to delete work packages is tied to specified roles (for example system administrators). The roles and permission may vary from project to project.
 
-You can select these options either in the detail view under *More* or via the context menu by right-clicking into the work package list. The latter option allows you to perform an action (such as copying, moving or deleting a work package) on multiple work packages at once.
+You can select these options either in the detail view under *More* or via the context menu by right-clicking into the work package table. The latter option allows you to perform an action (such as copying, moving or deleting a work package) on multiple work packages at once.

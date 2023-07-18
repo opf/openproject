@@ -5,8 +5,8 @@ ar:
       remove: 'إزالة الأداة'
       configure: 'Configure widget'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
-        link: 'Enterprise edition.'
+        text: "بعض الأدوات، مثل أداة الرسم البياني لحزمة العمل، متوفرة فقط في النسخة المدفوعة."
+        link: 'طبعة المؤسسة.'
       widgets:
         custom_text:
           title: 'نص مخصص'

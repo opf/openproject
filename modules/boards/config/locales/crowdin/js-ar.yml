@@ -62,7 +62,7 @@ ar:
           status: الحالة
           version: الإصدار
           subproject: مشروع فرعي
-          subtasks: Parent-child
+          subtasks: الاصل والفرع
           basic: Basic
         select_attribute: "Action attribute"
       add_list_modal:

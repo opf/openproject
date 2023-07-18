@@ -84,6 +84,7 @@ OpenProject::Application.routes.draw do
     get '/account/activate', action: 'activate'
 
     match '/login', action: 'login',  as: 'signin', via: %i[get post]
+    get '/login/internal', action: 'internal_login', as: 'internal_signin'
     get '/logout', action: 'logout', as: 'signout'
 
     get '/sso', action: 'auth_source_sso_failed', as: 'sso_failure'

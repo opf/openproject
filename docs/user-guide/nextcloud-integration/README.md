@@ -20,13 +20,13 @@ This integration makes it possible for you to:
 > Note: The minimum requirements for this integration are Nextcloud version 22 (or above) and OpenProject version  12.2 (or above). To be able to use Nextcloud as a file storage in your project, the administrator of your instance should first have completed the [Nextcloud integration setup](../../system-admin-guide/integrations/nextcloud).
 
 
-| Topic                                                        | Description                                                  |
-| ------------------------------------------------------------ | :----------------------------------------------------------- |
-| [Connecting your OpenProject and Nextcloud accounts](#connecting-your-openproject-and-nextcloud-accounts) | How to connect your Nextcloud and OpenProject accounts to be able to use this integration |
-| [Linking files and folders to work packages](#linking-files-and-folders-to-work-packages) | How to link files and folders to work packages and view and download linked files |
-| [Unlinking files and folders](#unlinking-files-and-folders)  | How to remove the link between a work package and a Nextcloud file or folder |
-| [Permissions and access control](#permissions-and-access-control) | Who has access to linked files and who doesn't               |
-| [Possible errors and troubleshooting](#possible-errors-and-troubleshooting) | Common errors and how to troubleshoot them                   |
+| Topic                                                                                                  | Description                                                                               |
+|--------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------|
+| [Connecting your OpenProject and Nextcloud accounts](#connect-your-openproject-and-nextcloud-accounts) | How to connect your Nextcloud and OpenProject accounts to be able to use this integration |
+| [Linking files and folders to work packages](#link-files-and-folders-to-work-packages)                 | How to link files and folders to work packages and view and download linked files         |
+| [Unlinking files and folders](#remove-links)                                                           | How to remove the link between a work package and a Nextcloud file or folder              |
+| [Permissions and access control](#permissions-and-access-control)                                      | Who has access to linked files and who doesn't                                            |
+| [Possible errors and troubleshooting](#possible-errors-and-troubleshooting)                            | Common errors and how to troubleshoot them                                                |
 
 ## Connect your OpenProject and Nextcloud accounts
 
@@ -52,7 +52,7 @@ To begin using this integration, you will need to first connect your OpenProject
 5. The one-time process to connect your two accounts is complete. You will now be directed back to the original work package, where you can view and open any Nextcloud files that are already linked, or start linking new ones.
 
 
-> **Note**: To disconnect the link between your OpenProject and Nextcloud accounts, head on over to Nextcloud and navigate to _Settings → OpenProject_. There, click *Disconnect from OpenProject* button. To re-link the two accounts, simply follow [the above instructions](#connecting-your-openproject-and-nextcloud-accounts) again.
+> **Note**: To disconnect the link between your OpenProject and Nextcloud accounts, head on over to Nextcloud and navigate to _Settings → OpenProject_. There, click *Disconnect from OpenProject* button. To re-link the two accounts, simply follow [the above instructions](#connect-your-openproject-and-nextcloud-accounts) again.
 
 ## Link files and folders to work packages
 

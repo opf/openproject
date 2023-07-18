@@ -93,7 +93,7 @@
     button_save: "Lagre"
     button_settings: "Innstillinger"
     button_uncheck_all: "Avmerk alle"
-    button_update: "Oppdatèr"
+    button_update: "Oppdater"
     button_export-pdf: "Last ned PDF"
     button_export-atom: "Download Atom"
     button_create: "Opprett"
@@ -456,7 +456,7 @@
     label_this_week: "denne uken"
     label_today: "I dag"
     label_time_entry_plural: "Tid brukt"
-    label_up: "Up"
+    label_up: "Opp"
     label_user_plural: "Brukere"
     label_activity_show_only_comments: "Show activities with comments only"
     label_activity_show_all: "Show all activities"
@@ -572,7 +572,7 @@
       facets:
         unread: 'Unread'
         unread_title: 'Show unread'
-        all: 'All'
+        all: 'Alle'
         all_title: 'Vis alle'
       center:
         label_actor_and: 'og'

@@ -2076,6 +2076,7 @@ fr:
       more_to_see:
         one: 'Il y a encore 1 lot de travaux avec des notifications.'
         other: 'Il y a encore %{count} lots de travaux avec des notifications.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Surveillé'
         assigned: 'Assigné'

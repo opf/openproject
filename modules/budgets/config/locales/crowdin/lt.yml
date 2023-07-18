@@ -66,7 +66,7 @@ lt:
   label_example_placeholder: 't.y., %{decimal}'
   label_view_all_budgets: "Peržiūrėti visus biudžetus"
   label_yes: "Taip"
-  notice_budget_conflict: "Work packages must be of the same project."
+  notice_budget_conflict: "Darbų paketai turi būti tame pačiame projekte."
   notice_no_budgets_available: "Nėra biudžetų."
   permission_edit_budgets: "Redaguoti biudžetus"
   permission_view_budgets: "Peržiūrėti biudžetus"

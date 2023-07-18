@@ -63,7 +63,7 @@ id:
           version: Versi
           subproject: Sub-Project
           subtasks: Parent-child
-          basic: Basic
+          basic: Dasar
         select_attribute: "Aksi atribut"
       add_list_modal:
         labels:
