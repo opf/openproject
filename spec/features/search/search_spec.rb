@@ -28,16 +28,12 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Search', js: true, with_mail: false, with_settings: { per_page_options: '5' } do
+RSpec.describe 'Search', js: true, with_settings: { per_page_options: '5' } do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   shared_let(:admin) { create(:admin) }
-  let(:user) { admin }
-  let(:project) { create(:project) }
-  let(:searchable) { true }
-  let(:is_filter) { true }
-
-  let!(:work_packages) do
+  shared_let(:project) { create(:project) }
+  shared_let(:work_packages) do
     (1..12).map do |n|
       Timecop.freeze("2016-11-21 #{n}:00".to_datetime) do
         subject = "Subject No. #{n} WP"
@@ -47,6 +43,11 @@ RSpec.describe 'Search', js: true, with_mail: false, with_settings: { per_page_o
       end
     end
   end
+
+  let(:user) { admin }
+  let(:searchable) { true }
+  let(:is_filter) { true }
+
   let(:custom_field_text_value) { 'cf text value' }
   let!(:custom_field_text) do
     create(:text_wp_custom_field,
@@ -202,7 +203,7 @@ RSpec.describe 'Search', js: true, with_mail: false, with_settings: { per_page_o
         end
       end
 
-      context 'as custom fields are searchable' do
+      context 'when custom fields are searchable' do
         it "finds WP global custom fields" do
           select_autocomplete(page.find('.top-menu-search--input'),
                               query: "string",
@@ -211,6 +212,16 @@ RSpec.describe 'Search', js: true, with_mail: false, with_settings: { per_page_o
           table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
           table.ensure_work_package_not_listed!(work_packages[0])
           table.expect_work_package_subject(work_packages[1].subject)
+        end
+
+        it "finds WP non global custom fields" do
+          select_autocomplete(page.find('.top-menu-search--input'),
+                              query: "text",
+                              select_text: "In all projects ↵",
+                              wait_dropdown_open: false)
+          table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
+          table.ensure_work_package_not_listed!(work_packages[1])
+          table.expect_work_package_subject(work_packages[0].subject)
         end
       end
 

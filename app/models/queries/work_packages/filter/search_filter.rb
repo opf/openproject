@@ -82,7 +82,6 @@ class Queries::WorkPackages::Filter::SearchFilter <
       else
         ::WorkPackageCustomField
           .filter
-          .for_all
           .where(field_format: %w(text string),
                  is_filter: true,
                  searchable: true)
