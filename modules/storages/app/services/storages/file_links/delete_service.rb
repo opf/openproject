@@ -30,6 +30,17 @@
 module Storages
   module FileLinks
     class DeleteService < ::BaseServices::Delete
+      def after_perform(service_result)
+        container = service_result.result.container
+
+        # No need to continue if container isn't journaled.
+        return service_result unless container&.class&.journaled?
+
+        # We don't care if the journal creation fails for now.
+        Journals::CreateService.new(container, service_result.result.creator).call
+
+        service_result
+      end
     end
   end
 end
