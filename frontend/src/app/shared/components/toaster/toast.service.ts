@@ -42,7 +42,6 @@ import {
 } from 'core-app/features/hal/resources/error-resource';
 
 export function removeSuccessFlashMessages():void {
-  debugger;
   jQuery('.op-toast.-success').remove();
 }
 
