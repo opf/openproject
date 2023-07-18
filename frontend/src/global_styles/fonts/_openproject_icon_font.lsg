@@ -15,11 +15,13 @@
 <li><span class="icon icon-align-right"></span>align-right</li>
 <li><span class="icon icon-arrow-down1"></span>arrow-down1</li>
 <li><span class="icon icon-arrow-down2"></span>arrow-down2</li>
+<li><span class="icon icon-arrow-in"></span>arrow-in</li>
 <li><span class="icon icon-arrow-left-right"></span>arrow-left-right</li>
 <li><span class="icon icon-arrow-left1"></span>arrow-left1</li>
 <li><span class="icon icon-arrow-left2"></span>arrow-left2</li>
 <li><span class="icon icon-arrow-left3"></span>arrow-left3</li>
 <li><span class="icon icon-arrow-left4"></span>arrow-left4</li>
+<li><span class="icon icon-arrow-out"></span>arrow-out</li>
 <li><span class="icon icon-arrow-right2"></span>arrow-right2</li>
 <li><span class="icon icon-arrow-right3"></span>arrow-right3</li>
 <li><span class="icon icon-arrow-right4"></span>arrow-right4</li>
@@ -81,6 +83,7 @@
 <li><span class="icon icon-date-alerts"></span>date-alerts</li>
 <li><span class="icon icon-delete-folder"></span>delete-folder</li>
 <li><span class="icon icon-delete"></span>delete</li>
+<li><span class="icon icon-delta-triangle"></span>delta-triangle</li>
 <li><span class="icon icon-dependency"></span>dependency</li>
 <li><span class="icon icon-design"></span>design</li>
 <li><span class="icon icon-double-arrow-left"></span>double-arrow-left</li>
