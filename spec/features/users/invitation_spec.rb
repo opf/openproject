@@ -37,7 +37,7 @@ RSpec.describe 'invitations', js: true, with_cuprite: true do
 
   shared_examples 'resending invitations' do
     it 'resends the invitation' do
-      visit edit_user_path(user)
+      visit user_path(user)
       click_on I18n.t(:label_send_invitation)
       expect(page).to have_text 'An invitation has been sent to holly@openproject.com.'
 
