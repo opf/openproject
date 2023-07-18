@@ -137,13 +137,6 @@ RSpec.describe 'Tasks on taskboard',
            version: sprint,
            story_points: 10)
   end
-  let!(:export_card_configurations) do
-    ExportCardConfiguration.create!(name: 'Default',
-                                    per_page: 1,
-                                    page_size: 'A4',
-                                    orientation: 'landscape',
-                                    rows: "group1:\n  has_border: false\n  rows:\n    row1:\n      height: 50\n      priority: 1\n      columns:\n        id:\n          has_label: false")
-  end
   let(:taskboard_page) { Pages::Taskboard.new(project, sprint) }
 
   before do

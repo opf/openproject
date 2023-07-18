@@ -62,38 +62,97 @@ module WorkPackage::PDFExport::TableOfContents
     measure_text_width(part, part_style) + styles.toc_item_subject_indent
   end
 
-  def write_part_float(part, part_style)
+  def write_part_float(indent, part, part_style)
     pdf.float do
-      pdf.text(part, part_style)
-    end
-  end
-
-  def write_toc!(toc_list)
-    max_level_string_width = toc_list.pluck(:level_string_width).max
-    toc_list.each do |toc_item|
-      with_margin(styles.toc_item_margins(toc_item[:level])) do
-        write_toc_item! toc_item, max_level_string_width
+      pdf.indent(indent) do
+        pdf.text(part, part_style)
       end
     end
   end
 
-  def write_toc_item_subject!(toc_item, max_level_width, subject_style)
-    pdf.indent(max_level_width, toc_item[:page_nr_string_width]) do
+  def write_toc!(toc_list)
+    levels_indent_list = toc_indent_list(toc_list)
+    toc_list.each do |toc_item|
+      with_margin(styles.toc_item_margins(toc_item[:level])) do
+        write_toc_item! toc_item, levels_indent_list
+      end
+    end
+  end
+
+  def write_toc_item_subject!(toc_item, indent, subject_style)
+    pdf.indent(indent, toc_item[:page_nr_string_width]) do
       pdf.formatted_text([subject_style.merge({ text: toc_item[:title] })])
     end
   end
 
-  def write_toc_item!(toc_item, max_level_width)
-    y = pdf.y
+  def toc_indent_list_flat(levels, level_max_widths)
+    levels_max_width = level_max_widths.max
+    levels.map do |_|
+      { level_indent: 0, subject_index: levels_max_width }
+    end
+  end
+
+  def toc_indent_list_stairs(levels, level_max_widths)
+    indent_list = []
+    levels.each do |level|
+      level_indent = level <= 1 ? 0 : indent_list.last[:subject_index]
+      subject_index = level_indent + level_max_widths[level - 1]
+      indent_list.push({ level_indent:, subject_index: })
+    end
+    indent_list
+  end
+
+  def toc_indent_list_third_level(levels, level_max_widths)
+    indent_list = []
+    first_section = level_max_widths[0..1].max || 0
+    second_section = level_max_widths[2..].max || 0
+    levels.each do |level|
+      if level < 3
+        indent_list.push({ level_indent: 0, subject_index: first_section })
+      else
+        indent_list.push({ level_indent: first_section, subject_index: first_section + second_section })
+      end
+    end
+    indent_list
+  end
+
+  def toc_indent_list(toc_list)
+    levels = toc_list.pluck(:level).uniq.sort
+    level_max_widths = levels.map do |level|
+      toc_list.select { |item| item[:level] == level }.pluck(:level_string_width).max
+    end
+    mode = (styles.toc_indent_mode || :flat).to_sym
+    case mode
+    when :stairs
+      toc_indent_list_stairs(levels, level_max_widths)
+    when :third_level
+      toc_indent_list_third_level(levels, level_max_widths)
+    else
+      toc_indent_list_flat(levels, level_max_widths)
+    end
+  end
+
+  def build_toc_item_styles(toc_item)
     toc_item_style = styles.toc_item(toc_item[:level])
     part_style = toc_item_style.clone
     font_styles = part_style.delete(:styles) || []
     part_style[:style] = font_styles[0] unless font_styles.empty?
-    write_part_float(toc_item[:level_string], part_style)
-    write_part_float(toc_item[:page_nr_string], part_style.merge({ align: :right }))
-    write_toc_item_subject!(toc_item, max_level_width, toc_item_style)
+    [part_style, toc_item_style]
+  end
 
-    rect = [pdf.bounds.absolute_right, pdf.y, pdf.bounds.absolute_left, y]
+  def write_toc_item!(toc_item, levels_indent_list)
+    y_start_position = pdf.y
+    part_style, toc_item_style = build_toc_item_styles(toc_item)
+    indent = levels_indent_list[toc_item[:level] - 1]
+
+    write_part_float(indent[:level_indent], toc_item[:level_string], part_style)
+    write_part_float(0, toc_item[:page_nr_string], part_style.merge({ align: :right }))
+    write_toc_item_subject!(toc_item, indent[:subject_index], toc_item_style)
+    write_toc_item_link(toc_item, y_start_position)
+  end
+
+  def write_toc_item_link(toc_item, y_start_position)
+    rect = [pdf.bounds.absolute_right, pdf.y, pdf.bounds.absolute_left, y_start_position]
     pdf.link_annotation(rect, Border: [0, 0, 0], Dest: toc_item[:id].to_s)
   end
 end

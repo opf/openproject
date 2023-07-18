@@ -26,7 +26,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+@import "../openproject/variables"
+
 $form--field-types: (text-field, text-area, select, check-box, radio-button, range-field, search, file, date-picker)
+$base-line-height: 1.5
+$form-label-color: var(--body-font-color)
 
 %input-style
   border: var(--content-form-input-border)
@@ -229,7 +233,7 @@ hr
   font-weight: bold
   line-height: 1.8
   text-transform: uppercase
-  border-bottom: 1px solid $gray
+  border-bottom: 1px solid var(--gray)
 
 // HACK. TODO: Remove fieldset element rules in various places.
 .form--fieldset,
@@ -439,7 +443,7 @@ fieldset.form--fieldset
   &.-horizontal
     flex-direction: column
 
-    @include breakpoint(1080px up)
+    @include breakpoint(lg)
       flex-direction: row
       flex-wrap: wrap
 
@@ -754,7 +758,7 @@ input[readonly].-clickable
 .form--matrix-header-row
   font-weight: bold
   border-bottom: var(--content-form-input-border)
-  background-color: $gray-light
+  background-color: var(--gray-light)
 
 .form--matrix-header-cell
   padding: 0 1rem
@@ -762,7 +766,7 @@ input[readonly].-clickable
 .form--matrix-row
 
   &:nth-child(odd)
-    background-color: $gray-light
+    background-color: var(--gray-light)
 
   &:nth-child(even)
     background-color: white
@@ -864,12 +868,11 @@ input[readonly].-clickable
   flex: 0 0 auto
   display: flex
   font-size: 0.9rem
-  background: $inlinelabel-background
-  color: $inlinelabel-color
+  background: #EEEEEE
+  color: var(--body-font-color)
   border: var(--content-form-input-border)
-  // OR $inlinelabel-border
   border-radius: 2px
-  padding: 0 $form-padding
+  padding: 0 0.5rem
   margin-bottom: 0rem
   align-items: center
   line-height: 1
@@ -923,10 +926,10 @@ input[readonly].-clickable
   margin: 0
   @include grid-layout(3)
 
-  @include breakpoint(large)
+  @media screen and (max-width: $breakpoint-lg)
     @include grid-layout(4)
 
-  @include breakpoint(xlarge)
+  @media screen and (max-width: $breakpoint-xl)
     @include grid-layout(6)
 
   li, div

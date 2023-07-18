@@ -81,6 +81,16 @@ class CostReportsController < ApplicationController
       respond_to do |format|
         format.html do
           session[report_engine.name.underscore.to_sym].try(:delete, :name)
+          render locals: { menu_name: project_or_global_menu }
+        end
+
+        format.xls do
+          job_id = ::CostQuery::ScheduleExportService
+            .new(user: current_user)
+            .call(filter_params:, project: @project, cost_types: @cost_types)
+            .result
+
+          redirect_to job_status_path(job_id)
         end
       end
     end
@@ -99,7 +109,7 @@ class CostReportsController < ApplicationController
   end
 
   def menu_item_to_highlight_on_index
-    @project ? :costs : :cost_reports_global
+    @project ? :costs : :cost_reports_global_report_menu
   end
 
   ##
@@ -127,7 +137,7 @@ class CostReportsController < ApplicationController
     if @query
       store_query(@query)
       table
-      render action: 'index' unless performed?
+      render action: 'index', locals: { menu_name: project_or_global_menu } unless performed?
     else
       raise ActiveRecord::RecordNotFound
     end

@@ -41,6 +41,10 @@ module Components
         expect(page).to have_selector('[data-qa-selector="timer-inactive"]', wait: 10)
       end
 
+      def expect_time(text)
+        expect(page).to have_selector('[data-qa-selector="timer-active"]', wait: 10, text:)
+      end
+
       def expect_visible(visible: true)
         if visible
           expect(page).to have_selector('op-wp-timer-button')
@@ -50,6 +54,7 @@ module Components
       end
 
       def start
+        close_dropdown
         page.within('op-wp-timer-button') do
           find('[data-qa-selector="timer-inactive"]').click
         end
@@ -59,6 +64,15 @@ module Components
         page.within('op-wp-timer-button') do
           find('[data-qa-selector="timer-active"]').click
         end
+      end
+
+      # Fix to close active dropdowns in the top menu
+      def close_dropdown
+        page.evaluate_script <<~JS
+          document
+              .getElementById('wrapper')
+              .dispatchEvent(new MouseEvent('click'))
+        JS
       end
     end
   end

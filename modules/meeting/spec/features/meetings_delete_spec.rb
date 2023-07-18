@@ -44,6 +44,8 @@ RSpec.describe 'Meetings deletion' do
   let!(:meeting) { create(:meeting, project:, title: 'Own awesome meeting!', author: user) }
   let!(:other_meeting) { create(:meeting, project:, title: 'Other awesome meeting!', author: other_user) }
 
+  let(:index_path) { project_meetings_path(project) }
+
   before do
     login_as(user)
   end
@@ -51,8 +53,8 @@ RSpec.describe 'Meetings deletion' do
   context 'with permission to delete meetings', js: true do
     let(:permissions) { %i[view_meetings delete_meetings] }
 
-    it 'can delete own and other`s meetings' do
-      visit meetings_path(project)
+    it "can delete own and other's meetings" do
+      visit index_path
 
       click_link meeting.title
       accept_confirm do
@@ -60,7 +62,7 @@ RSpec.describe 'Meetings deletion' do
       end
 
       expect(page)
-        .to have_current_path meetings_path(project)
+        .to have_current_path index_path
 
       click_link other_meeting.title
       accept_confirm do
@@ -70,8 +72,8 @@ RSpec.describe 'Meetings deletion' do
       expect(page)
         .to have_content(I18n.t('.no_results_title_text', cascade: true))
 
-      expect(current_path)
-        .to eql meetings_path(project)
+      expect(page)
+        .to have_current_path index_path
     end
   end
 
@@ -79,13 +81,13 @@ RSpec.describe 'Meetings deletion' do
     let(:permissions) { %i[view_meetings] }
 
     it "cannot delete own and other's meetings" do
-      visit meetings_path(project)
+      visit index_path
 
       click_link meeting.title
       expect(page)
         .not_to have_link 'Delete'
 
-      visit meetings_path(project)
+      visit index_path
 
       click_link other_meeting.title
       expect(page)

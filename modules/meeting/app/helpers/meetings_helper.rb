@@ -72,4 +72,8 @@ module MeetingsHelper
 
     content_tag('div', "#{header}#{details}".html_safe, id: "change-#{journal.id}", class: 'journal')
   end
+
+  def global_create_context?
+    request.path == new_meeting_path
+  end
 end

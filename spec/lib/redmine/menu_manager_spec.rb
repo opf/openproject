@@ -31,7 +31,16 @@ RSpec.describe Redmine::MenuManager do
     context 'for the top_menu' do
       it 'includes the expected items' do
         expect(described_class.items(:top_menu).map(&:name))
-          .to include(:work_packages, :news, :help)
+          .to include(:projects,
+                      :activity,
+                      :work_packages,
+                      :calendar_view,
+                      :team_planners,
+                      :boards,
+                      :news,
+                      :cost_reports_global,
+                      :meetings,
+                      :help)
       end
     end
 
@@ -49,17 +58,19 @@ RSpec.describe Redmine::MenuManager do
       end
     end
 
-    context 'for the global_work_packages_menu' do
+    context 'for the global_menu' do
       it 'includes the expected items' do
-        expect(described_class.items(:global_work_packages_menu).map(&:name))
-          .to include(:work_packages_query_select)
-      end
-    end
-
-    context 'for the global_activities_menu' do
-      it 'includes the expected items' do
-        expect(described_class.items(:global_activities_menu).map(&:name))
-          .to include(:activity_filters)
+        expect(described_class.items(:global_menu).map(&:name))
+          .to include(:home,
+                      :projects,
+                      :activity,
+                      :work_packages,
+                      :calendar_view,
+                      :team_planners,
+                      :boards,
+                      :news,
+                      :cost_reports_global,
+                      :meetings)
       end
     end
 

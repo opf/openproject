@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Work package index view' do
+RSpec.describe 'Work Packages', 'index view', :js, :with_cuprite do
   let(:user) { create(:admin) }
   let(:project) { create(:project, enabled_module_names: %w[work_package_tracking]) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -37,21 +37,43 @@ RSpec.describe 'Work package index view' do
     login_as(user)
   end
 
-  it 'is reachable by clicking the sidebar menu item', js: true do
-    visit project_path(project)
-
-    within('#content') do
-      expect(page).to have_content('Overview')
+  context 'within a global context' do
+    before do
+      visit root_path
     end
 
-    within('#main-menu') do
-      click_link 'Work package'
-    end
+    it 'is reachable by clicking the global menu item' do
+      within('#main-menu') do
+        click_link 'Work packages'
+      end
 
-    expect(current_path).to eql("/projects/#{project.identifier}/work_packages")
-    within('#content') do
-      wp_table.expect_title('All open', editable: true)
-      expect(page).to have_content('No work packages to display')
+      expect(page).to have_current_path(work_packages_path)
+
+      within('#content') do
+        wp_table.expect_title('All open', editable: true)
+        expect(page).to have_content('No work packages to display')
+      end
+    end
+  end
+
+  context 'within a project-specific context' do
+    it 'is reachable by clicking the sidebar menu item' do
+      visit project_path(project)
+
+      within('#content') do
+        expect(page).to have_content('Overview')
+      end
+
+      within('#main-menu') do
+        click_link 'Work packages'
+      end
+
+      expect(page).to have_current_path(project_work_packages_path(project))
+
+      within('#content') do
+        wp_table.expect_title('All open', editable: true)
+        expect(page).to have_content('No work packages to display')
+      end
     end
   end
 end

@@ -81,6 +81,9 @@ af:
   units: "Units"
   validation_failure_date: "is not a valid date"
   validation_failure_integer: "is not a valid integer"
+  export:
+    cost_reports:
+      title: "Your Cost Reports XLS export"
   reporting:
     group_by:
       selected_columns: "Selected columns"

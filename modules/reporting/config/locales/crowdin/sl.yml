@@ -81,6 +81,9 @@ sl:
   units: "Enote"
   validation_failure_date: "ni veljaven datum"
   validation_failure_integer: "ni veljavno število"
+  export:
+    cost_reports:
+      title: "Your Cost Reports XLS export"
   reporting:
     group_by:
       selected_columns: "Izbrani stolpci"

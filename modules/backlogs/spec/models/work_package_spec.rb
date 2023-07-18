@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../spec_helper'
+require 'spec_helper'
 
 RSpec.describe WorkPackage do
   describe '#backlogs_types' do

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
+require 'spec_helper'
 
 RSpec.describe WorkPackages::BaseContract, type: :model do
   let(:instance) { described_class.new(work_package, user) }

@@ -65,7 +65,8 @@ lv:
     button_confirm: "Confirm"
     button_continue: "Continue"
     button_copy: "Copy"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "Kopēt uz starpliktuvi"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Pielāgotie lauki"
     button_delete: "Dzēst"
@@ -738,6 +739,14 @@ lv:
     time_entry:
       work_package_required: 'Requires selecting a work package first.'
       title: 'Log time'
+      tracking: 'Laika uzskaite'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:
@@ -796,7 +805,8 @@ lv:
     autocompleter:
       placeholder: "Type to search"
       notFoundText: "No items found"
-      typeToSearchText: "Type to search"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Izvēlieties atzīmi'
       select_branch: 'Izvēlieties zaru'

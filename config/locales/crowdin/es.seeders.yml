@@ -320,7 +320,7 @@ es:
             kanban:
               name: Kanban board
             basic:
-              name: Panel de tareas
+              name: Tablero de tareas
               lists:
                 item_0:
                   name: Wish list

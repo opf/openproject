@@ -10,10 +10,10 @@ GIT
 
 GIT
   remote: https://github.com/opf/md-to-pdf
-  revision: 10bbfbd6f4afdb36918ed9ea686c818144683738
-  tag: v0.0.18
+  revision: 4c42148220ecaa8363134f34331ce90277e1b380
+  ref: 4c42148220ecaa8363134f34331ce90277e1b380
   specs:
-    md_to_pdf (0.0.18)
+    md_to_pdf (0.0.19)
       commonmarker (~> 0.23)
       front_matter_parser (~> 1.0)
       json-schema (~> 4.0)
@@ -50,6 +50,17 @@ GIT
     omniauth-openid_connect-providers (0.2.0)
       omniauth-openid-connect (>= 0.2.1)
 
+GIT
+  remote: https://github.com/opf/primer_view_components
+  revision: 18abe4d3c8059bc915443767c033543c2e6e8beb
+  ref: 18abe4d
+  specs:
+    primer_view_components (0.4.0)
+      actionview (>= 5.0.0)
+      activesupport (>= 5.0.0)
+      octicons (>= 18.0.0)
+      view_component (>= 3.1, < 4.0)
+
 PATH
   remote: modules/auth_plugins
   specs:
@@ -74,7 +85,6 @@ PATH
   specs:
     openproject-backlogs (1.0.0)
       acts_as_list (~> 1.1.0)
-      openproject-pdf_export
 
 PATH
   remote: modules/bim
@@ -163,13 +173,6 @@ PATH
       grids
 
 PATH
-  remote: modules/pdf_export
-  specs:
-    openproject-pdf_export (1.0.0)
-      pdf-inspector (~> 1.3.0)
-      prawn (~> 2.2)
-
-PATH
   remote: modules/recaptcha
   specs:
     openproject-recaptcha (1.0.0)
@@ -195,7 +198,7 @@ PATH
   remote: modules/two_factor_authentication
   specs:
     openproject-two_factor_authentication (1.0.0)
-      aws-sdk-sns (~> 1.61.0)
+      aws-sdk-sns (~> 1.65.0)
       messagebird-rest (~> 1.4.2)
       rotp (~> 6.1)
 
@@ -213,7 +216,6 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    Ascii85 (1.1.0)
     actioncable (7.0.6)
       actionpack (= 7.0.6)
       activesupport (= 7.0.6)
@@ -303,7 +305,6 @@ GEM
     addressable (2.8.4)
       public_suffix (>= 2.0.2, < 6.0)
     aes_key_wrap (1.1.0)
-    afm (0.2.2)
     airbrake (13.0.3)
       airbrake-ruby (~> 6.0)
     airbrake-ruby (6.2.1)
@@ -317,21 +318,21 @@ GEM
     awesome_nested_set (3.5.0)
       activerecord (>= 4.0.0, < 7.1)
     aws-eventstream (1.2.0)
-    aws-partitions (1.784.0)
-    aws-sdk-core (3.177.0)
+    aws-partitions (1.786.0)
+    aws-sdk-core (3.178.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.5)
       jmespath (~> 1, >= 1.6.1)
-    aws-sdk-kms (1.70.0)
+    aws-sdk-kms (1.71.0)
       aws-sdk-core (~> 3, >= 3.177.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.128.0)
+    aws-sdk-s3 (1.130.0)
       aws-sdk-core (~> 3, >= 3.177.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.6)
-    aws-sdk-sns (1.61.0)
-      aws-sdk-core (~> 3, >= 3.174.0)
+    aws-sdk-sns (1.65.0)
+      aws-sdk-core (~> 3, >= 3.177.0)
       aws-sigv4 (~> 1.1)
     aws-sigv4 (1.6.0)
       aws-eventstream (~> 1, >= 1.0.2)
@@ -447,13 +448,13 @@ GEM
       tzinfo
     eventmachine (1.2.7)
     eventmachine_httpserver (0.2.1)
-    excon (0.99.0)
+    excon (0.100.0)
     factory_bot (6.2.1)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.2.0)
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
-    faraday (2.7.9)
+    faraday (2.7.10)
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
     faraday-follow_redirects (0.3.0)
@@ -530,7 +531,6 @@ GEM
     gravatar_image_tag (1.2.0)
     hana (1.3.7)
     hashdiff (1.0.1)
-    hashery (2.1.2)
     hashie (3.6.0)
     html-pipeline (2.14.3)
       activesupport (>= 2)
@@ -552,8 +552,8 @@ GEM
     ice_cube (0.16.4)
     interception (0.5)
     io-console (0.6.0)
-    irb (1.7.0)
-      reline (>= 0.3.0)
+    irb (1.7.4)
+      reline (>= 0.3.6)
     iso8601 (0.13.0)
     jmespath (1.6.2)
     json (2.6.3)
@@ -578,7 +578,7 @@ GEM
     language_server-protocol (3.17.0.3)
     launchy (2.5.2)
       addressable (~> 2.8)
-    lefthook (1.4.4)
+    lefthook (1.4.5)
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
     listen (3.8.0)
@@ -655,7 +655,7 @@ GEM
     nokogiri (1.15.3)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    octicons (19.1.0)
+    octicons (19.4.0)
     oj (3.15.0)
     okcomputer (1.18.4)
     omniauth-saml (1.10.3)
@@ -678,7 +678,7 @@ GEM
     openproject-token (3.0.1)
       activemodel
     os (1.1.4)
-    ox (2.14.16)
+    ox (2.14.17)
     paper_trail (12.3.0)
       activerecord (>= 5.2)
       request_store (~> 1.1)
@@ -689,14 +689,6 @@ GEM
       ast (~> 2.4.1)
       racc
     pdf-core (0.9.0)
-    pdf-inspector (1.3.0)
-      pdf-reader (>= 1.0, < 3.0.a)
-    pdf-reader (2.11.0)
-      Ascii85 (~> 1.0)
-      afm (~> 0.2.1)
-      hashery (~> 2.0)
-      ruby-rc4
-      ttfunk
     pg (1.5.3)
     plaintext (0.3.4)
       activesupport (> 2.2.1)
@@ -726,7 +718,7 @@ GEM
       pry (>= 0.12.0)
     psych (5.1.0)
       stringio
-    public_suffix (5.0.1)
+    public_suffix (5.0.3)
     puffing-billy (3.1.0)
       addressable (~> 2.5)
       em-http-request (~> 1.1, >= 1.1.0)
@@ -783,8 +775,9 @@ GEM
       actionpack (>= 5.0.1.rc1)
       actionview (>= 5.0.1.rc1)
       activesupport (>= 5.0.1.rc1)
-    rails-dom-testing (2.0.3)
-      activesupport (>= 4.2.0)
+    rails-dom-testing (2.1.1)
+      activesupport (>= 5.0.0)
+      minitest
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.6.0)
       loofah (~> 2.21)
@@ -810,7 +803,7 @@ GEM
     recaptcha (5.14.0)
     redcarpet (3.6.0)
     regexp_parser (2.8.1)
-    reline (0.3.5)
+    reline (0.3.6)
       io-console (~> 0.5)
     representable (3.2.0)
       declarative (< 0.1.0)
@@ -842,7 +835,7 @@ GEM
     rspec-expectations (3.12.3)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.12.0)
-    rspec-mocks (3.12.5)
+    rspec-mocks (3.12.6)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.12.0)
     rspec-rails (6.0.3)
@@ -855,10 +848,8 @@ GEM
       rspec-support (~> 3.12)
     rspec-retry (0.6.2)
       rspec-core (> 3.3)
-    rspec-support (3.12.0)
-    rspec-wait (0.0.9)
-      rspec (>= 3, < 4)
-    rubocop (1.54.1)
+    rspec-support (3.12.1)
+    rubocop (1.54.2)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
       parallel (~> 1.10)
@@ -890,7 +881,6 @@ GEM
     ruby-ole (1.2.12.2)
     ruby-prof (1.6.3)
     ruby-progressbar (1.13.0)
-    ruby-rc4 (0.1.5)
     ruby-saml (1.15.0)
       nokogiri (>= 1.13.10)
       rexml
@@ -956,7 +946,7 @@ GEM
     test-prof (1.2.2)
     text-hyphen (1.5.0)
     thor (1.2.2)
-    tilt (2.1.0)
+    tilt (2.2.0)
     timecop (0.9.6)
     timeout (0.4.0)
     trailblazer-option (0.1.2)
@@ -982,7 +972,7 @@ GEM
     validate_url (1.0.15)
       activemodel (>= 3.0.0)
       public_suffix
-    view_component (3.3.0)
+    view_component (3.4.0)
       activesupport (>= 5.2.0, < 8.0)
       concurrent-ruby (~> 1.0)
       method_source (~> 1.0)
@@ -1117,7 +1107,6 @@ DEPENDENCIES
   openproject-ldap_groups!
   openproject-meeting!
   openproject-openid_connect!
-  openproject-pdf_export!
   openproject-recaptcha!
   openproject-reporting!
   openproject-storages!
@@ -1134,7 +1123,7 @@ DEPENDENCIES
   plaintext (~> 0.3.2)
   posix-spawn (~> 0.3.13)
   prawn (~> 2.2)
-  primer_view_components (~> 0.1.9)
+  primer_view_components!
   pry-byebug (~> 3.10.0)
   pry-rails (~> 0.3.6)
   pry-rescue (~> 1.5.2)
@@ -1162,7 +1151,6 @@ DEPENDENCIES
   rspec (~> 3.12.0)
   rspec-rails (~> 6.0.0)
   rspec-retry (~> 0.6.1)
-  rspec-wait
   rubocop
   rubocop-rails
   rubocop-rspec

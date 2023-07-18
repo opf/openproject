@@ -32,7 +32,6 @@ require 'rails/all'
 require 'active_support'
 require 'active_support/dependencies'
 require 'core_extensions'
-require "view_component"
 require "primer/view_components"
 require "primer/view_components/engine"
 

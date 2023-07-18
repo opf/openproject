@@ -54,6 +54,7 @@ $nm-padding-box: rem-calc(10px)
 
 $nm-pb-border-color: $nm-color-border
 $nm-pb-regress-color: whiteSmoke
+$nm-pb-regress-fill-color: #00558b
 $nm-pb-border-radius: rem-calc(6)
 $nm-pb-height: rem-calc(20)
 
@@ -101,19 +102,17 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   left: $left
   font-size: $size
 
-.op-toast
-  @extend %toaster
-  @include spot-z-index("toast")
-  +toaster-layout($x: left, $y: top, $size: auto, $offset: rem-calc(0))
-  +toaster-style($background: $nm-color-background, $color: var(--body-font-color), $padding: $nm-padding-box, $radius: $nm-border-radius)
 
-  .toaster-icon
-    +toaster-icon($size: $toaster-icon-size, $margin: $toaster-icon-margin, $align: $toaster-icon-align)
+
+.op-toast
+  @include spot-z-index("toast")
+
   display: flex
   box-shadow: rem-calc(1px 2px 3px) rgba(0, 0, 0, 0.2)
   border: rem-calc(1px) solid $nm-color-border
   font-size: $nm-font-size
   word-wrap: break-word
+  position: relative
 
   & .button
     margin: rem-calc(10px 10px 0 0)
@@ -130,6 +129,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   &.-error,
   &.-success,
   &.-warning,
+  &.-notice,
   &.-info
     padding: $nm-box-padding
 
@@ -146,7 +146,8 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
       @include messages-icon
       @extend %nm-icon-error
 
-  &.-success
+  &.-success,
+  &.-notice
     @extend %success-placeholder
 
     &::before
@@ -160,16 +161,21 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
       @include messages-icon
       @extend %nm-icon-warning
 
-  &.-info::before
+  &.-info
     @extend %info-placeholder
-    @include messages-icon
-    @extend %nm-icon-info
 
-  &.-ee-upsale::before
+    &::before
+      @include messages-icon
+      @extend %nm-icon-info
+
+  &.-ee-upsale
     @extend %info-placeholder
-    @include messages-icon
+
+    &::before
+      @include messages-icon
 
   &.-upload
+    @extend %info-placeholder
     padding: $nm-upload-box-padding
 
   //@hack adapting to provided styles
@@ -187,8 +193,6 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   &.-error
     color: var(--content-form-danger-zone-bg-color)
 
-  &.-success
-    color: $nm-color-success-icon
 
   &.-warning
     color: $nm-color-warning-icon
@@ -197,7 +201,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     color: $nm-color-info-icon
 
 .op-toast--wrapper,
-.flash, #errorExplanation
+#errorExplanation
   position: absolute
   max-width: $nm-toaster-width
   margin: 0 auto
@@ -215,7 +219,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     .op-toast
       margin-bottom: rem-calc(3px)
 
-.flash, #errorExplanation
+#errorExplanation
   top: 1rem
 
 // awesome animations
@@ -277,6 +281,16 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   border: rem-calc(1) solid $nm-pb-border-color
   color: var(--primary-color-dark)
   margin: 0
+  width: 100%
+
+  &::-webkit-progress-bar
+    background: $nm-pb-regress-color
+
+  &::-webkit-progress-value
+    background: $nm-pb-regress-fill-color
+
+  &::-moz-progress-bar
+    background: $nm-pb-regress-fill-color
 
 .op-toast--toggle-message
   font-size: rem-calc(16)
@@ -310,14 +324,12 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   &.-error
     @extend %error-placeholder
 
-  &.-success
-    @extend %success-placeholder
 
   &.-warning
     @extend %warning-placeholder
 
 // Use same styles for flash messages
-.flash, #errorExplanation
+#errorExplanation
   // Always above the toast
   @include spot-z-index("toast", 1)
   border-radius: $nm-border-radius
@@ -384,7 +396,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
       @extend %nm-icon-warning
       color: $nm-color-warning-icon
 
-.flash + .flash
+.op-toast + .op-toast
   margin-top: 3rem
 
 a.op-toast--target-link
