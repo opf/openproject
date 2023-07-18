@@ -803,7 +803,8 @@ el:
     autocompleter:
       placeholder: "Πληκτρολογήστε για αναζήτηση"
       notFoundText: "No items found"
-      typeToSearchText: "Πληκτρολογήστε για αναζήτηση"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Επιλογή σήμανσης'
       select_branch: 'Επιλογή κλάδου'

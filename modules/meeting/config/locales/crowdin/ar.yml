@@ -29,6 +29,7 @@ ar:
         participants: "المشاركون"
         participants_attended: "الحضور"
         participants_invited: "المدعوّون"
+        project: "Project"
         start_time: "الوقت"
         start_time_hour: "وقت البدء"
     errors:

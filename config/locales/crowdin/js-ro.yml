@@ -804,7 +804,8 @@ ro:
     autocompleter:
       placeholder: "Introduceți textul de căutat"
       notFoundText: "Niciun articol găsit"
-      typeToSearchText: "Introduceți textul de căutat"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Selectare etichetă'
       select_branch: 'Selectare ramură'

@@ -29,6 +29,7 @@ ko:
         participants: "참가자"
         participants_attended: "참석자"
         participants_invited: "초대된 사람"
+        project: "Project"
         start_time: "시간"
         start_time_hour: "시작 시간"
     errors:

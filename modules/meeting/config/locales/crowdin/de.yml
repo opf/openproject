@@ -29,6 +29,7 @@ de:
         participants: "Teilnehmer"
         participants_attended: "Anwesend"
         participants_invited: "Eingeladen"
+        project: "Project"
         start_time: "Anfangszeit"
         start_time_hour: "Beginn"
     errors:

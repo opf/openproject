@@ -29,6 +29,7 @@ ja:
         participants: "参加者"
         participants_attended: "出席者"
         participants_invited: "招待者"
+        project: "Project"
         start_time: "時間"
         start_time_hour: "開始時刻"
     errors:

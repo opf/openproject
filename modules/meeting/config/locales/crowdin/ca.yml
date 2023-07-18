@@ -29,6 +29,7 @@ ca:
         participants: "Participants"
         participants_attended: "Assistents"
         participants_invited: "Convidats"
+        project: "Project"
         start_time: "Hora"
         start_time_hour: "Hora d'inici"
     errors:

@@ -805,7 +805,8 @@ lv:
     autocompleter:
       placeholder: "Type to search"
       notFoundText: "No items found"
-      typeToSearchText: "Type to search"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Izvēlieties atzīmi'
       select_branch: 'Izvēlieties zaru'

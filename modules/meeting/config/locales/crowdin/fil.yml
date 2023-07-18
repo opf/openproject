@@ -29,6 +29,7 @@ fil:
         participants: "Mga Kalahok"
         participants_attended: "Mga Dadalo"
         participants_invited: "Mga Imbitado"
+        project: "Project"
         start_time: "Oras"
         start_time_hour: "Oras ng Pagsisimula"
     errors:

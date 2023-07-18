@@ -29,6 +29,7 @@ lv:
         participants: "Participants"
         participants_attended: "Attendees"
         participants_invited: "Invitees"
+        project: "Project"
         start_time: "Time"
         start_time_hour: "Starting time"
     errors:

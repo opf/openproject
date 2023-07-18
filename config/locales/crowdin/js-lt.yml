@@ -806,7 +806,8 @@ lt:
     autocompleter:
       placeholder: "Paieškai pradėkite rinkti tekstą"
       notFoundText: "Nieko nerasta"
-      typeToSearchText: "Paieškai pradėkite rinkti tekstą"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Pasirinkti žymę'
       select_branch: 'Parinkti padalinį'

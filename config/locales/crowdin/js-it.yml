@@ -804,7 +804,8 @@ it:
     autocompleter:
       placeholder: "Digita per cercare"
       notFoundText: "Nessun elemento trovato"
-      typeToSearchText: "Digita per cercare"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Selezionare tag'
       select_branch: 'Selezionare ramo'

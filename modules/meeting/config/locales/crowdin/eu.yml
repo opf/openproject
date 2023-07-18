@@ -29,6 +29,7 @@ eu:
         participants: "Parte-hartzaileak"
         participants_attended: "Bertaratuak"
         participants_invited: "Gonbidatuak"
+        project: "Project"
         start_time: "Ordua"
         start_time_hour: "Hasiera ordua"
     errors:

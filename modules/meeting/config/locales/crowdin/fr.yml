@@ -29,6 +29,7 @@ fr:
         participants: "Participant(s)"
         participants_attended: "Présent(s)"
         participants_invited: "Invités"
+        project: "Project"
         start_time: "Heure "
         start_time_hour: "Heure de début"
     errors:

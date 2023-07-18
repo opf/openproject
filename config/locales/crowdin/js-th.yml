@@ -803,7 +803,8 @@ th:
     autocompleter:
       placeholder: "Type to search"
       notFoundText: "ไม่พบรายการ "
-      typeToSearchText: "Type to search"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Select tag'
       select_branch: 'Select branch'

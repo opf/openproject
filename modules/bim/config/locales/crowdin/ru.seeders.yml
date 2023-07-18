@@ -280,7 +280,7 @@ ru:
                     *   This overview informs all participants about the decisions made
                     *   ...
             item_3:
-              subject: Passing of preliminary planning
+              subject: Прохождение предварительного планирования
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_4:
               subject: Планирование дизайна

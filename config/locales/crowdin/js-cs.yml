@@ -806,7 +806,8 @@ cs:
     autocompleter:
       placeholder: "Zadejte hledaný text"
       notFoundText: "Nenalezeny žádné položky"
-      typeToSearchText: "Zadejte hledaný text"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Vybrat štítek'
       select_branch: 'Vybrat větev'

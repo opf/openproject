@@ -29,6 +29,7 @@ ro:
         participants: "Participanţi"
         participants_attended: "Participanți"
         participants_invited: "Invitaţi"
+        project: "Project"
         start_time: "Ora"
         start_time_hour: "Ora de începere"
     errors:

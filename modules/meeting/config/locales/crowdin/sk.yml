@@ -29,6 +29,7 @@ sk:
         participants: "Účastníci"
         participants_attended: "Účastníci"
         participants_invited: "Pozvaných"
+        project: "Project"
         start_time: "Čas"
         start_time_hour: "Čas začiatku"
     errors:

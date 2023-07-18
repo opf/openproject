@@ -29,6 +29,7 @@ fi:
         participants: "Osallistujat"
         participants_attended: "Osallistujat"
         participants_invited: "Kutsutut"
+        project: "Project"
         start_time: "Aika"
         start_time_hour: "Aloitusaika"
     errors:

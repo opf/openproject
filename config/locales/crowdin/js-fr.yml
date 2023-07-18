@@ -804,7 +804,8 @@ fr:
     autocompleter:
       placeholder: "Taper pour rechercher"
       notFoundText: "Aucun élément trouvé"
-      typeToSearchText: "Taper pour rechercher"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Sélectionner une étiquette'
       select_branch: 'Sélectionner une branche'

@@ -88,7 +88,7 @@ hi:
   backlogs_story: "कहानी"
   backlogs_story_type: "Story types"
   backlogs_task: "कार्य"
-  backlogs_task_type: "Task type"
+  backlogs_task_type: "कार्य प्रकार"
   backlogs_velocity_missing: "No velocity could be calculated for this project"
   backlogs_velocity_varies: "Velocity varies significantly over sprints"
   backlogs_wiki_template: "Template for sprint wiki page"

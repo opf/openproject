@@ -29,6 +29,7 @@ hu:
         participants: "Közreműködők"
         participants_attended: "Résztvevők"
         participants_invited: "Meghívottak"
+        project: "Project"
         start_time: "Idő"
         start_time_hour: "Kezdési időpont"
     errors:

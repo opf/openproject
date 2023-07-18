@@ -29,6 +29,7 @@ tr:
         participants: "Katılımcılar"
         participants_attended: "Katılımcılar"
         participants_invited: "Davetliler"
+        project: "Project"
         start_time: "Saat"
         start_time_hour: "Başlangıç saati"
     errors:

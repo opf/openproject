@@ -29,6 +29,7 @@ he:
         participants: "משתתפים"
         participants_attended: "נוכחים"
         participants_invited: "מוזמנים"
+        project: "Project"
         start_time: "זמן"
         start_time_hour: "זמן התחלה"
     errors:

@@ -805,7 +805,8 @@ sl:
     autocompleter:
       placeholder: "Iskalni niz"
       notFoundText: "Ni najdenih elementov"
-      typeToSearchText: "Iskalni niz"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Izberite oznako'
       select_branch: 'Izberite vejo'

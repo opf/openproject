@@ -29,6 +29,7 @@ et:
         participants: "Osalejad"
         participants_attended: "Osavõtjad"
         participants_invited: "Kutsutud"
+        project: "Project"
         start_time: "Aeg"
         start_time_hour: "Starting time"
     errors:

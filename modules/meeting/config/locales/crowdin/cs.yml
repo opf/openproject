@@ -29,6 +29,7 @@ cs:
         participants: "Účastníci"
         participants_attended: "Účastníci"
         participants_invited: "Pozvaní"
+        project: "Project"
         start_time: "Čas"
         start_time_hour: "Čas začátku"
     errors:

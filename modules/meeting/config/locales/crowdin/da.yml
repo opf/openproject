@@ -29,6 +29,7 @@ da:
         participants: "Deltagere"
         participants_attended: "Tilsluttede"
         participants_invited: "Inviterede"
+        project: "Project"
         start_time: "Tidspunkt"
         start_time_hour: "Starting time"
     errors:

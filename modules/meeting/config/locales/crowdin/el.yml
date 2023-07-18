@@ -29,6 +29,7 @@ el:
         participants: "Συμμετέχοντες"
         participants_attended: "Παρευρισκόμενοι"
         participants_invited: "Προσκεκλημένοι"
+        project: "Project"
         start_time: "Ώρα"
         start_time_hour: "Ώρα έναρξης"
     errors:

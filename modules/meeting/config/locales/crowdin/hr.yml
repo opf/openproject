@@ -29,6 +29,7 @@ hr:
         participants: "Učesnici"
         participants_attended: "Sudionici"
         participants_invited: "Pozvane osobe"
+        project: "Project"
         start_time: "Vrijeme"
         start_time_hour: "Starting time"
     errors:

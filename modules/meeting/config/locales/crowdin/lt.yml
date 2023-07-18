@@ -29,6 +29,7 @@ lt:
         participants: "Dalyviai"
         participants_attended: "Būtinas dalyvis"
         participants_invited: "Pakviestas dalyvauti"
+        project: "Project"
         start_time: "Laikas"
         start_time_hour: "Pradžios laikas"
     errors:

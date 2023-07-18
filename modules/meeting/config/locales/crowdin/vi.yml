@@ -29,6 +29,7 @@ vi:
         participants: "Người tham gia"
         participants_attended: "Người dự khán"
         participants_invited: "Khách mời"
+        project: "Project"
         start_time: "Giờ"
         start_time_hour: "Giờ bắt đầu"
     errors:

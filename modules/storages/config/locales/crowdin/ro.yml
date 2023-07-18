@@ -33,6 +33,9 @@ ro:
                 pare să nu aibă aplicația "OpenProject integration". Vă rugăm să o instalați mai întâi și apoi să încercați din nou.
               authorization_header_missing: >
                 nu este complet configurat. Instanța Nextcloud nu primește headerul de "Autorizare", care este necesar pentru un token purtător pe baza autorizării cererilor API. Vă rugăm să verificaţi de două ori configuraţia serverului HTTP.
+            password:
+              invalid_password: "is not valid."
+              unknown_error: "could not be validated. Please check your storage connection and try again."
         storages/file_link:
           attributes:
             origin_id:

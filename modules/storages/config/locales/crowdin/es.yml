@@ -33,6 +33,9 @@ es:
                 parece que no tienes la aplicación "Integración OpenProject" instalada. Por favor, instálala primero y vuelve a intentarlo.
               authorization_header_missing: >
                 no está completamente configurado. La instancia de Nextcloud no recibe la cabecera "Autorización", que es necesaria para la autorización basada en token Bearer de solicitudes API. Por favor, compruebe la configuración de tu servidor HTTP.
+            password:
+              invalid_password: "is not valid."
+              unknown_error: "could not be validated. Please check your storage connection and try again."
         storages/file_link:
           attributes:
             origin_id:

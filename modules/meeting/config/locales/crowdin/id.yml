@@ -29,6 +29,7 @@ id:
         participants: "Partisipan"
         participants_attended: "Peserta"
         participants_invited: "Undangan"
+        project: "Project"
         start_time: "Waktu"
         start_time_hour: "Waktu mulai"
     errors:

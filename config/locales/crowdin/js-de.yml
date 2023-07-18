@@ -803,7 +803,8 @@ de:
     autocompleter:
       placeholder: "Suchbegriff eintippen"
       notFoundText: "Keine Elemente gefunden"
-      typeToSearchText: "Suchbegriff eintippen"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Tag auswählen'
       select_branch: 'Branch auswählen'

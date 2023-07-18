@@ -805,7 +805,8 @@ ru:
     autocompleter:
       placeholder: "Введите для поиска"
       notFoundText: "Элементов не найдено"
-      typeToSearchText: "Введите для поиска"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Выберите тег'
       select_branch: 'Выберите ветку'

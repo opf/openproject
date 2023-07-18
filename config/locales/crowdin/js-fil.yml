@@ -804,7 +804,8 @@ fil:
     autocompleter:
       placeholder: "Type to search"
       notFoundText: "No items found"
-      typeToSearchText: "Type to search"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Pumiling ng tag'
       select_branch: 'Pumili ng sangay'

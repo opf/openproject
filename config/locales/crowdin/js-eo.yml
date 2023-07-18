@@ -804,7 +804,8 @@ eo:
     autocompleter:
       placeholder: "Tajpu por serĉi"
       notFoundText: "No items found"
-      typeToSearchText: "Tajpu por serĉi"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Elekti etikedon'
       select_branch: 'Elekti branĉon'

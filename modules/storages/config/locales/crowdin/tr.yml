@@ -33,6 +33,9 @@ tr:
                 "OpenProject entegrasyonu" uygulamasının yüklü olmadığı görülüyor. Lütfen önce kurun ve sonra tekrar deneyin.
               authorization_header_missing: >
                 tam olarak kurulmamıştır. Nextcloud örneği, API isteklerinin Taşıyıcı belirteci tabanlı yetkilendirmesi için gerekli olan "Yetkilendirme" başlığını almaz. Lütfen HTTP sunucu yapılandırmanızı iki kez kontrol edin.
+            password:
+              invalid_password: "is not valid."
+              unknown_error: "could not be validated. Please check your storage connection and try again."
         storages/file_link:
           attributes:
             origin_id:

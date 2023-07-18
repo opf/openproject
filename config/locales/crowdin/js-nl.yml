@@ -804,7 +804,8 @@ nl:
     autocompleter:
       placeholder: "Typ om te zoeken"
       notFoundText: "Geen items gevonden"
-      typeToSearchText: "Typ om te zoeken"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Selecteer label'
       select_branch: 'Selecteer pad'

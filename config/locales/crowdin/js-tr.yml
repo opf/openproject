@@ -803,7 +803,8 @@ tr:
     autocompleter:
       placeholder: "Aramak için metni yazın"
       notFoundText: "Hiçbir öge bulunamadı"
-      typeToSearchText: "Aramak için metni yazın"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Etiket seç'
       select_branch: 'Branş seç'

@@ -29,6 +29,7 @@ sv:
         participants: "Deltagare"
         participants_attended: "Deltagare"
         participants_invited: "Inbjudna"
+        project: "Project"
         start_time: "Tid"
         start_time_hour: "Starttid"
     errors:

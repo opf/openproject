@@ -804,7 +804,8 @@ ca:
     autocompleter:
       placeholder: "Escriviu per cercar"
       notFoundText: "Elements no trobats"
-      typeToSearchText: "Escriviu per cercar"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Seleccionar l''etiqueta'
       select_branch: 'Seleccionar branca'

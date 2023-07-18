@@ -804,7 +804,8 @@ ja:
     autocompleter:
       placeholder: "検索キーワードを入力"
       notFoundText: "No items found"
-      typeToSearchText: "検索キーワードを入力"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'タグを選択する'
       select_branch: '分岐を選択する'

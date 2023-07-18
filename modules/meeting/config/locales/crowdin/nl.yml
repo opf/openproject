@@ -29,6 +29,7 @@ nl:
         participants: "Deelnemers"
         participants_attended: "Aanwezigen"
         participants_invited: "Genodigden"
+        project: "Project"
         start_time: "Tijd"
         start_time_hour: "Begintijd"
     errors:
