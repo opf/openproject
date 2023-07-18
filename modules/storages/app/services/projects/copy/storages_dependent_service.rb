@@ -28,6 +28,8 @@
 
 module Projects::Copy
   class StoragesDependentService < ::Copy::Dependency
+    using Storages::Peripherals::ServiceResultRefinements
+
     def self.human_name
       I18n.t(:label_project_storage_plural)
     end
@@ -43,7 +45,9 @@ module Projects::Copy
         copied_project_storage = create_project_storage(project_storage)
 
         if project_storage.project_folder_automatic?
-          copy_project_folder(project_storage, copied_project_storage.project)
+          copy_project_folder(project_storage, copied_project_storage)
+
+          update_project_folder_id(copied_project_storage)
         end
       end
     end
@@ -52,31 +56,54 @@ module Projects::Copy
 
     def create_project_storage(project_storage)
       attributes = project_storage
-        .attributes.dup.except('id', 'project_id', 'created_at', 'updated_at')
-        .merge('project_id' => target.id)
+                     .attributes.dup.except('id', 'project_id', 'created_at', 'updated_at')
+                     .merge('project_id' => target.id)
 
       service_result = ::Storages::ProjectStorages::CreateService
-        .new(user: User.current)
-        .call(attributes)
+                         .new(user: User.current)
+                         .call(attributes)
 
       copied_storage = service_result.result
       copied_storage.save
       copied_storage
     end
 
-    def copy_project_folder(source_project_storage, destination_project)
-      source_folder_name = project_folder_path(source_project_storage.project)
-      destination_folder_name = project_folder_path(destination_project)
+    def copy_project_folder(source_project_storage, destination_project_storage)
+      source_folder_name = project_folder_path(source_project_storage)
+      destination_folder_name = project_folder_path(destination_project_storage)
 
       Storages::Peripherals::StorageRequests
         .new(storage: source_project_storage.storage)
         .copy_template_folder_command
         .call(source_path: source_folder_name, destination_path: destination_folder_name)
-        .on_failure { |result| add_error! source_folder_name, result.to_active_model_errors }
+        .on_failure { |r| add_error!(source_folder_name, r.to_active_model_errors) }
     end
 
-    def project_folder_path(project)
-      "#{@group_folder}/#{project.name.gsub('/', '|')} (#{project.id})/"
+    def update_project_folder_id(project_storage)
+      destination_folder_name = project_folder_path(project_storage)
+
+      query_params = {
+        depth: '0',
+        path: destination_folder_name,
+        props: %w[oc:fileid]
+      }
+
+      Storages::Peripherals::StorageRequests
+        .new(storage: project_storage.storage)
+        .propfind_query
+        .call(**query_params)
+        .match(
+          on_success: ->(r) do
+            file_id = r[destination_folder_name]["fileid"]
+            project_storage.update!(project_folder_id: file_id)
+          end,
+          on_failure: ->(r) { add_error!(destination_folder_name, r.to_active_model_errors) }
+        )
+    end
+
+    def project_folder_path(project_storage)
+      project = project_storage.project
+      "#{project_storage.storage.group_folder}/#{project.name.gsub('/', '|')} (#{project.id})/"
     end
   end
 end
