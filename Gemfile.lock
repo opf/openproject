@@ -52,9 +52,10 @@ GIT
 
 GIT
   remote: https://github.com/opf/primer_view_components
-  revision: f231e2e649bed02e0fc5b6dc3a54b0af28cf3581
+  revision: 18abe4d3c8059bc915443767c033543c2e6e8beb
+  ref: 18abe4d
   specs:
-    primer_view_components (0.2.0)
+    primer_view_components (0.4.0)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
       octicons (>= 18.0.0)

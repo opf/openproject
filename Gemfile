@@ -356,4 +356,4 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "primer_view_components", git: 'https://github.com/opf/primer_view_components', ref: 'f231e2e'
+gem "primer_view_components", git: 'https://github.com/opf/primer_view_components', ref: '18abe4d'
