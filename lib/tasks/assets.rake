@@ -78,5 +78,9 @@ namespace :assets do
   end
 
   desc 'Export frontend locale files'
-  task export_locales: ['i18n:js:export']
+  task :export_locales do
+    sh('bundle exec i18n export') do |ok, res|
+      raise "Failed to export i18n-js translations: #{res.exitstatus}" if !ok
+    end
+  end
 end

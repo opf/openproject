@@ -480,6 +480,7 @@ GEM
     fuubar (2.5.1)
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
+    glob (0.4.0)
     globalid (1.1.0)
       activesupport (>= 5.0)
     gon (6.4.0)
@@ -530,8 +531,9 @@ GEM
     httpclient (2.8.3)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
-    i18n-js (3.9.2)
-      i18n (>= 0.6.6)
+    i18n-js (4.2.3)
+      glob (>= 0.4.0)
+      i18n
     icalendar (2.8.0)
       ice_cube (~> 0.16)
     ice_cube (0.16.4)
@@ -1034,7 +1036,7 @@ DEPENDENCIES
   grids!
   html-pipeline (~> 2.14.0)
   htmldiff
-  i18n-js (~> 3.9.0)
+  i18n-js (~> 4.2.3)
   json_schemer (~> 1.0.1)
   json_spec (~> 1.1.4)
   ladle

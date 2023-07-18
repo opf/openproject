@@ -17,6 +17,7 @@
     "noFallthroughCasesInSwitch": true,
     "strictNullChecks": true,
     "strictBindCallApply": true,
+    "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "baseUrl": "./src/",
     "typeRoots": [
