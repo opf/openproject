@@ -29,8 +29,8 @@
 module ProjectsHelper
   include WorkPackagesFilterHelper
 
-  def filter_set?
-    params[:filters].present?
+  def show_filters_section?
+    params[:filters].present? && !params.key?(:hide_filters_section)
   end
 
   def allowed_filters(query)
@@ -46,6 +46,7 @@ module ProjectsHelper
       Queries::Projects::Filters::TemplatedFilter,
       Queries::Projects::Filters::PublicFilter,
       Queries::Projects::Filters::ProjectStatusFilter,
+      Queries::Projects::Filters::MemberOfFilter,
       Queries::Projects::Filters::CreatedAtFilter,
       Queries::Projects::Filters::LatestActivityAtFilter,
       Queries::Projects::Filters::NameAndIdentifierFilter,
@@ -67,6 +68,7 @@ module ProjectsHelper
   def global_menu_items
     [
       global_menu_all_projects_item,
+      global_menu_my_projects_item,
       global_menu_public_projects_item,
       global_menu_archived_projects_item
     ]
@@ -80,6 +82,19 @@ module ProjectsHelper
       path,
       { class: global_menu_item_css_class(path),
         title: t(:label_all_projects) }
+    ]
+  end
+
+  def global_menu_my_projects_item
+    path = projects_path_with_filters(
+      [{ member_of: { operator: '=', values: ['t'] } }]
+    )
+
+    [
+      t(:label_my_projects),
+      path,
+      { class: global_menu_item_css_class(path),
+        title: t(:label_my_projects) }
     ]
   end
 
@@ -112,7 +127,7 @@ module ProjectsHelper
   def projects_path_with_filters(filters)
     return projects_path if filters.empty?
 
-    projects_path(filters: filters.to_json)
+    projects_path(filters: filters.to_json, hide_filters_section: true)
   end
 
   def global_menu_item_css_class(path)

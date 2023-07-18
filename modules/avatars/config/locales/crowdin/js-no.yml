@@ -2,7 +2,7 @@
 "no":
   js:
     label_preview: 'Forhåndsvis'
-    button_update: 'Oppdatèr'
+    button_update: 'Oppdater'
     avatars:
       label_choose_avatar: "Velg Profilbilde fra fil"
       uploading_avatar: "Laster opp profilbildet ditt."

@@ -116,6 +116,7 @@ RSpec.describe ProjectsHelper do
 
     it do
       expect(subject).to eq([t(:label_all_projects),
+                             t(:label_my_projects),
                              t(:label_public_projects),
                              t(:label_archived_projects)])
     end

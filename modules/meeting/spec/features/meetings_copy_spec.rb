@@ -65,7 +65,7 @@ RSpec.describe 'Meetings copy', js: true do
   end
 
   it 'copying a meeting' do
-    visit meetings_path(project)
+    visit project_meetings_path(project)
 
     click_link meeting.title
 

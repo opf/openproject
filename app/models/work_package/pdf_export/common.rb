@@ -136,16 +136,16 @@ module WorkPackage::PDFExport::Common
     pdf.table(data, options.merge({ column_widths: }), &)
   end
 
-  def draw_text_multiline_left(text, text_style, max_left, top)
-    lines = wrap_to_lines(text, max_left - pdf.bounds.left, text_style)
+  def draw_text_multiline_left(text:, text_style:, max_left:, top:, max_lines:)
+    lines = wrap_to_lines(text, max_left - pdf.bounds.left, text_style, max_lines)
     starting_position = top
     lines.reverse.each do |line|
       starting_position += draw_text_multiline_part(line, text_style, pdf.bounds.left, starting_position)
     end
   end
 
-  def draw_text_multiline_right(text, text_style, max_left, top)
-    lines = wrap_to_lines(text, pdf.bounds.right - max_left, text_style)
+  def draw_text_multiline_right(text:, text_style:, max_left:, top:, max_lines:)
+    lines = wrap_to_lines(text, pdf.bounds.right - max_left, text_style, max_lines)
     starting_position = top
     lines.reverse.each do |line|
       line_width = measure_text_width(line, text_style)
@@ -166,20 +166,38 @@ module WorkPackage::PDFExport::Common
     measure_text_height(line, text_style)
   end
 
-  def wrap_to_lines(text, available_width, text_style)
+  def truncate_ellipsis(text, available_width, text_style)
+    line = text.dup
+    while line.present? && (measure_text_width("#{line}...", text_style) > available_width)
+      line = line.chop
+    end
+    "#{line}..."
+  end
+
+  def split_wrapped_lines(text, available_width, text_style)
+    split_text = text.dup
+    lines = []
+    arranger = Prawn::Text::Formatted::Arranger.new(pdf)
+    line_wrapper = Prawn::Text::Formatted::LineWrap.new
+    until split_text.blank?
+      arranger.format_array = [text_style.merge({ text: split_text })]
+      single_line = line_wrapper.wrap_line(arranger:, width: available_width, document: pdf)
+      lines << single_line
+      split_text.slice!(single_line)
+    end
+    lines
+  end
+
+  def wrap_to_lines(text, available_width, text_style, max_lines)
     split_text = text.dup
     title_text_width = measure_text_width(split_text, text_style)
     if title_text_width < available_width
       [split_text]
     else
-      lines = []
-      arranger = Prawn::Text::Formatted::Arranger.new(pdf)
-      line_wrapper = Prawn::Text::Formatted::LineWrap.new
-      until split_text.blank?
-        arranger.format_array = [text_style.merge({ text: split_text })]
-        single_line = line_wrapper.wrap_line(arranger:, width: available_width, document: pdf)
-        lines << single_line
-        split_text.slice!(single_line)
+      lines = split_wrapped_lines(text, available_width, text_style)
+      if lines.length > max_lines
+        lines[max_lines - 1] = truncate_ellipsis(lines[max_lines - 1], available_width, text_style)
+        lines = lines.first(3)
       end
       lines
     end

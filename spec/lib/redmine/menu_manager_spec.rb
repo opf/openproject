@@ -31,7 +31,16 @@ RSpec.describe Redmine::MenuManager do
     context 'for the top_menu' do
       it 'includes the expected items' do
         expect(described_class.items(:top_menu).map(&:name))
-          .to include(:work_packages, :news, :help)
+          .to include(:projects,
+                      :activity,
+                      :work_packages,
+                      :calendar_view,
+                      :team_planners,
+                      :boards,
+                      :news,
+                      :cost_reports_global,
+                      :meetings,
+                      :help)
       end
     end
 

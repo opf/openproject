@@ -2,12 +2,12 @@
 es:
   js:
     boards:
-      create_new: 'Crear panel'
-      label_unnamed_board: 'Panel sin nombre'
+      create_new: 'Crear tablero'
+      label_unnamed_board: 'Tablero sin nombre'
       label_unnamed_list: 'Lista sin nombre'
-      label_board_type: 'Tipo de panel'
+      label_board_type: 'Tipo de tablero'
       upsale:
-        teaser_text: '¿Quieres automatizar tus flujos de trabajo con Paneles? Los paneles avanzados son un add-on de la edición Enterprise. Por favor, actualice a un plan de pago.'
+        teaser_text: '¿Quieres automatizar tus flujos de trabajo con tableros? Los tableros avanzados son una extensión de Enterprise. Por favor, actualice a un plan de pago.'
         upgrade: 'Actualizar ahora'
       lists:
         delete: 'Eliminar lista'
@@ -22,8 +22,8 @@ es:
         show_version: 'Mostrar versión'
         locked: 'Bloqueado'
         closed: 'Cerrado'
-      new_board: 'Nuevo panel'
-      add_list: 'Añadir lista al panel'
+      new_board: 'Nuevo tablero'
+      add_list: 'Añadir lista al tablero'
       add_card: 'Agregar tarjeta'
       error_attribute_not_writable: "No se puede mover el paquete de trabajo porque %{attribute} no permite la escritura."
       error_loading_the_list: "Error al cargar la lista: %{error_message}"
@@ -32,23 +32,23 @@ es:
       text_hidden_list_warning: "No todas las listas son desplegadas debido a su falta de permiso. Contacte a su administrador para más información."
       click_to_remove_list: "Haga clic para quitar esta lista"
       board_type:
-        text: 'Tipo de panel'
+        text: 'Tipo de tablero'
         free: 'básico'
         select_board_type: 'Por favor elija el tipo de tablero que necesite.'
         free_text: >
-          Empiece desde cero con un panel en blanco. Añada de forma manual tarjetas y columnas a este panel.
-        action: 'Panel de acciones'
-        action_by_attribute: 'Panel de acciones (%{attribute})'
+          Empiece desde cero con un tablero en blanco. Añada de forma manual tarjetas y columnas a este tablero.
+        action: 'Tablero de acciones'
+        action_by_attribute: 'Tablero de acciones (%{attribute})'
         action_text: >
-          Un panel con listas filtradas en el atributo %{attribute}. Al mover paquetes de trabajo a otras listas, se actualizará su atributo.
+          Un tablero con listas filtradas en el atributo %{attribute}. Al mover paquetes de trabajo a otras listas, se actualizará su atributo.
         action_text_subprojects: >
-          Panel con columnas automáticas para subproyectos. Al arrastrar paquetes de trabajo a otras listas, se actualizan los (sub)proyectos en consecuencia.
+          Tablero con columnas automáticas para subproyectos. Al arrastrar paquetes de trabajo a otras listas, se actualizan los (sub)proyectos en consecuencia.
         action_text_subtasks: >
-          Panel con columnas automáticas para subelementos. Al arrastrar paquetes de trabajo a otras listas, se actualizan los elementos principales en consecuencia.
+          Tablero con columnas automáticas para subelementos. Al arrastrar paquetes de trabajo a otras listas, se actualizan los elementos principales en consecuencia.
         action_text_status: >
-          Panel básico estilo kanban con columnas para indicar el estado, como «Tarea pendiente», «En curso» y «Listo».
+          Tablero básico estilo kanban con columnas para indicar el estado, como «Tarea pendiente», «En curso» y «Listo».
         action_text_assignee: >
-          Panel con columnas automáticas basadas en los usuarios asignados. Ideal para enviar paquetes de trabajo.
+          Tablero con columnas automáticas basadas en los usuarios asignados. Ideal para enviar paquetes de trabajo.
         action_text_version: >
           Tablero con columnas automatizadas basadas en el atributo de la versión. Ideal para planificar el desarrollo de productos.
         action_type:
@@ -75,12 +75,12 @@ es:
         warning:
           status: |
             No hay estados disponibles actualmente. <br>
-            Puede que no haya ninguno, o bien ya se añadieron todos al panel.
+            Puede que no haya ninguno, o bien ya se añadieron todos al tablero.
           assignee: No hay ningún miembro que coincida con el valor de filtro. <br>
           no_member: El proyecto no tiene actualmente ningún miembro que pueda añadirse. <br>
           add_members: <a href="%{link}">Añada un miembro a este proyecto</a> para volver a seleccionar usuarios.
       configuration_modal:
-        title: 'Configurar este panel'
+        title: 'Configurar este tablero'
         display_settings:
           card_mode: "Mostrar como tarjetas"
           table_mode: "Mostrar como tabla"

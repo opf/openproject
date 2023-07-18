@@ -39,6 +39,12 @@ Redmine::MenuManager.map :top_menu do |menu|
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?)
             }
+
+  menu.push :activity,
+            { controller: '/activities', action: 'index' },
+            context: :modules,
+            icon: 'checkmark'
+
   menu.push :work_packages,
             { controller: '/work_packages', project_id: nil, state: nil, action: 'index' },
             context: :modules,

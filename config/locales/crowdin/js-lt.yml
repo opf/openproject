@@ -66,6 +66,7 @@ lt:
     button_continue: "Tęsti"
     button_copy: "Kopijuoti"
     button_copy_to_clipboard: "Kopijuoti į iškarpinę"
+    button_copy_link_to_clipboard: "Kopijuoti nuorodą į iškarpinę"
     button_copy_to_other_project: "Kopijuoti į kitą projektą"
     button_custom-fields: "Pritaikyti laukai"
     button_delete: "Trinti"
@@ -739,6 +740,14 @@ lt:
     time_entry:
       work_package_required: 'Reikia pirma pasirinkti darbo paketą.'
       title: 'Registruoti laiką'
+      tracking: 'Laiko apskaita'
+      stop: 'Stabdyti'
+    timer:
+      start_new_timer: 'Pradėti naują laikmatį'
+      timer_already_running: 'Norėdami pradėti naują laikmatį, jūs iš pradžių turite sustabdyti esamą laikmatį:'
+      timer_already_stopped: 'Šis darbo paketas neturi aktyvių laikmačių, ar sustabdėte jį kitame lange?'
+      tracking_time: 'Sekamas laikas'
+      button_stop: 'Stabdyti dabartinį laikmatį'
     two_factor_authentication:
       label_two_factor_authentication: 'Dviejų veiksnių autentifikavimas'
     watchers:
@@ -797,7 +806,8 @@ lt:
     autocompleter:
       placeholder: "Paieškai pradėkite rinkti tekstą"
       notFoundText: "Nieko nerasta"
-      typeToSearchText: "Paieškai pradėkite rinkti tekstą"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Pasirinkti žymę'
       select_branch: 'Parinkti padalinį'

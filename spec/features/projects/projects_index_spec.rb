@@ -213,8 +213,11 @@ RSpec.describe 'Projects index page',
   end
 
   context 'when filtering with the global sidebar' do
+    let(:current_user) { admin }
+
     before do
-      login_as admin
+      Role.non_member
+      login_as current_user
       projects_page.visit!
     end
 
@@ -228,7 +231,29 @@ RSpec.describe 'Projects index page',
                                              public_project,
                                              development_project)
 
-        expect(page).to have_selector('li[filter-name="active"]', visible: :hidden)
+        projects_page.expect_filters_container_hidden
+        projects_page.expect_filter_set 'active'
+      end
+    end
+
+    context 'with the "My projects" filter' do
+      shared_let(:member) do
+        create(:user,
+               member_in_project: project)
+      end
+
+      let(:current_user) { member }
+
+      before do
+        projects_page.set_sidebar_filter 'My projects'
+      end
+
+      it 'shows all projects I am a member of' do
+        projects_page.expect_projects_listed(project)
+        projects_page.expect_projects_not_listed(public_project, development_project)
+
+        projects_page.expect_filters_container_hidden
+        projects_page.expect_filter_set 'member_of'
       end
     end
 
@@ -242,7 +267,8 @@ RSpec.describe 'Projects index page',
         projects_page.expect_projects_not_listed(project,
                                                  development_project)
 
-        expect(page).to have_selector('li[filter-name="public"]')
+        projects_page.expect_filters_container_hidden
+        projects_page.expect_filter_set 'public'
       end
     end
 
@@ -264,7 +290,8 @@ RSpec.describe 'Projects index page',
                                                  project,
                                                  development_project)
 
-        expect(page).to have_selector('li[filter-name="active"]')
+        projects_page.expect_filters_container_hidden
+        projects_page.expect_filter_set 'active'
       end
     end
   end
@@ -459,6 +486,29 @@ RSpec.describe 'Projects index page',
                                              development_project,
                                              public_project)
         projects_page.expect_projects_not_listed(child_project)
+      end
+    end
+
+    describe 'I am member or not' do
+      shared_let(:member) { create(:user, member_in_project: project) }
+
+      it "filters for projects I'm a member on and those where I'm not" do
+        Role.non_member
+        load_and_open_filters member
+
+        projects_page.expect_projects_listed(project, public_project)
+
+        projects_page.filter_by_membership('yes')
+        wait_for_reload
+
+        projects_page.expect_projects_listed(project)
+        projects_page.expect_projects_not_listed(public_project, development_project)
+
+        projects_page.filter_by_membership('no')
+        wait_for_reload
+
+        projects_page.expect_projects_listed(public_project)
+        projects_page.expect_projects_not_listed(project, development_project)
       end
     end
 

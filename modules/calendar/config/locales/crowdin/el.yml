@@ -4,4 +4,4 @@ el:
   permission_view_calendar: "Προβολή ημερολογίων"
   permission_manage_calendars: "Διαχείριση ημερολογίων"
   permission_share_calendars: "Subscribe to iCalendars"
-  project_module_calendar_view: "Ημερολόγιο"
+  project_module_calendar_view: "Ημερολόγια"

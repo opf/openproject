@@ -2,12 +2,18 @@
 fr:
   permission_view_team_planner: "Voir le planificateur d'équipe"
   permission_manage_team_planner: "Gérer le planificateur d'équipe"
-  project_module_team_planner_view: "Planificateur d'équipe"
+  project_module_team_planner_view: "Planificateurs d'équipe"
   team_planner:
     label_team_planner: "Planificateur d'équipe"
+    label_new_team_planner: "New team planner"
     label_create_new_team_planner: "Créer un nouveau planificateur d'équipe"
     label_team_planner_plural: "Planificateurs d'équipe"
     label_assignees: "Responsables"
+    label_favoured: "Favoured"
+    help_text:
+      project: Team planners are always attached to a project. After creating a team planner you can add work packages from other projects to it.
+      public: Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+      favoured: Mark this view as favourite and add to the saved views sidebar on the left.
     upsale:
       title: "Planificateur d'équipe"
       description: "Obtenez un aperçu complet du planning de votre équipe avec le planificateur d'équipe. Allongez, raccourcissez et faites glisser les paquets de travail pour modifier les dates, les déplacer ou changer les assignés."

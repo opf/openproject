@@ -81,6 +81,9 @@ ru:
   units: "Модули"
   validation_failure_date: "не является допустимой датой"
   validation_failure_integer: "не является допустимым целым числом"
+  export:
+    cost_reports:
+      title: "Экспорт ваших отчетов о затратах в XLS"
   reporting:
     group_by:
       selected_columns: "Выбранные столбцы"
