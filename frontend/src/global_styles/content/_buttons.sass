@@ -46,8 +46,6 @@
 .button,
 a.button
   @extend %button
-  @include button-size(medium)
-  @include button-expand(false)
   @include button-style(var(--button--background-color), var(--button--background-hover-color), var(--button--font-color))
   border: 1px solid var(--button--border-color)
 
@@ -59,9 +57,6 @@ a.button
   &:disabled,
   &.-disabled
     @include button-disabled
-
-  &:hover
-    text-decoration: none
 
   &.-with-icon
     &::before

@@ -23,7 +23,7 @@
 .loading-indicator--background
   @include overlay-background
   background: var(--loading-indicator-bg-color)
-  opacity: var(--loading-indicator-bg-opacity)
+  opacity: 0.8
 
 // Ensure loading indicator is rendered correctly in each location
 .loading-indicator--location
@@ -43,7 +43,7 @@
     display: inline-block
     animation: block-waveStretchDelay 1.2s infinite ease-in-out
     margin: 0 1px
-    
+
   .block-1
     animation-delay: -1.2s
   .block-2
