@@ -1,4 +1,4 @@
-<label
+<span
   *ngFor="let option of options"
   [ngClass]="{ 'button': true, '-disabled': disabled, 'form--field-inline-button': true, '-active': value === option.value, 'spot-toggle--button': true }"
   data-qa-selector="spot-toggle--option"
@@ -15,4 +15,4 @@
     (ngModelChange)="onToggle($event)"
   />
   {{ option.title }}
-</label>
+</span>
