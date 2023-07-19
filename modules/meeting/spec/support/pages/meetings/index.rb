@@ -51,11 +51,41 @@ module Pages::Meetings
     end
 
     def expect_no_create_new_button
-      expect(page).not_to have_selector '#add-meeting-button'
+      within '.toolbar-items' do
+        expect(page).not_to have_selector '#add-meeting-button'
+      end
+    end
+
+    def expect_no_create_new_buttons
+      within '.toolbar-items' do
+        expect(page).not_to have_selector '#add-meeting-button'
+      end
+
+      within '#main-menu' do
+        expect(page).not_to have_button 'Meeting'
+      end
     end
 
     def expect_create_new_button
-      expect(page).to have_selector '#add-meeting-button'
+      within '.toolbar-items' do
+        expect(page).to have_selector '#add-meeting-button'
+      end
+    end
+
+    def expect_create_new_buttons
+      within '.toolbar-items' do
+        expect(page).to have_selector '#add-meeting-button'
+      end
+
+      within '#main-menu' do
+        expect(page).to have_button 'Meeting'
+      end
+    end
+
+    def set_sidebar_filter(filter_name)
+      within '#main-menu' do
+        click_link text: filter_name
+      end
     end
 
     def expect_no_meetings_listed
@@ -98,7 +128,7 @@ module Pages::Meetings
     def navigate_by_menu
       visit project_path(project)
       within '#main-menu' do
-        click_link 'Meetings'
+        click_link 'Meetings', match: :first
       end
     end
 

@@ -51,6 +51,10 @@ class MeetingsController < ApplicationController
     render 'index', locals: { menu_name: project_or_global_menu }
   end
 
+  current_menu_item :index do
+    :meetings
+  end
+
   def show
     params[:tab] ||= 'minutes' if @meeting.agenda.present? && @meeting.agenda.locked?
   end
@@ -121,11 +125,19 @@ class MeetingsController < ApplicationController
     ).call(params)
 
     if @project
+      query = apply_default_filter_if_none_given(query)
+
       query.where("project_id", '=', @project.id)
     else
       # global meetings page should only list future meetings
       query.where("time", "=", Queries::Meetings::Filters::TimeFilter::FUTURE_VALUE)
     end
+  end
+
+  def apply_default_filter_if_none_given(query)
+    return query if query.filters.any?
+
+    query.where("time", "=", Queries::Meetings::Filters::TimeFilter::FUTURE_VALUE)
   end
 
   def load_meetings(query)

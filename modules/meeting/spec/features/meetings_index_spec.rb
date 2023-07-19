@@ -55,8 +55,15 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
   let(:yesterdays_meeting) do
     create(:meeting, project:, title: 'Awesome meeting yesterday!', start_time: 1.day.ago)
   end
-  let!(:other_project_meeting) do
+
+  shared_let(:other_project_meeting) do
     create(:meeting, project: other_project, title: 'Awesome other project meeting!')
+  end
+
+  def setup_meeting_involvement
+    create(:meeting_participant, :invitee,  user:, meeting: yesterdays_meeting)
+    create(:meeting_participant, :attendee, user:, meeting: tomorrows_meeting)
+    meeting.update!(author: user)
   end
 
   before do
@@ -78,7 +85,7 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
     context 'and the user is allowed to create meetings' do
       let(:permissions) { %i(view_meetings create_meetings) }
 
-      it 'shows a create new button' do
+      it 'shows the create new buttons' do
         meetings_page.navigate_by_modules_menu
 
         meetings_page.expect_create_new_button
@@ -107,21 +114,97 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
       end
     end
 
+    context 'when filtering with the sidebar' do
+      shared_let(:ongoing_meeting) do
+        create(:meeting, project:, title: 'Awesome ongoing meeting!', start_time: 30.minutes.ago)
+      end
+
+      before do
+        setup_meeting_involvement
+        meetings_page.visit!
+      end
+
+      context 'with the "Upcoming meetings" filter' do
+        before do
+          meetings_page.set_sidebar_filter 'Upcoming meetings'
+        end
+
+        it 'shows all upcoming and ongoing meetings' do
+          meetings_page.expect_meetings_listed(meeting,
+                                               ongoing_meeting,
+                                               tomorrows_meeting)
+          meetings_page.expect_meetings_not_listed(yesterdays_meeting)
+        end
+      end
+
+      context 'with the "Past meetings" filter' do
+        before do
+          meetings_page.set_sidebar_filter 'Past meetings'
+        end
+
+        it 'show all past and ongoing meetings' do
+          meetings_page.expect_meetings_listed(yesterdays_meeting,
+                                               ongoing_meeting)
+          meetings_page.expect_meetings_not_listed(meeting,
+                                                   tomorrows_meeting)
+        end
+      end
+
+      context 'with the "Invitee" filter' do
+        before do
+          meetings_page.set_sidebar_filter 'Invitee'
+        end
+
+        it "shows all meetings I've been marked as invited to" do
+          meetings_page.expect_meetings_listed(yesterdays_meeting)
+          meetings_page.expect_meetings_not_listed(meeting,
+                                                   ongoing_meeting,
+                                                   tomorrows_meeting)
+        end
+      end
+
+      context 'with the "Attendee" filter' do
+        before do
+          meetings_page.set_sidebar_filter 'Attendee'
+        end
+
+        it "shows all meetings I've been marked as attending to" do
+          meetings_page.expect_meetings_listed(tomorrows_meeting)
+          meetings_page.expect_meetings_not_listed(yesterdays_meeting,
+                                                   meeting,
+                                                   ongoing_meeting)
+        end
+      end
+
+      context 'with the "Creator" filter' do
+        before do
+          meetings_page.set_sidebar_filter 'Creator'
+        end
+
+        it "shows all meetings I'm the author of" do
+          meetings_page.expect_meetings_listed(meeting)
+          meetings_page.expect_meetings_not_listed(yesterdays_meeting,
+                                                   ongoing_meeting,
+                                                   tomorrows_meeting)
+        end
+      end
+    end
+
     context 'when the user is allowed to create meetings' do
       let(:permissions) { %i(view_meetings create_meetings) }
 
-      it 'shows the create new button' do
-        meetings_page.navigate_by_menu
-        meetings_page.expect_create_new_button
+      it 'shows the create new buttons' do
+        meetings_page.visit!
+        meetings_page.expect_create_new_buttons
       end
     end
 
     context 'when the user is not allowed to create meetings' do
       let(:permissions) { %i[view_meetings] }
 
-      it "doesn't show a create new button" do
-        meetings_page.navigate_by_menu
-        meetings_page.expect_no_create_new_button
+      it "doesn't show the create new buttons" do
+        meetings_page.visit!
+        meetings_page.expect_no_create_new_buttons
       end
     end
 
@@ -137,21 +220,19 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
       tomorrows_meeting
       yesterdays_meeting
 
-      # First page displays the historically last meeting
+      # First page displays the soonest occurring upcoming meeting
       meetings_page.visit!
-      meetings_page.expect_meetings_listed(yesterdays_meeting)
-      meetings_page.expect_meetings_not_listed(meeting, tomorrows_meeting)
+      meetings_page.expect_meetings_listed(meeting)
+      meetings_page.expect_meetings_not_listed(yesterdays_meeting, # Past meetings not displayed
+                                               tomorrows_meeting)
 
       meetings_page.expect_to_be_on_page(1)
 
-      # Sorted by start_time ascending
+      # Second page shows the next occurring upcoming meeting
       meetings_page.to_page(2)
-      meetings_page.expect_meetings_listed(meeting)
-      meetings_page.expect_meetings_not_listed(tomorrows_meeting, yesterdays_meeting)
-
-      meetings_page.to_page(3)
       meetings_page.expect_meetings_listed(tomorrows_meeting)
-      meetings_page.expect_meetings_not_listed(meeting, yesterdays_meeting)
+      meetings_page.expect_meetings_not_listed(yesterdays_meeting, # Past meetings not displayed
+                                               meeting)
     end
   end
 end

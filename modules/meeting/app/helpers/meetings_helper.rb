@@ -27,6 +27,81 @@
 #++
 
 module MeetingsHelper
+  def top_level_sidebar_menu_items
+    [
+      menu_upcoming_meetings_item,
+      menu_past_meetings_item
+    ]
+  end
+
+  def involvement_sidebar_menu_items
+    [
+      menu_invitee_item,
+      menu_attendee_item,
+      menu_creator_item
+    ]
+  end
+
+  def menu_upcoming_meetings_item
+    path = project_meetings_path(@project)
+
+    menu_link_element path, t(:label_upcoming_meetings)
+  end
+
+  def menu_past_meetings_item
+    path = project_meetings_path_with_filters(
+      [{ time: { operator: '=', values: ['past'] } }]
+    )
+
+    menu_link_element path, t(:label_past_meetings)
+  end
+
+  def menu_invitee_item
+    path = project_meetings_path_with_filters(
+      [{ invited_user_id: { operator: '=', values: [User.current.id.to_s] } }]
+    )
+
+    menu_link_element path, t(:label_invitee)
+  end
+
+  def menu_attendee_item
+    path = project_meetings_path_with_filters(
+      [{ attended_user_id: { operator: '=', values: [User.current.id.to_s] } }]
+    )
+
+    menu_link_element path, t(:label_attendee)
+  end
+
+  def menu_creator_item
+    path = project_meetings_path_with_filters(
+      [{ author_id: { operator: '=', values: [User.current.id.to_s] } }]
+    )
+
+    menu_link_element path, t(:label_author)
+  end
+
+  def project_meetings_path_with_filters(filters)
+    return project_meetings_path(@project) if filters.empty?
+
+    project_meetings_path(@project, filters: filters.to_json)
+  end
+
+  def menu_link_element(path, label)
+    link_to path, class: menu_item_css_class(path), title: label do
+      content_tag(:span, class: 'op-sidemenu--item-title') do
+        label
+      end
+    end
+  end
+
+  def menu_item_css_class(path)
+    "op-sidemenu--item-action#{menu_item_selected(path) ? ' selected' : ''}"
+  end
+
+  def menu_item_selected(menu_item_path)
+    menu_item_path == request.fullpath
+  end
+
   def format_participant_list(participants)
     if participants.any?
       user_links = participants
