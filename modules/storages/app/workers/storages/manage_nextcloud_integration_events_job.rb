@@ -27,7 +27,7 @@
 #++
 
 class Storages::ManageNextcloudIntegrationEventsJob < ApplicationJob
-  DEBOUNCE_TIME = 20.seconds.freeze
+  DEBOUNCE_TIME = 5.seconds.freeze
 
   def self.debounce
     count = Delayed::Job
