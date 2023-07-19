@@ -32,10 +32,10 @@ class CreateStoragesFileLinkJournals < ActiveRecord::Migration[7.0]
   def change
     # rubocop:disable Rails/CreateTableWithTimestamps
     create_table :storages_file_links_journals do |t|
-      t.belongs_to :journal
-      t.belongs_to :file_link
+      t.belongs_to :journal, null: false, foreign_key: true
+      t.belongs_to :file_link, null: false
 
-      t.string :link_name, default: ''
+      t.string :link_name, null: false
     end
     # rubocop:enable Rails/CreateTableWithTimestamps
   end
