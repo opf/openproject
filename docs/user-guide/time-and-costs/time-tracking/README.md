@@ -18,10 +18,10 @@ Users can book their time or units spent on an activity within a project directl
 | [Logging time](#logging-time-in-the-work-package-view)       | How to log time to a work package.                           |
 | [Logging time via time tracking button](#logging-time-via-time-tracking-button) | How to track time via the time tracking button.              |
 | [Logging time via commit message](#logging-time-via-commit-message) | How to log time via a commit message to a work package.      |
+| [Logging time via My page](#logging-time-via-my-page)        | How to easily track and display spent time in the spent time widget on the MyPage. |
 | [Edit logged time](#edit-logged-time)                        | How to edit logged time on a work package.                   |
 | [Delete time entries](#delete-time-entries)                  | How to delete time entries logged to a work package.         |
 | [Logging and editing time for other users](#logging-and-editing-time-for-other-users) | How to log time to work packages.                            |
-| [Spent time widget on the My Page](#spent-time-widget-on-the-my-page) | How to easily track and display spent time in the spent time widget on the MyPage. |
 | [Define hourly rate for labor costs](#define-hourly-rate-for-labor-costs) | How to easily track labor costs per user.                    |
 | [Toggl integration](./toggl-integration)                     | How to track spent time with Toggl.                          |
 | [TimeCamp integration](./timecamp-integration)               | How to track spent time using TimeCamp.                      |
@@ -71,6 +71,14 @@ If you navigated away from the work package, in which you activated the **Time t
 Note: the **Enable time logging** option must be [activated under system settings](../../../system-admin-guide/system-settings/repositories/) in order to log time via a commit message.
 
 To log time to a work package via a commit message you need to use  the following syntax: Refs #Work package number @amount of hours. For  example refs #123 @2h will log 2 hours for the work package number 123.![3-Log-time-via-commit-message](3-Log-time-via-commit-message.png)
+
+## Logging time via My Page
+
+You can easily track spent time in the **spent time widget on the MyPage** and get an overview about all your activities during a week. It is like a weekly timesheet for yourself.
+
+See more information about the My spent time widget on the [MyPage](../../../getting-started/my-page/#my-spent-time-widget).
+
+![spent time widget](openproject_user_guide_my_spent_time_widget.png)
 
 ## Edit logged time
 
@@ -123,25 +131,18 @@ A user with permissions to edit time logged by other users can edit each entry a
 
 In order to track labor costs, you need to [define an hourly rate](#define-hourly-rate-for-labor-costs) in your user profile first. The labor costs will then be calculated automatically  based on your hours booked and your hourly rate.
 
-## Spent time widget on the My Page
-
-You can easily track spent time in the **spent time widget on the MyPage** and get an overview about all your activities during a week. It is like a weekly timesheet for yourself.
-
-See more information about the My spent time widget on the [MyPage](../../../getting-started/my-page/#my-spent-time-widget).
-
-![spent time widget](image-20200211160311662.png)
 
 ## Define hourly rate for labor costs
 
-You can define an hourly rate to **track labor costs per user**. You will need system admin permissions for this. Please navigate to the user profile, e.g. by clicking on a hyper link of the user name on a work package.
+You can define an hourly rate to track labor costs per user. You will need system admin permissions for this. Please navigate to the user profile, e.g. by clicking on a hyper link of the user name on a work package.
 
-![User-profile](User-profile.png)
+![OpenProject_user_guide_select_user_profile](openproject_user_guide_click_user_name.png)
 
 You will be directed to the user's profile page.
 
 Here, you can click the **Edit button** on the top right corner of the user profile page.
 
-![User-profile-edit](User-profile-edit.png)
+![User-profile-edit](openproject_user_guide_edit_user_profile.png)
 
 Alternatively, you can navigate to *Administration -> Users and permissions -> Users* and click on the respective user name.
 
