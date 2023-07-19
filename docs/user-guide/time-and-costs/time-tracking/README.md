@@ -8,7 +8,7 @@ keywords: time tracking, logging time, define rate, labor costs
 
 # Time tracking
 
-Users can book their time or units spent on an activity within a project directly on work packages,  which gives a clear indication of how much effort the project activities require. You can either log time in the work package view or via a commit message.
+Users can book their time or units spent on an activity within a project directly on work packages,  which gives a clear indication of how much effort the project activities require. You can log time in the work package view, track time via the time tracking button or via a commit message. You can also log time directly from **My spent time** widget on **My Page**.
 
 > **Note**: To use the time tracking functionality, the **Time and costs module** needs to be activated in the [project settings](../../projects/project-settings/modules/).
 
@@ -16,6 +16,7 @@ Users can book their time or units spent on an activity within a project directl
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Logging time](#logging-time-in-the-work-package-view)       | How to log time to a work package.                           |
+| [Logging time via time tracking button](#logging-time-via-time-tracking-button) | How to track time via the time tracking button.              |
 | [Logging time via commit message](#logging-time-via-commit-message) | How to log time via a commit message to a work package.      |
 | [Edit logged time](#edit-logged-time)                        | How to edit logged time on a work package.                   |
 | [Delete time entries](#delete-time-entries)                  | How to delete time entries logged to a work package.         |
@@ -33,24 +34,41 @@ In order to log spent hours for a certain activity, open the details of the corr
 
 Alternatively, you can also log time via the work package table. To do this, simply click with the right mouse pointer on the line of the work package, which you want to track times for and then select "log time" from the entries in the list. You will then also be led to the form for logging time.
 
-![Log time from a work package](log-time-work-package.png)
+![Log time from a work package](openproject_user_guide_log_time.png)
 
 You will be directed to the detailed view to log time where you can edit the following:
 
-2. The date, for which the time will be logged.
-3. The actually logged time (in hours).
-4. The **Activity** drop down menu offers a choice of activity  categories, such as coordination or development. The range of categories can vary from project to project and can be edited by a project  administrator or a role with respective permissions.
-4. The comment field, where you can note a more detailed description of the activities that you log time for.
-5. Don’t forget to **Save** your logged time.
+- The date, for which the time will be logged.
+- The actually logged time (in hours).
+- The **Activity** drop down menu offers a choice of activity  categories, such as coordination or development. The range of categories can vary from project to project and can be edited by a project  administrator or a role with respective permissions.
+- The comment field, where you can note a more detailed description of the activities that you log time for.
+- Don’t forget to **Save** your logged time.
 
-![time-logging-pop-up](time-logging-pop-up.png)
+![time-logging-pop-up](openproject_user_guide_log_time_form.png)
 
 The aggregated time spent on a work package is shown in the work package details view.
 
+## Logging time via time tracking button
+
+Since OpenProject 13.0 you can also track time via the time tracking button. To do that select a work package you are working on and click on the **Time tracking button** to start tracking time .
+
+![OpenProject start time tracking button](openproject_user_guide_time_tracking_button.png)
+
+Timer will start recording the time. You can stop it once you are done working on this work package. Timer button icon will also appear next to your avatar in the top right corner as a reminder in case you navigate away from the work package.
+
+![OpenProject time tracking button in action](openproject_user_guide_time_tracking_button_records.png)
+
+Once you are done working you can stop tracking time by clicking the **Time tracking button** again. This will open a pop up window, which has pre-recorded the time spent. If you want to continue tracking time, click *Cancel* and the timer will continue tracking time spent. If you do not want to log time, click *Delete*. Clicking *Save* will log the time you have spent in the same way as if you had manually logged it. 
+
+![OpenProject stop time tracking button](openproject_user_guide_time_tracking_button_stop.png)
+
+If you navigated away from the work package, in which you activated the **Time tracking button** you can easily stop by clicking on your avatar without having to look for the work package in question.
+
+![OpenProject_stop_tracking_from_avatar](openproject_user_guide_time_tracking_button_stop_avatar.png)
 
 ## Logging time via commit message
 
-Note: the “enable time logging” option must be activated under system settings in order to log time via a commit message.
+Note: the **Enable time logging** option must be [activated under system settings](../../../system-admin-guide/system-settings/repositories/) in order to log time via a commit message.
 
 To log time to a work package via a commit message you need to use  the following syntax: Refs #Work package number @amount of hours. For  example refs #123 @2h will log 2 hours for the work package number 123.![3-Log-time-via-commit-message](3-Log-time-via-commit-message.png)
 
@@ -58,31 +76,31 @@ To log time to a work package via a commit message you need to use  the followin
 
 To edit logged time, click in the amount of the **Spent time** in the work packages details view.
 
-![Click on the number of spent time to edit](edit-logged-time.png)
+![Click on the number of spent time to edit](openproject_user_guide_spent_time.png)
 
-This will bring you to the time tracking report where you will see all time entries to this work package.
+This will bring you to the time tracking report where you will see all time entries to this work package. Depending on your rights you may not be able to edit time entries made by other users.
 
-Click on the **Edit** icon next to a time entry in the list.
+Click on the **Edit** icon next to your time entry in the list.
 
-![image-20201005143256420](image-20201005143256420.png)
+![OpenProject_edit_logged_time](openproject_user_guide_edit_logged_time.png)
 
 The same detailed view to log your time entries will appear where you are now able to apply your changes.
 
 ## Delete time entries
 
-To delete a time entry, also click on the **Spent time** in the details of a work package (just as to edit a work package).
+To delete a time entry, also click on the **Spent time** in the details of a work package (same as when editing a time entry).
 
-In the list of time entries, click on the **Delete** icon next to a time entry to drop the logged time.
+In the list of time entries, click on the **Delete** icon next to a time entry to drop the logged time. Depending on your role in a project you may or may not be able to delete time entries of other project members.
 
-![image-20201005143324624](image-20201005143324624.png)
+![OpenProject_delete_logged_time](openproject_user_guide_delete_logged_time.png)
 
 ## Logging and editing time for other users
 
 Starting with OpenProject 12.2, users with certain roles are able to log and edit time for other users. 
 
-> To enable this functionality, an administrator has to accord this privilege to a particular role in the **Roles and Permissions** section under **Users and Permissions** in the administrator settings.
+> To enable this functionality, an administrator has to grant this privilege to a particular role in the **Roles and Permissions** section under **Users and Permissions** in the administrator settings.
 >
-> There are two new permissions that can be enabled.
+> There are two permissions that can be enabled.
 >
 > - *Log time for other users* allows users with that role to log time on behalf of other users
 > - *Edit time logs* for other users allows users with that role to modify and adjust time logged for other users
