@@ -63,7 +63,7 @@ RSpec.describe 'Wysiwyg work package user mentions',
     wp_page.ensure_page_loaded
   end
 
-  it 'can autocomplete users and groups' do
+  it 'can autocomplete users, groups and emojis' do
     # Mentioning a user works
     comment_field.activate!
 
@@ -132,5 +132,16 @@ RSpec.describe 'Wysiwyg work package user mentions',
 
     expect(page)
       .to have_selector('a.mention', text: '@Foo Bar')
+
+    # Mentioning an emoji works
+    comment_field.activate!
+    comment_field.clear with_backspace: true
+    comment_field.input_element.send_keys(":thumbs")
+    expect(page).to have_selector('.mention-list-item', text: '👍 thumbs_up')
+    expect(page).to have_selector('.mention-list-item', text: '👎 thumbs_down')
+
+    page.find('.mention-list-item', text: '👍 thumbs_up').click
+
+    expect(page).to have_selector('span', text: '👍')
   end
 end
