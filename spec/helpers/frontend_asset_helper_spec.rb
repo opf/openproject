@@ -30,10 +30,10 @@ require 'spec_helper'
 
 RSpec.describe FrontendAssetHelper do
   describe '#include_frontend_assets' do
-    context 'when in development or test' do
+    context 'when in development or test',
+            with_env: { 'OPENPROJECT_DISABLE_DEV_ASSET_PROXY' => '' } do
       before do
         allow(Rails.env).to receive(:production?).and_return(false)
-        stub_const('ENV', 'OPENPROJECT_DISABLE_DEV_ASSET_PROXY' => '')
       end
 
       it 'returns the proxied frontend server' do

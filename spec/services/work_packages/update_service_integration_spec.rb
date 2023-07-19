@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model, with_mail: false do
+RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
   let(:user) do
     create(:user,
            member_in_project: project,

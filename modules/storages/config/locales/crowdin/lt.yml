@@ -34,8 +34,8 @@ lt:
               authorization_header_missing: >
                 nėra pilnai nustatytas. Nextcloud egzempliorius negauna „Autorizacijos“ antraštės, kuri būtina Turėtojo žetonu paremtoms autorizacijos API užklausoms. Prašome patikrinti jūsų HTTP serverio konfigūraciją.
             password:
-              invalid_password: "is not valid."
-              unknown_error: "could not be validated. Please check your storage connection and try again."
+              invalid_password: "netinkamas."
+              unknown_error: "nepavyko patikrinti. Prašome patikrinti jūsų saugyklos jungtį ir bandyti dar kartą."
         storages/file_link:
           attributes:
             origin_id:

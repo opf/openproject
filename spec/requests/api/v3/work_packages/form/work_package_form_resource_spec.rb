@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-RSpec.describe 'API v3 Work package form resource', with_mail: false do
+RSpec.describe 'API v3 Work package form resource' do
   include Rack::Test::Methods
   include Capybara::RSpecMatchers
   include API::V3::Utilities::PathHelper
