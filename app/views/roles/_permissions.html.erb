@@ -26,8 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
 <% permissions.each do |mod, mod_permissions| %>
+  <% next if mod.blank? && !show_global_role %>
   <% global_prefix = show_global_role ? 'fieldset--global--' : 'fieldset--' %>
   <% module_name = mod.blank? ? 'fieldset--global--' + Project.model_name.human.downcase.gsub(' ', '_') : global_prefix + l_or_humanize(mod, prefix: 'project_module_').downcase.gsub(' ', '_') %>
   <% module_id = module_name.parameterize  %>
