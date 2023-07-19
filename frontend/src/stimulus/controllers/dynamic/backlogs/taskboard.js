@@ -115,12 +115,12 @@ RB.Taskboard = (function ($) {
     initializeTaskboardMenus : function () {
       var toggleOpen = "open icon-pulldown-up icon-pulldown";
 
-      $(".backlog .menu > div.menu-trigger").on("click", function() {
+      $(".backlog .backlog-menu > div.menu-trigger").on("click", function() {
         $(this).toggleClass(toggleOpen);
       });
 
-      $(".backlog .menu > ul.items li.item").on("click", function() {
-        $(this).closest(".menu").find("div.menu-trigger").toggleClass(toggleOpen);
+      $(".backlog .backlog-menu > ul.items li.item").on("click", function() {
+        $(this).closest(".backlog-menu").find("div.menu-trigger").toggleClass(toggleOpen);
       });
     },
 

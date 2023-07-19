@@ -31,7 +31,7 @@ module RbMasterBacklogsHelper
 
   def render_backlog_menu(backlog)
     # associated javascript defined in taskboard.js
-    content_tag(:div, class: 'menu') do
+    content_tag(:div, class: 'backlog-menu') do
       [
         content_tag(:div, '', class: "menu-trigger icon-context icon-pulldown icon-small"),
         content_tag(:ul, class: 'items') do
