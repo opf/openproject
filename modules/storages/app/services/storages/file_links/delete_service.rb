@@ -37,7 +37,7 @@ module Storages
         return service_result unless container&.class&.journaled?
 
         # We don't care if the journal creation fails for now.
-        Journals::CreateService.new(container, service_result.result.creator).call
+        container.save_journals
 
         service_result
       end

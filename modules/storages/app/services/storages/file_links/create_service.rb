@@ -47,7 +47,7 @@ class Storages::FileLinks::CreateService < BaseServices::Create
     return service_result unless container&.class&.journaled?
 
     # If journal creation fails, we don't care for now
-    Journals::CreateService.new(container, service_result.result.creator).call
+    container.save_journals
 
     service_result
   end
