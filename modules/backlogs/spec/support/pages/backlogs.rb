@@ -142,7 +142,7 @@ module Pages
     def click_in_backlog_menu(backlog, item_name)
       within_backlog(backlog) do
         find('.header .menu-trigger').click
-        find('.header .menu .item', text: item_name).click
+        find('.header .backlog-menu .item', text: item_name).click
       end
     end
 
@@ -239,7 +239,7 @@ module Pages
         find('.header .menu-trigger').click
 
         expect(page)
-          .to have_selector('.header .menu .item', text: item_name)
+          .to have_selector('.header .backlog-menu .item', text: item_name)
 
         # Close it again for next test
         find('.header .menu-trigger').click
