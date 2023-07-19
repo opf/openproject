@@ -54,9 +54,11 @@ module API
           parent
         ].freeze
 
-        # Support custom values and custom fields in the allow list
+        SUPPORTED_CUSTOM_PROPERTIES = [/^custom_field_\d+$/].freeze
 
         SUPPORTED_PROPERTIES = (SUPPORTED_NON_LINK_PROPERTIES + SUPPORTED_LINK_PROPERTIES).freeze
+
+        ALL_SUPPORTED_PROPERTIES = (SUPPORTED_PROPERTIES + SUPPORTED_CUSTOM_PROPERTIES).freeze
 
         STATIC_NON_LINK_PROPERTIES = %w[_meta].freeze
         STATIC_LINK_PROPERTIES = ['links', :schema, :self].freeze
@@ -72,9 +74,7 @@ module API
         private
 
         def representable_map(*)
-          Representable::Binding::Map.new(super.select do |bind|
-                                            rendered_properties.include?(bind.name) || bind.name.starts_with?("custom_field_")
-                                          end)
+          Representable::Binding::Map.new(super.select { |bind| rendered_properties.include?(bind.name) })
         end
 
         def compile_links_for(configs, *args)
@@ -84,7 +84,7 @@ module API
 
         def rendered_properties
           @rendered_properties ||= begin
-            properties = changed_properties_as_api_name.intersection(SUPPORTED_PROPERTIES) + STATIC_NON_LINK_PROPERTIES
+            properties = changed_properties_as_api_name.select(&method(:property_supported?)) + STATIC_NON_LINK_PROPERTIES
 
             if represented.exists_at_timestamp?
               properties + STATIC_LINK_PROPERTIES
@@ -113,6 +113,10 @@ module API
           else
             SUPPORTED_PROPERTIES
           end
+        end
+
+        def property_supported?(property)
+          ALL_SUPPORTED_PROPERTIES.any? { _1.is_a?(Regexp) ? property =~ _1 : property == _1 }
         end
       end
     end
