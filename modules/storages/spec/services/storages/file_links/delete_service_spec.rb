@@ -35,7 +35,7 @@ RSpec.describe Storages::FileLinks::DeleteService, type: :model do
     let(:factory) { :file_link }
   end
 
-  it 'creates a journal entry for its container' do
+  it 'creates a journal entry for its container', with_settings: { journal_aggregation_time_minutes: 0 } do
     project_storage = create(:project_storage)
     work_package = create(:work_package, project: project_storage.project)
     file_link = create(:file_link, container: work_package, storage: project_storage.storage)
