@@ -309,7 +309,7 @@ GEM
       airbrake-ruby (~> 6.0)
     airbrake-ruby (6.2.1)
       rbtree3 (~> 0.6)
-    appsignal (3.4.6)
+    appsignal (3.4.7)
       rack
     ast (2.4.2)
     attr_required (1.0.1)
@@ -511,7 +511,7 @@ GEM
       webrick
     google-apis-gmail_v1 (0.30.0)
       google-apis-core (>= 0.11.0, < 2.a)
-    googleauth (1.6.0)
+    googleauth (1.7.0)
       faraday (>= 0.17.3, < 3.a)
       jwt (>= 1.4, < 3.0)
       memoist (~> 0.16)
@@ -578,7 +578,7 @@ GEM
     language_server-protocol (3.17.0.3)
     launchy (2.5.2)
       addressable (~> 2.8)
-    lefthook (1.4.5)
+    lefthook (1.4.6)
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
     listen (3.8.0)

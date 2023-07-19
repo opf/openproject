@@ -74,9 +74,7 @@ export class WorkPackageFilterByTextInputComponent extends UntilDestroyedMixin {
         }),
       )
       .subscribe((upstreamTerm:string) => {
-        console.log(`upstream ${upstreamTerm} ${(this.searchTerm as any).timestampOfLastValue}`);
         if (!this.searchTerm.value || this.searchTerm.isValueOlderThan(500)) {
-          console.log(`Upstream value setting to ${upstreamTerm}`);
           this.searchTerm.putValue(upstreamTerm);
         }
       });

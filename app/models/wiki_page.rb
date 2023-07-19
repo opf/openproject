@@ -93,6 +93,18 @@ class WikiPage < ApplicationRecord
     title.to_localized_slug(locale: :en)
   end
 
+  # Using a hook will not allow us to retry the call
+  # rubocop:disable Rails/ActiveRecordOverride
+  def destroy
+    super
+  rescue ActiveRecord::StaleObjectError
+    # Due to closure_tree, parent_id might have changed
+    # when destroying all wiki pages
+    reload
+    super
+  end
+  # rubocop:enable Rails/ActiveRecordOverride
+
   def delete_wiki_menu_item
     menu_item&.destroy
     # ensure there is a menu item for the wiki

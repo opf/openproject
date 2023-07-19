@@ -132,8 +132,8 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     this.$element.bind('focusin', this.focus.bind(this));
     this.$element.bind('focusout', this.blur.bind(this));
 
-    _.each(this.activity.details, (detail:any) => {
-      this.details.push(detail.html);
+    _.each(this.activity.details, (detail:{ html:string }) => {
+      this.details.push(this.sanitization.bypassSecurityTrustHtml(detail.html));
     });
 
     this

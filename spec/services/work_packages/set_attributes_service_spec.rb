@@ -85,11 +85,11 @@ RSpec.describe WorkPackages::SetAttributesService,
     end
 
     it 'sets the value' do
-      next if !defined?(attributes) || attributes.blank?
+      next if !defined?(expected_attributes) || expected_attributes.blank?
 
       subject
 
-      attributes.each do |attribute, key|
+      expected_attributes.each do |attribute, key|
         expect(work_package.send(attribute)).to eql key
       end
     end
@@ -129,18 +129,18 @@ RSpec.describe WorkPackages::SetAttributesService,
 
   context 'when updating subject before calling the service' do
     let(:call_attributes) { {} }
-    let(:attributes) { { subject: 'blubs blubs' } }
+    let(:expected_attributes) { { subject: 'blubs blubs' } }
 
     before do
-      work_package.attributes = attributes
+      work_package.attributes = expected_attributes
     end
 
     it_behaves_like 'service call'
   end
 
   context 'when updating subject via attributes' do
-    let(:call_attributes) { attributes }
-    let(:attributes) { { subject: 'blubs blubs' } }
+    let(:call_attributes) { expected_attributes }
+    let(:expected_attributes) { { subject: 'blubs blubs' } }
 
     it_behaves_like 'service call'
   end
@@ -158,26 +158,48 @@ RSpec.describe WorkPackages::SetAttributesService,
 
     context 'with no value set before for a new work package' do
       let(:call_attributes) { {} }
-      let(:attributes) { {} }
+      let(:expected_attributes) { { status: default_status } }
       let(:work_package) { new_work_package }
 
       before do
         work_package.status = nil
       end
 
-      it_behaves_like 'service call' do
-        it 'sets the default status' do
-          subject
+      it_behaves_like 'service call'
+    end
 
-          expect(work_package.status)
-            .to eql default_status
-        end
-      end
+    context 'with an invalid value that is not part of the type.statuses for a new work package' do
+      let(:invalid_status) { create(:status) }
+      let(:type) { create(:type) }
+      let(:call_attributes) { { status: invalid_status, type: } }
+      let(:expected_attributes) { { status: default_status, type: } }
+      let(:work_package) { new_work_package }
+
+      it_behaves_like 'service call'
+    end
+
+    context 'with valid value and without a type present for a new work package' do
+      let(:status) { create(:status) }
+      let(:call_attributes) { { status:, type: nil } }
+      let(:expected_attributes) { { status: } }
+      let(:work_package) { new_work_package }
+
+      it_behaves_like 'service call'
+    end
+
+    context 'with a valid value that is part of the type.statuses for a new work package' do
+      let(:type) { create(:type) }
+      let(:status) { create(:status, workflow_for_type: type) }
+      let(:call_attributes) { { status:, type: } }
+      let(:expected_attributes) { { status:, type: } }
+      let(:work_package) { new_work_package }
+
+      it_behaves_like 'service call'
     end
 
     context 'with no value set on existing work package' do
       let(:call_attributes) { {} }
-      let(:attributes) { {} }
+      let(:expected_attributes) { {} }
 
       before do
         work_package.status = nil
@@ -195,18 +217,18 @@ RSpec.describe WorkPackages::SetAttributesService,
 
     context 'when updating status before calling the service' do
       let(:call_attributes) { {} }
-      let(:attributes) { { status: other_status } }
+      let(:expected_attributes) { { status: other_status } }
 
       before do
-        work_package.attributes = attributes
+        work_package.attributes = expected_attributes
       end
 
       it_behaves_like 'service call'
     end
 
     context 'when updating status via attributes' do
-      let(:call_attributes) { attributes }
-      let(:attributes) { { status: other_status } }
+      let(:call_attributes) { expected_attributes }
+      let(:expected_attributes) { { status: other_status } }
 
       it_behaves_like 'service call'
     end
@@ -217,7 +239,7 @@ RSpec.describe WorkPackages::SetAttributesService,
 
     context 'with no value set before for a new work package' do
       let(:call_attributes) { {} }
-      let(:attributes) { {} }
+      let(:expected_attributes) { {} }
       let(:work_package) { new_work_package }
 
       it_behaves_like 'service call' do
@@ -239,7 +261,7 @@ RSpec.describe WorkPackages::SetAttributesService,
 
     context 'with no value set on existing work package' do
       let(:call_attributes) { {} }
-      let(:attributes) { {} }
+      let(:expected_attributes) { {} }
 
       before do
         work_package.author = nil
@@ -257,18 +279,18 @@ RSpec.describe WorkPackages::SetAttributesService,
 
     context 'when updating author before calling the service' do
       let(:call_attributes) { {} }
-      let(:attributes) { { author: other_user } }
+      let(:expected_attributes) { { author: other_user } }
 
       before do
-        work_package.attributes = attributes
+        work_package.attributes = expected_attributes
       end
 
       it_behaves_like 'service call'
     end
 
     context 'when updating author via attributes' do
-      let(:call_attributes) { attributes }
-      let(:attributes) { { author: other_user } }
+      let(:call_attributes) { expected_attributes }
+      let(:expected_attributes) { { author: other_user } }
 
       it_behaves_like 'service call'
     end
@@ -288,8 +310,8 @@ RSpec.describe WorkPackages::SetAttributesService,
     end
 
     context 'with a currently invalid subject' do
-      let(:call_attributes) { attributes }
-      let(:attributes) { { subject: 'ABC' } }
+      let(:call_attributes) { expected_attributes }
+      let(:expected_attributes) { { subject: 'ABC' } }
       let(:contract_valid) { true }
 
       subject { instance.call(call_attributes) }
@@ -303,7 +325,7 @@ RSpec.describe WorkPackages::SetAttributesService,
 
   context 'for start_date & due_date & duration' do
     context 'with a parent' do
-      let(:attributes) { {} }
+      let(:expected_attributes) { {} }
       let(:work_package) { new_work_package }
       let(:parent) do
         build_stubbed(:work_package,
@@ -587,7 +609,7 @@ RSpec.describe WorkPackages::SetAttributesService,
     context 'with no value set for a new work package and with default setting active',
             with_settings: { work_package_startdate_is_adddate: true } do
       let(:call_attributes) { {} }
-      let(:attributes) { {} }
+      let(:expected_attributes) { {} }
       let(:work_package) { new_work_package }
 
       it_behaves_like 'service call' do
@@ -623,7 +645,7 @@ RSpec.describe WorkPackages::SetAttributesService,
     context 'with a value set for a new work package and with default setting active',
             with_settings: { work_package_startdate_is_adddate: true } do
       let(:call_attributes) { { start_date: Time.zone.today + 1.day } }
-      let(:attributes) { {} }
+      let(:expected_attributes) { {} }
       let(:work_package) { new_work_package }
 
       it_behaves_like 'service call' do
@@ -658,7 +680,7 @@ RSpec.describe WorkPackages::SetAttributesService,
 
     context 'with date values set to the same date on a new work package' do
       let(:call_attributes) { { start_date: Time.zone.today, due_date: Time.zone.today } }
-      let(:attributes) { {} }
+      let(:expected_attributes) { {} }
       let(:work_package) { new_work_package }
 
       it_behaves_like 'service call' do
@@ -687,7 +709,7 @@ RSpec.describe WorkPackages::SetAttributesService,
 
     context 'with date values set on a new work package' do
       let(:call_attributes) { { start_date: Time.zone.today, due_date: Time.zone.today + 5.days } }
-      let(:attributes) { {} }
+      let(:expected_attributes) { {} }
       let(:work_package) { new_work_package }
 
       it_behaves_like 'service call' do
@@ -717,7 +739,7 @@ RSpec.describe WorkPackages::SetAttributesService,
     context 'with start date changed' do
       let(:work_package) { build_stubbed(:work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
       let(:call_attributes) { { start_date: Time.zone.today + 1.day } }
-      let(:attributes) { {} }
+      let(:expected_attributes) { {} }
 
       it_behaves_like 'service call' do
         it 'sets the start date value' do
@@ -746,7 +768,7 @@ RSpec.describe WorkPackages::SetAttributesService,
     context 'with due date changed' do
       let(:work_package) { build_stubbed(:work_package, start_date: Time.zone.today, due_date: Time.zone.today + 5.days) }
       let(:call_attributes) { { due_date: Time.zone.today + 1.day } }
-      let(:attributes) { {} }
+      let(:expected_attributes) { {} }
 
       it_behaves_like 'service call' do
         it 'keeps the start date value' do
@@ -778,7 +800,7 @@ RSpec.describe WorkPackages::SetAttributesService,
         build_stubbed(:work_package, *traits, start_date: Time.zone.today, due_date: Time.zone.today + 5.days)
       end
       let(:call_attributes) { { start_date: nil } }
-      let(:attributes) { {} }
+      let(:expected_attributes) { {} }
 
       it_behaves_like 'service call' do
         it 'sets the start date to nil' do
@@ -821,7 +843,7 @@ RSpec.describe WorkPackages::SetAttributesService,
         build_stubbed(:work_package, *traits, start_date: Time.zone.today, due_date: Time.zone.today + 5.days)
       end
       let(:call_attributes) { { due_date: nil } }
-      let(:attributes) { {} }
+      let(:expected_attributes) { {} }
 
       it_behaves_like 'service call' do
         it 'keeps the start date' do
@@ -1258,7 +1280,7 @@ RSpec.describe WorkPackages::SetAttributesService,
 
     context 'with no value set before for a new work package' do
       let(:call_attributes) { {} }
-      let(:attributes) { {} }
+      let(:expected_attributes) { {} }
       let(:work_package) { new_work_package }
 
       before do
@@ -1277,18 +1299,18 @@ RSpec.describe WorkPackages::SetAttributesService,
 
     context 'when updating priority before calling the service' do
       let(:call_attributes) { {} }
-      let(:attributes) { { priority: other_priority } }
+      let(:expected_attributes) { { priority: other_priority } }
 
       before do
-        work_package.attributes = attributes
+        work_package.attributes = expected_attributes
       end
 
       it_behaves_like 'service call'
     end
 
     context 'when updating priority via attributes' do
-      let(:call_attributes) { attributes }
-      let(:attributes) { { priority: other_priority } }
+      let(:call_attributes) { expected_attributes }
+      let(:expected_attributes) { { priority: other_priority } }
 
       it_behaves_like 'service call'
     end
@@ -1547,7 +1569,7 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
 
         context 'when also setting a new type via attributes' do
-          let(:attributes) { { project: new_project, type: yet_another_type } }
+          let(:expected_attributes) { { project: new_project, type: yet_another_type } }
 
           it 'sets the desired type' do
             subject
@@ -1595,10 +1617,10 @@ RSpec.describe WorkPackages::SetAttributesService,
 
     context 'when updating project before calling the service' do
       let(:call_attributes) { {} }
-      let(:attributes) { { project: new_project } }
+      let(:expected_attributes) { { project: new_project } }
 
       before do
-        work_package.attributes = attributes
+        work_package.attributes = expected_attributes
       end
 
       it_behaves_like 'service call' do
@@ -1607,8 +1629,8 @@ RSpec.describe WorkPackages::SetAttributesService,
     end
 
     context 'when updating project via attributes' do
-      let(:call_attributes) { attributes }
-      let(:attributes) { { project: new_project } }
+      let(:call_attributes) { expected_attributes }
+      let(:expected_attributes) { { project: new_project } }
 
       it_behaves_like 'service call' do
         it_behaves_like 'updating the project'
@@ -1650,7 +1672,7 @@ RSpec.describe WorkPackages::SetAttributesService,
       wp
     end
     let(:call_attributes) { { schedule_manually: false } }
-    let(:attributes) { {} }
+    let(:expected_attributes) { {} }
     let(:soonest_start) { Time.zone.today + 1.day }
 
     context 'when the soonest start date is later than the current start date' do
