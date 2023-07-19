@@ -29,7 +29,8 @@
 require 'spec_helper'
 
 RSpec.describe 'Wysiwyg work package mentions',
-               js: true do
+               :js,
+               :with_cuprite do
   let!(:user) { create(:admin, firstname: 'MeMyself', lastname: 'AndI', member_in_project: project) }
   let!(:user2) { create(:user, firstname: 'Foo', lastname: 'Bar', member_in_project: project) }
   let!(:group) { create(:group, firstname: 'Foogroup', lastname: 'Foogroup') }
@@ -60,7 +61,8 @@ RSpec.describe 'Wysiwyg work package mentions',
   before do
     login_as(user)
     wp_page.visit!
-    wp_page.ensure_page_loaded
+    wait_for_reload
+    expect_angular_frontend_initialized
   end
 
   it 'can autocomplete users, groups and emojis' do
