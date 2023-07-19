@@ -84,19 +84,19 @@ module WorkPackageTab
 
     def description_partial(meeting_agenda_item)
       flex_layout do |flex|
-        flex.with_row do
-          title_partial(meeting_agenda_item)
-        end
-        flex.with_row do
-          meta_info_partial(meeting_agenda_item)
-        end
+        # flex.with_row do
+        #   title_partial(meeting_agenda_item)
+        # end
+        # flex.with_row do
+        #   meta_info_partial(meeting_agenda_item)
+        # end
         if meeting_agenda_item.input.present?
           flex.with_row do
             input_partial(meeting_agenda_item)
           end
         end
         if meeting_agenda_item.output.present?
-          flex.with_row do
+          flex.with_row(mt: 2) do
             output_partial(meeting_agenda_item)
           end
         end
@@ -107,14 +107,14 @@ module WorkPackageTab
       flex_layout do |flex|
         flex.with_column(pr: 1) do
           render(Primer::Beta::Text.new(font_size: :normal, color: :muted, font_weight: :bold)) do 
-            "Agenda item:" 
+            "Agenda item" 
           end
         end
-        flex.with_column do
-          render(Primer::Beta::Text.new(font_size: :normal, font_weight: :bold)) do 
-            "#{meeting_agenda_item.title}" 
-          end
-        end
+        # flex.with_column do
+        #   render(Primer::Beta::Text.new(font_size: :normal, font_weight: :bold)) do 
+        #     "#{meeting_agenda_item.title}" 
+        #   end
+        # end
       end
     end
 
@@ -141,7 +141,7 @@ module WorkPackageTab
       flex_layout do |flex|
         flex.with_row do
           render(Primer::Beta::Text.new(font_size: :small)) do 
-            "Input:" 
+            "Clarifaction need:" 
           end 
         end
         flex.with_row do
@@ -156,7 +156,7 @@ module WorkPackageTab
       flex_layout do |flex|
         flex.with_row do
           render(Primer::Beta::Text.new(font_size: :small)) do 
-            "Output:" 
+            "Clarification:" 
           end 
         end
         flex.with_row do

@@ -26,35 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Base
-  class OpTurbo::Component < Base::Component
-    def self.replace_via_turbo_stream(**kwargs)
-      component_instance = self.new(**kwargs)
-      OpTurbo::StreamWrapper.new(
-        action: :update, 
-        target: component_instance.wrapper_key, 
-        template: component_instance.render_in(kwargs[:view_context])
-      ).render_in(kwargs[:view_context])
-    end
-
-    def component_wrapper(tag: "div", id: nil, class: nil, data: nil, &block)
-      content_tag(tag, id: id || wrapper_key, class:, data:, &block)
-    end
-
-    def self.wrapper_key
-      self.name.underscore.gsub("/", "-").gsub("_", "-")
-    end
-
-    def wrapper_key
-      if wrapper_uniq_by.nil?
-        self.class.wrapper_key
-      else
-        "#{self.class.wrapper_key}-#{wrapper_uniq_by}"
-      end
-    end
-
-    def wrapper_uniq_by
-      # optionally implemented in subclass in order to make the wrapper key unique
-    end
+class MeetingAgendaItem::New::Title < ApplicationForm
+  form do |agenda_item_form|
+    agenda_item_form.text_field(
+      name: :title,
+      placeholder: "Title",
+      label: "Title",
+      visually_hide_label: true,
+      required: true,
+      autofocus: true,
+    )
   end
 end

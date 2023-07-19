@@ -32,8 +32,18 @@
 .Box
   ul 
     margin-left: 0
-// .FormControl
-//   label
-//     margin-bottom: 0
-//   input
-//     border-radius: 6px
+.FormControl
+  label
+    margin-bottom: 0
+  input
+    border-radius: 6px
+
+action-menu
+  anchored-position
+    ul 
+      margin-left: 0
+  anchored-position[popover]:not(.\:popover-open)
+    display: unset!important
+
+  anchored-position[popover]:not(.\:open)
+    display: none!important

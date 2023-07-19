@@ -36,7 +36,7 @@ module MeetingAgendaItems
     def call
       flex_layout(justify_content: :space_between, align_items: :flex_start) do |flex|
         flex.with_column do
-          left_column_partial
+          description_partial
         end
         flex.with_column do
           right_column_partial
@@ -45,19 +45,6 @@ module MeetingAgendaItems
     end
 
     private
-
-    def left_column_partial
-      flex_layout do |flex|
-        if drag_and_drop_enabled?
-          flex.with_column do
-            drag_handler_partial
-          end
-        end
-        flex.with_column do
-          content_partial
-        end
-      end
-    end
 
     def right_column_partial
       flex_layout(align_items: :center) do |flex|
@@ -71,6 +58,11 @@ module MeetingAgendaItems
             actions_partial
           end
         end
+        if drag_and_drop_enabled?
+          flex.with_column do
+            drag_handler_partial
+          end
+        end
       end
     end
 
@@ -80,27 +72,14 @@ module MeetingAgendaItems
 
     def drag_handler_partial
       render(Primer::Beta::IconButton.new(
-        mr: 4,
+        ml: 2,
         classes: "handle",
         size: :medium,
         disabled: false,
         icon: :grabber,
         show_tooltip: true,
-        "aria-label": "Move agenda item"
+        "aria-label": "Drag agenda item"
       ))
-    end
-
-    def content_partial
-      flex_layout do |flex|
-        if @meeting_agenda_item.work_package
-          flex.with_row(mb: 2) do
-            work_package_partial
-          end
-        end
-        flex.with_row(pl: 2) do
-          description_partial
-        end
-      end
     end
 
     def show_time_slot?
@@ -118,21 +97,23 @@ module MeetingAgendaItems
     end
 
     def work_package_partial
-      link_to(work_package_path(@meeting_agenda_item.work_package), target: "_blank") do
-        render(Primer::Beta::Label.new(size: :large)) do 
-          "##{@meeting_agenda_item.work_package.id} #{@meeting_agenda_item.work_package.subject}"
+      render(Primer::Box.new(style: "margin-left: -10px;")) do
+        link_to(work_package_path(@meeting_agenda_item.work_package), target: "_blank") do
+          render(Primer::Beta::Label.new(size: :large, font_weight: :bold)) do 
+            "##{@meeting_agenda_item.work_package.id} #{@meeting_agenda_item.work_package.subject}"
+          end
         end
       end
     end
     
     def description_partial
       flex_layout do |flex|
-        flex.with_row do
+        flex.with_row(mb: 2) do
           title_partial
         end
-        flex.with_row do
-          meta_info_partial
-        end
+        # flex.with_row do
+        #   meta_info_partial
+        # end
         if @meeting_agenda_item.input.present?
           flex.with_row do
             input_partial
@@ -147,9 +128,14 @@ module MeetingAgendaItems
     end
 
     def title_partial
-      render(Primer::Beta::Text.new(font_size: :normal, font_weight: :bold)) do 
-        "#{@meeting_agenda_item.position}. #{@meeting_agenda_item.title}" 
-      end 
+      if @meeting_agenda_item.work_package.present?
+        work_package_partial
+      else
+        render(Primer::Beta::Text.new(font_size: :normal, font_weight: :bold)) do 
+          "#{@meeting_agenda_item.title}" 
+        end
+      end
+
     end
 
     def meta_info_partial
@@ -175,7 +161,7 @@ module MeetingAgendaItems
       flex_layout do |flex|
         flex.with_row do
           render(Primer::Beta::Text.new(font_size: :small)) do 
-            "Input:" 
+            "Clarification need:" 
           end 
         end
         flex.with_row do
@@ -187,10 +173,10 @@ module MeetingAgendaItems
     end
 
     def output_partial
-      flex_layout do |flex|
+      flex_layout(mt: 1) do |flex|
         flex.with_row do
           render(Primer::Beta::Text.new(font_size: :small)) do 
-            "Output:" 
+            "Clarification:" 
           end 
         end
         flex.with_row do

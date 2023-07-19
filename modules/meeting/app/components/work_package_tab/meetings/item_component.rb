@@ -68,9 +68,9 @@ module WorkPackageTab
         flex.with_row do
           meeting_title_partial
         end
-        flex.with_row do
-          author_partial
-        end
+        # flex.with_row do
+        #   author_partial
+        # end
       end
     end
 

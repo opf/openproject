@@ -26,52 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class NewSectionComponent::ButtonComponent < Base::Component
-
-    def initialize(meeting:, active_work_package: nil, **kwargs)
-      @meeting = meeting
-      @active_work_package = active_work_package
+class MeetingAgendaItem::New::Submit < ApplicationForm
+  form do |agenda_item_form|
+    unless @preselected_work_package&.id.nil?
+      agenda_item_form.hidden(name: :work_package_id, value: @preselected_work_package&.id)
     end
-
-    def call
-      form_with(
-        url: new_meeting_agenda_item_path(@meeting), 
-        method: :get, 
-        data: { "turbo-stream": true }
-      ) do |form|
-        box_collection do |collection|
-          if @active_work_package.present?
-            collection.with_box do
-              form.hidden_field :work_package_id, value: @active_work_package.id
-            end
-          end
-          collection.with_box do
-            button_content_partial
-          end
-        end
-      end
+    agenda_item_form.group(layout: :horizontal) do |button_group|
+      button_group.button(name: :button, label: "Cancel", data: { action: 'click->meeting-agenda-item-new#cancel' })
+      button_group.submit(name: :submit, label: "Submit", scheme: :primary)
     end
+  end
 
-    private
-
-    def button_content_partial
-      render(Primer::Beta::Button.new(
-        my: 5,
-        size: :medium,
-        disabled: false,
-        scheme: :primary,
-        show_tooltip: true,
-        type: :submit,
-        "aria-label": "Add agenda item"
-      )) do
-        if @active_work_package.present?
-          "Add work package to agenda"
-        else
-          "Add agenda item"
-        end
-      end
-    end
-
+  def initialize(preselected_work_package: nil)
+    @preselected_work_package = preselected_work_package
   end
 end

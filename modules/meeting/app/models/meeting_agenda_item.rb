@@ -36,7 +36,8 @@ class MeetingAgendaItem < ApplicationRecord
   acts_as_list scope: :meeting
   default_scope { order(:position) }
 
-  validates :title, presence: true
+  validates :title, presence: true, if: Proc.new { |item| item.work_package_id.blank? }
+  validates :work_package, presence: true, if: Proc.new { |item| item.title.blank? }
   validates :duration_in_minutes, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
 
   after_create :trigger_meeting_agenda_item_time_slots_calculation

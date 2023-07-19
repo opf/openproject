@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <turbo-frame id="work-package-meetings-tab-content" data-turbo="true">
-  <%= link_to index_in_wp_tab_meetings_path(project_id: @meeting.project.id, work_package_id: @active_work_package&.id) do %>
+  <%= link_to(index_in_wp_tab_project_meetings_path(project_id: @meeting.project.id, work_package_id: @active_work_package&.id)) do %>
     <%= render(Primer::Beta::Button.new(
       scheme: :secondary,
       size: :large,

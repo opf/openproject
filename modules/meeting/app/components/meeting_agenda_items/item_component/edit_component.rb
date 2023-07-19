@@ -34,19 +34,6 @@ module MeetingAgendaItems
     end
 
     def call
-      flex_layout(justify_content: :space_between, align_items: :flex_start) do |flex|
-        flex.with_column(flex: 1, mr: 5) do
-          form_partial
-        end
-        flex.with_column do
-          exit_partial
-        end
-      end
-    end
-
-    private
-
-    def form_partial
       flex_layout do |flex|
         flex.with_row(mb: 3) do
           render(Primer::Beta::Text.new(font_size: :normal, font_weight: :bold, color: :muted)) do 
@@ -54,44 +41,14 @@ module MeetingAgendaItems
           end 
         end
         flex.with_row do
-          primer_form_with(
-            model: @meeting_agenda_item, 
-            method: :put, 
-            url: meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item)
-          ) do |f|
-            box_collection do |collection|
-              collection.with_box do
-                hidden_field_tag :work_package_id, @active_work_package&.id
-              end
-              collection.with_box do
-                render(MeetingAgendaItemForm.new(f, preselected_work_package: @active_work_package))
-              end
-            end
-          end
-        end
-      end
-    end
-
-    def exit_partial
-      form_with( 
-        url: cancel_edit_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item), 
-        method: :get, 
-        data: { "turbo-stream": true, confirm: 'Are you sure?' } 
-      ) do |form|
-        box_collection do |collection|
-          collection.with_box do
-            hidden_field_tag :work_package_id, @active_work_package&.id
-          end
-          collection.with_box do
-            render(Primer::Beta::IconButton.new(
-              size: :medium,
-              disabled: false,
-              icon: :x,
-              show_tooltip: true,
-              type: :submit,
-              "aria-label": "Cancel editing"
-            ))
-          end
+          render(MeetingAgendaItems::FormComponent.new(
+            meeting: @meeting_agenda_item.meeting, 
+            meeting_agenda_item: @meeting_agenda_item, 
+            active_work_package: @active_work_package,
+            method: :put,
+            submit_path: meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item),
+            cancel_path: cancel_edit_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item)
+          ))
         end
       end
     end

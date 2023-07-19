@@ -30,18 +30,24 @@ module Base
   class OpPrimer::FlexLayoutComponent < Primer::Component
     def initialize(**system_arguments)
       @system_arguments = deny_tag_argument(**system_arguments) || {}
-
-      @system_arguments[:classes] = class_names(
-        "d-flex",
-        system_arguments[:classes]
-      )
+      @system_arguments[:display] = :flex
     end
 
-    renders_many :rows, lambda { |**system_arguments|
-      Primer::Box.new(**system_arguments||{})
+    renders_many :rows, lambda { |**system_arguments, &block|
+      child_component(system_arguments, &block)
     }
-    renders_many :columns, lambda { |**system_arguments|
-      Primer::Box.new(**system_arguments||{})
+    renders_many :columns, lambda { |**system_arguments, &block|
+      child_component(system_arguments, &block)
     }
+
+    private
+
+    def child_component(system_arguments, &block)
+      if system_arguments[:flex_layout] == true
+        return OpPrimer::FlexLayoutComponent.new(**system_arguments.except(:flex_layout), &block)
+      else
+        return Primer::Box.new(**system_arguments||{})
+      end
+    end
   end
 end

@@ -40,7 +40,7 @@ class MeetingAgendaItemsController < ApplicationController
           meeting: @meeting, 
           active_work_package: @active_work_package
         },
-        action: :replace
+        action: :update
       }
     )
   end
@@ -49,12 +49,12 @@ class MeetingAgendaItemsController < ApplicationController
     respond_with_turbo_stream(
       {
         component: MeetingAgendaItems::NewSectionComponent,
-        params: { 
-          state: :initial, 
+        params: {
+          state: :initial,
           meeting: @meeting,
           active_work_package: @active_work_package
         },
-        action: :replace
+        action: :update
       }
     )
   end
@@ -68,11 +68,11 @@ class MeetingAgendaItemsController < ApplicationController
         {
           component: MeetingAgendaItems::NewSectionComponent,
           params: { 
-            state: :initial, 
             meeting: @meeting,
-            active_work_package: @active_work_package
+            active_work_package: @active_work_package,
+            state: :form, # enabel continue editing
           },
-          action: :replace
+          action: :update
         },
         {
           component: MeetingAgendaItems::ListComponent,
@@ -80,7 +80,7 @@ class MeetingAgendaItemsController < ApplicationController
             meeting: @meeting,
             active_work_package: @active_work_package
           },
-          action: :replace
+          action: :update
         }
       )
     else
@@ -88,12 +88,12 @@ class MeetingAgendaItemsController < ApplicationController
         {
           component: MeetingAgendaItems::NewSectionComponent,
           params: { 
-            state: :form, 
             meeting: @meeting, 
             meeting_agenda_item: @meeting_agenda_item,
-            active_work_package: @active_work_package
+            active_work_package: @active_work_package,
+            state: :form, # show validation errors
           },
-          action: :replace
+          action: :update
         }
       )
     end
@@ -108,7 +108,7 @@ class MeetingAgendaItemsController < ApplicationController
           meeting_agenda_item: @meeting_agenda_item,
           active_work_package: @active_work_package
         },
-        action: :replace
+        action: :update
       }
     )
   end
@@ -122,7 +122,7 @@ class MeetingAgendaItemsController < ApplicationController
           meeting_agenda_item: @meeting_agenda_item,
           active_work_package: @active_work_package
         },
-        action: :replace
+        action: :update
       }
     )
   end
@@ -139,7 +139,7 @@ class MeetingAgendaItemsController < ApplicationController
             meeting_agenda_item: @meeting_agenda_item,
             active_work_package: @active_work_package
           },
-          action: :replace
+          action: :update
         }
       )
     else
@@ -151,7 +151,7 @@ class MeetingAgendaItemsController < ApplicationController
               meeting: @meeting,
               active_work_package: @active_work_package
             },
-            action: :replace
+            action: :update
           }
         )
       else
@@ -163,7 +163,7 @@ class MeetingAgendaItemsController < ApplicationController
               meeting_agenda_item: @meeting_agenda_item,
               active_work_package: @active_work_package
             },
-            action: :replace
+            action: :update
           }
         )
       end
@@ -180,7 +180,7 @@ class MeetingAgendaItemsController < ApplicationController
           meeting: @meeting,
           active_work_package: @active_work_package
         },
-        action: :replace
+        action: :update
       }
     )
   end
@@ -195,7 +195,7 @@ class MeetingAgendaItemsController < ApplicationController
           meeting: @meeting,
           active_work_package: @active_work_package
         },
-        action: :replace
+        action: :update
       }
     )
   end
@@ -224,7 +224,7 @@ class MeetingAgendaItemsController < ApplicationController
     streams = []
     args.each do |value|
       if value.is_a?(Hash)
-        if value[:action] == :replace # only replace is supported for now in this prototype
+        if value[:action] == :update # only replace is supported for now in this prototype
           streams << value[:component].replace_via_turbo_stream(
             view_context: view_context,
             **value[:params]
