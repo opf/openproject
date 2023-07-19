@@ -498,7 +498,7 @@ GEM
       webrick
     google-apis-gmail_v1 (0.30.0)
       google-apis-core (>= 0.11.0, < 2.a)
-    googleauth (1.6.0)
+    googleauth (1.7.0)
       faraday (>= 0.17.3, < 3.a)
       jwt (>= 1.4, < 3.0)
       memoist (~> 0.16)
