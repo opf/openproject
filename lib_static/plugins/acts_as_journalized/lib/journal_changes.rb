@@ -41,6 +41,7 @@ module JournalChanges
 
     @changes.merge!(get_association_changes(predecessor, 'attachable', 'attachments', :attachment_id, :filename))
     @changes.merge!(get_association_changes(predecessor, 'customizable', 'custom_fields', :custom_field_id, :value))
+    @changes.merge!(get_association_changes(predecessor, 'storable', 'file_links', :file_link_id, :link_name))
 
     @changes
   end

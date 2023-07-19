@@ -35,6 +35,13 @@ module OpenProject
           save
         end
       end
+
+      def file_links_changed(_obj)
+        unless new_record?
+          add_journal
+          save
+        end
+      end
     end
   end
 end
