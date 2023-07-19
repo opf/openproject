@@ -48,6 +48,10 @@ module ::Calendar
       render layout: 'angular/angular'
     end
 
+    def new; end
+
+    def create; end
+
     def destroy
       if @view.destroy
         flash[:notice] = t(:notice_successful_delete)
