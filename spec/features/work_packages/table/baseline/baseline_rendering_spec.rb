@@ -113,6 +113,23 @@ RSpec.describe 'baseline rendering',
     end
   end
 
+  shared_let(:wp_task_assigned) do
+    wp = Timecop.travel(5.days.ago) do
+      create(:work_package,
+             project:,
+             type: type_task,
+             assigned_to: nil)
+    end
+
+    Timecop.travel(1.day.ago) do
+      WorkPackages::UpdateService
+        .new(user:, model: wp)
+        .call(assigned_to: user)
+        .on_failure { |result| raise result.message }
+        .result
+    end
+  end
+
   shared_let(:wp_task_was_bug) do
     wp = Timecop.travel(5.days.ago) do
       create(:work_package, project:, type: type_bug, subject: 'Bug changed to Task')
@@ -163,13 +180,14 @@ RSpec.describe 'baseline rendering',
   describe 'with feature enabled', with_ee: %i[baseline_comparison], with_flag: { show_changes: true } do
     it 'does show changes' do
       wp_table.visit_query(query)
-      wp_table.expect_work_package_listed wp_task, wp_task_changed, wp_task_was_bug, wp_bug_was_task
+      wp_table.expect_work_package_listed wp_task, wp_task_changed, wp_task_was_bug, wp_bug_was_task, wp_task_assigned
       wp_table.ensure_work_package_not_listed! wp_bug
 
       baseline.expect_active
       baseline.expect_added wp_task_was_bug
       baseline.expect_removed wp_bug_was_task
       baseline.expect_changed wp_task_changed
+      baseline.expect_changed wp_task_assigned
       baseline.expect_unchanged wp_task
 
       baseline.expect_changed_attributes wp_task_was_bug,
@@ -186,6 +204,9 @@ RSpec.describe 'baseline rendering',
                                          priority: ['Default', 'High priority'],
                                          assignee: ['Assigned User', 'Itsa Me'],
                                          responsible: ['Assigned User', 'Itsa Me']
+
+      baseline.expect_changed_attributes wp_task_assigned,
+                                         assignee: ['-', 'Itsa Me']
 
       baseline.expect_unchanged_attributes wp_task_changed, :type
       baseline.expect_unchanged_attributes wp_task,
