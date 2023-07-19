@@ -603,16 +603,16 @@ lt:
                   description: Šis tipas hierarchiškai yra tėvas tipų &quot;Susidūrimas&quot; ir &quot;Užklausa&quot;, taigi reprezentuoja bendrą pastabą.
             item_6:
               subject: Modeliavimas ir koordinavimas, antras ciklas
-              description: "## Goal\\r\n\\r\n*   ...\\r\n\\r\n## Description\\r\n\\r\n* \\  ..."
+              description: "## Tikslas\\r\n\\r\n*   ...\\r\n\\r\n## Aprašymas\\r\n\\r\n* \\  ..."
             item_7:
-              subject: Modelling & coordinating, ... cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Modeliavimas ir koordinavimas, ... ciklas
+              description: Šis tipas hierarchiškai yra tėvas tipų &quot;Susidūrimas&quot; ir &quot;Užklausa&quot;, taigi reprezentuoja bendrą pastabą.
             item_8:
-              subject: Modelling & coordinating, (n-th minus 1) cycle
-              description: "## Goal\\r\n\\r\n*   ...\\r\n\\r\n## Description\\r\n\\r\n* \\  ..."
+              subject: Modeliavimas ir koordinavimas, (n-tasis minus 1) ciklas
+              description: "## Tikslas\\r\n\\r\n*   ...\\r\n\\r\n## Aprašymas\\r\n\\r\n* \\  ..."
             item_9:
-              subject: Modelling & coordinating n-th cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Modeliavimas ir koordinavimas, n-tasis ciklas
+              description: Šis tipas hierarchiškai yra tėvas tipų &quot;Susidūrimas&quot; ir &quot;Užklausa&quot;, taigi reprezentuoja bendrą pastabą.
             item_10:
               subject: Finishing modelling & coordinating, n-th cycle
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.

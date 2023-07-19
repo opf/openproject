@@ -807,7 +807,7 @@ lt:
       placeholder: "Paieškai pradėkite rinkti tekstą"
       notFoundText: "Nieko nerasta"
       project:
-        placeholder: "Select project"
+        placeholder: "Pasirinkite projektą"
     repositories:
       select_tag: 'Pasirinkti žymę'
       select_branch: 'Parinkti padalinį'
