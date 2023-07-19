@@ -10,7 +10,7 @@ sidebar_navigation:
 
 ```bash
 helm repo add openproject https://charts.openproject.org
-helm upgrade --install my-openproject openproject/openproject
+helm upgrade --create-namespace --namespace openproject --install my-openproject openproject/openproject
 ```
 
 ## Introduction
