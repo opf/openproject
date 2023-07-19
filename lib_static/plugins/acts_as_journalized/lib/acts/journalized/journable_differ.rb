@@ -65,8 +65,6 @@ module Acts::Journalized
       end
 
       def get_association_changes(original, changed, association, association_name, key, value)
-        # ::Kernel.binding.pry# if changed.send(association).any? && original.nil?
-
         if original.nil?
           changed.send(association).each_with_object({}) do |associated_journal, h|
             changed_attribute = "#{association_name}_#{associated_journal.send(key)}"
@@ -131,10 +129,5 @@ module Acts::Journalized
         end
       end
     end
-
-    # def initialize(original, changed)
-    #   @original = original
-    #   @changed = changed
-    # end
   end
 end
