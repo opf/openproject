@@ -92,6 +92,12 @@ module OpenProject::Meeting
            icon: 'meetings',
            if: should_render_global_menu_item
 
+      menu :global_menu,
+           :meetings_query_select, { controller: '/meetings', action: 'index', project_id: nil },
+           parent: :meetings,
+           partial: 'meetings/menu_query_select',
+           if: should_render_global_menu_item
+
       ActiveSupport::Inflector.inflections do |inflect|
         inflect.uncountable 'meeting_minutes'
       end

@@ -124,14 +124,13 @@ class MeetingsController < ApplicationController
       current_user
     ).call(params)
 
-    if @project
-      query = apply_default_filter_if_none_given(query)
+    query = apply_default_filter_if_none_given(query)
 
+    if @project
       query.where("project_id", '=', @project.id)
-    else
-      # global meetings page should only list future meetings
-      query.where("time", "=", Queries::Meetings::Filters::TimeFilter::FUTURE_VALUE)
     end
+
+    query
   end
 
   def apply_default_filter_if_none_given(query)

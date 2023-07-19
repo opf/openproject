@@ -57,17 +57,113 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
   end
 
   shared_let(:other_project_meeting) do
-    create(:meeting, project: other_project, title: 'Awesome other project meeting!')
+    create(:meeting, project: other_project, title: 'Awesome other project meeting!', start_time: 2.days.from_now)
   end
 
   def setup_meeting_involvement
+    create(:meeting_participant, :invitee,  user:, meeting: tomorrows_meeting)
     create(:meeting_participant, :invitee,  user:, meeting: yesterdays_meeting)
-    create(:meeting_participant, :attendee, user:, meeting: tomorrows_meeting)
+    create(:meeting_participant, :attendee, user:, meeting:)
     meeting.update!(author: user)
   end
 
   before do
     login_as user
+  end
+
+  shared_examples 'sidebar filtering' do |context:|
+    context 'when filtering with the sidebar' do
+      shared_let(:ongoing_meeting) do
+        create(:meeting, project:, title: 'Awesome ongoing meeting!', start_time: 30.minutes.ago)
+      end
+
+      before do
+        setup_meeting_involvement
+        meetings_page.visit!
+      end
+
+      context 'with the "Upcoming meetings" filter' do
+        before do
+          meetings_page.set_sidebar_filter 'Upcoming meetings'
+        end
+
+        it 'shows all upcoming and ongoing meetings', :aggregate_failures do
+          expected_upcoming_meetings = if context == :global
+                                         [ongoing_meeting, meeting, tomorrows_meeting, other_project_meeting]
+                                       else
+                                         [ongoing_meeting, meeting, tomorrows_meeting]
+                                       end
+
+          meetings_page.expect_meetings_listed_in_order(*expected_upcoming_meetings)
+          meetings_page.expect_meetings_not_listed(yesterdays_meeting)
+        end
+      end
+
+      context 'with the "Past meetings" filter' do
+        before do
+          meetings_page.set_sidebar_filter 'Past meetings'
+        end
+
+        it 'show all past and ongoing meetings' do
+          meetings_page.expect_meetings_listed_in_order(ongoing_meeting,
+                                                        yesterdays_meeting)
+          meetings_page.expect_meetings_not_listed(meeting,
+                                                   tomorrows_meeting)
+        end
+      end
+
+      context 'with the "Upcoming invitations" filter' do
+        before do
+          meetings_page.set_sidebar_filter 'Upcoming invitations'
+        end
+
+        it "shows all upcoming meetings I've been marked as invited to" do
+          meetings_page.expect_meetings_listed(tomorrows_meeting)
+          meetings_page.expect_meetings_not_listed(yesterdays_meeting,
+                                                   meeting,
+                                                   ongoing_meeting)
+        end
+      end
+
+      context 'with the "Past invitations" filter' do
+        before do
+          meetings_page.set_sidebar_filter 'Past invitations'
+        end
+
+        it "shows all past meetings I've been marked as invited to" do
+          meetings_page.expect_meetings_listed(yesterdays_meeting)
+          meetings_page.expect_meetings_not_listed(ongoing_meeting,
+                                                   meeting,
+                                                   tomorrows_meeting)
+        end
+      end
+
+      context 'with the "Attendee" filter' do
+        before do
+          meetings_page.set_sidebar_filter 'Attendee'
+        end
+
+        it "shows all meetings I've been marked as attending to" do
+          meetings_page.expect_meetings_listed(meeting)
+          meetings_page.expect_meetings_not_listed(yesterdays_meeting,
+                                                   ongoing_meeting,
+                                                   tomorrows_meeting)
+        end
+      end
+
+      context 'with the "Creator" filter' do
+        before do
+          meetings_page.set_sidebar_filter 'Creator'
+        end
+
+        it "shows all meetings I'm the author of" do
+          meetings_page.expect_meetings_listed(meeting)
+          meetings_page.expect_meetings_not_listed(yesterdays_meeting,
+                                                   ongoing_meeting,
+                                                   tomorrows_meeting)
+        end
+      end
+    end
   end
 
   context 'when visiting from a global context', with_flag: { more_global_index_pages: true } do
@@ -88,7 +184,7 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
       it 'shows the create new buttons' do
         meetings_page.navigate_by_modules_menu
 
-        meetings_page.expect_create_new_button
+        meetings_page.expect_create_new_buttons
       end
     end
 
@@ -98,9 +194,11 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
       it "doesn't show a create new button" do
         meetings_page.navigate_by_modules_menu
 
-        meetings_page.expect_no_create_new_button
+        meetings_page.expect_no_create_new_buttons
       end
     end
+
+    include_examples 'sidebar filtering', context: :global
   end
 
   context 'when visiting from a project specific context' do
@@ -108,85 +206,9 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
 
     context 'via the menu' do
       specify 'with no meetings' do
-        meetings_page.navigate_by_menu
+        meetings_page.navigate_by_project_menu
 
         meetings_page.expect_no_meetings_listed
-      end
-    end
-
-    context 'when filtering with the sidebar' do
-      shared_let(:ongoing_meeting) do
-        create(:meeting, project:, title: 'Awesome ongoing meeting!', start_time: 30.minutes.ago)
-      end
-
-      before do
-        setup_meeting_involvement
-        meetings_page.visit!
-      end
-
-      context 'with the "Upcoming meetings" filter' do
-        before do
-          meetings_page.set_sidebar_filter 'Upcoming meetings'
-        end
-
-        it 'shows all upcoming and ongoing meetings' do
-          meetings_page.expect_meetings_listed(meeting,
-                                               ongoing_meeting,
-                                               tomorrows_meeting)
-          meetings_page.expect_meetings_not_listed(yesterdays_meeting)
-        end
-      end
-
-      context 'with the "Past meetings" filter' do
-        before do
-          meetings_page.set_sidebar_filter 'Past meetings'
-        end
-
-        it 'show all past and ongoing meetings' do
-          meetings_page.expect_meetings_listed(yesterdays_meeting,
-                                               ongoing_meeting)
-          meetings_page.expect_meetings_not_listed(meeting,
-                                                   tomorrows_meeting)
-        end
-      end
-
-      context 'with the "Invitee" filter' do
-        before do
-          meetings_page.set_sidebar_filter 'Invitee'
-        end
-
-        it "shows all meetings I've been marked as invited to" do
-          meetings_page.expect_meetings_listed(yesterdays_meeting)
-          meetings_page.expect_meetings_not_listed(meeting,
-                                                   ongoing_meeting,
-                                                   tomorrows_meeting)
-        end
-      end
-
-      context 'with the "Attendee" filter' do
-        before do
-          meetings_page.set_sidebar_filter 'Attendee'
-        end
-
-        it "shows all meetings I've been marked as attending to" do
-          meetings_page.expect_meetings_listed(tomorrows_meeting)
-          meetings_page.expect_meetings_not_listed(yesterdays_meeting,
-                                                   meeting,
-                                                   ongoing_meeting)
-        end
-      end
-
-      context 'with the "Creator" filter' do
-        before do
-          meetings_page.set_sidebar_filter 'Creator'
-        end
-
-        it "shows all meetings I'm the author of" do
-          meetings_page.expect_meetings_listed(meeting)
-          meetings_page.expect_meetings_not_listed(yesterdays_meeting,
-                                                   ongoing_meeting,
-                                                   tomorrows_meeting)
-        end
       end
     end
 
@@ -207,6 +229,8 @@ RSpec.describe 'Meetings', 'Index', :with_cuprite do
         meetings_page.expect_no_create_new_buttons
       end
     end
+
+    include_examples 'sidebar filtering', context: :project
 
     specify 'with 1 meeting listed' do
       meeting

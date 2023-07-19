@@ -95,8 +95,16 @@ module Pages::Meetings
       end
     end
 
+    def expect_meetings_listed_in_order(*meetings)
+      within '.generic-table tbody' do
+        listed_meeting_titles = all('tr td.title').map(&:text)
+
+        expect(listed_meeting_titles).to eq(meetings.map(&:title))
+      end
+    end
+
     def expect_meetings_listed(*meetings)
-      within '#content-wrapper' do
+      within '.generic-table tbody' do
         meetings.each do |meeting|
           expect(page).to have_selector("td.title",
                                         text: meeting.title)
@@ -125,8 +133,15 @@ module Pages::Meetings
       end
     end
 
-    def navigate_by_menu
+    def navigate_by_project_menu
       visit project_path(project)
+      within '#main-menu' do
+        click_link 'Meetings', match: :first
+      end
+    end
+
+    def navigate_by_global_menu
+      visit root_path
       within '#main-menu' do
         click_link 'Meetings', match: :first
       end
