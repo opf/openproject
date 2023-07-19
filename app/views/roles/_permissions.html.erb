@@ -26,7 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
 <% permissions.each do |mod, mod_permissions| %>
   <% global_prefix = show_global_role ? 'fieldset--global--' : 'fieldset--' %>
   <% module_name = mod.blank? ? 'fieldset--global--' + Project.model_name.human.downcase.gsub(' ', '_') : global_prefix + l_or_humanize(mod, prefix: 'project_module_').downcase.gsub(' ', '_') %>
@@ -46,6 +45,7 @@ See COPYRIGHT and LICENSE files for more details.
     </div>
     <div class="-columns-2">
       <% Array(mod_permissions).each do |permission| %>
+        <% next if permission.global? && !show_global_role %>
         <div class="form--field">
           <div class="form--field-container">
             <label class="form--label-with-check-box">
@@ -61,7 +61,6 @@ See COPYRIGHT and LICENSE files for more details.
         </div>
       <% end %>
     </div>
-
   </fieldset>
 <% end %>
 <%= hidden_field_tag 'role[permissions][]', '' %>
