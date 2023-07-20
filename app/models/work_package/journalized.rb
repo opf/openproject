@@ -85,6 +85,7 @@ module WorkPackage::Journalized
     register_journal_formatted_fields(:attachment, /attachments_?\d+/)
     register_journal_formatted_fields(:custom_field, /custom_fields_\d+/)
     register_journal_formatted_fields(:ignore_non_working_days, 'ignore_non_working_days')
+    register_journal_formatted_fields(:cause, 'cause')
 
     # Joined
     register_journal_formatted_fields :named_association, :parent_id, :project_id,

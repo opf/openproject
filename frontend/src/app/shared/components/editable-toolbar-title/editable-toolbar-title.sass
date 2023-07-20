@@ -20,7 +20,12 @@
 
 .editable-toolbar-title--save
   grid-area: 1/1
-  color: var(--content-icon-color)
+
+  span:before
+    color: #5F5F5F
+
+  &:hover span:before
+    color: darken(#5F5F5F, 20%)
 
 .editable-toolbar-title--input
   color: #5F5F5F

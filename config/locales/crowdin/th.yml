@@ -198,8 +198,6 @@ th:
       no_results_content_text: Create a new custom field
   concatenation:
     single: 'or'
-  documentation:
-    see_more_link: สำหรับข้อมูลเพิ่มเติม, กรุณาเลือกตามรายการเอกสารนี้
   global_search:
     overwritten_tabs:
       wiki_pages: "วิกิ"
@@ -527,6 +525,7 @@ th:
         hours: "ชั่วโมง"
         spent_on: "วันที่"
         type: "ประเภท"
+        ongoing: "Ongoing"
       type:
         description: "Default text for description"
         attribute_groups: ''
@@ -1059,7 +1058,8 @@ th:
   button_configure: "กำหนดค่า"
   button_continue: "Continue"
   button_copy: "คัดลอก"
-  button_copy_to_clipboard: "Copy to clipboard"
+  button_copy_to_clipboard: "คัดลอกไปยังคลิปบอร์ด"
+  button_copy_link_to_clipboard: "Copy link to clipboard"
   button_copy_and_follow: "คัดลอก และปฏิบัติตาม"
   button_create: "สร้าง"
   button_create_and_continue: "สร้าง และดำเนินการต่อ"
@@ -1392,6 +1392,22 @@ th:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "The changes were retracted."
+    caused_changes:
+      dates_changed: "Dates changed"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} is now working"
+          non_working: "%{day} is now non-working"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} is now non-working"
   links:
     configuration_guide: 'Configuration guide'
     get_in_touch: "You have questions? Get in touch with us."
@@ -1458,6 +1474,7 @@ th:
   label_age: "ระยะเวลา"
   label_ago: "วันที่ผ่านมา"
   label_all: "ทั้งหมด"
+  label_all_projects: "All projects"
   label_all_time: "ตลอดเวลา"
   label_all_words: "ทุกคำ"
   label_all_open_wps: "All open"
@@ -1474,6 +1491,7 @@ th:
   label_ical_access_key_revoke: "Revoke"
   label_applied_status: "ใช้สถานะ"
   label_archive_project: "Archive project"
+  label_archived_projects: "Archived projects"
   label_ascending: "จากน้อยไปมาก"
   label_assigned_to_me_work_packages: "ชุดภารกิจที่ฉันได้รับมอบหมาย"
   label_associated_revisions: "การปรับปรุงที่เกี่ยวข้อง"
@@ -1560,7 +1578,7 @@ th:
   label_database_version: "PostgreSQL version"
   label_date: "วันที่"
   label_date_and_time: "Date and time"
-  label_date_format: "Date format"
+  label_date_format: "รูปแบบวันที่"
   label_date_from: "จาก"
   label_date_from_to: "ตั้งแต่ %{start} จนถึง %{end}"
   label_date_to: "ถึงวันที่"
@@ -1609,6 +1627,8 @@ th:
   label_equals: "เป็น"
   label_everywhere: "everywhere"
   label_example: "ตัวอย่าง"
+  label_experimental: "Experimental"
+  label_i_am_member: "I am member"
   label_import: "Import"
   label_export_to: "ยังสามารถพบใน:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
@@ -1645,6 +1665,7 @@ th:
   label_hierarchy_leaf: "Hierarchy leaf"
   label_home: "หน้าหลัก"
   label_subject_or_id: "Subject or ID"
+  label_icalendar: "iCalendar"
   label_impressum: "Legal notice"
   label_in: "ใน"
   label_in_less_than: "ในไม่เกิน"
@@ -1688,6 +1709,7 @@ th:
   label_logged_as: "เข้าสู่ระบบในนาม"
   label_login: "ลงชื่อเข้าใช้"
   label_custom_logo: "Custom logo"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Custom favicon"
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "ออกจากระบบ"
@@ -2044,6 +2066,7 @@ th:
       mentioned_by: '%{user} mentioned you in a comment'
       more_to_see:
         other: 'There are %{count} more work packages with notifications.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Watched'
         assigned: 'Assigned'
@@ -2312,7 +2335,7 @@ th:
       archived: "Archived"
   project_module_activity: "กิจกรรม"
   project_module_forums: "กระทู้"
-  project_module_work_package_tracking: "ติดตามผลชุดภารกิจ"
+  project_module_work_package_tracking: "ชุดภารกิจ"
   project_module_news: "ข่าวสาร"
   project_module_repository: "ที่เก็บข้อมูล"
   project_module_wiki: "วิกิ"
@@ -2486,7 +2509,7 @@ th:
   setting_consent_decline_mail: "Consent contact mail address"
   setting_cross_project_work_package_relations: "อนุญาติให้มีความเกี่ยวข้องกันระหว่างชุดภารกิจในโครงการ"
   setting_first_week_of_year: "สัปดาห์แรกของปี ประกอบด้วย"
-  setting_date_format: "Date"
+  setting_date_format: "วันที่"
   setting_default_language: "ภาษาเริ่มต้น"
   setting_default_projects_modules: "ค่าเริ่มต้นของโมดูลที่เปิดใช้สำหรับโครงการใหม่"
   setting_default_projects_public: "โดยเริ่มแรก โครงการใหม่จะเป็นสาธารณะ"
@@ -2498,7 +2521,7 @@ th:
   setting_enabled_scm: "เปิดใช้ SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "เปิดใช้ Feeds"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "จำกัดเนื้อหาของ Feed"
   setting_file_max_size_displayed: "ความยาวสูงสุดของไฟล์ตัวอักษรแสดงในบรรทัด"
   setting_host_name: "ชื่อโฮสต์"
@@ -2562,29 +2585,21 @@ th:
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
   setting_working_days: "Working days"
   settings:
-    general: "ทั่วไป"
-    other: "อื่น ๆ"
-    passwords: "รหัสผ่าน"
-    session: "เซสชั่น"
-    brute_force_prevention: "การบล็อกผู้ใช้อัตโนมัติ"
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
-    notifications:
-      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
-    display:
+    brute_force_prevention: "การบล็อกผู้ใช้อัตโนมัติ"
+    language_name_being_default: '%{language_name} (default)'
+    date_format:
       first_date_of_week_and_year_set: >
-        หากมีการตั้งค่าตัวเลือก "%{day_of_week_setting_name}" หรือ "%{first_week_setting_name}" ไว้ จะต้องตั้งค่าตัวเลือกอื่นด้วยเพื่อหลีกเลี่ยงความไม่สอดคล้องกันในส่วนหน้า
-      first_week_of_year_text: >
-        เลือกวันที่ของเดือนมกราคมที่อยู่ในสัปดาห์แรกของปี ค่านี้ร่วมกับวันแรกของสัปดาห์จะกำหนดจำนวนสัปดาห์รวมในหนึ่งปี
-    projects:
-      section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
-    user:
-      default_preferences: "Default preferences"
-      display_format: "Display format"
-      deletion: "Deletion"
+        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text_html: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+    general: "ทั่วไป"
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     highlighting:
       mode_long:
         inline: "Highlight attribute(s) inline"
@@ -2592,6 +2607,23 @@ th:
         status: "Entire row by Status"
         type: "Entire row by Type"
         priority: "Entire row by Priority"
+    icalendar:
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+    #below line needs to be appended above after docs are ready
+    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    notifications:
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+    other: "อื่น ๆ"
+    passwords: "รหัสผ่าน"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
+    session: "เซสชั่น"
+    user:
+      default_preferences: "Default preferences"
+      display_format: "Display format"
+      deletion: "Deletion"
     working_days:
       section_work_week: "Work week"
       section_holidays_and_closures: "Holidays and closures"
@@ -2633,10 +2665,12 @@ th:
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    This is the tiny icon that appears in your browser window/tab next to the page's title. It's needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It's needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Database allows TSVector (optional)"
   text_default_administrator_account_changed: "มีการเปลี่ยนค่าตั้งต้นของผู้ดูแลระบบ"
   text_default_encoding: "ค่าเริ่มต้น: UTF-8"

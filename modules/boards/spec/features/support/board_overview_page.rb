@@ -35,6 +35,12 @@ module Pages
       navigate_to_modules_menu_item("Boards")
     end
 
+    def expect_global_menu_item_selected
+      within '#main-menu' do
+        expect(page).to have_selector('.selected', text: 'Boards')
+      end
+    end
+
     def expect_no_boards_listed
       within '#content-wrapper' do
         expect(page).to have_content I18n.t(:no_results_title_text)

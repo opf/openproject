@@ -172,7 +172,7 @@ We added a new “Files” tab in the work package details. This way, you will h
 - Fixed: Include projects - Frontend refinements \[[#41263](https://community.openproject.com/wp/41263)\]
 - Fixed: Existing cards not being displayed on initial load \[[#41305](https://community.openproject.com/wp/41305)\]
 - Fixed: Teamplanner crashes when dropping a wp from the add existing pane \[[#41413](https://community.openproject.com/wp/41413)\]
-- Fixed: Cannot select all projects in work package list \[[#41437](https://community.openproject.com/wp/41437)\]
+- Fixed: Cannot select all projects in work package table \[[#41437](https://community.openproject.com/wp/41437)\]
 - Fixed: Attribute help text opens when clicking ng-select dropdown \[[#41442](https://community.openproject.com/wp/41442)\]
 - Fixed: API responses inconsistent between Bearer tokens and API tokens \[[#41480](https://community.openproject.com/wp/41480)\]
 - Fixed: Create new task on my page not possible: Project not shown in pulldown list \[[#41533](https://community.openproject.com/wp/41533)\]

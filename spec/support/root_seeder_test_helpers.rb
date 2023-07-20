@@ -29,12 +29,6 @@
 #++
 
 module RootSeederTestHelpers
-  def stub_language(locale)
-    locale = locale.to_s
-    with_settings(default_language: locale)
-    stub_const('ENV', { 'OPENPROJECT_SEED_LOCALE' => locale })
-  end
-
   def with_edition(edition)
     RSpec::Mocks.with_temporary_scope do
       with_config(edition:)

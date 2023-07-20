@@ -79,8 +79,9 @@ properties:
 
       **Permission**: Administrator, manage_user global permission
   identityUrl:
-    type: string
-    nullable: true
+    type:
+      - 'string'
+      - 'null'
     description: |-
       User's identity_url for OmniAuth authentication
 

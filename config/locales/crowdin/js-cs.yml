@@ -65,7 +65,8 @@ cs:
     button_confirm: "Potvrdit"
     button_continue: "Pokračovat"
     button_copy: "Kopírovat"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "Kopírovat do schránky"
+    button_copy_link_to_clipboard: "Kopírovat odkaz do schránky"
     button_copy_to_other_project: "Kopírovat do jiného projektu"
     button_custom-fields: "Vlastní pole"
     button_delete: "Odstranit"
@@ -106,7 +107,7 @@ cs:
       remove_from_list: 'Odstranit kartu ze seznamu'
     caption_rate_history: "Historie sazeb"
     clipboard:
-      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
+      browser_error: "Váš prohlížeč nepodporuje, kopírování do schránky. Ručně zkopírujte vybraný text."
       copied_successful: "Úspěšně zkopírováno do schránky!"
     chart:
       type: 'Typ grafu'
@@ -213,7 +214,7 @@ cs:
             label_expires_at: "Vyprší v"
             receive_newsletter: Chci dostávat<a target="_blank" href="%{link}">newsletter OpenProject</a>.
             taken_domain: V každé doméně může být pouze jedna aktivní zkušební verze.
-            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
+            domain_mismatch: Aktuální název hostitele se neshoduje s nakonfigurovaným názvem hostitele. Zkontrolujte prosím nastavení systému.
             taken_email: Každý uživatel může vytvořit pouze jednu zkušební verzi.
           email_not_received: "Neobdrželi jste e-mail? Můžete znovu odeslat e-mail s odkazem vpravo."
           try_another_email: "Nebo to zkuste s jinou e-mailovou adresou."
@@ -250,7 +251,7 @@ cs:
           link_quote: "Získat cenovou nabídku"
           more_info: "Více informací"
           text: >
-            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+            OpenProject Enterprise Edition je postavena na komunitní edici. Obsahuje prémiové funkce a profesionální podporu zaměřenou především na organizace s více než 10 uživateli, kteří spravují kritické projekty
           unlimited: "Bez omezení"
           you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
       working_days:
@@ -327,7 +328,7 @@ cs:
       token_name_placeholder: "Zadejte název pro tento token, např. \"Moje aplikace v kalendáři\""
       token_name_description_text: "This name will be used to distinguish it form other tokens in the <a href=\"my/access_token\", target=\"_blank\">access tokens list</a>. It can only be used once per calendar."
       copy_url_label: "Kopírovat URL"
-      ical_generation_error_text: "An error occured while generating the iCal URL."
+      ical_generation_error_text: "Došlo k chybě při generování adresy URL pro iCal."
     label_activate: "Aktivovat"
     label_assignee: 'Řešitel'
     label_add_column_after: "Přidat sloupec za"
@@ -578,7 +579,7 @@ cs:
         property_was: 'was %{difference_in_days} ago'
         property_is_deleted: 'byl smazán'
         upsale:
-          title: 'Date alerts'
+          title: 'Upozornění na datum'
           description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
       facets:
         unread: 'Nepřečtené'
@@ -614,7 +615,7 @@ cs:
         inbox: 'Inbox'
         mentioned: 'Zmíněné'
         watched: 'Sledující'
-        date_alert: 'Date alert'
+        date_alert: 'Upozornění na datum'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Nastavení oznámení"
@@ -645,13 +646,13 @@ cs:
           work_package_scheduled: 'Všechny změny data'
         global:
           immediately:
-            title: 'Participating'
+            title: 'Účast'
             description: 'Upozornění pro všechny aktivity v pracovních balíčcích, do kterých jste zapojeni (Řešitel, odpovědný nebo sledující).'
           delayed:
-            title: 'Non-participating'
+            title: 'Neúčast'
             description: 'Další oznámení pro činnosti ve všech projektech.'
           date_alerts:
-            title: 'Date alerts'
+            title: 'Upozornění na datum'
             description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
             teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
           overdue: Po termínu
@@ -739,6 +740,14 @@ cs:
     time_entry:
       work_package_required: 'Vyžaduje nejprve výběr pracovního balíčku.'
       title: 'Čas protokolu'
+      tracking: 'Sledování času'
+      stop: 'Zastavit'
+    timer:
+      start_new_timer: 'Spustit nový časovač'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Zastavit aktuální časovač'
     two_factor_authentication:
       label_two_factor_authentication: 'Dvoufázové ověření'
     watchers:
@@ -797,7 +806,8 @@ cs:
     autocompleter:
       placeholder: "Zadejte hledaný text"
       notFoundText: "Nenalezeny žádné položky"
-      typeToSearchText: "Zadejte hledaný text"
+      project:
+        placeholder: "Vybrat projekt"
     repositories:
       select_tag: 'Vybrat štítek'
       select_branch: 'Vybrat větev'
@@ -826,7 +836,7 @@ cs:
         farRight: 'Dále vpravo'
         showNone: '-- Bez popisku --'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+          Vyberte atributy, které chcete zobrazit v příslušných pozicích Ganttova diagramu. Všimněte si, že při najetí kursorem myši budou místo těchto atributů zobrazeny jeho popisky s daty.
       button_activate: 'Zobrazit Ganttův diagram'
       button_deactivate: 'Skrýt Ganttův diagram'
       cancel: Zrušit
@@ -1182,10 +1192,11 @@ cs:
       button_deactivate: 'Deaktivovat zen režim'
     global_search:
       all_projects: "Ve všech projektech"
-      search: "Vyhledávání"
       close_search: "Zavřít hledání"
-      current_project: "V tomto projektu"
       current_project_and_all_descendants: "V tomto projektu + podprojektech"
+      current_project: "V tomto projektu"
+      recently_viewed: "Nedávno zobrazené"
+      search: "Vyhledávání"
       title:
         all_projects: "všechny projekty"
         project_and_subprojects: "a všechny podprojekty"
@@ -1300,7 +1311,7 @@ cs:
         now_meets_filter_criteria: 'Nyní splňuje kritéria filtru'
         no_longer_meets_filter_criteria: 'Již nesplňuje kritéria filtru'
         maintained_with_changes: 'Maintained with changes'
-        in_your_timezone: 'In your local timezone:'
+        in_your_timezone: 'Ve vašem místním časovém pásmu:'
       icon_tooltip:
         added: 'Added to view within the comparison time period'
         removed: 'Removed from view within the comparison time period'

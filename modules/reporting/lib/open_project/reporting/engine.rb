@@ -58,21 +58,38 @@ module OpenProject::Reporting
         end
       end
 
+      should_render = Proc.new do
+        (User.current.logged? || !Setting.login_required?) &&
+          (
+            User.current.allowed_to_globally?(:view_time_entries) ||
+              User.current.allowed_to_globally?(:view_own_time_entries) ||
+              User.current.allowed_to_globally?(:view_cost_entries) ||
+              User.current.allowed_to_globally?(:view_own_cost_entries)
+          )
+      end
+
       # menu extensions
       menu :top_menu,
            :cost_reports_global,
            { controller: '/cost_reports', action: 'index', project_id: nil },
            caption: :cost_reports_title,
            icon: 'cost-reports',
-           if: Proc.new {
-             (User.current.logged? || !Setting.login_required?) &&
-               (
-               User.current.allowed_to_globally?(:view_time_entries) ||
-                 User.current.allowed_to_globally?(:view_own_time_entries) ||
-                 User.current.allowed_to_globally?(:view_cost_entries) ||
-                 User.current.allowed_to_globally?(:view_own_cost_entries)
-             )
-           }
+           if: should_render
+
+      menu :global_menu,
+           :cost_reports_global,
+           { controller: '/cost_reports', action: 'index', project_id: nil },
+           after: :news,
+           caption: :cost_reports_title,
+           icon: 'cost-reports',
+           if: should_render
+
+      menu :global_menu,
+           :cost_reports_global_report_menu,
+           { controller: '/cost_reports', action: 'index', project_id: nil },
+           parent: :cost_reports_global,
+           partial: 'cost_reports/report_menu',
+           if: should_render
 
       menu :project_menu,
            :costs,

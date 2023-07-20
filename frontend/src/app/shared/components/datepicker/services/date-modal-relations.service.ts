@@ -151,7 +151,7 @@ export class DateModalRelationsService {
 
   get ancestors():HalResource[] {
     const wp = this.changeset.projectedResource;
-    return wp.ancestors || [];
+    return wp.getAncestors() || [];
   }
 
   /**

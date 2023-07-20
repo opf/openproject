@@ -60,7 +60,14 @@ module Components
     def close!
       # make backdrop click an the pixel x:10,y:10
       page.find('.spot-modal-overlay').tap do |element|
-        element.click(x: -((element.native.size.width / 2) - 10), y: -((element.native.size.height / 2) - 10))
+        if RSpec.current_example.metadata[:with_cuprite]
+          width = element.style('width')["width"].to_i
+          height = element.style('height')["height"].to_i
+        else
+          width = element.native.size.width
+          height = element.native.size.height
+        end
+        element.click(x: -((width / 2) - 10), y: -((height / 2) - 10))
       end
       expect(page).not_to have_selector('[data-qa-selector="attribute-help-text--header"]', text: help_text.attribute_caption)
     end

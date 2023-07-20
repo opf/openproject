@@ -1,6 +1,7 @@
 <div
   class="op-ian-item--row"
-  (click)="showDetails()"
+  (click)="onClick()"
+  (dblclick)="onDoubleClick()"
 >
   <ng-container *ngIf="workPackage$ && (workPackage$ | async) as workPackage; else workPackageLoading">
     <div

@@ -65,7 +65,8 @@ fr:
     button_confirm: "Confirmer"
     button_continue: "Continuer"
     button_copy: "Copier"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "Copier dans le presse-papier"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copier vers un autre projet"
     button_custom-fields: "Champs personnalisés"
     button_delete: "Supprimer"
@@ -737,6 +738,14 @@ fr:
     time_entry:
       work_package_required: 'Nécessite d''abord la sélection d''un lot de travaux.'
       title: 'Consigner temps'
+      tracking: 'Suivi du temps'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Authentification à deux facteurs'
     watchers:
@@ -795,7 +804,8 @@ fr:
     autocompleter:
       placeholder: "Taper pour rechercher"
       notFoundText: "Aucun élément trouvé"
-      typeToSearchText: "Taper pour rechercher"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Sélectionner une étiquette'
       select_branch: 'Sélectionner une branche'
@@ -1176,10 +1186,11 @@ fr:
       button_deactivate: 'Désactiver le mode zen'
     global_search:
       all_projects: "Pour tous les projets"
-      search: "Recherche"
       close_search: "Fermer la recherche"
-      current_project: "Pour ce projet"
       current_project_and_all_descendants: "Dans ce projet + sous-projets"
+      current_project: "Pour ce projet"
+      recently_viewed: "Recently viewed"
+      search: "Recherche"
       title:
         all_projects: "tous les projets"
         project_and_subprojects: "et tous les sous-projets"

@@ -131,6 +131,10 @@ OpenProject::Application.routes.draw do
       as: 'custom_style_logo',
       constraints: { filename: /[^\/]*/ }
 
+  get 'custom_style/:digest/export_logo/:filename' => 'custom_styles#export_logo_download',
+      as: 'custom_style_export_logo',
+      constraints: { filename: /[^\/]*/ }
+
   get 'custom_style/:digest/favicon/:filename' => 'custom_styles#favicon_download',
       as: 'custom_style_favicon',
       constraints: { filename: /[^\/]*/ }
@@ -264,7 +268,11 @@ OpenProject::Application.routes.draw do
       get '(/*state)' => 'work_packages#show', on: :member, as: ''
     end
 
-    resources :activity, :activities, only: :index, controller: 'activities'
+    resources :activity, :activities, only: :index, controller: 'activities' do
+      collection do
+        get :menu
+      end
+    end
 
     resources :forums do
       member do
@@ -343,6 +351,7 @@ OpenProject::Application.routes.draw do
     resources :enumerations
 
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'
+    delete 'design/export_logo' => 'custom_styles#export_logo_delete', as: 'custom_style_export_logo_delete'
     delete 'design/favicon' => 'custom_styles#favicon_delete', as: 'custom_style_favicon_delete'
     delete 'design/touch_icon' => 'custom_styles#touch_icon_delete', as: 'custom_style_touch_icon_delete'
     get 'design/upsale' => 'custom_styles#upsale', as: 'custom_style_upsale'
@@ -403,6 +412,7 @@ OpenProject::Application.routes.draw do
       resource :working_days, controller: '/admin/settings/working_days_settings', only: %i[show update]
       resource :users, controller: '/admin/settings/users_settings', only: %i[show update]
       resource :date_format, controller: '/admin/settings/date_format_settings', only: %i[show update]
+      resource :icalendar, controller: '/admin/settings/icalendar_settings', only: %i[show update]
 
       # Redirect /settings to general settings
       get '/', to: redirect('/admin/settings/general')
@@ -462,7 +472,11 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  resources :activity, :activities, only: :index, controller: 'activities'
+  resources :activity, :activities, only: :index, controller: 'activities' do
+    collection do
+      get :menu
+    end
+  end
 
   resources :users, constraints: { id: /(\d+|me)/ }, except: :edit do
     resources :memberships, controller: 'users/memberships', only: %i[update create destroy]

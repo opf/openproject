@@ -65,7 +65,8 @@ uk:
     button_confirm: "Підтвердити"
     button_continue: "Продовжити"
     button_copy: "Копіювати"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "Копіювати в буфер обміну"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Копіювати в інший проєкт"
     button_custom-fields: "Індивідуальні поля"
     button_delete: "Видалити"
@@ -739,6 +740,14 @@ uk:
     time_entry:
       work_package_required: 'Спочатку потрібно вибрати пакет робіт.'
       title: 'Час журналу'
+      tracking: 'Відстеження часу'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Двофакторна аутентифікація'
     watchers:
@@ -797,7 +806,8 @@ uk:
     autocompleter:
       placeholder: "Введіть для пошуку"
       notFoundText: "Елементів не знайдено"
-      typeToSearchText: "Введіть для пошуку"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Виберіть мітку'
       select_branch: 'Виберіть гілку'
@@ -1182,10 +1192,11 @@ uk:
       button_deactivate: 'Деактивуйте режим дзен'
     global_search:
       all_projects: "У всіх проектах"
-      search: "Пошук"
       close_search: "Закрити пошук"
-      current_project: "У цьому проекті"
       current_project_and_all_descendants: "У цьому проекті + підпроекти"
+      current_project: "У цьому проекті"
+      recently_viewed: "Recently viewed"
+      search: "Пошук"
       title:
         all_projects: "всі проекти"
         project_and_subprojects: "і всі підпроекти"

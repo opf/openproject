@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Project attributes activities' do
+RSpec.describe 'Project attributes activity', :js, :with_cuprite do
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -36,8 +36,10 @@ RSpec.describe 'Project attributes activities' do
                                        edit_wiki_pages
                                        view_wiki_edits])
   end
+
   let(:parent_project) { create(:project, name: 'parent') }
   let(:project) { create(:project, parent: parent_project, active: false, enabled_module_names: %w[activity]) }
+
   let!(:list_project_custom_field) { create(:list_project_custom_field) }
   let!(:version_project_custom_field) { create(:version_project_custom_field) }
   let!(:bool_project_custom_field) { create(:bool_project_custom_field) }
@@ -52,8 +54,7 @@ RSpec.describe 'Project attributes activities' do
 
   current_user { user }
 
-  it 'tracks the project\'s activities', js: true do
-    previous_project_attributes = project.attributes.dup
+  def generate_trackable_activity_on_project
     new_project_attributes = {
       name: 'a new project name',
       description: 'a new project description',
@@ -74,7 +75,13 @@ RSpec.describe 'Project attributes activities' do
       string_project_custom_field.attribute_name => 'a new string CF value',
       date_project_custom_field.attribute_name => Date.new(2023, 1, 31)
     }
+
     project.update!(new_project_attributes)
+  end
+
+  it "tracks the project's activities" do
+    previous_project_attributes = project.attributes.dup
+    generate_trackable_activity_on_project
 
     visit project_activity_index_path(project)
 

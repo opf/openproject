@@ -162,6 +162,7 @@ Configuring OpenProject through environment variables is described in detail [in
 
 ## Examples for common use cases
 
+* [`admin_user`](#admin-user) (default: 'repositories')
 * `attachments_storage_path`
 * `autologin_cookie_name` (default: 'autologin'),
 * `autologin_cookie_path` (default: '/')
@@ -190,6 +191,29 @@ Configuring OpenProject through environment variables is described in detail [in
 * [`show_community_links`](#show-community-links)
 * [`web`](#web) (nested configuration)
 * [`statsd`](#statsd) (nested configuration)
+
+
+
+## Admin user
+
+**Note:** These variables are only applicable during the first initial setup of your OpenProject setup. Changing or setting them later will have no effect, as the admin user will already have been created.
+
+By default, an admin user will be created with the login and password set to `admin`. You will be required to change this password on first login.
+
+In case of automated deployments, you might find it useful to seed an admin user with password and attributes of your choosing. For that, you can use the following set of variables:
+
+
+
+```bash
+OPENPROJECT_SEED_ADMIN_USER_PASSWORD="admin" # Password to set for the admin user
+OPENPROJECT_SEED_ADMIN_USER_PASSWORD_RESET="true" # Whether to force a password reset on first login (true/false)
+OPENPROJECT_SEED_ADMIN_USER_NAME="OpenProject Admin" # Name to assign to that user (First and lastnames will be split on the space character)
+OPENPROJECT_SEED_ADMIN_USER_MAIL="admin@example.net" # Email attribute to assign to that user. Note that in packaged installations, a wizard step will assign this variable as well.
+```
+
+
+
+
 
 ## Setting session options
 
@@ -406,7 +430,7 @@ OPENPROJECT_HIDDEN__MENU__ITEMS_ADMIN__MENU="roles types"
 The following example disables all menu items except 'Users', 'Groups' and 'Custom fields' under 'Administration':
 
 ```yaml
-OPENPROJECT_HIDDEN__MENU__ITEMS_ADMIN__MENU="roles types statuses workflows enumerations settings ldap_authentication colors project_types export_card_configurations plugins info"
+OPENPROJECT_HIDDEN__MENU__ITEMS_ADMIN__MENU="roles types statuses workflows enumerations settings ldap_authentication colors project_types plugins info"
 ```
 
 ### blacklisted routes
@@ -418,7 +442,7 @@ You can blacklist specific routes
 The following example forbid all routes for the second example at the 'hidden menu items admin menu':
 
 ```yaml
-OPENPROJECT_BLACKLISTED__ROUTES="admin/info admin/plugins export_card_configurations project_types colors settings admin/enumerations workflows/* statuses types admin/roles"
+OPENPROJECT_BLACKLISTED__ROUTES="admin/info admin/plugins project_types colors settings admin/enumerations workflows/* statuses types admin/roles"
 ```
 
 ### disabled modules

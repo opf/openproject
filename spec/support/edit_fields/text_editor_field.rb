@@ -49,6 +49,10 @@ class TextEditorField < EditField
     input_element.native.send_keys :tab
   end
 
+  def submit_by_enter
+    input_element.native.send_keys %i[control enter]
+  end
+
   def cancel_by_click
     target = field_container.find(control_link(:cancel), wait: 10)
     scroll_to_element(target)

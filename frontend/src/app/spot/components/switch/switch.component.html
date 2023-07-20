@@ -5,7 +5,8 @@
   [disabled]="disabled"
   [tabindex]="tabindex"
   [ngModel]="checked"
-  (change)="onToggle($event)"
+  [value]="checked"
+  (ngModelChange)="onToggle($event)"
   #input
 />
 <span

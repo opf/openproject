@@ -62,7 +62,7 @@ Additionally, you can activate to **auto-hide success notifications** from the s
 
 ### Change your language
 
-To change the language in OpenProject, navigate to the **My account** settings and choose the menu point **Settings**.
+To change the language in OpenProject, navigate to the **My account** and choose the menu point **Settings**.
 
 Here you can choose between multiple languages.
 

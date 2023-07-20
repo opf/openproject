@@ -134,8 +134,10 @@ structure.sql
 /.envrc
 /.direnv
 
-# lefthook.yml user override
+# local user override
 lefthook-local.yml
+.rubocop-local.yml
+
 frontend/package-lock.json
 
 # Testing and nextcloud infrastructure

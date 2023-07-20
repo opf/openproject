@@ -65,7 +65,8 @@ ru:
     button_confirm: "Подтвердить"
     button_continue: "Продолжить"
     button_copy: "Копировать"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "Копировать в буфер обмена"
+    button_copy_link_to_clipboard: "Копировать ссылку в буфер обмена"
     button_copy_to_other_project: "Копировать в другой проект"
     button_custom-fields: "Настраиваемые поля"
     button_delete: "Удалить"
@@ -106,7 +107,7 @@ ru:
       remove_from_list: 'Удалить карту из списка'
     caption_rate_history: "История оценок"
     clipboard:
-      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
+      browser_error: "Ваш браузер не поддерживает копирование в буфер обмена. Пожалуйста, скопируйте его вручную: %{content}"
       copied_successful: "Успешно скопировано в буфер обмена!"
     chart:
       type: 'Тип диаграммы'
@@ -738,6 +739,14 @@ ru:
     time_entry:
       work_package_required: 'Сначала необходимо выбрать пакет работ.'
       title: 'Журналировать время'
+      tracking: 'Учет времени'
+      stop: 'Стоп'
+    timer:
+      start_new_timer: 'Начать новый таймер'
+      timer_already_running: 'Для запуска нового таймера необходимо остановить текущий таймер:'
+      timer_already_stopped: 'Нет таймера для этого пакета работ, вы остановили его в другом окне?'
+      tracking_time: 'Время отслеживания'
+      button_stop: 'Остановить текущий таймер'
     two_factor_authentication:
       label_two_factor_authentication: 'Двухфакторная аутентификация'
     watchers:
@@ -796,7 +805,8 @@ ru:
     autocompleter:
       placeholder: "Введите для поиска"
       notFoundText: "Элементов не найдено"
-      typeToSearchText: "Введите для поиска"
+      project:
+        placeholder: "Выберите проект"
     repositories:
       select_tag: 'Выберите тег'
       select_branch: 'Выберите ветку'
@@ -1181,10 +1191,11 @@ ru:
       button_deactivate: 'Отключить полноэкранный режим'
     global_search:
       all_projects: "Во всех проектах"
-      search: "Искать"
       close_search: "Закрыть поиск"
-      current_project: "В этом проекте"
       current_project_and_all_descendants: "В этом проекте + подпроектах"
+      current_project: "В этом проекте"
+      recently_viewed: "Недавно просмотренные"
+      search: "Искать"
       title:
         all_projects: "все проекты"
         project_and_subprojects: "и все подпроекты"

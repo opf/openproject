@@ -117,6 +117,14 @@ description: |-
   | `o`    | the status of the work package is *open*   | *nothing, values is empty* |
   | `c`    | the status of the work package is *closed* | *nothing, values is empty* |
   | `ow`   | the work packages have a manual sort order | *nothing, values is empty* |
-
+  
   There are also relation filters for work packages that have the symbols `blocks/blocked` `children/parent` `follows/precedes` `duplicates/duplicated` `partof/includes` `relates` `requires/required` depending on the direction of the relation and take as value the work package ID that is the target node of the relation.
+  
+  **Special values for boolean filters**
+  
+  If you're using an operator that requires boolean values, please note that they need to be presented in this form:
+  
+  - `['f']` for false
+  - `['t']` for true
+
 name: Filters

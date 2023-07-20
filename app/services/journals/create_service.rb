@@ -48,9 +48,13 @@ module Journals
       self.journable = journable
     end
 
-    def call(notes: '')
+    def call(notes: '', cause: {})
+      # JSON columns read from the database always have string keys. As we do not know what is passed in here,
+      # and we want to compare it to values read from the DB, we need to stringify the keys here as well
+      normalized_cause = cause.deep_stringify_keys
+
       Journal.transaction do
-        journal = create_journal(notes)
+        journal = create_journal(notes, normalized_cause)
 
         if journal
           reload_journals
@@ -63,24 +67,24 @@ module Journals
 
     private
 
-    # If the journalizing happens within the configured aggregation time, is carried out by the same user
-    # and only the predecessor or the journal to be created has notes, the changes are aggregated.
+    # If the journalizing happens within the configured aggregation time, is carried out by the same user, has an
+    # identical cause and only the predecessor or the journal to be created has notes, the changes are aggregated.
     # Instead of removing the predecessor, return it here so that it can be stripped in the journal creating
     # SQL to than be refilled. That way, references to the journal, including ones users have, are kept intact.
-    def aggregatable_predecessor(notes)
+    def aggregatable_predecessor(notes, cause)
       predecessor = journable.last_journal
 
-      if aggregatable?(predecessor, notes)
+      if aggregatable?(predecessor, notes, cause)
         predecessor
       end
     end
 
-    def create_journal(notes)
-      predecessor = aggregatable_predecessor(notes)
+    def create_journal(notes, cause)
+      predecessor = aggregatable_predecessor(notes, cause)
 
       log_journal_creation(predecessor)
 
-      create_sql = create_journal_sql(predecessor, notes)
+      create_sql = create_journal_sql(predecessor, notes, cause)
 
       # We need to ensure that the result is genuine. Otherwise,
       # calling the service repeatedly for the same journable
@@ -110,10 +114,10 @@ module Journals
     # (i.e. when determining the latest state of the journable and when getting the current version number).
     #
     # The next CTE (`changes`) determines whether a change as occurred so that a new journal needs to be created. The next CTE,
-    # that will insert new data, will only do so if the changes CTE returns an entry. The only two exceptions to this check is
-    # that if a note is provided or a predecessor is replaced, a journal will be created regardless of whether any changes are
-    # detected. To determine whether a change is worthy of being journalized, the current and the latest journalized state are
-    # compared in three aspects:
+    # that will insert new data, will only do so if the changes CTE returns an entry. The only three exceptions to this check are
+    # that if a note is provided, the predecessor has a different cause than the new journal would have or a predecessor
+    # is replaced, a journal will be created regardless of whether any changes are detected. To determine whether a
+    # change is worthy of being journalized, the current and the latest journalized state are compared in three aspects:
     # * the journable's table columns are compared to the columns in the journable's journal data table
     # (e.g. work_package_journals for WorkPackages). Only columns that exist in the journable's journal data table are considered
     # (and some columns like the primary key `id` is ignored). Therefore, to add an attribute to be journalized, it needs to
@@ -124,7 +128,7 @@ module Journals
     # When comparing text based values, newlines are normalized as otherwise users having a different OS might change a text value
     # without intending to.
     #
-    # Only if a change has been identified (or if a note/predecessor is present) is a journal inserted by the
+    # Only if a change has been identified (or if a note/cause/predecessor is present) is a journal inserted by the
     # next CTE (`insert_journal`). Its creation timestamp will be the updated_at value of the journable as this is the
     # logical creation time. If a note is present, however, the current time is taken as it signifies an action in itself and
     # there might not be a change at all. In such a case, the journable will later on receive the creation date of the
@@ -145,7 +149,7 @@ module Journals
     #
     # If a journal is created, all entries in the custom_values table associated to the journable are recreated as entries
     # in the customizable_journals table. Again, newlines are normalized.
-    def create_journal_sql(predecessor, notes)
+    def create_journal_sql(predecessor, notes, cause)
       <<~SQL
         WITH cleanup_predecessor_data AS (
           #{cleanup_predecessor_data(predecessor)}
@@ -161,9 +165,9 @@ module Journals
         ), changes AS (
           #{select_changed_sql}
         ), insert_data AS (
-          #{insert_data_sql(notes, predecessor)}
+          #{insert_data_sql(predecessor, notes, cause)}
         ), inserted_journal AS (
-          #{update_or_insert_journal_sql(predecessor, notes)}
+          #{update_or_insert_journal_sql(predecessor, notes, cause)}
         ), insert_attachable AS (
           #{insert_attachable_sql}
         ), insert_customizable AS (
@@ -210,15 +214,15 @@ module Journals
                column => predecessor.send(referenced_id)
     end
 
-    def update_or_insert_journal_sql(predecessor, notes)
+    def update_or_insert_journal_sql(predecessor, notes, cause)
       if predecessor
-        update_journal_sql(predecessor, notes)
+        update_journal_sql(predecessor, notes, cause)
       else
-        insert_journal_sql(notes)
+        insert_journal_sql(notes, cause)
       end
     end
 
-    def update_journal_sql(predecessor, notes)
+    def update_journal_sql(predecessor, notes, cause)
       # If there is a predecessor, we don't want to create a new one, we simply rewrite it.
       # The original data of that predecessor (data e.g. work_package_journals, customizable_journals, attachable_journals)
       # has been deleted before but the notes need to taken over and the timestamps updated as if the
@@ -232,7 +236,8 @@ module Journals
         SET
           notes = :notes,
           updated_at = #{timestamp_sql},
-          data_id = insert_data.id
+          data_id = insert_data.id,
+          cause = :cause
         FROM insert_data
         WHERE journals.id = :predecessor_id
         RETURNING
@@ -241,10 +246,11 @@ module Journals
 
       sanitize(journal_sql,
                notes: notes.presence || predecessor.notes,
-               predecessor_id: predecessor.id)
+               predecessor_id: predecessor.id,
+               cause: cause_sql(cause))
     end
 
-    def insert_journal_sql(notes)
+    def insert_journal_sql(notes, cause)
       journal_sql = <<~SQL
         INSERT INTO
           journals (
@@ -256,7 +262,8 @@ module Journals
             created_at,
             updated_at,
             data_id,
-            data_type
+            data_type,
+            cause
           )
         SELECT
           :journable_id,
@@ -267,13 +274,15 @@ module Journals
           #{journal_timestamp_sql(notes, ':created_at')},
           #{journal_timestamp_sql(notes, ':updated_at')},
           insert_data.id,
-          :data_type
+          :data_type,
+          :cause
         FROM max_journals, insert_data
         RETURNING *
       SQL
 
       sanitize(journal_sql,
                notes:,
+               cause: cause_sql(cause),
                journable_id: journable.id,
                journable_type:,
                user_id: user.id,
@@ -282,8 +291,8 @@ module Journals
                data_type: journable.class.journal_class.name)
     end
 
-    def insert_data_sql(notes, predecessor)
-      condition = if notes.blank? && predecessor.nil?
+    def insert_data_sql(predecessor, notes, cause)
+      condition = if notes.blank? && cause.blank? && predecessor.nil?
                     "AND EXISTS (SELECT * FROM changes)"
                   else
                     ""
@@ -575,6 +584,11 @@ module Journals
       end
     end
 
+    def cause_sql(cause)
+      # Using the same encoder mechanism that ActiveRecord uses for json/jsonb columns
+      ActiveSupport::JSON.encode(cause || {})
+    end
+
     def timestamp_sql
       # Use the timestamp of the statement, not now() or statement_timestamp
       # as they always return the same value of the start of transaction
@@ -589,7 +603,7 @@ module Journals
     end
 
     def touch_journable(journal)
-      return if journal.notes.blank?
+      return if journal.notes.blank? && journal.cause.blank?
 
       # Not using touch here on purpose,
       # as to avoid changing lock versions on the journables for this change
@@ -599,11 +613,12 @@ module Journals
       journable.update_columns(timestamps) if timestamps.any?
     end
 
-    def aggregatable?(predecessor, notes)
+    def aggregatable?(predecessor, notes, cause)
       predecessor.present? &&
         aggregation_active? &&
         within_aggregation_time?(predecessor) &&
         same_user?(predecessor) &&
+        same_cause?(predecessor, cause) &&
         only_one_note(predecessor, notes)
     end
 
@@ -621,6 +636,10 @@ module Journals
 
     def same_user?(predecessor)
       predecessor.user_id == user.id
+    end
+
+    def same_cause?(predecessor, cause)
+      (predecessor.cause.blank? && cause.blank?) || predecessor.cause == cause
     end
 
     def log_journal_creation(predecessor)

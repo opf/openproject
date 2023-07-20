@@ -38,6 +38,10 @@ module Calendar
       link_to query.name, project_calendar_path(project, query.id)
     end
 
+    def project_id
+      link_to project.name, project_path(project)
+    end
+
     def created_at
       helpers.format_time(query.created_at)
     end
@@ -47,7 +51,7 @@ module Calendar
     end
 
     def delete_link
-      if table.current_user.allowed_to?(:manage_calendars, project)
+      if render_delete_link?
         link_to(
           '',
           project_calendar_path(project, query.id),
@@ -60,6 +64,12 @@ module Calendar
           title: t(:button_delete)
         )
       end
+    end
+
+    private
+
+    def render_delete_link?
+      table.current_project && table.current_user.allowed_to?(:manage_calendars, project)
     end
   end
 end

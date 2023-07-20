@@ -17,7 +17,7 @@ targets:
       - imagemagick
   debian-11:
     <<: *debian
-  ubuntu-18.04:
+  debian-12:
     <<: *debian
   ubuntu-20.04:
     <<: *debian
@@ -34,6 +34,11 @@ targets:
       - unzip
       - poppler-utils
   centos-8:
+    <<: *centos7
+    env:
+      - NODE_ENV=production
+      - NPM_CONFIG_PRODUCTION=false
+  centos-9:
     <<: *centos7
     env:
       - NODE_ENV=production

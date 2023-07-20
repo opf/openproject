@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-RSpec.describe 'Dashboard page members', js: true, with_mail: false do
+RSpec.describe 'Dashboard page members', js: true do
   shared_let(:type) { create(:type) }
   shared_let(:project) { create(:project, types: [type], description: 'My **custom** description') }
 

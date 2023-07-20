@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 
-RSpec.describe 'Bulk update work packages through Rails view', js: true do
+RSpec.describe 'Bulk update work packages through Rails view', js: true, with_cuprite: true do
   shared_let(:type) { create(:type, name: 'Bug') }
   shared_let(:project) { create(:project, name: 'Source', types: [type]) }
   shared_let(:status) { create(:status) }

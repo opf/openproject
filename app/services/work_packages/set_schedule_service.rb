@@ -27,21 +27,22 @@
 #++
 
 class WorkPackages::SetScheduleService
-  attr_accessor :user, :work_packages
+  attr_accessor :user, :work_packages, :initiated_by
 
-  def initialize(user:, work_package:)
+  def initialize(user:, work_package:, initiated_by: nil)
     self.user = user
     self.work_packages = Array(work_package)
+    self.initiated_by = initiated_by
   end
 
   def call(changed_attributes = %i(start_date due_date))
     altered = []
 
-    if (%i(parent parent_id) & changed_attributes).any?
+    if %i(parent parent_id).intersect?(changed_attributes)
       altered += schedule_by_parent
     end
 
-    if (%i(start_date due_date parent parent_id) & changed_attributes).any?
+    if %i(start_date due_date parent parent_id).intersect?(changed_attributes)
       altered += schedule_following
     end
 
@@ -69,6 +70,7 @@ class WorkPackages::SetScheduleService
             days.due_date(wp.start_date, wp.duration),
             wp.due_date
           ].compact.max
+          assign_cause_for_journaling(wp, :parent)
         end
       end
   end
@@ -122,6 +124,7 @@ class WorkPackages::SetScheduleService
   # descendants
   def reschedule_by_descendants(scheduled, dependency)
     set_dates(scheduled, dependency.start_date, dependency.due_date)
+    assign_cause_for_journaling(scheduled, :children)
   end
 
   # Calculates the dates of a work package based on its follows relations.
@@ -147,6 +150,7 @@ class WorkPackages::SetScheduleService
     new_start_date = [scheduled.start_date, dependency.soonest_start_date].compact.max
     new_due_date = determine_due_date(scheduled, new_start_date)
     set_dates(scheduled, new_start_date, new_due_date)
+    assign_cause_for_journaling(scheduled, :predecessor)
   end
 
   def determine_due_date(work_package, start_date)
@@ -173,5 +177,40 @@ class WorkPackages::SetScheduleService
 
   def days(work_package)
     WorkPackages::Shared::Days.for(work_package)
+  end
+
+  def assign_cause_for_journaling(work_package, relation)
+    return {} if initiated_by.nil?
+    return {} unless work_package.changes.keys.intersect?(%w(start_date due_date duration))
+
+    if initiated_by.is_a?(WorkPackage)
+      assign_cause_initiated_by_work_package(work_package, relation)
+    elsif initiated_by.is_a?(Journal::WorkingDayUpdate)
+      assign_cause_initiated_by_changed_working_days(work_package)
+    end
+  end
+
+  def assign_cause_initiated_by_work_package(work_package, _relation)
+    # For now we only track a generic cause, and not a specialized reason depending on the relation
+    #
+    # type_mapping = {
+    #   parent: 'work_package_parent_changed_times',
+    #   children: 'work_package_children_changed_times',
+    #   predecessor: 'work_package_predecessor_changed_times',
+    #   related: 'work_package_related_changed_times'
+    # }
+    # work_package.journal_cause = { "type" => type_mapping[relation], "work_package_id" => initiated_by.id }
+
+    work_package.journal_cause = {
+      "type" => "work_package_related_changed_times",
+      "work_package_id" => initiated_by.id
+    }
+  end
+
+  def assign_cause_initiated_by_changed_working_days(work_package)
+    work_package.journal_cause = {
+      "type" => 'working_days_changed',
+      "changed_days" => initiated_by.to_h
+    }
   end
 end

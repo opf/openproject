@@ -29,9 +29,14 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_meeting_new) %>
 <%= toolbar title: t(:label_meeting_new) %>
-<%= labelled_tabular_form_for @meeting, :url => {:controller => '/meetings', :action => 'create', :project_id => @project}, :html => {:id => 'meeting-form'} do |f| -%>
+<%= labelled_tabular_form_for @meeting,
+                              url: {:controller => '/meetings', :action => 'create', :project_id => @project},
+                              :html => {:id => 'meeting-form',
+                                        :data => { :controller => 'refresh-on-form-changes',
+                                                   'refresh-on-form-changes-target': 'form',
+                                                   'refresh-on-form-changes-turbo-stream-url-value': new_meeting_url }} do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>
   <%= styled_button_tag t(:button_create), class: '-highlight' %>
   <%= link_to t(:button_cancel), { :action => 'index', :project_id => @project },
         class: 'button' %>
-<% end if @project %>
+<% end %>

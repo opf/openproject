@@ -29,13 +29,19 @@
 module ::Calendar
   class CalendarsController < ApplicationController
     before_action :find_optional_project
-    before_action :authorize
+    before_action :authorize, except: %i[index]
+    before_action :authorize_global, only: %i[index]
 
     before_action :find_calendar, only: %i[destroy]
     menu_item :calendar_view
 
+    include Layout
+    include PaginationHelper
+    include SortHelper
+
     def index
       @views = visible_views
+      render 'index', locals: { menu_name: project_or_global_menu }
     end
 
     def show
@@ -54,13 +60,26 @@ module ::Calendar
 
     private
 
+    def find_optional_project
+      return unless params[:project_id]
+
+      @project = Project.find(params[:project_id])
+      authorize
+    rescue ActiveRecord::RecordNotFound
+      render_404
+    end
+
     def visible_views
-      Query
-        .visible(current_user)
-        .joins(:views)
-        .where('views.type' => 'work_packages_calendar')
-        .where('queries.project_id' => @project.id)
-        .order('queries.name ASC')
+      base_query = Query
+                     .visible(current_user)
+                     .joins(:views)
+                     .where('views.type' => 'work_packages_calendar')
+
+      if @project
+        base_query = base_query.where('queries.project_id' => @project.id)
+      end
+
+      base_query.order('queries.name ASC')
     end
 
     def find_calendar

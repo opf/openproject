@@ -198,8 +198,6 @@ si:
       no_results_content_text: නව අභිරුචි ක්ෂේත්‍රයක් සාදන්න
   concatenation:
     single: 'හෝ'
-  documentation:
-    see_more_link: For more information, please see our documentation on this topic.
   global_search:
     overwritten_tabs:
       wiki_pages: "විකි"
@@ -528,6 +526,7 @@ si:
         hours: "පැය"
         spent_on: "දිනය"
         type: "වර්ගය"
+        ongoing: "Ongoing"
       type:
         description: "විස්තරය සඳහා පෙරනිමි පෙළ"
         attribute_groups: ''
@@ -1066,7 +1065,8 @@ si:
   button_configure: "සකසන්න"
   button_continue: "ඉදිරියට යන්න"
   button_copy: "පිටපත් කරන්න"
-  button_copy_to_clipboard: "Copy to clipboard"
+  button_copy_to_clipboard: "පසුරු පුවරුවට පිටපත් කරන්න"
+  button_copy_link_to_clipboard: "Copy link to clipboard"
   button_copy_and_follow: "පිටපත් කර අනුගමනය කරන්න"
   button_create: "සාදන්න"
   button_create_and_continue: "සාදන්න සහ ඉදිරියට යන්න"
@@ -1411,6 +1411,22 @@ si:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "The changes were retracted."
+    caused_changes:
+      dates_changed: "Dates changed"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} is now working"
+          non_working: "%{day} is now non-working"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} is now non-working"
   links:
     configuration_guide: 'වින්යාස මාර්ගෝපදේශය'
     get_in_touch: "You have questions? Get in touch with us."
@@ -1477,6 +1493,7 @@ si:
   label_age: "වයස"
   label_ago: "දින කිහිපයකට පෙර"
   label_all: "සියලු"
+  label_all_projects: "All projects"
   label_all_time: "සියලු කාලය"
   label_all_words: "සියලු වචන"
   label_all_open_wps: "සියල්ල විවෘතයි"
@@ -1493,6 +1510,7 @@ si:
   label_ical_access_key_revoke: "අවලංගු"
   label_applied_status: "ව්යවහාරික තත්ත්වය"
   label_archive_project: "සංරක්ෂිත ව්යාපෘතිය"
+  label_archived_projects: "Archived projects"
   label_ascending: "නැගීම"
   label_assigned_to_me_work_packages: "මට පවරා ඇති වැඩ පැකේජ"
   label_associated_revisions: "ආශ්රිත සංශෝධන"
@@ -1579,7 +1597,7 @@ si:
   label_database_version: "PostgreSQL version"
   label_date: "දිනය"
   label_date_and_time: "දිනය සහ වේලාව"
-  label_date_format: "Date format"
+  label_date_format: "දිනය ආකෘතිය"
   label_date_from: "සිට"
   label_date_from_to: "%{start} සිට %{end}දක්වා"
   label_date_to: "කිරීමට"
@@ -1628,6 +1646,8 @@ si:
   label_equals: "වේ"
   label_everywhere: "සෑම තැනකම"
   label_example: "උදාහරණය"
+  label_experimental: "Experimental"
+  label_i_am_member: "I am member"
   label_import: "ආනයන"
   label_export_to: "ද ලබා ගත හැකි:"
   label_expanded_click_to_collapse: "පුළුල්. කඩා වැටීමට ක්ලික් කරන්න"
@@ -1664,6 +1684,7 @@ si:
   label_hierarchy_leaf: "ධූරාවලිය කොළ"
   label_home: "නිවස"
   label_subject_or_id: "විෂය හෝ හැඳුනුම්පත"
+  label_icalendar: "iCalendar"
   label_impressum: "නීතිමය දැනුම්දීම"
   label_in: "තුළ"
   label_in_less_than: "වඩා අඩු"
@@ -1707,6 +1728,7 @@ si:
   label_logged_as: "ලෙස ලොගින් වී"
   label_login: "පුරනය වන්න"
   label_custom_logo: "අභිරුචි ලාංඡනය"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "අභිරුචි ප්රියතම"
   label_custom_touch_icon: "අභිරුචි ස්පර්ශ අයිකනය"
   label_logout: "ලියාපදිංචි වන්න"
@@ -2064,6 +2086,7 @@ si:
       more_to_see:
         one: 'There is 1 more work package with notifications.'
         other: 'There are %{count} more work packages with notifications.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Watched'
         assigned: 'Assigned'
@@ -2333,7 +2356,7 @@ si:
       archived: "සංරක්ෂිත"
   project_module_activity: "ක්‍රියාකාරකම"
   project_module_forums: "සංසද"
-  project_module_work_package_tracking: "වැඩ පැකේජය ලුහුබැඳීම"
+  project_module_work_package_tracking: "වැඩ පැකේජ"
   project_module_news: "පුවත්"
   project_module_repository: "ගබඩාව"
   project_module_wiki: "විකි"
@@ -2507,7 +2530,7 @@ si:
   setting_consent_decline_mail: "කැමැත්ත සම්බන්ධතා තැපැල් ලිපිනය"
   setting_cross_project_work_package_relations: "හරස් ව්යාපෘති වැඩ පැකේජ සබඳතා ඉඩ දෙන්න"
   setting_first_week_of_year: "First week in year contains"
-  setting_date_format: "Date"
+  setting_date_format: "දිනය"
   setting_default_language: "පෙරනිමි භාෂාව"
   setting_default_projects_modules: "නව ව්යාපෘති සඳහා පෙරනිමි සක්රීය මොඩියුල"
   setting_default_projects_public: "නව ව්යාපෘති පෙරනිමියෙන් පොදු වේ"
@@ -2519,7 +2542,7 @@ si:
   setting_enabled_scm: "සක්රීය SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "පෝෂණය සක්රීය කරන්න"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "අන්තර්ගත සීමාව සංග්රහ"
   setting_file_max_size_displayed: "පේළිගත ප්රදර්ශනය පෙළ ගොනු උපරිම ප්රමාණය"
   setting_host_name: "සත්කාරක නාමය"
@@ -2583,29 +2606,21 @@ si:
   setting_work_package_list_default_highlighted_attributes: "පෙරනිමි පේළිගත උද්දීපිත ගුණාංග"
   setting_working_days: "Working days"
   settings:
-    general: "පොදු"
-    other: "වෙනත්"
-    passwords: "මුරපද"
-    session: "සැසිය"
-    brute_force_prevention: "ස්වයංක්රීය පරිශීලක අවහිර"
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
-    notifications:
-      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
-    display:
+    brute_force_prevention: "ස්වයංක්රීය පරිශීලක අවහිර"
+    language_name_being_default: '%{language_name} (default)'
+    date_format:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
-      first_week_of_year_text: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
-    projects:
-      section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
-    user:
-      default_preferences: "පෙරනිමි මනාප"
-      display_format: "Display format"
-      deletion: "මකාදැමීම"
+      first_week_of_year_text_html: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+    general: "පොදු"
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     highlighting:
       mode_long:
         inline: "කැපී පෙනෙන ලක්ෂණය (ගේ) පේළිගත"
@@ -2613,6 +2628,23 @@ si:
         status: "තත්ත්වය විසින් සමස්ත පේළිය"
         type: "වර්ගය විසින් සම්පූර්ණ පේළිය"
         priority: "ප්රමුඛතා විසින් සම්පූර්ණ පේළිය"
+    icalendar:
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+    #below line needs to be appended above after docs are ready
+    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    notifications:
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+    other: "වෙනත්"
+    passwords: "මුරපද"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
+    session: "සැසිය"
+    user:
+      default_preferences: "පෙරනිමි මනාප"
+      display_format: "Display format"
+      deletion: "මකාදැමීම"
     working_days:
       section_work_week: "Work week"
       section_holidays_and_closures: "Holidays and closures"
@@ -2654,10 +2686,12 @@ si:
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     විනිවිද පෙනෙන පසුබිම මත සුදු ලාංඡනය නිර්දේශ කරනු ලැබේ. දෙකම මත හොඳම ප්රතිඵල සඳහා, සාම්ප්රදායික හා දෘෂ්ටි විතානයේ ප්රදර්ශනය, ඔබගේ රූපයේ මානයන් 60px විසින් 460px බවට වග බලා ගන්න.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    පිටුවේ මාතෘකාවට යාබදව ඔබගේ බ්රව්සර් කවුළුව/පටිත්තෙහි දිස්වන කුඩා අයිකනය මෙයයි. එය විනිවිද පෙනෙන පසුබිමක් සහිත 32 පික්සල් ප්රමාණයේ PNG රූප ගොනුවක් විය යුතුය.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    ඔබ ඔබේ homescreen මත පිටු සලකුණක් තබන විට ඔබේ ජංගම හෝ ටැබ්ලටයේ දිස්වන අයිකනය මෙයයි. එය 180 පික්සල් ප්රමාණයේ PNG රූප ගොනුවක් විසින් කොටු කළ යුතුය. රූපයේ පසුබිම විනිවිද පෙනෙන නොවන බවට වග බලා ගන්න, එසේ නොමැති නම් එය iOS මත නරක පෙනෙනු ඇත.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "දත්ත සමුදාය TsVector ඉඩ (විකල්ප)"
   text_default_administrator_account_changed: "පෙරනිමි පරිපාලක ගිණුම වෙනස්"
   text_default_encoding: "පෙරනිමි: UTF-8"

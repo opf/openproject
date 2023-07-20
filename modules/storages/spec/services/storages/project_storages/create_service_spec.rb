@@ -28,9 +28,12 @@
 
 require 'spec_helper'
 require 'services/base_services/behaves_like_create_service'
+require_relative 'shared_synchronization_trigger_examples'
 
 RSpec.describe Storages::ProjectStorages::CreateService, type: :model do
   it_behaves_like 'BaseServices create service' do
     let(:factory) { :project_storage }
+
+    it_behaves_like 'a nextcloud synchronization trigger'
   end
 end

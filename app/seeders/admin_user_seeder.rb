@@ -54,10 +54,11 @@ class AdminUserSeeder < Seeder
     User.new.tap do |user|
       user.admin = true
       user.login = 'admin'
-      user.password = 'admin'
-      user.firstname = 'OpenProject'
-      user.lastname = 'Admin'
-      user.mail = ENV['ADMIN_EMAIL'].presence || 'admin@example.net'
+      user.password = Setting.seed_admin_user_password
+      first, last = Setting.seed_admin_user_name.split(' ', 2)
+      user.firstname = first
+      user.lastname = last
+      user.mail = Setting.seed_admin_user_mail
       user.language = I18n.locale.to_s
       user.status = User.statuses[:active]
       user.force_password_change = force_password_change?
@@ -66,16 +67,8 @@ class AdminUserSeeder < Seeder
   end
 
   def force_password_change?
-    !Rails.env.development? && !force_password_change_disabled?
-  end
+    return false if Rails.env.development?
 
-  def force_password_change_disabled?
-    off_values = ["off", "false", "no", "0"]
-
-    off_values.include? ENV.fetch(force_password_change_env_switch_name, nil)
-  end
-
-  def force_password_change_env_switch_name
-    "OP_ADMIN_USER_SEEDER_FORCE_PASSWORD_CHANGE"
+    Setting.seed_admin_user_password_reset?
   end
 end

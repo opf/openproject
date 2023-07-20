@@ -26,21 +26,38 @@
 
 RSpec.shared_context 'with mobile screen size' do |width, height|
   let!(:height_before) do
-    page.driver.browser.manage.window.size.height
+    if using_cuprite?
+      page.current_window.size.second
+    else
+      page.driver.browser.manage.window.size.height
+    end
   end
+
   let!(:width_before) do
-    page.driver.browser.manage.window.size.width
+    if using_cuprite?
+      page.current_window.size.first
+    else
+      page.driver.browser.manage.window.size.width
+    end
   end
 
   before do
     # Change browser size
-    page.driver.browser.manage.window.resize_to(width || 500, height || 1000)
-
-    # Refresh the page
-    page.driver.browser.navigate.refresh
+    # and refresh the page
+    if using_cuprite?
+      page.driver.resize(width || 500, height || 1000)
+      page.driver.refresh
+    else
+      page.driver.browser.manage.window.resize_to(width || 500, height || 1000)
+      page.driver.browser.navigate.refresh
+    end
   end
 
   after do
-    page.driver.browser.manage.window.resize_to(width_before, height_before)
+    if using_cuprite?
+      page.driver.resize(width_before, height_before)
+    else
+      page.driver.browser.manage.window.resize_to(width_before, height_before)
+    end
   end
 end

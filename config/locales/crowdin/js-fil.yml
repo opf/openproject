@@ -65,7 +65,8 @@ fil:
     button_confirm: "Kumpirmahin"
     button_continue: "Magpatuloy"
     button_copy: "Kopyahin"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "Kopyahin sa clipboard"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Mga pasadyang patlang"
     button_delete: "Burahin"
@@ -737,6 +738,14 @@ fil:
     time_entry:
       work_package_required: 'Requires selecting a work package first.'
       title: 'Ang oras ng tala'
+      tracking: 'Time tracking'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Ang dalwang-Dahilan sa authentication'
     watchers:
@@ -795,7 +804,8 @@ fil:
     autocompleter:
       placeholder: "Type to search"
       notFoundText: "No items found"
-      typeToSearchText: "Type to search"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Pumiling ng tag'
       select_branch: 'Pumili ng sangay'
@@ -1176,10 +1186,11 @@ fil:
       button_deactivate: 'I-deactive ang zen mode'
     global_search:
       all_projects: "In all projects"
-      search: "Hanapin"
       close_search: "Close search"
-      current_project: "In this project"
       current_project_and_all_descendants: "In this project + subprojects"
+      current_project: "In this project"
+      recently_viewed: "Recently viewed"
+      search: "Hanapin"
       title:
         all_projects: "all projects"
         project_and_subprojects: "and all subprojects"

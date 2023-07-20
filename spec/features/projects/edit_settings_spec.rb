@@ -28,7 +28,9 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Projects', 'editing settings', js: true do
+RSpec.describe 'Projects', 'editing settings',
+               js: true,
+               with_cuprite: true do
   let(:name_field) { FormFields::InputFormField.new :name }
   let(:parent_field) { FormFields::SelectFormField.new :parent }
   let(:permissions) { %i(edit_project) }
@@ -54,9 +56,7 @@ RSpec.describe 'Projects', 'editing settings', js: true do
     it 'updates the project identifier' do
       visit projects_path
       click_on project.name
-      SeleniumHubWaiter.wait
       click_on 'Project settings'
-      SeleniumHubWaiter.wait
       click_on 'Change identifier'
 
       expect(page).to have_content "Change the project's identifier".upcase

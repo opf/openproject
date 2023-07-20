@@ -65,7 +65,8 @@ eo:
     button_confirm: "Konfirmi"
     button_continue: "Daŭrigi"
     button_copy: "Kopii"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "Kopii al la tondujo"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Propraj kampoj"
     button_delete: "Forigi"
@@ -737,6 +738,14 @@ eo:
     time_entry:
       work_package_required: 'Requires selecting a work package first.'
       title: 'Tempoprotokolo'
+      tracking: 'Time tracking'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:
@@ -795,7 +804,8 @@ eo:
     autocompleter:
       placeholder: "Tajpu por serĉi"
       notFoundText: "No items found"
-      typeToSearchText: "Tajpu por serĉi"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Elekti etikedon'
       select_branch: 'Elekti branĉon'
@@ -1176,10 +1186,11 @@ eo:
       button_deactivate: 'Malaktivigi zen reĝimo'
     global_search:
       all_projects: "En ĉiuj projektoj"
-      search: "Search"
       close_search: "Fermi serĉon"
-      current_project: "En tiu ĉi projekto"
       current_project_and_all_descendants: "En tiu ĉi projekto + subprojektoj"
+      current_project: "En tiu ĉi projekto"
+      recently_viewed: "Recently viewed"
+      search: "Search"
       title:
         all_projects: "ĉiuj projektoj"
         project_and_subprojects: "kaj ĉiuj subprojektoj"

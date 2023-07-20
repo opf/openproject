@@ -30,6 +30,7 @@ require 'spec_helper'
 
 RSpec.describe 'Projects index page',
                js: true,
+               with_cuprite: true,
                with_settings: { login_required?: false } do
   shared_let(:admin) { create(:admin) }
 
@@ -83,9 +84,9 @@ RSpec.describe 'Projects index page',
     end
   end
 
-  describe 'restricts project visibility' do
-    describe 'for a anonymous user' do
-      it 'only public projects shall be visible' do
+  describe 'project visibility restriction' do
+    context 'for an anonymous user' do
+      specify 'only public projects shall be visible' do
         Role.anonymous
         visit projects_path
 
@@ -97,7 +98,7 @@ RSpec.describe 'Projects index page',
       end
     end
 
-    describe 'for project members', with_ee: %i[custom_fields_in_projects_list] do
+    context 'for project members', with_ee: %i[custom_fields_in_projects_list] do
       shared_let(:user) do
         create(:user,
                member_in_project: development_project,
@@ -107,7 +108,7 @@ RSpec.describe 'Projects index page',
                lastname: 'Turing')
       end
 
-      it 'only public project or those the user is member of shall be visible' do
+      specify 'only public projects or those the user is a member of shall be visible' do
         Role.non_member
         login_as(user)
         visit projects_path
@@ -122,14 +123,14 @@ RSpec.describe 'Projects index page',
       end
     end
 
-    describe 'for admins' do
+    context 'for admins' do
       before do
         project.update(created_at: 7.days.ago, description: 'I am a nice project')
 
         news
       end
 
-      it 'test that all projects are visible' do
+      specify 'all projects are visible' do
         login_as(admin)
         visit projects_path
 
@@ -163,7 +164,7 @@ RSpec.describe 'Projects index page',
         end
       end
 
-      it 'test that flash sortBy is being escaped' do
+      specify 'flash sortBy is being escaped' do
         login_as(admin)
         visit projects_path(sortBy: "[[\"><script src='/foobar.js'></script>\",\"\"]]")
 
@@ -177,8 +178,8 @@ RSpec.describe 'Projects index page',
     end
   end
 
-  describe 'without valid Enterprise token' do
-    it 'CF columns and filters are not visible' do
+  context 'without valid Enterprise token' do
+    specify 'CF columns and filters are not visible' do
       load_and_open_filters admin
 
       # CF's columns are not present:
@@ -188,15 +189,15 @@ RSpec.describe 'Projects index page',
     end
   end
 
-  describe 'with valid Enterprise token', with_ee: %i[custom_fields_in_projects_list] do
-    it 'CF columns and filters are not visible by default' do
+  context 'with valid Enterprise token', with_ee: %i[custom_fields_in_projects_list] do
+    specify 'CF columns and filters are not visible by default' do
       load_and_open_filters admin
 
       # CF's columns are not shown due to setting
       expect(page).not_to have_text(custom_field.name.upcase)
     end
 
-    it 'CF columns and filters are visible when added to settings' do
+    specify 'CF columns and filters are visible when added to settings' do
       Setting.enabled_projects_columns += [custom_field.column_name, invisible_custom_field.column_name]
       load_and_open_filters admin
 
@@ -211,8 +212,92 @@ RSpec.describe 'Projects index page',
     end
   end
 
-  describe 'with a filter set' do
-    it 'onlies show the matching projects and filters' do
+  context 'when filtering with the global sidebar' do
+    let(:current_user) { admin }
+
+    before do
+      Role.non_member
+      login_as current_user
+      projects_page.visit!
+    end
+
+    context 'with the "All projects" filter' do
+      before do
+        projects_page.set_sidebar_filter 'All projects'
+      end
+
+      it 'shows all active projects (default)' do
+        projects_page.expect_projects_listed(project,
+                                             public_project,
+                                             development_project)
+
+        projects_page.expect_filters_container_hidden
+        projects_page.expect_filter_set 'active'
+      end
+    end
+
+    context 'with the "My projects" filter' do
+      shared_let(:member) do
+        create(:user,
+               member_in_project: project)
+      end
+
+      let(:current_user) { member }
+
+      before do
+        projects_page.set_sidebar_filter 'My projects'
+      end
+
+      it 'shows all projects I am a member of' do
+        projects_page.expect_projects_listed(project)
+        projects_page.expect_projects_not_listed(public_project, development_project)
+
+        projects_page.expect_filters_container_hidden
+        projects_page.expect_filter_set 'member_of'
+      end
+    end
+
+    context 'with the "Public projects" filter' do
+      before do
+        projects_page.set_sidebar_filter 'Public projects'
+      end
+
+      it 'shows all public projects' do
+        projects_page.expect_projects_listed(public_project)
+        projects_page.expect_projects_not_listed(project,
+                                                 development_project)
+
+        projects_page.expect_filters_container_hidden
+        projects_page.expect_filter_set 'public'
+      end
+    end
+
+    context 'with the "Archived projects" filter' do
+      shared_let(:archived_project) do
+        create(:project,
+               name: 'Archived project',
+               identifier: 'archived-project',
+               active: false)
+      end
+
+      before do
+        projects_page.set_sidebar_filter 'Archived projects'
+      end
+
+      it 'shows all archived projects' do
+        projects_page.expect_projects_listed(archived_project, archived: true)
+        projects_page.expect_projects_not_listed(public_project,
+                                                 project,
+                                                 development_project)
+
+        projects_page.expect_filters_container_hidden
+        projects_page.expect_filter_set 'active'
+      end
+    end
+  end
+
+  context 'with a filter set' do
+    it 'only shows the matching projects and filters' do
       load_and_open_filters admin
 
       projects_page.set_filter('name_and_identifier',
@@ -222,97 +307,95 @@ RSpec.describe 'Projects index page',
 
       click_on 'Apply'
       # Filter is applied: Only the project that contains the the word "Plain" gets listed
-      expect(page).not_to have_text(public_project.name)
-      expect(page).to have_text(project.name)
+      projects_page.expect_projects_listed(project)
+      projects_page.expect_projects_not_listed(public_project)
       # Filter form is visible and the filter is still set.
       expect(page).to have_selector('li[filter-name="name_and_identifier"]')
     end
   end
 
-  describe 'when paginating' do
+  context 'when paginating' do
     before do
       allow(Setting).to receive(:per_page_options_array).and_return([1, 5])
     end
 
-    it 'keeps applying filters and order' do
+    it 'keeps applying filters and orders' do
       load_and_open_filters admin
 
-      SeleniumHubWaiter.wait
       projects_page.set_filter('name_and_identifier',
                                'Name or identifier',
                                'doesn\'t contain',
                                ['Plain'])
 
       click_on 'Apply'
+      wait_for_reload
 
       # Sorts ASC by name
-      SeleniumHubWaiter.wait
       click_on 'Sort by "Name"'
+      wait_for_reload
 
       # Results should be filtered and ordered ASC by name
-      expect(page).to have_text(development_project.name)
-      expect(page).not_to have_text(project.name) # as it filtered away
+      projects_page.expect_projects_listed(development_project)
+      projects_page.expect_projects_not_listed(project,        # as it is filtered out
+                                               public_project) # as it is on the second page
       expect(page).to have_text('Next') # as the result set is larger than 1
-      expect(page).not_to have_text(public_project.name) # as it is on the second page
 
       # Changing the page size to 5 and back to 1 should not change the filters (which we test later on the second page)
-      SeleniumHubWaiter.wait
       find('.op-pagination--options .op-pagination--item', text: '5').click # click page size '5'
-      SeleniumHubWaiter.wait
+      wait_for_reload
       find('.op-pagination--options .op-pagination--item', text: '1').click # return back to page size '1'
-      SeleniumHubWaiter.wait
+      wait_for_reload
       click_on '2' # Go to pagination page 2
 
       # On page 2 you should see the second page of the filtered set ordered ASC by name
-      expect(page).to have_text(public_project.name)
-      expect(page).not_to have_text(project.name)             # Filtered away
-      expect(page).not_to have_text('Next')                   # Filters kept active, so there is no third page.
-      expect(page).not_to have_text(development_project.name) # That one should be on page 1
+      projects_page.expect_projects_listed(public_project)
+      projects_page.expect_projects_not_listed(project,             # Filtered out
+                                               development_project) # Present on page 1
+      expect(page).not_to have_text('Next') # Filters kept active, so there is no third page.
 
       # Sorts DESC by name
-      SeleniumHubWaiter.wait
       click_on 'Ascending sorted by "Name"'
+      wait_for_reload
 
       # On page 2 the same filters should still be intact but the order should be DESC on name
-      expect(page).to have_text(development_project.name)
-      expect(page).not_to have_text(project.name)        # Filtered away
-      expect(page).not_to have_text('Next')              # Filters kept active, so there is no third page.
-      expect(page).not_to have_text(public_project.name) # That one should be on page 1
+      projects_page.expect_projects_listed(development_project)
+      projects_page.expect_projects_not_listed(project,        # Filtered out
+                                               public_project) # Present on page 1
+
+      expect(page).not_to have_text('Next') # Filters kept active, so there is no third page.
       expect(page).to have_selector('.sort.desc', text: 'NAME')
 
       # Sending the filter form again what implies to compose the request freshly
-      SeleniumHubWaiter.wait
       click_on 'Apply'
+      wait_for_reload
 
       # We should see page 1, resetting pagination, as it is a new filter, but keeping the DESC order on the project
       # name
-      expect(page).to have_text(public_project.name)
-      expect(page).not_to have_text(development_project.name) # as it is on the second page
-      expect(page).not_to have_text(project.name)             # as it filtered away
+      projects_page.expect_projects_listed(public_project)
+      projects_page.expect_projects_not_listed(development_project, # as it is on the second page
+                                               project)             # as it filtered out
       expect(page).to have_text('Next') # as the result set is larger than 1
       expect(page).to have_selector('.sort.desc', text: 'NAME')
     end
   end
 
-  describe 'when filter of type' do
-    it 'Name and identifier gives results in both, name and identifier' do
+  context 'when filter of type' do
+    specify 'Name and identifier gives results in both, name and identifier' do
       load_and_open_filters admin
 
       # Filter on model attribute 'name'
-      SeleniumHubWaiter.wait
       projects_page.set_filter('name_and_identifier',
                                'Name or identifier',
                                'doesn\'t contain',
                                ['Plain'])
 
       click_on 'Apply'
+      wait_for_reload
 
-      expect(page).to have_text(development_project.name)
-      expect(page).to have_text(public_project.name)
-      expect(page).not_to have_text(project.name)
+      projects_page.expect_projects_listed(development_project, public_project)
+      projects_page.expect_projects_not_listed(project)
 
       # Filter on model attribute 'identifier'
-      SeleniumHubWaiter.wait
       remove_filter('name_and_identifier')
 
       projects_page.set_filter('name_and_identifier',
@@ -321,10 +404,10 @@ RSpec.describe 'Projects index page',
                                ['plain-project'])
 
       click_on 'Apply'
+      wait_for_reload
 
-      expect(page).to have_text(project.name)
-      expect(page).not_to have_text(development_project.name)
-      expect(page).not_to have_text(public_project.name)
+      projects_page.expect_projects_listed(project)
+      projects_page.expect_projects_not_listed(development_project, public_project)
     end
 
     describe 'Active or archived' do
@@ -340,28 +423,27 @@ RSpec.describe 'Projects index page',
                parent: parent_project)
       end
 
-      it 'filter on "status", archive and unarchive' do
+      specify 'filter on "status", archive and unarchive' do
         load_and_open_filters admin
 
         # value selection defaults to "active"'
         expect(page).to have_selector('li[filter-name="active"]')
 
-        expect(page).to have_text(parent_project.name)
-        expect(page).to have_text(child_project.name)
-        expect(page).to have_text('Plain project')
-        expect(page).to have_text('Development project')
-        expect(page).to have_text('Public project')
+        projects_page.expect_projects_listed(parent_project,
+                                             child_project,
+                                             project,
+                                             development_project,
+                                             public_project)
 
-        SeleniumHubWaiter.wait
-        projects_page.click_menu_item_of('Archive', parent_project)
-        projects_page.accept_alert_dialog!
+        accept_alert do
+          projects_page.click_menu_item_of('Archive', parent_project)
+        end
+        wait_for_reload
 
-        expect(page).not_to have_text(parent_project.name)
-        # The child project gets archived automatically
-        expect(page).not_to have_text(child_project.name)
-        expect(page).to have_text('Plain project')
-        expect(page).to have_text('Development project')
-        expect(page).to have_text('Public project')
+        projects_page.expect_projects_not_listed(parent_project,
+                                                 child_project) # The child project gets archived automatically
+
+        projects_page.expect_projects_listed(project, development_project, public_project)
 
         visit project_overview_path(parent_project)
         expect(page).to have_text("The project you're trying to access has been archived.")
@@ -372,11 +454,9 @@ RSpec.describe 'Projects index page',
 
         load_and_open_filters admin
 
-        SeleniumHubWaiter.wait
         projects_page.filter_by_active('no')
 
-        expect(page).to have_text("ARCHIVED #{parent_project.name}")
-        expect(page).to have_text("ARCHIVED #{child_project.name}")
+        projects_page.expect_projects_listed(parent_project, child_project, archived: true)
 
         # Test visibility of 'more' menu list items
         projects_page.activate_menu_of(parent_project) do |menu|
@@ -387,7 +467,6 @@ RSpec.describe 'Projects index page',
           expect(menu).not_to have_text('Settings')
           expect(menu).not_to have_text('New subproject')
 
-          SeleniumHubWaiter.wait
           click_link('Unarchive')
         end
 
@@ -400,14 +479,36 @@ RSpec.describe 'Projects index page',
 
         load_and_open_filters admin
 
-        SeleniumHubWaiter.wait
         projects_page.filter_by_active('yes')
 
-        expect(page).to have_text(parent_project.name)
-        expect(page).not_to have_text(child_project.name)
-        expect(page).to have_text('Plain project')
-        expect(page).to have_text('Development project')
-        expect(page).to have_text('Public project')
+        projects_page.expect_projects_listed(parent_project,
+                                             project,
+                                             development_project,
+                                             public_project)
+        projects_page.expect_projects_not_listed(child_project)
+      end
+    end
+
+    describe 'I am member or not' do
+      shared_let(:member) { create(:user, member_in_project: project) }
+
+      it "filters for projects I'm a member on and those where I'm not" do
+        Role.non_member
+        load_and_open_filters member
+
+        projects_page.expect_projects_listed(project, public_project)
+
+        projects_page.filter_by_membership('yes')
+        wait_for_reload
+
+        projects_page.expect_projects_listed(project)
+        projects_page.expect_projects_not_listed(public_project, development_project)
+
+        projects_page.filter_by_membership('no')
+        wait_for_reload
+
+        projects_page.expect_projects_listed(public_project)
+        projects_page.expect_projects_not_listed(project, development_project)
       end
     end
 
@@ -425,23 +526,20 @@ RSpec.describe 'Projects index page',
                name: 'Green project')
       end
 
-      it 'sort and filter on project status' do
+      it 'sorts and filters on project status' do
         login_as(admin)
         projects_page.visit!
 
-        SeleniumHubWaiter.wait
         click_link('Sort by "Status"')
 
         expect_project_at_place(green_project, 1)
         expect(page).to have_text('(1 - 5/5)')
 
-        SeleniumHubWaiter.wait
         click_link('Ascending sorted by "Status"')
 
         expect_project_at_place(green_project, 5)
         expect(page).to have_text('(1 - 5/5)')
 
-        SeleniumHubWaiter.wait
         projects_page.open_filters
 
         projects_page.set_filter('project_status_code',
@@ -450,28 +548,29 @@ RSpec.describe 'Projects index page',
                                  ['On track'])
 
         click_on 'Apply'
+        wait_for_reload
 
         expect(page).to have_text(green_project.name)
         expect(page).not_to have_text(no_status_project.name)
 
-        SeleniumHubWaiter.wait
         projects_page.set_filter('project_status_code',
                                  'Project status',
                                  'is not empty',
                                  [])
 
         click_on 'Apply'
+        wait_for_reload
 
         expect(page).to have_text(green_project.name)
         expect(page).not_to have_text(no_status_project.name)
 
-        SeleniumHubWaiter.wait
         projects_page.set_filter('project_status_code',
                                  'Project status',
                                  'is empty',
                                  [])
 
         click_on 'Apply'
+        wait_for_reload
 
         expect(page).not_to have_text(green_project.name)
         expect(page).to have_text(no_status_project.name)
@@ -482,6 +581,7 @@ RSpec.describe 'Projects index page',
                                  ['On track'])
 
         click_on 'Apply'
+        wait_for_reload
 
         expect(page).not_to have_text(green_project.name)
         expect(page).to have_text(no_status_project.name)
@@ -543,23 +643,22 @@ RSpec.describe 'Projects index page',
       before do
         project_created_on_today
         load_and_open_filters admin
-        SeleniumHubWaiter.wait
       end
 
-      it 'selecting operator' do
+      specify 'selecting operator' do
         # created on 'today' shows projects that were created today
         projects_page.set_filter('created_at',
                                  'Created on',
                                  'today')
 
         click_on 'Apply'
+        wait_for_reload
 
         expect(page).to have_text(project_created_on_today.name)
         expect(page).not_to have_text(project_created_on_this_week.name)
         expect(page).not_to have_text(project_created_on_fixed_date.name)
 
         # created on 'this week' shows projects that were created within the last seven days
-        SeleniumHubWaiter.wait
         remove_filter('created_at')
 
         projects_page.set_filter('created_at',
@@ -567,13 +666,13 @@ RSpec.describe 'Projects index page',
                                  'this week')
 
         click_on 'Apply'
+        wait_for_reload
 
         expect(page).to have_text(project_created_on_today.name)
         expect(page).to have_text(project_created_on_this_week.name)
         expect(page).not_to have_text(project_created_on_fixed_date.name)
 
         # created on 'on' shows projects that were created within the last seven days
-        SeleniumHubWaiter.wait
         remove_filter('created_at')
 
         projects_page.set_filter('created_at',
@@ -582,13 +681,13 @@ RSpec.describe 'Projects index page',
                                  ['2017-11-11'])
 
         click_on 'Apply'
+        wait_for_reload
 
         expect(page).to have_text(project_created_on_fixed_date.name)
         expect(page).not_to have_text(project_created_on_today.name)
         expect(page).not_to have_text(project_created_on_this_week.name)
 
         # created on 'less than days ago'
-        SeleniumHubWaiter.wait
         remove_filter('created_at')
 
         projects_page.set_filter('created_at',
@@ -597,12 +696,12 @@ RSpec.describe 'Projects index page',
                                  ['1'])
 
         click_on 'Apply'
+        wait_for_reload
 
         expect(page).to have_text(project_created_on_today.name)
         expect(page).not_to have_text(project_created_on_fixed_date.name)
 
         # created on 'more than days ago'
-        SeleniumHubWaiter.wait
         remove_filter('created_at')
 
         projects_page.set_filter('created_at',
@@ -611,12 +710,12 @@ RSpec.describe 'Projects index page',
                                  ['1'])
 
         click_on 'Apply'
+        wait_for_reload
 
         expect(page).to have_text(project_created_on_fixed_date.name)
         expect(page).not_to have_text(project_created_on_today.name)
 
         # created on 'between'
-        SeleniumHubWaiter.wait
         remove_filter('created_at')
 
         projects_page.set_filter('created_at',
@@ -625,12 +724,12 @@ RSpec.describe 'Projects index page',
                                  ['2017-11-10', '2017-11-12'])
 
         click_on 'Apply'
+        wait_for_reload
 
         expect(page).to have_text(project_created_on_fixed_date.name)
         expect(page).not_to have_text(project_created_on_today.name)
 
         # Latest activity at 'today'. This spot check would fail if the data does not get collected from multiple tables
-        SeleniumHubWaiter.wait
         remove_filter('created_at')
 
         projects_page.set_filter('latest_activity_at',
@@ -638,12 +737,12 @@ RSpec.describe 'Projects index page',
                                  'today')
 
         click_on 'Apply'
+        wait_for_reload
 
         expect(page).to have_text(project_created_on_today.name)
         expect(page).not_to have_text(project_created_on_fixed_date.name)
 
         # CF List
-        SeleniumHubWaiter.wait
         remove_filter('latest_activity_at')
 
         projects_page.set_filter(list_custom_field.column_name,
@@ -652,6 +751,7 @@ RSpec.describe 'Projects index page',
                                  [list_custom_field.possible_values[2].value])
 
         click_on 'Apply'
+        wait_for_reload
 
         expect(page).to have_text(project_created_on_today.name)
         expect(page).not_to have_text(project_created_on_fixed_date.name)
@@ -661,17 +761,16 @@ RSpec.describe 'Projects index page',
         within(cf_filter) do
           # Initial filter is a 'single select'
           expect(cf_filter.find(:select, 'value')).not_to be_multiple
-          SeleniumHubWaiter.wait
           click_on 'Toggle multiselect'
           # switching to multiselect keeps the current selection
           expect(cf_filter.find(:select, 'value')).to be_multiple
           expect(cf_filter).to have_select('value', selected: list_custom_field.possible_values[2].value)
 
-          SeleniumHubWaiter.wait
           select list_custom_field.possible_values[3].value, from: 'value'
         end
 
         click_on 'Apply'
+        wait_for_reload
 
         cf_filter = page.find("li[filter-name='#{list_custom_field.column_name}']")
         within(cf_filter) do
@@ -683,7 +782,6 @@ RSpec.describe 'Projects index page',
                                        list_custom_field.possible_values[3].value])
 
           # switching to single select keeps the first selection
-          SeleniumHubWaiter.wait
           select list_custom_field.possible_values[1].value, from: 'value'
           unselect list_custom_field.possible_values[2].value, from: 'value'
 
@@ -694,6 +792,7 @@ RSpec.describe 'Projects index page',
         end
 
         click_on 'Apply'
+        wait_for_reload
 
         cf_filter = page.find("li[filter-name='#{list_custom_field.column_name}']")
         within(cf_filter) do
@@ -702,7 +801,6 @@ RSpec.describe 'Projects index page',
         end
 
         # CF date filter work (at least for one operator)
-        SeleniumHubWaiter.wait
         remove_filter(list_custom_field.column_name)
 
         projects_page.set_filter(date_custom_field.column_name,
@@ -710,8 +808,8 @@ RSpec.describe 'Projects index page',
                                  'on',
                                  ['2011-11-11'])
 
-        SeleniumHubWaiter.wait
         click_on 'Apply'
+        wait_for_reload
 
         expect(page).to have_text(project_created_on_today.name)
         expect(page).not_to have_text(project_created_on_fixed_date.name)
@@ -721,30 +819,29 @@ RSpec.describe 'Projects index page',
     end
 
     describe 'public filter' do
-      it 'filter on "public" status' do
+      it 'filters on "public" status' do
         load_and_open_filters admin
 
-        expect(page).to have_text(project.name)
-        expect(page).to have_text(public_project.name)
+        projects_page.expect_projects_listed(project, public_project)
 
-        SeleniumHubWaiter.wait
         projects_page.filter_by_public('no')
+        wait_for_reload
 
-        expect(page).to have_text(project.name)
-        expect(page).not_to have_text(public_project.name)
+        projects_page.expect_projects_listed(project)
+        projects_page.expect_projects_not_listed(public_project)
 
         load_and_open_filters admin
 
-        SeleniumHubWaiter.wait
         projects_page.filter_by_public('yes')
+        wait_for_reload
 
-        expect(page).to have_text(public_project.name)
-        expect(page).not_to have_text(project.name)
+        projects_page.expect_projects_listed(public_project)
+        projects_page.expect_projects_not_listed(project)
       end
     end
   end
 
-  describe 'Non-admins with role with permission' do
+  context 'for non-admins with role with permission' do
     shared_let(:can_copy_projects_role) do
       create(:role, name: 'Can Copy Projects Role', permissions: [:copy_projects])
     end
@@ -901,8 +998,8 @@ RSpec.describe 'Projects index page',
                                child_project_z,
                                public_project)
 
-      SeleniumHubWaiter.wait
       click_link('Name')
+      wait_for_reload
 
       # Projects ordered by name asc
       expect_projects_in_order(child_project_a,
@@ -912,8 +1009,8 @@ RSpec.describe 'Projects index page',
                                public_project,
                                child_project_z)
 
-      SeleniumHubWaiter.wait
       click_link('Name')
+      wait_for_reload
 
       # Projects ordered by name desc
       expect_projects_in_order(child_project_z,
@@ -923,8 +1020,8 @@ RSpec.describe 'Projects index page',
                                development_project,
                                child_project_a)
 
-      SeleniumHubWaiter.wait
       click_link(integer_custom_field.name)
+      wait_for_reload
 
       # Projects ordered by cf asc first then project name desc
       expect_projects_in_order(project,
@@ -934,8 +1031,8 @@ RSpec.describe 'Projects index page',
                                child_project_m,
                                child_project_a)
 
-      SeleniumHubWaiter.wait
       click_link('Sort by "Project hierarchy"')
+      wait_for_reload
 
       # again ordered by name asc on each hierarchical level
       expect_projects_in_order(development_project,
@@ -947,8 +1044,8 @@ RSpec.describe 'Projects index page',
     end
   end
 
-  describe 'blacklisted filters' do
-    it 'are not visible' do
+  describe 'blacklisted filter' do
+    it 'is not visible' do
       load_and_open_filters admin
 
       expect(page).not_to have_select('add_filter_select', with_options: ["Principal"])

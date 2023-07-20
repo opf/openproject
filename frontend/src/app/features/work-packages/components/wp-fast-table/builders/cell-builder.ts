@@ -58,14 +58,15 @@ export class CellBuilder {
 
   private render(container:HTMLElement, workPackage:WorkPackageResource, attribute:string) {
     const schema = this.schemaCache.of(workPackage);
-    const hasBaseline = attribute !== 'id' && this.wpTableBaseline.isChanged(workPackage, attribute);
+    const mappedName = schema.mappedName(attribute);
+    const hasBaseline = attribute !== 'id' && this.wpTableBaseline.isChanged(workPackage, mappedName);
     container.classList.add(editCellContainer, editFieldContainerClass, attribute);
 
     const displayElement = this.fieldRenderer.render(workPackage, attribute, null);
 
     if (hasBaseline) {
       displayElement.classList.add('op-table-baseline--field', 'op-table-baseline--new-field');
-      this.prependChanges(container, workPackage, schema.mappedName(attribute));
+      this.prependChanges(container, workPackage, mappedName);
     }
 
     container.appendChild(displayElement);
@@ -77,7 +78,7 @@ export class CellBuilder {
     attribute:string,
   ):void {
     const base = (workPackage.attributesByTimestamp as IWorkPackageTimestamp[])[0];
-    base.$links.schema = workPackage.$links.schema;
+    base.$links.schema = base.$links.schema || workPackage.$links.schema;
     const span = this.fieldRenderer.render(base, attribute, null);
     span.classList.add('op-table-baseline--field', 'op-table-baseline--old-field');
     container.classList.add('op-table-baseline--container');

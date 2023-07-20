@@ -43,7 +43,6 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
   shared_let(:type) { create(:type) }
   shared_let(:type2) { create(:type) }
   shared_let(:status) { create(:default_status) }
-  shared_let(:target_status) { create(:status) }
   shared_let(:priority) { create(:priority) }
   shared_let(:target_priority) { create(:priority) }
   shared_let(:project) do
@@ -358,6 +357,9 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
           let(:start_date) { Date.today }
           let(:due_date) { Date.today + 1 }
           let(:target_version) { create(:version, project: target_project) }
+          let(:target_type) { target_project.types.first }
+          let(:target_status) { create(:status, workflow_for_type: target_type) }
+
           let(:target_user) do
             user = create(:user)
 
@@ -375,7 +377,7 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
                    ids: [work_package.id, work_package_2.id],
                    copy: '',
                    new_project_id: target_project.id,
-                   new_type_id: target_project.types.first.id, # FIXME see #1868
+                   new_type_id: target_type.id, # FIXME see #1868
                    assigned_to_id: target_user.id,
                    responsible_id: target_user.id,
                    status_id: target_status,

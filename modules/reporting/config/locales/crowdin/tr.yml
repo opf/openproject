@@ -81,6 +81,9 @@ tr:
   units: "Birimler"
   validation_failure_date: "geçerli bir tarih değil"
   validation_failure_integer: "geçerli bir tamsayı değil"
+  export:
+    cost_reports:
+      title: "Your Cost Reports XLS export"
   reporting:
     group_by:
       selected_columns: "Seçilen sütunlar"

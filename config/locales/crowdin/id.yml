@@ -192,8 +192,6 @@ id:
       no_results_content_text: Buat bidang kustom baru
   concatenation:
     single: 'atau'
-  documentation:
-    see_more_link: Untuk informasi lebih lanjut, silakan lihat dokumentasi kami tentang topik ini.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -520,6 +518,7 @@ id:
         hours: "Jam"
         spent_on: "Tanggal"
         type: "Tipe"
+        ongoing: "Ongoing"
       type:
         description: "Teks default untuk deskripsi"
         attribute_groups: ''
@@ -1053,6 +1052,7 @@ id:
   button_continue: "Lanjutkan"
   button_copy: "Salin"
   button_copy_to_clipboard: "Copy to clipboard"
+  button_copy_link_to_clipboard: "Copy link to clipboard"
   button_copy_and_follow: "Salin dan amati"
   button_create: "Buat baru"
   button_create_and_continue: "Buat baru dan lanjut"
@@ -1385,6 +1385,22 @@ id:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Perubahan ditarik kembali."
+    caused_changes:
+      dates_changed: "Dates changed"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} sekarang bekerja"
+          non_working: "%{day} sekarang tidak berkerja"
+        dates:
+          working: "%{date} sekarang berkerja"
+          non_working: "%{date} sekarang tidak berkerja"
   links:
     configuration_guide: 'Petunjuk Konfigurasi'
     get_in_touch: "Anda punya pertanyaan? Hubungi kami."
@@ -1451,6 +1467,7 @@ id:
   label_age: "Usia"
   label_ago: "hari yang lalu"
   label_all: "semua"
+  label_all_projects: "All projects"
   label_all_time: "Sepanjang waktu"
   label_all_words: "Semua kata"
   label_all_open_wps: "Semua terbuka"
@@ -1467,6 +1484,7 @@ id:
   label_ical_access_key_revoke: "Menarik kembali"
   label_applied_status: "Status berjalan"
   label_archive_project: "Proyek arsip"
+  label_archived_projects: "Archived projects"
   label_ascending: "Askending"
   label_assigned_to_me_work_packages: "Paket-Penugasan yang saya kerjakan"
   label_associated_revisions: "Revisi terkait"
@@ -1602,6 +1620,8 @@ id:
   label_equals: "adalah"
   label_everywhere: "di mana pun"
   label_example: "Contoh"
+  label_experimental: "Experimental"
+  label_i_am_member: "I am member"
   label_import: "Impor"
   label_export_to: "Juga tersedia dalam:"
   label_expanded_click_to_collapse: "Diperluas. Klik untuk menciutkan"
@@ -1638,6 +1658,7 @@ id:
   label_hierarchy_leaf: "Daun hierarki"
   label_home: "Home"
   label_subject_or_id: "Subyek atau ID"
+  label_icalendar: "iCalendar"
   label_impressum: "Pernyataan hukum"
   label_in: "dalam"
   label_in_less_than: "kurang dari"
@@ -1681,6 +1702,7 @@ id:
   label_logged_as: "Login sbg"
   label_login: "Login"
   label_custom_logo: "Logo khusus"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Favicon sesuai keinginan"
   label_custom_touch_icon: "Ikon sentuh sesuai keinginan"
   label_logout: "Logout"
@@ -1775,7 +1797,7 @@ id:
   label_personalize_page: "Personalisasi halaman"
   label_placeholder_user: "Pengguna placeholder"
   label_placeholder_user_new: "New placeholder user"
-  label_placeholder_user_plural: "Placeholder users"
+  label_placeholder_user_plural: "Pengguna placeholder"
   label_planning: "Perencanaan"
   label_please_login: "Silakan login"
   label_plugins: "Plugin"
@@ -1791,7 +1813,7 @@ id:
   label_product_version: "Product version"
   label_profile: "Profil"
   label_project_activity: "Project activity"
-  label_project_attribute_plural: "Project attributes"
+  label_project_attribute_plural: "Atribut proyek"
   label_project_count: "Jumlah proyek"
   label_project_copy_notifications: "Kirim email notifikasi selama meng-copy Project"
   label_project_latest: "Project terbaru"
@@ -1968,7 +1990,7 @@ id:
   label_workflow: "Workflow"
   label_workflow_plural: "Alur kerja"
   label_workflow_summary: "Ringkasan"
-  label_working_days: "Working days"
+  label_working_days: "Hari kerja"
   label_x_closed_work_packages_abbr:
     one: "1 closed"
     other: "%{count} tertutup"
@@ -2037,14 +2059,15 @@ id:
       mentioned_by: '%{user} mentioned you in a comment'
       more_to_see:
         other: 'There are %{count} more work packages with notifications.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Watched'
         assigned: 'Assigned'
-        responsible: 'Accountable'
+        responsible: 'Akuntabel'
         mentioned: 'Mentioned'
         subscribed: 'semua'
         prefix: 'Received because of the notification setting: %{reason}'
-        date_alert_start_date: 'Date alert'
+        date_alert_start_date: 'Peringatan tanggal'
         date_alert_due_date: 'Peringatan tanggal'
       see_all: 'Lihat semua'
       updated_at: 'Diperbarui pada %{timestamp} oleh %{user}'
@@ -2303,7 +2326,7 @@ id:
       archived: "Diarsipkan"
   project_module_activity: "Activity"
   project_module_forums: "Forum"
-  project_module_work_package_tracking: "Tracking Paket-Penugasan"
+  project_module_work_package_tracking: "Paket-Penugasan"
   project_module_news: "News"
   project_module_repository: "Repositori"
   project_module_wiki: "Wiki"
@@ -2475,7 +2498,7 @@ id:
   setting_consent_decline_mail: "Consent contact mail address"
   setting_cross_project_work_package_relations: "Mungkinkan relasi cross-project Paket-Penugasan"
   setting_first_week_of_year: "First week in year contains"
-  setting_date_format: "Date"
+  setting_date_format: "Tanggal"
   setting_default_language: "Bahasa default"
   setting_default_projects_modules: "Modul default aktif untuk Project baru"
   setting_default_projects_public: "Project baru default untuk publik"
@@ -2487,7 +2510,7 @@ id:
   setting_enabled_scm: "Aktifkan SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Aktifkan Feed"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Batasan konten feed"
   setting_file_max_size_displayed: "Ukuran maks. file teks yang ditampilkan inline"
   setting_host_name: "Nama host"
@@ -2538,7 +2561,7 @@ id:
   setting_start_of_week: "Minggu dimulai pada"
   setting_sys_api_enabled: "Aktifkan web service untuk manajemen repository"
   setting_sys_api_description: "Repository management web service menyediakan integrasi fungsi dan otorisasi untuk akses repository."
-  setting_time_format: "Time"
+  setting_time_format: "Waktu"
   setting_accessibility_mode_for_anonymous: "Aktifkan mode Aksesibilitas untuk user anonim"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
@@ -2549,31 +2572,23 @@ id:
   setting_welcome_on_homescreen: "Display welcome block on homescreen"
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
-  setting_working_days: "Working days"
+  setting_working_days: "Hari kerja"
   settings:
-    general: "Umum"
-    other: "Lainnya"
-    passwords: "Password"
-    session: "Sesi"
-    brute_force_prevention: "Pemblokiran otomatis user"
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
-    notifications:
-      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
-    display:
+    brute_force_prevention: "Pemblokiran otomatis user"
+    language_name_being_default: '%{language_name} (default)'
+    date_format:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
-      first_week_of_year_text: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
-    projects:
-      section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
-    user:
-      default_preferences: "Default preferences"
-      display_format: "Display format"
-      deletion: "Deletion"
+      first_week_of_year_text_html: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+    general: "Umum"
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     highlighting:
       mode_long:
         inline: "Highlight attribute(s) inline"
@@ -2581,6 +2596,23 @@ id:
         status: "Entire row by Status"
         type: "Entire row by Type"
         priority: "Entire row by Priority"
+    icalendar:
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+    #below line needs to be appended above after docs are ready
+    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    notifications:
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+    other: "Lainnya"
+    passwords: "Password"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
+    session: "Sesi"
+    user:
+      default_preferences: "Default preferences"
+      display_format: "Display format"
+      deletion: "Deletion"
     working_days:
       section_work_week: "Work week"
       section_holidays_and_closures: "Holidays and closures"
@@ -2622,10 +2654,12 @@ id:
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Logo putih dalam latar belakang transparan lebih disarankan. Untuk hasil terbaik pada keduanya, konvensional dan tampilan retina, pastikan dimensi gambar Anda adalah 460px kali 110px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Ini adalah ikon mungil yang tampak dalam jendela/tab browser Anda disebelah judul halaman. Disyaratkan file gambar dalam format PNG berbentuk kotak ukuran 32 kali 32 pixel dengan latar belakang transparan.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    Ini adalah ikon yang tampak dalam handphone atau tablet Anda ketika Anda menempatkan penanda halaman dalam layar depan. Disyaratkan file gambar dalam format PNG berbentuk kotak ukuran 180 kali 180 pixel. Pastikan latar belakang gambar tidak transparan; jika sebaliknya, akan tampak buruk pada iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Database allows TSVector (optional)"
   text_default_administrator_account_changed: "Akun administrator default terlah dirubah"
   text_default_encoding: "Default: UTF-8"
@@ -3063,7 +3097,7 @@ id:
     close_warning: "Abaikan peringatan ini."
   oauth:
     application:
-      singular: "OAuth application"
+      singular: "aplikasi OAuth"
       plural: "OAuth applications"
       named: "OAuth application '%{name}'"
       new: "New OAuth application"

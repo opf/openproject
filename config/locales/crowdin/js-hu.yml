@@ -65,7 +65,8 @@ hu:
     button_confirm: "Jóváhagy"
     button_continue: "Folytatás"
     button_copy: "Másol"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "Másolás a vágólapra"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Másolás másik projektbe"
     button_custom-fields: "Választható mezők"
     button_delete: "Törlés"
@@ -737,6 +738,14 @@ hu:
     time_entry:
       work_package_required: 'Először ki kell választania egy munkacsomagot.'
       title: 'Eltöltött idő rögzítése'
+      tracking: 'Munkaidő követése'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Kétlépcsős hitelesítés'
     watchers:
@@ -795,7 +804,8 @@ hu:
     autocompleter:
       placeholder: "Gépeljen a kereséshez"
       notFoundText: "Nem található elem"
-      typeToSearchText: "Gépeljen a kereséshez"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Címke kiválasztása'
       select_branch: 'Branch kiválasztása'
@@ -1176,10 +1186,11 @@ hu:
       button_deactivate: 'Zen mód kikapcsolása'
     global_search:
       all_projects: "Az összes projektben"
-      search: "Keresés"
       close_search: "Keresés bezárása"
-      current_project: "Ebben a projektben"
       current_project_and_all_descendants: "Ebben a projektben + alprojektekben"
+      current_project: "Ebben a projektben"
+      recently_viewed: "Recently viewed"
+      search: "Keresés"
       title:
         all_projects: "minden projekt"
         project_and_subprojects: "az összes alprojektben"

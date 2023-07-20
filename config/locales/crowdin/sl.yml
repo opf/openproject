@@ -197,8 +197,6 @@ sl:
       no_results_content_text: Ustvarite novo uporabniško lastnost
   concatenation:
     single: 'ali'
-  documentation:
-    see_more_link: Za več informacij si poglejte našo dokumentacijo na to temo.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -527,6 +525,7 @@ sl:
         hours: "Ure"
         spent_on: "Datum"
         type: "Vrsta"
+        ongoing: "Ongoing"
       type:
         description: "Privzeto besedilo za opis"
         attribute_groups: ''
@@ -1077,7 +1076,8 @@ sl:
   button_configure: "Nastavi"
   button_continue: "Nadaljuj"
   button_copy: "Kopiraj"
-  button_copy_to_clipboard: "Copy to clipboard"
+  button_copy_to_clipboard: "Kopiraj v odložišče"
+  button_copy_link_to_clipboard: "Copy link to clipboard"
   button_copy_and_follow: "Kopiraj in sledi"
   button_create: "Ustvari"
   button_create_and_continue: "Ustvari in nadaljuj"
@@ -1446,6 +1446,22 @@ sl:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Spremembe so bile umaknjene."
+    caused_changes:
+      dates_changed: "Dates changed"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} is now working"
+          non_working: "%{day} is now non-working"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} is now non-working"
   links:
     configuration_guide: 'Vodnik za konfiguracijo'
     get_in_touch: "Imate vprašanja? Stopite v stik z nami.\n"
@@ -1512,6 +1528,7 @@ sl:
   label_age: "Starost"
   label_ago: "pred dnevi"
   label_all: "vsi"
+  label_all_projects: "All projects"
   label_all_time: "Ves čas"
   label_all_words: "Vse besede"
   label_all_open_wps: "Vse odprto"
@@ -1528,6 +1545,7 @@ sl:
   label_ical_access_key_revoke: "Prekliči"
   label_applied_status: "Uveljavljeno stanje"
   label_archive_project: "Arhivirani projekti"
+  label_archived_projects: "Archived projects"
   label_ascending: "Naraščajoče"
   label_assigned_to_me_work_packages: "Delovni paketi, ki so mi bili dodeljeni"
   label_associated_revisions: "Povezane revizije"
@@ -1614,7 +1632,7 @@ sl:
   label_database_version: "PostgreSQL verzija"
   label_date: "Datum"
   label_date_and_time: "Datum in ura"
-  label_date_format: "Date format"
+  label_date_format: "Format datuma"
   label_date_from: "Od"
   label_date_from_to: "Od %{start} do %{end}"
   label_date_to: "Do/za"
@@ -1663,6 +1681,8 @@ sl:
   label_equals: "je"
   label_everywhere: "Povsod"
   label_example: "Primer"
+  label_experimental: "Experimental"
+  label_i_am_member: "I am member"
   label_import: "Uvozi"
   label_export_to: "Na razpolago tudi v:"
   label_expanded_click_to_collapse: "Razširjeno. Kliknite, če želite strniti"
@@ -1699,6 +1719,7 @@ sl:
   label_hierarchy_leaf: "Hierarhični list"
   label_home: "Domov"
   label_subject_or_id: "Predmet ali ID"
+  label_icalendar: "iCalendar"
   label_impressum: "Pravno obvestilo"
   label_in: "v"
   label_in_less_than: "v manj kot"
@@ -1742,6 +1763,7 @@ sl:
   label_logged_as: "Prijavljen(a) kot"
   label_login: "Prijava"
   label_custom_logo: "Logotip po meri"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Prilagodi favicon"
   label_custom_touch_icon: "Ikona za dotik po meri"
   label_logout: "Odjava"
@@ -2101,6 +2123,7 @@ sl:
         two: 'There are %{count} more work packages with notifications.'
         few: 'There are %{count} more work packages with notifications.'
         other: 'There are %{count} more work packages with notifications.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Watched'
         assigned: 'Assigned'
@@ -2372,7 +2395,7 @@ sl:
       archived: "Arhiviran"
   project_module_activity: "Aktivnost"
   project_module_forums: "Forumi"
-  project_module_work_package_tracking: "Sledenje delovnega paketa"
+  project_module_work_package_tracking: "Delovni paketi"
   project_module_news: "Novice"
   project_module_repository: "Repozitorij"
   project_module_wiki: "Wiki"
@@ -2545,7 +2568,7 @@ sl:
   setting_consent_decline_mail: "Kontaktni naslov elektronske pošte"
   setting_cross_project_work_package_relations: "Dovoli povezave delovnih paketov od različnih projektov"
   setting_first_week_of_year: "Prvi teden v letu vsebuje"
-  setting_date_format: "Date"
+  setting_date_format: "Datum"
   setting_default_language: "Privzeti jezik"
   setting_default_projects_modules: "Privzeti omogočeni moduli za nove projekte"
   setting_default_projects_public: "Novi projekti so privzeto javni"
@@ -2557,7 +2580,7 @@ sl:
   setting_enabled_scm: "Omogočen SCM"
   setting_enabled_projects_columns: "Vidno na seznamu projektov"
   setting_feeds_enabled: "Omogoči vire"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Omejitev vsebine vira"
   setting_file_max_size_displayed: "Največja velikost besedilnih datotek, prikazanih v vrstici"
   setting_host_name: "Ime gostitelja"
@@ -2608,7 +2631,7 @@ sl:
   setting_start_of_week: "Teden se začne na (Automatic Translation)"
   setting_sys_api_enabled: "Omogoči spletno storitev upravljanja repozitorija"
   setting_sys_api_description: "Spletna storitev za upravljanje skladišča nudi integracijo in pooblastilo uporabnika za dostop do repozitorija."
-  setting_time_format: "Time"
+  setting_time_format: "Čas"
   setting_accessibility_mode_for_anonymous: "Omogoči način dostopa za anonimne uporabnike"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Uporabniški privzeti časovni pas"
@@ -2621,29 +2644,21 @@ sl:
   setting_work_package_list_default_highlighted_attributes: "Privzeti atributi, označeni s črto"
   setting_working_days: "Working days"
   settings:
-    general: "Splošno"
-    other: "Drugo"
-    passwords: "Gesla"
-    session: "Seja"
-    brute_force_prevention: "Avtomatično blokiranje uporabnika"
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
-    notifications:
-      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
-    display:
+    brute_force_prevention: "Avtomatično blokiranje uporabnika"
+    language_name_being_default: '%{language_name} (default)'
+    date_format:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
-      first_week_of_year_text: >
-        Izberi datum v januarju, ki je v prvem tednu leta. Ta vrednost skupaj s prvim dnevom tedna določi skupno število tednov v letu.
-    projects:
-      section_new_projects: "Nastavitve za nove projekte"
-      section_project_overview: "Nastavitve za seznam pregleda projekta."
-    user:
-      default_preferences: "Privzete nastavitve"
-      display_format: "Display format"
-      deletion: "brisanje"
+      first_week_of_year_text_html: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+    general: "Splošno"
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     highlighting:
       mode_long:
         inline: "Označite atribut(e) v vrstici"
@@ -2651,6 +2666,23 @@ sl:
         status: "Celotna vrstica razvrščena glede na Status"
         type: "Celotna vrstica glede na Tip"
         priority: "Celotna vrstica glede na pomembnost."
+    icalendar:
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+    #below line needs to be appended above after docs are ready
+    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    notifications:
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+    other: "Drugo"
+    passwords: "Gesla"
+    projects:
+      section_new_projects: "Nastavitve za nove projekte"
+      section_project_overview: "Nastavitve za seznam pregleda projekta."
+    session: "Seja"
+    user:
+      default_preferences: "Privzete nastavitve"
+      display_format: "Display format"
+      deletion: "brisanje"
     working_days:
       section_work_week: "Work week"
       section_holidays_and_closures: "Holidays and closures"
@@ -2692,10 +2724,12 @@ sl:
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Priporočljiv je bel logotip na transparentnem ozadju. Za najboljše rezultate na običajnih zaslonih in mrežnici se prepričajte, da so dimenzije vaše slike 460px za 60px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    To je drobna ikona, ki se prikaže v oknu / zavihku brskalnika poleg naslova strani. Slika mora biti v slikovni datoteki PNG velikosti 32 x 32 pik s transparentnim ozadjem.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    To je ikona, ki se prikaže v vašem mobilnem telefonu ali tabličnem računalniku, ko zaznamek postavite na domači zaslon. Slika datoteke PNG mora biti velikosti 180 x 180 pik. Prepričajte se, da ozadje slike ni transparentno, sicer bo v iOS-u videti slabo.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Baza podatkov omogoča TSVector (izbirno)"
   text_default_administrator_account_changed: "Spremenjen privzeti administratorski račun"
   text_default_encoding: "Privzeto: UTF-8"

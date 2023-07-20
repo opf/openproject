@@ -28,20 +28,19 @@
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { StateService } from '@uirouter/core';
-import { Component, Injector, OnInit } from '@angular/core';
+import {
+  Component,
+  Injector,
+  OnInit,
+} from '@angular/core';
 import { of } from 'rxjs';
-import {
-  WorkPackageViewSelectionService,
-} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
-import {
-  WorkPackageSingleViewBase,
-} from 'core-app/features/work-packages/routing/wp-view-base/work-package-single-view.base';
+import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { WorkPackageSingleViewBase } from 'core-app/features/work-packages/routing/wp-view-base/work-package-single-view.base';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
-import {
-  WorkPackageNotificationService,
-} from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
 import { CommentService } from 'core-app/features/work-packages/components/wp-activity/comment-service';
+import { RecentItemsService } from 'core-app/core/recent-items.service';
 
 @Component({
   templateUrl: './wp-full-view.html',
@@ -58,7 +57,9 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
   // Watcher properties
   public isWatched:boolean;
 
-  public displayWatchButton:boolean;
+  public displayWatchButton = false;
+
+  public displayTimerButton = false;
 
   public watchers:any;
 
@@ -73,6 +74,7 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
   constructor(
     public injector:Injector,
     public wpTableSelection:WorkPackageViewSelectionService,
+    public recentItemsService:RecentItemsService,
     readonly $state:StateService,
     // private readonly i18n:I18nService,
   ) {
@@ -86,15 +88,20 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
   protected init() {
     super.init();
 
-    // Set Focused WP
-    this.wpTableFocus.updateFocus(this.workPackage.id!);
+    if (this.workPackage.id) {
+      this.recentItemsService.add(this.workPackage.id);
+
+      // Set Focused WP
+      this.wpTableFocus.updateFocus(this.workPackage.id);
+    }
 
     this.setWorkPackageScopeProperties(this.workPackage);
   }
 
   private setWorkPackageScopeProperties(wp:WorkPackageResource) {
-    this.isWatched = wp.hasOwnProperty('unwatch');
-    this.displayWatchButton = wp.hasOwnProperty('unwatch') || wp.hasOwnProperty('watch');
+    this.isWatched = Object.prototype.hasOwnProperty.call(wp, 'unwatch');
+    this.displayWatchButton = Object.prototype.hasOwnProperty.call(wp, 'unwatch') || Object.prototype.hasOwnProperty.call(wp, 'watch');
+    this.displayTimerButton = Object.prototype.hasOwnProperty.call(wp, 'logTime');
 
     // watchers
     if (wp.watchers) {

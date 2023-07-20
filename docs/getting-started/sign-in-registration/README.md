@@ -8,7 +8,7 @@ keywords: sign in, login, registration
 
 # Sign in and registration
 
-Here you will get an overview how to sign in and register to an existing OpenProject installation.
+This page will give you an overview of how to register or sign in to an existing OpenProject installation.
 
 > **Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../enterprise-guide/enterprise-cloud-guide/create-cloud-trial/).
 
@@ -97,7 +97,7 @@ If you forgot your password, you can reset your password by clicking the blue **
 
 ![Forgot-password](1566205596114.png)
 
-You are then asked to enter you email address with which you have registered to OpenProject. 
+You are then asked to enter your email address with which you registered to OpenProject. 
 
 ![enter-email-address](1566205903097.png)
 

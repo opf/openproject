@@ -36,7 +36,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Util
 
     def basic_auth_header(username, password)
       {
-        'Authorization' => "Basic #{Base64::encode64("#{username}:#{password}")}"
+        'Authorization' => "Basic #{Base64::strict_encode64("#{username}:#{password}")}"
       }
     end
 
@@ -69,6 +69,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Util
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = uri.scheme == 'https'
       http
+    end
+
+    def error_text_from_response(response)
+      Nokogiri::XML(response.body).xpath("//s:message").text
     end
   end
 end

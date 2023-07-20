@@ -65,7 +65,8 @@ bg:
     button_confirm: "Confirm"
     button_continue: "Продължаване"
     button_copy: "Копиране"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "Копирай в буфер"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "допълнителни полета"
     button_delete: "Изтрий"
@@ -737,6 +738,14 @@ bg:
     time_entry:
       work_package_required: 'Requires selecting a work package first.'
       title: 'Отчетено време'
+      tracking: 'Проследяване по време'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:
@@ -795,7 +804,8 @@ bg:
     autocompleter:
       placeholder: "Type to search"
       notFoundText: "No items found"
-      typeToSearchText: "Type to search"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Изберете етикет'
       select_branch: 'Изберете клон'
@@ -1176,10 +1186,11 @@ bg:
       button_deactivate: 'Deactivate zen mode'
     global_search:
       all_projects: "In all projects"
-      search: "Търсене"
       close_search: "Close search"
-      current_project: "In this project"
       current_project_and_all_descendants: "In this project + subprojects"
+      current_project: "In this project"
+      recently_viewed: "Recently viewed"
+      search: "Търсене"
       title:
         all_projects: "all projects"
         project_and_subprojects: "and all subprojects"

@@ -13,14 +13,14 @@ OpenProject 6.0.5 contains several bug fixes and improvements.
 **The following bugs have been fixed in OpenProject 6.0.5:**
 
   - Work packages
-      - Links in the parent column in the work package list were not
+      - Links in the parent column in the work package table were not
         correctly displayed but showed an error
         ([#23865](https://community.openproject.com/work_packages/23865/activity)).
       - The grouping of work packages was lost on export.
       - In work package custom fields the zero was displayed as not set
         (“-“)
         ([#23975](https://community.openproject.com/work_packages/23975/activity)).
-      - The right-click context menu on the work package list did not
+      - The right-click context menu on the work package table did not
         disappear when clicking an a work package ID or on attribute
         fields
         ([#24005](https://community.openproject.com/work_packages/24005/activity)).
@@ -35,7 +35,7 @@ OpenProject 6.0.5 contains several bug fixes and improvements.
         were incorrectly displayed / escaped
         ([#24050](https://community.openproject.com/work_packages/24050/activity)).
       - It was not possible to set the default “Objects per page” for
-        the work package list
+        the work package table
         ([#23846](https://community.openproject.com/work_packages/23846/activity)).
       - There was a translation missing when displaying changes in the
         work package description
@@ -87,7 +87,7 @@ OpenProject 6.0.5 contains several bug fixes and improvements.
         [#23992](https://community.openproject.com/work_packages/23992/activity)).
 
 In addition the link to see and edit the logged time has been added to
-the work package list and work package page
+the work package table and work package page
 ([#24023](https://community.openproject.com/work_packages/24023/activity)).
 
 Thanks a lot to the community, in particular to Marc Vollmer, Frank
@@ -103,5 +103,4 @@ or take a look at
 
 You can try OpenProject for free. For a free 30 day trial create your
 OpenProject instance on [OpenProject.org](https://openproject.org/).
-
 

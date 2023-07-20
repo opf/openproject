@@ -145,7 +145,7 @@ cs:
               summary: |
                 We are glad you joined.
                 In this module you can communicate project news to your team members.
-              description: The actual news
+              description: Aktuální novinky
           categories:
             item_0: Category 1 (to be changed in Project settings)
           queries:
@@ -244,7 +244,7 @@ cs:
           description: This is a short summary of the goals of this demo Scrum project.
           news:
             item_0:
-              title: Welcome to your Scrum demo project
+              title: Vítejte ve vašem Scrum demo projektu
               summary: |
                 We are glad you joined.
                 In this module you can communicate project news to your team members.
@@ -306,7 +306,7 @@ cs:
             item_3:
               name: Sprint 2
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategorie 1 (bude změněno v nastavení projektu)
           queries:
             item_0:
               name: Plán projektu
@@ -323,11 +323,11 @@ cs:
               name: Tabule úkolů
               lists:
                 item_0:
-                  name: Wish list
+                  name: Seznam přání
                 item_1:
                   name: Short list
                 item_2:
-                  name: Priority list for today
+                  name: Seznam priorit pro dnešek
                 item_3:
                   name: Nikdy
           project-overview:
@@ -388,7 +388,7 @@ cs:
             item_5:
               subject: Wrong hover color
             item_6:
-              subject: SSL certificate
+              subject: SSL certifikát
             item_7:
               subject: Set-up Staging environment
             item_8:

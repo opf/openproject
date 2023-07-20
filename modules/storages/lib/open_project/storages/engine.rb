@@ -44,6 +44,26 @@ module OpenProject::Storages
       OpenProject::FeatureDecisions.add :storage_file_picking_select_all
       OpenProject::FeatureDecisions.add :storage_project_folders
       OpenProject::FeatureDecisions.add :managed_project_folders
+      OpenProject::FeatureDecisions.add :automatically_managed_project_folders
+    end
+
+    initializer 'openproject_storages.event_subscriptions' do
+      Rails.application.config.after_initialize do
+        if OpenProject::FeatureDecisions.managed_project_folders_active?
+          [
+            OpenProject::Events::MEMBER_CREATED,
+            OpenProject::Events::MEMBER_UPDATED,
+            OpenProject::Events::MEMBER_DESTROYED,
+            OpenProject::Events::PROJECT_CREATED,
+            OpenProject::Events::PROJECT_UPDATED,
+            OpenProject::Events::PROJECT_RENAMED
+          ].each do |event|
+            OpenProject::Notifications.subscribe(event) do |_payload|
+              ::Storages::ManageNextcloudIntegrationEventsJob.debounce
+            end
+          end
+        end
+      end
     end
 
     # For documentation see the definition of register in "ActsAsOpEngine"
@@ -113,7 +133,7 @@ module OpenProject::Storages
            User.current.allowed_to?(:view_file_links, project)
           project.projects_storages.each do |project_storage|
             storage = project_storage.storage
-            href = if project_storage.project_folder_inactive?
+            href = if project_storage.project_folder_inactive? || !User.current.member_of?(project)
                      storage.host
                    else
                      ::Storages::Peripherals::StorageUrlHelper.storage_url_open_file(storage, project_storage.project_folder_id)
@@ -227,10 +247,10 @@ module OpenProject::Storages
 
     add_cron_jobs do
       [
-        CleanupUncontaineredFileLinksJob,
+        Storages::CleanupUncontaineredFileLinksJob
       ].tap do |cron_jobs|
         if OpenProject::FeatureDecisions.managed_project_folders_active?
-          cron_jobs << ManageNextcloudIntegrationJob
+          cron_jobs << Storages::ManageNextcloudIntegrationCronJob
         end
       end
     end

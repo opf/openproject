@@ -13,7 +13,7 @@ regarding MessageBird adapter for Two-factor authentication.
 
 #### Work packages PDF export with images
 
-Exporting a work package list can now optionally export image
+Exporting a work package table can now optionally export image
 attachments of the work package. Additional options are added to the
 export modal.
 
@@ -31,5 +31,4 @@ export modal.
   - Fixed: \[Styling\] Prevent scrolling body when reaching bottom of
     project autocompleter
     \[[#28039](https://community.openproject.com/wp/28039)\]
-
 

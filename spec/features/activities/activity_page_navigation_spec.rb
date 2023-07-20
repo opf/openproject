@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Activity page navigation' do
+RSpec.describe 'Activity page navigation', :js, :with_cuprite do
   include ActiveSupport::Testing::TimeHelpers
 
   shared_let(:project) { create(:project, enabled_module_names: Setting.default_projects_modules + ['activity']) }
@@ -42,12 +42,14 @@ RSpec.describe 'Activity page navigation' do
   end
   shared_let(:project_work_package) { create(:work_package, project:, subject: 'Work package for parent project') }
   shared_let(:subproject_work_package) { create(:work_package, project: subproject, subject: 'Work package for subproject') }
+
   shared_let(:project_older_work_package) do
     travel_to 45.days.ago
     create(:work_package, project:, subject: 'Work package older for parent project')
   ensure
     travel_back
   end
+
   shared_let(:subproject_older_work_package) do
     travel_to 45.days.ago
     create(:work_package, project: subproject, subject: 'Work package older for subproject')
@@ -56,6 +58,18 @@ RSpec.describe 'Activity page navigation' do
   end
 
   current_user { user }
+
+  describe 'global menu item' do
+    it 'allows navigating to the global activity page' do
+      visit root_path
+
+      within '#main-menu' do
+        click_link 'Activity'
+      end
+
+      expect(page).to have_current_path(activity_index_path)
+    end
+  end
 
   it 'stays on the same period when changing filters' do
     visit project_activity_index_path(project)

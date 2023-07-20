@@ -21,7 +21,7 @@ Read below to get a detailed overview of what is new in OpenProject 9.
 
 The board view is a new module for OpenProject and allows Scrum and Kanban-style agile project management. You can display display a board view with the different statuses shown as columns (similarly to a Kanban board) and quickly update the status. Alternatively, you can define a basic board with custom names or display versions as columns (e.g. to plan your roadmap).
 
-Since boards display work packages - just like the work packages list - you can easily combine traditional and agile project management. Simply schedule your tasks in the Gantt chart and work on them from the boards view.
+Since boards display work packages - just like the work package tables - you can easily combine traditional and agile project management. Simply schedule your tasks in the Gantt chart and work on them from the boards view.
 
 To use boards you need to use either the Enterprise cloud or the Enterprise on-premises edition. If you currently use the Community edition and would like to give boards a try, simply [request an Enterprise edition trial license]().
 
@@ -47,7 +47,7 @@ You can filter and group by work package attributes and also display Gantt chart
 
 
 
-## Updated work package list
+## Updated work package table
 
 Assignees are now directly displayed as avatars in the work package page. Additionally, the work package type selection has been updated.
 
@@ -59,7 +59,7 @@ Assignees are now directly displayed as avatars in the work package page. Additi
 
 OpenProject is even more user-friendly: You can add attachments (e.g. images) directly to meetings (agenda / minutes).
 
-Creating work packages on the global work package list is now easier as well: When you select a type, only the projects in which the types are activated can be selected in the project menu.
+Creating work packages on the global work package table is now easier as well: When you select a type, only the projects in which the types are activated can be selected in the project menu.
 
 Filters and work package attributes are improved and support auto-completion.
 

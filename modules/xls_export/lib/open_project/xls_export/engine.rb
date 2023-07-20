@@ -8,10 +8,7 @@ module OpenProject::XlsExport
              author_url: 'https://www.openproject.org',
              bundled: true
 
-    patches %i[CostReportsController]
-
     config.to_prepare do
-      OpenProject::XlsExport::Hooks::CostReportHook
       OpenProject::XlsExport::Hooks::WorkPackageHook
     end
 

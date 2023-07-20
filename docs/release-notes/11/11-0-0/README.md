@@ -256,7 +256,7 @@ There are lots and lots of new things we packed into 11.0 to tell you about.
 - Changed: Flexible width of edit field of widget title \[[#32176](https://community.openproject.com/wp/32176)\]
 - Changed: Add scheduling mode to work package in back end (Database, Contracts, API) \[[#32877](https://community.openproject.com/wp/32877)\]
 - Changed: Adhere to scheduling mode when scheduling \[[#32878](https://community.openproject.com/wp/32878)\]
-- Changed: Display scheduling mode in work package list \[[#32879](https://community.openproject.com/wp/32879)\]
+- Changed: Display scheduling mode in work package table \[[#32879](https://community.openproject.com/wp/32879)\]
 - Changed: Display scheduling mode in work package view (full & split) \[[#32880](https://community.openproject.com/wp/32880)\]
 - Changed: Show work package's children duration bar on Gantt charts \[[#32881](https://community.openproject.com/wp/32881)\]
 - Changed: New seed data for "Demo project" - work packages \[[#32882](https://community.openproject.com/wp/32882)\]

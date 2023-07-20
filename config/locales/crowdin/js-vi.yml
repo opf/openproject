@@ -65,7 +65,8 @@ vi:
     button_confirm: "Xác nhận"
     button_continue: "Tiếp tục"
     button_copy: "Sao chép"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "Sao chép vào clipboard"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Sao chép sang dự án khác"
     button_custom-fields: "Tùy chỉnh mục"
     button_delete: "Xoá"
@@ -735,6 +736,14 @@ vi:
     time_entry:
       work_package_required: 'Yều cầu chọn một gói công việc đầu tiên.'
       title: 'Thời gian truy cập'
+      tracking: 'Theo dõi thời gian'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:
@@ -793,7 +802,8 @@ vi:
     autocompleter:
       placeholder: "Type to search"
       notFoundText: "No items found"
-      typeToSearchText: "Type to search"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Chọn từ khóa'
       select_branch: 'Chọn nhánh'
@@ -1172,10 +1182,11 @@ vi:
       button_deactivate: 'Tắt chế độ zen'
     global_search:
       all_projects: "Cho tất cả các dự án"
-      search: "Tìm kiếm"
       close_search: "Đóng tìm kiếm"
-      current_project: "Trong dự án này"
       current_project_and_all_descendants: "Trong dự án này + các dự án con"
+      current_project: "Trong dự án này"
+      recently_viewed: "Recently viewed"
+      search: "Tìm kiếm"
       title:
         all_projects: "mọi dự án"
         project_and_subprojects: "và tất cả các dự án con"

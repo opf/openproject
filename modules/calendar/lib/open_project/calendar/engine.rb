@@ -41,7 +41,27 @@ module OpenProject::Calendar
                    contract_actions: { calendar: %i[read] }
       end
 
-      # TODO: Add calendar icon to module menu item when Global Calendar Page is added
+      should_render = Proc.new do
+        OpenProject::FeatureDecisions.more_global_index_pages_active? &&
+          (User.current.logged? || !Setting.login_required?) &&
+          User.current.allowed_to_globally?(:view_calendar)
+      end
+
+      menu :top_menu,
+           :calendar_view, { controller: '/calendar/calendars', action: 'index', project_id: nil },
+           context: :modules,
+           caption: :label_calendar_plural,
+           icon: 'calendar',
+           after: :work_packages,
+           if: should_render
+
+      menu :global_menu,
+           :calendar_view,
+           { controller: '/calendar/calendars', action: 'index', project_id: nil },
+           caption: :label_calendar_plural,
+           icon: 'calendar',
+           after: :work_packages,
+           if: should_render
 
       menu :project_menu,
            :calendar_view,

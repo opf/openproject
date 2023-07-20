@@ -1,106 +1,147 @@
-# Schema: Time_EntryModel
+# Schema: TimeEntryModel
 ---
 type: object
 properties:
   id:
     type: integer
-    description: Time entries' id
-    readOnly: true
-    minimum: 0
-    exclusiveMinimum: true
+    description: The id of the time entry
+    minimum: 1
   comment:
-    type: string
-    description: A text provided by the user detailing the time entry
+    allOf:
+      - $ref: './formattable.yml'
+      - description: A comment to the time entry
   spentOn:
     type: string
     format: date
     description: The date the expenditure is booked for
   hours:
     type: string
-    format: date
+    format: duration
     description: The time quantifying the expenditure
+  ongoing:
+    type: boolean
+    description: Whether the time entry is actively tracking time
   createdAt:
     type: string
     format: date-time
     description: The time the time entry was created
-    readOnly: true
   updatedAt:
     type: string
     format: date-time
     description: The time the time entry was last updated
-    readOnly: true
   _links:
     type: object
     required:
-    - self
-    - project
-    - user
-    - activity
+      - self
+      - project
+      - user
+      - activity
     properties:
-      updateImmediately:
-        allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            Directly perform edits on this time entry
-
-            # Conditions
-
-            **Permission**: 'edit time entries' or 'edit own time entries' if the time entry belongs to the user
-          readOnly: true
-      update:
-        allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            Form endpoint that aids in preparing and performing edits on a TimeEntry
-
-            # Conditions
-
-            **Permission**: 'edit time entries' or 'edit own time entries' if the time entry belongs to the user
-          readOnly: true
-      delete:
-        allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            Delete this time entry
-
-            # Conditions
-
-            **Permission**: 'edit time entries' or 'edit own time entries' if the time entry belongs to the user
-          readOnly: true
       self:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            This time entry
-
-            **Resource**: TimeEntry
-          readOnly: true
+          - "$ref": './link.yml'
+          - description: |-
+              This time entry
+              
+              **Resource**: TimeEntry
+      updateImmediately:
+        allOf:
+          - "$ref": './link.yml'
+          - description: |-
+              Directly perform edits on this time entry
+              
+              # Conditions
+              
+              **Permission**: 'edit time entries' or 'edit own time entries' if the time entry belongs to the user
+      update:
+        allOf:
+          - "$ref": './link.yml'
+          - description: |-
+              Form endpoint that aids in preparing and performing edits on a TimeEntry
+              
+              # Conditions
+              
+              **Permission**: 'edit time entries' or 'edit own time entries' if the time entry belongs to the user
+      delete:
+        allOf:
+          - "$ref": './link.yml'
+          - description: |-
+              Delete this time entry
+              
+              # Conditions
+              
+              **Permission**: 'edit time entries' or 'edit own time entries' if the time entry belongs to the user
+      schema:
+        allOf:
+          - "$ref": './link.yml'
+          - description: |-
+              The time entry schema
+              
+              **Resource**: Schema
       project:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            The project the time entry is bundled in. The project might be different from the work package's project once the workPackage is moved.
-
-            **Resource**: Project
+          - "$ref": './link.yml'
+          - description: |-
+              The project the time entry is bundled in. The project might be different from the work package's project once the workPackage is moved.
+              
+              **Resource**: Project
       workPackage:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            The work package the time entry is created on
-
-            **Resource**: WorkPackage
+          - "$ref": './link.yml'
+          - description: |-
+              The work package the time entry is created on
+              
+              **Resource**: WorkPackage
       user:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            The user the time entry tracks expenditures for
-
-            **Resource**: User
-          readOnly: true
+          - "$ref": './link.yml'
+          - description: |-
+              The user the time entry tracks expenditures for
+              
+              **Resource**: User
       activity:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            The time entry activity the time entry is categorized as
+          - "$ref": './link.yml'
+          - description: |-
+              The time entry activity the time entry is categorized as
+              
+              **Resource**: TimeEntriesActivity
 
-            **Resource**: TimeEntriesActivity
+examples:
+  - _type: TimeEntry
+    id: 42
+    comment:
+      format: plain
+      raw: "The force shall set me free."
+      html: "<p>The force shall set me free.</p>"
+    spentOn: '2023-01-11'
+    hours: 'PT4H'
+    createdAt: '2023-01-11T13:58:24Z'
+    updatedAt: '2023-01-11T13:58:24Z'
+    _links:
+      self: 
+        href: '/api/v3/time_entries/42'
+      updateImmediately: 
+        href: '/api/v3/time_entries/42'
+        method: patch
+      update: 
+        href: '/api/v3/time_entries/42/form'
+        method: post
+      delete: 
+        href: '/api/v3/time_entries/42'
+        method: delete
+      schema: 
+        href: '/api/v3/time_entries/schema'
+      project: 
+        href: '/api/v3/projects/11'
+        title: DeathStarV2
+      workPackage: 
+        href: '/api/v3/work_packages/77'
+        title: Build new hangar
+      user: 
+        href: '/api/v3/users/3'
+        title: Darth Vader
+      activity: 
+        href: '/api/v3/time_entries/activities/1'
+        title: Management
+      

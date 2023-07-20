@@ -325,19 +325,14 @@ module ApplicationHelper
     "data-color-mode=\"#{mode}\" data-#{mode}-theme=\"#{User.current.pref.theme}\"".html_safe
   end
 
-  def theme_options_for_select
-    [
-      [t('themes.light'), 'light'],
-      [t('themes.light_high_contrast'), 'light_high_contrast'],
-      [t('themes.dark'), 'dark'],
-      [t('themes.dark_dimmed'), 'dark_dimmed'],
-      [t('themes.dark_high_contrast'), 'dark_high_contrast']
-    ]
-  end
-
-  def user_theme_data_attributes
-    mode, _theme_suffix = User.current.pref.theme.split("_", 2)
-    "data-color-mode=\"#{mode}\" data-#{mode}-theme=\"#{User.current.pref.theme}\"".html_safe
+  def highlight_default_language(lang_options)
+    lang_options.map do |(language_name, code)|
+      if code == Setting.default_language
+        [I18n.t('settings.language_name_being_default', language_name:), code, { disabled: true, checked: true }]
+      else
+        [language_name, code]
+      end
+    end
   end
 
   def labelled_tabular_form_for(record, options = {}, &)

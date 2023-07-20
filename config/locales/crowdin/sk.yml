@@ -198,8 +198,6 @@ sk:
       no_results_content_text: Vytvoriť nové vlastné pole
   concatenation:
     single: 'alebo'
-  documentation:
-    see_more_link: For more information, please see our documentation on this topic.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -530,6 +528,7 @@ sk:
         hours: "Hodín"
         spent_on: "Dátum"
         type: "Typ"
+        ongoing: "Ongoing"
       type:
         description: "Default text for description"
         attribute_groups: ''
@@ -1080,7 +1079,8 @@ sk:
   button_configure: "Konfigurovať"
   button_continue: "Pokračovať"
   button_copy: "Kopírovať"
-  button_copy_to_clipboard: "Copy to clipboard"
+  button_copy_to_clipboard: "Kopírovať do schránky"
+  button_copy_link_to_clipboard: "Copy link to clipboard"
   button_copy_and_follow: "Kopírovať a nasledovať"
   button_create: "Vytvoriť"
   button_create_and_continue: "Vytvoriť a pokračovať"
@@ -1449,6 +1449,22 @@ sk:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "The changes were retracted."
+    caused_changes:
+      dates_changed: "Dates changed"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} is now working"
+          non_working: "%{day} is now non-working"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} is now non-working"
   links:
     configuration_guide: 'Sprievodca konfiguráciou'
     get_in_touch: "You have questions? Get in touch with us."
@@ -1515,6 +1531,7 @@ sk:
   label_age: "Vek"
   label_ago: "dní späť"
   label_all: "Všetky"
+  label_all_projects: "All projects"
   label_all_time: "všetok čas"
   label_all_words: "Všetky slová"
   label_all_open_wps: "Všetky otvorené"
@@ -1531,6 +1548,7 @@ sk:
   label_ical_access_key_revoke: "Odvolať"
   label_applied_status: "Aplikovaný stav"
   label_archive_project: "Archivovať projekt"
+  label_archived_projects: "Archived projects"
   label_ascending: "Vzostupne"
   label_assigned_to_me_work_packages: "Mne priradené pracovné balíčky"
   label_associated_revisions: "Súvisiace revízie"
@@ -1617,7 +1635,7 @@ sk:
   label_database_version: "PostgreSQL version"
   label_date: "Dátum"
   label_date_and_time: "Dátum a čas"
-  label_date_format: "Date format"
+  label_date_format: "Formát dátumu"
   label_date_from: "Od"
   label_date_from_to: "Od %{start} do %{end}"
   label_date_to: "Do"
@@ -1666,6 +1684,8 @@ sk:
   label_equals: "je"
   label_everywhere: "všade"
   label_example: "Príklad"
+  label_experimental: "Experimental"
+  label_i_am_member: "I am member"
   label_import: "Import"
   label_export_to: "K dispozícii tiež ako:"
   label_expanded_click_to_collapse: "Rozbalené. Kliknutí zbalíte"
@@ -1702,6 +1722,7 @@ sk:
   label_hierarchy_leaf: "Úroveň hierarchie"
   label_home: "Úvod"
   label_subject_or_id: "Predmet alebo ID"
+  label_icalendar: "iCalendar"
   label_impressum: "Legal notice"
   label_in: "v"
   label_in_less_than: "v menej ako"
@@ -1745,6 +1766,7 @@ sk:
   label_logged_as: "Prihlásený ako"
   label_login: "Prihlásiť sa"
   label_custom_logo: "Vlastné logo"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Vlastná favicon"
   label_custom_touch_icon: "Vlastná dotyková ikona"
   label_logout: "Odhlásiť sa"
@@ -2104,6 +2126,7 @@ sk:
         few: 'There are %{count} more work packages with notifications.'
         many: 'There are %{count} more work packages with notifications.'
         other: 'There are %{count} more work packages with notifications.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Watched'
         assigned: 'Assigned'
@@ -2374,7 +2397,7 @@ sk:
       archived: "Archivované"
   project_module_activity: "Činnosť"
   project_module_forums: "Diskusie"
-  project_module_work_package_tracking: "Sledovanie Pracovného balíka"
+  project_module_work_package_tracking: "Pracovné balíčky"
   project_module_news: "Novinky"
   project_module_repository: "Repozitár"
   project_module_wiki: "Wiki"
@@ -2548,7 +2571,7 @@ sk:
   setting_consent_decline_mail: "Kontaktná e-mailová adresa pre udelenie súhlasu"
   setting_cross_project_work_package_relations: "Povoliť prepojenia úloh naprieč projektmi"
   setting_first_week_of_year: "First week in year contains"
-  setting_date_format: "Date"
+  setting_date_format: "Dátum"
   setting_default_language: "Predvolený jazyk"
   setting_default_projects_modules: "Predvolené moduly novovytváraných projektov"
   setting_default_projects_public: "Nové projekty nastaviť ako verejné"
@@ -2560,7 +2583,7 @@ sk:
   setting_enabled_scm: "Povolené SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Povoliť informačné kanály"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Limit obsahu informačných kanálov"
   setting_file_max_size_displayed: "Maximálna veľkosť textových súborov zobrazených priamo na stránke"
   setting_host_name: "Názov serveru (Host name)"
@@ -2611,7 +2634,7 @@ sk:
   setting_start_of_week: "Týždeň začína dňom"
   setting_sys_api_enabled: "Povoliť webovú službu pre správu úložiska"
   setting_sys_api_description: "Webová služba pre správu úložiska umožňuje integráciu a autorizáciu používateľa na prístup k repozitárom."
-  setting_time_format: "Time"
+  setting_time_format: "Čas"
   setting_accessibility_mode_for_anonymous: "Zapnúť režim prístupnosti pre anonymných používateľov"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Predvolená časová zóna užívateľa"
@@ -2624,29 +2647,21 @@ sk:
   setting_work_package_list_default_highlighted_attributes: "Predvolené inline zvýraznené atribúty"
   setting_working_days: "Working days"
   settings:
-    general: "Všeobecné"
-    other: "Ostatné"
-    passwords: "Heslá"
-    session: "Relácie"
-    brute_force_prevention: "Automatizované blokovanie používateľa"
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
-    notifications:
-      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
-    display:
+    brute_force_prevention: "Automatizované blokovanie používateľa"
+    language_name_being_default: '%{language_name} (default)'
+    date_format:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
-      first_week_of_year_text: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
-    projects:
-      section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
-    user:
-      default_preferences: "Predvolené nastavenia"
-      display_format: "Display format"
-      deletion: "Vymazanie"
+      first_week_of_year_text_html: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+    general: "Všeobecné"
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     highlighting:
       mode_long:
         inline: "Inline zvýraznené atribút(y)"
@@ -2654,6 +2669,23 @@ sk:
         status: "Celý riadok podľa Stavu"
         type: "Celý riadok podľa typu"
         priority: "Celý riadok podľa Priority"
+    icalendar:
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+    #below line needs to be appended above after docs are ready
+    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    notifications:
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+    other: "Ostatné"
+    passwords: "Heslá"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
+    session: "Relácie"
+    user:
+      default_preferences: "Predvolené nastavenia"
+      display_format: "Display format"
+      deletion: "Vymazanie"
     working_days:
       section_work_week: "Work week"
       section_holidays_and_closures: "Holidays and closures"
@@ -2695,10 +2727,12 @@ sk:
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Odporúčané je biele logo na farebnom pozadí. Pre najlepšie výsledky na všetkých typoch monitorov (štandardných aj retina) použite obrázok s rozmermi 460px x 60px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Toto je malá ikona, ktorá sa zobrazí vedľa nadpisu stránky. Musí to byť PNG súbor s rozmermi 32 krát 32 pixelov s priehľadným pozadím.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    To je ikona, ktorá sa zobrazí vo vašom mobile alebo tablete, keď si uložíte záložku na vašej domovskej stránke. Musí to byť štvorcový PNG obrázok s rozmermi 180 krát 180 pixelov. Prosím, uistite sa, že obrázok nemá transparentné pozadie, inak bude zle vyzerať na iOS.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Databáza umožňuje TSVector (voliteľné)"
   text_default_administrator_account_changed: "Predvolené nastavenie administrátorského účtu bolo zmenené"
   text_default_encoding: "Predvolené: UTF-8"

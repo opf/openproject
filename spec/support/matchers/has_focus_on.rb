@@ -36,10 +36,9 @@ module Capybara
       return_value = false
 
       while !return_value && Time.now - starting_time < Capybara.default_max_wait_time
+        focused_element = evaluate_script("document.activeElement")
 
-        focused_element = driver.browser.switch_to.active_element
-
-        return_value = find(selector).native == focused_element
+        return_value = find(selector) == focused_element
       end
 
       return_value

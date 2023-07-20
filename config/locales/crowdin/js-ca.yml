@@ -65,7 +65,8 @@ ca:
     button_confirm: "Confirmar"
     button_continue: "Continua"
     button_copy: "Copiar"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "Copiar al porta-retalls"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copia a un altre projecte"
     button_custom-fields: "Camps personalitzats"
     button_delete: "Esborrar"
@@ -106,7 +107,7 @@ ca:
       remove_from_list: 'Suprimeix la targeta de la llista'
     caption_rate_history: "Història d'índex"
     clipboard:
-      browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
+      browser_error: "El teu navegador no permet copiar al porta-retalls. Si us plau, copia-ho manualment: %{content}"
       copied_successful: "S'ha copiat correctament al porta-retalls!"
     chart:
       type: 'Tipus de gràfica'
@@ -737,6 +738,14 @@ ca:
     time_entry:
       work_package_required: 'Requereix seleccionar un paquet de treball primer.'
       title: 'Registrar temps'
+      tracking: 'Seguiment de temps'
+      stop: 'Aturar'
+    timer:
+      start_new_timer: 'Iniciar nou temporitzador'
+      timer_already_running: 'Per començar un nou temporitzador, has de parar el temporitzador actual:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Seguiment de temps'
+      button_stop: 'Aturar el temporitzador actual'
     two_factor_authentication:
       label_two_factor_authentication: 'Autentificació en dos passos'
     watchers:
@@ -795,7 +804,8 @@ ca:
     autocompleter:
       placeholder: "Escriviu per cercar"
       notFoundText: "Elements no trobats"
-      typeToSearchText: "Escriviu per cercar"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Seleccionar l''etiqueta'
       select_branch: 'Seleccionar branca'
@@ -1176,10 +1186,11 @@ ca:
       button_deactivate: 'Desactiva el mode zen'
     global_search:
       all_projects: "En tots els projectes"
-      search: "Cercar"
       close_search: "Tanca la cerca"
-      current_project: "En aquest projecte"
       current_project_and_all_descendants: "En aquest projecte + subprojectes"
+      current_project: "En aquest projecte"
+      recently_viewed: "Vist recentment"
+      search: "Cercar"
       title:
         all_projects: "tots els projectes"
         project_and_subprojects: "i tots els subprojectes"

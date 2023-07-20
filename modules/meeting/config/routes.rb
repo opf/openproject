@@ -27,15 +27,15 @@
 #++
 
 OpenProject::Application.routes.draw do
-  scope 'projects/:project_id' do
-    resources :meetings, only: %i[new create index] do
+  resources :projects, only: %i[] do
+    resources :meetings, only: %i[index new create] do
       collection do
         get 'index_in_wp_tab/:work_package_id', action: :index_in_wp_tab, as: :index_in_wp_tab
       end
     end
   end
 
-  resources :meetings, except: %i[new create] do
+  resources :meetings do
     member do
       get 'show_in_wp_tab/:work_package_id', action: :show_in_wp_tab, as: :show_in_wp_tab
     end
@@ -49,7 +49,6 @@ OpenProject::Application.routes.draw do
         put :drop
       end
     end
-
     resource :agenda, controller: 'meeting_agendas', only: [:update] do
       member do
         get :history

@@ -195,8 +195,6 @@ pl:
       no_results_content_text: Utwórz pole użytkownika
   concatenation:
     single: 'lub'
-  documentation:
-    see_more_link: Więcej informacji można znaleźć w naszej dokumentacji na ten temat.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -527,6 +525,7 @@ pl:
         hours: "Godziny"
         spent_on: "Data"
         type: "Typ"
+        ongoing: "Ongoing"
       type:
         description: "Domyślny tekst opisu"
         attribute_groups: ''
@@ -1077,7 +1076,8 @@ pl:
   button_configure: "Konfigurowanie"
   button_continue: "Dalej"
   button_copy: "Kopiuj"
-  button_copy_to_clipboard: "Copy to clipboard"
+  button_copy_to_clipboard: "Skopiuj do schowka"
+  button_copy_link_to_clipboard: "Copy link to clipboard"
   button_copy_and_follow: "Skopiuj i wykonaj"
   button_create: "Utwórz"
   button_create_and_continue: "Utwórz i kontynuuj"
@@ -1446,6 +1446,22 @@ pl:
     imagemagick: 'Imagemagick'
   journals:
     changes_retracted: "Zmiany zostały wycofane."
+    caused_changes:
+      dates_changed: "Dates changed"
+    cause_descriptions:
+      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_parent_changed_times: by changes to parent %{link}
+      work_package_children_changed_times: by changes to child %{link}
+      work_package_related_changed_times: by changes to related %{link}
+      unaccessable_work_package_changed: by changes to a related work package
+      working_days_changed:
+        changed: "by changes to working days (%{changes})"
+        days:
+          working: "%{day} jest teraz dniem roboczym"
+          non_working: "%{day} jest teraz dniem nieroboczym"
+        dates:
+          working: "%{date} is now working"
+          non_working: "%{date} jest teraz wolnym od pracy"
   links:
     configuration_guide: 'Przewodnik po konfiguracji'
     get_in_touch: "Masz pytania? Skontaktuj się z nami."
@@ -1512,6 +1528,7 @@ pl:
   label_age: "Wiek"
   label_ago: "dni temu"
   label_all: "wszystkie"
+  label_all_projects: "All projects"
   label_all_time: "cały czas"
   label_all_words: "Wszystkie słowa"
   label_all_open_wps: "Wszystkie otwarte"
@@ -1528,6 +1545,7 @@ pl:
   label_ical_access_key_revoke: "Unieważnij"
   label_applied_status: "Nadaj status"
   label_archive_project: "Archiwum projektów"
+  label_archived_projects: "Archived projects"
   label_ascending: "Rosnąco"
   label_assigned_to_me_work_packages: "Zadania przypisane do mnie"
   label_associated_revisions: "Powiązane rewizje"
@@ -1614,7 +1632,7 @@ pl:
   label_database_version: "Wersja PostgreSQL"
   label_date: "Data"
   label_date_and_time: "Data i czas"
-  label_date_format: "Date format"
+  label_date_format: "Format daty"
   label_date_from: "Od"
   label_date_from_to: "Data od %{start} do %{end}"
   label_date_to: "Do"
@@ -1663,6 +1681,8 @@ pl:
   label_equals: "jest"
   label_everywhere: "wszędzie"
   label_example: "Przykład"
+  label_experimental: "Eksperymentalny"
+  label_i_am_member: "I am member"
   label_import: "Importuj"
   label_export_to: "Dostępne również w:"
   label_expanded_click_to_collapse: "Rozwinięto. Kliknij, aby zwinąć"
@@ -1699,6 +1719,7 @@ pl:
   label_hierarchy_leaf: "Liść hierarchii"
   label_home: "Strona główna"
   label_subject_or_id: "Temat lub identyfikator"
+  label_icalendar: "iCalendar"
   label_impressum: "Informacje prawne"
   label_in: "w"
   label_in_less_than: "w mniej niż"
@@ -1742,6 +1763,7 @@ pl:
   label_logged_as: "Zalogowany jako"
   label_login: "Logowanie"
   label_custom_logo: "Własne logo"
+  label_custom_export_logo: "Custom export logo"
   label_custom_favicon: "Własny favicon"
   label_custom_touch_icon: "Własny touch icon"
   label_logout: "Wyloguj"
@@ -2101,6 +2123,7 @@ pl:
         few: 'Istnieją jeszcze %{count} pakiety robocze z powiadomieniami.'
         many: 'Istnieje jeszcze %{count} pakietów roboczych z powiadomieniami.'
         other: 'Istnieją jeszcze %{count} pakietów roboczych z powiadomieniami.'
+      open_in_browser: 'Open in browser'
       reason:
         watched: 'Obserwowane'
         assigned: 'Przypisane'
@@ -2371,7 +2394,7 @@ pl:
       archived: "Zarchiwizowano"
   project_module_activity: "Działanie"
   project_module_forums: "Fora"
-  project_module_work_package_tracking: "Śledzenie pakietów roboczych"
+  project_module_work_package_tracking: "Pakiety robocze"
   project_module_news: "Aktualności"
   project_module_repository: "Repozytorium"
   project_module_wiki: "Wiki"
@@ -2543,7 +2566,7 @@ pl:
   setting_consent_decline_mail: "Adres kontaktowy zgody"
   setting_cross_project_work_package_relations: "Zezwól na powiązania pakietów roboczych pomiędzy projektami"
   setting_first_week_of_year: "Pierwszy tydzień w roku zawiera"
-  setting_date_format: "Date"
+  setting_date_format: "Data"
   setting_default_language: "Język domyślny"
   setting_default_projects_modules: "Domyślnie włączone moduły dla nowych projektów"
   setting_default_projects_public: "Nowe projekty są publiczne (domyślnie)"
@@ -2555,7 +2578,7 @@ pl:
   setting_enabled_scm: "Włączone SCM"
   setting_enabled_projects_columns: "Widoczny na liście projektów"
   setting_feeds_enabled: "Włącz kanały"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Maksymalny rozmiar plików tekstowych wyświetlanych w treści"
   setting_host_name: "Nazwa hosta"
@@ -2606,7 +2629,7 @@ pl:
   setting_start_of_week: "Początek tygodnia"
   setting_sys_api_enabled: "Uaktywnij zarządzanie repozytoriami przez www"
   setting_sys_api_description: "Zarządzanie repozytoriami przez www umożliwia integrację i autoryzację użytkowników do dostępu do repozytoriów."
-  setting_time_format: "Time"
+  setting_time_format: "Czas"
   setting_accessibility_mode_for_anonymous: "Włącz tryb dostępu dla użytkowników anonimowych"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Domyślna strefa czasowa użytkowników"
@@ -2617,31 +2640,23 @@ pl:
   setting_welcome_on_homescreen: "Wyświetl wiadomość powitalną na ekranie głównym"
   setting_work_package_list_default_highlighting_mode: "Domyślny tryb wyróżniania"
   setting_work_package_list_default_highlighted_attributes: "Domyślnie wyróżniane atrybuty wyświetlane w treści"
-  setting_working_days: "Working days"
+  setting_working_days: "Dni robocze"
   settings:
-    general: "Ogólne"
-    other: "Inne"
-    passwords: "Hasła"
-    session: "Sesja"
-    brute_force_prevention: "Automatyczne blokowanie użytkowników"
     attachments:
       whitelist_text_html: >
         Zdefiniuj listę poprawnych rozszerzeń plików i/lub typów mime dla przesłanych plików. <br/> Wprowadź rozszerzenia plików (np. <code>%{ext_example}</code>) lub typy mime (np. <code>%{mime_example}</code>). <br/> Pozostaw puste, aby umożliwić przesłanie dowolnego typu pliku. Dozwolone wielokrotne wartości (jeden wiersz dla każdej wartości).
-    notifications:
-      events_explanation: 'Zarządza dla których zdarzeń są wysyłane wiadomości e-mail. Pakiety robocze są wyłączone z tej listy, ponieważ ich powiadomienia mogą być skonfigurowane specjalnie dla każdego użytkownika.'
-      delay_minutes_explanation: "Wysyłanie wiadomości e-mail może być opóźnione, aby umożliwić użytkownikom ze skonfigurowanymi powiadomieniami w aplikacji potwierdzenie powiadomienia w aplikacji przed wysłaniem wiadomości. Użytkownicy, którzy przeczytali powiadomienie w aplikacji nie otrzymają wiadomości e-mail dla powiadomień już przeczytanych."
-    display:
+    brute_force_prevention: "Automatyczne blokowanie użytkowników"
+    language_name_being_default: '%{language_name} (default)'
+    date_format:
       first_date_of_week_and_year_set: >
-        Jeśli ustawiona jest opcja „%{day_of_week_setting_name}” albo „%{first_week_setting_name}”, druga musi zostać ustawiona w taki sposób, aby uniknąć niespójności we frontendzie.
-      first_week_of_year_text: >
-        Wybierz styczniową datę z pierwszego tygodnia roku. Wartość ta wraz z pierwszym dniem tygodnia określa łączną liczbę tygodni w roku.
-    projects:
-      section_new_projects: "Ustawienia nowych projektów"
-      section_project_overview: "Ustawienia listy przeglądu projektu"
-    user:
-      default_preferences: "Ustawienia domyślne"
-      display_format: "Display format"
-      deletion: "Usunięcie"
+        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text_html: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+    general: "Ogólne"
+    experimental:
+      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      feature_flags: Feature flags
     highlighting:
       mode_long:
         inline: "Wyróżniaj atrybuty wyświetlane w treści"
@@ -2649,8 +2664,25 @@ pl:
         status: "Cały wiersz wg stanu"
         type: "Cały wiersz wg typu"
         priority: "Cały wiersz wg priorytetu"
+    icalendar:
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+    #below line needs to be appended above after docs are ready
+    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    notifications:
+      events_explanation: 'Zarządza dla których zdarzeń są wysyłane wiadomości e-mail. Pakiety robocze są wyłączone z tej listy, ponieważ ich powiadomienia mogą być skonfigurowane specjalnie dla każdego użytkownika.'
+      delay_minutes_explanation: "Wysyłanie wiadomości e-mail może być opóźnione, aby umożliwić użytkownikom ze skonfigurowanymi powiadomieniami w aplikacji potwierdzenie powiadomienia w aplikacji przed wysłaniem wiadomości. Użytkownicy, którzy przeczytali powiadomienie w aplikacji nie otrzymają wiadomości e-mail dla powiadomień już przeczytanych."
+    other: "Inne"
+    passwords: "Hasła"
+    projects:
+      section_new_projects: "Ustawienia nowych projektów"
+      section_project_overview: "Ustawienia listy przeglądu projektu"
+    session: "Sesja"
+    user:
+      default_preferences: "Ustawienia domyślne"
+      display_format: "Display format"
+      deletion: "Usunięcie"
     working_days:
-      section_work_week: "Work week"
+      section_work_week: "Tydzień roboczy"
       section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'
@@ -2690,10 +2722,12 @@ pl:
     Wersja Enterprise doda te dodatkowe funkcje niestandardowych pól projektów: <br> <ul> <li><b>Dodaj niestandardowe pola projektów do listy projektów, aby utworzyć widok portfolio projektów</b></li> </ul>
   text_custom_logo_instructions: >
     Na bezbarwnym tle zaleca się stosowanie białego logo. Najlepsze rezultaty - zarówno na tradycyjnych jak i wyświetlaczach retina - są dla obrazów o rozdzielczości 460x60 px.
+  text_custom_export_logo_instructions: >
+    This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
   text_custom_favicon_instructions: >
-    Ikona, która pojawia się przed adresem w polu adresowym przeglądarki internetowej lub na karcie z otwartą stroną www. Wymagany format obrazka to PNG o rozdzielczości 32x32 px z przeźroczystym tłem.
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
   text_custom_touch_icon_instructions: >
-    Ikona skrótu na ekranie startowym smartfona lub tabletu. Wymagany format obrazka to PNG o rozdzielczości 180x180 px. Upewnij się, że obrazek nie ma przeźroczystego tła - inaczej źle będzie wyglądał na iOS'ach.
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
   text_database_allows_tsv: "Baza danych umożliwia TSVector (opcjonalnie)"
   text_default_administrator_account_changed: "Domyślne konto administratora zostało zmienione"
   text_default_encoding: "Domyślnie: UTF-8"

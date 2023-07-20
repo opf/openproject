@@ -65,7 +65,8 @@ tr:
     button_confirm: "Onaylamak"
     button_continue: "Devam et"
     button_copy: "Kopyalamak"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "Panoya kopyala"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Başka bir projeye kopyala"
     button_custom-fields: "Özel Alanlar"
     button_delete: "silmek"
@@ -736,6 +737,14 @@ tr:
     time_entry:
       work_package_required: 'Önce bir iş paketi seçilmesini gerektirir.'
       title: 'Zaman kaydet'
+      tracking: 'Zaman takibi'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'İki faktörlü kimlik doğrulama'
     watchers:
@@ -794,7 +803,8 @@ tr:
     autocompleter:
       placeholder: "Aramak için metni yazın"
       notFoundText: "Hiçbir öge bulunamadı"
-      typeToSearchText: "Aramak için metni yazın"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Etiket seç'
       select_branch: 'Branş seç'
@@ -1175,10 +1185,11 @@ tr:
       button_deactivate: 'Zen modunu devre dışı bırak'
     global_search:
       all_projects: "Tüm projelerde"
-      search: "Ara"
       close_search: "Aramayı kapat"
-      current_project: "Bu projede"
       current_project_and_all_descendants: "Bu projede + alt projelerde"
+      current_project: "Bu projede"
+      recently_viewed: "Recently viewed"
+      search: "Ara"
       title:
         all_projects: "tüm projeler"
         project_and_subprojects: "ve tüm alt projeler"

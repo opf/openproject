@@ -44,6 +44,8 @@ RSpec.describe 'Meetings deletion' do
   let!(:meeting) { create(:meeting, project:, title: 'Own awesome meeting!', author: user) }
   let!(:other_meeting) { create(:meeting, project:, title: 'Other awesome meeting!', author: other_user) }
 
+  let(:index_path) { project_meetings_path(project) }
+
   before do
     login_as(user)
   end
@@ -51,45 +53,41 @@ RSpec.describe 'Meetings deletion' do
   context 'with permission to delete meetings', js: true do
     let(:permissions) { %i[view_meetings delete_meetings] }
 
-    it 'can delete own and other`s meetings' do
-      visit meetings_path(project)
+    it "can delete own and other's meetings" do
+      visit index_path
 
-      SeleniumHubWaiter.wait
       click_link meeting.title
-      SeleniumHubWaiter.wait
-      click_link "Delete"
-
-      page.accept_confirm
+      accept_confirm do
+        click_link "Delete"
+      end
 
       expect(page)
-        .to have_current_path meetings_path(project)
+        .to have_current_path index_path
 
-      SeleniumHubWaiter.wait
       click_link other_meeting.title
-      SeleniumHubWaiter.wait
-      click_link "Delete"
-
-      page.accept_confirm
+      accept_confirm do
+        click_link "Delete"
+      end
 
       expect(page)
         .to have_content(I18n.t('.no_results_title_text', cascade: true))
 
-      expect(current_path)
-        .to eql meetings_path(project)
+      expect(page)
+        .to have_current_path index_path
     end
   end
 
   context 'without permission to delete meetings' do
     let(:permissions) { %i[view_meetings] }
 
-    it 'cannot delete own and other`s meetings' do
-      visit meetings_path(project)
+    it "cannot delete own and other's meetings" do
+      visit index_path
 
       click_link meeting.title
       expect(page)
         .not_to have_link 'Delete'
 
-      visit meetings_path(project)
+      visit index_path
 
       click_link other_meeting.title
       expect(page)

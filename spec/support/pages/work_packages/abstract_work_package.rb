@@ -120,9 +120,9 @@ module Pages
       attribute_expectations.each do |label_name, value|
         label = label_name.to_s
         if label == 'status'
-          expect(page).to have_selector("[data-qa-selector='op-wp-status-button'] .button", text: value, wait: 10)
+          expect(page).to have_selector("[data-qa-selector='op-wp-status-button'] .button", text: value)
         else
-          expect(page).to have_selector(".inline-edit--container.#{label.camelize(:lower)}", text: value, wait: 10)
+          expect(page).to have_selector(".inline-edit--container.#{label.camelize(:lower)}", text: value)
         end
       end
     end
@@ -136,7 +136,7 @@ module Pages
       container = '#work-package-activites-container'
       container += " #activity-#{number}" if number
 
-      expect(page).to have_selector(container + ' .op-user-activity--user-line', text: user.name)
+      expect(page).to have_selector("#{container} .op-user-activity--user-line", text: user.name)
     end
 
     def expect_activity_message(message)
@@ -207,8 +207,14 @@ module Pages
         DateEditField.new container, key, is_milestone: work_package&.milestone?
       when :description
         TextEditorField.new container, key
+      # The AbstractWorkPackageCreate pages do not require a special WorkPackageStatusField,
+      # because the status field on the create pages is a simple EditField.
       when :status
-        WorkPackageStatusField.new container
+        if is_a?(AbstractWorkPackageCreate)
+          EditField.new container, key
+        else
+          WorkPackageStatusField.new container
+        end
       else
         EditField.new container, key
       end
