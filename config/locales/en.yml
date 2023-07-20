@@ -2949,10 +2949,6 @@ en:
     empty: "(empty)"
     enable_type_in_project: 'Enable type "%{type}"'
     new_color: "New color"
-    reporting:
-      delete: "Delete status: %{comment}"
-      edit: "Edit status: %{comment}"
-      show: "Status: %{comment}"
 
     planning_element_update: "Update: %{title}"
     type_could_not_be_saved: "Type could not be saved"
