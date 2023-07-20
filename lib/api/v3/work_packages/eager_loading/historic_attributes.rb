@@ -164,7 +164,9 @@ module API::V3::WorkPackages::EagerLoading
       # Journal::CustomizableJournal objects and they are being dubbed as custom values.
       # The custom_values contain only the historic Journal::CustomizableJournal objects
       # that were available on the WorkPackage at the timestamp we are looking at.
-      custom_values.map(&:custom_field)
+      # The intersection is made with the super to filter out any historic custom fields that
+      # are not activated for the work package.
+      @available_custom_fields ||= super.intersection(custom_values.map(&:custom_field))
     end
   end
 end
