@@ -151,7 +151,7 @@ ru:
         demo-planning-constructing-project:
           name: "(Демо) Планирование и конструирование"
           status_explanation: Все задачи выполнены по расписанию. Участвующие в них люди знают свои задачи. Система полностью настроена.
-          description: This is a short summary of the goals of this demo planning and constructing project.
+          description: Это краткое изложение целей этого демо планирования и строительства.
           news:
             item_0:
               title: Добро пожаловать в демо-проект
@@ -566,7 +566,7 @@ ru:
                     *   The model will be created according to the BIM execution plan
                     *   ...
                 item_2:
-                  subject: First Cycle, internal model check and revising
+                  subject: Первый цикл, проверка и пересмотр внутренней модели
                   description: |-
                     # Goal
 
@@ -605,7 +605,7 @@ ru:
               subject: Моделирование и координация, второй цикл
               description: "## Goal\\r\n\\r\n*   ...\\r\n\\r\n## Description\\r\n\\r\n* \\  ..."
             item_7:
-              subject: Modelling & coordinating, ... cycle
+              subject: Моделирование и координация, ... цикл
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_8:
               subject: Моделирование и координация, (n-й минус 1) цикл

@@ -603,38 +603,38 @@ lt:
                   description: Šis tipas hierarchiškai yra tėvas tipų &quot;Susidūrimas&quot; ir &quot;Užklausa&quot;, taigi reprezentuoja bendrą pastabą.
             item_6:
               subject: Modeliavimas ir koordinavimas, antras ciklas
-              description: "## Tikslas\\r\n\\r\n*   ...\\r\n\\r\n## Aprašymas\\r\n\\r\n* \\  ..."
+              description: "## Tikslas\r\n\r\n*   ...\r\n\r\n## Aprašymas\r\n\r\n* \\  ..."
             item_7:
               subject: Modeliavimas ir koordinavimas, ... ciklas
               description: Šis tipas hierarchiškai yra tėvas tipų &quot;Susidūrimas&quot; ir &quot;Užklausa&quot;, taigi reprezentuoja bendrą pastabą.
             item_8:
               subject: Modeliavimas ir koordinavimas, (n-tasis minus 1) ciklas
-              description: "## Tikslas\\r\n\\r\n*   ...\\r\n\\r\n## Aprašymas\\r\n\\r\n* \\  ..."
+              description: "## Tikslas\r\n\r\n*   ...\r\n\r\n## Aprašymas\r\n\r\n* \\  ..."
             item_9:
               subject: Modeliavimas ir koordinavimas, n-tasis ciklas
               description: Šis tipas hierarchiškai yra tėvas tipų &quot;Susidūrimas&quot; ir &quot;Užklausa&quot;, taigi reprezentuoja bendrą pastabą.
             item_10:
-              subject: Finishing modelling & coordinating, n-th cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Modeliavimo ir koordinavimo užbaigimas, n-tasis ciklas
+              description: Šis tipas hierarchiškai yra tėvas tipų &quot;Susidūrimas&quot; ir &quot;Užklausa&quot;, taigi reprezentuoja bendrą pastabą.
             item_11:
-              subject: Use model for construction phase
+              subject: Naudoti modelį statybos fazėje
               children:
                 item_0:
-                  subject: Handover model for construction crew
+                  subject: Perduoti modelį statybos komandai
                   description: |-
-                    ## Goal
+                    ## Tikslas
 
-                    *   Everyone knows the model and their tasks
-                    *   Everybody gets all the relevant information, model based
+                    *   Visi žino modelį ir savo užduotis
+                    *   Visi gauna visą reikiamą modeliu paremtą informaciją
                     *   ...
 
-                    ## Description
+                    ## Aprašymas
 
-                    *   The Kickoff on the construction site includes an introduction to the model
-                    *   All the objects should have the information needed for the assigned tasks. If not, data enrichment of the model needs to be done
+                    *   Pradžia statybų aikštelėje įtraukia ir supažindinimą su modeliu
+                    *   Visi objektai turėtų turėti paskirtoms užduotims reikiamą informaciją. Priešingu atveju turi būti atliekamas modelio duomenų papildymas
                     *   ...
                 item_1:
-                  subject: Construct the building
+                  subject: Statyti pastatą
                   description: |-
                     ## Goal
 
