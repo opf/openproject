@@ -2949,7 +2949,6 @@ en:
     empty: "(empty)"
     enable_type_in_project: 'Enable type "%{type}"'
     new_color: "New color"
-    new_association: "New dependency"
     new_work_package: "New work package"
     new_reporting: "New reporting"
     new_timeline: "New timeline report"
