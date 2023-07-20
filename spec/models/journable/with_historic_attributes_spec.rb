@@ -638,7 +638,7 @@ RSpec.describe Journable::WithHistoricAttributes,
     end
 
     context 'for a timestamp where the work package did not exist' do
-      it 'returns the changed attributes at the timestamp compared to the current attribute values' do
+      it 'returns no changes' do
         expect(subject.changed_at_timestamp(Timestamp.parse("2021-01-01T00:00:00Z")))
           .to be_empty
       end
