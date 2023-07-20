@@ -2946,7 +2946,6 @@ en:
       colors: "Colors"
     color_could_not_be_saved: "Color could not be saved"
     edit_color: "Edit color"
-    edit_thing: "Edit"
     edit_timeline: "Edit timeline report %{timeline}"
     delete_timeline: "Delete timeline report %{timeline}"
     empty: "(empty)"
