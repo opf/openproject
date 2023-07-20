@@ -2945,7 +2945,6 @@ en:
       color: "Color"
       colors: "Colors"
     color_could_not_be_saved: "Color could not be saved"
-    dates: "Dates"
     dates_are_calculated_based_on_sub_elements: "Dates are calculated based on sub elements."
     delete_all: "Delete all"
     delete_thing: "Delete"
