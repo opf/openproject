@@ -2956,14 +2956,6 @@ en:
     really_delete_color: >
       Are you sure, you want to delete the following color?
       Types using this color will not be deleted.
-    zoom:
-      in: "Zoom in"
-      out: "Zoom out"
-      days: "Days"
-      weeks: "Weeks"
-      months: "Months"
-      quarters: "Quarters"
-      years: "Years"
 
   title_remove_and_delete_user: Remove the invited user from the project and delete him/her.
   title_enterprise_upgrade: "Upgrade to unlock more users."
