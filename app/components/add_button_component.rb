@@ -29,30 +29,52 @@
 # ++
 #
 
-module TeamPlanner
-  class AddButtonComponent < ::AddButtonComponent
-    def render?
-      if current_project
-        User.current.allowed_to?(:manage_team_planner, current_project)
-      else
-        User.current.allowed_to_globally?(:manage_team_planner)
-      end
-    end
+class AddButtonComponent < ApplicationComponent
+  options :current_project
 
-    def dynamic_path
-      polymorphic_path([:new, current_project, :team_planners])
-    end
+  def render?
+    raise 'Implement the conditions for which the component should render or not'
+  end
 
-    def id
-      'add-team-planner-button'
-    end
+  def dynamic_path
+    raise "Implement the path for this component's href"
+  end
 
-    def accessibility_label_text
-      I18n.t('team_planner.label_create_new_team_planner')
-    end
+  def id
+    raise "Implement the id for this component"
+  end
 
-    def label_text
-      t(:'team_planner.label_team_planner')
-    end
+  def li_css_class
+    'toolbar-item'
+  end
+
+  def title
+    accessibility_label_text
+  end
+
+  def label
+    content_tag(:span,
+                label_text,
+                class: 'button--text')
+  end
+
+  def aria_label
+    accessibility_label_text
+  end
+
+  def accessibility_label_text
+    raise "Specify the aria label and title text to be used for this component"
+  end
+
+  def label_text
+    raise "Specify the label text to be used for this component"
+  end
+
+  def link_css_class
+    'button -alt-highlight'
+  end
+
+  def icon
+    helpers.op_icon('button--icon icon-add')
   end
 end

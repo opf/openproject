@@ -30,19 +30,13 @@
 #
 
 module Calendar
-  class AddButtonComponent < ::ApplicationComponent
-    options :current_project
-
+  class AddButtonComponent < ::AddButtonComponent
     def render?
       if current_project
         User.current.allowed_to?(:manage_calendars, current_project)
       else
         User.current.allowed_to_globally?(:manage_calendars)
       end
-    end
-
-    def li_css_class
-      'toolbar-item'
     end
 
     def dynamic_path
@@ -57,26 +51,12 @@ module Calendar
       'add-calendar-button'
     end
 
-    def title
+    def accessibility_label_text
       I18n.t('js.calendar.create_new')
     end
 
-    def aria_label
+    def label_text
       I18n.t(:label_calendar)
-    end
-
-    def link_css_class
-      'button -alt-highlight'
-    end
-
-    def label
-      content_tag(:span,
-                  I18n.t(:label_calendar),
-                  class: 'button--text')
-    end
-
-    def icon
-      helpers.op_icon('button--icon icon-add')
     end
   end
 end
