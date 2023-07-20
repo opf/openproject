@@ -160,7 +160,7 @@ module API::V3::WorkPackages::EagerLoading
     end
 
     def available_custom_fields
-      # The Journable::WithHistoricAttributes#load_customizable_journals loads the historic
+      # The Journable::WithHistoricAttributes#load_custom_values loads the historic
       # Journal::CustomizableJournal objects and they are being dubbed as custom values.
       # The custom_values contain only the historic Journal::CustomizableJournal objects
       # that were available on the WorkPackage at the timestamp we are looking at.

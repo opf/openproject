@@ -27,6 +27,12 @@
 # ++
 
 class Journable::WithHistoricAttributes
+  class << self
+    def load_custom_values(journalized)
+      Loader.new(journalized).load_custom_values
+    end
+  end
+
   class Loader
     def initialize(journables)
       @journables = Array(journables)
@@ -54,6 +60,16 @@ class Journable::WithHistoricAttributes
       @work_package_ids_of_query_at_timestamp[query][timestamp]
     end
 
+    def load_custom_values(journalized = journables)
+      journals_by_id = load_journals_by_id(journalized.map(&:journal_id))
+
+      journalized.each do |work_package|
+        journal = journals_by_id[work_package.journal_id]
+        set_custom_value_association_from_journal!(work_package:, journal:)
+      end
+      journalized
+    end
+
     private
 
     def work_package_ids_of_query_at_timestamp_calculation(query, timestamp)
@@ -74,9 +90,9 @@ class Journable::WithHistoricAttributes
       @currently_invisible_journables ||= journables - currently_visible_journables
     end
 
-    def journalized_at_timestamp(t)
-      journalized = (currently_invisible_journalized_at_timestamp(t) + currently_visible_journalized_at_timestamp(t))
-      load_customizable_journals(journalized)
+    def journalized_at_timestamp(tms)
+      journalized = (currently_invisible_journalized_at_timestamp(tms) + currently_visible_journalized_at_timestamp(tms))
+      load_custom_values(journalized)
     end
 
     def currently_invisible_journalized_at_timestamp(timestamp)
@@ -91,31 +107,29 @@ class Journable::WithHistoricAttributes
       journables.first.class
     end
 
-    attr_accessor :journables
-
-    def load_customizable_journals(journalized)
-      journals_by_id = Journal
-        .where(id: journalized.map(&:journal_id))
+    def load_journals_by_id(journal_ids)
+      Journal
+        .where(id: journal_ids)
         .includes({ customizable_journals: :custom_field })
         .index_by(&:id)
-
-      journalized.each do |work_package|
-        journal = journals_by_id[work_package.journal_id]
-        work_package.association(:journals).loaded!
-        work_package.association(:journals).target = Array(journal)
-
-        # Build the associated customizable_journals as custom values, this way the historic work packages
-        # will behave just as the normal ones. Additionally set the reverse customized association
-        # on the custom_values that points to the work_package itself.
-        historic_custom_values = Array(journal&.customizable_journals).map do |customizable_journal|
-          customizable_journal.as_custom_value(customized: work_package)
-        end
-
-        work_package.association(:custom_values).loaded!
-        work_package.association(:custom_values).target = historic_custom_values
-      end
-      journalized
     end
+
+    def set_custom_value_association_from_journal!(work_package:, journal:)
+      work_package.association(:journals).loaded!
+      work_package.association(:journals).target = Array(journal)
+
+      # Build the associated customizable_journals as custom values, this way the historic work packages
+      # will behave just as the normal ones. Additionally set the reverse customized association
+      # on the custom_values that points to the work_package itself.
+      historic_custom_values = Array(journal&.customizable_journals).map do |customizable_journal|
+        customizable_journal.as_custom_value(customized: work_package)
+      end
+
+      work_package.association(:custom_values).loaded!
+      work_package.association(:custom_values).target = historic_custom_values
+    end
+
+    attr_accessor :journables
   end
   private_constant :Loader
 end
