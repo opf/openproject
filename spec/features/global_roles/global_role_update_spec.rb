@@ -26,10 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Roles
-  class SetAttributesService < ::BaseServices::SetAttributes
-    def set_default_attributes(*)
-      model.permissions = Role.non_member.permissions if model.permissions.blank?
+require 'spec_helper'
+
+RSpec.describe 'Role updating', js: true, with_cuprite: true do
+  let!(:admin) { create(:admin) }
+
+  before do
+    login_as admin
+  end
+
+  context 'with a global role' do
+    let!(:role) { create(:global_role, permissions: %i[manage_user add_project]) }
+
+    it 'allows removing permissions' do
+      expect do
+        visit edit_role_path(role)
+        uncheck 'Create project'
+
+        click_button 'Save'
+
+        role.reload
+      end.to change(role, :permissions).from(%i[manage_user add_project]).to([:manage_user])
     end
   end
 end
