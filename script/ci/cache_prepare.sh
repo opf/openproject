@@ -37,7 +37,7 @@ run() {
   eval $2;
 }
 
-run "bundle exec rake db:create db:migrate webdrivers:chromedriver:update webdrivers:geckodriver:update"
+run "bundle exec rake db:create db:migrate webdrivers:chromedriver:update[114.0.5735.90] webdrivers:geckodriver:update"
 
 run "cd frontend; npm install ; cd -"
 
