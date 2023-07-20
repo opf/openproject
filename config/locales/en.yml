@@ -2949,7 +2949,6 @@ en:
     empty: "(empty)"
     enable_type_in_project: 'Enable type "%{type}"'
     new_color: "New color"
-    no_timeline_for_id: "There is no timeline with ID %{id}."
     notice_successful_deleted_all_elements: "Successfully deleted all elements"
     outline: "Reset Outline"
     outlines:
