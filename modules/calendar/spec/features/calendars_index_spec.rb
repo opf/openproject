@@ -115,8 +115,8 @@ RSpec.describe 'Calendars', 'index', :js, :with_cuprite do
     end
 
     context 'with permissions to globally manage calendars' do
-      it 'shows no create button' do
-        calendars_page.expect_no_create_button
+      it 'shows the create new button' do
+        calendars_page.expect_create_button
       end
     end
 
