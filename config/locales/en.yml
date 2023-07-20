@@ -2945,7 +2945,6 @@ en:
       color: "Color"
       colors: "Colors"
     color_could_not_be_saved: "Color could not be saved"
-    current_planning: "Current planning"
     dates: "Dates"
     dates_are_calculated_based_on_sub_elements: "Dates are calculated based on sub elements."
     delete_all: "Delete all"
