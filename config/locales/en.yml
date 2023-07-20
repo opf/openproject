@@ -2944,7 +2944,6 @@ en:
     admin_menu:
       color: "Color"
       colors: "Colors"
-    button_delete_all: "Delete all"
     change: "Change in planning"
     children: "Child elements"
     color_could_not_be_saved: "Color could not be saved"
