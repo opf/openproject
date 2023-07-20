@@ -123,6 +123,10 @@ class UserPreference < ApplicationRecord
     settings[:comments_sorting] = to_boolean(value) ? 'desc' : 'asc'
   end
 
+  def theme
+    super.presence || Setting.user_default_theme
+  end
+
   def time_zone
     super.presence || Setting.user_default_timezone.presence
   end

@@ -20,10 +20,14 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+
+$loading-indicator-bg-color: var(--body-background)
+$loading-indicator-spinner-color: var(--primary-color)
+
 .loading-indicator--background
   @include overlay-background
-  background: var(--loading-indicator-bg-color)
-  opacity: var(--loading-indicator-bg-opacity)
+  background: $loading-indicator-bg-color
+  opacity: 0.8
 
 // Ensure loading indicator is rendered correctly in each location
 .loading-indicator--location
@@ -37,13 +41,13 @@
   font-size: 10px
 
   [class^='block-']
-    background-color: var(--loading-indicator-spinner-color)
+    background-color: $loading-indicator-spinner-color
     height: 100%
     width: 6px
     display: inline-block
     animation: block-waveStretchDelay 1.2s infinite ease-in-out
     margin: 0 1px
-    
+
   .block-1
     animation-delay: -1.2s
   .block-2

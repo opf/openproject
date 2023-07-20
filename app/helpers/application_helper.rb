@@ -130,9 +130,12 @@ module ApplicationHelper
   end
 
   def render_flash_message(type, message, html_options = {})
+    if type.to_s == 'notice'
+      type = 'success'
+    end
     toast_css_classes = ["op-toast -#{type}", html_options.delete(:class)]
     # Add autohide class to notice flashes if configured
-    if type.to_s == 'notice' && User.current.pref.auto_hide_popups?
+    if type.to_s == 'success' && User.current.pref.auto_hide_popups?
       toast_css_classes << 'autohide-toaster'
     end
     html_options = { class: toast_css_classes.join(' '), role: 'alert' }.merge(html_options)
@@ -326,22 +329,6 @@ module ApplicationHelper
     mode, _theme_suffix = User.current.pref.theme.split("_", 2)
     "data-color-mode=\"#{mode}\" data-#{mode}-theme=\"#{User.current.pref.theme}\"".html_safe
   end
-
-  def theme_options_for_select
-    [
-      [t('themes.light'), 'light'],
-      [t('themes.light_high_contrast'), 'light_high_contrast'],
-      [t('themes.dark'), 'dark'],
-      [t('themes.dark_dimmed'), 'dark_dimmed'],
-      [t('themes.dark_high_contrast'), 'dark_high_contrast']
-    ]
-  end
-
-  def user_theme_data_attributes
-    mode, _theme_suffix = User.current.pref.theme.split("_", 2)
-    "data-color-mode=\"#{mode}\" data-#{mode}-theme=\"#{User.current.pref.theme}\"".html_safe
-  end
-  
   def highlight_default_language(lang_options)
     lang_options.map do |(language_name, code)|
       if code == Setting.default_language

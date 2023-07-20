@@ -30,6 +30,7 @@ import {
   Injector,
   NgModule,
 } from '@angular/core';
+import { OpPlusIcon } from '@openproject/octicons-angular';
 import { A11yModule } from '@angular/cdk/a11y';
 import { UIRouterGlobals } from '@uirouter/core';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -145,6 +146,8 @@ export function bootstrapModule(injector:Injector):void {
     AttributeHelpTextModule,
     FullCalendarModule,
     OpDatePickerModule,
+
+    OpPlusIcon,
   ],
   exports: [
     // Re-export all commonly used
@@ -212,6 +215,8 @@ export function bootstrapModule(injector:Injector):void {
     OpMultiDatePickerComponent,
 
     OpNonWorkingDaysListComponent,
+
+    OpPlusIcon,
   ],
   providers: [
     CopyToClipboardService,

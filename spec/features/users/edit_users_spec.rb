@@ -112,7 +112,7 @@ RSpec.describe 'edit users', js: true, with_cuprite: true do
 
       click_on 'Save'
 
-      expect(page).to have_selector('.flash.notice', text: 'Successful update.')
+      expect(page).to have_selector('.op-toast.-success', text: 'Successful update.')
 
       user.reload
 
@@ -125,7 +125,7 @@ RSpec.describe 'edit users', js: true, with_cuprite: true do
 
       click_on 'Send invitation'
 
-      expect(page).to have_selector('.flash.notice', text: 'An invitation has been sent to foo@example.com')
+      expect(page).to have_selector('.op-toast.-success', text: 'An invitation has been sent to foo@example.com')
     end
   end
 end

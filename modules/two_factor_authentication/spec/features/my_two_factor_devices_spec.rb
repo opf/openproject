@@ -56,7 +56,7 @@ RSpec.describe 'My Account 2FA configuration',
 
     expect(page).to have_selector('h2', text: I18n.t('two_factor_authentication.devices.confirm_device'))
     expect(page).to have_selector('input#otp')
-    expect(page).to have_selector('.flash.error',
+    expect(page).to have_selector('.op-toast.-error',
                                   text: I18n.t('two_factor_authentication.devices.registration_failed_token_invalid'))
 
     # Fill in correct token

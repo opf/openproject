@@ -25,6 +25,7 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
+$button--text-icon-spacing: 0.65em
 
 /// Taken from Foundation for Apps
 %button
@@ -46,8 +47,6 @@
 .button,
 a.button
   @extend %button
-  @include button-size(medium)
-  @include button-expand(false)
   @include button-style(var(--button--background-color), var(--button--background-hover-color), var(--button--font-color))
   border: 1px solid var(--button--border-color)
 
@@ -60,12 +59,9 @@ a.button
   &.-disabled
     @include button-disabled
 
-  &:hover
-    text-decoration: none
-
   &.-with-icon
     &::before
-      padding: 0 var(--button--text-icon-spacing) 0 0
+      padding: 0 $button--text-icon-spacing 0 0
 
   &.-danger
     background: var(--content-form-danger-zone-bg-color)
@@ -161,7 +157,7 @@ a.button
 .button--text + .button--icon,
 .op-icon--wrapper + .button--text,
 .button--text + .op-icon--wrapper
-  margin: 0 0 0 var(--button--text-icon-spacing)
+  margin: 0 0 0 $button--text-icon-spacing
 
 // Hack as Lato font on Win Chrome draws about a pixel too high
 html.-browser-windows.-browser-chrome
@@ -181,7 +177,7 @@ html.-browser-windows.-browser-chrome
 .toolbar-item
   .button[class*='icon-']
     &:before
-      margin-right: var(--button--text-icon-spacing)
+      margin-right: $button--text-icon-spacing
 
 // Button class to use as a link-like submit button
 .button--link

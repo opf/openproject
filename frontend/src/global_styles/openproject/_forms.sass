@@ -48,11 +48,6 @@ $form-padding: 0.5rem !default
 
 // Text fields
 $input-color: #000 !default
-$input-color-hover: $input-color !default
-$input-color-focus: $input-color !default
-$input-background: #fff !default
-$input-background-hover: $input-background !default
-$input-background-focus: $input-background !default
 $input-border: 1px solid #ccc !default
 $input-border-hover: 1px solid #bbb !default
 $input-border-focus: 1px solid #999 !default
@@ -67,11 +62,8 @@ $inlinelabel-background: #eee !default
 $inlinelabel-border: $input-border !default
 
 // Select menus
-$select-color: #000 !default
-$select-background: #fafafa !default
-$select-background-hover: smartscale($select-background, 4%) !default
 $select-arrow: true !default
-$select-arrow-color: $select-color !default
+$select-arrow-color: #000 !default
 
 // Text fields
 // - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -88,21 +80,11 @@ $select-arrow-color: $select-color !default
   margin: 0 0 1rem 0
   border: $input-border
   border-radius: 2px
-  background: $input-background
+  background-color: transparent
   color: $input-color
   font-size: $form-fontsize
   -webkit-font-smoothing: antialiased
   vertical-align: middle
-
-  &:hover
-    border: $input-border-hover
-    background: $input-background-hover
-    color: $input-color-hover
-
-  &:focus
-    border: $input-border-focus
-    background: $input-background-focus
-    color: $input-color-focus
 
   label > &
     margin-top: $form-label-margin
@@ -168,25 +150,16 @@ select
   $top-padding: get-side($form-padding, top)
   $bottom-padding: get-side($form-padding, bottom)
   $height: ($form-fontsize * 1.4) + $top-padding + $bottom-padding
-  $color: is-light($select-background)
 
   @include no-appearance
   display: block
   width: 100%
   height: $height
   padding: $form-padding
-  color: $select-color
   border-radius: 0
   border: $input-border
 
   @if $select-arrow
-    background: $select-background url(image-triangle($select-arrow-color)) right 10px center no-repeat
+    background: transparent url(image-triangle($select-arrow-color)) right 10px center no-repeat
     background-size: 8px 8px
     padding-right: rem-calc(18px) + $form-padding
-
-  @else
-    background-color: $select-background
-
-
-    &:hover
-      background-color: $select-background-hover

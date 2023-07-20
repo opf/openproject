@@ -140,7 +140,7 @@ function activateFlash(selector:any) {
 }
 
 function activateFlashNotice() {
-  activateFlash('.flash');
+  activateFlash('.op-toast');
 }
 
 function activateFlashError() {

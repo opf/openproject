@@ -91,7 +91,7 @@ RSpec.describe 'form configuration', js: true do
 
         # Save configuration
         form.save_changes
-        expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+        expect(page).to have_selector('.op-toast.-success', text: 'Successful update.', wait: 10)
 
         form.expect_empty
 
@@ -169,7 +169,7 @@ RSpec.describe 'form configuration', js: true do
 
         # Save configuration
         form.save_changes
-        expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+        expect(page).to have_selector('.op-toast.-success', text: 'Successful update.', wait: 10)
 
         # Expect configuration to be correct now
         form.expect_no_attribute('assignee', 'Cool Stuff')
@@ -266,7 +266,7 @@ RSpec.describe 'form configuration', js: true do
         form.expect_attribute(key: cf_identifier)
 
         form.save_changes
-        expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+        expect(page).to have_selector('.op-toast.-success', text: 'Successful update.', wait: 10)
       end
     end
 
@@ -296,7 +296,7 @@ RSpec.describe 'form configuration', js: true do
         form.expect_attribute(key: cf_identifier)
 
         form.save_changes
-        expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+        expect(page).to have_selector('.op-toast.-success', text: 'Successful update.', wait: 10)
       end
 
       context 'if inactive in project' do
