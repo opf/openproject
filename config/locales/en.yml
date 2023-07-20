@@ -2949,7 +2949,6 @@ en:
     empty: "(empty)"
     enable_type_in_project: 'Enable type "%{type}"'
     new_color: "New color"
-    outline: "Reset Outline"
     outlines:
       aggregation: "Show aggregations only"
       level1: "Expand level 1"
