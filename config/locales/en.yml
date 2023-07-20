@@ -2949,7 +2949,6 @@ en:
     empty: "(empty)"
     enable_type_in_project: 'Enable type "%{type}"'
     new_color: "New color"
-    new_reporting: "New reporting"
     new_timeline: "New timeline report"
     no_projects_for_reporting_available: "There are no projects to which a reporting association can be created."
     no_right_to_view_timeline: "You do not have the necessary permission to view the linked timeline."
