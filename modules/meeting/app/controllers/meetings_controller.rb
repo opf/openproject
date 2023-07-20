@@ -60,7 +60,7 @@ class MeetingsController < ApplicationController
       .distinct
 
     @discussed_agenda_items = @active_work_package.meeting_agenda_items.where.not(output: "")
-    @open_agenda_items = @active_work_package.meeting_agenda_items.where(output: "")
+    @open_agenda_items = @active_work_package.meeting_agenda_items.where(output: "").where.not(input: "")
 
     render layout: false
   end

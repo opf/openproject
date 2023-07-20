@@ -114,6 +114,11 @@ module MeetingAgendaItems
         # flex.with_row do
         #   meta_info_partial
         # end
+        if @meeting_agenda_item.details.present?
+          flex.with_row do
+            details_partial
+          end
+        end
         if @meeting_agenda_item.input.present?
           flex.with_row do
             input_partial
@@ -153,6 +158,21 @@ module MeetingAgendaItems
             lang: :en,
             datetime: @meeting_agenda_item.created_at,
           ))
+        end
+      end
+    end
+
+    def details_partial
+      flex_layout do |flex|
+        flex.with_row do
+          render(Primer::Beta::Text.new(font_size: :small)) do 
+            "Details:" 
+          end 
+        end
+        flex.with_row do
+          render(Primer::Box.new(font_size: :small, color: :muted)) do 
+            simple_format(@meeting_agenda_item.details, {}, wrapper_tag: "span")
+          end 
         end
       end
     end

@@ -74,6 +74,9 @@ module MeetingAgendaItems
                 end
               end
             end
+            flex.with_row(mt: 2, data: { "meeting-agenda-item-form-target": "detailsInput" }, display: display_details_input_value) do
+              render(MeetingAgendaItem::New::Details.new(f))
+            end
             flex.with_row(mt: 2, data: { "meeting-agenda-item-form-target": "clarificationNeedInput" }, display: display_clarification_need_input_value) do
               render(MeetingAgendaItem::New::ClarificationNeed.new(f))
             end
@@ -115,6 +118,10 @@ module MeetingAgendaItems
       @meeting_agenda_item.work_package.nil? ? :none : nil
     end
 
+    def display_details_input_value
+      @meeting_agenda_item.details.blank? ? :none : nil
+    end
+
     def display_clarification_need_input_value
       @meeting_agenda_item.input.blank? ? :none : nil
     end
@@ -124,9 +131,10 @@ module MeetingAgendaItems
     end
 
     def action_menu_partial
-      if @meeting_agenda_item.input.blank? || @meeting_agenda_item.output.blank?
+      if @meeting_agenda_item.details.blank? || @meeting_agenda_item.input.blank? || @meeting_agenda_item.output.blank?
         render(Primer::Alpha::ActionMenu.new(menu_id: "new-meeting-agenda-item-additional-fields-menu")) do |menu| 
           menu.with_show_button { |button| button.with_trailing_action_icon(icon: :"triangle-down"); "Add" }
+          menu.with_item(label: "Details", data: { action: 'click->meeting-agenda-item-form#addDetails keydown.enter->meeting-agenda-item-form#addDetails' }) if @meeting_agenda_item.details.blank?
           menu.with_item(label: "Clarification need", data: { action: 'click->meeting-agenda-item-form#addClarificationNeed keydown.enter->meeting-agenda-item-form#addClarificationNeed' }) if @meeting_agenda_item.input.blank?
           menu.with_item(label: "Clarification", data: { action: 'click->meeting-agenda-item-form#addClarification keydown.enter->meeting-agenda-item-form#addClarifciation' }) if @meeting_agenda_item.output.blank?
         end

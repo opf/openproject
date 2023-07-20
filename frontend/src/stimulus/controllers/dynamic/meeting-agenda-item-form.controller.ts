@@ -37,10 +37,11 @@ export default class extends Controller {
   }
   declare cancelUrlValue: string
 
-  static targets = [ "titleInput", "clarificationNeedInput", "clarificationInput", "workPackageInput", "workPackageButton"]
+  static targets = [ "titleInput", "clarificationNeedInput", "clarificationInput", "workPackageInput", "workPackageButton", "detailsInput"]
   declare readonly titleInputTarget: HTMLInputElement
   declare readonly clarificationNeedInputTarget: HTMLInputElement
   declare readonly clarificationInputTarget: HTMLInputElement
+  declare readonly detailsInputTarget: HTMLInputElement
   declare readonly workPackageInputTarget: HTMLInputElement
   declare readonly workPackageButtonTarget: HTMLInputElement
 
@@ -88,6 +89,16 @@ export default class extends Controller {
   async addClarification() {
     this.clarificationInputTarget.classList.remove("d-none");
     const textarea = this.element.querySelector('textarea[name="meeting_agenda_item[output]"]');
+    setTimeout(() => {
+      if(textarea) {
+        (textarea as HTMLInputElement).focus();
+      }
+    }, 100);
+  }
+
+  async addDetails() {
+    this.detailsInputTarget.classList.remove("d-none");
+    const textarea = this.element.querySelector('textarea[name="meeting_agenda_item[details]"]');
     setTimeout(() => {
       if(textarea) {
         (textarea as HTMLInputElement).focus();

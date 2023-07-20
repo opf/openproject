@@ -26,18 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class MeetingAgendaItem::New::Submit < ApplicationForm
+class MeetingAgendaItem::New::Details < ApplicationForm
   form do |agenda_item_form|
-    unless @preselected_work_package&.id.nil?
-      agenda_item_form.hidden(name: :work_package_id, value: @preselected_work_package&.id)
-    end
-    agenda_item_form.group(layout: :horizontal) do |button_group|
-      button_group.button(name: :button, label: "Cancel", data: { action: 'click->meeting-agenda-item-form#cancel' })
-      button_group.submit(name: :submit, label: "Submit", scheme: :primary)
-    end
-  end
-
-  def initialize(preselected_work_package: nil)
-    @preselected_work_package = preselected_work_package
+    agenda_item_form.text_area(
+      name: :details,
+      label: "Details",
+      autofocus: true,
+    )
   end
 end
