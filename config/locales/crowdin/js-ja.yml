@@ -23,12 +23,12 @@ ja:
   js:
     ajax:
       hide: "非表示"
-      loading: "Loading…"
-      updating: "Updating…"
+      loading: "読み込み中…"
+      updating: "更新中..."
     attachments:
-      delete: "Delete attachment"
+      delete: "添付ファイルを削除"
       delete_confirmation: |
-        Are you sure you want to delete this file? This action is not reversible.
+        本当に、このファイルを削除してもよろしいですか? この操作は元に戻すことができません。
       draggable_hint: |
         インライン画像または参照添付ファイルをエディタ領域にドラッグします。
         ドラッグしつづけると閉じられたエディタ領域が開きます。
@@ -66,7 +66,7 @@ ja:
     button_confirm: "確認"
     button_continue: "続行"
     button_copy: "コピー"
-    button_copy_to_other_project: "Copy to other project"
+    button_copy_to_other_project: "他のプロジェクトにコピー"
     button_custom-fields: "カスタムフィールド"
     button_delete: "削除"
     button_delete_watcher: "ウォッチャーを削除"
@@ -87,9 +87,9 @@ ja:
     button_show_cards: "カードビュー表示"
     button_show_list: "リストビュー表示"
     button_show_table: "Show table view"
-    button_show_gantt: "Show Gantt view"
-    button_show_fullscreen: "Show fullscreen view"
-    button_more_actions: "More actions"
+    button_show_gantt: "ガントビューを表示"
+    button_show_fullscreen: "全画面表示"
+    button_more_actions: "その他の操作"
     button_quote: "引用"
     button_save: "保存"
     button_settings: "設定"
@@ -134,7 +134,7 @@ ja:
       preview: 'プレビューモードの切り替え'
       source_code: 'Markdown ソースモードの切り替え'
       error_saving_failed: '次のエラーで文書を保存するのに失敗しました: %{error}'
-      ckeditor_error: 'An error occurred within CKEditor'
+      ckeditor_error: 'CKEditor内でエラーが発生しました'
       mode:
         manual: 'Markdownソースに切り替える'
         wysiwyg: 'WYSIWYGエディタに切り替えます'
@@ -159,7 +159,7 @@ ja:
           language_hint: '強調表示に使用する言語の書式を入力します（サポートされている場合）。'
         dropdown:
           macros: 'マクロ'
-          chose_macro: 'Choose macro'
+          chose_macro: 'マクロを選択'
         toc: '目次'
         toolbar_help: 'クリックしてウィジェットを選択しツールバーを表示します。 ダブルクリックしてウィジェットを編集'
         wiki_page_include:
@@ -258,10 +258,10 @@ ja:
           empty_state_header: "Non-working days"
           empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
           new_date: '(new)'
-        add_non_working_day: "Non-working day"
+        add_non_working_day: "休業日"
         already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
         change_button: "Save and reschedule"
-        change_title: "Change working days"
+        change_title: "営業日を変更する"
         removed_title: "You will remove the following days from the non-working days list:"
         change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
         warning: >
@@ -423,7 +423,7 @@ ja:
     label_per_page: "1 ページあたり"
     label_please_wait: "しばらくお待ちください"
     label_project: "プロジェクト"
-    label_project_list: "Projects list"
+    label_project_list: "プロジェクト一覧"
     label_project_plural: "プロジェクト"
     label_visibility_settings: "表示の設定"
     label_quote_comment: "このコメントを引用"
@@ -479,15 +479,15 @@ ja:
     label_unwatch_work_package: "作業項目のウォッチを削除"
     label_uploaded_by: "アップロードした人"
     label_default_queries: "既定の項目"
-    label_starred_queries: "Favorite"
+    label_starred_queries: "お気に入り"
     label_global_queries: "公開"
-    label_custom_queries: "Private"
+    label_custom_queries: "非公開"
     label_columns: "列"
     label_attachments: 添付ファイル
     label_drop_files: "Drop files here to attach files."
     label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: フォルダを添付ファイルとしてアップロードすることはできません。 単一のファイルを選択してください。
-    label_add_attachments: "Attach files"
+    label_add_attachments: "ファイルを添付"
     label_formattable_attachment_hint: "このフィールドにドロップ、またはクリップボードから貼り付けて、ファイルを添付およびリンクします。"
     label_remove_file: "%{fileName}を削除"
     label_remove_watcher: "ウォッチャー%{name}を削除"

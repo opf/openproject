@@ -70,7 +70,7 @@ cs:
         text: "Are you sure you want to remove the current Enterprise edition token used?"
         title: "Odstranit Token"
       replace_token: "Nahradit aktuální podpůrný token"
-      order: "Order Enterprise on-premises edition"
+      order: "Objednat Enterprise Edici"
       paste: "Paste your Enterprise edition support token"
       required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "Pro více informací klikněte zde."
@@ -292,7 +292,7 @@ cs:
     upsale:
       title: Placeholder uživatel
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
+        Placeholder uživatelé jsou způsob, jak přiřadit pracovní balíčky uživatelům, kteří nejsou součástí vašeho projektu. Mohou být užiteční v řadě scénářů; například, pokud potřebujete sledovat úkoly u zdroje, který ještě nejsou pojmenovány nebo dostupné, nebo pokud nechcete této osobě umožnit přístup k OpenProject ale stále chcete sledovat úkoly, které jim byly přiděleny.
   prioritiies:
     edit:
       priority_color_text: |
@@ -1359,9 +1359,9 @@ cs:
   error_cookie_missing: 'OpenProject cookie chybí. Ujistěte se, že jsou soubory cookie povoleny, protože aplikace nebude správně fungovat.'
   error_custom_option_not_found: "Nastavení neexistuje."
   error_enterprise_activation_user_limit: "Váš účet nebyl aktivován (dosažen limit počtu uživatelů). Prosím obraťte se na správce pro získání přístupu."
-  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_enterprise_token_invalid_domain: "Enterprise Edice není aktivní. Doména Enterprise tokenu (%{actual}) neodpovídá hostiteli systému (%{expected})."
   error_failed_to_delete_entry: 'Nepodařilo se odstranit tento záznam.'
-  error_in_dependent: "Chyba při pokusu o změnu závislého objektu: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Chyba při pokusu o změnu závislého objektu: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Chyba při pokusu o vytvoření závislého objektu: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Neplatná vybraná hodnota."
   error_journal_attribute_not_present: "Deník neobsahuje atribut %{attribute}."
@@ -2112,7 +2112,7 @@ cs:
         few: 'Existuje ještě %{count} pracovních balíčků s notifikacema.'
         many: 'Existuje ještě %{count} pracovních balíčků s notifikacema.'
         other: 'Existuje ještě %{count} pracovních balíčků s notifikacema.'
-      open_in_browser: 'Open in browser'
+      open_in_browser: 'Otevřít v prohlížeči'
       reason:
         watched: 'Sledováno'
         assigned: 'Přiřazen'
@@ -3043,8 +3043,8 @@ cs:
         working: "%{day} je pracovní "
         non_working: "%{day} je nepracovní "
       dates:
-        working: "%{date} is now working"
-        non_working: "%{date} is now non-working"
+        working: "%{day} je pracovní "
+        non_working: "%{day} je nepracovní "
   nothing_to_preview: "Nic pro náhled"
   api_v3:
     attributes:

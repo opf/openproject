@@ -493,7 +493,7 @@ lt:
     label_remove_all_files: Trinti visus failus
     label_add_description: "Pridėti %{file} aprašymą"
     label_upload_notification: "Įkeliami failai..."
-    label_work_package_upload_notification: "Įkelti failus darbų paketui #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Įkelti failus darbų paketui #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} pridėjo %{author}"
     label_files_to_upload: "Šie failai bus įkelti:"
     label_rejected_files: "Negalima įkelti šių failų:"

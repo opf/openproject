@@ -82,7 +82,7 @@ cs:
   label_costlog: "Logované jednotkové náklady"
   label_cost_plural: "Náklady"
   label_cost_type_plural: "Typy nákladů"
-  label_cost_type_specific: "Typ nákladu #%{id}: %{name}" #%{id}: %{name}"
+  label_cost_type_specific: "Typ nákladu #%{id}: %{name}"
   label_costs_per_page: "Náklady na stránku"
   label_currency: "Měna"
   label_currency_format: "Formát měny"

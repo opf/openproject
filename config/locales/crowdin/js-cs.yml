@@ -212,7 +212,7 @@ cs:
             label_expires_at: "Vyprší v"
             receive_newsletter: Chci dostávat<a target="_blank" href="%{link}">newsletter OpenProject</a>.
             taken_domain: V každé doméně může být pouze jedna aktivní zkušební verze.
-            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
+            domain_mismatch: Aktuální název hostitele se neshoduje s nakonfigurovaným názvem hostitele. Zkontrolujte prosím nastavení systému.
             taken_email: Každý uživatel může vytvořit pouze jednu zkušební verzi.
           email_not_received: "Neobdrželi jste e-mail? Můžete znovu odeslat e-mail s odkazem vpravo."
           try_another_email: "Nebo to zkuste s jinou e-mailovou adresou."
@@ -249,7 +249,7 @@ cs:
           link_quote: "Získat cenovou nabídku"
           more_info: "Více informací"
           text: >
-            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+            OpenProject Enterprise Edition je postavena na komunitní edici. Obsahuje prémiové funkce a profesionální podporu zaměřenou především na organizace s více než 10 uživateli, kteří spravují kritické projekty
           unlimited: "Bez omezení"
           you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
       working_days:
@@ -567,7 +567,7 @@ cs:
         property_was: 'was %{difference_in_days} ago'
         property_is_deleted: 'byl smazán'
         upsale:
-          title: 'Date alerts'
+          title: 'Upozornění na datum'
           description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
       facets:
         unread: 'Nepřečtené'
@@ -634,13 +634,13 @@ cs:
           work_package_scheduled: 'Všechny změny data'
         global:
           immediately:
-            title: 'Participating'
+            title: 'Účast'
             description: 'Upozornění pro všechny aktivity v pracovních balíčcích, do kterých jste zapojeni (Řešitel, odpovědný nebo sledující).'
           delayed:
-            title: 'Non-participating'
+            title: 'Neúčast'
             description: 'Další oznámení pro činnosti ve všech projektech.'
           date_alerts:
-            title: 'Date alerts'
+            title: 'Upozornění na datum'
             description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
             teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
           overdue: Po termínu
@@ -815,7 +815,7 @@ cs:
         farRight: 'Dále vpravo'
         showNone: '-- Bez popisku --'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+          Vyberte atributy, které chcete zobrazit v příslušných pozicích Ganttova diagramu. Všimněte si, že při najetí kursorem myši budou místo těchto atributů zobrazeny jeho popisky s daty.
       button_activate: 'Zobrazit Ganttův diagram'
       button_deactivate: 'Skrýt Ganttův diagram'
       cancel: Zrušit

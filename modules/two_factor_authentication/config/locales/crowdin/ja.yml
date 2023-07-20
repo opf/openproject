@@ -73,7 +73,7 @@ ja:
       text_2fa_disabled: "ユーザーは2FAデバイスを「マイアカウントページ」から設定していません"
     upsale:
       title: '2要素認証'
-      description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
+      description: 'すべてのプロジェクトメンバーに2要素認証を提供(または強制)することで、OpenProjectインスタンスのセキュリティを強化します。'
     backup_codes:
       none_found: このアカウントのバックアップコードはありません。
       singular: バックアップコード
