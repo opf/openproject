@@ -2948,7 +2948,6 @@ en:
     edit_color: "Edit color"
     empty: "(empty)"
     enable_type_in_project: 'Enable type "%{type}"'
-    end: "End"
     errors:
       not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
       report_comparison: "The timeline could not render the configured comparisons. Please check the appropriate section in the configuration, resetting it can help solve this problem."
