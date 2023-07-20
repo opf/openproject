@@ -2944,7 +2944,6 @@ en:
     admin_menu:
       color: "Color"
       colors: "Colors"
-    associations: "Dependencies"
     button_delete_all: "Delete all"
     change: "Change in planning"
     children: "Child elements"
