@@ -61,7 +61,16 @@ class Journable::WithHistoricAttributes
     end
 
     def load_custom_values(journalized = journables)
-      journals_by_id = load_journals_by_id(journalized.map(&:journal_id))
+      journal_ids = begin
+        journalized.map(&:journal_id)
+      rescue NoMethodError
+        raise ArgumentError,
+              'The provided journalized items do not have a journal_id included. ' \
+              'Please load them via any of the Journable::Timestamps#at_timestamp method. ' \
+              'ie: WorkPackage.at_timestamp(1.day.ago) or WorkPackage.find(1).at_timestamp(1.day.ago)'
+      end
+
+      journals_by_id = load_journals_by_id(journal_ids)
 
       journalized.each do |work_package|
         journal = journals_by_id[work_package.journal_id]
