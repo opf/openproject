@@ -30,28 +30,11 @@
 
 module Calendar
   module Views
-    class GlobalCreateService < ::Queries::CreateService
-      def initialize(user:,
-                     contract_class: Calendar::Views::GlobalCreateContract,
-                     contract_options: nil)
-        super
-      end
-
-      def after_perform(call)
-        create_view_from_query(call)
-      end
-
-      def instance_class
-        ::Query
-      end
-
+    class GlobalCreateService < ::Views::GlobalCreateService
       private
 
-      def create_view_from_query(call)
-        view_params = { query_id: call.result.id, type: 'work_packages_calendar' }
-
-        ::Views::CreateService.new(user: @user)
-                              .call(view_params)
+      def view_type
+        'work_packages_calendar'
       end
     end
   end

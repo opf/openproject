@@ -28,16 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Calendar
-  module Views
-    class GlobalCreateContract < ::Queries::CreateContract
-      validate :validate_project_present
+require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
+require 'contracts/queries/shared_contract_examples'
 
-      private
+RSpec.describe Queries::GlobalCreateContract do
+  include_context 'ModelContract shared context'
+  include_context 'with queries contract'
 
-      def validate_project_present
-        errors.add :project_id, :blank if model.project_id.blank?
-      end
+  describe 'validation' do
+    context 'if the project_id is nil' do
+      let(:project) { nil }
+
+      it_behaves_like 'contract is invalid', project_id: :blank
     end
   end
 end
