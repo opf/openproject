@@ -367,11 +367,11 @@ GEM
     crack (0.4.5)
       rexml
     crass (1.0.6)
+    css_parser (1.14.0)
+      addressable
     cuprite (0.14.3)
       capybara (~> 3.0)
       ferrum (~> 0.13.0)
-    css_parser (1.14.0)
-      addressable
     daemons (1.4.1)
     dalli (3.2.5)
     date (3.3.3)
@@ -1184,4 +1184,4 @@ RUBY VERSION
    ruby 3.2.1p31
 
 BUNDLED WITH
-   2.4.6
+   2.4.7
