@@ -2946,7 +2946,6 @@ en:
       colors: "Colors"
     color_could_not_be_saved: "Color could not be saved"
     edit_color: "Edit color"
-    delete_timeline: "Delete timeline report %{timeline}"
     empty: "(empty)"
     enable_type_in_project: 'Enable type "%{type}"'
     end: "End"
