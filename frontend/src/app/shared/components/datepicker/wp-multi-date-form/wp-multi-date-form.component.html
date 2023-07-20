@@ -93,7 +93,7 @@
           [attr.data-qa-highlighted]=" showFieldAsActive('duration') || undefined"
           [ngClass]="{'op-datepicker-modal--date-field_current' : showFieldAsActive('duration')}"
           [ngModel]="durationFocused ? duration : displayedDuration"
-          [showClearButton]="durationFocused"
+          [showClearButton]="currentlyActivatedDateField === 'duration'"
           pattern="\d*"
           inputmode="numeric"
           (ngModelChange)="durationChanges$.next($event)"

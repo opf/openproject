@@ -215,6 +215,15 @@ module WorkPackage::PDFExport::Common
     options[:show_images]
   end
 
+  def build_pdf_filename(base)
+    suffix = "_#{title_datetime}.pdf"
+    "#{truncate(base, length: 255 - suffix.chars.length)}#{suffix}".gsub(' ', '-')
+  end
+
+  def title_datetime
+    DateTime.now.strftime('%Y-%m-%d_%H-%M')
+  end
+
   def current_page_nr
     pdf.page_number + @page_count
   end

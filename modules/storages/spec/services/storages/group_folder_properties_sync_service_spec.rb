@@ -319,9 +319,9 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
   # rubocop:disable RSpec/ExampleLength
   describe '#call' do
     it 'sets properties for project folders' do
-      storage = create(:storage,
+      storage = create(:nextcloud_storage,
+                       :as_automatically_managed,
                        host: 'https://example.com',
-                       has_managed_project_folders: true,
                        password: '12345678')
       projects_storage1 = create(:project_storage,
                                  project_folder_mode: 'automatic',

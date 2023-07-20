@@ -223,12 +223,12 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
     query.project
   end
 
-  def title
-    # export filename expects to be "project.name - query.name"
-    "#{project ? "#{project} - #{heading}" : heading}.pdf"
-  end
-
   def heading
     query.name || I18n.t(:label_work_package_plural)
+  end
+
+  def title
+    # <project>_<querytitle>_<YYYY-MM-DD>_<HH-MM>.pdf
+    build_pdf_filename(project ? "#{project}_#{heading}" : heading)
   end
 end

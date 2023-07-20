@@ -39,6 +39,7 @@ module Storages::ProjectStorages
       # Perform the @object.destroy etc. in the super-class
       super(service_result).tap do |deletion_result|
         delete_associated_file_links if deletion_result.success?
+        Helper.trigger_nextcloud_synchronization(model.project_folder_mode)
       end
     end
 

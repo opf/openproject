@@ -73,7 +73,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
 
   showHiddenListWarning:boolean = false;
 
-  eeShowBanners = this.Banner.eeShowBanners;
+  needEnterpriseEdition = this.Banner.eeShowBanners;
 
   private currentQueryUpdatedMonitoring:Subscription;
 
@@ -107,6 +107,10 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
       .pipe(
         tap((board) => this.setupQueryUpdatedMonitoring(board)),
       );
+
+    this.board$.subscribe((board) => {
+      this.needEnterpriseEdition = this.Banner.eeShowBanners && !board.isFree;
+    });
 
     this.Boards.currentBoard$.next(id);
 
