@@ -28,8 +28,9 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Wysiwyg work package user mentions',
-               js: true do
+RSpec.describe 'Wysiwyg work package mentions',
+               :js,
+               :with_cuprite do
   let!(:user) { create(:admin, firstname: 'MeMyself', lastname: 'AndI', member_in_project: project) }
   let!(:user2) { create(:user, firstname: 'Foo', lastname: 'Bar', member_in_project: project) }
   let!(:group) { create(:group, firstname: 'Foogroup', lastname: 'Foogroup') }
@@ -60,10 +61,11 @@ RSpec.describe 'Wysiwyg work package user mentions',
   before do
     login_as(user)
     wp_page.visit!
-    wp_page.ensure_page_loaded
+    wait_for_reload
+    expect_angular_frontend_initialized
   end
 
-  it 'can autocomplete users and groups' do
+  it 'can autocomplete users, groups and emojis' do
     # Mentioning a user works
     comment_field.activate!
 
@@ -132,5 +134,16 @@ RSpec.describe 'Wysiwyg work package user mentions',
 
     expect(page)
       .to have_selector('a.mention', text: '@Foo Bar')
+
+    # Mentioning an emoji works
+    comment_field.activate!
+    comment_field.clear with_backspace: true
+    comment_field.input_element.send_keys(":thumbs")
+    expect(page).to have_selector('.mention-list-item', text: '👍 thumbs_up')
+    expect(page).to have_selector('.mention-list-item', text: '👎 thumbs_down')
+
+    page.find('.mention-list-item', text: '👍 thumbs_up').click
+
+    expect(page).to have_selector('span', text: '👍')
   end
 end
