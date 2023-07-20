@@ -355,8 +355,6 @@ security.pki.certificateFiles = [ path_to_root_ca.crt ];
 ```
 
 Then rebuild your system. After that the generated root CA should be inside `/etc/ssl/certs/ca-certificates.crt`.
-However, you cannot mount this directly into the containers, since it's just a link. Use `readlink -f` to find out where
-the link points in your nix store, and mount that file directly.
 
 ### Reverse proxy
 
