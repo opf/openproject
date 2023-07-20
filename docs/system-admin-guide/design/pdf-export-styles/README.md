@@ -1,7 +1,7 @@
 
 # PDF Export Styling yml
 
-This documents describes the styles settings format for the [PDF Export styling file](https://github.com/opf/openproject/blob/dev/app/models/work_package/pdf_export/standard.yml)
+This document describes the style settings format for the [PDF Export styling file](https://github.com/opf/openproject/blob/dev/app/models/work_package/pdf_export/standard.yml)
 
 | Key | Description | Data type |
 | - | - | - |
