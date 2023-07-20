@@ -2945,7 +2945,6 @@ en:
       color: "Color"
       colors: "Colors"
     color_could_not_be_saved: "Color could not be saved"
-    delete_all: "Delete all"
     delete_thing: "Delete"
     duration: "Duration"
     duration_days:
