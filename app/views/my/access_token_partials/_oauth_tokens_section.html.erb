@@ -39,7 +39,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% if granted_applications.any? %>
       <div class="generic-table--container">
         <div class="generic-table--results-container">
-          <table id="access-token-table" class="generic-table">
+          <table class="generic-table">
             <%= render  partial: "my/access_token_partials/token_table_header",
                         locals: { 
                           column_headers: [
@@ -53,7 +53,7 @@ See COPYRIGHT and LICENSE files for more details.
               <% granted_applications.each do |application, tokens| %>
                 <% latest = tokens.sort_by(&:created_at).last %>
                 <tr id="oauth-application-grant-<%= application.id %>">
-                  <td style="width: 60%;">
+                  <td style="width: 60%;" data-qa-selector="oauth-token-row-<%= application.id %>-name">
                     <%= t('oauth.application.named', name: application.name) %>
                     &nbsp;
                     (<%= t('oauth.x_active_tokens', count: tokens.count) %>)
@@ -68,7 +68,8 @@ See COPYRIGHT and LICENSE files for more details.
                    <%= link_to "",
                                 revoke_my_oauth_application_path(application_id: application.id),
                                 data: { confirm: t('oauth.revoke_my_application_confirmation',
-                                                        token_count: t('oauth.x_active_tokens', count: tokens.count)) },
+                                        token_count: t('oauth.x_active_tokens', count: tokens.count)),
+                                        qa_selector: "oauth-token-row-#{application.id}-revoke" },
                                 method: :post,
                                 class: 'icon icon-delete' %>
                   </td>
