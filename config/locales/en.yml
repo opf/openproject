@@ -2956,9 +2956,6 @@ en:
     really_delete_color: >
       Are you sure, you want to delete the following color?
       Types using this color will not be deleted.
-    really_delete_reporting: >
-      Are you sure, you want to delete the following reporting?
-      Previous reporting statuses will be deleted, too.
     start: "Start"
     timeline: "Timeline report"
     timelines: "Timeline reports"
