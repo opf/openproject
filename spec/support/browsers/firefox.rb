@@ -1,5 +1,4 @@
 # Force the latest version of geckodriver using the webdriver gem
-require 'webdrivers/geckodriver'
 require 'socket'
 
 def register_firefox(language, name: :"firefox_#{language}")
