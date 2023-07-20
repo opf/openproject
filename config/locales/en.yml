@@ -2956,7 +2956,6 @@ en:
     really_delete_color: >
       Are you sure, you want to delete the following color?
       Types using this color will not be deleted.
-    start: "Start"
     timeline: "Timeline report"
     timelines: "Timeline reports"
     settings: "Timelines"
