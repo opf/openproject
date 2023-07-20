@@ -2948,7 +2948,6 @@ en:
     edit_color: "Edit color"
     empty: "(empty)"
     enable_type_in_project: 'Enable type "%{type}"'
-    history: "History"
     new_color: "New color"
     new_association: "New dependency"
     new_work_package: "New work package"
