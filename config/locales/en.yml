@@ -2956,7 +2956,6 @@ en:
     really_delete_color: >
       Are you sure, you want to delete the following color?
       Types using this color will not be deleted.
-    timeline: "Timeline report"
     timelines: "Timeline reports"
     settings: "Timelines"
     vertical_work_package: "Vertical work packages"
