@@ -2949,10 +2949,6 @@ en:
     empty: "(empty)"
     enable_type_in_project: 'Enable type "%{type}"'
     new_color: "New color"
-    reporting_for_project:
-      show: "Status reported to project: %{title}"
-      edit_delete: "status report for project: %{title}"
-      history: "History for status for project: %{title}"
     reporting:
       delete: "Delete status: %{comment}"
       edit: "Edit status: %{comment}"
