@@ -2944,7 +2944,6 @@ en:
     admin_menu:
       color: "Color"
       colors: "Colors"
-    children: "Child elements"
     color_could_not_be_saved: "Color could not be saved"
     current_planning: "Current planning"
     dates: "Dates"
