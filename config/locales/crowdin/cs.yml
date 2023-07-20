@@ -70,7 +70,7 @@ cs:
         text: "Are you sure you want to remove the current Enterprise edition token used?"
         title: "Odstranit Token"
       replace_token: "Nahradit aktuální podpůrný token"
-      order: "Order Enterprise on-premises edition"
+      order: "Objednat Enterprise Edici"
       paste: "Paste your Enterprise edition support token"
       required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "Pro více informací klikněte zde."
@@ -275,14 +275,14 @@ cs:
   users:
     sessions:
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
-      browser: 'Browser'
-      device: 'Device / OS'
-      unknown_browser: 'unknown browser'
-      unknown_os: 'unknown operating system'
-      current: 'Current session'
-      title: 'Session management'
-      instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
-      may_not_delete_current: 'You cannot delete your current session.'
+      browser: 'Prohlížeč'
+      device: 'Zařízení / OS'
+      unknown_browser: 'neznámý prohlížeč'
+      unknown_os: 'neznámý operační systém'
+      current: 'Aktuální relace'
+      title: 'Správa relací'
+      instructions: 'Toto je seznam zařízení, která se přihlásila k vašemu účtu. Zrušit všechny relace, ke kterým nepoznáváte nebo k nimž již nemáte přístup.'
+      may_not_delete_current: 'Aktuální relaci nelze odstranit.'
     groups:
       member_in_these_groups: 'Tento uživatel je v současné době členem následujících skupin:'
       no_results_title_text: Tento uživatel není v současné době členem žádné skupiny.
@@ -301,7 +301,7 @@ cs:
     upsale:
       title: placeholder uživatel
       description: >
-        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
+        Placeholder uživatelé jsou způsob, jak přiřadit pracovní balíčky uživatelům, kteří nejsou součástí vašeho projektu. Mohou být užiteční v řadě scénářů; například, pokud potřebujete sledovat úkoly u zdroje, který ještě nejsou pojmenovány nebo dostupné, nebo pokud nechcete této osobě umožnit přístup k OpenProject ale stále chcete sledovat úkoly, které jim byly přiděleny.
   prioritiies:
     edit:
       priority_color_text: |
@@ -528,7 +528,7 @@ cs:
         hours: "Hodiny"
         spent_on: "Datum"
         type: "Typ"
-        ongoing: "Ongoing"
+        ongoing: "Probíhající"
       type:
         description: "Výchozí text pro popis"
         attribute_groups: ''
@@ -1080,7 +1080,7 @@ cs:
   button_continue: "Pokračovat"
   button_copy: "Kopírovat"
   button_copy_to_clipboard: "Kopírovat do schránky"
-  button_copy_link_to_clipboard: "Copy link to clipboard"
+  button_copy_link_to_clipboard: "Kopírovat odkaz do schránky"
   button_copy_and_follow: "Kopírovat a pokračovat"
   button_create: "Vytvořit"
   button_create_and_continue: "Vytvořit a pokračovat"
@@ -1339,9 +1339,9 @@ cs:
   error_cookie_missing: 'OpenProject cookie chybí. Ujistěte se, že jsou soubory cookie povoleny, protože aplikace nebude správně fungovat.'
   error_custom_option_not_found: "Nastavení neexistuje."
   error_enterprise_activation_user_limit: "Váš účet nebyl aktivován (dosažen limit počtu uživatelů). Prosím obraťte se na správce pro získání přístupu."
-  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_enterprise_token_invalid_domain: "Enterprise Edice není aktivní. Doména Enterprise tokenu (%{actual}) neodpovídá hostiteli systému (%{expected})."
   error_failed_to_delete_entry: 'Nepodařilo se odstranit tento záznam.'
-  error_in_dependent: "Chyba při pokusu o změnu závislého objektu: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Chyba při pokusu o změnu závislého objektu: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Chyba při pokusu o vytvoření závislého objektu: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Neplatná vybraná hodnota."
   error_journal_attribute_not_present: "Deník neobsahuje atribut %{attribute}."
@@ -1450,7 +1450,7 @@ cs:
   journals:
     changes_retracted: "Změny byly staženy."
     caused_changes:
-      dates_changed: "Dates changed"
+      dates_changed: "Data změněna"
     cause_descriptions:
       work_package_predecessor_changed_times: by changes to predecessor %{link}
       work_package_parent_changed_times: by changes to parent %{link}
@@ -1531,7 +1531,7 @@ cs:
   label_age: "Věk"
   label_ago: "dnů před"
   label_all: "vše"
-  label_all_projects: "All projects"
+  label_all_projects: "Všechny projekty"
   label_all_time: "celkový čas"
   label_all_words: "Všechna slova"
   label_all_open_wps: "Všechny otevřené"
@@ -1548,7 +1548,7 @@ cs:
   label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Přiřazený stav"
   label_archive_project: "Archivovat projekt"
-  label_archived_projects: "Archived projects"
+  label_archived_projects: "Archivované projekty"
   label_ascending: "Vzestupně"
   label_assigned_to_me_work_packages: "Pracovní balíčky přidělené mně"
   label_associated_revisions: "Související revize"
@@ -1582,7 +1582,7 @@ cs:
   label_bulk_edit_selected_work_packages: "Hromadná úprava vybraných pracovních balíčků"
   label_bundled: '(vlevo)'
   label_calendar: "Kalendář"
-  label_calendars_and_dates: "Calendars and dates"
+  label_calendars_and_dates: "Kalendáře a data"
   label_calendar_show: "Zobrazit kalendář"
   label_category: "Kategorie"
   label_consent_settings: "Souhlas uživatele"
@@ -1685,7 +1685,7 @@ cs:
   label_everywhere: "všude"
   label_example: "Příklad"
   label_experimental: "Experimentální"
-  label_i_am_member: "I am member"
+  label_i_am_member: "Jsem členem"
   label_import: "Importovat"
   label_export_to: "K dispozici:"
   label_expanded_click_to_collapse: "Rozbaleno. Klepnutím sbalte"
@@ -1803,7 +1803,7 @@ cs:
   label_more_than_ago: "před více jak (dny)"
   label_move_work_package: "Přesunout pracovní balíček"
   label_my_account: "Můj účet"
-  label_my_activity: "My activity"
+  label_my_activity: "Moje aktivita"
   label_my_account_data: "Data mého účtu"
   label_my_projects: "Moje projekty"
   label_my_queries: "Moje vlastní dotazy"
@@ -1937,7 +1937,7 @@ cs:
   label_role_search: "Přiřadit roli novým členům"
   label_scm: "SCM"
   label_search: "Vyhledávání"
-  label_send_information: "Send new credentials to the user"
+  label_send_information: "Poslat nové přihlašovací údaje uživateli"
   label_send_test_email: "Odeslat testovací email"
   label_setting_plural: "Nastavení"
   label_system_settings: "Nastavení systému"
@@ -2126,7 +2126,7 @@ cs:
         few: 'Existuje ještě  %{count}  pracovních balíčků s oznámeními.'
         many: 'Existuje ještě  %{count}  pracovních balíčků s oznámeními.'
         other: 'Existuje ještě  %{count}  pracovních balíčků s oznámeními.'
-      open_in_browser: 'Open in browser'
+      open_in_browser: 'Otevřít v prohlížeči'
       reason:
         watched: 'Sledováno'
         assigned: 'Přiřazen'
@@ -2688,7 +2688,7 @@ cs:
       deletion: "Odstranění"
     working_days:
       section_work_week: "Pracovní týden"
-      section_holidays_and_closures: "Holidays and closures"
+      section_holidays_and_closures: "Dovolená a uzávěrky"
   text_formatting:
     markdown: 'Zmenšení'
     plain: 'Obyčejný text'
@@ -3072,8 +3072,8 @@ cs:
         working: "%{day} je pracovní "
         non_working: "%{day} je nepracovní "
       dates:
-        working: "%{date} is now working"
-        non_working: "%{date} is now non-working"
+        working: "%{day} je pracovní "
+        non_working: "%{day} je nepracovní "
   nothing_to_preview: "Nic pro náhled"
   api_v3:
     attributes:
