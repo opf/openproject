@@ -2945,9 +2945,6 @@ en:
       color: "Color"
       colors: "Colors"
     color_could_not_be_saved: "Color could not be saved"
-    duration_days:
-      one: "1 day"
-      other: "%{count} days"
     edit_color: "Edit color"
     edit_thing: "Edit"
     edit_timeline: "Edit timeline report %{timeline}"
