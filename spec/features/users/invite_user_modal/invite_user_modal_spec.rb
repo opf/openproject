@@ -167,7 +167,7 @@ RSpec.describe 'Invite user modal', js: true, with_cuprite: true do
 
         context 'when the current user has permissions to create a user' do
           let(:permissions) { %i[view_work_packages edit_work_packages manage_members work_package_assigned] }
-          let(:global_permissions) { %i[create_user manage_user] } # TODO: Figure out why create_user is not enough here
+          let(:global_permissions) { %i[create_user] }
 
           it_behaves_like 'invites the principal to the project' do
             let(:added_principal) { User.find_by!(mail: principal.mail) }
