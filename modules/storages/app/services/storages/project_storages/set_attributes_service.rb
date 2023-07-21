@@ -29,10 +29,12 @@
 # Used by: CreateService when setting attributes
 module Storages::ProjectStorages
   class SetAttributesService < ::BaseServices::SetAttributes
-    def set_default_attributes(_params)
+    def set_default_attributes(params)
       model.creator ||= user
 
-      if model.storage.present? && model.storage.automatically_managed?
+      if params[:project_folder_mode].blank? && model.storage.present? && model.storage.automatically_managed?
+        # set default to automatic, if related storage is automatically managed
+        # do NOT override values set in params
         model.project_folder_mode = "automatic"
       end
     end
