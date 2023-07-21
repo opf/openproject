@@ -857,7 +857,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
     end
   end
 
-  describe '#propfind_query' do
+  describe '#file_ids_query' do
     let(:nextcloud_subpath) { '' }
     let(:url) { "https://example.com#{nextcloud_subpath}" }
     let(:expected_request_body) do
@@ -955,11 +955,11 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
       ).to_return(status: 200, body: expected_response_body, headers: {})
     end
 
-    shared_examples 'a propfind_query response' do
+    shared_examples 'a file_ids_query response' do
       it 'responds with a list of paths and attributes for each of them' do
         result = subject
-                   .propfind_query
-                   .call(depth: '1', path: 'OpenProject', props: %w[oc:fileid])
+                   .file_ids_query
+                   .call(path: 'OpenProject')
                    .result
         expect(result).to eq({ "OpenProject/" => { "fileid" => "349" },
                                "OpenProject/Project #2/" => { "fileid" => "381" },
@@ -971,12 +971,12 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
       end
     end
 
-    it_behaves_like 'a propfind_query response'
+    it_behaves_like 'a file_ids_query response'
 
     context 'when NC is deployed under subpath' do
       let(:nexcloud_subpath) { '/subpath' }
 
-      it_behaves_like 'a propfind_query response'
+      it_behaves_like 'a file_ids_query response'
     end
   end
 

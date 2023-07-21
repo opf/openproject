@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals::StorageInteraction::Nextcloud
+module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
   class PropfindQuery
     # Only for information purposes currently.
     # Probably a bit later we could validate `#call` parameters.
@@ -82,10 +82,17 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         end
       end.to_xml
 
-      response = Util.http(@uri).propfind(
-        Util.join_uri_path(@uri, 'remote.php/dav/files', CGI.escapeURIComponent(@username), Util.escape_path(path)),
+      response = ::Storages::Peripherals::StorageInteraction::Nextcloud::Util.http(@uri).propfind(
+        ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
+          .join_uri_path(
+            @uri,
+            'remote.php/dav/files',
+            CGI.escapeURIComponent(@username),
+            ::Storages::Peripherals::StorageInteraction::Nextcloud::Util.escape_path(path)
+          ),
         body,
-        Util.basic_auth_header(@username, @password).merge('Depth' => depth)
+        ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
+          .basic_auth_header(@username, @password).merge('Depth' => depth)
       )
 
       case response
@@ -95,7 +102,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         doc.xpath('/d:multistatus/d:response').each do |resource_section|
           resource = CGI
                        .unescape(resource_section.xpath("d:href").text.strip)
-                       .gsub!(Util.join_uri_path(@uri.path, "/remote.php/dav/files/#{@username}/"), "")
+                       .gsub!(
+                         ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
+                           .join_uri_path(@uri.path, "/remote.php/dav/files/#{@username}/"), ""
+                       )
           result[resource] = {}
 
           # In future it could be useful to respond not only with found, but not found props as well
@@ -106,15 +116,20 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         end
         ServiceResult.success(result:)
       when Net::HTTPMethodNotAllowed
-        Util.error(:not_allowed)
+        ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
+          .error(:not_allowed)
       when Net::HTTPUnauthorized
-        Util.error(:not_authorized)
+        ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
+          .error(:not_authorized)
       when Net::HTTPNotFound
-        Util.error(:not_found)
+        ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
+          .error(:not_found)
       else
-        Util.error(:error)
+        ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
+          .error(:error)
       end
     end
+
     # rubocop:enable Metrics/AbcSize
   end
 end
