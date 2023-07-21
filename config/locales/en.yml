@@ -198,6 +198,7 @@ en:
       label_new_color: "New color"
       label_edit_color: "Edit color"
     label_no_color: "No color"
+    label_properties: "Properties"
 
   custom_actions:
     actions:
@@ -2954,7 +2955,6 @@ en:
     start: "from"
 
   timelines:
-    properties: "Properties"
     really_delete_color: >
       Are you sure, you want to delete the following color?
       Types using this color will not be deleted.
