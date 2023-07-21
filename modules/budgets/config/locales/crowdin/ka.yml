@@ -29,7 +29,7 @@ ka:
         budget_ratio: "Spent (ratio)"
         description: "Description"
         spent: "Spent"
-        status: "Status"
+        status: "სტატუსი"
         subject: "Subject"
         type: "Cost type"
         labor_budget: "Planned labor costs"

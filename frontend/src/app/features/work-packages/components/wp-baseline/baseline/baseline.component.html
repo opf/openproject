@@ -182,6 +182,7 @@
     *ngIf="selectedFilter === 'aSpecificDate' || selectedFilter === 'betweenTwoSpecificDates'"
     [dates]="selectedFilter === 'betweenTwoSpecificDates' ? selectedDates : [selectedDates[0]]"
     [mode]="selectedFilter === 'betweenTwoSpecificDates' ? 'range' : 'single'"
+    [isDisabled]="futureDateComparer()"
     (datesSelected)="selectedDates = $event"
     >
   </op-datepicker-sheet>

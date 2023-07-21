@@ -35,7 +35,8 @@ module Pages
         expect(page)
           .to have_content(I18n.t('js.grid.add_widget'))
 
-        SeleniumHubWaiter.wait
+        SeleniumHubWaiter.wait unless using_cuprite?
+
         page.find('[data-qa-selector="op-grid--addable-widget"]', text: Regexp.new("^#{name}$")).click
       end
     end
@@ -81,7 +82,14 @@ module Pages
     def within_add_widget_modal(row_number, column_number, location, &)
       area = area_of(row_number, column_number, location)
       area.hover
-      area.find('.grid--widget-add', visible: :all).click
+
+      add_widget_button = if using_cuprite?
+                            area.find('.grid--widget-add')
+                          else
+                            area.find('.grid--widget-add', visible: :all)
+                          end
+
+      add_widget_button.click
 
       within('.spot-modal', &)
     end

@@ -198,8 +198,6 @@ tr:
       no_results_content_text: Yeni bir özel alan oluştur
   concatenation:
     single: 'ya da'
-  documentation:
-    see_more_link: Daha fazla bilgi için lütfen bu konuyla ilgili belgelerimize bakın.
   global_search:
     overwritten_tabs:
       wiki_pages: "Viki"
@@ -527,6 +525,7 @@ tr:
         hours: "Saat"
         spent_on: "Tarih"
         type: "Tür"
+        ongoing: "Ongoing"
       type:
         description: "Açıklama için varsayılan metin"
         attribute_groups: ''
@@ -1065,7 +1064,8 @@ tr:
   button_configure: "Düzenle"
   button_continue: "Devam et"
   button_copy: "Kopyala"
-  button_copy_to_clipboard: "Copy to clipboard"
+  button_copy_to_clipboard: "Panoya kopyala"
+  button_copy_link_to_clipboard: "Copy link to clipboard"
   button_copy_and_follow: "Kopyala ve takip et"
   button_create: "Oluştur"
   button_create_and_continue: "Oluştur ve devam et"
@@ -1421,11 +1421,11 @@ tr:
       working_days_changed:
         changed: "by changes to working days (%{changes})"
         days:
-          working: "%{day} is now working"
-          non_working: "%{day} is now non-working"
+          working: "%{day} artık çalışma günü"
+          non_working: "%{day} artık çalışılmayan gün"
         dates:
           working: "%{date} is now working"
-          non_working: "%{date} is now non-working"
+          non_working: "%{date} artık çalışılmayan tarih"
   links:
     configuration_guide: 'Yapılandırma rehberi'
     get_in_touch: "Senin soruların var? Bizimle temasa geçin."
@@ -1492,6 +1492,7 @@ tr:
   label_age: "Yaş"
   label_ago: "gün önce"
   label_all: "tüm"
+  label_all_projects: "All projects"
   label_all_time: "her zaman"
   label_all_words: "Bütün kelimeler"
   label_all_open_wps: "Tüm açık"
@@ -1508,6 +1509,7 @@ tr:
   label_ical_access_key_revoke: "İptal etmek"
   label_applied_status: "Uygulanan statü"
   label_archive_project: "Projeyi arşivle"
+  label_archived_projects: "Archived projects"
   label_ascending: "Azalan"
   label_assigned_to_me_work_packages: "Bana atanan iş paketleri"
   label_associated_revisions: "İlişkili sürümler"
@@ -1594,7 +1596,7 @@ tr:
   label_database_version: "PostgreSQL sürümü"
   label_date: "Tarih"
   label_date_and_time: "Tarih ve zaman"
-  label_date_format: "Date format"
+  label_date_format: "Tarih formatı"
   label_date_from: "Başlangıç"
   label_date_from_to: "%{start} tarihinden %{end} tarihine"
   label_date_to: "Bitiş"
@@ -1643,7 +1645,8 @@ tr:
   label_equals: "şuysa"
   label_everywhere: "heryer"
   label_example: "Örnek"
-  label_experimental: "Experimental"
+  label_experimental: "Deneysel"
+  label_i_am_member: "I am member"
   label_import: "İçeri Aktar"
   label_export_to: "Ayrıca şu adreste bulunabilir:"
   label_expanded_click_to_collapse: "Genişletilmiş. Daraltmak için tıklayın"
@@ -1680,6 +1683,7 @@ tr:
   label_hierarchy_leaf: "Hiyerarşi ağacı"
   label_home: "Ana sayfa"
   label_subject_or_id: "Konu ya da ID"
+  label_icalendar: "iCalendar"
   label_impressum: "Yasal uyarı"
   label_in: "şurada"
   label_in_less_than: "daha azdır"
@@ -2348,7 +2352,7 @@ tr:
       archived: "Arşivlenen"
   project_module_activity: "Etkinlik"
   project_module_forums: "Forumlar"
-  project_module_work_package_tracking: "İş paketi takibi"
+  project_module_work_package_tracking: "İş paketleri"
   project_module_news: "Haberler"
   project_module_repository: "Depo"
   project_module_wiki: "Viki"
@@ -2522,7 +2526,7 @@ tr:
   setting_consent_decline_mail: "Onay iletişim posta adresi"
   setting_cross_project_work_package_relations: "Projeler arası iş paketi ilişkilerine izin ver"
   setting_first_week_of_year: "Yılın ilk haftası"
-  setting_date_format: "Date"
+  setting_date_format: "Tarih"
   setting_default_language: "Varsayılan dil"
   setting_default_projects_modules: "Yeni projeler için varsayılan etkin modüller"
   setting_default_projects_public: "Yeni projeler varsayılan olarak herkese açık"
@@ -2534,7 +2538,7 @@ tr:
   setting_enabled_scm: "Etkinleştirilmiş SCM"
   setting_enabled_projects_columns: "Proje listesinde görünür"
   setting_feeds_enabled: "Yayınları Etkinleştir"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Besleme içeriği sınırı"
   setting_file_max_size_displayed: "Satır içi görüntülenen maksimum metin dosyası boyutu"
   setting_host_name: "Ana bilgisayar adı"
@@ -2585,7 +2589,7 @@ tr:
   setting_start_of_week: "Hafta Başlangıcı"
   setting_sys_api_enabled: "Depo yönetimi web hizmetini etkinleştir"
   setting_sys_api_description: "Depo yönetimi web servisi depolara erişmek için entegrasyon ve kullanıcı yetkilendirmesi sağlar."
-  setting_time_format: "Time"
+  setting_time_format: "Saat"
   setting_accessibility_mode_for_anonymous: "İsimsiz kullanıcılar için erişilebilirlik modunu etkinleştir"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Kullanıcıların varsayılan saat dilimi"
@@ -2596,36 +2600,23 @@ tr:
   setting_welcome_on_homescreen: "Hoşgeldiniz bloğunu ana ekranda göster"
   setting_work_package_list_default_highlighting_mode: "Varsayılan vurgulama modu"
   setting_work_package_list_default_highlighted_attributes: "Varsayılan satır içi vurgulanan özellikler"
-  setting_working_days: "Working days"
+  setting_working_days: "İş Günleri"
   settings:
-    general: "Genel"
-    other: "Diğer"
-    passwords: "Parolalar"
-    session: "Oturum"
-    brute_force_prevention: "Otomatik kullanıcı engelleme"
     attachments:
       whitelist_text_html: >
         Yüklenen dosyalar için geçerli dosya uzantılarının ve/veya mim türlerinin bir listesini tanımlayın. <br/> Dosya uzantılarını (ör. <code>%{ext_example}</code>) veya mime türlerini (ör. <code>%{mime_example}</code>) girin. <br/> Herhangi bir dosya türünün yüklenmesine izin vermek için boş bırakın. Birden çok değere izin verilir (her değer için bir satır).
+    brute_force_prevention: "Otomatik kullanıcı engelleme"
     language_name_being_default: '%{language_name} (default)'
-    notifications:
-      events_explanation: 'Bir e-postanın hangi olay için gönderileceğini yönetir. İş paketleri, bildirimleri her kullanıcı için özel olarak yapılandırılabileceğinden bu listenin dışında tutulur.'
-      delay_minutes_explanation: "E-posta gönderimi, uygulama bildirimi yapılandırılmış olan kullanıcıların bir posta gönderilmeden önce uygulama içindeki bildirimi onaylamasına izin vermek için geciktirilebilir. Uygulama içinde bir bildirim okuyan kullanıcılar, okunan bildirim için bir e-posta almaz."
-    display:
+    date_format:
       first_date_of_week_and_year_set: >
-        Eğer %{day_of_week_setting_name} veya %{first_week_setting_name} seçeneklerinden biri ayarlanmışsa, ön uçta tutarsızlık yaşanmaması için diğer seçeneğin de ayarlanması gerekir.
-      first_week_of_year_text: >
-        Yılın ilk haftasında yer alan Ocak tarihini seçin. Haftanın ilk günü ile birlikte bu değer, bir yıldaki toplam hafta sayısını belirler.
+        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text_html: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+    general: "Genel"
     experimental:
       save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
       warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
       feature_flags: Feature flags
-    projects:
-      section_new_projects: "Yeni projeler için ayarlar"
-      section_project_overview: "Projeye genel bakış listesi ayarları"
-    user:
-      default_preferences: "Varsayılan Tercihler"
-      display_format: "Display format"
-      deletion: "Silme"
     highlighting:
       mode_long:
         inline: "Satır içi öznitelikleri vurgula "
@@ -2633,8 +2624,25 @@ tr:
         status: "Duruma göre tüm satır"
         type: "Türe göre tüm satır"
         priority: "Önceliğe göre tüm satır"
+    icalendar:
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+    #below line needs to be appended above after docs are ready
+    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    notifications:
+      events_explanation: 'Bir e-postanın hangi olay için gönderileceğini yönetir. İş paketleri, bildirimleri her kullanıcı için özel olarak yapılandırılabileceğinden bu listenin dışında tutulur.'
+      delay_minutes_explanation: "E-posta gönderimi, uygulama bildirimi yapılandırılmış olan kullanıcıların bir posta gönderilmeden önce uygulama içindeki bildirimi onaylamasına izin vermek için geciktirilebilir. Uygulama içinde bir bildirim okuyan kullanıcılar, okunan bildirim için bir e-posta almaz."
+    other: "Diğer"
+    passwords: "Parolalar"
+    projects:
+      section_new_projects: "Yeni projeler için ayarlar"
+      section_project_overview: "Projeye genel bakış listesi ayarları"
+    session: "Oturum"
+    user:
+      default_preferences: "Varsayılan Tercihler"
+      display_format: "Display format"
+      deletion: "Silme"
     working_days:
-      section_work_week: "Work week"
+      section_work_week: "Çalışma Haftası"
       section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'

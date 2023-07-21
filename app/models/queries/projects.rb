@@ -35,6 +35,7 @@ module Queries::Projects
     filter Filters::PublicFilter
     filter Filters::NameFilter
     filter Filters::NameAndIdentifierFilter
+    filter Filters::MemberOfFilter
     filter Filters::TypeaheadFilter
     filter Filters::CustomFieldFilter
     filter Filters::CreatedAtFilter

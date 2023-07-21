@@ -41,6 +41,7 @@ RSpec.shared_examples_for 'storage contract', :storage_server_helpers, webmock: 
     if storage_host.present?
       mock_server_capabilities_response(storage_host)
       mock_server_config_check_response(storage_host)
+      mock_nextcloud_application_credentials_validation(storage_host)
     end
   end
 

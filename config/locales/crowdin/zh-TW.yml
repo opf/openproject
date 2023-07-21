@@ -198,8 +198,6 @@ zh-TW:
       no_results_content_text: 建立一個新的自定義欄位
   concatenation:
     single: '或者'
-  documentation:
-    see_more_link: For more information, please see our documentation on this topic.
   global_search:
     overwritten_tabs:
       wiki_pages: "維基"
@@ -527,6 +525,7 @@ zh-TW:
         hours: "小時"
         spent_on: "日期"
         type: "類型"
+        ongoing: "Ongoing"
       type:
         description: "描述的預設文字"
         attribute_groups: ''
@@ -1059,7 +1058,8 @@ zh-TW:
   button_configure: "設定"
   button_continue: "繼續"
   button_copy: "複製"
-  button_copy_to_clipboard: "Copy to clipboard"
+  button_copy_to_clipboard: "複製到剪貼簿"
+  button_copy_link_to_clipboard: "Copy link to clipboard"
   button_copy_and_follow: "複製並跟隨"
   button_create: "建立"
   button_create_and_continue: "建立並繼續"
@@ -1474,6 +1474,7 @@ zh-TW:
   label_age: "年齡"
   label_ago: "天前"
   label_all: "所有"
+  label_all_projects: "All projects"
   label_all_time: "所有的時間"
   label_all_words: "所以的詞"
   label_all_open_wps: "全部打開"
@@ -1490,6 +1491,7 @@ zh-TW:
   label_ical_access_key_revoke: "撤銷"
   label_applied_status: "套用的狀態"
   label_archive_project: "專案歸檔"
+  label_archived_projects: "Archived projects"
   label_ascending: "昇冪"
   label_assigned_to_me_work_packages: "分配給我的工作項目"
   label_associated_revisions: "關聯的修訂"
@@ -1576,7 +1578,7 @@ zh-TW:
   label_database_version: "PostgreSQL 版本"
   label_date: "日期"
   label_date_and_time: "日期和時間"
-  label_date_format: "Date format"
+  label_date_format: "日期格式"
   label_date_from: "寄件者"
   label_date_from_to: "從 %{start} 到 %{end}"
   label_date_to: "到"
@@ -1626,6 +1628,7 @@ zh-TW:
   label_everywhere: "全部"
   label_example: "範例"
   label_experimental: "Experimental"
+  label_i_am_member: "I am member"
   label_import: "匯入"
   label_export_to: "也可匯出成"
   label_expanded_click_to_collapse: "已擴大。按一下可折疊"
@@ -1662,6 +1665,7 @@ zh-TW:
   label_hierarchy_leaf: "頁面結構頁"
   label_home: "Home"
   label_subject_or_id: "主旨或 id"
+  label_icalendar: "iCalendar"
   label_impressum: "法律聲明"
   label_in: "在"
   label_in_less_than: "少於"
@@ -2330,7 +2334,7 @@ zh-TW:
       archived: "封存"
   project_module_activity: "活動"
   project_module_forums: "論壇"
-  project_module_work_package_tracking: "工作項目追蹤"
+  project_module_work_package_tracking: "工作項目"
   project_module_news: "新知"
   project_module_repository: "Repository"
   project_module_wiki: "維基"
@@ -2504,7 +2508,7 @@ zh-TW:
   setting_consent_decline_mail: "同意連絡人郵寄地址"
   setting_cross_project_work_package_relations: "允許跨專案的工作項目關聯"
   setting_first_week_of_year: "First week in year contains"
-  setting_date_format: "Date"
+  setting_date_format: "日期"
   setting_default_language: "預設語言"
   setting_default_projects_modules: "新專案預設啟用的模組"
   setting_default_projects_public: "新專案預設為公開"
@@ -2516,7 +2520,7 @@ zh-TW:
   setting_enabled_scm: "啟用 SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "啟用 Feed"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Feed 內容限制"
   setting_file_max_size_displayed: "直接显示文字文件內容的最大檔案容量"
   setting_host_name: "主機名稱"
@@ -2567,7 +2571,7 @@ zh-TW:
   setting_start_of_week: "一週起始於"
   setting_sys_api_enabled: "啟用版控容器管理網路服務"
   setting_sys_api_description: "版控容器管理網路服務提供容器存取管理和使用者認證"
-  setting_time_format: "Time"
+  setting_time_format: "時間"
   setting_accessibility_mode_for_anonymous: "啟用匿名使用者存取模式"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "使用者預設時區"
@@ -2580,34 +2584,21 @@ zh-TW:
   setting_work_package_list_default_highlighted_attributes: "預設內聯突出顯示的屬性"
   setting_working_days: "Working days"
   settings:
-    general: "一般"
-    other: "其他"
-    passwords: "密碼"
-    session: "Session"
-    brute_force_prevention: "自動禁止使用者"
     attachments:
       whitelist_text_html: >
         為上傳的文件定義有效文件副檔名和/或 MIME 類型的列表。 <br/> 輸入文件副檔名（例如 <code>%{ext_example}</code>）或 MIME 類型（例如 <code>%{mime_example}</code>）。 <br/> 留空以允許上傳任何文件類型。允許多個值（每個值一行）。
+    brute_force_prevention: "自動禁止使用者"
     language_name_being_default: '%{language_name} (default)'
-    notifications:
-      events_explanation: '控制發送電子郵件的事件。工作包不包括在此列表中，因為可以為每個用戶專門配置它們的通知'
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
-    display:
+    date_format:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
-      first_week_of_year_text: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+      first_week_of_year_text_html: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+    general: "一般"
     experimental:
       save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
       warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
       feature_flags: Feature flags
-    projects:
-      section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
-    user:
-      default_preferences: "默認偏好設置"
-      display_format: "Display format"
-      deletion: "消除"
     highlighting:
       mode_long:
         inline: "顯示內聯屬性"
@@ -2615,6 +2606,23 @@ zh-TW:
         status: "按狀態的整個行"
         type: "按類型劃分的整行"
         priority: "按優先順序的整個行"
+    icalendar:
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+    #below line needs to be appended above after docs are ready
+    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    notifications:
+      events_explanation: '控制發送電子郵件的事件。工作包不包括在此列表中，因為可以為每個用戶專門配置它們的通知'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+    other: "其他"
+    passwords: "密碼"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
+    session: "Session"
+    user:
+      default_preferences: "默認偏好設置"
+      display_format: "Display format"
+      deletion: "消除"
     working_days:
       section_work_week: "Work week"
       section_holidays_and_closures: "Holidays and closures"

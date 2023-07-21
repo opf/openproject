@@ -212,6 +212,90 @@ RSpec.describe 'Projects index page',
     end
   end
 
+  context 'when filtering with the global sidebar' do
+    let(:current_user) { admin }
+
+    before do
+      Role.non_member
+      login_as current_user
+      projects_page.visit!
+    end
+
+    context 'with the "All projects" filter' do
+      before do
+        projects_page.set_sidebar_filter 'All projects'
+      end
+
+      it 'shows all active projects (default)' do
+        projects_page.expect_projects_listed(project,
+                                             public_project,
+                                             development_project)
+
+        projects_page.expect_filters_container_hidden
+        projects_page.expect_filter_set 'active'
+      end
+    end
+
+    context 'with the "My projects" filter' do
+      shared_let(:member) do
+        create(:user,
+               member_in_project: project)
+      end
+
+      let(:current_user) { member }
+
+      before do
+        projects_page.set_sidebar_filter 'My projects'
+      end
+
+      it 'shows all projects I am a member of' do
+        projects_page.expect_projects_listed(project)
+        projects_page.expect_projects_not_listed(public_project, development_project)
+
+        projects_page.expect_filters_container_hidden
+        projects_page.expect_filter_set 'member_of'
+      end
+    end
+
+    context 'with the "Public projects" filter' do
+      before do
+        projects_page.set_sidebar_filter 'Public projects'
+      end
+
+      it 'shows all public projects' do
+        projects_page.expect_projects_listed(public_project)
+        projects_page.expect_projects_not_listed(project,
+                                                 development_project)
+
+        projects_page.expect_filters_container_hidden
+        projects_page.expect_filter_set 'public'
+      end
+    end
+
+    context 'with the "Archived projects" filter' do
+      shared_let(:archived_project) do
+        create(:project,
+               name: 'Archived project',
+               identifier: 'archived-project',
+               active: false)
+      end
+
+      before do
+        projects_page.set_sidebar_filter 'Archived projects'
+      end
+
+      it 'shows all archived projects' do
+        projects_page.expect_projects_listed(archived_project, archived: true)
+        projects_page.expect_projects_not_listed(public_project,
+                                                 project,
+                                                 development_project)
+
+        projects_page.expect_filters_container_hidden
+        projects_page.expect_filter_set 'active'
+      end
+    end
+  end
+
   context 'with a filter set' do
     it 'only shows the matching projects and filters' do
       load_and_open_filters admin
@@ -223,8 +307,8 @@ RSpec.describe 'Projects index page',
 
       click_on 'Apply'
       # Filter is applied: Only the project that contains the the word "Plain" gets listed
-      expect(page).not_to have_text(public_project.name)
-      expect(page).to have_text(project.name)
+      projects_page.expect_projects_listed(project)
+      projects_page.expect_projects_not_listed(public_project)
       # Filter form is visible and the filter is still set.
       expect(page).to have_selector('li[filter-name="name_and_identifier"]')
     end
@@ -251,10 +335,10 @@ RSpec.describe 'Projects index page',
       wait_for_reload
 
       # Results should be filtered and ordered ASC by name
-      expect(page).to have_text(development_project.name)
-      expect(page).not_to have_text(project.name) # as it filtered away
+      projects_page.expect_projects_listed(development_project)
+      projects_page.expect_projects_not_listed(project,        # as it is filtered out
+                                               public_project) # as it is on the second page
       expect(page).to have_text('Next') # as the result set is larger than 1
-      expect(page).not_to have_text(public_project.name) # as it is on the second page
 
       # Changing the page size to 5 and back to 1 should not change the filters (which we test later on the second page)
       find('.op-pagination--options .op-pagination--item', text: '5').click # click page size '5'
@@ -264,20 +348,21 @@ RSpec.describe 'Projects index page',
       click_on '2' # Go to pagination page 2
 
       # On page 2 you should see the second page of the filtered set ordered ASC by name
-      expect(page).to have_text(public_project.name)
-      expect(page).not_to have_text(project.name)             # Filtered away
-      expect(page).not_to have_text('Next')                   # Filters kept active, so there is no third page.
-      expect(page).not_to have_text(development_project.name) # That one should be on page 1
+      projects_page.expect_projects_listed(public_project)
+      projects_page.expect_projects_not_listed(project,             # Filtered out
+                                               development_project) # Present on page 1
+      expect(page).not_to have_text('Next') # Filters kept active, so there is no third page.
 
       # Sorts DESC by name
       click_on 'Ascending sorted by "Name"'
       wait_for_reload
 
       # On page 2 the same filters should still be intact but the order should be DESC on name
-      expect(page).to have_text(development_project.name)
-      expect(page).not_to have_text(project.name)        # Filtered away
-      expect(page).not_to have_text('Next')              # Filters kept active, so there is no third page.
-      expect(page).not_to have_text(public_project.name) # That one should be on page 1
+      projects_page.expect_projects_listed(development_project)
+      projects_page.expect_projects_not_listed(project,        # Filtered out
+                                               public_project) # Present on page 1
+
+      expect(page).not_to have_text('Next') # Filters kept active, so there is no third page.
       expect(page).to have_selector('.sort.desc', text: 'NAME')
 
       # Sending the filter form again what implies to compose the request freshly
@@ -286,9 +371,9 @@ RSpec.describe 'Projects index page',
 
       # We should see page 1, resetting pagination, as it is a new filter, but keeping the DESC order on the project
       # name
-      expect(page).to have_text(public_project.name)
-      expect(page).not_to have_text(development_project.name) # as it is on the second page
-      expect(page).not_to have_text(project.name)             # as it filtered away
+      projects_page.expect_projects_listed(public_project)
+      projects_page.expect_projects_not_listed(development_project, # as it is on the second page
+                                               project)             # as it filtered out
       expect(page).to have_text('Next') # as the result set is larger than 1
       expect(page).to have_selector('.sort.desc', text: 'NAME')
     end
@@ -307,9 +392,8 @@ RSpec.describe 'Projects index page',
       click_on 'Apply'
       wait_for_reload
 
-      expect(page).to have_text(development_project.name)
-      expect(page).to have_text(public_project.name)
-      expect(page).not_to have_text(project.name)
+      projects_page.expect_projects_listed(development_project, public_project)
+      projects_page.expect_projects_not_listed(project)
 
       # Filter on model attribute 'identifier'
       remove_filter('name_and_identifier')
@@ -322,9 +406,8 @@ RSpec.describe 'Projects index page',
       click_on 'Apply'
       wait_for_reload
 
-      expect(page).to have_text(project.name)
-      expect(page).not_to have_text(development_project.name)
-      expect(page).not_to have_text(public_project.name)
+      projects_page.expect_projects_listed(project)
+      projects_page.expect_projects_not_listed(development_project, public_project)
     end
 
     describe 'Active or archived' do
@@ -346,23 +429,21 @@ RSpec.describe 'Projects index page',
         # value selection defaults to "active"'
         expect(page).to have_selector('li[filter-name="active"]')
 
-        expect(page).to have_text(parent_project.name)
-        expect(page).to have_text(child_project.name)
-        expect(page).to have_text('Plain project')
-        expect(page).to have_text('Development project')
-        expect(page).to have_text('Public project')
+        projects_page.expect_projects_listed(parent_project,
+                                             child_project,
+                                             project,
+                                             development_project,
+                                             public_project)
 
         accept_alert do
           projects_page.click_menu_item_of('Archive', parent_project)
         end
         wait_for_reload
 
-        expect(page).not_to have_text(parent_project.name)
-        # The child project gets archived automatically
-        expect(page).not_to have_text(child_project.name)
-        expect(page).to have_text('Plain project')
-        expect(page).to have_text('Development project')
-        expect(page).to have_text('Public project')
+        projects_page.expect_projects_not_listed(parent_project,
+                                                 child_project) # The child project gets archived automatically
+
+        projects_page.expect_projects_listed(project, development_project, public_project)
 
         visit project_overview_path(parent_project)
         expect(page).to have_text("The project you're trying to access has been archived.")
@@ -375,8 +456,7 @@ RSpec.describe 'Projects index page',
 
         projects_page.filter_by_active('no')
 
-        expect(page).to have_text("ARCHIVED #{parent_project.name}")
-        expect(page).to have_text("ARCHIVED #{child_project.name}")
+        projects_page.expect_projects_listed(parent_project, child_project, archived: true)
 
         # Test visibility of 'more' menu list items
         projects_page.activate_menu_of(parent_project) do |menu|
@@ -401,11 +481,34 @@ RSpec.describe 'Projects index page',
 
         projects_page.filter_by_active('yes')
 
-        expect(page).to have_text(parent_project.name)
-        expect(page).not_to have_text(child_project.name)
-        expect(page).to have_text('Plain project')
-        expect(page).to have_text('Development project')
-        expect(page).to have_text('Public project')
+        projects_page.expect_projects_listed(parent_project,
+                                             project,
+                                             development_project,
+                                             public_project)
+        projects_page.expect_projects_not_listed(child_project)
+      end
+    end
+
+    describe 'I am member or not' do
+      shared_let(:member) { create(:user, member_in_project: project) }
+
+      it "filters for projects I'm a member on and those where I'm not" do
+        Role.non_member
+        load_and_open_filters member
+
+        projects_page.expect_projects_listed(project, public_project)
+
+        projects_page.filter_by_membership('yes')
+        wait_for_reload
+
+        projects_page.expect_projects_listed(project)
+        projects_page.expect_projects_not_listed(public_project, development_project)
+
+        projects_page.filter_by_membership('no')
+        wait_for_reload
+
+        projects_page.expect_projects_listed(public_project)
+        projects_page.expect_projects_not_listed(project, development_project)
       end
     end
 
@@ -719,22 +822,21 @@ RSpec.describe 'Projects index page',
       it 'filters on "public" status' do
         load_and_open_filters admin
 
-        expect(page).to have_text(project.name)
-        expect(page).to have_text(public_project.name)
+        projects_page.expect_projects_listed(project, public_project)
 
         projects_page.filter_by_public('no')
         wait_for_reload
 
-        expect(page).to have_text(project.name)
-        expect(page).not_to have_text(public_project.name)
+        projects_page.expect_projects_listed(project)
+        projects_page.expect_projects_not_listed(public_project)
 
         load_and_open_filters admin
 
         projects_page.filter_by_public('yes')
         wait_for_reload
 
-        expect(page).to have_text(public_project.name)
-        expect(page).not_to have_text(project.name)
+        projects_page.expect_projects_listed(public_project)
+        projects_page.expect_projects_not_listed(project)
       end
     end
   end

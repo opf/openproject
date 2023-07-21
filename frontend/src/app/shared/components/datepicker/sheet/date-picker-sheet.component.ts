@@ -69,6 +69,8 @@ export class OpDatePickerSheetComponent implements AfterViewInit, OnChanges {
 
   @Input() ignoreNonWorkingDays = true;
 
+  @Input() isDisabled = (_dayElem:DayElement) => false;
+
   @Output() datesSelected = new EventEmitter<string[]>();
 
   @ViewChild('flatpickrTarget') flatpickrTarget:ElementRef<HTMLElement>;
@@ -119,7 +121,7 @@ export class OpDatePickerSheetComponent implements AfterViewInit, OnChanges {
             dayElem,
             this.ignoreNonWorkingDays,
             await this.datePickerInstance?.isNonWorkingDay(dayElem.dateObj),
-            false,
+            this.isDisabled(dayElem),
           );
         },
       },

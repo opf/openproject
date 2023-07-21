@@ -65,7 +65,8 @@ sv:
     button_confirm: "Bekräfta"
     button_continue: "Fortsätt"
     button_copy: "Kopiera"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "Kopiera till Urklipp"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Anpassade fält"
     button_delete: "Ta bort"
@@ -736,6 +737,14 @@ sv:
     time_entry:
       work_package_required: 'Requires selecting a work package first.'
       title: 'Logga tid'
+      tracking: 'Tidredovisning'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Tvåfaktorsautentisering'
     watchers:
@@ -794,7 +803,8 @@ sv:
     autocompleter:
       placeholder: "Skriv för att söka"
       notFoundText: "No items found"
-      typeToSearchText: "Skriv för att söka"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Välj etikett'
       select_branch: 'Välj gren'

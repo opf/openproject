@@ -35,11 +35,13 @@ module ::Calendar
     before_action :find_calendar, only: %i[destroy]
     menu_item :calendar_view
 
+    include Layout
     include PaginationHelper
     include SortHelper
 
     def index
       @views = visible_views
+      render 'index', locals: { menu_name: project_or_global_menu }
     end
 
     def show

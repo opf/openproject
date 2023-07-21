@@ -198,8 +198,6 @@
       no_results_content_text: Opprett nytt egendefinert felt
   concatenation:
     single: 'eller'
-  documentation:
-    see_more_link: For more information, please see our documentation on this topic.
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -528,6 +526,7 @@
         hours: "Timer"
         spent_on: "Dato"
         type: "Type"
+        ongoing: "Ongoing"
       type:
         description: "Standardtekst for beskrivelse"
         attribute_groups: ''
@@ -1066,7 +1065,8 @@
   button_configure: "Konfigurer"
   button_continue: "Fortsette"
   button_copy: "Kopier"
-  button_copy_to_clipboard: "Copy to clipboard"
+  button_copy_to_clipboard: "Kopier til utklippstavlen"
+  button_copy_link_to_clipboard: "Copy link to clipboard"
   button_copy_and_follow: "Kopier og følg"
   button_create: "Opprett"
   button_create_and_continue: "Opprett og fortsett"
@@ -1493,6 +1493,7 @@
   label_age: "Alder"
   label_ago: "dager siden"
   label_all: "alle"
+  label_all_projects: "All projects"
   label_all_time: "alle tidspunkt"
   label_all_words: "Alle ord"
   label_all_open_wps: "Alle åpne"
@@ -1509,6 +1510,7 @@
   label_ical_access_key_revoke: "Tilbakekall"
   label_applied_status: "Tildelt status"
   label_archive_project: "Archive project"
+  label_archived_projects: "Archived projects"
   label_ascending: "Stigende"
   label_assigned_to_me_work_packages: "Arbeidspakker tildelt meg"
   label_associated_revisions: "Tilknyttede revisjoner"
@@ -1595,7 +1597,7 @@
   label_database_version: "PostgreSQL version"
   label_date: "Dato"
   label_date_and_time: "Dato og tid"
-  label_date_format: "Date format"
+  label_date_format: "Datoformat"
   label_date_from: "Fra"
   label_date_from_to: "Fra %{start} til %{end}"
   label_date_to: "Til"
@@ -1645,6 +1647,7 @@
   label_everywhere: "overalt"
   label_example: "Eksempel"
   label_experimental: "Experimental"
+  label_i_am_member: "I am member"
   label_import: "Importer"
   label_export_to: "Også tilgjengelig i:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
@@ -1681,6 +1684,7 @@
   label_hierarchy_leaf: "Hierarchy leaf"
   label_home: "Hjem"
   label_subject_or_id: "Subject or ID"
+  label_icalendar: "iCalendar"
   label_impressum: "Juridisk merknad"
   label_in: "i"
   label_in_less_than: "i mindre enn"
@@ -2352,7 +2356,7 @@
       archived: "Archived"
   project_module_activity: "Aktivitet"
   project_module_forums: "Forum"
-  project_module_work_package_tracking: "Sporing av arbeidspakke"
+  project_module_work_package_tracking: "Arbeidspakker"
   project_module_news: "Nyheter"
   project_module_repository: "Pakkebrønn"
   project_module_wiki: "Wiki"
@@ -2526,7 +2530,7 @@
   setting_consent_decline_mail: "Consent contact mail address"
   setting_cross_project_work_package_relations: "Tillat relasjoner mellom arbeidspakker i ulike prosjekter"
   setting_first_week_of_year: "First week in year contains"
-  setting_date_format: "Date"
+  setting_date_format: "Dato"
   setting_default_language: "Standardspråk"
   setting_default_projects_modules: "Standardaktiverte moduler for nye prosjekter"
   setting_default_projects_public: "Nye prosjekter er offentlige som standard"
@@ -2538,7 +2542,7 @@
   setting_enabled_scm: "SCM aktivert"
   setting_enabled_projects_columns: "Visible in project list"
   setting_feeds_enabled: "Aktiver Feeds"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Innholdsgrense for Feed"
   setting_file_max_size_displayed: "Maks størrelse på tekstfiler som vises inline"
   setting_host_name: "Vertsnavn"
@@ -2589,7 +2593,7 @@
   setting_start_of_week: "Uken starter på"
   setting_sys_api_enabled: "Aktiver web-tjeneste for pakkebrønn"
   setting_sys_api_description: "Pakkebrønn web-tjenesten sørger for integrasjon og bruker autentisering for tilgang til pakkebrønner."
-  setting_time_format: "Time"
+  setting_time_format: "Tidspunkt"
   setting_accessibility_mode_for_anonymous: "Aktiver tilgjengelighetsmodus for anonyme brukere"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "Users default time zone"
@@ -2602,34 +2606,21 @@
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
   setting_working_days: "Working days"
   settings:
-    general: "Generell"
-    other: "Øvrig"
-    passwords: "Passord"
-    session: "Sesjon"
-    brute_force_prevention: "Automatisk blokkering av brukere"
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    brute_force_prevention: "Automatisk blokkering av brukere"
     language_name_being_default: '%{language_name} (default)'
-    notifications:
-      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
-    display:
+    date_format:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
-      first_week_of_year_text: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+      first_week_of_year_text_html: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+    general: "Generell"
     experimental:
       save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
       warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
       feature_flags: Feature flags
-    projects:
-      section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
-    user:
-      default_preferences: "Default preferences"
-      display_format: "Display format"
-      deletion: "Deletion"
     highlighting:
       mode_long:
         inline: "Highlight attribute(s) inline"
@@ -2637,8 +2628,25 @@
         status: "Entire row by Status"
         type: "Entire row by Type"
         priority: "Entire row by Priority"
+    icalendar:
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+    #below line needs to be appended above after docs are ready
+    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    notifications:
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+    other: "Øvrig"
+    passwords: "Passord"
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
+    session: "Sesjon"
+    user:
+      default_preferences: "Default preferences"
+      display_format: "Display format"
+      deletion: "Deletion"
     working_days:
-      section_work_week: "Work week"
+      section_work_week: "Arbeidsuke"
       section_holidays_and_closures: "Holidays and closures"
   text_formatting:
     markdown: 'Markdown'

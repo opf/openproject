@@ -35,13 +35,26 @@ RSpec.describe 'Activity tab',
                js: true,
                selenium: true do
   def alter_work_package_at(work_package, attributes:, at:, user: User.current)
+    work_package.custom_field_values = attributes.delete(:custom_field_values)
     work_package.update(attributes.merge(updated_at: at))
 
     note_journal = work_package.journals.last
     note_journal.update(created_at: at, updated_at: at, user:)
   end
 
-  let(:project) { create(:project_with_types, public: true) }
+  let(:string_cf) { create(:text_wp_custom_field) }
+
+  let(:type_with_cf) do
+    create(:type, custom_fields: [string_cf])
+  end
+
+  let(:project) do
+    create(:project_with_types,
+           types: [type_with_cf],
+           work_package_custom_fields: [string_cf],
+           public: true)
+  end
+
   let!(:work_package) do
     work_package = create(:work_package,
                           project:,
@@ -65,7 +78,13 @@ RSpec.describe 'Activity tab',
   end
 
   let!(:note1) do
-    attributes = { subject: 'New subject', description: 'Some not so long description.' }
+    attributes = {
+      subject: 'New subject',
+      description: 'Some not so long description.',
+      custom_field_values: {
+        string_cf.id => "*   [x] Task 1\n*   [ ] Task 2"
+      }
+    }
 
     alter_work_package_at(work_package,
                           attributes:,
@@ -207,6 +226,15 @@ RSpec.describe 'Activity tab',
 
         expect(page).to have_selector('.user-comment > .message', count: 3)
         expect(page).to have_selector('.user-comment > .message blockquote')
+      end
+
+      it 'can render checkboxes as part of the activity' do
+        task_list = page.all('[data-qa-activity-number="2"] ul.op-uc-list_task-list li.op-uc-list--item')
+        expect(task_list.size).to eq(2)
+        expect(task_list[0]).to have_text('Task 1')
+        expect(task_list[0]).to have_checked_field(disabled: true)
+        expect(task_list[1]).to have_text('Task 2')
+        expect(task_list[1]).to have_unchecked_field(disabled: true)
       end
     end
 

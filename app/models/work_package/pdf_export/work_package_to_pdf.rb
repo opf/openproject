@@ -58,8 +58,6 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
     error(I18n.t(:error_pdf_failed_to_export, error: e.message))
   end
 
-  private
-
   def setup_page!
     self.pdf = get_pdf(current_language)
     @page_count = 0
@@ -74,12 +72,20 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
   end
 
   def heading
-    "#{work_package.project} - #{work_package.type} ##{work_package.id}"
+    "#{work_package.type} ##{work_package.id} - #{work_package.subject}"
+  end
+
+  def footer_title
+    work_package.project.name
   end
 
   def title
     # <project>_<type>_<ID>_<subject><YYYY-MM-DD>_<HH-MM>.pdf
     build_pdf_filename([work_package.project, work_package.type,
                         "##{work_package.id}", work_package.subject].join('_'))
+  end
+
+  def with_images?
+    true
   end
 end

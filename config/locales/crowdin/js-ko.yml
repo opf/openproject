@@ -65,7 +65,8 @@ ko:
     button_confirm: "확인"
     button_continue: "계속"
     button_copy: "복사"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "클립보드 복사"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "다른 프로젝트에 복사"
     button_custom-fields: "사용자 정의 필드"
     button_delete: "삭제"
@@ -736,6 +737,14 @@ ko:
     time_entry:
       work_package_required: '먼저 작업 패키지를 선택해야 합니다.'
       title: '작업시간 기록'
+      tracking: '시간 추적'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: '2단계 인증'
     watchers:
@@ -794,7 +803,8 @@ ko:
     autocompleter:
       placeholder: "검색할 유형"
       notFoundText: "항목 없음"
-      typeToSearchText: "검색할 유형"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: '태그 선택'
       select_branch: '브랜치 선택'

@@ -65,7 +65,8 @@ it:
     button_confirm: "Conferma"
     button_continue: "Continua"
     button_copy: "Copia"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_to_clipboard: "Copia negli appunti"
+    button_copy_link_to_clipboard: "Copy link to clipboard"
     button_copy_to_other_project: "Copia su altro progetto"
     button_custom-fields: "Campo personalizzato"
     button_delete: "Cancella"
@@ -737,6 +738,14 @@ it:
     time_entry:
       work_package_required: 'Richiede prima di selezionare una macro-attività.'
       title: 'Registra l''orario effettuato'
+      tracking: 'Monitoraggio tempi'
+      stop: 'Stop'
+    timer:
+      start_new_timer: 'Start new timer'
+      timer_already_running: 'To start a new timer, you must first stop the current timer:'
+      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
+      tracking_time: 'Tracking time'
+      button_stop: 'Stop current timer'
     two_factor_authentication:
       label_two_factor_authentication: 'Autenticazione due fattori'
     watchers:
@@ -795,7 +804,8 @@ it:
     autocompleter:
       placeholder: "Digita per cercare"
       notFoundText: "Nessun elemento trovato"
-      typeToSearchText: "Digita per cercare"
+      project:
+        placeholder: "Select project"
     repositories:
       select_tag: 'Selezionare tag'
       select_branch: 'Selezionare ramo'

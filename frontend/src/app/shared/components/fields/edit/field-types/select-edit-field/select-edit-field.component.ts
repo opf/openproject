@@ -49,6 +49,7 @@ import { CollectionResource } from 'core-app/features/hal/resources/collection-r
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { HalResourceSortingService } from 'core-app/features/hal/services/hal-resource-sorting.service';
 import { EditFieldComponent } from '../../edit-field.component';
+import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 export interface ValueOption {
   name:string;
@@ -199,7 +200,16 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   }
 
   protected fetchAllowedValueQuery(query?:string):Promise<CollectionResource> {
-    return this.schema.allowedValues.$link.$fetch(this.allowedValuesFilter(query)) as Promise<CollectionResource>;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const link = this.schema.allowedValues?.$link as HalLink|undefined;
+
+    // Race condition: Field was under edit but is no longer editable / values not loadable
+    // which means the schema switched during the period it opened / updated after saved.
+    if (!link) {
+      return new Promise(() => {});
+    }
+
+    return link.$fetch(this.allowedValuesFilter(query)) as Promise<CollectionResource>;
   }
 
   private addValue(val:HalResource) {

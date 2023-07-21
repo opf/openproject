@@ -68,7 +68,7 @@ ja:
       add_token: "Upload an Enterprise edition support token"
       delete_token_modal:
         text: "Are you sure you want to remove the current Enterprise edition token used?"
-        title: "Delete token"
+        title: "トークンを削除"
       replace_token: "現在のサポート トークンを置き換え"
       order: "Order Enterprise on-premises edition"
       paste: "Paste your Enterprise edition support token"
@@ -196,8 +196,6 @@ ja:
       no_results_content_text: 新しいカスタム フィールドを作成
   concatenation:
     single: 'または'
-  documentation:
-    see_more_link: 詳細については、このトピックに関するドキュメントを参照してください。
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -276,11 +274,11 @@ ja:
     sessions:
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: 'Browser'
-      device: 'Device / OS'
-      unknown_browser: 'unknown browser'
-      unknown_os: 'unknown operating system'
-      current: 'Current session'
-      title: 'Session management'
+      device: 'デバイス / OS'
+      unknown_browser: '不明なブラウザ'
+      unknown_os: '不明なオペレーティング システム'
+      current: '現在のセッション'
+      title: 'セッション管理'
       instructions: 'This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize or you have no longer access to.'
       may_not_delete_current: 'You cannot delete your current session.'
     groups:
@@ -494,12 +492,12 @@ ja:
         status_code: 'プロジェクトの進捗状況'
         status_explanation: 'Project status description'
         status_codes:
-          not_started: 'Not started'
+          not_started: '未着手'
           on_track: '順調'
           at_risk: 'リスクあり'
           off_track: '脱線'
           finished: '完了しました'
-          discontinued: 'Discontinued'
+          discontinued: '中止'
         templated: "テンプレートプロジェクト"
         templated_value:
           true: "marked as template"
@@ -523,6 +521,7 @@ ja:
         hours: " 時間"
         spent_on: "日付"
         type: "タイプ"
+        ongoing: "Ongoing"
       type:
         description: "デフォルトの説明"
         attribute_groups: ''
@@ -575,7 +574,7 @@ ja:
         parent_work_package: "親項目"
         priority: "優先度"
         progress: "進行状況 (%)"
-        readonly: "Read only"
+        readonly: "読み取り専用"
         schedule_manually: "手動スケジュール"
         spent_hours: "作業時間の記録"
         spent_time: "作業時間の記録"
@@ -614,7 +613,7 @@ ja:
         even: "は偶数にしてください。"
         exclusion: "は予約されています。"
         file_too_large: "は大きすぎます (最大サイズは%{count}バイト)"
-        filter_does_not_exist: "filter does not exist."
+        filter_does_not_exist: "フィルターが存在しません。"
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "は%{count}より大きい値にしてください。"
@@ -1055,7 +1054,8 @@ ja:
   button_configure: "設定"
   button_continue: "続行"
   button_copy: "コピー"
-  button_copy_to_clipboard: "Copy to clipboard"
+  button_copy_to_clipboard: "クリップボードにコピー"
+  button_copy_link_to_clipboard: "Copy link to clipboard"
   button_copy_and_follow: "コピー後表示"
   button_create: "作成"
   button_create_and_continue: "連続作成"
@@ -1280,7 +1280,7 @@ ja:
   error_enterprise_activation_user_limit: "あなたのアカウントを有効にすることができませんでした（ユーザー制限に達しました）。アクセスするには管理者に連絡してください。"
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'このエントリを削除できませんでした。'
-  error_in_dependent: "依存オブジェクトを変更しようとしてエラーが発生しました: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "依存オブジェクトを変更しようとしてエラーが発生しました: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "選択された値が無効です。"
   error_journal_attribute_not_present: "ジャーナルには属性%{attribute}は含まれていません。"
@@ -1470,6 +1470,7 @@ ja:
   label_age: "経過"
   label_ago: "○日前"
   label_all: "全て"
+  label_all_projects: "All projects"
   label_all_time: "全期間"
   label_all_words: "全ての単語"
   label_all_open_wps: "全ての未完了"
@@ -1486,6 +1487,7 @@ ja:
   label_ical_access_key_revoke: "取り消し"
   label_applied_status: "適用されるステータス"
   label_archive_project: "プロジェクトをアーカイブ"
+  label_archived_projects: "Archived projects"
   label_ascending: "昇順"
   label_assigned_to_me_work_packages: "担当しているワークパッケージ"
   label_associated_revisions: "関連するリビジョン"
@@ -1572,7 +1574,7 @@ ja:
   label_database_version: "PostgreSQL バージョン"
   label_date: "日付"
   label_date_and_time: "日付と時刻"
-  label_date_format: "Date format"
+  label_date_format: "日付の形式"
   label_date_from: "日付指定: "
   label_date_from_to: "%{start} ～%{end}"
   label_date_to: "から"
@@ -1621,7 +1623,8 @@ ja:
   label_equals: "等しい"
   label_everywhere: "どこにでも"
   label_example: "例"
-  label_experimental: "Experimental"
+  label_experimental: "実験的"
+  label_i_am_member: "I am member"
   label_import: "インポート"
   label_export_to: "こちらもアクセス可能："
   label_expanded_click_to_collapse: "拡大しました。クリックすると閉じます"
@@ -1658,6 +1661,7 @@ ja:
   label_hierarchy_leaf: "階層枚"
   label_home: "ホーム"
   label_subject_or_id: "タイトルまたはID"
+  label_icalendar: "iCalendar"
   label_impressum: "法的情報"
   label_in: "今日から○日後"
   label_in_less_than: "今日から○日後以前"
@@ -2327,7 +2331,7 @@ ja:
       archived: "アーカイブ済み"
   project_module_activity: "活動"
   project_module_forums: "フォーラム"
-  project_module_work_package_tracking: "ワークパッケージの追跡"
+  project_module_work_package_tracking: "ワークパッケージ"
   project_module_news: "ニュース"
   project_module_repository: "リポジトリ"
   project_module_wiki: "Wiki"
@@ -2501,7 +2505,7 @@ ja:
   setting_consent_decline_mail: "連絡先メールアドレスに同意します。"
   setting_cross_project_work_package_relations: "他プロジェクトとの間にワークパッケージの関連付けを許可する"
   setting_first_week_of_year: "年の最初の週に含む"
-  setting_date_format: "Date"
+  setting_date_format: "日付"
   setting_default_language: "デフォルトの言語"
   setting_default_projects_modules: "新規プロジェクトにおいてデフォルトで有効になるモジュール"
   setting_default_projects_public: "デフォルトで新しいプロジェクトは公開にする"
@@ -2513,7 +2517,7 @@ ja:
   setting_enabled_scm: "使用するバージョン管理システム"
   setting_enabled_projects_columns: "プロジェクトリストに表示する"
   setting_feeds_enabled: "フィードを有効にする"
-  setting_ical_enabled: "Enable iCalendar Subscriptions"
+  setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "フィードの項目数の上限"
   setting_file_max_size_displayed: "画面表示するテキストファイルの最大サイズ"
   setting_host_name: "ホスト名"
@@ -2564,7 +2568,7 @@ ja:
   setting_start_of_week: "週の開始"
   setting_sys_api_enabled: "リポジトリ管理Webサービスを有効にする"
   setting_sys_api_description: "リポジトリ管理Webサービスは、リポジトリへのアクセスの統合およびユーザー認証を提供します。"
-  setting_time_format: "Time"
+  setting_time_format: "時間"
   setting_accessibility_mode_for_anonymous: "匿名ユーザ向けにアクセシビリティモードを有効"
   setting_user_format: "Users name format"
   setting_user_default_timezone: "ユーザーのデフォルトのタイム ゾーン"
@@ -2577,34 +2581,21 @@ ja:
   setting_work_package_list_default_highlighted_attributes: "デフォルトのインライン強調表示属性"
   setting_working_days: "Working days"
   settings:
-    general: "概要"
-    other: "その他"
-    passwords: "パスワード"
-    session: "セッション"
-    brute_force_prevention: "自動的にユーザをロック"
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    brute_force_prevention: "自動的にユーザをロック"
     language_name_being_default: '%{language_name} (default)'
-    notifications:
-      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
-      delay_minutes_explanation: "メール送信を遅らせることで、アプリ内通知を設定したユーザーが、メールを送信前にアプリケーション内で通知を確認できるようにすることができます。 アプリケーション内で通知を読んだユーザーは、すでに読んだ通知の電子メールを受け取りません。"
-    display:
+    date_format:
       first_date_of_week_and_year_set: >
-        オプション "%{day_of_week_setting_name}" または "%{first_week_setting_name}" が設定されている場合、フロントエンドでの不整合を避けるために、もう一方も設定する必要があります。
-      first_week_of_year_text: >
-        その年の最初の週に含まれる1月の日付を選択します。 この値と週の開始の日によって、1年の合計週数が決定されます。
+        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text_html: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+    general: "概要"
     experimental:
       save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
       warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
       feature_flags: Feature flags
-    projects:
-      section_new_projects: "新規プロジェクトの設定"
-      section_project_overview: "プロジェクト概要リストの設定"
-    user:
-      default_preferences: "デフォルト設定"
-      display_format: "Display format"
-      deletion: "削除"
     highlighting:
       mode_long:
         inline: "属性をインラインで強調表示する"
@@ -2612,6 +2603,23 @@ ja:
         status: "ステータス別の行全体"
         type: "タイプごとの行全体"
         priority: "優先度別に行全体"
+    icalendar:
+      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client.
+    #below line needs to be appended above after docs are ready
+    #<strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+    notifications:
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "メール送信を遅らせることで、アプリ内通知を設定したユーザーが、メールを送信前にアプリケーション内で通知を確認できるようにすることができます。 アプリケーション内で通知を読んだユーザーは、すでに読んだ通知の電子メールを受け取りません。"
+    other: "その他"
+    passwords: "パスワード"
+    projects:
+      section_new_projects: "新規プロジェクトの設定"
+      section_project_overview: "プロジェクト概要リストの設定"
+    session: "セッション"
+    user:
+      default_preferences: "デフォルト設定"
+      display_format: "Display format"
+      deletion: "削除"
     working_days:
       section_work_week: "Work week"
       section_holidays_and_closures: "Holidays and closures"

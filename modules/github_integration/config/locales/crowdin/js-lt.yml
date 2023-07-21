@@ -41,9 +41,9 @@ lt:
       github_actions: Veiksmai
       pull_requests:
         message: >
-          Pakeitimo užklausą #%{pr_number} %{pr_link} skirtą %{repository_link} naudotojas %{github_user_link}  %{pr_state}. #%{pr_number} %{pr_link} skirtą %{repository_link} naudotojas %{github_user_link}  %{pr_state}.
+          Pakeitimo užklausą #%{pr_number} %{pr_link} skirtą %{repository_link} naudotojas %{github_user_link}  %{pr_state}.
         referenced_message: >
-          %{github_user_link} minėjo šį darbo paketą pakeitimo užklausoje #%{pr_number} %{pr_link} %{repository_link}. #%{pr_number} %{pr_link} %{repository_link}.
+          %{github_user_link} minėjo šį darbo paketą pakeitimo užklausoje #%{pr_number} %{pr_link} %{repository_link}.
         states:
           opened: 'atidarė'
           closed: 'uždarė'

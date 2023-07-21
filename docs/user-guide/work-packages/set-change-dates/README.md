@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Set and change dates and duration
-  priority: 890
+  priority: 970
 description: How to use the date picker to set and update the start date, finish date and duration of a work packages
 keywords: date picker start finish dates duration change modify update relations work package
 ---

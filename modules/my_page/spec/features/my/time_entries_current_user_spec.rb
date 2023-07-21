@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../../support/pages/my/page'
 
-RSpec.describe 'My page time entries current user widget spec', js: true, with_mail: false do
+RSpec.describe 'My page time entries current user widget spec', js: true do
   let!(:type) { create(:type) }
   let!(:project) { create(:project, types: [type]) }
   let!(:activity) { create(:time_entry_activity) }
@@ -113,6 +113,7 @@ RSpec.describe 'My page time entries current user widget spec', js: true, with_m
   end
   let(:cf_field) { TextEditorField.new(page, custom_field.attribute_name(:camel_case)) }
   let(:time_logging_modal) { Components::TimeLoggingModal.new }
+  let!(:week_days) { week_with_saturday_and_sunday_as_weekend }
 
   before do
     login_as user
@@ -129,6 +130,14 @@ RSpec.describe 'My page time entries current user widget spec', js: true, with_m
     my_page.expect_and_dismiss_toaster message: I18n.t(:notice_successful_update)
 
     entries_area.expect_to_span(1, 1, 2, 2)
+
+    expect(page).not_to have_selector('.fc-day-mon.fc-non-working-day')
+    expect(page).not_to have_selector('.fc-day-tue.fc-non-working-day')
+    expect(page).not_to have_selector('.fc-day-wed.fc-non-working-day')
+    expect(page).not_to have_selector('.fc-day-thu.fc-non-working-day')
+    expect(page).not_to have_selector('.fc-day-fri.fc-non-working-day')
+    expect(page).to have_selector('.fc-day-sat.fc-non-working-day')
+    expect(page).to have_selector('.fc-day-sun.fc-non-working-day')
 
     expect(page)
       .to have_content "Total: 6.00"

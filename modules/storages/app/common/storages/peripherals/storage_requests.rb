@@ -34,6 +34,7 @@ module Storages::Peripherals
       add_user_to_group_command
       remove_user_from_group_command
       rename_file_command
+      copy_template_folder_command
     ].freeze
 
     QUERIES = %i[
