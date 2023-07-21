@@ -908,7 +908,6 @@ en:
 
       button_activate: 'Show Gantt chart'
       button_deactivate: 'Hide Gantt chart'
-      error: "An error has occurred."
       errors:
         not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
         report_comparison: "The timeline could not render the configured comparisons. Please check the appropriate section in the configuration, resetting it can help solve this problem."
