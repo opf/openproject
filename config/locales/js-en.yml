@@ -910,7 +910,6 @@ en:
       button_deactivate: 'Hide Gantt chart'
       filter:
         noneSelection: "(none)"
-      really_close_dialog: "Do you really want to close the dialog and lose the entered data?"
       responsible: "Responsible"
       save: Save
       start_date: "Start date"
