@@ -325,6 +325,38 @@ en:
           one: "First sorting criteria"
           two: "Second sorting criteria"
           three: "Third sorting criteria"
+
+    gantt_chart:
+      label: 'Gantt chart'
+      quarter_label: 'Q%{quarter_number}'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times.
+          Note that when hovering over an element, its date labels will be shown instead of these attributes.
+
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      filter:
+        noneSelection: "(none)"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "Zoom in"
+        out: "Zoom out"
+        auto: "Auto zoom"
+        days: "Days"
+        weeks: "Weeks"
+        months: "Months"
+        quarters: "Quarters"
+        years: "Years"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
+
     general_text_no: "no"
     general_text_yes: "yes"
     general_text_No: "No"
@@ -893,36 +925,6 @@ en:
 
     text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
     text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
-    timelines:
-      quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantt chart'
-      labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
-        description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times.
-          Note that when hovering over an element, its date labels will be shown instead of these attributes.
-
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
-      filter:
-        noneSelection: "(none)"
-      selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
-      zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
-        description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
     tl_toolbar:
       zooms: "Zoom level"
       outlines: "Hierarchy level"

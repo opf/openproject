@@ -59,7 +59,7 @@ export class StaticQueriesService {
     updated_at: this.I18n.t('js.work_packages.properties.updatedAt'),
     status: this.I18n.t('js.work_packages.properties.status'),
     work_packages: this.I18n.t('js.label_work_package_plural'),
-    gantt: this.I18n.t('js.timelines.gantt_chart'),
+    gantt: this.I18n.t('js.gantt_chart.label'),
     latest_activity: this.I18n.t('js.work_packages.default_queries.latest_activity'),
     created_by_me: this.I18n.t('js.work_packages.default_queries.created_by_me'),
     assigned_to_me: this.I18n.t('js.work_packages.default_queries.assigned_to_me'),
