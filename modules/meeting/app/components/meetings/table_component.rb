@@ -38,6 +38,13 @@ module Meetings
       %i[start_time asc]
     end
 
+    def initialize_sorted_model
+      helpers.sort_clear
+      helpers.sort_init *initial_sort.map(&:to_s)
+      helpers.sort_update sortable_columns.map(&:to_s)
+      @model = paginate_collection apply_sort(model)
+    end
+
     def paginated?
       true
     end
