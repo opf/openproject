@@ -32,12 +32,9 @@ module Storages::ProjectStorages
     def set_default_attributes(_params)
       model.creator ||= user
 
-      model.project_folder_mode ||=
-        if model.storage.present? && model.storage.automatically_managed?
-          "automatic"
-        else
-          "inactive"
-        end
+      if model.storage.present? && model.storage.automatically_managed?
+        model.project_folder_mode = "automatic"
+      end
     end
   end
 end
