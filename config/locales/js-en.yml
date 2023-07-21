@@ -910,7 +910,6 @@ en:
       button_deactivate: 'Hide Gantt chart'
       filter:
         noneSelection: "(none)"
-      responsible: "Responsible"
       save: Save
       start_date: "Start date"
       tooManyProjects: "More than %{count} Projects. Please use a better filter!"
