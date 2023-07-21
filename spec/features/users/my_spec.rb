@@ -276,7 +276,8 @@ RSpec.describe 'my', js: true, with_cuprite: true do
 
                 expect(page).to have_selector("[data-qa-selector='ical-token-row-#{ical_token.id}-name']", text: token_name)
                 expect(page).to have_selector("[data-qa-selector='ical-token-row-#{ical_token.id}-query-name']", text: query.name)
-                expect(page).to have_selector("[data-qa-selector='ical-token-row-#{ical_token.id}-project-name']", text: query.project.name)
+                expect(page).to have_selector("[data-qa-selector='ical-token-row-#{ical_token.id}-project-name']",
+                                              text: query.project.name)
               end
             end
           end
