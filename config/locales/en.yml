@@ -2950,7 +2950,6 @@ en:
     enable_type_in_project: 'Enable type "%{type}"'
     new_color: "New color"
 
-    type_could_not_be_saved: "Type could not be saved"
     reporting_could_not_be_saved: "Reporting could not be saved"
     properties: "Properties"
     really_delete_color: >
