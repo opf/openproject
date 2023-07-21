@@ -199,6 +199,9 @@ en:
       label_edit_color: "Edit color"
     label_no_color: "No color"
     label_properties: "Properties"
+    label_really_delete_color: >
+      Are you sure, you want to delete the following color?
+      Types using this color will not be deleted.
 
   custom_actions:
     actions:
@@ -2955,9 +2958,6 @@ en:
     start: "from"
 
   timelines:
-    really_delete_color: >
-      Are you sure, you want to delete the following color?
-      Types using this color will not be deleted.
 
   title_remove_and_delete_user: Remove the invited user from the project and delete him/her.
   title_enterprise_upgrade: "Upgrade to unlock more users."
