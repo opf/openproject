@@ -53,22 +53,23 @@ module WorkPackage::PDFExport::WorkPackageDetail
   private
 
   def write_work_package_subject!(work_package, level_path)
+    text_style = styles.wp_subject(level_path.length)
     with_margin(styles.wp_detail_subject_margins) do
       link_target_at_current_y(work_package.id)
-      level_string_width = write_work_package_level!(level_path)
+      level_string_width = write_work_package_level!(level_path, text_style)
       title = get_column_value work_package, :subject
       @pdf.indent(level_string_width) do
-        pdf.formatted_text([styles.wp_subject.merge({ text: title })])
+        pdf.formatted_text([text_style.merge({ text: title })])
       end
     end
   end
 
-  def write_work_package_level!(level_path)
+  def write_work_package_level!(level_path, text_style)
     return 0 if level_path.empty?
 
     level_string = "#{level_path.join('.')}. "
-    level_string_width = measure_text_width(level_string, styles.wp_subject)
-    @pdf.float { @pdf.formatted_text([styles.wp_subject.merge({ text: level_string })]) }
+    level_string_width = measure_text_width(level_string, text_style)
+    @pdf.float { @pdf.formatted_text([text_style.merge({ text: level_string })]) }
     level_string_width
   end
 

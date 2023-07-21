@@ -31,9 +31,10 @@ module OnboardingSteps
     next_button.click
     expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.team_planner.overview')), normalize_ws: true
 
+    # The team planner is long to load
     next_button.click
     expect(page)
-      .to have_text sanitize_string(I18n.t('js.onboarding.steps.team_planner.calendar')), normalize_ws: true, wait: 5
+      .to have_text sanitize_string(I18n.t('js.onboarding.steps.team_planner.calendar')), normalize_ws: true, wait: 10
 
     next_button.click
     expect(page)

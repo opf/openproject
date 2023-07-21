@@ -156,7 +156,7 @@ gem 'structured_warnings', '~> 0.4.0'
 gem 'airbrake', '~> 13.0.0', require: false
 
 gem 'prawn', '~> 2.2'
-gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', tag: 'v0.0.18'
+gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: '76945d45c14b841e2312f992422e2631a4524114'
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem 'matrix', '~> 0.4.2'
 
@@ -201,6 +201,9 @@ gem 'ruby-progressbar', '~> 1.13.0', require: false
 gem 'mini_magick', '~> 4.12.0', require: false
 
 gem 'validate_url'
+
+# ActiveRecord extension which adds typecasting to store accessors
+gem "store_attribute", "~> 1.0"
 
 # Appsignal integration
 gem "appsignal", "~> 3.0", require: false

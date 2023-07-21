@@ -42,7 +42,7 @@ RSpec.describe 'Activation of storages in projects', js: true, webmock: true, wi
                            edit_project])
   end
   let(:oauth_application) { create(:oauth_application) }
-  let(:storage) { create(:storage, oauth_application:) }
+  let(:storage) { create(:nextcloud_storage, oauth_application:) }
   let(:project) do
     create(:project,
            members: { user => role },

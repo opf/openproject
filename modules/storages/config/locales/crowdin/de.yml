@@ -33,6 +33,9 @@ de:
                 scheint die App "OpenProject Integration" nicht installiert zu haben. Bitte installieren Sie diese zuerst und versuchen es danach erneut.
               authorization_header_missing: >
                 ist nicht vollständig eingerichtet. Die Nextcloud-Instanz erhält nicht den HTTP "Authorization" Header. Dieser ist jedoch für eine auf Bearer-Token basierende Autorisierung von API-Anfragen notwendig. Bitte überprüfen Sie die HTTP-Server-Konfiguration Ihres Nextcloud-Servers.
+            password:
+              invalid_password: "ist ungültig."
+              unknown_error: "could not be validated. Please check your storage connection and try again."
         storages/file_link:
           attributes:
             origin_id:
@@ -43,12 +46,19 @@ de:
   storages:
     buttons:
       done_continue_setup: "Fertig. Setup fortsetzen"
+      done_complete_setup: "Fertig, Einrichtung abgeschlossen"
+      edit_automatically_managed_project_folders: "Automatisch verwaltete Projektordner bearbeiten"
       replace_openproject_oauth: "OpenProject OAuth ersetzen"
       replace_provider_type_oauth: "Ersetze %{provider_type} OAuth"
       save_and_continue_setup: "Speichern und Setup fortsetzen"
       save_and_complete_setup: "Speichern und Setup abschließen"
       select_folder: "Ordner auswählen"
+      configure: "Konfigurieren"
     page_titles:
+      managed_project_folders:
+        title: "Automatisch verwaltete Projektordner"
+        subtitle: >
+          Lassen Sie OpenProject Ordner pro Projekt automatisch erstellen. Dies wird empfohlen, da mit dieser Option jedes Teammitglied immer über die richtigen Zugriffsrechte verfügt.
       project_settings:
         index: "Dateispeicher in diesem Projekt verfügbar"
         new: "Einen Datei-Speicher zum Projekt hinzufügen"
@@ -58,6 +68,8 @@ de:
       type_link_text: "„OpenProject Integration“"
       name: "Geben Sie Ihrem Speicher einen Namen, damit Benutzer zwischen mehreren Speichern unterscheiden können."
       host: "Bitte ergänzen Sie die Host-Adresse Ihres Speichers (einschließlich https://). Sie sollte nicht länger als 255 Zeichen sein."
+      managed_project_folders_application_password: >
+        Diesen Wert kopieren von:
       no_storage_set_up: "Es sind noch keine Dateispeicher eingerichtet."
       no_specific_folder: "Standardmäßig startet jeder Benutzer in seinem eigenen Home-Ordner, wenn er eine Datei hochlädt."
       automatic_folder: "Dies wird automatisch einen Stammordner für dieses Projekt erstellen und die Zugriffsberechtigungen für jedes Projektmitglied verwalten."
@@ -81,11 +93,17 @@ de:
         Sind Sie sicher, dass Sie diesen Speicher löschen möchten? Dies löscht den Speicher auch aus allen Projekten, in denen er verwendet wird. Außerdem werden alle Links von Arbeitspaketen zu Dateien gelöscht, die in diesem Speicher gespeichert sind.
       project_storage: >
         Sind Sie sicher, dass Sie diesen Datei-Speicher aus diesem Projekt entfernen möchten? Dies wird auch alle Links zu Dateien entfernen, die für dieses Projekt in diesem Speicher gespeichert sind.
+    label_active: "Aktiv"
+    label_inactive: "Inaktiv"
     label_creator: "Ersteller"
     label_file_link: "Datei-Link"
     label_file_links: "Datei-Links"
     label_name: "Name"
     label_host: "Host-URL"
+    label_managed_project_folders:
+      automatically_managed_folders: "Automatisch verwaltete Projektordner"
+      application_password: "Anwendungspasswort"
+    label_managed_project_folders_breadcrumb: "Automatisch verwaltete Projektordner"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
       nextcloud: "Nextcloud OAuth"
@@ -110,4 +128,5 @@ de:
     confirm_replace_oauth_application: "Sind Sie sicher? Alle Benutzer müssen sich erneut gegen OpenProject autorisieren."
     confirm_replace_oauth_client: "Sind Sie sicher? Alle Benutzer müssen sich erneut gegen den Daten-Speicher autorisieren."
     oauth_client_details_missing: "Um das Setup abzuschließen, fügen Sie bitte die OAuth Client-Anmeldedaten aus Ihrem Speicher hinzu."
+    automatically_managed_project_folder_missing: "Um die Einrichtung abzuschließen, konfigurieren Sie bitte die automatish verwalteten Projektordner für Ihren Speicher."
     notice_oauth_application_replaced: "Die OpenProject OAuth-Anwendung wurde erfolgreich ersetzt."

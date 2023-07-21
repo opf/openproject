@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Disabled activity', js: true do
+RSpec.describe 'Disabled activity', :js, :with_cuprite do
   shared_let(:admin) { create(:admin) }
 
   let(:project1) do
@@ -40,9 +40,11 @@ RSpec.describe 'Disabled activity', js: true do
   let(:project3) do
     create(:project, enabled_module_names: %i[activity])
   end
+
   let!(:work_package1) { create(:work_package, project: project1) }
   let!(:work_package2) { create(:work_package, project: project2) }
   let!(:work_package3) { create(:work_package, project: project3) }
+
   let!(:wiki_page1) do
     create(:wiki_page, wiki: project1.wiki)
   end

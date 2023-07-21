@@ -1,15 +1,12 @@
 require 'spec_helper'
 require_relative 'support/pages/cost_report_page'
 
-RSpec.describe 'Cost report calculations', js: true do
+RSpec.describe 'Cost report calculations', 'grouping', :js, :with_cuprite do
   let(:project) { create(:project) }
   let(:user) { create(:admin) }
-
   let(:work_package) { create(:work_package, project:) }
+
   let!(:hourly_rate1) { create(:default_hourly_rate, user:, rate: 1.00, valid_from: 1.year.ago) }
-
-  let(:report_page) { Pages::CostReportPage.new project }
-
   let!(:time_entry1) do
     create(:time_entry,
            spent_on: 6.months.ago,
@@ -19,8 +16,10 @@ RSpec.describe 'Cost report calculations', js: true do
            hours: 10)
   end
 
+  let(:report_page) { Pages::CostReportPage.new project }
+
   before do
-    login_as(user)
+    login_as user
     visit cost_reports_path(project)
   end
 

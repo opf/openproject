@@ -31,7 +31,7 @@ require_relative '../../../spec_helper'
 RSpec.describe Storages::Storages::BaseContract, :storage_server_helpers, webmock: true do
   let(:current_user) { create(:admin) }
   let(:storage_host) { 'https://host1.example.com' }
-  let(:storage) { build(:storage, host: storage_host) }
+  let(:storage) { build(:nextcloud_storage, host: storage_host) }
   let(:contract) { described_class.new(storage, current_user) }
 
   it 'checks the storage url only when changed' do
@@ -46,5 +46,77 @@ RSpec.describe Storages::Storages::BaseContract, :storage_server_helpers, webmoc
     contract.valid?
     expect(capabilities_request).not_to have_been_made
     expect(host_request).not_to have_been_made
+  end
+
+  describe 'Nextcloud application credentials validation' do
+    before do
+      mock_server_capabilities_response(storage.host)
+      mock_server_config_check_response(storage.host)
+    end
+
+    context 'with valid credentials' do
+      let(:storage) { build(:nextcloud_storage, :as_automatically_managed) }
+
+      it 'passes validation' do
+        credentials_request = mock_nextcloud_application_credentials_validation(storage.host)
+        contract = described_class.new(storage, current_user)
+
+        expect(contract).to be_valid
+        expect(credentials_request).to have_been_made.once
+      end
+    end
+
+    context 'with invalid credentials' do
+      let(:storage) { build(:nextcloud_storage, :as_automatically_managed) }
+
+      it 'fails validation' do
+        credentials_request = mock_nextcloud_application_credentials_validation(storage.host, response_code: 401)
+        contract = described_class.new(storage, current_user)
+
+        expect(contract).not_to be_valid
+        expect(contract.errors.to_hash).to eq({ password: ["is not valid."] })
+
+        expect(credentials_request).to have_been_made.once
+      end
+    end
+
+    context 'with unknown error' do
+      let(:storage) { build(:nextcloud_storage, :as_automatically_managed) }
+
+      it 'fails validation' do
+        credentials_request = mock_nextcloud_application_credentials_validation(storage.host, response_code: 500)
+        contract = described_class.new(storage, current_user)
+
+        expect(contract).not_to be_valid
+        expect(contract.errors.to_hash)
+          .to eq({ password: ["could not be validated. Please check your storage connection and try again."] })
+
+        expect(credentials_request).to have_been_made.once
+      end
+    end
+
+    context 'when the storage is not automatically managed' do
+      let(:storage) { build(:nextcloud_storage, :as_not_automatically_managed) }
+
+      it 'skips credentials validation' do
+        credentials_request = mock_nextcloud_application_credentials_validation(storage.host)
+        contract = described_class.new(storage, current_user)
+
+        expect(contract).to be_valid
+        expect(credentials_request).not_to have_been_made
+      end
+    end
+
+    context 'when the storage host has a subpath' do
+      let(:storage) { build(:nextcloud_storage, :as_automatically_managed, host: 'https://host1.example.com/api') }
+
+      it 'passes validation' do
+        credentials_request = mock_nextcloud_application_credentials_validation(storage.host)
+        contract = described_class.new(storage, current_user)
+
+        expect(contract).to be_valid
+        expect(credentials_request).to have_been_made.once
+      end
+    end
   end
 end

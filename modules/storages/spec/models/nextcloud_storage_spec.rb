@@ -29,6 +29,48 @@
 require_relative '../spec_helper'
 
 RSpec.describe Storages::NextcloudStorage do
+  let(:storage) { build(:nextcloud_storage) }
+
+  shared_examples 'a stored attribute with default value' do |attribute, default_value|
+    context "when the provider fields are empty" do
+      let(:storage) { build(:nextcloud_storage, provider_fields: {}) }
+
+      it "has a default runtime value of #{default_value}" do
+        expect(storage.provider_fields).to eq({})
+        expect(storage.public_send(attribute)).to eq(default_value)
+      end
+    end
+
+    context "with a new value of 'foo'" do
+      it "sets the value to 'foo'" do
+        storage.public_send("#{attribute}=", 'foo')
+        expect(storage.public_send(attribute)).to eq('foo')
+      end
+    end
+  end
+
+  shared_examples 'a stored boolean attribute' do |attribute|
+    it "#{attribute} has a default value of false" do
+      expect(storage.public_send(:"#{attribute}?")).to be(false)
+    end
+
+    ['1', 'true', true].each do |boolean_like|
+      context "with truthy value #{boolean_like}" do
+        it "sets #{attribute} to true" do
+          storage.public_send(:"#{attribute}=", boolean_like)
+          expect(storage.public_send(attribute)).to be(true)
+        end
+      end
+    end
+
+    it "#{attribute} can be set to true" do
+      storage.public_send(:"#{attribute}=", true)
+
+      expect(storage.public_send(attribute)).to be(true)
+      expect(storage.public_send(:"#{attribute}?")).to be(true)
+    end
+  end
+
   describe '.sync_all_group_folders' do
     subject { described_class.sync_all_group_folders }
 
@@ -38,12 +80,11 @@ RSpec.describe Storages::NextcloudStorage do
       end
 
       it 'calls GroupFolderPropertiesSyncService for each appropriate storage' do
-        storage1 = create(:storage, has_managed_project_folders: true)
-        storage2 = create(:storage, has_managed_project_folders: false)
+        storage1 = create(:nextcloud_storage, :as_automatically_managed)
+        storage2 = create(:nextcloud_storage, :as_not_automatically_managed)
+
         allow(Storages::GroupFolderPropertiesSyncService).to receive(:new).and_call_original
-        # rubocop:disable RSpec/AnyInstance
-        allow_any_instance_of(Storages::GroupFolderPropertiesSyncService).to receive(:call).and_return(nil)
-        # rubocop:enable RSpec/AnyInstance
+        allow_any_instance_of(Storages::GroupFolderPropertiesSyncService).to receive(:call).and_return(nil) # rubocop:disable RSpec/AnyInstance
 
         expect(subject).to be(true)
         expect(Storages::GroupFolderPropertiesSyncService).to have_received(:new).with(storage1).once
@@ -62,6 +103,52 @@ RSpec.describe Storages::NextcloudStorage do
           transaction: false
         ).once
       end
+    end
+  end
+
+  describe '#username' do
+    it_behaves_like 'a stored attribute with default value', :username, 'OpenProject'
+  end
+
+  describe '#group' do
+    it_behaves_like 'a stored attribute with default value', :group, 'OpenProject'
+  end
+
+  describe '#group_folder' do
+    it_behaves_like 'a stored attribute with default value', :group_folder, 'OpenProject'
+  end
+
+  describe '#automatically_managed?' do
+    it_behaves_like 'a stored boolean attribute', :automatically_managed
+  end
+
+  describe '#automatic_management_unspecified?' do
+    context 'when automatically_managed is nil' do
+      let(:storage) { build(:nextcloud_storage, automatically_managed: nil) }
+
+      it { expect(storage).to be_automatic_management_unspecified }
+    end
+
+    context 'when automatically_managed is true' do
+      let(:storage) { build(:nextcloud_storage, automatically_managed: true) }
+
+      it { expect(storage).not_to be_automatic_management_unspecified }
+    end
+
+    context 'when automatically_managed is false' do
+      let(:storage) { build(:nextcloud_storage, automatically_managed: false) }
+
+      it { expect(storage).not_to be_automatic_management_unspecified }
+    end
+  end
+
+  describe '#provider_fields_defaults' do
+    let(:storage) { build(:nextcloud_storage) }
+
+    it 'returns the default values for nextcloud' do
+      expect(storage.provider_fields_defaults).to eq(
+        { automatically_managed: true, username: 'OpenProject' }
+      )
     end
   end
 end

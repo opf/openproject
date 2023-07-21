@@ -78,7 +78,7 @@ RSpec.describe WorkPackages::CreateContract do
 
       it 'is not authorized' do
         expect(validated_contract.errors.symbols_for(:base))
-          .to match_array [:error_unauthorized]
+          .to contain_exactly(:error_unauthorized)
       end
     end
 
@@ -99,7 +99,7 @@ RSpec.describe WorkPackages::CreateContract do
 
       it 'is not authorized' do
         expect(validated_contract.errors.symbols_for(:base))
-          .to match_array [:error_unauthorized]
+          .to contain_exactly(:error_unauthorized)
       end
     end
 
@@ -112,7 +112,7 @@ RSpec.describe WorkPackages::CreateContract do
 
       it 'is not authorized' do
         expect(validated_contract.errors.symbols_for(:base))
-          .to match_array [:error_unauthorized]
+          .to contain_exactly(:error_unauthorized)
       end
     end
   end

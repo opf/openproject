@@ -76,8 +76,7 @@ module OpenProject::Backlogs
                    rb_wikis: :show,
                    rb_stories: %i[index show],
                    rb_queries: :show,
-                   rb_burndown_charts: :show,
-                   rb_export_card_configurations: %i[index show]
+                   rb_burndown_charts: :show
 
         permission :view_taskboards,
                    rb_taskboards: :show,
@@ -86,8 +85,7 @@ module OpenProject::Backlogs
                    rb_tasks: %i[index show],
                    rb_impediments: %i[index show],
                    rb_wikis: :show,
-                   rb_burndown_charts: :show,
-                   rb_export_card_configurations: %i[index show]
+                   rb_burndown_charts: :show
 
         permission :select_done_statuses,
                    {

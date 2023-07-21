@@ -91,6 +91,13 @@ class EditField
     wait_for_network_idle if using_cuprite?
   end
 
+  def set_select_field_value(value)
+    retry_block do
+      openSelectField
+      set_value value
+    end
+  end
+
   def expect_state!(open:)
     if open
       expect_active!
@@ -137,6 +144,7 @@ class EditField
 
   def submit_by_dashboard
     field_container.find('.inplace-edit--control--save').click
+    wait_for_reload if using_cuprite?
   end
 
   ##

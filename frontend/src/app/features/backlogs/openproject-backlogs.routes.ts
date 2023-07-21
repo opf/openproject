@@ -48,10 +48,4 @@ export const BACKLOGS_ROUTES:Ng2StateDeclaration[] = [
     url: '/sprints/{sprintId:int}/burndown_chart',
     component: BacklogsPageComponent,
   },
-  {
-    name: 'backlogs_export',
-    parent: 'optional_project',
-    url: '/sprints/{sprintId:int}/export_card_configurations',
-    component: BacklogsPageComponent,
-  },
 ];

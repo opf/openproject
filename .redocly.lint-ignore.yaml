@@ -6,6 +6,7 @@ tmp/oas-generated.yml:
     - '#/paths/~1api~1v3~1file_links~1{file_link_id}~1open/get/responses'
   operation-4xx-response:
     - '#/paths/~1api~1v3/get/responses'
+    - '#/paths/~1api~1v3~1help_texts/get/responses'
   no-ambiguous-paths:
     - '#/paths/~1api~1v3~1queries~1{id}~1form'
     - '#/paths/~1api~1v3~1queries~1{id}~1star'

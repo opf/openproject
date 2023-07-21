@@ -30,7 +30,8 @@ require 'spec_helper'
 require 'support/edit_fields/edit_field'
 
 RSpec.describe 'Datepicker modal logic test cases (WP #43539)',
-               js: true, with_settings: { date_format: '%Y-%m-%d' } do
+               js: true,
+               with_cuprite: true, with_settings: { date_format: '%Y-%m-%d' } do
   shared_let(:user) { create(:admin) }
 
   shared_let(:type_bug) { create(:type_bug) }
@@ -221,8 +222,6 @@ RSpec.describe 'Datepicker modal logic test cases (WP #43539)',
       datepicker.expect_due_date '2021-02-12'
       datepicker.expect_duration 3
 
-      # The spec clears faster than the due date is filled, wait a bit
-      sleep 1
       datepicker.clear_duration
 
       datepicker.expect_start_date '2021-02-09'
@@ -245,8 +244,6 @@ RSpec.describe 'Datepicker modal logic test cases (WP #43539)',
       datepicker.expect_due_date '2021-02-12'
       datepicker.expect_duration 3
 
-      # The spec clears faster than the due date is filled, wait a bit
-      sleep 1
       datepicker.clear_duration_with_icon
 
       datepicker.expect_start_date '2021-02-09'
@@ -269,8 +266,6 @@ RSpec.describe 'Datepicker modal logic test cases (WP #43539)',
       datepicker.expect_due_date '2021-02-12'
       datepicker.expect_duration 3
 
-      # The spec clears faster than the due date is filled, wait a bit
-      sleep 1
       datepicker.clear_duration_with_icon
 
       datepicker.expect_start_date '2021-02-09'
@@ -284,8 +279,6 @@ RSpec.describe 'Datepicker modal logic test cases (WP #43539)',
       datepicker.expect_due_date '2021-02-09'
       datepicker.expect_duration 3
 
-      # Clear again
-      sleep 1
       datepicker.clear_duration_with_icon
 
       datepicker.expect_start_date '2021-02-05'
@@ -338,7 +331,6 @@ RSpec.describe 'Datepicker modal logic test cases (WP #43539)',
 
       # simulate someone deleting some chars to type a new date
       datepicker.set_start_date '2021-02-'
-      sleep 2
       datepicker.set_start_date '2021-02-09'
 
       datepicker.expect_start_date '2021-02-09'
@@ -756,8 +748,6 @@ RSpec.describe 'Datepicker modal logic test cases (WP #43539)',
       datepicker.focus_duration
       datepicker.expect_duration_highlighted
 
-      sleep 1
-
       datepicker.select_day 17
       datepicker.expect_start_date '2021-02-17'
       datepicker.expect_due_date '2021-02-18'
@@ -789,8 +779,6 @@ RSpec.describe 'Datepicker modal logic test cases (WP #43539)',
 
       datepicker.focus_duration
       datepicker.expect_duration_highlighted
-
-      sleep 1
 
       datepicker.select_day 19
       datepicker.expect_start_date '2021-02-18'
@@ -824,8 +812,6 @@ RSpec.describe 'Datepicker modal logic test cases (WP #43539)',
       datepicker.focus_duration
       datepicker.expect_duration_highlighted
 
-      sleep 1
-
       datepicker.select_day 19
       datepicker.expect_start_date '2021-02-18'
       datepicker.expect_due_date '2021-02-19'
@@ -857,8 +843,6 @@ RSpec.describe 'Datepicker modal logic test cases (WP #43539)',
 
       datepicker.focus_duration
       datepicker.expect_duration_highlighted
-
-      sleep 1
 
       datepicker.select_day 17
       datepicker.expect_start_date '2021-02-17'

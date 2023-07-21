@@ -257,11 +257,10 @@ module Components
 
       def insert_two_single_dates(id, value)
         fill_in("values-#{id}-begin", with: value[0]) if value[0]
-        sleep 1
-        loading_indicator_saveguard
         fill_in("values-#{id}-end", with: value[1]) if value[1]
-        sleep 1
-        loading_indicator_saveguard
+
+        ensure_value_is_input_correctly page.find("#values-#{id}-begin"), value: value[0] if value[0]
+        ensure_value_is_input_correctly page.find("#values-#{id}-end"), value: value[1] if value[1]
       end
 
       def insert_date_range(filter_element, value)

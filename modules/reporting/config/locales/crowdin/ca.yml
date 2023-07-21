@@ -81,6 +81,9 @@ ca:
   units: "Unitats"
   validation_failure_date: "no és una data vàlida"
   validation_failure_integer: "no és un enter vàlid"
+  export:
+    cost_reports:
+      title: "Your Cost Reports XLS export"
   reporting:
     group_by:
       selected_columns: "Columnes seleccionades"

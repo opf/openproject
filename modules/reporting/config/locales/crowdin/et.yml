@@ -81,6 +81,9 @@ et:
   units: "Ühikud"
   validation_failure_date: "pole korrektne kuupäev"
   validation_failure_integer: "pole täisarv"
+  export:
+    cost_reports:
+      title: "Your Cost Reports XLS export"
   reporting:
     group_by:
       selected_columns: "Selected columns"

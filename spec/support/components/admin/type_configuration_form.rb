@@ -127,7 +127,7 @@ module Components
       end
 
       def add_query_group(name, relation_filter, expect: true)
-        SeleniumHubWaiter.wait
+        SeleniumHubWaiter.wait unless using_cuprite?
 
         add_button_dropdown.click
         add_table_button.click
@@ -161,16 +161,16 @@ module Components
 
         input = find('.group-edit-in-place--input')
         input.set(name)
-        input.send_keys(:return)
 
         expect_group(name, name) if expect
       end
 
       def edit_query_group(name)
-        SeleniumHubWaiter.wait
+        SeleniumHubWaiter.wait unless using_cuprite?
 
         group = find_group(name)
         group.find('.type-form-query-group--edit-button').click
+        wait_for_reload if using_cuprite?
       end
 
       def add_attribute_group(name, expect: true)

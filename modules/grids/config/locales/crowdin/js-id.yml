@@ -31,13 +31,13 @@ id:
           no_results: 'No custom fields have been defined for projects.'
         project_status:
           title: 'Project status'
-          not_started: 'Not started'
-          on_track: 'On track'
-          off_track: 'Off track'
-          at_risk: 'At risk'
+          not_started: 'Belum mulai'
+          on_track: 'Di jalur'
+          off_track: 'Keluar dari jalur'
+          at_risk: 'Berisiko'
           not_set: 'Not set'
           finished: 'Selesai'
-          discontinued: 'Discontinued'
+          discontinued: 'Dihentikan'
         subprojects:
           title: 'Sub Project'
           no_results: 'No subprojects.'

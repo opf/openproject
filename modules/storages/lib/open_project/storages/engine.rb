@@ -44,6 +44,7 @@ module OpenProject::Storages
       OpenProject::FeatureDecisions.add :storage_file_picking_select_all
       OpenProject::FeatureDecisions.add :storage_project_folders
       OpenProject::FeatureDecisions.add :managed_project_folders
+      OpenProject::FeatureDecisions.add :automatically_managed_project_folders
     end
 
     initializer 'openproject_storages.event_subscriptions' do
@@ -132,7 +133,7 @@ module OpenProject::Storages
            User.current.allowed_to?(:view_file_links, project)
           project.projects_storages.each do |project_storage|
             storage = project_storage.storage
-            href = if project_storage.project_folder_inactive?
+            href = if project_storage.project_folder_inactive? || !User.current.member_of?(project)
                      storage.host
                    else
                      ::Storages::Peripherals::StorageUrlHelper.storage_url_open_file(storage, project_storage.project_folder_id)

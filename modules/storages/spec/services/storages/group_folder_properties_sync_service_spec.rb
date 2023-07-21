@@ -29,11 +29,145 @@
 require 'spec_helper'
 
 RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
-  # rubocop:disable RSpec/IndexedLet
-  let(:group_users_response_body) do
-    <<~XML
-      <?xml version="1.0"?>
-      <ocs>
+  describe '#call' do
+    # rubocop:disable RSpec/IndexedLet
+    let(:group_users_response_body) do
+      <<~XML
+        <?xml version="1.0"?>
+        <ocs>
+          <meta>
+            <status>ok</status>
+            <statuscode>100</statuscode>
+            <message>OK</message>
+            <totalitems></totalitems>
+            <itemsperpage></itemsperpage>
+          </meta>
+          <data>
+            <users>
+              <element>Darth Maul</element>
+              <element>OpenProject</element>
+            </users>
+          </data>
+        </ocs>
+      XML
+    end
+    let(:set_permissions_request_body1) do
+      <<~XML
+        <?xml version="1.0"?>
+        <d:propertyupdate xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
+          <d:set>
+            <d:prop>
+              <nc:acl-list>
+                <nc:acl>
+                  <nc:acl-mapping-type>group</nc:acl-mapping-type>
+                  <nc:acl-mapping-id>OpenProject</nc:acl-mapping-id>
+                  <nc:acl-mask>31</nc:acl-mask>
+                  <nc:acl-permissions>1</nc:acl-permissions>
+                </nc:acl>
+                <nc:acl>
+                  <nc:acl-mapping-type>user</nc:acl-mapping-type>
+                  <nc:acl-mapping-id>OpenProject</nc:acl-mapping-id>
+                  <nc:acl-mask>31</nc:acl-mask>
+                  <nc:acl-permissions>31</nc:acl-permissions>
+                </nc:acl>
+              </nc:acl-list>
+            </d:prop>
+          </d:set>
+        </d:propertyupdate>
+      XML
+    end
+    let(:set_permissions_response_body1) do
+      <<~XML
+        <?xml version="1.0"?>
+        <d:multistatus
+          xmlns:d="DAV:"
+          xmlns:s="http://sabredav.org/ns"
+          xmlns:oc="http://owncloud.org/ns"
+          xmlns:nc="http://nextcloud.org/ns">
+          <d:response>
+            <d:href>/remote.php/dav/files/OpenProject/OpenProject</d:href>
+            <d:propstat>
+              <d:prop>
+                <nc:acl-list/>
+              </d:prop>
+              <d:status>HTTP/1.1 200 OK</d:status>
+            </d:propstat>
+          </d:response>
+        </d:multistatus>
+      XML
+    end
+    let(:propfind_request_body) do
+      <<~XML
+        <?xml version="1.0"?>
+        <d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
+          <d:prop>
+            <oc:fileid/>
+          </d:prop>
+        </d:propfind>
+      XML
+    end
+    let(:propfind_response_body1) do
+      <<~XML
+        <?xml version="1.0"?>
+        <d:multistatus
+          xmlns:d="DAV:"
+          xmlns:s="http://sabredav.org/ns"
+          xmlns:oc="http://owncloud.org/ns"
+          xmlns:nc="http://nextcloud.org/ns">
+          <d:response>
+            <d:href>/remote.php/dav/files/OpenProject/OpenProject/</d:href>
+            <d:propstat>
+              <d:prop>
+                <oc:fileid>349</oc:fileid>
+              </d:prop>
+              <d:status>HTTP/1.1 200 OK</d:status>
+            </d:propstat>
+          </d:response>
+          <d:response>
+            <d:href>/remote.php/dav/files/OpenProject/OpenProject/Lost%20Jedi%20Project%20Folder%20%232/</d:href>
+            <d:propstat>
+              <d:prop>
+                <oc:fileid>783</oc:fileid>
+              </d:prop>
+              <d:status>HTTP/1.1 200 OK</d:status>
+            </d:propstat>
+          </d:response>
+          <d:response>
+            <d:href>/remote.php/dav/files/OpenProject/OpenProject/Lost%20Jedi%20Project%20Folder%20%233/</d:href>
+            <d:propstat>
+              <d:prop>
+                <oc:fileid>123</oc:fileid>
+              </d:prop>
+              <d:status>HTTP/1.1 200 OK</d:status>
+            </d:propstat>
+          </d:response>
+        </d:multistatus>
+      XML
+    end
+    let(:propfind_response_body2) do
+      <<~XML
+        <?xml version="1.0"?>
+        <d:multistatus
+          xmlns:d="DAV:"
+          xmlns:s="http://sabredav.org/ns"
+          xmlns:oc="http://owncloud.org/ns"
+          xmlns:nc="http://nextcloud.org/ns">
+          <d:response>
+            <d:href>/remote.php/dav/files/OpenProject/OpenProject/%5bSample%5d%20Project%20Name%20%7c%20Ehuu%20(#{project1.id})/</d:href>
+            <d:propstat>
+              <d:prop>
+                <oc:fileid>819</oc:fileid>
+              </d:prop>
+              <d:status>HTTP/1.1 200 OK</d:status>
+            </d:propstat>
+          </d:response>
+        </d:multistatus>
+      XML
+    end
+    let(:add_user_to_group_response_body) do
+      <<~XML
+        <?xml version="1.0"?>
+        <ocs>
         <meta>
           <status>ok</status>
           <statuscode>100</statuscode>
@@ -41,306 +175,176 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
           <totalitems></totalitems>
           <itemsperpage></itemsperpage>
         </meta>
-        <data>
-          <users>
-            <element>Darth Maul</element>
-            <element>OpenProject</element>
-          </users>
-        </data>
-      </ocs>
-    XML
-  end
-  let(:set_permissions_request_body1) do
-    <<~XML
-      <?xml version="1.0"?>
-      <d:propertyupdate xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
-        <d:set>
-          <d:prop>
-            <nc:acl-list>
-              <nc:acl>
-                <nc:acl-mapping-type>group</nc:acl-mapping-type>
-                <nc:acl-mapping-id>OpenProject</nc:acl-mapping-id>
-                <nc:acl-mask>31</nc:acl-mask>
-                <nc:acl-permissions>1</nc:acl-permissions>
-              </nc:acl>
-              <nc:acl>
-                <nc:acl-mapping-type>user</nc:acl-mapping-type>
-                <nc:acl-mapping-id>OpenProject</nc:acl-mapping-id>
-                <nc:acl-mask>31</nc:acl-mask>
-                <nc:acl-permissions>31</nc:acl-permissions>
-              </nc:acl>
-            </nc:acl-list>
-          </d:prop>
-        </d:set>
-      </d:propertyupdate>
-    XML
-  end
-  let(:set_permissions_response_body1) do
-    <<~XML
-      <?xml version="1.0"?>
-      <d:multistatus
-        xmlns:d="DAV:"
-        xmlns:s="http://sabredav.org/ns"
-        xmlns:oc="http://owncloud.org/ns"
-        xmlns:nc="http://nextcloud.org/ns">
-        <d:response>
-          <d:href>/remote.php/dav/files/OpenProject/OpenProject</d:href>
-          <d:propstat>
+        <data/>
+        </ocs>
+      XML
+    end
+    let(:set_permissions_request_body2) do
+      <<~XML
+        <?xml version="1.0"?>
+        <d:propertyupdate xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
+          <d:set>
             <d:prop>
-              <nc:acl-list/>
+              <nc:acl-list>
+                <nc:acl>
+                  <nc:acl-mapping-type>group</nc:acl-mapping-type>
+                  <nc:acl-mapping-id>OpenProject</nc:acl-mapping-id>
+                  <nc:acl-mask>31</nc:acl-mask>
+                  <nc:acl-permissions>0</nc:acl-permissions>
+                </nc:acl>
+                <nc:acl>
+                  <nc:acl-mapping-type>user</nc:acl-mapping-type>
+                  <nc:acl-mapping-id>OpenProject</nc:acl-mapping-id>
+                  <nc:acl-mask>31</nc:acl-mask>
+                  <nc:acl-permissions>31</nc:acl-permissions>
+                </nc:acl>
+                <nc:acl>
+                  <nc:acl-mapping-type>user</nc:acl-mapping-type>
+                  <nc:acl-mapping-id>Obi-Wan</nc:acl-mapping-id>
+                  <nc:acl-mask>31</nc:acl-mask>
+                  <nc:acl-permissions>3</nc:acl-permissions>
+                </nc:acl>
+              </nc:acl-list>
             </d:prop>
-            <d:status>HTTP/1.1 200 OK</d:status>
-          </d:propstat>
-        </d:response>
-      </d:multistatus>
-    XML
-  end
-  let(:propfind_request_body) do
-    <<~XML
-      <?xml version="1.0"?>
-      <d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
-        <d:prop>
-          <oc:fileid/>
-        </d:prop>
-      </d:propfind>
-    XML
-  end
-  let(:propfind_response_body1) do
-    <<~XML
-      <?xml version="1.0"?>
-      <d:multistatus
-        xmlns:d="DAV:"
-        xmlns:s="http://sabredav.org/ns"
-        xmlns:oc="http://owncloud.org/ns"
-        xmlns:nc="http://nextcloud.org/ns">
-        <d:response>
-          <d:href>/remote.php/dav/files/OpenProject/OpenProject/</d:href>
-          <d:propstat>
+          </d:set>
+        </d:propertyupdate>
+      XML
+    end
+    let(:set_permissions_response_body2) do
+      <<~XML
+        <?xml version="1.0"?>
+        <d:multistatus
+          xmlns:d="DAV:"
+          xmlns:s="http://sabredav.org/ns"
+          xmlns:oc="http://owncloud.org/ns"
+          xmlns:nc="http://nextcloud.org/ns">
+          <d:response>
+            <d:href>/remote.php/dav/files/OpenProject/OpenProject/%5bSample%5d%20Project%20Name%20%7c%20Ehuu(#{project1.id})</d:href>
+            <d:propstat>
+              <d:prop>
+                <nc:acl-list/>
+              </d:prop>
+              <d:status>HTTP/1.1 200 OK</d:status>
+            </d:propstat>
+          </d:response>
+        </d:multistatus>
+      XML
+    end
+    let(:remove_user_from_group_response) do
+      <<~XML
+        <?xml version="1.0"?>
+        <ocs>
+        <meta>
+          <status>ok</status>
+          <statuscode>100</statuscode>
+          <message>OK</message>
+          <totalitems></totalitems>
+          <itemsperpage></itemsperpage>
+        </meta>
+        <data/>
+        </ocs>
+      XML
+    end
+    let(:set_permissions_request_body3) do
+      <<~XML
+        <?xml version="1.0"?>
+        <d:propertyupdate xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
+          <d:set>
             <d:prop>
-              <oc:fileid>349</oc:fileid>
+              <nc:acl-list>
+                <nc:acl>
+                  <nc:acl-mapping-type>group</nc:acl-mapping-type>
+                  <nc:acl-mapping-id>OpenProject</nc:acl-mapping-id>
+                  <nc:acl-mask>31</nc:acl-mask>
+                  <nc:acl-permissions>0</nc:acl-permissions>
+                </nc:acl>
+                <nc:acl>
+                  <nc:acl-mapping-type>user</nc:acl-mapping-type>
+                  <nc:acl-mapping-id>OpenProject</nc:acl-mapping-id>
+                  <nc:acl-mask>31</nc:acl-mask>
+                  <nc:acl-permissions>31</nc:acl-permissions>
+                </nc:acl>
+              </nc:acl-list>
             </d:prop>
-            <d:status>HTTP/1.1 200 OK</d:status>
-          </d:propstat>
-        </d:response>
-        <d:response>
-          <d:href>/remote.php/dav/files/OpenProject/OpenProject/Lost%20Jedi%20Project%20Folder%20%232/</d:href>
-          <d:propstat>
-            <d:prop>
-              <oc:fileid>783</oc:fileid>
-            </d:prop>
-            <d:status>HTTP/1.1 200 OK</d:status>
-          </d:propstat>
-        </d:response>
-        <d:response>
-          <d:href>/remote.php/dav/files/OpenProject/OpenProject/Lost%20Jedi%20Project%20Folder%20%233/</d:href>
-          <d:propstat>
-            <d:prop>
-              <oc:fileid>123</oc:fileid>
-            </d:prop>
-            <d:status>HTTP/1.1 200 OK</d:status>
-          </d:propstat>
-        </d:response>
-      </d:multistatus>
-    XML
-  end
-  let(:propfind_response_body2) do
-    <<~XML
-      <?xml version="1.0"?>
-      <d:multistatus
-        xmlns:d="DAV:"
-        xmlns:s="http://sabredav.org/ns"
-        xmlns:oc="http://owncloud.org/ns"
-        xmlns:nc="http://nextcloud.org/ns">
-        <d:response>
-          <d:href>/remote.php/dav/files/OpenProject/OpenProject/%5bSample%5d%20Project%20Name%20%7c%20Ehuu%20(#{project1.id})/</d:href>
-          <d:propstat>
-            <d:prop>
-              <oc:fileid>819</oc:fileid>
-            </d:prop>
-            <d:status>HTTP/1.1 200 OK</d:status>
-          </d:propstat>
-        </d:response>
-      </d:multistatus>
-    XML
-  end
-  let(:add_user_to_group_response_body) do
-    <<~XML
-      <?xml version="1.0"?>
-      <ocs>
-       <meta>
-        <status>ok</status>
-        <statuscode>100</statuscode>
-        <message>OK</message>
-        <totalitems></totalitems>
-        <itemsperpage></itemsperpage>
-       </meta>
-       <data/>
-      </ocs>
-    XML
-  end
-  let(:set_permissions_request_body2) do
-    <<~XML
-      <?xml version="1.0"?>
-      <d:propertyupdate xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
-        <d:set>
-          <d:prop>
-            <nc:acl-list>
-              <nc:acl>
-                <nc:acl-mapping-type>group</nc:acl-mapping-type>
-                <nc:acl-mapping-id>OpenProject</nc:acl-mapping-id>
-                <nc:acl-mask>31</nc:acl-mask>
-                <nc:acl-permissions>0</nc:acl-permissions>
-              </nc:acl>
-              <nc:acl>
-                <nc:acl-mapping-type>user</nc:acl-mapping-type>
-                <nc:acl-mapping-id>OpenProject</nc:acl-mapping-id>
-                <nc:acl-mask>31</nc:acl-mask>
-                <nc:acl-permissions>31</nc:acl-permissions>
-              </nc:acl>
-              <nc:acl>
-                <nc:acl-mapping-type>user</nc:acl-mapping-type>
-                <nc:acl-mapping-id>Obi-Wan</nc:acl-mapping-id>
-                <nc:acl-mask>31</nc:acl-mask>
-                <nc:acl-permissions>3</nc:acl-permissions>
-              </nc:acl>
-            </nc:acl-list>
-          </d:prop>
-        </d:set>
-      </d:propertyupdate>
-    XML
-  end
-  let(:set_permissions_response_body2) do
-    <<~XML
-      <?xml version="1.0"?>
-      <d:multistatus
-        xmlns:d="DAV:"
-        xmlns:s="http://sabredav.org/ns"
-        xmlns:oc="http://owncloud.org/ns"
-        xmlns:nc="http://nextcloud.org/ns">
-        <d:response>
-          <d:href>/remote.php/dav/files/OpenProject/OpenProject/%5bSample%5d%20Project%20Name%20%7c%20Ehuu(#{project1.id})</d:href>
-          <d:propstat>
-            <d:prop>
-              <nc:acl-list/>
-            </d:prop>
-            <d:status>HTTP/1.1 200 OK</d:status>
-          </d:propstat>
-        </d:response>
-      </d:multistatus>
-    XML
-  end
-  let(:remove_user_from_group_response) do
-    <<~XML
-      <?xml version="1.0"?>
-      <ocs>
-       <meta>
-        <status>ok</status>
-        <statuscode>100</statuscode>
-        <message>OK</message>
-        <totalitems></totalitems>
-        <itemsperpage></itemsperpage>
-       </meta>
-       <data/>
-      </ocs>
-    XML
-  end
-  let(:set_permissions_request_body3) do
-    <<~XML
-      <?xml version="1.0"?>
-      <d:propertyupdate xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
-        <d:set>
-          <d:prop>
-            <nc:acl-list>
-              <nc:acl>
-                <nc:acl-mapping-type>group</nc:acl-mapping-type>
-                <nc:acl-mapping-id>OpenProject</nc:acl-mapping-id>
-                <nc:acl-mask>31</nc:acl-mask>
-                <nc:acl-permissions>0</nc:acl-permissions>
-              </nc:acl>
-              <nc:acl>
-                <nc:acl-mapping-type>user</nc:acl-mapping-type>
-                <nc:acl-mapping-id>OpenProject</nc:acl-mapping-id>
-                <nc:acl-mask>31</nc:acl-mask>
-                <nc:acl-permissions>31</nc:acl-permissions>
-              </nc:acl>
-            </nc:acl-list>
-          </d:prop>
-        </d:set>
-      </d:propertyupdate>
-    XML
-  end
-  let(:set_permissions_response_body3) do
-    <<~XML
-      <?xml version="1.0"?>
-      <d:multistatus
-        xmlns:d="DAV:"
-        xmlns:s="http://sabredav.org/ns"
-        xmlns:oc="http://owncloud.org/ns"
-        xmlns:nc="http://nextcloud.org/ns">
-        <d:response>
-          <d:href>/remote.php/dav/files/OpenProject/OpenProject/Lost%20Jedi%20Project%20Folder%20%232</d:href>
-          <d:propstat>
-            <d:prop>
-              <nc:acl-list/>
-            </d:prop>
-            <d:status>HTTP/1.1 200 OK</d:status>
-          </d:propstat>
-        </d:response>
-      </d:multistatus>
-    XML
-  end
-  let(:set_permissions_response_body4) do
-    <<~XML
-      <?xml version="1.0"?>
-      <d:multistatus
-        xmlns:d="DAV:"
-        xmlns:s="http://sabredav.org/ns"
-        xmlns:oc="http://owncloud.org/ns"
-        xmlns:nc="http://nextcloud.org/ns">
-        <d:response>
-          <d:href>/remote.php/dav/files/OpenProject/OpenProject/Jedi%20Project%20Folder%20%7C%7C%7C%28#{project2.id}%29</d:href>
-          <d:propstat>
-            <d:prop>
-              <nc:acl-list/>
-            </d:prop>
-            <d:status>HTTP/1.1 200 OK</d:status>
-          </d:propstat>
-        </d:response>
-      </d:multistatus>
-    XML
-  end
+          </d:set>
+        </d:propertyupdate>
+      XML
+    end
+    let(:set_permissions_response_body3) do
+      <<~XML
+        <?xml version="1.0"?>
+        <d:multistatus
+          xmlns:d="DAV:"
+          xmlns:s="http://sabredav.org/ns"
+          xmlns:oc="http://owncloud.org/ns"
+          xmlns:nc="http://nextcloud.org/ns">
+          <d:response>
+            <d:href>/remote.php/dav/files/OpenProject/OpenProject/Lost%20Jedi%20Project%20Folder%20%232</d:href>
+            <d:propstat>
+              <d:prop>
+                <nc:acl-list/>
+              </d:prop>
+              <d:status>HTTP/1.1 200 OK</d:status>
+            </d:propstat>
+          </d:response>
+        </d:multistatus>
+      XML
+    end
+    let(:set_permissions_response_body4) do
+      <<~XML
+        <?xml version="1.0"?>
+        <d:multistatus
+          xmlns:d="DAV:"
+          xmlns:s="http://sabredav.org/ns"
+          xmlns:oc="http://owncloud.org/ns"
+          xmlns:nc="http://nextcloud.org/ns">
+          <d:response>
+            <d:href>/remote.php/dav/files/OpenProject/OpenProject/Jedi%20Project%20Folder%20%7C%7C%7C%28#{project2.id}%29</d:href>
+            <d:propstat>
+              <d:prop>
+                <nc:acl-list/>
+              </d:prop>
+              <d:status>HTTP/1.1 200 OK</d:status>
+            </d:propstat>
+          </d:response>
+        </d:multistatus>
+      XML
+    end
+    let(:request_stubs) { [] }
 
-  let(:project1) { create(:project, name: '[Sample] Project Name / Ehuu', members: { user => role }) }
-  let(:project2) { create(:project, name: 'Jedi Project Folder ///', members: { user => role }) }
-  let(:user) { create(:user) }
-  let(:role) { create(:role, permissions: %w[read_files write_files]) }
-  # rubocop:enable RSpec/IndexedLet
+    let(:project1) { create(:project, name: '[Sample] Project Name / Ehuu', members: { user => role }) }
+    let(:project2) { create(:project, name: 'Jedi Project Folder ///', members: { user => role }) }
+    let(:user) { create(:user) }
+    let(:role) { create(:role, permissions: %w[read_files write_files]) }
+    let(:storage) do
+      create(:nextcloud_storage,
+             :as_automatically_managed,
+             host: 'https://example.com',
+             password: '12345678')
+    end
+    let(:projects_storage1) do
+      create(:project_storage,
+             project_folder_mode: 'automatic',
+             project: project1,
+             storage:)
+    end
 
-  # rubocop:disable RSpec/ExampleLength
-  describe '#call' do
-    it 'sets properties for project folders' do
-      storage = create(:storage,
-                       host: 'https://example.com',
-                       has_managed_project_folders: true,
-                       password: '12345678')
-      projects_storage1 = create(:project_storage,
-                                 project_folder_mode: 'automatic',
-                                 project: project1,
-                                 storage:)
+    let(:projects_storage2) do
+      create(:project_storage,
+             project_folder_mode: 'automatic',
+             project: project2,
+             storage:,
+             project_folder_id: '123')
+    end
 
-      projects_storage2 = create(:project_storage,
-                                 project_folder_mode: 'automatic',
-                                 project: project2,
-                                 storage:,
-                                 project_folder_id: '123')
+    let(:oauth_client) { create(:oauth_client, integration: storage) }
+    # rubocop:enable RSpec/IndexedLet
 
-      oauth_client = create(:oauth_client, integration: storage)
+    before do
       create(:oauth_client_token,
              origin_user_id: 'Obi-Wan',
              user:,
              oauth_client:)
-
-      request_stubs = []
       request_stubs << stub_request(:get, "https://example.com/ocs/v1.php/cloud/groups/#{storage.group}")
                          .with(
                            headers: {
@@ -440,7 +444,9 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
           'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg='
         }
       ).to_return(status: 207, body: set_permissions_response_body3, headers: {})
+    end
 
+    it 'sets project folders properties' do
       expect(projects_storage1.project_folder_id).to be_nil
       expect(projects_storage2.project_folder_id).to eq('123')
 
@@ -452,6 +458,36 @@ RSpec.describe Storages::GroupFolderPropertiesSyncService, webmock: true do
       expect(projects_storage1.project_folder_id).to eq('819')
       expect(projects_storage2.project_folder_id).to eq('123')
     end
-    # rubocop:enable RSpec/ExampleLength
+
+    context 'when remove_user_from_group_command fails unexpectedly' do
+      let(:remove_user_from_group_response) do
+        <<~XML
+          <?xml version="1.0"?>
+          <ocs>
+              <meta>
+                  <status>failure</status>
+                  <statuscode>105</statuscode>
+                  <message>Not viable to remove user from the last group you are SubAdmin of</message>
+              </meta>
+              <data/>
+          </ocs>
+        XML
+      end
+
+      it 'sets project folders properties, but does not remove inactive user from group' do
+        expect(projects_storage1.project_folder_id).to be_nil
+        expect(projects_storage2.project_folder_id).to eq('123')
+
+        expect do
+          described_class.new(storage).call
+        end.to raise_error(RuntimeError, /remove_user_from_group_command was called with/)
+
+        expect(request_stubs).to all have_been_requested
+        projects_storage1.reload
+        projects_storage2.reload
+        expect(projects_storage1.project_folder_id).to eq('819')
+        expect(projects_storage2.project_folder_id).to eq('123')
+      end
+    end
   end
 end

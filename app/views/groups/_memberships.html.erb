@@ -128,10 +128,11 @@ See COPYRIGHT and LICENSE files for more details.
           <%= label_tag "membership_project_id", t(:description_choose_project), class: "hidden-for-sighted" %>
 
           <% group_project_ids = @group.projects.ids  %>
-          <% filter = group_project_ids.length > 0 ? [['id', '!', group_project_ids.map(&:to_s)]] : [] %>
+          <% filters = [['active', '=', ['t']]] %>
+          <% filters << ['id', '!', group_project_ids.map(&:to_s)] if group_project_ids.any? %>
           <%= angular_component_tag 'op-project-autocompleter',
                                     inputs: {
-                                      apiFilters: filter,
+                                      apiFilters: filters,
                                       name: 'membership[project_id]'
                                     },
                                     data: {

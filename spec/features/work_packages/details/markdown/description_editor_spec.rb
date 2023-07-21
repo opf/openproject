@@ -84,6 +84,14 @@ RSpec.describe 'description inplace editor', js: true, selenium: true do
       # Cancelling through the action panel
       field.cancel_by_click
       field.expect_inactive!
+
+      # Saving the field with ctrl+enter
+      field.activate!
+      field.set_value "Edit to be saved by keyboard"
+      field.submit_by_enter
+
+      wp_page.expect_toast message: I18n.t('js.notice_successful_update')
+      field.expect_state_text 'Edit to be saved by keyboard'
     end
   end
 

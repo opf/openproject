@@ -241,6 +241,7 @@ RSpec/ContextWording:
     - 'on'
     - to
     - unless
+    - via
     - when
     - with
     - within

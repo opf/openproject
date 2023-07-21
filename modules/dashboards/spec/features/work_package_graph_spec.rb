@@ -31,7 +31,7 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 RSpec.describe 'Arbitrary WorkPackage query graph widget dashboard',
-               js: true, with_ee: %i[grid_widget_wp_graph], with_mail: false do
+               js: true, with_ee: %i[grid_widget_wp_graph] do
   let!(:type) { create(:type) }
   let!(:other_type) { create(:type) }
   let!(:priority) { create(:default_priority) }

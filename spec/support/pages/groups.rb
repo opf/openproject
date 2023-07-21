@@ -107,6 +107,13 @@ module Pages
       find_project(name).find('a[data-method=delete]').click
     end
 
+    def search_for_project(query)
+      autocomplete = page.find('[data-qa-selector="membership_project_id"]')
+      search_autocomplete autocomplete,
+                          query:,
+                          results_selector: 'body'
+    end
+
     def find_project(name)
       find('tr', text: name)
     end
