@@ -908,7 +908,6 @@ en:
 
       button_activate: 'Show Gantt chart'
       button_deactivate: 'Hide Gantt chart'
-      empty: "(empty)"
       error: "An error has occurred."
       errors:
         not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
