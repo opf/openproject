@@ -2957,8 +2957,6 @@ en:
     end: "to"
     start: "from"
 
-  timelines:
-
   title_remove_and_delete_user: Remove the invited user from the project and delete him/her.
   title_enterprise_upgrade: "Upgrade to unlock more users."
 
