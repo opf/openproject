@@ -13,12 +13,7 @@
                   *ngIf="addWidget.isAllowed"
                   (click)="areas.toggleHelpMode()"
                   [ngClass]="{'-active': areas.inHelpMode}">
-            <svg
-              op-octicon-op-watching
-              [title]="addWidget.addText"
-              [aria-label]="addWidget.addText"
-              size="medium"
-            ></svg>
+            <op-icon icon-classes="button--icon icon-add"></op-icon>
           </button>
         </li>
       </ul>
