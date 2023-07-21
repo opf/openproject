@@ -902,7 +902,6 @@ en:
         left: 'Left'
         right: 'Right'
         farRight: 'Far right'
-        showNone: '-- No label --'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times.
           Note that when hovering over an element, its date labels will be shown instead of these attributes.
