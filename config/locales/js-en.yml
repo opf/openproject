@@ -921,7 +921,6 @@ en:
         months: "Months"
         quarters: "Quarters"
         years: "Years"
-        slider: "Zoom slider"
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
     tl_toolbar:
