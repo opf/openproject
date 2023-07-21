@@ -52,14 +52,14 @@ See COPYRIGHT and LICENSE files for more details.
               %>
               <tbody>
                 <tr>
-                  <td style="width: 60%;" data-qa-selector="rss-token-row-name"><%= t("my_account.access_tokens.rss.static_token_name") %></td>
+                  <td class="-w-rel-60" data-qa-selector="rss-token-row-name"><%= t("my_account.access_tokens.rss.static_token_name") %></td>
                   <td>
                     <span title="<%= format_time(rss_token.created_at) %>">
                       <%= format_time(rss_token.created_at.to_s) %>
                     </span>
                   </td>
                   <td><%= t('my_account.access_tokens.indefinite_expiration') %></td>
-                  <td style="text-align: right;">
+                  <td class="buttons">
                     <%= link_to "",
                                 { action: 'revoke_rss_key' },
                                 method: :delete,

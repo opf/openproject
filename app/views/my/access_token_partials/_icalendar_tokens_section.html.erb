@@ -56,8 +56,8 @@ See COPYRIGHT and LICENSE files for more details.
                 <% ical_tokens_grouped_by_query.each do |query_id, tokens| %>
                   <% tokens.sort_by(&:created_at).each do |token| %>
                     <tr>
-                      <td style="width: 20%;" data-qa-selector="ical-token-row-<%= token.id %>-name"><%= token.ical_token_query_assignment.name %></td>
-                      <td style="width: 20%;" data-qa-selector="ical-token-row-<%= token.id %>-query-name">
+                      <td class="-w-rel-20 -mw-abs-200" data-qa-selector="ical-token-row-<%= token.id %>-name"><%= token.ical_token_query_assignment.name %></td>
+                      <td class="-w-rel-20 -mw-abs-200" data-qa-selector="ical-token-row-<%= token.id %>-query-name">
                         <%= link_to token.query.name,
                                     project_calendar_url(
                                       id: query_id,
@@ -65,7 +65,7 @@ See COPYRIGHT and LICENSE files for more details.
                                     )
                         %>
                       </td>
-                      <td style="width: 20%;" data-qa-selector="ical-token-row-<%= token.id %>-project-name">
+                      <td class="-w-rel-20 -mw-abs-200" data-qa-selector="ical-token-row-<%= token.id %>-project-name">
                         <%= token.query.project.name %>
                       </td>
                       <td>
@@ -74,7 +74,7 @@ See COPYRIGHT and LICENSE files for more details.
                         </span>
                       </td>
                       <td><%= t('my_account.access_tokens.indefinite_expiration') %></td>
-                      <td style="text-align: right;">
+                      <td class="buttons">
                         <%= link_to "",
                                     { action: 'revoke_ical_token', id: token.id },
                                     data: { confirm: t('my_account.access_tokens.simple_revoke_confirmation'), qa_selector: "ical-token-row-#{token.id}-revoke" },
