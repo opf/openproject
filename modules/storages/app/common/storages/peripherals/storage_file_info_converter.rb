@@ -27,36 +27,20 @@
 #++
 
 module Storages::Peripherals
-  class StorageRequests
-    COMMANDS = %i[
-      set_permissions_command
-      create_folder_command
-      add_user_to_group_command
-      remove_user_from_group_command
-      rename_file_command
-      copy_template_folder_command
-    ].freeze
-
-    QUERIES = %i[
-      download_link_query
-      files_info_query
-      files_query
-      file_id_query
-      file_ids_query
-      upload_link_query
-      group_users_query
-    ].freeze
-
-    def initialize(storage:)
-      @storage = storage
-    end
-
-    (COMMANDS + QUERIES).each do |request|
-      define_method(request) do
-        clazz = "::Storages::Peripherals::StorageInteraction::" \
-                "#{@storage.short_provider_type.capitalize}::#{request.to_s.classify}".constantize
-        clazz.new(@storage).method(:call).to_proc
-      end
+  module StorageFileInfoConverter
+    def to_storage_file(storage_file_info)
+      Storages::StorageFile.new(
+        storage_file_info.id,
+        storage_file_info.name,
+        storage_file_info.size,
+        storage_file_info.mime_type,
+        storage_file_info.created_at,
+        storage_file_info.last_modified_at,
+        storage_file_info.owner_name,
+        storage_file_info.last_modified_by_name,
+        storage_file_info.location,
+        storage_file_info.permissions
+      )
     end
   end
 end

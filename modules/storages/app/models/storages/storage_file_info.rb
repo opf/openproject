@@ -26,37 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals
-  class StorageRequests
-    COMMANDS = %i[
-      set_permissions_command
-      create_folder_command
-      add_user_to_group_command
-      remove_user_from_group_command
-      rename_file_command
-      copy_template_folder_command
-    ].freeze
+class Storages::StorageFileInfo
+  attr_reader :status, :status_code, :id, :name, :last_modified_at, :created_at, :mime_type, :size, :owner_name,
+              :owner_id, :trashed, :last_modified_by_name, :last_modified_by_id, :permissions, :location
 
-    QUERIES = %i[
-      download_link_query
-      files_info_query
-      files_query
-      file_id_query
-      file_ids_query
-      upload_link_query
-      group_users_query
-    ].freeze
-
-    def initialize(storage:)
-      @storage = storage
-    end
-
-    (COMMANDS + QUERIES).each do |request|
-      define_method(request) do
-        clazz = "::Storages::Peripherals::StorageInteraction::" \
-                "#{@storage.short_provider_type.capitalize}::#{request.to_s.classify}".constantize
-        clazz.new(@storage).method(:call).to_proc
-      end
-    end
+  def initialize(status, status_code, id, name, last_modified_at, created_at, mime_type, size, owner_name, owner_id,
+                 trashed, last_modified_by_name, last_modified_by_id, permissions, location)
+    @status = status
+    @status_code = status_code
+    @id = id
+    @name = name
+    @last_modified_at = last_modified_at
+    @created_at = created_at
+    @mime_type = mime_type
+    @size = size
+    @owner_name = owner_name
+    @owner_id = owner_id
+    @trashed = trashed
+    @last_modified_by_name = last_modified_by_name
+    @last_modified_by_id = last_modified_by_id
+    @permissions = permissions
+    @location = location
   end
 end

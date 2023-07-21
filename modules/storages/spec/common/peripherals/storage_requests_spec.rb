@@ -310,7 +310,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
       include_examples 'outbound is failing', 500, :error
     end
 
-    describe '#file_query' do
+    describe '#files_info_query' do
       let(:file_id) { '819' }
       let(:expected_response_body) do
         <<~JSON
@@ -356,7 +356,7 @@ RSpec.describe Storages::Peripherals::StorageRequests, webmock: true do
       context 'with Nextcloud storage type selected' do
         it 'must return a list of files when called' do
           result = subject
-                     .file_query
+                     .files_info_query
                      .call(user:, file_id:)
           expect(result).to be_success
           storage_file = result.result
