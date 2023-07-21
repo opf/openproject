@@ -27,7 +27,6 @@ export const sidemenuSelector = 'op-sidemenu';
 @Component({
   selector: sidemenuSelector,
   templateUrl: './sidemenu.component.html',
-  styleUrls: ['./sidemenu.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpSidemenuComponent {

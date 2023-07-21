@@ -10,8 +10,8 @@ GIT
 
 GIT
   remote: https://github.com/opf/md-to-pdf
-  revision: 4c42148220ecaa8363134f34331ce90277e1b380
-  ref: 4c42148220ecaa8363134f34331ce90277e1b380
+  revision: 76945d45c14b841e2312f992422e2631a4524114
+  ref: 76945d45c14b841e2312f992422e2631a4524114
   specs:
     md_to_pdf (0.0.19)
       commonmarker (~> 0.23)
@@ -318,7 +318,7 @@ GEM
     awesome_nested_set (3.5.0)
       activerecord (>= 4.0.0, < 7.1)
     aws-eventstream (1.2.0)
-    aws-partitions (1.786.0)
+    aws-partitions (1.790.0)
     aws-sdk-core (3.178.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
@@ -327,7 +327,7 @@ GEM
     aws-sdk-kms (1.71.0)
       aws-sdk-core (~> 3, >= 3.177.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.130.0)
+    aws-sdk-s3 (1.131.0)
       aws-sdk-core (~> 3, >= 3.177.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.6)
@@ -340,7 +340,7 @@ GEM
     bindata (2.4.15)
     bootsnap (1.16.0)
       msgpack (~> 1.2)
-    brakeman (6.0.0)
+    brakeman (6.0.1)
     browser (5.3.1)
     builder (3.2.4)
     byebug (11.1.3)
