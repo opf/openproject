@@ -103,9 +103,9 @@ class ColorsController < ApplicationController
 
   def default_breadcrumb
     if action_name == 'index'
-      t('timelines.admin_menu.colors')
+      t(:label_color_plural)
     else
-      ActionController::Base.helpers.link_to(t('timelines.admin_menu.colors'), colors_path)
+      ActionController::Base.helpers.link_to(t(:label_color_plural), colors_path)
     end
   end
 

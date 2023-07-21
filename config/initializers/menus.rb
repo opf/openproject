@@ -484,7 +484,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :colors,
             { controller: '/colors', action: 'index' },
             if: Proc.new { User.current.admin? },
-            caption: :'timelines.admin_menu.colors',
+            caption: :label_color_plural,
             icon: 'status'
 
   menu.push :enterprise,
