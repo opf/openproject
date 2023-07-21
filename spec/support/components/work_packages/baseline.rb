@@ -87,8 +87,14 @@ module Components
       def expect_changed_attributes(work_package, **changes)
         page.within(row_selector(work_package)) do
           changes.each do |attribute, (old_value, new_value)|
-            expect(page).to have_selector(".#{attribute}.op-table-baseline--old-field", text: old_value)
-            expect(page).to have_selector(".#{attribute}.inline-edit--display-field", text: new_value)
+            base_selector = ".op-table-baseline--container.#{attribute}"
+            expect(page).to have_selector("#{base_selector} .op-table-baseline--old-field", text: old_value)
+
+            if new_value == ''
+              expect(page).to have_selector("#{base_selector} .op-table-baseline--new-field", text: '', visible: :all)
+            else
+              expect(page).to have_selector("#{base_selector} .op-table-baseline--new-field", text: new_value)
+            end
           end
         end
       end

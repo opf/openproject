@@ -74,13 +74,12 @@ RSpec.describe Settings::Definition, :settings_reset do
       expect(all[:brute_force_block_after_failed_logins].value).to eq(20)
     end
 
-    context 'when overriding from ENV' do
+    context 'when overriding from ENV',
+            with_env: {
+              'OPENPROJECT_EDITION' => 'bim',
+              'OPENPROJECT_DEFAULT__LANGUAGE' => 'de'
+            } do
       it 'allows overriding configuration from ENV with OPENPROJECT_ prefix with double underscore case (legacy)' do
-        stub_const('ENV',
-                   {
-                     'OPENPROJECT_EDITION' => 'bim',
-                     'OPENPROJECT_DEFAULT__LANGUAGE' => 'de'
-                   })
         reset(:edition)
         reset(:default_language)
 
@@ -88,42 +87,47 @@ RSpec.describe Settings::Definition, :settings_reset do
         expect(all[:default_language].value).to eql 'de'
       end
 
-      it 'allows overriding configuration from ENV with OPENPROJECT_ prefix with single underscore case' do
-        stub_const('ENV', { 'OPENPROJECT_DEFAULT_LANGUAGE' => 'de' })
+      it 'allows overriding configuration from ENV with OPENPROJECT_ prefix with single underscore case',
+         with_env: { 'OPENPROJECT_DEFAULT_LANGUAGE' => 'de' } do
         reset(:default_language)
         expect(all[:default_language].value).to eql 'de'
       end
 
-      it 'allows overriding configuration from ENV without OPENPROJECT_ prefix' do
-        stub_const('ENV', { 'EDITION' => 'bim' })
+      it 'allows overriding configuration from ENV without OPENPROJECT_ prefix',
+         with_env: { 'EDITION' => 'bim' } do
         reset(:edition)
         expect(all[:edition].value).to eql 'bim'
       end
 
-      it 'does not allows overriding configuration from ENV without OPENPROJECT_ prefix if setting is writable' do
-        stub_const('ENV', { 'DEFAULT_LANGUAGE' => 'de' })
+      it 'does not allows overriding configuration from ENV without OPENPROJECT_ prefix if setting is writable',
+         with_env: { 'DEFAULT_LANGUAGE' => 'de' } do
         reset(:default_language)
         expect(all[:default_language].value).to eql 'en'
       end
 
-      it 'allows overriding email/smtp configuration from ENV without OPENPROJECT_ prefix even though setting is writable' do
-        env_vars = {
-          'EMAIL_DELIVERY_CONFIGURATION' => 'legacy',
-          'EMAIL_DELIVERY_METHOD' => 'smtp',
-          'SMTP_ADDRESS' => 'smtp.somedomain.org',
-          'SMTP_AUTHENTICATION' => 'something',
-          'SMTP_DOMAIN' => 'email.bogus.abc',
-          'SMTP_ENABLE_STARTTLS_AUTO' => 'true',
-          'SMTP_PASSWORD' => 'password',
-          'SMTP_PORT' => '987',
-          'SMTP_USER_NAME' => 'user',
-          'SMTP_SSL' => 'true'
-        }
-        stub_const('ENV', env_vars)
-
-        env_vars.each_key do |env_var|
-          reset(env_var.downcase.to_sym)
-        end
+      it 'allows overriding email/smtp configuration from ENV without OPENPROJECT_ prefix even though setting is writable',
+         with_env: {
+           'EMAIL_DELIVERY_CONFIGURATION' => 'legacy',
+           'EMAIL_DELIVERY_METHOD' => 'smtp',
+           'SMTP_ADDRESS' => 'smtp.somedomain.org',
+           'SMTP_AUTHENTICATION' => 'something',
+           'SMTP_DOMAIN' => 'email.bogus.abc',
+           'SMTP_ENABLE_STARTTLS_AUTO' => 'true',
+           'SMTP_PASSWORD' => 'password',
+           'SMTP_PORT' => '987',
+           'SMTP_USER_NAME' => 'user',
+           'SMTP_SSL' => 'true'
+         } do
+        reset(:email_delivery_configuration)
+        reset(:email_delivery_method)
+        reset(:smtp_address)
+        reset(:smtp_authentication)
+        reset(:smtp_domain)
+        reset(:smtp_enable_starttls_auto)
+        reset(:smtp_password)
+        reset(:smtp_port)
+        reset(:smtp_user_name)
+        reset(:smtp_ssl)
 
         expect(all[:email_delivery_configuration].value).to eql 'legacy'
         expect(all[:email_delivery_method].value).to eq :smtp
@@ -137,9 +141,9 @@ RSpec.describe Settings::Definition, :settings_reset do
         expect(all[:smtp_ssl].value).to be true
       end
 
-      it 'logs a deprecation warning when overriding configuration from ENV without OPENPROJECT_ prefix' do
+      it 'logs a deprecation warning when overriding configuration from ENV without OPENPROJECT_ prefix',
+         with_env: { 'EDITION' => 'bim' } do
         allow(Rails.logger).to receive(:warn)
-        stub_const('ENV', { 'EDITION' => 'bim' })
 
         reset(:edition)
 
@@ -148,55 +152,55 @@ RSpec.describe Settings::Definition, :settings_reset do
                                   .with(a_string_including("use OPENPROJECT_EDITION instead of EDITION"))
       end
 
-      it 'overriding boolean configuration from ENV will cast the value' do
-        stub_const('ENV', { 'OPENPROJECT_REST__API__ENABLED' => '0' })
+      it 'overriding boolean configuration from ENV will cast the value',
+         with_env: { 'OPENPROJECT_REST__API__ENABLED' => '0' } do
         reset(:rest_api_enabled)
         expect(all[:rest_api_enabled].value).to be false
       end
 
-      it 'overriding symbol configuration having allowed values from ENV will cast the value before validation check' do
-        stub_const('ENV', { 'OPENPROJECT_RAILS__CACHE__STORE' => 'memcache' })
+      it 'overriding symbol configuration having allowed values from ENV will cast the value before validation check',
+         with_env: { 'OPENPROJECT_RAILS__CACHE__STORE' => 'memcache' } do
         reset(:rails_cache_store)
         expect(all[:rails_cache_store].value).to eq :memcache
       end
 
-      it 'overriding datetime configuration from ENV will cast the value' do
-        stub_const('ENV', { 'OPENPROJECT_CONSENT__TIME' => '2222-01-01' })
+      it 'overriding datetime configuration from ENV will cast the value',
+         with_env: { 'OPENPROJECT_CONSENT__TIME' => '2222-01-01' } do
         reset(:consent_time)
         expect(all[:consent_time].value).to eql DateTime.parse('2222-01-01')
       end
 
-      it 'overriding timezone configuration from ENV will cast the value' do
-        stub_const('ENV', { 'OPENPROJECT_USER__DEFAULT__TIMEZONE' => 'Europe/Berlin' })
+      it 'overriding timezone configuration from ENV will cast the value',
+         with_env: { 'OPENPROJECT_USER__DEFAULT__TIMEZONE' => 'Europe/Berlin' } do
         reset(:user_default_timezone)
         expect(all[:user_default_timezone].value).to eq 'Europe/Berlin'
       end
 
-      it 'overriding timezone configuration from ENV with a bogus value' do
-        stub_const('ENV', { 'OPENPROJECT_USER__DEFAULT__TIMEZONE' => 'foobar' })
+      it 'overriding timezone configuration from ENV with a bogus value',
+         with_env: { 'OPENPROJECT_USER__DEFAULT__TIMEZONE' => 'foobar' } do
         expect { reset(:user_default_timezone) }.to raise_error(ArgumentError)
       end
 
-      it 'overriding configuration from ENV will set it to non writable' do
-        stub_const('ENV', { 'OPENPROJECT_EDITION' => 'bim' })
+      it 'overriding configuration from ENV will set it to non writable',
+         with_env: { 'OPENPROJECT_EDITION' => 'bim' } do
         reset(:edition)
         expect(all[:edition]).not_to be_writable
       end
 
-      it 'allows overriding settings array from ENV' do
-        stub_const('ENV', { 'OPENPROJECT_PASSWORD__ACTIVE__RULES' => YAML.dump(['lowercase']) })
+      it 'allows overriding settings array from ENV',
+         with_env: { 'OPENPROJECT_PASSWORD__ACTIVE__RULES' => YAML.dump(['lowercase']) } do
         reset(:password_active_rules)
         expect(all[:password_active_rules].value).to eql ['lowercase']
       end
 
-      it 'overriding settings from ENV will set it to non writable' do
-        stub_const('ENV', { 'OPENPROJECT_WELCOME__TITLE' => 'Some title' })
+      it 'overriding settings from ENV will set it to non writable',
+         with_env: { 'OPENPROJECT_WELCOME__TITLE' => 'Some title' } do
         reset(:welcome_title)
         expect(all[:welcome_title]).not_to be_writable
       end
 
-      it 'allows overriding settings hash partially from ENV' do
-        stub_const('ENV', { 'OPENPROJECT_REPOSITORY__CHECKOUT__DATA_GIT_ENABLED' => '1' })
+      it 'allows overriding settings hash partially from ENV',
+         with_env: { 'OPENPROJECT_REPOSITORY__CHECKOUT__DATA_GIT_ENABLED' => '1' } do
         reset(:repository_checkout_data)
         expect(all[:repository_checkout_data].value).to eql({
                                                               'git' => { 'enabled' => 1 },
@@ -204,8 +208,8 @@ RSpec.describe Settings::Definition, :settings_reset do
                                                             })
       end
 
-      it 'allows overriding settings hash partially from ENV with single underscore name' do
-        stub_const('ENV', { 'OPENPROJECT_REPOSITORY_CHECKOUT_DATA_GIT_ENABLED' => '1' })
+      it 'allows overriding settings hash partially from ENV with single underscore name',
+         with_env: { 'OPENPROJECT_REPOSITORY_CHECKOUT_DATA_GIT_ENABLED' => '1' } do
         reset(:repository_checkout_data)
         expect(all[:repository_checkout_data].value).to eql({
                                                               'git' => { 'enabled' => 1 },
@@ -213,8 +217,8 @@ RSpec.describe Settings::Definition, :settings_reset do
                                                             })
       end
 
-      it 'allows overriding settings hash partially from ENV with yaml data' do
-        stub_const('ENV', { 'OPENPROJECT_REPOSITORY_CHECKOUT_DATA' => '{git: {enabled: 1}}' })
+      it 'allows overriding settings hash partially from ENV with yaml data',
+         with_env: { 'OPENPROJECT_REPOSITORY_CHECKOUT_DATA' => '{git: {enabled: 1}}' } do
         reset(:repository_checkout_data)
         expect(all[:repository_checkout_data].value).to eql({
                                                               'git' => { 'enabled' => 1 },
@@ -364,13 +368,13 @@ RSpec.describe Settings::Definition, :settings_reset do
         end
       end
 
-      it 'will not handle ENV vars for which no definition exists' do
-        stub_const('ENV', { 'OPENPROJECT_BOGUS' => '1234' })
+      it 'will not handle ENV vars for which no definition exists',
+         with_env: { 'OPENPROJECT_BOGUS' => '1234' } do
         expect(all[:bogus]).to be_nil
       end
 
-      it 'will handle ENV vars for definitions added after #all was called (e.g. in a module)' do
-        stub_const('ENV', { 'OPENPROJECT_BOGUS' => '1' })
+      it 'will handle ENV vars for definitions added after #all was called (e.g. in a module)',
+         with_env: { 'OPENPROJECT_BOGUS' => '1' } do
         described_class.add(:bogus, default: 0)
         expect(all[:bogus].value).to eq 1
       end
@@ -479,10 +483,8 @@ RSpec.describe Settings::Definition, :settings_reset do
         end
       end
 
-      context 'when overwritten from ENV' do
-        before do
-          stub_const('ENV', { 'OPENPROJECT_SENDMAIL__LOCATION' => 'env location' })
-        end
+      context 'when overwritten from ENV',
+              with_env: { 'OPENPROJECT_SENDMAIL__LOCATION' => 'env location' } do
 
         it 'overrides from ENV' do
           reset(:sendmail_location)

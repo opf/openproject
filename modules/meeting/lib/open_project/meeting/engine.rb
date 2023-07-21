@@ -66,6 +66,11 @@ module OpenProject::Meeting
            before: :members,
            icon: 'meetings'
 
+      menu :project_menu,
+           :meetings_query_select, { controller: '/meetings', action: 'index' },
+           parent: :meetings,
+           partial: 'meetings/menu_query_select'
+
       should_render_global_menu_item = Proc.new do
         OpenProject::FeatureDecisions.more_global_index_pages_active? &&
           (User.current.logged? || !Setting.login_required?) &&
@@ -85,6 +90,12 @@ module OpenProject::Meeting
            caption: :label_meeting_plural,
            last: true,
            icon: 'meetings',
+           if: should_render_global_menu_item
+
+      menu :global_menu,
+           :meetings_query_select, { controller: '/meetings', action: 'index', project_id: nil },
+           parent: :meetings,
+           partial: 'meetings/menu_query_select',
            if: should_render_global_menu_item
 
       ActiveSupport::Inflector.inflections do |inflect|

@@ -34,7 +34,7 @@ cs:
               authorization_header_missing: >
                 is not fully set up. The Nextcloud instance does not receive the "Authorization" header, which is necessary for a Bearer token based authorization of API requests. Please double check your HTTP server configuration.
             password:
-              invalid_password: "is not valid."
+              invalid_password: "není platné."
               unknown_error: "could not be validated. Please check your storage connection and try again."
         storages/file_link:
           attributes:
@@ -46,14 +46,14 @@ cs:
   storages:
     buttons:
       done_continue_setup: "Hotovo. Pokračovat v nastavení"
-      done_complete_setup: "Done, complete setup"
+      done_complete_setup: "Hotovo, kompletní nastavení"
       edit_automatically_managed_project_folders: "Edit automatically managed project folders"
       replace_openproject_oauth: "Nahradit OpenProject OAuth"
       replace_provider_type_oauth: "Nahradit %{provider_type} OAuth"
       save_and_continue_setup: "Uložit a pokračovat v nastavení"
       save_and_complete_setup: "Uložit a dokončit nastavení"
       select_folder: "Vyberte složku"
-      configure: "Configure"
+      configure: "Konfigurace"
     page_titles:
       managed_project_folders:
         title: "Automatically managed project folders"
@@ -69,7 +69,7 @@ cs:
       name: "Dejte svému úložišti jméno, aby uživatelé mohli rozlišovat mezi více úložišti."
       host: "Přidejte prosím adresu hostitele vašeho úložiště obsahující https://. Nemělo by být delší než 255 znaků."
       managed_project_folders_application_password: >
-        Copy this value from:
+        Zkopírovat tuto hodnotu z:
       no_storage_set_up: "Dosud nejsou nastaveny žádné úložiště souborů."
       no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
       automatic_folder: "This will automatically create a root folder for this project and manage the access permissions for each project member."
@@ -93,8 +93,8 @@ cs:
         Jste si jisti, že chcete smazat toto úložiště? Toto také odstraní úložiště ze všech projektů, kde je použito. Dále také smaže všechny odkazy z pracovních balíčků do souborů, které jsou uloženy v úložišti.
       project_storage: >
         Jste si jisti, že chcete odstranit úložiště souborů z tohoto projektu? Tímto také odstraníte všechny odkazy na soubory uložené v tomto úložišti pro tento projekt.
-    label_active: "Active"
-    label_inactive: "Inactive"
+    label_active: "Aktivní"
+    label_inactive: "Neaktivní"
     label_creator: "Vytvořil"
     label_file_link: "Odkaz na soubor"
     label_file_links: "Odkazy na soubor"
@@ -102,7 +102,7 @@ cs:
     label_host: "URL adresa hostitele"
     label_managed_project_folders:
       automatically_managed_folders: "Automatically managed folders"
-      application_password: "Application password"
+      application_password: "Heslo aplikace"
     label_managed_project_folders_breadcrumb: "Automatically managed project folders"
     label_oauth_breadcrumb:
       openproject: "OpenProject OAuth"
@@ -118,7 +118,7 @@ cs:
     label_no_selected_folder: "Žádná vybraná složka"
     label_storage: "Úložiště"
     label_storages: "Úložiště"
-    no_results: "No storages set up yet."
+    no_results: "Zatím nejsou nastaveny žádné úložiště."
     provider_types:
       label: "Typ poskytovatele"
       nextcloud:

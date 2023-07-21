@@ -31,7 +31,7 @@ require 'rack/test'
 
 require_relative './shared_responses'
 
-RSpec.describe 'BCF 2.1 comments resource', content_type: :json, with_mail: false do
+RSpec.describe 'BCF 2.1 comments resource', content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 

@@ -83,7 +83,7 @@ ja:
   validation_failure_integer: "は有効な整数ではありません。"
   export:
     cost_reports:
-      title: "Your Cost Reports XLS export"
+      title: "あなたのコストレポートXLSのエクスポート"
   reporting:
     group_by:
       selected_columns: "選択された列"
