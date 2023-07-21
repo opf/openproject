@@ -288,6 +288,8 @@ en:
         no_results_title_text: There are currently no custom fields available.
       types:
         no_results_title_text: There are currently no types available.
+        form:
+          enable_type_in_project: 'Enable type "%{type}"'
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
@@ -2952,8 +2954,6 @@ en:
     start: "from"
 
   timelines:
-    enable_type_in_project: 'Enable type "%{type}"'
-
     properties: "Properties"
     really_delete_color: >
       Are you sure, you want to delete the following color?
