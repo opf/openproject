@@ -1358,6 +1358,7 @@ en:
   error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Please choose a user and a role."
   error_code: "Error %{code}"
+  error_color_could_not_be_saved: "Color could not be saved"
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
   error_custom_option_not_found: "Option does not exist."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
@@ -2950,7 +2951,6 @@ en:
     start: "from"
 
   timelines:
-    color_could_not_be_saved: "Color could not be saved"
     empty: "(empty)"
     enable_type_in_project: 'Enable type "%{type}"'
 
