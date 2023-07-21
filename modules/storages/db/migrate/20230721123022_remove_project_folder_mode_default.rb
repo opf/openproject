@@ -26,18 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Used by: CreateService when setting attributes
-module Storages::ProjectStorages
-  class SetAttributesService < ::BaseServices::SetAttributes
-    def set_default_attributes(params)
-      model.creator ||= user
-
-      model.project_folder_mode ||=
-        if model.storage.present? && model.storage.automatically_managed?
-          "automatic"
-        else
-          "inactive"
-        end
-    end
+class RemoveProjectFolderModeDefault < ActiveRecord::Migration[7.0]
+  def change
+    change_column_default :projects_storages, :project_folder_mode, to: nil, from: :inactive
   end
 end
