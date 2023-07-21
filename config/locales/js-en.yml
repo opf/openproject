@@ -908,7 +908,6 @@ en:
 
       button_activate: 'Show Gantt chart'
       button_deactivate: 'Hide Gantt chart'
-      cancel: Cancel
       change: "Change in planning"
       due_date: "Finish date"
       empty: "(empty)"
