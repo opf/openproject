@@ -910,14 +910,6 @@ en:
       button_deactivate: 'Hide Gantt chart'
       filter:
         noneSelection: "(none)"
-      outlines:
-        aggregation: "Show aggregations only"
-        level1: "Expand level 1"
-        level2: "Expand level 2"
-        level3: "Expand level 3"
-        level4: "Expand level 4"
-        level5: "Expand level 5"
-        all: "Show all"
       project_status: "Project status"
       really_close_dialog: "Do you really want to close the dialog and lose the entered data?"
       responsible: "Responsible"
