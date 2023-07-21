@@ -909,7 +909,6 @@ en:
       button_activate: 'Show Gantt chart'
       button_deactivate: 'Hide Gantt chart'
       filter:
-        grouping_other: "Other"
         noneSelection: "(none)"
       name: "Name"
       outline: "Reset Outline"
