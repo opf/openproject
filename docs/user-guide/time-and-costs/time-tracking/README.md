@@ -15,10 +15,10 @@ Users can book their time or units spent on an activity within a project directl
 
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Logging time](#logging-time-in-the-work-package-view)       | How to log time to a work package.                           |
-| [Logging time via time tracking button](#logging-time-via-time-tracking-button) | How to track time via the time tracking button.              |
-| [Logging time via commit message](#logging-time-via-commit-message) | How to log time via a commit message to a work package.      |
-| [Logging time via My page](#logging-time-via-my-page)        | How to easily track and display spent time in the spent time widget on the MyPage. |
+| [Log time in the work package view](#logging-time-in-the-work-package-view) | How to log time to a work package.                           |
+| [Log time via time tracking button](#logging-time-via-time-tracking-button) | How to track time via the time tracking button.              |
+| [Log time via commit message](#logging-time-via-commit-message) | How to log time via a commit message to a work package.      |
+| [Log time via My page](#logging-time-via-my-page)            | How to easily track and display spent time in the spent time widget on the MyPage. |
 | [Edit logged time](#edit-logged-time)                        | How to edit logged time on a work package.                   |
 | [Delete time entries](#delete-time-entries)                  | How to delete time entries logged to a work package.         |
 | [Logging and editing time for other users](#logging-and-editing-time-for-other-users) | How to log time to work packages.                            |
@@ -28,7 +28,7 @@ Users can book their time or units spent on an activity within a project directl
 | [Time Tracker integration](./time-tracker-integration)       | How to record and log spent time using Time Tracker.         |
 
 
-## Logging time in the work package view
+## Log time in the work package view
 
 In order to log spent hours for a certain activity, open the details of the corresponding work package. Select **Log time** from the **More functions** drop down menu, the icon with the three dots in the top right of the work packages details. Or use the **Log time** icon next to **Spent time**. 
 
@@ -48,7 +48,7 @@ You will be directed to the detailed view to log time where you can edit the fol
 
 The aggregated time spent on a work package is shown in the work package details view.
 
-## Logging time via time tracking button
+## Log time via time tracking button
 
 Since OpenProject 13.0 you can also track time via the time tracking button. To do that select a work package you are working on and click on the **Time tracking button** to start tracking time .
 
@@ -66,13 +66,15 @@ If you navigated away from the work package, in which you activated the **Time t
 
 ![OpenProject_stop_tracking_from_avatar](openproject_user_guide_time_tracking_button_stop_avatar.png)
 
-## Logging time via commit message
+## Log time via commit message
 
-Note: the **Enable time logging** option must be [activated under system settings](../../../system-admin-guide/system-settings/repositories/) in order to log time via a commit message.
+> **Note**: this is a power user feature that is currently only available for on-premises installations. 
+>
+> **Enable time logging** option must be [activated under system settings](../../../system-admin-guide/system-settings/repositories/) in order to log time via a commit message. 
 
-To log time to a work package via a commit message you need to use  the following syntax: Refs #Work package number @amount of hours. For  example refs #123 @2h will log 2 hours for the work package number 123.![3-Log-time-via-commit-message](3-Log-time-via-commit-message.png)
+To log time via commit message **Repository** module must be activated and an SVN or Git repository needs to be configured. Once it is configured you can enter the following syntax into a commit message of your client (for example GitHub desktop client or a command line client) to log time: *refs #work package number @amount of hours*. For  example refs #123 @2h will log 2 hours of spent timefor the work package number 123.![openproject_user_guide_log_time_commit_message](openproject_user_guide_log_time_commit_message.png)
 
-## Logging time via My Page
+## Log time via My Page
 
 You can easily track spent time in the **spent time widget on the MyPage** and get an overview about all your activities during a week. It is like a weekly timesheet for yourself.
 
@@ -102,7 +104,7 @@ In the list of time entries, click on the **Delete** icon next to a time entry t
 
 ![OpenProject_delete_logged_time](openproject_user_guide_delete_logged_time.png)
 
-## Logging and editing time for other users
+## Log and edit time for other users
 
 Starting with OpenProject 12.2, users with certain roles are able to log and edit time for other users. 
 
