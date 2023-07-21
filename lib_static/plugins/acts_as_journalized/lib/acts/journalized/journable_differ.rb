@@ -52,7 +52,6 @@ module Acts::Journalized
 
       def no_nil_to_empty_strings?(normalized_old_data, attribute, new_value)
         old_value = normalized_old_data[attribute]
-        # Checking new_value != old_value ensures that both values cannot be nil
         new_value != old_value
       end
 
