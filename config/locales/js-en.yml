@@ -910,7 +910,6 @@ en:
       button_deactivate: 'Hide Gantt chart'
       filter:
         noneSelection: "(none)"
-      outline: "Reset Outline"
       outlines:
         aggregation: "Show aggregations only"
         level1: "Expand level 1"
