@@ -31,7 +31,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Admin::Settings::RepositoriesSettingsController do
+RSpec.describe Admin::Settings::RepositoriesSettingsController do # rubocop:disable RSpec/EmptyExampleGroup
   shared_let(:user) { create(:admin) }
 
   current_user { user }

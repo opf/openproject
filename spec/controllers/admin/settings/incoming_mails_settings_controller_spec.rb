@@ -31,7 +31,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Admin::Settings::IncomingMailsSettingsController do
+RSpec.describe Admin::Settings::IncomingMailsSettingsController do # rubocop:disable RSpec/EmptyExampleGroup
   shared_let(:user) { create(:admin) }
 
   current_user { user }
