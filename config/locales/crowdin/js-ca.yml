@@ -493,7 +493,7 @@ ca:
     label_remove_all_files: Elimina tots els fitxers
     label_add_description: "Afegiu una descripció per a %{file}"
     label_upload_notification: "Carregant fitxers..."
-    label_work_package_upload_notification: "Carregant fitxers del paquet de treball #%{id}: %{subject}" #%{id}: %{subject}"
+    label_work_package_upload_notification: "Carregant fitxers del paquet de treball #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} afegit per %{author}"
     label_files_to_upload: "Es carregaran aquests fitxers:"
     label_rejected_files: "Aquests fitxers no es poden carregar:"
