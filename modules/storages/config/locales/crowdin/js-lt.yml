@@ -42,7 +42,7 @@ lt:
         no_permission: "Jūs neturite teisės žiūrėti šį failą."
         open: "Atverti failą saugykloje"
         open_location: "Atverti failą vietoje"
-        remove: "Pašalinti nuorodą"
+        remove: "Pašalinti failo nuorodą"
         remove_confirmation: >
           Ar tikrai norite atsieti failą nuo šio darbo paketo? Atsiejimas neįtakoja originalaus failo, tik pašalina jungtį su dabartiniu darbo paketu.
         remove_short: "Pašalinti nuorodą"
