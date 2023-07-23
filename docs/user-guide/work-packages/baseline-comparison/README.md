@@ -1,20 +1,20 @@
 # Baseline comparison (work in progress)
 
-Baseline is a powerful tool that allows you to view changes to a list of work packages within a given period. This list can be a saved view or a new filter query. Project managers can use baseline to get a quick overview of what has changed over time, making it easier to report on project progress and status.
+Baseline is a powerful tool that allows you to view changes to work package table within a given period. This can be a saved view or a new filter query. Project managers can use baseline to get a quick overview of what has changed over time, making it easier to report on project progress and status.
 
-[IMG: Baseline work package table view]
+![Work package table list with Baseline enabled](13-0_Baseline_overview.png)
 
 ## Enabling Baseline
 
-[IMG: Baseline modal open]
-
-Baseline comparison can be enabled on any work package list view:
+Baseline comparison can be enabled on any work package table view:
 
 1. Click on the **Baseline** button in the main toolbar.
 
-2. Pick a comparison point by choosing one of the a preset options or specifying specific dates.
+2. Pick a comparison point by choosing one of the a preset options or inputting specific dates and times.
 
 3. Click on **Apply** to enable Baseline.
+
+![Clicking on the Baseline icon displays a dropdown that lets you pick a comparison point](13-0_Baseline_dropmodal.png)
 
 ### Preset periods
 
@@ -28,19 +28,21 @@ Baseline offers these preset time ranges:
 
 - _Last month_: Compare work packages to thirty working days ago.
 
+For any of these options, you may either 
+
 >**Note:** These are relative comparison points, which means that _Yesterday_ will always refer to the day the current day, and not a specific day. You can use these to set up, for example, "running" baselines that show you all the things that have happened within the past week.
 
 ### A specific date
 
-[IMG: Baseline modal with a single date picker]
+![You can compare the present state to a specific date in the past](13-0_Baseline_specificDate.png)
 
 If you want to compare between now and a specific date in the past, you can select "a specific date" from the dropdown and select a particular date. With this option, the comparison will always be between the current state and that specific date in the past.
 
->**Note:** You can use this to "freeze" a baseline point, so the view always shows changes in comparison to that particular time. 
+>**Note:** You can use this to "freeze" a baseline point, so the view always shows changes in comparison to that particular time.
 
 ### A custom date range
 
-[IMG: Baseline modal with a range date picker]
+![You can see changes between two dates](13-0_Baseline_dateRange.png)
 
 OpenProject also allows you to compare work packages between two specific dates in the past. To select a custom date range:
 
@@ -54,28 +56,33 @@ OpenProject also allows you to compare work packages between two specific dates 
 
 ## Understanding the comparison results
 
-After selecting the comparison point, OpenProject presents the comparison results in list view using three icons to indicate the type of change for each work package.
+After selecting the comparison point, OpenProject presents the comparison results in table view using three icons to indicate the type of change for each work package.
 
-[IMG: Baseline table view]
+![Baseline enabled showing changes to the work package table](13-0_Baseline_table.png)
 
 When Baseline is enabled, you will see a legend at the top of the page which shows:
 
-1. The comparison point or comparison period
-2. The number of work packages added to view
-3. The number of work packages removed from view
-4. The number of work packages were modified
+![A legend is visible on top of the table when Baseline is enabled](13-0_Baseline_legend.png)
 
-[IMG: Focus on Baseline resutls]
+- The comparison point or comparison period
+- The number of work packages added to view
+- The number of work packages removed from view
+- The number of work packages were modified
+
 
 ### Change icons
 
-#### Now meet filter criteria
+#### Now meets filter criteria
+
+![Icon](13-0_Baseline_nowMeets.png)
 
 Work packages that meet the filter criteria now but did not in the past are marked with an "Added" icon. These work packages were added to the current query after the selected comparison point, either because they were newly created since then or certain attributes changed such that they meet the filter criteria. 
 
 > **Note**: These do not necessarily represent _newly created_ work packages; simply those that are new to this particular view.
 
-#### No longer meet filter criteria
+#### No longer meets filter criteria
+
+![Icon](13-0_Baseline_noLongerMeets.png)
 
 Work packages that no longer meet the filter criteria now are marked with a "Removed" icon. These work packages were filtered out within the comparison period.
 
@@ -83,7 +90,9 @@ Work packages that no longer meet the filter criteria now are marked with a "Rem
 
 #### Maintained with changes
 
-Work packages that meet the filter criteria now (and also did at the comparison point) but which have undergone changes in certain attributes are marked with a "Modified" icon. 
+![Icon](13-0_Baseline_maintainedChanges.png)
+
+Work packages that meet the filter criteria now (and also did at the comparison point) but which have undergone changes in certain attributes are marked with a "Modified" icon.
 
 #### No changes
 
@@ -93,13 +102,15 @@ When there are no changes to a work package in the comparison period, no icon is
 
 When changes in the comparison period concern attributes that are visible as columns in the work package table, Baseline will show both old and current values. If the attribute you are interested in is not visible, you will need to [add it as a column](../work-package-table-configuration). 
 
-[IMG: A section of a work package table showing old and new values]
+![Old values are visible in the work package table view](13-0_Baseline_oldNewValues.png)
 
 Each attribute that has changed will have a grey background, with the old value crossed out visible on the top left corner of the cell, above the new value.
 
 This allows you to have a complete view of what has changed in the comparison period.
 
 >**Note**: Some attributes that are not tracked by Baseline are not able to show the old values in the work package table. If any of the columns in your work package table are not tracked, a small warning in the column header will warn you of this.
+>
+> ![Unsupported columns have a warning icon next to them](13_0_Baseline_unsupportedColumn.png)
 
 
 ## Relation to active filters
@@ -110,7 +121,7 @@ It is not possible to compare between two different filter queries.
 
 >**Note**: Some filter attributes are not tracked by Baseline and changes to them will not be taken into consideration. These include _Watcher_, _Attachment content_, _Attachment file name_ and _Comment_. These attributes are marked with a small warning icon next to them in the filter panel.
 >
-> [IMG: Filter panel with the attributes marked]
+> ![An icon and a message warning that certain filter criteria are not taken into account by Baseline](13-0_Baseline_activeFilters.png)
 
 
 
