@@ -87,7 +87,7 @@ module OpenProject::Storages
                    dependencies: %i[view_file_links],
                    contract_actions: { file_links: %i[manage] }
         permission :manage_storages_in_project,
-                   { 'storages/admin/projects_storages': %i[index new edit update create destroy set_permissions] },
+                   { 'storages/admin/projects_storages': %i[index new edit update create destroy destroy_info set_permissions] },
                    dependencies: %i[]
 
         # explicit check for test env is needed, because `with_flag: { managed_project_folders: true }` set for a test case
