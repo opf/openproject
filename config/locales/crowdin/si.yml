@@ -267,7 +267,7 @@ si:
       notice_reset_token: "නව %{type} ටෝකනයක් ජනනය කර ඇත. ඔබගේ ප්රවේශ ටෝකනය:"
       token_value_warning: "සටහන: ඔබ මෙම ටෝකනය දකින එකම අවස්ථාව මෙයයි, දැන් එය පිටපත් කිරීමට වග බලා ගන්න."
       no_results_title_text: දැනට ප්රවේශ ටෝකන නොමැත.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: වාර්තා කිරීමට දැනට කිසිදු ප්රවෘත්තියක් නොමැත.
@@ -1303,7 +1303,7 @@ si:
   error_enterprise_activation_user_limit: "ඔබගේ ගිණුම සක්රිය කළ නොහැක (පරිශීලක සීමාව කරා ළඟා විය). ප්රවේශය ලබා ගැනීම සඳහා කරුණාකර ඔබේ පරිපාලක අමතන්න."
   error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'මෙම ප්රවේශය මකා දැමීමට අසමත් විය.'
-  error_in_dependent: "යැපෙන වස්තුව වෙනස් කිරීමට උත්සාහ කිරීමේ දෝෂය: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "යැපෙන වස්තුව වෙනස් කිරීමට උත්සාහ කිරීමේ දෝෂය: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "වලංගු නොවන තෝරාගත් අගය."
   error_journal_attribute_not_present: "ජර්නලය %{attribute}ගුණාංගය අඩංගු නොවේ."
@@ -1322,6 +1322,7 @@ si:
   error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "ගබඩාවට ප්රවේශ වීමට උත්සාහ කිරීමේදී දෝෂයක් ඇති විය: %{value}"
   error_scm_not_found: "ඇතුල්වීම හෝ සංශෝධනය ගබඩාවේ සොයාගත නොහැකි විය."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "එය අවම වශයෙන් එක් වැඩ පැකේජයක් විසින් භාවිතා කරන බැවින් වැඩ පැකේජ තත්ත්වය මකා දැමිය නොහැක."
   error_unable_delete_default_status: "පෙරනිමි වැඩ පැකේජ තත්ත්වය මකා දැමිය නොහැක. වත්මන් එක මකා දැමීමට පෙර කරුණාකර තවත් පෙරනිමි වැඩ පැකේජ තත්ත්වය තෝරන්න."
   error_unable_to_connect: "සම්බන්ධ වීමට නොහැකි විය (%{value})"

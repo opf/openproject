@@ -96,8 +96,4 @@ OpenProject::Application.configure do
 
   # Speed up tests by lowering BCrypt's cost function
   BCrypt::Engine.cost = BCrypt::Engine::MIN_COST
-
-  # Pin Chromedriver version to last version that was released the "old way"
-  # See https://github.com/titusfortner/webdrivers/issues/247
-  Webdrivers::Chromedriver.required_version = "114.0.5735.90"
 end

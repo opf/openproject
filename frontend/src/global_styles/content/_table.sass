@@ -215,7 +215,7 @@ table.generic-table
           max-width: 500px
 
       // The avatar image is not taken into the width calculation of the table cell by the browser.
-         That is why we add the space manually.
+      // That is why we add the space manually.
       &.-contains-avatar
         text-overflow: clip
         .wp-table--cell-container
@@ -232,6 +232,31 @@ table.generic-table
 
       &.-no-highlighting
         background-color: var(--body-background)
+
+      // fixed column width helpers
+      &.-w-rel-20
+        width: 20%
+
+      &.-mw-abs-200
+        max-width: 200px //override the default max-width for appropriate text ellipsis
+        
+      &.-w-rel-40
+        width: 40%
+      
+      &.-mw-abs-400
+        max-width: 400px //override the default max-width for appropriate text ellipsis
+        
+      &.-w-rel-60
+        width: 60%
+      
+      &.-mw-abs-600
+        max-width: 600px //override the default max-width for appropriate text ellipsis
+      
+      &.-w-rel-80
+        width: 80%
+
+      &.-mw-abs-800
+        max-width: 800px //override the default max-width for appropriate text ellipsis
 
 // Enable sticky headers
 thead.-sticky th

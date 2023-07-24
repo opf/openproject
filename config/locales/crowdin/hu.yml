@@ -266,7 +266,7 @@ hu:
       notice_reset_token: "Egy új %{type} token létrehozva. A hozzáférési token:"
       token_value_warning: "Megjegyzés: Ez az egyetlen alkalom, mikor ezt a tokent láthatja, győződjön meg arról, hogy most átmásolta."
       no_results_title_text: Jelenleg nincs elérhető hozzáférési kulcs.
-      notice_ical_tokens_reverted: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
+      notice_ical_token_revoked: "iCalendar token \"%{token_name}\" for calendar \"%{calendar_name}\" of project \"%{project_name}\" has been revoked. The iCalendar URL with this token is now invalid."
   news:
     index:
       no_results_title_text: Nincs megjeleníthető hír.
@@ -1319,6 +1319,7 @@ hu:
   error_password_change_failed: 'Hiba történt a jelszó megváltoztatásakor.'
   error_scm_command_failed: "Hiba mikor kipróbáláshoz el akarja érni a repository: %{value}"
   error_scm_not_found: "A bejegyzés vagy a revízió  a csomagtárolóban  nem található."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "A munka csomag állapot nem törölhető, mivel legalább egy munka csomag használja."
   error_unable_delete_default_status: "Nem tudom törtölni az alapértelmezett munkacsomag állapotát. Kérjük, válasszon egy másik alapértelmezett munka csomag állapotot, mielött ezt törli."
   error_unable_to_connect: "Nem tud kapcsolódni (%{value} )"
@@ -2069,7 +2070,7 @@ hu:
       you_have: 'Neked van'
     logo_alt_text: 'Logó'
     mention:
-      subject: "%{user_name} megemlített téged itt: #%{id} - %{subject}" #%{id} - %{subject}"
+      subject: "%{user_name} megemlített téged itt: #%{id} - %{subject}"
     notification:
       center: "Az értesítési központba\n"
       see_in_center: 'Lásd a megjegyzést az értesítési központban'
