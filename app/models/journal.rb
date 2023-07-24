@@ -151,6 +151,10 @@ class Journal < ApplicationRecord
 
   private
 
+  def has_file_links?
+    journable.respond_to?(:file_links)
+  end
+
   def predecessor
     @predecessor ||= if initial?
                        nil
