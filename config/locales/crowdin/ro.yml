@@ -1322,7 +1322,7 @@ ro:
   error_enterprise_activation_user_limit: "Contul dvs. nu a putut fi activat (limita utilizatorilor a fost atinsă). Contactați administratorul dvs. pentru a avea acces."
   error_enterprise_token_invalid_domain: "Ediția Enterprise nu este activă. Domeniul token-ului Enterprise (%{actual}) nu se potrivește cu numele de gazdă al sistemului (%{expected})."
   error_failed_to_delete_entry: 'Nu s-a reușit ștergerea acestei intrări.'
-  error_in_dependent: "Eroare la încercarea de a modifica un obiect dependent: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Eroare la încercarea de a modifica un obiect dependent: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Eroare la încercarea de a crea un obiect dependent: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Valoare selectată invalidă."
   error_journal_attribute_not_present: "Jurnalul nu conține atributul %{attribute}."
@@ -1341,6 +1341,7 @@ ro:
   error_password_change_failed: 'Eroare la încercarea de a schimba parola.'
   error_scm_command_failed: "A intervenit o eroare la accesarea repo-ului: %{value}"
   error_scm_not_found: "Nu am găsit articolul sau revizia în repo."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "Starea pachetului de lucru nu poate fi ștearsă deoarece este folosită de cel puțin un pachet de lucru."
   error_unable_delete_default_status: "Starea implicită pentru pachetele de lucru nu poate fi ștearsă. Setați o altă stare implicită pentru pachetele de lucru și apoi ștergeți-o pe cea actuală."
   error_unable_to_connect: "Nu a putut fi stabilită conexiunea (%{value})"

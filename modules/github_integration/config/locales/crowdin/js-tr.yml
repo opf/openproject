@@ -40,10 +40,8 @@ tr:
         empty: 'Henüz bağlanan herhangi bir çekme isteği yok. PR açıklamasında <code>OP#%{wp_id}</code> kodunu kullanarak mevcut bir PR''yi bağlayın veya yeni bir PR oluşturun.'
       github_actions: Eylemler
       pull_requests:
-        message: >
-          Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}. #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}.
-        referenced_message: >
-          %{github_user_link} referenced this work package in pull request #%{pr_number} %{pr_link} on %{repository_link}. #%{pr_number} %{pr_link} on %{repository_link}.
+        message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}."
+        referenced_message: "%{github_user_link} referenced this work package in pull request #%{pr_number} %{pr_link} on %{repository_link}."
         states:
           opened: 'opened'
           closed: 'kapalı'

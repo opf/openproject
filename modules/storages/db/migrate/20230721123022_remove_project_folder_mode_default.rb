@@ -26,33 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-en:
-  js:
-    github_integration:
-      work_packages:
-        tab_name: "GitHub"
-      tab_header:
-        title: "Pull requests"
-        copy_menu:
-          label: Git snippets
-          description: Copy git snippets to clipboard
-        git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
-          copy_success: ✅ Copied!
-          copy_error: ❌ Copy failed!
-      tab_prs:
-        empty: There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.
-
-      github_actions: Actions
-      pull_requests:
-        message: "Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}."
-        referenced_message: "%{github_user_link} referenced this work package in pull request #%{pr_number} %{pr_link} on %{repository_link}."
-        states:
-          opened: 'opened'
-          closed: 'closed'
-          draft: 'drafted'
-          merged: 'merged'
-          ready_for_review: 'marked ready for review'
+class RemoveProjectFolderModeDefault < ActiveRecord::Migration[7.0]
+  def change
+    change_column_default :projects_storages, :project_folder_mode, to: nil, from: :inactive
+  end
+end

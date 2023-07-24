@@ -1374,6 +1374,7 @@ en:
   error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "An error occurred when trying to access the repository: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "The work package status cannot be deleted since it is used by at least one work package."
   error_unable_delete_default_status: "Unable to delete the default work package status. Please select another default work package status before deleting the current one."
   error_unable_to_connect: "Unable to connect (%{value})"

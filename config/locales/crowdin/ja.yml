@@ -1299,6 +1299,7 @@ ja:
   error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "「%{value}」リポジトリにアクセスしようとしてエラーが発生しました。"
   error_scm_not_found: "リポジトリに、エントリ/リビジョンが存在しません。"
+  error_type_could_not_be_saved: "Type could not be saved"
   error_unable_delete_status: "一つ以上のワークパッケージによって使用されているため、ステータスを削除できません。"
   error_unable_delete_default_status: "ワークパッケージの既定値のステータスは削除できません。削除する前に別のものを既定値にしてください。"
   error_unable_to_connect: "接続できません。 （%{value}）"

@@ -38,7 +38,8 @@ RSpec.describe Storages::ProjectStorages::CreateContract do
     # current_user, project, storage and other objects defined in the shared_contract_examples
     # that includes all the stuff shared between create and update.
     let(:project_storage) do
-      Storages::ProjectStorage.new(
+      build(
+        :project_storage,
         creator: current_user,
         project:,
         storage:
