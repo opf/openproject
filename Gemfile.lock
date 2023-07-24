@@ -62,16 +62,6 @@ GIT
       view_component (>= 3.1, < 4.0)
 
 PATH
-  remote: /Users/hdinger/code/saas-openproject/vendor/plugins/openproject-subscriptions
-  specs:
-    openproject-subscriptions (1.0.0)
-      chargebee (~> 2.5, >= 2.5.9)
-      commonmarker (~> 0.23, >= 0.23.6)
-      countries (~> 2.1, >= 2.1.4)
-      postmark (~> 1.21, >= 1.21.2)
-      prawn (~> 2.3, >= 2.3.0)
-
-PATH
   remote: modules/auth_plugins
   specs:
     openproject-auth_plugins (1.0.0)
@@ -374,11 +364,6 @@ GEM
     carrierwave_direct (2.1.0)
       carrierwave (>= 1.0.0)
       fog-aws
-    cgi (0.3.6)
-    chargebee (2.8.6)
-      cgi (> 0)
-      json_pure (~> 2.1)
-      rest-client (>= 1.8, < 3.0)
     climate_control (1.2.0)
     closure_tree (7.4.0)
       activerecord (>= 4.2.10)
@@ -390,11 +375,6 @@ GEM
       nokogiri (~> 1.8)
     concurrent-ruby (1.2.2)
     cookiejar (0.3.3)
-    countries (2.1.4)
-      i18n_data (~> 0.8.0)
-      money (~> 6.9)
-      sixarm_ruby_unaccent (~> 1.1)
-      unicode_utils (~> 1.4)
     crack (0.4.5)
       rexml
     crass (1.0.6)
@@ -563,7 +543,6 @@ GEM
       concurrent-ruby (~> 1.0)
     i18n-js (3.9.2)
       i18n (>= 0.6.6)
-    i18n_data (0.8.0)
     icalendar (2.8.0)
       ice_cube (~> 0.16)
     ice_cube (0.16.4)
@@ -582,7 +561,6 @@ GEM
       faraday-follow_redirects
     json-schema (4.0.0)
       addressable (>= 2.8)
-    json_pure (2.6.3)
     json_schemer (1.0.3)
       hana (~> 1.3)
       regexp_parser (~> 2.0)
@@ -640,8 +618,6 @@ GEM
     mini_portile2 (2.8.2)
     minisyntax (0.2.5)
     minitest (5.18.1)
-    money (6.16.0)
-      i18n (>= 0.6.4, <= 2)
     msgpack (1.7.1)
     multi_json (1.15.0)
     mustermann (3.0.0)
@@ -703,8 +679,6 @@ GEM
       nokogiri (~> 1.10, >= 1.10.4)
       rubyzip (>= 1.2.0)
     posix-spawn (0.3.15)
-    postmark (1.24.0)
-      json
     prawn (2.4.0)
       pdf-core (~> 0.9.0)
       ttfunk (~> 1.7)
@@ -920,7 +894,6 @@ GEM
       multi_json (~> 1.10)
     simpleidn (0.2.1)
       unf (~> 0.1.4)
-    sixarm_ruby_unaccent (1.2.2)
     spreadsheet (1.3.0)
       ruby-ole
     spring (4.1.1)
@@ -972,7 +945,6 @@ GEM
       unf_ext
     unf_ext (0.0.8.2)
     unicode-display_width (2.4.2)
-    unicode_utils (1.4.0)
     validate_email (0.1.6)
       activemodel (>= 3.0)
       mail (>= 2.2.5)
@@ -1111,7 +1083,6 @@ DEPENDENCIES
   openproject-recaptcha!
   openproject-reporting!
   openproject-storages!
-  openproject-subscriptions!
   openproject-team_planner!
   openproject-token (~> 3.0.1)
   openproject-two_factor_authentication!
