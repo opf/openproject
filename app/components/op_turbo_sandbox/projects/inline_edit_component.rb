@@ -30,6 +30,8 @@ module OpTurboSandbox
   module Projects
     class InlineEditComponent < OpTurbo::Component
       def initialize(project:, state: :show)
+        super()
+
         @project = project
         @state = state
       end

@@ -32,7 +32,16 @@ class OpTurboSandboxController < ApplicationController
   before_action :authorize_global
   before_action :set_projects
 
-  def index
+  def index; end
+
+  def edit
+    @project = Project.find(params[:id])
+
+    update_via_turbo_stream(
+      component: OpTurboSandbox::Projects::InlineEditComponent.new(project: @project, state: :edit)
+    )
+
+    respond_with_turbo_streams
   end
 
   def create
@@ -66,16 +75,6 @@ class OpTurboSandboxController < ApplicationController
     respond_with_turbo_streams
   end
 
-  def edit
-    @project = Project.find(params[:id])
-
-    update_via_turbo_stream(
-      component: OpTurboSandbox::Projects::InlineEditComponent.new(project: @project, state: :edit)
-    )
-
-    respond_with_turbo_streams
-  end
-  
   def cancel_edit
     @project = Project.find(params[:id])
 
@@ -85,7 +84,7 @@ class OpTurboSandboxController < ApplicationController
 
     respond_with_turbo_streams
   end
-  
+
   def update
     @project = Project.find(params[:id])
 

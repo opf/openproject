@@ -30,6 +30,7 @@ module OpTurboSandbox
   module Projects
     class IndexComponent < OpTurbo::Component
       def initialize(projects:)
+        super()
         @projects = projects
       end
 

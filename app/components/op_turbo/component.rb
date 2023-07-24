@@ -29,21 +29,21 @@
 module OpTurbo
   class Component < ApplicationComponent
     def self.wrapper_key
-      self.name.underscore.gsub("/", "-").gsub("_", "-")
+      name.underscore.gsub("/", "-").gsub("_", "-")
     end
 
     def render_as_turbo_stream(view_context:, action: :update)
       OpTurbo::StreamWrapperComponent.new(
-        action: action, 
-        target: self.wrapper_key, 
-        template: action == :remove ? nil : self.render_in(view_context)
+        action:,
+        target: wrapper_key,
+        template: action == :remove ? nil : render_in(view_context)
       ).render_in(view_context)
     end
 
     def insert_as_turbo_stream(component:, view_context:, action: :append)
       OpTurbo::StreamWrapperComponent.new(
-        action: action, 
-        target: insert_target_modified? ? insert_target_modifier_id : self.wrapper_key, 
+        action:,
+        target: insert_target_modified? ? insert_target_modifier_id : wrapper_key,
         template: component.render_in(view_context)
       ).render_in(view_context)
     end
@@ -73,9 +73,10 @@ module OpTurbo
 
     def insert_target_container(tag: "div", class: nil, data: nil, style: nil, &block)
       unless insert_target_modified?
-        raise "`insert_target_modified?` needs to be implemented and return true if `insert_target_container` is used in this component"
+        raise "`insert_target_modified?` needs to be implemented and return true if `insert_target_container` is " \
+              "used in this component"
       end
-      
+
       content_tag(tag, id: insert_target_modifier_id, class:, data:, style:, &block)
     end
 
