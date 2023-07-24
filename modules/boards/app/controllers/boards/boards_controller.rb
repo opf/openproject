@@ -31,6 +31,8 @@ module ::Boards
       :boards
     end
 
+    def new; end
+
     private
 
     def authorize_work_package_permission

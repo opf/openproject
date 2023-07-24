@@ -29,15 +29,21 @@
 require 'spec_helper'
 
 RSpec.describe 'Boards routing' do
-  it {
+  it do
     expect(subject)
       .to route(:get, '/projects/foobar/boards/state')
-      .to(controller: 'boards/boards', action: 'index', project_id: 'foobar', state: 'state')
-  }
+            .to(controller: 'boards/boards', action: 'index', project_id: 'foobar', state: 'state')
+  end
 
-  it {
+  it do
     expect(subject)
       .to route(:get, '/boards/state')
-      .to(controller: 'boards/boards', action: 'index', state: 'state')
-  }
+            .to(controller: 'boards/boards', action: 'index', state: 'state')
+  end
+
+  it do
+    expect(subject)
+      .to route(:get, '/boards/new')
+            .to(controller: 'boards/boards', action: 'new')
+  end
 end
