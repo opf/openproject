@@ -47,7 +47,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       end
 
       Util.token(user:, oauth_client: @oauth_client) do |token|
-        files_info(file_ids, token).map(&parse_json) >> create_storage_file_infos
+        files_info(file_ids, token).map(&parse_json) >> handle_failure >> create_storage_file_infos
       end
     end
 
@@ -82,6 +82,16 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         # rubocop:disable Style/OpenStructUse
         JSON.parse(response_body, object_class: OpenStruct)
         # rubocop:enable Style/OpenStructUse
+      end
+    end
+
+    def handle_failure
+      ->(response_object) do
+        if response_object.ocs.meta.status == 'ok'
+          ServiceResult.success(result: response_object)
+        else
+          Util.error(:error, 'Outbound request failed!', response_object)
+        end
       end
     end
 
